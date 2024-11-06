@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "gtocore:block/support",
+    "up": "gtocore:block/casings/space_elevator_internal_support/top",
+    "down": "gtocore:block/casings/space_elevator_internal_support/top"
+  }
+}

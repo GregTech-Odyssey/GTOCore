@@ -1,0 +1,14 @@
+{
+  "parent": "gtceu:block/cube_2_layer/all",
+  "textures": {
+    "bot_all": "gtocore:block/support",
+    "bot_up": "gtocore:block/casings/space_elevator_internal_support/top",
+    "bot_down": "gtocore:block/casings/space_elevator_internal_support/top",
+    "top_up": "gtceu:block/casings/fusion/fusion_casing_bloom",
+    "top_down": "gtceu:block/casings/fusion/fusion_casing_bloom",
+    "top_north": "gtocore:block/motor_glow",
+    "top_east": "gtocore:block/motor_glow",
+    "top_south": "gtocore:block/motor_glow",
+    "top_west": "gtocore:block/motor_glow"
+  }
+}

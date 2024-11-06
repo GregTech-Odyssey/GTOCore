@@ -1,0 +1,9 @@
+{
+    "ldlib": {
+        "connection": "gtocore:block/coil/starmetal_coil_block_bloom_ctm",
+        "emissive": true
+    },
+    "shimmer": {
+        "bloom": true
+    }
+}

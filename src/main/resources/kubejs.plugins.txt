@@ -1,0 +1,1 @@
+com.gto.gtocore.integration.kjs.GTOKubejsPlugin
