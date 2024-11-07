@@ -1,9 +1,10 @@
 package com.gto.gtocore.common.machine.magic;
 
-import com.gto.gtocore.api.machine.SimpleNoEnergyMachine;
+import com.gto.gtocore.api.machine.SimpleManaMachine;
 
 import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.content.Content;
 import com.gregtechceu.gtceu.common.data.GTMachines;
@@ -12,10 +13,17 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class MagicSynthesisMachine extends SimpleNoEnergyMachine {
+public class MagicSynthesisMachine extends SimpleManaMachine {
+
+    protected TickableSubscription tickSubs;
 
     public MagicSynthesisMachine(IMachineBlockEntity holder, int tier) {
         super(holder, tier, GTMachines.defaultTankSizeFunction);
+        this.tickSubs = subscribeServerTick(tickSubs, this::tickUpdate);
+    }
+
+    private void tickUpdate() {
+        getManaContainer().addMana(1);
     }
 
     @Override

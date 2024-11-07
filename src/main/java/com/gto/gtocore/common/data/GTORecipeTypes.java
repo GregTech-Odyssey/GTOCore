@@ -1,5 +1,6 @@
 package com.gto.gtocore.common.data;
 
+import com.gto.gtocore.api.capability.recipe.ManaRecipeCapability;
 import com.gto.gtocore.common.recipe.RecipeModify;
 import com.gto.gtocore.config.GTOConfigHolder;
 import com.gto.gtocore.data.recipe.GenerateDisassembly;
@@ -817,6 +818,7 @@ public class GTORecipeTypes {
 
     public static final GTRecipeType MAGIC_SYNTHESIS_RECIPES = registerRecipeType("magic_synthesis", MAGIC)
             .setEUIO(IO.NONE)
+            .setMaxSize(IO.IN, ManaRecipeCapability.CAP, 1)
             .setMaxIOSize(9, 1, 9, 0)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.FORGE_HAMMER);

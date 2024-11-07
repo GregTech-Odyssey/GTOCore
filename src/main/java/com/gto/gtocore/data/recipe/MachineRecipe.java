@@ -168,11 +168,11 @@ public class MachineRecipe {
 
         VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("ulv_packer"), GTOMachines.ULV_PACKER[0].asStack(),
                 "BCB", "RMV", "WCW", 'M', GTBlocks.MACHINE_CASING_ULV.asStack(), 'R', GTItems.RESISTOR.asStack(), 'V',
-                new UnificationEntry(rod, IronMagnetic), 'C', CustomTags.ULV_CIRCUITS, 'W', new UnificationEntry(wireGtSingle, GTMaterials.Lead), 'B', GTOItems.PRIMITIVE_ROBOT_ARM.asStack());
+                new UnificationEntry(rod, IronMagnetic), 'C', CustomTags.ULV_CIRCUITS, 'W', new UnificationEntry(wireGtSingle, GTMaterials.Lead), 'B', GTOItems.ROBOT_ARM_ULV.asStack());
 
         VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("ulv_unpacker"), GTOMachines.ULV_UNPACKER[0].asStack(),
                 "WCW", "VMR", "BCB", 'M', GTBlocks.MACHINE_CASING_ULV.asStack(), 'R', GTItems.RESISTOR.asStack(), 'V',
-                new UnificationEntry(rod, IronMagnetic), 'C', CustomTags.ULV_CIRCUITS, 'W', new UnificationEntry(wireGtSingle, GTMaterials.Lead), 'B', GTOItems.PRIMITIVE_ROBOT_ARM.asStack());
+                new UnificationEntry(rod, IronMagnetic), 'C', CustomTags.ULV_CIRCUITS, 'W', new UnificationEntry(wireGtSingle, GTMaterials.Lead), 'B', GTOItems.ROBOT_ARM_ULV.asStack());
 
         VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("large_bender_and_forming"), MultiBlockMachineB.LARGE_BENDER_AND_FORMING.asStack(),
                 "PKP", "BZB", "FKH", 'Z', CustomTags.IV_CIRCUITS, 'B', GTOMachines.ROLLING[IV].asStack(), 'P',

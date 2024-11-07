@@ -1,5 +1,6 @@
 package com.gto.gtocore;
 
+import com.gto.gtocore.api.capability.recipe.GTORecipeCapabilities;
 import com.gto.gtocore.api.data.tag.GTOTagPrefix;
 import com.gto.gtocore.api.registries.GTORegistration;
 import com.gto.gtocore.common.data.GTOBedrockFluids;
@@ -74,5 +75,10 @@ public class GTOGTAddon implements IGTAddon {
         if (!Platform.isDevEnv()) {
             GTOBedrockFluids.init();
         }
+    }
+
+    @Override
+    public void registerRecipeCapabilities() {
+        GTORecipeCapabilities.init();
     }
 }

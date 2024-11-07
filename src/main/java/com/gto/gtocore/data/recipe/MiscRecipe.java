@@ -1,6 +1,7 @@
 package com.gto.gtocore.data.recipe;
 
 import com.gto.gtocore.GTOCore;
+import com.gto.gtocore.api.capability.recipe.ManaRecipeCapability;
 import com.gto.gtocore.api.data.tag.GTOTagPrefix;
 import com.gto.gtocore.common.data.GTOItems;
 import com.gto.gtocore.config.GTOConfigHolder;
@@ -197,5 +198,13 @@ public class MiscRecipe {
                 .circuitMeta(4)
                 .outputItems(new ItemStack(Blocks.WHITE_WOOL))
                 .duration(100).EUt(4).save(provider);
+
+        MAGIC_SYNTHESIS_RECIPES.recipeBuilder(GTOCore.id("magic_synthesis"))
+                .inputItems(new ItemStack(Items.STRING, 4))
+                .outputItems(new ItemStack(Blocks.WHITE_WOOL))
+                .perTick(true)
+                .input(ManaRecipeCapability.CAP, 1L)
+                .perTick(false)
+                .duration(100).save(provider);
     }
 }

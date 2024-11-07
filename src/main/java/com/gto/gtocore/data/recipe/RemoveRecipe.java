@@ -188,12 +188,6 @@ public class RemoveRecipe {
 
         consumer.accept(GTCEu.id("shaped/maintenance_hatch_cleaning"));
         consumer.accept(GTCEu.id("shaped/vacuum_tube"));
-        consumer.accept(GTCEu.id("shaped/electric_motor_lv_steel"));
-        consumer.accept(GTCEu.id("shaped/electric_motor_lv_iron"));
-        consumer.accept(GTCEu.id("shaped/electric_motor_mv"));
-        consumer.accept(GTCEu.id("shaped/electric_motor_hv"));
-        consumer.accept(GTCEu.id("shaped/electric_motor_ev"));
-        consumer.accept(GTCEu.id("shaped/electric_motor_iv"));
         consumer.accept(GTCEu.id("packer/unpackage_lv_cadmium_battery"));
         consumer.accept(GTCEu.id("packer/unpackage_lv_lithium_battery"));
         consumer.accept(GTCEu.id("packer/unpackage_lv_sodium_battery"));
@@ -226,16 +220,7 @@ public class RemoveRecipe {
         consumer.accept(GTCEu.id("assembler/casing_zpm"));
         consumer.accept(GTCEu.id("assembler/casing_uv"));
         consumer.accept(GTCEu.id("assembler/casing_uhv"));
-        consumer.accept(GTCEu.id("assembler/electric_motor_lv_iron"));
-        consumer.accept(GTCEu.id("assembler/electric_motor_lv_steel"));
-        consumer.accept(GTCEu.id("assembler/electric_motor_mv"));
-        consumer.accept(GTCEu.id("assembler/electric_motor_hv"));
-        consumer.accept(GTCEu.id("assembler/electric_motor_ev"));
-        consumer.accept(GTCEu.id("assembler/electric_motor_iv"));
         consumer.accept(GTCEu.id("assembler/wool_from_string"));
-        consumer.accept(GTCEu.id("assembly_line/electric_motor_luv"));
-        consumer.accept(GTCEu.id("assembly_line/electric_motor_zpm"));
-        consumer.accept(GTCEu.id("assembly_line/electric_motor_uv"));
         consumer.accept(GTCEu.id("assembly_line/dynamo_hatch_uhv"));
         consumer.accept(GTCEu.id("assembly_line/energy_hatch_uhv"));
         consumer.accept(GTCEu.id("bender/bucket"));
