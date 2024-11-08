@@ -1,5 +1,7 @@
 package com.gto.gtocore.common.data.machines;
 
+import com.gto.gtocore.api.machine.multiblock.GTOPartAbility;
+import com.gto.gtocore.api.machine.multiblock.WorkableManaMultiblockMachine;
 import com.gto.gtocore.common.data.GTOBlocks;
 import com.gto.gtocore.common.data.GTORecipeTypes;
 import com.gto.gtocore.common.data.machines.structure.ArcaneIntegratedDeviceA;
@@ -9,7 +11,6 @@ import com.gto.gtocore.utils.Registries;
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.data.RotationState;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
-import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.common.block.StoneBlockType;
@@ -109,11 +110,11 @@ public class MagicMultiblock {
     // .register();
 
     /// *秘法启示台*
-    public final static MultiblockMachineDefinition MYSTIC_REVELATION_PLATFORM = REGISTRATE.multiblock("mystic_revelation_platform", WorkableElectricMultiblockMachine::new)
+    public final static MultiblockMachineDefinition MYSTIC_REVELATION_PLATFORM = REGISTRATE.multiblock("mystic_revelation_platform", WorkableManaMultiblockMachine::new)
             .rotationState(RotationState.NON_Y_AXIS)
             .allowExtendedFacing(false)
             .recipeType(GTORecipeTypes.DARK_PEARL_QIHUI_RECIPES)
-            .appearanceBlock(GTBlocks.CASING_STAINLESS_CLEAN)
+            .appearanceBlock(() -> Blocks.STONE_BRICKS)
             .pattern(definition -> FactoryBlockPattern.start()
                     .aisle("                     ", "                     ", "                     ", "                     ", "                     ", "                     ", "                     ", "                     ", "                     ", "                     ", "                     ", "                     ", "                     ", "          B          ", "          B          ", "          B          ", "                     ", "                     ", "                     ", "                     ", "                     ", "                     ", "                     ", "                     ", "                     ", "                     ", "                     ")
                     .aisle("                     ", "                     ", "                     ", "                     ", "                     ", "                     ", "                     ", "                     ", "                     ", "                     ", "                     ", "         B B         ", "         B B         ", "         BBB         ", "          E          ", "          B          ", "                     ", "                     ", "                     ", "                     ", "                     ", "                     ", "                     ", "                     ", "                     ", "                     ", "                     ")
@@ -142,7 +143,8 @@ public class MagicMultiblock {
                     .where("I", Predicates.blocks(Blocks.STONE_BRICK_SLAB))
                     .where("C", Predicates.controller(Predicates.blocks(definition.get())))
                     .where("G", Predicates.blocks(GTBlocks.TREATED_WOOD_STAIRS.get()))
-                    .where("E", Predicates.blocks(Blocks.STONE_BRICKS))
+                    .where("E", Predicates.blocks(Blocks.STONE_BRICKS)
+                            .or(Predicates.abilities(GTOPartAbility.INPUT_MANA)))
                     .where("H", Predicates.blocks(Blocks.STONE_SLAB))
                     .where("D", Predicates.blocks(Blocks.STONE_BRICK_STAIRS))
                     .where("N", Predicates.blocks(Blocks.PURPLE_STAINED_GLASS))
@@ -155,7 +157,7 @@ public class MagicMultiblock {
             .register();
 
     /// *注魔祭坛*
-    public final static MultiblockMachineDefinition INFUSED_ALTAR = REGISTRATE.multiblock("infused_altar", WorkableElectricMultiblockMachine::new)
+    public final static MultiblockMachineDefinition INFUSED_ALTAR = REGISTRATE.multiblock("infused_altar", WorkableManaMultiblockMachine::new)
             .rotationState(RotationState.NON_Y_AXIS)
             .allowExtendedFacing(false)
             .recipeType(GTORecipeTypes.INFUSION_RITUAL_RECIPES)
@@ -197,7 +199,7 @@ public class MagicMultiblock {
                     .where("D", Predicates.blocks(Registries.getBlock("minecraft:deepslate_brick_slab")))
                     .where("A", Predicates.blocks(Registries.getBlock("minecraft:deepslate_bricks")))
                     .where("B", Predicates.blocks(Registries.getBlock("minecraft:cracked_deepslate_bricks")))
-                    .where("N", Predicates.blocks(Registries.getBlock("gtceu:lv_input_hatch")))
+                    .where("N", Predicates.abilities(GTOPartAbility.INPUT_MANA))
                     .where("L", Predicates.blocks(Registries.getBlock("gtceu:polished_marble")))
                     .where("M", Predicates.blocks(Registries.getBlock("gtceu:polished_red_granite")))
                     .where("Q", Predicates.controller(Predicates.blocks(definition.get())))
@@ -210,7 +212,7 @@ public class MagicMultiblock {
             .register();
 
     /// *原始法师塔*
-    public final static MultiblockMachineDefinition MEGA_TOWER = REGISTRATE.multiblock("mage_tower", WorkableElectricMultiblockMachine::new)
+    public final static MultiblockMachineDefinition MEGA_TOWER = REGISTRATE.multiblock("mage_tower", WorkableManaMultiblockMachine::new)
             .rotationState(RotationState.NON_Y_AXIS)
             .allowExtendedFacing(false)
             .recipeType(GTORecipeTypes.INFUSION_RITUAL_RECIPES)
@@ -269,7 +271,7 @@ public class MagicMultiblock {
             .register();
 
     /// *奥术集成装置*
-    public final static MultiblockMachineDefinition ARCANE_INTEGRATED_DEVICE = REGISTRATE.multiblock("arcane_integrated_device", WorkableElectricMultiblockMachine::new)
+    public final static MultiblockMachineDefinition ARCANE_INTEGRATED_DEVICE = REGISTRATE.multiblock("arcane_integrated_device", WorkableManaMultiblockMachine::new)
             .rotationState(RotationState.NON_Y_AXIS)
             .allowExtendedFacing(false)
             .recipeType(GTORecipeTypes.INFUSION_RITUAL_RECIPES)

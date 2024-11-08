@@ -1,6 +1,6 @@
 package com.gto.gtocore.common.machine.multiblock.water;
 
-import com.gto.gtocore.api.machine.multiblock.NoEnergyMultiblockMachine;
+import com.gto.gtocore.api.machine.multiblock.WorkableNoEnergyMultiblockMachine;
 
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
@@ -11,10 +11,10 @@ import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import net.minecraft.MethodsReturnNonnullByDefault;
 
 @MethodsReturnNonnullByDefault
-public abstract class WaterPurificationUnitMachine extends NoEnergyMultiblockMachine {
+public abstract class WaterPurificationUnitMachine extends WorkableNoEnergyMultiblockMachine {
 
     protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
-            WaterPurificationUnitMachine.class, NoEnergyMultiblockMachine.MANAGED_FIELD_HOLDER);
+            WaterPurificationUnitMachine.class, WorkableNoEnergyMultiblockMachine.MANAGED_FIELD_HOLDER);
 
     abstract long before();
 

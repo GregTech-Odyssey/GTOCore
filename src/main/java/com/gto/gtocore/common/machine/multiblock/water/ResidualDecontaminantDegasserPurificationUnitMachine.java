@@ -1,6 +1,6 @@
 package com.gto.gtocore.common.machine.multiblock.water;
 
-import com.gto.gtocore.api.machine.multiblock.NoEnergyMultiblockMachine;
+import com.gto.gtocore.api.machine.multiblock.WorkableNoEnergyMultiblockMachine;
 import com.gto.gtocore.common.machine.multiblock.part.IndicatorHatchPartMachine;
 import com.gto.gtocore.utils.MachineUtil;
 
@@ -32,7 +32,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 public class ResidualDecontaminantDegasserPurificationUnitMachine extends WaterPurificationUnitMachine {
 
     protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
-            ResidualDecontaminantDegasserPurificationUnitMachine.class, NoEnergyMultiblockMachine.MANAGED_FIELD_HOLDER);
+            ResidualDecontaminantDegasserPurificationUnitMachine.class, WorkableNoEnergyMultiblockMachine.MANAGED_FIELD_HOLDER);
 
     @Override
     public ManagedFieldHolder getFieldHolder() {

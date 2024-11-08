@@ -1,7 +1,7 @@
 package com.gto.gtocore.common.machine.multiblock.noenergy;
 
 import com.gto.gtocore.GTOCore;
-import com.gto.gtocore.api.machine.multiblock.NoEnergyMultiblockMachine;
+import com.gto.gtocore.api.machine.multiblock.WorkableNoEnergyMultiblockMachine;
 import com.gto.gtocore.common.data.GTOMaterials;
 import com.gto.gtocore.utils.MachineUtil;
 
@@ -24,10 +24,10 @@ import net.minecraft.world.level.material.Fluids;
 import com.mojang.datafixers.util.Pair;
 import org.jetbrains.annotations.NotNull;
 
-public class HeatExchangerMachine extends NoEnergyMultiblockMachine {
+public class HeatExchangerMachine extends WorkableNoEnergyMultiblockMachine {
 
     protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
-            HeatExchangerMachine.class, NoEnergyMultiblockMachine.MANAGED_FIELD_HOLDER);
+            HeatExchangerMachine.class, WorkableNoEnergyMultiblockMachine.MANAGED_FIELD_HOLDER);
 
     @Override
     public @NotNull ManagedFieldHolder getFieldHolder() {

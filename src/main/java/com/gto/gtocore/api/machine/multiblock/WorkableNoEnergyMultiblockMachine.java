@@ -27,9 +27,9 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class NoEnergyMultiblockMachine extends WorkableMultiblockMachine implements IFancyUIMachine, IDisplayUIMachine {
+public class WorkableNoEnergyMultiblockMachine extends WorkableMultiblockMachine implements IFancyUIMachine, IDisplayUIMachine {
 
-    public NoEnergyMultiblockMachine(IMachineBlockEntity holder, Object... args) {
+    public WorkableNoEnergyMultiblockMachine(IMachineBlockEntity holder, Object... args) {
         super(holder, args);
     }
 

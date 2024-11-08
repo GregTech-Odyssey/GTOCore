@@ -155,5 +155,8 @@ public class LangHandler {
         provider.add("gtocore.universal.tooltip.ampere_out", "§bOutput Current: §r%sA");
         provider.add("gtocore.condition.gravity", "Requires Strong Gravity Environment");
         provider.add("gtocore.condition.zero_gravity", "Requires Zero Gravity Environment");
+        provider.add("gtocore.recipe.nama_per_tick", "Mana per Tick: %s");
+        provider.add("gtocore.machine.mana_stored", "Total Mana: %s / %s");
+        provider.add("gtocore.machine.mana_consumption", "Max Mana IO Rate: %s");
     }
 }

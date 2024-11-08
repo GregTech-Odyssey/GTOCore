@@ -1,6 +1,6 @@
 package com.gto.gtocore.common.machine.multiblock.noenergy;
 
-import com.gto.gtocore.api.machine.multiblock.NoEnergyMultiblockMachine;
+import com.gto.gtocore.api.machine.multiblock.WorkableNoEnergyMultiblockMachine;
 import com.gto.gtocore.api.pattern.util.IValueContainer;
 import com.gto.gtocore.common.data.GTORecipeModifiers;
 import com.gto.gtocore.common.machine.multiblock.part.NeutronAcceleratorPartMachine;
@@ -42,7 +42,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class NeutronActivatorMachine extends NoEnergyMultiblockMachine implements IExplosionMachine {
+public class NeutronActivatorMachine extends WorkableNoEnergyMultiblockMachine implements IExplosionMachine {
 
     public static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
             NeutronActivatorMachine.class, WorkableMultiblockMachine.MANAGED_FIELD_HOLDER);

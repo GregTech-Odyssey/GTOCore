@@ -6,6 +6,8 @@ public interface IManaContainer {
 
     long getMaxCapacity();
 
+    long getMaxConsumption();
+
     boolean addMana(long amount);
 
     boolean removeMana(long amount);

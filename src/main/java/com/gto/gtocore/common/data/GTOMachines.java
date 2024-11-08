@@ -537,6 +537,26 @@ public class GTOMachines {
     //////////////////////////////////////
     // ********** Part **********//
     //////////////////////////////////////
+    public static final MachineDefinition[] MANA_INPUT_HATCH = registerTieredMachines("mana_input_hatch",
+            (holder, tier) -> new ManaHatchPartMachine(holder, tier, IO.IN, 2),
+            (tier, builder) -> builder
+                    .langValue(GTValues.VLVH[tier] + " Mana Input Hatch")
+                    .rotationState(RotationState.ALL)
+                    .abilities(GTOPartAbility.INPUT_MANA)
+                    .renderer(() -> new OverlayTieredMachineRenderer(tier, GTCEu.id("block/machine/part/" + "energy_hatch.input_64a")))
+                    .register(),
+            GTValues.LV);
+
+    public static final MachineDefinition[] MANA_OUTPUT_HATCH = registerTieredMachines("mana_output_hatch",
+            (holder, tier) -> new ManaHatchPartMachine(holder, tier, IO.OUT, 2),
+            (tier, builder) -> builder
+                    .langValue(GTValues.VLVH[tier] + " Mana Output Hatch")
+                    .rotationState(RotationState.ALL)
+                    .abilities(GTOPartAbility.OUTPUT_MANA)
+                    .renderer(() -> new OverlayTieredMachineRenderer(tier, GTCEu.id("block/machine/part/" + "energy_hatch.output_64a")))
+                    .register(),
+            GTValues.LV);
+
     public static final MachineDefinition[] ENERGY_INPUT_HATCH_4A = registerTieredMachines("energy_input_hatch_4a",
             (holder, tier) -> new EnergyHatchPartMachine(holder, tier, IO.IN, 4),
             (tier, builder) -> builder

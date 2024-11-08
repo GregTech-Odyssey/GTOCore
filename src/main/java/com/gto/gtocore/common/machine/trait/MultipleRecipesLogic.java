@@ -51,7 +51,7 @@ public class MultipleRecipesLogic extends RecipeLogic {
         int parallel = getMachine().getParallel();
         for (int i = 0; parallel > 0 && i < 64; i++) {
             Pair<GTRecipe, Integer> result = parallelRecipe(match, parallel);
-            parallel -= result.getSecond();
+            if (!getMachine().infinite) parallel -= result.getSecond();
             match = result.getFirst();
             GTRecipe input = buildEmptyRecipe();
             input.inputs.putAll(match.inputs);

@@ -1,7 +1,7 @@
 package com.gto.gtocore.mixin.gtm;
 
+import com.gregtechceu.gtceu.api.capability.IOpticalComputationHatch;
 import com.gregtechceu.gtceu.api.capability.recipe.*;
-import com.gregtechceu.gtceu.api.machine.trait.NotifiableComputationContainer;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.content.IContentSerializer;
 
@@ -27,7 +27,7 @@ public abstract class CWURecipeCapabilityMixin extends RecipeCapability<Integer>
                 .stream()
                 .filter(handler -> !handler.isProxy()).toList();
         for (IRecipeHandler<?> container : recipeHandlerList) {
-            if (container.getContents() instanceof NotifiableComputationContainer ncc) {
+            if (container.getContents() instanceof IOpticalComputationHatch ncc) {
                 maxCWU += ncc.requestCWUt(Integer.MAX_VALUE, true);
             }
         }

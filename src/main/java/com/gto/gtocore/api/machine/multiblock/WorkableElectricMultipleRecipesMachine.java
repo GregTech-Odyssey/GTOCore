@@ -10,8 +10,16 @@ import org.jetbrains.annotations.NotNull;
 
 public class WorkableElectricMultipleRecipesMachine extends WorkableElectricMultiblockMachine implements IParallelMachine {
 
+    public final boolean infinite;
+
     public WorkableElectricMultipleRecipesMachine(IMachineBlockEntity holder, Object... args) {
         super(holder, args);
+        infinite = false;
+    }
+
+    public WorkableElectricMultipleRecipesMachine(IMachineBlockEntity holder, boolean infinite) {
+        super(holder);
+        this.infinite = infinite;
     }
 
     @Override

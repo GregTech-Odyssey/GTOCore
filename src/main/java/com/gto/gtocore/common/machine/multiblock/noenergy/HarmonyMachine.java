@@ -1,6 +1,6 @@
 package com.gto.gtocore.common.machine.multiblock.noenergy;
 
-import com.gto.gtocore.api.machine.multiblock.NoEnergyMultiblockMachine;
+import com.gto.gtocore.api.machine.multiblock.WorkableNoEnergyMultiblockMachine;
 import com.gto.gtocore.utils.MachineUtil;
 
 import com.gregtechceu.gtceu.api.machine.ConditionalSubscriptionHandler;
@@ -36,7 +36,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class HarmonyMachine extends NoEnergyMultiblockMachine {
+public class HarmonyMachine extends WorkableNoEnergyMultiblockMachine {
 
     public static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
             HarmonyMachine.class, WorkableMultiblockMachine.MANAGED_FIELD_HOLDER);

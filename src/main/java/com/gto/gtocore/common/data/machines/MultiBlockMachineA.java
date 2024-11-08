@@ -1537,7 +1537,7 @@ public class MultiBlockMachineA {
             .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_bronze_plated_bricks"), GTCEu.id("block/multiblock/steam_ore_washer"))
             .register();
 
-    public final static MultiblockMachineDefinition DIMENSIONALLY_TRANSCENDENT_DIRT_FORGE = REGISTRATE.multiblock("dimensionally_transcendent_dirt_forge", NoEnergyMultiblockMachine::new)
+    public final static MultiblockMachineDefinition DIMENSIONALLY_TRANSCENDENT_DIRT_FORGE = REGISTRATE.multiblock("dimensionally_transcendent_dirt_forge", WorkableNoEnergyMultiblockMachine::new)
             .rotationState(RotationState.ALL)
             .recipeType(GTRecipeTypes.PRIMITIVE_BLAST_FURNACE_RECIPES)
             .tooltips(Component.translatable("gtocore.machine.dimensionally_transcendent_dirt_forge.tooltip.0"))
@@ -2425,7 +2425,7 @@ public class MultiBlockMachineA {
             .workableCasingRenderer(GTOCore.id("block/casings/iridium_casing"), GTCEu.id("block/multiblock/assembly_line"))
             .register();
 
-    public final static MultiblockMachineDefinition ADVANCED_INTEGRATED_ORE_PROCESSOR = REGISTRATE.multiblock("advanced_integrated_ore_processor", WorkableElectricMultipleRecipesMachine::new)
+    public final static MultiblockMachineDefinition ADVANCED_INTEGRATED_ORE_PROCESSOR = REGISTRATE.multiblock("advanced_integrated_ore_processor", h -> new WorkableElectricMultipleRecipesMachine(h, true))
             .rotationState(RotationState.ALL)
             .recipeType(GTORecipeTypes.INTEGRATED_ORE_PROCESSOR)
             .tooltips(Component.translatable("gtocore.machine.integrated_ore_processor.tooltip.0"))
