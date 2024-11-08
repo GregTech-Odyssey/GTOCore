@@ -40,10 +40,6 @@ public class StructureWriteBehavior implements IItemUIFactory {
 
     public static final StructureWriteBehavior INSTANCE = new StructureWriteBehavior();
 
-    protected StructureWriteBehavior() {
-        /**/
-    }
-
     @Override
     public ModularUI createUI(HeldItemUIFactory.HeldItemHolder playerInventoryHolder,
                               Player entityPlayer) {
@@ -129,6 +125,11 @@ public class StructureWriteBehavior implements IItemUIFactory {
             builder.append(".where(\"~\", Predicates.controller(Predicates.blocks(definition.get())))\n");
             blockPattern.legend.forEach((b, c) -> {
                 if (c.equals(' ')) return;
+                if (DebugBlockPattern.BLOCK_MAP.containsKey(b)) {
+                    builder.append(".where(\"").append(c).append("\", Predicates.blocks(")
+                            .append(DebugBlockPattern.BLOCK_MAP.get(b)).append(".get()))\n");
+                    return;
+                }
                 String id = b.kjs$getId();
                 String[] parts = StringUtil.decompose(id);
                 if (Objects.equals(parts[0], "gtocore")) {

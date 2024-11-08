@@ -75,7 +75,6 @@
         "gtm.registry.GTMachinesMixin",
         "gtm.renderer.TagPrefixItemMixin",
         "gtmt.GTMTRecipeMixin",
-        "gtmt.WirelessEnergyReceiveCoverMixin",
         "mc.CursedInternalSlotMixin",
         "mc.RecipeBookMixin",
         "mc.ServerPlayerMixin",
