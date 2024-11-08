@@ -1,9 +1,9 @@
 package com.gto.gtocore.integration.jade.provider;
 
+import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.api.capability.IManaContainer;
 import com.gto.gtocore.api.machine.IManaContainerMachine;
 
-import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.integration.jade.provider.CapabilityBlockProvider;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
@@ -27,7 +27,7 @@ import snownee.jade.api.ui.IElementHelper;
 public class ManaContainerBlockProvider extends CapabilityBlockProvider<IManaContainer> {
 
     public ManaContainerBlockProvider() {
-        super(GTCEu.id("mana_container_provider"));
+        super(GTOCore.id("mana_container_provider"));
     }
 
     @Nullable

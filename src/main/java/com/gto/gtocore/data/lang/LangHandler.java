@@ -158,5 +158,7 @@ public class LangHandler {
         provider.add("gtocore.recipe.nama_per_tick", "Mana per Tick: %s");
         provider.add("gtocore.machine.mana_stored", "Total Mana: %s / %s");
         provider.add("gtocore.machine.mana_consumption", "Max Mana IO Rate: %s");
+
+        provider.add("config.jade.plugin_gtocore.mana_container_provider", "[GTOCore] Mana Container");
     }
 }
