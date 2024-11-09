@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "planks",
+  "category": "building",
+  "ingredients": [
+    {
+      "item": "gtocore:barnarda_c_wood"
+    }
+  ],
+  "result": {
+    "item": "gtocore:barnarda_c_planks",
+    "count": 4
+  }
+}

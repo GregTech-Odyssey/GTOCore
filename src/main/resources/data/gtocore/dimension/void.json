@@ -1,0 +1,13 @@
+{
+  "type": "gtocore:void",
+  "generator": {
+    "type": "minecraft:flat",
+    "settings": {
+      "biome": "gtocore:void",
+      "lakes": false,
+      "features": false,
+      "layers": [],
+      "structure_overrides": []
+    }
+  }
+}

@@ -160,5 +160,32 @@ public class LangHandler {
         provider.add("gtocore.machine.mana_consumption", "Max Mana IO Rate: %s");
 
         provider.add("config.jade.plugin_gtocore.mana_container_provider", "[GTOCore] Mana Container");
+
+        provider.add("biome.gtocore.ancient_world_biome", "Ancient World");
+        provider.add("biome.gtocore.barnarda_c_biome", "Barnarda C");
+        provider.add("biome.gtocore.ceres_biome", "Ceres");
+        provider.add("biome.gtocore.enceladus_biome", "Enceladus");
+        provider.add("biome.gtocore.ganymede_biome", "Ganymede");
+        provider.add("biome.gtocore.io_biome", "Io");
+        provider.add("biome.gtocore.pluto_biome", "Pluto");
+        provider.add("biome.gtocore.titan_biome", "Titan");
+        provider.add("biome.gtocore.create", "Create");
+        provider.add("biome.gtocore.void", "Void");
+        provider.add("biome.gtocore.flat", "Superflat");
+        provider.add("planet.gtocore.barnarda_c", "Barnarda C");
+        provider.add("planet.gtocore.barnarda_c_orbit", "Barnarda C Orbit");
+        provider.add("planet.gtocore.ceres", "Ceres");
+        provider.add("planet.gtocore.ceres_orbit", "Ceres Orbit");
+        provider.add("planet.gtocore.enceladus", "Enceladus");
+        provider.add("planet.gtocore.enceladus_orbit", "Enceladus Orbit");
+        provider.add("planet.gtocore.ganymede", "Ganymede");
+        provider.add("planet.gtocore.ganymede_orbit", "Ganymede Orbit");
+        provider.add("planet.gtocore.io", "Io");
+        provider.add("planet.gtocore.io_orbit", "Io Orbit");
+        provider.add("planet.gtocore.pluto", "Pluto");
+        provider.add("planet.gtocore.pluto_orbit", "Pluto Orbit");
+        provider.add("planet.gtocore.titan", "Titan");
+        provider.add("planet.gtocore.titan_orbit", "Titan Orbit");
+        provider.add("gui.ad_astra.text.barnarda", "Barnarda");
     }
 }

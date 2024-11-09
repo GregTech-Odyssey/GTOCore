@@ -42,37 +42,37 @@ public class GTDimensionMarkersMixin {
     @Inject(method = "init", at = @At("HEAD"), remap = false)
     private static void init(CallbackInfo ci) {
         createAndRegister(new ResourceLocation(AdAstra.MOD_ID, "moon"),
-                1, new ResourceLocation(AdAstra.MOD_ID, "moon_stone"), "dimension.ad_astra.moon");
+                1, new ResourceLocation(AdAstra.MOD_ID, "moon_stone"), "gui.ad_astra.text.moon");
         createAndRegister(new ResourceLocation(AdAstra.MOD_ID, "mars"),
-                2, new ResourceLocation(AdAstra.MOD_ID, "mars_stone"), "dimension.ad_astra.mars");
+                2, new ResourceLocation(AdAstra.MOD_ID, "mars_stone"), "gui.ad_astra.text.mars");
         createAndRegister(new ResourceLocation(AdAstra.MOD_ID, "venus"),
-                3, new ResourceLocation(AdAstra.MOD_ID, "venus_stone"), "dimension.ad_astra.venus");
+                3, new ResourceLocation(AdAstra.MOD_ID, "venus_stone"), "gui.ad_astra.text.venus");
         createAndRegister(new ResourceLocation(AdAstra.MOD_ID, "mercury"),
-                3, new ResourceLocation(AdAstra.MOD_ID, "mercury_stone"), "dimension.ad_astra.mercury");
+                3, new ResourceLocation(AdAstra.MOD_ID, "mercury_stone"), "gui.ad_astra.text.mercury");
         createAndRegister(new ResourceLocation(AdAstra.MOD_ID, "glacio"),
-                7, new ResourceLocation(AdAstra.MOD_ID, "glacio_stone"), "dimension.ad_astra.glacio");
-        createAndRegister(new ResourceLocation("kubejs", "ancient_world"),
-                0, GTOCore.id("reactor_core"), "dimension.kubejs.ancient_world");
-        createAndRegister(new ResourceLocation("kubejs", "titan"),
-                6, GTOCore.id("titanstone"), "dimension.kubejs.titan");
-        createAndRegister(new ResourceLocation("kubejs", "pluto"),
-                6, GTOCore.id("plutostone"), "dimension.kubejs.pluto");
-        createAndRegister(new ResourceLocation("kubejs", "io"),
-                5, GTOCore.id("iostone"), "dimension.kubejs.io");
-        createAndRegister(new ResourceLocation("kubejs", "ganymede"),
-                5, GTOCore.id("ganymedestone"), "dimension.kubejs.ganymede");
-        createAndRegister(new ResourceLocation("kubejs", "enceladus"),
-                6, GTOCore.id("enceladusstone"), "dimension.kubejs.enceladus");
-        createAndRegister(new ResourceLocation("kubejs", "ceres"),
-                4, GTOCore.id("ceresstone"), "dimension.kubejs.ceres");
-        createAndRegister(new ResourceLocation("kubejs", "barnarda"),
-                8, new ResourceLocation("kubejs", "barnarda_wood"), "dimension.kubejs.barnarda");
-        createAndRegister(new ResourceLocation("kubejs", "create"),
-                10, GTOCore.id("dimension_creation_casing"), "dimension.kubejs.create");
-        createAndRegister(new ResourceLocation("kubejs", "void"),
-                0, new ResourceLocation("minecraft", "obsidian"), "dimension.kubejs.void");
-        createAndRegister(new ResourceLocation("kubejs", "flat"),
-                0, new ResourceLocation("minecraft", "crying_obsidian"), "dimension.kubejs.flat");
+                7, new ResourceLocation(AdAstra.MOD_ID, "glacio_stone"), "gui.ad_astra.text.glacio");
+        createAndRegister(GTOCore.id("ancient_world"),
+                0, GTOCore.id("reactor_core"), "biome.gtocore.ancient_world_biome");
+        createAndRegister(GTOCore.id("titan"),
+                6, GTOCore.id("titan_stone"), "biome.gtocore.titan_biome");
+        createAndRegister(GTOCore.id("pluto"),
+                6, GTOCore.id("pluto_stone"), "biome.gtocore.pluto_biome");
+        createAndRegister(GTOCore.id("io"),
+                5, GTOCore.id("io_stone"), "biome.gtocore.io_biome");
+        createAndRegister(GTOCore.id("ganymede"),
+                5, GTOCore.id("ganymede_stone"), "biome.gtocore.ganymede_biome");
+        createAndRegister(GTOCore.id("enceladus"),
+                6, GTOCore.id("enceladus_stone"), "biome.gtocore.enceladus_biome");
+        createAndRegister(GTOCore.id("ceres"),
+                4, GTOCore.id("ceres_stone"), "biome.gtocore.ceres_biome");
+        createAndRegister(GTOCore.id("barnarda_c"),
+                8, GTOCore.id("barnarda_c_wood"), "biome.gtocore.barnarda_c_biome");
+        createAndRegister(GTOCore.id("create"),
+                10, GTOCore.id("dimension_creation_casing"), "biome.gtocore.create");
+        createAndRegister(GTOCore.id("void"),
+                0, new ResourceLocation("minecraft", "obsidian"), "biome.gtocore.void");
+        createAndRegister(GTOCore.id("flat"),
+                0, new ResourceLocation("minecraft", "crying_obsidian"), "biome.gtocore.flat");
     }
 
     @Inject(method = "createAndRegister(Lnet/minecraft/resources/ResourceLocation;ILjava/util/function/Supplier;Ljava/lang/String;)Lcom/gregtechceu/gtceu/api/data/DimensionMarker;", at = @At("HEAD"), remap = false, cancellable = true)

@@ -1,0 +1,7 @@
+{
+  "parent": "block/button",
+  "textures": {
+    "texture": "gtocore:block/barnardac_planks"
+  },
+  "render_type": "solid"
+}

@@ -58,6 +58,6 @@ public class SimpleManaMachine extends SimpleNoEnergyMachine implements IManaCon
     @Override
     public void attachTooltips(TooltipsPanel tooltipsPanel) {
         super.attachTooltips(tooltipsPanel);
-        tooltipsPanel.attachTooltips(new IFancyTooltip.Basic(() -> GuiTextures.INFO_ICON, () -> List.of(Component.translatable("gtocore.machine.mana_stored", manaContainer.getManaStored(), manaContainer.getCapability())), () -> true, () -> null));
+        tooltipsPanel.attachTooltips(new IFancyTooltip.Basic(() -> GuiTextures.INFO_ICON, () -> List.of(Component.translatable("gtocore.machine.mana_stored", manaContainer.getManaStored(), manaContainer.getMaxCapacity())), () -> true, () -> null));
     }
 }

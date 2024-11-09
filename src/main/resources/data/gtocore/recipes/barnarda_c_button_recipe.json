@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "wooden_button",
+  "category": "redstone",
+  "ingredients": [
+    {
+      "item": "gtocore:barnarda_c_planks"
+    }
+  ],
+  "result": {
+    "item": "gtocore:barnarda_c_button",
+    "count": 1
+  }
+}

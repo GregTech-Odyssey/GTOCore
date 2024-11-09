@@ -1,0 +1,9 @@
+{
+  "parent": "block/slab",
+  "textures": {
+    "bottom": "gtocore:block/barnardac_planks",
+    "top": "gtocore:block/barnardac_planks",
+    "side": "gtocore:block/barnardac_planks"
+  },
+  "render_type": "solid"
+}

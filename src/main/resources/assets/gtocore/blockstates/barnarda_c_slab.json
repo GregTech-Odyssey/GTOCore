@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "gtocore:block/barnarda_c_slab"
+    },
+    "type=top": {
+      "model": "gtocore:block/barnarda_c_slab_top"
+    },
+    "type=double": {
+      "model": "gtocore:block/barnarda_c_slab_full"
+    }
+  }
+}

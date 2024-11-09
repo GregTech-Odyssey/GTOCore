@@ -1,0 +1,10 @@
+{
+  "dimension": "gtocore:barnarda_c",
+  "gravity":  8.722,
+  "orbit": "gtocore:barnarda_c_orbit",
+  "oxygen": true,
+  "solar_power": 48,
+  "solar_system": "ad_astra:barnarda",
+  "temperature": 10,
+  "tier": 8
+}

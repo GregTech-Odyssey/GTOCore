@@ -1,0 +1,8 @@
+{
+  "parent": "block/fence_inventory",
+  "textures": {
+    "texture": "gtocore:block/barnardac_planks",
+    "particle": "gtocore:block/barnardac_planks"
+  },
+  "render_type": "solid"
+}

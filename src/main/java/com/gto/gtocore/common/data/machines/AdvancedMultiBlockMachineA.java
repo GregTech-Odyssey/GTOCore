@@ -597,7 +597,7 @@ public class AdvancedMultiBlockMachineA {
                             for (Entity entity : entities) {
                                 if (entity instanceof Player player) {
                                     if (Objects.equals(player.getArmorSlots().toString(), "[1 magneto_hydro_dynamically_con_strained_star_matter_boots, 1 magneto_hydro_dynamically_con_strained_star_matter_leggings, 1 magneto_hydro_dynamically_con_strained_star_matter_chestplate, 1 magneto_hydro_dynamically_con_strained_star_matter_helmet]")) {
-                                        server.kjs$runCommandSilent("execute in kubejs:create as " + entity.getName().getString() + " run tp 0 1 0");
+                                        server.kjs$runCommandSilent("execute in gtocore:create as " + entity.getName().getString() + " run tp 0 1 0");
                                     } else {
                                         player.kjs$setStatusMessage(Component.literal("你的装备无法适应目标维度的环境"));
                                     }

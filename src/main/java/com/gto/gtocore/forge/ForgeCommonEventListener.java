@@ -192,38 +192,38 @@ public class ForgeCommonEventListener {
             String dim = level.kjs$getDimension().toString();
             CompoundTag data = player.getPersistentData();
             if (block == Blocks.CRYING_OBSIDIAN) {
-                if (!Objects.equals(dim, "kubejs:flat")) {
-                    int value = Objects.equals(dim, "kubejs:void") ? 1 : 10;
+                if (!Objects.equals(dim, "gtocore:flat")) {
+                    int value = Objects.equals(dim, "gtocore:void") ? 1 : 10;
                     data.putDouble("y_f", player.getY() + 1);
                     data.putString("dim_f", dim);
-                    server.kjs$runCommandSilent("execute in kubejs:flat as " + name + " run tp " + pos.getX() * value + " 64 " + pos.getZ() * value);
-                    server.kjs$runCommandSilent("execute in kubejs:flat run fill " + pos.getX() * value + " 63 " + pos.getZ() * value + " " + pos.getX() * value + " 63 " + pos.getZ() * value + " minecraft:crying_obsidian");
+                    server.kjs$runCommandSilent("execute in gtocore:flat as " + name + " run tp " + pos.getX() * value + " 64 " + pos.getZ() * value);
+                    server.kjs$runCommandSilent("execute in gtocore:flat run fill " + pos.getX() * value + " 63 " + pos.getZ() * value + " " + pos.getX() * value + " 63 " + pos.getZ() * value + " minecraft:crying_obsidian");
                 } else {
                     String dima = data.getString("dim_f");
-                    int value = dima.equals("kubejs:void") ? 1 : 10;
+                    int value = dima.equals("gtocore:void") ? 1 : 10;
                     server.kjs$runCommandSilent("execute in " + dima + " as " + name + " run tp " + pos.getX() / value + " " + data.getDouble("y_f") + " " + pos.getZ() / value);
                 }
                 return;
             }
 
             if (block == Blocks.OBSIDIAN) {
-                if (!Objects.equals(dim, "kubejs:void")) {
-                    int value = Objects.equals(dim, "kubejs:flat") ? 1 : 10;
+                if (!Objects.equals(dim, "gtocore:void")) {
+                    int value = Objects.equals(dim, "gtocore:flat") ? 1 : 10;
                     data.putDouble("y_v", player.getY() + 1);
                     data.putString("dim_v", dim);
-                    server.kjs$runCommandSilent("execute in kubejs:void as " + name + " run tp " + pos.getX() * value + " 64 " + pos.getZ() * value);
-                    server.kjs$runCommandSilent("execute in kubejs:void run fill " + pos.getX() * value + " 63 " + pos.getZ() * value + " " + pos.getX() * value + " 63 " + pos.getZ() * value + " minecraft:obsidian");
+                    server.kjs$runCommandSilent("execute in gtocore:void as " + name + " run tp " + pos.getX() * value + " 64 " + pos.getZ() * value);
+                    server.kjs$runCommandSilent("execute in gtocore:void run fill " + pos.getX() * value + " 63 " + pos.getZ() * value + " " + pos.getX() * value + " 63 " + pos.getZ() * value + " minecraft:obsidian");
                 } else {
                     String dima = data.getString("dim_v");
-                    int value = dima.equals("kubejs:flat") ? 1 : 10;
+                    int value = dima.equals("gtocore:flat") ? 1 : 10;
                     server.kjs$runCommandSilent("execute in " + dima + " as " + name + " run tp " + pos.getX() / value + " " + data.getDouble("y_v") + " " + pos.getZ() / value);
                 }
                 return;
             }
 
             if (block == GTOBlocks.REACTOR_CORE.get()) {
-                if (dim.equals("kubejs:ancient_world") || dim.equals("minecraft:the_nether")) {
-                    String dimdata = dim.equals("kubejs:ancient_world") ? "aw" : "ne";
+                if (dim.equals("gtocore:ancient_world") || dim.equals("minecraft:the_nether")) {
+                    String dimdata = dim.equals("gtocore:ancient_world") ? "aw" : "ne";
                     server.kjs$runCommandSilent("execute in " + data.getString("dim_" + dimdata) + " as " + name + " run tp " + data.getDouble("pos_" + dimdata + "_x") + " " + data.getDouble("pos_" + dimdata + "_y") + " " + data.getDouble("pos_" + dimdata + "_z"));
                 } else {
                     if (checkBlocks(pos, level, ChemicalHelper.getBlock(TagPrefix.block, GTMaterials.Steel), Blocks.DIAMOND_BLOCK)) {
@@ -231,8 +231,8 @@ public class ForgeCommonEventListener {
                         data.putDouble("pos_aw_y", player.getY());
                         data.putDouble("pos_aw_z", player.getZ());
                         data.putString("dim_aw", dim);
-                        server.kjs$runCommandSilent("execute in kubejs:ancient_world as " + name + " run tp 0 128 0");
-                        server.kjs$runCommandSilent("execute in kubejs:ancient_world run fill 0 127 0 0 127 0 gtocore:reactor_core");
+                        server.kjs$runCommandSilent("execute in gtocore:ancient_world as " + name + " run tp 0 128 0");
+                        server.kjs$runCommandSilent("execute in gtocore:ancient_world run fill 0 127 0 0 127 0 gtocore:reactor_core");
                     } else if (checkBlocks(pos, level, Blocks.GOLD_BLOCK, Blocks.EMERALD_BLOCK)) {
                         if (player.getItemInHand(InteractionHand.MAIN_HAND).kjs$getId().equals("kubejs:nether_data")) {
                             data.putDouble("pos_ne_x", player.getX());
@@ -350,7 +350,7 @@ public class ForgeCommonEventListener {
             boolean sfa = Objects.equals(armorSlots, "[1 space_fermium_boots, 1 space_fermium_leggings, 1 space_fermium_chestplate, 1 space_fermium_helmet]");
             boolean fa = Objects.equals(armorSlots, "[1 fermium_boots, 1 fermium_leggings, 1 fermium_chestplate, 1 fermium_helmet]");
             boolean ma = Objects.equals(armorSlots, "[1 magneto_hydro_dynamically_con_strained_star_matter_boots, 1 magneto_hydro_dynamically_con_strained_star_matter_leggings, 1 magneto_hydro_dynamically_con_strained_star_matter_chestplate, 1 magneto_hydro_dynamically_con_strained_star_matter_helmet]");
-            if (level.kjs$getDimension().toString().equals("kubejs:create")) {
+            if (level.kjs$getDimension().toString().equals("gtocore:create")) {
                 if (!ma) {
                     server.kjs$runCommandSilent("execute in minecraft:overworld as " + name + " run tp 0 100 0");
                     player.kill();

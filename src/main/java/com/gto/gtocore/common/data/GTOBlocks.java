@@ -23,11 +23,11 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.GlassBlock;
-import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.properties.BlockSetType;
+import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
+import net.minecraft.world.level.block.state.properties.WoodType;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraftforge.client.model.generators.ConfiguredModel;
 import net.minecraftforge.client.model.generators.ModelFile;
@@ -343,6 +343,82 @@ public class GTOBlocks {
             .simpleItem()
             .register();
 
+    public static final BlockEntry<RotatedPillarBlock> BARNARDA_C_WOOD = REGISTRATE
+            .block("barnarda_c_wood", RotatedPillarBlock::new)
+            .properties(p -> p.mapColor(MapColor.COLOR_PURPLE).instrument(NoteBlockInstrument.BASS).strength(100).sound(SoundType.WOOD))
+            .tag(BlockTags.MINEABLE_WITH_AXE)
+            .blockstate(NonNullBiConsumer.noop())
+            .item(BlockItem::new)
+            .build()
+            .register();
+    public static final BlockEntry<RotatedPillarBlock> BARNARDA_C_LOG = REGISTRATE
+            .block("barnarda_c_log", RotatedPillarBlock::new)
+            .properties(p -> p.mapColor(MapColor.COLOR_PURPLE).instrument(NoteBlockInstrument.BASS).strength(100).sound(SoundType.WOOD))
+            .tag(BlockTags.MINEABLE_WITH_AXE)
+            .blockstate(NonNullBiConsumer.noop())
+            .item(BlockItem::new)
+            .build()
+            .register();
+    public static final BlockEntry<Block> BARNARDA_C_PLANKS = REGISTRATE
+            .block("barnarda_c_planks", Block::new)
+            .properties(p -> p.mapColor(MapColor.COLOR_PURPLE).instrument(NoteBlockInstrument.BASS).strength(100).sound(SoundType.WOOD))
+            .tag(BlockTags.MINEABLE_WITH_AXE)
+            .blockstate(NonNullBiConsumer.noop())
+            .item(BlockItem::new)
+            .build()
+            .register();
+    public static final BlockEntry<Block> BARNARDA_C_LEAVES = REGISTRATE
+            .block("barnarda_c_leaves", Block::new)
+            .properties(p -> p.mapColor(MapColor.PLANT).strength(50).sound(SoundType.GRASS).noOcclusion())
+            .tag(BlockTags.MINEABLE_WITH_AXE)
+            .blockstate(NonNullBiConsumer.noop())
+            .item(BlockItem::new)
+            .build()
+            .register();
+    public static final BlockEntry<StairBlock> BARNARDA_C_STAIRS = REGISTRATE
+            .block("barnarda_c_stairs", p -> new StairBlock(BARNARDA_C_PLANKS::getDefaultState, BlockBehaviour.Properties.copy(BARNARDA_C_PLANKS.get())))
+            .properties(p -> p.strength(100))
+            .tag(BlockTags.MINEABLE_WITH_AXE)
+            .blockstate(NonNullBiConsumer.noop()).item(BlockItem::new)
+            .build()
+            .register();
+    public static final BlockEntry<SlabBlock> BARNARDA_C_SLAB = REGISTRATE
+            .block("barnarda_c_slab", SlabBlock::new)
+            .properties(p -> p.instrument(NoteBlockInstrument.BASS).sound(SoundType.WOOD).strength(2f, 3f).dynamicShape())
+            .tag(BlockTags.MINEABLE_WITH_AXE)
+            .blockstate(NonNullBiConsumer.noop())
+            .item(BlockItem::new)
+            .build()
+            .register();
+    public static final BlockEntry<FenceBlock> BARNARDA_C_FENCE = REGISTRATE
+            .block("barnarda_c_fence", p -> new FenceBlock(BlockBehaviour.Properties.of().instrument(NoteBlockInstrument.BASS).sound(SoundType.WOOD).strength(100).dynamicShape().forceSolidOn()))
+            .tag(BlockTags.MINEABLE_WITH_AXE)
+            .blockstate(NonNullBiConsumer.noop())
+            .item(BlockItem::new)
+            .build()
+            .register();
+    public static final BlockEntry<FenceGateBlock> BARNARDA_C_FENCE_GATE = REGISTRATE
+            .block("barnarda_c_fence_gate", p -> new FenceGateBlock(BlockBehaviour.Properties.of().instrument(NoteBlockInstrument.BASS).sound(SoundType.WOOD).strength(100).dynamicShape().forceSolidOn(), WoodType.OAK))
+            .tag(BlockTags.MINEABLE_WITH_AXE)
+            .blockstate(NonNullBiConsumer.noop())
+            .item(BlockItem::new)
+            .build()
+            .register();
+    public static final BlockEntry<PressurePlateBlock> BARNARDA_C_PRESSURE_PLATE = REGISTRATE
+            .block("barnarda_c_pressure_plate", p -> new PressurePlateBlock(PressurePlateBlock.Sensitivity.EVERYTHING, BlockBehaviour.Properties.of().instrument(NoteBlockInstrument.BASS).sound(SoundType.WOOD).strength(100).dynamicShape().forceSolidOn(), BlockSetType.OAK))
+            .tag(BlockTags.MINEABLE_WITH_AXE)
+            .blockstate(NonNullBiConsumer.noop())
+            .item(BlockItem::new)
+            .build()
+            .register();
+    public static final BlockEntry<ButtonBlock> BARNARDA_C_BUTTON = REGISTRATE
+            .block("barnarda_c_button", p -> new ButtonBlock(BlockBehaviour.Properties.of().instrument(NoteBlockInstrument.BASS).sound(SoundType.WOOD).strength(100).dynamicShape(), BlockSetType.OAK, 30, true))
+            .tag(BlockTags.MINEABLE_WITH_AXE)
+            .blockstate(NonNullBiConsumer.noop())
+            .item(BlockItem::new)
+            .build()
+            .register();
+
     public static final BlockEntry<Block> HERMETIC_CASING_UEV = createHermeticCasing(GTValues.UEV);
     public static final BlockEntry<Block> HERMETIC_CASING_UIV = createHermeticCasing(GTValues.UIV);
     public static final BlockEntry<Block> HERMETIC_CASING_UXV = createHermeticCasing(GTValues.UXV);
@@ -381,18 +457,18 @@ public class GTOBlocks {
     public static final BlockEntry<Block> FILTER_CASING_LAW = createCleanroomFilter(
             CleanroomFilterType.FILTER_CASING_LAW);
 
-    public static final BlockEntry<Block> TITANSTONE = createStoneBlock(
-            "titanstone", GTOCore.id("block/stone/titanstone"));
-    public static final BlockEntry<Block> PLUTOSTONE = createStoneBlock(
-            "plutostone", GTOCore.id("block/stone/plutostone"));
-    public static final BlockEntry<Block> IOSTONE = createStoneBlock(
-            "iostone", GTOCore.id("block/stone/iostone"));
-    public static final BlockEntry<Block> GANYMEDESTONE = createStoneBlock(
-            "ganymedestone", GTOCore.id("block/stone/ganymedestone"));
-    public static final BlockEntry<Block> ENCELADUSSTONE = createStoneBlock(
-            "enceladusstone", GTOCore.id("block/stone/enceladusstone"));
-    public static final BlockEntry<Block> CERESSTONE = createStoneBlock(
-            "ceresstone", GTOCore.id("block/stone/ceresstone"));
+    public static final BlockEntry<Block> TITAN_STONE = createStoneBlock(
+            "titan_stone", GTOCore.id("block/stone/titan_stone"));
+    public static final BlockEntry<Block> PLUTO_STONE = createStoneBlock(
+            "pluto_stone", GTOCore.id("block/stone/pluto_stone"));
+    public static final BlockEntry<Block> IO_STONE = createStoneBlock(
+            "io_stone", GTOCore.id("block/stone/io_stone"));
+    public static final BlockEntry<Block> GANYMEDE_STONE = createStoneBlock(
+            "ganymede_stone", GTOCore.id("block/stone/ganymede_stone"));
+    public static final BlockEntry<Block> ENCELADUS_STONE = createStoneBlock(
+            "enceladus_stone", GTOCore.id("block/stone/enceladus_stone"));
+    public static final BlockEntry<Block> CERES_STONE = createStoneBlock(
+            "ceres_stone", GTOCore.id("block/stone/ceres_stone"));
     public static final BlockEntry<Block> ESSENCE_BLOCK = createStoneBlock(
             "essence_block", GTOCore.id("block/essence_block"));
     public static final BlockEntry<Block> REACTOR_CORE = createStoneBlock(
@@ -410,16 +486,16 @@ public class GTOBlocks {
     public static final BlockEntry<Block> ENDER_OBSIDIAN = createStoneBlock(
             "ender_obsidian", GTOCore.id("block/ender_obsidian"));
 
-    public static final BlockEntry<Block> TITANGRUNT = createSandBlock(
-            "titangrunt", GTOCore.id("block/sand/titangrunt"));
-    public static final BlockEntry<Block> PLUTOGRUNT = createSandBlock(
-            "plutogrunt", GTOCore.id("block/sand/plutogrunt"));
-    public static final BlockEntry<Block> IOASH = createSandBlock(
-            "ioash", GTOCore.id("block/sand/ioash"));
-    public static final BlockEntry<Block> GANYMEDEGRUNT = createSandBlock(
-            "ganymedegrunt", GTOCore.id("block/sand/titangrunt"));
-    public static final BlockEntry<Block> CERESGRUNT = createSandBlock(
-            "ceresgrunt", GTOCore.id("block/sand/ceresgrunt"));
+    public static final BlockEntry<Block> TITAN_GRUNT = createSandBlock(
+            "titan_grunt", GTOCore.id("block/sand/titan_grunt"));
+    public static final BlockEntry<Block> PLUTO_GRUNT = createSandBlock(
+            "pluto_grunt", GTOCore.id("block/sand/pluto_grunt"));
+    public static final BlockEntry<Block> IO_ASH = createSandBlock(
+            "io_ash", GTOCore.id("block/sand/io_ash"));
+    public static final BlockEntry<Block> GANYMEDE_GRUNT = createSandBlock(
+            "ganymede_grunt", GTOCore.id("block/sand/titan_grunt"));
+    public static final BlockEntry<Block> CERES_GRUNT = createSandBlock(
+            "ceres_grunt", GTOCore.id("block/sand/ceres_grunt"));
 
     public static final BlockEntry<Block> SPACE_ELEVATOR_INTERNAL_SUPPORT = createSidedCasingBlock(
             "space_elevator_internal_support", GTOCore.id("block/casings/space_elevator_internal_support"));

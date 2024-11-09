@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "bark",
+  "category": "building",
+  "pattern": [
+    "aa",
+    "aa"
+  ],
+  "key": {
+    "a": {
+      "item": "gtocore:barnarda_c_log"
+    }
+  },
+  "result": {
+    "item": "gtocore:barnarda_c_wood",
+    "count": 3
+  }
+}
