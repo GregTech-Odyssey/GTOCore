@@ -24,9 +24,8 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.state.BlockState;
 
-import com.hepdd.gtmthings.api.misc.WirelessEnergyManager;
+import com.hepdd.gtmthings.api.misc.WirelessEnergyContainer;
 
-import java.math.BigInteger;
 import java.util.Objects;
 
 public final class TimeTwisterBehavior implements IInteractionItem {
@@ -36,11 +35,10 @@ public final class TimeTwisterBehavior implements IInteractionItem {
     @Override
     public InteractionResult onItemUseFirst(ItemStack stack, UseOnContext context) {
         Player player = Objects.requireNonNull(context.getPlayer());
-        BigInteger userEU = WirelessEnergyManager.getUserEU(player.getUUID());
+        WirelessEnergyContainer container = WirelessEnergyContainer.getOrCreateContainer(context.getPlayer().getUUID());
         RecipeLogic recipeLogic = GTCapabilityHelper.getRecipeLogic(context.getLevel(), context.getClickedPos(), null);
         if (player.isShiftKeyDown()) {
-            if (userEU.compareTo(BigInteger.valueOf(819200)) > 0) {
-                WirelessEnergyManager.setUserEU(player.getUUID(), userEU.subtract(BigInteger.valueOf(819200)));
+            if (container.removeEnergy(819200, null) == 819200) {
                 context.getLevel().addFreshEntity(new TaskEntity(context.getLevel(), context.getClickedPos(), e -> tick(e, context.getLevel(), context.getClickedPos())));
             }
         } else {
@@ -49,16 +47,15 @@ public final class TimeTwisterBehavior implements IInteractionItem {
                 if (machine instanceof IOverclockMachine overclockMachine) {
                     int reducedDuration = (int) ((recipeLogic.getDuration() - recipeLogic.getProgress()) * 0.5);
                     long eu = 8 * reducedDuration * overclockMachine.getOverclockVoltage();
-                    if (eu > 0 && WirelessEnergyManager.addEUToGlobalEnergyMap(player.getUUID(), -eu, machine) == -eu) {
+                    if (eu > 0 && container.removeEnergy(eu, null) == eu) {
                         recipeLogic.setProgress(recipeLogic.getProgress() + reducedDuration);
                         player.displayClientMessage(Component.literal("消耗了 " + FormattingUtil.formatNumbers(eu) + " EU，使机器运行时间减少了 " + reducedDuration + " tick"), true);
                         return InteractionResult.CONSUME;
                     }
                 }
             } else if (isBlockEntity(context)) {
-                if (userEU.compareTo(BigInteger.valueOf(8192)) > 0) {
+                if (container.removeEnergy(8192, null) == 8192) {
                     tickBlock(context.getLevel(), context.getClickedPos(), 0);
-                    WirelessEnergyManager.setUserEU(player.getUUID(), userEU.subtract(BigInteger.valueOf(8192)));
                     player.displayClientMessage(Component.literal("消耗了 8192 EU，使方块实体额外执行了 200 Tick"), true);
                     return InteractionResult.CONSUME;
                 }

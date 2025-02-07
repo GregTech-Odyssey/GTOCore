@@ -38,6 +38,8 @@ import com.mojang.blaze3d.vertex.*;
 
 import java.util.function.Supplier;
 
+import static com.hepdd.gtmthings.client.ForgeClientEventHandler.highlightBlock;
+
 @OnlyIn(Dist.CLIENT)
 public final class ForgeClientEvent {
 
@@ -113,31 +115,6 @@ public final class ForgeClientEvent {
                 }
             }
         }
-    }
-
-    private static void highlightBlock(Camera camera, PoseStack poseStack, BlockPos... poses) {
-        Vec3 pos = camera.getPosition();
-        poseStack.pushPose();
-        poseStack.translate(-pos.x, -pos.y, -pos.z);
-        RenderSystem.disableDepthTest();
-        RenderSystem.enableBlend();
-        RenderSystem.disableCull();
-        RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
-        Tesselator tesselator = Tesselator.getInstance();
-        BufferBuilder buffer = tesselator.getBuilder();
-        buffer.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
-        RenderSystem.setShader(GameRenderer::getPositionColorShader);
-        RenderBufferUtils.renderCubeFace(poseStack, buffer, poses[0].getX(), poses[0].getY(), poses[0].getZ(), poses[1].getX() + 1, poses[1].getY() + 1, poses[1].getZ() + 1, 0.2f, 0.2f, 1.0f, 0.25f, true);
-        tesselator.end();
-        buffer.begin(VertexFormat.Mode.LINES, DefaultVertexFormat.POSITION_COLOR_NORMAL);
-        RenderSystem.setShader(GameRenderer::getRendertypeLinesShader);
-        RenderSystem.lineWidth(3);
-        RenderBufferUtils.drawCubeFrame(poseStack, buffer, poses[0].getX(), poses[0].getY(), poses[0].getZ(), poses[1].getX() + 1, poses[1].getY() + 1, poses[1].getZ() + 1, 0.0f, 0.0f, 1.0f, 0.5f);
-        tesselator.end();
-        RenderSystem.enableCull();
-        RenderSystem.disableBlend();
-        RenderSystem.enableDepthTest();
-        poseStack.popPose();
     }
 
     private static void highlightSphere(Camera camera, PoseStack poseStack, BlockPos blockPos, float radius) {

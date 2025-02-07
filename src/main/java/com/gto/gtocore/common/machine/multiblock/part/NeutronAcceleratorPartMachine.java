@@ -11,13 +11,15 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.BlockHitResult;
 
+import com.hepdd.gtmthings.api.machine.WirelessEnergyReceiveCoverHolder;
+
 import java.util.concurrent.ThreadLocalRandom;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public final class NeutronAcceleratorPartMachine extends EnergyHatchPartMachine {
+public final class NeutronAcceleratorPartMachine extends EnergyHatchPartMachine implements WirelessEnergyReceiveCoverHolder {
 
     public NeutronAcceleratorPartMachine(IMachineBlockEntity holder, int tier, Object... args) {
         super(holder, tier, IO.IN, 1, args);

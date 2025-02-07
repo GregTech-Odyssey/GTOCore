@@ -17,10 +17,13 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.phys.BlockHitResult;
 
-import com.hepdd.gtmthings.api.misc.WirelessEnergyManager;
+import com.hepdd.gtmthings.api.machine.IWirelessEnergyContainerHolder;
+import com.hepdd.gtmthings.api.misc.WirelessEnergyContainer;
 import com.hepdd.gtmthings.utils.TeamUtil;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
+import lombok.Getter;
+import lombok.Setter;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -30,13 +33,17 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public final class HarmonyMachine extends NoEnergyMultiblockMachine {
+public final class HarmonyMachine extends NoEnergyMultiblockMachine implements IWirelessEnergyContainerHolder {
 
     private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
             HarmonyMachine.class, WorkableMultiblockMachine.MANAGED_FIELD_HOLDER);
 
     private static final Fluid HYDROGEN = GTMaterials.Hydrogen.getFluid();
     private static final Fluid HELIUM = GTMaterials.Helium.getFluid();
+
+    @Getter
+    @Setter
+    private WirelessEnergyContainer WirelessEnergyContainerCache;
 
     @Persisted
     private int oc;
@@ -95,7 +102,7 @@ public final class HarmonyMachine extends NoEnergyMultiblockMachine {
         if (userid != null && hydrogen >= 1024000000 && helium >= 1024000000 && oc > 0) {
             hydrogen -= 1024000000;
             helium -= 1024000000;
-            if (WirelessEnergyManager.addEUToGlobalEnergyMap(userid, -getStartupEnergy(), this) == -getStartupEnergy()) {
+            if (getWirelessEnergyContainer().removeEnergy(getStartupEnergy(), this) == -getStartupEnergy()) {
                 recipe.duration = 4800 / (1 << (oc));
                 return recipe;
             }
@@ -118,10 +125,15 @@ public final class HarmonyMachine extends NoEnergyMultiblockMachine {
             textList.add(Component.translatable("gtmthings.machine.wireless_energy_monitor.tooltip.0",
                     TeamUtil.GetName(getLevel(), userid)));
             textList.add(Component.translatable("gtmthings.machine.wireless_energy_monitor.tooltip.1",
-                    FormattingUtil.formatNumbers(WirelessEnergyManager.getUserEU(userid))));
+                    FormattingUtil.formatNumbers(getWirelessEnergyContainer().getStorage())));
         }
         textList.add(Component.translatable("gtocore.machine.eye_of_harmony.eu", FormattingUtil.formatNumbers(getStartupEnergy())));
         textList.add(Component.translatable("gtocore.machine.eye_of_harmony.hydrogen", FormattingUtil.formatNumbers(hydrogen)));
         textList.add(Component.translatable("gtocore.machine.eye_of_harmony.helium", FormattingUtil.formatNumbers(helium)));
+    }
+
+    @Override
+    public UUID getUUID() {
+        return userid;
     }
 }
