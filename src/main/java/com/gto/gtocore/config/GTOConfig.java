@@ -94,4 +94,9 @@ public final class GTOConfig {
     public int eioFluidRate = 16;
     @Configurable
     public String[] breakBlocksBlackList = { "ae2:cable_bus" };
+    @Configurable
+    public boolean enableAnimalsAreAfraidToEatTheirMeat = true;
+    @Configurable
+    @Configurable.Range(min = 1, max = 64)
+    public int enableAnimalsAreAfraidToEatTheirMeatRange = 12;
 }

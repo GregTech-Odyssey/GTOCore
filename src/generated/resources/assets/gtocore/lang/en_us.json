@@ -969,6 +969,8 @@
   "config.gtocore.option.disableMultiBlockPage": "Disable MultiBlock Page",
   "config.gtocore.option.eioFluidRate": "EIO Fluid Pipe Rate Multiplier",
   "config.gtocore.option.enablePrimitiveVoidOre": "Enable Primitive Void Ore Machine",
+  "config.gtocore.option.enableAnimalsAreAfraidToEatTheirMeat": "Animals Are Afraid To Eat Their Meat",
+  "config.gtocore.option.enableAnimalsAreAfraidToEatTheirMeatRange": "Range of Animals Are Afraid To Eat Their Meat",
   "config.gtocore.option.fastMultiBlockPage": "Fast MultiBlock Page",
   "config.gtocore.option.oreMultiplier": "Ore Yield Multiplier",
   "config.gtocore.option.recipeLogicCheckInterval": "Recipe Logic Check Interval",

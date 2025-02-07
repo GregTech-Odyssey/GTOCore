@@ -28,7 +28,8 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.BlockHitResult;
 
-import com.hepdd.gtmthings.api.misc.WirelessEnergyManager;
+import com.hepdd.gtmthings.api.machine.IWirelessEnergyContainerHolder;
+import com.hepdd.gtmthings.api.misc.WirelessEnergyContainer;
 import com.lowdragmc.lowdraglib.gui.util.ClickData;
 import com.lowdragmc.lowdraglib.gui.widget.ComponentPanelWidget;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
@@ -46,11 +47,14 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public final class GeneratorArrayMachine extends StorageMultiblockMachine implements IArrayMachine {
+public final class GeneratorArrayMachine extends StorageMultiblockMachine implements IArrayMachine, IWirelessEnergyContainerHolder {
 
     private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
             GeneratorArrayMachine.class, StorageMultiblockMachine.MANAGED_FIELD_HOLDER);
 
+    @Getter
+    @Setter
+    private WirelessEnergyContainer WirelessEnergyContainerCache;
     @Getter
     @Setter
     private MachineDefinition machineDefinitionCache;
@@ -144,7 +148,7 @@ public final class GeneratorArrayMachine extends StorageMultiblockMachine implem
         if (!super.onWorking()) return false;
         if (isw) {
             if (eut > 0) {
-                WirelessEnergyManager.addEUToGlobalEnergyMap(userid, eut, this);
+                getWirelessEnergyContainer().addEnergy(eut, this);
             } else {
                 return false;
             }
@@ -225,5 +229,10 @@ public final class GeneratorArrayMachine extends StorageMultiblockMachine implem
     @Override
     public Item getStorageItem() {
         return getStorageStack().getItem();
+    }
+
+    @Override
+    public UUID getUUID() {
+        return userid;
     }
 }

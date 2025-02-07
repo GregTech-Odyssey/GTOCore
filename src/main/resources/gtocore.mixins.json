@@ -115,7 +115,6 @@
         "gtm.registry.GTRegistryRlMixin",
         "gtmt.HugeBusPartMachineMixin",
         "gtmt.MEOutputPartMachineMixin",
-        "gtmt.WirelessEnergyReceiveCoverMixin",
         "jade.CommonProxyMixin",
         "jei.GTJEIPluginMixin",
         "jei.JEIConfigMixin",

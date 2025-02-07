@@ -51,7 +51,7 @@ dependencies {
 
     modImplementation("curse.maven:modernfix-790626:6025611")
 
-    modImplementation("curse.maven:gtmthings-1104310:6133862")
+    modImplementation("curse.maven:gtmthings-1104310:6167532")
 
     modImplementation("curse.maven:Re-Avaritia-623969:6130139")
 

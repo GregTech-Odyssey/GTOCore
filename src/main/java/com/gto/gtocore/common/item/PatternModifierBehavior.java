@@ -52,29 +52,36 @@ public final class PatternModifierBehavior implements IItemUIFactory {
                         .addWidget(new ImageWidget(8, 8, 190, 108, GuiTextures.DISPLAY))
                         .addWidget(new LabelWidget(12, 12, "AE样板倍乘器"))
                         .addWidget(new LabelWidget(12, 22, "设置倍数后，shift右键样板供应器方块使用"))
-                        .addWidget(new LabelWidget(12, 32, "先做乘法，后做除法，数量限制对成品不生效"))
-                        .addWidget(new LabelWidget(12, 42, "若应用次数为3，则代表执行三次应用次数为1的操作"))
-                        .addWidget(new AETextInputButtonWidget(120, 46 + 4, 72, 12)
+                        .addWidget(new AETextInputButtonWidget(-60, 40 + 2, 60, 12)
                                 .setText(String.valueOf(Ae2PatternGeneratorScale))
                                 .setOnConfirm(this::setAe2PatternGeneratorScale)
                                 .setButtonTooltips(Component.literal("设置模板乘数")))
-                        .addWidget(new AETextInputButtonWidget(120, 60 + 4, 72, 12)
+                        .addWidget(new LabelWidget(12, 40 + 4, "模板乘数：所有物品和流体乘以指定倍数"))
+
+                        .addWidget(new AETextInputButtonWidget(-60, 54 + 2, 60, 12)
                                 .setText(String.valueOf(Ae2PatternGeneratorDivScale))
                                 .setOnConfirm(this::setAe2PatternGeneratorDivScale)
                                 .setButtonTooltips(Component.literal("设置模板除数")))
-                        .addWidget(new AETextInputButtonWidget(120, 74 + 4, 72, 12)
+                        .addWidget(new LabelWidget(12, 54 + 4, "模板乘数：所有物品和流体除以指定倍数"))
+
+                        .addWidget(new AETextInputButtonWidget(-60, 68 + 2, 60, 12)
                                 .setText(String.valueOf(Ae2PatternGeneratorMaxItemStack))
                                 .setOnConfirm(this::setAe2PatternGeneratorMaxItemStack)
                                 .setButtonTooltips(Component.literal("设置乘法后最大物品/个")))
-                        .addWidget(new AETextInputButtonWidget(120, 88 + 4, 72, 12)
+                        .addWidget(new LabelWidget(12, 68 + 4, "最大物品数：所有物品不会超过此数量"))
+
+                        .addWidget(new AETextInputButtonWidget(-60, 82 + 2, 60, 12)
                                 .setText(String.valueOf(Ae2PatternGeneratorMaxFluidStack))
                                 .setOnConfirm(this::setAe2PatternGeneratorMaxFluidStack)
                                 .setButtonTooltips(Component.literal("设置乘法后最大流体/桶")))
-                        .addWidget(new AETextInputButtonWidget(120, 102 + 4, 72, 12)
+                        .addWidget(new LabelWidget(12, 82 + 4, "最大流体数：所有流体不会超过此桶数"))
+
+                        .addWidget(new AETextInputButtonWidget(-60, 96 + 2, 60, 12)
                                 .setText(String.valueOf(Ae2PatternGeneratorAppliedNumber))
                                 .setOnConfirm(this::setAe2PatternGeneratorAppliedNumber)
-                                .setButtonTooltips(Component.literal("一次使用的应用次数(<=16)"))))
-                .background(GuiTextures.BACKGROUND);
+                                .setButtonTooltips(Component.literal("一次使用的应用次数(<=16)")))
+                        .addWidget(new LabelWidget(12, 96 + 4, "应用次数为：循环上述操作次数"))
+        ).background(GuiTextures.BACKGROUND);
     }
 
     private void setAe2PatternGeneratorAppliedNumber(String s) {
