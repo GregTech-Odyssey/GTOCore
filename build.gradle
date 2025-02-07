@@ -27,6 +27,7 @@ generateModMetadata.doFirst {
 
 tasks.withType(JavaCompile).configureEach {
     options.encoding = "UTF-8"
+    options.compilerArgs << "-Xlint:-deprecation" << "-Xlint:-removal" // 忽略删除和过时，真删了报错再说吧
 }
 
 lombok {
