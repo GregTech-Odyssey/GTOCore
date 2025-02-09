@@ -58,28 +58,28 @@ public final class ForgeCommonEvent {
     public static void onFoodConsume(LivingEntityUseItemEvent event) {
         if (GTOConfig.INSTANCE.enableAnimalsAreAfraidToEatTheirMeat) {
             if (event.getEntity() instanceof Player player && Objects.equals(20, event.getDuration()) && !player.level().isClientSide()) {
-                hurtAnimalsNearPlayer(player, Items.BEEF, Cow.class, event);
-                hurtAnimalsNearPlayer(player, Items.COOKED_BEEF, Cow.class, event);
+                int distacne = GTOConfig.INSTANCE.enableAnimalsAreAfraidToEatTheirMeatRange;
+                hurtAnimalsNearPlayer(player, Items.BEEF, Cow.class, event,distacne);
+                hurtAnimalsNearPlayer(player, Items.COOKED_BEEF, Cow.class, event,distacne);
 
-                hurtAnimalsNearPlayer(player, Items.CHICKEN, Chicken.class, event);
-                hurtAnimalsNearPlayer(player, Items.COOKED_CHICKEN, Chicken.class, event);
+                hurtAnimalsNearPlayer(player, Items.CHICKEN, Chicken.class, event,distacne);
+                hurtAnimalsNearPlayer(player, Items.COOKED_CHICKEN, Chicken.class, event,distacne);
 
-                hurtAnimalsNearPlayer(player, Items.PORKCHOP, Pig.class, event);
-                hurtAnimalsNearPlayer(player, Items.COOKED_PORKCHOP, Pig.class, event);
+                hurtAnimalsNearPlayer(player, Items.PORKCHOP, Pig.class, event,distacne);
+                hurtAnimalsNearPlayer(player, Items.COOKED_PORKCHOP, Pig.class, event,distacne);
 
-                hurtAnimalsNearPlayer(player, Items.MUTTON, Sheep.class, event);
-                hurtAnimalsNearPlayer(player, Items.COOKED_MUTTON, Sheep.class, event);
+                hurtAnimalsNearPlayer(player, Items.MUTTON, Sheep.class, event,distacne);
+                hurtAnimalsNearPlayer(player, Items.COOKED_MUTTON, Sheep.class, event,distacne);
             }
         }
     }
 
-    private static <T extends Animal> void hurtAnimalsNearPlayer(Player player, Item foodItem, Class<T> animalClass, LivingEntityUseItemEvent event) {
+    private static <T extends Animal> void hurtAnimalsNearPlayer(Player player, Item foodItem, Class<T> animalClass, LivingEntityUseItemEvent event,float distance) {
         if (event.getItem().is(foodItem)) {
             Level level = player.level();
-            List<T> animalEntities = level.getEntitiesOfClass(animalClass, player.getBoundingBox().inflate(GTOConfig.INSTANCE.enableAnimalsAreAfraidToEatTheirMeatRange));
+            List<T> animalEntities = level.getEntitiesOfClass(animalClass, player.getBoundingBox().inflate(distance));
             for (T animal : animalEntities) {
                 animal.hurt(player.damageSources().playerAttack(player), Math.max(animal.getMaxHealth() / 20, 0.5F));
-                animal.level().addParticle(ParticleTypes.ANGRY_VILLAGER, animal.getX(), animal.getY() + 0.5F, animal.getZ(), 0.1, 0.1, 0.1);
             }
         }
     }
