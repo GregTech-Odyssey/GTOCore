@@ -66,6 +66,6 @@ public interface IManaMachine extends ManaCollector, IMachineLife {
 
     @Override
     default void receiveMana(int mana) {
-        getManaContainer().addMana(mana);
+        getManaContainer().addMana(mana, 1);
     }
 }

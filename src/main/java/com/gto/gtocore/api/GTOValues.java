@@ -35,15 +35,17 @@ public final class GTOValues {
     public static final String MACHINE_CASING_TIER = "mc";
     public static final String GRAVITON_FLOW_TIER = "gf";
 
-    public static final String[] MANA = new String[] {
+    public static final int[] MANA = new int[] { 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384, 32768, 65536, 131072, 262144, 524288, 1048576, 2097152 };
+
+    public static final String[] MANAN = new String[] {
             "Primitive",
             "Basic",
             "Intermediate",
             "Advanced",
             "Expert",
             "Elite",
-            "Master",
             "Champion",
+            "Master",
             "Ultimate",
             "Supreme",
             "Epic",
@@ -58,8 +60,8 @@ public final class GTOValues {
             "高级",
             "专家",
             "精英",
-            "大师",
             "冠军",
+            "大师",
             "终极",
             "至高",
             "史诗",

@@ -10,22 +10,22 @@ public interface IManaMultiblock {
 
     boolean isGeneratorMana();
 
-    default int addMana(int amount) {
+    default int addMana(int amount, int limit) {
         int change = 0;
         for (IManaContainer container : getManaContainer()) {
             if (amount <= 0) return change;
-            int mana = container.addMana(amount);
+            int mana = container.addMana(amount, limit);
             change += mana;
             amount -= mana;
         }
         return change;
     }
 
-    default int removeMana(int amount) {
+    default int removeMana(int amount, int limit) {
         int change = 0;
         for (IManaContainer container : getManaContainer()) {
             if (amount <= 0) return change;
-            int mana = container.removeMana(amount);
+            int mana = container.removeMana(amount, limit);
             change += mana;
             amount -= mana;
         }

@@ -47,19 +47,17 @@ public interface IManaContainer {
 
     void setCurrentMana(int mana);
 
-    default int getMaxConsumption() {
-        return getMaxMana();
-    }
+    int getMaxConsumption();
 
-    default int addMana(int amount) {
-        int change = Math.min(getMaxMana() - getCurrentMana(), Math.min(getMaxConsumption(), amount));
+    default int addMana(int amount, int limit) {
+        int change = Math.min(getMaxMana() - getCurrentMana(), Math.min(limit * getMaxConsumption(), amount));
         if (change <= 0) return 0;
         setCurrentMana(getCurrentMana() + change);
         return change;
     }
 
-    default int removeMana(int amount) {
-        int change = Math.min(getCurrentMana(), Math.min(getMaxConsumption(), amount));
+    default int removeMana(int amount, int limit) {
+        int change = Math.min(getCurrentMana(), Math.min(limit * getMaxConsumption(), amount));
         if (change <= 0) return 0;
         setCurrentMana(getCurrentMana() - change);
         return change;

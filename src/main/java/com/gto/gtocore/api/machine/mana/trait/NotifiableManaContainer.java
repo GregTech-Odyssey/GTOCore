@@ -49,6 +49,7 @@ public class NotifiableManaContainer extends NotifiableRecipeHandlerTrait<Intege
     private final IO handlerIO;
 
     private final int max;
+    @Getter
     private final int maxConsumption;
 
     public NotifiableManaContainer(MetaMachine machine, IO io, int max, int maxConsumption) {
@@ -79,7 +80,7 @@ public class NotifiableManaContainer extends NotifiableRecipeHandlerTrait<Intege
             if (distributor == null) return;
             int mana = max - manaStored;
             if (mana <= 0) return;
-            manaStored = manaStored + distributor.removeMana(mana);
+            manaStored = manaStored + distributor.removeMana(mana, 20);
         }
     }
 

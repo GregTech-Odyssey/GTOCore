@@ -1,5 +1,6 @@
-package com.gto.gtocore.common.machine.mana;
+package com.gto.gtocore.common.machine.mana.part;
 
+import com.gto.gtocore.api.GTOValues;
 import com.gto.gtocore.api.machine.mana.feature.IManaMachine;
 import com.gto.gtocore.api.machine.mana.trait.NotifiableManaContainer;
 import com.gto.gtocore.common.machine.mana.multiblock.ManaDistributorMachine;
@@ -26,12 +27,12 @@ import vazkii.botania.api.mana.ManaReceiver;
 import vazkii.botania.xplat.XplatAbstractions;
 
 @Getter
-public final class ManaHatchPartMachine extends TieredIOPartMachine implements IManaMachine {
+public class ManaHatchPartMachine extends TieredIOPartMachine implements IManaMachine {
 
     private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
             ManaHatchPartMachine.class, TieredIOPartMachine.MANAGED_FIELD_HOLDER);
 
-    private TickableSubscription tickSubs;
+    protected TickableSubscription tickSubs;
 
     @Persisted
     private final NotifiableManaContainer manaContainer;
@@ -39,7 +40,7 @@ public final class ManaHatchPartMachine extends TieredIOPartMachine implements I
     public ManaHatchPartMachine(IMachineBlockEntity holder, int tier, IO io, int rate) {
         super(holder, tier, io);
         manaContainer = createManaContainer(rate);
-        manaContainer.setAcceptDistributor(true);
+        manaContainer.setAcceptDistributor(io == IO.IN);
     }
 
     @Override
@@ -48,10 +49,10 @@ public final class ManaHatchPartMachine extends TieredIOPartMachine implements I
     }
 
     private NotifiableManaContainer createManaContainer(int rate) {
-        int tierMana = tier * tier * 100 * rate;
+        int tierMana = GTOValues.MANA[tier] * rate;
         if (io == IO.OUT) {
             return new NotifiableManaContainer(this, IO.OUT, 64 * tierMana, tierMana);
-        } else return new NotifiableManaContainer(this, IO.IN, 64 * tierMana, tierMana);
+        } else return new NotifiableManaContainer(this, IO.IN, 16 * tierMana, tierMana);
     }
 
     @Override
@@ -79,7 +80,7 @@ public final class ManaHatchPartMachine extends TieredIOPartMachine implements I
         }
     }
 
-    private void tickUpdate() {
+    protected void tickUpdate() {
         if (getOffsetTimer() % 20 != 0) return;
         ManaReceiver receiver = XplatAbstractions.INSTANCE.findManaReceiver(getLevel(), getPos().relative(getFrontFacing()), null);
         if (receiver != null && !receiver.isFull()) {
@@ -89,7 +90,7 @@ public final class ManaHatchPartMachine extends TieredIOPartMachine implements I
             } else if (receiver instanceof ManaPool pool) {
                 mana = Math.min(mana, pool.getMaxMana() - pool.getCurrentMana());
             }
-            int change = manaContainer.removeMana(mana);
+            int change = manaContainer.removeMana(mana, 20);
             if (change > 0) {
                 receiver.receiveMana(change);
             }

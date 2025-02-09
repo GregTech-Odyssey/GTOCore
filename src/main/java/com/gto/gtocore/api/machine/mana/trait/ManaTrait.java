@@ -4,7 +4,7 @@ import com.gto.gtocore.api.capability.IManaContainer;
 import com.gto.gtocore.api.capability.recipe.ManaRecipeCapability;
 import com.gto.gtocore.api.machine.mana.feature.IManaMultiblock;
 import com.gto.gtocore.api.machine.trait.MultiblockTrait;
-import com.gto.gtocore.common.machine.mana.ManaHatchPartMachine;
+import com.gto.gtocore.common.machine.mana.part.ManaHatchPartMachine;
 
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.capability.recipe.IRecipeHandler;
