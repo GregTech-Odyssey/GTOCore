@@ -1,6 +1,6 @@
 package com.gto.gtocore.api.blockentity;
 
-import com.gto.gtocore.api.machine.mana.IManaMachine;
+import com.gto.gtocore.api.machine.mana.feature.IManaMachine;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 

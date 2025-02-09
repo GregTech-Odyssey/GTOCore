@@ -7,7 +7,7 @@ import com.gto.gtocore.api.machine.multiblock.*;
 import com.gto.gtocore.api.machine.part.GTOPartAbility;
 import com.gto.gtocore.api.pattern.GTOPredicates;
 import com.gto.gtocore.common.data.*;
-import com.gto.gtocore.common.machine.mana.ElectricManaMultiblockMachine;
+import com.gto.gtocore.common.machine.mana.multiblock.ElectricManaMultiblockMachine;
 import com.gto.gtocore.common.machine.multiblock.electric.FishingGroundMachine;
 import com.gto.gtocore.common.machine.multiblock.electric.VoidFluidDrillingRigMachine;
 import com.gto.gtocore.common.machine.multiblock.electric.VoidMinerMachine;

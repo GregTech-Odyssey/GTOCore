@@ -1,6 +1,8 @@
 package com.gto.gtocore.common.machine.multiblock.noenergy;
 
+import com.gto.gtocore.api.machine.feature.IExtendWirelessEnergyContainerHolder;
 import com.gto.gtocore.api.machine.multiblock.NoEnergyMultiblockMachine;
+import com.gto.gtocore.common.wireless.ExtendWirelessEnergyContainer;
 import com.gto.gtocore.utils.MachineUtils;
 
 import com.gregtechceu.gtceu.api.machine.ConditionalSubscriptionHandler;
@@ -17,7 +19,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.phys.BlockHitResult;
 
-import com.hepdd.gtmthings.api.machine.IWirelessEnergyContainerHolder;
 import com.hepdd.gtmthings.api.misc.WirelessEnergyContainer;
 import com.hepdd.gtmthings.utils.TeamUtil;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
@@ -33,7 +34,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public final class HarmonyMachine extends NoEnergyMultiblockMachine implements IWirelessEnergyContainerHolder {
+public final class HarmonyMachine extends NoEnergyMultiblockMachine implements IExtendWirelessEnergyContainerHolder {
 
     private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
             HarmonyMachine.class, WorkableMultiblockMachine.MANAGED_FIELD_HOLDER);
@@ -102,7 +103,8 @@ public final class HarmonyMachine extends NoEnergyMultiblockMachine implements I
         if (userid != null && hydrogen >= 1024000000 && helium >= 1024000000 && oc > 0) {
             hydrogen -= 1024000000;
             helium -= 1024000000;
-            if (getWirelessEnergyContainer().removeEnergy(getStartupEnergy(), this) == -getStartupEnergy()) {
+            ExtendWirelessEnergyContainer container = getWirelessEnergyContainer();
+            if (container != null && container.removeEnergy(getStartupEnergy(), this) == -getStartupEnergy()) {
                 recipe.duration = 4800 / (1 << (oc));
                 return recipe;
             }
@@ -122,10 +124,11 @@ public final class HarmonyMachine extends NoEnergyMultiblockMachine implements I
     protected void customText(List<Component> textList) {
         super.customText(textList);
         if (userid != null) {
+            ExtendWirelessEnergyContainer container = getWirelessEnergyContainer();
             textList.add(Component.translatable("gtmthings.machine.wireless_energy_monitor.tooltip.0",
                     TeamUtil.GetName(getLevel(), userid)));
-            textList.add(Component.translatable("gtmthings.machine.wireless_energy_monitor.tooltip.1",
-                    FormattingUtil.formatNumbers(getWirelessEnergyContainer().getStorage())));
+            if (container != null) textList.add(Component.translatable("gtmthings.machine.wireless_energy_monitor.tooltip.1",
+                    FormattingUtil.formatNumbers(container.getStorage())));
         }
         textList.add(Component.translatable("gtocore.machine.eye_of_harmony.eu", FormattingUtil.formatNumbers(getStartupEnergy())));
         textList.add(Component.translatable("gtocore.machine.eye_of_harmony.hydrogen", FormattingUtil.formatNumbers(hydrogen)));

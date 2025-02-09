@@ -5,6 +5,7 @@ import com.gto.gtocore.common.data.GTOItems;
 import com.gto.gtocore.data.lang.LangHandler;
 import com.gto.gtocore.utils.StringUtils;
 
+import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTItems;
 
 import net.minecraft.client.resources.language.I18n;
@@ -20,6 +21,7 @@ import java.util.function.Supplier;
 
 public final class Tooltips {
 
+    public static final ImmutableMap<Item, String[]> TOOL_TIPS_KEY_MAP;
     public static final ImmutableMap<Item, LangHandler.ENCNS> TOOL_TIPS_MAP;
     public static final ImmutableMap<Item, Supplier<String>> FLICKER_TOOL_TIPS_MAP;
     public static final ImmutableSet<Item> suprachronalCircuitSet;
@@ -27,6 +29,10 @@ public final class Tooltips {
     public static final ImmutableSet<Item> universalCircuitSet;
 
     static {
+        ImmutableMap.Builder<Item, String[]> toolTipsKey = ImmutableMap.builder();
+        toolTipsKey.put(GTBlocks.CASING_TEMPERED_GLASS.asItem(), new String[] { "tooltip.avaritia.tier", String.valueOf(2) });
+        TOOL_TIPS_KEY_MAP = toolTipsKey.build();
+
         ImmutableSet.Builder<Item> suprachronalCircuitBuilder = ImmutableSet.builder();
         suprachronalCircuitBuilder.addAll(Arrays.stream(GTOItems.SUPRACHRONAL_CIRCUIT).map(RegistryEntry::get).toList());
         suprachronalCircuitSet = suprachronalCircuitBuilder.build();

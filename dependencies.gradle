@@ -32,7 +32,7 @@ dependencies {
 
     modImplementation("top.theillusivec4.curios:curios-forge:${project.curiosVersion}+${project.minecraft_version}")
 
-    modImplementation("vazkii.botania:Botania:${project.minecraft_version}-446-FORGE")
+    modImplementation("vazkii.botania:Botania:${project.minecraft_version}-447-FORGE")
 
     modRuntimeOnly("vazkii.patchouli:Patchouli:${project.minecraft_version}-84-FORGE")
 
@@ -50,8 +50,6 @@ dependencies {
     modImplementation("curse.maven:deeperdarker-659011:5906086")
 
     modImplementation("curse.maven:modernfix-790626:6025611")
-
-    modImplementation("curse.maven:gtmthings-1104310:6167532")
 
     modImplementation("curse.maven:Re-Avaritia-623969:6130139")
 
@@ -78,6 +76,10 @@ dependencies {
     // modImplementation("com.gregtechceu.gtceu:gtceu-$project.minecraft_version:$project.gtceu_version") { transitive = false }
 
     modImplementation("dev:gtceu-$project.minecraft_version:$project.gtceu_version")
+
+  //  modImplementation("curse.maven:gtmthings-1104310:6167532")
+
+    modImplementation("dev:gtmthings-1.4.0.a")
 
     modRuntimeOnly("dev:jecharacters:1.20.1-forge-4.5.11-dev-shadow")
 }

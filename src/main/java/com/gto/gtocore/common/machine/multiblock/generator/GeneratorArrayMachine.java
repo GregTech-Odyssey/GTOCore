@@ -1,8 +1,10 @@
 package com.gto.gtocore.common.machine.multiblock.generator;
 
 import com.gto.gtocore.api.machine.feature.IArrayMachine;
+import com.gto.gtocore.api.machine.feature.IExtendWirelessEnergyContainerHolder;
 import com.gto.gtocore.api.machine.multiblock.StorageMultiblockMachine;
 import com.gto.gtocore.common.data.GTORecipeTypes;
+import com.gto.gtocore.common.wireless.ExtendWirelessEnergyContainer;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.recipe.EURecipeCapability;
@@ -28,7 +30,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.BlockHitResult;
 
-import com.hepdd.gtmthings.api.machine.IWirelessEnergyContainerHolder;
 import com.hepdd.gtmthings.api.misc.WirelessEnergyContainer;
 import com.lowdragmc.lowdraglib.gui.util.ClickData;
 import com.lowdragmc.lowdraglib.gui.widget.ComponentPanelWidget;
@@ -47,7 +48,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public final class GeneratorArrayMachine extends StorageMultiblockMachine implements IArrayMachine, IWirelessEnergyContainerHolder {
+public final class GeneratorArrayMachine extends StorageMultiblockMachine implements IArrayMachine, IExtendWirelessEnergyContainerHolder {
 
     private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
             GeneratorArrayMachine.class, StorageMultiblockMachine.MANAGED_FIELD_HOLDER);
@@ -148,7 +149,8 @@ public final class GeneratorArrayMachine extends StorageMultiblockMachine implem
         if (!super.onWorking()) return false;
         if (isw) {
             if (eut > 0) {
-                getWirelessEnergyContainer().addEnergy(eut, this);
+                ExtendWirelessEnergyContainer container = getWirelessEnergyContainer();
+                if (container != null) container.addEnergy(eut, this);
             } else {
                 return false;
             }

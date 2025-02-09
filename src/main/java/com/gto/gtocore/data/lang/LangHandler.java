@@ -84,6 +84,8 @@ public final class LangHandler {
         addENCN("gtocore.me_any", "ME hatch allows connection from any side.", "ME仓允许任意面连接");
         addENCN("gtocore.me_front", "ME hatch only allows connection from the front side.", "ME仓只允许正面连接");
 
+        addENCN("config.gtocore.option.enableAnimalsAreAfraidToEatTheirMeat", "Enable Animals Are Afraid To Eat Their Meat", "启用动物害怕他们的肉被吃");
+        addENCN("config.gtocore.option.enableAnimalsAreAfraidToEatTheirMeatRange", "Enable Animals Are Afraid To Eat Their Meat Range", "启用动物害怕他们的肉被吃的范围");
         addENCN("config.gtocore.option.selfRestraint", "Self Restraint Mode", "自我约束模式");
         addENCN("config.gtocore.option.eioFluidRate", "EIO Fluid Pipe Rate Multiplier", "EIO流体管道速率倍数");
         addENCN("config.gtocore.option.enablePrimitiveVoidOre", "Enable Primitive Void Ore Machine", "启用原始虚空矿机");

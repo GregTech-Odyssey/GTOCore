@@ -1,7 +1,7 @@
 package com.gto.gtocore.integration.jade.provider;
 
 import com.gto.gtocore.api.machine.feature.IInfinityEnergyMachine;
-import com.gto.gtocore.api.machine.mana.IManaEnergyMachine;
+import com.gto.gtocore.api.machine.mana.feature.IManaEnergyMachine;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTValues;

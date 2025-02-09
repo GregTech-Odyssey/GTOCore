@@ -1,11 +1,10 @@
 package com.gto.gtocore.mixin.gtm.machine;
 
-import com.gto.gtocore.api.machine.trait.InaccessibleInfiniteTank;
-
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableFluidTank;
 import com.gregtechceu.gtceu.integration.ae2.machine.MEOutputHatchPartMachine;
 import com.gregtechceu.gtceu.integration.ae2.utils.KeyStorage;
 
+import com.hepdd.gtmthings.api.machine.trait.InaccessibleInfiniteTank;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;

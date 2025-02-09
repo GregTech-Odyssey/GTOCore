@@ -10,6 +10,7 @@ import com.gto.gtocore.api.pattern.GTOPredicates;
 import com.gto.gtocore.api.registries.MultiblockBuilder;
 import com.gto.gtocore.client.renderer.machine.BallHatchRenderer;
 import com.gto.gtocore.client.renderer.machine.WindMillTurbineRenderer;
+import com.gto.gtocore.common.block.BlockMap;
 import com.gto.gtocore.common.data.machines.*;
 import com.gto.gtocore.common.machine.electric.VacuumPumpMachine;
 import com.gto.gtocore.common.machine.generator.LightningRodMachine;
@@ -60,7 +61,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 
 import com.hepdd.gtmthings.GTMThings;
-import com.hepdd.gtmthings.common.block.machine.multiblock.part.WirelessEnergyHatchPartMachine;
+import com.hepdd.gtmthings.data.CreativeMachines;
+import com.hepdd.gtmthings.data.CreativeModeTabs;
+import com.hepdd.gtmthings.data.CustomMachines;
 import com.hepdd.gtmthings.data.WirelessMachines;
 import com.lowdragmc.lowdraglib.side.fluid.FluidHelper;
 import it.unimi.dsi.fastutil.Pair;
@@ -95,6 +98,11 @@ public final class GTOMachines {
     }
 
     public static void init() {
+        BlockMap.init();
+        CreativeModeTabs.init();
+        CreativeMachines.init();
+        WirelessMachines.init();
+        CustomMachines.init();
         ManaMachine.init();
         GeneratorMultiblockMachine.init();
         MultiBlockMachineA.init();
@@ -266,12 +274,36 @@ public final class GTOMachines {
                 tiersBetween(LV, OpV));
     }
 
+    private static MachineDefinition[] registerWirelessEnergyHatch(IO io, int amperage, PartAbility ability) {
+        String id = io == IO.IN ? "input" : "output";
+        String render = "wireless_energy_hatch";
+        render = switch (amperage) {
+            case 2 -> render;
+            case 4 -> render + "_4a";
+            case 16 -> render + "_16a";
+            case 64 -> render + "_64a";
+            default -> "wireless_laser_hatch.target";
+        };
+        String finalRender = render;
+        int t = LV;
+        if (amperage == 64) t = EV;
+        else if (amperage > 64) t = IV;
+        return registerTieredMachines(amperage + "a_wireless_" + id + "_hatch", tier -> amperage + (amperage > 64 ? "§e安§r" : "安") + GTOValues.VNFR[tier] + "无线" + (io == IO.IN ? "能源" : "动力") + "仓",
+                (holder, tier) -> new WirelessEnergyHatchPartMachine(holder, tier, io, amperage), (tier, builder) -> builder
+                        .langValue(VNF[tier] + " " + FormattingUtil.formatNumbers(amperage) + "A Wireless" + (io == IO.IN ? "Energy" : "Dynamo") + " Hatch")
+                        .rotationState(RotationState.ALL)
+                        .abilities(ability)
+                        .tooltips(Component.translatable("gtmthings.machine.energy_hatch." + id + ".tooltip"), (Component.translatable("gtmthings.machine.wireless_energy_hatch." + id + ".tooltip")))
+                        .renderer(() -> new OverlayTieredMachineRenderer(tier, GTMThings.id("block/machine/part/" + finalRender)))
+                        .register(),
+                tiersBetween(t, MAX));
+    }
+
     private static MachineDefinition[] registerLaserHatch(IO io, int amperage, PartAbility ability) {
         String name = io == IO.IN ? "target" : "source";
         return registerTieredMachines(amperage + "a_laser_" + name + "_hatch", tier -> amperage + "§e安§r" + GTOValues.VNFR[tier] + "激光" + (io == IO.IN ? "靶" : "源") + "仓",
                 (holder, tier) -> new LaserHatchPartMachine(holder, io, tier, amperage), (tier, builder) -> builder
-                        .langValue(VNF[tier] + " " + FormattingUtil.formatNumbers(amperage) + "A Laser " +
-                                FormattingUtil.toEnglishName(name) + " Hatch")
+                        .langValue(VNF[tier] + " " + FormattingUtil.formatNumbers(amperage) + "A Laser " + FormattingUtil.toEnglishName(name) + " Hatch")
                         .rotationState(RotationState.ALL)
                         .tooltips(Component.translatable("gtceu.machine.laser_hatch." + name + ".tooltip"),
                                 Component.translatable("gtceu.machine.laser_hatch.both.tooltip"),
@@ -385,34 +417,6 @@ public final class GTOMachines {
             definitions[tier] = builder.apply(tier, register);
         }
         return definitions;
-    }
-
-    private static MachineDefinition[] registerWirelessEnergyHatch(IO io, PartAbility ability, int[] tiers) {
-        var name = io == IO.IN ? "input" : "output";
-        return registerTieredMachines(64 + "a_wireless_energy_" + name + "_hatch", tier -> "安" + GTOValues.VNFR[tier] + "无线" + (io == IO.IN ? "能源" : "动力") + "仓",
-                (holder, tier) -> new WirelessEnergyHatchPartMachine(holder, tier, io, 64),
-                (tier, builder) -> builder
-                        .langValue(VNF[tier] + " " + 64 + "A Wireless" + (io == IO.IN ? " Energy Hatch" : " Dynamo Hatch"))
-                        .rotationState(RotationState.ALL)
-                        .abilities(ability)
-                        .tooltips(Component.translatable("gtmthings.machine.energy_hatch." + name + ".tooltip"), (Component.translatable("gtmthings.machine.wireless_energy_hatch." + name + ".tooltip")))
-                        .renderer(() -> new OverlayTieredMachineRenderer(tier, GTMThings.id("block/machine/part/wireless_energy_hatch_64a")))
-                        .register(),
-                tiers);
-    }
-
-    private static MachineDefinition[] registerWirelessLaserHatch(IO io, int amperage, PartAbility ability) {
-        var name = io == IO.IN ? "target" : "source";
-        return registerTieredMachines(amperage + "a_wireless_laser_" + name + "_hatch", tier -> amperage + "安" + GTOValues.VNFR[tier] + "无线激光" + (io == IO.IN ? "靶" : "源") + "仓",
-                (holder, tier) -> new WirelessEnergyHatchPartMachine(holder, tier, io, amperage),
-                (tier, builder) -> builder
-                        .langValue(VNF[tier] + " " + FormattingUtil.formatNumbers(amperage) + "A Laser " + FormattingUtil.toEnglishName(name) + " Hatch")
-                        .rotationState(RotationState.ALL)
-                        .abilities(ability)
-                        .tooltips(Component.translatable("gtmthings.machine.energy_hatch." + name + ".tooltip"), (Component.translatable("gtmthings.machine.wireless_energy_hatch." + name + ".tooltip")))
-                        .renderer(() -> new OverlayTieredMachineRenderer(tier, GTMThings.id("block/machine/part/wireless_laser_hatch.target")))
-                        .register(),
-                WirelessMachines.WIRELL_ENERGY_HIGH_TIERS);
     }
 
     private static Pair<MachineDefinition, MachineDefinition> registerSteamMachines(String name, String cn,
@@ -574,6 +578,55 @@ public final class GTOMachines {
 
     public final static MachineDefinition[] HUGE_FLUID_EXPORT_HATCH = registerHugeFluidHatches("huge_output_hatch", "Huge Output Hatch", "巨型输出仓", "fluid_hatch.export", "fluid_hatch.export", IO.OUT, PartAbility.EXPORT_FLUIDS);
 
+    public static final MachineDefinition[] WIRELESS_INPUT_HATCH_2 = registerWirelessEnergyHatch(IO.IN, 2,
+            PartAbility.INPUT_ENERGY);
+    public static final MachineDefinition[] WIRELESS_OUTPUT_HATCH_2 = registerWirelessEnergyHatch(IO.OUT, 2,
+            PartAbility.OUTPUT_ENERGY);
+    public static final MachineDefinition[] WIRELESS_INPUT_HATCH_4 = registerWirelessEnergyHatch(IO.IN, 4,
+            PartAbility.INPUT_ENERGY);
+    public static final MachineDefinition[] WIRELESS_OUTPUT_HATCH_4 = registerWirelessEnergyHatch(IO.OUT, 4,
+            PartAbility.OUTPUT_ENERGY);
+    public static final MachineDefinition[] WIRELESS_INPUT_HATCH_16 = registerWirelessEnergyHatch(IO.IN, 16,
+            PartAbility.INPUT_ENERGY);
+    public static final MachineDefinition[] WIRELESS_OUTPUT_HATCH_16 = registerWirelessEnergyHatch(IO.OUT, 16,
+            PartAbility.OUTPUT_ENERGY);
+    public static final MachineDefinition[] WIRELESS_INPUT_HATCH_64 = registerWirelessEnergyHatch(IO.IN, 64,
+            PartAbility.INPUT_ENERGY);
+    public static final MachineDefinition[] WIRELESS_OUTPUT_HATCH_64 = registerWirelessEnergyHatch(IO.OUT, 64,
+            PartAbility.OUTPUT_ENERGY);
+    public static final MachineDefinition[] WIRELESS_INPUT_HATCH_256 = registerWirelessEnergyHatch(IO.IN, 256,
+            PartAbility.INPUT_LASER);
+    public static final MachineDefinition[] WIRELESS_OUTPUT_HATCH_256 = registerWirelessEnergyHatch(IO.OUT, 256,
+            PartAbility.OUTPUT_LASER);
+    public static final MachineDefinition[] WIRELESS_INPUT_HATCH_1024 = registerWirelessEnergyHatch(IO.IN, 1024,
+            PartAbility.INPUT_LASER);
+    public static final MachineDefinition[] WIRELESS_OUTPUT_HATCH_1024 = registerWirelessEnergyHatch(IO.OUT, 1024,
+            PartAbility.OUTPUT_LASER);
+    public static final MachineDefinition[] WIRELESS_INPUT_HATCH_4096 = registerWirelessEnergyHatch(IO.IN, 4096,
+            PartAbility.INPUT_LASER);
+    public static final MachineDefinition[] WIRELESS_OUTPUT_HATCH_4096 = registerWirelessEnergyHatch(IO.OUT, 4096,
+            PartAbility.OUTPUT_LASER);
+    public static final MachineDefinition[] WIRELESS_INPUT_HATCH_16384 = registerWirelessEnergyHatch(IO.IN, 16384,
+            PartAbility.INPUT_LASER);
+    public static final MachineDefinition[] WIRELESS_OUTPUT_HATCH_16384 = registerWirelessEnergyHatch(IO.OUT, 16384,
+            PartAbility.OUTPUT_LASER);
+    public static final MachineDefinition[] WIRELESS_INPUT_HATCH_65536 = registerWirelessEnergyHatch(IO.IN, 65536,
+            PartAbility.INPUT_LASER);
+    public static final MachineDefinition[] WIRELESS_OUTPUT_HATCH_65536 = registerWirelessEnergyHatch(IO.OUT, 65536,
+            PartAbility.OUTPUT_LASER);
+    public static final MachineDefinition[] WIRELESS_INPUT_HATCH_262144 = registerWirelessEnergyHatch(IO.IN, 262144,
+            PartAbility.INPUT_LASER);
+    public static final MachineDefinition[] WIRELESS_OUTPUT_HATCH_262144 = registerWirelessEnergyHatch(IO.OUT, 262144,
+            PartAbility.OUTPUT_LASER);
+    public static final MachineDefinition[] WIRELESS_INPUT_HATCH_1048576 = registerWirelessEnergyHatch(IO.IN, 1048576,
+            PartAbility.INPUT_LASER);
+    public static final MachineDefinition[] WIRELESS_OUTPUT_HATCH_1048576 = registerWirelessEnergyHatch(IO.OUT, 1048576,
+            PartAbility.OUTPUT_LASER);
+    public static final MachineDefinition[] WIRELESS_INPUT_HATCH_4194304 = registerWirelessEnergyHatch(IO.IN, 4194304,
+            PartAbility.INPUT_LASER);
+    public static final MachineDefinition[] WIRELESS_OUTPUT_HATCH_4194304 = registerWirelessEnergyHatch(IO.OUT, 4194304,
+            PartAbility.OUTPUT_LASER);
+
     public static final MachineDefinition[] LASER_INPUT_HATCH_16384 = registerLaserHatch(IO.IN, 16384,
             PartAbility.INPUT_LASER);
     public static final MachineDefinition[] LASER_OUTPUT_HATCH_16384 = registerLaserHatch(IO.OUT, 16384,
@@ -594,16 +647,6 @@ public final class GTOMachines {
             PartAbility.INPUT_LASER);
     public static final MachineDefinition[] LASER_OUTPUT_HATCH_4194304 = registerLaserHatch(IO.OUT, 4194304,
             PartAbility.OUTPUT_LASER);
-
-    public static final MachineDefinition[] WIRELESS_ENERGY_INPUT_HATCH_64A = registerWirelessEnergyHatch(IO.IN, PartAbility.INPUT_ENERGY, tiersBetween(EV, MAX));
-    public static final MachineDefinition[] WIRELESS_ENERGY_OUTPUT_HATCH_64A = registerWirelessEnergyHatch(IO.OUT, PartAbility.OUTPUT_ENERGY, tiersBetween(EV, MAX));
-
-    public static final MachineDefinition[] WIRELESS_ENERGY_INPUT_HATCH_262144A = registerWirelessLaserHatch(IO.IN, 262144, PartAbility.INPUT_LASER);
-    public static final MachineDefinition[] WIRELESS_ENERGY_INPUT_HATCH_1048576A = registerWirelessLaserHatch(IO.IN, 1048576, PartAbility.INPUT_LASER);
-    public static final MachineDefinition[] WIRELESS_ENERGY_INPUT_HATCH_4194304A = registerWirelessLaserHatch(IO.IN, 4194304, PartAbility.INPUT_LASER);
-    public static final MachineDefinition[] WIRELESS_ENERGY_OUTPUT_HATCH_262144A = registerWirelessLaserHatch(IO.OUT, 262144, PartAbility.OUTPUT_LASER);
-    public static final MachineDefinition[] WIRELESS_ENERGY_OUTPUT_HATCH_1048576A = registerWirelessLaserHatch(IO.OUT, 1048576, PartAbility.OUTPUT_LASER);
-    public static final MachineDefinition[] WIRELESS_ENERGY_OUTPUT_HATCH_4194304A = registerWirelessLaserHatch(IO.OUT, 4194304, PartAbility.OUTPUT_LASER);
 
     public static final MachineDefinition[] NEUTRON_ACCELERATOR = registerTieredMachines("neutron_accelerator", tier -> VNF[tier] + "中子加速器",
             NeutronAcceleratorPartMachine::new,

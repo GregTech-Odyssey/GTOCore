@@ -18,6 +18,15 @@ public final class GTOValues {
     public static final String INFINITY_CELL_KEYS = "k";
     public static final String INFINITY_CELL_AMOUNTS = "a";
 
+    // Wireless Energy Data
+    public static final String WIRELESS_ENERGY_UUID = "u";
+    public static final String WIRELESS_ENERGY_STORAGE = "s";
+    public static final String WIRELESS_ENERGY_CAPACITY = "c";
+    public static final String WIRELESS_ENERGY_RATE = "r";
+    public static final String WIRELESS_ENERGY_LOSS = "l";
+    public static final String WIRELESS_ENERGY_DIMENSION = "d";
+    public static final String WIRELESS_ENERGY_POS = "p";
+
     // Tier Type
     public static final String STELLAR_CONTAINMENT_TIER = "sc";
     public static final String POWER_MODULE_TIER = "pm";

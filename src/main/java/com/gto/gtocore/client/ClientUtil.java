@@ -1,5 +1,7 @@
 package com.gto.gtocore.client;
 
+import com.gto.gtocore.client.forge.ForgeClientEvent;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.player.LocalPlayer;
@@ -9,6 +11,7 @@ import net.minecraft.client.renderer.block.ModelBlockRenderer;
 import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.inventory.InventoryMenu;
@@ -22,6 +25,13 @@ import com.mojang.blaze3d.vertex.PoseStack;
 
 @OnlyIn(Dist.CLIENT)
 public final class ClientUtil {
+
+    public static void highlighting(BlockPos pos, int radius) {
+        if (pos == null) return;
+        ForgeClientEvent.highlightingTime = 200;
+        ForgeClientEvent.highlightingPos = pos;
+        ForgeClientEvent.highlightingRadius = radius;
+    }
 
     public static LocalPlayer getPlayer() {
         return Minecraft.getInstance().player;

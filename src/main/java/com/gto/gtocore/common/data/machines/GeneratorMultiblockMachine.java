@@ -90,6 +90,9 @@ public final class GeneratorMultiblockMachine {
     public final static MultiblockMachineDefinition MAGNETIC_FLUID_GENERATOR = multiblock("magnetic_fluid_generator", "磁流体发电机", ElectricMultiblockMachine::new)
             .allRotation()
             .recipe(GTRecipeTypes.PLASMA_GENERATOR_FUELS)
+            .tooltipsText("Actual output is determined by plasma heat value", "实际产出由等离子热值决定")
+            .tooltipsText("If a laser hatch is used, power generation is increased by x2^tier", "如果使用激光仓，则提升发电量x2^等级")
+            .customTooltipsBuilder(false, true, false)
             .generator()
             .recipeModifier((machine, r) -> recipe -> {
                 if (machine instanceof ElectricMultiblockMachine multiblockMachine) {
@@ -100,7 +103,7 @@ public final class GeneratorMultiblockMachine {
                             break;
                         }
                     }
-                    return GTORecipeModifiers.generatorOverclocking(multiblockMachine, GTORecipeModifiers.accurateParallel(machine, recipe, 1 << (tier + 1)));
+                    return GTORecipeModifiers.generatorOverclocking(multiblockMachine, GTORecipeModifiers.accurateParallel(machine, recipe, 1 << tier));
                 }
                 return recipe;
             })

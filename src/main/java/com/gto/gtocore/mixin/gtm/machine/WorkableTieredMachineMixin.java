@@ -1,6 +1,5 @@
 package com.gto.gtocore.mixin.gtm.machine;
 
-import com.gto.gtocore.common.data.GTOItems;
 import com.gto.gtocore.common.machine.multiblock.generator.GeneratorArrayMachine;
 
 import com.gregtechceu.gtceu.api.GTValues;
@@ -9,7 +8,6 @@ import com.gregtechceu.gtceu.api.machine.TieredEnergyMachine;
 import com.gregtechceu.gtceu.api.machine.WorkableTieredMachine;
 import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableEnergyContainer;
-import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -32,10 +30,5 @@ public abstract class WorkableTieredMachineMixin extends TieredEnergyMachine imp
                     tierVoltage * amperage * 64,
                     tierVoltage, amperage));
         }
-    }
-
-    @Inject(method = "createImportItemHandler", at = @At("RETURN"), remap = false, cancellable = true)
-    private void createImportItemHandler(Object[] args, CallbackInfoReturnable<NotifiableItemStackHandler> cir) {
-        cir.setReturnValue(cir.getReturnValue().setFilter(itemStack -> !itemStack.is(GTOItems.VIRTUAL_ITEM_PROVIDER.get())));
     }
 }

@@ -2,9 +2,9 @@ package com.gto.gtocore.common.machine.mana;
 
 import com.gto.gtocore.api.capability.IManaContainer;
 import com.gto.gtocore.api.machine.SimpleNoEnergyMachine;
-import com.gto.gtocore.api.machine.mana.IManaEnergyMachine;
-import com.gto.gtocore.api.machine.mana.IManaMachine;
-import com.gto.gtocore.api.machine.mana.NotifiableManaContainer;
+import com.gto.gtocore.api.machine.mana.feature.IManaEnergyMachine;
+import com.gto.gtocore.api.machine.mana.feature.IManaMachine;
+import com.gto.gtocore.api.machine.mana.trait.NotifiableManaContainer;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
@@ -34,11 +34,12 @@ public class SimpleManaMachine extends SimpleNoEnergyMachine implements IManaMac
         super(holder, tier, tankScalingFunction, args);
         int tierMana = tier * tier * 100;
         manaContainer = new NotifiableManaContainer(this, IO.IN, 64 * tierMana, tierMana);
+        manaContainer.setAcceptDistributor(true);
         IManaEnergyMachine.addProxy(capabilitiesProxy, GTValues.V[tier], manaContainer);
     }
 
     @Override
-    public IManaContainer getManaContainer() {
+    public @NotNull IManaContainer getManaContainer() {
         return manaContainer;
     }
 

@@ -5,6 +5,7 @@ import static com.gto.gtocore.data.lang.LangHandler.addENCN;
 final class MachineLang {
 
     static void init() {
+        addENCN("gtocore.machine.energy_loss", "Energy loss: %s", "能量损失：%s");
         addENCN("gtocore.machine.highlight_module", "Highlight module position.", "高亮显示模块位置");
         addENCN("gtocore.machine.structure_check", "Update structure check.", "更新结构检查");
         addENCN("gtocore.machine.overclock_configurator", "Adjust the minimum time for machine overclocking.", "调整机器超频的最小时间");
@@ -103,5 +104,7 @@ final class MachineLang {
         addENCN("gtocore.machine.mana_consumption", "Max Mana IO Rate: %s", "最大魔力IO速率：%s");
         addENCN("gtocore.machine.processing_array.tooltip.0", "Tier is limited by glass grade", "玻璃等级限制了内部机器等级");
         addENCN("gtocore.machine.processing_array.tooltip.1", "Parallel are determined by the number of internal machines", "并行数由内部机器数量决定");
+        addENCN("gtocore.machine.maximum_amount", "Maximum amount: %s", "最大数量：%s");
+        addENCN("gtocore.machine.binding_amount", "Binding amount: %s", "绑定数量：%s");
     }
 }

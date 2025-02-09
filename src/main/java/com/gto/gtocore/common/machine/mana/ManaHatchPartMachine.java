@@ -1,12 +1,14 @@
 package com.gto.gtocore.common.machine.mana;
 
-import com.gto.gtocore.api.machine.mana.IManaMachine;
-import com.gto.gtocore.api.machine.mana.NotifiableManaContainer;
+import com.gto.gtocore.api.machine.mana.feature.IManaMachine;
+import com.gto.gtocore.api.machine.mana.trait.NotifiableManaContainer;
+import com.gto.gtocore.common.machine.mana.multiblock.ManaDistributorMachine;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
+import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.TieredIOPartMachine;
 
 import net.minecraft.world.InteractionHand;
@@ -32,11 +34,12 @@ public final class ManaHatchPartMachine extends TieredIOPartMachine implements I
     private TickableSubscription tickSubs;
 
     @Persisted
-    public final NotifiableManaContainer manaContainer;
+    private final NotifiableManaContainer manaContainer;
 
     public ManaHatchPartMachine(IMachineBlockEntity holder, int tier, IO io, int rate) {
         super(holder, tier, io);
         manaContainer = createManaContainer(rate);
+        manaContainer.setAcceptDistributor(true);
     }
 
     @Override
@@ -49,6 +52,14 @@ public final class ManaHatchPartMachine extends TieredIOPartMachine implements I
         if (io == IO.OUT) {
             return new NotifiableManaContainer(this, IO.OUT, 64 * tierMana, tierMana);
         } else return new NotifiableManaContainer(this, IO.IN, 64 * tierMana, tierMana);
+    }
+
+    @Override
+    public void addedToController(@NotNull IMultiController controller) {
+        super.addedToController(controller);
+        if (controller instanceof ManaDistributorMachine) {
+            manaContainer.setAcceptDistributor(false);
+        }
     }
 
     @Override
@@ -78,8 +89,9 @@ public final class ManaHatchPartMachine extends TieredIOPartMachine implements I
             } else if (receiver instanceof ManaPool pool) {
                 mana = Math.min(mana, pool.getMaxMana() - pool.getCurrentMana());
             }
-            if (manaContainer.removeMana(mana)) {
-                receiver.receiveMana(mana);
+            int change = manaContainer.removeMana(mana);
+            if (change > 0) {
+                receiver.receiveMana(change);
             }
         }
     }

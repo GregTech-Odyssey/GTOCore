@@ -9,6 +9,7 @@ import com.gto.gtocore.common.item.ItemMap;
 import com.gto.gtocore.common.machine.multiblock.water.WaterPurificationPlantMachine;
 import com.gto.gtocore.common.machine.multiblock.water.WaterPurificationUnitMachine;
 import com.gto.gtocore.common.saved.DysonSphereSavaedData;
+import com.gto.gtocore.common.saved.ExtendWirelessEnergySavaedData;
 import com.gto.gtocore.common.saved.InfinityCellSavaedData;
 import com.gto.gtocore.config.GTOConfig;
 import com.gto.gtocore.utils.GTOUtils;
@@ -19,11 +20,13 @@ import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.common.data.GTItems;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.animal.*;
 import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
@@ -35,6 +38,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.entity.EntityTravelToDimensionEvent;
+import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.level.BlockEvent;
@@ -42,11 +46,43 @@ import net.minecraftforge.event.level.LevelEvent;
 import net.minecraftforge.event.server.ServerStartedEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
+import com.hepdd.gtmthings.data.WirelessEnergySavaedData;
 import earth.terrarium.adastra.common.registry.ModBlocks;
 
+import java.util.List;
 import java.util.Objects;
 
 public final class ForgeCommonEvent {
+
+    @SubscribeEvent
+    public static void onFoodConsume(LivingEntityUseItemEvent event) {
+        if (GTOConfig.INSTANCE.enableAnimalsAreAfraidToEatTheirMeat) {
+            if (event.getEntity() instanceof Player player && Objects.equals(20, event.getDuration()) && !player.level().isClientSide()) {
+                hurtAnimalsNearPlayer(player, Items.BEEF, Cow.class, event);
+                hurtAnimalsNearPlayer(player, Items.COOKED_BEEF, Cow.class, event);
+
+                hurtAnimalsNearPlayer(player, Items.CHICKEN, Chicken.class, event);
+                hurtAnimalsNearPlayer(player, Items.COOKED_CHICKEN, Chicken.class, event);
+
+                hurtAnimalsNearPlayer(player, Items.PORKCHOP, Pig.class, event);
+                hurtAnimalsNearPlayer(player, Items.COOKED_PORKCHOP, Pig.class, event);
+
+                hurtAnimalsNearPlayer(player, Items.MUTTON, Sheep.class, event);
+                hurtAnimalsNearPlayer(player, Items.COOKED_MUTTON, Sheep.class, event);
+            }
+        }
+    }
+
+    private static <T extends Animal> void hurtAnimalsNearPlayer(Player player, Item foodItem, Class<T> animalClass, LivingEntityUseItemEvent event) {
+        if (event.getItem().is(foodItem)) {
+            Level level = player.level();
+            List<T> animalEntities = level.getEntitiesOfClass(animalClass, player.getBoundingBox().inflate(GTOConfig.INSTANCE.enableAnimalsAreAfraidToEatTheirMeatRange));
+            for (T animal : animalEntities) {
+                animal.hurt(player.damageSources().playerAttack(player), Math.max(animal.getMaxHealth() / 20, 0.5F));
+                animal.level().addParticle(ParticleTypes.ANGRY_VILLAGER, animal.getX(), animal.getY() + 0.5F, animal.getZ(), 0.1, 0.1, 0.1);
+            }
+        }
+    }
 
     @SubscribeEvent
     public static void onPortalSpawnEvent(BlockEvent.PortalSpawnEvent event) {
@@ -260,9 +296,12 @@ public final class ForgeCommonEvent {
 
     @SubscribeEvent
     public static void onLevelLoad(LevelEvent.Load event) {
-        if (event.getLevel() instanceof ServerLevel serverLevel) {
+        if (event.getLevel() instanceof ServerLevel level) {
+            ServerLevel serverLevel = level.getServer().getLevel(Level.OVERWORLD);
+            if (serverLevel == null) return;
             InfinityCellSavaedData.INSTANCE = serverLevel.getDataStorage().computeIfAbsent(InfinityCellSavaedData::readNbt, InfinityCellSavaedData::new, "infinite_storage_cell_data");
             DysonSphereSavaedData.INSTANCE = serverLevel.getDataStorage().computeIfAbsent(DysonSphereSavaedData::new, DysonSphereSavaedData::new, "dyson_sphere_data");
+            WirelessEnergySavaedData.INSTANCE = serverLevel.getDataStorage().computeIfAbsent(ExtendWirelessEnergySavaedData::new, ExtendWirelessEnergySavaedData::new, "wireless_energy_data");
         }
     }
 

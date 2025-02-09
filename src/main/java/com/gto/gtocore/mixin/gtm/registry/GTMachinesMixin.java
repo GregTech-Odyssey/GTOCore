@@ -15,10 +15,6 @@ import com.gregtechceu.gtceu.common.data.machines.GTResearchMachines;
 
 import net.minecraft.network.chat.Component;
 
-import com.hepdd.gtmthings.data.CreativeMachines;
-import com.hepdd.gtmthings.data.CreativeModeTabs;
-import com.hepdd.gtmthings.data.CustomMachines;
-import com.hepdd.gtmthings.data.WirelessMachines;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 
@@ -51,10 +47,6 @@ public final class GTMachinesMixin {
         GTAEMachines.init();
         GCYMMachines.init();
         GTOMachines.init();
-        CreativeModeTabs.init();
-        CreativeMachines.init();
-        WirelessMachines.init();
-        CustomMachines.init();
         GTRegistries.MACHINES.freeze();
     }
 }

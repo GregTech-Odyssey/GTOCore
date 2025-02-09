@@ -1,9 +1,13 @@
 package com.gto.gtocore.utils;
 
+import com.gto.gtocore.api.data.GTOWorldGenLayers;
+
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.GlobalPos;
 import net.minecraft.core.NonNullList;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -93,5 +97,13 @@ public final class GTOUtils {
             pattern[i] = row.toString();
         }
         return pattern;
+    }
+
+    public static GlobalPos readGlobalPos(String dimension, long pos) {
+        if (dimension.isEmpty()) return null;
+        if (pos == 0) return null;
+        ResourceLocation key = ResourceLocation.tryParse(dimension);
+        if (key == null) return null;
+        return GlobalPos.of(GTOWorldGenLayers.getDimension(key), BlockPos.of(pos));
     }
 }

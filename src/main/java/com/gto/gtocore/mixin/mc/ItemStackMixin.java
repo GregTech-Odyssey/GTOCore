@@ -1,15 +1,16 @@
 package com.gto.gtocore.mixin.mc;
 
 import com.gto.gtocore.client.Tooltips;
+import com.gto.gtocore.common.block.WirelessEnergyUnitBlock;
 
 import com.gregtechceu.gtceu.api.GTValues;
+import com.gregtechceu.gtceu.api.item.MetaMachineItem;
+import com.gregtechceu.gtceu.common.block.CoilBlock;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.TieredItem;
-import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.*;
+import net.minecraft.world.level.block.Block;
 
 import com.llamalad7.mixinextras.sugar.Local;
 import org.spongepowered.asm.mixin.Mixin;
@@ -55,6 +56,15 @@ public abstract class ItemStackMixin {
             gtocore$cacheTick = true;
             if (getItem() instanceof TieredItem) {
                 gtocore$isTickTooltip = true;
+            } else if (getItem() instanceof BlockItem blockItem) {
+                if (blockItem instanceof MetaMachineItem) {
+                    gtocore$isTickTooltip = true;
+                } else {
+                    Block block = blockItem.getBlock();
+                    if (block instanceof CoilBlock || block instanceof WirelessEnergyUnitBlock) {
+                        gtocore$isTickTooltip = true;
+                    }
+                }
             } else {
                 gtocore$isTickTooltip = Tooltips.FLICKER_TOOL_TIPS_MAP.containsKey(getItem());
             }

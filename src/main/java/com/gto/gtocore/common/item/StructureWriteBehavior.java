@@ -161,7 +161,7 @@ public final class StructureWriteBehavior implements IItemUIFactory {
         if (Objects.equals(parts[0], "minecraft")) {
             return (supplier ? "() -> " : "") + "Blocks." + parts[1].toUpperCase();
         }
-        return "Registries.getBlock(\"" + id + "\")";
+        return "RegistriesUtils.get" + (supplier ? "Supplier" : "") + "Block(\"" + id + "\")";
     }
 
     private static void switchMode(HeldItemUIFactory.HeldItemHolder playerInventoryHolder) {

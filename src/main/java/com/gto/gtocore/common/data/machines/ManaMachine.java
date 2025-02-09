@@ -34,7 +34,9 @@ import static com.gto.gtocore.common.data.GTOMachines.workableNoEnergy;
 
 public final class ManaMachine {
 
-    public static void init() {}
+    public static void init() {
+        ManaMultiBlockMachine.init();
+    }
 
     private static MachineBuilder<MachineDefinition> manaMachine(String name, String cn, Function<IMachineBlockEntity, MetaMachine> metaMachine) {
         GTOBlocks.addLang(name, cn);

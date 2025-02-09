@@ -80,8 +80,8 @@ public final class PatternModifierBehavior implements IItemUIFactory {
                                 .setText(String.valueOf(Ae2PatternGeneratorAppliedNumber))
                                 .setOnConfirm(this::setAe2PatternGeneratorAppliedNumber)
                                 .setButtonTooltips(Component.literal("一次使用的应用次数(<=16)")))
-                        .addWidget(new LabelWidget(12, 96 + 4, "应用次数为：循环上述操作次数"))
-        ).background(GuiTextures.BACKGROUND);
+                        .addWidget(new LabelWidget(12, 96 + 4, "应用次数为：循环上述操作次数")))
+                .background(GuiTextures.BACKGROUND);
     }
 
     private void setAe2PatternGeneratorAppliedNumber(String s) {

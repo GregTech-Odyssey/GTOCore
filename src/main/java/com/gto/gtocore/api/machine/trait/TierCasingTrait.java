@@ -1,6 +1,6 @@
 package com.gto.gtocore.api.machine.trait;
 
-import com.gregtechceu.gtceu.api.machine.multiblock.WorkableMultiblockMachine;
+import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockControllerMachine;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 
 import net.minecraft.network.chat.Component;
@@ -17,7 +17,7 @@ public class TierCasingTrait extends MultiblockTrait {
 
     private final Map<String, Integer> casingTiers = new Object2IntOpenHashMap<>(2);
 
-    public TierCasingTrait(WorkableMultiblockMachine machine, String... tierTypes) {
+    public TierCasingTrait(MultiblockControllerMachine machine, String... tierTypes) {
         super(machine);
         for (String type : tierTypes) {
             casingTiers.put(type, 0);

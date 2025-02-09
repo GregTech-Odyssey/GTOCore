@@ -1,23 +1,31 @@
 package com.gto.gtocore.data.recipe;
 
 import com.gto.gtocore.GTOCore;
+import com.gto.gtocore.common.data.GTOItems;
 import com.gto.gtocore.common.data.GTOMachines;
 import com.gto.gtocore.common.data.GTOMaterials;
+import com.gto.gtocore.common.data.GTORecipeTypes;
 import com.gto.gtocore.data.CraftingComponents;
 
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.data.chemical.material.stack.UnificationEntry;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
+import com.gregtechceu.gtceu.api.item.ComponentItem;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
+import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMachines;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.data.machines.GTMachineUtils;
+import com.gregtechceu.gtceu.common.data.machines.GTMultiMachines;
 import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
 
 import net.minecraft.data.recipes.FinishedRecipe;
 
+import com.hepdd.gtmthings.data.CustomItems;
 import com.hepdd.gtmthings.data.CustomMachines;
+import com.tterrag.registrate.util.entry.ItemEntry;
 
+import java.util.List;
 import java.util.function.Consumer;
 
 import static com.gregtechceu.gtceu.api.GTValues.*;
@@ -190,6 +198,261 @@ final class HatchRecipe {
                     .inputItems(PLATE.get(tier), 4)
                     .outputItems(hatch)
                     .duration(200).EUt(VA[tier]).save(provider);
+        }
+
+        List<ItemEntry<ComponentItem>> WIRELESS_ENERGY_RECEIVE_COVER = List.of(
+                CustomItems.WIRELESS_ENERGY_RECEIVE_COVER_LV,
+                CustomItems.WIRELESS_ENERGY_RECEIVE_COVER_MV,
+                CustomItems.WIRELESS_ENERGY_RECEIVE_COVER_HV,
+                CustomItems.WIRELESS_ENERGY_RECEIVE_COVER_EV,
+                CustomItems.WIRELESS_ENERGY_RECEIVE_COVER_IV,
+                CustomItems.WIRELESS_ENERGY_RECEIVE_COVER_LUV,
+                CustomItems.WIRELESS_ENERGY_RECEIVE_COVER_ZPM,
+                CustomItems.WIRELESS_ENERGY_RECEIVE_COVER_UV,
+                CustomItems.WIRELESS_ENERGY_RECEIVE_COVER_UHV,
+                CustomItems.WIRELESS_ENERGY_RECEIVE_COVER_UEV,
+                CustomItems.WIRELESS_ENERGY_RECEIVE_COVER_UIV,
+                CustomItems.WIRELESS_ENERGY_RECEIVE_COVER_UXV,
+                CustomItems.WIRELESS_ENERGY_RECEIVE_COVER_OPV,
+                GTOItems.WIRELESS_ENERGY_RECEIVE_COVER_MAX);
+
+        List<ItemEntry<ComponentItem>> WIRELESS_ENERGY_RECEIVE_COVER_4A = List.of(
+                CustomItems.WIRELESS_ENERGY_RECEIVE_COVER_LV_4A,
+                CustomItems.WIRELESS_ENERGY_RECEIVE_COVER_MV_4A,
+                CustomItems.WIRELESS_ENERGY_RECEIVE_COVER_HV_4A,
+                CustomItems.WIRELESS_ENERGY_RECEIVE_COVER_EV_4A,
+                CustomItems.WIRELESS_ENERGY_RECEIVE_COVER_IV_4A,
+                CustomItems.WIRELESS_ENERGY_RECEIVE_COVER_LUV_4A,
+                CustomItems.WIRELESS_ENERGY_RECEIVE_COVER_ZPM_4A,
+                CustomItems.WIRELESS_ENERGY_RECEIVE_COVER_UV_4A,
+                CustomItems.WIRELESS_ENERGY_RECEIVE_COVER_UHV_4A,
+                CustomItems.WIRELESS_ENERGY_RECEIVE_COVER_UEV_4A,
+                CustomItems.WIRELESS_ENERGY_RECEIVE_COVER_UIV_4A,
+                CustomItems.WIRELESS_ENERGY_RECEIVE_COVER_UXV_4A,
+                CustomItems.WIRELESS_ENERGY_RECEIVE_COVER_OPV_4A,
+                GTOItems.WIRELESS_ENERGY_RECEIVE_COVER_MAX_4A);
+
+        for (int tier : tiersBetween(LV, MAX)) {
+            String tierName = VN[tier].toLowerCase();
+            GTORecipeTypes.LASER_WELDER_RECIPES.recipeBuilder(GTOCore.id("wireless_energy_input_hatch_" + tierName))
+                    .inputItems(GTMachines.ENERGY_INPUT_HATCH[tier].asStack())
+                    .inputItems(WIRELESS_ENERGY_RECEIVE_COVER.get(tier - 1).asStack())
+                    .inputItems(GTItems.COVER_ENERGY_DETECTOR_ADVANCED.asStack())
+                    .outputItems(GTOMachines.WIRELESS_INPUT_HATCH_2[tier].asStack())
+                    .duration(200)
+                    .EUt(VA[tier])
+                    .save(provider);
+
+            GTORecipeTypes.LASER_WELDER_RECIPES.recipeBuilder(GTOCore.id("wireless_energy_output_hatch_" + tierName))
+                    .inputItems(GTMachines.ENERGY_OUTPUT_HATCH[tier].asStack())
+                    .inputItems(WIRELESS_ENERGY_RECEIVE_COVER.get(tier - 1).asStack())
+                    .inputItems(GTItems.COVER_ENERGY_DETECTOR_ADVANCED.asStack())
+                    .outputItems(GTOMachines.WIRELESS_OUTPUT_HATCH_2[tier].asStack())
+                    .duration(200)
+                    .EUt(VA[tier])
+                    .save(provider);
+
+            GTORecipeTypes.LASER_WELDER_RECIPES.recipeBuilder(GTOCore.id("wireless_energy_input_hatch_" + tierName + "_4a"))
+                    .inputItems(tier > HV ? GTMachines.ENERGY_INPUT_HATCH_4A[tier].asStack() : GTOMachines.ENERGY_INPUT_HATCH_4A[tier].asStack())
+                    .inputItems(WIRELESS_ENERGY_RECEIVE_COVER.get(tier - 1).asStack(2))
+                    .inputItems(GTItems.COVER_ENERGY_DETECTOR_ADVANCED.asStack())
+                    .outputItems(GTOMachines.WIRELESS_INPUT_HATCH_4[tier].asStack())
+                    .duration(200)
+                    .EUt(VA[tier])
+                    .save(provider);
+
+            GTORecipeTypes.LASER_WELDER_RECIPES.recipeBuilder(GTOCore.id("wireless_energy_input_hatch_" + tierName + "_16a"))
+                    .inputItems(tier > HV ? GTMachines.ENERGY_INPUT_HATCH_16A[tier].asStack() : GTOMachines.ENERGY_INPUT_HATCH_16A[tier].asStack())
+                    .inputItems(WIRELESS_ENERGY_RECEIVE_COVER_4A.get(tier - 1).asStack())
+                    .inputItems(GTItems.COVER_ENERGY_DETECTOR_ADVANCED.asStack())
+                    .outputItems(GTOMachines.WIRELESS_INPUT_HATCH_16[tier].asStack())
+                    .duration(200)
+                    .EUt(VA[tier])
+                    .save(provider);
+
+            GTORecipeTypes.LASER_WELDER_RECIPES.recipeBuilder(GTOCore.id("wireless_energy_output_hatch_" + tierName + "_4a"))
+                    .inputItems(tier > HV ? GTMachines.ENERGY_OUTPUT_HATCH_4A[tier].asStack() : GTOMachines.ENERGY_OUTPUT_HATCH_4A[tier].asStack())
+                    .inputItems(WIRELESS_ENERGY_RECEIVE_COVER.get(tier - 1).asStack(2))
+                    .inputItems(GTItems.COVER_ENERGY_DETECTOR_ADVANCED.asStack())
+                    .outputItems(GTOMachines.WIRELESS_OUTPUT_HATCH_4[tier].asStack())
+                    .duration(200)
+                    .EUt(VA[tier])
+                    .save(provider);
+
+            GTORecipeTypes.LASER_WELDER_RECIPES.recipeBuilder(GTOCore.id("wireless_energy_output_hatch_" + tierName + "_16a"))
+                    .inputItems(tier > HV ? GTMachines.ENERGY_OUTPUT_HATCH_16A[tier].asStack() : GTOMachines.ENERGY_OUTPUT_HATCH_16A[tier].asStack())
+                    .inputItems(WIRELESS_ENERGY_RECEIVE_COVER_4A.get(tier - 1).asStack())
+                    .inputItems(GTItems.COVER_ENERGY_DETECTOR_ADVANCED.asStack())
+                    .outputItems(GTOMachines.WIRELESS_OUTPUT_HATCH_16[tier].asStack())
+                    .duration(200)
+                    .EUt(VA[tier])
+                    .save(provider);
+
+            if (tier > HV) {
+                GTORecipeTypes.LASER_WELDER_RECIPES.recipeBuilder(GTOCore.id("wireless_energy_input_hatch_" + tierName + "_64a"))
+                        .inputItems(GTMachines.SUBSTATION_ENERGY_INPUT_HATCH[tier].asStack())
+                        .inputItems(WIRELESS_ENERGY_RECEIVE_COVER_4A.get(tier - 1).asStack(2))
+                        .inputItems(GTItems.COVER_ENERGY_DETECTOR_ADVANCED.asStack())
+                        .outputItems(GTOMachines.WIRELESS_INPUT_HATCH_64[tier].asStack())
+                        .duration(200)
+                        .EUt(VA[tier])
+                        .save(provider);
+
+                GTORecipeTypes.LASER_WELDER_RECIPES.recipeBuilder(GTOCore.id("wireless_energy_output_hatch_" + tierName + "_64a"))
+                        .inputItems(GTMachines.SUBSTATION_ENERGY_OUTPUT_HATCH[tier].asStack())
+                        .inputItems(WIRELESS_ENERGY_RECEIVE_COVER_4A.get(tier - 1).asStack(2))
+                        .inputItems(GTItems.COVER_ENERGY_DETECTOR_ADVANCED.asStack())
+                        .outputItems(GTOMachines.WIRELESS_OUTPUT_HATCH_64[tier].asStack())
+                        .duration(200)
+                        .EUt(VA[tier])
+                        .save(provider);
+
+                if (tier > EV) {
+                    GTORecipeTypes.LASER_WELDER_RECIPES.recipeBuilder(GTOCore.id("wireless_energy_input_hatch_" + tierName + "_256a"))
+                            .inputItems(GTMachines.LASER_INPUT_HATCH_256[tier].asStack())
+                            .inputItems(WIRELESS_ENERGY_RECEIVE_COVER_4A.get(tier - 1).asStack(2))
+                            .inputItems(GTMultiMachines.ACTIVE_TRANSFORMER.asStack())
+                            .outputItems(GTOMachines.WIRELESS_INPUT_HATCH_256[tier].asStack())
+                            .duration(200)
+                            .EUt(VA[tier])
+                            .save(provider);
+
+                    GTORecipeTypes.LASER_WELDER_RECIPES.recipeBuilder(GTOCore.id("wireless_energy_input_hatch_" + tierName + "_1024a"))
+                            .inputItems(GTMachines.LASER_INPUT_HATCH_1024[tier].asStack())
+                            .inputItems(WIRELESS_ENERGY_RECEIVE_COVER_4A.get(tier - 1).asStack(4))
+                            .inputItems(GTMultiMachines.ACTIVE_TRANSFORMER.asStack())
+                            .outputItems(GTOMachines.WIRELESS_INPUT_HATCH_1024[tier].asStack())
+                            .duration(200)
+                            .EUt(VA[tier])
+                            .save(provider);
+
+                    GTORecipeTypes.LASER_WELDER_RECIPES.recipeBuilder(GTOCore.id("wireless_energy_input_hatch_" + tierName + "_4096a"))
+                            .inputItems(GTMachines.LASER_INPUT_HATCH_4096[tier].asStack())
+                            .inputItems(WIRELESS_ENERGY_RECEIVE_COVER_4A.get(tier - 1).asStack(8))
+                            .inputItems(GTMultiMachines.ACTIVE_TRANSFORMER.asStack())
+                            .outputItems(GTOMachines.WIRELESS_INPUT_HATCH_4096[tier].asStack())
+                            .duration(200)
+                            .EUt(VA[tier])
+                            .save(provider);
+
+                    GTORecipeTypes.LASER_WELDER_RECIPES.recipeBuilder(GTOCore.id("wireless_energy_input_hatch_" + tierName + "_16384a"))
+                            .inputItems(GTOMachines.LASER_INPUT_HATCH_16384[tier].asStack())
+                            .inputItems(WIRELESS_ENERGY_RECEIVE_COVER_4A.get(tier - 1).asStack(12))
+                            .inputItems(GTMultiMachines.ACTIVE_TRANSFORMER.asStack())
+                            .outputItems(GTOMachines.WIRELESS_INPUT_HATCH_16384[tier].asStack())
+                            .duration(200)
+                            .EUt(VA[tier])
+                            .save(provider);
+
+                    GTORecipeTypes.LASER_WELDER_RECIPES.recipeBuilder(GTOCore.id("wireless_energy_input_hatch_" + tierName + "_65536a"))
+                            .inputItems(GTOMachines.LASER_INPUT_HATCH_65536[tier].asStack())
+                            .inputItems(WIRELESS_ENERGY_RECEIVE_COVER_4A.get(tier - 1).asStack(16))
+                            .inputItems(GTMultiMachines.ACTIVE_TRANSFORMER.asStack())
+                            .outputItems(GTOMachines.WIRELESS_INPUT_HATCH_65536[tier].asStack())
+                            .duration(200)
+                            .EUt(VA[tier])
+                            .save(provider);
+
+                    GTORecipeTypes.LASER_WELDER_RECIPES.recipeBuilder(GTOCore.id("wireless_energy_input_hatch_" + tierName + "_262144a"))
+                            .inputItems(GTOMachines.LASER_INPUT_HATCH_262144[tier].asStack())
+                            .inputItems(WIRELESS_ENERGY_RECEIVE_COVER_4A.get(tier - 1).asStack(24))
+                            .inputItems(GTMultiMachines.ACTIVE_TRANSFORMER.asStack())
+                            .outputItems(GTOMachines.WIRELESS_INPUT_HATCH_262144[tier].asStack())
+                            .duration(200)
+                            .EUt(VA[tier])
+                            .save(provider);
+
+                    GTORecipeTypes.LASER_WELDER_RECIPES.recipeBuilder(GTOCore.id("wireless_energy_input_hatch_" + tierName + "_1048576a"))
+                            .inputItems(GTOMachines.LASER_INPUT_HATCH_1048576[tier].asStack())
+                            .inputItems(WIRELESS_ENERGY_RECEIVE_COVER_4A.get(tier - 1).asStack(32))
+                            .inputItems(GTMultiMachines.ACTIVE_TRANSFORMER.asStack())
+                            .outputItems(GTOMachines.WIRELESS_INPUT_HATCH_1048576[tier].asStack())
+                            .duration(200)
+                            .EUt(VA[tier])
+                            .save(provider);
+
+                    GTORecipeTypes.LASER_WELDER_RECIPES.recipeBuilder(GTOCore.id("wireless_energy_input_hatch_" + tierName + "_4194304a"))
+                            .inputItems(GTOMachines.LASER_INPUT_HATCH_4194304[tier].asStack())
+                            .inputItems(WIRELESS_ENERGY_RECEIVE_COVER_4A.get(tier - 1).asStack(64))
+                            .inputItems(GTMultiMachines.ACTIVE_TRANSFORMER.asStack())
+                            .outputItems(GTOMachines.WIRELESS_INPUT_HATCH_4194304[tier].asStack())
+                            .duration(200)
+                            .EUt(VA[tier])
+                            .save(provider);
+
+                    GTORecipeTypes.LASER_WELDER_RECIPES.recipeBuilder(GTOCore.id("wireless_energy_output_hatch_" + tierName + "_256a"))
+                            .inputItems(GTMachines.LASER_OUTPUT_HATCH_256[tier].asStack())
+                            .inputItems(WIRELESS_ENERGY_RECEIVE_COVER_4A.get(tier - 1).asStack(2))
+                            .inputItems(GTMultiMachines.ACTIVE_TRANSFORMER.asStack())
+                            .outputItems(GTOMachines.WIRELESS_OUTPUT_HATCH_256[tier].asStack())
+                            .duration(200)
+                            .EUt(VA[tier])
+                            .save(provider);
+
+                    GTORecipeTypes.LASER_WELDER_RECIPES.recipeBuilder(GTOCore.id("wireless_energy_output_hatch_" + tierName + "_1024a"))
+                            .inputItems(GTMachines.LASER_OUTPUT_HATCH_1024[tier].asStack())
+                            .inputItems(WIRELESS_ENERGY_RECEIVE_COVER_4A.get(tier - 1).asStack(4))
+                            .inputItems(GTMultiMachines.ACTIVE_TRANSFORMER.asStack())
+                            .outputItems(GTOMachines.WIRELESS_OUTPUT_HATCH_1024[tier].asStack())
+                            .duration(200)
+                            .EUt(VA[tier])
+                            .save(provider);
+
+                    GTORecipeTypes.LASER_WELDER_RECIPES.recipeBuilder(GTOCore.id("wireless_energy_output_hatch_" + tierName + "_4096a"))
+                            .inputItems(GTMachines.LASER_OUTPUT_HATCH_4096[tier].asStack())
+                            .inputItems(WIRELESS_ENERGY_RECEIVE_COVER_4A.get(tier - 1).asStack(8))
+                            .inputItems(GTMultiMachines.ACTIVE_TRANSFORMER.asStack())
+                            .outputItems(GTOMachines.WIRELESS_OUTPUT_HATCH_4096[tier].asStack())
+                            .duration(200)
+                            .EUt(VA[tier])
+                            .save(provider);
+
+                    GTORecipeTypes.LASER_WELDER_RECIPES.recipeBuilder(GTOCore.id("wireless_energy_output_hatch_" + tierName + "_16384a"))
+                            .inputItems(GTOMachines.LASER_OUTPUT_HATCH_16384[tier].asStack())
+                            .inputItems(WIRELESS_ENERGY_RECEIVE_COVER_4A.get(tier - 1).asStack(12))
+                            .inputItems(GTMultiMachines.ACTIVE_TRANSFORMER.asStack())
+                            .outputItems(GTOMachines.WIRELESS_OUTPUT_HATCH_16384[tier].asStack())
+                            .duration(200)
+                            .EUt(VA[tier])
+                            .save(provider);
+
+                    GTORecipeTypes.LASER_WELDER_RECIPES.recipeBuilder(GTOCore.id("wireless_energy_output_hatch_" + tierName + "_65536a"))
+                            .inputItems(GTOMachines.LASER_OUTPUT_HATCH_65536[tier].asStack())
+                            .inputItems(WIRELESS_ENERGY_RECEIVE_COVER_4A.get(tier - 1).asStack(16))
+                            .inputItems(GTMultiMachines.ACTIVE_TRANSFORMER.asStack())
+                            .outputItems(GTOMachines.WIRELESS_OUTPUT_HATCH_65536[tier].asStack())
+                            .duration(200)
+                            .EUt(VA[tier])
+                            .save(provider);
+
+                    GTORecipeTypes.LASER_WELDER_RECIPES.recipeBuilder(GTOCore.id("wireless_energy_output_hatch_" + tierName + "_262144a"))
+                            .inputItems(GTOMachines.LASER_OUTPUT_HATCH_262144[tier].asStack())
+                            .inputItems(WIRELESS_ENERGY_RECEIVE_COVER_4A.get(tier - 1).asStack(24))
+                            .inputItems(GTMultiMachines.ACTIVE_TRANSFORMER.asStack())
+                            .outputItems(GTOMachines.WIRELESS_OUTPUT_HATCH_262144[tier].asStack())
+                            .duration(200)
+                            .EUt(VA[tier])
+                            .save(provider);
+
+                    GTORecipeTypes.LASER_WELDER_RECIPES.recipeBuilder(GTOCore.id("wireless_energy_output_hatch_" + tierName + "_1048576a"))
+                            .inputItems(GTOMachines.LASER_OUTPUT_HATCH_1048576[tier].asStack())
+                            .inputItems(WIRELESS_ENERGY_RECEIVE_COVER_4A.get(tier - 1).asStack(32))
+                            .inputItems(GTMultiMachines.ACTIVE_TRANSFORMER.asStack())
+                            .outputItems(GTOMachines.WIRELESS_OUTPUT_HATCH_1048576[tier].asStack())
+                            .duration(200)
+                            .EUt(VA[tier])
+                            .save(provider);
+
+                    GTORecipeTypes.LASER_WELDER_RECIPES.recipeBuilder(GTOCore.id("wireless_energy_output_hatch_" + tierName + "_4194304a"))
+                            .inputItems(GTOMachines.LASER_OUTPUT_HATCH_4194304[tier].asStack())
+                            .inputItems(WIRELESS_ENERGY_RECEIVE_COVER_4A.get(tier - 1).asStack(64))
+                            .inputItems(GTMultiMachines.ACTIVE_TRANSFORMER.asStack())
+                            .outputItems(GTOMachines.WIRELESS_OUTPUT_HATCH_4194304[tier].asStack())
+                            .duration(200)
+                            .EUt(VA[tier])
+                            .save(provider);
+                }
+            }
         }
     }
 }

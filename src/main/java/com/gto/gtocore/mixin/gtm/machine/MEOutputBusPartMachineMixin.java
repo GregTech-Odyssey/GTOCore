@@ -1,11 +1,10 @@
 package com.gto.gtocore.mixin.gtm.machine;
 
-import com.gto.gtocore.api.machine.trait.InaccessibleInfiniteHandler;
-
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.integration.ae2.machine.MEOutputBusPartMachine;
 import com.gregtechceu.gtceu.integration.ae2.utils.KeyStorage;
 
+import com.hepdd.gtmthings.api.machine.trait.InaccessibleInfiniteHandler;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;

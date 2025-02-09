@@ -95,7 +95,7 @@ public final class StringConverter {
                 return "new ItemStack(Items." + ItemUtils.getIdLocation(stack.getItem()).getPath().toUpperCase() + ".asItem()" + (amount > 1 ? ", " + amount : "") + ")";
             }
         }
-        return "Registries.getItemStack(\"" + ItemUtils.getId(ingredient.getItems()[0]) + (amount > 1 ? "\", " + amount : "\"") + ")";
+        return "RegistriesUtils.getItemStack(\"" + ItemUtils.getId(ingredient.getItems()[0]) + (amount > 1 ? "\", " + amount : "\"") + ")";
     }
 
     public static String fromFluid(FluidIngredient ingredient) {
@@ -139,7 +139,7 @@ public final class StringConverter {
             }
             s = m + ".getFluid(" + a + stack.getAmount() + ")";
         } else {
-            s = "Registries.getFluidStack(\"" + resourceLocation + "\", " + stack.getAmount() + ")";
+            s = "RegistriesUtils.getFluidStack(\"" + resourceLocation + "\", " + stack.getAmount() + ")";
         }
         return s;
     }

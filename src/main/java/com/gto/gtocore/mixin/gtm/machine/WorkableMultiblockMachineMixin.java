@@ -1,6 +1,5 @@
 package com.gto.gtocore.mixin.gtm.machine;
 
-import com.gto.gtocore.api.machine.feature.ICheckPatternMachine;
 import com.gto.gtocore.api.machine.feature.IEnhancedMultiblockMachine;
 import com.gto.gtocore.api.machine.feature.IMEOutputMachine;
 
@@ -10,7 +9,6 @@ import com.gregtechceu.gtceu.api.machine.feature.multiblock.IWorkableMultiContro
 import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockControllerMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableMultiblockMachine;
 import com.gregtechceu.gtceu.api.machine.trait.IRecipeHandlerTrait;
-import com.gregtechceu.gtceu.api.pattern.BlockPattern;
 import com.gregtechceu.gtceu.integration.ae2.machine.MEOutputBusPartMachine;
 import com.gregtechceu.gtceu.integration.ae2.machine.MEOutputHatchPartMachine;
 
@@ -25,10 +23,7 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(WorkableMultiblockMachine.class)
-public abstract class WorkableMultiblockMachineMixin extends MultiblockControllerMachine implements IWorkableMultiController, ICheckPatternMachine, IMEOutputMachine {
-
-    @Unique
-    private int gTOCore$time;
+public abstract class WorkableMultiblockMachineMixin extends MultiblockControllerMachine implements IWorkableMultiController, IMEOutputMachine {
 
     @Unique
     private boolean gTOCore$isItemOutput;
@@ -90,30 +85,5 @@ public abstract class WorkableMultiblockMachineMixin extends MultiblockControlle
     @Override
     public boolean dampingWhenWaiting() {
         return !getDefinition().isGenerator();
-    }
-
-    @Override
-    public void gTOCore$cleanTime() {
-        gTOCore$time = 0;
-    }
-
-    @Override
-    public int gTOCore$getTime() {
-        return gTOCore$time;
-    }
-
-    @Override
-    public boolean checkPattern() {
-        if (gTOCore$time < 1) {
-            BlockPattern pattern = getPattern();
-            if (pattern != null && pattern.checkPatternAt(getMultiblockState(), false)) {
-                return true;
-            } else {
-                gTOCore$time = 10;
-            }
-        } else {
-            gTOCore$time--;
-        }
-        return false;
     }
 }

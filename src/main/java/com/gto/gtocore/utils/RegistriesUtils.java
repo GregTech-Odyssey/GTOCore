@@ -2,6 +2,8 @@ package com.gto.gtocore.utils;
 
 import com.gto.gtocore.GTOCore;
 
+import com.gregtechceu.gtceu.utils.SupplierMemoizer;
+
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.TagParser;
 import net.minecraft.resources.ResourceLocation;
@@ -11,6 +13,8 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.registries.ForgeRegistries;
+
+import java.util.function.Supplier;
 
 public final class RegistriesUtils {
 
@@ -37,6 +41,10 @@ public final class RegistriesUtils {
             stack.setTag(TagParser.parseTag(nbt));
         } catch (Exception ignored) {}
         return stack;
+    }
+
+    public static Supplier<? extends Block> getSupplierBlock(String s) {
+        return SupplierMemoizer.memoize(() -> getBlock(s));
     }
 
     public static Block getBlock(String s) {

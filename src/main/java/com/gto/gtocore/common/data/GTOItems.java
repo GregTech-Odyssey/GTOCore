@@ -5,10 +5,8 @@ import com.gto.gtocore.api.GTOValues;
 import com.gto.gtocore.api.data.chemical.material.GTOMaterial;
 import com.gto.gtocore.api.data.tag.GTOTagPrefix;
 import com.gto.gtocore.client.renderer.item.HaloItemRenderer;
-import com.gto.gtocore.client.renderer.item.VirtualItemProviderRenderer;
 import com.gto.gtocore.common.item.*;
 import com.gto.gtocore.integration.ae2.InfinityCellItem;
-import com.gto.gtocore.integration.ae2.VirtualItemProviderCellItem;
 import com.gto.gtocore.utils.StringUtils;
 
 import com.gregtechceu.gtceu.GTCEu;
@@ -173,7 +171,6 @@ public final class GTOItems {
 
     public static final ItemEntry<InfinityCellItem> ITEM_INFINITY_CELL = item("item_infinity_cell", "无限物品存储元件", p -> new InfinityCellItem(AEKeyType.items())).register();
     public static final ItemEntry<InfinityCellItem> FLUID_INFINITY_CELL = item("fluid_infinity_cell", "无限流体存储元件", p -> new InfinityCellItem(AEKeyType.fluids())).register();
-    public static final ItemEntry<VirtualItemProviderCellItem> VIRTUAL_ITEM_PROVIDER_CELL = item("virtual_item_provider_cell", "虚拟物品提供器元件", VirtualItemProviderCellItem::new).register();
 
     public static void InitUpgrades() {
         String storageCellGroup = GuiText.StorageCells.getTranslationKey();
@@ -438,12 +435,6 @@ public final class GTOItems {
             .register();
 
     public static final ItemEntry<DimensionDataItem> DIMENSION_DATA = item("dimension_data", "维度数据", DimensionDataItem::new).register();
-
-    public static final ItemEntry<ComponentItem> VIRTUAL_ITEM_PROVIDER = item("virtual_item_provider", "虚拟物品提供器", ComponentItem::create)
-            .properties(p -> p.stacksTo(1))
-            .onRegister(attach(VirtualItemProviderBehavior.INSTANCE))
-            .onRegister(attachRenderer(() -> VirtualItemProviderRenderer.INSTANCE))
-            .register();
 
     public static final ItemEntry<ComponentItem> OPTICAL_DATA_STICK = item("optical_data_stick", "光学闪存", ComponentItem::create)
             .onRegister(attach(new DataItemBehavior(true)))

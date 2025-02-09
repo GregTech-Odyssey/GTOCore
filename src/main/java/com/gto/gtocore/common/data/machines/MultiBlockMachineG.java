@@ -9,12 +9,14 @@ import com.gto.gtocore.common.data.GTOBlocks;
 import com.gto.gtocore.common.data.GTOMachines;
 import com.gto.gtocore.common.data.GTORecipeTypes;
 import com.gto.gtocore.common.machine.multiblock.electric.ProcessingArrayMachine;
+import com.gto.gtocore.common.machine.multiblock.storage.WirelessEnergySubstationMachine;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
+import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
@@ -29,6 +31,26 @@ import static com.gto.gtocore.common.data.GTOMachines.multiblock;
 public final class MultiBlockMachineG {
 
     public static void init() {}
+
+    public final static MultiblockMachineDefinition WIRELESS_ENERGY_SUBSTATION = multiblock("wireless_energy_substation", "无线能源塔", WirelessEnergySubstationMachine::new)
+            .nonYAxisRotation()
+            .recipe(DUMMY_RECIPES)
+            .tooltipsText("Provides capacity support to the wireless grid", "为无线电网提供容量支持")
+            .tooltipsText("You can install any wireless energy unit inside to increase the capacity limit", "可在内部安装任意无线能量单元来提高容量上限")
+            .tooltipsText("The actual working units are limited by the glass tier", "实际起作用的单元受玻璃等级限制")
+            .tooltipsText("Total capacity is the sum of unit capacities x number of units / 2, total loss is the average loss of units", "总容量为单元容量之和x单元数的一半，总损耗为单元损耗平均值")
+            .block(GTBlocks.CASING_STEEL_SOLID)
+            .pattern(definition -> FactoryBlockPattern.start(RelativeDirection.RIGHT, RelativeDirection.FRONT, RelativeDirection.UP)
+                    .aisle("AAAAAAA", "AAAAAAA", "AAAAAAA", "AAAAAAA", "AAAAAAA", "AAAAAAA", "AAABAAA")
+                    .aisle("ACCCCCA", "CDDDDDC", "CDDDDDC", "CDDDDDC", "CDDDDDC", "CDDDDDC", "ACCCCCA").setRepeatable(2, 30)
+                    .aisle("AAAAAAA", "AAAAAAA", "AAAAAAA", "AAAAAAA", "AAAAAAA", "AAAAAAA", "AAAAAAA")
+                    .where('A', blocks(GTBlocks.CASING_STEEL_SOLID.get()))
+                    .where('B', controller(blocks(definition.get())))
+                    .where('C', GTOPredicates.glass())
+                    .where('D', air().or(GTOPredicates.wirelessEnergyUnit()))
+                    .build())
+            .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_solid_steel"), GTCEu.id("block/multiblock/power_substation"))
+            .register();
 
     public static final MultiblockMachineDefinition[] PROCESSING_ARRAY = GTOMachines.registerTieredMultis("processing_array", t -> GTOValues.VNFR[t] + "处理阵列",
             ProcessingArrayMachine::new, (tier, builder) -> builder

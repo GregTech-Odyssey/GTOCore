@@ -1,6 +1,7 @@
 package com.gto.gtocore.api.pattern;
 
 import com.gto.gtocore.api.machine.part.GTOPartAbility;
+import com.gto.gtocore.common.block.WirelessEnergyUnitBlock;
 import com.gto.gtocore.common.data.GTOBlocks;
 import com.gto.gtocore.utils.FunctionContainer;
 import com.gto.gtocore.utils.GTOUtils;
@@ -25,9 +26,7 @@ import net.minecraft.world.level.block.state.BlockState;
 
 import com.lowdragmc.lowdraglib.utils.BlockInfo;
 
-import java.util.Arrays;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.function.Supplier;
 
 import static com.gto.gtocore.api.GTOValues.GLASS_TIER;
@@ -108,6 +107,15 @@ public final class GTOPredicates {
         }, () -> PartAbility.ROTOR_HOLDER.getAllBlocks().stream().filter(b -> b instanceof MetaMachineBlock metaMachineBlock && metaMachineBlock.getDefinition().getTier() >= tier).map(BlockInfo::fromBlock).toArray(BlockInfo[]::new))).addTooltips(Component.translatable("gtceu.multiblock.pattern.clear_amount_3"));
     }
 
+    public static TraceabilityPredicate wirelessEnergyUnit() {
+        return containerBlock(() -> new FunctionContainer<>(new ArrayList<WirelessEnergyUnitBlock>(), (data, state) -> {
+            if (state.getBlockState().getBlock() instanceof WirelessEnergyUnitBlock block) {
+                data.add(block);
+            }
+            return data;
+        }), "wirelessEnergyUnit", GTOBlocks.LV_WIRELESS_ENERGY_UNIT.get(), GTOBlocks.MV_WIRELESS_ENERGY_UNIT.get(), GTOBlocks.HV_WIRELESS_ENERGY_UNIT.get(), GTOBlocks.EV_WIRELESS_ENERGY_UNIT.get(), GTOBlocks.IV_WIRELESS_ENERGY_UNIT.get(), GTOBlocks.LUV_WIRELESS_ENERGY_UNIT.get(), GTOBlocks.ZPM_WIRELESS_ENERGY_UNIT.get(), GTOBlocks.UV_WIRELESS_ENERGY_UNIT.get(), GTOBlocks.UHV_WIRELESS_ENERGY_UNIT.get(), GTOBlocks.UEV_WIRELESS_ENERGY_UNIT.get(), GTOBlocks.UIV_WIRELESS_ENERGY_UNIT.get(), GTOBlocks.UXV_WIRELESS_ENERGY_UNIT.get(), GTOBlocks.OPV_WIRELESS_ENERGY_UNIT.get(), GTOBlocks.MAX_WIRELESS_ENERGY_UNIT.get()).setPreviewCount(1);
+    }
+
     public static TraceabilityPredicate fissionComponent() {
         return containerBlock(() -> new FunctionContainer<>(new int[4], (integer, state) -> {
             Block block = state.getBlockState().getBlock();
@@ -119,7 +127,7 @@ public final class GTOPredicates {
                 integer[3] += GTOUtils.adjacentBlock(state.world, state.getPos(), GTOBlocks.FISSION_COOLER_COMPONENT.get());
             }
             return integer;
-        }), "fissionComponent", GTOBlocks.FISSION_FUEL_COMPONENT.get(), GTOBlocks.FISSION_COOLER_COMPONENT.get());
+        }), "fissionComponent", GTOBlocks.FISSION_FUEL_COMPONENT.get(), GTOBlocks.FISSION_COOLER_COMPONENT.get()).setPreviewCount(1);
     }
 
     public static TraceabilityPredicate countBlock(String name, Block... blocks) {

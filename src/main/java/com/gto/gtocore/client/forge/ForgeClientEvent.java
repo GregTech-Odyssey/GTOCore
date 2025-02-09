@@ -4,7 +4,6 @@ import com.gto.gtocore.client.Tooltips;
 import com.gto.gtocore.common.data.GTOItems;
 import com.gto.gtocore.common.item.StructureDetectBehavior;
 import com.gto.gtocore.common.item.StructureWriteBehavior;
-import com.gto.gtocore.common.machine.multiblock.water.WaterPurificationPlantMachine;
 import com.gto.gtocore.data.lang.LangHandler;
 import com.gto.gtocore.utils.ItemUtils;
 import com.gto.gtocore.utils.StringUtils;
@@ -38,10 +37,12 @@ import com.mojang.blaze3d.vertex.*;
 
 import java.util.function.Supplier;
 
-import static com.hepdd.gtmthings.client.ForgeClientEventHandler.highlightBlock;
-
 @OnlyIn(Dist.CLIENT)
 public final class ForgeClientEvent {
+
+    public static int highlightingTime = 0;
+    public static int highlightingRadius;
+    public static BlockPos highlightingPos;
 
     @SubscribeEvent
     public static void onTooltipEvent(ItemTooltipEvent event) {
@@ -57,9 +58,7 @@ public final class ForgeClientEvent {
             if (supplier != null) {
                 event.getToolTip().add(Component.literal(supplier.get()));
             }
-            return;
-        }
-        if (Tooltips.suprachronalCircuitSet.contains(item)) {
+        } else if (Tooltips.suprachronalCircuitSet.contains(item)) {
             for (int tier : GTMachineUtils.ALL_TIERS) {
                 if (GTOItems.SUPRACHRONAL_CIRCUIT[tier].is(item)) {
                     event.getToolTip().add(Component.translatable("gtocore.tooltip.item.suprachronal_circuit").withStyle(ChatFormatting.GRAY));
@@ -67,8 +66,7 @@ public final class ForgeClientEvent {
                     return;
                 }
             }
-        }
-        if (Tooltips.magnetoresonaticcircuitSet.contains(item)) {
+        } else if (Tooltips.magnetoresonaticcircuitSet.contains(item)) {
             for (int tier : GTMachineUtils.ALL_TIERS) {
                 if (tier > GTValues.UIV) return;
                 if (GTOItems.MAGNETO_RESONATIC_CIRCUIT[tier].is(item)) {
@@ -76,6 +74,12 @@ public final class ForgeClientEvent {
                     event.getToolTip().add(Component.translatable("gtocore.tooltip.item.tier_circuit", GTValues.VN[tier]).withStyle(ChatFormatting.LIGHT_PURPLE));
                     return;
                 }
+            }
+        } else {
+            String[] tooltips = Tooltips.TOOL_TIPS_KEY_MAP.get(item);
+            if (tooltips != null) {
+                if (tooltips.length == 1) event.getToolTip().add(Component.translatable(tooltips[0]));
+                else event.getToolTip().add(Component.translatable(tooltips[0], tooltips[1]));
             }
         }
     }
@@ -92,11 +96,11 @@ public final class ForgeClientEvent {
             Camera camera = event.getCamera();
             ItemStack held = player.getMainHandItem();
             BlockPos[] poses;
-            if (WaterPurificationPlantMachine.time > 0) {
+            if (highlightingTime > 0) {
                 if (GTValues.CLIENT_TIME % 20 == 0) {
-                    WaterPurificationPlantMachine.time--;
+                    highlightingTime--;
                 }
-                highlightSphere(camera, poseStack, WaterPurificationPlantMachine.pos, 32);
+                highlightSphere(camera, poseStack, highlightingPos, highlightingRadius);
             }
             if (StructureWriteBehavior.isItem(held)) {
                 poses = StructureWriteBehavior.getPos(held);
@@ -115,6 +119,31 @@ public final class ForgeClientEvent {
                 }
             }
         }
+    }
+
+    private static void highlightBlock(Camera camera, PoseStack poseStack, BlockPos... poses) {
+        Vec3 pos = camera.getPosition();
+        poseStack.pushPose();
+        poseStack.translate(-pos.x, -pos.y, -pos.z);
+        RenderSystem.disableDepthTest();
+        RenderSystem.enableBlend();
+        RenderSystem.disableCull();
+        RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+        Tesselator tesselator = Tesselator.getInstance();
+        BufferBuilder buffer = tesselator.getBuilder();
+        buffer.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
+        RenderSystem.setShader(GameRenderer::getPositionColorShader);
+        RenderBufferUtils.renderCubeFace(poseStack, buffer, poses[0].getX(), poses[0].getY(), poses[0].getZ(), poses[1].getX() + 1, poses[1].getY() + 1, poses[1].getZ() + 1, 0.2f, 0.2f, 1.0f, 0.25f, true);
+        tesselator.end();
+        buffer.begin(VertexFormat.Mode.LINES, DefaultVertexFormat.POSITION_COLOR_NORMAL);
+        RenderSystem.setShader(GameRenderer::getRendertypeLinesShader);
+        RenderSystem.lineWidth(3);
+        RenderBufferUtils.drawCubeFrame(poseStack, buffer, poses[0].getX(), poses[0].getY(), poses[0].getZ(), poses[1].getX() + 1, poses[1].getY() + 1, poses[1].getZ() + 1, 0.0f, 0.0f, 1.0f, 0.5f);
+        tesselator.end();
+        RenderSystem.enableCull();
+        RenderSystem.disableBlend();
+        RenderSystem.enableDepthTest();
+        poseStack.popPose();
     }
 
     private static void highlightSphere(Camera camera, PoseStack poseStack, BlockPos blockPos, float radius) {

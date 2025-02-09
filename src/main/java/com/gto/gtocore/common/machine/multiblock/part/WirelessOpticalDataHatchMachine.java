@@ -1,7 +1,5 @@
 package com.gto.gtocore.common.machine.multiblock.part;
 
-import com.gto.gtocore.api.capability.BindCapability;
-
 import com.gregtechceu.gtceu.api.capability.IDataAccessHatch;
 import com.gregtechceu.gtceu.api.capability.IOpticalDataAccessHatch;
 import com.gregtechceu.gtceu.api.capability.IWorkable;
@@ -26,6 +24,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 
+import com.hepdd.gtmthings.api.capability.IGTMTJadeIF;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import lombok.Getter;
@@ -43,7 +42,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
  */
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
-public final class WirelessOpticalDataHatchMachine extends MultiblockPartMachine implements IOpticalDataAccessHatch, IInteractedMachine, BindCapability {
+public final class WirelessOpticalDataHatchMachine extends MultiblockPartMachine implements IOpticalDataAccessHatch, IInteractedMachine, IGTMTJadeIF {
 
     private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
             WirelessOpticalDataHatchMachine.class, MultiblockPartMachine.MANAGED_FIELD_HOLDER);
@@ -222,12 +221,12 @@ public final class WirelessOpticalDataHatchMachine extends MultiblockPartMachine
     }
 
     @Override
-    public boolean bind() {
+    public boolean isbinded() {
         return transmitterPos != null || receiverPos != null;
     }
 
     @Override
-    public String pos() {
+    public String getBindPos() {
         if (transmitter && receiverPos != null) {
             return receiverPos.toShortString();
         } else if (!transmitter && transmitterPos != null) {

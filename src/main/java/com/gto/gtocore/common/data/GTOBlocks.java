@@ -1,6 +1,7 @@
 package com.gto.gtocore.common.data;
 
 import com.gto.gtocore.GTOCore;
+import com.gto.gtocore.api.GTOValues;
 import com.gto.gtocore.common.block.*;
 import com.gto.gtocore.utils.RLUtils;
 
@@ -62,6 +63,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.*;
 import java.util.function.Supplier;
 
+import static com.gregtechceu.gtceu.api.GTValues.VN;
 import static com.gregtechceu.gtceu.common.data.GTBlocks.ALL_FUSION_CASINGS;
 import static com.gto.gtocore.api.registries.GTORegistration.REGISTRATE;
 import static com.gto.gtocore.common.block.BlockMap.*;
@@ -199,8 +201,8 @@ public final class GTOBlocks {
         return createTierCasings(name, cn, texture, () -> Blocks.GLASS, p -> new GlassBlock(p) {
 
             @Override
-            public void appendHoverText(@NotNull ItemStack stack, @Nullable BlockGetter level,
-                                        @NotNull List<Component> tooltip, @NotNull TooltipFlag flag) {
+            public void appendHoverText(@NotNull ItemStack stack, @Nullable BlockGetter level, @NotNull List<Component> tooltip, @NotNull TooltipFlag flag) {
+                super.appendHoverText(stack, level, tooltip, flag);
                 tooltip.add(Component.translatable("tooltip.avaritia.tier", tier));
             }
         }, () -> RenderType::translucent, GLASSMAP, tier);
@@ -241,8 +243,8 @@ public final class GTOBlocks {
         BlockEntry<ActiveBlock> Block = block(name, cn, p -> (ActiveBlock) new ActiveBlock(p) {
 
             @Override
-            public void appendHoverText(@NotNull ItemStack stack, @Nullable BlockGetter level,
-                                        @NotNull List<Component> tooltip, @NotNull TooltipFlag flag) {
+            public void appendHoverText(@NotNull ItemStack stack, @Nullable BlockGetter level, @NotNull List<Component> tooltip, @NotNull TooltipFlag flag) {
+                super.appendHoverText(stack, level, tooltip, flag);
                 tooltip.add(Component.translatable("tooltip.avaritia.tier", tier));
             }
         })
@@ -392,6 +394,19 @@ public final class GTOBlocks {
         return coilBlock;
     }
 
+    private static BlockEntry<WirelessEnergyUnitBlock> createWirelessEnergyUnit(int tier) {
+        String t = VN[tier].toLowerCase(Locale.ROOT);
+        String name = t + "_wireless_energy_unit";
+        return block(name, GTOValues.VNFR[tier] + "无线能量单元", p -> new WirelessEnergyUnitBlock(p, tier))
+                .initialProperties(() -> Blocks.IRON_BLOCK)
+                .addLayer(() -> RenderType::cutoutMipped)
+                .blockstate((ctx, prov) -> prov.simpleBlock(ctx.getEntry(), prov.models().cubeAll(name, GTOCore.id("block/casings/wireless_energy_unit/" + t))))
+                .tag(GTToolType.WRENCH.harvestTags.get(0))
+                .item(BlockItem::new)
+                .build()
+                .register();
+    }
+
     public static final BlockEntry<NukeBombBlock> NUKE_BOMB = block("nuke_bomb", "核弹", NukeBombBlock::new)
             .properties(p -> p.mapColor(MapColor.FIRE).instabreak().sound(SoundType.GRASS).ignitedByLava())
             .tag(BlockTags.MINEABLE_WITH_AXE)
@@ -479,6 +494,21 @@ public final class GTOBlocks {
     public static final BlockEntry<CoilBlock> INFINITY_COIL_BLOCK = createCoilBlock(CoilType.INFINITY);
     public static final BlockEntry<CoilBlock> HYPOGEN_COIL_BLOCK = createCoilBlock(CoilType.HYPOGEN);
     public static final BlockEntry<CoilBlock> ETERNITY_COIL_BLOCK = createCoilBlock(CoilType.ETERNITY);
+
+    public static final BlockEntry<WirelessEnergyUnitBlock> LV_WIRELESS_ENERGY_UNIT = createWirelessEnergyUnit(GTValues.LV);
+    public static final BlockEntry<WirelessEnergyUnitBlock> MV_WIRELESS_ENERGY_UNIT = createWirelessEnergyUnit(GTValues.MV);
+    public static final BlockEntry<WirelessEnergyUnitBlock> HV_WIRELESS_ENERGY_UNIT = createWirelessEnergyUnit(GTValues.HV);
+    public static final BlockEntry<WirelessEnergyUnitBlock> EV_WIRELESS_ENERGY_UNIT = createWirelessEnergyUnit(GTValues.EV);
+    public static final BlockEntry<WirelessEnergyUnitBlock> IV_WIRELESS_ENERGY_UNIT = createWirelessEnergyUnit(GTValues.IV);
+    public static final BlockEntry<WirelessEnergyUnitBlock> LUV_WIRELESS_ENERGY_UNIT = createWirelessEnergyUnit(GTValues.LuV);
+    public static final BlockEntry<WirelessEnergyUnitBlock> ZPM_WIRELESS_ENERGY_UNIT = createWirelessEnergyUnit(GTValues.ZPM);
+    public static final BlockEntry<WirelessEnergyUnitBlock> UV_WIRELESS_ENERGY_UNIT = createWirelessEnergyUnit(GTValues.UV);
+    public static final BlockEntry<WirelessEnergyUnitBlock> UHV_WIRELESS_ENERGY_UNIT = createWirelessEnergyUnit(GTValues.UHV);
+    public static final BlockEntry<WirelessEnergyUnitBlock> UEV_WIRELESS_ENERGY_UNIT = createWirelessEnergyUnit(GTValues.UEV);
+    public static final BlockEntry<WirelessEnergyUnitBlock> UIV_WIRELESS_ENERGY_UNIT = createWirelessEnergyUnit(GTValues.UIV);
+    public static final BlockEntry<WirelessEnergyUnitBlock> UXV_WIRELESS_ENERGY_UNIT = createWirelessEnergyUnit(GTValues.UXV);
+    public static final BlockEntry<WirelessEnergyUnitBlock> OPV_WIRELESS_ENERGY_UNIT = createWirelessEnergyUnit(GTValues.OpV);
+    public static final BlockEntry<WirelessEnergyUnitBlock> MAX_WIRELESS_ENERGY_UNIT = createWirelessEnergyUnit(GTValues.MAX);
 
     public static final BlockEntry<FusionCasingBlock> FUSION_CASING_MK4 = createFusionCasing(FusionCasings.CasingType.FUSION_CASING_MK4, "聚变机械方块 MK-IV");
     public static final BlockEntry<FusionCasingBlock> FUSION_CASING_MK5 = createFusionCasing(FusionCasings.CasingType.FUSION_CASING_MK5, "聚变机械方块 MK-V");

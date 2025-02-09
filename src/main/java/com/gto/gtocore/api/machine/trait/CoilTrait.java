@@ -4,7 +4,6 @@ import com.gto.gtocore.api.machine.multiblock.ElectricMultiblockMachine;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.block.ICoilType;
-import com.gregtechceu.gtceu.api.machine.multiblock.WorkableMultiblockMachine;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.common.block.CoilBlock;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
@@ -27,7 +26,7 @@ public class CoilTrait extends MultiblockTrait {
     private final boolean ebf;
     private final boolean check;
 
-    public CoilTrait(WorkableMultiblockMachine machine, boolean ebf, boolean check) {
+    public CoilTrait(ElectricMultiblockMachine machine, boolean ebf, boolean check) {
         super(machine);
         this.ebf = ebf;
         this.check = check;

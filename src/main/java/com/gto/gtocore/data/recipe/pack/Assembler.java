@@ -23,7 +23,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
 
-import appeng.core.definitions.AEBlocks;
 import appeng.core.definitions.AEItems;
 import com.kyanite.deeperdarker.content.DDItems;
 import earth.terrarium.adastra.common.registry.ModItems;
@@ -2217,15 +2216,6 @@ final class Assembler {
                 .duration(1200)
                 .save(provider);
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("virtual_item_provider"))
-                .inputItems(GTItems.PROGRAMMED_CIRCUIT.asStack())
-                .inputItems(new ItemStack(AEBlocks.QUARTZ_VIBRANT_GLASS.block().asItem()))
-                .inputItems(TagPrefix.foil, GTMaterials.PolyvinylChloride, 8)
-                .outputItems(GTOItems.VIRTUAL_ITEM_PROVIDER.asStack())
-                .EUt(30)
-                .duration(200)
-                .save(provider);
-
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("disassembly"))
                 .inputItems(GTMultiMachines.ASSEMBLY_LINE.asStack())
                 .inputItems(TagPrefix.gear, GTMaterials.NaquadahAlloy, 4)
@@ -2391,16 +2381,6 @@ final class Assembler {
                 .outputItems(GTOMachines.LASER_OUTPUT_HATCH_65536[GTValues.MAX].asStack())
                 .EUt(2013265920)
                 .duration(4800)
-                .save(provider);
-
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("virtual_item_provider_cell"))
-                .inputItems(new ItemStack(AEItems.ITEM_CELL_1K.asItem()))
-                .inputItems(GTOItems.VIRTUAL_ITEM_PROVIDER.asStack())
-                .inputItems(GTItems.CONVEYOR_MODULE_MV.asStack(2))
-                .inputFluids(GTMaterials.Polyethylene.getFluid(288))
-                .outputItems(GTOItems.VIRTUAL_ITEM_PROVIDER_CELL.asStack())
-                .EUt(30)
-                .duration(200)
                 .save(provider);
 
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("rotor_hatch"))

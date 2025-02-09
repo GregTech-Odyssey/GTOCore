@@ -3,6 +3,7 @@ package com.gto.gtocore.common.machine.multiblock.water;
 import com.gto.gtocore.api.machine.multiblock.ElectricMultiblockMachine;
 import com.gto.gtocore.api.machine.trait.CustomRecipeLogic;
 import com.gto.gtocore.api.recipe.GTORecipeBuilder;
+import com.gto.gtocore.client.ClientUtil;
 import com.gto.gtocore.common.data.GTOMaterials;
 
 import com.gregtechceu.gtceu.api.GTValues;
@@ -41,10 +42,6 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public final class WaterPurificationPlantMachine extends ElectricMultiblockMachine {
-
-    public static int time;
-
-    public static BlockPos pos;
 
     private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
             WaterPurificationPlantMachine.class, ElectricMultiblockMachine.MANAGED_FIELD_HOLDER);
@@ -142,10 +139,15 @@ public final class WaterPurificationPlantMachine extends ElectricMultiblockMachi
     }
 
     @Override
+    protected void customText(List<Component> textList) {
+        super.customText(textList);
+        textList.add(ComponentPanelWidget.withButton(Component.translatable("gui.enderio.range.show"), "show"));
+    }
+
+    @Override
     public void addDisplayText(@NotNull List<Component> textList) {
         super.addDisplayText(textList);
         if (!isFormed()) return;
-        textList.add(ComponentPanelWidget.withButton(Component.translatable("gui.enderio.range.show"), "show"));
         textList.add(Component.translatable("gtocore.machine.water_purification_plant.bind"));
         for (Map.Entry<WaterPurificationUnitMachine, Boolean> entry : waterPurificationUnitMachineMap.entrySet()) {
             MutableComponent component = Component.translatable(entry.getKey().getBlockState().getBlock().getDescriptionId()).append(" ");
@@ -161,8 +163,7 @@ public final class WaterPurificationPlantMachine extends ElectricMultiblockMachi
     @Override
     public void handleDisplayClick(String componentData, ClickData clickData) {
         if (clickData.isRemote && "show".equals(componentData)) {
-            time = 200;
-            pos = getPos();
+            ClientUtil.highlighting(getPos(), 32);
         }
     }
 
