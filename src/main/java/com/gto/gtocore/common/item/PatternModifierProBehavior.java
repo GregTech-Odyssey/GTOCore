@@ -74,8 +74,8 @@ public final class PatternModifierProBehavior implements IItemUIFactory {
                         .addWidget(new AETextInputButtonWidget(-60, 96 + 2, 60, 12)
                                 .setText(String.valueOf(Ae2PatternGeneratorAppliedNumber))
                                 .setOnConfirm(this::setAe2PatternGeneratorAppliedNumber))
-                        .addWidget(new LabelWidget(12, 96 + 4, Component.translatable("gtocore.patternModifierPro.5")))
-                ).background(GuiTextures.BACKGROUND);
+                        .addWidget(new LabelWidget(12, 96 + 4, Component.translatable("gtocore.patternModifierPro.5"))))
+                .background(GuiTextures.BACKGROUND);
     }
 
     private void setAe2PatternGeneratorAppliedNumber(String s) {

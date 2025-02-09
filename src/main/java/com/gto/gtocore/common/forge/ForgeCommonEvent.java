@@ -20,7 +20,6 @@ import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.common.data.GTItems;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
@@ -59,22 +58,22 @@ public final class ForgeCommonEvent {
         if (GTOConfig.INSTANCE.enableAnimalsAreAfraidToEatTheirMeat) {
             if (event.getEntity() instanceof Player player && Objects.equals(20, event.getDuration()) && !player.level().isClientSide()) {
                 int distacne = GTOConfig.INSTANCE.enableAnimalsAreAfraidToEatTheirMeatRange;
-                hurtAnimalsNearPlayer(player, Items.BEEF, Cow.class, event,distacne);
-                hurtAnimalsNearPlayer(player, Items.COOKED_BEEF, Cow.class, event,distacne);
+                hurtAnimalsNearPlayer(player, Items.BEEF, Cow.class, event, distacne);
+                hurtAnimalsNearPlayer(player, Items.COOKED_BEEF, Cow.class, event, distacne);
 
-                hurtAnimalsNearPlayer(player, Items.CHICKEN, Chicken.class, event,distacne);
-                hurtAnimalsNearPlayer(player, Items.COOKED_CHICKEN, Chicken.class, event,distacne);
+                hurtAnimalsNearPlayer(player, Items.CHICKEN, Chicken.class, event, distacne);
+                hurtAnimalsNearPlayer(player, Items.COOKED_CHICKEN, Chicken.class, event, distacne);
 
-                hurtAnimalsNearPlayer(player, Items.PORKCHOP, Pig.class, event,distacne);
-                hurtAnimalsNearPlayer(player, Items.COOKED_PORKCHOP, Pig.class, event,distacne);
+                hurtAnimalsNearPlayer(player, Items.PORKCHOP, Pig.class, event, distacne);
+                hurtAnimalsNearPlayer(player, Items.COOKED_PORKCHOP, Pig.class, event, distacne);
 
-                hurtAnimalsNearPlayer(player, Items.MUTTON, Sheep.class, event,distacne);
-                hurtAnimalsNearPlayer(player, Items.COOKED_MUTTON, Sheep.class, event,distacne);
+                hurtAnimalsNearPlayer(player, Items.MUTTON, Sheep.class, event, distacne);
+                hurtAnimalsNearPlayer(player, Items.COOKED_MUTTON, Sheep.class, event, distacne);
             }
         }
     }
 
-    private static <T extends Animal> void hurtAnimalsNearPlayer(Player player, Item foodItem, Class<T> animalClass, LivingEntityUseItemEvent event,float distance) {
+    private static <T extends Animal> void hurtAnimalsNearPlayer(Player player, Item foodItem, Class<T> animalClass, LivingEntityUseItemEvent event, float distance) {
         if (event.getItem().is(foodItem)) {
             Level level = player.level();
             List<T> animalEntities = level.getEntitiesOfClass(animalClass, player.getBoundingBox().inflate(distance));
