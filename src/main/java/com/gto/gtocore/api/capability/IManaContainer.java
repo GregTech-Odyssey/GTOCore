@@ -30,11 +30,18 @@ public interface IManaContainer {
             if (distributor.isFormed()) {
                 return distributor;
             } else {
-                distributor.remove();
-                setDistributorCache(null);
+                removeDistributorCache();
             }
         }
         return null;
+    }
+
+    default void removeDistributorCache() {
+        ManaDistributorMachine distributor = getDistributorCache();
+        if (distributor != null) {
+            distributor.remove();
+            setDistributorCache(null);
+        }
     }
 
     boolean acceptDistributor();

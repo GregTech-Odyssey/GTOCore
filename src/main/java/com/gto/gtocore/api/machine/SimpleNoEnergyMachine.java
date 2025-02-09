@@ -228,7 +228,6 @@ public class SimpleNoEnergyMachine extends TieredMachine implements IRecipeLogic
 
     @Override
     public void onMachineRemoved() {
-        IMachineLife.super.onMachineRemoved();
         clearInventory(importItems.storage);
         clearInventory(exportItems.storage);
     }

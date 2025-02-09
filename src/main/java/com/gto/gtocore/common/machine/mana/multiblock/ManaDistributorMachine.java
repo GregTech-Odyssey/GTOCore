@@ -75,6 +75,7 @@ public final class ManaDistributorMachine extends NoRecipeLogicMultiblockMachine
     @Override
     public void onStructureFormed() {
         super.onStructureFormed();
+        if (isRemote()) return;
         centrepos = MachineUtils.getOffsetPos(2, 2, getFrontFacing(), getPos());
         DISTRIBUTOR_NETWORK.add(this);
     }
@@ -84,6 +85,12 @@ public final class ManaDistributorMachine extends NoRecipeLogicMultiblockMachine
         centrepos = null;
         DISTRIBUTOR_NETWORK.remove(this);
         super.onStructureInvalid();
+    }
+
+    @Override
+    public void onUnload() {
+        super.onUnload();
+        DISTRIBUTOR_NETWORK.remove(this);
     }
 
     @Override

@@ -68,6 +68,7 @@ public class NotifiableManaContainer extends NotifiableRecipeHandlerTrait<Intege
     @Override
     public void onMachineUnLoad() {
         super.onMachineUnLoad();
+        removeDistributorCache();
         if (updateSubs != null) {
             updateSubs.unsubscribe();
             updateSubs = null;
