@@ -65,7 +65,7 @@ final class Vanilla {
                     "DBD",
                     'A', new UnificationEntry(TagPrefix.screw, GTMaterials.WroughtIron), 'B', new ItemStack(Items.LEATHER.asItem()), 'C', RegistriesUtils.getItemStack("gtceu:wood_crate"), 'D', new ItemStack(Items.STRING.asItem()));
         }
-        VanillaRecipeHelper.addShapelessRecipe(provider, GTOCore.id("pattern_modifier"), GTOItems.PATTERN_MODIFIER.asStack(), RegistriesUtils.getItemStack("expatternprovider:pattern_modifier"));
+        VanillaRecipeHelper.addShapelessRecipe(provider, GTOCore.id("pattern_modifier_pro"), GTOItems.PATTERN_MODIFIER_PRO.asStack(), RegistriesUtils.getItemStack("expatternprovider:pattern_modifier"));
         VanillaRecipeHelper.addShapelessRecipe(provider, GTOCore.id("item_storage_cell_64m_2"), GTOItems.ITEM_STORAGE_CELL_64M.asStack(), new ItemStack(AEItems.ITEM_CELL_HOUSING.asItem()), GTOItems.CELL_COMPONENT_64M.asStack());
         VanillaRecipeHelper.addShapelessRecipe(provider, GTOCore.id("suprachronal_assembly_line_module"), MultiBlockMachineD.SUPRACHRONAL_ASSEMBLY_LINE_MODULE.asStack(), MultiBlockMachineD.SUPRACHRONAL_ASSEMBLY_LINE.asStack());
         VanillaRecipeHelper.addShapelessRecipe(provider, GTOCore.id("fluid_storage_cell_1m"), GTOItems.FLUID_STORAGE_CELL_1M.asStack(), new ItemStack(AEItems.FLUID_CELL_HOUSING.asItem()), GTOItems.CELL_COMPONENT_1M.asStack());

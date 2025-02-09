@@ -84,8 +84,19 @@ public final class LangHandler {
         addENCN("gtocore.me_any", "ME hatch allows connection from any side.", "ME仓允许任意面连接");
         addENCN("gtocore.me_front", "ME hatch only allows connection from the front side.", "ME仓只允许正面连接");
 
+
         addENCN("config.gtocore.option.enableAnimalsAreAfraidToEatTheirMeat", "Enable Animals Are Afraid To Eat Their Meat", "启用动物害怕他们的肉被吃");
-        addENCN("config.gtocore.option.enableAnimalsAreAfraidToEatTheirMeatRange", "Enable Animals Are Afraid To Eat Their Meat Range", "启用动物害怕他们的肉被吃的范围");
+        addENCN("config.gtocore.option.enableAnimalsAreAfraidToEatTheirMeatRange", "Enable Animals Are Afraid To Eat Their Meat's Range", "启用动物害怕他们的肉被吃的范围");
+        addENCN("gtocore.patternModifierPro.0", "After setup,shift + right-click template provider to apply", "设置完成后，潜行右击样板供应器以应用");
+        addENCN("gtocore.patternModifierPro.1", "Set Item and Fluid Multiplier", "模板乘数：所有物品和流体乘以指定倍数");
+        addENCN("gtocore.patternModifierPro.2", "Set Item and Fluid Divider", "模板乘数：所有物品和流体除以指定倍数");
+        addENCN("gtocore.patternModifierPro.3", "Set Maximum Item Count", "最大物品数：所有物品不会超过此数量");
+        addENCN("gtocore.patternModifierPro.4", "Set Maximum Fluid Amount / Bucket", "最大流体数：所有流体不会超过此桶数");
+        addENCN("gtocore.patternModifierPro.5", "Set Application Cycles , Up to 16", "应用次数为：循环上述操作次数，最大为16");
+
+
+
+
         addENCN("config.gtocore.option.selfRestraint", "Self Restraint Mode", "自我约束模式");
         addENCN("config.gtocore.option.eioFluidRate", "EIO Fluid Pipe Rate Multiplier", "EIO流体管道速率倍数");
         addENCN("config.gtocore.option.enablePrimitiveVoidOre", "Enable Primitive Void Ore Machine", "启用原始虚空矿机");

@@ -405,9 +405,9 @@ public final class GTOItems {
             .model(NonNullBiConsumer.noop())
             .register();
 
-    public static final ItemEntry<ComponentItem> PATTERN_MODIFIER = item("pattern_modifier", "供应器样板修改器", ComponentItem::create)
+    public static final ItemEntry<ComponentItem> PATTERN_MODIFIER_PRO = item("pattern_modifier_pro", "样板修改器pro", ComponentItem::create)
             .properties(p -> p.stacksTo(1))
-            .onRegister(attach(PatternModifierBehavior.INSTANCE))
+            .onRegister(attach(PatternModifierProBehavior.INSTANCE))
             .model(NonNullBiConsumer.noop())
             .register();
 
