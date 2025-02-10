@@ -57,15 +57,11 @@ public class CommonProxy {
     }
 
     private static void commonSetup(FMLCommonSetupEvent event) {
+        event.enqueueWork(GTOItems::InitUpgrades);
         KeyMessage.PACKET_HANDLER.registerMessage(KeyMessage.messageID, KeyMessage.class, KeyMessage::buffer, KeyMessage::new, KeyMessage::handler);
         KeyMessage.messageID++;
         StorageCells.addCellHandler(InfinityCellHandler.INSTANCE);
         StorageCells.addCellGuiHandler(new InfinityCellGuiHandler());
-        event.enqueueWork(CommonProxy::postRegistrationInitialization);
-    }
-
-    private static void postRegistrationInitialization() {
-        GTOItems.InitUpgrades();
 
         FusionReactorMachine.registerFusionTier(GTValues.UHV, " (MKIV)");
         FusionReactorMachine.registerFusionTier(GTValues.UEV, " (MKV)");
@@ -79,6 +75,7 @@ public class CommonProxy {
         if (GTCEu.isClientSide()) {
             Thread thread = new Thread(new GTORecipes());
             thread.setDaemon(true);
+            thread.setPriority(Thread.MIN_PRIORITY);
             thread.start();
         }
     }

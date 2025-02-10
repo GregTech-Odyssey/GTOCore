@@ -288,6 +288,7 @@ public final class GTORecipes implements Runnable {
         cache = true;
         Thread thread = new Thread(new Lookup(recipes));
         thread.setDaemon(true);
+        thread.setPriority(Thread.MIN_PRIORITY);
         thread.start();
     }
 

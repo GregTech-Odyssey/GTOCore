@@ -39,7 +39,10 @@ public abstract class RecipeLogicMixin extends MachineTrait implements ILockable
     private GTRecipe gTOCore$originRecipe;
 
     @Unique
-    private static final int CHECK_INTERVAL = GTOConfig.INSTANCE.recipeLogicCheckInterval;
+    private byte gtocore$noResultCount;
+
+    @Unique
+    private int gtocore$interval = 5;
 
     @Shadow
     @Nullable
@@ -174,7 +177,7 @@ public abstract class RecipeLogicMixin extends MachineTrait implements ILockable
                 }
             } else if (lastRecipe != null) {
                 findAndHandleRecipe();
-            } else if (getMachine().getOffsetTimer() % CHECK_INTERVAL == 0) {
+            } else if (getMachine().getOffsetTimer() % gtocore$interval == 0) {
                 if (lastFailedMatches != null) {
                     for (GTRecipe match : lastFailedMatches) {
                         if (checkMatchedRecipeAvailable(match)) {
@@ -184,7 +187,13 @@ public abstract class RecipeLogicMixin extends MachineTrait implements ILockable
                     }
                 }
                 findAndHandleRecipe();
-                if (lastRecipe == null && isIdle() && !machine.keepSubscribing() && !recipeDirty && lastFailedMatches == null) gTOCore$unsubscribe();
+                if (lastRecipe == null && isIdle() && !machine.keepSubscribing() && !recipeDirty && lastFailedMatches == null) {
+                    if (gtocore$interval < GTOConfig.INSTANCE.recipeMaxCheckInterval) {
+                        gtocore$noResultCount++;
+                        gtocore$interval <<= gtocore$noResultCount;
+                    }
+                    gTOCore$unsubscribe();
+                }
             }
         }
         if (fuelTime > 0) {
@@ -251,6 +260,7 @@ public abstract class RecipeLogicMixin extends MachineTrait implements ILockable
         if (last == RecipeLogic.Status.WORKING && getStatus() != RecipeLogic.Status.WORKING) {
             lastRecipe.postWorking(machine);
         } else if (last != RecipeLogic.Status.WORKING && getStatus() == RecipeLogic.Status.WORKING) {
+            gtocore$noResultCount = 0;
             lastRecipe.preWorking(machine);
         }
     }

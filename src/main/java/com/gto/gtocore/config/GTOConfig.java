@@ -73,17 +73,26 @@ public final class GTOConfig {
     }
 
     @Configurable
+    @Configurable.Comment("Prevent cheating")
     public boolean selfRestraint;
     @Configurable
+    @Configurable.Comment("Enabled, no mining required")
     public boolean enablePrimitiveVoidOre;
     @Configurable
+    @Configurable.Comment("Check for conflicts between recipes")
+    public boolean recipeCheck;
+    @Configurable
+    @Configurable.Comment("Reduce resource usage for the MultiBlock page (Reduce memory usage, improve startup speed, only on the client side)")
     public boolean disableMultiBlockPage;
     @Configurable
+    @Configurable.Comment("Remove unnecessary loading")
     public boolean fastMultiBlockPage = true;
     @Configurable
+    @Configurable.Comment("The interval increases gradually when the machine cannot find a recipe; this is the maximum interval.")
     @Configurable.Range(min = 1, max = 200)
-    public int recipeLogicCheckInterval = 20;
+    public int recipeMaxCheckInterval = 80;
     @Configurable
+    @Configurable.Comment("Ore product multiplier")
     @Configurable.Range(min = 1, max = 64)
     public int oreMultiplier = 4;
     @Configurable
@@ -99,6 +108,4 @@ public final class GTOConfig {
     @Configurable
     @Configurable.Range(min = 1, max = 64)
     public int enableAnimalsAreAfraidToEatTheirMeatRange = 12;
-    @Configurable
-    public boolean recipeCheck;
 }
