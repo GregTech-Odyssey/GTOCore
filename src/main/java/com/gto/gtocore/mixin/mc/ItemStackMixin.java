@@ -20,6 +20,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Mixin(value = ItemStack.class, priority = 0)
@@ -47,7 +48,7 @@ public abstract class ItemStackMixin {
     @Inject(method = "getTooltipLines", at = @At("HEAD"), cancellable = true)
     private void getTooltipLines(Player player, TooltipFlag isAdvanced, CallbackInfoReturnable<List<Component>> cir) {
         if (GTValues.CLIENT_TIME % 20 == 0 || TOOLTIP_CACHE == null || gtocore$isTickTooltip()) return;
-        cir.setReturnValue(List.copyOf(TOOLTIP_CACHE));
+        cir.setReturnValue(new ArrayList<>(TOOLTIP_CACHE));
     }
 
     @Unique
