@@ -861,6 +861,16 @@ public final class GTOMaterials {
     public static Material TungstenBoronMixture;
     public static Material UndriedHydroxyapatite;
     public static Material StrontiumSulfate;
+    public static Material ZincChloride;
+    public static Material ElectronicGradeSilicon;
+    public static Material UltraHighPuritySilicon;
+    public static Material Trichlorosilane;
+    public static Material Tetrachlorosilane;
+    public static Material Silane;
+    public static Material PickledElectronicGradeSilicon;
+    public static Material PureTrichlorosilane;
+    public static Material PureSilane;
+    public static Material TetrafluorosilaneSolution;
 
     public static void init() {
         GTMaterialAdd.init();

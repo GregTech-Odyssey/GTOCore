@@ -206,7 +206,7 @@ final class SpsCrafting {
                 .save(provider);
 
         GTORecipeTypes.SPS_CRAFTING_RECIPES.recipeBuilder(GTOCore.id("photocoated_hassium_boule"))
-                .inputItems(GTItems.SILICON_BOULE.asStack())
+                .inputItems(GTOItems.HIGH_PURITY_SINGLE_CRYSTAL_SILICON.asStack())
                 .inputItems(TagPrefix.ingot, GTMaterials.Hassium, 2)
                 .inputItems(GTOItems.HASSIUM_SEED_CRYSTAL.asStack())
                 .inputFluids(GTOMaterials.Mana.getFluid(10000))

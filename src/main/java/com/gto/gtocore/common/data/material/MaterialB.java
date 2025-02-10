@@ -2,9 +2,13 @@ package com.gto.gtocore.common.data.material;
 
 import com.gto.gtocore.api.data.chemical.material.info.GTOMaterialFlags;
 
+import com.gregtechceu.gtceu.api.GTValues;
+
 import static com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlags.DISABLE_DECOMPOSITION;
-import static com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialIconSet.BRIGHT;
-import static com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialIconSet.DULL;
+import static com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialIconSet.*;
+import static com.gregtechceu.gtceu.api.data.chemical.material.properties.BlastProperty.GasTier.HIGHEST;
+import static com.gregtechceu.gtceu.api.data.chemical.material.properties.BlastProperty.GasTier.LOW;
+import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
 import static com.gto.gtocore.api.data.chemical.material.info.GTOMaterialIconSet.LIMPID;
 import static com.gto.gtocore.common.data.GTOMaterials.*;
 
@@ -376,5 +380,88 @@ public final class MaterialB {
                 .color(0x6a67f1)
                 .iconSet(DULL)
                 .buildAndRegister().setFormula("SrSO4");
+
+        ZincChloride = material("zinc_chloride", "氯化锌")
+                .dust()
+                .color(0x6d9cee)
+                .components(Zinc, 1, Chlorine, 2)
+                .iconSet(METALLIC)
+                .buildAndRegister();
+
+        ElectronicGradeSilicon = material("electronic_grade_silicon", "电子级硅")
+                .dust()
+                .ingot()
+                .blastTemp(2273,LOW)
+                .color(0x414151)
+                .components(Silicon, 1)
+                .iconSet(METALLIC)
+                .flags(DISABLE_DECOMPOSITION)
+                .buildAndRegister().setFormula("Si(6N)");
+
+        UltraHighPuritySilicon = material("ultra_high_purity_silicon", "超高纯硅")
+                .dust()
+                .ingot()
+                .blastTemp(10000, HIGHEST, GTValues.VA[GTValues.UV], 1200)
+                .color(0x414151)
+                .components(Silicon, 1)
+                .iconSet(METALLIC)
+                .flags(DISABLE_DECOMPOSITION)
+                .buildAndRegister().setFormula("Si(N12)");
+
+        Trichlorosilane = material("trichlorosilane", "三氯硅烷")
+                .fluid()
+                .color(0xb7b7b7)
+                .components(Helium, 1, Silicon, 1, Chlorine, 3)
+                .iconSet(DULL)
+                .flags(DISABLE_DECOMPOSITION)
+                .buildAndRegister();
+
+        Tetrachlorosilane = material("tetrachlorosilane", "四氯硅烷")
+                .fluid()
+                .color(0x9e9e9e)
+                .components(Silicon, 1, Chlorine, 4)
+                .iconSet(DULL)
+                .flags(DISABLE_DECOMPOSITION)
+                .buildAndRegister();
+
+        Silane = material("silane", "硅烷")
+                .gas()
+                .color(0xb5b5b5)
+                .components(Helium, 4, Silicon, 1)
+                .iconSet(DULL)
+                .flags(DISABLE_DECOMPOSITION)
+                .buildAndRegister();
+
+        PickledElectronicGradeSilicon = material("pickled_electronic_grade_silicon", "酸洗后的电子级硅")
+                .dust()
+                .color(0x414151)
+                .components(Silicon, 1)
+                .iconSet(SAND)
+                .flags(DISABLE_DECOMPOSITION)
+                .buildAndRegister().setFormula("Si(N6)");
+
+        PureTrichlorosilane = material("pure_trichlorosilane", "高纯三氯硅烷")
+                .fluid()
+                .color(0xb7b7b7)
+                .components(Helium, 1, Silicon, 1, Chlorine, 3)
+                .iconSet(DULL)
+                .flags(DISABLE_DECOMPOSITION)
+                .buildAndRegister();
+
+        PureSilane = material("pure_silane", "高纯硅烷")
+                .gas()
+                .color(0xb5b5b5)
+                .components(Silicon, 1, Helium, 4)
+                .iconSet(DULL)
+                .flags(DISABLE_DECOMPOSITION)
+                .buildAndRegister();
+
+        TetrafluorosilaneSolution = material("tetrafluorosilane_solution", "四氟硅烷溶液")
+                .fluid()
+                .color(0xf6f7fb)
+                .components(Silicon, 1, Fluorine, 4)
+                .iconSet(DULL)
+                .flags(DISABLE_DECOMPOSITION)
+                .buildAndRegister().setFormula("SiF4·(HF)n");
     }
 }

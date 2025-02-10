@@ -880,4 +880,10 @@ public final class GTOItems {
     public static final ItemEntry<Item> BALL_FIELD_SHAPE = register("ball_field_shape", "球状形态力场");
     public static final ItemEntry<Item> NON_LINEAR_OPTICAL_LENS = register("non_linear_optical_lens", "非线性光学透镜");
     public static final ItemEntry<Item> CATALYST_BASE = register("catalyst_base", "催化剂基底");
+
+    public static final ItemEntry<Item> HIGH_PURITY_SILICON_BOULE = register("high_purity_silicon_boule", "高纯多晶硅");
+    public static final ItemEntry<Item> REGIONAL_SMELTING_SILICON_BOULE = register("regional_smelting_silicon_boule", "区域熔炼的多晶硅");
+    public static final ItemEntry<Item> ETCHED_SILICON_BOULE = register("etched_silicon_boule", "电子束蚀刻的多晶硅");
+    public static final ItemEntry<Item> FLOATING_ZONE_PURIFICATION_SILICON_BOULE = register("floating_zone_purification_silicon_boule", "浮区提纯的多晶硅");
+    public static final ItemEntry<Item> HIGH_PURITY_SINGLE_CRYSTAL_SILICON = register("high_purity_single_crystal_silicon", "超高纯单晶硅");
 }

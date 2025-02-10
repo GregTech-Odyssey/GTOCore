@@ -579,6 +579,12 @@
     "gtocore:ytterbium_extracted_nano_resin_bucket",
     "gtocore:lutetium_extracted_nano_resin_bucket",
     "gtocore:scandium_extracted_nano_resin_bucket",
-    "gtocore:yttrium_extracted_nano_resin_bucket"
+    "gtocore:yttrium_extracted_nano_resin_bucket",
+    "gtocore:trichlorosilane_bucket",
+    "gtocore:tetrachlorosilane_bucket",
+    "gtocore:silane_bucket",
+    "gtocore:pure_trichlorosilane_bucket",
+    "gtocore:pure_silane_bucket",
+    "gtocore:tetrafluorosilane_solution_bucket"
   ]
 }

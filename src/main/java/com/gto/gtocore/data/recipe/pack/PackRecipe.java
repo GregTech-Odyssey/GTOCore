@@ -281,7 +281,7 @@ public final class PackRecipe {
                 .save(provider);
 
         GTRecipeTypes.BLAST_RECIPES.recipeBuilder(GTOCore.id("taranium_boulea"))
-                .inputItems(TagPrefix.block, GTMaterials.Silicon, 64)
+                .inputItems(TagPrefix.block, GTOMaterials.UltraHighPuritySilicon, 64)
                 .inputItems(TagPrefix.ingot, GTOMaterials.Taranium, 8)
                 .inputItems(TagPrefix.dust, GTMaterials.GalliumArsenide, 4)
                 .inputFluids(GTMaterials.Radon.getFluid(16000))

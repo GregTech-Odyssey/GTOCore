@@ -7,10 +7,7 @@ import com.gto.gtocore.data.recipe.*;
 import com.gto.gtocore.data.recipe.generated.*;
 import com.gto.gtocore.data.recipe.generated.ComponentRecipes;
 import com.gto.gtocore.data.recipe.pack.PackRecipe;
-import com.gto.gtocore.data.recipe.processing.Lanthanidetreatment;
-import com.gto.gtocore.data.recipe.processing.NaquadahProcess;
-import com.gto.gtocore.data.recipe.processing.PlatGroupMetals;
-import com.gto.gtocore.data.recipe.processing.StoneDustProcess;
+import com.gto.gtocore.data.recipe.processing.*;
 import com.gto.gtocore.integration.kjs.GTKubeJSPlugin;
 import com.gto.gtocore.utils.RLUtils;
 
@@ -147,6 +144,11 @@ public final class GTORecipes implements Runnable {
         GT_FILTER_RECIPES.add(GTCEu.id("electric_blast_furnace/blast_silicon_dioxide"));
         GT_FILTER_RECIPES.add(GTCEu.id("electric_blast_furnace/aluminium_from_sapphire_dust"));
         GT_FILTER_RECIPES.add(GTCEu.id("electric_blast_furnace/titanium_from_tetrachloride"));
+        GT_FILTER_RECIPES.add(GTCEu.id("chemical_reactor/polydimethylsiloxane_from_silicon"));
+        GT_FILTER_RECIPES.add(GTCEu.id("electric_blast_furnace/silicon_boule"));
+        GT_FILTER_RECIPES.add(GTCEu.id("electric_blast_furnace/phosphorus_boule"));
+        GT_FILTER_RECIPES.add(GTCEu.id("electric_blast_furnace/naquadah_boule"));
+        GT_FILTER_RECIPES.add(GTCEu.id("electric_blast_furnace/neutronium_boule"));
 
         Material[] fluidMap = { GTMaterials.Glue, GTMaterials.Polyethylene,
                 GTMaterials.Polytetrafluoroethylene, GTMaterials.Polybenzimidazole };
@@ -218,6 +220,7 @@ public final class GTORecipes implements Runnable {
         ElementCopying.init(consumer);
         StoneDustProcess.init(consumer);
         Lanthanidetreatment.init(consumer);
+        NewResearchSystem.init(consumer);
         RadiationHatchRecipes.init(consumer);
         RecipeOverwrite.init(consumer);
         PetrochemRecipes.init(consumer);
