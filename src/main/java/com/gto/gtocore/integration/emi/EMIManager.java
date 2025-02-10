@@ -1,5 +1,7 @@
 package com.gto.gtocore.integration.emi;
 
+import com.gto.gtocore.common.data.GTORecipes;
+
 import net.minecraft.resources.ResourceLocation;
 
 import com.google.common.collect.Lists;
@@ -32,6 +34,7 @@ public final class EMIManager implements EmiRecipeManager {
     private final Map<ResourceLocation, EmiRecipe> byId = Maps.newHashMap();
 
     public EMIManager(List<EmiRecipeCategory> categories, Map<EmiRecipeCategory, List<EmiIngredient>> workstations, List<EmiRecipe> recipes) {
+        recipes.addAll(GTORecipes.EMI_RECIPES);
         this.categories = categories;
         this.workstations = workstations;
         this.recipes = recipes;

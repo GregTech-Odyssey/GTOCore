@@ -3,7 +3,6 @@ package com.gto.gtocore.mixin.emi;
 import com.gto.gtocore.common.data.GTORecipes;
 import com.gto.gtocore.integration.kjs.GTKubeJSPlugin;
 
-import com.gregtechceu.gtceu.integration.emi.recipe.GTEmiRecipe;
 import com.gregtechceu.gtceu.integration.emi.recipe.GTRecipeEMICategory;
 
 import dev.emi.emi.api.EmiRegistry;
@@ -17,9 +16,6 @@ public class GTRecipeEMICategoryMixin {
 
     @Inject(method = "registerDisplays", at = @At("HEAD"), remap = false, cancellable = true)
     private static void registerDisplays(EmiRegistry registry, CallbackInfo ci) {
-        for (GTEmiRecipe recipe : GTORecipes.EMI_RECIPES) {
-            registry.addRecipe(recipe);
-        }
         if (GTKubeJSPlugin.hasKJSGTRecipe) {
             GTORecipes.initKJSCategoryMap();
         } else {

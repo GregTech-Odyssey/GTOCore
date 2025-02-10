@@ -21,7 +21,7 @@ import static com.gto.gtocore.common.data.GTORecipeTypes.*;
 public final class NewResearchSystem {
 
     public static void init(Consumer<FinishedRecipe> provider) {
-        //重写配方
+        // 重写配方
         {
             CHEMICAL_RECIPES.recipeBuilder("polydimethylsiloxane_from_silicon")
                     .inputItems(dust, Silicon)
@@ -237,8 +237,5 @@ public final class NewResearchSystem {
                     .blastFurnaceTemp(8684)
                     .duration(21000).EUt(VA[ZPM]).save(provider);
         }
-
-
-
     }
 }

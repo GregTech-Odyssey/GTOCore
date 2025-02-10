@@ -391,7 +391,7 @@ public final class MaterialB {
         ElectronicGradeSilicon = material("electronic_grade_silicon", "电子级硅")
                 .dust()
                 .ingot()
-                .blastTemp(2273,LOW)
+                .blastTemp(2273, LOW)
                 .color(0x414151)
                 .components(Silicon, 1)
                 .iconSet(METALLIC)
