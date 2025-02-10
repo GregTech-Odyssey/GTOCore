@@ -130,7 +130,7 @@ public final class BlockConversionRoomMachine extends StorageMultiblockMachine {
     }
 
     @Override
-    protected void customText(@NotNull List<Component> textList) {
+    public void customText(@NotNull List<Component> textList) {
         super.customText(textList);
         textList.add(Component.translatable("gtocore.machine.block_conversion_room.am", (getTier() * am - 7)));
     }

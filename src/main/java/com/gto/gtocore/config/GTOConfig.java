@@ -65,8 +65,8 @@ public final class GTOConfig {
         ConfigHolder.INSTANCE.gameplay.environmentalHazards = false;
 
         ConfigHolder.INSTANCE.compat.energy.enableFEConverters = true;
-        ConfigHolder.INSTANCE.compat.energy.euToFeRatio = 64;
-        ConfigHolder.INSTANCE.compat.energy.feToEuRatio = 48;
+        ConfigHolder.INSTANCE.compat.energy.euToFeRatio = 16;
+        ConfigHolder.INSTANCE.compat.energy.feToEuRatio = 20;
         ConfigHolder.INSTANCE.compat.ae2.meHatchEnergyUsage = 1920;
         ConfigHolder.INSTANCE.compat.showDimensionTier = true;
         ConfigHolder.INSTANCE.compat.minimap.toggle.journeyMapIntegration = false;
@@ -99,4 +99,6 @@ public final class GTOConfig {
     @Configurable
     @Configurable.Range(min = 1, max = 64)
     public int enableAnimalsAreAfraidToEatTheirMeatRange = 12;
+    @Configurable
+    public boolean recipeCheck;
 }

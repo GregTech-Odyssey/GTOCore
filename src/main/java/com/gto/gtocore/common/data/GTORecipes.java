@@ -259,6 +259,7 @@ public final class GTORecipes implements Runnable {
     }
 
     public static void clearCategoryMap(boolean thoroughly) {
+        if (GTOConfig.INSTANCE.recipeCheck) return;
         for (GTRecipeType type : GTRegistries.RECIPE_TYPES) {
             if (thoroughly) {
                 type.getCategoryMap().clear();

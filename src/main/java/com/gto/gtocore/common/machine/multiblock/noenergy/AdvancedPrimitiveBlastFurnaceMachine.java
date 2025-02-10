@@ -92,7 +92,7 @@ public final class AdvancedPrimitiveBlastFurnaceMachine extends NoEnergyCustomPa
     }
 
     @Override
-    protected void customText(List<Component> textList) {
+    public void customText(List<Component> textList) {
         super.customText(textList);
         textList.add(Component.translatable("gtocore.machine.height", height));
         textList.add(Component.translatable("gtocore.machine.total_time", getRecipeLogic().getTotalContinuousRunningTime()));

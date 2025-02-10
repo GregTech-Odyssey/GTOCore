@@ -91,7 +91,7 @@ public final class HighEnergyLaserPurificationUnitMachine extends WaterPurificat
     }
 
     @Override
-    protected void customText(List<Component> textList) {
+    public void customText(List<Component> textList) {
         super.customText(textList);
         if (getRecipeLogic().isWorking()) {
             textList.add(Component.translatable("gui.enderio.sag_mill_chance", chance));

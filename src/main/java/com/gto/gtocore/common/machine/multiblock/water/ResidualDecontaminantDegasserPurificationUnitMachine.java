@@ -73,7 +73,7 @@ public final class ResidualDecontaminantDegasserPurificationUnitMachine extends 
     }
 
     @Override
-    protected void customText(List<Component> textList) {
+    public void customText(List<Component> textList) {
         super.customText(textList);
         if (getRecipeLogic().isWorking()) {
             textList.add(Component.translatable("gtocore.machine.residual_decontaminant_degasser_purification_unit.fluids", fluidStack.getDisplayName()));

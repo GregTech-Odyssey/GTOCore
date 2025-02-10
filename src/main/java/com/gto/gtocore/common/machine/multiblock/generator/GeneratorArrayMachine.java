@@ -208,7 +208,7 @@ public final class GeneratorArrayMachine extends StorageMultiblockMachine implem
     }
 
     @Override
-    protected void customText(List<Component> textList) {
+    public void customText(List<Component> textList) {
         super.customText(textList);
         textList.add(Component.translatable("gtocore.machine.generator_array.wireless").append(ComponentPanelWidget.withButton(Component.literal("[").append(isw ? Component.translatable("gtocore.machine.on") : Component.translatable("gtocore.machine.off")).append(Component.literal("]")), "wireless_switch")));
         if (isActive() && isw) {

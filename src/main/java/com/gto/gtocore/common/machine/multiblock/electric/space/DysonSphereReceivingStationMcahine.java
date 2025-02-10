@@ -95,7 +95,7 @@ public final class DysonSphereReceivingStationMcahine extends ElectricMultiblock
     }
 
     @Override
-    protected void customText(@NotNull List<Component> textList) {
+    public void customText(@NotNull List<Component> textList) {
         super.customText(textList);
         Pair<Integer, Integer> pair = DysonSphereSavaedData.getDimensionData(getDimension());
         textList.add(Component.translatable("gtocore.machine.dyson_sphere.number", pair.getFirst()));

@@ -72,7 +72,7 @@ public final class ExtremeTemperatureFluctuationPurificationUnitMachine extends 
     }
 
     @Override
-    protected void customText(List<Component> textList) {
+    public void customText(List<Component> textList) {
         super.customText(textList);
         if (getRecipeLogic().isWorking()) {
             textList.add(Component.translatable("gtceu.multiblock.fusion_reactor.heat", heat));

@@ -84,6 +84,7 @@ public final class HarmonyMachine extends NoEnergyMultiblockMachine implements I
             } else if (MachineUtils.notConsumableCircuit(this, 1)) {
                 oc = 1;
             }
+            StartupSubs.updateSubscription();
         }
     }
 
@@ -121,7 +122,7 @@ public final class HarmonyMachine extends NoEnergyMultiblockMachine implements I
     }
 
     @Override
-    protected void customText(List<Component> textList) {
+    public void customText(List<Component> textList) {
         super.customText(textList);
         if (userid != null) {
             ExtendWirelessEnergyContainer container = getWirelessEnergyContainer();

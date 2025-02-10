@@ -3,6 +3,7 @@ package com.gto.gtocore.api.machine.multiblock;
 import com.gto.gtocore.api.machine.feature.ICheckPatternMachine;
 import com.gto.gtocore.api.machine.feature.IEnhancedMultiblockMachine;
 import com.gto.gtocore.api.machine.feature.ILockableRecipe;
+import com.gto.gtocore.api.machine.feature.IMultiblockTraitHolder;
 import com.gto.gtocore.api.machine.trait.MultiblockTrait;
 import com.gto.gtocore.utils.MachineUtils;
 
@@ -24,21 +25,20 @@ import net.minecraft.world.entity.player.Player;
 
 import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
 import com.lowdragmc.lowdraglib.gui.widget.*;
+import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
+@Getter
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class NoEnergyMultiblockMachine extends WorkableMultiblockMachine implements IFancyUIMachine, IDisplayUIMachine, IEnhancedMultiblockMachine {
+public class NoEnergyMultiblockMachine extends WorkableMultiblockMachine implements IFancyUIMachine, IDisplayUIMachine, IEnhancedMultiblockMachine, IMultiblockTraitHolder {
 
-    private final Set<MultiblockTrait> multiblockTraits = new LinkedHashSet<>(2);
+    private final List<MultiblockTrait> multiblockTraits = new ArrayList<>(2);
 
     public NoEnergyMultiblockMachine(IMachineBlockEntity holder, Object... args) {
         super(holder, args);
@@ -93,10 +93,6 @@ public class NoEnergyMultiblockMachine extends WorkableMultiblockMachine impleme
     public void addDisplayText(List<Component> textList) {
         MachineUtils.addMachineText(textList, this, this::customText);
         IDisplayUIMachine.super.addDisplayText(textList);
-    }
-
-    protected void customText(@NotNull List<Component> textList) {
-        multiblockTraits.forEach(trait -> trait.customText(textList));
     }
 
     @Override

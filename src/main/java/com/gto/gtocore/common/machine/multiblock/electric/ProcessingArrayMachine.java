@@ -113,7 +113,7 @@ public final class ProcessingArrayMachine extends TierCasingMultiblockMachine im
     }
 
     @Override
-    protected void customText(List<Component> textList) {
+    public void customText(List<Component> textList) {
         super.customText(textList);
         MachineUtils.addRecipeTypeText(textList, this);
     }

@@ -1,6 +1,7 @@
 package com.gto.gtocore.api.machine.multiblock;
 
 import com.gto.gtocore.api.machine.feature.ICheckPatternMachine;
+import com.gto.gtocore.api.machine.feature.IMultiblockTraitHolder;
 import com.gto.gtocore.api.machine.trait.MultiblockTrait;
 
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
@@ -22,23 +23,17 @@ import net.minecraft.world.entity.player.Player;
 
 import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
 import com.lowdragmc.lowdraglib.gui.widget.*;
-import org.jetbrains.annotations.NotNull;
+import lombok.Getter;
 
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
-public class NoRecipeLogicMultiblockMachine extends MultiblockControllerMachine implements IFancyUIMachine, IDisplayUIMachine {
+@Getter
+public class NoRecipeLogicMultiblockMachine extends MultiblockControllerMachine implements IFancyUIMachine, IDisplayUIMachine, IMultiblockTraitHolder {
 
-    private final Set<MultiblockTrait> multiblockTraits = new LinkedHashSet<>(2);
+    private final List<MultiblockTrait> multiblockTraits = new ArrayList<>(2);
 
     public NoRecipeLogicMultiblockMachine(IMachineBlockEntity holder) {
         super(holder);
-    }
-
-    protected void addTraits(MultiblockTrait trait) {
-        multiblockTraits.add(trait);
     }
 
     @Override
@@ -63,10 +58,6 @@ public class NoRecipeLogicMultiblockMachine extends MultiblockControllerMachine 
             textList.add(base.withStyle((style) -> style.withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, hover))));
         }
         IDisplayUIMachine.super.addDisplayText(textList);
-    }
-
-    protected void customText(@NotNull List<Component> textList) {
-        multiblockTraits.forEach(trait -> trait.customText(textList));
     }
 
     @Override

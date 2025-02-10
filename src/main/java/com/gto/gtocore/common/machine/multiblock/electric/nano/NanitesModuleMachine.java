@@ -39,7 +39,7 @@ public final class NanitesModuleMachine extends ElectricMultiblockMachine {
     }
 
     @Override
-    protected void customText(@NotNull List<Component> textList) {
+    public void customText(@NotNull List<Component> textList) {
         super.customText(textList);
         if (effective()) {
             textList.add(Component.translatable("tooltip.emi.chance.consume", 100 - nanitesIntegratedMachine.chance));

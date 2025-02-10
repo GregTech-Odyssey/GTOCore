@@ -1,6 +1,7 @@
 package com.gto.gtocore.api.machine.multiblock;
 
 import com.gto.gtocore.api.machine.feature.IEnhancedMultiblockMachine;
+import com.gto.gtocore.api.machine.feature.IMultiblockTraitHolder;
 import com.gto.gtocore.api.machine.trait.MultiblockTrait;
 import com.gto.gtocore.utils.MachineUtils;
 
@@ -14,25 +15,22 @@ import com.gregtechceu.gtceu.utils.GTUtil;
 
 import net.minecraft.network.chat.Component;
 
+import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.LinkedHashSet;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
-public class ElectricMultiblockMachine extends WorkableElectricMultiblockMachine implements IEnhancedMultiblockMachine {
+public class ElectricMultiblockMachine extends WorkableElectricMultiblockMachine implements IEnhancedMultiblockMachine, IMultiblockTraitHolder {
 
     private long overclockVoltage = -1;
 
-    private final Set<MultiblockTrait> multiblockTraits = new LinkedHashSet<>(2);
+    @Getter
+    private final List<MultiblockTrait> multiblockTraits = new ArrayList<>(2);
 
     public ElectricMultiblockMachine(IMachineBlockEntity holder, Object... args) {
         super(holder, args);
-    }
-
-    protected void addTraits(MultiblockTrait trait) {
-        multiblockTraits.add(trait);
     }
 
     @Override
@@ -90,10 +88,6 @@ public class ElectricMultiblockMachine extends WorkableElectricMultiblockMachine
         for (IMultiPart part : getParts()) {
             part.addMultiText(textList);
         }
-    }
-
-    protected void customText(@NotNull List<Component> textList) {
-        multiblockTraits.forEach(trait -> trait.customText(textList));
     }
 
     @Override

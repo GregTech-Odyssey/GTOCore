@@ -62,7 +62,6 @@ public final class NanitesIntegratedMachine extends StorageMultiblockMachine imp
     public NanitesIntegratedMachine(IMachineBlockEntity holder) {
         super(holder, 64, i -> ChemicalHelper.getPrefix(i.getItem()) == GTOTagPrefix.nanites);
         coilTrait = new CoilTrait(this, false, true);
-        addTraits(coilTrait);
     }
 
     @Override
@@ -130,7 +129,7 @@ public final class NanitesIntegratedMachine extends StorageMultiblockMachine imp
     }
 
     @Override
-    protected void customText(@NotNull List<Component> textList) {
+    public void customText(@NotNull List<Component> textList) {
         super.customText(textList);
         link(getLevel(), false);
         textList.add(Component.translatable("tooltip.emi.chance.consume", 100 - chance));

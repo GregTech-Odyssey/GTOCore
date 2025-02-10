@@ -67,7 +67,7 @@ public final class PHNeutralizationPurificationUnitMachine extends WaterPurifica
     }
 
     @Override
-    protected void customText(List<Component> textList) {
+    public void customText(List<Component> textList) {
         super.customText(textList);
         if (getRecipeLogic().isWorking()) {
             textList.add(Component.literal("pH: " + ph));

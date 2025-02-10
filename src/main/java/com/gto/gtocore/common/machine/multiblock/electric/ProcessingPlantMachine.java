@@ -89,7 +89,6 @@ public final class ProcessingPlantMachine extends StorageMultiblockMachine imple
     public ProcessingPlantMachine(IMachineBlockEntity holder) {
         super(holder, 1, ProcessingPlantMachine::filter);
         customParallelTrait = new CustomParallelTrait(this, true, machine -> ((ProcessingPlantMachine) machine).getTier() > 0 ? 4 * (((ProcessingPlantMachine) machine).getTier() - 1) : 0);
-        addTraits(customParallelTrait);
     }
 
     private static boolean filter(ItemStack itemStack) {
@@ -142,7 +141,7 @@ public final class ProcessingPlantMachine extends StorageMultiblockMachine imple
     }
 
     @Override
-    protected void customText(List<Component> textList) {
+    public void customText(List<Component> textList) {
         super.customText(textList);
         MachineUtils.addRecipeTypeText(textList, this);
         if (mismatched) textList.add(Component.translatable("gtocore.machine.processing_plant.mismatched").withStyle(ChatFormatting.RED));

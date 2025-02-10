@@ -94,6 +94,7 @@ public final class LangHandler {
         addENCN("gtocore.patternModifierPro.5", "Set Application Cycles , Up to 16", "应用次数为：循环上述操作次数，最大为16");
 
         addENCN("config.gtocore.option.selfRestraint", "Self Restraint Mode", "自我约束模式");
+        addENCN("config.gtocore.option.recipeCheck", "Recipe Check", "[调试]配方检查");
         addENCN("config.gtocore.option.eioFluidRate", "EIO Fluid Pipe Rate Multiplier", "EIO流体管道速率倍数");
         addENCN("config.gtocore.option.enablePrimitiveVoidOre", "Enable Primitive Void Ore Machine", "启用原始虚空矿机");
         addENCN("config.gtocore.option.oreMultiplier", "Ore Yield Multiplier", "矿石产量乘数");

@@ -147,7 +147,7 @@ public final class SlaughterhouseMachine extends StorageMultiblockMachine {
     }
 
     @Override
-    protected void customText(List<Component> textList) {
+    public void customText(List<Component> textList) {
         super.customText(textList);
         textList.add(Component.translatable("item.gtceu.tool.tooltip.attack_damage", attackDamage));
         textList.add(Component.translatable("gtocore.machine.slaughterhouse.is_spawn").append(ComponentPanelWidget.withButton(Component.literal("[").append(isSpawn ? Component.translatable("gtocore.machine.off") : Component.translatable("gtocore.machine.on")).append(Component.literal("]")), "spawn_switch")));

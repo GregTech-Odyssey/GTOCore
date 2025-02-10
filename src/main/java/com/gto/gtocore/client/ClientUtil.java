@@ -28,9 +28,14 @@ public final class ClientUtil {
 
     public static void highlighting(BlockPos pos, int radius) {
         if (pos == null) return;
-        ForgeClientEvent.highlightingTime = 200;
-        ForgeClientEvent.highlightingPos = pos;
-        ForgeClientEvent.highlightingRadius = radius;
+        if (ForgeClientEvent.highlightingTime > 0) {
+            ForgeClientEvent.highlightingTime = 0;
+            ForgeClientEvent.highlightingPos = null;
+        } else {
+            ForgeClientEvent.highlightingTime = 200;
+            ForgeClientEvent.highlightingPos = pos;
+            ForgeClientEvent.highlightingRadius = radius;
+        }
     }
 
     public static LocalPlayer getPlayer() {

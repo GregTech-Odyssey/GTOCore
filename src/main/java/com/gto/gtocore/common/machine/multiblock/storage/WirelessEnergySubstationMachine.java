@@ -2,7 +2,9 @@ package com.gto.gtocore.common.machine.multiblock.storage;
 
 import com.gto.gtocore.api.GTOValues;
 import com.gto.gtocore.api.machine.feature.IExtendWirelessEnergyContainerHolder;
+import com.gto.gtocore.api.machine.feature.ITierCasingMachine;
 import com.gto.gtocore.api.machine.multiblock.NoRecipeLogicMultiblockMachine;
+import com.gto.gtocore.api.machine.trait.TierCasingTrait;
 import com.gto.gtocore.common.block.WirelessEnergyUnitBlock;
 import com.gto.gtocore.common.wireless.ExtendTransferData;
 import com.gto.gtocore.common.wireless.ExtendWirelessEnergyContainer;
@@ -38,7 +40,7 @@ import org.jetbrains.annotations.Nullable;
 import java.math.BigInteger;
 import java.util.*;
 
-public final class WirelessEnergySubstationMachine extends NoRecipeLogicMultiblockMachine implements IMachineLife, IExtendWirelessEnergyContainerHolder {
+public final class WirelessEnergySubstationMachine extends NoRecipeLogicMultiblockMachine implements IMachineLife, IExtendWirelessEnergyContainerHolder, ITierCasingMachine {
 
     private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
             WirelessEnergySubstationMachine.class, NoRecipeLogicMultiblockMachine.MANAGED_FIELD_HOLDER);
@@ -46,10 +48,6 @@ public final class WirelessEnergySubstationMachine extends NoRecipeLogicMultiblo
     @Override
     public @NotNull ManagedFieldHolder getFieldHolder() {
         return MANAGED_FIELD_HOLDER;
-    }
-
-    public WirelessEnergySubstationMachine(IMachineBlockEntity holder) {
-        super(holder);
     }
 
     @Persisted
@@ -64,6 +62,13 @@ public final class WirelessEnergySubstationMachine extends NoRecipeLogicMultiblo
     private WirelessEnergyContainer WirelessEnergyContainerCache;
 
     private List<Component> textListCache;
+
+    private final TierCasingTrait tierCasingTrait;
+
+    public WirelessEnergySubstationMachine(IMachineBlockEntity holder) {
+        super(holder);
+        tierCasingTrait = new TierCasingTrait(this, GTOValues.GLASS_TIER);
+    }
 
     @Override
     public void handleDisplayClick(String componentData, ClickData clickData) {
@@ -93,7 +98,7 @@ public final class WirelessEnergySubstationMachine extends NoRecipeLogicMultiblo
         super.onStructureFormed();
         ExtendWirelessEnergyContainer container = getWirelessEnergyContainer();
         if (container == null) return;
-        Integer tier = getMultiblockState().getMatchContext().get(GTOValues.GLASS_TIER);
+        Integer tier = getCasingTiers().get(GTOValues.GLASS_TIER);
         FunctionContainer<ArrayList<WirelessEnergyUnitBlock>, ?> functionContainer = getMultiblockState().getMatchContext().get("wirelessEnergyUnit");
         int loss = 0;
         int i = 0;
@@ -114,9 +119,8 @@ public final class WirelessEnergySubstationMachine extends NoRecipeLogicMultiblo
     }
 
     @Override
-    protected void customText(@NotNull List<Component> textList) {
+    public void customText(@NotNull List<Component> textList) {
         super.customText(textList);
-        if (isRemote()) return;
         if (textListCache == null || getOffsetTimer() % 10 == 0) {
             textListCache = new ArrayList<>();
             ExtendWirelessEnergyContainer container = getWirelessEnergyContainer();
@@ -152,5 +156,10 @@ public final class WirelessEnergySubstationMachine extends NoRecipeLogicMultiblo
             }
         }
         textList.addAll(textListCache);
+    }
+
+    @Override
+    public Map<String, Integer> getCasingTiers() {
+        return tierCasingTrait.getCasingTiers();
     }
 }

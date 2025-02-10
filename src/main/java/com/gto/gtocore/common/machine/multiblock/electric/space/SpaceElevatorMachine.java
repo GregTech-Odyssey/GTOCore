@@ -124,7 +124,7 @@ public class SpaceElevatorMachine extends TierCasingMultiblockMachine implements
     }
 
     @Override
-    protected void customText(@NotNull List<Component> textList) {
+    public void customText(@NotNull List<Component> textList) {
         super.customText(textList);
         update(false);
         textList.add(Component.translatable("gtocore.machine.module", mam));

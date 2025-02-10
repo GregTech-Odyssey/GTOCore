@@ -44,7 +44,6 @@ public final class ManaDistributorMachine extends NoRecipeLogicMultiblockMachine
         this.max = max;
         this.radius = radius;
         this.manaTrait = new ManaTrait(this);
-        addTraits(manaTrait);
     }
 
     public boolean add(BlockPos pos) {
@@ -59,10 +58,10 @@ public final class ManaDistributorMachine extends NoRecipeLogicMultiblockMachine
     }
 
     @Override
-    protected void customText(@NotNull List<Component> textList) {
+    public void customText(@NotNull List<Component> textList) {
         super.customText(textList);
-        textList.add(ComponentPanelWidget.withButton(Component.translatable("gui.enderio.range.show"), "show"));
         textList.add(Component.translatable("gtocore.machine.binding_amount", amount));
+        textList.add(ComponentPanelWidget.withButton(Component.translatable("gui.enderio.range.show"), "show"));
     }
 
     @Override

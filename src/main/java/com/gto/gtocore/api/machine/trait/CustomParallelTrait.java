@@ -1,9 +1,9 @@
 package com.gto.gtocore.api.machine.trait;
 
+import com.gto.gtocore.api.machine.feature.IMultiblockTraitHolder;
 import com.gto.gtocore.api.machine.feature.IParallelMachine;
 import com.gto.gtocore.common.data.GTORecipeModifiers;
 
-import com.gregtechceu.gtceu.api.machine.multiblock.WorkableMultiblockMachine;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 
 import net.minecraft.util.Mth;
@@ -24,8 +24,8 @@ public class CustomParallelTrait extends MultiblockTrait {
     private final boolean defaultParallel;
     private final Function<IParallelMachine, Integer> parallel;
 
-    public CustomParallelTrait(WorkableMultiblockMachine machine, boolean defaultParallel, @NotNull Function<IParallelMachine, Integer> parallel) {
-        super(machine);
+    public CustomParallelTrait(IParallelMachine machine, boolean defaultParallel, @NotNull Function<IParallelMachine, Integer> parallel) {
+        super((IMultiblockTraitHolder) machine);
         this.defaultParallel = defaultParallel;
         this.parallel = parallel;
     }

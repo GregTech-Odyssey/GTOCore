@@ -84,7 +84,6 @@ public class CrossRecipeMultiblockMachine extends ElectricMultiblockMachine impl
         this.infinite = infinite;
         this.isHatchParallel = isHatchParallel;
         customParallelTrait = new CustomParallelTrait(this, false, machine -> parallel.apply((CrossRecipeMultiblockMachine) machine));
-        addTraits(customParallelTrait);
     }
 
     public int getThread() {

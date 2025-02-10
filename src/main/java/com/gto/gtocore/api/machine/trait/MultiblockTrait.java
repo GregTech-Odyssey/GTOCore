@@ -1,5 +1,8 @@
 package com.gto.gtocore.api.machine.trait;
 
+import com.gto.gtocore.api.machine.feature.IMultiblockTraitHolder;
+
+import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockControllerMachine;
 import com.gregtechceu.gtceu.api.machine.trait.MachineTrait;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
@@ -15,8 +18,9 @@ public abstract class MultiblockTrait extends MachineTrait {
 
     protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(MultiblockTrait.class);
 
-    protected MultiblockTrait(MultiblockControllerMachine machine) {
-        super(machine);
+    protected MultiblockTrait(IMultiblockTraitHolder machine) {
+        super((MetaMachine) machine);
+        machine.getMultiblockTraits().add(this);
     }
 
     public boolean alwaysTryModifyRecipe() {

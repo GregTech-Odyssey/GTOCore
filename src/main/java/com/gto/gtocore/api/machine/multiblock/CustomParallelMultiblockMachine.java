@@ -33,7 +33,6 @@ public class CustomParallelMultiblockMachine extends ElectricMultiblockMachine i
     protected CustomParallelMultiblockMachine(IMachineBlockEntity holder, boolean defaultParallel, @NotNull Function<CustomParallelMultiblockMachine, Integer> parallel) {
         super(holder);
         customParallelTrait = new CustomParallelTrait(this, defaultParallel, machine -> parallel.apply((CustomParallelMultiblockMachine) machine));
-        addTraits(customParallelTrait);
     }
 
     @Override

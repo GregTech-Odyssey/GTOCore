@@ -81,7 +81,7 @@ public final class ClarifierPurificationUnitMachine extends WaterPurificationUni
     }
 
     @Override
-    protected void customText(List<Component> textList) {
+    public void customText(List<Component> textList) {
         super.customText(textList);
         if (count > 100) {
             textList.add(Component.translatable("gtceu.top.maintenance_broken").withStyle(ChatFormatting.YELLOW));

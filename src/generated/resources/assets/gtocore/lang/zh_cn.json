@@ -1194,6 +1194,7 @@
   "config.gtocore.option.enablePrimitiveVoidOre": "启用原始虚空矿机",
   "config.gtocore.option.fastMultiBlockPage": "优化多方块页面",
   "config.gtocore.option.oreMultiplier": "矿石产量乘数",
+  "config.gtocore.option.recipeCheck": "[调试]配方检查",
   "config.gtocore.option.recipeLogicCheckInterval": "配方逻辑检查间隔",
   "config.gtocore.option.selfRestraint": "自我约束模式",
   "config.gtocore.option.spacetimePip": "时空管道流量",

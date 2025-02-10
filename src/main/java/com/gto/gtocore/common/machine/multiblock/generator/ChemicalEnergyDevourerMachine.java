@@ -131,7 +131,7 @@ public final class ChemicalEnergyDevourerMachine extends ElectricMultiblockMachi
     //////////////////////////////////////
 
     @Override
-    protected void customText(List<Component> textList) {
+    public void customText(List<Component> textList) {
         super.customText(textList);
         if (isBoostAllowed()) {
             if (isOxygenBoosted && isDinitrogenTetroxideBoosted) {

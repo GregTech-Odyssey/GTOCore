@@ -93,7 +93,7 @@ public final class SuprachronalAssemblyLineMachine extends CrossRecipeMultiblock
     }
 
     @Override
-    protected void customText(List<Component> textList) {
+    public void customText(List<Component> textList) {
         super.customText(textList);
         if (getOffsetTimer() % 20 == 0) {
             getSuprachronalAssemblyLineModule();

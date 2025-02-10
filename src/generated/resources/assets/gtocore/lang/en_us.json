@@ -1194,6 +1194,7 @@
   "config.gtocore.option.enablePrimitiveVoidOre": "Enable Primitive Void Ore Machine",
   "config.gtocore.option.fastMultiBlockPage": "Fast MultiBlock Page",
   "config.gtocore.option.oreMultiplier": "Ore Yield Multiplier",
+  "config.gtocore.option.recipeCheck": "Recipe Check",
   "config.gtocore.option.recipeLogicCheckInterval": "Recipe Logic Check Interval",
   "config.gtocore.option.selfRestraint": "Self Restraint Mode",
   "config.gtocore.option.spacetimePip": "Spacetime Pipe Flow",

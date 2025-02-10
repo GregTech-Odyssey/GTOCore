@@ -19,7 +19,6 @@ public class TierCasingParallelMultiblockMachine extends CustomParallelMultibloc
     private TierCasingParallelMultiblockMachine(IMachineBlockEntity holder, boolean defaultParallel, Function<TierCasingParallelMultiblockMachine, Integer> parallel, String... tierTypes) {
         super(holder, defaultParallel, machine -> parallel.apply((TierCasingParallelMultiblockMachine) machine));
         tierCasingTrait = new TierCasingTrait(this, tierTypes);
-        addTraits(tierCasingTrait);
     }
 
     @Override

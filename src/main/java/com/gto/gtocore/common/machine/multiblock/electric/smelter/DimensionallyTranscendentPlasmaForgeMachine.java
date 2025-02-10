@@ -37,7 +37,7 @@ public final class DimensionallyTranscendentPlasmaForgeMachine extends CoilMulti
     }
 
     @Override
-    protected void customText(@NotNull List<Component> textList) {
+    public void customText(@NotNull List<Component> textList) {
         textList.add(Component.translatable("gtceu.multiblock.blast_furnace.max_temperature", Component.literal(FormattingUtil.formatNumbers((gto$getTemperature() == 273 ? 32000 : gto$getTemperature())) + "K").withStyle(ChatFormatting.BLUE)));
         if (getRecipeType() == GTORecipeTypes.STELLAR_FORGE_RECIPES && gto$getTemperature() != 273) {
             textList.add(Component.translatable("gtocore.machine.dimensionally_transcendent_plasma_forge.coil").withStyle(ChatFormatting.RED));

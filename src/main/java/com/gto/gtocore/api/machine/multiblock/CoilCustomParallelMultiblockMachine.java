@@ -19,7 +19,6 @@ public class CoilCustomParallelMultiblockMachine extends CustomParallelMultibloc
     protected CoilCustomParallelMultiblockMachine(IMachineBlockEntity holder, boolean defaultParallel, boolean ebf, boolean check, Function<CoilCustomParallelMultiblockMachine, Integer> parallel) {
         super(holder, defaultParallel, machine -> parallel.apply((CoilCustomParallelMultiblockMachine) machine));
         coilTrait = new CoilTrait(this, ebf, check);
-        addTraits(coilTrait);
     }
 
     @Override

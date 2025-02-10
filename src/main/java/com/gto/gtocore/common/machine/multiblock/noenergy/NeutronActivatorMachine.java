@@ -68,7 +68,7 @@ public class NeutronActivatorMachine extends NoEnergyMultiblockMachine implement
 
     public NeutronActivatorMachine(IMachineBlockEntity holder, Object... args) {
         super(holder, args);
-        neutronEnergySubs = new ConditionalSubscriptionHandler(this, this::neutronEnergyUpdate, this::isFormed);
+        neutronEnergySubs = new ConditionalSubscriptionHandler(this, this::neutronEnergyUpdate, () -> isFormed || eV > 0);
     }
 
     @Override
@@ -145,19 +145,22 @@ public class NeutronActivatorMachine extends NoEnergyMultiblockMachine implement
     }
 
     void neutronEnergyUpdate() {
-        for (var accelerator : acceleratorMachines) {
-            long increase = accelerator.consumeEnergy();
-            if (increase > 0) {
-                eV += (int) Math.round(Math.max(increase * getEfficiencyFactor(), 1));
+        if (isFormed) {
+            for (var accelerator : acceleratorMachines) {
+                long increase = accelerator.consumeEnergy();
+                if (increase > 0) {
+                    eV += (int) Math.round(Math.max(increase * getEfficiencyFactor(), 1));
+                }
             }
+            if (eV > 1200000000) doExplosion(6);
         }
-        if (eV > 1200000000) doExplosion(6);
         if (getOffsetTimer() % 20 == 0) {
             eV = Math.max(eV - 72 * 1000, 0);
         }
         if (eV < 0) eV = 0;
         if (sensorMachine == null) return;
         sensorMachine.update((float) eV / 1000000);
+        neutronEnergySubs.updateSubscription();
     }
 
     private void absorptionUpdate() {
@@ -175,7 +178,7 @@ public class NeutronActivatorMachine extends NoEnergyMultiblockMachine implement
     }
 
     @Override
-    protected void customText(List<Component> textList) {
+    public void customText(List<Component> textList) {
         super.customText(textList);
         textList.add(Component.translatable("gtocore.machine.neutron_activator.ev", NumberUtils.formatLong(eV)));
         textList.add(Component.translatable("gtocore.machine.neutron_activator.efficiency",

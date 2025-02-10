@@ -23,7 +23,7 @@ public final class ManaExtractHatchPartMachine extends ManaHatchPartMachine {
 
     @Override
     protected void tickUpdate() {
-        if (getOffsetTimer() % 20 != 0) return;
+        if (getOffsetTimer() % 20 != 0 || isFull()) return;
         ManaReceiver receiver = XplatAbstractions.INSTANCE.findManaReceiver(getLevel(), getPos().relative(getFrontFacing()), null);
         if (receiver instanceof ManaPool pool) {
             int change = getManaContainer().addMana(pool.getCurrentMana(), 20);

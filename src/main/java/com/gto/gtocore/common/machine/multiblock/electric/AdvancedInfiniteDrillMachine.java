@@ -80,6 +80,7 @@ public final class AdvancedInfiniteDrillMachine extends StorageMultiblockMachine
 
     private void heatUpdate() {
         if (getOffsetTimer() % 5 != 0) return;
+        heatSubs.updateSubscription();
         if (isEmpty()) return;
         int heat = 0;
 
@@ -127,7 +128,7 @@ public final class AdvancedInfiniteDrillMachine extends StorageMultiblockMachine
     }
 
     @Override
-    protected void customText(List<Component> textList) {
+    public void customText(List<Component> textList) {
         super.customText(textList);
         if (isEmpty()) {
             textList.add(Component.translatable("gtocore.machine.advanced_infinite_driller.not_fluid_head")

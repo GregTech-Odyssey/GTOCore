@@ -38,7 +38,6 @@ public class CoilCrossRecipeMultiblockMachine extends CrossRecipeMultiblockMachi
     private CoilCrossRecipeMultiblockMachine(IMachineBlockEntity holder, boolean infinite, boolean isHatchParallel, boolean ebf, boolean check, Function<CoilCrossRecipeMultiblockMachine, Integer> parallel) {
         super(holder, infinite, isHatchParallel, machine -> parallel.apply((CoilCrossRecipeMultiblockMachine) machine));
         coilTrait = new CoilTrait(this, ebf, check);
-        addTraits(coilTrait);
     }
 
     @Override

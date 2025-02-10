@@ -126,7 +126,7 @@ public final class CombustionEngineMachine extends ElectricMultiblockMachine {
     //////////////////////////////////////
 
     @Override
-    protected void customText(List<Component> textList) {
+    public void customText(List<Component> textList) {
         super.customText(textList);
         if (isBoostAllowed()) {
             if (!isExtreme()) {

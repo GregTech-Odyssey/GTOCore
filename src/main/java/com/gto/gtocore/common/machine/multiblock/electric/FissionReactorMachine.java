@@ -58,7 +58,7 @@ public final class FissionReactorMachine extends ElectricMultiblockMachine imple
 
     public FissionReactorMachine(IMachineBlockEntity holder, Object... args) {
         super(holder, args);
-        HeatSubs = new ConditionalSubscriptionHandler(this, this::HeatUpdate, this::isFormed);
+        HeatSubs = new ConditionalSubscriptionHandler(this, this::HeatUpdate, () -> isFormed() || heat > 298);
     }
 
     @Override
@@ -119,6 +119,7 @@ public final class FissionReactorMachine extends ElectricMultiblockMachine imple
 
     private void HeatUpdate() {
         if (getOffsetTimer() % 20 == 0) {
+            HeatSubs.updateSubscription();
             if (getRecipeLogic().isWorking()) {
                 boolean isCooler = false;
                 int required = recipeHeat * parallel * heat / 1500;
@@ -173,7 +174,7 @@ public final class FissionReactorMachine extends ElectricMultiblockMachine imple
     }
 
     @Override
-    protected void customText(List<Component> textList) {
+    public void customText(List<Component> textList) {
         super.customText(textList);
         textList.add(Component.translatable("gtocore.machine.fission_reactor.fuel", fuel, heatAdjacent - 1));
         textList.add(Component.translatable("gtocore.machine.fission_reactor.cooler", cooler, coolerAdjacent));

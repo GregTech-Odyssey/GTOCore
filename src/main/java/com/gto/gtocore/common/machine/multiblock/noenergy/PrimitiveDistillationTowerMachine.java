@@ -66,7 +66,7 @@ public final class PrimitiveDistillationTowerMachine extends NoEnergyMultiblockM
 
     public PrimitiveDistillationTowerMachine(IMachineBlockEntity holder, Object... args) {
         super(holder, args);
-        tickSubs = new ConditionalSubscriptionHandler(this, this::tickUpdate, this::isFormed);
+        tickSubs = new ConditionalSubscriptionHandler(this, this::tickUpdate, () -> isFormed || heat > 298 || time > 0);
     }
 
     /**
@@ -112,6 +112,7 @@ public final class PrimitiveDistillationTowerMachine extends NoEnergyMultiblockM
             adjustHeat(offsetTimer);
         }
         postTickActions(offsetTimer);
+        tickSubs.updateSubscription();
     }
 
     /**
@@ -249,7 +250,7 @@ public final class PrimitiveDistillationTowerMachine extends NoEnergyMultiblockM
     }
 
     @Override
-    protected void customText(List<Component> textList) {
+    public void customText(List<Component> textList) {
         super.customText(textList);
         textList.add(Component.translatable("gtocore.machine.rest_burn_time", time));
         textList.add(Component.translatable("gtocore.machine.advanced_infinite_driller.current_heat", heat));

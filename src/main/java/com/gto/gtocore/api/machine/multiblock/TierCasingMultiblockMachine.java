@@ -25,7 +25,6 @@ public class TierCasingMultiblockMachine extends ElectricMultiblockMachine imple
     protected TierCasingMultiblockMachine(IMachineBlockEntity holder, String... tierTypes) {
         super(holder);
         tierCasingTrait = new TierCasingTrait(this, tierTypes);
-        addTraits(tierCasingTrait);
     }
 
     @Override

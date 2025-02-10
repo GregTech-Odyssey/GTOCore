@@ -50,7 +50,7 @@ public final class PCBFactoryMachine extends StorageMultiblockMachine {
     }
 
     @Override
-    protected void customText(List<Component> textList) {
+    public void customText(List<Component> textList) {
         super.customText(textList);
         if (getOffsetTimer() % 10 == 0) {
             getPCBReduction();

@@ -19,7 +19,6 @@ public class CoilMultiblockMachine extends ElectricMultiblockMachine implements 
     protected CoilMultiblockMachine(IMachineBlockEntity holder, boolean ebf, boolean check) {
         super(holder);
         coilTrait = new CoilTrait(this, ebf, check);
-        addTraits(coilTrait);
     }
 
     @Override

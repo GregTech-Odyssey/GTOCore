@@ -84,6 +84,7 @@ public final class TurbineMachine extends ElectricMultiblockMachine {
 
     private void rotorUpdate() {
         if (getOffsetTimer() % 20 == 0 && !isActive()) {
+            rotorSubs.updateSubscription();
             if (rotorHatchPartMachine.getInventory().isEmpty()) return;
             CustomItemStackHandler storage = rotorHatchPartMachine.getInventory().storage;
             for (RotorHolderPartMachine part : rotorHolderMachines) {
@@ -116,7 +117,6 @@ public final class TurbineMachine extends ElectricMultiblockMachine {
         super.onStructureInvalid();
         rotorHolderMachines.clear();
         rotorHatchPartMachine = null;
-        rotorSubs.unsubscribe();
     }
 
     @Override
@@ -228,7 +228,7 @@ public final class TurbineMachine extends ElectricMultiblockMachine {
     }
 
     @Override
-    protected void customText(List<Component> textList) {
+    public void customText(List<Component> textList) {
         super.customText(textList);
         var rotorHolder = getRotorHolder();
         if (rotorHolder != null && rotorHolder.getRotorEfficiency() > 0) {

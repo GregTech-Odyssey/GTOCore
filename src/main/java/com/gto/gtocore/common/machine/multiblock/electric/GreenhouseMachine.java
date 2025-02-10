@@ -75,7 +75,7 @@ public final class GreenhouseMachine extends ElectricMultiblockMachine {
     }
 
     @Override
-    protected void customText(List<Component> textList) {
+    public void customText(List<Component> textList) {
         super.customText(textList);
         if (getOffsetTimer() % 10 == 0) {
             getGreenhouseLight();
