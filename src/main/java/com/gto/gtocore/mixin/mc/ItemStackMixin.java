@@ -42,7 +42,7 @@ public abstract class ItemStackMixin {
     private void tooltipCache(Player player, TooltipFlag isAdvanced, CallbackInfoReturnable<List<Component>> cir, @Local List<Component> list) {
         if (gtocore$isTickTooltip() || GTValues.CLIENT_TIME == 0) return;
         TOOLTIP_CACHE = list;
-        cir.setReturnValue(TOOLTIP_CACHE);
+        cir.setReturnValue(new ArrayList<>(TOOLTIP_CACHE));
     }
 
     @Inject(method = "getTooltipLines", at = @At("HEAD"), cancellable = true)
