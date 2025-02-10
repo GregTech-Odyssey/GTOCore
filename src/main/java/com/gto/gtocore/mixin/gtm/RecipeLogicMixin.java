@@ -39,9 +39,6 @@ public abstract class RecipeLogicMixin extends MachineTrait implements ILockable
     private GTRecipe gTOCore$originRecipe;
 
     @Unique
-    private byte gtocore$noResultCount;
-
-    @Unique
     private int gtocore$interval = 5;
 
     @Shadow
@@ -189,8 +186,7 @@ public abstract class RecipeLogicMixin extends MachineTrait implements ILockable
                 findAndHandleRecipe();
                 if (lastRecipe == null && isIdle() && !machine.keepSubscribing() && !recipeDirty && lastFailedMatches == null) {
                     if (gtocore$interval < GTOConfig.INSTANCE.recipeMaxCheckInterval) {
-                        gtocore$noResultCount++;
-                        gtocore$interval <<= gtocore$noResultCount;
+                        gtocore$interval <<= 1;
                     }
                     gTOCore$unsubscribe();
                 }
@@ -260,7 +256,7 @@ public abstract class RecipeLogicMixin extends MachineTrait implements ILockable
         if (last == RecipeLogic.Status.WORKING && getStatus() != RecipeLogic.Status.WORKING) {
             lastRecipe.postWorking(machine);
         } else if (last != RecipeLogic.Status.WORKING && getStatus() == RecipeLogic.Status.WORKING) {
-            gtocore$noResultCount = 0;
+            gtocore$interval = 5;
             lastRecipe.preWorking(machine);
         }
     }
