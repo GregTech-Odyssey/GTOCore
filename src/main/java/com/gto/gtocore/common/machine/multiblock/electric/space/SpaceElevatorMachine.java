@@ -1,7 +1,7 @@
 package com.gto.gtocore.common.machine.multiblock.electric.space;
 
 import com.gto.gtocore.api.gui.GTOGuiTextures;
-import com.gto.gtocore.api.machine.feature.IHighlightMachine;
+import com.gto.gtocore.api.machine.feature.multiblock.IHighlightMachine;
 import com.gto.gtocore.api.machine.multiblock.TierCasingMultiblockMachine;
 import com.gto.gtocore.api.machine.trait.CustomRecipeLogic;
 import com.gto.gtocore.api.recipe.GTORecipeBuilder;

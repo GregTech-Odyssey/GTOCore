@@ -1,6 +1,6 @@
 package com.gto.gtocore.common.machine.multiblock.electric;
 
-import com.gto.gtocore.api.machine.feature.IFluidRendererMachine;
+import com.gto.gtocore.api.machine.feature.multiblock.IFluidRendererMachine;
 import com.gto.gtocore.api.machine.multiblock.ElectricMultiblockMachine;
 import com.gto.gtocore.common.data.GTORecipeModifiers;
 import com.gto.gtocore.utils.MachineUtils;

@@ -163,7 +163,7 @@ public final class GTOOres {
             .clusterSize(UniformInt.of(25, 29)).density(0.25f).weight(40)
             .layer(ALL_LAYER)
             .dimensions(ANCIENT_WORLD, PLUTO, THE_NETHER, OTHERSIDE)
-            .heightRangeUniform(80, 120)
+            .heightRangeUniform(20, 120)
             .layeredVeinGenerator(generator -> generator
                     .buildLayerPattern(config -> config
                             .layer(l -> l.weight(3).mat(Quartzite).size(2, 4))
@@ -224,7 +224,7 @@ public final class GTOOres {
             .clusterSize(UniformInt.of(32, 40)).density(0.2f).weight(80)
             .layer(ALL_LAYER)
             .dimensions(ANCIENT_WORLD, THE_NETHER, OTHERSIDE)
-            .heightRangeUniform(40, 80)
+            .heightRangeUniform(0, 40)
             .layeredVeinGenerator(generator -> generator
                     .buildLayerPattern(config -> config
                             .layer(l -> l.weight(3).mat(NetherQuartz).size(2, 4))
@@ -284,7 +284,7 @@ public final class GTOOres {
             .clusterSize(UniformInt.of(40, 52)).density(1.0f).weight(70)
             .layer(ALL_LAYER)
             .dimensions(ANCIENT_WORLD, MARS, THE_NETHER, TITAN, OTHERSIDE)
-            .heightRangeUniform(80, 120)
+            .heightRangeUniform(20, 100)
             .veinedVeinGenerator(generator -> generator
                     .oreBlock(new VeinedVeinGenerator.VeinBlockDefinition(Tetrahedrite, 4))
                     .oreBlock(new VeinedVeinGenerator.VeinBlockDefinition(Copper, 2))
@@ -304,7 +304,7 @@ public final class GTOOres {
             .clusterSize(UniformInt.of(25, 29)).density(0.25f).weight(70)
             .layer(ALL_LAYER)
             .dimensions(ANCIENT_WORLD, MERCURY, THE_NETHER, ENCELADUS, OTHERSIDE)
-            .heightRangeUniform(80, 120)
+            .heightRangeUniform(20, 70)
             .layeredVeinGenerator(generator -> generator
                     .buildLayerPattern(config -> config
                             .layer(l -> l.weight(3).mat(BlueTopaz).size(2, 4))

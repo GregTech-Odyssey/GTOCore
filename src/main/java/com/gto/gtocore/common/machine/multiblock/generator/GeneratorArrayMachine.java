@@ -1,7 +1,7 @@
 package com.gto.gtocore.common.machine.multiblock.generator;
 
-import com.gto.gtocore.api.machine.feature.IArrayMachine;
 import com.gto.gtocore.api.machine.feature.IExtendWirelessEnergyContainerHolder;
+import com.gto.gtocore.api.machine.feature.multiblock.IArrayMachine;
 import com.gto.gtocore.api.machine.multiblock.StorageMultiblockMachine;
 import com.gto.gtocore.common.data.GTORecipeTypes;
 import com.gto.gtocore.common.wireless.ExtendWirelessEnergyContainer;

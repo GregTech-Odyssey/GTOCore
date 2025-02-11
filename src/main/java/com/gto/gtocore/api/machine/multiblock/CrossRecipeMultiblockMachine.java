@@ -2,8 +2,8 @@ package com.gto.gtocore.api.machine.multiblock;
 
 import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.api.gui.ParallelConfigurator;
-import com.gto.gtocore.api.machine.feature.IOverclockConfigMachine;
-import com.gto.gtocore.api.machine.feature.IParallelMachine;
+import com.gto.gtocore.api.machine.feature.multiblock.IOverclockConfigMachine;
+import com.gto.gtocore.api.machine.feature.multiblock.IParallelMachine;
 import com.gto.gtocore.api.machine.trait.CustomParallelTrait;
 import com.gto.gtocore.api.machine.trait.CustomRecipeLogic;
 import com.gto.gtocore.api.recipe.GTORecipeBuilder;

@@ -24,6 +24,11 @@ public class GTOMaterialBuilder extends Material.Builder {
     }
 
     @Override
+    public GTOMaterialBuilder wood() {
+        return (GTOMaterialBuilder) super.wood();
+    }
+
+    @Override
     public GTOMaterialBuilder fluid() {
         return (GTOMaterialBuilder) super.fluid();
     }

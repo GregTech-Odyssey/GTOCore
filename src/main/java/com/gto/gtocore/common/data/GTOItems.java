@@ -238,6 +238,27 @@ public final class GTOItems {
             .onRegister(attach(ElectricStats.createRechargeableBattery(Long.MAX_VALUE, GTValues.MAX)))
             .register();
 
+    public static ItemEntry<ComponentItem> HV_DRONE = item("hv_drone", "基础无人机", ComponentItem::create)
+            .lang("Base Drone")
+            .properties(p -> p.stacksTo(1))
+            .onRegister(modelPredicate(GTCEu.id("battery"), ElectricStats::getStoredPredicate))
+            .onRegister(attach(new DroneBehavior(GTValues.HV)))
+            .register();
+
+    public static ItemEntry<ComponentItem> EV_DRONE = item("ev_drone", "高级无人机", ComponentItem::create)
+            .lang("Advanced Drone")
+            .properties(p -> p.stacksTo(1))
+            .onRegister(modelPredicate(GTCEu.id("battery"), ElectricStats::getStoredPredicate))
+            .onRegister(attach(new DroneBehavior(GTValues.EV)))
+            .register();
+
+    public static ItemEntry<ComponentItem> IV_DRONE = item("iv_drone", "终极无人机", ComponentItem::create)
+            .lang("Ultimate Drone")
+            .properties(p -> p.stacksTo(1))
+            .onRegister(modelPredicate(GTCEu.id("battery"), ElectricStats::getStoredPredicate))
+            .onRegister(attach(new DroneBehavior(GTValues.IV)))
+            .register();
+
     public static final ItemEntry<ComponentItem> MAX_ELECTRIC_PUMP = item("max_electric_pump", "§4§lMAX§r电动泵", ComponentItem::create)
             .lang("MAX Electric Pump")
             .onRegister(attach(new CoverPlaceBehavior(GTOCovers.ELECTRIC_PUMP_MAX)))

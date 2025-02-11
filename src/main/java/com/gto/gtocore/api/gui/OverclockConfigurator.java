@@ -1,7 +1,7 @@
 package com.gto.gtocore.api.gui;
 
 import com.gto.gtocore.GTOCore;
-import com.gto.gtocore.api.machine.feature.IOverclockConfigMachine;
+import com.gto.gtocore.api.machine.feature.multiblock.IOverclockConfigMachine;
 
 import com.gregtechceu.gtceu.api.gui.fancy.IFancyConfigurator;
 import com.gregtechceu.gtceu.api.gui.widget.IntInputWidget;

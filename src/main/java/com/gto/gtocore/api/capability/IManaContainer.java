@@ -6,6 +6,8 @@ import com.gregtechceu.gtceu.api.machine.MetaMachine;
 
 import net.minecraft.core.BlockPos;
 
+import java.util.Objects;
+
 import javax.annotation.Nullable;
 
 public interface IManaContainer {
@@ -19,9 +21,9 @@ public interface IManaContainer {
         if (acceptDistributor() && getDistributorCache() == null && !ManaDistributorMachine.DISTRIBUTOR_NETWORK.isEmpty()) {
             BlockPos pos = getMachine().getPos();
             for (ManaDistributorMachine distributor : ManaDistributorMachine.DISTRIBUTOR_NETWORK) {
-                if (distributor.add(pos)) {
+                if (distributor.isFormed() && Objects.requireNonNull(distributor.getLevel()).dimension().equals(Objects.requireNonNull(getMachine().getLevel()).dimension()) && distributor.add(pos)) {
                     setDistributorCache(distributor);
-                    break;
+                    return distributor;
                 }
             }
         }

@@ -66,7 +66,7 @@ final class ArcGenerator {
         GTORecipeTypes.ARC_GENERATOR_RECIPES.recipeBuilder(GTOCore.id("adamantine_compounds_dust_a"))
                 .notConsumable(GTOItems.MICROWORMHOLE_GENERATOR.asStack())
                 .inputItems(TagPrefix.dust, GTOMaterials.AdamantineCompounds, 4)
-                .inputFluids(GTOMaterials.Mana.getFluid(1000))
+                .inputFluids(GTOMaterials.TranscendingMatter.getFluid(1000))
                 .outputItems(TagPrefix.dust, GTOMaterials.Adamantine)
                 .EUt(125829120)
                 .duration(20)

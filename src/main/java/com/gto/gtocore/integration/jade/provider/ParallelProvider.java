@@ -1,6 +1,6 @@
 package com.gto.gtocore.integration.jade.provider;
 
-import com.gto.gtocore.api.machine.feature.IParallelMachine;
+import com.gto.gtocore.api.machine.feature.multiblock.IParallelMachine;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;

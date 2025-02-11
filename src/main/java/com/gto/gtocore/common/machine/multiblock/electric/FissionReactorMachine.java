@@ -1,6 +1,6 @@
 package com.gto.gtocore.common.machine.multiblock.electric;
 
-import com.gto.gtocore.api.machine.feature.IParallelMachine;
+import com.gto.gtocore.api.machine.feature.multiblock.IParallelMachine;
 import com.gto.gtocore.api.machine.multiblock.ElectricMultiblockMachine;
 import com.gto.gtocore.common.data.GTOMaterials;
 import com.gto.gtocore.common.data.GTORecipeModifiers;

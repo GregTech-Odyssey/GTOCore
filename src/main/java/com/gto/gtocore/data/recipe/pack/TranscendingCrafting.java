@@ -19,23 +19,23 @@ import net.minecraft.world.level.block.Blocks;
 
 import java.util.function.Consumer;
 
-final class SpsCrafting {
+final class TranscendingCrafting {
 
     static void init(Consumer<FinishedRecipe> provider) {
-        GTORecipeTypes.SPS_CRAFTING_RECIPES.recipeBuilder(GTOCore.id("draconium_dust"))
+        GTORecipeTypes.TRANSCENDING_CRAFTING_RECIPES.recipeBuilder(GTOCore.id("draconium_dust"))
                 .inputItems(TagPrefix.dust, GTMaterials.Netherrack)
                 .inputItems(TagPrefix.dust, GTMaterials.Endstone)
-                .inputFluids(GTOMaterials.Mana.getFluid(1000))
+                .inputFluids(GTOMaterials.TranscendingMatter.getFluid(1000))
                 .inputFluids(GTOMaterials.DragonBreath.getFluid(10))
                 .outputItems(GTOItems.DRACONIUM_DIRT.asStack())
                 .EUt(7864320)
                 .duration(400)
                 .save(provider);
 
-        GTORecipeTypes.SPS_CRAFTING_RECIPES.recipeBuilder(GTOCore.id("magnetohydrodynamically_constrained_star_matternugget"))
+        GTORecipeTypes.TRANSCENDING_CRAFTING_RECIPES.recipeBuilder(GTOCore.id("magnetohydrodynamically_constrained_star_matternugget"))
                 .inputItems(TagPrefix.nugget, GTOMaterials.Eternity)
                 .inputItems(GTOItems.SOLAR_LIGHT_SPLITTER.asStack())
-                .inputFluids(GTOMaterials.Mana.getFluid(10000))
+                .inputFluids(GTOMaterials.TranscendingMatter.getFluid(10000))
                 .inputFluids(GTOMaterials.MagnetohydrodynamicallyConstrainedStarMatter.getFluid(16))
                 .inputFluids(GTOMaterials.DimensionallyTranscendentResidue.getFluid(1000))
                 .outputItems(TagPrefix.nugget, GTOMaterials.MagnetohydrodynamicallyConstrainedStarMatter)
@@ -43,10 +43,10 @@ final class SpsCrafting {
                 .duration(200)
                 .save(provider);
 
-        GTORecipeTypes.SPS_CRAFTING_RECIPES.recipeBuilder(GTOCore.id("small_magnetohydrodynamically_constrained_star_matter_dust"))
+        GTORecipeTypes.TRANSCENDING_CRAFTING_RECIPES.recipeBuilder(GTOCore.id("small_magnetohydrodynamically_constrained_star_matter_dust"))
                 .inputItems(TagPrefix.dustSmall, GTOMaterials.Eternity)
                 .inputItems(GTOItems.SOLAR_LIGHT_SPLITTER.asStack())
-                .inputFluids(GTOMaterials.Mana.getFluid(10000))
+                .inputFluids(GTOMaterials.TranscendingMatter.getFluid(10000))
                 .inputFluids(GTOMaterials.MagnetohydrodynamicallyConstrainedStarMatter.getFluid(36))
                 .inputFluids(GTOMaterials.DimensionallyTranscendentResidue.getFluid(1000))
                 .outputItems(TagPrefix.dustSmall, GTOMaterials.MagnetohydrodynamicallyConstrainedStarMatter)
@@ -54,20 +54,20 @@ final class SpsCrafting {
                 .duration(200)
                 .save(provider);
 
-        GTORecipeTypes.SPS_CRAFTING_RECIPES.recipeBuilder(GTOCore.id("liquid_starlight"))
+        GTORecipeTypes.TRANSCENDING_CRAFTING_RECIPES.recipeBuilder(GTOCore.id("liquid_starlight"))
                 .inputItems(new ItemStack(Blocks.BLUE_ICE.asItem(), 64))
                 .inputItems(new ItemStack(Blocks.BLUE_ICE.asItem(), 64))
-                .inputFluids(GTOMaterials.Mana.getFluid(10000))
+                .inputFluids(GTOMaterials.TranscendingMatter.getFluid(10000))
                 .inputFluids(GTOMaterials.Starlight.getFluid(10000))
                 .outputFluids(GTOMaterials.LiquidStarlight.getFluid(10000))
                 .EUt(7864320)
                 .duration(9600)
                 .save(provider);
 
-        GTORecipeTypes.SPS_CRAFTING_RECIPES.recipeBuilder(GTOCore.id("magnetohydrodynamically_constrained_star_matteringot"))
+        GTORecipeTypes.TRANSCENDING_CRAFTING_RECIPES.recipeBuilder(GTOCore.id("magnetohydrodynamically_constrained_star_matteringot"))
                 .inputItems(TagPrefix.ingot, GTOMaterials.Eternity)
                 .inputItems(GTOItems.SOLAR_LIGHT_SPLITTER.asStack())
-                .inputFluids(GTOMaterials.Mana.getFluid(10000))
+                .inputFluids(GTOMaterials.TranscendingMatter.getFluid(10000))
                 .inputFluids(GTOMaterials.MagnetohydrodynamicallyConstrainedStarMatter.getFluid(144))
                 .inputFluids(GTOMaterials.DimensionallyTranscendentResidue.getFluid(1000))
                 .outputItems(TagPrefix.ingot, GTOMaterials.MagnetohydrodynamicallyConstrainedStarMatter)
@@ -75,11 +75,11 @@ final class SpsCrafting {
                 .duration(200)
                 .save(provider);
 
-        GTORecipeTypes.SPS_CRAFTING_RECIPES.recipeBuilder(GTOCore.id("cosmic_fabric"))
+        GTORecipeTypes.TRANSCENDING_CRAFTING_RECIPES.recipeBuilder(GTOCore.id("cosmic_fabric"))
                 .notConsumable(GTOTagPrefix.nanites, GTOMaterials.CosmicNeutronium)
                 .inputItems(TagPrefix.foil, GTMaterials.Rubber)
                 .inputItems(GTOItems.AMORPHOUS_MATTER.asStack())
-                .inputFluids(GTOMaterials.Mana.getFluid(1000))
+                .inputFluids(GTOMaterials.TranscendingMatter.getFluid(1000))
                 .inputFluids(GTOMaterials.EnrichedXenoxene.getFluid(1000))
                 .inputFluids(GTOMaterials.CosmicMesh.getFluid(FluidStorageKeys.LIQUID, 100))
                 .outputItems(GTOItems.COSMIC_FABRIC.asStack())
@@ -87,10 +87,10 @@ final class SpsCrafting {
                 .duration(200)
                 .save(provider);
 
-        GTORecipeTypes.SPS_CRAFTING_RECIPES.recipeBuilder(GTOCore.id("magnetohydrodynamically_constrained_star_matterrod"))
+        GTORecipeTypes.TRANSCENDING_CRAFTING_RECIPES.recipeBuilder(GTOCore.id("magnetohydrodynamically_constrained_star_matterrod"))
                 .inputItems(TagPrefix.rod, GTOMaterials.Eternity)
                 .inputItems(GTOItems.SOLAR_LIGHT_SPLITTER.asStack())
-                .inputFluids(GTOMaterials.Mana.getFluid(10000))
+                .inputFluids(GTOMaterials.TranscendingMatter.getFluid(10000))
                 .inputFluids(GTOMaterials.MagnetohydrodynamicallyConstrainedStarMatter.getFluid(72))
                 .inputFluids(GTOMaterials.DimensionallyTranscendentResidue.getFluid(1000))
                 .outputItems(TagPrefix.rod, GTOMaterials.MagnetohydrodynamicallyConstrainedStarMatter)
@@ -98,10 +98,10 @@ final class SpsCrafting {
                 .duration(200)
                 .save(provider);
 
-        GTORecipeTypes.SPS_CRAFTING_RECIPES.recipeBuilder(GTOCore.id("magnetohydrodynamically_constrained_star_matterplate"))
+        GTORecipeTypes.TRANSCENDING_CRAFTING_RECIPES.recipeBuilder(GTOCore.id("magnetohydrodynamically_constrained_star_matterplate"))
                 .inputItems(TagPrefix.plate, GTOMaterials.Eternity)
                 .inputItems(GTOItems.SOLAR_LIGHT_SPLITTER.asStack())
-                .inputFluids(GTOMaterials.Mana.getFluid(10000))
+                .inputFluids(GTOMaterials.TranscendingMatter.getFluid(10000))
                 .inputFluids(GTOMaterials.MagnetohydrodynamicallyConstrainedStarMatter.getFluid(144))
                 .inputFluids(GTOMaterials.DimensionallyTranscendentResidue.getFluid(1000))
                 .outputItems(TagPrefix.plate, GTOMaterials.MagnetohydrodynamicallyConstrainedStarMatter)
@@ -109,10 +109,10 @@ final class SpsCrafting {
                 .duration(200)
                 .save(provider);
 
-        GTORecipeTypes.SPS_CRAFTING_RECIPES.recipeBuilder(GTOCore.id("echoite_plasma"))
+        GTORecipeTypes.TRANSCENDING_CRAFTING_RECIPES.recipeBuilder(GTOCore.id("echoite_plasma"))
                 .inputItems(TagPrefix.gemExquisite, GTMaterials.EchoShard, 16)
                 .inputItems(GTOItems.RHENIUM_PLASMA_CONTAINMENT_CELL.asStack())
-                .inputFluids(GTOMaterials.Mana.getFluid(16000))
+                .inputFluids(GTOMaterials.TranscendingMatter.getFluid(16000))
                 .inputFluids(GTOMaterials.Enderium.getFluid(1152))
                 .inputFluids(GTOMaterials.Infuscolium.getFluid(1152))
                 .outputItems(GTOItems.PLASMA_CONTAINMENT_CELL.asStack())
@@ -121,10 +121,10 @@ final class SpsCrafting {
                 .duration(400)
                 .save(provider);
 
-        GTORecipeTypes.SPS_CRAFTING_RECIPES.recipeBuilder(GTOCore.id("magnetohydrodynamically_constrained_star_matterfoil"))
+        GTORecipeTypes.TRANSCENDING_CRAFTING_RECIPES.recipeBuilder(GTOCore.id("magnetohydrodynamically_constrained_star_matterfoil"))
                 .inputItems(TagPrefix.foil, GTOMaterials.Eternity)
                 .inputItems(GTOItems.SOLAR_LIGHT_SPLITTER.asStack())
-                .inputFluids(GTOMaterials.Mana.getFluid(10000))
+                .inputFluids(GTOMaterials.TranscendingMatter.getFluid(10000))
                 .inputFluids(GTOMaterials.MagnetohydrodynamicallyConstrainedStarMatter.getFluid(36))
                 .inputFluids(GTOMaterials.DimensionallyTranscendentResidue.getFluid(1000))
                 .outputItems(TagPrefix.foil, GTOMaterials.MagnetohydrodynamicallyConstrainedStarMatter)
@@ -132,19 +132,19 @@ final class SpsCrafting {
                 .duration(200)
                 .save(provider);
 
-        GTORecipeTypes.SPS_CRAFTING_RECIPES.recipeBuilder(GTOCore.id("sculk_catalyst"))
+        GTORecipeTypes.TRANSCENDING_CRAFTING_RECIPES.recipeBuilder(GTOCore.id("sculk_catalyst"))
                 .inputItems(new ItemStack(Blocks.TERRACOTTA.asItem()))
-                .inputFluids(GTOMaterials.Mana.getFluid(1000))
+                .inputFluids(GTOMaterials.TranscendingMatter.getFluid(1000))
                 .inputFluids(GTMaterials.EchoShard.getFluid(100))
                 .outputItems(new ItemStack(Blocks.SCULK_CATALYST.asItem()))
                 .EUt(7864320)
                 .duration(20)
                 .save(provider);
 
-        GTORecipeTypes.SPS_CRAFTING_RECIPES.recipeBuilder(GTOCore.id("magnetohydrodynamically_constrained_star_matterframe"))
+        GTORecipeTypes.TRANSCENDING_CRAFTING_RECIPES.recipeBuilder(GTOCore.id("magnetohydrodynamically_constrained_star_matterframe"))
                 .inputItems(TagPrefix.frameGt, GTOMaterials.Eternity)
                 .inputItems(GTOItems.SOLAR_LIGHT_SPLITTER.asStack())
-                .inputFluids(GTOMaterials.Mana.getFluid(10000))
+                .inputFluids(GTOMaterials.TranscendingMatter.getFluid(10000))
                 .inputFluids(GTOMaterials.MagnetohydrodynamicallyConstrainedStarMatter.getFluid(288))
                 .inputFluids(GTOMaterials.DimensionallyTranscendentResidue.getFluid(1000))
                 .outputItems(TagPrefix.frameGt, GTOMaterials.MagnetohydrodynamicallyConstrainedStarMatter)
@@ -152,21 +152,21 @@ final class SpsCrafting {
                 .duration(200)
                 .save(provider);
 
-        GTORecipeTypes.SPS_CRAFTING_RECIPES.recipeBuilder(GTOCore.id("magmatter_ingot"))
+        GTORecipeTypes.TRANSCENDING_CRAFTING_RECIPES.recipeBuilder(GTOCore.id("magmatter_ingot"))
                 .notConsumable(GTOItems.INGOT_FIELD_SHAPE.asStack())
                 .circuitMeta(1)
                 .inputItems(TagPrefix.ingot, GTMaterials.Netherite)
-                .inputFluids(GTOMaterials.Mana.getFluid(100000))
+                .inputFluids(GTOMaterials.TranscendingMatter.getFluid(100000))
                 .inputFluids(GTOMaterials.Magmatter.getFluid(100))
                 .outputItems(TagPrefix.ingot, GTOMaterials.Magmatter)
                 .EUt(8053063680L)
                 .duration(400)
                 .save(provider);
 
-        GTORecipeTypes.SPS_CRAFTING_RECIPES.recipeBuilder(GTOCore.id("magnetohydrodynamically_constrained_star_matterblock"))
+        GTORecipeTypes.TRANSCENDING_CRAFTING_RECIPES.recipeBuilder(GTOCore.id("magnetohydrodynamically_constrained_star_matterblock"))
                 .inputItems(TagPrefix.block, GTOMaterials.Eternity)
                 .inputItems(GTOItems.SOLAR_LIGHT_SPLITTER.asStack())
-                .inputFluids(GTOMaterials.Mana.getFluid(10000))
+                .inputFluids(GTOMaterials.TranscendingMatter.getFluid(10000))
                 .inputFluids(GTOMaterials.MagnetohydrodynamicallyConstrainedStarMatter.getFluid(1296))
                 .inputFluids(GTOMaterials.DimensionallyTranscendentResidue.getFluid(1000))
                 .outputItems(TagPrefix.block, GTOMaterials.MagnetohydrodynamicallyConstrainedStarMatter)
@@ -174,21 +174,21 @@ final class SpsCrafting {
                 .duration(200)
                 .save(provider);
 
-        GTORecipeTypes.SPS_CRAFTING_RECIPES.recipeBuilder(GTOCore.id("magmatter_ingot_d"))
+        GTORecipeTypes.TRANSCENDING_CRAFTING_RECIPES.recipeBuilder(GTOCore.id("magmatter_ingot_d"))
                 .notConsumable(GTOItems.INGOT_FIELD_SHAPE.asStack())
                 .inputItems(TagPrefix.dust, GTOMaterials.Magmatter)
                 .inputItems(TagPrefix.ingot, GTMaterials.Netherite)
-                .inputFluids(GTOMaterials.Mana.getFluid(10000))
+                .inputFluids(GTOMaterials.TranscendingMatter.getFluid(10000))
                 .inputFluids(GTOMaterials.Magmatter.getFluid(10))
                 .outputItems(TagPrefix.ingot, GTOMaterials.Magmatter)
                 .EUt(8053063680L)
                 .duration(200)
                 .save(provider);
 
-        GTORecipeTypes.SPS_CRAFTING_RECIPES.recipeBuilder(GTOCore.id("magnetohydrodynamically_constrained_star_matterdust"))
+        GTORecipeTypes.TRANSCENDING_CRAFTING_RECIPES.recipeBuilder(GTOCore.id("magnetohydrodynamically_constrained_star_matterdust"))
                 .inputItems(TagPrefix.dust, GTOMaterials.Eternity)
                 .inputItems(GTOItems.SOLAR_LIGHT_SPLITTER.asStack())
-                .inputFluids(GTOMaterials.Mana.getFluid(10000))
+                .inputFluids(GTOMaterials.TranscendingMatter.getFluid(10000))
                 .inputFluids(GTOMaterials.MagnetohydrodynamicallyConstrainedStarMatter.getFluid(144))
                 .inputFluids(GTOMaterials.DimensionallyTranscendentResidue.getFluid(1000))
                 .outputItems(TagPrefix.dust, GTOMaterials.MagnetohydrodynamicallyConstrainedStarMatter)
@@ -196,20 +196,20 @@ final class SpsCrafting {
                 .duration(200)
                 .save(provider);
 
-        GTORecipeTypes.SPS_CRAFTING_RECIPES.recipeBuilder(GTOCore.id("attuned_tengam_ingot"))
+        GTORecipeTypes.TRANSCENDING_CRAFTING_RECIPES.recipeBuilder(GTOCore.id("attuned_tengam_ingot"))
                 .notConsumable(GTOItems.INGOT_FIELD_SHAPE.asStack())
                 .inputItems(TagPrefix.dust, GTOMaterials.AttunedTengam)
-                .inputFluids(GTOMaterials.Mana.getFluid(1000))
+                .inputFluids(GTOMaterials.TranscendingMatter.getFluid(1000))
                 .outputItems(TagPrefix.ingot, GTOMaterials.AttunedTengam)
                 .EUt(31457280)
                 .duration(400)
                 .save(provider);
 
-        GTORecipeTypes.SPS_CRAFTING_RECIPES.recipeBuilder(GTOCore.id("photocoated_hassium_boule"))
+        GTORecipeTypes.TRANSCENDING_CRAFTING_RECIPES.recipeBuilder(GTOCore.id("photocoated_hassium_boule"))
                 .inputItems(GTOItems.HIGH_PURITY_SINGLE_CRYSTAL_SILICON.asStack())
                 .inputItems(TagPrefix.ingot, GTMaterials.Hassium, 2)
                 .inputItems(GTOItems.HASSIUM_SEED_CRYSTAL.asStack())
-                .inputFluids(GTOMaterials.Mana.getFluid(10000))
+                .inputFluids(GTOMaterials.TranscendingMatter.getFluid(10000))
                 .inputFluids(GTOMaterials.WoodsGlass.getFluid(2304))
                 .inputFluids(GTOMaterials.Photopolymer.getFluid(2000))
                 .outputItems(GTOItems.PHOTOCOATED_HASSIUM_BOULE.asStack())
@@ -217,10 +217,10 @@ final class SpsCrafting {
                 .duration(1000)
                 .save(provider);
 
-        GTORecipeTypes.SPS_CRAFTING_RECIPES.recipeBuilder(GTOCore.id("bedrock_dust"))
+        GTORecipeTypes.TRANSCENDING_CRAFTING_RECIPES.recipeBuilder(GTOCore.id("bedrock_dust"))
                 .inputItems(TagPrefix.dust, GTOMaterials.CompressedStone, 64)
                 .inputItems(TagPrefix.dust, GTOMaterials.CompressedStone, 64)
-                .inputFluids(GTOMaterials.Mana.getFluid(100000))
+                .inputFluids(GTOMaterials.TranscendingMatter.getFluid(100000))
                 .inputFluids(GTMaterials.Thulium.getFluid(9216))
                 .inputFluids(GTMaterials.Copernicium.getFluid(9216))
                 .outputItems(TagPrefix.dust, GTOMaterials.Bedrockium)
@@ -228,9 +228,9 @@ final class SpsCrafting {
                 .duration(1200)
                 .save(provider);
 
-        GTORecipeTypes.SPS_CRAFTING_RECIPES.recipeBuilder(GTOCore.id("dragon_stem_cells"))
+        GTORecipeTypes.TRANSCENDING_CRAFTING_RECIPES.recipeBuilder(GTOCore.id("dragon_stem_cells"))
                 .inputItems(GTItems.STEM_CELLS.asStack())
-                .inputFluids(GTOMaterials.Mana.getFluid(1000))
+                .inputFluids(GTOMaterials.TranscendingMatter.getFluid(1000))
                 .inputFluids(GTMaterials.Mutagen.getFluid(100))
                 .inputFluids(GTOMaterials.EnrichedDragonBreath.getFluid(100))
                 .outputItems(GTOItems.DRAGON_STEM_CELLS.asStack())
@@ -238,10 +238,10 @@ final class SpsCrafting {
                 .duration(400)
                 .save(provider);
 
-        GTORecipeTypes.SPS_CRAFTING_RECIPES.recipeBuilder(GTOCore.id("tiny_magnetohydrodynamically_constrained_star_matter_dust"))
+        GTORecipeTypes.TRANSCENDING_CRAFTING_RECIPES.recipeBuilder(GTOCore.id("tiny_magnetohydrodynamically_constrained_star_matter_dust"))
                 .inputItems(TagPrefix.dustTiny, GTOMaterials.Eternity)
                 .inputItems(GTOItems.SOLAR_LIGHT_SPLITTER.asStack())
-                .inputFluids(GTOMaterials.Mana.getFluid(10000))
+                .inputFluids(GTOMaterials.TranscendingMatter.getFluid(10000))
                 .inputFluids(GTOMaterials.MagnetohydrodynamicallyConstrainedStarMatter.getFluid(16))
                 .inputFluids(GTOMaterials.DimensionallyTranscendentResidue.getFluid(1000))
                 .outputItems(TagPrefix.dustTiny, GTOMaterials.MagnetohydrodynamicallyConstrainedStarMatter)
@@ -249,20 +249,20 @@ final class SpsCrafting {
                 .duration(200)
                 .save(provider);
 
-        GTORecipeTypes.SPS_CRAFTING_RECIPES.recipeBuilder(GTOCore.id("dragon_breath"))
+        GTORecipeTypes.TRANSCENDING_CRAFTING_RECIPES.recipeBuilder(GTOCore.id("dragon_breath"))
                 .inputItems(new ItemStack(Items.GLASS_BOTTLE.asItem()))
                 .inputItems(new ItemStack(Blocks.DRAGON_EGG.asItem()))
-                .inputFluids(GTOMaterials.Mana.getFluid(1000))
+                .inputFluids(GTOMaterials.TranscendingMatter.getFluid(1000))
                 .inputFluids(GTOMaterials.DragonBlood.getFluid(10))
                 .outputItems(new ItemStack(Items.DRAGON_BREATH.asItem()))
                 .EUt(31457280)
                 .duration(80)
                 .save(provider);
 
-        GTORecipeTypes.SPS_CRAFTING_RECIPES.recipeBuilder(GTOCore.id("double_magnetohydrodynamically_constrained_star_matter_plate"))
+        GTORecipeTypes.TRANSCENDING_CRAFTING_RECIPES.recipeBuilder(GTOCore.id("double_magnetohydrodynamically_constrained_star_matter_plate"))
                 .inputItems(TagPrefix.plateDouble, GTOMaterials.Eternity)
                 .inputItems(GTOItems.SOLAR_LIGHT_SPLITTER.asStack())
-                .inputFluids(GTOMaterials.Mana.getFluid(10000))
+                .inputFluids(GTOMaterials.TranscendingMatter.getFluid(10000))
                 .inputFluids(GTOMaterials.MagnetohydrodynamicallyConstrainedStarMatter.getFluid(288))
                 .inputFluids(GTOMaterials.DimensionallyTranscendentResidue.getFluid(1000))
                 .outputItems(TagPrefix.plateDouble, GTOMaterials.MagnetohydrodynamicallyConstrainedStarMatter)
@@ -270,11 +270,11 @@ final class SpsCrafting {
                 .duration(200)
                 .save(provider);
 
-        GTORecipeTypes.SPS_CRAFTING_RECIPES.recipeBuilder(GTOCore.id("dust_blizz"))
+        GTORecipeTypes.TRANSCENDING_CRAFTING_RECIPES.recipeBuilder(GTOCore.id("dust_blizz"))
                 .inputItems(TagPrefix.dust, GTMaterials.Blaze)
                 .inputItems(TagPrefix.dust, GTMaterials.AluminiumSulfite)
                 .inputItems(new ItemStack(Items.SNOWBALL.asItem(), 16))
-                .inputFluids(GTOMaterials.Mana.getFluid(1000))
+                .inputFluids(GTOMaterials.TranscendingMatter.getFluid(1000))
                 .inputFluids(GTMaterials.Ice.getFluid(1000))
                 .outputItems(GTOItems.DUST_BLIZZ.asStack(2))
                 .EUt(7864320)

@@ -1,9 +1,9 @@
 package com.gto.gtocore.api.machine.multiblock;
 
-import com.gto.gtocore.api.machine.feature.ICheckPatternMachine;
-import com.gto.gtocore.api.machine.feature.IEnhancedMultiblockMachine;
 import com.gto.gtocore.api.machine.feature.ILockableRecipe;
-import com.gto.gtocore.api.machine.feature.IMultiblockTraitHolder;
+import com.gto.gtocore.api.machine.feature.multiblock.ICheckPatternMachine;
+import com.gto.gtocore.api.machine.feature.multiblock.IEnhancedMultiblockMachine;
+import com.gto.gtocore.api.machine.feature.multiblock.IMultiblockTraitHolder;
 import com.gto.gtocore.api.machine.trait.MultiblockTrait;
 import com.gto.gtocore.utils.MachineUtils;
 
@@ -29,7 +29,9 @@ import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 

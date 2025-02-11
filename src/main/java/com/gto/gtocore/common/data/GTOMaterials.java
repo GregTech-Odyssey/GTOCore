@@ -3,6 +3,7 @@ package com.gto.gtocore.common.data;
 import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.api.data.chemical.material.GTOMaterialBuilder;
 import com.gto.gtocore.common.data.material.GTMaterialAdd;
+import com.gto.gtocore.common.data.material.MagicMaterial;
 import com.gto.gtocore.common.data.material.MaterialA;
 import com.gto.gtocore.common.data.material.MaterialB;
 import com.gto.gtocore.data.lang.LangHandler;
@@ -27,6 +28,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Supplier;
 
+import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
 import static committee.nova.mods.avaritia.init.registry.ModBlocks.infinity;
 import static committee.nova.mods.avaritia.init.registry.ModItems.*;
@@ -35,9 +37,6 @@ public final class GTOMaterials {
 
     public static final Map<String, LangHandler.ENCN> LANG = GTCEu.isDataGen() ? new HashMap<>() : null;
 
-    public static Material ManaSteel;
-    public static Material TerraSteel;
-    public static Material Elementium;
     public static Material Fluix;
     public static Material Desh;
     public static Material Ostrum;
@@ -424,7 +423,7 @@ public final class GTOMaterials {
     public static Material Benzylamine;
     public static Material Glyoxal;
     public static Material BenzylChloride;
-    public static Material Mana;
+    public static Material TranscendingMatter;
     public static Material RareEarthHydroxides;
     public static Material QuantumDots;
     public static Material StearicAcid;
@@ -872,10 +871,54 @@ public final class GTOMaterials {
     public static Material PureSilane;
     public static Material TetrafluorosilaneSolution;
 
+    public static Material Manasteel;
+    public static Material Terrasteel;
+    public static Material Elementium;
+    public static Material Mana;
+    public static Material Livingclay;
+    public static Material Livingwood;
+    public static Material Dreamwood;
+    public static Material Shimmerwood;
+    public static Material Livingrock;
+    public static Material Runerock;
+    public static Material Shimmerrock;
+    public static Material ManaGlass;
+    public static Material ElfGlass;
+    public static Material BifrostPerm;
+    public static Material Living;
+    public static Material Alfsteel;
+    public static Material Gaiasteel;
+    public static Material Gaia;
+    public static Material ManaDiamond;
+    public static Material Dragonstone;
+    public static Material laureril;
+    public static Material WhiteWax;
+    public static Material Herbs;
+    public static Material OriginalBronze;
+    public static Material Salamander;
+    public static Material Undine;
+    public static Material Sylph;
+    public static Material Gnome;
+    public static Material Aether;
+
     public static void init() {
         GTMaterialAdd.init();
+        MagicMaterial.init();
         MaterialA.init();
         MaterialB.init();
+
+        dustSmall.setIgnored(Mana);
+        dustTiny.setIgnored(Mana);
+        plateDouble.setIgnored(Livingwood);
+        plateDouble.setIgnored(Dreamwood);
+        plateDouble.setIgnored(Shimmerwood);
+        plateDouble.setIgnored(Livingclay);
+        plateDouble.setIgnored(Livingrock);
+        plateDouble.setIgnored(Runerock);
+        plateDouble.setIgnored(Shimmerrock);
+        plateDouble.setIgnored(ManaGlass);
+        plateDouble.setIgnored(ElfGlass);
+        plateDouble.setIgnored(BifrostPerm);
 
         OreProperty oreProp = Bastnasite.getProperty(PropertyKey.ORE);
         oreProp.getOreByProducts().clear();
@@ -927,15 +970,30 @@ public final class GTOMaterials {
         TagPrefix.plate.setIgnored(Calorite, ModItems.CALORITE_PLATE);
         TagPrefix.block.setIgnored(Calorite, ModBlocks.CALORITE_BLOCK);
 
-        TagPrefix.ingot.setIgnored(ManaSteel, () -> () -> BotaniaItems.manaSteel);
-        TagPrefix.nugget.setIgnored(ManaSteel, () -> () -> BotaniaItems.manasteelNugget);
-        TagPrefix.block.setIgnored(ManaSteel, () -> BotaniaBlocks.manasteelBlock);
-        TagPrefix.ingot.setIgnored(TerraSteel, () -> () -> BotaniaItems.terrasteel);
-        TagPrefix.nugget.setIgnored(TerraSteel, () -> () -> BotaniaItems.terrasteelNugget);
-        TagPrefix.block.setIgnored(TerraSteel, () -> BotaniaBlocks.terrasteelBlock);
+        TagPrefix.dust.setIgnored(Mana, () -> () -> BotaniaItems.manaPowder);
+        TagPrefix.ingot.setIgnored(Manasteel, () -> () -> BotaniaItems.manaSteel);
+        TagPrefix.nugget.setIgnored(Manasteel, () -> () -> BotaniaItems.manasteelNugget);
+        TagPrefix.block.setIgnored(Manasteel, () -> BotaniaBlocks.manasteelBlock);
+        TagPrefix.ingot.setIgnored(Terrasteel, () -> () -> BotaniaItems.terrasteel);
+        TagPrefix.nugget.setIgnored(Terrasteel, () -> () -> BotaniaItems.terrasteelNugget);
+        TagPrefix.block.setIgnored(Terrasteel, () -> BotaniaBlocks.terrasteelBlock);
         TagPrefix.ingot.setIgnored(Elementium, () -> () -> BotaniaItems.elementium);
         TagPrefix.nugget.setIgnored(Elementium, () -> () -> BotaniaItems.elementiumNugget);
         TagPrefix.block.setIgnored(Elementium, () -> BotaniaBlocks.elementiumBlock);
+        TagPrefix.ingot.setIgnored(Gaia, () -> () -> BotaniaItems.gaiaIngot);
+        TagPrefix.gem.setIgnored(ManaDiamond, () -> () -> BotaniaItems.manaDiamond);
+        TagPrefix.block.setIgnored(ManaDiamond, () -> BotaniaBlocks.manaDiamondBlock);
+        TagPrefix.gem.setIgnored(Dragonstone, () -> () -> BotaniaItems.dragonstone);
+        TagPrefix.block.setIgnored(Dragonstone, () -> BotaniaBlocks.dragonstoneBlock);
+
+        TagPrefix.block.setIgnored(Livingwood, () -> BotaniaBlocks.livingwoodPlanks);
+        TagPrefix.block.setIgnored(Dreamwood, () -> BotaniaBlocks.dreamwoodPlanks);
+        TagPrefix.block.setIgnored(Shimmerwood, () -> BotaniaBlocks.shimmerwoodPlanks);
+        TagPrefix.block.setIgnored(Livingrock, () -> BotaniaBlocks.livingrock);
+        TagPrefix.block.setIgnored(Shimmerrock, () -> BotaniaBlocks.shimmerrock);
+        TagPrefix.block.setIgnored(ManaGlass, () -> BotaniaBlocks.manaGlass);
+        TagPrefix.block.setIgnored(ElfGlass, () -> BotaniaBlocks.elfGlass);
+        TagPrefix.block.setIgnored(BifrostPerm, () -> BotaniaBlocks.bifrostPerm);
 
         TagPrefix.gear.setIgnored(Wood, () -> EIOItems.GEAR_WOOD);
         TagPrefix.dust.setIgnored(Wheat, () -> EIOItems.FLOUR);

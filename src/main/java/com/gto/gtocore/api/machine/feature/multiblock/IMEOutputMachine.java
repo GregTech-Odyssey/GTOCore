@@ -1,4 +1,4 @@
-package com.gto.gtocore.api.machine.feature;
+package com.gto.gtocore.api.machine.feature.multiblock;
 
 public interface IMEOutputMachine {
 

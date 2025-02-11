@@ -2,8 +2,8 @@ package com.gto.gtocore.common.machine.multiblock.electric;
 
 import com.gto.gtocore.api.GTOValues;
 import com.gto.gtocore.api.item.MachineItemStackHandler;
-import com.gto.gtocore.api.machine.feature.IArrayMachine;
-import com.gto.gtocore.api.machine.feature.IParallelMachine;
+import com.gto.gtocore.api.machine.feature.multiblock.IArrayMachine;
+import com.gto.gtocore.api.machine.feature.multiblock.IParallelMachine;
 import com.gto.gtocore.api.machine.multiblock.TierCasingMultiblockMachine;
 import com.gto.gtocore.common.data.GTORecipeModifiers;
 import com.gto.gtocore.utils.MachineUtils;

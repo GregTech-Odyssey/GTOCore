@@ -3,12 +3,14 @@ package com.gto.gtocore.common.data.machines;
 import com.gto.gtocore.api.GTOValues;
 import com.gto.gtocore.api.machine.multiblock.CoilMultiblockMachine;
 import com.gto.gtocore.api.machine.multiblock.ElectricMultiblockMachine;
+import com.gto.gtocore.api.machine.part.GTOPartAbility;
 import com.gto.gtocore.api.pattern.GTOPredicates;
 import com.gto.gtocore.client.renderer.machine.ArrayMachineRenderer;
 import com.gto.gtocore.common.data.GTOBlocks;
 import com.gto.gtocore.common.data.GTOMachines;
 import com.gto.gtocore.common.data.GTORecipeTypes;
 import com.gto.gtocore.common.machine.multiblock.electric.ProcessingArrayMachine;
+import com.gto.gtocore.common.machine.multiblock.noenergy.DroneControlCenterMachine;
 import com.gto.gtocore.common.machine.multiblock.storage.WirelessEnergySubstationMachine;
 
 import com.gregtechceu.gtceu.GTCEu;
@@ -31,6 +33,26 @@ import static com.gto.gtocore.common.data.GTOMachines.multiblock;
 public final class MultiBlockMachineG {
 
     public static void init() {}
+
+    public final static MultiblockMachineDefinition DRONE_CONTROL_CENTER = multiblock("drone_control_center", "无人机控制中心", DroneControlCenterMachine::new)
+            .nonYAxisRotation()
+            .recipe(DUMMY_RECIPES)
+            .block(GTBlocks.CASING_STAINLESS_CLEAN)
+            .pattern(definition -> FactoryBlockPattern.start(RelativeDirection.RIGHT, RelativeDirection.UP, RelativeDirection.BACK)
+                    .aisle("ABAAA  ", "ADA A  ", "AAA A  ", "AABAA  ", "A A A  ", "A A A  ", "AAAAA  ")
+                    .aisle("AAAAAAA", "A ACAAA", "A ACAAA", "AAAAAAA", "ACACAAA", "ACACA  ", "AAAAA  ")
+                    .aisle("AAAAAAB", "A A A A", "A A A A", "AAAAA A", "A A A A", "A A A  ", "AAAAA  ")
+                    .aisle("AAAAAAA", "AAAAAAA", "AAAAAAA", "AAAAAAA", "AAAAAAA", "AAAAA  ", "AAAAA  ")
+                    .where('A', blocks(GTBlocks.CASING_STAINLESS_CLEAN.get()))
+                    .where('B', blocks(GTBlocks.CASING_STAINLESS_CLEAN.get())
+                            .or(abilities(EXPORT_ITEMS).setMaxGlobalLimited(1))
+                            .or(abilities(GTOPartAbility.DRONE_HATCH).setExactLimit(1)))
+                    .where('C', blocks(GTBlocks.CASING_STAINLESS_STEEL_GEARBOX.get()))
+                    .where('D', controller(blocks(definition.get())))
+                    .where(' ', any())
+                    .build())
+            .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_clean_stainless_steel"), GTCEu.id("block/multiblock/fusion_reactor"))
+            .register();
 
     public final static MultiblockMachineDefinition WIRELESS_ENERGY_SUBSTATION = multiblock("wireless_energy_substation", "无线能源塔", WirelessEnergySubstationMachine::new)
             .nonYAxisRotation()

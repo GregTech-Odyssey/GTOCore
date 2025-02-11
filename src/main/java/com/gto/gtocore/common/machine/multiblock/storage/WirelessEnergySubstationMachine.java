@@ -2,7 +2,7 @@ package com.gto.gtocore.common.machine.multiblock.storage;
 
 import com.gto.gtocore.api.GTOValues;
 import com.gto.gtocore.api.machine.feature.IExtendWirelessEnergyContainerHolder;
-import com.gto.gtocore.api.machine.feature.ITierCasingMachine;
+import com.gto.gtocore.api.machine.feature.multiblock.ITierCasingMachine;
 import com.gto.gtocore.api.machine.multiblock.NoRecipeLogicMultiblockMachine;
 import com.gto.gtocore.api.machine.trait.TierCasingTrait;
 import com.gto.gtocore.common.block.WirelessEnergyUnitBlock;
@@ -29,7 +29,7 @@ import com.hepdd.gtmthings.api.misc.ITransferData;
 import com.hepdd.gtmthings.api.misc.WirelessEnergyContainer;
 import com.hepdd.gtmthings.utils.TeamUtil;
 import com.lowdragmc.lowdraglib.gui.util.ClickData;
-import com.lowdragmc.lowdraglib.gui.widget.*;
+import com.lowdragmc.lowdraglib.gui.widget.ComponentPanelWidget;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import lombok.Getter;

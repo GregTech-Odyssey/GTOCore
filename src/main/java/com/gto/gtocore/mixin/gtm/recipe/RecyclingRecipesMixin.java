@@ -3,42 +3,42 @@ package com.gto.gtocore.mixin.gtm.recipe;
 import com.gto.gtocore.common.data.GTORecipeTypes;
 
 import com.gregtechceu.gtceu.api.GTValues;
+import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.data.chemical.material.properties.PropertyKey;
 import com.gregtechceu.gtceu.api.data.chemical.material.stack.ItemMaterialInfo;
 import com.gregtechceu.gtceu.api.data.chemical.material.stack.MaterialStack;
-import com.gregtechceu.gtceu.api.data.chemical.material.stack.UnificationEntry;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.item.IGTTool;
+import com.gregtechceu.gtceu.common.data.GTRecipeCategories;
+import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.data.recipe.builder.GTRecipeBuilder;
 import com.gregtechceu.gtceu.data.recipe.misc.RecyclingRecipes;
 
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.TagKey;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.Unique;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 import static com.gregtechceu.gtceu.api.GTValues.L;
 import static com.gregtechceu.gtceu.api.GTValues.M;
 import static com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlags.IS_MAGNETIC;
 
 @Mixin(RecyclingRecipes.class)
-public final class RecyclingRecipesMixin {
+public abstract class RecyclingRecipesMixin {
 
     @Shadow(remap = false)
     private static int calculateVoltageMultiplier(List<MaterialStack> materials) {
@@ -49,7 +49,14 @@ public final class RecyclingRecipesMixin {
     private static void registerArcRecycling(Consumer<FinishedRecipe> provider, ItemStack input, List<MaterialStack> materials, @Nullable TagPrefix prefix) {}
 
     @Shadow(remap = false)
-    private static void registerMaceratorRecycling(Consumer<FinishedRecipe> provider, ItemStack input, List<MaterialStack> materials, int multiplier) {}
+    private static List<ItemStack> finalizeOutputs(List<MaterialStack> materials, int maxOutputs, Function<MaterialStack, ItemStack> toItemStackMapper) {
+        return null;
+    }
+
+    @Shadow(remap = false)
+    private static int calculateDuration(List<ItemStack> materials) {
+        return 0;
+    }
 
     /**
      * @author .
@@ -83,7 +90,7 @@ public final class RecyclingRecipesMixin {
             registerMaceratorRecycling(provider, input, components, voltageMultiplier);
         }
         if (prefix == TagPrefix.ingot || prefix == TagPrefix.dust) {
-            gtoCore$registerExtractorRecycling(provider, input, components, voltageMultiplier, prefix);
+            registerExtractorRecycling(provider, input, components, voltageMultiplier, prefix);
         }
         if (ignoreArcSmelting) return;
 
@@ -110,17 +117,28 @@ public final class RecyclingRecipesMixin {
         registerArcRecycling(provider, input, components, prefix);
     }
 
-    @Unique
-    private static void gtoCore$registerExtractorRecycling(Consumer<FinishedRecipe> provider, ItemStack input,
-                                                           List<MaterialStack> materials, int multiplier,
-                                                           @Nullable TagPrefix prefix) {
-        UnificationEntry entry = ChemicalHelper.getUnificationEntry(input.getItem());
-        TagKey<Item> inputTag = null;
-        if (entry != null && entry.material != null) {
-            inputTag = ChemicalHelper.getTag(entry.tagPrefix, entry.material);
+    /**
+     * @author .
+     * @reason .
+     */
+    @Overwrite(remap = false)
+    private static void registerMaceratorRecycling(Consumer<FinishedRecipe> provider, ItemStack input, List<MaterialStack> materials, int multiplier) {
+        List<ItemStack> outputs = finalizeOutputs(materials, GTRecipeTypes.MACERATOR_RECIPES.getMaxOutputs(ItemRecipeCapability.CAP), ChemicalHelper::getDust);
+        if (outputs != null && !outputs.isEmpty()) {
+            ResourceLocation itemPath = BuiltInRegistries.ITEM.getKey(input.getItem());
+            GTRecipeBuilder builder = GTRecipeTypes.MACERATOR_RECIPES.recipeBuilder("macerate_" + itemPath.getPath()).outputItems((ItemStack[]) outputs.toArray(ItemStack[]::new)).duration(calculateDuration(outputs)).EUt(2L * (long) multiplier);
+            builder.inputItems(input.copy());
+            builder.category(GTRecipeCategories.MACERATOR_RECYCLING);
+            builder.save(provider);
         }
+    }
 
-        // Handle simple materials separately
+    /**
+     * @author .
+     * @reason .
+     */
+    @Overwrite(remap = false)
+    private static void registerExtractorRecycling(Consumer<FinishedRecipe> provider, ItemStack input, List<MaterialStack> materials, int multiplier, @Nullable TagPrefix prefix) {
         if (prefix != null && prefix.secondaryMaterials().isEmpty()) {
             MaterialStack ms = ChemicalHelper.getMaterial(input);
             if (ms == null || ms.material() == null) {
@@ -136,19 +154,13 @@ public final class RecyclingRecipesMixin {
             }
 
             ResourceLocation itemPath = BuiltInRegistries.ITEM.getKey(input.getItem());
-            GTRecipeBuilder builder = GTORecipeTypes.LIQUEFACTION_FURNACE_RECIPES.recipeBuilder("extract_" + itemPath.getPath())
+            GTORecipeTypes.LIQUEFACTION_FURNACE_RECIPES.recipeBuilder("extract_" + itemPath.getPath())
                     .outputFluids(m.getFluid((int) (ms.amount() * L / M)))
                     .duration((int) Math.max(1, ms.amount() * ms.material().getMass() / M))
                     .blastFurnaceTemp(Math.max(800, (int) (ms.material().getBlastTemperature() * 0.6)))
-                    .EUt((long) GTValues.VA[GTValues.LV] * multiplier);
-
-            if (inputTag == null) {
-                builder.inputItems(input.copy());
-            } else {
-                builder.inputItems(inputTag);
-            }
-
-            builder.save(provider);
+                    .EUt((long) GTValues.VA[GTValues.LV] * multiplier)
+                    .inputItems(input.copy())
+                    .save(provider);
             return;
         }
 
@@ -182,11 +194,7 @@ public final class RecyclingRecipesMixin {
                 .blastFurnaceTemp(Math.max(800, (int) (fluidMs.material().getBlastTemperature() * 0.6)))
                 .EUt((long) GTValues.VA[GTValues.LV] * multiplier);
 
-        if (inputTag == null) {
-            extractorBuilder.inputItems(input.copy());
-        } else {
-            extractorBuilder.inputItems(inputTag);
-        }
+        extractorBuilder.inputItems(input.copy());
 
         // Null check the Item before adding it to the Builder.
         if (itemMs != null) {

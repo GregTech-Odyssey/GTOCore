@@ -677,5 +677,25 @@ final class Vanilla {
         VanillaRecipeHelper.addShapedRecipe(provider, GTOCore.id("export_bus"), RegistriesUtils.getItemStack("ae2:export_bus"),
                 "ABC",
                 'A', new ItemStack(AEItems.FORMATION_CORE.asItem()), 'B', GTItems.ROBOT_ARM_LV.asStack(), 'C', RegistriesUtils.getItemStack("ae2:fluix_glass_cable"));
+        VanillaRecipeHelper.addShapedRecipe(provider, GTOCore.id("ulv_output_hatch"), GTMachines.FLUID_EXPORT_HATCH[GTValues.ULV].asStack(),
+                "A",
+                "B",
+                "C",
+                'B', GTItems.STICKY_RESIN.asStack(), 'C', new UnificationEntry(TagPrefix.block, GTMaterials.Glass), 'A', GTMachines.HULL[GTValues.ULV].asStack());
+        VanillaRecipeHelper.addShapedRecipe(provider, GTOCore.id("ulv_input_hatch"), GTMachines.FLUID_IMPORT_HATCH[GTValues.ULV].asStack(),
+                "A",
+                "B",
+                "C",
+                'B', GTItems.STICKY_RESIN.asStack(), 'C', GTMachines.HULL[GTValues.ULV].asStack(), 'A', new UnificationEntry(TagPrefix.block, GTMaterials.Glass));
+        VanillaRecipeHelper.addShapedRecipe(provider, GTOCore.id("ulv_output_bus"), GTMachines.ITEM_EXPORT_BUS[GTValues.ULV].asStack(),
+                "A",
+                "B",
+                "C",
+                'B', GTItems.STICKY_RESIN.asStack(), 'C', new ItemStack(Blocks.CHEST.asItem()), 'A', GTMachines.HULL[GTValues.ULV].asStack());
+        VanillaRecipeHelper.addShapedRecipe(provider, GTOCore.id("ulv_input_bus"), GTMachines.ITEM_IMPORT_BUS[GTValues.ULV].asStack(),
+                "A",
+                "B",
+                "C",
+                'B', GTItems.STICKY_RESIN.asStack(), 'C', GTMachines.HULL[GTValues.ULV].asStack(), 'A', new ItemStack(Blocks.CHEST.asItem()));
     }
 }

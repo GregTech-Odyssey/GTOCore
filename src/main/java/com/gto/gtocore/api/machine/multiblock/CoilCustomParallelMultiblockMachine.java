@@ -1,6 +1,6 @@
 package com.gto.gtocore.api.machine.multiblock;
 
-import com.gto.gtocore.api.machine.feature.ICoilMachine;
+import com.gto.gtocore.api.machine.feature.multiblock.ICoilMachine;
 import com.gto.gtocore.api.machine.trait.CoilTrait;
 
 import com.gregtechceu.gtceu.api.block.ICoilType;

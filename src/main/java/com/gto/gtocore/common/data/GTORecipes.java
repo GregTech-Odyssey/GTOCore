@@ -144,6 +144,10 @@ public final class GTORecipes implements Runnable {
         GT_FILTER_RECIPES.add(GTCEu.id("electric_blast_furnace/blast_silicon_dioxide"));
         GT_FILTER_RECIPES.add(GTCEu.id("electric_blast_furnace/aluminium_from_sapphire_dust"));
         GT_FILTER_RECIPES.add(GTCEu.id("electric_blast_furnace/titanium_from_tetrachloride"));
+        GT_FILTER_RECIPES.add(GTCEu.id("assembler/item_import_bus_ulv_glue"));
+        GT_FILTER_RECIPES.add(GTCEu.id("assembler/item_export_bus_ulv_glue"));
+        GT_FILTER_RECIPES.add(GTCEu.id("assembler/fluid_hatch_ulv_glue"));
+        GT_FILTER_RECIPES.add(GTCEu.id("assembler/fluid_export_hatch_ulv_glue"));
 
         Material[] fluidMap = { GTMaterials.Glue, GTMaterials.Polyethylene,
                 GTMaterials.Polytetrafluoroethylene, GTMaterials.Polybenzimidazole };
@@ -403,6 +407,10 @@ public final class GTORecipes implements Runnable {
         filters.add(RLUtils.bot("conversions/elementium_from_nuggets"));
         filters.add(RLUtils.bot("conversions/elementium_to_nuggets"));
         filters.add(RLUtils.bot("elementium_block"));
+        filters.add(RLUtils.bot("conversions/manadiamond_block_deconstruct"));
+        filters.add(RLUtils.bot("mana_diamond_block"));
+        filters.add(RLUtils.bot("dragonstone_block"));
+        filters.add(RLUtils.bot("conversions/dragonstone_block_deconstruct"));
 
         filters.add(DeeperDarker.rl("reinforced_echo_shard"));
         filters.add(DeeperDarker.rl("resonarium_shovel_smithing"));

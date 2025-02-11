@@ -1,5 +1,6 @@
 package com.gto.gtocore.data.lang;
 
+import com.gto.gtocore.api.GTOValues;
 import com.gto.gtocore.client.Tooltips;
 import com.gto.gtocore.utils.ItemUtils;
 
@@ -10,6 +11,9 @@ import static com.gto.gtocore.data.lang.LangHandler.addENCN;
 final class ItemLang {
 
     static void init() {
+        addENCN(GTOValues.REMOVING_ASH, "Removing ash...", "掏灰中...");
+        addENCN(GTOValues.MAINTAINING, "Maintaining...", "维护中...");
+
         addENCN("item.gtceu.circuits", "Circuits", "电路");
         for (int i = 0; i < 15; i++) {
             addENCN("tag.item.gtceu.circuits." + GTValues.VN[i].toLowerCase(), GTValues.VN[i] + " Circuit", GTValues.VN[i] + "电路");

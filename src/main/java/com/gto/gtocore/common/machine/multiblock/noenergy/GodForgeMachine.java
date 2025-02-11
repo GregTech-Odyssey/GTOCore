@@ -1,6 +1,6 @@
 package com.gto.gtocore.common.machine.multiblock.noenergy;
 
-import com.gto.gtocore.api.machine.feature.ITierCasingMachine;
+import com.gto.gtocore.api.machine.feature.multiblock.ITierCasingMachine;
 import com.gto.gtocore.api.machine.multiblock.NoEnergyMultiblockMachine;
 import com.gto.gtocore.api.machine.trait.CustomRecipeLogic;
 import com.gto.gtocore.api.machine.trait.TierCasingTrait;

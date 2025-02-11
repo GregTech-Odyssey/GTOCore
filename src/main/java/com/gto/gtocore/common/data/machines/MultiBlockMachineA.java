@@ -1,8 +1,8 @@
 package com.gto.gtocore.common.data.machines;
 
 import com.gto.gtocore.GTOCore;
-import com.gto.gtocore.api.machine.feature.ICoilMachine;
 import com.gto.gtocore.api.machine.feature.ILockableRecipe;
+import com.gto.gtocore.api.machine.feature.multiblock.ICoilMachine;
 import com.gto.gtocore.api.machine.multiblock.*;
 import com.gto.gtocore.api.machine.part.GTOPartAbility;
 import com.gto.gtocore.api.pattern.GTOPredicates;
@@ -187,7 +187,7 @@ public final class MultiBlockMachineA {
 
     public final static MultiblockMachineDefinition SPS_CRAFTING = multiblock("sps_crafting", "超临界合成机", ElectricMultiblockMachine::new)
             .allRotation()
-            .recipe(GTORecipeTypes.SPS_CRAFTING_RECIPES)
+            .recipe(GTORecipeTypes.TRANSCENDING_CRAFTING_RECIPES)
             .customTooltipsBuilder(true, false, false)
             .perfectOverclock()
             .block(GTBlocks.FUSION_CASING_MK2)
@@ -216,7 +216,7 @@ public final class MultiBlockMachineA {
 
     public final static MultiblockMachineDefinition ADVANCED_SPS_CRAFTING = multiblock("advanced_sps_crafting", "进阶超临界合成机", ElectricMultiblockMachine::new)
             .nonYAxisRotation()
-            .recipe(GTORecipeTypes.SPS_CRAFTING_RECIPES)
+            .recipe(GTORecipeTypes.TRANSCENDING_CRAFTING_RECIPES)
             .parallelizableTooltips()
             .customTooltipsBuilder(true, true, false)
             .parallelizablePerfectOverclock()

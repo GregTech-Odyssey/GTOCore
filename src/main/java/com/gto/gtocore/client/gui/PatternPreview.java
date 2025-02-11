@@ -3,7 +3,7 @@ package com.gto.gtocore.client.gui;
 import com.gto.gtocore.api.gui.PatternSlotWidget;
 import com.gto.gtocore.api.item.ItemHandlerModifiable;
 import com.gto.gtocore.api.machine.IMultiblockMachineDefinition;
-import com.gto.gtocore.api.machine.feature.IMultiStructureMachine;
+import com.gto.gtocore.api.machine.feature.multiblock.IMultiStructureMachine;
 import com.gto.gtocore.common.data.GTOBlocks;
 import com.gto.gtocore.common.data.machines.GeneratorMultiblockMachine;
 import com.gto.gtocore.common.data.machines.MultiBlockMachineD;

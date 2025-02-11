@@ -1,6 +1,6 @@
 package com.gto.gtocore.client.renderer.machine;
 
-import com.gto.gtocore.api.machine.feature.IFluidRendererMachine;
+import com.gto.gtocore.api.machine.feature.multiblock.IFluidRendererMachine;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;

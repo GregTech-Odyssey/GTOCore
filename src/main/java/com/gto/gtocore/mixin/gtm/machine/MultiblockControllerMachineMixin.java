@@ -1,6 +1,6 @@
 package com.gto.gtocore.mixin.gtm.machine;
 
-import com.gto.gtocore.api.machine.feature.ICheckPatternMachine;
+import com.gto.gtocore.api.machine.feature.multiblock.ICheckPatternMachine;
 
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
 import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockControllerMachine;

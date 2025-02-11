@@ -2584,7 +2584,7 @@ public final class StringIndex {
         MATERIAL_MAP.put(GTOMaterials.Benzylamine, "GTOMaterials.Benzylamine");
         MATERIAL_MAP.put(GTOMaterials.Glyoxal, "GTOMaterials.Glyoxal");
         MATERIAL_MAP.put(GTOMaterials.BenzylChloride, "GTOMaterials.BenzylChloride");
-        MATERIAL_MAP.put(GTOMaterials.Mana, "GTOMaterials.Mana");
+        MATERIAL_MAP.put(GTOMaterials.TranscendingMatter, "GTOMaterials.Mana");
         MATERIAL_MAP.put(GTOMaterials.RareEarthHydroxides, "GTOMaterials.RareEarthHydroxides");
         MATERIAL_MAP.put(GTOMaterials.QuantumDots, "GTOMaterials.QuantumDots");
         MATERIAL_MAP.put(GTOMaterials.StearicAcid, "GTOMaterials.StearicAcid");

@@ -2,7 +2,7 @@ package com.gto.gtocore.api.machine.mana.trait;
 
 import com.gto.gtocore.api.capability.IManaContainer;
 import com.gto.gtocore.api.capability.recipe.ManaRecipeCapability;
-import com.gto.gtocore.api.machine.feature.IMultiblockTraitHolder;
+import com.gto.gtocore.api.machine.feature.multiblock.IMultiblockTraitHolder;
 import com.gto.gtocore.api.machine.mana.feature.IManaMultiblock;
 import com.gto.gtocore.api.machine.trait.MultiblockTrait;
 import com.gto.gtocore.common.machine.mana.part.ManaHatchPartMachine;

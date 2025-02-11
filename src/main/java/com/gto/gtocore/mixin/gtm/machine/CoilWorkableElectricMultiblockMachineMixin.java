@@ -1,6 +1,6 @@
 package com.gto.gtocore.mixin.gtm.machine;
 
-import com.gto.gtocore.api.machine.feature.ICoilMachine;
+import com.gto.gtocore.api.machine.feature.multiblock.ICoilMachine;
 
 import com.gregtechceu.gtceu.api.block.ICoilType;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;

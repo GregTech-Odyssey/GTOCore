@@ -29,7 +29,8 @@ import java.util.Locale;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
-import static com.gregtechceu.gtceu.api.GTValues.*;
+import static com.gregtechceu.gtceu.api.GTValues.TIER_COUNT;
+import static com.gregtechceu.gtceu.api.GTValues.VN;
 import static com.gto.gtocore.api.GTOValues.MANACN;
 import static com.gto.gtocore.api.GTOValues.MANAN;
 import static com.gto.gtocore.api.registries.GTORegistration.REGISTRATE;

@@ -1,8 +1,8 @@
 package com.gto.gtocore.common.machine.multiblock.electric.nano;
 
 import com.gto.gtocore.api.data.tag.GTOTagPrefix;
-import com.gto.gtocore.api.machine.feature.ICoilMachine;
-import com.gto.gtocore.api.machine.feature.IHighlightMachine;
+import com.gto.gtocore.api.machine.feature.multiblock.ICoilMachine;
+import com.gto.gtocore.api.machine.feature.multiblock.IHighlightMachine;
 import com.gto.gtocore.api.machine.multiblock.StorageMultiblockMachine;
 import com.gto.gtocore.api.machine.trait.CoilTrait;
 import com.gto.gtocore.common.data.machines.MultiBlockMachineC;

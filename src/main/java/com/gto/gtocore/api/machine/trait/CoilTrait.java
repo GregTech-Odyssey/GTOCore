@@ -1,7 +1,7 @@
 package com.gto.gtocore.api.machine.trait;
 
-import com.gto.gtocore.api.machine.feature.ICoilMachine;
-import com.gto.gtocore.api.machine.feature.IMultiblockTraitHolder;
+import com.gto.gtocore.api.machine.feature.multiblock.ICoilMachine;
+import com.gto.gtocore.api.machine.feature.multiblock.IMultiblockTraitHolder;
 import com.gto.gtocore.api.machine.multiblock.ElectricMultiblockMachine;
 
 import com.gregtechceu.gtceu.api.GTValues;

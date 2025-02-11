@@ -356,7 +356,7 @@ final class StellarForge {
                 .inputItems(new ItemStack(Items.END_CRYSTAL.asItem(), 16))
                 .inputItems(new ItemStack(Items.POPPED_CHORUS_FRUIT.asItem(), 16))
                 .inputFluids(GTOMaterials.Adamantine.getFluid(2304))
-                .inputFluids(GTOMaterials.Mana.getFluid(10000))
+                .inputFluids(GTOMaterials.TranscendingMatter.getFluid(10000))
                 .outputFluids(GTOMaterials.Infuscolium.getFluid(FluidStorageKeys.PLASMA, 2304))
                 .EUt(31457280)
                 .duration(200)

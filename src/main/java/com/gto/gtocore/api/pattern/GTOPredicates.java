@@ -26,7 +26,10 @@ import net.minecraft.world.level.block.state.BlockState;
 
 import com.lowdragmc.lowdraglib.utils.BlockInfo;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Map;
+import java.util.Objects;
 import java.util.function.Supplier;
 
 import static com.gto.gtocore.api.GTOValues.GLASS_TIER;

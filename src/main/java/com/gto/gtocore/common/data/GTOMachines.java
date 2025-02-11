@@ -3,7 +3,7 @@ package com.gto.gtocore.common.data;
 import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.api.GTOValues;
 import com.gto.gtocore.api.machine.SimpleNoEnergyMachine;
-import com.gto.gtocore.api.machine.feature.ICoilMachine;
+import com.gto.gtocore.api.machine.feature.multiblock.ICoilMachine;
 import com.gto.gtocore.api.machine.part.GTOPartAbility;
 import com.gto.gtocore.api.machine.part.ItemHatchPartMachine;
 import com.gto.gtocore.api.pattern.GTOPredicates;
@@ -573,6 +573,15 @@ public final class GTOMachines {
                     .renderer(() -> new OverlayTieredMachineRenderer(tier, GTCEu.id("block/machine/part/" + "energy_hatch.output_16a")))
                     .register(),
             tiersBetween(LV, HV));
+
+    public static final MachineDefinition[] DRONE_HATCH = registerTieredMachines("drone_hatch", tier -> GTOValues.VNFR[tier] + "无人机仓",
+            DroneHatchPartMachine::new, (tier, builder) -> builder
+                    .langValue(VNF[tier] + " Drone Hatch")
+                    .rotationState(RotationState.ALL)
+                    .abilities(GTOPartAbility.DRONE_HATCH)
+                    .renderer(() -> new OverlayTieredMachineRenderer(tier, GTCEu.id("block/machine/part/item_bus.import")))
+                    .register(),
+            HV, EV, IV);
 
     public final static MachineDefinition[] HUGE_FLUID_IMPORT_HATCH = registerHugeFluidHatches("huge_input_hatch", "Huge Input Hatch", "巨型输入仓", "fluid_hatch.import", "fluid_hatch.import", IO.IN, PartAbility.IMPORT_FLUIDS);
 

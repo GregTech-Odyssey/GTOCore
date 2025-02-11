@@ -35,6 +35,10 @@ public final class GTOValues {
     public static final String MACHINE_CASING_TIER = "mc";
     public static final String GRAVITON_FLOW_TIER = "gf";
 
+    // Drone State
+    public static final String REMOVING_ASH = "gtocore.drone.removing_ash";
+    public static final String MAINTAINING = "gtocore.drone.maintaining";
+
     public static final int[] MANA = new int[] { 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384, 32768, 65536, 131072, 262144, 524288, 1048576, 2097152 };
 
     public static final String[] MANAN = new String[] {

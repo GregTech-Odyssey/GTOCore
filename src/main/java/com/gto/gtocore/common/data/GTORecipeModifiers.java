@@ -1,7 +1,7 @@
 package com.gto.gtocore.common.data;
 
-import com.gto.gtocore.api.machine.feature.ICoilMachine;
-import com.gto.gtocore.api.machine.feature.IOverclockConfigMachine;
+import com.gto.gtocore.api.machine.feature.multiblock.ICoilMachine;
+import com.gto.gtocore.api.machine.feature.multiblock.IOverclockConfigMachine;
 import com.gto.gtocore.common.machine.multiblock.generator.GeneratorArrayMachine;
 import com.gto.gtocore.utils.MachineUtils;
 

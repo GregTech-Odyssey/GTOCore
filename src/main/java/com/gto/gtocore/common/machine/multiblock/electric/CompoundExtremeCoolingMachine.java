@@ -1,6 +1,6 @@
 package com.gto.gtocore.common.machine.multiblock.electric;
 
-import com.gto.gtocore.api.machine.feature.IMultiStructureMachine;
+import com.gto.gtocore.api.machine.feature.multiblock.IMultiStructureMachine;
 import com.gto.gtocore.api.machine.multiblock.CrossRecipeMultiblockMachine;
 import com.gto.gtocore.api.pattern.GTOPredicates;
 import com.gto.gtocore.common.data.GTOBlocks;

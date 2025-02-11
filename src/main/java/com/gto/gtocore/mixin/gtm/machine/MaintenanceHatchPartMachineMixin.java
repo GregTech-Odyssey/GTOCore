@@ -1,0 +1,62 @@
+package com.gto.gtocore.mixin.gtm.machine;
+
+import com.gto.gtocore.api.GTOValues;
+import com.gto.gtocore.api.machine.feature.IDroneInteractionMachine;
+import com.gto.gtocore.api.misc.Drone;
+import com.gto.gtocore.common.machine.multiblock.noenergy.DroneControlCenterMachine;
+
+import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMaintenanceMachine;
+import com.gregtechceu.gtceu.api.machine.multiblock.part.TieredPartMachine;
+import com.gregtechceu.gtceu.common.machine.multiblock.part.MaintenanceHatchPartMachine;
+
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+@Mixin(MaintenanceHatchPartMachine.class)
+public abstract class MaintenanceHatchPartMachineMixin extends TieredPartMachine implements IMaintenanceMachine, IDroneInteractionMachine {
+
+    protected MaintenanceHatchPartMachineMixin(IMachineBlockEntity holder, int tier) {
+        super(holder, tier);
+    }
+
+    @Shadow(remap = false)
+    public abstract void fixAllMaintenanceProblems();
+
+    @Unique
+    private DroneControlCenterMachine gtocore$cache;
+
+    @Unique
+    @SuppressWarnings("all")
+    public DroneControlCenterMachine getDroneControlCenterMachineCache() {
+        return gtocore$cache;
+    }
+
+    @Unique
+    @SuppressWarnings("all")
+    public void setDroneControlCenterMachineCache(DroneControlCenterMachine cache) {
+        gtocore$cache = cache;
+    }
+
+    @Inject(method = "update", at = @At(value = "INVOKE", target = "Lcom/gregtechceu/gtceu/common/machine/multiblock/part/MaintenanceHatchPartMachine;consumeDuctTape(Lnet/minecraftforge/items/IItemHandler;I)Z"), remap = false, cancellable = true)
+    public void update(CallbackInfo ci) {
+        DroneControlCenterMachine centerMachine = getDroneControlCenterMachine();
+        if (centerMachine != null) {
+            Drone drone = getFirstUsableDrone();
+            if (drone != null && drone.start(10, getNumMaintenanceProblems() << 6, GTOValues.MAINTAINING)) {
+                fixAllMaintenanceProblems();
+                ci.cancel();
+            }
+        }
+    }
+
+    @Override
+    public void onUnload() {
+        super.onUnload();
+        removeDroneControlCenterMachineCache();
+    }
+}

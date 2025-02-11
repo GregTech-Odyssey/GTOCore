@@ -1,7 +1,7 @@
 package com.gto.gtocore.api.machine.trait;
 
-import com.gto.gtocore.api.machine.feature.IMultiblockTraitHolder;
-import com.gto.gtocore.api.machine.feature.IParallelMachine;
+import com.gto.gtocore.api.machine.feature.multiblock.IMultiblockTraitHolder;
+import com.gto.gtocore.api.machine.feature.multiblock.IParallelMachine;
 import com.gto.gtocore.common.data.GTORecipeModifiers;
 
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;

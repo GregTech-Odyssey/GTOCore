@@ -2021,7 +2021,7 @@ final class ChemicaRreactor {
                 .inputItems(TagPrefix.dust, GTMaterials.Mirabilite, 17)
                 .inputFluids(GTMaterials.NitrationMixture.getFluid(1000))
                 .inputFluids(GTMaterials.AquaRegia.getFluid(2000))
-                .inputFluids(GTOMaterials.Mana.getFluid(100))
+                .inputFluids(GTOMaterials.TranscendingMatter.getFluid(100))
                 .outputItems(TagPrefix.dust, GTOMaterials.Adamantine)
                 .outputItems(TagPrefix.dust, GTOMaterials.SodiumNitrate, 5)
                 .outputItems(TagPrefix.dust, GTMaterials.SodiumBisulfate, 7)

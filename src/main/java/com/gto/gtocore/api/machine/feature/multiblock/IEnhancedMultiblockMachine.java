@@ -1,4 +1,4 @@
-package com.gto.gtocore.api.machine.feature;
+package com.gto.gtocore.api.machine.feature.multiblock;
 
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.sound.SoundEntry;

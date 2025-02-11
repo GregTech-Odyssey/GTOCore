@@ -1,4 +1,4 @@
-package com.gto.gtocore.api.machine.feature;
+package com.gto.gtocore.api.machine.feature.multiblock;
 
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableMultiblockMachine;
 import com.gregtechceu.gtceu.api.pattern.BlockPattern;

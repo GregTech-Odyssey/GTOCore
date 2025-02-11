@@ -8,7 +8,7 @@ import com.gto.gtocore.utils.RegistriesUtils;
 
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
-import com.gregtechceu.gtceu.common.data.*;
+import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 
 import net.minecraft.world.level.block.Blocks;
 

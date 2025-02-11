@@ -2,8 +2,6 @@ package com.gto.gtocore.common.data;
 
 import com.gregtechceu.gtceu.api.data.chemical.Element;
 
-import net.minecraft.ChatFormatting;
-
 public final class GTOElements {
 
     public static void init() {}
@@ -38,7 +36,6 @@ public final class GTOElements {
     public static final Element COPPER76 = new Element(29, 47, -1, null, "copper76", "Cu⁷⁶", true);
     public static final Element URUIUM = new Element(480, 480, -1, null, "uruium", "Ur", false);
     public static final Element STARLIGHT = new Element(1000, 0, -1, null, "starlight", "§9Sl", false);
-    public static final Element MANA = new Element(100, 0, -1, null, "mana", "§5§kemana", false);
     public static final Element ELECTRON = new Element(0, 0, -1, null, "electron", "§ke§re§ke", false);
     public static final Element ALPHA = new Element(2, 2, -1, null, "alpha", "§ke§rα§ke", false);
     public static final Element PROTON = new Element(1, 0, -1, null, "proton", "§ke§rp§ke", false);
@@ -66,7 +63,10 @@ public final class GTOElements {
     public static final Element CALORITE = new Element(300, 400, -1, null, "calorite", "Ci", false);
     public static final Element CHROMATICGLASS = new Element(300, 400, -1, null, "chromatic_glass", "⌘☯☯⌘", false);
     public static final Element BEDROCKIUM = new Element(1000, 1000, -1, null, "bedrockium", "?", false);
-    public static final Element MANA_STEEL = new Element(26, 30, -1, null, "mana_steel", ChatFormatting.ITALIC + "MaFe", false);
-    public static final Element TERRA_STEEL = new Element(56, 66, -1, null, "terra_steel", ChatFormatting.ITALIC + "TrFe", false);
-    public static final Element ELEMENTIUM = new Element(66, 66, -1, null, "elementium", ChatFormatting.ITALIC + "Em", false);
+    public static final Element MANASTEEL = new Element(26, 30, -1, null, "manasteel", "*Ma*", false);
+    public static final Element TERRASTEEL = new Element(56, 66, -1, null, "terrasteel", "*Tr*", false);
+    public static final Element ELEMENTIUM = new Element(66, 66, -1, null, "elementium", "*Em*", false);
+    public static final Element ALFSTEEL = new Element(66, 76, -1, null, "alfsteel", "*Af*", false);
+    public static final Element GAIASTEEL = new Element(76, 86, -1, null, "gaiasteel", "*Ga*", false);
+    public static final Element GAIA = new Element(76, 88, -1, null, "gaia", "*TR*Gs*", false);
 }

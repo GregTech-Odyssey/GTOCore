@@ -1,8 +1,8 @@
 package com.gto.gtocore.common.machine.multiblock.electric.nano;
 
 import com.gto.gtocore.api.data.tag.GTOTagPrefix;
-import com.gto.gtocore.api.machine.feature.IMultiStructureMachine;
-import com.gto.gtocore.api.machine.feature.IParallelMachine;
+import com.gto.gtocore.api.machine.feature.multiblock.IMultiStructureMachine;
+import com.gto.gtocore.api.machine.feature.multiblock.IParallelMachine;
 import com.gto.gtocore.api.machine.multiblock.ElectricMultiblockMachine;
 import com.gto.gtocore.api.machine.multiblock.StorageMultiblockMachine;
 import com.gto.gtocore.common.data.GTOBlocks;

@@ -1,6 +1,6 @@
 package com.gto.gtocore.client.renderer.machine;
 
-import com.gto.gtocore.api.machine.feature.IArrayMachine;
+import com.gto.gtocore.api.machine.feature.multiblock.IArrayMachine;
 
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;

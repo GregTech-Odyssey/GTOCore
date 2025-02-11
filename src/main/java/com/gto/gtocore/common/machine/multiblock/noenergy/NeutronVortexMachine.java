@@ -1,6 +1,6 @@
 package com.gto.gtocore.common.machine.multiblock.noenergy;
 
-import com.gto.gtocore.api.machine.feature.IMultiStructureMachine;
+import com.gto.gtocore.api.machine.feature.multiblock.IMultiStructureMachine;
 import com.gto.gtocore.api.machine.part.GTOPartAbility;
 import com.gto.gtocore.common.data.GTOBlocks;
 import com.gto.gtocore.common.data.GTOMachines;

@@ -1,7 +1,7 @@
 package com.gto.gtocore.api.machine.multiblock;
 
-import com.gto.gtocore.api.machine.feature.ICheckPatternMachine;
-import com.gto.gtocore.api.machine.feature.IMultiblockTraitHolder;
+import com.gto.gtocore.api.machine.feature.multiblock.ICheckPatternMachine;
+import com.gto.gtocore.api.machine.feature.multiblock.IMultiblockTraitHolder;
 import com.gto.gtocore.api.machine.trait.MultiblockTrait;
 
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
@@ -25,7 +25,9 @@ import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
 import com.lowdragmc.lowdraglib.gui.widget.*;
 import lombok.Getter;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 @Getter
 public class NoRecipeLogicMultiblockMachine extends MultiblockControllerMachine implements IFancyUIMachine, IDisplayUIMachine, IMultiblockTraitHolder {

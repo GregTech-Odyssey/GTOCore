@@ -1,7 +1,7 @@
 package com.gto.gtocore.common.machine.multiblock.electric;
 
 import com.gto.gtocore.api.gui.ParallelConfigurator;
-import com.gto.gtocore.api.machine.feature.IParallelMachine;
+import com.gto.gtocore.api.machine.feature.multiblock.IParallelMachine;
 import com.gto.gtocore.api.machine.multiblock.StorageMultiblockMachine;
 import com.gto.gtocore.api.machine.trait.CustomParallelTrait;
 import com.gto.gtocore.common.data.GTORecipeModifiers;

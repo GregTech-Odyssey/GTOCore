@@ -12,6 +12,7 @@ import com.gregtechceu.gtceu.api.fluids.FluidBuilder;
 import com.gregtechceu.gtceu.api.fluids.attribute.FluidAttributes;
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
 
+import net.minecraft.ChatFormatting;
 import net.minecraft.world.item.Rarity;
 
 import committee.nova.mods.avaritia.init.registry.ModRarities;
@@ -25,32 +26,6 @@ import static com.gto.gtocore.common.data.GTOMaterials.*;
 public final class MaterialA {
 
     public static void init() {
-        // bota
-        ManaSteel = material("mana_steel", "魔力钢")
-                .ingot()
-                .element(GTOElements.MANA_STEEL)
-                .color(0x3396fe)
-                .secondaryColor(0x2e56d7)
-                .iconSet(BRIGHT)
-                .buildAndRegister();
-
-        TerraSteel = material("terra_steel", "泰拉钢")
-                .rarity(Rarity.UNCOMMON)
-                .ingot()
-                .element(GTOElements.TERRA_STEEL)
-                .color(0x5cd12b)
-                .secondaryColor(0x28b739)
-                .iconSet(BRIGHT)
-                .buildAndRegister();
-
-        Elementium = material("elementium", "源质钢")
-                .ingot()
-                .element(GTOElements.ELEMENTIUM)
-                .color(0xf766a7)
-                .secondaryColor(0xf768d4)
-                .iconSet(BRIGHT)
-                .buildAndRegister();
-
         // ae
         Fluix = material("fluix", "福鲁伊克斯")
                 .gem()
@@ -2295,13 +2270,12 @@ public final class MaterialA {
                 .iconSet(DULL)
                 .buildAndRegister();
 
-        Mana = material("mana", "魔力")
-                .gas()
-                .liquid()
+        TranscendingMatter = material("transcending_matter", "Transcending Matter", "超然物质")
+                .fluid()
                 .color(0x9400d3)
-                .element(GTOElements.MANA)
                 .iconSet(DULL)
-                .buildAndRegister();
+                .buildAndRegister()
+                .setFormula(ChatFormatting.BLUE + "༒", false);
 
         RareEarthHydroxides = material("rare_earth_hydroxides", "稀土氢氧化物")
                 .fluid()

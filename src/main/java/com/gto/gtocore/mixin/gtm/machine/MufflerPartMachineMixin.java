@@ -1,9 +1,18 @@
 package com.gto.gtocore.mixin.gtm.machine;
 
+import com.gto.gtocore.api.GTOValues;
+import com.gto.gtocore.api.machine.feature.IDroneInteractionMachine;
+import com.gto.gtocore.api.misc.Drone;
+import com.gto.gtocore.common.machine.multiblock.noenergy.DroneControlCenterMachine;
+import com.gto.gtocore.utils.MachineUtils;
+
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
+import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMufflerMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IWorkableMultiController;
+import com.gregtechceu.gtceu.api.machine.multiblock.part.TieredPartMachine;
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.MufflerPartMachine;
@@ -24,14 +33,37 @@ import org.spongepowered.asm.mixin.Unique;
 import java.util.List;
 
 @Mixin(MufflerPartMachine.class)
-public abstract class MufflerPartMachineMixin implements IMufflerMachine {
+public abstract class MufflerPartMachineMixin extends TieredPartMachine implements IMufflerMachine, IDroneInteractionMachine {
 
     @Shadow(remap = false)
+    @SuppressWarnings("all")
     protected abstract boolean calculateChance();
 
     @Shadow(remap = false)
     @Final
     private CustomItemStackHandler inventory;
+
+    @Unique
+    private DroneControlCenterMachine gtocore$cache;
+
+    protected MufflerPartMachineMixin(IMachineBlockEntity holder, int tier) {
+        super(holder, tier);
+    }
+
+    @Unique
+    @SuppressWarnings("all")
+    public DroneControlCenterMachine getDroneControlCenterMachineCache() {
+        return gtocore$cache;
+    }
+
+    @Unique
+    @SuppressWarnings("all")
+    public void setDroneControlCenterMachineCache(DroneControlCenterMachine cache) {
+        gtocore$cache = cache;
+    }
+
+    @Unique
+    private TickableSubscription gtocore$tickSubs;
 
     @Unique
     private boolean gtocore$isFrontFaceFree;
@@ -40,6 +72,43 @@ public abstract class MufflerPartMachineMixin implements IMufflerMachine {
 
     @Unique
     private static ItemStack gtocore$ASH;
+
+    @Unique
+    private void gtocore$tick() {
+        if (getOffsetTimer() % 40 == 0) {
+            DroneControlCenterMachine centerMachine = getDroneControlCenterMachine();
+            if (centerMachine != null) {
+                for (int i = 0; i < inventory.getSlots(); i++) {
+                    ItemStack stack = inventory.getStackInSlot(i);
+                    if (stack.getCount() > 32) {
+                        Drone drone = getFirstUsableDrone();
+                        if (drone != null && drone.start(4, stack.getCount() << 2, GTOValues.REMOVING_ASH)) {
+                            inventory.setStackInSlot(i, ItemStack.EMPTY);
+                            MachineUtils.outputItem(centerMachine, stack);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    @Override
+    public void onLoad() {
+        super.onLoad();
+        if (!isRemote()) {
+            gtocore$tickSubs = subscribeServerTick(gtocore$tickSubs, this::gtocore$tick);
+        }
+    }
+
+    @Override
+    public void onUnload() {
+        super.onUnload();
+        if (gtocore$tickSubs != null) {
+            gtocore$tickSubs.unsubscribe();
+            gtocore$tickSubs = null;
+        }
+        removeDroneControlCenterMachineCache();
+    }
 
     @Override
     public boolean isFrontFaceFree() {

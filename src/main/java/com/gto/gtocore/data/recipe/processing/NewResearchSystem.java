@@ -16,7 +16,8 @@ import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
 import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.*;
 import static com.gto.gtocore.common.data.GTOItems.*;
 import static com.gto.gtocore.common.data.GTOMaterials.*;
-import static com.gto.gtocore.common.data.GTORecipeTypes.*;
+import static com.gto.gtocore.common.data.GTORecipeTypes.CHEMICAL_VAPOR_DEPOSITION_RECIPES;
+import static com.gto.gtocore.common.data.GTORecipeTypes.REACTION_FURNACE_RECIPES;
 
 public final class NewResearchSystem {
 

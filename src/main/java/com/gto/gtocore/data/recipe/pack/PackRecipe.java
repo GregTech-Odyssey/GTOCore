@@ -78,7 +78,7 @@ public final class PackRecipe {
         CircuitAssemblyLine.init(provider);
         DecayHastener.init(provider);
         LargeVoidMiner.init(provider);
-        SpsCrafting.init(provider);
+        TranscendingCrafting.init(provider);
         PlasmaCondenser.init(provider);
         DimensionallytranscendentPlasmaForge.init(provider);
         Greenhouse.init(provider);

@@ -1,8 +1,8 @@
 package com.gto.gtocore.common.data.machines;
 
 import com.gto.gtocore.GTOCore;
-import com.gto.gtocore.api.machine.feature.ICoilMachine;
-import com.gto.gtocore.api.machine.feature.ITierCasingMachine;
+import com.gto.gtocore.api.machine.feature.multiblock.ICoilMachine;
+import com.gto.gtocore.api.machine.feature.multiblock.ITierCasingMachine;
 import com.gto.gtocore.api.machine.multiblock.*;
 import com.gto.gtocore.api.pattern.GTOPredicates;
 import com.gto.gtocore.common.data.*;

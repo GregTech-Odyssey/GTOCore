@@ -1,7 +1,7 @@
 package com.gto.gtocore.mixin.gtm.machine;
 
-import com.gto.gtocore.api.machine.feature.IEnhancedMultiblockMachine;
-import com.gto.gtocore.api.machine.feature.IMEOutputMachine;
+import com.gto.gtocore.api.machine.feature.multiblock.IEnhancedMultiblockMachine;
+import com.gto.gtocore.api.machine.feature.multiblock.IMEOutputMachine;
 
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;

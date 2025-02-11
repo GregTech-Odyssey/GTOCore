@@ -5,8 +5,11 @@ import com.gto.gtocore.utils.ColorUtils;
 
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 
+import net.minecraft.util.Mth;
+
 import com.google.common.collect.ImmutableMap;
 import committee.nova.mods.avaritia.client.AvaritiaModClient;
+import vazkii.botania.client.core.handler.ClientTickHandler;
 
 import java.util.function.Supplier;
 
@@ -22,8 +25,17 @@ public final class MaterialsColorMap {
         return ColorUtils.getInterpolatedColor(0x00FF84, 0xFF7E00, spot * 2); // * 2 以确保spot在0到1之间平滑过渡
     };
 
+    private static final Supplier<Integer> shimmer = () -> {
+        float time = ClientTickHandler.ticksInGame + ClientTickHandler.partialTicks;
+        return Mth.hsvToRgb(time % 200 / 200, 0.4F, 0.9F);
+    };
+
     static {
         ImmutableMap.Builder<Material, Supplier<Integer>> MaterialBuilder = ImmutableMap.builder();
+        MaterialBuilder.put(GTOMaterials.Gaia, () -> Mth.hsvToRgb((ClientTickHandler.ticksInGame << 1) % 360 / 360F, 0.25F, 1F));
+        MaterialBuilder.put(GTOMaterials.Shimmerwood, shimmer);
+        MaterialBuilder.put(GTOMaterials.Shimmerrock, shimmer);
+        MaterialBuilder.put(GTOMaterials.BifrostPerm, shimmer);
         MaterialBuilder.put(GTOMaterials.ChromaticGlass, AvaritiaModClient::getCurrentRainbowColor);
         MaterialBuilder.put(GTOMaterials.Hypogen, () -> ColorUtils.getInterpolatedColor(0xFF3D00, 0xDA9100, Math.abs(1 - (System.currentTimeMillis() % 6000) / 3000.0F)));
         MaterialBuilder.put(GTOMaterials.HexaphaseCopper, () -> {

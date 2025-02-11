@@ -1,6 +1,6 @@
 package com.gto.gtocore.common.machine.multiblock.electric.assembly;
 
-import com.gto.gtocore.api.machine.feature.IHighlightMachine;
+import com.gto.gtocore.api.machine.feature.multiblock.IHighlightMachine;
 import com.gto.gtocore.api.machine.multiblock.CrossRecipeMultiblockMachine;
 import com.gto.gtocore.utils.MachineUtils;
 

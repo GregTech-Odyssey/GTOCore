@@ -305,7 +305,7 @@ public final class GTORecipeTypes {
             .setProgressBar(GuiTextures.PROGRESS_BAR_MASS_FAB, LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.COOLING);
 
-    public static final GTRecipeType SPS_CRAFTING_RECIPES = recipeType("sps_crafting", "超临界合成", MULTIBLOCK)
+    public static final GTRecipeType TRANSCENDING_CRAFTING_RECIPES = recipeType("transcending_crafting", "超临界合成", MULTIBLOCK)
             .setEUIO(IO.IN)
             .setMaxIOSize(3, 1, 3, 1)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)

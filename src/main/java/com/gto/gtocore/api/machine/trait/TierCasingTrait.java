@@ -1,7 +1,7 @@
 package com.gto.gtocore.api.machine.trait;
 
-import com.gto.gtocore.api.machine.feature.IMultiblockTraitHolder;
-import com.gto.gtocore.api.machine.feature.ITierCasingMachine;
+import com.gto.gtocore.api.machine.feature.multiblock.IMultiblockTraitHolder;
+import com.gto.gtocore.api.machine.feature.multiblock.ITierCasingMachine;
 
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 

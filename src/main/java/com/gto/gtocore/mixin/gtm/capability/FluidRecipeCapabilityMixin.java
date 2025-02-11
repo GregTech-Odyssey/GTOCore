@@ -1,6 +1,6 @@
 package com.gto.gtocore.mixin.gtm.capability;
 
-import com.gto.gtocore.api.machine.feature.IMEOutputMachine;
+import com.gto.gtocore.api.machine.feature.multiblock.IMEOutputMachine;
 
 import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
 import com.gregtechceu.gtceu.api.capability.recipe.IRecipeCapabilityHolder;
