@@ -20,6 +20,7 @@ import com.gregtechceu.gtceu.utils.GTUtil;
 import net.minecraft.data.recipes.FinishedRecipe;
 
 import com.google.common.collect.ImmutableMap;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
 import java.util.function.Consumer;
@@ -37,18 +38,24 @@ public final class GTOWireRecipeHandler {
             cableGtOctal, 3,
             cableGtHex, 5);
 
-    public static void init(Consumer<FinishedRecipe> provider) {
-        wireGtSingle.executeHandler(provider, PropertyKey.WIRE, GTOWireRecipeHandler::processWires);
+    public static void run(@NotNull Consumer<FinishedRecipe> provider, @NotNull Material material) {
+        WireProperties property = material.getProperty(PropertyKey.WIRE);
+        if (property == null) {
+            return;
+        }
+        processWires(material, provider);
 
-        wireGtSingle.executeHandler(provider, PropertyKey.WIRE, GTOWireRecipeHandler::generateCableCovering);
-        wireGtDouble.executeHandler(provider, PropertyKey.WIRE, GTOWireRecipeHandler::generateCableCovering);
-        wireGtQuadruple.executeHandler(provider, PropertyKey.WIRE, GTOWireRecipeHandler::generateCableCovering);
-        wireGtOctal.executeHandler(provider, PropertyKey.WIRE, GTOWireRecipeHandler::generateCableCovering);
-        wireGtHex.executeHandler(provider, PropertyKey.WIRE, GTOWireRecipeHandler::generateCableCovering);
+        generateCableCovering(wireGtSingle, material, property, provider);
+        generateCableCovering(wireGtDouble, material, property, provider);
+        generateCableCovering(wireGtQuadruple, material, property, provider);
+        generateCableCovering(wireGtOctal, material, property, provider);
+        generateCableCovering(wireGtHex, material, property, provider);
     }
 
-    private static void processWires(TagPrefix wirePrefix, Material material, WireProperties property,
-                                     Consumer<FinishedRecipe> provider) {
+    private static void processWires(Material material, Consumer<FinishedRecipe> provider) {
+        if (!wireGtSingle.shouldGenerateRecipes(material)) {
+            return;
+        }
         TagPrefix prefix = material.hasProperty(PropertyKey.INGOT) ? ingot :
                 material.hasProperty(PropertyKey.GEM) ? gem : dust;
         int mass = (int) material.getMass();
@@ -67,6 +74,9 @@ public final class GTOWireRecipeHandler {
     }
 
     private static void generateCableCovering(TagPrefix wirePrefix, Material material, WireProperties property, Consumer<FinishedRecipe> provider) {
+        if (!wirePrefix.shouldGenerateRecipes(material)) {
+            return;
+        }
         if (property.isSuperconductor()) return;
 
         TagPrefix cablePrefix = TagPrefix.get("cable" + wirePrefix.name().substring(4));

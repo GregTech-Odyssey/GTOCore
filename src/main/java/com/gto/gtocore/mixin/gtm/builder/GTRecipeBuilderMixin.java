@@ -87,7 +87,7 @@ public abstract class GTRecipeBuilderMixin {
     public BiConsumer<GTRecipeBuilder, Consumer<FinishedRecipe>> onSave;
 
     @Shadow(remap = false)
-    public abstract GTRecipeBuilder inputItems(ItemStack... inputs);
+    public abstract GTRecipeBuilder inputItems(ItemStack input);
 
     @Inject(method = "inputItems(Lcom/gregtechceu/gtceu/api/data/tag/TagPrefix;Lcom/gregtechceu/gtceu/api/data/chemical/material/Material;I)Lcom/gregtechceu/gtceu/data/recipe/builder/GTRecipeBuilder;", at = @At("HEAD"), remap = false, cancellable = true)
     private void inputItem(TagPrefix orePrefix, Material material, int count, CallbackInfoReturnable<GTRecipeBuilder> cir) {

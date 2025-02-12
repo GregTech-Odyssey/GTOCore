@@ -39,39 +39,41 @@ public final class GTOValues {
     public static final String REMOVING_ASH = "gtocore.drone.removing_ash";
     public static final String MAINTAINING = "gtocore.drone.maintaining";
 
-    public static final int[] MANA = new int[] { 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384, 32768, 65536, 131072, 262144, 524288, 1048576, 2097152 };
+    public static final int[] MANA = new int[] { 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384, 32768, 65536, 131072, 262144, 524288, 1048576, 2097152 };
 
     public static final String[] MANAN = new String[] {
             "Primitive",
-            "Basic",
-            "Intermediate",
-            "Advanced",
-            "Expert",
-            "Elite",
-            "Champion",
-            "Master",
-            "Ultimate",
-            "Supreme",
-            "Epic",
-            "Legendary",
+            "Enlighten",
+            "Apprentice",
+            "Elemental",
+            "Sorcerer",
             "Arcane",
-            "Divine" };
+            "Magisters",
+            "Mysteries",
+            "Philosopher",
+            "Original",
+            "Regards",
+            "Awaken",
+            "Prosperity",
+            "End",
+            "Perpetual" };
 
     public static final String[] MANACN = new String[] {
             "原始",
-            "基础",
-            "中级",
-            "高级",
-            "专家",
-            "精英",
-            "冠军",
-            "大师",
-            "终极",
-            "至高",
-            "史诗",
-            "传奇",
+            "启蒙",
+            "学徒",
+            "精灵",
+            "法师",
             "奥术",
-            "神圣" };
+            "导师",
+            "秘仪",
+            "贤者",
+            "原初",
+            "启示",
+            "觉醒",
+            "黄金",
+            "终焉",
+            "永恒" };
 
     public static final String[] VLVHCN = new String[] {
             "原始",

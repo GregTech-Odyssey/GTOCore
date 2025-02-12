@@ -1,8 +1,10 @@
 package com.gto.gtocore.common.data;
 
+import com.gto.gtocore.api.capability.recipe.ManaRecipeCapability;
 import com.gto.gtocore.api.machine.feature.multiblock.ICoilMachine;
 import com.gto.gtocore.api.machine.feature.multiblock.IOverclockConfigMachine;
 import com.gto.gtocore.common.machine.multiblock.generator.GeneratorArrayMachine;
+import com.gto.gtocore.utils.GTOUtils;
 import com.gto.gtocore.utils.MachineUtils;
 
 import com.gregtechceu.gtceu.api.GTValues;
@@ -179,12 +181,16 @@ public final class GTORecipeModifiers {
     }
 
     public static GTRecipe overclocking(MetaMachine machine, GTRecipe recipe, boolean perfect, boolean laserLoss, boolean generator, double reductionEUt, double reductionDuration) {
-        if (recipe != null && machine instanceof IOverclockMachine overclockMachine) {
-            long recipeVoltage = (long) ((generator ? RecipeHelper.getOutputEUt(recipe) : RecipeHelper.getInputEUt(recipe)) * reductionEUt);
+        if (machine instanceof IOverclockMachine overclockMachine) {
+            return overclocking(machine, recipe, (long) ((generator ? RecipeHelper.getOutputEUt(recipe) : RecipeHelper.getInputEUt(recipe)) * reductionEUt), overclockMachine.getOverclockVoltage(), perfect, laserLoss, generator, reductionDuration);
+        }
+        return recipe;
+    }
+
+    public static GTRecipe overclocking(MetaMachine machine, GTRecipe recipe, long recipeVoltage, long maxVoltage, boolean perfect, boolean laserLoss, boolean generator, double reductionDuration) {
+        if (recipe != null) {
             int duration = (int) (recipe.duration * reductionDuration);
             int factor = perfect ? 1 : 2;
-            long maxVoltage = overclockMachine.getOverclockVoltage();
-            long overclockVoltage;
             int limit;
             if (machine instanceof IOverclockConfigMachine configMachine) {
                 limit = configMachine.gTOCore$getOCLimit();
@@ -193,7 +199,7 @@ public final class GTORecipeModifiers {
             }
             int ocLevel = 0;
             while (duration > limit) {
-                overclockVoltage = recipeVoltage << factor;
+                long overclockVoltage = recipeVoltage << factor;
                 if (overclockVoltage > maxVoltage) break;
                 if (laserLoss) duration = duration * 5 / 4;
                 recipeVoltage = overclockVoltage;
@@ -208,6 +214,37 @@ public final class GTORecipeModifiers {
             } else {
                 recipe.tickInputs.put(EURecipeCapability.CAP, content);
             }
+        }
+        return recipe;
+    }
+
+    public static GTRecipe externalEnergyOverclocking(MetaMachine machine, GTRecipe recipe, long recipeVoltage, long maxVoltage, boolean perfect, double reductionEUt, double reductionDuration) {
+        return overclocking(machine, recipe, recipeVoltage, (long) (maxVoltage * reductionEUt), perfect, false, false, reductionDuration);
+    }
+
+    public static GTRecipe manaOverclocking(MetaMachine machine, GTRecipe recipe, int maxMana, boolean perfect, double reductionManat, double reductionDuration) {
+        if (recipe != null) {
+            int recipeMana = GTOUtils.getInputMANAt(recipe);
+            int duration = (int) (recipe.duration * reductionDuration);
+            int factor = perfect ? 1 : 2;
+            int limit;
+            if (machine instanceof IOverclockConfigMachine configMachine) {
+                limit = configMachine.gTOCore$getOCLimit();
+            } else {
+                limit = 20;
+            }
+            int ocLevel = 0;
+            while (duration > limit) {
+                int overclockVoltage = recipeMana << factor;
+                if (overclockVoltage > maxMana) break;
+                recipeMana = overclockVoltage;
+                duration >>= 1;
+                ocLevel += factor;
+            }
+            recipe.ocLevel = ocLevel / 2;
+            recipe.duration = duration;
+            List<Content> content = List.of(new Content(recipeMana, ChanceLogic.getMaxChancedValue(), ChanceLogic.getMaxChancedValue(), 0, null, null));
+            recipe.tickInputs.put(ManaRecipeCapability.CAP, content);
         }
         return recipe;
     }

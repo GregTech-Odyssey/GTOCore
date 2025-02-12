@@ -101,7 +101,10 @@ final class MachineLang {
         addENCN("gtocore.machine.steam.tooltip.1", "Can process LV-Tier recipes and below, processing time is 1.5 times", "可处理LV级别及以下的配方，处理耗时为1.5倍");
         addENCN("gtocore.machine.steam.tooltip.2", "Unlock MV-Tier recipes and overclocking function after installing a large steam input", "安装大型蒸汽输入仓后解锁MV级别配方与超频功能");
         addENCN("gtocore.machine.mana_stored", "Total Mana: %s / %s", "魔力总量：%s / %s");
-        addENCN("gtocore.machine.mana_consumption", "Max Mana IO Rate: %s", "最大魔力IO速率：%s");
+        addENCN("gtocore.machine.mana_consumption", "Max Mana IO Rate: %s/t", "最大魔力IO速率：%s/t");
+        addENCN("gtocore.machine.mana_input", "Mana input: %s/t", "魔力输入：%s/t");
+        addENCN("gtocore.machine.mana_output", "Mana output: %s/t", "魔力输出：%s/t");
+        addENCN("gtocore.machine.mana_eu", "Supports EU recipes, conversion ratio 1:1", "支持电力配方，转换比1:1");
         addENCN("gtocore.machine.processing_array.tooltip.0", "Tier is limited by glass grade", "玻璃等级限制了内部机器等级");
         addENCN("gtocore.machine.processing_array.tooltip.1", "Parallel are determined by the number of internal machines", "并行数由内部机器数量决定");
         addENCN("gtocore.machine.maximum_amount", "Maximum amount: %s", "最大数量：%s");

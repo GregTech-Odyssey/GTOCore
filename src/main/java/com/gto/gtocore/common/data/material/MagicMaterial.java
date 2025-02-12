@@ -10,6 +10,7 @@ import net.minecraft.world.item.Rarity;
 
 import static com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlags.*;
 import static com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialIconSet.*;
+import static com.gregtechceu.gtceu.api.data.chemical.material.properties.BlastProperty.GasTier.*;
 import static com.gto.gtocore.common.data.GTOMaterials.*;
 
 public final class MagicMaterial {
@@ -93,6 +94,7 @@ public final class MagicMaterial {
                 .element(GTOElements.MANASTEEL)
                 .flags(GTOMaterialFlags.GENERATE_CURVED_PLATE, GENERATE_FRAME, GENERATE_LONG_ROD, GENERATE_FOIL, GENERATE_GEAR, GENERATE_BOLT_SCREW)
                 .color(0x3396fe)
+                .blastTemp(1700, LOW)
                 .secondaryColor(0x2e56d7)
                 .iconSet(BRIGHT)
                 .buildAndRegister();
@@ -104,6 +106,7 @@ public final class MagicMaterial {
                 .flags(GTOMaterialFlags.GENERATE_CURVED_PLATE, GENERATE_FRAME, GENERATE_LONG_ROD, GENERATE_FOIL, GENERATE_GEAR, GENERATE_BOLT_SCREW)
                 .element(GTOElements.TERRASTEEL)
                 .color(0x5cd12b)
+                .blastTemp(2500, LOW)
                 .secondaryColor(0x28b739)
                 .iconSet(BRIGHT)
                 .buildAndRegister();
@@ -113,6 +116,7 @@ public final class MagicMaterial {
                 .fluid()
                 .flags(GTOMaterialFlags.GENERATE_CURVED_PLATE, GENERATE_FRAME, GENERATE_LONG_ROD, GENERATE_FOIL, GENERATE_GEAR, GENERATE_BOLT_SCREW)
                 .element(GTOElements.ELEMENTIUM)
+                .blastTemp(3400, LOW)
                 .color(0xf766a7)
                 .secondaryColor(0xf768d4)
                 .iconSet(BRIGHT)
@@ -143,6 +147,7 @@ public final class MagicMaterial {
                 .ingot()
                 .fluid()
                 .element(GTOElements.GAIASTEEL)
+                .blastTemp(4300, LOW)
                 .flags(GTOMaterialFlags.GENERATE_CURVED_PLATE, GENERATE_FRAME, GENERATE_LONG_ROD, GENERATE_FOIL, GENERATE_GEAR, GENERATE_BOLT_SCREW)
                 .color(0x660404)
                 .iconSet(BRIGHT)
@@ -153,6 +158,7 @@ public final class MagicMaterial {
                 .ingot()
                 .fluid()
                 .element(GTOElements.GAIA)
+                .blastTemp(5300, LOW)
                 .flags(GTOMaterialFlags.GENERATE_CURVED_PLATE, GENERATE_FRAME, GENERATE_LONG_ROD, GENERATE_FOIL, GENERATE_GEAR, GENERATE_BOLT_SCREW)
                 .iconSet(BRIGHT)
                 .buildAndRegister();
@@ -162,6 +168,7 @@ public final class MagicMaterial {
                 .ingot()
                 .fluid()
                 .color(0xf5e2b3)
+                .blastTemp(1200, LOW)
                 .components(GTMaterials.Gold, 1)
                 .flags(DISABLE_DECOMPOSITION, GENERATE_FRAME, GENERATE_LONG_ROD, GENERATE_FOIL, GENERATE_GEAR, GENERATE_BOLT_SCREW)
                 .iconSet(METALLIC)
@@ -180,6 +187,7 @@ public final class MagicMaterial {
                 .ingot()
                 .fluid()
                 .color(0xe6ffef)
+                .blastTemp(14500, LOW)
                 .components(GTMaterials.Steel, 1)
                 .flags(DISABLE_DECOMPOSITION, GENERATE_FRAME, GENERATE_LONG_ROD, GENERATE_FOIL, GENERATE_GEAR, GENERATE_BOLT_SCREW)
                 .iconSet(METALLIC)
@@ -190,6 +198,7 @@ public final class MagicMaterial {
                 .ingot()
                 .fluid()
                 .color(0x302a4a)
+                .blastTemp(1395, LOW)
                 .components(GTMaterials.Bronze, 2)
                 .flags(DISABLE_DECOMPOSITION, GENERATE_FRAME, GENERATE_LONG_ROD, GENERATE_FOIL, GENERATE_GEAR, GENERATE_BOLT_SCREW)
                 .iconSet(METALLIC)

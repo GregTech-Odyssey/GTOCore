@@ -20,6 +20,7 @@ import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.common.data.machines.GTMachineUtils;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 
+import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
@@ -49,24 +50,24 @@ public final class ManaMachine {
 
     public static final MachineDefinition[] MANA_ASSEMBLER = registerSimpleManaMachines("mana_assembler", "魔力组装机", GTRecipeTypes.ASSEMBLER_RECIPES, GTMachineUtils.defaultTankSizeFunction, GTCEu.id("block/machines/assembler"), GTMachineUtils.ELECTRIC_TIERS);
 
-    public static final MachineDefinition[] MANA_INPUT_HATCH = registerTieredMachines("mana_input_hatch", tier -> "%s%s".formatted(MANACN[tier], "魔力输入仓"),
-            (holder, tier) -> new ManaHatchPartMachine(holder, tier, IO.IN, 1),
-            (tier, builder) -> builder
-                    .langValue(MANAN[tier] + " Mana Input Hatch")
-                    .rotationState(RotationState.ALL)
-                    .abilities(GTOPartAbility.INPUT_MANA)
-                    .tooltips(Component.translatable("gtocore.machine.mana_consumption", GTOValues.MANA[tier]))
-                    .renderer(() -> new OverlayTieredMachineRenderer(tier, GTCEu.id("block/machine/part/" + "energy_hatch.input_64a")))
-                    .register(),
-            GTMachineUtils.ELECTRIC_TIERS);
-
     public static final MachineDefinition[] MANA_EXTRACT_HATCH = registerTieredMachines("mana_extract_hatch", tier -> "%s%s".formatted(MANACN[tier], "魔力抽取仓"),
             ManaExtractHatchPartMachine::new,
             (tier, builder) -> builder
                     .langValue(MANAN[tier] + " Mana Extract Hatch")
                     .rotationState(RotationState.ALL)
                     .abilities(GTOPartAbility.EXTRACT_MANA)
-                    .tooltips(Component.translatable("gtocore.machine.mana_consumption", GTOValues.MANA[tier] << 4))
+                    .tooltips(Component.translatable("gtocore.machine.mana_input", GTOValues.MANA[tier] << 2).withStyle(ChatFormatting.AQUA))
+                    .renderer(() -> new OverlayTieredMachineRenderer(tier, GTCEu.id("block/machine/part/" + "energy_hatch.input_64a")))
+                    .register(),
+            GTMachineUtils.ELECTRIC_TIERS);
+
+    public static final MachineDefinition[] MANA_INPUT_HATCH = registerTieredMachines("mana_input_hatch", tier -> "%s%s".formatted(MANACN[tier], "魔力输入仓"),
+            (holder, tier) -> new ManaHatchPartMachine(holder, tier, IO.IN, 1),
+            (tier, builder) -> builder
+                    .langValue(MANAN[tier] + " Mana Input Hatch")
+                    .rotationState(RotationState.ALL)
+                    .abilities(GTOPartAbility.INPUT_MANA)
+                    .tooltips(Component.translatable("gtocore.machine.mana_input", GTOValues.MANA[tier]).withStyle(ChatFormatting.AQUA))
                     .renderer(() -> new OverlayTieredMachineRenderer(tier, GTCEu.id("block/machine/part/" + "energy_hatch.input_64a")))
                     .register(),
             GTMachineUtils.ELECTRIC_TIERS);
@@ -77,7 +78,7 @@ public final class ManaMachine {
                     .langValue(MANAN[tier] + " Mana Output Hatch")
                     .rotationState(RotationState.ALL)
                     .abilities(GTOPartAbility.OUTPUT_MANA)
-                    .tooltips(Component.translatable("gtocore.machine.mana_consumption", GTOValues.MANA[tier]))
+                    .tooltips(Component.translatable("gtocore.machine.mana_output", GTOValues.MANA[tier]).withStyle(ChatFormatting.AQUA))
                     .renderer(() -> new OverlayTieredMachineRenderer(tier, GTCEu.id("block/machine/part/" + "energy_hatch.output_64a")))
                     .register(),
             GTMachineUtils.ELECTRIC_TIERS);
@@ -90,7 +91,8 @@ public final class ManaMachine {
                     .editableUI(SimpleManaMachine.EDITABLE_UI_CREATOR.apply(GTCEu.id(name), recipeType))
                     .rotationState(RotationState.NON_Y_AXIS)
                     .recipeType(recipeType)
-                    .tooltips(Component.translatable("gtocore.machine.mana_consumption", GTOValues.MANA[tier]))
+                    .tooltips(Component.translatable("gtocore.machine.mana_eu").withStyle(ChatFormatting.GRAY))
+                    .tooltips(Component.translatable("gtocore.machine.mana_input", GTOValues.MANA[tier]).withStyle(ChatFormatting.AQUA))
                     .workableTieredHullRenderer(workableModel)
                     .tooltips(workableNoEnergy(recipeType, tankScalingFunction.apply(tier)))
                     .register();

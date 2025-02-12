@@ -15,6 +15,7 @@ import com.gregtechceu.gtceu.utils.GTUtil;
 import net.minecraft.data.recipes.FinishedRecipe;
 
 import com.google.common.collect.ImmutableMap;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
 import java.util.function.Consumer;
@@ -34,16 +35,23 @@ public final class GTOWireCombiningHandler {
             wireGtSingle, wireGtDouble, wireGtQuadruple, wireGtOctal, wireGtHex
     };
 
-    public static void init(Consumer<FinishedRecipe> provider) {
-        TagPrefix.wireGtSingle.executeHandler(provider, PropertyKey.WIRE, GTOWireCombiningHandler::processWireCompression);
+    public static void run(@NotNull Consumer<FinishedRecipe> provider, @NotNull Material material) {
+        WireProperties property = material.getProperty(PropertyKey.WIRE);
+        if (property == null) {
+            return;
+        }
+        processWireCompression(material, property, provider);
 
         for (TagPrefix cablePrefix : cableToWireMap.keySet()) {
-            cablePrefix.executeHandler(provider, PropertyKey.WIRE, GTOWireCombiningHandler::processCableStripping);
+            processCableStripping(cablePrefix, material, property, provider);
         }
     }
 
-    private static void processWireCompression(TagPrefix prefix, Material material, WireProperties property,
+    private static void processWireCompression(Material material, WireProperties property,
                                                Consumer<FinishedRecipe> provider) {
+        if (!wireGtSingle.shouldGenerateRecipes(material)) {
+            return;
+        }
         int mass = (int) material.getMass();
         for (int startTier = 0; startTier < 4; startTier++) {
             for (int i = 1; i < 5 - startTier; i++) {
@@ -75,8 +83,10 @@ public final class GTOWireCombiningHandler {
         }
     }
 
-    private static void processCableStripping(TagPrefix prefix, Material material, WireProperties property,
-                                              Consumer<FinishedRecipe> provider) {
+    private static void processCableStripping(TagPrefix prefix, Material material, WireProperties property, Consumer<FinishedRecipe> provider) {
+        if (!prefix.shouldGenerateRecipes(material)) {
+            return;
+        }
         Material rubber = GTMaterials.Rubber;
         int voltageTier = GTUtil.getTierByVoltage(property.getVoltage());
         if (voltageTier > GTValues.UV) {

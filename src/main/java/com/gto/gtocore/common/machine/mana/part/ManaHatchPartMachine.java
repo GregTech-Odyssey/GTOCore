@@ -51,8 +51,8 @@ public class ManaHatchPartMachine extends TieredIOPartMachine implements IManaMa
     private NotifiableManaContainer createManaContainer(int rate) {
         int tierMana = GTOValues.MANA[tier] * rate;
         if (io == IO.OUT) {
-            return new NotifiableManaContainer(this, IO.OUT, 64 * tierMana, tierMana);
-        } else return new NotifiableManaContainer(this, IO.IN, 16 * tierMana, tierMana);
+            return new NotifiableManaContainer(this, IO.OUT, 256 * tierMana, tierMana);
+        } else return new NotifiableManaContainer(this, IO.IN, 64 * tierMana, tierMana);
     }
 
     @Override

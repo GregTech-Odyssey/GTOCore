@@ -195,7 +195,12 @@ public final class GeneratorArrayMachine extends StorageMultiblockMachine implem
                 int multipliers = 0;
                 for (RecipeCapability<?> cap : recipe.inputs.keySet()) {
                     if (cap instanceof FluidRecipeCapability fluidRecipeCapability) {
-                        multipliers += fluidRecipeCapability.getMaxParallelRatio(this, recipe, maxParallel);
+                        int paralle = fluidRecipeCapability.getMaxParallelRatio(this, recipe, maxParallel);
+                        if (multipliers > 0) {
+                            multipliers = Math.min(multipliers, paralle);
+                        } else {
+                            multipliers = paralle;
+                        }
                     }
                 }
                 GTRecipe paraRecipe = recipe.copy(ContentModifier.multiplier(multipliers), false);

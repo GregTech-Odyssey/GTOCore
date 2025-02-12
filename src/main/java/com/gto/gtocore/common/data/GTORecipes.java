@@ -12,8 +12,11 @@ import com.gto.gtocore.integration.kjs.GTKubeJSPlugin;
 import com.gto.gtocore.utils.RLUtils;
 
 import com.gregtechceu.gtceu.GTCEu;
+import com.gregtechceu.gtceu.api.GTCEuAPI;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
+import com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlags;
+import com.gregtechceu.gtceu.api.data.chemical.material.properties.PropertyKey;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.recipe.category.GTRecipeCategory;
@@ -25,9 +28,7 @@ import com.gregtechceu.gtceu.common.item.armor.PowerlessJetpack;
 import com.gregtechceu.gtceu.data.pack.GTDynamicDataPack;
 import com.gregtechceu.gtceu.data.recipe.MaterialInfoLoader;
 import com.gregtechceu.gtceu.data.recipe.configurable.RecipeAddition;
-import com.gregtechceu.gtceu.data.recipe.generated.DecompositionRecipeHandler;
-import com.gregtechceu.gtceu.data.recipe.generated.PolarizingRecipeHandler;
-import com.gregtechceu.gtceu.data.recipe.generated.ToolRecipeHandler;
+import com.gregtechceu.gtceu.data.recipe.generated.*;
 import com.gregtechceu.gtceu.data.recipe.misc.*;
 import com.gregtechceu.gtceu.data.recipe.serialized.chemistry.ChemistryRecipes;
 import com.gregtechceu.gtceu.integration.emi.recipe.GTEmiRecipe;
@@ -175,10 +176,6 @@ public final class GTORecipes implements Runnable {
 
         Consumer<FinishedRecipe> consumer = GTDynamicDataPack::addRecipe;
 
-        DecompositionRecipeHandler.init(consumer);
-        PolarizingRecipeHandler.init(consumer);
-        ToolRecipeHandler.init(consumer);
-
         ChemistryRecipes.init(consumer);
         MetaTileEntityMachineRecipeLoader.init(consumer);
         MiscRecipeLoader.init(consumer);
@@ -200,14 +197,27 @@ public final class GTORecipes implements Runnable {
         RecipeAddition.init(consumer);
         GT_FILTER_RECIPES = null;
         SHAPED_FILTER_RECIPES = null;
+
+        ToolRecipeHandler.setup();
+
+        for (Material material : GTCEuAPI.materialManager.getRegisteredMaterials()) {
+            if (material.hasFlag(MaterialFlags.NO_UNIFICATION) || !material.hasProperty(PropertyKey.DUST)) {
+                continue;
+            }
+
+            DecompositionRecipeHandler.run(consumer, material);
+            PolarizingRecipeHandler.run(consumer, material);
+            ToolRecipeHandler.run(consumer, material);
+            GTOMaterialRecipeHandler.run(consumer, material);
+            GTOOreRecipeHandler.run(consumer, material);
+            GTOPartsRecipeHandler.run(consumer, material);
+            GTOPipeRecipeHandler.run(consumer, material);
+            GTORecyclingRecipeHandler.run(consumer, material);
+            GTOWireCombiningHandler.run(consumer, material);
+            GTOWireRecipeHandler.run(consumer, material);
+        }
+
         // GTO
-        GTOMaterialRecipeHandler.init(consumer);
-        GTOOreRecipeHandler.init(consumer);
-        GTOPartsRecipeHandler.init(consumer);
-        GTOPipeRecipeHandler.init(consumer);
-        GTORecyclingRecipeHandler.init(consumer);
-        GTOWireCombiningHandler.init(consumer);
-        GTOWireRecipeHandler.init(consumer);
         GTMTRecipe.init(consumer);
         FuelRecipe.init(consumer);
         NaquadahProcess.init(consumer);

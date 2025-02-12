@@ -17,6 +17,8 @@ import java.util.Collections;
 public final class RecipeTypeModify {
 
     public static void init() {
+        GTRecipeTypes.COMBUSTION_GENERATOR_FUELS.setMaxIOSize(0, 0, 2, 0);
+        GTRecipeTypes.GAS_TURBINE_FUELS.setMaxIOSize(0, 0, 2, 0);
         GTRecipeTypes.DUMMY_RECIPES.setMaxIOSize(Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE);
         GTRecipeTypes.WIREMILL_RECIPES.setMaxIOSize(1, 1, 0, 0);
 

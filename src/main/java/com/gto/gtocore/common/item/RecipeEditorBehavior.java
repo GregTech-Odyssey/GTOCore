@@ -271,6 +271,11 @@ public final class RecipeEditorBehavior implements IItemUIFactory, IFancyUIProvi
                     if (recipe.data.contains("special")) {
                         stringBuilder.append(".addData(\"special\", ").append(recipe.data.getBoolean("special")).append(")").append("\n");
                     }
+                    if (recipe.data.contains("MANA")) {
+                        stringBuilder.append(".perTick(true)\n");
+                        stringBuilder.append(".input(ManaRecipeCapability.CAP, ").append(recipe.data.getInt("MANA")).append(")\n");
+                        stringBuilder.append(".perTick(false)\n");
+                    }
                 }
                 stringBuilder.append(".save(provider);\n");
             });
@@ -513,6 +518,10 @@ public final class RecipeEditorBehavior implements IItemUIFactory, IFancyUIProvi
                     .setText(String.valueOf(machine.duration))
                     .setOnConfirm(machine::setDuration)
                     .setButtonTooltips(Component.literal("Duration")));
+            template.addWidget(new AETextInputButtonWidget(x - 36, y - 10, 64, 12)
+                    .setText(String.valueOf(machine.manat))
+                    .setOnConfirm(machine::setMANAt)
+                    .setButtonTooltips(Component.literal("MANAt")));
         }
         template.addWidget(new ButtonWidget(x, y, 16, 16, new GuiTextureGroup(GuiTextures.BUTTON, new TextTexture("X")), cd -> {
             if (cd.isRemote) return;
@@ -554,6 +563,9 @@ public final class RecipeEditorBehavior implements IItemUIFactory, IFancyUIProvi
                     stringBuilder.append(".EUt(").append(machine.eut).append(")\n");
                 }
                 stringBuilder.append(".duration(").append(machine.duration).append(")\n");
+                if (machine.manat != 0) {
+                    stringBuilder.append(".addDataNumber(\"MANA\", ").append(machine.manat).append(")\n");
+                }
             } else {
                 stringBuilder.append("\nevent.shaped(\"").append(ItemUtils.getId(machine.exportItems.getStackInSlot(0))).append("\", [\n    \"");
                 char c = 'A';

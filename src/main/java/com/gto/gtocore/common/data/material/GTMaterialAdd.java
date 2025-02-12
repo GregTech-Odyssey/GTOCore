@@ -72,6 +72,7 @@ public final class GTMaterialAdd {
         Trinium.addFlags(GENERATE_FRAME);
         Copper.addFlags(GENERATE_SMALL_GEAR);
         Europium.getProperty(BLAST).setBlastTemperature(9602);
+        Neutronium.setProperty(BLAST, new BlastProperty(11210));
         Neutronium.addFlags(GENERATE_ROTOR, GENERATE_SPRING, GENERATE_GEAR, GENERATE_SMALL_GEAR, GENERATE_SPRING_SMALL);
         Neutronium.setProperty(WIRE, new WireProperties((int) GTValues.V[GTValues.UIV], 2, 64));
         Mendelevium.setProperty(WIRE, new WireProperties((int) GTValues.V[GTValues.UHV], 4, 16));

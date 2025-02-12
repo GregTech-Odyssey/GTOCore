@@ -106,5 +106,13 @@ public final class ItemStackSet implements Set<ItemStack> {
             }
             return false;
         }
+
+        @Override
+        public int hashCode() {
+            int h = 0;
+            h = 31 * h + item.hashCode();
+            h = 31 * h + nbt.hashCode();
+            return h;
+        }
     }
 }

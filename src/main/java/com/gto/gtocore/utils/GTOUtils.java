@@ -1,8 +1,12 @@
 package com.gto.gtocore.utils;
 
+import com.gto.gtocore.api.capability.recipe.ManaRecipeCapability;
 import com.gto.gtocore.api.data.GTOWorldGenLayers;
 
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
+import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
+import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.content.Content;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
@@ -16,10 +20,25 @@ import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 
 import java.util.*;
+import java.util.function.Predicate;
 
 import static com.gregtechceu.gtceu.api.GTValues.*;
 
 public final class GTOUtils {
+
+    public static boolean isGeneration(TagPrefix tagPrefix, Material material) {
+        Predicate<Material> condition = tagPrefix.generationCondition();
+        if (condition == null) return true;
+        return condition.test(material);
+    }
+
+    public static int getInputMANAt(GTRecipe recipe) {
+        return recipe.getTickInputContents(ManaRecipeCapability.CAP).stream().map(Content::getContent).mapToInt(ManaRecipeCapability.CAP::of).sum();
+    }
+
+    public static int getOutputMANAt(GTRecipe recipe) {
+        return recipe.getTickOutputContents(ManaRecipeCapability.CAP).stream().map(Content::getContent).mapToInt(ManaRecipeCapability.CAP::of).sum();
+    }
 
     public static int adjacentBlock(Level level, BlockPos pos, Block block) {
         int a = 0;
@@ -45,7 +64,13 @@ public final class GTOUtils {
     }
 
     public static int getVoltageMultiplier(Material material) {
-        return material.getBlastTemperature() >= 2800 ? VA[LV] : VA[ULV];
+        int t = material.getBlastTemperature();
+        if (t > 8460) {
+            return VA[MV];
+        } else if (t > 2700) {
+            return VA[LV];
+        }
+        return VA[ULV];
     }
 
     public static String[] shapeToPattern(List<String[]> shape) {
