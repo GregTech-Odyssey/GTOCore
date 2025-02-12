@@ -154,7 +154,6 @@ public final class GTORecipeTypes {
             .setMaxIOSize(1, 0, 1, 0).setEUIO(IO.OUT)
             .setSlotOverlay(false, true, true, GuiTextures.FURNACE_OVERLAY_2)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW_MULTIPLE, LEFT_TO_RIGHT)
-            .setXEIVisible(false)
             .setSound(GTSoundEntries.COMBUSTION);
 
     public final static GTRecipeType SEMI_FLUID_GENERATOR_FUELS = recipeType("semi_fluid_generator", "半流质燃烧", GENERATOR)
@@ -211,10 +210,9 @@ public final class GTORecipeTypes {
             .setSound(GTSoundEntries.COOLING);
 
     public static final GTRecipeType ELEMENT_COPYING_RECIPES = recipeType("element_copying", "元素复制", MULTIBLOCK)
-            .setMaxIOSize(1, 1, 2, 1)
+            .setMaxIOSize(1, 1, 1, 1)
             .setEUIO(IO.IN)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW_MULTIPLE, LEFT_TO_RIGHT)
-            .setXEIVisible(false)
             .setSound(GTSoundEntries.ARC);
 
     public static final GTRecipeType INTEGRATED_ORE_PROCESSOR = recipeType("integrated_ore_processor", "集成矿石处理", MULTIBLOCK)
@@ -735,6 +733,7 @@ public final class GTORecipeTypes {
     public final static GTRecipeType THREE_DIMENSIONAL_PRINTER_RECIPES = recipeType("three_dimensional_printer", "3D部件打印", MULTIBLOCK)
             .setMaxIOSize(1, 1, 1, 0)
             .setEUIO(IO.IN)
+            .setMaxTooltips(4)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.ARC);
 

@@ -1,8 +1,11 @@
 package com.gto.gtocore.data.recipe.generated;
 
+import com.gto.gtocore.GTOCore;
+import com.gto.gtocore.common.data.GTOItems;
 import com.gto.gtocore.common.data.GTOMaterials;
 
 import com.gregtechceu.gtceu.api.GTValues;
+import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.chemical.Element;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
@@ -10,11 +13,15 @@ import com.gregtechceu.gtceu.common.data.GTElements;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
 import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraftforge.fluids.FluidStack;
 
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Consumer;
 
+import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.SCANNER_RECIPES;
 import static com.gto.gtocore.common.data.GTORecipeTypes.ELEMENT_COPYING_RECIPES;
 
 public final class ElementCopying {
@@ -151,10 +158,21 @@ public final class ElementCopying {
         for (Material e : fes) {
             Element element = Objects.requireNonNullElse(e.getElement(), GTElements.Nt);
             int mass = (int) element.mass();
+            Fluid fluid = e.getFluid();
+            ItemStack data = GTOItems.DATA_DISC.get().getDisc(fluid);
+            FluidStack stack = new FluidStack(fluid, 1000);
+            SCANNER_RECIPES.recipeBuilder(GTOCore.id(e.getName()))
+                    .inputItems(GTOItems.DATA_DISC.asStack())
+                    .inputFluids(stack)
+                    .outputItems(data)
+                    .EUt(480)
+                    .duration(mass << 8)
+                    .save(provider);
+
             ELEMENT_COPYING_RECIPES.recipeBuilder(e.getName())
-                    .notConsumableFluid(e.getFluid(1000))
+                    .notConsumable(data)
                     .inputFluids(GTMaterials.UUMatter.getFluid(mass))
-                    .outputFluids(e.getFluid(1000))
+                    .outputFluids(stack)
                     .duration(mass)
                     .EUt(GTValues.V[GTValues.UXV])
                     .save(provider);
@@ -163,10 +181,21 @@ public final class ElementCopying {
         for (Material e : ies) {
             Element element = Objects.requireNonNullElse(e.getElement(), GTElements.Nt);
             int mass = (int) element.mass();
+            ItemStack stack = ChemicalHelper.get(TagPrefix.dust, e);
+            ItemStack data = GTOItems.DATA_DISC.get().getDisc(stack);
+
+            SCANNER_RECIPES.recipeBuilder(GTOCore.id(e.getName()))
+                    .inputItems(GTOItems.DATA_DISC.asStack())
+                    .inputItems(stack)
+                    .outputItems(data)
+                    .EUt(480)
+                    .duration(mass << 8)
+                    .save(provider);
+
             ELEMENT_COPYING_RECIPES.recipeBuilder(e.getName())
-                    .notConsumable(TagPrefix.dust, e)
+                    .notConsumable(data)
                     .inputFluids(GTMaterials.UUMatter.getFluid(mass))
-                    .outputItems(TagPrefix.dust, e)
+                    .outputItems(stack)
                     .duration(mass)
                     .EUt(GTValues.V[GTValues.UXV])
                     .save(provider);

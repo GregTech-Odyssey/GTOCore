@@ -78,5 +78,6 @@ final class ItemLang {
         addENCN("item.gtocore.structure_detect.error.4", "Normal Coordinates", "正常坐标");
         addENCN("item.gtocore.structure_detect.tooltip.0", "Sneak right-click the main block to detect multiblock structure.", "潜行右键主方块以检测多方块结构");
         addENCN("item.gtocore.structure_detect.tooltip.1", "There may be lag when detecting large structures.", "检测大型结构时可能会有延迟");
+        addENCN("item.gtocore.disc.data", "Disc data: %s", "光盘数据：%s");
     }
 }

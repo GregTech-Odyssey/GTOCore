@@ -469,6 +469,9 @@ public final class GTOItems {
             .onRegister(attach(new DataItemBehavior(true)))
             .register();
 
+    public static final ItemEntry<DiscItem> DATA_DISC = item("data_disc", "数据光盘", DiscItem::new)
+            .register();
+
     public static final ItemEntry<KineticRotorItem> WOOD_ROTOR = registerRotor("wood_rotor", "木", 2400, 4, 10, 0);
     public static final ItemEntry<KineticRotorItem> IRON_ROTOR = registerRotor("iron_rotor", "铁", 14000, 10, 20, 1);
     public static final ItemEntry<KineticRotorItem> STEEL_ROTOR = registerRotor("steel_rotor", "钢", 16000, 10, 30, 1);

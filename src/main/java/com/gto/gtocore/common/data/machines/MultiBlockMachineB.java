@@ -568,6 +568,7 @@ public final class MultiBlockMachineB {
 
     public static final MultiblockMachineDefinition MAGNETIC_ENERGY_REACTION_FURNACE = multiblock("magnetic_energy_reaction_furnace", "磁能反应炉", CoilCrossRecipeMultiblockMachine::createCoilParallel)
             .allRotation()
+            .tooltipsText("Capacitor at full charge.", "电容器满负荷运作中")
             .recipe(GTRecipeTypes.ARC_FURNACE_RECIPES)
             .coilParallelTooltips()
             .customTooltipsBuilder(true, true, true)

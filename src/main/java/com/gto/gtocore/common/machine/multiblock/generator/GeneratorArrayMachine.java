@@ -178,6 +178,9 @@ public final class GeneratorArrayMachine extends StorageMultiblockMachine implem
         if (recipeType == GTORecipeTypes.NAQUADAH_REACTOR) {
             return (100 + 50 * (tier - GTValues.IV));
         }
+        if (recipeType == GTORecipeTypes.THERMAL_GENERATOR_FUELS) {
+            return (100 - 25 * tier);
+        }
         return (105 - 5 * tier);
     }
 

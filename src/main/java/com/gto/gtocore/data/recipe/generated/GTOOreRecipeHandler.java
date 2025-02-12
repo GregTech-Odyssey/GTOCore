@@ -356,7 +356,7 @@ public final class GTOOreRecipeHandler {
                 .inputItems(orePrefix, material)
                 .duration((dur << 2) / 5).EUt(16);
 
-        builder.outputItems(material.hasProperty(PropertyKey.GEM) && !gem.isIgnored(material) ? ChemicalHelper.get(gem, material, crushedStack.getCount()) : crushedStack.copy());
+        builder.outputItems(material.hasProperty(PropertyKey.GEM) && !gem.isIgnored(material) ? ChemicalHelper.get(gem, material, crushedStack.getCount()) : crushedStack);
         builder.save(provider);
 
         GTRecipeBuilder builder2 = GTORecipeTypes.CRUSHER_RECIPES.recipeBuilder("crusher_" + orePrefix.name + "_" + material.getName() + "_ore_to_crushed_ore")

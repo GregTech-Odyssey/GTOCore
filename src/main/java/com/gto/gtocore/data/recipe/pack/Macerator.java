@@ -47,13 +47,6 @@ final class Macerator {
                 .duration(200)
                 .save(provider);
 
-        GTRecipeTypes.MACERATOR_RECIPES.recipeBuilder(GTOCore.id("echo_shard"))
-                .inputItems(TagPrefix.gem, GTMaterials.EchoShard)
-                .outputItems(TagPrefix.dust, GTMaterials.EchoShard)
-                .EUt(7)
-                .duration(100)
-                .save(provider);
-
         GTRecipeTypes.MACERATOR_RECIPES.recipeBuilder(GTOCore.id("silicon_dust"))
                 .inputItems(new ItemStack(AEItems.SILICON.asItem()))
                 .outputItems(TagPrefix.dust, GTMaterials.Silicon)

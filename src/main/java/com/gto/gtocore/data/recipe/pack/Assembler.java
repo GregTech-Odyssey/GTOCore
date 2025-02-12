@@ -40,18 +40,6 @@ final class Assembler {
                 .cleanroom(CleanroomType.STERILE_CLEANROOM)
                 .duration(100).EUt(7680).save(provider);
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("uv_262144a_laser_source_hatch"))
-                .inputItems(GTMachines.HULL[GTValues.UV].asStack())
-                .inputItems(TagPrefix.lens, GTMaterials.Diamond, 32)
-                .inputItems(GTItems.EMITTER_UV.asStack(32))
-                .inputItems(GTItems.ELECTRIC_PUMP_UV.asStack(32))
-                .inputItems(TagPrefix.cableGtSingle, GTMaterials.YttriumBariumCuprate, 4)
-                .circuitMeta(6)
-                .outputItems(GTOMachines.LASER_OUTPUT_HATCH_262144[GTValues.UV].asStack())
-                .EUt(491520)
-                .duration(9600)
-                .save(provider);
-
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("water_purification_plant"))
                 .inputItems(TagPrefix.frameGt, GTMaterials.Tungsten)
                 .inputItems(GTOBlocks.STERILE_WATER_PLANT_CASING.asStack(4))
@@ -96,42 +84,6 @@ final class Assembler {
                 .outputItems(GTOBlocks.HIGH_ENERGY_ULTRAVIOLET_EMITTER_CASING.asStack())
                 .EUt(7680)
                 .duration(200)
-                .save(provider);
-
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("zpm_16384a_laser_source_hatch"))
-                .inputItems(GTMachines.HULL[GTValues.ZPM].asStack())
-                .inputItems(TagPrefix.lens, GTMaterials.Diamond, 8)
-                .inputItems(GTItems.EMITTER_ZPM.asStack(8))
-                .inputItems(GTItems.ELECTRIC_PUMP_ZPM.asStack(8))
-                .inputItems(TagPrefix.cableGtSingle, GTMaterials.VanadiumGallium, 4)
-                .circuitMeta(4)
-                .outputItems(GTOMachines.LASER_OUTPUT_HATCH_16384[GTValues.ZPM].asStack())
-                .EUt(122880)
-                .duration(2400)
-                .save(provider);
-
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("uiv_1048576a_laser_target_hatch"))
-                .inputItems(GTMachines.HULL[GTValues.UIV].asStack())
-                .inputItems(TagPrefix.lens, GTMaterials.Diamond, 64)
-                .inputItems(GTItems.SENSOR_UIV.asStack(64))
-                .inputItems(GTItems.ELECTRIC_PUMP_UIV.asStack(64))
-                .inputItems(TagPrefix.cableGtSingle, GTMaterials.Neutronium, 4)
-                .circuitMeta(7)
-                .outputItems(GTOMachines.LASER_INPUT_HATCH_1048576[GTValues.UIV].asStack())
-                .EUt(34257280)
-                .duration(19200)
-                .save(provider);
-
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("uhv_65536a_laser_target_hatch"))
-                .inputItems(GTMachines.HULL[GTValues.UHV].asStack())
-                .inputItems(TagPrefix.lens, GTMaterials.Diamond, 16)
-                .inputItems(GTItems.SENSOR_UHV.asStack(16))
-                .inputItems(GTItems.ELECTRIC_PUMP_UHV.asStack(16))
-                .inputItems(TagPrefix.cableGtSingle, GTMaterials.Europium, 4)
-                .circuitMeta(5)
-                .outputItems(GTOMachines.LASER_INPUT_HATCH_65536[GTValues.UHV].asStack())
-                .EUt(1966080)
-                .duration(4800)
                 .save(provider);
 
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("naquadria_charge_a"))
@@ -214,42 +166,6 @@ final class Assembler {
                 .cleanroom(GTOCleanroomType.LAW_CLEANROOM)
                 .save(provider);
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("uv_1048576a_laser_target_hatch"))
-                .inputItems(GTMachines.HULL[GTValues.UV].asStack())
-                .inputItems(TagPrefix.lens, GTMaterials.Diamond, 64)
-                .inputItems(GTItems.SENSOR_UV.asStack(64))
-                .inputItems(GTItems.ELECTRIC_PUMP_UV.asStack(64))
-                .inputItems(TagPrefix.cableGtSingle, GTMaterials.YttriumBariumCuprate, 4)
-                .circuitMeta(7)
-                .outputItems(GTOMachines.LASER_INPUT_HATCH_1048576[GTValues.UV].asStack())
-                .EUt(491520)
-                .duration(19200)
-                .save(provider);
-
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("uiv_1048576a_laser_source_hatch"))
-                .inputItems(GTMachines.HULL[GTValues.UIV].asStack())
-                .inputItems(TagPrefix.lens, GTMaterials.Diamond, 64)
-                .inputItems(GTItems.EMITTER_UIV.asStack(64))
-                .inputItems(GTItems.ELECTRIC_PUMP_UIV.asStack(64))
-                .inputItems(TagPrefix.cableGtSingle, GTMaterials.Neutronium, 4)
-                .circuitMeta(7)
-                .outputItems(GTOMachines.LASER_OUTPUT_HATCH_1048576[GTValues.UIV].asStack())
-                .EUt(34257280)
-                .duration(19200)
-                .save(provider);
-
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("uv_262144a_laser_target_hatch"))
-                .inputItems(GTMachines.HULL[GTValues.UV].asStack())
-                .inputItems(TagPrefix.lens, GTMaterials.Diamond, 32)
-                .inputItems(GTItems.SENSOR_UV.asStack(32))
-                .inputItems(GTItems.ELECTRIC_PUMP_UV.asStack(32))
-                .inputItems(TagPrefix.cableGtSingle, GTMaterials.YttriumBariumCuprate, 4)
-                .circuitMeta(6)
-                .outputItems(GTOMachines.LASER_INPUT_HATCH_262144[GTValues.UV].asStack())
-                .EUt(491520)
-                .duration(9600)
-                .save(provider);
-
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("pps_corrosion_resistant_mechanical_housing"))
                 .inputItems(TagPrefix.frameGt, GTMaterials.Polytetrafluoroethylene)
                 .inputItems(TagPrefix.plate, GTMaterials.PolyphenyleneSulfide, 6)
@@ -299,42 +215,6 @@ final class Assembler {
                 .duration(200)
                 .save(provider);
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("zpm_262144a_laser_target_hatch"))
-                .inputItems(GTMachines.HULL[GTValues.ZPM].asStack())
-                .inputItems(TagPrefix.lens, GTMaterials.Diamond, 32)
-                .inputItems(GTItems.SENSOR_ZPM.asStack(32))
-                .inputItems(GTItems.ELECTRIC_PUMP_ZPM.asStack(32))
-                .inputItems(TagPrefix.cableGtSingle, GTMaterials.VanadiumGallium, 4)
-                .circuitMeta(6)
-                .outputItems(GTOMachines.LASER_INPUT_HATCH_262144[GTValues.ZPM].asStack())
-                .EUt(122880)
-                .duration(9600)
-                .save(provider);
-
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("uxv_1048576a_laser_target_hatch"))
-                .inputItems(GTMachines.HULL[GTValues.UXV].asStack())
-                .inputItems(TagPrefix.lens, GTMaterials.Diamond, 64)
-                .inputItems(GTItems.SENSOR_UXV.asStack(64))
-                .inputItems(GTItems.ELECTRIC_PUMP_UXV.asStack(64))
-                .inputItems(TagPrefix.cableGtSingle, GTOMaterials.Taranium, 4)
-                .circuitMeta(7)
-                .outputItems(GTOMachines.LASER_INPUT_HATCH_1048576[GTValues.UXV].asStack())
-                .EUt(125829120)
-                .duration(19200)
-                .save(provider);
-
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("uev_16384a_laser_target_hatch"))
-                .inputItems(GTMachines.HULL[GTValues.UEV].asStack())
-                .inputItems(TagPrefix.lens, GTMaterials.Diamond, 8)
-                .inputItems(GTItems.SENSOR_UEV.asStack(8))
-                .inputItems(GTItems.ELECTRIC_PUMP_UEV.asStack(8))
-                .inputItems(TagPrefix.cableGtSingle, GTOMaterials.Mithril, 4)
-                .circuitMeta(4)
-                .outputItems(GTOMachines.LASER_INPUT_HATCH_16384[GTValues.UEV].asStack())
-                .EUt(7864320)
-                .duration(2400)
-                .save(provider);
-
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("lafium_mechanical_casing"))
                 .inputItems(TagPrefix.frameGt, GTMaterials.NaquadahEnriched)
                 .inputItems(TagPrefix.plate, GTOMaterials.Lafium, 6)
@@ -354,18 +234,6 @@ final class Assembler {
                 .duration(50)
                 .save(provider);
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("uev_4194304a_laser_target_hatch"))
-                .inputItems(GTMachines.HULL[GTValues.UEV].asStack())
-                .inputItems(TagPrefix.lens, GTMaterials.Diamond, 128)
-                .inputItems(GTItems.SENSOR_UEV.asStack(128))
-                .inputItems(GTItems.ELECTRIC_PUMP_UEV.asStack(128))
-                .inputItems(TagPrefix.cableGtSingle, GTOMaterials.Mithril, 4)
-                .circuitMeta(8)
-                .outputItems(GTOMachines.LASER_INPUT_HATCH_4194304[GTValues.UEV].asStack())
-                .EUt(7864320)
-                .duration(38400)
-                .save(provider);
-
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("strengthen_the_base_block"))
                 .inputItems(TagPrefix.frameGt, GTMaterials.Titanium)
                 .inputItems(TagPrefix.plate, GTMaterials.Tungsten, 6)
@@ -373,18 +241,6 @@ final class Assembler {
                 .outputItems(GTOBlocks.STRENGTHEN_THE_BASE_BLOCK.asStack())
                 .EUt(16)
                 .duration(50)
-                .save(provider);
-
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("uiv_65536a_laser_source_hatch"))
-                .inputItems(GTMachines.HULL[GTValues.UIV].asStack())
-                .inputItems(TagPrefix.lens, GTMaterials.Diamond, 16)
-                .inputItems(GTItems.EMITTER_UIV.asStack(16))
-                .inputItems(GTItems.ELECTRIC_PUMP_UIV.asStack(16))
-                .inputItems(TagPrefix.cableGtSingle, GTMaterials.Neutronium, 4)
-                .circuitMeta(5)
-                .outputItems(GTOMachines.LASER_OUTPUT_HATCH_65536[GTValues.UIV].asStack())
-                .EUt(34257280)
-                .duration(4800)
                 .save(provider);
 
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("rocket_nose_cone"))
@@ -434,30 +290,6 @@ final class Assembler {
                 .duration(400)
                 .save(provider);
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("opv_4194304a_laser_target_hatch"))
-                .inputItems(GTMachines.HULL[GTValues.OpV].asStack())
-                .inputItems(TagPrefix.lens, GTMaterials.Diamond, 128)
-                .inputItems(GTItems.SENSOR_OpV.asStack(128))
-                .inputItems(GTItems.ELECTRIC_PUMP_OpV.asStack(128))
-                .inputItems(TagPrefix.cableGtSingle, GTOMaterials.CrystalMatrix, 4)
-                .circuitMeta(8)
-                .outputItems(GTOMachines.LASER_INPUT_HATCH_4194304[GTValues.OpV].asStack())
-                .EUt(503316480)
-                .duration(38400)
-                .save(provider);
-
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("uev_16384a_laser_source_hatch"))
-                .inputItems(GTMachines.HULL[GTValues.UEV].asStack())
-                .inputItems(TagPrefix.lens, GTMaterials.Diamond, 8)
-                .inputItems(GTItems.EMITTER_UEV.asStack(8))
-                .inputItems(GTItems.ELECTRIC_PUMP_UEV.asStack(8))
-                .inputItems(TagPrefix.cableGtSingle, GTOMaterials.Mithril, 4)
-                .circuitMeta(4)
-                .outputItems(GTOMachines.LASER_OUTPUT_HATCH_16384[GTValues.UEV].asStack())
-                .EUt(7864320)
-                .duration(2400)
-                .save(provider);
-
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("pulsating_photovoltaic_block"))
                 .inputItems(RegistriesUtils.getItemStack("enderio:pulsating_photovoltaic_module"))
                 .inputItems(RegistriesUtils.getItemStack("enderio:energy_conduit", 8))
@@ -504,18 +336,6 @@ final class Assembler {
                 .cleanroom(CleanroomType.CLEANROOM)
                 .save(provider);
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("uv_1048576a_laser_source_hatch"))
-                .inputItems(GTMachines.HULL[GTValues.UV].asStack())
-                .inputItems(TagPrefix.lens, GTMaterials.Diamond, 64)
-                .inputItems(GTItems.EMITTER_UV.asStack(64))
-                .inputItems(GTItems.ELECTRIC_PUMP_UV.asStack(64))
-                .inputItems(TagPrefix.cableGtSingle, GTMaterials.YttriumBariumCuprate, 4)
-                .circuitMeta(7)
-                .outputItems(GTOMachines.LASER_OUTPUT_HATCH_1048576[GTValues.UV].asStack())
-                .EUt(491520)
-                .duration(19200)
-                .save(provider);
-
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("wyvern_energy_core"))
                 .inputItems(GTOItems.WYVERN_CORE.asStack(16))
                 .inputItems(GTOBlocks.DRACONIUM_BLOCK_CHARGED.asStack(64))
@@ -525,18 +345,6 @@ final class Assembler {
                 .inputFluids(GTOMaterials.MutatedLivingSolder.getFluid(5760))
                 .outputItems(GTOItems.WYVERN_ENERGY_CORE.asStack())
                 .EUt(125829120)
-                .duration(2400)
-                .save(provider);
-
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("zpm_16384a_laser_target_hatch"))
-                .inputItems(GTMachines.HULL[GTValues.ZPM].asStack())
-                .inputItems(TagPrefix.lens, GTMaterials.Diamond, 8)
-                .inputItems(GTItems.SENSOR_ZPM.asStack(8))
-                .inputItems(GTItems.ELECTRIC_PUMP_ZPM.asStack(8))
-                .inputItems(TagPrefix.cableGtSingle, GTMaterials.VanadiumGallium, 4)
-                .circuitMeta(4)
-                .outputItems(GTOMachines.LASER_INPUT_HATCH_16384[GTValues.ZPM].asStack())
-                .EUt(122880)
                 .duration(2400)
                 .save(provider);
 
@@ -588,30 +396,6 @@ final class Assembler {
                 .outputItems(GTOItems.SOLAR_LIGHT_SPLITTER.asStack())
                 .EUt(480)
                 .duration(200)
-                .save(provider);
-
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("luv_262144a_laser_source_hatch"))
-                .inputItems(GTMachines.HULL[GTValues.LuV].asStack())
-                .inputItems(TagPrefix.lens, GTMaterials.Diamond, 32)
-                .inputItems(GTItems.EMITTER_LuV.asStack(32))
-                .inputItems(GTItems.ELECTRIC_PUMP_LuV.asStack(32))
-                .inputItems(TagPrefix.cableGtSingle, GTMaterials.NiobiumTitanium, 4)
-                .circuitMeta(6)
-                .outputItems(GTOMachines.LASER_OUTPUT_HATCH_262144[GTValues.LuV].asStack())
-                .EUt(30720)
-                .duration(9600)
-                .save(provider);
-
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("uhv_65536a_laser_source_hatch"))
-                .inputItems(GTMachines.HULL[GTValues.UHV].asStack())
-                .inputItems(TagPrefix.lens, GTMaterials.Diamond, 16)
-                .inputItems(GTItems.EMITTER_UHV.asStack(16))
-                .inputItems(GTItems.ELECTRIC_PUMP_UHV.asStack(16))
-                .inputItems(TagPrefix.cableGtSingle, GTMaterials.Europium, 4)
-                .circuitMeta(5)
-                .outputItems(GTOMachines.LASER_OUTPUT_HATCH_65536[GTValues.UHV].asStack())
-                .EUt(1966080)
-                .duration(4800)
                 .save(provider);
 
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("ph_neutralization_purification_unit"))
@@ -666,18 +450,6 @@ final class Assembler {
                 .EUt(1966080)
                 .duration(100)
                 .cleanroom(CleanroomType.CLEANROOM)
-                .save(provider);
-
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("max_4194304a_laser_target_hatch"))
-                .inputItems(GTMachines.HULL[GTValues.MAX].asStack())
-                .inputItems(TagPrefix.lens, GTMaterials.Diamond, 128)
-                .inputItems(GTOItems.MAX_SENSOR.asStack(128))
-                .inputItems(GTOItems.MAX_ELECTRIC_PUMP.asStack(128))
-                .inputItems(TagPrefix.cableGtSingle, GTOMaterials.CosmicNeutronium, 4)
-                .circuitMeta(8)
-                .outputItems(GTOMachines.LASER_INPUT_HATCH_4194304[GTValues.MAX].asStack())
-                .EUt(2013265920)
-                .duration(38400)
                 .save(provider);
 
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("sterile_casing"))
@@ -883,18 +655,6 @@ final class Assembler {
                 .cleanroom(CleanroomType.CLEANROOM)
                 .save(provider);
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("uhv_4194304a_laser_target_hatch"))
-                .inputItems(GTMachines.HULL[GTValues.UHV].asStack())
-                .inputItems(TagPrefix.lens, GTMaterials.Diamond, 128)
-                .inputItems(GTItems.SENSOR_UHV.asStack(128))
-                .inputItems(GTItems.ELECTRIC_PUMP_UHV.asStack(128))
-                .inputItems(TagPrefix.cableGtSingle, GTMaterials.Europium, 4)
-                .circuitMeta(8)
-                .outputItems(GTOMachines.LASER_INPUT_HATCH_4194304[GTValues.UHV].asStack())
-                .EUt(1966080)
-                .duration(38400)
-                .save(provider);
-
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("advanced_fusion_coil"))
                 .inputItems(GTOBlocks.IMPROVED_SUPERCONDUCTOR_COIL.asStack())
                 .inputItems(GTItems.FIELD_GENERATOR_LuV.asStack(2))
@@ -956,18 +716,6 @@ final class Assembler {
                 .duration(200)
                 .save(provider);
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("opv_4194304a_laser_source_hatch"))
-                .inputItems(GTMachines.HULL[GTValues.OpV].asStack())
-                .inputItems(TagPrefix.lens, GTMaterials.Diamond, 128)
-                .inputItems(GTItems.EMITTER_OpV.asStack(128))
-                .inputItems(GTItems.ELECTRIC_PUMP_OpV.asStack(128))
-                .inputItems(TagPrefix.cableGtSingle, GTOMaterials.CrystalMatrix, 4)
-                .circuitMeta(8)
-                .outputItems(GTOMachines.LASER_OUTPUT_HATCH_4194304[GTValues.OpV].asStack())
-                .EUt(503316480)
-                .duration(38400)
-                .save(provider);
-
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("smd_transistor_exotic"))
                 .inputItems(TagPrefix.plate, GTOMaterials.DegenerateRhenium)
                 .inputItems(TagPrefix.plate, GTMaterials.Dubnium)
@@ -1001,18 +749,6 @@ final class Assembler {
                 .duration(800)
                 .save(provider);
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("zpm_262144a_laser_source_hatch"))
-                .inputItems(GTMachines.HULL[GTValues.ZPM].asStack())
-                .inputItems(TagPrefix.lens, GTMaterials.Diamond, 32)
-                .inputItems(GTItems.EMITTER_ZPM.asStack(32))
-                .inputItems(GTItems.ELECTRIC_PUMP_ZPM.asStack(32))
-                .inputItems(TagPrefix.cableGtSingle, GTMaterials.VanadiumGallium, 4)
-                .circuitMeta(6)
-                .outputItems(GTOMachines.LASER_OUTPUT_HATCH_262144[GTValues.ZPM].asStack())
-                .EUt(122880)
-                .duration(9600)
-                .save(provider);
-
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("empty_laser_cooling_container"))
                 .inputItems(TagPrefix.plate, GTMaterials.Steel, 8)
                 .inputItems(GTOItems.LASER_COOLING_UNIT.asStack())
@@ -1035,18 +771,6 @@ final class Assembler {
                 .outputItems(GTOMachines.NEUTRON_ACCELERATOR[GTValues.LuV].asStack())
                 .EUt(30)
                 .duration(400)
-                .save(provider);
-
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("zpm_65536a_laser_target_hatch"))
-                .inputItems(GTMachines.HULL[GTValues.ZPM].asStack())
-                .inputItems(TagPrefix.lens, GTMaterials.Diamond, 16)
-                .inputItems(GTItems.SENSOR_ZPM.asStack(16))
-                .inputItems(GTItems.ELECTRIC_PUMP_ZPM.asStack(16))
-                .inputItems(TagPrefix.cableGtSingle, GTMaterials.VanadiumGallium, 4)
-                .circuitMeta(5)
-                .outputItems(GTOMachines.LASER_INPUT_HATCH_65536[GTValues.ZPM].asStack())
-                .EUt(122880)
-                .duration(4800)
                 .save(provider);
 
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("ostrum_tank"))
@@ -1094,18 +818,6 @@ final class Assembler {
                 .outputItems(GTOBlocks.HASTELLOY_N_75_PIPE.asStack())
                 .EUt(1920)
                 .duration(480)
-                .save(provider);
-
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("uiv_65536a_laser_target_hatch"))
-                .inputItems(GTMachines.HULL[GTValues.UIV].asStack())
-                .inputItems(TagPrefix.lens, GTMaterials.Diamond, 16)
-                .inputItems(GTItems.SENSOR_UIV.asStack(16))
-                .inputItems(GTItems.ELECTRIC_PUMP_UIV.asStack(16))
-                .inputItems(TagPrefix.cableGtSingle, GTMaterials.Neutronium, 4)
-                .circuitMeta(5)
-                .outputItems(GTOMachines.LASER_INPUT_HATCH_65536[GTValues.UIV].asStack())
-                .EUt(34257280)
-                .duration(4800)
                 .save(provider);
 
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("cell_component_1k"))
@@ -1218,30 +930,6 @@ final class Assembler {
                 .duration(280)
                 .save(provider);
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("iv_1048576a_laser_target_hatch"))
-                .inputItems(GTMachines.HULL[GTValues.IV].asStack())
-                .inputItems(TagPrefix.lens, GTMaterials.Diamond, 64)
-                .inputItems(GTItems.SENSOR_IV.asStack(64))
-                .inputItems(GTItems.ELECTRIC_PUMP_IV.asStack(64))
-                .inputItems(TagPrefix.cableGtSingle, GTMaterials.Platinum, 4)
-                .circuitMeta(7)
-                .outputItems(GTOMachines.LASER_INPUT_HATCH_1048576[GTValues.IV].asStack())
-                .EUt(7680)
-                .duration(19200)
-                .save(provider);
-
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("uxv_1048576a_laser_source_hatch"))
-                .inputItems(GTMachines.HULL[GTValues.UXV].asStack())
-                .inputItems(TagPrefix.lens, GTMaterials.Diamond, 64)
-                .inputItems(GTItems.EMITTER_UXV.asStack(64))
-                .inputItems(GTItems.ELECTRIC_PUMP_UXV.asStack(64))
-                .inputItems(TagPrefix.cableGtSingle, GTOMaterials.Taranium, 4)
-                .circuitMeta(7)
-                .outputItems(GTOMachines.LASER_OUTPUT_HATCH_1048576[GTValues.UXV].asStack())
-                .EUt(125829120)
-                .duration(19200)
-                .save(provider);
-
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("cell_component_1m"))
                 .inputItems(new ItemStack(AEItems.CELL_COMPONENT_256K.asItem()))
                 .inputItems(CustomTags.IV_CIRCUITS, 2)
@@ -1266,18 +954,6 @@ final class Assembler {
                 .outputItems(GTOItems.CELL_COMPONENT_4M.asStack())
                 .EUt(1920)
                 .duration(200)
-                .save(provider);
-
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("zpm_4194304a_laser_source_hatch"))
-                .inputItems(GTMachines.HULL[GTValues.ZPM].asStack())
-                .inputItems(TagPrefix.lens, GTMaterials.Diamond, 128)
-                .inputItems(GTItems.EMITTER_ZPM.asStack(128))
-                .inputItems(GTItems.ELECTRIC_PUMP_ZPM.asStack(128))
-                .inputItems(TagPrefix.cableGtSingle, GTMaterials.VanadiumGallium, 4)
-                .circuitMeta(8)
-                .outputItems(GTOMachines.LASER_OUTPUT_HATCH_4194304[GTValues.ZPM].asStack())
-                .EUt(122880)
-                .duration(38400)
                 .save(provider);
 
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("component_assembly_line_casing_hv"))
@@ -1308,18 +984,6 @@ final class Assembler {
                 .outputItems(GTOBlocks.COMPONENT_ASSEMBLY_LINE_CASING_IV.asStack())
                 .EUt(7680)
                 .duration(320)
-                .save(provider);
-
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("uev_65536a_laser_target_hatch"))
-                .inputItems(GTMachines.HULL[GTValues.UEV].asStack())
-                .inputItems(TagPrefix.lens, GTMaterials.Diamond, 16)
-                .inputItems(GTItems.SENSOR_UEV.asStack(16))
-                .inputItems(GTItems.ELECTRIC_PUMP_UEV.asStack(16))
-                .inputItems(TagPrefix.cableGtSingle, GTOMaterials.Mithril, 4)
-                .circuitMeta(5)
-                .outputItems(GTOMachines.LASER_INPUT_HATCH_65536[GTValues.UEV].asStack())
-                .EUt(7864320)
-                .duration(4800)
                 .save(provider);
 
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("component_assembly_line_casing_lv"))
@@ -1397,30 +1061,6 @@ final class Assembler {
                 .cleanroom(CleanroomType.CLEANROOM)
                 .save(provider);
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("uiv_262144a_laser_source_hatch"))
-                .inputItems(GTMachines.HULL[GTValues.UIV].asStack())
-                .inputItems(TagPrefix.lens, GTMaterials.Diamond, 32)
-                .inputItems(GTItems.EMITTER_UIV.asStack(32))
-                .inputItems(GTItems.ELECTRIC_PUMP_UIV.asStack(32))
-                .inputItems(TagPrefix.cableGtSingle, GTMaterials.Neutronium, 4)
-                .circuitMeta(6)
-                .outputItems(GTOMachines.LASER_OUTPUT_HATCH_262144[GTValues.UIV].asStack())
-                .EUt(34257280)
-                .duration(9600)
-                .save(provider);
-
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("max_262144a_laser_source_hatch"))
-                .inputItems(GTMachines.HULL[GTValues.MAX].asStack())
-                .inputItems(TagPrefix.lens, GTMaterials.Diamond, 32)
-                .inputItems(GTOItems.MAX_EMITTER.asStack(32))
-                .inputItems(GTOItems.MAX_ELECTRIC_PUMP.asStack(32))
-                .inputItems(TagPrefix.cableGtSingle, GTOMaterials.CosmicNeutronium, 4)
-                .circuitMeta(6)
-                .outputItems(GTOMachines.LASER_OUTPUT_HATCH_262144[GTValues.MAX].asStack())
-                .EUt(2013265920)
-                .duration(9600)
-                .save(provider);
-
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("steam_mega_turbine"))
                 .inputItems(GTMultiMachines.LARGE_STEAM_TURBINE.asStack(8))
                 .inputItems(CustomTags.IV_CIRCUITS, 16)
@@ -1469,18 +1109,6 @@ final class Assembler {
                 .duration(400)
                 .save(provider);
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("iv_262144a_laser_source_hatch"))
-                .inputItems(GTMachines.HULL[GTValues.IV].asStack())
-                .inputItems(TagPrefix.lens, GTMaterials.Diamond, 32)
-                .inputItems(GTItems.EMITTER_IV.asStack(32))
-                .inputItems(GTItems.ELECTRIC_PUMP_IV.asStack(32))
-                .inputItems(TagPrefix.cableGtSingle, GTMaterials.Platinum, 4)
-                .circuitMeta(6)
-                .outputItems(GTOMachines.LASER_OUTPUT_HATCH_262144[GTValues.IV].asStack())
-                .EUt(7680)
-                .duration(9600)
-                .save(provider);
-
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("uiv_neutron_accelerator"))
                 .inputItems(GTMachines.HULL[GTValues.UIV].asStack())
                 .inputItems(GTOItems.INVERTER.asStack())
@@ -1491,18 +1119,6 @@ final class Assembler {
                 .outputItems(GTOMachines.NEUTRON_ACCELERATOR[GTValues.UIV].asStack())
                 .EUt(30)
                 .duration(400)
-                .save(provider);
-
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("max_65536a_laser_target_hatch"))
-                .inputItems(GTMachines.HULL[GTValues.MAX].asStack())
-                .inputItems(TagPrefix.lens, GTMaterials.Diamond, 16)
-                .inputItems(GTOItems.MAX_SENSOR.asStack(16))
-                .inputItems(GTOItems.MAX_ELECTRIC_PUMP.asStack(16))
-                .inputItems(TagPrefix.cableGtSingle, GTOMaterials.CosmicNeutronium, 4)
-                .circuitMeta(5)
-                .outputItems(GTOMachines.LASER_INPUT_HATCH_65536[GTValues.MAX].asStack())
-                .EUt(2013265920)
-                .duration(4800)
                 .save(provider);
 
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("pvc_plastic_mechanical_housing"))
@@ -1584,18 +1200,6 @@ final class Assembler {
                 .duration(110)
                 .save(provider);
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("max_262144a_laser_target_hatch"))
-                .inputItems(GTMachines.HULL[GTValues.MAX].asStack())
-                .inputItems(TagPrefix.lens, GTMaterials.Diamond, 32)
-                .inputItems(GTOItems.MAX_SENSOR.asStack(32))
-                .inputItems(GTOItems.MAX_ELECTRIC_PUMP.asStack(32))
-                .inputItems(TagPrefix.cableGtSingle, GTOMaterials.CosmicNeutronium, 4)
-                .circuitMeta(6)
-                .outputItems(GTOMachines.LASER_INPUT_HATCH_262144[GTValues.MAX].asStack())
-                .EUt(2013265920)
-                .duration(9600)
-                .save(provider);
-
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("blue_halide_lamp"))
                 .inputItems(TagPrefix.foil, GTMaterials.Electrum, 2)
                 .inputItems(TagPrefix.dust, GTMaterials.TitaniumTrifluoride)
@@ -1621,18 +1225,6 @@ final class Assembler {
                 .duration(800)
                 .save(provider);
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("opv_65536a_laser_source_hatch"))
-                .inputItems(GTMachines.HULL[GTValues.OpV].asStack())
-                .inputItems(TagPrefix.lens, GTMaterials.Diamond, 16)
-                .inputItems(GTItems.EMITTER_OpV.asStack(16))
-                .inputItems(GTItems.ELECTRIC_PUMP_OpV.asStack(16))
-                .inputItems(TagPrefix.cableGtSingle, GTOMaterials.CrystalMatrix, 4)
-                .circuitMeta(5)
-                .outputItems(GTOMachines.LASER_OUTPUT_HATCH_65536[GTValues.OpV].asStack())
-                .EUt(503316480)
-                .duration(4800)
-                .save(provider);
-
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("compressor_controller_casing"))
                 .inputItems(TagPrefix.frameGt, GTOMaterials.AluminiumBronze)
                 .inputItems(TagPrefix.plate, GTMaterials.Titanium, 4)
@@ -1641,18 +1233,6 @@ final class Assembler {
                 .outputItems(GTOBlocks.COMPRESSOR_CONTROLLER_CASING.asStack())
                 .EUt(16)
                 .duration(50)
-                .save(provider);
-
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("zpm_65536a_laser_source_hatch"))
-                .inputItems(GTMachines.HULL[GTValues.ZPM].asStack())
-                .inputItems(TagPrefix.lens, GTMaterials.Diamond, 16)
-                .inputItems(GTItems.EMITTER_ZPM.asStack(16))
-                .inputItems(GTItems.ELECTRIC_PUMP_ZPM.asStack(16))
-                .inputItems(TagPrefix.cableGtSingle, GTMaterials.VanadiumGallium, 4)
-                .circuitMeta(5)
-                .outputItems(GTOMachines.LASER_OUTPUT_HATCH_65536[GTValues.ZPM].asStack())
-                .EUt(122880)
-                .duration(4800)
                 .save(provider);
 
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("precision_circuit_assembly_robot_mk2"))
@@ -1715,30 +1295,6 @@ final class Assembler {
                 .duration(400)
                 .save(provider);
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("iv_262144a_laser_target_hatch"))
-                .inputItems(GTMachines.HULL[GTValues.IV].asStack())
-                .inputItems(TagPrefix.lens, GTMaterials.Diamond, 32)
-                .inputItems(GTItems.SENSOR_IV.asStack(32))
-                .inputItems(GTItems.ELECTRIC_PUMP_IV.asStack(32))
-                .inputItems(TagPrefix.cableGtSingle, GTMaterials.Platinum, 4)
-                .circuitMeta(6)
-                .outputItems(GTOMachines.LASER_INPUT_HATCH_262144[GTValues.IV].asStack())
-                .EUt(7680)
-                .duration(9600)
-                .save(provider);
-
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("uiv_262144a_laser_target_hatch"))
-                .inputItems(GTMachines.HULL[GTValues.UIV].asStack())
-                .inputItems(TagPrefix.lens, GTMaterials.Diamond, 32)
-                .inputItems(GTItems.SENSOR_UIV.asStack(32))
-                .inputItems(GTItems.ELECTRIC_PUMP_UIV.asStack(32))
-                .inputItems(TagPrefix.cableGtSingle, GTMaterials.Neutronium, 4)
-                .circuitMeta(6)
-                .outputItems(GTOMachines.LASER_INPUT_HATCH_262144[GTValues.UIV].asStack())
-                .EUt(34257280)
-                .duration(9600)
-                .save(provider);
-
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("annihilate_core"))
                 .inputItems(TagPrefix.frameGt, GTOMaterials.QuantumChromoDynamicallyConfinedMatter)
                 .inputItems(GTOItems.GRAVITON_TRANSDUCER.asStack())
@@ -1784,30 +1340,6 @@ final class Assembler {
                 .duration(200)
                 .save(provider);
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("luv_16384a_laser_target_hatch"))
-                .inputItems(GTMachines.HULL[GTValues.LuV].asStack())
-                .inputItems(TagPrefix.lens, GTMaterials.Diamond, 8)
-                .inputItems(GTItems.SENSOR_LuV.asStack(8))
-                .inputItems(GTItems.ELECTRIC_PUMP_LuV.asStack(8))
-                .inputItems(TagPrefix.cableGtSingle, GTMaterials.NiobiumTitanium, 4)
-                .circuitMeta(4)
-                .outputItems(GTOMachines.LASER_INPUT_HATCH_16384[GTValues.LuV].asStack())
-                .EUt(30720)
-                .duration(2400)
-                .save(provider);
-
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("luv_4194304a_laser_target_hatch"))
-                .inputItems(GTMachines.HULL[GTValues.LuV].asStack())
-                .inputItems(TagPrefix.lens, GTMaterials.Diamond, 128)
-                .inputItems(GTItems.SENSOR_LuV.asStack(128))
-                .inputItems(GTItems.ELECTRIC_PUMP_LuV.asStack(128))
-                .inputItems(TagPrefix.cableGtSingle, GTMaterials.NiobiumTitanium, 4)
-                .circuitMeta(8)
-                .outputItems(GTOMachines.LASER_INPUT_HATCH_4194304[GTValues.LuV].asStack())
-                .EUt(30720)
-                .duration(38400)
-                .save(provider);
-
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("radiation_absorbent_casing"))
                 .inputItems(TagPrefix.frameGt, GTOMaterials.DepletedUraniumAlloy)
                 .inputItems(TagPrefix.plateDouble, GTOMaterials.BabbittAlloy, 2)
@@ -1846,18 +1378,6 @@ final class Assembler {
                 .outputItems(GTOItems.MAX_VOLTAGE_COIL.asStack())
                 .EUt(2013265920)
                 .duration(200)
-                .save(provider);
-
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("uv_65536a_laser_source_hatch"))
-                .inputItems(GTMachines.HULL[GTValues.UV].asStack())
-                .inputItems(TagPrefix.lens, GTMaterials.Diamond, 16)
-                .inputItems(GTItems.EMITTER_UV.asStack(16))
-                .inputItems(GTItems.ELECTRIC_PUMP_UV.asStack(16))
-                .inputItems(TagPrefix.cableGtSingle, GTMaterials.YttriumBariumCuprate, 4)
-                .circuitMeta(5)
-                .outputItems(GTOMachines.LASER_OUTPUT_HATCH_65536[GTValues.UV].asStack())
-                .EUt(491520)
-                .duration(4800)
                 .save(provider);
 
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("magnetic_trap"))
@@ -1930,30 +1450,6 @@ final class Assembler {
                 .duration(400)
                 .save(provider);
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("uxv_4194304a_laser_target_hatch"))
-                .inputItems(GTMachines.HULL[GTValues.UXV].asStack())
-                .inputItems(TagPrefix.lens, GTMaterials.Diamond, 128)
-                .inputItems(GTItems.SENSOR_UXV.asStack(128))
-                .inputItems(GTItems.ELECTRIC_PUMP_UXV.asStack(128))
-                .inputItems(TagPrefix.cableGtSingle, GTOMaterials.Taranium, 4)
-                .circuitMeta(8)
-                .outputItems(GTOMachines.LASER_INPUT_HATCH_4194304[GTValues.UXV].asStack())
-                .EUt(125829120)
-                .duration(38400)
-                .save(provider);
-
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("uxv_16384a_laser_source_hatch"))
-                .inputItems(GTMachines.HULL[GTValues.UXV].asStack())
-                .inputItems(TagPrefix.lens, GTMaterials.Diamond, 8)
-                .inputItems(GTItems.EMITTER_UXV.asStack(8))
-                .inputItems(GTItems.ELECTRIC_PUMP_UXV.asStack(8))
-                .inputItems(TagPrefix.cableGtSingle, GTOMaterials.Taranium, 4)
-                .circuitMeta(4)
-                .outputItems(GTOMachines.LASER_OUTPUT_HATCH_16384[GTValues.UXV].asStack())
-                .EUt(125829120)
-                .duration(2400)
-                .save(provider);
-
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("neutronium_active_casing"))
                 .inputItems(TagPrefix.frameGt, GTMaterials.Neutronium)
                 .inputItems(TagPrefix.pipeNormalFluid, GTMaterials.Europium, 4)
@@ -1987,18 +1483,6 @@ final class Assembler {
                 .outputItems(GTOMachines.NEUTRON_ACCELERATOR[GTValues.ULV].asStack())
                 .EUt(30)
                 .duration(400)
-                .save(provider);
-
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("opv_262144a_laser_source_hatch"))
-                .inputItems(GTMachines.HULL[GTValues.OpV].asStack())
-                .inputItems(TagPrefix.lens, GTMaterials.Diamond, 32)
-                .inputItems(GTItems.EMITTER_OpV.asStack(32))
-                .inputItems(GTItems.ELECTRIC_PUMP_OpV.asStack(32))
-                .inputItems(TagPrefix.cableGtSingle, GTOMaterials.CrystalMatrix, 4)
-                .circuitMeta(6)
-                .outputItems(GTOMachines.LASER_OUTPUT_HATCH_262144[GTValues.OpV].asStack())
-                .EUt(503316480)
-                .duration(9600)
                 .save(provider);
 
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("flotation_cell"))
@@ -2063,18 +1547,6 @@ final class Assembler {
                 .duration(110)
                 .save(provider);
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("iv_1048576a_laser_source_hatch"))
-                .inputItems(GTMachines.HULL[GTValues.IV].asStack())
-                .inputItems(TagPrefix.lens, GTMaterials.Diamond, 64)
-                .inputItems(GTItems.EMITTER_IV.asStack(64))
-                .inputItems(GTItems.ELECTRIC_PUMP_IV.asStack(64))
-                .inputItems(TagPrefix.cableGtSingle, GTMaterials.Platinum, 4)
-                .circuitMeta(7)
-                .outputItems(GTOMachines.LASER_OUTPUT_HATCH_1048576[GTValues.IV].asStack())
-                .EUt(7680)
-                .duration(19200)
-                .save(provider);
-
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("electron_source"))
                 .inputItems(TagPrefix.plate, GTMaterials.Mendelevium)
                 .inputItems(TagPrefix.dust, GTMaterials.Radium)
@@ -2119,18 +1591,6 @@ final class Assembler {
                 .outputItems(RegistriesUtils.getItemStack("ad_astra:rocket_fin"))
                 .EUt(120)
                 .duration(200)
-                .save(provider);
-
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("max_16384a_laser_source_hatch"))
-                .inputItems(GTMachines.HULL[GTValues.MAX].asStack())
-                .inputItems(TagPrefix.lens, GTMaterials.Diamond, 8)
-                .inputItems(GTOItems.MAX_EMITTER.asStack(8))
-                .inputItems(GTOItems.MAX_ELECTRIC_PUMP.asStack(8))
-                .inputItems(TagPrefix.cableGtSingle, GTOMaterials.CosmicNeutronium, 4)
-                .circuitMeta(4)
-                .outputItems(GTOMachines.LASER_OUTPUT_HATCH_16384[GTValues.MAX].asStack())
-                .EUt(2013265920)
-                .duration(2400)
                 .save(provider);
 
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("zpm_solar_panel"))
@@ -2251,18 +1711,6 @@ final class Assembler {
                 .duration(200)
                 .save(provider);
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("uhv_4194304a_laser_source_hatch"))
-                .inputItems(GTMachines.HULL[GTValues.UHV].asStack())
-                .inputItems(TagPrefix.lens, GTMaterials.Diamond, 128)
-                .inputItems(GTItems.EMITTER_UHV.asStack(128))
-                .inputItems(GTItems.ELECTRIC_PUMP_UHV.asStack(128))
-                .inputItems(TagPrefix.cableGtSingle, GTMaterials.Europium, 4)
-                .circuitMeta(8)
-                .outputItems(GTOMachines.LASER_OUTPUT_HATCH_4194304[GTValues.UHV].asStack())
-                .EUt(1966080)
-                .duration(38400)
-                .save(provider);
-
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("uxv_neutron_accelerator"))
                 .inputItems(GTMachines.HULL[GTValues.UXV].asStack())
                 .inputItems(GTOItems.INVERTER.asStack())
@@ -2273,30 +1721,6 @@ final class Assembler {
                 .outputItems(GTOMachines.NEUTRON_ACCELERATOR[GTValues.UXV].asStack())
                 .EUt(30)
                 .duration(400)
-                .save(provider);
-
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("uev_4194304a_laser_source_hatch"))
-                .inputItems(GTMachines.HULL[GTValues.UEV].asStack())
-                .inputItems(TagPrefix.lens, GTMaterials.Diamond, 128)
-                .inputItems(GTItems.EMITTER_UEV.asStack(128))
-                .inputItems(GTItems.ELECTRIC_PUMP_UEV.asStack(128))
-                .inputItems(TagPrefix.cableGtSingle, GTOMaterials.Mithril, 4)
-                .circuitMeta(8)
-                .outputItems(GTOMachines.LASER_OUTPUT_HATCH_4194304[GTValues.UEV].asStack())
-                .EUt(7864320)
-                .duration(38400)
-                .save(provider);
-
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("opv_16384a_laser_source_hatch"))
-                .inputItems(GTMachines.HULL[GTValues.OpV].asStack())
-                .inputItems(TagPrefix.lens, GTMaterials.Diamond, 8)
-                .inputItems(GTItems.EMITTER_OpV.asStack(8))
-                .inputItems(GTItems.ELECTRIC_PUMP_OpV.asStack(8))
-                .inputItems(TagPrefix.cableGtSingle, GTOMaterials.CrystalMatrix, 4)
-                .circuitMeta(4)
-                .outputItems(GTOMachines.LASER_OUTPUT_HATCH_16384[GTValues.OpV].asStack())
-                .EUt(503316480)
-                .duration(2400)
                 .save(provider);
 
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("quantum_chromodynamic_charge"))
@@ -2318,18 +1742,6 @@ final class Assembler {
                 .outputItems(GTOBlocks.FISSION_REACTOR_CASING.asStack())
                 .EUt(16)
                 .duration(50)
-                .save(provider);
-
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("luv_4194304a_laser_source_hatch"))
-                .inputItems(GTMachines.HULL[GTValues.LuV].asStack())
-                .inputItems(TagPrefix.lens, GTMaterials.Diamond, 128)
-                .inputItems(GTItems.EMITTER_LuV.asStack(128))
-                .inputItems(GTItems.ELECTRIC_PUMP_LuV.asStack(128))
-                .inputItems(TagPrefix.cableGtSingle, GTMaterials.NiobiumTitanium, 4)
-                .circuitMeta(8)
-                .outputItems(GTOMachines.LASER_OUTPUT_HATCH_4194304[GTValues.LuV].asStack())
-                .EUt(30720)
-                .duration(38400)
                 .save(provider);
 
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("rare_earth_centrifugal"))
@@ -2369,18 +1781,6 @@ final class Assembler {
                 .outputItems(GTOBlocks.DYSON_DEPLOYMENT_MAGNET.asStack())
                 .EUt(31457280)
                 .duration(600)
-                .save(provider);
-
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("max_65536a_laser_source_hatch"))
-                .inputItems(GTMachines.HULL[GTValues.MAX].asStack())
-                .inputItems(TagPrefix.lens, GTMaterials.Diamond, 16)
-                .inputItems(GTOItems.MAX_EMITTER.asStack(16))
-                .inputItems(GTOItems.MAX_ELECTRIC_PUMP.asStack(16))
-                .inputItems(TagPrefix.cableGtSingle, GTOMaterials.CosmicNeutronium, 4)
-                .circuitMeta(5)
-                .outputItems(GTOMachines.LASER_OUTPUT_HATCH_65536[GTValues.MAX].asStack())
-                .EUt(2013265920)
-                .duration(4800)
                 .save(provider);
 
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("rotor_hatch"))
@@ -2458,18 +1858,6 @@ final class Assembler {
                 .duration(800)
                 .save(provider);
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("uv_16384a_laser_target_hatch"))
-                .inputItems(GTMachines.HULL[GTValues.UV].asStack())
-                .inputItems(TagPrefix.lens, GTMaterials.Diamond, 8)
-                .inputItems(GTItems.SENSOR_UV.asStack(8))
-                .inputItems(GTItems.ELECTRIC_PUMP_UV.asStack(8))
-                .inputItems(TagPrefix.cableGtSingle, GTMaterials.YttriumBariumCuprate, 4)
-                .circuitMeta(4)
-                .outputItems(GTOMachines.LASER_INPUT_HATCH_16384[GTValues.UV].asStack())
-                .EUt(491520)
-                .duration(2400)
-                .save(provider);
-
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("peek_wear_resistant_mechanical_housing"))
                 .inputItems(TagPrefix.frameGt, GTMaterials.Steel)
                 .inputItems(TagPrefix.plate, GTOMaterials.Polyetheretherketone, 6)
@@ -2487,18 +1875,6 @@ final class Assembler {
                 .outputItems(RegistriesUtils.getItemStack("ad_astra:fan"))
                 .EUt(120)
                 .duration(200)
-                .save(provider);
-
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("max_1048576a_laser_source_hatch"))
-                .inputItems(GTMachines.HULL[GTValues.MAX].asStack())
-                .inputItems(TagPrefix.lens, GTMaterials.Diamond, 64)
-                .inputItems(GTOItems.MAX_EMITTER.asStack(64))
-                .inputItems(GTOItems.MAX_ELECTRIC_PUMP.asStack(64))
-                .inputItems(TagPrefix.cableGtSingle, GTOMaterials.CosmicNeutronium, 4)
-                .circuitMeta(7)
-                .outputItems(GTOMachines.LASER_OUTPUT_HATCH_1048576[GTValues.MAX].asStack())
-                .EUt(2013265920)
-                .duration(19200)
                 .save(provider);
 
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("ultimate_stellar_containment_casing"))
@@ -2535,18 +1911,6 @@ final class Assembler {
                 .duration(400)
                 .save(provider);
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("uhv_262144a_laser_source_hatch"))
-                .inputItems(GTMachines.HULL[GTValues.UHV].asStack())
-                .inputItems(TagPrefix.lens, GTMaterials.Diamond, 32)
-                .inputItems(GTItems.EMITTER_UHV.asStack(32))
-                .inputItems(GTItems.ELECTRIC_PUMP_UHV.asStack(32))
-                .inputItems(TagPrefix.cableGtSingle, GTMaterials.Europium, 4)
-                .circuitMeta(6)
-                .outputItems(GTOMachines.LASER_OUTPUT_HATCH_262144[GTValues.UHV].asStack())
-                .EUt(1966080)
-                .duration(9600)
-                .save(provider);
-
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("smd_resistor_bioware"))
                 .inputItems(TagPrefix.wireFine, GTMaterials.NaquadahAlloy, 8)
                 .inputItems(TagPrefix.plate, GTMaterials.Naquadria)
@@ -2571,18 +1935,6 @@ final class Assembler {
                 .outputItems(RegistriesUtils.getItemStack("ad_astra:steel_engine"))
                 .EUt(480)
                 .duration(400)
-                .save(provider);
-
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("uv_4194304a_laser_source_hatch"))
-                .inputItems(GTMachines.HULL[GTValues.UV].asStack())
-                .inputItems(TagPrefix.lens, GTMaterials.Diamond, 128)
-                .inputItems(GTItems.EMITTER_UV.asStack(128))
-                .inputItems(GTItems.ELECTRIC_PUMP_UV.asStack(128))
-                .inputItems(TagPrefix.cableGtSingle, GTMaterials.YttriumBariumCuprate, 4)
-                .circuitMeta(8)
-                .outputItems(GTOMachines.LASER_OUTPUT_HATCH_4194304[GTValues.UV].asStack())
-                .EUt(491520)
-                .duration(38400)
                 .save(provider);
 
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("dimensionally_transcendent_casing"))
@@ -2626,18 +1978,6 @@ final class Assembler {
                 .duration(400)
                 .save(provider);
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("uv_16384a_laser_source_hatch"))
-                .inputItems(GTMachines.HULL[GTValues.UV].asStack())
-                .inputItems(TagPrefix.lens, GTMaterials.Diamond, 8)
-                .inputItems(GTItems.EMITTER_UV.asStack(8))
-                .inputItems(GTItems.ELECTRIC_PUMP_UV.asStack(8))
-                .inputItems(TagPrefix.cableGtSingle, GTMaterials.YttriumBariumCuprate, 4)
-                .circuitMeta(4)
-                .outputItems(GTOMachines.LASER_OUTPUT_HATCH_16384[GTValues.UV].asStack())
-                .EUt(491520)
-                .duration(2400)
-                .save(provider);
-
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("cryogenic_interface"))
                 .inputItems(TagPrefix.plateDouble, GTMaterials.Graphene)
                 .inputItems(TagPrefix.foil, GTMaterials.Graphene, 8)
@@ -2661,18 +2001,6 @@ final class Assembler {
                 .outputItems(GTOBlocks.PLASMA_HEATER_CASING.asStack())
                 .EUt(120)
                 .duration(200)
-                .save(provider);
-
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("opv_16384a_laser_target_hatch"))
-                .inputItems(GTMachines.HULL[GTValues.OpV].asStack())
-                .inputItems(TagPrefix.lens, GTMaterials.Diamond, 8)
-                .inputItems(GTItems.SENSOR_OpV.asStack(8))
-                .inputItems(GTItems.ELECTRIC_PUMP_OpV.asStack(8))
-                .inputItems(TagPrefix.cableGtSingle, GTOMaterials.CrystalMatrix, 4)
-                .circuitMeta(4)
-                .outputItems(GTOMachines.LASER_INPUT_HATCH_16384[GTValues.OpV].asStack())
-                .EUt(503316480)
-                .duration(2400)
                 .save(provider);
 
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("fusion_casing_mk5"))
@@ -2731,30 +2059,6 @@ final class Assembler {
                 .duration(20)
                 .save(provider);
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("uhv_262144a_laser_target_hatch"))
-                .inputItems(GTMachines.HULL[GTValues.UHV].asStack())
-                .inputItems(TagPrefix.lens, GTMaterials.Diamond, 32)
-                .inputItems(GTItems.SENSOR_UHV.asStack(32))
-                .inputItems(GTItems.ELECTRIC_PUMP_UHV.asStack(32))
-                .inputItems(TagPrefix.cableGtSingle, GTMaterials.Europium, 4)
-                .circuitMeta(6)
-                .outputItems(GTOMachines.LASER_INPUT_HATCH_262144[GTValues.UHV].asStack())
-                .EUt(1966080)
-                .duration(9600)
-                .save(provider);
-
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("iv_16384a_laser_target_hatch"))
-                .inputItems(GTMachines.HULL[GTValues.IV].asStack())
-                .inputItems(TagPrefix.lens, GTMaterials.Diamond, 8)
-                .inputItems(GTItems.SENSOR_IV.asStack(8))
-                .inputItems(GTItems.ELECTRIC_PUMP_IV.asStack(8))
-                .inputItems(TagPrefix.cableGtSingle, GTMaterials.Platinum, 4)
-                .circuitMeta(4)
-                .outputItems(GTOMachines.LASER_INPUT_HATCH_16384[GTValues.IV].asStack())
-                .EUt(7680)
-                .duration(2400)
-                .save(provider);
-
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("speeding_pipe"))
                 .inputItems(RegistriesUtils.getItemStack("ad_astra:fluid_pipe_duct"))
                 .inputItems(TagPrefix.pipeHugeFluid, GTMaterials.StainlessSteel)
@@ -2778,18 +2082,6 @@ final class Assembler {
                 .duration(200)
                 .save(provider);
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("uv_4194304a_laser_target_hatch"))
-                .inputItems(GTMachines.HULL[GTValues.UV].asStack())
-                .inputItems(TagPrefix.lens, GTMaterials.Diamond, 128)
-                .inputItems(GTItems.SENSOR_UV.asStack(128))
-                .inputItems(GTItems.ELECTRIC_PUMP_UV.asStack(128))
-                .inputItems(TagPrefix.cableGtSingle, GTMaterials.YttriumBariumCuprate, 4)
-                .circuitMeta(8)
-                .outputItems(GTOMachines.LASER_INPUT_HATCH_4194304[GTValues.UV].asStack())
-                .EUt(491520)
-                .duration(38400)
-                .save(provider);
-
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("advanced_integrated_ore_processor"))
                 .inputItems(MultiBlockMachineA.INTEGRATED_ORE_PROCESSOR.asStack(16))
                 .inputItems(GCYMBlocks.CRUSHING_WHEELS.asStack(64))
@@ -2804,18 +2096,6 @@ final class Assembler {
                 .outputItems(MultiBlockMachineA.ADVANCED_INTEGRATED_ORE_PROCESSOR.asStack())
                 .EUt(7864320)
                 .duration(800)
-                .save(provider);
-
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("luv_65536a_laser_target_hatch"))
-                .inputItems(GTMachines.HULL[GTValues.LuV].asStack())
-                .inputItems(TagPrefix.lens, GTMaterials.Diamond, 16)
-                .inputItems(GTItems.SENSOR_LuV.asStack(16))
-                .inputItems(GTItems.ELECTRIC_PUMP_LuV.asStack(16))
-                .inputItems(TagPrefix.cableGtSingle, GTMaterials.NiobiumTitanium, 4)
-                .circuitMeta(5)
-                .outputItems(GTOMachines.LASER_INPUT_HATCH_65536[GTValues.LuV].asStack())
-                .EUt(30720)
-                .duration(4800)
                 .save(provider);
 
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("naquadah_alloy_casing"))
@@ -2886,18 +2166,6 @@ final class Assembler {
                 .duration(50)
                 .save(provider);
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("max_16384a_laser_target_hatch"))
-                .inputItems(GTMachines.HULL[GTValues.MAX].asStack())
-                .inputItems(TagPrefix.lens, GTMaterials.Diamond, 8)
-                .inputItems(GTOItems.MAX_SENSOR.asStack(8))
-                .inputItems(GTOItems.MAX_ELECTRIC_PUMP.asStack(8))
-                .inputItems(TagPrefix.cableGtSingle, GTOMaterials.CosmicNeutronium, 4)
-                .circuitMeta(4)
-                .outputItems(GTOMachines.LASER_INPUT_HATCH_16384[GTValues.MAX].asStack())
-                .EUt(2013265920)
-                .duration(2400)
-                .save(provider);
-
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("petrochemical_plant"))
                 .inputItems(TagPrefix.frameGt, GTMaterials.WatertightSteel, 16)
                 .inputItems(GCYMMachines.LARGE_DISTILLERY.asStack(8))
@@ -2912,30 +2180,6 @@ final class Assembler {
                 .outputItems(MultiBlockMachineA.PETROCHEMICAL_PLANT.asStack())
                 .EUt(122880)
                 .duration(1000)
-                .save(provider);
-
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("opv_1048576a_laser_target_hatch"))
-                .inputItems(GTMachines.HULL[GTValues.OpV].asStack())
-                .inputItems(TagPrefix.lens, GTMaterials.Diamond, 64)
-                .inputItems(GTItems.SENSOR_OpV.asStack(64))
-                .inputItems(GTItems.ELECTRIC_PUMP_OpV.asStack(64))
-                .inputItems(TagPrefix.cableGtSingle, GTOMaterials.CrystalMatrix, 4)
-                .circuitMeta(7)
-                .outputItems(GTOMachines.LASER_INPUT_HATCH_1048576[GTValues.OpV].asStack())
-                .EUt(503316480)
-                .duration(19200)
-                .save(provider);
-
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("iv_4194304a_laser_source_hatch"))
-                .inputItems(GTMachines.HULL[GTValues.IV].asStack())
-                .inputItems(TagPrefix.lens, GTMaterials.Diamond, 128)
-                .inputItems(GTItems.EMITTER_IV.asStack(128))
-                .inputItems(GTItems.ELECTRIC_PUMP_IV.asStack(128))
-                .inputItems(TagPrefix.cableGtSingle, GTMaterials.Platinum, 4)
-                .circuitMeta(8)
-                .outputItems(GTOMachines.LASER_OUTPUT_HATCH_4194304[GTValues.IV].asStack())
-                .EUt(7680)
-                .duration(38400)
                 .save(provider);
 
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("smd_transistor_supracausal"))
@@ -2977,18 +2221,6 @@ final class Assembler {
                 .cleanroom(CleanroomType.CLEANROOM)
                 .save(provider);
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("max_1048576a_laser_target_hatch"))
-                .inputItems(GTMachines.HULL[GTValues.MAX].asStack())
-                .inputItems(TagPrefix.lens, GTMaterials.Diamond, 64)
-                .inputItems(GTOItems.MAX_SENSOR.asStack(64))
-                .inputItems(GTOItems.MAX_ELECTRIC_PUMP.asStack(64))
-                .inputItems(TagPrefix.cableGtSingle, GTOMaterials.CosmicNeutronium, 4)
-                .circuitMeta(7)
-                .outputItems(GTOMachines.LASER_INPUT_HATCH_1048576[GTValues.MAX].asStack())
-                .EUt(2013265920)
-                .duration(19200)
-                .save(provider);
-
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("digestion_tank"))
                 .inputItems(TagPrefix.frameGt, GTMaterials.TungstenSteel)
                 .inputItems(CustomTags.IV_CIRCUITS, 4)
@@ -3012,30 +2244,6 @@ final class Assembler {
                 .EUt(1200000)
                 .duration(300)
                 .cleanroom(CleanroomType.CLEANROOM)
-                .save(provider);
-
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("uiv_4194304a_laser_target_hatch"))
-                .inputItems(GTMachines.HULL[GTValues.UIV].asStack())
-                .inputItems(TagPrefix.lens, GTMaterials.Diamond, 128)
-                .inputItems(GTItems.SENSOR_UIV.asStack(128))
-                .inputItems(GTItems.ELECTRIC_PUMP_UIV.asStack(128))
-                .inputItems(TagPrefix.cableGtSingle, GTMaterials.Neutronium, 4)
-                .circuitMeta(8)
-                .outputItems(GTOMachines.LASER_INPUT_HATCH_4194304[GTValues.UIV].asStack())
-                .EUt(34257280)
-                .duration(38400)
-                .save(provider);
-
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("zpm_1048576a_laser_target_hatch"))
-                .inputItems(GTMachines.HULL[GTValues.ZPM].asStack())
-                .inputItems(TagPrefix.lens, GTMaterials.Diamond, 64)
-                .inputItems(GTItems.SENSOR_ZPM.asStack(64))
-                .inputItems(GTItems.ELECTRIC_PUMP_ZPM.asStack(64))
-                .inputItems(TagPrefix.cableGtSingle, GTMaterials.VanadiumGallium, 4)
-                .circuitMeta(7)
-                .outputItems(GTOMachines.LASER_INPUT_HATCH_1048576[GTValues.ZPM].asStack())
-                .EUt(122880)
-                .duration(19200)
                 .save(provider);
 
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("ozonation_purification_unit"))
@@ -3106,18 +2314,6 @@ final class Assembler {
                 .duration(200)
                 .save(provider);
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("uxv_65536a_laser_source_hatch"))
-                .inputItems(GTMachines.HULL[GTValues.UXV].asStack())
-                .inputItems(TagPrefix.lens, GTMaterials.Diamond, 16)
-                .inputItems(GTItems.EMITTER_UXV.asStack(16))
-                .inputItems(GTItems.ELECTRIC_PUMP_UXV.asStack(16))
-                .inputItems(TagPrefix.cableGtSingle, GTOMaterials.Taranium, 4)
-                .circuitMeta(5)
-                .outputItems(GTOMachines.LASER_OUTPUT_HATCH_65536[GTValues.UXV].asStack())
-                .EUt(125829120)
-                .duration(4800)
-                .save(provider);
-
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("sterile_water_plant_casing"))
                 .inputItems(TagPrefix.frameGt, GTMaterials.TungstenSteel)
                 .inputItems(GTItems.ELECTRIC_MOTOR_MV.asStack())
@@ -3142,18 +2338,6 @@ final class Assembler {
                 .outputItems(GTOBlocks.NAQUADRIA_CHARGE.asStack())
                 .EUt(7864320)
                 .duration(100)
-                .save(provider);
-
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("uev_262144a_laser_target_hatch"))
-                .inputItems(GTMachines.HULL[GTValues.UEV].asStack())
-                .inputItems(TagPrefix.lens, GTMaterials.Diamond, 32)
-                .inputItems(GTItems.SENSOR_UEV.asStack(32))
-                .inputItems(GTItems.ELECTRIC_PUMP_UEV.asStack(32))
-                .inputItems(TagPrefix.cableGtSingle, GTOMaterials.Mithril, 4)
-                .circuitMeta(6)
-                .outputItems(GTOMachines.LASER_INPUT_HATCH_262144[GTValues.UEV].asStack())
-                .EUt(7864320)
-                .duration(9600)
                 .save(provider);
 
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("smd_inductor_exotic"))
@@ -3199,18 +2383,6 @@ final class Assembler {
                 .duration(200)
                 .save(provider);
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("uxv_4194304a_laser_source_hatch"))
-                .inputItems(GTMachines.HULL[GTValues.UXV].asStack())
-                .inputItems(TagPrefix.lens, GTMaterials.Diamond, 128)
-                .inputItems(GTItems.EMITTER_UXV.asStack(128))
-                .inputItems(GTItems.ELECTRIC_PUMP_UXV.asStack(128))
-                .inputItems(TagPrefix.cableGtSingle, GTOMaterials.Taranium, 4)
-                .circuitMeta(8)
-                .outputItems(GTOMachines.LASER_OUTPUT_HATCH_4194304[GTValues.UXV].asStack())
-                .EUt(125829120)
-                .duration(38400)
-                .save(provider);
-
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("ballast"))
                 .inputItems(TagPrefix.wireFine, GTMaterials.AnnealedCopper, 2)
                 .inputItems(GTItems.RESISTOR.asStack())
@@ -3229,30 +2401,6 @@ final class Assembler {
                 .outputItems(RegistriesUtils.getItemStack("ad_astra:engine_frame"))
                 .EUt(120)
                 .duration(400)
-                .save(provider);
-
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("uiv_16384a_laser_target_hatch"))
-                .inputItems(GTMachines.HULL[GTValues.UIV].asStack())
-                .inputItems(TagPrefix.lens, GTMaterials.Diamond, 8)
-                .inputItems(GTItems.SENSOR_UIV.asStack(8))
-                .inputItems(GTItems.ELECTRIC_PUMP_UIV.asStack(8))
-                .inputItems(TagPrefix.cableGtSingle, GTMaterials.Neutronium, 4)
-                .circuitMeta(4)
-                .outputItems(GTOMachines.LASER_INPUT_HATCH_16384[GTValues.UIV].asStack())
-                .EUt(34257280)
-                .duration(2400)
-                .save(provider);
-
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("uxv_65536a_laser_target_hatch"))
-                .inputItems(GTMachines.HULL[GTValues.UXV].asStack())
-                .inputItems(TagPrefix.lens, GTMaterials.Diamond, 16)
-                .inputItems(GTItems.SENSOR_UXV.asStack(16))
-                .inputItems(GTItems.ELECTRIC_PUMP_UXV.asStack(16))
-                .inputItems(TagPrefix.cableGtSingle, GTOMaterials.Taranium, 4)
-                .circuitMeta(5)
-                .outputItems(GTOMachines.LASER_INPUT_HATCH_65536[GTValues.UXV].asStack())
-                .EUt(125829120)
-                .duration(4800)
                 .save(provider);
 
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("force_field_glass"))
@@ -3295,18 +2443,6 @@ final class Assembler {
                 .duration(200)
                 .save(provider);
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("opv_1048576a_laser_source_hatch"))
-                .inputItems(GTMachines.HULL[GTValues.OpV].asStack())
-                .inputItems(TagPrefix.lens, GTMaterials.Diamond, 64)
-                .inputItems(GTItems.EMITTER_OpV.asStack(64))
-                .inputItems(GTItems.ELECTRIC_PUMP_OpV.asStack(64))
-                .inputItems(TagPrefix.cableGtSingle, GTOMaterials.CrystalMatrix, 4)
-                .circuitMeta(7)
-                .outputItems(GTOMachines.LASER_OUTPUT_HATCH_1048576[GTValues.OpV].asStack())
-                .EUt(503316480)
-                .duration(19200)
-                .save(provider);
-
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("uev_neutron_accelerator"))
                 .inputItems(GTMachines.HULL[GTValues.UEV].asStack())
                 .inputItems(GTOItems.INVERTER.asStack())
@@ -3317,18 +2453,6 @@ final class Assembler {
                 .outputItems(GTOMachines.NEUTRON_ACCELERATOR[GTValues.UEV].asStack())
                 .EUt(30)
                 .duration(400)
-                .save(provider);
-
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("zpm_1048576a_laser_source_hatch"))
-                .inputItems(GTMachines.HULL[GTValues.ZPM].asStack())
-                .inputItems(TagPrefix.lens, GTMaterials.Diamond, 64)
-                .inputItems(GTItems.EMITTER_ZPM.asStack(64))
-                .inputItems(GTItems.ELECTRIC_PUMP_ZPM.asStack(64))
-                .inputItems(TagPrefix.cableGtSingle, GTMaterials.VanadiumGallium, 4)
-                .circuitMeta(7)
-                .outputItems(GTOMachines.LASER_OUTPUT_HATCH_1048576[GTValues.ZPM].asStack())
-                .EUt(122880)
-                .duration(19200)
                 .save(provider);
 
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("chemical_grade_glass"))
@@ -3364,18 +2488,6 @@ final class Assembler {
                 .duration(1200)
                 .save(provider);
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("uiv_4194304a_laser_source_hatch"))
-                .inputItems(GTMachines.HULL[GTValues.UIV].asStack())
-                .inputItems(TagPrefix.lens, GTMaterials.Diamond, 128)
-                .inputItems(GTItems.EMITTER_UIV.asStack(128))
-                .inputItems(GTItems.ELECTRIC_PUMP_UIV.asStack(128))
-                .inputItems(TagPrefix.cableGtSingle, GTMaterials.Neutronium, 4)
-                .circuitMeta(8)
-                .outputItems(GTOMachines.LASER_OUTPUT_HATCH_4194304[GTValues.UIV].asStack())
-                .EUt(34257280)
-                .duration(38400)
-                .save(provider);
-
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("compressor_pipe_casing"))
                 .inputItems(GTBlocks.CASING_TITANIUM_PIPE.asStack())
                 .inputItems(TagPrefix.plate, GTMaterials.Potin, 4)
@@ -3383,18 +2495,6 @@ final class Assembler {
                 .outputItems(GTOBlocks.COMPRESSOR_PIPE_CASING.asStack())
                 .EUt(30)
                 .duration(100)
-                .save(provider);
-
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("opv_65536a_laser_target_hatch"))
-                .inputItems(GTMachines.HULL[GTValues.OpV].asStack())
-                .inputItems(TagPrefix.lens, GTMaterials.Diamond, 16)
-                .inputItems(GTItems.SENSOR_OpV.asStack(16))
-                .inputItems(GTItems.ELECTRIC_PUMP_OpV.asStack(16))
-                .inputItems(TagPrefix.cableGtSingle, GTOMaterials.CrystalMatrix, 4)
-                .circuitMeta(5)
-                .outputItems(GTOMachines.LASER_INPUT_HATCH_65536[GTValues.OpV].asStack())
-                .EUt(503316480)
-                .duration(4800)
                 .save(provider);
 
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("cell_component_64m"))
@@ -3421,18 +2521,6 @@ final class Assembler {
                 .duration(50)
                 .save(provider);
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("iv_4194304a_laser_target_hatch"))
-                .inputItems(GTMachines.HULL[GTValues.IV].asStack())
-                .inputItems(TagPrefix.lens, GTMaterials.Diamond, 128)
-                .inputItems(GTItems.SENSOR_IV.asStack(128))
-                .inputItems(GTItems.ELECTRIC_PUMP_IV.asStack(128))
-                .inputItems(TagPrefix.cableGtSingle, GTMaterials.Platinum, 4)
-                .circuitMeta(8)
-                .outputItems(GTOMachines.LASER_INPUT_HATCH_4194304[GTValues.IV].asStack())
-                .EUt(7680)
-                .duration(38400)
-                .save(provider);
-
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("desh_tank"))
                 .inputItems(GTItems.FLUID_CELL_LARGE_TITANIUM.asStack(4))
                 .inputItems(RegistriesUtils.getItemStack("ad_astra:desh_fluid_pipe", 8))
@@ -3443,18 +2531,6 @@ final class Assembler {
                 .outputItems(RegistriesUtils.getItemStack("ad_astra:desh_tank"))
                 .EUt(480)
                 .duration(200)
-                .save(provider);
-
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("uxv_16384a_laser_target_hatch"))
-                .inputItems(GTMachines.HULL[GTValues.UXV].asStack())
-                .inputItems(TagPrefix.lens, GTMaterials.Diamond, 8)
-                .inputItems(GTItems.SENSOR_UXV.asStack(8))
-                .inputItems(GTItems.ELECTRIC_PUMP_UXV.asStack(8))
-                .inputItems(TagPrefix.cableGtSingle, GTOMaterials.Taranium, 4)
-                .circuitMeta(4)
-                .outputItems(GTOMachines.LASER_INPUT_HATCH_16384[GTValues.UXV].asStack())
-                .EUt(125829120)
-                .duration(2400)
                 .save(provider);
 
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("large_steam_storage_tank"))
@@ -3489,30 +2565,6 @@ final class Assembler {
                 .outputItems(GTOBlocks.DIMENSION_CONNECTION_CASING.asStack())
                 .EUt(2013265920)
                 .duration(400)
-                .save(provider);
-
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("uev_65536a_laser_source_hatch"))
-                .inputItems(GTMachines.HULL[GTValues.UEV].asStack())
-                .inputItems(TagPrefix.lens, GTMaterials.Diamond, 16)
-                .inputItems(GTItems.EMITTER_UEV.asStack(16))
-                .inputItems(GTItems.ELECTRIC_PUMP_UEV.asStack(16))
-                .inputItems(TagPrefix.cableGtSingle, GTOMaterials.Mithril, 4)
-                .circuitMeta(5)
-                .outputItems(GTOMachines.LASER_OUTPUT_HATCH_65536[GTValues.UEV].asStack())
-                .EUt(7864320)
-                .duration(4800)
-                .save(provider);
-
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("opv_262144a_laser_target_hatch"))
-                .inputItems(GTMachines.HULL[GTValues.OpV].asStack())
-                .inputItems(TagPrefix.lens, GTMaterials.Diamond, 32)
-                .inputItems(GTItems.SENSOR_OpV.asStack(32))
-                .inputItems(GTItems.ELECTRIC_PUMP_OpV.asStack(32))
-                .inputItems(TagPrefix.cableGtSingle, GTOMaterials.CrystalMatrix, 4)
-                .circuitMeta(6)
-                .outputItems(GTOMachines.LASER_INPUT_HATCH_262144[GTValues.OpV].asStack())
-                .EUt(503316480)
-                .duration(9600)
                 .save(provider);
 
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("rocket_mega_turbine"))
@@ -3555,18 +2607,6 @@ final class Assembler {
                 .duration(1200)
                 .save(provider);
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("luv_65536a_laser_source_hatch"))
-                .inputItems(GTMachines.HULL[GTValues.LuV].asStack())
-                .inputItems(TagPrefix.lens, GTMaterials.Diamond, 16)
-                .inputItems(GTItems.EMITTER_LuV.asStack(16))
-                .inputItems(GTItems.ELECTRIC_PUMP_LuV.asStack(16))
-                .inputItems(TagPrefix.cableGtSingle, GTMaterials.NiobiumTitanium, 4)
-                .circuitMeta(5)
-                .outputItems(GTOMachines.LASER_OUTPUT_HATCH_65536[GTValues.LuV].asStack())
-                .EUt(30720)
-                .duration(4800)
-                .save(provider);
-
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("flocculation_casing"))
                 .inputItems(TagPrefix.frameGt, GTMaterials.StainlessSteel)
                 .inputItems(TagPrefix.pipeTinyFluid, GTMaterials.Tungsten, 4)
@@ -3587,18 +2627,6 @@ final class Assembler {
                 .EUt(7864320)
                 .duration(100)
                 .cleanroom(CleanroomType.CLEANROOM)
-                .save(provider);
-
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("uxv_262144a_laser_target_hatch"))
-                .inputItems(GTMachines.HULL[GTValues.UXV].asStack())
-                .inputItems(TagPrefix.lens, GTMaterials.Diamond, 32)
-                .inputItems(GTItems.SENSOR_UXV.asStack(32))
-                .inputItems(GTItems.ELECTRIC_PUMP_UXV.asStack(32))
-                .inputItems(TagPrefix.cableGtSingle, GTOMaterials.Taranium, 4)
-                .circuitMeta(6)
-                .outputItems(GTOMachines.LASER_INPUT_HATCH_262144[GTValues.UXV].asStack())
-                .EUt(125829120)
-                .duration(9600)
                 .save(provider);
 
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("manipulator"))
@@ -3692,18 +2720,6 @@ final class Assembler {
                 .duration(200)
                 .save(provider);
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("uhv_16384a_laser_target_hatch"))
-                .inputItems(GTMachines.HULL[GTValues.UHV].asStack())
-                .inputItems(TagPrefix.lens, GTMaterials.Diamond, 8)
-                .inputItems(GTItems.SENSOR_UHV.asStack(8))
-                .inputItems(GTItems.ELECTRIC_PUMP_UHV.asStack(8))
-                .inputItems(TagPrefix.cableGtSingle, GTMaterials.Europium, 4)
-                .circuitMeta(4)
-                .outputItems(GTOMachines.LASER_INPUT_HATCH_16384[GTValues.UHV].asStack())
-                .EUt(1966080)
-                .duration(2400)
-                .save(provider);
-
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("smd_capacitor_supracausal"))
                 .notConsumable(GTOItems.MICROWORMHOLE_GENERATOR.asStack())
                 .inputItems(TagPrefix.plate, GTOMaterials.Adamantine)
@@ -3769,18 +2785,6 @@ final class Assembler {
                 .duration(400)
                 .save(provider);
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("uv_65536a_laser_target_hatch"))
-                .inputItems(GTMachines.HULL[GTValues.UV].asStack())
-                .inputItems(TagPrefix.lens, GTMaterials.Diamond, 16)
-                .inputItems(GTItems.SENSOR_UV.asStack(16))
-                .inputItems(GTItems.ELECTRIC_PUMP_UV.asStack(16))
-                .inputItems(TagPrefix.cableGtSingle, GTMaterials.YttriumBariumCuprate, 4)
-                .circuitMeta(5)
-                .outputItems(GTOMachines.LASER_INPUT_HATCH_65536[GTValues.UV].asStack())
-                .EUt(491520)
-                .duration(4800)
-                .save(provider);
-
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("mc_nylon_tensile_mechanical_shell"))
                 .inputItems(TagPrefix.frameGt, GTMaterials.BlueSteel)
                 .inputItems(TagPrefix.plate, GTMaterials.Polycaprolactam, 6)
@@ -3821,18 +2825,6 @@ final class Assembler {
                 .duration(50)
                 .save(provider);
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("uhv_16384a_laser_source_hatch"))
-                .inputItems(GTMachines.HULL[GTValues.UHV].asStack())
-                .inputItems(TagPrefix.lens, GTMaterials.Diamond, 8)
-                .inputItems(GTItems.EMITTER_UHV.asStack(8))
-                .inputItems(GTItems.ELECTRIC_PUMP_UHV.asStack(8))
-                .inputItems(TagPrefix.cableGtSingle, GTMaterials.Europium, 4)
-                .circuitMeta(4)
-                .outputItems(GTOMachines.LASER_OUTPUT_HATCH_16384[GTValues.UHV].asStack())
-                .EUt(1966080)
-                .duration(2400)
-                .save(provider);
-
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("electric_implosion_compressor"))
                 .inputItems(GTMultiMachines.IMPLOSION_COMPRESSOR.asStack(4))
                 .inputItems(GTMachines.POWER_TRANSFORMER[GTValues.LuV].asStack(4))
@@ -3845,30 +2837,6 @@ final class Assembler {
                 .outputItems(MultiBlockMachineA.ELECTRIC_IMPLOSION_COMPRESSOR.asStack())
                 .EUt(30720)
                 .duration(600)
-                .save(provider);
-
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("uxv_262144a_laser_source_hatch"))
-                .inputItems(GTMachines.HULL[GTValues.UXV].asStack())
-                .inputItems(TagPrefix.lens, GTMaterials.Diamond, 32)
-                .inputItems(GTItems.EMITTER_UXV.asStack(32))
-                .inputItems(GTItems.ELECTRIC_PUMP_UXV.asStack(32))
-                .inputItems(TagPrefix.cableGtSingle, GTOMaterials.Taranium, 4)
-                .circuitMeta(6)
-                .outputItems(GTOMachines.LASER_OUTPUT_HATCH_262144[GTValues.UXV].asStack())
-                .EUt(125829120)
-                .duration(9600)
-                .save(provider);
-
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("luv_16384a_laser_source_hatch"))
-                .inputItems(GTMachines.HULL[GTValues.LuV].asStack())
-                .inputItems(TagPrefix.lens, GTMaterials.Diamond, 8)
-                .inputItems(GTItems.EMITTER_LuV.asStack(8))
-                .inputItems(GTItems.ELECTRIC_PUMP_LuV.asStack(8))
-                .inputItems(TagPrefix.cableGtSingle, GTMaterials.NiobiumTitanium, 4)
-                .circuitMeta(4)
-                .outputItems(GTOMachines.LASER_OUTPUT_HATCH_16384[GTValues.LuV].asStack())
-                .EUt(30720)
-                .duration(2400)
                 .save(provider);
 
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("reinforced_sterile_water_plant_casing"))
@@ -3902,18 +2870,6 @@ final class Assembler {
                 .duration(100)
                 .save(provider);
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("iv_65536a_laser_target_hatch"))
-                .inputItems(GTMachines.HULL[GTValues.IV].asStack())
-                .inputItems(TagPrefix.lens, GTMaterials.Diamond, 16)
-                .inputItems(GTItems.SENSOR_IV.asStack(16))
-                .inputItems(GTItems.ELECTRIC_PUMP_IV.asStack(16))
-                .inputItems(TagPrefix.cableGtSingle, GTMaterials.Platinum, 4)
-                .circuitMeta(5)
-                .outputItems(GTOMachines.LASER_INPUT_HATCH_65536[GTValues.IV].asStack())
-                .EUt(7680)
-                .duration(4800)
-                .save(provider);
-
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("space_elevator_support"))
                 .inputItems(TagPrefix.frameGt, GTMaterials.Naquadah)
                 .inputItems(TagPrefix.rod, GTMaterials.RedSteel, 4)
@@ -3934,30 +2890,6 @@ final class Assembler {
                 .outputItems(GTOMachines.NEUTRON_ACCELERATOR[GTValues.OpV].asStack())
                 .EUt(30)
                 .duration(400)
-                .save(provider);
-
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("zpm_4194304a_laser_target_hatch"))
-                .inputItems(GTMachines.HULL[GTValues.ZPM].asStack())
-                .inputItems(TagPrefix.lens, GTMaterials.Diamond, 128)
-                .inputItems(GTItems.SENSOR_ZPM.asStack(128))
-                .inputItems(GTItems.ELECTRIC_PUMP_ZPM.asStack(128))
-                .inputItems(TagPrefix.cableGtSingle, GTMaterials.VanadiumGallium, 4)
-                .circuitMeta(8)
-                .outputItems(GTOMachines.LASER_INPUT_HATCH_4194304[GTValues.ZPM].asStack())
-                .EUt(122880)
-                .duration(38400)
-                .save(provider);
-
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("uhv_1048576a_laser_target_hatch"))
-                .inputItems(GTMachines.HULL[GTValues.UHV].asStack())
-                .inputItems(TagPrefix.lens, GTMaterials.Diamond, 64)
-                .inputItems(GTItems.SENSOR_UHV.asStack(64))
-                .inputItems(GTItems.ELECTRIC_PUMP_UHV.asStack(64))
-                .inputItems(TagPrefix.cableGtSingle, GTMaterials.Europium, 4)
-                .circuitMeta(7)
-                .outputItems(GTOMachines.LASER_INPUT_HATCH_1048576[GTValues.UHV].asStack())
-                .EUt(1966080)
-                .duration(19200)
                 .save(provider);
 
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("enhance_hyper_mechanical_casing"))
@@ -4055,30 +2987,6 @@ final class Assembler {
                 .EUt(131941395333120L)
                 .duration(200)
                 .cleanroom(GTOCleanroomType.LAW_CLEANROOM)
-                .save(provider);
-
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("uev_1048576a_laser_target_hatch"))
-                .inputItems(GTMachines.HULL[GTValues.UEV].asStack())
-                .inputItems(TagPrefix.lens, GTMaterials.Diamond, 64)
-                .inputItems(GTItems.SENSOR_UEV.asStack(64))
-                .inputItems(GTItems.ELECTRIC_PUMP_UEV.asStack(64))
-                .inputItems(TagPrefix.cableGtSingle, GTOMaterials.Mithril, 4)
-                .circuitMeta(7)
-                .outputItems(GTOMachines.LASER_INPUT_HATCH_1048576[GTValues.UEV].asStack())
-                .EUt(7864320)
-                .duration(19200)
-                .save(provider);
-
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("luv_1048576a_laser_target_hatch"))
-                .inputItems(GTMachines.HULL[GTValues.LuV].asStack())
-                .inputItems(TagPrefix.lens, GTMaterials.Diamond, 64)
-                .inputItems(GTItems.SENSOR_LuV.asStack(64))
-                .inputItems(GTItems.ELECTRIC_PUMP_LuV.asStack(64))
-                .inputItems(TagPrefix.cableGtSingle, GTMaterials.NiobiumTitanium, 4)
-                .circuitMeta(7)
-                .outputItems(GTOMachines.LASER_INPUT_HATCH_1048576[GTValues.LuV].asStack())
-                .EUt(30720)
-                .duration(19200)
                 .save(provider);
 
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("smd_capacitor_cosmic"))
@@ -4180,18 +3088,6 @@ final class Assembler {
                 .cleanroom(CleanroomType.CLEANROOM)
                 .save(provider);
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("iv_16384a_laser_source_hatch"))
-                .inputItems(GTMachines.HULL[GTValues.IV].asStack())
-                .inputItems(TagPrefix.lens, GTMaterials.Diamond, 8)
-                .inputItems(GTItems.EMITTER_IV.asStack(8))
-                .inputItems(GTItems.ELECTRIC_PUMP_IV.asStack(8))
-                .inputItems(TagPrefix.cableGtSingle, GTMaterials.Platinum, 4)
-                .circuitMeta(4)
-                .outputItems(GTOMachines.LASER_OUTPUT_HATCH_16384[GTValues.IV].asStack())
-                .EUt(7680)
-                .duration(2400)
-                .save(provider);
-
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("slaughterhouse"))
                 .inputItems(TagPrefix.frameGt, GTMaterials.Steel)
                 .inputItems(GTMachines.WORLD_ACCELERATOR[GTValues.LV].asStack())
@@ -4217,18 +3113,6 @@ final class Assembler {
                 .EUt(31457280)
                 .duration(100)
                 .cleanroom(CleanroomType.CLEANROOM)
-                .save(provider);
-
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("uev_262144a_laser_source_hatch"))
-                .inputItems(GTMachines.HULL[GTValues.UEV].asStack())
-                .inputItems(TagPrefix.lens, GTMaterials.Diamond, 32)
-                .inputItems(GTItems.EMITTER_UEV.asStack(32))
-                .inputItems(GTItems.ELECTRIC_PUMP_UEV.asStack(32))
-                .inputItems(TagPrefix.cableGtSingle, GTOMaterials.Mithril, 4)
-                .circuitMeta(6)
-                .outputItems(GTOMachines.LASER_OUTPUT_HATCH_262144[GTValues.UEV].asStack())
-                .EUt(7864320)
-                .duration(9600)
                 .save(provider);
 
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("ball_field_shape"))
@@ -4273,18 +3157,6 @@ final class Assembler {
                 .duration(500)
                 .save(provider);
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("luv_262144a_laser_target_hatch"))
-                .inputItems(GTMachines.HULL[GTValues.LuV].asStack())
-                .inputItems(TagPrefix.lens, GTMaterials.Diamond, 32)
-                .inputItems(GTItems.SENSOR_LuV.asStack(32))
-                .inputItems(GTItems.ELECTRIC_PUMP_LuV.asStack(32))
-                .inputItems(TagPrefix.cableGtSingle, GTMaterials.NiobiumTitanium, 4)
-                .circuitMeta(6)
-                .outputItems(GTOMachines.LASER_INPUT_HATCH_262144[GTValues.LuV].asStack())
-                .EUt(30720)
-                .duration(9600)
-                .save(provider);
-
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("radiation_hatch"))
                 .inputItems(GTMachines.ITEM_IMPORT_BUS[GTValues.ZPM].asStack())
                 .inputItems(TagPrefix.block, GTMaterials.Graphite, 8)
@@ -4294,18 +3166,6 @@ final class Assembler {
                 .outputItems(GTOMachines.RADIATION_HATCH.asStack())
                 .EUt(1920)
                 .duration(400)
-                .save(provider);
-
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("uev_1048576a_laser_source_hatch"))
-                .inputItems(GTMachines.HULL[GTValues.UEV].asStack())
-                .inputItems(TagPrefix.lens, GTMaterials.Diamond, 64)
-                .inputItems(GTItems.EMITTER_UEV.asStack(64))
-                .inputItems(GTItems.ELECTRIC_PUMP_UEV.asStack(64))
-                .inputItems(TagPrefix.cableGtSingle, GTOMaterials.Mithril, 4)
-                .circuitMeta(7)
-                .outputItems(GTOMachines.LASER_OUTPUT_HATCH_1048576[GTValues.UEV].asStack())
-                .EUt(7864320)
-                .duration(19200)
                 .save(provider);
 
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("ultrashort_pulse_laser"))
@@ -4323,42 +3183,6 @@ final class Assembler {
                 .EUt(45000000)
                 .duration(270)
                 .cleanroom(CleanroomType.CLEANROOM)
-                .save(provider);
-
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("uiv_16384a_laser_source_hatch"))
-                .inputItems(GTMachines.HULL[GTValues.UIV].asStack())
-                .inputItems(TagPrefix.lens, GTMaterials.Diamond, 8)
-                .inputItems(GTItems.EMITTER_UIV.asStack(8))
-                .inputItems(GTItems.ELECTRIC_PUMP_UIV.asStack(8))
-                .inputItems(TagPrefix.cableGtSingle, GTMaterials.Neutronium, 4)
-                .circuitMeta(4)
-                .outputItems(GTOMachines.LASER_OUTPUT_HATCH_16384[GTValues.UIV].asStack())
-                .EUt(34257280)
-                .duration(2400)
-                .save(provider);
-
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("luv_1048576a_laser_source_hatch"))
-                .inputItems(GTMachines.HULL[GTValues.LuV].asStack())
-                .inputItems(TagPrefix.lens, GTMaterials.Diamond, 64)
-                .inputItems(GTItems.EMITTER_LuV.asStack(64))
-                .inputItems(GTItems.ELECTRIC_PUMP_LuV.asStack(64))
-                .inputItems(TagPrefix.cableGtSingle, GTMaterials.NiobiumTitanium, 4)
-                .circuitMeta(7)
-                .outputItems(GTOMachines.LASER_OUTPUT_HATCH_1048576[GTValues.LuV].asStack())
-                .EUt(30720)
-                .duration(19200)
-                .save(provider);
-
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("max_4194304a_laser_source_hatch"))
-                .inputItems(GTMachines.HULL[GTValues.MAX].asStack())
-                .inputItems(TagPrefix.lens, GTMaterials.Diamond, 128)
-                .inputItems(GTOItems.MAX_EMITTER.asStack(128))
-                .inputItems(GTOItems.MAX_ELECTRIC_PUMP.asStack(128))
-                .inputItems(TagPrefix.cableGtSingle, GTOMaterials.CosmicNeutronium, 4)
-                .circuitMeta(8)
-                .outputItems(GTOMachines.LASER_OUTPUT_HATCH_4194304[GTValues.MAX].asStack())
-                .EUt(2013265920)
-                .duration(38400)
                 .save(provider);
 
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("aluminium_bronze_casing"))
@@ -4394,18 +3218,6 @@ final class Assembler {
                 .cleanroom(CleanroomType.STERILE_CLEANROOM)
                 .save(provider);
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("iv_65536a_laser_source_hatch"))
-                .inputItems(GTMachines.HULL[GTValues.IV].asStack())
-                .inputItems(TagPrefix.lens, GTMaterials.Diamond, 16)
-                .inputItems(GTItems.EMITTER_IV.asStack(16))
-                .inputItems(GTItems.ELECTRIC_PUMP_IV.asStack(16))
-                .inputItems(TagPrefix.cableGtSingle, GTMaterials.Platinum, 4)
-                .circuitMeta(5)
-                .outputItems(GTOMachines.LASER_OUTPUT_HATCH_65536[GTValues.IV].asStack())
-                .EUt(7680)
-                .duration(4800)
-                .save(provider);
-
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("medium_frequency_laser"))
                 .inputItems(TagPrefix.rod, GTMaterials.Lazurite)
                 .inputItems(GTOItems.GREEN_HALIDE_LAMP.asStack())
@@ -4419,18 +3231,6 @@ final class Assembler {
                 .cleanroom(CleanroomType.CLEANROOM)
                 .save(provider);
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("uhv_1048576a_laser_source_hatch"))
-                .inputItems(GTMachines.HULL[GTValues.UHV].asStack())
-                .inputItems(TagPrefix.lens, GTMaterials.Diamond, 64)
-                .inputItems(GTItems.EMITTER_UHV.asStack(64))
-                .inputItems(GTItems.ELECTRIC_PUMP_UHV.asStack(64))
-                .inputItems(TagPrefix.cableGtSingle, GTMaterials.Europium, 4)
-                .circuitMeta(7)
-                .outputItems(GTOMachines.LASER_OUTPUT_HATCH_1048576[GTValues.UHV].asStack())
-                .EUt(1966080)
-                .duration(19200)
-                .save(provider);
-
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("ender_fluid_conduit"))
                 .inputItems(RegistriesUtils.getItemStack("enderio:pressurized_fluid_conduit"))
                 .inputItems(TagPrefix.dustTiny, GTMaterials.EnderPearl)
@@ -4438,6 +3238,16 @@ final class Assembler {
                 .outputItems(RegistriesUtils.getItemStack("enderio:ender_fluid_conduit", 2))
                 .EUt(16)
                 .duration(120)
+                .save(provider);
+
+        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("data_disc"))
+                .inputItems(CustomTags.LV_CIRCUITS, 2)
+                .inputItems(TagPrefix.plate, GTMaterials.Silver)
+                .inputItems(TagPrefix.foil, GTMaterials.Polyethylene, 8)
+                .inputFluids(GTMaterials.PolyvinylChloride.getFluid(144))
+                .outputItems(GTOItems.DATA_DISC.asStack())
+                .EUt(30)
+                .duration(200)
                 .save(provider);
     }
 }

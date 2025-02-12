@@ -127,7 +127,7 @@ public abstract class RecyclingRecipesMixin {
         if (outputs != null && !outputs.isEmpty()) {
             ResourceLocation itemPath = BuiltInRegistries.ITEM.getKey(input.getItem());
             GTRecipeBuilder builder = GTRecipeTypes.MACERATOR_RECIPES.recipeBuilder("macerate_" + itemPath.getPath()).outputItems((ItemStack[]) outputs.toArray(ItemStack[]::new)).duration(calculateDuration(outputs)).EUt(2L * (long) multiplier);
-            builder.inputItems(input.copy());
+            builder.inputItems(input);
             builder.category(GTRecipeCategories.MACERATOR_RECYCLING);
             builder.save(provider);
         }
@@ -159,7 +159,7 @@ public abstract class RecyclingRecipesMixin {
                     .duration((int) Math.max(1, ms.amount() * ms.material().getMass() / M))
                     .blastFurnaceTemp(Math.max(800, (int) (ms.material().getBlastTemperature() * 0.6)))
                     .EUt((long) GTValues.VA[GTValues.LV] * multiplier)
-                    .inputItems(input.copy())
+                    .inputItems(input)
                     .save(provider);
             return;
         }
@@ -194,7 +194,7 @@ public abstract class RecyclingRecipesMixin {
                 .blastFurnaceTemp(Math.max(800, (int) (fluidMs.material().getBlastTemperature() * 0.6)))
                 .EUt((long) GTValues.VA[GTValues.LV] * multiplier);
 
-        extractorBuilder.inputItems(input.copy());
+        extractorBuilder.inputItems(input);
 
         // Null check the Item before adding it to the Builder.
         if (itemMs != null) {

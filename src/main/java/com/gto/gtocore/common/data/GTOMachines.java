@@ -139,7 +139,7 @@ public final class GTOMachines {
             GTORecipeTypes.SEMI_FLUID_GENERATOR_FUELS, t -> 6400, ULV, LV, MV, HV);
 
     public static final MachineDefinition[] THERMAL_GENERATOR = registerSimpleGenerator("thermal_generator", "热力发电机",
-            GTORecipeTypes.THERMAL_GENERATOR_FUELS, tier -> 8000, ULV);
+            GTORecipeTypes.THERMAL_GENERATOR_FUELS, tier -> (tier + 1) * 1000, ULV, LV, MV, HV);
 
     public static final MachineDefinition[] ROCKET_ENGINE_GENERATOR = registerSimpleGenerator("rocket_engine", "火箭引擎", GTRecipeTypes.get("rocket_engine"),
             GTMachineUtils.genericGeneratorTankSizeFunction, EV, IV, LuV);
@@ -526,6 +526,8 @@ public final class GTOMachines {
                     .langValue(VNF[tier] + " Accelerate Hatch")
                     .rotationState(RotationState.ALL)
                     .abilities(GTOPartAbility.ACCELERATE_HATCH)
+                    .tooltips(Component.translatable("gtocore.machine.accelerate_hatch.tooltip.0"))
+                    .tooltips(Component.translatable("gtocore.machine.accelerate_hatch.tooltip.1"))
                     .workableTieredHullRenderer(GTOCore.id("block/machines/accelerate_hatch"))
                     .register(),
             tiersBetween(LV, MAX));

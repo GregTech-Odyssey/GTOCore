@@ -106,5 +106,7 @@ final class MachineLang {
         addENCN("gtocore.machine.processing_array.tooltip.1", "Parallel are determined by the number of internal machines", "并行数由内部机器数量决定");
         addENCN("gtocore.machine.maximum_amount", "Maximum amount: %s", "最大数量：%s");
         addENCN("gtocore.machine.binding_amount", "Binding amount: %s", "绑定数量：%s");
+        addENCN("gtocore.machine.accelerate_hatch.tooltip.0", "Accelerates machine operation", "加速机器运行");
+        addENCN("gtocore.machine.accelerate_hatch.tooltip.1", "Acceleration effect is reduced when the accelerator hatch tier is lower than the machine recipe tier", "加速仓的等级低于机器配方等级时加速效果减弱");
     }
 }

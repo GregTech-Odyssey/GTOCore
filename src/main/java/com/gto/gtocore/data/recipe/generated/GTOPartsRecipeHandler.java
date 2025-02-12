@@ -1,5 +1,6 @@
 package com.gto.gtocore.data.recipe.generated;
 
+import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.api.data.tag.GTOTagPrefix;
 import com.gto.gtocore.common.data.GTOItems;
 import com.gto.gtocore.common.data.GTOMaterials;
@@ -512,7 +513,7 @@ public final class GTOPartsRecipeHandler {
             VanillaRecipeHelper.addShapedRecipe(provider, String.format("curved_plate_%s", material.getName()),
                     curvedPlateStack, "hI", " h", 'I', plateStack);
 
-        BENDER_RECIPES.recipeBuilder(material.getName() + "_curved_plate")
+        BENDER_RECIPES.recipeBuilder(GTOCore.id(material.getName() + "_curved_plate"))
                 .inputItems(plateStack)
                 .outputItems(curvedPlateStack)
                 .circuitMeta(1)
@@ -530,7 +531,7 @@ public final class GTOPartsRecipeHandler {
             VanillaRecipeHelper.addShapedRecipe(provider, String.format("motor_enclosure_%s", material.getName()),
                     motorEnclosureStack, "IwI", 'I', curvedPlateStack);
 
-        LASER_WELDER_RECIPES.recipeBuilder(material.getName() + "_motor_enclosure")
+        LASER_WELDER_RECIPES.recipeBuilder(GTOCore.id(material.getName() + "_motor_enclosure"))
                 .inputItems(curvedPlateStack.copyWithCount(2))
                 .outputItems(motorEnclosureStack)
                 .circuitMeta(3)
@@ -538,12 +539,23 @@ public final class GTOPartsRecipeHandler {
                 .EUt(30)
                 .save(provider);
 
-        THREE_DIMENSIONAL_PRINTER_RECIPES.recipeBuilder(material.getName() + "_motor_enclosure")
-                .notConsumable(motorEnclosureStack)
+        ItemStack data = GTOItems.DATA_DISC.get().getDisc(motorEnclosureStack);
+
+        SCANNER_RECIPES.recipeBuilder(GTOCore.id(material.getName() + "_motor_enclosure"))
+                .inputItems(GTOItems.DATA_DISC.asStack())
+                .inputItems(motorEnclosureStack)
+                .outputItems(data)
+                .EUt((long) GTOUtils.getVoltageMultiplier(material) << 4)
+                .duration(mass)
+                .save(provider);
+
+        THREE_DIMENSIONAL_PRINTER_RECIPES.recipeBuilder(GTOCore.id(material.getName() + "_motor_enclosure"))
+                .notConsumable(data)
                 .inputFluids(material.getFluid(GTValues.L << 1))
                 .outputItems(motorEnclosureStack)
                 .duration(mass << 1)
                 .EUt(16)
+                .cleanroom(CleanroomType.CLEANROOM)
                 .save(provider);
     }
 
@@ -557,7 +569,7 @@ public final class GTOPartsRecipeHandler {
             VanillaRecipeHelper.addShapedRecipe(provider, String.format("pump_barrel_%s", material.getName()),
                     pumpBarrelStack, " I ", "RwR", " I ", 'I', curvedPlateStack, 'R', ringStack);
 
-        LASER_WELDER_RECIPES.recipeBuilder(material.getName() + "_pump_barrel")
+        LASER_WELDER_RECIPES.recipeBuilder(GTOCore.id(material.getName() + "_pump_barrel"))
                 .inputItems(curvedPlateStack.copyWithCount(2))
                 .inputItems(ringStack.copyWithCount(2))
                 .circuitMeta(4)
@@ -566,12 +578,23 @@ public final class GTOPartsRecipeHandler {
                 .EUt(30)
                 .save(provider);
 
-        THREE_DIMENSIONAL_PRINTER_RECIPES.recipeBuilder(material.getName() + "_pump_barrel")
-                .notConsumable(pumpBarrelStack)
+        ItemStack data = GTOItems.DATA_DISC.get().getDisc(pumpBarrelStack);
+
+        SCANNER_RECIPES.recipeBuilder(GTOCore.id(material.getName() + "_pump_barrel"))
+                .inputItems(GTOItems.DATA_DISC.asStack())
+                .inputItems(pumpBarrelStack)
+                .outputItems(data)
+                .EUt((long) GTOUtils.getVoltageMultiplier(material) << 4)
+                .duration(mass)
+                .save(provider);
+
+        THREE_DIMENSIONAL_PRINTER_RECIPES.recipeBuilder(GTOCore.id(material.getName() + "_pump_barrel"))
+                .notConsumable(data)
                 .inputFluids(material.getFluid(GTValues.L * 5 / 2))
                 .outputItems(pumpBarrelStack)
                 .duration(mass * 5 / 2)
                 .EUt(16)
+                .cleanroom(CleanroomType.CLEANROOM)
                 .save(provider);
     }
 
@@ -585,7 +608,7 @@ public final class GTOPartsRecipeHandler {
             VanillaRecipeHelper.addShapedRecipe(provider, String.format("piston_housing_%s", material.getName()),
                     pistonHousingStack, "IhI", " P ", 'I', curvedPlateStack, 'P', plateStack);
 
-        LASER_WELDER_RECIPES.recipeBuilder(material.getName() + "_piston_housing")
+        LASER_WELDER_RECIPES.recipeBuilder(GTOCore.id(material.getName() + "_piston_housing"))
                 .inputItems(curvedPlateStack.copyWithCount(2))
                 .inputItems(plateStack)
                 .circuitMeta(5)
@@ -594,12 +617,23 @@ public final class GTOPartsRecipeHandler {
                 .EUt(30)
                 .save(provider);
 
-        THREE_DIMENSIONAL_PRINTER_RECIPES.recipeBuilder(material.getName() + "_piston_housing")
-                .notConsumable(pistonHousingStack)
+        ItemStack data = GTOItems.DATA_DISC.get().getDisc(pistonHousingStack);
+
+        SCANNER_RECIPES.recipeBuilder(GTOCore.id(material.getName() + "_pump_barrel"))
+                .inputItems(GTOItems.DATA_DISC.asStack())
+                .inputItems(pistonHousingStack)
+                .outputItems(data)
+                .EUt((long) GTOUtils.getVoltageMultiplier(material) << 4)
+                .duration(mass)
+                .save(provider);
+
+        THREE_DIMENSIONAL_PRINTER_RECIPES.recipeBuilder(GTOCore.id(material.getName() + "_pump_barrel"))
+                .notConsumable(data)
                 .inputFluids(material.getFluid(GTValues.L * 3))
                 .outputItems(pistonHousingStack)
                 .duration(mass * 3)
                 .EUt(16)
+                .cleanroom(CleanroomType.CLEANROOM)
                 .save(provider);
     }
 
@@ -614,7 +648,7 @@ public final class GTOPartsRecipeHandler {
             VanillaRecipeHelper.addShapedRecipe(provider, String.format("emitter_base_%s", material.getName()),
                     emitterBasesStack, "IPI", "RhR", 'I', curvedPlateStack, 'P', plateStack, 'R', rodStack);
 
-        LASER_WELDER_RECIPES.recipeBuilder(material.getName() + "_emitter_base")
+        LASER_WELDER_RECIPES.recipeBuilder(GTOCore.id(material.getName() + "_emitter_base"))
                 .inputItems(curvedPlateStack.copyWithCount(2))
                 .inputItems(rodStack.copyWithCount(2))
                 .inputItems(plateStack)
@@ -623,12 +657,23 @@ public final class GTOPartsRecipeHandler {
                 .EUt(30)
                 .save(provider);
 
-        THREE_DIMENSIONAL_PRINTER_RECIPES.recipeBuilder(material.getName() + "_emitter_base")
-                .notConsumable(emitterBasesStack)
+        ItemStack data = GTOItems.DATA_DISC.get().getDisc(emitterBasesStack);
+
+        SCANNER_RECIPES.recipeBuilder(GTOCore.id(material.getName() + "_emitter_base"))
+                .inputItems(GTOItems.DATA_DISC.asStack())
+                .inputItems(emitterBasesStack)
+                .outputItems(data)
+                .EUt((long) GTOUtils.getVoltageMultiplier(material) << 4)
+                .duration(mass)
+                .save(provider);
+
+        THREE_DIMENSIONAL_PRINTER_RECIPES.recipeBuilder(GTOCore.id(material.getName() + "_emitter_base"))
+                .notConsumable(data)
                 .inputFluids(material.getFluid(GTValues.L << 2))
                 .outputItems(emitterBasesStack)
                 .duration(mass << 2)
                 .EUt(16)
+                .cleanroom(CleanroomType.CLEANROOM)
                 .save(provider);
     }
 
@@ -642,7 +687,7 @@ public final class GTOPartsRecipeHandler {
             VanillaRecipeHelper.addShapedRecipe(provider, String.format("sensor_casing_%s", material.getName()),
                     sensorCasingStack, "wIh", "IRI", " I ", 'I', curvedPlateStack, 'R', rodStack);
 
-        LASER_WELDER_RECIPES.recipeBuilder(material.getName() + "_sensor_casing")
+        LASER_WELDER_RECIPES.recipeBuilder(GTOCore.id(material.getName() + "_sensor_casing"))
                 .inputItems(curvedPlateStack.copyWithCount(4))
                 .inputItems(rodStack.copyWithCount(1))
                 .circuitMeta(6)
@@ -651,12 +696,23 @@ public final class GTOPartsRecipeHandler {
                 .EUt(30)
                 .save(provider);
 
-        THREE_DIMENSIONAL_PRINTER_RECIPES.recipeBuilder(material.getName() + "_sensor_casing")
-                .notConsumable(sensorCasingStack)
+        ItemStack data = GTOItems.DATA_DISC.get().getDisc(sensorCasingStack);
+
+        SCANNER_RECIPES.recipeBuilder(GTOCore.id(material.getName() + "_sensor_casing"))
+                .inputItems(GTOItems.DATA_DISC.asStack())
+                .inputItems(sensorCasingStack)
+                .outputItems(data)
+                .EUt((long) GTOUtils.getVoltageMultiplier(material) << 4)
+                .duration(mass)
+                .save(provider);
+
+        THREE_DIMENSIONAL_PRINTER_RECIPES.recipeBuilder(GTOCore.id(material.getName() + "_sensor_casing"))
+                .notConsumable(data)
                 .inputFluids(material.getFluid(GTValues.L * 9 / 2))
                 .outputItems(sensorCasingStack)
                 .duration(mass * 9 / 2)
                 .EUt(16)
+                .cleanroom(CleanroomType.CLEANROOM)
                 .save(provider);
     }
 
@@ -670,7 +726,7 @@ public final class GTOPartsRecipeHandler {
             VanillaRecipeHelper.addShapedRecipe(provider, String.format("field_generator_casing_%s", material.getName()),
                     fieldGeneratorCasingStack, "IPI", "PwP", "IPI", 'I', curvedPlateStack, 'P', plateStack);
 
-        LASER_WELDER_RECIPES.recipeBuilder(material.getName() + "_field_generator_casing")
+        LASER_WELDER_RECIPES.recipeBuilder(GTOCore.id(material.getName() + "_field_generator_casing"))
                 .inputItems(curvedPlateStack.copyWithCount(4))
                 .inputItems(plateStack.copyWithCount(4))
                 .circuitMeta(7)
@@ -679,17 +735,28 @@ public final class GTOPartsRecipeHandler {
                 .EUt(30)
                 .save(provider);
 
-        THREE_DIMENSIONAL_PRINTER_RECIPES.recipeBuilder(material.getName() + "_field_generator_casing")
-                .notConsumable(fieldGeneratorCasingStack)
+        ItemStack data = GTOItems.DATA_DISC.get().getDisc(fieldGeneratorCasingStack);
+
+        SCANNER_RECIPES.recipeBuilder(GTOCore.id(material.getName() + "_sensor_casing"))
+                .inputItems(GTOItems.DATA_DISC.asStack())
+                .inputItems(fieldGeneratorCasingStack)
+                .outputItems(data)
+                .EUt((long) GTOUtils.getVoltageMultiplier(material) << 4)
+                .duration(mass)
+                .save(provider);
+
+        THREE_DIMENSIONAL_PRINTER_RECIPES.recipeBuilder(GTOCore.id(material.getName() + "_sensor_casing"))
+                .notConsumable(data)
                 .inputFluids(material.getFluid(GTValues.L << 3))
                 .outputItems(fieldGeneratorCasingStack)
                 .duration(mass << 3)
                 .EUt(16)
+                .cleanroom(CleanroomType.CLEANROOM)
                 .save(provider);
     }
 
     private static void processCatalyst(TagPrefix prefix, Material material, DustProperty property, Consumer<FinishedRecipe> provider) {
-        ASSEMBLER_RECIPES.recipeBuilder(material.getName() + "_catalyst")
+        ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id(material.getName() + "_catalyst"))
                 .inputItems(GTOItems.CATALYST_BASE.asStack())
                 .inputItems(dust, material, 16)
                 .outputItems(catalyst, material)

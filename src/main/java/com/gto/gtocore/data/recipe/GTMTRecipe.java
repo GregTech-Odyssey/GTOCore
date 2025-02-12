@@ -14,6 +14,7 @@ import com.gregtechceu.gtceu.api.machine.multiblock.CleanroomType;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMachines;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
+import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.common.data.machines.GTAEMachines;
 import com.gregtechceu.gtceu.common.data.machines.GTMultiMachines;
 import com.gregtechceu.gtceu.common.data.machines.GTResearchMachines;
@@ -36,6 +37,14 @@ import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.ASSEMBLER_RECIPES;
 public final class GTMTRecipe {
 
     public static void init(Consumer<FinishedRecipe> provider) {
+        GTRecipeTypes.SCANNER_RECIPES.recipeBuilder("wireless_energy_binding_tool")
+                .inputItems(TagPrefix.plate, GTMaterials.Paper)
+                .inputItems(GTItems.COVER_SCREEN.asStack())
+                .outputItems(CustomItems.WIRELESS_ENERGY_BINDING_TOOL.asStack())
+                .EUt(30)
+                .duration(400)
+                .save(provider);
+
         ASSEMBLER_RECIPES.recipeBuilder("cover_maintenance_detector")
                 .inputItems(GTItems.EMITTER_LV)
                 .inputItems(TagPrefix.plate, GTMaterials.Steel)

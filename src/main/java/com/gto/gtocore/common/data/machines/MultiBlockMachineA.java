@@ -2078,7 +2078,6 @@ public final class MultiBlockMachineA {
     public final static MultiblockMachineDefinition ELEMENT_COPYING = multiblock("element_copying", "元素复制机", CrossRecipeMultiblockMachine.createParallel(true, true, MachineUtils::getHatchParallel))
             .allRotation()
             .recipe(GTORecipeTypes.ELEMENT_COPYING_RECIPES)
-            .tooltipsText("All elements of the periodic table can be copied, with each consumption of UU matter equal to the atomic weight of the element.", "可复制元素周期表的全部元素，每次UU物质的消耗量为元素的原子量")
             .parallelizableTooltips()
             .customTooltipsBuilder(true, true, true)
             .block(GTOBlocks.MOLECULAR_CASING)

@@ -481,7 +481,7 @@ public final class MultiBlockMachineC {
 
     public final static MultiblockMachineDefinition COMPONENT_ASSEMBLER = multiblock("component_assembler", "部件组装机", TierCasingMultiblockMachine.createMachine(COMPONENT_ASSEMBLY_CASING_TIER))
             .allRotation()
-
+            .tooltipsText("Can only run recipes up to IV tier", "只能运行IV及以下配方")
             .recipe(GTORecipeTypes.COMPONENT_ASSEMBLY_RECIPES)
             .overclock()
             .block(GTBlocks.CASING_STEEL_SOLID)

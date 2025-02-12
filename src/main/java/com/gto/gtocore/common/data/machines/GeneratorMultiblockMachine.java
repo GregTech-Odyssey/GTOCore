@@ -92,6 +92,7 @@ public final class GeneratorMultiblockMachine {
             .recipe(GTRecipeTypes.PLASMA_GENERATOR_FUELS)
             .tooltipsText("Actual output is determined by plasma heat value", "实际产出由等离子热值决定")
             .tooltipsText("If a laser hatch is used, power generation is increased by x2^tier", "如果使用激光仓，则提升发电量x2^等级")
+            .tooltipsText("A torrent of plasma rushes forward with majestic energy", "等离子体洪流带着磅礴的能量奔涌")
             .customTooltipsBuilder(false, true, false)
             .generator()
             .recipeModifier((machine, r) -> recipe -> {
