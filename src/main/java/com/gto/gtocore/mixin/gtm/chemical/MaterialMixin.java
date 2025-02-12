@@ -5,10 +5,14 @@ import com.gto.gtocore.client.renderer.item.MaterialsColorMap;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
+import com.gregtechceu.gtceu.api.data.chemical.material.properties.MaterialProperties;
 
 import net.minecraft.world.item.Rarity;
 
+import org.jetbrains.annotations.NotNull;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -16,6 +20,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Material.class)
 public class MaterialMixin implements GTOMaterial {
+
+    @Shadow(remap = false)
+    @Final
+    private @NotNull MaterialProperties properties;
 
     @Unique
     private long gTOCore$mass;
@@ -31,6 +39,11 @@ public class MaterialMixin implements GTOMaterial {
     @Override
     public void gtocore$setRarity(Rarity rarity) {
         this.gtocore$rarity = rarity;
+    }
+
+    @Override
+    public MaterialProperties gtocore$getProperties() {
+        return properties;
     }
 
     @Inject(method = "getMass", at = @At("HEAD"), remap = false, cancellable = true)

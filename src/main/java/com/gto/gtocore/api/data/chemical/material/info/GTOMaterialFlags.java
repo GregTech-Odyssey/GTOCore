@@ -5,6 +5,12 @@ import com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlags;
 
 public final class GTOMaterialFlags {
 
+    public static final MaterialFlag GENERATE_SMALL_DUST = new MaterialFlag.Builder("generate_small_dust")
+            .build();
+
+    public static final MaterialFlag GENERATE_TINY_DUST = new MaterialFlag.Builder("generate_tiny_dust")
+            .build();
+
     public static final MaterialFlag GENERATE_CATALYST = new MaterialFlag.Builder("generate_catalyst")
             .build();
 

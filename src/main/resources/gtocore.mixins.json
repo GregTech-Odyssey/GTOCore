@@ -74,6 +74,7 @@
         "gtm.capability.ItemRecipeCapabilityMixin",
         "gtm.chemical.MaterialBuilderMixin",
         "gtm.chemical.MaterialMixin",
+        "gtm.chemical.MaterialPropertiesAccessor",
         "gtm.chemical.TagPrefixMixin",
         "gtm.item.ColorSprayBehaviourMixin",
         "gtm.item.MaterialBlockItemMixin",

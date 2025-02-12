@@ -1,8 +1,10 @@
 package com.gto.gtocore.api.data.tag;
 
 import com.gto.gtocore.GTOCore;
+import com.gto.gtocore.api.data.chemical.material.GTOMaterial;
 import com.gto.gtocore.api.data.chemical.material.info.GTOMaterialFlags;
 import com.gto.gtocore.common.data.GTOBlocks;
+import com.gto.gtocore.mixin.gtm.chemical.MaterialPropertiesAccessor;
 import com.gto.gtocore.utils.RLUtils;
 
 import com.gregtechceu.gtceu.api.GTValues;
@@ -36,7 +38,10 @@ public final class GTOTagPrefix extends TagPrefix {
         super(name);
     }
 
-    public static void init() {}
+    public static void init() {
+        TagPrefix.dustTiny.generationCondition(TagPrefix.Conditions.hasDustProperty.and(mat -> ((MaterialPropertiesAccessor) ((GTOMaterial) mat).gtocore$getProperties()).getPropertyMap().size() > 1 || mat.hasFlag(GTOMaterialFlags.GENERATE_TINY_DUST)));
+        TagPrefix.dustSmall.generationCondition(TagPrefix.Conditions.hasDustProperty.and(mat -> ((MaterialPropertiesAccessor) ((GTOMaterial) mat).gtocore$getProperties()).getPropertyMap().size() > 1 || mat.hasFlag(GTOMaterialFlags.GENERATE_SMALL_DUST)));
+    }
 
     public static final TagPrefix moon_stone = oreTagPrefix("moon_stone", BlockTags.MINEABLE_WITH_PICKAXE)
             .registerOre(() -> ModBlocks.MOON_STONE.get().defaultBlockState(), null,

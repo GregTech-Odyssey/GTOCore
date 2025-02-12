@@ -125,10 +125,10 @@ final class MolecularTransformer {
                 .save(provider);
 
         GTORecipeTypes.MOLECULAR_TRANSFORMER_RECIPES.recipeBuilder(GTOCore.id("small_bone_dust"))
-                .inputItems(TagPrefix.dustSmall, GTMaterials.Calcium)
-                .outputItems(TagPrefix.dustSmall, GTMaterials.Bone)
+                .inputItems(TagPrefix.dust, GTMaterials.Calcium)
+                .outputItems(TagPrefix.dust, GTMaterials.Bone)
                 .EUt(30)
-                .duration(20)
+                .duration(80)
                 .save(provider);
     }
 }

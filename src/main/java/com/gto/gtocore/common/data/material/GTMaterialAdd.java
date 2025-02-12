@@ -17,6 +17,24 @@ import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
 public final class GTMaterialAdd {
 
     public static void init() {
+        Clay.addFlags(GTOMaterialFlags.GENERATE_SMALL_DUST);
+        Brick.addFlags(GTOMaterialFlags.GENERATE_SMALL_DUST);
+        SodiumHydroxide.addFlags(GTOMaterialFlags.GENERATE_TINY_DUST);
+        PotassiumDichromate.addFlags(GTOMaterialFlags.GENERATE_TINY_DUST);
+        RareEarth.addFlags(GTOMaterialFlags.GENERATE_SMALL_DUST);
+        AntimonyTrioxide.addFlags(GTOMaterialFlags.GENERATE_TINY_DUST);
+        Ash.addFlags(GTOMaterialFlags.GENERATE_SMALL_DUST, GTOMaterialFlags.GENERATE_TINY_DUST);
+        DarkAsh.addFlags(GTOMaterialFlags.GENERATE_TINY_DUST);
+        Bone.addFlags(GTOMaterialFlags.GENERATE_TINY_DUST);
+        NaquadriaSulfate.addFlags(GTOMaterialFlags.GENERATE_TINY_DUST);
+        InertMetalMixture.addFlags(GTOMaterialFlags.GENERATE_TINY_DUST);
+        RarestMetalMixture.addFlags(GTOMaterialFlags.GENERATE_TINY_DUST);
+        AntimonyTrioxide.addFlags(GTOMaterialFlags.GENERATE_TINY_DUST);
+        Meat.addFlags(GTOMaterialFlags.GENERATE_TINY_DUST);
+        Obsidian.addFlags(GTOMaterialFlags.GENERATE_TINY_DUST);
+        Strontium.setProperty(FLUID, new FluidProperty(FluidStorageKeys.LIQUID, new FluidBuilder()));
+        Barium.setProperty(FLUID, new FluidProperty(FluidStorageKeys.LIQUID, new FluidBuilder()));
+        Cadmium.setProperty(FLUID, new FluidProperty(FluidStorageKeys.LIQUID, new FluidBuilder()));
         Iron.setProperty(PropertyKey.TOOL, ToolProperty.Builder.of(2.0F, 2.0F, 256, 2, GTToolType.MINING_HAMMER, GTToolType.SPADE, GTToolType.SAW, GTToolType.HARD_HAMMER, GTToolType.WRENCH, GTToolType.FILE, GTToolType.CROWBAR, GTToolType.SCREWDRIVER, GTToolType.WIRE_CUTTER, GTToolType.SCYTHE, GTToolType.KNIFE, GTToolType.BUTCHERY_KNIFE, GTToolType.DRILL_LV, GTToolType.DRILL_MV, GTToolType.DRILL_HV, GTToolType.DRILL_EV, GTToolType.DRILL_IV, GTToolType.CHAINSAW_LV, GTToolType.WRENCH_LV, GTToolType.WRENCH_HV, GTToolType.WRENCH_IV, GTToolType.BUZZSAW, GTToolType.SCREWDRIVER_LV, GTToolType.WIRE_CUTTER_LV, GTToolType.WIRE_CUTTER_HV, GTToolType.WIRE_CUTTER_IV).enchantability(14).addTypes(GTToolType.MORTAR).build());
         Platinum.setProperty(BLAST, new BlastProperty(1810));
         RedAlloy.addFlags(GENERATE_SPRING_SMALL);
@@ -164,6 +182,7 @@ public final class GTMaterialAdd {
         Bohrium.setProperty(INGOT, new IngotProperty());
         Bohrium.setProperty(FLUID, new FluidProperty(FluidStorageKeys.LIQUID, new FluidBuilder()));
         Thallium.setProperty(DUST, new DustProperty());
+        Thallium.setProperty(FLUID, new FluidProperty(FluidStorageKeys.LIQUID, new FluidBuilder()));
         Meitnerium.setProperty(DUST, new DustProperty());
         Meitnerium.setProperty(FLUID, new FluidProperty(FluidStorageKeys.LIQUID, new FluidBuilder()));
         Roentgenium.setProperty(INGOT, new IngotProperty());
