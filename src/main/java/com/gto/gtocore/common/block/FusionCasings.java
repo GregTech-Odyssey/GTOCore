@@ -1,7 +1,7 @@
 package com.gto.gtocore.common.block;
 
 import com.gto.gtocore.GTOCore;
-import com.gto.gtocore.common.data.GTOBlocks;
+import com.gto.gtocore.init.GTOBlocks;
 
 import com.gregtechceu.gtceu.api.block.IFusionCasingType;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;

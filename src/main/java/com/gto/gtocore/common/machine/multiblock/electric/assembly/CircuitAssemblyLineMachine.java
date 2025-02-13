@@ -1,8 +1,8 @@
 package com.gto.gtocore.common.machine.multiblock.electric.assembly;
 
 import com.gto.gtocore.api.machine.multiblock.StorageMultiblockMachine;
-import com.gto.gtocore.common.data.GTOItems;
 import com.gto.gtocore.common.data.GTORecipeModifiers;
+import com.gto.gtocore.init.GTOItems;
 import com.gto.gtocore.utils.ItemUtils;
 
 import com.gregtechceu.gtceu.api.GTValues;

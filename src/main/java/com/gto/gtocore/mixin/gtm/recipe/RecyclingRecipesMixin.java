@@ -1,6 +1,6 @@
 package com.gto.gtocore.mixin.gtm.recipe;
 
-import com.gto.gtocore.common.data.GTORecipeTypes;
+import com.gto.gtocore.init.GTORecipeTypes;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
@@ -126,7 +126,7 @@ public abstract class RecyclingRecipesMixin {
         List<ItemStack> outputs = finalizeOutputs(materials, GTRecipeTypes.MACERATOR_RECIPES.getMaxOutputs(ItemRecipeCapability.CAP), ChemicalHelper::getDust);
         if (outputs != null && !outputs.isEmpty()) {
             ResourceLocation itemPath = BuiltInRegistries.ITEM.getKey(input.getItem());
-            GTRecipeBuilder builder = GTRecipeTypes.MACERATOR_RECIPES.recipeBuilder("macerate_" + itemPath.getPath()).outputItems((ItemStack[]) outputs.toArray(ItemStack[]::new)).duration(calculateDuration(outputs)).EUt(2L * (long) multiplier);
+            GTRecipeBuilder builder = GTRecipeTypes.MACERATOR_RECIPES.recipeBuilder("macerate_" + itemPath.getPath()).outputItems(outputs.toArray(ItemStack[]::new)).duration(calculateDuration(outputs)).EUt(2L * (long) multiplier);
             builder.inputItems(input);
             builder.category(GTRecipeCategories.MACERATOR_RECYCLING);
             builder.save(provider);

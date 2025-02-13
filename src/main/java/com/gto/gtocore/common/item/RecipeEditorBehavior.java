@@ -5,11 +5,11 @@ import com.gto.gtocore.api.GTOValues;
 import com.gto.gtocore.api.machine.DummyMachine;
 import com.gto.gtocore.api.machine.GTOCleanroomType;
 import com.gto.gtocore.client.Tooltips;
-import com.gto.gtocore.common.data.GTOItems;
-import com.gto.gtocore.common.data.GTORecipeTypes;
 import com.gto.gtocore.common.recipe.condition.GravityCondition;
 import com.gto.gtocore.common.recipe.condition.VacuumCondition;
 import com.gto.gtocore.config.GTOConfig;
+import com.gto.gtocore.init.GTOItems;
+import com.gto.gtocore.init.GTORecipeTypes;
 import com.gto.gtocore.integration.kjs.GTKubeJSPlugin;
 import com.gto.gtocore.utils.*;
 

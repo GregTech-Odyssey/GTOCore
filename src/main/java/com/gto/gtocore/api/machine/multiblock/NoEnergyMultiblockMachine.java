@@ -46,10 +46,6 @@ public class NoEnergyMultiblockMachine extends WorkableMultiblockMachine impleme
         super(holder, args);
     }
 
-    protected void addTraits(MultiblockTrait trait) {
-        multiblockTraits.add(trait);
-    }
-
     @Override
     public boolean alwaysTryModifyRecipe() {
         if (getDefinition().isAlwaysTryModifyRecipe()) return true;

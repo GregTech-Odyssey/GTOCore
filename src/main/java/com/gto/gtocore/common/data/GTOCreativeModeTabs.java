@@ -1,6 +1,10 @@
 package com.gto.gtocore.common.data;
 
 import com.gto.gtocore.GTOCore;
+import com.gto.gtocore.init.GTOBlocks;
+import com.gto.gtocore.init.GTOItems;
+import com.gto.gtocore.init.GTOMachines;
+import com.gto.gtocore.init.GTOMaterials;
 
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;

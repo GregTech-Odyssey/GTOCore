@@ -1,8 +1,8 @@
 package com.gto.gtocore.data.recipe.processing;
 
 import com.gto.gtocore.GTOCore;
-import com.gto.gtocore.common.data.GTOMaterials;
-import com.gto.gtocore.common.data.GTORecipeTypes;
+import com.gto.gtocore.init.GTOMaterials;
+import com.gto.gtocore.init.GTORecipeTypes;
 
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
@@ -16,12 +16,12 @@ import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
 import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.*;
 import static com.gto.gtocore.api.data.tag.GTOTagPrefix.nanites;
-import static com.gto.gtocore.common.data.GTOMaterials.*;
-import static com.gto.gtocore.common.data.GTORecipeTypes.*;
+import static com.gto.gtocore.init.GTOMaterials.*;
+import static com.gto.gtocore.init.GTORecipeTypes.*;
 
-public final class Lanthanidetreatment {
+public interface Lanthanidetreatment {
 
-    public static void init(Consumer<FinishedRecipe> provider) {
+    static void init(Consumer<FinishedRecipe> provider) {
         EXTRACTOR_RECIPES.recipeBuilder("monazite_extraction")
                 .inputItems(gemExquisite, Monazite)
                 .outputItems(dustSmall, RareEarth, 10)

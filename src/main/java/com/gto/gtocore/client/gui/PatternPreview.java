@@ -4,10 +4,10 @@ import com.gto.gtocore.api.gui.PatternSlotWidget;
 import com.gto.gtocore.api.item.ItemHandlerModifiable;
 import com.gto.gtocore.api.machine.IMultiblockMachineDefinition;
 import com.gto.gtocore.api.machine.feature.multiblock.IMultiStructureMachine;
-import com.gto.gtocore.common.data.GTOBlocks;
-import com.gto.gtocore.common.data.machines.GeneratorMultiblockMachine;
-import com.gto.gtocore.common.data.machines.MultiBlockMachineD;
 import com.gto.gtocore.config.GTOConfig;
+import com.gto.gtocore.init.GTOBlocks;
+import com.gto.gtocore.init.machines.GeneratorMultiblock;
+import com.gto.gtocore.init.machines.MultiBlockD;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTValues;
@@ -83,22 +83,22 @@ public final class PatternPreview extends WidgetGroup {
                 GTMachines.FLUID_EXPORT_HATCH[GTValues.UV].asStack(16),
                 GTBlocks.FUSION_CASING_MK3.asStack(79),
                 GTBlocks.FUSION_COIL.asStack(4))));
-        SameStructureMachineBuilder.put(MultiBlockMachineD.FUSION_REACTOR[GTValues.UHV], Pair.of(GTMultiMachines.FUSION_REACTOR[GTValues.LuV].getDescriptionId(), List.of(
-                MultiBlockMachineD.FUSION_REACTOR[GTValues.UHV].asStack(),
+        SameStructureMachineBuilder.put(MultiBlockD.FUSION_REACTOR[GTValues.UHV], Pair.of(GTMultiMachines.FUSION_REACTOR[GTValues.LuV].getDescriptionId(), List.of(
+                MultiBlockD.FUSION_REACTOR[GTValues.UHV].asStack(),
                 GTMachines.ENERGY_INPUT_HATCH[GTValues.UHV].asStack(16),
                 GTMachines.FLUID_IMPORT_HATCH[GTValues.UHV].asStack(16),
                 GTMachines.FLUID_EXPORT_HATCH[GTValues.UHV].asStack(16),
                 GTOBlocks.FUSION_CASING_MK4.asStack(79),
                 GTOBlocks.ADVANCED_FUSION_COIL.asStack(4))));
-        SameStructureMachineBuilder.put(MultiBlockMachineD.FUSION_REACTOR[GTValues.UEV], Pair.of(GTMultiMachines.FUSION_REACTOR[GTValues.LuV].getDescriptionId(), List.of(
-                MultiBlockMachineD.FUSION_REACTOR[GTValues.UEV].asStack(),
+        SameStructureMachineBuilder.put(MultiBlockD.FUSION_REACTOR[GTValues.UEV], Pair.of(GTMultiMachines.FUSION_REACTOR[GTValues.LuV].getDescriptionId(), List.of(
+                MultiBlockD.FUSION_REACTOR[GTValues.UEV].asStack(),
                 GTMachines.ENERGY_INPUT_HATCH[GTValues.UEV].asStack(16),
                 GTMachines.FLUID_IMPORT_HATCH[GTValues.UEV].asStack(16),
                 GTMachines.FLUID_EXPORT_HATCH[GTValues.UEV].asStack(16),
                 GTOBlocks.FUSION_CASING_MK5.asStack(79),
                 GTOBlocks.FUSION_COIL_MK2.asStack(4))));
-        SameStructureMachineBuilder.put(MultiBlockMachineD.KUANGBIAO_ONE_GIANT_NUCLEAR_FUSION_REACTOR[GTValues.ZPM], Pair.of(MultiBlockMachineD.KUANGBIAO_ONE_GIANT_NUCLEAR_FUSION_REACTOR[GTValues.LuV].getDescriptionId(), List.of(
-                MultiBlockMachineD.KUANGBIAO_ONE_GIANT_NUCLEAR_FUSION_REACTOR[GTValues.ZPM].asStack(),
+        SameStructureMachineBuilder.put(MultiBlockD.KUANGBIAO_ONE_GIANT_NUCLEAR_FUSION_REACTOR[GTValues.ZPM], Pair.of(MultiBlockD.KUANGBIAO_ONE_GIANT_NUCLEAR_FUSION_REACTOR[GTValues.LuV].getDescriptionId(), List.of(
+                MultiBlockD.KUANGBIAO_ONE_GIANT_NUCLEAR_FUSION_REACTOR[GTValues.ZPM].asStack(),
                 GTMachines.FLUID_EXPORT_HATCH[GTValues.ZPM].asStack(16),
                 GTMachines.FLUID_IMPORT_HATCH[GTValues.ZPM].asStack(16),
                 GTMachines.LASER_INPUT_HATCH_256[GTValues.ZPM].asStack(16),
@@ -113,8 +113,8 @@ public final class PatternPreview extends WidgetGroup {
                 GTOBlocks.FISSION_REACTOR_CASING.asStack(584),
                 GTOBlocks.HIGH_STRENGTH_CONCRETE.asStack(396),
                 GTOBlocks.COMPRESSED_FUSION_COIL.asStack(584))));
-        SameStructureMachineBuilder.put(MultiBlockMachineD.KUANGBIAO_ONE_GIANT_NUCLEAR_FUSION_REACTOR[GTValues.UV], Pair.of(MultiBlockMachineD.KUANGBIAO_ONE_GIANT_NUCLEAR_FUSION_REACTOR[GTValues.LuV].getDescriptionId(), List.of(
-                MultiBlockMachineD.KUANGBIAO_ONE_GIANT_NUCLEAR_FUSION_REACTOR[GTValues.UV].asStack(),
+        SameStructureMachineBuilder.put(MultiBlockD.KUANGBIAO_ONE_GIANT_NUCLEAR_FUSION_REACTOR[GTValues.UV], Pair.of(MultiBlockD.KUANGBIAO_ONE_GIANT_NUCLEAR_FUSION_REACTOR[GTValues.LuV].getDescriptionId(), List.of(
+                MultiBlockD.KUANGBIAO_ONE_GIANT_NUCLEAR_FUSION_REACTOR[GTValues.UV].asStack(),
                 GTMachines.FLUID_EXPORT_HATCH[GTValues.UV].asStack(16),
                 GTMachines.FLUID_IMPORT_HATCH[GTValues.UV].asStack(16),
                 GTMachines.LASER_INPUT_HATCH_256[GTValues.UV].asStack(16),
@@ -129,8 +129,8 @@ public final class PatternPreview extends WidgetGroup {
                 GTOBlocks.FISSION_REACTOR_CASING.asStack(584),
                 GTOBlocks.HIGH_STRENGTH_CONCRETE.asStack(396),
                 GTOBlocks.ADVANCED_COMPRESSED_FUSION_COIL.asStack(584))));
-        SameStructureMachineBuilder.put(MultiBlockMachineD.KUANGBIAO_ONE_GIANT_NUCLEAR_FUSION_REACTOR[GTValues.UHV], Pair.of(MultiBlockMachineD.KUANGBIAO_ONE_GIANT_NUCLEAR_FUSION_REACTOR[GTValues.LuV].getDescriptionId(), List.of(
-                MultiBlockMachineD.KUANGBIAO_ONE_GIANT_NUCLEAR_FUSION_REACTOR[GTValues.UHV].asStack(),
+        SameStructureMachineBuilder.put(MultiBlockD.KUANGBIAO_ONE_GIANT_NUCLEAR_FUSION_REACTOR[GTValues.UHV], Pair.of(MultiBlockD.KUANGBIAO_ONE_GIANT_NUCLEAR_FUSION_REACTOR[GTValues.LuV].getDescriptionId(), List.of(
+                MultiBlockD.KUANGBIAO_ONE_GIANT_NUCLEAR_FUSION_REACTOR[GTValues.UHV].asStack(),
                 GTMachines.FLUID_EXPORT_HATCH[GTValues.UHV].asStack(16),
                 GTMachines.FLUID_IMPORT_HATCH[GTValues.UHV].asStack(16),
                 GTMachines.LASER_INPUT_HATCH_256[GTValues.UHV].asStack(16),
@@ -145,8 +145,8 @@ public final class PatternPreview extends WidgetGroup {
                 GTOBlocks.FISSION_REACTOR_CASING.asStack(584),
                 GTOBlocks.HIGH_STRENGTH_CONCRETE.asStack(396),
                 GTOBlocks.COMPRESSED_FUSION_COIL_MK2_PROTOTYPE.asStack(584))));
-        SameStructureMachineBuilder.put(MultiBlockMachineD.KUANGBIAO_ONE_GIANT_NUCLEAR_FUSION_REACTOR[GTValues.UEV], Pair.of(MultiBlockMachineD.KUANGBIAO_ONE_GIANT_NUCLEAR_FUSION_REACTOR[GTValues.LuV].getDescriptionId(), List.of(
-                MultiBlockMachineD.KUANGBIAO_ONE_GIANT_NUCLEAR_FUSION_REACTOR[GTValues.UEV].asStack(),
+        SameStructureMachineBuilder.put(MultiBlockD.KUANGBIAO_ONE_GIANT_NUCLEAR_FUSION_REACTOR[GTValues.UEV], Pair.of(MultiBlockD.KUANGBIAO_ONE_GIANT_NUCLEAR_FUSION_REACTOR[GTValues.LuV].getDescriptionId(), List.of(
+                MultiBlockD.KUANGBIAO_ONE_GIANT_NUCLEAR_FUSION_REACTOR[GTValues.UEV].asStack(),
                 GTMachines.FLUID_EXPORT_HATCH[GTValues.UEV].asStack(16),
                 GTMachines.FLUID_IMPORT_HATCH[GTValues.UEV].asStack(16),
                 GTMachines.LASER_INPUT_HATCH_256[GTValues.UEV].asStack(16),
@@ -161,13 +161,13 @@ public final class PatternPreview extends WidgetGroup {
                 GTOBlocks.FISSION_REACTOR_CASING.asStack(584),
                 GTOBlocks.HIGH_STRENGTH_CONCRETE.asStack(396),
                 GTOBlocks.COMPRESSED_FUSION_COIL_MK2.asStack(584))));
-        SameStructureMachineBuilder.put(GeneratorMultiblockMachine.PHOTOVOLTAIC_POWER_STATION_PULSATING, Pair.of(GeneratorMultiblockMachine.PHOTOVOLTAIC_POWER_STATION_ENERGETIC.getDescriptionId(), List.of(
-                GeneratorMultiblockMachine.PHOTOVOLTAIC_POWER_STATION_PULSATING.asStack(),
+        SameStructureMachineBuilder.put(GeneratorMultiblock.PHOTOVOLTAIC_POWER_STATION_PULSATING, Pair.of(GeneratorMultiblock.PHOTOVOLTAIC_POWER_STATION_ENERGETIC.getDescriptionId(), List.of(
+                GeneratorMultiblock.PHOTOVOLTAIC_POWER_STATION_PULSATING.asStack(),
                 GTMachines.ITEM_IMPORT_BUS[0].asStack(),
                 GTBlocks.CASING_TITANIUM_STABLE.asStack(22),
                 GTOBlocks.PULSATING_PHOTOVOLTAIC_BLOCK.asStack(25))));
-        SameStructureMachineBuilder.put(GeneratorMultiblockMachine.PHOTOVOLTAIC_POWER_STATION_VIBRANT, Pair.of(GeneratorMultiblockMachine.PHOTOVOLTAIC_POWER_STATION_ENERGETIC.getDescriptionId(), List.of(
-                GeneratorMultiblockMachine.PHOTOVOLTAIC_POWER_STATION_VIBRANT.asStack(),
+        SameStructureMachineBuilder.put(GeneratorMultiblock.PHOTOVOLTAIC_POWER_STATION_VIBRANT, Pair.of(GeneratorMultiblock.PHOTOVOLTAIC_POWER_STATION_ENERGETIC.getDescriptionId(), List.of(
+                GeneratorMultiblock.PHOTOVOLTAIC_POWER_STATION_VIBRANT.asStack(),
                 GTMachines.ITEM_IMPORT_BUS[0].asStack(),
                 GTBlocks.CASING_TUNGSTENSTEEL_ROBUST.asStack(22),
                 GTOBlocks.VIBRANT_PHOTOVOLTAIC_BLOCK.asStack(25))));
@@ -180,8 +180,8 @@ public final class PatternPreview extends WidgetGroup {
                 GTMachines.MAINTENANCE_HATCH.asStack(),
                 GTBlocks.CASING_STAINLESS_TURBINE.asStack(28),
                 GTBlocks.CASING_STAINLESS_STEEL_GEARBOX.asStack(2))));
-        SameStructureMachineBuilder.put(GeneratorMultiblockMachine.ROCKET_LARGE_TURBINE, Pair.of(GTMultiMachines.LARGE_STEAM_TURBINE.getDescriptionId(), List.of(
-                GeneratorMultiblockMachine.ROCKET_LARGE_TURBINE.asStack(),
+        SameStructureMachineBuilder.put(GeneratorMultiblock.ROCKET_LARGE_TURBINE, Pair.of(GTMultiMachines.LARGE_STEAM_TURBINE.getDescriptionId(), List.of(
+                GeneratorMultiblock.ROCKET_LARGE_TURBINE.asStack(),
                 GTMachines.ROTOR_HOLDER[GTValues.EV].asStack(),
                 GTMachines.MUFFLER_HATCH[GTValues.LV].asStack(),
                 GTMachines.ENERGY_OUTPUT_HATCH[GTValues.ULV].asStack(),
@@ -189,8 +189,8 @@ public final class PatternPreview extends WidgetGroup {
                 GTMachines.MAINTENANCE_HATCH.asStack(),
                 GTBlocks.CASING_TITANIUM_TURBINE.asStack(28),
                 GTBlocks.CASING_TITANIUM_GEARBOX.asStack(2))));
-        SameStructureMachineBuilder.put(GeneratorMultiblockMachine.SUPERCRITICAL_STEAM_TURBINE, Pair.of(GTMultiMachines.LARGE_STEAM_TURBINE.getDescriptionId(), List.of(
-                GeneratorMultiblockMachine.SUPERCRITICAL_STEAM_TURBINE.asStack(),
+        SameStructureMachineBuilder.put(GeneratorMultiblock.SUPERCRITICAL_STEAM_TURBINE, Pair.of(GTMultiMachines.LARGE_STEAM_TURBINE.getDescriptionId(), List.of(
+                GeneratorMultiblock.SUPERCRITICAL_STEAM_TURBINE.asStack(),
                 GTMachines.ROTOR_HOLDER[GTValues.IV].asStack(),
                 GTMachines.MUFFLER_HATCH[GTValues.LV].asStack(),
                 GTMachines.ENERGY_OUTPUT_HATCH[GTValues.ULV].asStack(),
@@ -199,24 +199,24 @@ public final class PatternPreview extends WidgetGroup {
                 GTMachines.MAINTENANCE_HATCH.asStack(),
                 GTOBlocks.SUPERCRITICAL_TURBINE_CASING.asStack(27),
                 GTBlocks.CASING_TUNGSTENSTEEL_GEARBOX.asStack(2))));
-        SameStructureMachineBuilder.put(GeneratorMultiblockMachine.GAS_MEGA_TURBINE, Pair.of(GeneratorMultiblockMachine.STEAM_MEGA_TURBINE.getDescriptionId(), List.of(
-                GeneratorMultiblockMachine.GAS_MEGA_TURBINE.asStack(),
+        SameStructureMachineBuilder.put(GeneratorMultiblock.GAS_MEGA_TURBINE, Pair.of(GeneratorMultiblock.STEAM_MEGA_TURBINE.getDescriptionId(), List.of(
+                GeneratorMultiblock.GAS_MEGA_TURBINE.asStack(),
                 GTMachines.ROTOR_HOLDER[GTValues.IV].asStack(12),
                 GTMachines.MUFFLER_HATCH[GTValues.LV].asStack(),
                 GTMachines.ENERGY_OUTPUT_HATCH[GTValues.ULV].asStack(4),
                 GTMachines.MAINTENANCE_HATCH.asStack(),
                 GTBlocks.CASING_STAINLESS_TURBINE.asStack(392),
                 GTBlocks.CASING_STAINLESS_STEEL_GEARBOX.asStack(30))));
-        SameStructureMachineBuilder.put(GeneratorMultiblockMachine.ROCKET_MEGA_TURBINE, Pair.of(GeneratorMultiblockMachine.STEAM_MEGA_TURBINE.getDescriptionId(), List.of(
-                GeneratorMultiblockMachine.ROCKET_MEGA_TURBINE.asStack(),
+        SameStructureMachineBuilder.put(GeneratorMultiblock.ROCKET_MEGA_TURBINE, Pair.of(GeneratorMultiblock.STEAM_MEGA_TURBINE.getDescriptionId(), List.of(
+                GeneratorMultiblock.ROCKET_MEGA_TURBINE.asStack(),
                 GTMachines.ROTOR_HOLDER[GTValues.IV].asStack(12),
                 GTMachines.MUFFLER_HATCH[GTValues.LV].asStack(),
                 GTMachines.ENERGY_OUTPUT_HATCH[GTValues.ULV].asStack(4),
                 GTMachines.MAINTENANCE_HATCH.asStack(),
                 GTBlocks.CASING_TITANIUM_TURBINE.asStack(392),
                 GTBlocks.CASING_TITANIUM_GEARBOX.asStack(30))));
-        SameStructureMachineBuilder.put(GeneratorMultiblockMachine.SUPERCRITICAL_MEGA_STEAM_TURBINE, Pair.of(GeneratorMultiblockMachine.STEAM_MEGA_TURBINE.getDescriptionId(), List.of(
-                GeneratorMultiblockMachine.SUPERCRITICAL_MEGA_STEAM_TURBINE.asStack(),
+        SameStructureMachineBuilder.put(GeneratorMultiblock.SUPERCRITICAL_MEGA_STEAM_TURBINE, Pair.of(GeneratorMultiblock.STEAM_MEGA_TURBINE.getDescriptionId(), List.of(
+                GeneratorMultiblock.SUPERCRITICAL_MEGA_STEAM_TURBINE.asStack(),
                 GTMachines.ROTOR_HOLDER[GTValues.LuV].asStack(12),
                 GTMachines.MUFFLER_HATCH[GTValues.LV].asStack(),
                 GTMachines.ENERGY_OUTPUT_HATCH[GTValues.ULV].asStack(4),

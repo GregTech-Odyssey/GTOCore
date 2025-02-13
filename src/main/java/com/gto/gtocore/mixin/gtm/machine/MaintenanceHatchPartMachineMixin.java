@@ -43,7 +43,7 @@ public abstract class MaintenanceHatchPartMachineMixin extends TieredPartMachine
     }
 
     @Inject(method = "update", at = @At(value = "INVOKE", target = "Lcom/gregtechceu/gtceu/common/machine/multiblock/part/MaintenanceHatchPartMachine;consumeDuctTape(Lnet/minecraftforge/items/IItemHandler;I)Z"), remap = false, cancellable = true)
-    public void update(CallbackInfo ci) {
+    private void update(CallbackInfo ci) {
         DroneControlCenterMachine centerMachine = getDroneControlCenterMachine();
         if (centerMachine != null) {
             Drone drone = getFirstUsableDrone();

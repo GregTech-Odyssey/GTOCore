@@ -66,7 +66,7 @@ public final class DiscItem extends Item {
                 if (!f.isEmpty()) {
                     Fluid fluid = ForgeRegistries.FLUIDS.getValue(new ResourceLocation(f, tag.getString("n")));
                     if (fluid != null) {
-                        list.add(Component.translatable("item.gtocore.disc.data", "[" + new FluidStack(fluid, 1).getDisplayName() + "]"));
+                        list.add(Component.translatable("item.gtocore.disc.data", "[" + new FluidStack(fluid, 1).getDisplayName().getString() + "]"));
                     }
                 }
             }

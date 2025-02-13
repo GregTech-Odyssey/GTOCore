@@ -2,7 +2,7 @@ package com.gto.gtocore.data.recipe.generated;
 
 import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.common.block.ColorBlockMap;
-import com.gto.gtocore.common.data.GTOBlocks;
+import com.gto.gtocore.init.GTOBlocks;
 
 import com.gregtechceu.gtceu.common.data.GTRecipeCategories;
 

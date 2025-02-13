@@ -2,7 +2,7 @@ package com.gto.gtocore.api.pattern;
 
 import com.gto.gtocore.api.machine.part.GTOPartAbility;
 import com.gto.gtocore.common.block.WirelessEnergyUnitBlock;
-import com.gto.gtocore.common.data.GTOBlocks;
+import com.gto.gtocore.init.GTOBlocks;
 import com.gto.gtocore.utils.FunctionContainer;
 import com.gto.gtocore.utils.GTOUtils;
 

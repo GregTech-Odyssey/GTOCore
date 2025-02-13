@@ -1,6 +1,6 @@
 package com.gto.gtocore.mixin.gtm;
 
-import com.gto.gtocore.common.data.GTOMaterials;
+import com.gto.gtocore.init.GTOMaterials;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;

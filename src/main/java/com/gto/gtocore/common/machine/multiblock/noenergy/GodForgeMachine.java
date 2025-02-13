@@ -6,7 +6,7 @@ import com.gto.gtocore.api.machine.trait.CustomRecipeLogic;
 import com.gto.gtocore.api.machine.trait.TierCasingTrait;
 import com.gto.gtocore.api.pattern.GTOPredicates;
 import com.gto.gtocore.api.recipe.GTORecipeBuilder;
-import com.gto.gtocore.common.data.GTOBlocks;
+import com.gto.gtocore.init.GTOBlocks;
 
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
@@ -52,7 +52,6 @@ public final class GodForgeMachine extends NoEnergyMultiblockMachine implements 
     public GodForgeMachine(IMachineBlockEntity holder) {
         super(holder);
         tierCasingTrait = new TierCasingTrait(this, GRAVITON_FLOW_TIER);
-        addTraits(tierCasingTrait);
     }
 
     @Override

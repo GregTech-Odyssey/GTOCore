@@ -1,7 +1,7 @@
 package com.gto.gtocore.mixin.gtm.item;
 
 import com.gto.gtocore.common.block.ColorBlockMap;
-import com.gto.gtocore.common.data.GTOBlocks;
+import com.gto.gtocore.init.GTOBlocks;
 
 import com.gregtechceu.gtceu.common.item.ColorSprayBehaviour;
 

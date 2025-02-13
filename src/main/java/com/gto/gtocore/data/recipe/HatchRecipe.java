@@ -1,11 +1,11 @@
 package com.gto.gtocore.data.recipe;
 
 import com.gto.gtocore.GTOCore;
-import com.gto.gtocore.common.data.GTOItems;
-import com.gto.gtocore.common.data.GTOMachines;
-import com.gto.gtocore.common.data.GTOMaterials;
-import com.gto.gtocore.common.data.GTORecipeTypes;
 import com.gto.gtocore.data.CraftingComponents;
+import com.gto.gtocore.init.GTOItems;
+import com.gto.gtocore.init.GTOMachines;
+import com.gto.gtocore.init.GTOMaterials;
+import com.gto.gtocore.init.GTORecipeTypes;
 
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.data.chemical.material.stack.UnificationEntry;
@@ -39,9 +39,9 @@ import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.ASSEMBLER_RECIPES;
 import static com.gregtechceu.gtceu.data.recipe.GTCraftingComponents.*;
 import static com.gregtechceu.gtceu.data.recipe.GTCraftingComponents.PUMP;
 
-final class HatchRecipe {
+interface HatchRecipe {
 
-    public static void init(Consumer<FinishedRecipe> provider) {
+    static void init(Consumer<FinishedRecipe> provider) {
         UnificationEntry lensDiamond = new UnificationEntry(lens, Diamond);
         ItemStack activeTransformer = GTMultiMachines.ACTIVE_TRANSFORMER.asStack();
         ItemStack coverEnergyDetector = GTItems.COVER_ENERGY_DETECTOR_ADVANCED.asStack();

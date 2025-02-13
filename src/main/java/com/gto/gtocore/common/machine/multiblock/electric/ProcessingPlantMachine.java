@@ -5,7 +5,7 @@ import com.gto.gtocore.api.machine.feature.multiblock.IParallelMachine;
 import com.gto.gtocore.api.machine.multiblock.StorageMultiblockMachine;
 import com.gto.gtocore.api.machine.trait.CustomParallelTrait;
 import com.gto.gtocore.common.data.GTORecipeModifiers;
-import com.gto.gtocore.common.data.GTORecipeTypes;
+import com.gto.gtocore.init.GTORecipeTypes;
 import com.gto.gtocore.utils.MachineUtils;
 
 import com.gregtechceu.gtceu.api.gui.fancy.ConfiguratorPanel;

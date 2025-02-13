@@ -119,10 +119,9 @@ public final class IncubatorMachine extends TierCasingMultiblockMachine {
 
     private int getRecipeRadioactivity() {
         int radioactivity = 0;
-        if (radiationHatchPartMachines != null)
-            for (RadiationHatchPartMachine partMachine : radiationHatchPartMachines) {
-                radioactivity += partMachine.getRadioactivity();
-            }
+        for (RadiationHatchPartMachine partMachine : radiationHatchPartMachines) {
+            radioactivity += partMachine.getRadioactivity();
+        }
         return radioactivity;
     }
 

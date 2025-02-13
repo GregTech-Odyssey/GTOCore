@@ -1,7 +1,7 @@
 package com.gto.gtocore.data.recipe.generated;
 
 import com.gto.gtocore.GTOCore;
-import com.gto.gtocore.common.data.GTORecipeTypes;
+import com.gto.gtocore.init.GTORecipeTypes;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;

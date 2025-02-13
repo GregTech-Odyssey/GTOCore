@@ -36,7 +36,7 @@ public class NotifiableManaContainer extends NotifiableRecipeHandlerTrait<Intege
     private ManaDistributorMachine DistributorCache;
 
     @Nullable
-    protected TickableSubscription updateSubs;
+    private TickableSubscription updateSubs;
 
     @Persisted
     @DescSynced
@@ -75,7 +75,7 @@ public class NotifiableManaContainer extends NotifiableRecipeHandlerTrait<Intege
         }
     }
 
-    protected void updateTick() {
+    private void updateTick() {
         if (getMachine().getOffsetTimer() % 20 == 0) {
             ManaDistributorMachine distributor = getDistributor();
             if (distributor == null) return;

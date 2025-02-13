@@ -2,7 +2,7 @@ package com.gto.gtocore.common.machine.multiblock.electric;
 
 import com.gto.gtocore.api.machine.multiblock.StorageMultiblockMachine;
 import com.gto.gtocore.api.recipe.GTORecipeBuilder;
-import com.gto.gtocore.common.data.GTOItems;
+import com.gto.gtocore.init.GTOItems;
 import com.gto.gtocore.utils.StringUtils;
 
 import com.gregtechceu.gtceu.api.capability.IOpticalComputationProvider;
@@ -56,7 +56,7 @@ public final class ComputationProviderMachine extends StorageMultiblockMachine i
     }
 
     @Override
-    public void onMachineChanged() {
+    protected void onMachineChanged() {
         maxCWUt = 0;
         if (inf) {
             if (getTier() == 14 && getStorageStack().is(MAINFRAME.get(4))) {

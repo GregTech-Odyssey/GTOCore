@@ -2,8 +2,8 @@ package com.gto.gtocore.api.machine;
 
 import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.client.gui.PatternPreview;
-import com.gto.gtocore.common.data.machines.MultiBlockMachineD;
 import com.gto.gtocore.config.GTOConfig;
+import com.gto.gtocore.init.machines.MultiBlockD;
 
 import com.gregtechceu.gtceu.api.gui.widget.PatternPreviewWidget;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
@@ -31,7 +31,7 @@ import java.util.stream.Collectors;
 
 public interface IMultiblockMachineDefinition {
 
-    Set<MachineDefinition> DYNAMIC_STRUCTURE = Set.of(MultiBlockMachineD.NANO_FORGE);
+    Set<MachineDefinition> DYNAMIC_STRUCTURE = Set.of(MultiBlockD.NANO_FORGE);
 
     void gtocore$clear();
 

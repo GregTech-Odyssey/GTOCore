@@ -1,8 +1,8 @@
 package com.gto.gtocore.data.recipe.processing;
 
 import com.gto.gtocore.GTOCore;
-import com.gto.gtocore.common.data.GTOItems;
-import com.gto.gtocore.common.data.GTORecipeTypes;
+import com.gto.gtocore.init.GTOItems;
+import com.gto.gtocore.init.GTORecipeTypes;
 
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
 
@@ -14,12 +14,12 @@ import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.dust;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
 import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.*;
-import static com.gto.gtocore.common.data.GTOMaterials.*;
-import static com.gto.gtocore.common.data.GTORecipeTypes.DEHYDRATOR_RECIPES;
+import static com.gto.gtocore.init.GTOMaterials.*;
+import static com.gto.gtocore.init.GTORecipeTypes.DEHYDRATOR_RECIPES;
 
-public final class StoneDustProcess {
+public interface StoneDustProcess {
 
-    public static void init(Consumer<FinishedRecipe> provider) {
+    static void init(Consumer<FinishedRecipe> provider) {
         MIXER_RECIPES.recipeBuilder(GTOCore.id("dirty_hexafluorosilicic_acid_output"))
                 .inputItems(dust, Stone, 24)
                 .inputFluids(HydrofluoricAcid.getFluid(6000))

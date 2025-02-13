@@ -3,8 +3,8 @@ package com.gto.gtocore.common.machine.multiblock.electric;
 import com.gto.gtocore.api.machine.feature.multiblock.IMultiStructureMachine;
 import com.gto.gtocore.api.machine.multiblock.CrossRecipeMultiblockMachine;
 import com.gto.gtocore.api.pattern.GTOPredicates;
-import com.gto.gtocore.common.data.GTOBlocks;
-import com.gto.gtocore.common.data.GTORecipeTypes;
+import com.gto.gtocore.init.GTOBlocks;
+import com.gto.gtocore.init.GTORecipeTypes;
 import com.gto.gtocore.utils.MachineUtils;
 
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;

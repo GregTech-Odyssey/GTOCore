@@ -5,7 +5,7 @@ import com.gto.gtocore.api.machine.feature.multiblock.ICoilMachine;
 import com.gto.gtocore.api.machine.feature.multiblock.IHighlightMachine;
 import com.gto.gtocore.api.machine.multiblock.StorageMultiblockMachine;
 import com.gto.gtocore.api.machine.trait.CoilTrait;
-import com.gto.gtocore.common.data.machines.MultiBlockMachineC;
+import com.gto.gtocore.init.machines.MultiBlockC;
 import com.gto.gtocore.utils.MachineUtils;
 
 import com.gregtechceu.gtceu.api.GTValues;
@@ -48,9 +48,9 @@ public final class NanitesIntegratedMachine extends StorageMultiblockMachine imp
     static final HashBiMap<MachineDefinition, Integer> MODULE_MAP = HashBiMap.create(3);
 
     static {
-        MODULE_MAP.put(MultiBlockMachineC.ORE_EXTRACTION_MODULE, 1);
-        MODULE_MAP.put(MultiBlockMachineC.BIOENGINEERING_MODULE, 2);
-        MODULE_MAP.put(MultiBlockMachineC.POLYMER_TWISTING_MODULE, 3);
+        MODULE_MAP.put(MultiBlockC.ORE_EXTRACTION_MODULE, 1);
+        MODULE_MAP.put(MultiBlockC.BIOENGINEERING_MODULE, 2);
+        MODULE_MAP.put(MultiBlockC.POLYMER_TWISTING_MODULE, 3);
     }
 
     int chance;

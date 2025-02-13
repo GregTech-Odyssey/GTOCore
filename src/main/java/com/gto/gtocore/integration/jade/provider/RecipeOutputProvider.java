@@ -2,7 +2,7 @@ package com.gto.gtocore.integration.jade.provider;
 
 import com.gto.gtocore.api.machine.multiblock.CrossRecipeMultiblockMachine;
 import com.gto.gtocore.api.machine.multiblock.ElectricMultiblockMachine;
-import com.gto.gtocore.common.data.GTORecipeTypes;
+import com.gto.gtocore.init.GTORecipeTypes;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.capability.GTCapabilityHelper;

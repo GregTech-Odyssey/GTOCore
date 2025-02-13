@@ -1,9 +1,9 @@
 package com.gto.gtocore.mixin.gtm.registry;
 
 import com.gto.gtocore.api.machine.part.GTOPartAbility;
-import com.gto.gtocore.common.data.GTOMachines;
 import com.gto.gtocore.common.data.GTORecipeModifiers;
 import com.gto.gtocore.common.machine.multiblock.generator.GeneratorArrayMachine;
+import com.gto.gtocore.utils.register.MachineRegisterUtils;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTCEuAPI;
@@ -50,7 +50,7 @@ public final class GTMachineUtilsMixin {
                                                                       BiFunction<IMachineBlockEntity, Integer, MetaMachine> factory,
                                                                       BiFunction<Integer, MachineBuilder<MachineDefinition>, MachineDefinition> builder,
                                                                       int... tiers) {
-        return GTOMachines.registerMachineDefinitions(name, null, factory, builder, REGISTRATE, tiers);
+        return MachineRegisterUtils.registerMachineDefinitions(name, null, factory, builder, REGISTRATE, tiers);
     }
 
     @Inject(method = "registerTieredMachines", at = @At("HEAD"), remap = false, cancellable = true)
@@ -91,7 +91,7 @@ public final class GTMachineUtilsMixin {
                                         Component.translatable("gtceu.universal.tooltip.item_storage_capacity", tier * tier),
                                         Component.translatable("gtceu.universal.tooltip.fluid_storage_capacity_mult", tier, DualHatchPartMachine.getTankCapacity(DualHatchPartMachine.INITIAL_TANK_CAPACITY, tier)),
                                         Component.translatable("gtceu.universal.enabled"))
-                                .tooltipBuilder(GTOMachines.GTO_MODIFY)
+                                .tooltipBuilder(MachineRegisterUtils.GTO_MODIFY)
                                 .register(),
                         tiersBetween(LV, GTCEuAPI.isHighTier() ? MAX : UHV)));
                 break;
@@ -107,7 +107,7 @@ public final class GTMachineUtilsMixin {
                                         Component.translatable("gtceu.universal.tooltip.item_storage_capacity", tier * tier),
                                         Component.translatable("gtceu.universal.tooltip.fluid_storage_capacity_mult", tier, DualHatchPartMachine.getTankCapacity(DualHatchPartMachine.INITIAL_TANK_CAPACITY, tier)),
                                         Component.translatable("gtceu.universal.enabled"))
-                                .tooltipBuilder(GTOMachines.GTO_MODIFY)
+                                .tooltipBuilder(MachineRegisterUtils.GTO_MODIFY)
                                 .register(),
                         tiersBetween(LV, GTCEuAPI.isHighTier() ? MAX : UHV)));
                 break;
@@ -119,7 +119,7 @@ public final class GTMachineUtilsMixin {
                                 .tieredHullRenderer(GTCEu.id("block/machine/buffer"))
                                 .tooltips(Component.translatable("gtceu.machine.buffer.tooltip"), Component.translatable("gtceu.universal.tooltip.item_storage_capacity", BufferMachine.getInventorySize(tier)),
                                         Component.translatable("gtceu.universal.tooltip.fluid_storage_capacity_mult", BufferMachine.getTankSize(tier), FluidHatchPartMachine.getTankCapacity(DualHatchPartMachine.INITIAL_TANK_CAPACITY, tier)))
-                                .tooltipBuilder(GTOMachines.GTO_MODIFY)
+                                .tooltipBuilder(MachineRegisterUtils.GTO_MODIFY)
                                 .register(),
                         tiersBetween(LV, GTCEuAPI.isHighTier() ? MAX : UHV)));
                 break;
@@ -161,7 +161,7 @@ public final class GTMachineUtilsMixin {
                         .tooltips(Component.translatable("gtocore.machine.efficiency.tooltip", GeneratorArrayMachine.getEfficiency(recipeType, tier)).append("%"))
                         .tooltips(Component.translatable("gtocore.universal.tooltip.ampere_out", GeneratorArrayMachine.getAmperage(tier)))
                         .tooltips(GTMachineUtils.workableTiered(tier, V[tier], V[tier] * 64 * GeneratorArrayMachine.getAmperage(tier), recipeType, tankScalingFunction.apply(tier), false))
-                        .tooltipBuilder(GTOMachines.GTO_MODIFY)
+                        .tooltipBuilder(MachineRegisterUtils.GTO_MODIFY)
                         .register(),
                 tiers));
     }
@@ -172,7 +172,7 @@ public final class GTMachineUtilsMixin {
      */
     @Overwrite(remap = false)
     public static MultiblockMachineDefinition registerLargeCombustionEngine(String name, int tier, Supplier<? extends Block> casing, Supplier<? extends Block> gear, Supplier<? extends Block> intake, ResourceLocation casingTexture, ResourceLocation overlayModel) {
-        return GTOMachines.registerLargeCombustionEngine(REGISTRATE, name, null, tier, GTRecipeTypes.COMBUSTION_GENERATOR_FUELS, casing, gear, intake, casingTexture, overlayModel, true);
+        return MachineRegisterUtils.registerLargeCombustionEngine(REGISTRATE, name, null, tier, GTRecipeTypes.COMBUSTION_GENERATOR_FUELS, casing, gear, intake, casingTexture, overlayModel, true);
     }
 
     /**
@@ -181,6 +181,6 @@ public final class GTMachineUtilsMixin {
      */
     @Overwrite(remap = false)
     public static MultiblockMachineDefinition registerLargeTurbine(String name, int tier, GTRecipeType recipeType, Supplier<? extends Block> casing, Supplier<? extends Block> gear, ResourceLocation casingTexture, ResourceLocation overlayModel, boolean needsMuffler) {
-        return GTOMachines.registerLargeTurbine(REGISTRATE, name, null, tier, false, recipeType, casing, gear, casingTexture, overlayModel, true);
+        return MachineRegisterUtils.registerLargeTurbine(REGISTRATE, name, null, tier, false, recipeType, casing, gear, casingTexture, overlayModel, true);
     }
 }

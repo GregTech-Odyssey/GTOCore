@@ -16,7 +16,6 @@ public class ManaMultiblockMachine extends NoEnergyMultiblockMachine implements 
     public ManaMultiblockMachine(IMachineBlockEntity holder, Object... args) {
         super(holder, args);
         this.manaTrait = new ManaTrait(this);
-        addTraits(manaTrait);
     }
 
     @Override

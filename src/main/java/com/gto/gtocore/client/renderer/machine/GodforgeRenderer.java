@@ -92,7 +92,7 @@ public final class GodforgeRenderer extends WorkableCasingMachineRenderer {
     @OnlyIn(Dist.CLIENT)
     private static void renderStar(float tick, PoseStack poseStack, MultiBufferSource buffer) {
         poseStack.translate(0, -61, 0);
-        poseStack.scale(0.75F, 0.75F, 0.75F);
+        poseStack.scale(0.6F, 0.6F, 0.6F);
         poseStack.mulPose(new Quaternionf().fromAxisAngleDeg(0.0F, 1.0F, 1.0F, tick % 360.0F));
         ClientUtil.modelRenderer().renderModel(poseStack.last(), buffer.getBuffer(RenderType.translucent()), null, ClientUtil.getBakedModel(NEUTRON_STAR_MODEL), 1.0F, 1.0F, 1.0F, LightTexture.FULL_BRIGHT, OverlayTexture.NO_OVERLAY, ModelData.EMPTY, RenderType.solid());
     }

@@ -1,7 +1,7 @@
 package com.gto.gtocore.data.recipe.processing;
 
 import com.gto.gtocore.GTOCore;
-import com.gto.gtocore.common.data.GTORecipeTypes;
+import com.gto.gtocore.init.GTORecipeTypes;
 
 import net.minecraft.data.recipes.FinishedRecipe;
 
@@ -11,11 +11,11 @@ import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
 import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.*;
-import static com.gto.gtocore.common.data.GTOMaterials.*;
+import static com.gto.gtocore.init.GTOMaterials.*;
 
-public final class PlatGroupMetals {
+public interface PlatGroupMetals {
 
-    public static void init(Consumer<FinishedRecipe> provider) {
+    static void init(Consumer<FinishedRecipe> provider) {
         CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("pgs_from_chalcocite")).duration(110).EUt(VA[LV])
                 .inputItems(crushedPurified, Chalcocite)
                 .inputFluids(NitricAcid.getFluid(100))

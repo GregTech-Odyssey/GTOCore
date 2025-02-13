@@ -1,12 +1,15 @@
 package com.gto.gtocore.data.recipe.generated;
 
-import com.gto.gtocore.common.data.GTORecipeTypes;
+import com.gto.gtocore.init.GTORecipeTypes;
 import com.gto.gtocore.utils.GTOUtils;
 
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.chemical.material.MarkerMaterials;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
-import com.gregtechceu.gtceu.api.data.chemical.material.properties.*;
+import com.gregtechceu.gtceu.api.data.chemical.material.properties.BlastProperty;
+import com.gregtechceu.gtceu.api.data.chemical.material.properties.IngotProperty;
+import com.gregtechceu.gtceu.api.data.chemical.material.properties.OreProperty;
+import com.gregtechceu.gtceu.api.data.chemical.material.properties.PropertyKey;
 import com.gregtechceu.gtceu.api.data.chemical.material.stack.UnificationEntry;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
@@ -184,7 +187,7 @@ public final class GTOMaterialRecipeHandler {
         }
     }
 
-    public static void processNugget(Material material, Consumer<FinishedRecipe> provider) {
+    private static void processNugget(Material material, Consumer<FinishedRecipe> provider) {
         ItemStack nuggetStack = ChemicalHelper.get(nugget, material, 9);
         if (nuggetStack.isEmpty()) return;
         if (material.hasProperty(PropertyKey.INGOT)) {
@@ -263,13 +266,14 @@ public final class GTOMaterialRecipeHandler {
         }
     }
 
-    public static void processFrame(Material material, Consumer<FinishedRecipe> provider) {
+    private static void processFrame(Material material, Consumer<FinishedRecipe> provider) {
         ItemStack stack = ChemicalHelper.get(frameGt, material);
         if (stack.isEmpty()) return;
         boolean isWoodenFrame = material.hasProperty(PropertyKey.WOOD);
-        VanillaRecipeHelper.addShapedRecipe(provider, String.format("frame_%s", material.getName()),
-                stack.copyWithCount(2), "SSS", isWoodenFrame ? "SsS" : "SwS", "SSS",
-                'S', new UnificationEntry(rod, material));
+        if (material.getMass() < 240 && material.getBlastTemperature() < 3600)
+            VanillaRecipeHelper.addShapedRecipe(provider, String.format("frame_%s", material.getName()),
+                    stack.copyWithCount(2), "SSS", isWoodenFrame ? "SsS" : "SwS", "SSS",
+                    'S', new UnificationEntry(rod, material));
 
         ASSEMBLER_RECIPES.recipeBuilder("assemble_" + material.getName() + "_frame")
                 .inputItems(rod, material, 4)

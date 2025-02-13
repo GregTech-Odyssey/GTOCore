@@ -1,6 +1,6 @@
 package com.gto.gtocore.data;
 
-import com.gto.gtocore.common.data.GTOBlocks;
+import com.gto.gtocore.init.GTOBlocks;
 
 import com.gregtechceu.gtceu.api.data.tag.TagUtil;
 

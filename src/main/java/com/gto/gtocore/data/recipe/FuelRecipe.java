@@ -1,8 +1,8 @@
 package com.gto.gtocore.data.recipe;
 
 import com.gto.gtocore.GTOCore;
-import com.gto.gtocore.common.data.GTOItems;
-import com.gto.gtocore.common.data.GTOMaterials;
+import com.gto.gtocore.init.GTOItems;
+import com.gto.gtocore.init.GTOMaterials;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
@@ -24,11 +24,11 @@ import java.util.function.Consumer;
 import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
 import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.*;
-import static com.gto.gtocore.common.data.GTORecipeTypes.*;
+import static com.gto.gtocore.init.GTORecipeTypes.*;
 
-public final class FuelRecipe {
+public interface FuelRecipe {
 
-    public static void init(Consumer<FinishedRecipe> provider) {
+    static void init(Consumer<FinishedRecipe> provider) {
         Set<Item> addedItems = new ObjectOpenHashSet<>();
         for (var fuelEntry : FurnaceBlockEntity.getFuel().entrySet()) {
             addedItems.add(fuelEntry.getKey());

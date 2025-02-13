@@ -2,6 +2,7 @@ package com.gto.gtocore.common.data;
 
 import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.data.lang.LangHandler;
+import com.gto.gtocore.init.GTOMaterials;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.data.worldgen.bedrockfluid.BedrockFluidDefinition;

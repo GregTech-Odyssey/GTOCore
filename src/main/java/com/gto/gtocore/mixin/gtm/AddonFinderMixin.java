@@ -17,7 +17,7 @@ import java.util.List;
 public final class AddonFinderMixin {
 
     @Shadow(remap = false)
-    protected static List<IGTAddon> cache;
+    private static List<IGTAddon> cache;
 
     @Inject(method = "getAddons", at = @At(value = "INVOKE", target = "Lcom/gregtechceu/gtceu/api/addon/AddonFinder;getInstances(Ljava/lang/Class;Ljava/lang/Class;)Ljava/util/List;"), remap = false, cancellable = true)
     private static void getAddons(CallbackInfoReturnable<List<IGTAddon>> cir) {

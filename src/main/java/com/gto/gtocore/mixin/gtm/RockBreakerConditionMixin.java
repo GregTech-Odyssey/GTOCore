@@ -18,25 +18,28 @@ import net.minecraft.core.Direction;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.Fluid;
 
+import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import org.spongepowered.asm.mixin.Overwrite;
 
 import java.util.List;
 
 @Mixin(RockBreakerCondition.class)
 public abstract class RockBreakerConditionMixin extends RecipeCondition {
 
-    @Inject(method = "test", at = @At("HEAD"), remap = false, cancellable = true)
-    private void test(GTRecipe recipe, RecipeLogic recipeLogic, CallbackInfoReturnable<Boolean> cir) {
+    /**
+     * @author .
+     * @reason .
+     */
+    @Overwrite(remap = false)
+    public boolean test(@NotNull GTRecipe recipe, @NotNull RecipeLogic recipeLogic) {
         Fluid fluidA = RegistriesUtils.getFluid(recipe.data.getString("fluidA"));
         Fluid fluidB = RegistriesUtils.getFluid(recipe.data.getString("fluidB"));
         boolean hasFluidA = false, hasFluidB = false;
         if (recipeLogic.machine instanceof ElectricMultiblockMachine MMachine) {
             List<IRecipeHandler<?>> handlers = MMachine.getCapabilitiesProxy().get(IO.IN, FluidRecipeCapability.CAP);
             if (handlers != null) {
-                for (com.gregtechceu.gtceu.api.capability.recipe.IRecipeHandler<?> handler : handlers) {
+                for (IRecipeHandler<?> handler : handlers) {
                     if (handler instanceof NotifiableFluidTank tank) {
                         if (tank.getFluidInTank(0).getFluid() == fluidA) hasFluidA = true;
                         if (tank.getFluidInTank(0).getFluid() == fluidB) hasFluidB = true;
@@ -54,6 +57,6 @@ public abstract class RockBreakerConditionMixin extends RecipeCondition {
                 }
             }
         }
-        cir.setReturnValue((hasFluidA && hasFluidB));
+        return hasFluidA && hasFluidB;
     }
 }

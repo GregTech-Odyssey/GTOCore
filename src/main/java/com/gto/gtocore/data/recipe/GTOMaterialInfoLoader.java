@@ -1,6 +1,6 @@
 package com.gto.gtocore.data.recipe;
 
-import com.gto.gtocore.common.data.GTOMaterials;
+import com.gto.gtocore.init.GTOMaterials;
 
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.chemical.material.stack.ItemMaterialInfo;
@@ -10,9 +10,9 @@ import com.gregtechceu.gtceu.common.data.GTMaterials;
 
 import static com.gregtechceu.gtceu.api.GTValues.M;
 
-public final class GTOMaterialInfoLoader {
+public interface GTOMaterialInfoLoader {
 
-    public static void init() {
+    static void init() {
         ChemicalHelper.registerMaterialInfo(GTMachines.HULL[10].getBlock(), new ItemMaterialInfo(
                 new MaterialStack(GTOMaterials.Quantanium, M << 3),
                 new MaterialStack(GTOMaterials.Mithril, M)));

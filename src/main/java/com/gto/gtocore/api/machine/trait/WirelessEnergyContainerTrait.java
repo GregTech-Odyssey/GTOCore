@@ -23,7 +23,7 @@ import java.util.UUID;
 @Getter
 public class WirelessEnergyContainerTrait extends NotifiableEnergyContainer implements IExtendWirelessEnergyContainerHolder {
 
-    public static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
+    private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
             WirelessEnergyContainerTrait.class, NotifiableEnergyContainer.MANAGED_FIELD_HOLDER);
 
     private WirelessEnergyContainer WirelessEnergyContainerCache;

@@ -6,8 +6,15 @@ import com.gto.gtocore.api.data.tag.GTOTagPrefix;
 import com.gto.gtocore.api.registries.GTORegistration;
 import com.gto.gtocore.client.ClientProxy;
 import com.gto.gtocore.common.CommonProxy;
-import com.gto.gtocore.common.data.*;
+import com.gto.gtocore.common.data.GTOBedrockFluids;
+import com.gto.gtocore.common.data.GTOCovers;
+import com.gto.gtocore.common.data.GTOCreativeModeTabs;
+import com.gto.gtocore.common.data.GTOOres;
 import com.gto.gtocore.data.Datagen;
+import com.gto.gtocore.init.GTOBlocks;
+import com.gto.gtocore.init.GTOElements;
+import com.gto.gtocore.init.GTOItems;
+import com.gto.gtocore.init.GTOSoundEntries;
 
 import com.gregtechceu.gtceu.api.addon.IGTAddon;
 import com.gregtechceu.gtceu.api.addon.events.KJSRecipeKeyEvent;
@@ -27,6 +34,8 @@ import com.enderio.base.common.init.EIOFluids;
 import earth.terrarium.adastra.common.registry.ModFluids;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import static com.gto.gtocore.api.registries.GTORegistration.REGISTRATE;
 
 @Mod(GTOCore.MOD_ID)
 public final class GTOCore {
@@ -74,7 +83,9 @@ public final class GTOCore {
         @Override
         public void registerCovers() {
             GTOCovers.init();
+            REGISTRATE.creativeModeTab(() -> GTOCreativeModeTabs.GTO_BLOCK);
             GTOBlocks.init();
+            REGISTRATE.creativeModeTab(() -> GTOCreativeModeTabs.GTO_ITEM);
             GTOItems.init();
             GTMaterials.Oxygen.getProperty(PropertyKey.FLUID).getStorage().store(FluidStorageKeys.GAS, ModFluids.OXYGEN, null);
             GTMaterials.Hydrogen.getProperty(PropertyKey.FLUID).getStorage().store(FluidStorageKeys.GAS, ModFluids.HYDROGEN, null);

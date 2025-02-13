@@ -3,9 +3,9 @@ package com.gto.gtocore.data.recipe.generated;
 import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.api.data.chemical.material.info.GTOMaterialFlags;
 import com.gto.gtocore.api.data.tag.GTOTagPrefix;
-import com.gto.gtocore.common.data.GTOItems;
-import com.gto.gtocore.common.data.GTOMaterials;
-import com.gto.gtocore.common.data.GTORecipeTypes;
+import com.gto.gtocore.init.GTOItems;
+import com.gto.gtocore.init.GTOMaterials;
+import com.gto.gtocore.init.GTORecipeTypes;
 import com.gto.gtocore.utils.GTOUtils;
 
 import com.gregtechceu.gtceu.api.GTValues;
@@ -31,11 +31,10 @@ import java.util.function.Consumer;
 
 import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlags.*;
-import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
 import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.*;
 import static com.gto.gtocore.api.data.tag.GTOTagPrefix.*;
-import static com.gto.gtocore.common.data.GTORecipeTypes.LASER_WELDER_RECIPES;
-import static com.gto.gtocore.common.data.GTORecipeTypes.THREE_DIMENSIONAL_PRINTER_RECIPES;
+import static com.gto.gtocore.init.GTORecipeTypes.LASER_WELDER_RECIPES;
+import static com.gto.gtocore.init.GTORecipeTypes.THREE_DIMENSIONAL_PRINTER_RECIPES;
 
 public final class GTOPartsRecipeHandler {
 
@@ -640,7 +639,7 @@ public final class GTOPartsRecipeHandler {
         ItemStack curvedPlateStack = ChemicalHelper.get(curvedPlate, material);
         if (mass < 240 && material.getBlastTemperature() < 3600)
             VanillaRecipeHelper.addShapedRecipe(provider, String.format("motor_enclosure_%s", material.getName()),
-                    motorEnclosureStack, "IwI", 'I', curvedPlateStack);
+                    motorEnclosureStack, "h", "IwI", 'I', curvedPlateStack);
 
         LASER_WELDER_RECIPES.recipeBuilder(GTOCore.id(material.getName() + "_motor_enclosure"))
                 .inputItems(curvedPlateStack.copyWithCount(2))
@@ -677,7 +676,7 @@ public final class GTOPartsRecipeHandler {
         ItemStack ringStack = ChemicalHelper.get(ring, material);
         if (mass < 240 && material.getBlastTemperature() < 3600)
             VanillaRecipeHelper.addShapedRecipe(provider, String.format("pump_barrel_%s", material.getName()),
-                    pumpBarrelStack, " I ", "RwR", " I ", 'I', curvedPlateStack, 'R', ringStack);
+                    pumpBarrelStack, "wIh", "R R", " I ", 'I', curvedPlateStack, 'R', ringStack);
 
         LASER_WELDER_RECIPES.recipeBuilder(GTOCore.id(material.getName() + "_pump_barrel"))
                 .inputItems(curvedPlateStack.copyWithCount(2))
@@ -715,7 +714,7 @@ public final class GTOPartsRecipeHandler {
         ItemStack plateStack = ChemicalHelper.get(plate, material);
         if (mass < 240 && material.getBlastTemperature() < 3600)
             VanillaRecipeHelper.addShapedRecipe(provider, String.format("piston_housing_%s", material.getName()),
-                    pistonHousingStack, "IhI", " P ", 'I', curvedPlateStack, 'P', plateStack);
+                    pistonHousingStack, "IwI", "hPh", 'I', curvedPlateStack, 'P', plateStack);
 
         LASER_WELDER_RECIPES.recipeBuilder(GTOCore.id(material.getName() + "_piston_housing"))
                 .inputItems(curvedPlateStack.copyWithCount(2))
@@ -754,7 +753,7 @@ public final class GTOPartsRecipeHandler {
         ItemStack rodStack = ChemicalHelper.get(rod, material);
         if (mass < 240 && material.getBlastTemperature() < 3600)
             VanillaRecipeHelper.addShapedRecipe(provider, String.format("emitter_base_%s", material.getName()),
-                    emitterBasesStack, "IPI", "RhR", 'I', curvedPlateStack, 'P', plateStack, 'R', rodStack);
+                    emitterBasesStack, " w ", "IPI", "RhR", 'I', curvedPlateStack, 'P', plateStack, 'R', rodStack);
 
         LASER_WELDER_RECIPES.recipeBuilder(GTOCore.id(material.getName() + "_emitter_base"))
                 .inputItems(curvedPlateStack.copyWithCount(2))

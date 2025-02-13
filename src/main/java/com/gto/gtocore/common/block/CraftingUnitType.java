@@ -1,6 +1,6 @@
 package com.gto.gtocore.common.block;
 
-import com.gto.gtocore.common.data.GTOBlocks;
+import com.gto.gtocore.init.GTOBlocks;
 
 import net.minecraft.world.item.Item;
 

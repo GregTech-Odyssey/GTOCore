@@ -1,9 +1,9 @@
 package com.gto.gtocore.data.recipe;
 
 import com.gto.gtocore.api.data.tag.GTOTagPrefix;
-import com.gto.gtocore.common.data.GTOMaterials;
 import com.gto.gtocore.common.recipe.condition.GravityCondition;
 import com.gto.gtocore.common.recipe.condition.VacuumCondition;
+import com.gto.gtocore.init.GTOMaterials;
 
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.world.item.ItemStack;
@@ -17,9 +17,9 @@ import static com.gregtechceu.gtceu.common.data.GTItems.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
 import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.*;
 
-public final class RecipeOverwrite {
+public interface RecipeOverwrite {
 
-    public static void init(Consumer<FinishedRecipe> provider) {
+    static void init(Consumer<FinishedRecipe> provider) {
         // 修改
         ASSEMBLER_RECIPES.recipeBuilder("basic_circuit_board")
                 .inputItems(foil, Copper, 4)

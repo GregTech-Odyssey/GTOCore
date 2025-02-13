@@ -2,13 +2,16 @@ package com.gto.gtocore.common;
 
 import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.api.entity.IEnhancedPlayer;
-import com.gto.gtocore.common.data.*;
+import com.gto.gtocore.common.data.GTOCreativeModeTabs;
+import com.gto.gtocore.common.data.GTORecipes;
 import com.gto.gtocore.common.forge.ForgeCommonEvent;
 import com.gto.gtocore.common.network.KeyMessage;
 import com.gto.gtocore.config.GTOConfig;
+import com.gto.gtocore.init.*;
 import com.gto.gtocore.integration.ae2.InfinityCellGuiHandler;
 import com.gto.gtocore.integration.ae2.storage.InfinityCellHandler;
 import com.gto.gtocore.integration.ftbquests.EMIRecipeModHelper;
+import com.gto.gtocore.utils.register.ItemRegisterUtils;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTCEuAPI;
@@ -57,7 +60,7 @@ public class CommonProxy {
     }
 
     private static void commonSetup(FMLCommonSetupEvent event) {
-        event.enqueueWork(GTOItems::InitUpgrades);
+        event.enqueueWork(ItemRegisterUtils::InitUpgrades);
         KeyMessage.PACKET_HANDLER.registerMessage(KeyMessage.messageID, KeyMessage.class, KeyMessage::buffer, KeyMessage::new, KeyMessage::handler);
         KeyMessage.messageID++;
         StorageCells.addCellHandler(InfinityCellHandler.INSTANCE);

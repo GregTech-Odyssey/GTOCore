@@ -1,8 +1,8 @@
 package com.gto.gtocore.data.recipe.generated;
 
 import com.gto.gtocore.GTOCore;
-import com.gto.gtocore.common.data.GTORecipeTypes;
 import com.gto.gtocore.common.data.GTORecipes;
+import com.gto.gtocore.init.GTORecipeTypes;
 import com.gto.gtocore.utils.ItemUtils;
 
 import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.function.Consumer;
 
-import static com.gto.gtocore.common.data.GTORecipeTypes.DISASSEMBLY_RECIPES;
+import static com.gto.gtocore.init.GTORecipeTypes.DISASSEMBLY_RECIPES;
 
 public final class GenerateDisassembly {
 

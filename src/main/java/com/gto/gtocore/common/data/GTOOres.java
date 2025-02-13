@@ -1,5 +1,7 @@
 package com.gto.gtocore.common.data;
 
+import com.gto.gtocore.init.GTOMaterials;
+
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.data.worldgen.GTOreDefinition;

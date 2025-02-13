@@ -4,7 +4,7 @@ import com.gto.gtocore.api.machine.multiblock.ElectricMultiblockMachine;
 import com.gto.gtocore.api.machine.trait.CustomRecipeLogic;
 import com.gto.gtocore.api.recipe.GTORecipeBuilder;
 import com.gto.gtocore.client.ClientUtil;
-import com.gto.gtocore.common.data.GTOMaterials;
+import com.gto.gtocore.init.GTOMaterials;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;

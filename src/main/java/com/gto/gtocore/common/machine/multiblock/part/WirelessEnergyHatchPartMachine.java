@@ -40,7 +40,7 @@ public final class WirelessEnergyHatchPartMachine extends TieredIOPartMachine im
 
     @Persisted
     @DescSynced
-    public final WirelessEnergyContainerTrait energyContainer;
+    private final WirelessEnergyContainerTrait energyContainer;
 
     private final int amperage;
 

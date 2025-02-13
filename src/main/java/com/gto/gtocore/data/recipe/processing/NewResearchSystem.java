@@ -14,14 +14,14 @@ import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
 import static com.gregtechceu.gtceu.common.data.GTItems.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
 import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.*;
-import static com.gto.gtocore.common.data.GTOItems.*;
-import static com.gto.gtocore.common.data.GTOMaterials.*;
-import static com.gto.gtocore.common.data.GTORecipeTypes.CHEMICAL_VAPOR_DEPOSITION_RECIPES;
-import static com.gto.gtocore.common.data.GTORecipeTypes.REACTION_FURNACE_RECIPES;
+import static com.gto.gtocore.init.GTOItems.*;
+import static com.gto.gtocore.init.GTOMaterials.*;
+import static com.gto.gtocore.init.GTORecipeTypes.CHEMICAL_VAPOR_DEPOSITION_RECIPES;
+import static com.gto.gtocore.init.GTORecipeTypes.REACTION_FURNACE_RECIPES;
 
-public final class NewResearchSystem {
+public interface NewResearchSystem {
 
-    public static void init(Consumer<FinishedRecipe> provider) {
+    static void init(Consumer<FinishedRecipe> provider) {
         // 重写配方
         {
             CHEMICAL_RECIPES.recipeBuilder("polydimethylsiloxane_from_silicon")

@@ -2,10 +2,14 @@ package com.gto.gtocore.data.lang;
 
 import com.gto.gtocore.api.machine.trait.TierCasingTrait;
 import com.gto.gtocore.api.registries.MultiblockBuilder;
-import com.gto.gtocore.common.data.*;
+import com.gto.gtocore.common.data.GTOBedrockFluids;
 import com.gto.gtocore.data.lang.provider.SimplifiedChineseLanguageProvider;
 import com.gto.gtocore.data.lang.provider.TraditionalChineseLanguageProvider;
 import com.gto.gtocore.utils.ChineseConverter;
+import com.gto.gtocore.utils.register.BlockRegisterUtils;
+import com.gto.gtocore.utils.register.ItemRegisterUtils;
+import com.gto.gtocore.utils.register.MaterialsRegisterUtils;
+import com.gto.gtocore.utils.register.RecipeTypeRegisterUtils;
 
 import com.gregtechceu.gtceu.api.GTValues;
 
@@ -35,11 +39,11 @@ public final class LangHandler {
     }
 
     private static void init() {
-        GTOMaterials.LANG.forEach((k, v) -> addENCN("material.gtocore." + k, v));
-        GTORecipeTypes.LANG.forEach((k, v) -> addENCN("gtocore." + k, v));
+        MaterialsRegisterUtils.LANG.forEach((k, v) -> addENCN("material.gtocore." + k, v));
+        RecipeTypeRegisterUtils.LANG.forEach((k, v) -> addENCN("gtocore." + k, v));
         GTOBedrockFluids.LANG.forEach((k, v) -> addENCN("gtceu.jei.bedrock_fluid." + k, v));
-        GTOItems.LANG.forEach((k, v) -> addCN("item.gtocore." + k, v));
-        GTOBlocks.LANG.forEach((k, v) -> addCN("block.gtocore." + k, v));
+        ItemRegisterUtils.LANG.forEach((k, v) -> addCN("item.gtocore." + k, v));
+        BlockRegisterUtils.LANG.forEach((k, v) -> addCN("block.gtocore." + k, v));
         MultiblockBuilder.TOOLTIPS_MAP.forEach(LangHandler::addENCN);
 
         addCN("entity.gtocore.task_entity", "任务执行实体");

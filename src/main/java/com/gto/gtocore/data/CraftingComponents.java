@@ -1,8 +1,8 @@
 package com.gto.gtocore.data;
 
-import com.gto.gtocore.common.data.GTOBlocks;
-import com.gto.gtocore.common.data.GTOItems;
-import com.gto.gtocore.common.data.GTOMaterials;
+import com.gto.gtocore.init.GTOBlocks;
+import com.gto.gtocore.init.GTOItems;
+import com.gto.gtocore.init.GTOMaterials;
 
 import com.gregtechceu.gtceu.api.data.chemical.material.stack.UnificationEntry;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;

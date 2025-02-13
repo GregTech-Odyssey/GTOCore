@@ -1,6 +1,6 @@
 package com.gto.gtocore.common.block;
 
-import com.gto.gtocore.common.data.GTOItems;
+import com.gto.gtocore.init.GTOItems;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;

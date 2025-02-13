@@ -11,7 +11,7 @@ import java.util.function.Consumer;
 import static com.gregtechceu.gtceu.api.GTValues.LV;
 import static com.gregtechceu.gtceu.api.GTValues.VA;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
-import static com.gto.gtocore.common.data.GTORecipeTypes.STEAM_CRACKING_RECIPES;
+import static com.gto.gtocore.init.GTORecipeTypes.STEAM_CRACKING_RECIPES;
 
 public final class PetrochemRecipes {
 

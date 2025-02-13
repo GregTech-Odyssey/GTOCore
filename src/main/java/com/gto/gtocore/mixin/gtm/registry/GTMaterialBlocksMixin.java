@@ -1,8 +1,8 @@
 package com.gto.gtocore.mixin.gtm.registry;
 
 import com.gto.gtocore.api.data.tag.GTOTagPrefix;
-import com.gto.gtocore.common.data.GTOBlocks;
-import com.gto.gtocore.common.data.GTOMaterials;
+import com.gto.gtocore.init.GTOMaterials;
+import com.gto.gtocore.utils.register.BlockRegisterUtils;
 
 import com.gregtechceu.gtceu.api.block.MaterialBlock;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
@@ -42,7 +42,7 @@ public final class GTMaterialBlocksMixin {
      */
     @Overwrite(remap = false)
     private static void registerOreBlock(Material material, GTRegistrate registrate) {
-        GTOBlocks.registerOreBlock(material, registrate, ORE_MAP, gTOCore$DEEPSLATE, MATERIAL_BLOCKS_BUILDER);
+        BlockRegisterUtils.registerOreBlock(material, registrate, ORE_MAP, gTOCore$DEEPSLATE, MATERIAL_BLOCKS_BUILDER);
     }
 
     @Inject(method = "generateOreBlocks", at = @At("TAIL"), remap = false)

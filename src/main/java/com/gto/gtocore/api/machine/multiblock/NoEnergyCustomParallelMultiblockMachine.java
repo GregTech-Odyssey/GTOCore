@@ -33,7 +33,6 @@ public class NoEnergyCustomParallelMultiblockMachine extends NoEnergyMultiblockM
     protected NoEnergyCustomParallelMultiblockMachine(IMachineBlockEntity holder, boolean defaultParallel, @NotNull Function<NoEnergyCustomParallelMultiblockMachine, Integer> parallel) {
         super(holder);
         customParallelTrait = new CustomParallelTrait(this, defaultParallel, machine -> parallel.apply((NoEnergyCustomParallelMultiblockMachine) machine));
-        addTraits(customParallelTrait);
     }
 
     @Override

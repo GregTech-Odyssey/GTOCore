@@ -3,7 +3,7 @@ package com.gto.gtocore.api.data.tag;
 import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.api.data.chemical.material.GTOMaterial;
 import com.gto.gtocore.api.data.chemical.material.info.GTOMaterialFlags;
-import com.gto.gtocore.common.data.GTOBlocks;
+import com.gto.gtocore.init.GTOBlocks;
 import com.gto.gtocore.mixin.gtm.chemical.MaterialPropertiesAccessor;
 import com.gto.gtocore.utils.RLUtils;
 

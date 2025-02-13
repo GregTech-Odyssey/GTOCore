@@ -1,6 +1,6 @@
 package com.gto.gtocore.mixin.gtm;
 
-import com.gto.gtocore.common.data.GTOItems;
+import com.gto.gtocore.init.GTOItems;
 
 import com.gregtechceu.gtceu.utils.ResearchManager;
 

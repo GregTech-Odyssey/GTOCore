@@ -2,7 +2,7 @@ package com.gto.gtocore.mixin.gtm.registry;
 
 import com.gto.gtocore.api.registries.GTORegistration;
 import com.gto.gtocore.common.data.GTOCreativeModeTabs;
-import com.gto.gtocore.common.data.GTOItems;
+import com.gto.gtocore.utils.register.ItemRegisterUtils;
 
 import com.gregtechceu.gtceu.api.GTCEuAPI;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
@@ -45,7 +45,7 @@ public final class GTMaterialItemsMixin {
                     GTRegistrate registrate = registry.getRegistrate();
                     for (Material material : registry.getAllMaterials()) {
                         if (tagPrefix.doGenerateItem(material)) {
-                            GTOItems.generateMaterialItem(registrate, tagPrefix, material, MATERIAL_ITEMS_BUILDER);
+                            ItemRegisterUtils.generateMaterialItem(registrate, tagPrefix, material, MATERIAL_ITEMS_BUILDER);
                         }
                     }
                 }

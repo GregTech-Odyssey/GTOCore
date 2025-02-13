@@ -3,8 +3,8 @@ package com.gto.gtocore.common.machine.multiblock.generator;
 import com.gto.gtocore.api.machine.feature.IExtendWirelessEnergyContainerHolder;
 import com.gto.gtocore.api.machine.feature.multiblock.IArrayMachine;
 import com.gto.gtocore.api.machine.multiblock.StorageMultiblockMachine;
-import com.gto.gtocore.common.data.GTORecipeTypes;
 import com.gto.gtocore.common.wireless.ExtendWirelessEnergyContainer;
+import com.gto.gtocore.init.GTORecipeTypes;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.recipe.EURecipeCapability;

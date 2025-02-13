@@ -1,8 +1,8 @@
 package com.gto.gtocore.common.fluid;
 
-import com.gto.gtocore.common.data.GTOBlocks;
-import com.gto.gtocore.common.data.GTOFluids;
-import com.gto.gtocore.common.data.GTOItems;
+import com.gto.gtocore.init.GTOBlocks;
+import com.gto.gtocore.init.GTOFluids;
+import com.gto.gtocore.init.GTOItems;
 
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.material.Fluid;

@@ -1,8 +1,8 @@
 package com.gto.gtocore.client;
 
-import com.gto.gtocore.common.data.GTOBlocks;
-import com.gto.gtocore.common.data.GTOItems;
 import com.gto.gtocore.data.lang.LangHandler;
+import com.gto.gtocore.init.GTOBlocks;
+import com.gto.gtocore.init.GTOItems;
 import com.gto.gtocore.utils.StringUtils;
 
 import com.gregtechceu.gtceu.common.data.GTBlocks;

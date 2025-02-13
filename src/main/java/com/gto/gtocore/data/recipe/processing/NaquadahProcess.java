@@ -1,7 +1,7 @@
 package com.gto.gtocore.data.recipe.processing;
 
 import com.gto.gtocore.GTOCore;
-import com.gto.gtocore.common.data.GTORecipeTypes;
+import com.gto.gtocore.init.GTORecipeTypes;
 
 import net.minecraft.data.recipes.FinishedRecipe;
 
@@ -11,12 +11,12 @@ import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
 import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.*;
-import static com.gto.gtocore.common.data.GTOMaterials.*;
-import static com.gto.gtocore.common.data.GTORecipeTypes.NEUTRON_ACTIVATOR_RECIPES;
+import static com.gto.gtocore.init.GTOMaterials.*;
+import static com.gto.gtocore.init.GTORecipeTypes.NEUTRON_ACTIVATOR_RECIPES;
 
-public final class NaquadahProcess {
+public interface NaquadahProcess {
 
-    public static void init(Consumer<FinishedRecipe> provider) {
+    static void init(Consumer<FinishedRecipe> provider) {
         CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("antimony_trioxide")).EUt(VA[ULV]).duration(60)
                 .inputItems(dust, Antimony, 2)
                 .inputFluids(Oxygen.getFluid(3000))

@@ -3,10 +3,10 @@ package com.gto.gtocore.data.recipe.generated;
 import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.api.GTOValues;
 import com.gto.gtocore.api.data.tag.GTOTagPrefix;
-import com.gto.gtocore.common.data.GTOItems;
-import com.gto.gtocore.common.data.GTOMaterials;
-import com.gto.gtocore.common.data.GTORecipeTypes;
 import com.gto.gtocore.data.CraftingComponents;
+import com.gto.gtocore.init.GTOItems;
+import com.gto.gtocore.init.GTOMaterials;
+import com.gto.gtocore.init.GTORecipeTypes;
 
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
@@ -32,8 +32,8 @@ import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.ASSEMBLER_RECIPES;
 import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.ASSEMBLY_LINE_RECIPES;
 import static com.gregtechceu.gtceu.data.recipe.GTCraftingComponents.*;
 import static com.gto.gtocore.api.GTOValues.COMPONENT_ASSEMBLY_CASING_TIER;
-import static com.gto.gtocore.common.data.GTOMaterials.*;
-import static com.gto.gtocore.common.data.GTORecipeTypes.COMPONENT_ASSEMBLY_RECIPES;
+import static com.gto.gtocore.init.GTOMaterials.*;
+import static com.gto.gtocore.init.GTORecipeTypes.COMPONENT_ASSEMBLY_RECIPES;
 
 public final class ComponentRecipes {
 

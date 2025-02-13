@@ -3,9 +3,9 @@ package com.gto.gtocore.common.machine.multiblock.electric;
 import com.gto.gtocore.api.machine.multiblock.StorageMultiblockMachine;
 import com.gto.gtocore.api.machine.trait.CustomRecipeLogic;
 import com.gto.gtocore.api.recipe.GTORecipeBuilder;
-import com.gto.gtocore.common.data.GTOBlocks;
-import com.gto.gtocore.common.data.GTOItems;
 import com.gto.gtocore.common.machine.multiblock.part.BlockBusPartMachine;
+import com.gto.gtocore.init.GTOBlocks;
+import com.gto.gtocore.init.GTOItems;
 
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;

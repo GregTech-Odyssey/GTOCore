@@ -1,10 +1,10 @@
 package com.gto.gtocore.data.recipe;
 
 import com.gto.gtocore.GTOCore;
-import com.gto.gtocore.common.data.GTOItems;
-import com.gto.gtocore.common.data.GTOMachines;
-import com.gto.gtocore.common.data.GTOMaterials;
-import com.gto.gtocore.common.data.GTORecipeTypes;
+import com.gto.gtocore.init.GTOItems;
+import com.gto.gtocore.init.GTOMachines;
+import com.gto.gtocore.init.GTOMaterials;
+import com.gto.gtocore.init.GTORecipeTypes;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.chemical.material.stack.UnificationEntry;
@@ -34,9 +34,9 @@ import java.util.function.Consumer;
 import static com.gregtechceu.gtceu.api.GTValues.VN;
 import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.ASSEMBLER_RECIPES;
 
-public final class GTMTRecipe {
+public interface GTMTRecipe {
 
-    public static void init(Consumer<FinishedRecipe> provider) {
+    static void init(Consumer<FinishedRecipe> provider) {
         GTRecipeTypes.SCANNER_RECIPES.recipeBuilder("wireless_energy_binding_tool")
                 .inputItems(TagPrefix.plate, GTMaterials.Paper)
                 .inputItems(GTItems.COVER_SCREEN.asStack())
