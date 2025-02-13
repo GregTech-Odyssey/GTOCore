@@ -106,17 +106,17 @@ public final class StringConverter {
         boolean plasma = false;
         boolean liquid = false;
         boolean molten = false;
-        Material material = GTMaterials.get(resourceLocation.getPath());
-        if (material == null && resourceLocation.getPath().contains("_plasma")) {
-            material = GTMaterials.get(resourceLocation.getPath().replace("_plasma", ""));
+        Material material = GTMaterials.get(resourceLocation.toString());
+        if (material == null && resourceLocation.toString().contains("_plasma")) {
+            material = GTMaterials.get(resourceLocation.toString().replace("_plasma", ""));
             if (material != null) plasma = true;
         }
-        if (material == null && resourceLocation.getPath().contains("liquid_")) {
-            material = GTMaterials.get(resourceLocation.getPath().replace("liquid_", ""));
+        if (material == null && resourceLocation.toString().contains("liquid_")) {
+            material = GTMaterials.get(resourceLocation.toString().replace("liquid_", ""));
             if (material != null) liquid = true;
         }
-        if (material == null && resourceLocation.getPath().contains("molten_")) {
-            material = GTMaterials.get(resourceLocation.getPath().replace("molten_", ""));
+        if (material == null && resourceLocation.toString().contains("molten_")) {
+            material = GTMaterials.get(resourceLocation.toString().replace("molten_", ""));
             if (material != null) molten = true;
         }
         String m;

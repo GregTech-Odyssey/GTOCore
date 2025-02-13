@@ -11,4 +11,8 @@ public interface GTOMaterial {
     void gtocore$setRarity(Rarity rarity);
 
     MaterialProperties gtocore$getProperties();
+
+    int gtocore$temp();
+
+    void gtocore$setTemp(int temp);
 }

@@ -125,6 +125,7 @@ public final class GTORecipes implements Runnable {
         GT_FILTER_RECIPES.add(GTCEu.id("mixer/rocket_fuel_from_dinitrogen_tetroxide"));
         GT_FILTER_RECIPES.add(GTCEu.id("chemical_reactor/stem_cells"));
         GT_FILTER_RECIPES.add(GTCEu.id("chemical_reactor/formaldehyde"));
+        GT_FILTER_RECIPES.add(GTCEu.id("magnesia_from_magnesite"));
         GT_FILTER_RECIPES.add(GTCEu.id("forming_press/credit_cupronickel"));
         GT_FILTER_RECIPES.add(GTCEu.id("extruder/nan_certificate"));
         GT_FILTER_RECIPES.add(GTCEu.id("centrifuge/rare_earth_separation"));

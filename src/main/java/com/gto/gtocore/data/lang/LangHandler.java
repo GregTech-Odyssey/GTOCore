@@ -40,7 +40,7 @@ public final class LangHandler {
 
     private static void init() {
         MaterialsRegisterUtils.LANG.forEach((k, v) -> addENCN("material.gtocore." + k, v));
-        RecipeTypeRegisterUtils.LANG.forEach((k, v) -> addENCN("gtocore." + k, v));
+        RecipeTypeRegisterUtils.LANG.forEach((k, v) -> addENCN("gtceu." + k, v));
         GTOBedrockFluids.LANG.forEach((k, v) -> addENCN("gtceu.jei.bedrock_fluid." + k, v));
         ItemRegisterUtils.LANG.forEach((k, v) -> addCN("item.gtocore." + k, v));
         BlockRegisterUtils.LANG.forEach((k, v) -> addCN("block.gtocore." + k, v));

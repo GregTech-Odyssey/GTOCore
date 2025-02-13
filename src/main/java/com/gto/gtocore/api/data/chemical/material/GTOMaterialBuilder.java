@@ -19,6 +19,8 @@ public class GTOMaterialBuilder extends Material.Builder {
 
     private Rarity rarity;
 
+    private int temp;
+
     public GTOMaterialBuilder(String name) {
         super(GTOCore.id(name));
     }
@@ -124,6 +126,11 @@ public class GTOMaterialBuilder extends Material.Builder {
     }
 
     @Override
+    public GTOMaterialBuilder blastTemp(int temp) {
+        return (GTOMaterialBuilder) super.blast(temp);
+    }
+
+    @Override
     public GTOMaterialBuilder cableProperties(long voltage, int amperage, int loss, boolean isSuperCon) {
         return (GTOMaterialBuilder) super.cableProperties(voltage, amperage, loss, isSuperCon);
     }
@@ -133,6 +140,7 @@ public class GTOMaterialBuilder extends Material.Builder {
         Material mat = super.buildAndRegister();
         if (mat instanceof GTOMaterial material) {
             if (rarity != null) material.gtocore$setRarity(rarity);
+            if (temp > 0) material.gtocore$setTemp(temp);
         }
         return mat;
     }

@@ -97,6 +97,12 @@ public final class GTKubeJSPlugin extends KubeJSPlugin {
                     if (gtRecipe.getValue(GTRecipeSchema.DURATION) != null) {
                         builder.duration = gtRecipe.getValue(GTRecipeSchema.DURATION).intValue();
                     }
+                    if (gtRecipe.getValue(GTRecipeSchema.DATA) != null) {
+                        builder.data = gtRecipe.getValue(GTRecipeSchema.DATA);
+                    }
+                    if (gtRecipe.getValue(GTRecipeSchema.CONDITIONS) != null) {
+                        builder.conditions.addAll(Arrays.stream(gtRecipe.getValue(GTRecipeSchema.CONDITIONS)).toList());
+                    }
                     builder.researchRecipeEntries().addAll(gtRecipe.researchRecipeEntries());
                     if (gtRecipe.getValue(GTRecipeSchema.ALL_INPUTS) != null) {
                         builder.input.putAll(gtRecipe.getValue(GTRecipeSchema.ALL_INPUTS).entrySet().stream().map(entry -> Map.entry(entry.getKey(), Arrays.stream(entry.getValue()).map(content -> entry.getKey().serializer.fromJsonContent(GTRecipeComponents.VALID_CAPS.get(entry.getKey()).getFirst().write(gtRecipe, content))).toList())).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)));

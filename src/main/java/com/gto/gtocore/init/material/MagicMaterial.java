@@ -136,6 +136,7 @@ public interface MagicMaterial {
         Alfsteel = material("alfsteel", "精灵钢")
                 .ingot()
                 .fluid()
+                .blastTemp(3400, LOW)
                 .element(GTOElements.ALFSTEEL)
                 .flags(GTOMaterialFlags.GENERATE_CURVED_PLATE, GENERATE_FRAME, GENERATE_LONG_ROD, GENERATE_FOIL, GENERATE_GEAR, GENERATE_BOLT_SCREW)
                 .color(0xffb700)

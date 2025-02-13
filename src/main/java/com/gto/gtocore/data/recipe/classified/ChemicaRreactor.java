@@ -2560,5 +2560,73 @@ interface ChemicaRreactor {
                 .duration(20)
                 .cleanroom(CleanroomType.CLEANROOM)
                 .save(provider);
+
+        GTRecipeTypes.CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("sodium_aluminate_dust"))
+                .inputItems(TagPrefix.dust, GTMaterials.Bauxite)
+                .inputItems(TagPrefix.dust, GTMaterials.SodiumHydroxide, 2)
+                .circuitMeta(5)
+                .inputFluids(GTMaterials.Water.getFluid(1000))
+                .outputItems(TagPrefix.dust, GTOMaterials.SodiumAluminate, 2)
+                .outputFluids(GTMaterials.Water.getFluid(2000))
+                .EUt(120)
+                .duration(100)
+                .save(provider);
+
+        GTRecipeTypes.CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("barium_titanate_ceramic_dust"))
+                .inputItems(TagPrefix.dust, GTOMaterials.TitaniumDioxide)
+                .inputItems(TagPrefix.dust, GTOMaterials.BariumHydroxide)
+                .circuitMeta(5)
+                .outputItems(TagPrefix.dust, GTOMaterials.BariumTitanateCeramic)
+                .outputFluids(GTMaterials.Water.getFluid(1000))
+                .EUt(240)
+                .duration(100)
+                .save(provider);
+
+        GTRecipeTypes.CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("barium_hydroxide_dust"))
+                .inputItems(TagPrefix.dust, GTMaterials.Barium)
+                .inputFluids(GTMaterials.Water.getFluid(2000))
+                .outputItems(TagPrefix.dust, GTOMaterials.BariumHydroxide)
+                .outputFluids(GTMaterials.Hydrogen.getFluid(1000))
+                .EUt(120)
+                .duration(100)
+                .save(provider);
+
+        GTRecipeTypes.CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("titanium_dioxide_dust"))
+                .circuitMeta(5)
+                .inputFluids(GTMaterials.TitaniumTetrachloride.getFluid(1000))
+                .inputFluids(GTMaterials.Oxygen.getFluid(1000))
+                .outputItems(TagPrefix.dust, GTOMaterials.TitaniumDioxide)
+                .outputFluids(GTMaterials.Chlorine.getFluid(2000))
+                .EUt(240)
+                .duration(100)
+                .save(provider);
+
+        GTRecipeTypes.CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("undried_hydroxyapatite_dust"))
+                .inputItems(TagPrefix.dust, GTMaterials.Apatite)
+                .inputItems(TagPrefix.dust, GTOMaterials.HighPurityCalciumCarbonate)
+                .circuitMeta(5)
+                .inputFluids(GTMaterials.Steam.getFluid(1000))
+                .outputItems(TagPrefix.dust, GTOMaterials.UndriedHydroxyapatite)
+                .EUt(480)
+                .duration(100)
+                .save(provider);
+
+        GTRecipeTypes.CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("cobalt_oxide_ceramic_dust"))
+                .inputItems(TagPrefix.dust, GTMaterials.Cobalt)
+                .circuitMeta(5)
+                .inputFluids(GTMaterials.Oxygen.getFluid(1000))
+                .outputItems(TagPrefix.dust, GTOMaterials.CobaltOxideCeramic)
+                .EUt(480)
+                .duration(100)
+                .save(provider);
+
+        GTRecipeTypes.CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("magnesium_chloride_dust"))
+                .inputItems(TagPrefix.dust, GTMaterials.Magnesium)
+                .circuitMeta(5)
+                .inputFluids(GTMaterials.HydrochloricAcid.getFluid(2000))
+                .outputItems(TagPrefix.dust, GTMaterials.MagnesiumChloride)
+                .EUt(480)
+                .duration(100)
+                .save(provider);
     }
 }

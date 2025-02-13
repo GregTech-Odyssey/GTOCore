@@ -251,14 +251,4 @@ public final class GTOTagPrefix extends TagPrefix {
             .unificationEnabled(true)
             .generateItem(true)
             .generationCondition(mat -> mat.hasFlag(GTOMaterialFlags.GENERATE_CERAMIC));
-
-    public static final TagPrefix magiccrystal = new TagPrefix("magiccrystal")
-            .idPattern("%s_magiccrystal")
-            .defaultTagPath("magiccrystals/%s")
-            .unformattedTagPath("magiccrystals")
-            .materialAmount(GTValues.M)
-            .materialIconType(new MaterialIconType("magiccrystal"))
-            .unificationEnabled(true)
-            .generateItem(true)
-            .generationCondition(mat -> mat.hasFlag(GTOMaterialFlags.GENERATE_MAGICCRYSTAL));
 }

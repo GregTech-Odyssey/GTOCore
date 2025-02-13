@@ -2922,6 +2922,5 @@ public final class StringIndex {
         TAGPREFIX_MAP.put(GTOTagPrefix.roughBlank, "GTOTagPrefix.roughBlank");
         TAGPREFIX_MAP.put(GTOTagPrefix.brick, "GTOTagPrefix.brick");
         TAGPREFIX_MAP.put(GTOTagPrefix.flakes, "GTOTagPrefix.flakes");
-        TAGPREFIX_MAP.put(GTOTagPrefix.magiccrystal, "GTOTagPrefix.magiccrystal");
     }
 }

@@ -103,6 +103,8 @@ public interface ClassifiedRecipe {
         SuprachronalAssemblyLine.init(provider);
         Incubator.init(provider);
         IsaMill.init(provider);
+        IsostaticPressing.init(provider);
+        Sifter.init(provider);
 
         GTRecipeTypes.POLARIZER_RECIPES.recipeBuilder(GTOCore.id("attuned_tengam_dust"))
                 .inputItems(TagPrefix.dust, GTOMaterials.PurifiedTengam)

@@ -159,5 +159,13 @@ interface Dehydrator {
                 .EUt(750)
                 .duration(120)
                 .save(provider);
+
+        GTORecipeTypes.DEHYDRATOR_RECIPES.recipeBuilder(GTOCore.id("hydroxyapatite_ceramic_dust"))
+                .inputItems(TagPrefix.dust, GTOMaterials.UndriedHydroxyapatite)
+                .outputItems(TagPrefix.dust, GTOMaterials.HydroxyapatiteCeramic)
+                .outputFluids(GTMaterials.Water.getFluid(1000))
+                .EUt(120)
+                .duration(10)
+                .save(provider);
     }
 }

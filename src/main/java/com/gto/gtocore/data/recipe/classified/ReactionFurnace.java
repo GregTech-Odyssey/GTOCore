@@ -22,6 +22,7 @@ import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
 interface ReactionFurnace {
 
     static void init(Consumer<FinishedRecipe> provider) {
+        registerBlastFurnaceRecipes(provider);
         GTORecipeTypes.REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("actinium_hydride_dust"))
                 .inputItems(TagPrefix.dust, GTOMaterials.ActiniumOxalate, 13)
                 .inputItems(TagPrefix.dust, GTOMaterials.SodiumHydride, 6)
@@ -530,7 +531,89 @@ interface ReactionFurnace {
                 .outputItems(dust, Ferrosilite)
                 .outputFluids(SulfurDioxide.getFluid(2000))
                 .save(provider);
-        registerBlastFurnaceRecipes(provider);
+
+        GTORecipeTypes.REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("alumina_ceramic_dust"))
+                .inputItems(TagPrefix.dust, GTOMaterials.AluminiumHydroxide)
+                .outputItems(TagPrefix.dust, GTOMaterials.AluminaCeramic)
+                .outputFluids(GTMaterials.Water.getFluid(1000))
+                .EUt(120)
+                .duration(100)
+                .blastFurnaceTemp(2775)
+                .save(provider);
+
+        GTORecipeTypes.REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("tungsten_tetraboride_ceramics_dust"))
+                .inputItems(TagPrefix.dust, GTOMaterials.TungstenBoronMixture)
+                .outputItems(TagPrefix.dust, GTOMaterials.TungstenTetraborideCeramics)
+                .EUt(480)
+                .duration(100)
+                .blastFurnaceTemp(2775)
+                .save(provider);
+
+        GTORecipeTypes.REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("tellurate_ceramics_dust"))
+                .inputItems(TagPrefix.dust, GTMaterials.Tellurium)
+                .inputFluids(GTMaterials.Oxygen.getFluid(3000))
+                .outputItems(TagPrefix.dust, GTOMaterials.TellurateCeramics)
+                .EUt(480)
+                .duration(5)
+                .blastFurnaceTemp(2775)
+                .save(provider);
+
+        GTORecipeTypes.REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("thulium_hexaboride_ceramics_dust"))
+                .inputItems(TagPrefix.dust, GTMaterials.Thulium)
+                .inputItems(TagPrefix.dust, GTMaterials.Boron, 6)
+                .inputFluids(GTMaterials.Argon.getFluid(1000))
+                .outputItems(TagPrefix.dust, GTOMaterials.ThuliumHexaborideCeramics)
+                .EUt(960)
+                .duration(5)
+                .blastFurnaceTemp(2775)
+                .save(provider);
+
+        GTORecipeTypes.REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("silicon_nitride_ceramic_dust"))
+                .inputItems(TagPrefix.dust, GTMaterials.Silicon, 3)
+                .circuitMeta(5)
+                .inputFluids(GTMaterials.Nitrogen.getFluid(4000))
+                .outputItems(TagPrefix.dust, GTOMaterials.SiliconNitrideCeramic)
+                .EUt(240)
+                .duration(5)
+                .blastFurnaceTemp(2775)
+                .save(provider);
+
+        GTORecipeTypes.REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("lithium_oxide_ceramics_dust"))
+                .inputItems(TagPrefix.dust, GTMaterials.Lithium, 2)
+                .circuitMeta(5)
+                .inputFluids(GTMaterials.Oxygen.getFluid(1000))
+                .outputItems(TagPrefix.dust, GTOMaterials.LithiumOxideCeramics, 2)
+                .EUt(240)
+                .duration(5)
+                .blastFurnaceTemp(2775)
+                .save(provider);
+
+        GTORecipeTypes.REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("titanium_nitride_ceramic_dust"))
+                .inputItems(TagPrefix.dust, GTMaterials.Titanium, 2)
+                .inputFluids(GTMaterials.Nitrogen.getFluid(1000))
+                .outputItems(TagPrefix.dust, GTOMaterials.TitaniumNitrideCeramic, 2)
+                .EUt(480)
+                .duration(5)
+                .blastFurnaceTemp(2775)
+                .save(provider);
+
+        GTORecipeTypes.REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("zirconia_ceramic_dust"))
+                .inputItems(TagPrefix.dust, GTOMaterials.Zircon)
+                .outputItems(TagPrefix.dust, GTOMaterials.ZirconiaCeramic)
+                .outputItems(TagPrefix.dust, GTMaterials.SiliconDioxide)
+                .EUt(960)
+                .duration(5)
+                .blastFurnaceTemp(2775)
+                .save(provider);
+
+        GTORecipeTypes.REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("carbon_dioxide"))
+                .inputItems(TagPrefix.dust, GTMaterials.Magnesite, 5)
+                .outputItems(TagPrefix.dust, GTMaterials.Magnesia, 2)
+                .outputFluids(GTMaterials.CarbonDioxide.getFluid(1000))
+                .EUt(30)
+                .duration(240)
+                .blastFurnaceTemp(1255)
+                .save(provider);
     }
 
     private static void registerBlastFurnaceRecipes(Consumer<FinishedRecipe> provider) {

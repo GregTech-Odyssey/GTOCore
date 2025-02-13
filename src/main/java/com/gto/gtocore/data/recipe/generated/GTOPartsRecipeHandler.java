@@ -1,6 +1,7 @@
 package com.gto.gtocore.data.recipe.generated;
 
 import com.gto.gtocore.GTOCore;
+import com.gto.gtocore.api.data.chemical.material.GTOMaterial;
 import com.gto.gtocore.api.data.chemical.material.info.GTOMaterialFlags;
 import com.gto.gtocore.api.data.tag.GTOTagPrefix;
 import com.gto.gtocore.init.GTOItems;
@@ -33,8 +34,7 @@ import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlags.*;
 import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.*;
 import static com.gto.gtocore.api.data.tag.GTOTagPrefix.*;
-import static com.gto.gtocore.init.GTORecipeTypes.LASER_WELDER_RECIPES;
-import static com.gto.gtocore.init.GTORecipeTypes.THREE_DIMENSIONAL_PRINTER_RECIPES;
+import static com.gto.gtocore.init.GTORecipeTypes.*;
 
 public final class GTOPartsRecipeHandler {
 
@@ -104,6 +104,9 @@ public final class GTOPartsRecipeHandler {
         }
         if (GTOUtils.isGeneration(catalyst, material)) {
             processCatalyst(material, provider);
+        }
+        if (GTOUtils.isGeneration(roughBlank, material)) {
+            processroughBlank(material, provider);
         }
     }
 
@@ -870,6 +873,34 @@ public final class GTOPartsRecipeHandler {
                 .duration((int) material.getMass() << 2)
                 .EUt(120)
                 .cleanroom(CleanroomType.CLEANROOM)
+                .save(provider);
+    }
+
+    private static void processroughBlank(Material material, Consumer<FinishedRecipe> provider) {
+        ItemStack stack = ChemicalHelper.get(roughBlank, material);
+        if (stack.isEmpty()) return;
+        ItemStack stack1 = ChemicalHelper.get(block, material);
+        ItemStack stack2 = ChemicalHelper.get(brick, material);
+        SINTERING_FURNACE_RECIPES.recipeBuilder(GTOCore.id(material.getName() + "_rough_blank"))
+                .inputItems(stack)
+                .outputItems(stack1)
+                .duration(400)
+                .EUt(120)
+                .blastFurnaceTemp(((GTOMaterial) material).gtocore$temp())
+                .save(provider);
+
+        CUTTER_RECIPES.recipeBuilder(GTOCore.id(material.getName() + "_brick"))
+                .inputItems(stack1)
+                .outputItems(stack2.copyWithCount(9))
+                .duration(300)
+                .EUt(120)
+                .save(provider);
+
+        CUTTER_RECIPES.recipeBuilder(GTOCore.id(material.getName() + "_flakes"))
+                .inputItems(stack2)
+                .outputItems(flakes, material, 4)
+                .duration(200)
+                .EUt(30)
                 .save(provider);
     }
 }

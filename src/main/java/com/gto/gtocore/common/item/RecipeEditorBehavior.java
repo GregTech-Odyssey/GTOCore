@@ -519,6 +519,10 @@ public final class RecipeEditorBehavior implements IItemUIFactory, IFancyUIProvi
                     .setOnConfirm(machine::setDuration)
                     .setButtonTooltips(Component.literal("Duration")));
             template.addWidget(new AETextInputButtonWidget(x - 36, y - 10, 64, 12)
+                    .setText(String.valueOf(machine.temp))
+                    .setOnConfirm(machine::sett)
+                    .setButtonTooltips(Component.literal("FurnaceTemp")));
+            template.addWidget(new AETextInputButtonWidget(x - 36, y + 5, 64, 12)
                     .setText(String.valueOf(machine.manat))
                     .setOnConfirm(machine::setMANAt)
                     .setButtonTooltips(Component.literal("MANAt")));
@@ -562,9 +566,12 @@ public final class RecipeEditorBehavior implements IItemUIFactory, IFancyUIProvi
                 if (machine.eut != 0) {
                     stringBuilder.append(".EUt(").append(machine.eut).append(")\n");
                 }
+                if (machine.manat != 0) {
+                    stringBuilder.append(".blastFurnaceTemp(").append(machine.temp).append(")\n");
+                }
                 stringBuilder.append(".duration(").append(machine.duration).append(")\n");
                 if (machine.manat != 0) {
-                    stringBuilder.append(".addDataNumber(\"MANA\", ").append(machine.manat).append(")\n");
+                    stringBuilder.append(".addData(\"MANA\", ").append(machine.manat).append(")\n");
                 }
             } else {
                 stringBuilder.append("\nevent.shaped(\"").append(ItemUtils.getId(machine.exportItems.getStackInSlot(0))).append("\", [\n    \"");

@@ -1,5 +1,6 @@
 package com.gto.gtocore.init.material;
 
+import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.data.chemical.material.properties.OreProperty;
 import com.gregtechceu.gtceu.api.data.chemical.material.properties.PropertyKey;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
@@ -167,8 +168,10 @@ public interface MaterialIgnored {
         TagPrefix.nugget.setIgnored(Infinity, infinity_nugget);
         TagPrefix.block.setIgnored(Infinity, infinity);
 
-        TagPrefix.ingot.setIgnored(Alfsteel, () -> () -> alfsteelIngot);
-        TagPrefix.nugget.setIgnored(Alfsteel, () -> () -> alfsteelNugget);
-        TagPrefix.block.setIgnored(Alfsteel, () -> alfsteelBlock);
+        if (GTCEu.isProd()) {
+            TagPrefix.ingot.setIgnored(Alfsteel, () -> () -> alfsteelIngot);
+            TagPrefix.nugget.setIgnored(Alfsteel, () -> () -> alfsteelNugget);
+            TagPrefix.block.setIgnored(Alfsteel, () -> alfsteelBlock);
+        }
     }
 }

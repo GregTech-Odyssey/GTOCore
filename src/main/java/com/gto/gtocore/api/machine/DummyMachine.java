@@ -21,6 +21,7 @@ public class DummyMachine extends MetaMachine {
 
     @Setter
     public String id = "";
+    public int temp;
     public int manat;
     public long eut;
     public int duration;
@@ -38,6 +39,10 @@ public class DummyMachine extends MetaMachine {
         exportItems = createExportItemHandler();
         importFluids = createImportFluidHandler();
         exportFluids = createExportFluidHandler();
+    }
+
+    public void sett(String s) {
+        temp = Integer.parseInt(s);
     }
 
     public void setMANAt(String s) {

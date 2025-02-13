@@ -651,5 +651,23 @@ interface Mixer {
                 .EUt(120)
                 .duration(400)
                 .save(provider);
+
+        GTRecipeTypes.MIXER_RECIPES.recipeBuilder(GTOCore.id("aluminium_hydroxide_dust"))
+                .inputItems(TagPrefix.dust, GTOMaterials.SodiumAluminate)
+                .inputFluids(GTMaterials.Water.getFluid(2000))
+                .outputItems(TagPrefix.dust, GTOMaterials.AluminiumHydroxide)
+                .outputFluids(SodiumHydroxideSolution.getFluid(1000))
+                .EUt(120)
+                .duration(100)
+                .save(provider);
+
+        GTRecipeTypes.MIXER_RECIPES.recipeBuilder(GTOCore.id("tungsten_boron_mixture_dust"))
+                .inputItems(TagPrefix.dust, GTMaterials.Tungsten)
+                .inputItems(TagPrefix.dust, GTMaterials.Boron, 4)
+                .circuitMeta(2)
+                .outputItems(TagPrefix.dust, GTOMaterials.TungstenBoronMixture)
+                .EUt(480)
+                .duration(100)
+                .save(provider);
     }
 }

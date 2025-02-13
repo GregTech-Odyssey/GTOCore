@@ -29,6 +29,9 @@ public class MaterialMixin implements GTOMaterial {
     private long gTOCore$mass;
 
     @Unique
+    private int gTOCore$temp;
+
+    @Unique
     private Rarity gtocore$rarity;
 
     @Override
@@ -44,6 +47,16 @@ public class MaterialMixin implements GTOMaterial {
     @Override
     public MaterialProperties gtocore$getProperties() {
         return properties;
+    }
+
+    @Override
+    public int gtocore$temp() {
+        return gTOCore$temp;
+    }
+
+    @Override
+    public void gtocore$setTemp(int temp) {
+        gTOCore$temp = temp;
     }
 
     @Inject(method = "getMass", at = @At("HEAD"), remap = false, cancellable = true)

@@ -225,6 +225,7 @@ public interface MaterialB {
                 .dust()
                 .color(0xe8f0fe)
                 .iconSet(BRIGHT)
+                .temp(2700)
                 .flags(GTOMaterialFlags.GENERATE_CERAMIC)
                 .buildAndRegister().setFormula("Al2O3");
 
@@ -232,6 +233,7 @@ public interface MaterialB {
                 .dust()
                 .color(0xffcbe2)
                 .iconSet(BRIGHT)
+                .temp(3600)
                 .flags(GTOMaterialFlags.GENERATE_CERAMIC)
                 .buildAndRegister().setFormula("BaTiO3");
 
@@ -239,6 +241,7 @@ public interface MaterialB {
                 .dust()
                 .color(0x1b1b1b)
                 .iconSet(BRIGHT)
+                .temp(4500)
                 .flags(GTOMaterialFlags.GENERATE_CERAMIC)
                 .buildAndRegister().setFormula("WB4");
 
@@ -246,6 +249,7 @@ public interface MaterialB {
                 .dust()
                 .color(0x393941)
                 .iconSet(BRIGHT)
+                .temp(5400)
                 .flags(GTOMaterialFlags.GENERATE_CERAMIC)
                 .buildAndRegister().setFormula("SiO2");
 
@@ -253,6 +257,7 @@ public interface MaterialB {
                 .dust()
                 .color(0x76c1da)
                 .iconSet(BRIGHT)
+                .temp(7200)
                 .flags(GTOMaterialFlags.GENERATE_CERAMIC)
                 .buildAndRegister().setFormula("Ca5(PO4)3(OH)");
 
@@ -260,6 +265,7 @@ public interface MaterialB {
                 .dust()
                 .color(0xffea9e)
                 .iconSet(BRIGHT)
+                .temp(9000)
                 .flags(GTOMaterialFlags.GENERATE_CERAMIC)
                 .buildAndRegister().setFormula("TeO3");
 
@@ -267,12 +273,14 @@ public interface MaterialB {
                 .dust()
                 .color(0x2a2a2a)
                 .iconSet(BRIGHT)
+                .temp(12600)
                 .flags(GTOMaterialFlags.GENERATE_CERAMIC)
                 .buildAndRegister().setFormula("TmB6");
 
         SiliconNitrideCeramic = material("silicon_nitride_ceramic", "氮化硅陶瓷")
                 .dust()
                 .color(0x292824)
+                .temp(5400)
                 .iconSet(BRIGHT)
                 .flags(GTOMaterialFlags.GENERATE_CERAMIC)
                 .buildAndRegister().setFormula("Si3N4");
@@ -281,6 +289,7 @@ public interface MaterialB {
                 .dust()
                 .color(0x222534)
                 .iconSet(BRIGHT)
+                .temp(1800)
                 .flags(GTOMaterialFlags.GENERATE_CERAMIC)
                 .buildAndRegister().setFormula("CoO");
 
@@ -288,6 +297,7 @@ public interface MaterialB {
                 .dust()
                 .color(0xf1f3ff)
                 .iconSet(BRIGHT)
+                .temp(2700)
                 .flags(GTOMaterialFlags.GENERATE_CERAMIC)
                 .buildAndRegister().setFormula("CaO");
 
@@ -295,6 +305,7 @@ public interface MaterialB {
                 .dust()
                 .color(0xf3fff3)
                 .iconSet(BRIGHT)
+                .temp(3300)
                 .flags(GTOMaterialFlags.GENERATE_CERAMIC)
                 .buildAndRegister().setFormula("Li2O");
 
@@ -302,6 +313,7 @@ public interface MaterialB {
                 .dust()
                 .color(0xffe198)
                 .iconSet(BRIGHT)
+                .temp(3400)
                 .flags(GTOMaterialFlags.GENERATE_CERAMIC)
                 .buildAndRegister().setFormula("MgO");
 
@@ -309,6 +321,7 @@ public interface MaterialB {
                 .dust()
                 .color(0xd4ac4b)
                 .iconSet(BRIGHT)
+                .temp(3600)
                 .flags(GTOMaterialFlags.GENERATE_CERAMIC)
                 .buildAndRegister().setFormula("TiN");
 
@@ -316,12 +329,14 @@ public interface MaterialB {
                 .dust()
                 .color(0x2b2b31)
                 .iconSet(BRIGHT)
+                .temp(4500)
                 .flags(GTOMaterialFlags.GENERATE_CERAMIC)
                 .buildAndRegister().setFormula("B4C");
 
         StrontiumCarbonateCeramic = material("strontium_carbonate_ceramic", "碳酸锶陶瓷")
                 .dust()
                 .color(0xc5c5c5)
+                .temp(5400)
                 .iconSet(BRIGHT)
                 .flags(GTOMaterialFlags.GENERATE_CERAMIC)
                 .buildAndRegister().setFormula("SrCO3");
@@ -329,6 +344,7 @@ public interface MaterialB {
         ZirconiaCeramic = material("zirconia_ceramic", "氧化锆陶瓷")
                 .dust()
                 .color(0xeaeaea)
+                .temp(7200)
                 .iconSet(BRIGHT)
                 .flags(GTOMaterialFlags.GENERATE_CERAMIC)
                 .buildAndRegister().setFormula("ZrO2");
@@ -337,6 +353,7 @@ public interface MaterialB {
                 .dust()
                 .color(0xe9f4f4)
                 .iconSet(BRIGHT)
+                .temp(9000)
                 .flags(GTOMaterialFlags.GENERATE_CERAMIC)
                 .buildAndRegister().setFormula("Ca3(PO4)2");
 
