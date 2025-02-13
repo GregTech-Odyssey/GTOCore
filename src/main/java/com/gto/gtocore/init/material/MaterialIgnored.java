@@ -18,6 +18,9 @@ import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
 import static com.gto.gtocore.init.GTOMaterials.*;
 import static committee.nova.mods.avaritia.init.registry.ModBlocks.infinity;
 import static committee.nova.mods.avaritia.init.registry.ModItems.*;
+import static mythicbotany.register.ModBlocks.alfsteelBlock;
+import static mythicbotany.register.ModItems.alfsteelIngot;
+import static mythicbotany.register.ModItems.alfsteelNugget;
 
 public interface MaterialIgnored {
 
@@ -163,5 +166,9 @@ public interface MaterialIgnored {
         TagPrefix.ingot.setIgnored(Infinity, infinity_ingot);
         TagPrefix.nugget.setIgnored(Infinity, infinity_nugget);
         TagPrefix.block.setIgnored(Infinity, infinity);
+
+        TagPrefix.ingot.setIgnored(Alfsteel, () -> () -> alfsteelIngot);
+        TagPrefix.nugget.setIgnored(Alfsteel, () -> () -> alfsteelNugget);
+        TagPrefix.block.setIgnored(Alfsteel, () -> alfsteelBlock);
     }
 }

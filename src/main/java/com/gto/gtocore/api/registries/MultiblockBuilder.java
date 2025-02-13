@@ -126,7 +126,7 @@ public final class MultiblockBuilder extends MultiblockMachineBuilder {
 
     public MultiblockBuilder customTooltipsBuilder(boolean perfectOC, boolean laser, boolean multipleRecipes) {
         return (MultiblockBuilder) tooltipBuilder((stack, components) -> {
-            if (laser) components.add(Component.translatable("gtocore.machine.laser.tooltip").withStyle(style -> style.withColor(TooltipHelper.BLINKING_ORANGE.getCurrent())));
+            if (laser && !multipleRecipes) components.add(Component.translatable("gtocore.machine.laser.tooltip").withStyle(style -> style.withColor(TooltipHelper.BLINKING_ORANGE.getCurrent())));
             if (multipleRecipes) components.add(Component.translatable("gtocore.machine.multiple_recipes.tooltip").withStyle(style -> style.withColor(TooltipHelper.BLINKING_CYAN.getCurrent())));
             if (perfectOC) components.add(Component.translatable("gtceu.machine.perfect_oc").withStyle(style -> style.withColor(TooltipHelper.BLINKING_RED.getCurrent())));
         });

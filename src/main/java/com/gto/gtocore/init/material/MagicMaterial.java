@@ -134,7 +134,6 @@ public interface MagicMaterial {
                 .setFormula("?Fe", false);
 
         Alfsteel = material("alfsteel", "精灵钢")
-                .rarity(Rarity.UNCOMMON)
                 .ingot()
                 .fluid()
                 .element(GTOElements.ALFSTEEL)

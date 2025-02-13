@@ -55,6 +55,9 @@ dependencies {
 
     modImplementation("curse.maven:EnderIO-64578:5780352")
 
+    modImplementation("curse.maven:libx-412525:5207625")
+    modImplementation("curse.maven:mythicbotany-400058:5101899")
+
     modCompileOnly("dev.ftb.mods:ftb-quests-forge:2001.4.9") { transitive false }
 
     modCompileOnly("dev.ftb.mods:ftb-xmod-compat-forge:2.1.2") { transitive false }

@@ -405,6 +405,10 @@ public final class GTORecipes implements Runnable {
 
         filters.add(new ResourceLocation("torchmaster", "frozen_pearl"));
 
+        filters.add(new ResourceLocation("mythicbotany", "alfsteel_block_decompress"));
+        filters.add(new ResourceLocation("mythicbotany", "alfsteel_nugget_compress"));
+        filters.add(new ResourceLocation("mythicbotany", "alfsteel_ingot_compress"));
+        filters.add(new ResourceLocation("mythicbotany", "alfsteel_ingot_decompress"));
         filters.add(RLUtils.bot("mana_infusion/mana_diamond_block"));
         filters.add(RLUtils.bot("mana_infusion/manasteel_block"));
         filters.add(RLUtils.bot("conversions/manasteel_block_deconstruct"));

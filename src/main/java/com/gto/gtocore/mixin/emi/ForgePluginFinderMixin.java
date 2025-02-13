@@ -13,6 +13,7 @@ import mezz.jei.api.IModPlugin;
 import mezz.jei.forge.startup.ForgePluginFinder;
 import mezz.jei.library.plugins.jei.JeiInternalPlugin;
 import mezz.jei.library.plugins.vanilla.VanillaPlugin;
+import mythicbotany.jei.MythicJei;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 
@@ -40,6 +41,7 @@ public final class ForgePluginFinderMixin {
         plugins.add(new PotionJEIPlugin());
         plugins.add(new VillageJEIPlugin());
         plugins.add(new JEIConfig());
+        plugins.add(new MythicJei());
         return plugins;
     }
 }
