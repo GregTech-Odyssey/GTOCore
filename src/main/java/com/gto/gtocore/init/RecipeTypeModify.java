@@ -39,6 +39,7 @@ interface RecipeTypeModify {
                     .inputFluids(GTMaterials.DistilledWater.getFluid((int) (eu / 160)))
                     .outputFluids(FluidRecipeCapability.CAP.of(recipeBuilder.output
                             .get(FluidRecipeCapability.CAP).get(0).getContent()))
+                    .outputFluids(GTMaterials.Steam.getFluid((int) eu))
                     .outputFluids(GTOMaterials.SupercriticalSteam.getFluid((int) (eu / 16)))
                     .addData("eu", eu)
                     .duration(200)

@@ -642,6 +642,7 @@ public interface ClassifiedRecipe {
                 .inputFluids(GTOMaterials.SupercriticalSodiumPotassium.getFluid(1))
                 .inputFluids(GTMaterials.DistilledWater.getFluid(80))
                 .outputFluids(GTMaterials.SodiumPotassium.getFluid(1))
+                .outputFluids(GTMaterials.Steam.getFluid(12800))
                 .outputFluids(GTOMaterials.SupercriticalSteam.getFluid(800))
                 .duration(200)
                 .save(provider);

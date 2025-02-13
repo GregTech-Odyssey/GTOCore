@@ -1461,6 +1461,7 @@
   "gtocore.machine.hand_of_arachne.tooltip.0": "Ancient Rome was the god of weaving",
   "gtocore.machine.heat_exchanger.tooltip.0": "Processes all input hot fluids every time",
   "gtocore.machine.heat_exchanger.tooltip.1": "Must ensure the cooling liquid input can cool all fluids",
+  "gtocore.machine.heat_exchanger.tooltip.2": "Defaults to outputting steam, if the recipe supports it, it will output supercritical steam after running continuously 4 times",
   "gtocore.machine.height": "Height: %s",
   "gtocore.machine.high_energy_laser_purification_unit.tooltip.0": "§aPurified Water Level§r: §f6§r",
   "gtocore.machine.high_energy_laser_purification_unit.tooltip.1": "During operation, replace the §bLens§r in the lens chamber.",

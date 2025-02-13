@@ -177,7 +177,7 @@ public interface GTORecipeTypes {
             .addDataInfo(data -> LocalizationUtils.format("gtocore.recipe.evt", data.getInt("evt")));
 
     GTRecipeType HEAT_EXCHANGER_RECIPES = register("heat_exchanger", "流体热交换", MULTIBLOCK)
-            .setMaxIOSize(0, 0, 2, 2)
+            .setMaxIOSize(0, 0, 2, 3)
             .setProgressBar(GuiTextures.PROGRESS_BAR_MIXER, LEFT_TO_RIGHT)
             .setMaxTooltips(1)
             .setSound(GTSoundEntries.COOLING);

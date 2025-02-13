@@ -32,6 +32,7 @@ public final class HeatExchangerMachine extends NoEnergyMultiblockMachine implem
         return MANAGED_FIELD_HOLDER;
     }
 
+    private static final Fluid Steam = GTMaterials.Steam.getFluid();
     private static final Fluid SupercriticalSteam = GTOMaterials.SupercriticalSteam.getFluid();
     private static final Fluid DistilledWater = GTMaterials.DistilledWater.getFluid();
 
@@ -70,7 +71,11 @@ public final class HeatExchangerMachine extends NoEnergyMultiblockMachine implem
     public void onRecipeFinish() {
         super.onRecipeFinish();
         if (count != 0) {
-            MachineUtils.outputFluid(this, SupercriticalSteam, count);
+            if (getRecipeLogic().getConsecutiveRecipes() > 4) {
+                MachineUtils.outputFluid(this, SupercriticalSteam, count);
+            } else {
+                MachineUtils.outputFluid(this, Steam, count << 4);
+            }
         }
         count = 0;
     }

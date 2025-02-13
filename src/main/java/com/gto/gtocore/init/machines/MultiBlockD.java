@@ -1013,6 +1013,7 @@ public interface MultiBlockD {
             .allRotation()
             .tooltipsText("Processes all input hot fluids every time", "每次处理全部输入的热流体")
             .tooltipsText("Must ensure the cooling liquid input can cool all fluids", "需要保证输入的冷却液能将流体全部冷却")
+            .tooltipsText("Defaults to outputting steam, if the recipe supports it, it will output supercritical steam after running continuously 4 times", "默认输出蒸汽，如果配方支持，连续运行4次后将输出超临界蒸汽")
             .recipe(GTORecipeTypes.HEAT_EXCHANGER_RECIPES)
             .alwaysTryModifyRecipe(true)
             .block(GTBlocks.CASING_TUNGSTENSTEEL_ROBUST)

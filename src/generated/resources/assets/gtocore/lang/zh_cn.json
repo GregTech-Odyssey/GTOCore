@@ -1461,6 +1461,7 @@
   "gtocore.machine.hand_of_arachne.tooltip.0": "古罗马掌管编织的神",
   "gtocore.machine.heat_exchanger.tooltip.0": "每次处理全部输入的热流体",
   "gtocore.machine.heat_exchanger.tooltip.1": "需要保证输入的冷却液能将流体全部冷却",
+  "gtocore.machine.heat_exchanger.tooltip.2": "默认输出蒸汽，如果配方支持，连续运行4次后将输出超临界蒸汽",
   "gtocore.machine.height": "高度: %s",
   "gtocore.machine.high_energy_laser_purification_unit.tooltip.0": "§a净化水等级§r: §f6§r",
   "gtocore.machine.high_energy_laser_purification_unit.tooltip.1": "在操作过程中，更换透镜仓内的§b透镜§r",
