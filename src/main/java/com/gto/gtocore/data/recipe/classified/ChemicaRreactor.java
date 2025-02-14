@@ -2561,7 +2561,7 @@ interface ChemicaRreactor {
                 .cleanroom(CleanroomType.CLEANROOM)
                 .save(provider);
 
-        GTRecipeTypes.CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("sodium_aluminate_dust"))
+        GTRecipeTypes.LARGE_CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("sodium_aluminate_dust"))
                 .inputItems(TagPrefix.dust, GTMaterials.Bauxite)
                 .inputItems(TagPrefix.dust, GTMaterials.SodiumHydroxide, 2)
                 .circuitMeta(5)
@@ -2601,7 +2601,7 @@ interface ChemicaRreactor {
                 .duration(100)
                 .save(provider);
 
-        GTRecipeTypes.CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("undried_hydroxyapatite_dust"))
+        GTRecipeTypes.LARGE_CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("undried_hydroxyapatite_dust"))
                 .inputItems(TagPrefix.dust, GTMaterials.Apatite)
                 .inputItems(TagPrefix.dust, GTOMaterials.HighPurityCalciumCarbonate)
                 .circuitMeta(5)

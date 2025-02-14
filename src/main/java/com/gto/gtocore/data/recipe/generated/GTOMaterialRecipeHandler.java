@@ -6,10 +6,7 @@ import com.gto.gtocore.utils.GTOUtils;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.chemical.material.MarkerMaterials;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
-import com.gregtechceu.gtceu.api.data.chemical.material.properties.BlastProperty;
-import com.gregtechceu.gtceu.api.data.chemical.material.properties.IngotProperty;
-import com.gregtechceu.gtceu.api.data.chemical.material.properties.OreProperty;
-import com.gregtechceu.gtceu.api.data.chemical.material.properties.PropertyKey;
+import com.gregtechceu.gtceu.api.data.chemical.material.properties.*;
 import com.gregtechceu.gtceu.api.data.chemical.material.stack.UnificationEntry;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
@@ -523,6 +520,11 @@ public final class GTOMaterialRecipeHandler {
                         .EUt(vacuumEUt)
                         .save(provider);
             }
+        }
+
+        AlloyBlastProperty alloyBlastProperty = material.getProperty(PropertyKey.ALLOY_BLAST);
+        if (alloyBlastProperty != null) {
+            alloyBlastProperty.getRecipeProducer().produce(material, property, provider);
         }
     }
 }

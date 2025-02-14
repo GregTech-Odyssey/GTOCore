@@ -18,7 +18,8 @@ import net.minecraft.network.chat.Component;
 
 import static com.gto.gtocore.api.GTOValues.MANACN;
 import static com.gto.gtocore.api.GTOValues.MANAN;
-import static com.gto.gtocore.utils.register.MachineRegisterUtils.*;
+import static com.gto.gtocore.utils.register.MachineRegisterUtils.registerSimpleManaMachines;
+import static com.gto.gtocore.utils.register.MachineRegisterUtils.registerTieredManaMachines;
 
 public interface ManaMachine {
 
