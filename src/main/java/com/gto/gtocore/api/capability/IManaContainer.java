@@ -1,48 +1,38 @@
 package com.gto.gtocore.api.capability;
 
+import com.gto.gtocore.api.machine.INetMachineInteractor;
 import com.gto.gtocore.common.machine.mana.multiblock.ManaDistributorMachine;
 
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
 
-import java.util.Objects;
+import java.util.Set;
 
-import javax.annotation.Nullable;
+public interface IManaContainer extends INetMachineInteractor<ManaDistributorMachine> {
 
-public interface IManaContainer {
-
-    void setDistributorCache(ManaDistributorMachine container);
-
-    ManaDistributorMachine getDistributorCache();
-
-    @Nullable
-    default ManaDistributorMachine getDistributor() {
-        if (acceptDistributor() && getDistributorCache() == null && !ManaDistributorMachine.DISTRIBUTOR_NETWORK.isEmpty()) {
-            BlockPos pos = getMachine().getPos();
-            for (ManaDistributorMachine distributor : ManaDistributorMachine.DISTRIBUTOR_NETWORK) {
-                if (distributor.isFormed() && Objects.requireNonNull(distributor.getLevel()).dimension().equals(Objects.requireNonNull(getMachine().getLevel()).dimension()) && distributor.add(pos)) {
-                    setDistributorCache(distributor);
-                    return distributor;
-                }
-            }
-        }
-        ManaDistributorMachine distributor = getDistributorCache();
-        if (distributor != null) {
-            if (distributor.isFormed()) {
-                return distributor;
-            } else {
-                removeDistributorCache();
-            }
-        }
-        return null;
+    default Set<ManaDistributorMachine> getMachineNet() {
+        return ManaDistributorMachine.DISTRIBUTOR_NETWORK;
     }
 
-    default void removeDistributorCache() {
-        ManaDistributorMachine distributor = getDistributorCache();
+    default boolean firstTestMachine(ManaDistributorMachine machine) {
+        if (!acceptDistributor()) return false;
+        BlockPos pos = getMachine().getPos();
+        Level level = machine.getLevel();
+        if (level == null) return false;
+        return machine.isFormed() && level.dimension().equals(level.dimension()) && machine.add(pos);
+    }
+
+    default boolean testMachine(ManaDistributorMachine machine) {
+        return machine.isFormed();
+    }
+
+    default void removeNetMachineCache() {
+        ManaDistributorMachine distributor = getNetMachineCache();
         if (distributor != null) {
             distributor.remove();
-            setDistributorCache(null);
+            setNetMachineCache(null);
         }
     }
 

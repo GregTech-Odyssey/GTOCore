@@ -55,6 +55,7 @@
         "ftbxmodcompat.FTBXModCompatMixin",
         "gtm.AddonFinderMixin",
         "gtm.CommonProxyMixin",
+        "gtm.FluidDrillLogicMixin",
         "gtm.FluidPipeTypeMixin",
         "gtm.ForgeCommonEventListenerMixin",
         "gtm.GTCEuMixin",

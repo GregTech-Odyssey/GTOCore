@@ -1,4 +1,4 @@
-package com.gto.gtocore.api.machine.feature;
+package com.gto.gtocore.api.machine.trait;
 
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.fancy.ConfiguratorPanel;

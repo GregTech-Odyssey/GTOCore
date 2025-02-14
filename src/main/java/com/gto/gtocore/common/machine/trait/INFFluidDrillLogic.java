@@ -1,6 +1,8 @@
 package com.gto.gtocore.common.machine.trait;
 
+import com.gto.gtocore.api.machine.trait.IFluidDrillLogic;
 import com.gto.gtocore.api.recipe.GTORecipeBuilder;
+import com.gto.gtocore.common.machine.multiblock.electric.DrillingControlCenterMachine;
 import com.gto.gtocore.common.machine.multiblock.electric.INFFluidDrillMachine;
 
 import com.gregtechceu.gtceu.api.GTValues;
@@ -19,9 +21,11 @@ import lombok.Getter;
 import org.jetbrains.annotations.Nullable;
 
 @Getter
-public final class INFFluidDrillLogic extends RecipeLogic {
+public final class INFFluidDrillLogic extends RecipeLogic implements IFluidDrillLogic {
 
     public static final int MAX_PROGRESS = 20;
+
+    private DrillingControlCenterMachine cache;
 
     @Nullable
     private Fluid veinFluid;
@@ -98,6 +102,8 @@ public final class INFFluidDrillLogic extends RecipeLogic {
             if (isOverclocked()) {
                 produced = produced * 3 / 2;
             }
+            DrillingControlCenterMachine machine = getNetMachine();
+            if (machine != null) produced = (int) (produced * machine.getMultiplier());
             return produced;
         }
         return 0;
@@ -131,5 +137,21 @@ public final class INFFluidDrillLogic extends RecipeLogic {
 
     private int getChunkZ() {
         return SectionPos.blockToSectionCoord(getMachine().getPos().getZ());
+    }
+
+    @Override
+    public DrillingControlCenterMachine getNetMachineCache() {
+        return cache;
+    }
+
+    @Override
+    public void setNetMachineCache(DrillingControlCenterMachine cache) {
+        this.cache = cache;
+    }
+
+    @Override
+    public void onMachineUnLoad() {
+        super.onMachineUnLoad();
+        this.cache = null;
     }
 }

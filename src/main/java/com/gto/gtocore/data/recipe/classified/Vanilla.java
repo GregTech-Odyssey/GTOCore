@@ -697,5 +697,10 @@ interface Vanilla {
                 "B",
                 "C",
                 'B', GTItems.STICKY_RESIN.asStack(), 'C', GTMachines.HULL[GTValues.ULV].asStack(), 'A', new ItemStack(Blocks.CHEST.asItem()));
+        VanillaRecipeHelper.addShapedRecipe(provider, GTOCore.id("wireless_energy_substation"), MultiBlockG.WIRELESS_ENERGY_SUBSTATION.asStack(),
+                "ABA",
+                "CDC",
+                "ABA",
+                'B', CustomTags.LV_CIRCUITS, 'D', new UnificationEntry(TagPrefix.frameGt, GTMaterials.Invar), 'C', new UnificationEntry(TagPrefix.plate, GTMaterials.EnderPearl), 'A', new UnificationEntry(TagPrefix.plateDense, GTMaterials.Steel));
     }
 }

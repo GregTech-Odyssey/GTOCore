@@ -18,8 +18,7 @@ import net.minecraft.network.chat.Component;
 
 import static com.gto.gtocore.api.GTOValues.MANACN;
 import static com.gto.gtocore.api.GTOValues.MANAN;
-import static com.gto.gtocore.utils.register.MachineRegisterUtils.registerSimpleManaMachines;
-import static com.gto.gtocore.utils.register.MachineRegisterUtils.registerTieredMachines;
+import static com.gto.gtocore.utils.register.MachineRegisterUtils.*;
 
 public interface ManaMachine {
 
@@ -29,7 +28,7 @@ public interface ManaMachine {
 
     MachineDefinition[] MANA_ASSEMBLER = registerSimpleManaMachines("mana_assembler", "魔力组装机", GTRecipeTypes.ASSEMBLER_RECIPES, GTMachineUtils.defaultTankSizeFunction, GTCEu.id("block/machines/assembler"), GTMachineUtils.ELECTRIC_TIERS);
 
-    MachineDefinition[] MANA_EXTRACT_HATCH = registerTieredMachines("mana_extract_hatch", tier -> "%s%s".formatted(MANACN[tier], "魔力抽取仓"),
+    MachineDefinition[] MANA_EXTRACT_HATCH = registerTieredManaMachines("mana_extract_hatch", tier -> "%s%s".formatted(MANACN[tier], "魔力抽取仓"),
             ManaExtractHatchPartMachine::new,
             (tier, builder) -> builder
                     .langValue(MANAN[tier] + " Mana Extract Hatch")
@@ -40,7 +39,7 @@ public interface ManaMachine {
                     .register(),
             GTMachineUtils.ELECTRIC_TIERS);
 
-    MachineDefinition[] MANA_INPUT_HATCH = registerTieredMachines("mana_input_hatch", tier -> "%s%s".formatted(MANACN[tier], "魔力输入仓"),
+    MachineDefinition[] MANA_INPUT_HATCH = registerTieredManaMachines("mana_input_hatch", tier -> "%s%s".formatted(MANACN[tier], "魔力输入仓"),
             (holder, tier) -> new ManaHatchPartMachine(holder, tier, IO.IN, 1),
             (tier, builder) -> builder
                     .langValue(MANAN[tier] + " Mana Input Hatch")
@@ -51,7 +50,7 @@ public interface ManaMachine {
                     .register(),
             GTMachineUtils.ELECTRIC_TIERS);
 
-    MachineDefinition[] MANA_OUTPUT_HATCH = registerTieredMachines("mana_output_hatch", tier -> "%s%s".formatted(MANACN[tier], "魔力输出仓"),
+    MachineDefinition[] MANA_OUTPUT_HATCH = registerTieredManaMachines("mana_output_hatch", tier -> "%s%s".formatted(MANACN[tier], "魔力输出仓"),
             (holder, tier) -> new ManaHatchPartMachine(holder, tier, IO.OUT, 1),
             (tier, builder) -> builder
                     .langValue(MANAN[tier] + " Mana Output Hatch")

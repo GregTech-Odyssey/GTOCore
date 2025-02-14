@@ -1,9 +1,9 @@
 package com.gto.gtocore.mixin.gtm.machine;
 
 import com.gto.gtocore.api.gui.OverclockConfigurator;
-import com.gto.gtocore.api.machine.feature.ILockableRecipe;
 import com.gto.gtocore.api.machine.feature.multiblock.ICheckPatternMachine;
 import com.gto.gtocore.api.machine.feature.multiblock.IOverclockConfigMachine;
+import com.gto.gtocore.api.machine.trait.ILockableRecipe;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.IControllable;

@@ -6,6 +6,7 @@ import com.gto.gtocore.api.machine.multiblock.ElectricMultiblockMachine;
 import com.gto.gtocore.api.machine.part.GTOPartAbility;
 import com.gto.gtocore.api.pattern.GTOPredicates;
 import com.gto.gtocore.client.renderer.machine.ArrayMachineRenderer;
+import com.gto.gtocore.common.machine.multiblock.electric.DrillingControlCenterMachine;
 import com.gto.gtocore.common.machine.multiblock.electric.ProcessingArrayMachine;
 import com.gto.gtocore.common.machine.multiblock.noenergy.DroneControlCenterMachine;
 import com.gto.gtocore.common.machine.multiblock.storage.WirelessEnergySubstationMachine;
@@ -34,6 +35,35 @@ import static com.gto.gtocore.utils.register.MachineRegisterUtils.registerTiered
 public interface MultiBlockG {
 
     static void init() {}
+
+    MultiblockMachineDefinition DRILLING_CONTROL_CENTER = multiblock("drilling_control_center", "钻井控制中枢", DrillingControlCenterMachine::new)
+            .nonYAxisRotation()
+            .tooltipsText("Voltage tier is increased by one level above IV, it can increase the fluid drill's output within a 16 M range by x1.5", "电压等级每高出IV一级，可使16M范围内的流体钻机产量x1.5")
+            .recipe(DUMMY_RECIPES)
+            .block(GTBlocks.CASING_STEEL_SOLID)
+            .pattern(definition -> FactoryBlockPattern.start(RelativeDirection.RIGHT, RelativeDirection.UP, RelativeDirection.BACK)
+                    .aisle(" AAAAA ", "  AIA  ", "       ", "       ", "       ", "       ", "       ", "       ", "       ", "       ")
+                    .aisle("AABBBAA", " CBBBC ", " CDDDC ", "  DDD  ", "  DDD  ", "  DDD  ", "  DDD  ", "  BBB  ", "  BBB  ", "       ")
+                    .aisle("ABEEEBA", "ABEEEBA", " DEFED ", " DEFED ", " DEFED ", " DEFED ", " DEFED ", " BEEEB ", " BBBBB ", "   B   ")
+                    .aisle("ABEEEBA", "ABEEEBA", " DFGFD ", " DFHFD ", " DFGFD ", " DFHFD ", " DFGFD ", " BEEEB ", " BBBBB ", "  BBB  ")
+                    .aisle("ABEEEBA", "ABEEEBA", " DEFED ", " DEFED ", " DEFED ", " DEFED ", " DEFED ", " BEEEB ", " BBBBB ", "   B   ")
+                    .aisle("AABBBAA", " CBBBC ", " CDDDC ", "  DDD  ", "  DDD  ", "  DDD  ", "  DDD  ", "  BBB  ", "  BBB  ", "       ")
+                    .aisle(" AAAAA ", "  AAA  ", "       ", "       ", "       ", "       ", "       ", "       ", "       ", "       ")
+                    .where('A', blocks(GTBlocks.CASING_STEEL_SOLID.get())
+                            .or(abilities(INPUT_ENERGY).setExactLimit(2))
+                            .or(abilities(MAINTENANCE).setExactLimit(1)))
+                    .where('B', blocks(GTBlocks.CASING_TUNGSTENSTEEL_ROBUST.get()))
+                    .where('C', blocks(GTBlocks.CASING_TITANIUM_STABLE.get()))
+                    .where('D', blocks(GTOBlocks.TUNGSTEN_BOROSILICATE_GLASS.get()))
+                    .where('E', blocks(GTBlocks.CASING_STAINLESS_CLEAN.get()))
+                    .where('F', blocks(GTBlocks.MACHINE_CASING_IV.get()))
+                    .where('G', blocks(GTBlocks.CASING_TUNGSTENSTEEL_GEARBOX.get()))
+                    .where('H', blocks(GTBlocks.HERMETIC_CASING_IV.get()))
+                    .where('I', controller(blocks(definition.get())))
+                    .where(' ', any())
+                    .build())
+            .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_solid_steel"), GTCEu.id("block/multiblock/fusion_reactor"))
+            .register();
 
     MultiblockMachineDefinition DRONE_CONTROL_CENTER = multiblock("drone_control_center", "无人机控制中心", DroneControlCenterMachine::new)
             .nonYAxisRotation()

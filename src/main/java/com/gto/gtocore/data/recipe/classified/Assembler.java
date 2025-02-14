@@ -3249,5 +3249,218 @@ interface Assembler {
                 .EUt(30)
                 .duration(200)
                 .save(provider);
+
+        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("lv_wireless_energy_unit"))
+                .inputItems(TagPrefix.block, GTMaterials.BatteryAlloy)
+                .inputItems(TagPrefix.plate, GTMaterials.RedAlloy, 8)
+                .inputFluids(GTMaterials.EnderPearl.getFluid(2304))
+                .outputItems(GTOBlocks.LV_WIRELESS_ENERGY_UNIT.asStack())
+                .EUt(30)
+                .duration(600)
+                .save(provider);
+
+        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("mv_wireless_energy_unit"))
+                .inputItems(GTOBlocks.LV_WIRELESS_ENERGY_UNIT.asStack())
+                .inputItems(TagPrefix.plateDouble, GTMaterials.Aluminium, 4)
+                .inputFluids(GTMaterials.Nitrogen.getFluid(10000))
+                .outputItems(GTOBlocks.MV_WIRELESS_ENERGY_UNIT.asStack())
+                .EUt(120)
+                .duration(600)
+                .save(provider);
+
+        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("hv_wireless_energy_unit"))
+                .inputItems(GTOBlocks.MV_WIRELESS_ENERGY_UNIT.asStack())
+                .inputItems(TagPrefix.plateDouble, GTMaterials.BismuthBronze, 4)
+                .inputFluids(GTMaterials.Helium.getFluid(10000))
+                .outputItems(GTOBlocks.HV_WIRELESS_ENERGY_UNIT.asStack())
+                .EUt(480)
+                .duration(600)
+                .save(provider);
+
+        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("ev_wireless_energy_unit"))
+                .inputItems(GTOBlocks.HV_WIRELESS_ENERGY_UNIT.asStack())
+                .inputItems(TagPrefix.plateDouble, GTMaterials.Palladium, 4)
+                .inputFluids(GTMaterials.Radon.getFluid(1000))
+                .outputItems(GTOBlocks.EV_WIRELESS_ENERGY_UNIT.asStack())
+                .EUt(1920)
+                .duration(600)
+                .save(provider);
+
+        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("iv_wireless_energy_unit"))
+                .inputItems(GTOBlocks.EV_WIRELESS_ENERGY_UNIT.asStack())
+                .inputItems(TagPrefix.plateDouble, GTMaterials.Ultimet, 4)
+                .inputFluids(GTMaterials.Argon.getFluid(1000))
+                .outputItems(GTOBlocks.IV_WIRELESS_ENERGY_UNIT.asStack())
+                .EUt(7680)
+                .duration(600)
+                .save(provider);
+
+        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("luv_wireless_energy_unit"))
+                .inputItems(GTOBlocks.IV_WIRELESS_ENERGY_UNIT.asStack())
+                .inputItems(TagPrefix.plateDouble, GTMaterials.HSSS, 4)
+                .inputFluids(GTMaterials.Helium.getFluid(FluidStorageKeys.PLASMA, 1000))
+                .outputItems(GTOBlocks.LUV_WIRELESS_ENERGY_UNIT.asStack())
+                .EUt(30720)
+                .duration(600)
+                .save(provider);
+
+        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("zpm_wireless_energy_unit"))
+                .inputItems(GTOBlocks.LUV_WIRELESS_ENERGY_UNIT.asStack())
+                .inputItems(TagPrefix.plateDouble, GTMaterials.Ruridit, 4)
+                .inputFluids(GTMaterials.Neon.getFluid(FluidStorageKeys.PLASMA, 1000))
+                .outputItems(GTOBlocks.ZPM_WIRELESS_ENERGY_UNIT.asStack())
+                .EUt(122880)
+                .duration(600)
+                .save(provider);
+
+        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("uv_wireless_energy_unit"))
+                .inputItems(GTOBlocks.ZPM_WIRELESS_ENERGY_UNIT.asStack())
+                .inputItems(TagPrefix.plateDouble, GTMaterials.Darmstadtium, 4)
+                .inputFluids(GTMaterials.Tin.getFluid(FluidStorageKeys.PLASMA, 1000))
+                .outputItems(GTOBlocks.UV_WIRELESS_ENERGY_UNIT.asStack())
+                .EUt(491520)
+                .duration(600)
+                .save(provider);
+
+        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("uhv_wireless_energy_unit"))
+                .inputItems(GTOBlocks.UV_WIRELESS_ENERGY_UNIT.asStack())
+                .inputItems(TagPrefix.plateDouble, GTOMaterials.Orichalcum, 4)
+                .inputFluids(GTOMaterials.Mithril.getFluid(FluidStorageKeys.PLASMA, 1000))
+                .outputItems(GTOBlocks.UHV_WIRELESS_ENERGY_UNIT.asStack())
+                .EUt(1966080)
+                .duration(600)
+                .save(provider);
+
+        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("uev_wireless_energy_unit"))
+                .inputItems(GTOBlocks.UHV_WIRELESS_ENERGY_UNIT.asStack())
+                .inputItems(TagPrefix.plateDouble, GTOMaterials.Enderite, 4)
+                .inputFluids(GTMaterials.Lead.getFluid(FluidStorageKeys.PLASMA, 1000))
+                .outputItems(GTOBlocks.UEV_WIRELESS_ENERGY_UNIT.asStack())
+                .EUt(7864320)
+                .duration(600)
+                .save(provider);
+
+        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("uiv_wireless_energy_unit"))
+                .inputItems(GTOBlocks.UEV_WIRELESS_ENERGY_UNIT.asStack())
+                .inputItems(TagPrefix.plateDouble, GTOMaterials.HeavyQuarkDegenerateMatter, 4)
+                .inputFluids(GTOMaterials.ActiniumSuperhydride.getFluid(FluidStorageKeys.PLASMA, 1000))
+                .outputItems(GTOBlocks.UIV_WIRELESS_ENERGY_UNIT.asStack())
+                .EUt(31457280)
+                .duration(600)
+                .save(provider);
+
+        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("uxv_wireless_energy_unit"))
+                .inputItems(GTOBlocks.UIV_WIRELESS_ENERGY_UNIT.asStack())
+                .inputItems(TagPrefix.plateDouble, GTOMaterials.Vibranium, 4)
+                .inputFluids(GTOMaterials.QuantumChromoDynamicallyConfinedMatter.getFluid(FluidStorageKeys.PLASMA, 1000))
+                .outputItems(GTOBlocks.UXV_WIRELESS_ENERGY_UNIT.asStack())
+                .EUt(125829120)
+                .duration(600)
+                .save(provider);
+
+        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("opv_wireless_energy_unit"))
+                .inputItems(GTOBlocks.UXV_WIRELESS_ENERGY_UNIT.asStack())
+                .inputItems(TagPrefix.plateDouble, GTOMaterials.Draconium, 4)
+                .inputFluids(GTOMaterials.HexaphaseCopper.getFluid(FluidStorageKeys.PLASMA, 1000))
+                .outputItems(GTOBlocks.OPV_WIRELESS_ENERGY_UNIT.asStack())
+                .EUt(503316480)
+                .duration(600)
+                .save(provider);
+
+        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("max_wireless_energy_unit"))
+                .inputItems(GTOBlocks.OPV_WIRELESS_ENERGY_UNIT.asStack())
+                .inputItems(TagPrefix.plateDouble, GTOMaterials.TranscendentMetal, 4)
+                .inputFluids(GTOMaterials.Chaos.getFluid(FluidStorageKeys.PLASMA, 1000))
+                .outputItems(GTOBlocks.MAX_WIRELESS_ENERGY_UNIT.asStack())
+                .EUt(2013265920)
+                .duration(600)
+                .save(provider);
+
+        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("component_assembler"))
+                .inputItems(GTOBlocks.COMPONENT_ASSEMBLY_LINE_CASING_LV.asStack(4))
+                .inputItems(GTItems.CONVEYOR_MODULE_MV.asStack(4))
+                .inputItems(GTItems.ROBOT_ARM_MV.asStack(8))
+                .inputItems(GTItems.EMITTER_MV.asStack(2))
+                .inputItems(GTItems.SENSOR_MV.asStack(2))
+                .inputItems(CustomTags.MV_CIRCUITS, 4)
+                .inputItems(TagPrefix.rod, GTMaterials.SterlingSilver, 8)
+                .inputItems(TagPrefix.bolt, GTMaterials.TinAlloy, 32)
+                .inputItems(TagPrefix.plate, GTMaterials.Steel, 16)
+                .outputItems(MultiBlockC.COMPONENT_ASSEMBLER.asStack())
+                .EUt(120)
+                .duration(200)
+                .save(provider);
+
+        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("calcium_oxide_ceramic_anti_metal_corrosion_mechanical_block"))
+                .inputItems(TagPrefix.frameGt, GTMaterials.StainlessSteel)
+                .inputItems(TagPrefix.plate, GTMaterials.VanadiumSteel, 2)
+                .inputItems(GTOTagPrefix.flakes, GTOMaterials.CalciumOxideCeramic, 16)
+                .outputItems(GTOBlocks.CALCIUM_OXIDE_CERAMIC_ANTI_METAL_CORROSION_MECHANICAL_BLOCK.asStack())
+                .EUt(30)
+                .duration(200)
+                .save(provider);
+
+        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("zirconia_ceramic_high_strength_bending_resistance_mechanical_block"))
+                .inputItems(TagPrefix.frameGt, GTMaterials.TungstenSteel)
+                .inputItems(TagPrefix.plate, GTMaterials.RedSteel, 2)
+                .inputItems(GTOTagPrefix.flakes, GTOMaterials.ZirconiaCeramic, 16)
+                .outputItems(GTOBlocks.ZIRCONIA_CERAMIC_HIGH_STRENGTH_BENDING_RESISTANCE_MECHANICAL_BLOCK.asStack())
+                .EUt(30)
+                .duration(200)
+                .save(provider);
+
+        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("titanium_nitride_ceramic_impact_resistant_mechanical_block"))
+                .inputItems(TagPrefix.frameGt, GTMaterials.Titanium)
+                .inputItems(TagPrefix.plate, GTMaterials.BlueSteel, 2)
+                .inputItems(GTOTagPrefix.flakes, GTOMaterials.TitaniumNitrideCeramic, 16)
+                .outputItems(GTOBlocks.TITANIUM_NITRIDE_CERAMIC_IMPACT_RESISTANT_MECHANICAL_BLOCK.asStack())
+                .EUt(30)
+                .duration(200)
+                .save(provider);
+
+        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("lithium_oxide_ceramic_heat_resistant_shock_resistant_mechanical_cube"))
+                .inputItems(TagPrefix.frameGt, GTMaterials.TungstenCarbide)
+                .inputItems(TagPrefix.plate, GTOMaterials.DarkSteel, 2)
+                .inputItems(GTOTagPrefix.flakes, GTOMaterials.LithiumOxideCeramics, 16)
+                .outputItems(GTOBlocks.LITHIUM_OXIDE_CERAMIC_HEAT_RESISTANT_SHOCK_RESISTANT_MECHANICAL_CUBE.asStack())
+                .EUt(30)
+                .duration(200)
+                .save(provider);
+
+        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("strontium_carbonate_ceramic_ray_absorbing_mechanical_cube"))
+                .inputItems(TagPrefix.frameGt, GTMaterials.Aluminium)
+                .inputItems(TagPrefix.plate, GTMaterials.Osmium, 2)
+                .inputItems(GTOTagPrefix.flakes, GTOMaterials.StrontiumCarbonateCeramic, 16)
+                .outputItems(GTOBlocks.STRONTIUM_CARBONATE_CERAMIC_RAY_ABSORBING_MECHANICAL_CUBE.asStack())
+                .EUt(30)
+                .duration(200)
+                .save(provider);
+
+        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("magnesium_oxide_ceramic_high_temperature_insulation_mechanical_block"))
+                .inputItems(TagPrefix.frameGt, GTMaterials.HSLASteel)
+                .inputItems(TagPrefix.plate, GTMaterials.TungstenCarbide, 2)
+                .inputItems(GTOTagPrefix.flakes, GTOMaterials.MagnesiumOxideCeramic, 16)
+                .outputItems(GTOBlocks.MAGNESIUM_OXIDE_CERAMIC_HIGH_TEMPERATURE_INSULATION_MECHANICAL_BLOCK.asStack())
+                .EUt(30)
+                .duration(200)
+                .save(provider);
+
+        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("boron_carbide_ceramic_radiation_resistant_mechanical_cube"))
+                .inputItems(TagPrefix.frameGt, GTMaterials.Ruridit)
+                .inputItems(TagPrefix.plate, GTMaterials.TitaniumTungstenCarbide, 2)
+                .inputItems(GTOTagPrefix.flakes, GTOMaterials.BoronCarbideCeramics, 16)
+                .outputItems(GTOBlocks.BORON_CARBIDE_CERAMIC_RADIATION_RESISTANT_MECHANICAL_CUBE.asStack())
+                .EUt(30)
+                .duration(200)
+                .save(provider);
+
+        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("cobalt_oxide_ceramic_strong_thermally_conductive_mechanical_block"))
+                .inputItems(TagPrefix.frameGt, GTMaterials.BlueSteel)
+                .inputItems(TagPrefix.plate, GTMaterials.Kanthal, 2)
+                .inputItems(GTOTagPrefix.flakes, GTOMaterials.CobaltOxideCeramic, 16)
+                .outputItems(GTOBlocks.COBALT_OXIDE_CERAMIC_STRONG_THERMALLY_CONDUCTIVE_MECHANICAL_BLOCK.asStack())
+                .EUt(30)
+                .duration(200)
+                .save(provider);
     }
 }

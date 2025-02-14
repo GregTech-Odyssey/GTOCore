@@ -111,7 +111,7 @@ public interface MultiBlockD {
             .tooltipsText("This multiBlock machine requires too much EU, unable to power with conventional means", "这台多方块机器需要太多EU，无法用常规手段供能")
             .tooltipsText("Directly supplied with EU from wireless EU network, specific values can be viewed in the GUI", "由无线EU网络直接供给EU，具体数值可在GUI内查看")
             .tooltipsText("Executes special overclocking mode, increasing speed by 2 times for every 16 times power increase, overclocking is adjusted by programmed circuits", "执行特殊超频模式，每提升16倍功率提升2倍速度，超频由编程电路调节")
-            .tooltipsText("The circuit must be set up before starting, Circuit 1 does not execute overclocking, Circuits 2-4 execute 1, 2, and 3 times overclocking respectively", "工作前需设置好电路，1号电路为非敌对生物，2号为敌对生物")
+            .tooltipsText("The circuit must be set up before starting, Circuit 1 does not execute overclocking, Circuits 2-4 execute 1, 2, and 3 times overclocking respectively", "在启动前设置好电路，电路1不执行超频，电路2 4 分别执行1、2、3次超频")
             .tooltipsText("Startup requires 1024B of cosmic matter and 1024KB of hydrogen and helium", "启动需1024B的宇宙素，与1024KB的氢和氦")
             .tooltipsText("Hydrogen and Helium are stored inside the machine and continue to consume before the machine is ready to work", "氢和氦存储在机器内部，在机器准备工作之前会持续消耗")
             .alwaysTryModifyRecipe(true)

@@ -1,10 +1,10 @@
 package com.gto.gtocore.init.machines;
 
 import com.gto.gtocore.GTOCore;
-import com.gto.gtocore.api.machine.feature.ILockableRecipe;
 import com.gto.gtocore.api.machine.feature.multiblock.ICoilMachine;
 import com.gto.gtocore.api.machine.multiblock.*;
 import com.gto.gtocore.api.machine.part.GTOPartAbility;
+import com.gto.gtocore.api.machine.trait.ILockableRecipe;
 import com.gto.gtocore.api.pattern.GTOPredicates;
 import com.gto.gtocore.common.data.GTORecipeModifiers;
 import com.gto.gtocore.common.machine.mana.multiblock.ElectricManaMultiblockMachine;

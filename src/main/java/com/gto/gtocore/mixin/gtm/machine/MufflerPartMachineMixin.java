@@ -52,13 +52,13 @@ public abstract class MufflerPartMachineMixin extends TieredPartMachine implemen
 
     @Unique
     @SuppressWarnings("all")
-    public DroneControlCenterMachine getDroneControlCenterMachineCache() {
+    public DroneControlCenterMachine getNetMachineCache() {
         return gtocore$cache;
     }
 
     @Unique
     @SuppressWarnings("all")
-    public void setDroneControlCenterMachineCache(DroneControlCenterMachine cache) {
+    public void setNetMachineCache(DroneControlCenterMachine cache) {
         gtocore$cache = cache;
     }
 
@@ -76,7 +76,7 @@ public abstract class MufflerPartMachineMixin extends TieredPartMachine implemen
     @Unique
     private void gtocore$tick() {
         if (getOffsetTimer() % 40 == 0) {
-            DroneControlCenterMachine centerMachine = getDroneControlCenterMachine();
+            DroneControlCenterMachine centerMachine = getNetMachine();
             if (centerMachine != null) {
                 for (int i = 0; i < inventory.getSlots(); i++) {
                     ItemStack stack = inventory.getStackInSlot(i);
@@ -107,7 +107,7 @@ public abstract class MufflerPartMachineMixin extends TieredPartMachine implemen
             gtocore$tickSubs.unsubscribe();
             gtocore$tickSubs = null;
         }
-        removeDroneControlCenterMachineCache();
+        removeNetMachineCache();
     }
 
     @Override

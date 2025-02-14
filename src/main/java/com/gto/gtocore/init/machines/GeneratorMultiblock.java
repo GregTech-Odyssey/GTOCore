@@ -440,7 +440,7 @@ public interface GeneratorMultiblock {
             .workableCasingRenderer(GTOCore.id("block/casings/hyper_mechanical_casing"), GTCEu.id("block/multiblock/fusion_reactor"))
             .register();
 
-    MultiblockMachineDefinition ADVANCED_HYPER_REACTOR = multiblock("advanced_hyper_reactor", "进阶超能反应", ElectricMultiblockMachine::new)
+    MultiblockMachineDefinition ADVANCED_HYPER_REACTOR = multiblock("advanced_hyper_reactor", "进阶超能反应堆", ElectricMultiblockMachine::new)
             .nonYAxisRotation()
             .tooltipsText("Provides different plasmas to achieve different parallelism", "提供不同等离子体获得不同并行")
             .tooltipsText("Starmetal: 8, Dense Neutrons: 16", "星辉：8，致密中子：16")
@@ -516,7 +516,7 @@ public interface GeneratorMultiblock {
             .workableCasingRenderer(GTOCore.id("block/casings/enhance_hyper_mechanical_casing"), GTCEu.id("block/multiblock/fusion_reactor"))
             .register();
 
-    MultiblockMachineDefinition HYPER_REACTOR = multiblock("hyper_reactor", "超能反应", ElectricMultiblockMachine::new)
+    MultiblockMachineDefinition HYPER_REACTOR = multiblock("hyper_reactor", "超能反应堆", ElectricMultiblockMachine::new)
             .allRotation()
             .recipe(GTORecipeTypes.HYPER_REACTOR_RECIPES)
             .tooltipsText("Providing additional 1mb plasma before each run will obtain 16 parallelism", "每次运行前提供额外的1mb等离子体将获得16的并行")

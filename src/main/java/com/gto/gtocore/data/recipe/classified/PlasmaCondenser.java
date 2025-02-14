@@ -17,24 +17,14 @@ import java.util.function.Consumer;
 interface PlasmaCondenser {
 
     static void init(Consumer<FinishedRecipe> provider) {
-        GTORecipeTypes.PLASMA_CONDENSER_RECIPES.recipeBuilder(GTOCore.id("nickel_ingot"))
-                .notConsumable(GTOItems.INGOT_FIELD_SHAPE.asStack())
-                .inputFluids(GTMaterials.Nickel.getFluid(FluidStorageKeys.PLASMA, 144))
-                .inputFluids(GTMaterials.Helium.getFluid(FluidStorageKeys.LIQUID, 14400))
-                .outputItems(TagPrefix.ingot, GTMaterials.Nickel)
-                .outputFluids(GTMaterials.Helium.getFluid(14400))
+        GTORecipeTypes.PLASMA_CONDENSER_RECIPES.recipeBuilder(GTOCore.id(""))
+                .circuitMeta(1)
+                .inputFluids(GTOMaterials.ChromaticGlass.getFluid(FluidStorageKeys.PLASMA, 1000))
+                .inputFluids(GTMaterials.Helium.getFluid(FluidStorageKeys.LIQUID, 100000))
+                .outputFluids(GTOMaterials.ChromaticGlass.getFluid(1000))
+                .outputFluids(GTMaterials.Helium.getFluid(100000))
                 .EUt(1966080)
-                .duration(50)
-                .save(provider);
-
-        GTORecipeTypes.PLASMA_CONDENSER_RECIPES.recipeBuilder(GTOCore.id("iron_ingot"))
-                .notConsumable(GTOItems.INGOT_FIELD_SHAPE.asStack())
-                .inputFluids(GTMaterials.Iron.getFluid(FluidStorageKeys.PLASMA, 144))
-                .inputFluids(GTMaterials.Helium.getFluid(FluidStorageKeys.LIQUID, 14400))
-                .outputItems(TagPrefix.ingot, GTMaterials.Iron)
-                .outputFluids(GTMaterials.Helium.getFluid(14400))
-                .EUt(1966080)
-                .duration(50)
+                .duration(600)
                 .save(provider);
 
         GTORecipeTypes.PLASMA_CONDENSER_RECIPES.recipeBuilder(GTOCore.id("celestial_tungsten_condenser"))
@@ -143,26 +133,6 @@ interface PlasmaCondenser {
                 .inputFluids(GTOMaterials.Mithril.getFluid(FluidStorageKeys.PLASMA, 1000))
                 .inputFluids(GTMaterials.Helium.getFluid(FluidStorageKeys.LIQUID, 100000))
                 .outputFluids(GTOMaterials.Mithril.getFluid(1000))
-                .outputFluids(GTMaterials.Helium.getFluid(100000))
-                .EUt(1966080)
-                .duration(600)
-                .save(provider);
-
-        GTORecipeTypes.PLASMA_CONDENSER_RECIPES.recipeBuilder(GTOCore.id("nickel_condenser"))
-                .circuitMeta(1)
-                .inputFluids(GTMaterials.Nickel.getFluid(FluidStorageKeys.PLASMA, 1000))
-                .inputFluids(GTMaterials.Helium.getFluid(FluidStorageKeys.LIQUID, 100000))
-                .outputFluids(GTMaterials.Nickel.getFluid(1000))
-                .outputFluids(GTMaterials.Helium.getFluid(100000))
-                .EUt(1966080)
-                .duration(600)
-                .save(provider);
-
-        GTORecipeTypes.PLASMA_CONDENSER_RECIPES.recipeBuilder(GTOCore.id("iron_condenser"))
-                .circuitMeta(1)
-                .inputFluids(GTMaterials.Iron.getFluid(FluidStorageKeys.PLASMA, 1000))
-                .inputFluids(GTMaterials.Helium.getFluid(FluidStorageKeys.LIQUID, 100000))
-                .outputFluids(GTMaterials.Iron.getFluid(1000))
                 .outputFluids(GTMaterials.Helium.getFluid(100000))
                 .EUt(1966080)
                 .duration(600)

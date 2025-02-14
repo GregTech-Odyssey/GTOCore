@@ -340,7 +340,7 @@ public final class MachineRegisterUtils {
     //////////////////////////////////////
     // *** Mana Machine ***//
     //////////////////////////////////////
-    private static MachineBuilder<MachineDefinition> manaMachine(String name, String cn, Function<IMachineBlockEntity, MetaMachine> metaMachine) {
+    public static MachineBuilder<MachineDefinition> manaMachine(String name, String cn, Function<IMachineBlockEntity, MetaMachine> metaMachine) {
         addLang(name, cn);
         return REGISTRATE.manaMachine(name, metaMachine);
     }
@@ -362,7 +362,7 @@ public final class MachineRegisterUtils {
                 tiers);
     }
 
-    private static MachineDefinition[] registerTieredManaMachines(String name, Function<Integer, String> cn, BiFunction<IMachineBlockEntity, Integer, MetaMachine> factory, BiFunction<Integer, MachineBuilder<MachineDefinition>, MachineDefinition> builder, int[] tiers) {
+    public static MachineDefinition[] registerTieredManaMachines(String name, Function<Integer, String> cn, BiFunction<IMachineBlockEntity, Integer, MetaMachine> factory, BiFunction<Integer, MachineBuilder<MachineDefinition>, MachineDefinition> builder, int[] tiers) {
         MachineDefinition[] definitions = new MachineDefinition[TIER_COUNT];
         for (int tier : tiers) {
             MachineBuilder<MachineDefinition> register = manaMachine(VN[tier].toLowerCase(Locale.ROOT) + "_" + name, cn.apply(tier), holder -> factory.apply(holder, tier)).tier(tier);

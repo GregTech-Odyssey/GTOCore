@@ -45,7 +45,7 @@ public final class ManaContainerBlockProvider extends CapabilityBlockProvider<IM
     protected void write(CompoundTag data, IManaContainer capability) {
         data.putLong("Mana", capability.getCurrentMana());
         data.putLong("MaxMana", capability.getMaxMana());
-        ManaDistributorMachine distributor = capability.getDistributor();
+        ManaDistributorMachine distributor = capability.getNetMachine();
         if (distributor == null) return;
         data.putString("pos", Component.translatable(distributor.getDefinition().getDescriptionId()).append("[").append(distributor.getPos().toShortString()).append("]").getString());
     }

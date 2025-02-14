@@ -1,7 +1,7 @@
 package com.gto.gtocore.mixin.gtm;
 
-import com.gto.gtocore.api.machine.feature.ILockableRecipe;
 import com.gto.gtocore.api.machine.feature.multiblock.IEnhancedMultiblockMachine;
+import com.gto.gtocore.api.machine.trait.ILockableRecipe;
 import com.gto.gtocore.config.GTOConfig;
 
 import com.gregtechceu.gtceu.api.machine.MetaMachine;

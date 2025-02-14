@@ -1,9 +1,9 @@
 package com.gto.gtocore.api.machine.multiblock;
 
-import com.gto.gtocore.api.machine.feature.ILockableRecipe;
 import com.gto.gtocore.api.machine.feature.multiblock.ICheckPatternMachine;
 import com.gto.gtocore.api.machine.feature.multiblock.IEnhancedMultiblockMachine;
 import com.gto.gtocore.api.machine.feature.multiblock.IMultiblockTraitHolder;
+import com.gto.gtocore.api.machine.trait.ILockableRecipe;
 import com.gto.gtocore.api.machine.trait.MultiblockTrait;
 import com.gto.gtocore.utils.MachineUtils;
 

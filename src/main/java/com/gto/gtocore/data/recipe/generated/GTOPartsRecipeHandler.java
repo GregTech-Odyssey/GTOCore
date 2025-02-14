@@ -642,7 +642,7 @@ public final class GTOPartsRecipeHandler {
         ItemStack curvedPlateStack = ChemicalHelper.get(curvedPlate, material);
         if (mass < 240 && material.getBlastTemperature() < 3600)
             VanillaRecipeHelper.addShapedRecipe(provider, String.format("motor_enclosure_%s", material.getName()),
-                    motorEnclosureStack, "h", "IwI", 'I', curvedPlateStack);
+                    motorEnclosureStack, " h ", "IwI", 'I', curvedPlateStack);
 
         LASER_WELDER_RECIPES.recipeBuilder(GTOCore.id(material.getName() + "_motor_enclosure"))
                 .inputItems(curvedPlateStack.copyWithCount(2))

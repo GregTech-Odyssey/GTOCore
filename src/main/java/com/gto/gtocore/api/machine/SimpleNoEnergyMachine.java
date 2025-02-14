@@ -1,7 +1,7 @@
 package com.gto.gtocore.api.machine;
 
-import com.gto.gtocore.api.machine.feature.ILockableRecipe;
 import com.gto.gtocore.api.machine.feature.multiblock.IEnhancedMultiblockMachine;
+import com.gto.gtocore.api.machine.trait.ILockableRecipe;
 
 import com.gregtechceu.gtceu.api.capability.recipe.*;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;

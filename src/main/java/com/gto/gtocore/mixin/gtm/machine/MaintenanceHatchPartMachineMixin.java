@@ -32,19 +32,19 @@ public abstract class MaintenanceHatchPartMachineMixin extends TieredPartMachine
 
     @Unique
     @SuppressWarnings("all")
-    public DroneControlCenterMachine getDroneControlCenterMachineCache() {
+    public DroneControlCenterMachine getNetMachineCache() {
         return gtocore$cache;
     }
 
     @Unique
     @SuppressWarnings("all")
-    public void setDroneControlCenterMachineCache(DroneControlCenterMachine cache) {
+    public void setNetMachineCache(DroneControlCenterMachine cache) {
         gtocore$cache = cache;
     }
 
     @Inject(method = "update", at = @At(value = "INVOKE", target = "Lcom/gregtechceu/gtceu/common/machine/multiblock/part/MaintenanceHatchPartMachine;consumeDuctTape(Lnet/minecraftforge/items/IItemHandler;I)Z"), remap = false, cancellable = true)
     private void update(CallbackInfo ci) {
-        DroneControlCenterMachine centerMachine = getDroneControlCenterMachine();
+        DroneControlCenterMachine centerMachine = getNetMachine();
         if (centerMachine != null) {
             Drone drone = getFirstUsableDrone();
             if (drone != null && drone.start(10, getNumMaintenanceProblems() << 6, GTOValues.MAINTAINING)) {
@@ -57,6 +57,6 @@ public abstract class MaintenanceHatchPartMachineMixin extends TieredPartMachine
     @Override
     public void onUnload() {
         super.onUnload();
-        removeDroneControlCenterMachineCache();
+        removeNetMachineCache();
     }
 }

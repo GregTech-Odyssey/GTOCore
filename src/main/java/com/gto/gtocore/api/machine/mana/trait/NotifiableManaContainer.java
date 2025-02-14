@@ -33,7 +33,7 @@ public class NotifiableManaContainer extends NotifiableRecipeHandlerTrait<Intege
 
     @Getter
     @Setter
-    private ManaDistributorMachine DistributorCache;
+    private ManaDistributorMachine NetMachineCache;
 
     @Nullable
     private TickableSubscription updateSubs;
@@ -68,7 +68,7 @@ public class NotifiableManaContainer extends NotifiableRecipeHandlerTrait<Intege
     @Override
     public void onMachineUnLoad() {
         super.onMachineUnLoad();
-        removeDistributorCache();
+        removeNetMachineCache();
         if (updateSubs != null) {
             updateSubs.unsubscribe();
             updateSubs = null;
@@ -77,7 +77,7 @@ public class NotifiableManaContainer extends NotifiableRecipeHandlerTrait<Intege
 
     private void updateTick() {
         if (getMachine().getOffsetTimer() % 20 == 0) {
-            ManaDistributorMachine distributor = getDistributor();
+            ManaDistributorMachine distributor = getNetMachine();
             if (distributor == null) return;
             int mana = max - manaStored;
             if (mana <= 0) return;
