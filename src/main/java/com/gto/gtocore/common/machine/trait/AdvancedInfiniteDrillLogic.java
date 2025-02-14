@@ -1,7 +1,7 @@
 package com.gto.gtocore.common.machine.trait;
 
 import com.gto.gtocore.api.recipe.GTORecipeBuilder;
-import com.gto.gtocore.common.machine.multiblock.electric.AdvancedInfiniteDrillMachine;
+import com.gto.gtocore.common.machine.multiblock.electric.viod.AdvancedInfiniteDrillMachine;
 
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.data.worldgen.bedrockfluid.BedrockFluidVeinSavedData;

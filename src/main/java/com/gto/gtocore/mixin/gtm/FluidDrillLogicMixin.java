@@ -1,7 +1,7 @@
 package com.gto.gtocore.mixin.gtm;
 
 import com.gto.gtocore.api.machine.trait.IFluidDrillLogic;
-import com.gto.gtocore.common.machine.multiblock.electric.DrillingControlCenterMachine;
+import com.gto.gtocore.common.machine.multiblock.electric.viod.DrillingControlCenterMachine;
 
 import com.gregtechceu.gtceu.api.data.worldgen.bedrockfluid.FluidVeinWorldEntry;
 import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;

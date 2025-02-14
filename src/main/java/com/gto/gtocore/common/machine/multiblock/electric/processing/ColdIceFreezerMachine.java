@@ -1,4 +1,4 @@
-package com.gto.gtocore.common.machine.multiblock.electric;
+package com.gto.gtocore.common.machine.multiblock.electric.processing;
 
 import com.gto.gtocore.api.machine.multiblock.CustomParallelMultiblockMachine;
 import com.gto.gtocore.utils.MachineUtils;

@@ -9,8 +9,8 @@ import com.gto.gtocore.api.pattern.GTOPredicates;
 import com.gto.gtocore.common.data.GTORecipeModifiers;
 import com.gto.gtocore.common.machine.mana.multiblock.ElectricManaMultiblockMachine;
 import com.gto.gtocore.common.machine.multiblock.electric.FishingGroundMachine;
-import com.gto.gtocore.common.machine.multiblock.electric.VoidFluidDrillingRigMachine;
-import com.gto.gtocore.common.machine.multiblock.electric.VoidMinerMachine;
+import com.gto.gtocore.common.machine.multiblock.electric.viod.VoidFluidDrillingRigMachine;
+import com.gto.gtocore.common.machine.multiblock.electric.viod.VoidMinerMachine;
 import com.gto.gtocore.common.machine.multiblock.noenergy.AdvancedPrimitiveBlastFurnaceMachine;
 import com.gto.gtocore.common.machine.multiblock.steam.LargeSteamParallelMultiblockMachine;
 import com.gto.gtocore.common.machine.multiblock.steam.largeSteamCircuitAssemblerMachine;
@@ -1092,7 +1092,7 @@ public interface MultiBlockA {
                             .or(abilities(MAINTENANCE).setExactLimit(1)))
                     .where(' ', air())
                     .build())
-            .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_clean_stainless_steel"), GTCEu.id("block/multiblock/implosion_compressor"))
+            .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_clean_stainless_steel"), GTCEu.id("block/multiblock/fusion_reactor"))
             .register();
 
     MultiblockMachineDefinition STEAM_PISTON_HAMMER = multiblock("steam_piston_hammer", "蒸汽活塞锤", (holder) -> new LargeSteamParallelMultiblockMachine(holder, 8))

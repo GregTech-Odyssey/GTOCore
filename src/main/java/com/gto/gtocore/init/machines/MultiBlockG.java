@@ -6,8 +6,9 @@ import com.gto.gtocore.api.machine.multiblock.ElectricMultiblockMachine;
 import com.gto.gtocore.api.machine.part.GTOPartAbility;
 import com.gto.gtocore.api.pattern.GTOPredicates;
 import com.gto.gtocore.client.renderer.machine.ArrayMachineRenderer;
-import com.gto.gtocore.common.machine.multiblock.electric.DrillingControlCenterMachine;
-import com.gto.gtocore.common.machine.multiblock.electric.ProcessingArrayMachine;
+import com.gto.gtocore.common.machine.multiblock.electric.adventure.BossSummonerMachine;
+import com.gto.gtocore.common.machine.multiblock.electric.processing.ProcessingArrayMachine;
+import com.gto.gtocore.common.machine.multiblock.electric.viod.DrillingControlCenterMachine;
 import com.gto.gtocore.common.machine.multiblock.noenergy.DroneControlCenterMachine;
 import com.gto.gtocore.common.machine.multiblock.storage.WirelessEnergySubstationMachine;
 import com.gto.gtocore.init.GTOBlocks;
@@ -35,6 +36,27 @@ import static com.gto.gtocore.utils.register.MachineRegisterUtils.registerTiered
 public interface MultiBlockG {
 
     static void init() {}
+
+    MultiblockMachineDefinition BOSS_SUMMONER = multiblock("boss_summoner", "BOSS召唤器", BossSummonerMachine::new)
+            .nonYAxisRotation()
+            .tooltipsText("Electricity and Reactor Core Function", "电力与反应核的作用")
+            .recipe(DUMMY_RECIPES)
+            .block(GTBlocks.MACHINE_CASING_ULV)
+            .pattern(definition -> FactoryBlockPattern.start()
+                    .aisle("AAaAA", "     ")
+                    .aisle("AAAAA", " AAA ")
+                    .aisle("aAAAa", " ABA ")
+                    .aisle("AAAAA", " AAA ")
+                    .aisle("AA~AA", "     ")
+                    .where('~', controller(blocks(definition.get())))
+                    .where('A', blocks(GTBlocks.MACHINE_CASING_ULV.get()))
+                    .where('a', blocks(GTBlocks.MACHINE_CASING_ULV.get())
+                            .or(abilities(INPUT_ENERGY).setMaxGlobalLimited(2, 1)))
+                    .where('B', blocks(GTOBlocks.REACTOR_CORE.get()))
+                    .where(' ', any())
+                    .build())
+            .workableCasingRenderer(GTCEu.id("block/casings/voltage/ulv/side"), GTCEu.id("block/multiblock/implosion_compressor"))
+            .register();
 
     MultiblockMachineDefinition DRILLING_CONTROL_CENTER = multiblock("drilling_control_center", "钻井控制中枢", DrillingControlCenterMachine::new)
             .nonYAxisRotation()

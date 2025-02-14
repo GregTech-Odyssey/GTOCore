@@ -702,5 +702,10 @@ interface Vanilla {
                 "CDC",
                 "ABA",
                 'B', CustomTags.LV_CIRCUITS, 'D', new UnificationEntry(TagPrefix.frameGt, GTMaterials.Invar), 'C', new UnificationEntry(TagPrefix.plate, GTMaterials.EnderPearl), 'A', new UnificationEntry(TagPrefix.plateDense, GTMaterials.Steel));
+        VanillaRecipeHelper.addShapedRecipe(provider, GTOCore.id("boss_summoner"), MultiBlockG.BOSS_SUMMONER.asStack(),
+                "ABA",
+                "BCB",
+                "DBD",
+                'B', new UnificationEntry(TagPrefix.wireGtSingle, GTMaterials.Lead), 'D', new UnificationEntry(GTOTagPrefix.curvedPlate, GTMaterials.Steel), 'C', GTBlocks.MACHINE_CASING_ULV.asStack(), 'A', GTItems.VOLTAGE_COIL_ULV.asStack());
     }
 }

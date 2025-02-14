@@ -1,4 +1,4 @@
-package com.gto.gtocore.common.machine.multiblock.electric.bioengineering;
+package com.gto.gtocore.common.machine.multiblock.electric.adventure;
 
 import com.gto.gtocore.api.item.ItemStackSet;
 import com.gto.gtocore.api.machine.multiblock.StorageMultiblockMachine;

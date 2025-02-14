@@ -1,4 +1,4 @@
-package com.gto.gtocore.common.machine.multiblock.electric;
+package com.gto.gtocore.common.machine.multiblock.electric.viod;
 
 import com.gto.gtocore.api.machine.multiblock.ElectricMultiblockMachine;
 import com.gto.gtocore.api.machine.trait.CustomRecipeLogic;
@@ -66,7 +66,7 @@ public final class DrillingControlCenterMachine extends ElectricMultiblockMachin
 
     @Nullable
     private GTRecipe getRecipe() {
-        if (!hasProxies()) return null;
+        if (!hasProxies() && getTier() < GTValues.IV) return null;
         GTRecipe recipe = GTORecipeBuilder.ofRaw().duration(20).EUt(getOverclockVoltage()).buildRawRecipe();
         if (recipe.matchTickRecipe(this).isSuccess()) return recipe;
         return null;

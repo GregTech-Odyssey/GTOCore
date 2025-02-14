@@ -1,4 +1,4 @@
-package com.gto.gtocore.common.machine.multiblock.electric;
+package com.gto.gtocore.common.machine.multiblock.electric.space;
 
 import com.gto.gtocore.api.machine.multiblock.ElectricMultiblockMachine;
 import com.gto.gtocore.utils.MachineUtils;

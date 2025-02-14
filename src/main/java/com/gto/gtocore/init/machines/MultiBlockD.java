@@ -11,17 +11,21 @@ import com.gto.gtocore.client.renderer.machine.SpaceElevatorRenderer;
 import com.gto.gtocore.common.block.FusionCasings;
 import com.gto.gtocore.common.data.GTORecipeModifiers;
 import com.gto.gtocore.common.machine.multiblock.electric.*;
+import com.gto.gtocore.common.machine.multiblock.electric.adventure.SlaughterhouseMachine;
 import com.gto.gtocore.common.machine.multiblock.electric.assembly.AdvancedAssemblyLineMachine;
 import com.gto.gtocore.common.machine.multiblock.electric.assembly.CircuitAssemblyLineMachine;
 import com.gto.gtocore.common.machine.multiblock.electric.assembly.SuprachronalAssemblyLineMachine;
 import com.gto.gtocore.common.machine.multiblock.electric.assembly.SuprachronalAssemblyLineModuleMachine;
 import com.gto.gtocore.common.machine.multiblock.electric.bioengineering.IncubatorMachine;
-import com.gto.gtocore.common.machine.multiblock.electric.bioengineering.SlaughterhouseMachine;
 import com.gto.gtocore.common.machine.multiblock.electric.nano.NanoForgeMachine;
+import com.gto.gtocore.common.machine.multiblock.electric.processing.ColdIceFreezerMachine;
+import com.gto.gtocore.common.machine.multiblock.electric.processing.ProcessingPlantMachine;
 import com.gto.gtocore.common.machine.multiblock.electric.smelter.BlazeBlastFurnaceMachine;
 import com.gto.gtocore.common.machine.multiblock.electric.smelter.DimensionallyTranscendentPlasmaForgeMachine;
 import com.gto.gtocore.common.machine.multiblock.electric.space.SpaceElevatorMachine;
 import com.gto.gtocore.common.machine.multiblock.electric.space.SpaceElevatorModuleMachine;
+import com.gto.gtocore.common.machine.multiblock.electric.space.SpaceProbeSurfaceReceptionMachine;
+import com.gto.gtocore.common.machine.multiblock.electric.viod.INFFluidDrillMachine;
 import com.gto.gtocore.common.machine.multiblock.noenergy.GodForgeMachine;
 import com.gto.gtocore.common.machine.multiblock.noenergy.HarmonyMachine;
 import com.gto.gtocore.common.machine.multiblock.noenergy.HeatExchangerMachine;
@@ -101,7 +105,7 @@ public interface MultiBlockD {
                     .where('#', air())
                     .where('0', any())
                     .build())
-            .workableCasingRenderer(GTCEu.id("block/casings/voltage/ulv/side"), GTCEu.id("block/multiblock/implosion_compressor"))
+            .workableCasingRenderer(GTCEu.id("block/casings/voltage/ulv/side"), GTCEu.id("block/multiblock/fusion_reactor"))
             .register();
 
     MultiblockMachineDefinition EYE_OF_HARMONY = multiblock("eye_of_harmony", "鸿蒙之眼", HarmonyMachine::new)

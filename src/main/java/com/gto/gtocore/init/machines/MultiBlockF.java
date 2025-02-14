@@ -7,7 +7,7 @@ import com.gto.gtocore.api.machine.multiblock.CustomParallelMultiblockMachine;
 import com.gto.gtocore.api.machine.multiblock.ElectricMultiblockMachine;
 import com.gto.gtocore.api.pattern.GTOPredicates;
 import com.gto.gtocore.common.data.GTORecipeModifiers;
-import com.gto.gtocore.common.machine.multiblock.electric.CompoundExtremeCoolingMachine;
+import com.gto.gtocore.common.machine.multiblock.electric.processing.CompoundExtremeCoolingMachine;
 import com.gto.gtocore.init.GTOBlocks;
 import com.gto.gtocore.init.GTOMaterials;
 import com.gto.gtocore.init.GTORecipeTypes;
