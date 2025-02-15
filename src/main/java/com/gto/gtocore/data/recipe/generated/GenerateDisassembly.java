@@ -10,6 +10,8 @@ import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
 import com.gregtechceu.gtceu.api.recipe.chance.logic.ChanceLogic;
 import com.gregtechceu.gtceu.api.recipe.content.Content;
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
+import com.gregtechceu.gtceu.api.recipe.ingredient.SizedIngredient;
+import com.gregtechceu.gtceu.core.mixins.IngredientAccessor;
 import com.gregtechceu.gtceu.data.recipe.builder.GTRecipeBuilder;
 
 import net.minecraft.data.recipes.FinishedRecipe;
@@ -19,6 +21,7 @@ import net.minecraft.world.item.crafting.Ingredient;
 
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Consumer;
@@ -72,13 +75,22 @@ public final class GenerateDisassembly {
             if (itemList != null) {
                 for (Content content : itemList) {
                     Ingredient input = ItemRecipeCapability.CAP.of(content.getContent());
-                    ItemStack[] stacks = input.getItems();
-                    if (stacks.length == 1) {
-                        ItemStack item = stacks[0];
-                        if (item.isEmpty()) return;
-                        if (content.chance == ChanceLogic.getMaxChancedValue() && !item.hasTag()) {
-                            builder.output(ItemRecipeCapability.CAP, input);
-                            hasOutput = true;
+                    if (input instanceof SizedIngredient sizedIngredient) {
+                        Ingredient inner = sizedIngredient.getInner();
+                        a:
+                        for (Ingredient.Value value : ((IngredientAccessor) inner).getValues()) {
+                            if (value instanceof Ingredient.ItemValue itemValue) {
+                                Collection<ItemStack> stacks = itemValue.getItems();
+                                if (stacks.size() == 1) {
+                                    for (ItemStack item : stacks) {
+                                        if (!item.isEmpty() && content.chance == ChanceLogic.getMaxChancedValue() && !item.hasTag()) {
+                                            builder.output(ItemRecipeCapability.CAP, input);
+                                            hasOutput = true;
+                                            break a;
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
                 }

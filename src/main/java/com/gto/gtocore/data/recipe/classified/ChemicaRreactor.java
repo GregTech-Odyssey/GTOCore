@@ -2572,7 +2572,7 @@ interface ChemicaRreactor {
                 .duration(100)
                 .save(provider);
 
-        GTRecipeTypes.CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("barium_titanate_ceramic_dust"))
+        GTRecipeTypes.LARGE_CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("barium_titanate_ceramic_dust"))
                 .inputItems(TagPrefix.dust, GTOMaterials.TitaniumDioxide)
                 .inputItems(TagPrefix.dust, GTOMaterials.BariumHydroxide)
                 .circuitMeta(5)

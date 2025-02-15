@@ -148,10 +148,6 @@ public final class GTORecipes implements Runnable {
         GT_FILTER_RECIPES.add(GTCEu.id("electric_blast_furnace/blast_silicon_dioxide"));
         GT_FILTER_RECIPES.add(GTCEu.id("electric_blast_furnace/aluminium_from_sapphire_dust"));
         GT_FILTER_RECIPES.add(GTCEu.id("electric_blast_furnace/titanium_from_tetrachloride"));
-        GT_FILTER_RECIPES.add(GTCEu.id("assembler/item_import_bus_ulv_glue"));
-        GT_FILTER_RECIPES.add(GTCEu.id("assembler/item_export_bus_ulv_glue"));
-        GT_FILTER_RECIPES.add(GTCEu.id("assembler/fluid_hatch_ulv_glue"));
-        GT_FILTER_RECIPES.add(GTCEu.id("assembler/fluid_export_hatch_ulv_glue"));
 
         Material[] fluidMap = { GTMaterials.Glue, GTMaterials.Polyethylene,
                 GTMaterials.Polytetrafluoroethylene, GTMaterials.Polybenzimidazole };
