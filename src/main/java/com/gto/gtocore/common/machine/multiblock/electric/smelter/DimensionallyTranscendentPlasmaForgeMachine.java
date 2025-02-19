@@ -1,7 +1,7 @@
 package com.gto.gtocore.common.machine.multiblock.electric.smelter;
 
 import com.gto.gtocore.api.machine.multiblock.CoilMultiblockMachine;
-import com.gto.gtocore.init.GTORecipeTypes;
+import com.gto.gtocore.common.data.GTORecipeTypes;
 
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;

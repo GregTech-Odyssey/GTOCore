@@ -1,6 +1,6 @@
 package com.gto.gtocore.mixin.gtm.recipe;
 
-import com.gto.gtocore.init.GTORecipeTypes;
+import com.gto.gtocore.common.data.GTORecipeTypes;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;

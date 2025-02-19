@@ -1,9 +1,9 @@
 package com.gto.gtocore.utils;
 
 import com.gto.gtocore.api.data.tag.GTOTagPrefix;
-import com.gto.gtocore.init.GTOMachines;
-import com.gto.gtocore.init.GTOMaterials;
-import com.gto.gtocore.init.machines.GCYMMachines;
+import com.gto.gtocore.common.data.GTOMachines;
+import com.gto.gtocore.common.data.GTOMaterials;
+import com.gto.gtocore.common.data.machines.GCYMMachines;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;

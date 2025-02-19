@@ -4,11 +4,11 @@ import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.api.data.GTOWorldGenLayers;
 import com.gto.gtocore.api.data.tag.GTOTagPrefix;
 import com.gto.gtocore.api.item.tool.GTOToolType;
+import com.gto.gtocore.common.data.GTOItems;
+import com.gto.gtocore.common.data.GTOMaterials;
 import com.gto.gtocore.common.item.DimensionDataItem;
 import com.gto.gtocore.common.machine.multiblock.electric.BlockConversionRoomMachine;
 import com.gto.gtocore.config.GTOConfig;
-import com.gto.gtocore.init.GTOItems;
-import com.gto.gtocore.init.GTOMaterials;
 import com.gto.gtocore.utils.ItemUtils;
 
 import com.gregtechceu.gtceu.api.capability.GTCapabilityHelper;
@@ -34,8 +34,8 @@ import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
 import static com.gregtechceu.gtceu.common.data.GTItems.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
 import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.AUTOCLAVE_RECIPES;
-import static com.gto.gtocore.init.GTORecipeTypes.*;
-import static com.gto.gtocore.init.machines.MultiBlockB.PRIMITIVE_VOID_ORE;
+import static com.gto.gtocore.common.data.GTORecipeTypes.*;
+import static com.gto.gtocore.common.data.machines.MultiBlockB.PRIMITIVE_VOID_ORE;
 
 public interface MiscRecipe {
 

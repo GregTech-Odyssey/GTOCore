@@ -3,11 +3,11 @@ package com.gto.gtocore.data.recipe.classified;
 import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.api.data.tag.GTOTagPrefix;
 import com.gto.gtocore.api.machine.GTOCleanroomType;
-import com.gto.gtocore.init.GTOBlocks;
-import com.gto.gtocore.init.GTOItems;
-import com.gto.gtocore.init.GTOMachines;
-import com.gto.gtocore.init.GTOMaterials;
-import com.gto.gtocore.init.machines.*;
+import com.gto.gtocore.common.data.GTOBlocks;
+import com.gto.gtocore.common.data.GTOItems;
+import com.gto.gtocore.common.data.GTOMachines;
+import com.gto.gtocore.common.data.GTOMaterials;
+import com.gto.gtocore.common.data.machines.*;
 import com.gto.gtocore.utils.RegistriesUtils;
 
 import com.gregtechceu.gtceu.api.GTValues;
@@ -835,7 +835,7 @@ interface Assembler {
 
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("cell_component_4k"))
                 .inputItems(new ItemStack(AEItems.CELL_COMPONENT_1K.asItem()))
-                .inputItems(CustomTags.ULV_CIRCUITS, 2)
+                .inputItems(CustomTags.LV_CIRCUITS, 2)
                 .inputItems(new ItemStack(AEItems.LOGIC_PROCESSOR.asItem()))
                 .inputItems(TagPrefix.plate, GTMaterials.Redstone)
                 .inputItems(new ItemStack(AEItems.CALCULATION_PROCESSOR.asItem()))

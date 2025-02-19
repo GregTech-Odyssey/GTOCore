@@ -1,10 +1,10 @@
 package com.gto.gtocore.data.recipe.classified;
 
 import com.gto.gtocore.GTOCore;
-import com.gto.gtocore.init.GTOBlocks;
-import com.gto.gtocore.init.GTOFluids;
-import com.gto.gtocore.init.GTOItems;
-import com.gto.gtocore.init.GTOMaterials;
+import com.gto.gtocore.common.data.GTOBlocks;
+import com.gto.gtocore.common.data.GTOFluids;
+import com.gto.gtocore.common.data.GTOItems;
+import com.gto.gtocore.common.data.GTOMaterials;
 import com.gto.gtocore.utils.RegistriesUtils;
 
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;

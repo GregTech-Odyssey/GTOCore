@@ -29,21 +29,21 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 
 @SuppressWarnings("unused")
-public final class GTORecipeModifiers {
+public interface GTORecipeModifiers {
 
-    public static final RecipeModifier GCYM_OVERCLOCKING = (machine, r) -> recipe -> overclocking(machine, hatchParallel(machine, recipe), false, false, 0.8, 0.6);
+    RecipeModifier GCYM_OVERCLOCKING = (machine, r) -> recipe -> overclocking(machine, hatchParallel(machine, recipe), false, false, 0.8, 0.6);
 
-    public static final RecipeModifier GENERATOR_OVERCLOCKING = (machine, r) -> recipe -> generatorOverclocking(machine, recipe);
-    public static final RecipeModifier PERFECT_OVERCLOCKING = (machine, r) -> recipe -> perfectOverclocking(machine, recipe);
-    public static final RecipeModifier OVERCLOCKING = (machine, r) -> recipe -> overclocking(machine, recipe);
+    RecipeModifier GENERATOR_OVERCLOCKING = (machine, r) -> recipe -> generatorOverclocking(machine, recipe);
+    RecipeModifier PERFECT_OVERCLOCKING = (machine, r) -> recipe -> perfectOverclocking(machine, recipe);
+    RecipeModifier OVERCLOCKING = (machine, r) -> recipe -> overclocking(machine, recipe);
 
-    public static final RecipeModifier HATCH_PARALLEL = (machine, r) -> recipe -> hatchParallel(machine, recipe);
+    RecipeModifier HATCH_PARALLEL = (machine, r) -> recipe -> hatchParallel(machine, recipe);
 
-    public static RecipeModifier overclocking(boolean perfect, double reductionEUt, double reductionDuration) {
+    static RecipeModifier overclocking(boolean perfect, double reductionEUt, double reductionDuration) {
         return (machine, r) -> recipe -> overclocking(machine, recipe, perfect, false, reductionEUt, reductionDuration);
     }
 
-    public static ModifierFunction simpleGeneratorMachineModifier(@NotNull MetaMachine machine, @NotNull GTRecipe recipe) {
+    static ModifierFunction simpleGeneratorMachineModifier(@NotNull MetaMachine machine, @NotNull GTRecipe recipe) {
         if (machine instanceof SimpleGeneratorMachine generator) {
             var EUt = RecipeHelper.getOutputEUt(recipe);
             if (EUt > 0) {
@@ -55,7 +55,7 @@ public final class GTORecipeModifiers {
         return ModifierFunction.NULL;
     }
 
-    public static ModifierFunction largeBoilerModifier(MetaMachine machine, GTRecipe r) {
+    static ModifierFunction largeBoilerModifier(MetaMachine machine, GTRecipe r) {
         return recipe -> {
             if (machine instanceof LargeBoilerMachine largeBoilerMachine) {
                 double duration = recipe.duration * 1600.0D / largeBoilerMachine.maxTemperature;
@@ -71,7 +71,7 @@ public final class GTORecipeModifiers {
         };
     }
 
-    public static ModifierFunction chemicalPlantOverclock(MetaMachine machine, GTRecipe r) {
+    static ModifierFunction chemicalPlantOverclock(MetaMachine machine, GTRecipe r) {
         return recipe -> {
             if (machine instanceof ICoilMachine coilMachine) {
                 return overclocking(machine, hatchParallel(machine, recipe), true, false, (1.0 - coilMachine.getCoilTier() * 0.05), (1.0 - coilMachine.getCoilTier() * 0.05));
@@ -80,7 +80,7 @@ public final class GTORecipeModifiers {
         };
     }
 
-    public static ModifierFunction crackerOverclock(MetaMachine machine, GTRecipe r) {
+    static ModifierFunction crackerOverclock(MetaMachine machine, GTRecipe r) {
         return recipe -> {
             if (machine instanceof ICoilMachine coilMachine) {
                 return overclocking(machine, recipe, false, false, (1.0 - coilMachine.getCoilTier() * 0.1), 1);
@@ -89,7 +89,7 @@ public final class GTORecipeModifiers {
         };
     }
 
-    public static ModifierFunction pyrolyseOvenOverclock(MetaMachine machine, GTRecipe r) {
+    static ModifierFunction pyrolyseOvenOverclock(MetaMachine machine, GTRecipe r) {
         return recipe -> {
             if (machine instanceof ICoilMachine coilMachine) {
                 if (coilMachine.getCoilTier() == 0) {
@@ -102,7 +102,7 @@ public final class GTORecipeModifiers {
         };
     }
 
-    public static ModifierFunction ebfOverclock(MetaMachine machine, GTRecipe r) {
+    static ModifierFunction ebfOverclock(MetaMachine machine, GTRecipe r) {
         return recipe -> {
             if (machine instanceof ICoilMachine coilMachine && machine instanceof IOverclockMachine overclockMachine) {
                 int temperature = coilMachine.getCoilType().getCoilTemperature() + (100 * Math.max(0, ((WorkableElectricMultiblockMachine) coilMachine).getTier() - GTValues.MV));
@@ -137,11 +137,11 @@ public final class GTORecipeModifiers {
         };
     }
 
-    public static GTRecipe hatchParallel(MetaMachine machine, GTRecipe recipe) {
+    static GTRecipe hatchParallel(MetaMachine machine, GTRecipe recipe) {
         return accurateParallel(machine, recipe, MachineUtils.getHatchParallel(machine));
     }
 
-    public static GTRecipe accurateParallel(MetaMachine machine, GTRecipe recipe, int maxParallel) {
+    static GTRecipe accurateParallel(MetaMachine machine, GTRecipe recipe, int maxParallel) {
         int parallel = ParallelLogic.getParallelAmount(machine, recipe, maxParallel);
         if (parallel > 1) {
             recipe = recipe.copy(ContentModifier.multiplier(parallel), false);
@@ -150,7 +150,7 @@ public final class GTORecipeModifiers {
         return recipe;
     }
 
-    public static GTRecipe recipeReduction(MetaMachine machine, GTRecipe recipe, double reductionEUt, double reductionDuration) {
+    static GTRecipe recipeReduction(MetaMachine machine, GTRecipe recipe, double reductionEUt, double reductionDuration) {
         if (reductionEUt != 1) {
             recipe.tickInputs.put(EURecipeCapability.CAP, List.of(new Content((long) Math.max(1, RecipeHelper.getInputEUt(recipe) * reductionEUt), ChanceLogic.getMaxChancedValue(), ChanceLogic.getMaxChancedValue(), 0, null, null)));
         }
@@ -160,34 +160,34 @@ public final class GTORecipeModifiers {
         return recipe;
     }
 
-    public static GTRecipe laserLossOverclocking(MetaMachine machine, GTRecipe recipe) {
+    static GTRecipe laserLossOverclocking(MetaMachine machine, GTRecipe recipe) {
         return overclocking(machine, recipe, false, true, false, 1, 1);
     }
 
-    public static GTRecipe generatorOverclocking(MetaMachine machine, GTRecipe recipe) {
+    static GTRecipe generatorOverclocking(MetaMachine machine, GTRecipe recipe) {
         return overclocking(machine, recipe, true, true, 1, 1);
     }
 
-    public static GTRecipe perfectOverclocking(MetaMachine machine, GTRecipe recipe) {
+    static GTRecipe perfectOverclocking(MetaMachine machine, GTRecipe recipe) {
         return overclocking(machine, recipe, true, false, 1, 1);
     }
 
-    public static GTRecipe overclocking(MetaMachine machine, GTRecipe recipe) {
+    static GTRecipe overclocking(MetaMachine machine, GTRecipe recipe) {
         return overclocking(machine, recipe, false, false, 1, 1);
     }
 
-    public static GTRecipe overclocking(MetaMachine machine, GTRecipe recipe, boolean perfect, boolean generator, double reductionEUt, double reductionDuration) {
+    static GTRecipe overclocking(MetaMachine machine, GTRecipe recipe, boolean perfect, boolean generator, double reductionEUt, double reductionDuration) {
         return overclocking(machine, recipe, perfect, false, generator, reductionEUt, reductionDuration);
     }
 
-    public static GTRecipe overclocking(MetaMachine machine, GTRecipe recipe, boolean perfect, boolean laserLoss, boolean generator, double reductionEUt, double reductionDuration) {
+    static GTRecipe overclocking(MetaMachine machine, GTRecipe recipe, boolean perfect, boolean laserLoss, boolean generator, double reductionEUt, double reductionDuration) {
         if (machine instanceof IOverclockMachine overclockMachine) {
             return overclocking(machine, recipe, (long) ((generator ? RecipeHelper.getOutputEUt(recipe) : RecipeHelper.getInputEUt(recipe)) * reductionEUt), overclockMachine.getOverclockVoltage(), perfect, laserLoss, generator, reductionDuration);
         }
         return recipe;
     }
 
-    public static GTRecipe overclocking(MetaMachine machine, GTRecipe recipe, long recipeVoltage, long maxVoltage, boolean perfect, boolean laserLoss, boolean generator, double reductionDuration) {
+    static GTRecipe overclocking(MetaMachine machine, GTRecipe recipe, long recipeVoltage, long maxVoltage, boolean perfect, boolean laserLoss, boolean generator, double reductionDuration) {
         if (recipe != null) {
             int duration = (int) (recipe.duration * reductionDuration);
             int factor = perfect ? 1 : 2;
@@ -218,11 +218,11 @@ public final class GTORecipeModifiers {
         return recipe;
     }
 
-    public static GTRecipe externalEnergyOverclocking(MetaMachine machine, GTRecipe recipe, long recipeVoltage, long maxVoltage, boolean perfect, double reductionEUt, double reductionDuration) {
+    static GTRecipe externalEnergyOverclocking(MetaMachine machine, GTRecipe recipe, long recipeVoltage, long maxVoltage, boolean perfect, double reductionEUt, double reductionDuration) {
         return overclocking(machine, recipe, recipeVoltage, (long) (maxVoltage * reductionEUt), perfect, false, false, reductionDuration);
     }
 
-    public static GTRecipe manaOverclocking(MetaMachine machine, GTRecipe recipe, int maxMana, boolean perfect, double reductionManat, double reductionDuration) {
+    static GTRecipe manaOverclocking(MetaMachine machine, GTRecipe recipe, int maxMana, boolean perfect, double reductionManat, double reductionDuration) {
         if (recipe != null) {
             int recipeMana = GTOUtils.getInputMANAt(recipe);
             int duration = (int) (recipe.duration * reductionDuration);

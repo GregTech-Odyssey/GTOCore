@@ -1,8 +1,8 @@
 package com.gto.gtocore.common.machine.multiblock.water;
 
 import com.gto.gtocore.api.recipe.GTORecipeBuilder;
-import com.gto.gtocore.init.GTOItems;
-import com.gto.gtocore.init.GTOMaterials;
+import com.gto.gtocore.common.data.GTOItems;
+import com.gto.gtocore.common.data.GTOMaterials;
 import com.gto.gtocore.utils.MachineUtils;
 
 import com.gregtechceu.gtceu.api.GTValues;
@@ -17,7 +17,6 @@ import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 
@@ -120,12 +119,12 @@ public final class AbsoluteBaryonicPerfectionPurificationUnitMachine extends Wat
                                     successful = true;
                                     this.successful = true;
                                 }
-                                inv.setStackInSlot(i + 1, Items.AIR.getDefaultInstance());
+                                inv.setStackInSlot(i + 1, ItemStack.EMPTY);
                                 if (!successful) outputs.add(stack1);
                             }
                         }
                         if (!successful) outputs.add(stack);
-                        inv.setStackInSlot(i, Items.AIR.getDefaultInstance());
+                        inv.setStackInSlot(i, ItemStack.EMPTY);
                     }
                 }
             }

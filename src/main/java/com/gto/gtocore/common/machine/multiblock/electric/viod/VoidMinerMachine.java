@@ -2,11 +2,11 @@ package com.gto.gtocore.common.machine.multiblock.electric.viod;
 
 import com.gto.gtocore.api.data.GTOWorldGenLayers;
 import com.gto.gtocore.api.machine.multiblock.StorageMultiblockMachine;
+import com.gto.gtocore.common.data.GTOItems;
 import com.gto.gtocore.common.data.GTOOres;
 import com.gto.gtocore.common.data.GTORecipeModifiers;
 import com.gto.gtocore.common.item.DimensionDataItem;
 import com.gto.gtocore.common.machine.multiblock.noenergy.PrimitiveOreMachine;
-import com.gto.gtocore.init.GTOItems;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.recipe.EURecipeCapability;

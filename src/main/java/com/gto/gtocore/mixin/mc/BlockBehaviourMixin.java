@@ -1,7 +1,7 @@
 package com.gto.gtocore.mixin.mc;
 
 import com.gto.gtocore.api.item.tool.GTOToolType;
-import com.gto.gtocore.init.GTOItems;
+import com.gto.gtocore.common.data.GTOItems;
 
 import com.gregtechceu.gtceu.api.item.IGTTool;
 

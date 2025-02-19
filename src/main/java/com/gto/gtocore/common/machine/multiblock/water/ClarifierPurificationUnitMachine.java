@@ -2,7 +2,7 @@ package com.gto.gtocore.common.machine.multiblock.water;
 
 import com.gto.gtocore.api.machine.feature.multiblock.IFluidRendererMachine;
 import com.gto.gtocore.api.recipe.GTORecipeBuilder;
-import com.gto.gtocore.init.GTOItems;
+import com.gto.gtocore.common.data.GTOItems;
 import com.gto.gtocore.utils.MachineUtils;
 import com.gto.gtocore.utils.NumberUtils;
 

@@ -1,7 +1,7 @@
 package com.gto.gtocore.mixin.gtm.registry;
 
 import com.gto.gtocore.api.data.tag.GTOTagPrefix;
-import com.gto.gtocore.init.GTOMaterials;
+import com.gto.gtocore.common.data.GTOMaterials;
 import com.gto.gtocore.utils.register.BlockRegisterUtils;
 
 import com.gregtechceu.gtceu.api.block.MaterialBlock;

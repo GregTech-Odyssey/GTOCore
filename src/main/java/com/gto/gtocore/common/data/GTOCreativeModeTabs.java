@@ -1,10 +1,6 @@
 package com.gto.gtocore.common.data;
 
 import com.gto.gtocore.GTOCore;
-import com.gto.gtocore.init.GTOBlocks;
-import com.gto.gtocore.init.GTOItems;
-import com.gto.gtocore.init.GTOMachines;
-import com.gto.gtocore.init.GTOMaterials;
 
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
@@ -18,9 +14,9 @@ import com.tterrag.registrate.util.entry.RegistryEntry;
 
 import static com.gto.gtocore.api.registries.GTORegistration.REGISTRATE;
 
-public final class GTOCreativeModeTabs {
+public interface GTOCreativeModeTabs {
 
-    public static final RegistryEntry<CreativeModeTab> GTO_ITEM = REGISTRATE
+    RegistryEntry<CreativeModeTab> GTO_ITEM = REGISTRATE
             .defaultCreativeTab("item", builder -> builder
                     .displayItems(new GTCreativeModeTabs.RegistrateDisplayItemsGenerator("item", REGISTRATE))
                     .title(REGISTRATE.addLang("itemGroup", GTOCore.id("item"), GTOCore.NAME + " | Item"))
@@ -28,7 +24,7 @@ public final class GTOCreativeModeTabs {
                     .build())
             .register();
 
-    public static final RegistryEntry<CreativeModeTab> GTO_BLOCK = REGISTRATE
+    RegistryEntry<CreativeModeTab> GTO_BLOCK = REGISTRATE
             .defaultCreativeTab("block", builder -> builder
                     .displayItems(new GTCreativeModeTabs.RegistrateDisplayItemsGenerator("block", REGISTRATE))
                     .title(REGISTRATE.addLang("itemGroup", GTOCore.id("block"), GTOCore.NAME + " | Block"))
@@ -37,7 +33,7 @@ public final class GTOCreativeModeTabs {
                     .build())
             .register();
 
-    public static final RegistryEntry<CreativeModeTab> GTO_MACHINE = REGISTRATE
+    RegistryEntry<CreativeModeTab> GTO_MACHINE = REGISTRATE
             .defaultCreativeTab("machine", builder -> builder
                     .displayItems(new GTCreativeModeTabs.RegistrateDisplayItemsGenerator("machine", REGISTRATE))
                     .title(REGISTRATE.addLang("itemGroup", GTOCore.id("machine"), GTOCore.NAME + " | Machine"))
@@ -46,7 +42,7 @@ public final class GTOCreativeModeTabs {
                     .build())
             .register();
 
-    public static final RegistryEntry<CreativeModeTab> GTO_MATERIAL_BLOCK = REGISTRATE
+    RegistryEntry<CreativeModeTab> GTO_MATERIAL_BLOCK = REGISTRATE
             .defaultCreativeTab("material_block", builder -> builder
                     .displayItems(new GTCreativeModeTabs.RegistrateDisplayItemsGenerator("material_block", REGISTRATE))
                     .title(REGISTRATE.addLang("itemGroup", GTOCore.id("material_block"), GTOCore.NAME + " | Material Block"))
@@ -55,7 +51,7 @@ public final class GTOCreativeModeTabs {
                     .build())
             .register();
 
-    public static final RegistryEntry<CreativeModeTab> GTO_MATERIAL_ITEM = REGISTRATE
+    RegistryEntry<CreativeModeTab> GTO_MATERIAL_ITEM = REGISTRATE
             .defaultCreativeTab("material_item", builder -> builder
                     .displayItems(new GTCreativeModeTabs.RegistrateDisplayItemsGenerator("material_item", REGISTRATE))
                     .title(REGISTRATE.addLang("itemGroup", GTOCore.id("material_item"), GTOCore.NAME + " | Material Item"))
@@ -64,7 +60,7 @@ public final class GTOCreativeModeTabs {
                     .build())
             .register();
 
-    public static final RegistryEntry<CreativeModeTab> GTO_MATERIAL_PIPE = REGISTRATE
+    RegistryEntry<CreativeModeTab> GTO_MATERIAL_PIPE = REGISTRATE
             .defaultCreativeTab("material_pipe", builder -> builder
                     .displayItems(new GTCreativeModeTabs.RegistrateDisplayItemsGenerator("material_pipe", REGISTRATE))
                     .title(REGISTRATE.addLang("itemGroup", GTOCore.id("material_pipe"), GTOCore.NAME + " | Material Pipe"))
@@ -73,7 +69,7 @@ public final class GTOCreativeModeTabs {
                     .build())
             .register();
 
-    public static final RegistryEntry<CreativeModeTab> GTO_MATERIAL_FLUID = REGISTRATE
+    RegistryEntry<CreativeModeTab> GTO_MATERIAL_FLUID = REGISTRATE
             .defaultCreativeTab("material_fluid", builder -> builder
                     .displayItems(new GTCreativeModeTabs.RegistrateDisplayItemsGenerator("material_fluid", REGISTRATE))
                     .title(REGISTRATE.addLang("itemGroup", GTOCore.id("material_fluid"), GTOCore.NAME + " | Material Fluid"))
@@ -82,5 +78,5 @@ public final class GTOCreativeModeTabs {
                     .build())
             .register();
 
-    public static void init() {}
+    static void init() {}
 }

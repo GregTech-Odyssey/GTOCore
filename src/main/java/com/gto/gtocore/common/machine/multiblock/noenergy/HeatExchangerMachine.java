@@ -2,8 +2,8 @@ package com.gto.gtocore.common.machine.multiblock.noenergy;
 
 import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.api.machine.multiblock.NoEnergyMultiblockMachine;
+import com.gto.gtocore.common.data.GTOMaterials;
 import com.gto.gtocore.common.data.GTORecipeModifiers;
-import com.gto.gtocore.init.GTOMaterials;
 import com.gto.gtocore.utils.MachineUtils;
 
 import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;

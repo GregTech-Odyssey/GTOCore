@@ -2,8 +2,8 @@ package com.gto.gtocore.client;
 
 import com.gto.gtocore.client.forge.ForgeClientEvent;
 import com.gto.gtocore.common.CommonProxy;
-import com.gto.gtocore.init.GTOBlocks;
-import com.gto.gtocore.init.GTOFluids;
+import com.gto.gtocore.common.data.GTOBlocks;
+import com.gto.gtocore.common.data.GTOFluids;
 
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;

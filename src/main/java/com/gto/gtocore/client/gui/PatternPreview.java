@@ -4,10 +4,10 @@ import com.gto.gtocore.api.gui.PatternSlotWidget;
 import com.gto.gtocore.api.item.ItemHandlerModifiable;
 import com.gto.gtocore.api.machine.IMultiblockMachineDefinition;
 import com.gto.gtocore.api.machine.feature.multiblock.IMultiStructureMachine;
+import com.gto.gtocore.common.data.GTOBlocks;
+import com.gto.gtocore.common.data.machines.GeneratorMultiblock;
+import com.gto.gtocore.common.data.machines.MultiBlockD;
 import com.gto.gtocore.config.GTOConfig;
-import com.gto.gtocore.init.GTOBlocks;
-import com.gto.gtocore.init.machines.GeneratorMultiblock;
-import com.gto.gtocore.init.machines.MultiBlockD;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTValues;

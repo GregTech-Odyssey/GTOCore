@@ -1,8 +1,8 @@
 package com.gto.gtocore.data.recipe.generated;
 
 import com.gto.gtocore.GTOCore;
+import com.gto.gtocore.common.data.GTORecipeTypes;
 import com.gto.gtocore.config.GTOConfig;
-import com.gto.gtocore.init.GTORecipeTypes;
 
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
@@ -34,7 +34,7 @@ import static com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlag
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
 import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.*;
-import static com.gto.gtocore.init.GTORecipeTypes.INTEGRATED_ORE_PROCESSOR;
+import static com.gto.gtocore.common.data.GTORecipeTypes.INTEGRATED_ORE_PROCESSOR;
 
 public final class GTOOreRecipeHandler {
 

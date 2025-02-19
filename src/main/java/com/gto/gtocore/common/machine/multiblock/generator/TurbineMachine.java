@@ -19,7 +19,6 @@ import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
 import com.gregtechceu.gtceu.api.recipe.chance.logic.ChanceLogic;
 import com.gregtechceu.gtceu.api.recipe.content.Content;
-import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
 import com.gregtechceu.gtceu.common.item.TurbineRotorBehaviour;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.RotorHolderPartMachine;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
@@ -30,7 +29,6 @@ import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
@@ -68,7 +66,7 @@ public final class TurbineMachine extends ElectricMultiblockMachine {
     @Persisted
     private boolean highSpeedMode;
 
-    private final Set<RotorHolderPartMachine> rotorHolderMachines = new ObjectOpenHashSet<>(13, 0.99F);
+    private final Set<RotorHolderPartMachine> rotorHolderMachines = new ObjectOpenHashSet<>();
 
     private ItemHatchPartMachine rotorHatchPartMachine;
 
@@ -85,13 +83,17 @@ public final class TurbineMachine extends ElectricMultiblockMachine {
     private void rotorUpdate() {
         if (getOffsetTimer() % 20 == 0 && !isActive()) {
             rotorSubs.updateSubscription();
-            if (rotorHatchPartMachine.getInventory().isEmpty()) return;
-            CustomItemStackHandler storage = rotorHatchPartMachine.getInventory().storage;
+            if (rotorHatchPartMachine == null || rotorHatchPartMachine.getInventory().isEmpty()) return;
+            boolean full = true;
             for (RotorHolderPartMachine part : rotorHolderMachines) {
-                if (!part.hasRotor()) {
-                    part.setRotorStack(storage.getStackInSlot(0));
-                    storage.setStackInSlot(0, new ItemStack(Items.AIR));
+                if (part.getRotorStack().isEmpty()) {
+                    full = false;
+                    part.setRotorStack(rotorHatchPartMachine.getInventory().getStackInSlot(0));
+                    rotorHatchPartMachine.getInventory().setStackInSlot(0, ItemStack.EMPTY);
                 }
+            }
+            if (full) {
+                rotorSubs.unsubscribe();
             }
         }
     }
@@ -101,6 +103,7 @@ public final class TurbineMachine extends ElectricMultiblockMachine {
         super.onPartScan(part);
         if (part instanceof RotorHolderPartMachine rotorHolderMachine) {
             rotorHolderMachines.add(rotorHolderMachine);
+            rotorHolderMachine.inventory.addChangedListener(rotorSubs::updateSubscription);
         } else if (rotorHatchPartMachine == null && part instanceof ItemHatchPartMachine rotorHatchPart) {
             rotorHatchPartMachine = rotorHatchPart;
         }

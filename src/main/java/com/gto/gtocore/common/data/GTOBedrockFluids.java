@@ -2,7 +2,6 @@ package com.gto.gtocore.common.data;
 
 import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.data.lang.LangHandler;
-import com.gto.gtocore.init.GTOMaterials;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.data.worldgen.bedrockfluid.BedrockFluidDefinition;
@@ -26,13 +25,13 @@ import java.util.function.Consumer;
 import static com.gto.gtocore.api.data.GTOWorldGenLayers.*;
 
 @SuppressWarnings("unused")
-public final class GTOBedrockFluids {
+public interface GTOBedrockFluids {
 
-    public static final Map<String, LangHandler.ENCN> LANG = GTCEu.isDataGen() ? new HashMap<>() : null;
+    Map<String, LangHandler.ENCN> LANG = GTCEu.isDataGen() ? new HashMap<>() : null;
 
-    public static final Map<ResourceKey<Level>, List<FluidStack>> ALL_BEDROCK_FLUID = new Object2ObjectOpenHashMap<>();
+    Map<ResourceKey<Level>, List<FluidStack>> ALL_BEDROCK_FLUID = new Object2ObjectOpenHashMap<>();
 
-    public static final BedrockFluidDefinition VOID_HEAVY_OIL = create(GTCEu.id("void_heavy_oil_deposit"),
+    BedrockFluidDefinition VOID_HEAVY_OIL = create(GTCEu.id("void_heavy_oil_deposit"),
             "虚空重油矿藏",
             builder -> builder
                     .fluid(GTMaterials.OilHeavy::getFluid)
@@ -43,7 +42,7 @@ public final class GTOBedrockFluids {
                     .depletedYield(20)
                     .dimensions(getDimensions(VOID)));
 
-    public static final BedrockFluidDefinition VOID_LIGHT_OIL = create(GTCEu.id("void_light_oil_deposit"),
+    BedrockFluidDefinition VOID_LIGHT_OIL = create(GTCEu.id("void_light_oil_deposit"),
             "虚空轻油矿藏",
             builder -> builder
                     .fluid(GTMaterials.OilLight::getFluid)
@@ -54,7 +53,7 @@ public final class GTOBedrockFluids {
                     .depletedYield(25)
                     .dimensions(getDimensions(VOID)));
 
-    public static final BedrockFluidDefinition VOID_NATURAL_GAS = create(GTCEu.id("void_natural_gas_deposit"),
+    BedrockFluidDefinition VOID_NATURAL_GAS = create(GTCEu.id("void_natural_gas_deposit"),
             "虚空天然气矿藏",
             builder -> builder
                     .fluid(GTMaterials.NaturalGas::getFluid)
@@ -65,7 +64,7 @@ public final class GTOBedrockFluids {
                     .depletedYield(20)
                     .dimensions(getDimensions(VOID)));
 
-    public static final BedrockFluidDefinition VOID_OIL = create(GTCEu.id("void_oil_deposit"),
+    BedrockFluidDefinition VOID_OIL = create(GTCEu.id("void_oil_deposit"),
             "虚空石油矿藏",
             builder -> builder
                     .fluid(GTMaterials.Oil::getFluid)
@@ -76,7 +75,7 @@ public final class GTOBedrockFluids {
                     .depletedYield(25)
                     .dimensions(getDimensions(VOID)));
 
-    public static final BedrockFluidDefinition VOID_RAW_OIL = create(GTCEu.id("void_raw_oil_deposit"),
+    BedrockFluidDefinition VOID_RAW_OIL = create(GTCEu.id("void_raw_oil_deposit"),
             "虚空原油矿藏",
             builder -> builder
                     .fluid(GTMaterials.RawOil::getFluid)
@@ -87,7 +86,7 @@ public final class GTOBedrockFluids {
                     .depletedYield(25)
                     .dimensions(getDimensions(VOID)));
 
-    public static final BedrockFluidDefinition VOID_ALT_WATER = create(GTCEu.id("void_salt_water_deposit"),
+    BedrockFluidDefinition VOID_ALT_WATER = create(GTCEu.id("void_salt_water_deposit"),
             "虚空盐水矿藏",
             builder -> builder
                     .fluid(GTMaterials.SaltWater::getFluid)
@@ -98,7 +97,7 @@ public final class GTOBedrockFluids {
                     .depletedYield(15)
                     .dimensions(getDimensions(VOID)));
 
-    public static final BedrockFluidDefinition FLAT_HEAVY_OIL = create(GTCEu.id("flat_heavy_oil_deposit"),
+    BedrockFluidDefinition FLAT_HEAVY_OIL = create(GTCEu.id("flat_heavy_oil_deposit"),
             "超平坦重油矿藏",
             builder -> builder
                     .fluid(GTMaterials.OilHeavy::getFluid)
@@ -109,7 +108,7 @@ public final class GTOBedrockFluids {
                     .depletedYield(20)
                     .dimensions(getDimensions(FLAT)));
 
-    public static final BedrockFluidDefinition FLAT_LIGHT_OIL = create(GTCEu.id("flat_light_oil_deposit"),
+    BedrockFluidDefinition FLAT_LIGHT_OIL = create(GTCEu.id("flat_light_oil_deposit"),
             "超平坦轻油矿藏",
             builder -> builder
                     .fluid(GTMaterials.OilLight::getFluid)
@@ -120,7 +119,7 @@ public final class GTOBedrockFluids {
                     .depletedYield(25)
                     .dimensions(getDimensions(FLAT)));
 
-    public static final BedrockFluidDefinition FLAT_NATURAL_GAS = create(GTCEu.id("flat_natural_gas_deposit"),
+    BedrockFluidDefinition FLAT_NATURAL_GAS = create(GTCEu.id("flat_natural_gas_deposit"),
             "超平坦天然气矿藏",
             builder -> builder
                     .fluid(GTMaterials.NaturalGas::getFluid)
@@ -131,7 +130,7 @@ public final class GTOBedrockFluids {
                     .depletedYield(20)
                     .dimensions(getDimensions(FLAT)));
 
-    public static final BedrockFluidDefinition FLAT_OIL = create(GTCEu.id("flat_oil_deposit"),
+    BedrockFluidDefinition FLAT_OIL = create(GTCEu.id("flat_oil_deposit"),
             "超平坦石油矿藏",
             builder -> builder
                     .fluid(GTMaterials.Oil::getFluid)
@@ -142,7 +141,7 @@ public final class GTOBedrockFluids {
                     .depletedYield(25)
                     .dimensions(getDimensions(FLAT)));
 
-    public static final BedrockFluidDefinition FLAT_RAW_OIL = create(GTCEu.id("flat_raw_oil_deposit"),
+    BedrockFluidDefinition FLAT_RAW_OIL = create(GTCEu.id("flat_raw_oil_deposit"),
             "超平坦原油矿藏",
             builder -> builder
                     .fluid(GTMaterials.RawOil::getFluid)
@@ -153,7 +152,7 @@ public final class GTOBedrockFluids {
                     .depletedYield(25)
                     .dimensions(getDimensions(FLAT)));
 
-    public static final BedrockFluidDefinition FLAT_ALT_WATER = create(GTCEu.id("flat_salt_water_deposit"),
+    BedrockFluidDefinition FLAT_ALT_WATER = create(GTCEu.id("flat_salt_water_deposit"),
             "超平坦盐水矿藏",
             builder -> builder
                     .fluid(GTMaterials.SaltWater::getFluid)
@@ -164,7 +163,7 @@ public final class GTOBedrockFluids {
                     .depletedYield(15)
                     .dimensions(getDimensions(FLAT)));
 
-    public static final BedrockFluidDefinition HELIUM_3 = create(GTCEu.id("helium3_deposit"),
+    BedrockFluidDefinition HELIUM_3 = create(GTCEu.id("helium3_deposit"),
             "氦-3矿藏",
             builder -> builder
                     .fluid(GTMaterials.Helium3::getFluid)
@@ -175,7 +174,7 @@ public final class GTOBedrockFluids {
                     .depletedYield(40)
                     .dimensions(getDimensions(MOON)));
 
-    public static final BedrockFluidDefinition HELIUM = create(GTCEu.id("helium_deposit"),
+    BedrockFluidDefinition HELIUM = create(GTCEu.id("helium_deposit"),
             "氦矿藏",
             builder -> builder
                     .fluid(GTMaterials.Helium::getFluid)
@@ -186,7 +185,7 @@ public final class GTOBedrockFluids {
                     .depletedYield(40)
                     .dimensions(getDimensions(MOON)));
 
-    public static final BedrockFluidDefinition SULFURIC_ACID = create(GTCEu.id("sulfuric_acid_deposit"),
+    BedrockFluidDefinition SULFURIC_ACID = create(GTCEu.id("sulfuric_acid_deposit"),
             "硫酸矿藏",
             builder -> builder
                     .fluid(GTMaterials.SulfuricAcid::getFluid)
@@ -197,7 +196,7 @@ public final class GTOBedrockFluids {
                     .depletedYield(40)
                     .dimensions(getDimensions(VENUS)));
 
-    public static final BedrockFluidDefinition DEUTERIUM = create(GTCEu.id("deuterium_deposit"),
+    BedrockFluidDefinition DEUTERIUM = create(GTCEu.id("deuterium_deposit"),
             "氘矿藏",
             builder -> builder
                     .fluid(GTMaterials.Deuterium::getFluid)
@@ -208,7 +207,7 @@ public final class GTOBedrockFluids {
                     .depletedYield(40)
                     .dimensions(getDimensions(MERCURY)));
 
-    public static final BedrockFluidDefinition RADON = create(GTCEu.id("radon_deposit"),
+    BedrockFluidDefinition RADON = create(GTCEu.id("radon_deposit"),
             "氡矿藏",
             builder -> builder
                     .fluid(GTMaterials.Radon::getFluid)
@@ -219,7 +218,7 @@ public final class GTOBedrockFluids {
                     .depletedYield(40)
                     .dimensions(getDimensions(MARS)));
 
-    public static final BedrockFluidDefinition CERES_RADON = create(GTCEu.id("ceres_radon_deposit"),
+    BedrockFluidDefinition CERES_RADON = create(GTCEu.id("ceres_radon_deposit"),
             "谷神星氡矿藏",
             builder -> builder
                     .fluid(GTMaterials.Radon::getFluid)
@@ -230,7 +229,7 @@ public final class GTOBedrockFluids {
                     .depletedYield(40)
                     .dimensions(getDimensions(CERES)));
 
-    public static final BedrockFluidDefinition METHANE = create(GTCEu.id("methane_deposit"),
+    BedrockFluidDefinition METHANE = create(GTCEu.id("methane_deposit"),
             "甲烷矿藏",
             builder -> builder
                     .fluid(GTMaterials.Methane::getFluid)
@@ -241,7 +240,7 @@ public final class GTOBedrockFluids {
                     .depletedYield(40)
                     .dimensions(getDimensions(TITAN)));
 
-    public static final BedrockFluidDefinition BENZENE = create(GTCEu.id("benzene_deposit"),
+    BedrockFluidDefinition BENZENE = create(GTCEu.id("benzene_deposit"),
             "苯矿藏",
             builder -> builder
                     .fluid(GTMaterials.Benzene::getFluid)
@@ -252,7 +251,7 @@ public final class GTOBedrockFluids {
                     .depletedYield(40)
                     .dimensions(getDimensions(TITAN)));
 
-    public static final BedrockFluidDefinition CHARCOAL_BYPRODUCTS = create(GTCEu.id("charcoal_byproducts"),
+    BedrockFluidDefinition CHARCOAL_BYPRODUCTS = create(GTCEu.id("charcoal_byproducts"),
             "木炭副产矿藏",
             builder -> builder
                     .fluid(GTMaterials.CharcoalByproducts::getFluid)
@@ -263,7 +262,7 @@ public final class GTOBedrockFluids {
                     .depletedYield(40)
                     .dimensions(getDimensions(TITAN)));
 
-    public static final BedrockFluidDefinition COAL_GAS = create(GTCEu.id("coal_gas_deposit"),
+    BedrockFluidDefinition COAL_GAS = create(GTCEu.id("coal_gas_deposit"),
             "煤气矿藏",
             builder -> builder
                     .fluid(GTMaterials.CoalGas::getFluid)
@@ -274,7 +273,7 @@ public final class GTOBedrockFluids {
                     .depletedYield(40)
                     .dimensions(getDimensions(IO)));
 
-    public static final BedrockFluidDefinition NITRIC_ACID = create(GTCEu.id("nitric_acid_deposit"),
+    BedrockFluidDefinition NITRIC_ACID = create(GTCEu.id("nitric_acid_deposit"),
             "硝酸矿藏",
             builder -> builder
                     .fluid(GTMaterials.NitricAcid::getFluid)
@@ -285,7 +284,7 @@ public final class GTOBedrockFluids {
                     .depletedYield(40)
                     .dimensions(getDimensions(PLUTO)));
 
-    public static final BedrockFluidDefinition HYDROCHLORIC_ACID = create(GTCEu.id("hydrochloric_acid_deposit"),
+    BedrockFluidDefinition HYDROCHLORIC_ACID = create(GTCEu.id("hydrochloric_acid_deposit"),
             "盐酸矿藏",
             builder -> builder
                     .fluid(GTMaterials.HydrochloricAcid::getFluid)
@@ -296,7 +295,7 @@ public final class GTOBedrockFluids {
                     .depletedYield(40)
                     .dimensions(getDimensions(GANYMEDE)));
 
-    public static final BedrockFluidDefinition CERES_XENON = create(GTCEu.id("ceres_xenon_deposit"),
+    BedrockFluidDefinition CERES_XENON = create(GTCEu.id("ceres_xenon_deposit"),
             "氙矿藏",
             builder -> builder
                     .fluid(GTMaterials.Xenon::getFluid)
@@ -307,7 +306,7 @@ public final class GTOBedrockFluids {
                     .depletedYield(40)
                     .dimensions(getDimensions(CERES)));
 
-    public static final BedrockFluidDefinition CERES_KRYPTON = create(GTCEu.id("ceres_krypton_deposit"),
+    BedrockFluidDefinition CERES_KRYPTON = create(GTCEu.id("ceres_krypton_deposit"),
             "氪矿藏",
             builder -> builder
                     .fluid(GTMaterials.Krypton::getFluid)
@@ -318,7 +317,7 @@ public final class GTOBedrockFluids {
                     .depletedYield(40)
                     .dimensions(getDimensions(CERES)));
 
-    public static final BedrockFluidDefinition CERES_NEON = create(GTCEu.id("ceres_neon_deposit"),
+    BedrockFluidDefinition CERES_NEON = create(GTCEu.id("ceres_neon_deposit"),
             "氖矿藏",
             builder -> builder
                     .fluid(GTMaterials.Neon::getFluid)
@@ -329,7 +328,7 @@ public final class GTOBedrockFluids {
                     .depletedYield(40)
                     .dimensions(getDimensions(CERES)));
 
-    public static final BedrockFluidDefinition FLUORINE = create(GTCEu.id("fluorine_deposit"),
+    BedrockFluidDefinition FLUORINE = create(GTCEu.id("fluorine_deposit"),
             "氟矿藏",
             builder -> builder
                     .fluid(GTMaterials.Fluorine::getFluid)
@@ -340,7 +339,7 @@ public final class GTOBedrockFluids {
                     .depletedYield(40)
                     .dimensions(getDimensions(ENCELADUS)));
 
-    public static final BedrockFluidDefinition CHLORINE = create(GTCEu.id("chlorine_deposit"),
+    BedrockFluidDefinition CHLORINE = create(GTCEu.id("chlorine_deposit"),
             "氯矿藏",
             builder -> builder
                     .fluid(GTMaterials.Chlorine::getFluid)
@@ -351,7 +350,7 @@ public final class GTOBedrockFluids {
                     .depletedYield(40)
                     .dimensions(getDimensions(ENCELADUS)));
 
-    public static final BedrockFluidDefinition UNKNOWWATER = create(GTCEu.id("unknowwater_deposit"),
+    BedrockFluidDefinition UNKNOWWATER = create(GTCEu.id("unknowwater_deposit"),
             "不明液体矿藏",
             builder -> builder
                     .fluid(GTOMaterials.UnknowWater::getFluid)
@@ -362,7 +361,7 @@ public final class GTOBedrockFluids {
                     .depletedYield(40)
                     .dimensions(getDimensions(BARNARDA_C)));
 
-    public static void init() {}
+    static void init() {}
 
     private static BedrockFluidDefinition create(ResourceLocation id, String cn, Consumer<BedrockFluidDefinition.Builder> consumer) {
         if (LANG != null) {
@@ -381,7 +380,7 @@ public final class GTOBedrockFluids {
         return definition;
     }
 
-    public static void addVoid(BedrockFluidDefinition definition) {
+    static void addVoid(BedrockFluidDefinition definition) {
         ResourceKey<Level> dimension = definition.dimensionFilter.iterator().next();
         if (dimension != getDimension(VOID) || dimension != getDimension(FLAT) || dimension != getDimension(CREATE)) {
             List<FluidStack> fluidStacks = ALL_BEDROCK_FLUID.computeIfAbsent(dimension, k -> new ArrayList<>());

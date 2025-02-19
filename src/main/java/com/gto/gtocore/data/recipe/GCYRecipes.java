@@ -1,7 +1,7 @@
 package com.gto.gtocore.data.recipe;
 
-import com.gto.gtocore.init.GTOItems;
-import com.gto.gtocore.init.GTOMaterials;
+import com.gto.gtocore.common.data.GTOItems;
+import com.gto.gtocore.common.data.GTOMaterials;
 
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.chemical.material.stack.UnificationEntry;
@@ -20,7 +20,7 @@ import static com.gregtechceu.gtceu.common.data.GTItems.*;
 import static com.gregtechceu.gtceu.common.data.GTMachines.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
 import static com.gregtechceu.gtceu.data.recipe.CustomTags.*;
-import static com.gto.gtocore.init.machines.GCYMMachines.*;
+import static com.gto.gtocore.common.data.machines.GCYMMachines.*;
 
 public interface GCYRecipes {
 

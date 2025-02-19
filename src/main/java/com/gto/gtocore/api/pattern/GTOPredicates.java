@@ -2,7 +2,7 @@ package com.gto.gtocore.api.pattern;
 
 import com.gto.gtocore.api.machine.part.GTOPartAbility;
 import com.gto.gtocore.common.block.WirelessEnergyUnitBlock;
-import com.gto.gtocore.init.GTOBlocks;
+import com.gto.gtocore.common.data.GTOBlocks;
 import com.gto.gtocore.utils.FunctionContainer;
 import com.gto.gtocore.utils.GTOUtils;
 
@@ -37,21 +37,21 @@ import static com.gto.gtocore.api.GTOValues.MACHINE_CASING_TIER;
 import static com.gto.gtocore.common.block.BlockMap.GLASSMAP;
 import static com.gto.gtocore.common.block.BlockMap.MACHINECASINGMAP;
 
-public final class GTOPredicates {
+public interface GTOPredicates {
 
-    public static TraceabilityPredicate glass() {
+    static TraceabilityPredicate glass() {
         return tierBlock(GLASSMAP, GLASS_TIER);
     }
 
-    public static TraceabilityPredicate machineCasing() {
+    static TraceabilityPredicate machineCasing() {
         return tierBlock(MACHINECASINGMAP, MACHINE_CASING_TIER);
     }
 
-    public static TraceabilityPredicate absBlocks() {
+    static TraceabilityPredicate absBlocks() {
         return Predicates.blocks(GTOBlocks.ABS_BLACK_CASING.get(), GTOBlocks.ABS_BLUE_CASING.get(), GTOBlocks.ABS_BROWN_CASING.get(), GTOBlocks.ABS_GREEN_CASING.get(), GTOBlocks.ABS_GREY_CASING.get(), GTOBlocks.ABS_LIME_CASING.get(), GTOBlocks.ABS_ORANGE_CASING.get(), GTOBlocks.ABS_RAD_CASING.get(), GTOBlocks.ABS_WHITE_CASING.get(), GTOBlocks.ABS_YELLOW_CASING.get(), GTOBlocks.ABS_CYAN_CASING.get(), GTOBlocks.ABS_MAGENTA_CASING.get(), GTOBlocks.ABS_PINK_CASING.get(), GTOBlocks.ABS_PURPLE_CASING.get(), GTOBlocks.ABS_LIGHT_BULL_CASING.get(), GTOBlocks.ABS_LIGHT_GREY_CASING.get());
     }
 
-    public static TraceabilityPredicate autoLaserAbilities(GTRecipeType... recipeType) {
+    static TraceabilityPredicate autoLaserAbilities(GTRecipeType... recipeType) {
         TraceabilityPredicate predicate = Predicates.autoAbilities(recipeType, false, false, true, true, true, true);
         for (GTRecipeType type : recipeType) {
             if (type.getMaxInputs(EURecipeCapability.CAP) > 0) {
@@ -65,15 +65,15 @@ public final class GTOPredicates {
         return predicate;
     }
 
-    public static TraceabilityPredicate autoAccelerateAbilities(GTRecipeType... recipeType) {
+    static TraceabilityPredicate autoAccelerateAbilities(GTRecipeType... recipeType) {
         return Predicates.autoAbilities(recipeType).or(Predicates.abilities(GTOPartAbility.ACCELERATE_HATCH).setMaxGlobalLimited(1));
     }
 
-    public static TraceabilityPredicate autoThreadLaserAbilities(GTRecipeType... recipeType) {
+    static TraceabilityPredicate autoThreadLaserAbilities(GTRecipeType... recipeType) {
         return autoLaserAbilities(recipeType).or(Predicates.abilities(GTOPartAbility.THREAD_HATCH).setMaxGlobalLimited(1)).or(Predicates.abilities(GTOPartAbility.ACCELERATE_HATCH).setMaxGlobalLimited(1));
     }
 
-    public static TraceabilityPredicate tierBlock(Map<Integer, Supplier<?>> map, String tierType) {
+    static TraceabilityPredicate tierBlock(Map<Integer, Supplier<?>> map, String tierType) {
         BlockInfo[] blockInfos = new BlockInfo[map.size()];
         int index = 0;
         for (Supplier<?> blockSupplier : map.values()) {
@@ -98,7 +98,7 @@ public final class GTOPredicates {
         }, () -> blockInfos).addTooltips(Component.translatable("gtocore.machine.pattern.error.tier"));
     }
 
-    public static TraceabilityPredicate RotorBlock(int tier) {
+    static TraceabilityPredicate RotorBlock(int tier) {
         return new TraceabilityPredicate(new SimplePredicate(state -> {
             Level level = state.getWorld();
             BlockPos pos = state.getPos();
@@ -110,7 +110,7 @@ public final class GTOPredicates {
         }, () -> PartAbility.ROTOR_HOLDER.getAllBlocks().stream().filter(b -> b instanceof MetaMachineBlock metaMachineBlock && metaMachineBlock.getDefinition().getTier() >= tier).map(BlockInfo::fromBlock).toArray(BlockInfo[]::new))).addTooltips(Component.translatable("gtceu.multiblock.pattern.clear_amount_3"));
     }
 
-    public static TraceabilityPredicate wirelessEnergyUnit() {
+    static TraceabilityPredicate wirelessEnergyUnit() {
         return containerBlock(() -> new FunctionContainer<>(new ArrayList<WirelessEnergyUnitBlock>(), (data, state) -> {
             if (state.getBlockState().getBlock() instanceof WirelessEnergyUnitBlock block) {
                 data.add(block);
@@ -119,7 +119,7 @@ public final class GTOPredicates {
         }), "wirelessEnergyUnit", GTOBlocks.LV_WIRELESS_ENERGY_UNIT.get(), GTOBlocks.MV_WIRELESS_ENERGY_UNIT.get(), GTOBlocks.HV_WIRELESS_ENERGY_UNIT.get(), GTOBlocks.EV_WIRELESS_ENERGY_UNIT.get(), GTOBlocks.IV_WIRELESS_ENERGY_UNIT.get(), GTOBlocks.LUV_WIRELESS_ENERGY_UNIT.get(), GTOBlocks.ZPM_WIRELESS_ENERGY_UNIT.get(), GTOBlocks.UV_WIRELESS_ENERGY_UNIT.get(), GTOBlocks.UHV_WIRELESS_ENERGY_UNIT.get(), GTOBlocks.UEV_WIRELESS_ENERGY_UNIT.get(), GTOBlocks.UIV_WIRELESS_ENERGY_UNIT.get(), GTOBlocks.UXV_WIRELESS_ENERGY_UNIT.get(), GTOBlocks.OPV_WIRELESS_ENERGY_UNIT.get(), GTOBlocks.MAX_WIRELESS_ENERGY_UNIT.get()).setPreviewCount(1);
     }
 
-    public static TraceabilityPredicate fissionComponent() {
+    static TraceabilityPredicate fissionComponent() {
         return containerBlock(() -> new FunctionContainer<>(new int[4], (integer, state) -> {
             Block block = state.getBlockState().getBlock();
             if (block == GTOBlocks.FISSION_FUEL_COMPONENT.get()) {
@@ -133,7 +133,7 @@ public final class GTOPredicates {
         }), "fissionComponent", GTOBlocks.FISSION_FUEL_COMPONENT.get(), GTOBlocks.FISSION_COOLER_COMPONENT.get()).setPreviewCount(1);
     }
 
-    public static TraceabilityPredicate countBlock(String name, Block... blocks) {
+    static TraceabilityPredicate countBlock(String name, Block... blocks) {
         return containerBlock(() -> new FunctionContainer<>(0, (integer, state) -> ++integer), name, blocks);
     }
 

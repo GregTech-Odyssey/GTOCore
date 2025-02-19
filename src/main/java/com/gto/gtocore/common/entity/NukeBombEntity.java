@@ -1,6 +1,6 @@
 package com.gto.gtocore.common.entity;
 
-import com.gto.gtocore.init.GTOBlocks;
+import com.gto.gtocore.common.data.GTOBlocks;
 import com.gto.gtocore.utils.SphereExplosion;
 
 import com.gregtechceu.gtceu.common.data.GTEntityTypes;

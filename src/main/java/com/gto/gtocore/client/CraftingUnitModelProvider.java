@@ -30,12 +30,12 @@ final class CraftingUnitModelProvider extends AbstractCraftingUnitModelProvider<
     private static final Material RING_SIDE_HOR = aeTexture("ring_side_hor");
     private static final Material RING_SIDE_VER = aeTexture("ring_side_ver");
     private static final Material LIGHT_BASE = aeTexture("light_base");
-    private static final Material STORAGE_1M_LIGHT = texture("1m_storage_light");
-    private static final Material STORAGE_4M_LIGHT = texture("4m_storage_light");
-    private static final Material STORAGE_16M_LIGHT = texture("16m_storage_light");
-    private static final Material STORAGE_64M_LIGHT = texture("64m_storage_light");
-    private static final Material STORAGE_256M_LIGHT = texture("256m_storage_light");
-    private static final Material STORAGE_MAX_LIGHT = texture("max_storage_light");
+    private static final Material STORAGE_1M_LIGHT = texture("crafting_storage_light_1m");
+    private static final Material STORAGE_4M_LIGHT = texture("crafting_storage_light_4m");
+    private static final Material STORAGE_16M_LIGHT = texture("crafting_storage_light_16m");
+    private static final Material STORAGE_64M_LIGHT = texture("crafting_storage_light_64m");
+    private static final Material STORAGE_256M_LIGHT = texture("crafting_storage_light_256m");
+    private static final Material STORAGE_MAX_LIGHT = texture("crafting_storage_light_max");
 
     private CraftingUnitModelProvider(CraftingUnitType type) {
         super(type);

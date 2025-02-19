@@ -25,7 +25,6 @@ import net.minecraft.network.chat.Style;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -171,7 +170,7 @@ public final class WindMillTurbineMachine extends TieredEnergyMachine implements
             } else {
                 spinSpeed = 0;
                 hasRotor = false;
-                inventory.storage.setStackInSlot(0, new ItemStack(Items.AIR));
+                inventory.storage.setStackInSlot(0, ItemStack.EMPTY);
             }
         }
         bladeAngle += spinSpeed;

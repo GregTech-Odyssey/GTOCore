@@ -10,9 +10,9 @@ import net.minecraft.network.chat.Component;
 import com.mojang.brigadier.CommandDispatcher;
 import dev.latvian.mods.kubejs.command.KubeJSCommands;
 
-public final class GTOCommands {
+public interface GTOCommands {
 
-    public static void init(CommandDispatcher<CommandSourceStack> dispatcher) {
+    static void init(CommandDispatcher<CommandSourceStack> dispatcher) {
         KubeJSCommands.register(dispatcher);
         dispatcher.register(Commands.literal(GTOCore.MOD_ID)
                 .then(Commands.literal("dyson")

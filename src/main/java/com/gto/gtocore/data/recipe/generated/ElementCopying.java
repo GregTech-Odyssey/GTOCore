@@ -1,8 +1,8 @@
 package com.gto.gtocore.data.recipe.generated;
 
 import com.gto.gtocore.GTOCore;
-import com.gto.gtocore.init.GTOItems;
-import com.gto.gtocore.init.GTOMaterials;
+import com.gto.gtocore.common.data.GTOItems;
+import com.gto.gtocore.common.data.GTOMaterials;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
@@ -22,7 +22,7 @@ import java.util.Objects;
 import java.util.function.Consumer;
 
 import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.SCANNER_RECIPES;
-import static com.gto.gtocore.init.GTORecipeTypes.ELEMENT_COPYING_RECIPES;
+import static com.gto.gtocore.common.data.GTORecipeTypes.ELEMENT_COPYING_RECIPES;
 
 public final class ElementCopying {
 

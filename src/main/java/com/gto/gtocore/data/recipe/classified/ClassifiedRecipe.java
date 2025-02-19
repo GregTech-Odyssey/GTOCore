@@ -3,11 +3,11 @@ package com.gto.gtocore.data.recipe.classified;
 import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.api.data.GTOWorldGenLayers;
 import com.gto.gtocore.api.machine.GTOCleanroomType;
+import com.gto.gtocore.common.data.GTOBlocks;
+import com.gto.gtocore.common.data.GTOItems;
+import com.gto.gtocore.common.data.GTOMaterials;
+import com.gto.gtocore.common.data.GTORecipeTypes;
 import com.gto.gtocore.common.recipe.condition.GravityCondition;
-import com.gto.gtocore.init.GTOBlocks;
-import com.gto.gtocore.init.GTOItems;
-import com.gto.gtocore.init.GTOMaterials;
-import com.gto.gtocore.init.GTORecipeTypes;
 import com.gto.gtocore.utils.TagUtils;
 
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;

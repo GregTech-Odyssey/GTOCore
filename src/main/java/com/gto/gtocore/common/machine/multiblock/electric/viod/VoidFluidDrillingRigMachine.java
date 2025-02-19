@@ -3,8 +3,8 @@ package com.gto.gtocore.common.machine.multiblock.electric.viod;
 import com.gto.gtocore.api.data.GTOWorldGenLayers;
 import com.gto.gtocore.api.machine.multiblock.StorageMultiblockMachine;
 import com.gto.gtocore.common.data.GTOBedrockFluids;
+import com.gto.gtocore.common.data.GTOItems;
 import com.gto.gtocore.common.item.DimensionDataItem;
-import com.gto.gtocore.init.GTOItems;
 import com.gto.gtocore.utils.MachineUtils;
 
 import com.gregtechceu.gtceu.api.capability.recipe.EURecipeCapability;

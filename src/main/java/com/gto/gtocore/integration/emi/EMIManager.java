@@ -35,8 +35,8 @@ public final class EMIManager implements EmiRecipeManager {
         this.categories = categories;
         this.workstations = workstations;
         this.recipes = recipes;
-        byCategory = new Object2ObjectOpenHashMap<>((int) (categories.size() * 1.02), 0.99F);
-        byId = new Object2ObjectOpenHashMap<>((int) (recipes.size() * 1.02), 0.99F);
+        byCategory = new Object2ObjectOpenHashMap<>(categories.size());
+        byId = new Object2ObjectOpenHashMap<>(recipes.size());
         for (EmiRecipe recipe : recipes) {
             ResourceLocation id = recipe.getId();
             EmiRecipeCategory category = recipe.getCategory();

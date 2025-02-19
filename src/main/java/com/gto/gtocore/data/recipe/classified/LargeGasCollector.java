@@ -2,8 +2,8 @@ package com.gto.gtocore.data.recipe.classified;
 
 import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.api.data.GTOWorldGenLayers;
-import com.gto.gtocore.init.GTOItems;
-import com.gto.gtocore.init.GTORecipeTypes;
+import com.gto.gtocore.common.data.GTOItems;
+import com.gto.gtocore.common.data.GTORecipeTypes;
 
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.data.machines.GTMultiMachines;

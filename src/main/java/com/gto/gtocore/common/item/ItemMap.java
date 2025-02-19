@@ -1,6 +1,6 @@
 package com.gto.gtocore.common.item;
 
-import com.gto.gtocore.init.GTOItems;
+import com.gto.gtocore.common.data.GTOItems;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;

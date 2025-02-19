@@ -2,8 +2,8 @@ package com.gto.gtocore.data.recipe.classified;
 
 import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.api.machine.GTOCleanroomType;
-import com.gto.gtocore.init.*;
-import com.gto.gtocore.init.machines.MultiBlockD;
+import com.gto.gtocore.common.data.*;
+import com.gto.gtocore.common.data.machines.MultiBlockD;
 import com.gto.gtocore.utils.RegistriesUtils;
 
 import com.gregtechceu.gtceu.api.GTValues;

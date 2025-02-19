@@ -1,7 +1,7 @@
 package com.gto.gtocore.mixin.gtm.registry;
 
 import com.gto.gtocore.common.data.GTOCreativeModeTabs;
-import com.gto.gtocore.init.GTOMachines;
+import com.gto.gtocore.common.data.GTOMachines;
 
 import com.gregtechceu.gtceu.api.registry.GTRegistries;
 import com.gregtechceu.gtceu.common.data.GTMachines;

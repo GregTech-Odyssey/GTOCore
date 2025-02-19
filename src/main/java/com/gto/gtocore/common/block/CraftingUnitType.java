@@ -1,6 +1,6 @@
 package com.gto.gtocore.common.block;
 
-import com.gto.gtocore.init.GTOBlocks;
+import com.gto.gtocore.common.data.GTOBlocks;
 
 import net.minecraft.world.item.Item;
 
@@ -11,12 +11,12 @@ import lombok.Getter;
 
 public enum CraftingUnitType implements ICraftingUnitType {
 
-    STORAGE_1M(1, "1m_storage"),
-    STORAGE_4M(4, "4m_storage"),
-    STORAGE_16M(16, "16m_storage"),
-    STORAGE_64M(64, "64m_storage"),
-    STORAGE_256M(256, "256m_storage"),
-    STORAGE_MAX(-1, "max_storage");
+    STORAGE_1M(1, "crafting_storage_1m"),
+    STORAGE_4M(4, "crafting_storage_4m"),
+    STORAGE_16M(16, "crafting_storage_16m"),
+    STORAGE_64M(64, "crafting_storage_64m"),
+    STORAGE_256M(256, "crafting_storage_256m"),
+    STORAGE_MAX(-1, "crafting_storage_max");
 
     private final int storageMb;
 

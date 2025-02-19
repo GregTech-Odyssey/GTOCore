@@ -1,6 +1,6 @@
 package com.gto.gtocore.common.block;
 
-import com.gto.gtocore.init.GTOFluids;
+import com.gto.gtocore.common.data.GTOFluids;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;

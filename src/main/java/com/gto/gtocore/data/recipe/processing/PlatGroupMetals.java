@@ -1,7 +1,7 @@
 package com.gto.gtocore.data.recipe.processing;
 
 import com.gto.gtocore.GTOCore;
-import com.gto.gtocore.init.GTORecipeTypes;
+import com.gto.gtocore.common.data.GTORecipeTypes;
 
 import net.minecraft.data.recipes.FinishedRecipe;
 
@@ -11,7 +11,7 @@ import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
 import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.*;
-import static com.gto.gtocore.init.GTOMaterials.*;
+import static com.gto.gtocore.common.data.GTOMaterials.*;
 
 public interface PlatGroupMetals {
 

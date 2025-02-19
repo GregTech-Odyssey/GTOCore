@@ -2,7 +2,9 @@ package com.gto.gtocore.common.forge;
 
 import com.gto.gtocore.api.data.GTOWorldGenLayers;
 import com.gto.gtocore.api.machine.feature.IVacuumMachine;
+import com.gto.gtocore.common.data.GTOBlocks;
 import com.gto.gtocore.common.data.GTOCommands;
+import com.gto.gtocore.common.data.GTOItems;
 import com.gto.gtocore.common.item.ItemMap;
 import com.gto.gtocore.common.machine.multiblock.water.WaterPurificationPlantMachine;
 import com.gto.gtocore.common.machine.multiblock.water.WaterPurificationUnitMachine;
@@ -10,8 +12,6 @@ import com.gto.gtocore.common.saved.DysonSphereSavaedData;
 import com.gto.gtocore.common.saved.ExtendWirelessEnergySavaedData;
 import com.gto.gtocore.common.saved.InfinityCellSavaedData;
 import com.gto.gtocore.config.GTOConfig;
-import com.gto.gtocore.init.GTOBlocks;
-import com.gto.gtocore.init.GTOItems;
 import com.gto.gtocore.utils.GTOUtils;
 import com.gto.gtocore.utils.ServerUtils;
 import com.gto.gtocore.utils.SphereExplosion;
@@ -280,7 +280,7 @@ public final class ForgeCommonEvent {
                 for (int i = 0; i < count; i++) {
                     level.addFreshEntity(new ItemEntity(level, player.getX(), player.getY(), player.getZ(), ItemMap.getScrapItem()));
                 }
-                player.setItemInHand(event.getHand(), Items.AIR.getDefaultInstance());
+                player.setItemInHand(event.getHand(), ItemStack.EMPTY);
             } else {
                 level.addFreshEntity(new ItemEntity(level, player.getX(), player.getY(), player.getZ(), ItemMap.getScrapItem()));
                 player.setItemInHand(event.getHand(), itemStack.copyWithCount(count - 1));

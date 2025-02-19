@@ -1,10 +1,10 @@
 package com.gto.gtocore.data.recipe;
 
 import com.gto.gtocore.GTOCore;
-import com.gto.gtocore.init.GTOItems;
-import com.gto.gtocore.init.GTOMachines;
-import com.gto.gtocore.init.GTOMaterials;
-import com.gto.gtocore.init.GTORecipeTypes;
+import com.gto.gtocore.common.data.GTOItems;
+import com.gto.gtocore.common.data.GTOMachines;
+import com.gto.gtocore.common.data.GTOMaterials;
+import com.gto.gtocore.common.data.GTORecipeTypes;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.chemical.material.stack.UnificationEntry;

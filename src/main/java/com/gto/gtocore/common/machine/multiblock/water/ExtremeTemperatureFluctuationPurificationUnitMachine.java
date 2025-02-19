@@ -1,8 +1,8 @@
 package com.gto.gtocore.common.machine.multiblock.water;
 
 import com.gto.gtocore.api.recipe.GTORecipeBuilder;
+import com.gto.gtocore.common.data.GTOMaterials;
 import com.gto.gtocore.common.machine.multiblock.part.SensorPartMachine;
-import com.gto.gtocore.init.GTOMaterials;
 import com.gto.gtocore.utils.MachineUtils;
 
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;

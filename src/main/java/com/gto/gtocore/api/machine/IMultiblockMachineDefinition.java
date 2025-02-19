@@ -2,8 +2,8 @@ package com.gto.gtocore.api.machine;
 
 import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.client.gui.PatternPreview;
+import com.gto.gtocore.common.data.machines.MultiBlockD;
 import com.gto.gtocore.config.GTOConfig;
-import com.gto.gtocore.init.machines.MultiBlockD;
 
 import com.gregtechceu.gtceu.api.gui.widget.PatternPreviewWidget;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;

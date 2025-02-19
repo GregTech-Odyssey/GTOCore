@@ -10,7 +10,6 @@ import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -51,7 +50,7 @@ public final class IsaMillMachine extends ElectricMultiblockMachine {
                 item.setDamageValue(damage + 1);
                 storage.setStackInSlot(0, item);
             } else {
-                storage.setStackInSlot(0, new ItemStack(Items.AIR));
+                storage.setStackInSlot(0, ItemStack.EMPTY);
             }
             return super.beforeWorking(recipe);
         }

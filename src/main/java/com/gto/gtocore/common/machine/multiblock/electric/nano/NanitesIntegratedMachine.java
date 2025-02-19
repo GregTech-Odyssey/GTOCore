@@ -5,7 +5,7 @@ import com.gto.gtocore.api.machine.feature.multiblock.ICoilMachine;
 import com.gto.gtocore.api.machine.feature.multiblock.IHighlightMachine;
 import com.gto.gtocore.api.machine.multiblock.StorageMultiblockMachine;
 import com.gto.gtocore.api.machine.trait.CoilTrait;
-import com.gto.gtocore.init.machines.MultiBlockC;
+import com.gto.gtocore.common.data.machines.MultiBlockC;
 import com.gto.gtocore.utils.MachineUtils;
 
 import com.gregtechceu.gtceu.api.GTValues;

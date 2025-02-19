@@ -1,6 +1,6 @@
 package com.gto.gtocore.common.entity;
 
-import com.gto.gtocore.init.GTOEntityTypes;
+import com.gto.gtocore.common.data.GTOEntityTypes;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;

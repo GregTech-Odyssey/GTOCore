@@ -1,8 +1,8 @@
 package com.gto.gtocore.data.recipe;
 
 import com.gto.gtocore.GTOCore;
-import com.gto.gtocore.init.*;
-import com.gto.gtocore.init.machines.*;
+import com.gto.gtocore.common.data.*;
+import com.gto.gtocore.common.data.machines.*;
 
 import com.gregtechceu.gtceu.api.data.chemical.material.stack.UnificationEntry;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;

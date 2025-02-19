@@ -52,7 +52,7 @@ import java.util.Map;
 
 import static com.gregtechceu.gtceu.common.data.GTItems.attach;
 import static com.gto.gtocore.api.registries.GTORegistration.REGISTRATE;
-import static com.gto.gtocore.init.GTOItems.*;
+import static com.gto.gtocore.common.data.GTOItems.*;
 
 public final class ItemRegisterUtils {
 

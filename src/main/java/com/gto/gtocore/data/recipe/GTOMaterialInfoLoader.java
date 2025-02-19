@@ -1,6 +1,6 @@
 package com.gto.gtocore.data.recipe;
 
-import com.gto.gtocore.init.GTOMaterials;
+import com.gto.gtocore.common.data.GTOMaterials;
 
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.chemical.material.stack.ItemMaterialInfo;

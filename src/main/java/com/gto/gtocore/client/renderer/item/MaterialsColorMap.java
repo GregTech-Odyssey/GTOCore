@@ -1,6 +1,6 @@
 package com.gto.gtocore.client.renderer.item;
 
-import com.gto.gtocore.init.GTOMaterials;
+import com.gto.gtocore.common.data.GTOMaterials;
 import com.gto.gtocore.utils.ColorUtils;
 
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;

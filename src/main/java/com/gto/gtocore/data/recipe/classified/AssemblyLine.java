@@ -2,8 +2,8 @@ package com.gto.gtocore.data.recipe.classified;
 
 import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.api.data.tag.GTOTagPrefix;
-import com.gto.gtocore.init.*;
-import com.gto.gtocore.init.machines.*;
+import com.gto.gtocore.common.data.*;
+import com.gto.gtocore.common.data.machines.*;
 import com.gto.gtocore.utils.RegistriesUtils;
 
 import com.gregtechceu.gtceu.api.GTValues;

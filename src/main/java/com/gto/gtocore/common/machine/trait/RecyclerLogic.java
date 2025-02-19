@@ -2,9 +2,9 @@ package com.gto.gtocore.common.machine.trait;
 
 import com.gto.gtocore.api.machine.multiblock.CustomParallelMultiblockMachine;
 import com.gto.gtocore.api.recipe.GTORecipeBuilder;
+import com.gto.gtocore.common.data.GTOItems;
+import com.gto.gtocore.common.data.GTORecipeTypes;
 import com.gto.gtocore.common.item.ItemMap;
-import com.gto.gtocore.init.GTOItems;
-import com.gto.gtocore.init.GTORecipeTypes;
 import com.gto.gtocore.utils.MachineUtils;
 
 import com.gregtechceu.gtceu.api.capability.recipe.IRecipeCapabilityHolder;

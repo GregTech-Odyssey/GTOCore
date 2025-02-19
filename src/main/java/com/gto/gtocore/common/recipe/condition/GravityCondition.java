@@ -1,7 +1,7 @@
 package com.gto.gtocore.common.recipe.condition;
 
 import com.gto.gtocore.api.machine.feature.IGravityPartMachine;
-import com.gto.gtocore.init.GTORecipeConditions;
+import com.gto.gtocore.common.data.GTORecipeConditions;
 
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;

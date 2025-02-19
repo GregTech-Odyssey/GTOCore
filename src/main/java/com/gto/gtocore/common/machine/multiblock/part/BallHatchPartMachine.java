@@ -1,7 +1,7 @@
 package com.gto.gtocore.common.machine.multiblock.part;
 
 import com.gto.gtocore.api.machine.part.ItemHatchPartMachine;
-import com.gto.gtocore.init.GTOItems;
+import com.gto.gtocore.common.data.GTOItems;
 
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.IInteractedMachine;

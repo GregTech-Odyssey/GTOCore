@@ -2,9 +2,9 @@ package com.gto.gtocore.data.recipe.classified;
 
 import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.api.machine.GTOCleanroomType;
+import com.gto.gtocore.common.data.GTOItems;
+import com.gto.gtocore.common.data.GTOMaterials;
 import com.gto.gtocore.common.recipe.condition.GravityCondition;
-import com.gto.gtocore.init.GTOItems;
-import com.gto.gtocore.init.GTOMaterials;
 import com.gto.gtocore.utils.RegistriesUtils;
 
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
@@ -28,7 +28,7 @@ import java.util.function.Consumer;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.Ethanol;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.SulfuricAcid;
 import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.MIXER_RECIPES;
-import static com.gto.gtocore.init.GTOMaterials.*;
+import static com.gto.gtocore.common.data.GTOMaterials.*;
 
 interface Mixer {
 

@@ -2,12 +2,10 @@ package com.gto.gtocore.common;
 
 import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.api.entity.IEnhancedPlayer;
-import com.gto.gtocore.common.data.GTOCreativeModeTabs;
-import com.gto.gtocore.common.data.GTORecipes;
+import com.gto.gtocore.common.data.*;
 import com.gto.gtocore.common.forge.ForgeCommonEvent;
 import com.gto.gtocore.common.network.KeyMessage;
 import com.gto.gtocore.config.GTOConfig;
-import com.gto.gtocore.init.*;
 import com.gto.gtocore.integration.ae2.InfinityCellGuiHandler;
 import com.gto.gtocore.integration.ae2.storage.InfinityCellHandler;
 import com.gto.gtocore.integration.ftbquests.EMIRecipeModHelper;

@@ -1,7 +1,7 @@
 package com.gto.gtocore.common.machine.multiblock.part;
 
 import com.gto.gtocore.api.data.tag.GTOTagPrefix;
-import com.gto.gtocore.init.GTOItems;
+import com.gto.gtocore.common.data.GTOItems;
 
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;

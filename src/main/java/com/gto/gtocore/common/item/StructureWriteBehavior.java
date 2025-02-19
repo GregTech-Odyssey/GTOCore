@@ -2,7 +2,7 @@ package com.gto.gtocore.common.item;
 
 import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.api.pattern.DebugBlockPattern;
-import com.gto.gtocore.init.GTOBlocks;
+import com.gto.gtocore.common.data.GTOBlocks;
 import com.gto.gtocore.utils.ItemUtils;
 import com.gto.gtocore.utils.RegistriesUtils;
 import com.gto.gtocore.utils.StringIndex;

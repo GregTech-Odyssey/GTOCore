@@ -1,7 +1,7 @@
 package com.gto.gtocore.common.block;
 
 import com.gto.gtocore.GTOCore;
-import com.gto.gtocore.init.GTOMaterials;
+import com.gto.gtocore.common.data.GTOMaterials;
 
 import com.gregtechceu.gtceu.api.block.ICoilType;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;

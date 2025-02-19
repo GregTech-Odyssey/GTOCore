@@ -1,9 +1,9 @@
 package com.gto.gtocore.data.recipe;
 
 import com.gto.gtocore.api.data.tag.GTOTagPrefix;
+import com.gto.gtocore.common.data.GTOMaterials;
 import com.gto.gtocore.common.recipe.condition.GravityCondition;
 import com.gto.gtocore.common.recipe.condition.VacuumCondition;
-import com.gto.gtocore.init.GTOMaterials;
 
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.world.item.ItemStack;

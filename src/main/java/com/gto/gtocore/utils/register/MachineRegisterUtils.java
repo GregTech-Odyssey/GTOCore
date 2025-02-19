@@ -7,13 +7,13 @@ import com.gto.gtocore.api.machine.feature.multiblock.ICoilMachine;
 import com.gto.gtocore.api.pattern.GTOPredicates;
 import com.gto.gtocore.api.registries.MultiblockBuilder;
 import com.gto.gtocore.common.data.GTORecipeModifiers;
+import com.gto.gtocore.common.data.machines.MultiBlockA;
 import com.gto.gtocore.common.machine.mana.SimpleManaMachine;
 import com.gto.gtocore.common.machine.multiblock.generator.CombustionEngineMachine;
 import com.gto.gtocore.common.machine.multiblock.generator.GeneratorArrayMachine;
 import com.gto.gtocore.common.machine.multiblock.generator.TurbineMachine;
 import com.gto.gtocore.common.machine.multiblock.part.HugeFluidHatchPartMachine;
 import com.gto.gtocore.common.machine.multiblock.part.WirelessEnergyHatchPartMachine;
-import com.gto.gtocore.init.machines.MultiBlockA;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
