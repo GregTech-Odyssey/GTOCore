@@ -697,15 +697,20 @@ interface Vanilla {
                 "hBw",
                 " C ",
                 'B', GTItems.STICKY_RESIN.asStack(), 'C', GTMachines.HULL[GTValues.ULV].asStack(), 'A', new ItemStack(Blocks.CHEST.asItem()));
-        VanillaRecipeHelper.addShapedRecipe(provider, GTOCore.id("wireless_energy_substation"), MultiBlockG.WIRELESS_ENERGY_SUBSTATION.asStack(),
+        VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("wireless_energy_substation"), MultiBlockG.WIRELESS_ENERGY_SUBSTATION.asStack(),
                 "ABA",
                 "CDC",
                 "ABA",
                 'B', CustomTags.LV_CIRCUITS, 'D', new UnificationEntry(TagPrefix.frameGt, GTMaterials.Invar), 'C', new UnificationEntry(TagPrefix.plate, GTMaterials.EnderPearl), 'A', new UnificationEntry(TagPrefix.plateDense, GTMaterials.Steel));
-        VanillaRecipeHelper.addShapedRecipe(provider, GTOCore.id("boss_summoner"), MultiBlockG.BOSS_SUMMONER.asStack(),
+        VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("boss_summoner"), MultiBlockG.BOSS_SUMMONER.asStack(),
                 "ABA",
                 "BCB",
                 "DBD",
                 'B', new UnificationEntry(TagPrefix.wireGtSingle, GTMaterials.Lead), 'D', new UnificationEntry(GTOTagPrefix.curvedPlate, GTMaterials.Steel), 'C', GTBlocks.MACHINE_CASING_ULV.asStack(), 'A', GTItems.VOLTAGE_COIL_ULV.asStack());
+        VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("steam_pump"), GTOItems.STEAM_PUMP.asStack(),
+                "ABA",
+                "CDC",
+                "ABA",
+                'B', new UnificationEntry(TagPrefix.pipeHugeFluid, GTMaterials.Steel), 'D', GTItems.FLUID_REGULATOR_LV.asStack(), 'C', new UnificationEntry(TagPrefix.pipeNonupleFluid, GTMaterials.Copper), 'A', new UnificationEntry(GTOTagPrefix.curvedPlate, GTMaterials.Electrum));
     }
 }

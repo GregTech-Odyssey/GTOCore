@@ -18,6 +18,7 @@ import com.gregtechceu.gtceu.common.item.CoverPlaceBehavior;
 import com.gregtechceu.gtceu.common.item.DataItemBehavior;
 import com.gregtechceu.gtceu.common.item.TooltipBehavior;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
+import com.gregtechceu.gtceu.utils.FormattingUtil;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -214,6 +215,13 @@ public interface GTOItems {
 
     ItemEntry<ComponentItem> AIR_VENT = item("air_vent", "通风口", ComponentItem::create)
             .onRegister(attach(new TooltipBehavior(lines -> lines.add(Component.translatable("gtceu.universal.tooltip.produces_fluid", 10))), new CoverPlaceBehavior(GTOCovers.AIR_VENT)))
+            .register();
+
+    ItemEntry<ComponentItem> STEAM_PUMP = item("steam_pump", "蒸汽泵", ComponentItem::create)
+            .onRegister(attach(new TooltipBehavior(lines -> {
+                lines.add(Component.translatable("item.gtceu.electric.pump.tooltip"));
+                lines.add(Component.translatable("gtceu.universal.tooltip.fluid_transfer_rate", FormattingUtil.formatNumbers(1000000)));
+            }), new CoverPlaceBehavior(GTOCovers.STEAM_PUMP)))
             .register();
 
     ItemEntry<ComponentItem> WIRELESS_ENERGY_RECEIVE_COVER_MAX = registerTieredCover(1);

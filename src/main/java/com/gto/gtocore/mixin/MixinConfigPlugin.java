@@ -1,5 +1,7 @@
 package com.gto.gtocore.mixin;
 
+import com.gregtechceu.gtceu.GTCEu;
+
 import com.lowdragmc.lowdraglib.core.mixins.MixinPluginShared;
 import org.objectweb.asm.tree.ClassNode;
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
@@ -24,6 +26,8 @@ public class MixinConfigPlugin implements IMixinConfigPlugin {
             return MixinPluginShared.isClassFound("dev.emi.emi.api.EmiPlugin");
         } else if (mixinClassName.contains("com.gto.gtocore.mixin.jei")) {
             return MixinPluginShared.isClassFound("mezz.jei.api.IModPlugin");
+        } else if (mixinClassName.equals("com.gto.gtocore.mixin.mc.OreConfigurationMixin")) {
+            return GTCEu.isProd();
         }
         return true;
     }

@@ -1,5 +1,6 @@
 package com.gto.gtocore.data.recipe.generated;
 
+import com.gto.gtocore.api.data.tag.GTOTagPrefix;
 import com.gto.gtocore.common.data.GTORecipeTypes;
 
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
@@ -93,7 +94,7 @@ public final class GTOPipeRecipeHandler {
         } else if (material.getMass() < 240 && material.getBlastTemperature() < 3600) {
             VanillaRecipeHelper.addShapedRecipe(provider, String.format("tiny_%s_pipe", material.getName()),
                     pipeStack.copyWithCount(2), " s ", "hXw",
-                    'X', new UnificationEntry(plate, material));
+                    'X', new UnificationEntry(GTOTagPrefix.curvedPlate, material));
         }
     }
 
@@ -121,7 +122,7 @@ public final class GTOPipeRecipeHandler {
         } else if (material.getMass() < 240 && material.getBlastTemperature() < 3600) {
             VanillaRecipeHelper.addShapedRecipe(provider, String.format("small_%s_pipe", material.getName()),
                     pipeStack, "wXh",
-                    'X', new UnificationEntry(plate, material));
+                    'X', new UnificationEntry(GTOTagPrefix.curvedPlate, material));
         }
     }
 
@@ -149,7 +150,7 @@ public final class GTOPipeRecipeHandler {
         } else if (material.getMass() < 240 && material.getBlastTemperature() < 3600) {
             VanillaRecipeHelper.addShapedRecipe(provider, String.format("medium_%s_pipe", material.getName()),
                     pipeStack, "XXX", "w h",
-                    'X', new UnificationEntry(plate, material));
+                    'X', new UnificationEntry(GTOTagPrefix.curvedPlate, material));
         }
     }
 
@@ -177,7 +178,7 @@ public final class GTOPipeRecipeHandler {
         } else if (material.getMass() < 240 && material.getBlastTemperature() < 3600) {
             VanillaRecipeHelper.addShapedRecipe(provider, String.format("large_%s_pipe", material.getName()),
                     pipeStack, "XXX", "w h", "XXX",
-                    'X', new UnificationEntry(plate, material));
+                    'X', new UnificationEntry(GTOTagPrefix.curvedPlate, material));
         }
     }
 

@@ -2,6 +2,7 @@ package com.gto.gtocore.common.data;
 
 import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.common.cover.AirVentCover;
+import com.gto.gtocore.common.cover.SteamPumpCover;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.cover.CoverDefinition;
@@ -23,6 +24,8 @@ import java.util.Locale;
 public interface GTOCovers {
 
     CoverDefinition AIR_VENT = GTCovers.register("air_vent", AirVentCover::new, new SimpleCoverRenderer(GTOCore.id("block/machines/vacuum_pump/overlay_top")));
+
+    CoverDefinition STEAM_PUMP = GTCovers.register("steam_pump", SteamPumpCover::new, PumpCoverRenderer.INSTANCE);
 
     CoverDefinition ELECTRIC_PUMP_ULV = GTCovers.register(
             "pump.ulv",
