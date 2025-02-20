@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:block/cube_all",
   "textures": {
-    "all": "gtocore:block/dyson_control_toroid"
+    "all": "gtocore:block/casings/dyson_control_toroid"
   }
 }

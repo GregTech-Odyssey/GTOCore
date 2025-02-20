@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:block/cube_all",
   "textures": {
-    "all": "gtocore:block/space_elevator_mechanical_casing"
+    "all": "gtocore:block/casings/dyson_control_casing"
   }
 }

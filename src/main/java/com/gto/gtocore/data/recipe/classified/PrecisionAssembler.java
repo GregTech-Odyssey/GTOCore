@@ -58,7 +58,7 @@ interface PrecisionAssembler {
                 .save(provider);
 
         GTORecipeTypes.PRECISION_ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("power_core"))
-                .inputItems(GTOBlocks.POWER_MODULE.asStack(4))
+                .inputItems(GTOBlocks.SPACE_ELEVATOR_POWER_MODULE_1.asStack(4))
                 .inputItems(GTItems.FIELD_GENERATOR_UV.asStack(8))
                 .inputItems(GTItems.GRAVITATION_ENGINE.asStack(64))
                 .inputItems(TagPrefix.plateDouble, GTMaterials.Naquadria, 16)
@@ -66,7 +66,7 @@ interface PrecisionAssembler {
                 .inputFluids(GTMaterials.Americium.getFluid(2880))
                 .inputFluids(GTMaterials.NaquadahEnriched.getFluid(2880))
                 .inputFluids(GTMaterials.Trinium.getFluid(2880))
-                .outputItems(GTOBlocks.POWER_CORE.asStack())
+                .outputItems(GTOBlocks.SPACE_ELEVATOR_POWER_CORE.asStack())
                 .EUt(491520)
                 .duration(2400)
                 .cleanroom(CleanroomType.CLEANROOM)

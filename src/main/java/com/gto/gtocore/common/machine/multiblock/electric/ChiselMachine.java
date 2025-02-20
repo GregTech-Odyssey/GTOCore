@@ -1,0 +1,79 @@
+package com.gto.gtocore.common.machine.multiblock.electric;
+
+import com.gto.gtocore.api.machine.multiblock.CustomParallelMultiblockMachine;
+import com.gto.gtocore.api.machine.trait.CustomRecipeLogic;
+import com.gto.gtocore.api.recipe.GTORecipeBuilder;
+import com.gto.gtocore.common.data.GTORecipeModifiers;
+
+import com.gregtechceu.gtceu.api.capability.recipe.IO;
+import com.gregtechceu.gtceu.api.capability.recipe.IRecipeHandler;
+import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
+import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
+import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.common.data.GTItems;
+import com.gregtechceu.gtceu.common.item.IntCircuitBehaviour;
+
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+
+import com.matthewperiut.chisel.block.ChiselGroupLookup;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
+
+public final class ChiselMachine extends CustomParallelMultiblockMachine {
+
+    public ChiselMachine(IMachineBlockEntity holder) {
+        super(holder, false, m -> 1 << (2 * (m.getTier() - 1)));
+    }
+
+    @Nullable
+    private GTRecipe getRecipe() {
+        if (hasProxies()) {
+            int c = 0;
+            Item item = null;
+            for (IRecipeHandler<?> handler : Objects.requireNonNullElseGet(getCapabilitiesProxy().get(IO.IN, ItemRecipeCapability.CAP), Collections::<IRecipeHandler<?>>emptyList)) {
+                if (!handler.isProxy()) {
+                    for (Object contents : handler.getContents()) {
+                        if (contents instanceof ItemStack itemStack) {
+                            if (itemStack.is(GTItems.PROGRAMMED_CIRCUIT.get())) {
+                                c += IntCircuitBehaviour.getCircuitConfiguration(itemStack);
+                            } else {
+                                item = itemStack.getItem();
+                            }
+                        }
+                    }
+                }
+            }
+            if (c > 0 && item != null) {
+                List<Item> list = ChiselGroupLookup.getBlocksInGroup(item);
+                if (list.isEmpty()) return null;
+                Item output = list.get(c - 1);
+                if (output == null) return null;
+                GTORecipeBuilder builder = GTORecipeBuilder.ofRaw().duration(20).EUt(30);
+                builder.inputItems(item);
+                builder.outputItems(output);
+                GTRecipe recipe = builder.buildRawRecipe();
+                recipe = GTORecipeModifiers.accurateParallel(this, recipe, getParallel());
+                if (recipe != null && recipe.matchRecipe(this).isSuccess() && recipe.matchTickRecipe(this).isSuccess()) {
+                    return recipe;
+                }
+            }
+        }
+        return null;
+    }
+
+    @Override
+    protected @NotNull RecipeLogic createRecipeLogic(Object @NotNull... args) {
+        return new CustomRecipeLogic(this, this::getRecipe);
+    }
+
+    @Override
+    public @NotNull CustomRecipeLogic getRecipeLogic() {
+        return (CustomRecipeLogic) super.getRecipeLogic();
+    }
+}

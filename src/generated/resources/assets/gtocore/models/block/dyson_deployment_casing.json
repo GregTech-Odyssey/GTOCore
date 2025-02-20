@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:block/cube_all",
   "textures": {
-    "all": "gtocore:block/dyson_deployment_casing"
+    "all": "gtocore:block/casings/dyson_deployment_casing"
   }
 }

@@ -1894,7 +1894,7 @@ interface Assembler {
                 .inputItems(TagPrefix.plate, GTMaterials.Technetium, 4)
                 .inputItems(TagPrefix.plate, GTMaterials.Osmium, 4)
                 .inputFluids(GTMaterials.SolderingAlloy.getFluid(288))
-                .outputItems(GTOBlocks.MODULE_BASE.asStack())
+                .outputItems(GTOBlocks.SPACE_ELEVATOR_MODULE_BASE.asStack())
                 .EUt(480)
                 .duration(400)
                 .save(provider);

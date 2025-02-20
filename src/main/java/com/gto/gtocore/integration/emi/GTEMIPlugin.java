@@ -1,6 +1,7 @@
 package com.gto.gtocore.integration.emi;
 
 import com.gto.gtocore.common.data.GTORecipes;
+import com.gto.gtocore.integration.chisel.ChiselRecipe;
 import com.gto.gtocore.integration.emi.multipage.MultiblockInfoEmiCategory;
 import com.gto.gtocore.integration.kjs.GTKubeJSPlugin;
 
@@ -36,6 +37,7 @@ public final class GTEMIPlugin implements EmiPlugin {
 
     @Override
     public void register(EmiRegistry registry) {
+        if (GTCEu.isProd()) ChiselRecipe.register(registry);
         registry.addCategory(MultiblockInfoEmiCategory.CATEGORY);
         if (!ConfigHolder.INSTANCE.compat.hideOreProcessingDiagrams)
             registry.addCategory(GTOreProcessingEmiCategory.CATEGORY);

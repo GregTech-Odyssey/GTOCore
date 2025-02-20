@@ -64,6 +64,11 @@ interface Vanilla {
                     "BCB",
                     "DBD",
                     'A', new UnificationEntry(TagPrefix.screw, GTMaterials.WroughtIron), 'B', new ItemStack(Items.LEATHER.asItem()), 'C', RegistriesUtils.getItemStack("gtceu:wood_crate"), 'D', new ItemStack(Items.STRING.asItem()));
+            VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("automatic_chisel"), MultiBlockG.AUTOMATIC_CHISEL.asStack(),
+                    "ABA",
+                    "CDC",
+                    "EFE",
+                    'B', RegistriesUtils.getItemStack("chisel:chisel"), 'F', new UnificationEntry(TagPrefix.plateDouble, GTMaterials.SteelMagnetic), 'D', GTItems.ROBOT_ARM_LV.asStack(), 'C', GTItems.CONVEYOR_MODULE_LV.asStack(), 'E', new UnificationEntry(TagPrefix.plate, GTMaterials.Steel), 'A', CustomTags.LV_CIRCUITS);
         }
         VanillaRecipeHelper.addShapelessRecipe(provider, GTOCore.id("pattern_modifier_pro"), GTOItems.PATTERN_MODIFIER_PRO.asStack(), RegistriesUtils.getItemStack("expatternprovider:pattern_modifier"));
         VanillaRecipeHelper.addShapelessRecipe(provider, GTOCore.id("item_storage_cell_64m_2"), GTOItems.ITEM_STORAGE_CELL_64M.asStack(), new ItemStack(AEItems.ITEM_CELL_HOUSING.asItem()), GTOItems.CELL_COMPONENT_64M.asStack());

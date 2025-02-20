@@ -131,12 +131,12 @@ public interface GTOBlocks {
     BlockEntry<Block> GANYMEDE_GRUNT = createSandBlock("ganymede_grunt", "木卫三表皮", GTOCore.id("block/sand/titan_grunt"));
     BlockEntry<Block> CERES_GRUNT = createSandBlock("ceres_grunt", "谷神星表皮", GTOCore.id("block/sand/ceres_grunt"));
 
-    BlockEntry<Block> SPACE_ELEVATOR_INTERNAL_SUPPORT = createSidedCasingBlock("space_elevator_internal_support", "太空电梯内部支撑结构", GTOCore.id("block/casings/space_elevator_internal_support"));
-    BlockEntry<Block> MODULE_BASE = createSidedCasingBlock("module_base", "太空电梯模块基座", GTOCore.id("block/casings/module_base"));
+    BlockEntry<Block> SPEEDING_PIPE = createSidedCasingBlock("speeding_pipe", "高速管道", GTOCore.id("block/casings/speeding_pipe"));
     BlockEntry<Block> MOLECULAR_COIL = createSidedCasingBlock("molecular_coil", "分子线圈", GTOCore.id("block/casings/molecular_coil"));
+    BlockEntry<Block> SPACE_ELEVATOR_INTERNAL_SUPPORT = createSidedCasingBlock("space_elevator_internal_support", "太空电梯内部支撑结构", GTOCore.id("block/casings/space_elevator_internal_support"));
+    BlockEntry<Block> SPACE_ELEVATOR_MODULE_BASE = createSidedCasingBlock("space_elevator_module_base", "太空电梯模块基座", GTOCore.id("block/casings/space_elevator_module_base"));
     BlockEntry<Block> DYSON_RECEIVER_CASING = createSidedCasingBlock("dyson_receiver_casing", "戴森球能量接收基座机械方块", GTOCore.id("block/casings/dyson_receiver_casing"));
     BlockEntry<Block> DYSON_DEPLOYMENT_MAGNET = createSidedCasingBlock("dyson_deployment_magnet", "戴森球模块部署单元超导磁体", GTOCore.id("block/casings/dyson_deployment_magnet"));
-    BlockEntry<Block> SPEEDING_PIPE = createSidedCasingBlock("speeding_pipe", "高速管道", GTOCore.id("block/casings/speeding_pipe"));
 
     BlockEntry<Block> HERMETIC_CASING_UEV = createHermeticCasing(GTValues.UEV);
     BlockEntry<Block> HERMETIC_CASING_UIV = createHermeticCasing(GTValues.UIV);
@@ -179,7 +179,8 @@ public interface GTOBlocks {
     BlockEntry<ActiveBlock> COMPRESSED_FUSION_COIL_MK2_PROTOTYPE = createActiveCasing("compressed_fusion_coil_mk2_prototype", "压缩聚变线圈方块MK-II原型", "block/variant/compressed_fusion_coil_mk2_prototype");
     BlockEntry<ActiveBlock> COMPRESSED_FUSION_COIL_MK2 = createActiveCasing("compressed_fusion_coil_mk2", "压缩聚变线圈方块MK-II", "block/variant/compressed_fusion_coil_mk2");
 
-    BlockEntry<ActiveBlock> POWER_CORE = createActiveCasing("power_core", "太空电梯动力核心", "block/variant/power_core");
+    BlockEntry<ActiveBlock> SPACE_ELEVATOR_SUPPORT = createActiveCasing("space_elevator_support", "太空电梯支撑结构", "block/variant/space_elevator_support");
+    BlockEntry<ActiveBlock> SPACE_ELEVATOR_POWER_CORE = createActiveCasing("space_elevator_power_core", "太空电梯动力核心", "block/variant/space_elevator_power_core");
     BlockEntry<ActiveBlock> HYPER_CORE = createActiveCasing("hyper_core", "超能核心", "block/variant/hyper_core");
     BlockEntry<ActiveBlock> SUPER_COMPUTATION_COMPONENT = createActiveCasing("super_computation_component", "超级计算机组件", "block/variant/super_computation_component");
     BlockEntry<ActiveBlock> SUPER_COOLER_COMPONENT = createActiveCasing("super_cooler_component", "超级冷却组件", "block/variant/super_cooler_component");
@@ -189,7 +190,6 @@ public interface GTOBlocks {
     BlockEntry<ActiveBlock> FISSION_FUEL_COMPONENT = createActiveCasing("fission_fuel_component", "裂变燃料组件", "block/variant/fission_fuel_component");
     BlockEntry<ActiveBlock> FISSION_COOLER_COMPONENT = createActiveCasing("fission_cooler_component", "裂变冷却组件", "block/variant/fission_cooler_component");
     BlockEntry<ActiveBlock> ADVANCED_ASSEMBLY_LINE_UNIT = createActiveCasing("advanced_assembly_line_unit", "进阶装配线控制外壳", "block/variant/advanced_assembly_line_unit");
-    BlockEntry<ActiveBlock> SPACE_ELEVATOR_SUPPORT = createActiveCasing("space_elevator_support", "太空电梯支撑结构", "block/variant/space_elevator_support");
     BlockEntry<ActiveBlock> MAGIC_CORE = createActiveCasing("magic_core", "魔法核心", "block/variant/magic_core");
 
     BlockEntry<Block> ENERGETIC_PHOTOVOLTAIC_BLOCK = createCustomModelCasingBlock("energetic_photovoltaic_block", "充能光伏方块");
@@ -219,11 +219,11 @@ public interface GTOBlocks {
     BlockEntry<Block> MEDIAL_GRAVITON_FLOW_MODULATOR = createTierCasings("medial_graviton_flow_modulator", "中介引力流调节器", GTOCore.id("block/medial_graviton_flow_modulator"), GRAVITONFLOWMAP, 2);
     BlockEntry<Block> CENTRAL_GRAVITON_FLOW_MODULATOR = createTierCasings("central_graviton_flow_modulator", "中心引力流调节器", GTOCore.id("block/central_graviton_flow_modulator"), GRAVITONFLOWMAP, 3);
 
-    BlockEntry<ActiveBlock> POWER_MODULE = createActiveTierCasing("power_module", "太空电梯动力模块MK1", "block/variant/power_module", SEPMMAP, 1);
-    BlockEntry<ActiveBlock> POWER_MODULE_2 = createActiveTierCasing("power_module_2", "太空电梯动力模块MK2", "block/variant/power_module", SEPMMAP, 2);
-    BlockEntry<ActiveBlock> POWER_MODULE_3 = createActiveTierCasing("power_module_3", "太空电梯动力模块MK3", "block/variant/power_module", SEPMMAP, 3);
-    BlockEntry<ActiveBlock> POWER_MODULE_4 = createActiveTierCasing("power_module_4", "太空电梯动力模块MK4", "block/variant/power_module", SEPMMAP, 4);
-    BlockEntry<ActiveBlock> POWER_MODULE_5 = createActiveTierCasing("power_module_5", "太空电梯动力模块MK5", "block/variant/power_module", SEPMMAP, 5);
+    BlockEntry<ActiveBlock> SPACE_ELEVATOR_POWER_MODULE_1 = createActiveTierCasing("space_elevator_power_module_1", "太空电梯动力模块MK1", "block/variant/space_elevator_power_module_1", SEPMMAP, 1);
+    BlockEntry<ActiveBlock> SPACE_ELEVATOR_POWER_MODULE_2 = createActiveTierCasing("space_elevator_power_module_2", "太空电梯动力模块MK2", "block/variant/space_elevator_power_module_2", SEPMMAP, 2);
+    BlockEntry<ActiveBlock> SPACE_ELEVATOR_POWER_MODULE_3 = createActiveTierCasing("space_elevator_power_module_3", "太空电梯动力模块MK3", "block/variant/space_elevator_power_module_3", SEPMMAP, 3);
+    BlockEntry<ActiveBlock> SPACE_ELEVATOR_POWER_MODULE_4 = createActiveTierCasing("space_elevator_power_module_4", "太空电梯动力模块MK4", "block/variant/space_elevator_power_module_4", SEPMMAP, 4);
+    BlockEntry<ActiveBlock> SPACE_ELEVATOR_POWER_MODULE_5 = createActiveTierCasing("space_elevator_power_module_5", "太空电梯动力模块MK5", "block/variant/space_elevator_power_module_5", SEPMMAP, 5);
 
     BlockEntry<Block> BOROSILICATE_GLASS = createTierGlassCasings("borosilicate_glass", "硼硅玻璃", GTOCore.id("block/casings/borosilicate_glass"), GTValues.HV);
     BlockEntry<Block> TITANIUM_BOROSILICATE_GLASS = createTierGlassCasings("titanium_borosilicate_glass", "钛强化硼玻璃", GTOCore.id("block/casings/titanium_borosilicate_glass"), GTValues.EV);
@@ -266,10 +266,9 @@ public interface GTOBlocks {
     BlockEntry<Block> DIMENSIONAL_BRIDGE_CASING = createCasingBlock("dimensional_bridge_casing", "维度桥接方块", GTOCore.id("block/dimensional_bridge_casing"));
     BlockEntry<Block> DIMENSIONAL_STABILITY_CASING = createCasingBlock("dimensional_stability_casing", "维度稳定方块", GTOCore.id("block/dimensional_stability_casing"));
     BlockEntry<Block> MACHINE_CASING_CIRCUIT_ASSEMBLY_LINE = createCasingBlock("machine_casing_circuit_assembly_line", "电路装配线控制外壳", GTOCore.id("block/machine_casing_circuit_assembly_line"));
-    BlockEntry<Block> HIGH_STRENGTH_CONCRETE = createCasingBlock("high_strength_concrete", "高强度混凝土", GTOCore.id("block/casings/module_base/side"));
+    BlockEntry<Block> HIGH_STRENGTH_CONCRETE = createCasingBlock("high_strength_concrete", "高强度混凝土", GTOCore.id("block/casings/space_elevator_module_base/side"));
     BlockEntry<Block> AGGREGATIONE_CORE = createCasingBlock("aggregatione_core", "聚合核心", GTOCore.id("block/aggregatione_core"));
     BlockEntry<Block> ACCELERATED_PIPELINE = createCasingBlock("accelerated_pipeline", "加速管道", GTOCore.id("block/accelerated_pipeline"));
-    BlockEntry<Block> MODULE_CONNECTOR = createCasingBlock("module_connector", "太空电梯模块连接器", GTOCore.id("block/module_connector"));
     BlockEntry<Block> DIMENSION_CREATION_CASING = createCasingBlock("dimension_creation_casing", "维度创造机械方块", GTOCore.id("block/dimension_creation_casing"));
     BlockEntry<Block> MACHINE_CASING_GRINDING_HEAD = createCasingBlock("machine_casing_grinding_head", "坚固钻头", GTOCore.id("block/machine_casing_grinding_head"));
     BlockEntry<Block> CREATE_HPCA_COMPONENT = createCasingBlock("create_hpca_component", "创造计算组件", GTOCore.id("block/create_hpca_component"));
@@ -277,17 +276,17 @@ public interface GTOBlocks {
     BlockEntry<Block> SPACETIME_ASSEMBLY_LINE_CASING = createCasingBlock("spacetime_assembly_line_casing", "超时空装配外壳", GTOCore.id("block/spacetime_assembly_line_casing"));
     BlockEntry<Block> HOLLOW_CASING = createCasingBlock("hollow_casing", "中空机械方块", GTOCore.id("block/hollow_casing"));
     BlockEntry<Block> CONTAINMENT_FIELD_GENERATOR = createCasingBlock("containment_field_generator", "遏制场发生器", GTOCore.id("block/containment_field_generator"));
-    BlockEntry<Block> DYSON_CONTROL_CASING = createCasingBlock("dyson_control_casing", "戴森球控制中心基座机械方块", GTOCore.id("block/space_elevator_mechanical_casing"));
-    BlockEntry<Block> DYSON_CONTROL_TOROID = createCasingBlock("dyson_control_toroid", "戴森球控制中心环形机械方块", GTOCore.id("block/dyson_control_toroid"));
-    BlockEntry<Block> DYSON_DEPLOYMENT_CASING = createCasingBlock("dyson_deployment_casing", "戴森球模块部署单元基座机械方块", GTOCore.id("block/dyson_deployment_casing"));
-    BlockEntry<Block> DYSON_DEPLOYMENT_CORE = createCasingBlock("dyson_deployment_core", "戴森球模块部署单元核心", GTOCore.id("block/dyson_deployment_core"));
     BlockEntry<Block> STEAM_ASSEMBLY_BLOCK = createCasingBlock("steam_assembly_block", "蒸汽装配方块", GTOCore.id("block/steam_assembly_block"));
     BlockEntry<Block> RESTRAINT_DEVICE = createCasingBlock("restraint_device", "力场约束装置", GTOCore.id("block/restraint_device"));
     BlockEntry<Block> FLOTATION_CELL = createCasingBlock("flotation_cell", "浮选矿池单元", GTOCore.id("block/flotation_cell"));
-
-    BlockEntry<Block> SPACE_ELEVATOR_MECHANICAL_CASING = createCasingBlock("space_elevator_mechanical_casing", "太空电梯机械方块", GTOCore.id("block/space_elevator_mechanical_casing"));
     BlockEntry<Block> MANIPULATOR = createCasingBlock("manipulator", "量子操纵者机械方块", GTOCore.id("block/manipulator"));
+    BlockEntry<Block> MODULE_CONNECTOR = createCasingBlock("module_connector", "太空电梯模块连接器", GTOCore.id("block/module_connector"));
 
+    BlockEntry<Block> SPACE_ELEVATOR_MECHANICAL_CASING = createCasingBlock("space_elevator_mechanical_casing", "太空电梯机械方块", GTOCore.id("block/casings/space_elevator_mechanical_casing"));
+    BlockEntry<Block> DYSON_CONTROL_CASING = createCasingBlock("dyson_control_casing", "戴森球控制中心基座机械方块", GTOCore.id("block/casings/dyson_control_casing"));
+    BlockEntry<Block> DYSON_CONTROL_TOROID = createCasingBlock("dyson_control_toroid", "戴森球控制中心环形机械方块", GTOCore.id("block/casings/dyson_control_toroid"));
+    BlockEntry<Block> DYSON_DEPLOYMENT_CORE = createCasingBlock("dyson_deployment_core", "戴森球模块部署单元核心", GTOCore.id("block/casings/dyson_deployment_core"));
+    BlockEntry<Block> DYSON_DEPLOYMENT_CASING = createCasingBlock("dyson_deployment_casing", "戴森球模块部署单元基座机械方块", GTOCore.id("block/casings/dyson_deployment_casing"));
     BlockEntry<Block> CREATE_CASING = createCasingBlock("create_casing", "创造机械方块", GTOCore.id("block/casings/create_casing"));
     BlockEntry<Block> SUPERCRITICAL_TURBINE_CASING = createCasingBlock("supercritical_turbine_casing", "超临界涡轮机械方块", GTOCore.id("block/casings/supercritical_turbine_casing"));
     BlockEntry<Block> BLAZE_CASING = createCasingBlock("blaze_casing", "烈焰机械方块", GTOCore.id("block/casings/blaze_casing"));
@@ -330,7 +329,6 @@ public interface GTOBlocks {
 
     BlockEntry<Block> STELLAR_ENERGY_SIPHON_CASING = createCasingBlock("stellar_energy_siphon_casing", "恒星能量汲取机械方块", GTOCore.id("block/stellar_energy_siphon_casing"));
     BlockEntry<Block> TRANSCENDENTALLY_AMPLIFIED_MAGNETIC_CONFINEMENT_CASING = createCasingBlock("transcendentally_amplified_magnetic_confinement_casing", "超强放大磁约束机械方块", GTOCore.id("block/transcendentally_amplified_magnetic_confinement_casing"));
-    BlockEntry<Block> ANTIMATTER_ANNIHILATION_MATRIX = createCasingBlock("antimatter_annihilation_matrix", "反物质湮灭矩阵", GTOCore.id("block/antimatter_annihilation_matrix"));
     BlockEntry<Block> COMPRESSOR_PIPE_CASING = createCasingBlock("compressor_pipe_casing", "压缩管道机械方块", GTOCore.id("block/compressor_pipe_casing"));
     BlockEntry<Block> EXTREME_DENSITY_CASING = createCasingBlock("extreme_density_casing", "极密机械方块", GTOCore.id("block/extreme_density_casing"));
     BlockEntry<Block> FLOCCULATION_CASING = createCasingBlock("flocculation_casing", "光滑无菌絮凝机械方块", GTOCore.id("block/flocculation_casing"));
@@ -340,7 +338,6 @@ public interface GTOBlocks {
     BlockEntry<Block> NEUTRONIUM_CASING = createCasingBlock("neutronium_casing", "中子素机械方块", GTOCore.id("block/neutronium_casing"));
     BlockEntry<Block> OZONE_CASING = createCasingBlock("ozone_casing", "臭氧机械方块", GTOCore.id("block/ozone_casing"));
     BlockEntry<Block> PLASMA_HEATER_CASING = createCasingBlock("plasma_heater_casing", "等离子加热机械方块", GTOCore.id("block/plasma_heater_casing"));
-    BlockEntry<Block> PROTOMATTER_ACTIVATION_COIL = createCasingBlock("protomatter_activation_coil", "元始物质活化线圈", GTOCore.id("block/protomatter_activation_coil"));
     BlockEntry<Block> RADIATION_ABSORBENT_CASING = createCasingBlock("radiation_absorbent_casing", "辐射吸收机械方块", GTOCore.id("block/radiation_absorbent_casing"));
     BlockEntry<Block> REINFORCED_WOOD_CASING = createSidedCasingBlock("reinforced_wood_casing", "增强木制机械方块", GTOCore.id("block/casings/reinforced_wood_casing"));
     BlockEntry<Block> SHIELDED_ACCELERATOR = createCasingBlock("shielded_accelerator", "屏蔽加速器机械方块", GTOCore.id("block/shielded_accelerator"));

@@ -31,7 +31,7 @@ public final class SpaceElevatorRenderer extends WorkableCasingMachineRenderer {
     private static final ResourceLocation CLIMBER_MODEL = GTOCore.id("obj/climber");
 
     public SpaceElevatorRenderer() {
-        super(GTOCore.id("block/space_elevator_mechanical_casing"), GTCEu.id("block/multiblock/data_bank"));
+        super(GTOCore.id("block/casings/space_elevator_mechanical_casing"), GTCEu.id("block/multiblock/data_bank"));
     }
 
     @Override

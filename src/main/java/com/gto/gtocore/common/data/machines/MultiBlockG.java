@@ -9,6 +9,7 @@ import com.gto.gtocore.client.renderer.machine.ArrayMachineRenderer;
 import com.gto.gtocore.common.data.GTOBlocks;
 import com.gto.gtocore.common.data.GTOMachines;
 import com.gto.gtocore.common.data.GTORecipeTypes;
+import com.gto.gtocore.common.machine.multiblock.electric.ChiselMachine;
 import com.gto.gtocore.common.machine.multiblock.electric.adventure.BossSummonerMachine;
 import com.gto.gtocore.common.machine.multiblock.electric.processing.ProcessingArrayMachine;
 import com.gto.gtocore.common.machine.multiblock.electric.viod.DrillingControlCenterMachine;
@@ -36,6 +37,27 @@ import static com.gto.gtocore.utils.register.MachineRegisterUtils.registerTiered
 public interface MultiBlockG {
 
     static void init() {}
+
+    MultiblockMachineDefinition AUTOMATIC_CHISEL = multiblock("automatic_chisel", "自动凿子", ChiselMachine::new)
+            .allRotation()
+            .tooltipsText("Determine the output based on the sum of all circuits", "根据全部电路之和决定输出")
+            .tooltipsText("For each increase of 1 tier in the voltage grade above LV, the maximum number of parallel is multiplied by 4.", "电压等级每高出LV等级1级，最大并行数x4")
+            .recipe(DUMMY_RECIPES)
+            .block(GTBlocks.CASING_STEEL_SOLID)
+            .pattern(definition -> FactoryBlockPattern.start()
+                    .aisle("aaa", "aaa", "aaa")
+                    .aisle("aaa", "aca", "aaa")
+                    .aisle("aaa", "aia", "aaa")
+                    .where('a', blocks(GTBlocks.CASING_STEEL_SOLID.get())
+                            .or(abilities(IMPORT_ITEMS).setMaxGlobalLimited(4))
+                            .or(abilities(EXPORT_ITEMS).setMaxGlobalLimited(1))
+                            .or(abilities(INPUT_ENERGY).setMaxGlobalLimited(2))
+                            .or(abilities(MAINTENANCE).setExactLimit(1)))
+                    .where('i', controller(blocks(definition.get())))
+                    .where('c', air())
+                    .build())
+            .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_solid_steel"), GTCEu.id("block/multiblock/fusion_reactor"))
+            .register();
 
     MultiblockMachineDefinition BOSS_SUMMONER = multiblock("boss_summoner", "BOSS召唤器", BossSummonerMachine::new)
             .nonYAxisRotation()
@@ -72,7 +94,7 @@ public interface MultiBlockG {
                     .aisle("AABBBAA", " CBBBC ", " CDDDC ", "  DDD  ", "  DDD  ", "  DDD  ", "  DDD  ", "  BBB  ", "  BBB  ", "       ")
                     .aisle(" AAAAA ", "  AAA  ", "       ", "       ", "       ", "       ", "       ", "       ", "       ", "       ")
                     .where('A', blocks(GTBlocks.CASING_STEEL_SOLID.get())
-                            .or(abilities(INPUT_ENERGY).setExactLimit(2))
+                            .or(abilities(INPUT_ENERGY).setMaxGlobalLimited(2))
                             .or(abilities(MAINTENANCE).setExactLimit(1)))
                     .where('B', blocks(GTBlocks.CASING_TUNGSTENSTEEL_ROBUST.get()))
                     .where('C', blocks(GTBlocks.CASING_TITANIUM_STABLE.get()))
