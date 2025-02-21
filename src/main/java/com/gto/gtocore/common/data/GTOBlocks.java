@@ -319,7 +319,7 @@ public interface GTOBlocks {
     BlockEntry<Block> PRESSURE_CONTAINMENT_CASING = createCasingBlock("pressure_containment_casing", "压力容器机械方块", GTOCore.id("block/casings/pressure_containment_casing"));
     BlockEntry<Block> AWAKENED_DRACONIUM_CASING = createCasingBlock("awakened_draconium_casing", "觉醒龙外壳", GTOCore.id("block/casings/awakened_draconium_casing"));
     BlockEntry<Block> MAGTECH_CASING = createCasingBlock("magtech_casing", "磁力机械方块", GTOCore.id("block/casings/magtech_casing"));
-    BlockEntry<Block> STERILE_CASING = createCasingBlock("sterile_casing", "黄铜加固木制机械方块", GTOCore.id("block/casings/sterile_casing"));
+    BlockEntry<Block> BRASS_REINFORCED_WOODEN_CASING = createCasingBlock("brass_reinforced_wooden_casing", "黄铜加固木制机械方块", GTOCore.id("block/casings/brass_reinforced_wooden_casing"));
     BlockEntry<Block> COMPRESSOR_CONTROLLER_CASING = createCasingBlock("compressor_controller_casing", "压缩控制机械方块", GTOCore.id("block/casings/compressor_controller_casing"));
     BlockEntry<Block> QUARK_EXCLUSION_CASING = createCasingBlock("quark_exclusion_casing", "夸克排斥机械方块", GTOCore.id("block/casings/quark_exclusion_casing"));
     BlockEntry<Block> NAQUADAH_REINFORCED_PLANT_CASING = createCasingBlock("naquadah_reinforced_plant_casing", "硅岩增强处理机械方块", GTOCore.id("block/casings/naquadah_reinforced_plant_casing"));

@@ -57,7 +57,7 @@ dependencies {
 
     modImplementation("curse.maven:EnderIO-64578:5780352")
 
-    modImplementation("curse.maven:curvy-pipes-1151126:6192998")
+    modCompileOnly("curse.maven:curvy-pipes-1151126:6192998")
 
     modCompileOnly("curse.maven:libx-412525:5207625")
     modCompileOnly("curse.maven:mythicbotany-400058:5101899")
@@ -73,6 +73,8 @@ dependencies {
     modCompileOnly("curse.maven:just-enough-resources-jer-240630:5057220")
 
     modCompileOnly("curse.maven:chisel-reborn-551763:5478429")
+
+    modCompileOnly("curse.maven:biomes-o-plenty-220318:6028852")
 
     modRuntimeOnly("curse.maven:cloth-config-348521:5729105")
 

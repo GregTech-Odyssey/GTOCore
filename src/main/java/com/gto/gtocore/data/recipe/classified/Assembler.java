@@ -458,7 +458,7 @@ interface Assembler {
                 .inputItems(TagPrefix.screw, GTMaterials.Brass, 8)
                 .inputItems(TagPrefix.plate, GTMaterials.Brass, 2)
                 .circuitMeta(6)
-                .outputItems(GTOBlocks.STERILE_CASING.asStack())
+                .outputItems(GTOBlocks.BRASS_REINFORCED_WOODEN_CASING.asStack())
                 .EUt(16)
                 .duration(50)
                 .save(provider);

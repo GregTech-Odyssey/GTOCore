@@ -66,7 +66,7 @@ public final class GenerateDisassembly {
             GTORecipes.GT_RECIPE_MAP.remove(id.getNamespace() + ":" + DISASSEMBLY_RECIPES.registryName.getPath() + "/" + id.getPath());
         } else {
             GTRecipeBuilder builder = DISASSEMBLY_RECIPES.recipeBuilder(id)
-                    .inputItems(output)
+                    .inputItems(SizedIngredient.copy(output))
                     .duration(recipeBuilder.duration)
                     .EUt(recipeBuilder.EUt());
             boolean hasOutput = false;
@@ -84,7 +84,7 @@ public final class GenerateDisassembly {
                                 if (stacks.size() == 1) {
                                     for (ItemStack item : stacks) {
                                         if (!item.isEmpty() && content.chance == ChanceLogic.getMaxChancedValue() && !item.hasTag()) {
-                                            builder.output(ItemRecipeCapability.CAP, input);
+                                            builder.output(ItemRecipeCapability.CAP, SizedIngredient.copy(input));
                                             hasOutput = true;
                                             break a;
                                         }
@@ -99,7 +99,7 @@ public final class GenerateDisassembly {
                 for (Content content : fluidList) {
                     FluidIngredient fluid = FluidRecipeCapability.CAP.of(content.getContent());
                     if (content.chance == ChanceLogic.getMaxChancedValue() && !fluid.isEmpty()) {
-                        builder.outputFluids(fluid);
+                        builder.outputFluids(fluid.copy());
                         hasOutput = true;
                     }
                 }

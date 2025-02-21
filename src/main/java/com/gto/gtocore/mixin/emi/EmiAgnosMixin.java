@@ -29,7 +29,7 @@ public class EmiAgnosMixin {
         containers.add(new EmiPluginContainer(new EMIPlugin(), LDLib.MOD_ID));
         containers.add(new EmiPluginContainer(new GTEMIPlugin(), GTCEu.MOD_ID));
         containers.add(new EmiPluginContainer(new BotaniaEmiPlugin(), BotaniaAPI.MODID));
-        containers.add(new EmiPluginContainer(new cyb0124.curvy_pipes.compat.EMIPlugin(), "curvy_pipes"));
+        GTEMIPlugin.add(containers);
         cir.setReturnValue(containers);
     }
 }

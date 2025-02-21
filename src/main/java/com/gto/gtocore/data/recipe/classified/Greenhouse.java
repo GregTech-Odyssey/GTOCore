@@ -1,12 +1,8 @@
 package com.gto.gtocore.data.recipe.classified;
 
 import com.gto.gtocore.GTOCore;
-import com.gto.gtocore.common.data.GTOBlocks;
-import com.gto.gtocore.common.data.GTOMaterials;
 import com.gto.gtocore.common.data.GTORecipeTypes;
 
-import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
-import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
@@ -20,16 +16,6 @@ import java.util.function.Consumer;
 interface Greenhouse {
 
     static void init(Consumer<FinishedRecipe> provider) {
-        GTORecipeTypes.GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("barnarda_c_log_fertiliser"))
-                .notConsumable(GTOBlocks.BARNARDA_C_LEAVES.asStack(64))
-                .inputItems(GTItems.FERTILIZER.asStack(16))
-                .circuitMeta(2)
-                .inputFluids(GTOMaterials.UnknowWater.getFluid(1000))
-                .outputItems(GTOBlocks.BARNARDA_C_LOG.asStack(32))
-                .EUt(60)
-                .duration(200)
-                .save(provider);
-
         GTORecipeTypes.GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("azure_bluet"))
                 .notConsumable(new ItemStack(Blocks.AZURE_BLUET.asItem()))
                 .circuitMeta(1)
@@ -136,18 +122,6 @@ interface Greenhouse {
                 .duration(200)
                 .save(provider);
 
-        GTORecipeTypes.GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("dark_oak_sapling_fertiliser"))
-                .notConsumable(new ItemStack(Blocks.DARK_OAK_SAPLING.asItem()))
-                .inputItems(GTItems.FERTILIZER.asStack(4))
-                .circuitMeta(2)
-                .inputFluids(GTMaterials.Water.getFluid(1000))
-                .outputItems(new ItemStack(Blocks.DARK_OAK_LOG.asItem(), 64))
-                .outputItems(new ItemStack(Blocks.DARK_OAK_LOG.asItem(), 64))
-                .outputItems(new ItemStack(Blocks.DARK_OAK_SAPLING.asItem(), 12))
-                .EUt(60)
-                .duration(300)
-                .save(provider);
-
         GTORecipeTypes.GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("sea_pickle"))
                 .notConsumable(new ItemStack(Blocks.SEA_PICKLE.asItem()))
                 .circuitMeta(1)
@@ -162,16 +136,6 @@ interface Greenhouse {
                 .circuitMeta(1)
                 .inputFluids(GTMaterials.Water.getFluid(1000))
                 .outputItems(new ItemStack(Blocks.PINK_PETALS.asItem(), 8))
-                .EUt(30)
-                .duration(600)
-                .save(provider);
-
-        GTORecipeTypes.GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("barnarda_c_log"))
-                .notConsumable(GTOBlocks.BARNARDA_C_LEAVES.asStack(64))
-                .inputItems(GTItems.FERTILIZER.asStack(4))
-                .circuitMeta(1)
-                .inputFluids(GTOMaterials.UnknowWater.getFluid(1000))
-                .outputItems(GTOBlocks.BARNARDA_C_LOG.asStack(16))
                 .EUt(30)
                 .duration(600)
                 .save(provider);
@@ -219,18 +183,6 @@ interface Greenhouse {
                 .outputItems(new ItemStack(Blocks.DANDELION.asItem(), 8))
                 .EUt(30)
                 .duration(600)
-                .save(provider);
-
-        GTORecipeTypes.GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("jungle_sapling_fertiliser"))
-                .notConsumable(new ItemStack(Blocks.JUNGLE_SAPLING.asItem()))
-                .inputItems(GTItems.FERTILIZER.asStack(4))
-                .circuitMeta(2)
-                .inputFluids(GTMaterials.Water.getFluid(1000))
-                .outputItems(new ItemStack(Blocks.JUNGLE_LOG.asItem(), 64))
-                .outputItems(new ItemStack(Blocks.JUNGLE_LOG.asItem(), 64))
-                .outputItems(new ItemStack(Blocks.JUNGLE_SAPLING.asItem(), 12))
-                .EUt(60)
-                .duration(300)
                 .save(provider);
 
         GTORecipeTypes.GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("torchflower"))
@@ -319,16 +271,6 @@ interface Greenhouse {
                 .duration(600)
                 .save(provider);
 
-        GTORecipeTypes.GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("spruce_sapling"))
-                .notConsumable(new ItemStack(Blocks.SPRUCE_SAPLING.asItem()))
-                .circuitMeta(1)
-                .inputFluids(GTMaterials.Water.getFluid(1000))
-                .outputItems(new ItemStack(Blocks.SPRUCE_LOG.asItem(), 64))
-                .outputItems(new ItemStack(Blocks.SPRUCE_SAPLING.asItem(), 6))
-                .EUt(30)
-                .duration(900)
-                .save(provider);
-
         GTORecipeTypes.GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("lily_of_the_valley"))
                 .notConsumable(new ItemStack(Blocks.LILY_OF_THE_VALLEY.asItem()))
                 .circuitMeta(1)
@@ -387,16 +329,6 @@ interface Greenhouse {
                 .duration(200)
                 .save(provider);
 
-        GTORecipeTypes.GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("mangrove_propagule"))
-                .notConsumable(new ItemStack(Blocks.MANGROVE_PROPAGULE.asItem()))
-                .circuitMeta(1)
-                .inputFluids(GTMaterials.Water.getFluid(1000))
-                .outputItems(new ItemStack(Blocks.MANGROVE_LOG.asItem(), 64))
-                .outputItems(new ItemStack(Blocks.MANGROVE_PROPAGULE.asItem(), 6))
-                .EUt(30)
-                .duration(900)
-                .save(provider);
-
         GTORecipeTypes.GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("pumpkin_seeds_fertilizer"))
                 .notConsumable(new ItemStack(Blocks.PUMPKIN_STEM.asItem()))
                 .inputItems(GTItems.FERTILIZER.asStack(4))
@@ -435,17 +367,6 @@ interface Greenhouse {
                 .duration(600)
                 .save(provider);
 
-        GTORecipeTypes.GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("rubber_wood"))
-                .notConsumable(GTBlocks.RUBBER_SAPLING.asStack())
-                .circuitMeta(1)
-                .inputFluids(GTMaterials.Water.getFluid(1000))
-                .outputItems(TagPrefix.log, GTMaterials.Wood, 16)
-                .outputItems(GTBlocks.RUBBER_SAPLING.asStack(3))
-                .outputItems(GTItems.STICKY_RESIN.asStack(4))
-                .EUt(480)
-                .duration(1200)
-                .save(provider);
-
         GTORecipeTypes.GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("cocoa_beans_fertilizer"))
                 .notConsumable(new ItemStack(Blocks.COCOA.asItem()))
                 .inputItems(GTItems.FERTILIZER.asStack(4))
@@ -463,18 +384,6 @@ interface Greenhouse {
                 .outputItems(new ItemStack(Blocks.SUGAR_CANE.asItem(), 12))
                 .EUt(30)
                 .duration(600)
-                .save(provider);
-
-        GTORecipeTypes.GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("rubber_wood_fertiliser"))
-                .notConsumable(GTBlocks.RUBBER_SAPLING.asStack())
-                .inputItems(GTItems.FERTILIZER.asStack(4))
-                .circuitMeta(2)
-                .inputFluids(GTMaterials.Water.getFluid(1000))
-                .outputItems(TagPrefix.log, GTMaterials.Wood, 32)
-                .outputItems(GTBlocks.RUBBER_SAPLING.asStack(6))
-                .outputItems(GTItems.STICKY_RESIN.asStack(8))
-                .EUt(960)
-                .duration(400)
                 .save(provider);
 
         GTORecipeTypes.GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("allium_fertilizer"))
@@ -504,18 +413,6 @@ interface Greenhouse {
                 .outputItems(new ItemStack(Blocks.BROWN_MUSHROOM.asItem(), 24))
                 .EUt(60)
                 .duration(200)
-                .save(provider);
-
-        GTORecipeTypes.GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("oak_sapling_fertiliser"))
-                .notConsumable(new ItemStack(Blocks.OAK_SAPLING.asItem()))
-                .inputItems(GTItems.FERTILIZER.asStack(4))
-                .circuitMeta(2)
-                .inputFluids(GTMaterials.Water.getFluid(1000))
-                .outputItems(new ItemStack(Blocks.OAK_LOG.asItem(), 64))
-                .outputItems(new ItemStack(Blocks.OAK_LOG.asItem(), 64))
-                .outputItems(new ItemStack(Blocks.OAK_SAPLING.asItem(), 12))
-                .EUt(60)
-                .duration(300)
                 .save(provider);
 
         GTORecipeTypes.GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("sunflower"))
@@ -555,16 +452,6 @@ interface Greenhouse {
                 .duration(600)
                 .save(provider);
 
-        GTORecipeTypes.GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("birch_sapling"))
-                .notConsumable(new ItemStack(Blocks.BIRCH_SAPLING.asItem()))
-                .circuitMeta(1)
-                .inputFluids(GTMaterials.Water.getFluid(1000))
-                .outputItems(new ItemStack(Blocks.BIRCH_LOG.asItem(), 64))
-                .outputItems(new ItemStack(Blocks.BIRCH_SAPLING.asItem(), 6))
-                .EUt(30)
-                .duration(900)
-                .save(provider);
-
         GTORecipeTypes.GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("peony_fertilizer"))
                 .notConsumable(new ItemStack(Blocks.PEONY.asItem()))
                 .inputItems(GTItems.FERTILIZER.asStack(4))
@@ -573,18 +460,6 @@ interface Greenhouse {
                 .outputItems(new ItemStack(Blocks.PEONY.asItem(), 16))
                 .EUt(60)
                 .duration(200)
-                .save(provider);
-
-        GTORecipeTypes.GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("acacia_sapling_fertiliser"))
-                .notConsumable(new ItemStack(Blocks.ACACIA_SAPLING.asItem()))
-                .inputItems(GTItems.FERTILIZER.asStack(4))
-                .circuitMeta(2)
-                .inputFluids(GTMaterials.Water.getFluid(1000))
-                .outputItems(new ItemStack(Blocks.ACACIA_LOG.asItem(), 64))
-                .outputItems(new ItemStack(Blocks.ACACIA_LOG.asItem(), 64))
-                .outputItems(new ItemStack(Blocks.ACACIA_SAPLING.asItem(), 12))
-                .EUt(60)
-                .duration(300)
                 .save(provider);
 
         GTORecipeTypes.GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("dandelion_fertilizer"))
@@ -614,16 +489,6 @@ interface Greenhouse {
                 .outputItems(new ItemStack(Blocks.OXEYE_DAISY.asItem(), 8))
                 .EUt(30)
                 .duration(600)
-                .save(provider);
-
-        GTORecipeTypes.GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("dark_oak_sapling"))
-                .notConsumable(new ItemStack(Blocks.DARK_OAK_SAPLING.asItem()))
-                .circuitMeta(1)
-                .inputFluids(GTMaterials.Water.getFluid(1000))
-                .outputItems(new ItemStack(Blocks.DARK_OAK_LOG.asItem(), 64))
-                .outputItems(new ItemStack(Blocks.DARK_OAK_SAPLING.asItem(), 6))
-                .EUt(30)
-                .duration(900)
                 .save(provider);
 
         GTORecipeTypes.GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("red_mushroom"))
@@ -661,26 +526,6 @@ interface Greenhouse {
                 .outputItems(new ItemStack(Blocks.CAVE_VINES.asItem(), 16))
                 .EUt(60)
                 .duration(200)
-                .save(provider);
-
-        GTORecipeTypes.GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("cherry_sapling"))
-                .notConsumable(new ItemStack(Blocks.CHERRY_SAPLING.asItem()))
-                .circuitMeta(1)
-                .inputFluids(GTMaterials.Water.getFluid(1000))
-                .outputItems(new ItemStack(Blocks.CHERRY_LOG.asItem(), 64))
-                .outputItems(new ItemStack(Blocks.CHERRY_SAPLING.asItem(), 6))
-                .EUt(30)
-                .duration(900)
-                .save(provider);
-
-        GTORecipeTypes.GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("jungle_sapling"))
-                .notConsumable(new ItemStack(Blocks.JUNGLE_SAPLING.asItem()))
-                .circuitMeta(1)
-                .inputFluids(GTMaterials.Water.getFluid(1000))
-                .outputItems(new ItemStack(Blocks.JUNGLE_LOG.asItem(), 64))
-                .outputItems(new ItemStack(Blocks.JUNGLE_SAPLING.asItem(), 6))
-                .EUt(30)
-                .duration(900)
                 .save(provider);
 
         GTORecipeTypes.GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("tall_grass_fertilizer"))
@@ -768,16 +613,6 @@ interface Greenhouse {
                 .duration(200)
                 .save(provider);
 
-        GTORecipeTypes.GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("oak_sapling"))
-                .notConsumable(new ItemStack(Blocks.OAK_SAPLING.asItem()))
-                .circuitMeta(1)
-                .inputFluids(GTMaterials.Water.getFluid(1000))
-                .outputItems(new ItemStack(Blocks.OAK_LOG.asItem(), 64))
-                .outputItems(new ItemStack(Blocks.OAK_SAPLING.asItem(), 6))
-                .EUt(30)
-                .duration(900)
-                .save(provider);
-
         GTORecipeTypes.GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("rose_bush"))
                 .notConsumable(new ItemStack(Blocks.ROSE_BUSH.asItem()))
                 .circuitMeta(1)
@@ -834,18 +669,6 @@ interface Greenhouse {
                 .duration(600)
                 .save(provider);
 
-        GTORecipeTypes.GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("spruce_sapling_fertiliser"))
-                .notConsumable(new ItemStack(Blocks.SPRUCE_SAPLING.asItem()))
-                .inputItems(GTItems.FERTILIZER.asStack(4))
-                .circuitMeta(2)
-                .inputFluids(GTMaterials.Water.getFluid(1000))
-                .outputItems(new ItemStack(Blocks.SPRUCE_LOG.asItem(), 64))
-                .outputItems(new ItemStack(Blocks.SPRUCE_LOG.asItem(), 64))
-                .outputItems(new ItemStack(Blocks.SPRUCE_SAPLING.asItem(), 12))
-                .EUt(60)
-                .duration(300)
-                .save(provider);
-
         GTORecipeTypes.GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("poppy_fertilizer"))
                 .notConsumable(new ItemStack(Blocks.POPPY.asItem()))
                 .inputItems(GTItems.FERTILIZER.asStack(4))
@@ -854,18 +677,6 @@ interface Greenhouse {
                 .outputItems(new ItemStack(Blocks.POPPY.asItem(), 16))
                 .EUt(60)
                 .duration(200)
-                .save(provider);
-
-        GTORecipeTypes.GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("birch_sapling_fertiliser"))
-                .notConsumable(new ItemStack(Blocks.BIRCH_SAPLING.asItem()))
-                .inputItems(GTItems.FERTILIZER.asStack(4))
-                .circuitMeta(2)
-                .inputFluids(GTMaterials.Water.getFluid(1000))
-                .outputItems(new ItemStack(Blocks.BIRCH_LOG.asItem(), 64))
-                .outputItems(new ItemStack(Blocks.BIRCH_LOG.asItem(), 64))
-                .outputItems(new ItemStack(Blocks.BIRCH_SAPLING.asItem(), 12))
-                .EUt(60)
-                .duration(300)
                 .save(provider);
 
         GTORecipeTypes.GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("pitcher_plant_fertilizer"))
@@ -895,18 +706,6 @@ interface Greenhouse {
                 .outputItems(new ItemStack(Blocks.WHITE_TULIP.asItem(), 16))
                 .EUt(60)
                 .duration(200)
-                .save(provider);
-
-        GTORecipeTypes.GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("cherry_sapling_fertiliser"))
-                .notConsumable(new ItemStack(Blocks.CHERRY_SAPLING.asItem()))
-                .inputItems(GTItems.FERTILIZER.asStack(4))
-                .circuitMeta(2)
-                .inputFluids(GTMaterials.Water.getFluid(1000))
-                .outputItems(new ItemStack(Blocks.CHERRY_LOG.asItem(), 64))
-                .outputItems(new ItemStack(Blocks.CHERRY_LOG.asItem(), 64))
-                .outputItems(new ItemStack(Blocks.CHERRY_SAPLING.asItem(), 12))
-                .EUt(60)
-                .duration(300)
                 .save(provider);
 
         GTORecipeTypes.GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("bamboo_fertilizer"))
@@ -966,18 +765,6 @@ interface Greenhouse {
                 .duration(600)
                 .save(provider);
 
-        GTORecipeTypes.GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("mangrove_propagule_fertiliser"))
-                .notConsumable(new ItemStack(Blocks.MANGROVE_PROPAGULE.asItem()))
-                .inputItems(GTItems.FERTILIZER.asStack(4))
-                .circuitMeta(2)
-                .inputFluids(GTMaterials.Water.getFluid(1000))
-                .outputItems(new ItemStack(Blocks.MANGROVE_LOG.asItem(), 64))
-                .outputItems(new ItemStack(Blocks.MANGROVE_LOG.asItem(), 64))
-                .outputItems(new ItemStack(Blocks.MANGROVE_PROPAGULE.asItem(), 12))
-                .EUt(60)
-                .duration(300)
-                .save(provider);
-
         GTORecipeTypes.GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("fern_fertilizer"))
                 .notConsumable(new ItemStack(Blocks.FERN.asItem()))
                 .inputItems(GTItems.FERTILIZER.asStack(4))
@@ -995,16 +782,6 @@ interface Greenhouse {
                 .outputItems(new ItemStack(Blocks.CACTUS.asItem(), 12))
                 .EUt(30)
                 .duration(600)
-                .save(provider);
-
-        GTORecipeTypes.GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("acacia_sapling"))
-                .notConsumable(new ItemStack(Blocks.ACACIA_SAPLING.asItem()))
-                .circuitMeta(1)
-                .inputFluids(GTMaterials.Water.getFluid(1000))
-                .outputItems(new ItemStack(Blocks.ACACIA_LOG.asItem(), 64))
-                .outputItems(new ItemStack(Blocks.ACACIA_SAPLING.asItem(), 6))
-                .EUt(30)
-                .duration(900)
                 .save(provider);
 
         GTORecipeTypes.GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("lily_of_the_valley_fertilizer"))

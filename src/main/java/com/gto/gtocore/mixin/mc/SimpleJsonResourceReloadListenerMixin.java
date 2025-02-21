@@ -39,7 +39,7 @@ public class SimpleJsonResourceReloadListenerMixin {
                 return;
             case "recipes": {
                 if (GTKubeJSPlugin.cache) return;
-                filters = new ObjectOpenHashSet<>(1500);
+                filters = new ObjectOpenHashSet<>(2048);
                 RecipeRemoval.init(filters::add);
                 GTORecipes.removal(filters);
                 break;

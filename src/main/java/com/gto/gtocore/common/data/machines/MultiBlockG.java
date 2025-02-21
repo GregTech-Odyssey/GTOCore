@@ -1,5 +1,6 @@
 package com.gto.gtocore.common.data.machines;
 
+import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.api.GTOValues;
 import com.gto.gtocore.api.machine.multiblock.CoilMultiblockMachine;
 import com.gto.gtocore.api.machine.multiblock.ElectricMultiblockMachine;
@@ -10,6 +11,7 @@ import com.gto.gtocore.common.data.GTOBlocks;
 import com.gto.gtocore.common.data.GTOMachines;
 import com.gto.gtocore.common.data.GTORecipeTypes;
 import com.gto.gtocore.common.machine.multiblock.electric.ChiselMachine;
+import com.gto.gtocore.common.machine.multiblock.electric.TreeGrowthSimulator;
 import com.gto.gtocore.common.machine.multiblock.electric.adventure.BossSummonerMachine;
 import com.gto.gtocore.common.machine.multiblock.electric.processing.ProcessingArrayMachine;
 import com.gto.gtocore.common.machine.multiblock.electric.viod.DrillingControlCenterMachine;
@@ -25,6 +27,7 @@ import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.shapes.Shapes;
 
 import static com.gregtechceu.gtceu.api.GTValues.*;
@@ -37,6 +40,63 @@ import static com.gto.gtocore.utils.register.MachineRegisterUtils.registerTiered
 public interface MultiBlockG {
 
     static void init() {}
+
+    MultiblockMachineDefinition TREE_GROWTH_SIMULATOR = multiblock("tree_growth_simulator", "原木拟生场", TreeGrowthSimulator::new)
+            .allRotation()
+            .tooltipsText("Requires a tree cutting tools", "需要安装伐木工具，仅支持GT工具")
+            .tooltipsText("Output and efficiency determined by tool type and quality", "根据工具类型和品质决定产出和效率")
+            .recipe(GTORecipeTypes.TREE_GROWTH_SIMULATOR_RECIPES)
+            .alwaysTryModifyRecipe(true)
+            .block(GTOBlocks.BRASS_REINFORCED_WOODEN_CASING)
+            .pattern(definition -> FactoryBlockPattern.start()
+                    .aisle("aaa", "aaa", "aaa")
+                    .aisle("aaa", "aca", "aaa")
+                    .aisle("aaa", "aia", "aaa")
+                    .where('a', blocks(GTOBlocks.BRASS_REINFORCED_WOODEN_CASING.get())
+                            .or(abilities(IMPORT_ITEMS).setMaxGlobalLimited(1))
+                            .or(abilities(IMPORT_FLUIDS).setMaxGlobalLimited(1))
+                            .or(abilities(EXPORT_ITEMS).setMaxGlobalLimited(2))
+                            .or(abilities(INPUT_ENERGY).setMaxGlobalLimited(2))
+                            .or(abilities(MAINTENANCE).setExactLimit(1)))
+                    .where('i', controller(blocks(definition.get())))
+                    .where('c', air())
+                    .build())
+            .workableCasingRenderer(GTOCore.id("block/casings/brass_reinforced_wooden_casing"), GTCEu.id("block/multiblock/fusion_reactor"))
+            .register();
+
+    MultiblockMachineDefinition LARGE_GREENHOUSE = multiblock("large_greenhouse", "大型温室", ElectricMultiblockMachine::new)
+            .nonYAxisRotation()
+            .recipe(GTORecipeTypes.GREENHOUSE_RECIPES)
+            .recipe(GTORecipeTypes.TREE_GROWTH_SIMULATOR_RECIPES)
+            .tooltipsText("Can operate without sunlight", "无需要阳光就能运行")
+            .parallelizableTooltips()
+            .parallelizableOverclock()
+            .block(GTBlocks.CASING_STAINLESS_CLEAN)
+            .pattern((definition) -> FactoryBlockPattern.start()
+                    .aisle("aaaaaaaaa", "aaaaaaaaa", "abbbcbbba", "abbbcbbba", "abbbcbbba", "abbbcbbba", "abbbcbbba", "abbbcbbba", "aaaaaaaaa", "aaaaaaaaa")
+                    .aisle("aaaaaaaaa", "addddddda", "b       b", "b       b", "b       b", "b       b", "b       b", "b       b", "aeeeceeea", "afffffffa")
+                    .aisle("aaaaaaaaa", "addddddda", "b       b", "b       b", "b       b", "b       b", "b       b", "b       b", "aeeeceeea", "afffffffa")
+                    .aisle("aaaaaaaaa", "addddddda", "b       b", "b       b", "b       b", "b       b", "b       b", "b       b", "aeeeceeea", "afffffffa")
+                    .aisle("aaaaaaaaa", "addddddda", "c       c", "c       c", "c       c", "c       c", "c       c", "c       c", "accccccca", "afffffffa")
+                    .aisle("aaaaaaaaa", "addddddda", "b       b", "b       b", "b       b", "b       b", "b       b", "b       b", "aeeeceeea", "afffffffa")
+                    .aisle("aaaaaaaaa", "addddddda", "b       b", "b       b", "b       b", "b       b", "b       b", "b       b", "aeeeceeea", "afffffffa")
+                    .aisle("aaaaaaaaa", "addddddda", "b       b", "b       b", "b       b", "b       b", "b       b", "b       b", "aeeeceeea", "afffffffa")
+                    .aisle("aaaaaaaaa", "aaaa~aaaa", "abbbcbbba", "abbbcbbba", "abbbcbbba", "abbbcbbba", "abbbcbbba", "abbbcbbba", "aaaaaaaaa", "aaaaaaaaa")
+                    .where('~', controller(blocks(definition.get())))
+                    .where('b', blocks(GTBlocks.CASING_TEMPERED_GLASS.get()))
+                    .where('c', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.StainlessSteel)))
+                    .where('d', blocks(Blocks.PACKED_MUD))
+                    .where('e', blocks(GTBlocks.CASING_POLYTETRAFLUOROETHYLENE_PIPE.get()))
+                    .where('f', blocks(GTBlocks.CASING_GRATE.get()))
+                    .where('a', blocks(GTBlocks.CASING_STAINLESS_CLEAN.get())
+                            .setMinGlobalLimited(180)
+                            .or(autoAbilities(definition.getRecipeTypes()))
+                            .or(abilities(PARALLEL_HATCH).setMaxGlobalLimited(1))
+                            .or(abilities(MAINTENANCE).setExactLimit(1)))
+                    .where(' ', air())
+                    .build())
+            .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_clean_stainless_steel"), GTCEu.id("block/multiblock/fusion_reactor"))
+            .register();
 
     MultiblockMachineDefinition AUTOMATIC_CHISEL = multiblock("automatic_chisel", "自动凿子", ChiselMachine::new)
             .allRotation()

@@ -19,9 +19,17 @@ import java.util.function.Supplier;
 public final class RegistriesUtils {
 
     public static Item getItem(String s) {
-        Item i = ForgeRegistries.ITEMS.getValue(new ResourceLocation(s));
+        return getItem(new ResourceLocation(s));
+    }
+
+    public static Item getItem(String mod, String name) {
+        return getItem(new ResourceLocation(mod, name));
+    }
+
+    public static Item getItem(ResourceLocation id) {
+        Item i = ForgeRegistries.ITEMS.getValue(id);
         if (i == Items.AIR) {
-            GTOCore.LOGGER.atError().log("未找到ID为{}的物品", s);
+            GTOCore.LOGGER.atError().log("未找到ID为{}的物品", id);
             return Items.BARRIER;
         }
         return i;

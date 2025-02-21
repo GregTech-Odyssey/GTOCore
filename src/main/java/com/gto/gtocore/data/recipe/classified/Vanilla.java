@@ -252,7 +252,7 @@ interface Vanilla {
                 "CDC",
                 "ABA",
                 'A', new ItemStack(Blocks.LIGHTNING_ROD.asItem()), 'B', new UnificationEntry(TagPrefix.plateDouble, GTMaterials.Steel), 'C', new ItemStack(Blocks.DAYLIGHT_DETECTOR.asItem()), 'D', new UnificationEntry(TagPrefix.block, GTMaterials.Amethyst));
-        VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("large_greenhouse"), MultiBlockA.LARGE_GREENHOUSE.asStack(),
+        VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("large_greenhouse"), MultiBlockG.LARGE_GREENHOUSE.asStack(),
                 "ABA",
                 "CDC",
                 "ABA",

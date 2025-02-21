@@ -226,7 +226,7 @@ public interface GTORecipeTypes {
 
     GTRecipeType GREENHOUSE_RECIPES = register("greenhouse", "温室培育", MULTIBLOCK)
             .setEUIO(IO.IN)
-            .setMaxIOSize(3, 3, 1, 0)
+            .setMaxIOSize(3, 1, 1, 0)
             .setProgressBar(GuiTextures.PROGRESS_BAR_BATH, LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.COOLING);
 
@@ -731,6 +731,12 @@ public interface GTORecipeTypes {
             .setMaxIOSize(1, 1, 1, 1)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.CHEMICAL);
+
+    GTRecipeType TREE_GROWTH_SIMULATOR_RECIPES = register("tree_growth_simulator", "原木拟生场", MULTIBLOCK)
+            .setEUIO(IO.IN)
+            .setMaxIOSize(3, 2, 1, 0)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_BATH, LEFT_TO_RIGHT)
+            .setSound(GTSoundEntries.COOLING);
 
     // TODO 添加用途
     GTRecipeType PHYSICAL_VAPOR_DEPOSITION_RECIPES = register("physical_vapor_deposition", "物理气相沉积", MULTIBLOCK)
