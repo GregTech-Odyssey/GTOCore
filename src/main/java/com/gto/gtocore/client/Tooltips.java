@@ -49,7 +49,6 @@ public final class Tooltips {
         toolTipsBuilder.put(GTOItems.CREATE_ULTIMATE_BATTERY.get(), new LangHandler.ENCNS(new String[] { "§7Can generate energy out of thin air" }, new String[] { "§7能凭空产生能量" }));
         toolTipsBuilder.put(GTOItems.SUPRACHRONAL_MAINFRAME_COMPLEX.get(), new LangHandler.ENCNS(new String[] { "§7Can generate computing power out of thin air" }, new String[] { "§7能凭空产生算力" }));
         toolTipsBuilder.put(GTItems.VACUUM_TUBE.get(), new LangHandler.ENCNS(new String[] { "Right-click the handheld rough vacuum tube to obtain vacuum supply from a machine with vacuum level greater than 0" }, new String[] { "手持粗真空管右击真空等级大于0的真空提供机器获取" }));
-        toolTipsBuilder.put(GTOItems.WARPED_ENDER_PEARL.get(), new LangHandler.ENCNS(new String[] { "Sneak and right-click to set a personal teleportation point, right-click to teleport to the point" }, new String[] { "潜行右键可设置个人传送点，右键传送到传送点" }));
         toolTipsBuilder.put(GTOBlocks.NAQUADRIA_CHARGE.asItem(), new LangHandler.ENCNS(new String[] { "Can be activated by Quantum Star" }, new String[] { "可由量子之星激活" }));
         toolTipsBuilder.put(GTOBlocks.LEPTONIC_CHARGE.asItem(), new LangHandler.ENCNS(new String[] { "Can be activated by Gravity Star" }, new String[] { "可由重力之星激活" }));
         toolTipsBuilder.put(GTOBlocks.QUANTUM_CHROMODYNAMIC_CHARGE.asItem(), new LangHandler.ENCNS(new String[] { "Can be activated by Unstable Star" }, new String[] { "可由易变之星激活" }));

@@ -11,9 +11,16 @@ public class CustomRecipeLogic extends RecipeLogic implements ILockableRecipe {
 
     private final Supplier<GTRecipe> recipeSupplier;
 
+    private final boolean tryLast;
+
     public CustomRecipeLogic(IRecipeLogicMachine machine, Supplier<GTRecipe> recipeSupplier) {
+        this(machine, recipeSupplier, false);
+    }
+
+    public CustomRecipeLogic(IRecipeLogicMachine machine, Supplier<GTRecipe> recipeSupplier, boolean tryLast) {
         super(machine);
         this.recipeSupplier = recipeSupplier;
+        this.tryLast = tryLast;
     }
 
     @Override
@@ -35,10 +42,15 @@ public class CustomRecipeLogic extends RecipeLogic implements ILockableRecipe {
             setStatus(Status.SUSPEND);
             suspendAfterFinish = false;
         } else {
-            GTRecipe match = recipeSupplier.get();
-            if (match != null) {
-                setupRecipe(match);
+            if (tryLast && lastRecipe != null && lastRecipe.matchRecipe(machine).isSuccess() && lastRecipe.matchTickRecipe(machine).isSuccess() && lastRecipe.checkConditions(this).isSuccess()) {
+                setupRecipe(lastRecipe);
                 return;
+            } else {
+                GTRecipe match = recipeSupplier.get();
+                if (match != null) {
+                    setupRecipe(match);
+                    return;
+                }
             }
             setStatus(Status.IDLE);
         }

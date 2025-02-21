@@ -280,11 +280,6 @@ public final class GodForgeMachine extends NoEnergyMultiblockMachine implements 
 
     @Override
     protected RecipeLogic createRecipeLogic(Object... args) {
-        return new CustomRecipeLogic(this, this::getRecipe);
-    }
-
-    @Override
-    public CustomRecipeLogic getRecipeLogic() {
-        return (CustomRecipeLogic) super.getRecipeLogic();
+        return new CustomRecipeLogic(this, this::getRecipe, true);
     }
 }

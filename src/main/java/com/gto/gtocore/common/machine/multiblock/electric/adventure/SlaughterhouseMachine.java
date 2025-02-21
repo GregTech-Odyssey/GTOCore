@@ -231,9 +231,4 @@ public final class SlaughterhouseMachine extends StorageMultiblockMachine {
     protected @NotNull RecipeLogic createRecipeLogic(Object @NotNull... args) {
         return new CustomRecipeLogic(this, this::getRecipe);
     }
-
-    @Override
-    public @NotNull CustomRecipeLogic getRecipeLogic() {
-        return (CustomRecipeLogic) super.getRecipeLogic();
-    }
 }

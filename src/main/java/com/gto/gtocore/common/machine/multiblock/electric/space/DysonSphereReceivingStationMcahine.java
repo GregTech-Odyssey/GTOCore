@@ -90,11 +90,6 @@ public final class DysonSphereReceivingStationMcahine extends ElectricMultiblock
     }
 
     @Override
-    public @NotNull CustomRecipeLogic getRecipeLogic() {
-        return (CustomRecipeLogic) super.getRecipeLogic();
-    }
-
-    @Override
     public void customText(@NotNull List<Component> textList) {
         super.customText(textList);
         Pair<Integer, Integer> pair = DysonSphereSavaedData.getDimensionData(getDimension());

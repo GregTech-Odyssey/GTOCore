@@ -2,6 +2,7 @@ package com.gto.gtocore.client.renderer.machine;
 
 import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.client.ClientUtil;
+import com.gto.gtocore.client.renderer.GTORenderTypes;
 import com.gto.gtocore.client.renderer.RenderBufferHelper;
 import com.gto.gtocore.common.machine.multiblock.electric.space.SpaceElevatorMachine;
 import com.gto.gtocore.common.machine.multiblock.electric.space.SuperSpaceElevatorMachine;
@@ -9,7 +10,6 @@ import com.gto.gtocore.common.machine.multiblock.electric.space.SuperSpaceElevat
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
-import com.gregtechceu.gtceu.client.renderer.GTRenderTypes;
 import com.gregtechceu.gtceu.client.renderer.machine.WorkableCasingMachineRenderer;
 
 import net.minecraft.client.renderer.LightTexture;
@@ -58,7 +58,7 @@ public final class SpaceElevatorRenderer extends WorkableCasingMachineRenderer {
                     }
                 }
                 poseStack.pushPose();
-                RenderBufferHelper.renderCylinder(poseStack, buffer.getBuffer(GTRenderTypes.getLightRing()), (float) x, (float) (y - 2), (float) z, Super ? 0.5F : 0.3F, 360, 10, 0, 0, 0, 255);
+                RenderBufferHelper.renderCylinder(poseStack, buffer.getBuffer(GTORenderTypes.LIGHT_CYLINDER), (float) x, (float) (y - 2), (float) z, Super ? 0.5F : 0.3F, 360, 10, 0, 0, 0, 255);
                 poseStack.translate(x, y + machine.getHigh(), z);
                 RendererModel(poseStack, buffer, Super ? 8 : 4, CLIMBER_MODEL);
                 poseStack.popPose();

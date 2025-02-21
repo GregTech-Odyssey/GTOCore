@@ -172,11 +172,6 @@ public final class WaterPurificationPlantMachine extends ElectricMultiblockMachi
         return new CustomRecipeLogic(this, this::getRecipe);
     }
 
-    @Override
-    public CustomRecipeLogic getRecipeLogic() {
-        return (CustomRecipeLogic) super.getRecipeLogic();
-    }
-
     @Nullable
     private GTRecipe getRecipe() {
         if (!hasProxies()) return null;

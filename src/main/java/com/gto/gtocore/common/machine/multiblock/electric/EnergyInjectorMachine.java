@@ -94,9 +94,4 @@ public final class EnergyInjectorMachine extends ElectricMultiblockMachine {
     protected @NotNull RecipeLogic createRecipeLogic(Object @NotNull... args) {
         return new CustomRecipeLogic(this, this::getRecipe);
     }
-
-    @Override
-    public @NotNull CustomRecipeLogic getRecipeLogic() {
-        return (CustomRecipeLogic) super.getRecipeLogic();
-    }
 }

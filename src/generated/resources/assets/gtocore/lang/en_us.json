@@ -1841,7 +1841,6 @@
   "gtocore.tooltip.item.uruium_coil_block.1": "Only this coil can be used in stellar furnace mode",
   "gtocore.tooltip.item.vacuum_tube.0": "Right-click the handheld rough vacuum tube to obtain vacuum supply from a machine with vacuum level greater than 0",
   "gtocore.tooltip.item.virtual_item_provider": "Provide items for the machine's virtual circuit slot.",
-  "gtocore.tooltip.item.warped_ender_pearl.0": "Sneak and right-click to set a personal teleportation point, right-click to teleport to the point",
   "gtocore.tooltip.unknown": "Unknown",
   "gtocore.universal.tooltip.ampere_out": "§bOutput Current: §r%sA",
   "gui.ad_astra.text.barnarda": "Barnarda",

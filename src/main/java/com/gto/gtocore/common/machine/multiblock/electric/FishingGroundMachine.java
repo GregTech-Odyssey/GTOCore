@@ -90,11 +90,6 @@ public class FishingGroundMachine extends ElectricMultiblockMachine {
         return new CustomRecipeLogic(this, this::getRecipe);
     }
 
-    @Override
-    public @NotNull CustomRecipeLogic getRecipeLogic() {
-        return (CustomRecipeLogic) super.getRecipeLogic();
-    }
-
     private static class MyFishingHook extends FishingHook {
 
         MyFishingHook(ServerLevel level) {

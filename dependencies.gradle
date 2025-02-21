@@ -1,6 +1,8 @@
 dependencies {
     compileOnly libs.jetbrains.annotations
 
+    jarJar("dev:ManaPeeper:1.4+1.20.1-forge")
+
     api(annotationProcessor("io.github.llamalad7:mixinextras-common:$project.mixinextras_version"))
     annotationProcessor 'org.spongepowered:mixin:0.8.7:processor'
 
@@ -54,6 +56,8 @@ dependencies {
     modImplementation("curse.maven:Re-Avaritia-623969:6130139")
 
     modImplementation("curse.maven:EnderIO-64578:5780352")
+
+    modImplementation("curse.maven:curvy-pipes-1151126:6192998")
 
     modCompileOnly("curse.maven:libx-412525:5207625")
     modCompileOnly("curse.maven:mythicbotany-400058:5101899")

@@ -1841,7 +1841,6 @@
   "gtocore.tooltip.item.uruium_coil_block.1": "恒星锻炉模式仅可使用该线圈",
   "gtocore.tooltip.item.vacuum_tube.0": "手持粗真空管右击真空等级大于0的真空提供机器获取",
   "gtocore.tooltip.item.virtual_item_provider": "为机器的虚拟电路槽提供物品",
-  "gtocore.tooltip.item.warped_ender_pearl.0": "潜行右键可设置个人传送点，右键传送到传送点",
   "gtocore.tooltip.unknown": "未知",
   "gtocore.universal.tooltip.ampere_out": "§b输出电流：§r%sA",
   "gui.ad_astra.text.barnarda": "巴纳德",

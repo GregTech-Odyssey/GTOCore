@@ -1841,7 +1841,6 @@
   "gtocore.tooltip.item.uruium_coil_block.1": "恆星鍛爐模式僅可使用該線圈",
   "gtocore.tooltip.item.vacuum_tube.0": "手持粗真空管右擊真空等級大於0的真空提供機器獲取",
   "gtocore.tooltip.item.virtual_item_provider": "為機器的虛擬電路槽提供物品",
-  "gtocore.tooltip.item.warped_ender_pearl.0": "潛行右鍵可設置個人傳送點，右鍵傳送到傳送點",
   "gtocore.tooltip.unknown": "未知",
   "gtocore.universal.tooltip.ampere_out": "§b輸齣電流：§r%sA",
   "gui.ad_astra.text.barnarda": "巴納德",
