@@ -36,11 +36,11 @@ public class ExtendWirelessEnergyContainer extends WirelessEnergyContainer {
         long change = Math.min(BigIntegerUtils.getLongValue(capacity.subtract(getStorage())), Math.min(getRate(), energy));
         if (change <= 0) return 0;
         long loss = (change / 1000) * this.loss;
-        change = change - loss;
-        setStorage(getStorage().add(BigInteger.valueOf(change)));
+        long actualChange = change - loss;
+        setStorage(getStorage().add(BigInteger.valueOf(actualChange)));
         WirelessEnergySavaedData.INSTANCE.setDirty(true);
         if (observed && machine != null) {
-            TRANSFER_DATA.put(machine, new ExtendTransferData(getUuid(), change, loss));
+            TRANSFER_DATA.put(machine, new ExtendTransferData(getUuid(), actualChange, loss));
         }
         return change;
     }
@@ -48,9 +48,7 @@ public class ExtendWirelessEnergyContainer extends WirelessEnergyContainer {
     public long unrestrictedAddEnergy(long energy) {
         long change = Math.min(BigIntegerUtils.getLongValue(capacity.subtract(getStorage())), energy);
         if (change <= 0) return 0;
-        long loss = (change / 1000) * this.loss;
-        change = change - loss;
-        setStorage(getStorage().add(BigInteger.valueOf(change)));
+        setStorage(getStorage().add(BigInteger.valueOf(change - ((change / 1000) * this.loss))));
         WirelessEnergySavaedData.INSTANCE.setDirty(true);
         return change;
     }

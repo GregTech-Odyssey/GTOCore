@@ -5,6 +5,7 @@ import com.gto.gtocore.api.data.tag.GTOTagPrefix;
 import com.gto.gtocore.api.machine.GTOCleanroomType;
 import com.gto.gtocore.common.data.GTOItems;
 import com.gto.gtocore.common.data.GTOMaterials;
+import com.gto.gtocore.utils.RegistriesUtils;
 
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
@@ -26,6 +27,14 @@ import java.util.function.Consumer;
 interface Canner {
 
     static void init(Consumer<FinishedRecipe> provider) {
+        GTRecipeTypes.CANNER_RECIPES.recipeBuilder(GTOCore.id("ender_air"))
+                .inputItems(new ItemStack(Items.GLASS_BOTTLE.asItem()))
+                .inputFluids(GTMaterials.EnderAir.getFluid(1000))
+                .outputItems(RegistriesUtils.getItemStack("botania:ender_air_bottle"))
+                .EUt(30)
+                .duration(60)
+                .save(provider);
+
         GTRecipeTypes.CANNER_RECIPES.recipeBuilder(GTOCore.id("reactor_uranium_simple"))
                 .inputItems(GTOItems.REACTOR_FUEL_ROD.asStack())
                 .inputItems(TagPrefix.dust, GTMaterials.Uranium238, 16)

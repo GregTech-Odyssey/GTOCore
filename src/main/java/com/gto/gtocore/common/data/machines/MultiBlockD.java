@@ -850,7 +850,6 @@ public interface MultiBlockD {
                             .append("，").append(Component.translatable("gtceu.distillery"))
                             .append("，").append(Component.translatable("gtceu.chemical_reactor"))
                             .append("，").append(Component.translatable("gtceu.fluid_solidifier"))
-                            .append("，").append(Component.translatable("gtceu.arc_furnace"))
                             .append("，").append(Component.translatable("gtceu.arc_generator"))
                             .append("，").append(Component.translatable("gtceu.laser_engraver"))
                             .append("，").append(Component.translatable("gtceu.laser_welder"))

@@ -7,6 +7,7 @@ import com.gto.gtocore.common.data.GTOMaterials;
 import com.gto.gtocore.common.data.GTORecipeTypes;
 import com.gto.gtocore.data.CraftingComponents;
 
+import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.data.chemical.material.stack.UnificationEntry;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
@@ -17,6 +18,7 @@ import com.gregtechceu.gtceu.common.data.GTMachines;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.data.machines.GTMachineUtils;
 import com.gregtechceu.gtceu.common.data.machines.GTMultiMachines;
+import com.gregtechceu.gtceu.data.recipe.CustomTags;
 import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
 
 import net.minecraft.data.recipes.FinishedRecipe;
@@ -243,6 +245,18 @@ interface HatchRecipe {
 
         for (int tier : tiersBetween(LV, MAX)) {
             String tierName = VN[tier].toLowerCase();
+            ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("programmablec_hatch_" + tierName + "_4a"))
+                    .inputItems(GTMachines.DUAL_IMPORT_HATCH[tier].asStack())
+                    .inputItems(CustomItems.VIRTUAL_ITEM_PROVIDER.asStack())
+                    .inputItems((ItemStack) ROBOT_ARM.get(tier))
+                    .inputItems((ItemStack) CONVEYOR.get(tier))
+                    .inputItems(CustomTags.CIRCUITS_ARRAY[tier], 4)
+                    .inputFluids(GTMaterials.SolderingAlloy.getFluid(144))
+                    .outputItems(GTOMachines.PROGRAMMABLEC_HATCH[tier].asStack())
+                    .duration(400)
+                    .EUt(GTValues.VA[tier])
+                    .save(provider);
+
             GTORecipeTypes.LASER_WELDER_RECIPES.recipeBuilder(GTOCore.id("wireless_energy_input_hatch_" + tierName))
                     .inputItems(GTMachines.ENERGY_INPUT_HATCH[tier].asStack())
                     .inputItems(WIRELESS_ENERGY_RECEIVE_COVER.get(tier - 1).asStack())

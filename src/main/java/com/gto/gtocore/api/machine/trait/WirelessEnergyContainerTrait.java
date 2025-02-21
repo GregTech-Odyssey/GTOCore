@@ -53,7 +53,8 @@ public class WirelessEnergyContainerTrait extends NotifiableEnergyContainer impl
         if (energyToAdd > 0) {
             change = Math.min(energyToAdd, Math.min(getEnergyCapacity() - oldEnergyStored, container.getRate()));
             if (change > 0 && WirelessEnergyContainer.observed && getMachine() != null) {
-                WirelessEnergyContainer.TRANSFER_DATA.put(getMachine(), new ExtendTransferData(UUID, change, (change / 1000) * container.getLoss()));
+                long loss = (change / 1000) * container.getLoss();
+                WirelessEnergyContainer.TRANSFER_DATA.put(getMachine(), new ExtendTransferData(UUID, change - loss, loss));
             }
         } else {
             change = Math.min(-energyToAdd, Math.min(oldEnergyStored, container.getRate()));
@@ -69,7 +70,7 @@ public class WirelessEnergyContainerTrait extends NotifiableEnergyContainer impl
     @Override
     public void updateTick() {
         super.updateTick();
-        if (!getMachine().isRemote() && getMachine().getOffsetTimer() % 20 == 0) {
+        if (!getMachine().isRemote() && getMachine().getOffsetTimer() % 10 == 0) {
             ExtendWirelessEnergyContainer container = getWirelessEnergyContainer();
             if (container != null) {
                 long energyStored = getEnergyStored();

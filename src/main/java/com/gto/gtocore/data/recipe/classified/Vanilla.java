@@ -717,5 +717,40 @@ interface Vanilla {
                 "CDC",
                 "ABA",
                 'B', new UnificationEntry(TagPrefix.pipeHugeFluid, GTMaterials.Steel), 'D', GTItems.FLUID_REGULATOR_LV.asStack(), 'C', new UnificationEntry(TagPrefix.pipeNonupleFluid, GTMaterials.Copper), 'A', new UnificationEntry(GTOTagPrefix.curvedPlate, GTMaterials.Electrum));
+        VanillaRecipeHelper.addShapedRecipe(provider, GTOCore.id("structure_detect"), GTOItems.STRUCTURE_DETECT.asStack(),
+                " A ",
+                "ABA",
+                " A ",
+                'B', GTItems.TERMINAL.asStack(), 'A', RegistriesUtils.getItemStack("botania:detector_light_relay"));
+        VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("tree_growth_simulator"), MultiBlockG.TREE_GROWTH_SIMULATOR.asStack(),
+                "ABA",
+                "CDC",
+                "EFE",
+                'B', GTItems.CONVEYOR_MODULE_LV.asStack(), 'F', GTItems.VOLTAGE_COIL_LV.asStack(), 'D', GTMachines.HULL[GTValues.LV].asStack(), 'C', new UnificationEntry(GTOTagPrefix.curvedPlate, GTMaterials.Magnalium), 'E', GTItems.ROBOT_ARM_LV.asStack(), 'A', new UnificationEntry(TagPrefix.pipeNormalRestrictive, GTMaterials.Brass));
+        VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("drone_control_center"), MultiBlockG.DRONE_CONTROL_CENTER.asStack(),
+                "ABA",
+                "CDC",
+                "EEE",
+                'B', GTItems.ROBOT_ARM_HV.asStack(), 'D', GTMachines.HULL[GTValues.HV].asStack(), 'C', GTItems.SENSOR_HV.asStack(), 'E', new UnificationEntry(TagPrefix.plateDouble, GTMaterials.StainlessSteel), 'A', GTItems.EMITTER_HV.asStack());
+        VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("three_dimensional_printer"), MultiBlockC.THREE_DIMENSIONAL_PRINTER.asStack(),
+                "ABA",
+                "CDC",
+                "EFE",
+                'B', GTItems.CONVEYOR_MODULE_HV.asStack(), 'F', new UnificationEntry(TagPrefix.plateDouble, GTMaterials.Titanium), 'D', GTMachines.HULL[GTValues.HV].asStack(), 'C', GTItems.FLUID_REGULATOR_HV.asStack(), 'E', GTItems.ROBOT_ARM_HV.asStack(), 'A', GTItems.SENSOR_HV.asStack());
+        VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("ev_drone_hatch"), GTOMachines.DRONE_HATCH[GTValues.EV].asStack(),
+                "ABA",
+                "CDC",
+                "ABA",
+                'B', CustomTags.EV_CIRCUITS, 'D', GTMachines.ITEM_IMPORT_BUS[GTValues.EV].asStack(), 'C', GTItems.ROBOT_ARM_EV.asStack(), 'A', new UnificationEntry(GTOTagPrefix.curvedPlate, GTMaterials.Titanium));
+        VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("iv_drone_hatch"), GTOMachines.DRONE_HATCH[GTValues.IV].asStack(),
+                "ABA",
+                "CDC",
+                "ABA",
+                'B', CustomTags.IV_CIRCUITS, 'D', GTMachines.ITEM_IMPORT_BUS[GTValues.IV].asStack(), 'C', GTItems.ROBOT_ARM_IV.asStack(), 'A', new UnificationEntry(GTOTagPrefix.curvedPlate, GTMaterials.TungstenSteel));
+        VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("hv_drone_hatch"), GTOMachines.DRONE_HATCH[GTValues.HV].asStack(),
+                "ABA",
+                "CDC",
+                "ABA",
+                'B', CustomTags.HV_CIRCUITS, 'D', GTMachines.ITEM_IMPORT_BUS[GTValues.HV].asStack(), 'C', GTItems.ROBOT_ARM_HV.asStack(), 'A', new UnificationEntry(GTOTagPrefix.curvedPlate, GTMaterials.StainlessSteel));
     }
 }

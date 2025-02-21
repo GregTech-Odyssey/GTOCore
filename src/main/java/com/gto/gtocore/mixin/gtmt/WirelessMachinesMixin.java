@@ -5,6 +5,8 @@ import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
 
+import net.minecraft.network.chat.Component;
+
 import com.hepdd.gtmthings.data.WirelessMachines;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
@@ -35,6 +37,7 @@ public class WirelessMachinesMixin {
 
     @Inject(method = "<clinit>", at = @At("TAIL"), remap = false)
     private static void init(CallbackInfo ci) {
+        WirelessMachines.WIRELESS_ENERGY_INTERFACE.setTooltipBuilder((a, b) -> b.add(Component.translatable("gtocore.machine.energy_loss", "10%")));
         WirelessMachines.WIRELESS_ENERGY_INPUT_HATCH[GTValues.MAX] = WirelessMachines.WIRELESS_ENERGY_MONITOR;
     }
 }

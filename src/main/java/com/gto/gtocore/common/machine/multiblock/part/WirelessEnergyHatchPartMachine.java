@@ -56,7 +56,7 @@ public final class WirelessEnergyHatchPartMachine extends TieredIOPartMachine im
             container = WirelessEnergyContainerTrait.emitterContainer(this, GTValues.V[tier] * 64 * amperage, GTValues.V[tier], amperage);
             container.setCapabilityValidator(s -> s == null || s == this.getFrontFacing());
         } else {
-            container = WirelessEnergyContainerTrait.receiverContainer(this, GTValues.V[tier] * 32 * amperage, GTValues.V[tier], amperage);
+            container = WirelessEnergyContainerTrait.receiverContainer(this, GTValues.V[tier] * 16 * amperage, GTValues.V[tier], amperage);
             container.setCapabilityValidator(s -> s == null || s == this.getFrontFacing());
         }
         return container;

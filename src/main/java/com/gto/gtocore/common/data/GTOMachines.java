@@ -36,12 +36,14 @@ import com.gregtechceu.gtceu.common.data.machines.GTMultiMachines;
 import com.gregtechceu.gtceu.common.data.machines.GTResearchMachines;
 import com.gregtechceu.gtceu.common.item.TurbineRotorBehaviour;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.DataAccessHatchMachine;
+import com.gregtechceu.gtceu.common.machine.multiblock.part.DualHatchPartMachine;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.EnergyHatchPartMachine;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 
+import com.hepdd.gtmthings.common.block.machine.multiblock.part.ProgrammableHatchPartMachine;
 import com.hepdd.gtmthings.data.CreativeMachines;
 import com.hepdd.gtmthings.data.CreativeModeTabs;
 import com.hepdd.gtmthings.data.CustomMachines;
@@ -49,6 +51,7 @@ import com.hepdd.gtmthings.data.WirelessMachines;
 import it.unimi.dsi.fastutil.Pair;
 
 import static com.gregtechceu.gtceu.api.GTValues.*;
+import static com.gregtechceu.gtceu.api.capability.recipe.IO.IN;
 import static com.gto.gtocore.utils.register.MachineRegisterUtils.*;
 
 public interface GTOMachines {
@@ -56,6 +59,8 @@ public interface GTOMachines {
     static void init() {
         BlockMap.init();
         GTMultiMachines.init();
+        GTMultiMachines.MULTI_SMELTER.setRecipeTypes(new GTRecipeType[] { GTRecipeTypes.FURNACE_RECIPES });
+        GTMultiMachines.MULTI_SMELTER.setTooltipBuilder((itemStack, components) -> components.add(Component.translatable("gtceu.machine.available_recipe_map_1.tooltip", Component.translatable("gtceu.electric_furnace"))));
         GTMultiMachines.LARGE_CHEMICAL_REACTOR.setRecipeTypes(new GTRecipeType[] { GTORecipeTypes.CHEMICAL });
         GTMultiMachines.LARGE_CHEMICAL_REACTOR.setTooltipBuilder((a, b) -> b.add(Component.translatable("gtceu.machine.perfect_oc").withStyle(style -> style.withColor(TooltipHelper.BLINKING_RED.getCurrent()))));
         GTMultiMachines.LARGE_BOILER_BRONZE.setRecipeModifier(GTORecipeModifiers::largeBoilerModifier);
@@ -243,6 +248,20 @@ public interface GTOMachines {
                     .tooltips(Component.translatable("gtocore.machine.accelerate_hatch.tooltip.0"))
                     .tooltips(Component.translatable("gtocore.machine.accelerate_hatch.tooltip.1"))
                     .workableTieredHullRenderer(GTOCore.id("block/machines/accelerate_hatch"))
+                    .register(),
+            tiersBetween(LV, MAX));
+
+    MachineDefinition[] PROGRAMMABLEC_HATCH = registerTieredMachines("programmablec_hatch", tier -> GTOValues.VNFR[tier] + "可编程仓",
+            (holder, tier) -> new ProgrammableHatchPartMachine(holder, tier, IN),
+            (tier, builder) -> builder
+                    .langValue("%s Programmablec Hatch".formatted(VNF[tier]))
+                    .rotationState(RotationState.ALL)
+                    .abilities(PartAbility.IMPORT_ITEMS)
+                    .renderer(() -> new OverlayTieredMachineRenderer(tier, GTCEu.id("block/machine/part/dual_hatch.import")))
+                    .tooltips(Component.translatable("gtceu.machine.dual_hatch.import.tooltip"),
+                            Component.translatable("gtceu.universal.tooltip.item_storage_capacity", tier * tier),
+                            Component.translatable("gtceu.universal.tooltip.fluid_storage_capacity_mult", tier, DualHatchPartMachine.getTankCapacity(DualHatchPartMachine.INITIAL_TANK_CAPACITY, tier)),
+                            Component.translatable("gtceu.universal.enabled"))
                     .register(),
             tiersBetween(LV, MAX));
 

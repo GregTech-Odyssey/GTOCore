@@ -2167,10 +2167,10 @@ public interface MultiBlockA {
             .recipe(GTORecipeTypes.VACUUM_DRYING_RECIPES)
             .recipe(GTORecipeTypes.DEHYDRATOR_RECIPES)
             .tooltipsKey("gtceu.machine.electric_blast_furnace.tooltip.2")
-            .tooltipsText("When running vacuum drying recipes:", "运行真空干燥配方时:")
+            .tooltipsKey("gtocore.machine.recipe.run", Component.translatable("gtceu.vacuum_drying"))
             .tooltipsKey("gtceu.machine.electric_blast_furnace.tooltip.0")
             .tooltipsKey("gtceu.machine.electric_blast_furnace.tooltip.1")
-            .tooltipsText("When running dehydration recipes:", "运行脱水配方时:")
+            .tooltipsKey("gtocore.machine.recipe.run", Component.translatable("gtceu.dehydrator"))
             .coilParallelTooltips()
             .recipeModifier((m, r) -> {
                 if (m instanceof CoilCustomParallelMultiblockMachine machine) {

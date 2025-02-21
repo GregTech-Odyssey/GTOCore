@@ -150,7 +150,12 @@ public final class GeneratorArrayMachine extends StorageMultiblockMachine implem
         if (isw) {
             if (eut > 0) {
                 ExtendWirelessEnergyContainer container = getWirelessEnergyContainer();
-                if (container != null) container.addEnergy(eut, this);
+                if (container != null) {
+                    int loss = container.getLoss();
+                    container.setLoss(loss + 50);
+                    container.addEnergy(eut, this);
+                    container.setLoss(loss);
+                }
             } else {
                 return false;
             }

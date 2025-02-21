@@ -650,7 +650,6 @@ public final class WoodRecipes {
         add(provider, "deeperdarker", "echo");
 
         if (GTCEu.isModLoaded("biomesoplenty")) {
-            add(provider, "biomesoplenty", "flowering_oak");
             add(provider, "biomesoplenty", "fir");
             add(provider, "biomesoplenty", "redwood");
             add(provider, "biomesoplenty", "mahogany");

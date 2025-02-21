@@ -1,5 +1,6 @@
 package com.gto.gtocore.common.data.machines;
 
+import com.gto.gtocore.api.machine.multiblock.CoilCustomParallelMultiblockMachine;
 import com.gto.gtocore.api.machine.multiblock.CoilMultiblockMachine;
 import com.gto.gtocore.api.machine.multiblock.ElectricMultiblockMachine;
 import com.gto.gtocore.api.machine.part.GTOPartAbility;
@@ -19,6 +20,7 @@ import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.MultiblockShapeInfo;
 import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.api.pattern.TraceabilityPredicate;
+import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
 import com.gregtechceu.gtceu.client.renderer.machine.gcym.LargeChemicalBathRenderer;
 import com.gregtechceu.gtceu.client.renderer.machine.gcym.LargeMixerRenderer;
 import com.gregtechceu.gtceu.common.data.GTMachines;
@@ -429,16 +431,34 @@ public interface GCYMMachines {
             .register();
 
     MultiblockMachineDefinition BLAST_ALLOY_SMELTER = REGISTRATE
-            .multiblock("alloy_blast_smelter", CoilMultiblockMachine.createCoilMachine(true, false))
+            .multiblock("alloy_blast_smelter", CoilCustomParallelMultiblockMachine.createParallelCoil(m -> {
+                if (m.getRecipeType() == ALLOY_SMELTER_RECIPES) {
+                    return Math.min(2147483647, 1 << (int) (m.gto$getTemperature() / 1200.0D));
+                }
+                return 1;
+            }, true, true, false))
+            .tooltips(Component.translatable("gtocore.machine.recipe.run", Component.translatable("gtceu.alloy_blast_smelter")))
             .tooltips(Component.translatable("gtceu.machine.electric_blast_furnace.tooltip.0"),
                     Component.translatable("gtceu.machine.electric_blast_furnace.tooltip.1"),
                     Component.translatable("gtceu.machine.electric_blast_furnace.tooltip.2"))
-            .tooltips(Component.translatable("gtceu.machine.available_recipe_map_1.tooltip",
-                    Component.translatable("gtceu.alloy_blast_smelter")))
+            .tooltips(Component.translatable("gtocore.machine.recipe.run", Component.translatable("gtceu.alloy_smelter")))
+            .tooltips(Component.translatable("gtocore.machine.coil_parallel"))
+            .tooltips(Component.translatable("gtceu.machine.available_recipe_map_2.tooltip",
+                    Component.translatable("gtceu.alloy_blast_smelter"), Component.translatable("gtceu.alloy_smelter")))
             .tooltipBuilder(GTO_MODIFY)
             .rotationState(RotationState.ALL)
             .recipeType(ALLOY_BLAST_RECIPES)
-            .recipeModifier(GTORecipeModifiers::ebfOverclock)
+            .recipeType(ALLOY_SMELTER_RECIPES)
+            .recipeModifier((m, r) -> {
+                if (m instanceof CoilCustomParallelMultiblockMachine machine) {
+                    if (machine.getRecipeType() == ALLOY_SMELTER_RECIPES) {
+                        return recipe -> GTORecipeModifiers.overclocking(m, recipe);
+                    } else {
+                        return GTORecipeModifiers.ebfOverclock(m, r);
+                    }
+                }
+                return ModifierFunction.NULL;
+            }, true)
             .appearanceBlock(CASING_HIGH_TEMPERATURE_SMELTING)
             .pattern(definition -> FactoryBlockPattern.start()
                     .aisle("#XXX#", "#CCC#", "#GGG#", "#CCC#", "#XXX#")

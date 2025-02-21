@@ -22,9 +22,12 @@ import com.gregtechceu.gtceu.data.recipe.CustomTags;
 import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
 
 import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraftforge.common.Tags;
 
+import appeng.core.definitions.AEBlocks;
+import appeng.core.definitions.AEItems;
 import com.hepdd.gtmthings.data.CustomItems;
 import com.hepdd.gtmthings.data.CustomMachines;
 import com.hepdd.gtmthings.data.WirelessMachines;
@@ -37,6 +40,25 @@ import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.ASSEMBLER_RECIPES;
 public interface GTMTRecipe {
 
     static void init(Consumer<FinishedRecipe> provider) {
+        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("virtual_item_provider"))
+                .inputItems(GTItems.PROGRAMMED_CIRCUIT.asStack())
+                .inputItems(new ItemStack(AEBlocks.QUARTZ_VIBRANT_GLASS.block().asItem()))
+                .inputItems(TagPrefix.foil, GTMaterials.PolyvinylChloride, 8)
+                .outputItems(CustomItems.VIRTUAL_ITEM_PROVIDER.asStack())
+                .EUt(480)
+                .duration(200)
+                .save(provider);
+
+        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("virtual_item_provider_cell"))
+                .inputItems(new ItemStack(AEItems.ITEM_CELL_256K.asItem()))
+                .inputItems(CustomItems.VIRTUAL_ITEM_PROVIDER.asStack())
+                .inputItems(GTItems.CONVEYOR_MODULE_HV.asStack(2))
+                .inputFluids(GTMaterials.Polyethylene.getFluid(288))
+                .outputItems(CustomItems.VIRTUAL_ITEM_PROVIDER_CELL.asStack())
+                .EUt(480)
+                .duration(800)
+                .save(provider);
+
         GTRecipeTypes.SCANNER_RECIPES.recipeBuilder("wireless_energy_binding_tool")
                 .inputItems(TagPrefix.plate, GTMaterials.Paper)
                 .inputItems(GTItems.COVER_SCREEN.asStack())

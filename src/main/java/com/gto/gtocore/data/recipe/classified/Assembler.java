@@ -3462,5 +3462,53 @@ interface Assembler {
                 .EUt(30)
                 .duration(200)
                 .save(provider);
+
+        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("hv_drone"))
+                .inputItems(GTItems.ENERGIUM_CRYSTAL.asStack())
+                .inputItems(GTItems.ELECTRIC_MOTOR_HV.asStack(4))
+                .inputItems(GTItems.ROBOT_ARM_HV.asStack())
+                .inputItems(GTItems.EMITTER_HV.asStack())
+                .inputItems(GTItems.SENSOR_HV.asStack())
+                .inputItems(CustomTags.EV_CIRCUITS, 4)
+                .inputItems(GTItems.COVER_MAINTENANCE_DETECTOR.asStack())
+                .inputItems(GTItems.COVER_ITEM_DETECTOR.asStack())
+                .inputItems(TagPrefix.plate, GTMaterials.StainlessSteel, 8)
+                .inputFluids(GTMaterials.SolderingAlloy.getFluid(576))
+                .outputItems(GTOItems.HV_DRONE.asStack())
+                .EUt(480)
+                .duration(400)
+                .save(provider);
+
+        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("ev_drone"))
+                .inputItems(GTItems.ENERGIUM_CRYSTAL.asStack())
+                .inputItems(GTItems.ELECTRIC_MOTOR_EV.asStack(4))
+                .inputItems(GTItems.ROBOT_ARM_EV.asStack())
+                .inputItems(GTItems.EMITTER_EV.asStack())
+                .inputItems(GTItems.SENSOR_EV.asStack())
+                .inputItems(CustomTags.IV_CIRCUITS, 4)
+                .inputItems(GTItems.COVER_MAINTENANCE_DETECTOR.asStack())
+                .inputItems(GTItems.COVER_ITEM_DETECTOR.asStack())
+                .inputItems(TagPrefix.plate, GTMaterials.TungstenSteel, 8)
+                .inputFluids(GTMaterials.SolderingAlloy.getFluid(576))
+                .outputItems(GTOItems.EV_DRONE.asStack())
+                .EUt(1920)
+                .duration(400)
+                .save(provider);
+
+        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("iv_drone"))
+                .inputItems(GTItems.ENERGY_LAPOTRONIC_ORB.asStack())
+                .inputItems(GTItems.ELECTRIC_MOTOR_IV.asStack(4))
+                .inputItems(GTItems.ROBOT_ARM_IV.asStack())
+                .inputItems(GTItems.EMITTER_IV.asStack())
+                .inputItems(GTItems.SENSOR_IV.asStack())
+                .inputItems(CustomTags.LuV_CIRCUITS, 4)
+                .inputItems(GTItems.COVER_MAINTENANCE_DETECTOR.asStack())
+                .inputItems(GTItems.COVER_ITEM_DETECTOR.asStack())
+                .inputItems(TagPrefix.plate, GTMaterials.Naquadah, 8)
+                .inputFluids(GTMaterials.SolderingAlloy.getFluid(576))
+                .outputItems(GTOItems.IV_DRONE.asStack())
+                .EUt(7680)
+                .duration(400)
+                .save(provider);
     }
 }
