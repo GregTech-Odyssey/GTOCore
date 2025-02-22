@@ -293,21 +293,21 @@ public interface GTOItems {
 
     ItemEntry<ComponentItem> NEURAL_MATRIX = item("neural_matrix", "神经矩阵", ComponentItem::create)
             .onRegister(attach(new DataItemBehavior(true)))
-            .register();//UV生物活性CPU解锁制造,UHV光学主机后开始使用
+            .register();// UV生物活性CPU解锁制造,UHV光学主机后开始使用
 
     ItemEntry<ComponentItem> ATOMIC_ARCHIVES = item("atomic_archives", "原子档案", ComponentItem::create)
             .onRegister(attachRenderer(() -> HaloItemRenderer.QUANTUM_CHROMO_DYNAMICALLY_HALO))
             .onRegister(attach(new DataItemBehavior(true)))
-            .register();//UEV奇异CPU后解锁,UIV中期开始使用
+            .register();// UEV奇异CPU后解锁,UIV中期开始使用
 
     ItemEntry<ComponentItem> OBSIDIAN_MATRIX = item("obsidian_matrix", "黑曜石矩阵", ComponentItem::create)
             .onRegister(attach(new DataItemBehavior(true)))
-            .register();//UXV暗物质后解锁,UXV后期开始使用
+            .register();// UXV暗物质后解锁,UXV后期开始使用
 
     ItemEntry<ComponentItem> MICROCOSM = item("microcosm", "微缩宇宙", ComponentItem::create)
             .onRegister(attachRenderer(() -> HaloItemRenderer.COSMIC_HALO))
             .onRegister(attach(new DataItemBehavior(true)))
-            .register();//OPV鸿蒙之眼后解锁,MAX初期开使用
+            .register();// OPV鸿蒙之眼后解锁,MAX初期开使用
 
     ItemEntry<KineticRotorItem> WOOD_ROTOR = registerRotor("wood_rotor", "木", 2400, 4, 10, 0);
     ItemEntry<KineticRotorItem> IRON_ROTOR = registerRotor("iron_rotor", "铁", 14000, 10, 20, 1);
@@ -747,6 +747,4 @@ public interface GTOItems {
     ItemEntry<Item> ETCHED_SILICON_BOULE = register("etched_silicon_boule", "电子束蚀刻的多晶硅");
     ItemEntry<Item> FLOATING_ZONE_PURIFICATION_SILICON_BOULE = register("floating_zone_purification_silicon_boule", "浮区提纯的多晶硅");
     ItemEntry<Item> HIGH_PURITY_SINGLE_CRYSTAL_SILICON = register("high_purity_single_crystal_silicon", "超高纯单晶硅");
-
-
 }

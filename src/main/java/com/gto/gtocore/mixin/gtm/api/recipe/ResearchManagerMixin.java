@@ -16,6 +16,19 @@ public class ResearchManagerMixin {
 
     @Inject(method = "getDefaultResearchStationItem", at = @At("HEAD"), remap = false, cancellable = true)
     private static void getDefaultResearchStationItem(int cwut, CallbackInfoReturnable<ItemStack> cir) {
-        if (cwut > 512) cir.setReturnValue(GTOItems.QUANTUM_DISK.asStack());
+        ItemStack stack = null;
+        if (cwut > 8192) {
+            stack = GTOItems.MICROCOSM.asStack();
+        } else if (cwut > 4096) {
+            stack = GTOItems.OBSIDIAN_MATRIX.asStack();
+        } else if (cwut > 2048) {
+            stack = GTOItems.ATOMIC_ARCHIVES.asStack();
+        } else if (cwut > 1024) {
+            stack = GTOItems.NEURAL_MATRIX.asStack();
+        } else if (cwut > 256) {
+            stack = GTOItems.QUANTUM_DISK.asStack();
+        }
+        if (stack == null) return;
+        cir.setReturnValue(stack);
     }
 }
