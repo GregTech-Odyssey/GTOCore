@@ -50,7 +50,7 @@ public final class DroneControlCenterMachine extends NoEnergyMultiblockMachine {
     @Override
     public void onStructureFormed() {
         super.onStructureFormed();
-        DRONE_NETWORK.add(this);
+        if (!isRemote()) DRONE_NETWORK.add(this);
     }
 
     @Override

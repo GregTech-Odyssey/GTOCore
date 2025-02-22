@@ -6,13 +6,10 @@ import com.gto.gtocore.common.data.GTOBlocks;
 import com.gto.gtocore.common.data.GTOCommands;
 import com.gto.gtocore.common.data.GTOItems;
 import com.gto.gtocore.common.item.ItemMap;
-import com.gto.gtocore.common.machine.multiblock.water.WaterPurificationPlantMachine;
-import com.gto.gtocore.common.machine.multiblock.water.WaterPurificationUnitMachine;
 import com.gto.gtocore.common.saved.DysonSphereSavaedData;
 import com.gto.gtocore.common.saved.ExtendWirelessEnergySavaedData;
 import com.gto.gtocore.common.saved.InfinityCellSavaedData;
 import com.gto.gtocore.config.GTOConfig;
-import com.gto.gtocore.utils.GTOUtils;
 import com.gto.gtocore.utils.ServerUtils;
 import com.gto.gtocore.utils.SphereExplosion;
 
@@ -137,27 +134,6 @@ public final class ForgeCommonEvent {
         }
 
         if (player.isShiftKeyDown()) {
-            if (item == GTItems.TOOL_DATA_STICK.get()) {
-                CompoundTag nbt = itemStack.getOrCreateTag();
-                MetaMachine machine = MetaMachine.getMachine(level, pos);
-                if (machine instanceof WaterPurificationPlantMachine waterPurificationPlantMachine) {
-                    int[] poss = nbt.getIntArray("poss");
-                    if (poss.length < 3) return;
-                    nbt.remove("poss");
-                    BlockPos waterPos = new BlockPos(poss[0], poss[1], poss[2]);
-                    waterPurificationPlantMachine.getPoss().add(waterPos);
-                    if (GTOUtils.calculateDistance(waterPos, pos) > 32) {
-                        player.displayClientMessage(Component.translatable("chat.wireless_connect.out_of_range"), true);
-                    } else if (waterPurificationPlantMachine.addWaterPurificationMachine(waterPos, level)) {
-                        player.displayClientMessage(Component.translatable("chat.wireless_bind", poss[0], poss[1], poss[2]), true);
-                    }
-                } else if (machine instanceof WaterPurificationUnitMachine) {
-                    nbt.putIntArray("poss", new int[] { machine.getPos().getX(), machine.getPos().getY(), machine.getPos().getZ() });
-                    player.displayClientMessage(Component.translatable("ldlib.gui.compass.save_success"), true);
-                }
-                return;
-            }
-
             if (item == GTOItems.COMMAND_WAND.get()) {
                 Block block = level.getBlockState(pos).getBlock();
                 if (block == Blocks.COMMAND_BLOCK) {

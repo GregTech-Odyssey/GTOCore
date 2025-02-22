@@ -1223,6 +1223,7 @@
   "config.gtocore.option.spacetimePip": "时空管道流量",
   "config.jade.plugin_gtocore.accelerate_provider": "[GTOCore] 加速条",
   "config.jade.plugin_gtocore.mana_container_provider": "[GTOCore] 魔力容器",
+  "config.jade.plugin_gtocore.vacuum_tier_provider": "[GTOCore] 真空等级",
   "config.jade.plugin_gtocore.wireless_data_hatch_provider": "[GTOCore] 无线数据",
   "config.screen.gtocore": "GTO Core 配置",
   "entity.gtocore.task_entity": "任务执行实体",

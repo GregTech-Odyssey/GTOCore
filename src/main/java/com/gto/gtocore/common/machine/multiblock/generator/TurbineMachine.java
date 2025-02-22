@@ -53,9 +53,7 @@ public final class TurbineMachine extends ElectricMultiblockMachine {
         return MANAGED_FIELD_HOLDER;
     }
 
-    private static final int MIN_DURABILITY_TO_WARN = 10;
-
-    private final int baseEUOutput;
+    private final long baseEUOutput;
 
     @Getter
     private final int tier;
@@ -76,7 +74,7 @@ public final class TurbineMachine extends ElectricMultiblockMachine {
         super(holder);
         this.mega = mega;
         this.tier = tier;
-        baseEUOutput = (int) (GTValues.V[tier] * (mega ? 4 : 1) * (special ? 2.5 : 2));
+        baseEUOutput = (long) (GTValues.V[tier] * (mega ? 4 : 1) * (special ? 2.5 : 2));
         rotorSubs = new ConditionalSubscriptionHandler(this, this::rotorUpdate, () -> rotorHatchPartMachine != null);
     }
 
@@ -244,7 +242,7 @@ public final class TurbineMachine extends ElectricMultiblockMachine {
             }
             if (!mega) {
                 int rotorDurability = rotorHolder.getRotorDurabilityPercent();
-                if (rotorDurability > MIN_DURABILITY_TO_WARN) {
+                if (rotorDurability > 10) {
                     textList.add(Component.translatable("gtceu.multiblock.turbine.rotor_durability", rotorDurability));
                 } else {
                     textList.add(Component.translatable("gtceu.multiblock.turbine.rotor_durability", rotorDurability)

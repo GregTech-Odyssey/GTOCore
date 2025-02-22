@@ -148,6 +148,7 @@ public final class LangHandler {
         addENCN("config.jade.plugin_gtocore.accelerate_provider", "[GTOCore] Accelerated Bar", "[GTOCore] 加速条");
         addENCN("config.jade.plugin_gtocore.wireless_data_hatch_provider", "[GTOCore] Wireless Data", "[GTOCore] 无线数据");
         addENCN("config.jade.plugin_gtocore.mana_container_provider", "[GTOCore] Mana Container", "[GTOCore] 魔力容器");
+        addENCN("config.jade.plugin_gtocore.vacuum_tier_provider", "[GTOCore] Vacuum Tier", "[GTOCore] 真空等级");
 
         addENCN("fluid.gtocore.gelid_cryotheum", "Gelid Cryotheum", "极寒之凛冰");
 

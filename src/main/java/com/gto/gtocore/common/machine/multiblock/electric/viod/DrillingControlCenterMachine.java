@@ -36,7 +36,7 @@ public final class DrillingControlCenterMachine extends ElectricMultiblockMachin
     @Override
     public void onStructureFormed() {
         super.onStructureFormed();
-        DRILLING_NETWORK.add(this);
+        if (!isRemote()) DRILLING_NETWORK.add(this);
     }
 
     @Override

@@ -172,9 +172,11 @@ public final class GTORecipes implements Runnable {
         ChemicalHelper.reinitializeUnification();
         MaterialInfoLoader.init();
         GTOMaterialInfoLoader.init();
+        ToolRecipeHandler.setup();
 
         Consumer<FinishedRecipe> consumer = GTDynamicDataPack::addRecipe;
 
+        CustomToolRecipes.init(consumer);
         ChemistryRecipes.init(consumer);
         MetaTileEntityMachineRecipeLoader.init(consumer);
         MiscRecipeLoader.init(consumer);
@@ -197,16 +199,14 @@ public final class GTORecipes implements Runnable {
         GT_FILTER_RECIPES = null;
         SHAPED_FILTER_RECIPES = null;
 
-        ToolRecipeHandler.setup();
-
         for (Material material : GTCEuAPI.materialManager.getRegisteredMaterials()) {
             if (material.hasFlag(MaterialFlags.NO_UNIFICATION) || !material.hasProperty(PropertyKey.DUST)) {
                 continue;
             }
 
+            ToolRecipeHandler.run(consumer, material);
             DecompositionRecipeHandler.run(consumer, material);
             PolarizingRecipeHandler.run(consumer, material);
-            ToolRecipeHandler.run(consumer, material);
             GTOMaterialRecipeHandler.run(consumer, material);
             GTOOreRecipeHandler.run(consumer, material);
             GTOPartsRecipeHandler.run(consumer, material);

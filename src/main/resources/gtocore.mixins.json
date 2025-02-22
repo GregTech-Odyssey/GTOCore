@@ -12,6 +12,7 @@
         "ae2.gui.SettingToggleButtonMixin",
         "emi.RecipeScreenMixin",
         "gtm.renderer.TagPrefixItemRendererMixin",
+        "lowdraglib.CustomBakedModelMixin",
         "mc.ClientLevelMixin",
         "mc.ClientRecipeBookMixin",
         "mc.ModelBakeryMixin",

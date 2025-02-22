@@ -1223,6 +1223,7 @@
   "config.gtocore.option.spacetimePip": "Spacetime Pipe Flow",
   "config.jade.plugin_gtocore.accelerate_provider": "[GTOCore] Accelerated Bar",
   "config.jade.plugin_gtocore.mana_container_provider": "[GTOCore] Mana Container",
+  "config.jade.plugin_gtocore.vacuum_tier_provider": "[GTOCore] Vacuum Tier",
   "config.jade.plugin_gtocore.wireless_data_hatch_provider": "[GTOCore] Wireless Data",
   "config.screen.gtocore": "GTO Core Config",
   "entity.gtocore.task_entity": "Task Entity",

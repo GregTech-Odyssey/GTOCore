@@ -161,7 +161,7 @@ public final class MachineUtils {
         if (machine instanceof IMultiController controller && controller.isFormed()) {
             Optional<IParallelHatch> parallelHatch = controller.getParallelHatch();
             if (parallelHatch.isPresent()) {
-                return parallelHatch.get().getCurrentParallel();
+                return Math.max(1, parallelHatch.get().getCurrentParallel());
             }
         }
         return 1;
