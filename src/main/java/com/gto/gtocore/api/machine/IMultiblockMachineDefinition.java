@@ -1,7 +1,6 @@
 package com.gto.gtocore.api.machine;
 
 import com.gto.gtocore.GTOCore;
-import com.gto.gtocore.client.gui.PatternPreview;
 import com.gto.gtocore.common.data.machines.MultiBlockD;
 import com.gto.gtocore.config.GTOConfig;
 
@@ -43,7 +42,6 @@ public interface IMultiblockMachineDefinition {
         long time = System.currentTimeMillis();
         for (MachineDefinition machine : GTRegistries.MACHINES.values()) {
             if (machine instanceof MultiblockMachineDefinition definition && definition.isRenderXEIPreview() && definition instanceof IMultiblockMachineDefinition machineDefinition) {
-                if (PatternPreview.SAME_STRUCTURE_MACHINES.containsKey(definition)) continue;
                 List<MultiblockShapeInfo> shapes = definition.getMatchingShapes();
                 Pattern[] patterns;
                 if (DYNAMIC_STRUCTURE.contains(definition) || !GTOConfig.INSTANCE.fastMultiBlockPage) {

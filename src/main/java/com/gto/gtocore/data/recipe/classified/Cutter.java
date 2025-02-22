@@ -88,10 +88,10 @@ interface Cutter {
                 .save(provider);
 
         GTRecipeTypes.CUTTER_RECIPES.recipeBuilder(GTOCore.id("rutherfordium_neutronium_wafer"))
-                .inputItems(GTOItems.RUTHERFORDIUM_NEUTRONIUM_BOULE.asStack())
+                .inputItems(GTOItems.RUTHERFORDIUM_AMPROSIUM_BOULE.asStack())
                 .inputFluids(GTOMaterials.FlocculentWater.getFluid(1600))
-                .outputItems(GTOItems.RUTHERFORDIUM_NEUTRONIUM_WAFER.asStack(64))
-                .outputItems(GTOItems.RUTHERFORDIUM_NEUTRONIUM_WAFER.asStack(32))
+                .outputItems(GTOItems.RUTHERFORDIUM_AMPROSIUM_WAFER.asStack(64))
+                .outputItems(GTOItems.RUTHERFORDIUM_AMPROSIUM_WAFER.asStack(32))
                 .EUt(30720)
                 .duration(3200)
                 .cleanroom(CleanroomType.CLEANROOM)

@@ -77,15 +77,6 @@ interface ImplosionCompressor {
                 .duration(20)
                 .save(provider);
 
-        GTRecipeTypes.IMPLOSION_RECIPES.recipeBuilder(GTOCore.id("neutron_ingot_dynamite"))
-                .inputItems(new ItemStack(ModItems.neutron_nugget.get(), 9))
-                .inputItems(GTItems.DYNAMITE.asStack(2))
-                .outputItems(ModItems.neutron_ingot.get())
-                .chancedOutput(TagPrefix.dust, GTMaterials.DarkAsh, 2500, 0)
-                .EUt(30)
-                .duration(20)
-                .save(provider);
-
         GTRecipeTypes.IMPLOSION_RECIPES.recipeBuilder(GTOCore.id("diamond_lattice_dynamite"))
                 .inputItems(TagPrefix.gemExquisite, GTMaterials.Diamond, 4)
                 .inputItems(new ItemStack(Items.NETHERITE_SCRAP.asItem()))
@@ -126,15 +117,6 @@ interface ImplosionCompressor {
                 .duration(20)
                 .save(provider);
 
-        GTRecipeTypes.IMPLOSION_RECIPES.recipeBuilder(GTOCore.id("neutron_tnt"))
-                .inputItems(new ItemStack(ModItems.neutron_ingot.get(), 9))
-                .inputItems(new ItemStack(Blocks.TNT.asItem(), 4))
-                .outputItems(ModBlocks.neutron.get().asItem())
-                .chancedOutput(TagPrefix.dust, GTMaterials.DarkAsh, 2500, 0)
-                .EUt(30)
-                .duration(20)
-                .save(provider);
-
         GTRecipeTypes.IMPLOSION_RECIPES.recipeBuilder(GTOCore.id("double_compressed_crafting_table_itnt"))
                 .inputItems(new ItemStack(ModBlocks.compressed_crafting_table.get().asItem(), 64))
                 .inputItems(new ItemStack(ModBlocks.compressed_crafting_table.get().asItem(), 64))
@@ -150,15 +132,6 @@ interface ImplosionCompressor {
                 .inputItems(GTOItems.TWO_WAY_FOIL.asStack())
                 .inputItems(GTItems.DYNAMITE.asStack(2))
                 .outputItems(GTOItems.COMMAND_BLOCK_CORE.asStack())
-                .chancedOutput(TagPrefix.dust, GTMaterials.DarkAsh, 2500, 0)
-                .EUt(30)
-                .duration(20)
-                .save(provider);
-
-        GTRecipeTypes.IMPLOSION_RECIPES.recipeBuilder(GTOCore.id("neutron_ingot_tnt"))
-                .inputItems(new ItemStack(ModItems.neutron_nugget.get(), 9))
-                .inputItems(new ItemStack(Blocks.TNT.asItem(), 4))
-                .outputItems(ModItems.neutron_ingot.get())
                 .chancedOutput(TagPrefix.dust, GTMaterials.DarkAsh, 2500, 0)
                 .EUt(30)
                 .duration(20)
@@ -184,15 +157,6 @@ interface ImplosionCompressor {
                 .duration(20)
                 .save(provider);
 
-        GTRecipeTypes.IMPLOSION_RECIPES.recipeBuilder(GTOCore.id("neutron_ingot_powderbarrel"))
-                .inputItems(new ItemStack(ModItems.neutron_nugget.get(), 9))
-                .inputItems(GTBlocks.POWDERBARREL.asStack(8))
-                .outputItems(ModItems.neutron_ingot.get())
-                .chancedOutput(TagPrefix.dust, GTMaterials.DarkAsh, 2500, 0)
-                .EUt(30)
-                .duration(20)
-                .save(provider);
-
         GTRecipeTypes.IMPLOSION_RECIPES.recipeBuilder(GTOCore.id("compressed_chest_powderbarrel"))
                 .inputItems(new ItemStack(Blocks.CHEST.asItem(), 2))
                 .inputItems(new ItemStack(AEBlocks.SMOOTH_SKY_STONE_CHEST.block().asItem(), 2))
@@ -213,15 +177,6 @@ interface ImplosionCompressor {
                 .duration(20)
                 .save(provider);
 
-        GTRecipeTypes.IMPLOSION_RECIPES.recipeBuilder(GTOCore.id("neutron_dynamite"))
-                .inputItems(new ItemStack(ModItems.neutron_ingot.get(), 9))
-                .inputItems(GTItems.DYNAMITE.asStack(2))
-                .outputItems(ModBlocks.neutron.get().asItem())
-                .chancedOutput(TagPrefix.dust, GTMaterials.DarkAsh, 2500, 0)
-                .EUt(30)
-                .duration(20)
-                .save(provider);
-
         GTRecipeTypes.IMPLOSION_RECIPES.recipeBuilder(GTOCore.id("heavy_duty_plate_1_itnt"))
                 .inputItems(TagPrefix.plateDouble, GTMaterials.StainlessSteel, 4)
                 .inputItems(TagPrefix.plateDense, GTMaterials.Steel, 2)
@@ -237,15 +192,6 @@ interface ImplosionCompressor {
                 .inputItems(new ItemStack(AEBlocks.SMOOTH_SKY_STONE_CHEST.block().asItem(), 2))
                 .inputItems(GTItems.DYNAMITE.asStack(2))
                 .outputItems(ModBlocks.compressed_chest.get().asItem())
-                .chancedOutput(TagPrefix.dust, GTMaterials.DarkAsh, 2500, 0)
-                .EUt(30)
-                .duration(20)
-                .save(provider);
-
-        GTRecipeTypes.IMPLOSION_RECIPES.recipeBuilder(GTOCore.id("neutron_itnt"))
-                .inputItems(new ItemStack(ModItems.neutron_ingot.get(), 9))
-                .inputItems(GTBlocks.INDUSTRIAL_TNT.asStack())
-                .outputItems(ModBlocks.neutron.get().asItem())
                 .chancedOutput(TagPrefix.dust, GTMaterials.DarkAsh, 2500, 0)
                 .EUt(30)
                 .duration(20)
@@ -391,15 +337,6 @@ interface ImplosionCompressor {
                 .duration(20)
                 .save(provider);
 
-        GTRecipeTypes.IMPLOSION_RECIPES.recipeBuilder(GTOCore.id("neutron_ingot_itnt"))
-                .inputItems(new ItemStack(ModItems.neutron_nugget.get(), 9))
-                .inputItems(GTBlocks.INDUSTRIAL_TNT.asStack())
-                .outputItems(ModItems.neutron_ingot.get())
-                .chancedOutput(TagPrefix.dust, GTMaterials.DarkAsh, 2500, 0)
-                .EUt(30)
-                .duration(20)
-                .save(provider);
-
         GTRecipeTypes.IMPLOSION_RECIPES.recipeBuilder(GTOCore.id("entangled_singularity_tnt"))
                 .inputItems(new ItemStack(AEItems.SINGULARITY.asItem()))
                 .inputItems(GTOItems.WARPED_ENDER_PEARL.asStack())
@@ -440,15 +377,6 @@ interface ImplosionCompressor {
                 .duration(20)
                 .save(provider);
 
-        GTRecipeTypes.IMPLOSION_RECIPES.recipeBuilder(GTOCore.id("neutron_powderbarrel"))
-                .inputItems(new ItemStack(ModItems.neutron_ingot.get(), 9))
-                .inputItems(GTBlocks.POWDERBARREL.asStack(8))
-                .outputItems(ModBlocks.neutron.get().asItem())
-                .chancedOutput(TagPrefix.dust, GTMaterials.DarkAsh, 2500, 0)
-                .EUt(30)
-                .duration(20)
-                .save(provider);
-
         GTRecipeTypes.IMPLOSION_RECIPES.recipeBuilder(GTOCore.id("compressed_chest_itnt"))
                 .inputItems(new ItemStack(Blocks.CHEST.asItem(), 2))
                 .inputItems(new ItemStack(AEBlocks.SMOOTH_SKY_STONE_CHEST.block().asItem(), 2))
@@ -471,13 +399,6 @@ interface ImplosionCompressor {
                 .inputItems(new ItemStack(Blocks.CHEST.asItem(), 2))
                 .inputItems(new ItemStack(AEBlocks.SMOOTH_SKY_STONE_CHEST.block().asItem(), 2))
                 .outputItems(ModBlocks.compressed_chest.get().asItem())
-                .EUt(491520)
-                .duration(1)
-                .save(provider);
-
-        GTORecipeTypes.ELECTRIC_IMPLOSION_COMPRESSOR_RECIPES.recipeBuilder(GTOCore.id("neutron"))
-                .inputItems(new ItemStack(ModItems.neutron_ingot.get(), 9))
-                .outputItems(ModBlocks.neutron.get().asItem())
                 .EUt(491520)
                 .duration(1)
                 .save(provider);
@@ -534,13 +455,6 @@ interface ImplosionCompressor {
                 .inputItems(TagPrefix.plateDouble, GTMaterials.StainlessSteel, 4)
                 .inputItems(TagPrefix.plateDense, GTMaterials.Steel, 2)
                 .outputItems(GTOItems.HEAVY_DUTY_PLATE_1.asStack())
-                .EUt(491520)
-                .duration(1)
-                .save(provider);
-
-        GTORecipeTypes.ELECTRIC_IMPLOSION_COMPRESSOR_RECIPES.recipeBuilder(GTOCore.id("neutron_ingot"))
-                .inputItems(new ItemStack(ModItems.neutron_nugget.get(), 9))
-                .outputItems(ModItems.neutron_ingot.get())
                 .EUt(491520)
                 .duration(1)
                 .save(provider);

@@ -160,7 +160,7 @@ public final class NeutronVortexMachine extends NeutronActivatorMachine implemen
                                 .or(abilities(PARALLEL_HATCH).setMaxGlobalLimited(1))
                                 .or(abilities(MAINTENANCE).setExactLimit(1)))
                         .where('Q', blocks(GTOBlocks.ENDERIUM_BOROSILICATE_GLASS.get()))
-                        .where('R', blocks(GTOBlocks.NEUTRONIUM_ACTIVE_CASING.get()))
+                        .where('R', blocks(GTOBlocks.AMPROSIUM_ACTIVE_CASING.get()))
                         .where('S', controller(blocks(definition.get())))
                         .build();
             } else {
@@ -200,7 +200,7 @@ public final class NeutronVortexMachine extends NeutronActivatorMachine implemen
                                 .or(abilities(PARALLEL_HATCH).setMaxGlobalLimited(1))
                                 .or(abilities(MAINTENANCE).setExactLimit(1)))
                         .where('I', blocks(GTOBlocks.ENDERIUM_BOROSILICATE_GLASS.get()))
-                        .where('J', blocks(GTOBlocks.NEUTRONIUM_ACTIVE_CASING.get()))
+                        .where('J', blocks(GTOBlocks.AMPROSIUM_ACTIVE_CASING.get()))
                         .where('K', controller(blocks(definition.get())))
                         .build();
             }

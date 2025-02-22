@@ -231,7 +231,7 @@ interface FormingPress {
                 .save(provider);
 
         GTRecipeTypes.FORMING_PRESS_RECIPES.recipeBuilder(GTOCore.id("optical_ram_wafer"))
-                .inputItems(GTOItems.RUTHERFORDIUM_NEUTRONIUM_WAFER.asStack())
+                .inputItems(GTOItems.RUTHERFORDIUM_AMPROSIUM_WAFER.asStack())
                 .inputItems(GTItems.RANDOM_ACCESS_MEMORY_WAFER.asStack())
                 .inputItems(GTOItems.PHOTON_CARRYING_WAFER.asStack())
                 .outputItems(GTOItems.OPTICAL_RAM_WAFER.asStack())

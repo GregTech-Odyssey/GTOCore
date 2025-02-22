@@ -231,7 +231,7 @@ public interface GTOBlocks {
     BlockEntry<Block> HSSS_BOROSILICATE_GLASS = createTierGlassCasings("hsss_borosilicate_glass", "高速钢-S强化硼玻璃", GTOCore.id("block/casings/hsss_borosilicate_glass"), GTValues.LuV);
     BlockEntry<Block> NAQUADAH_BOROSILICATE_GLASS = createTierGlassCasings("naquadah_borosilicate_glass", "硅岩强化硼玻璃", GTOCore.id("block/casings/naquadah_borosilicate_glass"), GTValues.ZPM);
     BlockEntry<Block> TRITANIUM_BOROSILICATE_GLASS = createTierGlassCasings("tritanium_borosilicate_glass", "三钛强化硼玻璃", GTOCore.id("block/casings/tritanium_borosilicate_glass"), GTValues.UV);
-    BlockEntry<Block> NEUTRONIUM_BOROSILICATE_GLASS = createTierGlassCasings("neutronium_borosilicate_glass", "中子强化硼玻璃", GTOCore.id("block/casings/neutronium_borosilicate_glass"), GTValues.UHV);
+    BlockEntry<Block> AMPROSIUM_BOROSILICATE_GLASS = createTierGlassCasings("amprosium_borosilicate_glass", "安普洛强化硼玻璃", GTOCore.id("block/casings/neutronium_borosilicate_glass"), GTValues.UHV);
     BlockEntry<Block> ENDERIUM_BOROSILICATE_GLASS = createTierGlassCasings("enderium_borosilicate_glass", "末影强化硼玻璃", GTOCore.id("block/casings/enderium_borosilicate_glass"), GTValues.UEV);
     BlockEntry<Block> TARANIUM_BOROSILICATE_GLASS = createTierGlassCasings("taranium_borosilicate_glass", "塔兰强化硼玻璃", GTOCore.id("block/casings/taranium_borosilicate_glass"), GTValues.UIV);
     BlockEntry<Block> QUARKS_BOROSILICATE_GLASS = createTierGlassCasings("quarks_borosilicate_glass", "夸克强化硼玻璃", GTOCore.id("block/casings/quarks_borosilicate_glass"), GTValues.UXV);
@@ -240,7 +240,7 @@ public interface GTOBlocks {
 
     BlockEntry<Block> INFINITY_GLASS = createGlassCasingBlock("infinity_glass", "无尽强化玻璃", GTOCore.id("block/casings/infinity_glass"));
     BlockEntry<Block> RHENIUM_REINFORCED_ENERGY_GLASS = createGlassCasingBlock("rhenium_reinforced_energy_glass", "铼强化聚能玻璃", GTOCore.id("block/casings/rhenium_reinforced_energy_glass"));
-    BlockEntry<Block> ELECTRON_PERMEABLE_NEUTRONIUM_COATED_GLASS = createGlassCasingBlock("electron_permeable_neutronium_coated_glass", "电子渗透中子素涂层玻璃", GTOCore.id("block/casings/electron_permeable_neutronium_coated_glass"));
+    BlockEntry<Block> ELECTRON_PERMEABLE_AMPROSIUM_COATED_GLASS = createGlassCasingBlock("electron_permeable_amprosium_coated_glass", "电子渗透安普洛涂层玻璃", GTOCore.id("block/casings/electron_permeable_neutronium_coated_glass"));
     BlockEntry<Block> NON_PHOTONIC_MATTER_EXCLUSION_GLASS = createGlassCasingBlock("non_photonic_matter_exclusion_glass", "非光子物质排除玻璃", GTOCore.id("block/casings/non_photonic_matter_exclusion_glass"));
     BlockEntry<Block> OMNI_PURPOSE_INFINITY_FUSED_GLASS = createGlassCasingBlock("omni_purpose_infinity_fused_glass", "全能无限融合玻璃", GTOCore.id("block/casings/omni_purpose_infinity_fused_glass"));
     BlockEntry<Block> HAWKING_RADIATION_REALIGNMENT_FOCUS = createGlassCasingBlock("hawking_radiation_realignment_focus", "霍金辐射重新调整焦点", GTOCore.id("block/casings/hawking_radiation_realignment_focus"));
@@ -255,10 +255,10 @@ public interface GTOBlocks {
     BlockEntry<Block> LEPTONIC_CHARGE = createCasingBlock("leptonic_charge", "轻子爆弹", GTOCore.id("block/leptonic_charge"));
     BlockEntry<Block> QUANTUM_CHROMODYNAMIC_CHARGE = createCasingBlock("quantum_chromodynamic_charge", "量子色动力学爆弹", GTOCore.id("block/quantum_chromodynamic_charge"));
     BlockEntry<Block> ANNIHILATE_CORE = createCasingBlock("annihilate_core", "湮灭核心", GTOCore.id("block/annihilate_core"));
-    BlockEntry<Block> NEUTRONIUM_PIPE_CASING = createCasingBlock("neutronium_pipe_casing", "中子素管道方块", GTOCore.id("block/neutronium_pipe_casing"));
+    BlockEntry<Block> AMPROSIUM_PIPE_CASING = createCasingBlock("amprosium_pipe_casing", "安普洛管道方块", GTOCore.id("block/neutronium_pipe_casing"));
     BlockEntry<Block> INCONEL_625_PIPE = createCasingBlock("inconel_625_pipe", "镍铬基合金-625温和分散管道", GTOCore.id("block/inconel_625_pipe"));
     BlockEntry<Block> HASTELLOY_N_75_PIPE = createCasingBlock("hastelloy_n_75_pipe", "哈斯特洛依合金-N75油膜管道", GTOCore.id("block/hastelloy_n_75_pipe"));
-    BlockEntry<Block> NEUTRONIUM_GEARBOX = createCasingBlock("neutronium_gearbox", "中子素齿轮箱机械方块", GTOCore.id("block/neutronium_gearbox"));
+    BlockEntry<Block> AMPROSIUM_GEARBOX = createCasingBlock("amprosium_gearbox", "安普洛齿轮箱机械方块", GTOCore.id("block/neutronium_gearbox"));
     BlockEntry<Block> INCONEL_625_GEARBOX = createCasingBlock("inconel_625_gearbox", "镍铬基合金-625球磨齿轮箱", GTOCore.id("block/inconel_625_gearbox"));
     BlockEntry<Block> HASTELLOY_N_75_GEARBOX = createCasingBlock("hastelloy_n_75_gearbox", "哈斯特洛依合金-N75齿轮箱", GTOCore.id("block/hastelloy_n_75_gearbox"));
     BlockEntry<Block> LASER_COOLING_CASING = createCasingBlock("laser_cooling_casing", "激光冷却方块", GTOCore.id("block/laser_cooling_casing"));
@@ -335,13 +335,13 @@ public interface GTOBlocks {
     BlockEntry<Block> GRAVITY_STABILIZATION_CASING = createCasingBlock("gravity_stabilization_casing", "重力稳定机械方块", GTOCore.id("block/gravity_stabilization_casing"));
     BlockEntry<Block> HIGH_PRESSURE_RESISTANT_CASING = createCasingBlock("high_pressure_resistant_casing", "高能耐耐机械方块", GTOCore.id("block/high_pressure_resistant_casing"));
     BlockEntry<Block> LASER_CASING = createCasingBlock("laser_casing", "激光机械方块", GTOCore.id("block/laser_casing"));
-    BlockEntry<Block> NEUTRONIUM_CASING = createCasingBlock("neutronium_casing", "中子素机械方块", GTOCore.id("block/neutronium_casing"));
+    BlockEntry<Block> AMPROSIUM_CASING = createCasingBlock("amprosium_casing", "安普洛机械方块", GTOCore.id("block/neutronium_casing"));
     BlockEntry<Block> OZONE_CASING = createCasingBlock("ozone_casing", "臭氧机械方块", GTOCore.id("block/ozone_casing"));
     BlockEntry<Block> PLASMA_HEATER_CASING = createCasingBlock("plasma_heater_casing", "等离子加热机械方块", GTOCore.id("block/plasma_heater_casing"));
     BlockEntry<Block> RADIATION_ABSORBENT_CASING = createCasingBlock("radiation_absorbent_casing", "辐射吸收机械方块", GTOCore.id("block/radiation_absorbent_casing"));
     BlockEntry<Block> REINFORCED_WOOD_CASING = createSidedCasingBlock("reinforced_wood_casing", "增强木制机械方块", GTOCore.id("block/casings/reinforced_wood_casing"));
     BlockEntry<Block> SHIELDED_ACCELERATOR = createCasingBlock("shielded_accelerator", "屏蔽加速器机械方块", GTOCore.id("block/shielded_accelerator"));
-    BlockEntry<Block> NEUTRONIUM_ACTIVE_CASING = createCasingBlock("neutronium_active_casing", "中子素活性机械方块", GTOCore.id("block/neutronium_active_casing"));
+    BlockEntry<Block> AMPROSIUM_ACTIVE_CASING = createCasingBlock("amprosium_active_casing", "安普洛活性机械方块", GTOCore.id("block/neutronium_active_casing"));
     BlockEntry<Block> QUARK_PIPE = createCasingBlock("quark_pipe", "夸克管道", GTOCore.id("block/quark_pipe"));
     BlockEntry<Block> INERT_NEUTRALIZATION_WATER_PLANT_CASING = createCasingBlock("inert_neutralization_water_plant_casing", "惰性中和水处理机械方块", GTOCore.id("block/inert_neutralization_water_plant_casing"));
     BlockEntry<Block> HIGH_ENERGY_ULTRAVIOLET_EMITTER_CASING = createCasingBlock("high_energy_ultraviolet_emitter_casing", "高能紫外线发射器机械方块", GTOCore.id("block/high_energy_ultraviolet_emitter_casing"));

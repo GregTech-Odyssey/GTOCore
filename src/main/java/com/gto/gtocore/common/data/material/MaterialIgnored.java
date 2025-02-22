@@ -167,6 +167,9 @@ public interface MaterialIgnored {
         TagPrefix.ingot.setIgnored(Infinity, infinity_ingot);
         TagPrefix.nugget.setIgnored(Infinity, infinity_nugget);
         TagPrefix.block.setIgnored(Infinity, infinity);
+        TagPrefix.ingot.setIgnored(Neutron, neutron_ingot);
+        TagPrefix.nugget.setIgnored(Neutron, neutron_nugget);
+        TagPrefix.block.setIgnored(Neutron, committee.nova.mods.avaritia.init.registry.ModBlocks.neutron);
 
         if (GTCEu.isProd()) {
             TagPrefix.ingot.setIgnored(Alfsteel, () -> () -> alfsteelIngot);

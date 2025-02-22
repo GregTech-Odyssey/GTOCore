@@ -1,5 +1,6 @@
 {
   "values": [
+    "gtocore:amprosium_bucket",
     "gtocore:mana_bucket",
     "gtocore:salamander_bucket",
     "gtocore:salamander_gas_bucket",

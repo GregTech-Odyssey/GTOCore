@@ -1456,7 +1456,7 @@ interface Assembler {
                 .inputItems(TagPrefix.plateDouble, GTOMaterials.Lafium, 4)
                 .inputItems(TagPrefix.plate, GTMaterials.Neutronium, 8)
                 .inputFluids(GTMaterials.Seaborgium.getFluid(576))
-                .outputItems(GTOBlocks.NEUTRONIUM_ACTIVE_CASING.asStack())
+                .outputItems(GTOBlocks.AMPROSIUM_ACTIVE_CASING.asStack())
                 .EUt(480)
                 .duration(200)
                 .save(provider);
@@ -2161,7 +2161,7 @@ interface Assembler {
                 .inputItems(TagPrefix.gear, GTMaterials.Neutronium, 2)
                 .inputItems(TagPrefix.frameGt, GTMaterials.Neutronium)
                 .circuitMeta(4)
-                .outputItems(GTOBlocks.NEUTRONIUM_GEARBOX.asStack())
+                .outputItems(GTOBlocks.AMPROSIUM_GEARBOX.asStack())
                 .EUt(16)
                 .duration(50)
                 .save(provider);
@@ -2921,7 +2921,7 @@ interface Assembler {
                 .inputItems(TagPrefix.plate, GTMaterials.RutheniumTriniumAmericiumNeutronate, 4)
                 .inputItems(GTOTagPrefix.curvedPlate, GTMaterials.Neutronium, 12)
                 .inputFluids(GTOMaterials.Enderium.getFluid(576))
-                .outputItems(GTOBlocks.NEUTRONIUM_CASING.asStack())
+                .outputItems(GTOBlocks.AMPROSIUM_CASING.asStack())
                 .EUt(480)
                 .duration(200)
                 .save(provider);

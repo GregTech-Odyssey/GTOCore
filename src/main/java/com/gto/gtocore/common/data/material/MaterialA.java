@@ -2557,7 +2557,7 @@ public interface MaterialA {
                 .element(GTOElements.STARLIGHT)
                 .buildAndRegister();
 
-        DenseNeutron = material("dense_neutron", "致密中子素")
+        DenseNeutron = material("dense_neutron", "致密中子")
                 .plasma()
                 .color(0x9ce89c)
                 .element(GTOElements.DENSE_NEUTRON)

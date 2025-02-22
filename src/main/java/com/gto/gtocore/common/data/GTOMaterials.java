@@ -6,6 +6,7 @@ import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 
 public final class GTOMaterials {
 
+    public static Material Neutron;
     public static Material Fluix;
     public static Material Desh;
     public static Material Ostrum;

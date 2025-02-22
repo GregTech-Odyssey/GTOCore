@@ -84,7 +84,6 @@ public final class LangHandler {
         addENCN("gtocore.fly_speed_reset", "fly Speed Reset", "飞行速度已重置");
         addENCN("gtocore.fly_speed", "fly Speed x%s", "飞行速度 x%s");
         addENCN("gtocore.reach_limit", "Reach Limit", "达到极限");
-        addENCN("gtocore.same", "Same", "相同");
         addENCN("gtocore.me_any", "ME hatch allows connection from any side.", "ME仓允许任意面连接");
         addENCN("gtocore.me_front", "ME hatch only allows connection from the front side.", "ME仓只允许正面连接");
 

@@ -65,7 +65,7 @@ interface PrecisionLaserEngraver {
                 .save(provider);
 
         GTORecipeTypes.PRECISION_LASER_ENGRAVER_RECIPES.recipeBuilder(GTOCore.id("nm_wafer"))
-                .inputItems(GTOItems.RUTHERFORDIUM_NEUTRONIUM_WAFER.asStack())
+                .inputItems(GTOItems.RUTHERFORDIUM_AMPROSIUM_WAFER.asStack())
                 .notConsumable(GTOItems.LITHOGRAPHY_MASK.asStack())
                 .notConsumable(TagPrefix.lens, MarkerMaterials.Color.Blue)
                 .notConsumable(TagPrefix.lens, MarkerMaterials.Color.Brown)
@@ -81,7 +81,7 @@ interface PrecisionLaserEngraver {
                 .save(provider);
 
         GTORecipeTypes.PRECISION_LASER_ENGRAVER_RECIPES.recipeBuilder(GTOCore.id("raw_photon_carrying_wafer"))
-                .inputItems(GTOItems.RUTHERFORDIUM_NEUTRONIUM_WAFER.asStack())
+                .inputItems(GTOItems.RUTHERFORDIUM_AMPROSIUM_WAFER.asStack())
                 .notConsumable(GTOItems.LITHOGRAPHY_MASK.asStack())
                 .notConsumable(TagPrefix.lens, MarkerMaterials.Color.LightGray)
                 .notConsumable(TagPrefix.lens, MarkerMaterials.Color.Purple)

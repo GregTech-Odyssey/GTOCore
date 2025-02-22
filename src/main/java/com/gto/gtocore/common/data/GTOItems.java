@@ -621,8 +621,8 @@ public interface GTOItems {
     ItemEntry<Item> DRAGON_HEART = register("dragon_heart", "龙之心");
     ItemEntry<Item> STABILIZER_CORE = register("stabilizer_core", "稳定核心");
     ItemEntry<Item> DRAGON_STABILIZER_CORE = register("dragon_stabilizer_core", "龙之稳定核心");
-    ItemEntry<Item> RUTHERFORDIUM_NEUTRONIUM_BOULE = register("rutherfordium_neutronium_boule", "𬬻强化的中子素掺杂的单晶硅");
-    ItemEntry<Item> RUTHERFORDIUM_NEUTRONIUM_WAFER = register("rutherfordium_neutronium_wafer", "𬬻强化的中子素掺杂的晶圆");
+    ItemEntry<Item> RUTHERFORDIUM_AMPROSIUM_BOULE = register("rutherfordium_amprosium_boule", "𬬻强化的安普洛掺杂的单晶硅");
+    ItemEntry<Item> RUTHERFORDIUM_AMPROSIUM_WAFER = register("rutherfordium_amprosium_wafer", "𬬻强化的安普洛掺杂的晶圆");
     ItemEntry<Item> TARANIUM_BOULE = register("taranium_boule", "塔兰掺杂的单晶硅");
     ItemEntry<Item> TARANIUM_WAFER = register("taranium_wafer", "塔兰掺杂的晶圆");
     ItemEntry<Item> PREPARED_COSMIC_SOC_WAFER = register("prepared_cosmic_soc_wafer", "预备寰宇SoC晶圆");

@@ -4,34 +4,20 @@ import com.gto.gtocore.api.gui.PatternSlotWidget;
 import com.gto.gtocore.api.item.ItemHandlerModifiable;
 import com.gto.gtocore.api.machine.IMultiblockMachineDefinition;
 import com.gto.gtocore.api.machine.feature.multiblock.IMultiStructureMachine;
-import com.gto.gtocore.common.data.GTOBlocks;
-import com.gto.gtocore.common.data.machines.GeneratorMultiblock;
-import com.gto.gtocore.common.data.machines.MultiBlockD;
-import com.gto.gtocore.config.GTOConfig;
 
 import com.gregtechceu.gtceu.GTCEu;
-import com.gregtechceu.gtceu.api.GTValues;
-import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
-import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.widget.SlotWidget;
-import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
 import com.gregtechceu.gtceu.api.pattern.BlockPattern;
 import com.gregtechceu.gtceu.api.pattern.TraceabilityPredicate;
 import com.gregtechceu.gtceu.api.pattern.predicates.SimplePredicate;
-import com.gregtechceu.gtceu.common.data.GCYMBlocks;
-import com.gregtechceu.gtceu.common.data.GTBlocks;
-import com.gregtechceu.gtceu.common.data.GTMachines;
-import com.gregtechceu.gtceu.common.data.GTMaterials;
-import com.gregtechceu.gtceu.common.data.machines.GTMultiMachines;
 import com.gregtechceu.gtceu.config.ConfigHolder;
 import com.gregtechceu.gtceu.integration.xei.handlers.item.CycleItemStackHandler;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.resources.language.I18n;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
@@ -39,7 +25,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-import com.google.common.collect.ImmutableMap;
 import com.lowdragmc.lowdraglib.gui.editor.ColorPattern;
 import com.lowdragmc.lowdraglib.gui.texture.ColorRectTexture;
 import com.lowdragmc.lowdraglib.gui.texture.GuiTextureGroup;
@@ -49,7 +34,6 @@ import com.lowdragmc.lowdraglib.jei.IngredientIO;
 import com.lowdragmc.lowdraglib.utils.BlockInfo;
 import com.lowdragmc.lowdraglib.utils.TrackedDummyWorld;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.datafixers.util.Pair;
 import dev.emi.emi.screen.RecipeScreen;
 import it.unimi.dsi.fastutil.longs.LongSet;
 import it.unimi.dsi.fastutil.longs.LongSets;
@@ -64,169 +48,6 @@ import java.util.stream.Stream;
 @OnlyIn(Dist.CLIENT)
 public final class PatternPreview extends WidgetGroup {
 
-    public static final ImmutableMap<MachineDefinition, Pair<String, List<ItemStack>>> SAME_STRUCTURE_MACHINES;
-
-    static {
-        ImmutableMap.Builder<MachineDefinition, Pair<String, List<ItemStack>>> SameStructureMachineBuilder = ImmutableMap.builder();
-
-        SameStructureMachineBuilder.put(GTMultiMachines.FUSION_REACTOR[GTValues.ZPM], Pair.of(GTMultiMachines.FUSION_REACTOR[GTValues.LuV].getDescriptionId(), List.of(
-                GTMultiMachines.FUSION_REACTOR[GTValues.ZPM].asStack(),
-                GTMachines.ENERGY_INPUT_HATCH[GTValues.ZPM].asStack(16),
-                GTMachines.FLUID_IMPORT_HATCH[GTValues.ZPM].asStack(16),
-                GTMachines.FLUID_EXPORT_HATCH[GTValues.ZPM].asStack(16),
-                GTBlocks.FUSION_CASING_MK2.asStack(79),
-                GTBlocks.FUSION_COIL.asStack(4))));
-        SameStructureMachineBuilder.put(GTMultiMachines.FUSION_REACTOR[GTValues.UV], Pair.of(GTMultiMachines.FUSION_REACTOR[GTValues.LuV].getDescriptionId(), List.of(
-                GTMultiMachines.FUSION_REACTOR[GTValues.UV].asStack(),
-                GTMachines.ENERGY_INPUT_HATCH[GTValues.UV].asStack(16),
-                GTMachines.FLUID_IMPORT_HATCH[GTValues.UV].asStack(16),
-                GTMachines.FLUID_EXPORT_HATCH[GTValues.UV].asStack(16),
-                GTBlocks.FUSION_CASING_MK3.asStack(79),
-                GTBlocks.FUSION_COIL.asStack(4))));
-        SameStructureMachineBuilder.put(MultiBlockD.FUSION_REACTOR[GTValues.UHV], Pair.of(GTMultiMachines.FUSION_REACTOR[GTValues.LuV].getDescriptionId(), List.of(
-                MultiBlockD.FUSION_REACTOR[GTValues.UHV].asStack(),
-                GTMachines.ENERGY_INPUT_HATCH[GTValues.UHV].asStack(16),
-                GTMachines.FLUID_IMPORT_HATCH[GTValues.UHV].asStack(16),
-                GTMachines.FLUID_EXPORT_HATCH[GTValues.UHV].asStack(16),
-                GTOBlocks.FUSION_CASING_MK4.asStack(79),
-                GTOBlocks.ADVANCED_FUSION_COIL.asStack(4))));
-        SameStructureMachineBuilder.put(MultiBlockD.FUSION_REACTOR[GTValues.UEV], Pair.of(GTMultiMachines.FUSION_REACTOR[GTValues.LuV].getDescriptionId(), List.of(
-                MultiBlockD.FUSION_REACTOR[GTValues.UEV].asStack(),
-                GTMachines.ENERGY_INPUT_HATCH[GTValues.UEV].asStack(16),
-                GTMachines.FLUID_IMPORT_HATCH[GTValues.UEV].asStack(16),
-                GTMachines.FLUID_EXPORT_HATCH[GTValues.UEV].asStack(16),
-                GTOBlocks.FUSION_CASING_MK5.asStack(79),
-                GTOBlocks.FUSION_COIL_MK2.asStack(4))));
-        SameStructureMachineBuilder.put(MultiBlockD.KUANGBIAO_ONE_GIANT_NUCLEAR_FUSION_REACTOR[GTValues.ZPM], Pair.of(MultiBlockD.KUANGBIAO_ONE_GIANT_NUCLEAR_FUSION_REACTOR[GTValues.LuV].getDescriptionId(), List.of(
-                MultiBlockD.KUANGBIAO_ONE_GIANT_NUCLEAR_FUSION_REACTOR[GTValues.ZPM].asStack(),
-                GTMachines.FLUID_EXPORT_HATCH[GTValues.ZPM].asStack(16),
-                GTMachines.FLUID_IMPORT_HATCH[GTValues.ZPM].asStack(16),
-                GTMachines.LASER_INPUT_HATCH_256[GTValues.ZPM].asStack(16),
-                GTOBlocks.PBI_RADIATION_RESISTANT_MECHANICAL_ENCLOSURE.asStack(1012),
-                GTOBlocks.STRENGTHEN_THE_BASE_BLOCK.asStack(940),
-                ChemicalHelper.get(TagPrefix.frameGt, GTMaterials.Duranium).copyWithCount(237),
-                ChemicalHelper.get(TagPrefix.frameGt, GTMaterials.Tungsten).copyWithCount(163),
-                GTBlocks.FUSION_GLASS.asStack(80),
-                GTBlocks.FUSION_CASING_MK2.asStack(1534),
-                GCYMBlocks.ELECTROLYTIC_CELL.asStack(60),
-                GCYMBlocks.CASING_NONCONDUCTING.asStack(819),
-                GTOBlocks.FISSION_REACTOR_CASING.asStack(584),
-                GTOBlocks.HIGH_STRENGTH_CONCRETE.asStack(396),
-                GTOBlocks.COMPRESSED_FUSION_COIL.asStack(584))));
-        SameStructureMachineBuilder.put(MultiBlockD.KUANGBIAO_ONE_GIANT_NUCLEAR_FUSION_REACTOR[GTValues.UV], Pair.of(MultiBlockD.KUANGBIAO_ONE_GIANT_NUCLEAR_FUSION_REACTOR[GTValues.LuV].getDescriptionId(), List.of(
-                MultiBlockD.KUANGBIAO_ONE_GIANT_NUCLEAR_FUSION_REACTOR[GTValues.UV].asStack(),
-                GTMachines.FLUID_EXPORT_HATCH[GTValues.UV].asStack(16),
-                GTMachines.FLUID_IMPORT_HATCH[GTValues.UV].asStack(16),
-                GTMachines.LASER_INPUT_HATCH_256[GTValues.UV].asStack(16),
-                GTOBlocks.PBI_RADIATION_RESISTANT_MECHANICAL_ENCLOSURE.asStack(1012),
-                GTOBlocks.STRENGTHEN_THE_BASE_BLOCK.asStack(940),
-                ChemicalHelper.get(TagPrefix.frameGt, GTMaterials.Naquadria).copyWithCount(237),
-                ChemicalHelper.get(TagPrefix.frameGt, GTMaterials.Tungsten).copyWithCount(163),
-                GTBlocks.FUSION_GLASS.asStack(80),
-                GTBlocks.FUSION_CASING_MK3.asStack(1534),
-                GCYMBlocks.ELECTROLYTIC_CELL.asStack(60),
-                GCYMBlocks.CASING_NONCONDUCTING.asStack(819),
-                GTOBlocks.FISSION_REACTOR_CASING.asStack(584),
-                GTOBlocks.HIGH_STRENGTH_CONCRETE.asStack(396),
-                GTOBlocks.ADVANCED_COMPRESSED_FUSION_COIL.asStack(584))));
-        SameStructureMachineBuilder.put(MultiBlockD.KUANGBIAO_ONE_GIANT_NUCLEAR_FUSION_REACTOR[GTValues.UHV], Pair.of(MultiBlockD.KUANGBIAO_ONE_GIANT_NUCLEAR_FUSION_REACTOR[GTValues.LuV].getDescriptionId(), List.of(
-                MultiBlockD.KUANGBIAO_ONE_GIANT_NUCLEAR_FUSION_REACTOR[GTValues.UHV].asStack(),
-                GTMachines.FLUID_EXPORT_HATCH[GTValues.UHV].asStack(16),
-                GTMachines.FLUID_IMPORT_HATCH[GTValues.UHV].asStack(16),
-                GTMachines.LASER_INPUT_HATCH_256[GTValues.UHV].asStack(16),
-                GTOBlocks.PBI_RADIATION_RESISTANT_MECHANICAL_ENCLOSURE.asStack(1012),
-                GTOBlocks.STRENGTHEN_THE_BASE_BLOCK.asStack(940),
-                ChemicalHelper.get(TagPrefix.frameGt, GTMaterials.Trinium).copyWithCount(237),
-                ChemicalHelper.get(TagPrefix.frameGt, GTMaterials.Tungsten).copyWithCount(163),
-                GTBlocks.FUSION_GLASS.asStack(80),
-                GTOBlocks.FUSION_CASING_MK4.asStack(1534),
-                GCYMBlocks.ELECTROLYTIC_CELL.asStack(60),
-                GCYMBlocks.CASING_NONCONDUCTING.asStack(819),
-                GTOBlocks.FISSION_REACTOR_CASING.asStack(584),
-                GTOBlocks.HIGH_STRENGTH_CONCRETE.asStack(396),
-                GTOBlocks.COMPRESSED_FUSION_COIL_MK2_PROTOTYPE.asStack(584))));
-        SameStructureMachineBuilder.put(MultiBlockD.KUANGBIAO_ONE_GIANT_NUCLEAR_FUSION_REACTOR[GTValues.UEV], Pair.of(MultiBlockD.KUANGBIAO_ONE_GIANT_NUCLEAR_FUSION_REACTOR[GTValues.LuV].getDescriptionId(), List.of(
-                MultiBlockD.KUANGBIAO_ONE_GIANT_NUCLEAR_FUSION_REACTOR[GTValues.UEV].asStack(),
-                GTMachines.FLUID_EXPORT_HATCH[GTValues.UEV].asStack(16),
-                GTMachines.FLUID_IMPORT_HATCH[GTValues.UEV].asStack(16),
-                GTMachines.LASER_INPUT_HATCH_256[GTValues.UEV].asStack(16),
-                GTOBlocks.PBI_RADIATION_RESISTANT_MECHANICAL_ENCLOSURE.asStack(1012),
-                GTOBlocks.STRENGTHEN_THE_BASE_BLOCK.asStack(940),
-                ChemicalHelper.get(TagPrefix.frameGt, GTMaterials.Neutronium).copyWithCount(237),
-                ChemicalHelper.get(TagPrefix.frameGt, GTMaterials.Tungsten).copyWithCount(163),
-                GTBlocks.FUSION_GLASS.asStack(80),
-                GTOBlocks.FUSION_CASING_MK5.asStack(1534),
-                GCYMBlocks.ELECTROLYTIC_CELL.asStack(60),
-                GCYMBlocks.CASING_NONCONDUCTING.asStack(819),
-                GTOBlocks.FISSION_REACTOR_CASING.asStack(584),
-                GTOBlocks.HIGH_STRENGTH_CONCRETE.asStack(396),
-                GTOBlocks.COMPRESSED_FUSION_COIL_MK2.asStack(584))));
-        SameStructureMachineBuilder.put(GeneratorMultiblock.PHOTOVOLTAIC_POWER_STATION_PULSATING, Pair.of(GeneratorMultiblock.PHOTOVOLTAIC_POWER_STATION_ENERGETIC.getDescriptionId(), List.of(
-                GeneratorMultiblock.PHOTOVOLTAIC_POWER_STATION_PULSATING.asStack(),
-                GTMachines.ITEM_IMPORT_BUS[0].asStack(),
-                GTBlocks.CASING_TITANIUM_STABLE.asStack(22),
-                GTOBlocks.PULSATING_PHOTOVOLTAIC_BLOCK.asStack(25))));
-        SameStructureMachineBuilder.put(GeneratorMultiblock.PHOTOVOLTAIC_POWER_STATION_VIBRANT, Pair.of(GeneratorMultiblock.PHOTOVOLTAIC_POWER_STATION_ENERGETIC.getDescriptionId(), List.of(
-                GeneratorMultiblock.PHOTOVOLTAIC_POWER_STATION_VIBRANT.asStack(),
-                GTMachines.ITEM_IMPORT_BUS[0].asStack(),
-                GTBlocks.CASING_TUNGSTENSTEEL_ROBUST.asStack(22),
-                GTOBlocks.VIBRANT_PHOTOVOLTAIC_BLOCK.asStack(25))));
-        SameStructureMachineBuilder.put(GTMultiMachines.LARGE_GAS_TURBINE, Pair.of(GTMultiMachines.LARGE_STEAM_TURBINE.getDescriptionId(), List.of(
-                GTMultiMachines.LARGE_GAS_TURBINE.asStack(),
-                GTMachines.ROTOR_HOLDER[GTValues.EV].asStack(),
-                GTMachines.MUFFLER_HATCH[GTValues.LV].asStack(),
-                GTMachines.ENERGY_OUTPUT_HATCH[GTValues.ULV].asStack(),
-                GTMachines.FLUID_IMPORT_HATCH[GTValues.ULV].asStack(),
-                GTMachines.MAINTENANCE_HATCH.asStack(),
-                GTBlocks.CASING_STAINLESS_TURBINE.asStack(28),
-                GTBlocks.CASING_STAINLESS_STEEL_GEARBOX.asStack(2))));
-        SameStructureMachineBuilder.put(GeneratorMultiblock.ROCKET_LARGE_TURBINE, Pair.of(GTMultiMachines.LARGE_STEAM_TURBINE.getDescriptionId(), List.of(
-                GeneratorMultiblock.ROCKET_LARGE_TURBINE.asStack(),
-                GTMachines.ROTOR_HOLDER[GTValues.EV].asStack(),
-                GTMachines.MUFFLER_HATCH[GTValues.LV].asStack(),
-                GTMachines.ENERGY_OUTPUT_HATCH[GTValues.ULV].asStack(),
-                GTMachines.FLUID_IMPORT_HATCH[GTValues.ULV].asStack(),
-                GTMachines.MAINTENANCE_HATCH.asStack(),
-                GTBlocks.CASING_TITANIUM_TURBINE.asStack(28),
-                GTBlocks.CASING_TITANIUM_GEARBOX.asStack(2))));
-        SameStructureMachineBuilder.put(GeneratorMultiblock.SUPERCRITICAL_STEAM_TURBINE, Pair.of(GTMultiMachines.LARGE_STEAM_TURBINE.getDescriptionId(), List.of(
-                GeneratorMultiblock.SUPERCRITICAL_STEAM_TURBINE.asStack(),
-                GTMachines.ROTOR_HOLDER[GTValues.IV].asStack(),
-                GTMachines.MUFFLER_HATCH[GTValues.LV].asStack(),
-                GTMachines.ENERGY_OUTPUT_HATCH[GTValues.ULV].asStack(),
-                GTMachines.FLUID_EXPORT_HATCH[GTValues.ULV].asStack(),
-                GTMachines.FLUID_IMPORT_HATCH[GTValues.ULV].asStack(),
-                GTMachines.MAINTENANCE_HATCH.asStack(),
-                GTOBlocks.SUPERCRITICAL_TURBINE_CASING.asStack(27),
-                GTBlocks.CASING_TUNGSTENSTEEL_GEARBOX.asStack(2))));
-        SameStructureMachineBuilder.put(GeneratorMultiblock.GAS_MEGA_TURBINE, Pair.of(GeneratorMultiblock.STEAM_MEGA_TURBINE.getDescriptionId(), List.of(
-                GeneratorMultiblock.GAS_MEGA_TURBINE.asStack(),
-                GTMachines.ROTOR_HOLDER[GTValues.IV].asStack(12),
-                GTMachines.MUFFLER_HATCH[GTValues.LV].asStack(),
-                GTMachines.ENERGY_OUTPUT_HATCH[GTValues.ULV].asStack(4),
-                GTMachines.MAINTENANCE_HATCH.asStack(),
-                GTBlocks.CASING_STAINLESS_TURBINE.asStack(392),
-                GTBlocks.CASING_STAINLESS_STEEL_GEARBOX.asStack(30))));
-        SameStructureMachineBuilder.put(GeneratorMultiblock.ROCKET_MEGA_TURBINE, Pair.of(GeneratorMultiblock.STEAM_MEGA_TURBINE.getDescriptionId(), List.of(
-                GeneratorMultiblock.ROCKET_MEGA_TURBINE.asStack(),
-                GTMachines.ROTOR_HOLDER[GTValues.IV].asStack(12),
-                GTMachines.MUFFLER_HATCH[GTValues.LV].asStack(),
-                GTMachines.ENERGY_OUTPUT_HATCH[GTValues.ULV].asStack(4),
-                GTMachines.MAINTENANCE_HATCH.asStack(),
-                GTBlocks.CASING_TITANIUM_TURBINE.asStack(392),
-                GTBlocks.CASING_TITANIUM_GEARBOX.asStack(30))));
-        SameStructureMachineBuilder.put(GeneratorMultiblock.SUPERCRITICAL_MEGA_STEAM_TURBINE, Pair.of(GeneratorMultiblock.STEAM_MEGA_TURBINE.getDescriptionId(), List.of(
-                GeneratorMultiblock.SUPERCRITICAL_MEGA_STEAM_TURBINE.asStack(),
-                GTMachines.ROTOR_HOLDER[GTValues.LuV].asStack(12),
-                GTMachines.MUFFLER_HATCH[GTValues.LV].asStack(),
-                GTMachines.ENERGY_OUTPUT_HATCH[GTValues.ULV].asStack(4),
-                GTMachines.MAINTENANCE_HATCH.asStack(),
-                GTOBlocks.SUPERCRITICAL_TURBINE_CASING.asStack(392),
-                GTBlocks.CASING_TUNGSTENSTEEL_GEARBOX.asStack(30))));
-
-        SAME_STRUCTURE_MACHINES = SameStructureMachineBuilder.build();
-    }
-
     private static final boolean isEMILoaded = GTCEu.Mods.isEMILoaded();
     private boolean isLoaded;
     private static TrackedDummyWorld LEVEL;
@@ -234,10 +55,8 @@ public final class PatternPreview extends WidgetGroup {
     private final SceneWidget sceneWidget;
     @Getter
     private final DraggableScrollableWidgetGroup scrollableWidgetGroup;
-    private final MultiblockMachineDefinition controllerDefinition;
     private final MBPattern[] patterns;
     private final List<SimplePredicate> predicates = new ArrayList<>();
-    private boolean same;
     private int index;
     private int layer;
     private SlotWidget[] slotWidgets;
@@ -246,26 +65,12 @@ public final class PatternPreview extends WidgetGroup {
     private PatternPreview(MultiblockMachineDefinition controllerDefinition) {
         super(0, 0, 160, 160);
         setClientSideWidget();
-        if (GTOConfig.INSTANCE.fastMultiBlockPage) {
-            same = SAME_STRUCTURE_MACHINES.containsKey(controllerDefinition);
-        }
-        boolean hide = same;
-        this.controllerDefinition = controllerDefinition;
         layer = -1;
 
-        if (hide) {
-            addWidget(new ImageWidget(3, 3, 150, 150,
-                    new TextTexture((I18n.get("gui.ae2.And") + " " + I18n.get(SAME_STRUCTURE_MACHINES.get(controllerDefinition).getFirst()) + " " + I18n.get("gtocore.same")), -1)
-                            .setType(TextTexture.TextType.ROLL)
-                            .setWidth(170)
-                            .setDropShadow(true)));
-            sceneWidget = null;
-        } else {
-            addWidget(sceneWidget = new SceneWidget(3, 3, 150, 150, LEVEL)
-                    .setOnSelected(this::onPosSelected)
-                    .setRenderFacing(false)
-                    .setRenderFacing(false));
-        }
+        addWidget(sceneWidget = new SceneWidget(3, 3, 150, 150, LEVEL)
+                .setOnSelected(this::onPosSelected)
+                .setRenderFacing(false)
+                .setRenderFacing(false));
 
         scrollableWidgetGroup = new DraggableScrollableWidgetGroup(3, 132, 154, 22)
                 .setXScrollBarHeight(4)
@@ -276,7 +81,7 @@ public final class PatternPreview extends WidgetGroup {
         scrollableWidgetGroup.setScrollYOffset(0);
         addWidget(scrollableWidgetGroup);
 
-        if (!hide && ConfigHolder.INSTANCE.client.useVBO) {
+        if (ConfigHolder.INSTANCE.client.useVBO) {
             if (!RenderSystem.isOnRenderThread()) {
                 RenderSystem.recordRenderCall(sceneWidget::useCacheBuffer);
             } else {
@@ -290,38 +95,33 @@ public final class PatternPreview extends WidgetGroup {
                         .setWidth(170)
                         .setDropShadow(true)));
 
-        if (hide) {
-            patterns = null;
+        if (CACHE.containsKey(controllerDefinition)) {
+            patterns = CACHE.get(controllerDefinition);
         } else {
-            if (CACHE.containsKey(controllerDefinition)) {
-                patterns = CACHE.get(controllerDefinition);
-            } else {
-                IMultiblockMachineDefinition.Pattern[] pattern = ((IMultiblockMachineDefinition) controllerDefinition).gtocore$getPatterns();
-                patterns = new MBPattern[pattern.length];
-                for (int i = 0; i < pattern.length; i++) {
-                    patterns[i] = initializePattern(pattern[i], i);
-                }
-                CACHE.put(controllerDefinition, patterns);
-                ((IMultiblockMachineDefinition) controllerDefinition).gtocore$clear();
+            IMultiblockMachineDefinition.Pattern[] pattern = ((IMultiblockMachineDefinition) controllerDefinition).gtocore$getPatterns();
+            patterns = new MBPattern[pattern.length];
+            for (int i = 0; i < pattern.length; i++) {
+                patterns[i] = initializePattern(pattern[i], i);
             }
+            CACHE.put(controllerDefinition, patterns);
+            ((IMultiblockMachineDefinition) controllerDefinition).gtocore$clear();
         }
 
-        if (!hide) {
-            addWidget(new ButtonWidget(138, 30, 18, 18, new GuiTextureGroup(
-                    ColorPattern.T_GRAY.rectTexture(),
-                    new TextTexture("1").setSupplier(() -> "P:" + index)),
-                    (x) -> {
-                        index = (index + 1 >= patterns.length) ? 0 : index + 1;
-                        setPage();
-                    })
-                    .setHoverBorderTexture(1, -1));
+        addWidget(new ButtonWidget(138, 30, 18, 18, new GuiTextureGroup(
+                ColorPattern.T_GRAY.rectTexture(),
+                new TextTexture("1").setSupplier(() -> "P:" + index)),
+                (x) -> {
+                    index = (index + 1 >= patterns.length) ? 0 : index + 1;
+                    setPage();
+                })
+                .setHoverBorderTexture(1, -1));
 
-            addWidget(new ButtonWidget(138, 50, 18, 18, new GuiTextureGroup(
-                    ColorPattern.T_GRAY.rectTexture(),
-                    new TextTexture("1").setSupplier(() -> layer >= 0 ? "L:" + layer : "ALL")),
-                    cd -> updateLayer())
-                    .setHoverBorderTexture(1, -1));
-        }
+        addWidget(new ButtonWidget(138, 50, 18, 18, new GuiTextureGroup(
+                ColorPattern.T_GRAY.rectTexture(),
+                new TextTexture("1").setSupplier(() -> layer >= 0 ? "L:" + layer : "ALL")),
+                cd -> updateLayer())
+                .setHoverBorderTexture(1, -1));
+
         setPage();
     }
 
@@ -372,9 +172,7 @@ public final class PatternPreview extends WidgetGroup {
 
     private void setPage() {
         List<ItemStack> itemList;
-        if (same) {
-            itemList = SAME_STRUCTURE_MACHINES.get(controllerDefinition).getSecond();
-        } else if (index < patterns.length && index >= 0) {
+        if (index < patterns.length && index >= 0) {
             layer = -1;
             MBPattern pattern = patterns[index];
             setupScene(pattern);

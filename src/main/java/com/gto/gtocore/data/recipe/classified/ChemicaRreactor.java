@@ -1680,7 +1680,7 @@ interface ChemicaRreactor {
                 .save(provider);
 
         GTRecipeTypes.LARGE_CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("neutronium_doped_nanotubes"))
-                .inputItems(TagPrefix.dust, GTMaterials.Neutronium)
+                .inputItems(TagPrefix.dust, GTOMaterials.Neutron)
                 .notConsumable(TagPrefix.plate, GTMaterials.Rhenium)
                 .inputFluids(GTMaterials.Methane.getFluid(800))
                 .inputFluids(GTOMaterials.Cycloparaphenylene.getFluid(200))

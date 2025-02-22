@@ -38,7 +38,7 @@ public final class GlassRecipe {
         addGlass(GTValues.LuV, GTMaterials.HSSS, GTOBlocks.HSSS_BOROSILICATE_GLASS, provider);
         addGlass(GTValues.ZPM, GTMaterials.Naquadah, GTOBlocks.NAQUADAH_BOROSILICATE_GLASS, provider);
         addGlass(GTValues.UV, GTMaterials.Tritanium, GTOBlocks.TRITANIUM_BOROSILICATE_GLASS, provider);
-        addGlass(GTValues.UHV, GTMaterials.Neutronium, GTOBlocks.NEUTRONIUM_BOROSILICATE_GLASS, provider);
+        addGlass(GTValues.UHV, GTMaterials.Neutronium, GTOBlocks.AMPROSIUM_BOROSILICATE_GLASS, provider);
         addGlass(GTValues.UEV, GTOMaterials.Enderium, GTOBlocks.ENDERIUM_BOROSILICATE_GLASS, provider);
         addGlass(GTValues.UIV, GTOMaterials.Taranium, GTOBlocks.TARANIUM_BOROSILICATE_GLASS, provider);
         addGlass(GTValues.UXV, GTOMaterials.HeavyQuarkDegenerateMatter, GTOBlocks.QUARKS_BOROSILICATE_GLASS, provider);

@@ -42,7 +42,8 @@ public abstract class MaterialBuilderMixin extends BuilderBase<Material> {
             "neutronium",
             "ostrum",
             "dark_steel",
-            "enderium");
+            "enderium",
+            "amprosium");
 
     protected MaterialBuilderMixin(ResourceLocation id) {
         super(id);

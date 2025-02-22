@@ -42,6 +42,7 @@ public final class ForgePluginFinderMixin {
         plugins.add(new VillageJEIPlugin());
         plugins.add(new JEIConfig());
         plugins.add(new MythicJei());
+        plugins.add(new vectorwing.farmersdelight.integration.jei.JEIPlugin());
         return plugins;
     }
 }

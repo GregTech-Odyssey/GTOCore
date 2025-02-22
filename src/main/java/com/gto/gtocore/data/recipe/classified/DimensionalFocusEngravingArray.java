@@ -29,7 +29,7 @@ interface DimensionalFocusEngravingArray {
                 .save(provider);
 
         GTORecipeTypes.DIMENSIONAL_FOCUS_ENGRAVING_ARRAY_RECIPES.recipeBuilder(GTOCore.id("raw_photon_carrying_wafer"))
-                .inputItems(GTOItems.RUTHERFORDIUM_NEUTRONIUM_WAFER.asStack())
+                .inputItems(GTOItems.RUTHERFORDIUM_AMPROSIUM_WAFER.asStack())
                 .notConsumable(TagPrefix.lens, MarkerMaterials.Color.Yellow)
                 .inputFluids(GTOMaterials.Photoresist.getFluid(100))
                 .outputItems(GTOItems.RAW_PHOTON_CARRYING_WAFER.asStack())
@@ -65,7 +65,7 @@ interface DimensionalFocusEngravingArray {
                 .save(provider);
 
         GTORecipeTypes.DIMENSIONAL_FOCUS_ENGRAVING_ARRAY_RECIPES.recipeBuilder(GTOCore.id("nm_wafer"))
-                .inputItems(GTOItems.RUTHERFORDIUM_NEUTRONIUM_WAFER.asStack())
+                .inputItems(GTOItems.RUTHERFORDIUM_AMPROSIUM_WAFER.asStack())
                 .notConsumable(TagPrefix.lens, MarkerMaterials.Color.Blue)
                 .inputFluids(GTOMaterials.Photoresist.getFluid(100))
                 .outputItems(GTOItems.NM_WAFER.asStack())

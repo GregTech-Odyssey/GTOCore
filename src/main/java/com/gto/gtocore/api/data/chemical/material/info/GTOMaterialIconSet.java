@@ -23,6 +23,7 @@ public final class GTOMaterialIconSet extends MaterialIconSet {
         this.customRenderer = customRenderer;
     }
 
+    public static final GTOMaterialIconSet AMPROSIUM = new GTOMaterialIconSet("amprosium", METALLIC, false, HaloItemRenderer.WHITE_HALO);
     public static final GTOMaterialIconSet TRANSCENDENT = new GTOMaterialIconSet("transcendent", METALLIC, false, () -> StereoscopicItemRenderer.INSTANCE);
     public static final GTOMaterialIconSet QUANTUM_CHROMO_DYNAMICALLY = new GTOMaterialIconSet("quantum_chromo_dynamically", METALLIC, false, HaloItemRenderer.QUANTUM_CHROMO_DYNAMICALLY_HALO);
     public static final GTOMaterialIconSet COSMIC = new GTOMaterialIconSet("cosmic", METALLIC, false, HaloItemRenderer.COSMIC_HALO);

@@ -104,7 +104,7 @@ interface StellarForge {
 
         GTORecipeTypes.STELLAR_FORGE_RECIPES.recipeBuilder(GTOCore.id("dense_neutron_plasma"))
                 .inputItems(GTOBlocks.QUANTUM_CHROMODYNAMIC_CHARGE.asStack())
-                .inputItems(TagPrefix.block, GTMaterials.Neutronium, 5)
+                .inputItems(TagPrefix.block, GTOMaterials.Neutron, 5)
                 .inputItems(TagPrefix.block, GTOMaterials.HeavyQuarkDegenerateMatter, 5)
                 .inputFluids(GTOMaterials.Periodicium.getFluid(2736))
                 .inputFluids(GTOMaterials.Gluons.getFluid(6000))
@@ -186,7 +186,7 @@ interface StellarForge {
         GTORecipeTypes.STELLAR_FORGE_RECIPES.recipeBuilder(GTOCore.id("neutron_plasma_containment_cell"))
                 .inputItems(GTOBlocks.NAQUADRIA_CHARGE.asStack())
                 .inputItems(GTOItems.PLASMA_CONTAINMENT_CELL.asStack())
-                .inputFluids(GTMaterials.Neutronium.getFluid(1000))
+                .inputFluids(GTOMaterials.Neutron.getFluid(1000))
                 .inputFluids(GTOMaterials.HeavyLeptonMixture.getFluid(1000))
                 .outputItems(GTOItems.NEUTRON_PLASMA_CONTAINMENT_CELL.asStack())
                 .EUt(31457280)

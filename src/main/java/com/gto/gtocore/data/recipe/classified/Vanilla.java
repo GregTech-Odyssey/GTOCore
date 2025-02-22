@@ -407,7 +407,7 @@ interface Vanilla {
                 "CDE",
                 "AFA",
                 'A', new UnificationEntry(TagPrefix.foil, GTMaterials.Aluminium), 'B', GTItems.CONVEYOR_MODULE_MV.asStack(), 'C', GTItems.SENSOR_MV.asStack(), 'D', GTOBlocks.MULTI_FUNCTIONAL_CASING.asStack(), 'E', GTItems.EMITTER_MV.asStack(), 'F', GTItems.FLUID_REGULATOR_MV.asStack());
-        VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("neutronium_pipe_casing"), GTOBlocks.NEUTRONIUM_PIPE_CASING.asStack(2),
+        VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("neutronium_pipe_casing"), GTOBlocks.AMPROSIUM_PIPE_CASING.asStack(2),
                 "ABA",
                 "BCB",
                 "ABA",
@@ -641,7 +641,7 @@ interface Vanilla {
                 "CDC",
                 "EBE",
                 'A', new UnificationEntry(TagPrefix.rod, GTMaterials.NaquadahEnriched), 'B', CustomTags.LuV_CIRCUITS, 'C', GTItems.FIELD_GENERATOR_LuV.asStack(), 'D', GTMachines.HULL[GTValues.LuV].asStack(), 'E', new UnificationEntry(TagPrefix.cableGtQuadruple, GTMaterials.NiobiumNitride));
-        VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("neutronium_gearbox"), GTOBlocks.NEUTRONIUM_GEARBOX.asStack(2),
+        VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("neutronium_gearbox"), GTOBlocks.AMPROSIUM_GEARBOX.asStack(2),
                 "ABA",
                 "CDC",
                 "AEA",

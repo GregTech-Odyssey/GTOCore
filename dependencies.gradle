@@ -57,6 +57,8 @@ dependencies {
 
     modImplementation("curse.maven:EnderIO-64578:5780352")
 
+    modImplementation("curse.maven:farmers-delight-398521:6154802")
+
     modCompileOnly("curse.maven:curvy-pipes-1151126:6192998")
 
     modCompileOnly("curse.maven:libx-412525:5207625")

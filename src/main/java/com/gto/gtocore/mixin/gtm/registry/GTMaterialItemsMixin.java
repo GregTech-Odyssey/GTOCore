@@ -9,8 +9,10 @@ import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.data.chemical.material.registry.MaterialRegistry;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.item.TagPrefixItem;
+import com.gregtechceu.gtceu.api.item.tool.GTToolType;
 import com.gregtechceu.gtceu.api.registry.registrate.GTRegistrate;
 import com.gregtechceu.gtceu.common.data.GTMaterialItems;
+import com.gregtechceu.gtceu.common.data.GTMaterials;
 
 import com.google.common.collect.ImmutableTable;
 import com.google.common.collect.Table;
@@ -52,5 +54,10 @@ public final class GTMaterialItemsMixin {
             }
         }
         MATERIAL_ITEMS = MATERIAL_ITEMS_BUILDER.build();
+    }
+
+    @Inject(method = "generateTool", at = @At("HEAD"), remap = false, cancellable = true)
+    private static void generateTool(Material material, GTToolType toolType, GTRegistrate registrate, CallbackInfo ci) {
+        if (toolType == GTToolType.KNIFE && (material == GTMaterials.Flint)) ci.cancel();
     }
 }

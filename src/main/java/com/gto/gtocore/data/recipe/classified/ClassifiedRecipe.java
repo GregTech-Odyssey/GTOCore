@@ -276,7 +276,7 @@ public interface ClassifiedRecipe {
                 .inputItems(GTItems.NEUTRONIUM_BOULE.asStack())
                 .inputItems(TagPrefix.dust, GTMaterials.Rutherfordium, 4)
                 .inputFluids(GTMaterials.Radon.getFluid(8000))
-                .outputItems(GTOItems.RUTHERFORDIUM_NEUTRONIUM_BOULE.asStack())
+                .outputItems(GTOItems.RUTHERFORDIUM_AMPROSIUM_BOULE.asStack())
                 .EUt(30720)
                 .duration(21000)
                 .blastFurnaceTemp(8100)

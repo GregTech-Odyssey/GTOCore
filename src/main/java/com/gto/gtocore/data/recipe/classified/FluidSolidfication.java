@@ -79,9 +79,9 @@ interface FluidSolidfication {
                 .save(provider);
 
         GTRecipeTypes.FLUID_SOLIDFICATION_RECIPES.recipeBuilder(GTOCore.id("electron_permeable_neutronium_coated_glass"))
-                .inputItems(GTOBlocks.NEUTRONIUM_BOROSILICATE_GLASS.asStack())
+                .inputItems(GTOBlocks.AMPROSIUM_BOROSILICATE_GLASS.asStack())
                 .inputFluids(GTMaterials.Sulfur.getFluid(FluidStorageKeys.PLASMA, 288))
-                .outputItems(GTOBlocks.ELECTRON_PERMEABLE_NEUTRONIUM_COATED_GLASS.asStack())
+                .outputItems(GTOBlocks.ELECTRON_PERMEABLE_AMPROSIUM_COATED_GLASS.asStack())
                 .EUt(122880)
                 .duration(100)
                 .cleanroom(CleanroomType.CLEANROOM)

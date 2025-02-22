@@ -1,7 +1,6 @@
 package com.gto.gtocore.data.recipe.classified;
 
 import com.gto.gtocore.GTOCore;
-import com.gto.gtocore.api.data.tag.GTOTagPrefix;
 import com.gto.gtocore.api.machine.GTOCleanroomType;
 import com.gto.gtocore.common.data.GTOItems;
 import com.gto.gtocore.common.data.GTOMaterials;
@@ -15,8 +14,6 @@ import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 
 import net.minecraft.data.recipes.FinishedRecipe;
-
-import committee.nova.mods.avaritia.init.registry.ModBlocks;
 
 import java.util.function.Consumer;
 
@@ -76,15 +73,6 @@ interface Centrifuge {
                 .EUt(7680)
                 .duration(200)
                 .cleanroom(GTOCleanroomType.LAW_CLEANROOM)
-                .save(provider);
-
-        GTRecipeTypes.CENTRIFUGE_RECIPES.recipeBuilder(GTOCore.id("neutronium_block"))
-                .notConsumable(GTOTagPrefix.nanites, GTMaterials.Neutronium)
-                .inputItems(ModBlocks.neutron.get().asItem())
-                .outputItems(TagPrefix.dust, GTMaterials.Naquadah, 9)
-                .outputItems(TagPrefix.dust, GTMaterials.Neutronium, 9)
-                .EUt(31457280)
-                .duration(800)
                 .save(provider);
 
         GTRecipeTypes.CENTRIFUGE_RECIPES.recipeBuilder(GTOCore.id("depleted_reactor_uranium_quad"))
