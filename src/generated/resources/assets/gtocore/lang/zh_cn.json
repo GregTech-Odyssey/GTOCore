@@ -1820,6 +1820,7 @@
   "gtocore.tooltip.item.cosmic_mainframe.0": "§7寰宇之力，震慑古今！",
   "gtocore.tooltip.item.cosmic_printed_circuit_board.0": "§7承载宇宙的电路基板",
   "gtocore.tooltip.item.cosmic_processor.0": "§7手握星辰",
+  "gtocore.tooltip.item.craft_step": "合成步骤：%s",
   "gtocore.tooltip.item.create_ultimate_battery.0": "§7能凭空产生能量",
   "gtocore.tooltip.item.exotic_assembly.0": "§7量子随机游走",
   "gtocore.tooltip.item.exotic_computer.0": "§7以自旋控制一切",

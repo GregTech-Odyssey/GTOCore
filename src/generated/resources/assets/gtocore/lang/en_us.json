@@ -1820,6 +1820,7 @@
   "gtocore.tooltip.item.cosmic_mainframe.0": "§7The power of the universe, intimidating through the ages!",
   "gtocore.tooltip.item.cosmic_printed_circuit_board.0": "§7Circuit board carrying the universe",
   "gtocore.tooltip.item.cosmic_processor.0": "§7Holding the stars",
+  "gtocore.tooltip.item.craft_step": "Craft Step: %s",
   "gtocore.tooltip.item.create_ultimate_battery.0": "§7Can generate energy out of thin air",
   "gtocore.tooltip.item.exotic_assembly.0": "§7Quantum random walk",
   "gtocore.tooltip.item.exotic_computer.0": "§7Controlling everything with spin",

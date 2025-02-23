@@ -6,6 +6,7 @@ import com.gto.gtocore.common.item.StructureDetectBehavior;
 import com.gto.gtocore.common.item.StructureWriteBehavior;
 import com.gto.gtocore.data.lang.LangHandler;
 import com.gto.gtocore.utils.ItemUtils;
+import com.gto.gtocore.utils.MultiStepItemHelper;
 import com.gto.gtocore.utils.StringUtils;
 
 import com.gregtechceu.gtceu.api.GTValues;
@@ -48,7 +49,12 @@ public final class ForgeClientEvent {
     public static void onTooltipEvent(ItemTooltipEvent event) {
         Player player = event.getEntity();
         if (player == null) return;
-        Item item = event.getItemStack().getItem();
+        ItemStack stack = event.getItemStack();
+        int maxStep = MultiStepItemHelper.getMaxStep(stack);
+        if (maxStep > 0) {
+            event.getToolTip().add(Component.translatable("gtocore.tooltip.item.craft_step", MultiStepItemHelper.getStep(stack) + " / " + maxStep));
+        }
+        Item item = stack.getItem();
         LangHandler.ENCNS lang = Tooltips.TOOL_TIPS_MAP.get(item);
         if (lang != null) {
             for (int i = 0; i < lang.length(); i++) {
