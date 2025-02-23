@@ -735,8 +735,14 @@ public interface GTORecipeTypes {
     GTRecipeType TREE_GROWTH_SIMULATOR_RECIPES = register("tree_growth_simulator", "原木拟生场", MULTIBLOCK)
             .setEUIO(IO.IN)
             .setMaxIOSize(3, 2, 1, 0)
-            .setProgressBar(GuiTextures.PROGRESS_BAR_BATH, LEFT_TO_RIGHT)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.COOLING);
+
+    GTRecipeType ELECTRIC_COOKING_RECIPES = register("electric_cooking", "电力烹饪", MULTIBLOCK)
+            .setEUIO(IO.IN)
+            .setMaxIOSize(6, 1, 1, 0)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_BATH, LEFT_TO_RIGHT)
+            .setSound(GTSoundEntries.FURNACE);
 
     // TODO 添加用途
     GTRecipeType PHYSICAL_VAPOR_DEPOSITION_RECIPES = register("physical_vapor_deposition", "物理气相沉积", MULTIBLOCK)

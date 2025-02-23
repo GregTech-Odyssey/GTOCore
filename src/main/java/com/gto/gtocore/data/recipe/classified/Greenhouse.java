@@ -2,6 +2,7 @@ package com.gto.gtocore.data.recipe.classified;
 
 import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.common.data.GTORecipeTypes;
+import com.gto.gtocore.utils.RegistriesUtils;
 
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
@@ -10,6 +11,8 @@ import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
+
+import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Consumer;
 
@@ -813,5 +816,34 @@ interface Greenhouse {
                 .EUt(60)
                 .duration(200)
                 .save(provider);
+
+        add("farmersdelight", "cabbage", "cabbage_seeds", 8);
+        add("farmersdelight", "tomato", "tomato_seeds", 8);
+        add("botania", "light_gray_mystical_flower", null, 12);
+        add("botania", "white_mystical_flower", null, 12);
+        add("botania", "light_gray_mystical_flower", null, 12);
+    }
+
+    private static void add(String mod, String output, @Nullable String input, int count) {
+        ItemStack stack1 = new ItemStack(RegistriesUtils.getItem(mod, output), count);
+        ItemStack stack2 = input == null ? stack1 : new ItemStack(RegistriesUtils.getItem(mod, input));
+        GTORecipeTypes.GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id(output))
+                .notConsumable(stack2)
+                .circuitMeta(1)
+                .inputFluids(GTMaterials.Water.getFluid(1000))
+                .outputItems(stack1)
+                .EUt(30)
+                .duration(600)
+                .save(a -> {});
+
+        GTORecipeTypes.GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id(output + "_fertilizer"))
+                .notConsumable(stack2)
+                .inputItems(GTItems.FERTILIZER.asStack(4))
+                .circuitMeta(2)
+                .inputFluids(GTMaterials.Water.getFluid(1000))
+                .outputItems(stack1.copyWithCount(count << 1))
+                .EUt(60)
+                .duration(200)
+                .save(a -> {});
     }
 }

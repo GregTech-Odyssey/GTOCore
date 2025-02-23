@@ -41,6 +41,33 @@ public interface MultiBlockG {
 
     static void init() {}
 
+    MultiblockMachineDefinition ELECTRIC_COOKING = multiblock("electric_cooking", "电力烹饪锅", ElectricMultiblockMachine::new)
+            .nonYAxisRotation()
+            .recipe(GTORecipeTypes.ELECTRIC_COOKING_RECIPES)
+            .perfectOverclock()
+            .customTooltipsBuilder(true, false, false)
+            .block(GTBlocks.CASING_STAINLESS_CLEAN)
+            .pattern(definition -> FactoryBlockPattern.start(RelativeDirection.RIGHT, RelativeDirection.UP, RelativeDirection.BACK)
+                    .aisle("  A A  ", "       ", "       ", "       ", "       ", "       ", "       ", "       ")
+                    .aisle("       ", "  A A  ", "  BFB  ", "  CDC  ", "  CDC  ", "  CDC  ", "  CCC  ", "       ")
+                    .aisle("A EEE A", " ACBCA ", " B   B ", " C   C ", " C   C ", " C   C ", " C   C ", "  CBC  ")
+                    .aisle("  ECE  ", "  BCB  ", " B   B ", " D   D ", " D   D ", " D   D ", " C   C ", "  BBB  ")
+                    .aisle("A EEE A", " ACBCA ", " B   B ", " C   C ", " C   C ", " C   C ", " C   C ", "  CBC  ")
+                    .aisle("       ", "  A A  ", "  BBB  ", "  CDC  ", "  CDC  ", "  CDC  ", "  CCC  ", "       ")
+                    .aisle("  A A  ", "       ", "       ", "       ", "       ", "       ", "       ", "       ")
+                    .where('A', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.StainlessSteel)))
+                    .where('B', blocks(GTBlocks.CASING_STAINLESS_CLEAN.get())
+                            .or(autoAbilities(definition.getRecipeTypes()))
+                            .or(abilities(MAINTENANCE).setExactLimit(1)))
+                    .where('C', blocks(GTBlocks.CASING_STAINLESS_CLEAN.get()))
+                    .where('D', blocks(GTBlocks.CASING_TEMPERED_GLASS.get()))
+                    .where('E', blocks(GTBlocks.COIL_CUPRONICKEL.get()))
+                    .where('F', controller(blocks(definition.get())))
+                    .where(' ', any())
+                    .build())
+            .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_clean_stainless_steel"), GTCEu.id("block/multiblock/multi_furnace"))
+            .register();
+
     MultiblockMachineDefinition TREE_GROWTH_SIMULATOR = multiblock("tree_growth_simulator", "原木拟生场", TreeGrowthSimulator::new)
             .allRotation()
             .tooltipsText("Requires a tree cutting tools", "需要安装伐木工具，仅支持GT工具")
