@@ -30,10 +30,7 @@ import com.gto.gtocore.common.machine.multiblock.noenergy.GodForgeMachine;
 import com.gto.gtocore.common.machine.multiblock.noenergy.HarmonyMachine;
 import com.gto.gtocore.common.machine.multiblock.noenergy.HeatExchangerMachine;
 import com.gto.gtocore.common.machine.multiblock.noenergy.NeutronActivatorMachine;
-import com.gto.gtocore.utils.ItemUtils;
-import com.gto.gtocore.utils.MachineUtils;
-import com.gto.gtocore.utils.ServerUtils;
-import com.gto.gtocore.utils.StringUtils;
+import com.gto.gtocore.utils.*;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTValues;
@@ -90,17 +87,18 @@ public interface MultiBlockD {
             .overclock()
             .block(GTBlocks.MACHINE_CASING_ULV)
             .pattern((definition) -> FactoryBlockPattern.start()
-                    .aisle("0BBB0", "0BBB0", "0BBB0", "0BBB0")
-                    .aisle("BBBBB", "B###B", "B###B", "BGGGB")
-                    .aisle("BBBBB", "B###B", "B###B", "BGGGB")
-                    .aisle("BBBBB", "B###B", "B###B", "BGGGB")
-                    .aisle("0BBB0", "0BEB0", "0BBB0", "0BBB0")
+                    .aisle("0BBB0", "0BBB0", "0BBB0", "0BBB0", "0BBB0")
+                    .aisle("BBBBB", "BdddB", "B###B", "B###B", "BGGGB")
+                    .aisle("BBBBB", "BdddB", "B###B", "B###B", "BGGGB")
+                    .aisle("BBBBB", "BdddB", "B###B", "B###B", "BGGGB")
+                    .aisle("0BBB0", "0BEB0", "0BBB0", "0BBB0", "0BBB0")
                     .where('E', controller(blocks(definition.get())))
                     .where('G', blocks(GTBlocks.CASING_TEMPERED_GLASS.get()))
                     .where('B', blocks(GTBlocks.MACHINE_CASING_ULV.get())
                             .setMinGlobalLimited(40)
                             .or(autoAbilities(definition.getRecipeTypes()))
                             .or(abilities(MAINTENANCE).setExactLimit(1)))
+                    .where('d', blocks(RegistriesUtils.getBlock("farmersdelight:rich_soil")))
                     .where('#', air())
                     .where('0', any())
                     .build())

@@ -819,7 +819,6 @@ interface Greenhouse {
 
         add("farmersdelight", "cabbage", "cabbage_seeds", 8);
         add("farmersdelight", "tomato", "tomato_seeds", 8);
-        add("botania", "light_gray_mystical_flower", null, 12);
         add("botania", "white_mystical_flower", null, 12);
         add("botania", "light_gray_mystical_flower", null, 12);
     }

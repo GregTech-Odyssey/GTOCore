@@ -32,7 +32,7 @@ public final class GreenhouseMachine extends ElectricMultiblockMachine {
         Level level = getLevel();
         if (level == null) return;
         SkyLight = 15;
-        BlockPos pos = MachineUtils.getOffsetPos(1, 3, getFrontFacing(), getPos());
+        BlockPos pos = MachineUtils.getOffsetPos(1, 4, getFrontFacing(), getPos());
         BlockPos[] coordinates = { pos,
                 pos.offset(1, 0, 0),
                 pos.offset(1, 0, 1),

@@ -23,7 +23,7 @@ public final class DimensionDataItem extends Item {
         super(properties);
     }
 
-    public ItemStack setDimension(ResourceLocation resourceLocation) {
+    public ItemStack getDimensionData(ResourceLocation resourceLocation) {
         ItemStack stack = getDefaultInstance();
         stack.getOrCreateTag().putString("dim", resourceLocation.toString());
         return stack;

@@ -17,6 +17,7 @@ import com.gto.gtocore.common.machine.multiblock.electric.processing.ProcessingA
 import com.gto.gtocore.common.machine.multiblock.electric.viod.DrillingControlCenterMachine;
 import com.gto.gtocore.common.machine.multiblock.noenergy.DroneControlCenterMachine;
 import com.gto.gtocore.common.machine.multiblock.storage.WirelessEnergySubstationMachine;
+import com.gto.gtocore.utils.RegistriesUtils;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
@@ -27,7 +28,6 @@ import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.shapes.Shapes;
 
 import static com.gregtechceu.gtceu.api.GTValues.*;
@@ -112,7 +112,7 @@ public interface MultiBlockG {
                     .where('~', controller(blocks(definition.get())))
                     .where('b', blocks(GTBlocks.CASING_TEMPERED_GLASS.get()))
                     .where('c', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.StainlessSteel)))
-                    .where('d', blocks(Blocks.PACKED_MUD))
+                    .where('d', blocks(RegistriesUtils.getBlock("farmersdelight:rich_soil")))
                     .where('e', blocks(GTBlocks.CASING_POLYTETRAFLUOROETHYLENE_PIPE.get()))
                     .where('f', blocks(GTBlocks.CASING_GRATE.get()))
                     .where('a', blocks(GTBlocks.CASING_STAINLESS_CLEAN.get())

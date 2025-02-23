@@ -55,7 +55,7 @@ public interface MiscRecipe {
         int i = 0;
         for (ResourceLocation layer : GTOWorldGenLayers.ALL_LAYER_DIMENSION) {
             i++;
-            ItemStack stack = GTOItems.DIMENSION_DATA.get().setDimension(layer);
+            ItemStack stack = GTOItems.DIMENSION_DATA.get().getDimensionData(layer);
             int tier = DimensionDataItem.getDimensionMarker(stack).tier + 1;
             WORLD_DATA_SCANNER_RECIPES.recipeBuilder(GTOCore.id(layer.getPath()))
                     .inputItems(TOOL_DATA_STICK.asStack())
