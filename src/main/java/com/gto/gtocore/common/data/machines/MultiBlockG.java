@@ -16,6 +16,7 @@ import com.gto.gtocore.common.machine.multiblock.electric.TreeGrowthSimulator;
 import com.gto.gtocore.common.machine.multiblock.electric.adventure.BossSummonerMachine;
 import com.gto.gtocore.common.machine.multiblock.electric.processing.ProcessingArrayMachine;
 import com.gto.gtocore.common.machine.multiblock.electric.viod.DrillingControlCenterMachine;
+import com.gto.gtocore.common.machine.multiblock.electric.viod.VoidTransporterMachine;
 import com.gto.gtocore.common.machine.multiblock.noenergy.DroneControlCenterMachine;
 import com.gto.gtocore.common.machine.multiblock.storage.WirelessEnergySubstationMachine;
 import com.gto.gtocore.utils.RegistriesUtils;
@@ -29,7 +30,10 @@ import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.shapes.Shapes;
+
+import com.enderio.EnderIO;
 
 import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.api.machine.multiblock.PartAbility.*;
@@ -145,6 +149,24 @@ public interface MultiBlockG {
                     .where('c', air())
                     .build())
             .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_solid_steel"), GTCEu.id("block/multiblock/fusion_reactor"))
+            .register();
+
+    MultiblockMachineDefinition VOID_TRANSPORTER = multiblock("void_transporter", "虚空传送器", VoidTransporterMachine::new)
+            .nonYAxisRotation()
+            .recipe(DUMMY_RECIPES)
+            .tooltipsText("Right-click obsidian to send it to the void, and if it is crying obsidian, it will be flat.", "运行后右键黑曜石传送到虚空，如果是哭泣黑曜石则为超平坦")
+            .block(RegistriesUtils.getSupplierBlock("enderio:reinforced_obsidian_block"))
+            .pattern(definition -> FactoryBlockPattern.start()
+                    .aisle("AAA", "AAA", "AAA")
+                    .aisle("AAA", "ABA", "AAA")
+                    .aisle("A~A", "ACA", "AAA")
+                    .where('~', controller(blocks(definition.get())))
+                    .where('A', blocks(RegistriesUtils.getBlock("enderio:reinforced_obsidian_block"))
+                            .or(abilities(INPUT_ENERGY).setExactLimit(1)))
+                    .where('B', blocks(GTOBlocks.REACTOR_CORE.get()))
+                    .where('C', blocks(Blocks.OBSIDIAN).or(blocks(Blocks.CRYING_OBSIDIAN)))
+                    .build())
+            .workableCasingRenderer(EnderIO.loc("block/reinforced_obsidian_block"), GTCEu.id("block/multiblock/implosion_compressor"))
             .register();
 
     MultiblockMachineDefinition BOSS_SUMMONER = multiblock("boss_summoner", "BOSS召唤器", BossSummonerMachine::new)
@@ -331,6 +353,7 @@ public interface MultiBlockG {
     MultiblockMachineDefinition DRAWING_TOWER = multiblock("drawing_tower", "拉丝塔", DrawingTowerMachine::new)
             .nonYAxisRotation()
             .parallelizableTooltips()
+            .alwaysTryModifyRecipe(true)
             .recipe(GTORecipeTypes.DRAWING_RECIPES)
             .block(GTBlocks.CASING_TUNGSTENSTEEL_ROBUST)
             .pattern(definition -> FactoryBlockPattern.start(RelativeDirection.BACK, RelativeDirection.RIGHT, RelativeDirection.UP)
@@ -340,7 +363,7 @@ public interface MultiBlockG {
                     .aisle(" AAAAAAA", " AFFF  A", " CCBBB A", " AFFF  A", " AAAIAAA")
                     .aisle("  AAAAAA", "  AAA  A", "  C B  A", "  AAA  A", "  AAAAAA")
                     .aisle("   AABAA", "   A   A", "   B   A", "   A   A", "   AABAA")
-                    .aisle("   CCBCC", "   C   C", "   B   B", "   C   C", "   CCBCC").setRepeatable(16, 128)
+                    .aisle("   CCBCC", "   C   C", "   B   B", "   C   C", "   CCBcC").setRepeatable(16, 128)
                     .aisle("   AAAAA", "   A   A", "   A   A", "   A   A", "   AAAAA")
                     .aisle("   DDADD", "   DGGGD", "   AG GA", "   DGGGD", "   DDADD")
                     .aisle("   DDADD", "   DGGGD", "   AG GA", "   DGGGD", "   DDADD")
@@ -359,10 +382,11 @@ public interface MultiBlockG {
                             .or(abilities(MAINTENANCE).setExactLimit(1)))
                     .where('B', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.StainlessSteel)))
                     .where('C', blocks(GTBlocks.CASING_LAMINATED_GLASS.get()))
+                    .where('c', GTOPredicates.countBlock("laminated_glass", GTBlocks.CASING_LAMINATED_GLASS.get()))
                     .where('D', blocks(GTOBlocks.TUNGSTEN_BOROSILICATE_GLASS.get()))
                     .where('E', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.TungstenSteel)))
                     .where('F', blocks(GTBlocks.CASING_TUNGSTENSTEEL_GEARBOX.get()))
-                    .where('G', blocks(GTBlocks.COIL_CUPRONICKEL.get()))
+                    .where('G', heatingCoils())
                     .where('H', controller(blocks(definition.get())))
                     .where('I', blocks(GTOMachines.SPOOL_HATCH.get()))
                     .where(' ', any())

@@ -1,8 +1,9 @@
 package com.gto.gtocore.common.machine.multiblock.electric;
 
-import com.gto.gtocore.api.machine.multiblock.ElectricMultiblockMachine;
-import com.gto.gtocore.common.data.GTOItems;
+import com.gto.gtocore.api.machine.multiblock.CoilMultiblockMachine;
+import com.gto.gtocore.common.data.GTORecipeModifiers;
 import com.gto.gtocore.common.machine.multiblock.part.SpoolHatchPartMachine;
+import com.gto.gtocore.utils.FunctionContainer;
 
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
@@ -10,24 +11,26 @@ import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
-import net.minecraft.world.item.Item;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 
-import org.jetbrains.annotations.Nullable;
+import java.util.List;
 
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-
+import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public final class DrawingTowerMachine extends ElectricMultiblockMachine {
+public final class DrawingTowerMachine extends CoilMultiblockMachine {
 
     private SpoolHatchPartMachine spoolHatchPartMachine;
 
-    public DrawingTowerMachine(IMachineBlockEntity holder, Object... args) {
-        super(holder, args);
+    private int height;
+
+    private double reduction = 1;
+
+    public DrawingTowerMachine(IMachineBlockEntity holder) {
+        super(holder, false, false);
     }
 
     @Override
@@ -39,17 +42,25 @@ public final class DrawingTowerMachine extends ElectricMultiblockMachine {
     }
 
     @Override
+    public void onStructureFormed() {
+        super.onStructureFormed();
+        FunctionContainer<Integer, ?> container = getMultiblockState().getMatchContext().get("laminated_glass");
+        if (container != null) {
+            height = container.getValue();
+        }
+        reduction = 2 / Math.sqrt((height / 8D) + (gto$getTemperature() / 900D));
+    }
+
+    @Override
     public void onStructureInvalid() {
         super.onStructureInvalid();
+        height = 0;
         spoolHatchPartMachine = null;
     }
 
     @Override
-    public boolean beforeWorking(@Nullable GTRecipe recipe) {
-        if (spoolHatchPartMachine == null || recipe == null) {
-            return false;
-        }
-
+    protected @Nullable GTRecipe getRealRecipe(GTRecipe recipe) {
+        if (spoolHatchPartMachine == null) return null;
         CustomItemStackHandler storage = spoolHatchPartMachine.getInventory().storage;
         ItemStack item = storage.getStackInSlot(0);
         int tier = getItemTier(item);
@@ -63,27 +74,23 @@ public final class DrawingTowerMachine extends ElectricMultiblockMachine {
             } else {
                 storage.setStackInSlot(0, ItemStack.EMPTY); // Remove the item if only one left
             }
-            return super.beforeWorking(recipe);
+            recipe.duration = (int) (recipe.duration * reduction);
+            return GTORecipeModifiers.hatchParallel(this, recipe);
         }
-        return false;
+        return null;
     }
 
-    private int getItemTier(ItemStack item) {
+    @Override
+    public void customText(List<Component> textList) {
+        super.customText(textList);
+        textList.add(Component.translatable("gtocore.machine.height", height));
+        textList.add(Component.translatable("gtocore.machine.duration_multiplier.tooltip", reduction));
+    }
+
+    private static int getItemTier(ItemStack item) {
         if (item.isEmpty()) {
             return 0;
         }
         return SpoolHatchPartMachine.SPOOL.getOrDefault(item.getItem(), 0);
-    }
-
-    // Static block to initialize SPOOL map with extended tiers
-    static {
-        // Ensure thread-safe initialization
-        Map<Item, Integer> spoolMap = new ConcurrentHashMap<>(SpoolHatchPartMachine.SPOOL);
-        spoolMap.put(GTOItems.SPOOLS_MICRO.get(), 1);
-        spoolMap.put(GTOItems.SPOOLS_SMALL.get(), 2);
-        spoolMap.put(GTOItems.SPOOLS_MEDIUM.get(), 3);
-        spoolMap.put(GTOItems.SPOOLS_LARGE.get(), 4);
-        spoolMap.put(GTOItems.SPOOLS_JUMBO.get(), 5);
-        SpoolHatchPartMachine.SPOOL = spoolMap;
     }
 }

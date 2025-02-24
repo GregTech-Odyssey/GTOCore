@@ -7,6 +7,7 @@ import com.gto.gtocore.common.data.GTOMaterials;
 import com.gto.gtocore.common.data.GTORecipeTypes;
 import com.gto.gtocore.utils.MachineUtils;
 
+import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
@@ -25,7 +26,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class ManaHeaterMachine extends SimpleManaMachine implements IHeaterMachine {
 
-    private static final FluidStack SALAMANDER = GTOMaterials.Salamander.getFluid(10);
+    private static final FluidStack SALAMANDER = GTOMaterials.Salamander.getFluid(FluidStorageKeys.GAS, 10);
 
     private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
             ManaHeaterMachine.class, SimpleManaMachine.MANAGED_FIELD_HOLDER);
@@ -95,7 +96,7 @@ public class ManaHeaterMachine extends SimpleManaMachine implements IHeaterMachi
     public boolean onWorking() {
         if (super.onWorking()) {
             if (getOffsetTimer() % 10 == 0 && getMaxTemperature() > temperature) {
-                raiseTemperature(MachineUtils.inputFluid(this, SALAMANDER) ? 8 : 2);
+                raiseTemperature(MachineUtils.inputFluid(this, SALAMANDER) ? 10 : 2);
             }
             return true;
         }

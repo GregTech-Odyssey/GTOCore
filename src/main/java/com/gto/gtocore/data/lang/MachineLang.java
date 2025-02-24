@@ -50,7 +50,6 @@ final class MachineLang {
         addENCN("gtocore.machine.neutron_activator.efficiency", "Kinetic Energy Consumption Multiplier: %s", "动能消耗倍速: %s");
         addENCN("gtocore.machine.neutron_activator.ev", "Current Neutron Kinetic Energy: %seV", "当前中子动能: %seV");
         addENCN("gtocore.machine.height", "Height: %s", "高度: %s");
-        addENCN("gtocore.machine.neutron_activator.time", "Time: %s", "耗时: %s");
         addENCN("gtocore.machine.sensor.invert.disabled.0", "Redstone Output: Normal", "红石输出: 普通");
         addENCN("gtocore.machine.sensor.invert.disabled.1", "Click to toggle inverted redstone logic", "点击为以反转红石逻辑");
         addENCN("gtocore.machine.sensor.invert.disabled.2", "When neutron kinetic energy is between the set minimum and maximum values, the sensor will emit a redstone signal", "介于所设定的最小值和最大值之间时传感器将发出红石信号");

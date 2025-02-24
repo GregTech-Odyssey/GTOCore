@@ -5,6 +5,7 @@ import com.gto.gtocore.api.GTOValues;
 import com.gto.gtocore.api.machine.SimpleNoEnergyMachine;
 import com.gto.gtocore.api.machine.feature.multiblock.ICoilMachine;
 import com.gto.gtocore.api.pattern.GTOPredicates;
+import com.gto.gtocore.api.registries.GTOMachineBuilder;
 import com.gto.gtocore.api.registries.MultiblockBuilder;
 import com.gto.gtocore.common.data.GTORecipeModifiers;
 import com.gto.gtocore.common.data.machines.MultiBlockA;
@@ -30,7 +31,6 @@ import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.recipe.OverclockingLogic;
 import com.gregtechceu.gtceu.api.registry.registrate.GTRegistrate;
-import com.gregtechceu.gtceu.api.registry.registrate.MachineBuilder;
 import com.gregtechceu.gtceu.api.registry.registrate.MultiblockMachineBuilder;
 import com.gregtechceu.gtceu.client.renderer.machine.OverlayTieredMachineRenderer;
 import com.gregtechceu.gtceu.client.renderer.machine.SimpleGeneratorMachineRenderer;
@@ -79,7 +79,7 @@ public final class MachineRegisterUtils {
         components.add(Component.translatable("gtocore.machine.duration_multiplier.tooltip", FormattingUtil.formatNumbers(value * 0.6)));
     };
 
-    public static MachineBuilder<MachineDefinition> machine(String name, String cn, Function<IMachineBlockEntity, MetaMachine> metaMachine) {
+    public static GTOMachineBuilder machine(String name, String cn, Function<IMachineBlockEntity, MetaMachine> metaMachine) {
         addLang(name, cn);
         return REGISTRATE.machine(name, metaMachine);
     }
@@ -95,7 +95,7 @@ public final class MachineRegisterUtils {
                 (holder, tier) -> new HugeFluidHatchPartMachine(holder, tier, io),
                 (tier, builder) -> {
                     builder.langValue(VNF[tier] + ' ' + displayname)
-                            .rotationState(RotationState.ALL)
+                            .allRotation()
                             .renderer(() -> new OverlayTieredMachineRenderer(tier, GTCEu.id("block/machine/part/" + model)))
                             .abilities(abilities)
                             .tooltips(Component.translatable("gtceu.machine." + tooltip + ".tooltip"));
@@ -123,7 +123,7 @@ public final class MachineRegisterUtils {
         return registerTieredMachines(amperage + "a_wireless_" + id + "_hatch", tier -> amperage + (amperage > 64 ? "§e安§r" : "安") + GTOValues.VNFR[tier] + "无线" + (io == IO.IN ? "能源" : "动力") + "仓",
                 (holder, tier) -> new WirelessEnergyHatchPartMachine(holder, tier, io, amperage), (tier, builder) -> builder
                         .langValue(VNF[tier] + " " + FormattingUtil.formatNumbers(amperage) + "A Wireless" + (io == IO.IN ? "Energy" : "Dynamo") + " Hatch")
-                        .rotationState(RotationState.ALL)
+                        .allRotation()
                         .abilities(ability)
                         .tooltips(Component.translatable("gtmthings.machine.energy_hatch." + id + ".tooltip"), (Component.translatable("gtmthings.machine.wireless_energy_hatch." + id + ".tooltip")))
                         .renderer(() -> new OverlayTieredMachineRenderer(tier, GTMThings.id("block/machine/part/" + finalRender)))
@@ -136,7 +136,7 @@ public final class MachineRegisterUtils {
         return registerTieredMachines(amperage + "a_laser_" + name + "_hatch", tier -> amperage + "§e安§r" + GTOValues.VNFR[tier] + "激光" + (io == IO.IN ? "靶" : "源") + "仓",
                 (holder, tier) -> new LaserHatchPartMachine(holder, io, tier, amperage), (tier, builder) -> builder
                         .langValue(VNF[tier] + " " + FormattingUtil.formatNumbers(amperage) + "A Laser " + FormattingUtil.toEnglishName(name) + " Hatch")
-                        .rotationState(RotationState.ALL)
+                        .allRotation()
                         .tooltips(Component.translatable("gtceu.machine.laser_hatch." + name + ".tooltip"),
                                 Component.translatable("gtceu.machine.laser_hatch.both.tooltip"),
                                 Component.translatable("gtceu.universal.disabled"))
@@ -152,7 +152,7 @@ public final class MachineRegisterUtils {
                 (tier, builder) -> builder
                         .langValue("%s %s %s".formatted(VLVH[tier], FormattingUtil.toEnglishName(name), VLVT[tier]))
                         .editableUI(SimpleGeneratorMachine.EDITABLE_UI_CREATOR.apply(GTCEu.id(name), recipeType))
-                        .rotationState(RotationState.ALL)
+                        .allRotation()
                         .recipeType(recipeType)
                         .recipeModifier(GTORecipeModifiers::simpleGeneratorMachineModifier)
                         .addOutputLimit(ItemRecipeCapability.CAP, 0)
@@ -187,7 +187,7 @@ public final class MachineRegisterUtils {
                     return builder
                             .langValue("%s %s %s".formatted(VLVH[tier], FormattingUtil.toEnglishName(name), VLVT[tier]))
                             .editableUI(SimpleTieredMachine.EDITABLE_UI_CREATOR.apply(GTCEu.id(name), recipeType))
-                            .rotationState(RotationState.NON_Y_AXIS)
+                            .nonYAxisRotation()
                             .recipeType(recipeType)
                             .workableTieredHullRenderer(workableModel)
                             .tooltips(GTMachineUtils.workableTiered(tier, V[tier], V[tier] << 6, recipeType,
@@ -212,7 +212,7 @@ public final class MachineRegisterUtils {
                 (holder, tier) -> new SimpleNoEnergyMachine(holder, tier, tankScalingFunction), (tier, builder) -> builder
                         .langValue("%s %s %s".formatted(VLVH[tier], FormattingUtil.toEnglishName(name), VLVT[tier]))
                         .editableUI(SimpleNoEnergyMachine.EDITABLE_UI_CREATOR.apply(GTCEu.id(name), recipeType))
-                        .rotationState(RotationState.NON_Y_AXIS)
+                        .nonYAxisRotation()
                         .recipeType(recipeType)
                         .noRecipeModifier()
                         .workableTieredHullRenderer(workableModel)
@@ -231,19 +231,12 @@ public final class MachineRegisterUtils {
         return tooltipComponents.toArray(Component[]::new);
     }
 
-    public static MachineDefinition[] registerTieredMachines(String name, Function<Integer, String> cn,
-                                                             BiFunction<IMachineBlockEntity, Integer, MetaMachine> factory,
-                                                             BiFunction<Integer, MachineBuilder<MachineDefinition>, MachineDefinition> builder,
-                                                             int... tiers) {
-        return registerMachineDefinitions(name, cn, factory, builder, REGISTRATE, tiers);
-    }
-
-    public static MachineDefinition[] registerMachineDefinitions(String name, Function<Integer, String> cn, BiFunction<IMachineBlockEntity, Integer, MetaMachine> factory, BiFunction<Integer, MachineBuilder<MachineDefinition>, MachineDefinition> builder, GTRegistrate registrate, int[] tiers) {
+    public static MachineDefinition[] registerTieredMachines(String name, Function<Integer, String> cn, BiFunction<IMachineBlockEntity, Integer, MetaMachine> factory, BiFunction<Integer, GTOMachineBuilder, MachineDefinition> builder, int... tiers) {
         MachineDefinition[] definitions = new MachineDefinition[TIER_COUNT];
         for (int tier : tiers) {
             String n = VN[tier].toLowerCase(Locale.ROOT) + "_" + name;
             if (cn != null) addLang(n, cn.apply(tier));
-            MachineBuilder<MachineDefinition> register = registrate.machine(n, holder -> factory.apply(holder, tier)).tier(tier);
+            GTOMachineBuilder register = REGISTRATE.machine(n, holder -> factory.apply(holder, tier)).tier(tier);
             definitions[tier] = builder.apply(tier, register);
         }
         return definitions;
@@ -251,7 +244,7 @@ public final class MachineRegisterUtils {
 
     public static Pair<MachineDefinition, MachineDefinition> registerSteamMachines(String name, String cn,
                                                                                    BiFunction<IMachineBlockEntity, Boolean, MetaMachine> factory,
-                                                                                   BiFunction<Boolean, MachineBuilder<MachineDefinition>, MachineDefinition> builder) {
+                                                                                   BiFunction<Boolean, GTOMachineBuilder, MachineDefinition> builder) {
         MachineDefinition lowTier = builder.apply(false,
                 machine("lp_%s".formatted(name), "低压蒸汽%s".formatted(cn), holder -> factory.apply(holder, false))
                         .langValue("Low Pressure " + FormattingUtil.toEnglishName(name))
@@ -339,7 +332,7 @@ public final class MachineRegisterUtils {
     //////////////////////////////////////
     // *** Mana Machine ***//
     //////////////////////////////////////
-    public static MachineBuilder<MachineDefinition> manaMachine(String name, String cn, Function<IMachineBlockEntity, MetaMachine> metaMachine) {
+    public static GTOMachineBuilder manaMachine(String name, String cn, Function<IMachineBlockEntity, MetaMachine> metaMachine) {
         addLang(name, cn);
         return REGISTRATE.manaMachine(name, metaMachine);
     }
@@ -350,7 +343,7 @@ public final class MachineRegisterUtils {
             return builder
                     .langValue("%s %s".formatted(MANAN[tier], FormattingUtil.toEnglishName(name)))
                     .editableUI(SimpleManaMachine.EDITABLE_UI_CREATOR.apply(GTCEu.id(name), recipeType))
-                    .rotationState(RotationState.NON_Y_AXIS)
+                    .nonYAxisRotation()
                     .recipeType(recipeType)
                     .tooltips(Component.translatable("gtocore.machine.mana_eu").withStyle(ChatFormatting.GRAY))
                     .tooltips(Component.translatable("gtocore.machine.mana_input", GTOValues.MANA[tier]).withStyle(ChatFormatting.AQUA))
@@ -361,10 +354,10 @@ public final class MachineRegisterUtils {
                 tiers);
     }
 
-    public static MachineDefinition[] registerTieredManaMachines(String name, Function<Integer, String> cn, BiFunction<IMachineBlockEntity, Integer, MetaMachine> factory, BiFunction<Integer, MachineBuilder<MachineDefinition>, MachineDefinition> builder, int[] tiers) {
+    public static MachineDefinition[] registerTieredManaMachines(String name, Function<Integer, String> cn, BiFunction<IMachineBlockEntity, Integer, MetaMachine> factory, BiFunction<Integer, GTOMachineBuilder, MachineDefinition> builder, int[] tiers) {
         MachineDefinition[] definitions = new MachineDefinition[TIER_COUNT];
         for (int tier : tiers) {
-            MachineBuilder<MachineDefinition> register = manaMachine(VN[tier].toLowerCase(Locale.ROOT) + "_" + name, cn.apply(tier), holder -> factory.apply(holder, tier)).tier(tier);
+            GTOMachineBuilder register = manaMachine(VN[tier].toLowerCase(Locale.ROOT) + "_" + name, cn.apply(tier), holder -> factory.apply(holder, tier)).tier(tier);
             definitions[tier] = builder.apply(tier, register);
         }
         return definitions;

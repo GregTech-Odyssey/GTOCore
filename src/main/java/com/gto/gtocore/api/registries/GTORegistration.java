@@ -11,7 +11,6 @@ import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockControllerMachine;
 import com.gregtechceu.gtceu.api.registry.registrate.GTRegistrate;
-import com.gregtechceu.gtceu.api.registry.registrate.MachineBuilder;
 
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.CreativeModeTab;
@@ -32,8 +31,13 @@ public final class GTORegistration extends GTRegistrate {
         super(GTOCore.MOD_ID);
     }
 
-    public MachineBuilder<MachineDefinition> manaMachine(String name, Function<IMachineBlockEntity, MetaMachine> metaMachine) {
-        return MachineBuilder.create(this, name, MachineDefinition::createDefinition, metaMachine, MetaMachineBlock::new, MetaMachineItem::new, ManaMachineBlockEntity::createBlockEntity);
+    public GTOMachineBuilder manaMachine(String name, Function<IMachineBlockEntity, MetaMachine> metaMachine) {
+        return new GTOMachineBuilder(this, name, MachineDefinition::createDefinition, metaMachine, MetaMachineBlock::new, MetaMachineItem::new, ManaMachineBlockEntity::createBlockEntity);
+    }
+
+    @Override
+    public @NotNull GTOMachineBuilder machine(@NotNull String name, @NotNull Function<IMachineBlockEntity, MetaMachine> metaMachine) {
+        return new GTOMachineBuilder(this, name, MachineDefinition::createDefinition, metaMachine, MetaMachineBlock::new, MetaMachineItem::new, MetaMachineBlockEntity::createBlockEntity);
     }
 
     @Override

@@ -702,7 +702,7 @@ public interface MultiBlockC {
 
     MultiblockMachineDefinition PHYSICAL_VAPOR_DEPOSITION = multiblock("physical_vapor_deposition", "物理气相沉积系统", TierCasingParallelMultiblockMachine.createParallel(m -> 1 << (2 * (m.getTier() - 1)), true, GLASS_TIER))
             .nonYAxisRotation()
-            .tooltipsKey("gtocore.machine.chemical_vapor_deposition.tooltip.0")
+            .tooltipsKey("gtocore.machine.automatic_chisel.tooltip.1")
             .tooltipsText("The higher the glass tier, the faster the operation speed", "玻璃等级越高，运行速度越快")
             .recipe(GTORecipeTypes.PHYSICAL_VAPOR_DEPOSITION_RECIPES)
             .recipeModifiers((machine, r) -> recipe -> GTORecipeModifiers.recipeReduction(machine, recipe, 1, Math.sqrt(1.0D / ((ITierCasingMachine) machine).getCasingTiers().get(GLASS_TIER))), GTORecipeModifiers.OVERCLOCKING)
@@ -1568,7 +1568,7 @@ public interface MultiBlockC {
                     .where('H', blocks(GTBlocks.CASING_BRONZE_GEARBOX.get()))
                     .where(' ', any())
                     .build())
-            .workableCasingRenderer(GTOCore.id("block/casings/sterile_casing"), GTCEu.id("block/multiblock/multiblock_tank"))
+            .workableCasingRenderer(GTOCore.id("block/casings/brass_reinforced_wooden_casing"), GTCEu.id("block/multiblock/multiblock_tank"))
             .register();
 
     MultiblockMachineDefinition LARGE_STEAM_STORAGE_TANK = multiblock("large_steam_storage_tank", "大型蒸汽储罐", h -> new MultiblockTankMachine(h, 100000000, new PropertyFluidFilter(666, true, true, true, true) {

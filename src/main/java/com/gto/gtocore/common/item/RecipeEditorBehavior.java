@@ -256,9 +256,6 @@ public final class RecipeEditorBehavior implements IItemUIFactory, IFancyUIProvi
                     if (recipe.data.contains("grindball")) {
                         stringBuilder.append(".addData(\"grindball\", ").append(recipe.data.getInt("grindball")).append(")").append("\n");
                     }
-                    if (recipe.data.contains("spool")) {
-                        stringBuilder.append(".addData(\"spool\", ").append(recipe.data.getInt("spool")).append(")").append("\n");
-                    }
                     if (recipe.data.contains("ev_min")) {
                         stringBuilder.append(".addData(\"ev_min\", ").append(recipe.data.getInt("ev_min")).append(")").append("\n");
                     }

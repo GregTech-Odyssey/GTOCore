@@ -11,7 +11,6 @@ import com.gto.gtocore.common.machine.mana.part.ManaHatchPartMachine;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
-import com.gregtechceu.gtceu.api.data.RotationState;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.client.renderer.machine.OverlayTieredMachineRenderer;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
@@ -38,7 +37,7 @@ public interface ManaMachine {
             ManaExtractHatchPartMachine::new,
             (tier, builder) -> builder
                     .langValue(MANAN[tier] + " Mana Extract Hatch")
-                    .rotationState(RotationState.ALL)
+                    .allRotation()
                     .abilities(GTOPartAbility.EXTRACT_MANA)
                     .tooltips(Component.translatable("gtocore.machine.mana_input", GTOValues.MANA[tier] << 2).withStyle(ChatFormatting.AQUA))
                     .renderer(() -> new OverlayTieredMachineRenderer(tier, GTCEu.id("block/machine/part/" + "energy_hatch.input_64a")))
@@ -49,7 +48,7 @@ public interface ManaMachine {
             (holder, tier) -> new ManaHatchPartMachine(holder, tier, IO.IN, 1),
             (tier, builder) -> builder
                     .langValue(MANAN[tier] + " Mana Input Hatch")
-                    .rotationState(RotationState.ALL)
+                    .allRotation()
                     .abilities(GTOPartAbility.INPUT_MANA)
                     .tooltips(Component.translatable("gtocore.machine.mana_input", GTOValues.MANA[tier]).withStyle(ChatFormatting.AQUA))
                     .renderer(() -> new OverlayTieredMachineRenderer(tier, GTCEu.id("block/machine/part/" + "energy_hatch.input_64a")))
@@ -60,7 +59,7 @@ public interface ManaMachine {
             (holder, tier) -> new ManaHatchPartMachine(holder, tier, IO.OUT, 1),
             (tier, builder) -> builder
                     .langValue(MANAN[tier] + " Mana Output Hatch")
-                    .rotationState(RotationState.ALL)
+                    .allRotation()
                     .abilities(GTOPartAbility.OUTPUT_MANA)
                     .tooltips(Component.translatable("gtocore.machine.mana_output", GTOValues.MANA[tier]).withStyle(ChatFormatting.AQUA))
                     .renderer(() -> new OverlayTieredMachineRenderer(tier, GTCEu.id("block/machine/part/" + "energy_hatch.output_64a")))
@@ -72,7 +71,7 @@ public interface ManaMachine {
             .editableUI(SimpleNoEnergyMachine.EDITABLE_UI_CREATOR.apply(GTCEu.id("alchemy_pot"), GTORecipeTypes.ALCHEMY_POT_RECIPES))
             .recipeType(GTORecipeTypes.ALCHEMY_POT_RECIPES)
             .alwaysTryModifyRecipe(true)
-            .rotationState(RotationState.NON_Y_AXIS)
+            .nonYAxisRotation()
             .workableTieredHullRenderer(GTCEu.id("block/generators/boiler/lava"))
             .tooltips(workableNoEnergy(GTORecipeTypes.ALCHEMY_POT_RECIPES, 1600))
             .register();
@@ -82,7 +81,8 @@ public interface ManaMachine {
             .editableUI(SimpleNoEnergyMachine.EDITABLE_UI_CREATOR.apply(GTCEu.id("mana_heater"), GTORecipeTypes.MANA_HEATER_RECIPES))
             .recipeType(GTORecipeTypes.MANA_HEATER_RECIPES)
             .noRecipeModifier()
-            .rotationState(RotationState.NON_Y_AXIS)
+            .nonYAxisRotation()
+            .tooltipsText("Input mana to heat, if fire element is input, the heating speed will be 5 times faster.", "输入魔力加热，如果输入火元素，则加热速度翻5倍")
             .workableTieredHullRenderer(GTCEu.id("block/generators/boiler/coal"))
             .register();
 }

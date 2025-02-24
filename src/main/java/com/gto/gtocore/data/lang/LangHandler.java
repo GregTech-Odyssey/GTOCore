@@ -1,6 +1,7 @@
 package com.gto.gtocore.data.lang;
 
 import com.gto.gtocore.api.machine.trait.TierCasingTrait;
+import com.gto.gtocore.api.registries.GTOMachineBuilder;
 import com.gto.gtocore.api.registries.MultiblockBuilder;
 import com.gto.gtocore.common.data.GTOBedrockFluids;
 import com.gto.gtocore.data.lang.provider.SimplifiedChineseLanguageProvider;
@@ -44,6 +45,7 @@ public final class LangHandler {
         GTOBedrockFluids.LANG.forEach((k, v) -> addENCN("gtceu.jei.bedrock_fluid." + k, v));
         ItemRegisterUtils.LANG.forEach((k, v) -> addCN("item.gtocore." + k, v));
         BlockRegisterUtils.LANG.forEach((k, v) -> addCN("block.gtocore." + k, v));
+        GTOMachineBuilder.TOOLTIPS_MAP.forEach(LangHandler::addENCN);
         MultiblockBuilder.TOOLTIPS_MAP.forEach(LangHandler::addENCN);
 
         addCN("entity.gtocore.task_entity", "任务执行实体");

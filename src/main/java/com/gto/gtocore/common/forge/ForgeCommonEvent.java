@@ -6,6 +6,7 @@ import com.gto.gtocore.common.data.GTOBlocks;
 import com.gto.gtocore.common.data.GTOCommands;
 import com.gto.gtocore.common.data.GTOItems;
 import com.gto.gtocore.common.item.ItemMap;
+import com.gto.gtocore.common.machine.multiblock.electric.viod.VoidTransporterMachine;
 import com.gto.gtocore.common.saved.DysonSphereSavaedData;
 import com.gto.gtocore.common.saved.ExtendWirelessEnergySavaedData;
 import com.gto.gtocore.common.saved.InfinityCellSavaedData;
@@ -163,6 +164,7 @@ public final class ForgeCommonEvent {
             CompoundTag data = player.getPersistentData();
             if (block == Blocks.CRYING_OBSIDIAN) {
                 if (!Objects.equals(dim, "gtocore:flat")) {
+                    if (checkTransporter(pos, level)) return;
                     int value = Objects.equals(dim, "gtocore:void") ? 1 : 10;
                     data.putDouble("y_f", player.getY() + 1);
                     data.putString("dim_f", dim);
@@ -178,6 +180,7 @@ public final class ForgeCommonEvent {
 
             if (block == Blocks.OBSIDIAN) {
                 if (!Objects.equals(dim, "gtocore:void")) {
+                    if (checkTransporter(pos, level)) return;
                     int value = Objects.equals(dim, "gtocore:flat") ? 1 : 10;
                     data.putDouble("y_v", player.getY() + 1);
                     data.putString("dim_v", dim);
@@ -241,6 +244,10 @@ public final class ForgeCommonEvent {
             }
         }
         return true;
+    }
+
+    private static boolean checkTransporter(BlockPos pos, Level level) {
+        return !(MetaMachine.getMachine(level, pos.offset(0, -1, 0)) instanceof VoidTransporterMachine machine && machine.getRecipeLogic().isWorking());
     }
 
     @SubscribeEvent

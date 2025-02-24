@@ -184,7 +184,7 @@ public class NeutronActivatorMachine extends NoEnergyMultiblockMachine implement
         textList.add(Component.translatable("gtocore.machine.neutron_activator.efficiency",
                 FormattingUtil.formatNumbers(getEVtMultiplier())));
         textList.add(Component.translatable("gtocore.machine.height", height));
-        textList.add(Component.translatable("gtocore.machine.neutron_activator.time",
+        textList.add(Component.translatable("gtocore.machine.duration_multiplier.tooltip",
                 FormattingUtil.formatNumbers(getEfficiencyFactor() * 100)).append("%"));
     }
 }

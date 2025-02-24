@@ -1,6 +1,7 @@
 package com.gto.gtocore.mixin.gtm.registry;
 
 import com.gto.gtocore.api.machine.part.GTOPartAbility;
+import com.gto.gtocore.api.registries.GTOMachineBuilder;
 import com.gto.gtocore.common.data.GTORecipeModifiers;
 import com.gto.gtocore.common.machine.multiblock.generator.GeneratorArrayMachine;
 import com.gto.gtocore.utils.register.MachineRegisterUtils;
@@ -36,6 +37,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import java.util.Locale;
 import java.util.function.BiFunction;
 import java.util.function.Supplier;
 
@@ -46,15 +48,17 @@ import static com.gregtechceu.gtceu.common.registry.GTRegistration.REGISTRATE;
 public final class GTMachineUtilsMixin {
 
     @Unique
-    private static MachineDefinition[] gtoCore$registerTieredMachines(String name,
-                                                                      BiFunction<IMachineBlockEntity, Integer, MetaMachine> factory,
-                                                                      BiFunction<Integer, MachineBuilder<MachineDefinition>, MachineDefinition> builder,
-                                                                      int... tiers) {
-        return MachineRegisterUtils.registerMachineDefinitions(name, null, factory, builder, REGISTRATE, tiers);
+    private static MachineDefinition[] gtoCore$registerTieredMachines(String name, BiFunction<IMachineBlockEntity, Integer, MetaMachine> factory, BiFunction<Integer, MachineBuilder<MachineDefinition>, MachineDefinition> builder, int... tiers) {
+        MachineDefinition[] definitions = new MachineDefinition[TIER_COUNT];
+        for (int tier : tiers) {
+            MachineBuilder<MachineDefinition> register = REGISTRATE.machine(VN[tier].toLowerCase(Locale.ROOT) + "_" + name, holder -> factory.apply(holder, tier)).tier(tier);
+            definitions[tier] = builder.apply(tier, register);
+        }
+        return definitions;
     }
 
     @Inject(method = "registerTieredMachines", at = @At("HEAD"), remap = false, cancellable = true)
-    private static void registerTieredMachines(String name, BiFunction<IMachineBlockEntity, Integer, MetaMachine> factory, BiFunction<Integer, MachineBuilder<MachineDefinition>, MachineDefinition> builder, int[] tiers, CallbackInfoReturnable<MachineDefinition[]> cir) {
+    private static void registerTieredMachines(String name, BiFunction<IMachineBlockEntity, Integer, MetaMachine> factory, BiFunction<Integer, GTOMachineBuilder, MachineDefinition> builder, int[] tiers, CallbackInfoReturnable<MachineDefinition[]> cir) {
         switch (name) {
             case "input_bus":
                 cir.setReturnValue(gtoCore$registerTieredMachines("input_bus",
