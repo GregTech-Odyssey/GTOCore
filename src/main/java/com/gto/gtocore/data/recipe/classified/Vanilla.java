@@ -762,5 +762,25 @@ interface Vanilla {
                 "A A",
                 "BCB",
                 'B', new UnificationEntry(TagPrefix.bolt, GTMaterials.WroughtIron), 'C', GTBlocks.STEEL_BRICKS_HULL.asStack(), 'A', new UnificationEntry(TagPrefix.plate, GTMaterials.WroughtIron));
+        VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("machine_access_interface"), GTOMachines.MACHINE_ACCESS_INTERFACE.asStack(),
+                "ABA",
+                "CDC",
+                "ABA",
+                'B', GTItems.COVER_FLUID_DETECTOR_ADVANCED.asStack(), 'D', GTMachines.HULL[GTValues.IV].asStack(), 'C', GTItems.COVER_ITEM_DETECTOR_ADVANCED.asStack(), 'A', GTItems.SENSOR_IV.asStack());
+        VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("luv_processing_array"), MultiBlockG.PROCESSING_ARRAY[GTValues.LuV].asStack(),
+                "ABA",
+                "BCB",
+                "ABA",
+                'B', CustomTags.LuV_CIRCUITS, 'C', GTItems.EMITTER_LuV.asStack(), 'A', new UnificationEntry(TagPrefix.plate, GTMaterials.HSSE));
+        VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("iv_processing_array"), MultiBlockG.PROCESSING_ARRAY[GTValues.IV].asStack(),
+                "ABA",
+                "BCB",
+                "ABA",
+                'B', CustomTags.IV_CIRCUITS, 'C', GTItems.EMITTER_IV.asStack(), 'A', new UnificationEntry(TagPrefix.plate, GTMaterials.TungstenSteel));
+        VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("void_transporter"), MultiBlockG.VOID_TRANSPORTER.asStack(),
+                "ABA",
+                "BCB",
+                "ABA",
+                'B', GTItems.FIELD_GENERATOR_MV.asStack(), 'C', RegistriesUtils.getItemStack("enderio:reinforced_obsidian_block"), 'A', GTItems.CARBON_FIBER_PLATE.asStack());
     }
 }

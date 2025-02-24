@@ -36,6 +36,8 @@ import com.gregtechceu.gtceu.data.recipe.serialized.chemistry.ChemistryRecipes;
 import com.gregtechceu.gtceu.integration.emi.recipe.GTEmiRecipe;
 import com.gregtechceu.gtceu.integration.emi.recipe.GTRecipeEMICategory;
 
+import dev.emi.emi.config.EmiConfig;
+import dev.emi.emi.config.SidebarSide;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.Recipe;
@@ -252,6 +254,8 @@ public final class GTORecipes implements Runnable {
         }
         if (GTCEu.Mods.isEMILoaded()) {
             long time = System.currentTimeMillis();
+            EmiConfig.logUntranslatedTags = false;
+            EmiConfig.workstationLocation = SidebarSide.LEFT;
             EmiRepairItemRecipe.TOOLS.clear();
             initGTCategoryMap();
             Set<GTEmiRecipe> recipes = new ObjectOpenHashSet<>(5000);

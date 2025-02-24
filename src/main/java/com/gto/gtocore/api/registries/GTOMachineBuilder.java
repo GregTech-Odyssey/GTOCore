@@ -143,7 +143,7 @@ public final class GTOMachineBuilder extends MachineBuilder<MachineDefinition> {
     }
 
     public GTOMachineBuilder tooltipsKey(String key, Object... args) {
-        return (GTOMachineBuilder) tooltips(Component.translatable(key, args));
+        return tooltips(Component.translatable(key, args));
     }
 
     public GTOMachineBuilder tooltipsText(String en, String cn, Object... args) {

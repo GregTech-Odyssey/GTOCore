@@ -763,7 +763,7 @@ public interface GTORecipeTypes {
             .setUiBuilder(COIL_UI)
             .addDataInfo(data -> LocalizationUtils.format(
                     "gtocore.recipe.spool",
-                    I18n.get(SPOOL_MATERIALS[data.getInt("spool")])));;
+                    I18n.get(SPOOL_MATERIALS[data.getInt("spool")])));
 
     // TODO 添加用途
     GTRecipeType PHYSICAL_VAPOR_DEPOSITION_RECIPES = register("physical_vapor_deposition", "物理气相沉积", MULTIBLOCK)

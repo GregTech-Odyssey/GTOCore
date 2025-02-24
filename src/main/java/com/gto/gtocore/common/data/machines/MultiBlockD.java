@@ -37,7 +37,6 @@ import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
-import com.gregtechceu.gtceu.api.machine.multiblock.WorkableMultiblockMachine;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.MultiblockShapeInfo;
 import com.gregtechceu.gtceu.api.pattern.TraceabilityPredicate;
@@ -704,10 +703,10 @@ public interface MultiBlockD {
                     if (level != null) {
                         BlockPos pos = machine.self().getPos().offset(0, -16, 0);
                         Block block = level.getBlockState(pos).getBlock();
-                        if (MachineUtils.inputItem((WorkableMultiblockMachine) machine, GTOItems.CHAIN_COMMAND_BLOCK_CORE.asStack()) && block == GTOBlocks.COMMAND_BLOCK_BROKEN.get()) {
+                        if (MachineUtils.inputItem(machine, GTOItems.CHAIN_COMMAND_BLOCK_CORE.asStack()) && block == GTOBlocks.COMMAND_BLOCK_BROKEN.get()) {
                             level.setBlockAndUpdate(pos, Blocks.CHAIN_COMMAND_BLOCK.defaultBlockState());
                         }
-                        if (MachineUtils.inputItem((WorkableMultiblockMachine) machine, GTOItems.REPEATING_COMMAND_BLOCK_CORE.asStack()) && block == GTOBlocks.CHAIN_COMMAND_BLOCK_BROKEN.get()) {
+                        if (MachineUtils.inputItem(machine, GTOItems.REPEATING_COMMAND_BLOCK_CORE.asStack()) && block == GTOBlocks.CHAIN_COMMAND_BLOCK_BROKEN.get()) {
                             level.setBlockAndUpdate(pos, Blocks.REPEATING_COMMAND_BLOCK.defaultBlockState());
                         }
                     }
@@ -910,13 +909,13 @@ public interface MultiBlockD {
                 String dim = level.dimension().location().toString();
                 MinecraftServer server = level.getServer();
                 if (server != null) {
-                    if (MachineUtils.notConsumableCircuit((WorkableMultiblockMachine) machine, 1)) {
+                    if (MachineUtils.notConsumableCircuit(machine, 1)) {
                         ServerUtils.runCommandSilent(server, "execute in " + dim + " run weather clear");
                     }
-                    if (MachineUtils.notConsumableCircuit((WorkableMultiblockMachine) machine, 2)) {
+                    if (MachineUtils.notConsumableCircuit(machine, 2)) {
                         ServerUtils.runCommandSilent(server, "execute in " + dim + " run weather rain");
                     }
-                    if (MachineUtils.notConsumableCircuit((WorkableMultiblockMachine) machine, 3)) {
+                    if (MachineUtils.notConsumableCircuit(machine, 3)) {
                         ServerUtils.runCommandSilent(server, "execute in " + dim + " run weather thunder");
                     }
                 }
