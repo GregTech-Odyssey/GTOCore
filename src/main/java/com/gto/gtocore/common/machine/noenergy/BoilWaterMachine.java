@@ -4,8 +4,8 @@ import com.gto.gtocore.api.machine.SimpleNoEnergyMachine;
 import com.gto.gtocore.api.machine.feature.IReceiveHeatMachine;
 import com.gto.gtocore.api.machine.trait.CustomRecipeLogic;
 import com.gto.gtocore.api.recipe.GTORecipeBuilder;
+import com.gto.gtocore.utils.MachineUtils;
 
-import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
@@ -58,13 +58,12 @@ public final class BoilWaterMachine extends SimpleNoEnergyMachine implements IRe
 
     @Nullable
     private GTRecipe getRecipe() {
-        if (!hasProxies() && temperature < 360) return null;
-        GTRecipe recipe = GTORecipeBuilder.ofRaw().duration(20).inputFluids(new FluidStack(Fluids.WATER, 6)).outputFluids(GTMaterials.Steam.getFluid(960 * 600 / temperature)).buildRawRecipe();
+        if (!hasProxies() || temperature < 360) return null;
+        GTRecipe recipe = GTORecipeBuilder.ofRaw().duration(20).inputFluids(new FluidStack(Fluids.WATER, 6)).outputFluids(GTMaterials.Steam.getFluid(960 * temperature / 600)).buildRawRecipe();
         if (recipe.matchRecipe(this).isSuccess()) {
             return recipe;
         } else if (temperature > 400) {
-            GTRecipe match = GTORecipeBuilder.ofRaw().duration(20).inputFluids(new FluidStack(Fluids.WATER, 1)).buildRawRecipe();
-            if (match.matchRecipe(this).isSuccess() && match.handleRecipeIO(IO.IN, this, getRecipeLogic().getChanceCaches())) {
+            if (MachineUtils.inputFluid(this, Fluids.WATER, 1)) {
                 doExplosion(6);
             }
         }

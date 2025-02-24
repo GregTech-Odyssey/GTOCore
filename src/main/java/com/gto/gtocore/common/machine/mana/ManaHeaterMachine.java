@@ -43,7 +43,7 @@ public class ManaHeaterMachine extends SimpleManaMachine implements IHeaterMachi
 
     @Nullable
     private GTRecipe getRecipe() {
-        if (!hasProxies() && temperature >= getMaxTemperature()) return null;
+        if (!hasProxies() || temperature >= getMaxTemperature()) return null;
         GTRecipe recipe = GTORecipeBuilder.ofRaw().duration(20).MANAt(16).buildRawRecipe();
         if (recipe.matchTickRecipe(this).isSuccess()) {
             return recipe;

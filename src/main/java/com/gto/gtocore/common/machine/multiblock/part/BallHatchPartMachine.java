@@ -86,7 +86,7 @@ public final class BallHatchPartMachine extends ItemHatchPartMachine implements 
 
     @Override
     public void onDrops(List<ItemStack> list) {
-        if (isWorking) {
+        if (!isWorking) {
             super.onDrops(list);
         }
     }
