@@ -130,6 +130,7 @@ public final class LangHandler {
         addENCN("gtocore.recipe.evt", "Energy Consumption per Tick: %s KeV", "每刻中子动能消耗：%s KeV");
         addENCN("gtocore.recipe.frheat", "Heating per Second: %s K", "每秒升温：%s K");
         addENCN("gtocore.recipe.grindball", "macerator Ball Material: %s", "研磨球材质：%s");
+        addENCN("gtocore.recipe.spool", "Spool Type: %s", "线轴类型：%s");
         addENCN("gtocore.recipe.law_cleanroom.display_name", "Absolute Clean", "绝对超净间");
         addENCN("gtocore.recipe.nano_forge_tier", "Nano Forge Tier: %s", "纳米锻炉等级：%s");
         addENCN("gtocore.recipe.radioactivity", "Radiation Dose: %s Sv", "辐射剂量：%s Sv");

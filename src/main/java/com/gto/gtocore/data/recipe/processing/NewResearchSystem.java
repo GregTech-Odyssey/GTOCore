@@ -238,5 +238,19 @@ public interface NewResearchSystem {
                     .blastFurnaceTemp(8684)
                     .duration(21000).EUt(VA[ZPM]).save(provider);
         }
+
+        // 高纯度二氧化硅/光纤产线
+        {
+            REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("make_high_purity_silica"))
+                    .inputFluids(Tetrachlorosilane.getFluid(1000))
+                    .inputFluids(Oxygen.getFluid(1000))
+                    .outputItems(dust, HighPuritySilica, 1)
+                    .outputFluids(Chlorine.getFluid(2000))
+                    .duration(400)
+                    .blastFurnaceTemp(1500)
+                    .EUt(VA[EV])
+                    .save(provider);
+
+        }
     }
 }

@@ -11,6 +11,7 @@ import com.gto.gtocore.common.data.GTOBlocks;
 import com.gto.gtocore.common.data.GTOMachines;
 import com.gto.gtocore.common.data.GTORecipeTypes;
 import com.gto.gtocore.common.machine.multiblock.electric.ChiselMachine;
+import com.gto.gtocore.common.machine.multiblock.electric.DrawingTowerMachine;
 import com.gto.gtocore.common.machine.multiblock.electric.TreeGrowthSimulator;
 import com.gto.gtocore.common.machine.multiblock.electric.adventure.BossSummonerMachine;
 import com.gto.gtocore.common.machine.multiblock.electric.processing.ProcessingArrayMachine;
@@ -325,5 +326,47 @@ public interface MultiBlockG {
                     .where(' ', any())
                     .build())
             .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_stable_titanium"), GTCEu.id("block/multiblock/gcym/large_material_press"))
+            .register();
+
+    MultiblockMachineDefinition DRAWING_TOWER = multiblock("drawing_tower", "拉丝塔", DrawingTowerMachine::new)
+            .nonYAxisRotation()
+            .parallelizableTooltips()
+            .recipe(GTORecipeTypes.DRAWING_RECIPES)
+            .block(GTBlocks.CASING_TUNGSTENSTEEL_ROBUST)
+            .pattern(definition -> FactoryBlockPattern.start(RelativeDirection.BACK, RelativeDirection.RIGHT, RelativeDirection.UP)
+                    .aisle("NNNNNNNN", "NAAAAAAN", "NAAAAAAN", "NAAAAAAN", "NNNNNNNN")
+                    .aisle("NNNNNNNN", "NAFA   N", "HCC    N", "NAFA   N", "NNNNNNNN")
+                    .aisle(" AAAAAAA", " AFA   A", " CC B  A", " AFA   A", " AAAAAAA")
+                    .aisle(" AAAAAAA", " AFFF  A", " CCBBB A", " AFFF  A", " AAAIAAA")
+                    .aisle("  AAAAAA", "  AAA  A", "  C B  A", "  AAA  A", "  AAAAAA")
+                    .aisle("   AABAA", "   A   A", "   B   A", "   A   A", "   AABAA")
+                    .aisle("   CCBCC", "   C   C", "   B   B", "   C   C", "   CCBCC").setRepeatable(16, 128)
+                    .aisle("   AAAAA", "   A   A", "   A   A", "   A   A", "   AAAAA")
+                    .aisle("   DDADD", "   DGGGD", "   AG GA", "   DGGGD", "   DDADD")
+                    .aisle("   DDADD", "   DGGGD", "   AG GA", "   DGGGD", "   DDADD")
+                    .aisle("   AAAAA", "   A   A", "   A   A", "   A   A", "   AAAAA")
+                    .aisle("   DDEDD", "   D   D", "   E   E", "   D   D", "   DDEDD")
+                    .aisle("   DDEDD", "   D   D", "   E   E", "   D   D", "   DDEDD")
+                    .aisle("   DDEDD", "   DDEDD", "   EEEEE", "   DDEDD", "   DDEDD")
+                    .aisle("   MMMMM", "   MMMMM", "   MMMMM", "   MMMMM", "   MMMMM")
+                    .where('A', blocks(GTBlocks.CASING_TUNGSTENSTEEL_ROBUST.get()))
+                    .where('M', blocks(GTBlocks.CASING_TUNGSTENSTEEL_ROBUST.get())
+                            .or(abilities(IMPORT_ITEMS))
+                            .or(abilities(IMPORT_FLUIDS)))
+                    .where('N', blocks(GTBlocks.CASING_TUNGSTENSTEEL_ROBUST.get())
+                            .or(abilities(EXPORT_ITEMS))
+                            .or(abilities(INPUT_ENERGY).setMaxGlobalLimited(2))
+                            .or(abilities(MAINTENANCE).setExactLimit(1)))
+                    .where('B', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.StainlessSteel)))
+                    .where('C', blocks(GTBlocks.CASING_LAMINATED_GLASS.get()))
+                    .where('D', blocks(GTOBlocks.TUNGSTEN_BOROSILICATE_GLASS.get()))
+                    .where('E', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.TungstenSteel)))
+                    .where('F', blocks(GTBlocks.CASING_TUNGSTENSTEEL_GEARBOX.get()))
+                    .where('G', blocks(GTBlocks.COIL_CUPRONICKEL.get()))
+                    .where('H', controller(blocks(definition.get())))
+                    .where('I', blocks(GTOMachines.SPOOL_HATCH.get()))
+                    .where(' ', any())
+                    .build())
+            .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_robust_tungstensteel"), GTCEu.id("block/multiblock/large_miner"))
             .register();
 }

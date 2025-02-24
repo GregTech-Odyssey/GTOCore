@@ -429,7 +429,7 @@ public interface MaterialB {
         Trichlorosilane = material("trichlorosilane", "三氯硅烷")
                 .fluid()
                 .color(0xb7b7b7)
-                .components(Helium, 1, Silicon, 1, Chlorine, 3)
+                .components(Hydrogen, 1, Silicon, 1, Chlorine, 3)
                 .iconSet(DULL)
                 .flags(DISABLE_DECOMPOSITION)
                 .buildAndRegister();
@@ -445,7 +445,7 @@ public interface MaterialB {
         Silane = material("silane", "硅烷")
                 .gas()
                 .color(0xb5b5b5)
-                .components(Helium, 4, Silicon, 1)
+                .components(Hydrogen, 4, Silicon, 1)
                 .iconSet(DULL)
                 .flags(DISABLE_DECOMPOSITION)
                 .buildAndRegister();
@@ -461,7 +461,7 @@ public interface MaterialB {
         PureTrichlorosilane = material("pure_trichlorosilane", "高纯三氯硅烷")
                 .fluid()
                 .color(0xb7b7b7)
-                .components(Helium, 1, Silicon, 1, Chlorine, 3)
+                .components(Hydrogen, 1, Silicon, 1, Chlorine, 3)
                 .iconSet(DULL)
                 .flags(DISABLE_DECOMPOSITION)
                 .buildAndRegister();
@@ -469,7 +469,7 @@ public interface MaterialB {
         PureSilane = material("pure_silane", "高纯硅烷")
                 .gas()
                 .color(0xb5b5b5)
-                .components(Silicon, 1, Helium, 4)
+                .components(Silicon, 1, Hydrogen, 4)
                 .iconSet(DULL)
                 .flags(DISABLE_DECOMPOSITION)
                 .buildAndRegister();
@@ -481,5 +481,14 @@ public interface MaterialB {
                 .iconSet(DULL)
                 .flags(DISABLE_DECOMPOSITION)
                 .buildAndRegister().setFormula("SiF4·(HF)n");
+
+        HighPuritySilica = material("high_purity_silica", "高纯度二氧化硅")
+                .dust()
+                .fluid()
+                .color(0xffffff)
+                .components(Silicon, 1, Oxygen, 2)
+                .iconSet(METALLIC)
+                .flags(DISABLE_DECOMPOSITION)
+                .buildAndRegister().setFormula("SiO2");
     }
 }

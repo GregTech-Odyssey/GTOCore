@@ -745,6 +745,26 @@ public interface GTORecipeTypes {
             .setProgressBar(GuiTextures.PROGRESS_BAR_BATH, LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.FURNACE);
 
+    String[] SPOOL_MATERIALS = {
+            "item.gtocore.spools_micro",  // 默认值
+            "item.gtocore.spools_small",
+            "item.gtocore.spools_medium",
+            "item.gtocore.spools_large",
+            "item.gtocore.spools_jumbo"
+    };
+
+    GTRecipeType DRAWING_RECIPES = register("drawing", "拉丝", MULTIBLOCK)
+            .setEUIO(IO.IN)
+            .setMaxIOSize(1, 1, 1, 0)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_WIREMILL, LEFT_TO_RIGHT)
+            .addDataInfo(TEMPERATURE)
+            .addDataInfo(COIL)
+            .setSound(GTSoundEntries.COMPRESSOR)
+            .setUiBuilder(COIL_UI)
+            .addDataInfo(data -> LocalizationUtils.format(
+                    "gtocore.recipe.spool",
+                    I18n.get(SPOOL_MATERIALS[data.getInt("spool")])));;
+
     // TODO 添加用途
     GTRecipeType PHYSICAL_VAPOR_DEPOSITION_RECIPES = register("physical_vapor_deposition", "物理气相沉积", MULTIBLOCK)
             .setEUIO(IO.IN)

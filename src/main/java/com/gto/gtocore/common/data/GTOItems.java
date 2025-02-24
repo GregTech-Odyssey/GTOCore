@@ -747,4 +747,10 @@ public interface GTOItems {
     ItemEntry<Item> ETCHED_SILICON_BOULE = register("etched_silicon_boule", "电子束蚀刻的多晶硅");
     ItemEntry<Item> FLOATING_ZONE_PURIFICATION_SILICON_BOULE = register("floating_zone_purification_silicon_boule", "浮区提纯的多晶硅");
     ItemEntry<Item> HIGH_PURITY_SINGLE_CRYSTAL_SILICON = register("high_purity_single_crystal_silicon", "超高纯单晶硅");
+
+    ItemEntry<Item> SPOOLS_MICRO = register("spools_micro", "微型线轴");
+    ItemEntry<Item> SPOOLS_SMALL = register("spools_small", "小型线轴");
+    ItemEntry<Item> SPOOLS_MEDIUM = register("spools_medium", "中型线轴");
+    ItemEntry<Item> SPOOLS_LARGE = register("spools_large", "大型线轴");
+    ItemEntry<Item> SPOOLS_JUMBO = register("spools_jumbo", "巨型线轴");
 }

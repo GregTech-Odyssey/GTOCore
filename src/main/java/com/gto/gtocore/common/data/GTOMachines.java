@@ -587,6 +587,12 @@ public interface GTOMachines {
             .overlayTieredHullRenderer("radiation_hatch")
             .register();
 
+    MachineDefinition SPOOL_HATCH = machine("spool_hatch", "线轴仓", SpoolHatchPartMachine::new)
+            .tier(IV)
+            .rotationState(RotationState.ALL)
+            .overlayTieredHullRenderer("radiation_hatch")
+            .register();
+
     MachineDefinition ROTOR_HATCH = machine("rotor_hatch", "转子仓", h -> new ItemHatchPartMachine(h, 1, i -> TurbineRotorBehaviour.getBehaviour(i) != null))
             .tier(EV)
             .rotationState(RotationState.ALL)

@@ -610,6 +610,7 @@
     "gtocore:silane_bucket",
     "gtocore:pure_trichlorosilane_bucket",
     "gtocore:pure_silane_bucket",
-    "gtocore:tetrafluorosilane_solution_bucket"
+    "gtocore:tetrafluorosilane_solution_bucket",
+    "gtocore:high_purity_silica_bucket"
   ]
 }
