@@ -136,7 +136,7 @@ public final class AdvancedInfiniteDrillMachine extends StorageMultiblockMachine
         } else {
             textList.add(Component.translatable("gtceu.universal.tooltip.working_area", 5, 5));
             textList.add(Component.translatable("gtocore.machine.advanced_infinite_driller.heat", MAX_HEAT, RUNNING_HEAT));
-            textList.add(Component.translatable("gtocore.machine.advanced_infinite_driller.current_heat", currentHeat));
+            textList.add(Component.translatable("gtocore.machine.current_temperature", currentHeat));
             textList.add(Component.translatable("gtocore.machine.fission_reactor.damaged", FormattingUtil.formatNumber2Places(process / 200.0F * 100)).append("%"));
             var fluids = getRecipeLogic().getVeinFluids();
             if (!fluids.isEmpty()) {

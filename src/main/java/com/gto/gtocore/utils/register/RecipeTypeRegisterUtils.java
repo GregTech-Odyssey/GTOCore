@@ -28,6 +28,8 @@ import java.util.function.Function;
 
 public final class RecipeTypeRegisterUtils {
 
+    public static final String MAGIC = "magic";
+
     public static final Map<String, LangHandler.ENCN> LANG = GTCEu.isDataGen() ? new HashMap<>() : null;
 
     public static final Function<CompoundTag, String> TEMPERATURE = data -> LocalizationUtils.format("gtceu.recipe.temperature", FormattingUtil.formatNumbers(data.getInt("ebf_temp")));

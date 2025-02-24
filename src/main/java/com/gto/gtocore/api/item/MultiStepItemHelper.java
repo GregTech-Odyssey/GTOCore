@@ -1,4 +1,4 @@
-package com.gto.gtocore.utils;
+package com.gto.gtocore.api.item;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;

@@ -2,6 +2,7 @@ package com.gto.gtocore.common.data;
 
 import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.api.GTOValues;
+import com.gto.gtocore.api.machine.SimpleNoEnergyMachine;
 import com.gto.gtocore.api.machine.part.GTOPartAbility;
 import com.gto.gtocore.api.machine.part.ItemHatchPartMachine;
 import com.gto.gtocore.client.renderer.machine.BallHatchRenderer;
@@ -14,6 +15,8 @@ import com.gto.gtocore.common.machine.generator.MagicEnergyMachine;
 import com.gto.gtocore.common.machine.generator.WindMillTurbineMachine;
 import com.gto.gtocore.common.machine.multiblock.part.*;
 import com.gto.gtocore.common.machine.multiblock.part.maintenance.*;
+import com.gto.gtocore.common.machine.noenergy.BoilWaterMachine;
+import com.gto.gtocore.common.machine.noenergy.HeaterMachine;
 import com.gto.gtocore.common.machine.steam.SteamVacuumPumpMachine;
 
 import com.gregtechceu.gtceu.GTCEu;
@@ -211,20 +214,22 @@ public interface GTOMachines {
                     .register(),
             ULV, LV, MV, HV);
 
-    MachineDefinition WIRELESS_DATA_HATCH_TRANSMITTER = machine("wireless_data_transmitter_hatch", "无线光学数据源仓", (holder) -> new WirelessOpticalDataHatchMachine(holder, true))
-            .rotationState(RotationState.ALL)
-            .abilities(PartAbility.OPTICAL_DATA_TRANSMISSION)
-            .renderer(() -> new OverlayTieredMachineRenderer(UV, GTCEu.id("block/machine/part/optical_data_hatch")))
-            .tooltips(Component.translatable("gtceu.machine.data_transmitter_hatch.tooltip"), Component.translatable("gtocore.machine.wireless_data_transmitter_hatch.tooltip.0"))
-            .tier(UV)
+    MachineDefinition HEATER = machine("heater", "加热器", HeaterMachine::new)
+            .tier(ULV)
+            .editableUI(SimpleNoEnergyMachine.EDITABLE_UI_CREATOR.apply(GTCEu.id("heater"), GTRecipeTypes.STEAM_BOILER_RECIPES))
+            .recipeType(GTRecipeTypes.DUMMY_RECIPES)
+            .noRecipeModifier()
+            .rotationState(RotationState.NON_Y_AXIS)
+            .workableTieredHullRenderer(GTCEu.id("block/generators/boiler/coal"))
             .register();
 
-    MachineDefinition WIRELESS_DATA_HATCH_RECEIVER = machine("wireless_data_receiver_hatch", "无线光学数据靶仓", (holder) -> new WirelessOpticalDataHatchMachine(holder, false))
-            .rotationState(RotationState.ALL)
-            .abilities(PartAbility.OPTICAL_DATA_RECEPTION)
-            .renderer(() -> new OverlayTieredMachineRenderer(UV, GTCEu.id("block/machine/part/optical_data_hatch")))
-            .tooltips(Component.translatable("gtceu.machine.data_receiver_hatch.tooltip"), Component.translatable("gtocore.machine.wireless_data_receiver_hatch.tooltip.0"))
-            .tier(UV)
+    MachineDefinition BOILER = machine("boiler", "锅炉", BoilWaterMachine::new)
+            .tier(ULV)
+            .editableUI(SimpleNoEnergyMachine.EDITABLE_UI_CREATOR.apply(GTCEu.id("boiler"), GTRecipeTypes.STEAM_TURBINE_FUELS))
+            .recipeType(GTRecipeTypes.DUMMY_RECIPES)
+            .noRecipeModifier()
+            .rotationState(RotationState.NON_Y_AXIS)
+            .workableTieredHullRenderer(GTCEu.id("block/generators/boiler/lava"))
             .register();
 
     //////////////////////////////////////
@@ -405,6 +410,22 @@ public interface GTOMachines {
                     .overlayTieredHullRenderer("neutron_accelerator")
                     .register(),
             GTMachineUtils.ALL_TIERS);
+
+    MachineDefinition WIRELESS_DATA_HATCH_TRANSMITTER = machine("wireless_data_transmitter_hatch", "无线光学数据源仓", (holder) -> new WirelessOpticalDataHatchMachine(holder, true))
+            .rotationState(RotationState.ALL)
+            .abilities(PartAbility.OPTICAL_DATA_TRANSMISSION)
+            .renderer(() -> new OverlayTieredMachineRenderer(UV, GTCEu.id("block/machine/part/optical_data_hatch")))
+            .tooltips(Component.translatable("gtceu.machine.data_transmitter_hatch.tooltip"), Component.translatable("gtocore.machine.wireless_data_transmitter_hatch.tooltip.0"))
+            .tier(UV)
+            .register();
+
+    MachineDefinition WIRELESS_DATA_HATCH_RECEIVER = machine("wireless_data_receiver_hatch", "无线光学数据靶仓", (holder) -> new WirelessOpticalDataHatchMachine(holder, false))
+            .rotationState(RotationState.ALL)
+            .abilities(PartAbility.OPTICAL_DATA_RECEPTION)
+            .renderer(() -> new OverlayTieredMachineRenderer(UV, GTCEu.id("block/machine/part/optical_data_hatch")))
+            .tooltips(Component.translatable("gtceu.machine.data_receiver_hatch.tooltip"), Component.translatable("gtocore.machine.wireless_data_receiver_hatch.tooltip.0"))
+            .tier(UV)
+            .register();
 
     MachineDefinition LARGE_STEAM_HATCH = machine("large_steam_input_hatch", "大型蒸汽输入仓", LargeSteamHatchPartMachine::new)
             .rotationState(RotationState.ALL)

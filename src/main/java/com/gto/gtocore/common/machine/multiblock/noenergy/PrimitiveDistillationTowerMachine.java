@@ -253,7 +253,7 @@ public final class PrimitiveDistillationTowerMachine extends NoEnergyMultiblockM
     public void customText(List<Component> textList) {
         super.customText(textList);
         textList.add(Component.translatable("gtocore.machine.rest_burn_time", time));
-        textList.add(Component.translatable("gtocore.machine.advanced_infinite_driller.current_heat", heat));
+        textList.add(Component.translatable("gtocore.machine.current_temperature", heat));
         textList.add(Component.translatable("gtocore.machine.total_time", getRecipeLogic().getTotalContinuousRunningTime()));
         textList.add(Component.translatable("gtocore.machine.duration_multiplier.tooltip", FormattingUtil.formatNumbers(getDurationMultiplier())));
     }

@@ -167,7 +167,7 @@ public final class MachineUtils {
         return 1;
     }
 
-    public static int checkingCircuit(WorkableMultiblockMachine machine, boolean sum) {
+    public static int checkingCircuit(IRecipeLogicMachine machine, boolean sum) {
         int circuit = 0;
         for (IRecipeHandler<?> handler : Objects.requireNonNullElseGet(machine.getCapabilitiesProxy().get(IO.IN, ItemRecipeCapability.CAP), Collections::<IRecipeHandler<?>>emptyList)) {
             if (!handler.isProxy()) {
@@ -186,7 +186,7 @@ public final class MachineUtils {
         return circuit;
     }
 
-    public static int[] getFluidAmount(WorkableMultiblockMachine machine, Fluid... fluids) {
+    public static int[] getFluidAmount(IRecipeLogicMachine machine, Fluid... fluids) {
         int[] amounts = new int[fluids.length];
         Map<Fluid, Integer> fluidIndexMap = new Object2IntOpenHashMap<>();
         for (int i = 0; i < fluids.length; i++) {
@@ -205,7 +205,7 @@ public final class MachineUtils {
         return amounts;
     }
 
-    public static int[] getItemAmount(WorkableMultiblockMachine machine, Item... items) {
+    public static int[] getItemAmount(IRecipeLogicMachine machine, Item... items) {
         int[] amounts = new int[items.length];
         Map<Item, Integer> itemIndexMap = new Object2IntOpenHashMap<>();
         for (int i = 0; i < items.length; i++) {
@@ -226,67 +226,67 @@ public final class MachineUtils {
         return amounts;
     }
 
-    public static boolean inputItem(WorkableMultiblockMachine machine, ItemStack item) {
+    public static boolean inputItem(IRecipeLogicMachine machine, ItemStack item) {
         if (!item.isEmpty()) {
             GTRecipe recipe = GTORecipeBuilder.ofRaw().inputItems(item).buildRawRecipe();
             if (recipe.matchRecipe(machine).isSuccess()) {
-                return recipe.handleRecipeIO(IO.IN, machine, machine.recipeLogic.getChanceCaches());
+                return recipe.handleRecipeIO(IO.IN, machine, machine.getRecipeLogic().getChanceCaches());
             }
         }
         return false;
     }
 
-    public static boolean outputItem(WorkableMultiblockMachine machine, ItemStack item) {
+    public static boolean outputItem(IRecipeLogicMachine machine, ItemStack item) {
         if (!item.isEmpty()) {
             GTRecipe recipe = GTORecipeBuilder.ofRaw().outputItems(item).buildRawRecipe();
             if (recipe.matchRecipe(machine).isSuccess()) {
-                return recipe.handleRecipeIO(IO.OUT, machine, machine.recipeLogic.getChanceCaches());
+                return recipe.handleRecipeIO(IO.OUT, machine, machine.getRecipeLogic().getChanceCaches());
             }
         }
         return false;
     }
 
-    public static boolean notConsumableItem(WorkableMultiblockMachine machine, ItemStack item) {
+    public static boolean notConsumableItem(IRecipeLogicMachine machine, ItemStack item) {
         return GTORecipeBuilder.ofRaw().inputItems(item).buildRawRecipe().matchRecipe(machine).isSuccess();
     }
 
-    public static boolean notConsumableCircuit(WorkableMultiblockMachine machine, int configuration) {
+    public static boolean notConsumableCircuit(IRecipeLogicMachine machine, int configuration) {
         return GTORecipeBuilder.ofRaw().inputItems(IntCircuitIngredient.circuitInput(configuration)).buildRawRecipe().matchRecipe(machine).isSuccess();
     }
 
-    public static boolean inputFluid(WorkableMultiblockMachine machine, Fluid fluid, int amount) {
+    public static boolean inputFluid(IRecipeLogicMachine machine, Fluid fluid, int amount) {
         return inputFluid(machine, new FluidStack(fluid, amount));
     }
 
-    public static boolean inputFluid(WorkableMultiblockMachine machine, FluidStack fluid) {
+    public static boolean inputFluid(IRecipeLogicMachine machine, FluidStack fluid) {
         if (!fluid.isEmpty()) {
             GTRecipe recipe = GTORecipeBuilder.ofRaw().inputFluids(fluid).buildRawRecipe();
             if (recipe.matchRecipe(machine).isSuccess()) {
-                return recipe.handleRecipeIO(IO.IN, machine, machine.recipeLogic.getChanceCaches());
+                return recipe.handleRecipeIO(IO.IN, machine, machine.getRecipeLogic().getChanceCaches());
             }
         }
         return false;
     }
 
-    public static boolean outputFluid(WorkableMultiblockMachine machine, Fluid fluid, int amount) {
+    public static boolean outputFluid(IRecipeLogicMachine machine, Fluid fluid, int amount) {
         return outputFluid(machine, new FluidStack(fluid, amount));
     }
 
-    public static boolean outputFluid(WorkableMultiblockMachine machine, FluidStack fluid) {
+    public static boolean outputFluid(IRecipeLogicMachine machine, FluidStack fluid) {
         if (!fluid.isEmpty()) {
             GTRecipe recipe = GTORecipeBuilder.ofRaw().outputFluids(fluid).buildRawRecipe();
             if (recipe.matchRecipe(machine).isSuccess()) {
-                return recipe.handleRecipeIO(IO.OUT, machine, machine.recipeLogic.getChanceCaches());
+                return recipe.handleRecipeIO(IO.OUT, machine, machine.getRecipeLogic().getChanceCaches());
             }
         }
         return false;
     }
 
-    public static boolean inputEU(WorkableMultiblockMachine machine, long eu) {
+    public static boolean inputEU(IRecipeLogicMachine machine, long eu) {
         if (eu != 0) {
             GTRecipe recipe = GTORecipeBuilder.ofRaw().inputEU(eu).buildRawRecipe();
             if (recipe.matchRecipe(machine).isSuccess()) {
-                return recipe.handleRecipeIO(IO.IN, machine, machine.recipeLogic.getChanceCaches());
+                return recipe.handleRecipeIO(IO.IN, machine, machine.getRecipeLogic().getChanceCaches());
             }
         }
         return false;

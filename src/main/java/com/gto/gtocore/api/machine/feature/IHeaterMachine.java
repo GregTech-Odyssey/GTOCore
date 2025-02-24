@@ -1,35 +1,35 @@
 package com.gto.gtocore.api.machine.feature;
 
-import com.gregtechceu.gtceu.api.machine.feature.IExplosionMachine;
+import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
+import com.gregtechceu.gtceu.api.machine.feature.IRedstoneSignalMachine;
 
-public interface IHeaterMachine extends IExplosionMachine {
+public interface IHeaterMachine extends ITemperatureMachine {
 
-    int getHeatCapacity();
-
-    int getMaxTemperature();
-
-    int getTemperature();
-
-    void setTemperature(int temperature);
-
-    default boolean reduceTemperature(int value) {
-        if (getTemperature() - 293 < value) {
-            setTemperature(293);
-            return false;
-        } else {
-            setTemperature(getTemperature() - value);
-        }
-        return true;
+    default void tickUpdate() {
+        if (self().getOffsetTimer() % 20 != 0) return;
+        if (this instanceof IRedstoneSignalMachine redstoneSignalMachine) redstoneSignalMachine.updateSignal();
+        if (this instanceof IRecipeLogicMachine machine && machine.getRecipeLogic().isWorking()) return;
+        reduceTemperature(1);
     }
 
-    default boolean raiseTemperature(int value) {
+    @Override
+    default int reduceTemperature(int value) {
+        int change = Math.min(getTemperature() - 293, value);
+        if (change <= 0) {
+            setTemperature(293);
+            return 0;
+        }
+        setTemperature(getTemperature() - change);
+        return change;
+    }
+
+    @Override
+    default void raiseTemperature(int value) {
         int newTemperature = getTemperature() + value;
         if (newTemperature < getMaxTemperature()) {
             setTemperature(newTemperature);
-            return true;
         } else {
             doExplosion(5);
-            return false;
         }
     }
 }

@@ -1,7 +1,11 @@
 package com.gto.gtocore.common.data.machines;
 
 import com.gto.gtocore.api.GTOValues;
+import com.gto.gtocore.api.machine.SimpleNoEnergyMachine;
 import com.gto.gtocore.api.machine.part.GTOPartAbility;
+import com.gto.gtocore.common.data.GTORecipeTypes;
+import com.gto.gtocore.common.machine.mana.AlchemyPot;
+import com.gto.gtocore.common.machine.mana.ManaHeaterMachine;
 import com.gto.gtocore.common.machine.mana.part.ManaExtractHatchPartMachine;
 import com.gto.gtocore.common.machine.mana.part.ManaHatchPartMachine;
 
@@ -16,10 +20,11 @@ import com.gregtechceu.gtceu.common.data.machines.GTMachineUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 
+import static com.gregtechceu.gtceu.api.GTValues.LV;
+import static com.gregtechceu.gtceu.api.GTValues.MV;
 import static com.gto.gtocore.api.GTOValues.MANACN;
 import static com.gto.gtocore.api.GTOValues.MANAN;
-import static com.gto.gtocore.utils.register.MachineRegisterUtils.registerSimpleManaMachines;
-import static com.gto.gtocore.utils.register.MachineRegisterUtils.registerTieredManaMachines;
+import static com.gto.gtocore.utils.register.MachineRegisterUtils.*;
 
 public interface ManaMachine {
 
@@ -61,4 +66,23 @@ public interface ManaMachine {
                     .renderer(() -> new OverlayTieredMachineRenderer(tier, GTCEu.id("block/machine/part/" + "energy_hatch.output_64a")))
                     .register(),
             GTMachineUtils.ELECTRIC_TIERS);
+
+    MachineDefinition ALCHEMY_POT = manaMachine("alchemy_pot", "炼金锅", AlchemyPot::new)
+            .tier(LV)
+            .editableUI(SimpleNoEnergyMachine.EDITABLE_UI_CREATOR.apply(GTCEu.id("alchemy_pot"), GTORecipeTypes.ALCHEMY_POT_RECIPES))
+            .recipeType(GTORecipeTypes.ALCHEMY_POT_RECIPES)
+            .alwaysTryModifyRecipe(true)
+            .rotationState(RotationState.NON_Y_AXIS)
+            .workableTieredHullRenderer(GTCEu.id("block/generators/boiler/lava"))
+            .tooltips(workableNoEnergy(GTORecipeTypes.ALCHEMY_POT_RECIPES, 1600))
+            .register();
+
+    MachineDefinition MANA_HEATER = manaMachine("mana_heater", "魔力加热器", ManaHeaterMachine::new)
+            .tier(MV)
+            .editableUI(SimpleNoEnergyMachine.EDITABLE_UI_CREATOR.apply(GTCEu.id("mana_heater"), GTORecipeTypes.MANA_HEATER_RECIPES))
+            .recipeType(GTORecipeTypes.MANA_HEATER_RECIPES)
+            .noRecipeModifier()
+            .rotationState(RotationState.NON_Y_AXIS)
+            .workableTieredHullRenderer(GTCEu.id("block/generators/boiler/coal"))
+            .register();
 }

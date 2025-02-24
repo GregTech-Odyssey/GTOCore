@@ -94,7 +94,7 @@ final class MachineLang {
         addENCN("gtocore.machine.need", "Need: %s", "需要: %s");
         addENCN("gtocore.machine.advanced_infinite_driller.not_fluid_head", "No drill head", "无钻头");
         addENCN("gtocore.machine.advanced_infinite_driller.heat", "Max Temperature: %sK / Operating Temperature: %sK", "最大温度: %sK / 工作温度: %sK");
-        addENCN("gtocore.machine.advanced_infinite_driller.current_heat", "Current Temperature: %sK", "当前温度: %sK");
+        addENCN("gtocore.machine.current_temperature", "Current Temperature: %sK", "当前温度: %sK");
         addENCN("gtocore.machine.advanced_infinite_driller.drilled_fluid", "Fluid: %s Output: %s", "流体: %s 产量: %s");
         addENCN("gtocore.machine.kuangbiao_one_giant_nuclear_fusion_reactor.tooltip.0", "What it simulates is an eternal light", "它所模拟的，是亘古不变的光芒");
         addENCN("gtocore.machine.steam.tooltip.0", "Has 8 parallel, large one is 32", "拥有8并行，大型为32");

@@ -752,5 +752,15 @@ interface Vanilla {
                 "CDC",
                 "ABA",
                 'B', CustomTags.HV_CIRCUITS, 'D', GTMachines.ITEM_IMPORT_BUS[GTValues.HV].asStack(), 'C', GTItems.ROBOT_ARM_HV.asStack(), 'A', new UnificationEntry(GTOTagPrefix.curvedPlate, GTMaterials.StainlessSteel));
+        VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("heater"), GTOMachines.HEATER.asStack(),
+                "AAA",
+                "BCB",
+                "BDB",
+                'B', new UnificationEntry(TagPrefix.bolt, GTMaterials.WroughtIron), 'D', GTBlocks.STEEL_BRICKS_HULL.asStack(), 'C', new ItemStack(Blocks.FURNACE.asItem()), 'A', new UnificationEntry(TagPrefix.plate, GTMaterials.WroughtIron));
+        VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("boiler"), GTOMachines.BOILER.asStack(),
+                "AAA",
+                "A A",
+                "BCB",
+                'B', new UnificationEntry(TagPrefix.bolt, GTMaterials.WroughtIron), 'C', GTBlocks.STEEL_BRICKS_HULL.asStack(), 'A', new UnificationEntry(TagPrefix.plate, GTMaterials.WroughtIron));
     }
 }

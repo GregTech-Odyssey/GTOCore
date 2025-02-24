@@ -1,12 +1,12 @@
 package com.gto.gtocore.client.forge;
 
+import com.gto.gtocore.api.item.MultiStepItemHelper;
 import com.gto.gtocore.client.Tooltips;
 import com.gto.gtocore.common.data.GTOItems;
 import com.gto.gtocore.common.item.StructureDetectBehavior;
 import com.gto.gtocore.common.item.StructureWriteBehavior;
 import com.gto.gtocore.data.lang.LangHandler;
 import com.gto.gtocore.utils.ItemUtils;
-import com.gto.gtocore.utils.MultiStepItemHelper;
 import com.gto.gtocore.utils.StringUtils;
 
 import com.gregtechceu.gtceu.api.GTValues;

@@ -1,14 +1,22 @@
 package com.gto.gtocore.common.machine.noenergy;
 
 import com.gto.gtocore.api.machine.SimpleNoEnergyMachine;
-import com.gto.gtocore.api.machine.feature.IHeaterMachine;
+import com.gto.gtocore.api.machine.feature.IReceiveHeatMachine;
+import com.gto.gtocore.api.machine.trait.CustomRecipeLogic;
+import com.gto.gtocore.api.recipe.GTORecipeBuilder;
 
+import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
+import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
+import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
+import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 
 import net.minecraft.core.Direction;
+import net.minecraft.world.level.material.Fluids;
+import net.minecraftforge.fluids.FluidStack;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
@@ -17,10 +25,10 @@ import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public final class HeaterMachine extends SimpleNoEnergyMachine implements IHeaterMachine {
+public final class BoilWaterMachine extends SimpleNoEnergyMachine implements IReceiveHeatMachine {
 
     private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
-            HeaterMachine.class, SimpleNoEnergyMachine.MANAGED_FIELD_HOLDER);
+            BoilWaterMachine.class, SimpleNoEnergyMachine.MANAGED_FIELD_HOLDER);
 
     @Getter
     @Setter
@@ -29,7 +37,7 @@ public final class HeaterMachine extends SimpleNoEnergyMachine implements IHeate
 
     private TickableSubscription tickSubs;
 
-    public HeaterMachine(IMachineBlockEntity holder) {
+    public BoilWaterMachine(IMachineBlockEntity holder) {
         super(holder, 0, i -> 8000);
     }
 
@@ -45,13 +53,27 @@ public final class HeaterMachine extends SimpleNoEnergyMachine implements IHeate
 
     @Override
     public @NotNull GTRecipeType getRecipeType() {
-        return GTRecipeTypes.STEAM_BOILER_RECIPES;
+        return GTRecipeTypes.STEAM_TURBINE_FUELS;
+    }
+
+    @Nullable
+    private GTRecipe getRecipe() {
+        if (!hasProxies() && temperature < 360) return null;
+        GTRecipe recipe = GTORecipeBuilder.ofRaw().duration(20).inputFluids(new FluidStack(Fluids.WATER, 6)).outputFluids(GTMaterials.Steam.getFluid(960 * 600 / temperature)).buildRawRecipe();
+        if (recipe.matchRecipe(this).isSuccess()) {
+            return recipe;
+        } else if (temperature > 400) {
+            GTRecipe match = GTORecipeBuilder.ofRaw().duration(20).inputFluids(new FluidStack(Fluids.WATER, 1)).buildRawRecipe();
+            if (match.matchRecipe(this).isSuccess() && match.handleRecipeIO(IO.IN, this, getRecipeLogic().getChanceCaches())) {
+                doExplosion(6);
+            }
+        }
+        return null;
     }
 
     @Override
-    public void setWorkingEnabled(boolean isWorkingAllowed) {
-        if (!isWorkingAllowed && getRecipeLogic().isWorking()) getRecipeLogic().interruptRecipe();
-        super.setWorkingEnabled(isWorkingAllowed);
+    protected @NotNull RecipeLogic createRecipeLogic() {
+        return new CustomRecipeLogic(this, this::getRecipe);
     }
 
     @Override
@@ -74,7 +96,7 @@ public final class HeaterMachine extends SimpleNoEnergyMachine implements IHeate
     @Override
     public boolean onWorking() {
         if (super.onWorking()) {
-            if (getOffsetTimer() % 10 == 0) raiseTemperature(1);
+            if (getOffsetTimer() % 15 == 0) return reduceTemperature(1) == 1;
             return true;
         }
         return false;
@@ -82,12 +104,12 @@ public final class HeaterMachine extends SimpleNoEnergyMachine implements IHeate
 
     @Override
     public int getHeatCapacity() {
-        return 4;
+        return 12;
     }
 
     @Override
     public int getMaxTemperature() {
-        return 800;
+        return 600;
     }
 
     @Override

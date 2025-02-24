@@ -1,5 +1,6 @@
 package com.gto.gtocore.common.data;
 
+import com.gto.gtocore.api.capability.recipe.ManaRecipeCapability;
 import com.gto.gtocore.api.machine.trait.TierCasingTrait;
 import com.gto.gtocore.api.recipe.JointRecipeType;
 import com.gto.gtocore.common.machine.trait.RecyclerLogic;
@@ -775,6 +776,22 @@ public interface GTORecipeTypes {
             .setProgressBar(GuiTextures.PROGRESS_BAR_EXTRACT, LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.ARC);
 
+    //////////////////////////////////////
+    // ********** Magic **********//
+    //////////////////////////////////////
+    GTRecipeType ALCHEMY_POT_RECIPES = register("alchemy_pot", "炼金锅", MAGIC)
+            .setMaxSize(IO.IN, ManaRecipeCapability.CAP, 1)
+            .setMaxIOSize(6, 1, 1, 0)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_BATH, LEFT_TO_RIGHT)
+            .setSound(GTSoundEntries.COOLING);
+
+    GTRecipeType MANA_HEATER_RECIPES = register("mana_heater", "魔力加热器", MAGIC)
+            .setMaxIOSize(0, 0, 1, 0)
+            .setSound(GTSoundEntries.FURNACE);
+
+    //////////////////////////////////////
+    // ********** Joint **********//
+    //////////////////////////////////////
     GTRecipeType CHEMICAL = JointRecipeType.register("chemical", GTRecipeTypes.CHEMICAL_RECIPES, GTRecipeTypes.LARGE_CHEMICAL_RECIPES).setMaxIOSize(3, 3, 5, 4).setEUIO(IO.IN).setSound(GTSoundEntries.CHEMICAL);
     GTRecipeType CHEMICAL_ENERGY_DEVOURER_FUELS = JointRecipeType.register("chemical_energy_devourer", GTRecipeTypes.COMBUSTION_GENERATOR_FUELS, GTRecipeTypes.GAS_TURBINE_FUELS, GTORecipeTypes.ROCKET_ENGINE_FUELS).setSound(GTSoundEntries.COMBUSTION);
 }

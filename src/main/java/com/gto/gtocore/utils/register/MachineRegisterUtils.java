@@ -9,6 +9,7 @@ import com.gto.gtocore.api.registries.MultiblockBuilder;
 import com.gto.gtocore.common.data.GTORecipeModifiers;
 import com.gto.gtocore.common.data.machines.MultiBlockA;
 import com.gto.gtocore.common.machine.mana.SimpleManaMachine;
+import com.gto.gtocore.common.machine.mana.SimpleWorkManaMachine;
 import com.gto.gtocore.common.machine.multiblock.generator.CombustionEngineMachine;
 import com.gto.gtocore.common.machine.multiblock.generator.GeneratorArrayMachine;
 import com.gto.gtocore.common.machine.multiblock.generator.TurbineMachine;
@@ -203,26 +204,24 @@ public final class MachineRegisterUtils {
         return registerSimpleNoEnergyMachines(name, cn, recipeType, tankScalingFunction, GTOCore.id("block/machines/" + name), tiers);
     }
 
-    private static MachineDefinition[] registerSimpleNoEnergyMachines(String name, String cn,
-                                                                      GTRecipeType recipeType,
-                                                                      Int2IntFunction tankScalingFunction,
-                                                                      ResourceLocation workableModel, int... tiers) {
+    public static MachineDefinition[] registerSimpleNoEnergyMachines(String name, String cn,
+                                                                     GTRecipeType recipeType,
+                                                                     Int2IntFunction tankScalingFunction,
+                                                                     ResourceLocation workableModel, int... tiers) {
         return registerTieredMachines(name, tier -> "%s%s %s".formatted(GTOValues.VLVHCN[tier], cn, VLVT[tier]),
-                (holder, tier) -> new SimpleNoEnergyMachine(holder, tier, tankScalingFunction), (tier, builder) -> {
-                    builder.noRecipeModifier();
-                    return builder
-                            .langValue("%s %s %s".formatted(VLVH[tier], FormattingUtil.toEnglishName(name), VLVT[tier]))
-                            .editableUI(SimpleNoEnergyMachine.EDITABLE_UI_CREATOR.apply(GTCEu.id(name), recipeType))
-                            .rotationState(RotationState.NON_Y_AXIS)
-                            .recipeType(recipeType)
-                            .workableTieredHullRenderer(workableModel)
-                            .tooltips(workableNoEnergy(recipeType, tankScalingFunction.apply(tier)))
-                            .register();
-                },
+                (holder, tier) -> new SimpleNoEnergyMachine(holder, tier, tankScalingFunction), (tier, builder) -> builder
+                        .langValue("%s %s %s".formatted(VLVH[tier], FormattingUtil.toEnglishName(name), VLVT[tier]))
+                        .editableUI(SimpleNoEnergyMachine.EDITABLE_UI_CREATOR.apply(GTCEu.id(name), recipeType))
+                        .rotationState(RotationState.NON_Y_AXIS)
+                        .recipeType(recipeType)
+                        .noRecipeModifier()
+                        .workableTieredHullRenderer(workableModel)
+                        .tooltips(workableNoEnergy(recipeType, tankScalingFunction.apply(tier)))
+                        .register(),
                 tiers);
     }
 
-    private static Component[] workableNoEnergy(GTRecipeType recipeType, long tankCapacity) {
+    public static Component[] workableNoEnergy(GTRecipeType recipeType, long tankCapacity) {
         List<Component> tooltipComponents = new ArrayList<>();
         if (recipeType.getMaxInputs(FluidRecipeCapability.CAP) > 0 ||
                 recipeType.getMaxOutputs(FluidRecipeCapability.CAP) > 0)
@@ -346,7 +345,7 @@ public final class MachineRegisterUtils {
     }
 
     public static MachineDefinition[] registerSimpleManaMachines(String name, String cn, GTRecipeType recipeType, Int2IntFunction tankScalingFunction, ResourceLocation workableModel, int... tiers) {
-        return registerTieredManaMachines(name, tier -> "%s%s".formatted(MANACN[tier], cn), (holder, tier) -> new SimpleManaMachine(holder, tier, tankScalingFunction), (tier, builder) -> {
+        return registerTieredManaMachines(name, tier -> "%s%s".formatted(MANACN[tier], cn), (holder, tier) -> new SimpleWorkManaMachine(holder, tier, tankScalingFunction), (tier, builder) -> {
             builder.noRecipeModifier();
             return builder
                     .langValue("%s %s".formatted(MANAN[tier], FormattingUtil.toEnglishName(name)))

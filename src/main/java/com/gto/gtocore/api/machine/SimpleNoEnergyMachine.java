@@ -153,7 +153,7 @@ public class SimpleNoEnergyMachine extends TieredMachine implements IRecipeLogic
         return MANAGED_FIELD_HOLDER;
     }
 
-    private NotifiableItemStackHandler createCircuitItemHandler() {
+    private @Nullable NotifiableItemStackHandler createCircuitItemHandler() {
         return new NotifiableItemStackHandler(this, 1, IO.IN, IO.NONE).setFilter(IntCircuitBehaviour::isIntegratedCircuit);
     }
 
@@ -185,7 +185,7 @@ public class SimpleNoEnergyMachine extends TieredMachine implements IRecipeLogic
         return new NotifiableComputationContainer(this, IO.OUT, false);
     }
 
-    private RecipeLogic createRecipeLogic() {
+    protected RecipeLogic createRecipeLogic() {
         return new RecipeLogic(this);
     }
 
