@@ -7,6 +7,7 @@ import com.gto.gtocore.common.data.GTOBlocks;
 import com.gto.gtocore.common.data.GTOItems;
 import com.gto.gtocore.common.data.GTOMaterials;
 import com.gto.gtocore.common.data.GTORecipeTypes;
+import com.gto.gtocore.common.data.machines.MultiBlockG;
 import com.gto.gtocore.common.recipe.condition.GravityCondition;
 import com.gto.gtocore.utils.TagUtils;
 
@@ -966,6 +967,15 @@ public interface ClassifiedRecipe {
                 .outputItems(GTOItems.SCRAP.asStack())
                 .EUt(30)
                 .duration(200)
+                .save(provider);
+
+        GTRecipeTypes.SCANNER_RECIPES.recipeBuilder(GTOCore.id("nether_reactor_core"))
+                .notConsumable(GTOItems.DIMENSION_DATA.get().getDimensionData(GTOWorldGenLayers.THE_NETHER))
+                .inputItems(MultiBlockG.ANCIENT_REACTOR_CORE.asStack())
+                .inputFluids(GTMaterials.Wax.getFluid(2304))
+                .outputItems(MultiBlockG.NETHER_REACTOR_CORE.asStack())
+                .EUt(480)
+                .duration(1200)
                 .save(provider);
     }
 }

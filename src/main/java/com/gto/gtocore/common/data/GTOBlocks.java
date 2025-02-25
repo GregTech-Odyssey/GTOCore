@@ -31,6 +31,8 @@ import static com.gto.gtocore.utils.register.BlockRegisterUtils.*;
 public interface GTOBlocks {
 
     static void init() {
+        GTORegistration.REGISTRATE.creativeModeTab(() -> null);
+        REACTOR_CORE = createStoneBlock("reactor_core", "远古反应核", GTOCore.id("block/multiblock/ancient_reactor_core/overlay_front"));
         GTORegistration.REGISTRATE.blockEntity("crafting_storage", CraftingBlockEntity::new)
                 .validBlocks(
                         CRAFTING_STORAGE_1M,
@@ -117,7 +119,6 @@ public interface GTOBlocks {
     BlockEntry<Block> ENCELADUS_STONE = createStoneBlock("enceladus_stone", "土卫二岩石", GTOCore.id("block/stone/enceladus_stone"));
     BlockEntry<Block> CERES_STONE = createStoneBlock("ceres_stone", "谷神星岩石", GTOCore.id("block/stone/ceres_stone"));
     BlockEntry<Block> ESSENCE_BLOCK = createStoneBlock("essence_block", "精华方块", GTOCore.id("block/essence_block"));
-    BlockEntry<Block> REACTOR_CORE = createStoneBlock("reactor_core", "远古反应核", GTOCore.id("block/reactor_core"));
     BlockEntry<Block> COMMAND_BLOCK_BROKEN = createStoneBlock("command_block_broken", "即将打破的命令方块", GTOCore.id("block/command_block_broken"));
     BlockEntry<Block> CHAIN_COMMAND_BLOCK_BROKEN = createStoneBlock("chain_command_block_broken", "即将打破的连锁命令方块", GTOCore.id("block/chain_command_block_broken"));
     BlockEntry<Block> INFUSED_OBSIDIAN = createStoneBlock("infused_obsidian", "注入龙力的黑曜石", GTOCore.id("block/infused_obsidian"));

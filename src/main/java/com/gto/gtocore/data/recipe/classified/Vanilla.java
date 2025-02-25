@@ -127,7 +127,7 @@ interface Vanilla {
                 "CDC",
                 "EFE",
                 'A', CustomTags.MAX_CIRCUITS, 'B', GTItems.ROBOT_ARM_OpV.asStack(), 'C', GTItems.CONVEYOR_MODULE_OpV.asStack(), 'D', RegistriesUtils.getItemStack("gtceu:opv_parallel_hatch"), 'E', new UnificationEntry(TagPrefix.wireGtHex, GTOMaterials.AwakenedDraconium), 'F', GTItems.FIELD_GENERATOR_OpV.asStack());
-        VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("reactor_core"), GTOBlocks.REACTOR_CORE.asStack(),
+        VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("ancient_reactor_core"), MultiBlockG.ANCIENT_REACTOR_CORE.asStack(),
                 "ABA",
                 "BCB",
                 "ABA",

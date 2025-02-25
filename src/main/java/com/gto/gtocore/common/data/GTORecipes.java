@@ -36,8 +36,6 @@ import com.gregtechceu.gtceu.data.recipe.serialized.chemistry.ChemistryRecipes;
 import com.gregtechceu.gtceu.integration.emi.recipe.GTEmiRecipe;
 import com.gregtechceu.gtceu.integration.emi.recipe.GTRecipeEMICategory;
 
-import dev.emi.emi.config.EmiConfig;
-import dev.emi.emi.config.SidebarSide;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.Recipe;
@@ -48,6 +46,8 @@ import com.glodblock.github.extendedae.ExtendedAE;
 import com.google.common.collect.ImmutableSet;
 import com.kyanite.deeperdarker.DeeperDarker;
 import dev.emi.emi.api.recipe.EmiRecipeCategory;
+import dev.emi.emi.config.EmiConfig;
+import dev.emi.emi.config.SidebarSide;
 import dev.emi.emi.recipe.special.EmiRepairItemRecipe;
 import dev.shadowsoffire.placebo.loot.LootSystem;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;

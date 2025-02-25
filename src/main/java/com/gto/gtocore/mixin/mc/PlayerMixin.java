@@ -33,6 +33,9 @@ public abstract class PlayerMixin extends LivingEntity implements IEnhancedPlaye
     @Final
     private Abilities abilities;
 
+    @Shadow
+    public abstract void tick();
+
     @Unique
     private boolean gTOCore$canFly;
     @Unique
@@ -90,12 +93,12 @@ public abstract class PlayerMixin extends LivingEntity implements IEnhancedPlaye
             boolean inf = Objects.equals(armorSlots, "[1 infinity_boots, 1 infinity_pants, 1 infinity_chestplate, 1 infinity_helmet]");
             if (level.dimension().location().equals(GTOWorldGenLayers.CREATE)) {
                 if (!inf) {
-                    gTOCore$discard(server, name);
+                    gTOCore$discard(server);
                 }
                 ServerUtils.runCommandSilent(server, "execute at " + name + " run kill @e[distance=..100,name=!" + name + ",type=!item]");
             } else if (level.dimension().location().equals(GTOWorldGenLayers.OTHERSIDE)) {
                 if (!(gTOCore$wardenState || inf)) {
-                    gTOCore$discard(server, name);
+                    gTOCore$discard(server);
                 }
             }
             gTOCore$canFly = gTOCore$wardenState;
@@ -115,8 +118,8 @@ public abstract class PlayerMixin extends LivingEntity implements IEnhancedPlaye
     }
 
     @Unique
-    private void gTOCore$discard(MinecraftServer server, String name) {
-        ServerUtils.runCommandSilent(server, "execute in minecraft:overworld as " + name + " run tp 0 100 0");
+    private void gTOCore$discard(MinecraftServer server) {
+        ServerUtils.teleportToDimension(server, this, GTOWorldGenLayers.OVERWORLD, new Vec3(0, 100, 0));
         kill();
     }
 }

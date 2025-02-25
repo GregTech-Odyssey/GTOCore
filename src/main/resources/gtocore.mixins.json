@@ -100,6 +100,7 @@
         "gtm.machine.MultiblockControllerMachineMixin",
         "gtm.machine.RotorHolderPartMachineMixin",
         "gtm.machine.SimpleTieredMachineMixin",
+        "gtm.machine.SteamLiquidBoilerMachineMixin",
         "gtm.machine.SteamParallelMultiblockMachineMixin",
         "gtm.machine.WorkableElectricMultiblockMachineMixin",
         "gtm.machine.WorkableMultiblockMachineMixin",

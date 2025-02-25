@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:block/cube_all",
   "textures": {
-    "all": "gtocore:block/reactor_core"
+    "all": "gtocore:block/multiblock/ancient_reactor_core/overlay_front"
   }
 }

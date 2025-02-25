@@ -38,7 +38,8 @@ public interface FuelRecipe {
                     .duration((int) Math.min(Integer.MAX_VALUE, fuelEntry.getValue() * 12L))
                     .save(provider);
 
-            LARGE_BOILER_RECIPES.recipeBuilder(GTCEu.id(resLoc.getNamespace() + "_" + resLoc.getPath()))
+            int time = fuelEntry.getValue() / 80;
+            if (time > 0) LARGE_BOILER_RECIPES.recipeBuilder(GTCEu.id(resLoc.getNamespace() + "_" + resLoc.getPath()))
                     .inputItems(fuelEntry.getKey())
                     .duration(fuelEntry.getValue() / 80)
                     .save(provider);
@@ -66,6 +67,17 @@ public interface FuelRecipe {
                 .save(provider);
 
         STEAM_BOILER_RECIPES.recipeBuilder("creosote")
+                .inputFluids(Creosote.getFluid(250))
+                .duration(600 * 12)
+                .save(provider);
+
+        LARGE_BOILER_RECIPES.recipeBuilder("lava")
+                .circuitMeta(1)
+                .inputFluids(new FluidStack(Fluids.LAVA, 100))
+                .duration(600 * 12)
+                .save(provider);
+
+        LARGE_BOILER_RECIPES.recipeBuilder("creosote")
                 .inputFluids(Creosote.getFluid(250))
                 .duration(600 * 12)
                 .save(provider);

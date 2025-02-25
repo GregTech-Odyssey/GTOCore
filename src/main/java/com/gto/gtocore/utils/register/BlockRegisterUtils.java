@@ -68,16 +68,14 @@ import static com.gto.gtocore.common.block.BlockMap.GLASSMAP;
 
 public final class BlockRegisterUtils {
 
+    public static BlockEntry<Block> REACTOR_CORE;
+
     public static final Map<String, String> LANG = GTCEu.isDataGen() ? new HashMap<>() : null;
 
     public static void addLang(String name, String cn) {
         if (LANG == null) return;
         if (LANG.containsKey(name)) {
             GTOCore.LOGGER.error("Repetitive Key: {}", name);
-            throw new IllegalStateException();
-        }
-        if (LANG.containsValue(cn)) {
-            GTOCore.LOGGER.error("Repetitive Value: {}", cn);
             throw new IllegalStateException();
         }
         LANG.put(name, cn);

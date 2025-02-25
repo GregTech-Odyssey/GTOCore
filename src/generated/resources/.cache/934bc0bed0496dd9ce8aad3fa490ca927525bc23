@@ -1,4 +1,4 @@
-// 1.20.1	2025-02-24T19:41:37.420414	Registrate Provider for gtocore [Recipes, Advancements, Loot Tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), generic_server_provider, Blockstates, Item models, Lang (en_us/en_ud), generic_client_provider, Lang (zh_cn), Lang (zh_tw)]
+// 1.20.1	2025-02-25T19:36:12.163768	Registrate Provider for gtocore [Recipes, Advancements, Loot Tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), generic_server_provider, Blockstates, Item models, Lang (en_us/en_ud), generic_client_provider, Lang (zh_cn), Lang (zh_tw)]
 561aa328ea8d03b161a0fff5267cad7f4a498bf2 assets/gtocore/blockstates/abs_black_casing.json
 637d4a4579c884976f720f142d9f4c2ce75d4764 assets/gtocore/blockstates/abs_blue_casing.json
 18659fe31222d417da78cd793daf37bc60dcaa78 assets/gtocore/blockstates/abs_brown_casing.json
@@ -252,10 +252,10 @@ fb0fc404a249f3aebd2ecffe35847ee0ba853db7 assets/gtocore/blockstates/uruium_coil_
 d28e1e74c60c6cb86b399220325a3a254bd616b8 assets/gtocore/blockstates/uxv_wireless_energy_unit.json
 8b64a23b9c57ba34df14d48842420d898246dd4f assets/gtocore/blockstates/zirconia_ceramic_high_strength_bending_resistance_mechanical_block.json
 54c6bf3885f977c5f032b6e310a7c114e0150432 assets/gtocore/blockstates/zpm_wireless_energy_unit.json
-afb309247a80779e90347d4649deb6128f749f1a assets/gtocore/lang/en_ud.json
-984d1acd22f2e54fe147aafc7df9615a0fb7c994 assets/gtocore/lang/en_us.json
-92c6c517709d14af3022432a4e0e62da0bd0da57 assets/gtocore/lang/zh_cn.json
-d23b5e3a6eb781c3e1bbd5bf7646f257f2e87e9b assets/gtocore/lang/zh_tw.json
+574ecfe592aa1fd818a39fb1ccde8c96792328d3 assets/gtocore/lang/en_ud.json
+781d2b4aaa1486554a7233a34f20441c949d1d95 assets/gtocore/lang/en_us.json
+db11ca47915e7d4fe5b4a95a5cbb3a9952b478c3 assets/gtocore/lang/zh_cn.json
+f4e68b8c624d2f9ef5f1d301e3a22150d6303d91 assets/gtocore/lang/zh_tw.json
 a3e5be219240789ffe6fbb05d051292c0d928df5 assets/gtocore/models/block/abs_black_casing.json
 de571bbc8b5c50ea45312b4efa8ae7346d311b5a assets/gtocore/models/block/abs_blue_casing.json
 f3597b8d3a9bb06573c4f0bf5e9b90d22cb2fd82 assets/gtocore/models/block/abs_brown_casing.json
@@ -436,7 +436,7 @@ e9c4d35286454003c8fb3f0fcb2346493871704b assets/gtocore/models/block/quantum_chr
 141ba0cda6b4896bd626060dd7d877c194bd900b assets/gtocore/models/block/quark_pipe.json
 8b7ac820fe448d4d763f607b65d073932aa6bf9c assets/gtocore/models/block/quarks_borosilicate_glass.json
 9b83d3d5799b4384b26a11fe1493f6bbadaf5b90 assets/gtocore/models/block/radiation_absorbent_casing.json
-683b4678d1ae69e7e7a7eb250c5c975bc984ae69 assets/gtocore/models/block/reactor_core.json
+d996d08f82ea47f759e15c1e5afe12ec2fd286fc assets/gtocore/models/block/reactor_core.json
 d8e3d1590257caa3aaecf86172d5beb811be726a assets/gtocore/models/block/red_steel_casing.json
 678157f6fd5178ca348b23ea6902cf9b4fc87da1 assets/gtocore/models/block/reinforced_epoxy_resin_mechanical_housing.json
 594853be16a67bc2e709208cd157d14aa7d6caeb assets/gtocore/models/block/reinforced_sterile_water_plant_casing.json

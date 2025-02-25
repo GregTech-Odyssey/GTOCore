@@ -16,8 +16,8 @@ public abstract class MultiblockControllerMachineMixin implements IMultiControll
     private int gTOCore$time;
 
     @Override
-    public void gTOCore$cleanTime() {
-        gTOCore$time = 0;
+    public void gTOCore$setTime(int time) {
+        gTOCore$time = time;
     }
 
     @Override

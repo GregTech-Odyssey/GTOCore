@@ -13,6 +13,7 @@ import com.gto.gtocore.common.saved.InfinityCellSavaedData;
 import com.gto.gtocore.config.GTOConfig;
 import com.gto.gtocore.utils.ServerUtils;
 import com.gto.gtocore.utils.SphereExplosion;
+import com.gto.gtocore.utils.register.BlockRegisterUtils;
 
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.common.data.GTItems;
@@ -20,6 +21,7 @@ import com.gregtechceu.gtceu.common.data.GTItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
@@ -33,6 +35,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.entity.EntityTravelToDimensionEvent;
 import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
@@ -44,7 +47,6 @@ import net.minecraftforge.event.server.ServerStartedEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 import com.hepdd.gtmthings.data.WirelessEnergySavaedData;
-import earth.terrarium.adastra.common.registry.ModBlocks;
 
 import java.util.List;
 import java.util.Objects;
@@ -155,99 +157,59 @@ public final class ForgeCommonEvent {
             }
         }
 
-        if ((player.getMainHandItem().isEmpty() || player.getMainHandItem().is(GTOItems.DIMENSION_DATA.get())) && player.getOffhandItem().isEmpty()) {
+        if (player.getMainHandItem().isEmpty() && player.getOffhandItem().isEmpty()) {
             Block block = level.getBlockState(pos).getBlock();
             MinecraftServer server = level.getServer();
             if (server == null) return;
-            String name = player.getName().getString();
             String dim = level.dimension().location().toString();
             CompoundTag data = player.getPersistentData();
             if (block == Blocks.CRYING_OBSIDIAN) {
                 if (!Objects.equals(dim, "gtocore:flat")) {
-                    if (checkTransporter(pos, level)) return;
-                    int value = Objects.equals(dim, "gtocore:void") ? 1 : 10;
-                    data.putDouble("y_f", player.getY() + 1);
-                    data.putString("dim_f", dim);
-                    ServerUtils.runCommandSilent(server, "execute in gtocore:flat as " + name + " run tp " + pos.getX() * value + " 64 " + pos.getZ() * value);
-                    ServerUtils.runCommandSilent(server, "execute in gtocore:flat run fill " + pos.getX() * value + " 63 " + pos.getZ() * value + " " + pos.getX() * value + " 63 " + pos.getZ() * value + " minecraft:crying_obsidian");
+                    if (VoidTransporterMachine.checkTransporter(pos, level, 0)) return;
+                    ServerLevel serverLevel = server.getLevel(GTOWorldGenLayers.getDimension(GTOWorldGenLayers.FLAT));
+                    if (serverLevel != null) {
+                        int value = Objects.equals(dim, "gtocore:void") ? 1 : 10;
+                        data.putDouble("y_f", player.getY() + 1);
+                        data.putString("dim_f", dim);
+                        BlockPos blockPos = new BlockPos(pos.getX() * value, 64, pos.getZ() * value);
+                        serverLevel.setBlockAndUpdate(blockPos.offset(0, -1, 0), Blocks.CRYING_OBSIDIAN.defaultBlockState());
+                        ServerUtils.teleportToDimension(serverLevel, player, blockPos.getCenter());
+                    }
                 } else {
                     String dima = data.getString("dim_f");
                     int value = "gtocore:void".equals(dima) ? 1 : 10;
-                    ServerUtils.runCommandSilent(server, "execute in " + dima + " as " + name + " run tp " + pos.getX() / value + " " + data.getDouble("y_f") + " " + pos.getZ() / value);
+                    ServerUtils.teleportToDimension(server.getLevel(GTOWorldGenLayers.getDimension(new ResourceLocation(dima))), player, new Vec3((double) pos.getX() / value, data.getDouble("y_f"), (double) pos.getZ() / value));
                 }
                 return;
             }
 
             if (block == Blocks.OBSIDIAN) {
                 if (!Objects.equals(dim, "gtocore:void")) {
-                    if (checkTransporter(pos, level)) return;
-                    int value = Objects.equals(dim, "gtocore:flat") ? 1 : 10;
-                    data.putDouble("y_v", player.getY() + 1);
-                    data.putString("dim_v", dim);
-                    ServerUtils.runCommandSilent(server, "execute in gtocore:void as " + name + " run tp " + pos.getX() * value + " 64 " + pos.getZ() * value);
-                    ServerUtils.runCommandSilent(server, "execute in gtocore:void run fill " + pos.getX() * value + " 63 " + pos.getZ() * value + " " + pos.getX() * value + " 63 " + pos.getZ() * value + " minecraft:obsidian");
+                    if (VoidTransporterMachine.checkTransporter(pos, level, 0)) return;
+                    ServerLevel serverLevel = server.getLevel(GTOWorldGenLayers.getDimension(GTOWorldGenLayers.VOID));
+                    if (serverLevel != null) {
+                        int value = Objects.equals(dim, "gtocore:flat") ? 1 : 10;
+                        data.putDouble("y_v", player.getY() + 1);
+                        data.putString("dim_v", dim);
+                        BlockPos blockPos = new BlockPos(pos.getX() * value, 64, pos.getZ() * value);
+                        serverLevel.setBlockAndUpdate(blockPos.offset(0, -1, 0), Blocks.OBSIDIAN.defaultBlockState());
+                        ServerUtils.teleportToDimension(serverLevel, player, blockPos.getCenter());
+                    }
                 } else {
                     String dima = data.getString("dim_v");
                     int value = "gtocore:flat".equals(dima) ? 1 : 10;
-                    ServerUtils.runCommandSilent(server, "execute in " + dima + " as " + name + " run tp " + pos.getX() / value + " " + data.getDouble("y_v") + " " + pos.getZ() / value);
+                    ServerUtils.teleportToDimension(server.getLevel(GTOWorldGenLayers.getDimension(new ResourceLocation(dima))), player, new Vec3((double) pos.getX() / value, data.getDouble("y_v"), (double) pos.getZ() / value));
                 }
                 return;
             }
 
-            if (block == GTOBlocks.REACTOR_CORE.get()) {
+            if (block == BlockRegisterUtils.REACTOR_CORE.get()) {
                 if ("gtocore:ancient_world".equals(dim) || "minecraft:the_nether".equals(dim)) {
-                    String dimdata = "gtocore:ancient_world".equals(dim) ? "aw" : "ne";
-                    ServerUtils.runCommandSilent(server, "execute in " + data.getString("dim_" + dimdata) + " as " + name + " run tp " + data.getDouble("pos_" + dimdata + "_x") + " " + data.getDouble("pos_" + dimdata + "_y") + " " + data.getDouble("pos_" + dimdata + "_z"));
-                } else {
-                    if (checkBlocks(pos, level, ModBlocks.STEEL_BLOCK.get(), Blocks.DIAMOND_BLOCK)) {
-                        data.putDouble("pos_aw_x", player.getX());
-                        data.putDouble("pos_aw_y", player.getY());
-                        data.putDouble("pos_aw_z", player.getZ());
-                        data.putString("dim_aw", dim);
-                        ServerUtils.runCommandSilent(server, "execute in gtocore:ancient_world as " + name + " run tp 0 128 0");
-                        ServerUtils.runCommandSilent(server, "execute in gtocore:ancient_world run fill 0 127 0 0 127 0 gtocore:reactor_core");
-                    } else if (checkBlocks(pos, level, Blocks.GOLD_BLOCK, Blocks.EMERALD_BLOCK)) {
-                        ItemStack stack = player.getOffhandItem();
-                        if (stack.is(GTOItems.DIMENSION_DATA.get()) && stack.hasTag() && stack.getOrCreateTag().getString("dim").equals(GTOWorldGenLayers.THE_NETHER.toString())) {
-                            data.putDouble("pos_ne_x", player.getX());
-                            data.putDouble("pos_ne_y", player.getY());
-                            data.putDouble("pos_ne_z", player.getZ());
-                            data.putString("dim_ne", dim);
-                            ServerUtils.runCommandSilent(server, "execute in minecraft:the_nether as " + name + " run tp 0 128 0");
-                            ServerUtils.runCommandSilent(server, "execute in minecraft:the_nether run fill 0 127 0 0 127 0 gtocore:reactor_core");
-                        } else {
-                            player.displayClientMessage(Component.translatable("gtocore.handheld_data_required"), true);
-                        }
-                    } else {
-                        player.displayClientMessage(Component.translatable("gtocore.structural_error"), true);
-                    }
+                    int dimdata = "gtocore:ancient_world".equals(dim) ? 1 : 2;
+                    ServerUtils.teleportToDimension(server, player, new ResourceLocation(data.getString("dim_" + dimdata)), new Vec3(data.getDouble("pos_x_" + dimdata), data.getDouble("pos_y_" + dimdata), data.getDouble("pos_z_" + dimdata)));
                 }
             }
         }
-    }
-
-    private static boolean checkBlocks(BlockPos pos, Level level, Block block1, Block block2) {
-        BlockPos[] offsets = {
-                pos.offset(1, 0, 0),
-                pos.offset(-1, 0, 0),
-                pos.offset(0, 0, 1),
-                pos.offset(0, 0, -1),
-                pos.offset(1, 0, 1),
-                pos.offset(1, 0, -1),
-                pos.offset(-1, 0, 1),
-                pos.offset(-1, 0, -1)
-        };
-        Block[] blocks = { block1, block2 };
-        for (int i = 0; i < offsets.length; i++) {
-            if (level.getBlockState(offsets[i]).getBlock() != blocks[i / 4]) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    private static boolean checkTransporter(BlockPos pos, Level level) {
-        return !(MetaMachine.getMachine(level, pos.offset(0, -1, 0)) instanceof VoidTransporterMachine machine && machine.getRecipeLogic().isWorking());
     }
 
     @SubscribeEvent

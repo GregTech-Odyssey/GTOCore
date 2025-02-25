@@ -1,5 +1,7 @@
 package com.gto.gtocore.mixin.emi;
 
+import com.gto.gtocore.utils.register.BlockRegisterUtils;
+
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.material.FlowingFluid;
 import net.minecraft.world.level.material.Fluid;
@@ -38,6 +40,7 @@ public class EmiStackListMixin {
         List<EmiStackList.IndexGroup> groups = Lists.newArrayList();
         Map<String, EmiStackList.IndexGroup> namespaceGroups = new LinkedHashMap<>();
         for (Item item : EmiPort.getItemRegistry()) {
+            if (item == BlockRegisterUtils.REACTOR_CORE.asItem()) continue;
             EmiStack stack = EmiStack.of(item);
             if (stack.isEmpty()) continue;
             namespaceGroups.computeIfAbsent(stack.getId().getNamespace(), (k) -> new EmiStackList.IndexGroup()).stacks.add(stack);

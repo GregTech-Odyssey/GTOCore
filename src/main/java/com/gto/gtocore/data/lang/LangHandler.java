@@ -81,8 +81,6 @@ public final class LangHandler {
         addENCN("gtocore.pattern.tooltip.divide", "Divide Pattern materials amount by %s", "将样板材料数量 ÷ %s");
 
         addENCN("gtocore.dev", "The current version is a development test version and cannot guarantee the stability and completeness of the content. If you encounter any issues or have any suggestions, please provide feedback on GitHub.", "当前版本是开发测试版本，不能保证内容的稳定性和完整性。如果您遇到任何问题或有任何建议，请访问GitHub提供反馈。");
-        addENCN("gtocore.handheld_data_required", "Handheld Data Required", "需要手持数据");
-        addENCN("gtocore.structural_error", "Structural Error", "结构错误");
         addENCN("gtocore.fly_speed_reset", "fly Speed Reset", "飞行速度已重置");
         addENCN("gtocore.fly_speed", "fly Speed x%s", "飞行速度 x%s");
         addENCN("gtocore.reach_limit", "Reach Limit", "达到极限");
