@@ -1996,6 +1996,7 @@ public interface MaterialA {
 
         GermaniumTetrachlorideSolution = material("germanium_tetrachloride_solution", "四氯化锗")
                 .fluid()
+                .gas()
                 .color(0x66ffcc)
                 .components(Germanium, 1, Chlorine, 4)
                 .iconSet(DULL)

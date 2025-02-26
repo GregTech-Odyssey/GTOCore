@@ -841,6 +841,7 @@ public final class GTOMaterials {
     public static Material PureSilane;
     public static Material TetrafluorosilaneSolution;
     public static Material HighPuritySilica;
+    public static Material CarbonTetrafluoride;
 
     public static Material Manasteel;
     public static Material Terrasteel;

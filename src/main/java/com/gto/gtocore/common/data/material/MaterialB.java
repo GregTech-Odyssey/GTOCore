@@ -486,9 +486,18 @@ public interface MaterialB {
                 .dust()
                 .fluid()
                 .color(0xffffff)
+                .iconSet(METALLIC)
                 .components(Silicon, 1, Oxygen, 2)
                 .iconSet(METALLIC)
                 .flags(DISABLE_DECOMPOSITION)
                 .buildAndRegister().setFormula("SiO2");
+
+        CarbonTetrafluoride = material("carbon_tetrafluoride", "四氟化碳")
+                .gas()
+                .color(0xffffff)
+                .components(Carbon, 1, Fluorine, 4)
+                .iconSet(LIMPID)
+                .flags(DISABLE_DECOMPOSITION)
+                .buildAndRegister();
     }
 }

@@ -729,7 +729,7 @@ public interface GTORecipeTypes {
 
     GTRecipeType CHEMICAL_VAPOR_DEPOSITION_RECIPES = register("chemical_vapor_deposition", "化学气相沉积", MULTIBLOCK)
             .setEUIO(IO.IN)
-            .setMaxIOSize(1, 1, 1, 1)
+            .setMaxIOSize(1, 1, 3, 1)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.CHEMICAL);
 
@@ -755,15 +755,19 @@ public interface GTORecipeTypes {
 
     GTRecipeType DRAWING_RECIPES = register("drawing", "拉丝", MULTIBLOCK)
             .setEUIO(IO.IN)
-            .setMaxIOSize(1, 1, 1, 0)
+            .setMaxIOSize(1, 1, 0, 0)
             .setProgressBar(GuiTextures.PROGRESS_BAR_WIREMILL, LEFT_TO_RIGHT)
             .addDataInfo(TEMPERATURE)
-            .addDataInfo(COIL)
             .setSound(GTSoundEntries.COMPRESSOR)
             .setUiBuilder(COIL_UI)
-            .addDataInfo(data -> LocalizationUtils.format(
-                    "gtocore.recipe.spool",
-                    I18n.get(SPOOL_MATERIALS[data.getInt("spool")])));
+            .addDataInfo(data -> LocalizationUtils.format("gtocore.recipe.spool",
+                    switch (data.getInt("spool")) {
+                        case 1 -> I18n.get("item.gtocore.spools_micro");
+                        case 2 -> I18n.get("item.gtocore.spools_small");
+                        case 3 -> I18n.get("item.gtocore.spools_medium");
+                        case 4 -> I18n.get("item.gtocore.spools_large");
+                        default -> I18n.get("item.gtocore.spools_jumbo");
+                    }));
 
     // TODO 添加用途
     GTRecipeType PHYSICAL_VAPOR_DEPOSITION_RECIPES = register("physical_vapor_deposition", "物理气相沉积", MULTIBLOCK)

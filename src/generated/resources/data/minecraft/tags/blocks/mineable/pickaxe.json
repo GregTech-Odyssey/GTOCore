@@ -8,7 +8,6 @@
     "gtocore:enceladus_stone",
     "gtocore:ceres_stone",
     "gtocore:essence_block",
-    "gtocore:reactor_core",
     "gtocore:command_block_broken",
     "gtocore:chain_command_block_broken",
     "gtocore:infused_obsidian",
@@ -231,6 +230,7 @@
     "gtocore:abs_pink_casing",
     "gtocore:abs_purple_casing",
     "gtocore:abs_light_bull_casing",
-    "gtocore:abs_light_grey_casing"
+    "gtocore:abs_light_grey_casing",
+    "gtocore:reactor_core"
   ]
 }

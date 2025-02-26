@@ -21,6 +21,14 @@ public final class MultiStepItemHelper {
         return stack;
     }
 
+    public static ItemStack locateStep(ItemStack stack0, int step) {
+        ItemStack stack = stack0.copy();
+        if (stack.getTag() != null) {
+            stack.getTag().putInt("current_craft_step", step);
+        }
+        return stack;
+    }
+
     public static ItemStack promoteStep(ItemStack stack) {
         int step = getStep(stack) + 1;
         int max = getMaxStep(stack);
