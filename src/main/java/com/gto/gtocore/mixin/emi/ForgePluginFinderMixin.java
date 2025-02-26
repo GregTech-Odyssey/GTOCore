@@ -16,6 +16,7 @@ import mezz.jei.library.plugins.vanilla.VanillaPlugin;
 import mythicbotany.jei.MythicJei;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
+import umpaz.farmersrespite.integration.jei.JEIFRPlugin;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +44,7 @@ public final class ForgePluginFinderMixin {
         plugins.add(new JEIConfig());
         plugins.add(new MythicJei());
         plugins.add(new vectorwing.farmersdelight.integration.jei.JEIPlugin());
+        plugins.add(new JEIFRPlugin());
         return plugins;
     }
 }

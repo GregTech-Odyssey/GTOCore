@@ -33,9 +33,6 @@ public abstract class PlayerMixin extends LivingEntity implements IEnhancedPlaye
     @Final
     private Abilities abilities;
 
-    @Shadow
-    public abstract void tick();
-
     @Unique
     private boolean gTOCore$canFly;
     @Unique

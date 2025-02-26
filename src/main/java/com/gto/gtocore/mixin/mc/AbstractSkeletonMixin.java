@@ -27,7 +27,7 @@ public class AbstractSkeletonMixin extends Monster {
 
     @Inject(method = "<init>", at = @At("TAIL"))
     private void init(CallbackInfo ci) {
-        gTOCore$intensify = 1 + getRandom().nextInt(3);
+        gTOCore$intensify = 1 + getRandom().nextInt(Math.max(1, level().getDifficulty().getId()));
     }
 
     @ModifyArg(method = "performRangedAttack", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/projectile/AbstractArrow;shoot(DDDFF)V"), index = 3)

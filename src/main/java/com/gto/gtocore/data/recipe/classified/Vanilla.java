@@ -782,5 +782,20 @@ interface Vanilla {
                 "BCB",
                 "ABA",
                 'B', GTItems.FIELD_GENERATOR_MV.asStack(), 'C', RegistriesUtils.getItemStack("enderio:reinforced_obsidian_block"), 'A', GTItems.CARBON_FIBER_PLATE.asStack());
+        VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("electric_cooking"), MultiBlockG.ELECTRIC_COOKING.asStack(),
+                "ABA",
+                "CDC",
+                "EFE",
+                'B', GTItems.ELECTRIC_PUMP_HV.asStack(), 'F', GTItems.ELECTRIC_MOTOR_HV.asStack(), 'D', RegistriesUtils.getItemStack("farmersdelight:cooking_pot"), 'C', new UnificationEntry(TagPrefix.pipeQuadrupleFluid, GTMaterials.StainlessSteel), 'E', new UnificationEntry(TagPrefix.plateDouble, GTMaterials.StainlessSteel), 'A', CustomTags.HV_CIRCUITS);
+        VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("isostatic_press"), MultiBlockG.ISOSTATIC_PRESS.asStack(),
+                "ABA",
+                "CDC",
+                "EEE",
+                'B', GTItems.ELECTRIC_PISTON_EV.asStack(), 'D', GTMachines.COMPRESSOR[GTValues.HV].asStack(), 'C', new UnificationEntry(TagPrefix.cableGtQuadruple, GTMaterials.Nichrome), 'E', new UnificationEntry(TagPrefix.plateDouble, GTMaterials.Titanium), 'A', new UnificationEntry(TagPrefix.rodLong, GTMaterials.Titanium));
+        VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("sintering_furnace"), MultiBlockG.SINTERING_FURNACE.asStack(),
+                "ABA",
+                "BCB",
+                "DBD",
+                'B', new UnificationEntry(TagPrefix.cableGtQuadruple, GTMaterials.Kanthal), 'D', new UnificationEntry(TagPrefix.plateDouble, GTMaterials.StainlessSteel), 'C', GTMachines.ELECTRIC_FURNACE[GTValues.HV].asStack(), 'A', CustomTags.HV_CIRCUITS);
     }
 }

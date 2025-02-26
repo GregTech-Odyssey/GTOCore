@@ -39,19 +39,17 @@ public final class GTORecyclingRecipeHandler {
     private static final List<TagPrefix> IGNORE_ARC_SMELTING = Arrays.asList(ingot, gem, nugget);
 
     public static void run(@NotNull Consumer<FinishedRecipe> provider, @NotNull Material material) {
-        if (material.hasProperty(PropertyKey.INGOT) || material.hasProperty(PropertyKey.GEM)) {
-            for (TagPrefix prefix : TagPrefix.values()) {
-                if (PREFIXES.stream().anyMatch(object -> {
-                    if (object instanceof TagPrefix) {
-                        return object == prefix;
-                    }
-                    if (object instanceof Predicate) {
-                        return ((Predicate<TagPrefix>) object).test(prefix);
-                    }
-                    return false;
-                })) {
-                    processCrushing(provider, prefix, material);
+        for (TagPrefix prefix : TagPrefix.values()) {
+            if (PREFIXES.stream().anyMatch(object -> {
+                if (object instanceof TagPrefix) {
+                    return object == prefix;
                 }
+                if (object instanceof Predicate) {
+                    return ((Predicate<TagPrefix>) object).test(prefix);
+                }
+                return false;
+            })) {
+                processCrushing(provider, prefix, material);
             }
         }
     }

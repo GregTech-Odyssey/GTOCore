@@ -59,6 +59,8 @@ dependencies {
 
     modImplementation("curse.maven:farmers-delight-398521:6154802")
 
+    modImplementation("curse.maven:farmers-respite-551453:5543547")
+
     modCompileOnly("curse.maven:curvy-pipes-1151126:6192998")
 
     modCompileOnly("curse.maven:libx-412525:5207625")
