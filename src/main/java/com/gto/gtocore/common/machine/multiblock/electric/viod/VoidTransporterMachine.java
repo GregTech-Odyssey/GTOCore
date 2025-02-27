@@ -1,6 +1,6 @@
 package com.gto.gtocore.common.machine.multiblock.electric.viod;
 
-import com.gto.gtocore.api.data.GTOWorldGenLayers;
+import com.gto.gtocore.api.data.GTODimensions;
 import com.gto.gtocore.api.machine.feature.multiblock.ICheckPatternMachine;
 import com.gto.gtocore.api.machine.multiblock.ElectricMultiblockMachine;
 import com.gto.gtocore.api.machine.trait.CustomRecipeLogic;
@@ -63,7 +63,7 @@ public class VoidTransporterMachine extends ElectricMultiblockMachine {
             if (level == null) return;
             MinecraftServer server = level.getServer();
             if (server == null) return;
-            ServerLevel serverLevel = server.getLevel(GTOWorldGenLayers.getDimension(dim));
+            ServerLevel serverLevel = server.getLevel(GTODimensions.getDimensionKey(dim));
             if (serverLevel == null) return;
             CompoundTag data = player.getPersistentData();
             data.putDouble("pos_x_" + m.id, player.getX());

@@ -1,7 +1,7 @@
 package com.gto.gtocore.data.recipe.classified;
 
 import com.gto.gtocore.GTOCore;
-import com.gto.gtocore.api.data.GTOWorldGenLayers;
+import com.gto.gtocore.api.data.GTODimensions;
 import com.gto.gtocore.common.data.GTORecipeTypes;
 
 import net.minecraft.data.recipes.FinishedRecipe;
@@ -15,7 +15,7 @@ interface DoorOfCreate {
                 .circuitMeta(1)
                 .EUt(8053063680L)
                 .duration(20)
-                .dimension(GTOWorldGenLayers.OVERWORLD)
+                .dimension(GTODimensions.OVERWORLD)
                 .save(provider);
     }
 }

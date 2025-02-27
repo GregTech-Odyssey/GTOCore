@@ -27,7 +27,8 @@ import java.util.Set;
 import java.util.function.Consumer;
 
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
-import static com.gto.gtocore.api.data.GTOWorldGenLayers.*;
+import static com.gto.gtocore.api.data.GTODimensions.*;
+import static com.gto.gtocore.api.data.GTOWorldGenLayers.ALL_LAYER;
 
 @SuppressWarnings("unused")
 public interface GTOOres {

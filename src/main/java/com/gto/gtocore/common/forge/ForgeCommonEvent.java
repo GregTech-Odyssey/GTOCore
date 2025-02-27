@@ -1,6 +1,6 @@
 package com.gto.gtocore.common.forge;
 
-import com.gto.gtocore.api.data.GTOWorldGenLayers;
+import com.gto.gtocore.api.data.GTODimensions;
 import com.gto.gtocore.api.machine.feature.IVacuumMachine;
 import com.gto.gtocore.common.data.GTOBlocks;
 import com.gto.gtocore.common.data.GTOCommands;
@@ -10,6 +10,7 @@ import com.gto.gtocore.common.machine.multiblock.electric.viod.VoidTransporterMa
 import com.gto.gtocore.common.saved.DysonSphereSavaedData;
 import com.gto.gtocore.common.saved.ExtendWirelessEnergySavaedData;
 import com.gto.gtocore.common.saved.InfinityCellSavaedData;
+import com.gto.gtocore.common.saved.PlanetsTravelSavaedData;
 import com.gto.gtocore.config.GTOConfig;
 import com.gto.gtocore.utils.ServerUtils;
 import com.gto.gtocore.utils.SphereExplosion;
@@ -107,7 +108,7 @@ public final class ForgeCommonEvent {
 
         if (item == Items.ENDER_EYE && level.getBlockState(pos).getBlock() == Blocks.END_PORTAL_FRAME) {
             ItemStack stack = player.getOffhandItem();
-            if (stack.is(GTOItems.DIMENSION_DATA.get()) && stack.hasTag() && stack.getOrCreateTag().getString("dim").equals(GTOWorldGenLayers.THE_END.toString())) {
+            if (stack.is(GTOItems.DIMENSION_DATA.get()) && stack.hasTag() && stack.getOrCreateTag().getString("dim").equals(GTODimensions.THE_END.toString())) {
                 player.setItemInHand(InteractionHand.OFF_HAND, stack.copyWithCount(stack.getCount() - 1));
                 return;
             }
@@ -166,7 +167,7 @@ public final class ForgeCommonEvent {
             if (block == Blocks.CRYING_OBSIDIAN) {
                 if (!Objects.equals(dim, "gtocore:flat")) {
                     if (VoidTransporterMachine.checkTransporter(pos, level, 0)) return;
-                    ServerLevel serverLevel = server.getLevel(GTOWorldGenLayers.getDimension(GTOWorldGenLayers.FLAT));
+                    ServerLevel serverLevel = server.getLevel(GTODimensions.getDimensionKey(GTODimensions.FLAT));
                     if (serverLevel != null) {
                         int value = Objects.equals(dim, "gtocore:void") ? 1 : 10;
                         data.putDouble("y_f", player.getY() + 1);
@@ -178,7 +179,7 @@ public final class ForgeCommonEvent {
                 } else {
                     String dima = data.getString("dim_f");
                     int value = "gtocore:void".equals(dima) ? 1 : 10;
-                    ServerUtils.teleportToDimension(server.getLevel(GTOWorldGenLayers.getDimension(new ResourceLocation(dima))), player, new Vec3((double) pos.getX() / value, data.getDouble("y_f"), (double) pos.getZ() / value));
+                    ServerUtils.teleportToDimension(server.getLevel(GTODimensions.getDimensionKey(new ResourceLocation(dima))), player, new Vec3((double) pos.getX() / value, data.getDouble("y_f"), (double) pos.getZ() / value));
                 }
                 return;
             }
@@ -186,7 +187,7 @@ public final class ForgeCommonEvent {
             if (block == Blocks.OBSIDIAN) {
                 if (!Objects.equals(dim, "gtocore:void")) {
                     if (VoidTransporterMachine.checkTransporter(pos, level, 0)) return;
-                    ServerLevel serverLevel = server.getLevel(GTOWorldGenLayers.getDimension(GTOWorldGenLayers.VOID));
+                    ServerLevel serverLevel = server.getLevel(GTODimensions.getDimensionKey(GTODimensions.VOID));
                     if (serverLevel != null) {
                         int value = Objects.equals(dim, "gtocore:flat") ? 1 : 10;
                         data.putDouble("y_v", player.getY() + 1);
@@ -198,7 +199,7 @@ public final class ForgeCommonEvent {
                 } else {
                     String dima = data.getString("dim_v");
                     int value = "gtocore:flat".equals(dima) ? 1 : 10;
-                    ServerUtils.teleportToDimension(server.getLevel(GTOWorldGenLayers.getDimension(new ResourceLocation(dima))), player, new Vec3((double) pos.getX() / value, data.getDouble("y_v"), (double) pos.getZ() / value));
+                    ServerUtils.teleportToDimension(server.getLevel(GTODimensions.getDimensionKey(new ResourceLocation(dima))), player, new Vec3((double) pos.getX() / value, data.getDouble("y_v"), (double) pos.getZ() / value));
                 }
                 return;
             }
@@ -246,6 +247,7 @@ public final class ForgeCommonEvent {
             InfinityCellSavaedData.INSTANCE = serverLevel.getDataStorage().computeIfAbsent(InfinityCellSavaedData::readNbt, InfinityCellSavaedData::new, "infinite_storage_cell_data");
             DysonSphereSavaedData.INSTANCE = serverLevel.getDataStorage().computeIfAbsent(DysonSphereSavaedData::new, DysonSphereSavaedData::new, "dyson_sphere_data");
             WirelessEnergySavaedData.INSTANCE = serverLevel.getDataStorage().computeIfAbsent(ExtendWirelessEnergySavaedData::new, ExtendWirelessEnergySavaedData::new, "wireless_energy_data");
+            PlanetsTravelSavaedData.INSTANCE = serverLevel.getDataStorage().computeIfAbsent(PlanetsTravelSavaedData::new, PlanetsTravelSavaedData::new, "planets_trave_data");
         }
     }
 

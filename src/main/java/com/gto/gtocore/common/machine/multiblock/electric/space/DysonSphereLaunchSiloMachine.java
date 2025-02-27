@@ -1,6 +1,6 @@
 package com.gto.gtocore.common.machine.multiblock.electric.space;
 
-import com.gto.gtocore.api.data.GTOWorldGenLayers;
+import com.gto.gtocore.api.data.GTODimensions;
 import com.gto.gtocore.api.machine.multiblock.ElectricMultiblockMachine;
 import com.gto.gtocore.common.saved.DysonSphereSavaedData;
 
@@ -31,13 +31,13 @@ public final class DysonSphereLaunchSiloMachine extends ElectricMultiblockMachin
 
     @Override
     protected GTRecipe getRealRecipe(@NotNull GTRecipe recipe) {
-        recipe.duration = recipe.duration * GTOWorldGenLayers.ALL_GALAXY_DIM.get(getDimension().location()) / 4;
+        recipe.duration = recipe.duration * GTODimensions.ALL_GALAXY_DIM.get(getDimension().location()) / 4;
         return recipe;
     }
 
     @Override
     public boolean beforeWorking(@Nullable GTRecipe recipe) {
-        return GTOWorldGenLayers.ALL_PLANET.contains(getDimension().location()) && super.beforeWorking(recipe);
+        return GTODimensions.ALL_PLANET.contains(getDimension().location()) && super.beforeWorking(recipe);
     }
 
     @Override

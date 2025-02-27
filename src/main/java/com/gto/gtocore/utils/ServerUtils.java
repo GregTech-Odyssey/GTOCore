@@ -1,6 +1,6 @@
 package com.gto.gtocore.utils;
 
-import com.gto.gtocore.api.data.GTOWorldGenLayers;
+import com.gto.gtocore.api.data.GTODimensions;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
@@ -28,7 +28,7 @@ public final class ServerUtils {
     }
 
     public static void teleportToDimension(MinecraftServer server, Entity entity, ResourceLocation dim, Vec3 vec3) {
-        ServerLevel serverLevel = server.getLevel(GTOWorldGenLayers.getDimension(dim));
+        ServerLevel serverLevel = server.getLevel(GTODimensions.getDimensionKey(dim));
         if (serverLevel == null) return;
         teleportToDimension(serverLevel, entity, vec3);
     }

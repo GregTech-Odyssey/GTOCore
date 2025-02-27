@@ -1,7 +1,7 @@
 package com.gto.gtocore.data.recipe.classified;
 
 import com.gto.gtocore.GTOCore;
-import com.gto.gtocore.api.data.GTOWorldGenLayers;
+import com.gto.gtocore.api.data.GTODimensions;
 import com.gto.gtocore.common.data.GTOBlocks;
 import com.gto.gtocore.common.data.GTOItems;
 import com.gto.gtocore.common.data.GTOMaterials;
@@ -91,7 +91,7 @@ interface ChemicalBath {
                 .outputItems(TagPrefix.dust, GTMaterials.DamascusSteel)
                 .EUt(120)
                 .duration(200)
-                .dimension(GTOWorldGenLayers.ANCIENT_WORLD)
+                .dimension(GTODimensions.ANCIENT_WORLD)
                 .save(provider);
 
         GTRecipeTypes.CHEMICAL_BATH_RECIPES.recipeBuilder(GTOCore.id("fullerene_polymer_matrix_soft_tubing"))

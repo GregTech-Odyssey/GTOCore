@@ -35,11 +35,7 @@ final class KeyBind {
         public void setDown(boolean isDown) {
             super.setDown(isDown);
             if (isDownOld != isDown && isDown) {
-                if (type == 3) {
-                    KeyMessage.drift();
-                } else {
-                    KeyMessage.PACKET_HANDLER.sendToServer(new KeyMessage(type, 0));
-                }
+                KeyMessage.handler(String.valueOf(type));
             }
             isDownOld = isDown;
         }

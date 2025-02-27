@@ -1,7 +1,7 @@
 package com.gto.gtocore.data.recipe.classified;
 
 import com.gto.gtocore.GTOCore;
-import com.gto.gtocore.api.data.GTOWorldGenLayers;
+import com.gto.gtocore.api.data.GTODimensions;
 import com.gto.gtocore.common.data.GTOMaterials;
 
 import com.gregtechceu.gtceu.common.data.GTMaterials;
@@ -19,7 +19,7 @@ interface GasCollector {
                 .outputFluids(GTOMaterials.BarnardaAir.getFluid(10000))
                 .EUt(1024)
                 .duration(200)
-                .dimension(GTOWorldGenLayers.BARNARDA_C)
+                .dimension(GTODimensions.BARNARDA_C)
                 .save(provider);
 
         GTRecipeTypes.GAS_COLLECTOR_RECIPES.recipeBuilder(GTOCore.id("flat"))
@@ -27,7 +27,7 @@ interface GasCollector {
                 .outputFluids(GTMaterials.Air.getFluid(10000))
                 .EUt(16)
                 .duration(200)
-                .dimension(GTOWorldGenLayers.FLAT)
+                .dimension(GTODimensions.FLAT)
                 .save(provider);
 
         GTRecipeTypes.GAS_COLLECTOR_RECIPES.recipeBuilder(GTOCore.id("void"))
@@ -35,7 +35,7 @@ interface GasCollector {
                 .outputFluids(GTMaterials.Air.getFluid(10000))
                 .EUt(16)
                 .duration(200)
-                .dimension(GTOWorldGenLayers.VOID)
+                .dimension(GTODimensions.VOID)
                 .save(provider);
     }
 }

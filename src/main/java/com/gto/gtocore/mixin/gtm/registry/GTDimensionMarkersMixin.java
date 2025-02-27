@@ -1,7 +1,7 @@
 package com.gto.gtocore.mixin.gtm.registry;
 
 import com.gto.gtocore.GTOCore;
-import com.gto.gtocore.api.data.GTOWorldGenLayers;
+import com.gto.gtocore.api.data.GTODimensions;
 import com.gto.gtocore.utils.RLUtils;
 
 import com.gregtechceu.gtceu.api.data.DimensionMarker;
@@ -43,39 +43,39 @@ public final class GTDimensionMarkersMixin {
 
     @Inject(method = "init", at = @At("HEAD"), remap = false)
     private static void init(CallbackInfo ci) {
-        createAndRegister(GTOWorldGenLayers.MOON,
+        createAndRegister(GTODimensions.MOON,
                 1, RLUtils.ad("moon_stone"), "dimension.ad_astra.moon");
-        createAndRegister(GTOWorldGenLayers.MARS,
+        createAndRegister(GTODimensions.MARS,
                 2, RLUtils.ad("mars_stone"), "dimension.ad_astra.mars");
-        createAndRegister(GTOWorldGenLayers.VENUS,
+        createAndRegister(GTODimensions.VENUS,
                 3, RLUtils.ad("venus_stone"), "dimension.ad_astra.venus");
-        createAndRegister(GTOWorldGenLayers.MERCURY,
+        createAndRegister(GTODimensions.MERCURY,
                 3, RLUtils.ad("mercury_stone"), "dimension.ad_astra.mercury");
-        createAndRegister(GTOWorldGenLayers.GLACIO,
+        createAndRegister(GTODimensions.GLACIO,
                 7, RLUtils.ad("glacio_stone"), "dimension.ad_astra.glacio");
-        createAndRegister(GTOWorldGenLayers.ANCIENT_WORLD,
+        createAndRegister(GTODimensions.ANCIENT_WORLD,
                 0, GTOCore.id("reactor_core"), "biome.gtocore.ancient_world_biome");
-        createAndRegister(GTOWorldGenLayers.TITAN,
+        createAndRegister(GTODimensions.TITAN,
                 6, GTOCore.id("titan_stone"), "biome.gtocore.titan_biome");
-        createAndRegister(GTOWorldGenLayers.PLUTO,
+        createAndRegister(GTODimensions.PLUTO,
                 6, GTOCore.id("pluto_stone"), "biome.gtocore.pluto_biome");
-        createAndRegister(GTOWorldGenLayers.IO,
+        createAndRegister(GTODimensions.IO,
                 5, GTOCore.id("io_stone"), "biome.gtocore.io_biome");
-        createAndRegister(GTOWorldGenLayers.GANYMEDE,
+        createAndRegister(GTODimensions.GANYMEDE,
                 5, GTOCore.id("ganymede_stone"), "biome.gtocore.ganymede_biome");
-        createAndRegister(GTOWorldGenLayers.ENCELADUS,
+        createAndRegister(GTODimensions.ENCELADUS,
                 6, GTOCore.id("enceladus_stone"), "biome.gtocore.enceladus_biome");
-        createAndRegister(GTOWorldGenLayers.CERES,
+        createAndRegister(GTODimensions.CERES,
                 4, GTOCore.id("ceres_stone"), "biome.gtocore.ceres_biome");
-        createAndRegister(GTOWorldGenLayers.BARNARDA_C,
+        createAndRegister(GTODimensions.BARNARDA_C,
                 8, GTOCore.id("barnarda_c_log"), "biome.gtocore.barnarda_c_biome");
-        createAndRegister(GTOWorldGenLayers.OTHERSIDE,
+        createAndRegister(GTODimensions.OTHERSIDE,
                 9, DeeperDarker.rl("sculk_stone"), "Otherside");
-        createAndRegister(GTOWorldGenLayers.CREATE,
+        createAndRegister(GTODimensions.CREATE,
                 10, GTOCore.id("dimension_creation_casing"), "biome.gtocore.create");
-        createAndRegister(GTOWorldGenLayers.VOID,
+        createAndRegister(GTODimensions.VOID,
                 0, RLUtils.mc("obsidian"), "biome.gtocore.void");
-        createAndRegister(GTOWorldGenLayers.FLAT,
+        createAndRegister(GTODimensions.FLAT,
                 0, RLUtils.mc("crying_obsidian"), "biome.gtocore.flat");
     }
 

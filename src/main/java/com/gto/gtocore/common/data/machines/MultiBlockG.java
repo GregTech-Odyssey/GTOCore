@@ -2,7 +2,7 @@ package com.gto.gtocore.common.data.machines;
 
 import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.api.GTOValues;
-import com.gto.gtocore.api.data.GTOWorldGenLayers;
+import com.gto.gtocore.api.data.GTODimensions;
 import com.gto.gtocore.api.machine.multiblock.CoilMultiblockMachine;
 import com.gto.gtocore.api.machine.multiblock.ElectricMultiblockMachine;
 import com.gto.gtocore.api.machine.part.GTOPartAbility;
@@ -154,7 +154,7 @@ public interface MultiBlockG {
             .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_solid_steel"), GTCEu.id("block/multiblock/fusion_reactor"))
             .register();
 
-    MultiblockMachineDefinition ANCIENT_REACTOR_CORE = multiblock("ancient_reactor_core", "远古反应核", VoidTransporterMachine.create(1, 0, VoidTransporterMachine.teleportToDimension(GTOWorldGenLayers.ANCIENT_WORLD, new BlockPos(0, 128, 0))))
+    MultiblockMachineDefinition ANCIENT_REACTOR_CORE = multiblock("ancient_reactor_core", "远古反应核", VoidTransporterMachine.create(1, 0, VoidTransporterMachine.teleportToDimension(GTODimensions.ANCIENT_WORLD, new BlockPos(0, 128, 0))))
             .nonYAxisRotation()
             .recipe(DUMMY_RECIPES)
             .tooltipsText("Right-click the core to send it to Ancient World.", "右键核心传送到远古世界")
@@ -170,7 +170,7 @@ public interface MultiBlockG {
             .workableCasingRenderer(EnderIO.loc("block/reinforced_obsidian_block"), GTOCore.id("block/multiblock/ancient_reactor_core"))
             .register();
 
-    MultiblockMachineDefinition NETHER_REACTOR_CORE = multiblock("nether_reactor_core", "下界反应核", VoidTransporterMachine.create(2, 1920, VoidTransporterMachine.teleportToDimension(GTOWorldGenLayers.THE_NETHER, new BlockPos(0, 128, 0))))
+    MultiblockMachineDefinition NETHER_REACTOR_CORE = multiblock("nether_reactor_core", "下界反应核", VoidTransporterMachine.create(2, 1920, VoidTransporterMachine.teleportToDimension(GTODimensions.THE_NETHER, new BlockPos(0, 128, 0))))
             .nonYAxisRotation()
             .recipe(DUMMY_RECIPES)
             .tooltipsText("Right-click the core to send it to the Nether.", "运行后右键核心传送到下界")

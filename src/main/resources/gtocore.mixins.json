@@ -6,6 +6,7 @@
     "compatibilityLevel": "JAVA_17",
     "plugin": "com.gto.gtocore.config.MixinConfigPlugin",
     "client": [
+        "adastra.PlanetsScreenMixin",
         "ae2.client.BuiltInModelHooksAccessor",
         "ae2.gui.PatternProviderScreenMixin",
         "ae2.gui.ProcessingEncodingPanelMixin",
@@ -135,6 +136,8 @@
         "kubejs.KubeJSMixin",
         "kubejs.KubeJSPluginsMixin",
         "kubejs.RecipesEventJSMixin",
+        "kubejs.SendDataFromClientMessageMixin",
+        "kubejs.SendDataFromServerMessageMixin",
         "mc.AbstractSkeletonMixin",
         "mc.BlockBehaviourMixin",
         "mc.DragonFireballMixin",

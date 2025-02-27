@@ -4,7 +4,6 @@ import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.api.entity.IEnhancedPlayer;
 import com.gto.gtocore.common.data.*;
 import com.gto.gtocore.common.forge.ForgeCommonEvent;
-import com.gto.gtocore.common.network.KeyMessage;
 import com.gto.gtocore.config.GTOConfig;
 import com.gto.gtocore.integration.ae2.InfinityCellGuiHandler;
 import com.gto.gtocore.integration.ae2.storage.InfinityCellHandler;
@@ -59,8 +58,6 @@ public class CommonProxy {
 
     private static void commonSetup(FMLCommonSetupEvent event) {
         event.enqueueWork(ItemRegisterUtils::InitUpgrades);
-        KeyMessage.PACKET_HANDLER.registerMessage(KeyMessage.messageID, KeyMessage.class, KeyMessage::buffer, KeyMessage::new, KeyMessage::handler);
-        KeyMessage.messageID++;
         StorageCells.addCellHandler(InfinityCellHandler.INSTANCE);
         StorageCells.addCellGuiHandler(new InfinityCellGuiHandler());
 
