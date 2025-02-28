@@ -3,6 +3,7 @@
     "frametime": 2
   },
     "ldlib": {
+        "connection": "gtocore:block/coil/hypogen_coil_block_ctm_bloom",
         "emissive": true
     },
     "shimmer": {

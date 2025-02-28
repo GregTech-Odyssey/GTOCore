@@ -35,6 +35,7 @@ import java.util.List;
 
 import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.*;
 import static com.gto.gtocore.api.GTOValues.*;
+import static com.gto.gtocore.common.machine.multiblock.part.SpoolHatchPartMachine.SPOOL;
 import static com.gto.gtocore.utils.register.RecipeTypeRegisterUtils.*;
 import static com.gto.gtocore.utils.register.RecipeTypeRegisterUtils.register;
 import static com.lowdragmc.lowdraglib.gui.texture.ProgressTexture.FillDirection.LEFT_TO_RIGHT;
@@ -745,29 +746,33 @@ public interface GTORecipeTypes {
             .setProgressBar(GuiTextures.PROGRESS_BAR_BATH, LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.FURNACE);
 
-    String[] SPOOL_MATERIALS = {
-            "item.gtocore.spools_micro",  // 默认值
-            "item.gtocore.spools_small",
-            "item.gtocore.spools_medium",
-            "item.gtocore.spools_large",
-            "item.gtocore.spools_jumbo"
-    };
-
     GTRecipeType DRAWING_RECIPES = register("drawing", "拉丝", MULTIBLOCK)
             .setEUIO(IO.IN)
+            .setMaxTooltips(5)
             .setMaxIOSize(1, 1, 0, 0)
             .setProgressBar(GuiTextures.PROGRESS_BAR_WIREMILL, LEFT_TO_RIGHT)
             .addDataInfo(TEMPERATURE)
+            .addDataInfo(COIL)
             .setSound(GTSoundEntries.COMPRESSOR)
-            .setUiBuilder(COIL_UI)
-            .addDataInfo(data -> LocalizationUtils.format("gtocore.recipe.spool",
-                    switch (data.getInt("spool")) {
-                        case 1 -> I18n.get("item.gtocore.spools_micro");
-                        case 2 -> I18n.get("item.gtocore.spools_small");
-                        case 3 -> I18n.get("item.gtocore.spools_medium");
-                        case 4 -> I18n.get("item.gtocore.spools_large");
-                        default -> I18n.get("item.gtocore.spools_jumbo");
-                    }));
+            /*
+             * .addDataInfo(data -> LocalizationUtils.format("gtocore.recipe.spool",
+             * switch (data.getInt("spool")) {
+             * case 1 -> I18n.get("item.gtocore.spools_micro");
+             * case 2 -> I18n.get("item.gtocore.spools_small");
+             * case 3 -> I18n.get("item.gtocore.spools_medium");
+             * case 4 -> I18n.get("item.gtocore.spools_large");
+             * default -> I18n.get("item.gtocore.spools_jumbo");
+             * }))
+             */
+            .setUiBuilder((recipe, widgetGroup) -> {
+                ItemStack itemStack = new ItemStack(SPOOL.entrySet().stream()
+                        .filter(entry -> entry.getValue() == recipe.data.getInt("spool"))
+                        .findFirst()
+                        .orElseThrow(IllegalArgumentException::new)
+                        .getKey());
+                widgetGroup.addWidget(new SlotWidget(new CycleItemStackHandler(List.of(List.of(itemStack))), 0,
+                        widgetGroup.getSize().width - 50, widgetGroup.getSize().height - 40, false, false));
+            });
 
     // TODO 添加用途
     GTRecipeType PHYSICAL_VAPOR_DEPOSITION_RECIPES = register("physical_vapor_deposition", "物理气相沉积", MULTIBLOCK)

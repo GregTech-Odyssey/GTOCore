@@ -1,6 +1,9 @@
 {
+    "shimmer": {
+        "bloom": true
+    },
     "ldlib": {
-        "connection": "gtocore:block/coil/hypogen_coil_block_ctm"
+        "emissive": true
     },
     "animation": {
         "frametime": 2

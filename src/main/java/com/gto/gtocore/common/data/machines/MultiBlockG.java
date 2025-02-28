@@ -49,6 +49,22 @@ public interface MultiBlockG {
 
     static void init() {}
 
+    /*
+     * MultiblockMachineDefinition BLOOK_TEXT = GTOConfig.INSTANCE.enablePrimitiveVoidOre ? multiblock("blook_test",
+     * "方块测试", ElectricMultiblockMachine::new)
+     * .allRotation().recipe(GTORecipeTypes.PRIMITIVE_VOID_ORE_RECIPES).block(GTOBlocks.BIOCOMPUTER_SHELL)
+     * .pattern(definition -> FactoryBlockPattern.start(RelativeDirection.RIGHT, RelativeDirection.UP,
+     * RelativeDirection.BACK)
+     * .aisle("AAAAAAA").aisle("AA AAAA").aisle("A   AAA").aisle("AA AAAA").aisle("ABFBAAA")
+     * .where('A', blocks(GTOBlocks.BIOCOMPUTER_SHELL.get()))
+     * .where('B', abilities(EXPORT_ITEMS).setExactLimit(1).or(abilities(IMPORT_FLUIDS).setExactLimit(1)))
+     * .where('F', controller(blocks(definition.get()))).where(' ', any())
+     * .build())
+     * .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_clean_stainless_steel"),GTCEu.id(
+     * "block/multiblock/multi_furnace"))
+     * .register() : null;
+     */
+
     MultiblockMachineDefinition ELECTRIC_COOKING = multiblock("electric_cooking", "电力烹饪锅", ElectricMultiblockMachine::new)
             .nonYAxisRotation()
             .recipe(GTORecipeTypes.ELECTRIC_COOKING_RECIPES)

@@ -48,7 +48,7 @@ public final class DrawingTowerMachine extends CoilMultiblockMachine {
         if (container != null) {
             height = container.getValue();
         }
-        reduction = 2 / Math.max(((height / 8D) * ((gto$getTemperature() - 5000D) / 900D)), 2);
+        reduction = 2 / Math.pow(1.5, ((height / 8D) * ((gto$getTemperature() - 5000D) / 900D)));
     }
 
     @Override

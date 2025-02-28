@@ -33,6 +33,8 @@ import appeng.core.definitions.AEItems;
 
 import java.util.function.Consumer;
 
+import static com.gto.gtocore.common.data.GTOItems.SPOOLS_LARGE;
+
 interface Vanilla {
 
     static void init(Consumer<FinishedRecipe> provider) {
@@ -797,5 +799,10 @@ interface Vanilla {
                 "BCB",
                 "DBD",
                 'B', new UnificationEntry(TagPrefix.cableGtQuadruple, GTMaterials.Kanthal), 'D', new UnificationEntry(TagPrefix.plateDouble, GTMaterials.StainlessSteel), 'C', GTMachines.ELECTRIC_FURNACE[GTValues.HV].asStack(), 'A', CustomTags.HV_CIRCUITS);
+        VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("drawing_tower"), MultiBlockG.DRAWING_TOWER.asStack(),
+                "ABA",
+                "BCB",
+                "DBD",
+                'B', SPOOLS_LARGE.asStack(), 'D', GTItems.ELECTRIC_MOTOR_IV, 'C', GTMachines.HULL[GTValues.IV].asStack(), 'A', CustomTags.IV_CIRCUITS);
     }
 }

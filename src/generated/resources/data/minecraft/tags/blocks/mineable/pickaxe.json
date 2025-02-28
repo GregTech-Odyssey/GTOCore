@@ -231,6 +231,7 @@
     "gtocore:abs_purple_casing",
     "gtocore:abs_light_bull_casing",
     "gtocore:abs_light_grey_casing",
+    "gtocore:biocomputer_shell",
     "gtocore:reactor_core"
   ]
 }

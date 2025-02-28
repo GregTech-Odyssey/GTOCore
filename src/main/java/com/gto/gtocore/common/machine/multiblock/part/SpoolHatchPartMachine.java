@@ -35,13 +35,6 @@ public final class SpoolHatchPartMachine extends ItemHatchPartMachine implements
         spoolBuilder.put(GTOItems.SPOOLS_JUMBO.get(), 5);
         SPOOL = spoolBuilder.build();
     }
-    String[] SPOOL_MATERIALS = {
-            "item.gtocore.spools_micro",  // 默认值
-            "item.gtocore.spools_small",
-            "item.gtocore.spools_medium",
-            "item.gtocore.spools_large",
-            "item.gtocore.spools_jumbo"
-    };
 
     private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
             SpoolHatchPartMachine.class, ItemHatchPartMachine.MANAGED_FIELD_HOLDER);

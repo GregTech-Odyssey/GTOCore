@@ -1,6 +1,9 @@
 {
+    "shimmer": {
+        "bloom": true
+    },
     "ldlib": {
-        "connection": "gtocore:block/coil/eternity_coil_block_ctm"
+        "emissive": true
     },
     "animation": {
         "frametime": 3

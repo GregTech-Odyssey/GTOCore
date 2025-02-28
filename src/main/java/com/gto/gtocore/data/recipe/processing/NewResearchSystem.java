@@ -5,7 +5,9 @@ import com.gto.gtocore.api.item.MultiStepItemHelper;
 import com.gto.gtocore.common.recipe.condition.VacuumCondition;
 
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
+import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
+import com.gregtechceu.gtceu.api.machine.multiblock.CleanroomType;
 
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.world.item.ItemStack;
@@ -14,6 +16,7 @@ import java.util.function.Consumer;
 
 import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
+import static com.gregtechceu.gtceu.common.data.GTBlocks.OPTICAL_PIPES;
 import static com.gregtechceu.gtceu.common.data.GTItems.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
 import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.*;
@@ -399,7 +402,7 @@ public interface NewResearchSystem {
                     .blastFurnaceTemp(2500)
                     .save(provider);
 
-            FURNACE_RECIPES.recipeBuilder("vapro_simple_optical_fiber_preform_12")
+            BLAST_RECIPES.recipeBuilder("vapro_simple_optical_fiber_preform_12")
                     .inputItems(MultiStepItemHelper.locateStep(stack1, 12))
                     .outputItems(MultiStepItemHelper.locateStep(stack1, 13))
                     .duration(12000)
@@ -418,7 +421,7 @@ public interface NewResearchSystem {
                     .blastFurnaceTemp(2500)
                     .save(provider);
 
-            FURNACE_RECIPES.recipeBuilder("vapro_simple_optical_fiber_preform_14")
+            BLAST_RECIPES.recipeBuilder("vapro_simple_optical_fiber_preform_14")
                     .inputItems(MultiStepItemHelper.locateStep(stack1, 14))
                     .outputItems(MultiStepItemHelper.locateStep(stack1, 15))
                     .duration(4000)
@@ -426,18 +429,65 @@ public interface NewResearchSystem {
                     .blastFurnaceTemp(4200)
                     .save(provider);
 
-            for (int n = 1; n <= 5; n++) {
+            Material[] forSpools = { Iron, Steel, StainlessSteel, TungstenSteel, Osmiridium };
+            ItemStack[] Spools = { SPOOLS_MICRO.asStack(), SPOOLS_SMALL.asStack(), SPOOLS_MEDIUM.asStack(), SPOOLS_LARGE.asStack(), SPOOLS_JUMBO.asStack() };
+            for (int n = 0; n < 5; n++) {
+                ASSEMBLER_RECIPES.recipeBuilder("make_spool_" + n)
+                        .inputItems(plate, forSpools[n], 24)
+                        .inputItems(rod, forSpools[n], 6)
+                        .inputItems(ring, forSpools[n], 12)
+                        .inputItems(screw, forSpools[n], 12)
+                        .inputFluids(Polytetrafluoroethylene.getFluid(1152))
+                        .outputItems(Spools[n])
+                        .circuitMeta(3)
+                        .duration(600)
+                        .EUt(VA[HV])
+                        .save(provider);
+            }
+
+            for (int n = 1; n <= 3; n++) {
                 int m = (int) Math.pow(4, n - 1);
-                DRAWING_RECIPES.recipeBuilder("drawing_simple_fiber_optic" + n)
+                DRAWING_RECIPES.recipeBuilder("drawing_simple_fiber_optic_" + n)
                         .inputItems(MultiStepItemHelper.locateStep(stack1, 15))
                         .outputItems(SIMPLE_FIBER_OPTIC_ROUGH, m * 64)
                         .addData("spool", n)
                         .duration((60000 * m) + 12000)
                         .EUt(VA[3 + n])
-                        .blastFurnaceTemp(4000 + 500 * n)
+                        .blastFurnaceTemp(3300 + 1000 * n)
+                        .save(provider);
+            }
+            for (int n = 4; n <= 5; n++) {
+                int m = (int) Math.pow(4, n - 1);
+                DRAWING_RECIPES.recipeBuilder("drawing_simple_fiber_optic_" + n)
+                        .inputItems(MultiStepItemHelper.locateStep(stack1, 15))
+                        .outputItems(SIMPLE_FIBER_OPTIC_ROUGH, m * 64)
+                        .addData("spool", n)
+                        .duration((60000 * m) + 12000)
+                        .EUt(VA[3 + n])
+                        .blastFurnaceTemp(3300 + 1000 * n)
                         .addCondition(new VacuumCondition(4))
                         .save(provider);
             }
+
+            LAMINATOR_RECIPES.recipeBuilder("make_simple_fiber_optic")
+                    .inputItems(SIMPLE_FIBER_OPTIC_ROUGH)
+                    .inputFluids(EthylAcrylate.getFluid(72))
+                    .outputItems(SIMPLE_FIBER_OPTIC)
+                    .duration(100)
+                    .EUt(7)
+                    .save(provider);
+
+            ASSEMBLER_RECIPES.recipeBuilder("optical_pipe")
+                    .inputItems(SIMPLE_FIBER_OPTIC, 8)
+                    .inputItems(foil, Polyethylene, 32)
+                    .inputItems(foil, Graphene, 8)
+                    .inputItems(DUCT_TAPE, 1)
+                    .inputFluids(Polytetrafluoroethylene.getFluid(8 * L))
+                    .outputItems(OPTICAL_PIPES[0])
+                    .cleanroom(CleanroomType.CLEANROOM)
+                    .duration(100)
+                    .EUt(VA[IV])
+                    .save(provider);
 
         }
     }

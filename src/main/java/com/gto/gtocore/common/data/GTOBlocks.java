@@ -385,4 +385,6 @@ public interface GTOBlocks {
     BlockEntry<Block> ABS_PURPLE_CASING = createCasingBlock("abs_purple_casing", "紫色ABS塑料机械外壳", GTOCore.id("block/casings/abs_purple_casing"));
     BlockEntry<Block> ABS_LIGHT_BULL_CASING = createCasingBlock("abs_light_bull_casing", "浅蓝色ABS塑料机械外壳", GTOCore.id("block/casings/abs_light_bull_casing"));
     BlockEntry<Block> ABS_LIGHT_GREY_CASING = createCasingBlock("abs_light_grey_casing", "浅灰色ABS塑料机械外壳", GTOCore.id("block/casings/abs_light_grey_casing"));
+
+    BlockEntry<ActiveBlock> BIOCOMPUTER_SHELL = createActiveCasing("biocomputer_shell", "生物计算机外壳", "block/variant/biocomputer_shell");
 }
