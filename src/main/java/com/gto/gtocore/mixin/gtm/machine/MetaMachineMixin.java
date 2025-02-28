@@ -1,8 +1,12 @@
 package com.gto.gtocore.mixin.gtm.machine;
 
+import com.gto.gtocore.api.machine.feature.IPerformanceDisplayMachine;
+
+import com.gregtechceu.gtceu.api.block.BlockProperties;
 import com.gregtechceu.gtceu.api.item.tool.GTToolType;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
+import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.integration.ae2.machine.feature.IGridConnectedMachine;
 
 import net.minecraft.core.BlockPos;
@@ -13,27 +17,29 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 
 import com.mojang.datafixers.util.Pair;
 import org.jetbrains.annotations.NotNull;
-import org.spongepowered.asm.mixin.Final;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.Unique;
+import org.jetbrains.annotations.Nullable;
+import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.EnumSet;
+import java.util.List;
 import java.util.Set;
 
 @Mixin(MetaMachine.class)
-public abstract class MetaMachineMixin {
+public abstract class MetaMachineMixin implements IPerformanceDisplayMachine {
 
     @Unique
     private long gTOCore$lastExecutionTime;
+
+    @Unique
+    private long gTOCore$tickTime;
 
     @Shadow(remap = false)
     public abstract boolean isRemote();
@@ -42,13 +48,55 @@ public abstract class MetaMachineMixin {
     @Final
     public IMachineBlockEntity holder;
 
-    @Inject(method = "serverTick", at = @At("HEAD"), remap = false, cancellable = true)
-    private void tick(CallbackInfo ci) {
-        long currentTime = System.currentTimeMillis();
-        if (currentTime - gTOCore$lastExecutionTime < 40) {
-            ci.cancel();
+    @Shadow(remap = false)
+    protected abstract void executeTick();
+
+    @Shadow(remap = false)
+    @Final
+    private List<TickableSubscription> serverTicks;
+
+    @Shadow(remap = false)
+    @Final
+    private List<TickableSubscription> waitingToAdd;
+
+    @Shadow(remap = false)
+    public abstract boolean isInValid();
+
+    @Shadow(remap = false)
+    public abstract @Nullable Level getLevel();
+
+    @Shadow(remap = false)
+    public abstract BlockPos getPos();
+
+    @Shadow(remap = false)
+    public abstract BlockState getBlockState();
+
+    @Override
+    public long gtocore$getTickTime() {
+        return gTOCore$tickTime;
+    }
+
+    /**
+     * @author .
+     * @reason .
+     */
+    @Overwrite(remap = false)
+    public final void serverTick() {
+        long currentTime = System.nanoTime();
+        if (currentTime - gTOCore$lastExecutionTime < 40000000) {
+            return;
         }
         gTOCore$lastExecutionTime = currentTime;
+        Level level = getLevel();
+        if (level != null) {
+            executeTick();
+            if (serverTicks.isEmpty() && waitingToAdd.isEmpty() && !isInValid()) {
+                level.setBlockAndUpdate(getPos(), getBlockState().setValue(BlockProperties.SERVER_TICK, false));
+                gTOCore$tickTime = 0;
+            } else {
+                gTOCore$tickTime = System.nanoTime() - currentTime;
+            }
+        }
     }
 
     @Inject(method = "onToolClick", at = @At("RETURN"), remap = false, cancellable = true)

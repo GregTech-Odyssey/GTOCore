@@ -1,7 +1,7 @@
 package com.gto.gtocore.utils;
 
 import com.gto.gtocore.api.capability.recipe.ManaRecipeCapability;
-import com.gto.gtocore.api.data.GTOWorldGenLayers;
+import com.gto.gtocore.api.data.GTODimensions;
 
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
@@ -129,6 +129,6 @@ public final class GTOUtils {
         if (pos == 0) return null;
         ResourceLocation key = ResourceLocation.tryParse(dimension);
         if (key == null) return null;
-        return GlobalPos.of(GTOWorldGenLayers.getDimension(key), BlockPos.of(pos));
+        return GlobalPos.of(GTODimensions.getDimensionKey(key), BlockPos.of(pos));
     }
 }

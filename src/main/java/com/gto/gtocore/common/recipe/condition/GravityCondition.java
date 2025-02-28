@@ -32,8 +32,6 @@ public final class GravityCondition extends RecipeCondition {
                     .and(Codec.BOOL.fieldOf("gravity").forGetter(val -> val.zero))
                     .apply(instance, GravityCondition::new));
 
-    public final static GravityCondition INSTANCE = new GravityCondition();
-
     private boolean zero;
 
     public GravityCondition(boolean zero) {

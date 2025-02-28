@@ -1,12 +1,14 @@
 package com.gto.gtocore.mixin.mc;
 
-import com.gto.gtocore.api.data.GTOWorldGenLayers;
+import com.gto.gtocore.api.data.GTODimensions;
 import com.gto.gtocore.api.entity.IEnhancedPlayer;
-import com.gto.gtocore.common.network.KeyMessage;
+import com.gto.gtocore.client.ClientCache;
+import com.gto.gtocore.common.network.ServerMessage;
 import com.gto.gtocore.utils.ServerUtils;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EntityType;
@@ -33,9 +35,8 @@ public abstract class PlayerMixin extends LivingEntity implements IEnhancedPlaye
     @Final
     private Abilities abilities;
 
-    @Shadow
-    public abstract void tick();
-
+    @Unique
+    private boolean gTOCore$disableDrift;
     @Unique
     private boolean gTOCore$canFly;
     @Unique
@@ -62,9 +63,22 @@ public abstract class PlayerMixin extends LivingEntity implements IEnhancedPlaye
         return gTOCore$wardenState;
     }
 
+    @Override
+    public boolean gTOCore$isDisableDrift() {
+        return gTOCore$disableDrift;
+    }
+
+    @Override
+    public void gtocore$setDrift(boolean drift) {
+        if ((Object) this instanceof ServerPlayer player) {
+            gTOCore$disableDrift = drift;
+            ServerMessage.disableDrift(player, gTOCore$disableDrift);
+        }
+    }
+
     @Inject(method = "travel", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;setSharedFlag(IZ)V"))
     private void travel(Vec3 travelVector, CallbackInfo ci) {
-        if (xxa == 0 && zza == 0 && KeyMessage.disableDrift) {
+        if (xxa == 0 && zza == 0 && ClientCache.disableDrift) {
             setDeltaMovement(getDeltaMovement().multiply(0.5, 1, 0.5));
         }
     }
@@ -73,12 +87,14 @@ public abstract class PlayerMixin extends LivingEntity implements IEnhancedPlaye
     private void readAdditionalSaveData(CompoundTag compound, CallbackInfo ci) {
         gTOCore$spaceState = compound.getBoolean("spaceState");
         gTOCore$wardenState = compound.getBoolean("wardenState");
+        gTOCore$disableDrift = compound.getBoolean("disableDrift");
     }
 
     @Inject(method = "addAdditionalSaveData", at = @At("TAIL"))
     private void addAdditionalSaveData(CompoundTag compound, CallbackInfo ci) {
         compound.putBoolean("spaceState", gTOCore$spaceState);
         compound.putBoolean("wardenState", gTOCore$wardenState);
+        compound.putBoolean("disableDrift", gTOCore$disableDrift);
     }
 
     @Inject(method = "tick", at = @At("TAIL"))
@@ -91,12 +107,12 @@ public abstract class PlayerMixin extends LivingEntity implements IEnhancedPlaye
             String armorSlots = getArmorSlots().toString();
             gTOCore$wardenState = Objects.equals(armorSlots, "[1 warden_boots, 1 warden_leggings, 1 warden_chestplate, 1 warden_helmet]");
             boolean inf = Objects.equals(armorSlots, "[1 infinity_boots, 1 infinity_pants, 1 infinity_chestplate, 1 infinity_helmet]");
-            if (level.dimension().location().equals(GTOWorldGenLayers.CREATE)) {
+            if (level.dimension().location().equals(GTODimensions.CREATE)) {
                 if (!inf) {
                     gTOCore$discard(server);
                 }
                 ServerUtils.runCommandSilent(server, "execute at " + name + " run kill @e[distance=..100,name=!" + name + ",type=!item]");
-            } else if (level.dimension().location().equals(GTOWorldGenLayers.OTHERSIDE)) {
+            } else if (level.dimension().location().equals(GTODimensions.OTHERSIDE)) {
                 if (!(gTOCore$wardenState || inf)) {
                     gTOCore$discard(server);
                 }
@@ -119,7 +135,7 @@ public abstract class PlayerMixin extends LivingEntity implements IEnhancedPlaye
 
     @Unique
     private void gTOCore$discard(MinecraftServer server) {
-        ServerUtils.teleportToDimension(server, this, GTOWorldGenLayers.OVERWORLD, new Vec3(0, 100, 0));
+        ServerUtils.teleportToDimension(server, this, GTODimensions.OVERWORLD, new Vec3(0, 100, 0));
         kill();
     }
 }

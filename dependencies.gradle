@@ -59,7 +59,7 @@ dependencies {
 
     modImplementation("curse.maven:farmers-delight-398521:6154802")
 
-    modCompileOnly("curse.maven:curvy-pipes-1151126:6192998")
+    modImplementation("curse.maven:farmers-respite-551453:5543547")
 
     modCompileOnly("curse.maven:libx-412525:5207625")
     modCompileOnly("curse.maven:mythicbotany-400058:5101899")
@@ -82,7 +82,7 @@ dependencies {
 
     modRuntimeOnly("curse.maven:FerriteCore-429235:4810975")
 
-    modRuntimeOnly("curse.maven:embeddium-908741:5681725")
+    modImplementation("curse.maven:embeddium-908741:5681725")
 
     // modRuntimeOnly("curse.maven:modern-ui-352491:5977000")
 

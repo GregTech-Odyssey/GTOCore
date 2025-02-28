@@ -3,6 +3,7 @@ package com.gto.gtocore.data.recipe.classified;
 import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.common.data.GTOItems;
 import com.gto.gtocore.common.data.GTOMaterials;
+import com.gto.gtocore.common.recipe.condition.RestrictedMachineCondition;
 import com.gto.gtocore.utils.RegistriesUtils;
 
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
@@ -53,7 +54,8 @@ interface ArcFurnace {
                 .outputItems(TagPrefix.dust, GTOMaterials.Shirabon, 64)
                 .outputFluids(GTMaterials.Helium.getFluid(FluidStorageKeys.PLASMA, 1000))
                 .EUt(2013265920)
-                .duration(200)
+                .duration(800)
+                .addCondition(new RestrictedMachineCondition(GTOCore.id("magnetic_energy_reaction_furnace")))
                 .save(provider);
     }
 }

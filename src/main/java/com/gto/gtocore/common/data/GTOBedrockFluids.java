@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
-import static com.gto.gtocore.api.data.GTOWorldGenLayers.*;
+import static com.gto.gtocore.api.data.GTODimensions.*;
 
 @SuppressWarnings("unused")
 public interface GTOBedrockFluids {
@@ -40,7 +40,7 @@ public interface GTOBedrockFluids {
                     .depletionAmount(1)
                     .depletionChance(100)
                     .depletedYield(20)
-                    .dimensions(getDimensions(VOID)));
+                    .dimensions(getDimensionKeys(VOID)));
 
     BedrockFluidDefinition VOID_LIGHT_OIL = create(GTCEu.id("void_light_oil_deposit"),
             "虚空轻油矿藏",
@@ -51,7 +51,7 @@ public interface GTOBedrockFluids {
                     .depletionAmount(1)
                     .depletionChance(100)
                     .depletedYield(25)
-                    .dimensions(getDimensions(VOID)));
+                    .dimensions(getDimensionKeys(VOID)));
 
     BedrockFluidDefinition VOID_NATURAL_GAS = create(GTCEu.id("void_natural_gas_deposit"),
             "虚空天然气矿藏",
@@ -62,7 +62,7 @@ public interface GTOBedrockFluids {
                     .depletionAmount(1)
                     .depletionChance(100)
                     .depletedYield(20)
-                    .dimensions(getDimensions(VOID)));
+                    .dimensions(getDimensionKeys(VOID)));
 
     BedrockFluidDefinition VOID_OIL = create(GTCEu.id("void_oil_deposit"),
             "虚空石油矿藏",
@@ -73,7 +73,7 @@ public interface GTOBedrockFluids {
                     .depletionAmount(1)
                     .depletionChance(100)
                     .depletedYield(25)
-                    .dimensions(getDimensions(VOID)));
+                    .dimensions(getDimensionKeys(VOID)));
 
     BedrockFluidDefinition VOID_RAW_OIL = create(GTCEu.id("void_raw_oil_deposit"),
             "虚空原油矿藏",
@@ -84,7 +84,7 @@ public interface GTOBedrockFluids {
                     .depletionAmount(1)
                     .depletionChance(100)
                     .depletedYield(25)
-                    .dimensions(getDimensions(VOID)));
+                    .dimensions(getDimensionKeys(VOID)));
 
     BedrockFluidDefinition VOID_ALT_WATER = create(GTCEu.id("void_salt_water_deposit"),
             "虚空盐水矿藏",
@@ -95,7 +95,7 @@ public interface GTOBedrockFluids {
                     .depletionAmount(1)
                     .depletionChance(100)
                     .depletedYield(15)
-                    .dimensions(getDimensions(VOID)));
+                    .dimensions(getDimensionKeys(VOID)));
 
     BedrockFluidDefinition FLAT_HEAVY_OIL = create(GTCEu.id("flat_heavy_oil_deposit"),
             "超平坦重油矿藏",
@@ -106,7 +106,7 @@ public interface GTOBedrockFluids {
                     .depletionAmount(1)
                     .depletionChance(100)
                     .depletedYield(20)
-                    .dimensions(getDimensions(FLAT)));
+                    .dimensions(getDimensionKeys(FLAT)));
 
     BedrockFluidDefinition FLAT_LIGHT_OIL = create(GTCEu.id("flat_light_oil_deposit"),
             "超平坦轻油矿藏",
@@ -117,7 +117,7 @@ public interface GTOBedrockFluids {
                     .depletionAmount(1)
                     .depletionChance(100)
                     .depletedYield(25)
-                    .dimensions(getDimensions(FLAT)));
+                    .dimensions(getDimensionKeys(FLAT)));
 
     BedrockFluidDefinition FLAT_NATURAL_GAS = create(GTCEu.id("flat_natural_gas_deposit"),
             "超平坦天然气矿藏",
@@ -128,7 +128,7 @@ public interface GTOBedrockFluids {
                     .depletionAmount(1)
                     .depletionChance(100)
                     .depletedYield(20)
-                    .dimensions(getDimensions(FLAT)));
+                    .dimensions(getDimensionKeys(FLAT)));
 
     BedrockFluidDefinition FLAT_OIL = create(GTCEu.id("flat_oil_deposit"),
             "超平坦石油矿藏",
@@ -139,7 +139,7 @@ public interface GTOBedrockFluids {
                     .depletionAmount(1)
                     .depletionChance(100)
                     .depletedYield(25)
-                    .dimensions(getDimensions(FLAT)));
+                    .dimensions(getDimensionKeys(FLAT)));
 
     BedrockFluidDefinition FLAT_RAW_OIL = create(GTCEu.id("flat_raw_oil_deposit"),
             "超平坦原油矿藏",
@@ -150,7 +150,7 @@ public interface GTOBedrockFluids {
                     .depletionAmount(1)
                     .depletionChance(100)
                     .depletedYield(25)
-                    .dimensions(getDimensions(FLAT)));
+                    .dimensions(getDimensionKeys(FLAT)));
 
     BedrockFluidDefinition FLAT_ALT_WATER = create(GTCEu.id("flat_salt_water_deposit"),
             "超平坦盐水矿藏",
@@ -161,7 +161,7 @@ public interface GTOBedrockFluids {
                     .depletionAmount(1)
                     .depletionChance(100)
                     .depletedYield(15)
-                    .dimensions(getDimensions(FLAT)));
+                    .dimensions(getDimensionKeys(FLAT)));
 
     BedrockFluidDefinition HELIUM_3 = create(GTCEu.id("helium3_deposit"),
             "氦-3矿藏",
@@ -172,7 +172,7 @@ public interface GTOBedrockFluids {
                     .depletionAmount(1)
                     .depletionChance(100)
                     .depletedYield(40)
-                    .dimensions(getDimensions(MOON)));
+                    .dimensions(getDimensionKeys(MOON)));
 
     BedrockFluidDefinition HELIUM = create(GTCEu.id("helium_deposit"),
             "氦矿藏",
@@ -183,7 +183,7 @@ public interface GTOBedrockFluids {
                     .depletionAmount(1)
                     .depletionChance(100)
                     .depletedYield(40)
-                    .dimensions(getDimensions(MOON)));
+                    .dimensions(getDimensionKeys(MOON)));
 
     BedrockFluidDefinition SULFURIC_ACID = create(GTCEu.id("sulfuric_acid_deposit"),
             "硫酸矿藏",
@@ -194,7 +194,7 @@ public interface GTOBedrockFluids {
                     .depletionAmount(1)
                     .depletionChance(100)
                     .depletedYield(40)
-                    .dimensions(getDimensions(VENUS)));
+                    .dimensions(getDimensionKeys(VENUS)));
 
     BedrockFluidDefinition DEUTERIUM = create(GTCEu.id("deuterium_deposit"),
             "氘矿藏",
@@ -205,7 +205,7 @@ public interface GTOBedrockFluids {
                     .depletionAmount(1)
                     .depletionChance(100)
                     .depletedYield(40)
-                    .dimensions(getDimensions(MERCURY)));
+                    .dimensions(getDimensionKeys(MERCURY)));
 
     BedrockFluidDefinition RADON = create(GTCEu.id("radon_deposit"),
             "氡矿藏",
@@ -216,7 +216,7 @@ public interface GTOBedrockFluids {
                     .depletionAmount(1)
                     .depletionChance(100)
                     .depletedYield(40)
-                    .dimensions(getDimensions(MARS)));
+                    .dimensions(getDimensionKeys(MARS)));
 
     BedrockFluidDefinition CERES_RADON = create(GTCEu.id("ceres_radon_deposit"),
             "谷神星氡矿藏",
@@ -227,7 +227,7 @@ public interface GTOBedrockFluids {
                     .depletionAmount(1)
                     .depletionChance(100)
                     .depletedYield(40)
-                    .dimensions(getDimensions(CERES)));
+                    .dimensions(getDimensionKeys(CERES)));
 
     BedrockFluidDefinition METHANE = create(GTCEu.id("methane_deposit"),
             "甲烷矿藏",
@@ -238,7 +238,7 @@ public interface GTOBedrockFluids {
                     .depletionAmount(1)
                     .depletionChance(100)
                     .depletedYield(40)
-                    .dimensions(getDimensions(TITAN)));
+                    .dimensions(getDimensionKeys(TITAN)));
 
     BedrockFluidDefinition BENZENE = create(GTCEu.id("benzene_deposit"),
             "苯矿藏",
@@ -249,7 +249,7 @@ public interface GTOBedrockFluids {
                     .depletionAmount(1)
                     .depletionChance(100)
                     .depletedYield(40)
-                    .dimensions(getDimensions(TITAN)));
+                    .dimensions(getDimensionKeys(TITAN)));
 
     BedrockFluidDefinition CHARCOAL_BYPRODUCTS = create(GTCEu.id("charcoal_byproducts"),
             "木炭副产矿藏",
@@ -260,7 +260,7 @@ public interface GTOBedrockFluids {
                     .depletionAmount(1)
                     .depletionChance(100)
                     .depletedYield(40)
-                    .dimensions(getDimensions(TITAN)));
+                    .dimensions(getDimensionKeys(TITAN)));
 
     BedrockFluidDefinition COAL_GAS = create(GTCEu.id("coal_gas_deposit"),
             "煤气矿藏",
@@ -271,7 +271,7 @@ public interface GTOBedrockFluids {
                     .depletionAmount(1)
                     .depletionChance(100)
                     .depletedYield(40)
-                    .dimensions(getDimensions(IO)));
+                    .dimensions(getDimensionKeys(IO)));
 
     BedrockFluidDefinition NITRIC_ACID = create(GTCEu.id("nitric_acid_deposit"),
             "硝酸矿藏",
@@ -282,7 +282,7 @@ public interface GTOBedrockFluids {
                     .depletionAmount(1)
                     .depletionChance(100)
                     .depletedYield(40)
-                    .dimensions(getDimensions(PLUTO)));
+                    .dimensions(getDimensionKeys(PLUTO)));
 
     BedrockFluidDefinition HYDROCHLORIC_ACID = create(GTCEu.id("hydrochloric_acid_deposit"),
             "盐酸矿藏",
@@ -293,7 +293,7 @@ public interface GTOBedrockFluids {
                     .depletionAmount(1)
                     .depletionChance(100)
                     .depletedYield(40)
-                    .dimensions(getDimensions(GANYMEDE)));
+                    .dimensions(getDimensionKeys(GANYMEDE)));
 
     BedrockFluidDefinition CERES_XENON = create(GTCEu.id("ceres_xenon_deposit"),
             "氙矿藏",
@@ -304,7 +304,7 @@ public interface GTOBedrockFluids {
                     .depletionAmount(1)
                     .depletionChance(100)
                     .depletedYield(40)
-                    .dimensions(getDimensions(CERES)));
+                    .dimensions(getDimensionKeys(CERES)));
 
     BedrockFluidDefinition CERES_KRYPTON = create(GTCEu.id("ceres_krypton_deposit"),
             "氪矿藏",
@@ -315,7 +315,7 @@ public interface GTOBedrockFluids {
                     .depletionAmount(1)
                     .depletionChance(100)
                     .depletedYield(40)
-                    .dimensions(getDimensions(CERES)));
+                    .dimensions(getDimensionKeys(CERES)));
 
     BedrockFluidDefinition CERES_NEON = create(GTCEu.id("ceres_neon_deposit"),
             "氖矿藏",
@@ -326,7 +326,7 @@ public interface GTOBedrockFluids {
                     .depletionAmount(1)
                     .depletionChance(100)
                     .depletedYield(40)
-                    .dimensions(getDimensions(CERES)));
+                    .dimensions(getDimensionKeys(CERES)));
 
     BedrockFluidDefinition FLUORINE = create(GTCEu.id("fluorine_deposit"),
             "氟矿藏",
@@ -337,7 +337,7 @@ public interface GTOBedrockFluids {
                     .depletionAmount(1)
                     .depletionChance(100)
                     .depletedYield(40)
-                    .dimensions(getDimensions(ENCELADUS)));
+                    .dimensions(getDimensionKeys(ENCELADUS)));
 
     BedrockFluidDefinition CHLORINE = create(GTCEu.id("chlorine_deposit"),
             "氯矿藏",
@@ -348,7 +348,7 @@ public interface GTOBedrockFluids {
                     .depletionAmount(1)
                     .depletionChance(100)
                     .depletedYield(40)
-                    .dimensions(getDimensions(ENCELADUS)));
+                    .dimensions(getDimensionKeys(ENCELADUS)));
 
     BedrockFluidDefinition UNKNOWWATER = create(GTCEu.id("unknowwater_deposit"),
             "不明液体矿藏",
@@ -359,7 +359,7 @@ public interface GTOBedrockFluids {
                     .depletionAmount(1)
                     .depletionChance(100)
                     .depletedYield(40)
-                    .dimensions(getDimensions(BARNARDA_C)));
+                    .dimensions(getDimensionKeys(BARNARDA_C)));
 
     static void init() {}
 
@@ -382,7 +382,7 @@ public interface GTOBedrockFluids {
 
     static void addVoid(BedrockFluidDefinition definition) {
         ResourceKey<Level> dimension = definition.dimensionFilter.iterator().next();
-        if (dimension != getDimension(VOID) || dimension != getDimension(FLAT) || dimension != getDimension(CREATE)) {
+        if (dimension != getDimensionKey(VOID) || dimension != getDimensionKey(FLAT) || dimension != getDimensionKey(CREATE)) {
             List<FluidStack> fluidStacks = ALL_BEDROCK_FLUID.computeIfAbsent(dimension, k -> new ArrayList<>());
             fluidStacks.add(new FluidStack(definition.getStoredFluid().get(), definition.getMaximumYield() * definition.getWeight()));
             ALL_BEDROCK_FLUID.put(dimension, fluidStacks);

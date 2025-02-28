@@ -274,6 +274,9 @@ public interface GTOItems {
             .properties(p -> p.stacksTo(1).defaultDurability(100))
             .register();
 
+    ItemEntry<PlanetDataChipItem> PLANET_DATA_CHIP = item("planet_data_chip", "星球数据芯片", PlanetDataChipItem::new)
+            .register();
+
     ItemEntry<DimensionDataItem> DIMENSION_DATA = item("dimension_data", "维度数据", DimensionDataItem::new).register();
 
     ItemEntry<ComponentItem> OPTICAL_DATA_STICK = item("optical_data_stick", "光学闪存", ComponentItem::create)

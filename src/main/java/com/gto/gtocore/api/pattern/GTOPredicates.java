@@ -125,7 +125,7 @@ public interface GTOPredicates {
             if (block == GTOBlocks.FISSION_FUEL_COMPONENT.get()) {
                 integer[0]++;
                 integer[2] += GTOUtils.adjacentBlock(state.world, state.getPos(), GTOBlocks.FISSION_FUEL_COMPONENT.get());
-            } else if (block == GTOBlocks.FISSION_COOLER_COMPONENT.get()) {
+            } else if (block == GTOBlocks.FISSION_COOLER_COMPONENT.get() && GTOUtils.adjacentBlock(state.world, state.getPos(), GTOBlocks.FISSION_FUEL_COMPONENT.get()) > 1) {
                 integer[1]++;
                 integer[3] += GTOUtils.adjacentBlock(state.world, state.getPos(), GTOBlocks.FISSION_COOLER_COMPONENT.get());
             }

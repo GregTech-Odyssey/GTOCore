@@ -1,7 +1,7 @@
 package com.gto.gtocore.data.recipe.classified;
 
 import com.gto.gtocore.GTOCore;
-import com.gto.gtocore.api.data.GTOWorldGenLayers;
+import com.gto.gtocore.api.data.GTODimensions;
 import com.gto.gtocore.common.data.GTOItems;
 import com.gto.gtocore.common.data.GTORecipeTypes;
 
@@ -21,10 +21,10 @@ interface WorldDataScanner {
                 .inputItems(TagPrefix.dust, GTMaterials.Endstone, 64)
                 .inputFluids(GTMaterials.PCBCoolant.getFluid(400))
                 .inputFluids(GTMaterials.EnderAir.getFluid(64000))
-                .outputItems(GTOItems.DIMENSION_DATA.get().getDimensionData(GTOWorldGenLayers.THE_END))
+                .outputItems(GTOItems.DIMENSION_DATA.get().getDimensionData(GTODimensions.THE_END))
                 .EUt(2048)
                 .duration(4000)
-                .dimension(GTOWorldGenLayers.PLUTO)
+                .dimension(GTODimensions.PLUTO)
                 .save(provider);
 
         GTORecipeTypes.WORLD_DATA_SCANNER_RECIPES.recipeBuilder(GTOCore.id("nether_data"))
@@ -32,10 +32,10 @@ interface WorldDataScanner {
                 .inputItems(TagPrefix.dust, GTMaterials.Netherrack, 64)
                 .inputFluids(GTMaterials.PCBCoolant.getFluid(200))
                 .inputFluids(GTMaterials.NetherAir.getFluid(64000))
-                .outputItems(GTOItems.DIMENSION_DATA.get().getDimensionData(GTOWorldGenLayers.THE_NETHER))
+                .outputItems(GTOItems.DIMENSION_DATA.get().getDimensionData(GTODimensions.THE_NETHER))
                 .EUt(512)
                 .duration(4000)
-                .dimension(GTOWorldGenLayers.VENUS)
+                .dimension(GTODimensions.VENUS)
                 .save(provider);
 
         GTORecipeTypes.WORLD_DATA_SCANNER_RECIPES.recipeBuilder(GTOCore.id("overworld_data"))
@@ -43,10 +43,10 @@ interface WorldDataScanner {
                 .inputItems(TagPrefix.dust, GTMaterials.Stone, 64)
                 .inputFluids(GTMaterials.PCBCoolant.getFluid(100))
                 .inputFluids(GTMaterials.Air.getFluid(64000))
-                .outputItems(GTOItems.DIMENSION_DATA.get().getDimensionData(GTOWorldGenLayers.OVERWORLD))
+                .outputItems(GTOItems.DIMENSION_DATA.get().getDimensionData(GTODimensions.OVERWORLD))
                 .EUt(128)
                 .duration(4000)
-                .dimension(GTOWorldGenLayers.OVERWORLD)
+                .dimension(GTODimensions.OVERWORLD)
                 .save(provider);
     }
 }

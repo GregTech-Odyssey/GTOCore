@@ -1,7 +1,7 @@
 package com.gto.gtocore.data.recipe;
 
 import com.gto.gtocore.GTOCore;
-import com.gto.gtocore.api.data.GTOWorldGenLayers;
+import com.gto.gtocore.api.data.GTODimensions;
 import com.gto.gtocore.api.data.tag.GTOTagPrefix;
 import com.gto.gtocore.api.item.tool.GTOToolType;
 import com.gto.gtocore.common.data.GTOItems;
@@ -53,7 +53,7 @@ public interface MiscRecipe {
         }
 
         int i = 0;
-        for (ResourceLocation layer : GTOWorldGenLayers.ALL_LAYER_DIMENSION) {
+        for (ResourceLocation layer : GTODimensions.ALL_LAYER_DIMENSION) {
             i++;
             ItemStack stack = GTOItems.DIMENSION_DATA.get().getDimensionData(layer);
             int tier = DimensionDataItem.getDimensionMarker(stack).tier + 1;

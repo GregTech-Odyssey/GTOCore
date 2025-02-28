@@ -1,7 +1,7 @@
 package com.gto.gtocore.data.recipe.classified;
 
 import com.gto.gtocore.GTOCore;
-import com.gto.gtocore.api.data.GTOWorldGenLayers;
+import com.gto.gtocore.api.data.GTODimensions;
 import com.gto.gtocore.common.data.GTOItems;
 import com.gto.gtocore.common.data.machines.MultiBlockG;
 
@@ -16,7 +16,7 @@ interface Scanner {
 
     static void init(Consumer<FinishedRecipe> provider) {
         GTRecipeTypes.SCANNER_RECIPES.recipeBuilder(GTOCore.id("nether_reactor_core"))
-                .notConsumable(GTOItems.DIMENSION_DATA.get().getDimensionData(GTOWorldGenLayers.THE_NETHER))
+                .notConsumable(GTOItems.DIMENSION_DATA.get().getDimensionData(GTODimensions.THE_NETHER))
                 .inputItems(MultiBlockG.ANCIENT_REACTOR_CORE.asStack())
                 .inputFluids(GTMaterials.Wax.getFluid(2304))
                 .outputItems(MultiBlockG.NETHER_REACTOR_CORE.asStack())

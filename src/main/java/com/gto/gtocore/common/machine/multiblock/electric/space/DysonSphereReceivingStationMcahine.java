@@ -1,6 +1,6 @@
 package com.gto.gtocore.common.machine.multiblock.electric.space;
 
-import com.gto.gtocore.api.data.GTOWorldGenLayers;
+import com.gto.gtocore.api.data.GTODimensions;
 import com.gto.gtocore.api.machine.multiblock.ElectricMultiblockMachine;
 import com.gto.gtocore.api.machine.trait.CustomRecipeLogic;
 import com.gto.gtocore.api.recipe.GTORecipeBuilder;
@@ -74,7 +74,7 @@ public final class DysonSphereReceivingStationMcahine extends ElectricMultiblock
                 }
             }
             GTRecipe recipe = GTORecipeBuilder.ofRaw().duration(20)
-                    .CWUt(Math.max(1, pair.getFirst() * GTOWorldGenLayers.ALL_GALAXY_DIM.get(getDimension().location()) / 2))
+                    .CWUt(Math.max(1, pair.getFirst() * GTODimensions.ALL_GALAXY_DIM.get(getDimension().location()) / 2))
                     .EUt(-GTValues.V[GTValues.MAX] * pair.getFirst() * (50 - Math.max(0, pair.getSecond() - 60)) / 50)
                     .inputFluids(new FluidStack(GTOFluids.GELID_CRYOTHEUM.get(), Math.max(1, (int) Math.sqrt(pair.getFirst()))))
                     .buildRawRecipe();

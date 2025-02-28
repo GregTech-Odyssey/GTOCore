@@ -1,6 +1,6 @@
 package com.gto.gtocore.client;
 
-import com.gto.gtocore.common.network.KeyMessage;
+import com.gto.gtocore.common.network.ClientMessage;
 
 import net.minecraft.client.KeyMapping;
 
@@ -35,11 +35,7 @@ final class KeyBind {
         public void setDown(boolean isDown) {
             super.setDown(isDown);
             if (isDownOld != isDown && isDown) {
-                if (type == 3) {
-                    KeyMessage.drift();
-                } else {
-                    KeyMessage.PACKET_HANDLER.sendToServer(new KeyMessage(type, 0));
-                }
+                ClientMessage.sendData(String.valueOf(type), null);
             }
             isDownOld = isDown;
         }

@@ -27,6 +27,12 @@ public final class GTOValues {
     public static final String WIRELESS_ENERGY_DIMENSION = "d";
     public static final String WIRELESS_ENERGY_POS = "p";
 
+    // Planets Travel Data
+    public static final String PLAYER_LIST = "l";
+    public static final String PLAYER_UUID = "u";
+    public static final String PLANET_LIST = "p";
+    public static final String PLANET_NAME = "n";
+
     // Tier Type
     public static final String STELLAR_CONTAINMENT_TIER = "sc";
     public static final String POWER_MODULE_TIER = "pm";

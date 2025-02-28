@@ -27,21 +27,13 @@ import net.minecraftforge.fluids.FluidStack;
 
 import appeng.menu.me.items.PatternEncodingTermMenu;
 import com.lowdragmc.lowdraglib.gui.modular.ModularUIContainer;
-import cyb0124.curvy_pipes.compat.EMIPlugin;
 import de.mari_023.ae2wtlib.wet.WETMenu;
 import dev.emi.emi.api.EmiPlugin;
 import dev.emi.emi.api.EmiRegistry;
 import dev.emi.emi.api.stack.Comparison;
 import dev.emi.emi.api.stack.EmiStack;
-import dev.emi.emi.registry.EmiPluginContainer;
-
-import java.util.List;
 
 public final class GTEMIPlugin implements EmiPlugin {
-
-    public static void add(List<EmiPluginContainer> containers) {
-        if (GTCEu.isProd()) containers.add(new EmiPluginContainer(new EMIPlugin(), "curvy_pipes"));
-    }
 
     @Override
     public void register(EmiRegistry registry) {

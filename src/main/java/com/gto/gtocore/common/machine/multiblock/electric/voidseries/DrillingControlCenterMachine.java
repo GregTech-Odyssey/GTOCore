@@ -1,4 +1,4 @@
-package com.gto.gtocore.common.machine.multiblock.electric.viod;
+package com.gto.gtocore.common.machine.multiblock.electric.voidseries;
 
 import com.gto.gtocore.api.machine.multiblock.ElectricMultiblockMachine;
 import com.gto.gtocore.api.machine.trait.CustomRecipeLogic;

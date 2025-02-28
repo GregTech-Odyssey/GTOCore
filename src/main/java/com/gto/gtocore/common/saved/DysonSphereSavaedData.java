@@ -1,6 +1,6 @@
 package com.gto.gtocore.common.saved;
 
-import com.gto.gtocore.api.data.GTOWorldGenLayers;
+import com.gto.gtocore.api.data.GTODimensions;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -25,25 +25,25 @@ public final class DysonSphereSavaedData extends SavedData {
     private final Object2BooleanOpenHashMap<String> DysonUse;
 
     public static boolean getDimensionUse(ResourceKey<Level> dim) {
-        String galaxy = GTOWorldGenLayers.getGalaxy(dim.location());
+        String galaxy = GTODimensions.getGalaxy(dim.location());
         if (galaxy == null) return false;
         return INSTANCE.DysonUse.getOrDefault(galaxy, false);
     }
 
     public static Pair<Integer, Integer> getDimensionData(ResourceKey<Level> dim) {
-        String galaxy = GTOWorldGenLayers.getGalaxy(dim.location());
+        String galaxy = GTODimensions.getGalaxy(dim.location());
         if (galaxy == null) return Pair.of(0, 0);
         return Pair.of(INSTANCE.DysonLaunchData.getOrDefault(galaxy, 0), INSTANCE.DysonDamageData.getOrDefault(galaxy, 0));
     }
 
     public static int getDimensionLaunchData(ResourceKey<Level> dim) {
-        String galaxy = GTOWorldGenLayers.getGalaxy(dim.location());
+        String galaxy = GTODimensions.getGalaxy(dim.location());
         if (galaxy == null) return 0;
         return INSTANCE.DysonLaunchData.getOrDefault(galaxy, 0);
     }
 
     public static void setDysonData(ResourceKey<Level> dim, int a, int b) {
-        String galaxy = GTOWorldGenLayers.getGalaxy(dim.location());
+        String galaxy = GTODimensions.getGalaxy(dim.location());
         if (galaxy == null) return;
         INSTANCE.DysonLaunchData.put(galaxy, a);
         INSTANCE.DysonDamageData.put(galaxy, b);
@@ -51,7 +51,7 @@ public final class DysonSphereSavaedData extends SavedData {
     }
 
     public static void setDysonUse(ResourceKey<Level> dim, boolean a) {
-        String galaxy = GTOWorldGenLayers.getGalaxy(dim.location());
+        String galaxy = GTODimensions.getGalaxy(dim.location());
         if (galaxy == null) return;
         INSTANCE.DysonUse.put(galaxy, a);
         INSTANCE.setDirty();

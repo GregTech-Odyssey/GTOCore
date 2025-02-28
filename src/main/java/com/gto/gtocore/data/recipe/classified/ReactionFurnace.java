@@ -598,9 +598,9 @@ interface ReactionFurnace {
                 .save(provider);
 
         GTORecipeTypes.REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("zirconia_ceramic_dust"))
-                .inputItems(TagPrefix.dust, GTOMaterials.Zircon)
+                .inputItems(TagPrefix.dust, GTOMaterials.Zircon, 6)
                 .outputItems(TagPrefix.dust, GTOMaterials.ZirconiaCeramic)
-                .outputItems(TagPrefix.dust, GTMaterials.SiliconDioxide)
+                .outputItems(TagPrefix.dust, GTMaterials.SiliconDioxide, 3)
                 .EUt(960)
                 .duration(5)
                 .blastFurnaceTemp(2775)

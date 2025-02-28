@@ -86,6 +86,8 @@ public final class LangHandler {
         addENCN("gtocore.reach_limit", "Reach Limit", "达到极限");
         addENCN("gtocore.me_any", "ME hatch allows connection from any side.", "ME仓允许任意面连接");
         addENCN("gtocore.me_front", "ME hatch only allows connection from the front side.", "ME仓只允许正面连接");
+        addENCN("gtocore.unlocked", "Unlocked", "解锁的");
+        addENCN("gtocore.ununlocked", "Ununlocked", "未解锁");
 
         addENCN("config.gtocore.option.enableAnimalsAreAfraidToEatTheirMeat", "Enable Animals Are Afraid To Eat Their Meat", "启用动物害怕他们的肉被吃");
         addENCN("config.gtocore.option.enableAnimalsAreAfraidToEatTheirMeatRange", "Enable Animals Are Afraid To Eat Their Meat's Range", "启用动物害怕他们的肉被吃的范围");
@@ -135,6 +137,7 @@ public final class LangHandler {
         addENCN("gtocore.recipe.nano_forge_tier", "Nano Forge Tier: %s", "纳米锻炉等级：%s");
         addENCN("gtocore.recipe.radioactivity", "Radiation Dose: %s Sv", "辐射剂量：%s Sv");
         addENCN("gtocore.recipe.vacuum.tier", "Vacuum Tier: %s", "真空等级：%s");
+        addENCN("gtocore.recipe.restricted_machine", "Only runnable on: %s", "只能运行在：%s");
         addENCN("gtocore.registry.modify", "Modified by GregTech Odyssey", "由GregTech Odyssey修改");
         addENCN("gtocore.tier.advanced", "Advanced", "高级");
         addENCN("gtocore.tier.base", "Basic", "基础");
@@ -150,6 +153,7 @@ public final class LangHandler {
         addENCN("config.jade.plugin_gtocore.mana_container_provider", "[GTOCore] Mana Container", "[GTOCore] 魔力容器");
         addENCN("config.jade.plugin_gtocore.vacuum_tier_provider", "[GTOCore] Vacuum Tier", "[GTOCore] 真空等级");
         addENCN("config.jade.plugin_gtocore.temperature_provider", "[GTOCore] Machine Temperature", "[GTOCore] 机器温度");
+        addENCN("config.jade.plugin_gtocore.tick_time_provider", "[GTOCore] Tick Time", "[GTOCore] Tick时间");
 
         addENCN("fluid.gtocore.gelid_cryotheum", "Gelid Cryotheum", "极寒之凛冰");
 

@@ -1,6 +1,6 @@
-package com.gto.gtocore.common.machine.multiblock.electric.viod;
+package com.gto.gtocore.common.machine.multiblock.electric.voidseries;
 
-import com.gto.gtocore.api.data.GTOWorldGenLayers;
+import com.gto.gtocore.api.data.GTODimensions;
 import com.gto.gtocore.api.machine.multiblock.StorageMultiblockMachine;
 import com.gto.gtocore.common.data.GTOItems;
 import com.gto.gtocore.common.data.GTOOres;
@@ -39,7 +39,7 @@ public final class VoidMinerMachine extends StorageMultiblockMachine {
 
     @Override
     protected void onMachineChanged() {
-        materialIntegerMap = GTOOres.ALL_ORES.get(GTOWorldGenLayers.getDimension(DimensionDataItem.getDimension(getStorageStack())));
+        materialIntegerMap = GTOOres.ALL_ORES.get(GTODimensions.getDimensionKey(DimensionDataItem.getDimension(getStorageStack())));
     }
 
     @Override

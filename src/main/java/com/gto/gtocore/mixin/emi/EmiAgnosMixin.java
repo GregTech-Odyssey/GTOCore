@@ -29,7 +29,6 @@ public class EmiAgnosMixin {
         containers.add(new EmiPluginContainer(new EMIPlugin(), LDLib.MOD_ID));
         containers.add(new EmiPluginContainer(new GTEMIPlugin(), GTCEu.MOD_ID));
         containers.add(new EmiPluginContainer(new BotaniaEmiPlugin(), BotaniaAPI.MODID));
-        GTEMIPlugin.add(containers);
         cir.setReturnValue(containers);
     }
 }

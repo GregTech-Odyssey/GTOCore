@@ -1,6 +1,6 @@
-package com.gto.gtocore.common.machine.multiblock.electric.viod;
+package com.gto.gtocore.common.machine.multiblock.electric.voidseries;
 
-import com.gto.gtocore.api.data.GTOWorldGenLayers;
+import com.gto.gtocore.api.data.GTODimensions;
 import com.gto.gtocore.api.machine.multiblock.StorageMultiblockMachine;
 import com.gto.gtocore.common.data.GTOBedrockFluids;
 import com.gto.gtocore.common.data.GTOItems;
@@ -35,7 +35,7 @@ public final class VoidFluidDrillingRigMachine extends StorageMultiblockMachine 
 
     @Override
     protected void onMachineChanged() {
-        fluidStacks = GTOBedrockFluids.ALL_BEDROCK_FLUID.get(GTOWorldGenLayers.getDimension(DimensionDataItem.getDimension(getStorageStack())));
+        fluidStacks = GTOBedrockFluids.ALL_BEDROCK_FLUID.get(GTODimensions.getDimensionKey(DimensionDataItem.getDimension(getStorageStack())));
         c = MachineUtils.checkingCircuit(this, false);
     }
 

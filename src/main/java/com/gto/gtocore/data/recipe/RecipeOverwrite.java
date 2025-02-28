@@ -3,7 +3,10 @@ package com.gto.gtocore.data.recipe;
 import com.gto.gtocore.api.data.tag.GTOTagPrefix;
 import com.gto.gtocore.common.data.GTOMaterials;
 import com.gto.gtocore.common.recipe.condition.GravityCondition;
+import com.gto.gtocore.common.recipe.condition.RestrictedMachineCondition;
 import com.gto.gtocore.common.recipe.condition.VacuumCondition;
+
+import com.gregtechceu.gtceu.common.data.GTBlocks;
 
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.world.item.ItemStack;
@@ -180,6 +183,12 @@ public interface RecipeOverwrite {
                 .outputItems(dust, DarkAsh, 2).duration(5400).save(provider);
         PRIMITIVE_BLAST_FURNACE_RECIPES.recipeBuilder("steel_from_coke_block_wrought").inputItems(block, WroughtIron)
                 .inputItems(block, Coke).outputItems(ingot, Steel, 9).outputItems(dust, Ash).duration(4050).save(provider);
+
+        ARC_FURNACE_RECIPES.recipeBuilder("tempered_glass").duration(60).EUt(VA[LV])
+                .inputItems(block, Glass)
+                .outputItems(GTBlocks.CASING_TEMPERED_GLASS.asStack())
+                .addCondition(RestrictedMachineCondition.multiblock())
+                .save(provider);
 
         // 修复冲突
         CHEMICAL_RECIPES.recipeBuilder("hypochlorous_acid_mercury")

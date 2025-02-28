@@ -334,7 +334,7 @@ public interface GTOBlocks {
     BlockEntry<Block> EXTREME_DENSITY_CASING = createCasingBlock("extreme_density_casing", "极密机械方块", GTOCore.id("block/extreme_density_casing"));
     BlockEntry<Block> FLOCCULATION_CASING = createCasingBlock("flocculation_casing", "光滑无菌絮凝机械方块", GTOCore.id("block/flocculation_casing"));
     BlockEntry<Block> GRAVITY_STABILIZATION_CASING = createCasingBlock("gravity_stabilization_casing", "重力稳定机械方块", GTOCore.id("block/gravity_stabilization_casing"));
-    BlockEntry<Block> HIGH_PRESSURE_RESISTANT_CASING = createCasingBlock("high_pressure_resistant_casing", "高能耐耐机械方块", GTOCore.id("block/high_pressure_resistant_casing"));
+    BlockEntry<Block> HIGH_PRESSURE_RESISTANT_CASING = createCasingBlock("high_pressure_resistant_casing", "高能耐压机械方块", GTOCore.id("block/high_pressure_resistant_casing"));
     BlockEntry<Block> LASER_CASING = createCasingBlock("laser_casing", "激光机械方块", GTOCore.id("block/laser_casing"));
     BlockEntry<Block> AMPROSIUM_CASING = createCasingBlock("amprosium_casing", "安普洛机械方块", GTOCore.id("block/neutronium_casing"));
     BlockEntry<Block> OZONE_CASING = createCasingBlock("ozone_casing", "臭氧机械方块", GTOCore.id("block/ozone_casing"));

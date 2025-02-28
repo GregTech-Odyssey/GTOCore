@@ -1,75 +1,37 @@
 package com.gto.gtocore.common.network;
 
-import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.api.entity.IEnhancedPlayer;
-import com.gto.gtocore.client.ClientUtil;
 
 import com.gregtechceu.gtceu.api.item.IGTTool;
 
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.network.NetworkEvent;
-import net.minecraftforge.network.NetworkRegistry;
-import net.minecraftforge.network.simple.SimpleChannel;
 
-import java.util.function.Supplier;
+interface KeyMessage {
 
-public final class KeyMessage {
-
-    public static boolean disableDrift;
-
-    public static final SimpleChannel PACKET_HANDLER = NetworkRegistry.newSimpleChannel(new ResourceLocation(GTOCore.MOD_ID, GTOCore.MOD_ID), () -> "123", "123"::equals, "123"::equals);
-    public static int messageID;
-
-    private final int type;
-    private final int pressedMillis;
-
-    public KeyMessage(int type, int pressedMillis) {
-        this.type = type;
-        this.pressedMillis = pressedMillis;
-    }
-
-    public KeyMessage(FriendlyByteBuf buffer) {
-        this(buffer.readInt(), buffer.readInt());
-    }
-
-    public static void buffer(KeyMessage message, FriendlyByteBuf buffer) {
-        buffer.writeInt(message.type);
-        buffer.writeInt(message.pressedMillis);
-    }
-
-    public static void handler(KeyMessage message, Supplier<NetworkEvent.Context> contextSupplier) {
-        NetworkEvent.Context context = contextSupplier.get();
-        context.enqueueWork(() -> {
-            Player sender = context.getSender();
-            if (sender != null) {
-                pressAction(sender, message.type);
-            }
-        });
-        context.setPacketHandled(true);
-    }
-
-    private static void pressAction(Player player, int type) {
+    static void pressAction(ServerPlayer player, String type) {
         Level level = player.level();
         if (!level.hasChunkAt(player.blockPosition())) {
             return;
         }
         switch (type) {
-            case 0:
+            case "0":
                 handleFlightSpeed(player);
                 break;
-            case 1:
+            case "1":
                 toggleNightVision(player);
                 break;
-            case 2:
+            case "2":
                 upgradeToolSpeed(player);
+                break;
+            case "3":
+                drift(player);
                 break;
         }
     }
@@ -142,12 +104,15 @@ public final class KeyMessage {
         }
     }
 
-    public static void drift() {
-        disableDrift = !disableDrift;
-        if (disableDrift) {
-            ClientUtil.getPlayer().displayClientMessage(Component.translatable("key.gtocore.drift").append(": ").append(Component.translatable("gtocore.machine.off")), true);
-        } else {
-            ClientUtil.getPlayer().displayClientMessage(Component.translatable("key.gtocore.drift").append(": ").append(Component.translatable("gtocore.machine.on")), true);
+    private static void drift(ServerPlayer player) {
+        if (player instanceof IEnhancedPlayer enhancedPlayer) {
+            boolean disableDrift = !enhancedPlayer.gTOCore$isDisableDrift();
+            enhancedPlayer.gtocore$setDrift(disableDrift);
+            if (disableDrift) {
+                player.displayClientMessage(Component.translatable("key.gtocore.drift").append(": ").append(Component.translatable("gtocore.machine.off")), true);
+            } else {
+                player.displayClientMessage(Component.translatable("key.gtocore.drift").append(": ").append(Component.translatable("gtocore.machine.on")), true);
+            }
         }
     }
 }

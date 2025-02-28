@@ -37,8 +37,6 @@ public final class VacuumCondition extends RecipeCondition {
                     .and(Codec.INT.fieldOf("vacuum").forGetter(val -> val.tier))
                     .apply(instance, VacuumCondition::new));
 
-    public final static VacuumCondition INSTANCE = new VacuumCondition();
-
     private int tier;
 
     public VacuumCondition(int tier) {
