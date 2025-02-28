@@ -1,6 +1,5 @@
 package com.gto.gtocore.common.network;
 
-import com.gto.gtocore.api.entity.IEnhancedPlayer;
 import com.gto.gtocore.common.saved.PlanetsTravelSavaedData;
 
 import net.minecraft.nbt.CompoundTag;
@@ -17,12 +16,6 @@ public interface ClientMessage {
         new SendDataFromClientMessage(channel, data).sendToServer();
     }
 
-    static void disableDrift(boolean drift) {
-        CompoundTag data = new CompoundTag();
-        data.putBoolean("disableDrift", drift);
-        sendData("disableDrift", data);
-    }
-
     static void checkPlanetIsUnlocked(ResourceLocation planet) {
         if (PlanetsTravelSavaedData.isClientUnlocked(planet)) return;
         CompoundTag data = new CompoundTag();
@@ -32,12 +25,6 @@ public interface ClientMessage {
 
     static void handle(String channel, @NotNull ServerPlayer serverPlayer, CompoundTag data) {
         switch (channel) {
-            case "disableDrift": {
-                if (serverPlayer instanceof IEnhancedPlayer player) {
-                    player.gtocore$setDrift(data.getBoolean("disableDrift"));
-                }
-                break;
-            }
             case "planetIsUnlocked": {
                 ResourceLocation planet = new ResourceLocation(data.getString("planet"));
                 PlanetsTravelSavaedData.checkIsUnlocked(serverPlayer, planet);

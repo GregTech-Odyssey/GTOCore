@@ -1,12 +1,14 @@
 package com.gto.gtocore.common.forge;
 
 import com.gto.gtocore.api.data.GTODimensions;
+import com.gto.gtocore.api.entity.IEnhancedPlayer;
 import com.gto.gtocore.api.machine.feature.IVacuumMachine;
 import com.gto.gtocore.common.data.GTOBlocks;
 import com.gto.gtocore.common.data.GTOCommands;
 import com.gto.gtocore.common.data.GTOItems;
 import com.gto.gtocore.common.item.ItemMap;
-import com.gto.gtocore.common.machine.multiblock.electric.viod.VoidTransporterMachine;
+import com.gto.gtocore.common.machine.multiblock.electric.voidseries.VoidTransporterMachine;
+import com.gto.gtocore.common.network.ServerMessage;
 import com.gto.gtocore.common.saved.DysonSphereSavaedData;
 import com.gto.gtocore.common.saved.ExtendWirelessEnergySavaedData;
 import com.gto.gtocore.common.saved.InfinityCellSavaedData;
@@ -25,6 +27,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.animal.*;
 import net.minecraft.world.entity.item.FallingBlockEntity;
@@ -236,7 +239,13 @@ public final class ForgeCommonEvent {
 
     @SubscribeEvent
     public static void onPlayerLoggedInEvent(PlayerEvent.PlayerLoggedInEvent event) {
-        event.getEntity().displayClientMessage(Component.translatable("gtocore.dev"), false);
+        if (event.getEntity() instanceof ServerPlayer player) {
+            player.displayClientMessage(Component.translatable("gtocore.dev"), false);
+            if (player instanceof IEnhancedPlayer enhancedPlayer) {
+                ServerMessage.sendData(player.getServer(), player, "clearCache", null);
+                enhancedPlayer.gtocore$setDrift(enhancedPlayer.gTOCore$isDisableDrift());
+            }
+        }
     }
 
     @SubscribeEvent

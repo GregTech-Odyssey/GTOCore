@@ -1,26 +1,21 @@
 package com.gto.gtocore.common.network;
 
 import com.gto.gtocore.api.entity.IEnhancedPlayer;
-import com.gto.gtocore.client.ClientCache;
-import com.gto.gtocore.client.ClientUtil;
 
 import com.gregtechceu.gtceu.api.item.IGTTool;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
-public final class KeyMessage {
+interface KeyMessage {
 
-    public static void handler(String type) {
-        ClientMessage.sendData(type, null);
-    }
-
-    static void pressAction(Player player, String type) {
+    static void pressAction(ServerPlayer player, String type) {
         Level level = player.level();
         if (!level.hasChunkAt(player.blockPosition())) {
             return;
@@ -36,7 +31,7 @@ public final class KeyMessage {
                 upgradeToolSpeed(player);
                 break;
             case "3":
-                drift();
+                drift(player);
                 break;
         }
     }
@@ -109,13 +104,15 @@ public final class KeyMessage {
         }
     }
 
-    private static void drift() {
-        boolean disableDrift = !ClientCache.disableDrift;
-        ClientMessage.disableDrift(disableDrift);
-        if (disableDrift) {
-            ClientUtil.getPlayer().displayClientMessage(Component.translatable("key.gtocore.drift").append(": ").append(Component.translatable("gtocore.machine.off")), true);
-        } else {
-            ClientUtil.getPlayer().displayClientMessage(Component.translatable("key.gtocore.drift").append(": ").append(Component.translatable("gtocore.machine.on")), true);
+    private static void drift(ServerPlayer player) {
+        if (player instanceof IEnhancedPlayer enhancedPlayer) {
+            boolean disableDrift = !enhancedPlayer.gTOCore$isDisableDrift();
+            enhancedPlayer.gtocore$setDrift(disableDrift);
+            if (disableDrift) {
+                player.displayClientMessage(Component.translatable("key.gtocore.drift").append(": ").append(Component.translatable("gtocore.machine.off")), true);
+            } else {
+                player.displayClientMessage(Component.translatable("key.gtocore.drift").append(": ").append(Component.translatable("gtocore.machine.on")), true);
+            }
         }
     }
 }

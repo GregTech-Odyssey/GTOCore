@@ -2,8 +2,8 @@ package com.gto.gtocore.common.machine.trait;
 
 import com.gto.gtocore.api.machine.trait.IFluidDrillLogic;
 import com.gto.gtocore.api.recipe.GTORecipeBuilder;
-import com.gto.gtocore.common.machine.multiblock.electric.viod.DrillingControlCenterMachine;
-import com.gto.gtocore.common.machine.multiblock.electric.viod.INFFluidDrillMachine;
+import com.gto.gtocore.common.machine.multiblock.electric.voidseries.DrillingControlCenterMachine;
+import com.gto.gtocore.common.machine.multiblock.electric.voidseries.INFFluidDrillMachine;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;

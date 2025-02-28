@@ -13,6 +13,8 @@ public interface IEnhancedPlayer {
 
     boolean gTOCore$isWardenState();
 
+    boolean gTOCore$isDisableDrift();
+
     void gtocore$setDrift(boolean drift);
 
     static boolean spaceTick(ServerLevel level, LivingEntity entity) {

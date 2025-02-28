@@ -1,4 +1,4 @@
-package com.gto.gtocore.common.machine.multiblock.electric.viod;
+package com.gto.gtocore.common.machine.multiblock.electric.voidseries;
 
 import com.gto.gtocore.api.data.GTODimensions;
 import com.gto.gtocore.api.machine.feature.multiblock.ICheckPatternMachine;
@@ -10,6 +10,7 @@ import com.gto.gtocore.utils.register.BlockRegisterUtils;
 
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
+import com.gregtechceu.gtceu.api.machine.trait.NotifiableEnergyContainer;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 
@@ -23,23 +24,22 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 
+import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Objects;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
 public class VoidTransporterMachine extends ElectricMultiblockMachine {
 
-    private final int id;
-    private final int eu;
-
-    private boolean check = true;
-
-    private final BiConsumer<VoidTransporterMachine, Player> consumer;
+    private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
+            VoidTransporterMachine.class, ElectricMultiblockMachine.MANAGED_FIELD_HOLDER);
 
     public static boolean checkTransporter(BlockPos pos, Level level, int id) {
-        return MetaMachine.getMachine(level, pos) instanceof VoidTransporterMachine machine && machine.getRecipeLogic().isWorking() && machine.id == id;
+        return MetaMachine.getMachine(level, pos) instanceof VoidTransporterMachine machine && machine.id == id && machine.check();
     }
 
     public static Function<IMachineBlockEntity, VoidTransporterMachine> create(int id, int eu, @Nullable BiConsumer<VoidTransporterMachine, Player> consumer) {
@@ -48,13 +48,6 @@ public class VoidTransporterMachine extends ElectricMultiblockMachine {
 
     public static Function<IMachineBlockEntity, VoidTransporterMachine> create(int id, int eu) {
         return create(id, eu, null);
-    }
-
-    private VoidTransporterMachine(IMachineBlockEntity holder, int id, int eu, @Nullable BiConsumer<VoidTransporterMachine, Player> consumer) {
-        super(holder);
-        this.id = id;
-        this.eu = eu;
-        this.consumer = consumer;
     }
 
     public static BiConsumer<VoidTransporterMachine, Player> teleportToDimension(ResourceLocation dim, BlockPos pos) {
@@ -75,20 +68,65 @@ public class VoidTransporterMachine extends ElectricMultiblockMachine {
         };
     }
 
+    private final int id;
+    private final int eu;
+
+    private boolean check = true;
+
+    @Persisted
+    protected final NotifiableEnergyContainer energyContainer;
+
+    private final BiConsumer<VoidTransporterMachine, Player> consumer;
+
+    private VoidTransporterMachine(IMachineBlockEntity holder, int id, int eu, @Nullable BiConsumer<VoidTransporterMachine, Player> consumer) {
+        super(holder);
+        this.id = id;
+        this.eu = eu;
+        this.consumer = consumer;
+        this.energyContainer = createEnergyContainer();
+    }
+
+    private NotifiableEnergyContainer createEnergyContainer() {
+        var container = eu == 0 ? new NotifiableEnergyContainer(this, 0, 0, 0, 0, 0) : new NotifiableEnergyContainer(this, 409600, 2048, 2, 409600, 1);
+        container.setCapabilityValidator(Objects::isNull);
+        return container;
+    }
+
+    private boolean check() {
+        return energyContainer.getEnergyStored() >= 409600 && energyContainer.removeEnergy(409600) == 409600;
+    }
+
+    @Override
+    public boolean onWorking() {
+        if (super.onWorking()) {
+            if (energyContainer.getEnergyStored() >= 409600) return false;
+            energyContainer.addEnergy(getOverclockVoltage());
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public void onStructureInvalid() {
+        super.onStructureInvalid();
+        energyContainer.resetBasicInfo(0, 0, 0, 0, 0);
+        energyContainer.setEnergyStored(0);
+    }
+
     @Override
     public boolean shouldOpenUI(Player player, InteractionHand hand, BlockHitResult hit) {
         if (!isFormed() && this instanceof ICheckPatternMachine checkPatternMachine) {
             checkPatternMachine.gTOCore$setTime(0);
             check = true;
         }
-        if (consumer != null && isFormed() && (eu == 0 || getRecipeLogic().isWorking())) consumer.accept(this, player);
+        if (consumer != null && isFormed() && (eu == 0 || check())) consumer.accept(this, player);
         return false;
     }
 
     @Nullable
     private GTRecipe getRecipe() {
-        if (hasProxies() && eu > 0) {
-            GTRecipe recipe = GTORecipeBuilder.ofRaw().EUt(eu).duration(200).buildRawRecipe();
+        if (hasProxies() && eu < getOverclockVoltage() && energyContainer.getEnergyStored() < 409600) {
+            GTRecipe recipe = GTORecipeBuilder.ofRaw().EUt(getOverclockVoltage()).duration(200).buildRawRecipe();
             if (recipe.matchTickRecipe(this).isSuccess()) return recipe;
         }
         return null;
@@ -96,7 +134,7 @@ public class VoidTransporterMachine extends ElectricMultiblockMachine {
 
     @Override
     protected @NotNull RecipeLogic createRecipeLogic(Object @NotNull... args) {
-        return new CustomRecipeLogic(this, this::getRecipe, true);
+        return new CustomRecipeLogic(this, this::getRecipe);
     }
 
     @Override
@@ -107,5 +145,10 @@ public class VoidTransporterMachine extends ElectricMultiblockMachine {
             check = false;
         }
         return false;
+    }
+
+    @Override
+    public @NotNull ManagedFieldHolder getFieldHolder() {
+        return MANAGED_FIELD_HOLDER;
     }
 }

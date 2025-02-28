@@ -11,8 +11,8 @@ import com.gto.gtocore.common.machine.multiblock.electric.bioengineering.Biochem
 import com.gto.gtocore.common.machine.multiblock.electric.bioengineering.BiologicalExtractionMachine;
 import com.gto.gtocore.common.machine.multiblock.electric.nano.NanitesIntegratedMachine;
 import com.gto.gtocore.common.machine.multiblock.electric.nano.NanitesModuleMachine;
-import com.gto.gtocore.common.machine.multiblock.electric.viod.AdvancedInfiniteDrillMachine;
-import com.gto.gtocore.common.machine.multiblock.electric.viod.PlanetCoreDrillingMachine;
+import com.gto.gtocore.common.machine.multiblock.electric.voidseries.AdvancedInfiniteDrillMachine;
+import com.gto.gtocore.common.machine.multiblock.electric.voidseries.PlanetCoreDrillingMachine;
 import com.gto.gtocore.common.machine.multiblock.noenergy.NeutronVortexMachine;
 import com.gto.gtocore.common.machine.multiblock.noenergy.PrimitiveDistillationTowerMachine;
 import com.gto.gtocore.common.machine.multiblock.noenergy.ThermalPowerPumpMachine;

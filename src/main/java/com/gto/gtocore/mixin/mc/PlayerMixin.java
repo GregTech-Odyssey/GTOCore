@@ -64,6 +64,11 @@ public abstract class PlayerMixin extends LivingEntity implements IEnhancedPlaye
     }
 
     @Override
+    public boolean gTOCore$isDisableDrift() {
+        return gTOCore$disableDrift;
+    }
+
+    @Override
     public void gtocore$setDrift(boolean drift) {
         if ((Object) this instanceof ServerPlayer player) {
             gTOCore$disableDrift = drift;

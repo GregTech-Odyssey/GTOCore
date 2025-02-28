@@ -44,6 +44,10 @@ public interface ServerMessage {
             }
             case "disableDrift": {
                 ClientCache.disableDrift = data.getBoolean("disableDrift");
+                break;
+            }
+            case "clearCache": {
+                ClientCache.UNLOCKED_PLANET.clear();
             }
         }
     }

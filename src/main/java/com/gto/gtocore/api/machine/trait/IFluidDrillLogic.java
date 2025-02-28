@@ -1,7 +1,7 @@
 package com.gto.gtocore.api.machine.trait;
 
 import com.gto.gtocore.api.machine.INetMachineInteractor;
-import com.gto.gtocore.common.machine.multiblock.electric.viod.DrillingControlCenterMachine;
+import com.gto.gtocore.common.machine.multiblock.electric.voidseries.DrillingControlCenterMachine;
 import com.gto.gtocore.utils.GTOUtils;
 
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
