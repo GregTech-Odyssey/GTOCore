@@ -8,6 +8,9 @@ import net.minecraftforge.items.IItemHandlerModifiable;
 import com.lowdragmc.lowdraglib.gui.editor.ColorPattern;
 import dev.emi.emi.api.EmiApi;
 import dev.emi.emi.api.stack.EmiIngredient;
+import dev.emi.emi.config.EmiConfig;
+import dev.emi.emi.runtime.EmiFavorites;
+import dev.emi.emi.screen.EmiScreenManager;
 
 import java.util.List;
 
@@ -46,5 +49,20 @@ public final class PatternSlotWidget extends SlotWidget {
             }
         }
         return value;
+    }
+
+    @Override
+    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+        if (!isMouseOverElement(EmiScreenManager.lastMouseX, EmiScreenManager.lastMouseY)) {
+            return false;
+        }
+        if (EmiConfig.favorite.matchesKey(keyCode, scanCode)) {
+            EmiFavorites.addFavorite(ingredient);
+        } else if (EmiConfig.viewUses.matchesKey(keyCode, scanCode)) {
+            EmiApi.displayUses(ingredient);
+        } else if (EmiConfig.viewRecipes.matchesKey(keyCode, scanCode)) {
+            EmiApi.displayRecipes(ingredient);
+        }
+        return false;
     }
 }
