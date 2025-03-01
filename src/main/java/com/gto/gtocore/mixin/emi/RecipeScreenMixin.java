@@ -2,6 +2,9 @@ package com.gto.gtocore.mixin.emi;
 
 import com.gto.gtocore.integration.emi.multipage.CustomModularEmiRecipe;
 
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.network.chat.Component;
+
 import dev.emi.emi.api.EmiApi;
 import dev.emi.emi.api.widget.Bounds;
 import dev.emi.emi.api.widget.Widget;
@@ -9,18 +12,20 @@ import dev.emi.emi.config.EmiConfig;
 import dev.emi.emi.config.SidebarSide;
 import dev.emi.emi.screen.RecipeScreen;
 import dev.emi.emi.screen.RecipeTab;
+import dev.emi.emi.screen.WidgetGroup;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
-import org.spongepowered.asm.mixin.injection.Redirect;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.List;
 
 @Mixin(RecipeScreen.class)
-public abstract class RecipeScreenMixin {
+public abstract class RecipeScreenMixin extends Screen {
 
     @Shadow(remap = false)
     int x;
@@ -30,6 +35,10 @@ public abstract class RecipeScreenMixin {
 
     @Shadow(remap = false)
     int backgroundWidth;
+
+    protected RecipeScreenMixin(Component title) {
+        super(title);
+    }
 
     @Shadow(remap = false)
     public abstract int getResolveOffset();
@@ -42,6 +51,12 @@ public abstract class RecipeScreenMixin {
 
     @Shadow(remap = false)
     private int tab;
+
+    @Shadow(remap = false)
+    public abstract void onClose();
+
+    @Shadow(remap = false)
+    private List<WidgetGroup> currentPage;
 
     @ModifyArg(method = "render", at = @At(value = "INVOKE", target = "Ldev/emi/emi/EmiRenderHelper;drawNinePatch(Ldev/emi/emi/runtime/EmiDrawContext;Lnet/minecraft/resources/ResourceLocation;IIIIIIII)V", ordinal = 4, remap = false), index = 2)
     private int modifyx(int x) {
@@ -58,12 +73,17 @@ public abstract class RecipeScreenMixin {
         return 10 + Math.min(gTOCore$getWorkstationAmount(), gTOCore$maxWorkstations()) * 18 + getResolveOffset();
     }
 
-    @Redirect(method = "keyPressed", at = @At(value = "INVOKE", target = "Ldev/emi/emi/api/widget/Widget;keyPressed(III)Z", remap = false))
-    public boolean keyPressedHook(Widget instance, int keyCode, int scanCode, int modifiers) {
-        if (instance instanceof CustomModularEmiRecipe widget) {
-            return widget.keyPressed(keyCode, scanCode, modifiers);
+    @Inject(method = "keyPressed", at = @At(value = "HEAD"), cancellable = true)
+    private void initKeyPressed(int keyCode, int scanCode, int modifiers, CallbackInfoReturnable<Boolean> cir) {
+        for (var widgetGroup : currentPage) {
+            for (Widget widget : widgetGroup.widgets) {
+                if (widget instanceof CustomModularEmiRecipe wrapperWidget) {
+                    if (wrapperWidget.keyPressed(keyCode, scanCode, modifiers)) {
+                        cir.setReturnValue(true);
+                    }
+                }
+            }
         }
-        return instance.keyPressed(keyCode, scanCode, modifiers);
     }
 
     /**

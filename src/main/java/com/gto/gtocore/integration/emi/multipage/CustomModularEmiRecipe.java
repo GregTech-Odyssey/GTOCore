@@ -1,10 +1,11 @@
 package com.gto.gtocore.integration.emi.multipage;
 
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+
 import com.lowdragmc.lowdraglib.emi.ModularWrapperWidget;
 import com.lowdragmc.lowdraglib.jei.ModularWrapper;
 import dev.emi.emi.api.widget.Widget;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
 import java.util.List;
 

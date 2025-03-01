@@ -10,11 +10,14 @@ import com.gregtechceu.gtceu.common.data.machines.GTMultiMachines;
 
 import net.minecraft.network.chat.Component;
 
+import com.google.common.collect.ImmutableSet;
 import dev.emi.emi.api.EmiRegistry;
 import dev.emi.emi.api.recipe.EmiRecipeCategory;
 import dev.emi.emi.api.stack.EmiStack;
 
 public final class MultiblockInfoEmiCategory extends EmiRecipeCategory {
+
+    private static ImmutableSet<MultiblockInfoEmiRecipe> CACHE;
 
     public static final MultiblockInfoEmiCategory CATEGORY = new MultiblockInfoEmiCategory();
 
@@ -24,12 +27,18 @@ public final class MultiblockInfoEmiCategory extends EmiRecipeCategory {
 
     public static void registerDisplays(EmiRegistry registry) {
         if (GTOConfig.INSTANCE.disableMultiBlockPage) return;
-        for (MachineDefinition machine : GTRegistries.MACHINES.values()) {
-            if (machine instanceof MultiblockMachineDefinition definition && definition.isRenderXEIPreview()) {
-                registry.addRecipe(new MultiblockInfoEmiRecipe(definition));
-                if (GTOConfig.INSTANCE.fastMultiBlockPage) continue;
-                registry.addWorkstation(CATEGORY, EmiStack.of(definition.asStack()));
+        if (CACHE == null) {
+            ImmutableSet.Builder<MultiblockInfoEmiRecipe> cacheb = ImmutableSet.builder();
+            for (MachineDefinition machine : GTRegistries.MACHINES.values()) {
+                if (machine instanceof MultiblockMachineDefinition definition && definition.isRenderXEIPreview()) {
+                    MultiblockInfoEmiRecipe recipe = new MultiblockInfoEmiRecipe(definition);
+                    cacheb.add(recipe);
+                    registry.addRecipe(recipe);
+                }
             }
+            CACHE = cacheb.build();
+        } else {
+            CACHE.forEach(registry::addRecipe);
         }
     }
 

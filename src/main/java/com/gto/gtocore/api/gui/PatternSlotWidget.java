@@ -63,6 +63,6 @@ public final class PatternSlotWidget extends SlotWidget {
         } else if (EmiConfig.viewRecipes.matchesKey(keyCode, scanCode)) {
             EmiApi.displayRecipes(ingredient);
         }
-        return false;
+        return true;
     }
 }

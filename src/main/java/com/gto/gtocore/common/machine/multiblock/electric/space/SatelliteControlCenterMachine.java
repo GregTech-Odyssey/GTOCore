@@ -10,6 +10,7 @@ import com.gto.gtocore.utils.GTOUtils;
 import com.gto.gtocore.utils.MachineUtils;
 import com.gto.gtocore.utils.RegistriesUtils;
 
+import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
@@ -49,14 +50,14 @@ public final class SatelliteControlCenterMachine extends ElectricMultiblockMachi
     private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
             SatelliteControlCenterMachine.class, ElectricMultiblockMachine.MANAGED_FIELD_HOLDER);
 
-    private static final Map<Item, Integer> ROCKET = Map.of(
+    private static final Map<Item, Integer> ROCKET = GTCEu.isProd() ? Map.of(
             ModItems.TIER_1_ROCKET.get(), 1,
             ModItems.TIER_2_ROCKET.get(), 2,
             ModItems.TIER_3_ROCKET.get(), 3,
             ModItems.TIER_4_ROCKET.get(), 4,
             RegistriesUtils.getItem("ad_astra_rocketed:tier_5_rocket"), 5,
             RegistriesUtils.getItem("ad_astra_rocketed:tier_6_rocket"), 6,
-            RegistriesUtils.getItem("ad_astra_rocketed:tier_7_rocket"), 7);
+            RegistriesUtils.getItem("ad_astra_rocketed:tier_7_rocket"), 7) : Map.of();
 
     private static final Map<Integer, FluidStack> FUEL = Map.of(
             1, GTMaterials.RocketFuel.getFluid(16000),

@@ -8,6 +8,7 @@ import com.gto.gtocore.data.recipe.classified.ClassifiedRecipe;
 import com.gto.gtocore.data.recipe.generated.*;
 import com.gto.gtocore.data.recipe.generated.ComponentRecipes;
 import com.gto.gtocore.data.recipe.processing.*;
+import com.gto.gtocore.integration.emi.GTEMIRecipe;
 import com.gto.gtocore.integration.kjs.GTKubeJSPlugin;
 import com.gto.gtocore.utils.RLUtils;
 
@@ -28,7 +29,6 @@ import com.gregtechceu.gtceu.data.recipe.configurable.RecipeAddition;
 import com.gregtechceu.gtceu.data.recipe.generated.ToolRecipeHandler;
 import com.gregtechceu.gtceu.data.recipe.misc.*;
 import com.gregtechceu.gtceu.data.recipe.serialized.chemistry.ChemistryRecipes;
-import com.gregtechceu.gtceu.integration.emi.recipe.GTEmiRecipe;
 import com.gregtechceu.gtceu.integration.emi.recipe.GTRecipeEMICategory;
 
 import net.minecraft.data.recipes.FinishedRecipe;
@@ -40,6 +40,7 @@ import appeng.core.AppEng;
 import com.glodblock.github.extendedae.ExtendedAE;
 import com.google.common.collect.ImmutableSet;
 import com.kyanite.deeperdarker.DeeperDarker;
+import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import dev.emi.emi.api.recipe.EmiRecipeCategory;
 import dev.emi.emi.config.EmiConfig;
 import dev.emi.emi.config.SidebarSide;
@@ -56,7 +57,9 @@ import static com.gregtechceu.gtceu.api.GTValues.VN;
 
 public final class GTORecipes implements Runnable {
 
-    public static ImmutableSet<GTEmiRecipe> EMI_RECIPES;
+    public static Map<GTRecipeType, Widget> EMI_RECIPE_WIDGETS;
+
+    public static ImmutableSet<GTEMIRecipe> EMI_RECIPES;
 
     public static Map<String, GTRecipe> GT_RECIPE_MAP = new Object2ObjectOpenHashMap<>(5000);
 
@@ -238,14 +241,16 @@ public final class GTORecipes implements Runnable {
             EmiConfig.workstationLocation = SidebarSide.LEFT;
             EmiRepairItemRecipe.TOOLS.clear();
             initGTCategoryMap();
-            Set<GTEmiRecipe> recipes = new ObjectOpenHashSet<>(5000);
+            Set<GTEMIRecipe> recipes = new ObjectOpenHashSet<>(5000);
+            EMI_RECIPE_WIDGETS = new Object2ObjectOpenHashMap<>();
             for (GTRecipeCategory category : GTRegistries.RECIPE_CATEGORIES) {
                 if (!category.shouldRegisterDisplays()) continue;
                 var type = category.getRecipeType();
                 if (category == type.getCategory()) type.buildRepresentativeRecipes();
                 EmiRecipeCategory emiCategory = GTRecipeEMICategory.CATEGORIES.apply(category);
-                type.getRecipesInCategory(category).stream().map(recipe -> new GTEmiRecipe(recipe, emiCategory)).forEach(recipes::add);
+                type.getRecipesInCategory(category).stream().map(recipe -> new GTEMIRecipe(recipe, emiCategory)).forEach(recipes::add);
             }
+            EMI_RECIPE_WIDGETS = null;
             EMI_RECIPES = ImmutableSet.copyOf(recipes);
             clearCategoryMap(false);
             GTOCore.LOGGER.info("Pre initialization EMI GTRecipe took {}ms", System.currentTimeMillis() - time);
