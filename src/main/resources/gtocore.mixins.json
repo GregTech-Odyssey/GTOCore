@@ -15,7 +15,6 @@
         "gtm.renderer.TagPrefixItemRendererMixin",
         "gtmt.ForgeClientEventHandlerMixin",
         "lowdraglib.CustomBakedModelMixin",
-        "lowdraglib.ModularWrapperWidgetMixin",
         "mc.ClientLevelMixin",
         "mc.ClientRecipeBookMixin",
         "mc.ModelBakeryMixin",

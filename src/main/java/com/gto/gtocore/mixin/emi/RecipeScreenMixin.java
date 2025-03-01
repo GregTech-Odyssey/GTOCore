@@ -1,7 +1,10 @@
 package com.gto.gtocore.mixin.emi;
 
+import com.gto.gtocore.integration.emi.multipage.CustomModularEmiRecipe;
+
 import dev.emi.emi.api.EmiApi;
 import dev.emi.emi.api.widget.Bounds;
+import dev.emi.emi.api.widget.Widget;
 import dev.emi.emi.config.EmiConfig;
 import dev.emi.emi.config.SidebarSide;
 import dev.emi.emi.screen.RecipeScreen;
@@ -12,6 +15,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
+import org.spongepowered.asm.mixin.injection.Redirect;
 
 import java.util.List;
 
@@ -52,6 +56,14 @@ public abstract class RecipeScreenMixin {
     @ModifyArg(method = "render", at = @At(value = "INVOKE", target = "Ldev/emi/emi/EmiRenderHelper;drawNinePatch(Ldev/emi/emi/runtime/EmiDrawContext;Lnet/minecraft/resources/ResourceLocation;IIIIIIII)V", ordinal = 4, remap = false), index = 5)
     private int modifyh(int x) {
         return 10 + Math.min(gTOCore$getWorkstationAmount(), gTOCore$maxWorkstations()) * 18 + getResolveOffset();
+    }
+
+    @Redirect(method = "keyPressed", at = @At(value = "INVOKE", target = "Ldev/emi/emi/api/widget/Widget;keyPressed(III)Z", remap = false))
+    public boolean keyPressedHook(Widget instance, int keyCode, int scanCode, int modifiers) {
+        if (instance instanceof CustomModularEmiRecipe widget) {
+            return widget.keyPressed(keyCode, scanCode, modifiers);
+        }
+        return instance.keyPressed(keyCode, scanCode, modifiers);
     }
 
     /**
