@@ -10,9 +10,9 @@ import com.tterrag.registrate.providers.ProviderType;
 
 import static com.gto.gtocore.api.registries.GTORegistration.REGISTRATE;
 
-public final class Datagen {
+public interface Datagen {
 
-    public static void init() {
+    static void init() {
         if (GTCEu.isDataGen()) {
             REGISTRATE.addDataGenerator(ProviderType.BLOCK_TAGS, TagsHandler::initBlock);
             REGISTRATE.addDataGenerator(ProviderType.ITEM_TAGS, TagsHandler::initItem);

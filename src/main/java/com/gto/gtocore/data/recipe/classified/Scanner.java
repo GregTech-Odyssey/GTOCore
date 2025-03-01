@@ -23,5 +23,11 @@ interface Scanner {
                 .EUt(480)
                 .duration(1200)
                 .save(provider);
+
+        GTRecipeTypes.SCANNER_RECIPES.recipeBuilder(GTOCore.id("planet_data_chip"))
+                .notConsumable(GTOItems.PLANET_DATA_CHIP.get())
+                .EUt(120)
+                .duration(600)
+                .save(provider);
     }
 }

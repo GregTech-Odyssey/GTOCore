@@ -22,20 +22,20 @@ import java.util.function.Consumer;
 
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
 
-public final class GTOWireCombiningHandler {
+interface GTOWireCombiningHandler {
 
-    private static final Map<TagPrefix, TagPrefix> cableToWireMap = ImmutableMap.of(
+    Map<TagPrefix, TagPrefix> cableToWireMap = ImmutableMap.of(
             cableGtSingle, wireGtSingle,
             cableGtDouble, wireGtDouble,
             cableGtQuadruple, wireGtQuadruple,
             cableGtOctal, wireGtOctal,
             cableGtHex, wireGtHex);
 
-    private static final TagPrefix[] WIRE_DOUBLING_ORDER = new TagPrefix[] {
+    TagPrefix[] WIRE_DOUBLING_ORDER = new TagPrefix[] {
             wireGtSingle, wireGtDouble, wireGtQuadruple, wireGtOctal, wireGtHex
     };
 
-    public static void run(@NotNull Consumer<FinishedRecipe> provider, @NotNull Material material) {
+    static void run(@NotNull Consumer<FinishedRecipe> provider, @NotNull Material material) {
         WireProperties property = material.getProperty(PropertyKey.WIRE);
         if (property == null) {
             return;

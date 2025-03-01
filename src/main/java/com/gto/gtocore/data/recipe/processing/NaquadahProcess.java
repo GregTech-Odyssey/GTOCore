@@ -17,6 +17,20 @@ import static com.gto.gtocore.common.data.GTORecipeTypes.NEUTRON_ACTIVATOR_RECIP
 public interface NaquadahProcess {
 
     static void init(Consumer<FinishedRecipe> provider) {
+        CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("low_purity_naquadah_emulsion")).EUt(VA[HV]).duration(100)
+                .inputItems(dust, NaquadahOxideMixture, 6)
+                .inputFluids(FluoroantimonicAcid.getFluid(2000))
+                .outputItems(dust, TitaniumTrifluoride, 1)
+                .outputFluids(LowPurityNaquadahEmulsion.getFluid(2000))
+                .save(provider);
+
+        MIXER_RECIPES.recipeBuilder(GTOCore.id("low_purity_naquadah_solution")).EUt(VA[HV]).duration(160)
+                .inputItems(dust, SodiumHydroxide, 3)
+                .inputFluids(LowPurityNaquadahEmulsion.getFluid(5000))
+                .outputItems(dust, Naquadah, 4)
+                .outputFluids(LowPurityNaquadahSolution.getFluid(3000))
+                .save(provider);
+
         CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("antimony_trioxide")).EUt(VA[ULV]).duration(60)
                 .inputItems(dust, Antimony, 2)
                 .inputFluids(Oxygen.getFluid(3000))
@@ -40,10 +54,9 @@ public interface NaquadahProcess {
         // STARTING POINT
 
         NEUTRON_ACTIVATOR_RECIPES.recipeBuilder(GTOCore.id("naquadah_separation"))
-                .inputFluids(FluoroantimonicAcid.getFluid(1000))
-                .inputItems(dust, Naquadah, 6)
+                .inputFluids(LowPurityNaquadahSolution.getFluid(6000))
+                .inputItems(dust, Naquadah, 2)
                 .outputFluids(ImpureEnrichedNaquadahSolution.getFluid(4000))
-                .outputItems(dust, TitaniumTrifluoride, 4)
                 .duration(200)
                 .addData("ev_min", 220)
                 .addData("ev_max", 230)

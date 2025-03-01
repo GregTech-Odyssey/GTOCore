@@ -36,9 +36,9 @@ import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.*;
 import static com.gto.gtocore.api.data.tag.GTOTagPrefix.*;
 import static com.gto.gtocore.common.data.GTORecipeTypes.*;
 
-public final class GTOPartsRecipeHandler {
+interface GTOPartsRecipeHandler {
 
-    public static void run(@NotNull Consumer<FinishedRecipe> provider, @NotNull Material material) {
+    static void run(@NotNull Consumer<FinishedRecipe> provider, @NotNull Material material) {
         if (GTOUtils.isGeneration(rod, material)) {
             processStick(material, provider);
             if (GTOUtils.isGeneration(rodLong, material)) {

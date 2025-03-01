@@ -18,14 +18,15 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
 
-public final class GTORecyclingRecipeHandler {
+interface GTORecyclingRecipeHandler {
 
-    private static final List<Object> PREFIXES = Arrays.asList(
+    List<Object> PREFIXES = Arrays.asList(
             ingot, gem, rod, plate, ring, rodLong, foil, bolt, screw,
             nugget, gearSmall, gear, frameGt, plateDense, spring, springSmall,
             block, wireFine, rotor, lens, turbineBlade, round, plateDouble, dust,
@@ -36,9 +37,9 @@ public final class GTORecyclingRecipeHandler {
             (Predicate<TagPrefix>) orePrefix -> orePrefix.name().startsWith("wireGt"),
             (Predicate<TagPrefix>) orePrefix -> orePrefix.name().startsWith("pipe"));
 
-    private static final List<TagPrefix> IGNORE_ARC_SMELTING = Arrays.asList(ingot, gem, nugget);
+    Set<TagPrefix> IGNORE_ARC_SMELTING = Set.of(ingot, gem, nugget);
 
-    public static void run(@NotNull Consumer<FinishedRecipe> provider, @NotNull Material material) {
+    static void run(@NotNull Consumer<FinishedRecipe> provider, @NotNull Material material) {
         for (TagPrefix prefix : TagPrefix.values()) {
             if (PREFIXES.stream().anyMatch(object -> {
                 if (object instanceof TagPrefix) {

@@ -14,9 +14,9 @@ import net.minecraft.data.recipes.FinishedRecipe;
 import java.util.Locale;
 import java.util.function.Consumer;
 
-public final class RadiationHatchRecipes {
+public interface RadiationHatchRecipes {
 
-    public static void init(Consumer<FinishedRecipe> provider) {
+    static void init(Consumer<FinishedRecipe> provider) {
         registerRadioactiveMaterial(GTMaterials.Uranium238, 8000, 50, provider);
         registerRadioactiveMaterial(GTMaterials.Uranium235, 6500, 100, provider);
         registerRadioactiveMaterial(GTMaterials.Plutonium241, 6000, 110, provider);

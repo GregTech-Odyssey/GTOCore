@@ -399,7 +399,7 @@ interface NanitesIntegratedProcessingCenter {
 
         GTORecipeTypes.NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES.recipeBuilder(GTOCore.id("naquadria_dust"))
                 .inputItems(GTOTagPrefix.nanites, GTMaterials.Naquadah)
-                .inputItems(TagPrefix.dust, GTMaterials.Naquadah, 128)
+                .inputItems(TagPrefix.dust, GTOMaterials.NaquadahOxideMixture, 128)
                 .inputItems(TagPrefix.dust, GTMaterials.Caesium, 16)
                 .inputFluids(GTMaterials.Fluorine.getFluid(32000))
                 .inputFluids(GTMaterials.FluoroantimonicAcid.getFluid(64000))

@@ -37,7 +37,7 @@ public final class DysonSphereLaunchSiloMachine extends ElectricMultiblockMachin
 
     @Override
     public boolean beforeWorking(@Nullable GTRecipe recipe) {
-        return GTODimensions.ALL_PLANET.contains(getDimension().location()) && super.beforeWorking(recipe);
+        return GTODimensions.ALL_PLANET.containsKey(getDimension().location()) && super.beforeWorking(recipe);
     }
 
     @Override

@@ -16,6 +16,7 @@ import com.gto.gtocore.common.machine.multiblock.electric.DrawingTowerMachine;
 import com.gto.gtocore.common.machine.multiblock.electric.TreeGrowthSimulator;
 import com.gto.gtocore.common.machine.multiblock.electric.adventure.BossSummonerMachine;
 import com.gto.gtocore.common.machine.multiblock.electric.processing.ProcessingArrayMachine;
+import com.gto.gtocore.common.machine.multiblock.electric.space.SatelliteControlCenterMachine;
 import com.gto.gtocore.common.machine.multiblock.electric.voidseries.DrillingControlCenterMachine;
 import com.gto.gtocore.common.machine.multiblock.electric.voidseries.VoidTransporterMachine;
 import com.gto.gtocore.common.machine.multiblock.noenergy.DroneControlCenterMachine;
@@ -49,21 +50,41 @@ public interface MultiBlockG {
 
     static void init() {}
 
-    /*
-     * MultiblockMachineDefinition BLOOK_TEXT = GTOConfig.INSTANCE.enablePrimitiveVoidOre ? multiblock("blook_test",
-     * "方块测试", ElectricMultiblockMachine::new)
-     * .allRotation().recipe(GTORecipeTypes.PRIMITIVE_VOID_ORE_RECIPES).block(GTOBlocks.BIOCOMPUTER_SHELL)
-     * .pattern(definition -> FactoryBlockPattern.start(RelativeDirection.RIGHT, RelativeDirection.UP,
-     * RelativeDirection.BACK)
-     * .aisle("AAAAAAA").aisle("AA AAAA").aisle("A   AAA").aisle("AA AAAA").aisle("ABFBAAA")
-     * .where('A', blocks(GTOBlocks.BIOCOMPUTER_SHELL.get()))
-     * .where('B', abilities(EXPORT_ITEMS).setExactLimit(1).or(abilities(IMPORT_FLUIDS).setExactLimit(1)))
-     * .where('F', controller(blocks(definition.get()))).where(' ', any())
-     * .build())
-     * .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_clean_stainless_steel"),GTCEu.id(
-     * "block/multiblock/multi_furnace"))
-     * .register() : null;
-     */
+    MultiblockMachineDefinition SATELLITE_CONTROL_CENTER = multiblock("satellite_control_center", "卫星控制中心", SatelliteControlCenterMachine::new)
+            .allRotation()
+            .recipe(DUMMY_RECIPES)
+            .block(GTBlocks.CASING_STAINLESS_CLEAN)
+            .pattern(definition -> FactoryBlockPattern.start(RelativeDirection.BACK, RelativeDirection.UP, RelativeDirection.LEFT)
+                    .aisle(" FFFFF ", "       ", "       ", "       ", "       ", "       ", "       ", "       ", "       ")
+                    .aisle("FFFFFFF", " GHHHG ", " GHHHG ", " GHHHG ", " GHHHG ", "  HHH  ", "       ", "       ", "       ")
+                    .aisle("FFFFFFF", " HICIH ", " HICIH ", " HICIH ", " HICIH ", " HICIH ", "  HHH  ", "       ", "       ")
+                    .aisle("FFFFFFF", " HCJCH ", " KCJCH ", " HCJCH ", " HCJCH ", " HCJCH ", "  HHH  ", "       ", "       ")
+                    .aisle("FFFFFFF", " HICIH ", " HICIH ", " HICIH ", " HICIH ", " HICIH ", "  HHH  ", "       ", "       ")
+                    .aisle("FFFFFFF", " GHHHG ", " GHCHG ", " GHHHG ", " GHHHG ", "  HHH  ", "       ", "       ", "       ")
+                    .aisle(" FBBBF ", "  BDB  ", "  BCB  ", "  BBB  ", "       ", "       ", "       ", "  AAA  ", "  AAA  ")
+                    .aisle("  BBB  ", "  BDB  ", "  BCB  ", "  BCB  ", "   E   ", "   E   ", "  ACA  ", " A   A ", "       ")
+                    .aisle("  BBB  ", "  BBB  ", "  BBB  ", "  BBB  ", "       ", "  AAA  ", " A   A ", "   C   ", "       ")
+                    .aisle("       ", "       ", "       ", "       ", "       ", "  AAA  ", "       ", "       ", "       ")
+                    .where('A', blocks(GTBlocks.CASING_STAINLESS_CLEAN.get()))
+                    .where('B', blocks(GTOBlocks.MULTI_FUNCTIONAL_CASING.get()))
+                    .where('C', blocks(GTBlocks.CASING_STEEL_PIPE.get()))
+                    .where('D', blocks(GTBlocks.CASING_STEEL_GEARBOX.get()))
+                    .where('E', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.Steel)))
+                    .where('F', blocks(GTBlocks.CASING_STEEL_SOLID.get()))
+                    .where('G', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.StainlessSteel)))
+                    .where('H', blocks(GTBlocks.CASING_STAINLESS_CLEAN.get())
+                            .or(abilities(IMPORT_ITEMS).setMaxGlobalLimited(1))
+                            .or(abilities(IMPORT_FLUIDS).setMaxGlobalLimited(1))
+                            .or(abilities(EXPORT_ITEMS).setMaxGlobalLimited(2))
+                            .or(abilities(INPUT_ENERGY).setMaxGlobalLimited(2))
+                            .or(abilities(MAINTENANCE).setExactLimit(1)))
+                    .where('I', blocks(GTBlocks.CASING_STAINLESS_STEEL_GEARBOX.get()))
+                    .where('J', blocks(GTBlocks.HERMETIC_CASING_HV.get()))
+                    .where('K', controller(blocks(definition.get())))
+                    .where(' ', any())
+                    .build())
+            .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_clean_stainless_steel"), GTCEu.id("block/multiblock/fusion_reactor"))
+            .register();
 
     MultiblockMachineDefinition ELECTRIC_COOKING = multiblock("electric_cooking", "电力烹饪锅", ElectricMultiblockMachine::new)
             .nonYAxisRotation()

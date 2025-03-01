@@ -711,16 +711,13 @@ public final class GTOMaterials {
     public static Material DilutedMonaziteSlurry;
     public static Material RedZirconPowder;
     public static Material MonaziteSulfatePowder;
-    public static Material DilutedMonaziteSulfateSolution;
     public static Material AcidicMonazitePowder;
-    public static Material ThoriumPhosphateFilterCakePowder;
     public static Material ThoriumPhosphateRefinedPowder;
     public static Material MonaziteRareEarthFilterResiduePowder;
     public static Material NeutralizedMonaziteRareEarthFilterResiduePowder;
     public static Material UraniumFilterResiduePowder;
     public static Material NeutralizedUraniumFilterResiduePowder;
     public static Material ConcentratedMonaziteRareEarthHydroxidePowder;
-    public static Material DriedConcentratedNitricMonaziteRareEarthPowder;
     public static Material ConcentratedNitrideMonaziteRareEarthSolution;
     public static Material CeriumRichMixturePowder;
     public static Material CeriumChloridePowder;
@@ -752,7 +749,6 @@ public final class GTOMaterials {
     public static Material SteamCrackedFluoroCarbonLanthanideSlurry;
     public static Material ModulatedFluoroCarbonLanthanideSlurry;
     public static Material DilutedFluoroCarbonLanthanideSlurry;
-    public static Material FilteredFluoroCarbonLanthanideSlurry;
     public static Material FluoroCarbonLanthanideCeriumOxidePowder;
     public static Material AcidLeachedFluoroCarbonLanthanideCeriumOxidePowder;
     public static Material CalcinedRareEarthOxidePowder;
@@ -771,6 +767,9 @@ public final class GTOMaterials {
     public static Material ActiniumOxalate;
     public static Material EthylHexanol;
     public static Material P507;
+    public static Material NaquadahOxideMixture;
+    public static Material LowPurityNaquadahEmulsion;
+    public static Material LowPurityNaquadahSolution;
     public static Material LanthanumExtractionNanoResin;
     public static Material CeriumExtractionNanoResin;
     public static Material PraseodymiumExtractionNanoResin;

@@ -4,10 +4,8 @@ import com.gto.gtocore.api.machine.multiblock.CustomParallelMultiblockMachine;
 import com.gto.gtocore.api.machine.trait.CustomRecipeLogic;
 import com.gto.gtocore.api.recipe.GTORecipeBuilder;
 import com.gto.gtocore.common.data.GTORecipeModifiers;
+import com.gto.gtocore.utils.MachineUtils;
 
-import com.gregtechceu.gtceu.api.capability.recipe.IO;
-import com.gregtechceu.gtceu.api.capability.recipe.IRecipeHandler;
-import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
@@ -15,15 +13,14 @@ import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.item.IntCircuitBehaviour;
 
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
 
 import com.matthewperiut.chisel.block.ChiselGroupLookup;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
 
 public final class ChiselMachine extends CustomParallelMultiblockMachine {
 
@@ -34,28 +31,23 @@ public final class ChiselMachine extends CustomParallelMultiblockMachine {
     @Nullable
     private GTRecipe getRecipe() {
         if (hasProxies()) {
-            int c = 0;
-            Item item = null;
-            for (IRecipeHandler<?> handler : Objects.requireNonNullElseGet(getCapabilitiesProxy().get(IO.IN, ItemRecipeCapability.CAP), Collections::<IRecipeHandler<?>>emptyList)) {
-                if (!handler.isProxy()) {
-                    for (Object contents : handler.getContents()) {
-                        if (contents instanceof ItemStack itemStack) {
-                            if (itemStack.is(GTItems.PROGRAMMED_CIRCUIT.get())) {
-                                c += IntCircuitBehaviour.getCircuitConfiguration(itemStack);
-                            } else {
-                                item = itemStack.getItem();
-                            }
-                        }
-                    }
+            AtomicInteger c = new AtomicInteger();
+            AtomicReference<Item> item = new AtomicReference<>();
+            MachineUtils.forEachInputItems(this, itemStack -> {
+                if (itemStack.is(GTItems.PROGRAMMED_CIRCUIT.get())) {
+                    c.addAndGet(IntCircuitBehaviour.getCircuitConfiguration(itemStack));
+                } else {
+                    item.set(itemStack.getItem());
                 }
-            }
-            if (c > 0 && item != null) {
-                List<Item> list = ChiselGroupLookup.getBlocksInGroup(item);
+                return false;
+            });
+            if (c.get() > 0 && item.get() != null) {
+                List<Item> list = ChiselGroupLookup.getBlocksInGroup(item.get());
                 if (list.isEmpty()) return null;
-                Item output = list.get(c - 1);
+                Item output = list.get(c.get() - 1);
                 if (output == null) return null;
                 GTORecipeBuilder builder = GTORecipeBuilder.ofRaw().duration(20).EUt(30);
-                builder.inputItems(item);
+                builder.inputItems(item.get());
                 builder.outputItems(output);
                 GTRecipe recipe = builder.buildRawRecipe();
                 recipe = GTORecipeModifiers.accurateParallel(this, recipe, getParallel());

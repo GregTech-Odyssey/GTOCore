@@ -17,6 +17,7 @@ import com.gregtechceu.gtceu.common.data.GTMaterials;
 import static com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlags.*;
 import static com.gregtechceu.gtceu.api.data.chemical.material.properties.PropertyKey.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
+import static com.gto.gtocore.common.data.GTOMaterials.NaquadahOxideMixture;
 import static com.gto.gtocore.common.data.GTOMaterials.Neutron;
 import static com.gto.gtocore.utils.register.MaterialsRegisterUtils.material;
 
@@ -233,6 +234,7 @@ public interface GTMaterialExtend {
         Indium.getProperty(ORE).setOreByProducts(Aluminium, Zinc);
         NaquadahEnriched.setProperty(ORE, new OreProperty());
         NaquadahEnriched.getProperty(ORE).setOreByProducts(Naquadah, Sulfur);
+        Naquadah.getProperty(ORE).setOreByProducts(NaquadahOxideMixture);
         EchoShard.setProperty(FLUID, new FluidProperty(FluidStorageKeys.LIQUID, new FluidBuilder()));
         Graphite.setProperty(INGOT, new IngotProperty());
         VanadiumSteel.addFlags(GENERATE_FRAME);

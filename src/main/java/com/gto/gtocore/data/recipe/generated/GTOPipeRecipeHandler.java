@@ -27,9 +27,9 @@ import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.EXTRUDER_RECIPES;
 import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.PACKER_RECIPES;
 import static com.gto.gtocore.utils.GTOUtils.getVoltageMultiplier;
 
-public final class GTOPipeRecipeHandler {
+interface GTOPipeRecipeHandler {
 
-    public static void run(@NotNull Consumer<FinishedRecipe> provider, @NotNull Material material) {
+    static void run(@NotNull Consumer<FinishedRecipe> provider, @NotNull Material material) {
         if (material.hasProperty(PropertyKey.FLUID_PIPE)) {
             processPipeTiny(provider, material);
             processPipeSmall(provider, pipeSmallFluid, material);

@@ -43,7 +43,6 @@ public interface Lanthanidetreatment {
                 .inputFluids(MonaziteRareEarthTurbidLiquid.getFluid(90000))
                 .inputFluids(Water.getFluid(900000))
                 .outputItems(dust, ThoritePowder, 90)
-                .outputItems(dust, Monazite, 10)
                 .outputFluids(DilutedMonaziteSlurry.getFluid(1000000))
                 .duration(2000)
                 .EUt(480)
@@ -68,16 +67,8 @@ public interface Lanthanidetreatment {
                 .EUt(90)
                 .save(provider);
 
-        MIXER_RECIPES.recipeBuilder(GTOCore.id("monazite_sulfate_powder5"))
-                .inputItems(dust, MonaziteSulfatePowder, 1)
-                .inputFluids(Water.getFluid(6000))
-                .outputFluids(DilutedMonaziteSulfateSolution.getFluid(7000))
-                .duration(240)
-                .EUt(120)
-                .save(provider);
-
         LARGE_CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("diluted_monazite_sulfate_solution6"))
-                .inputFluids(DilutedMonaziteSulfateSolution.getFluid(9000))
+                .inputItems(dust, MonaziteSulfatePowder, 1)
                 .inputFluids(AmmoniumNitrateSolution.getFluid(1800))
                 .outputItems(dust, AcidicMonazitePowder, 3)
                 .duration(160)
@@ -87,23 +78,15 @@ public interface Lanthanidetreatment {
         SIFTER_RECIPES.recipeBuilder(GTOCore.id("acidic_monazite_powder7"))
                 .inputItems(dust, AcidicMonazitePowder, 1)
                 .chancedOutput(dust, MonaziteRareEarthFilterResiduePowder, 1, 9000, 0)
-                .chancedOutput(dust, ThoriumPhosphateFilterCakePowder, 1, 7000, 0)
+                .chancedOutput(dust, ThoriumPhosphateRefinedPowder, 1, 7000, 0)
                 .duration(300)
                 .EUt(256)
                 .save(provider);
 
-        REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("thorium_phosphate_filter_cake_powder8"))
-                .inputItems(dust, ThoriumPhosphateFilterCakePowder, 1)
-                .outputItems(dust, ThoriumPhosphateRefinedPowder, 1)
-                .duration(100)
-                .EUt(120)
-                .blastFurnaceTemp(1200)
-                .save(provider);
-
         THERMAL_CENTRIFUGE_RECIPES.recipeBuilder(GTOCore.id("thorium_phosphate_refined_powder9"))
                 .inputItems(dust, ThoriumPhosphateRefinedPowder, 1)
-                .outputItems(dust, Monazite, 1)
                 .outputItems(dust, Phosphate, 1)
+                .chancedOutput(dust, Monazite, 1, 3000, 300)
                 .duration(200)
                 .EUt(240)
                 .save(provider);
@@ -144,16 +127,8 @@ public interface Lanthanidetreatment {
                 .EUt(30)
                 .save(provider);
 
-        REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("concentrated_monazite_rare_earth_hydroxide_powder14"))
-                .inputItems(dust, ConcentratedMonaziteRareEarthHydroxidePowder, 1)
-                .outputItems(dust, DriedConcentratedNitricMonaziteRareEarthPowder, 1)
-                .duration(300)
-                .EUt(120)
-                .blastFurnaceTemp(1200)
-                .save(provider);
-
         CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("dried_concentrated_nitric_monazite_rare_earth_powder15"))
-                .inputItems(dust, DriedConcentratedNitricMonaziteRareEarthPowder, 1)
+                .inputItems(dust, ConcentratedMonaziteRareEarthHydroxidePowder, 1)
                 .inputFluids(NitricAcid.getFluid(500))
                 .outputFluids(ConcentratedNitrideMonaziteRareEarthSolution.getFluid(500))
                 .duration(240)
@@ -482,19 +457,11 @@ public interface Lanthanidetreatment {
                 .inputFluids(DilutedFluoroCarbonLanthanideSlurry.getFluid(1000))
                 .chancedOutput(dust, SiliconDioxide, 1, 9000, 0)
                 .chancedOutput(dust, Rutile, 1, 7500, 0)
+                .chancedOutput(dust, FluoroCarbonLanthanideCeriumOxidePowder, 1, 5000, 0)
                 .chancedOutput(dust, RedZirconPowder, 1, 1000, 0)
                 .chancedOutput(dust, Ilmenite, 1, 500, 0)
-                .outputFluids(FilteredFluoroCarbonLanthanideSlurry.getFluid(400))
                 .duration(200)
                 .EUt(240)
-                .save(provider);
-
-        REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("fluoro_carbon_lanthanide_cerium_oxide_powder53"))
-                .inputFluids(FilteredFluoroCarbonLanthanideSlurry.getFluid(1000))
-                .outputItems(dust, FluoroCarbonLanthanideCeriumOxidePowder, 1)
-                .duration(240)
-                .EUt(480)
-                .blastFurnaceTemp(1400)
                 .save(provider);
 
         CHEMICAL_BATH_RECIPES.recipeBuilder(GTOCore.id("acid_leached_fluoro_carbon_lanthanide_cerium_oxide_powder54"))

@@ -5,9 +5,6 @@ import com.gto.gtocore.api.recipe.GTORecipeBuilder;
 import com.gto.gtocore.common.machine.multiblock.part.IndicatorHatchPartMachine;
 import com.gto.gtocore.utils.MachineUtils;
 
-import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
-import com.gregtechceu.gtceu.api.capability.recipe.IO;
-import com.gregtechceu.gtceu.api.capability.recipe.IRecipeHandler;
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
@@ -21,9 +18,7 @@ import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 
-import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -99,18 +94,17 @@ public final class ResidualDecontaminantDegasserPurificationUnitMachine extends 
     public boolean onWorking() {
         if (!super.onWorking()) return false;
         if (getOffsetTimer() % 20 == 0) {
-            for (IRecipeHandler<?> handler : Objects.requireNonNullElseGet(getCapabilitiesProxy().get(IO.IN, FluidRecipeCapability.CAP), Collections::<IRecipeHandler<?>>emptyList)) {
-                for (Object contents : handler.getContents()) {
-                    if (contents instanceof FluidStack stack && stack.getAmount() > 0) {
-                        if (!fluidStack.isEmpty() && fluidStack.getFluid() == stack.getFluid() && fluidStack.getAmount() <= stack.getAmount()) {
-                            successful = true;
-                        } else {
-                            failed = true;
-                        }
-                        MachineUtils.inputFluid(this, stack);
+            MachineUtils.forEachInputFluids(this, stack -> {
+                if (stack.getAmount() > 0) {
+                    if (!fluidStack.isEmpty() && fluidStack.getFluid() == stack.getFluid() && fluidStack.getAmount() <= stack.getAmount()) {
+                        successful = true;
+                    } else {
+                        failed = true;
                     }
+                    MachineUtils.inputFluid(this, stack);
                 }
-            }
+                return false;
+            });
         }
         return true;
     }

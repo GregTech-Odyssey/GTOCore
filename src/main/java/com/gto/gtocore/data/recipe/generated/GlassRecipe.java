@@ -21,9 +21,9 @@ import com.tterrag.registrate.util.entry.BlockEntry;
 
 import java.util.function.Consumer;
 
-public final class GlassRecipe {
+public interface GlassRecipe {
 
-    public static void init(Consumer<FinishedRecipe> provider) {
+    static void init(Consumer<FinishedRecipe> provider) {
         GTRecipeTypes.ALLOY_SMELTER_RECIPES.recipeBuilder(GTOCore.id("borosilicate_glass"))
                 .inputItems(TagPrefix.block, GTMaterials.BorosilicateGlass)
                 .notConsumable(GTItems.SHAPE_MOLD_BLOCK)

@@ -820,6 +820,7 @@ public interface MultiBlockD {
             .durationMultiplierTooltips(0.8)
             .tooltipsText("Requires one corresponding tier small machine to operate", "需要放入一个对应配方等级的小机器才能运行")
             .tooltipsText("For each tier above LV, maximum parallelism increases by 4", "配方等级每高出LV一级，最大并行数+4")
+            .tooltipsText("Unable to obtain a clean environment through a clean maintenance warehouse", "无法通过超净维护仓获得洁净环境")
             .tooltipsKey("gtceu.machine.available_recipe_map_1.tooltip",
                     Component.translatable("gtceu.bender")
                             .append("，").append(Component.translatable("gtceu.compressor"))

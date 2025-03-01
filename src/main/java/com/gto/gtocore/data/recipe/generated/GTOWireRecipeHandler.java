@@ -29,16 +29,16 @@ import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
 
-public final class GTOWireRecipeHandler {
+interface GTOWireRecipeHandler {
 
-    private static final Map<TagPrefix, Integer> INSULATION_AMOUNT = ImmutableMap.of(
+    Map<TagPrefix, Integer> INSULATION_AMOUNT = ImmutableMap.of(
             cableGtSingle, 1,
             cableGtDouble, 1,
             cableGtQuadruple, 2,
             cableGtOctal, 3,
             cableGtHex, 5);
 
-    public static void run(@NotNull Consumer<FinishedRecipe> provider, @NotNull Material material) {
+    static void run(@NotNull Consumer<FinishedRecipe> provider, @NotNull Material material) {
         WireProperties property = material.getProperty(PropertyKey.WIRE);
         if (property == null) {
             return;

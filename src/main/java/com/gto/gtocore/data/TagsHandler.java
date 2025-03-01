@@ -16,9 +16,9 @@ import com.kyanite.deeperdarker.content.DDBlocks;
 import com.tterrag.registrate.providers.RegistrateTagsProvider;
 import earth.terrarium.adastra.common.registry.ModBlocks;
 
-public final class TagsHandler {
+public interface TagsHandler {
 
-    public static final TagKey<Block> ALL_LAYER_STONE = TagUtil.createBlockTag("all_layer_stone");
+    TagKey<Block> ALL_LAYER_STONE = TagUtil.createBlockTag("all_layer_stone");
 
     static void initBlock(RegistrateTagsProvider<Block> provider) {
         provider.addTag(ALL_LAYER_STONE).addTag(BlockTags.STONE_ORE_REPLACEABLES).addTag(BlockTags.DEEPSLATE_ORE_REPLACEABLES).addTag(BlockTags.NETHER_CARVER_REPLACEABLES);

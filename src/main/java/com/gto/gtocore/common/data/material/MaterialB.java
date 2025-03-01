@@ -16,6 +16,24 @@ import static com.gto.gtocore.utils.register.MaterialsRegisterUtils.material;
 public interface MaterialB {
 
     static void init() {
+        NaquadahOxideMixture = material("naquadah_oxide_mixture", "氧化硅岩混合物")
+                .dust()
+                .color(0x000A1B)
+                .iconSet(DULL)
+                .buildAndRegister();
+
+        LowPurityNaquadahEmulsion = material("low_purity_naquadah_emulsion", "低纯硅岩乳液")
+                .fluid()
+                .color(0x363635)
+                .iconSet(DULL)
+                .buildAndRegister();
+
+        LowPurityNaquadahSolution = material("low_purity_naquadah_solution", "低纯硅岩溶液")
+                .fluid()
+                .color(0x374939)
+                .iconSet(DULL)
+                .buildAndRegister();
+
         LanthanumExtractionNanoResin = material("lanthanum_extraction_nano_resin", "镧纳米萃取树脂")
                 .fluid()
                 .color(0x808080)

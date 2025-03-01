@@ -274,5 +274,17 @@ interface CircuitAssembler {
                 .duration(200)
                 .cleanroom(CleanroomType.CLEANROOM)
                 .save(provider);
+
+        GTRecipeTypes.CIRCUIT_ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("planet_data_chip"))
+                .inputItems(GTItems.TOOL_DATA_STICK.asStack(2))
+                .inputItems(GTItems.NOR_MEMORY_CHIP.asStack(16))
+                .inputItems(GTItems.SIMPLE_SYSTEM_ON_CHIP.asStack(12))
+                .inputItems(TagPrefix.screw, GTMaterials.BlueAlloy, 32)
+                .inputItems(TagPrefix.wireFine, GTMaterials.Cupronickel, 32)
+                .inputItems(TagPrefix.plate, GTMaterials.StainlessSteel, 4)
+                .outputItems(GTOItems.PLANET_DATA_CHIP.asStack())
+                .EUt(120)
+                .duration(400)
+                .save(provider);
     }
 }

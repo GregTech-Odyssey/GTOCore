@@ -1,6 +1,7 @@
 package com.gto.gtocore.mixin.gtm.machine;
 
 import com.gto.gtocore.api.machine.feature.IPerformanceDisplayMachine;
+import com.gto.gtocore.common.machine.noenergy.PerformanceMonitorMachine;
 
 import com.gregtechceu.gtceu.api.block.BlockProperties;
 import com.gregtechceu.gtceu.api.item.tool.GTToolType;
@@ -41,6 +42,9 @@ public abstract class MetaMachineMixin implements IPerformanceDisplayMachine {
     @Unique
     private long gTOCore$tickTime;
 
+    @Unique
+    private long gTOCore$secondTickTime;
+
     @Shadow(remap = false)
     public abstract boolean isRemote();
 
@@ -71,6 +75,9 @@ public abstract class MetaMachineMixin implements IPerformanceDisplayMachine {
     @Shadow(remap = false)
     public abstract BlockState getBlockState();
 
+    @Shadow(remap = false)
+    public abstract long getOffsetTimer();
+
     @Override
     public long gtocore$getTickTime() {
         return gTOCore$tickTime;
@@ -94,6 +101,13 @@ public abstract class MetaMachineMixin implements IPerformanceDisplayMachine {
                 level.setBlockAndUpdate(getPos(), getBlockState().setValue(BlockProperties.SERVER_TICK, false));
                 gTOCore$tickTime = 0;
             } else {
+                if (PerformanceMonitorMachine.observe) {
+                    if (getOffsetTimer() % 40 == 0) {
+                        gTOCore$secondTickTime = 0;
+                    }
+                    PerformanceMonitorMachine.PERFORMANCE_MAP.put((MetaMachine) (Object) this, (int) (gTOCore$secondTickTime / 40000));
+                    gTOCore$secondTickTime += gTOCore$tickTime;
+                }
                 gTOCore$tickTime = System.nanoTime() - currentTime;
             }
         }

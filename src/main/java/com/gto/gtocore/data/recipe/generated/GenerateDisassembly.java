@@ -28,13 +28,13 @@ import java.util.function.Consumer;
 
 import static com.gto.gtocore.common.data.GTORecipeTypes.DISASSEMBLY_RECIPES;
 
-public final class GenerateDisassembly {
+public interface GenerateDisassembly {
 
-    public static final Set<String> DISASSEMBLY_RECORD = new ObjectOpenHashSet<>();
+    Set<String> DISASSEMBLY_RECORD = new ObjectOpenHashSet<>();
 
-    public static final Set<String> DISASSEMBLY_BLACKLIST = new ObjectOpenHashSet<>();
+    Set<String> DISASSEMBLY_BLACKLIST = new ObjectOpenHashSet<>();
 
-    private static final String[] outputItem = { "_frame", "_fence", "_electric_motor",
+    String[] outputItem = { "_frame", "_fence", "_electric_motor",
             "_electric_pump", "_conveyor_module", "_electric_piston", "_robot_arm", "_field_generator",
             "_emitter", "_sensor", "smd_", "_lamp", "ae2:blank_pattern", "gtceu:carbon_nanites" };
 
@@ -47,7 +47,7 @@ public final class GenerateDisassembly {
         return false;
     }
 
-    public static void generateDisassembly(GTRecipeBuilder recipeBuilder, Consumer<FinishedRecipe> consumer) {
+    static void generateDisassembly(GTRecipeBuilder recipeBuilder, Consumer<FinishedRecipe> consumer) {
         List<Content> c = recipeBuilder.output.getOrDefault(ItemRecipeCapability.CAP, null);
         if (c == null) {
             GTOCore.LOGGER.atError().log("配方{}没有输出", recipeBuilder.id);

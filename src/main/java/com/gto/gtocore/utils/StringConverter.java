@@ -74,15 +74,13 @@ public final class StringConverter {
                 return "TagUtil.createTag(" + s + ")";
             }
         }
-        if (stack.getItem() instanceof BlockItem blockItem) {
+        if (stack.getItem() instanceof BlockItem blockItem && !ItemUtils.getIdLocation(blockItem.getBlock()).getNamespace().equals("minecraft")) {
             if (StringIndex.BLOCK_LINK_MAP.containsKey(blockItem.getBlock())) {
                 return StringIndex.BLOCK_LINK_MAP.get(blockItem.getBlock()) + ".asStack(" + (amount > 1 ? amount : "") + ")";
             } else if (StringIndex.BLOCK_MAP.containsKey(blockItem.getBlock())) {
                 return "new ItemStack(" + StringIndex.BLOCK_MAP.get(blockItem.getBlock()) + ".asItem()" + (amount > 1 ? ", " + amount : "") + ")";
             } else if (ItemUtils.getIdLocation(blockItem.getBlock()).getNamespace().equals(GTOCore.MOD_ID)) {
                 return "GTOBlocks." + ItemUtils.getIdLocation(blockItem.getBlock()).getPath().toUpperCase() + ".asStack(" + (amount > 1 ? amount : "") + ")";
-            } else if (ItemUtils.getIdLocation(blockItem.getBlock()).getNamespace().equals("minecraft")) {
-                return "new ItemStack(Blocks." + ItemUtils.getIdLocation(blockItem.getBlock()).getPath().toUpperCase() + ".asItem()" + (amount > 1 ? ", " + amount : "") + ")";
             }
         } else {
             if (StringIndex.ITEM_LINK_MAP.containsKey(stack.getItem())) {

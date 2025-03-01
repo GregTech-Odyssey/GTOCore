@@ -13,9 +13,9 @@ import static com.gregtechceu.gtceu.api.GTValues.VA;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
 import static com.gto.gtocore.common.data.GTORecipeTypes.STEAM_CRACKING_RECIPES;
 
-public final class PetrochemRecipes {
+public interface PetrochemRecipes {
 
-    public static void init(Consumer<FinishedRecipe> provider) {
+    static void init(Consumer<FinishedRecipe> provider) {
         crack(provider, SulfuricHeavyFuel, SeverelySteamCrackedHeavyFuel, LightlySteamCrackedHeavyFuel);
         crack(provider, SulfuricLightFuel, SeverelySteamCrackedLightFuel, LightlySteamCrackedLightFuel);
         crack(provider, SulfuricNaphtha, SeverelySteamCrackedNaphtha, LightlySteamCrackedNaphtha);

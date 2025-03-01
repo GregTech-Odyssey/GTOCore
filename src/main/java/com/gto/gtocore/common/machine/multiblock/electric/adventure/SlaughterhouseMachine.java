@@ -9,8 +9,6 @@ import com.gto.gtocore.utils.StringUtils;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
-import com.gregtechceu.gtceu.api.capability.recipe.IRecipeHandler;
-import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
@@ -46,7 +44,9 @@ import com.mojang.authlib.GameProfile;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -135,15 +135,12 @@ public final class SlaughterhouseMachine extends StorageMultiblockMachine {
     @Override
     public void onContentChanges() {
         attackDamage = 1;
-        for (IRecipeHandler<?> handler : Objects.requireNonNullElseGet(getCapabilitiesProxy().get(IO.IN, ItemRecipeCapability.CAP), Collections::<IRecipeHandler<?>>emptyList)) {
-            if (!handler.isProxy()) {
-                for (Object contents : handler.getContents()) {
-                    if (contents instanceof ItemStack itemStack && itemStack.getItem() instanceof SwordItem swordItem) {
-                        attackDamage += (int) swordItem.getDamage();
-                    }
-                }
+        MachineUtils.forEachInputItems(this, itemStack -> {
+            if (itemStack.getItem() instanceof SwordItem swordItem) {
+                attackDamage += (int) swordItem.getDamage();
             }
-        }
+            return false;
+        });
     }
 
     @Override

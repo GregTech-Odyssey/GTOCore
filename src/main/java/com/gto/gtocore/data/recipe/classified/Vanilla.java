@@ -804,5 +804,25 @@ interface Vanilla {
                 "BCB",
                 "DBD",
                 'B', SPOOLS_LARGE.asStack(), 'D', GTItems.ELECTRIC_MOTOR_IV, 'C', GTMachines.HULL[GTValues.IV].asStack(), 'A', CustomTags.IV_CIRCUITS);
+        VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("satellite_control_center"), MultiBlockG.SATELLITE_CONTROL_CENTER.asStack(),
+                "ABA",
+                "CDC",
+                "EFE",
+                'B', GTItems.EMITTER_HV.asStack(), 'F', new ItemStack(AEItems.WIRELESS_BOOSTER.asItem()), 'D', GTMachines.HULL[GTValues.HV].asStack(), 'C', CustomTags.HV_CIRCUITS, 'E', new UnificationEntry(TagPrefix.rodLong, GTMaterials.StainlessSteel), 'A', GTItems.SENSOR_HV.asStack());
+        VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("performance_monitor"), GTOMachines.PERFORMANCE_MONITOR.asStack(),
+                "AAA",
+                "ABA",
+                "AAA",
+                'B', GTItems.PORTABLE_SCANNER.asStack(), 'A', new UnificationEntry(TagPrefix.plate, GTMaterials.Steel));
+        VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("drilling_control_center"), MultiBlockG.DRILLING_CONTROL_CENTER.asStack(),
+                "ABA",
+                "BCB",
+                "DBD",
+                'B', GTItems.FIELD_GENERATOR_IV.asStack(), 'D', new UnificationEntry(TagPrefix.wireGtHex, GTMaterials.SamariumIronArsenicOxide), 'C', GTMachines.WORLD_ACCELERATOR[GTValues.EV].asStack(), 'A', GTItems.SENSOR_IV.asStack());
+        VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("large_arc_generator"), MultiBlockC.LARGE_ARC_GENERATOR.asStack(),
+                "ABA",
+                "BCB",
+                "DBD",
+                'B', GTOBlocks.MAGNESIUM_OXIDE_CERAMIC_HIGH_TEMPERATURE_INSULATION_MECHANICAL_BLOCK.asStack(), 'D', new UnificationEntry(TagPrefix.wireGtHex, GTOMaterials.EndSteel), 'C', GTOMachines.ARC_GENERATOR[GTValues.IV].asStack(), 'A', new UnificationEntry(TagPrefix.wireGtHex, GTMaterials.UraniumTriplatinum));
     }
 }

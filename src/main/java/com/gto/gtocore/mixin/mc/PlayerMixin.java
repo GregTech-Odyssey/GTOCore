@@ -35,6 +35,9 @@ public abstract class PlayerMixin extends LivingEntity implements IEnhancedPlaye
     @Final
     private Abilities abilities;
 
+    @Shadow
+    public abstract void onUpdateAbilities();
+
     @Unique
     private boolean gTOCore$disableDrift;
     @Unique
@@ -117,18 +120,21 @@ public abstract class PlayerMixin extends LivingEntity implements IEnhancedPlaye
                     gTOCore$discard(server);
                 }
             }
-            gTOCore$canFly = gTOCore$wardenState;
-            gTOCore$spaceState = inf || Objects.equals(armorSlots, "[1 quarktech_boots, 1 quarktech_leggings, 1 advanced_quarktech_chestplate, 1 quarktech_helmet]") || Objects.equals(armorSlots, "[1 quarktech_boots, 1 quarktech_leggings, 1 quarktech_chestplate, 1 quarktech_helmet]");
             CompoundTag data = getPersistentData();
-            if (gTOCore$canFly) {
+            boolean canFly = gTOCore$wardenState;
+            if (gTOCore$canFly && !canFly) {
+                data.putBoolean("night_vision", false);
+                data.putInt("fly_speed", 1);
+                abilities.setFlyingSpeed(0.05F);
+                onUpdateAbilities();
+            }
+            gTOCore$canFly = canFly;
+            gTOCore$spaceState = inf || Objects.equals(armorSlots, "[1 quarktech_boots, 1 quarktech_leggings, 1 advanced_quarktech_chestplate, 1 quarktech_helmet]") || Objects.equals(armorSlots, "[1 quarktech_boots, 1 quarktech_leggings, 1 quarktech_chestplate, 1 quarktech_helmet]");
+            if (gTOCore$wardenState) {
                 addEffect(new MobEffectInstance(MobEffects.SATURATION, 200, 0, false, false));
                 if (data.getBoolean("night_vision")) {
                     addEffect(new MobEffectInstance(MobEffects.NIGHT_VISION, 300, 0, false, false));
                 }
-            } else {
-                data.putBoolean("night_vision", false);
-                data.putInt("fly_speed", 1);
-                abilities.setFlyingSpeed(0.05F);
             }
         }
     }

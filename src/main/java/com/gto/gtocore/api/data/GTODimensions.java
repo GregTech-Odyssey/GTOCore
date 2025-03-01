@@ -11,7 +11,6 @@ import net.minecraft.world.level.Level;
 import com.google.common.collect.ImmutableMap;
 import com.kyanite.deeperdarker.DeeperDarker;
 
-import java.util.LinkedHashSet;
 import java.util.Set;
 
 public final class GTODimensions {
@@ -38,6 +37,7 @@ public final class GTODimensions {
     public static final ResourceLocation VOID = GTOCore.id("void");
     public static final ResourceLocation CREATE = GTOCore.id("create");
 
+    // Dyson Ball System
     public static final ImmutableMap<ResourceLocation, Integer> ALL_GALAXY_DIM;
     private static final ImmutableMap<ResourceLocation, Integer> SOLAR;
     private static final ImmutableMap<ResourceLocation, Integer> PROXIMA_CENTAURI;
@@ -86,38 +86,49 @@ public final class GTODimensions {
         ALL_GALAXY_DIM = ALL_GALAXY_DIMBuilder.build();
     }
 
-    public static final Set<ResourceLocation> SOLAR_PLANET = new LinkedHashSet<>();
+    // Tier
+    public static final ImmutableMap<ResourceLocation, Integer> SOLAR_PLANET;
 
-    private static final Set<ResourceLocation> PROXIMA_CENTAURI_PLANET = new LinkedHashSet<>();
+    private static final ImmutableMap<ResourceLocation, Integer> PROXIMA_CENTAURI_PLANET;
 
-    private static final Set<ResourceLocation> BARNARDA_PLANET = new LinkedHashSet<>();
+    private static final ImmutableMap<ResourceLocation, Integer> BARNARDA_PLANET;
 
-    public static final Set<ResourceLocation> ALL_PLANET = new LinkedHashSet<>();
+    public static final ImmutableMap<ResourceLocation, Integer> ALL_PLANET;
 
-    public static final Set<ResourceLocation> ALL_LAYER_DIMENSION = new LinkedHashSet<>();
+    public static final ImmutableMap<ResourceLocation, Integer> ALL_LAYER_DIMENSION;
 
     static {
-        SOLAR_PLANET.add(OVERWORLD);
-        SOLAR_PLANET.add(MOON);
-        SOLAR_PLANET.add(MARS);
-        SOLAR_PLANET.add(VENUS);
-        SOLAR_PLANET.add(MERCURY);
-        SOLAR_PLANET.add(TITAN);
-        SOLAR_PLANET.add(PLUTO);
-        SOLAR_PLANET.add(IO);
-        SOLAR_PLANET.add(GANYMEDE);
-        SOLAR_PLANET.add(ENCELADUS);
-        SOLAR_PLANET.add(CERES);
-        PROXIMA_CENTAURI_PLANET.add(GLACIO);
-        BARNARDA_PLANET.add(BARNARDA_C);
-        ALL_PLANET.addAll(SOLAR_PLANET);
-        ALL_PLANET.addAll(PROXIMA_CENTAURI_PLANET);
-        ALL_PLANET.addAll(BARNARDA_PLANET);
-        ALL_LAYER_DIMENSION.addAll(ALL_PLANET);
-        ALL_LAYER_DIMENSION.add(ANCIENT_WORLD);
-        ALL_LAYER_DIMENSION.add(THE_NETHER);
-        ALL_LAYER_DIMENSION.add(THE_END);
-        ALL_LAYER_DIMENSION.add(OTHERSIDE);
+        ImmutableMap.Builder<ResourceLocation, Integer> SOLARBuilder = ImmutableMap.builder();
+        SOLARBuilder.put(OVERWORLD, 1);
+        SOLARBuilder.put(MOON, 1);
+        SOLARBuilder.put(MARS, 2);
+        SOLARBuilder.put(VENUS, 3);
+        SOLARBuilder.put(MERCURY, 4);
+        SOLARBuilder.put(TITAN, 6);
+        SOLARBuilder.put(PLUTO, 6);
+        SOLARBuilder.put(IO, 5);
+        SOLARBuilder.put(GANYMEDE, 5);
+        SOLARBuilder.put(ENCELADUS, 5);
+        SOLARBuilder.put(CERES, 4);
+        SOLAR_PLANET = SOLARBuilder.build();
+
+        PROXIMA_CENTAURI_PLANET = ImmutableMap.of(GLACIO, 7);
+
+        BARNARDA_PLANET = ImmutableMap.of(BARNARDA_C, 8);
+
+        ImmutableMap.Builder<ResourceLocation, Integer> ALLBuilder = ImmutableMap.builder();
+        ALLBuilder.putAll(SOLAR_PLANET);
+        ALLBuilder.putAll(PROXIMA_CENTAURI_PLANET);
+        ALLBuilder.putAll(BARNARDA_PLANET);
+        ALL_PLANET = ALLBuilder.build();
+
+        ImmutableMap.Builder<ResourceLocation, Integer> ALL_LAYERBuilder = ImmutableMap.builder();
+        ALL_LAYERBuilder.putAll(ALL_PLANET);
+        ALL_LAYERBuilder.put(ANCIENT_WORLD, 0);
+        ALL_LAYERBuilder.put(THE_NETHER, 3);
+        ALL_LAYERBuilder.put(THE_END, 6);
+        ALL_LAYERBuilder.put(OTHERSIDE, 10);
+        ALL_LAYER_DIMENSION = ALL_LAYERBuilder.build();
     }
 
     public static Set<ResourceKey<Level>> getDimensionKeys(ResourceLocation resourceLocation) {

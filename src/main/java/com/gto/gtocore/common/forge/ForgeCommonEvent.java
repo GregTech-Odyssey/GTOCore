@@ -8,6 +8,7 @@ import com.gto.gtocore.common.data.GTOCommands;
 import com.gto.gtocore.common.data.GTOItems;
 import com.gto.gtocore.common.item.ItemMap;
 import com.gto.gtocore.common.machine.multiblock.electric.voidseries.VoidTransporterMachine;
+import com.gto.gtocore.common.machine.noenergy.PerformanceMonitorMachine;
 import com.gto.gtocore.common.network.ServerMessage;
 import com.gto.gtocore.common.saved.DysonSphereSavaedData;
 import com.gto.gtocore.common.saved.ExtendWirelessEnergySavaedData;
@@ -41,6 +42,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.event.RegisterCommandsEvent;
+import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.EntityTravelToDimensionEvent;
 import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
@@ -257,6 +259,13 @@ public final class ForgeCommonEvent {
             DysonSphereSavaedData.INSTANCE = serverLevel.getDataStorage().computeIfAbsent(DysonSphereSavaedData::new, DysonSphereSavaedData::new, "dyson_sphere_data");
             WirelessEnergySavaedData.INSTANCE = serverLevel.getDataStorage().computeIfAbsent(ExtendWirelessEnergySavaedData::new, ExtendWirelessEnergySavaedData::new, "wireless_energy_data");
             PlanetsTravelSavaedData.INSTANCE = serverLevel.getDataStorage().computeIfAbsent(PlanetsTravelSavaedData::new, PlanetsTravelSavaedData::new, "planets_trave_data");
+        }
+    }
+
+    @SubscribeEvent
+    public static void onServerTickEvent(TickEvent.ServerTickEvent event) {
+        if (event.phase == TickEvent.Phase.START) {
+            PerformanceMonitorMachine.observe = false;
         }
     }
 

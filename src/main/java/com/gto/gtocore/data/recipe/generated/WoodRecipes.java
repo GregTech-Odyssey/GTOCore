@@ -31,9 +31,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
-public final class WoodRecipes {
+public interface WoodRecipes {
 
-    public static List<WoodTypeEntry> getEntries() {
+    static List<WoodTypeEntry> getEntries() {
         List<WoodTypeEntry> entries = new ArrayList<>();
         entries.add(new WoodTypeEntry.Builder("minecraft", "oak")
                 .planks(Items.OAK_PLANKS, "oak_planks")
@@ -599,7 +599,7 @@ public final class WoodRecipes {
         return entries;
     }
 
-    public static void init(Consumer<FinishedRecipe> provider) {
+    static void init(Consumer<FinishedRecipe> provider) {
         GTORecipeTypes.TREE_GROWTH_SIMULATOR_RECIPES.recipeBuilder(GTOCore.id("rubber"))
                 .inputFluids(new FluidStack(Fluids.WATER, 4000))
                 .notConsumable(GTBlocks.RUBBER_SAPLING.asStack())

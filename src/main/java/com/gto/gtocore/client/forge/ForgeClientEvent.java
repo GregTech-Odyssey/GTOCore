@@ -31,12 +31,15 @@ import net.minecraftforge.client.event.RenderLevelStageEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
+import com.hepdd.gtmthings.common.block.machine.electric.WirelessEnergyMonitor;
 import com.lowdragmc.lowdraglib.client.utils.RenderBufferUtils;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 
 import java.util.function.Supplier;
+
+import static com.hepdd.gtmthings.client.ForgeClientEventHandler.highlightBlock;
 
 @OnlyIn(Dist.CLIENT)
 public final class ForgeClientEvent {
@@ -123,6 +126,15 @@ public final class ForgeClientEvent {
                         highlightBlock(camera, poseStack, poses[1], poses[1]);
                     }
                 }
+            } else if (WirelessEnergyMonitor.p > 0) {
+                if (GTValues.CLIENT_TIME % 20L == 0L) {
+                    --WirelessEnergyMonitor.p;
+                }
+                BlockPos pose = WirelessEnergyMonitor.pPos;
+                if (pose == null) {
+                    return;
+                }
+                highlightBlock(camera, poseStack, pose, pose);
             }
         }
     }

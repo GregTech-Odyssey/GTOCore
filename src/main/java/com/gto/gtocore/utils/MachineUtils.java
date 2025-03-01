@@ -192,16 +192,13 @@ public final class MachineUtils {
         for (int i = 0; i < fluids.length; i++) {
             fluidIndexMap.put(fluids[i], i);
         }
-        for (IRecipeHandler<?> handler : Objects.requireNonNullElseGet(machine.getCapabilitiesProxy().get(IO.IN, FluidRecipeCapability.CAP), Collections::<IRecipeHandler<?>>emptyList)) {
-            for (Object contents : handler.getContents()) {
-                if (contents instanceof FluidStack fluidStack) {
-                    Integer index = fluidIndexMap.get(fluidStack.getFluid());
-                    if (index != null) {
-                        amounts[index] = GTMath.saturatedCast(fluidStack.getAmount() + amounts[index]);
-                    }
-                }
+        forEachInputFluids(machine, fluidStack -> {
+            Integer index = fluidIndexMap.get(fluidStack.getFluid());
+            if (index != null) {
+                amounts[index] = GTMath.saturatedCast(fluidStack.getAmount() + amounts[index]);
             }
-        }
+            return false;
+        });
         return amounts;
     }
 
@@ -211,19 +208,38 @@ public final class MachineUtils {
         for (int i = 0; i < items.length; i++) {
             itemIndexMap.put(items[i], i);
         }
+        forEachInputItems(machine, itemStack -> {
+            Integer index = itemIndexMap.get(itemStack.getItem());
+            if (index != null) {
+                amounts[index] = GTMath.saturatedCast(itemStack.getCount() + amounts[index]);
+            }
+            return false;
+        });
+        return amounts;
+    }
+
+    public static void forEachInputItems(IRecipeLogicMachine machine, Function<ItemStack, Boolean> function) {
         for (IRecipeHandler<?> handler : Objects.requireNonNullElseGet(machine.getCapabilitiesProxy().get(IO.IN, ItemRecipeCapability.CAP), Collections::<IRecipeHandler<?>>emptyList)) {
             if (!handler.isProxy()) {
                 for (Object contents : handler.getContents()) {
                     if (contents instanceof ItemStack itemStack) {
-                        Integer index = itemIndexMap.get(itemStack.getItem());
-                        if (index != null) {
-                            amounts[index] = GTMath.saturatedCast(itemStack.getCount() + amounts[index]);
-                        }
+                        if (function.apply(itemStack)) return;
                     }
                 }
             }
         }
-        return amounts;
+    }
+
+    public static void forEachInputFluids(IRecipeLogicMachine machine, Function<FluidStack, Boolean> function) {
+        for (IRecipeHandler<?> handler : Objects.requireNonNullElseGet(machine.getCapabilitiesProxy().get(IO.IN, FluidRecipeCapability.CAP), Collections::<IRecipeHandler<?>>emptyList)) {
+            if (!handler.isProxy()) {
+                for (Object contents : handler.getContents()) {
+                    if (contents instanceof FluidStack fluidStack) {
+                        if (function.apply(fluidStack)) return;
+                    }
+                }
+            }
+        }
     }
 
     public static boolean inputItem(IRecipeLogicMachine machine, ItemStack item) {

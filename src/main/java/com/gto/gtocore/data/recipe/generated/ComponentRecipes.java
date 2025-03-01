@@ -35,9 +35,9 @@ import static com.gto.gtocore.api.GTOValues.COMPONENT_ASSEMBLY_CASING_TIER;
 import static com.gto.gtocore.common.data.GTOMaterials.*;
 import static com.gto.gtocore.common.data.GTORecipeTypes.COMPONENT_ASSEMBLY_RECIPES;
 
-public final class ComponentRecipes {
+public interface ComponentRecipes {
 
-    public static void init(Consumer<FinishedRecipe> provider) {
+    static void init(Consumer<FinishedRecipe> provider) {
         VanillaRecipeHelper.addShapedRecipe(provider, GTOCore.id("ulv_electric_motor"), GTOItems.ULV_ELECTRIC_MOTOR.asStack(),
                 "CWR", "WMW", "RWC", 'C', new UnificationEntry(GTOTagPrefix.curvedPlate, Copper), 'W', new UnificationEntry(wireGtSingle, Tin),
                 'R', new UnificationEntry(rod, Copper), 'M', new UnificationEntry(rod, IronMagnetic));

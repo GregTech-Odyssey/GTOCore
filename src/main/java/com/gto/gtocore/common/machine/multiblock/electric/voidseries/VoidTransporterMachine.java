@@ -109,7 +109,6 @@ public class VoidTransporterMachine extends ElectricMultiblockMachine {
     @Override
     public void onStructureInvalid() {
         super.onStructureInvalid();
-        energyContainer.resetBasicInfo(0, 0, 0, 0, 0);
         energyContainer.setEnergyStored(0);
     }
 

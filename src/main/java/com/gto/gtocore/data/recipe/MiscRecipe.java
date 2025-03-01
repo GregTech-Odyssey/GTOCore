@@ -53,7 +53,7 @@ public interface MiscRecipe {
         }
 
         int i = 0;
-        for (ResourceLocation layer : GTODimensions.ALL_LAYER_DIMENSION) {
+        for (ResourceLocation layer : GTODimensions.ALL_LAYER_DIMENSION.keySet()) {
             i++;
             ItemStack stack = GTOItems.DIMENSION_DATA.get().getDimensionData(layer);
             int tier = DimensionDataItem.getDimensionMarker(stack).tier + 1;

@@ -19,7 +19,6 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import static com.gto.gtocore.api.GTOValues.*;
 
@@ -63,7 +62,12 @@ public final class PlanetsTravelSavaedData extends SavedData {
         ListTag listTag = compoundTag.getList(PLAYER_LIST, 10);
         for (Tag tag : listTag) {
             CompoundTag playerTag = (CompoundTag) tag;
-            unlocked.put(playerTag.getUUID(PLAYER_UUID), playerTag.getList(PLANET_LIST, 8).stream().map(t -> ((CompoundTag) t).getString(PLANET_NAME)).map(ResourceLocation::new).collect(Collectors.toSet()));
+            Set<ResourceLocation> set = new ObjectOpenHashSet<>();
+            ListTag planetsList = playerTag.getList(PLANET_LIST, 10);
+            for (Tag planetTag : planetsList) {
+                set.add(new ResourceLocation(((CompoundTag) planetTag).getString(PLANET_NAME)));
+            }
+            unlocked.put(playerTag.getUUID(PLAYER_UUID), set);
         }
     }
 

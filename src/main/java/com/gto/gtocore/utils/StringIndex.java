@@ -2570,16 +2570,13 @@ public final class StringIndex {
         MATERIAL_MAP.put(GTOMaterials.DilutedMonaziteSlurry, "GTOMaterials.DilutedMonaziteSlurry");
         MATERIAL_MAP.put(GTOMaterials.RedZirconPowder, "GTOMaterials.RedZirconPowder");
         MATERIAL_MAP.put(GTOMaterials.MonaziteSulfatePowder, "GTOMaterials.MonaziteSulfatePowder");
-        MATERIAL_MAP.put(GTOMaterials.DilutedMonaziteSulfateSolution, "GTOMaterials.DilutedMonaziteSulfateSolution");
         MATERIAL_MAP.put(GTOMaterials.AcidicMonazitePowder, "GTOMaterials.AcidicMonazitePowder");
-        MATERIAL_MAP.put(GTOMaterials.ThoriumPhosphateFilterCakePowder, "GTOMaterials.ThoriumPhosphateFilterCakePowder");
         MATERIAL_MAP.put(GTOMaterials.ThoriumPhosphateRefinedPowder, "GTOMaterials.ThoriumPhosphateRefinedPowder");
         MATERIAL_MAP.put(GTOMaterials.MonaziteRareEarthFilterResiduePowder, "GTOMaterials.MonaziteRareEarthFilterResiduePowder");
         MATERIAL_MAP.put(GTOMaterials.NeutralizedMonaziteRareEarthFilterResiduePowder, "GTOMaterials.NeutralizedMonaziteRareEarthFilterResiduePowder");
         MATERIAL_MAP.put(GTOMaterials.UraniumFilterResiduePowder, "GTOMaterials.UraniumFilterResiduePowder");
         MATERIAL_MAP.put(GTOMaterials.NeutralizedUraniumFilterResiduePowder, "GTOMaterials.NeutralizedUraniumFilterResiduePowder");
         MATERIAL_MAP.put(GTOMaterials.ConcentratedMonaziteRareEarthHydroxidePowder, "GTOMaterials.ConcentratedMonaziteRareEarthHydroxidePowder");
-        MATERIAL_MAP.put(GTOMaterials.DriedConcentratedNitricMonaziteRareEarthPowder, "GTOMaterials.DriedConcentratedNitricMonaziteRareEarthPowder");
         MATERIAL_MAP.put(GTOMaterials.ConcentratedNitrideMonaziteRareEarthSolution, "GTOMaterials.ConcentratedNitrideMonaziteRareEarthSolution");
         MATERIAL_MAP.put(GTOMaterials.CeriumRichMixturePowder, "GTOMaterials.CeriumRichMixturePowder");
         MATERIAL_MAP.put(GTOMaterials.CeriumChloridePowder, "GTOMaterials.CeriumChloridePowder");
@@ -2611,7 +2608,6 @@ public final class StringIndex {
         MATERIAL_MAP.put(GTOMaterials.SteamCrackedFluoroCarbonLanthanideSlurry, "GTOMaterials.SteamCrackedFluoroCarbonLanthanideSlurry");
         MATERIAL_MAP.put(GTOMaterials.ModulatedFluoroCarbonLanthanideSlurry, "GTOMaterials.ModulatedFluoroCarbonLanthanideSlurry");
         MATERIAL_MAP.put(GTOMaterials.DilutedFluoroCarbonLanthanideSlurry, "GTOMaterials.DilutedFluoroCarbonLanthanideSlurry");
-        MATERIAL_MAP.put(GTOMaterials.FilteredFluoroCarbonLanthanideSlurry, "GTOMaterials.FilteredFluoroCarbonLanthanideSlurry");
         MATERIAL_MAP.put(GTOMaterials.FluoroCarbonLanthanideCeriumOxidePowder, "GTOMaterials.FluoroCarbonLanthanideCeriumOxidePowder");
         MATERIAL_MAP.put(GTOMaterials.AcidLeachedFluoroCarbonLanthanideCeriumOxidePowder, "GTOMaterials.AcidLeachedFluoroCarbonLanthanideCeriumOxidePowder");
         MATERIAL_MAP.put(GTOMaterials.CalcinedRareEarthOxidePowder, "GTOMaterials.CalcinedRareEarthOxidePowder");

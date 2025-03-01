@@ -5484,21 +5484,9 @@ public interface MaterialA {
                 .iconSet(SAND)
                 .buildAndRegister();
 
-        DilutedMonaziteSulfateSolution = material("diluted_monazite_sulfate_solution", "稀释硫酸独居石溶液")
-                .fluid()
-                .color(0xadd8e6)
-                .iconSet(LIMPID)
-                .buildAndRegister();
-
         AcidicMonazitePowder = material("acidic_monazite_powder", "酸性独居石")
                 .dust()
                 .color(0x9acd32)
-                .iconSet(SAND)
-                .buildAndRegister();
-
-        ThoriumPhosphateFilterCakePowder = material("thorium_phosphate_filter_cake_powder", "磷酸钍滤饼")
-                .dust()
-                .color(0x808080)
                 .iconSet(SAND)
                 .buildAndRegister();
 
@@ -5535,12 +5523,6 @@ public interface MaterialA {
         ConcentratedMonaziteRareEarthHydroxidePowder = material("concentrated_monazite_rare_earth_hydroxide_powder", "浓缩独居石稀土氢氧化物")
                 .dust()
                 .color(0xc0c0c0)
-                .iconSet(SAND)
-                .buildAndRegister();
-
-        DriedConcentratedNitricMonaziteRareEarthPowder = material("dried_concentrated_nitric_monazite_rare_earth_powder", "干燥浓缩硝酸独居石稀土")
-                .dust()
-                .color(0x969696)
                 .iconSet(SAND)
                 .buildAndRegister();
 
@@ -5752,12 +5734,6 @@ public interface MaterialA {
         DilutedFluoroCarbonLanthanideSlurry = material("diluted_fluoro_carbon_lanthanide_slurry", "稀释氟碳镧铈泥浆")
                 .fluid()
                 .color(0x9696ff)
-                .iconSet(LIMPID)
-                .buildAndRegister();
-
-        FilteredFluoroCarbonLanthanideSlurry = material("filtered_fluoro_carbon_lanthanide_slurry", "过滤氟碳镧铈泥浆")
-                .fluid()
-                .color(0xa0a0ff)
                 .iconSet(LIMPID)
                 .buildAndRegister();
 

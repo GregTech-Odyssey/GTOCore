@@ -1,6 +1,7 @@
 package com.gto.gtocore.data.recipe.generated;
 
 import com.gto.gtocore.GTOCore;
+import com.gto.gtocore.common.data.GTOMaterials;
 import com.gto.gtocore.common.data.GTORecipeTypes;
 import com.gto.gtocore.config.GTOConfig;
 
@@ -36,13 +37,13 @@ import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
 import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.*;
 import static com.gto.gtocore.common.data.GTORecipeTypes.INTEGRATED_ORE_PROCESSOR;
 
-public final class GTOOreRecipeHandler {
+interface GTOOreRecipeHandler {
 
     private static boolean doesMaterialUseNormalFurnace(Material material) {
         return !material.hasProperty(PropertyKey.BLAST) && !material.hasFlag(MaterialFlags.NO_ORE_SMELTING);
     }
 
-    public static void run(Consumer<FinishedRecipe> provider, Material material) {
+    static void run(Consumer<FinishedRecipe> provider, Material material) {
         OreProperty property = material.getProperty(PropertyKey.ORE);
         if (property == null) {
             return;
@@ -108,7 +109,7 @@ public final class GTOOreRecipeHandler {
                     .recipeBuilder(GTOCore.id("processor_1_" + material.getName()))
                     .circuitMeta(1)
                     .inputItems(tag)
-                    .outputItems(ChemicalHelper.get(dust, material, crushedAmount))
+                    .outputItems(ChemicalHelper.get(dust, getOutputMaterial(material), crushedAmount))
                     .chancedOutput(byproductStack, 1400, 850)
                     .chancedOutput(ChemicalHelper.get(dust, byproductMaterial, property.getByProductMultiplier() * crushedAmount), 1400, 850)
                     .duration((int) (dur + (dur + (mass << 2)) * crushedAmount))
@@ -136,7 +137,7 @@ public final class GTOOreRecipeHandler {
                         .circuitMeta(2)
                         .inputItems(tag)
                         .inputFluids(DistilledWater.getFluid(100 * crushedAmount))
-                        .outputItems(ChemicalHelper.get(dust, material, crushedAmount))
+                        .outputItems(ChemicalHelper.get(dust, getOutputMaterial(material), crushedAmount))
                         .chancedOutput(byproductStack, 1400, 850)
                         .chancedOutput(dust, byproductMaterial, crushedAmount, "1/3", 0)
                         .outputItems(dust, Stone, crushedAmount)
@@ -159,7 +160,7 @@ public final class GTOOreRecipeHandler {
                     .circuitMeta(3)
                     .inputItems(tag)
                     .inputFluids(DistilledWater.getFluid(100 * crushedAmount))
-                    .outputItems(ChemicalHelper.get(dust, material, crushedAmount))
+                    .outputItems(ChemicalHelper.get(dust, getOutputMaterial(material), crushedAmount))
                     .chancedOutput(byproductStack, 1400, 850)
                     .chancedOutput(dust, byproductMaterial, crushedAmount, "1/3", 0)
                     .outputItems(dust, Stone, crushedAmount)
@@ -185,7 +186,7 @@ public final class GTOOreRecipeHandler {
                             .circuitMeta(4)
                             .inputItems(tag)
                             .inputFluids(DistilledWater.getFluid(100 * crushedAmount))
-                            .outputItems(ChemicalHelper.get(dust, material, crushedAmount))
+                            .outputItems(ChemicalHelper.get(dust, getOutputMaterial(material), crushedAmount))
                             .chancedOutput(byproductStack, 1400, 850)
                             .chancedOutput(dust, byproductMaterial, crushedAmount, "1/3", 0)
                             .outputItems(dust, Stone, crushedAmount)
@@ -207,7 +208,7 @@ public final class GTOOreRecipeHandler {
                             .circuitMeta(4)
                             .inputItems(tag)
                             .inputFluids(DistilledWater.getFluid(100 * crushedAmount))
-                            .outputItems(ChemicalHelper.get(dust, material, crushedAmount))
+                            .outputItems(ChemicalHelper.get(dust, getOutputMaterial(material), crushedAmount))
                             .chancedOutput(byproductStack, 1400, 850)
                             .chancedOutput(dust, byproductMaterial, crushedAmount, "1/3", 0)
                             .outputItems(dust, Stone, crushedAmount)
@@ -236,7 +237,7 @@ public final class GTOOreRecipeHandler {
                             .circuitMeta(5)
                             .inputItems(tag)
                             .inputFluids(washedInTuple.getFirst().getFluid(washedInTuple.getSecond() * crushedAmount))
-                            .outputItems(ChemicalHelper.get(dust, material, crushedAmount))
+                            .outputItems(ChemicalHelper.get(dust, getOutputMaterial(material), crushedAmount))
                             .chancedOutput(byproductStack, 1400, 850)
                             .chancedOutput(ChemicalHelper.get(dust, washingByproduct, property.getByProductMultiplier() * crushedAmount), 7000, 580)
                             .chancedOutput(ChemicalHelper.get(dust, Stone, crushedAmount), 4000, 650)
@@ -258,7 +259,7 @@ public final class GTOOreRecipeHandler {
                         .circuitMeta(6)
                         .inputItems(tag)
                         .inputFluids(washedInTuple.getFirst().getFluid(washedInTuple.getSecond() * crushedAmount))
-                        .outputItems(ChemicalHelper.get(dust, material, crushedAmount))
+                        .outputItems(ChemicalHelper.get(dust, getOutputMaterial(material), crushedAmount))
                         .chancedOutput(byproductStack, 1400, 850)
                         .chancedOutput(ChemicalHelper.get(dust, washingByproduct, property.getByProductMultiplier() * crushedAmount), 7000, 580)
                         .chancedOutput(ChemicalHelper.get(dust, Stone, crushedAmount), 4000, 650)
@@ -284,7 +285,7 @@ public final class GTOOreRecipeHandler {
                                 .circuitMeta(7)
                                 .inputItems(tag)
                                 .inputFluids(washedInTuple.getFirst().getFluid(washedInTuple.getSecond() * crushedAmount))
-                                .outputItems(ChemicalHelper.get(dust, material, crushedAmount))
+                                .outputItems(ChemicalHelper.get(dust, getOutputMaterial(material), crushedAmount))
                                 .chancedOutput(byproductStack, 1400, 850)
                                 .chancedOutput(ChemicalHelper.get(dust, washingByproduct, property.getByProductMultiplier() * crushedAmount), 7000, 580)
                                 .chancedOutput(ChemicalHelper.get(dust, Stone, crushedAmount), 4000, 650)
@@ -306,7 +307,7 @@ public final class GTOOreRecipeHandler {
                                 .circuitMeta(7)
                                 .inputItems(tag)
                                 .inputFluids(washedInTuple.getFirst().getFluid(washedInTuple.getSecond() * crushedAmount))
-                                .outputItems(ChemicalHelper.get(dust, material, crushedAmount))
+                                .outputItems(ChemicalHelper.get(dust, getOutputMaterial(material), crushedAmount))
                                 .chancedOutput(byproductStack, 1400, 850)
                                 .chancedOutput(ChemicalHelper.get(dust, washingByproduct, property.getByProductMultiplier() * crushedAmount), 7000, 580)
                                 .chancedOutput(ChemicalHelper.get(dust, Stone, crushedAmount), 4000, 650)
@@ -386,7 +387,7 @@ public final class GTOOreRecipeHandler {
         GTRecipeBuilder opBuilder1 = INTEGRATED_ORE_PROCESSOR.recipeBuilder(GTOCore.id("raw_processor_1_" + material.getName()))
                 .circuitMeta(1)
                 .inputItems(stack)
-                .outputItems(ChemicalHelper.get(dust, material, crushedAmount))
+                .outputItems(ChemicalHelper.get(dust, getOutputMaterial(material), crushedAmount))
                 .chancedOutput(byproductStack, 1000, 300)
                 .duration((int) (dur + (dur + (mass << 2)) * crushedAmount))
                 .EUt(30);
@@ -405,7 +406,7 @@ public final class GTOOreRecipeHandler {
                     .circuitMeta(2)
                     .inputItems(stack)
                     .inputFluids(DistilledWater.getFluid(100 * crushedAmount))
-                    .outputItems(ChemicalHelper.get(dust, material, crushedAmount))
+                    .outputItems(ChemicalHelper.get(dust, getOutputMaterial(material), crushedAmount))
                     .chancedOutput(byproductStack, 1000, 300)
                     .chancedOutput(dust, byproductMaterial, crushedAmount, "1/3", 0)
                     .outputItems(dust, Stone, crushedAmount)
@@ -422,7 +423,7 @@ public final class GTOOreRecipeHandler {
                 .circuitMeta(3)
                 .inputItems(stack)
                 .inputFluids(DistilledWater.getFluid(100 * crushedAmount))
-                .outputItems(ChemicalHelper.get(dust, material, crushedAmount))
+                .outputItems(ChemicalHelper.get(dust, getOutputMaterial(material), crushedAmount))
                 .chancedOutput(byproductStack, 1000, 300)
                 .chancedOutput(dust, byproductMaterial, crushedAmount, "1/3", 0)
                 .outputItems(dust, Stone, crushedAmount)
@@ -449,7 +450,7 @@ public final class GTOOreRecipeHandler {
                     .circuitMeta(4)
                     .inputItems(stack)
                     .inputFluids(DistilledWater.getFluid(100 * crushedAmount))
-                    .outputItems(ChemicalHelper.get(dust, material, crushedAmount))
+                    .outputItems(ChemicalHelper.get(dust, getOutputMaterial(material), crushedAmount))
                     .chancedOutput(byproductStack, 1000, 300)
                     .chancedOutput(dust, byproductMaterial, crushedAmount, "1/3", 0)
                     .outputItems(dust, Stone, crushedAmount)
@@ -472,7 +473,7 @@ public final class GTOOreRecipeHandler {
                         .circuitMeta(5)
                         .inputItems(stack)
                         .inputFluids(washedInTuple.getFirst().getFluid(washedInTuple.getSecond() * crushedAmount))
-                        .outputItems(ChemicalHelper.get(dust, material, crushedAmount))
+                        .outputItems(ChemicalHelper.get(dust, getOutputMaterial(material), crushedAmount))
                         .chancedOutput(byproductStack, 1000, 300)
                         .chancedOutput(ChemicalHelper.get(dust, washingByproduct, property.getByProductMultiplier() * crushedAmount), 7000, 580)
                         .chancedOutput(ChemicalHelper.get(dust, Stone, crushedAmount), 4000, 650)
@@ -488,7 +489,7 @@ public final class GTOOreRecipeHandler {
                     .circuitMeta(6)
                     .inputItems(stack)
                     .inputFluids(washedInTuple.getFirst().getFluid(washedInTuple.getSecond() * crushedAmount))
-                    .outputItems(ChemicalHelper.get(dust, material, crushedAmount))
+                    .outputItems(ChemicalHelper.get(dust, getOutputMaterial(material), crushedAmount))
                     .chancedOutput(byproductStack, 1000, 300)
                     .chancedOutput(ChemicalHelper.get(dust, washingByproduct, property.getByProductMultiplier() * crushedAmount), 7000, 580)
                     .chancedOutput(ChemicalHelper.get(dust, Stone, crushedAmount), 4000, 650)
@@ -507,7 +508,7 @@ public final class GTOOreRecipeHandler {
                         .circuitMeta(7)
                         .inputItems(stack)
                         .inputFluids(washedInTuple.getFirst().getFluid(washedInTuple.getSecond() * crushedAmount))
-                        .outputItems(ChemicalHelper.get(dust, material, crushedAmount))
+                        .outputItems(ChemicalHelper.get(dust, getOutputMaterial(material), crushedAmount))
                         .chancedOutput(byproductStack, 1000, 300)
                         .chancedOutput(ChemicalHelper.get(dust, washingByproduct, property.getByProductMultiplier() * crushedAmount), 7000, 580)
                         .chancedOutput(ChemicalHelper.get(dust, Stone, crushedAmount), 4000, 650)
@@ -563,10 +564,10 @@ public final class GTOOreRecipeHandler {
 
         ItemStack crushedPurifiedOre = GTUtil.copyFirst(
                 ChemicalHelper.get(crushedPurified, material),
-                ChemicalHelper.get(dust, material));
+                ChemicalHelper.get(dust, getOutputMaterial(material)));
         ItemStack crushedCentrifugedOre = GTUtil.copyFirst(
                 ChemicalHelper.get(crushedRefined, material),
-                ChemicalHelper.get(dust, material));
+                ChemicalHelper.get(dust, getOutputMaterial(material)));
 
         ORE_WASHER_RECIPES.recipeBuilder(material.getName() + "_crushed_ore_to_purified_ore_fast")
                 .inputItems(stack)
@@ -624,7 +625,7 @@ public final class GTOOreRecipeHandler {
         ItemStack stack = ChemicalHelper.get(crushedRefined, material);
         if (stack.isEmpty()) return;
 
-        ItemStack dustStack = ChemicalHelper.get(dust, material);
+        ItemStack dustStack = ChemicalHelper.get(dust, getOutputMaterial(material));
         ItemStack byproductStack = ChemicalHelper.get(dust, property.getOreByProduct(2, material), 1);
 
         FORGE_HAMMER_RECIPES.recipeBuilder(material.getName() + "_refined_ore_to_dust")
@@ -730,7 +731,7 @@ public final class GTOOreRecipeHandler {
         ItemStack stack = ChemicalHelper.get(dustImpure, material);
         if (stack.isEmpty()) return;
 
-        ItemStack dustStack = ChemicalHelper.get(dust, material);
+        ItemStack dustStack = ChemicalHelper.get(dust, getOutputMaterial(material));
         Material byproduct = property.getOreByProduct(0, material);
 
         GTRecipeBuilder builder = CENTRIFUGE_RECIPES
@@ -764,7 +765,7 @@ public final class GTOOreRecipeHandler {
         if (stack.isEmpty()) return;
 
         Material byproductMaterial = property.getOreByProduct(1, material);
-        ItemStack dustStack = ChemicalHelper.get(dust, material);
+        ItemStack dustStack = ChemicalHelper.get(dust, getOutputMaterial(material));
 
         if (property.getSeparatedInto() != null && !property.getSeparatedInto().isEmpty()) {
             List<Material> separatedMaterial = property.getSeparatedInto();
@@ -811,5 +812,10 @@ public final class GTOOreRecipeHandler {
                 VanillaRecipeHelper.addSmeltingRecipe(provider, prefix.name + "_" + material.getName(), ChemicalHelper.getTag(prefix, material), ingotStack, 0.5f);
             }
         }
+    }
+
+    private static Material getOutputMaterial(Material material) {
+        if (material == Naquadah) return GTOMaterials.NaquadahOxideMixture;
+        return material;
     }
 }

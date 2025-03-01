@@ -35,11 +35,11 @@ import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
 import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.*;
 import static com.gregtechceu.gtceu.common.data.GTRecipes.EBF_GASES;
 
-public final class GTOMaterialRecipeHandler {
+interface GTOMaterialRecipeHandler {
 
-    private static final List<TagPrefix> GEM_ORDER = Arrays.asList(gem, gemFlawless, gemExquisite);
+    List<TagPrefix> GEM_ORDER = Arrays.asList(gem, gemFlawless, gemExquisite);
 
-    public static void run(Consumer<FinishedRecipe> provider, Material material) {
+    static void run(Consumer<FinishedRecipe> provider, Material material) {
         if (GTOUtils.isGeneration(ingot, material)) {
             processIngot(material, provider);
             processNugget(material, provider);

@@ -13,9 +13,11 @@ import com.gregtechceu.gtceu.api.item.MetaMachineItem;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
+import com.gregtechceu.gtceu.api.machine.feature.ICleanroomProvider;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
+import com.gregtechceu.gtceu.common.machine.multiblock.electric.CleanroomMachine;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.MethodsReturnNonnullByDefault;
@@ -183,5 +185,10 @@ public final class ProcessingPlantMachine extends StorageMultiblockMachine imple
     @Override
     public void setParallel(int number) {
         customParallelTrait.setParallel(number);
+    }
+
+    @Override
+    public void setCleanroom(@Nullable ICleanroomProvider provider) {
+        if (provider instanceof CleanroomMachine) super.setCleanroom(provider);
     }
 }
