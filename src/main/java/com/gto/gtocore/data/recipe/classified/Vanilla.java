@@ -824,5 +824,10 @@ interface Vanilla {
                 "BCB",
                 "DBD",
                 'B', GTOBlocks.MAGNESIUM_OXIDE_CERAMIC_HIGH_TEMPERATURE_INSULATION_MECHANICAL_BLOCK.asStack(), 'D', new UnificationEntry(TagPrefix.wireGtHex, GTOMaterials.EndSteel), 'C', GTOMachines.ARC_GENERATOR[GTValues.IV].asStack(), 'A', new UnificationEntry(TagPrefix.wireGtHex, GTMaterials.UraniumTriplatinum));
+        VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("rocket_assembler"), MultiBlockG.ROCKET_ASSEMBLER.asStack(),
+                "ACA",
+                "BDB",
+                "ACA",
+                'A', GTOItems.HEAVY_DUTY_PLATE_1.asStack(), 'B', GTItems.ROBOT_ARM_HV, 'C', CustomTags.IV_CIRCUITS, 'D', GTMachines.ASSEMBLER[GTValues.HV].asStack());
     }
 }

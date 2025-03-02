@@ -774,6 +774,12 @@ public interface GTORecipeTypes {
                         widgetGroup.getSize().width - 50, widgetGroup.getSize().height - 40, false, false));
             });
 
+    GTRecipeType ROCKWT_ASSEMBLER = register("rocket_assembler", "火箭装配", MULTIBLOCK)
+            .setEUIO(IO.IN)
+            .setMaxIOSize(5, 1, 1, 0)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_BATH, LEFT_TO_RIGHT)
+            .setSound(GTSoundEntries.ASSEMBLER);
+
     // TODO 添加用途
     GTRecipeType PHYSICAL_VAPOR_DEPOSITION_RECIPES = register("physical_vapor_deposition", "物理气相沉积", MULTIBLOCK)
             .setEUIO(IO.IN)
