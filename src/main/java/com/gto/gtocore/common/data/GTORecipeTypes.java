@@ -774,9 +774,9 @@ public interface GTORecipeTypes {
                         widgetGroup.getSize().width - 50, widgetGroup.getSize().height - 40, false, false));
             });
 
-    GTRecipeType ROCKWT_ASSEMBLER = register("rocket_assembler", "火箭装配", MULTIBLOCK)
+    GTRecipeType ROCKET_ASSEMBLER_RECIPES = register("rocket_assembler", "火箭装配", MULTIBLOCK)
             .setEUIO(IO.IN)
-            .setMaxIOSize(5, 1, 1, 0)
+            .setMaxIOSize(9, 1, 3, 0)
             .setProgressBar(GuiTextures.PROGRESS_BAR_BATH, LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.ASSEMBLER);
 

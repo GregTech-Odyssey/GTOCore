@@ -34,7 +34,7 @@
 	  1
     ]
   },
-  "ldlib": {
-        "emissive": true
-    }
+    "ldlib": {
+        "connection": "gtocore:block/coil/infinity_coil_block_ctm"
+  }
 }

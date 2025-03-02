@@ -110,5 +110,6 @@ public interface ClassifiedRecipe {
         LavaFurnace.init(provider);
         MassFabricator.init(provider);
         Scanner.init(provider);
+        RocketAssembler.init(provider);
     }
 }

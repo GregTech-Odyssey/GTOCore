@@ -827,7 +827,7 @@ interface Vanilla {
         VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("rocket_assembler"), MultiBlockG.ROCKET_ASSEMBLER.asStack(),
                 "ACA",
                 "BDB",
-                "ACA",
-                'A', GTOItems.HEAVY_DUTY_PLATE_1.asStack(), 'B', GTItems.ROBOT_ARM_HV, 'C', CustomTags.IV_CIRCUITS, 'D', GTMachines.ASSEMBLER[GTValues.HV].asStack());
+                "AEA",
+                'A', GTOItems.HEAVY_DUTY_PLATE_1.asStack(), 'B', GTItems.CONVEYOR_MODULE_HV, 'C', GTItems.EMITTER_HV.asStack(), 'D', RegistriesUtils.getItemStack("ad_astra:nasa_workbench"), 'E', GTItems.SENSOR_HV.asStack());
     }
 }

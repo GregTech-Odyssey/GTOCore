@@ -4,9 +4,11 @@ import com.gto.gtocore.api.data.GTODimensions;
 import com.gto.gtocore.api.entity.IEnhancedPlayer;
 import com.gto.gtocore.client.ClientCache;
 import com.gto.gtocore.common.network.ServerMessage;
+import com.gto.gtocore.common.saved.PlanetsTravelSavaedData;
 import com.gto.gtocore.utils.ServerUtils;
 
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -102,7 +104,7 @@ public abstract class PlayerMixin extends LivingEntity implements IEnhancedPlaye
 
     @Inject(method = "tick", at = @At("TAIL"))
     private void tick(CallbackInfo ci) {
-        if (tickCount % 20 == 0) {
+        if (tickCount % 40 == 0) {
             Level level = level();
             MinecraftServer server = level.getServer();
             if (server == null) return;
@@ -117,6 +119,11 @@ public abstract class PlayerMixin extends LivingEntity implements IEnhancedPlaye
                 ServerUtils.runCommandSilent(server, "execute at " + name + " run kill @e[distance=..100,name=!" + name + ",type=!item]");
             } else if (level.dimension().location().equals(GTODimensions.OTHERSIDE)) {
                 if (!(gTOCore$wardenState || inf)) {
+                    gTOCore$discard(server);
+                }
+            } else if ((Object) this instanceof ServerPlayer serverPlayer) {
+                if (GTODimensions.ALL_PLANET.containsKey(level.dimension().location()) && !PlanetsTravelSavaedData.isUnlocked(serverPlayer, level.dimension().location())) {
+                    serverPlayer.displayClientMessage(Component.translatable("gtocore.ununlocked"), false);
                     gTOCore$discard(server);
                 }
             }

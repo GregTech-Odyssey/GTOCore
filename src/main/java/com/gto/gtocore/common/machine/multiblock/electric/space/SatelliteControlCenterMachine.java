@@ -140,7 +140,7 @@ public final class SatelliteControlCenterMachine extends ElectricMultiblockMachi
             launch = false;
             Item item = GTOUtils.getKeyByValue(ROCKET, tier);
             if (item == null) return null;
-            GTRecipe recipe = GTORecipeBuilder.ofRaw().duration(6000).inputFluids(FUEL.get(tier)).inputItems(item).inputItems(GTOItems.PLANET_DATA_CHIP.asStack()).EUt(getOverclockVoltage()).buildRawRecipe();
+            GTRecipe recipe = GTORecipeBuilder.ofRaw().duration(6000).inputItems(GTOItems.PLANET_SCAN_SATELLITE.asStack()).inputFluids(FUEL.get(tier)).inputItems(item).inputItems(GTOItems.PLANET_DATA_CHIP.asStack()).EUt(getOverclockVoltage()).buildRawRecipe();
             if (recipe.matchRecipe(this).isSuccess() && recipe.matchTickRecipe(this).isSuccess()) return recipe;
         }
         return null;

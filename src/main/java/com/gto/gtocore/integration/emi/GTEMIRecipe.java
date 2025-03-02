@@ -1,6 +1,7 @@
 package com.gto.gtocore.integration.emi;
 
 import com.gto.gtocore.common.data.GTORecipes;
+import com.gto.gtocore.mixin.mc.IngredientTagValueAccessor;
 import com.gto.gtocore.utils.ItemUtils;
 
 import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
@@ -8,10 +9,13 @@ import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.chance.logic.ChanceLogic;
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
+import com.gregtechceu.gtceu.api.recipe.ingredient.SizedIngredient;
+import com.gregtechceu.gtceu.core.mixins.IngredientAccessor;
 import com.gregtechceu.gtceu.integration.xei.widgets.GTRecipeWidget;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.templates.EmptyFluidHandler;
@@ -30,13 +34,16 @@ import com.lowdragmc.lowdraglib.jei.ModularWrapper;
 import dev.emi.emi.api.recipe.EmiRecipeCategory;
 import dev.emi.emi.api.stack.EmiIngredient;
 import dev.emi.emi.api.stack.EmiStack;
+import dev.emi.emi.api.stack.TagEmiIngredient;
 import dev.emi.emi.api.widget.SlotWidget;
 import dev.emi.emi.api.widget.TankWidget;
 import dev.emi.emi.api.widget.WidgetHolder;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.function.Supplier;
 
 public final class GTEMIRecipe extends ModularEmiRecipe<Widget> {
 
@@ -59,6 +66,30 @@ public final class GTEMIRecipe extends ModularEmiRecipe<Widget> {
         return 0;
     }
 
+    private static EmiIngredient getEmiIngredient(Ingredient ingredient, boolean input) {
+        Ingredient inner = ingredient;
+        boolean sized = false;
+        Supplier<List<EmiStack>> emiStacks;
+        if (ingredient instanceof SizedIngredient sizedIngredient) {
+            inner = ItemUtils.getSizedInner(sizedIngredient);
+            sized = true;
+        }
+        ItemStack[] itemStacks = inner.getItems();
+        if (itemStacks.length > 0) {
+            emiStacks = () -> Arrays.stream(itemStacks).map(EmiStack::of).toList();
+        } else {
+            return EmiStack.EMPTY;
+        }
+        for (Ingredient.Value value : ((IngredientAccessor) inner).getValues()) {
+            if (input && value instanceof Ingredient.TagValue tagValue) {
+                return new TagEmiIngredient(((IngredientTagValueAccessor) tagValue).getTag(), emiStacks.get(), sized ? ((SizedIngredient) ingredient).getAmount() : itemStacks[0].getCount());
+            } else {
+                return EmiStack.of(sized ? itemStacks[0].copyWithCount(((SizedIngredient) ingredient).getAmount()) : itemStacks[0]);
+            }
+        }
+        return EmiStack.EMPTY;
+    }
+
     @Override
     public List<EmiIngredient> getInputs() {
         if (inputs == null) {
@@ -68,7 +99,7 @@ public final class GTEMIRecipe extends ModularEmiRecipe<Widget> {
                     v.forEach(c -> {
                         if (c.getContent() instanceof Ingredient ingredient) {
                             float chance = (float) c.chance / ChanceLogic.getMaxChancedValue();
-                            EmiIngredient emiIngredient = EmiIngredient.of(ingredient).setChance(chance);
+                            EmiIngredient emiIngredient = getEmiIngredient(ingredient, true).setChance(chance);
                             if (chance > 0) {
                                 inputs.add(emiIngredient);
                             } else {
@@ -82,7 +113,7 @@ public final class GTEMIRecipe extends ModularEmiRecipe<Widget> {
                             FluidStack[] stacks = ingredient.getStacks();
                             if (stacks.length != 0) {
                                 float chance = (float) c.chance / ChanceLogic.getMaxChancedValue();
-                                EmiIngredient emiIngredient = EmiStack.of(stacks[0].getFluid(), stacks[0].getTag(), stacks[0].getAmount()).setChance(c.chance);
+                                EmiIngredient emiIngredient = EmiStack.of(stacks[0].getFluid(), stacks[0].getTag(), stacks[0].getAmount()).setChance(chance);
                                 if (chance > 0) {
                                     inputs.add(emiIngredient);
                                 } else {
@@ -97,15 +128,17 @@ public final class GTEMIRecipe extends ModularEmiRecipe<Widget> {
                 if (k instanceof ItemRecipeCapability) {
                     v.forEach(c -> {
                         if (c.getContent() instanceof Ingredient ingredient) {
-                            outputs.add(EmiStack.of(ItemUtils.getFirst(ingredient)));
+                            float chance = (float) c.chance / ChanceLogic.getMaxChancedValue();
+                            outputs.add((EmiStack) getEmiIngredient(ingredient, false).setChance(chance));
                         }
                     });
                 } else if (k instanceof FluidRecipeCapability) {
                     v.forEach(c -> {
                         if (c.getContent() instanceof FluidIngredient ingredient) {
+                            float chance = (float) c.chance / ChanceLogic.getMaxChancedValue();
                             FluidStack[] stacks = ingredient.getStacks();
                             if (stacks.length != 0) {
-                                outputs.add(EmiStack.of(stacks[0].getFluid(), stacks[0].getTag(), stacks[0].getAmount()).setChance(c.chance));
+                                outputs.add(EmiStack.of(stacks[0].getFluid(), stacks[0].getTag(), stacks[0].getAmount()).setChance(chance));
                             }
                         }
                     });

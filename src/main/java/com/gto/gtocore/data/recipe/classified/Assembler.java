@@ -3511,5 +3511,20 @@ interface Assembler {
                 .EUt(7680)
                 .duration(400)
                 .save(provider);
+
+        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("planet_scan_satellite"))
+                .inputItems(GTItems.SENSOR_HV.asStack(2))
+                .inputItems(GTItems.BATTERY_HV_CADMIUM.asStack(4))
+                .inputItems(GTItems.EMITTER_HV.asStack(2))
+                .inputItems(GTItems.POWER_THRUSTER_ADVANCED.asStack(2))
+                .inputItems(GTItems.COVER_SOLAR_PANEL_ULV.asStack(4))
+                .inputItems(GTItems.ROBOT_ARM_HV.asStack())
+                .inputItems(TagPrefix.rod, GTMaterials.StainlessSteel, 4)
+                .inputItems(TagPrefix.plate, GTMaterials.StainlessSteel, 16)
+                .inputFluids(GTMaterials.PolyvinylChloride.getFluid(1152))
+                .outputItems(GTOItems.PLANET_SCAN_SATELLITE.asStack())
+                .EUt(480)
+                .duration(400)
+                .save(provider);
     }
 }

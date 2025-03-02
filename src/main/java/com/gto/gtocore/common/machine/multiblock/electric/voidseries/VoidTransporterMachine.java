@@ -39,7 +39,7 @@ public class VoidTransporterMachine extends ElectricMultiblockMachine {
             VoidTransporterMachine.class, ElectricMultiblockMachine.MANAGED_FIELD_HOLDER);
 
     public static boolean checkTransporter(BlockPos pos, Level level, int id) {
-        return MetaMachine.getMachine(level, pos) instanceof VoidTransporterMachine machine && machine.id == id && machine.check();
+        return !(MetaMachine.getMachine(level, pos) instanceof VoidTransporterMachine machine) || machine.id != id || !machine.check();
     }
 
     public static Function<IMachineBlockEntity, VoidTransporterMachine> create(int id, int eu, @Nullable BiConsumer<VoidTransporterMachine, Player> consumer) {

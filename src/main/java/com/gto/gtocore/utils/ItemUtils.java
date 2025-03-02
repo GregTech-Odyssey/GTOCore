@@ -14,11 +14,15 @@ import dev.latvian.mods.kubejs.core.ItemKJS;
 public final class ItemUtils {
 
     public static ItemStack getFirstSized(SizedIngredient sizedIngredient) {
+        return getFirst(getSizedInner(sizedIngredient));
+    }
+
+    public static Ingredient getSizedInner(SizedIngredient sizedIngredient) {
         Ingredient inner = sizedIngredient.getInner();
         if (inner instanceof SizedIngredient ingredient) {
-            return getFirstSized(ingredient);
+            return getSizedInner(ingredient);
         }
-        return getFirst(inner);
+        return inner;
     }
 
     public static ItemStack getFirst(Ingredient ingredient) {

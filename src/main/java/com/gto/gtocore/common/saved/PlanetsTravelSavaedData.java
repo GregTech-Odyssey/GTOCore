@@ -38,10 +38,17 @@ public final class PlanetsTravelSavaedData extends SavedData {
     }
 
     public static void checkIsUnlocked(ServerPlayer serverPlayer, ResourceLocation planet) {
-        boolean value = planet.equals(GTODimensions.OVERWORLD) || INSTANCE.unlocked.getOrDefault(TeamUtil.getTeamUUID(serverPlayer.getUUID()), Set.of()).contains(planet);
+        if (planet.equals(GTODimensions.OVERWORLD)) return;
+        boolean value = isUnlocked(serverPlayer, planet);
         if (value) {
             ServerMessage.planetUnlock(serverPlayer, planet);
         }
+    }
+
+    public static boolean isUnlocked(ServerPlayer serverPlayer, ResourceLocation planet) {
+        if (planet == null) return false;
+        if (planet.equals(GTODimensions.OVERWORLD)) return true;
+        return INSTANCE.unlocked.getOrDefault(TeamUtil.getTeamUUID(serverPlayer.getUUID()), Set.of()).contains(planet);
     }
 
     public static void unlock(UUID uuid, ResourceLocation planet) {

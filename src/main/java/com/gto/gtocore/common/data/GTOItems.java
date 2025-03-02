@@ -695,6 +695,7 @@ public interface GTOItems {
     ItemEntry<Item> HUI_CIRCUIT_4 = registerLang("hui_circuit_4", "High Calculation Workstation MK-IV", "高算力工作站 MK-IV");
     ItemEntry<Item> HUI_CIRCUIT_5 = registerLang("hui_circuit_5", "High Calculation Workstation MK-V", "高算力工作站 MK-V");
     ItemEntry<Item> SPECIAL_CERAMICS = register("special_ceramics", "特种陶瓷");
+    ItemEntry<Item> PLANET_SCAN_SATELLITE = register("planet_scan_satellite", "行星扫描卫星");
     ItemEntry<Item> HYPERDIMENSIONAL_DRONE = register("hyperdimensional_drone", "超维度无人机");
     ItemEntry<Item> FISHBIG_BODY = register("fishbig_body", "Fishbig Body");
     ItemEntry<Item> FISHBIG_HADE = register("fishbig_hade", "Fishbig Hade");
