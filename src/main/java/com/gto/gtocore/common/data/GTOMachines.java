@@ -589,6 +589,7 @@ public interface GTOMachines {
             .register();
 
     MachineDefinition PRIMITIVE_BLAST_FURNACE_HATCH = machine("primitive_blast_furnace_hatch", "土高炉仓", PrimitiveBlastFurnaceHatch::new)
+            .allRotation()
             .modelRenderer(() -> GTCEu.id("block/machine/part/primitive_blast_furnace_hatch"))
             .register();
 
