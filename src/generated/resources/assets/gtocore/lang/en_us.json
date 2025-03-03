@@ -754,6 +754,7 @@
   "block.gtocore.precision_assembler": "Precision Assembler",
   "block.gtocore.precision_assembly_center": "Precision Assembly Center",
   "block.gtocore.pressure_containment_casing": "Pressure Containment Casing",
+  "block.gtocore.primitive_blast_furnace_hatch": "Primitive Blast Furnace Hatch",
   "block.gtocore.primitive_distillation_tower": "Primitive Distillation Tower",
   "block.gtocore.primitive_void_ore": "Primitive Void Ore",
   "block.gtocore.process_machine_casing": "Process Machine Casing",
