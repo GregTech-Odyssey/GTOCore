@@ -7,6 +7,7 @@ import net.minecraft.world.level.material.Fluids;
 import dev.emi.emi.api.EmiApi;
 import dev.emi.emi.api.stack.EmiIngredient;
 import dev.emi.emi.api.stack.EmiStack;
+import dev.emi.emi.api.stack.ItemEmiStack;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -38,9 +39,7 @@ public abstract class EmiApiMixin {
 
     @Unique
     private static EmiIngredient gtocore$getBucketFluid(EmiIngredient stack) {
-        var es = stack.getEmiStacks().get(0);
-        var item = es.getItemStack().getItem();
-        if (item instanceof BucketItem bucketItem) {
+        if (stack instanceof ItemEmiStack itemEmiStack && itemEmiStack.getKey() instanceof BucketItem bucketItem) {
             Fluid fluid = bucketItem.getFluid();
             return fluid == Fluids.EMPTY ? stack : EmiStack.of(fluid);
         }

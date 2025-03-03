@@ -106,6 +106,7 @@
         "gtm.machine.SimpleTieredMachineMixin",
         "gtm.machine.SteamLiquidBoilerMachineMixin",
         "gtm.machine.SteamParallelMultiblockMachineMixin",
+        "gtm.machine.SteamSolidBoilerMachineMixin",
         "gtm.machine.WorkableElectricMultiblockMachineMixin",
         "gtm.machine.WorkableMultiblockMachineMixin",
         "gtm.machine.WorkableTieredMachineMixin",

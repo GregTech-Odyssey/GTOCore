@@ -2,7 +2,6 @@ package com.gto.gtocore.integration.emi;
 
 import com.gto.gtocore.common.data.GTORecipes;
 import com.gto.gtocore.integration.chisel.ChiselRecipe;
-import com.gto.gtocore.integration.emi.multipage.MultiblockInfoEmiCategory;
 import com.gto.gtocore.integration.kjs.GTKubeJSPlugin;
 
 import com.gregtechceu.gtceu.GTCEu;
@@ -14,6 +13,7 @@ import com.gregtechceu.gtceu.common.fluid.potion.PotionFluid;
 import com.gregtechceu.gtceu.common.fluid.potion.PotionFluidHelper;
 import com.gregtechceu.gtceu.config.ConfigHolder;
 import com.gregtechceu.gtceu.integration.emi.circuit.GTProgrammedCircuitCategory;
+import com.gregtechceu.gtceu.integration.emi.multipage.MultiblockInfoEmiCategory;
 import com.gregtechceu.gtceu.integration.emi.oreprocessing.GTOreProcessingEmiCategory;
 import com.gregtechceu.gtceu.integration.emi.orevein.GTBedrockFluidEmiCategory;
 import com.gregtechceu.gtceu.integration.emi.orevein.GTOreVeinEmiCategory;
@@ -53,7 +53,6 @@ public final class GTEMIPlugin implements EmiPlugin {
         registry.addRecipeHandler(WETMenu.TYPE, new Ae2PatternTerminalHandler<>());
         registry.addCategory(GTProgrammedCircuitCategory.CATEGORY);
 
-        MultiblockInfoEmiCategory.registerDisplays(registry);
         GTRecipeEMICategory.registerDisplays(registry);
         if (GTKubeJSPlugin.hasKJSGTRecipe) GTORecipes.clearCategoryMap(false);
         if (!ConfigHolder.INSTANCE.compat.hideOreProcessingDiagrams)

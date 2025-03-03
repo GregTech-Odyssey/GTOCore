@@ -52,7 +52,7 @@ public interface MultiBlockG {
 
     MultiblockMachineDefinition SATELLITE_CONTROL_CENTER = multiblock("satellite_control_center", "卫星控制中心", SatelliteControlCenterMachine::new)
             .allRotation()
-            .tooltipsText("Launch a satellite and bring back planet data","发射卫星，带回星球数据")
+            .tooltipsText("Launch a satellite and bring back planet data", "发射卫星，带回星球数据")
             .recipe(DUMMY_RECIPES)
             .block(GTBlocks.CASING_STAINLESS_CLEAN)
             .pattern(definition -> FactoryBlockPattern.start(RelativeDirection.BACK, RelativeDirection.UP, RelativeDirection.LEFT)

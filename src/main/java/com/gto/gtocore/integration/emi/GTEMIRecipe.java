@@ -15,6 +15,8 @@ import com.gregtechceu.gtceu.integration.xei.widgets.GTRecipeWidget;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraftforge.fluids.FluidStack;
@@ -41,9 +43,7 @@ import dev.emi.emi.api.widget.WidgetHolder;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.function.Supplier;
 
 public final class GTEMIRecipe extends ModularEmiRecipe<Widget> {
 
@@ -68,21 +68,19 @@ public final class GTEMIRecipe extends ModularEmiRecipe<Widget> {
 
     private static EmiIngredient getEmiIngredient(Ingredient ingredient, boolean input) {
         Ingredient inner = ingredient;
-        boolean sized = false;
-        Supplier<List<EmiStack>> emiStacks;
+        boolean sized;
         if (ingredient instanceof SizedIngredient sizedIngredient) {
             inner = ItemUtils.getSizedInner(sizedIngredient);
             sized = true;
+        } else {
+            sized = false;
         }
         ItemStack[] itemStacks = inner.getItems();
-        if (itemStacks.length > 0) {
-            emiStacks = () -> Arrays.stream(itemStacks).map(EmiStack::of).toList();
-        } else {
-            return EmiStack.EMPTY;
-        }
+        if (itemStacks.length == 0) return EmiStack.EMPTY;
         for (Ingredient.Value value : ((IngredientAccessor) inner).getValues()) {
             if (input && value instanceof Ingredient.TagValue tagValue) {
-                return new TagEmiIngredient(((IngredientTagValueAccessor) tagValue).getTag(), emiStacks.get(), sized ? ((SizedIngredient) ingredient).getAmount() : itemStacks[0].getCount());
+                TagKey<Item> tagKey = ((IngredientTagValueAccessor) tagValue).getTag();
+                return new TagEmiIngredient(tagKey, sized ? ((SizedIngredient) ingredient).getAmount() : itemStacks[0].getCount());
             } else {
                 return EmiStack.of(sized ? itemStacks[0].copyWithCount(((SizedIngredient) ingredient).getAmount()) : itemStacks[0]);
             }

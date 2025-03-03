@@ -1,7 +1,6 @@
 package com.gto.gtocore.data.recipe.generated;
 
 import com.gto.gtocore.api.data.tag.GTOTagPrefix;
-import com.gto.gtocore.utils.GTOUtils;
 
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
@@ -56,7 +55,6 @@ interface GTORecyclingRecipeHandler {
     }
 
     private static void processCrushing(@NotNull Consumer<FinishedRecipe> provider, @NotNull TagPrefix prefix, @NotNull Material material) {
-        if (!GTOUtils.isGeneration(prefix, material)) return;
         ItemStack stack = ChemicalHelper.get(prefix, material);
         if (stack.isEmpty()) return;
         ArrayList<MaterialStack> materialStacks = new ArrayList<>();

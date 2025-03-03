@@ -9,12 +9,15 @@ import com.gto.gtocore.data.recipe.generated.*;
 import com.gto.gtocore.data.recipe.generated.ComponentRecipes;
 import com.gto.gtocore.data.recipe.processing.*;
 import com.gto.gtocore.integration.emi.GTEMIRecipe;
+import com.gto.gtocore.integration.emi.multipage.MultiblockInfoEmiRecipe;
 import com.gto.gtocore.integration.kjs.GTKubeJSPlugin;
 import com.gto.gtocore.utils.RLUtils;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
+import com.gregtechceu.gtceu.api.machine.MachineDefinition;
+import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.recipe.category.GTRecipeCategory;
@@ -41,6 +44,7 @@ import com.glodblock.github.extendedae.ExtendedAE;
 import com.google.common.collect.ImmutableSet;
 import com.kyanite.deeperdarker.DeeperDarker;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
+import dev.emi.emi.api.recipe.EmiRecipe;
 import dev.emi.emi.api.recipe.EmiRecipeCategory;
 import dev.emi.emi.config.EmiConfig;
 import dev.emi.emi.config.SidebarSide;
@@ -59,7 +63,7 @@ public final class GTORecipes implements Runnable {
 
     public static Map<GTRecipeType, Widget> EMI_RECIPE_WIDGETS;
 
-    public static ImmutableSet<GTEMIRecipe> EMI_RECIPES;
+    public static ImmutableSet<EmiRecipe> EMI_RECIPES;
 
     public static Map<String, GTRecipe> GT_RECIPE_MAP = new Object2ObjectOpenHashMap<>(5000);
 
@@ -241,8 +245,8 @@ public final class GTORecipes implements Runnable {
             EmiConfig.workstationLocation = SidebarSide.LEFT;
             EmiRepairItemRecipe.TOOLS.clear();
             initGTCategoryMap();
-            Set<GTEMIRecipe> recipes = new ObjectOpenHashSet<>(5000);
             EMI_RECIPE_WIDGETS = new Object2ObjectOpenHashMap<>();
+            ImmutableSet.Builder<EmiRecipe> recipes = ImmutableSet.builder();
             for (GTRecipeCategory category : GTRegistries.RECIPE_CATEGORIES) {
                 if (!category.shouldRegisterDisplays()) continue;
                 var type = category.getRecipeType();
@@ -250,8 +254,15 @@ public final class GTORecipes implements Runnable {
                 EmiRecipeCategory emiCategory = GTRecipeEMICategory.CATEGORIES.apply(category);
                 type.getRecipesInCategory(category).stream().map(recipe -> new GTEMIRecipe(recipe, emiCategory)).forEach(recipes::add);
             }
+            if (!GTOConfig.INSTANCE.disableMultiBlockPage) {
+                for (MachineDefinition machine : GTRegistries.MACHINES.values()) {
+                    if (machine instanceof MultiblockMachineDefinition definition && definition.isRenderXEIPreview()) {
+                        recipes.add(new MultiblockInfoEmiRecipe(definition));
+                    }
+                }
+            }
             EMI_RECIPE_WIDGETS = null;
-            EMI_RECIPES = ImmutableSet.copyOf(recipes);
+            EMI_RECIPES = recipes.build();
             clearCategoryMap(false);
             GTOCore.LOGGER.info("Pre initialization EMI GTRecipe took {}ms", System.currentTimeMillis() - time);
         }

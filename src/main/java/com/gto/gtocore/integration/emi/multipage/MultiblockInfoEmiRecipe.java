@@ -4,20 +4,19 @@ import com.gto.gtocore.api.machine.IMultiblockMachineDefinition;
 import com.gto.gtocore.client.gui.PatternPreview;
 
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
+import com.gregtechceu.gtceu.integration.emi.multipage.MultiblockInfoEmiCategory;
 
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.crafting.Ingredient;
 
 import com.lowdragmc.lowdraglib.emi.ModularEmiRecipe;
 import com.lowdragmc.lowdraglib.emi.ModularForegroundRenderWidget;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.jei.ModularWrapper;
 import dev.emi.emi.api.recipe.EmiRecipeCategory;
-import dev.emi.emi.api.stack.EmiIngredient;
+import dev.emi.emi.api.stack.EmiStack;
 import dev.emi.emi.api.widget.WidgetHolder;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public final class MultiblockInfoEmiRecipe extends ModularEmiRecipe<Widget> {
@@ -26,20 +25,11 @@ public final class MultiblockInfoEmiRecipe extends ModularEmiRecipe<Widget> {
 
     private final MultiblockMachineDefinition definition;
 
-    MultiblockInfoEmiRecipe(MultiblockMachineDefinition definition) {
+    public MultiblockInfoEmiRecipe(MultiblockMachineDefinition definition) {
         super(() -> MULTIBLOCK);
         this.definition = definition;
-        inputs = null;
         widget = () -> PatternPreview.getPatternWidget(definition);
-    }
-
-    @Override
-    public List<EmiIngredient> getInputs() {
-        if (inputs == null) {
-            inputs = new ArrayList<>();
-            ((IMultiblockMachineDefinition) definition).gtocore$getPatterns()[0].parts().forEach(i -> inputs.add(EmiIngredient.of(Ingredient.of(i))));
-        }
-        return inputs;
+        ((IMultiblockMachineDefinition) definition).gtocore$getPatterns()[0].parts().forEach(i -> inputs.add(EmiStack.of(i)));
     }
 
     @Override

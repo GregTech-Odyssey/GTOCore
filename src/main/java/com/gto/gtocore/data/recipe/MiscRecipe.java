@@ -44,7 +44,7 @@ public interface MiscRecipe {
             VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("primitive_void_ore_recipes"),
                     PRIMITIVE_VOID_ORE.asStack(), "DCD", "CGC", "DCD",
                     'D', Blocks.DIRT.asItem(),
-                    'C', Items.STONE_PICKAXE.asItem(),
+                    'C', Items.IRON_PICKAXE.asItem(),
                     'G', new UnificationEntry(block, Iron));
             PRIMITIVE_VOID_ORE_RECIPES.recipeBuilder(GTOCore.id("primitive_void_ore_recipes"))
                     .inputFluids(Steam.getFluid(1000))
