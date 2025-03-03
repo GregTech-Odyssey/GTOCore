@@ -32,7 +32,7 @@ public class ItemRecipeCapabilityMixin {
     }
 
     @Redirect(method = "applyWidgetInfo", at = @At(value = "INVOKE", target = "Lcom/gregtechceu/gtceu/api/gui/widget/SlotWidget;setXEIChance(F)Lcom/gregtechceu/gtceu/api/gui/widget/SlotWidget;"), remap = false)
-    public SlotWidget setXEIChance(SlotWidget instance, float XEIChance, @Local(argsOnly = true) IO io, @Local(argsOnly = true) Content content) {
+    private SlotWidget setXEIChance(SlotWidget instance, float XEIChance, @Local(argsOnly = true) IO io, @Local(argsOnly = true) Content content) {
         if (io == IO.IN) {
             Ingredient ingredient = ItemRecipeCapability.CAP.of(content.getContent());
             if (ingredient instanceof SizedIngredient sizedIngredient && ItemUtils.getFirstSized(sizedIngredient).getItem() instanceof TagPrefixItem item && item.tagPrefix == GTOTagPrefix.catalyst) {

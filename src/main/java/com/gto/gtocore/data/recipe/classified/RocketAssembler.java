@@ -74,7 +74,7 @@ interface RocketAssembler {
         GTORecipeTypes.ROCKET_ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("tier_4_rocket"))
                 .inputItems(RegistriesUtils.getItemStack("ad_astra:rocket_nose_cone"))
                 .inputItems(GTItems.SENSOR_EV.asStack(4))
-                .inputItems(GTItems.FIELD_GENERATOR_UEV.asStack(4))
+                .inputItems(GTItems.FIELD_GENERATOR_EV.asStack(4))
                 .inputItems(RegistriesUtils.getItemStack("ad_astra:desh_tank", 8))
                 .inputItems(TagPrefix.pipeSmallFluid, GTMaterials.TungstenSteel, 8)
                 .inputItems(TagPrefix.bolt, GTMaterials.TungstenSteel, 32)
@@ -107,7 +107,7 @@ interface RocketAssembler {
                 .duration(1200)
                 .save(provider);
 
-        GTORecipeTypes.ROCKET_ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id(""))
+        GTORecipeTypes.ROCKET_ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("tier_6_rocket"))
                 .inputItems(RegistriesUtils.getItemStack("ad_astra:rocket_nose_cone"))
                 .inputItems(GTItems.SENSOR_LuV.asStack(4))
                 .inputItems(GTItems.FIELD_GENERATOR_LuV.asStack(4))

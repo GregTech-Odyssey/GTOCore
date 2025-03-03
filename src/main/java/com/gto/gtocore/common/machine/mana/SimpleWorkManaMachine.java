@@ -18,7 +18,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class SimpleWorkManaMachine extends SimpleManaMachine implements IManaEnergyMachine, IOverclockConfigMachine {
 
-    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
+    private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
             SimpleWorkManaMachine.class, SimpleManaMachine.MANAGED_FIELD_HOLDER);
 
     @Override

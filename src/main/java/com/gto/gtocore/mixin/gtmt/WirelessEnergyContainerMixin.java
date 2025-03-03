@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.Overwrite;
 import java.util.UUID;
 
 @Mixin(WirelessEnergyContainer.class)
-public class WirelessEnergyContainerMixin {
+public final class WirelessEnergyContainerMixin {
 
     /**
      * @author .

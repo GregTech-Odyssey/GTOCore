@@ -22,7 +22,7 @@ public interface IHighlightMachine {
         configuratorPanel.attachConfigurators(new IFancyConfiguratorButton.Toggle(
                 GuiTextures.LIGHT_ON, GuiTextures.LIGHT_ON, () -> false,
                 (clickData, pressed) -> {
-                    if (clickData.isRemote && ((MultiblockControllerMachine) this).isFormed()) getHighlightPos().forEach(p -> EAEHighlightHandler.highlight(p, ((MetaMachine) this).getLevel().dimension(), System.currentTimeMillis() + 15000));
+                    if (clickData.isRemote && ((MultiblockControllerMachine) this).isFormed() && ((MetaMachine) this).getLevel() != null) getHighlightPos().forEach(p -> EAEHighlightHandler.highlight(p, ((MetaMachine) this).getLevel().dimension(), System.currentTimeMillis() + 15000));
                 })
                 .setTooltipsSupplier(pressed -> List.of(Component.translatable("gtocore.machine.highlight_module"))));
     }

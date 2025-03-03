@@ -15,7 +15,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class CoilCrossRecipeMultiblockMachine extends CrossRecipeMultiblockMachine implements ICoilMachine {
+public final class CoilCrossRecipeMultiblockMachine extends CrossRecipeMultiblockMachine implements ICoilMachine {
 
     public static CrossRecipeMultiblockMachine createCoilParallel(IMachineBlockEntity holder) {
         return createCoilParallel(holder, false);

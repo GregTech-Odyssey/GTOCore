@@ -38,7 +38,7 @@ import static com.gregtechceu.gtceu.common.data.GTMaterials.Wood;
 import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.*;
 
 @Mixin(WoodMachineRecipes.class)
-public class WoodMachineRecipesMixin {
+public final class WoodMachineRecipesMixin {
 
     @Shadow(remap = false)
     private static List<WoodTypeEntry> DEFAULT_ENTRIES;

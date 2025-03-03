@@ -6,7 +6,7 @@ import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 
 import com.lowdragmc.lowdraglib.jei.ModularWrapper;
 
-public final class MultiblockInfoWrapper extends ModularWrapper<PatternPreview> {
+final class MultiblockInfoWrapper extends ModularWrapper<PatternPreview> {
 
     MultiblockInfoWrapper(MultiblockMachineDefinition definition) {
         super(PatternPreview.getPatternWidget(definition));

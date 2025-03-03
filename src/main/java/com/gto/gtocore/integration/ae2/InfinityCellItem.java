@@ -17,6 +17,7 @@ import com.google.common.base.Preconditions;
 import lombok.Getter;
 
 import java.util.List;
+import java.util.UUID;
 
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -39,7 +40,9 @@ public final class InfinityCellItem extends Item {
         InfinityCellInventory handler = InfinityCellHandler.INSTANCE.getCellInventory(stack, null);
         CompoundTag tag = stack.getTag();
         if (tag != null && handler != null && handler.hasUUID()) {
-            tooltip.add(Component.literal("UUID: ").withStyle(ChatFormatting.GRAY).append(Component.literal(handler.getUUID().toString()).withStyle(ChatFormatting.AQUA)));
+            UUID uuid = handler.getUUID();
+            if (uuid == null) return;
+            tooltip.add(Component.literal("UUID: ").withStyle(ChatFormatting.GRAY).append(Component.literal(uuid.toString()).withStyle(ChatFormatting.AQUA)));
             tooltip.add(Component.literal("Byte: ").withStyle(ChatFormatting.GRAY).append(Component.literal(handler.getTotalStorage()).withStyle(ChatFormatting.GREEN)));
         }
     }

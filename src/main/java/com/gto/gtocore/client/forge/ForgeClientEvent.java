@@ -39,8 +39,6 @@ import com.mojang.blaze3d.vertex.*;
 
 import java.util.function.Supplier;
 
-import static com.hepdd.gtmthings.client.ForgeClientEventHandler.highlightBlock;
-
 @OnlyIn(Dist.CLIENT)
 public final class ForgeClientEvent {
 

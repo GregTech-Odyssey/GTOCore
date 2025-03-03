@@ -8,7 +8,7 @@ import org.spongepowered.asm.mixin.Overwrite;
 import java.util.function.Consumer;
 
 @Mixin(EmiData.class)
-public class EmiDataMixin {
+public final class EmiDataMixin {
 
     /**
      * @author .

@@ -22,7 +22,7 @@ public interface ITemperatureMachine extends IExplosionMachine {
 
     default int getSignal(@Nullable Direction side) {
         if (side != null) {
-            return (int) (15D * (getTemperature() - 293) / (getMaxTemperature() - 293));
+            return (int) (15.0D * (getTemperature() - 293) / (getMaxTemperature() - 293));
         }
         return 0;
     }

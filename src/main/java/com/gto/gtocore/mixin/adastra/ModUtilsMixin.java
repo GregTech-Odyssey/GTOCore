@@ -25,7 +25,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import static earth.terrarium.adastra.common.utils.ModUtils.teleportToDimension;
 
 @Mixin(ModUtils.class)
-public class ModUtilsMixin {
+public final class ModUtilsMixin {
 
     /**
      * @author .

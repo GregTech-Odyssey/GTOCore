@@ -18,7 +18,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class SimpleManaMachine extends SimpleNoEnergyMachine implements IManaMachine {
 
-    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
+    static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
             SimpleManaMachine.class, SimpleNoEnergyMachine.MANAGED_FIELD_HOLDER);
 
     @Override
@@ -33,7 +33,7 @@ public class SimpleManaMachine extends SimpleNoEnergyMachine implements IManaMac
     @Getter
     private final int tierMana;
 
-    public SimpleManaMachine(IMachineBlockEntity holder, int tier, Int2IntFunction tankScalingFunction, Object... args) {
+    SimpleManaMachine(IMachineBlockEntity holder, int tier, Int2IntFunction tankScalingFunction, Object... args) {
         super(holder, tier, tankScalingFunction, args);
         tierMana = GTOValues.MANA[tier];
         manaContainer = new NotifiableManaContainer(this, IO.IN, 256 * tierMana, tierMana);

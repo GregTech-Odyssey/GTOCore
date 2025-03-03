@@ -13,7 +13,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class SimplifiedChineseLanguageProvider extends LanguageProvider implements RegistrateProvider {
+public final class SimplifiedChineseLanguageProvider extends LanguageProvider implements RegistrateProvider {
 
     public static final ProviderType<SimplifiedChineseLanguageProvider> LANG = ProviderType.register("cn_lang", (p, e) -> new SimplifiedChineseLanguageProvider(p, e.getGenerator().getPackOutput()));
 

@@ -2,6 +2,7 @@ package com.gto.gtocore.integration.jade;
 
 import com.gto.gtocore.api.blockentity.ManaMachineBlockEntity;
 import com.gto.gtocore.integration.jade.provider.*;
+import com.gto.gtocore.integration.jade.provider.MultiblockStructureProvider;
 import com.gto.gtocore.integration.jade.provider.ParallelProvider;
 import com.gto.gtocore.integration.jade.provider.RecipeLogicProvider;
 import com.gto.gtocore.integration.jade.provider.RecipeOutputProvider;

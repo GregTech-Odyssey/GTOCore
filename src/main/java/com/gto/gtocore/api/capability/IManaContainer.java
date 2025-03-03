@@ -12,10 +12,12 @@ import java.util.Set;
 
 public interface IManaContainer extends INetMachineInteractor<ManaDistributorMachine> {
 
+    @Override
     default Set<ManaDistributorMachine> getMachineNet() {
         return ManaDistributorMachine.DISTRIBUTOR_NETWORK;
     }
 
+    @Override
     default boolean firstTestMachine(ManaDistributorMachine machine) {
         if (!acceptDistributor()) return false;
         BlockPos pos = getMachine().getPos();
@@ -24,10 +26,12 @@ public interface IManaContainer extends INetMachineInteractor<ManaDistributorMac
         return machine.isFormed() && level.dimension().equals(level.dimension()) && machine.add(pos);
     }
 
+    @Override
     default boolean testMachine(ManaDistributorMachine machine) {
         return machine.isFormed();
     }
 
+    @Override
     default void removeNetMachineCache() {
         ManaDistributorMachine distributor = getNetMachineCache();
         if (distributor != null) {

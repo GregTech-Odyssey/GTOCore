@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(WirelessMachines.class)
-public class WirelessMachinesMixin {
+public final class WirelessMachinesMixin {
 
     /**
      * @author .

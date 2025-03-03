@@ -30,7 +30,7 @@ import org.joml.Matrix4f;
 
 import java.util.function.Supplier;
 
-public class HaloItemRenderer implements IRenderer {
+public final class HaloItemRenderer implements IRenderer {
 
     public static final HaloItemRenderer WHITE_HALO = HaloItemRenderer.create(0, 0xFFFFFFFF, 4, RLUtils.avaritia("misc/halo"));
     public static final HaloItemRenderer QUANTUM_CHROMO_DYNAMICALLY_HALO = HaloItemRenderer.create(0, () -> com.gto.gtocore.utils.ColorUtils.createARGBColor(MaterialsColorMap.quantumColor.get(), 150), () -> GTValues.RNG.nextInt(4) + 2, RLUtils.avaritia("misc/halo"));

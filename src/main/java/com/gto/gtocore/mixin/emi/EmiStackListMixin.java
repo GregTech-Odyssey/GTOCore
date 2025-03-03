@@ -23,7 +23,7 @@ import java.util.Map;
 import java.util.Set;
 
 @Mixin(EmiStackList.class)
-public class EmiStackListMixin {
+public final class EmiStackListMixin {
 
     @Shadow(remap = false)
     private static Object2IntMap<EmiStack> strictIndices;

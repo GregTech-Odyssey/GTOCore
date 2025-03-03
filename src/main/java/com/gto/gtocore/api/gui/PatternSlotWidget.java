@@ -17,7 +17,7 @@ import java.util.function.Supplier;
 
 public final class PatternSlotWidget extends SlotWidget {
 
-    public final Supplier<EmiIngredient> ingredient;
+    private final Supplier<EmiIngredient> ingredient;
 
     public PatternSlotWidget(IItemHandlerModifiable itemHandler, int slotIndex, int xPosition, int yPosition) {
         super(itemHandler, slotIndex, xPosition, yPosition, false, false);

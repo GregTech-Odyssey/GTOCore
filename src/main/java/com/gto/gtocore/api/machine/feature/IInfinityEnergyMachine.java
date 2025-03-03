@@ -17,7 +17,7 @@ public interface IInfinityEnergyMachine {
         capabilitiesProxy.put(IO.IN, EURecipeCapability.CAP, List.of(new InfinityEnergyRecipeHandler(eut)));
     }
 
-    class InfinityEnergyRecipeHandler implements IRecipeHandler<Long> {
+    final class InfinityEnergyRecipeHandler implements IRecipeHandler<Long> {
 
         private final long eut;
 

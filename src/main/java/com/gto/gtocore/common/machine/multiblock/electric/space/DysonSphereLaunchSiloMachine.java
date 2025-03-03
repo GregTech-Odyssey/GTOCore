@@ -31,7 +31,8 @@ public final class DysonSphereLaunchSiloMachine extends ElectricMultiblockMachin
 
     @Override
     protected GTRecipe getRealRecipe(@NotNull GTRecipe recipe) {
-        recipe.duration = recipe.duration * GTODimensions.ALL_GALAXY_DIM.get(getDimension().location()) / 4;
+        Integer integer = GTODimensions.ALL_GALAXY_DIM.get(getDimension().location());
+        if (integer != null) recipe.duration = recipe.duration * integer / 4;
         return recipe;
     }
 

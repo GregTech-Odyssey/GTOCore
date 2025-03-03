@@ -31,6 +31,7 @@ public abstract class RockBreakerConditionMixin extends RecipeCondition {
      * @author .
      * @reason .
      */
+    @Override
     @Overwrite(remap = false)
     public boolean test(@NotNull GTRecipe recipe, @NotNull RecipeLogic recipeLogic) {
         Fluid fluidA = RegistriesUtils.getFluid(recipe.data.getString("fluidA"));

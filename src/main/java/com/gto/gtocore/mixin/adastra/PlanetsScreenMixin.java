@@ -57,7 +57,7 @@ public abstract class PlanetsScreenMixin extends AbstractContainerScreen<Planets
     }
 
     @Inject(method = "land", at = @At("HEAD"), remap = false, cancellable = true)
-    public void land(ResourceKey<Level> dimension, CallbackInfo ci) {
+    private void land(ResourceKey<Level> dimension, CallbackInfo ci) {
         boolean close = false;
         Player player = getMenu().player();
         ResourceLocation planet = dimension.location();

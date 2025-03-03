@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 @Mixin(EmiRecipes.class)
-public class EmiRecipesMixin {
+public final class EmiRecipesMixin {
 
     @Shadow(remap = false)
     private static Map<EmiRecipeCategory, List<EmiIngredient>> workstations;

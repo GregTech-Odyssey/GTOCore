@@ -32,6 +32,7 @@ public class WirelessEnergyUnitBlock extends Block {
         this.tier = tier;
     }
 
+    @Override
     public void appendHoverText(@NotNull ItemStack stack, @Nullable BlockGetter level, @NotNull List<Component> tooltip, @NotNull TooltipFlag flag) {
         super.appendHoverText(stack, level, tooltip, flag);
         if (GTUtil.isShiftDown()) {

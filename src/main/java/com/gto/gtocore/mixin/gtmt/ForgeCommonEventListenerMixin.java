@@ -8,7 +8,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 
 @Mixin(ForgeCommonEventListener.class)
-public class ForgeCommonEventListenerMixin {
+public final class ForgeCommonEventListenerMixin {
 
     /**
      * @author .

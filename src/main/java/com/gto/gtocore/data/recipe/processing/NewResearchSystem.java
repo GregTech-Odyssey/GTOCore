@@ -449,7 +449,7 @@ public interface NewResearchSystem {
                 int m = (int) Math.pow(4, n - 1);
                 DRAWING_RECIPES.recipeBuilder("drawing_simple_fiber_optic_" + n)
                         .inputItems(MultiStepItemHelper.locateStep(stack1, 15))
-                        .outputItems(SIMPLE_FIBER_OPTIC_ROUGH, m * 64)
+                        .outputItems(SIMPLE_FIBER_OPTIC_ROUGH, m << 6)
                         .addData("spool", n)
                         .duration((60000 * m) + 12000)
                         .EUt(VA[3 + n])
@@ -460,7 +460,7 @@ public interface NewResearchSystem {
                 int m = (int) Math.pow(4, n - 1);
                 DRAWING_RECIPES.recipeBuilder("drawing_simple_fiber_optic_" + n)
                         .inputItems(MultiStepItemHelper.locateStep(stack1, 15))
-                        .outputItems(SIMPLE_FIBER_OPTIC_ROUGH, m * 64)
+                        .outputItems(SIMPLE_FIBER_OPTIC_ROUGH, m << 6)
                         .addData("spool", n)
                         .duration((60000 * m) + 12000)
                         .EUt(VA[3 + n])

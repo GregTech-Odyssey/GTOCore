@@ -16,7 +16,7 @@ import java.util.List;
 
 public abstract class MultiblockTrait extends MachineTrait {
 
-    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(MultiblockTrait.class);
+    static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(MultiblockTrait.class);
 
     protected MultiblockTrait(IMultiblockTraitHolder machine) {
         super((MetaMachine) machine);

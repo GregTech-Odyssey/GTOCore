@@ -304,7 +304,7 @@ public final class GTORecipes implements Runnable {
         thread.start();
     }
 
-    private static class Lookup implements Runnable {
+    private static final class Lookup implements Runnable {
 
         private final Map<ResourceLocation, Recipe<?>> recipes;
 

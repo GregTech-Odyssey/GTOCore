@@ -13,6 +13,7 @@ import org.spongepowered.asm.mixin.Shadow;
 @Mixin(CoilWorkableElectricMultiblockMachine.class)
 public abstract class CoilWorkableElectricMultiblockMachineMixin extends WorkableElectricMultiblockMachine implements ICoilMachine {
 
+    @Override
     @Shadow(remap = false)
     public abstract ICoilType getCoilType();
 

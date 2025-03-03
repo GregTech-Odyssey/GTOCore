@@ -234,7 +234,7 @@ public abstract class RecyclingRecipesMixin {
         if (prefix != TagPrefix.dust || ms == null || !ms.material().hasProperty(PropertyKey.BLAST)) {
             if (prefix != TagPrefix.block) {
                 materials = combineStacks(materials.stream().map(RecyclingRecipesMixin::getArcSmeltingResult).filter(Objects::nonNull).collect(Collectors.toList()));
-                List<ItemStack> outputs = finalizeOutputs(materials, GTRecipeTypes.ARC_FURNACE_RECIPES.getMaxOutputs(ItemRecipeCapability.CAP), stack -> getArcIngotOrDust(stack));
+                List<ItemStack> outputs = finalizeOutputs(materials, GTRecipeTypes.ARC_FURNACE_RECIPES.getMaxOutputs(ItemRecipeCapability.CAP), RecyclingRecipesMixin::getArcIngotOrDust);
                 if (outputs != null && !outputs.isEmpty()) {
                     ResourceLocation itemPath = BuiltInRegistries.ITEM.getKey(input.getItem());
                     GTRecipeBuilder builder = GTRecipeTypes.ARC_FURNACE_RECIPES.recipeBuilder("arc_" + itemPath.getPath()).outputItems(outputs.toArray(ItemStack[]::new)).duration(calculateDuration(outputs)).EUt(GTValues.VA[1]);

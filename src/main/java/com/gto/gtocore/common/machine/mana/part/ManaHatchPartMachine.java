@@ -80,7 +80,7 @@ public class ManaHatchPartMachine extends TieredIOPartMachine implements IManaMa
         }
     }
 
-    protected void tickUpdate() {
+    void tickUpdate() {
         if (getOffsetTimer() % 20 != 0) return;
         ManaReceiver receiver = XplatAbstractions.INSTANCE.findManaReceiver(getLevel(), getPos().relative(getFrontFacing()), null);
         if (receiver != null && !receiver.isFull()) {

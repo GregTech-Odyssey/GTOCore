@@ -74,7 +74,7 @@ public class VoidTransporterMachine extends ElectricMultiblockMachine {
     private boolean check = true;
 
     @Persisted
-    protected final NotifiableEnergyContainer energyContainer;
+    private final NotifiableEnergyContainer energyContainer;
 
     private final BiConsumer<VoidTransporterMachine, Player> consumer;
 

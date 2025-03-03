@@ -19,7 +19,7 @@ public interface IManaEnergyMachine {
         capabilitiesProxy.put(IO.IN, EURecipeCapability.CAP, List.of(new ManaEnergyRecipeHandler(eut, manaContainer)));
     }
 
-    class ManaEnergyRecipeHandler implements IRecipeHandler<Long> {
+    final class ManaEnergyRecipeHandler implements IRecipeHandler<Long> {
 
         private final long eut;
 

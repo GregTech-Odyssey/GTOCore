@@ -25,7 +25,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import java.util.List;
 
 @Mixin(AddonFinder.class)
-public class AddonFinderMixin {
+public final class AddonFinderMixin {
 
     @Shadow(remap = false)
     protected static List<IGTAddon> cache;

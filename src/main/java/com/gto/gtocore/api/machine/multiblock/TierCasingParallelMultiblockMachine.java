@@ -8,7 +8,7 @@ import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import java.util.Map;
 import java.util.function.Function;
 
-public class TierCasingParallelMultiblockMachine extends CustomParallelMultiblockMachine implements ITierCasingMachine {
+public final class TierCasingParallelMultiblockMachine extends CustomParallelMultiblockMachine implements ITierCasingMachine {
 
     public static Function<IMachineBlockEntity, TierCasingParallelMultiblockMachine> createParallel(Function<TierCasingParallelMultiblockMachine, Integer> parallel, boolean defaultParallel, String... tierTypes) {
         return holder -> new TierCasingParallelMultiblockMachine(holder, defaultParallel, parallel, tierTypes);

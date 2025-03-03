@@ -6,7 +6,7 @@ import net.minecraft.client.renderer.RenderType;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.VertexFormat;
 
-public class GTORenderTypes extends RenderType {
+public final class GTORenderTypes extends RenderType {
 
     public static final RenderType LIGHT_CYLINDER = RenderType.create("light_cylinder",
             DefaultVertexFormat.POSITION_COLOR, VertexFormat.Mode.TRIANGLE_STRIP, 256, false, false,

@@ -18,7 +18,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.util.List;
 
 @Mixin(SteamParallelMultiblockMachine.class)
-public class SteamParallelMultiblockMachineMixin extends WorkableMultiblockMachine {
+public final class SteamParallelMultiblockMachineMixin extends WorkableMultiblockMachine {
 
     private SteamParallelMultiblockMachineMixin(IMachineBlockEntity holder, Object... args) {
         super(holder, args);

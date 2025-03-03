@@ -17,7 +17,7 @@ import net.minecraft.world.level.block.state.BlockState;
 
 import lombok.Setter;
 
-public class DummyMachine extends MetaMachine {
+public final class DummyMachine extends MetaMachine {
 
     @Setter
     public String id = "";

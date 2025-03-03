@@ -74,15 +74,15 @@ public class ManaTrait extends MultiblockTrait {
         }
     }
 
-    public long getCurrentMana() {
+    private long getCurrentMana() {
         return manaContainers.stream().mapToLong(IManaContainer::getCurrentMana).sum();
     }
 
-    public long getMaxMana() {
+    private long getMaxMana() {
         return manaContainers.stream().mapToLong(IManaContainer::getMaxMana).sum();
     }
 
-    public long getMaxConsumption() {
+    private long getMaxConsumption() {
         return manaContainers.stream().mapToLong(IManaContainer::getMaxConsumption).sum();
     }
 

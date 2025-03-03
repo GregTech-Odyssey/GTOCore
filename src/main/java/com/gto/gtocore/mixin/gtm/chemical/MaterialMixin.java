@@ -18,6 +18,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import java.util.function.Supplier;
+
 @Mixin(Material.class)
 public class MaterialMixin implements GTOMaterial {
 
@@ -71,15 +73,19 @@ public class MaterialMixin implements GTOMaterial {
 
     @Inject(method = "getMaterialRGB()I", at = @At("HEAD"), remap = false, cancellable = true)
     private void getMaterialRGB(CallbackInfoReturnable<Integer> cir) {
-        if (GTCEu.isClientSide() && MaterialsColorMap.MaterialColors.containsKey(this)) {
-            cir.setReturnValue(MaterialsColorMap.MaterialColors.get(this).get());
+        if (GTCEu.isClientSide()) {
+            Supplier<Integer> supplier = MaterialsColorMap.MaterialColors.get(this);
+            if (supplier == null) return;
+            cir.setReturnValue(supplier.get());
         }
     }
 
     @Inject(method = "getMaterialARGB(I)I", at = @At("HEAD"), remap = false, cancellable = true)
     private void getMaterialARGB(CallbackInfoReturnable<Integer> cir) {
-        if (GTCEu.isClientSide() && MaterialsColorMap.MaterialColors.containsKey(this)) {
-            cir.setReturnValue(MaterialsColorMap.MaterialColors.get(this).get());
+        if (GTCEu.isClientSide()) {
+            Supplier<Integer> supplier = MaterialsColorMap.MaterialColors.get(this);
+            if (supplier == null) return;
+            cir.setReturnValue(supplier.get());
         }
     }
 }

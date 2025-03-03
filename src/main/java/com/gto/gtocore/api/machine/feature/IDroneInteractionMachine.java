@@ -19,16 +19,19 @@ public interface IDroneInteractionMachine extends INetMachineInteractor<DroneCon
         return (MetaMachine) this;
     }
 
+    @Override
     default Set<DroneControlCenterMachine> getMachineNet() {
         return DroneControlCenterMachine.DRONE_NETWORK;
     }
 
+    @Override
     default boolean firstTestMachine(DroneControlCenterMachine machine) {
         Level level = machine.getLevel();
         if (level == null) return false;
         return machine.isFormed() && machine.getRecipeLogic().isWorking() && level.dimension().equals(level.dimension()) && GTOUtils.calculateDistance(machine.getPos(), getMachine().getPos()) < 256;
     }
 
+    @Override
     default boolean testMachine(DroneControlCenterMachine machine) {
         return machine.isFormed() && machine.getRecipeLogic().isWorking();
     }

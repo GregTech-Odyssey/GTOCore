@@ -14,16 +14,19 @@ public interface IFluidDrillLogic extends INetMachineInteractor<DrillingControlC
 
     MetaMachine getMachine();
 
+    @Override
     default Set<DrillingControlCenterMachine> getMachineNet() {
         return DrillingControlCenterMachine.DRILLING_NETWORK;
     }
 
+    @Override
     default boolean firstTestMachine(DrillingControlCenterMachine machine) {
         Level level = machine.getLevel();
         if (level == null) return false;
         return machine.isFormed() && machine.getRecipeLogic().isWorking() && level.dimension().equals(level.dimension()) && GTOUtils.calculateDistance(machine.getPos(), getMachine().getPos()) < 16;
     }
 
+    @Override
     default boolean testMachine(DrillingControlCenterMachine machine) {
         return machine.isFormed() && machine.getRecipeLogic().isWorking();
     }

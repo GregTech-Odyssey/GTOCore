@@ -52,6 +52,7 @@ public abstract class RecipeScreenMixin extends Screen {
     @Shadow(remap = false)
     private int tab;
 
+    @Override
     @Shadow(remap = false)
     public abstract void onClose();
 

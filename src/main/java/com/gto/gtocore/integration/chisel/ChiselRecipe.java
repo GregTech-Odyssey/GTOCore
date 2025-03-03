@@ -40,9 +40,9 @@ public final class ChiselRecipe {
         }
     }
 
-    private static class ChiselCategory extends EmiRecipeCategory {
+    private static final class ChiselCategory extends EmiRecipeCategory {
 
-        public ChiselCategory() {
+        private ChiselCategory() {
             super(new ResourceLocation("chisel", "chisel_recipes_category"), EmiStack.of(Chisel.chiselSupplier.get()));
         }
 
@@ -52,14 +52,14 @@ public final class ChiselRecipe {
         }
     }
 
-    private static class ChiselEmiRecipe implements EmiRecipe {
+    private static final class ChiselEmiRecipe implements EmiRecipe {
 
         private static final ResourceLocation TEXTURE = new ResourceLocation("chisel", "textures/rei_recipes.png");
         private final ResourceLocation id;
         private final List<EmiIngredient> input;
         private final List<EmiStack> output;
 
-        public ChiselEmiRecipe(String chiselGroup, List<Item> list) {
+        private ChiselEmiRecipe(String chiselGroup, List<Item> list) {
             this.id = new ResourceLocation("chisel", chiselGroup);
             this.input = new ArrayList<>();
             this.output = new ArrayList<>();

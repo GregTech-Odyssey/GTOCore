@@ -111,7 +111,7 @@ public interface IMultiblockMachineDefinition {
 
     record Pattern(@Nullable IMultiController multiController, Map<BlockPos, BlockInfo> blockMap, List<ItemStack> parts) {}
 
-    class PartInfo {
+    final class PartInfo {
 
         private final Item item;
         private final boolean isController;

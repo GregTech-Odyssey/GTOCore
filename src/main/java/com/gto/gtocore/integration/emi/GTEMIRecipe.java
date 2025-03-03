@@ -48,7 +48,7 @@ import java.util.List;
 public final class GTEMIRecipe extends ModularEmiRecipe<Widget> {
 
     private final EmiRecipeCategory category;
-    public final GTRecipe recipe;
+    private final GTRecipe recipe;
 
     public GTEMIRecipe(GTRecipe recipe, EmiRecipeCategory category) {
         super(() -> GTORecipes.EMI_RECIPE_WIDGETS.computeIfAbsent(recipe.recipeType, type -> new Widget(getXOffset(recipe), 0, type.getRecipeUI().getJEISize().width, type.getRecipeUI().getJEISize().height)));

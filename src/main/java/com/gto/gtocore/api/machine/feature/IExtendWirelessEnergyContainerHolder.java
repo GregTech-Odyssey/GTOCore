@@ -9,6 +9,7 @@ import javax.annotation.Nullable;
 
 public interface IExtendWirelessEnergyContainerHolder extends IWirelessEnergyContainerHolder {
 
+    @Override
     @Nullable
     default ExtendWirelessEnergyContainer getWirelessEnergyContainer() {
         if (getUUID() != null && getWirelessEnergyContainerCache() == null) {
