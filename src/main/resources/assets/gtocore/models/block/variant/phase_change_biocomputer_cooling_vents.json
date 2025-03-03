@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "gtocore:block/casings/about_computer/phase_change_biocomputer_cooling_vents",
+    "up": "gtocore:block/casings/about_computer/biocomputer_shell",
+    "down": "gtocore:block/casings/about_computer/biocomputer_shell"
+  }
+}

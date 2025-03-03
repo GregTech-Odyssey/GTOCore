@@ -234,6 +234,7 @@
     "gtocore:abs_purple_casing",
     "gtocore:abs_light_bull_casing",
     "gtocore:abs_light_grey_casing",
-    "gtocore:biocomputer_shell"
+    "gtocore:biocomputer_shell",
+    "gtocore:phase_change_biocomputer_cooling_vents"
   ]
 }

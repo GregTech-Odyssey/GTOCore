@@ -387,4 +387,5 @@ public interface GTOBlocks {
     BlockEntry<Block> ABS_LIGHT_GREY_CASING = createCasingBlock("abs_light_grey_casing", "浅灰色ABS塑料机械外壳", GTOCore.id("block/casings/abs_light_grey_casing"));
 
     BlockEntry<ActiveBlock> BIOCOMPUTER_SHELL = createActiveCasing("biocomputer_shell", "生物计算机外壳", "block/variant/biocomputer_shell");
+    BlockEntry<ActiveBlock> PHASE_CHANGE_BIOCOMPUTER_COOLING_VENTS = createActiveCasing("phase_change_biocomputer_cooling_vents", "相变计算机散热口", "block/variant/phase_change_biocomputer_cooling_vents");
 }

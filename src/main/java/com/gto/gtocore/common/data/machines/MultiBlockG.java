@@ -21,6 +21,7 @@ import com.gto.gtocore.common.machine.multiblock.electric.voidseries.DrillingCon
 import com.gto.gtocore.common.machine.multiblock.electric.voidseries.VoidTransporterMachine;
 import com.gto.gtocore.common.machine.multiblock.noenergy.DroneControlCenterMachine;
 import com.gto.gtocore.common.machine.multiblock.storage.WirelessEnergySubstationMachine;
+import com.gto.gtocore.config.GTOConfig;
 import com.gto.gtocore.utils.RegistriesUtils;
 
 import com.gregtechceu.gtceu.GTCEu;
@@ -37,6 +38,8 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.shapes.Shapes;
 
 import com.enderio.EnderIO;
+import com.hepdd.gtmthings.data.CreativeMachines;
+import com.hepdd.gtmthings.data.CustomMachines;
 import earth.terrarium.adastra.common.registry.ModBlocks;
 
 import static com.gregtechceu.gtceu.api.GTValues.*;
@@ -49,6 +52,21 @@ import static com.gto.gtocore.utils.register.MachineRegisterUtils.registerTiered
 public interface MultiBlockG {
 
     static void init() {}
+
+    MultiblockMachineDefinition BLOOK_TEXT = GTOConfig.INSTANCE.enablePrimitiveVoidOre ? multiblock("blook_test",
+            "方块测试", ElectricMultiblockMachine::new)
+            .allRotation().recipe(GTORecipeTypes.PRIMITIVE_VOID_ORE_RECIPES).block(GTOBlocks.PHASE_CHANGE_BIOCOMPUTER_COOLING_VENTS)
+            .pattern(definition -> FactoryBlockPattern.start(RelativeDirection.RIGHT, RelativeDirection.UP,
+                    RelativeDirection.BACK)
+                    .aisle("AAAAAAA").aisle("AA AAAA").aisle("A   AAA").aisle("AA AAAA").aisle("AMFNAAA")
+                    .where('A', blocks(GTOBlocks.PHASE_CHANGE_BIOCOMPUTER_COOLING_VENTS.get()))
+                    .where('M', blocks(CreativeMachines.CREATIVE_FLUID_INPUT_HATCH.get()))
+                    .where('N', blocks(CustomMachines.ME_EXPORT_BUFFER.get()))
+                    .where('F', controller(blocks(definition.get()))).where(' ', any())
+                    .build())
+            .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_clean_stainless_steel"),
+                    GTCEu.id("block/multiblock/multi_furnace"))
+            .register() : null;
 
     MultiblockMachineDefinition SATELLITE_CONTROL_CENTER = multiblock("satellite_control_center", "卫星控制中心", SatelliteControlCenterMachine::new)
             .allRotation()

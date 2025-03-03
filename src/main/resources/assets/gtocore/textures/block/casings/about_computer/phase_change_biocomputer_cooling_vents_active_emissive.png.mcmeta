@@ -1,0 +1,13 @@
+{
+  "ldlib": {
+    "connection": "gtocore:block/casings/about_computer/phase_change_biocomputer_cooling_vents_active_emissive_ctm",
+    "emissive": true
+  },
+  "animation": {
+    "interpolate": true,
+    "frametime": 4
+  },
+  "shimmer": {
+    "bloom": true
+  }
+}

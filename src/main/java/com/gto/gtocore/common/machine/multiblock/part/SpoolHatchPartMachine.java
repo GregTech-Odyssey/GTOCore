@@ -43,7 +43,7 @@ public final class SpoolHatchPartMachine extends ItemHatchPartMachine implements
     private boolean isWorking;
 
     public SpoolHatchPartMachine(IMachineBlockEntity holder) {
-        super(holder, 16, i -> SPOOL.containsKey(i.getItem()));
+        super(holder, 64, i -> SPOOL.containsKey(i.getItem()));
     }
 
     @Override

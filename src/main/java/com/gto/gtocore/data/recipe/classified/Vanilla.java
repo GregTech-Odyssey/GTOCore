@@ -799,11 +799,16 @@ interface Vanilla {
                 "BCB",
                 "DBD",
                 'B', new UnificationEntry(TagPrefix.cableGtQuadruple, GTMaterials.Kanthal), 'D', new UnificationEntry(TagPrefix.plateDouble, GTMaterials.StainlessSteel), 'C', GTMachines.ELECTRIC_FURNACE[GTValues.HV].asStack(), 'A', CustomTags.HV_CIRCUITS);
-        VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("drawing_tower"), MultiBlockG.DRAWING_TOWER.asStack(),
+        VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("spool_hatch"), GTOMachines.SPOOL_HATCH.asStack(),
                 "ABA",
                 "BCB",
                 "DBD",
                 'B', SPOOLS_LARGE.asStack(), 'D', GTItems.ELECTRIC_MOTOR_IV, 'C', GTMachines.HULL[GTValues.IV].asStack(), 'A', CustomTags.IV_CIRCUITS);
+        VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("drawing_tower"), MultiBlockG.DRAWING_TOWER.asStack(),
+                "ANA",
+                "MCM",
+                "DBD",
+                'B', SPOOLS_LARGE.asStack(), 'M', new UnificationEntry(TagPrefix.spring, GTMaterials.HSLASteel), 'N', new UnificationEntry(TagPrefix.wireGtDouble, GTMaterials.Tungsten), 'D', GTItems.ELECTRIC_MOTOR_IV, 'C', GTMachines.HULL[GTValues.IV].asStack(), 'A', CustomTags.IV_CIRCUITS);
         VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("satellite_control_center"), MultiBlockG.SATELLITE_CONTROL_CENTER.asStack(),
                 "ABA",
                 "CDC",

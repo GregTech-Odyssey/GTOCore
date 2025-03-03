@@ -111,5 +111,6 @@ final class MachineLang {
         addENCN("gtocore.machine.accelerate_hatch.tooltip.0", "Accelerates machine operation", "加速机器运行");
         addENCN("gtocore.machine.accelerate_hatch.tooltip.1", "Acceleration effect is reduced when the accelerator hatch tier is lower than the machine recipe tier", "加速仓的等级低于机器配方等级时加速效果减弱");
         addENCN("gtocore.machine.recipe.run", "When running the % recipe: ", "运行%s配方时：");
+        addENCN("gtocore.machine.parallel", "Maximum number of parallel: %s", "最大并行数：%s");
     }
 }

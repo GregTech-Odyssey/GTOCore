@@ -464,7 +464,7 @@ public interface NewResearchSystem {
                         .addData("spool", n)
                         .duration((60000 * m) + 12000)
                         .EUt(VA[3 + n])
-                        .blastFurnaceTemp(3300 + 1000 * n)
+                        .blastFurnaceTemp(3300 + 1200 * n)
                         .addCondition(new VacuumCondition(4))
                         .save(provider);
             }

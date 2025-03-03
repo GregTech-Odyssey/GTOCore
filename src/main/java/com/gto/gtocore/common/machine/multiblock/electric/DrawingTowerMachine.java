@@ -29,6 +29,8 @@ public final class DrawingTowerMachine extends CoilMultiblockMachine {
 
     private double reduction = 1;
 
+    private int parallels = 1;
+
     public DrawingTowerMachine(IMachineBlockEntity holder) {
         super(holder, false, false);
     }
@@ -48,7 +50,8 @@ public final class DrawingTowerMachine extends CoilMultiblockMachine {
         if (container != null) {
             height = container.getValue();
         }
-        reduction = 2 / Math.pow(1.5, ((height / 8D) * ((gto$getTemperature() - 5000D) / 900D)));
+        reduction = Math.max(0.00001, 2 / Math.pow(1.2, ((height / 8D) * ((gto$getTemperature() - 5000D) / 900D))));
+        parallels = (gto$getTemperature() <= 10000) ? 1 : (int) Math.round(Math.log(gto$getTemperature() - 9600) / Math.log(1.08) - 84);
     }
 
     @Override
@@ -75,7 +78,7 @@ public final class DrawingTowerMachine extends CoilMultiblockMachine {
                 storage.setStackInSlot(0, ItemStack.EMPTY); // Remove the item if only one left
             }
             recipe.duration = (int) (recipe.duration * reduction);
-            return GTORecipeModifiers.hatchParallel(this, recipe);
+            return GTORecipeModifiers.accurateParallel(this, recipe, parallels);
         }
         return null;
     }
@@ -85,6 +88,7 @@ public final class DrawingTowerMachine extends CoilMultiblockMachine {
         super.customText(textList);
         textList.add(Component.translatable("gtocore.machine.height", height));
         textList.add(Component.translatable("gtocore.machine.duration_multiplier.tooltip", reduction));
+        textList.add(Component.translatable("gtocore.machine.parallel", parallels));
     }
 
     private static int getItemTier(ItemStack item) {
