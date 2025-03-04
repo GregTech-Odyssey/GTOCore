@@ -21,8 +21,9 @@ class StrictNBTEmiIngredient extends ItemEmiStack {
         if (stack instanceof ItemEmiStack itemEmiStack) {
             if (itemEmiStack.getKey() == getKey()) {
                 CompoundTag nbt = itemEmiStack.getNbt();
-                if (nbt == null) return true;
-                return nbt.equals(getNbt());
+                if (nbt != null) {
+                    return nbt.equals(getNbt());
+                }
             }
         }
         return false;
