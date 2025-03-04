@@ -3,10 +3,10 @@ package com.gto.gtocore.common.machine.multiblock.electric.voidseries;
 import com.gto.gtocore.api.machine.multiblock.ElectricMultiblockMachine;
 import com.gto.gtocore.api.machine.trait.CustomRecipeLogic;
 import com.gto.gtocore.api.recipe.GTORecipeBuilder;
+import com.gto.gtocore.api.recipe.RecipeRunner;
 import com.gto.gtocore.common.data.GTOOres;
 
 import com.gregtechceu.gtceu.api.GTValues;
-import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
@@ -35,7 +35,7 @@ public final class PlanetCoreDrillingMachine extends ElectricMultiblockMachine {
                 builder.outputItems(TagPrefix.ore, material, 1024);
             }
             GTRecipe recipe = builder.buildRawRecipe();
-            if (recipe.matchRecipeContents(IO.IN, this, recipe.tickInputs, true).isSuccess() && recipe.matchRecipeContents(IO.OUT, this, recipe.outputs, false).isSuccess()) return recipe;
+            if (RecipeRunner.matchRecipeTickInput(this, recipe) && RecipeRunner.matchRecipeOutput(this, recipe)) return recipe;
         }
         return null;
     }

@@ -7,6 +7,7 @@ import com.gto.gtocore.api.machine.feature.multiblock.IParallelMachine;
 import com.gto.gtocore.api.machine.trait.CustomParallelTrait;
 import com.gto.gtocore.api.machine.trait.CustomRecipeLogic;
 import com.gto.gtocore.api.recipe.GTORecipeBuilder;
+import com.gto.gtocore.api.recipe.RecipeRunner;
 import com.gto.gtocore.common.data.GTORecipeModifiers;
 import com.gto.gtocore.common.machine.multiblock.part.ThreadHatchPartMachine;
 import com.gto.gtocore.utils.ItemUtils;
@@ -164,7 +165,7 @@ public class CrossRecipeMultiblockMachine extends ElectricMultiblockMachine impl
                 if (recipe == null) return null;
             }
             recipe = GTORecipeModifiers.accurateParallel(this, recipe, isHatchParallel ? getMaxParallel() : getParallel());
-            if (recipe.matchRecipeContents(IO.IN, this, recipe.inputs, false).isSuccess() && recipe.handleRecipeIO(IO.IN, this, getRecipeLogic().getChanceCaches())) {
+            if (RecipeRunner.matchRecipeInput(this, recipe) && RecipeRunner.handleRecipeInput(this, recipe)) {
                 recipe.ocLevel = getTier() - rt;
                 recipe.inputs.clear();
                 long eut = RecipeHelper.getInputEUt(recipe);

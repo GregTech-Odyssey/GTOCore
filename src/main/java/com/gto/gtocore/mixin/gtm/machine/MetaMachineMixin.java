@@ -3,11 +3,9 @@ package com.gto.gtocore.mixin.gtm.machine;
 import com.gto.gtocore.api.machine.feature.IPerformanceDisplayMachine;
 import com.gto.gtocore.common.machine.noenergy.PerformanceMonitorMachine;
 
-import com.gregtechceu.gtceu.api.block.BlockProperties;
 import com.gregtechceu.gtceu.api.item.tool.GTToolType;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
-import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.integration.ae2.machine.feature.IGridConnectedMachine;
 
 import net.minecraft.core.BlockPos;
@@ -30,7 +28,6 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.EnumSet;
-import java.util.List;
 import java.util.Set;
 
 @Mixin(MetaMachine.class)
@@ -40,10 +37,13 @@ public abstract class MetaMachineMixin implements IPerformanceDisplayMachine {
     private long gTOCore$lastExecutionTime;
 
     @Unique
-    private long gTOCore$tickTime;
+    private int gTOCore$averageTickTime;
 
     @Unique
-    private long gTOCore$secondTickTime;
+    private long gTOCore$totaTtickCount;
+
+    @Unique
+    private boolean gtocore$observe;
 
     @Shadow(remap = false)
     public abstract boolean isRemote();
@@ -54,17 +54,6 @@ public abstract class MetaMachineMixin implements IPerformanceDisplayMachine {
 
     @Shadow(remap = false)
     protected abstract void executeTick();
-
-    @Shadow(remap = false)
-    @Final
-    private List<TickableSubscription> serverTicks;
-
-    @Shadow(remap = false)
-    @Final
-    private List<TickableSubscription> waitingToAdd;
-
-    @Shadow(remap = false)
-    public abstract boolean isInValid();
 
     @Shadow(remap = false)
     public abstract @Nullable Level getLevel();
@@ -79,8 +68,13 @@ public abstract class MetaMachineMixin implements IPerformanceDisplayMachine {
     public abstract long getOffsetTimer();
 
     @Override
-    public long gtocore$getTickTime() {
-        return gTOCore$tickTime;
+    public int gtocore$getTickTime() {
+        return gTOCore$averageTickTime;
+    }
+
+    @Override
+    public void gtocore$observe() {
+        gtocore$observe = true;
     }
 
     /**
@@ -94,22 +88,15 @@ public abstract class MetaMachineMixin implements IPerformanceDisplayMachine {
             return;
         }
         gTOCore$lastExecutionTime = currentTime;
-        Level level = getLevel();
-        if (level != null) {
-            executeTick();
-            if (serverTicks.isEmpty() && waitingToAdd.isEmpty() && !isInValid()) {
-                level.setBlockAndUpdate(getPos(), getBlockState().setValue(BlockProperties.SERVER_TICK, false));
-                gTOCore$tickTime = 0;
-            } else {
-                if (PerformanceMonitorMachine.observe) {
-                    if (getOffsetTimer() % 40 == 0) {
-                        gTOCore$secondTickTime = 0;
-                    }
-                    PerformanceMonitorMachine.PERFORMANCE_MAP.put((MetaMachine) (Object) this, (int) (gTOCore$secondTickTime / 40000));
-                    gTOCore$secondTickTime += gTOCore$tickTime;
-                }
-                gTOCore$tickTime = System.nanoTime() - currentTime;
+        executeTick();
+        if (PerformanceMonitorMachine.observe || gtocore$observe) {
+            gTOCore$totaTtickCount += System.nanoTime() - currentTime;
+            if (getOffsetTimer() % 40 == 0) {
+                gtocore$observe = false;
+                gTOCore$averageTickTime = (int) (gTOCore$totaTtickCount / 40000);
+                gTOCore$totaTtickCount = 0;
             }
+            if (PerformanceMonitorMachine.observe) PerformanceMonitorMachine.PERFORMANCE_MAP.put((MetaMachine) (Object) this, gTOCore$averageTickTime);
         }
     }
 

@@ -13,6 +13,7 @@ import com.gregtechceu.gtceu.api.recipe.ingredient.SizedIngredient;
 import com.gregtechceu.gtceu.core.mixins.IngredientAccessor;
 import com.gregtechceu.gtceu.integration.xei.widgets.GTRecipeWidget;
 
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
@@ -36,6 +37,7 @@ import com.lowdragmc.lowdraglib.jei.ModularWrapper;
 import dev.emi.emi.api.recipe.EmiRecipeCategory;
 import dev.emi.emi.api.stack.EmiIngredient;
 import dev.emi.emi.api.stack.EmiStack;
+import dev.emi.emi.api.stack.ItemEmiStack;
 import dev.emi.emi.api.stack.TagEmiIngredient;
 import dev.emi.emi.api.widget.SlotWidget;
 import dev.emi.emi.api.widget.TankWidget;
@@ -66,6 +68,7 @@ public final class GTEMIRecipe extends ModularEmiRecipe<Widget> {
         return 0;
     }
 
+    @SuppressWarnings("all")
     private static EmiIngredient getEmiIngredient(Ingredient ingredient, boolean input) {
         Ingredient inner = ingredient;
         boolean sized;
@@ -77,12 +80,19 @@ public final class GTEMIRecipe extends ModularEmiRecipe<Widget> {
         }
         ItemStack[] itemStacks = inner.getItems();
         if (itemStacks.length == 0) return EmiStack.EMPTY;
+        ItemStack itemStack = itemStacks[0];
         for (Ingredient.Value value : ((IngredientAccessor) inner).getValues()) {
+            int amount = sized ? ((SizedIngredient) ingredient).getAmount() : itemStack.getCount();
             if (input && value instanceof Ingredient.TagValue tagValue) {
                 TagKey<Item> tagKey = ((IngredientTagValueAccessor) tagValue).getTag();
-                return new TagEmiIngredient(tagKey, sized ? ((SizedIngredient) ingredient).getAmount() : itemStacks[0].getCount());
+                return new TagEmiIngredient(tagKey, amount);
             } else {
-                return EmiStack.of(sized ? itemStacks[0].copyWithCount(((SizedIngredient) ingredient).getAmount()) : itemStacks[0]);
+                Item item = itemStack.getItem();
+                CompoundTag nbt = itemStack.getTag();
+                if (nbt == null) {
+                    return new ItemEmiStack(item, null, amount);
+                }
+                return new StrictNBTEmiIngredient(item, nbt, amount);
             }
         }
         return EmiStack.EMPTY;

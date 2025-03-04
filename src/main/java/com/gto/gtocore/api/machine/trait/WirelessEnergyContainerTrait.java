@@ -54,13 +54,13 @@ public final class WirelessEnergyContainerTrait extends NotifiableEnergyContaine
             change = Math.min(energyToAdd, Math.min(getEnergyCapacity() - oldEnergyStored, container.getRate()));
             if (change > 0 && WirelessEnergyContainer.observed && getMachine() != null) {
                 long loss = (change / 1000) * container.getLoss();
-                WirelessEnergyContainer.TRANSFER_DATA.put(getMachine(), new ExtendTransferData(UUID, change - loss, loss));
+                WirelessEnergyContainer.TRANSFER_DATA.put(getMachine(), new ExtendTransferData(UUID, change - loss, loss, getMachine()));
             }
         } else {
             change = Math.min(-energyToAdd, Math.min(oldEnergyStored, container.getRate()));
             change = -change;
             if (change < 0 && WirelessEnergyContainer.observed && getMachine() != null) {
-                WirelessEnergyContainer.TRANSFER_DATA.put(getMachine(), new BasicTransferData(UUID, change));
+                WirelessEnergyContainer.TRANSFER_DATA.put(getMachine(), new BasicTransferData(UUID, change, getMachine()));
             }
         }
         setEnergyStored(oldEnergyStored + change);

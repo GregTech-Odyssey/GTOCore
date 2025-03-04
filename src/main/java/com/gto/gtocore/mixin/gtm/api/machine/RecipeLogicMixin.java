@@ -2,6 +2,7 @@ package com.gto.gtocore.mixin.gtm.api.machine;
 
 import com.gto.gtocore.api.machine.feature.multiblock.IEnhancedMultiblockMachine;
 import com.gto.gtocore.api.machine.trait.ILockableRecipe;
+import com.gto.gtocore.api.recipe.RecipeRunner;
 import com.gto.gtocore.config.GTOConfig;
 
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
@@ -204,7 +205,7 @@ public abstract class RecipeLogicMixin extends MachineTrait implements ILockable
     @Overwrite(remap = false)
     public void findAndHandleRecipe() {
         lastFailedMatches = null;
-        if (!recipeDirty && lastRecipe != null && lastRecipe.matchRecipe(machine).isSuccess() && lastRecipe.matchTickRecipe(machine).isSuccess() && lastRecipe.checkConditions(getLogic()).isSuccess()) {
+        if (!recipeDirty && lastRecipe != null && RecipeRunner.matchRecipe(machine, lastRecipe) && RecipeRunner.matchTickRecipe(machine, lastRecipe) && lastRecipe.checkConditions(getLogic()).isSuccess()) {
             GTRecipe recipe = lastRecipe;
             lastRecipe = null;
             lastOriginRecipe = null;
@@ -214,7 +215,7 @@ public abstract class RecipeLogicMixin extends MachineTrait implements ILockable
             if (gTOCore$lockRecipe && gTOCore$originRecipe != null) {
                 lastOriginRecipe = gTOCore$originRecipe;
                 GTRecipe modified = machine.fullModifyRecipe(lastOriginRecipe.copy());
-                if (modified != null && modified.matchRecipe(machine).isSuccess() && modified.matchTickRecipe(machine).isSuccess() && modified.checkConditions(getLogic()).isSuccess()) {
+                if (modified != null && RecipeRunner.matchRecipe(machine, modified) && RecipeRunner.matchTickRecipe(machine, modified) && modified.checkConditions(getLogic()).isSuccess()) {
                     setupRecipe(modified);
                 }
             } else {

@@ -3,11 +3,11 @@ package com.gto.gtocore.common.machine.multiblock.electric;
 import com.gto.gtocore.api.machine.multiblock.StorageMultiblockMachine;
 import com.gto.gtocore.api.machine.trait.CustomRecipeLogic;
 import com.gto.gtocore.api.recipe.GTORecipeBuilder;
+import com.gto.gtocore.api.recipe.RecipeRunner;
 import com.gto.gtocore.common.data.GTOBlocks;
 import com.gto.gtocore.common.data.GTOItems;
 import com.gto.gtocore.common.machine.multiblock.part.BlockBusPartMachine;
 
-import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
@@ -139,7 +139,7 @@ public final class BlockConversionRoomMachine extends StorageMultiblockMachine {
     private GTRecipe getRecipe() {
         if (hasProxies()) {
             GTRecipe recipe = GTORecipeBuilder.ofRaw().duration(400).EUt(getOverclockVoltage()).buildRawRecipe();
-            if (recipe.matchRecipeContents(IO.IN, this, recipe.tickInputs, true).isSuccess()) return recipe;
+            if (RecipeRunner.matchRecipeTickInput(this, recipe)) return recipe;
         }
         return null;
     }

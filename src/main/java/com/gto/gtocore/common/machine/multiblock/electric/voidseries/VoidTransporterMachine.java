@@ -5,6 +5,7 @@ import com.gto.gtocore.api.machine.feature.multiblock.ICheckPatternMachine;
 import com.gto.gtocore.api.machine.multiblock.ElectricMultiblockMachine;
 import com.gto.gtocore.api.machine.trait.CustomRecipeLogic;
 import com.gto.gtocore.api.recipe.GTORecipeBuilder;
+import com.gto.gtocore.api.recipe.RecipeRunner;
 import com.gto.gtocore.utils.ServerUtils;
 import com.gto.gtocore.utils.register.BlockRegisterUtils;
 
@@ -39,7 +40,7 @@ public class VoidTransporterMachine extends ElectricMultiblockMachine {
             VoidTransporterMachine.class, ElectricMultiblockMachine.MANAGED_FIELD_HOLDER);
 
     public static boolean checkTransporter(BlockPos pos, Level level, int id) {
-        return !(MetaMachine.getMachine(level, pos) instanceof VoidTransporterMachine machine) || machine.id != id || !machine.check();
+        return !(MetaMachine.getMachine(level, pos.offset(0, -1, 0)) instanceof VoidTransporterMachine machine) || !machine.isFormed() || machine.id != id || !machine.check();
     }
 
     public static Function<IMachineBlockEntity, VoidTransporterMachine> create(int id, int eu, @Nullable BiConsumer<VoidTransporterMachine, Player> consumer) {
@@ -126,7 +127,7 @@ public class VoidTransporterMachine extends ElectricMultiblockMachine {
     private GTRecipe getRecipe() {
         if (hasProxies() && eu < getOverclockVoltage() && energyContainer.getEnergyStored() < 409600) {
             GTRecipe recipe = GTORecipeBuilder.ofRaw().EUt(getOverclockVoltage()).duration(200).buildRawRecipe();
-            if (recipe.matchTickRecipe(this).isSuccess()) return recipe;
+            if (RecipeRunner.matchTickRecipe(this, recipe)) return recipe;
         }
         return null;
     }

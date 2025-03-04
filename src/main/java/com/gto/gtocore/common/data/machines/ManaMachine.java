@@ -1,10 +1,11 @@
 package com.gto.gtocore.common.data.machines;
 
+import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.api.GTOValues;
 import com.gto.gtocore.api.machine.SimpleNoEnergyMachine;
 import com.gto.gtocore.api.machine.part.GTOPartAbility;
 import com.gto.gtocore.common.data.GTORecipeTypes;
-import com.gto.gtocore.common.machine.mana.AlchemyPot;
+import com.gto.gtocore.common.machine.mana.AlchemyCauldron;
 import com.gto.gtocore.common.machine.mana.ManaHeaterMachine;
 import com.gto.gtocore.common.machine.mana.part.ManaExtractHatchPartMachine;
 import com.gto.gtocore.common.machine.mana.part.ManaHatchPartMachine;
@@ -66,14 +67,14 @@ public interface ManaMachine {
                     .register(),
             GTMachineUtils.ELECTRIC_TIERS);
 
-    MachineDefinition ALCHEMY_POT = manaMachine("alchemy_pot", "炼金锅", AlchemyPot::new)
+    MachineDefinition ALCHEMY_CAULDRON = manaMachine("alchemy_cauldron", "炼金锅", AlchemyCauldron::new)
             .tier(LV)
-            .editableUI(SimpleNoEnergyMachine.EDITABLE_UI_CREATOR.apply(GTCEu.id("alchemy_pot"), GTORecipeTypes.ALCHEMY_POT_RECIPES))
-            .recipeType(GTORecipeTypes.ALCHEMY_POT_RECIPES)
+            .editableUI(SimpleNoEnergyMachine.EDITABLE_UI_CREATOR.apply(GTCEu.id("alchemy_cauldron"), GTORecipeTypes.ALCHEMY_CAULDRON_RECIPES))
+            .recipeType(GTORecipeTypes.ALCHEMY_CAULDRON_RECIPES)
             .alwaysTryModifyRecipe(true)
             .nonYAxisRotation()
-            .workableTieredHullRenderer(GTCEu.id("block/generators/boiler/lava"))
-            .tooltips(workableNoEnergy(GTORecipeTypes.ALCHEMY_POT_RECIPES, 1600))
+            .modelRenderer(() -> GTOCore.id("block/machine/alchemy_cauldron"))
+            .tooltips(workableNoEnergy(GTORecipeTypes.ALCHEMY_CAULDRON_RECIPES, 1600))
             .register();
 
     MachineDefinition MANA_HEATER = manaMachine("mana_heater", "魔力加热器", ManaHeaterMachine::new)

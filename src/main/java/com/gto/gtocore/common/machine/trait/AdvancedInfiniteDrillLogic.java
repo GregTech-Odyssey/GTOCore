@@ -1,6 +1,7 @@
 package com.gto.gtocore.common.machine.trait;
 
 import com.gto.gtocore.api.recipe.GTORecipeBuilder;
+import com.gto.gtocore.api.recipe.RecipeRunner;
 import com.gto.gtocore.common.machine.multiblock.electric.voidseries.AdvancedInfiniteDrillMachine;
 
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
@@ -64,8 +65,7 @@ public final class AdvancedInfiniteDrillLogic extends RecipeLogic {
             if (getMachine().isEmpty() || !getMachine().canRunnable()) return;
             var match = getFluidDrillRecipe();
             if (match != null) {
-                var copied = match.copy(new ContentModifier(match.duration, 0));
-                if (match.matchRecipe(machine).isSuccess() && copied.matchTickRecipe(machine).isSuccess()) {
+                if (RecipeRunner.matchRecipe(machine, match) && RecipeRunner.matchTickRecipe(machine, match)) {
                     setupRecipe(match);
                 }
             }
@@ -84,7 +84,7 @@ public final class AdvancedInfiniteDrillLogic extends RecipeLogic {
                     .buildRawRecipe();
             recipe = recipe.copy(new ContentModifier(getParallel(),
                     efficiency(getMachine().getRate() * 500)), false);
-            if (recipe.matchRecipe(getMachine()).isSuccess() && recipe.matchTickRecipe(getMachine()).isSuccess()) {
+            if (RecipeRunner.matchRecipe(machine, recipe) && RecipeRunner.matchTickRecipe(machine, recipe)) {
                 return recipe;
             }
         }
@@ -160,8 +160,7 @@ public final class AdvancedInfiniteDrillLogic extends RecipeLogic {
         // try it again
         var match = getFluidDrillRecipe();
         if (match != null) {
-            var copied = match.copy(new ContentModifier(match.duration, 0));
-            if (match.matchRecipe(machine).isSuccess() && copied.matchTickRecipe(machine).isSuccess()) {
+            if (RecipeRunner.matchRecipe(machine, match) && RecipeRunner.matchTickRecipe(machine, match)) {
                 setupRecipe(match);
                 return;
             }

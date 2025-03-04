@@ -5,10 +5,10 @@ import com.gto.gtocore.api.machine.feature.multiblock.IHighlightMachine;
 import com.gto.gtocore.api.machine.multiblock.TierCasingMultiblockMachine;
 import com.gto.gtocore.api.machine.trait.CustomRecipeLogic;
 import com.gto.gtocore.api.recipe.GTORecipeBuilder;
+import com.gto.gtocore.api.recipe.RecipeRunner;
 import com.gto.gtocore.utils.MachineUtils;
 
 import com.gregtechceu.gtceu.api.GTValues;
-import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.gui.fancy.ConfiguratorPanel;
 import com.gregtechceu.gtceu.api.gui.fancy.IFancyConfiguratorButton;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
@@ -150,7 +150,7 @@ public class SpaceElevatorMachine extends TierCasingMultiblockMachine implements
     private GTRecipe getRecipe() {
         if (hasProxies()) {
             GTRecipe recipe = GTORecipeBuilder.ofRaw().duration(400).CWUt(128 * (getTier() - GTValues.ZPM)).EUt(GTValues.VA[getTier()]).buildRawRecipe();
-            if (recipe.matchRecipeContents(IO.IN, this, recipe.tickInputs, true).isSuccess()) return recipe;
+            if (RecipeRunner.matchRecipeTickInput(this, recipe)) return recipe;
         }
         return null;
     }

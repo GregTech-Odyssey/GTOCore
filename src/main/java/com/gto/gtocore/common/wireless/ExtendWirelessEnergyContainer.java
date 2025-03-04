@@ -40,7 +40,7 @@ public class ExtendWirelessEnergyContainer extends WirelessEnergyContainer {
         setStorage(getStorage().add(BigInteger.valueOf(actualChange)));
         WirelessEnergySavaedData.INSTANCE.setDirty(true);
         if (observed && machine != null) {
-            TRANSFER_DATA.put(machine, new ExtendTransferData(getUuid(), actualChange, loss));
+            TRANSFER_DATA.put(machine, new ExtendTransferData(getUuid(), actualChange, loss, machine));
         }
         return change;
     }

@@ -8,8 +8,7 @@ import com.gregtechceu.gtceu.api.machine.multiblock.part.MultiblockPartMachine;
 import com.gregtechceu.gtceu.api.machine.trait.ItemHandlerProxyTrait;
 import com.gregtechceu.gtceu.common.machine.multiblock.primitive.PrimitiveBlastFurnaceMachine;
 import com.gregtechceu.gtceu.utils.GTTransferUtils;
-import com.lowdragmc.lowdraglib.syncdata.ISubscription;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
+
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -17,6 +16,9 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.phys.BlockHitResult;
+
+import com.lowdragmc.lowdraglib.syncdata.ISubscription;
+import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -28,18 +30,18 @@ import javax.annotation.ParametersAreNonnullByDefault;
  */
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class PrimitiveBlastFurnaceHatch extends MultiblockPartMachine {
+public final class PrimitiveBlastFurnaceHatch extends MultiblockPartMachine {
 
-    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(PrimitiveBlastFurnaceHatch.class,
+    private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(PrimitiveBlastFurnaceHatch.class,
             MultiblockPartMachine.MANAGED_FIELD_HOLDER);
 
-    public final ItemHandlerProxyTrait inputInventory, outputInventory;
+    private final ItemHandlerProxyTrait inputInventory, outputInventory;
     @Nullable
-    protected TickableSubscription autoIOSubs;
+    private TickableSubscription autoIOSubs;
     @Nullable
-    protected ISubscription outputInventorySubs;
+    private ISubscription outputInventorySubs;
 
-    public PrimitiveBlastFurnaceHatch(IMachineBlockEntity holder, Object... args) {
+    public PrimitiveBlastFurnaceHatch(IMachineBlockEntity holder) {
         super(holder);
         this.inputInventory = new ItemHandlerProxyTrait(this, IO.IN);
         this.outputInventory = new ItemHandlerProxyTrait(this, IO.OUT);
@@ -111,10 +113,9 @@ public class PrimitiveBlastFurnaceHatch extends MultiblockPartMachine {
         updateAutoIOSubscription();
     }
 
-    protected void updateAutoIOSubscription() {
+    private void updateAutoIOSubscription() {
         if ((!outputInventory.isEmpty() &&
-                GTTransferUtils.hasAdjacentItemHandler(getLevel(), getPos(), getFrontFacing()))
-                ) {
+                GTTransferUtils.hasAdjacentItemHandler(getLevel(), getPos(), getFrontFacing()))) {
             autoIOSubs = subscribeServerTick(autoIOSubs, this::autoIO);
         } else if (autoIOSubs != null) {
             autoIOSubs.unsubscribe();
@@ -122,7 +123,7 @@ public class PrimitiveBlastFurnaceHatch extends MultiblockPartMachine {
         }
     }
 
-    protected void autoIO() {
+    private void autoIO() {
         if (getOffsetTimer() % 5 == 0) {
             outputInventory.exportToNearby(getFrontFacing());
             updateAutoIOSubscription();

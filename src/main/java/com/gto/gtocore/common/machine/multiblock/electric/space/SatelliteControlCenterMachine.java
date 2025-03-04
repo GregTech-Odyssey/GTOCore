@@ -4,6 +4,7 @@ import com.gto.gtocore.api.data.GTODimensions;
 import com.gto.gtocore.api.machine.multiblock.ElectricMultiblockMachine;
 import com.gto.gtocore.api.machine.trait.CustomRecipeLogic;
 import com.gto.gtocore.api.recipe.GTORecipeBuilder;
+import com.gto.gtocore.api.recipe.RecipeRunner;
 import com.gto.gtocore.common.data.GTOItems;
 import com.gto.gtocore.common.data.GTOMaterials;
 import com.gto.gtocore.utils.GTOUtils;
@@ -141,7 +142,7 @@ public final class SatelliteControlCenterMachine extends ElectricMultiblockMachi
             Item item = GTOUtils.getKeyByValue(ROCKET, tier);
             if (item == null) return null;
             GTRecipe recipe = GTORecipeBuilder.ofRaw().duration(6000).inputItems(GTOItems.PLANET_SCAN_SATELLITE.asStack()).inputFluids(FUEL.get(tier)).inputItems(item).inputItems(GTOItems.PLANET_DATA_CHIP.asStack()).EUt(getOverclockVoltage()).buildRawRecipe();
-            if (recipe.matchRecipe(this).isSuccess() && recipe.matchTickRecipe(this).isSuccess()) return recipe;
+            if (RecipeRunner.matchRecipe(this, recipe) && RecipeRunner.matchTickRecipe(this, recipe)) return recipe;
         }
         return null;
     }

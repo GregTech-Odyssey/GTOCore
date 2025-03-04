@@ -27,6 +27,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
 import appeng.api.storage.StorageCells;
+import com.hepdd.gtmthings.common.item.AdvancedTerminalBehavior;
 import earth.terrarium.adastra.api.events.AdAstraEvents;
 
 import static com.gto.gtocore.api.registries.GTORegistration.REGISTRATE;
@@ -67,6 +68,12 @@ public class CommonProxy {
         AdAstraEvents.OxygenTickEvent.register(IEnhancedPlayer::spaceTick);
         AdAstraEvents.AcidRainTickEvent.register(IEnhancedPlayer::spaceTick);
         AdAstraEvents.TemperatureTickEvent.register(IEnhancedPlayer::spaceTick);
+
+        AdvancedTerminalBehavior.AutoBuildSetting.HATCH_NAMES.add("thread_hatch");
+        AdvancedTerminalBehavior.AutoBuildSetting.HATCH_NAMES.add("accelerate_hatch");
+        AdvancedTerminalBehavior.AutoBuildSetting.HATCH_NAMES.add("programmablec_hatch");
+        AdvancedTerminalBehavior.AutoBuildSetting.HATCH_NAMES.add("gravity_hatch");
+        AdvancedTerminalBehavior.AutoBuildSetting.HATCH_NAMES.add("vacuum_hatch");
 
         if (GTCEu.isProd()) EMIRecipeModHelper.setRecipeModHelper();
 

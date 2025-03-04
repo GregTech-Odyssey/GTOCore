@@ -1,28 +1,30 @@
 package com.gto.gtocore.common.data.machines;
 
-import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gto.gtocore.common.data.GTORecipeModifiers;
 import com.gto.gtocore.common.data.GTORecipeTypes;
 import com.gto.gtocore.common.saved.PlanetsTravelSavaedData;
 import com.gto.gtocore.utils.MachineUtils;
 
 import com.gregtechceu.gtceu.api.GTValues;
+import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.client.util.TooltipHelper;
 import com.gregtechceu.gtceu.common.data.GTMachines;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.common.data.machines.GTMachineUtils;
 import com.gregtechceu.gtceu.common.data.machines.GTMultiMachines;
-import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
-import static com.gregtechceu.gtceu.common.data.GTBlocks.*;
-import static com.gregtechceu.gtceu.common.data.machines.GTMultiMachines.PRIMITIVE_BLAST_FURNACE;
-import static com.gto.gtocore.common.data.GTOMachines.PRIMITIVE_BLAST_FURNACE_HATCH;
+import com.gregtechceu.gtceu.utils.SupplierMemoizer;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
 import java.util.UUID;
+
+import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
+import static com.gregtechceu.gtceu.common.data.GTBlocks.*;
+import static com.gregtechceu.gtceu.common.data.machines.GTMultiMachines.PRIMITIVE_BLAST_FURNACE;
+import static com.gto.gtocore.common.data.GTOMachines.PRIMITIVE_BLAST_FURNACE_HATCH;
 
 public interface GTMachineModify {
 
@@ -44,14 +46,14 @@ public interface GTMachineModify {
         GTMultiMachines.EVAPORATION_PLANT.setRecipeModifier(GTORecipeModifiers.OVERCLOCKING);
         GTMultiMachines.VACUUM_FREEZER.setRecipeModifier(GTORecipeModifiers.OVERCLOCKING);
         GTMultiMachines.ASSEMBLY_LINE.setRecipeModifier(GTORecipeModifiers.OVERCLOCKING);
-        GTMultiMachines.PRIMITIVE_BLAST_FURNACE.setPatternFactory(() -> FactoryBlockPattern.start()
+        GTMultiMachines.PRIMITIVE_BLAST_FURNACE.setPatternFactory(SupplierMemoizer.memoize(() -> FactoryBlockPattern.start()
                 .aisle("XXX", "XXX", "XXX", "XXX")
                 .aisle("XXX", "X#X", "X#X", "X#X")
                 .aisle("XXX", "XYX", "XXX", "XXX")
                 .where('X', blocks(CASING_PRIMITIVE_BRICKS.get()).or(blocks(PRIMITIVE_BLAST_FURNACE_HATCH.get()).setMaxGlobalLimited(5)))
                 .where('#', air())
                 .where('Y', controller(blocks(PRIMITIVE_BLAST_FURNACE.getBlock())))
-                .build());
+                .build()));
         for (int tier : GTMachineUtils.ELECTRIC_TIERS) {
             if (tier > GTValues.LV) {
                 GTMachines.SCANNER[tier].setOnWorking(machine -> {
@@ -75,6 +77,4 @@ public interface GTMachineModify {
             }
         }
     }
-
-
 }

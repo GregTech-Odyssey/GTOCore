@@ -4,11 +4,11 @@ import com.gto.gtocore.api.item.ItemStackSet;
 import com.gto.gtocore.api.machine.multiblock.StorageMultiblockMachine;
 import com.gto.gtocore.api.machine.trait.CustomRecipeLogic;
 import com.gto.gtocore.api.recipe.GTORecipeBuilder;
+import com.gto.gtocore.api.recipe.RecipeRunner;
 import com.gto.gtocore.utils.MachineUtils;
 import com.gto.gtocore.utils.StringUtils;
 
 import com.gregtechceu.gtceu.api.GTValues;
-import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
@@ -219,7 +219,7 @@ public final class SlaughterhouseMachine extends StorageMultiblockMachine {
             GTORecipeBuilder builder = GTORecipeBuilder.ofRaw().duration(isSpawn ? 20 : Math.max(20, 20 * (1 << getTier()) - attackDamage)).EUt(getOverclockVoltage());
             itemStacks.forEach(builder::outputItems);
             GTRecipe recipe = builder.buildRawRecipe();
-            if (recipe.matchRecipeContents(IO.IN, this, recipe.tickInputs, true).isSuccess()) return recipe;
+            if (RecipeRunner.matchRecipeTickInput(this, recipe)) return recipe;
         }
         return null;
     }

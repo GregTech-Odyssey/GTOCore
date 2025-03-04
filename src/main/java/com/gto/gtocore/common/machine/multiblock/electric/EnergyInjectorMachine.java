@@ -3,6 +3,7 @@ package com.gto.gtocore.common.machine.multiblock.electric;
 import com.gto.gtocore.api.machine.multiblock.ElectricMultiblockMachine;
 import com.gto.gtocore.api.machine.trait.CustomRecipeLogic;
 import com.gto.gtocore.api.recipe.GTORecipeBuilder;
+import com.gto.gtocore.api.recipe.RecipeRunner;
 
 import com.gregtechceu.gtceu.api.capability.GTCapabilityHelper;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
@@ -82,7 +83,7 @@ public final class EnergyInjectorMachine extends ElectricMultiblockMachine {
         }
         if (eu > 0 && getOverclockVoltage() > 0) {
             GTRecipe recipe = builder.EUt(getOverclockVoltage()).duration((int) Math.ceil((double) eu / getOverclockVoltage())).buildRawRecipe();
-            if (recipe.matchRecipeContents(IO.IN, this, recipe.tickInputs, true).isSuccess() && recipe.matchRecipeContents(IO.OUT, this, recipe.outputs, false).isSuccess()) {
+            if (RecipeRunner.matchRecipeTickInput(this, recipe) && RecipeRunner.matchRecipeOutput(this, recipe)) {
                 index.forEach(i -> inv.setStackInSlot(i, ItemStack.EMPTY));
                 return recipe;
             }

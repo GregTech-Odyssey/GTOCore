@@ -6,6 +6,7 @@ import com.gto.gtocore.common.data.GTOMachines;
 import com.gto.gtocore.common.data.GTOMaterials;
 import com.gto.gtocore.common.data.GTORecipeTypes;
 import com.gto.gtocore.data.CraftingComponents;
+import com.gto.gtocore.utils.TagUtils;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
@@ -13,6 +14,7 @@ import com.gregtechceu.gtceu.api.data.chemical.material.stack.UnificationEntry;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.item.ComponentItem;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
+import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMachines;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
@@ -22,6 +24,7 @@ import com.gregtechceu.gtceu.data.recipe.CustomTags;
 import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
 
 import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
@@ -68,6 +71,9 @@ interface HatchRecipe {
                 "SGS", "GHG", "SGS", 'H', GTMachines.HULL[OpV].asStack(), 'G',
                 new UnificationEntry(TagPrefix.gear, GTOMaterials.HexaphaseCopper), 'S',
                 new UnificationEntry(TagPrefix.gearSmall, GTOMaterials.TranscendentMetal));
+        VanillaRecipeHelper.addShapedRecipe(provider, GTOCore.id("primitive_blast_furnace_hatch"), GTOMachines.PRIMITIVE_BLAST_FURNACE_HATCH.asStack(),
+                "ABA",
+                'B', GTBlocks.CASING_PRIMITIVE_BRICKS.asStack(), 'A', TagUtils.createTag(new ResourceLocation("forge", "chests")));
 
         for (int tier : tiersBetween(LV, MAX)) {
             ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("dual_import_bus_" + VN[tier].toLowerCase()))

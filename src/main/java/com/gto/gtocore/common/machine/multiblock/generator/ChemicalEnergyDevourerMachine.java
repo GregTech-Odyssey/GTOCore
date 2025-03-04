@@ -2,6 +2,7 @@ package com.gto.gtocore.common.machine.multiblock.generator;
 
 import com.gto.gtocore.api.machine.multiblock.ElectricMultiblockMachine;
 import com.gto.gtocore.api.recipe.GTORecipeBuilder;
+import com.gto.gtocore.api.recipe.RecipeRunner;
 import com.gto.gtocore.common.data.GTORecipeModifiers;
 
 import com.gregtechceu.gtceu.api.GTValues;
@@ -96,7 +97,7 @@ public final class ChemicalEnergyDevourerMachine extends ElectricMultiblockMachi
     @Override
     protected GTRecipe getRealRecipe(GTRecipe recipe) {
         var EUt = RecipeHelper.getOutputEUt(recipe);
-        if (EUt > 0 && getLubricantRecipe().matchRecipe(this).isSuccess() && !isIntakesObstructed()) {
+        if (EUt > 0 && RecipeRunner.matchRecipe(this, getLubricantRecipe()) && !isIntakesObstructed()) {
             recipe = GTORecipeModifiers.accurateParallel(this, recipe, (int) (getOverclockVoltage() / EUt));
             if (isOxygenBoosted && isDinitrogenTetroxideBoosted) {
                 recipe.tickOutputs.put(EURecipeCapability.CAP, List.of(new Content(EUt * recipe.parallels * 4, ChanceLogic.getMaxChancedValue(), ChanceLogic.getMaxChancedValue(), 0, null, null)));
@@ -120,8 +121,8 @@ public final class ChemicalEnergyDevourerMachine extends ElectricMultiblockMachi
         if ((totalContinuousRunningTime == 1 || totalContinuousRunningTime % 20 == 0) && isBoostAllowed()) {
             var boosterRecipe = getBoostRecipe();
             var boosterRecipea = getBoostRecipea();
-            isOxygenBoosted = boosterRecipe.matchRecipe(this).isSuccess() && boosterRecipe.handleRecipeIO(IO.IN, this, recipeLogic.getChanceCaches());
-            isDinitrogenTetroxideBoosted = boosterRecipea.matchRecipe(this).isSuccess() && boosterRecipea.handleRecipeIO(IO.IN, this, recipeLogic.getChanceCaches());
+            isOxygenBoosted = RecipeRunner.matchRecipe(this, boosterRecipe) && RecipeRunner.handleRecipeIO(this, boosterRecipe, IO.IN);
+            isDinitrogenTetroxideBoosted = RecipeRunner.matchRecipe(this, boosterRecipea) && RecipeRunner.handleRecipeIO(this, boosterRecipea, IO.IN);
         }
         return true;
     }

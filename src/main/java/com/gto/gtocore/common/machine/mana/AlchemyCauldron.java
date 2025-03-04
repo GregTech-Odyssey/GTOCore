@@ -11,10 +11,10 @@ import lombok.Getter;
 import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 
-public class AlchemyPot extends SimpleManaMachine implements IReceiveHeatMachine {
+public class AlchemyCauldron extends SimpleManaMachine implements IReceiveHeatMachine {
 
     private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
-            AlchemyPot.class, SimpleManaMachine.MANAGED_FIELD_HOLDER);
+            AlchemyCauldron.class, SimpleManaMachine.MANAGED_FIELD_HOLDER);
 
     @Getter
     @Setter
@@ -23,7 +23,7 @@ public class AlchemyPot extends SimpleManaMachine implements IReceiveHeatMachine
 
     private TickableSubscription tickSubs;
 
-    public AlchemyPot(IMachineBlockEntity holder) {
+    public AlchemyCauldron(IMachineBlockEntity holder) {
         super(holder, 1, t -> 16000);
     }
 

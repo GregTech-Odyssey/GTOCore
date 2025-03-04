@@ -1,6 +1,7 @@
 package com.gto.gtocore.common.machine.multiblock.water;
 
 import com.gto.gtocore.api.recipe.GTORecipeBuilder;
+import com.gto.gtocore.api.recipe.RecipeRunner;
 import com.gto.gtocore.common.machine.multiblock.part.SensorPartMachine;
 import com.gto.gtocore.utils.MachineUtils;
 
@@ -103,7 +104,7 @@ public final class PHNeutralizationPurificationUnitMachine extends WaterPurifica
         ph = ((float) Math.random() * 5) + 4.5F;
         inputCount = Math.min(getParallel(), MachineUtils.getFluidAmount(this, WaterPurificationPlantMachine.GradePurifiedWater3)[0]);
         recipe = GTORecipeBuilder.ofRaw().duration(WaterPurificationPlantMachine.DURATION).inputFluids(new FluidStack(WaterPurificationPlantMachine.GradePurifiedWater3, inputCount)).buildRawRecipe();
-        if (recipe.matchRecipe(this).isSuccess()) {
+        if (RecipeRunner.matchRecipe(this, recipe)) {
             eut = (long) inputCount << 2;
         }
         return eut;

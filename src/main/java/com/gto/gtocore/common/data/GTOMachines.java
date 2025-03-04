@@ -593,7 +593,6 @@ public interface GTOMachines {
             .modelRenderer(() -> GTCEu.id("block/machine/part/primitive_blast_furnace_hatch"))
             .register();
 
-
     MachineDefinition BLOCK_BUS = machine("block_bus", "方块总线", BlockBusPartMachine::new)
             .tier(LuV)
             .allRotation()

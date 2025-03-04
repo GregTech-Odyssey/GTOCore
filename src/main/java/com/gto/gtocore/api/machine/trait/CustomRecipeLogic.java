@@ -1,5 +1,7 @@
 package com.gto.gtocore.api.machine.trait;
 
+import com.gto.gtocore.api.recipe.RecipeRunner;
+
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
@@ -42,7 +44,7 @@ public class CustomRecipeLogic extends RecipeLogic implements ILockableRecipe {
             setStatus(Status.SUSPEND);
             suspendAfterFinish = false;
         } else {
-            if (tryLast && lastRecipe != null && lastRecipe.matchRecipe(machine).isSuccess() && lastRecipe.matchTickRecipe(machine).isSuccess() && lastRecipe.checkConditions(this).isSuccess()) {
+            if (tryLast && lastRecipe != null && RecipeRunner.matchRecipe(machine, lastRecipe) && RecipeRunner.matchTickRecipe(machine, lastRecipe) && lastRecipe.checkConditions(this).isSuccess()) {
                 setupRecipe(lastRecipe);
                 return;
             } else {

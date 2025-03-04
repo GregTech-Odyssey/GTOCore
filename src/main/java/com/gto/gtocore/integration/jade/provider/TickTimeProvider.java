@@ -29,6 +29,7 @@ public class TickTimeProvider extends CapabilityBlockProvider<IPerformanceDispla
     @Override
     protected IPerformanceDisplayMachine getCapability(Level level, BlockPos pos, @Nullable Direction side) {
         if (MetaMachine.getMachine(level, pos) instanceof IPerformanceDisplayMachine machine) {
+            machine.gtocore$observe();
             return machine;
         }
         return null;
@@ -36,13 +37,13 @@ public class TickTimeProvider extends CapabilityBlockProvider<IPerformanceDispla
 
     @Override
     protected void write(CompoundTag data, IPerformanceDisplayMachine capability) {
-        if (capability != null) data.putLong("tick_time", capability.gtocore$getTickTime());
+        if (capability != null) data.putInt("tick_time", capability.gtocore$getTickTime());
     }
 
     @Override
     protected void addTooltip(CompoundTag capData, ITooltip tooltip, Player player, BlockAccessor block, BlockEntity blockEntity, IPluginConfig config) {
-        long time = capData.getLong("tick_time");
+        long time = capData.getInt("tick_time");
         if (time == 0) return;
-        tooltip.add(Component.translatable("tooltip.jade.delay", time / 1000).append(" μs"));
+        tooltip.add(Component.translatable("tooltip.jade.delay", time).append(" μs"));
     }
 }

@@ -3,11 +3,11 @@ package com.gto.gtocore.common.machine.multiblock.water;
 import com.gto.gtocore.api.machine.multiblock.ElectricMultiblockMachine;
 import com.gto.gtocore.api.machine.trait.CustomRecipeLogic;
 import com.gto.gtocore.api.recipe.GTORecipeBuilder;
+import com.gto.gtocore.api.recipe.RecipeRunner;
 import com.gto.gtocore.client.ClientUtil;
 import com.gto.gtocore.common.data.GTOMaterials;
 
 import com.gregtechceu.gtceu.api.GTValues;
-import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
@@ -172,7 +172,7 @@ public final class WaterPurificationPlantMachine extends ElectricMultiblockMachi
         }
         if (eut > 0) {
             GTRecipe recipe = GTORecipeBuilder.ofRaw().duration(DURATION).EUt(eut).buildRawRecipe();
-            if (recipe.matchRecipeContents(IO.IN, this, recipe.tickInputs, true).isSuccess()) {
+            if (RecipeRunner.matchRecipeTickInput(this, recipe)) {
                 return recipe;
             }
         }

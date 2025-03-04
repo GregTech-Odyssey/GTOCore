@@ -814,7 +814,7 @@ public interface GTORecipeTypes {
     //////////////////////////////////////
     // ********** Magic **********//
     //////////////////////////////////////
-    GTRecipeType ALCHEMY_POT_RECIPES = register("alchemy_pot", "炼金锅", MAGIC)
+    GTRecipeType ALCHEMY_CAULDRON_RECIPES = register("alchemy_cauldron", "炼金锅", MAGIC)
             .setMaxSize(IO.IN, ManaRecipeCapability.CAP, 1)
             .setMaxIOSize(6, 1, 1, 0)
             .setProgressBar(GuiTextures.PROGRESS_BAR_BATH, LEFT_TO_RIGHT)

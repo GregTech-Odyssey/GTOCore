@@ -3,6 +3,7 @@ package com.gto.gtocore.common.machine.multiblock.electric;
 import com.gto.gtocore.api.machine.multiblock.CustomParallelMultiblockMachine;
 import com.gto.gtocore.api.machine.trait.CustomRecipeLogic;
 import com.gto.gtocore.api.recipe.GTORecipeBuilder;
+import com.gto.gtocore.api.recipe.RecipeRunner;
 import com.gto.gtocore.common.data.GTORecipeModifiers;
 import com.gto.gtocore.utils.MachineUtils;
 
@@ -51,7 +52,7 @@ public final class ChiselMachine extends CustomParallelMultiblockMachine {
                 builder.outputItems(output);
                 GTRecipe recipe = builder.buildRawRecipe();
                 recipe = GTORecipeModifiers.accurateParallel(this, recipe, getParallel());
-                if (recipe != null && recipe.matchRecipe(this).isSuccess() && recipe.matchTickRecipe(this).isSuccess()) {
+                if (recipe != null && RecipeRunner.matchRecipe(this, recipe) && RecipeRunner.matchTickRecipe(this, recipe)) {
                     return recipe;
                 }
             }

@@ -2,6 +2,7 @@ package com.gto.gtocore.common.machine.trait;
 
 import com.gto.gtocore.api.machine.trait.IFluidDrillLogic;
 import com.gto.gtocore.api.recipe.GTORecipeBuilder;
+import com.gto.gtocore.api.recipe.RecipeRunner;
 import com.gto.gtocore.common.machine.multiblock.electric.voidseries.DrillingControlCenterMachine;
 import com.gto.gtocore.common.machine.multiblock.electric.voidseries.INFFluidDrillMachine;
 
@@ -57,7 +58,7 @@ public final class INFFluidDrillLogic extends RecipeLogic implements IFluidDrill
             }
             var match = getFluidDrillRecipe();
             if (match != null) {
-                if (match.matchRecipe(machine).isSuccess() && match.matchTickRecipe(machine).isSuccess()) {
+                if (RecipeRunner.matchRecipe(machine, match) && RecipeRunner.matchTickRecipe(machine, match)) {
                     setupRecipe(match);
                 }
             }
@@ -73,7 +74,7 @@ public final class INFFluidDrillLogic extends RecipeLogic implements IFluidDrill
                     .duration(MAX_PROGRESS)
                     .EUt((long) (GTValues.VA[getMachine().getEnergyTier()] * Math.pow(parallel, 1.2)))
                     .buildRawRecipe();
-            if (recipe.matchRecipe(getMachine()).isSuccess() && recipe.matchTickRecipe(getMachine()).isSuccess()) {
+            if (RecipeRunner.matchRecipe(machine, recipe) && RecipeRunner.matchTickRecipe(machine, recipe)) {
                 return recipe;
             }
         }
@@ -117,7 +118,7 @@ public final class INFFluidDrillLogic extends RecipeLogic implements IFluidDrill
         }
         var match = getFluidDrillRecipe();
         if (match != null) {
-            if (match.matchRecipe(machine).isSuccess() && match.matchTickRecipe(machine).isSuccess()) {
+            if (RecipeRunner.matchRecipe(machine, match) && RecipeRunner.matchTickRecipe(machine, match)) {
                 setupRecipe(match);
                 return;
             }

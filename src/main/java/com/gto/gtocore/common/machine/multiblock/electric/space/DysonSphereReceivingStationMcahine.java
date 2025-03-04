@@ -4,6 +4,7 @@ import com.gto.gtocore.api.data.GTODimensions;
 import com.gto.gtocore.api.machine.multiblock.ElectricMultiblockMachine;
 import com.gto.gtocore.api.machine.trait.CustomRecipeLogic;
 import com.gto.gtocore.api.recipe.GTORecipeBuilder;
+import com.gto.gtocore.api.recipe.RecipeRunner;
 import com.gto.gtocore.common.data.GTOFluids;
 import com.gto.gtocore.common.saved.DysonSphereSavaedData;
 
@@ -80,7 +81,7 @@ public final class DysonSphereReceivingStationMcahine extends ElectricMultiblock
                     .EUt(-GTValues.V[GTValues.MAX] * pair.getFirst() * (50 - Math.max(0, pair.getSecond() - 60)) / 50)
                     .inputFluids(new FluidStack(GTOFluids.GELID_CRYOTHEUM.get(), Math.max(1, (int) Math.sqrt(pair.getFirst()))))
                     .buildRawRecipe();
-            if (recipe.matchRecipe(this).isSuccess() && recipe.matchTickRecipe(this).isSuccess()) return recipe;
+            if (RecipeRunner.matchRecipe(this, recipe) && RecipeRunner.matchTickRecipe(this, recipe)) return recipe;
             return recipe;
         }
         return null;

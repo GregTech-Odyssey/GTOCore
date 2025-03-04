@@ -3,6 +3,7 @@ package com.gto.gtocore.common.machine.multiblock.noenergy;
 import com.gto.gtocore.api.machine.multiblock.NoEnergyMultiblockMachine;
 import com.gto.gtocore.api.machine.trait.CustomRecipeLogic;
 import com.gto.gtocore.api.recipe.GTORecipeBuilder;
+import com.gto.gtocore.api.recipe.RecipeRunner;
 
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
@@ -38,7 +39,7 @@ public final class ThermalPowerPumpMachine extends NoEnergyMultiblockMachine {
         } else if (biomeModifier > 0) {
             int production = getFluidProduction();
             GTRecipe recipe = GTORecipeBuilder.ofRaw().duration(20).inputFluids(new FluidStack(STEAM, production)).outputFluids(new FluidStack(Fluids.WATER, production)).buildRawRecipe();
-            if (recipe.matchRecipe(this).isSuccess()) {
+            if (RecipeRunner.matchRecipe(this, recipe)) {
                 return recipe;
             }
         }

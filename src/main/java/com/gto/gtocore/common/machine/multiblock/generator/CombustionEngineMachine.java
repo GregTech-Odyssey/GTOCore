@@ -2,6 +2,7 @@ package com.gto.gtocore.common.machine.multiblock.generator;
 
 import com.gto.gtocore.api.machine.multiblock.ElectricMultiblockMachine;
 import com.gto.gtocore.api.recipe.GTORecipeBuilder;
+import com.gto.gtocore.api.recipe.RecipeRunner;
 import com.gto.gtocore.common.data.GTORecipeModifiers;
 
 import com.gregtechceu.gtceu.api.GTValues;
@@ -95,7 +96,7 @@ public final class CombustionEngineMachine extends ElectricMultiblockMachine {
     @Override
     protected GTRecipe getRealRecipe(GTRecipe recipe) {
         long EUt = RecipeHelper.getOutputEUt(recipe);
-        if (EUt > 0 && getLubricantRecipe().matchRecipe(this).isSuccess() && !isIntakesObstructed()) {
+        if (EUt > 0 && RecipeRunner.matchRecipe(this, getLubricantRecipe()) && !isIntakesObstructed()) {
             recipe = GTORecipeModifiers.accurateParallel(this, recipe, (int) (getOverclockVoltage() / EUt));
             if (isOxygenBoosted) {
                 recipe.tickOutputs.put(EURecipeCapability.CAP, List.of(new Content((long) (RecipeHelper.getOutputEUt(recipe) * (isExtreme() ? 2 : 1.5)), ChanceLogic.getMaxChancedValue(), ChanceLogic.getMaxChancedValue(), 0, null, null)));
@@ -116,7 +117,7 @@ public final class CombustionEngineMachine extends ElectricMultiblockMachine {
         }
         if ((totalContinuousRunningTime == 1 || totalContinuousRunningTime % 20 == 0) && isBoostAllowed()) {
             var boosterRecipe = getBoostRecipe();
-            isOxygenBoosted = boosterRecipe.matchRecipe(this).isSuccess() && boosterRecipe.handleRecipeIO(IO.IN, this, recipeLogic.getChanceCaches());
+            isOxygenBoosted = RecipeRunner.matchRecipe(this, boosterRecipe) && RecipeRunner.handleRecipeIO(this, boosterRecipe, IO.IN);
         }
         return true;
     }
