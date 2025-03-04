@@ -756,6 +756,7 @@
   "block.gtocore.precision_assembler": "精密組裝機",
   "block.gtocore.precision_assembly_center": "精密組裝中心",
   "block.gtocore.pressure_containment_casing": "壓力容器機械方塊",
+  "block.gtocore.primitive_blast_furnace_hatch": "土高爐倉",
   "block.gtocore.primitive_distillation_tower": "原始蒸餾塔",
   "block.gtocore.primitive_void_ore": "原始虛空採礦機",
   "block.gtocore.process_machine_casing": "處理機械方塊",

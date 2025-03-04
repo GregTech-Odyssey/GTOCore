@@ -103,6 +103,7 @@
         "gtm.machine.MetaMachineMixin",
         "gtm.machine.MufflerPartMachineMixin",
         "gtm.machine.MultiblockControllerMachineMixin",
+        "gtm.machine.PrimitiveBlastFurnaceMachineMixin",
         "gtm.machine.RotorHolderPartMachineMixin",
         "gtm.machine.SimpleTieredMachineMixin",
         "gtm.machine.SteamLiquidBoilerMachineMixin",

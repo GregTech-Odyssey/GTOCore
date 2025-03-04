@@ -143,7 +143,6 @@ public interface GTOMachines {
                     .tooltips(GTMachineUtils.workableTiered(tier, V[tier], V[tier] << 6, GTORecipeTypes.VACUUM_PUMP_RECIPES, GTMachineUtils.defaultTankSizeFunction.apply(tier), true))
                     .register(),
             LV, MV, HV);
-
     MachineDefinition[] LIGHTNING_ROD = registerTieredMachines(
             "lightning_rod", tier -> "%s避雷针 %s".formatted(GTOValues.VLVHCN[tier], VLVT[tier]),
             LightningRodMachine::new,
@@ -588,6 +587,12 @@ public interface GTOMachines {
             .allRotation()
             .overlayTieredHullRenderer("rotor_hatch")
             .register();
+
+    MachineDefinition PRIMITIVE_BLAST_FURNACE_HATCH = machine("primitive_blast_furnace_hatch", "土高炉仓", PrimitiveBlastFurnaceHatch::new)
+            .allRotation()
+            .modelRenderer(() -> GTCEu.id("block/machine/part/primitive_blast_furnace_hatch"))
+            .register();
+
 
     MachineDefinition BLOCK_BUS = machine("block_bus", "方块总线", BlockBusPartMachine::new)
             .tier(LuV)
