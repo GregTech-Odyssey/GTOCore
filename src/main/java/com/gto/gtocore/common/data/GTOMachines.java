@@ -71,6 +71,7 @@ public interface GTOMachines {
         CustomMachines.init();
         ManaMachine.init();
         GeneratorMultiblock.init();
+        ExResearchMachines.init();
         MultiBlockA.init();
         MultiBlockB.init();
         MultiBlockC.init();
