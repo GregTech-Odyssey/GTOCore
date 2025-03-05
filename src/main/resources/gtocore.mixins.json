@@ -130,6 +130,7 @@
         "gtm.registry.GTMaterialItemsMixin",
         "gtm.registry.GTOresMixin",
         "gtm.registry.GTRegistryRlMixin",
+        "gtm.api.recipe.ContentMixin",
         "gtmt.CustomMachinesMixin",
         "gtmt.ForgeCommonEventListenerMixin",
         "gtmt.MEOutputPartMachineMixin",
@@ -170,5 +171,5 @@
     "injectors": {
         "defaultRequire": 1,
         "maxShiftBy": 5
-  }
+    }
 }
