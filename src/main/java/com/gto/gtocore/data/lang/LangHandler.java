@@ -101,7 +101,6 @@ public final class LangHandler {
         addENCN("gtocore.patternModifierPro.5", "Set Application Cycles , Up to 16", "应用次数为：循环上述操作次数，最大为16");
 
         addENCN("config.gtocore.option.selfRestraint", "Self Restraint Mode", "自我约束模式");
-        addENCN("config.gtocore.option.recipeCheck", "[Debug]Recipe Abnormal Check", "[调试]配方异常检查");
         addENCN("config.gtocore.option.eioFluidRate", "EIO Fluid Pipe Rate Multiplier", "EIO流体管道速率倍数");
         addENCN("config.gtocore.option.enablePrimitiveVoidOre", "Enable Primitive Void Ore Machine", "启用原始虚空矿机");
         addENCN("config.gtocore.option.oreMultiplier", "Ore Yield Multiplier", "矿石产量乘数");
@@ -111,6 +110,8 @@ public final class LangHandler {
         addENCN("config.gtocore.option.recipeMaxCheckInterval", "Recipe Max Check Interval", "配方最大检查间隔");
         addENCN("config.gtocore.option.breakBlocksBlackList", "Black List Of Chain Blocks", "连锁挖掘黑名单");
         addENCN("config.screen.gtocore", "GTO Core Config", "GTO Core 配置");
+        addENCN("config.gtocore.option.recipeCheck", "[Debug]Recipe Abnormal Check", "[调试]配方异常检查");
+        addENCN("config.gtocore.option.dev", "Dev mode", "开发模式");
 
         addENCN("gtceu.jei.ore_vein.bauxite_vein", "Bauxite Vein", "铝土矿脉");
         addENCN("gtceu.jei.ore_vein.chromite_vein", "Chromite Vein", "铬铁矿脉");

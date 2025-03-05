@@ -15,6 +15,7 @@ import com.gregtechceu.gtceu.api.block.ICoilType;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.sound.ExistingSoundEntry;
+import com.gregtechceu.gtceu.common.data.GCYMRecipeTypes;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.common.data.GTSoundEntries;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
@@ -45,6 +46,66 @@ public interface GTORecipeTypes {
     static void init() {
         RecipeTypeModify.init();
     }
+
+    GTORecipeType ALLOY_BLAST_RECIPES = (GTORecipeType) GCYMRecipeTypes.ALLOY_BLAST_RECIPES;
+    GTORecipeType STEAM_BOILER_RECIPES = (GTORecipeType) GTRecipeTypes.STEAM_BOILER_RECIPES;
+    GTORecipeType FURNACE_RECIPES = (GTORecipeType) GTRecipeTypes.FURNACE_RECIPES;
+    GTORecipeType ALLOY_SMELTER_RECIPES = (GTORecipeType) GTRecipeTypes.ALLOY_SMELTER_RECIPES;
+    GTORecipeType ARC_FURNACE_RECIPES = (GTORecipeType) GTRecipeTypes.ARC_FURNACE_RECIPES;
+    GTORecipeType ASSEMBLER_RECIPES = (GTORecipeType) GTRecipeTypes.ASSEMBLER_RECIPES;
+    GTORecipeType AUTOCLAVE_RECIPES = (GTORecipeType) GTRecipeTypes.AUTOCLAVE_RECIPES;
+    GTORecipeType BENDER_RECIPES = (GTORecipeType) GTRecipeTypes.BENDER_RECIPES;
+    GTORecipeType BREWING_RECIPES = (GTORecipeType) GTRecipeTypes.BREWING_RECIPES;
+    GTORecipeType MACERATOR_RECIPES = (GTORecipeType) GTRecipeTypes.MACERATOR_RECIPES;
+    GTORecipeType CANNER_RECIPES = (GTORecipeType) GTRecipeTypes.CANNER_RECIPES;
+    GTORecipeType CENTRIFUGE_RECIPES = (GTORecipeType) GTRecipeTypes.CENTRIFUGE_RECIPES;
+    GTORecipeType CHEMICAL_BATH_RECIPES = (GTORecipeType) GTRecipeTypes.CHEMICAL_BATH_RECIPES;
+    GTORecipeType CHEMICAL_RECIPES = (GTORecipeType) GTRecipeTypes.CHEMICAL_RECIPES;
+    GTORecipeType COMPRESSOR_RECIPES = (GTORecipeType) GTRecipeTypes.COMPRESSOR_RECIPES;
+    GTORecipeType CUTTER_RECIPES = (GTORecipeType) GTRecipeTypes.CUTTER_RECIPES;
+    GTORecipeType DISTILLERY_RECIPES = (GTORecipeType) GTRecipeTypes.DISTILLERY_RECIPES;
+    GTORecipeType ELECTROLYZER_RECIPES = (GTORecipeType) GTRecipeTypes.ELECTROLYZER_RECIPES;
+    GTORecipeType ELECTROMAGNETIC_SEPARATOR_RECIPES = (GTORecipeType) GTRecipeTypes.ELECTROMAGNETIC_SEPARATOR_RECIPES;
+    GTORecipeType EXTRACTOR_RECIPES = (GTORecipeType) GTRecipeTypes.EXTRACTOR_RECIPES;
+    GTORecipeType EXTRUDER_RECIPES = (GTORecipeType) GTRecipeTypes.EXTRUDER_RECIPES;
+    GTORecipeType FERMENTING_RECIPES = (GTORecipeType) GTRecipeTypes.FERMENTING_RECIPES;
+    GTORecipeType FLUID_HEATER_RECIPES = (GTORecipeType) GTRecipeTypes.FLUID_HEATER_RECIPES;
+    GTORecipeType FLUID_SOLIDFICATION_RECIPES = (GTORecipeType) GTRecipeTypes.FLUID_SOLIDFICATION_RECIPES;
+    GTORecipeType FORGE_HAMMER_RECIPES = (GTORecipeType) GTRecipeTypes.FORGE_HAMMER_RECIPES;
+    GTORecipeType FORMING_PRESS_RECIPES = (GTORecipeType) GTRecipeTypes.FORMING_PRESS_RECIPES;
+    GTORecipeType LATHE_RECIPES = (GTORecipeType) GTRecipeTypes.LATHE_RECIPES;
+    GTORecipeType MIXER_RECIPES = (GTORecipeType) GTRecipeTypes.MIXER_RECIPES;
+    GTORecipeType ORE_WASHER_RECIPES = (GTORecipeType) GTRecipeTypes.ORE_WASHER_RECIPES;
+    GTORecipeType PACKER_RECIPES = (GTORecipeType) GTRecipeTypes.PACKER_RECIPES;
+    GTORecipeType POLARIZER_RECIPES = (GTORecipeType) GTRecipeTypes.POLARIZER_RECIPES;
+    GTORecipeType LASER_ENGRAVER_RECIPES = (GTORecipeType) GTRecipeTypes.LASER_ENGRAVER_RECIPES;
+    GTORecipeType SIFTER_RECIPES = (GTORecipeType) GTRecipeTypes.SIFTER_RECIPES;
+    GTORecipeType THERMAL_CENTRIFUGE_RECIPES = (GTORecipeType) GTRecipeTypes.THERMAL_CENTRIFUGE_RECIPES;
+    GTORecipeType WIREMILL_RECIPES = (GTORecipeType) GTRecipeTypes.WIREMILL_RECIPES;
+    GTORecipeType CIRCUIT_ASSEMBLER_RECIPES = (GTORecipeType) GTRecipeTypes.CIRCUIT_ASSEMBLER_RECIPES;
+    GTORecipeType GAS_COLLECTOR_RECIPES = (GTORecipeType) GTRecipeTypes.GAS_COLLECTOR_RECIPES;
+    GTORecipeType AIR_SCRUBBER_RECIPES = (GTORecipeType) GTRecipeTypes.AIR_SCRUBBER_RECIPES;
+    GTORecipeType RESEARCH_STATION_RECIPES = (GTORecipeType) GTRecipeTypes.RESEARCH_STATION_RECIPES;
+    GTORecipeType ROCK_BREAKER_RECIPES = (GTORecipeType) GTRecipeTypes.ROCK_BREAKER_RECIPES;
+    GTORecipeType SCANNER_RECIPES = (GTORecipeType) GTRecipeTypes.SCANNER_RECIPES;
+    GTORecipeType COMBUSTION_GENERATOR_FUELS = (GTORecipeType) GTRecipeTypes.COMBUSTION_GENERATOR_FUELS;
+    GTORecipeType GAS_TURBINE_FUELS = (GTORecipeType) GTRecipeTypes.GAS_TURBINE_FUELS;
+    GTORecipeType STEAM_TURBINE_FUELS = (GTORecipeType) GTRecipeTypes.STEAM_TURBINE_FUELS;
+    GTORecipeType PLASMA_GENERATOR_FUELS = (GTORecipeType) GTRecipeTypes.PLASMA_GENERATOR_FUELS;
+    GTORecipeType LARGE_BOILER_RECIPES = (GTORecipeType) GTRecipeTypes.LARGE_BOILER_RECIPES;
+    GTORecipeType COKE_OVEN_RECIPES = (GTORecipeType) GTRecipeTypes.COKE_OVEN_RECIPES;
+    GTORecipeType PRIMITIVE_BLAST_FURNACE_RECIPES = (GTORecipeType) GTRecipeTypes.PRIMITIVE_BLAST_FURNACE_RECIPES;
+    GTORecipeType BLAST_RECIPES = (GTORecipeType) GTRecipeTypes.BLAST_RECIPES;
+    GTORecipeType DISTILLATION_RECIPES = (GTORecipeType) GTRecipeTypes.DISTILLATION_RECIPES;
+    GTORecipeType EVAPORATION_RECIPES = (GTORecipeType) GTRecipeTypes.EVAPORATION_RECIPES;
+    GTORecipeType PYROLYSE_RECIPES = (GTORecipeType) GTRecipeTypes.PYROLYSE_RECIPES;
+    GTORecipeType CRACKING_RECIPES = (GTORecipeType) GTRecipeTypes.CRACKING_RECIPES;
+    GTORecipeType IMPLOSION_RECIPES = (GTORecipeType) GTRecipeTypes.IMPLOSION_RECIPES;
+    GTORecipeType VACUUM_RECIPES = (GTORecipeType) GTRecipeTypes.VACUUM_RECIPES;
+    GTORecipeType ASSEMBLY_LINE_RECIPES = (GTORecipeType) GTRecipeTypes.ASSEMBLY_LINE_RECIPES;
+    GTORecipeType LARGE_CHEMICAL_RECIPES = (GTORecipeType) GTRecipeTypes.LARGE_CHEMICAL_RECIPES;
+    GTORecipeType FUSION_RECIPES = (GTORecipeType) GTRecipeTypes.FUSION_RECIPES;
+    GTORecipeType DUMMY_RECIPES = (GTORecipeType) GTRecipeTypes.DUMMY_RECIPES;
 
     GTORecipeType PRIMITIVE_VOID_ORE_RECIPES = GTOConfig.INSTANCE.enablePrimitiveVoidOre ?
             register("primitive_void_ore", "原始虚空采矿", MULTIBLOCK)

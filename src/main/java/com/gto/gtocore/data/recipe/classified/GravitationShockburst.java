@@ -8,22 +8,19 @@ import com.gto.gtocore.common.data.GTORecipeTypes;
 
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 
-import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
 
-import java.util.function.Consumer;
-
 interface GravitationShockburst {
 
-    static void init(Consumer<FinishedRecipe> provider) {
+    static void init() {
         GTORecipeTypes.GRAVITATION_SHOCKBURST_RECIPES.recipeBuilder(GTOCore.id("command_block_broken"))
                 .inputItems(new ItemStack(Blocks.COMMAND_BLOCK.asItem()))
                 .inputItems(TagPrefix.dust, GTOMaterials.MagnetohydrodynamicallyConstrainedStarMatter)
                 .outputItems(GTOBlocks.COMMAND_BLOCK_BROKEN.asStack())
                 .EUt(131941395333120L)
                 .duration(20)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.GRAVITATION_SHOCKBURST_RECIPES.recipeBuilder(GTOCore.id("repeating_command_block_core"))
                 .inputItems(GTOItems.CHAIN_COMMAND_BLOCK_CORE.asStack())
@@ -31,7 +28,7 @@ interface GravitationShockburst {
                 .outputItems(GTOItems.REPEATING_COMMAND_BLOCK_CORE.asStack())
                 .EUt(131941395333120L)
                 .duration(20)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.GRAVITATION_SHOCKBURST_RECIPES.recipeBuilder(GTOCore.id("chain_command_block_core"))
                 .inputItems(GTOItems.COMMAND_BLOCK_CORE.asStack())
@@ -39,7 +36,7 @@ interface GravitationShockburst {
                 .outputItems(GTOItems.CHAIN_COMMAND_BLOCK_CORE.asStack())
                 .EUt(131941395333120L)
                 .duration(20)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.GRAVITATION_SHOCKBURST_RECIPES.recipeBuilder(GTOCore.id("chain_command_block_broken"))
                 .inputItems(new ItemStack(Blocks.CHAIN_COMMAND_BLOCK.asItem()))
@@ -47,6 +44,6 @@ interface GravitationShockburst {
                 .outputItems(GTOBlocks.CHAIN_COMMAND_BLOCK_BROKEN.asStack())
                 .EUt(131941395333120L)
                 .duration(20)
-                .save(provider);
+                .save();
     }
 }

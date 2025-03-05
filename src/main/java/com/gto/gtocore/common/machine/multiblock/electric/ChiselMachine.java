@@ -15,7 +15,7 @@ import com.gregtechceu.gtceu.common.item.IntCircuitBehaviour;
 
 import net.minecraft.world.item.Item;
 
-import com.matthewperiut.chisel.block.ChiselGroupLookup;
+import com.periut.chisel.block.ChiselGroupLookup;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

@@ -1,5 +1,6 @@
 package com.gto.gtocore.mixin.gtm.recipe;
 
+import com.gto.gtocore.api.recipe.GTORecipeBuilder;
 import com.gto.gtocore.common.data.GTORecipeTypes;
 
 import com.gregtechceu.gtceu.api.GTValues;
@@ -14,7 +15,6 @@ import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.item.IGTTool;
 import com.gregtechceu.gtceu.common.data.GTRecipeCategories;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
-import com.gregtechceu.gtceu.data.recipe.builder.GTRecipeBuilder;
 import com.gregtechceu.gtceu.data.recipe.misc.RecyclingRecipes;
 
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -140,13 +140,13 @@ public abstract class RecyclingRecipesMixin {
      */
     @Overwrite(remap = false)
     private static void registerMaceratorRecycling(Consumer<FinishedRecipe> provider, ItemStack input, List<MaterialStack> materials, int multiplier) {
-        List<ItemStack> outputs = finalizeOutputs(materials, GTRecipeTypes.MACERATOR_RECIPES.getMaxOutputs(ItemRecipeCapability.CAP), ChemicalHelper::getDust);
+        List<ItemStack> outputs = finalizeOutputs(materials, GTORecipeTypes.MACERATOR_RECIPES.getMaxOutputs(ItemRecipeCapability.CAP), ChemicalHelper::getDust);
         if (outputs != null && !outputs.isEmpty()) {
             ResourceLocation itemPath = BuiltInRegistries.ITEM.getKey(input.getItem());
-            GTRecipeBuilder builder = GTRecipeTypes.MACERATOR_RECIPES.recipeBuilder("macerate_" + itemPath.getPath()).outputItems(outputs.toArray(ItemStack[]::new)).duration(calculateDuration(outputs)).EUt(2L * (long) multiplier);
+            GTORecipeBuilder builder = GTORecipeTypes.MACERATOR_RECIPES.recipeBuilder("macerate_" + itemPath.getPath()).outputItems(outputs.toArray(ItemStack[]::new)).duration(calculateDuration(outputs)).EUt(2L * (long) multiplier);
             builder.inputItems(input);
             builder.category(GTRecipeCategories.MACERATOR_RECYCLING);
-            builder.save(provider);
+            builder.save();
         }
     }
 
@@ -177,7 +177,7 @@ public abstract class RecyclingRecipesMixin {
                     .blastFurnaceTemp(Math.max(800, (int) (ms.material().getBlastTemperature() * 0.6)))
                     .EUt((long) GTValues.VA[GTValues.LV] * multiplier)
                     .inputItems(input)
-                    .save(provider);
+                    .save();
             return;
         }
 
@@ -204,7 +204,7 @@ public abstract class RecyclingRecipesMixin {
 
         // Build the final Recipe.
         ResourceLocation itemPath = BuiltInRegistries.ITEM.getKey(input.getItem());
-        GTRecipeBuilder extractorBuilder = GTORecipeTypes.LIQUEFACTION_FURNACE_RECIPES
+        GTORecipeBuilder extractorBuilder = GTORecipeTypes.LIQUEFACTION_FURNACE_RECIPES
                 .recipeBuilder("extract_" + itemPath.getPath())
                 .outputFluids(fluidMs.material().getFluid((int) (fluidMs.amount() * L / M)))
                 .duration((int) duration)
@@ -221,7 +221,7 @@ public abstract class RecyclingRecipesMixin {
             }
         }
 
-        extractorBuilder.save(provider);
+        extractorBuilder.save();
     }
 
     /**
@@ -237,27 +237,27 @@ public abstract class RecyclingRecipesMixin {
                 List<ItemStack> outputs = finalizeOutputs(materials, GTRecipeTypes.ARC_FURNACE_RECIPES.getMaxOutputs(ItemRecipeCapability.CAP), RecyclingRecipesMixin::getArcIngotOrDust);
                 if (outputs != null && !outputs.isEmpty()) {
                     ResourceLocation itemPath = BuiltInRegistries.ITEM.getKey(input.getItem());
-                    GTRecipeBuilder builder = GTRecipeTypes.ARC_FURNACE_RECIPES.recipeBuilder("arc_" + itemPath.getPath()).outputItems(outputs.toArray(ItemStack[]::new)).duration(calculateDuration(outputs)).EUt(GTValues.VA[1]);
+                    GTORecipeBuilder builder = GTORecipeTypes.ARC_FURNACE_RECIPES.recipeBuilder("arc_" + itemPath.getPath()).outputItems(outputs.toArray(ItemStack[]::new)).duration(calculateDuration(outputs)).EUt(GTValues.VA[1]);
                     builder.inputItems(input.copy());
 
                     if (needsRecyclingCategory(prefix, ms, outputs)) {
                         builder.category(GTRecipeCategories.ARC_FURNACE_RECYCLING);
                     }
 
-                    builder.save(provider);
+                    builder.save();
                 }
             } else {
                 if (ms != null && !ms.material().hasProperty(PropertyKey.GEM)) {
                     ItemStack output = ChemicalHelper.get(TagPrefix.ingot, ms.material().getProperty(PropertyKey.INGOT).getArcSmeltingInto(), (int) (TagPrefix.block.getMaterialAmount(ms.material()) / 3628800L));
                     ResourceLocation itemPath = BuiltInRegistries.ITEM.getKey(input.getItem());
-                    GTRecipeBuilder builder = GTRecipeTypes.ARC_FURNACE_RECIPES.recipeBuilder("arc_" + itemPath.getPath()).outputItems(output).duration(calculateDuration(Collections.singletonList(output))).EUt(GTValues.VA[1]);
+                    GTORecipeBuilder builder = GTORecipeTypes.ARC_FURNACE_RECIPES.recipeBuilder("arc_" + itemPath.getPath()).outputItems(output).duration(calculateDuration(Collections.singletonList(output))).EUt(GTValues.VA[1]);
                     builder.inputItems(input.copy());
 
                     if (ms.material().hasFlag(MaterialFlags.IS_MAGNETIC) || ms.material() == ms.material().getProperty(PropertyKey.INGOT).getArcSmeltingInto()) {
                         builder.category(GTRecipeCategories.ARC_FURNACE_RECYCLING);
                     }
 
-                    builder.save(provider);
+                    builder.save();
                 }
 
             }

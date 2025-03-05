@@ -13,13 +13,9 @@ import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
 
-import net.minecraft.data.recipes.FinishedRecipe;
-
-import java.util.function.Consumer;
-
 interface NanoForge {
 
-    static void init(Consumer<FinishedRecipe> provider) {
+    static void init() {
         GTORecipeTypes.NANO_FORGE_RECIPES.recipeBuilder(GTOCore.id("gold_nanites"))
                 .notConsumable(TagPrefix.lens, MarkerMaterials.Color.Yellow)
                 .inputItems(TagPrefix.block, GTMaterials.Gold, 8)
@@ -31,7 +27,7 @@ interface NanoForge {
                 .EUt(491520)
                 .duration(2000)
                 .addData("nano_forge_tier", 1)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.NANO_FORGE_RECIPES.recipeBuilder(GTOCore.id("osmium_nanites"))
                 .notConsumable(TagPrefix.lens, GTMaterials.Diamond)
@@ -44,7 +40,7 @@ interface NanoForge {
                 .EUt(491520)
                 .duration(4000)
                 .addData("nano_forge_tier", 1)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.NANO_FORGE_RECIPES.recipeBuilder(GTOCore.id("infuscolium_nanites"))
                 .notConsumable(TagPrefix.lens, MarkerMaterials.Color.Pink)
@@ -58,7 +54,7 @@ interface NanoForge {
                 .EUt(7864320)
                 .duration(2000)
                 .addData("nano_forge_tier", 2)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.NANO_FORGE_RECIPES.recipeBuilder(GTOCore.id("draconium_nanites"))
                 .notConsumable(TagPrefix.lens, MarkerMaterials.Color.Purple)
@@ -74,7 +70,7 @@ interface NanoForge {
                 .EUt(7864320)
                 .duration(16000)
                 .addData("nano_forge_tier", 2)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.NANO_FORGE_RECIPES.recipeBuilder(GTOCore.id("spacetime_nanites"))
                 .notConsumable(TagPrefix.lens, GTMaterials.Sapphire)
@@ -90,7 +86,7 @@ interface NanoForge {
                 .EUt(125829120)
                 .duration(8000)
                 .addData("nano_forge_tier", 3)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.NANO_FORGE_RECIPES.recipeBuilder(GTOCore.id("neutronium_nanites"))
                 .notConsumable(TagPrefix.lens, GTMaterials.NetherStar)
@@ -104,7 +100,7 @@ interface NanoForge {
                 .EUt(491520)
                 .duration(32000)
                 .addData("nano_forge_tier", 1)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.NANO_FORGE_RECIPES.recipeBuilder(GTOCore.id("naquadah_nanites"))
                 .notConsumable(TagPrefix.lens, GTMaterials.Emerald)
@@ -117,7 +113,7 @@ interface NanoForge {
                 .EUt(491520)
                 .duration(16000)
                 .addData("nano_forge_tier", 1)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.NANO_FORGE_RECIPES.recipeBuilder(GTOCore.id("carbon_nanites"))
                 .notConsumable(TagPrefix.lens, MarkerMaterials.Color.Lime)
@@ -129,7 +125,7 @@ interface NanoForge {
                 .EUt(491520)
                 .duration(4000)
                 .addData("nano_forge_tier", 1)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.NANO_FORGE_RECIPES.recipeBuilder(GTOCore.id("starmetal_nanites"))
                 .notConsumable(TagPrefix.lens, MarkerMaterials.Color.Red)
@@ -145,7 +141,7 @@ interface NanoForge {
                 .EUt(7864320)
                 .duration(8000)
                 .addData("nano_forge_tier", 2)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.NANO_FORGE_RECIPES.recipeBuilder(GTOCore.id("silver_nanites"))
                 .notConsumable(TagPrefix.lens, MarkerMaterials.Color.LightGray)
@@ -158,7 +154,7 @@ interface NanoForge {
                 .EUt(491520)
                 .duration(2000)
                 .addData("nano_forge_tier", 1)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.NANO_FORGE_RECIPES.recipeBuilder(GTOCore.id("orichalcum_nanites"))
                 .notConsumable(TagPrefix.lens, MarkerMaterials.Color.Magenta)
@@ -172,7 +168,7 @@ interface NanoForge {
                 .EUt(491520)
                 .duration(32000)
                 .addData("nano_forge_tier", 1)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.NANO_FORGE_RECIPES.recipeBuilder(GTOCore.id("iridium_nanites"))
                 .notConsumable(TagPrefix.lens, GTMaterials.Glass)
@@ -185,7 +181,7 @@ interface NanoForge {
                 .EUt(491520)
                 .duration(4000)
                 .addData("nano_forge_tier", 1)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.NANO_FORGE_RECIPES.recipeBuilder(GTOCore.id("black_dwarf_mtter_nanites"))
                 .notConsumable(TagPrefix.lens, GTMaterials.Ruby)
@@ -198,7 +194,7 @@ interface NanoForge {
                 .EUt(125829120)
                 .duration(4000)
                 .addData("nano_forge_tier", 3)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.NANO_FORGE_RECIPES.recipeBuilder(GTOCore.id("copper_nanites"))
                 .notConsumable(TagPrefix.lens, MarkerMaterials.Color.Brown)
@@ -211,7 +207,7 @@ interface NanoForge {
                 .EUt(491520)
                 .duration(2000)
                 .addData("nano_forge_tier", 1)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.NANO_FORGE_RECIPES.recipeBuilder(GTOCore.id("rhenium_nanites"))
                 .notConsumable(TagPrefix.lens, MarkerMaterials.Color.Cyan)
@@ -224,7 +220,7 @@ interface NanoForge {
                 .EUt(491520)
                 .duration(8000)
                 .addData("nano_forge_tier", 1)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.NANO_FORGE_RECIPES.recipeBuilder(GTOCore.id("iron_nanites"))
                 .notConsumable(TagPrefix.lens, MarkerMaterials.Color.Gray)
@@ -237,7 +233,7 @@ interface NanoForge {
                 .EUt(491520)
                 .duration(2000)
                 .addData("nano_forge_tier", 1)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.NANO_FORGE_RECIPES.recipeBuilder(GTOCore.id("enderium_nanites"))
                 .notConsumable(TagPrefix.lens, MarkerMaterials.Color.Green)
@@ -251,7 +247,7 @@ interface NanoForge {
                 .EUt(7864320)
                 .duration(2000)
                 .addData("nano_forge_tier", 2)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.NANO_FORGE_RECIPES.recipeBuilder(GTOCore.id("transcendent_metal_nanites"))
                 .notConsumable(GTOItems.NON_LINEAR_OPTICAL_LENS.asStack())
@@ -267,7 +263,7 @@ interface NanoForge {
                 .EUt(125829120)
                 .duration(16000)
                 .addData("nano_forge_tier", 3)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.NANO_FORGE_RECIPES.recipeBuilder(GTOCore.id("eternity_nanites"))
                 .notConsumable(TagPrefix.lens, MarkerMaterials.Color.Blue)
@@ -283,7 +279,7 @@ interface NanoForge {
                 .EUt(125829120)
                 .duration(64000)
                 .addData("nano_forge_tier", 3)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.NANO_FORGE_RECIPES.recipeBuilder(GTOCore.id("cosmic_neutronium_nanites"))
                 .notConsumable(TagPrefix.lens, MarkerMaterials.Color.Black)
@@ -299,7 +295,7 @@ interface NanoForge {
                 .EUt(125829120)
                 .duration(8000)
                 .addData("nano_forge_tier", 3)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.NANO_FORGE_RECIPES.recipeBuilder(GTOCore.id("vibranium_nanites"))
                 .notConsumable(TagPrefix.lens, MarkerMaterials.Color.LightBlue)
@@ -313,7 +309,7 @@ interface NanoForge {
                 .EUt(7864320)
                 .duration(4000)
                 .addData("nano_forge_tier", 2)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.NANO_FORGE_RECIPES.recipeBuilder(GTOCore.id("white_dwarf_mtter_nanites"))
                 .notConsumable(TagPrefix.lens, GTMaterials.Ruby)
@@ -326,7 +322,7 @@ interface NanoForge {
                 .EUt(125829120)
                 .duration(4000)
                 .addData("nano_forge_tier", 3)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.NANO_FORGE_RECIPES.recipeBuilder(GTOCore.id("uruium_nanites"))
                 .notConsumable(TagPrefix.lens, MarkerMaterials.Color.LightBlue)
@@ -340,7 +336,7 @@ interface NanoForge {
                 .EUt(7864320)
                 .duration(4000)
                 .addData("nano_forge_tier", 2)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.NANO_FORGE_RECIPES.recipeBuilder(GTOCore.id("glowstone_nanites"))
                 .notConsumable(TagPrefix.lens, MarkerMaterials.Color.Orange)
@@ -353,6 +349,6 @@ interface NanoForge {
                 .EUt(491520)
                 .duration(16000)
                 .addData("nano_forge_tier", 1)
-                .save(provider);
+                .save();
     }
 }

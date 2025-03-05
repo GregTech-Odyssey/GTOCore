@@ -140,7 +140,6 @@
         "gtmt.WirelessEnergyInterfaceMixin",
         "gtmt.WirelessMachinesMixin",
         "jade.CommonProxyMixin",
-        "jei.GTJEIPluginMixin",
         "jei.JEIConfigMixin",
         "kubejs.KubeJSMixin",
         "kubejs.KubeJSPluginsMixin",

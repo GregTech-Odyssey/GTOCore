@@ -21,8 +21,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.function.Consumer;
 
-import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.SCANNER_RECIPES;
 import static com.gto.gtocore.common.data.GTORecipeTypes.ELEMENT_COPYING_RECIPES;
+import static com.gto.gtocore.common.data.GTORecipeTypes.SCANNER_RECIPES;
 
 public interface ElementCopying {
 
@@ -167,7 +167,7 @@ public interface ElementCopying {
                     .outputItems(data)
                     .EUt(480)
                     .duration(mass << 8)
-                    .save(provider);
+                    .save();
 
             ELEMENT_COPYING_RECIPES.recipeBuilder(e.getName())
                     .notConsumable(data)
@@ -175,7 +175,7 @@ public interface ElementCopying {
                     .outputFluids(stack)
                     .duration(mass)
                     .EUt(GTValues.V[GTValues.UXV])
-                    .save(provider);
+                    .save();
         }
 
         for (Material e : ies) {
@@ -190,7 +190,7 @@ public interface ElementCopying {
                     .outputItems(data)
                     .EUt(480)
                     .duration(mass << 8)
-                    .save(provider);
+                    .save();
 
             ELEMENT_COPYING_RECIPES.recipeBuilder(e.getName())
                     .notConsumable(data)
@@ -198,7 +198,7 @@ public interface ElementCopying {
                     .outputItems(stack)
                     .duration(mass)
                     .EUt(GTValues.V[GTValues.UXV])
-                    .save(provider);
+                    .save();
         }
     }
 }

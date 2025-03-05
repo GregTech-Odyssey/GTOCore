@@ -23,8 +23,8 @@ import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlags.NO_SMASHING;
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.Iron;
-import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.EXTRUDER_RECIPES;
-import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.PACKER_RECIPES;
+import static com.gto.gtocore.common.data.GTORecipeTypes.EXTRUDER_RECIPES;
+import static com.gto.gtocore.common.data.GTORecipeTypes.PACKER_RECIPES;
 import static com.gto.gtocore.utils.GTOUtils.getVoltageMultiplier;
 
 interface GTOPipeRecipeHandler {
@@ -61,7 +61,7 @@ interface GTOPipeRecipeHandler {
                 .outputItems(pipeStack)
                 .duration(20)
                 .EUt(VA[LV])
-                .save(provider);
+                .save();
 
         VanillaRecipeHelper.addShapedRecipe(provider,
                 FormattingUtil.toLowerCaseUnder(prefix + "_" + material.getName()),
@@ -81,7 +81,7 @@ interface GTOPipeRecipeHandler {
                 .outputItems(pipeStack.copyWithCount(2))
                 .duration((int) (material.getMass()))
                 .EUt(6L * getVoltageMultiplier(material))
-                .save(provider);
+                .save();
 
         if (material.hasFlag(NO_SMASHING)) {
             EXTRUDER_RECIPES.recipeBuilder("extrude_" + material.getName() + "_tiny_pipe_dust")
@@ -90,7 +90,7 @@ interface GTOPipeRecipeHandler {
                     .outputItems(pipeStack.copyWithCount(2))
                     .duration((int) (material.getMass()))
                     .EUt(6L * getVoltageMultiplier(material))
-                    .save(provider);
+                    .save();
         } else if (material.getMass() < 240 && material.getBlastTemperature() < 3600) {
             VanillaRecipeHelper.addShapedRecipe(provider, String.format("tiny_%s_pipe", material.getName()),
                     pipeStack.copyWithCount(2), " s ", "hXw",
@@ -109,7 +109,7 @@ interface GTOPipeRecipeHandler {
                 .outputItems(pipeStack)
                 .duration((int) (material.getMass()))
                 .EUt(6L * getVoltageMultiplier(material))
-                .save(provider);
+                .save();
 
         if (material.hasFlag(NO_SMASHING)) {
             EXTRUDER_RECIPES.recipeBuilder("extrude_" + material.getName() + "_small_pipe_dust")
@@ -118,7 +118,7 @@ interface GTOPipeRecipeHandler {
                     .outputItems(pipeStack)
                     .duration((int) (material.getMass()))
                     .EUt(6L * getVoltageMultiplier(material))
-                    .save(provider);
+                    .save();
         } else if (material.getMass() < 240 && material.getBlastTemperature() < 3600) {
             VanillaRecipeHelper.addShapedRecipe(provider, String.format("small_%s_pipe", material.getName()),
                     pipeStack, "wXh",
@@ -137,7 +137,7 @@ interface GTOPipeRecipeHandler {
                 .outputItems(pipeStack)
                 .duration((int) material.getMass() * 3)
                 .EUt(6L * getVoltageMultiplier(material))
-                .save(provider);
+                .save();
 
         if (material.hasFlag(NO_SMASHING)) {
             EXTRUDER_RECIPES.recipeBuilder("extrude_" + material.getName() + "_pipe_dust")
@@ -146,7 +146,7 @@ interface GTOPipeRecipeHandler {
                     .outputItems(pipeStack)
                     .duration((int) material.getMass() * 3)
                     .EUt(6L * getVoltageMultiplier(material))
-                    .save(provider);
+                    .save();
         } else if (material.getMass() < 240 && material.getBlastTemperature() < 3600) {
             VanillaRecipeHelper.addShapedRecipe(provider, String.format("medium_%s_pipe", material.getName()),
                     pipeStack, "XXX", "w h",
@@ -165,7 +165,7 @@ interface GTOPipeRecipeHandler {
                 .outputItems(pipeStack)
                 .duration((int) material.getMass() * 6)
                 .EUt(6L * getVoltageMultiplier(material))
-                .save(provider);
+                .save();
 
         if (material.hasFlag(NO_SMASHING)) {
             EXTRUDER_RECIPES.recipeBuilder("extrude_" + material.getName() + "_large_pipe_dust")
@@ -174,7 +174,7 @@ interface GTOPipeRecipeHandler {
                     .outputItems(pipeStack)
                     .duration((int) material.getMass() * 6)
                     .EUt(6L * getVoltageMultiplier(material))
-                    .save(provider);
+                    .save();
         } else if (material.getMass() < 240 && material.getBlastTemperature() < 3600) {
             VanillaRecipeHelper.addShapedRecipe(provider, String.format("large_%s_pipe", material.getName()),
                     pipeStack, "XXX", "w h", "XXX",
@@ -193,7 +193,7 @@ interface GTOPipeRecipeHandler {
                 .outputItems(pipeStack)
                 .duration((int) material.getMass() * 24)
                 .EUt(6L * getVoltageMultiplier(material))
-                .save(provider);
+                .save();
 
         if (material.hasFlag(NO_SMASHING)) {
             EXTRUDER_RECIPES.recipeBuilder("extrude_" + material.getName() + "_huge_pipe_dust")
@@ -202,7 +202,7 @@ interface GTOPipeRecipeHandler {
                     .outputItems(pipeStack)
                     .duration((int) material.getMass() * 24)
                     .EUt(6L * getVoltageMultiplier(material))
-                    .save(provider);
+                    .save();
         } else if (plateDouble.doGenerateItem(material) && material.getMass() < 240 && material.getBlastTemperature() < 3600) {
             VanillaRecipeHelper.addShapedRecipe(provider, String.format("huge_%s_pipe", material.getName()),
                     pipeStack, "XXX", "w h", "XXX",
@@ -229,7 +229,7 @@ interface GTOPipeRecipeHandler {
                 .outputItems(quadPipe)
                 .duration(30)
                 .EUt(VA[ULV])
-                .save(provider);
+                .save();
     }
 
     private static void processPipeNonuple(@NotNull Consumer<FinishedRecipe> provider,
@@ -251,6 +251,6 @@ interface GTOPipeRecipeHandler {
                 .outputItems(nonuplePipe)
                 .duration(40)
                 .EUt(VA[ULV])
-                .save(provider);
+                .save();
     }
 }

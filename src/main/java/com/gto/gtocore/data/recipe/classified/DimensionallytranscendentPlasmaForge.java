@@ -12,16 +12,12 @@ import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
-import net.minecraft.data.recipes.FinishedRecipe;
-
 import committee.nova.mods.avaritia.init.registry.ModBlocks;
 import committee.nova.mods.avaritia.init.registry.ModItems;
 
-import java.util.function.Consumer;
-
 interface DimensionallytranscendentPlasmaForge {
 
-    static void init(Consumer<FinishedRecipe> provider) {
+    static void init() {
         GTORecipeTypes.DIMENSIONALLY_TRANSCENDENT_PLASMA_FORGE_RECIPES.recipeBuilder(GTOCore.id("spacetime_ingot"))
                 .notConsumable(GTOItems.INGOT_FIELD_SHAPE.asStack(64))
                 .notConsumable(GTOBlocks.SPACETIMEBENDINGCORE.asStack(64))
@@ -32,7 +28,7 @@ interface DimensionallytranscendentPlasmaForge {
                 .EUt(2013265920)
                 .duration(6400)
                 .blastFurnaceTemp(62000)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DIMENSIONALLY_TRANSCENDENT_PLASMA_FORGE_RECIPES.recipeBuilder(GTOCore.id("hypercube_1"))
                 .inputItems(TagPrefix.rod, GTOMaterials.TranscendentMetal, 16)
@@ -44,7 +40,7 @@ interface DimensionallytranscendentPlasmaForge {
                 .EUt(32212254720L)
                 .duration(6400)
                 .blastFurnaceTemp(62000)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DIMENSIONALLY_TRANSCENDENT_PLASMA_FORGE_RECIPES.recipeBuilder(GTOCore.id("hypercube"))
                 .inputItems(TagPrefix.rod, GTOMaterials.CosmicNeutronium, 12)
@@ -55,7 +51,7 @@ interface DimensionallytranscendentPlasmaForge {
                 .EUt(2013265920)
                 .duration(2400)
                 .blastFurnaceTemp(30000)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DIMENSIONALLY_TRANSCENDENT_PLASMA_FORGE_RECIPES.recipeBuilder(GTOCore.id("rhugnor"))
                 .notConsumable(ModItems.infinity_catalyst.get())
@@ -67,7 +63,7 @@ interface DimensionallytranscendentPlasmaForge {
                 .EUt(8053063680L)
                 .duration(3600)
                 .blastFurnaceTemp(36000)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DIMENSIONALLY_TRANSCENDENT_PLASMA_FORGE_RECIPES.recipeBuilder(GTOCore.id("crystal_matrix_plasma"))
                 .notConsumable(ModItems.infinity_catalyst.get())
@@ -79,7 +75,7 @@ interface DimensionallytranscendentPlasmaForge {
                 .EUt(2013265920)
                 .duration(800)
                 .blastFurnaceTemp(28000)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DIMENSIONALLY_TRANSCENDENT_PLASMA_FORGE_RECIPES.recipeBuilder(GTOCore.id("dense_neutron_plasma"))
                 .notConsumable(ModItems.infinity_catalyst.get())
@@ -92,7 +88,7 @@ interface DimensionallytranscendentPlasmaForge {
                 .EUt(2013265920)
                 .duration(800)
                 .blastFurnaceTemp(26000)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DIMENSIONALLY_TRANSCENDENT_PLASMA_FORGE_RECIPES.recipeBuilder(GTOCore.id("create_casing"))
                 .inputItems(TagPrefix.frameGt, GTOMaterials.Eternity)
@@ -103,7 +99,7 @@ interface DimensionallytranscendentPlasmaForge {
                 .EUt(32985348833280L)
                 .duration(3200)
                 .blastFurnaceTemp(96000)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DIMENSIONALLY_TRANSCENDENT_PLASMA_FORGE_RECIPES.recipeBuilder(GTOCore.id("infinity_catalyst"))
                 .inputItems(GTOItems.CONTAINED_EXOTIC_MATTER.asStack(64))
@@ -116,7 +112,7 @@ interface DimensionallytranscendentPlasmaForge {
                 .EUt(2013265920)
                 .duration(4800)
                 .blastFurnaceTemp(32000)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DIMENSIONALLY_TRANSCENDENT_PLASMA_FORGE_RECIPES.recipeBuilder(GTOCore.id("chaos_plasma"))
                 .inputItems(GTOItems.CHAOS_SHARD.asStack())
@@ -127,7 +123,7 @@ interface DimensionallytranscendentPlasmaForge {
                 .EUt(2013265920)
                 .duration(1600)
                 .blastFurnaceTemp(32000)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DIMENSIONALLY_TRANSCENDENT_PLASMA_FORGE_RECIPES.recipeBuilder(GTOCore.id("spacetime"))
                 .notConsumable(GTOItems.SPACETIME_CATALYST.asStack())
@@ -138,7 +134,7 @@ interface DimensionallytranscendentPlasmaForge {
                 .EUt(8053063680L)
                 .duration(1600)
                 .blastFurnaceTemp(36000)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DIMENSIONALLY_TRANSCENDENT_PLASMA_FORGE_RECIPES.recipeBuilder(GTOCore.id("cosmic_neutron_plasma_cell"))
                 .notConsumable(ModItems.infinity_catalyst.get())
@@ -150,7 +146,7 @@ interface DimensionallytranscendentPlasmaForge {
                 .EUt(2013265920)
                 .duration(800)
                 .blastFurnaceTemp(28000)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DIMENSIONALLY_TRANSCENDENT_PLASMA_FORGE_RECIPES.recipeBuilder(GTOCore.id("magnetohydrodynamically_constrained_star_matter"))
                 .notConsumable(GTOItems.ETERNITY_CATALYST.asStack())
@@ -163,7 +159,7 @@ interface DimensionallytranscendentPlasmaForge {
                 .EUt(2061584302080L)
                 .duration(6400)
                 .blastFurnaceTemp(81000)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DIMENSIONALLY_TRANSCENDENT_PLASMA_FORGE_RECIPES.recipeBuilder(GTOCore.id("infinity"))
                 .notConsumable(GTOItems.SPACETIME_CATALYST.asStack())
@@ -174,7 +170,7 @@ interface DimensionallytranscendentPlasmaForge {
                 .EUt(8053063680L)
                 .duration(1600)
                 .blastFurnaceTemp(32000)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DIMENSIONALLY_TRANSCENDENT_PLASMA_FORGE_RECIPES.recipeBuilder(GTOCore.id("dimensionallytranscendentresidue"))
                 .inputFluids(GTOMaterials.DimensionallyTranscendentCrudeCatalyst.getFluid(100))
@@ -183,7 +179,7 @@ interface DimensionallytranscendentPlasmaForge {
                 .EUt(2013265920)
                 .duration(400)
                 .blastFurnaceTemp(36000)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DIMENSIONALLY_TRANSCENDENT_PLASMA_FORGE_RECIPES.recipeBuilder(GTOCore.id("hypogen"))
                 .notConsumable(ModItems.infinity_catalyst.get())
@@ -195,7 +191,7 @@ interface DimensionallytranscendentPlasmaForge {
                 .EUt(2013265920)
                 .duration(1200)
                 .blastFurnaceTemp(26000)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DIMENSIONALLY_TRANSCENDENT_PLASMA_FORGE_RECIPES.recipeBuilder(GTOCore.id("transcendent_metal"))
                 .notConsumable(GTOItems.SPACETIME_CATALYST.asStack())
@@ -207,7 +203,7 @@ interface DimensionallytranscendentPlasmaForge {
                 .EUt(2013265920)
                 .duration(3200)
                 .blastFurnaceTemp(36000)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DIMENSIONALLY_TRANSCENDENT_PLASMA_FORGE_RECIPES.recipeBuilder(GTOCore.id("infinity_glass"))
                 .inputItems(GTOItems.BLACK_BODY_NAQUADRIA_SUPERSOLID.asStack())
@@ -218,7 +214,7 @@ interface DimensionallytranscendentPlasmaForge {
                 .EUt(8246337208320L)
                 .duration(1600)
                 .blastFurnaceTemp(88000)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DIMENSIONALLY_TRANSCENDENT_PLASMA_FORGE_RECIPES.recipeBuilder(GTOCore.id("eternity"))
                 .notConsumable(GTOItems.ETERNITY_CATALYST.asStack())
@@ -230,6 +226,6 @@ interface DimensionallytranscendentPlasmaForge {
                 .EUt(32212254720L)
                 .duration(4800)
                 .blastFurnaceTemp(56000)
-                .save(provider);
+                .save();
     }
 }

@@ -5,15 +5,12 @@ import com.gto.gtocore.api.machine.GTOCleanroomType;
 import com.gto.gtocore.common.data.GTOMaterials;
 import com.gto.gtocore.common.data.GTORecipeTypes;
 
-import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
 
-import java.util.function.Consumer;
-
 interface DragonEggCopier {
 
-    static void init(Consumer<FinishedRecipe> provider) {
+    static void init() {
         GTORecipeTypes.DRAGON_EGG_COPIER_RECIPES.recipeBuilder(GTOCore.id("dragon_egg_copier"))
                 .inputItems(new ItemStack(Blocks.DRAGON_EGG.asItem()))
                 .inputFluids(GTOMaterials.BiohmediumSterilized.getFluid(100))
@@ -22,6 +19,6 @@ interface DragonEggCopier {
                 .EUt(122880)
                 .duration(200)
                 .cleanroom(GTOCleanroomType.LAW_CLEANROOM)
-                .save(provider);
+                .save();
     }
 }

@@ -14,7 +14,6 @@ import java.util.function.Consumer;
 
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
-import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.*;
 import static com.gto.gtocore.api.data.tag.GTOTagPrefix.nanites;
 import static com.gto.gtocore.common.data.GTOMaterials.*;
 import static com.gto.gtocore.common.data.GTORecipeTypes.*;
@@ -26,7 +25,7 @@ public interface Lanthanidetreatment {
                 .inputItems(gemExquisite, Monazite)
                 .outputItems(dustSmall, RareEarth, 10)
                 .outputFluids(Helium.getFluid(1000))
-                .duration(640).EUt(256).save(provider);
+                .duration(640).EUt(256).save();
 
         DIGESTION_TREATMENT_RECIPES.recipeBuilder(GTOCore.id("monazite_rare_earth_turbid_liquid1"))
                 .inputItems(dust, Monazite, 2)
@@ -36,7 +35,7 @@ public interface Lanthanidetreatment {
                 .duration(200)
                 .EUt(1920)
                 .blastFurnaceTemp(1440)
-                .save(provider);
+                .save();
 
         DISSOLUTION_TREATMENT_RECIPES.recipeBuilder(GTOCore.id("diluted_monazite_slurry2"))
                 .inputItems(dust, Saltpeter, 90)
@@ -46,7 +45,7 @@ public interface Lanthanidetreatment {
                 .outputFluids(DilutedMonaziteSlurry.getFluid(1000000))
                 .duration(2000)
                 .EUt(480)
-                .save(provider);
+                .save();
 
         SIFTER_RECIPES.recipeBuilder(GTOCore.id("diluted_monazite_slurry3"))
                 .inputFluids(DilutedMonaziteSlurry.getFluid(1000))
@@ -57,7 +56,7 @@ public interface Lanthanidetreatment {
                 .chancedOutput(dust, Ilmenite, 1, 2000, 0)
                 .duration(400)
                 .EUt(120)
-                .save(provider);
+                .save();
 
         CENTRIFUGE_RECIPES.recipeBuilder(GTOCore.id("red_zircon_powder4"))
                 .inputItems(dust, RedZirconPowder, 4)
@@ -65,7 +64,7 @@ public interface Lanthanidetreatment {
                 .outputItems(dust, GraniteRed, 2)
                 .duration(320)
                 .EUt(90)
-                .save(provider);
+                .save();
 
         LARGE_CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("diluted_monazite_sulfate_solution6"))
                 .inputItems(dust, MonaziteSulfatePowder, 1)
@@ -73,7 +72,7 @@ public interface Lanthanidetreatment {
                 .outputItems(dust, AcidicMonazitePowder, 3)
                 .duration(160)
                 .EUt(480)
-                .save(provider);
+                .save();
 
         SIFTER_RECIPES.recipeBuilder(GTOCore.id("acidic_monazite_powder7"))
                 .inputItems(dust, AcidicMonazitePowder, 1)
@@ -81,7 +80,7 @@ public interface Lanthanidetreatment {
                 .chancedOutput(dust, ThoriumPhosphateRefinedPowder, 1, 7000, 0)
                 .duration(300)
                 .EUt(256)
-                .save(provider);
+                .save();
 
         THERMAL_CENTRIFUGE_RECIPES.recipeBuilder(GTOCore.id("thorium_phosphate_refined_powder9"))
                 .inputItems(dust, ThoriumPhosphateRefinedPowder, 1)
@@ -89,7 +88,7 @@ public interface Lanthanidetreatment {
                 .chancedOutput(dust, Monazite, 1, 3000, 300)
                 .duration(200)
                 .EUt(240)
-                .save(provider);
+                .save();
 
         CHEMICAL_BATH_RECIPES.recipeBuilder(GTOCore.id("monazite_rare_earth_filter_residue_powder10"))
                 .inputItems(dust, MonaziteRareEarthFilterResiduePowder, 1)
@@ -97,7 +96,7 @@ public interface Lanthanidetreatment {
                 .outputItems(dust, NeutralizedMonaziteRareEarthFilterResiduePowder, 1)
                 .duration(120)
                 .EUt(240)
-                .save(provider);
+                .save();
 
         SIFTER_RECIPES.recipeBuilder(GTOCore.id("neutralized_monazite_rare_earth_filter_residue_powder11"))
                 .inputItems(dust, NeutralizedMonaziteRareEarthFilterResiduePowder, 1)
@@ -106,7 +105,7 @@ public interface Lanthanidetreatment {
                 .chancedOutput(dust, UraniumFilterResiduePowder, 1, 4000, 0)
                 .duration(160)
                 .EUt(480)
-                .save(provider);
+                .save();
 
         CHEMICAL_BATH_RECIPES.recipeBuilder(GTOCore.id("uranium_filter_residue_powder12"))
                 .inputItems(dust, UraniumFilterResiduePowder, 1)
@@ -114,7 +113,7 @@ public interface Lanthanidetreatment {
                 .outputItems(dust, NeutralizedUraniumFilterResiduePowder, 1)
                 .duration(180)
                 .EUt(120)
-                .save(provider);
+                .save();
 
         SIFTER_RECIPES.recipeBuilder(GTOCore.id("neutralized_uranium_filter_residue_powder13"))
                 .inputItems(dust, NeutralizedUraniumFilterResiduePowder, 1)
@@ -125,7 +124,7 @@ public interface Lanthanidetreatment {
                 .chancedOutput(dust, Uranium235, 1, 1000, 0)
                 .duration(240)
                 .EUt(30)
-                .save(provider);
+                .save();
 
         CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("dried_concentrated_nitric_monazite_rare_earth_powder15"))
                 .inputItems(dust, ConcentratedMonaziteRareEarthHydroxidePowder, 1)
@@ -133,7 +132,7 @@ public interface Lanthanidetreatment {
                 .outputFluids(ConcentratedNitrideMonaziteRareEarthSolution.getFluid(500))
                 .duration(240)
                 .EUt(480)
-                .save(provider);
+                .save();
 
         MIXER_RECIPES.recipeBuilder(GTOCore.id("concentrated_nitride_monazite_rare_earth_solution16"))
                 .inputItems(dust, CeriumRichMixturePowder, 3)
@@ -141,7 +140,7 @@ public interface Lanthanidetreatment {
                 .outputFluids(NitricLeachateFromMonazite.getFluid(2000))
                 .duration(240)
                 .EUt(120)
-                .save(provider);
+                .save();
 
         MIXER_RECIPES.recipeBuilder(GTOCore.id("concentrated_nitride_monazite_rare_earth_solution17"))
                 .inputFluids(Water.getFluid(1000))
@@ -149,7 +148,7 @@ public interface Lanthanidetreatment {
                 .outputFluids(NitricLeachateFromMonazite.getFluid(1000))
                 .duration(200)
                 .EUt(120)
-                .save(provider);
+                .save();
 
         ELECTROLYZER_RECIPES.recipeBuilder(GTOCore.id("cerium_rich_mixture_powder18"))
                 .inputItems(dust, Bastnasite, 6)
@@ -159,7 +158,7 @@ public interface Lanthanidetreatment {
                 .outputFluids(Fluorine.getFluid(1000))
                 .duration(120)
                 .EUt(90)
-                .save(provider);
+                .save();
 
         CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("cerium_chloride_powder19"))
                 .inputItems(dust, CeriumRichMixturePowder, 15)
@@ -169,7 +168,7 @@ public interface Lanthanidetreatment {
                 .outputFluids(Water.getFluid(750))
                 .duration(300)
                 .EUt(480)
-                .save(provider);
+                .save();
 
         LARGE_CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("cerium_oxalate_powder20"))
                 .inputItems(dust, CeriumChloridePowder, 15)
@@ -178,7 +177,7 @@ public interface Lanthanidetreatment {
                 .outputFluids(HydrochloricAcid.getFluid(6000))
                 .duration(300)
                 .EUt(480)
-                .save(provider);
+                .save();
 
         LARGE_CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("oxalic_acid21"))
                 .notConsumable(dust, VanadiumPentoxidePowder, 1)
@@ -188,7 +187,7 @@ public interface Lanthanidetreatment {
                 .outputFluids(Water.getFluid(20000))
                 .duration(400)
                 .EUt(240)
-                .save(provider);
+                .save();
 
         LARGE_CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("oxalic_acid22"))
                 .notConsumable(dust, VanadiumPentoxidePowder, 1)
@@ -199,7 +198,7 @@ public interface Lanthanidetreatment {
                 .outputFluids(Water.getFluid(20000))
                 .duration(400)
                 .EUt(240)
-                .save(provider);
+                .save();
 
         LARGE_CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("oxalic_acid23"))
                 .notConsumable(dust, VanadiumPentoxidePowder, 1)
@@ -209,7 +208,7 @@ public interface Lanthanidetreatment {
                 .outputFluids(NitricOxide.getFluid(6000))
                 .duration(300)
                 .EUt(120)
-                .save(provider);
+                .save();
 
         REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("vanadium_pentoxide_powder24"))
                 .inputItems(dust, Vanadium, 2)
@@ -218,7 +217,7 @@ public interface Lanthanidetreatment {
                 .duration(200)
                 .EUt(120)
                 .blastFurnaceTemp(2500)
-                .save(provider);
+                .save();
 
         REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("cerium_oxalate_powder25"))
                 .inputItems(dust, CeriumOxalatePowder, 5)
@@ -228,7 +227,7 @@ public interface Lanthanidetreatment {
                 .duration(200)
                 .EUt(480)
                 .blastFurnaceTemp(800)
-                .save(provider);
+                .save();
 
         DIGESTION_TREATMENT_RECIPES.recipeBuilder(GTOCore.id("concentrated_cerium_chloride_solution26"))
                 .inputItems(dust, CeriumRichMixturePowder, 1)
@@ -238,7 +237,7 @@ public interface Lanthanidetreatment {
                 .duration(40)
                 .EUt(122880)
                 .blastFurnaceTemp(3820)
-                .save(provider);
+                .save();
 
         SIFTER_RECIPES.recipeBuilder(GTOCore.id("concentrated_nitric_leachate_from_monazite27"))
                 .inputFluids(NitricLeachateFromMonazite.getFluid(1000))
@@ -246,14 +245,14 @@ public interface Lanthanidetreatment {
                 .outputFluids(ConcentratedNitricLeachateFromMonazite.getFluid(1000))
                 .duration(200)
                 .EUt(240)
-                .save(provider);
+                .save();
 
         VACUUM_RECIPES.recipeBuilder(GTOCore.id("cooling_concentrated_nitric_monazite_rare_earth_powder28"))
                 .inputFluids(ConcentratedNitricLeachateFromMonazite.getFluid(1000))
                 .outputItems(dust, CoolingConcentratedNitricMonaziteRareEarthPowder, 1)
                 .duration(100)
                 .EUt(240)
-                .save(provider);
+                .save();
 
         ELECTROMAGNETIC_SEPARATOR_RECIPES.recipeBuilder(GTOCore.id("monazite_rare_earth_precipitate_powder29"))
                 .inputItems(dust, CoolingConcentratedNitricMonaziteRareEarthPowder, 1)
@@ -261,7 +260,7 @@ public interface Lanthanidetreatment {
                 .chancedOutput(dust, EuropiumOxide, 1, 500, 0)
                 .duration(100)
                 .EUt(240)
-                .save(provider);
+                .save();
 
         REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("heterogeneous_halide_monazite_rare_earth_mixture_powder30"))
                 .inputItems(dust, MonaziteRareEarthPrecipitatePowder, 1)
@@ -270,7 +269,7 @@ public interface Lanthanidetreatment {
                 .duration(250)
                 .EUt(480)
                 .blastFurnaceTemp(1200)
-                .save(provider);
+                .save();
 
         MIXER_RECIPES.recipeBuilder(GTOCore.id("saturated_monazite_rare_earth_powder30"))
                 .inputItems(dust, HeterogeneousHalideMonaziteRareEarthMixturePowder, 1)
@@ -279,7 +278,7 @@ public interface Lanthanidetreatment {
                 .outputItems(dust, SaturatedMonaziteRareEarthPowder, 3)
                 .duration(200)
                 .EUt(240)
-                .save(provider);
+                .save();
 
         MIXER_RECIPES.recipeBuilder(GTOCore.id("saturated_monazite_rare_earth_powder32"))
                 .inputItems(dust, HeterogeneousHalideMonaziteRareEarthMixturePowder, 1)
@@ -288,7 +287,7 @@ public interface Lanthanidetreatment {
                 .outputItems(dust, SaturatedMonaziteRareEarthPowder, 2)
                 .duration(200)
                 .EUt(240)
-                .save(provider);
+                .save();
 
         CENTRIFUGE_RECIPES.recipeBuilder(GTOCore.id("samarium_precipitate_powder33"))
                 .inputItems(dust, SaturatedMonaziteRareEarthPowder, 4)
@@ -297,7 +296,7 @@ public interface Lanthanidetreatment {
                 .outputFluids(Chloromethane.getFluid(400))
                 .duration(160)
                 .EUt(1920)
-                .save(provider);
+                .save();
 
         SIFTER_RECIPES.recipeBuilder(GTOCore.id("samarium_precipitate_powder34"))
                 .inputItems(dust, SamariumPrecipitatePowder, 3)
@@ -305,7 +304,7 @@ public interface Lanthanidetreatment {
                 .chancedOutput(dust, Gadolinium, 1, 2000, 0)
                 .duration(160)
                 .EUt(1920)
-                .save(provider);
+                .save();
 
         DIGESTION_TREATMENT_RECIPES.recipeBuilder(GTOCore.id("samarium_rare_earth_turbid_liquid35"))
                 .inputItems(dust, SamariumRefinedPowder, 16)
@@ -315,7 +314,7 @@ public interface Lanthanidetreatment {
                 .duration(200)
                 .EUt(1920)
                 .blastFurnaceTemp(2680)
-                .save(provider);
+                .save();
 
         DISSOLUTION_TREATMENT_RECIPES.recipeBuilder(GTOCore.id("samarium_rare_earth_turbid_liquid36"))
                 .inputFluids(SamariumRrareEearthTurbidLiquid.getFluid(10000))
@@ -325,7 +324,7 @@ public interface Lanthanidetreatment {
                 .outputFluids(SamariumRareEarthSlurry.getFluid(20000))
                 .duration(800)
                 .EUt(1920)
-                .save(provider);
+                .save();
 
         DISSOLUTION_TREATMENT_RECIPES.recipeBuilder(GTOCore.id("samarium_rare_earth_slurry37"))
                 .inputFluids(SamariumRareEarthSlurry.getFluid(10000))
@@ -335,7 +334,7 @@ public interface Lanthanidetreatment {
                 .outputFluids(SamariumRareEarthDilutedSolution.getFluid(100000))
                 .duration(1200)
                 .EUt(1920)
-                .save(provider);
+                .save();
 
         LARGE_CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("lanthanum_chloride38"))
                 .inputItems(dust, NeodymiumRareEarthConcentratePowder, 1)
@@ -344,7 +343,7 @@ public interface Lanthanidetreatment {
                 .outputItems(dust, NeodymiumOxide, 1)
                 .duration(450)
                 .EUt(120)
-                .save(provider);
+                .save();
 
         LARGE_CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("samarium_oxalate_with_impurities39"))
                 .inputFluids(SamariumRareEarthDilutedSolution.getFluid(2000))
@@ -354,7 +353,7 @@ public interface Lanthanidetreatment {
                 .outputFluids(SamariumRrareEearthTurbidLiquid.getFluid(50))
                 .duration(280)
                 .EUt(480)
-                .save(provider);
+                .save();
 
         CENTRIFUGE_RECIPES.recipeBuilder(GTOCore.id("samarium40"))
                 .inputItems(dust, PhosphorusFreeSamariumConcentratePowder, 1)
@@ -362,7 +361,7 @@ public interface Lanthanidetreatment {
                 .chancedOutput(dust, ThoritePowder, 2, 8000, 0)
                 .duration(100)
                 .EUt(1920)
-                .save(provider);
+                .save();
 
         LARGE_CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("samarium_chloride_concentrate_solution41"))
                 .inputItems(dust, SamariumOxalateWithImpurities, 5)
@@ -371,7 +370,7 @@ public interface Lanthanidetreatment {
                 .outputFluids(CarbonMonoxide.getFluid(6000))
                 .duration(100)
                 .EUt(960)
-                .save(provider);
+                .save();
 
         MIXER_RECIPES.recipeBuilder(GTOCore.id("samarium_chloride_sodium_chloride_mixture_powder42"))
                 .inputItems(dust, Salt, 1)
@@ -379,7 +378,7 @@ public interface Lanthanidetreatment {
                 .outputItems(dust, SamariumChlorideSodiumChlorideMixturePowder, 3)
                 .duration(80)
                 .EUt(30)
-                .save(provider);
+                .save();
 
         ELECTROLYZER_RECIPES.recipeBuilder(GTOCore.id("samarium43"))
                 .inputItems(dust, SamariumChlorideSodiumChlorideMixturePowder, 6)
@@ -388,7 +387,7 @@ public interface Lanthanidetreatment {
                 .outputFluids(Chlorine.getFluid(4000))
                 .duration(20)
                 .EUt(7680)
-                .save(provider);
+                .save();
 
         DIGESTION_TREATMENT_RECIPES.recipeBuilder(GTOCore.id("monazite_rare_earth_turbid_liquid_output44"))
                 .inputItems(dust, SamariumRefinedPowder, 1)
@@ -398,7 +397,7 @@ public interface Lanthanidetreatment {
                 .duration(40)
                 .EUt(122880)
                 .blastFurnaceTemp(3820)
-                .save(provider);
+                .save();
 
         DISTILLERY_RECIPES.recipeBuilder(GTOCore.id("lanthanum_chloride_with_impurities45"))
                 .inputItems(dust, Lanthanum, 9)
@@ -407,14 +406,14 @@ public interface Lanthanidetreatment {
                 .outputFluids(Samarium.getFluid(2304))
                 .duration(100)
                 .EUt(122880)
-                .save(provider);
+                .save();
 
         CENTRIFUGE_RECIPES.recipeBuilder(GTOCore.id("lanthanum_chloride_with_impurities46"))
                 .inputItems(dust, LanthanumChlorideWithImpurities, 36)
                 .outputItems(dust, LanthanumChloride, 36)
                 .duration(100)
                 .EUt(1920)
-                .save(provider);
+                .save();
 
         /* 氟碳镧铈线 */
         DIGESTION_TREATMENT_RECIPES.recipeBuilder(GTOCore.id("fluoro_carbon_lanthanide_cerium_solution47"))
@@ -425,7 +424,7 @@ public interface Lanthanidetreatment {
                 .duration(200)
                 .EUt(1920)
                 .blastFurnaceTemp(1440)
-                .save(provider);
+                .save();
 
         CRACKING_RECIPES.recipeBuilder(GTOCore.id("steam_cracked_fluoro_carbon_lanthanide_slurry48"))
                 .inputFluids(FluoroCarbonLanthanideCeriumSolution.getFluid(1000))
@@ -433,7 +432,7 @@ public interface Lanthanidetreatment {
                 .outputFluids(SteamCrackedFluoroCarbonLanthanideSlurry.getFluid(2000))
                 .duration(300)
                 .EUt(480)
-                .save(provider);
+                .save();
 
         MIXER_RECIPES.recipeBuilder(GTOCore.id("fluoro_carbon_lanthanide_cerium_solution49"))
                 .inputFluids(SteamCrackedFluoroCarbonLanthanideSlurry.getFluid(1000))
@@ -441,7 +440,7 @@ public interface Lanthanidetreatment {
                 .outputFluids(ModulatedFluoroCarbonLanthanideSlurry.getFluid(1320))
                 .duration(200)
                 .EUt(120)
-                .save(provider);
+                .save();
 
         DISSOLUTION_TREATMENT_RECIPES.recipeBuilder(GTOCore.id("diluted_fluoro_carbon_lanthanide_slurry51"))
                 .inputItems(dust, Saltpeter, 10)
@@ -451,7 +450,7 @@ public interface Lanthanidetreatment {
                 .outputFluids(DilutedFluoroCarbonLanthanideSlurry.getFluid(100000))
                 .duration(1600)
                 .EUt(1920)
-                .save(provider);
+                .save();
 
         SIFTER_RECIPES.recipeBuilder(GTOCore.id("filtered_fluoro_carbon_lanthanide_slurry52"))
                 .inputFluids(DilutedFluoroCarbonLanthanideSlurry.getFluid(1000))
@@ -462,7 +461,7 @@ public interface Lanthanidetreatment {
                 .chancedOutput(dust, Ilmenite, 1, 500, 0)
                 .duration(200)
                 .EUt(240)
-                .save(provider);
+                .save();
 
         CHEMICAL_BATH_RECIPES.recipeBuilder(GTOCore.id("acid_leached_fluoro_carbon_lanthanide_cerium_oxide_powder54"))
                 .inputItems(dust, FluoroCarbonLanthanideCeriumOxidePowder, 1)
@@ -470,7 +469,7 @@ public interface Lanthanidetreatment {
                 .outputItems(dust, AcidLeachedFluoroCarbonLanthanideCeriumOxidePowder, 1)
                 .duration(200)
                 .EUt(30)
-                .save(provider);
+                .save();
 
         REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("calcined_rare_earth_oxide_powder55"))
                 .inputItems(dust, AcidLeachedFluoroCarbonLanthanideCeriumOxidePowder, 1)
@@ -480,7 +479,7 @@ public interface Lanthanidetreatment {
                 .duration(240)
                 .EUt(120)
                 .blastFurnaceTemp(1200)
-                .save(provider);
+                .save();
 
         MIXER_RECIPES.recipeBuilder(GTOCore.id("wet_rare_earth_oxide_powder56"))
                 .inputItems(dust, CalcinedRareEarthOxidePowder, 1)
@@ -488,7 +487,7 @@ public interface Lanthanidetreatment {
                 .outputItems(dust, WetRareEarthOxidePowder, 1)
                 .duration(100)
                 .EUt(30)
-                .save(provider);
+                .save();
 
         CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("cerium_oxide_rare_earth_oxide_powder57"))
                 .inputItems(dust, WetRareEarthOxidePowder, 1)
@@ -497,7 +496,7 @@ public interface Lanthanidetreatment {
                 .outputFluids(HydrofluoricAcid.getFluid(4000))
                 .duration(300)
                 .EUt(480)
-                .save(provider);
+                .save();
 
         CENTRIFUGE_RECIPES.recipeBuilder(GTOCore.id("fluoro_carbon_lanthanide_cerium_rare_earth_oxide_powder58"))
                 .inputItems(dust, CeriumOxideRareEarthOxidePowder, 1)
@@ -505,7 +504,7 @@ public interface Lanthanidetreatment {
                 .outputItems(dust, CeriumOxide, 1)
                 .duration(320)
                 .EUt(480)
-                .save(provider);
+                .save();
 
         MIXER_RECIPES.recipeBuilder(GTOCore.id("nitrided_fluoro_carbon_lanthanide_cerium_rare_earth_oxide_solution59"))
                 .inputItems(dust, FluoroCarbonLanthanideCeriumRareEarthOxidePowder, 1)
@@ -513,7 +512,7 @@ public interface Lanthanidetreatment {
                 .outputFluids(NitridedFluoroCarbonLanthanideCeriumRareEarthOxideSolution.getFluid(1000))
                 .duration(150)
                 .EUt(480)
-                .save(provider);
+                .save();
 
         LARGE_CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("fluoro_carbon_lanthanide_cerium_rare_earth_suspension60"))
                 .inputFluids(Acetone.getFluid(1000))
@@ -521,7 +520,7 @@ public interface Lanthanidetreatment {
                 .outputFluids(FluoroCarbonLanthanideCeriumRareEarthSuspension.getFluid(1000))
                 .duration(350)
                 .EUt(480)
-                .save(provider);
+                .save();
 
         CENTRIFUGE_RECIPES.recipeBuilder(GTOCore.id("samarium_rare_earth_concentrate_powder61"))
                 .inputFluids(FluoroCarbonLanthanideCeriumRareEarthSuspension.getFluid(1000))
@@ -530,7 +529,7 @@ public interface Lanthanidetreatment {
                 .outputFluids(Acetone.getFluid(450))
                 .duration(450)
                 .EUt(120)
-                .save(provider);
+                .save();
 
         LARGE_CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("fluorinated_samarium_concentrate_powder62"))
                 .inputItems(dust, SamariumRareEarthConcentratePowder, 1)
@@ -539,7 +538,7 @@ public interface Lanthanidetreatment {
                 .outputItems(dust, FluorinatedSamariumConcentratePowder, 1)
                 .duration(300)
                 .EUt(480)
-                .save(provider);
+                .save();
 
         REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("samarium_terbium_mixture_powder63"))
                 .inputItems(dust, FluorinatedSamariumConcentratePowder, 4)
@@ -550,7 +549,7 @@ public interface Lanthanidetreatment {
                 .duration(200)
                 .EUt(1920)
                 .blastFurnaceTemp(1200)
-                .save(provider);
+                .save();
 
         CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("nitrided_samarium_terbium_mixture_powder64"))
                 .inputItems(dust, SamariumTerbiumMixturePowder, 1)
@@ -558,7 +557,7 @@ public interface Lanthanidetreatment {
                 .outputItems(dust, NitridedSamariumTerbiumMixturePowder, 1)
                 .duration(300)
                 .EUt(480)
-                .save(provider);
+                .save();
 
         CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("terbium_nitrate_powder65"))
                 .inputItems(dust, NitridedSamariumTerbiumMixturePowder, 4)
@@ -567,7 +566,7 @@ public interface Lanthanidetreatment {
                 .outputItems(dust, SamariumPrecipitatePowder, 2)
                 .duration(320)
                 .EUt(1920)
-                .save(provider);
+                .save();
 
         RARE_EARTH_CENTRIFUGAL_RECIPES.recipeBuilder(GTOCore.id("concentrated_cerium_chloride_solution66"))
                 .inputFluids(ConcentratedCeriumChlorideSolution.getFluid(1000))
@@ -575,7 +574,7 @@ public interface Lanthanidetreatment {
                 .outputFluids(ConcentratedRareEarthChlorideSolution.getFluid(1000))
                 .duration(20)
                 .EUt(491520)
-                .save(provider);
+                .save();
 
         RARE_EARTH_CENTRIFUGAL_RECIPES.recipeBuilder(GTOCore.id("samarium_chloride_concentrate_solution67"))
                 .inputFluids(SamariumChlorideConcentrateSolution.getFluid(1000))
@@ -583,7 +582,7 @@ public interface Lanthanidetreatment {
                 .outputFluids(ConcentratedRareEarthChlorideSolution.getFluid(1000))
                 .duration(20)
                 .EUt(491520)
-                .save(provider);
+                .save();
 
         RARE_EARTH_CENTRIFUGAL_RECIPES.recipeBuilder(GTOCore.id("samarium_chloride_concentrate_solution69"))
                 .inputFluids(EnrichedRareEarthChlorideSolution.getFluid(1000))
@@ -607,7 +606,7 @@ public interface Lanthanidetreatment {
                 .outputItems(dustSmall, PromethiumOxide, 1)
                 .duration(20)
                 .EUt(491520)
-                .save(provider);
+                .save();
 
         RARE_EARTH_CENTRIFUGAL_RECIPES.recipeBuilder(GTOCore.id("samarium_chloride_concentrate_solution70"))
                 .inputFluids(DilutedRareEarthChlorideSolution.getFluid(1000))
@@ -631,7 +630,7 @@ public interface Lanthanidetreatment {
                 .outputItems(dustSmall, PromethiumOxide, 1)
                 .duration(20)
                 .EUt(491520)
-                .save(provider);
+                .save();
 
         LARGE_CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("make_p507_1"))
                 .notConsumable(plate, Copper, 1)
@@ -640,7 +639,7 @@ public interface Lanthanidetreatment {
                 .outputFluids(EthylHexanol.getFluid(1000))
                 .duration(400)
                 .EUt(480)
-                .save(provider);
+                .save();
 
         LARGE_CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("make_p507_2"))
                 .inputItems(dust, Sodium, 2)
@@ -650,7 +649,7 @@ public interface Lanthanidetreatment {
                 .outputFluids(P507.getFluid(1000))
                 .duration(1200)
                 .EUt(1920)
-                .save(provider);
+                .save();
 
         Material[] rareEarthElements = {
                 Lanthanum,
@@ -726,7 +725,7 @@ public interface Lanthanidetreatment {
                     .duration(1200)
                     .EUt(491520)
                     .addData("special", true)
-                    .save(provider);
+                    .save();
 
             LARGE_CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("extraction_nano_resin_a_" + i))
                     .inputFluids(nanoResin.getFluid(1000))
@@ -735,7 +734,7 @@ public interface Lanthanidetreatment {
                     .outputFluids(extractedNanoResin.getFluid(1000))
                     .duration(20)
                     .EUt(491520)
-                    .save(provider);
+                    .save();
 
             LARGE_CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("extraction_nano_resin_b_" + i))
                     .inputFluids(nanoResin.getFluid(1000))
@@ -744,7 +743,7 @@ public interface Lanthanidetreatment {
                     .outputFluids(extractedNanoResin.getFluid(1000))
                     .duration(80)
                     .EUt(491520)
-                    .save(provider);
+                    .save();
 
             LARGE_CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("extraction_nano_resin_c_" + i))
                     .inputFluids(nanoResin.getFluid(1000))
@@ -752,7 +751,7 @@ public interface Lanthanidetreatment {
                     .outputFluids(extractedNanoResin.getFluid(1000))
                     .duration(320)
                     .EUt(491520)
-                    .save(provider);
+                    .save();
 
             ELECTROLYZER_RECIPES.recipeBuilder(GTOCore.id("break_down_extracted_nano_resin_" + i))
                     .inputFluids(extractedNanoResin.getFluid(1000))
@@ -761,7 +760,7 @@ public interface Lanthanidetreatment {
                     .outputFluids(Chlorine.getFluid(3000))
                     .duration(100)
                     .EUt(122880)
-                    .save(provider);
+                    .save();
 
             GTORecipeTypes.RARE_EARTH_CENTRIFUGAL_RECIPES.recipeBuilder(GTOCore.id("raw_adamantine"))
                     .inputItems(TagPrefix.dust, GTOMaterials.NaquadahContainRareEarth)
@@ -770,7 +769,7 @@ public interface Lanthanidetreatment {
                     .outputItems(TagPrefix.dust, GTMaterials.NaquadriaSulfate, 6)
                     .EUt(7864320)
                     .duration(200)
-                    .save(provider);
+                    .save();
 
             GTORecipeTypes.RARE_EARTH_CENTRIFUGAL_RECIPES.recipeBuilder(GTOCore.id("rare_earth_centrifugal"))
                     .inputItems(TagPrefix.dust, GTOMaterials.RareEarthMetal)
@@ -793,7 +792,7 @@ public interface Lanthanidetreatment {
                     .outputItems(TagPrefix.dustSmall, GTMaterials.Yttrium)
                     .EUt(491520)
                     .duration(200)
-                    .save(provider);
+                    .save();
         }
     }
 }

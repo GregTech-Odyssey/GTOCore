@@ -1,5 +1,6 @@
 package com.gto.gtocore.data.recipe.generated;
 
+import com.gto.gtocore.api.recipe.GTORecipeBuilder;
 import com.gto.gtocore.common.data.GTORecipeTypes;
 import com.gto.gtocore.utils.GTOUtils;
 
@@ -16,7 +17,6 @@ import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.data.GTRecipeCategories;
 import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
-import com.gregtechceu.gtceu.data.recipe.builder.GTRecipeBuilder;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.gregtechceu.gtceu.utils.GTUtil;
 
@@ -32,8 +32,8 @@ import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlags.*;
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
-import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.*;
 import static com.gregtechceu.gtceu.common.data.GTRecipes.EBF_GASES;
+import static com.gto.gtocore.common.data.GTORecipeTypes.*;
 
 interface GTOMaterialRecipeHandler {
 
@@ -90,7 +90,7 @@ interface GTOMaterialRecipeHandler {
                         .outputItems(rod, material, 2)
                         .duration(mass << 2)
                         .EUt(6L * GTOUtils.getVoltageMultiplier(material))
-                        .save(provider);
+                        .save();
             }
         }
 
@@ -100,7 +100,7 @@ interface GTOMaterialRecipeHandler {
                     .inputFluids(material.getFluid(L))
                     .outputItems(stack)
                     .duration(mass).EUt(VA[ULV])
-                    .save(provider);
+                    .save();
         }
 
         if (material.hasFlag(NO_SMASHING)) {
@@ -110,7 +110,7 @@ interface GTOMaterialRecipeHandler {
                     .outputItems(stack)
                     .duration(mass)
                     .EUt(4L * GTOUtils.getVoltageMultiplier(material))
-                    .save(provider);
+                    .save();
         }
 
         ALLOY_SMELTER_RECIPES.recipeBuilder("alloy_smelt_" + material.getName() + "_to_nugget")
@@ -119,7 +119,7 @@ interface GTOMaterialRecipeHandler {
                 .notConsumable(GTItems.SHAPE_MOLD_NUGGET)
                 .outputItems(nugget, material, 9)
                 .category(GTRecipeCategories.INGOT_MOLDING)
-                .save(provider);
+                .save();
 
         if (!ChemicalHelper.get(block, material).isEmpty()) {
             int amount = (int) (block.getMaterialAmount(material) / M);
@@ -129,13 +129,13 @@ interface GTOMaterialRecipeHandler {
                     .notConsumable(GTItems.SHAPE_MOLD_INGOT)
                     .outputItems(stack.copyWithCount(amount))
                     .category(GTRecipeCategories.INGOT_MOLDING)
-                    .save(provider);
+                    .save();
 
             COMPRESSOR_RECIPES.recipeBuilder("compress_" + material.getName() + "_to_block")
                     .EUt(2).duration(mass * amount)
                     .inputItems(stack.copyWithCount(amount))
                     .outputItems(block, material)
-                    .save(provider);
+                    .save();
         }
 
         if (material.hasFlag(GENERATE_PLATE) && !material.hasFlag(NO_WORKING)) {
@@ -148,13 +148,13 @@ interface GTOMaterialRecipeHandler {
                             .outputItems(plateStack)
                             .EUt(24).duration(mass)
                             .circuitMeta(1)
-                            .save(provider);
+                            .save();
 
                     FORGE_HAMMER_RECIPES.recipeBuilder("hammer_" + material.getName() + "_to_plate")
                             .inputItems(stack.copyWithCount(3))
                             .outputItems(plateStack.copyWithCount(2))
                             .EUt(16).duration(mass)
-                            .save(provider);
+                            .save();
                     if (mass < 240 && material.getBlastTemperature() < 3600)
                         VanillaRecipeHelper.addShapedRecipe(provider, String.format("plate_%s", material.getName()),
                                 plateStack, "h", "I", "I", 'I', stack);
@@ -169,7 +169,7 @@ interface GTOMaterialRecipeHandler {
                         .outputItems(plate, material)
                         .duration(mass << 1)
                         .EUt(8L * voltageMultiplier)
-                        .save(provider);
+                        .save();
 
                 if (material.hasFlag(NO_SMASHING)) {
                     EXTRUDER_RECIPES.recipeBuilder("extrude_" + material.getName() + "_dust_to_plate")
@@ -178,7 +178,7 @@ interface GTOMaterialRecipeHandler {
                             .outputItems(plate, material)
                             .duration(mass << 1)
                             .EUt(8L * voltageMultiplier)
-                            .save(provider);
+                            .save();
                 }
             }
         }
@@ -193,7 +193,7 @@ interface GTOMaterialRecipeHandler {
             COMPRESSOR_RECIPES.recipeBuilder("compress_" + material.getName() + "_nugget_to_ingot")
                     .inputItems(nuggetStack)
                     .outputItems(ingotStack)
-                    .EUt(2).duration(300).save(provider);
+                    .EUt(2).duration(300).save();
 
             ALLOY_SMELTER_RECIPES.recipeBuilder("alloy_smelt_" + material.getName() + "_nugget_to_ingot")
                     .EUt(VA[ULV]).duration((int) material.getMass())
@@ -201,7 +201,7 @@ interface GTOMaterialRecipeHandler {
                     .notConsumable(GTItems.SHAPE_MOLD_INGOT)
                     .outputItems(ingotStack)
                     .category(GTRecipeCategories.INGOT_MOLDING)
-                    .save(provider);
+                    .save();
 
             if (material.hasFluid()) {
                 FLUID_SOLIDFICATION_RECIPES.recipeBuilder("solidify_" + material.getName() + "_to_nugget")
@@ -210,7 +210,7 @@ interface GTOMaterialRecipeHandler {
                         .outputItems(nuggetStack)
                         .duration((int) material.getMass())
                         .EUt(VA[ULV])
-                        .save(provider);
+                        .save();
             }
         }
     }
@@ -226,7 +226,7 @@ interface GTOMaterialRecipeHandler {
                     .inputFluids(material.getFluid((int) (materialAmount * L / M)))
                     .outputItems(blockStack)
                     .duration(mass).EUt(VA[ULV])
-                    .save(provider);
+                    .save();
         }
 
         if (material.hasFlag(NO_SMASHING) && material.hasFlag(GENERATE_PLATE)) {
@@ -236,7 +236,7 @@ interface GTOMaterialRecipeHandler {
                         .inputItems(blockStack)
                         .outputItems(plateStack.copyWithCount((int) (materialAmount / M)))
                         .duration(mass << 3).EUt(VA[LV])
-                        .save(provider);
+                        .save();
             }
         }
 
@@ -247,18 +247,18 @@ interface GTOMaterialRecipeHandler {
                         .notConsumable(GTItems.SHAPE_EXTRUDER_BLOCK)
                         .outputItems(blockStack)
                         .duration(mass << 1).EUt(8L * GTOUtils.getVoltageMultiplier(material))
-                        .save(provider);
+                        .save();
 
             } else if (material.hasProperty(PropertyKey.GEM)) {
                 COMPRESSOR_RECIPES.recipeBuilder("compress_" + material.getName() + "_gem_to_block")
                         .inputItems(gem, material, (int) (block.getMaterialAmount(material) / M))
                         .outputItems(blockStack)
-                        .duration(300).EUt(2).save(provider);
+                        .duration(300).EUt(2).save();
 
                 FORGE_HAMMER_RECIPES.recipeBuilder("hammer_" + material.getName() + "_block_to_gem")
                         .inputItems(blockStack)
                         .outputItems(gem, material, (int) (block.getMaterialAmount(material) / M))
-                        .duration(100).EUt(24).save(provider);
+                        .duration(100).EUt(24).save();
             }
         }
     }
@@ -277,7 +277,7 @@ interface GTOMaterialRecipeHandler {
                 .circuitMeta(4)
                 .outputItems(stack)
                 .EUt(VA[ULV]).duration(64)
-                .save(provider);
+                .save();
     }
 
     private static void processGemConversion(TagPrefix gemPrefix, Material material, Consumer<FinishedRecipe> provider) {
@@ -293,7 +293,7 @@ interface GTOMaterialRecipeHandler {
                     .outputItems(prevStack)
                     .duration(20)
                     .EUt(16)
-                    .save(provider);
+                    .save();
 
             LASER_ENGRAVER_RECIPES.recipeBuilder("engrave_" + material.getName() + "_" + FormattingUtil.toLowerCaseUnder(gemPrefix.name) + "_to_" + FormattingUtil.toLowerCaseUnder(prevPrefix.name))
                     .inputItems(prevStack)
@@ -302,7 +302,7 @@ interface GTOMaterialRecipeHandler {
                     .outputItems(gemPrefix, material)
                     .duration(300)
                     .EUt(240)
-                    .save(provider);
+                    .save();
         }
     }
 
@@ -321,14 +321,14 @@ interface GTOMaterialRecipeHandler {
                         .inputFluids(GTMaterials.Water.getFluid(250))
                         .chancedOutput(gemStack, 7000, 1000)
                         .duration(1200).EUt(24)
-                        .save(provider);
+                        .save();
 
                 AUTOCLAVE_RECIPES.recipeBuilder("autoclave_" + id + "_distilled")
                         .inputItems(dustStack)
                         .inputFluids(DistilledWater.getFluid(50))
                         .outputItems(gemStack)
                         .duration(600).EUt(24)
-                        .save(provider);
+                        .save();
             }
 
             if (!material.hasFlag(EXPLOSIVE) && !material.hasFlag(FLAMMABLE)) {
@@ -339,33 +339,33 @@ interface GTOMaterialRecipeHandler {
                         .outputItems(gemStack3)
                         .chancedOutput(dust, GTMaterials.DarkAsh, 2500, 0)
                         .explosivesType(new ItemStack(GTBlocks.POWDERBARREL, 8))
-                        .save(provider);
+                        .save();
 
                 IMPLOSION_RECIPES.recipeBuilder("implode_" + id + "_tnt")
                         .inputItems(dustStack4)
                         .outputItems(gemStack3)
                         .chancedOutput(dust, GTMaterials.DarkAsh, 2500, 0)
                         .explosivesAmount(4)
-                        .save(provider);
+                        .save();
 
                 IMPLOSION_RECIPES.recipeBuilder("implode_" + id + "_dynamite")
                         .inputItems(dustStack4)
                         .outputItems(gemStack3)
                         .chancedOutput(dust, GTMaterials.DarkAsh, 2500, 0)
                         .explosivesType(GTItems.DYNAMITE.asStack(2))
-                        .save(provider);
+                        .save();
 
                 IMPLOSION_RECIPES.recipeBuilder("implode_" + id + "_itnt")
                         .inputItems(dustStack4)
                         .outputItems(gemStack3)
                         .chancedOutput(dust, GTMaterials.DarkAsh, 2500, 0)
                         .explosivesType(new ItemStack(GTBlocks.INDUSTRIAL_TNT))
-                        .save(provider);
+                        .save();
 
                 GTORecipeTypes.ELECTRIC_IMPLOSION_COMPRESSOR_RECIPES.recipeBuilder("electric_implode_" + id)
                         .inputItems(dustStack4)
                         .outputItems(gemStack3)
-                        .save(provider);
+                        .save();
             }
 
             if (oreProperty != null) {
@@ -412,7 +412,7 @@ interface GTOMaterialRecipeHandler {
                 COMPRESSOR_RECIPES.recipeBuilder("compress_plate_" + id)
                         .inputItems(dustStack)
                         .outputItems(plate, material)
-                        .save(provider);
+                        .save();
             }
 
             // Some Ores with Direct Smelting Results have neither ingot nor gem properties
@@ -435,13 +435,13 @@ interface GTOMaterialRecipeHandler {
         PACKER_RECIPES.recipeBuilder("package_" + material.getName() + "_small_dust")
                 .inputItems(stack1)
                 .outputItems(stack2)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.UNPACKER_RECIPES.recipeBuilder("unpackage_" + material.getName() + "_small_dust")
                 .inputItems(stack2)
                 .circuitMeta(1)
                 .outputItems(stack1)
-                .save(provider);
+                .save();
     }
 
     private static void processTinyDust(Material material, Consumer<FinishedRecipe> provider) {
@@ -451,13 +451,13 @@ interface GTOMaterialRecipeHandler {
         PACKER_RECIPES.recipeBuilder("package_" + material.getName() + "_tiny_dust")
                 .inputItems(stack1)
                 .outputItems(stack2)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.UNPACKER_RECIPES.recipeBuilder("unpackage_" + material.getName() + "_tiny_dust")
                 .inputItems(stack2)
                 .circuitMeta(2)
                 .outputItems(stack1)
-                .save(provider);
+                .save();
     }
 
     private static void processEBFRecipe(Material material, BlastProperty property, ItemStack output,
@@ -471,7 +471,7 @@ interface GTOMaterialRecipeHandler {
         int EUt = property.getEUtOverride();
         if (EUt <= 0) EUt = VA[MV];
 
-        GTRecipeBuilder blastBuilder = BLAST_RECIPES.recipeBuilder("blast_" + material.getName())
+        GTORecipeBuilder blastBuilder = BLAST_RECIPES.recipeBuilder("blast_" + material.getName())
                 .inputItems(dust, material)
                 .outputItems(output)
                 .blastFurnaceTemp(blastTemp)
@@ -483,19 +483,19 @@ interface GTOMaterialRecipeHandler {
             blastBuilder.copy("blast_" + material.getName())
                     .circuitMeta(1)
                     .duration(duration)
-                    .save(provider);
+                    .save();
 
             blastBuilder.copy("blast_" + material.getName() + "_gas")
                     .circuitMeta(2)
                     .inputFluids(gas)
                     .duration((int) (duration * 0.67))
-                    .save(provider);
+                    .save();
         } else {
             blastBuilder.duration(duration);
             if (material == Silicon) {
                 blastBuilder.circuitMeta(1);
             }
-            blastBuilder.save(provider);
+            blastBuilder.save();
         }
 
         // Add Vacuum Freezer recipe if required.
@@ -509,7 +509,7 @@ interface GTOMaterialRecipeHandler {
                         .outputItems(ingot, material)
                         .duration(vacuumDuration)
                         .EUt(vacuumEUt)
-                        .save(provider);
+                        .save();
             } else {
                 VACUUM_RECIPES.recipeBuilder("cool_hot_" + material.getName() + "_ingot")
                         .inputItems(ingotHot, material)
@@ -518,7 +518,7 @@ interface GTOMaterialRecipeHandler {
                         .outputFluids(Helium.getFluid(250))
                         .duration(vacuumDuration)
                         .EUt(vacuumEUt)
-                        .save(provider);
+                        .save();
             }
         }
 

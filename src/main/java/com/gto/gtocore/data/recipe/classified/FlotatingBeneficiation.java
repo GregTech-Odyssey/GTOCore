@@ -8,13 +8,9 @@ import com.gto.gtocore.common.data.GTORecipeTypes;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
-import net.minecraft.data.recipes.FinishedRecipe;
-
-import java.util.function.Consumer;
-
 interface FlotatingBeneficiation {
 
-    static void init(Consumer<FinishedRecipe> provider) {
+    static void init() {
         GTORecipeTypes.FLOTATING_BENEFICIATION_RECIPES.recipeBuilder(GTOCore.id("pyrope_front"))
                 .inputItems(TagPrefix.dust, GTOMaterials.SodiumEthylxanthate, 32)
                 .inputItems(GTOTagPrefix.milled, GTMaterials.Pyrope, 64)
@@ -22,7 +18,7 @@ interface FlotatingBeneficiation {
                 .outputFluids(GTOMaterials.PyropeFront.getFluid(1000))
                 .EUt(7680)
                 .duration(4800)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.FLOTATING_BENEFICIATION_RECIPES.recipeBuilder(GTOCore.id("redstone_front"))
                 .inputItems(TagPrefix.dust, GTOMaterials.SodiumEthylxanthate, 32)
@@ -31,7 +27,7 @@ interface FlotatingBeneficiation {
                 .outputFluids(GTOMaterials.RedstoneFront.getFluid(1000))
                 .EUt(7680)
                 .duration(4800)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.FLOTATING_BENEFICIATION_RECIPES.recipeBuilder(GTOCore.id("chalcopyrite_front"))
                 .inputItems(TagPrefix.dust, GTOMaterials.PotassiumEthylxanthate, 32)
@@ -40,7 +36,7 @@ interface FlotatingBeneficiation {
                 .outputFluids(GTOMaterials.ChalcopyriteFront.getFluid(1000))
                 .EUt(7680)
                 .duration(4800)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.FLOTATING_BENEFICIATION_RECIPES.recipeBuilder(GTOCore.id("monazite_front"))
                 .inputItems(TagPrefix.dust, GTOMaterials.SodiumEthylxanthate, 32)
@@ -49,7 +45,7 @@ interface FlotatingBeneficiation {
                 .outputFluids(GTOMaterials.MonaziteFront.getFluid(1000))
                 .EUt(30720)
                 .duration(4800)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.FLOTATING_BENEFICIATION_RECIPES.recipeBuilder(GTOCore.id("enriched_naquadah_front"))
                 .inputItems(TagPrefix.dust, GTOMaterials.PotassiumEthylxanthate, 64)
@@ -58,7 +54,7 @@ interface FlotatingBeneficiation {
                 .outputFluids(GTOMaterials.EnrichedNaquadahFront.getFluid(1000))
                 .EUt(30720)
                 .duration(9600)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.FLOTATING_BENEFICIATION_RECIPES.recipeBuilder(GTOCore.id("grossular_front"))
                 .inputItems(TagPrefix.dust, GTOMaterials.PotassiumEthylxanthate, 32)
@@ -67,7 +63,7 @@ interface FlotatingBeneficiation {
                 .outputFluids(GTOMaterials.GrossularFront.getFluid(1000))
                 .EUt(30720)
                 .duration(4800)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.FLOTATING_BENEFICIATION_RECIPES.recipeBuilder(GTOCore.id("nickel_front"))
                 .inputItems(TagPrefix.dust, GTOMaterials.PotassiumEthylxanthate, 32)
@@ -76,7 +72,7 @@ interface FlotatingBeneficiation {
                 .outputFluids(GTOMaterials.NickelFront.getFluid(1000))
                 .EUt(7680)
                 .duration(4800)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.FLOTATING_BENEFICIATION_RECIPES.recipeBuilder(GTOCore.id("almandine_front"))
                 .inputItems(TagPrefix.dust, GTOMaterials.SodiumEthylxanthate, 32)
@@ -85,7 +81,7 @@ interface FlotatingBeneficiation {
                 .outputFluids(GTOMaterials.AlmandineFront.getFluid(1000))
                 .EUt(7680)
                 .duration(4800)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.FLOTATING_BENEFICIATION_RECIPES.recipeBuilder(GTOCore.id("platinum_front"))
                 .inputItems(TagPrefix.dust, GTOMaterials.SodiumEthylxanthate, 32)
@@ -94,7 +90,7 @@ interface FlotatingBeneficiation {
                 .outputFluids(GTOMaterials.PlatinumFront.getFluid(1000))
                 .EUt(30720)
                 .duration(4800)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.FLOTATING_BENEFICIATION_RECIPES.recipeBuilder(GTOCore.id("pentlandite_front"))
                 .inputItems(TagPrefix.dust, GTOMaterials.PotassiumEthylxanthate, 32)
@@ -103,7 +99,7 @@ interface FlotatingBeneficiation {
                 .outputFluids(GTOMaterials.PentlanditeFront.getFluid(1000))
                 .EUt(30720)
                 .duration(4800)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.FLOTATING_BENEFICIATION_RECIPES.recipeBuilder(GTOCore.id("spessartine_front"))
                 .inputItems(TagPrefix.dust, GTOMaterials.PotassiumEthylxanthate, 32)
@@ -112,7 +108,7 @@ interface FlotatingBeneficiation {
                 .outputFluids(GTOMaterials.SpessartineFront.getFluid(1000))
                 .EUt(30720)
                 .duration(4800)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.FLOTATING_BENEFICIATION_RECIPES.recipeBuilder(GTOCore.id("sphalerite_front"))
                 .inputItems(TagPrefix.dust, GTOMaterials.SodiumEthylxanthate, 32)
@@ -121,6 +117,6 @@ interface FlotatingBeneficiation {
                 .outputFluids(GTOMaterials.SphaleriteFront.getFluid(1000))
                 .EUt(30720)
                 .duration(4800)
-                .save(provider);
+                .save();
     }
 }

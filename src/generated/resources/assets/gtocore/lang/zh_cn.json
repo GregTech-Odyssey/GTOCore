@@ -1230,6 +1230,7 @@
   "block.gtocore.zpm_wireless_energy_unit": "§cZPM§r无线能量单元",
   "block.gtocore.zpm_world_data_scanner": "§c精英世界信息扫描仪 III§r",
   "config.gtocore.option.breakBlocksBlackList": "连锁挖掘黑名单",
+  "config.gtocore.option.dev": "开发模式",
   "config.gtocore.option.disableMultiBlockPage": "关闭多方块页面",
   "config.gtocore.option.eioFluidRate": "EIO流体管道速率倍数",
   "config.gtocore.option.enableAnimalsAreAfraidToEatTheirMeat": "启用动物害怕他们的肉被吃",

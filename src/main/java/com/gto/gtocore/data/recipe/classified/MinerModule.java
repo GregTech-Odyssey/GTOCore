@@ -8,7 +8,6 @@ import com.gto.gtocore.common.data.GTORecipeTypes;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
-import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.fluids.FluidStack;
@@ -16,11 +15,9 @@ import net.minecraftforge.fluids.FluidStack;
 import appeng.core.definitions.AEBlocks;
 import earth.terrarium.adastra.common.registry.ModFluids;
 
-import java.util.function.Consumer;
-
 interface MinerModule {
 
-    static void init(Consumer<FinishedRecipe> provider) {
+    static void init() {
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_8_326"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
                 .circuitMeta(32)
@@ -33,7 +30,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Pollucite, 80)
                 .EUt(503316480)
                 .duration(9)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_7_306"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -47,7 +44,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Pitchblende, 40)
                 .EUt(503316480)
                 .duration(12)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_7_305"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -61,7 +58,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Pitchblende, 40)
                 .EUt(125829120)
                 .duration(25)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_7_315"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -75,7 +72,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Iron, 120)
                 .EUt(125829120)
                 .duration(25)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_7_316"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -89,7 +86,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Iron, 120)
                 .EUt(503316480)
                 .duration(12)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_7_326"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -103,7 +100,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Pollucite, 80)
                 .EUt(503316480)
                 .duration(18)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_96"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -117,7 +114,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Gold, 80)
                 .EUt(503316480)
                 .duration(18)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_94"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
@@ -131,7 +128,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Gold, 80)
                 .EUt(31457280)
                 .duration(75)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_95"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -145,7 +142,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Gold, 80)
                 .EUt(125829120)
                 .duration(37)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_92"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
@@ -159,7 +156,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Gold, 80)
                 .EUt(1966080)
                 .duration(300)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_93"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
@@ -173,7 +170,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Gold, 80)
                 .EUt(7864320)
                 .duration(150)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_91"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
@@ -187,7 +184,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Gold, 80)
                 .EUt(491520)
                 .duration(600)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_85"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -201,7 +198,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Copper, 160)
                 .EUt(125829120)
                 .duration(37)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_86"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -215,7 +212,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Copper, 160)
                 .EUt(503316480)
                 .duration(18)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_83"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
@@ -229,7 +226,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Copper, 160)
                 .EUt(7864320)
                 .duration(150)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_84"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
@@ -243,7 +240,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Copper, 160)
                 .EUt(31457280)
                 .duration(75)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_81"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
@@ -257,7 +254,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Copper, 160)
                 .EUt(491520)
                 .duration(600)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_82"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
@@ -271,7 +268,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Copper, 160)
                 .EUt(1966080)
                 .duration(300)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_76"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -285,7 +282,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Rubidium, 40)
                 .EUt(503316480)
                 .duration(18)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_74"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
@@ -299,7 +296,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Rubidium, 40)
                 .EUt(31457280)
                 .duration(75)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_75"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -313,7 +310,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Rubidium, 40)
                 .EUt(125829120)
                 .duration(37)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_72"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
@@ -327,7 +324,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Rubidium, 40)
                 .EUt(1966080)
                 .duration(300)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_73"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
@@ -341,7 +338,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Rubidium, 40)
                 .EUt(7864320)
                 .duration(150)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_71"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
@@ -355,7 +352,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Rubidium, 40)
                 .EUt(491520)
                 .duration(600)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_65"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -369,7 +366,7 @@ interface MinerModule {
                 .outputItems(new ItemStack(AEBlocks.SKY_STONE_BLOCK.block().asItem(), 80))
                 .EUt(125829120)
                 .duration(37)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_66"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -383,7 +380,7 @@ interface MinerModule {
                 .outputItems(new ItemStack(AEBlocks.SKY_STONE_BLOCK.block().asItem(), 80))
                 .EUt(503316480)
                 .duration(18)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_63"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
@@ -397,7 +394,7 @@ interface MinerModule {
                 .outputItems(new ItemStack(AEBlocks.SKY_STONE_BLOCK.block().asItem(), 80))
                 .EUt(7864320)
                 .duration(150)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_64"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
@@ -411,7 +408,7 @@ interface MinerModule {
                 .outputItems(new ItemStack(AEBlocks.SKY_STONE_BLOCK.block().asItem(), 80))
                 .EUt(31457280)
                 .duration(75)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_61"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
@@ -425,7 +422,7 @@ interface MinerModule {
                 .outputItems(new ItemStack(AEBlocks.SKY_STONE_BLOCK.block().asItem(), 80))
                 .EUt(491520)
                 .duration(600)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_62"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
@@ -439,7 +436,7 @@ interface MinerModule {
                 .outputItems(new ItemStack(AEBlocks.SKY_STONE_BLOCK.block().asItem(), 80))
                 .EUt(1966080)
                 .duration(300)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_56"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -453,7 +450,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Tantalite, 20)
                 .EUt(503316480)
                 .duration(18)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_54"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
@@ -467,7 +464,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Tantalite, 20)
                 .EUt(31457280)
                 .duration(75)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_55"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -481,7 +478,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Tantalite, 20)
                 .EUt(125829120)
                 .duration(37)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_52"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
@@ -495,7 +492,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Tantalite, 20)
                 .EUt(1966080)
                 .duration(300)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_53"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
@@ -509,7 +506,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Tantalite, 20)
                 .EUt(7864320)
                 .duration(150)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_51"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
@@ -523,7 +520,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Tantalite, 20)
                 .EUt(491520)
                 .duration(600)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_45"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -537,7 +534,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Monazite, 60)
                 .EUt(125829120)
                 .duration(37)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_46"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -551,7 +548,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Monazite, 60)
                 .EUt(503316480)
                 .duration(18)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_43"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
@@ -565,7 +562,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Monazite, 60)
                 .EUt(7864320)
                 .duration(150)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_44"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
@@ -579,7 +576,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Monazite, 60)
                 .EUt(31457280)
                 .duration(75)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_41"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
@@ -593,7 +590,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Monazite, 60)
                 .EUt(491520)
                 .duration(600)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_42"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
@@ -607,7 +604,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Monazite, 60)
                 .EUt(1966080)
                 .duration(300)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_36"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -621,7 +618,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Malachite, 120)
                 .EUt(503316480)
                 .duration(18)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_34"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
@@ -635,7 +632,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Malachite, 120)
                 .EUt(31457280)
                 .duration(75)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_35"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -649,7 +646,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Malachite, 120)
                 .EUt(125829120)
                 .duration(37)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_32"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
@@ -663,7 +660,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Malachite, 120)
                 .EUt(1966080)
                 .duration(300)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_33"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
@@ -677,7 +674,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Malachite, 120)
                 .EUt(7864320)
                 .duration(150)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_31"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
@@ -691,7 +688,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Malachite, 120)
                 .EUt(491520)
                 .duration(600)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_25"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -705,7 +702,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Uraninite, 120)
                 .EUt(125829120)
                 .duration(37)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_26"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -719,7 +716,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Uraninite, 120)
                 .EUt(503316480)
                 .duration(18)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_23"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
@@ -733,7 +730,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Uraninite, 120)
                 .EUt(7864320)
                 .duration(150)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_24"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
@@ -747,7 +744,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Uraninite, 120)
                 .EUt(31457280)
                 .duration(75)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_21"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
@@ -761,7 +758,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Uraninite, 120)
                 .EUt(491520)
                 .duration(600)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_22"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
@@ -775,7 +772,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Uraninite, 120)
                 .EUt(1966080)
                 .duration(300)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_16"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -789,7 +786,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.GlauconiteSand, 20)
                 .EUt(503316480)
                 .duration(18)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_14"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
@@ -803,7 +800,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.GlauconiteSand, 20)
                 .EUt(31457280)
                 .duration(75)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_15"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -817,7 +814,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.GlauconiteSand, 20)
                 .EUt(125829120)
                 .duration(37)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_12"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
@@ -831,7 +828,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.GlauconiteSand, 20)
                 .EUt(1966080)
                 .duration(300)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_13"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
@@ -845,7 +842,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.GlauconiteSand, 20)
                 .EUt(7864320)
                 .duration(150)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_11"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
@@ -859,7 +856,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.GlauconiteSand, 20)
                 .EUt(491520)
                 .duration(600)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_6_294"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
@@ -873,7 +870,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Salt, 80)
                 .EUt(31457280)
                 .duration(50)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_6_295"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -887,7 +884,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Salt, 80)
                 .EUt(125829120)
                 .duration(25)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_6_296"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -901,7 +898,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Salt, 80)
                 .EUt(503316480)
                 .duration(12)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_6_284"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
@@ -915,7 +912,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.NaquadahEnriched, 20)
                 .EUt(31457280)
                 .duration(50)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_6_285"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -929,7 +926,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.NaquadahEnriched, 20)
                 .EUt(125829120)
                 .duration(25)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_6_286"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -943,7 +940,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.NaquadahEnriched, 20)
                 .EUt(503316480)
                 .duration(12)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_6_305"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -957,7 +954,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Pitchblende, 40)
                 .EUt(125829120)
                 .duration(37)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_6_306"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -971,7 +968,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Pitchblende, 40)
                 .EUt(503316480)
                 .duration(18)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_6_315"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -985,7 +982,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Iron, 120)
                 .EUt(125829120)
                 .duration(37)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_6_316"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -999,7 +996,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Iron, 120)
                 .EUt(503316480)
                 .duration(18)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_3_256"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -1013,7 +1010,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTOMaterials.Celestine, 20)
                 .EUt(503316480)
                 .duration(12)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_3_254"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
@@ -1027,7 +1024,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTOMaterials.Celestine, 20)
                 .EUt(31457280)
                 .duration(50)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_3_255"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -1041,7 +1038,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTOMaterials.Celestine, 20)
                 .EUt(125829120)
                 .duration(25)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_3_252"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
@@ -1055,7 +1052,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTOMaterials.Celestine, 20)
                 .EUt(1966080)
                 .duration(200)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_3_253"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
@@ -1069,7 +1066,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTOMaterials.Celestine, 20)
                 .EUt(7864320)
                 .duration(100)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_3_265"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -1083,7 +1080,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Cobalt, 20)
                 .EUt(125829120)
                 .duration(37)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_3_266"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -1097,7 +1094,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Cobalt, 20)
                 .EUt(503316480)
                 .duration(18)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_3_263"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
@@ -1111,7 +1108,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Cobalt, 20)
                 .EUt(7864320)
                 .duration(150)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_3_264"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
@@ -1125,7 +1122,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Cobalt, 20)
                 .EUt(31457280)
                 .duration(75)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_3_273"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
@@ -1139,7 +1136,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Pyrope, 40)
                 .EUt(7864320)
                 .duration(150)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_3_276"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -1153,7 +1150,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Pyrope, 40)
                 .EUt(503316480)
                 .duration(18)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_3_274"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
@@ -1167,7 +1164,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Pyrope, 40)
                 .EUt(31457280)
                 .duration(75)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_3_275"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -1181,7 +1178,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Pyrope, 40)
                 .EUt(125829120)
                 .duration(37)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_206"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -1195,7 +1192,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Aluminium, 80)
                 .EUt(503316480)
                 .duration(12)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_202"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
@@ -1209,7 +1206,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Aluminium, 80)
                 .EUt(1966080)
                 .duration(200)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_203"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
@@ -1223,7 +1220,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Aluminium, 80)
                 .EUt(7864320)
                 .duration(100)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_204"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
@@ -1237,7 +1234,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Aluminium, 80)
                 .EUt(31457280)
                 .duration(50)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_205"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -1251,7 +1248,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Aluminium, 80)
                 .EUt(125829120)
                 .duration(25)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_201"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
@@ -1265,7 +1262,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Aluminium, 80)
                 .EUt(491520)
                 .duration(400)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_213"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
@@ -1279,7 +1276,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Titanium, 40)
                 .EUt(7864320)
                 .duration(100)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_214"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
@@ -1293,7 +1290,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Titanium, 40)
                 .EUt(31457280)
                 .duration(50)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_215"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -1307,7 +1304,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Titanium, 40)
                 .EUt(125829120)
                 .duration(25)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_216"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -1321,7 +1318,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Titanium, 40)
                 .EUt(503316480)
                 .duration(12)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_211"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
@@ -1335,7 +1332,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Titanium, 40)
                 .EUt(491520)
                 .duration(400)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_212"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
@@ -1349,7 +1346,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Titanium, 40)
                 .EUt(1966080)
                 .duration(200)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_224"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
@@ -1363,7 +1360,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Palladium, 20)
                 .EUt(31457280)
                 .duration(50)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_225"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -1377,7 +1374,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Palladium, 20)
                 .EUt(125829120)
                 .duration(25)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_226"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -1391,7 +1388,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Palladium, 20)
                 .EUt(503316480)
                 .duration(12)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_221"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
@@ -1405,7 +1402,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Palladium, 20)
                 .EUt(491520)
                 .duration(400)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_222"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
@@ -1419,7 +1416,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Palladium, 20)
                 .EUt(1966080)
                 .duration(200)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_223"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
@@ -1433,7 +1430,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Palladium, 20)
                 .EUt(7864320)
                 .duration(100)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_235"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -1447,7 +1444,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Pitchblende, 180)
                 .EUt(125829120)
                 .duration(25)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_236"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -1461,7 +1458,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Pitchblende, 180)
                 .EUt(503316480)
                 .duration(12)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_231"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
@@ -1475,7 +1472,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Pitchblende, 180)
                 .EUt(491520)
                 .duration(400)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_232"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
@@ -1489,7 +1486,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Pitchblende, 180)
                 .EUt(1966080)
                 .duration(200)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_233"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
@@ -1503,7 +1500,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Pitchblende, 180)
                 .EUt(7864320)
                 .duration(100)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_234"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
@@ -1517,7 +1514,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Pitchblende, 180)
                 .EUt(31457280)
                 .duration(50)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_246"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -1531,7 +1528,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Indium, 30)
                 .EUt(503316480)
                 .duration(12)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_242"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
@@ -1545,7 +1542,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Indium, 30)
                 .EUt(1966080)
                 .duration(200)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_243"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
@@ -1559,7 +1556,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Indium, 30)
                 .EUt(7864320)
                 .duration(100)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_244"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
@@ -1573,7 +1570,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Indium, 30)
                 .EUt(31457280)
                 .duration(50)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_245"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -1587,7 +1584,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Indium, 30)
                 .EUt(125829120)
                 .duration(25)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_241"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
@@ -1601,7 +1598,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Indium, 30)
                 .EUt(491520)
                 .duration(400)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_253"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
@@ -1615,7 +1612,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTOMaterials.Celestine, 20)
                 .EUt(7864320)
                 .duration(150)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_254"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
@@ -1629,7 +1626,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTOMaterials.Celestine, 20)
                 .EUt(31457280)
                 .duration(75)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_255"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -1643,7 +1640,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTOMaterials.Celestine, 20)
                 .EUt(125829120)
                 .duration(37)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_256"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -1657,7 +1654,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTOMaterials.Celestine, 20)
                 .EUt(503316480)
                 .duration(18)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_252"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
@@ -1671,7 +1668,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTOMaterials.Celestine, 20)
                 .EUt(1966080)
                 .duration(300)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_4_266"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -1685,7 +1682,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Cobalt, 20)
                 .EUt(503316480)
                 .duration(12)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_4_263"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
@@ -1699,7 +1696,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Cobalt, 20)
                 .EUt(7864320)
                 .duration(100)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_4_264"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
@@ -1713,7 +1710,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Cobalt, 20)
                 .EUt(31457280)
                 .duration(50)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_4_265"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -1727,7 +1724,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Cobalt, 20)
                 .EUt(125829120)
                 .duration(25)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_4_284"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
@@ -1741,7 +1738,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.NaquadahEnriched, 20)
                 .EUt(31457280)
                 .duration(75)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_4_285"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -1755,7 +1752,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.NaquadahEnriched, 20)
                 .EUt(125829120)
                 .duration(37)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_4_286"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -1769,7 +1766,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.NaquadahEnriched, 20)
                 .EUt(503316480)
                 .duration(18)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_4_273"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
@@ -1783,7 +1780,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Pyrope, 40)
                 .EUt(7864320)
                 .duration(100)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_4_274"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
@@ -1797,7 +1794,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Pyrope, 40)
                 .EUt(31457280)
                 .duration(50)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_4_275"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -1811,7 +1808,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Pyrope, 40)
                 .EUt(125829120)
                 .duration(25)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_4_276"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -1825,7 +1822,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Pyrope, 40)
                 .EUt(503316480)
                 .duration(12)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_4_294"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
@@ -1839,7 +1836,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Salt, 80)
                 .EUt(31457280)
                 .duration(75)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_4_295"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -1853,7 +1850,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Salt, 80)
                 .EUt(125829120)
                 .duration(37)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_4_296"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -1867,7 +1864,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Salt, 80)
                 .EUt(503316480)
                 .duration(18)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_103"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
@@ -1881,7 +1878,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTOMaterials.Calorite, 30)
                 .EUt(7864320)
                 .duration(100)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_104"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
@@ -1895,7 +1892,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTOMaterials.Calorite, 30)
                 .EUt(31457280)
                 .duration(50)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_105"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -1909,7 +1906,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTOMaterials.Calorite, 30)
                 .EUt(125829120)
                 .duration(25)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_106"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -1923,7 +1920,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTOMaterials.Calorite, 30)
                 .EUt(503316480)
                 .duration(12)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_101"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
@@ -1937,7 +1934,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTOMaterials.Calorite, 30)
                 .EUt(491520)
                 .duration(400)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_102"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
@@ -1951,7 +1948,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTOMaterials.Calorite, 30)
                 .EUt(1966080)
                 .duration(200)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_114"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
@@ -1965,7 +1962,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Powellite, 50)
                 .EUt(31457280)
                 .duration(50)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_115"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -1979,7 +1976,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Powellite, 50)
                 .EUt(125829120)
                 .duration(25)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_116"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -1993,7 +1990,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Powellite, 50)
                 .EUt(503316480)
                 .duration(12)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_111"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
@@ -2007,7 +2004,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Powellite, 50)
                 .EUt(491520)
                 .duration(400)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_112"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
@@ -2021,7 +2018,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Powellite, 50)
                 .EUt(1966080)
                 .duration(200)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_113"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
@@ -2035,7 +2032,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Powellite, 50)
                 .EUt(7864320)
                 .duration(100)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_125"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -2049,7 +2046,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Pollucite, 20)
                 .EUt(125829120)
                 .duration(25)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_126"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -2063,7 +2060,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Pollucite, 20)
                 .EUt(503316480)
                 .duration(12)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_121"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
@@ -2077,7 +2074,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Pollucite, 20)
                 .EUt(491520)
                 .duration(400)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_122"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
@@ -2091,7 +2088,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Pollucite, 20)
                 .EUt(1966080)
                 .duration(200)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_123"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
@@ -2105,7 +2102,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Pollucite, 20)
                 .EUt(7864320)
                 .duration(100)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_124"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
@@ -2119,7 +2116,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Pollucite, 20)
                 .EUt(31457280)
                 .duration(50)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_136"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -2133,7 +2130,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Gold, 30)
                 .EUt(503316480)
                 .duration(12)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_132"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
@@ -2147,7 +2144,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Gold, 30)
                 .EUt(1966080)
                 .duration(200)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_133"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
@@ -2161,7 +2158,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Gold, 30)
                 .EUt(7864320)
                 .duration(100)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_134"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
@@ -2175,7 +2172,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Gold, 30)
                 .EUt(31457280)
                 .duration(50)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_135"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -2189,7 +2186,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Gold, 30)
                 .EUt(125829120)
                 .duration(25)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_131"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
@@ -2203,7 +2200,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Gold, 30)
                 .EUt(491520)
                 .duration(400)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_143"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
@@ -2217,7 +2214,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTOMaterials.AlienAlgae, 20)
                 .EUt(7864320)
                 .duration(100)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_144"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
@@ -2231,7 +2228,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTOMaterials.AlienAlgae, 20)
                 .EUt(31457280)
                 .duration(50)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_145"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -2245,7 +2242,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTOMaterials.AlienAlgae, 20)
                 .EUt(125829120)
                 .duration(25)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_146"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -2259,7 +2256,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTOMaterials.AlienAlgae, 20)
                 .EUt(503316480)
                 .duration(12)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_141"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
@@ -2273,7 +2270,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTOMaterials.AlienAlgae, 20)
                 .EUt(491520)
                 .duration(400)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_142"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
@@ -2287,7 +2284,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTOMaterials.AlienAlgae, 20)
                 .EUt(1966080)
                 .duration(200)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_154"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
@@ -2301,7 +2298,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Gypsum, 80)
                 .EUt(31457280)
                 .duration(50)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_155"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -2315,7 +2312,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Gypsum, 80)
                 .EUt(125829120)
                 .duration(25)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_156"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -2329,7 +2326,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Gypsum, 80)
                 .EUt(503316480)
                 .duration(12)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_151"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
@@ -2343,7 +2340,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Gypsum, 80)
                 .EUt(491520)
                 .duration(400)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_152"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
@@ -2357,7 +2354,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Gypsum, 80)
                 .EUt(1966080)
                 .duration(200)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_153"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
@@ -2371,7 +2368,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Gypsum, 80)
                 .EUt(7864320)
                 .duration(100)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_165"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -2385,7 +2382,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Bornite, 70)
                 .EUt(125829120)
                 .duration(25)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_166"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -2399,7 +2396,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Bornite, 70)
                 .EUt(503316480)
                 .duration(12)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_161"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
@@ -2413,7 +2410,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Bornite, 70)
                 .EUt(491520)
                 .duration(400)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_162"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
@@ -2427,7 +2424,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Bornite, 70)
                 .EUt(1966080)
                 .duration(200)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_163"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
@@ -2441,7 +2438,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Bornite, 70)
                 .EUt(7864320)
                 .duration(100)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_164"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
@@ -2455,7 +2452,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Bornite, 70)
                 .EUt(31457280)
                 .duration(50)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_171"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
@@ -2469,7 +2466,7 @@ interface MinerModule {
                 .outputItems(new ItemStack(Blocks.ANCIENT_DEBRIS.asItem(), 50))
                 .EUt(491520)
                 .duration(400)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_176"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -2483,7 +2480,7 @@ interface MinerModule {
                 .outputItems(new ItemStack(Blocks.ANCIENT_DEBRIS.asItem(), 50))
                 .EUt(503316480)
                 .duration(12)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_172"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
@@ -2497,7 +2494,7 @@ interface MinerModule {
                 .outputItems(new ItemStack(Blocks.ANCIENT_DEBRIS.asItem(), 50))
                 .EUt(1966080)
                 .duration(200)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_173"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
@@ -2511,7 +2508,7 @@ interface MinerModule {
                 .outputItems(new ItemStack(Blocks.ANCIENT_DEBRIS.asItem(), 50))
                 .EUt(7864320)
                 .duration(100)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_174"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
@@ -2525,7 +2522,7 @@ interface MinerModule {
                 .outputItems(new ItemStack(Blocks.ANCIENT_DEBRIS.asItem(), 50))
                 .EUt(31457280)
                 .duration(50)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_175"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -2539,7 +2536,7 @@ interface MinerModule {
                 .outputItems(new ItemStack(Blocks.ANCIENT_DEBRIS.asItem(), 50))
                 .EUt(125829120)
                 .duration(25)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_181"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
@@ -2553,7 +2550,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Sphalerite, 100)
                 .EUt(491520)
                 .duration(400)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_182"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
@@ -2567,7 +2564,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Sphalerite, 100)
                 .EUt(1966080)
                 .duration(200)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_183"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
@@ -2581,7 +2578,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Sphalerite, 100)
                 .EUt(7864320)
                 .duration(100)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_184"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
@@ -2595,7 +2592,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Sphalerite, 100)
                 .EUt(31457280)
                 .duration(50)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_185"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -2609,7 +2606,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Sphalerite, 100)
                 .EUt(125829120)
                 .duration(25)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_186"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -2623,7 +2620,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Sphalerite, 100)
                 .EUt(503316480)
                 .duration(12)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_191"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
@@ -2637,7 +2634,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Diatomite, 80)
                 .EUt(491520)
                 .duration(400)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_192"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
@@ -2651,7 +2648,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Diatomite, 80)
                 .EUt(1966080)
                 .duration(200)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_193"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
@@ -2665,7 +2662,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Diatomite, 80)
                 .EUt(7864320)
                 .duration(100)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_194"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
@@ -2679,7 +2676,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Diatomite, 80)
                 .EUt(31457280)
                 .duration(50)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_195"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -2693,7 +2690,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Diatomite, 80)
                 .EUt(125829120)
                 .duration(25)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_196"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -2707,7 +2704,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Diatomite, 80)
                 .EUt(503316480)
                 .duration(12)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_195"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -2721,7 +2718,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Diatomite, 80)
                 .EUt(125829120)
                 .duration(37)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_196"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -2735,7 +2732,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Diatomite, 80)
                 .EUt(503316480)
                 .duration(18)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_193"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
@@ -2749,7 +2746,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Diatomite, 80)
                 .EUt(7864320)
                 .duration(150)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_194"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
@@ -2763,7 +2760,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Diatomite, 80)
                 .EUt(31457280)
                 .duration(75)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_191"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
@@ -2777,7 +2774,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Diatomite, 80)
                 .EUt(491520)
                 .duration(600)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_192"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
@@ -2791,7 +2788,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Diatomite, 80)
                 .EUt(1966080)
                 .duration(300)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_186"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -2805,7 +2802,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Sphalerite, 100)
                 .EUt(503316480)
                 .duration(18)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_184"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
@@ -2819,7 +2816,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Sphalerite, 100)
                 .EUt(31457280)
                 .duration(75)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_185"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -2833,7 +2830,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Sphalerite, 100)
                 .EUt(125829120)
                 .duration(37)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_182"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
@@ -2847,7 +2844,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Sphalerite, 100)
                 .EUt(1966080)
                 .duration(300)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_183"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
@@ -2861,7 +2858,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Sphalerite, 100)
                 .EUt(7864320)
                 .duration(150)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_181"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
@@ -2875,7 +2872,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Sphalerite, 100)
                 .EUt(491520)
                 .duration(600)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_175"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -2889,7 +2886,7 @@ interface MinerModule {
                 .outputItems(new ItemStack(Blocks.ANCIENT_DEBRIS.asItem(), 50))
                 .EUt(125829120)
                 .duration(37)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_176"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -2903,7 +2900,7 @@ interface MinerModule {
                 .outputItems(new ItemStack(Blocks.ANCIENT_DEBRIS.asItem(), 50))
                 .EUt(503316480)
                 .duration(18)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_173"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
@@ -2917,7 +2914,7 @@ interface MinerModule {
                 .outputItems(new ItemStack(Blocks.ANCIENT_DEBRIS.asItem(), 50))
                 .EUt(7864320)
                 .duration(150)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_174"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
@@ -2931,7 +2928,7 @@ interface MinerModule {
                 .outputItems(new ItemStack(Blocks.ANCIENT_DEBRIS.asItem(), 50))
                 .EUt(31457280)
                 .duration(75)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_171"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
@@ -2945,7 +2942,7 @@ interface MinerModule {
                 .outputItems(new ItemStack(Blocks.ANCIENT_DEBRIS.asItem(), 50))
                 .EUt(491520)
                 .duration(600)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_172"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
@@ -2959,7 +2956,7 @@ interface MinerModule {
                 .outputItems(new ItemStack(Blocks.ANCIENT_DEBRIS.asItem(), 50))
                 .EUt(1966080)
                 .duration(300)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_166"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -2973,7 +2970,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Bornite, 70)
                 .EUt(503316480)
                 .duration(18)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_164"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
@@ -2987,7 +2984,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Bornite, 70)
                 .EUt(31457280)
                 .duration(75)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_165"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -3001,7 +2998,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Bornite, 70)
                 .EUt(125829120)
                 .duration(37)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_162"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
@@ -3015,7 +3012,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Bornite, 70)
                 .EUt(1966080)
                 .duration(300)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_163"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
@@ -3029,7 +3026,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Bornite, 70)
                 .EUt(7864320)
                 .duration(150)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_161"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
@@ -3043,7 +3040,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Bornite, 70)
                 .EUt(491520)
                 .duration(600)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_155"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -3057,7 +3054,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Gypsum, 80)
                 .EUt(125829120)
                 .duration(37)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_156"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -3071,7 +3068,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Gypsum, 80)
                 .EUt(503316480)
                 .duration(18)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_153"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
@@ -3085,7 +3082,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Gypsum, 80)
                 .EUt(7864320)
                 .duration(150)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_154"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
@@ -3099,7 +3096,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Gypsum, 80)
                 .EUt(31457280)
                 .duration(75)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_151"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
@@ -3113,7 +3110,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Gypsum, 80)
                 .EUt(491520)
                 .duration(600)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_152"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
@@ -3127,7 +3124,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Gypsum, 80)
                 .EUt(1966080)
                 .duration(300)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_146"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -3141,7 +3138,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTOMaterials.AlienAlgae, 20)
                 .EUt(503316480)
                 .duration(18)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_144"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
@@ -3155,7 +3152,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTOMaterials.AlienAlgae, 20)
                 .EUt(31457280)
                 .duration(75)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_145"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -3169,7 +3166,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTOMaterials.AlienAlgae, 20)
                 .EUt(125829120)
                 .duration(37)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_142"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
@@ -3183,7 +3180,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTOMaterials.AlienAlgae, 20)
                 .EUt(1966080)
                 .duration(300)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_143"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
@@ -3197,7 +3194,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTOMaterials.AlienAlgae, 20)
                 .EUt(7864320)
                 .duration(150)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_141"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
@@ -3211,7 +3208,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTOMaterials.AlienAlgae, 20)
                 .EUt(491520)
                 .duration(600)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_135"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -3225,7 +3222,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Gold, 30)
                 .EUt(125829120)
                 .duration(37)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_136"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -3239,7 +3236,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Gold, 30)
                 .EUt(503316480)
                 .duration(18)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_133"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
@@ -3253,7 +3250,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Gold, 30)
                 .EUt(7864320)
                 .duration(150)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_134"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
@@ -3267,7 +3264,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Gold, 30)
                 .EUt(31457280)
                 .duration(75)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_131"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
@@ -3281,7 +3278,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Gold, 30)
                 .EUt(491520)
                 .duration(600)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_132"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
@@ -3295,7 +3292,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Gold, 30)
                 .EUt(1966080)
                 .duration(300)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_126"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -3309,7 +3306,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Pollucite, 20)
                 .EUt(503316480)
                 .duration(18)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_124"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
@@ -3323,7 +3320,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Pollucite, 20)
                 .EUt(31457280)
                 .duration(75)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_125"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -3337,7 +3334,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Pollucite, 20)
                 .EUt(125829120)
                 .duration(37)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_122"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
@@ -3351,7 +3348,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Pollucite, 20)
                 .EUt(1966080)
                 .duration(300)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_123"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
@@ -3365,7 +3362,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Pollucite, 20)
                 .EUt(7864320)
                 .duration(150)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_121"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
@@ -3379,7 +3376,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Pollucite, 20)
                 .EUt(491520)
                 .duration(600)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_115"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -3393,7 +3390,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Powellite, 50)
                 .EUt(125829120)
                 .duration(37)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_116"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -3407,7 +3404,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Powellite, 50)
                 .EUt(503316480)
                 .duration(18)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_113"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
@@ -3421,7 +3418,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Powellite, 50)
                 .EUt(7864320)
                 .duration(150)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_114"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
@@ -3435,7 +3432,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Powellite, 50)
                 .EUt(31457280)
                 .duration(75)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_111"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
@@ -3449,7 +3446,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Powellite, 50)
                 .EUt(491520)
                 .duration(600)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_112"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
@@ -3463,7 +3460,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Powellite, 50)
                 .EUt(1966080)
                 .duration(300)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_106"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -3477,7 +3474,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTOMaterials.Calorite, 30)
                 .EUt(503316480)
                 .duration(18)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_104"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
@@ -3491,7 +3488,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTOMaterials.Calorite, 30)
                 .EUt(31457280)
                 .duration(75)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_105"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -3505,7 +3502,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTOMaterials.Calorite, 30)
                 .EUt(125829120)
                 .duration(37)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_102"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
@@ -3519,7 +3516,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTOMaterials.Calorite, 30)
                 .EUt(1966080)
                 .duration(300)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_103"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
@@ -3533,7 +3530,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTOMaterials.Calorite, 30)
                 .EUt(7864320)
                 .duration(150)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_101"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
@@ -3547,7 +3544,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTOMaterials.Calorite, 30)
                 .EUt(491520)
                 .duration(600)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_245"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -3561,7 +3558,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Indium, 30)
                 .EUt(125829120)
                 .duration(37)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_246"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -3575,7 +3572,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Indium, 30)
                 .EUt(503316480)
                 .duration(18)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_243"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
@@ -3589,7 +3586,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Indium, 30)
                 .EUt(7864320)
                 .duration(150)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_244"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
@@ -3603,7 +3600,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Indium, 30)
                 .EUt(31457280)
                 .duration(75)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_241"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
@@ -3617,7 +3614,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Indium, 30)
                 .EUt(491520)
                 .duration(600)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_242"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
@@ -3631,7 +3628,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Indium, 30)
                 .EUt(1966080)
                 .duration(300)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_236"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -3645,7 +3642,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Pitchblende, 180)
                 .EUt(503316480)
                 .duration(18)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_234"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
@@ -3659,7 +3656,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Pitchblende, 180)
                 .EUt(31457280)
                 .duration(75)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_235"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -3673,7 +3670,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Pitchblende, 180)
                 .EUt(125829120)
                 .duration(37)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_232"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
@@ -3687,7 +3684,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Pitchblende, 180)
                 .EUt(1966080)
                 .duration(300)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_233"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
@@ -3701,7 +3698,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Pitchblende, 180)
                 .EUt(7864320)
                 .duration(150)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_231"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
@@ -3715,7 +3712,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Pitchblende, 180)
                 .EUt(491520)
                 .duration(600)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_225"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -3729,7 +3726,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Palladium, 20)
                 .EUt(125829120)
                 .duration(37)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_226"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -3743,7 +3740,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Palladium, 20)
                 .EUt(503316480)
                 .duration(18)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_223"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
@@ -3757,7 +3754,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Palladium, 20)
                 .EUt(7864320)
                 .duration(150)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_224"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
@@ -3771,7 +3768,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Palladium, 20)
                 .EUt(31457280)
                 .duration(75)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_221"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
@@ -3785,7 +3782,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Palladium, 20)
                 .EUt(491520)
                 .duration(600)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_222"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
@@ -3799,7 +3796,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Palladium, 20)
                 .EUt(1966080)
                 .duration(300)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_216"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -3813,7 +3810,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Titanium, 40)
                 .EUt(503316480)
                 .duration(18)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_214"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
@@ -3827,7 +3824,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Titanium, 40)
                 .EUt(31457280)
                 .duration(75)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_215"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -3841,7 +3838,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Titanium, 40)
                 .EUt(125829120)
                 .duration(37)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_212"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
@@ -3855,7 +3852,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Titanium, 40)
                 .EUt(1966080)
                 .duration(300)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_213"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
@@ -3869,7 +3866,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Titanium, 40)
                 .EUt(7864320)
                 .duration(150)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_211"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
@@ -3883,7 +3880,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Titanium, 40)
                 .EUt(491520)
                 .duration(600)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_205"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -3897,7 +3894,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Aluminium, 80)
                 .EUt(125829120)
                 .duration(37)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_206"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -3911,7 +3908,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Aluminium, 80)
                 .EUt(503316480)
                 .duration(18)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_203"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
@@ -3925,7 +3922,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Aluminium, 80)
                 .EUt(7864320)
                 .duration(150)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_204"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
@@ -3939,7 +3936,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Aluminium, 80)
                 .EUt(31457280)
                 .duration(75)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_201"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
@@ -3953,7 +3950,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Aluminium, 80)
                 .EUt(491520)
                 .duration(600)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_202"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
@@ -3967,7 +3964,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Aluminium, 80)
                 .EUt(1966080)
                 .duration(300)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_96"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -3981,7 +3978,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Gold, 80)
                 .EUt(503316480)
                 .duration(12)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_95"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -3995,7 +3992,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Gold, 80)
                 .EUt(125829120)
                 .duration(25)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_94"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
@@ -4009,7 +4006,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Gold, 80)
                 .EUt(31457280)
                 .duration(50)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_93"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
@@ -4023,7 +4020,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Gold, 80)
                 .EUt(7864320)
                 .duration(100)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_92"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
@@ -4037,7 +4034,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Gold, 80)
                 .EUt(1966080)
                 .duration(200)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_91"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
@@ -4051,7 +4048,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Gold, 80)
                 .EUt(491520)
                 .duration(400)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_86"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -4065,7 +4062,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Copper, 160)
                 .EUt(503316480)
                 .duration(12)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_85"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -4079,7 +4076,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Copper, 160)
                 .EUt(125829120)
                 .duration(25)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_84"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
@@ -4093,7 +4090,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Copper, 160)
                 .EUt(31457280)
                 .duration(50)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_83"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
@@ -4107,7 +4104,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Copper, 160)
                 .EUt(7864320)
                 .duration(100)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_82"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
@@ -4121,7 +4118,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Copper, 160)
                 .EUt(1966080)
                 .duration(200)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_81"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
@@ -4135,7 +4132,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Copper, 160)
                 .EUt(491520)
                 .duration(400)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_76"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -4149,7 +4146,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Rubidium, 40)
                 .EUt(503316480)
                 .duration(12)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_75"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -4163,7 +4160,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Rubidium, 40)
                 .EUt(125829120)
                 .duration(25)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_74"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
@@ -4177,7 +4174,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Rubidium, 40)
                 .EUt(31457280)
                 .duration(50)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_73"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
@@ -4191,7 +4188,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Rubidium, 40)
                 .EUt(7864320)
                 .duration(100)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_72"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
@@ -4205,7 +4202,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Rubidium, 40)
                 .EUt(1966080)
                 .duration(200)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_71"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
@@ -4219,7 +4216,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Rubidium, 40)
                 .EUt(491520)
                 .duration(400)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_66"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -4233,7 +4230,7 @@ interface MinerModule {
                 .outputItems(new ItemStack(AEBlocks.SKY_STONE_BLOCK.block().asItem(), 80))
                 .EUt(503316480)
                 .duration(12)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_65"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -4247,7 +4244,7 @@ interface MinerModule {
                 .outputItems(new ItemStack(AEBlocks.SKY_STONE_BLOCK.block().asItem(), 80))
                 .EUt(125829120)
                 .duration(25)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_64"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
@@ -4261,7 +4258,7 @@ interface MinerModule {
                 .outputItems(new ItemStack(AEBlocks.SKY_STONE_BLOCK.block().asItem(), 80))
                 .EUt(31457280)
                 .duration(50)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_63"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
@@ -4275,7 +4272,7 @@ interface MinerModule {
                 .outputItems(new ItemStack(AEBlocks.SKY_STONE_BLOCK.block().asItem(), 80))
                 .EUt(7864320)
                 .duration(100)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_62"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
@@ -4289,7 +4286,7 @@ interface MinerModule {
                 .outputItems(new ItemStack(AEBlocks.SKY_STONE_BLOCK.block().asItem(), 80))
                 .EUt(1966080)
                 .duration(200)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_61"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
@@ -4303,7 +4300,7 @@ interface MinerModule {
                 .outputItems(new ItemStack(AEBlocks.SKY_STONE_BLOCK.block().asItem(), 80))
                 .EUt(491520)
                 .duration(400)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_56"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -4317,7 +4314,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Tantalite, 20)
                 .EUt(503316480)
                 .duration(12)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_55"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -4331,7 +4328,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Tantalite, 20)
                 .EUt(125829120)
                 .duration(25)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_54"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
@@ -4345,7 +4342,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Tantalite, 20)
                 .EUt(31457280)
                 .duration(50)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_53"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
@@ -4359,7 +4356,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Tantalite, 20)
                 .EUt(7864320)
                 .duration(100)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_52"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
@@ -4373,7 +4370,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Tantalite, 20)
                 .EUt(1966080)
                 .duration(200)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_51"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
@@ -4387,7 +4384,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Tantalite, 20)
                 .EUt(491520)
                 .duration(400)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_46"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -4401,7 +4398,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Monazite, 60)
                 .EUt(503316480)
                 .duration(12)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_45"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -4415,7 +4412,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Monazite, 60)
                 .EUt(125829120)
                 .duration(25)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_44"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
@@ -4429,7 +4426,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Monazite, 60)
                 .EUt(31457280)
                 .duration(50)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_43"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
@@ -4443,7 +4440,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Monazite, 60)
                 .EUt(7864320)
                 .duration(100)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_42"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
@@ -4457,7 +4454,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Monazite, 60)
                 .EUt(1966080)
                 .duration(200)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_41"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
@@ -4471,7 +4468,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Monazite, 60)
                 .EUt(491520)
                 .duration(400)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_36"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -4485,7 +4482,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Malachite, 120)
                 .EUt(503316480)
                 .duration(12)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_35"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -4499,7 +4496,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Malachite, 120)
                 .EUt(125829120)
                 .duration(25)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_34"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
@@ -4513,7 +4510,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Malachite, 120)
                 .EUt(31457280)
                 .duration(50)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_33"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
@@ -4527,7 +4524,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Malachite, 120)
                 .EUt(7864320)
                 .duration(100)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_32"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
@@ -4541,7 +4538,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Malachite, 120)
                 .EUt(1966080)
                 .duration(200)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_31"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
@@ -4555,7 +4552,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Malachite, 120)
                 .EUt(491520)
                 .duration(400)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_26"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -4569,7 +4566,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Uraninite, 120)
                 .EUt(503316480)
                 .duration(12)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_25"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -4583,7 +4580,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Uraninite, 120)
                 .EUt(125829120)
                 .duration(25)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_24"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
@@ -4597,7 +4594,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Uraninite, 120)
                 .EUt(31457280)
                 .duration(50)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_23"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
@@ -4611,7 +4608,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Uraninite, 120)
                 .EUt(7864320)
                 .duration(100)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_22"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
@@ -4625,7 +4622,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Uraninite, 120)
                 .EUt(1966080)
                 .duration(200)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_21"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
@@ -4639,7 +4636,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.Uraninite, 120)
                 .EUt(491520)
                 .duration(400)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_16"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -4653,7 +4650,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.GlauconiteSand, 20)
                 .EUt(503316480)
                 .duration(12)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_15"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -4667,7 +4664,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.GlauconiteSand, 20)
                 .EUt(125829120)
                 .duration(25)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_14"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
@@ -4681,7 +4678,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.GlauconiteSand, 20)
                 .EUt(31457280)
                 .duration(50)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_13"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
@@ -4695,7 +4692,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.GlauconiteSand, 20)
                 .EUt(7864320)
                 .duration(100)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_12"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
@@ -4709,7 +4706,7 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.GlauconiteSand, 20)
                 .EUt(1966080)
                 .duration(200)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_11"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
@@ -4723,6 +4720,6 @@ interface MinerModule {
                 .outputItems(TagPrefix.ore, GTMaterials.GlauconiteSand, 20)
                 .EUt(491520)
                 .duration(400)
-                .save(provider);
+                .save();
     }
 }

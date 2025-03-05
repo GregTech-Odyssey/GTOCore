@@ -22,7 +22,7 @@ import net.minecraft.resources.ResourceLocation;
 import java.util.UUID;
 
 import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
-import static com.gregtechceu.gtceu.common.data.GTBlocks.*;
+import static com.gregtechceu.gtceu.common.data.GTBlocks.CASING_PRIMITIVE_BRICKS;
 import static com.gregtechceu.gtceu.common.data.machines.GTMultiMachines.PRIMITIVE_BLAST_FURNACE;
 import static com.gto.gtocore.common.data.GTOMachines.PRIMITIVE_BLAST_FURNACE_HATCH;
 

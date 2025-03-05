@@ -19,7 +19,6 @@ import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
 import static com.gregtechceu.gtceu.common.data.GTBlocks.OPTICAL_PIPES;
 import static com.gregtechceu.gtceu.common.data.GTItems.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
-import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.*;
 import static com.gto.gtocore.common.data.GTOItems.*;
 import static com.gto.gtocore.common.data.GTOMaterials.*;
 import static com.gto.gtocore.common.data.GTORecipeTypes.*;
@@ -36,14 +35,14 @@ public interface NewResearchSystem {
                     .outputItems(dust, Polydimethylsiloxane, 3)
                     .outputFluids(DilutedHydrochloricAcid.getFluid(2000))
                     .circuitMeta(2)
-                    .duration(480).EUt(96).save(provider);
+                    .duration(480).EUt(96).save();
 
             BLAST_RECIPES.recipeBuilder("silicon_boule")
                     .inputItems(dust, ElectronicGradeSilicon, 32)
                     .inputItems(dustSmall, GalliumArsenide)
                     .outputItems(SILICON_BOULE)
                     .blastFurnaceTemp(1784)
-                    .duration(9000).EUt(VA[MV]).save(provider);
+                    .duration(9000).EUt(VA[MV]).save();
 
             BLAST_RECIPES.recipeBuilder("phosphorus_boule")
                     .inputItems(dust, ElectronicGradeSilicon, 64)
@@ -52,7 +51,7 @@ public interface NewResearchSystem {
                     .inputFluids(Nitrogen.getFluid(8000))
                     .outputItems(PHOSPHORUS_BOULE)
                     .blastFurnaceTemp(2484)
-                    .duration(12000).EUt(VA[HV]).save(provider);
+                    .duration(12000).EUt(VA[HV]).save();
 
             BLAST_RECIPES.recipeBuilder("naquadah_boule")
                     .inputItems(block, ElectronicGradeSilicon, 16)
@@ -61,7 +60,7 @@ public interface NewResearchSystem {
                     .inputFluids(Argon.getFluid(8000))
                     .outputItems(NAQUADAH_BOULE)
                     .blastFurnaceTemp(5400)
-                    .duration(15000).EUt(VA[EV]).save(provider);
+                    .duration(15000).EUt(VA[EV]).save();
 
             BLAST_RECIPES.recipeBuilder("neutronium_boule")
                     .inputItems(block, UltraHighPuritySilicon, 32)
@@ -70,7 +69,7 @@ public interface NewResearchSystem {
                     .inputFluids(Xenon.getFluid(8000))
                     .outputItems(NEUTRONIUM_BOULE)
                     .blastFurnaceTemp(6484)
-                    .duration(18000).EUt(VA[IV]).save(provider);
+                    .duration(18000).EUt(VA[IV]).save();
         }
 
         // 低相关度配方
@@ -82,7 +81,7 @@ public interface NewResearchSystem {
                     .circuitMeta(1)
                     .duration(200)
                     .EUt(VA[EV])
-                    .save(provider);
+                    .save();
 
             CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("make_carbon_tetrafluoride_2"))
                     .inputItems(dust, Carbon, 1)
@@ -92,7 +91,7 @@ public interface NewResearchSystem {
                     .circuitMeta(2)
                     .duration(20)
                     .EUt(VA[HV])
-                    .save(provider);
+                    .save();
         }
 
         // 前置电子级硅/超高纯硅产线
@@ -104,7 +103,7 @@ public interface NewResearchSystem {
                     .circuitMeta(1)
                     .duration(400)
                     .EUt(VA[LV])
-                    .save(provider);
+                    .save();
 
             CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("chemical_make_trichlorosilane"))
                     .inputItems(dust, Silicon, 1)
@@ -114,7 +113,7 @@ public interface NewResearchSystem {
                     .circuitMeta(1)
                     .duration(300)
                     .EUt(VA[LV])
-                    .save(provider);
+                    .save();
 
             CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("chemical_make_electronic_grade_silicon_1"))
                     .inputFluids(Tetrachlorosilane.getFluid(1000))
@@ -123,7 +122,7 @@ public interface NewResearchSystem {
                     .outputItems(dust, ZincChloride, 6)
                     .duration(200)
                     .EUt(VA[LV])
-                    .save(provider);
+                    .save();
 
             CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("chemical_make_electronic_grade_silicon_2"))
                     .inputFluids(Tetrachlorosilane.getFluid(1000))
@@ -132,7 +131,7 @@ public interface NewResearchSystem {
                     .outputItems(dust, Salt, 8)
                     .duration(100)
                     .EUt(VA[LV])
-                    .save(provider);
+                    .save();
 
             CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("chemical_make_electronic_grade_silicon_3"))
                     .inputFluids(Trichlorosilane.getFluid(1000))
@@ -141,7 +140,7 @@ public interface NewResearchSystem {
                     .outputFluids(HydrochloricAcid.getFluid(3000))
                     .duration(600)
                     .EUt(VA[LV])
-                    .save(provider);
+                    .save();
 
             REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("chemical_make_silane"))
                     .inputFluids(Trichlorosilane.getFluid(1000))
@@ -151,7 +150,7 @@ public interface NewResearchSystem {
                     .duration(40)
                     .blastFurnaceTemp(1500)
                     .EUt(VA[MV])
-                    .save(provider);
+                    .save();
 
             REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("chemical_make_electronic_grade_silicon_4"))
                     .inputFluids(Silane.getFluid(1000))
@@ -160,7 +159,7 @@ public interface NewResearchSystem {
                     .duration(20)
                     .blastFurnaceTemp(1000)
                     .EUt(VA[MV])
-                    .save(provider);
+                    .save();
 
             CHEMICAL_BATH_RECIPES.recipeBuilder(GTOCore.id("chemical_wash_electronic_grade_silicon"))
                     .inputItems(dust, ElectronicGradeSilicon, 1)
@@ -169,7 +168,7 @@ public interface NewResearchSystem {
                     .outputFluids(HydrofluoricAcid.getFluid(950))
                     .duration(200)
                     .EUt(VA[EV])
-                    .save(provider);
+                    .save();
 
             CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("chemical_make_pure_trichlorosilane"))
                     .inputItems(dust, PickledElectronicGradeSilicon, 1)
@@ -179,7 +178,7 @@ public interface NewResearchSystem {
                     .circuitMeta(1)
                     .duration(300)
                     .EUt(VA[HV])
-                    .save(provider);
+                    .save();
 
             REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("chemical_make_pure_silane"))
                     .inputFluids(PureTrichlorosilane.getFluid(1000))
@@ -189,7 +188,7 @@ public interface NewResearchSystem {
                     .duration(40)
                     .blastFurnaceTemp(1500)
                     .EUt(VA[EV])
-                    .save(provider);
+                    .save();
 
             DISTILLATION_RECIPES.recipeBuilder(GTOCore.id("distillation_pure_silane"))
                     .inputFluids(Silane.getFluid(1000))
@@ -199,7 +198,7 @@ public interface NewResearchSystem {
                     .chancedOutput(PhosphorusTrichloride.getFluid(30), 1000, 0)
                     .duration(100)
                     .EUt(VA[HV])
-                    .save(provider);
+                    .save();
 
             CHEMICAL_VAPOR_DEPOSITION_RECIPES.recipeBuilder(GTOCore.id("make_high_purity_silicon_boule"))
                     .inputFluids(PureSilane.getFluid(32000))
@@ -208,7 +207,7 @@ public interface NewResearchSystem {
                     .duration(12000)
                     .EUt(VA[IV])
                     .addCondition(new VacuumCondition(4))
-                    .save(provider);
+                    .save();
 
             BLAST_RECIPES.recipeBuilder(GTOCore.id("make_regional_smelting_silicon_boule"))
                     .inputItems(HIGH_PURITY_SILICON_BOULE, 1)
@@ -217,7 +216,7 @@ public interface NewResearchSystem {
                     .duration(6000)
                     .blastFurnaceTemp(5000)
                     .EUt(VA[HV])
-                    .save(provider);
+                    .save();
 
             LASER_ENGRAVER_RECIPES.recipeBuilder(GTOCore.id("make_etched_silicon_boule"))
                     .inputItems(REGIONAL_SMELTING_SILICON_BOULE, 1)
@@ -227,7 +226,7 @@ public interface NewResearchSystem {
                     .duration(600)
                     .EUt(VA[ZPM])
                     .addCondition(new VacuumCondition(4))
-                    .save(provider);
+                    .save();
 
             AUTOCLAVE_RECIPES.recipeBuilder(GTOCore.id("make_etched_silicon_boule"))
                     .inputItems(ETCHED_SILICON_BOULE, 1)
@@ -235,7 +234,7 @@ public interface NewResearchSystem {
                     .duration(2400)
                     .EUt(VA[EV])
                     .addCondition(new VacuumCondition(4))
-                    .save(provider);
+                    .save();
 
             CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("chemical_make_tetrafluorosilane_solution"))
                     .inputItems(FLOATING_ZONE_PURIFICATION_SILICON_BOULE, 1)
@@ -245,7 +244,7 @@ public interface NewResearchSystem {
                     .duration(6000)
                     .EUt(VA[IV])
                     .addCondition(new VacuumCondition(4))
-                    .save(provider);
+                    .save();
 
             CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("chemical_make_ultra_high_purity_silicon"))
                     .inputFluids(TetrafluorosilaneSolution.getFluid(4000))
@@ -255,7 +254,7 @@ public interface NewResearchSystem {
                     .duration(200)
                     .EUt(VA[IV])
                     .addCondition(new VacuumCondition(4))
-                    .save(provider);
+                    .save();
 
             BLAST_RECIPES.recipeBuilder("make_high_purity_single_crystal_silicon")
                     .inputItems(block, UltraHighPuritySilicon, 16)
@@ -263,7 +262,7 @@ public interface NewResearchSystem {
                     .inputFluids(Xenon.getFluid(8000))
                     .outputItems(HIGH_PURITY_SINGLE_CRYSTAL_SILICON)
                     .blastFurnaceTemp(8684)
-                    .duration(21000).EUt(VA[ZPM]).save(provider);
+                    .duration(21000).EUt(VA[ZPM]).save();
         }
 
         // 高纯度二氧化硅/光纤产线
@@ -276,7 +275,7 @@ public interface NewResearchSystem {
                     .duration(400)
                     .blastFurnaceTemp(1500)
                     .EUt(VA[EV])
-                    .save(provider);
+                    .save();
 
             BLAST_RECIPES.recipeBuilder("make_high_purity_silica_column")
                     .inputItems(dust, HighPuritySilica, 64)
@@ -287,7 +286,7 @@ public interface NewResearchSystem {
                     .circuitMeta(1)
                     .duration(12000)
                     .EUt(VA[HV])
-                    .save(provider);
+                    .save();
 
             LIQUEFACTION_FURNACE_RECIPES.recipeBuilder("liquefaction_high_purity_silica")
                     .inputItems(dust, HighPuritySilica, 1)
@@ -295,7 +294,7 @@ public interface NewResearchSystem {
                     .duration(60)
                     .blastFurnaceTemp(2000)
                     .EUt(VA[HV])
-                    .save(provider);
+                    .save();
 
             ItemStack stack0 = MultiStepItemHelper.toMultiStepItem(HIGH_PURITY_SILICA_TUBE.asStack(), 0, 6);
 
@@ -305,7 +304,7 @@ public interface NewResearchSystem {
                     .outputItems(MultiStepItemHelper.locateStep(stack0, 1))
                     .duration(300)
                     .EUt(VA[EV])
-                    .save(provider);
+                    .save();
 
             FLUID_SOLIDFICATION_RECIPES.recipeBuilder("dolidifier_high_purity_silica_tube")
                     .inputFluids(HighPuritySilica.getFluid(18000))
@@ -313,14 +312,14 @@ public interface NewResearchSystem {
                     .outputItems(MultiStepItemHelper.locateStep(stack0, 1))
                     .duration(6000)
                     .EUt(VA[HV])
-                    .save(provider);
+                    .save();
 
             ARC_FURNACE_RECIPES.recipeBuilder("make_high_purity_silica_tube1")
                     .inputItems(MultiStepItemHelper.locateStep(stack0, 1))
                     .outputItems(MultiStepItemHelper.locateStep(stack0, 2))
                     .duration(30000)
                     .EUt(VA[MV])
-                    .save(provider);
+                    .save();
 
             CHEMICAL_BATH_RECIPES.recipeBuilder("make_high_purity_silica_tube2")
                     .inputItems(MultiStepItemHelper.locateStep(stack0, 2))
@@ -328,7 +327,7 @@ public interface NewResearchSystem {
                     .outputItems(MultiStepItemHelper.locateStep(stack0, 3))
                     .duration(100)
                     .EUt(VA[LV])
-                    .save(provider);
+                    .save();
 
             CHEMICAL_BATH_RECIPES.recipeBuilder("make_high_purity_silica_tube3")
                     .inputItems(MultiStepItemHelper.locateStep(stack0, 3))
@@ -336,7 +335,7 @@ public interface NewResearchSystem {
                     .outputItems(MultiStepItemHelper.locateStep(stack0, 4))
                     .duration(100)
                     .EUt(VA[LV])
-                    .save(provider);
+                    .save();
 
             CHEMICAL_BATH_RECIPES.recipeBuilder("make_high_purity_silica_tube4")
                     .inputItems(MultiStepItemHelper.locateStep(stack0, 4))
@@ -344,7 +343,7 @@ public interface NewResearchSystem {
                     .outputItems(MultiStepItemHelper.locateStep(stack0, 5))
                     .duration(100)
                     .EUt(VA[LV])
-                    .save(provider);
+                    .save();
 
             CHEMICAL_BATH_RECIPES.recipeBuilder("make_high_purity_silica_tube5")
                     .inputItems(MultiStepItemHelper.locateStep(stack0, 5))
@@ -352,7 +351,7 @@ public interface NewResearchSystem {
                     .outputItems(MultiStepItemHelper.locateStep(stack0, 6))
                     .duration(100)
                     .EUt(VA[LV])
-                    .save(provider);
+                    .save();
 
             ItemStack stack1 = MultiStepItemHelper.toMultiStepItem(SIMPLE_OPTICAL_FIBER_PREFORM.asStack(), 15, 15);
 
@@ -365,7 +364,7 @@ public interface NewResearchSystem {
                     .duration(100)
                     .EUt(VA[MV])
                     .blastFurnaceTemp(1800)
-                    .save(provider);
+                    .save();
 
             for (int n = 1; n <= 9; n++) {
                 CHEMICAL_VAPOR_DEPOSITION_RECIPES.recipeBuilder("vapro_simple_optical_fiber_preform_" + n)
@@ -377,7 +376,7 @@ public interface NewResearchSystem {
                         .duration(100)
                         .EUt(VA[MV])
                         .blastFurnaceTemp(3200)
-                        .save(provider);
+                        .save();
             }
 
             CHEMICAL_VAPOR_DEPOSITION_RECIPES.recipeBuilder("vapro_simple_optical_fiber_preform_10")
@@ -389,7 +388,7 @@ public interface NewResearchSystem {
                     .duration(400)
                     .EUt(VA[MV])
                     .blastFurnaceTemp(2500)
-                    .save(provider);
+                    .save();
 
             CHEMICAL_VAPOR_DEPOSITION_RECIPES.recipeBuilder("vapro_simple_optical_fiber_preform_11")
                     .inputItems(MultiStepItemHelper.locateStep(stack1, 11))
@@ -400,7 +399,7 @@ public interface NewResearchSystem {
                     .duration(400)
                     .EUt(VA[MV])
                     .blastFurnaceTemp(2500)
-                    .save(provider);
+                    .save();
 
             BLAST_RECIPES.recipeBuilder("vapro_simple_optical_fiber_preform_12")
                     .inputItems(MultiStepItemHelper.locateStep(stack1, 12))
@@ -408,7 +407,7 @@ public interface NewResearchSystem {
                     .duration(12000)
                     .EUt(VA[EV])
                     .blastFurnaceTemp(4200)
-                    .save(provider);
+                    .save();
 
             CHEMICAL_VAPOR_DEPOSITION_RECIPES.recipeBuilder("vapro_simple_optical_fiber_preform_13")
                     .inputItems(MultiStepItemHelper.locateStep(stack1, 13))
@@ -419,7 +418,7 @@ public interface NewResearchSystem {
                     .duration(400)
                     .EUt(VA[MV])
                     .blastFurnaceTemp(2500)
-                    .save(provider);
+                    .save();
 
             BLAST_RECIPES.recipeBuilder("vapro_simple_optical_fiber_preform_14")
                     .inputItems(MultiStepItemHelper.locateStep(stack1, 14))
@@ -427,7 +426,7 @@ public interface NewResearchSystem {
                     .duration(4000)
                     .EUt(VA[EV])
                     .blastFurnaceTemp(4200)
-                    .save(provider);
+                    .save();
 
             Material[] forSpools = { Iron, Steel, StainlessSteel, TungstenSteel, Osmiridium };
             ItemStack[] Spools = { SPOOLS_MICRO.asStack(), SPOOLS_SMALL.asStack(), SPOOLS_MEDIUM.asStack(), SPOOLS_LARGE.asStack(), SPOOLS_JUMBO.asStack() };
@@ -442,7 +441,7 @@ public interface NewResearchSystem {
                         .circuitMeta(3)
                         .duration(600)
                         .EUt(VA[HV])
-                        .save(provider);
+                        .save();
             }
 
             for (int n = 1; n <= 3; n++) {
@@ -454,7 +453,7 @@ public interface NewResearchSystem {
                         .duration((60000 * m) + 12000)
                         .EUt(VA[3 + n])
                         .blastFurnaceTemp(3300 + 1000 * n)
-                        .save(provider);
+                        .save();
             }
             for (int n = 4; n <= 5; n++) {
                 int m = (int) Math.pow(4, n - 1);
@@ -466,7 +465,7 @@ public interface NewResearchSystem {
                         .EUt(VA[3 + n])
                         .blastFurnaceTemp(3300 + 1200 * n)
                         .addCondition(new VacuumCondition(4))
-                        .save(provider);
+                        .save();
             }
 
             LAMINATOR_RECIPES.recipeBuilder("make_simple_fiber_optic")
@@ -475,7 +474,7 @@ public interface NewResearchSystem {
                     .outputItems(SIMPLE_FIBER_OPTIC)
                     .duration(100)
                     .EUt(7)
-                    .save(provider);
+                    .save();
 
             ASSEMBLER_RECIPES.recipeBuilder("optical_pipe")
                     .inputItems(SIMPLE_FIBER_OPTIC, 8)
@@ -487,7 +486,7 @@ public interface NewResearchSystem {
                     .cleanroom(CleanroomType.CLEANROOM)
                     .duration(100)
                     .EUt(VA[IV])
-                    .save(provider);
+                    .save();
 
         }
     }

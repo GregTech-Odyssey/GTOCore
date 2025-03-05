@@ -13,7 +13,7 @@ import net.minecraft.world.level.block.Block;
 import java.util.function.Consumer;
 
 import static com.gregtechceu.gtceu.common.data.GTMaterials.CHEMICAL_DYES;
-import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.CHEMICAL_BATH_RECIPES;
+import static com.gto.gtocore.common.data.GTORecipeTypes.CHEMICAL_BATH_RECIPES;
 
 public interface DyeRecipes {
 
@@ -29,7 +29,7 @@ public interface DyeRecipes {
                         .outputItems(abs.asItem())
                         .EUt(7).duration(200)
                         .category(GTRecipeCategories.CHEM_DYES)
-                        .save(provider);
+                        .save();
             }
         }
     }

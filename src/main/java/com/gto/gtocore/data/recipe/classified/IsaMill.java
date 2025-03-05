@@ -8,13 +8,9 @@ import com.gto.gtocore.utils.TagUtils;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
-import net.minecraft.data.recipes.FinishedRecipe;
-
-import java.util.function.Consumer;
-
 interface IsaMill {
 
-    static void init(Consumer<FinishedRecipe> provider) {
+    static void init() {
         GTORecipeTypes.ISA_MILL_RECIPES.recipeBuilder(GTOCore.id("milled_grossular_bgs"))
                 .circuitMeta(1)
                 .inputItems(TagUtils.createTGTag("ores/grossular"))
@@ -23,7 +19,7 @@ interface IsaMill {
                 .EUt(1920)
                 .duration(4800)
                 .addData("grindball", 1)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.ISA_MILL_RECIPES.recipeBuilder(GTOCore.id("milled_grossular_bal"))
                 .circuitMeta(10)
@@ -33,7 +29,7 @@ interface IsaMill {
                 .EUt(1920)
                 .duration(2400)
                 .addData("grindball", 2)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.ISA_MILL_RECIPES.recipeBuilder(GTOCore.id("milled_almandine_bal"))
                 .circuitMeta(10)
@@ -43,7 +39,7 @@ interface IsaMill {
                 .EUt(1920)
                 .duration(2400)
                 .addData("grindball", 2)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.ISA_MILL_RECIPES.recipeBuilder(GTOCore.id("milled_enriched_naquadah_ral"))
                 .circuitMeta(10)
@@ -53,7 +49,7 @@ interface IsaMill {
                 .EUt(1920)
                 .duration(1200)
                 .addData("grindball", 2)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.ISA_MILL_RECIPES.recipeBuilder(GTOCore.id("milled_enriched_naquadah_rgs"))
                 .circuitMeta(1)
@@ -63,7 +59,7 @@ interface IsaMill {
                 .EUt(1920)
                 .duration(2400)
                 .addData("grindball", 1)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.ISA_MILL_RECIPES.recipeBuilder(GTOCore.id("milled_almandine_bgs"))
                 .circuitMeta(1)
@@ -73,7 +69,7 @@ interface IsaMill {
                 .EUt(1920)
                 .duration(4800)
                 .addData("grindball", 1)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.ISA_MILL_RECIPES.recipeBuilder(GTOCore.id("milled_chalcopyrite_bgs"))
                 .circuitMeta(1)
@@ -83,7 +79,7 @@ interface IsaMill {
                 .EUt(1920)
                 .duration(4800)
                 .addData("grindball", 1)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.ISA_MILL_RECIPES.recipeBuilder(GTOCore.id("milled_chalcopyrite_bal"))
                 .circuitMeta(10)
@@ -93,7 +89,7 @@ interface IsaMill {
                 .EUt(1920)
                 .duration(2400)
                 .addData("grindball", 2)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.ISA_MILL_RECIPES.recipeBuilder(GTOCore.id("milled_platinum_rgs"))
                 .circuitMeta(1)
@@ -103,7 +99,7 @@ interface IsaMill {
                 .EUt(1920)
                 .duration(2400)
                 .addData("grindball", 1)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.ISA_MILL_RECIPES.recipeBuilder(GTOCore.id("milled_platinum_ral"))
                 .circuitMeta(10)
@@ -113,7 +109,7 @@ interface IsaMill {
                 .EUt(1920)
                 .duration(1200)
                 .addData("grindball", 2)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.ISA_MILL_RECIPES.recipeBuilder(GTOCore.id("milled_redstone_ral"))
                 .circuitMeta(10)
@@ -123,7 +119,7 @@ interface IsaMill {
                 .EUt(1920)
                 .duration(1200)
                 .addData("grindball", 2)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.ISA_MILL_RECIPES.recipeBuilder(GTOCore.id("milled_redstone_rgs"))
                 .circuitMeta(1)
@@ -133,7 +129,7 @@ interface IsaMill {
                 .EUt(1920)
                 .duration(2400)
                 .addData("grindball", 1)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.ISA_MILL_RECIPES.recipeBuilder(GTOCore.id("milled_enriched_naquadah_bal"))
                 .circuitMeta(10)
@@ -143,7 +139,7 @@ interface IsaMill {
                 .EUt(1920)
                 .duration(2400)
                 .addData("grindball", 2)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.ISA_MILL_RECIPES.recipeBuilder(GTOCore.id("milled_enriched_naquadah_bgs"))
                 .circuitMeta(1)
@@ -153,7 +149,7 @@ interface IsaMill {
                 .EUt(1920)
                 .duration(4800)
                 .addData("grindball", 1)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.ISA_MILL_RECIPES.recipeBuilder(GTOCore.id("milled_chalcopyrite_rgs"))
                 .circuitMeta(1)
@@ -163,7 +159,7 @@ interface IsaMill {
                 .EUt(1920)
                 .duration(2400)
                 .addData("grindball", 1)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.ISA_MILL_RECIPES.recipeBuilder(GTOCore.id("milled_chalcopyrite_ral"))
                 .circuitMeta(10)
@@ -173,7 +169,7 @@ interface IsaMill {
                 .EUt(1920)
                 .duration(1200)
                 .addData("grindball", 2)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.ISA_MILL_RECIPES.recipeBuilder(GTOCore.id("milled_platinum_bgs"))
                 .circuitMeta(1)
@@ -183,7 +179,7 @@ interface IsaMill {
                 .EUt(1920)
                 .duration(4800)
                 .addData("grindball", 1)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.ISA_MILL_RECIPES.recipeBuilder(GTOCore.id("milled_platinum_bal"))
                 .circuitMeta(10)
@@ -193,7 +189,7 @@ interface IsaMill {
                 .EUt(1920)
                 .duration(2400)
                 .addData("grindball", 2)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.ISA_MILL_RECIPES.recipeBuilder(GTOCore.id("milled_monazite_rgs"))
                 .circuitMeta(1)
@@ -203,7 +199,7 @@ interface IsaMill {
                 .EUt(1920)
                 .duration(2400)
                 .addData("grindball", 1)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.ISA_MILL_RECIPES.recipeBuilder(GTOCore.id("milled_monazite_ral"))
                 .circuitMeta(10)
@@ -213,7 +209,7 @@ interface IsaMill {
                 .EUt(1920)
                 .duration(1200)
                 .addData("grindball", 2)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.ISA_MILL_RECIPES.recipeBuilder(GTOCore.id("milled_pentlandite_bgs"))
                 .circuitMeta(1)
@@ -223,7 +219,7 @@ interface IsaMill {
                 .EUt(1920)
                 .duration(4800)
                 .addData("grindball", 1)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.ISA_MILL_RECIPES.recipeBuilder(GTOCore.id("milled_pentlandite_bal"))
                 .circuitMeta(10)
@@ -233,7 +229,7 @@ interface IsaMill {
                 .EUt(1920)
                 .duration(2400)
                 .addData("grindball", 2)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.ISA_MILL_RECIPES.recipeBuilder(GTOCore.id("milled_nickel_bgs"))
                 .circuitMeta(1)
@@ -243,7 +239,7 @@ interface IsaMill {
                 .EUt(1920)
                 .duration(4800)
                 .addData("grindball", 1)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.ISA_MILL_RECIPES.recipeBuilder(GTOCore.id("milled_nickel_bal"))
                 .circuitMeta(10)
@@ -253,7 +249,7 @@ interface IsaMill {
                 .EUt(1920)
                 .duration(2400)
                 .addData("grindball", 2)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.ISA_MILL_RECIPES.recipeBuilder(GTOCore.id("milled_spessartine_rgs"))
                 .circuitMeta(1)
@@ -263,7 +259,7 @@ interface IsaMill {
                 .EUt(1920)
                 .duration(2400)
                 .addData("grindball", 1)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.ISA_MILL_RECIPES.recipeBuilder(GTOCore.id("milled_spessartine_ral"))
                 .circuitMeta(10)
@@ -273,7 +269,7 @@ interface IsaMill {
                 .EUt(1920)
                 .duration(1200)
                 .addData("grindball", 2)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.ISA_MILL_RECIPES.recipeBuilder(GTOCore.id("milled_redstone_bal"))
                 .circuitMeta(10)
@@ -283,7 +279,7 @@ interface IsaMill {
                 .EUt(1920)
                 .duration(2400)
                 .addData("grindball", 2)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.ISA_MILL_RECIPES.recipeBuilder(GTOCore.id("milled_redstone_bgs"))
                 .circuitMeta(1)
@@ -293,7 +289,7 @@ interface IsaMill {
                 .EUt(1920)
                 .duration(4800)
                 .addData("grindball", 1)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.ISA_MILL_RECIPES.recipeBuilder(GTOCore.id("milled_pyrope_bal"))
                 .circuitMeta(10)
@@ -303,7 +299,7 @@ interface IsaMill {
                 .EUt(1920)
                 .duration(2400)
                 .addData("grindball", 2)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.ISA_MILL_RECIPES.recipeBuilder(GTOCore.id("milled_pyrope_bgs"))
                 .circuitMeta(1)
@@ -313,7 +309,7 @@ interface IsaMill {
                 .EUt(1920)
                 .duration(4800)
                 .addData("grindball", 1)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.ISA_MILL_RECIPES.recipeBuilder(GTOCore.id("milled_sphalerite_rgs"))
                 .circuitMeta(1)
@@ -323,7 +319,7 @@ interface IsaMill {
                 .EUt(1920)
                 .duration(2400)
                 .addData("grindball", 1)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.ISA_MILL_RECIPES.recipeBuilder(GTOCore.id("milled_sphalerite_ral"))
                 .circuitMeta(10)
@@ -333,7 +329,7 @@ interface IsaMill {
                 .EUt(1920)
                 .duration(1200)
                 .addData("grindball", 2)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.ISA_MILL_RECIPES.recipeBuilder(GTOCore.id("milled_monazite_bgs"))
                 .circuitMeta(1)
@@ -343,7 +339,7 @@ interface IsaMill {
                 .EUt(1920)
                 .duration(4800)
                 .addData("grindball", 1)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.ISA_MILL_RECIPES.recipeBuilder(GTOCore.id("milled_monazite_bal"))
                 .circuitMeta(10)
@@ -353,7 +349,7 @@ interface IsaMill {
                 .EUt(1920)
                 .duration(2400)
                 .addData("grindball", 2)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.ISA_MILL_RECIPES.recipeBuilder(GTOCore.id("milled_pentlandite_rgs"))
                 .circuitMeta(1)
@@ -363,7 +359,7 @@ interface IsaMill {
                 .EUt(1920)
                 .duration(2400)
                 .addData("grindball", 1)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.ISA_MILL_RECIPES.recipeBuilder(GTOCore.id("milled_pentlandite_ral"))
                 .circuitMeta(10)
@@ -373,7 +369,7 @@ interface IsaMill {
                 .EUt(1920)
                 .duration(1200)
                 .addData("grindball", 2)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.ISA_MILL_RECIPES.recipeBuilder(GTOCore.id("milled_spessartine_bal"))
                 .circuitMeta(10)
@@ -383,7 +379,7 @@ interface IsaMill {
                 .EUt(1920)
                 .duration(2400)
                 .addData("grindball", 2)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.ISA_MILL_RECIPES.recipeBuilder(GTOCore.id("milled_spessartine_bgs"))
                 .circuitMeta(1)
@@ -393,7 +389,7 @@ interface IsaMill {
                 .EUt(1920)
                 .duration(4800)
                 .addData("grindball", 1)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.ISA_MILL_RECIPES.recipeBuilder(GTOCore.id("milled_grossular_rgs"))
                 .circuitMeta(1)
@@ -403,7 +399,7 @@ interface IsaMill {
                 .EUt(1920)
                 .duration(2400)
                 .addData("grindball", 1)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.ISA_MILL_RECIPES.recipeBuilder(GTOCore.id("milled_grossular_ral"))
                 .circuitMeta(10)
@@ -413,7 +409,7 @@ interface IsaMill {
                 .EUt(1920)
                 .duration(1200)
                 .addData("grindball", 2)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.ISA_MILL_RECIPES.recipeBuilder(GTOCore.id("milled_nickel_rgs"))
                 .circuitMeta(1)
@@ -423,7 +419,7 @@ interface IsaMill {
                 .EUt(1920)
                 .duration(2400)
                 .addData("grindball", 1)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.ISA_MILL_RECIPES.recipeBuilder(GTOCore.id("milled_almandine_ral"))
                 .circuitMeta(10)
@@ -433,7 +429,7 @@ interface IsaMill {
                 .EUt(1920)
                 .duration(1200)
                 .addData("grindball", 2)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.ISA_MILL_RECIPES.recipeBuilder(GTOCore.id("milled_nickel_ral"))
                 .circuitMeta(10)
@@ -443,7 +439,7 @@ interface IsaMill {
                 .EUt(1920)
                 .duration(1200)
                 .addData("grindball", 2)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.ISA_MILL_RECIPES.recipeBuilder(GTOCore.id("milled_almandine_rgs"))
                 .circuitMeta(1)
@@ -453,7 +449,7 @@ interface IsaMill {
                 .EUt(1920)
                 .duration(2400)
                 .addData("grindball", 1)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.ISA_MILL_RECIPES.recipeBuilder(GTOCore.id("milled_pyrope_rgs"))
                 .circuitMeta(1)
@@ -463,7 +459,7 @@ interface IsaMill {
                 .EUt(1920)
                 .duration(2400)
                 .addData("grindball", 1)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.ISA_MILL_RECIPES.recipeBuilder(GTOCore.id("milled_pyrope_ral"))
                 .circuitMeta(10)
@@ -473,7 +469,7 @@ interface IsaMill {
                 .EUt(1920)
                 .duration(1200)
                 .addData("grindball", 2)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.ISA_MILL_RECIPES.recipeBuilder(GTOCore.id("milled_sphalerite_bgs"))
                 .circuitMeta(1)
@@ -483,7 +479,7 @@ interface IsaMill {
                 .EUt(1920)
                 .duration(4800)
                 .addData("grindball", 1)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.ISA_MILL_RECIPES.recipeBuilder(GTOCore.id("milled_sphalerite_bal"))
                 .circuitMeta(10)
@@ -493,6 +489,6 @@ interface IsaMill {
                 .EUt(1920)
                 .duration(2400)
                 .addData("grindball", 2)
-                .save(provider);
+                .save();
     }
 }

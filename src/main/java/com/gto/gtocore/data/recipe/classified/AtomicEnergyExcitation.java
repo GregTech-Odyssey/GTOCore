@@ -10,13 +10,9 @@ import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
-import net.minecraft.data.recipes.FinishedRecipe;
-
-import java.util.function.Consumer;
-
 interface AtomicEnergyExcitation {
 
-    static void init(Consumer<FinishedRecipe> provider) {
+    static void init() {
         GTORecipeTypes.ATOMIC_ENERGY_EXCITATION_RECIPES.recipeBuilder(GTOCore.id("concentration_mixing_hyper_fuel_1"))
                 .notConsumable(GTOTagPrefix.nanites, GTOMaterials.WhiteDwarfMatter)
                 .inputItems(GTOItems.RESONATING_GEM.asStack(4))
@@ -32,7 +28,7 @@ interface AtomicEnergyExcitation {
                 .EUt(125829120)
                 .duration(1200)
                 .blastFurnaceTemp(18800)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.ATOMIC_ENERGY_EXCITATION_RECIPES.recipeBuilder(GTOCore.id("concentration_mixing_hyper_fuel_2"))
                 .notConsumable(GTOTagPrefix.nanites, GTOMaterials.BlackDwarfMatter)
@@ -49,7 +45,7 @@ interface AtomicEnergyExcitation {
                 .EUt(503316480)
                 .duration(2400)
                 .blastFurnaceTemp(21000)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.ATOMIC_ENERGY_EXCITATION_RECIPES.recipeBuilder(GTOCore.id("hyper_fuel_1"))
                 .inputItems(TagPrefix.dust, GTMaterials.Naquadria, 14)
@@ -65,7 +61,7 @@ interface AtomicEnergyExcitation {
                 .EUt(1966080)
                 .duration(3800)
                 .blastFurnaceTemp(13200)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.ATOMIC_ENERGY_EXCITATION_RECIPES.recipeBuilder(GTOCore.id("hyper_fuel_2"))
                 .inputItems(TagPrefix.dust, GTMaterials.Dubnium, 4)
@@ -81,7 +77,7 @@ interface AtomicEnergyExcitation {
                 .EUt(7864320)
                 .duration(4000)
                 .blastFurnaceTemp(14000)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.ATOMIC_ENERGY_EXCITATION_RECIPES.recipeBuilder(GTOCore.id("hyper_fuel_3"))
                 .inputItems(TagPrefix.dust, GTMaterials.Lawrencium, 6)
@@ -97,7 +93,7 @@ interface AtomicEnergyExcitation {
                 .EUt(31457280)
                 .duration(4000)
                 .blastFurnaceTemp(15200)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.ATOMIC_ENERGY_EXCITATION_RECIPES.recipeBuilder(GTOCore.id("hyper_fuel_4"))
                 .inputItems(TagPrefix.dust, GTMaterials.Neutronium, 8)
@@ -113,7 +109,7 @@ interface AtomicEnergyExcitation {
                 .EUt(31457280)
                 .duration(4200)
                 .blastFurnaceTemp(18000)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.ATOMIC_ENERGY_EXCITATION_RECIPES.recipeBuilder(GTOCore.id("enriched_naquadah_fuel"))
                 .notConsumable(GTOTagPrefix.nanites, GTOMaterials.Vibranium)
@@ -129,7 +125,7 @@ interface AtomicEnergyExcitation {
                 .EUt(491520)
                 .duration(4000)
                 .blastFurnaceTemp(12500)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.ATOMIC_ENERGY_EXCITATION_RECIPES.recipeBuilder(GTOCore.id("naquadah_fuel"))
                 .notConsumable(GTOTagPrefix.nanites, GTOMaterials.Orichalcum)
@@ -142,6 +138,6 @@ interface AtomicEnergyExcitation {
                 .EUt(122880)
                 .duration(4000)
                 .blastFurnaceTemp(12000)
-                .save(provider);
+                .save();
     }
 }

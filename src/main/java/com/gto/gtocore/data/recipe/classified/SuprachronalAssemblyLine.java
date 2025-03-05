@@ -13,13 +13,9 @@ import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
 
-import net.minecraft.data.recipes.FinishedRecipe;
-
-import java.util.function.Consumer;
-
 interface SuprachronalAssemblyLine {
 
-    static void init(Consumer<FinishedRecipe> provider) {
+    static void init() {
         GTORecipeTypes.SUPRACHRONAL_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("create_ultimate_battery"))
                 .inputItems(TagPrefix.frameGt, GTOMaterials.MagnetohydrodynamicallyConstrainedStarMatter)
                 .inputItems(GTOItems.SUPRACHRONAL_MAINFRAME_COMPLEX.asStack(4))
@@ -48,7 +44,7 @@ interface SuprachronalAssemblyLine {
                         .dataStack(GTOItems.CLOSED_TIMELIKE_CURVE_GUIDANCE_UNIT.asStack())
                         .CWUt(16384)
                         .EUt(2013265920))
-                .save(provider);
+                .save();
 
         GTORecipeTypes.SUPRACHRONAL_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("max_robot_arm"))
                 .inputItems(TagPrefix.rodLong, GTOMaterials.TranscendentMetal, 8)
@@ -71,7 +67,7 @@ interface SuprachronalAssemblyLine {
                         .dataStack(GTOItems.CLOSED_TIMELIKE_CURVE_GUIDANCE_UNIT.asStack())
                         .CWUt(4096)
                         .EUt(2013265920))
-                .save(provider);
+                .save();
 
         GTORecipeTypes.SUPRACHRONAL_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("max_conveyor_module"))
                 .inputItems(GTOItems.MAX_ELECTRIC_MOTOR.asStack(2))
@@ -93,7 +89,7 @@ interface SuprachronalAssemblyLine {
                         .dataStack(GTOItems.CLOSED_TIMELIKE_CURVE_GUIDANCE_UNIT.asStack())
                         .CWUt(4096)
                         .EUt(2013265920))
-                .save(provider);
+                .save();
 
         GTORecipeTypes.SUPRACHRONAL_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("suprachronal_circuit_ev"))
                 .notConsumable(GTOItems.HYPERDIMENSIONAL_DRONE.asStack())
@@ -110,7 +106,7 @@ interface SuprachronalAssemblyLine {
                         .dataStack(GTOItems.CLOSED_TIMELIKE_CURVE_GUIDANCE_UNIT.asStack())
                         .CWUt(8192)
                         .EUt(2013265920))
-                .save(provider);
+                .save();
 
         GTORecipeTypes.SUPRACHRONAL_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("suprachronal_circuit_lv"))
                 .notConsumable(GTOItems.HYPERDIMENSIONAL_DRONE.asStack())
@@ -127,7 +123,7 @@ interface SuprachronalAssemblyLine {
                         .dataStack(GTOItems.CLOSED_TIMELIKE_CURVE_GUIDANCE_UNIT.asStack())
                         .CWUt(8192)
                         .EUt(2013265920))
-                .save(provider);
+                .save();
 
         GTORecipeTypes.SUPRACHRONAL_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("suprachronal_circuit_iv"))
                 .notConsumable(GTOItems.HYPERDIMENSIONAL_DRONE.asStack())
@@ -144,7 +140,7 @@ interface SuprachronalAssemblyLine {
                         .dataStack(GTOItems.CLOSED_TIMELIKE_CURVE_GUIDANCE_UNIT.asStack())
                         .CWUt(8192)
                         .EUt(2013265920))
-                .save(provider);
+                .save();
 
         GTORecipeTypes.SUPRACHRONAL_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("suprachronal_circuit_hv"))
                 .notConsumable(GTOItems.HYPERDIMENSIONAL_DRONE.asStack())
@@ -161,7 +157,7 @@ interface SuprachronalAssemblyLine {
                         .dataStack(GTOItems.CLOSED_TIMELIKE_CURVE_GUIDANCE_UNIT.asStack())
                         .CWUt(8192)
                         .EUt(2013265920))
-                .save(provider);
+                .save();
 
         GTORecipeTypes.SUPRACHRONAL_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("suprachronal_circuit_mv"))
                 .notConsumable(GTOItems.HYPERDIMENSIONAL_DRONE.asStack())
@@ -178,7 +174,7 @@ interface SuprachronalAssemblyLine {
                         .dataStack(GTOItems.CLOSED_TIMELIKE_CURVE_GUIDANCE_UNIT.asStack())
                         .CWUt(8192)
                         .EUt(2013265920))
-                .save(provider);
+                .save();
 
         GTORecipeTypes.SUPRACHRONAL_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("suprachronal_circuit_uv"))
                 .notConsumable(GTOItems.HYPERDIMENSIONAL_DRONE.asStack())
@@ -195,7 +191,7 @@ interface SuprachronalAssemblyLine {
                         .dataStack(GTOItems.CLOSED_TIMELIKE_CURVE_GUIDANCE_UNIT.asStack())
                         .CWUt(8192)
                         .EUt(2013265920))
-                .save(provider);
+                .save();
 
         GTORecipeTypes.SUPRACHRONAL_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("suprachronal_circuit_luv"))
                 .notConsumable(GTOItems.HYPERDIMENSIONAL_DRONE.asStack())
@@ -212,7 +208,7 @@ interface SuprachronalAssemblyLine {
                         .dataStack(GTOItems.CLOSED_TIMELIKE_CURVE_GUIDANCE_UNIT.asStack())
                         .CWUt(8192)
                         .EUt(2013265920))
-                .save(provider);
+                .save();
 
         GTORecipeTypes.SUPRACHRONAL_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("suprachronal_circuit_max"))
                 .notConsumable(GTOItems.HYPERDIMENSIONAL_DRONE.asStack())
@@ -229,7 +225,7 @@ interface SuprachronalAssemblyLine {
                         .dataStack(GTOItems.CLOSED_TIMELIKE_CURVE_GUIDANCE_UNIT.asStack())
                         .CWUt(8192)
                         .EUt(2013265920))
-                .save(provider);
+                .save();
 
         GTORecipeTypes.SUPRACHRONAL_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("suprachronal_circuit_opv"))
                 .notConsumable(GTOItems.HYPERDIMENSIONAL_DRONE.asStack())
@@ -246,7 +242,7 @@ interface SuprachronalAssemblyLine {
                         .dataStack(GTOItems.CLOSED_TIMELIKE_CURVE_GUIDANCE_UNIT.asStack())
                         .CWUt(8192)
                         .EUt(2013265920))
-                .save(provider);
+                .save();
 
         GTORecipeTypes.SUPRACHRONAL_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("suprachronal_circuit_uev"))
                 .notConsumable(GTOItems.HYPERDIMENSIONAL_DRONE.asStack())
@@ -263,7 +259,7 @@ interface SuprachronalAssemblyLine {
                         .dataStack(GTOItems.CLOSED_TIMELIKE_CURVE_GUIDANCE_UNIT.asStack())
                         .CWUt(8192)
                         .EUt(2013265920))
-                .save(provider);
+                .save();
 
         GTORecipeTypes.SUPRACHRONAL_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("suprachronal_circuit_uhv"))
                 .notConsumable(GTOItems.HYPERDIMENSIONAL_DRONE.asStack())
@@ -280,7 +276,7 @@ interface SuprachronalAssemblyLine {
                         .dataStack(GTOItems.CLOSED_TIMELIKE_CURVE_GUIDANCE_UNIT.asStack())
                         .CWUt(8192)
                         .EUt(2013265920))
-                .save(provider);
+                .save();
 
         GTORecipeTypes.SUPRACHRONAL_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("suprachronal_circuit_uiv"))
                 .notConsumable(GTOItems.HYPERDIMENSIONAL_DRONE.asStack())
@@ -297,7 +293,7 @@ interface SuprachronalAssemblyLine {
                         .dataStack(GTOItems.CLOSED_TIMELIKE_CURVE_GUIDANCE_UNIT.asStack())
                         .CWUt(8192)
                         .EUt(2013265920))
-                .save(provider);
+                .save();
 
         GTORecipeTypes.SUPRACHRONAL_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("max_field_generator"))
                 .inputItems(TagPrefix.frameGt, GTOMaterials.Infinity)
@@ -320,7 +316,7 @@ interface SuprachronalAssemblyLine {
                         .dataStack(GTOItems.CLOSED_TIMELIKE_CURVE_GUIDANCE_UNIT.asStack())
                         .CWUt(6114)
                         .EUt(2013265920))
-                .save(provider);
+                .save();
 
         GTORecipeTypes.SUPRACHRONAL_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("suprachronal_circuit_ulv"))
                 .notConsumable(GTOItems.HYPERDIMENSIONAL_DRONE.asStack())
@@ -337,7 +333,7 @@ interface SuprachronalAssemblyLine {
                         .dataStack(GTOItems.CLOSED_TIMELIKE_CURVE_GUIDANCE_UNIT.asStack())
                         .CWUt(8192)
                         .EUt(2013265920))
-                .save(provider);
+                .save();
 
         GTORecipeTypes.SUPRACHRONAL_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("suprachronal_circuit_uxv"))
                 .notConsumable(GTOItems.HYPERDIMENSIONAL_DRONE.asStack())
@@ -354,7 +350,7 @@ interface SuprachronalAssemblyLine {
                         .dataStack(GTOItems.CLOSED_TIMELIKE_CURVE_GUIDANCE_UNIT.asStack())
                         .CWUt(8192)
                         .EUt(2013265920))
-                .save(provider);
+                .save();
 
         GTORecipeTypes.SUPRACHRONAL_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("suprachronal_circuit_zpm"))
                 .notConsumable(GTOItems.HYPERDIMENSIONAL_DRONE.asStack())
@@ -371,7 +367,7 @@ interface SuprachronalAssemblyLine {
                         .dataStack(GTOItems.CLOSED_TIMELIKE_CURVE_GUIDANCE_UNIT.asStack())
                         .CWUt(8192)
                         .EUt(2013265920))
-                .save(provider);
+                .save();
 
         GTORecipeTypes.SUPRACHRONAL_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("max_electric_piston"))
                 .inputItems(GTOItems.MAX_ELECTRIC_MOTOR.asStack())
@@ -393,7 +389,7 @@ interface SuprachronalAssemblyLine {
                         .dataStack(GTOItems.CLOSED_TIMELIKE_CURVE_GUIDANCE_UNIT.asStack())
                         .CWUt(4096)
                         .EUt(2013265920))
-                .save(provider);
+                .save();
 
         GTORecipeTypes.SUPRACHRONAL_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("max_electric_pump"))
                 .inputItems(GTOItems.MAX_ELECTRIC_MOTOR.asStack())
@@ -415,7 +411,7 @@ interface SuprachronalAssemblyLine {
                         .dataStack(GTOItems.CLOSED_TIMELIKE_CURVE_GUIDANCE_UNIT.asStack())
                         .CWUt(4096)
                         .EUt(2013265920))
-                .save(provider);
+                .save();
 
         GTORecipeTypes.SUPRACHRONAL_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("max_emitter"))
                 .inputItems(TagPrefix.frameGt, GTOMaterials.Infinity)
@@ -438,7 +434,7 @@ interface SuprachronalAssemblyLine {
                         .dataStack(GTOItems.CLOSED_TIMELIKE_CURVE_GUIDANCE_UNIT.asStack())
                         .CWUt(6114)
                         .EUt(2013265920))
-                .save(provider);
+                .save();
 
         GTORecipeTypes.SUPRACHRONAL_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("max_electric_motor"))
                 .inputItems(TagPrefix.rodLong, GTOMaterials.Magmatter)
@@ -462,7 +458,7 @@ interface SuprachronalAssemblyLine {
                         .dataStack(GTOItems.CLOSED_TIMELIKE_CURVE_GUIDANCE_UNIT.asStack())
                         .CWUt(4096)
                         .EUt(2013265920))
-                .save(provider);
+                .save();
 
         GTORecipeTypes.SUPRACHRONAL_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("max_sensor"))
                 .inputItems(TagPrefix.frameGt, GTOMaterials.Infinity)
@@ -485,6 +481,6 @@ interface SuprachronalAssemblyLine {
                         .dataStack(GTOItems.CLOSED_TIMELIKE_CURVE_GUIDANCE_UNIT.asStack())
                         .CWUt(6114)
                         .EUt(2013265920))
-                .save(provider);
+                .save();
     }
 }

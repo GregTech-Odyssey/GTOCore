@@ -10,13 +10,9 @@ import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
-import net.minecraft.data.recipes.FinishedRecipe;
-
-import java.util.function.Consumer;
-
 interface PlasmaCondenser {
 
-    static void init(Consumer<FinishedRecipe> provider) {
+    static void init() {
         GTORecipeTypes.PLASMA_CONDENSER_RECIPES.recipeBuilder(GTOCore.id(""))
                 .circuitMeta(1)
                 .inputFluids(GTOMaterials.ChromaticGlass.getFluid(FluidStorageKeys.PLASMA, 1000))
@@ -25,7 +21,7 @@ interface PlasmaCondenser {
                 .outputFluids(GTMaterials.Helium.getFluid(100000))
                 .EUt(1966080)
                 .duration(600)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.PLASMA_CONDENSER_RECIPES.recipeBuilder(GTOCore.id("celestial_tungsten_condenser"))
                 .circuitMeta(1)
@@ -35,7 +31,7 @@ interface PlasmaCondenser {
                 .outputFluids(GTMaterials.Helium.getFluid(100000))
                 .EUt(1966080)
                 .duration(600)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.PLASMA_CONDENSER_RECIPES.recipeBuilder(GTOCore.id("awakened_draconium"))
                 .inputItems(GTOItems.AWAKENED_DRACONIUM_PLASMA_CONTAINMENT_CELL.asStack())
@@ -45,7 +41,7 @@ interface PlasmaCondenser {
                 .outputFluids(GTOMaterials.AwakenedDraconium.getFluid(1000))
                 .EUt(125829120)
                 .duration(1200)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.PLASMA_CONDENSER_RECIPES.recipeBuilder(GTOCore.id("orichalcum_ingot_condenser"))
                 .notConsumable(GTOItems.INGOT_FIELD_SHAPE.asStack())
@@ -55,7 +51,7 @@ interface PlasmaCondenser {
                 .outputFluids(GTMaterials.Helium.getFluid(14400))
                 .EUt(1966080)
                 .duration(60)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.PLASMA_CONDENSER_RECIPES.recipeBuilder(GTOCore.id("degenerate_rhenium"))
                 .inputItems(GTOItems.RHENIUM_PLASMA_CONTAINMENT_CELL.asStack())
@@ -65,7 +61,7 @@ interface PlasmaCondenser {
                 .outputFluids(GTOMaterials.DegenerateRhenium.getFluid(FluidStorageKeys.LIQUID, 1000))
                 .EUt(7864320)
                 .duration(1200)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.PLASMA_CONDENSER_RECIPES.recipeBuilder(GTOCore.id("quantumchromodynamic_protective_plating"))
                 .notConsumable(GTOTagPrefix.nanites, GTOMaterials.Vibranium)
@@ -76,7 +72,7 @@ interface PlasmaCondenser {
                 .outputFluids(GTMaterials.Helium.getFluid(10000))
                 .EUt(125829120)
                 .duration(300)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.PLASMA_CONDENSER_RECIPES.recipeBuilder(GTOCore.id("taranium_rich_liquid_helium_4_condenser"))
                 .circuitMeta(1)
@@ -86,7 +82,7 @@ interface PlasmaCondenser {
                 .outputFluids(GTMaterials.Helium.getFluid(100000))
                 .EUt(1966080)
                 .duration(600)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.PLASMA_CONDENSER_RECIPES.recipeBuilder(GTOCore.id("hassium"))
                 .inputFluids(GTOMaterials.MetastableHassium.getFluid(FluidStorageKeys.PLASMA, 1000))
@@ -95,7 +91,7 @@ interface PlasmaCondenser {
                 .outputFluids(GTOMaterials.MetastableHassium.getFluid(FluidStorageKeys.LIQUID, 1000))
                 .EUt(1966080)
                 .duration(1200)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.PLASMA_CONDENSER_RECIPES.recipeBuilder(GTOCore.id("adamantium_condenser"))
                 .circuitMeta(1)
@@ -105,7 +101,7 @@ interface PlasmaCondenser {
                 .outputFluids(GTMaterials.Helium.getFluid(100000))
                 .EUt(1966080)
                 .duration(600)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.PLASMA_CONDENSER_RECIPES.recipeBuilder(GTOCore.id("neutronium_sphere"))
                 .notConsumable(GTOItems.BALL_FIELD_SHAPE.asStack())
@@ -116,7 +112,7 @@ interface PlasmaCondenser {
                 .outputFluids(GTMaterials.Helium.getFluid(32000))
                 .EUt(1966080)
                 .duration(800)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.PLASMA_CONDENSER_RECIPES.recipeBuilder(GTOCore.id("nitrogen_condenser"))
                 .circuitMeta(1)
@@ -126,7 +122,7 @@ interface PlasmaCondenser {
                 .outputFluids(GTMaterials.Helium.getFluid(100000))
                 .EUt(1966080)
                 .duration(600)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.PLASMA_CONDENSER_RECIPES.recipeBuilder(GTOCore.id("mithril_condenser"))
                 .circuitMeta(1)
@@ -136,7 +132,7 @@ interface PlasmaCondenser {
                 .outputFluids(GTMaterials.Helium.getFluid(100000))
                 .EUt(1966080)
                 .duration(600)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.PLASMA_CONDENSER_RECIPES.recipeBuilder(GTOCore.id("quantum_chromo_dynamically_confined_matter_condenser"))
                 .circuitMeta(1)
@@ -146,7 +142,7 @@ interface PlasmaCondenser {
                 .outputFluids(GTMaterials.Helium.getFluid(100000))
                 .EUt(1966080)
                 .duration(600)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.PLASMA_CONDENSER_RECIPES.recipeBuilder(GTOCore.id("actinium_superhydride_dust"))
                 .inputItems(GTOItems.ACTINIUM_SUPERHYDRIDE_PLASMA_CONTAINMENT_CELL.asStack())
@@ -156,7 +152,7 @@ interface PlasmaCondenser {
                 .outputFluids(GTMaterials.Helium.getFluid(24000))
                 .EUt(31457280)
                 .duration(340)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.PLASMA_CONDENSER_RECIPES.recipeBuilder(GTOCore.id("infuscolium_ingot_condenser"))
                 .notConsumable(GTOItems.INGOT_FIELD_SHAPE.asStack())
@@ -166,7 +162,7 @@ interface PlasmaCondenser {
                 .outputFluids(GTMaterials.Helium.getFluid(14400))
                 .EUt(1966080)
                 .duration(60)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.PLASMA_CONDENSER_RECIPES.recipeBuilder(GTOCore.id("crystal_matrix"))
                 .inputItems(GTOItems.CRYSTAL_MATRIX_PLASMA_CONTAINMENT_CELL.asStack())
@@ -176,7 +172,7 @@ interface PlasmaCondenser {
                 .outputFluids(GTOMaterials.CrystalMatrix.getFluid(1000))
                 .EUt(503316480)
                 .duration(1000)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.PLASMA_CONDENSER_RECIPES.recipeBuilder(GTOCore.id("infuscolium_condenser"))
                 .circuitMeta(1)
@@ -186,7 +182,7 @@ interface PlasmaCondenser {
                 .outputFluids(GTMaterials.Helium.getFluid(100000))
                 .EUt(1966080)
                 .duration(600)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.PLASMA_CONDENSER_RECIPES.recipeBuilder(GTOCore.id("heavy_quark_degenerate_matter_condenser"))
                 .circuitMeta(1)
@@ -196,7 +192,7 @@ interface PlasmaCondenser {
                 .outputFluids(GTMaterials.Helium.getFluid(100000))
                 .EUt(1966080)
                 .duration(600)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.PLASMA_CONDENSER_RECIPES.recipeBuilder(GTOCore.id("legendarium_ingot_condenser"))
                 .notConsumable(GTOItems.INGOT_FIELD_SHAPE.asStack())
@@ -206,7 +202,7 @@ interface PlasmaCondenser {
                 .outputFluids(GTMaterials.Helium.getFluid(14400))
                 .EUt(1966080)
                 .duration(60)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.PLASMA_CONDENSER_RECIPES.recipeBuilder(GTOCore.id("echoite_ingot_condenser"))
                 .notConsumable(GTOItems.INGOT_FIELD_SHAPE.asStack())
@@ -216,7 +212,7 @@ interface PlasmaCondenser {
                 .outputFluids(GTMaterials.Helium.getFluid(14400))
                 .EUt(1966080)
                 .duration(60)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.PLASMA_CONDENSER_RECIPES.recipeBuilder(GTOCore.id("starmetal_condenser"))
                 .circuitMeta(1)
@@ -226,7 +222,7 @@ interface PlasmaCondenser {
                 .outputFluids(GTMaterials.Helium.getFluid(100000))
                 .EUt(1966080)
                 .duration(600)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.PLASMA_CONDENSER_RECIPES.recipeBuilder(GTOCore.id("cosmic_neutronium"))
                 .inputItems(GTOItems.COSMIC_NEUTRON_PLASMA_CELL.asStack())
@@ -236,7 +232,7 @@ interface PlasmaCondenser {
                 .outputFluids(GTOMaterials.CosmicNeutronium.getFluid(1000))
                 .EUt(503316480)
                 .duration(1200)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.PLASMA_CONDENSER_RECIPES.recipeBuilder(GTOCore.id("legendarium_condenser"))
                 .circuitMeta(1)
@@ -246,7 +242,7 @@ interface PlasmaCondenser {
                 .outputFluids(GTMaterials.Helium.getFluid(100000))
                 .EUt(1966080)
                 .duration(600)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.PLASMA_CONDENSER_RECIPES.recipeBuilder(GTOCore.id("enderium_ingot_condenser"))
                 .notConsumable(GTOItems.INGOT_FIELD_SHAPE.asStack())
@@ -256,7 +252,7 @@ interface PlasmaCondenser {
                 .outputFluids(GTMaterials.Helium.getFluid(14400))
                 .EUt(1966080)
                 .duration(60)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.PLASMA_CONDENSER_RECIPES.recipeBuilder(GTOCore.id("quantum_chromo_dynamically_confined_matter_ingot_condenser"))
                 .notConsumable(GTOItems.INGOT_FIELD_SHAPE.asStack())
@@ -266,7 +262,7 @@ interface PlasmaCondenser {
                 .outputFluids(GTMaterials.Helium.getFluid(14400))
                 .EUt(1966080)
                 .duration(60)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.PLASMA_CONDENSER_RECIPES.recipeBuilder(GTOCore.id("vibranium_condenser"))
                 .circuitMeta(1)
@@ -276,7 +272,7 @@ interface PlasmaCondenser {
                 .outputFluids(GTMaterials.Helium.getFluid(100000))
                 .EUt(1966080)
                 .duration(600)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.PLASMA_CONDENSER_RECIPES.recipeBuilder(GTOCore.id("heavy_quark_degenerate_matter_ingot_condenser"))
                 .notConsumable(GTOItems.INGOT_FIELD_SHAPE.asStack())
@@ -286,7 +282,7 @@ interface PlasmaCondenser {
                 .outputFluids(GTMaterials.Helium.getFluid(14400))
                 .EUt(1966080)
                 .duration(60)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.PLASMA_CONDENSER_RECIPES.recipeBuilder(GTOCore.id("astral_titanium_condenser"))
                 .circuitMeta(1)
@@ -296,7 +292,7 @@ interface PlasmaCondenser {
                 .outputFluids(GTMaterials.Helium.getFluid(100000))
                 .EUt(1966080)
                 .duration(600)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.PLASMA_CONDENSER_RECIPES.recipeBuilder(GTOCore.id("mithril_ingot_condenser"))
                 .notConsumable(GTOItems.INGOT_FIELD_SHAPE.asStack())
@@ -306,7 +302,7 @@ interface PlasmaCondenser {
                 .outputFluids(GTMaterials.Helium.getFluid(14400))
                 .EUt(1966080)
                 .duration(60)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.PLASMA_CONDENSER_RECIPES.recipeBuilder(GTOCore.id("cosmic_mesh"))
                 .inputItems(GTOItems.COSMIC_MESH_CONTAINMENT_UNIT.asStack())
@@ -315,7 +311,7 @@ interface PlasmaCondenser {
                 .outputFluids(GTOMaterials.CosmicMesh.getFluid(FluidStorageKeys.LIQUID, 1000))
                 .EUt(503316480)
                 .duration(800)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.PLASMA_CONDENSER_RECIPES.recipeBuilder(GTOCore.id("starmetal_ingot_condenser"))
                 .notConsumable(GTOItems.INGOT_FIELD_SHAPE.asStack())
@@ -325,7 +321,7 @@ interface PlasmaCondenser {
                 .outputFluids(GTMaterials.Helium.getFluid(14400))
                 .EUt(1966080)
                 .duration(60)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.PLASMA_CONDENSER_RECIPES.recipeBuilder(GTOCore.id("echoite_condenser"))
                 .circuitMeta(1)
@@ -335,7 +331,7 @@ interface PlasmaCondenser {
                 .outputFluids(GTMaterials.Helium.getFluid(100000))
                 .EUt(1966080)
                 .duration(600)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.PLASMA_CONDENSER_RECIPES.recipeBuilder(GTOCore.id("adamantium_ingot_condenser"))
                 .notConsumable(GTOItems.INGOT_FIELD_SHAPE.asStack())
@@ -345,7 +341,7 @@ interface PlasmaCondenser {
                 .outputFluids(GTMaterials.Helium.getFluid(14400))
                 .EUt(1966080)
                 .duration(60)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.PLASMA_CONDENSER_RECIPES.recipeBuilder(GTOCore.id("chaos"))
                 .inputItems(GTOItems.CHAOS_CONTAINMENT_UNIT.asStack())
@@ -355,7 +351,7 @@ interface PlasmaCondenser {
                 .outputFluids(GTOMaterials.Chaos.getFluid(1000))
                 .EUt(503316480)
                 .duration(1600)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.PLASMA_CONDENSER_RECIPES.recipeBuilder(GTOCore.id("argon_condenser"))
                 .circuitMeta(1)
@@ -365,7 +361,7 @@ interface PlasmaCondenser {
                 .outputFluids(GTMaterials.Helium.getFluid(100000))
                 .EUt(1966080)
                 .duration(600)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.PLASMA_CONDENSER_RECIPES.recipeBuilder(GTOCore.id("helium_condenser"))
                 .circuitMeta(1)
@@ -375,7 +371,7 @@ interface PlasmaCondenser {
                 .outputFluids(GTMaterials.Helium.getFluid(100000))
                 .EUt(1966080)
                 .duration(600)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.PLASMA_CONDENSER_RECIPES.recipeBuilder(GTOCore.id("oxygen_condenser"))
                 .circuitMeta(1)
@@ -385,7 +381,7 @@ interface PlasmaCondenser {
                 .outputFluids(GTMaterials.Helium.getFluid(100000))
                 .EUt(1966080)
                 .duration(600)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.PLASMA_CONDENSER_RECIPES.recipeBuilder(GTOCore.id("vibranium_ingot_condenser"))
                 .notConsumable(GTOItems.INGOT_FIELD_SHAPE.asStack())
@@ -395,7 +391,7 @@ interface PlasmaCondenser {
                 .outputFluids(GTMaterials.Helium.getFluid(14400))
                 .EUt(1966080)
                 .duration(60)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.PLASMA_CONDENSER_RECIPES.recipeBuilder(GTOCore.id("enderium_condenser"))
                 .circuitMeta(1)
@@ -405,7 +401,7 @@ interface PlasmaCondenser {
                 .outputFluids(GTMaterials.Helium.getFluid(100000))
                 .EUt(1966080)
                 .duration(600)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.PLASMA_CONDENSER_RECIPES.recipeBuilder(GTOCore.id("orichalcum_condenser"))
                 .circuitMeta(1)
@@ -415,6 +411,6 @@ interface PlasmaCondenser {
                 .outputFluids(GTMaterials.Helium.getFluid(100000))
                 .EUt(1966080)
                 .duration(600)
-                .save(provider);
+                .save();
     }
 }

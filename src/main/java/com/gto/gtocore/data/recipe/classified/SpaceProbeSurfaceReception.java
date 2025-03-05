@@ -5,20 +5,16 @@ import com.gto.gtocore.common.data.GTOItems;
 import com.gto.gtocore.common.data.GTOMaterials;
 import com.gto.gtocore.common.data.GTORecipeTypes;
 
-import net.minecraft.data.recipes.FinishedRecipe;
-
-import java.util.function.Consumer;
-
 interface SpaceProbeSurfaceReception {
 
-    static void init(Consumer<FinishedRecipe> provider) {
+    static void init() {
         GTORecipeTypes.SPACE_PROBE_SURFACE_RECEPTION_RECIPES.recipeBuilder(GTOCore.id("heavy_lepton_mixture1"))
                 .notConsumable(GTOItems.SPACE_PROBE_MK1.asStack())
                 .circuitMeta(1)
                 .outputFluids(GTOMaterials.HeavyLeptonMixture.getFluid(100))
                 .EUt(31457280)
                 .duration(200)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.SPACE_PROBE_SURFACE_RECEPTION_RECIPES.recipeBuilder(GTOCore.id("heavy_lepton_mixture2"))
                 .notConsumable(GTOItems.SPACE_PROBE_MK2.asStack())
@@ -26,7 +22,7 @@ interface SpaceProbeSurfaceReception {
                 .outputFluids(GTOMaterials.HeavyLeptonMixture.getFluid(1000))
                 .EUt(125829120)
                 .duration(200)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.SPACE_PROBE_SURFACE_RECEPTION_RECIPES.recipeBuilder(GTOCore.id("heavy_lepton_mixture3"))
                 .notConsumable(GTOItems.SPACE_PROBE_MK3.asStack())
@@ -34,7 +30,7 @@ interface SpaceProbeSurfaceReception {
                 .outputFluids(GTOMaterials.HeavyLeptonMixture.getFluid(10000))
                 .EUt(503316480)
                 .duration(200)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.SPACE_PROBE_SURFACE_RECEPTION_RECIPES.recipeBuilder(GTOCore.id("cosmic_element3"))
                 .notConsumable(GTOItems.SPACE_PROBE_MK3.asStack())
@@ -42,7 +38,7 @@ interface SpaceProbeSurfaceReception {
                 .outputFluids(GTOMaterials.CosmicElement.getFluid(10000))
                 .EUt(503316480)
                 .duration(200)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.SPACE_PROBE_SURFACE_RECEPTION_RECIPES.recipeBuilder(GTOCore.id("starlight3"))
                 .notConsumable(GTOItems.SPACE_PROBE_MK3.asStack())
@@ -50,7 +46,7 @@ interface SpaceProbeSurfaceReception {
                 .outputFluids(GTOMaterials.Starlight.getFluid(10000))
                 .EUt(503316480)
                 .duration(200)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.SPACE_PROBE_SURFACE_RECEPTION_RECIPES.recipeBuilder(GTOCore.id("starlight2"))
                 .notConsumable(GTOItems.SPACE_PROBE_MK2.asStack())
@@ -58,6 +54,6 @@ interface SpaceProbeSurfaceReception {
                 .outputFluids(GTOMaterials.Starlight.getFluid(1000))
                 .EUt(125829120)
                 .duration(200)
-                .save(provider);
+                .save();
     }
 }

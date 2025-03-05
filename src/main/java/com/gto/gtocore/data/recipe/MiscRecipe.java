@@ -33,7 +33,6 @@ import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
 import static com.gregtechceu.gtceu.common.data.GTItems.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
-import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.AUTOCLAVE_RECIPES;
 import static com.gto.gtocore.common.data.GTORecipeTypes.*;
 import static com.gto.gtocore.common.data.machines.MultiBlockB.PRIMITIVE_VOID_ORE;
 
@@ -49,7 +48,7 @@ public interface MiscRecipe {
             PRIMITIVE_VOID_ORE_RECIPES.recipeBuilder(GTOCore.id("primitive_void_ore_recipes"))
                     .inputFluids(Steam.getFluid(1000))
                     .duration(200)
-                    .save(provider);
+                    .save();
         }
 
         int i = 0;
@@ -65,26 +64,26 @@ public interface MiscRecipe {
                     .dimension(layer)
                     .EUt(VA[tier])
                     .duration(2400)
-                    .save(provider);
+                    .save();
         }
 
         BlockConversionRoomMachine.COV_RECIPE.forEach((a, b) -> BLOCK_CONVERSIONRECIPES.recipeBuilder(GTOCore.id(ItemUtils.getIdLocation(a).getPath()))
                 .inputItems(a.asItem())
                 .outputItems(b.asItem())
                 .duration(20)
-                .save(provider));
+                .save());
 
         VOID_MINER_RECIPES.recipeBuilder(GTOCore.id("a"))
                 .inputFluids(DrillingFluid.getFluid(1000))
                 .EUt(VA[4])
                 .duration(20)
-                .save(provider);
+                .save();
 
         VOID_FLUID_DRILLING_RIG_RECIPES.recipeBuilder(GTOCore.id("a"))
                 .notConsumable(PROGRAMMED_CIRCUIT.get())
                 .EUt(VA[6])
                 .duration(20)
-                .save(provider);
+                .save();
 
         VanillaRecipeHelper.addShapedRecipe(provider, GTOCore.id("iron_bucket"), new ItemStack(Items.BUCKET), "ChC", " X ", 'X',
                 new UnificationEntry(plate, Iron), 'C', new UnificationEntry(GTOTagPrefix.curvedPlate, Iron));
@@ -112,25 +111,25 @@ public interface MiscRecipe {
                 .notConsumable(pipeHugeFluid, Bronze)
                 .EUt(7).duration(200)
                 .addData("tier", 0)
-                .save(provider);
+                .save();
 
         VACUUM_PUMP_RECIPES.recipeBuilder(GTOCore.id("b"))
                 .notConsumable(FLUID_REGULATOR_LV)
                 .EUt(30).duration(200)
                 .addData("tier", 1)
-                .save(provider);
+                .save();
 
         VACUUM_PUMP_RECIPES.recipeBuilder(GTOCore.id("c"))
                 .notConsumable(FLUID_REGULATOR_MV)
                 .EUt(120).duration(200)
                 .addData("tier", 2)
-                .save(provider);
+                .save();
 
         VACUUM_PUMP_RECIPES.recipeBuilder(GTOCore.id("d"))
                 .notConsumable(FLUID_REGULATOR_HV)
                 .EUt(480).duration(200)
                 .addData("tier", 3)
-                .save(provider);
+                .save();
 
         WOOD_DISTILLATION_RECIPES.recipeBuilder(GTOCore.id("wood_distillation_recipes"))
                 .inputItems(ItemTags.LOGS, 16)
@@ -152,95 +151,95 @@ public interface MiscRecipe {
                 .outputFluids(MethylAcetate.getFluid(16))
                 .outputFluids(Ethanol.getFluid(16))
                 .duration(200).EUt(VA[MV])
-                .save(provider);
+                .save();
 
         AUTOCLAVE_RECIPES.recipeBuilder(GTOCore.id("water_agar_mix")).EUt(VA[HV]).duration(600)
                 .inputItems(dust, Gelatin)
                 .inputFluids(DistilledWater.getFluid(1000))
                 .outputFluids(GTOMaterials.WaterAgarMix.getFluid(1000))
                 .cleanroom(CleanroomType.STERILE_CLEANROOM)
-                .save(provider);
+                .save();
 
         DEHYDRATOR_RECIPES.recipeBuilder(GTOCore.id("agar"))
                 .inputFluids(GTOMaterials.WaterAgarMix.getFluid(1000))
                 .outputItems(dust, Agar, 1)
                 .duration(420).EUt(VA[MV])
                 .cleanroom(CleanroomType.STERILE_CLEANROOM)
-                .save(provider);
+                .save();
 
         UNPACKER_RECIPES.recipeBuilder(GTOCore.id("unpackage_lv_cadmium_battery")).inputItems(BATTERY_LV_CADMIUM)
-                .outputItems(BATTERY_HULL_LV).save(provider);
+                .outputItems(BATTERY_HULL_LV).save();
         UNPACKER_RECIPES.recipeBuilder(GTOCore.id("unpackage_lv_lithium_battery")).inputItems(BATTERY_LV_LITHIUM)
-                .outputItems(BATTERY_HULL_LV).save(provider);
+                .outputItems(BATTERY_HULL_LV).save();
         UNPACKER_RECIPES.recipeBuilder(GTOCore.id("unpackage_lv_sodium_battery")).inputItems(BATTERY_LV_SODIUM)
-                .outputItems(BATTERY_HULL_LV).save(provider);
+                .outputItems(BATTERY_HULL_LV).save();
 
         UNPACKER_RECIPES.recipeBuilder(GTOCore.id("unpackage_mv_cadmium_battery")).inputItems(BATTERY_MV_CADMIUM)
-                .outputItems(BATTERY_HULL_MV).save(provider);
+                .outputItems(BATTERY_HULL_MV).save();
         UNPACKER_RECIPES.recipeBuilder(GTOCore.id("unpackage_mv_lithium_battery")).inputItems(BATTERY_MV_LITHIUM)
-                .outputItems(BATTERY_HULL_MV).save(provider);
+                .outputItems(BATTERY_HULL_MV).save();
         UNPACKER_RECIPES.recipeBuilder(GTOCore.id("unpackage_mv_sodium_battery")).inputItems(BATTERY_MV_SODIUM)
-                .outputItems(BATTERY_HULL_MV).save(provider);
+                .outputItems(BATTERY_HULL_MV).save();
 
         UNPACKER_RECIPES.recipeBuilder(GTOCore.id("unpackage_hv_cadmium_battery")).inputItems(BATTERY_HV_CADMIUM)
-                .outputItems(BATTERY_HULL_HV).save(provider);
+                .outputItems(BATTERY_HULL_HV).save();
         UNPACKER_RECIPES.recipeBuilder(GTOCore.id("unpackage_hv_lithium_battery")).inputItems(BATTERY_HV_LITHIUM)
-                .outputItems(BATTERY_HULL_HV).save(provider);
+                .outputItems(BATTERY_HULL_HV).save();
         UNPACKER_RECIPES.recipeBuilder(GTOCore.id("unpackage_hv_sodium_battery")).inputItems(BATTERY_HV_SODIUM)
-                .outputItems(BATTERY_HULL_HV).save(provider);
+                .outputItems(BATTERY_HULL_HV).save();
 
         UNPACKER_RECIPES.recipeBuilder(GTOCore.id("unpackage_ev_vanadium_battery")).inputItems(BATTERY_EV_VANADIUM)
-                .outputItems(BATTERY_HULL_SMALL_VANADIUM).save(provider);
+                .outputItems(BATTERY_HULL_SMALL_VANADIUM).save();
         UNPACKER_RECIPES.recipeBuilder(GTOCore.id("unpackage_iv_vanadium_battery")).inputItems(BATTERY_IV_VANADIUM)
-                .outputItems(BATTERY_HULL_MEDIUM_VANADIUM).save(provider);
+                .outputItems(BATTERY_HULL_MEDIUM_VANADIUM).save();
         UNPACKER_RECIPES.recipeBuilder(GTOCore.id("unpackage_luv_vanadium_battery")).inputItems(BATTERY_LuV_VANADIUM)
-                .outputItems(BATTERY_HULL_LARGE_VANADIUM).save(provider);
+                .outputItems(BATTERY_HULL_LARGE_VANADIUM).save();
 
         UNPACKER_RECIPES.recipeBuilder(GTOCore.id("unpackage_zpm_naquadria_battery")).inputItems(BATTERY_ZPM_NAQUADRIA)
-                .outputItems(BATTERY_HULL_MEDIUM_NAQUADRIA).save(provider);
+                .outputItems(BATTERY_HULL_MEDIUM_NAQUADRIA).save();
         UNPACKER_RECIPES.recipeBuilder(GTOCore.id("unpackage_uv_naquadria_battery")).inputItems(BATTERY_UV_NAQUADRIA)
-                .outputItems(BATTERY_HULL_LARGE_NAQUADRIA).save(provider);
+                .outputItems(BATTERY_HULL_LARGE_NAQUADRIA).save();
 
         UNPACKER_RECIPES.recipeBuilder(GTOCore.id("unpackage_ev_lapotronic_battery"))
                 .inputItems(GTBlocks.BATTERY_LAPOTRONIC_EV.asStack(1))
                 .outputItems(GTBlocks.BATTERY_EMPTY_TIER_I.asStack(1))
                 .outputItems(LAPOTRON_CRYSTAL)
-                .duration(200).EUt(VA[LV]).save(provider);
+                .duration(200).EUt(VA[LV]).save();
 
         UNPACKER_RECIPES.recipeBuilder(GTOCore.id("unpackage_iv_lapotronic_battery"))
                 .inputItems(GTBlocks.BATTERY_LAPOTRONIC_IV.asStack(1))
                 .outputItems(GTBlocks.BATTERY_EMPTY_TIER_I)
                 .outputItems(ENERGY_LAPOTRONIC_ORB)
-                .duration(200).EUt(VA[LV]).save(provider);
+                .duration(200).EUt(VA[LV]).save();
 
         UNPACKER_RECIPES.recipeBuilder(GTOCore.id("unpackage_luv_lapotronic_battery"))
                 .inputItems(GTBlocks.BATTERY_LAPOTRONIC_LuV.asStack(1))
                 .outputItems(GTBlocks.BATTERY_EMPTY_TIER_II)
                 .outputItems(ENERGY_LAPOTRONIC_ORB_CLUSTER)
-                .duration(200).EUt(VA[LV]).save(provider);
+                .duration(200).EUt(VA[LV]).save();
 
         UNPACKER_RECIPES.recipeBuilder(GTOCore.id("unpackage_zpm_lapotronic_battery"))
                 .inputItems(GTBlocks.BATTERY_LAPOTRONIC_ZPM.asStack(1))
                 .outputItems(GTBlocks.BATTERY_EMPTY_TIER_II)
                 .outputItems(ENERGY_MODULE)
-                .duration(200).EUt(VA[LV]).save(provider);
+                .duration(200).EUt(VA[LV]).save();
 
         UNPACKER_RECIPES.recipeBuilder(GTOCore.id("unpackage_uv_lapotronic_battery"))
                 .inputItems(GTBlocks.BATTERY_LAPOTRONIC_UV.asStack(1))
                 .outputItems(GTBlocks.BATTERY_EMPTY_TIER_III)
                 .outputItems(ENERGY_CLUSTER)
-                .duration(200).EUt(VA[LV]).save(provider);
+                .duration(200).EUt(VA[LV]).save();
 
         UNPACKER_RECIPES.recipeBuilder(GTOCore.id("unpackage_uhv_ultimate_battery"))
                 .inputItems(GTBlocks.BATTERY_ULTIMATE_UHV.asStack(1))
                 .outputItems(GTBlocks.BATTERY_EMPTY_TIER_III)
                 .outputItems(ULTIMATE_BATTERY)
-                .duration(200).EUt(VA[LV]).save(provider);
+                .duration(200).EUt(VA[LV]).save();
 
         LOOM_RECIPES.recipeBuilder(GTOCore.id("wool_from_string"))
                 .inputItems(new ItemStack(Items.STRING, 4))
                 .circuitMeta(4)
                 .outputItems(new ItemStack(Blocks.WHITE_WOOL))
-                .duration(100).EUt(4).save(provider);
+                .duration(100).EUt(4).save();
     }
 }

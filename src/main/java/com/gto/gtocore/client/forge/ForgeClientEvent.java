@@ -5,6 +5,7 @@ import com.gto.gtocore.api.item.MultiStepItemHelper;
 import com.gto.gtocore.client.Tooltips;
 import com.gto.gtocore.common.item.StructureDetectBehavior;
 import com.gto.gtocore.common.item.StructureWriteBehavior;
+import com.gto.gtocore.config.GTOConfig;
 import com.gto.gtocore.data.lang.LangHandler;
 import com.gto.gtocore.utils.ItemUtils;
 
@@ -93,7 +94,7 @@ public final class ForgeClientEvent {
                 }
                 highlightSphere(camera, poseStack, highlightingPos, highlightingRadius);
             }
-            if (StructureWriteBehavior.isItem(held)) {
+            if (GTOConfig.INSTANCE.dev && StructureWriteBehavior.isItem(held)) {
                 poses = StructureWriteBehavior.getPos(held);
                 if (poses != null) {
                     highlightBlock(camera, poseStack, poses);

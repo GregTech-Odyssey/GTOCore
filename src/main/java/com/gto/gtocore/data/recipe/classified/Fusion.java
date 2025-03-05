@@ -6,15 +6,11 @@ import com.gto.gtocore.common.data.GTOMaterials;
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
-import net.minecraft.data.recipes.FinishedRecipe;
-
-import java.util.function.Consumer;
-
-import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.FUSION_RECIPES;
+import static com.gto.gtocore.common.data.GTORecipeTypes.FUSION_RECIPES;
 
 interface Fusion {
 
-    static void init(Consumer<FinishedRecipe> provider) {
+    static void init() {
         FUSION_RECIPES.recipeBuilder(GTOCore.id("titanium"))
                 .inputFluids(GTMaterials.Aluminium.getFluid(144))
                 .inputFluids(GTMaterials.Fluorine.getFluid(144))
@@ -22,7 +18,7 @@ interface Fusion {
                 .duration(160)
                 .EUt(49152)
                 .fusionStartEU(100_000_000)
-                .save(provider);
+                .save();
 
         FUSION_RECIPES.recipeBuilder(GTOCore.id("sulfur"))
                 .inputFluids(GTMaterials.Aluminium.getFluid(144))
@@ -31,7 +27,7 @@ interface Fusion {
                 .duration(120)
                 .EUt(10240)
                 .fusionStartEU(240_000_000)
-                .save(provider);
+                .save();
 
         FUSION_RECIPES.recipeBuilder(GTOCore.id("boron"))
                 .inputFluids(GTMaterials.Helium.getFluid(144))
@@ -40,7 +36,7 @@ interface Fusion {
                 .duration(60)
                 .EUt(10240)
                 .fusionStartEU(50_000_000)
-                .save(provider);
+                .save();
 
         FUSION_RECIPES.recipeBuilder(GTOCore.id("calcium"))
                 .inputFluids(GTMaterials.Magnesium.getFluid(128))
@@ -49,7 +45,7 @@ interface Fusion {
                 .duration(128)
                 .EUt(7680)
                 .fusionStartEU(120_000_000)
-                .save(provider);
+                .save();
 
         FUSION_RECIPES.recipeBuilder(GTOCore.id("zinc"))
                 .inputFluids(GTMaterials.Copper.getFluid(72))
@@ -58,7 +54,7 @@ interface Fusion {
                 .duration(16)
                 .EUt(49152)
                 .fusionStartEU(180_000_000)
-                .save(provider);
+                .save();
 
         FUSION_RECIPES.recipeBuilder(GTOCore.id("niobium"))
                 .inputFluids(GTMaterials.Cobalt.getFluid(144))
@@ -67,7 +63,7 @@ interface Fusion {
                 .duration(16)
                 .EUt(49152)
                 .fusionStartEU(200_000_000)
-                .save(provider);
+                .save();
 
         FUSION_RECIPES.recipeBuilder(GTOCore.id("tin"))
                 .inputFluids(GTMaterials.Silver.getFluid(144))
@@ -76,7 +72,7 @@ interface Fusion {
                 .duration(16)
                 .EUt(49152)
                 .fusionStartEU(280_000_000)
-                .save(provider);
+                .save();
 
         FUSION_RECIPES.recipeBuilder(GTOCore.id("lead"))
                 .inputFluids(GTMaterials.Tellurium.getFluid(288))
@@ -85,7 +81,7 @@ interface Fusion {
                 .duration(4)
                 .EUt(2932160)
                 .fusionStartEU(1000_000_000)
-                .save(provider);
+                .save();
 
         FUSION_RECIPES.recipeBuilder(GTOCore.id("thorium"))
                 .inputFluids(GTMaterials.Osmium.getFluid(288))
@@ -94,7 +90,7 @@ interface Fusion {
                 .duration(4)
                 .EUt(2932160)
                 .fusionStartEU(1000_000_000)
-                .save(provider);
+                .save();
 
         FUSION_RECIPES.recipeBuilder(GTOCore.id("neon"))
                 .inputFluids(GTMaterials.Boron.getFluid(FluidStorageKeys.PLASMA, 144))
@@ -103,7 +99,7 @@ interface Fusion {
                 .duration(64)
                 .EUt(30720)
                 .fusionStartEU(100_000_000)
-                .save(provider);
+                .save();
 
         FUSION_RECIPES.recipeBuilder(GTOCore.id("xenon"))
                 .inputFluids(GTMaterials.Curium.getFluid(72))
@@ -112,7 +108,7 @@ interface Fusion {
                 .duration(72)
                 .EUt(30720)
                 .fusionStartEU(200_000_000)
-                .save(provider);
+                .save();
 
         FUSION_RECIPES.recipeBuilder(GTOCore.id("chromatic_glass"))
                 .inputFluids(GTMaterials.Glass.getFluid(288))
@@ -121,7 +117,7 @@ interface Fusion {
                 .duration(640)
                 .EUt(122880)
                 .fusionStartEU(2000_000_000)
-                .save(provider);
+                .save();
 
         FUSION_RECIPES.recipeBuilder(GTOCore.id("orichalcum_plasma"))
                 .inputFluids(GTMaterials.Einsteinium.getFluid(144))
@@ -130,7 +126,7 @@ interface Fusion {
                 .EUt(122880)
                 .duration(200)
                 .fusionStartEU(600000000)
-                .save(provider);
+                .save();
 
         FUSION_RECIPES.recipeBuilder(GTOCore.id("moscovium"))
                 .inputFluids(GTMaterials.Calcium.getFluid(32))
@@ -139,7 +135,7 @@ interface Fusion {
                 .EUt(122880)
                 .duration(128)
                 .fusionStartEU(800000000)
-                .save(provider);
+                .save();
 
         FUSION_RECIPES.recipeBuilder(GTOCore.id("livermorium"))
                 .inputFluids(GTMaterials.Thorium.getFluid(32))
@@ -148,7 +144,7 @@ interface Fusion {
                 .EUt(122880)
                 .duration(128)
                 .fusionStartEU(800000000)
-                .save(provider);
+                .save();
 
         FUSION_RECIPES.recipeBuilder(GTOCore.id("infinity"))
                 .inputFluids(GTOMaterials.CrystalMatrix.getFluid(2000))
@@ -157,7 +153,7 @@ interface Fusion {
                 .EUt(7864320)
                 .duration(4800)
                 .fusionStartEU(2100000000)
-                .save(provider);
+                .save();
 
         FUSION_RECIPES.recipeBuilder(GTOCore.id("hot_oganesson"))
                 .inputFluids(GTOMaterials.OganessonBreedingBase.getFluid(16))
@@ -166,7 +162,7 @@ interface Fusion {
                 .EUt(491520)
                 .duration(64)
                 .fusionStartEU(960000000)
-                .save(provider);
+                .save();
 
         FUSION_RECIPES.recipeBuilder(GTOCore.id("hassium"))
                 .inputFluids(GTOMaterials.ScandiumTitanium50Mixture.getFluid(32))
@@ -175,7 +171,7 @@ interface Fusion {
                 .EUt(491520)
                 .duration(64)
                 .fusionStartEU(960000000)
-                .save(provider);
+                .save();
 
         FUSION_RECIPES.recipeBuilder(GTOCore.id("vibranium_plasma"))
                 .inputFluids(GTOMaterials.VibraniumUnstable.getFluid(16))
@@ -184,7 +180,7 @@ interface Fusion {
                 .EUt(1966080)
                 .duration(200)
                 .fusionStartEU(1800000000)
-                .save(provider);
+                .save();
 
         FUSION_RECIPES.recipeBuilder(GTOCore.id("taranium_rich_liquid_helium_4_plasma"))
                 .inputFluids(GTOMaterials.TaraniumEnrichedLiquidHelium3.getFluid(125))
@@ -193,7 +189,7 @@ interface Fusion {
                 .EUt(1048576)
                 .duration(128)
                 .fusionStartEU(1200000000)
-                .save(provider);
+                .save();
 
         FUSION_RECIPES.recipeBuilder(GTOCore.id("mithril_plasma"))
                 .inputFluids(GTMaterials.Berkelium.getFluid(144))
@@ -202,7 +198,7 @@ interface Fusion {
                 .EUt(122880)
                 .duration(200)
                 .fusionStartEU(600000000)
-                .save(provider);
+                .save();
 
         FUSION_RECIPES.recipeBuilder(GTOCore.id("seaborgium"))
                 .inputFluids(GTMaterials.Calcium.getFluid(64))
@@ -211,7 +207,7 @@ interface Fusion {
                 .EUt(65536)
                 .duration(128)
                 .fusionStartEU(720000000)
-                .save(provider);
+                .save();
 
         FUSION_RECIPES.recipeBuilder(GTOCore.id("tennessine"))
                 .inputFluids(GTMaterials.Lead.getFluid(16))
@@ -220,7 +216,7 @@ interface Fusion {
                 .EUt(262144)
                 .duration(64)
                 .fusionStartEU(960000000)
-                .save(provider);
+                .save();
 
         FUSION_RECIPES.recipeBuilder(GTOCore.id("awakened_draconium_plasma"))
                 .inputFluids(GTOMaterials.Draconium.getFluid(125))
@@ -229,7 +225,7 @@ interface Fusion {
                 .EUt(7864320)
                 .duration(800)
                 .fusionStartEU(2100000000)
-                .save(provider);
+                .save();
 
         FUSION_RECIPES.recipeBuilder(GTOCore.id("silver_plasma"))
                 .inputFluids(GTMaterials.Europium.getFluid(16))
@@ -238,7 +234,7 @@ interface Fusion {
                 .EUt(65536)
                 .duration(18)
                 .fusionStartEU(480000000)
-                .save(provider);
+                .save();
 
         FUSION_RECIPES.recipeBuilder(GTOCore.id("dubnium"))
                 .inputFluids(GTMaterials.Europium.getFluid(64))
@@ -247,6 +243,6 @@ interface Fusion {
                 .EUt(65536)
                 .duration(128)
                 .fusionStartEU(720000000)
-                .save(provider);
+                .save();
     }
 }

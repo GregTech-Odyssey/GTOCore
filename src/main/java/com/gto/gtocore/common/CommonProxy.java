@@ -50,7 +50,8 @@ public class CommonProxy {
         GTOCreativeModeTabs.init();
         GTOConfig.init();
         GTOEntityTypes.init();
-        if (GTCEu.isDataGen()) {
+        if (GTCEu.isDev() || GTCEu.isDataGen()) {
+            GTOConfig.INSTANCE.dev = true;
             GTOConfig.INSTANCE.enablePrimitiveVoidOre = true;
         }
     }

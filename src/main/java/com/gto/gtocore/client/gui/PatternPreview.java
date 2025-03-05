@@ -30,7 +30,6 @@ import com.lowdragmc.lowdraglib.gui.texture.ColorRectTexture;
 import com.lowdragmc.lowdraglib.gui.texture.GuiTextureGroup;
 import com.lowdragmc.lowdraglib.gui.texture.TextTexture;
 import com.lowdragmc.lowdraglib.gui.widget.*;
-import com.lowdragmc.lowdraglib.jei.IngredientIO;
 import com.lowdragmc.lowdraglib.utils.BlockInfo;
 import com.lowdragmc.lowdraglib.utils.TrackedDummyWorld;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -48,7 +47,6 @@ import java.util.stream.Stream;
 @OnlyIn(Dist.CLIENT)
 public final class PatternPreview extends WidgetGroup {
 
-    private static final boolean isEMILoaded = GTCEu.Mods.isEMILoaded();
     private boolean isLoaded;
     private static TrackedDummyWorld LEVEL;
     private static final Map<MultiblockMachineDefinition, MBPattern[]> CACHE = new Object2ObjectOpenHashMap<>();
@@ -187,13 +185,7 @@ public final class PatternPreview extends WidgetGroup {
         }
         slotWidgets = new SlotWidget[itemList.size()];
         for (int i = 0; i < slotWidgets.length; i++) {
-            if (isEMILoaded) {
-                slotWidgets[i] = new PatternSlotWidget(new ItemHandlerModifiable(itemList.get(i)), i, 4 + i * 18, 0);
-            } else {
-                slotWidgets[i] = new SlotWidget(new ItemHandlerModifiable(itemList.get(i)), i, 4 + i * 18, 0, false, false)
-                        .setBackgroundTexture(ColorPattern.T_GRAY.rectTexture())
-                        .setIngredientIO(IngredientIO.INPUT);
-            }
+            slotWidgets[i] = new PatternSlotWidget(new ItemHandlerModifiable(itemList.get(i)), i, 4 + i * 18, 0);
             scrollableWidgetGroup.addWidget(slotWidgets[i]);
         }
     }
@@ -237,17 +229,9 @@ public final class PatternPreview extends WidgetGroup {
             int maxCol = (160 - (((slotWidgets.length - 1) / 9 + 1) * 18) - 35) % 18;
             for (int i = 0; i < candidateStacks.size(); i++) {
                 int finalI = i;
-                if (isEMILoaded) {
-                    candidates[i] = new PatternSlotWidget(itemHandler, i, 3 + (i / maxCol) * 18, 3 + (i % maxCol) * 18)
-                            .setBackgroundTexture(new ColorRectTexture(0x4fffffff))
-                            .setOnAddedTooltips((slot, list) -> list.addAll(predicateTips.get(finalI)));
-                } else {
-                    candidates[i] = new SlotWidget(itemHandler, i, 3 + (i / maxCol) * 18, 3 + (i % maxCol) * 18, false,
-                            false)
-                            .setIngredientIO(IngredientIO.INPUT)
-                            .setBackgroundTexture(new ColorRectTexture(0x4fffffff))
-                            .setOnAddedTooltips((slot, list) -> list.addAll(predicateTips.get(finalI)));
-                }
+                candidates[i] = new PatternSlotWidget(itemHandler, i, 3 + (i / maxCol) * 18, 3 + (i % maxCol) * 18)
+                        .setBackgroundTexture(new ColorRectTexture(0x4fffffff))
+                        .setOnAddedTooltips((slot, list) -> list.addAll(predicateTips.get(finalI)));
                 addWidget(candidates[i]);
             }
         }
@@ -297,7 +281,7 @@ public final class PatternPreview extends WidgetGroup {
     @Override
     public void updateScreen() {
         super.updateScreen();
-        if (!isLoaded && isEMILoaded && Minecraft.getInstance().screen instanceof RecipeScreen) {
+        if (!isLoaded && Minecraft.getInstance().screen instanceof RecipeScreen) {
             setPage();
             isLoaded = true;
         }

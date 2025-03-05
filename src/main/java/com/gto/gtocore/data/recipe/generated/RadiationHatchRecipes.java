@@ -31,13 +31,13 @@ public interface RadiationHatchRecipes {
                     .inputItems(ChemicalHelper.get(TagPrefix.rod, material, 1))
                     .duration(duration)
                     .addData("radioactivity", radioactivity)
-                    .save(provider);
+                    .save();
 
         if (material.hasFlag(MaterialFlags.GENERATE_LONG_ROD))
             GTORecipeTypes.RADIATION_HATCH_RECIPES.recipeBuilder(GTOCore.id("radioactive_material_long_rod" + material.getName().toLowerCase(Locale.ROOT)))
                     .inputItems(ChemicalHelper.get(TagPrefix.rodLong, material, 1))
                     .duration((int) (duration * 1.5))
                     .addData("radioactivity", (int) (radioactivity * 1.2))
-                    .save(provider);
+                    .save();
     }
 }

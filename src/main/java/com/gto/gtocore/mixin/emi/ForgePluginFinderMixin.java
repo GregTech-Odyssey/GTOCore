@@ -3,7 +3,6 @@ package com.gto.gtocore.mixin.emi;
 import appeng.integration.modules.jei.JEIPlugin;
 import com.enderio.base.common.integrations.jei.EnderIOJEI;
 import com.enderio.machines.common.integrations.jei.MachinesJEI;
-import committee.nova.mods.avaritia.init.compat.jei.JeiCompat;
 import dev.emi.emi.jemi.JemiPlugin;
 import dev.shadowsoffire.apotheosis.ench.compat.EnchJEIPlugin;
 import dev.shadowsoffire.apotheosis.potion.compat.PotionJEIPlugin;
@@ -34,7 +33,6 @@ public final class ForgePluginFinderMixin {
         plugins.add(new VanillaPlugin());
         plugins.add(new JeiInternalPlugin());
         plugins.add(new JEIPlugin());
-        plugins.add(new JeiCompat());
         plugins.add(new EnderIOJEI());
         plugins.add(new MachinesJEI());
         plugins.add(new JemiPlugin());

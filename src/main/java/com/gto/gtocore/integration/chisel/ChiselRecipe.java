@@ -7,8 +7,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 
-import com.matthewperiut.chisel.Chisel;
-import com.matthewperiut.chisel.block.ChiselGroupLookup;
+import com.periut.chisel.Chisel;
+import com.periut.chisel.block.ChiselGroupLookup;
 import dev.emi.emi.api.EmiRegistry;
 import dev.emi.emi.api.recipe.EmiRecipe;
 import dev.emi.emi.api.recipe.EmiRecipeCategory;
@@ -106,12 +106,12 @@ public final class ChiselRecipe {
             int startY = 4;
             int j = this.output.size();
             int rows = (int) Math.ceil((double) j / (double) 6.0F);
-            widgets.addTexture(TEXTURE, 21, 15, 108, 236 - (18 * (10 - rows) + 11), 0, 10);
-            widgets.addSlot(this.input.get(0), startX + 46, startY + 17).drawBack(false);
+            widgets.addTexture(TEXTURE, 21, 3, 108, 236 - (18 * (10 - rows) + 11), 0, 10);
+            widgets.addSlot(this.input.get(0), startX + 46, startY + 5).drawBack(false);
 
             for (int x = 0; x < 6; ++x) {
                 for (int y = 0; y < rows && 6 * y + x < j; ++y) {
-                    widgets.addSlot(this.output.get(6 * y + x), startX + 1 + 18 * x, startY + 56 + 18 * y).drawBack(false).recipeContext(this);
+                    widgets.addSlot(this.output.get(6 * y + x), startX + 1 + 18 * x, startY + 44 + 18 * y).drawBack(false).recipeContext(this);
                 }
             }
         }

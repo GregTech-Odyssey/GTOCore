@@ -9,13 +9,9 @@ import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
-import net.minecraft.data.recipes.FinishedRecipe;
-
-import java.util.function.Consumer;
-
 interface CosmosSimulation {
 
-    static void init(Consumer<FinishedRecipe> provider) {
+    static void init() {
         GTORecipeTypes.COSMOS_SIMULATION_RECIPES.recipeBuilder(GTOCore.id("cosmos_simulation1"))
                 .inputItems(GTOBlocks.QUANTUM_CHROMODYNAMIC_CHARGE.asStack())
                 .inputFluids(GTOMaterials.CosmicElement.getFluid(1024000))
@@ -164,6 +160,6 @@ interface CosmosSimulation {
                 .outputFluids(GTOMaterials.UnknowWater.getFluid(131072000))
                 .outputFluids(GTMaterials.UUMatter.getFluid(131072000))
                 .duration(1200)
-                .save(provider);
+                .save();
     }
 }

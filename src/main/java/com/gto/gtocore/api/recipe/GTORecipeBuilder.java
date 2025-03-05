@@ -6,6 +6,7 @@ import com.gto.gtocore.api.data.tag.ITagPrefix;
 import com.gto.gtocore.common.data.GTORecipes;
 import com.gto.gtocore.common.recipe.condition.GravityCondition;
 import com.gto.gtocore.common.recipe.condition.VacuumCondition;
+import com.gto.gtocore.utils.RegistriesUtils;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.capability.recipe.*;
@@ -46,7 +47,10 @@ import net.minecraftforge.fluids.FluidStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
@@ -226,7 +230,9 @@ public final class GTORecipeBuilder extends GTRecipeBuilder {
 
     @Override
     public GTORecipeBuilder inputItems(Object input) {
-        if (input instanceof Item item) {
+        if (input instanceof String string) {
+            return inputItems(string);
+        } else if (input instanceof Item item) {
             return inputItems(item);
         } else if (input instanceof Supplier<?> supplier && supplier.get() instanceof ItemLike item) {
             return inputItems(item.asItem());
@@ -248,7 +254,9 @@ public final class GTORecipeBuilder extends GTRecipeBuilder {
 
     @Override
     public GTORecipeBuilder inputItems(Object input, int count) {
-        if (input instanceof Item item) {
+        if (input instanceof String string) {
+            return inputItems(string, count);
+        } else if (input instanceof Item item) {
             return inputItems(item, count);
         } else if (input instanceof Supplier<?> supplier && supplier.get() instanceof ItemLike item) {
             return inputItems(item.asItem(), count);
@@ -373,7 +381,9 @@ public final class GTORecipeBuilder extends GTRecipeBuilder {
 
     @Override
     public GTORecipeBuilder outputItems(Object input) {
-        if (input instanceof Item item) {
+        if (input instanceof String string) {
+            return outputItems(string);
+        } else if (input instanceof Item item) {
             return outputItems(item);
         } else if (input instanceof Supplier<?> supplier && supplier.get() instanceof ItemLike item) {
             return outputItems(item.asItem());
@@ -391,7 +401,9 @@ public final class GTORecipeBuilder extends GTRecipeBuilder {
 
     @Override
     public GTORecipeBuilder outputItems(Object input, int count) {
-        if (input instanceof Item item) {
+        if (input instanceof String string) {
+            return outputItems(string, count);
+        } else if (input instanceof Item item) {
             return outputItems(item, count);
         } else if (input instanceof Supplier<?> supplier && supplier.get() instanceof ItemLike item) {
             return outputItems(item.asItem(), count);
@@ -1154,6 +1166,22 @@ public final class GTORecipeBuilder extends GTRecipeBuilder {
     public GTORecipeBuilder onSave(@Nullable BiConsumer<GTRecipeBuilder, Consumer<FinishedRecipe>> onSave) {
         this.onSave = onSave;
         return this;
+    }
+
+    public GTORecipeBuilder inputItems(String id) {
+        return inputItems(RegistriesUtils.getItemStack(id));
+    }
+
+    public GTORecipeBuilder inputItems(String id, int count) {
+        return inputItems(RegistriesUtils.getItemStack(id, count));
+    }
+
+    public GTORecipeBuilder outputItems(String id) {
+        return outputItems(RegistriesUtils.getItemStack(id));
+    }
+
+    public GTORecipeBuilder outputItems(String id, int count) {
+        return outputItems(RegistriesUtils.getItemStack(id, count));
     }
 
     public GTORecipeBuilder vacuum(int tier) {

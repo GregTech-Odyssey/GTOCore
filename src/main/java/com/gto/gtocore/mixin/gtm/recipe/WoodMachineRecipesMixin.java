@@ -35,7 +35,7 @@ import static com.gregtechceu.gtceu.api.GTValues.VA;
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.Iron;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.Wood;
-import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.*;
+import static com.gto.gtocore.common.data.GTORecipeTypes.*;
 
 @Mixin(WoodMachineRecipes.class)
 public final class WoodMachineRecipesMixin {
@@ -70,7 +70,7 @@ public final class WoodMachineRecipesMixin {
                 .outputItems(entry.strippedLog)
                 .outputItems(dust, Wood, 1)
                 .duration(160).EUt(VA[ULV])
-                .save(provider);
+                .save();
 
         // strip wood
         if (entry.wood != null && entry.strippedWood != null) LATHE_RECIPES.recipeBuilder("strip_" + entry.woodName + "_wood")
@@ -78,7 +78,7 @@ public final class WoodMachineRecipesMixin {
                 .outputItems(entry.strippedWood)
                 .outputItems(dust, Wood, 1)
                 .duration(160).EUt(VA[ULV])
-                .save(provider);
+                .save();
 
         // lathe stripped log
         if (entry.strippedLog != null) LATHE_RECIPES.recipeBuilder("lathe_stripped_" + entry.woodName + "_log")
@@ -86,7 +86,7 @@ public final class WoodMachineRecipesMixin {
                 .outputItems(rodLong, Wood, 4)
                 .outputItems(dust, Wood, 1)
                 .duration(160).EUt(VA[ULV])
-                .save(provider);
+                .save();
 
         // lathe stripped wood
         if (entry.strippedWood != null) LATHE_RECIPES.recipeBuilder("lathe_stripped_" + entry.woodName + "_wood")
@@ -94,7 +94,7 @@ public final class WoodMachineRecipesMixin {
                 .outputItems(rodLong, Wood, 4)
                 .outputItems(dust, Wood, 1)
                 .duration(160).EUt(VA[ULV])
-                .save(provider);
+                .save();
 
         if (entry.generateLogToPlankRecipe) {
             VanillaRecipeHelper.addShapelessRecipe(provider,
@@ -113,7 +113,7 @@ public final class WoodMachineRecipesMixin {
                     .outputItems(dust, Wood, 2)
                     .duration(200)
                     .EUt(VA[ULV])
-                    .save(provider);
+                    .save();
         }
 
         // door
@@ -134,7 +134,7 @@ public final class WoodMachineRecipesMixin {
                         .inputItems(new ItemStack(entry.planks, 4))
                         .inputFluids(Iron.getFluid(GTValues.L / 9))
                         .outputItems(entry.door)
-                        .duration(400).EUt(4).save(provider);
+                        .duration(400).EUt(4).save();
             } else {
                 VanillaRecipeHelper.addShapedRecipe(provider, recipeName, new ItemStack(entry.door),
                         "PTd", "PRS", "PPs",
@@ -149,7 +149,7 @@ public final class WoodMachineRecipesMixin {
                         .inputItems(new ItemStack(entry.planks, 4))
                         .inputFluids(Iron.getFluid(GTValues.L / 9))
                         .outputItems(entry.door)
-                        .duration(400).EUt(4).save(provider);
+                        .duration(400).EUt(4).save();
             }
         }
 
@@ -171,7 +171,7 @@ public final class WoodMachineRecipesMixin {
                     .inputItems(entry.getStick(), 1)
                     .inputFluids(Iron.getFluid(GTValues.L / 9))
                     .outputItems(entry.sign, 3)
-                    .duration(200).EUt(4).save(provider);
+                    .duration(200).EUt(4).save();
 
             // hanging sign
             if (entry.hangingSign != null && entry.strippedLog != null) {
@@ -191,7 +191,7 @@ public final class WoodMachineRecipesMixin {
                         .inputItems(Items.CHAIN, 2)
                         .outputItems(entry.hangingSign)
                         .circuitMeta(5)
-                        .duration(150).EUt(4).save(provider);
+                        .duration(150).EUt(4).save();
             }
         }
 
@@ -211,7 +211,7 @@ public final class WoodMachineRecipesMixin {
                     .inputItems(new ItemStack(entry.planks, 2))
                     .inputFluids(Iron.getFluid(GTValues.L / 9))
                     .outputItems(entry.trapdoor)
-                    .duration(200).EUt(4).save(provider);
+                    .duration(200).EUt(4).save();
         }
 
         // stairs
@@ -230,7 +230,7 @@ public final class WoodMachineRecipesMixin {
                     .inputItems(new ItemStack(entry.planks, 3))
                     .outputItems(new ItemStack(entry.stairs, 4))
                     .circuitMeta(7)
-                    .EUt(1).duration(100).save(provider);
+                    .EUt(1).duration(100).save();
         }
 
         // slab
@@ -244,7 +244,7 @@ public final class WoodMachineRecipesMixin {
                     .inputItems(entry.planks)
                     .outputItems(new ItemStack(entry.slab, 2))
                     .duration(200).EUt(VA[ULV])
-                    .save(provider);
+                    .save();
         }
 
         // fence
@@ -262,7 +262,7 @@ public final class WoodMachineRecipesMixin {
                     .outputItems(entry.fence)
                     .circuitMeta(13)
                     .duration(100).EUt(4)
-                    .save(provider);
+                    .save();
         }
 
         // fence gate
@@ -289,7 +289,7 @@ public final class WoodMachineRecipesMixin {
                     .inputItems(Tags.Items.RODS_WOODEN, 2)
                     .outputItems(entry.fenceGate)
                     .circuitMeta(2)
-                    .duration(100).EUt(4).save(provider);
+                    .duration(100).EUt(4).save();
         }
 
         // boat
@@ -309,7 +309,7 @@ public final class WoodMachineRecipesMixin {
                     .inputItems(new ItemStack(entry.planks, 5))
                     .outputItems(entry.boat)
                     .circuitMeta(15)
-                    .duration(100).EUt(4).save(provider);
+                    .duration(100).EUt(4).save();
 
             // chest boat
             if (entry.chestBoat != null) {
@@ -328,7 +328,7 @@ public final class WoodMachineRecipesMixin {
                         .inputItems(Tags.Items.CHESTS_WOODEN)
                         .outputItems(entry.chestBoat)
                         .circuitMeta(16)
-                        .duration(100).EUt(4).save(provider);
+                        .duration(100).EUt(4).save();
             }
         }
 
@@ -341,7 +341,7 @@ public final class WoodMachineRecipesMixin {
             CUTTER_RECIPES.recipeBuilder(name + "_button")
                     .inputItems(new ItemStack(entry.pressurePlate))
                     .outputItems(entry.button, 12)
-                    .duration(250).EUt(VA[ULV]).save(provider);
+                    .duration(250).EUt(VA[ULV]).save();
         }
 
         // preesure plate
@@ -357,7 +357,7 @@ public final class WoodMachineRecipesMixin {
                     .inputItems(spring, Iron)
                     .outputItems(entry.pressurePlate)
                     .circuitMeta(7)
-                    .duration(100).EUt(VA[ULV]).save(provider);
+                    .duration(100).EUt(VA[ULV]).save();
         }
     }
 }

@@ -3,23 +3,19 @@ package com.gto.gtocore.data.recipe.classified;
 import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.common.data.GTOMaterials;
 import com.gto.gtocore.common.data.GTORecipeTypes;
-import com.gto.gtocore.utils.RegistriesUtils;
 
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
-import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraftforge.fluids.FluidStack;
 
 import earth.terrarium.adastra.common.registry.ModFluids;
 
-import java.util.function.Consumer;
-
 interface FuelRefining {
 
-    static void init(Consumer<FinishedRecipe> provider) {
+    static void init() {
         GTORecipeTypes.FUEL_REFINING_RECIPES.recipeBuilder(GTOCore.id("stellar_energy_rocket_fuel"))
                 .inputItems(new ItemStack(Items.FIRE_CHARGE.asItem(), 64))
                 .inputItems(TagPrefix.dust, GTOMaterials.HmxExplosive, 8)
@@ -34,10 +30,10 @@ interface FuelRefining {
                 .EUt(7680)
                 .duration(7200)
                 .blastFurnaceTemp(14400)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.FUEL_REFINING_RECIPES.recipeBuilder(GTOCore.id("cryo_fuel"))
-                .inputItems(RegistriesUtils.getItemStack("ad_astra:ice_shard", 8))
+                .inputItems("ad_astra:ice_shard", 8)
                 .inputItems(TagPrefix.dust, GTMaterials.Carbon, 60)
                 .inputFluids(GTMaterials.Hydrogen.getFluid(42000))
                 .inputFluids(GTMaterials.Oxygen.getFluid(20000))
@@ -48,7 +44,7 @@ interface FuelRefining {
                 .EUt(30720)
                 .duration(6400)
                 .blastFurnaceTemp(11800)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.FUEL_REFINING_RECIPES.recipeBuilder(GTOCore.id("dense_hydrazine_fuel_mixture"))
                 .circuitMeta(3)
@@ -61,7 +57,7 @@ interface FuelRefining {
                 .EUt(1920)
                 .duration(800)
                 .blastFurnaceTemp(7400)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.FUEL_REFINING_RECIPES.recipeBuilder(GTOCore.id("high_octane_gasoline"))
                 .inputItems(TagPrefix.dust, GTMaterials.Carbon, 44)
@@ -75,7 +71,7 @@ interface FuelRefining {
                 .EUt(7680)
                 .duration(1200)
                 .blastFurnaceTemp(6800)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.FUEL_REFINING_RECIPES.recipeBuilder(GTOCore.id("rocket_fuel"))
                 .circuitMeta(1)
@@ -88,7 +84,7 @@ interface FuelRefining {
                 .EUt(1920)
                 .duration(1600)
                 .blastFurnaceTemp(5200)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.FUEL_REFINING_RECIPES.recipeBuilder(GTOCore.id("cetane_boosted_diesel_b"))
                 .inputItems(TagPrefix.dust, GTMaterials.Carbon, 12)
@@ -100,7 +96,7 @@ interface FuelRefining {
                 .EUt(1920)
                 .duration(600)
                 .blastFurnaceTemp(3600)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.FUEL_REFINING_RECIPES.recipeBuilder(GTOCore.id("rocket_fuel_h8n4c2o4"))
                 .circuitMeta(2)
@@ -113,7 +109,7 @@ interface FuelRefining {
                 .EUt(7680)
                 .duration(2000)
                 .blastFurnaceTemp(9000)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.FUEL_REFINING_RECIPES.recipeBuilder(GTOCore.id("rocket_fuel_rp_1"))
                 .circuitMeta(2)
@@ -124,7 +120,7 @@ interface FuelRefining {
                 .EUt(1920)
                 .duration(1200)
                 .blastFurnaceTemp(6300)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.FUEL_REFINING_RECIPES.recipeBuilder(GTOCore.id("cetane_boosted_diesel"))
                 .inputItems(TagPrefix.dust, GTMaterials.Carbon, 16)
@@ -137,7 +133,7 @@ interface FuelRefining {
                 .EUt(1920)
                 .duration(400)
                 .blastFurnaceTemp(4800)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.FUEL_REFINING_RECIPES.recipeBuilder(GTOCore.id("concentration_mixing_hyper_fuel_2"))
                 .inputItems(TagPrefix.dust, GTOMaterials.Starmetal)
@@ -148,7 +144,7 @@ interface FuelRefining {
                 .EUt(536870912)
                 .duration(800)
                 .blastFurnaceTemp(18800)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.FUEL_REFINING_RECIPES.recipeBuilder(GTOCore.id("hyper_fuel_1"))
                 .inputFluids(GTMaterials.NaquadriaSolution.getFluid(1000))
@@ -159,7 +155,7 @@ interface FuelRefining {
                 .EUt(491520)
                 .duration(400)
                 .blastFurnaceTemp(12400)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.FUEL_REFINING_RECIPES.recipeBuilder(GTOCore.id("rocket_fuel_cn3h7o3"))
                 .circuitMeta(4)
@@ -172,6 +168,6 @@ interface FuelRefining {
                 .EUt(7680)
                 .duration(1200)
                 .blastFurnaceTemp(8200)
-                .save(provider);
+                .save();
     }
 }

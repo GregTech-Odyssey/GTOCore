@@ -9,7 +9,6 @@ import com.gregtechceu.gtceu.api.data.chemical.material.properties.PropertyKey;
 import com.gregtechceu.gtceu.api.data.chemical.material.properties.WireProperties;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
-import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.utils.GTUtil;
 
 import net.minecraft.data.recipes.FinishedRecipe;
@@ -61,17 +60,17 @@ interface GTOWireCombiningHandler {
                         .outputItems(WIRE_DOUBLING_ORDER[startTier + i], material, 1)
                         .EUt(7)
                         .duration(mass * i)
-                        .save(provider);
+                        .save();
             }
         }
 
         if (property.getVoltage() < 33) {
-            GTRecipeTypes.COMPRESSOR_RECIPES.recipeBuilder(GTOCore.id(material.getName() + "_wires"))
+            GTORecipeTypes.COMPRESSOR_RECIPES.recipeBuilder(GTOCore.id(material.getName() + "_wires"))
                     .inputItems(WIRE_DOUBLING_ORDER[0], material, 2)
                     .outputItems(WIRE_DOUBLING_ORDER[1], material, 1)
                     .EUt(30)
                     .duration(mass)
-                    .save(provider);
+                    .save();
         }
 
         for (int i = 1; i < 5; i++) {
@@ -79,7 +78,7 @@ interface GTOWireCombiningHandler {
                     .inputItems(WIRE_DOUBLING_ORDER[i], material, 1)
                     .outputItems(WIRE_DOUBLING_ORDER[0], material, 1 << i)
                     .duration(mass * i)
-                    .save(provider);
+                    .save();
         }
     }
 
@@ -100,6 +99,6 @@ interface GTOWireCombiningHandler {
                 .outputItems(TagPrefix.plate, rubber,
                         (int) (prefix.secondaryMaterials().get(0).amount() / GTValues.M))
                 .duration(100).EUt(GTValues.VA[GTValues.ULV])
-                .save(provider);
+                .save();
     }
 }

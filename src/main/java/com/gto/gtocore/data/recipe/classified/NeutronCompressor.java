@@ -8,20 +8,16 @@ import com.gto.gtocore.common.data.GTORecipeTypes;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
-import net.minecraft.data.recipes.FinishedRecipe;
-
-import java.util.function.Consumer;
-
 interface NeutronCompressor {
 
-    static void init(Consumer<FinishedRecipe> provider) {
+    static void init() {
         GTORecipeTypes.NEUTRON_COMPRESSOR_RECIPES.recipeBuilder(GTOCore.id("combined_singularity_5"))
                 .inputItems(TagPrefix.block, GTMaterials.HastelloyX, 64)
                 .inputItems(TagPrefix.block, GTMaterials.RedSteel, 64)
                 .outputItems(GTOItems.COMBINED_SINGULARITY_5.asStack())
                 .EUt(2013265920)
                 .duration(200)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.NEUTRON_COMPRESSOR_RECIPES.recipeBuilder(GTOCore.id("combined_singularity_6"))
                 .inputItems(TagPrefix.block, GTOMaterials.HighDurabilityCompoundSteel, 64)
@@ -29,7 +25,7 @@ interface NeutronCompressor {
                 .outputItems(GTOItems.COMBINED_SINGULARITY_6.asStack())
                 .EUt(2013265920)
                 .duration(200)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.NEUTRON_COMPRESSOR_RECIPES.recipeBuilder(GTOCore.id("combined_singularity_7"))
                 .inputItems(TagPrefix.block, GTMaterials.HSSE, 64)
@@ -37,7 +33,7 @@ interface NeutronCompressor {
                 .outputItems(GTOItems.COMBINED_SINGULARITY_7.asStack())
                 .EUt(2013265920)
                 .duration(200)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.NEUTRON_COMPRESSOR_RECIPES.recipeBuilder(GTOCore.id("combined_singularity_8"))
                 .inputItems(TagPrefix.block, GTOMaterials.Pikyonium, 64)
@@ -45,7 +41,7 @@ interface NeutronCompressor {
                 .outputItems(GTOItems.COMBINED_SINGULARITY_8.asStack())
                 .EUt(2013265920)
                 .duration(200)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.NEUTRON_COMPRESSOR_RECIPES.recipeBuilder(GTOCore.id("combined_singularity_9"))
                 .inputItems(TagPrefix.block, GTOMaterials.AbyssalAlloy, 64)
@@ -53,7 +49,7 @@ interface NeutronCompressor {
                 .outputItems(GTOItems.COMBINED_SINGULARITY_9.asStack())
                 .EUt(2013265920)
                 .duration(200)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.NEUTRON_COMPRESSOR_RECIPES.recipeBuilder(GTOCore.id("combined_singularity_0"))
                 .inputItems(TagPrefix.block, GTOMaterials.Lafium, 64)
@@ -61,7 +57,7 @@ interface NeutronCompressor {
                 .outputItems(GTOItems.COMBINED_SINGULARITY_0.asStack())
                 .EUt(2013265920)
                 .duration(200)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.NEUTRON_COMPRESSOR_RECIPES.recipeBuilder(GTOCore.id("combined_singularity_1"))
                 .inputItems(TagPrefix.block, GTOMaterials.Enderite, 64)
@@ -69,7 +65,7 @@ interface NeutronCompressor {
                 .outputItems(GTOItems.COMBINED_SINGULARITY_1.asStack())
                 .EUt(2013265920)
                 .duration(200)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.NEUTRON_COMPRESSOR_RECIPES.recipeBuilder(GTOCore.id("combined_singularity_2"))
                 .inputItems(TagPrefix.block, GTMaterials.RutheniumTriniumAmericiumNeutronate, 64)
@@ -77,7 +73,7 @@ interface NeutronCompressor {
                 .outputItems(GTOItems.COMBINED_SINGULARITY_2.asStack())
                 .EUt(2013265920)
                 .duration(200)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.NEUTRON_COMPRESSOR_RECIPES.recipeBuilder(GTOCore.id("combined_singularity_3"))
                 .inputItems(TagPrefix.block, GTOMaterials.HastelloyK243, 64)
@@ -85,7 +81,7 @@ interface NeutronCompressor {
                 .outputItems(GTOItems.COMBINED_SINGULARITY_3.asStack())
                 .EUt(2013265920)
                 .duration(200)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.NEUTRON_COMPRESSOR_RECIPES.recipeBuilder(GTOCore.id("combined_singularity_4"))
                 .inputItems(TagPrefix.block, GTOMaterials.TitanSteel, 64)
@@ -93,7 +89,7 @@ interface NeutronCompressor {
                 .outputItems(GTOItems.COMBINED_SINGULARITY_4.asStack())
                 .EUt(2013265920)
                 .duration(200)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.NEUTRON_COMPRESSOR_RECIPES.recipeBuilder(GTOCore.id("combined_singularity_12"))
                 .inputItems(TagPrefix.block, GTMaterials.EnrichedNaquadahTriniumEuropiumDuranide, 64)
@@ -101,7 +97,7 @@ interface NeutronCompressor {
                 .outputItems(GTOItems.COMBINED_SINGULARITY_12.asStack())
                 .EUt(2013265920)
                 .duration(200)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.NEUTRON_COMPRESSOR_RECIPES.recipeBuilder(GTOCore.id("combined_singularity_13"))
                 .inputItems(TagPrefix.block, GTMaterials.BlueSteel, 64)
@@ -109,7 +105,7 @@ interface NeutronCompressor {
                 .outputItems(GTOItems.COMBINED_SINGULARITY_13.asStack())
                 .EUt(2013265920)
                 .duration(200)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.NEUTRON_COMPRESSOR_RECIPES.recipeBuilder(GTOCore.id("combined_singularity_14"))
                 .inputItems(TagPrefix.block, GTOMaterials.Cinobite, 64)
@@ -117,7 +113,7 @@ interface NeutronCompressor {
                 .outputItems(GTOItems.COMBINED_SINGULARITY_14.asStack())
                 .EUt(2013265920)
                 .duration(200)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.NEUTRON_COMPRESSOR_RECIPES.recipeBuilder(GTOCore.id("combined_singularity_15"))
                 .inputItems(TagPrefix.block, GTMaterials.MaragingSteel300, 64)
@@ -125,7 +121,7 @@ interface NeutronCompressor {
                 .outputItems(GTOItems.COMBINED_SINGULARITY_15.asStack())
                 .EUt(2013265920)
                 .duration(200)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.NEUTRON_COMPRESSOR_RECIPES.recipeBuilder(GTOCore.id("combined_singularity_10"))
                 .inputItems(TagPrefix.block, GTOMaterials.BlackTitanium, 64)
@@ -133,7 +129,7 @@ interface NeutronCompressor {
                 .outputItems(GTOItems.COMBINED_SINGULARITY_10.asStack())
                 .EUt(2013265920)
                 .duration(200)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.NEUTRON_COMPRESSOR_RECIPES.recipeBuilder(GTOCore.id("combined_singularity_11"))
                 .inputItems(TagPrefix.block, GTMaterials.Ultimet, 64)
@@ -141,6 +137,6 @@ interface NeutronCompressor {
                 .outputItems(GTOItems.COMBINED_SINGULARITY_11.asStack())
                 .EUt(2013265920)
                 .duration(200)
-                .save(provider);
+                .save();
     }
 }

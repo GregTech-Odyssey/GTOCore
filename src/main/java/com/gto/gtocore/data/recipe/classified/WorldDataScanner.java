@@ -9,13 +9,9 @@ import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
-import net.minecraft.data.recipes.FinishedRecipe;
-
-import java.util.function.Consumer;
-
 interface WorldDataScanner {
 
-    static void init(Consumer<FinishedRecipe> provider) {
+    static void init() {
         GTORecipeTypes.WORLD_DATA_SCANNER_RECIPES.recipeBuilder(GTOCore.id("end_data"))
                 .inputItems(GTItems.TOOL_DATA_STICK.asStack())
                 .inputItems(TagPrefix.dust, GTMaterials.Endstone, 64)
@@ -25,7 +21,7 @@ interface WorldDataScanner {
                 .EUt(2048)
                 .duration(4000)
                 .dimension(GTODimensions.PLUTO)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.WORLD_DATA_SCANNER_RECIPES.recipeBuilder(GTOCore.id("nether_data"))
                 .inputItems(GTItems.TOOL_DATA_STICK.asStack())
@@ -36,7 +32,7 @@ interface WorldDataScanner {
                 .EUt(512)
                 .duration(4000)
                 .dimension(GTODimensions.VENUS)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.WORLD_DATA_SCANNER_RECIPES.recipeBuilder(GTOCore.id("overworld_data"))
                 .inputItems(GTItems.TOOL_DATA_STICK.asStack())
@@ -47,6 +43,6 @@ interface WorldDataScanner {
                 .EUt(128)
                 .duration(4000)
                 .dimension(GTODimensions.OVERWORLD)
-                .save(provider);
+                .save();
     }
 }

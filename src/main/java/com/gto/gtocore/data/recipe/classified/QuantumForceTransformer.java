@@ -12,15 +12,11 @@ import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
-import net.minecraft.data.recipes.FinishedRecipe;
-
 import committee.nova.mods.avaritia.init.registry.ModItems;
-
-import java.util.function.Consumer;
 
 interface QuantumForceTransformer {
 
-    static void init(Consumer<FinishedRecipe> provider) {
+    static void init() {
         GTORecipeTypes.QUANTUM_FORCE_TRANSFORMER_RECIPES.recipeBuilder(GTOCore.id("hyper_stable_self_healing_adhesive"))
                 .chancedInput(ChemicalHelper.get(GTOTagPrefix.nanites, GTOMaterials.Uruium), 500, 0)
                 .inputItems(TagPrefix.dust, GTMaterials.ActivatedCarbon, 64)
@@ -30,7 +26,7 @@ interface QuantumForceTransformer {
                 .chancedOutput(GTOItems.HYPER_STABLE_SELF_HEALING_ADHESIVE.asStack(), 2000, 0)
                 .EUt(8053063680L)
                 .duration(20)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.QUANTUM_FORCE_TRANSFORMER_RECIPES.recipeBuilder(GTOCore.id("spacetime_hex_wire"))
                 .notConsumable(GTOTagPrefix.nanites, GTOMaterials.SpaceTime, 32)
@@ -40,7 +36,7 @@ interface QuantumForceTransformer {
                 .outputItems(TagPrefix.wireGtHex, GTOMaterials.SpaceTime)
                 .EUt(32212254720L)
                 .duration(6400)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.QUANTUM_FORCE_TRANSFORMER_RECIPES.recipeBuilder(GTOCore.id("magmatter"))
                 .notConsumable(GTOItems.SPACETIME_CATALYST.asStack())
@@ -51,7 +47,7 @@ interface QuantumForceTransformer {
                 .outputFluids(GTOMaterials.Magmatter.getFluid(1000))
                 .EUt(32212254720L)
                 .duration(800)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.QUANTUM_FORCE_TRANSFORMER_RECIPES.recipeBuilder(GTOCore.id("spatialfluid"))
                 .notConsumable(GTOItems.HYPERCUBE.asStack())
@@ -62,7 +58,7 @@ interface QuantumForceTransformer {
                 .outputFluids(GTOMaterials.SpatialFluid.getFluid(10000))
                 .EUt(8053063680L)
                 .duration(600)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.QUANTUM_FORCE_TRANSFORMER_RECIPES.recipeBuilder(GTOCore.id("radox"))
                 .inputItems(TagPrefix.dust, GTOMaterials.MolybdenumTrioxide, 16)
@@ -89,7 +85,7 @@ interface QuantumForceTransformer {
                 .outputFluids(GTOMaterials.Radox.getFluid(10800))
                 .EUt(503316480)
                 .duration(8000)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.QUANTUM_FORCE_TRANSFORMER_RECIPES.recipeBuilder(GTOCore.id("spacetime_double_wire"))
                 .notConsumable(GTOTagPrefix.nanites, GTOMaterials.SpaceTime, 4)
@@ -99,7 +95,7 @@ interface QuantumForceTransformer {
                 .outputItems(TagPrefix.wireGtDouble, GTOMaterials.SpaceTime)
                 .EUt(32212254720L)
                 .duration(800)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.QUANTUM_FORCE_TRANSFORMER_RECIPES.recipeBuilder(GTOCore.id("spacetime_octal_wire"))
                 .notConsumable(GTOTagPrefix.nanites, GTOMaterials.SpaceTime, 16)
@@ -109,7 +105,7 @@ interface QuantumForceTransformer {
                 .outputItems(TagPrefix.wireGtOctal, GTOMaterials.SpaceTime)
                 .EUt(32212254720L)
                 .duration(3200)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.QUANTUM_FORCE_TRANSFORMER_RECIPES.recipeBuilder(GTOCore.id("cosmic_ingot"))
                 .notConsumable(GTOTagPrefix.nanites, GTOMaterials.CosmicNeutronium)
@@ -122,7 +118,7 @@ interface QuantumForceTransformer {
                 .outputItems(TagPrefix.ingot, GTOMaterials.Cosmic)
                 .EUt(128849018880L)
                 .duration(200)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.QUANTUM_FORCE_TRANSFORMER_RECIPES.recipeBuilder(GTOCore.id("quantum_anomaly"))
                 .chancedInput(ChemicalHelper.get(GTOTagPrefix.nanites, GTOMaterials.Draconium), 100, 0)
@@ -132,7 +128,7 @@ interface QuantumForceTransformer {
                 .chancedOutput(GTOItems.QUANTUM_ANOMALY.asStack(), 1000, 0)
                 .EUt(2013265920)
                 .duration(400)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.QUANTUM_FORCE_TRANSFORMER_RECIPES.recipeBuilder(GTOCore.id("black_body_naquadria_supersolid"))
                 .chancedInput(ChemicalHelper.get(GTOTagPrefix.nanites, GTOMaterials.Uruium), 500, 0)
@@ -143,7 +139,7 @@ interface QuantumForceTransformer {
                 .chancedOutput(GTOItems.BLACK_BODY_NAQUADRIA_SUPERSOLID.asStack(), 2000, 0)
                 .EUt(8053063680L)
                 .duration(20)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.QUANTUM_FORCE_TRANSFORMER_RECIPES.recipeBuilder(GTOCore.id("spacetime_single_wire"))
                 .notConsumable(GTOTagPrefix.nanites, GTOMaterials.SpaceTime)
@@ -154,7 +150,7 @@ interface QuantumForceTransformer {
                 .outputItems(TagPrefix.wireGtSingle, GTOMaterials.SpaceTime)
                 .EUt(32212254720L)
                 .duration(400)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.QUANTUM_FORCE_TRANSFORMER_RECIPES.recipeBuilder(GTOCore.id("fullerene_polymer_matrix_pulp_dust"))
                 .notConsumable(GTOTagPrefix.nanites, GTOMaterials.Starmetal)
@@ -166,7 +162,7 @@ interface QuantumForceTransformer {
                 .outputItems(TagPrefix.dust, GTOMaterials.FullerenePolymerMatrixPulp, 16)
                 .EUt(2013265920)
                 .duration(400)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.QUANTUM_FORCE_TRANSFORMER_RECIPES.recipeBuilder(GTOCore.id("spacetime_quadruple_wire"))
                 .notConsumable(GTOTagPrefix.nanites, GTOMaterials.SpaceTime, 8)
@@ -176,7 +172,7 @@ interface QuantumForceTransformer {
                 .outputItems(TagPrefix.wireGtQuadruple, GTOMaterials.SpaceTime)
                 .EUt(32212254720L)
                 .duration(1600)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.QUANTUM_FORCE_TRANSFORMER_RECIPES.recipeBuilder(GTOCore.id("eternal_singularity_1"))
                 .notConsumable(GTOItems.ETERNITY_CATALYST.asStack())
@@ -203,7 +199,7 @@ interface QuantumForceTransformer {
                 .outputItems(ModItems.eternal_singularity.get(), 16)
                 .EUt(32212254720L)
                 .duration(200)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.QUANTUM_FORCE_TRANSFORMER_RECIPES.recipeBuilder(GTOCore.id("radox_gas"))
                 .notConsumable(GTOItems.QUANTUM_ANOMALY.asStack())
@@ -214,7 +210,7 @@ interface QuantumForceTransformer {
                 .outputFluids(GTOMaterials.RadoxGas.getFluid(100000))
                 .EUt(2013265920)
                 .duration(400)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.QUANTUM_FORCE_TRANSFORMER_RECIPES.recipeBuilder(GTOCore.id("taranium_dust"))
                 .notConsumable(ModItems.infinity_catalyst.get())
@@ -227,7 +223,7 @@ interface QuantumForceTransformer {
                 .outputItems(TagPrefix.dust, GTOMaterials.Taranium, 64)
                 .EUt(2013265920)
                 .duration(1600)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.QUANTUM_FORCE_TRANSFORMER_RECIPES.recipeBuilder(GTOCore.id("eternal_singularity"))
                 .notConsumable(ModItems.infinity_catalyst.get())
@@ -254,7 +250,7 @@ interface QuantumForceTransformer {
                 .outputItems(ModItems.eternal_singularity.get())
                 .EUt(32212254720L)
                 .duration(200)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.QUANTUM_FORCE_TRANSFORMER_RECIPES.recipeBuilder(GTOCore.id("timepiece"))
                 .notConsumable(GTOTagPrefix.nanites, GTOMaterials.WhiteDwarfMatter)
@@ -264,6 +260,6 @@ interface QuantumForceTransformer {
                 .chancedOutput(GTOItems.TIMEPIECE.asStack(), 2500, 0)
                 .EUt(2013265920)
                 .duration(200)
-                .save(provider);
+                .save();
     }
 }

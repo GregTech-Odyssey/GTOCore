@@ -5,23 +5,20 @@ import com.gto.gtocore.common.data.GTOItems;
 import com.gto.gtocore.common.data.GTOMaterials;
 import com.gto.gtocore.common.data.GTORecipeTypes;
 
-import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.world.item.ItemStack;
 
 import appeng.core.definitions.AEItems;
 
-import java.util.function.Consumer;
-
 interface MatterFabricator {
 
-    static void init(Consumer<FinishedRecipe> provider) {
+    static void init() {
         GTORecipeTypes.MATTER_FABRICATOR_RECIPES.recipeBuilder(GTOCore.id("uu_amplifier"))
                 .inputItems(GTOItems.SCRAP.asStack())
                 .circuitMeta(1)
                 .outputFluids(GTOMaterials.UuAmplifier.getFluid(1))
                 .EUt(491520)
                 .duration(200)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MATTER_FABRICATOR_RECIPES.recipeBuilder(GTOCore.id("uu_amplifier_1"))
                 .inputItems(GTOItems.SCRAP.asStack())
@@ -29,7 +26,7 @@ interface MatterFabricator {
                 .outputItems(new ItemStack(AEItems.MATTER_BALL.asItem(), 64))
                 .EUt(491520)
                 .duration(1)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MATTER_FABRICATOR_RECIPES.recipeBuilder(GTOCore.id("uu_amplifier_2"))
                 .inputItems(GTOItems.SCRAP_BOX.asStack())
@@ -37,7 +34,7 @@ interface MatterFabricator {
                 .outputItems(new ItemStack(AEItems.MATTER_BALL.asItem(), 576))
                 .EUt(1966080)
                 .duration(1)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.MATTER_FABRICATOR_RECIPES.recipeBuilder(GTOCore.id("uu_amplifier_a"))
                 .inputItems(GTOItems.SCRAP_BOX.asStack())
@@ -45,6 +42,6 @@ interface MatterFabricator {
                 .outputFluids(GTOMaterials.UuAmplifier.getFluid(9))
                 .EUt(1966080)
                 .duration(200)
-                .save(provider);
+                .save();
     }
 }

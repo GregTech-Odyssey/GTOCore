@@ -7,13 +7,9 @@ import com.gto.gtocore.common.data.GTORecipeTypes;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
-import net.minecraft.data.recipes.FinishedRecipe;
-
-import java.util.function.Consumer;
-
 interface VacuumDrying {
 
-    static void init(Consumer<FinishedRecipe> provider) {
+    static void init() {
         GTORecipeTypes.VACUUM_DRYING_RECIPES.recipeBuilder(GTOCore.id("grossular_front_pro"))
                 .inputFluids(GTOMaterials.GrossularFront.getFluid(4000))
                 .outputItems(TagPrefix.dust, GTMaterials.Calcium, 64)
@@ -27,7 +23,7 @@ interface VacuumDrying {
                 .EUt(30720)
                 .duration(2400)
                 .blastFurnaceTemp(5500)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.VACUUM_DRYING_RECIPES.recipeBuilder(GTOCore.id("sphalerite_front_pro"))
                 .inputFluids(GTOMaterials.SphaleriteFront.getFluid(4000))
@@ -42,7 +38,7 @@ interface VacuumDrying {
                 .EUt(30720)
                 .duration(2400)
                 .blastFurnaceTemp(5500)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.VACUUM_DRYING_RECIPES.recipeBuilder(GTOCore.id("chalcopyrite_front_pro"))
                 .inputFluids(GTOMaterials.ChalcopyriteFront.getFluid(4000))
@@ -57,7 +53,7 @@ interface VacuumDrying {
                 .EUt(7680)
                 .duration(2400)
                 .blastFurnaceTemp(4500)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.VACUUM_DRYING_RECIPES.recipeBuilder(GTOCore.id("nickel_front_pro"))
                 .inputFluids(GTOMaterials.NickelFront.getFluid(4000))
@@ -72,7 +68,7 @@ interface VacuumDrying {
                 .EUt(7680)
                 .duration(2400)
                 .blastFurnaceTemp(4500)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.VACUUM_DRYING_RECIPES.recipeBuilder(GTOCore.id("pyrope_front_pro"))
                 .inputFluids(GTOMaterials.PyropeFront.getFluid(4000))
@@ -87,7 +83,7 @@ interface VacuumDrying {
                 .EUt(1920)
                 .duration(2400)
                 .blastFurnaceTemp(3500)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.VACUUM_DRYING_RECIPES.recipeBuilder(GTOCore.id("platinum_front_pro"))
                 .inputFluids(GTOMaterials.PlatinumFront.getFluid(4000))
@@ -102,7 +98,7 @@ interface VacuumDrying {
                 .EUt(30720)
                 .duration(2400)
                 .blastFurnaceTemp(5500)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.VACUUM_DRYING_RECIPES.recipeBuilder(GTOCore.id("redstone_front_pro"))
                 .inputFluids(GTOMaterials.RedstoneFront.getFluid(4000))
@@ -117,7 +113,7 @@ interface VacuumDrying {
                 .EUt(7680)
                 .duration(2400)
                 .blastFurnaceTemp(4500)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.VACUUM_DRYING_RECIPES.recipeBuilder(GTOCore.id("almandine_front_pro"))
                 .inputFluids(GTOMaterials.AlmandineFront.getFluid(4000))
@@ -132,7 +128,7 @@ interface VacuumDrying {
                 .EUt(7680)
                 .duration(2400)
                 .blastFurnaceTemp(5500)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.VACUUM_DRYING_RECIPES.recipeBuilder(GTOCore.id("monazite_front_pro"))
                 .inputFluids(GTOMaterials.MonaziteFront.getFluid(4000))
@@ -147,7 +143,7 @@ interface VacuumDrying {
                 .EUt(122880)
                 .duration(2400)
                 .blastFurnaceTemp(5500)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.VACUUM_DRYING_RECIPES.recipeBuilder(GTOCore.id("spessartine_front_pro"))
                 .inputFluids(GTOMaterials.SpessartineFront.getFluid(4000))
@@ -162,7 +158,7 @@ interface VacuumDrying {
                 .EUt(30720)
                 .duration(2400)
                 .blastFurnaceTemp(5500)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.VACUUM_DRYING_RECIPES.recipeBuilder(GTOCore.id("pentlandite_front_pro"))
                 .inputFluids(GTOMaterials.PentlanditeFront.getFluid(4000))
@@ -177,7 +173,7 @@ interface VacuumDrying {
                 .EUt(30720)
                 .duration(2400)
                 .blastFurnaceTemp(5500)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.VACUUM_DRYING_RECIPES.recipeBuilder(GTOCore.id("enriched_naquadah_front_pro"))
                 .inputFluids(GTOMaterials.EnrichedNaquadahFront.getFluid(4000))
@@ -192,6 +188,6 @@ interface VacuumDrying {
                 .EUt(122880)
                 .duration(2400)
                 .blastFurnaceTemp(9500)
-                .save(provider);
+                .save();
     }
 }

@@ -12,7 +12,6 @@ import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
-import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
@@ -23,11 +22,9 @@ import com.enderio.base.common.init.EIOFluids;
 import com.enderio.base.common.init.EIOItems;
 import earth.terrarium.adastra.common.registry.ModFluids;
 
-import java.util.function.Consumer;
-
 interface Incubator {
 
-    static void init(Consumer<FinishedRecipe> provider) {
+    static void init() {
         GTORecipeTypes.INCUBATOR_RECIPES.recipeBuilder(GTOCore.id("certus_quartz_essence"))
                 .notConsumable(GTOItems.DIMENSION_DATA.asStack())
                 .inputItems(GTOItems.ESSENCE_SEED.asStack())
@@ -39,7 +36,7 @@ interface Incubator {
                 .outputItems(GTOItems.CERTUS_QUARTZ_ESSENCE.asStack(64))
                 .EUt(480)
                 .duration(12000)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.INCUBATOR_RECIPES.recipeBuilder(GTOCore.id("monazite_vein_essence"))
                 .notConsumable(GTOItems.DIMENSION_DATA.asStack())
@@ -52,7 +49,7 @@ interface Incubator {
                 .outputItems(GTOItems.MONAZITE_VEIN_ESSENCE.asStack(64))
                 .EUt(480)
                 .duration(12000)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.INCUBATOR_RECIPES.recipeBuilder(GTOCore.id("biomediumraw1"))
                 .inputItems(GTOItems.BIOLOGICAL_CELLS.asStack(64))
@@ -65,7 +62,7 @@ interface Incubator {
                 .addCondition(new GravityCondition(true))
                 .addData("filter_casing", 2)
                 .addData("radioactivity", 120)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.INCUBATOR_RECIPES.recipeBuilder(GTOCore.id("iron_vein_essence"))
                 .notConsumable(GTOItems.DIMENSION_DATA.asStack())
@@ -79,7 +76,7 @@ interface Incubator {
                 .outputItems(GTOItems.IRON_VEIN_ESSENCE.asStack(64))
                 .EUt(480)
                 .duration(12000)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.INCUBATOR_RECIPES.recipeBuilder(GTOCore.id("variation_wood"))
                 .inputItems(GTOBlocks.BARNARDA_C_LOG.asStack(64))
@@ -93,7 +90,7 @@ interface Incubator {
                 .duration(2400)
                 .addData("filter_casing", 3)
                 .addData("radioactivity", 440)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.INCUBATOR_RECIPES.recipeBuilder(GTOCore.id("lubricant_vein_essence"))
                 .notConsumable(GTOItems.DIMENSION_DATA.asStack())
@@ -107,7 +104,7 @@ interface Incubator {
                 .outputItems(GTOItems.LUBRICANT_VEIN_ESSENCE.asStack(64))
                 .EUt(480)
                 .duration(12000)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.INCUBATOR_RECIPES.recipeBuilder(GTOCore.id("lapis_vein_essence"))
                 .notConsumable(GTOItems.DIMENSION_DATA.asStack())
@@ -121,7 +118,7 @@ interface Incubator {
                 .outputItems(GTOItems.LAPIS_VEIN_ESSENCE.asStack(64))
                 .EUt(480)
                 .duration(12000)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.INCUBATOR_RECIPES.recipeBuilder(GTOCore.id("stem_cells"))
                 .chancedInput(GTOItems.GLACIO_SPIRIT.asStack(), 6000, 500)
@@ -135,7 +132,7 @@ interface Incubator {
                 .addCondition(new GravityCondition(true))
                 .addData("filter_casing", 2)
                 .addData("radioactivity", 10)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.INCUBATOR_RECIPES.recipeBuilder(GTOCore.id("copper_vein_essence"))
                 .notConsumable(GTOItems.DIMENSION_DATA.asStack())
@@ -149,7 +146,7 @@ interface Incubator {
                 .outputItems(GTOItems.COPPER_VEIN_ESSENCE.asStack(64))
                 .EUt(480)
                 .duration(12000)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.INCUBATOR_RECIPES.recipeBuilder(GTOCore.id("nickel_vein_essence"))
                 .notConsumable(GTOItems.DIMENSION_DATA.asStack())
@@ -163,7 +160,7 @@ interface Incubator {
                 .outputItems(GTOItems.NICKEL_VEIN_ESSENCE.asStack(64))
                 .EUt(480)
                 .duration(12000)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.INCUBATOR_RECIPES.recipeBuilder(GTOCore.id("oilsands_vein_essence"))
                 .notConsumable(GTOItems.DIMENSION_DATA.asStack())
@@ -174,7 +171,7 @@ interface Incubator {
                 .outputItems(GTOItems.OILSANDS_VEIN_ESSENCE.asStack(64))
                 .EUt(480)
                 .duration(12000)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.INCUBATOR_RECIPES.recipeBuilder(GTOCore.id("banded_iron_vein_essence"))
                 .notConsumable(GTOItems.DIMENSION_DATA.asStack())
@@ -188,7 +185,7 @@ interface Incubator {
                 .outputItems(GTOItems.BANDED_IRON_VEIN_ESSENCE.asStack(64))
                 .EUt(480)
                 .duration(12000)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.INCUBATOR_RECIPES.recipeBuilder(GTOCore.id("chorus_fruit"))
                 .notConsumable(new ItemStack(Blocks.CHORUS_FLOWER.asItem(), 64))
@@ -198,7 +195,7 @@ interface Incubator {
                 .EUt(120)
                 .duration(1200)
                 .addData("radioactivity", 230)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.INCUBATOR_RECIPES.recipeBuilder(GTOCore.id("magnetite_vein_end_essence"))
                 .notConsumable(GTOItems.DIMENSION_DATA.asStack())
@@ -212,7 +209,7 @@ interface Incubator {
                 .outputItems(GTOItems.MAGNETITE_VEIN_END_ESSENCE.asStack(64))
                 .EUt(480)
                 .duration(12000)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.INCUBATOR_RECIPES.recipeBuilder(GTOCore.id("pitchblende_vein_end_essence"))
                 .notConsumable(GTOItems.DIMENSION_DATA.asStack())
@@ -224,7 +221,7 @@ interface Incubator {
                 .outputItems(GTOItems.PITCHBLENDE_VEIN_ESSENCE.asStack(64))
                 .EUt(480)
                 .duration(12000)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.INCUBATOR_RECIPES.recipeBuilder(GTOCore.id("seaweedbroth"))
                 .inputItems(new ItemStack(Blocks.KELP.asItem(), 64))
@@ -238,7 +235,7 @@ interface Incubator {
                 .duration(4800)
                 .addData("filter_casing", 2)
                 .addData("radioactivity", 80)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.INCUBATOR_RECIPES.recipeBuilder(GTOCore.id("galena_vein_essence"))
                 .notConsumable(GTOItems.DIMENSION_DATA.asStack())
@@ -251,7 +248,7 @@ interface Incubator {
                 .outputItems(GTOItems.GALENA_VEIN_ESSENCE.asStack(64))
                 .EUt(480)
                 .duration(12000)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.INCUBATOR_RECIPES.recipeBuilder(GTOCore.id("saltpeter_vein_essence"))
                 .notConsumable(GTOItems.DIMENSION_DATA.asStack())
@@ -265,7 +262,7 @@ interface Incubator {
                 .outputItems(GTOItems.SALTPETER_VEIN_ESSENCE.asStack(64))
                 .EUt(480)
                 .duration(12000)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.INCUBATOR_RECIPES.recipeBuilder(GTOCore.id("molybdenum_vein_essence"))
                 .notConsumable(GTOItems.DIMENSION_DATA.asStack())
@@ -279,7 +276,7 @@ interface Incubator {
                 .outputItems(GTOItems.MOLYBDENUM_VEIN_ESSENCE.asStack(64))
                 .EUt(480)
                 .duration(12000)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.INCUBATOR_RECIPES.recipeBuilder(GTOCore.id("dragon_cells"))
                 .inputItems(GTOItems.DRAGON_STEM_CELLS.asStack(64))
@@ -291,7 +288,7 @@ interface Incubator {
                 .duration(1600)
                 .addData("filter_casing", 3)
                 .addData("radioactivity", 560)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.INCUBATOR_RECIPES.recipeBuilder(GTOCore.id("salts_vein_essence"))
                 .notConsumable(GTOItems.DIMENSION_DATA.asStack())
@@ -305,7 +302,7 @@ interface Incubator {
                 .outputItems(GTOItems.SALTS_VEIN_ESSENCE.asStack(64))
                 .EUt(480)
                 .duration(12000)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.INCUBATOR_RECIPES.recipeBuilder(GTOCore.id("redstone_vein_essence"))
                 .notConsumable(GTOItems.DIMENSION_DATA.asStack())
@@ -318,7 +315,7 @@ interface Incubator {
                 .outputItems(GTOItems.REDSTONE_VEIN_ESSENCE.asStack(64))
                 .EUt(480)
                 .duration(12000)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.INCUBATOR_RECIPES.recipeBuilder(GTOCore.id("apatite_vein_essence"))
                 .notConsumable(GTOItems.DIMENSION_DATA.asStack())
@@ -331,7 +328,7 @@ interface Incubator {
                 .outputItems(GTOItems.APATITE_VEIN_ESSENCE.asStack(64))
                 .EUt(480)
                 .duration(12000)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.INCUBATOR_RECIPES.recipeBuilder(GTOCore.id("xenoxene"))
                 .inputItems(TagPrefix.dust, GTMaterials.AntimonyTrioxide, 16)
@@ -342,7 +339,7 @@ interface Incubator {
                 .duration(2400)
                 .addData("filter_casing", 3)
                 .addData("radioactivity", 360)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.INCUBATOR_RECIPES.recipeBuilder(GTOCore.id("sheldonite_vein_essence"))
                 .notConsumable(GTOItems.DIMENSION_DATA.asStack())
@@ -356,7 +353,7 @@ interface Incubator {
                 .outputItems(GTOItems.SHELDONITE_VEIN_ESSENCE.asStack(64))
                 .EUt(480)
                 .duration(12000)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.INCUBATOR_RECIPES.recipeBuilder(GTOCore.id("mica_vein_essence"))
                 .notConsumable(GTOItems.DIMENSION_DATA.asStack())
@@ -370,7 +367,7 @@ interface Incubator {
                 .outputItems(GTOItems.MICA_VEIN_ESSENCE.asStack(64))
                 .EUt(480)
                 .duration(12000)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.INCUBATOR_RECIPES.recipeBuilder(GTOCore.id("nether_quartz_vein_essence"))
                 .notConsumable(GTOItems.DIMENSION_DATA.asStack())
@@ -383,7 +380,7 @@ interface Incubator {
                 .outputItems(GTOItems.NETHER_QUARTZ_VEIN_ESSENCE.asStack(64))
                 .EUt(480)
                 .duration(12000)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.INCUBATOR_RECIPES.recipeBuilder(GTOCore.id("olivine_vein_essence"))
                 .notConsumable(GTOItems.DIMENSION_DATA.asStack())
@@ -397,7 +394,7 @@ interface Incubator {
                 .outputItems(GTOItems.OLIVINE_VEIN_ESSENCE.asStack(64))
                 .EUt(480)
                 .duration(12000)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.INCUBATOR_RECIPES.recipeBuilder(GTOCore.id("beryllium_vein_essence"))
                 .notConsumable(GTOItems.DIMENSION_DATA.asStack())
@@ -409,7 +406,7 @@ interface Incubator {
                 .outputItems(GTOItems.BERYLLIUM_VEIN_ESSENCE.asStack(64))
                 .EUt(480)
                 .duration(12000)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.INCUBATOR_RECIPES.recipeBuilder(GTOCore.id("mineral_sand_vein_essence"))
                 .notConsumable(GTOItems.DIMENSION_DATA.asStack())
@@ -423,7 +420,7 @@ interface Incubator {
                 .outputItems(GTOItems.MINERAL_SAND_VEIN_ESSENCE.asStack(64))
                 .EUt(480)
                 .duration(12000)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.INCUBATOR_RECIPES.recipeBuilder(GTOCore.id("topaz_vein_essence"))
                 .notConsumable(GTOItems.DIMENSION_DATA.asStack())
@@ -437,7 +434,7 @@ interface Incubator {
                 .outputItems(GTOItems.TOPAZ_VEIN_ESSENCE.asStack(64))
                 .EUt(480)
                 .duration(12000)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.INCUBATOR_RECIPES.recipeBuilder(GTOCore.id("manganese_vein_essence"))
                 .notConsumable(GTOItems.DIMENSION_DATA.asStack())
@@ -450,7 +447,7 @@ interface Incubator {
                 .outputItems(GTOItems.MANGANESE_VEIN_ESSENCE.asStack(64))
                 .EUt(480)
                 .duration(12000)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.INCUBATOR_RECIPES.recipeBuilder(GTOCore.id("cassiterite_vein_essence"))
                 .notConsumable(GTOItems.DIMENSION_DATA.asStack())
@@ -462,7 +459,7 @@ interface Incubator {
                 .outputItems(GTOItems.CASSITERITE_VEIN_ESSENCE.asStack(64))
                 .EUt(480)
                 .duration(12000)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.INCUBATOR_RECIPES.recipeBuilder(GTOCore.id("naquadah_vein_essence"))
                 .notConsumable(GTOItems.DIMENSION_DATA.asStack())
@@ -474,7 +471,7 @@ interface Incubator {
                 .outputItems(GTOItems.NAQUADAH_VEIN_ESSENCE.asStack(64))
                 .EUt(480)
                 .duration(12000)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.INCUBATOR_RECIPES.recipeBuilder(GTOCore.id("sapphire_vein_essence"))
                 .notConsumable(GTOItems.DIMENSION_DATA.asStack())
@@ -488,7 +485,7 @@ interface Incubator {
                 .outputItems(GTOItems.SAPPHIRE_VEIN_ESSENCE.asStack(64))
                 .EUt(480)
                 .duration(12000)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.INCUBATOR_RECIPES.recipeBuilder(GTOCore.id("diamond_vein_essence"))
                 .notConsumable(GTOItems.DIMENSION_DATA.asStack())
@@ -500,7 +497,7 @@ interface Incubator {
                 .outputItems(GTOItems.DIAMOND_VEIN_ESSENCE.asStack(64))
                 .EUt(480)
                 .duration(12000)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.INCUBATOR_RECIPES.recipeBuilder(GTOCore.id("bauxite_vein_end_essence"))
                 .notConsumable(GTOItems.DIMENSION_DATA.asStack())
@@ -513,7 +510,7 @@ interface Incubator {
                 .outputItems(GTOItems.BAUXITE_VEIN_ESSENCE.asStack(64))
                 .EUt(480)
                 .duration(12000)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.INCUBATOR_RECIPES.recipeBuilder(GTOCore.id("garnet_vein_essence"))
                 .notConsumable(GTOItems.DIMENSION_DATA.asStack())
@@ -527,7 +524,7 @@ interface Incubator {
                 .outputItems(GTOItems.GARNET_VEIN_ESSENCE.asStack(64))
                 .EUt(480)
                 .duration(12000)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.INCUBATOR_RECIPES.recipeBuilder(GTOCore.id("garnet_tin_vein_essence"))
                 .notConsumable(GTOItems.DIMENSION_DATA.asStack())
@@ -541,7 +538,7 @@ interface Incubator {
                 .outputItems(GTOItems.GARNET_TIN_VEIN_ESSENCE.asStack(64))
                 .EUt(480)
                 .duration(12000)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.INCUBATOR_RECIPES.recipeBuilder(GTOCore.id("biological_cells"))
                 .inputItems(GTItems.STEM_CELLS.asStack(64))
@@ -553,7 +550,7 @@ interface Incubator {
                 .duration(800)
                 .addData("filter_casing", 2)
                 .addData("radioactivity", 60)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.INCUBATOR_RECIPES.recipeBuilder(GTOCore.id("glacio_spirit"))
                 .chancedInput(GTOItems.GLACIO_SPIRIT.asStack(4), 1000, 100)
@@ -565,7 +562,7 @@ interface Incubator {
                 .EUt(30720)
                 .duration(2000)
                 .addData("radioactivity", 40)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.INCUBATOR_RECIPES.recipeBuilder(GTOCore.id("tetrahedrite_vein_essence"))
                 .notConsumable(GTOItems.DIMENSION_DATA.asStack())
@@ -578,7 +575,7 @@ interface Incubator {
                 .outputItems(GTOItems.TETRAHEDRITE_VEIN_ESSENCE.asStack(64))
                 .EUt(480)
                 .duration(12000)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.INCUBATOR_RECIPES.recipeBuilder(GTOCore.id("biomediumraw"))
                 .inputItems(GTItems.STEM_CELLS.asStack(64))
@@ -591,7 +588,7 @@ interface Incubator {
                 .addCondition(new GravityCondition(true))
                 .addData("filter_casing", 2)
                 .addData("radioactivity", 80)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.INCUBATOR_RECIPES.recipeBuilder(GTOCore.id("copper_tin_vein_essence"))
                 .notConsumable(GTOItems.DIMENSION_DATA.asStack())
@@ -605,7 +602,7 @@ interface Incubator {
                 .outputItems(GTOItems.COPPER_TIN_VEIN_ESSENCE.asStack(64))
                 .EUt(480)
                 .duration(12000)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.INCUBATOR_RECIPES.recipeBuilder(GTOCore.id("space_essence"))
                 .inputItems(TagUtils.createTag(GTOCore.id("vein_essence")))
@@ -617,7 +614,7 @@ interface Incubator {
                 .EUt(480)
                 .duration(1200)
                 .addData("radioactivity", 180)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.INCUBATOR_RECIPES.recipeBuilder(GTOCore.id("cow_spawn_egg"))
                 .notConsumable(EIOItems.FILLED_SOUL_VIAL.asStack())
@@ -629,7 +626,7 @@ interface Incubator {
                 .EUt(480)
                 .duration(1200)
                 .addData("radioactivity", 120)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.INCUBATOR_RECIPES.recipeBuilder(GTOCore.id("echo"))
                 .notConsumable(new ItemStack(Blocks.SCULK_SHRIEKER.asItem(), 64))
@@ -644,7 +641,7 @@ interface Incubator {
                 .duration(2400)
                 .addData("filter_casing", 3)
                 .addData("radioactivity", 380)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.INCUBATOR_RECIPES.recipeBuilder(GTOCore.id("sulfur_vein_essence"))
                 .notConsumable(GTOItems.DIMENSION_DATA.asStack())
@@ -657,7 +654,7 @@ interface Incubator {
                 .outputItems(GTOItems.SULFUR_VEIN_ESSENCE.asStack(64))
                 .EUt(480)
                 .duration(12000)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.INCUBATOR_RECIPES.recipeBuilder(GTOCore.id("variation_wood1"))
                 .inputItems(GTOBlocks.BARNARDA_C_LOG.asStack(64))
@@ -671,7 +668,7 @@ interface Incubator {
                 .duration(2400)
                 .addData("filter_casing", 3)
                 .addData("radioactivity", 440)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.INCUBATOR_RECIPES.recipeBuilder(GTOCore.id("coal_vein_essence"))
                 .notConsumable(GTOItems.DIMENSION_DATA.asStack())
@@ -682,7 +679,7 @@ interface Incubator {
                 .outputItems(GTOItems.COAL_VEIN_ESSENCE.asStack(64))
                 .EUt(480)
                 .duration(12000)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.INCUBATOR_RECIPES.recipeBuilder(GTOCore.id("scheelite_vein_essence"))
                 .notConsumable(GTOItems.DIMENSION_DATA.asStack())
@@ -695,6 +692,6 @@ interface Incubator {
                 .outputItems(GTOItems.SCHEELITE_VEIN_ESSENCE.asStack(64))
                 .EUt(480)
                 .duration(12000)
-                .save(provider);
+                .save();
     }
 }

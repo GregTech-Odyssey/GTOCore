@@ -9,13 +9,9 @@ import com.gregtechceu.gtceu.api.data.chemical.material.MarkerMaterials;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.common.data.GTItems;
 
-import net.minecraft.data.recipes.FinishedRecipe;
-
-import java.util.function.Consumer;
-
 interface PrecisionLaserEngraver {
 
-    static void init(Consumer<FinishedRecipe> provider) {
+    static void init() {
         GTORecipeTypes.PRECISION_LASER_ENGRAVER_RECIPES.recipeBuilder(GTOCore.id("high_precision_crystal_soc"))
                 .inputItems(GTItems.CRYSTAL_SYSTEM_ON_CHIP.asStack())
                 .notConsumable(GTOItems.LITHOGRAPHY_MASK.asStack())
@@ -30,7 +26,7 @@ interface PrecisionLaserEngraver {
                 .outputItems(GTOItems.HIGH_PRECISION_CRYSTAL_SOC.asStack())
                 .EUt(7864320)
                 .duration(2400)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.PRECISION_LASER_ENGRAVER_RECIPES.recipeBuilder(GTOCore.id("pm_wafer"))
                 .inputItems(GTOItems.TARANIUM_WAFER.asStack())
@@ -46,7 +42,7 @@ interface PrecisionLaserEngraver {
                 .outputItems(GTOItems.PM_WAFER.asStack())
                 .EUt(1966080)
                 .duration(1800)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.PRECISION_LASER_ENGRAVER_RECIPES.recipeBuilder(GTOCore.id("fm_wafer"))
                 .inputItems(GTOItems.PM_WAFER.asStack())
@@ -62,7 +58,7 @@ interface PrecisionLaserEngraver {
                 .outputItems(GTOItems.FM_WAFER.asStack())
                 .EUt(7864320)
                 .duration(2800)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.PRECISION_LASER_ENGRAVER_RECIPES.recipeBuilder(GTOCore.id("nm_wafer"))
                 .inputItems(GTOItems.RUTHERFORDIUM_AMPROSIUM_WAFER.asStack())
@@ -78,7 +74,7 @@ interface PrecisionLaserEngraver {
                 .outputItems(GTOItems.NM_WAFER.asStack())
                 .EUt(491520)
                 .duration(900)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.PRECISION_LASER_ENGRAVER_RECIPES.recipeBuilder(GTOCore.id("raw_photon_carrying_wafer"))
                 .inputItems(GTOItems.RUTHERFORDIUM_AMPROSIUM_WAFER.asStack())
@@ -94,7 +90,7 @@ interface PrecisionLaserEngraver {
                 .outputItems(GTOItems.RAW_PHOTON_CARRYING_WAFER.asStack())
                 .EUt(1966080)
                 .duration(600)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.PRECISION_LASER_ENGRAVER_RECIPES.recipeBuilder(GTOCore.id("prepared_cosmic_soc_wafer"))
                 .inputItems(GTOItems.TARANIUM_WAFER.asStack())
@@ -110,6 +106,6 @@ interface PrecisionLaserEngraver {
                 .outputItems(GTOItems.PREPARED_COSMIC_SOC_WAFER.asStack())
                 .EUt(31457280)
                 .duration(4800)
-                .save(provider);
+                .save();
     }
 }

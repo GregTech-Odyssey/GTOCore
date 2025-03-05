@@ -32,7 +32,6 @@ import java.util.function.Consumer;
 
 import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlags.*;
-import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.*;
 import static com.gto.gtocore.api.data.tag.GTOTagPrefix.*;
 import static com.gto.gtocore.common.data.GTORecipeTypes.*;
 
@@ -120,7 +119,7 @@ interface GTOPartsRecipeHandler {
                 .outputItems(screwStack)
                 .duration(Math.max(1, mass / 8))
                 .EUt(4)
-                .save(provider);
+                .save();
 
         if (mass < 240 && material.getBlastTemperature() < 3600)
             VanillaRecipeHelper.addShapedRecipe(provider, String.format("screw_%s", material.getName()), screwStack, "fX", "X ", 'X', stack);
@@ -140,7 +139,7 @@ interface GTOPartsRecipeHandler {
                 .outputItems(stack)
                 .duration(mass)
                 .EUt(24)
-                .save(provider);
+                .save();
 
         if (material.hasFlag(NO_SMASHING)) {
             EXTRUDER_RECIPES.recipeBuilder("extrude_" + material.getName() + "_ingot_to_foil")
@@ -149,7 +148,7 @@ interface GTOPartsRecipeHandler {
                     .outputItems(stack)
                     .duration(mass << 1)
                     .EUt(96)
-                    .save(provider);
+                    .save();
         }
     }
 
@@ -160,14 +159,14 @@ interface GTOPartsRecipeHandler {
                 .inputItems(plate, material)
                 .outputItems(stack)
                 .outputItems(dustSmall, material)
-                .duration(1200).EUt(120).save(provider);
+                .duration(1200).EUt(120).save();
 
         if (!ChemicalHelper.get(gemExquisite, material).isEmpty()) {
             LATHE_RECIPES.recipeBuilder("lathe_" + material.getName() + "_gem_to_lens")
                     .inputItems(gemExquisite, material)
                     .outputItems(stack)
                     .outputItems(dust, material, 2)
-                    .duration(2400).EUt(30).save(provider);
+                    .duration(2400).EUt(30).save();
         }
     }
 
@@ -185,14 +184,14 @@ interface GTOPartsRecipeHandler {
                     .outputItems(fineWireStack.copyWithCount(4))
                     .duration(mass * 3 / 2)
                     .EUt(VA[ULV])
-                    .save(provider);
+                    .save();
         } else {
             WIREMILL_RECIPES.recipeBuilder("mill_" + material.getName() + "ingot_to_fine_wire")
                     .inputItems(ingot, material)
                     .outputItems(fineWireStack.copyWithCount(8))
                     .duration(mass * 3)
                     .EUt(VA[ULV])
-                    .save(provider);
+                    .save();
         }
     }
 
@@ -208,7 +207,7 @@ interface GTOPartsRecipeHandler {
                     .outputItems(gearPrefix, material)
                     .duration(mass * 10)
                     .EUt(8L * voltageMultiplier)
-                    .save(provider);
+                    .save();
 
             if (material.hasFlag(NO_SMASHING)) {
                 EXTRUDER_RECIPES.recipeBuilder("extrude_" + material.getName() + "_dust_to_gear")
@@ -217,7 +216,7 @@ interface GTOPartsRecipeHandler {
                         .outputItems(gearPrefix, material)
                         .duration(mass * 10)
                         .EUt(8L * voltageMultiplier)
-                        .save(provider);
+                        .save();
             }
         }
 
@@ -229,7 +228,7 @@ interface GTOPartsRecipeHandler {
                     .outputItems(stack)
                     .duration(isSmall ? 20 : 100)
                     .EUt(VA[ULV])
-                    .save(provider);
+                    .save();
         }
 
         if (material.hasFlag(GENERATE_PLATE) && material.hasFlag(GENERATE_ROD)) {
@@ -246,7 +245,7 @@ interface GTOPartsRecipeHandler {
                         .outputItems(stack)
                         .duration(mass << 1)
                         .EUt(material.getBlastTemperature() >= 2800 ? 256 : 64)
-                        .save(provider);
+                        .save();
 
                 if (material.hasFlag(NO_SMASHING)) {
                     EXTRUDER_RECIPES.recipeBuilder("extrude_" + material.getName() + "_dust_to_small_gear")
@@ -255,7 +254,7 @@ interface GTOPartsRecipeHandler {
                             .outputItems(stack)
                             .duration(mass << 1)
                             .EUt(material.getBlastTemperature() >= 2800 ? 256 : 64)
-                            .save(provider);
+                            .save();
                 }
             } else if (mass < 240 && material.getBlastTemperature() < 3600) {
                 VanillaRecipeHelper.addShapedRecipe(provider, String.format("gear_%s", material.getName()), stack,
@@ -278,7 +277,7 @@ interface GTOPartsRecipeHandler {
                         .outputItems(stack)
                         .duration(40)
                         .EUt(VA[ULV])
-                        .save(provider);
+                        .save();
             }
         }
     }
@@ -297,7 +296,7 @@ interface GTOPartsRecipeHandler {
                 .inputItems(ingot, material, 2)
                 .outputItems(stack)
                 .circuitMeta(2)
-                .save(provider);
+                .save();
     }
 
     private static void processPlateDense(Material material, Consumer<FinishedRecipe> provider) {
@@ -312,7 +311,7 @@ interface GTOPartsRecipeHandler {
                     .duration(mass * 11)
                     .circuitMeta(3)
                     .EUt(96)
-                    .save(provider);
+                    .save();
         } else {
             GTORecipeTypes.ROLLING_RECIPES.recipeBuilder("rolling_" + material.getName() + "_plate_to_dense_plate")
                     .inputItems(plate, material, 9)
@@ -320,7 +319,7 @@ interface GTOPartsRecipeHandler {
                     .duration(mass * 11)
                     .circuitMeta(3)
                     .EUt(96)
-                    .save(provider);
+                    .save();
         }
     }
 
@@ -334,7 +333,7 @@ interface GTOPartsRecipeHandler {
                 .outputItems(stack)
                 .duration(mass << 2)
                 .EUt(6L * GTOUtils.getVoltageMultiplier(material))
-                .save(provider);
+                .save();
 
         if (material.hasFlag(GENERATE_ROD)) {
             BENDER_RECIPES.recipeBuilder("bender_" + material.getName() + "_rod_to_ring")
@@ -343,7 +342,7 @@ interface GTOPartsRecipeHandler {
                     .duration(mass << 1)
                     .EUt(16)
                     .circuitMeta(2)
-                    .save(provider);
+                    .save();
         }
 
         if (!material.hasFlag(NO_SMASHING)) {
@@ -359,7 +358,7 @@ interface GTOPartsRecipeHandler {
                     .outputItems(stack)
                     .duration(mass << 2)
                     .EUt(6L * GTOUtils.getVoltageMultiplier(material))
-                    .save(provider);
+                    .save();
         }
     }
 
@@ -378,7 +377,7 @@ interface GTOPartsRecipeHandler {
                 .inputItems(stack)
                 .outputItems(springstack.copyWithCount(2))
                 .circuitMeta(1)
-                .save(provider);
+                .save();
     }
 
     private static void processSpring(Material material, Consumer<FinishedRecipe> provider) {
@@ -392,7 +391,7 @@ interface GTOPartsRecipeHandler {
                 .circuitMeta(1)
                 .duration(mass)
                 .EUt(16)
-                .save(provider);
+                .save();
 
         if (mass < 240 && material.getBlastTemperature() < 3600)
             VanillaRecipeHelper.addShapedRecipe(provider, String.format("spring_%s", material.getName()),
@@ -419,7 +418,7 @@ interface GTOPartsRecipeHandler {
                     .outputItems(stack)
                     .duration(mass << 2)
                     .EUt(20)
-                    .save(provider);
+                    .save();
         }
 
         EXTRUDER_RECIPES.recipeBuilder("extrude_" + material.getName() + "_ingot_to_rotor")
@@ -428,7 +427,7 @@ interface GTOPartsRecipeHandler {
                 .outputItems(stack)
                 .duration(mass << 3)
                 .EUt(material.getBlastTemperature() >= 2800 ? 256 : 64)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.LASER_WELDER_RECIPES.recipeBuilder(material.getName() + "_to_rotor")
                 .inputItems(curvedPlateStack.copyWithCount(4))
@@ -437,7 +436,7 @@ interface GTOPartsRecipeHandler {
                 .outputItems(stack)
                 .duration(mass)
                 .EUt(30)
-                .save(provider);
+                .save();
 
         if (material.hasFlag(NO_SMASHING)) {
             EXTRUDER_RECIPES.recipeBuilder("extrude_" + material.getName() + "_dust_to_rotor")
@@ -446,7 +445,7 @@ interface GTOPartsRecipeHandler {
                     .outputItems(stack)
                     .duration(mass << 3)
                     .EUt(material.getBlastTemperature() >= 2800 ? 256 : 64)
-                    .save(provider);
+                    .save();
         }
     }
 
@@ -466,7 +465,7 @@ interface GTOPartsRecipeHandler {
                 .outputItems(boltStack.copyWithCount(1))
                 .duration(20)
                 .EUt(24)
-                .save(provider);
+                .save();
 
         if (!boltStack.isEmpty() && !ingotStack.isEmpty()) {
             EXTRUDER_RECIPES.recipeBuilder("extrude_" + material.getName() + "_ingot_to_bolt")
@@ -475,7 +474,7 @@ interface GTOPartsRecipeHandler {
                     .outputItems(boltStack)
                     .duration(15)
                     .EUt(VA[MV])
-                    .save(provider);
+                    .save();
 
             if (material.hasFlag(NO_SMASHING)) {
                 EXTRUDER_RECIPES.recipeBuilder("extrude_" + material.getName() + "_dust_to_bolt")
@@ -484,7 +483,7 @@ interface GTOPartsRecipeHandler {
                         .outputItems(boltStack)
                         .duration(15)
                         .EUt(VA[MV])
-                        .save(provider);
+                        .save();
             }
         }
     }
@@ -498,7 +497,7 @@ interface GTOPartsRecipeHandler {
                     .inputItems(material.hasProperty(PropertyKey.GEM) ? gem : ingot, material)
                     .outputItems(stack.copyWithCount(2))
                     .duration(mass << 1)
-                    .EUt(16).save(provider);
+                    .EUt(16).save();
         }
 
         if (material.hasFlag(GENERATE_BOLT_SCREW)) {
@@ -508,7 +507,7 @@ interface GTOPartsRecipeHandler {
                     .outputItems(boltStack)
                     .duration(mass << 1)
                     .EUt(4)
-                    .save(provider);
+                    .save();
 
             if (mass < 240 && material.getBlastTemperature() < 3600)
                 VanillaRecipeHelper.addShapedRecipe(provider, String.format("bolt_saw_%s", material.getName()), boltStack.copyWithCount(2), "s ", " X", 'X', stack);
@@ -524,7 +523,7 @@ interface GTOPartsRecipeHandler {
                 .inputItems(stack)
                 .outputItems(stickStack)
                 .duration(mass).EUt(4)
-                .save(provider);
+                .save();
 
         if (mass < 240 && material.getBlastTemperature() < 3600)
             VanillaRecipeHelper.addShapedRecipe(provider, String.format("stick_long_%s", material.getName()), stickStack, "s", "X", 'X', stack);
@@ -538,7 +537,7 @@ interface GTOPartsRecipeHandler {
                 .outputItems(stack)
                 .duration(mass)
                 .EUt(16)
-                .save(provider);
+                .save();
 
         if (material.hasProperty(PropertyKey.INGOT)) {
             EXTRUDER_RECIPES.recipeBuilder("extrude_" + material.getName() + "_ingot_to_long_rod")
@@ -547,7 +546,7 @@ interface GTOPartsRecipeHandler {
                     .outputItems(stack)
                     .duration(mass << 1)
                     .EUt(64)
-                    .save(provider);
+                    .save();
 
             if (material.hasFlag(NO_SMASHING)) {
                 EXTRUDER_RECIPES.recipeBuilder("extrude_" + material.getName() + "_dust_to_long_rod")
@@ -556,7 +555,7 @@ interface GTOPartsRecipeHandler {
                         .outputItems(stack)
                         .duration(mass << 1)
                         .EUt(64)
-                        .save(provider);
+                        .save();
             }
         }
     }
@@ -575,7 +574,7 @@ interface GTOPartsRecipeHandler {
                 .outputItems(rotorStack)
                 .duration(200)
                 .EUt(400)
-                .save(provider);
+                .save();
 
         FORMING_PRESS_RECIPES.recipeBuilder("press_" + material.getName() + "_turbine_rotor")
                 .inputItems(plateDouble, material, 5)
@@ -583,7 +582,7 @@ interface GTOPartsRecipeHandler {
                 .outputItems(stack)
                 .duration(mass * 10)
                 .EUt((long) GTOUtils.getVoltageMultiplier(material) << 2)
-                .save(provider);
+                .save();
     }
 
     private static void processRound(Material material, Consumer<FinishedRecipe> provider) {
@@ -602,7 +601,7 @@ interface GTOPartsRecipeHandler {
                 .EUt(VA[ULV]).duration(Math.min(1, (int) material.getMass() / 9))
                 .inputItems(stack)
                 .outputItems(stack1)
-                .save(provider);
+                .save();
     }
 
     private static void processManoswarm(Material material, Consumer<FinishedRecipe> provider) {
@@ -615,7 +614,7 @@ interface GTOPartsRecipeHandler {
                 .duration((int) material.getMass() << 4)
                 .EUt(480)
                 .cleanroom(CleanroomType.CLEANROOM)
-                .save(provider);
+                .save();
     }
 
     private static void processcurvedPlate(Material material, Consumer<FinishedRecipe> provider) {
@@ -633,7 +632,7 @@ interface GTOPartsRecipeHandler {
                 .circuitMeta(1)
                 .duration(mass)
                 .EUt(16)
-                .save(provider);
+                .save();
     }
 
     private static void processMotorEnclosure(Material material, Consumer<FinishedRecipe> provider) {
@@ -650,7 +649,7 @@ interface GTOPartsRecipeHandler {
                 .circuitMeta(3)
                 .duration(mass)
                 .EUt(30)
-                .save(provider);
+                .save();
 
         ItemStack data = GTOItems.DATA_DISC.get().getDisc(motorEnclosureStack);
 
@@ -660,7 +659,7 @@ interface GTOPartsRecipeHandler {
                 .outputItems(data)
                 .EUt((long) GTOUtils.getVoltageMultiplier(material) << 4)
                 .duration(mass)
-                .save(provider);
+                .save();
 
         THREE_DIMENSIONAL_PRINTER_RECIPES.recipeBuilder(GTOCore.id(material.getName() + "_motor_enclosure"))
                 .notConsumable(data)
@@ -669,7 +668,7 @@ interface GTOPartsRecipeHandler {
                 .duration(mass << 1)
                 .EUt(16)
                 .cleanroom(CleanroomType.CLEANROOM)
-                .save(provider);
+                .save();
     }
 
     private static void processPumpBarrel(Material material, Consumer<FinishedRecipe> provider) {
@@ -688,7 +687,7 @@ interface GTOPartsRecipeHandler {
                 .outputItems(pumpBarrelStack)
                 .duration(mass)
                 .EUt(30)
-                .save(provider);
+                .save();
 
         ItemStack data = GTOItems.DATA_DISC.get().getDisc(pumpBarrelStack);
 
@@ -698,7 +697,7 @@ interface GTOPartsRecipeHandler {
                 .outputItems(data)
                 .EUt((long) GTOUtils.getVoltageMultiplier(material) << 4)
                 .duration(mass)
-                .save(provider);
+                .save();
 
         THREE_DIMENSIONAL_PRINTER_RECIPES.recipeBuilder(GTOCore.id(material.getName() + "_pump_barrel"))
                 .notConsumable(data)
@@ -707,7 +706,7 @@ interface GTOPartsRecipeHandler {
                 .duration(mass * 5 / 2)
                 .EUt(16)
                 .cleanroom(CleanroomType.CLEANROOM)
-                .save(provider);
+                .save();
     }
 
     private static void processPistonHousing(Material material, Consumer<FinishedRecipe> provider) {
@@ -726,7 +725,7 @@ interface GTOPartsRecipeHandler {
                 .outputItems(pistonHousingStack)
                 .duration(mass)
                 .EUt(30)
-                .save(provider);
+                .save();
 
         ItemStack data = GTOItems.DATA_DISC.get().getDisc(pistonHousingStack);
 
@@ -736,7 +735,7 @@ interface GTOPartsRecipeHandler {
                 .outputItems(data)
                 .EUt((long) GTOUtils.getVoltageMultiplier(material) << 4)
                 .duration(mass)
-                .save(provider);
+                .save();
 
         THREE_DIMENSIONAL_PRINTER_RECIPES.recipeBuilder(GTOCore.id(material.getName() + "_pump_barrel"))
                 .notConsumable(data)
@@ -745,7 +744,7 @@ interface GTOPartsRecipeHandler {
                 .duration(mass * 3)
                 .EUt(16)
                 .cleanroom(CleanroomType.CLEANROOM)
-                .save(provider);
+                .save();
     }
 
     private static void processEmitterBases(Material material, Consumer<FinishedRecipe> provider) {
@@ -765,7 +764,7 @@ interface GTOPartsRecipeHandler {
                 .outputItems(emitterBasesStack)
                 .duration(mass)
                 .EUt(30)
-                .save(provider);
+                .save();
 
         ItemStack data = GTOItems.DATA_DISC.get().getDisc(emitterBasesStack);
 
@@ -775,7 +774,7 @@ interface GTOPartsRecipeHandler {
                 .outputItems(data)
                 .EUt((long) GTOUtils.getVoltageMultiplier(material) << 4)
                 .duration(mass)
-                .save(provider);
+                .save();
 
         THREE_DIMENSIONAL_PRINTER_RECIPES.recipeBuilder(GTOCore.id(material.getName() + "_emitter_base"))
                 .notConsumable(data)
@@ -784,7 +783,7 @@ interface GTOPartsRecipeHandler {
                 .duration(mass << 2)
                 .EUt(16)
                 .cleanroom(CleanroomType.CLEANROOM)
-                .save(provider);
+                .save();
     }
 
     private static void processSensorCasing(Material material, Consumer<FinishedRecipe> provider) {
@@ -803,7 +802,7 @@ interface GTOPartsRecipeHandler {
                 .outputItems(sensorCasingStack)
                 .duration(mass)
                 .EUt(30)
-                .save(provider);
+                .save();
 
         ItemStack data = GTOItems.DATA_DISC.get().getDisc(sensorCasingStack);
 
@@ -813,7 +812,7 @@ interface GTOPartsRecipeHandler {
                 .outputItems(data)
                 .EUt((long) GTOUtils.getVoltageMultiplier(material) << 4)
                 .duration(mass)
-                .save(provider);
+                .save();
 
         THREE_DIMENSIONAL_PRINTER_RECIPES.recipeBuilder(GTOCore.id(material.getName() + "_sensor_casing"))
                 .notConsumable(data)
@@ -822,7 +821,7 @@ interface GTOPartsRecipeHandler {
                 .duration(mass * 9 / 2)
                 .EUt(16)
                 .cleanroom(CleanroomType.CLEANROOM)
-                .save(provider);
+                .save();
     }
 
     private static void processFieldGeneratorCasing(Material material, Consumer<FinishedRecipe> provider) {
@@ -841,7 +840,7 @@ interface GTOPartsRecipeHandler {
                 .outputItems(fieldGeneratorCasingStack)
                 .duration(mass)
                 .EUt(30)
-                .save(provider);
+                .save();
 
         ItemStack data = GTOItems.DATA_DISC.get().getDisc(fieldGeneratorCasingStack);
 
@@ -851,7 +850,7 @@ interface GTOPartsRecipeHandler {
                 .outputItems(data)
                 .EUt((long) GTOUtils.getVoltageMultiplier(material) << 4)
                 .duration(mass)
-                .save(provider);
+                .save();
 
         THREE_DIMENSIONAL_PRINTER_RECIPES.recipeBuilder(GTOCore.id(material.getName() + "_sensor_casing"))
                 .notConsumable(data)
@@ -860,7 +859,7 @@ interface GTOPartsRecipeHandler {
                 .duration(mass << 3)
                 .EUt(16)
                 .cleanroom(CleanroomType.CLEANROOM)
-                .save(provider);
+                .save();
     }
 
     private static void processCatalyst(Material material, Consumer<FinishedRecipe> provider) {
@@ -873,7 +872,7 @@ interface GTOPartsRecipeHandler {
                 .duration((int) material.getMass() << 2)
                 .EUt(120)
                 .cleanroom(CleanroomType.CLEANROOM)
-                .save(provider);
+                .save();
     }
 
     private static void processroughBlank(Material material, Consumer<FinishedRecipe> provider) {
@@ -887,20 +886,20 @@ interface GTOPartsRecipeHandler {
                 .duration(400)
                 .EUt(120)
                 .blastFurnaceTemp(((GTOMaterial) material).gtocore$temp())
-                .save(provider);
+                .save();
 
         CUTTER_RECIPES.recipeBuilder(GTOCore.id(material.getName() + "_brick"))
                 .inputItems(stack1)
                 .outputItems(stack2.copyWithCount(9))
                 .duration(300)
                 .EUt(120)
-                .save(provider);
+                .save();
 
         CUTTER_RECIPES.recipeBuilder(GTOCore.id(material.getName() + "_flakes"))
                 .inputItems(stack2)
                 .outputItems(flakes, material, 4)
                 .duration(200)
                 .EUt(30)
-                .save(provider);
+                .save();
     }
 }

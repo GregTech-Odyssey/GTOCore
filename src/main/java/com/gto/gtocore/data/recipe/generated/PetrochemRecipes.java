@@ -29,7 +29,7 @@ public interface PetrochemRecipes {
                 .outputFluids(cracked[1].getFluid(400))
                 .duration(200)
                 .EUt(VA[LV])
-                .save(provider);
+                .save();
 
         STEAM_CRACKING_RECIPES.recipeBuilder(GTOCore.id("steam_crack_" + cracked[0].getName()))
                 .circuitMeta(2)
@@ -37,6 +37,6 @@ public interface PetrochemRecipes {
                 .outputFluids(cracked[2].getFluid(400))
                 .duration(200)
                 .EUt(VA[LV])
-                .save(provider);
+                .save();
     }
 }

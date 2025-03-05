@@ -7,16 +7,13 @@ import com.gto.gtocore.common.data.GTORecipeTypes;
 
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
-import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraftforge.fluids.FluidStack;
 
 import earth.terrarium.adastra.common.registry.ModFluids;
 
-import java.util.function.Consumer;
-
 interface DrillingModule {
 
-    static void init(Consumer<FinishedRecipe> provider) {
+    static void init() {
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("62_space_fluid_11"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
                 .circuitMeta(11)
@@ -24,7 +21,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.CarbonMonoxide.getFluid(1000000))
                 .EUt(503316480)
                 .duration(9)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("62_space_fluid_12"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -33,7 +30,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Oxygen.getFluid(1000000))
                 .EUt(503316480)
                 .duration(9)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("62_space_fluid_10"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -42,7 +39,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Fluorine.getFluid(1000000))
                 .EUt(503316480)
                 .duration(9)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("61_space_fluid_12"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -51,7 +48,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Oxygen.getFluid(1000000))
                 .EUt(503316480)
                 .duration(18)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("61_space_fluid_10"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -60,7 +57,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Fluorine.getFluid(1000000))
                 .EUt(503316480)
                 .duration(18)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("61_space_fluid_11"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -69,7 +66,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.CarbonMonoxide.getFluid(1000000))
                 .EUt(503316480)
                 .duration(18)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("63_space_fluid_18"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -78,7 +75,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Radon.getFluid(100000))
                 .EUt(503316480)
                 .duration(18)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("63_space_fluid_19"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -87,7 +84,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Helium3.getFluid(100000))
                 .EUt(503316480)
                 .duration(18)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("63_space_fluid_16"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -96,7 +93,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Krypton.getFluid(100000))
                 .EUt(503316480)
                 .duration(18)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("63_space_fluid_17"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -105,7 +102,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Xenon.getFluid(100000))
                 .EUt(503316480)
                 .duration(18)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("63_space_fluid_14"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -114,7 +111,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Neon.getFluid(100000))
                 .EUt(503316480)
                 .duration(18)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("63_space_fluid_15"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -123,7 +120,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Argon.getFluid(100000))
                 .EUt(503316480)
                 .duration(18)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("63_space_fluid_13"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -132,7 +129,7 @@ interface DrillingModule {
                 .outputFluids(GTOMaterials.UnknowWater.getFluid(10000))
                 .EUt(503316480)
                 .duration(18)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("68_space_fluid_30"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(64))
@@ -141,7 +138,7 @@ interface DrillingModule {
                 .outputFluids(GTOMaterials.BlackDwarfMatter.getFluid(100000))
                 .EUt(503316480)
                 .duration(750)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("68_space_fluid_29"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(64))
@@ -150,7 +147,7 @@ interface DrillingModule {
                 .outputFluids(GTOMaterials.WhiteDwarfMatter.getFluid(100000))
                 .EUt(503316480)
                 .duration(750)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("66_space_fluid_21"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -159,7 +156,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Tritium.getFluid(100000))
                 .EUt(503316480)
                 .duration(18)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("66_space_fluid_20"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -168,7 +165,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Deuterium.getFluid(100000))
                 .EUt(503316480)
                 .duration(18)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("66_space_fluid_25"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -177,7 +174,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.RefineryGas.getFluid(100000))
                 .EUt(503316480)
                 .duration(18)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("66_space_fluid_24"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -186,7 +183,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Naphtha.getFluid(100000))
                 .EUt(503316480)
                 .duration(18)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("66_space_fluid_23"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -195,7 +192,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.LightFuel.getFluid(100000))
                 .EUt(503316480)
                 .duration(18)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("66_space_fluid_22"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -204,7 +201,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.HeavyFuel.getFluid(100000))
                 .EUt(503316480)
                 .duration(18)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("66_space_fluid_28"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -213,7 +210,7 @@ interface DrillingModule {
                 .outputFluids(GTOMaterials.BarnardaAir.getFluid(100000))
                 .EUt(503316480)
                 .duration(18)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("66_space_fluid_27"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -222,7 +219,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Bromine.getFluid(100000))
                 .EUt(503316480)
                 .duration(18)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("66_space_fluid_26"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -231,7 +228,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.CoalGas.getFluid(100000))
                 .EUt(503316480)
                 .duration(18)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("31_space_fluid_2"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
@@ -240,7 +237,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Helium.getFluid(1000000))
                 .EUt(7864320)
                 .duration(150)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("31_space_fluid_3"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
@@ -249,7 +246,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Nitrogen.getFluid(1000000))
                 .EUt(7864320)
                 .duration(150)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("31_space_fluid_4"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
@@ -258,7 +255,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Methane.getFluid(1000000))
                 .EUt(7864320)
                 .duration(150)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("31_space_fluid_5"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
@@ -267,7 +264,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.SulfurDioxide.getFluid(1000000))
                 .EUt(7864320)
                 .duration(150)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("31_space_fluid_6"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
@@ -276,7 +273,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.CarbonDioxide.getFluid(1000000))
                 .EUt(7864320)
                 .duration(150)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("31_space_fluid_7"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
@@ -285,7 +282,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.NitrogenDioxide.getFluid(1000000))
                 .EUt(7864320)
                 .duration(150)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("31_space_fluid_8"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
@@ -294,7 +291,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Ammonia.getFluid(1000000))
                 .EUt(7864320)
                 .duration(150)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("31_space_fluid_9"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
@@ -303,7 +300,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Chlorine.getFluid(1000000))
                 .EUt(7864320)
                 .duration(150)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("31_space_fluid_1"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
@@ -312,7 +309,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Hydrogen.getFluid(1000000))
                 .EUt(7864320)
                 .duration(150)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("42_space_fluid_10"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
@@ -321,7 +318,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Fluorine.getFluid(1000000))
                 .EUt(31457280)
                 .duration(37)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("42_space_fluid_11"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
@@ -330,7 +327,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.CarbonMonoxide.getFluid(1000000))
                 .EUt(31457280)
                 .duration(37)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("42_space_fluid_12"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
@@ -339,7 +336,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Oxygen.getFluid(1000000))
                 .EUt(31457280)
                 .duration(37)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("51_space_fluid_8"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -348,7 +345,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Ammonia.getFluid(1000000))
                 .EUt(125829120)
                 .duration(37)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("51_space_fluid_9"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -357,7 +354,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Chlorine.getFluid(1000000))
                 .EUt(125829120)
                 .duration(37)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("51_space_fluid_4"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -366,7 +363,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Methane.getFluid(1000000))
                 .EUt(125829120)
                 .duration(37)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("51_space_fluid_5"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -375,7 +372,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.SulfurDioxide.getFluid(1000000))
                 .EUt(125829120)
                 .duration(37)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("51_space_fluid_6"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -384,7 +381,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.CarbonDioxide.getFluid(1000000))
                 .EUt(125829120)
                 .duration(37)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("51_space_fluid_7"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -393,7 +390,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.NitrogenDioxide.getFluid(1000000))
                 .EUt(125829120)
                 .duration(37)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("51_space_fluid_1"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -402,7 +399,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Hydrogen.getFluid(1000000))
                 .EUt(125829120)
                 .duration(37)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("51_space_fluid_2"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -411,7 +408,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Helium.getFluid(1000000))
                 .EUt(125829120)
                 .duration(37)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("51_space_fluid_3"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -420,7 +417,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Nitrogen.getFluid(1000000))
                 .EUt(125829120)
                 .duration(37)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("12_space_fluid_10"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
@@ -429,7 +426,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Fluorine.getFluid(1000000))
                 .EUt(491520)
                 .duration(300)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("12_space_fluid_11"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
@@ -438,7 +435,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.CarbonMonoxide.getFluid(1000000))
                 .EUt(491520)
                 .duration(300)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("12_space_fluid_12"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
@@ -447,7 +444,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Oxygen.getFluid(1000000))
                 .EUt(491520)
                 .duration(300)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("22_space_fluid_2"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
@@ -456,7 +453,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Helium.getFluid(1000000))
                 .EUt(1966080)
                 .duration(150)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("22_space_fluid_3"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
@@ -465,7 +462,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Nitrogen.getFluid(1000000))
                 .EUt(1966080)
                 .duration(150)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("22_space_fluid_1"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
@@ -474,7 +471,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Hydrogen.getFluid(1000000))
                 .EUt(1966080)
                 .duration(150)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("22_space_fluid_6"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
@@ -483,7 +480,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.CarbonDioxide.getFluid(1000000))
                 .EUt(1966080)
                 .duration(150)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("22_space_fluid_7"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
@@ -492,7 +489,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.NitrogenDioxide.getFluid(1000000))
                 .EUt(1966080)
                 .duration(150)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("22_space_fluid_4"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
@@ -501,7 +498,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Methane.getFluid(1000000))
                 .EUt(1966080)
                 .duration(150)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("22_space_fluid_5"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
@@ -510,7 +507,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.SulfurDioxide.getFluid(1000000))
                 .EUt(1966080)
                 .duration(150)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("22_space_fluid_8"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
@@ -519,7 +516,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Ammonia.getFluid(1000000))
                 .EUt(1966080)
                 .duration(150)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("22_space_fluid_9"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
@@ -528,7 +525,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Chlorine.getFluid(1000000))
                 .EUt(1966080)
                 .duration(150)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("23_space_fluid_18"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
@@ -537,7 +534,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Radon.getFluid(100000))
                 .EUt(1966080)
                 .duration(300)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("23_space_fluid_19"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
@@ -546,7 +543,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Helium3.getFluid(100000))
                 .EUt(1966080)
                 .duration(300)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("23_space_fluid_16"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
@@ -555,7 +552,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Krypton.getFluid(100000))
                 .EUt(1966080)
                 .duration(300)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("23_space_fluid_17"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
@@ -564,7 +561,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Xenon.getFluid(100000))
                 .EUt(1966080)
                 .duration(300)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("23_space_fluid_14"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
@@ -573,7 +570,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Neon.getFluid(100000))
                 .EUt(1966080)
                 .duration(300)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("23_space_fluid_15"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
@@ -582,7 +579,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Argon.getFluid(100000))
                 .EUt(1966080)
                 .duration(300)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("23_space_fluid_13"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
@@ -591,7 +588,7 @@ interface DrillingModule {
                 .outputFluids(GTOMaterials.UnknowWater.getFluid(10000))
                 .EUt(1966080)
                 .duration(300)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("12_space_fluid_7"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
@@ -600,7 +597,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.NitrogenDioxide.getFluid(1000000))
                 .EUt(491520)
                 .duration(300)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("12_space_fluid_8"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
@@ -609,7 +606,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Ammonia.getFluid(1000000))
                 .EUt(491520)
                 .duration(300)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("12_space_fluid_9"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
@@ -618,7 +615,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Chlorine.getFluid(1000000))
                 .EUt(491520)
                 .duration(300)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("12_space_fluid_1"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
@@ -627,7 +624,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Hydrogen.getFluid(1000000))
                 .EUt(491520)
                 .duration(300)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("12_space_fluid_2"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
@@ -636,7 +633,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Helium.getFluid(1000000))
                 .EUt(491520)
                 .duration(300)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("12_space_fluid_3"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
@@ -645,7 +642,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Nitrogen.getFluid(1000000))
                 .EUt(491520)
                 .duration(300)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("12_space_fluid_4"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
@@ -654,7 +651,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Methane.getFluid(1000000))
                 .EUt(491520)
                 .duration(300)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("12_space_fluid_5"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
@@ -663,7 +660,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.SulfurDioxide.getFluid(1000000))
                 .EUt(491520)
                 .duration(300)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("12_space_fluid_6"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
@@ -672,7 +669,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.CarbonDioxide.getFluid(1000000))
                 .EUt(491520)
                 .duration(300)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("46_space_fluid_28"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
@@ -681,7 +678,7 @@ interface DrillingModule {
                 .outputFluids(GTOMaterials.BarnardaAir.getFluid(100000))
                 .EUt(31457280)
                 .duration(75)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("46_space_fluid_20"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
@@ -690,7 +687,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Deuterium.getFluid(100000))
                 .EUt(31457280)
                 .duration(75)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("46_space_fluid_21"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
@@ -699,7 +696,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Tritium.getFluid(100000))
                 .EUt(31457280)
                 .duration(75)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("46_space_fluid_22"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
@@ -708,7 +705,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.HeavyFuel.getFluid(100000))
                 .EUt(31457280)
                 .duration(75)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("46_space_fluid_23"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
@@ -717,7 +714,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.LightFuel.getFluid(100000))
                 .EUt(31457280)
                 .duration(75)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("46_space_fluid_24"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
@@ -726,7 +723,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Naphtha.getFluid(100000))
                 .EUt(31457280)
                 .duration(75)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("46_space_fluid_25"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
@@ -735,7 +732,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.RefineryGas.getFluid(100000))
                 .EUt(31457280)
                 .duration(75)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("46_space_fluid_26"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
@@ -744,7 +741,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.CoalGas.getFluid(100000))
                 .EUt(31457280)
                 .duration(75)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("46_space_fluid_27"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
@@ -753,7 +750,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Bromine.getFluid(100000))
                 .EUt(31457280)
                 .duration(75)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("45_space_fluid_14"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
@@ -762,7 +759,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Neon.getFluid(100000))
                 .EUt(31457280)
                 .duration(37)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("45_space_fluid_15"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
@@ -771,7 +768,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Argon.getFluid(100000))
                 .EUt(31457280)
                 .duration(37)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("45_space_fluid_13"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
@@ -780,7 +777,7 @@ interface DrillingModule {
                 .outputFluids(GTOMaterials.UnknowWater.getFluid(10000))
                 .EUt(31457280)
                 .duration(37)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("45_space_fluid_18"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
@@ -789,7 +786,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Radon.getFluid(100000))
                 .EUt(31457280)
                 .duration(37)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("45_space_fluid_19"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
@@ -798,7 +795,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Helium3.getFluid(100000))
                 .EUt(31457280)
                 .duration(37)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("45_space_fluid_16"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
@@ -807,7 +804,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Krypton.getFluid(100000))
                 .EUt(31457280)
                 .duration(37)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("45_space_fluid_17"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
@@ -816,7 +813,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Xenon.getFluid(100000))
                 .EUt(31457280)
                 .duration(37)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("62_space_fluid_5"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -825,7 +822,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.SulfurDioxide.getFluid(1000000))
                 .EUt(503316480)
                 .duration(9)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("62_space_fluid_4"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -834,7 +831,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Methane.getFluid(1000000))
                 .EUt(503316480)
                 .duration(9)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("62_space_fluid_7"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -843,7 +840,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.NitrogenDioxide.getFluid(1000000))
                 .EUt(503316480)
                 .duration(9)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("62_space_fluid_6"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -852,7 +849,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.CarbonDioxide.getFluid(1000000))
                 .EUt(503316480)
                 .duration(9)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("62_space_fluid_9"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -861,7 +858,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Chlorine.getFluid(1000000))
                 .EUt(503316480)
                 .duration(9)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("62_space_fluid_8"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -870,7 +867,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Ammonia.getFluid(1000000))
                 .EUt(503316480)
                 .duration(9)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("62_space_fluid_1"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -879,7 +876,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Hydrogen.getFluid(1000000))
                 .EUt(503316480)
                 .duration(9)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("62_space_fluid_3"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -888,7 +885,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Nitrogen.getFluid(1000000))
                 .EUt(503316480)
                 .duration(9)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("62_space_fluid_2"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -897,7 +894,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Helium.getFluid(1000000))
                 .EUt(503316480)
                 .duration(9)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("31_space_fluid_10"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
@@ -906,7 +903,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Fluorine.getFluid(1000000))
                 .EUt(7864320)
                 .duration(150)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("31_space_fluid_11"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
@@ -915,7 +912,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.CarbonMonoxide.getFluid(1000000))
                 .EUt(7864320)
                 .duration(150)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("31_space_fluid_12"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
@@ -924,7 +921,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Oxygen.getFluid(1000000))
                 .EUt(7864320)
                 .duration(150)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("21_space_fluid_7"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
@@ -933,7 +930,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.NitrogenDioxide.getFluid(1000000))
                 .EUt(1966080)
                 .duration(300)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("21_space_fluid_8"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
@@ -942,7 +939,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Ammonia.getFluid(1000000))
                 .EUt(1966080)
                 .duration(300)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("21_space_fluid_5"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
@@ -951,7 +948,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.SulfurDioxide.getFluid(1000000))
                 .EUt(1966080)
                 .duration(300)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("21_space_fluid_6"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
@@ -960,7 +957,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.CarbonDioxide.getFluid(1000000))
                 .EUt(1966080)
                 .duration(300)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("21_space_fluid_3"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
@@ -969,7 +966,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Nitrogen.getFluid(1000000))
                 .EUt(1966080)
                 .duration(300)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("21_space_fluid_4"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
@@ -978,7 +975,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Methane.getFluid(1000000))
                 .EUt(1966080)
                 .duration(300)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("21_space_fluid_1"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
@@ -987,7 +984,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Hydrogen.getFluid(1000000))
                 .EUt(1966080)
                 .duration(300)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("21_space_fluid_2"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
@@ -996,7 +993,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Helium.getFluid(1000000))
                 .EUt(1966080)
                 .duration(300)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("21_space_fluid_9"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
@@ -1005,7 +1002,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Chlorine.getFluid(1000000))
                 .EUt(1966080)
                 .duration(300)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("52_space_fluid_2"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -1014,7 +1011,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Helium.getFluid(1000000))
                 .EUt(125829120)
                 .duration(18)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("52_space_fluid_1"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -1023,7 +1020,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Hydrogen.getFluid(1000000))
                 .EUt(125829120)
                 .duration(18)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("52_space_fluid_9"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -1032,7 +1029,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Chlorine.getFluid(1000000))
                 .EUt(125829120)
                 .duration(18)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("52_space_fluid_8"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -1041,7 +1038,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Ammonia.getFluid(1000000))
                 .EUt(125829120)
                 .duration(18)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("52_space_fluid_7"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -1050,7 +1047,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.NitrogenDioxide.getFluid(1000000))
                 .EUt(125829120)
                 .duration(18)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("52_space_fluid_6"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -1059,7 +1056,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.CarbonDioxide.getFluid(1000000))
                 .EUt(125829120)
                 .duration(18)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("52_space_fluid_5"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -1068,7 +1065,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.SulfurDioxide.getFluid(1000000))
                 .EUt(125829120)
                 .duration(18)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("52_space_fluid_4"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -1077,7 +1074,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Methane.getFluid(1000000))
                 .EUt(125829120)
                 .duration(18)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("52_space_fluid_3"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -1086,7 +1083,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Nitrogen.getFluid(1000000))
                 .EUt(125829120)
                 .duration(18)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("35_space_fluid_17"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
@@ -1095,7 +1092,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Xenon.getFluid(100000))
                 .EUt(7864320)
                 .duration(75)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("35_space_fluid_18"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
@@ -1104,7 +1101,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Radon.getFluid(100000))
                 .EUt(7864320)
                 .duration(75)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("35_space_fluid_19"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
@@ -1113,7 +1110,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Helium3.getFluid(100000))
                 .EUt(7864320)
                 .duration(75)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("35_space_fluid_13"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
@@ -1122,7 +1119,7 @@ interface DrillingModule {
                 .outputFluids(GTOMaterials.UnknowWater.getFluid(10000))
                 .EUt(7864320)
                 .duration(75)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("35_space_fluid_14"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
@@ -1131,7 +1128,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Neon.getFluid(100000))
                 .EUt(7864320)
                 .duration(75)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("35_space_fluid_15"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
@@ -1140,7 +1137,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Argon.getFluid(100000))
                 .EUt(7864320)
                 .duration(75)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("35_space_fluid_16"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
@@ -1149,7 +1146,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Krypton.getFluid(100000))
                 .EUt(7864320)
                 .duration(75)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("61_space_fluid_9"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -1158,7 +1155,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Chlorine.getFluid(1000000))
                 .EUt(503316480)
                 .duration(18)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("61_space_fluid_7"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -1167,7 +1164,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.NitrogenDioxide.getFluid(1000000))
                 .EUt(503316480)
                 .duration(18)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("61_space_fluid_8"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -1176,7 +1173,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Ammonia.getFluid(1000000))
                 .EUt(503316480)
                 .duration(18)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("61_space_fluid_5"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -1185,7 +1182,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.SulfurDioxide.getFluid(1000000))
                 .EUt(503316480)
                 .duration(18)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("61_space_fluid_6"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -1194,7 +1191,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.CarbonDioxide.getFluid(1000000))
                 .EUt(503316480)
                 .duration(18)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("61_space_fluid_3"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -1203,7 +1200,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Nitrogen.getFluid(1000000))
                 .EUt(503316480)
                 .duration(18)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("61_space_fluid_4"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -1212,7 +1209,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Methane.getFluid(1000000))
                 .EUt(503316480)
                 .duration(18)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("61_space_fluid_1"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -1221,7 +1218,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Hydrogen.getFluid(1000000))
                 .EUt(503316480)
                 .duration(18)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("61_space_fluid_2"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -1230,7 +1227,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Helium.getFluid(1000000))
                 .EUt(503316480)
                 .duration(18)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("41_space_fluid_10"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
@@ -1239,7 +1236,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Fluorine.getFluid(1000000))
                 .EUt(31457280)
                 .duration(75)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("41_space_fluid_11"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
@@ -1248,7 +1245,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.CarbonMonoxide.getFluid(1000000))
                 .EUt(31457280)
                 .duration(75)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("41_space_fluid_12"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
@@ -1257,7 +1254,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Oxygen.getFluid(1000000))
                 .EUt(31457280)
                 .duration(75)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("67_space_fluid_24"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -1266,7 +1263,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Naphtha.getFluid(100000))
                 .EUt(503316480)
                 .duration(9)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("67_space_fluid_23"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -1275,7 +1272,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.LightFuel.getFluid(100000))
                 .EUt(503316480)
                 .duration(9)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("67_space_fluid_26"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -1284,7 +1281,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.CoalGas.getFluid(100000))
                 .EUt(503316480)
                 .duration(9)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("67_space_fluid_25"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -1293,7 +1290,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.RefineryGas.getFluid(100000))
                 .EUt(503316480)
                 .duration(9)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("67_space_fluid_20"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -1302,7 +1299,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Deuterium.getFluid(100000))
                 .EUt(503316480)
                 .duration(9)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("67_space_fluid_22"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -1311,7 +1308,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.HeavyFuel.getFluid(100000))
                 .EUt(503316480)
                 .duration(9)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("67_space_fluid_21"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -1320,7 +1317,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Tritium.getFluid(100000))
                 .EUt(503316480)
                 .duration(9)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("67_space_fluid_28"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -1329,7 +1326,7 @@ interface DrillingModule {
                 .outputFluids(GTOMaterials.BarnardaAir.getFluid(100000))
                 .EUt(503316480)
                 .duration(9)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("67_space_fluid_27"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -1338,7 +1335,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Bromine.getFluid(100000))
                 .EUt(503316480)
                 .duration(9)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("52_space_fluid_10"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -1347,7 +1344,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Fluorine.getFluid(1000000))
                 .EUt(125829120)
                 .duration(18)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("52_space_fluid_11"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -1356,7 +1353,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.CarbonMonoxide.getFluid(1000000))
                 .EUt(125829120)
                 .duration(18)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("52_space_fluid_12"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -1365,7 +1362,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Oxygen.getFluid(1000000))
                 .EUt(125829120)
                 .duration(18)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("56_space_fluid_28"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -1374,7 +1371,7 @@ interface DrillingModule {
                 .outputFluids(GTOMaterials.BarnardaAir.getFluid(100000))
                 .EUt(125829120)
                 .duration(37)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("56_space_fluid_27"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -1383,7 +1380,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Bromine.getFluid(100000))
                 .EUt(125829120)
                 .duration(37)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("56_space_fluid_20"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -1392,7 +1389,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Deuterium.getFluid(100000))
                 .EUt(125829120)
                 .duration(37)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("56_space_fluid_22"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -1401,7 +1398,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.HeavyFuel.getFluid(100000))
                 .EUt(125829120)
                 .duration(37)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("56_space_fluid_21"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -1410,7 +1407,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Tritium.getFluid(100000))
                 .EUt(125829120)
                 .duration(37)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("56_space_fluid_24"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -1419,7 +1416,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Naphtha.getFluid(100000))
                 .EUt(125829120)
                 .duration(37)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("56_space_fluid_23"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -1428,7 +1425,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.LightFuel.getFluid(100000))
                 .EUt(125829120)
                 .duration(37)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("56_space_fluid_26"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -1437,7 +1434,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.CoalGas.getFluid(100000))
                 .EUt(125829120)
                 .duration(37)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("56_space_fluid_25"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -1446,7 +1443,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.RefineryGas.getFluid(100000))
                 .EUt(125829120)
                 .duration(37)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("51_space_fluid_10"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -1455,7 +1452,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Fluorine.getFluid(1000000))
                 .EUt(125829120)
                 .duration(37)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("51_space_fluid_11"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -1464,7 +1461,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.CarbonMonoxide.getFluid(1000000))
                 .EUt(125829120)
                 .duration(37)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("51_space_fluid_12"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -1473,7 +1470,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Oxygen.getFluid(1000000))
                 .EUt(125829120)
                 .duration(37)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("57_space_fluid_23"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -1482,7 +1479,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.LightFuel.getFluid(100000))
                 .EUt(125829120)
                 .duration(18)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("57_space_fluid_22"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -1491,7 +1488,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.HeavyFuel.getFluid(100000))
                 .EUt(125829120)
                 .duration(18)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("57_space_fluid_21"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -1500,7 +1497,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Tritium.getFluid(100000))
                 .EUt(125829120)
                 .duration(18)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("57_space_fluid_20"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -1509,7 +1506,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Deuterium.getFluid(100000))
                 .EUt(125829120)
                 .duration(18)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("57_space_fluid_27"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -1518,7 +1515,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Bromine.getFluid(100000))
                 .EUt(125829120)
                 .duration(18)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("57_space_fluid_26"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -1527,7 +1524,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.CoalGas.getFluid(100000))
                 .EUt(125829120)
                 .duration(18)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("57_space_fluid_25"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -1536,7 +1533,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.RefineryGas.getFluid(100000))
                 .EUt(125829120)
                 .duration(18)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("57_space_fluid_24"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -1545,7 +1542,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Naphtha.getFluid(100000))
                 .EUt(125829120)
                 .duration(18)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("55_space_fluid_15"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -1554,7 +1551,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Argon.getFluid(100000))
                 .EUt(125829120)
                 .duration(18)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("55_space_fluid_16"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -1563,7 +1560,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Krypton.getFluid(100000))
                 .EUt(125829120)
                 .duration(18)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("55_space_fluid_17"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -1572,7 +1569,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Xenon.getFluid(100000))
                 .EUt(125829120)
                 .duration(18)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("57_space_fluid_28"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -1581,7 +1578,7 @@ interface DrillingModule {
                 .outputFluids(GTOMaterials.BarnardaAir.getFluid(100000))
                 .EUt(125829120)
                 .duration(18)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("55_space_fluid_18"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -1590,7 +1587,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Radon.getFluid(100000))
                 .EUt(125829120)
                 .duration(18)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("55_space_fluid_19"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -1599,7 +1596,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Helium3.getFluid(100000))
                 .EUt(125829120)
                 .duration(18)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("55_space_fluid_13"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -1608,7 +1605,7 @@ interface DrillingModule {
                 .outputFluids(GTOMaterials.UnknowWater.getFluid(10000))
                 .EUt(125829120)
                 .duration(18)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("55_space_fluid_14"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -1617,7 +1614,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Neon.getFluid(100000))
                 .EUt(125829120)
                 .duration(18)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("53_space_fluid_17"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -1626,7 +1623,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Xenon.getFluid(100000))
                 .EUt(125829120)
                 .duration(37)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("53_space_fluid_18"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -1635,7 +1632,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Radon.getFluid(100000))
                 .EUt(125829120)
                 .duration(37)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("53_space_fluid_19"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -1644,7 +1641,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Helium3.getFluid(100000))
                 .EUt(125829120)
                 .duration(37)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("53_space_fluid_13"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -1653,7 +1650,7 @@ interface DrillingModule {
                 .outputFluids(GTOMaterials.UnknowWater.getFluid(10000))
                 .EUt(125829120)
                 .duration(37)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("53_space_fluid_14"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -1662,7 +1659,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Neon.getFluid(100000))
                 .EUt(125829120)
                 .duration(37)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("53_space_fluid_15"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -1671,7 +1668,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Argon.getFluid(100000))
                 .EUt(125829120)
                 .duration(37)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("53_space_fluid_16"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
@@ -1680,7 +1677,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Krypton.getFluid(100000))
                 .EUt(125829120)
                 .duration(37)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("22_space_fluid_11"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
@@ -1689,7 +1686,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.CarbonMonoxide.getFluid(1000000))
                 .EUt(1966080)
                 .duration(150)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("22_space_fluid_12"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
@@ -1698,7 +1695,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Oxygen.getFluid(1000000))
                 .EUt(1966080)
                 .duration(150)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("22_space_fluid_10"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
@@ -1707,7 +1704,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Fluorine.getFluid(1000000))
                 .EUt(1966080)
                 .duration(150)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("36_space_fluid_20"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
@@ -1716,7 +1713,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Deuterium.getFluid(100000))
                 .EUt(7864320)
                 .duration(150)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("36_space_fluid_27"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
@@ -1725,7 +1722,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Bromine.getFluid(100000))
                 .EUt(7864320)
                 .duration(150)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("36_space_fluid_28"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
@@ -1734,7 +1731,7 @@ interface DrillingModule {
                 .outputFluids(GTOMaterials.BarnardaAir.getFluid(100000))
                 .EUt(7864320)
                 .duration(150)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("36_space_fluid_25"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
@@ -1743,7 +1740,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.RefineryGas.getFluid(100000))
                 .EUt(7864320)
                 .duration(150)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("36_space_fluid_26"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
@@ -1752,7 +1749,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.CoalGas.getFluid(100000))
                 .EUt(7864320)
                 .duration(150)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("36_space_fluid_23"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
@@ -1761,7 +1758,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.LightFuel.getFluid(100000))
                 .EUt(7864320)
                 .duration(150)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("36_space_fluid_24"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
@@ -1770,7 +1767,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Naphtha.getFluid(100000))
                 .EUt(7864320)
                 .duration(150)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("36_space_fluid_21"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
@@ -1779,7 +1776,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Tritium.getFluid(100000))
                 .EUt(7864320)
                 .duration(150)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("36_space_fluid_22"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
@@ -1788,7 +1785,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.HeavyFuel.getFluid(100000))
                 .EUt(7864320)
                 .duration(150)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("21_space_fluid_12"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
@@ -1797,7 +1794,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Oxygen.getFluid(1000000))
                 .EUt(1966080)
                 .duration(300)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("21_space_fluid_10"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
@@ -1806,7 +1803,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Fluorine.getFluid(1000000))
                 .EUt(1966080)
                 .duration(300)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("21_space_fluid_11"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
@@ -1815,7 +1812,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.CarbonMonoxide.getFluid(1000000))
                 .EUt(1966080)
                 .duration(300)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("32_space_fluid_9"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
@@ -1824,7 +1821,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Chlorine.getFluid(1000000))
                 .EUt(7864320)
                 .duration(75)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("32_space_fluid_5"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
@@ -1833,7 +1830,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.SulfurDioxide.getFluid(1000000))
                 .EUt(7864320)
                 .duration(75)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("32_space_fluid_6"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
@@ -1842,7 +1839,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.CarbonDioxide.getFluid(1000000))
                 .EUt(7864320)
                 .duration(75)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("32_space_fluid_7"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
@@ -1851,7 +1848,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.NitrogenDioxide.getFluid(1000000))
                 .EUt(7864320)
                 .duration(75)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("32_space_fluid_8"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
@@ -1860,7 +1857,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Ammonia.getFluid(1000000))
                 .EUt(7864320)
                 .duration(75)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("32_space_fluid_1"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
@@ -1869,7 +1866,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Hydrogen.getFluid(1000000))
                 .EUt(7864320)
                 .duration(75)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("32_space_fluid_2"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
@@ -1878,7 +1875,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Helium.getFluid(1000000))
                 .EUt(7864320)
                 .duration(75)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("32_space_fluid_3"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
@@ -1887,7 +1884,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Nitrogen.getFluid(1000000))
                 .EUt(7864320)
                 .duration(75)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("32_space_fluid_4"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
@@ -1896,7 +1893,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Methane.getFluid(1000000))
                 .EUt(7864320)
                 .duration(75)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("42_space_fluid_1"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
@@ -1905,7 +1902,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Hydrogen.getFluid(1000000))
                 .EUt(31457280)
                 .duration(37)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("42_space_fluid_8"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
@@ -1914,7 +1911,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Ammonia.getFluid(1000000))
                 .EUt(31457280)
                 .duration(37)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("42_space_fluid_9"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
@@ -1923,7 +1920,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Chlorine.getFluid(1000000))
                 .EUt(31457280)
                 .duration(37)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("42_space_fluid_6"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
@@ -1932,7 +1929,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.CarbonDioxide.getFluid(1000000))
                 .EUt(31457280)
                 .duration(37)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("42_space_fluid_7"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
@@ -1941,7 +1938,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.NitrogenDioxide.getFluid(1000000))
                 .EUt(31457280)
                 .duration(37)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("42_space_fluid_4"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
@@ -1950,7 +1947,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Methane.getFluid(1000000))
                 .EUt(31457280)
                 .duration(37)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("42_space_fluid_5"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
@@ -1959,7 +1956,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.SulfurDioxide.getFluid(1000000))
                 .EUt(31457280)
                 .duration(37)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("42_space_fluid_2"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
@@ -1968,7 +1965,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Helium.getFluid(1000000))
                 .EUt(31457280)
                 .duration(37)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("42_space_fluid_3"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
@@ -1977,7 +1974,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Nitrogen.getFluid(1000000))
                 .EUt(31457280)
                 .duration(37)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("25_space_fluid_18"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
@@ -1986,7 +1983,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Radon.getFluid(100000))
                 .EUt(1966080)
                 .duration(150)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("25_space_fluid_19"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
@@ -1995,7 +1992,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Helium3.getFluid(100000))
                 .EUt(1966080)
                 .duration(150)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("25_space_fluid_13"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
@@ -2004,7 +2001,7 @@ interface DrillingModule {
                 .outputFluids(GTOMaterials.UnknowWater.getFluid(10000))
                 .EUt(1966080)
                 .duration(150)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("25_space_fluid_16"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
@@ -2013,7 +2010,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Krypton.getFluid(100000))
                 .EUt(1966080)
                 .duration(150)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("25_space_fluid_17"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
@@ -2022,7 +2019,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Xenon.getFluid(100000))
                 .EUt(1966080)
                 .duration(150)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("25_space_fluid_14"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
@@ -2031,7 +2028,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Neon.getFluid(100000))
                 .EUt(1966080)
                 .duration(150)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("25_space_fluid_15"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
@@ -2040,7 +2037,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Argon.getFluid(100000))
                 .EUt(1966080)
                 .duration(150)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("47_space_fluid_20"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
@@ -2049,7 +2046,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Deuterium.getFluid(100000))
                 .EUt(31457280)
                 .duration(37)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("47_space_fluid_22"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
@@ -2058,7 +2055,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.HeavyFuel.getFluid(100000))
                 .EUt(31457280)
                 .duration(37)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("47_space_fluid_21"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
@@ -2067,7 +2064,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Tritium.getFluid(100000))
                 .EUt(31457280)
                 .duration(37)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("47_space_fluid_24"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
@@ -2076,7 +2073,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Naphtha.getFluid(100000))
                 .EUt(31457280)
                 .duration(37)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("47_space_fluid_23"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
@@ -2085,7 +2082,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.LightFuel.getFluid(100000))
                 .EUt(31457280)
                 .duration(37)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("47_space_fluid_26"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
@@ -2094,7 +2091,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.CoalGas.getFluid(100000))
                 .EUt(31457280)
                 .duration(37)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("47_space_fluid_25"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
@@ -2103,7 +2100,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.RefineryGas.getFluid(100000))
                 .EUt(31457280)
                 .duration(37)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("47_space_fluid_28"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
@@ -2112,7 +2109,7 @@ interface DrillingModule {
                 .outputFluids(GTOMaterials.BarnardaAir.getFluid(100000))
                 .EUt(31457280)
                 .duration(37)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("47_space_fluid_27"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
@@ -2121,7 +2118,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Bromine.getFluid(100000))
                 .EUt(31457280)
                 .duration(37)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("32_space_fluid_12"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
@@ -2130,7 +2127,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Oxygen.getFluid(1000000))
                 .EUt(7864320)
                 .duration(75)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("32_space_fluid_10"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
@@ -2139,7 +2136,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Fluorine.getFluid(1000000))
                 .EUt(7864320)
                 .duration(75)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("32_space_fluid_11"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
@@ -2148,7 +2145,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.CarbonMonoxide.getFluid(1000000))
                 .EUt(7864320)
                 .duration(75)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("11_space_fluid_9"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
@@ -2157,7 +2154,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Chlorine.getFluid(1000000))
                 .EUt(491520)
                 .duration(600)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("11_space_fluid_8"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
@@ -2166,7 +2163,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Ammonia.getFluid(1000000))
                 .EUt(491520)
                 .duration(600)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("11_space_fluid_5"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
@@ -2175,7 +2172,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.SulfurDioxide.getFluid(1000000))
                 .EUt(491520)
                 .duration(600)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("11_space_fluid_4"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
@@ -2184,7 +2181,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Methane.getFluid(1000000))
                 .EUt(491520)
                 .duration(600)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("11_space_fluid_7"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
@@ -2193,7 +2190,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.NitrogenDioxide.getFluid(1000000))
                 .EUt(491520)
                 .duration(600)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("11_space_fluid_6"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
@@ -2202,7 +2199,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.CarbonDioxide.getFluid(1000000))
                 .EUt(491520)
                 .duration(600)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("11_space_fluid_1"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
@@ -2211,7 +2208,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Hydrogen.getFluid(1000000))
                 .EUt(491520)
                 .duration(600)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("11_space_fluid_3"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
@@ -2220,7 +2217,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Nitrogen.getFluid(1000000))
                 .EUt(491520)
                 .duration(600)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("11_space_fluid_2"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
@@ -2229,7 +2226,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Helium.getFluid(1000000))
                 .EUt(491520)
                 .duration(600)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("33_space_fluid_13"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
@@ -2238,7 +2235,7 @@ interface DrillingModule {
                 .outputFluids(GTOMaterials.UnknowWater.getFluid(10000))
                 .EUt(7864320)
                 .duration(150)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("33_space_fluid_14"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
@@ -2247,7 +2244,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Neon.getFluid(100000))
                 .EUt(7864320)
                 .duration(150)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("33_space_fluid_15"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
@@ -2256,7 +2253,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Argon.getFluid(100000))
                 .EUt(7864320)
                 .duration(150)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("33_space_fluid_16"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
@@ -2265,7 +2262,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Krypton.getFluid(100000))
                 .EUt(7864320)
                 .duration(150)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("33_space_fluid_17"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
@@ -2274,7 +2271,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Xenon.getFluid(100000))
                 .EUt(7864320)
                 .duration(150)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("33_space_fluid_18"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
@@ -2283,7 +2280,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Radon.getFluid(100000))
                 .EUt(7864320)
                 .duration(150)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("33_space_fluid_19"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
@@ -2292,7 +2289,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Helium3.getFluid(100000))
                 .EUt(7864320)
                 .duration(150)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("37_space_fluid_22"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
@@ -2301,7 +2298,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.HeavyFuel.getFluid(100000))
                 .EUt(7864320)
                 .duration(75)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("37_space_fluid_23"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
@@ -2310,7 +2307,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.LightFuel.getFluid(100000))
                 .EUt(7864320)
                 .duration(75)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("37_space_fluid_24"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
@@ -2319,7 +2316,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Naphtha.getFluid(100000))
                 .EUt(7864320)
                 .duration(75)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("37_space_fluid_25"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
@@ -2328,7 +2325,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.RefineryGas.getFluid(100000))
                 .EUt(7864320)
                 .duration(75)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("37_space_fluid_26"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
@@ -2337,7 +2334,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.CoalGas.getFluid(100000))
                 .EUt(7864320)
                 .duration(75)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("37_space_fluid_27"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
@@ -2346,7 +2343,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Bromine.getFluid(100000))
                 .EUt(7864320)
                 .duration(75)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("37_space_fluid_28"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
@@ -2355,7 +2352,7 @@ interface DrillingModule {
                 .outputFluids(GTOMaterials.BarnardaAir.getFluid(100000))
                 .EUt(7864320)
                 .duration(75)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("37_space_fluid_20"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
@@ -2364,7 +2361,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Deuterium.getFluid(100000))
                 .EUt(7864320)
                 .duration(75)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("37_space_fluid_21"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
@@ -2373,7 +2370,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Tritium.getFluid(100000))
                 .EUt(7864320)
                 .duration(75)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("41_space_fluid_5"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
@@ -2382,7 +2379,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.SulfurDioxide.getFluid(1000000))
                 .EUt(31457280)
                 .duration(75)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("41_space_fluid_6"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
@@ -2391,7 +2388,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.CarbonDioxide.getFluid(1000000))
                 .EUt(31457280)
                 .duration(75)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("41_space_fluid_3"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
@@ -2400,7 +2397,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Nitrogen.getFluid(1000000))
                 .EUt(31457280)
                 .duration(75)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("41_space_fluid_4"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
@@ -2409,7 +2406,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Methane.getFluid(1000000))
                 .EUt(31457280)
                 .duration(75)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("41_space_fluid_9"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
@@ -2418,7 +2415,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Chlorine.getFluid(1000000))
                 .EUt(31457280)
                 .duration(75)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("41_space_fluid_7"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
@@ -2427,7 +2424,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.NitrogenDioxide.getFluid(1000000))
                 .EUt(31457280)
                 .duration(75)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("41_space_fluid_8"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
@@ -2436,7 +2433,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Ammonia.getFluid(1000000))
                 .EUt(31457280)
                 .duration(75)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("41_space_fluid_1"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
@@ -2445,7 +2442,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Hydrogen.getFluid(1000000))
                 .EUt(31457280)
                 .duration(75)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("41_space_fluid_2"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
@@ -2454,7 +2451,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Helium.getFluid(1000000))
                 .EUt(31457280)
                 .duration(75)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("43_space_fluid_13"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
@@ -2463,7 +2460,7 @@ interface DrillingModule {
                 .outputFluids(GTOMaterials.UnknowWater.getFluid(10000))
                 .EUt(31457280)
                 .duration(75)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("43_space_fluid_16"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
@@ -2472,7 +2469,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Krypton.getFluid(100000))
                 .EUt(31457280)
                 .duration(75)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("43_space_fluid_17"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
@@ -2481,7 +2478,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Xenon.getFluid(100000))
                 .EUt(31457280)
                 .duration(75)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("43_space_fluid_14"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
@@ -2490,7 +2487,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Neon.getFluid(100000))
                 .EUt(31457280)
                 .duration(75)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("43_space_fluid_15"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
@@ -2499,7 +2496,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Argon.getFluid(100000))
                 .EUt(31457280)
                 .duration(75)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("43_space_fluid_18"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
@@ -2508,7 +2505,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Radon.getFluid(100000))
                 .EUt(31457280)
                 .duration(75)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("43_space_fluid_19"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
@@ -2517,7 +2514,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Helium3.getFluid(100000))
                 .EUt(31457280)
                 .duration(75)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("65_space_fluid_15"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -2526,7 +2523,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Argon.getFluid(100000))
                 .EUt(503316480)
                 .duration(9)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("65_space_fluid_14"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -2535,7 +2532,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Neon.getFluid(100000))
                 .EUt(503316480)
                 .duration(9)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("65_space_fluid_17"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -2544,7 +2541,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Xenon.getFluid(100000))
                 .EUt(503316480)
                 .duration(9)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("65_space_fluid_16"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -2553,7 +2550,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Krypton.getFluid(100000))
                 .EUt(503316480)
                 .duration(9)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("65_space_fluid_19"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -2562,7 +2559,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Helium3.getFluid(100000))
                 .EUt(503316480)
                 .duration(9)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("65_space_fluid_18"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -2571,7 +2568,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Radon.getFluid(100000))
                 .EUt(503316480)
                 .duration(9)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("65_space_fluid_13"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
@@ -2580,7 +2577,7 @@ interface DrillingModule {
                 .outputFluids(GTOMaterials.UnknowWater.getFluid(10000))
                 .EUt(503316480)
                 .duration(9)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("11_space_fluid_10"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
@@ -2589,7 +2586,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Fluorine.getFluid(1000000))
                 .EUt(491520)
                 .duration(600)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("11_space_fluid_12"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
@@ -2598,7 +2595,7 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.Oxygen.getFluid(1000000))
                 .EUt(491520)
                 .duration(600)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.DRILLING_MODULE_RECIPES.recipeBuilder(GTOCore.id("11_space_fluid_11"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
@@ -2607,6 +2604,6 @@ interface DrillingModule {
                 .outputFluids(GTMaterials.CarbonMonoxide.getFluid(1000000))
                 .EUt(491520)
                 .duration(600)
-                .save(provider);
+                .save();
     }
 }

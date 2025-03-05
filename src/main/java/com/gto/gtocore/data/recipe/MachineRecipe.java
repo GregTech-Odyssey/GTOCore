@@ -25,9 +25,9 @@ import java.util.function.Consumer;
 import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
-import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.ASSEMBLER_RECIPES;
 import static com.gregtechceu.gtceu.data.recipe.GTCraftingComponents.*;
 import static com.gregtechceu.gtceu.data.recipe.misc.MetaTileEntityLoader.registerMachineRecipe;
+import static com.gto.gtocore.common.data.GTORecipeTypes.ASSEMBLER_RECIPES;
 
 public interface MachineRecipe {
 
@@ -49,73 +49,73 @@ public interface MachineRecipe {
                 "PPP",
                 "PwP", "PPP", 'P', new UnificationEntry(plate, GTOMaterials.Chaos));
         GTORecipeTypes.LASER_WELDER_RECIPES.recipeBuilder("casing_ulv").EUt(16).inputItems(plate, WroughtIron, 8)
-                .outputItems(GTBlocks.MACHINE_CASING_ULV.asStack()).circuitMeta(8).duration(25).save(provider);
+                .outputItems(GTBlocks.MACHINE_CASING_ULV.asStack()).circuitMeta(8).duration(25).save();
         GTORecipeTypes.LASER_WELDER_RECIPES.recipeBuilder("casing_lv").EUt(16).inputItems(plate, Steel, 8)
-                .outputItems(GTBlocks.MACHINE_CASING_LV.asStack()).circuitMeta(8).duration(50).save(provider);
+                .outputItems(GTBlocks.MACHINE_CASING_LV.asStack()).circuitMeta(8).duration(50).save();
         GTORecipeTypes.LASER_WELDER_RECIPES.recipeBuilder("casing_mv").EUt(16).inputItems(plate, Aluminium, 8)
-                .outputItems(GTBlocks.MACHINE_CASING_MV.asStack()).circuitMeta(8).duration(50).save(provider);
+                .outputItems(GTBlocks.MACHINE_CASING_MV.asStack()).circuitMeta(8).duration(50).save();
         GTORecipeTypes.LASER_WELDER_RECIPES.recipeBuilder("casing_hv").EUt(16).inputItems(plate, StainlessSteel, 8)
-                .outputItems(GTBlocks.MACHINE_CASING_HV.asStack()).circuitMeta(8).duration(50).save(provider);
+                .outputItems(GTBlocks.MACHINE_CASING_HV.asStack()).circuitMeta(8).duration(50).save();
         GTORecipeTypes.LASER_WELDER_RECIPES.recipeBuilder("casing_ev").EUt(16).inputItems(plate, Titanium, 8)
-                .outputItems(GTBlocks.MACHINE_CASING_EV.asStack()).circuitMeta(8).duration(50).save(provider);
+                .outputItems(GTBlocks.MACHINE_CASING_EV.asStack()).circuitMeta(8).duration(50).save();
         GTORecipeTypes.LASER_WELDER_RECIPES.recipeBuilder("casing_iv").EUt(16).inputItems(plate, TungstenSteel, 8)
-                .outputItems(GTBlocks.MACHINE_CASING_IV.asStack()).circuitMeta(8).duration(50).save(provider);
+                .outputItems(GTBlocks.MACHINE_CASING_IV.asStack()).circuitMeta(8).duration(50).save();
         GTORecipeTypes.LASER_WELDER_RECIPES.recipeBuilder("casing_luv").EUt(16).inputItems(plate, RhodiumPlatedPalladium, 8)
-                .outputItems(GTBlocks.MACHINE_CASING_LuV.asStack()).circuitMeta(8).duration(50).save(provider);
+                .outputItems(GTBlocks.MACHINE_CASING_LuV.asStack()).circuitMeta(8).duration(50).save();
         GTORecipeTypes.LASER_WELDER_RECIPES.recipeBuilder("casing_zpm").EUt(16).inputItems(plate, NaquadahAlloy, 8)
-                .outputItems(GTBlocks.MACHINE_CASING_ZPM.asStack()).circuitMeta(8).duration(50).save(provider);
+                .outputItems(GTBlocks.MACHINE_CASING_ZPM.asStack()).circuitMeta(8).duration(50).save();
         GTORecipeTypes.LASER_WELDER_RECIPES.recipeBuilder("casing_uv").EUt(16).inputItems(plate, Darmstadtium, 8)
-                .outputItems(GTBlocks.MACHINE_CASING_UV.asStack()).circuitMeta(8).duration(50).save(provider);
+                .outputItems(GTBlocks.MACHINE_CASING_UV.asStack()).circuitMeta(8).duration(50).save();
         GTORecipeTypes.LASER_WELDER_RECIPES.recipeBuilder("casing_uhv").EUt(16).inputItems(plate, Neutronium, 8)
-                .outputItems(GTBlocks.MACHINE_CASING_UHV.asStack()).circuitMeta(8).duration(50).save(provider);
+                .outputItems(GTBlocks.MACHINE_CASING_UHV.asStack()).circuitMeta(8).duration(50).save();
         GTORecipeTypes.LASER_WELDER_RECIPES.recipeBuilder(GTOCore.id("casing_uev")).EUt(16).inputItems(plate, GTOMaterials.Quantanium, 8)
-                .outputItems(GTBlocks.MACHINE_CASING_UEV.asStack()).circuitMeta(8).duration(50).save(provider);
+                .outputItems(GTBlocks.MACHINE_CASING_UEV.asStack()).circuitMeta(8).duration(50).save();
         GTORecipeTypes.LASER_WELDER_RECIPES.recipeBuilder(GTOCore.id("casing_uiv")).EUt(16).inputItems(plate, GTOMaterials.Adamantium, 8)
-                .outputItems(GTBlocks.MACHINE_CASING_UIV.asStack()).circuitMeta(8).duration(50).save(provider);
+                .outputItems(GTBlocks.MACHINE_CASING_UIV.asStack()).circuitMeta(8).duration(50).save();
         GTORecipeTypes.LASER_WELDER_RECIPES.recipeBuilder(GTOCore.id("casing_uxv")).EUt(16).inputItems(plate, GTOMaterials.Vibranium, 8)
-                .outputItems(GTBlocks.MACHINE_CASING_UXV.asStack()).circuitMeta(8).duration(50).save(provider);
+                .outputItems(GTBlocks.MACHINE_CASING_UXV.asStack()).circuitMeta(8).duration(50).save();
         GTORecipeTypes.LASER_WELDER_RECIPES.recipeBuilder(GTOCore.id("casing_opv")).EUt(16).inputItems(plate, GTOMaterials.Draconium, 8)
-                .outputItems(GTBlocks.MACHINE_CASING_OpV.asStack()).circuitMeta(8).duration(50).save(provider);
+                .outputItems(GTBlocks.MACHINE_CASING_OpV.asStack()).circuitMeta(8).duration(50).save();
         GTORecipeTypes.LASER_WELDER_RECIPES.recipeBuilder(GTOCore.id("casing_max")).EUt(16).inputItems(plate, GTOMaterials.Chaos, 8)
-                .outputItems(GTBlocks.MACHINE_CASING_MAX.asStack()).circuitMeta(8).duration(50).save(provider);
+                .outputItems(GTBlocks.MACHINE_CASING_MAX.asStack()).circuitMeta(8).duration(50).save();
 
         ASSEMBLER_RECIPES.recipeBuilder("hull_hv").duration(50).EUt(16).inputItems(GTBlocks.MACHINE_CASING_HV.asStack())
                 .inputItems(cableGtSingle, Gold, 2).inputFluids(PolyvinylChloride.getFluid(L << 1))
-                .outputItems(GTMachines.HULL[3]).save(provider);
+                .outputItems(GTMachines.HULL[3]).save();
         ASSEMBLER_RECIPES.recipeBuilder("hull_ev").duration(50).EUt(16).inputItems(GTBlocks.MACHINE_CASING_EV.asStack())
                 .inputItems(cableGtSingle, Aluminium, 2).inputFluids(PolyvinylChloride.getFluid(L << 1))
-                .outputItems(GTMachines.HULL[4]).save(provider);
+                .outputItems(GTMachines.HULL[4]).save();
         ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("hull_uhv")).duration(50).EUt(16)
                 .inputItems(GTBlocks.MACHINE_CASING_UHV.asStack())
                 .inputItems(cableGtSingle, Europium, 2)
                 .inputFluids(GTOMaterials.Polyetheretherketone.getFluid(L << 1))
-                .outputItems(GTMachines.HULL[9]).save(provider);
+                .outputItems(GTMachines.HULL[9]).save();
 
         ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("hull_uev")).duration(50).EUt(16)
                 .inputItems(GTBlocks.MACHINE_CASING_UEV.asStack())
                 .inputItems(cableGtSingle, GTOMaterials.Mithril, 2)
                 .inputFluids(GTOMaterials.Polyetheretherketone.getFluid(L << 1))
-                .outputItems(GTMachines.HULL[10]).save(provider);
+                .outputItems(GTMachines.HULL[10]).save();
         ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("hull_uiv")).duration(50).EUt(16)
                 .inputItems(GTBlocks.MACHINE_CASING_UIV.asStack())
                 .inputItems(cableGtSingle, Neutronium, 2)
                 .inputFluids(GTOMaterials.Zylon.getFluid(L << 1))
-                .outputItems(GTMachines.HULL[11]).save(provider);
+                .outputItems(GTMachines.HULL[11]).save();
         ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("hull_uxv")).duration(50).EUt(16)
                 .inputItems(GTBlocks.MACHINE_CASING_UXV.asStack())
                 .inputItems(cableGtSingle, GTOMaterials.Taranium, 2)
                 .inputFluids(GTOMaterials.Zylon.getFluid(L << 1))
-                .outputItems(GTMachines.HULL[12]).save(provider);
+                .outputItems(GTMachines.HULL[12]).save();
         ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("hull_opv")).duration(50).EUt(16)
                 .inputItems(GTBlocks.MACHINE_CASING_OpV.asStack())
                 .inputItems(cableGtSingle, GTOMaterials.CrystalMatrix, 2)
                 .inputFluids(GTOMaterials.FullerenePolymerMatrixPulp.getFluid(L << 1))
-                .outputItems(GTMachines.HULL[13]).save(provider);
+                .outputItems(GTMachines.HULL[13]).save();
         ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("hull_max")).duration(50).EUt(16)
                 .inputItems(GTBlocks.MACHINE_CASING_MAX.asStack())
                 .inputItems(cableGtSingle, GTOMaterials.CosmicNeutronium, 2)
                 .inputFluids(GTOMaterials.Radox.getFluid(L << 1))
-                .outputItems(GTMachines.HULL[14]).save(provider);
+                .outputItems(GTMachines.HULL[14]).save();
 
         registerMachineRecipe(provider, ArrayUtils.subarray(GTMachines.TRANSFORMER, UHV, MAX),
                 "WCC",
@@ -306,7 +306,7 @@ public interface MachineRecipe {
                 .inputItems(gear, Neutronium, 4)
                 .circuitMeta(2)
                 .outputItems(MultiBlockD.INFINITY_FLUID_DRILLING_RIG)
-                .duration(400).EUt(VA[UV]).save(provider);
+                .duration(400).EUt(VA[UV]).save();
 
         ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("wood_distillation"))
                 .inputItems(MultiBlockA.LARGE_PYROLYSE_OVEN.asStack(), 2)
@@ -320,6 +320,6 @@ public interface MachineRecipe {
                 .inputFluids(SolderingAlloy.getFluid(1296))
                 .outputItems(MultiBlockB.WOOD_DISTILLATION)
                 .duration(400).EUt(VA[LuV])
-                .save(provider);
+                .save();
     }
 }

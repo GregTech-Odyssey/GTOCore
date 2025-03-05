@@ -5,13 +5,9 @@ import com.gto.gtocore.common.data.GTORecipeTypes;
 
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
-import net.minecraft.data.recipes.FinishedRecipe;
-
-import java.util.function.Consumer;
-
 interface PetrochemicalPlant {
 
-    static void init(Consumer<FinishedRecipe> provider) {
+    static void init() {
         GTORecipeTypes.PETROCHEMICAL_PLANT_RECIPES.recipeBuilder(GTOCore.id("petrochemical_plant_3"))
                 .inputFluids(GTMaterials.OilHeavy.getFluid(1000))
                 .inputFluids(GTMaterials.Steam.getFluid(1000))
@@ -29,7 +25,7 @@ interface PetrochemicalPlant {
                 .outputFluids(GTMaterials.Helium.getFluid(10))
                 .EUt(1920)
                 .duration(200)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.PETROCHEMICAL_PLANT_RECIPES.recipeBuilder(GTOCore.id("petrochemical_plant_4"))
                 .inputFluids(GTMaterials.OilLight.getFluid(1000))
@@ -48,7 +44,7 @@ interface PetrochemicalPlant {
                 .outputFluids(GTMaterials.Helium.getFluid(40))
                 .EUt(1920)
                 .duration(200)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.PETROCHEMICAL_PLANT_RECIPES.recipeBuilder(GTOCore.id("petrochemical_plant_1"))
                 .inputFluids(GTMaterials.Oil.getFluid(1000))
@@ -67,7 +63,7 @@ interface PetrochemicalPlant {
                 .outputFluids(GTMaterials.Helium.getFluid(20))
                 .EUt(1920)
                 .duration(200)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.PETROCHEMICAL_PLANT_RECIPES.recipeBuilder(GTOCore.id("petrochemical_plant_2"))
                 .inputFluids(GTMaterials.RawOil.getFluid(1000))
@@ -86,6 +82,6 @@ interface PetrochemicalPlant {
                 .outputFluids(GTMaterials.Helium.getFluid(10))
                 .EUt(1920)
                 .duration(200)
-                .save(provider);
+                .save();
     }
 }

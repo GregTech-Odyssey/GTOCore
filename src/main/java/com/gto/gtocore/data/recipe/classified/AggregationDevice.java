@@ -10,13 +10,9 @@ import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
-import net.minecraft.data.recipes.FinishedRecipe;
-
-import java.util.function.Consumer;
-
 interface AggregationDevice {
 
-    static void init(Consumer<FinishedRecipe> provider) {
+    static void init() {
         GTORecipeTypes.AGGREGATION_DEVICE_RECIPES.recipeBuilder(GTOCore.id("chaotic_core"))
                 .notConsumable(GTOItems.DRAGON_STABILIZER_CORE.asStack())
                 .inputItems(GTOTagPrefix.nanites, GTOMaterials.Draconium)
@@ -30,7 +26,7 @@ interface AggregationDevice {
                 .outputItems(GTOItems.CHAOTIC_CORE.asStack(2))
                 .EUt(503316480)
                 .duration(400)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.AGGREGATION_DEVICE_RECIPES.recipeBuilder(GTOCore.id("awakened_core"))
                 .notConsumable(GTOItems.DRAGON_STABILIZER_CORE.asStack())
@@ -45,7 +41,7 @@ interface AggregationDevice {
                 .outputItems(GTOItems.AWAKENED_CORE.asStack(2))
                 .EUt(125829120)
                 .duration(400)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.AGGREGATION_DEVICE_RECIPES.recipeBuilder(GTOCore.id("wyvern_core"))
                 .notConsumable(GTOItems.STABILIZER_CORE.asStack())
@@ -60,7 +56,7 @@ interface AggregationDevice {
                 .outputItems(GTOItems.WYVERN_CORE.asStack(2))
                 .EUt(31457280)
                 .duration(400)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.AGGREGATION_DEVICE_RECIPES.recipeBuilder(GTOCore.id("draconic_core"))
                 .notConsumable(GTOItems.STABILIZER_CORE.asStack())
@@ -75,6 +71,6 @@ interface AggregationDevice {
                 .outputItems(GTOItems.DRACONIC_CORE.asStack(2))
                 .EUt(7864320)
                 .duration(400)
-                .save(provider);
+                .save();
     }
 }

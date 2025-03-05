@@ -608,7 +608,7 @@ public interface WoodRecipes {
                 .outputItems(GTItems.STICKY_RESIN.asStack(4))
                 .EUt(30)
                 .duration(1200)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.TREE_GROWTH_SIMULATOR_RECIPES.recipeBuilder(GTOCore.id("rubbera"))
                 .inputFluids(new FluidStack(Fluids.WATER, 8000))
@@ -619,7 +619,7 @@ public interface WoodRecipes {
                 .outputItems(GTItems.STICKY_RESIN.asStack(16))
                 .EUt(120)
                 .duration(300)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.TREE_GROWTH_SIMULATOR_RECIPES.recipeBuilder(GTOCore.id("mangrove"))
                 .inputFluids(new FluidStack(Fluids.WATER, 4000))
@@ -628,7 +628,7 @@ public interface WoodRecipes {
                 .outputItems(Blocks.MANGROVE_LOG.asItem(), 16)
                 .EUt(30)
                 .duration(1200)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.TREE_GROWTH_SIMULATOR_RECIPES.recipeBuilder(GTOCore.id("mangrovea"))
                 .inputFluids(new FluidStack(Fluids.WATER, 8000))
@@ -638,7 +638,7 @@ public interface WoodRecipes {
                 .outputItems(Blocks.MANGROVE_LOG.asItem(), 64)
                 .EUt(120)
                 .duration(300)
-                .save(provider);
+                .save();
 
         add(provider, "minecraft", "oak");
         add(provider, "minecraft", "spruce");
@@ -673,7 +673,7 @@ public interface WoodRecipes {
                 .outputItems(log)
                 .EUt(30)
                 .duration(1200)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.TREE_GROWTH_SIMULATOR_RECIPES.recipeBuilder(GTOCore.id(mane + "a"))
                 .inputFluids(new FluidStack(Fluids.WATER, 8000))
@@ -683,6 +683,6 @@ public interface WoodRecipes {
                 .outputItems(log.copyWithCount(64))
                 .EUt(120)
                 .duration(300)
-                .save(provider);
+                .save();
     }
 }

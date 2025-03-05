@@ -11,13 +11,9 @@ import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
-import net.minecraft.data.recipes.FinishedRecipe;
-
-import java.util.function.Consumer;
-
 interface NanitesIntegratedProcessingCenter {
 
-    static void init(Consumer<FinishedRecipe> provider) {
+    static void init() {
         GTORecipeTypes.NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES.recipeBuilder(GTOCore.id("zylon_dust"))
                 .inputItems(GTOTagPrefix.nanites, GTOMaterials.BlackDwarfMatter)
                 .inputItems(TagPrefix.dust, GTMaterials.Sulfur, 1762)
@@ -36,7 +32,7 @@ interface NanitesIntegratedProcessingCenter {
                 .duration(3200)
                 .blastFurnaceTemp(18900)
                 .addData("module", 3)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES.recipeBuilder(GTOCore.id("biological_cells"))
                 .inputItems(GTOTagPrefix.nanites, GTMaterials.Neutronium)
@@ -55,7 +51,7 @@ interface NanitesIntegratedProcessingCenter {
                 .duration(4000)
                 .blastFurnaceTemp(16200)
                 .addData("module", 2)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES.recipeBuilder(GTOCore.id("hexanitrohexaaxaisowurtzitane_dust"))
                 .inputItems(GTOTagPrefix.nanites, GTOMaterials.Orichalcum)
@@ -82,7 +78,7 @@ interface NanitesIntegratedProcessingCenter {
                 .duration(6400)
                 .blastFurnaceTemp(21600)
                 .addData("module", 3)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES.recipeBuilder(GTOCore.id("silicone_rubber"))
                 .inputItems(GTOTagPrefix.nanites, GTMaterials.Carbon)
@@ -97,7 +93,7 @@ interface NanitesIntegratedProcessingCenter {
                 .duration(320)
                 .blastFurnaceTemp(1200)
                 .addData("module", 3)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES.recipeBuilder(GTOCore.id("euv_photoresist"))
                 .inputItems(GTOTagPrefix.nanites, GTOMaterials.Infuscolium)
@@ -120,7 +116,7 @@ interface NanitesIntegratedProcessingCenter {
                 .duration(12800)
                 .blastFurnaceTemp(21600)
                 .addData("module", 3)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES.recipeBuilder(GTOCore.id("cycloparaphenylene"))
                 .inputItems(GTOTagPrefix.nanites, GTMaterials.Osmium)
@@ -138,7 +134,7 @@ interface NanitesIntegratedProcessingCenter {
                 .duration(2000)
                 .blastFurnaceTemp(16200)
                 .addData("module", 3)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES.recipeBuilder(GTOCore.id("cosmic_superconductor"))
                 .inputItems(GTOTagPrefix.nanites, GTOMaterials.Draconium)
@@ -165,7 +161,7 @@ interface NanitesIntegratedProcessingCenter {
                 .duration(16000)
                 .blastFurnaceTemp(36000)
                 .addData("module", 3)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES.recipeBuilder(GTOCore.id("unfolded_fullerene_dust"))
                 .inputItems(GTOTagPrefix.nanites, GTOMaterials.Enderium)
@@ -180,7 +176,7 @@ interface NanitesIntegratedProcessingCenter {
                 .duration(16000)
                 .blastFurnaceTemp(16800)
                 .addData("module", 3)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES.recipeBuilder(GTOCore.id("polyimide"))
                 .inputItems(GTOTagPrefix.nanites, GTMaterials.Glowstone)
@@ -195,7 +191,7 @@ interface NanitesIntegratedProcessingCenter {
                 .duration(2000)
                 .blastFurnaceTemp(14400)
                 .addData("module", 3)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES.recipeBuilder(GTOCore.id("platinum_dust"))
                 .inputItems(GTOTagPrefix.nanites, GTMaterials.Iridium)
@@ -218,7 +214,7 @@ interface NanitesIntegratedProcessingCenter {
                 .duration(2400)
                 .blastFurnaceTemp(9000)
                 .addData("module", 1)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES.recipeBuilder(GTOCore.id("photopolymer"))
                 .inputItems(GTOTagPrefix.nanites, GTOMaterials.WhiteDwarfMatter)
@@ -242,7 +238,7 @@ interface NanitesIntegratedProcessingCenter {
                 .duration(5120)
                 .blastFurnaceTemp(21600)
                 .addData("module", 3)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES.recipeBuilder(GTOCore.id("photoresist"))
                 .inputItems(GTOTagPrefix.nanites, GTOMaterials.Uruium)
@@ -261,7 +257,7 @@ interface NanitesIntegratedProcessingCenter {
                 .duration(9600)
                 .blastFurnaceTemp(16200)
                 .addData("module", 3)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES.recipeBuilder(GTOCore.id("stem_cells"))
                 .inputItems(GTOTagPrefix.nanites, GTMaterials.Naquadah)
@@ -284,7 +280,7 @@ interface NanitesIntegratedProcessingCenter {
                 .duration(600)
                 .blastFurnaceTemp(12200)
                 .addData("module", 2)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES.recipeBuilder(GTOCore.id("polyvinyl_chloride"))
                 .inputItems(GTOTagPrefix.nanites, GTMaterials.Glowstone)
@@ -298,7 +294,7 @@ interface NanitesIntegratedProcessingCenter {
                 .duration(160)
                 .blastFurnaceTemp(800)
                 .addData("module", 3)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES.recipeBuilder(GTOCore.id("styrene_butadiene_rubber"))
                 .inputItems(GTOTagPrefix.nanites, GTMaterials.Iron)
@@ -314,7 +310,7 @@ interface NanitesIntegratedProcessingCenter {
                 .duration(120)
                 .blastFurnaceTemp(1800)
                 .addData("module", 3)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES.recipeBuilder(GTOCore.id("polybenzimidazole"))
                 .inputItems(GTOTagPrefix.nanites, GTMaterials.Iridium)
@@ -333,7 +329,7 @@ interface NanitesIntegratedProcessingCenter {
                 .duration(2000)
                 .blastFurnaceTemp(6000)
                 .addData("module", 3)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES.recipeBuilder(GTOCore.id("polytetrafluoroethylene"))
                 .inputItems(GTOTagPrefix.nanites, GTMaterials.Copper)
@@ -347,7 +343,7 @@ interface NanitesIntegratedProcessingCenter {
                 .duration(240)
                 .blastFurnaceTemp(2600)
                 .addData("module", 3)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES.recipeBuilder(GTOCore.id("acidic_naquadria_solution"))
                 .inputItems(GTOTagPrefix.nanites, GTMaterials.Carbon)
@@ -359,7 +355,7 @@ interface NanitesIntegratedProcessingCenter {
                 .duration(200)
                 .blastFurnaceTemp(9000)
                 .addData("module", 1)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES.recipeBuilder(GTOCore.id("zirconium_dust"))
                 .inputItems(GTOTagPrefix.nanites, GTMaterials.Osmium)
@@ -378,7 +374,7 @@ interface NanitesIntegratedProcessingCenter {
                 .duration(6400)
                 .blastFurnaceTemp(16200)
                 .addData("module", 1)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES.recipeBuilder(GTOCore.id("liquidcrystalkevlar"))
                 .inputItems(GTOTagPrefix.nanites, GTMaterials.Rhenium)
@@ -395,7 +391,7 @@ interface NanitesIntegratedProcessingCenter {
                 .duration(4000)
                 .blastFurnaceTemp(17200)
                 .addData("module", 3)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES.recipeBuilder(GTOCore.id("naquadria_dust"))
                 .inputItems(GTOTagPrefix.nanites, GTMaterials.Naquadah)
@@ -419,7 +415,7 @@ interface NanitesIntegratedProcessingCenter {
                 .duration(3600)
                 .blastFurnaceTemp(12600)
                 .addData("module", 1)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES.recipeBuilder(GTOCore.id("epoxy"))
                 .inputItems(GTOTagPrefix.nanites, GTMaterials.Copper)
@@ -438,7 +434,7 @@ interface NanitesIntegratedProcessingCenter {
                 .duration(240)
                 .blastFurnaceTemp(5600)
                 .addData("module", 3)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES.recipeBuilder(GTOCore.id("polyphenylene_sulfide"))
                 .inputItems(GTOTagPrefix.nanites, GTMaterials.Silver)
@@ -451,7 +447,7 @@ interface NanitesIntegratedProcessingCenter {
                 .duration(120)
                 .blastFurnaceTemp(800)
                 .addData("module", 3)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES.recipeBuilder(GTOCore.id("mutagen"))
                 .inputItems(GTOTagPrefix.nanites, GTMaterials.Silver)
@@ -464,7 +460,7 @@ interface NanitesIntegratedProcessingCenter {
                 .duration(2000)
                 .blastFurnaceTemp(12600)
                 .addData("module", 2)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES.recipeBuilder(GTOCore.id("polyurethaneresin"))
                 .inputItems(GTOTagPrefix.nanites, GTMaterials.Gold)
@@ -484,7 +480,7 @@ interface NanitesIntegratedProcessingCenter {
                 .duration(2700)
                 .blastFurnaceTemp(16200)
                 .addData("module", 3)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES.recipeBuilder(GTOCore.id("acidic_enriched_naquadah_solution"))
                 .inputItems(GTOTagPrefix.nanites, GTMaterials.Carbon)
@@ -496,7 +492,7 @@ interface NanitesIntegratedProcessingCenter {
                 .duration(200)
                 .blastFurnaceTemp(9000)
                 .addData("module", 1)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES.recipeBuilder(GTOCore.id("polyetheretherketone"))
                 .inputItems(GTOTagPrefix.nanites, GTOMaterials.Vibranium)
@@ -515,7 +511,7 @@ interface NanitesIntegratedProcessingCenter {
                 .duration(16400)
                 .blastFurnaceTemp(14400)
                 .addData("module", 3)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES.recipeBuilder(GTOCore.id("polyvinyl_butyral"))
                 .inputItems(GTOTagPrefix.nanites, GTMaterials.Carbon)
@@ -532,6 +528,6 @@ interface NanitesIntegratedProcessingCenter {
                 .duration(2400)
                 .blastFurnaceTemp(6000)
                 .addData("module", 3)
-                .save(provider);
+                .save();
     }
 }

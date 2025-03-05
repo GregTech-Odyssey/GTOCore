@@ -53,7 +53,7 @@ dependencies {
 
     modImplementation("curse.maven:modernfix-790626:6025611")
 
-    modImplementation("curse.maven:Re-Avaritia-623969:6130139")
+    modImplementation("curse.maven:re-avaritia-623969:6264467")
 
     modImplementation("curse.maven:EnderIO-64578:5780352")
 
@@ -74,7 +74,7 @@ dependencies {
 
     modCompileOnly("curse.maven:just-enough-resources-jer-240630:5057220")
 
-    modCompileOnly("curse.maven:chisel-reborn-551763:5478429")
+    modCompileOnly("curse.maven:chisel-reborn-551763:6266130")
 
     modCompileOnly("curse.maven:biomes-o-plenty-220318:6028852")
 

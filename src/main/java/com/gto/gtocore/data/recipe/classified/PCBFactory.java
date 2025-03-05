@@ -10,13 +10,9 @@ import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
-import net.minecraft.data.recipes.FinishedRecipe;
-
-import java.util.function.Consumer;
-
 interface PCBFactory {
 
-    static void init(Consumer<FinishedRecipe> provider) {
+    static void init() {
         GTORecipeTypes.PCB_FACTORY_RECIPES.recipeBuilder(GTOCore.id("wetware_printed_circuit_board"))
                 .inputItems(GTItems.WETWARE_BOARD.asStack())
                 .inputItems(TagPrefix.foil, GTMaterials.NiobiumTitanium, 32)
@@ -25,7 +21,7 @@ interface PCBFactory {
                 .outputItems(GTItems.WETWARE_CIRCUIT_BOARD.asStack())
                 .EUt(1920)
                 .duration(450)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.PCB_FACTORY_RECIPES.recipeBuilder(GTOCore.id("epoxy_printed_circuit_board"))
                 .inputItems(TagPrefix.plate, GTMaterials.Epoxy, 8)
@@ -35,7 +31,7 @@ interface PCBFactory {
                 .outputItems(GTItems.ADVANCED_CIRCUIT_BOARD.asStack(8))
                 .EUt(120)
                 .duration(600)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.PCB_FACTORY_RECIPES.recipeBuilder(GTOCore.id("polytetrafluoroethylene_plate1"))
                 .inputItems(TagPrefix.plate, GTMaterials.Polytetrafluoroethylene, 8)
@@ -45,7 +41,7 @@ interface PCBFactory {
                 .outputItems(GTItems.PLASTIC_CIRCUIT_BOARD.asStack(32))
                 .EUt(120)
                 .duration(1600)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.PCB_FACTORY_RECIPES.recipeBuilder(GTOCore.id("fiber_reinforced_printed_circuit_board1"))
                 .inputItems(TagPrefix.plate, GTMaterials.ReinforcedEpoxyResin, 8)
@@ -55,7 +51,7 @@ interface PCBFactory {
                 .outputItems(GTItems.EXTREME_CIRCUIT_BOARD.asStack(8))
                 .EUt(120)
                 .duration(800)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.PCB_FACTORY_RECIPES.recipeBuilder(GTOCore.id("polyvinyl_chloride_plate1"))
                 .inputItems(TagPrefix.plate, GTMaterials.PolyvinylChloride, 8)
@@ -65,7 +61,7 @@ interface PCBFactory {
                 .outputItems(GTItems.PLASTIC_CIRCUIT_BOARD.asStack(16))
                 .EUt(120)
                 .duration(800)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.PCB_FACTORY_RECIPES.recipeBuilder(GTOCore.id("supracausal_circuit_board"))
                 .inputItems(GTOItems.COSMIC_CIRCUIT_BOARD.asStack())
@@ -75,7 +71,7 @@ interface PCBFactory {
                 .outputItems(GTOItems.SUPRACAUSAL_CIRCUIT_BOARD.asStack())
                 .EUt(1966080)
                 .duration(1500)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.PCB_FACTORY_RECIPES.recipeBuilder(GTOCore.id("polybenzimidazole_plate"))
                 .inputItems(TagPrefix.plate, GTMaterials.Polybenzimidazole, 8)
@@ -85,7 +81,7 @@ interface PCBFactory {
                 .outputItems(GTItems.PLASTIC_CIRCUIT_BOARD.asStack(64))
                 .EUt(120)
                 .duration(3200)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.PCB_FACTORY_RECIPES.recipeBuilder(GTOCore.id("bioware_printed_circuit_board"))
                 .inputItems(GTOItems.BIOWARE_CIRCUIT_BOARD.asStack())
@@ -95,7 +91,7 @@ interface PCBFactory {
                 .outputItems(GTOItems.BIOWARE_PRINTED_CIRCUIT_BOARD.asStack())
                 .EUt(7680)
                 .duration(525)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.PCB_FACTORY_RECIPES.recipeBuilder(GTOCore.id("optical_circuit_board"))
                 .inputItems(TagPrefix.plate, GTOMaterials.Kevlar)
@@ -105,7 +101,7 @@ interface PCBFactory {
                 .outputItems(GTOItems.OPTICAL_CIRCUIT_BOARD.asStack())
                 .EUt(30720)
                 .duration(600)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.PCB_FACTORY_RECIPES.recipeBuilder(GTOCore.id("polyethylene_plate"))
                 .inputItems(TagPrefix.plate, GTMaterials.Polyethylene, 8)
@@ -115,7 +111,7 @@ interface PCBFactory {
                 .outputItems(GTItems.PLASTIC_CIRCUIT_BOARD.asStack(8))
                 .EUt(120)
                 .duration(400)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.PCB_FACTORY_RECIPES.recipeBuilder(GTOCore.id("multilayer_fiber_reinforced_printed_circuit_board1"))
                 .inputItems(GTItems.FIBER_BOARD.asStack(16))
@@ -125,7 +121,7 @@ interface PCBFactory {
                 .outputItems(GTItems.ELITE_CIRCUIT_BOARD.asStack(8))
                 .EUt(480)
                 .duration(800)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.PCB_FACTORY_RECIPES.recipeBuilder(GTOCore.id("epoxy_printed_circuit_board1"))
                 .inputItems(TagPrefix.plate, GTMaterials.Epoxy, 8)
@@ -135,7 +131,7 @@ interface PCBFactory {
                 .outputItems(GTItems.ADVANCED_CIRCUIT_BOARD.asStack(8))
                 .EUt(120)
                 .duration(600)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.PCB_FACTORY_RECIPES.recipeBuilder(GTOCore.id("polytetrafluoroethylene_plate"))
                 .inputItems(TagPrefix.plate, GTMaterials.Polytetrafluoroethylene, 8)
@@ -145,7 +141,7 @@ interface PCBFactory {
                 .outputItems(GTItems.PLASTIC_CIRCUIT_BOARD.asStack(32))
                 .EUt(120)
                 .duration(1600)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.PCB_FACTORY_RECIPES.recipeBuilder(GTOCore.id("polyethylene_plate1"))
                 .inputItems(TagPrefix.plate, GTMaterials.Polyethylene, 8)
@@ -155,7 +151,7 @@ interface PCBFactory {
                 .outputItems(GTItems.PLASTIC_CIRCUIT_BOARD.asStack(8))
                 .EUt(120)
                 .duration(400)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.PCB_FACTORY_RECIPES.recipeBuilder(GTOCore.id("exotic_circuit_board"))
                 .inputItems(TagPrefix.plate, GTOMaterials.Kevlar, 2)
@@ -165,7 +161,7 @@ interface PCBFactory {
                 .outputItems(GTOItems.EXOTIC_CIRCUIT_BOARD.asStack())
                 .EUt(122880)
                 .duration(900)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.PCB_FACTORY_RECIPES.recipeBuilder(GTOCore.id("optical_printed_circuit_board"))
                 .inputItems(GTOItems.OPTICAL_CIRCUIT_BOARD.asStack())
@@ -175,7 +171,7 @@ interface PCBFactory {
                 .outputItems(GTOItems.OPTICAL_PRINTED_CIRCUIT_BOARD.asStack())
                 .EUt(30720)
                 .duration(600)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.PCB_FACTORY_RECIPES.recipeBuilder(GTOCore.id("multilayer_fiber_reinforced_printed_circuit_board"))
                 .inputItems(GTItems.FIBER_BOARD.asStack(16))
@@ -185,7 +181,7 @@ interface PCBFactory {
                 .outputItems(GTItems.ELITE_CIRCUIT_BOARD.asStack(8))
                 .EUt(480)
                 .duration(800)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.PCB_FACTORY_RECIPES.recipeBuilder(GTOCore.id("polybenzimidazole_plate1"))
                 .inputItems(TagPrefix.plate, GTMaterials.Polybenzimidazole, 8)
@@ -195,7 +191,7 @@ interface PCBFactory {
                 .outputItems(GTItems.PLASTIC_CIRCUIT_BOARD.asStack(64))
                 .EUt(120)
                 .duration(3200)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.PCB_FACTORY_RECIPES.recipeBuilder(GTOCore.id("polyvinyl_chloride_plate"))
                 .inputItems(TagPrefix.plate, GTMaterials.PolyvinylChloride, 8)
@@ -205,7 +201,7 @@ interface PCBFactory {
                 .outputItems(GTItems.PLASTIC_CIRCUIT_BOARD.asStack(16))
                 .EUt(120)
                 .duration(800)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.PCB_FACTORY_RECIPES.recipeBuilder(GTOCore.id("exotic_printed_circuit_board"))
                 .inputItems(GTOItems.EXOTIC_CIRCUIT_BOARD.asStack())
@@ -215,7 +211,7 @@ interface PCBFactory {
                 .outputItems(GTOItems.EXOTIC_PRINTED_CIRCUIT_BOARD.asStack())
                 .EUt(122880)
                 .duration(900)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.PCB_FACTORY_RECIPES.recipeBuilder(GTOCore.id("cosmic_printed_circuit_board"))
                 .inputItems(GTOItems.COSMIC_CIRCUIT_BOARD.asStack())
@@ -225,7 +221,7 @@ interface PCBFactory {
                 .outputItems(GTOItems.COSMIC_PRINTED_CIRCUIT_BOARD.asStack())
                 .EUt(491520)
                 .duration(1200)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.PCB_FACTORY_RECIPES.recipeBuilder(GTOCore.id("fiber_reinforced_printed_circuit_board"))
                 .inputItems(TagPrefix.plate, GTMaterials.ReinforcedEpoxyResin, 8)
@@ -235,7 +231,7 @@ interface PCBFactory {
                 .outputItems(GTItems.EXTREME_CIRCUIT_BOARD.asStack(8))
                 .EUt(120)
                 .duration(800)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.PCB_FACTORY_RECIPES.recipeBuilder(GTOCore.id("supracausal_printed_circuit_board"))
                 .inputItems(GTOItems.SUPRACAUSAL_CIRCUIT_BOARD.asStack())
@@ -245,7 +241,7 @@ interface PCBFactory {
                 .outputItems(GTOItems.SUPRACAUSAL_PRINTED_CIRCUIT_BOARD.asStack())
                 .EUt(1966080)
                 .duration(1500)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.PCB_FACTORY_RECIPES.recipeBuilder(GTOCore.id("cosmic_circuit_board"))
                 .inputItems(TagPrefix.plate, GTOMaterials.Kevlar, 4)
@@ -255,6 +251,6 @@ interface PCBFactory {
                 .outputItems(GTOItems.COSMIC_CIRCUIT_BOARD.asStack())
                 .EUt(491520)
                 .duration(1200)
-                .save(provider);
+                .save();
     }
 }

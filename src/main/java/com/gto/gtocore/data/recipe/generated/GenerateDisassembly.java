@@ -66,7 +66,7 @@ public interface GenerateDisassembly {
             DISASSEMBLY_BLACKLIST.add(id);
             GTORecipes.GT_RECIPE_MAP.remove(typeid);
         } else {
-            GTRecipeBuilder builder = DISASSEMBLY_RECIPES.recipeBuilder(id)
+            GTORecipeBuilder builder = DISASSEMBLY_RECIPES.recipeBuilder(id)
                     .inputItems(SizedIngredient.copy(output))
                     .duration(recipeBuilder.duration)
                     .EUt(recipeBuilder.EUt());
@@ -105,7 +105,7 @@ public interface GenerateDisassembly {
                     }
                 }
             }
-            if (hasOutput) builder.save(consumer);
+            if (hasOutput) builder.save();
         }
         DISASSEMBLY_RECORD.add(id);
     }

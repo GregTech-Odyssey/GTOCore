@@ -3,6 +3,7 @@ package com.gto.gtocore.common.data;
 import com.gto.gtocore.api.item.ToolTipsItem;
 import com.gto.gtocore.client.renderer.item.HaloItemRenderer;
 import com.gto.gtocore.common.item.*;
+import com.gto.gtocore.config.GTOConfig;
 import com.gto.gtocore.integration.ae2.InfinityCellItem;
 import com.gto.gtocore.utils.StringUtils;
 
@@ -50,6 +51,20 @@ public interface GTOItems {
         GTMaterials.Hydrogen.getProperty(PropertyKey.FLUID).getStorage().store(FluidStorageKeys.GAS, ModFluids.HYDROGEN, null);
         GTFluids.handleNonMaterialFluids(GTMaterials.Oil, ModFluids.OIL);
         GTFluids.handleNonMaterialFluids(GTMaterials.RocketFuel, () -> EIOFluids.ROCKET_FUEL.get().getSource());
+
+        if (GTOConfig.INSTANCE.dev) {
+            item("recipe_editor", "配方编辑器", ComponentItem::create)
+                    .properties(p -> p.stacksTo(1))
+                    .onRegister(attach(RecipeEditorBehavior.INSTANCE))
+                    .model(NonNullBiConsumer.noop())
+                    .register();
+
+            item("debug_structure_writer", "多方块结构导出工具", ComponentItem::create)
+                    .properties(p -> p.stacksTo(1))
+                    .onRegister(attach(StructureWriteBehavior.INSTANCE))
+                    .model(NonNullBiConsumer.noop())
+                    .register();
+        }
     }
 
     ItemEntry<StorageComponentItem> CELL_COMPONENT_1M = registerStorageComponentItem(1);
@@ -234,12 +249,6 @@ public interface GTOItems {
             .onRegister(attach(TimeTwisterBehavior.INSTANCE))
             .register();
 
-    ItemEntry<ComponentItem> DEBUG_STRUCTURE_WRITER = item("debug_structure_writer", "多方块结构导出工具", ComponentItem::create)
-            .properties(p -> p.stacksTo(1))
-            .onRegister(attach(StructureWriteBehavior.INSTANCE))
-            .model(NonNullBiConsumer.noop())
-            .register();
-
     ItemEntry<ComponentItem> STRUCTURE_DETECT = item("structure_detect", "结构检测工具", ComponentItem::create)
             .properties(p -> p.stacksTo(1))
             .onRegister(attach(StructureDetectBehavior.INSTANCE))
@@ -249,12 +258,6 @@ public interface GTOItems {
     ItemEntry<ComponentItem> PATTERN_MODIFIER_PRO = item("pattern_modifier_pro", "样板修改器pro", ComponentItem::create)
             .properties(p -> p.stacksTo(1))
             .onRegister(attach(PatternModifierProBehavior.INSTANCE))
-            .model(NonNullBiConsumer.noop())
-            .register();
-
-    ItemEntry<ComponentItem> RECIPE_EDITOR = item("recipe_editor", "配方编辑器", ComponentItem::create)
-            .properties(p -> p.stacksTo(1))
-            .onRegister(attach(RecipeEditorBehavior.INSTANCE))
             .model(NonNullBiConsumer.noop())
             .register();
 
@@ -343,7 +346,7 @@ public interface GTOItems {
     ItemEntry<ToolTipsItem> SUPRACAUSAL_COMPUTER = registerCircuit("supracausal_computer", "超因果处理器超级计算机", CustomTags.OpV_CIRCUITS, () -> StringUtils.full_color(I18n.get("gtocore.tooltip.item.tier_circuit", "OpV")));
     ItemEntry<ToolTipsItem> SUPRACAUSAL_MAINFRAME = registerCircuit("supracausal_mainframe", "超因果处理器主机", CustomTags.MAX_CIRCUITS, () -> StringUtils.full_color(I18n.get("gtocore.tooltip.item.tier_circuit", "MAX")));
 
-    ItemEntry<ToolTipsItem>[] SUPRACHRONAL_CIRCUIT = registerCircuits("suprachronal_circuit", "超时空电路", GTValues.tiersBetween(GTValues.ULV, GTValues.MAX), tier -> Component.literal(StringUtils.white_blue(I18n.get("gtocore.tooltip.item.tier_circuit", GTValues.VN[tier]).toString())));
+    ItemEntry<ToolTipsItem>[] SUPRACHRONAL_CIRCUIT = registerCircuits("suprachronal_circuit", "超时空电路", GTValues.tiersBetween(GTValues.ULV, GTValues.MAX), tier -> Component.literal(StringUtils.white_blue(I18n.get("gtocore.tooltip.item.tier_circuit", GTValues.VN[tier]))));
 
     ItemEntry<ToolTipsItem>[] MAGNETO_RESONATIC_CIRCUIT = registerCircuits("magneto_resonatic_circuit", "磁共振电路", GTValues.tiersBetween(GTValues.ULV, GTValues.UIV), tier -> Component.translatable("gtocore.tooltip.item.tier_circuit", GTValues.VN[tier]).withStyle(ChatFormatting.LIGHT_PURPLE));
 

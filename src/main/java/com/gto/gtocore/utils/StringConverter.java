@@ -93,6 +93,7 @@ public final class StringConverter {
                 return "new ItemStack(Items." + ItemUtils.getIdLocation(stack.getItem()).getPath().toUpperCase() + ".asItem()" + (amount > 1 ? ", " + amount : "") + ")";
             }
         }
+        if (re == 1) return "\"" + ItemUtils.getId(ingredient.getItems()[0]) + (amount > 1 ? "\", " + amount : "\"");
         return "RegistriesUtils.getItemStack(\"" + ItemUtils.getId(ingredient.getItems()[0]) + (amount > 1 ? "\", " + amount : "\"") + ")";
     }
 

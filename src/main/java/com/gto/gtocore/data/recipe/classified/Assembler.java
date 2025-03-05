@@ -3,12 +3,8 @@ package com.gto.gtocore.data.recipe.classified;
 import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.api.data.tag.GTOTagPrefix;
 import com.gto.gtocore.api.machine.GTOCleanroomType;
-import com.gto.gtocore.common.data.GTOBlocks;
-import com.gto.gtocore.common.data.GTOItems;
-import com.gto.gtocore.common.data.GTOMachines;
-import com.gto.gtocore.common.data.GTOMaterials;
+import com.gto.gtocore.common.data.*;
 import com.gto.gtocore.common.data.machines.*;
-import com.gto.gtocore.utils.RegistriesUtils;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
@@ -18,7 +14,6 @@ import com.gregtechceu.gtceu.common.data.*;
 import com.gregtechceu.gtceu.common.data.machines.GTMultiMachines;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
 
-import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
@@ -27,20 +22,18 @@ import appeng.core.definitions.AEItems;
 import com.kyanite.deeperdarker.content.DDItems;
 import earth.terrarium.adastra.common.registry.ModItems;
 
-import java.util.function.Consumer;
-
 interface Assembler {
 
-    static void init(Consumer<FinishedRecipe> provider) {
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("electricaly_wired_petri_dish"))
+    static void init() {
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("electricaly_wired_petri_dish"))
                 .inputItems(GTOItems.STERILIZED_PETRI_DISH)
                 .inputItems(TagPrefix.wireFine, GTMaterials.Titanium)
                 .inputFluids(GTMaterials.Polyethylene.getFluid(1296))
                 .outputItems(GTOItems.ELECTRICALY_WIRED_PETRI_DISH)
                 .cleanroom(CleanroomType.STERILE_CLEANROOM)
-                .duration(100).EUt(7680).save(provider);
+                .duration(100).EUt(7680).save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("water_purification_plant"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("water_purification_plant"))
                 .inputItems(TagPrefix.frameGt, GTMaterials.Tungsten)
                 .inputItems(GTOBlocks.STERILE_WATER_PLANT_CASING.asStack(4))
                 .inputItems(GTItems.ELECTRIC_MOTOR_EV.asStack(2))
@@ -52,9 +45,9 @@ interface Assembler {
                 .outputItems(MultiBlockB.WATER_PURIFICATION_PLANT.asStack())
                 .EUt(480)
                 .duration(200)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("clarifier_purification_unit"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("clarifier_purification_unit"))
                 .inputItems(GTOItems.ACTIVATED_CARBON_FILTER_MESH.asStack(8))
                 .inputItems(GTBlocks.FILTER_CASING.asStack(2))
                 .inputItems(GTItems.ELECTRIC_PUMP_HV.asStack(4))
@@ -64,9 +57,9 @@ interface Assembler {
                 .outputItems(MultiBlockB.CLARIFIER_PURIFICATION_UNIT.asStack())
                 .EUt(480)
                 .duration(400)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("smd_resistor_supracausal"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("smd_resistor_supracausal"))
                 .notConsumable(GTOItems.MICROWORMHOLE_GENERATOR.asStack())
                 .inputItems(TagPrefix.foil, GTOMaterials.FullerenePolymerMatrixPulp)
                 .inputFluids(GTOMaterials.Radox.getFluid(144))
@@ -74,9 +67,9 @@ interface Assembler {
                 .EUt(125829120)
                 .duration(400)
                 .cleanroom(CleanroomType.CLEANROOM)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("high_energy_ultraviolet_emitter_casing"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("high_energy_ultraviolet_emitter_casing"))
                 .inputItems(TagPrefix.frameGt, GTMaterials.Tritanium)
                 .inputItems(GTItems.EMITTER_UV.asStack())
                 .inputItems(TagPrefix.plate, GTMaterials.Naquadria, 4)
@@ -84,9 +77,9 @@ interface Assembler {
                 .outputItems(GTOBlocks.HIGH_ENERGY_ULTRAVIOLET_EMITTER_CASING.asStack())
                 .EUt(7680)
                 .duration(200)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("naquadria_charge_a"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("naquadria_charge_a"))
                 .inputItems(GTItems.QUANTUM_STAR.asStack())
                 .inputItems(GTOBlocks.NUKE_BOMB.asStack())
                 .inputItems(TagPrefix.dust, GTMaterials.Naquadria)
@@ -96,9 +89,9 @@ interface Assembler {
                 .outputItems(GTOBlocks.NAQUADRIA_CHARGE.asStack(64))
                 .EUt(503316480)
                 .duration(200)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("laser_diode"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("laser_diode"))
                 .inputItems(TagPrefix.wireFine, GTMaterials.Gold, 2)
                 .inputItems(GTOItems.SMD_DIODE_BIOWARE.asStack())
                 .inputItems(TagPrefix.lens, GTMaterials.Amethyst)
@@ -108,9 +101,9 @@ interface Assembler {
                 .EUt(980000)
                 .duration(260)
                 .cleanroom(CleanroomType.CLEANROOM)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("max_neutron_accelerator"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("max_neutron_accelerator"))
                 .inputItems(GTMachines.HULL[GTValues.MAX].asStack())
                 .inputItems(GTOItems.INVERTER.asStack())
                 .inputItems(GTOItems.MAX_ELECTRIC_MOTOR.asStack(2))
@@ -120,9 +113,9 @@ interface Assembler {
                 .outputItems(GTOMachines.NEUTRON_ACCELERATOR[GTValues.MAX].asStack())
                 .EUt(30)
                 .duration(400)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("extreme_density_casing"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("extreme_density_casing"))
                 .inputItems(TagPrefix.frameGt, GTOMaterials.Trinaquadalloy)
                 .inputItems(TagPrefix.plateDense, GTMaterials.NaquadahAlloy)
                 .inputItems(TagPrefix.plate, GTOMaterials.Trinaquadalloy, 6)
@@ -130,9 +123,9 @@ interface Assembler {
                 .outputItems(GTOBlocks.EXTREME_DENSITY_CASING.asStack())
                 .EUt(120)
                 .duration(200)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("fishbig_lhand"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("fishbig_lhand"))
                 .inputItems(GTOItems.FISHBIG_FABRIC.asStack(64))
                 .inputItems(GTOItems.FISHBIG_FABRIC.asStack(64))
                 .inputItems(GTOItems.FISHBIG_FRAME.asStack(64))
@@ -147,9 +140,9 @@ interface Assembler {
                 .EUt(131941395333120L)
                 .duration(200)
                 .cleanroom(GTOCleanroomType.LAW_CLEANROOM)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("fishbig_frame"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("fishbig_frame"))
                 .circuitMeta(6)
                 .inputItems(TagPrefix.plate, GTOMaterials.Cosmic, 64)
                 .inputItems(GTOTagPrefix.nanites, GTOMaterials.Eternity, 64)
@@ -164,18 +157,18 @@ interface Assembler {
                 .EUt(131941395333120L)
                 .duration(200)
                 .cleanroom(GTOCleanroomType.LAW_CLEANROOM)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("pps_corrosion_resistant_mechanical_housing"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("pps_corrosion_resistant_mechanical_housing"))
                 .inputItems(TagPrefix.frameGt, GTMaterials.Polytetrafluoroethylene)
                 .inputItems(TagPrefix.plate, GTMaterials.PolyphenyleneSulfide, 6)
                 .circuitMeta(6)
                 .outputItems(GTOBlocks.PPS_CORROSION_RESISTANT_MECHANICAL_HOUSING.asStack())
                 .EUt(16)
                 .duration(50)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("void_miner"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("void_miner"))
                 .inputItems(GTMultiMachines.BEDROCK_ORE_MINER[GTValues.HV].asStack())
                 .inputItems(GTItems.FIELD_GENERATOR_EV.asStack(4))
                 .inputItems(CustomTags.IV_CIRCUITS, 4)
@@ -186,9 +179,9 @@ interface Assembler {
                 .outputItems(MultiBlockA.VOID_MINER.asStack())
                 .EUt(480)
                 .duration(800)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("inconel_625_casing"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("inconel_625_casing"))
                 .inputItems(GTMachines.HULL[GTValues.EV].asStack())
                 .inputItems(TagPrefix.plateDouble, GTOMaterials.Inconel625, 4)
                 .inputItems(TagPrefix.plateDouble, GTMaterials.HSSE, 8)
@@ -197,9 +190,9 @@ interface Assembler {
                 .outputItems(GTOBlocks.INCONEL_625_CASING.asStack())
                 .EUt(1920)
                 .duration(480)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("neutron_activator"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("neutron_activator"))
                 .inputItems(GTMachines.HULL[GTValues.IV].asStack())
                 .inputItems(GTOItems.HUI_CIRCUIT_1.asStack(4))
                 .inputItems(CustomTags.IV_CIRCUITS)
@@ -213,18 +206,18 @@ interface Assembler {
                 .outputItems(MultiBlockD.NEUTRON_ACTIVATOR.asStack())
                 .EUt(7680)
                 .duration(200)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("lafium_mechanical_casing"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("lafium_mechanical_casing"))
                 .inputItems(TagPrefix.frameGt, GTMaterials.NaquadahEnriched)
                 .inputItems(TagPrefix.plate, GTOMaterials.Lafium, 6)
                 .circuitMeta(6)
                 .outputItems(GTOBlocks.LAFIUM_MECHANICAL_CASING.asStack())
                 .EUt(16)
                 .duration(50)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("space_elevator_mechanical_casing"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("space_elevator_mechanical_casing"))
                 .inputItems(TagPrefix.frameGt, GTMaterials.HSSG)
                 .inputItems(TagPrefix.plate, GTOMaterials.Inconel792, 6)
                 .inputItems(TagPrefix.plateDouble, GTOMaterials.Pikyonium, 6)
@@ -232,18 +225,18 @@ interface Assembler {
                 .outputItems(GTOBlocks.SPACE_ELEVATOR_MECHANICAL_CASING.asStack())
                 .EUt(16)
                 .duration(50)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("strengthen_the_base_block"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("strengthen_the_base_block"))
                 .inputItems(TagPrefix.frameGt, GTMaterials.Titanium)
                 .inputItems(TagPrefix.plate, GTMaterials.Tungsten, 6)
                 .circuitMeta(6)
                 .outputItems(GTOBlocks.STRENGTHEN_THE_BASE_BLOCK.asStack())
                 .EUt(16)
                 .duration(50)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("rocket_nose_cone"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("rocket_nose_cone"))
                 .inputItems(TagPrefix.frameGt, GTMaterials.StainlessSteel)
                 .inputItems(new ItemStack(Blocks.LIGHTNING_ROD.asItem()))
                 .inputItems(CustomTags.HV_CIRCUITS, 16)
@@ -254,9 +247,9 @@ interface Assembler {
                 .outputItems(ModItems.ROCKET_NOSE_CONE.get())
                 .EUt(120)
                 .duration(200)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("smd_inductor_bioware"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("smd_inductor_bioware"))
                 .inputItems(TagPrefix.wireFine, GTMaterials.NaquadahAlloy, 8)
                 .inputItems(TagPrefix.ring, GTMaterials.NaquadahAlloy)
                 .inputFluids(GTOMaterials.Polyimide.getFluid(288))
@@ -264,9 +257,9 @@ interface Assembler {
                 .EUt(491520)
                 .duration(100)
                 .cleanroom(CleanroomType.STERILE_CLEANROOM)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("dissolving_tank"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("dissolving_tank"))
                 .inputItems(GTMachines.HULL[GTValues.EV].asStack())
                 .inputItems(CustomTags.EV_CIRCUITS, 4)
                 .inputItems(GTItems.ELECTRIC_PUMP_EV.asStack(4))
@@ -275,9 +268,9 @@ interface Assembler {
                 .outputItems(MultiBlockD.DISSOLVING_TANK.asStack())
                 .EUt(120)
                 .duration(400)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("module_connector"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("module_connector"))
                 .inputItems(GTMachines.ITEM_PASSTHROUGH_HATCH[GTValues.HV].asStack(64))
                 .inputItems(GTMachines.FLUID_PASSTHROUGH_HATCH[GTValues.HV].asStack(64))
                 .inputItems(CustomTags.ZPM_CIRCUITS, 2)
@@ -288,20 +281,20 @@ interface Assembler {
                 .outputItems(GTOBlocks.MODULE_CONNECTOR.asStack())
                 .EUt(122880)
                 .duration(400)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("pulsating_photovoltaic_block"))
-                .inputItems(RegistriesUtils.getItemStack("enderio:pulsating_photovoltaic_module"))
-                .inputItems(RegistriesUtils.getItemStack("enderio:energy_conduit", 8))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("pulsating_photovoltaic_block"))
+                .inputItems("enderio:pulsating_photovoltaic_module")
+                .inputItems("enderio:energy_conduit", 8)
                 .inputItems(GTItems.VACUUM_TUBE.asStack(8))
                 .inputItems(TagPrefix.wireGtDouble, GTOMaterials.PulsatingAlloy, 4)
                 .inputItems(TagPrefix.plate, GTMaterials.Titanium, 2)
                 .outputItems(GTOBlocks.PULSATING_PHOTOVOLTAIC_BLOCK.asStack())
                 .EUt(120)
                 .duration(200)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("plasma_containment_cell"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("plasma_containment_cell"))
                 .inputItems(TagPrefix.plate, GTMaterials.Osmiridium, 4)
                 .inputItems(GTItems.FIELD_GENERATOR_UV.asStack())
                 .inputItems(TagPrefix.rodLong, GTMaterials.NaquadahAlloy)
@@ -312,18 +305,18 @@ interface Assembler {
                 .EUt(122880)
                 .duration(400)
                 .cleanroom(CleanroomType.CLEANROOM)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("industrial_steam_casing"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("industrial_steam_casing"))
                 .inputItems(TagPrefix.frameGt, GTMaterials.Bronze)
                 .inputItems(TagPrefix.plate, GTMaterials.Brass, 6)
                 .circuitMeta(6)
                 .outputItems(GCYMBlocks.CASING_INDUSTRIAL_STEAM.asStack())
                 .EUt(16)
                 .duration(50)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("graviton_transducer"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("graviton_transducer"))
                 .inputItems(GTOItems.QUANTUMCHROMODYNAMIC_PROTECTIVE_PLATING.asStack(2))
                 .inputItems(GTOItems.CONTAINED_REISSNER_NORDSTROM_SINGULARITY.asStack())
                 .inputItems(GTOItems.MICROWORMHOLE_GENERATOR.asStack())
@@ -334,9 +327,9 @@ interface Assembler {
                 .EUt(31457280)
                 .duration(600)
                 .cleanroom(CleanroomType.CLEANROOM)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("wyvern_energy_core"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("wyvern_energy_core"))
                 .inputItems(GTOItems.WYVERN_CORE.asStack(16))
                 .inputItems(GTOBlocks.DRACONIUM_BLOCK_CHARGED.asStack(64))
                 .inputItems(GTBlocks.BATTERY_LAPOTRONIC_IV.asStack(64))
@@ -346,9 +339,9 @@ interface Assembler {
                 .outputItems(GTOItems.WYVERN_ENERGY_CORE.asStack())
                 .EUt(125829120)
                 .duration(2400)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("heat_exchanger"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("heat_exchanger"))
                 .inputItems(GTMachines.HULL[GTValues.IV].asStack())
                 .inputItems(TagPrefix.pipeHugeFluid, GTMaterials.TungstenCarbide, 8)
                 .inputItems(TagPrefix.gear, GTOMaterials.MarM200Steel, 16)
@@ -362,9 +355,9 @@ interface Assembler {
                 .outputItems(MultiBlockD.HEAT_EXCHANGER.asStack())
                 .EUt(1920)
                 .duration(400)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("zpm_neutron_accelerator"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("zpm_neutron_accelerator"))
                 .inputItems(GTMachines.HULL[GTValues.ZPM].asStack())
                 .inputItems(GTOItems.INVERTER.asStack())
                 .inputItems(GTItems.ELECTRIC_MOTOR_ZPM.asStack(2))
@@ -374,9 +367,9 @@ interface Assembler {
                 .outputItems(GTOMachines.NEUTRON_ACCELERATOR[GTValues.ZPM].asStack())
                 .EUt(30)
                 .duration(400)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("smd_transistor_bioware"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("smd_transistor_bioware"))
                 .inputItems(TagPrefix.wireFine, GTMaterials.NaquadahAlloy, 8)
                 .inputItems(TagPrefix.plate, GTOMaterials.GermaniumTungstenNitride, 2)
                 .inputItems(TagPrefix.plate, GTOMaterials.SiliconCarbide, 2)
@@ -385,9 +378,9 @@ interface Assembler {
                 .EUt(491520)
                 .duration(100)
                 .cleanroom(CleanroomType.STERILE_CLEANROOM)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("solar_light_splitter"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("solar_light_splitter"))
                 .inputItems(GTBlocks.CASING_LAMINATED_GLASS.asStack())
                 .inputItems(TagPrefix.lens, GTMaterials.Ruby)
                 .inputItems(TagPrefix.lens, GTMaterials.Emerald)
@@ -396,9 +389,9 @@ interface Assembler {
                 .outputItems(GTOItems.SOLAR_LIGHT_SPLITTER.asStack())
                 .EUt(480)
                 .duration(200)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("ph_neutralization_purification_unit"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("ph_neutralization_purification_unit"))
                 .inputItems(TagPrefix.frameGt, GTMaterials.NaquadahAlloy)
                 .inputItems(GTOBlocks.STABILIZED_NAQUADAH_WATER_PLANT_CASING.asStack(4))
                 .inputItems(GTOBlocks.INERT_NEUTRALIZATION_WATER_PLANT_CASING.asStack(4))
@@ -412,9 +405,9 @@ interface Assembler {
                 .outputItems(MultiBlockB.PH_NEUTRALIZATION_PURIFICATION_UNIT.asStack())
                 .EUt(7680)
                 .duration(400)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("stellar_containment_casing"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("stellar_containment_casing"))
                 .inputItems(TagPrefix.frameGt, GTMaterials.Trinium)
                 .inputItems(TagPrefix.screw, GTMaterials.Trinium, 16)
                 .inputItems(GTItems.FIELD_GENERATOR_UV.asStack())
@@ -425,18 +418,18 @@ interface Assembler {
                 .outputItems(GTOBlocks.STELLAR_CONTAINMENT_CASING.asStack())
                 .EUt(1966080)
                 .duration(140)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("uiv_voltage_coil"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("uiv_voltage_coil"))
                 .inputItems(TagPrefix.rod, GTOMaterials.AttunedTengam)
                 .inputItems(TagPrefix.wireFine, GTOMaterials.Adamantine, 16)
                 .circuitMeta(1)
                 .outputItems(GTOItems.UIV_VOLTAGE_COIL.asStack())
                 .EUt(31457280)
                 .duration(200)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("fusion_coil_mk2"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("fusion_coil_mk2"))
                 .inputItems(GTOBlocks.COMPRESSED_FUSION_COIL_MK2_PROTOTYPE.asStack())
                 .inputItems(GTItems.FIELD_GENERATOR_ZPM.asStack(2))
                 .inputItems(GTItems.ELECTRIC_PUMP_LuV.asStack())
@@ -450,9 +443,9 @@ interface Assembler {
                 .EUt(1966080)
                 .duration(100)
                 .cleanroom(CleanroomType.CLEANROOM)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("sterile_casing"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("sterile_casing"))
                 .inputItems(TagPrefix.frameGt, GTMaterials.Wood)
                 .inputItems(GTBlocks.TREATED_WOOD_PLANK.asStack(4))
                 .inputItems(TagPrefix.screw, GTMaterials.Brass, 8)
@@ -461,9 +454,9 @@ interface Assembler {
                 .outputItems(GTOBlocks.BRASS_REINFORCED_WOODEN_CASING.asStack())
                 .EUt(16)
                 .duration(50)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("stabilized_naquadah_water_plant_casing"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("stabilized_naquadah_water_plant_casing"))
                 .inputItems(TagPrefix.frameGt, GTMaterials.Naquadah)
                 .inputItems(TagPrefix.pipeTinyFluid, GTMaterials.NiobiumTitanium, 4)
                 .inputItems(TagPrefix.plate, GTMaterials.NaquadahEnriched, 6)
@@ -471,9 +464,9 @@ interface Assembler {
                 .outputItems(GTOBlocks.STABILIZED_NAQUADAH_WATER_PLANT_CASING.asStack())
                 .EUt(120)
                 .duration(200)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("ev_neutron_accelerator"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("ev_neutron_accelerator"))
                 .inputItems(GTMachines.HULL[GTValues.EV].asStack())
                 .inputItems(GTOItems.INVERTER.asStack())
                 .inputItems(GTItems.ELECTRIC_MOTOR_EV.asStack(2))
@@ -483,9 +476,9 @@ interface Assembler {
                 .outputItems(GTOMachines.NEUTRON_ACCELERATOR[GTValues.EV].asStack())
                 .EUt(30)
                 .duration(400)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("inconel_625_gearbox"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("inconel_625_gearbox"))
                 .inputItems(TagPrefix.frameGt, GTMaterials.HSSE)
                 .inputItems(TagPrefix.gear, GTOMaterials.Inconel625, 3)
                 .inputItems(TagPrefix.gearSmall, GTMaterials.HSSS, 6)
@@ -495,9 +488,9 @@ interface Assembler {
                 .outputItems(GTOBlocks.INCONEL_625_GEARBOX.asStack())
                 .EUt(30720)
                 .duration(600)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("laser_cooling_casing"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("laser_cooling_casing"))
                 .inputItems(TagPrefix.frameGt, GTMaterials.HSSE)
                 .inputItems(GTOItems.LASER_COOLING_UNIT.asStack())
                 .inputItems(GTOItems.UHV_VOLTAGE_COIL.asStack(2))
@@ -508,9 +501,9 @@ interface Assembler {
                 .outputItems(GTOBlocks.LASER_COOLING_CASING.asStack())
                 .EUt(1966080)
                 .duration(200)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("luv_solar_panel"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("luv_solar_panel"))
                 .inputItems(GTOItems.PM_WAFER.asStack(4))
                 .inputItems(GTItems.COVER_SOLAR_PANEL.asStack(16))
                 .inputItems(GTItems.COVER_SOLAR_PANEL_ULV.asStack(16))
@@ -522,9 +515,9 @@ interface Assembler {
                 .outputItems(GTItems.COVER_SOLAR_PANEL_LuV.asStack())
                 .EUt(30720)
                 .duration(1200)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("microfocus_x_ray_tube"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("microfocus_x_ray_tube"))
                 .inputItems(TagPrefix.wireFine, GTOMaterials.Enderium, 4)
                 .inputItems(TagPrefix.rod, GTOMaterials.Echoite)
                 .inputItems(GTItems.GLASS_TUBE.asStack())
@@ -533,9 +526,9 @@ interface Assembler {
                 .EUt(8000)
                 .duration(160)
                 .cleanroom(CleanroomType.CLEANROOM)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("cell_component_256m"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("cell_component_256m"))
                 .inputItems(GTOItems.CELL_COMPONENT_64M.asStack())
                 .inputItems(CustomTags.UHV_CIRCUITS, 2)
                 .inputItems(new ItemStack(AEItems.LOGIC_PROCESSOR.asItem()))
@@ -546,9 +539,9 @@ interface Assembler {
                 .outputItems(GTOItems.CELL_COMPONENT_256M.asStack())
                 .EUt(122880)
                 .duration(200)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("quark_exclusion_casing"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("quark_exclusion_casing"))
                 .inputItems(TagPrefix.frameGt, GTOMaterials.Mithril)
                 .inputItems(GTItems.FIELD_GENERATOR_UHV.asStack())
                 .inputItems(TagPrefix.pipeSmallFluid, GTOMaterials.Enderium, 4)
@@ -559,18 +552,18 @@ interface Assembler {
                 .outputItems(GTOBlocks.QUARK_EXCLUSION_CASING.asStack())
                 .EUt(7680)
                 .duration(200)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("hyper_mechanical_casing"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("hyper_mechanical_casing"))
                 .inputItems(TagPrefix.frameGt, GTMaterials.NaquadahAlloy)
                 .inputItems(TagPrefix.plate, GTMaterials.Naquadria, 6)
                 .circuitMeta(6)
                 .outputItems(GTOBlocks.HYPER_MECHANICAL_CASING.asStack())
                 .EUt(16)
                 .duration(50)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("gas_mega_turbine"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("gas_mega_turbine"))
                 .inputItems(GTMultiMachines.LARGE_GAS_TURBINE.asStack(8))
                 .inputItems(CustomTags.LuV_CIRCUITS, 16)
                 .inputItems(GTItems.ELECTRIC_PUMP_EV.asStack(8))
@@ -581,9 +574,9 @@ interface Assembler {
                 .outputItems(GeneratorMultiblock.GAS_MEGA_TURBINE.asStack())
                 .EUt(7680)
                 .duration(1200)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("atomic_casing"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("atomic_casing"))
                 .inputItems(TagPrefix.frameGt, GTMaterials.NaquadahAlloy)
                 .inputItems(TagPrefix.plate, GTOMaterials.AbyssalAlloy, 2)
                 .inputItems(TagPrefix.plate, GTMaterials.NaquadahEnriched, 4)
@@ -591,9 +584,9 @@ interface Assembler {
                 .outputItems(GCYMBlocks.CASING_ATOMIC.asStack())
                 .EUt(16)
                 .duration(50)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("cooler"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("cooler"))
                 .inputItems(GTOBlocks.FISSION_REACTOR_CASING.asStack())
                 .inputItems(TagPrefix.wireGtHex, GTMaterials.AnnealedCopper, 2)
                 .inputItems(TagPrefix.pipeTinyFluid, GTMaterials.VanadiumSteel, 8)
@@ -602,9 +595,9 @@ interface Assembler {
                 .outputItems(GTOBlocks.FISSION_COOLER_COMPONENT.asStack())
                 .EUt(120)
                 .duration(200)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("smd_resistor_optical"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("smd_resistor_optical"))
                 .inputItems(TagPrefix.wireFine, GTMaterials.Dubnium, 8)
                 .inputItems(TagPrefix.foil, GTOMaterials.Polyetheretherketone, 4)
                 .inputItems(TagPrefix.dust, GTOMaterials.SodiumSeaborgate, 3)
@@ -614,9 +607,9 @@ interface Assembler {
                 .EUt(1966080)
                 .duration(100)
                 .cleanroom(CleanroomType.CLEANROOM)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("smd_diode_bioware"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("smd_diode_bioware"))
                 .inputItems(TagPrefix.wireFine, GTMaterials.NaquadahAlloy, 8)
                 .inputItems(TagPrefix.dust, GTMaterials.Lutetium)
                 .inputItems(TagPrefix.dust, GTMaterials.Tritanium)
@@ -625,27 +618,27 @@ interface Assembler {
                 .EUt(491520)
                 .duration(100)
                 .cleanroom(CleanroomType.STERILE_CLEANROOM)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("pbi_radiation_resistant_mechanical_enclosure"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("pbi_radiation_resistant_mechanical_enclosure"))
                 .inputItems(TagPrefix.frameGt, GTMaterials.Tungsten)
                 .inputItems(TagPrefix.plate, GTMaterials.Polybenzimidazole, 6)
                 .circuitMeta(6)
                 .outputItems(GTOBlocks.PBI_RADIATION_RESISTANT_MECHANICAL_ENCLOSURE.asStack())
                 .EUt(16)
                 .duration(50)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("adamantine_coil_block"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("adamantine_coil_block"))
                 .inputItems(TagPrefix.wireGtDouble, GTOMaterials.Adamantine, 8)
                 .inputItems(TagPrefix.foil, GTMaterials.Neutronium, 8)
                 .inputFluids(GTOMaterials.TitanSteel.getFluid(144))
                 .outputItems(GTOBlocks.ADAMANTINE_COIL_BLOCK.asStack())
                 .EUt(31457280)
                 .duration(800)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("smd_inductor_supracausal"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("smd_inductor_supracausal"))
                 .notConsumable(GTOItems.MICROWORMHOLE_GENERATOR.asStack())
                 .inputItems(TagPrefix.ring, GTOMaterials.Draconium)
                 .inputFluids(GTOMaterials.Radox.getFluid(144))
@@ -653,9 +646,9 @@ interface Assembler {
                 .EUt(125829120)
                 .duration(400)
                 .cleanroom(CleanroomType.CLEANROOM)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("advanced_fusion_coil"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("advanced_fusion_coil"))
                 .inputItems(GTOBlocks.IMPROVED_SUPERCONDUCTOR_COIL.asStack())
                 .inputItems(GTItems.FIELD_GENERATOR_LuV.asStack(2))
                 .inputItems(GTItems.ELECTRIC_PUMP_IV.asStack())
@@ -669,18 +662,18 @@ interface Assembler {
                 .EUt(491520)
                 .duration(100)
                 .cleanroom(CleanroomType.CLEANROOM)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("pressure_containment_casing"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("pressure_containment_casing"))
                 .inputItems(TagPrefix.frameGt, GTMaterials.Polytetrafluoroethylene)
                 .inputItems(TagPrefix.plate, GTMaterials.DamascusSteel, 2)
                 .inputFluids(GTMaterials.StainlessSteel.getFluid(1152))
                 .outputItems(GTOBlocks.PRESSURE_CONTAINMENT_CASING.asStack())
                 .EUt(120)
                 .duration(100)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("molecular_transformer"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("molecular_transformer"))
                 .inputItems(TagPrefix.frameGt, GTMaterials.Steel)
                 .inputItems(GTItems.FIELD_GENERATOR_HV.asStack(16))
                 .inputItems(GTItems.EMITTER_EV.asStack(4))
@@ -694,9 +687,9 @@ interface Assembler {
                 .outputItems(MultiBlockC.MOLECULAR_TRANSFORMER.asStack())
                 .EUt(1920)
                 .duration(800)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("antifreeze_heatproof_machine_casing"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("antifreeze_heatproof_machine_casing"))
                 .inputItems(TagPrefix.frameGt, GTOMaterials.Inconel792)
                 .inputItems(TagPrefix.plateDouble, GTMaterials.HSSE, 2)
                 .inputItems(TagPrefix.plateDouble, GTMaterials.RhodiumPlatedPalladium, 4)
@@ -704,9 +697,9 @@ interface Assembler {
                 .outputItems(GTOBlocks.ANTIFREEZE_HEATPROOF_MACHINE_CASING.asStack())
                 .EUt(16)
                 .duration(50)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("high_pressure_resistant_casing"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("high_pressure_resistant_casing"))
                 .inputItems(TagPrefix.frameGt, GTOMaterials.HastelloyN)
                 .inputItems(TagPrefix.rotor, GTMaterials.HastelloyC276)
                 .inputItems(TagPrefix.plateDouble, GTMaterials.HastelloyX, 6)
@@ -714,9 +707,9 @@ interface Assembler {
                 .outputItems(GTOBlocks.HIGH_PRESSURE_RESISTANT_CASING.asStack())
                 .EUt(480)
                 .duration(200)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("smd_transistor_exotic"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("smd_transistor_exotic"))
                 .inputItems(TagPrefix.plate, GTOMaterials.DegenerateRhenium)
                 .inputItems(TagPrefix.plate, GTMaterials.Dubnium)
                 .inputItems(TagPrefix.foil, GTMaterials.Duranium, 2)
@@ -725,9 +718,9 @@ interface Assembler {
                 .EUt(7864320)
                 .duration(100)
                 .cleanroom(CleanroomType.CLEANROOM)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("cell_component_256k"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("cell_component_256k"))
                 .inputItems(new ItemStack(AEItems.CELL_COMPONENT_64K.asItem()))
                 .inputItems(CustomTags.EV_CIRCUITS, 2)
                 .inputItems(new ItemStack(AEItems.LOGIC_PROCESSOR.asItem()))
@@ -738,18 +731,18 @@ interface Assembler {
                 .outputItems(new ItemStack(AEItems.CELL_COMPONENT_256K.asItem()))
                 .EUt(120)
                 .duration(300)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("naquadriatictaranium_coil_block"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("naquadriatictaranium_coil_block"))
                 .inputItems(TagPrefix.wireGtDouble, GTOMaterials.NaquadriaticTaranium, 8)
                 .inputItems(TagPrefix.foil, GTOMaterials.Taranium, 8)
                 .inputFluids(GTOMaterials.Adamantine.getFluid(144))
                 .outputItems(GTOBlocks.NAQUADRIATICTARANIUM_COIL_BLOCK.asStack())
                 .EUt(125829120)
                 .duration(800)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("empty_laser_cooling_container"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("empty_laser_cooling_container"))
                 .inputItems(TagPrefix.plate, GTMaterials.Steel, 8)
                 .inputItems(GTOItems.LASER_COOLING_UNIT.asStack())
                 .inputItems(GTOItems.MAGNETIC_TRAP.asStack())
@@ -759,9 +752,9 @@ interface Assembler {
                 .EUt(1150000)
                 .duration(380)
                 .cleanroom(CleanroomType.CLEANROOM)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("luv_neutron_accelerator"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("luv_neutron_accelerator"))
                 .inputItems(GTMachines.HULL[GTValues.LuV].asStack())
                 .inputItems(GTOItems.INVERTER.asStack())
                 .inputItems(GTItems.ELECTRIC_MOTOR_LuV.asStack(2))
@@ -771,11 +764,11 @@ interface Assembler {
                 .outputItems(GTOMachines.NEUTRON_ACCELERATOR[GTValues.LuV].asStack())
                 .EUt(30)
                 .duration(400)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("ostrum_tank"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("ostrum_tank"))
                 .inputItems(GTItems.FLUID_CELL_LARGE_TUNGSTEN_STEEL.asStack(4))
-                .inputItems(RegistriesUtils.getItemStack("ad_astra:ostrum_fluid_pipe", 8))
+                .inputItems("ad_astra:ostrum_fluid_pipe", 8)
                 .inputItems(GTItems.ELECTRIC_PUMP_IV.asStack())
                 .inputItems(GTOTagPrefix.curvedPlate, GTMaterials.BlackBronze, 8)
                 .inputItems(TagPrefix.plateDense, GTOMaterials.Ostrum, 4)
@@ -783,9 +776,9 @@ interface Assembler {
                 .outputItems(ModItems.OSTRUM_TANK.get())
                 .EUt(7680)
                 .duration(200)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("laser_casing"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("laser_casing"))
                 .inputItems(TagPrefix.frameGt, GTMaterials.Iridium)
                 .inputItems(TagPrefix.plateDouble, GTMaterials.Osmiridium, 2)
                 .inputItems(TagPrefix.plateDouble, GTMaterials.Osmium, 4)
@@ -793,24 +786,24 @@ interface Assembler {
                 .outputItems(GTOBlocks.LASER_CASING.asStack())
                 .EUt(16)
                 .duration(50)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("ostrum_engine"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("ostrum_engine"))
                 .inputItems(TagPrefix.frameGt, GTMaterials.HSSE)
-                .inputItems(RegistriesUtils.getItemStack("ad_astra:steel_engine"))
+                .inputItems("ad_astra:steel_engine")
                 .inputItems(GTItems.FIELD_GENERATOR_IV.asStack(2))
                 .inputItems(CustomTags.LuV_CIRCUITS, 16)
                 .inputItems(GTItems.FLUID_REGULATOR_IV.asStack())
-                .inputItems(RegistriesUtils.getItemStack("ad_astra:ostrum_fluid_pipe", 16))
+                .inputItems("ad_astra:ostrum_fluid_pipe", 16)
                 .inputItems(GTOTagPrefix.curvedPlate, GTMaterials.Ultimet, 32)
                 .inputItems(TagPrefix.plateDense, GTOMaterials.Ostrum, 8)
                 .inputFluids(GTMaterials.RhodiumPlatedPalladium.getFluid(1296))
-                .outputItems(RegistriesUtils.getItemStack("ad_astra:ostrum_engine"))
+                .outputItems("ad_astra:ostrum_engine")
                 .EUt(7680)
                 .duration(400)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("hastelloy_n_75_pipe"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("hastelloy_n_75_pipe"))
                 .inputItems(TagPrefix.frameGt, GTMaterials.WatertightSteel)
                 .inputItems(TagPrefix.plateDouble, GTOMaterials.HastelloyN75, 6)
                 .inputItems(TagPrefix.pipeSmallFluid, GTMaterials.TungstenSteel, 4)
@@ -818,9 +811,9 @@ interface Assembler {
                 .outputItems(GTOBlocks.HASTELLOY_N_75_PIPE.asStack())
                 .EUt(1920)
                 .duration(480)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("cell_component_1k"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("cell_component_1k"))
                 .inputItems(CustomTags.ULV_CIRCUITS, 2)
                 .inputItems(TagPrefix.plate, GTMaterials.NetherQuartz, 2)
                 .inputItems(new ItemStack(AEItems.LOGIC_PROCESSOR.asItem()))
@@ -831,9 +824,9 @@ interface Assembler {
                 .outputItems(new ItemStack(AEItems.CELL_COMPONENT_1K.asItem()))
                 .EUt(7)
                 .duration(200)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("cell_component_4k"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("cell_component_4k"))
                 .inputItems(new ItemStack(AEItems.CELL_COMPONENT_1K.asItem()))
                 .inputItems(CustomTags.LV_CIRCUITS, 2)
                 .inputItems(new ItemStack(AEItems.LOGIC_PROCESSOR.asItem()))
@@ -844,9 +837,9 @@ interface Assembler {
                 .outputItems(new ItemStack(AEItems.CELL_COMPONENT_4K.asItem()))
                 .EUt(30)
                 .duration(200)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("ingot_field_shape"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("ingot_field_shape"))
                 .inputItems(TagPrefix.plate, GTMaterials.PolyphenyleneSulfide, 2)
                 .inputItems(TagPrefix.plate, GTMaterials.Polybenzimidazole, 2)
                 .inputItems(GTItems.FIELD_GENERATOR_UV.asStack())
@@ -855,28 +848,28 @@ interface Assembler {
                 .outputItems(GTOItems.INGOT_FIELD_SHAPE.asStack())
                 .EUt(30720)
                 .duration(200)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("glass_fluix_cable"))
-                .inputItems(RegistriesUtils.getItemStack("ae2:quartz_fiber"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("glass_fluix_cable"))
+                .inputItems("ae2:quartz_fiber")
                 .inputItems(TagPrefix.plate, GTOMaterials.Fluix)
-                .outputItems(RegistriesUtils.getItemStack("ae2:fluix_glass_cable", 4))
+                .outputItems("ae2:fluix_glass_cable", 4)
                 .EUt(30)
                 .duration(40)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("energetic_photovoltaic_block"))
-                .inputItems(RegistriesUtils.getItemStack("enderio:energetic_photovoltaic_module"))
-                .inputItems(RegistriesUtils.getItemStack("enderio:energy_conduit", 4))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("energetic_photovoltaic_block"))
+                .inputItems("enderio:energetic_photovoltaic_module")
+                .inputItems("enderio:energy_conduit", 4)
                 .inputItems(GTItems.VACUUM_TUBE.asStack(4))
                 .inputItems(TagPrefix.cableGtDouble, GTMaterials.RedAlloy, 4)
                 .inputItems(TagPrefix.plate, GTMaterials.Steel, 2)
                 .outputItems(GTOBlocks.ENERGETIC_PHOTOVOLTAIC_BLOCK.asStack())
                 .EUt(30)
                 .duration(200)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("fishing_ground"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("fishing_ground"))
                 .inputItems(GTMachines.FISHER[GTValues.LV].asStack())
                 .inputItems(GTMachines.FISHER[GTValues.MV].asStack())
                 .inputItems(GTMachines.FISHER[GTValues.HV].asStack())
@@ -890,9 +883,9 @@ interface Assembler {
                 .outputItems(MultiBlockA.FISHING_GROUND.asStack())
                 .EUt(480)
                 .duration(400)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("hyper_core"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("hyper_core"))
                 .inputItems(TagPrefix.screw, GTOMaterials.HighDurabilityCompoundSteel, 16)
                 .inputItems(TagPrefix.frameGt, GTMaterials.Naquadria, 4)
                 .inputItems(TagPrefix.plate, GTMaterials.Naquadria, 4)
@@ -906,9 +899,9 @@ interface Assembler {
                 .EUt(7864320)
                 .duration(400)
                 .cleanroom(CleanroomType.CLEANROOM)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("red_steel_casing"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("red_steel_casing"))
                 .circuitMeta(6)
                 .inputItems(TagPrefix.frameGt, GTMaterials.HSLASteel)
                 .inputItems(TagPrefix.plate, GTMaterials.TitaniumCarbide, 2)
@@ -916,9 +909,9 @@ interface Assembler {
                 .outputItems(GTOBlocks.RED_STEEL_CASING.asStack())
                 .EUt(480)
                 .duration(600)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("advanced_stellar_containment_casing"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("advanced_stellar_containment_casing"))
                 .inputItems(GTOBlocks.STELLAR_CONTAINMENT_CASING.asStack())
                 .inputItems(GTItems.FIELD_GENERATOR_UHV.asStack())
                 .inputItems(TagPrefix.screw, GTOMaterials.Vibranium, 8)
@@ -928,9 +921,9 @@ interface Assembler {
                 .outputItems(GTOBlocks.ADVANCED_STELLAR_CONTAINMENT_CASING.asStack())
                 .EUt(7864320)
                 .duration(280)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("cell_component_1m"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("cell_component_1m"))
                 .inputItems(new ItemStack(AEItems.CELL_COMPONENT_256K.asItem()))
                 .inputItems(CustomTags.IV_CIRCUITS, 2)
                 .inputItems(new ItemStack(AEItems.LOGIC_PROCESSOR.asItem()))
@@ -941,9 +934,9 @@ interface Assembler {
                 .outputItems(GTOItems.CELL_COMPONENT_1M.asStack())
                 .EUt(480)
                 .duration(200)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("cell_component_4m"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("cell_component_4m"))
                 .inputItems(GTOItems.CELL_COMPONENT_1M.asStack())
                 .inputItems(CustomTags.LuV_CIRCUITS, 2)
                 .inputItems(new ItemStack(AEItems.LOGIC_PROCESSOR.asItem()))
@@ -954,9 +947,9 @@ interface Assembler {
                 .outputItems(GTOItems.CELL_COMPONENT_4M.asStack())
                 .EUt(1920)
                 .duration(200)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("component_assembly_line_casing_hv"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("component_assembly_line_casing_hv"))
                 .inputItems(TagPrefix.frameGt, GTMaterials.StainlessSteel)
                 .inputItems(TagPrefix.plateDouble, GTMaterials.StainlessSteel, 16)
                 .inputItems(GTItems.FIELD_GENERATOR_HV.asStack(2))
@@ -969,9 +962,9 @@ interface Assembler {
                 .outputItems(GTOBlocks.COMPONENT_ASSEMBLY_LINE_CASING_HV.asStack())
                 .EUt(480)
                 .duration(320)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("component_assembly_line_casing_iv"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("component_assembly_line_casing_iv"))
                 .inputItems(TagPrefix.frameGt, GTMaterials.TungstenSteel)
                 .inputItems(TagPrefix.plateDouble, GTMaterials.TungstenSteel, 16)
                 .inputItems(GTItems.FIELD_GENERATOR_IV.asStack(2))
@@ -984,9 +977,9 @@ interface Assembler {
                 .outputItems(GTOBlocks.COMPONENT_ASSEMBLY_LINE_CASING_IV.asStack())
                 .EUt(7680)
                 .duration(320)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("component_assembly_line_casing_lv"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("component_assembly_line_casing_lv"))
                 .inputItems(TagPrefix.frameGt, GTMaterials.Steel)
                 .inputItems(TagPrefix.plateDouble, GTMaterials.Steel, 16)
                 .inputItems(GTItems.FIELD_GENERATOR_LV.asStack(2))
@@ -999,9 +992,9 @@ interface Assembler {
                 .outputItems(GTOBlocks.COMPONENT_ASSEMBLY_LINE_CASING_LV.asStack())
                 .EUt(30)
                 .duration(320)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("component_assembly_line_casing_mv"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("component_assembly_line_casing_mv"))
                 .inputItems(TagPrefix.frameGt, GTMaterials.Aluminium)
                 .inputItems(TagPrefix.plateDouble, GTMaterials.Aluminium, 16)
                 .inputItems(GTItems.FIELD_GENERATOR_MV.asStack(2))
@@ -1014,9 +1007,9 @@ interface Assembler {
                 .outputItems(GTOBlocks.COMPONENT_ASSEMBLY_LINE_CASING_MV.asStack())
                 .EUt(120)
                 .duration(320)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("leptonic_charge"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("leptonic_charge"))
                 .inputItems(GTItems.GRAVI_STAR.asStack())
                 .inputItems(GTOBlocks.NUKE_BOMB.asStack())
                 .inputItems(TagPrefix.dust, GTOMaterials.DegenerateRhenium)
@@ -1026,9 +1019,9 @@ interface Assembler {
                 .outputItems(GTOBlocks.LEPTONIC_CHARGE.asStack(64))
                 .EUt(2013265920)
                 .duration(200)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("component_assembly_line_casing_ev"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("component_assembly_line_casing_ev"))
                 .inputItems(TagPrefix.frameGt, GTMaterials.Titanium)
                 .inputItems(TagPrefix.plateDouble, GTMaterials.Titanium, 16)
                 .inputItems(GTItems.FIELD_GENERATOR_EV.asStack(2))
@@ -1041,18 +1034,18 @@ interface Assembler {
                 .outputItems(GTOBlocks.COMPONENT_ASSEMBLY_LINE_CASING_EV.asStack())
                 .EUt(1920)
                 .duration(320)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("woven_kevlar"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("woven_kevlar"))
                 .inputItems(GTOItems.KEVLAR_FIBER.asStack(8))
                 .circuitMeta(8)
                 .outputItems(GTOItems.WOVEN_KEVLAR.asStack())
                 .EUt(120)
                 .duration(200)
                 .cleanroom(CleanroomType.CLEANROOM)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("smd_inductor_optical"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("smd_inductor_optical"))
                 .inputItems(TagPrefix.wireFine, GTMaterials.Dubnium, 8)
                 .inputItems(TagPrefix.ring, GTOMaterials.Quantanium)
                 .inputFluids(GTOMaterials.Polyimide.getFluid(576))
@@ -1060,9 +1053,9 @@ interface Assembler {
                 .EUt(1966080)
                 .duration(100)
                 .cleanroom(CleanroomType.CLEANROOM)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("steam_mega_turbine"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("steam_mega_turbine"))
                 .inputItems(GTMultiMachines.LARGE_STEAM_TURBINE.asStack(8))
                 .inputItems(CustomTags.IV_CIRCUITS, 16)
                 .inputItems(GTItems.ELECTRIC_PUMP_EV.asStack(4))
@@ -1073,9 +1066,9 @@ interface Assembler {
                 .outputItems(GeneratorMultiblock.STEAM_MEGA_TURBINE.asStack())
                 .EUt(1920)
                 .duration(1200)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("shielded_accelerator"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("shielded_accelerator"))
                 .inputItems(TagPrefix.frameGt, GTOMaterials.BabbittAlloy)
                 .inputItems(TagPrefix.plateDouble, GTMaterials.Ruridit, 4)
                 .inputItems(TagPrefix.foil, GTMaterials.Neutronium, 8)
@@ -1083,9 +1076,9 @@ interface Assembler {
                 .outputItems(GTOBlocks.SHIELDED_ACCELERATOR.asStack())
                 .EUt(120)
                 .duration(200)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("rotating_transparent_surface"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("rotating_transparent_surface"))
                 .inputItems(TagPrefix.plate, GTMaterials.Graphene, 4)
                 .inputItems(GTItems.ELECTRIC_MOTOR_UHV.asStack())
                 .inputFluids(GTMaterials.SolderingAlloy.getFluid(144))
@@ -1093,11 +1086,11 @@ interface Assembler {
                 .EUt(1250000)
                 .duration(200)
                 .cleanroom(CleanroomType.CLEANROOM)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("calorite_engine"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("calorite_engine"))
                 .inputItems(TagPrefix.frameGt, GTMaterials.Naquadah)
-                .inputItems(RegistriesUtils.getItemStack("ad_astra:steel_engine"))
+                .inputItems("ad_astra:steel_engine")
                 .inputItems(GTItems.FIELD_GENERATOR_LuV.asStack(2))
                 .inputItems(CustomTags.ZPM_CIRCUITS, 16)
                 .inputItems(GTItems.FLUID_REGULATOR_LuV.asStack())
@@ -1105,12 +1098,12 @@ interface Assembler {
                 .inputItems(GTOTagPrefix.curvedPlate, GTMaterials.TungstenCarbide, 32)
                 .inputItems(TagPrefix.plateDense, GTOMaterials.Calorite, 8)
                 .inputFluids(GTMaterials.NaquadahAlloy.getFluid(1296))
-                .outputItems(RegistriesUtils.getItemStack("ad_astra:calorite_engine"))
+                .outputItems("ad_astra:calorite_engine")
                 .EUt(30720)
                 .duration(400)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("uiv_neutron_accelerator"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("uiv_neutron_accelerator"))
                 .inputItems(GTMachines.HULL[GTValues.UIV].asStack())
                 .inputItems(GTOItems.INVERTER.asStack())
                 .inputItems(GTItems.ELECTRIC_MOTOR_UIV.asStack(2))
@@ -1120,18 +1113,18 @@ interface Assembler {
                 .outputItems(GTOMachines.NEUTRON_ACCELERATOR[GTValues.UIV].asStack())
                 .EUt(30)
                 .duration(400)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("pvc_plastic_mechanical_housing"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("pvc_plastic_mechanical_housing"))
                 .inputItems(TagPrefix.frameGt, GTMaterials.StainlessSteel)
                 .inputItems(TagPrefix.plate, GTMaterials.PolyvinylChloride, 6)
                 .circuitMeta(6)
                 .outputItems(GTOBlocks.PVC_PLASTIC_MECHANICAL_HOUSING.asStack())
                 .EUt(16)
                 .duration(50)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("space_elevator_internal_support"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("space_elevator_internal_support"))
                 .inputItems(TagPrefix.frameGt, GTMaterials.Naquadah)
                 .inputItems(TagPrefix.wireGtSingle, GTMaterials.NiobiumTitanium, 2)
                 .inputItems(TagPrefix.wireFine, GTMaterials.AnnealedCopper, 16)
@@ -1141,9 +1134,9 @@ interface Assembler {
                 .outputItems(GTOBlocks.SPACE_ELEVATOR_INTERNAL_SUPPORT.asStack())
                 .EUt(480)
                 .duration(400)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("process_machine_casing"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("process_machine_casing"))
                 .inputItems(GTBlocks.CASING_STEEL_SOLID.asStack())
                 .inputItems(CustomTags.IV_CIRCUITS, 2)
                 .inputItems(TagPrefix.wireGtQuadruple, GTOMaterials.EndSteel)
@@ -1153,9 +1146,9 @@ interface Assembler {
                 .outputItems(GTOBlocks.PROCESS_MACHINE_CASING.asStack())
                 .EUt(7680)
                 .duration(200)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("sps_casing"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("sps_casing"))
                 .inputItems(TagPrefix.block, GTOMaterials.Zylon)
                 .inputItems(GTOBlocks.RESTRAINT_DEVICE.asStack())
                 .inputItems(CustomTags.UEV_CIRCUITS, 4)
@@ -1166,9 +1159,9 @@ interface Assembler {
                 .outputItems(GTOBlocks.SPS_CASING.asStack())
                 .EUt(7864320)
                 .duration(800)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("molecular_casing"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("molecular_casing"))
                 .inputItems(GTBlocks.HIGH_POWER_CASING.asStack())
                 .inputItems(TagPrefix.plateDouble, GTMaterials.BatteryAlloy, 4)
                 .inputItems(GTItems.EMITTER_IV.asStack())
@@ -1183,9 +1176,9 @@ interface Assembler {
                 .EUt(491520)
                 .duration(400)
                 .cleanroom(CleanroomType.CLEANROOM)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("green_halide_lamp"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("green_halide_lamp"))
                 .inputItems(TagPrefix.foil, GTMaterials.Electrum, 2)
                 .inputItems(TagPrefix.dust, GTMaterials.IridiumChloride)
                 .inputItems(TagPrefix.dust, GTOMaterials.StrontiumEuropiumAluminate, 4)
@@ -1199,9 +1192,9 @@ interface Assembler {
                 .outputItems(GTOItems.GREEN_HALIDE_LAMP.asStack())
                 .EUt(7680)
                 .duration(110)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("blue_halide_lamp"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("blue_halide_lamp"))
                 .inputItems(TagPrefix.foil, GTMaterials.Electrum, 2)
                 .inputItems(TagPrefix.dust, GTMaterials.TitaniumTrifluoride)
                 .inputItems(TagPrefix.dust, GTOMaterials.StrontiumEuropiumAluminate, 4)
@@ -1215,18 +1208,18 @@ interface Assembler {
                 .outputItems(GTOItems.BLUE_HALIDE_LAMP.asStack())
                 .EUt(7680)
                 .duration(110)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("abyssalalloy_coil_block"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("abyssalalloy_coil_block"))
                 .inputItems(TagPrefix.wireGtDouble, GTOMaterials.AbyssalAlloy, 8)
                 .inputItems(TagPrefix.foil, GTMaterials.Europium, 8)
                 .inputFluids(GTMaterials.Tritanium.getFluid(144))
                 .outputItems(GTOBlocks.ABYSSALALLOY_COIL_BLOCK.asStack())
                 .EUt(1966080)
                 .duration(800)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("compressor_controller_casing"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("compressor_controller_casing"))
                 .inputItems(TagPrefix.frameGt, GTOMaterials.AluminiumBronze)
                 .inputItems(TagPrefix.plate, GTMaterials.Titanium, 4)
                 .inputItems(TagPrefix.plateDouble, GTMaterials.Steel, 2)
@@ -1234,9 +1227,9 @@ interface Assembler {
                 .outputItems(GTOBlocks.COMPRESSOR_CONTROLLER_CASING.asStack())
                 .EUt(16)
                 .duration(50)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("precision_circuit_assembly_robot_mk2"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("precision_circuit_assembly_robot_mk2"))
                 .inputItems(GTItems.ROBOT_ARM_UHV.asStack(2))
                 .inputItems(GTItems.SENSOR_UHV.asStack())
                 .inputItems(CustomTags.UEV_CIRCUITS, 4)
@@ -1246,9 +1239,9 @@ interface Assembler {
                 .outputItems(GTOItems.PRECISION_CIRCUIT_ASSEMBLY_ROBOT_MK2.asStack())
                 .EUt(7864320)
                 .duration(400)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("precision_circuit_assembly_robot_mk1"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("precision_circuit_assembly_robot_mk1"))
                 .inputItems(GTItems.ROBOT_ARM_UV.asStack(2))
                 .inputItems(GTItems.SENSOR_UV.asStack())
                 .inputItems(CustomTags.UHV_CIRCUITS, 4)
@@ -1258,9 +1251,9 @@ interface Assembler {
                 .outputItems(GTOItems.PRECISION_CIRCUIT_ASSEMBLY_ROBOT_MK1.asStack())
                 .EUt(1966080)
                 .duration(400)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("precision_circuit_assembly_robot_mk5"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("precision_circuit_assembly_robot_mk5"))
                 .inputItems(GTItems.ROBOT_ARM_UXV.asStack(2))
                 .inputItems(GTItems.SENSOR_UXV.asStack())
                 .inputItems(CustomTags.OpV_CIRCUITS, 4)
@@ -1270,9 +1263,9 @@ interface Assembler {
                 .outputItems(GTOItems.PRECISION_CIRCUIT_ASSEMBLY_ROBOT_MK5.asStack())
                 .EUt(503316480)
                 .duration(400)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("precision_circuit_assembly_robot_mk4"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("precision_circuit_assembly_robot_mk4"))
                 .inputItems(GTItems.ROBOT_ARM_UIV.asStack(2))
                 .inputItems(GTItems.SENSOR_UIV.asStack())
                 .inputItems(CustomTags.UXV_CIRCUITS, 4)
@@ -1282,9 +1275,9 @@ interface Assembler {
                 .outputItems(GTOItems.PRECISION_CIRCUIT_ASSEMBLY_ROBOT_MK4.asStack())
                 .EUt(125829120)
                 .duration(400)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("precision_circuit_assembly_robot_mk3"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("precision_circuit_assembly_robot_mk3"))
                 .inputItems(GTItems.ROBOT_ARM_UEV.asStack(2))
                 .inputItems(GTItems.SENSOR_UEV.asStack())
                 .inputItems(CustomTags.UIV_CIRCUITS, 4)
@@ -1294,9 +1287,9 @@ interface Assembler {
                 .outputItems(GTOItems.PRECISION_CIRCUIT_ASSEMBLY_ROBOT_MK3.asStack())
                 .EUt(31457280)
                 .duration(400)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("annihilate_core"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("annihilate_core"))
                 .inputItems(TagPrefix.frameGt, GTOMaterials.QuantumChromoDynamicallyConfinedMatter)
                 .inputItems(GTOItems.GRAVITON_TRANSDUCER.asStack())
                 .inputItems(GTOItems.TOPOLOGICAL_MANIPULATOR_UNIT.asStack())
@@ -1308,9 +1301,9 @@ interface Assembler {
                 .EUt(125829120)
                 .duration(400)
                 .cleanroom(CleanroomType.CLEANROOM)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("naquadah_reinforced_plant_casing"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("naquadah_reinforced_plant_casing"))
                 .inputItems(GTOBlocks.STABILIZED_NAQUADAH_WATER_PLANT_CASING.asStack())
                 .inputItems(TagPrefix.bolt, GTOMaterials.Tantalloy61, 16)
                 .inputItems(TagPrefix.foil, GTMaterials.Naquadria, 8)
@@ -1318,9 +1311,9 @@ interface Assembler {
                 .outputItems(GTOBlocks.NAQUADAH_REINFORCED_PLANT_CASING.asStack())
                 .EUt(480)
                 .duration(400)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("iv_neutron_accelerator"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("iv_neutron_accelerator"))
                 .inputItems(GTMachines.HULL[GTValues.IV].asStack())
                 .inputItems(GTOItems.INVERTER.asStack())
                 .inputItems(GTItems.ELECTRIC_MOTOR_IV.asStack(2))
@@ -1330,18 +1323,18 @@ interface Assembler {
                 .outputItems(GTOMachines.NEUTRON_ACCELERATOR[GTValues.IV].asStack())
                 .EUt(30)
                 .duration(400)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("uhv_voltage_coil"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("uhv_voltage_coil"))
                 .inputItems(GTOItems.MAGNETIC_NETHERITE_ROD.asStack())
                 .inputItems(TagPrefix.wireFine, GTOMaterials.AbyssalAlloy, 16)
                 .circuitMeta(1)
                 .outputItems(GTOItems.UHV_VOLTAGE_COIL.asStack())
                 .EUt(1966080)
                 .duration(200)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("radiation_absorbent_casing"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("radiation_absorbent_casing"))
                 .inputItems(TagPrefix.frameGt, GTOMaterials.DepletedUraniumAlloy)
                 .inputItems(TagPrefix.plateDouble, GTOMaterials.BabbittAlloy, 2)
                 .inputItems(TagPrefix.plateDouble, GTMaterials.RhodiumPlatedPalladium, 4)
@@ -1349,18 +1342,18 @@ interface Assembler {
                 .outputItems(GTOBlocks.RADIATION_ABSORBENT_CASING.asStack())
                 .EUt(120)
                 .duration(200)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("uxv_voltage_coil"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("uxv_voltage_coil"))
                 .inputItems(TagPrefix.rod, GTOMaterials.AttunedTengam)
                 .inputItems(TagPrefix.wireFine, GTOMaterials.NaquadriaticTaranium, 16)
                 .circuitMeta(1)
                 .outputItems(GTOItems.UXV_VOLTAGE_COIL.asStack())
                 .EUt(125829120)
                 .duration(200)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("smd_diode_cosmic"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("smd_diode_cosmic"))
                 .inputItems(TagPrefix.wireFine, GTOMaterials.HastelloyX78, 8)
                 .inputItems(TagPrefix.plate, GTOMaterials.AbyssalAlloy, 4)
                 .inputItems(TagPrefix.plate, GTOMaterials.SuperheavyHAlloy, 2)
@@ -1370,18 +1363,18 @@ interface Assembler {
                 .EUt(31457280)
                 .duration(100)
                 .cleanroom(CleanroomType.CLEANROOM)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("max_voltage_coil"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("max_voltage_coil"))
                 .inputItems(TagPrefix.rod, GTOMaterials.AttunedTengam)
                 .inputItems(TagPrefix.wireFine, GTOMaterials.CosmicNeutronium, 16)
                 .circuitMeta(1)
                 .outputItems(GTOItems.MAX_VOLTAGE_COIL.asStack())
                 .EUt(2013265920)
                 .duration(200)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("magnetic_trap"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("magnetic_trap"))
                 .inputItems(TagPrefix.wireGtDouble, GTMaterials.EnrichedNaquadahTriniumEuropiumDuranide, 2)
                 .inputItems(GTBlocks.CASING_ALUMINIUM_FROSTPROOF.asStack())
                 .inputItems(TagPrefix.plateDouble, GTMaterials.Kanthal)
@@ -1390,18 +1383,18 @@ interface Assembler {
                 .EUt(1000000)
                 .duration(480)
                 .cleanroom(CleanroomType.CLEANROOM)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("starmetal_coil_block"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("starmetal_coil_block"))
                 .inputItems(TagPrefix.wireGtDouble, GTOMaterials.Starmetal, 8)
                 .inputItems(TagPrefix.foil, GTOMaterials.CrystalMatrix, 8)
                 .inputFluids(GTOMaterials.NaquadriaticTaranium.getFluid(144))
                 .outputItems(GTOBlocks.STARMETAL_COIL_BLOCK.asStack())
                 .EUt(503316480)
                 .duration(800)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("supercritical_steam_turbine"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("supercritical_steam_turbine"))
                 .inputItems(GTMachines.HULL[GTValues.LuV].asStack())
                 .inputItems(CustomTags.LuV_CIRCUITS, 4)
                 .inputItems(GTItems.ELECTRIC_MOTOR_LuV.asStack(2))
@@ -1411,9 +1404,9 @@ interface Assembler {
                 .outputItems(GeneratorMultiblock.SUPERCRITICAL_STEAM_TURBINE.asStack())
                 .EUt(30720)
                 .duration(200)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("fishbig_body"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("fishbig_body"))
                 .inputItems(GTOItems.FISHBIG_FABRIC.asStack(64))
                 .inputItems(GTOItems.FISHBIG_FRAME.asStack(64))
                 .inputItems(GTOItems.FISHBIG_FABRIC.asStack(64))
@@ -1428,18 +1421,18 @@ interface Assembler {
                 .EUt(131941395333120L)
                 .duration(200)
                 .cleanroom(GTOCleanroomType.LAW_CLEANROOM)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("oxidation_resistant_hastelloy_n_mechanical_casing"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("oxidation_resistant_hastelloy_n_mechanical_casing"))
                 .inputItems(TagPrefix.frameGt, GTOMaterials.HastelloyN)
                 .inputItems(TagPrefix.plate, GTOMaterials.HastelloyN, 6)
                 .circuitMeta(6)
                 .outputItems(GTOBlocks.OXIDATION_RESISTANT_HASTELLOY_N_MECHANICAL_CASING.asStack())
                 .EUt(16)
                 .duration(50)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("uv_neutron_accelerator"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("uv_neutron_accelerator"))
                 .inputItems(GTMachines.HULL[GTValues.UV].asStack())
                 .inputItems(GTOItems.INVERTER.asStack())
                 .inputItems(GTItems.ELECTRIC_MOTOR_UV.asStack(2))
@@ -1449,9 +1442,9 @@ interface Assembler {
                 .outputItems(GTOMachines.NEUTRON_ACCELERATOR[GTValues.UV].asStack())
                 .EUt(30)
                 .duration(400)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("neutronium_active_casing"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("neutronium_active_casing"))
                 .inputItems(TagPrefix.frameGt, GTMaterials.Neutronium)
                 .inputItems(TagPrefix.pipeNormalFluid, GTMaterials.Europium, 4)
                 .inputItems(TagPrefix.plateDouble, GTOMaterials.Lafium, 4)
@@ -1460,9 +1453,9 @@ interface Assembler {
                 .outputItems(GTOBlocks.AMPROSIUM_ACTIVE_CASING.asStack())
                 .EUt(480)
                 .duration(200)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("separation_electromagnet"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("separation_electromagnet"))
                 .inputItems(TagPrefix.wireFine, GTMaterials.YttriumBariumCuprate, 64)
                 .inputItems(TagPrefix.wireFine, GTMaterials.NiobiumTitanium, 64)
                 .inputItems(TagPrefix.foil, GTMaterials.Polybenzimidazole, 16)
@@ -1472,9 +1465,9 @@ interface Assembler {
                 .outputItems(GTOItems.SEPARATION_ELECTROMAGNET.asStack())
                 .EUt(122880)
                 .duration(600)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("ulv_neutron_accelerator"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("ulv_neutron_accelerator"))
                 .inputItems(GTMachines.HULL[GTValues.ULV].asStack())
                 .inputItems(GTOItems.INVERTER.asStack())
                 .inputItems(GTOItems.ULV_ELECTRIC_MOTOR.asStack(2))
@@ -1484,27 +1477,27 @@ interface Assembler {
                 .outputItems(GTOMachines.NEUTRON_ACCELERATOR[GTValues.ULV].asStack())
                 .EUt(30)
                 .duration(400)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("flotation_cell"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("flotation_cell"))
                 .inputItems(TagPrefix.plate, GTOMaterials.HastelloyN75, 7)
                 .inputItems(GTBlocks.CASING_GRATE.asStack())
                 .inputItems(GTItems.ELECTRIC_PUMP_IV.asStack())
                 .outputItems(GTOBlocks.FLOTATION_CELL.asStack())
                 .EUt(7680)
                 .duration(400)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("pikyonium_machine_casing"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("pikyonium_machine_casing"))
                 .inputItems(TagPrefix.frameGt, GTMaterials.HastelloyX)
                 .inputItems(TagPrefix.plate, GTOMaterials.Pikyonium, 6)
                 .circuitMeta(6)
                 .outputItems(GTOBlocks.PIKYONIUM_MACHINE_CASING.asStack())
                 .EUt(16)
                 .duration(50)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("high_frequency_laser"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("high_frequency_laser"))
                 .inputItems(TagPrefix.rod, GTMaterials.Amethyst)
                 .inputItems(GTOItems.BLUE_HALIDE_LAMP.asStack())
                 .inputItems(GTOItems.HIGHLY_REFLECTIVE_MIRROR.asStack())
@@ -1515,24 +1508,24 @@ interface Assembler {
                 .EUt(491520)
                 .duration(320)
                 .cleanroom(CleanroomType.CLEANROOM)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("desh_engine"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("desh_engine"))
                 .inputItems(TagPrefix.frameGt, GTMaterials.BlueSteel)
-                .inputItems(RegistriesUtils.getItemStack("ad_astra:steel_engine"))
+                .inputItems("ad_astra:steel_engine")
                 .inputItems(GTItems.FIELD_GENERATOR_EV.asStack(2))
                 .inputItems(CustomTags.IV_CIRCUITS, 16)
                 .inputItems(GTItems.FLUID_REGULATOR_EV.asStack())
-                .inputItems(RegistriesUtils.getItemStack("ad_astra:desh_fluid_pipe", 16))
+                .inputItems("ad_astra:desh_fluid_pipe", 16)
                 .inputItems(GTOTagPrefix.curvedPlate, GTMaterials.CobaltBrass, 32)
                 .inputItems(TagPrefix.plateDense, GTOMaterials.Desh, 8)
                 .inputFluids(GTMaterials.TungstenSteel.getFluid(1296))
-                .outputItems(RegistriesUtils.getItemStack("ad_astra:desh_engine"))
+                .outputItems("ad_astra:desh_engine")
                 .EUt(1920)
                 .duration(400)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("red_halide_lamp"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("red_halide_lamp"))
                 .inputItems(TagPrefix.foil, GTMaterials.Electrum, 2)
                 .inputItems(TagPrefix.dust, GTOMaterials.PotassiumBromide)
                 .inputItems(TagPrefix.dust, GTOMaterials.StrontiumEuropiumAluminate, 4)
@@ -1546,9 +1539,9 @@ interface Assembler {
                 .outputItems(GTOItems.RED_HALIDE_LAMP.asStack())
                 .EUt(7680)
                 .duration(110)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("electron_source"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("electron_source"))
                 .inputItems(TagPrefix.plate, GTMaterials.Mendelevium)
                 .inputItems(TagPrefix.dust, GTMaterials.Radium)
                 .inputItems(TagPrefix.plate, GTOMaterials.Polyetheretherketone, 6)
@@ -1559,9 +1552,9 @@ interface Assembler {
                 .EUt(750000)
                 .duration(200)
                 .cleanroom(CleanroomType.CLEANROOM)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("fission_fuel_component"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("fission_fuel_component"))
                 .inputItems(TagPrefix.block, GTMaterials.Graphite)
                 .inputItems(TagPrefix.rodLong, GTMaterials.StainlessSteel, 4)
                 .inputItems(TagPrefix.plateDouble, GTOMaterials.ReactorSteel, 4)
@@ -1569,9 +1562,9 @@ interface Assembler {
                 .outputItems(GTOBlocks.FISSION_FUEL_COMPONENT.asStack())
                 .EUt(120)
                 .duration(200)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("smd_resistor_cosmic"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("smd_resistor_cosmic"))
                 .inputItems(TagPrefix.wireFine, GTOMaterials.HastelloyX78, 8)
                 .inputItems(TagPrefix.plate, GTOMaterials.BlackTitanium, 4)
                 .inputItems(TagPrefix.plate, GTOMaterials.SuperheavyLAlloy, 2)
@@ -1581,20 +1574,20 @@ interface Assembler {
                 .EUt(31457280)
                 .duration(100)
                 .cleanroom(CleanroomType.CLEANROOM)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("rocket_fin"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("rocket_fin"))
                 .inputItems(GTOItems.HEAVY_DUTY_PLATE_1.asStack())
                 .inputItems(TagPrefix.plateDouble, GTOMaterials.AluminiumBronze)
                 .inputItems(TagPrefix.plateDouble, GTMaterials.Aluminium)
                 .inputItems(TagPrefix.plateDouble, GTMaterials.StainlessSteel)
                 .inputFluids(GTMaterials.Magnalium.getFluid(1296))
-                .outputItems(RegistriesUtils.getItemStack("ad_astra:rocket_fin"))
+                .outputItems("ad_astra:rocket_fin")
                 .EUt(120)
                 .duration(200)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("zpm_solar_panel"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("zpm_solar_panel"))
                 .inputItems(GTOItems.FM_WAFER.asStack(4))
                 .inputItems(GTItems.COVER_SOLAR_PANEL_MV.asStack(16))
                 .inputItems(GTItems.COVER_SOLAR_PANEL_HV.asStack(16))
@@ -1606,9 +1599,9 @@ interface Assembler {
                 .outputItems(GTItems.COVER_SOLAR_PANEL_ZPM.asStack())
                 .EUt(122880)
                 .duration(1200)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("protonated_fullerene_sieving_matrix"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("protonated_fullerene_sieving_matrix"))
                 .inputItems(TagPrefix.dust, GTOMaterials.Fluorocarborane, 50)
                 .inputItems(TagPrefix.wireFine, GTOMaterials.CarbonNanotubes, 6)
                 .inputItems(TagPrefix.dust, GTOMaterials.Fullerene)
@@ -1616,18 +1609,18 @@ interface Assembler {
                 .outputItems(GTOItems.PROTONATED_FULLERENE_SIEVING_MATRIX.asStack())
                 .EUt(30720)
                 .duration(350)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("titansteel_coil_block"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("titansteel_coil_block"))
                 .inputItems(TagPrefix.wireGtDouble, GTOMaterials.TitanSteel, 8)
                 .inputItems(TagPrefix.foil, GTOMaterials.Mithril, 8)
                 .inputFluids(GTOMaterials.AbyssalAlloy.getFluid(144))
                 .outputItems(GTOBlocks.TITANSTEEL_COIL_BLOCK.asStack())
                 .EUt(7864320)
                 .duration(800)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("accelerated_pipeline"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("accelerated_pipeline"))
                 .inputItems(TagPrefix.pipeQuadrupleFluid, GTMaterials.Europium)
                 .inputItems(GTItems.VOLTAGE_COIL_LuV.asStack(2))
                 .inputItems(CustomTags.LuV_CIRCUITS)
@@ -1639,9 +1632,9 @@ interface Assembler {
                 .EUt(7680)
                 .duration(400)
                 .cleanroom(CleanroomType.CLEANROOM)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("uruium_coil_block"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("uruium_coil_block"))
                 .inputItems(TagPrefix.wireGtDouble, GTOMaterials.Uruium, 64)
                 .inputItems(TagPrefix.wireGtDouble, GTOMaterials.Uruium, 64)
                 .inputItems(TagPrefix.ring, GTMaterials.Neutronium, 16)
@@ -1655,9 +1648,9 @@ interface Assembler {
                 .outputItems(GTOBlocks.URUIUM_COIL_BLOCK.asStack())
                 .EUt(31457280)
                 .duration(600)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("smd_diode_exotic"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("smd_diode_exotic"))
                 .inputItems(TagPrefix.plate, GTOMaterials.Enderite)
                 .inputItems(TagPrefix.plate, GTOMaterials.TriniumTitanium)
                 .inputItems(TagPrefix.foil, GTMaterials.Dubnium, 2)
@@ -1667,17 +1660,17 @@ interface Assembler {
                 .EUt(7864320)
                 .duration(100)
                 .cleanroom(CleanroomType.CLEANROOM)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("rhenium_reinforced_energy_glass"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("rhenium_reinforced_energy_glass"))
                 .inputItems(GTBlocks.FUSION_GLASS.asStack(2))
                 .inputItems(TagPrefix.plate, GTOMaterials.DegenerateRhenium, 6)
                 .outputItems(GTOBlocks.RHENIUM_REINFORCED_ENERGY_GLASS.asStack())
                 .EUt(491520)
                 .duration(1200)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("disassembly"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("disassembly"))
                 .inputItems(GTMultiMachines.ASSEMBLY_LINE.asStack())
                 .inputItems(TagPrefix.gear, GTMaterials.NaquadahAlloy, 4)
                 .inputItems(GTItems.ROBOT_ARM_LuV.asStack(16))
@@ -1688,9 +1681,9 @@ interface Assembler {
                 .outputItems(MultiBlockA.DISASSEMBLY.asStack())
                 .EUt(7680)
                 .duration(800)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("uhv_neutron_accelerator"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("uhv_neutron_accelerator"))
                 .inputItems(GTMachines.HULL[GTValues.UHV].asStack())
                 .inputItems(GTOItems.INVERTER.asStack())
                 .inputItems(GTItems.ELECTRIC_MOTOR_UHV.asStack(2))
@@ -1700,9 +1693,9 @@ interface Assembler {
                 .outputItems(GTOMachines.NEUTRON_ACCELERATOR[GTValues.UHV].asStack())
                 .EUt(30)
                 .duration(400)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("inert_neutralization_water_plant_casing"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("inert_neutralization_water_plant_casing"))
                 .inputItems(TagPrefix.frameGt, GTMaterials.HastelloyX)
                 .inputItems(TagPrefix.screw, GTMaterials.HastelloyC276, 16)
                 .inputItems(TagPrefix.plate, GTMaterials.HastelloyC276, 6)
@@ -1710,9 +1703,9 @@ interface Assembler {
                 .outputItems(GTOBlocks.INERT_NEUTRALIZATION_WATER_PLANT_CASING.asStack())
                 .EUt(120)
                 .duration(200)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("uxv_neutron_accelerator"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("uxv_neutron_accelerator"))
                 .inputItems(GTMachines.HULL[GTValues.UXV].asStack())
                 .inputItems(GTOItems.INVERTER.asStack())
                 .inputItems(GTItems.ELECTRIC_MOTOR_UXV.asStack(2))
@@ -1722,9 +1715,9 @@ interface Assembler {
                 .outputItems(GTOMachines.NEUTRON_ACCELERATOR[GTValues.UXV].asStack())
                 .EUt(30)
                 .duration(400)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("quantum_chromodynamic_charge"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("quantum_chromodynamic_charge"))
                 .notConsumable(GTOTagPrefix.nanites, GTOMaterials.Eternity)
                 .inputItems(GTOItems.UNSTABLE_STAR.asStack())
                 .inputItems(GTOBlocks.LEPTONIC_CHARGE.asStack())
@@ -1733,9 +1726,9 @@ interface Assembler {
                 .outputItems(GTOBlocks.QUANTUM_CHROMODYNAMIC_CHARGE.asStack(64))
                 .EUt(8053063680L)
                 .duration(200)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("fission_reactor_casing"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("fission_reactor_casing"))
                 .inputItems(TagPrefix.frameGt, GTMaterials.VanadiumSteel)
                 .inputItems(TagPrefix.plate, GTMaterials.Lead, 6)
                 .inputItems(TagPrefix.plate, GTOMaterials.ReactorSteel, 6)
@@ -1743,9 +1736,9 @@ interface Assembler {
                 .outputItems(GTOBlocks.FISSION_REACTOR_CASING.asStack())
                 .EUt(16)
                 .duration(50)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("rare_earth_centrifugal"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("rare_earth_centrifugal"))
                 .inputItems(TagPrefix.plate, GTMaterials.Europium, 8)
                 .inputItems(GTItems.ELECTRIC_MOTOR_UHV.asStack(16))
                 .inputItems(TagPrefix.gear, GTMaterials.HSSS, 16)
@@ -1758,9 +1751,9 @@ interface Assembler {
                 .outputItems(MultiBlockA.RARE_EARTH_CENTRIFUGAL.asStack())
                 .EUt(7864320)
                 .duration(1000)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("fission_reactor"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("fission_reactor"))
                 .inputItems(GTMachines.HULL[GTValues.IV].asStack())
                 .inputItems(CustomTags.IV_CIRCUITS, 4)
                 .inputItems(GTItems.COVER_SCREEN.asStack())
@@ -1770,9 +1763,9 @@ interface Assembler {
                 .outputItems(MultiBlockD.FISSION_REACTOR.asStack())
                 .EUt(480)
                 .duration(200)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("dyson_deployment_magnet"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("dyson_deployment_magnet"))
                 .inputItems(GTMachines.ENERGY_OUTPUT_HATCH[GTValues.UIV].asStack())
                 .inputItems(GTBlocks.SUPERCONDUCTING_COIL.asStack(4))
                 .inputItems(GTOItems.PM_CHIP.asStack(8))
@@ -1782,9 +1775,9 @@ interface Assembler {
                 .outputItems(GTOBlocks.DYSON_DEPLOYMENT_MAGNET.asStack())
                 .EUt(31457280)
                 .duration(600)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("rotor_hatch"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("rotor_hatch"))
                 .inputItems(GTMachines.ITEM_IMPORT_BUS[GTValues.EV].asStack())
                 .inputItems(GTItems.COVER_ITEM_DETECTOR_ADVANCED.asStack())
                 .inputItems(TagPrefix.pipeLargeRestrictive, GTMaterials.SterlingSilver, 4)
@@ -1793,9 +1786,9 @@ interface Assembler {
                 .outputItems(GTOMachines.ROTOR_HATCH.asStack())
                 .EUt(480)
                 .duration(400)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("insulation_wire_assembly"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("insulation_wire_assembly"))
                 .inputItems(TagPrefix.rod, GTMaterials.ReinforcedEpoxyResin)
                 .inputItems(GTOItems.AEROGRAPHENE.asStack())
                 .inputItems(GTOItems.HIGHLY_INSULATING_FOIL.asStack())
@@ -1806,9 +1799,9 @@ interface Assembler {
                 .EUt(480)
                 .duration(200)
                 .cleanroom(GTOCleanroomType.LAW_CLEANROOM)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("mv_neutron_accelerator"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("mv_neutron_accelerator"))
                 .inputItems(GTMachines.HULL[GTValues.MV].asStack())
                 .inputItems(GTOItems.INVERTER.asStack())
                 .inputItems(GTItems.ELECTRIC_MOTOR_MV.asStack(2))
@@ -1818,9 +1811,9 @@ interface Assembler {
                 .outputItems(GTOMachines.NEUTRON_ACCELERATOR[GTValues.MV].asStack())
                 .EUt(30)
                 .duration(400)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("uv_solar_panel"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("uv_solar_panel"))
                 .inputItems(GTOItems.FM_WAFER.asStack(16))
                 .inputItems(GTItems.COVER_SOLAR_PANEL_IV.asStack(16))
                 .inputItems(GTItems.COVER_SOLAR_PANEL_LuV.asStack(16))
@@ -1832,9 +1825,9 @@ interface Assembler {
                 .outputItems(GTItems.COVER_SOLAR_PANEL_UV.asStack())
                 .EUt(491520)
                 .duration(1200)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("hastelloy_n_75_gearbox"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("hastelloy_n_75_gearbox"))
                 .inputItems(TagPrefix.frameGt, GTMaterials.HSSG)
                 .inputItems(TagPrefix.plateDouble, GTMaterials.HSSG, 4)
                 .inputItems(TagPrefix.gear, GTOMaterials.HastelloyN75, 3)
@@ -1844,9 +1837,9 @@ interface Assembler {
                 .outputItems(GTOBlocks.HASTELLOY_N_75_GEARBOX.asStack())
                 .EUt(30720)
                 .duration(280)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("large_incubator"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("large_incubator"))
                 .inputItems(MultiBlockD.INCUBATOR.asStack())
                 .inputItems(GTItems.FIELD_GENERATOR_LuV.asStack(4))
                 .inputItems(GTItems.SENSOR_LuV.asStack(4))
@@ -1857,28 +1850,28 @@ interface Assembler {
                 .outputItems(MultiBlockD.LARGE_INCUBATOR.asStack())
                 .EUt(122880)
                 .duration(800)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("peek_wear_resistant_mechanical_housing"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("peek_wear_resistant_mechanical_housing"))
                 .inputItems(TagPrefix.frameGt, GTMaterials.Steel)
                 .inputItems(TagPrefix.plate, GTOMaterials.Polyetheretherketone, 6)
                 .circuitMeta(6)
                 .outputItems(GTOBlocks.PEEK_WEAR_RESISTANT_MECHANICAL_HOUSING.asStack())
                 .EUt(16)
                 .duration(50)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("fan"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("fan"))
                 .inputItems(TagPrefix.rod, GTMaterials.Steel, 2)
                 .inputItems(TagPrefix.turbineBlade, GTMaterials.StainlessSteel, 4)
                 .inputItems(TagPrefix.screw, GTMaterials.StainlessSteel, 4)
                 .inputFluids(GTMaterials.SolderingAlloy.getFluid(576))
-                .outputItems(RegistriesUtils.getItemStack("ad_astra:fan"))
+                .outputItems("ad_astra:fan")
                 .EUt(120)
                 .duration(200)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("ultimate_stellar_containment_casing"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("ultimate_stellar_containment_casing"))
                 .inputItems(GTOBlocks.ADVANCED_STELLAR_CONTAINMENT_CASING.asStack())
                 .inputItems(GTItems.FIELD_GENERATOR_UEV.asStack())
                 .inputItems(TagPrefix.screw, GTOMaterials.Vibramantium, 8)
@@ -1888,9 +1881,9 @@ interface Assembler {
                 .outputItems(GTOBlocks.ULTIMATE_STELLAR_CONTAINMENT_CASING.asStack())
                 .EUt(31457280)
                 .duration(460)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("module_base"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("module_base"))
                 .inputItems(GTOBlocks.HIGH_STRENGTH_CONCRETE.asStack())
                 .inputItems(TagPrefix.plate, GTMaterials.Technetium, 4)
                 .inputItems(TagPrefix.plate, GTMaterials.Osmium, 4)
@@ -1898,9 +1891,9 @@ interface Assembler {
                 .outputItems(GTOBlocks.SPACE_ELEVATOR_MODULE_BASE.asStack())
                 .EUt(480)
                 .duration(400)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("hv_neutron_accelerator"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("hv_neutron_accelerator"))
                 .inputItems(GTMachines.HULL[GTValues.HV].asStack())
                 .inputItems(GTOItems.INVERTER.asStack())
                 .inputItems(GTItems.ELECTRIC_MOTOR_HV.asStack(2))
@@ -1910,9 +1903,9 @@ interface Assembler {
                 .outputItems(GTOMachines.NEUTRON_ACCELERATOR[GTValues.HV].asStack())
                 .EUt(30)
                 .duration(400)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("smd_resistor_bioware"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("smd_resistor_bioware"))
                 .inputItems(TagPrefix.wireFine, GTMaterials.NaquadahAlloy, 8)
                 .inputItems(TagPrefix.plate, GTMaterials.Naquadria)
                 .inputItems(TagPrefix.plate, GTMaterials.Tritanium)
@@ -1921,24 +1914,24 @@ interface Assembler {
                 .EUt(491520)
                 .duration(100)
                 .cleanroom(CleanroomType.STERILE_CLEANROOM)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("steel_engine"))
-                .inputItems(RegistriesUtils.getItemStack("ad_astra:engine_frame"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("steel_engine"))
+                .inputItems("ad_astra:engine_frame")
                 .inputItems(GTBlocks.CASING_STEEL_PIPE.asStack())
-                .inputItems(RegistriesUtils.getItemStack("ad_astra:fan"))
-                .inputItems(RegistriesUtils.getItemStack("ad_astra:steel_tank"))
+                .inputItems("ad_astra:fan")
+                .inputItems("ad_astra:steel_tank")
                 .inputItems(GTItems.FLUID_REGULATOR_HV.asStack())
                 .inputItems(CustomTags.EV_CIRCUITS, 16)
                 .inputItems(GTItems.LIQUID_FUEL_JETPACK.asStack())
                 .inputItems(TagPrefix.plate, GTMaterials.StainlessSteel, 8)
                 .inputFluids(GTMaterials.Steel.getFluid(1296))
-                .outputItems(RegistriesUtils.getItemStack("ad_astra:steel_engine"))
+                .outputItems("ad_astra:steel_engine")
                 .EUt(480)
                 .duration(400)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("dimensionally_transcendent_casing"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("dimensionally_transcendent_casing"))
                 .inputItems(TagPrefix.frameGt, GTOMaterials.Mithril)
                 .inputItems(GTOBlocks.DIMENSION_INJECTION_CASING.asStack())
                 .inputItems(GTOBlocks.MOLECULAR_CASING.asStack())
@@ -1952,18 +1945,18 @@ interface Assembler {
                 .outputItems(GTOBlocks.DIMENSIONALLY_TRANSCENDENT_CASING.asStack())
                 .EUt(31457280)
                 .duration(200)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("netherite_upgrade_smithing_template"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("netherite_upgrade_smithing_template"))
                 .inputItems(new ItemStack(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE.asItem()))
                 .inputItems(TagPrefix.dust, GTMaterials.Diamond, 7)
                 .inputItems(TagPrefix.rock, GTMaterials.Netherrack)
                 .outputItems(new ItemStack(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE.asItem(), 2))
                 .EUt(480)
                 .duration(200)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("recycler"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("recycler"))
                 .inputItems(TagPrefix.plateDouble, GTMaterials.VanadiumSteel, 4)
                 .inputItems(TagPrefix.gear, GTMaterials.BlackBronze, 4)
                 .inputItems(TagPrefix.rod, GTOMaterials.EglinSteel, 8)
@@ -1977,9 +1970,9 @@ interface Assembler {
                 .outputItems(MultiBlockA.RECYCLER.asStack())
                 .EUt(1920)
                 .duration(400)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("cryogenic_interface"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("cryogenic_interface"))
                 .inputItems(TagPrefix.plateDouble, GTMaterials.Graphene)
                 .inputItems(TagPrefix.foil, GTMaterials.Graphene, 8)
                 .inputItems(TagPrefix.wireFine, GTOMaterials.TriniumTitanium)
@@ -1990,9 +1983,9 @@ interface Assembler {
                 .EUt(8000)
                 .duration(160)
                 .cleanroom(CleanroomType.CLEANROOM)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("plasma_heater_casing"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("plasma_heater_casing"))
                 .inputItems(TagPrefix.frameGt, GTMaterials.Trinium)
                 .inputItems(GTItems.VOLTAGE_COIL_LuV.asStack(2))
                 .inputItems(TagPrefix.plate, GTMaterials.Rhenium, 2)
@@ -2002,9 +1995,9 @@ interface Assembler {
                 .outputItems(GTOBlocks.PLASMA_HEATER_CASING.asStack())
                 .EUt(120)
                 .duration(200)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("fusion_casing_mk5"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("fusion_casing_mk5"))
                 .inputItems(GTBlocks.MACHINE_CASING_UEV.asStack())
                 .inputItems(GTOBlocks.FUSION_COIL_MK2.asStack())
                 .inputItems(GTOItems.UEV_VOLTAGE_COIL.asStack(2))
@@ -2016,9 +2009,9 @@ interface Assembler {
                 .EUt(7864320)
                 .duration(100)
                 .cleanroom(CleanroomType.CLEANROOM)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("fusion_casing_mk4"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("fusion_casing_mk4"))
                 .inputItems(GTBlocks.MACHINE_CASING_UHV.asStack())
                 .inputItems(GTOBlocks.ADVANCED_FUSION_COIL.asStack())
                 .inputItems(GTOItems.UHV_VOLTAGE_COIL.asStack(2))
@@ -2030,38 +2023,38 @@ interface Assembler {
                 .EUt(1966080)
                 .duration(100)
                 .cleanroom(CleanroomType.CLEANROOM)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("conversion_simulate_card"))
-                .inputItems(RegistriesUtils.getItemStack("enderio:skeletal_contractor"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("conversion_simulate_card"))
+                .inputItems("enderio:skeletal_contractor")
                 .inputItems(GTOBlocks.DRACONIUM_BLOCK_CHARGED.asStack())
-                .inputItems(RegistriesUtils.getItemStack("enderio:vibrant_gear", 4))
+                .inputItems("enderio:vibrant_gear", 4)
                 .inputItems(CustomTags.UV_CIRCUITS, 8)
                 .inputItems(TagPrefix.plateDouble, GTMaterials.Technetium, 4)
                 .inputFluids(GTMaterials.Indium.getFluid(288))
                 .outputItems(GTOItems.CONVERSION_SIMULATE_CARD.asStack())
                 .EUt(1920)
                 .duration(200)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("fluix_covered_cable2"))
-                .inputItems(RegistriesUtils.getItemStack("ae2:fluix_glass_cable"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("fluix_covered_cable2"))
+                .inputItems("ae2:fluix_glass_cable")
                 .inputFluids(GTMaterials.StyreneButadieneRubber.getFluid(1))
-                .outputItems(RegistriesUtils.getItemStack("ae2:fluix_covered_cable"))
+                .outputItems("ae2:fluix_covered_cable")
                 .EUt(30)
                 .duration(20)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("fluix_covered_cable1"))
-                .inputItems(RegistriesUtils.getItemStack("ae2:fluix_glass_cable"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("fluix_covered_cable1"))
+                .inputItems("ae2:fluix_glass_cable")
                 .inputFluids(GTMaterials.SiliconeRubber.getFluid(2))
-                .outputItems(RegistriesUtils.getItemStack("ae2:fluix_covered_cable"))
+                .outputItems("ae2:fluix_covered_cable")
                 .EUt(30)
                 .duration(20)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("speeding_pipe"))
-                .inputItems(RegistriesUtils.getItemStack("ad_astra:fluid_pipe_duct"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("speeding_pipe"))
+                .inputItems("ad_astra:fluid_pipe_duct")
                 .inputItems(TagPrefix.pipeHugeFluid, GTMaterials.StainlessSteel)
                 .inputItems(TagPrefix.rod, GTMaterials.BlueAlloy, 16)
                 .inputItems(CustomTags.EV_CIRCUITS)
@@ -2071,9 +2064,9 @@ interface Assembler {
                 .outputItems(GTOBlocks.SPEEDING_PIPE.asStack())
                 .EUt(1920)
                 .duration(200)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("echo_casing"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("echo_casing"))
                 .inputItems(TagPrefix.frameGt, GTMaterials.Europium)
                 .inputItems(DDItems.REINFORCED_ECHO_SHARD.get())
                 .inputItems(TagPrefix.plateDouble, GTMaterials.HSSE, 6)
@@ -2081,9 +2074,9 @@ interface Assembler {
                 .outputItems(GTOBlocks.ECHO_CASING.asStack())
                 .EUt(30)
                 .duration(200)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("advanced_integrated_ore_processor"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("advanced_integrated_ore_processor"))
                 .inputItems(MultiBlockA.INTEGRATED_ORE_PROCESSOR.asStack(16))
                 .inputItems(GCYMBlocks.CRUSHING_WHEELS.asStack(64))
                 .inputItems(CustomTags.UIV_CIRCUITS, 32)
@@ -2097,18 +2090,18 @@ interface Assembler {
                 .outputItems(MultiBlockA.ADVANCED_INTEGRATED_ORE_PROCESSOR.asStack())
                 .EUt(7864320)
                 .duration(800)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("naquadah_alloy_casing"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("naquadah_alloy_casing"))
                 .inputItems(TagPrefix.frameGt, GTMaterials.NaquadahAlloy)
                 .inputItems(TagPrefix.plate, GTMaterials.NaquadahAlloy, 6)
                 .circuitMeta(6)
                 .outputItems(GTOBlocks.NAQUADAH_ALLOY_CASING.asStack())
                 .EUt(16)
                 .duration(50)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("smd_inductor_cosmic"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("smd_inductor_cosmic"))
                 .inputItems(TagPrefix.wireFine, GTOMaterials.HastelloyX78, 8)
                 .inputItems(TagPrefix.ring, GTOMaterials.Vibranium)
                 .inputFluids(GTOMaterials.FullerenePolymerMatrixPulp.getFluid(144))
@@ -2116,9 +2109,9 @@ interface Assembler {
                 .EUt(31457280)
                 .duration(100)
                 .cleanroom(CleanroomType.CLEANROOM)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("blank_pattern"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("blank_pattern"))
                 .inputItems(TagPrefix.plate, GTMaterials.Steel, 3)
                 .inputItems(TagPrefix.plate, GTMaterials.PolyvinylChloride, 2)
                 .inputItems(TagPrefix.plate, GTMaterials.RedAlloy, 4)
@@ -2127,9 +2120,9 @@ interface Assembler {
                 .outputItems(new ItemStack(AEItems.BLANK_PATTERN.asItem()))
                 .EUt(120)
                 .duration(200)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("highly_dense_polymer_plate"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("highly_dense_polymer_plate"))
                 .inputItems(TagPrefix.plate, GTOMaterials.CarbonNanotubes)
                 .inputItems(TagPrefix.plateDouble, GTOMaterials.CosmicNeutronium)
                 .inputItems(TagPrefix.plate, GTOMaterials.FullerenePolymerMatrixPulp)
@@ -2138,9 +2131,9 @@ interface Assembler {
                 .EUt(125829120)
                 .duration(350)
                 .cleanroom(CleanroomType.CLEANROOM)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("fishbig_rleg"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("fishbig_rleg"))
                 .inputItems(GTOItems.FISHBIG_FRAME.asStack(64))
                 .inputItems(GTOItems.FISHBIG_FABRIC.asStack(64))
                 .inputItems(GTOItems.FISHBIG_FABRIC.asStack(64))
@@ -2155,9 +2148,9 @@ interface Assembler {
                 .EUt(131941395333120L)
                 .duration(200)
                 .cleanroom(GTOCleanroomType.LAW_CLEANROOM)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("neutronium_gearbox"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("neutronium_gearbox"))
                 .inputItems(TagPrefix.plate, GTMaterials.Neutronium, 4)
                 .inputItems(TagPrefix.gear, GTMaterials.Neutronium, 2)
                 .inputItems(TagPrefix.frameGt, GTMaterials.Neutronium)
@@ -2165,9 +2158,9 @@ interface Assembler {
                 .outputItems(GTOBlocks.AMPROSIUM_GEARBOX.asStack())
                 .EUt(16)
                 .duration(50)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("petrochemical_plant"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("petrochemical_plant"))
                 .inputItems(TagPrefix.frameGt, GTMaterials.WatertightSteel, 16)
                 .inputItems(GCYMMachines.LARGE_DISTILLERY.asStack(8))
                 .inputItems(MultiBlockA.LARGE_CRACKER.asStack(4))
@@ -2181,9 +2174,9 @@ interface Assembler {
                 .outputItems(MultiBlockA.PETROCHEMICAL_PLANT.asStack())
                 .EUt(122880)
                 .duration(1000)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("smd_transistor_supracausal"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("smd_transistor_supracausal"))
                 .notConsumable(GTOItems.MICROWORMHOLE_GENERATOR.asStack())
                 .inputItems(TagPrefix.plate, GTMaterials.Neutronium)
                 .inputFluids(GTOMaterials.Radox.getFluid(144))
@@ -2191,9 +2184,9 @@ interface Assembler {
                 .EUt(125829120)
                 .duration(400)
                 .cleanroom(CleanroomType.CLEANROOM)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("fishbig_rhand"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("fishbig_rhand"))
                 .inputItems(GTOItems.FISHBIG_FRAME.asStack(64))
                 .inputItems(GTOItems.FISHBIG_FABRIC.asStack(64))
                 .inputItems(GTOItems.FISHBIG_FABRIC.asStack(64))
@@ -2208,9 +2201,9 @@ interface Assembler {
                 .EUt(131941395333120L)
                 .duration(200)
                 .cleanroom(GTOCleanroomType.LAW_CLEANROOM)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("smd_diode_optical"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("smd_diode_optical"))
                 .inputItems(TagPrefix.wireFine, GTMaterials.Dubnium, 8)
                 .inputItems(TagPrefix.foil, GTOMaterials.Polyetheretherketone, 4)
                 .inputItems(TagPrefix.plate, GTMaterials.VanadiumGallium, 2)
@@ -2220,9 +2213,9 @@ interface Assembler {
                 .EUt(1966080)
                 .duration(100)
                 .cleanroom(CleanroomType.CLEANROOM)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("digestion_tank"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("digestion_tank"))
                 .inputItems(TagPrefix.frameGt, GTMaterials.TungstenSteel)
                 .inputItems(CustomTags.IV_CIRCUITS, 4)
                 .inputItems(GTItems.ELECTRIC_PUMP_IV.asStack(2))
@@ -2233,9 +2226,9 @@ interface Assembler {
                 .outputItems(MultiBlockB.DIGESTION_TANK.asStack())
                 .EUt(120)
                 .duration(400)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("laser_cooling_unit"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("laser_cooling_unit"))
                 .inputItems(TagPrefix.wireFine, GTMaterials.Gold, 4)
                 .inputItems(GTBlocks.CASING_ALUMINIUM_FROSTPROOF.asStack())
                 .inputItems(GTOItems.LASER_DIODE.asStack())
@@ -2245,9 +2238,9 @@ interface Assembler {
                 .EUt(1200000)
                 .duration(300)
                 .cleanroom(CleanroomType.CLEANROOM)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("ozonation_purification_unit"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("ozonation_purification_unit"))
                 .inputItems(TagPrefix.frameGt, GTMaterials.TungstenSteel)
                 .inputItems(GTOBlocks.OZONE_CASING.asStack(4))
                 .inputItems(GTItems.ELECTRIC_MOTOR_IV.asStack(8))
@@ -2261,9 +2254,9 @@ interface Assembler {
                 .outputItems(MultiBlockB.OZONATION_PURIFICATION_UNIT.asStack())
                 .EUt(480)
                 .duration(400)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("reinforced_wood_casing"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("reinforced_wood_casing"))
                 .inputItems(TagPrefix.frameGt, GTMaterials.TreatedWood)
                 .inputItems(TagPrefix.screw, GTMaterials.TinAlloy, 8)
                 .inputItems(TagPrefix.plate, GTMaterials.TinAlloy, 2)
@@ -2272,9 +2265,9 @@ interface Assembler {
                 .outputItems(GTOBlocks.REINFORCED_WOOD_CASING.asStack())
                 .EUt(16)
                 .duration(50)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("flocculation_purification_unit"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("flocculation_purification_unit"))
                 .inputItems(TagPrefix.frameGt, GTMaterials.Ultimet)
                 .inputItems(GTOBlocks.HIGH_PRESSURE_RESISTANT_CASING.asStack(4))
                 .inputItems(GTItems.ELECTRIC_PUMP_LuV.asStack(8))
@@ -2288,9 +2281,9 @@ interface Assembler {
                 .outputItems(MultiBlockB.FLOCCULATION_PURIFICATION_UNIT.asStack())
                 .EUt(1920)
                 .duration(400)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("gravity_stabilization_casing"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("gravity_stabilization_casing"))
                 .inputItems(TagPrefix.frameGt, GTMaterials.Neutronium)
                 .inputItems(GTItems.GRAVI_STAR.asStack())
                 .inputItems(GTItems.NEUTRON_REFLECTOR.asStack(2))
@@ -2299,9 +2292,9 @@ interface Assembler {
                 .outputItems(GTOBlocks.GRAVITY_STABILIZATION_CASING.asStack())
                 .EUt(480)
                 .duration(400)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("inverter"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("inverter"))
                 .inputItems(TagPrefix.plate, GTMaterials.Polyethylene, 4)
                 .inputItems(GTItems.INTEGRATED_LOGIC_CIRCUIT.asStack(4))
                 .inputItems(TagPrefix.gemExquisite, GTMaterials.Quartzite, 2)
@@ -2313,9 +2306,9 @@ interface Assembler {
                 .outputItems(GTOItems.INVERTER.asStack())
                 .EUt(120)
                 .duration(200)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("sterile_water_plant_casing"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("sterile_water_plant_casing"))
                 .inputItems(TagPrefix.frameGt, GTMaterials.TungstenSteel)
                 .inputItems(GTItems.ELECTRIC_MOTOR_MV.asStack())
                 .inputItems(TagPrefix.foil, GTMaterials.PolyvinylChloride, 8)
@@ -2323,9 +2316,9 @@ interface Assembler {
                 .outputItems(GTOBlocks.STERILE_WATER_PLANT_CASING.asStack())
                 .EUt(120)
                 .duration(200)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("naquadria_charge"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("naquadria_charge"))
                 .inputItems(TagPrefix.frameGt, GTMaterials.BlackSteel)
                 .inputItems(GTItems.DYNAMITE.asStack())
                 .inputItems(TagPrefix.bolt, GTMaterials.Titanium, 4)
@@ -2339,9 +2332,9 @@ interface Assembler {
                 .outputItems(GTOBlocks.NAQUADRIA_CHARGE.asStack())
                 .EUt(7864320)
                 .duration(100)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("smd_inductor_exotic"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("smd_inductor_exotic"))
                 .inputItems(TagPrefix.wireFine, GTOMaterials.Cinobite, 8)
                 .inputItems(TagPrefix.ring, GTOMaterials.Adamantium)
                 .inputFluids(GTOMaterials.FullerenePolymerMatrixPulp.getFluid(72))
@@ -2349,9 +2342,9 @@ interface Assembler {
                 .EUt(7864320)
                 .duration(100)
                 .cleanroom(CleanroomType.CLEANROOM)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("magic_core"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("magic_core"))
                 .inputItems(TagPrefix.plateDouble, GTMaterials.Stellite100, 8)
                 .inputItems(GTOItems.BOSE_EINSTEIN_COOLING_CONTAINER.asStack())
                 .inputItems(new ItemStack(Blocks.CONDUIT.asItem()))
@@ -2360,9 +2353,9 @@ interface Assembler {
                 .outputItems(GTOBlocks.MAGIC_CORE.asStack())
                 .EUt(491520)
                 .duration(400)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("nuke_bomb"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("nuke_bomb"))
                 .inputItems(GTBlocks.INDUSTRIAL_TNT.asStack())
                 .inputItems(CustomTags.EV_CIRCUITS)
                 .inputItems(TagPrefix.nugget, GTMaterials.Uranium235, 4)
@@ -2371,9 +2364,9 @@ interface Assembler {
                 .outputItems(GTOBlocks.NUKE_BOMB.asStack())
                 .EUt(480)
                 .duration(200)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("blank_pattern_better"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("blank_pattern_better"))
                 .inputItems(TagPrefix.plate, GTMaterials.Steel, 3)
                 .inputItems(TagPrefix.plate, GTMaterials.Polytetrafluoroethylene, 2)
                 .inputItems(TagPrefix.plate, GTMaterials.RedAlloy, 4)
@@ -2382,9 +2375,9 @@ interface Assembler {
                 .outputItems(new ItemStack(AEItems.BLANK_PATTERN.asItem(), 2))
                 .EUt(480)
                 .duration(200)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("ballast"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("ballast"))
                 .inputItems(TagPrefix.wireFine, GTMaterials.AnnealedCopper, 2)
                 .inputItems(GTItems.RESISTOR.asStack())
                 .inputItems(GTItems.INDUCTOR.asStack())
@@ -2393,18 +2386,18 @@ interface Assembler {
                 .outputItems(GTOItems.BALLAST.asStack())
                 .EUt(1920)
                 .duration(290)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("engine_frame"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("engine_frame"))
                 .inputItems(TagPrefix.frameGt, GTMaterials.BlackSteel)
                 .inputItems(TagPrefix.pipeNormalRestrictive, GTMaterials.Cobalt, 2)
                 .inputItems(TagPrefix.foil, GTMaterials.Steel, 32)
-                .outputItems(RegistriesUtils.getItemStack("ad_astra:engine_frame"))
+                .outputItems("ad_astra:engine_frame")
                 .EUt(120)
                 .duration(400)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("force_field_glass"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("force_field_glass"))
                 .inputItems(GTBlocks.CASING_LAMINATED_GLASS.asStack())
                 .inputItems(GTItems.FIELD_GENERATOR_UHV.asStack())
                 .inputItems(TagPrefix.rodLong, GTMaterials.NaquadahAlloy, 4)
@@ -2416,9 +2409,9 @@ interface Assembler {
                 .EUt(7864320)
                 .duration(400)
                 .cleanroom(CleanroomType.CLEANROOM)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("neutron_sensor"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("neutron_sensor"))
                 .inputItems(GTMachines.HULL[GTValues.IV].asStack())
                 .inputItems(GTItems.COVER_ACTIVITY_DETECTOR_ADVANCED.asStack())
                 .inputItems(GTItems.COVER_SCREEN.asStack())
@@ -2429,9 +2422,9 @@ interface Assembler {
                 .outputItems(GTOMachines.NEUTRON_SENSOR.asStack())
                 .EUt(1920)
                 .duration(200)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("cell_component_64k"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("cell_component_64k"))
                 .inputItems(new ItemStack(AEItems.CELL_COMPONENT_16K.asItem()))
                 .inputItems(CustomTags.HV_CIRCUITS, 2)
                 .inputItems(new ItemStack(AEItems.LOGIC_PROCESSOR.asItem()))
@@ -2442,9 +2435,9 @@ interface Assembler {
                 .outputItems(new ItemStack(AEItems.CELL_COMPONENT_64K.asItem()))
                 .EUt(120)
                 .duration(200)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("uev_neutron_accelerator"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("uev_neutron_accelerator"))
                 .inputItems(GTMachines.HULL[GTValues.UEV].asStack())
                 .inputItems(GTOItems.INVERTER.asStack())
                 .inputItems(GTItems.ELECTRIC_MOTOR_UEV.asStack(2))
@@ -2454,18 +2447,18 @@ interface Assembler {
                 .outputItems(GTOMachines.NEUTRON_ACCELERATOR[GTValues.UEV].asStack())
                 .EUt(30)
                 .duration(400)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("chemical_grade_glass"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("chemical_grade_glass"))
                 .inputItems(TagPrefix.frameGt, GTMaterials.Steel)
                 .inputItems(GTBlocks.CASING_TEMPERED_GLASS.asStack(2))
                 .inputFluids(GTMaterials.DyeWhite.getFluid(144))
                 .outputItems(GTOBlocks.CHEMICAL_GRADE_GLASS.asStack())
                 .EUt(30)
                 .duration(200)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("vacuum_drying_furnace"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("vacuum_drying_furnace"))
                 .inputItems(TagPrefix.frameGt, GTMaterials.HSSE)
                 .inputItems(GTOMachines.DEHYDRATOR[GTValues.IV].asStack(4))
                 .inputItems(TagPrefix.plateDouble, GTMaterials.TitaniumTungstenCarbide, 2)
@@ -2478,27 +2471,27 @@ interface Assembler {
                 .outputItems(MultiBlockA.VACUUM_DRYING_FURNACE.asStack())
                 .EUt(480)
                 .duration(600)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("degenerate_rhenium_constrained_casing"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("degenerate_rhenium_constrained_casing"))
                 .circuitMeta(6)
                 .inputItems(TagPrefix.frameGt, GTOMaterials.Quantanium)
                 .inputItems(TagPrefix.plate, GTOMaterials.DegenerateRhenium, 6)
                 .outputItems(GTOBlocks.DEGENERATE_RHENIUM_CONSTRAINED_CASING.asStack())
                 .EUt(491520)
                 .duration(1200)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("compressor_pipe_casing"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("compressor_pipe_casing"))
                 .inputItems(GTBlocks.CASING_TITANIUM_PIPE.asStack())
                 .inputItems(TagPrefix.plate, GTMaterials.Potin, 4)
                 .inputItems(TagPrefix.plate, GTMaterials.Steel, 6)
                 .outputItems(GTOBlocks.COMPRESSOR_PIPE_CASING.asStack())
                 .EUt(30)
                 .duration(100)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("cell_component_64m"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("cell_component_64m"))
                 .inputItems(GTOItems.CELL_COMPONENT_16M.asStack())
                 .inputItems(CustomTags.UV_CIRCUITS, 2)
                 .inputItems(new ItemStack(AEItems.LOGIC_PROCESSOR.asItem()))
@@ -2509,9 +2502,9 @@ interface Assembler {
                 .outputItems(GTOItems.CELL_COMPONENT_64M.asStack())
                 .EUt(30720)
                 .duration(200)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("supercritical_turbine_casing"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("supercritical_turbine_casing"))
                 .inputItems(GTBlocks.CASING_TUNGSTENSTEEL_TURBINE.asStack())
                 .inputItems(TagPrefix.rod, GTOMaterials.MarM200Steel, 2)
                 .inputItems(TagPrefix.gear, GTOMaterials.MarM200Steel)
@@ -2520,33 +2513,33 @@ interface Assembler {
                 .outputItems(GTOBlocks.SUPERCRITICAL_TURBINE_CASING.asStack())
                 .EUt(16)
                 .duration(50)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("desh_tank"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("desh_tank"))
                 .inputItems(GTItems.FLUID_CELL_LARGE_TITANIUM.asStack(4))
-                .inputItems(RegistriesUtils.getItemStack("ad_astra:desh_fluid_pipe", 8))
+                .inputItems("ad_astra:desh_fluid_pipe", 8)
                 .inputItems(GTItems.ELECTRIC_PUMP_EV.asStack())
                 .inputItems(GTOTagPrefix.curvedPlate, GTMaterials.VanadiumSteel, 8)
                 .inputItems(TagPrefix.plateDense, GTOMaterials.Desh, 4)
                 .inputFluids(GTMaterials.SolderingAlloy.getFluid(288))
-                .outputItems(RegistriesUtils.getItemStack("ad_astra:desh_tank"))
+                .outputItems("ad_astra:desh_tank")
                 .EUt(480)
                 .duration(200)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("large_steam_storage_tank"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("large_steam_storage_tank"))
                 .inputItems(GTMultiMachines.STEEL_MULTIBLOCK_TANK.asStack())
                 .inputItems(GTOTagPrefix.curvedPlate, GTMaterials.Cobalt, 16)
                 .inputItems(TagPrefix.turbineBlade, GTMaterials.Brass, 4)
                 .inputItems(TagPrefix.rodLong, GTMaterials.Brass, 2)
-                .inputItems(RegistriesUtils.getItemStack("gtceu:steel_drum", 4))
+                .inputItems("gtceu:steel_drum", 4)
                 .inputItems(GTOItems.ULV_ELECTRIC_PUMP.asStack(4))
                 .outputItems(MultiBlockC.LARGE_STEAM_STORAGE_TANK.asStack())
                 .EUt(30)
                 .duration(200)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("ozone_casing"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("ozone_casing"))
                 .inputItems(TagPrefix.frameGt, GTMaterials.HastelloyC276)
                 .inputItems(GTItems.ELECTRIC_PUMP_IV.asStack())
                 .inputItems(TagPrefix.plate, GTMaterials.HastelloyX, 6)
@@ -2554,9 +2547,9 @@ interface Assembler {
                 .outputItems(GTOBlocks.OZONE_CASING.asStack())
                 .EUt(120)
                 .duration(200)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("dimension_connection_casing"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("dimension_connection_casing"))
                 .inputItems(TagPrefix.frameGt, GTOMaterials.Draconium)
                 .inputItems(GTOBlocks.DIMENSIONAL_BRIDGE_CASING.asStack())
                 .inputItems(TagPrefix.block, GTOMaterials.Periodicium)
@@ -2566,9 +2559,9 @@ interface Assembler {
                 .outputItems(GTOBlocks.DIMENSION_CONNECTION_CASING.asStack())
                 .EUt(2013265920)
                 .duration(400)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("rocket_mega_turbine"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("rocket_mega_turbine"))
                 .inputItems(GeneratorMultiblock.ROCKET_LARGE_TURBINE.asStack(8))
                 .inputItems(CustomTags.ZPM_CIRCUITS, 16)
                 .inputItems(GTItems.ELECTRIC_MOTOR_IV.asStack(4))
@@ -2579,9 +2572,9 @@ interface Assembler {
                 .outputItems(GeneratorMultiblock.ROCKET_MEGA_TURBINE.asStack())
                 .EUt(7680)
                 .duration(1200)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("smd_capacitor_optical"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("smd_capacitor_optical"))
                 .inputItems(TagPrefix.wireFine, GTMaterials.Dubnium, 8)
                 .inputItems(TagPrefix.foil, GTOMaterials.Polyetheretherketone, 4)
                 .inputItems(TagPrefix.foil, GTMaterials.Tritanium, 2)
@@ -2590,9 +2583,9 @@ interface Assembler {
                 .EUt(1966080)
                 .duration(100)
                 .cleanroom(CleanroomType.CLEANROOM)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("chemical_energy_devourer"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("chemical_energy_devourer"))
                 .inputItems(GTMultiMachines.EXTREME_COMBUSTION_ENGINE.asStack(4))
                 .inputItems(GTItems.FIELD_GENERATOR_IV.asStack(4))
                 .inputItems(GTItems.EMITTER_IV.asStack(8))
@@ -2606,9 +2599,9 @@ interface Assembler {
                 .outputItems(GeneratorMultiblock.CHEMICAL_ENERGY_DEVOURER.asStack())
                 .EUt(7680)
                 .duration(1200)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("flocculation_casing"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("flocculation_casing"))
                 .inputItems(TagPrefix.frameGt, GTMaterials.StainlessSteel)
                 .inputItems(TagPrefix.pipeTinyFluid, GTMaterials.Tungsten, 4)
                 .inputItems(TagPrefix.plateDouble, GTMaterials.StainlessSteel, 6)
@@ -2616,9 +2609,9 @@ interface Assembler {
                 .outputItems(GTOBlocks.FLOCCULATION_CASING.asStack())
                 .EUt(120)
                 .duration(200)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("smd_resistor_exotic"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("smd_resistor_exotic"))
                 .inputItems(TagPrefix.wireFine, GTOMaterials.Cinobite, 4)
                 .inputItems(TagPrefix.dust, GTOMaterials.Quantum)
                 .inputItems(TagPrefix.foil, GTMaterials.IndiumTinBariumTitaniumCuprate, 2)
@@ -2628,9 +2621,9 @@ interface Assembler {
                 .EUt(7864320)
                 .duration(100)
                 .cleanroom(CleanroomType.CLEANROOM)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("manipulator"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("manipulator"))
                 .inputItems(GTItems.NEUTRON_REFLECTOR.asStack(2))
                 .inputItems(CustomTags.UHV_CIRCUITS, 4)
                 .inputItems(GTItems.ROBOT_ARM_UEV.asStack())
@@ -2643,20 +2636,20 @@ interface Assembler {
                 .EUt(30720)
                 .duration(400)
                 .cleanroom(CleanroomType.CLEANROOM)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("vibrant_photovoltaic_block"))
-                .inputItems(RegistriesUtils.getItemStack("enderio:vibrant_photovoltaic_module"))
-                .inputItems(RegistriesUtils.getItemStack("enderio:energy_conduit", 16))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("vibrant_photovoltaic_block"))
+                .inputItems("enderio:vibrant_photovoltaic_module")
+                .inputItems("enderio:energy_conduit", 16)
                 .inputItems(GTItems.VACUUM_TUBE.asStack(16))
                 .inputItems(TagPrefix.wireGtDouble, GTOMaterials.VibrantAlloy, 4)
                 .inputItems(TagPrefix.plate, GTMaterials.TungstenSteel, 2)
                 .outputItems(GTOBlocks.VIBRANT_PHOTOVOLTAIC_BLOCK.asStack())
                 .EUt(480)
                 .duration(200)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("cell_component_16k"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("cell_component_16k"))
                 .inputItems(new ItemStack(AEItems.CELL_COMPONENT_4K.asItem()))
                 .inputItems(CustomTags.MV_CIRCUITS, 2)
                 .inputItems(new ItemStack(AEItems.LOGIC_PROCESSOR.asItem()))
@@ -2667,9 +2660,9 @@ interface Assembler {
                 .outputItems(new ItemStack(AEItems.CELL_COMPONENT_16K.asItem()))
                 .EUt(30)
                 .duration(300)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("inconel_625_pipe"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("inconel_625_pipe"))
                 .inputItems(TagPrefix.frameGt, GTMaterials.HSSS)
                 .inputItems(TagPrefix.plateDouble, GTOMaterials.Inconel625, 4)
                 .inputItems(TagPrefix.plateDouble, GTMaterials.HSSE, 8)
@@ -2678,9 +2671,9 @@ interface Assembler {
                 .outputItems(GTOBlocks.INCONEL_625_PIPE.asStack())
                 .EUt(1920)
                 .duration(480)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("fishbig_hade"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("fishbig_hade"))
                 .inputItems(TagPrefix.plateDouble, GTOMaterials.Cosmic, 64)
                 .inputItems(TagPrefix.plateDouble, GTOMaterials.Cosmic, 64)
                 .inputItems(TagPrefix.plateDouble, GTOMaterials.Cosmic, 64)
@@ -2695,9 +2688,9 @@ interface Assembler {
                 .EUt(131941395333120L)
                 .duration(200)
                 .cleanroom(GTOCleanroomType.LAW_CLEANROOM)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("spacetime_assembly_line_casing"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("spacetime_assembly_line_casing"))
                 .inputItems(GTBlocks.CASING_ASSEMBLY_CONTROL.asStack())
                 .inputItems(GTItems.EMITTER_UHV.asStack())
                 .inputItems(GTItems.ELECTRIC_MOTOR_UEV.asStack(4))
@@ -2710,18 +2703,18 @@ interface Assembler {
                 .EUt(7864320)
                 .duration(400)
                 .cleanroom(CleanroomType.CLEANROOM)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("two_way_foil"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("two_way_foil"))
                 .inputItems(TagPrefix.foil, GTOMaterials.Chaos)
                 .inputItems(GTOItems.HYPER_STABLE_SELF_HEALING_ADHESIVE.asStack())
                 .inputItems(GTOItems.COSMIC_FABRIC.asStack())
                 .outputItems(GTOItems.TWO_WAY_FOIL.asStack())
                 .EUt(8053063680L)
                 .duration(200)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("smd_capacitor_supracausal"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("smd_capacitor_supracausal"))
                 .notConsumable(GTOItems.MICROWORMHOLE_GENERATOR.asStack())
                 .inputItems(TagPrefix.plate, GTOMaterials.Adamantine)
                 .inputFluids(GTOMaterials.Radox.getFluid(144))
@@ -2729,18 +2722,18 @@ interface Assembler {
                 .EUt(125829120)
                 .duration(400)
                 .cleanroom(CleanroomType.CLEANROOM)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("grating_lithography_mask"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("grating_lithography_mask"))
                 .inputItems(GTOItems.LITHOGRAPHY_MASK.asStack())
                 .inputItems(TagPrefix.lens, GTMaterials.Glass)
                 .outputItems(GTOItems.GRATING_LITHOGRAPHY_MASK.asStack())
                 .EUt(1920)
                 .duration(200)
                 .cleanroom(CleanroomType.CLEANROOM)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("fishbig_hair"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("fishbig_hair"))
                 .inputItems(GTOItems.FISHBIG_FABRIC.asStack(64))
                 .inputItems(GTOItems.FISHBIG_FABRIC.asStack(64))
                 .inputItems(GTOItems.FISHBIG_FABRIC.asStack(64))
@@ -2755,9 +2748,9 @@ interface Assembler {
                 .EUt(131941395333120L)
                 .duration(200)
                 .cleanroom(GTOCleanroomType.LAW_CLEANROOM)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("large_gas_collector"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("large_gas_collector"))
                 .inputItems(GTMachines.GAS_COLLECTOR[GTValues.MV].asStack())
                 .inputItems(GTMachines.GAS_COLLECTOR[GTValues.HV].asStack())
                 .inputItems(GTMachines.GAS_COLLECTOR[GTValues.EV].asStack())
@@ -2771,9 +2764,9 @@ interface Assembler {
                 .outputItems(MultiBlockA.LARGE_GAS_COLLECTOR.asStack())
                 .EUt(1920)
                 .duration(400)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("grind_ball_hatch"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("grind_ball_hatch"))
                 .inputItems(TagPrefix.frameGt, GTMaterials.VanadiumSteel)
                 .inputItems(GTMachines.ITEM_IMPORT_BUS[GTValues.IV].asStack())
                 .inputItems(TagPrefix.gear, GTMaterials.Titanium, 8)
@@ -2784,38 +2777,38 @@ interface Assembler {
                 .outputItems(GTOMachines.GRIND_BALL_HATCH.asStack())
                 .EUt(480)
                 .duration(400)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("mc_nylon_tensile_mechanical_shell"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("mc_nylon_tensile_mechanical_shell"))
                 .inputItems(TagPrefix.frameGt, GTMaterials.BlueSteel)
                 .inputItems(TagPrefix.plate, GTMaterials.Polycaprolactam, 6)
                 .circuitMeta(6)
                 .outputItems(GTOBlocks.MC_NYLON_TENSILE_MECHANICAL_SHELL.asStack())
                 .EUt(16)
                 .duration(50)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("steel_tank"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("steel_tank"))
                 .inputItems(GTItems.FLUID_CELL_LARGE_STAINLESS_STEEL.asStack(4))
                 .inputItems(TagPrefix.pipeSmallFluid, GTMaterials.StainlessSteel)
                 .inputItems(GTItems.ELECTRIC_PUMP_HV.asStack())
                 .inputItems(TagPrefix.foil, GTMaterials.StainlessSteel, 16)
                 .inputFluids(GTMaterials.SolderingAlloy.getFluid(288))
-                .outputItems(RegistriesUtils.getItemStack("ad_astra:steel_tank"))
+                .outputItems("ad_astra:steel_tank")
                 .EUt(120)
                 .duration(200)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("awakened_draconium_casing"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("awakened_draconium_casing"))
                 .inputItems(TagPrefix.frameGt, GTOMaterials.HexaphaseCopper)
                 .inputItems(TagPrefix.plate, GTOMaterials.AwakenedDraconium, 6)
                 .inputFluids(GTOMaterials.Draconium.getFluid(576))
                 .outputItems(GTOBlocks.AWAKENED_DRACONIUM_CASING.asStack())
                 .EUt(1920)
                 .duration(800)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("magtech_casing"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("magtech_casing"))
                 .inputItems(TagPrefix.frameGt, GTMaterials.Tungsten)
                 .inputItems(TagPrefix.plate, GTMaterials.Nichrome, 2)
                 .inputItems(TagPrefix.plate, GTMaterials.IndiumTinBariumTitaniumCuprate, 4)
@@ -2824,9 +2817,9 @@ interface Assembler {
                 .outputItems(GTOBlocks.MAGTECH_CASING.asStack())
                 .EUt(16)
                 .duration(50)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("electric_implosion_compressor"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("electric_implosion_compressor"))
                 .inputItems(GTMultiMachines.IMPLOSION_COMPRESSOR.asStack(4))
                 .inputItems(GTMachines.POWER_TRANSFORMER[GTValues.LuV].asStack(4))
                 .inputItems(GTMachines.DIODE[GTValues.LuV].asStack(4))
@@ -2838,18 +2831,18 @@ interface Assembler {
                 .outputItems(MultiBlockA.ELECTRIC_IMPLOSION_COMPRESSOR.asStack())
                 .EUt(30720)
                 .duration(600)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("reinforced_sterile_water_plant_casing"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("reinforced_sterile_water_plant_casing"))
                 .inputItems(GTOBlocks.STERILE_WATER_PLANT_CASING.asStack())
                 .inputItems(TagPrefix.bolt, GTMaterials.Potin, 16)
                 .inputFluids(GTMaterials.Concrete.getFluid(1152))
                 .outputItems(GTOBlocks.REINFORCED_STERILE_WATER_PLANT_CASING.asStack())
                 .EUt(30)
                 .duration(200)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("smd_diode_supracausal"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("smd_diode_supracausal"))
                 .notConsumable(GTOItems.MICROWORMHOLE_GENERATOR.asStack())
                 .inputItems(TagPrefix.plate, GTOMaterials.Vibramantium)
                 .inputFluids(GTOMaterials.Radox.getFluid(144))
@@ -2857,9 +2850,9 @@ interface Assembler {
                 .EUt(125829120)
                 .duration(400)
                 .cleanroom(CleanroomType.CLEANROOM)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("graviton_field_constraint_casing"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("graviton_field_constraint_casing"))
                 .inputItems(TagPrefix.frameGt, GTOMaterials.Draconium)
                 .inputItems(GTOItems.ANNIHILATION_CONSTRAINER.asStack())
                 .inputItems(GTOTagPrefix.nanites, GTMaterials.Neutronium)
@@ -2869,9 +2862,9 @@ interface Assembler {
                 .outputItems(GTOBlocks.GRAVITON_FIELD_CONSTRAINT_CASING.asStack())
                 .EUt(31457280)
                 .duration(100)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("space_elevator_support"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("space_elevator_support"))
                 .inputItems(TagPrefix.frameGt, GTMaterials.Naquadah)
                 .inputItems(TagPrefix.rod, GTMaterials.RedSteel, 4)
                 .inputItems(TagPrefix.plate, GTMaterials.BlackSteel, 6)
@@ -2879,9 +2872,9 @@ interface Assembler {
                 .outputItems(GTOBlocks.SPACE_ELEVATOR_SUPPORT.asStack())
                 .EUt(480)
                 .duration(400)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("opv_neutron_accelerator"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("opv_neutron_accelerator"))
                 .inputItems(GTMachines.HULL[GTValues.OpV].asStack())
                 .inputItems(GTOItems.INVERTER.asStack())
                 .inputItems(GTItems.ELECTRIC_MOTOR_OpV.asStack(2))
@@ -2891,9 +2884,9 @@ interface Assembler {
                 .outputItems(GTOMachines.NEUTRON_ACCELERATOR[GTValues.OpV].asStack())
                 .EUt(30)
                 .duration(400)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("enhance_hyper_mechanical_casing"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("enhance_hyper_mechanical_casing"))
                 .inputItems(TagPrefix.frameGt, GTMaterials.Naquadria)
                 .inputItems(TagPrefix.plateDouble, GTMaterials.NaquadahAlloy, 2)
                 .inputItems(TagPrefix.plateDouble, GTMaterials.Naquadah, 2)
@@ -2903,21 +2896,21 @@ interface Assembler {
                 .outputItems(GTOBlocks.ENHANCE_HYPER_MECHANICAL_CASING.asStack())
                 .EUt(16)
                 .duration(50)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("calorite_tank"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("calorite_tank"))
                 .inputItems(GTItems.FLUID_CELL_LARGE_TUNGSTEN_STEEL.asStack(4))
                 .inputItems(TagPrefix.pipeNormalFluid, GTMaterials.Naquadah, 8)
                 .inputItems(GTItems.ELECTRIC_PUMP_LuV.asStack())
                 .inputItems(GTOTagPrefix.curvedPlate, GTMaterials.RhodiumPlatedPalladium, 8)
                 .inputItems(TagPrefix.plateDense, GTOMaterials.Calorite, 4)
                 .inputFluids(GTMaterials.SolderingAlloy.getFluid(288))
-                .outputItems(RegistriesUtils.getItemStack("ad_astra:calorite_tank"))
+                .outputItems("ad_astra:calorite_tank")
                 .EUt(30720)
                 .duration(200)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("neutronium_casing"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("neutronium_casing"))
                 .inputItems(TagPrefix.frameGt, GTMaterials.Neutronium)
                 .inputItems(TagPrefix.plate, GTMaterials.RutheniumTriniumAmericiumNeutronate, 4)
                 .inputItems(GTOTagPrefix.curvedPlate, GTMaterials.Neutronium, 12)
@@ -2925,9 +2918,9 @@ interface Assembler {
                 .outputItems(GTOBlocks.AMPROSIUM_CASING.asStack())
                 .EUt(480)
                 .duration(200)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("cell_component_16m"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("cell_component_16m"))
                 .inputItems(GTOItems.CELL_COMPONENT_4M.asStack())
                 .inputItems(CustomTags.ZPM_CIRCUITS, 2)
                 .inputItems(new ItemStack(AEItems.LOGIC_PROCESSOR.asItem()))
@@ -2938,9 +2931,9 @@ interface Assembler {
                 .outputItems(GTOItems.CELL_COMPONENT_16M.asStack())
                 .EUt(7680)
                 .duration(200)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("smd_transistor_optical"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("smd_transistor_optical"))
                 .inputItems(TagPrefix.wireFine, GTMaterials.Dubnium, 8)
                 .inputItems(TagPrefix.foil, GTOMaterials.Polyetheretherketone, 4)
                 .inputItems(TagPrefix.plate, GTMaterials.NetherStar, 2)
@@ -2950,18 +2943,18 @@ interface Assembler {
                 .EUt(1966080)
                 .duration(100)
                 .cleanroom(CleanroomType.CLEANROOM)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("extreme_strength_tritanium_casing"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("extreme_strength_tritanium_casing"))
                 .inputItems(TagPrefix.frameGt, GTMaterials.Tritanium)
                 .inputItems(TagPrefix.plate, GTMaterials.Tritanium, 6)
                 .circuitMeta(6)
                 .outputItems(GTOBlocks.EXTREME_STRENGTH_TRITANIUM_CASING.asStack())
                 .EUt(16)
                 .duration(50)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("lv_neutron_accelerator"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("lv_neutron_accelerator"))
                 .inputItems(GTMachines.HULL[GTValues.LV].asStack())
                 .inputItems(GTOItems.INVERTER.asStack())
                 .inputItems(GTItems.ELECTRIC_MOTOR_LV.asStack(2))
@@ -2971,9 +2964,9 @@ interface Assembler {
                 .outputItems(GTOMachines.NEUTRON_ACCELERATOR[GTValues.LV].asStack())
                 .EUt(30)
                 .duration(400)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("fishbig_lleg"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("fishbig_lleg"))
                 .inputItems(GTOItems.FISHBIG_FABRIC.asStack(64))
                 .inputItems(GTOItems.FISHBIG_FABRIC.asStack(64))
                 .inputItems(GTOItems.FISHBIG_FRAME.asStack(64))
@@ -2988,9 +2981,9 @@ interface Assembler {
                 .EUt(131941395333120L)
                 .duration(200)
                 .cleanroom(GTOCleanroomType.LAW_CLEANROOM)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("smd_capacitor_cosmic"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("smd_capacitor_cosmic"))
                 .inputItems(TagPrefix.wireFine, GTOMaterials.HastelloyX78, 8)
                 .inputItems(TagPrefix.plate, GTMaterials.Graphene, 4)
                 .inputItems(TagPrefix.foil, GTOMaterials.Taranium, 4)
@@ -3000,26 +2993,26 @@ interface Assembler {
                 .EUt(31457280)
                 .duration(100)
                 .cleanroom(CleanroomType.CLEANROOM)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("uev_voltage_coil"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("uev_voltage_coil"))
                 .inputItems(GTOItems.MAGNETIC_NETHERITE_ROD.asStack())
                 .inputItems(TagPrefix.wireFine, GTOMaterials.TitanSteel, 16)
                 .circuitMeta(1)
                 .outputItems(GTOItems.UEV_VOLTAGE_COIL.asStack())
                 .EUt(7864320)
                 .duration(200)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("activated_carbon_filter_mesh"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("activated_carbon_filter_mesh"))
                 .inputItems(TagPrefix.dust, GTMaterials.ActivatedCarbon, 16)
                 .inputItems(TagPrefix.foil, GTMaterials.Zinc, 8)
                 .outputItems(GTOItems.ACTIVATED_CARBON_FILTER_MESH.asStack())
                 .EUt(120)
                 .duration(200)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("integrated_ore_processor"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("integrated_ore_processor"))
                 .inputItems(GCYMMachines.LARGE_MACERATION_TOWER.asStack())
                 .inputItems(GCYMMachines.LARGE_CENTRIFUGE.asStack())
                 .inputItems(GCYMMachines.LARGE_SIFTING_FUNNEL.asStack())
@@ -3033,9 +3026,9 @@ interface Assembler {
                 .outputItems(MultiBlockA.INTEGRATED_ORE_PROCESSOR.asStack())
                 .EUt(122880)
                 .duration(1000)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("low_frequency_laser"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("low_frequency_laser"))
                 .inputItems(TagPrefix.rod, GTMaterials.GarnetRed)
                 .inputItems(GTOItems.RED_HALIDE_LAMP.asStack())
                 .inputItems(GTOItems.HIGHLY_REFLECTIVE_MIRROR.asStack())
@@ -3046,9 +3039,9 @@ interface Assembler {
                 .EUt(491520)
                 .duration(320)
                 .cleanroom(CleanroomType.CLEANROOM)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("neutronium_stable_casing"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("neutronium_stable_casing"))
                 .inputItems(TagPrefix.frameGt, GTOMaterials.Trinaquadalloy)
                 .inputItems(TagPrefix.rodLong, GTMaterials.Neutronium, 4)
                 .inputItems(TagPrefix.plate, GTMaterials.EnrichedNaquadahTriniumEuropiumDuranide, 4)
@@ -3057,27 +3050,27 @@ interface Assembler {
                 .outputItems(GTOBlocks.NEUTRONIUM_STABLE_CASING.asStack())
                 .EUt(480)
                 .duration(200)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("opv_voltage_coil"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("opv_voltage_coil"))
                 .inputItems(TagPrefix.rod, GTOMaterials.AttunedTengam)
                 .inputItems(TagPrefix.wireFine, GTOMaterials.Starmetal, 16)
                 .circuitMeta(1)
                 .outputItems(GTOItems.OPV_VOLTAGE_COIL.asStack())
                 .EUt(503316480)
                 .duration(200)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("reinforced_epoxy_resin_mechanical_housing"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("reinforced_epoxy_resin_mechanical_housing"))
                 .inputItems(TagPrefix.frameGt, GTMaterials.Invar)
                 .inputItems(TagPrefix.plate, GTMaterials.ReinforcedEpoxyResin, 6)
                 .circuitMeta(6)
                 .outputItems(GTOBlocks.REINFORCED_EPOXY_RESIN_MECHANICAL_HOUSING.asStack())
                 .EUt(16)
                 .duration(50)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("smd_capacitor_exotic"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("smd_capacitor_exotic"))
                 .inputItems(TagPrefix.plate, GTMaterials.Glowstone)
                 .inputItems(TagPrefix.plate, GTOMaterials.Quantum)
                 .inputItems(TagPrefix.foil, GTOMaterials.Cinobite, 2)
@@ -3087,9 +3080,9 @@ interface Assembler {
                 .EUt(7864320)
                 .duration(100)
                 .cleanroom(CleanroomType.CLEANROOM)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("slaughterhouse"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("slaughterhouse"))
                 .inputItems(TagPrefix.frameGt, GTMaterials.Steel)
                 .inputItems(GTMachines.WORLD_ACCELERATOR[GTValues.LV].asStack())
                 .inputItems(CustomTags.LV_CIRCUITS, 4)
@@ -3102,9 +3095,9 @@ interface Assembler {
                 .outputItems(MultiBlockD.SLAUGHTERHOUSE.asStack())
                 .EUt(30)
                 .duration(400)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("smd_transistor_cosmic"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("smd_transistor_cosmic"))
                 .inputItems(TagPrefix.wireFine, GTOMaterials.HastelloyX78, 8)
                 .inputItems(TagPrefix.plate, GTOMaterials.DegenerateRhenium, 4)
                 .inputItems(TagPrefix.plate, GTMaterials.Hassium)
@@ -3114,9 +3107,9 @@ interface Assembler {
                 .EUt(31457280)
                 .duration(100)
                 .cleanroom(CleanroomType.CLEANROOM)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("ball_field_shape"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("ball_field_shape"))
                 .inputItems(TagPrefix.plate, GTMaterials.PolyphenyleneSulfide, 2)
                 .inputItems(TagPrefix.plate, GTMaterials.Polybenzimidazole, 2)
                 .inputItems(GTItems.FIELD_GENERATOR_UV.asStack())
@@ -3125,17 +3118,17 @@ interface Assembler {
                 .outputItems(GTOItems.BALL_FIELD_SHAPE.asStack())
                 .EUt(30720)
                 .duration(200)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("fluix_covered_cable"))
-                .inputItems(RegistriesUtils.getItemStack("ae2:fluix_glass_cable"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("fluix_covered_cable"))
+                .inputItems("ae2:fluix_glass_cable")
                 .inputFluids(GTMaterials.Rubber.getFluid(4))
-                .outputItems(RegistriesUtils.getItemStack("ae2:fluix_covered_cable"))
+                .outputItems("ae2:fluix_covered_cable")
                 .EUt(30)
                 .duration(20)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("blank_pattern_best"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("blank_pattern_best"))
                 .inputItems(TagPrefix.plate, GTMaterials.Steel, 3)
                 .inputItems(TagPrefix.plate, GTMaterials.Polybenzimidazole, 2)
                 .inputItems(TagPrefix.plate, GTMaterials.RedAlloy, 4)
@@ -3144,9 +3137,9 @@ interface Assembler {
                 .outputItems(new ItemStack(AEItems.BLANK_PATTERN.asItem(), 8))
                 .EUt(1920)
                 .duration(200)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("hastelloy_n_75_casing"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("hastelloy_n_75_casing"))
                 .inputItems(GTMachines.HULL[GTValues.EV].asStack())
                 .inputItems(TagPrefix.plateDouble, GTMaterials.Nichrome, 4)
                 .inputItems(TagPrefix.plateDouble, GTMaterials.WatertightSteel, 4)
@@ -3156,9 +3149,9 @@ interface Assembler {
                 .outputItems(GTOBlocks.HASTELLOY_N_75_CASING.asStack())
                 .EUt(7680)
                 .duration(500)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("radiation_hatch"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("radiation_hatch"))
                 .inputItems(GTMachines.ITEM_IMPORT_BUS[GTValues.ZPM].asStack())
                 .inputItems(TagPrefix.block, GTMaterials.Graphite, 8)
                 .inputItems(TagPrefix.plateDouble, GTMaterials.Lead, 16)
@@ -3167,9 +3160,9 @@ interface Assembler {
                 .outputItems(GTOMachines.RADIATION_HATCH.asStack())
                 .EUt(1920)
                 .duration(400)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("ultrashort_pulse_laser"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("ultrashort_pulse_laser"))
                 .inputItems(GTOItems.DIFFRACTOR_GRATING_MIRROR.asStack(4))
                 .inputItems(TagPrefix.wireFine, GTMaterials.BorosilicateGlass, 8)
                 .inputItems(GTOItems.HIGH_FREQUENCY_LASER.asStack())
@@ -3184,18 +3177,18 @@ interface Assembler {
                 .EUt(45000000)
                 .duration(270)
                 .cleanroom(CleanroomType.CLEANROOM)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("aluminium_bronze_casing"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("aluminium_bronze_casing"))
                 .inputItems(TagPrefix.frameGt, GTOMaterials.AluminiumBronze)
                 .inputItems(TagPrefix.plate, GTOMaterials.AluminiumBronze, 6)
                 .circuitMeta(6)
                 .outputItems(GTOBlocks.ALUMINIUM_BRONZE_CASING.asStack())
                 .EUt(16)
                 .duration(50)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("supercritical_mega_steam_turbine"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("supercritical_mega_steam_turbine"))
                 .inputItems(GeneratorMultiblock.SUPERCRITICAL_STEAM_TURBINE.asStack(8))
                 .inputItems(CustomTags.UV_CIRCUITS, 8)
                 .inputItems(GTItems.ELECTRIC_PISTON_LuV.asStack(8))
@@ -3206,9 +3199,9 @@ interface Assembler {
                 .outputItems(GeneratorMultiblock.SUPERCRITICAL_MEGA_STEAM_TURBINE.asStack())
                 .EUt(122880)
                 .duration(1200)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("smd_capacitor_bioware"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("smd_capacitor_bioware"))
                 .inputItems(TagPrefix.wireFine, GTMaterials.NaquadahAlloy, 8)
                 .inputItems(TagPrefix.foil, GTMaterials.Silicon, 8)
                 .inputItems(TagPrefix.foil, GTMaterials.Naquadah, 4)
@@ -3217,9 +3210,9 @@ interface Assembler {
                 .EUt(491520)
                 .duration(100)
                 .cleanroom(CleanroomType.STERILE_CLEANROOM)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("medium_frequency_laser"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("medium_frequency_laser"))
                 .inputItems(TagPrefix.rod, GTMaterials.Lazurite)
                 .inputItems(GTOItems.GREEN_HALIDE_LAMP.asStack())
                 .inputItems(GTOItems.HIGHLY_REFLECTIVE_MIRROR.asStack())
@@ -3230,18 +3223,18 @@ interface Assembler {
                 .EUt(491520)
                 .duration(320)
                 .cleanroom(CleanroomType.CLEANROOM)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("ender_fluid_conduit"))
-                .inputItems(RegistriesUtils.getItemStack("enderio:pressurized_fluid_conduit"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("ender_fluid_conduit"))
+                .inputItems("enderio:pressurized_fluid_conduit")
                 .inputItems(TagPrefix.dustTiny, GTMaterials.EnderPearl)
-                .inputItems(RegistriesUtils.getItemStack("enderio:conduit_binder"))
-                .outputItems(RegistriesUtils.getItemStack("enderio:ender_fluid_conduit", 2))
+                .inputItems("enderio:conduit_binder")
+                .outputItems("enderio:ender_fluid_conduit", 2)
                 .EUt(16)
                 .duration(120)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("data_disc"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("data_disc"))
                 .inputItems(CustomTags.LV_CIRCUITS, 2)
                 .inputItems(TagPrefix.plate, GTMaterials.Silver)
                 .inputItems(TagPrefix.foil, GTMaterials.Polyethylene, 8)
@@ -3249,135 +3242,135 @@ interface Assembler {
                 .outputItems(GTOItems.DATA_DISC.asStack())
                 .EUt(30)
                 .duration(200)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("lv_wireless_energy_unit"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("lv_wireless_energy_unit"))
                 .inputItems(TagPrefix.block, GTMaterials.BatteryAlloy)
                 .inputItems(TagPrefix.plate, GTMaterials.RedAlloy, 8)
                 .inputFluids(GTMaterials.EnderPearl.getFluid(2304))
                 .outputItems(GTOBlocks.LV_WIRELESS_ENERGY_UNIT.asStack())
                 .EUt(30)
                 .duration(600)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("mv_wireless_energy_unit"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("mv_wireless_energy_unit"))
                 .inputItems(GTOBlocks.LV_WIRELESS_ENERGY_UNIT.asStack())
                 .inputItems(TagPrefix.plateDouble, GTMaterials.Aluminium, 4)
                 .inputFluids(GTMaterials.Nitrogen.getFluid(10000))
                 .outputItems(GTOBlocks.MV_WIRELESS_ENERGY_UNIT.asStack())
                 .EUt(120)
                 .duration(600)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("hv_wireless_energy_unit"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("hv_wireless_energy_unit"))
                 .inputItems(GTOBlocks.MV_WIRELESS_ENERGY_UNIT.asStack())
                 .inputItems(TagPrefix.plateDouble, GTMaterials.BismuthBronze, 4)
                 .inputFluids(GTMaterials.Helium.getFluid(10000))
                 .outputItems(GTOBlocks.HV_WIRELESS_ENERGY_UNIT.asStack())
                 .EUt(480)
                 .duration(600)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("ev_wireless_energy_unit"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("ev_wireless_energy_unit"))
                 .inputItems(GTOBlocks.HV_WIRELESS_ENERGY_UNIT.asStack())
                 .inputItems(TagPrefix.plateDouble, GTMaterials.Palladium, 4)
                 .inputFluids(GTMaterials.Radon.getFluid(1000))
                 .outputItems(GTOBlocks.EV_WIRELESS_ENERGY_UNIT.asStack())
                 .EUt(1920)
                 .duration(600)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("iv_wireless_energy_unit"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("iv_wireless_energy_unit"))
                 .inputItems(GTOBlocks.EV_WIRELESS_ENERGY_UNIT.asStack())
                 .inputItems(TagPrefix.plateDouble, GTMaterials.Ultimet, 4)
                 .inputFluids(GTMaterials.Argon.getFluid(1000))
                 .outputItems(GTOBlocks.IV_WIRELESS_ENERGY_UNIT.asStack())
                 .EUt(7680)
                 .duration(600)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("luv_wireless_energy_unit"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("luv_wireless_energy_unit"))
                 .inputItems(GTOBlocks.IV_WIRELESS_ENERGY_UNIT.asStack())
                 .inputItems(TagPrefix.plateDouble, GTMaterials.HSSS, 4)
                 .inputFluids(GTMaterials.Helium.getFluid(FluidStorageKeys.PLASMA, 1000))
                 .outputItems(GTOBlocks.LUV_WIRELESS_ENERGY_UNIT.asStack())
                 .EUt(30720)
                 .duration(600)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("zpm_wireless_energy_unit"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("zpm_wireless_energy_unit"))
                 .inputItems(GTOBlocks.LUV_WIRELESS_ENERGY_UNIT.asStack())
                 .inputItems(TagPrefix.plateDouble, GTMaterials.Ruridit, 4)
                 .inputFluids(GTMaterials.Neon.getFluid(FluidStorageKeys.PLASMA, 1000))
                 .outputItems(GTOBlocks.ZPM_WIRELESS_ENERGY_UNIT.asStack())
                 .EUt(122880)
                 .duration(600)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("uv_wireless_energy_unit"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("uv_wireless_energy_unit"))
                 .inputItems(GTOBlocks.ZPM_WIRELESS_ENERGY_UNIT.asStack())
                 .inputItems(TagPrefix.plateDouble, GTMaterials.Darmstadtium, 4)
                 .inputFluids(GTMaterials.Tin.getFluid(FluidStorageKeys.PLASMA, 1000))
                 .outputItems(GTOBlocks.UV_WIRELESS_ENERGY_UNIT.asStack())
                 .EUt(491520)
                 .duration(600)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("uhv_wireless_energy_unit"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("uhv_wireless_energy_unit"))
                 .inputItems(GTOBlocks.UV_WIRELESS_ENERGY_UNIT.asStack())
                 .inputItems(TagPrefix.plateDouble, GTOMaterials.Orichalcum, 4)
                 .inputFluids(GTOMaterials.Mithril.getFluid(FluidStorageKeys.PLASMA, 1000))
                 .outputItems(GTOBlocks.UHV_WIRELESS_ENERGY_UNIT.asStack())
                 .EUt(1966080)
                 .duration(600)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("uev_wireless_energy_unit"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("uev_wireless_energy_unit"))
                 .inputItems(GTOBlocks.UHV_WIRELESS_ENERGY_UNIT.asStack())
                 .inputItems(TagPrefix.plateDouble, GTOMaterials.Enderite, 4)
                 .inputFluids(GTMaterials.Lead.getFluid(FluidStorageKeys.PLASMA, 1000))
                 .outputItems(GTOBlocks.UEV_WIRELESS_ENERGY_UNIT.asStack())
                 .EUt(7864320)
                 .duration(600)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("uiv_wireless_energy_unit"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("uiv_wireless_energy_unit"))
                 .inputItems(GTOBlocks.UEV_WIRELESS_ENERGY_UNIT.asStack())
                 .inputItems(TagPrefix.plateDouble, GTOMaterials.HeavyQuarkDegenerateMatter, 4)
                 .inputFluids(GTOMaterials.ActiniumSuperhydride.getFluid(FluidStorageKeys.PLASMA, 1000))
                 .outputItems(GTOBlocks.UIV_WIRELESS_ENERGY_UNIT.asStack())
                 .EUt(31457280)
                 .duration(600)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("uxv_wireless_energy_unit"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("uxv_wireless_energy_unit"))
                 .inputItems(GTOBlocks.UIV_WIRELESS_ENERGY_UNIT.asStack())
                 .inputItems(TagPrefix.plateDouble, GTOMaterials.Vibranium, 4)
                 .inputFluids(GTOMaterials.QuantumChromoDynamicallyConfinedMatter.getFluid(FluidStorageKeys.PLASMA, 1000))
                 .outputItems(GTOBlocks.UXV_WIRELESS_ENERGY_UNIT.asStack())
                 .EUt(125829120)
                 .duration(600)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("opv_wireless_energy_unit"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("opv_wireless_energy_unit"))
                 .inputItems(GTOBlocks.UXV_WIRELESS_ENERGY_UNIT.asStack())
                 .inputItems(TagPrefix.plateDouble, GTOMaterials.Draconium, 4)
                 .inputFluids(GTOMaterials.HexaphaseCopper.getFluid(FluidStorageKeys.PLASMA, 1000))
                 .outputItems(GTOBlocks.OPV_WIRELESS_ENERGY_UNIT.asStack())
                 .EUt(503316480)
                 .duration(600)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("max_wireless_energy_unit"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("max_wireless_energy_unit"))
                 .inputItems(GTOBlocks.OPV_WIRELESS_ENERGY_UNIT.asStack())
                 .inputItems(TagPrefix.plateDouble, GTOMaterials.TranscendentMetal, 4)
                 .inputFluids(GTOMaterials.Chaos.getFluid(FluidStorageKeys.PLASMA, 1000))
                 .outputItems(GTOBlocks.MAX_WIRELESS_ENERGY_UNIT.asStack())
                 .EUt(2013265920)
                 .duration(600)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("component_assembler"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("component_assembler"))
                 .inputItems(GTOBlocks.COMPONENT_ASSEMBLY_LINE_CASING_LV.asStack(4))
                 .inputItems(GTItems.CONVEYOR_MODULE_MV.asStack(4))
                 .inputItems(GTItems.ROBOT_ARM_MV.asStack(8))
@@ -3390,81 +3383,81 @@ interface Assembler {
                 .outputItems(MultiBlockC.COMPONENT_ASSEMBLER.asStack())
                 .EUt(120)
                 .duration(200)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("calcium_oxide_ceramic_anti_metal_corrosion_mechanical_block"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("calcium_oxide_ceramic_anti_metal_corrosion_mechanical_block"))
                 .inputItems(TagPrefix.frameGt, GTMaterials.StainlessSteel)
                 .inputItems(TagPrefix.plate, GTMaterials.VanadiumSteel, 2)
                 .inputItems(GTOTagPrefix.flakes, GTOMaterials.CalciumOxideCeramic, 16)
                 .outputItems(GTOBlocks.CALCIUM_OXIDE_CERAMIC_ANTI_METAL_CORROSION_MECHANICAL_BLOCK.asStack())
                 .EUt(30)
                 .duration(200)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("zirconia_ceramic_high_strength_bending_resistance_mechanical_block"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("zirconia_ceramic_high_strength_bending_resistance_mechanical_block"))
                 .inputItems(TagPrefix.frameGt, GTMaterials.TungstenSteel)
                 .inputItems(TagPrefix.plate, GTMaterials.RedSteel, 2)
                 .inputItems(GTOTagPrefix.flakes, GTOMaterials.ZirconiaCeramic, 16)
                 .outputItems(GTOBlocks.ZIRCONIA_CERAMIC_HIGH_STRENGTH_BENDING_RESISTANCE_MECHANICAL_BLOCK.asStack())
                 .EUt(30)
                 .duration(200)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("titanium_nitride_ceramic_impact_resistant_mechanical_block"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("titanium_nitride_ceramic_impact_resistant_mechanical_block"))
                 .inputItems(TagPrefix.frameGt, GTMaterials.Titanium)
                 .inputItems(TagPrefix.plate, GTMaterials.BlueSteel, 2)
                 .inputItems(GTOTagPrefix.flakes, GTOMaterials.TitaniumNitrideCeramic, 16)
                 .outputItems(GTOBlocks.TITANIUM_NITRIDE_CERAMIC_IMPACT_RESISTANT_MECHANICAL_BLOCK.asStack())
                 .EUt(30)
                 .duration(200)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("lithium_oxide_ceramic_heat_resistant_shock_resistant_mechanical_cube"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("lithium_oxide_ceramic_heat_resistant_shock_resistant_mechanical_cube"))
                 .inputItems(TagPrefix.frameGt, GTMaterials.TungstenCarbide)
                 .inputItems(TagPrefix.plate, GTOMaterials.DarkSteel, 2)
                 .inputItems(GTOTagPrefix.flakes, GTOMaterials.LithiumOxideCeramics, 16)
                 .outputItems(GTOBlocks.LITHIUM_OXIDE_CERAMIC_HEAT_RESISTANT_SHOCK_RESISTANT_MECHANICAL_CUBE.asStack())
                 .EUt(30)
                 .duration(200)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("strontium_carbonate_ceramic_ray_absorbing_mechanical_cube"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("strontium_carbonate_ceramic_ray_absorbing_mechanical_cube"))
                 .inputItems(TagPrefix.frameGt, GTMaterials.Aluminium)
                 .inputItems(TagPrefix.plate, GTMaterials.Osmium, 2)
                 .inputItems(GTOTagPrefix.flakes, GTOMaterials.StrontiumCarbonateCeramic, 16)
                 .outputItems(GTOBlocks.STRONTIUM_CARBONATE_CERAMIC_RAY_ABSORBING_MECHANICAL_CUBE.asStack())
                 .EUt(30)
                 .duration(200)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("magnesium_oxide_ceramic_high_temperature_insulation_mechanical_block"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("magnesium_oxide_ceramic_high_temperature_insulation_mechanical_block"))
                 .inputItems(TagPrefix.frameGt, GTMaterials.HSLASteel)
                 .inputItems(TagPrefix.plate, GTMaterials.TungstenCarbide, 2)
                 .inputItems(GTOTagPrefix.flakes, GTOMaterials.MagnesiumOxideCeramic, 16)
                 .outputItems(GTOBlocks.MAGNESIUM_OXIDE_CERAMIC_HIGH_TEMPERATURE_INSULATION_MECHANICAL_BLOCK.asStack())
                 .EUt(30)
                 .duration(200)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("boron_carbide_ceramic_radiation_resistant_mechanical_cube"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("boron_carbide_ceramic_radiation_resistant_mechanical_cube"))
                 .inputItems(TagPrefix.frameGt, GTMaterials.Ruridit)
                 .inputItems(TagPrefix.plate, GTMaterials.TitaniumTungstenCarbide, 2)
                 .inputItems(GTOTagPrefix.flakes, GTOMaterials.BoronCarbideCeramics, 16)
                 .outputItems(GTOBlocks.BORON_CARBIDE_CERAMIC_RADIATION_RESISTANT_MECHANICAL_CUBE.asStack())
                 .EUt(30)
                 .duration(200)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("cobalt_oxide_ceramic_strong_thermally_conductive_mechanical_block"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("cobalt_oxide_ceramic_strong_thermally_conductive_mechanical_block"))
                 .inputItems(TagPrefix.frameGt, GTMaterials.BlueSteel)
                 .inputItems(TagPrefix.plate, GTMaterials.Kanthal, 2)
                 .inputItems(GTOTagPrefix.flakes, GTOMaterials.CobaltOxideCeramic, 16)
                 .outputItems(GTOBlocks.COBALT_OXIDE_CERAMIC_STRONG_THERMALLY_CONDUCTIVE_MECHANICAL_BLOCK.asStack())
                 .EUt(30)
                 .duration(200)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("hv_drone"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("hv_drone"))
                 .inputItems(GTItems.ENERGIUM_CRYSTAL.asStack())
                 .inputItems(GTItems.ELECTRIC_MOTOR_HV.asStack(4))
                 .inputItems(GTItems.ROBOT_ARM_HV.asStack())
@@ -3478,9 +3471,9 @@ interface Assembler {
                 .outputItems(GTOItems.HV_DRONE.asStack())
                 .EUt(480)
                 .duration(400)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("ev_drone"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("ev_drone"))
                 .inputItems(GTItems.ENERGIUM_CRYSTAL.asStack())
                 .inputItems(GTItems.ELECTRIC_MOTOR_EV.asStack(4))
                 .inputItems(GTItems.ROBOT_ARM_EV.asStack())
@@ -3494,9 +3487,9 @@ interface Assembler {
                 .outputItems(GTOItems.EV_DRONE.asStack())
                 .EUt(1920)
                 .duration(400)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("iv_drone"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("iv_drone"))
                 .inputItems(GTItems.ENERGY_LAPOTRONIC_ORB.asStack())
                 .inputItems(GTItems.ELECTRIC_MOTOR_IV.asStack(4))
                 .inputItems(GTItems.ROBOT_ARM_IV.asStack())
@@ -3510,9 +3503,9 @@ interface Assembler {
                 .outputItems(GTOItems.IV_DRONE.asStack())
                 .EUt(7680)
                 .duration(400)
-                .save(provider);
+                .save();
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("planet_scan_satellite"))
+        GTORecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("planet_scan_satellite"))
                 .inputItems(GTItems.SENSOR_HV.asStack(2))
                 .inputItems(GTItems.BATTERY_HV_CADMIUM.asStack(4))
                 .inputItems(GTItems.EMITTER_HV.asStack(2))
@@ -3525,6 +3518,6 @@ interface Assembler {
                 .outputItems(GTOItems.PLANET_SCAN_SATELLITE.asStack())
                 .EUt(480)
                 .duration(400)
-                .save(provider);
+                .save();
     }
 }

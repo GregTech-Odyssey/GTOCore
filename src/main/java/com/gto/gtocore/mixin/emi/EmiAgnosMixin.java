@@ -7,6 +7,8 @@ import com.gregtechceu.gtceu.GTCEu;
 import com.google.common.collect.Lists;
 import com.lowdragmc.lowdraglib.LDLib;
 import com.lowdragmc.lowdraglib.emi.EMIPlugin;
+import committee.nova.mods.avaritia.Static;
+import committee.nova.mods.avaritia.init.compat.emi.AvaritiaEmiPlugin;
 import dev.emi.emi.VanillaPlugin;
 import dev.emi.emi.platform.EmiAgnos;
 import dev.emi.emi.registry.EmiPluginContainer;
@@ -29,6 +31,7 @@ public class EmiAgnosMixin {
         containers.add(new EmiPluginContainer(new EMIPlugin(), LDLib.MOD_ID));
         containers.add(new EmiPluginContainer(new GTEMIPlugin(), GTCEu.MOD_ID));
         containers.add(new EmiPluginContainer(new BotaniaEmiPlugin(), BotaniaAPI.MODID));
+        containers.add(new EmiPluginContainer(new AvaritiaEmiPlugin(), Static.MOD_ID));
         cir.setReturnValue(containers);
     }
 }

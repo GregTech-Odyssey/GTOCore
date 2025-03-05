@@ -9,16 +9,13 @@ import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
-import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.world.item.ItemStack;
 
 import appeng.core.definitions.AEItems;
 
-import java.util.function.Consumer;
-
 interface UltimateMaterialForge {
 
-    static void init(Consumer<FinishedRecipe> provider) {
+    static void init() {
         GTORecipeTypes.ULTIMATE_MATERIAL_FORGE_RECIPES.recipeBuilder(GTOCore.id("void_matter"))
                 .inputItems(GTOItems.OMNI_MATTER.asStack())
                 .inputItems(GTOItems.PELLET_ANTIMATTER.asStack())
@@ -28,7 +25,7 @@ interface UltimateMaterialForge {
                 .chancedOutput(GTOItems.CORPOREAL_MATTER.asStack(), 2000, 0)
                 .EUt(2013265920)
                 .duration(400)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.ULTIMATE_MATERIAL_FORGE_RECIPES.recipeBuilder(GTOCore.id("temporal_matter"))
                 .notConsumable(GTOItems.QUANTUM_ANOMALY.asStack())
@@ -39,7 +36,7 @@ interface UltimateMaterialForge {
                 .chancedOutput(GTOItems.OMNI_MATTER.asStack(), 500, 0)
                 .EUt(2013265920)
                 .duration(600)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.ULTIMATE_MATERIAL_FORGE_RECIPES.recipeBuilder(GTOCore.id("corporeal_matter"))
                 .inputItems(GTOItems.PROTO_MATTER.asStack())
@@ -50,7 +47,7 @@ interface UltimateMaterialForge {
                 .chancedOutput(TagPrefix.nugget, GTOMaterials.HeavyQuarkDegenerateMatter, 500, 0)
                 .EUt(503316480)
                 .duration(800)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.ULTIMATE_MATERIAL_FORGE_RECIPES.recipeBuilder(GTOCore.id("proto_matter"))
                 .inputItems(GTOItems.TRIPLET_NEUTRONIUM_SPHERE.asStack())
@@ -59,7 +56,7 @@ interface UltimateMaterialForge {
                 .chancedOutput(TagPrefix.ingot, GTMaterials.Neutronium, 6000, 0)
                 .EUt(503316480)
                 .duration(1600)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.ULTIMATE_MATERIAL_FORGE_RECIPES.recipeBuilder(GTOCore.id("dark_matter"))
                 .inputItems(GTOItems.TEMPORAL_MATTER.asStack())
@@ -70,7 +67,7 @@ interface UltimateMaterialForge {
                 .chancedOutput(GTOItems.KINETIC_MATTER.asStack(), 1000, 0)
                 .EUt(2013265920)
                 .duration(1200)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.ULTIMATE_MATERIAL_FORGE_RECIPES.recipeBuilder(GTOCore.id("kinetic_matter"))
                 .inputItems(GTOItems.CORPOREAL_MATTER.asStack())
@@ -81,7 +78,7 @@ interface UltimateMaterialForge {
                 .chancedOutput(GTOItems.AMORPHOUS_MATTER.asStack(), 200, 0)
                 .EUt(503316480)
                 .duration(600)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.ULTIMATE_MATERIAL_FORGE_RECIPES.recipeBuilder(GTOCore.id("amorphous_matter"))
                 .inputItems(GTOItems.CORPOREAL_MATTER.asStack())
@@ -92,7 +89,7 @@ interface UltimateMaterialForge {
                 .chancedOutput(GTOItems.ESSENTIA_MATTER.asStack(), 100, 0)
                 .EUt(503316480)
                 .duration(800)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.ULTIMATE_MATERIAL_FORGE_RECIPES.recipeBuilder(GTOCore.id("pellet_antimatter"))
                 .inputItems(new ItemStack(AEItems.MATTER_BALL.asItem(), 64))
@@ -103,7 +100,7 @@ interface UltimateMaterialForge {
                 .chancedOutput(GTOItems.VOID_MATTER.asStack(), 100, 0)
                 .EUt(125829120)
                 .duration(2000)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.ULTIMATE_MATERIAL_FORGE_RECIPES.recipeBuilder(GTOCore.id("essentia_matter"))
                 .inputItems(GTOItems.AMORPHOUS_MATTER.asStack())
@@ -114,7 +111,7 @@ interface UltimateMaterialForge {
                 .chancedOutput(GTOItems.DARK_MATTER.asStack(), 100, 0)
                 .EUt(503316480)
                 .duration(1200)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.ULTIMATE_MATERIAL_FORGE_RECIPES.recipeBuilder(GTOCore.id("omni_matter"))
                 .inputItems(GTOItems.ESSENTIA_MATTER.asStack())
@@ -125,6 +122,6 @@ interface UltimateMaterialForge {
                 .chancedOutput(TagPrefix.dustTiny, GTOMaterials.CosmicNeutronium, 1000, 0)
                 .EUt(2013265920)
                 .duration(800)
-                .save(provider);
+                .save();
     }
 }

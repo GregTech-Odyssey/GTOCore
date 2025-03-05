@@ -31,7 +31,7 @@ import com.lowdragmc.lowdraglib.gui.texture.ResourceTexture;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.*;
+import java.util.Arrays;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -66,27 +66,27 @@ public class GTORecipeType extends GTRecipeType {
     }
 
     @Override
-    public GTRecipeBuilder recipeBuilder(String id, Object... append) {
+    public GTORecipeBuilder recipeBuilder(String id, Object... append) {
         return recipeBuilder(GTCEu.id(id), append);
     }
 
     @Override
-    public GTRecipeBuilder recipeBuilder(UnificationEntry entry, Object... append) {
+    public GTORecipeBuilder recipeBuilder(UnificationEntry entry, Object... append) {
         return recipeBuilder(GTCEu.id(entry.tagPrefix + (entry.material == null ? "" : "_" + entry.material.getName())), append);
     }
 
     @Override
-    public GTRecipeBuilder recipeBuilder(Supplier<? extends ItemLike> item, Object... append) {
+    public GTORecipeBuilder recipeBuilder(Supplier<? extends ItemLike> item, Object... append) {
         return recipeBuilder(item.get(), append);
     }
 
     @Override
-    public GTRecipeBuilder recipeBuilder(ItemLike itemLike, Object... append) {
+    public GTORecipeBuilder recipeBuilder(ItemLike itemLike, Object... append) {
         return recipeBuilder(new ResourceLocation(itemLike.asItem().getDescriptionId()), append);
     }
 
     @Override
-    public GTRecipeBuilder copyFrom(GTRecipeBuilder builder) {
+    public GTORecipeBuilder copyFrom(GTRecipeBuilder builder) {
         return getRecipeBuilder().copyFrom(builder);
     }
 

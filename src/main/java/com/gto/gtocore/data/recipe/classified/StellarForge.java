@@ -11,7 +11,6 @@ import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
-import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
@@ -20,11 +19,9 @@ import com.enderio.base.common.init.EIOItems;
 import committee.nova.mods.avaritia.init.registry.ModBlocks;
 import committee.nova.mods.avaritia.init.registry.ModItems;
 
-import java.util.function.Consumer;
-
 interface StellarForge {
 
-    static void init(Consumer<FinishedRecipe> provider) {
+    static void init() {
         GTORecipeTypes.STELLAR_FORGE_RECIPES.recipeBuilder(GTOCore.id("contained_reissner_nordstrom_singularity"))
                 .inputItems(GTOBlocks.NAQUADRIA_CHARGE.asStack())
                 .inputItems(GTOItems.TIME_DILATION_CONTAINMENT_UNIT.asStack(64))
@@ -33,7 +30,7 @@ interface StellarForge {
                 .EUt(31457280)
                 .duration(200)
                 .addData(GTOValues.STELLAR_CONTAINMENT_TIER, 1)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.STELLAR_FORGE_RECIPES.recipeBuilder(GTOCore.id("closed_timelike_curvecomputational_unit"))
                 .inputItems(GTOBlocks.QUANTUM_CHROMODYNAMIC_CHARGE.asStack())
@@ -43,7 +40,7 @@ interface StellarForge {
                 .EUt(503316480)
                 .duration(200)
                 .addData(GTOValues.STELLAR_CONTAINMENT_TIER, 3)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.STELLAR_FORGE_RECIPES.recipeBuilder(GTOCore.id("cosmic_mesh_plasma"))
                 .inputItems(GTOBlocks.QUANTUM_CHROMODYNAMIC_CHARGE.asStack())
@@ -52,7 +49,7 @@ interface StellarForge {
                 .EUt(503316480)
                 .duration(200)
                 .addData(GTOValues.STELLAR_CONTAINMENT_TIER, 3)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.STELLAR_FORGE_RECIPES.recipeBuilder(GTOCore.id("legendarium_plasma"))
                 .inputItems(GTOBlocks.LEPTONIC_CHARGE.asStack())
@@ -71,7 +68,7 @@ interface StellarForge {
                 .EUt(125829120)
                 .duration(200)
                 .addData(GTOValues.STELLAR_CONTAINMENT_TIER, 2)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.STELLAR_FORGE_RECIPES.recipeBuilder(GTOCore.id("degenerate_rhenium_plasma"))
                 .inputItems(GTOBlocks.NAQUADRIA_CHARGE.asStack())
@@ -80,7 +77,7 @@ interface StellarForge {
                 .EUt(31457280)
                 .duration(200)
                 .addData(GTOValues.STELLAR_CONTAINMENT_TIER, 1)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.STELLAR_FORGE_RECIPES.recipeBuilder(GTOCore.id("free_proton_gas"))
                 .inputItems(GTOBlocks.NAQUADRIA_CHARGE.asStack())
@@ -90,7 +87,7 @@ interface StellarForge {
                 .EUt(31457280)
                 .duration(200)
                 .addData(GTOValues.STELLAR_CONTAINMENT_TIER, 1)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.STELLAR_FORGE_RECIPES.recipeBuilder(GTOCore.id("recursively_folded_negative_space"))
                 .inputItems(GTOBlocks.QUANTUM_CHROMODYNAMIC_CHARGE.asStack())
@@ -100,7 +97,7 @@ interface StellarForge {
                 .EUt(503316480)
                 .duration(200)
                 .addData(GTOValues.STELLAR_CONTAINMENT_TIER, 3)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.STELLAR_FORGE_RECIPES.recipeBuilder(GTOCore.id("dense_neutron_plasma"))
                 .inputItems(GTOBlocks.QUANTUM_CHROMODYNAMIC_CHARGE.asStack())
@@ -113,7 +110,7 @@ interface StellarForge {
                 .EUt(503316480)
                 .duration(200)
                 .addData(GTOValues.STELLAR_CONTAINMENT_TIER, 3)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.STELLAR_FORGE_RECIPES.recipeBuilder(GTOCore.id("quantum_chromo_dynamically_confined_matter_plasma"))
                 .inputItems(GTOBlocks.QUANTUM_CHROMODYNAMIC_CHARGE.asStack())
@@ -122,7 +119,7 @@ interface StellarForge {
                 .EUt(503316480)
                 .duration(200)
                 .addData(GTOValues.STELLAR_CONTAINMENT_TIER, 3)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.STELLAR_FORGE_RECIPES.recipeBuilder(GTOCore.id("chaos_shard"))
                 .inputItems(GTOBlocks.QUANTUM_CHROMODYNAMIC_CHARGE.asStack())
@@ -133,7 +130,7 @@ interface StellarForge {
                 .EUt(503316480)
                 .duration(200)
                 .addData(GTOValues.STELLAR_CONTAINMENT_TIER, 3)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.STELLAR_FORGE_RECIPES.recipeBuilder(GTOCore.id("contained_kerr_newmann_singularity"))
                 .inputItems(GTOBlocks.LEPTONIC_CHARGE.asStack())
@@ -143,7 +140,7 @@ interface StellarForge {
                 .EUt(125829120)
                 .duration(200)
                 .addData(GTOValues.STELLAR_CONTAINMENT_TIER, 2)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.STELLAR_FORGE_RECIPES.recipeBuilder(GTOCore.id("adamantium_plasma"))
                 .inputItems(GTOBlocks.NAQUADRIA_CHARGE.asStack())
@@ -157,7 +154,7 @@ interface StellarForge {
                 .EUt(31457280)
                 .duration(200)
                 .addData(GTOValues.STELLAR_CONTAINMENT_TIER, 1)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.STELLAR_FORGE_RECIPES.recipeBuilder(GTOCore.id("contained_exotic_matter"))
                 .inputItems(GTOBlocks.LEPTONIC_CHARGE.asStack())
@@ -167,7 +164,7 @@ interface StellarForge {
                 .EUt(125829120)
                 .duration(200)
                 .addData(GTOValues.STELLAR_CONTAINMENT_TIER, 2)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.STELLAR_FORGE_RECIPES.recipeBuilder(GTOCore.id("celestial_tungsten_plasma"))
                 .inputItems(GTOBlocks.NAQUADRIA_CHARGE.asStack())
@@ -181,7 +178,7 @@ interface StellarForge {
                 .EUt(31457280)
                 .duration(200)
                 .addData(GTOValues.STELLAR_CONTAINMENT_TIER, 1)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.STELLAR_FORGE_RECIPES.recipeBuilder(GTOCore.id("neutron_plasma_containment_cell"))
                 .inputItems(GTOBlocks.NAQUADRIA_CHARGE.asStack())
@@ -192,7 +189,7 @@ interface StellarForge {
                 .EUt(31457280)
                 .duration(200)
                 .addData(GTOValues.STELLAR_CONTAINMENT_TIER, 1)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.STELLAR_FORGE_RECIPES.recipeBuilder(GTOCore.id("starmetal_plasma"))
                 .inputItems(GTOBlocks.LEPTONIC_CHARGE.asStack())
@@ -203,7 +200,7 @@ interface StellarForge {
                 .EUt(125829120)
                 .duration(200)
                 .addData(GTOValues.STELLAR_CONTAINMENT_TIER, 2)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.STELLAR_FORGE_RECIPES.recipeBuilder(GTOCore.id("exciteddtec"))
                 .inputItems(GTOBlocks.QUANTUM_CHROMODYNAMIC_CHARGE.asStack())
@@ -213,7 +210,7 @@ interface StellarForge {
                 .EUt(503316480)
                 .duration(200)
                 .addData(GTOValues.STELLAR_CONTAINMENT_TIER, 3)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.STELLAR_FORGE_RECIPES.recipeBuilder(GTOCore.id("eternity_dust"))
                 .inputItems(GTOBlocks.QUANTUM_CHROMODYNAMIC_CHARGE.asStack(4))
@@ -225,7 +222,7 @@ interface StellarForge {
                 .EUt(2013265920)
                 .duration(800)
                 .addData(GTOValues.STELLAR_CONTAINMENT_TIER, 3)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.STELLAR_FORGE_RECIPES.recipeBuilder(GTOCore.id("extremely_durable_plasma_cell"))
                 .inputItems(GTOBlocks.QUANTUM_CHROMODYNAMIC_CHARGE.asStack())
@@ -235,7 +232,7 @@ interface StellarForge {
                 .EUt(503316480)
                 .duration(200)
                 .addData(GTOValues.STELLAR_CONTAINMENT_TIER, 3)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.STELLAR_FORGE_RECIPES.recipeBuilder(GTOCore.id("infinity_ingot"))
                 .inputItems(GTOBlocks.QUANTUM_CHROMODYNAMIC_CHARGE.asStack())
@@ -247,7 +244,7 @@ interface StellarForge {
                 .EUt(503316480)
                 .duration(200)
                 .addData(GTOValues.STELLAR_CONTAINMENT_TIER, 3)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.STELLAR_FORGE_RECIPES.recipeBuilder(GTOCore.id("heavy_quark_degenerate_matter_plasma"))
                 .inputItems(GTOBlocks.LEPTONIC_CHARGE.asStack())
@@ -260,7 +257,7 @@ interface StellarForge {
                 .EUt(125829120)
                 .duration(200)
                 .addData(GTOValues.STELLAR_CONTAINMENT_TIER, 2)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.STELLAR_FORGE_RECIPES.recipeBuilder(GTOCore.id("astral_titanium_plasma"))
                 .inputItems(GTOBlocks.NAQUADRIA_CHARGE.asStack())
@@ -273,7 +270,7 @@ interface StellarForge {
                 .EUt(31457280)
                 .duration(200)
                 .addData(GTOValues.STELLAR_CONTAINMENT_TIER, 1)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.STELLAR_FORGE_RECIPES.recipeBuilder(GTOCore.id("dragon_heart"))
                 .inputItems(GTOBlocks.NAQUADRIA_CHARGE.asStack())
@@ -283,7 +280,7 @@ interface StellarForge {
                 .EUt(31457280)
                 .duration(200)
                 .addData(GTOValues.STELLAR_CONTAINMENT_TIER, 1)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.STELLAR_FORGE_RECIPES.recipeBuilder(GTOCore.id("quark_gluon_plasma"))
                 .inputItems(GTOBlocks.LEPTONIC_CHARGE.asStack())
@@ -292,7 +289,7 @@ interface StellarForge {
                 .EUt(125829120)
                 .duration(200)
                 .addData(GTOValues.STELLAR_CONTAINMENT_TIER, 2)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.STELLAR_FORGE_RECIPES.recipeBuilder(GTOCore.id("contained_high_density_protonic_matter"))
                 .inputItems(GTOBlocks.LEPTONIC_CHARGE.asStack())
@@ -302,7 +299,7 @@ interface StellarForge {
                 .EUt(125829120)
                 .duration(200)
                 .addData(GTOValues.STELLAR_CONTAINMENT_TIER, 2)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.STELLAR_FORGE_RECIPES.recipeBuilder(GTOCore.id("temporalfluid"))
                 .inputItems(GTOBlocks.QUANTUM_CHROMODYNAMIC_CHARGE.asStack(4))
@@ -314,7 +311,7 @@ interface StellarForge {
                 .EUt(2013265920)
                 .duration(800)
                 .addData(GTOValues.STELLAR_CONTAINMENT_TIER, 3)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.STELLAR_FORGE_RECIPES.recipeBuilder(GTOCore.id("enderium_plasma"))
                 .inputItems(GTOBlocks.NAQUADRIA_CHARGE.asStack())
@@ -328,7 +325,7 @@ interface StellarForge {
                 .EUt(31457280)
                 .duration(200)
                 .addData(GTOValues.STELLAR_CONTAINMENT_TIER, 1)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.STELLAR_FORGE_RECIPES.recipeBuilder(GTOCore.id("crystal_matrix_plasma"))
                 .inputItems(GTOBlocks.LEPTONIC_CHARGE.asStack())
@@ -339,7 +336,7 @@ interface StellarForge {
                 .EUt(125829120)
                 .duration(200)
                 .addData(GTOValues.STELLAR_CONTAINMENT_TIER, 2)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.STELLAR_FORGE_RECIPES.recipeBuilder(GTOCore.id("high_energy_quark_gluon_plasma"))
                 .inputItems(GTOBlocks.QUANTUM_CHROMODYNAMIC_CHARGE.asStack())
@@ -349,7 +346,7 @@ interface StellarForge {
                 .EUt(125829120)
                 .duration(200)
                 .addData(GTOValues.STELLAR_CONTAINMENT_TIER, 2)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.STELLAR_FORGE_RECIPES.recipeBuilder(GTOCore.id("infuscolium_plasma"))
                 .inputItems(GTOBlocks.NAQUADRIA_CHARGE.asStack())
@@ -361,7 +358,7 @@ interface StellarForge {
                 .EUt(31457280)
                 .duration(200)
                 .addData(GTOValues.STELLAR_CONTAINMENT_TIER, 1)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.STELLAR_FORGE_RECIPES.recipeBuilder(GTOCore.id("actinium_superhydride_plasma"))
                 .inputItems(GTOBlocks.NAQUADRIA_CHARGE.asStack())
@@ -371,7 +368,7 @@ interface StellarForge {
                 .EUt(31457280)
                 .duration(200)
                 .addData(GTOValues.STELLAR_CONTAINMENT_TIER, 1)
-                .save(provider);
+                .save();
 
         GTORecipeTypes.STELLAR_FORGE_RECIPES.recipeBuilder(GTOCore.id("eigenfolded_kerr_manifold"))
                 .inputItems(GTOBlocks.QUANTUM_CHROMODYNAMIC_CHARGE.asStack())
@@ -381,6 +378,6 @@ interface StellarForge {
                 .EUt(503316480)
                 .duration(200)
                 .addData(GTOValues.STELLAR_CONTAINMENT_TIER, 3)
-                .save(provider);
+                .save();
     }
 }
