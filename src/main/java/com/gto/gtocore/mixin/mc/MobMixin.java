@@ -1,5 +1,7 @@
 package com.gto.gtocore.mixin.mc;
 
+import com.gto.gtocore.config.GTOConfig;
+
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -33,7 +35,7 @@ public abstract class MobMixin extends LivingEntity {
 
     @Inject(method = "<init>", at = @At("TAIL"))
     private void init(CallbackInfo ci) {
-        if (getRandom().nextBoolean()) return;
+        if (GTOConfig.getDifficulty() == 1 || getRandom().nextBoolean()) return;
         boolean isBoss = CommonProxy.isBoss(this);
         int difficultyValue = Math.max(1, level().getDifficulty().getId());
         AttributeInstance maxHealthInstance = getAttribute(Attributes.MAX_HEALTH);
@@ -62,7 +64,7 @@ public abstract class MobMixin extends LivingEntity {
 
     @Inject(method = "tick", at = @At(value = "HEAD"))
     private void tick(CallbackInfo ci) {
-        if (tickCount % 80 == 0 && getRandom().nextBoolean()) {
+        if (GTOConfig.getDifficulty() == 1 || tickCount % 80 == 0 && getRandom().nextBoolean()) {
             int value = Math.max(1, (int) Math.ceil(Math.log(getMaxHealth() * Math.max(1, level().getDifficulty().getId()))));
             heal(value);
         }

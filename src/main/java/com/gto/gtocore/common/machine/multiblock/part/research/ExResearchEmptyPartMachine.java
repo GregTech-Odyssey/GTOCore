@@ -1,6 +1,5 @@
-package com.gto.gtocore.common.machine.multiblock.part.expandingresearch;
+package com.gto.gtocore.common.machine.multiblock.part.research;
 
-import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 
@@ -11,31 +10,23 @@ import lombok.Getter;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
+@Getter
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
-public class ExResearchBridgePartMachine extends ExResearchBasePartMachine {
+public class ExResearchEmptyPartMachine extends ExResearchBasePartMachine {
 
-    @Getter
-    private final int tire;
-
-    public ExResearchBridgePartMachine(IMachineBlockEntity holder, int tire) {
-        super(holder);
-        this.tire = tire;
-    }
-
-    @Override
-    public boolean doesAllowBridging() {
-        return true;
+    public ExResearchEmptyPartMachine(IMachineBlockEntity holder) {
+        super(holder, 0);
     }
 
     @Override
     public ResourceTexture getComponentIcon() {
-        return GuiTextures.HPCA_ICON_BRIDGE_COMPONENT;
+        return GuiTextures.HPCA_ICON_EMPTY_COMPONENT;
     }
 
     @Override
     public int getUpkeepEUt() {
-        return GTValues.VA[GTValues.UEV];
+        return 0;
     }
 
     @Override

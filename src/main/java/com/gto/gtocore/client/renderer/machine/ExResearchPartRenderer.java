@@ -1,7 +1,7 @@
 package com.gto.gtocore.client.renderer.machine;
 
 import com.gto.gtocore.GTOCore;
-import com.gto.gtocore.common.machine.multiblock.part.expandingresearch.ExResearchComputationPartMachine;
+import com.gto.gtocore.common.machine.multiblock.part.research.ExResearchBasePartMachine;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.IWorkable;
@@ -30,7 +30,6 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @ParametersAreNonnullByDefault
 public class ExResearchPartRenderer extends TieredHullMachineRenderer {
 
-    private final int tire;
     private final ResourceLocation texture, activeTexture, activeEmissiveTexture, damagedTexture, damagedActiveTexture,
             damagedActiveEmissiveTexture;
 
@@ -43,7 +42,6 @@ public class ExResearchPartRenderer extends TieredHullMachineRenderer {
                                   @Nullable ResourceLocation damagedActiveEmissiveTexture) {
         super(GTValues.ZPM,
                 tire == 3 ? GTOCore.id("block/variant/biocomputer_shell") : GTOCore.id("block/variant/biocomputer_shell"));
-        this.tire = tire;
         this.texture = texture;
         this.activeTexture = activeTexture;
         this.activeEmissiveTexture = activeEmissiveTexture;
@@ -57,7 +55,7 @@ public class ExResearchPartRenderer extends TieredHullMachineRenderer {
                               Direction frontFacing, @Nullable Direction side, RandomSource rand,
                               @Nullable Direction modelFacing, ModelState modelState) {
         super.renderMachine(quads, definition, machine, frontFacing, side, rand, modelFacing, modelState);
-        if (machine instanceof ExResearchComputationPartMachine hpcaComponent) {
+        if (machine instanceof ExResearchBasePartMachine hpcaComponent) {
             ResourceLocation texture, emissiveTexture = null;
             var controller = hpcaComponent.isFormed() ? hpcaComponent.getControllers().first() : null;
             if (controller != null && (controller instanceof IWorkable workable && workable.isActive())) {

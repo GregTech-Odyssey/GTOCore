@@ -1,4 +1,4 @@
-package com.gto.gtocore.common.machine.multiblock.part.expandingresearch;
+package com.gto.gtocore.common.machine.multiblock.part.research;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.IHPCACoolantProvider;
@@ -20,26 +20,23 @@ import static com.gregtechceu.gtceu.api.GTValues.UEV;
 @ParametersAreNonnullByDefault
 public class ExResearchCoolerPartMachine extends ExResearchBasePartMachine implements IHPCACoolantProvider {
 
-    private final int tire;
-
-    public ExResearchCoolerPartMachine(IMachineBlockEntity holder, int tire) {
-        super(holder);
-        this.tire = tire;
+    public ExResearchCoolerPartMachine(IMachineBlockEntity holder, int tier) {
+        super(holder, tier);
     }
 
     @Override
     public ResourceTexture getComponentIcon() {
-        if (tire == 3) return GuiTextures.HPCA_ICON_ACTIVE_COOLER_COMPONENT;
-        else if (tire == 4) return GuiTextures.HPCA_ICON_ACTIVE_COOLER_COMPONENT;
-        else if (tire == 5) return GuiTextures.HPCA_ICON_ACTIVE_COOLER_COMPONENT;
+        if (tier == 3) return GuiTextures.HPCA_ICON_ACTIVE_COOLER_COMPONENT;
+        else if (tier == 4) return GuiTextures.HPCA_ICON_ACTIVE_COOLER_COMPONENT;
+        else if (tier == 5) return GuiTextures.HPCA_ICON_ACTIVE_COOLER_COMPONENT;
         else return GuiTextures.HPCA_ICON_ACTIVE_COOLER_COMPONENT;
     }
 
     @Override
     public int getUpkeepEUt() {
-        if (tire == 3) return GTValues.VA[LuV];
-        else if (tire == 4) return GTValues.VA[UV];
-        else if (tire == 5) return GTValues.VA[UHV];
+        if (tier == 3) return GTValues.VA[LuV];
+        else if (tier == 4) return GTValues.VA[UV];
+        else if (tier == 5) return GTValues.VA[UHV];
         else return GTValues.VA[UEV];
     }
 
@@ -50,9 +47,9 @@ public class ExResearchCoolerPartMachine extends ExResearchBasePartMachine imple
 
     @Override
     public int getCoolingAmount() {
-        if (tire == 3) return 8;
-        else if (tire == 4) return 16;
-        else if (tire == 5) return 64;
+        if (tier == 3) return 8;
+        else if (tier == 4) return 16;
+        else if (tier == 5) return 64;
         else return 128;
     }
 
@@ -63,9 +60,9 @@ public class ExResearchCoolerPartMachine extends ExResearchBasePartMachine imple
 
     @Override
     public int getMaxCoolantPerTick() {
-        if (tire == 3) return 80;
-        else if (tire == 4) return 160;
-        else if (tire == 5) return 640;
+        if (tier == 3) return 80;
+        else if (tier == 4) return 160;
+        else if (tier == 5) return 640;
         else return 1280;
     }
 }

@@ -12,8 +12,26 @@ import dev.toma.configuration.config.format.ConfigFormats;
 @Config(id = GTOCore.MOD_ID)
 public final class GTOConfig {
 
+    private static final String SIMPLE = "simple";
+    private static final String NORMAL = "normal";
+    private static final String DIFFICULT = "difficult";
+
     public static GTOConfig INSTANCE;
     private static final Object LOCK = new Object();
+
+    private static int difficulty = 0;
+
+    public static int getDifficulty() {
+        if (difficulty == 0) {
+            difficulty = switch (GTOConfig.INSTANCE.gameDifficulty) {
+                case SIMPLE -> 1;
+                case NORMAL -> 2;
+                case DIFFICULT -> 3;
+                default -> 0;
+            };
+        }
+        return difficulty;
+    }
 
     public static void init() {
         synchronized (LOCK) {
@@ -23,21 +41,24 @@ public final class GTOConfig {
         }
         ConfigHolder.init();
 
-        ConfigHolder.INSTANCE.recipes.nerfWoodCrafting = true;
-        ConfigHolder.INSTANCE.recipes.hardWoodRecipes = true;
-        ConfigHolder.INSTANCE.recipes.hardRedstoneRecipes = true;
-        ConfigHolder.INSTANCE.recipes.hardToolArmorRecipes = true;
-        ConfigHolder.INSTANCE.recipes.hardMiscRecipes = true;
-        ConfigHolder.INSTANCE.recipes.hardAdvancedIronRecipes = true;
-        ConfigHolder.INSTANCE.recipes.hardDyeRecipes = true;
-        ConfigHolder.INSTANCE.recipes.casingsPerCraft = 1;
-        ConfigHolder.INSTANCE.recipes.harderCircuitRecipes = true;
-        ConfigHolder.INSTANCE.recipes.hardMultiRecipes = true;
+        int difficulty = getDifficulty();
+        if (difficulty > 1) {
+            ConfigHolder.INSTANCE.recipes.nerfWoodCrafting = true;
+            ConfigHolder.INSTANCE.recipes.hardWoodRecipes = true;
+            ConfigHolder.INSTANCE.recipes.hardRedstoneRecipes = true;
+            ConfigHolder.INSTANCE.recipes.hardToolArmorRecipes = true;
+            ConfigHolder.INSTANCE.recipes.hardMiscRecipes = true;
+            ConfigHolder.INSTANCE.recipes.hardAdvancedIronRecipes = true;
+            ConfigHolder.INSTANCE.recipes.hardDyeRecipes = true;
+            ConfigHolder.INSTANCE.recipes.casingsPerCraft = 1;
+            ConfigHolder.INSTANCE.recipes.harderCircuitRecipes = true;
+            ConfigHolder.INSTANCE.recipes.hardMultiRecipes = true;
+        }
 
         ConfigHolder.INSTANCE.worldgen.allUniqueStoneTypes = true;
         ConfigHolder.INSTANCE.worldgen.oreVeins.removeVanillaOreGen = false;
         ConfigHolder.INSTANCE.worldgen.oreVeins.bedrockOreDistance = 1;
-        ConfigHolder.INSTANCE.worldgen.oreVeins.infiniteBedrockOresFluids = false;
+        ConfigHolder.INSTANCE.worldgen.oreVeins.infiniteBedrockOresFluids = difficulty == 1;
 
         ConfigHolder.INSTANCE.machines.requireGTToolsForBlocks = true;
         ConfigHolder.INSTANCE.machines.enableCleanroom = true;
@@ -72,6 +93,9 @@ public final class GTOConfig {
         ConfigHolder.INSTANCE.compat.minimap.toggle.journeyMapIntegration = false;
     }
 
+    @Configurable
+    @Configurable.Comment("Optional: simple, normal, difficult")
+    public String gameDifficulty = NORMAL;
     @Configurable
     @Configurable.Comment("Prevent cheating")
     public boolean selfRestraint;

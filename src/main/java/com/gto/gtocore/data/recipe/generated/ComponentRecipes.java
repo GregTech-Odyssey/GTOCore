@@ -55,20 +55,20 @@ public interface ComponentRecipes {
                 "SFR", "sPw", "RMC", 'S', new UnificationEntry(screw, Iron), 'R', VACUUM_TUBE.asStack(),
                 'F', new UnificationEntry(rotor, Iron), 'P', GTOItems.ULV_ELECTRIC_PUMP.asStack(), 'M', GTOItems.ULV_ELECTRIC_MOTOR.asStack(), 'C', new UnificationEntry(cableGtSingle, Lead));
 
-        assembler(provider, LV, ChemicalHelper.get(gem, Quartzite), ChemicalHelper.get(gem, EnderPearl), Steel, Tin, SteelMagnetic, Copper, Rubber, Bronze, Tin, Brass, ManganesePhosphide);
-        assembler(provider, MV, ChemicalHelper.get(gemFlawless, Emerald), ChemicalHelper.get(gem, EnderEye), Aluminium, Copper, SteelMagnetic, Cupronickel, Rubber, Steel, Bronze, Electrum, MagnesiumDiboride);
-        assembler(provider, HV, ChemicalHelper.get(gem, EnderEye), QUANTUM_EYE.asStack(), StainlessSteel, Silver, SteelMagnetic, Electrum, Rubber, VanadiumSteel, Steel, Chromium, MercuryBariumCalciumCuprate);
-        assembler(provider, EV, QUANTUM_EYE.asStack(), ChemicalHelper.get(gem, NetherStar), Titanium, Aluminium, NeodymiumMagnetic, Kanthal, SiliconeRubber, StainlessSteel, Aluminium, Platinum, UraniumTriplatinum);
-        assembler(provider, IV, QUANTUM_STAR.asStack(), QUANTUM_STAR.asStack(), TungstenSteel, Tungsten, NeodymiumMagnetic, Graphene, SiliconeRubber, TungstenCarbide, Titanium, Iridium, SamariumIronArsenicOxide);
+        assembler(LV, ChemicalHelper.get(gem, Quartzite), ChemicalHelper.get(gem, EnderPearl), Steel, Tin, SteelMagnetic, Copper, Rubber, Bronze, Tin, Brass, ManganesePhosphide);
+        assembler(MV, ChemicalHelper.get(gemFlawless, Emerald), ChemicalHelper.get(gem, EnderEye), Aluminium, Copper, SteelMagnetic, Cupronickel, Rubber, Steel, Bronze, Electrum, MagnesiumDiboride);
+        assembler(HV, ChemicalHelper.get(gem, EnderEye), QUANTUM_EYE.asStack(), StainlessSteel, Silver, SteelMagnetic, Electrum, Rubber, VanadiumSteel, Steel, Chromium, MercuryBariumCalciumCuprate);
+        assembler(EV, QUANTUM_EYE.asStack(), ChemicalHelper.get(gem, NetherStar), Titanium, Aluminium, NeodymiumMagnetic, Kanthal, SiliconeRubber, StainlessSteel, Aluminium, Platinum, UraniumTriplatinum);
+        assembler(IV, QUANTUM_STAR.asStack(), QUANTUM_STAR.asStack(), TungstenSteel, Tungsten, NeodymiumMagnetic, Graphene, SiliconeRubber, TungstenCarbide, Titanium, Iridium, SamariumIronArsenicOxide);
 
-        assembly_line(provider, LuV, ChemicalHelper.get(pipeSmallFluid, NiobiumTitanium), QUANTUM_STAR.asStack(), ChemicalHelper.get(rodLong, SamariumMagnetic), HSSS, Ruridit, NiobiumTitanium, SolderingAlloy, Lubricant, HSSE, SiliconeRubber, HSSS, Palladium, Ruthenium, IndiumTinBariumTitaniumCuprate);
-        assembly_line(provider, ZPM, ChemicalHelper.get(pipeNormalFluid, Polybenzimidazole), QUANTUM_STAR.asStack(), ChemicalHelper.get(rodLong, SamariumMagnetic), Osmiridium, Europium, VanadiumGallium, SolderingAlloy, Lubricant, MarM200Steel, StyreneButadieneRubber, NaquadahAlloy, Trinium, Duranium, UraniumRhodiumDinaquadide);
-        assembly_line(provider, UV, ChemicalHelper.get(pipeLargeFluid, Naquadah), GRAVI_STAR.asStack(), ChemicalHelper.get(rodLong, SamariumMagnetic), Tritanium, Americium, YttriumBariumCuprate, SolderingAlloy, Lubricant, Naquadria, StyreneButadieneRubber, Tritanium, Naquadah, Tritanium, EnrichedNaquadahTriniumEuropiumDuranide);
-        assembly_line(provider, UHV, ChemicalHelper.get(pipeNormalFluid, Neutronium), GRAVI_STAR.asStack(), GTOItems.MAGNETIC_LONG_NETHERITE_ROD.asStack(), Orichalcum, AbyssalAlloy, Europium, MutatedLivingSolder, Lubricant, HighDurabilityCompoundSteel, StyreneButadieneRubber, Neutronium, AbyssalAlloy, FluxedElectrum, RutheniumTriniumAmericiumNeutronate);
-        assembly_line(provider, UEV, ChemicalHelper.get(pipeNormalFluid, Enderium), GRAVI_STAR.asStack(), GTOItems.MAGNETIC_LONG_NETHERITE_ROD.asStack(), HastelloyX78, TitanSteel, Mithril, MutatedLivingSolder, Lubricant, Bohrium, StyreneButadieneRubber, Quantanium, TitanSteel, Dalisenite, Enderite);
-        assembly_line(provider, UIV, ChemicalHelper.get(pipeNormalFluid, FullerenePolymerMatrixPulp), GTOItems.UNSTABLE_STAR.asStack(), ChemicalHelper.get(rodLong, AttunedTengam), Infuscolium, Adamantine, Neutronium, SuperMutatedLivingSolder, Lubricant, Taranium, StyreneButadieneRubber, Adamantium, Adamantine, ArceusAlloy2B, Echoite);
-        assembly_line(provider, UXV, ChemicalHelper.get(pipeNormalFluid, HeavyQuarkDegenerateMatter), GTOItems.UNSTABLE_STAR.asStack(), ChemicalHelper.get(rodLong, AttunedTengam), HastelloyK243, NaquadriaticTaranium, Taranium, SuperMutatedLivingSolder, Lubricant, AstralTitanium, StyreneButadieneRubber, Vibranium, NaquadriaticTaranium, TitanPrecisionSteel, Legendarium);
-        assembly_line(provider, OpV, ChemicalHelper.get(pipeLargeFluid, HeavyQuarkDegenerateMatter), GTOItems.UNSTABLE_STAR.asStack(), ChemicalHelper.get(rodLong, AttunedTengam), Vibramantium, Starmetal, CrystalMatrix, SuperMutatedLivingSolder, Lubricant, CelestialTungsten, StyreneButadieneRubber, Draconium, Starmetal, Hikarium, AwakenedDraconium);
+        assembly_line(LuV, ChemicalHelper.get(pipeSmallFluid, NiobiumTitanium), QUANTUM_STAR.asStack(), ChemicalHelper.get(rodLong, SamariumMagnetic), HSSS, Ruridit, NiobiumTitanium, SolderingAlloy, Lubricant, HSSE, SiliconeRubber, HSSS, Palladium, Ruthenium, IndiumTinBariumTitaniumCuprate);
+        assembly_line(ZPM, ChemicalHelper.get(pipeNormalFluid, Polybenzimidazole), QUANTUM_STAR.asStack(), ChemicalHelper.get(rodLong, SamariumMagnetic), Osmiridium, Europium, VanadiumGallium, SolderingAlloy, Lubricant, MarM200Steel, StyreneButadieneRubber, NaquadahAlloy, Trinium, Duranium, UraniumRhodiumDinaquadide);
+        assembly_line(UV, ChemicalHelper.get(pipeLargeFluid, Naquadah), GRAVI_STAR.asStack(), ChemicalHelper.get(rodLong, SamariumMagnetic), Tritanium, Americium, YttriumBariumCuprate, SolderingAlloy, Lubricant, Naquadria, StyreneButadieneRubber, Tritanium, Naquadah, Tritanium, EnrichedNaquadahTriniumEuropiumDuranide);
+        assembly_line(UHV, ChemicalHelper.get(pipeNormalFluid, Neutronium), GRAVI_STAR.asStack(), GTOItems.MAGNETIC_LONG_NETHERITE_ROD.asStack(), Orichalcum, AbyssalAlloy, Europium, MutatedLivingSolder, Lubricant, HighDurabilityCompoundSteel, StyreneButadieneRubber, Neutronium, AbyssalAlloy, FluxedElectrum, RutheniumTriniumAmericiumNeutronate);
+        assembly_line(UEV, ChemicalHelper.get(pipeNormalFluid, Enderium), GRAVI_STAR.asStack(), GTOItems.MAGNETIC_LONG_NETHERITE_ROD.asStack(), HastelloyX78, TitanSteel, Mithril, MutatedLivingSolder, Lubricant, Bohrium, StyreneButadieneRubber, Quantanium, TitanSteel, Dalisenite, Enderite);
+        assembly_line(UIV, ChemicalHelper.get(pipeNormalFluid, FullerenePolymerMatrixPulp), GTOItems.UNSTABLE_STAR.asStack(), ChemicalHelper.get(rodLong, AttunedTengam), Infuscolium, Adamantine, Neutronium, SuperMutatedLivingSolder, Lubricant, Taranium, StyreneButadieneRubber, Adamantium, Adamantine, ArceusAlloy2B, Echoite);
+        assembly_line(UXV, ChemicalHelper.get(pipeNormalFluid, HeavyQuarkDegenerateMatter), GTOItems.UNSTABLE_STAR.asStack(), ChemicalHelper.get(rodLong, AttunedTengam), HastelloyK243, NaquadriaticTaranium, Taranium, SuperMutatedLivingSolder, Lubricant, AstralTitanium, StyreneButadieneRubber, Vibranium, NaquadriaticTaranium, TitanPrecisionSteel, Legendarium);
+        assembly_line(OpV, ChemicalHelper.get(pipeLargeFluid, HeavyQuarkDegenerateMatter), GTOItems.UNSTABLE_STAR.asStack(), ChemicalHelper.get(rodLong, AttunedTengam), Vibramantium, Starmetal, CrystalMatrix, SuperMutatedLivingSolder, Lubricant, CelestialTungsten, StyreneButadieneRubber, Draconium, Starmetal, Hikarium, AwakenedDraconium);
 
         GTORecipeTypes.COMPONENT_ASSEMBLY_RECIPES.recipeBuilder(GTOCore.id("max_field_generator"))
                 .inputItems(TagPrefix.plateDouble, GTOMaterials.Chaos, 288)
@@ -222,7 +222,7 @@ public interface ComponentRecipes {
                 .save();
     }
 
-    private static void assembler(Consumer<FinishedRecipe> provider, int tier, ItemStack emitter_gem, ItemStack field_gem, Material... material) {
+    private static void assembler(int tier, ItemStack emitter_gem, ItemStack field_gem, Material... material) {
         ItemStack motor = (ItemStack) MOTOR.get(tier);
         ItemStack conveyor = (ItemStack) CONVEYOR.get(tier);
         ItemStack pump = (ItemStack) PUMP.get(tier);
@@ -401,8 +401,8 @@ public interface ComponentRecipes {
                 .duration(400).EUt(VA[tier]).save();
     }
 
-    private static void assembly_line(Consumer<FinishedRecipe> provider, int tier, ItemStack pipe, ItemStack emitter_gem, ItemStack magnetic, Material... material) {
-        int multiplier = tier > ZPM ? 4 : tier == ZPM ? 2 : 1;
+    private static void assembly_line(int tier, ItemStack pipe, ItemStack emitter_gem, ItemStack magnetic, Material... material) {
+        int multiplier = tier > UV ? 8 : tier > ZPM ? 4 : tier > LuV ? 2 : 1;
         ItemStack motor = (ItemStack) MOTOR.get(tier);
         ItemStack conveyor = (ItemStack) CONVEYOR.get(tier);
         ItemStack pump = (ItemStack) PUMP.get(tier);

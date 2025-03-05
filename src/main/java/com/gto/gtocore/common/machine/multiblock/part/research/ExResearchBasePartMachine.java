@@ -1,4 +1,4 @@
-package com.gto.gtocore.common.machine.multiblock.part.expandingresearch;
+package com.gto.gtocore.common.machine.multiblock.part.research;
 
 import com.gto.gtocore.common.data.GTOBlocks;
 
@@ -17,6 +17,7 @@ import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.annotation.RequireRerender;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
+import lombok.Getter;
 
 import java.util.List;
 
@@ -24,8 +25,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
-public abstract class ExResearchBasePartMachine extends MultiblockPartMachine
-                                                implements IHPCAComponentHatch, IMachineModifyDrops {
+public abstract class ExResearchBasePartMachine extends MultiblockPartMachine implements IHPCAComponentHatch, IMachineModifyDrops {
 
     protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
             ExResearchBasePartMachine.class, MultiblockPartMachine.MANAGED_FIELD_HOLDER);
@@ -34,14 +34,15 @@ public abstract class ExResearchBasePartMachine extends MultiblockPartMachine
     @DescSynced
     @RequireRerender
     private boolean damaged;
+    @Getter
+    protected final int tier;
 
-    public ExResearchBasePartMachine(IMachineBlockEntity holder) {
+    ExResearchBasePartMachine(IMachineBlockEntity holder, int tier) {
         super(holder);
+        this.tier = tier;
     }
 
-    public int tire;
-
-    public boolean doesAllowBridging() {
+    boolean doesAllowBridging() {
         return false;
     }
 
@@ -92,9 +93,9 @@ public abstract class ExResearchBasePartMachine extends MultiblockPartMachine
             ItemStack drop = drops.get(i);
             if (drop.getItem() == this.getDefinition().getItem()) {
                 if (canBeDamaged() && isDamaged()) {
-                    if (tire == 3) drops.set(i, GTOBlocks.BIOCOMPUTER_SHELL.asStack());
-                    else if (tire == 4) drops.set(i, GTOBlocks.BIOCOMPUTER_SHELL.asStack());
-                    else if (tire == 5) drops.set(i, GTOBlocks.BIOCOMPUTER_SHELL.asStack());
+                    if (tier == 3) drops.set(i, GTOBlocks.BIOCOMPUTER_SHELL.asStack());
+                    else if (tier == 4) drops.set(i, GTOBlocks.BIOCOMPUTER_SHELL.asStack());
+                    else if (tier == 5) drops.set(i, GTOBlocks.BIOCOMPUTER_SHELL.asStack());
                     else drops.set(i, GTOBlocks.BIOCOMPUTER_SHELL.asStack());
                 }
                 break;
