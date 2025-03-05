@@ -1,7 +1,7 @@
 package com.gto.gtocore.common.machine.multiblock.noenergy;
 
-import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.api.machine.multiblock.NoEnergyMultiblockMachine;
+import com.gto.gtocore.api.recipe.GTORecipeBuilder;
 import com.gto.gtocore.common.data.GTOMaterials;
 import com.gto.gtocore.common.data.GTORecipeModifiers;
 import com.gto.gtocore.utils.MachineUtils;
@@ -11,8 +11,6 @@ import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.IExplosionMachine;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
-import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
-import com.gregtechceu.gtceu.data.recipe.builder.GTRecipeBuilder;
 
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
@@ -50,7 +48,7 @@ public final class HeatExchangerMachine extends NoEnergyMultiblockMachine implem
                 .get(1).getContent()).getStacks()[0].getFluid() == Fluids.WATER) {
             return GTORecipeModifiers.accurateParallel(this, recipe, Integer.MAX_VALUE);
         }
-        GTRecipe result = GTORecipeModifiers.accurateParallel(this, new GTRecipeBuilder(GTOCore.id("heat_exchanger"), GTRecipeTypes.DUMMY_RECIPES)
+        GTRecipe result = GTORecipeModifiers.accurateParallel(this, GTORecipeBuilder.ofRaw()
                 .inputFluids(FluidRecipeCapability.CAP.of(recipe.inputs
                         .get(FluidRecipeCapability.CAP).get(0).getContent()))
                 .outputFluids(FluidRecipeCapability.CAP.of(recipe.outputs

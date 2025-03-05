@@ -1,18 +1,19 @@
 package com.gto.gtocore.utils.register;
 
+import com.gto.gtocore.api.recipe.GTORecipeType;
 import com.gto.gtocore.data.lang.LangHandler;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTCEuAPI;
 import com.gregtechceu.gtceu.api.block.ICoilType;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
-import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
-import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
+import com.gregtechceu.gtceu.api.registry.GTRegistries;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeType;
 
 import com.lowdragmc.lowdraglib.gui.widget.SlotWidget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
@@ -53,13 +54,19 @@ public final class RecipeTypeRegisterUtils {
                 widgetGroup.getSize().width - 50, widgetGroup.getSize().height - 40, false, false));
     };
 
-    public static GTRecipeType register(String name, String enLang, String cnLang, String type) {
+    public static GTORecipeType register(String name, String enLang, String cnLang, String type) {
         if (LANG != null) LANG.put(name, new LangHandler.ENCN(enLang, cnLang));
-        return GTRecipeTypes.register(name, type);
+        return register(name, type);
     }
 
-    public static GTRecipeType register(String name, String cnLang, String type) {
+    public static GTORecipeType register(String name, String cnLang, String type) {
         if (LANG != null) LANG.put(name, new LangHandler.ENCN(FormattingUtil.toEnglishName(name), cnLang));
-        return GTRecipeTypes.register(name, type);
+        return register(name, type);
+    }
+
+    public static GTORecipeType register(String name, String group, RecipeType<?>... proxyRecipes) {
+        GTORecipeType recipeType = new GTORecipeType(GTCEu.id(name), group, proxyRecipes);
+        GTRegistries.RECIPE_TYPES.register(recipeType.registryName, recipeType);
+        return recipeType;
     }
 }

@@ -2,7 +2,6 @@ package com.gto.gtocore.data.recipe.classified;
 
 import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.api.data.tag.GTOTagPrefix;
-import com.gto.gtocore.api.recipe.GTORecipeBuilder;
 import com.gto.gtocore.common.data.GTOItems;
 import com.gto.gtocore.common.data.GTOMaterials;
 import com.gto.gtocore.common.data.GTORecipeTypes;
@@ -281,7 +280,7 @@ interface TranscendingCrafting {
                 .duration(200)
                 .save(provider);
 
-        GTORecipeBuilder.of(GTORecipeTypes.MAGIC_MANUFACTURER_RECIPES, GTOCore.id("mana_0"))
+        GTORecipeTypes.MAGIC_MANUFACTURER_RECIPES.recipeBuilder(GTOCore.id("mana_0"))
                 .MANAt(-100)
                 .notConsumable(GTItems.FIELD_GENERATOR_UEV.asStack())
                 .circuitMeta(1)
@@ -289,7 +288,7 @@ interface TranscendingCrafting {
                 .duration(20)
                 .save(provider);
 
-        GTORecipeBuilder.of(GTORecipeTypes.MAGIC_MANUFACTURER_RECIPES, GTOCore.id("mana_3"))
+        GTORecipeTypes.MAGIC_MANUFACTURER_RECIPES.recipeBuilder(GTOCore.id("mana_3"))
                 .MANAt(-100000)
                 .notConsumable(GTItems.FIELD_GENERATOR_OpV.asStack())
                 .circuitMeta(1)
@@ -297,7 +296,7 @@ interface TranscendingCrafting {
                 .duration(20)
                 .save(provider);
 
-        GTORecipeBuilder.of(GTORecipeTypes.MAGIC_MANUFACTURER_RECIPES, GTOCore.id("mana_4"))
+        GTORecipeTypes.MAGIC_MANUFACTURER_RECIPES.recipeBuilder(GTOCore.id("mana_4"))
                 .MANAt(-400)
                 .notConsumable(GTItems.FIELD_GENERATOR_UEV.asStack(4))
                 .circuitMeta(2)
@@ -305,7 +304,7 @@ interface TranscendingCrafting {
                 .duration(40)
                 .save(provider);
 
-        GTORecipeBuilder.of(GTORecipeTypes.MAGIC_MANUFACTURER_RECIPES, GTOCore.id("mana_1"))
+        GTORecipeTypes.MAGIC_MANUFACTURER_RECIPES.recipeBuilder(GTOCore.id("mana_1"))
                 .MANAt(-1000)
                 .notConsumable(GTItems.FIELD_GENERATOR_UIV.asStack())
                 .circuitMeta(1)
@@ -313,7 +312,7 @@ interface TranscendingCrafting {
                 .duration(20)
                 .save(provider);
 
-        GTORecipeBuilder.of(GTORecipeTypes.MAGIC_MANUFACTURER_RECIPES, GTOCore.id("mana_2"))
+        GTORecipeTypes.MAGIC_MANUFACTURER_RECIPES.recipeBuilder(GTOCore.id("mana_2"))
                 .MANAt(-10000)
                 .notConsumable(GTItems.FIELD_GENERATOR_UXV.asStack())
                 .circuitMeta(1)
@@ -321,7 +320,7 @@ interface TranscendingCrafting {
                 .duration(20)
                 .save(provider);
 
-        GTORecipeBuilder.of(GTORecipeTypes.MAGIC_MANUFACTURER_RECIPES, GTOCore.id("mana_7"))
+        GTORecipeTypes.MAGIC_MANUFACTURER_RECIPES.recipeBuilder(GTOCore.id("mana_7"))
                 .MANAt(-400000)
                 .notConsumable(GTItems.FIELD_GENERATOR_OpV.asStack(4))
                 .circuitMeta(2)
@@ -329,7 +328,7 @@ interface TranscendingCrafting {
                 .duration(40)
                 .save(provider);
 
-        GTORecipeBuilder.of(GTORecipeTypes.MAGIC_MANUFACTURER_RECIPES, GTOCore.id("mana_8"))
+        GTORecipeTypes.MAGIC_MANUFACTURER_RECIPES.recipeBuilder(GTOCore.id("mana_8"))
                 .MANAt(-1600)
                 .notConsumable(GTItems.FIELD_GENERATOR_UEV.asStack(16))
                 .circuitMeta(3)
@@ -337,7 +336,7 @@ interface TranscendingCrafting {
                 .duration(80)
                 .save(provider);
 
-        GTORecipeBuilder.of(GTORecipeTypes.MAGIC_MANUFACTURER_RECIPES, GTOCore.id("mana_5"))
+        GTORecipeTypes.MAGIC_MANUFACTURER_RECIPES.recipeBuilder(GTOCore.id("mana_5"))
                 .MANAt(-4000)
                 .notConsumable(GTItems.FIELD_GENERATOR_UIV.asStack(4))
                 .circuitMeta(2)
@@ -345,7 +344,7 @@ interface TranscendingCrafting {
                 .duration(40)
                 .save(provider);
 
-        GTORecipeBuilder.of(GTORecipeTypes.MAGIC_MANUFACTURER_RECIPES, GTOCore.id("mana_6"))
+        GTORecipeTypes.MAGIC_MANUFACTURER_RECIPES.recipeBuilder(GTOCore.id("mana_6"))
                 .MANAt(-40000)
                 .notConsumable(GTItems.FIELD_GENERATOR_UXV.asStack(4))
                 .circuitMeta(2)
@@ -353,7 +352,7 @@ interface TranscendingCrafting {
                 .duration(40)
                 .save(provider);
 
-        GTORecipeBuilder.of(GTORecipeTypes.MAGIC_MANUFACTURER_RECIPES, GTOCore.id("mana_9"))
+        GTORecipeTypes.MAGIC_MANUFACTURER_RECIPES.recipeBuilder(GTOCore.id("mana_9"))
                 .MANAt(-16000)
                 .notConsumable(GTItems.FIELD_GENERATOR_UIV.asStack(16))
                 .circuitMeta(3)
@@ -361,7 +360,7 @@ interface TranscendingCrafting {
                 .duration(80)
                 .save(provider);
 
-        GTORecipeBuilder.of(GTORecipeTypes.MAGIC_MANUFACTURER_RECIPES, GTOCore.id("mana_15"))
+        GTORecipeTypes.MAGIC_MANUFACTURER_RECIPES.recipeBuilder(GTOCore.id("mana_15"))
                 .MANAt(-6400000)
                 .notConsumable(GTItems.FIELD_GENERATOR_OpV.asStack(64))
                 .circuitMeta(4)
@@ -369,7 +368,7 @@ interface TranscendingCrafting {
                 .duration(160)
                 .save(provider);
 
-        GTORecipeBuilder.of(GTORecipeTypes.MAGIC_MANUFACTURER_RECIPES, GTOCore.id("mana_14"))
+        GTORecipeTypes.MAGIC_MANUFACTURER_RECIPES.recipeBuilder(GTOCore.id("mana_14"))
                 .MANAt(-640000)
                 .notConsumable(GTItems.FIELD_GENERATOR_UXV.asStack(64))
                 .circuitMeta(4)
@@ -377,7 +376,7 @@ interface TranscendingCrafting {
                 .duration(160)
                 .save(provider);
 
-        GTORecipeBuilder.of(GTORecipeTypes.MAGIC_MANUFACTURER_RECIPES, GTOCore.id("mana_13"))
+        GTORecipeTypes.MAGIC_MANUFACTURER_RECIPES.recipeBuilder(GTOCore.id("mana_13"))
                 .MANAt(-64000)
                 .notConsumable(GTItems.FIELD_GENERATOR_UIV.asStack(64))
                 .circuitMeta(4)
@@ -385,7 +384,7 @@ interface TranscendingCrafting {
                 .duration(160)
                 .save(provider);
 
-        GTORecipeBuilder.of(GTORecipeTypes.MAGIC_MANUFACTURER_RECIPES, GTOCore.id("mana_12"))
+        GTORecipeTypes.MAGIC_MANUFACTURER_RECIPES.recipeBuilder(GTOCore.id("mana_12"))
                 .MANAt(-6400)
                 .notConsumable(GTItems.FIELD_GENERATOR_UEV.asStack(64))
                 .circuitMeta(4)
@@ -393,7 +392,7 @@ interface TranscendingCrafting {
                 .duration(160)
                 .save(provider);
 
-        GTORecipeBuilder.of(GTORecipeTypes.MAGIC_MANUFACTURER_RECIPES, GTOCore.id("mana_11"))
+        GTORecipeTypes.MAGIC_MANUFACTURER_RECIPES.recipeBuilder(GTOCore.id("mana_11"))
                 .MANAt(-1600000)
                 .notConsumable(GTItems.FIELD_GENERATOR_OpV.asStack(16))
                 .circuitMeta(3)
@@ -401,7 +400,7 @@ interface TranscendingCrafting {
                 .duration(80)
                 .save(provider);
 
-        GTORecipeBuilder.of(GTORecipeTypes.MAGIC_MANUFACTURER_RECIPES, GTOCore.id("mana_10"))
+        GTORecipeTypes.MAGIC_MANUFACTURER_RECIPES.recipeBuilder(GTOCore.id("mana_10"))
                 .MANAt(-160000)
                 .notConsumable(GTItems.FIELD_GENERATOR_UXV.asStack(16))
                 .circuitMeta(3)

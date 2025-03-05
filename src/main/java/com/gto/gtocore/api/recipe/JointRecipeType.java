@@ -1,16 +1,12 @@
 package com.gto.gtocore.api.recipe;
 
-import com.gto.gtocore.GTOCore;
-
+import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.capability.recipe.IRecipeCapabilityHolder;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
-import com.gregtechceu.gtceu.api.recipe.GTRecipeSerializer;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.recipe.category.GTRecipeCategory;
 import com.gregtechceu.gtceu.api.registry.GTRegistries;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
-
-import net.minecraft.core.registries.BuiltInRegistries;
 
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import lombok.Getter;
@@ -20,20 +16,18 @@ import java.util.Iterator;
 import java.util.Set;
 
 @Getter
-public final class JointRecipeType extends GTRecipeType {
+public final class JointRecipeType extends GTORecipeType {
 
     private final GTRecipeType[] types;
 
-    public static GTRecipeType register(String name, GTRecipeType... types) {
-        GTRecipeType recipeType = new JointRecipeType(name, types);
-        GTRegistries.register(BuiltInRegistries.RECIPE_TYPE, recipeType.registryName, recipeType);
-        GTRegistries.register(BuiltInRegistries.RECIPE_SERIALIZER, recipeType.registryName, new GTRecipeSerializer());
+    public static GTORecipeType register(String name, GTRecipeType... types) {
+        GTORecipeType recipeType = new JointRecipeType(name, types);
         GTRegistries.RECIPE_TYPES.register(recipeType.registryName, recipeType);
         return recipeType;
     }
 
     private JointRecipeType(String name, GTRecipeType... types) {
-        super(GTOCore.id(name), GTRecipeTypes.DUMMY);
+        super(GTCEu.id(name), GTRecipeTypes.DUMMY);
         this.types = types;
         setXEIVisible(false);
         setRecipeUI(null);

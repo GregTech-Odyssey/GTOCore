@@ -1,8 +1,10 @@
 package com.gto.gtocore.utils.register;
 
 import com.gto.gtocore.GTOCore;
+import com.gto.gtocore.api.GTOValues;
 import com.gto.gtocore.api.data.chemical.material.GTOMaterial;
 import com.gto.gtocore.api.data.tag.GTOTagPrefix;
+import com.gto.gtocore.api.item.ToolTipsItem;
 import com.gto.gtocore.common.data.GTOCovers;
 import com.gto.gtocore.common.item.KineticRotorItem;
 
@@ -21,6 +23,7 @@ import com.gregtechceu.gtceu.common.item.TooltipBehavior;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.tags.TagKey;
@@ -49,6 +52,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
 import static com.gregtechceu.gtceu.common.data.GTItems.attach;
 import static com.gto.gtocore.api.registries.GTORegistration.REGISTRATE;
@@ -174,13 +179,13 @@ public final class ItemRegisterUtils {
         return item(id, cn + "转子", p -> new KineticRotorItem(p, durability, min, max, material)).register();
     }
 
-    public static ItemEntry<Item>[] registerCircuits(String name, String cn, String[] env, String[] cnv, int[] tiers) {
-        ItemEntry<Item>[] entries = new ItemEntry[GTValues.TIER_COUNT];
+    public static ItemEntry<ToolTipsItem>[] registerCircuits(String name, String cn, int[] tiers, Function<Integer, Component> componentFunction) {
+        ItemEntry<ToolTipsItem>[] entries = new ItemEntry[GTValues.TIER_COUNT];
         for (int tier : tiers) {
             String id = name + "_" + GTValues.VN[tier].toLowerCase();
-            ItemEntry<Item> register = item(id, cnv[tier] + cn, Item::new)
+            ItemEntry<ToolTipsItem> register = item(id, GTOValues.VOLTAGE_NAMESCN[tier] + cn, p -> new ToolTipsItem(p, new Supplier[] { () -> Component.translatable("gtocore.tooltip.item." + name).withStyle(ChatFormatting.GRAY), () -> componentFunction.apply(tier) }))
                     .model((ctx, prov) -> prov.generated(ctx, GTOCore.id("item/circuit/" + id)))
-                    .lang(env[tier] + ' ' + FormattingUtil.toEnglishName(name))
+                    .lang(GTValues.VOLTAGE_NAMES[tier] + ' ' + FormattingUtil.toEnglishName(name))
                     .tag(CustomTags.CIRCUITS_ARRAY[tier])
                     .register();
             entries[tier] = register;
@@ -188,8 +193,8 @@ public final class ItemRegisterUtils {
         return entries;
     }
 
-    public static ItemEntry<Item> registerCircuit(String id, String cn, TagKey<Item> tagKey) {
-        return item(id, cn, Item::new)
+    public static ItemEntry<ToolTipsItem> registerCircuit(String id, String cn, TagKey<Item> tagKey, Supplier<String> componentSupplier) {
+        return item(id, cn, p -> new ToolTipsItem(p, new Supplier[] { () -> Component.literal(componentSupplier.get()) }))
                 .model((ctx, prov) -> prov.generated(ctx, GTOCore.id("item/circuit/" + id)))
                 .tag(tagKey)
                 .register();
@@ -219,5 +224,9 @@ public final class ItemRegisterUtils {
     public static ItemEntry<Item> registerLang(String id, String en, String cn) {
         return item(id, cn, Item::new)
                 .lang(en).register();
+    }
+
+    public static ItemEntry<ToolTipsItem> registerTooltip(String id, String cn, Supplier<Component> componentSupplier) {
+        return item(id, cn, p -> new ToolTipsItem(p, new Supplier[] { componentSupplier })).register();
     }
 }

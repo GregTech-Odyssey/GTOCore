@@ -1,6 +1,6 @@
 package com.gto.gtocore.common.data;
 
-import com.gto.gtocore.api.GTOValues;
+import com.gto.gtocore.api.item.ToolTipsItem;
 import com.gto.gtocore.client.renderer.item.HaloItemRenderer;
 import com.gto.gtocore.common.item.*;
 import com.gto.gtocore.integration.ae2.InfinityCellItem;
@@ -21,6 +21,7 @@ import com.gregtechceu.gtceu.data.recipe.CustomTags;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.Item;
@@ -317,36 +318,36 @@ public interface GTOItems {
     ItemEntry<KineticRotorItem> STEEL_ROTOR = registerRotor("steel_rotor", "钢", 16000, 10, 30, 1);
     ItemEntry<KineticRotorItem> CARBON_ROTOR = registerRotor("carbon_rotor", "碳", 24000, 2, 40, 2);
 
-    ItemEntry<Item> BIOWARE_PROCESSOR = registerCircuit("bioware_processor", "生物活性处理器", CustomTags.ZPM_CIRCUITS);
-    ItemEntry<Item> BIOWARE_ASSEMBLY = registerCircuit("bioware_assembly", "生物活性处理器集群", CustomTags.UV_CIRCUITS);
-    ItemEntry<Item> BIOWARE_COMPUTER = registerCircuit("bioware_computer", "生物活性处理器超级计算机", CustomTags.UHV_CIRCUITS);
-    ItemEntry<Item> BIOWARE_MAINFRAME = registerCircuit("bioware_mainframe", "生物活性处理器主机", CustomTags.UEV_CIRCUITS);
+    ItemEntry<ToolTipsItem> BIOWARE_PROCESSOR = registerCircuit("bioware_processor", "生物活性处理器", CustomTags.ZPM_CIRCUITS, () -> StringUtils.dark_green(I18n.get("gtocore.tooltip.item.tier_circuit", "ZPM")));
+    ItemEntry<ToolTipsItem> BIOWARE_ASSEMBLY = registerCircuit("bioware_assembly", "生物活性处理器集群", CustomTags.UV_CIRCUITS, () -> StringUtils.dark_green(I18n.get("gtocore.tooltip.item.tier_circuit", "UV")));
+    ItemEntry<ToolTipsItem> BIOWARE_COMPUTER = registerCircuit("bioware_computer", "生物活性处理器超级计算机", CustomTags.UHV_CIRCUITS, () -> StringUtils.dark_green(I18n.get("gtocore.tooltip.item.tier_circuit", "UHV")));
+    ItemEntry<ToolTipsItem> BIOWARE_MAINFRAME = registerCircuit("bioware_mainframe", "生物活性处理器主机", CustomTags.UEV_CIRCUITS, () -> StringUtils.dark_green(I18n.get("gtocore.tooltip.item.tier_circuit", "UEV")));
 
-    ItemEntry<Item> OPTICAL_PROCESSOR = registerCircuit("optical_processor", "光学处理器", CustomTags.UV_CIRCUITS);
-    ItemEntry<Item> OPTICAL_ASSEMBLY = registerCircuit("optical_assembly", "光学处理器集群", CustomTags.UHV_CIRCUITS);
-    ItemEntry<Item> OPTICAL_COMPUTER = registerCircuit("optical_computer", "光学处理器超级计算机", CustomTags.UEV_CIRCUITS);
-    ItemEntry<Item> OPTICAL_MAINFRAME = registerCircuit("optical_mainframe", "光学处理器主机", CustomTags.UIV_CIRCUITS);
+    ItemEntry<ToolTipsItem> OPTICAL_PROCESSOR = registerCircuit("optical_processor", "光学处理器", CustomTags.UV_CIRCUITS, () -> StringUtils.golden(I18n.get("gtocore.tooltip.item.tier_circuit", "UV")));
+    ItemEntry<ToolTipsItem> OPTICAL_ASSEMBLY = registerCircuit("optical_assembly", "光学处理器集群", CustomTags.UHV_CIRCUITS, () -> StringUtils.golden(I18n.get("gtocore.tooltip.item.tier_circuit", "UHV")));
+    ItemEntry<ToolTipsItem> OPTICAL_COMPUTER = registerCircuit("optical_computer", "光学处理器超级计算机", CustomTags.UEV_CIRCUITS, () -> StringUtils.golden(I18n.get("gtocore.tooltip.item.tier_circuit", "UEV")));
+    ItemEntry<ToolTipsItem> OPTICAL_MAINFRAME = registerCircuit("optical_mainframe", "光学处理器主机", CustomTags.UIV_CIRCUITS, () -> StringUtils.golden(I18n.get("gtocore.tooltip.item.tier_circuit", "UIV")));
 
-    ItemEntry<Item> EXOTIC_PROCESSOR = registerCircuit("exotic_processor", "奇异处理器", CustomTags.UHV_CIRCUITS);
-    ItemEntry<Item> EXOTIC_ASSEMBLY = registerCircuit("exotic_assembly", "奇异处理器集群", CustomTags.UEV_CIRCUITS);
-    ItemEntry<Item> EXOTIC_COMPUTER = registerCircuit("exotic_computer", "奇异处理器超级计算机", CustomTags.UIV_CIRCUITS);
-    ItemEntry<Item> EXOTIC_MAINFRAME = registerCircuit("exotic_mainframe", "奇异处理器主机", CustomTags.UXV_CIRCUITS);
+    ItemEntry<ToolTipsItem> EXOTIC_PROCESSOR = registerCircuit("exotic_processor", "奇异处理器", CustomTags.UHV_CIRCUITS, () -> StringUtils.purplish_red(I18n.get("gtocore.tooltip.item.tier_circuit", "UHV")));
+    ItemEntry<ToolTipsItem> EXOTIC_ASSEMBLY = registerCircuit("exotic_assembly", "奇异处理器集群", CustomTags.UEV_CIRCUITS, () -> StringUtils.purplish_red(I18n.get("gtocore.tooltip.item.tier_circuit", "UEV")));
+    ItemEntry<ToolTipsItem> EXOTIC_COMPUTER = registerCircuit("exotic_computer", "奇异处理器超级计算机", CustomTags.UIV_CIRCUITS, () -> StringUtils.purplish_red(I18n.get("gtocore.tooltip.item.tier_circuit", "UIV")));
+    ItemEntry<ToolTipsItem> EXOTIC_MAINFRAME = registerCircuit("exotic_mainframe", "奇异处理器主机", CustomTags.UXV_CIRCUITS, () -> StringUtils.purplish_red(I18n.get("gtocore.tooltip.item.tier_circuit", "UXV")));
 
-    ItemEntry<Item> COSMIC_PROCESSOR = registerCircuit("cosmic_processor", "寰宇处理器", CustomTags.UEV_CIRCUITS);
-    ItemEntry<Item> COSMIC_ASSEMBLY = registerCircuit("cosmic_assembly", "寰宇处理器集群", CustomTags.UIV_CIRCUITS);
-    ItemEntry<Item> COSMIC_COMPUTER = registerCircuit("cosmic_computer", "寰宇处理器超级计算机", CustomTags.UXV_CIRCUITS);
-    ItemEntry<Item> COSMIC_MAINFRAME = registerCircuit("cosmic_mainframe", "寰宇处理器主机", CustomTags.OpV_CIRCUITS);
+    ItemEntry<ToolTipsItem> COSMIC_PROCESSOR = registerCircuit("cosmic_processor", "寰宇处理器", CustomTags.UEV_CIRCUITS, () -> StringUtils.dark_purplish_red(I18n.get("gtocore.tooltip.item.tier_circuit", "UEV")));
+    ItemEntry<ToolTipsItem> COSMIC_ASSEMBLY = registerCircuit("cosmic_assembly", "寰宇处理器集群", CustomTags.UIV_CIRCUITS, () -> StringUtils.dark_purplish_red(I18n.get("gtocore.tooltip.item.tier_circuit", "UIV")));
+    ItemEntry<ToolTipsItem> COSMIC_COMPUTER = registerCircuit("cosmic_computer", "寰宇处理器超级计算机", CustomTags.UXV_CIRCUITS, () -> StringUtils.dark_purplish_red(I18n.get("gtocore.tooltip.item.tier_circuit", "UXV")));
+    ItemEntry<ToolTipsItem> COSMIC_MAINFRAME = registerCircuit("cosmic_mainframe", "寰宇处理器主机", CustomTags.OpV_CIRCUITS, () -> StringUtils.dark_purplish_red(I18n.get("gtocore.tooltip.item.tier_circuit", "OpV")));
 
-    ItemEntry<Item> SUPRACAUSAL_PROCESSOR = registerCircuit("supracausal_processor", "超因果处理器", CustomTags.UIV_CIRCUITS);
-    ItemEntry<Item> SUPRACAUSAL_ASSEMBLY = registerCircuit("supracausal_assembly", "超因果处理器集群", CustomTags.UXV_CIRCUITS);
-    ItemEntry<Item> SUPRACAUSAL_COMPUTER = registerCircuit("supracausal_computer", "超因果处理器超级计算机", CustomTags.OpV_CIRCUITS);
-    ItemEntry<Item> SUPRACAUSAL_MAINFRAME = registerCircuit("supracausal_mainframe", "超因果处理器主机", CustomTags.MAX_CIRCUITS);
+    ItemEntry<ToolTipsItem> SUPRACAUSAL_PROCESSOR = registerCircuit("supracausal_processor", "超因果处理器", CustomTags.UIV_CIRCUITS, () -> StringUtils.full_color(I18n.get("gtocore.tooltip.item.tier_circuit", "UIV")));
+    ItemEntry<ToolTipsItem> SUPRACAUSAL_ASSEMBLY = registerCircuit("supracausal_assembly", "超因果处理器集群", CustomTags.UXV_CIRCUITS, () -> StringUtils.full_color(I18n.get("gtocore.tooltip.item.tier_circuit", "UXV")));
+    ItemEntry<ToolTipsItem> SUPRACAUSAL_COMPUTER = registerCircuit("supracausal_computer", "超因果处理器超级计算机", CustomTags.OpV_CIRCUITS, () -> StringUtils.full_color(I18n.get("gtocore.tooltip.item.tier_circuit", "OpV")));
+    ItemEntry<ToolTipsItem> SUPRACAUSAL_MAINFRAME = registerCircuit("supracausal_mainframe", "超因果处理器主机", CustomTags.MAX_CIRCUITS, () -> StringUtils.full_color(I18n.get("gtocore.tooltip.item.tier_circuit", "MAX")));
 
-    ItemEntry<Item>[] SUPRACHRONAL_CIRCUIT = registerCircuits("suprachronal_circuit", "超时空电路", GTValues.VOLTAGE_NAMES, GTOValues.VOLTAGE_NAMESCN, GTValues.tiersBetween(GTValues.ULV, GTValues.MAX));
+    ItemEntry<ToolTipsItem>[] SUPRACHRONAL_CIRCUIT = registerCircuits("suprachronal_circuit", "超时空电路", GTValues.tiersBetween(GTValues.ULV, GTValues.MAX), tier -> Component.literal(StringUtils.white_blue(I18n.get("gtocore.tooltip.item.tier_circuit", GTValues.VN[tier]).toString())));
 
-    ItemEntry<Item>[] MAGNETO_RESONATIC_CIRCUIT = registerCircuits("magneto_resonatic_circuit", "磁共振电路", GTValues.VOLTAGE_NAMES, GTOValues.VOLTAGE_NAMESCN, GTValues.tiersBetween(GTValues.ULV, GTValues.UIV));
+    ItemEntry<ToolTipsItem>[] MAGNETO_RESONATIC_CIRCUIT = registerCircuits("magneto_resonatic_circuit", "磁共振电路", GTValues.tiersBetween(GTValues.ULV, GTValues.UIV), tier -> Component.translatable("gtocore.tooltip.item.tier_circuit", GTValues.VN[tier]).withStyle(ChatFormatting.LIGHT_PURPLE));
 
-    ItemEntry<Item>[] UNIVERSAL_CIRCUIT = registerCircuits("universal_circuit", "通用电路", GTValues.VN, GTValues.VN, GTValues.tiersBetween(GTValues.ULV, GTValues.MAX));
+    ItemEntry<ToolTipsItem>[] UNIVERSAL_CIRCUIT = registerCircuits("universal_circuit", "通用电路", GTValues.tiersBetween(GTValues.ULV, GTValues.MAX), tier -> Component.translatable("gtocore.tooltip.item.tier_circuit", GTValues.VN[tier]).withStyle(ChatFormatting.AQUA));
 
     ItemEntry<Item> BIOWARE_CIRCUIT_BOARD = register("bioware_circuit_board", "生物电路基板");
     ItemEntry<Item> BIOWARE_PRINTED_CIRCUIT_BOARD = register("bioware_printed_circuit_board", "生物印刷电路基板");
@@ -621,8 +622,8 @@ public interface GTOItems {
     ItemEntry<Item> HYPERCUBE = register("hypercube", "超立方体");
     ItemEntry<Item> ANNIHILATION_CONSTRAINER = register("annihilation_constrainer", "湮灭约束器");
     ItemEntry<Item> SOLAR_LIGHT_SPLITTER = register("solar_light_splitter", "阳光分离器");
-    ItemEntry<Item> CREATE_ULTIMATE_BATTERY = register("create_ultimate_battery", "创造电池");
-    ItemEntry<Item> SUPRACHRONAL_MAINFRAME_COMPLEX = register("suprachronal_mainframe_complex", "创造主机");
+    ItemEntry<ToolTipsItem> CREATE_ULTIMATE_BATTERY = registerTooltip("create_ultimate_battery", "创造电池", () -> Component.literal(I18n.get("tooltip.avaritia.tier", "-" + StringUtils.white_blue(I18n.get("gtocore.tooltip.unknown")))).withStyle(ChatFormatting.GREEN));
+    ItemEntry<ToolTipsItem> SUPRACHRONAL_MAINFRAME_COMPLEX = registerTooltip("suprachronal_mainframe_complex", "创造主机", () -> Component.literal(I18n.get("tooltip.avaritia.tier", "-" + StringUtils.white_blue(I18n.get("gtocore.tooltip.unknown")))).withStyle(ChatFormatting.GREEN));
     ItemEntry<Item> ZERO_POINT_MODULE_FRAGMENTS = register("zero_point_module_fragments", "零点模块碎片");
     ItemEntry<Item> TCETIESEAWEEDEXTRACT = register("tcetieseaweedextract", "鲸鱼座T星E藻类提取物");
     ItemEntry<Item> TCETIEDANDELIONS = register("tcetiedandelions", "鲸鱼座T星E藻类");

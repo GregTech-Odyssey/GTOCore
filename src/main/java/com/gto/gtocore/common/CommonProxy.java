@@ -15,7 +15,6 @@ import com.gregtechceu.gtceu.api.GTCEuAPI;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.chemical.material.event.MaterialEvent;
 import com.gregtechceu.gtceu.api.data.chemical.material.event.MaterialRegistryEvent;
-import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.recipe.condition.RecipeConditionType;
 import com.gregtechceu.gtceu.common.machine.multiblock.electric.FusionReactorMachine;
 import com.gregtechceu.gtceu.common.unification.material.MaterialRegistryManager;
@@ -44,7 +43,6 @@ public class CommonProxy {
         eventBus.addListener(CommonProxy::addMaterials);
         eventBus.addListener(CommonProxy::registerMaterialRegistry);
         eventBus.addGenericListener(RecipeConditionType.class, CommonProxy::registerRecipeConditions);
-        eventBus.addGenericListener(GTRecipeType.class, CommonProxy::registerRecipeTypes);
         MinecraftForge.EVENT_BUS.register(ForgeCommonEvent.class);
     }
 
@@ -91,10 +89,6 @@ public class CommonProxy {
 
     private static void registerMaterialRegistry(MaterialRegistryEvent event) {
         MaterialRegistryManager.getInstance().createRegistry(GTOCore.MOD_ID);
-    }
-
-    private static void registerRecipeTypes(GTCEuAPI.RegisterEvent<ResourceLocation, GTRecipeType> event) {
-        GTORecipeTypes.init();
     }
 
     private static void registerRecipeConditions(GTCEuAPI.RegisterEvent<ResourceLocation, RecipeConditionType<?>> event) {

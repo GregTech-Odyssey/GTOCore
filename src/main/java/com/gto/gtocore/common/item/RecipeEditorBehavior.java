@@ -4,7 +4,6 @@ import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.api.GTOValues;
 import com.gto.gtocore.api.machine.DummyMachine;
 import com.gto.gtocore.api.machine.GTOCleanroomType;
-import com.gto.gtocore.client.Tooltips;
 import com.gto.gtocore.common.data.GTOItems;
 import com.gto.gtocore.common.data.GTORecipeTypes;
 import com.gto.gtocore.common.recipe.condition.GravityCondition;
@@ -602,7 +601,7 @@ public final class RecipeEditorBehavior implements IItemUIFactory, IFancyUIProvi
     }
 
     private static String getItemId(Item item) {
-        if (Tooltips.universalCircuitSet.contains(item)) {
+        if (ItemMap.UNIVERSAL_CIRCUITS.contains(item)) {
             for (int tier : GTMachineUtils.ALL_TIERS) {
                 if (GTOItems.UNIVERSAL_CIRCUIT[tier].is(item)) {
                     return "#gtceu:circuits/" + GTValues.VN[tier].toLowerCase();

@@ -1,18 +1,15 @@
 package com.gto.gtocore.client.forge;
 
+import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.api.item.MultiStepItemHelper;
 import com.gto.gtocore.client.Tooltips;
-import com.gto.gtocore.common.data.GTOItems;
 import com.gto.gtocore.common.item.StructureDetectBehavior;
 import com.gto.gtocore.common.item.StructureWriteBehavior;
 import com.gto.gtocore.data.lang.LangHandler;
 import com.gto.gtocore.utils.ItemUtils;
-import com.gto.gtocore.utils.StringUtils;
 
 import com.gregtechceu.gtceu.api.GTValues;
-import com.gregtechceu.gtceu.common.data.machines.GTMachineUtils;
 
-import net.minecraft.ChatFormatting;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -37,8 +34,6 @@ import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 
-import java.util.function.Supplier;
-
 @OnlyIn(Dist.CLIENT)
 public final class ForgeClientEvent {
 
@@ -46,11 +41,21 @@ public final class ForgeClientEvent {
     public static int highlightingRadius;
     public static BlockPos highlightingPos;
 
+    private static final String ITEM_PREFIX = "item." + GTOCore.MOD_ID;
+    private static final String BLOCK_PREFIX = "block." + GTOCore.MOD_ID;
+
     @SubscribeEvent
     public static void onTooltipEvent(ItemTooltipEvent event) {
         Player player = event.getEntity();
         if (player == null) return;
         ItemStack stack = event.getItemStack();
+        String translationKey = stack.getDescriptionId();
+        if (translationKey.startsWith(ITEM_PREFIX) || translationKey.startsWith(BLOCK_PREFIX)) {
+            String tooltipKey = translationKey + ".tooltip";
+            if (I18n.exists(tooltipKey)) {
+                event.getToolTip().add(1, Component.translatable(tooltipKey));
+            }
+        }
         int maxStep = MultiStepItemHelper.getMaxStep(stack);
         if (maxStep > 0) {
             event.getToolTip().add(Component.translatable("gtocore.tooltip.item.craft_step", MultiStepItemHelper.getStep(stack) + " / " + maxStep));
@@ -60,27 +65,6 @@ public final class ForgeClientEvent {
         if (lang != null) {
             for (int i = 0; i < lang.length(); i++) {
                 event.getToolTip().add(Component.translatable("gtocore.tooltip.item." + ItemUtils.getIdLocation(item).getPath() + "." + i));
-            }
-            Supplier<String> supplier = Tooltips.FLICKER_TOOL_TIPS_MAP.get(item);
-            if (supplier != null) {
-                event.getToolTip().add(Component.literal(supplier.get()));
-            }
-        } else if (Tooltips.suprachronalCircuitSet.contains(item)) {
-            for (int tier : GTMachineUtils.ALL_TIERS) {
-                if (GTOItems.SUPRACHRONAL_CIRCUIT[tier].is(item)) {
-                    event.getToolTip().add(Component.translatable("gtocore.tooltip.item.suprachronal_circuit").withStyle(ChatFormatting.GRAY));
-                    event.getToolTip().add(Component.literal(StringUtils.white_blue(I18n.get("gtocore.tooltip.item.tier_circuit", GTValues.VN[tier]))));
-                    return;
-                }
-            }
-        } else if (Tooltips.magnetoresonaticcircuitSet.contains(item)) {
-            for (int tier : GTMachineUtils.ALL_TIERS) {
-                if (tier > GTValues.UIV) return;
-                if (GTOItems.MAGNETO_RESONATIC_CIRCUIT[tier].is(item)) {
-                    event.getToolTip().add(Component.translatable("gtocore.tooltip.item.magneto_resonatic_circuit").withStyle(ChatFormatting.GRAY));
-                    event.getToolTip().add(Component.translatable("gtocore.tooltip.item.tier_circuit", GTValues.VN[tier]).withStyle(ChatFormatting.LIGHT_PURPLE));
-                    return;
-                }
             }
         } else {
             String[] tooltips = Tooltips.TOOL_TIPS_KEY_MAP.get(item);

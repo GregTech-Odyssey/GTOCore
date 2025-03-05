@@ -65,7 +65,7 @@ public final class GTORecipes implements Runnable {
 
     public static ImmutableSet<EmiRecipe> EMI_RECIPES;
 
-    public static Map<String, GTRecipe> GT_RECIPE_MAP = new Object2ObjectOpenHashMap<>(5000);
+    public static Map<ResourceLocation, GTRecipe> GT_RECIPE_MAP = new Object2ObjectOpenHashMap<>(5000);
 
     public static Set<ResourceLocation> GT_FILTER_RECIPES;
 

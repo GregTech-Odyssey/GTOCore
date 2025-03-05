@@ -31,7 +31,6 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LightningBolt;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.material.Fluids;
 
 import committee.nova.mods.avaritia.init.registry.ModBlocks;
 
@@ -1202,7 +1201,7 @@ public interface MultiBlockB {
                             .or(abilities(INPUT_LASER).setMaxGlobalLimited(1))
                             .or(abilities(INPUT_ENERGY).setMaxGlobalLimited(2)))
                     .where('F', blocks(GTOBlocks.CHEMICAL_GRADE_GLASS.get()))
-                    .where('G', fluids(Fluids.WATER))
+                    .where('G', air())
                     .where('A', blocks(GTOBlocks.HIGH_STRENGTH_CONCRETE.get()))
                     .where('E', blocks(GTOBlocks.REINFORCED_STERILE_WATER_PLANT_CASING.get()))
                     .where(' ', any())
@@ -1306,7 +1305,7 @@ public interface MultiBlockB {
                             .or(abilities(EXPORT_FLUIDS).setMaxGlobalLimited(2).setPreviewCount(1)))
                     .where('H', blocks(GTOBlocks.REINFORCED_STERILE_WATER_PLANT_CASING.get()))
                     .where('F', blocks(GTOBlocks.CHEMICAL_GRADE_GLASS.get()))
-                    .where('D', fluids(Fluids.WATER))
+                    .where('D', air())
                     .where('E', blocks(GTBlocks.FILTER_CASING.get()))
                     .where('G', frames(GTMaterials.StainlessSteel))
                     .where('C', blocks(GTOBlocks.FLOCCULATION_CASING.get()))

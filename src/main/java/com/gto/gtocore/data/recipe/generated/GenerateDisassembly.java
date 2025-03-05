@@ -1,6 +1,7 @@
 package com.gto.gtocore.data.recipe.generated;
 
 import com.gto.gtocore.GTOCore;
+import com.gto.gtocore.api.recipe.GTORecipeBuilder;
 import com.gto.gtocore.common.data.GTORecipeTypes;
 import com.gto.gtocore.common.data.GTORecipes;
 import com.gto.gtocore.utils.ItemUtils;
@@ -30,9 +31,9 @@ import static com.gto.gtocore.common.data.GTORecipeTypes.DISASSEMBLY_RECIPES;
 
 public interface GenerateDisassembly {
 
-    Set<String> DISASSEMBLY_RECORD = new ObjectOpenHashSet<>();
+    Set<ResourceLocation> DISASSEMBLY_RECORD = new ObjectOpenHashSet<>();
 
-    Set<String> DISASSEMBLY_BLACKLIST = new ObjectOpenHashSet<>();
+    Set<ResourceLocation> DISASSEMBLY_BLACKLIST = new ObjectOpenHashSet<>();
 
     String[] outputItem = { "_frame", "_fence", "_electric_motor",
             "_electric_pump", "_conveyor_module", "_electric_piston", "_robot_arm", "_field_generator",
@@ -56,14 +57,14 @@ public interface GenerateDisassembly {
         Ingredient output = ItemRecipeCapability.CAP.of(c.get(0).getContent());
         if (output.isEmpty()) return;
         ResourceLocation id = ItemUtils.getIdLocation(ItemUtils.getFirst(output).getItem());
-        String name = id.toString();
-        if (DISASSEMBLY_BLACKLIST.contains(name)) return;
+        if (DISASSEMBLY_BLACKLIST.contains(id)) return;
         boolean cal = recipeBuilder.recipeType == GTORecipeTypes.CIRCUIT_ASSEMBLY_LINE_RECIPES;
-        if (cal && GTORecipes.GT_RECIPE_MAP.containsKey(name)) return;
-        if (isExcludeItems(name)) return;
-        if (!cal && DISASSEMBLY_RECORD.remove(name)) {
-            DISASSEMBLY_BLACKLIST.add(name);
-            GTORecipes.GT_RECIPE_MAP.remove(id.getNamespace() + ":" + DISASSEMBLY_RECIPES.registryName.getPath() + "/" + id.getPath());
+        ResourceLocation typeid = GTORecipeBuilder.getTypeID(id, DISASSEMBLY_RECIPES);
+        if (cal && GTORecipes.GT_RECIPE_MAP.containsKey(typeid)) return;
+        if (isExcludeItems(id.toString())) return;
+        if (!cal && DISASSEMBLY_RECORD.remove(id)) {
+            DISASSEMBLY_BLACKLIST.add(id);
+            GTORecipes.GT_RECIPE_MAP.remove(typeid);
         } else {
             GTRecipeBuilder builder = DISASSEMBLY_RECIPES.recipeBuilder(id)
                     .inputItems(SizedIngredient.copy(output))
@@ -106,6 +107,6 @@ public interface GenerateDisassembly {
             }
             if (hasOutput) builder.save(consumer);
         }
-        DISASSEMBLY_RECORD.add(name);
+        DISASSEMBLY_RECORD.add(id);
     }
 }
