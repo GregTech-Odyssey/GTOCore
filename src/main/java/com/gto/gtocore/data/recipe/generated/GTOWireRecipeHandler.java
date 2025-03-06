@@ -3,7 +3,6 @@ package com.gto.gtocore.data.recipe.generated;
 import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.api.recipe.GTORecipeBuilder;
 import com.gto.gtocore.common.data.GTOItems;
-import com.gto.gtocore.common.data.GTORecipeTypes;
 import com.gto.gtocore.utils.GTOUtils;
 
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
@@ -27,6 +26,7 @@ import java.util.function.Consumer;
 import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
+import static com.gto.gtocore.common.data.GTORecipeTypes.*;
 
 interface GTOWireRecipeHandler {
 
@@ -58,7 +58,7 @@ interface GTOWireRecipeHandler {
         TagPrefix prefix = material.hasProperty(PropertyKey.INGOT) ? ingot :
                 material.hasProperty(PropertyKey.GEM) ? gem : dust;
         int mass = (int) material.getMass();
-        GTORecipeTypes.WIREMILL_RECIPES.recipeBuilder(GTOCore.id("mill_" + material.getName() + "_wire"))
+        WIREMILL_RECIPES.recipeBuilder(GTOCore.id("mill_" + material.getName() + "_wire"))
                 .inputItems(prefix, material)
                 .outputItems(wireGtSingle, material, 2)
                 .duration(mass)
@@ -87,7 +87,7 @@ interface GTOWireRecipeHandler {
         }
 
         if (voltageTier < IV) {
-            GTORecipeBuilder builder = GTORecipeTypes.LAMINATOR_RECIPES
+            GTORecipeBuilder builder = LAMINATOR_RECIPES
                     .recipeBuilder(GTOCore.id("cover_" + material.getName() + "_" + wirePrefix.name().toLowerCase() + "_rubber"))
                     .EUt(VA[ULV]).duration(100)
                     .inputItems(wirePrefix, material)
@@ -99,7 +99,7 @@ interface GTOWireRecipeHandler {
             }
             builder.save();
         } else if (voltageTier < UHV) {
-            GTORecipeBuilder builder = GTORecipeTypes.LAMINATOR_RECIPES
+            GTORecipeBuilder builder = LAMINATOR_RECIPES
                     .recipeBuilder(GTOCore.id("cover_" + material.getName() + "_" + wirePrefix.name().toLowerCase() + "_silicone"))
                     .EUt(VA[ULV]).duration(100)
                     .inputItems(wirePrefix, material)
@@ -114,7 +114,7 @@ interface GTOWireRecipeHandler {
             builder.inputFluids(SiliconeRubber.getFluid(L * insulationAmount))
                     .save();
         } else {
-            GTORecipeBuilder builder = GTORecipeTypes.LAMINATOR_RECIPES
+            GTORecipeBuilder builder = LAMINATOR_RECIPES
                     .recipeBuilder(GTOCore.id("cover_" + material.getName() + "_" + wirePrefix.name().toLowerCase() + "_styrene_butadiene"))
                     .EUt(VA[ULV]).duration(100)
                     .inputItems(wirePrefix, material)
@@ -143,7 +143,7 @@ interface GTOWireRecipeHandler {
                     ChemicalHelper.get(cablePrefix, material),
                     ingredients);
         }
-        GTORecipeTypes.PACKER_RECIPES.recipeBuilder(GTOCore.id("cover_" + material.getName() + "_" + wirePrefix.name().toLowerCase()))
+        PACKER_RECIPES.recipeBuilder(GTOCore.id("cover_" + material.getName() + "_" + wirePrefix.name().toLowerCase()))
                 .inputItems(wirePrefix, material)
                 .inputItems(plate, Rubber, insulationAmount)
                 .outputItems(cablePrefix, material)

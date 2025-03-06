@@ -6,7 +6,6 @@ import com.gto.gtocore.api.machine.GTOCleanroomType;
 import com.gto.gtocore.common.data.GTOBlocks;
 import com.gto.gtocore.common.data.GTOItems;
 import com.gto.gtocore.common.data.GTOMaterials;
-import com.gto.gtocore.common.data.GTORecipeTypes;
 import com.gto.gtocore.common.recipe.condition.GravityCondition;
 import com.gto.gtocore.common.recipe.condition.VacuumCondition;
 
@@ -21,17 +20,19 @@ import net.minecraft.world.level.block.Blocks;
 import com.enderio.base.common.init.EIOItems;
 import committee.nova.mods.avaritia.init.registry.ModItems;
 
+import static com.gto.gtocore.common.data.GTORecipeTypes.AUTOCLAVE_RECIPES;
+
 interface Autoclave {
 
     static void init() {
-        GTORecipeTypes.AUTOCLAVE_RECIPES.recipeBuilder(GTOCore.id("sterilized_petri_dish"))
+        AUTOCLAVE_RECIPES.recipeBuilder(GTOCore.id("sterilized_petri_dish"))
                 .inputItems(GTItems.PETRI_DISH)
                 .inputFluids(GTOMaterials.AbsoluteEthanol.getFluid(100))
                 .outputItems(GTOItems.STERILIZED_PETRI_DISH)
                 .cleanroom(CleanroomType.STERILE_CLEANROOM)
                 .duration(25).EUt(7680).save();
 
-        GTORecipeTypes.AUTOCLAVE_RECIPES.recipeBuilder(GTOCore.id("spacetime_catalyst"))
+        AUTOCLAVE_RECIPES.recipeBuilder(GTOCore.id("spacetime_catalyst"))
                 .inputItems(ModItems.infinity_catalyst.get())
                 .inputFluids(GTOMaterials.SpaceTime.getFluid(1000))
                 .outputItems(GTOItems.SPACETIME_CATALYST.asStack())
@@ -39,7 +40,7 @@ interface Autoclave {
                 .duration(1200)
                 .save();
 
-        GTORecipeTypes.AUTOCLAVE_RECIPES.recipeBuilder(GTOCore.id("dry_graphene_gel_dust"))
+        AUTOCLAVE_RECIPES.recipeBuilder(GTOCore.id("dry_graphene_gel_dust"))
                 .inputItems(TagPrefix.dust, GTOMaterials.GrapheneGelSuspension)
                 .inputFluids(GTMaterials.Acetone.getFluid(1000))
                 .outputItems(TagPrefix.dust, GTOMaterials.DryGrapheneGel)
@@ -47,7 +48,7 @@ interface Autoclave {
                 .duration(260)
                 .save();
 
-        GTORecipeTypes.AUTOCLAVE_RECIPES.recipeBuilder(GTOCore.id("periodically_poled_lithium_niobate_boule"))
+        AUTOCLAVE_RECIPES.recipeBuilder(GTOCore.id("periodically_poled_lithium_niobate_boule"))
                 .notConsumable(GTOItems.ELECTRON_SOURCE.asStack())
                 .inputItems(TagPrefix.dust, GTOMaterials.LithiumNiobateNanoparticles, 2)
                 .inputFluids(GTMaterials.Xenon.getFluid(1000))
@@ -57,7 +58,7 @@ interface Autoclave {
                 .cleanroom(CleanroomType.CLEANROOM)
                 .save();
 
-        GTORecipeTypes.AUTOCLAVE_RECIPES.recipeBuilder(GTOCore.id("soul_soil"))
+        AUTOCLAVE_RECIPES.recipeBuilder(GTOCore.id("soul_soil"))
                 .inputItems(EIOItems.FILLED_SOUL_VIAL.asStack())
                 .inputItems(new ItemStack(Blocks.ROOTED_DIRT.asItem()))
                 .inputFluids(GTMaterials.LiquidNetherAir.getFluid(100))
@@ -67,7 +68,7 @@ interface Autoclave {
                 .duration(240)
                 .save();
 
-        GTORecipeTypes.AUTOCLAVE_RECIPES.recipeBuilder(GTOCore.id("ender_crystal"))
+        AUTOCLAVE_RECIPES.recipeBuilder(GTOCore.id("ender_crystal"))
                 .inputItems(EIOItems.VIBRANT_CRYSTAL.asStack())
                 .inputFluids(GTOMaterials.Enderium.getFluid(8))
                 .outputItems(EIOItems.ENDER_CRYSTAL.asStack())
@@ -76,7 +77,7 @@ interface Autoclave {
                 .addCondition(new VacuumCondition(4))
                 .save();
 
-        GTORecipeTypes.AUTOCLAVE_RECIPES.recipeBuilder(GTOCore.id("hassium_seed_crystal"))
+        AUTOCLAVE_RECIPES.recipeBuilder(GTOCore.id("hassium_seed_crystal"))
                 .inputItems(TagPrefix.dustTiny, GTMaterials.Hassium)
                 .inputFluids(GTMaterials.Nitrogen.getFluid(10000))
                 .outputItems(GTOItems.HASSIUM_SEED_CRYSTAL.asStack())
@@ -85,7 +86,7 @@ interface Autoclave {
                 .cleanroom(CleanroomType.CLEANROOM)
                 .save();
 
-        GTORecipeTypes.AUTOCLAVE_RECIPES.recipeBuilder(GTOCore.id("unstable_star"))
+        AUTOCLAVE_RECIPES.recipeBuilder(GTOCore.id("unstable_star"))
                 .inputItems(GTOTagPrefix.nanites, GTOMaterials.Orichalcum)
                 .inputItems(GTItems.GRAVI_STAR.asStack())
                 .inputFluids(GTOMaterials.Adamantine.getFluid(288))
@@ -96,7 +97,7 @@ interface Autoclave {
                 .addCondition(new GravityCondition(true))
                 .save();
 
-        GTORecipeTypes.AUTOCLAVE_RECIPES.recipeBuilder(GTOCore.id("nuclear_star"))
+        AUTOCLAVE_RECIPES.recipeBuilder(GTOCore.id("nuclear_star"))
                 .inputItems(GTOTagPrefix.nanites, GTOMaterials.CosmicNeutronium)
                 .inputItems(GTOItems.UNSTABLE_STAR.asStack())
                 .inputFluids(GTOMaterials.Infinity.getFluid(288))
@@ -107,7 +108,7 @@ interface Autoclave {
                 .addCondition(new GravityCondition(true))
                 .save();
 
-        GTORecipeTypes.AUTOCLAVE_RECIPES.recipeBuilder(GTOCore.id("super_mutated_living_solder"))
+        AUTOCLAVE_RECIPES.recipeBuilder(GTOCore.id("super_mutated_living_solder"))
                 .inputItems(GTOItems.SPACE_ESSENCE.asStack(64))
                 .inputItems(GTOItems.DRACONIUM_DIRT.asStack(64))
                 .inputFluids(GTOMaterials.MutatedLivingSolder.getFluid(10000))
@@ -117,7 +118,7 @@ interface Autoclave {
                 .duration(2400)
                 .save();
 
-        GTORecipeTypes.AUTOCLAVE_RECIPES.recipeBuilder(GTOCore.id("contained_kerr_singularity"))
+        AUTOCLAVE_RECIPES.recipeBuilder(GTOCore.id("contained_kerr_singularity"))
                 .notConsumable(GTOTagPrefix.nanites, GTOMaterials.Vibranium)
                 .inputItems(GTOItems.CONTAINED_KERR_NEWMANN_SINGULARITY.asStack())
                 .inputFluids(GTOMaterials.FreeElectronGas.getFluid(1000))
@@ -127,7 +128,7 @@ interface Autoclave {
                 .cleanroom(CleanroomType.CLEANROOM)
                 .save();
 
-        GTORecipeTypes.AUTOCLAVE_RECIPES.recipeBuilder(GTOCore.id("draconium_dust"))
+        AUTOCLAVE_RECIPES.recipeBuilder(GTOCore.id("draconium_dust"))
                 .notConsumable(GTOTagPrefix.nanites, GTOMaterials.Enderium, 64)
                 .inputItems(GTOItems.DRACONIUM_DIRT.asStack())
                 .inputFluids(GTOMaterials.DragonElement.getFluid(1000))
@@ -137,7 +138,7 @@ interface Autoclave {
                 .cleanroom(GTOCleanroomType.LAW_CLEANROOM)
                 .save();
 
-        GTORecipeTypes.AUTOCLAVE_RECIPES.recipeBuilder(GTOCore.id("prescient_crystal"))
+        AUTOCLAVE_RECIPES.recipeBuilder(GTOCore.id("prescient_crystal"))
                 .inputItems(EIOItems.VIBRANT_CRYSTAL.asStack())
                 .inputFluids(GTOMaterials.Mithril.getFluid(8))
                 .outputItems(EIOItems.PRESCIENT_CRYSTAL.asStack())
@@ -146,7 +147,7 @@ interface Autoclave {
                 .addCondition(new VacuumCondition(4))
                 .save();
 
-        GTORecipeTypes.AUTOCLAVE_RECIPES.recipeBuilder(GTOCore.id("vibrant_crystal"))
+        AUTOCLAVE_RECIPES.recipeBuilder(GTOCore.id("vibrant_crystal"))
                 .inputItems(TagPrefix.gem, GTMaterials.Emerald)
                 .inputFluids(GTOMaterials.PulsatingAlloy.getFluid(72))
                 .outputItems(EIOItems.VIBRANT_CRYSTAL.asStack())
@@ -155,7 +156,7 @@ interface Autoclave {
                 .addCondition(new VacuumCondition(2))
                 .save();
 
-        GTORecipeTypes.AUTOCLAVE_RECIPES.recipeBuilder(GTOCore.id("imprinted_resonatic_circuit_board"))
+        AUTOCLAVE_RECIPES.recipeBuilder(GTOCore.id("imprinted_resonatic_circuit_board"))
                 .inputItems(GTOItems.RAW_IMPRINTED_RESONATIC_CIRCUIT_BOARD.asStack())
                 .inputFluids(GTMaterials.SolderingAlloy.getFluid(432))
                 .outputItems(GTOItems.IMPRINTED_RESONATIC_CIRCUIT_BOARD.asStack())
@@ -164,7 +165,7 @@ interface Autoclave {
                 .cleanroom(CleanroomType.CLEANROOM)
                 .save();
 
-        GTORecipeTypes.AUTOCLAVE_RECIPES.recipeBuilder(GTOCore.id("pulsating_crystal"))
+        AUTOCLAVE_RECIPES.recipeBuilder(GTOCore.id("pulsating_crystal"))
                 .inputItems(TagPrefix.gem, GTMaterials.Diamond)
                 .inputFluids(GTOMaterials.PulsatingAlloy.getFluid(72))
                 .outputItems(EIOItems.PULSATING_CRYSTAL.asStack())

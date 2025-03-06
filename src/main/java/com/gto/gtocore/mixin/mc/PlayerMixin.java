@@ -2,9 +2,9 @@ package com.gto.gtocore.mixin.mc;
 
 import com.gto.gtocore.api.data.GTODimensions;
 import com.gto.gtocore.api.entity.IEnhancedPlayer;
+import com.gto.gtocore.api.misc.PlanetManagement;
 import com.gto.gtocore.client.ClientCache;
 import com.gto.gtocore.common.network.ServerMessage;
-import com.gto.gtocore.common.saved.PlanetsTravelSavaedData;
 import com.gto.gtocore.utils.ServerUtils;
 
 import net.minecraft.nbt.CompoundTag;
@@ -122,7 +122,7 @@ public abstract class PlayerMixin extends LivingEntity implements IEnhancedPlaye
                     gTOCore$discard(server);
                 }
             } else if ((Object) this instanceof ServerPlayer serverPlayer) {
-                if (GTODimensions.ALL_PLANET.containsKey(level.dimension().location()) && !PlanetsTravelSavaedData.isUnlocked(serverPlayer, level.dimension().location())) {
+                if (GTODimensions.ALL_PLANET.containsKey(level.dimension().location()) && !PlanetManagement.isUnlocked(serverPlayer, level.dimension().location())) {
                     serverPlayer.displayClientMessage(Component.translatable("gtocore.ununlocked"), false);
                     gTOCore$discard(server);
                 }

@@ -5,7 +5,6 @@ import com.gto.gtocore.api.data.tag.GTOTagPrefix;
 import com.gto.gtocore.common.data.GTOBlocks;
 import com.gto.gtocore.common.data.GTOItems;
 import com.gto.gtocore.common.data.GTOMaterials;
-import com.gto.gtocore.common.data.GTORecipeTypes;
 
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
@@ -15,10 +14,12 @@ import com.gregtechceu.gtceu.common.data.GTMaterials;
 import committee.nova.mods.avaritia.init.registry.ModBlocks;
 import committee.nova.mods.avaritia.init.registry.ModItems;
 
+import static com.gto.gtocore.common.data.GTORecipeTypes.DIMENSIONALLY_TRANSCENDENT_PLASMA_FORGE_RECIPES;
+
 interface DimensionallytranscendentPlasmaForge {
 
     static void init() {
-        GTORecipeTypes.DIMENSIONALLY_TRANSCENDENT_PLASMA_FORGE_RECIPES.recipeBuilder(GTOCore.id("spacetime_ingot"))
+        DIMENSIONALLY_TRANSCENDENT_PLASMA_FORGE_RECIPES.recipeBuilder(GTOCore.id("spacetime_ingot"))
                 .notConsumable(GTOItems.INGOT_FIELD_SHAPE.asStack(64))
                 .notConsumable(GTOBlocks.SPACETIMEBENDINGCORE.asStack(64))
                 .inputFluids(GTOMaterials.SpaceTime.getFluid(1000))
@@ -30,7 +31,7 @@ interface DimensionallytranscendentPlasmaForge {
                 .blastFurnaceTemp(62000)
                 .save();
 
-        GTORecipeTypes.DIMENSIONALLY_TRANSCENDENT_PLASMA_FORGE_RECIPES.recipeBuilder(GTOCore.id("hypercube_1"))
+        DIMENSIONALLY_TRANSCENDENT_PLASMA_FORGE_RECIPES.recipeBuilder(GTOCore.id("hypercube_1"))
                 .inputItems(TagPrefix.rod, GTOMaterials.TranscendentMetal, 16)
                 .inputItems(GTOItems.QUANTUM_ANOMALY.asStack())
                 .inputFluids(GTOMaterials.ExcitedDtec.getFluid(1000))
@@ -42,7 +43,7 @@ interface DimensionallytranscendentPlasmaForge {
                 .blastFurnaceTemp(62000)
                 .save();
 
-        GTORecipeTypes.DIMENSIONALLY_TRANSCENDENT_PLASMA_FORGE_RECIPES.recipeBuilder(GTOCore.id("hypercube"))
+        DIMENSIONALLY_TRANSCENDENT_PLASMA_FORGE_RECIPES.recipeBuilder(GTOCore.id("hypercube"))
                 .inputItems(TagPrefix.rod, GTOMaterials.CosmicNeutronium, 12)
                 .inputItems(TagPrefix.rod, GTOMaterials.CelestialTungsten, 24)
                 .inputFluids(GTOMaterials.ExcitedDtec.getFluid(1000))
@@ -53,7 +54,7 @@ interface DimensionallytranscendentPlasmaForge {
                 .blastFurnaceTemp(30000)
                 .save();
 
-        GTORecipeTypes.DIMENSIONALLY_TRANSCENDENT_PLASMA_FORGE_RECIPES.recipeBuilder(GTOCore.id("rhugnor"))
+        DIMENSIONALLY_TRANSCENDENT_PLASMA_FORGE_RECIPES.recipeBuilder(GTOCore.id("rhugnor"))
                 .notConsumable(ModItems.infinity_catalyst.get())
                 .inputItems(GTItems.ENERGIUM_CRYSTAL.asStack(64))
                 .inputFluids(GTOMaterials.Infinity.getFluid(10000))
@@ -65,7 +66,7 @@ interface DimensionallytranscendentPlasmaForge {
                 .blastFurnaceTemp(36000)
                 .save();
 
-        GTORecipeTypes.DIMENSIONALLY_TRANSCENDENT_PLASMA_FORGE_RECIPES.recipeBuilder(GTOCore.id("crystal_matrix_plasma"))
+        DIMENSIONALLY_TRANSCENDENT_PLASMA_FORGE_RECIPES.recipeBuilder(GTOCore.id("crystal_matrix_plasma"))
                 .notConsumable(ModItems.infinity_catalyst.get())
                 .inputItems(ModBlocks.crystal_matrix.get().asItem())
                 .inputFluids(GTMaterials.UUMatter.getFluid(1000000))
@@ -77,7 +78,7 @@ interface DimensionallytranscendentPlasmaForge {
                 .blastFurnaceTemp(28000)
                 .save();
 
-        GTORecipeTypes.DIMENSIONALLY_TRANSCENDENT_PLASMA_FORGE_RECIPES.recipeBuilder(GTOCore.id("dense_neutron_plasma"))
+        DIMENSIONALLY_TRANSCENDENT_PLASMA_FORGE_RECIPES.recipeBuilder(GTOCore.id("dense_neutron_plasma"))
                 .notConsumable(ModItems.infinity_catalyst.get())
                 .inputItems(GTOItems.NEUTRON_PLASMA_CONTAINMENT_CELL.asStack())
                 .inputFluids(GTOMaterials.HeavyQuarkDegenerateMatter.getFluid(FluidStorageKeys.PLASMA, 10000))
@@ -90,7 +91,7 @@ interface DimensionallytranscendentPlasmaForge {
                 .blastFurnaceTemp(26000)
                 .save();
 
-        GTORecipeTypes.DIMENSIONALLY_TRANSCENDENT_PLASMA_FORGE_RECIPES.recipeBuilder(GTOCore.id("create_casing"))
+        DIMENSIONALLY_TRANSCENDENT_PLASMA_FORGE_RECIPES.recipeBuilder(GTOCore.id("create_casing"))
                 .inputItems(TagPrefix.frameGt, GTOMaterials.Eternity)
                 .inputItems(GTOItems.COMMAND_BLOCK_CORE.asStack())
                 .inputFluids(GTOMaterials.ExcitedDtsc.getFluid(1000))
@@ -101,7 +102,7 @@ interface DimensionallytranscendentPlasmaForge {
                 .blastFurnaceTemp(96000)
                 .save();
 
-        GTORecipeTypes.DIMENSIONALLY_TRANSCENDENT_PLASMA_FORGE_RECIPES.recipeBuilder(GTOCore.id("infinity_catalyst"))
+        DIMENSIONALLY_TRANSCENDENT_PLASMA_FORGE_RECIPES.recipeBuilder(GTOCore.id("infinity_catalyst"))
                 .inputItems(GTOItems.CONTAINED_EXOTIC_MATTER.asStack(64))
                 .inputItems(GTOItems.ESSENTIA_MATTER.asStack(64))
                 .inputFluids(GTOMaterials.Infinity.getFluid(1000))
@@ -114,7 +115,7 @@ interface DimensionallytranscendentPlasmaForge {
                 .blastFurnaceTemp(32000)
                 .save();
 
-        GTORecipeTypes.DIMENSIONALLY_TRANSCENDENT_PLASMA_FORGE_RECIPES.recipeBuilder(GTOCore.id("chaos_plasma"))
+        DIMENSIONALLY_TRANSCENDENT_PLASMA_FORGE_RECIPES.recipeBuilder(GTOCore.id("chaos_plasma"))
                 .inputItems(GTOItems.CHAOS_SHARD.asStack())
                 .inputFluids(GTOMaterials.DimensionallyTranscendentResplendentCatalyst.getFluid(1000))
                 .inputFluids(GTOMaterials.CosmicMesh.getFluid(FluidStorageKeys.PLASMA, 1000))
@@ -125,7 +126,7 @@ interface DimensionallytranscendentPlasmaForge {
                 .blastFurnaceTemp(32000)
                 .save();
 
-        GTORecipeTypes.DIMENSIONALLY_TRANSCENDENT_PLASMA_FORGE_RECIPES.recipeBuilder(GTOCore.id("spacetime"))
+        DIMENSIONALLY_TRANSCENDENT_PLASMA_FORGE_RECIPES.recipeBuilder(GTOCore.id("spacetime"))
                 .notConsumable(GTOItems.SPACETIME_CATALYST.asStack())
                 .inputFluids(GTOMaterials.Infinity.getFluid(100))
                 .inputFluids(GTOMaterials.Hypogen.getFluid(100))
@@ -136,7 +137,7 @@ interface DimensionallytranscendentPlasmaForge {
                 .blastFurnaceTemp(36000)
                 .save();
 
-        GTORecipeTypes.DIMENSIONALLY_TRANSCENDENT_PLASMA_FORGE_RECIPES.recipeBuilder(GTOCore.id("cosmic_neutron_plasma_cell"))
+        DIMENSIONALLY_TRANSCENDENT_PLASMA_FORGE_RECIPES.recipeBuilder(GTOCore.id("cosmic_neutron_plasma_cell"))
                 .notConsumable(ModItems.infinity_catalyst.get())
                 .inputItems(GTOItems.EXTREMELY_DURABLE_PLASMA_CELL.asStack(5))
                 .inputFluids(GTMaterials.UUMatter.getFluid(1000000))
@@ -148,7 +149,7 @@ interface DimensionallytranscendentPlasmaForge {
                 .blastFurnaceTemp(28000)
                 .save();
 
-        GTORecipeTypes.DIMENSIONALLY_TRANSCENDENT_PLASMA_FORGE_RECIPES.recipeBuilder(GTOCore.id("magnetohydrodynamically_constrained_star_matter"))
+        DIMENSIONALLY_TRANSCENDENT_PLASMA_FORGE_RECIPES.recipeBuilder(GTOCore.id("magnetohydrodynamically_constrained_star_matter"))
                 .notConsumable(GTOItems.ETERNITY_CATALYST.asStack())
                 .inputItems(GTOTagPrefix.nanites, GTOMaterials.Eternity)
                 .inputFluids(GTOMaterials.RawStarMatter.getFluid(FluidStorageKeys.PLASMA, 100000))
@@ -161,7 +162,7 @@ interface DimensionallytranscendentPlasmaForge {
                 .blastFurnaceTemp(81000)
                 .save();
 
-        GTORecipeTypes.DIMENSIONALLY_TRANSCENDENT_PLASMA_FORGE_RECIPES.recipeBuilder(GTOCore.id("infinity"))
+        DIMENSIONALLY_TRANSCENDENT_PLASMA_FORGE_RECIPES.recipeBuilder(GTOCore.id("infinity"))
                 .notConsumable(GTOItems.SPACETIME_CATALYST.asStack())
                 .inputFluids(GTOMaterials.CrystalMatrix.getFluid(FluidStorageKeys.PLASMA, 10000))
                 .inputFluids(GTOMaterials.CosmicNeutronium.getFluid(5000))
@@ -172,7 +173,7 @@ interface DimensionallytranscendentPlasmaForge {
                 .blastFurnaceTemp(32000)
                 .save();
 
-        GTORecipeTypes.DIMENSIONALLY_TRANSCENDENT_PLASMA_FORGE_RECIPES.recipeBuilder(GTOCore.id("dimensionallytranscendentresidue"))
+        DIMENSIONALLY_TRANSCENDENT_PLASMA_FORGE_RECIPES.recipeBuilder(GTOCore.id("dimensionallytranscendentresidue"))
                 .inputFluids(GTOMaterials.DimensionallyTranscendentCrudeCatalyst.getFluid(100))
                 .inputFluids(GTOMaterials.RawStarMatter.getFluid(FluidStorageKeys.PLASMA, 100))
                 .outputFluids(GTOMaterials.DimensionallyTranscendentResidue.getFluid(100))
@@ -181,7 +182,7 @@ interface DimensionallytranscendentPlasmaForge {
                 .blastFurnaceTemp(36000)
                 .save();
 
-        GTORecipeTypes.DIMENSIONALLY_TRANSCENDENT_PLASMA_FORGE_RECIPES.recipeBuilder(GTOCore.id("hypogen"))
+        DIMENSIONALLY_TRANSCENDENT_PLASMA_FORGE_RECIPES.recipeBuilder(GTOCore.id("hypogen"))
                 .notConsumable(ModItems.infinity_catalyst.get())
                 .inputItems(TagPrefix.block, GTOMaterials.QuantumChromoDynamicallyConfinedMatter)
                 .inputFluids(GTOMaterials.Rhugnor.getFluid(10000))
@@ -193,7 +194,7 @@ interface DimensionallytranscendentPlasmaForge {
                 .blastFurnaceTemp(26000)
                 .save();
 
-        GTORecipeTypes.DIMENSIONALLY_TRANSCENDENT_PLASMA_FORGE_RECIPES.recipeBuilder(GTOCore.id("transcendent_metal"))
+        DIMENSIONALLY_TRANSCENDENT_PLASMA_FORGE_RECIPES.recipeBuilder(GTOCore.id("transcendent_metal"))
                 .notConsumable(GTOItems.SPACETIME_CATALYST.asStack())
                 .inputItems(GTOItems.HYPERCUBE.asStack())
                 .inputFluids(GTOMaterials.SpaceTime.getFluid(100))
@@ -205,7 +206,7 @@ interface DimensionallytranscendentPlasmaForge {
                 .blastFurnaceTemp(36000)
                 .save();
 
-        GTORecipeTypes.DIMENSIONALLY_TRANSCENDENT_PLASMA_FORGE_RECIPES.recipeBuilder(GTOCore.id("infinity_glass"))
+        DIMENSIONALLY_TRANSCENDENT_PLASMA_FORGE_RECIPES.recipeBuilder(GTOCore.id("infinity_glass"))
                 .inputItems(GTOItems.BLACK_BODY_NAQUADRIA_SUPERSOLID.asStack())
                 .inputItems(TagPrefix.dust, GTOMaterials.Infinity, 2)
                 .inputFluids(GTOMaterials.DimensionallyTranscendentExoticCatalyst.getFluid(1000))
@@ -216,7 +217,7 @@ interface DimensionallytranscendentPlasmaForge {
                 .blastFurnaceTemp(88000)
                 .save();
 
-        GTORecipeTypes.DIMENSIONALLY_TRANSCENDENT_PLASMA_FORGE_RECIPES.recipeBuilder(GTOCore.id("eternity"))
+        DIMENSIONALLY_TRANSCENDENT_PLASMA_FORGE_RECIPES.recipeBuilder(GTOCore.id("eternity"))
                 .notConsumable(GTOItems.ETERNITY_CATALYST.asStack())
                 .inputItems(ModItems.eternal_singularity.get())
                 .inputFluids(GTOMaterials.PrimordialMatter.getFluid(1000))

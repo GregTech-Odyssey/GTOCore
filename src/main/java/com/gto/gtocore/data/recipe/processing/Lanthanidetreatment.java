@@ -2,7 +2,6 @@ package com.gto.gtocore.data.recipe.processing;
 
 import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.common.data.GTOMaterials;
-import com.gto.gtocore.common.data.GTORecipeTypes;
 
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
@@ -762,7 +761,7 @@ public interface Lanthanidetreatment {
                     .EUt(122880)
                     .save();
 
-            GTORecipeTypes.RARE_EARTH_CENTRIFUGAL_RECIPES.recipeBuilder(GTOCore.id("raw_adamantine"))
+            RARE_EARTH_CENTRIFUGAL_RECIPES.recipeBuilder(GTOCore.id("raw_adamantine"))
                     .inputItems(TagPrefix.dust, GTOMaterials.NaquadahContainRareEarth)
                     .chancedOutput(TagPrefix.rawOre, GTOMaterials.AdamantineCompounds, 5000, 1000)
                     .outputItems(TagPrefix.dust, GTMaterials.EnrichedNaquadahSulfate, 6)
@@ -771,7 +770,7 @@ public interface Lanthanidetreatment {
                     .duration(200)
                     .save();
 
-            GTORecipeTypes.RARE_EARTH_CENTRIFUGAL_RECIPES.recipeBuilder(GTOCore.id("rare_earth_centrifugal"))
+            RARE_EARTH_CENTRIFUGAL_RECIPES.recipeBuilder(GTOCore.id("rare_earth_centrifugal"))
                     .inputItems(TagPrefix.dust, GTOMaterials.RareEarthMetal)
                     .outputItems(TagPrefix.dustSmall, GTMaterials.Lanthanum)
                     .outputItems(TagPrefix.dustSmall, GTMaterials.Cerium)

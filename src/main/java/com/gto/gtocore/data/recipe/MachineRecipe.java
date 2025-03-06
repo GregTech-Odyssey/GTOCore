@@ -1,7 +1,10 @@
 package com.gto.gtocore.data.recipe;
 
 import com.gto.gtocore.GTOCore;
-import com.gto.gtocore.common.data.*;
+import com.gto.gtocore.common.data.GTOBlocks;
+import com.gto.gtocore.common.data.GTOItems;
+import com.gto.gtocore.common.data.GTOMachines;
+import com.gto.gtocore.common.data.GTOMaterials;
 import com.gto.gtocore.common.data.machines.*;
 
 import com.gregtechceu.gtceu.api.data.chemical.material.stack.UnificationEntry;
@@ -28,6 +31,7 @@ import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
 import static com.gregtechceu.gtceu.data.recipe.GTCraftingComponents.*;
 import static com.gregtechceu.gtceu.data.recipe.misc.MetaTileEntityLoader.registerMachineRecipe;
 import static com.gto.gtocore.common.data.GTORecipeTypes.ASSEMBLER_RECIPES;
+import static com.gto.gtocore.common.data.GTORecipeTypes.LASER_WELDER_RECIPES;
 
 public interface MachineRecipe {
 
@@ -48,35 +52,35 @@ public interface MachineRecipe {
         VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("casing_max"), GTBlocks.MACHINE_CASING_MAX.asStack(),
                 "PPP",
                 "PwP", "PPP", 'P', new UnificationEntry(plate, GTOMaterials.Chaos));
-        GTORecipeTypes.LASER_WELDER_RECIPES.recipeBuilder("casing_ulv").EUt(16).inputItems(plate, WroughtIron, 8)
+        LASER_WELDER_RECIPES.recipeBuilder("casing_ulv").EUt(16).inputItems(plate, WroughtIron, 8)
                 .outputItems(GTBlocks.MACHINE_CASING_ULV.asStack()).circuitMeta(8).duration(25).save();
-        GTORecipeTypes.LASER_WELDER_RECIPES.recipeBuilder("casing_lv").EUt(16).inputItems(plate, Steel, 8)
+        LASER_WELDER_RECIPES.recipeBuilder("casing_lv").EUt(16).inputItems(plate, Steel, 8)
                 .outputItems(GTBlocks.MACHINE_CASING_LV.asStack()).circuitMeta(8).duration(50).save();
-        GTORecipeTypes.LASER_WELDER_RECIPES.recipeBuilder("casing_mv").EUt(16).inputItems(plate, Aluminium, 8)
+        LASER_WELDER_RECIPES.recipeBuilder("casing_mv").EUt(16).inputItems(plate, Aluminium, 8)
                 .outputItems(GTBlocks.MACHINE_CASING_MV.asStack()).circuitMeta(8).duration(50).save();
-        GTORecipeTypes.LASER_WELDER_RECIPES.recipeBuilder("casing_hv").EUt(16).inputItems(plate, StainlessSteel, 8)
+        LASER_WELDER_RECIPES.recipeBuilder("casing_hv").EUt(16).inputItems(plate, StainlessSteel, 8)
                 .outputItems(GTBlocks.MACHINE_CASING_HV.asStack()).circuitMeta(8).duration(50).save();
-        GTORecipeTypes.LASER_WELDER_RECIPES.recipeBuilder("casing_ev").EUt(16).inputItems(plate, Titanium, 8)
+        LASER_WELDER_RECIPES.recipeBuilder("casing_ev").EUt(16).inputItems(plate, Titanium, 8)
                 .outputItems(GTBlocks.MACHINE_CASING_EV.asStack()).circuitMeta(8).duration(50).save();
-        GTORecipeTypes.LASER_WELDER_RECIPES.recipeBuilder("casing_iv").EUt(16).inputItems(plate, TungstenSteel, 8)
+        LASER_WELDER_RECIPES.recipeBuilder("casing_iv").EUt(16).inputItems(plate, TungstenSteel, 8)
                 .outputItems(GTBlocks.MACHINE_CASING_IV.asStack()).circuitMeta(8).duration(50).save();
-        GTORecipeTypes.LASER_WELDER_RECIPES.recipeBuilder("casing_luv").EUt(16).inputItems(plate, RhodiumPlatedPalladium, 8)
+        LASER_WELDER_RECIPES.recipeBuilder("casing_luv").EUt(16).inputItems(plate, RhodiumPlatedPalladium, 8)
                 .outputItems(GTBlocks.MACHINE_CASING_LuV.asStack()).circuitMeta(8).duration(50).save();
-        GTORecipeTypes.LASER_WELDER_RECIPES.recipeBuilder("casing_zpm").EUt(16).inputItems(plate, NaquadahAlloy, 8)
+        LASER_WELDER_RECIPES.recipeBuilder("casing_zpm").EUt(16).inputItems(plate, NaquadahAlloy, 8)
                 .outputItems(GTBlocks.MACHINE_CASING_ZPM.asStack()).circuitMeta(8).duration(50).save();
-        GTORecipeTypes.LASER_WELDER_RECIPES.recipeBuilder("casing_uv").EUt(16).inputItems(plate, Darmstadtium, 8)
+        LASER_WELDER_RECIPES.recipeBuilder("casing_uv").EUt(16).inputItems(plate, Darmstadtium, 8)
                 .outputItems(GTBlocks.MACHINE_CASING_UV.asStack()).circuitMeta(8).duration(50).save();
-        GTORecipeTypes.LASER_WELDER_RECIPES.recipeBuilder("casing_uhv").EUt(16).inputItems(plate, Neutronium, 8)
+        LASER_WELDER_RECIPES.recipeBuilder("casing_uhv").EUt(16).inputItems(plate, Neutronium, 8)
                 .outputItems(GTBlocks.MACHINE_CASING_UHV.asStack()).circuitMeta(8).duration(50).save();
-        GTORecipeTypes.LASER_WELDER_RECIPES.recipeBuilder(GTOCore.id("casing_uev")).EUt(16).inputItems(plate, GTOMaterials.Quantanium, 8)
+        LASER_WELDER_RECIPES.recipeBuilder(GTOCore.id("casing_uev")).EUt(16).inputItems(plate, GTOMaterials.Quantanium, 8)
                 .outputItems(GTBlocks.MACHINE_CASING_UEV.asStack()).circuitMeta(8).duration(50).save();
-        GTORecipeTypes.LASER_WELDER_RECIPES.recipeBuilder(GTOCore.id("casing_uiv")).EUt(16).inputItems(plate, GTOMaterials.Adamantium, 8)
+        LASER_WELDER_RECIPES.recipeBuilder(GTOCore.id("casing_uiv")).EUt(16).inputItems(plate, GTOMaterials.Adamantium, 8)
                 .outputItems(GTBlocks.MACHINE_CASING_UIV.asStack()).circuitMeta(8).duration(50).save();
-        GTORecipeTypes.LASER_WELDER_RECIPES.recipeBuilder(GTOCore.id("casing_uxv")).EUt(16).inputItems(plate, GTOMaterials.Vibranium, 8)
+        LASER_WELDER_RECIPES.recipeBuilder(GTOCore.id("casing_uxv")).EUt(16).inputItems(plate, GTOMaterials.Vibranium, 8)
                 .outputItems(GTBlocks.MACHINE_CASING_UXV.asStack()).circuitMeta(8).duration(50).save();
-        GTORecipeTypes.LASER_WELDER_RECIPES.recipeBuilder(GTOCore.id("casing_opv")).EUt(16).inputItems(plate, GTOMaterials.Draconium, 8)
+        LASER_WELDER_RECIPES.recipeBuilder(GTOCore.id("casing_opv")).EUt(16).inputItems(plate, GTOMaterials.Draconium, 8)
                 .outputItems(GTBlocks.MACHINE_CASING_OpV.asStack()).circuitMeta(8).duration(50).save();
-        GTORecipeTypes.LASER_WELDER_RECIPES.recipeBuilder(GTOCore.id("casing_max")).EUt(16).inputItems(plate, GTOMaterials.Chaos, 8)
+        LASER_WELDER_RECIPES.recipeBuilder(GTOCore.id("casing_max")).EUt(16).inputItems(plate, GTOMaterials.Chaos, 8)
                 .outputItems(GTBlocks.MACHINE_CASING_MAX.asStack()).circuitMeta(8).duration(50).save();
 
         ASSEMBLER_RECIPES.recipeBuilder("hull_hv").duration(50).EUt(16).inputItems(GTBlocks.MACHINE_CASING_HV.asStack())

@@ -3,16 +3,17 @@ package com.gto.gtocore.data.recipe.classified;
 import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.api.data.GTODimensions;
 import com.gto.gtocore.common.data.GTOItems;
-import com.gto.gtocore.common.data.GTORecipeTypes;
 
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
+import static com.gto.gtocore.common.data.GTORecipeTypes.WORLD_DATA_SCANNER_RECIPES;
+
 interface WorldDataScanner {
 
     static void init() {
-        GTORecipeTypes.WORLD_DATA_SCANNER_RECIPES.recipeBuilder(GTOCore.id("end_data"))
+        WORLD_DATA_SCANNER_RECIPES.recipeBuilder(GTOCore.id("end_data"))
                 .inputItems(GTItems.TOOL_DATA_STICK.asStack())
                 .inputItems(TagPrefix.dust, GTMaterials.Endstone, 64)
                 .inputFluids(GTMaterials.PCBCoolant.getFluid(400))
@@ -23,7 +24,7 @@ interface WorldDataScanner {
                 .dimension(GTODimensions.PLUTO)
                 .save();
 
-        GTORecipeTypes.WORLD_DATA_SCANNER_RECIPES.recipeBuilder(GTOCore.id("nether_data"))
+        WORLD_DATA_SCANNER_RECIPES.recipeBuilder(GTOCore.id("nether_data"))
                 .inputItems(GTItems.TOOL_DATA_STICK.asStack())
                 .inputItems(TagPrefix.dust, GTMaterials.Netherrack, 64)
                 .inputFluids(GTMaterials.PCBCoolant.getFluid(200))
@@ -34,7 +35,7 @@ interface WorldDataScanner {
                 .dimension(GTODimensions.VENUS)
                 .save();
 
-        GTORecipeTypes.WORLD_DATA_SCANNER_RECIPES.recipeBuilder(GTOCore.id("overworld_data"))
+        WORLD_DATA_SCANNER_RECIPES.recipeBuilder(GTOCore.id("overworld_data"))
                 .inputItems(GTItems.TOOL_DATA_STICK.asStack())
                 .inputItems(TagPrefix.dust, GTMaterials.Stone, 64)
                 .inputFluids(GTMaterials.PCBCoolant.getFluid(100))

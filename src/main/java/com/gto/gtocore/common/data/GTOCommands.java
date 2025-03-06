@@ -20,12 +20,10 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraftforge.fluids.FluidStack;
 
 import com.mojang.brigadier.CommandDispatcher;
-import dev.latvian.mods.kubejs.command.KubeJSCommands;
 
 public interface GTOCommands {
 
     static void init(CommandDispatcher<CommandSourceStack> dispatcher) {
-        KubeJSCommands.register(dispatcher);
         dispatcher.register(Commands.literal(GTOCore.MOD_ID)
                 .then(Commands.literal("dyson")
                         .then(Commands.literal("info")

@@ -4,7 +4,6 @@ import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.common.data.GTOBlocks;
 import com.gto.gtocore.common.data.GTOItems;
 import com.gto.gtocore.common.data.GTOMaterials;
-import com.gto.gtocore.common.data.GTORecipeTypes;
 
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.common.data.GTItems;
@@ -13,10 +12,12 @@ import com.gregtechceu.gtceu.common.data.GTMaterials;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 
+import static com.gto.gtocore.common.data.GTORecipeTypes.BLAST_RECIPES;
+
 interface Blast {
 
     static void init() {
-        GTORecipeTypes.BLAST_RECIPES.recipeBuilder(GTOCore.id("hot_draconium_ingot_1"))
+        BLAST_RECIPES.recipeBuilder(GTOCore.id("hot_draconium_ingot_1"))
                 .inputItems(TagPrefix.dust, GTOMaterials.Draconium)
                 .inputFluids(GTMaterials.CetaneBoostedDiesel.getFluid(2000))
                 .outputItems(TagPrefix.ingotHot, GTOMaterials.Draconium)
@@ -25,7 +26,7 @@ interface Blast {
                 .blastFurnaceTemp(21600)
                 .save();
 
-        GTORecipeTypes.BLAST_RECIPES.recipeBuilder(GTOCore.id("hot_draconium_ingot_3"))
+        BLAST_RECIPES.recipeBuilder(GTOCore.id("hot_draconium_ingot_3"))
                 .inputItems(TagPrefix.dust, GTOMaterials.Draconium)
                 .inputFluids(GTMaterials.HighOctaneGasoline.getFluid(500))
                 .outputItems(TagPrefix.ingotHot, GTOMaterials.Draconium)
@@ -34,7 +35,7 @@ interface Blast {
                 .blastFurnaceTemp(21600)
                 .save();
 
-        GTORecipeTypes.BLAST_RECIPES.recipeBuilder(GTOCore.id("hot_draconium_ingot_2"))
+        BLAST_RECIPES.recipeBuilder(GTOCore.id("hot_draconium_ingot_2"))
                 .inputItems(TagPrefix.dust, GTOMaterials.Draconium)
                 .inputFluids(GTMaterials.Gasoline.getFluid(1000))
                 .outputItems(TagPrefix.ingotHot, GTOMaterials.Draconium)
@@ -43,7 +44,7 @@ interface Blast {
                 .blastFurnaceTemp(21600)
                 .save();
 
-        GTORecipeTypes.BLAST_RECIPES.recipeBuilder(GTOCore.id("netherite_ingot"))
+        BLAST_RECIPES.recipeBuilder(GTOCore.id("netherite_ingot"))
                 .inputItems(new ItemStack(Items.NETHERITE_SCRAP.asItem()))
                 .inputItems(TagPrefix.ingot, GTOMaterials.Calorite)
                 .inputFluids(GTMaterials.Neon.getFluid(100))
@@ -53,7 +54,7 @@ interface Blast {
                 .blastFurnaceTemp(6470)
                 .save();
 
-        GTORecipeTypes.BLAST_RECIPES.recipeBuilder(GTOCore.id("rutherfordium_neutronium_boule"))
+        BLAST_RECIPES.recipeBuilder(GTOCore.id("rutherfordium_neutronium_boule"))
                 .inputItems(GTItems.NEUTRONIUM_BOULE.asStack())
                 .inputItems(TagPrefix.dust, GTMaterials.Rutherfordium, 4)
                 .inputFluids(GTMaterials.Radon.getFluid(8000))
@@ -63,7 +64,7 @@ interface Blast {
                 .blastFurnaceTemp(8100)
                 .save();
 
-        GTORecipeTypes.BLAST_RECIPES.recipeBuilder(GTOCore.id("taranium_boulea"))
+        BLAST_RECIPES.recipeBuilder(GTOCore.id("taranium_boulea"))
                 .inputItems(TagPrefix.block, GTOMaterials.UltraHighPuritySilicon, 64)
                 .inputItems(TagPrefix.ingot, GTOMaterials.Taranium, 8)
                 .inputItems(TagPrefix.dust, GTMaterials.GalliumArsenide, 4)
@@ -74,7 +75,7 @@ interface Blast {
                 .blastFurnaceTemp(10500)
                 .save();
 
-        GTORecipeTypes.BLAST_RECIPES.recipeBuilder(GTOCore.id("ostrum_ingot"))
+        BLAST_RECIPES.recipeBuilder(GTOCore.id("ostrum_ingot"))
                 .inputItems(TagPrefix.dust, GTOMaterials.Ostrum)
                 .inputItems(TagPrefix.dust, GTMaterials.TitaniumCarbide)
                 .inputFluids(GTMaterials.SamariumIronArsenicOxide.getFluid(144))
@@ -84,7 +85,7 @@ interface Blast {
                 .blastFurnaceTemp(5200)
                 .save();
 
-        GTORecipeTypes.BLAST_RECIPES.recipeBuilder(GTOCore.id("shining_obsidian"))
+        BLAST_RECIPES.recipeBuilder(GTOCore.id("shining_obsidian"))
                 .inputItems(TagPrefix.rock, GTMaterials.Obsidian)
                 .inputItems(TagPrefix.dust, GTOMaterials.VibrantAlloy)
                 .inputFluids(GTMaterials.Glowstone.getFluid(576))
@@ -94,7 +95,7 @@ interface Blast {
                 .blastFurnaceTemp(2600)
                 .save();
 
-        GTORecipeTypes.BLAST_RECIPES.recipeBuilder(GTOCore.id("calorite_ingot"))
+        BLAST_RECIPES.recipeBuilder(GTOCore.id("calorite_ingot"))
                 .inputItems(TagPrefix.ingot, GTMaterials.Naquadah)
                 .inputItems(TagPrefix.dust, GTOMaterials.Calorite)
                 .outputItems(TagPrefix.ingot, GTOMaterials.Calorite)
@@ -103,7 +104,7 @@ interface Blast {
                 .blastFurnaceTemp(6100)
                 .save();
 
-        GTORecipeTypes.BLAST_RECIPES.recipeBuilder(GTOCore.id("giga_chad"))
+        BLAST_RECIPES.recipeBuilder(GTOCore.id("giga_chad"))
                 .inputItems(GTItems.FIELD_GENERATOR_UIV.asStack(64))
                 .inputItems(GTItems.FIELD_GENERATOR_UXV.asStack(64))
                 .inputItems(GTItems.FIELD_GENERATOR_OpV.asStack(64))
@@ -114,7 +115,7 @@ interface Blast {
                 .blastFurnaceTemp(36000)
                 .save();
 
-        GTORecipeTypes.BLAST_RECIPES.recipeBuilder(GTOCore.id("desh_ingot"))
+        BLAST_RECIPES.recipeBuilder(GTOCore.id("desh_ingot"))
                 .inputItems(TagPrefix.dust, GTOMaterials.Desh)
                 .inputItems(TagPrefix.dust, GTMaterials.Rhodium)
                 .inputFluids(GTMaterials.BismuthBronze.getFluid(144))
@@ -124,7 +125,7 @@ interface Blast {
                 .blastFurnaceTemp(4300)
                 .save();
 
-        GTORecipeTypes.BLAST_RECIPES.recipeBuilder(GTOCore.id("bedrock_smoke"))
+        BLAST_RECIPES.recipeBuilder(GTOCore.id("bedrock_smoke"))
                 .inputItems(TagPrefix.dust, GTOMaterials.Bedrockium)
                 .inputFluids(GTMaterials.Xenon.getFluid(100))
                 .outputFluids(GTOMaterials.BedrockSmoke.getFluid(1000))
@@ -133,7 +134,7 @@ interface Blast {
                 .blastFurnaceTemp(16200)
                 .save();
 
-        GTORecipeTypes.BLAST_RECIPES.recipeBuilder(GTOCore.id("lepton_trap_crystal"))
+        BLAST_RECIPES.recipeBuilder(GTOCore.id("lepton_trap_crystal"))
                 .inputItems(TagPrefix.dust, GTMaterials.Meitnerium)
                 .inputItems(TagPrefix.dust, GTMaterials.Molybdenum)
                 .inputItems(TagPrefix.dust, GTMaterials.Rhenium)

@@ -1,14 +1,15 @@
 package com.gto.gtocore.data.recipe.classified;
 
 import com.gto.gtocore.GTOCore;
-import com.gto.gtocore.common.data.GTORecipeTypes;
 
 import com.gregtechceu.gtceu.common.data.GTMaterials;
+
+import static com.gto.gtocore.common.data.GTORecipeTypes.PETROCHEMICAL_PLANT_RECIPES;
 
 interface PetrochemicalPlant {
 
     static void init() {
-        GTORecipeTypes.PETROCHEMICAL_PLANT_RECIPES.recipeBuilder(GTOCore.id("petrochemical_plant_3"))
+        PETROCHEMICAL_PLANT_RECIPES.recipeBuilder(GTOCore.id("petrochemical_plant_3"))
                 .inputFluids(GTMaterials.OilHeavy.getFluid(1000))
                 .inputFluids(GTMaterials.Steam.getFluid(1000))
                 .outputFluids(GTMaterials.Toluene.getFluid(240))
@@ -27,7 +28,7 @@ interface PetrochemicalPlant {
                 .duration(200)
                 .save();
 
-        GTORecipeTypes.PETROCHEMICAL_PLANT_RECIPES.recipeBuilder(GTOCore.id("petrochemical_plant_4"))
+        PETROCHEMICAL_PLANT_RECIPES.recipeBuilder(GTOCore.id("petrochemical_plant_4"))
                 .inputFluids(GTMaterials.OilLight.getFluid(1000))
                 .inputFluids(GTMaterials.Steam.getFluid(1000))
                 .outputFluids(GTMaterials.Toluene.getFluid(20))
@@ -46,7 +47,7 @@ interface PetrochemicalPlant {
                 .duration(200)
                 .save();
 
-        GTORecipeTypes.PETROCHEMICAL_PLANT_RECIPES.recipeBuilder(GTOCore.id("petrochemical_plant_1"))
+        PETROCHEMICAL_PLANT_RECIPES.recipeBuilder(GTOCore.id("petrochemical_plant_1"))
                 .inputFluids(GTMaterials.Oil.getFluid(1000))
                 .inputFluids(GTMaterials.Steam.getFluid(1000))
                 .outputFluids(GTMaterials.Toluene.getFluid(60))
@@ -65,7 +66,7 @@ interface PetrochemicalPlant {
                 .duration(200)
                 .save();
 
-        GTORecipeTypes.PETROCHEMICAL_PLANT_RECIPES.recipeBuilder(GTOCore.id("petrochemical_plant_2"))
+        PETROCHEMICAL_PLANT_RECIPES.recipeBuilder(GTOCore.id("petrochemical_plant_2"))
                 .inputFluids(GTMaterials.RawOil.getFluid(1000))
                 .inputFluids(GTMaterials.Steam.getFluid(1000))
                 .outputFluids(GTMaterials.Toluene.getFluid(40))

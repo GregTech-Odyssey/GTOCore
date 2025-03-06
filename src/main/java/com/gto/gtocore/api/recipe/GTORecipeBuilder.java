@@ -1203,4 +1203,8 @@ public final class GTORecipeBuilder extends GTRecipeBuilder {
         perTick = lastPerTick;
         return this;
     }
+
+    public GTORecipeBuilder temperature(int temperature) {
+        return addData("temperature", temperature);
+    }
 }

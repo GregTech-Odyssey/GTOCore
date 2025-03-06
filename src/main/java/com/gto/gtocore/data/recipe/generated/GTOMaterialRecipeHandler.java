@@ -1,7 +1,6 @@
 package com.gto.gtocore.data.recipe.generated;
 
 import com.gto.gtocore.api.recipe.GTORecipeBuilder;
-import com.gto.gtocore.common.data.GTORecipeTypes;
 import com.gto.gtocore.utils.GTOUtils;
 
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
@@ -143,7 +142,7 @@ interface GTOMaterialRecipeHandler {
             if (!material.hasFlag(NO_SMASHING)) {
                 ItemStack plateStack = ChemicalHelper.get(plate, material);
                 if (!plateStack.isEmpty()) {
-                    GTORecipeTypes.ROLLING_RECIPES.recipeBuilder("rolling_" + material.getName() + "_to_plate")
+                    ROLLING_RECIPES.recipeBuilder("rolling_" + material.getName() + "_to_plate")
                             .inputItems(stack)
                             .outputItems(plateStack)
                             .EUt(24).duration(mass)
@@ -362,7 +361,7 @@ interface GTOMaterialRecipeHandler {
                         .explosivesType(new ItemStack(GTBlocks.INDUSTRIAL_TNT))
                         .save();
 
-                GTORecipeTypes.ELECTRIC_IMPLOSION_COMPRESSOR_RECIPES.recipeBuilder("electric_implode_" + id)
+                ELECTRIC_IMPLOSION_COMPRESSOR_RECIPES.recipeBuilder("electric_implode_" + id)
                         .inputItems(dustStack4)
                         .outputItems(gemStack3)
                         .save();
@@ -437,7 +436,7 @@ interface GTOMaterialRecipeHandler {
                 .outputItems(stack2)
                 .save();
 
-        GTORecipeTypes.UNPACKER_RECIPES.recipeBuilder("unpackage_" + material.getName() + "_small_dust")
+        UNPACKER_RECIPES.recipeBuilder("unpackage_" + material.getName() + "_small_dust")
                 .inputItems(stack2)
                 .circuitMeta(1)
                 .outputItems(stack1)
@@ -453,7 +452,7 @@ interface GTOMaterialRecipeHandler {
                 .outputItems(stack2)
                 .save();
 
-        GTORecipeTypes.UNPACKER_RECIPES.recipeBuilder("unpackage_" + material.getName() + "_tiny_dust")
+        UNPACKER_RECIPES.recipeBuilder("unpackage_" + material.getName() + "_tiny_dust")
                 .inputItems(stack2)
                 .circuitMeta(2)
                 .outputItems(stack1)

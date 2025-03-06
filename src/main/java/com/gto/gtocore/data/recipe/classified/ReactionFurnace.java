@@ -4,7 +4,6 @@ import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.common.data.GTOBlocks;
 import com.gto.gtocore.common.data.GTOItems;
 import com.gto.gtocore.common.data.GTOMaterials;
-import com.gto.gtocore.common.data.GTORecipeTypes;
 
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
@@ -14,12 +13,13 @@ import com.gregtechceu.gtceu.common.data.GTMaterials;
 import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
+import static com.gto.gtocore.common.data.GTORecipeTypes.REACTION_FURNACE_RECIPES;
 
 interface ReactionFurnace {
 
     static void init() {
         registerBlastFurnaceRecipes();
-        GTORecipeTypes.REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("actinium_hydride_dust"))
+        REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("actinium_hydride_dust"))
                 .inputItems(TagPrefix.dust, GTOMaterials.ActiniumOxalate, 13)
                 .inputItems(TagPrefix.dust, GTOMaterials.SodiumHydride, 6)
                 .inputItems(TagPrefix.dust, GTMaterials.Sodium)
@@ -32,7 +32,7 @@ interface ReactionFurnace {
                 .blastFurnaceTemp(10700)
                 .save();
 
-        GTORecipeTypes.REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("europium_dust"))
+        REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("europium_dust"))
                 .inputItems(TagPrefix.dust, GTOMaterials.EuropiumOxide, 10)
                 .inputItems(TagPrefix.dust, GTMaterials.Carbon, 3)
                 .outputItems(TagPrefix.dust, GTMaterials.Europium, 4)
@@ -42,7 +42,7 @@ interface ReactionFurnace {
                 .blastFurnaceTemp(2500)
                 .save();
 
-        GTORecipeTypes.REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("strontium_europium_aluminate_dust"))
+        REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("strontium_europium_aluminate_dust"))
                 .inputItems(TagPrefix.dust, GTMaterials.Aluminium, 2)
                 .inputItems(TagPrefix.dust, GTMaterials.Europium)
                 .inputItems(TagPrefix.dust, GTMaterials.Strontium)
@@ -53,7 +53,7 @@ interface ReactionFurnace {
                 .blastFurnaceTemp(1200)
                 .save();
 
-        GTORecipeTypes.REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("hafnium_dust"))
+        REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("hafnium_dust"))
                 .inputItems(TagPrefix.dust, GTOMaterials.HafniumChloride, 5)
                 .inputItems(TagPrefix.dust, GTMaterials.Magnesium, 2)
                 .outputItems(TagPrefix.dust, GTMaterials.Hafnium)
@@ -63,7 +63,7 @@ interface ReactionFurnace {
                 .blastFurnaceTemp(3400)
                 .save();
 
-        GTORecipeTypes.REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("boron_carbide_dust"))
+        REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("boron_carbide_dust"))
                 .inputItems(TagPrefix.dust, GTMaterials.Carbon, 3)
                 .inputItems(TagPrefix.dust, GTMaterials.Boron, 4)
                 .outputItems(TagPrefix.dust, GTOMaterials.BoronCarbide, 7)
@@ -72,7 +72,7 @@ interface ReactionFurnace {
                 .blastFurnaceTemp(4000)
                 .save();
 
-        GTORecipeTypes.REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("rhenium_chloride_dust"))
+        REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("rhenium_chloride_dust"))
                 .inputItems(TagPrefix.dust, GTMaterials.Rhenium)
                 .inputFluids(GTMaterials.Chlorine.getFluid(5000))
                 .outputItems(TagPrefix.dust, GTOMaterials.RheniumChloride, 6)
@@ -81,7 +81,7 @@ interface ReactionFurnace {
                 .blastFurnaceTemp(12500)
                 .save();
 
-        GTORecipeTypes.REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("yttrium_dust"))
+        REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("yttrium_dust"))
                 .inputItems(TagPrefix.dust, GTOMaterials.YttriumOxide, 10)
                 .inputItems(TagPrefix.dust, GTMaterials.Carbon, 3)
                 .outputItems(TagPrefix.dust, GTMaterials.Yttrium, 4)
@@ -91,7 +91,7 @@ interface ReactionFurnace {
                 .blastFurnaceTemp(2500)
                 .save();
 
-        GTORecipeTypes.REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("gadolinium_dust"))
+        REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("gadolinium_dust"))
                 .inputItems(TagPrefix.dust, GTOMaterials.GadoliniumOxide, 10)
                 .inputItems(TagPrefix.dust, GTMaterials.Carbon, 3)
                 .outputItems(TagPrefix.dust, GTMaterials.Gadolinium, 4)
@@ -101,7 +101,7 @@ interface ReactionFurnace {
                 .blastFurnaceTemp(2500)
                 .save();
 
-        GTORecipeTypes.REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("hassium_chloride_dust"))
+        REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("hassium_chloride_dust"))
                 .inputItems(TagPrefix.dust, GTMaterials.Hassium)
                 .inputFluids(GTMaterials.Chlorine.getFluid(4000))
                 .outputItems(TagPrefix.dust, GTOMaterials.HassiumChloride, 5)
@@ -110,7 +110,7 @@ interface ReactionFurnace {
                 .blastFurnaceTemp(12000)
                 .save();
 
-        GTORecipeTypes.REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("cubic_zirconia_dust"))
+        REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("cubic_zirconia_dust"))
                 .inputItems(TagPrefix.dust, GTMaterials.Zirconium)
                 .inputFluids(GTMaterials.Oxygen.getFluid(2000))
                 .outputItems(TagPrefix.dust, GTOMaterials.CubicZirconia, 3)
@@ -119,7 +119,7 @@ interface ReactionFurnace {
                 .blastFurnaceTemp(2600)
                 .save();
 
-        GTORecipeTypes.REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("borocarbide_dust"))
+        REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("borocarbide_dust"))
                 .inputItems(TagPrefix.dust, GTOMaterials.BoronFranciumCarbide, 15)
                 .inputItems(TagPrefix.dust, GTOMaterials.MixedAstatideSalts, 14)
                 .outputItems(TagPrefix.dust, GTOMaterials.Borocarbide, 29)
@@ -128,7 +128,7 @@ interface ReactionFurnace {
                 .blastFurnaceTemp(11300)
                 .save();
 
-        GTORecipeTypes.REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("cadmium_sulfide_dust"))
+        REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("cadmium_sulfide_dust"))
                 .inputItems(TagPrefix.dust, GTMaterials.Cadmium)
                 .inputItems(TagPrefix.dust, GTMaterials.Sulfur)
                 .outputItems(TagPrefix.dust, GTOMaterials.CadmiumSulfide, 2)
@@ -137,7 +137,7 @@ interface ReactionFurnace {
                 .blastFurnaceTemp(1200)
                 .save();
 
-        GTORecipeTypes.REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("lanthanum_dust"))
+        REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("lanthanum_dust"))
                 .inputItems(TagPrefix.dust, GTOMaterials.LanthanumOxide, 10)
                 .inputItems(TagPrefix.dust, GTMaterials.Carbon, 3)
                 .outputItems(TagPrefix.dust, GTMaterials.Lanthanum, 4)
@@ -147,7 +147,7 @@ interface ReactionFurnace {
                 .blastFurnaceTemp(2500)
                 .save();
 
-        GTORecipeTypes.REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("sodium_thiosulfate_dust"))
+        REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("sodium_thiosulfate_dust"))
                 .inputItems(TagPrefix.dust, GTMaterials.SodiumHydroxide, 18)
                 .inputItems(TagPrefix.dust, GTMaterials.Sulfur, 4)
                 .outputItems(TagPrefix.dust, GTOMaterials.SodiumThiosulfate, 7)
@@ -158,7 +158,7 @@ interface ReactionFurnace {
                 .blastFurnaceTemp(4500)
                 .save();
 
-        GTORecipeTypes.REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("iridium_dioxide_dust"))
+        REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("iridium_dioxide_dust"))
                 .inputItems(TagPrefix.dust, GTMaterials.IridiumMetalResidue, 6)
                 .inputItems(TagPrefix.dust, GTOMaterials.SodiumChlorate, 5)
                 .inputFluids(GTMaterials.Hydrogen.getFluid(1000))
@@ -171,7 +171,7 @@ interface ReactionFurnace {
                 .blastFurnaceTemp(790)
                 .save();
 
-        GTORecipeTypes.REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("dysprosium_dust"))
+        REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("dysprosium_dust"))
                 .inputItems(TagPrefix.dust, GTOMaterials.DysprosiumOxide, 10)
                 .inputItems(TagPrefix.dust, GTMaterials.Carbon, 3)
                 .outputItems(TagPrefix.dust, GTMaterials.Dysprosium, 4)
@@ -181,7 +181,7 @@ interface ReactionFurnace {
                 .blastFurnaceTemp(2500)
                 .save();
 
-        GTORecipeTypes.REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("erbium_dust"))
+        REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("erbium_dust"))
                 .inputItems(TagPrefix.dust, GTOMaterials.ErbiumOxide, 10)
                 .inputItems(TagPrefix.dust, GTMaterials.Carbon, 3)
                 .outputItems(TagPrefix.dust, GTMaterials.Erbium, 4)
@@ -191,7 +191,7 @@ interface ReactionFurnace {
                 .blastFurnaceTemp(2500)
                 .save();
 
-        GTORecipeTypes.REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("dust_cryotheum"))
+        REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("dust_cryotheum"))
                 .inputItems(GTOItems.DUST_BLIZZ.asStack())
                 .inputItems(TagPrefix.dust, GTOMaterials.Enderium)
                 .outputItems(GTOItems.DUST_CRYOTHEUM.asStack(2))
@@ -200,7 +200,7 @@ interface ReactionFurnace {
                 .blastFurnaceTemp(8300)
                 .save();
 
-        GTORecipeTypes.REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("silver_iodide_dust"))
+        REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("silver_iodide_dust"))
                 .inputItems(TagPrefix.dust, GTOMaterials.SilverIodide, 4)
                 .inputFluids(GTMaterials.Oxygen.getFluid(1000))
                 .outputItems(TagPrefix.dust, GTOMaterials.SilverOxide, 3)
@@ -210,7 +210,7 @@ interface ReactionFurnace {
                 .blastFurnaceTemp(1100)
                 .save();
 
-        GTORecipeTypes.REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("germanium_dust"))
+        REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("germanium_dust"))
                 .inputItems(TagPrefix.dust, GTOMaterials.GermaniumDioxide, 3)
                 .inputFluids(GTMaterials.Hydrogen.getFluid(4000))
                 .outputItems(TagPrefix.dust, GTMaterials.Germanium)
@@ -219,7 +219,7 @@ interface ReactionFurnace {
                 .blastFurnaceTemp(680)
                 .save();
 
-        GTORecipeTypes.REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("calcium_carbide_dust"))
+        REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("calcium_carbide_dust"))
                 .inputItems(TagPrefix.dust, GTMaterials.Carbon, 2)
                 .inputItems(TagPrefix.dust, GTMaterials.Quicklime, 2)
                 .outputItems(TagPrefix.dust, GTOMaterials.CalciumCarbide)
@@ -229,7 +229,7 @@ interface ReactionFurnace {
                 .blastFurnaceTemp(800)
                 .save();
 
-        GTORecipeTypes.REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("phosphorus_pentasulfide_dust"))
+        REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("phosphorus_pentasulfide_dust"))
                 .inputItems(TagPrefix.dust, GTMaterials.Sulfur, 10)
                 .inputItems(TagPrefix.dust, GTMaterials.Phosphorus, 4)
                 .outputItems(TagPrefix.dust, GTOMaterials.PhosphorusPentasulfide, 14)
@@ -238,7 +238,7 @@ interface ReactionFurnace {
                 .blastFurnaceTemp(900)
                 .save();
 
-        GTORecipeTypes.REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("thallium_thulium_doped_caesium_iodide_dust"))
+        REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("thallium_thulium_doped_caesium_iodide_dust"))
                 .inputItems(TagPrefix.dust, GTOMaterials.CaesiumIodide)
                 .inputItems(TagPrefix.dustSmall, GTMaterials.Thulium)
                 .inputItems(TagPrefix.dustSmall, GTMaterials.Thallium)
@@ -248,7 +248,7 @@ interface ReactionFurnace {
                 .blastFurnaceTemp(2853)
                 .save();
 
-        GTORecipeTypes.REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("blaze_casing"))
+        REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("blaze_casing"))
                 .inputItems(GCYMBlocks.CASING_HIGH_TEMPERATURE_SMELTING.asStack())
                 .inputItems(TagPrefix.foil, GTMaterials.Tin, 32)
                 .inputFluids(GTMaterials.Blaze.getFluid(1440))
@@ -260,7 +260,7 @@ interface ReactionFurnace {
                 .blastFurnaceTemp(4500)
                 .save();
 
-        GTORecipeTypes.REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("ytterbium_dust"))
+        REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("ytterbium_dust"))
                 .inputItems(TagPrefix.dust, GTOMaterials.YtterbiumOxide, 10)
                 .inputItems(TagPrefix.dust, GTMaterials.Carbon, 3)
                 .outputItems(TagPrefix.dust, GTMaterials.Ytterbium, 4)
@@ -270,7 +270,7 @@ interface ReactionFurnace {
                 .blastFurnaceTemp(2500)
                 .save();
 
-        GTORecipeTypes.REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("aerographene"))
+        REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("aerographene"))
                 .inputItems(TagPrefix.dust, GTOMaterials.DryGrapheneGel)
                 .inputFluids(GTOMaterials.SupercriticalCarbonDioxide.getFluid(1000))
                 .outputItems(GTOItems.AEROGRAPHENE.asStack())
@@ -279,7 +279,7 @@ interface ReactionFurnace {
                 .blastFurnaceTemp(5000)
                 .save();
 
-        GTORecipeTypes.REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("zylon_dust"))
+        REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("zylon_dust"))
                 .inputItems(TagPrefix.dust, GTOMaterials.PreZylon)
                 .outputItems(TagPrefix.dust, GTOMaterials.Zylon)
                 .outputFluids(GTMaterials.Propane.getFluid(2000))
@@ -288,7 +288,7 @@ interface ReactionFurnace {
                 .blastFurnaceTemp(10000)
                 .save();
 
-        GTORecipeTypes.REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("promethium_dust"))
+        REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("promethium_dust"))
                 .inputItems(TagPrefix.dust, GTOMaterials.PromethiumOxide, 10)
                 .inputItems(TagPrefix.dust, GTMaterials.Carbon, 3)
                 .outputItems(TagPrefix.dust, GTMaterials.Promethium, 4)
@@ -298,7 +298,7 @@ interface ReactionFurnace {
                 .blastFurnaceTemp(2500)
                 .save();
 
-        GTORecipeTypes.REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("molybdenum_flue"))
+        REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("molybdenum_flue"))
                 .inputItems(TagPrefix.dust, GTOMaterials.MolybdenumConcentrate, 4)
                 .inputFluids(GTMaterials.Oxygen.getFluid(7250))
                 .outputItems(TagPrefix.dust, GTOMaterials.MolybdenumTrioxide, 4)
@@ -308,7 +308,7 @@ interface ReactionFurnace {
                 .blastFurnaceTemp(2400)
                 .save();
 
-        GTORecipeTypes.REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("lutetium_dust"))
+        REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("lutetium_dust"))
                 .inputItems(TagPrefix.dust, GTOMaterials.LutetiumOxide, 10)
                 .inputItems(TagPrefix.dust, GTMaterials.Carbon, 3)
                 .outputItems(TagPrefix.dust, GTMaterials.Lutetium, 4)
@@ -318,7 +318,7 @@ interface ReactionFurnace {
                 .blastFurnaceTemp(2500)
                 .save();
 
-        GTORecipeTypes.REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("cadmium_tungstate_dust"))
+        REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("cadmium_tungstate_dust"))
                 .inputItems(TagPrefix.dust, GTOMaterials.TungstenTrioxide, 4)
                 .inputItems(TagPrefix.dust, GTOMaterials.CadmiumSulfide, 2)
                 .inputFluids(GTMaterials.Oxygen.getFluid(3000))
@@ -329,7 +329,7 @@ interface ReactionFurnace {
                 .blastFurnaceTemp(2800)
                 .save();
 
-        GTORecipeTypes.REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("bismuth_germanate_dust"))
+        REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("bismuth_germanate_dust"))
                 .inputItems(TagPrefix.dust, GTOMaterials.GermaniumDioxide, 3)
                 .inputFluids(GTOMaterials.BismuthNitrateSolution.getFluid(4000))
                 .outputItems(TagPrefix.dust, GTOMaterials.BismuthGermanate, 33)
@@ -339,7 +339,7 @@ interface ReactionFurnace {
                 .blastFurnaceTemp(7600)
                 .save();
 
-        GTORecipeTypes.REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("scandium_dust"))
+        REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("scandium_dust"))
                 .inputItems(TagPrefix.dust, GTOMaterials.ScandiumOxide, 10)
                 .inputItems(TagPrefix.dust, GTMaterials.Carbon, 3)
                 .outputItems(TagPrefix.dust, GTMaterials.Scandium, 4)
@@ -349,7 +349,7 @@ interface ReactionFurnace {
                 .blastFurnaceTemp(2500)
                 .save();
 
-        GTORecipeTypes.REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("terbium_dust"))
+        REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("terbium_dust"))
                 .inputItems(TagPrefix.dust, GTOMaterials.TerbiumOxide, 10)
                 .inputItems(TagPrefix.dust, GTMaterials.Carbon, 3)
                 .outputItems(TagPrefix.dust, GTMaterials.Terbium, 4)
@@ -359,7 +359,7 @@ interface ReactionFurnace {
                 .blastFurnaceTemp(2500)
                 .save();
 
-        GTORecipeTypes.REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("bisethylenedithiotetraselenafulvalene_dust"))
+        REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("bisethylenedithiotetraselenafulvalene_dust"))
                 .inputItems(TagPrefix.dust, GTOMaterials.LithiumThiinediselenide, 28)
                 .inputItems(TagPrefix.dust, GTOMaterials.CyclopentadienylTitaniumTrichloride)
                 .inputFluids(GTMaterials.Tetrafluoroethylene.getFluid(1000))
@@ -370,7 +370,7 @@ interface ReactionFurnace {
                 .blastFurnaceTemp(4600)
                 .save();
 
-        GTORecipeTypes.REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("holmium_dust"))
+        REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("holmium_dust"))
                 .inputItems(TagPrefix.dust, GTOMaterials.HolmiumOxide, 10)
                 .inputItems(TagPrefix.dust, GTMaterials.Carbon, 3)
                 .outputItems(TagPrefix.dust, GTMaterials.Holmium, 4)
@@ -380,7 +380,7 @@ interface ReactionFurnace {
                 .blastFurnaceTemp(2500)
                 .save();
 
-        GTORecipeTypes.REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("trinium_compound_dust"))
+        REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("trinium_compound_dust"))
                 .inputItems(TagPrefix.dust, GTOMaterials.CrystallineNitricAcid, 40)
                 .inputItems(TagPrefix.dust, GTOMaterials.TriniumCompound, 16)
                 .inputItems(TagPrefix.dust, GTOMaterials.SodiumPerchlorate, 6)
@@ -393,7 +393,7 @@ interface ReactionFurnace {
                 .blastFurnaceTemp(9400)
                 .save();
 
-        GTORecipeTypes.REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("dragon_strength_tritanium_casing"))
+        REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("dragon_strength_tritanium_casing"))
                 .inputItems(GTOBlocks.EXTREME_STRENGTH_TRITANIUM_CASING.asStack(16))
                 .inputItems(GTOBlocks.DRACONIUM_BLOCK_CHARGED.asStack(16))
                 .outputItems(GTOBlocks.DRAGON_STRENGTH_TRITANIUM_CASING.asStack())
@@ -402,7 +402,7 @@ interface ReactionFurnace {
                 .blastFurnaceTemp(8000)
                 .save();
 
-        GTORecipeTypes.REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("bisethylenedithiotetraselenafulvalene_perrhenate_dust"))
+        REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("bisethylenedithiotetraselenafulvalene_perrhenate_dust"))
                 .inputItems(TagPrefix.dust, GTOMaterials.Bisethylenedithiotetraselenafulvalene, 26)
                 .inputFluids(GTOMaterials.AmmoniumPerrhenate.getFluid(1000))
                 .outputItems(TagPrefix.dust, GTOMaterials.BisethylenedithiotetraselenafulvalenePerrhenate, 31)
@@ -412,7 +412,7 @@ interface ReactionFurnace {
                 .blastFurnaceTemp(5000)
                 .save();
 
-        GTORecipeTypes.REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("cerium_dust"))
+        REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("cerium_dust"))
                 .inputItems(TagPrefix.dust, GTOMaterials.CeriumOxide, 10)
                 .inputItems(TagPrefix.dust, GTMaterials.Carbon, 3)
                 .outputItems(TagPrefix.dust, GTMaterials.Cerium, 4)
@@ -422,7 +422,7 @@ interface ReactionFurnace {
                 .blastFurnaceTemp(2500)
                 .save();
 
-        GTORecipeTypes.REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("thulium_dust"))
+        REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("thulium_dust"))
                 .inputItems(TagPrefix.dust, GTOMaterials.ThuliumOxide, 10)
                 .inputItems(TagPrefix.dust, GTMaterials.Carbon, 3)
                 .outputItems(TagPrefix.dust, GTMaterials.Thulium, 4)
@@ -432,7 +432,7 @@ interface ReactionFurnace {
                 .blastFurnaceTemp(2500)
                 .save();
 
-        GTORecipeTypes.REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("zeolite_sieving_pellets_dust"))
+        REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("zeolite_sieving_pellets_dust"))
                 .inputItems(TagPrefix.dust, GTOMaterials.SilicaAluminaGel)
                 .inputItems(TagPrefix.dust, GTMaterials.Zeolite)
                 .outputItems(TagPrefix.dust, GTOMaterials.ZeoliteSievingPellets)
@@ -441,7 +441,7 @@ interface ReactionFurnace {
                 .blastFurnaceTemp(4500)
                 .save();
 
-        GTORecipeTypes.REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("francium_caesium_cadmium_bromide_dust"))
+        REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("francium_caesium_cadmium_bromide_dust"))
                 .inputItems(TagPrefix.dust, GTMaterials.Cadmium, 2)
                 .inputItems(TagPrefix.dust, GTMaterials.Francium)
                 .inputItems(TagPrefix.dust, GTMaterials.Caesium)
@@ -452,7 +452,7 @@ interface ReactionFurnace {
                 .blastFurnaceTemp(2200)
                 .save();
 
-        GTORecipeTypes.REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("samarium_dust"))
+        REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("samarium_dust"))
                 .inputItems(TagPrefix.dust, GTOMaterials.SamariumOxide, 10)
                 .inputItems(TagPrefix.dust, GTMaterials.Carbon, 3)
                 .outputItems(TagPrefix.dust, GTMaterials.Samarium, 4)
@@ -462,7 +462,7 @@ interface ReactionFurnace {
                 .blastFurnaceTemp(2500)
                 .save();
 
-        GTORecipeTypes.REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("tellurium_oxide_dust"))
+        REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("tellurium_oxide_dust"))
                 .inputItems(TagPrefix.dust, GTMaterials.Tellurium)
                 .inputFluids(GTMaterials.Oxygen.getFluid(2000))
                 .outputItems(TagPrefix.dust, GTOMaterials.TelluriumOxide, 3)
@@ -471,7 +471,7 @@ interface ReactionFurnace {
                 .blastFurnaceTemp(1760)
                 .save();
 
-        GTORecipeTypes.REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("hot_titanium_50_ingot"))
+        REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("hot_titanium_50_ingot"))
                 .inputItems(TagPrefix.dust, GTMaterials.Magnesium, 2)
                 .inputFluids(GTOMaterials.Titanium50Tetrachloride.getFluid(1000))
                 .outputItems(TagPrefix.ingotHot, GTOMaterials.Titanium50)
@@ -481,7 +481,7 @@ interface ReactionFurnace {
                 .blastFurnaceTemp(2142)
                 .save();
 
-        GTORecipeTypes.REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("fissioned_uranium_235_dust"))
+        REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("fissioned_uranium_235_dust"))
                 .inputItems(TagPrefix.dust, GTMaterials.Uranium235)
                 .inputItems(TagPrefix.dustTiny, GTMaterials.Neutronium)
                 .outputItems(TagPrefix.dust, GTOMaterials.FissionedUranium235)
@@ -490,7 +490,7 @@ interface ReactionFurnace {
                 .blastFurnaceTemp(3860)
                 .save();
 
-        GTORecipeTypes.REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("neodymium_dust"))
+        REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("neodymium_dust"))
                 .inputItems(TagPrefix.dust, GTOMaterials.NeodymiumOxide, 10)
                 .inputItems(TagPrefix.dust, GTMaterials.Carbon, 3)
                 .outputItems(TagPrefix.dust, GTMaterials.Neodymium, 4)
@@ -500,7 +500,7 @@ interface ReactionFurnace {
                 .blastFurnaceTemp(2500)
                 .save();
 
-        GTORecipeTypes.REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("praseodymium_dust"))
+        REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("praseodymium_dust"))
                 .inputItems(TagPrefix.dust, GTOMaterials.PraseodymiumOxide, 10)
                 .inputItems(TagPrefix.dust, GTMaterials.Carbon, 3)
                 .outputItems(TagPrefix.dust, GTMaterials.Praseodymium, 4)
@@ -510,7 +510,7 @@ interface ReactionFurnace {
                 .blastFurnaceTemp(2500)
                 .save();
 
-        GTORecipeTypes.REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("infused_obsidian"))
+        REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("infused_obsidian"))
                 .inputItems(GTOBlocks.ENDER_OBSIDIAN.asStack())
                 .inputItems(GTOItems.DRACONIUM_DIRT.asStack())
                 .outputItems(GTOBlocks.INFUSED_OBSIDIAN.asStack())
@@ -519,7 +519,7 @@ interface ReactionFurnace {
                 .blastFurnaceTemp(11200)
                 .save();
 
-        GTORecipeTypes.REACTION_FURNACE_RECIPES.recipeBuilder("chalcopyrite_metallurgy").duration(120).EUt(VA[MV]).blastFurnaceTemp(1200)
+        REACTION_FURNACE_RECIPES.recipeBuilder("chalcopyrite_metallurgy").duration(120).EUt(VA[MV]).blastFurnaceTemp(1200)
                 .inputItems(dust, Chalcopyrite)
                 .inputItems(dust, SiliconDioxide)
                 .inputFluids(Oxygen.getFluid(3000))
@@ -528,7 +528,7 @@ interface ReactionFurnace {
                 .outputFluids(SulfurDioxide.getFluid(2000))
                 .save();
 
-        GTORecipeTypes.REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("alumina_ceramic_dust"))
+        REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("alumina_ceramic_dust"))
                 .inputItems(TagPrefix.dust, GTOMaterials.AluminiumHydroxide)
                 .outputItems(TagPrefix.dust, GTOMaterials.AluminaCeramic)
                 .outputFluids(GTMaterials.Water.getFluid(1000))
@@ -537,7 +537,7 @@ interface ReactionFurnace {
                 .blastFurnaceTemp(2775)
                 .save();
 
-        GTORecipeTypes.REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("tungsten_tetraboride_ceramics_dust"))
+        REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("tungsten_tetraboride_ceramics_dust"))
                 .inputItems(TagPrefix.dust, GTOMaterials.TungstenBoronMixture)
                 .outputItems(TagPrefix.dust, GTOMaterials.TungstenTetraborideCeramics)
                 .EUt(480)
@@ -545,7 +545,7 @@ interface ReactionFurnace {
                 .blastFurnaceTemp(2775)
                 .save();
 
-        GTORecipeTypes.REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("tellurate_ceramics_dust"))
+        REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("tellurate_ceramics_dust"))
                 .inputItems(TagPrefix.dust, GTMaterials.Tellurium)
                 .inputFluids(GTMaterials.Oxygen.getFluid(3000))
                 .outputItems(TagPrefix.dust, GTOMaterials.TellurateCeramics)
@@ -554,7 +554,7 @@ interface ReactionFurnace {
                 .blastFurnaceTemp(2775)
                 .save();
 
-        GTORecipeTypes.REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("thulium_hexaboride_ceramics_dust"))
+        REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("thulium_hexaboride_ceramics_dust"))
                 .inputItems(TagPrefix.dust, GTMaterials.Thulium)
                 .inputItems(TagPrefix.dust, GTMaterials.Boron, 6)
                 .inputFluids(GTMaterials.Argon.getFluid(1000))
@@ -564,7 +564,7 @@ interface ReactionFurnace {
                 .blastFurnaceTemp(2775)
                 .save();
 
-        GTORecipeTypes.REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("silicon_nitride_ceramic_dust"))
+        REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("silicon_nitride_ceramic_dust"))
                 .inputItems(TagPrefix.dust, GTMaterials.Silicon, 3)
                 .circuitMeta(5)
                 .inputFluids(GTMaterials.Nitrogen.getFluid(4000))
@@ -574,7 +574,7 @@ interface ReactionFurnace {
                 .blastFurnaceTemp(2775)
                 .save();
 
-        GTORecipeTypes.REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("lithium_oxide_ceramics_dust"))
+        REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("lithium_oxide_ceramics_dust"))
                 .inputItems(TagPrefix.dust, GTMaterials.Lithium, 2)
                 .circuitMeta(5)
                 .inputFluids(GTMaterials.Oxygen.getFluid(1000))
@@ -584,7 +584,7 @@ interface ReactionFurnace {
                 .blastFurnaceTemp(2775)
                 .save();
 
-        GTORecipeTypes.REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("titanium_nitride_ceramic_dust"))
+        REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("titanium_nitride_ceramic_dust"))
                 .inputItems(TagPrefix.dust, GTMaterials.Titanium, 2)
                 .inputFluids(GTMaterials.Nitrogen.getFluid(1000))
                 .outputItems(TagPrefix.dust, GTOMaterials.TitaniumNitrideCeramic, 2)
@@ -593,7 +593,7 @@ interface ReactionFurnace {
                 .blastFurnaceTemp(2775)
                 .save();
 
-        GTORecipeTypes.REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("zirconia_ceramic_dust"))
+        REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("zirconia_ceramic_dust"))
                 .inputItems(TagPrefix.dust, GTOMaterials.Zircon, 6)
                 .outputItems(TagPrefix.dust, GTOMaterials.ZirconiaCeramic)
                 .outputItems(TagPrefix.dust, GTMaterials.SiliconDioxide, 3)
@@ -602,7 +602,7 @@ interface ReactionFurnace {
                 .blastFurnaceTemp(2775)
                 .save();
 
-        GTORecipeTypes.REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("carbon_dioxide"))
+        REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("carbon_dioxide"))
                 .inputItems(TagPrefix.dust, GTMaterials.Magnesite, 5)
                 .outputItems(TagPrefix.dust, GTMaterials.Magnesia, 2)
                 .outputFluids(GTMaterials.CarbonDioxide.getFluid(1000))
@@ -613,28 +613,28 @@ interface ReactionFurnace {
     }
 
     private static void registerBlastFurnaceRecipes() {
-        GTORecipeTypes.REACTION_FURNACE_RECIPES.recipeBuilder("aluminium_from_ruby_dust").duration(400).EUt(100).inputItems(dust, Ruby)
+        REACTION_FURNACE_RECIPES.recipeBuilder("aluminium_from_ruby_dust").duration(400).EUt(100).inputItems(dust, Ruby)
                 .outputItems(nugget, Aluminium, 3).chancedOutput(dust, Ash, "1/9", 0).blastFurnaceTemp(1200)
                 .save();
-        GTORecipeTypes.REACTION_FURNACE_RECIPES.recipeBuilder("aluminium_from_ruby_gem").duration(320).EUt(100).inputItems(gem, Ruby)
+        REACTION_FURNACE_RECIPES.recipeBuilder("aluminium_from_ruby_gem").duration(320).EUt(100).inputItems(gem, Ruby)
                 .outputItems(nugget, Aluminium, 3).chancedOutput(dust, Ash, "1/9", 0).blastFurnaceTemp(1200)
                 .save();
-        GTORecipeTypes.REACTION_FURNACE_RECIPES.recipeBuilder("aluminium_from_green_sapphire_dust").duration(400).EUt(100)
+        REACTION_FURNACE_RECIPES.recipeBuilder("aluminium_from_green_sapphire_dust").duration(400).EUt(100)
                 .inputItems(dust, GreenSapphire).outputItems(nugget, Aluminium, 3).chancedOutput(dust, Ash, "1/9", 0)
                 .blastFurnaceTemp(1200).save();
-        GTORecipeTypes.REACTION_FURNACE_RECIPES.recipeBuilder("aluminium_from_green_sapphire_gem").duration(320).EUt(100)
+        REACTION_FURNACE_RECIPES.recipeBuilder("aluminium_from_green_sapphire_gem").duration(320).EUt(100)
                 .inputItems(gem, GreenSapphire).outputItems(nugget, Aluminium, 3).chancedOutput(dust, Ash, "1/9", 0)
                 .blastFurnaceTemp(1200).save();
-        GTORecipeTypes.REACTION_FURNACE_RECIPES.recipeBuilder("aluminium_from_sapphire_dust").duration(400).EUt(100).inputItems(dust, Sapphire)
+        REACTION_FURNACE_RECIPES.recipeBuilder("aluminium_from_sapphire_dust").duration(400).EUt(100).inputItems(dust, Sapphire)
                 .outputItems(nugget, Aluminium, 3).blastFurnaceTemp(1200).save();
-        GTORecipeTypes.REACTION_FURNACE_RECIPES.recipeBuilder("aluminium_from_sapphire_gem").duration(320).EUt(100).inputItems(gem, Sapphire)
+        REACTION_FURNACE_RECIPES.recipeBuilder("aluminium_from_sapphire_gem").duration(320).EUt(100).inputItems(gem, Sapphire)
                 .outputItems(nugget, Aluminium, 3).blastFurnaceTemp(1200).save();
-        GTORecipeTypes.REACTION_FURNACE_RECIPES.recipeBuilder("titanium_from_tetrachloride").duration(600).EUt(VA[HV])
+        REACTION_FURNACE_RECIPES.recipeBuilder("titanium_from_tetrachloride").duration(600).EUt(VA[HV])
                 .inputItems(dust, Magnesium, 2).inputFluids(TitaniumTetrachloride.getFluid(1000))
                 .outputItems(ingotHot, Titanium).outputItems(dust, MagnesiumChloride, 6)
                 .blastFurnaceTemp(Titanium.getBlastTemperature() + 200).save();
 
-        GTORecipeTypes.REACTION_FURNACE_RECIPES.recipeBuilder("rutile_from_ilmenite")
+        REACTION_FURNACE_RECIPES.recipeBuilder("rutile_from_ilmenite")
                 .inputItems(dust, Ilmenite, 10)
                 .inputItems(dust, Carbon, 4)
                 .outputItems(ingot, WroughtIron, 2)
@@ -652,7 +652,7 @@ interface ReactionFurnace {
         createSulfurDioxideRecipe(Pyrite, Hematite, 2000);
         createSulfurDioxideRecipe(Pentlandite, Garnierite, 1000);
 
-        GTORecipeTypes.REACTION_FURNACE_RECIPES.recipeBuilder("tetrahedrite_metallurgy").duration(120).EUt(VA[MV]).blastFurnaceTemp(1200)
+        REACTION_FURNACE_RECIPES.recipeBuilder("tetrahedrite_metallurgy").duration(120).EUt(VA[MV]).blastFurnaceTemp(1200)
                 .inputItems(dust, Tetrahedrite)
                 .inputFluids(Oxygen.getFluid(3000))
                 .outputItems(dust, CupricOxide)
@@ -660,7 +660,7 @@ interface ReactionFurnace {
                 .outputFluids(SulfurDioxide.getFluid(2000))
                 .save();
 
-        GTORecipeTypes.REACTION_FURNACE_RECIPES.recipeBuilder("cobaltite_metallurgy").duration(120).EUt(VA[MV]).blastFurnaceTemp(1200)
+        REACTION_FURNACE_RECIPES.recipeBuilder("cobaltite_metallurgy").duration(120).EUt(VA[MV]).blastFurnaceTemp(1200)
                 .inputItems(dust, Cobaltite)
                 .inputFluids(Oxygen.getFluid(3000))
                 .outputItems(dust, CobaltOxide)
@@ -668,7 +668,7 @@ interface ReactionFurnace {
                 .outputFluids(SulfurDioxide.getFluid(1000))
                 .save();
 
-        GTORecipeTypes.REACTION_FURNACE_RECIPES.recipeBuilder("galena_metallurgy").duration(120).EUt(VA[MV]).blastFurnaceTemp(1200)
+        REACTION_FURNACE_RECIPES.recipeBuilder("galena_metallurgy").duration(120).EUt(VA[MV]).blastFurnaceTemp(1200)
                 .inputItems(dust, Galena)
                 .inputFluids(Oxygen.getFluid(3000))
                 .outputItems(dust, Massicot)
@@ -676,7 +676,7 @@ interface ReactionFurnace {
                 .outputFluids(SulfurDioxide.getFluid(1000))
                 .save();
 
-        GTORecipeTypes.REACTION_FURNACE_RECIPES.recipeBuilder("chalcopyrite_metallurgy").duration(120).EUt(VA[MV]).blastFurnaceTemp(1200)
+        REACTION_FURNACE_RECIPES.recipeBuilder("chalcopyrite_metallurgy").duration(120).EUt(VA[MV]).blastFurnaceTemp(1200)
                 .inputItems(dust, Chalcopyrite)
                 .inputItems(dust, SiliconDioxide)
                 .inputFluids(Oxygen.getFluid(3000))
@@ -685,7 +685,7 @@ interface ReactionFurnace {
                 .outputFluids(SulfurDioxide.getFluid(2000))
                 .save();
 
-        GTORecipeTypes.REACTION_FURNACE_RECIPES.recipeBuilder("blast_silicon_dioxide").duration(240).EUt(VA[MV]).blastFurnaceTemp(2273)
+        REACTION_FURNACE_RECIPES.recipeBuilder("blast_silicon_dioxide").duration(240).EUt(VA[MV]).blastFurnaceTemp(2273)
                 .inputItems(dust, SiliconDioxide, 3)
                 .inputItems(dust, Carbon, 2)
                 .outputItems(ingotHot, Silicon)
@@ -696,7 +696,7 @@ interface ReactionFurnace {
 
     private static void createSulfurDioxideRecipe(Material inputMaterial,
                                                   Material outputMaterial, int sulfurDioxideAmount) {
-        GTORecipeTypes.REACTION_FURNACE_RECIPES.recipeBuilder(inputMaterial.getName() + "_metallurgy").duration(120).EUt(VA[MV])
+        REACTION_FURNACE_RECIPES.recipeBuilder(inputMaterial.getName() + "_metallurgy").duration(120).EUt(VA[MV])
                 .blastFurnaceTemp(1200)
                 .inputItems(dust, inputMaterial)
                 .inputFluids(Oxygen.getFluid(3000))

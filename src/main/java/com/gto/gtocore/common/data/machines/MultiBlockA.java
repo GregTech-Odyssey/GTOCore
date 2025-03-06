@@ -1205,6 +1205,7 @@ public interface MultiBlockA {
 
     MultiblockMachineDefinition LARGE_STEAM_MIXER = multiblock("large_steam_mixer", "大型蒸汽搅拌机", (holder) -> new LargeSteamParallelMultiblockMachine(holder, 32))
             .allRotation()
+            .existingTooltips("steam_mixer", 0)
             .recipe(GTRecipeTypes.MIXER_RECIPES)
             .steamOverclock()
             .block(GTBlocks.CASING_BRONZE_BRICKS)
@@ -1226,8 +1227,6 @@ public interface MultiBlockA {
                             .or(abilities(STEAM).setExactLimit(1))
                             .or(abilities(STEAM_IMPORT_ITEMS).setMaxGlobalLimited(1).setPreviewCount(1))
                             .or(abilities(STEAM_EXPORT_ITEMS).setMaxGlobalLimited(1).setPreviewCount(1))
-                            .or(abilities(IMPORT_FLUIDS).setMaxGlobalLimited(2).setPreviewCount(1))
-                            .or(abilities(EXPORT_FLUIDS).setMaxGlobalLimited(1).setPreviewCount(1))
                             .or(abilities(IMPORT_ITEMS).setMaxGlobalLimited(4))
                             .or(abilities(EXPORT_ITEMS).setMaxGlobalLimited(1)))
                     .where(' ', any())
@@ -1263,8 +1262,9 @@ public interface MultiBlockA {
             .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_bronze_plated_bricks"), GTCEu.id("block/multiblock/steam_mixer"))
             .register();
 
-    MultiblockMachineDefinition STEAM_SEPARATOR = multiblock("steam_separator", "蒸汽分离机", (holder) -> new LargeSteamParallelMultiblockMachine(holder, 8))
+    MultiblockMachineDefinition STEAM_SEPARATOR = multiblock("steam_separator", "蒸汽分离机", (holder) -> new LargeSteamParallelMultiblockMachine(holder, 8, 8))
             .allRotation()
+            .tooltipsText("Default processing capability is at ULV voltage", "默认处理能力为ULV电压")
             .recipe(GTRecipeTypes.CENTRIFUGE_RECIPES)
             .steamOverclock()
             .block(GTBlocks.CASING_BRONZE_BRICKS)
@@ -1291,9 +1291,10 @@ public interface MultiBlockA {
             .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_bronze_plated_bricks"), GTCEu.id("block/multiblock/steam_centrifuge"))
             .register();
 
-    MultiblockMachineDefinition LARGE_STEAM_CENTRIFUGE = multiblock("large_steam_centrifuge", "大型蒸汽离心机", (holder) -> new LargeSteamParallelMultiblockMachine(holder, 32))
+    MultiblockMachineDefinition LARGE_STEAM_CENTRIFUGE = multiblock("large_steam_centrifuge", "大型蒸汽离心机", (holder) -> new LargeSteamParallelMultiblockMachine(holder, 32, 8))
             .allRotation()
             .recipe(GTRecipeTypes.CENTRIFUGE_RECIPES)
+            .existingTooltips("steam_separator", 0)
             .steamOverclock()
             .block(GTBlocks.CASING_BRONZE_BRICKS)
             .pattern(definition -> FactoryBlockPattern.start()

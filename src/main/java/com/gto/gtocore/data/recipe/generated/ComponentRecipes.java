@@ -6,7 +6,6 @@ import com.gto.gtocore.api.data.tag.GTOTagPrefix;
 import com.gto.gtocore.api.recipe.GTORecipeBuilder;
 import com.gto.gtocore.common.data.GTOItems;
 import com.gto.gtocore.common.data.GTOMaterials;
-import com.gto.gtocore.common.data.GTORecipeTypes;
 import com.gto.gtocore.data.CraftingComponents;
 
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
@@ -70,7 +69,7 @@ public interface ComponentRecipes {
         assembly_line(UXV, ChemicalHelper.get(pipeNormalFluid, HeavyQuarkDegenerateMatter), GTOItems.UNSTABLE_STAR.asStack(), ChemicalHelper.get(rodLong, AttunedTengam), HastelloyK243, NaquadriaticTaranium, Taranium, SuperMutatedLivingSolder, Lubricant, AstralTitanium, StyreneButadieneRubber, Vibranium, NaquadriaticTaranium, TitanPrecisionSteel, Legendarium);
         assembly_line(OpV, ChemicalHelper.get(pipeLargeFluid, HeavyQuarkDegenerateMatter), GTOItems.UNSTABLE_STAR.asStack(), ChemicalHelper.get(rodLong, AttunedTengam), Vibramantium, Starmetal, CrystalMatrix, SuperMutatedLivingSolder, Lubricant, CelestialTungsten, StyreneButadieneRubber, Draconium, Starmetal, Hikarium, AwakenedDraconium);
 
-        GTORecipeTypes.COMPONENT_ASSEMBLY_RECIPES.recipeBuilder(GTOCore.id("max_field_generator"))
+        COMPONENT_ASSEMBLY_RECIPES.recipeBuilder(GTOCore.id("max_field_generator"))
                 .inputItems(TagPrefix.plateDouble, GTOMaterials.Chaos, 288)
                 .inputItems(CustomTags.MAX_CIRCUITS, 96)
                 .inputItems(GTOItems.MAX_EMITTER.asStack(96))
@@ -90,7 +89,7 @@ public interface ComponentRecipes {
                 .addData(GTOValues.COMPONENT_ASSEMBLY_CASING_TIER, 14)
                 .save();
 
-        GTORecipeTypes.COMPONENT_ASSEMBLY_RECIPES.recipeBuilder(GTOCore.id("max_sensor"))
+        COMPONENT_ASSEMBLY_RECIPES.recipeBuilder(GTOCore.id("max_sensor"))
                 .circuitMeta(7)
                 .inputItems(CustomTags.MAX_CIRCUITS, 96)
                 .inputItems(TagPrefix.plate, GTOMaterials.TranscendentMetal, 192)
@@ -110,7 +109,7 @@ public interface ComponentRecipes {
                 .addData(GTOValues.COMPONENT_ASSEMBLY_CASING_TIER, 14)
                 .save();
 
-        GTORecipeTypes.COMPONENT_ASSEMBLY_RECIPES.recipeBuilder(GTOCore.id("max_electric_piston"))
+        COMPONENT_ASSEMBLY_RECIPES.recipeBuilder(GTOCore.id("max_electric_piston"))
                 .circuitMeta(2)
                 .inputItems(GTOItems.MAX_ELECTRIC_MOTOR.asStack(48))
                 .inputItems(TagPrefix.plateDouble, GTOMaterials.TranscendentMetal, 192)
@@ -126,7 +125,7 @@ public interface ComponentRecipes {
                 .addData(GTOValues.COMPONENT_ASSEMBLY_CASING_TIER, 14)
                 .save();
 
-        GTORecipeTypes.COMPONENT_ASSEMBLY_RECIPES.recipeBuilder(GTOCore.id("max_electric_pump"))
+        COMPONENT_ASSEMBLY_RECIPES.recipeBuilder(GTOCore.id("max_electric_pump"))
                 .circuitMeta(3)
                 .inputItems(TagPrefix.plateDouble, GTOMaterials.TranscendentMetal, 96)
                 .inputItems(GTOItems.MAX_ELECTRIC_MOTOR.asStack(48))
@@ -146,7 +145,7 @@ public interface ComponentRecipes {
                 .addData(GTOValues.COMPONENT_ASSEMBLY_CASING_TIER, 14)
                 .save();
 
-        GTORecipeTypes.COMPONENT_ASSEMBLY_RECIPES.recipeBuilder(GTOCore.id("max_conveyor_module"))
+        COMPONENT_ASSEMBLY_RECIPES.recipeBuilder(GTOCore.id("max_conveyor_module"))
                 .circuitMeta(5)
                 .inputItems(GTOItems.MAX_ELECTRIC_MOTOR.asStack(96))
                 .inputItems(TagPrefix.plateDouble, GTOMaterials.TranscendentMetal, 96)
@@ -164,7 +163,7 @@ public interface ComponentRecipes {
                 .addData(GTOValues.COMPONENT_ASSEMBLY_CASING_TIER, 14)
                 .save();
 
-        GTORecipeTypes.COMPONENT_ASSEMBLY_RECIPES.recipeBuilder(GTOCore.id("max_electric_motor"))
+        COMPONENT_ASSEMBLY_RECIPES.recipeBuilder(GTOCore.id("max_electric_motor"))
                 .circuitMeta(1)
                 .inputItems(TagPrefix.rodLong, GTOMaterials.Magmatter, 48)
                 .inputItems(TagPrefix.cableGtHex, GTOMaterials.CosmicNeutronium, 48)
@@ -181,7 +180,7 @@ public interface ComponentRecipes {
                 .addData(GTOValues.COMPONENT_ASSEMBLY_CASING_TIER, 14)
                 .save();
 
-        GTORecipeTypes.COMPONENT_ASSEMBLY_RECIPES.recipeBuilder(GTOCore.id("max_robot_arm"))
+        COMPONENT_ASSEMBLY_RECIPES.recipeBuilder(GTOCore.id("max_robot_arm"))
                 .circuitMeta(4)
                 .inputItems(CustomTags.UXV_CIRCUITS, 192)
                 .inputItems(CustomTags.OpV_CIRCUITS, 96)
@@ -200,7 +199,7 @@ public interface ComponentRecipes {
                 .addData(GTOValues.COMPONENT_ASSEMBLY_CASING_TIER, 14)
                 .save();
 
-        GTORecipeTypes.COMPONENT_ASSEMBLY_RECIPES.recipeBuilder(GTOCore.id("max_emitter"))
+        COMPONENT_ASSEMBLY_RECIPES.recipeBuilder(GTOCore.id("max_emitter"))
                 .circuitMeta(6)
                 .inputItems(CustomTags.MAX_CIRCUITS, 96)
                 .inputItems(GTOItems.MAX_ELECTRIC_MOTOR.asStack(48))

@@ -4,7 +4,6 @@ import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.api.data.tag.GTOTagPrefix;
 import com.gto.gtocore.common.data.GTOItems;
 import com.gto.gtocore.common.data.GTOMaterials;
-import com.gto.gtocore.common.data.GTORecipeTypes;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
@@ -13,10 +12,12 @@ import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
 
+import static com.gto.gtocore.common.data.GTORecipeTypes.SUPRACHRONAL_ASSEMBLY_LINE_RECIPES;
+
 interface SuprachronalAssemblyLine {
 
     static void init() {
-        GTORecipeTypes.SUPRACHRONAL_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("create_ultimate_battery"))
+        SUPRACHRONAL_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("create_ultimate_battery"))
                 .inputItems(TagPrefix.frameGt, GTOMaterials.MagnetohydrodynamicallyConstrainedStarMatter)
                 .inputItems(GTOItems.SUPRACHRONAL_MAINFRAME_COMPLEX.asStack(4))
                 .inputItems(GTOItems.MEGA_MAX_BATTERY.asStack(16))
@@ -46,7 +47,7 @@ interface SuprachronalAssemblyLine {
                         .EUt(2013265920))
                 .save();
 
-        GTORecipeTypes.SUPRACHRONAL_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("max_robot_arm"))
+        SUPRACHRONAL_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("max_robot_arm"))
                 .inputItems(TagPrefix.rodLong, GTOMaterials.TranscendentMetal, 8)
                 .inputItems(TagPrefix.gear, GTOMaterials.TranscendentMetal, 2)
                 .inputItems(TagPrefix.gearSmall, GTOMaterials.TranscendentMetal, 6)
@@ -69,7 +70,7 @@ interface SuprachronalAssemblyLine {
                         .EUt(2013265920))
                 .save();
 
-        GTORecipeTypes.SUPRACHRONAL_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("max_conveyor_module"))
+        SUPRACHRONAL_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("max_conveyor_module"))
                 .inputItems(GTOItems.MAX_ELECTRIC_MOTOR.asStack(2))
                 .inputItems(TagPrefix.plate, GTOMaterials.TranscendentMetal, 4)
                 .inputItems(TagPrefix.ring, GTOMaterials.TranscendentMetal, 8)
@@ -91,7 +92,7 @@ interface SuprachronalAssemblyLine {
                         .EUt(2013265920))
                 .save();
 
-        GTORecipeTypes.SUPRACHRONAL_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("suprachronal_circuit_ev"))
+        SUPRACHRONAL_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("suprachronal_circuit_ev"))
                 .notConsumable(GTOItems.HYPERDIMENSIONAL_DRONE.asStack())
                 .inputItems(GTOItems.TIMEPIECE.asStack())
                 .circuitMeta(5)
@@ -108,7 +109,7 @@ interface SuprachronalAssemblyLine {
                         .EUt(2013265920))
                 .save();
 
-        GTORecipeTypes.SUPRACHRONAL_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("suprachronal_circuit_lv"))
+        SUPRACHRONAL_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("suprachronal_circuit_lv"))
                 .notConsumable(GTOItems.HYPERDIMENSIONAL_DRONE.asStack())
                 .inputItems(GTOItems.TIMEPIECE.asStack())
                 .circuitMeta(2)
@@ -125,7 +126,7 @@ interface SuprachronalAssemblyLine {
                         .EUt(2013265920))
                 .save();
 
-        GTORecipeTypes.SUPRACHRONAL_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("suprachronal_circuit_iv"))
+        SUPRACHRONAL_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("suprachronal_circuit_iv"))
                 .notConsumable(GTOItems.HYPERDIMENSIONAL_DRONE.asStack())
                 .inputItems(GTOItems.TIMEPIECE.asStack())
                 .circuitMeta(6)
@@ -142,7 +143,7 @@ interface SuprachronalAssemblyLine {
                         .EUt(2013265920))
                 .save();
 
-        GTORecipeTypes.SUPRACHRONAL_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("suprachronal_circuit_hv"))
+        SUPRACHRONAL_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("suprachronal_circuit_hv"))
                 .notConsumable(GTOItems.HYPERDIMENSIONAL_DRONE.asStack())
                 .inputItems(GTOItems.TIMEPIECE.asStack())
                 .circuitMeta(4)
@@ -159,7 +160,7 @@ interface SuprachronalAssemblyLine {
                         .EUt(2013265920))
                 .save();
 
-        GTORecipeTypes.SUPRACHRONAL_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("suprachronal_circuit_mv"))
+        SUPRACHRONAL_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("suprachronal_circuit_mv"))
                 .notConsumable(GTOItems.HYPERDIMENSIONAL_DRONE.asStack())
                 .inputItems(GTOItems.TIMEPIECE.asStack())
                 .circuitMeta(3)
@@ -176,7 +177,7 @@ interface SuprachronalAssemblyLine {
                         .EUt(2013265920))
                 .save();
 
-        GTORecipeTypes.SUPRACHRONAL_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("suprachronal_circuit_uv"))
+        SUPRACHRONAL_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("suprachronal_circuit_uv"))
                 .notConsumable(GTOItems.HYPERDIMENSIONAL_DRONE.asStack())
                 .inputItems(GTOItems.TIMEPIECE.asStack())
                 .circuitMeta(9)
@@ -193,7 +194,7 @@ interface SuprachronalAssemblyLine {
                         .EUt(2013265920))
                 .save();
 
-        GTORecipeTypes.SUPRACHRONAL_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("suprachronal_circuit_luv"))
+        SUPRACHRONAL_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("suprachronal_circuit_luv"))
                 .notConsumable(GTOItems.HYPERDIMENSIONAL_DRONE.asStack())
                 .inputItems(GTOItems.TIMEPIECE.asStack())
                 .circuitMeta(7)
@@ -210,7 +211,7 @@ interface SuprachronalAssemblyLine {
                         .EUt(2013265920))
                 .save();
 
-        GTORecipeTypes.SUPRACHRONAL_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("suprachronal_circuit_max"))
+        SUPRACHRONAL_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("suprachronal_circuit_max"))
                 .notConsumable(GTOItems.HYPERDIMENSIONAL_DRONE.asStack())
                 .inputItems(GTOItems.TIMEPIECE.asStack())
                 .circuitMeta(15)
@@ -227,7 +228,7 @@ interface SuprachronalAssemblyLine {
                         .EUt(2013265920))
                 .save();
 
-        GTORecipeTypes.SUPRACHRONAL_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("suprachronal_circuit_opv"))
+        SUPRACHRONAL_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("suprachronal_circuit_opv"))
                 .notConsumable(GTOItems.HYPERDIMENSIONAL_DRONE.asStack())
                 .inputItems(GTOItems.TIMEPIECE.asStack())
                 .circuitMeta(14)
@@ -244,7 +245,7 @@ interface SuprachronalAssemblyLine {
                         .EUt(2013265920))
                 .save();
 
-        GTORecipeTypes.SUPRACHRONAL_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("suprachronal_circuit_uev"))
+        SUPRACHRONAL_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("suprachronal_circuit_uev"))
                 .notConsumable(GTOItems.HYPERDIMENSIONAL_DRONE.asStack())
                 .inputItems(GTOItems.TIMEPIECE.asStack())
                 .circuitMeta(11)
@@ -261,7 +262,7 @@ interface SuprachronalAssemblyLine {
                         .EUt(2013265920))
                 .save();
 
-        GTORecipeTypes.SUPRACHRONAL_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("suprachronal_circuit_uhv"))
+        SUPRACHRONAL_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("suprachronal_circuit_uhv"))
                 .notConsumable(GTOItems.HYPERDIMENSIONAL_DRONE.asStack())
                 .inputItems(GTOItems.TIMEPIECE.asStack())
                 .circuitMeta(10)
@@ -278,7 +279,7 @@ interface SuprachronalAssemblyLine {
                         .EUt(2013265920))
                 .save();
 
-        GTORecipeTypes.SUPRACHRONAL_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("suprachronal_circuit_uiv"))
+        SUPRACHRONAL_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("suprachronal_circuit_uiv"))
                 .notConsumable(GTOItems.HYPERDIMENSIONAL_DRONE.asStack())
                 .inputItems(GTOItems.TIMEPIECE.asStack())
                 .circuitMeta(12)
@@ -295,7 +296,7 @@ interface SuprachronalAssemblyLine {
                         .EUt(2013265920))
                 .save();
 
-        GTORecipeTypes.SUPRACHRONAL_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("max_field_generator"))
+        SUPRACHRONAL_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("max_field_generator"))
                 .inputItems(TagPrefix.frameGt, GTOMaterials.Infinity)
                 .inputItems(TagPrefix.plate, GTOMaterials.Chaos, 12)
                 .inputItems(GTOItems.NUCLEAR_STAR.asStack(4))
@@ -318,7 +319,7 @@ interface SuprachronalAssemblyLine {
                         .EUt(2013265920))
                 .save();
 
-        GTORecipeTypes.SUPRACHRONAL_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("suprachronal_circuit_ulv"))
+        SUPRACHRONAL_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("suprachronal_circuit_ulv"))
                 .notConsumable(GTOItems.HYPERDIMENSIONAL_DRONE.asStack())
                 .inputItems(GTOItems.TIMEPIECE.asStack())
                 .circuitMeta(1)
@@ -335,7 +336,7 @@ interface SuprachronalAssemblyLine {
                         .EUt(2013265920))
                 .save();
 
-        GTORecipeTypes.SUPRACHRONAL_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("suprachronal_circuit_uxv"))
+        SUPRACHRONAL_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("suprachronal_circuit_uxv"))
                 .notConsumable(GTOItems.HYPERDIMENSIONAL_DRONE.asStack())
                 .inputItems(GTOItems.TIMEPIECE.asStack())
                 .circuitMeta(13)
@@ -352,7 +353,7 @@ interface SuprachronalAssemblyLine {
                         .EUt(2013265920))
                 .save();
 
-        GTORecipeTypes.SUPRACHRONAL_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("suprachronal_circuit_zpm"))
+        SUPRACHRONAL_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("suprachronal_circuit_zpm"))
                 .notConsumable(GTOItems.HYPERDIMENSIONAL_DRONE.asStack())
                 .inputItems(GTOItems.TIMEPIECE.asStack())
                 .circuitMeta(8)
@@ -369,7 +370,7 @@ interface SuprachronalAssemblyLine {
                         .EUt(2013265920))
                 .save();
 
-        GTORecipeTypes.SUPRACHRONAL_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("max_electric_piston"))
+        SUPRACHRONAL_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("max_electric_piston"))
                 .inputItems(GTOItems.MAX_ELECTRIC_MOTOR.asStack())
                 .inputItems(TagPrefix.plate, GTOMaterials.TranscendentMetal, 8)
                 .inputItems(TagPrefix.ring, GTOMaterials.TranscendentMetal, 8)
@@ -391,7 +392,7 @@ interface SuprachronalAssemblyLine {
                         .EUt(2013265920))
                 .save();
 
-        GTORecipeTypes.SUPRACHRONAL_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("max_electric_pump"))
+        SUPRACHRONAL_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("max_electric_pump"))
                 .inputItems(GTOItems.MAX_ELECTRIC_MOTOR.asStack())
                 .inputItems(TagPrefix.pipeSmallFluid, GTMaterials.Neutronium, 64)
                 .inputItems(TagPrefix.plate, GTOMaterials.TranscendentMetal, 4)
@@ -413,7 +414,7 @@ interface SuprachronalAssemblyLine {
                         .EUt(2013265920))
                 .save();
 
-        GTORecipeTypes.SUPRACHRONAL_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("max_emitter"))
+        SUPRACHRONAL_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("max_emitter"))
                 .inputItems(TagPrefix.frameGt, GTOMaterials.Infinity)
                 .inputItems(GTOItems.MAX_ELECTRIC_MOTOR.asStack())
                 .inputItems(TagPrefix.rodLong, GTOMaterials.TranscendentMetal, 8)
@@ -436,7 +437,7 @@ interface SuprachronalAssemblyLine {
                         .EUt(2013265920))
                 .save();
 
-        GTORecipeTypes.SUPRACHRONAL_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("max_electric_motor"))
+        SUPRACHRONAL_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("max_electric_motor"))
                 .inputItems(TagPrefix.rodLong, GTOMaterials.Magmatter)
                 .inputItems(TagPrefix.rodLong, GTOMaterials.TranscendentMetal, 8)
                 .inputItems(TagPrefix.ring, GTOMaterials.TranscendentMetal, 8)
@@ -460,7 +461,7 @@ interface SuprachronalAssemblyLine {
                         .EUt(2013265920))
                 .save();
 
-        GTORecipeTypes.SUPRACHRONAL_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("max_sensor"))
+        SUPRACHRONAL_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("max_sensor"))
                 .inputItems(TagPrefix.frameGt, GTOMaterials.Infinity)
                 .inputItems(GTOItems.MAX_ELECTRIC_MOTOR.asStack())
                 .inputItems(TagPrefix.plate, GTOMaterials.TranscendentMetal, 8)

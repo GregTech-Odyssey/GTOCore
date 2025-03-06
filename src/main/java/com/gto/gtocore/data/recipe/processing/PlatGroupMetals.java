@@ -1,7 +1,6 @@
 package com.gto.gtocore.data.recipe.processing;
 
 import com.gto.gtocore.GTOCore;
-import com.gto.gtocore.common.data.GTORecipeTypes;
 
 import net.minecraft.data.recipes.FinishedRecipe;
 
@@ -63,7 +62,7 @@ public interface PlatGroupMetals {
                 .chancedOutput(dustTiny, RarestMetalMixture, 1, 9000, 100)
                 .save();
 
-        GTORecipeTypes.REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("leach_residue"))
+        REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("leach_residue"))
                 .inputItems(dust, PlatinumSlag, 6)
                 .inputItems(dust, PotassiumPyrosulfate, 11)
                 .inputFluids(Oxygen.getFluid(1000))
@@ -73,7 +72,7 @@ public interface PlatGroupMetals {
                 .blastFurnaceTemp(775)
                 .duration(120).EUt(VA[MV]).save();
 
-        GTORecipeTypes.REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("rarest_metal_mixture"))
+        REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("rarest_metal_mixture"))
                 .inputItems(dust, LeachResidue, 40)
                 .inputItems(dust, SodaAsh, 18)
                 .inputFluids(Oxygen.getFluid(3000))
@@ -109,7 +108,7 @@ public interface PlatGroupMetals {
                 .duration(140).EUt(VA[LV]).save();
 
         // RHODIUM / RUTHENIUM
-        GTORecipeTypes.REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("leach_residue_one"))
+        REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("leach_residue_one"))
                 .inputItems(dust, InertMetalMixture, 6)
                 .inputItems(dust, SodiumNitrate, 10)
                 .inputFluids(SulfuricAcid.getFluid(1000))
@@ -158,14 +157,14 @@ public interface PlatGroupMetals {
                 .outputFluids(RhodiumSulfate.getFluid(1000))
                 .duration(120).EUt(VA[LV]).save();
 
-        GTORecipeTypes.DEHYDRATOR_RECIPES.recipeBuilder(GTOCore.id("crude_rhodium_metallic_powder"))
+        DEHYDRATOR_RECIPES.recipeBuilder(GTOCore.id("crude_rhodium_metallic_powder"))
                 .inputItems(dust, Zinc, 1)
                 .inputFluids(RhodiumSulfate.getFluid(1000))
                 .outputItems(dust, ZincSulfate, 6)
                 .outputItems(dust, RoughlyRhodiumMetal, 1)
                 .duration(140).EUt(VA[LV]).save();
 
-        GTORecipeTypes.REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("rhodium_salt_ebf"))
+        REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("rhodium_salt_ebf"))
                 .inputItems(dust, RoughlyRhodiumMetal, 1)
                 .inputItems(dust, Salt, 2)
                 .inputFluids(Chlorine.getFluid(1000))
@@ -226,7 +225,7 @@ public interface PlatGroupMetals {
                 .duration(170).EUt(VA[LV]).save();
 
         // OSMIUM / IRIDIUM
-        GTORecipeTypes.REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("rarest_metal_residue"))
+        REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("rarest_metal_residue"))
                 .inputItems(dust, RarestMetalMixture, 7)
                 .inputFluids(HydrochloricAcid.getFluid(4000))
                 .outputItems(dust, IridiumMetalResidue, 5)

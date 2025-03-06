@@ -2,7 +2,6 @@ package com.gto.gtocore.data.recipe.generated;
 
 import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.api.recipe.GTORecipeBuilder;
-import com.gto.gtocore.common.data.GTORecipeTypes;
 import com.gto.gtocore.common.data.GTORecipes;
 import com.gto.gtocore.utils.ItemUtils;
 
@@ -27,6 +26,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.function.Consumer;
 
+import static com.gto.gtocore.common.data.GTORecipeTypes.CIRCUIT_ASSEMBLY_LINE_RECIPES;
 import static com.gto.gtocore.common.data.GTORecipeTypes.DISASSEMBLY_RECIPES;
 
 public interface GenerateDisassembly {
@@ -58,7 +58,7 @@ public interface GenerateDisassembly {
         if (output.isEmpty()) return;
         ResourceLocation id = ItemUtils.getIdLocation(ItemUtils.getFirst(output).getItem());
         if (DISASSEMBLY_BLACKLIST.contains(id)) return;
-        boolean cal = recipeBuilder.recipeType == GTORecipeTypes.CIRCUIT_ASSEMBLY_LINE_RECIPES;
+        boolean cal = recipeBuilder.recipeType == CIRCUIT_ASSEMBLY_LINE_RECIPES;
         ResourceLocation typeid = GTORecipeBuilder.getTypeID(id, DISASSEMBLY_RECIPES);
         if (cal && GTORecipes.GT_RECIPE_MAP.containsKey(typeid)) return;
         if (isExcludeItems(id.toString())) return;

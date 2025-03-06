@@ -2,15 +2,17 @@ package com.gto.gtocore.data.recipe.classified;
 
 import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.common.data.GTOMaterials;
-import com.gto.gtocore.common.data.GTORecipeTypes;
 
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
+import static com.gto.gtocore.common.data.GTORecipeTypes.DIGESTION_TREATMENT_RECIPES;
+import static com.gto.gtocore.common.data.GTORecipeTypes.DISTILLATION_RECIPES;
+
 interface DigestionTeatment {
 
     static void init() {
-        GTORecipeTypes.DIGESTION_TREATMENT_RECIPES.recipeBuilder(GTOCore.id("rare_earth_oxide_dust"))
+        DIGESTION_TREATMENT_RECIPES.recipeBuilder(GTOCore.id("rare_earth_oxide_dust"))
                 .inputItems(TagPrefix.dust, GTOMaterials.SodiumOxide, 3)
                 .inputFluids(GTOMaterials.RareEarthChlorides.getFluid(1000))
                 .outputItems(TagPrefix.dust, GTOMaterials.RareEarthOxide)
@@ -20,7 +22,7 @@ interface DigestionTeatment {
                 .blastFurnaceTemp(2580)
                 .save();
 
-        GTORecipeTypes.DIGESTION_TREATMENT_RECIPES.recipeBuilder(GTOCore.id("naquadah_contain_rare_earth_dust"))
+        DIGESTION_TREATMENT_RECIPES.recipeBuilder(GTOCore.id("naquadah_contain_rare_earth_dust"))
                 .inputItems(TagPrefix.dust, GTOMaterials.NaquadahContainRareEarthFluoride)
                 .inputFluids(GTMaterials.Hydrogen.getFluid(2000))
                 .outputItems(TagPrefix.dust, GTOMaterials.NaquadahContainRareEarth)
@@ -30,7 +32,7 @@ interface DigestionTeatment {
                 .blastFurnaceTemp(6800)
                 .save();
 
-        GTORecipeTypes.DIGESTION_TREATMENT_RECIPES.recipeBuilder(GTOCore.id("rare_earth_metal_dust"))
+        DIGESTION_TREATMENT_RECIPES.recipeBuilder(GTOCore.id("rare_earth_metal_dust"))
                 .inputItems(TagPrefix.dust, GTOMaterials.RareEarthOxide)
                 .inputFluids(GTMaterials.Hydrogen.getFluid(1000))
                 .outputItems(TagPrefix.dust, GTOMaterials.RareEarthMetal)
@@ -40,7 +42,7 @@ interface DigestionTeatment {
                 .blastFurnaceTemp(1760)
                 .save();
 
-        GTORecipeTypes.DISTILLATION_RECIPES.recipeBuilder(GTOCore.id("enriched_naquadah_fuel"))
+        DISTILLATION_RECIPES.recipeBuilder(GTOCore.id("enriched_naquadah_fuel"))
                 .inputFluids(GTOMaterials.RadonCrackedEnrichedAquadah.getFluid(1000))
                 .outputFluids(GTOMaterials.EnrichedNaquadahFuel.getFluid(800))
                 .outputFluids(GTMaterials.NaquadriaWaste.getFluid(100))
@@ -50,7 +52,7 @@ interface DigestionTeatment {
                 .duration(600)
                 .save();
 
-        GTORecipeTypes.DISTILLATION_RECIPES.recipeBuilder(GTOCore.id("naquadah_fuel"))
+        DISTILLATION_RECIPES.recipeBuilder(GTOCore.id("naquadah_fuel"))
                 .inputFluids(GTOMaterials.FluorineCrackedAquadah.getFluid(1000))
                 .outputFluids(GTOMaterials.NaquadahFuel.getFluid(800))
                 .outputFluids(GTMaterials.NitricAcid.getFluid(200))
@@ -61,7 +63,7 @@ interface DigestionTeatment {
                 .duration(600)
                 .save();
 
-        GTORecipeTypes.DISTILLATION_RECIPES.recipeBuilder(GTOCore.id("diphenylmethane_diisocyanate_dust"))
+        DISTILLATION_RECIPES.recipeBuilder(GTOCore.id("diphenylmethane_diisocyanate_dust"))
                 .inputFluids(GTOMaterials.DiphenylmethanediisocyanateMixture.getFluid(1000))
                 .outputItems(TagPrefix.dust, GTOMaterials.DiphenylmethaneDiisocyanate, 29)
                 .outputFluids(GTMaterials.HydrochloricAcid.getFluid(5000))
@@ -69,7 +71,7 @@ interface DigestionTeatment {
                 .duration(700)
                 .save();
 
-        GTORecipeTypes.DISTILLATION_RECIPES.recipeBuilder(GTOCore.id("turpentine"))
+        DISTILLATION_RECIPES.recipeBuilder(GTOCore.id("turpentine"))
                 .inputFluids(GTOMaterials.SteamCrackedTurpentine.getFluid(1000))
                 .outputFluids(GTOMaterials.Turpentine.getFluid(1000))
                 .outputFluids(GTMaterials.Naphtha.getFluid(900))
@@ -77,7 +79,7 @@ interface DigestionTeatment {
                 .duration(400)
                 .save();
 
-        GTORecipeTypes.DISTILLATION_RECIPES.recipeBuilder(GTOCore.id("rawradox"))
+        DISTILLATION_RECIPES.recipeBuilder(GTOCore.id("rawradox"))
                 .inputFluids(GTOMaterials.RawRadox.getFluid(5000))
                 .outputItems(TagPrefix.dust, GTMaterials.Ash, 5)
                 .outputFluids(GTMaterials.OilHeavy.getFluid(600))
@@ -95,7 +97,7 @@ interface DigestionTeatment {
                 .duration(800)
                 .save();
 
-        GTORecipeTypes.DISTILLATION_RECIPES.recipeBuilder(GTOCore.id("dilutedxenoxene"))
+        DISTILLATION_RECIPES.recipeBuilder(GTOCore.id("dilutedxenoxene"))
                 .inputFluids(GTOMaterials.DilutedXenoxene.getFluid(1000))
                 .outputItems(TagPrefix.dust, GTMaterials.Ash)
                 .outputFluids(GTOMaterials.Xenoxene.getFluid(250))
@@ -104,7 +106,7 @@ interface DigestionTeatment {
                 .duration(200)
                 .save();
 
-        GTORecipeTypes.DISTILLATION_RECIPES.recipeBuilder(GTOCore.id("radox_gas"))
+        DISTILLATION_RECIPES.recipeBuilder(GTOCore.id("radox_gas"))
                 .inputFluids(GTOMaterials.CrackedRadox.getFluid(1000))
                 .outputItems(TagPrefix.dust, GTMaterials.Ash)
                 .outputFluids(GTOMaterials.RadoxGas.getFluid(100))

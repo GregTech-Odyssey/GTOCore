@@ -4,7 +4,6 @@ import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.api.machine.GTOCleanroomType;
 import com.gto.gtocore.common.data.GTOItems;
 import com.gto.gtocore.common.data.GTOMaterials;
-import com.gto.gtocore.common.data.GTORecipeTypes;
 import com.gto.gtocore.common.recipe.condition.GravityCondition;
 
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
@@ -13,10 +12,12 @@ import com.gregtechceu.gtceu.api.machine.multiblock.CleanroomType;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
+import static com.gto.gtocore.common.data.GTORecipeTypes.CENTRIFUGE_RECIPES;
+
 interface Centrifuge {
 
     static void init() {
-        GTORecipeTypes.CENTRIFUGE_RECIPES.recipeBuilder(GTOCore.id("depleted_reactor_thorium_simple"))
+        CENTRIFUGE_RECIPES.recipeBuilder(GTOCore.id("depleted_reactor_thorium_simple"))
                 .inputItems(GTOItems.DEPLETED_REACTOR_THORIUM_SIMPLE.asStack())
                 .outputItems(GTOItems.REACTOR_FUEL_ROD.asStack())
                 .chancedOutput(TagPrefix.dust, GTMaterials.Uranium238, 4, 4000, 500)
@@ -25,7 +26,7 @@ interface Centrifuge {
                 .duration(40)
                 .save();
 
-        GTORecipeTypes.CENTRIFUGE_RECIPES.recipeBuilder(GTOCore.id("depleted_reactor_uranium_dual"))
+        CENTRIFUGE_RECIPES.recipeBuilder(GTOCore.id("depleted_reactor_uranium_dual"))
                 .inputItems(GTOItems.DEPLETED_REACTOR_URANIUM_DUAL.asStack())
                 .outputItems(GTOItems.REACTOR_FUEL_ROD.asStack(2))
                 .outputItems(TagPrefix.rod, GTMaterials.Steel, 4)
@@ -35,7 +36,7 @@ interface Centrifuge {
                 .duration(80)
                 .save();
 
-        GTORecipeTypes.CENTRIFUGE_RECIPES.recipeBuilder(GTOCore.id("fissioned_uranium_235_dust"))
+        CENTRIFUGE_RECIPES.recipeBuilder(GTOCore.id("fissioned_uranium_235_dust"))
                 .inputItems(TagPrefix.dust, GTOMaterials.FissionedUranium235)
                 .outputItems(TagPrefix.dust, GTMaterials.Tin)
                 .outputItems(TagPrefix.dust, GTMaterials.Technetium)
@@ -43,7 +44,7 @@ interface Centrifuge {
                 .duration(400)
                 .save();
 
-        GTORecipeTypes.CENTRIFUGE_RECIPES.recipeBuilder(GTOCore.id("depleted_reactor_mox_simple"))
+        CENTRIFUGE_RECIPES.recipeBuilder(GTOCore.id("depleted_reactor_mox_simple"))
                 .inputItems(GTOItems.DEPLETED_REACTOR_MOX_SIMPLE.asStack())
                 .outputItems(GTOItems.REACTOR_FUEL_ROD.asStack())
                 .chancedOutput(GTOItems.NUCLEAR_WASTE.asStack(8), 2000, 1000)
@@ -52,7 +53,7 @@ interface Centrifuge {
                 .duration(40)
                 .save();
 
-        GTORecipeTypes.CENTRIFUGE_RECIPES.recipeBuilder(GTOCore.id("depleted_reactor_naquadah_quad"))
+        CENTRIFUGE_RECIPES.recipeBuilder(GTOCore.id("depleted_reactor_naquadah_quad"))
                 .inputItems(GTOItems.DEPLETED_REACTOR_NAQUADAH_QUAD.asStack())
                 .outputItems(GTOItems.TUNGSTEN_CARBIDE_REACTOR_FUEL_ROD.asStack(4))
                 .outputItems(TagPrefix.rod, GTMaterials.TungstenCarbide, 12)
@@ -62,7 +63,7 @@ interface Centrifuge {
                 .duration(160)
                 .save();
 
-        GTORecipeTypes.CENTRIFUGE_RECIPES.recipeBuilder(GTOCore.id("dragon_element"))
+        CENTRIFUGE_RECIPES.recipeBuilder(GTOCore.id("dragon_element"))
                 .inputFluids(GTOMaterials.TurbidDragonBlood.getFluid(1000))
                 .outputItems(TagPrefix.dust, GTMaterials.Collagen)
                 .outputFluids(GTOMaterials.DragonElement.getFluid(500))
@@ -71,7 +72,7 @@ interface Centrifuge {
                 .cleanroom(GTOCleanroomType.LAW_CLEANROOM)
                 .save();
 
-        GTORecipeTypes.CENTRIFUGE_RECIPES.recipeBuilder(GTOCore.id("depleted_reactor_uranium_quad"))
+        CENTRIFUGE_RECIPES.recipeBuilder(GTOCore.id("depleted_reactor_uranium_quad"))
                 .inputItems(GTOItems.DEPLETED_REACTOR_URANIUM_QUAD.asStack())
                 .outputItems(GTOItems.REACTOR_FUEL_ROD.asStack(4))
                 .outputItems(TagPrefix.rod, GTMaterials.Steel, 12)
@@ -81,7 +82,7 @@ interface Centrifuge {
                 .duration(160)
                 .save();
 
-        GTORecipeTypes.CENTRIFUGE_RECIPES.recipeBuilder(GTOCore.id("depleted_reactor_naquadah_dual"))
+        CENTRIFUGE_RECIPES.recipeBuilder(GTOCore.id("depleted_reactor_naquadah_dual"))
                 .inputItems(GTOItems.DEPLETED_REACTOR_NAQUADAH_DUAL.asStack())
                 .outputItems(GTOItems.TUNGSTEN_CARBIDE_REACTOR_FUEL_ROD.asStack(2))
                 .outputItems(TagPrefix.rod, GTMaterials.TungstenCarbide, 4)
@@ -91,14 +92,14 @@ interface Centrifuge {
                 .duration(80)
                 .save();
 
-        GTORecipeTypes.CENTRIFUGE_RECIPES.recipeBuilder(GTOCore.id("superheavyradox"))
+        CENTRIFUGE_RECIPES.recipeBuilder(GTOCore.id("superheavyradox"))
                 .inputFluids(GTOMaterials.SuperHeavyRadox.getFluid(1000))
                 .outputFluids(GTOMaterials.HeavyRadox.getFluid(2000))
                 .EUt(1966080)
                 .duration(200)
                 .save();
 
-        GTORecipeTypes.CENTRIFUGE_RECIPES.recipeBuilder(GTOCore.id("depleted_reactor_uranium_simple"))
+        CENTRIFUGE_RECIPES.recipeBuilder(GTOCore.id("depleted_reactor_uranium_simple"))
                 .inputItems(GTOItems.DEPLETED_REACTOR_URANIUM_SIMPLE.asStack())
                 .outputItems(GTOItems.REACTOR_FUEL_ROD.asStack())
                 .chancedOutput(TagPrefix.dust, GTMaterials.Plutonium239, 6, 2500, 100)
@@ -107,7 +108,7 @@ interface Centrifuge {
                 .duration(40)
                 .save();
 
-        GTORecipeTypes.CENTRIFUGE_RECIPES.recipeBuilder(GTOCore.id("clean_bedrock_solution"))
+        CENTRIFUGE_RECIPES.recipeBuilder(GTOCore.id("clean_bedrock_solution"))
                 .inputFluids(GTOMaterials.BedrockSootSolution.getFluid(2000))
                 .outputItems(TagPrefix.dustSmall, GTMaterials.Naquadah)
                 .outputItems(TagPrefix.dustTiny, GTMaterials.NaquadahEnriched)
@@ -117,7 +118,7 @@ interface Centrifuge {
                 .duration(200)
                 .save();
 
-        GTORecipeTypes.CENTRIFUGE_RECIPES.recipeBuilder(GTOCore.id("tcetiedandelions"))
+        CENTRIFUGE_RECIPES.recipeBuilder(GTOCore.id("tcetiedandelions"))
                 .inputFluids(GTOMaterials.SeaweedBroth.getFluid(1000))
                 .outputItems(GTOItems.TCETIEDANDELIONS.asStack(64))
                 .EUt(120)
@@ -125,7 +126,7 @@ interface Centrifuge {
                 .addCondition(new GravityCondition(false))
                 .save();
 
-        GTORecipeTypes.CENTRIFUGE_RECIPES.recipeBuilder(GTOCore.id("nuclear_waste"))
+        CENTRIFUGE_RECIPES.recipeBuilder(GTOCore.id("nuclear_waste"))
                 .inputItems(GTOItems.NUCLEAR_WASTE.asStack())
                 .outputItems(TagPrefix.dustTiny, GTMaterials.Plutonium239)
                 .outputItems(TagPrefix.dustTiny, GTMaterials.Polonium)
@@ -137,7 +138,7 @@ interface Centrifuge {
                 .duration(200)
                 .save();
 
-        GTORecipeTypes.CENTRIFUGE_RECIPES.recipeBuilder(GTOCore.id("free_electron_gas"))
+        CENTRIFUGE_RECIPES.recipeBuilder(GTOCore.id("free_electron_gas"))
                 .notConsumable(GTOItems.SEPARATION_ELECTROMAGNET.asStack())
                 .inputFluids(GTMaterials.UUMatter.getFluid(1000))
                 .outputFluids(GTOMaterials.FreeElectronGas.getFluid(1000))
@@ -146,7 +147,7 @@ interface Centrifuge {
                 .duration(200)
                 .save();
 
-        GTORecipeTypes.CENTRIFUGE_RECIPES.recipeBuilder(GTOCore.id("iodine_dust"))
+        CENTRIFUGE_RECIPES.recipeBuilder(GTOCore.id("iodine_dust"))
                 .inputFluids(GTOMaterials.IodineContainingSlurry.getFluid(1000))
                 .outputItems(TagPrefix.dust, GTMaterials.Iodine)
                 .outputItems(TagPrefix.dust, GTMaterials.RockSalt, 2)
@@ -154,7 +155,7 @@ interface Centrifuge {
                 .duration(200)
                 .save();
 
-        GTORecipeTypes.CENTRIFUGE_RECIPES.recipeBuilder(GTOCore.id("actinium_radium_nitrate_solution"))
+        CENTRIFUGE_RECIPES.recipeBuilder(GTOCore.id("actinium_radium_nitrate_solution"))
                 .notConsumable(TagPrefix.dust, GTOMaterials.TrifluoroaceticPhosphateEster)
                 .inputFluids(GTOMaterials.ActiniumRadiumNitrateSolution.getFluid(13000))
                 .outputItems(TagPrefix.dust, GTOMaterials.ActiniumNitrate, 26)
@@ -168,7 +169,7 @@ interface Centrifuge {
                 .duration(160)
                 .save();
 
-        GTORecipeTypes.CENTRIFUGE_RECIPES.recipeBuilder(GTOCore.id("uranium_sulfate_waste_solution"))
+        CENTRIFUGE_RECIPES.recipeBuilder(GTOCore.id("uranium_sulfate_waste_solution"))
                 .inputFluids(GTOMaterials.UraniumSulfateWasteSolution.getFluid(1000))
                 .outputItems(TagPrefix.dustTiny, GTMaterials.Lead)
                 .outputItems(TagPrefix.dustTiny, GTMaterials.Barium)
@@ -179,7 +180,7 @@ interface Centrifuge {
                 .duration(500)
                 .save();
 
-        GTORecipeTypes.CENTRIFUGE_RECIPES.recipeBuilder(GTOCore.id("depleted_reactor_mox_dual"))
+        CENTRIFUGE_RECIPES.recipeBuilder(GTOCore.id("depleted_reactor_mox_dual"))
                 .inputItems(GTOItems.DEPLETED_REACTOR_MOX_DUAL.asStack())
                 .outputItems(GTOItems.REACTOR_FUEL_ROD.asStack(2))
                 .outputItems(TagPrefix.rod, GTMaterials.Steel, 4)
@@ -189,7 +190,7 @@ interface Centrifuge {
                 .duration(80)
                 .save();
 
-        GTORecipeTypes.CENTRIFUGE_RECIPES.recipeBuilder(GTOCore.id("flerovium"))
+        CENTRIFUGE_RECIPES.recipeBuilder(GTOCore.id("flerovium"))
                 .inputFluids(GTOMaterials.Flyb.getFluid(FluidStorageKeys.PLASMA, 1000))
                 .outputFluids(GTMaterials.Flerovium.getFluid(288))
                 .outputFluids(GTOMaterials.Ytterbium178.getFluid(288))
@@ -197,7 +198,7 @@ interface Centrifuge {
                 .duration(290)
                 .save();
 
-        GTORecipeTypes.CENTRIFUGE_RECIPES.recipeBuilder(GTOCore.id("rare_earth_chlorides"))
+        CENTRIFUGE_RECIPES.recipeBuilder(GTOCore.id("rare_earth_chlorides"))
                 .notConsumable(GTItems.ITEM_MAGNET_HV.asStack())
                 .inputFluids(GTOMaterials.RareEarthChlorides.getFluid(2000))
                 .outputFluids(GTOMaterials.LaNdOxidesSolution.getFluid(250))
@@ -209,7 +210,7 @@ interface Centrifuge {
                 .duration(200)
                 .save();
 
-        GTORecipeTypes.CENTRIFUGE_RECIPES.recipeBuilder(GTOCore.id("quark_gluon"))
+        CENTRIFUGE_RECIPES.recipeBuilder(GTOCore.id("quark_gluon"))
                 .notConsumable(GTOItems.SEPARATION_ELECTROMAGNET.asStack())
                 .inputFluids(GTOMaterials.QuarkGluon.getFluid(FluidStorageKeys.PLASMA, 1000))
                 .outputFluids(GTOMaterials.HeavyQuarks.getFluid(200))
@@ -220,7 +221,7 @@ interface Centrifuge {
                 .cleanroom(CleanroomType.CLEANROOM)
                 .save();
 
-        GTORecipeTypes.CENTRIFUGE_RECIPES.recipeBuilder(GTOCore.id("titanium_50_tetrafluoride"))
+        CENTRIFUGE_RECIPES.recipeBuilder(GTOCore.id("titanium_50_tetrafluoride"))
                 .inputFluids(GTOMaterials.TitaniumTetrafluoride.getFluid(1000))
                 .outputFluids(GTOMaterials.Titanium50Tetrafluoride.getFluid(10))
                 .outputFluids(GTOMaterials.TitaniumTetrafluoride.getFluid(990))
@@ -228,7 +229,7 @@ interface Centrifuge {
                 .duration(200)
                 .save();
 
-        GTORecipeTypes.CENTRIFUGE_RECIPES.recipeBuilder(GTOCore.id("inert_residues_dust"))
+        CENTRIFUGE_RECIPES.recipeBuilder(GTOCore.id("inert_residues_dust"))
                 .notConsumable(GTOItems.SEPARATION_ELECTROMAGNET.asStack())
                 .inputItems(TagPrefix.dust, GTOMaterials.MetalResidue, 10)
                 .inputFluids(GTMaterials.DistilledWater.getFluid(10000))
@@ -238,7 +239,7 @@ interface Centrifuge {
                 .duration(200)
                 .save();
 
-        GTORecipeTypes.CENTRIFUGE_RECIPES.recipeBuilder(GTOCore.id("depleted_reactor_mox_quad"))
+        CENTRIFUGE_RECIPES.recipeBuilder(GTOCore.id("depleted_reactor_mox_quad"))
                 .inputItems(GTOItems.DEPLETED_REACTOR_MOX_QUAD.asStack())
                 .outputItems(GTOItems.REACTOR_FUEL_ROD.asStack(4))
                 .outputItems(TagPrefix.rod, GTMaterials.Steel, 12)
@@ -248,7 +249,7 @@ interface Centrifuge {
                 .duration(160)
                 .save();
 
-        GTORecipeTypes.CENTRIFUGE_RECIPES.recipeBuilder(GTOCore.id("depleted_reactor_thorium_quad"))
+        CENTRIFUGE_RECIPES.recipeBuilder(GTOCore.id("depleted_reactor_thorium_quad"))
                 .inputItems(GTOItems.DEPLETED_REACTOR_THORIUM_QUAD.asStack())
                 .outputItems(GTOItems.REACTOR_FUEL_ROD.asStack(4))
                 .outputItems(TagPrefix.rod, GTMaterials.Steel, 12)
@@ -258,7 +259,7 @@ interface Centrifuge {
                 .duration(160)
                 .save();
 
-        GTORecipeTypes.CENTRIFUGE_RECIPES.recipeBuilder(GTOCore.id("depleted_reactor_naquadah_simple"))
+        CENTRIFUGE_RECIPES.recipeBuilder(GTOCore.id("depleted_reactor_naquadah_simple"))
                 .inputItems(GTOItems.DEPLETED_REACTOR_NAQUADAH_SIMPLE.asStack())
                 .outputItems(GTOItems.TUNGSTEN_CARBIDE_REACTOR_FUEL_ROD.asStack())
                 .chancedOutput(TagPrefix.dust, GTMaterials.Plutonium239, 2, 8000, 200)
@@ -267,7 +268,7 @@ interface Centrifuge {
                 .duration(40)
                 .save();
 
-        GTORecipeTypes.CENTRIFUGE_RECIPES.recipeBuilder(GTOCore.id("taranium_enriched_liquid_helium_3"))
+        CENTRIFUGE_RECIPES.recipeBuilder(GTOCore.id("taranium_enriched_liquid_helium_3"))
                 .notConsumable(GTOItems.SEPARATION_ELECTROMAGNET.asStack())
                 .inputFluids(GTOMaterials.DustyLiquidHeliumIII.getFluid(1000))
                 .outputFluids(GTOMaterials.TaraniumEnrichedLiquidHelium3.getFluid(500))
@@ -275,7 +276,7 @@ interface Centrifuge {
                 .duration(400)
                 .save();
 
-        GTORecipeTypes.CENTRIFUGE_RECIPES.recipeBuilder(GTOCore.id("depleted_reactor_thorium_dual"))
+        CENTRIFUGE_RECIPES.recipeBuilder(GTOCore.id("depleted_reactor_thorium_dual"))
                 .inputItems(GTOItems.DEPLETED_REACTOR_THORIUM_DUAL.asStack())
                 .outputItems(GTOItems.REACTOR_FUEL_ROD.asStack(2))
                 .outputItems(TagPrefix.rod, GTMaterials.Steel, 4)
@@ -285,7 +286,7 @@ interface Centrifuge {
                 .duration(80)
                 .save();
 
-        GTORecipeTypes.CENTRIFUGE_RECIPES.recipeBuilder(GTOCore.id("heavily_fluorinated_trinium_solution"))
+        CENTRIFUGE_RECIPES.recipeBuilder(GTOCore.id("heavily_fluorinated_trinium_solution"))
                 .inputFluids(GTOMaterials.HeavilyFluorinatedTriniumSolution.getFluid(8000))
                 .outputItems(TagPrefix.dust, GTOMaterials.TriniumTetrafluoride, 60)
                 .outputFluids(GTMaterials.Fluorine.getFluid(16000))

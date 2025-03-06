@@ -1,7 +1,6 @@
 package com.gto.gtocore.data.recipe.generated;
 
 import com.gto.gtocore.api.data.tag.GTOTagPrefix;
-import com.gto.gtocore.common.data.GTORecipeTypes;
 
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
@@ -23,8 +22,7 @@ import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlags.NO_SMASHING;
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.Iron;
-import static com.gto.gtocore.common.data.GTORecipeTypes.EXTRUDER_RECIPES;
-import static com.gto.gtocore.common.data.GTORecipeTypes.PACKER_RECIPES;
+import static com.gto.gtocore.common.data.GTORecipeTypes.*;
 import static com.gto.gtocore.utils.GTOUtils.getVoltageMultiplier;
 
 interface GTOPipeRecipeHandler {
@@ -55,7 +53,7 @@ interface GTOPipeRecipeHandler {
         if (pipeStack.isEmpty()) return;
         ItemStack unrestrictiveStack = ChemicalHelper.get(unrestrictive, material);
         if (pipeStack.isEmpty()) return;
-        GTORecipeTypes.LASER_WELDER_RECIPES.recipeBuilder("assemble_" + material.getName() + "_" + prefix.name)
+        LASER_WELDER_RECIPES.recipeBuilder("assemble_" + material.getName() + "_" + prefix.name)
                 .inputItems(unrestrictiveStack)
                 .inputItems(ring, Iron, 2)
                 .outputItems(pipeStack)

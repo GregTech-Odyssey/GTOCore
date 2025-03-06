@@ -1,8 +1,6 @@
 package com.gto.gtocore.integration.emi;
 
-import com.gto.gtocore.common.data.GTORecipes;
 import com.gto.gtocore.integration.chisel.ChiselRecipe;
-import com.gto.gtocore.integration.kjs.GTKubeJSPlugin;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.recipe.category.GTRecipeCategory;
@@ -54,7 +52,6 @@ public final class GTEMIPlugin implements EmiPlugin {
         registry.addCategory(GTProgrammedCircuitCategory.CATEGORY);
 
         GTRecipeEMICategory.registerDisplays(registry);
-        if (GTKubeJSPlugin.hasKJSGTRecipe) GTORecipes.clearCategoryMap(false);
         if (!ConfigHolder.INSTANCE.compat.hideOreProcessingDiagrams)
             GTOreProcessingEmiCategory.registerDisplays(registry);
         GTOreVeinEmiCategory.registerDisplays(registry);

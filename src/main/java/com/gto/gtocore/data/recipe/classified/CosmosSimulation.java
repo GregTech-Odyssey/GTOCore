@@ -3,16 +3,17 @@ package com.gto.gtocore.data.recipe.classified;
 import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.common.data.GTOBlocks;
 import com.gto.gtocore.common.data.GTOMaterials;
-import com.gto.gtocore.common.data.GTORecipeTypes;
 
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
+import static com.gto.gtocore.common.data.GTORecipeTypes.COSMOS_SIMULATION_RECIPES;
+
 interface CosmosSimulation {
 
     static void init() {
-        GTORecipeTypes.COSMOS_SIMULATION_RECIPES.recipeBuilder(GTOCore.id("cosmos_simulation1"))
+        COSMOS_SIMULATION_RECIPES.recipeBuilder(GTOCore.id("cosmos_simulation1"))
                 .inputItems(GTOBlocks.QUANTUM_CHROMODYNAMIC_CHARGE.asStack())
                 .inputFluids(GTOMaterials.CosmicElement.getFluid(1024000))
                 .outputItems(TagPrefix.dust, GTMaterials.Carbon, 131072)

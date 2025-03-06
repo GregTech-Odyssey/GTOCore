@@ -1,8 +1,8 @@
 package com.gto.gtocore.common.data.machines;
 
+import com.gto.gtocore.api.misc.PlanetManagement;
 import com.gto.gtocore.common.data.GTORecipeModifiers;
 import com.gto.gtocore.common.data.GTORecipeTypes;
-import com.gto.gtocore.common.saved.PlanetsTravelSavaedData;
 import com.gto.gtocore.utils.MachineUtils;
 
 import com.gregtechceu.gtceu.api.GTValues;
@@ -64,7 +64,7 @@ public interface GTMachineModify {
                                 String planet = tag.getString("planet");
                                 if (!planet.isEmpty()) {
                                     UUID uuid = tag.getUUID("uuid");
-                                    PlanetsTravelSavaedData.unlock(uuid, new ResourceLocation(planet));
+                                    PlanetManagement.unlock(uuid, new ResourceLocation(planet));
                                     itemStack.setCount(0);
                                     return true;
                                 }

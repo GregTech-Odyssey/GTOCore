@@ -3,15 +3,16 @@ package com.gto.gtocore.data.recipe.classified;
 import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.api.data.tag.GTOTagPrefix;
 import com.gto.gtocore.common.data.GTOMaterials;
-import com.gto.gtocore.common.data.GTORecipeTypes;
 
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
+import static com.gto.gtocore.common.data.GTORecipeTypes.FLOTATING_BENEFICIATION_RECIPES;
+
 interface FlotatingBeneficiation {
 
     static void init() {
-        GTORecipeTypes.FLOTATING_BENEFICIATION_RECIPES.recipeBuilder(GTOCore.id("pyrope_front"))
+        FLOTATING_BENEFICIATION_RECIPES.recipeBuilder(GTOCore.id("pyrope_front"))
                 .inputItems(TagPrefix.dust, GTOMaterials.SodiumEthylxanthate, 32)
                 .inputItems(GTOTagPrefix.milled, GTMaterials.Pyrope, 64)
                 .inputFluids(GTOMaterials.Turpentine.getFluid(8000))
@@ -20,7 +21,7 @@ interface FlotatingBeneficiation {
                 .duration(4800)
                 .save();
 
-        GTORecipeTypes.FLOTATING_BENEFICIATION_RECIPES.recipeBuilder(GTOCore.id("redstone_front"))
+        FLOTATING_BENEFICIATION_RECIPES.recipeBuilder(GTOCore.id("redstone_front"))
                 .inputItems(TagPrefix.dust, GTOMaterials.SodiumEthylxanthate, 32)
                 .inputItems(GTOTagPrefix.milled, GTMaterials.Redstone, 64)
                 .inputFluids(GTOMaterials.Turpentine.getFluid(13000))
@@ -29,7 +30,7 @@ interface FlotatingBeneficiation {
                 .duration(4800)
                 .save();
 
-        GTORecipeTypes.FLOTATING_BENEFICIATION_RECIPES.recipeBuilder(GTOCore.id("chalcopyrite_front"))
+        FLOTATING_BENEFICIATION_RECIPES.recipeBuilder(GTOCore.id("chalcopyrite_front"))
                 .inputItems(TagPrefix.dust, GTOMaterials.PotassiumEthylxanthate, 32)
                 .inputItems(GTOTagPrefix.milled, GTMaterials.Chalcopyrite, 64)
                 .inputFluids(GTOMaterials.Turpentine.getFluid(12000))
@@ -38,7 +39,7 @@ interface FlotatingBeneficiation {
                 .duration(4800)
                 .save();
 
-        GTORecipeTypes.FLOTATING_BENEFICIATION_RECIPES.recipeBuilder(GTOCore.id("monazite_front"))
+        FLOTATING_BENEFICIATION_RECIPES.recipeBuilder(GTOCore.id("monazite_front"))
                 .inputItems(TagPrefix.dust, GTOMaterials.SodiumEthylxanthate, 32)
                 .inputItems(GTOTagPrefix.milled, GTMaterials.Monazite, 64)
                 .inputFluids(GTOMaterials.Turpentine.getFluid(30000))
@@ -47,7 +48,7 @@ interface FlotatingBeneficiation {
                 .duration(4800)
                 .save();
 
-        GTORecipeTypes.FLOTATING_BENEFICIATION_RECIPES.recipeBuilder(GTOCore.id("enriched_naquadah_front"))
+        FLOTATING_BENEFICIATION_RECIPES.recipeBuilder(GTOCore.id("enriched_naquadah_front"))
                 .inputItems(TagPrefix.dust, GTOMaterials.PotassiumEthylxanthate, 64)
                 .inputItems(GTOTagPrefix.milled, GTMaterials.NaquadahEnriched, 64)
                 .inputFluids(GTOMaterials.Turpentine.getFluid(140000))
@@ -56,7 +57,7 @@ interface FlotatingBeneficiation {
                 .duration(9600)
                 .save();
 
-        GTORecipeTypes.FLOTATING_BENEFICIATION_RECIPES.recipeBuilder(GTOCore.id("grossular_front"))
+        FLOTATING_BENEFICIATION_RECIPES.recipeBuilder(GTOCore.id("grossular_front"))
                 .inputItems(TagPrefix.dust, GTOMaterials.PotassiumEthylxanthate, 32)
                 .inputItems(GTOTagPrefix.milled, GTMaterials.Grossular, 64)
                 .inputFluids(GTOMaterials.Turpentine.getFluid(28000))
@@ -65,7 +66,7 @@ interface FlotatingBeneficiation {
                 .duration(4800)
                 .save();
 
-        GTORecipeTypes.FLOTATING_BENEFICIATION_RECIPES.recipeBuilder(GTOCore.id("nickel_front"))
+        FLOTATING_BENEFICIATION_RECIPES.recipeBuilder(GTOCore.id("nickel_front"))
                 .inputItems(TagPrefix.dust, GTOMaterials.PotassiumEthylxanthate, 32)
                 .inputItems(GTOTagPrefix.milled, GTMaterials.Nickel, 64)
                 .inputFluids(GTOMaterials.Turpentine.getFluid(25000))
@@ -74,7 +75,7 @@ interface FlotatingBeneficiation {
                 .duration(4800)
                 .save();
 
-        GTORecipeTypes.FLOTATING_BENEFICIATION_RECIPES.recipeBuilder(GTOCore.id("almandine_front"))
+        FLOTATING_BENEFICIATION_RECIPES.recipeBuilder(GTOCore.id("almandine_front"))
                 .inputItems(TagPrefix.dust, GTOMaterials.SodiumEthylxanthate, 32)
                 .inputItems(GTOTagPrefix.milled, GTMaterials.Almandine, 64)
                 .inputFluids(GTOMaterials.Turpentine.getFluid(18000))
@@ -83,7 +84,7 @@ interface FlotatingBeneficiation {
                 .duration(4800)
                 .save();
 
-        GTORecipeTypes.FLOTATING_BENEFICIATION_RECIPES.recipeBuilder(GTOCore.id("platinum_front"))
+        FLOTATING_BENEFICIATION_RECIPES.recipeBuilder(GTOCore.id("platinum_front"))
                 .inputItems(TagPrefix.dust, GTOMaterials.SodiumEthylxanthate, 32)
                 .inputItems(GTOTagPrefix.milled, GTMaterials.Platinum, 64)
                 .inputFluids(GTOMaterials.Turpentine.getFluid(35000))
@@ -92,7 +93,7 @@ interface FlotatingBeneficiation {
                 .duration(4800)
                 .save();
 
-        GTORecipeTypes.FLOTATING_BENEFICIATION_RECIPES.recipeBuilder(GTOCore.id("pentlandite_front"))
+        FLOTATING_BENEFICIATION_RECIPES.recipeBuilder(GTOCore.id("pentlandite_front"))
                 .inputItems(TagPrefix.dust, GTOMaterials.PotassiumEthylxanthate, 32)
                 .inputItems(GTOTagPrefix.milled, GTMaterials.Pentlandite, 64)
                 .inputFluids(GTOMaterials.Turpentine.getFluid(14000))
@@ -101,7 +102,7 @@ interface FlotatingBeneficiation {
                 .duration(4800)
                 .save();
 
-        GTORecipeTypes.FLOTATING_BENEFICIATION_RECIPES.recipeBuilder(GTOCore.id("spessartine_front"))
+        FLOTATING_BENEFICIATION_RECIPES.recipeBuilder(GTOCore.id("spessartine_front"))
                 .inputItems(TagPrefix.dust, GTOMaterials.PotassiumEthylxanthate, 32)
                 .inputItems(GTOTagPrefix.milled, GTMaterials.Spessartine, 64)
                 .inputFluids(GTOMaterials.Turpentine.getFluid(35000))
@@ -110,7 +111,7 @@ interface FlotatingBeneficiation {
                 .duration(4800)
                 .save();
 
-        GTORecipeTypes.FLOTATING_BENEFICIATION_RECIPES.recipeBuilder(GTOCore.id("sphalerite_front"))
+        FLOTATING_BENEFICIATION_RECIPES.recipeBuilder(GTOCore.id("sphalerite_front"))
                 .inputItems(TagPrefix.dust, GTOMaterials.SodiumEthylxanthate, 32)
                 .inputItems(GTOTagPrefix.milled, GTMaterials.Sphalerite, 64)
                 .inputFluids(GTOMaterials.Turpentine.getFluid(14000))

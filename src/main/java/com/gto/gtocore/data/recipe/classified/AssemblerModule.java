@@ -5,7 +5,6 @@ import com.gto.gtocore.api.GTOValues;
 import com.gto.gtocore.api.data.tag.GTOTagPrefix;
 import com.gto.gtocore.common.data.GTOItems;
 import com.gto.gtocore.common.data.GTOMaterials;
-import com.gto.gtocore.common.data.GTORecipeTypes;
 
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
@@ -17,10 +16,12 @@ import net.minecraft.world.item.ItemStack;
 
 import appeng.core.definitions.AEItems;
 
+import static com.gto.gtocore.common.data.GTORecipeTypes.ASSEMBLER_MODULE_RECIPES;
+
 interface AssemblerModule {
 
     static void init() {
-        GTORecipeTypes.ASSEMBLER_MODULE_RECIPES.recipeBuilder(GTOCore.id("macrowormhole_generator"))
+        ASSEMBLER_MODULE_RECIPES.recipeBuilder(GTOCore.id("macrowormhole_generator"))
                 .inputItems(GTItems.EMITTER_UV.asStack(4))
                 .inputItems(GTItems.SENSOR_UV.asStack(4))
                 .inputItems(GTItems.FIELD_GENERATOR_UV.asStack(2))
@@ -36,7 +37,7 @@ interface AssemblerModule {
                 .addData(GTOValues.POWER_MODULE_TIER, 4)
                 .save();
 
-        GTORecipeTypes.ASSEMBLER_MODULE_RECIPES.recipeBuilder(GTOCore.id("stabilized_wormhole_generator"))
+        ASSEMBLER_MODULE_RECIPES.recipeBuilder(GTOCore.id("stabilized_wormhole_generator"))
                 .inputItems(GTItems.EMITTER_UEV.asStack(4))
                 .inputItems(GTItems.SENSOR_UEV.asStack(4))
                 .inputItems(GTItems.FIELD_GENERATOR_UEV.asStack(2))
@@ -52,7 +53,7 @@ interface AssemblerModule {
                 .addData(GTOValues.POWER_MODULE_TIER, 4)
                 .save();
 
-        GTORecipeTypes.ASSEMBLER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_drone_mk4"))
+        ASSEMBLER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_drone_mk4"))
                 .inputItems(TagPrefix.toolHeadDrill, GTMaterials.NaquadahAlloy)
                 .inputItems(GTItems.BATTERY_IV_VANADIUM.asStack(16))
                 .inputItems(CustomTags.UIV_CIRCUITS, 4)
@@ -79,7 +80,7 @@ interface AssemblerModule {
                 .addData(GTOValues.POWER_MODULE_TIER, 3)
                 .save();
 
-        GTORecipeTypes.ASSEMBLER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_drone_mk3"))
+        ASSEMBLER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_drone_mk3"))
                 .inputItems(TagPrefix.toolHeadDrill, GTMaterials.HSSE)
                 .inputItems(GTItems.BATTERY_IV_VANADIUM.asStack(4))
                 .inputItems(CustomTags.UEV_CIRCUITS, 4)
@@ -106,7 +107,7 @@ interface AssemblerModule {
                 .addData(GTOValues.POWER_MODULE_TIER, 2)
                 .save();
 
-        GTORecipeTypes.ASSEMBLER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_drone_mk6"))
+        ASSEMBLER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_drone_mk6"))
                 .inputItems(TagPrefix.toolHeadDrill, GTMaterials.Neutronium)
                 .inputItems(GTItems.BATTERY_LuV_VANADIUM.asStack(16))
                 .inputItems(CustomTags.OpV_CIRCUITS, 4)
@@ -133,7 +134,7 @@ interface AssemblerModule {
                 .addData(GTOValues.POWER_MODULE_TIER, 5)
                 .save();
 
-        GTORecipeTypes.ASSEMBLER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_drone_mk5"))
+        ASSEMBLER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_drone_mk5"))
                 .inputItems(TagPrefix.toolHeadDrill, GTMaterials.Duranium)
                 .inputItems(GTItems.BATTERY_LuV_VANADIUM.asStack(4))
                 .inputItems(CustomTags.UXV_CIRCUITS, 4)
@@ -160,7 +161,7 @@ interface AssemblerModule {
                 .addData(GTOValues.POWER_MODULE_TIER, 4)
                 .save();
 
-        GTORecipeTypes.ASSEMBLER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_drone_mk2"))
+        ASSEMBLER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_drone_mk2"))
                 .inputItems(TagPrefix.toolHeadDrill, GTMaterials.TungstenSteel)
                 .inputItems(GTItems.BATTERY_EV_VANADIUM.asStack(16))
                 .inputItems(CustomTags.UHV_CIRCUITS, 4)
@@ -187,7 +188,7 @@ interface AssemblerModule {
                 .addData(GTOValues.POWER_MODULE_TIER, 1)
                 .save();
 
-        GTORecipeTypes.ASSEMBLER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_drone_mk1"))
+        ASSEMBLER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_drone_mk1"))
                 .inputItems(TagPrefix.toolHeadDrill, GTMaterials.VanadiumSteel)
                 .inputItems(GTItems.BATTERY_EV_VANADIUM.asStack(4))
                 .inputItems(CustomTags.UV_CIRCUITS, 4)
@@ -214,7 +215,7 @@ interface AssemblerModule {
                 .addData(GTOValues.POWER_MODULE_TIER, 1)
                 .save();
 
-        GTORecipeTypes.ASSEMBLER_MODULE_RECIPES.recipeBuilder(GTOCore.id("relativistic_spinorial_memory_system"))
+        ASSEMBLER_MODULE_RECIPES.recipeBuilder(GTOCore.id("relativistic_spinorial_memory_system"))
                 .inputItems(GTItems.NEUTRON_REFLECTOR.asStack(2))
                 .inputItems(GTOItems.RYDBERG_SPINORIAL_ASSEMBLY.asStack())
                 .inputItems(GTOItems.CHARGED_LEPTON_TRAP_CRYSTAL.asStack(4))
@@ -232,7 +233,7 @@ interface AssemblerModule {
                 .addData(GTOValues.POWER_MODULE_TIER, 4)
                 .save();
 
-        GTORecipeTypes.ASSEMBLER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_probe_mk3"))
+        ASSEMBLER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_probe_mk3"))
                 .inputItems(GTItems.ULTIMATE_BATTERY.asStack())
                 .inputItems(GTOItems.QUANTUM_DISK.asStack(64))
                 .inputItems(GTItems.EMITTER_OpV.asStack(2))
@@ -250,7 +251,7 @@ interface AssemblerModule {
                 .addData(GTOValues.POWER_MODULE_TIER, 5)
                 .save();
 
-        GTORecipeTypes.ASSEMBLER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_probe_mk1"))
+        ASSEMBLER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_probe_mk1"))
                 .inputItems(GTItems.ENERGY_MODULE.asStack())
                 .inputItems(GTItems.TOOL_DATA_MODULE.asStack(64))
                 .inputItems(GTItems.EMITTER_UIV.asStack(2))
@@ -267,7 +268,7 @@ interface AssemblerModule {
                 .addData(GTOValues.POWER_MODULE_TIER, 3)
                 .save();
 
-        GTORecipeTypes.ASSEMBLER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_probe_mk2"))
+        ASSEMBLER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_probe_mk2"))
                 .inputItems(GTItems.ENERGY_CLUSTER.asStack())
                 .inputItems(GTOItems.OPTICAL_DATA_STICK.asStack(64))
                 .inputItems(GTItems.EMITTER_UXV.asStack(2))
@@ -285,7 +286,7 @@ interface AssemblerModule {
                 .addData(GTOValues.POWER_MODULE_TIER, 4)
                 .save();
 
-        GTORecipeTypes.ASSEMBLER_MODULE_RECIPES.recipeBuilder(GTOCore.id("scintillator"))
+        ASSEMBLER_MODULE_RECIPES.recipeBuilder(GTOCore.id("scintillator"))
                 .inputItems(TagPrefix.screw, GTOMaterials.HighDurabilityCompoundSteel, 12)
                 .inputItems(TagPrefix.wireFine, GTOMaterials.Cinobite, 12)
                 .inputItems(TagPrefix.foil, GTOMaterials.Zylon, 6)
@@ -303,7 +304,7 @@ interface AssemblerModule {
                 .addData(GTOValues.POWER_MODULE_TIER, 2)
                 .save();
 
-        GTORecipeTypes.ASSEMBLER_MODULE_RECIPES.recipeBuilder(GTOCore.id("nuclear_clock"))
+        ASSEMBLER_MODULE_RECIPES.recipeBuilder(GTOCore.id("nuclear_clock"))
                 .inputItems(GTItems.SENSOR_UIV.asStack(2))
                 .inputItems(GTOItems.ULTRASHORT_PULSE_LASER.asStack(2))
                 .inputItems(TagPrefix.plate, GTMaterials.Neutronium, 2)
@@ -320,7 +321,7 @@ interface AssemblerModule {
                 .addData(GTOValues.POWER_MODULE_TIER, 3)
                 .save();
 
-        GTORecipeTypes.ASSEMBLER_MODULE_RECIPES.recipeBuilder(GTOCore.id("microwormhole_generator"))
+        ASSEMBLER_MODULE_RECIPES.recipeBuilder(GTOCore.id("microwormhole_generator"))
                 .inputItems(GTItems.EMITTER_ZPM.asStack(2))
                 .inputItems(TagPrefix.wireGtSingle, GTMaterials.EnrichedNaquadahTriniumEuropiumDuranide, 2)
                 .inputItems(TagPrefix.plate, GTMaterials.Neutronium, 2)
@@ -336,7 +337,7 @@ interface AssemblerModule {
                 .addData(GTOValues.POWER_MODULE_TIER, 4)
                 .save();
 
-        GTORecipeTypes.ASSEMBLER_MODULE_RECIPES.recipeBuilder(GTOCore.id("closed_timelike_curvecomputational_unit_container"))
+        ASSEMBLER_MODULE_RECIPES.recipeBuilder(GTOCore.id("closed_timelike_curvecomputational_unit_container"))
                 .inputItems(TagPrefix.plate, GTMaterials.NaquadahEnriched, 36)
                 .inputItems(TagPrefix.plate, GTOMaterials.FullerenePolymerMatrixPulp, 36)
                 .inputItems(TagPrefix.plate, GTOMaterials.HeavyQuarkDegenerateMatter, 6)
@@ -363,7 +364,7 @@ interface AssemblerModule {
                 .addData(GTOValues.POWER_MODULE_TIER, 5)
                 .save();
 
-        GTORecipeTypes.ASSEMBLER_MODULE_RECIPES.recipeBuilder(GTOCore.id("really_max_battery"))
+        ASSEMBLER_MODULE_RECIPES.recipeBuilder(GTOCore.id("really_max_battery"))
                 .inputItems(GTOItems.EXOTIC_PRINTED_CIRCUIT_BOARD.asStack())
                 .inputItems(TagPrefix.foil, GTOMaterials.Enderite, 64)
                 .inputItems(CustomTags.UEV_CIRCUITS, 4)
@@ -390,7 +391,7 @@ interface AssemblerModule {
                 .addData(GTOValues.POWER_MODULE_TIER, 3)
                 .save();
 
-        GTORecipeTypes.ASSEMBLER_MODULE_RECIPES.recipeBuilder(GTOCore.id("optical_data_stick"))
+        ASSEMBLER_MODULE_RECIPES.recipeBuilder(GTOCore.id("optical_data_stick"))
                 .inputItems(GTOItems.OPTICAL_PRINTED_CIRCUIT_BOARD.asStack())
                 .inputItems(GTOItems.OPTICAL_RAM_CHIP.asStack())
                 .inputItems(GTBlocks.OPTICAL_PIPES[0].asStack(8))
@@ -407,7 +408,7 @@ interface AssemblerModule {
                 .addData(GTOValues.POWER_MODULE_TIER, 1)
                 .save();
 
-        GTORecipeTypes.ASSEMBLER_MODULE_RECIPES.recipeBuilder(GTOCore.id("energy_cluster"))
+        ASSEMBLER_MODULE_RECIPES.recipeBuilder(GTOCore.id("energy_cluster"))
                 .inputItems(GTOItems.BIOWARE_PRINTED_CIRCUIT_BOARD.asStack())
                 .inputItems(TagPrefix.foil, GTMaterials.UraniumRhodiumDinaquadide, 64)
                 .inputItems(CustomTags.UV_CIRCUITS, 4)
@@ -432,7 +433,7 @@ interface AssemblerModule {
                 .addData(GTOValues.POWER_MODULE_TIER, 1)
                 .save();
 
-        GTORecipeTypes.ASSEMBLER_MODULE_RECIPES.recipeBuilder(GTOCore.id("max_battery"))
+        ASSEMBLER_MODULE_RECIPES.recipeBuilder(GTOCore.id("max_battery"))
                 .inputItems(GTOItems.OPTICAL_PRINTED_CIRCUIT_BOARD.asStack())
                 .inputItems(TagPrefix.foil, GTMaterials.EnrichedNaquadahTriniumEuropiumDuranide, 64)
                 .inputItems(CustomTags.UHV_CIRCUITS, 4)

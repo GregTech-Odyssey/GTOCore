@@ -16,6 +16,18 @@ import static com.gto.gtocore.utils.register.MaterialsRegisterUtils.material;
 public interface MaterialB {
 
     static void init() {
+        CoalSlurry = material("coal_slurry", "煤浆")
+                .fluid()
+                .color(0x3E3C3A)
+                .iconSet(DULL)
+                .buildAndRegister();
+
+        WaterGas = material("water_gas", "水煤气")
+                .gas()
+                .color(0x5D5B57)
+                .iconSet(DULL)
+                .buildAndRegister();
+
         NaquadahOxideMixture = material("naquadah_oxide_mixture", "氧化硅岩混合物")
                 .dust()
                 .color(0x000A1B)

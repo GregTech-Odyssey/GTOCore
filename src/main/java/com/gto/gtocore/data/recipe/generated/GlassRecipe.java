@@ -3,7 +3,6 @@ package com.gto.gtocore.data.recipe.generated;
 import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.common.data.GTOBlocks;
 import com.gto.gtocore.common.data.GTOMaterials;
-import com.gto.gtocore.common.data.GTORecipeTypes;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
@@ -20,10 +19,12 @@ import com.tterrag.registrate.util.entry.BlockEntry;
 
 import java.util.function.Consumer;
 
+import static com.gto.gtocore.common.data.GTORecipeTypes.*;
+
 public interface GlassRecipe {
 
     static void init(Consumer<FinishedRecipe> provider) {
-        GTORecipeTypes.ALLOY_SMELTER_RECIPES.recipeBuilder(GTOCore.id("borosilicate_glass"))
+        ALLOY_SMELTER_RECIPES.recipeBuilder(GTOCore.id("borosilicate_glass"))
                 .inputItems(TagPrefix.block, GTMaterials.BorosilicateGlass)
                 .notConsumable(GTItems.SHAPE_MOLD_BLOCK)
                 .outputItems(GTOBlocks.BOROSILICATE_GLASS.asItem())
@@ -47,7 +48,7 @@ public interface GlassRecipe {
 
     private static void addGlass(int tier, Material material, BlockEntry<Block> block, Consumer<FinishedRecipe> provider) {
         FluidStack fluidStack = material.getFluid(1152);
-        GTORecipeTypes.FLUID_SOLIDFICATION_RECIPES.recipeBuilder(GTOCore.id("borosilicate_glass_" + material.getName()))
+        FLUID_SOLIDFICATION_RECIPES.recipeBuilder(GTOCore.id("borosilicate_glass_" + material.getName()))
                 .inputItems(GTOBlocks.BOROSILICATE_GLASS.asItem())
                 .inputFluids(fluidStack)
                 .outputItems(block.asItem())
@@ -55,7 +56,7 @@ public interface GlassRecipe {
                 .duration(200)
                 .save();
 
-        GTORecipeTypes.LIQUEFACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("borosilicate_glass_" + material.getName()))
+        LIQUEFACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("borosilicate_glass_" + material.getName()))
                 .inputItems(block.asItem())
                 .outputFluids(fluidStack)
                 .EUt(GTValues.VA[tier])

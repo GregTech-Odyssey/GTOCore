@@ -570,6 +570,8 @@
     "gtocore:carbon_tetrachloride_bucket",
     "gtocore:ethyl_hexanol_bucket",
     "gtocore:p507_bucket",
+    "gtocore:coal_slurry_bucket",
+    "gtocore:water_gas_bucket",
     "gtocore:low_purity_naquadah_emulsion_bucket",
     "gtocore:low_purity_naquadah_solution_bucket",
     "gtocore:lanthanum_extraction_nano_resin_bucket",

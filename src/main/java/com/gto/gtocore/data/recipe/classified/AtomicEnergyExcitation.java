@@ -4,16 +4,17 @@ import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.api.data.tag.GTOTagPrefix;
 import com.gto.gtocore.common.data.GTOItems;
 import com.gto.gtocore.common.data.GTOMaterials;
-import com.gto.gtocore.common.data.GTORecipeTypes;
 
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
+import static com.gto.gtocore.common.data.GTORecipeTypes.ATOMIC_ENERGY_EXCITATION_RECIPES;
+
 interface AtomicEnergyExcitation {
 
     static void init() {
-        GTORecipeTypes.ATOMIC_ENERGY_EXCITATION_RECIPES.recipeBuilder(GTOCore.id("concentration_mixing_hyper_fuel_1"))
+        ATOMIC_ENERGY_EXCITATION_RECIPES.recipeBuilder(GTOCore.id("concentration_mixing_hyper_fuel_1"))
                 .notConsumable(GTOTagPrefix.nanites, GTOMaterials.WhiteDwarfMatter)
                 .inputItems(GTOItems.RESONATING_GEM.asStack(4))
                 .inputItems(TagPrefix.dust, GTMaterials.Hassium, 16)
@@ -30,7 +31,7 @@ interface AtomicEnergyExcitation {
                 .blastFurnaceTemp(18800)
                 .save();
 
-        GTORecipeTypes.ATOMIC_ENERGY_EXCITATION_RECIPES.recipeBuilder(GTOCore.id("concentration_mixing_hyper_fuel_2"))
+        ATOMIC_ENERGY_EXCITATION_RECIPES.recipeBuilder(GTOCore.id("concentration_mixing_hyper_fuel_2"))
                 .notConsumable(GTOTagPrefix.nanites, GTOMaterials.BlackDwarfMatter)
                 .inputItems(TagPrefix.dust, GTOMaterials.Draconium, 16)
                 .inputItems(TagPrefix.dust, GTOMaterials.Starmetal, 18)
@@ -47,7 +48,7 @@ interface AtomicEnergyExcitation {
                 .blastFurnaceTemp(21000)
                 .save();
 
-        GTORecipeTypes.ATOMIC_ENERGY_EXCITATION_RECIPES.recipeBuilder(GTOCore.id("hyper_fuel_1"))
+        ATOMIC_ENERGY_EXCITATION_RECIPES.recipeBuilder(GTOCore.id("hyper_fuel_1"))
                 .inputItems(TagPrefix.dust, GTMaterials.Naquadria, 14)
                 .inputItems(TagPrefix.dust, GTMaterials.NaquadahEnriched, 20)
                 .inputItems(TagPrefix.dust, GTMaterials.Naquadah, 40)
@@ -63,7 +64,7 @@ interface AtomicEnergyExcitation {
                 .blastFurnaceTemp(13200)
                 .save();
 
-        GTORecipeTypes.ATOMIC_ENERGY_EXCITATION_RECIPES.recipeBuilder(GTOCore.id("hyper_fuel_2"))
+        ATOMIC_ENERGY_EXCITATION_RECIPES.recipeBuilder(GTOCore.id("hyper_fuel_2"))
                 .inputItems(TagPrefix.dust, GTMaterials.Dubnium, 4)
                 .inputItems(TagPrefix.dust, GTMaterials.Fermium, 6)
                 .inputFluids(GTOMaterials.HyperFuel1.getFluid(6000))
@@ -79,7 +80,7 @@ interface AtomicEnergyExcitation {
                 .blastFurnaceTemp(14000)
                 .save();
 
-        GTORecipeTypes.ATOMIC_ENERGY_EXCITATION_RECIPES.recipeBuilder(GTOCore.id("hyper_fuel_3"))
+        ATOMIC_ENERGY_EXCITATION_RECIPES.recipeBuilder(GTOCore.id("hyper_fuel_3"))
                 .inputItems(TagPrefix.dust, GTMaterials.Lawrencium, 6)
                 .inputItems(TagPrefix.dust, GTOMaterials.Adamantine, 8)
                 .inputFluids(GTOMaterials.HyperFuel2.getFluid(6000))
@@ -95,7 +96,7 @@ interface AtomicEnergyExcitation {
                 .blastFurnaceTemp(15200)
                 .save();
 
-        GTORecipeTypes.ATOMIC_ENERGY_EXCITATION_RECIPES.recipeBuilder(GTOCore.id("hyper_fuel_4"))
+        ATOMIC_ENERGY_EXCITATION_RECIPES.recipeBuilder(GTOCore.id("hyper_fuel_4"))
                 .inputItems(TagPrefix.dust, GTMaterials.Neutronium, 8)
                 .inputItems(TagPrefix.dust, GTOMaterials.Taranium, 12)
                 .inputFluids(GTOMaterials.HyperFuel3.getFluid(6000))
@@ -111,7 +112,7 @@ interface AtomicEnergyExcitation {
                 .blastFurnaceTemp(18000)
                 .save();
 
-        GTORecipeTypes.ATOMIC_ENERGY_EXCITATION_RECIPES.recipeBuilder(GTOCore.id("enriched_naquadah_fuel"))
+        ATOMIC_ENERGY_EXCITATION_RECIPES.recipeBuilder(GTOCore.id("enriched_naquadah_fuel"))
                 .notConsumable(GTOTagPrefix.nanites, GTOMaterials.Vibranium)
                 .inputItems(TagPrefix.dust, GTMaterials.NaquadahEnriched, 16)
                 .inputItems(TagPrefix.dust, GTMaterials.Antimony, 4)
@@ -127,7 +128,7 @@ interface AtomicEnergyExcitation {
                 .blastFurnaceTemp(12500)
                 .save();
 
-        GTORecipeTypes.ATOMIC_ENERGY_EXCITATION_RECIPES.recipeBuilder(GTOCore.id("naquadah_fuel"))
+        ATOMIC_ENERGY_EXCITATION_RECIPES.recipeBuilder(GTOCore.id("naquadah_fuel"))
                 .notConsumable(GTOTagPrefix.nanites, GTOMaterials.Orichalcum)
                 .inputItems(TagPrefix.dust, GTMaterials.Naquadah, 16)
                 .inputFluids(GTMaterials.Hydrogen.getFluid(30000))

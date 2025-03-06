@@ -2,15 +2,16 @@ package com.gto.gtocore.data.recipe.classified;
 
 import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.common.data.GTOMaterials;
-import com.gto.gtocore.common.data.GTORecipeTypes;
 
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
+import static com.gto.gtocore.common.data.GTORecipeTypes.VACUUM_DRYING_RECIPES;
+
 interface VacuumDrying {
 
     static void init() {
-        GTORecipeTypes.VACUUM_DRYING_RECIPES.recipeBuilder(GTOCore.id("grossular_front_pro"))
+        VACUUM_DRYING_RECIPES.recipeBuilder(GTOCore.id("grossular_front_pro"))
                 .inputFluids(GTOMaterials.GrossularFront.getFluid(4000))
                 .outputItems(TagPrefix.dust, GTMaterials.Calcium, 64)
                 .outputItems(TagPrefix.dust, GTMaterials.Calcium, 64)
@@ -25,7 +26,7 @@ interface VacuumDrying {
                 .blastFurnaceTemp(5500)
                 .save();
 
-        GTORecipeTypes.VACUUM_DRYING_RECIPES.recipeBuilder(GTOCore.id("sphalerite_front_pro"))
+        VACUUM_DRYING_RECIPES.recipeBuilder(GTOCore.id("sphalerite_front_pro"))
                 .inputFluids(GTOMaterials.SphaleriteFront.getFluid(4000))
                 .outputItems(TagPrefix.dust, GTMaterials.Zinc, 64)
                 .outputItems(TagPrefix.dust, GTMaterials.Zinc, 64)
@@ -40,7 +41,7 @@ interface VacuumDrying {
                 .blastFurnaceTemp(5500)
                 .save();
 
-        GTORecipeTypes.VACUUM_DRYING_RECIPES.recipeBuilder(GTOCore.id("chalcopyrite_front_pro"))
+        VACUUM_DRYING_RECIPES.recipeBuilder(GTOCore.id("chalcopyrite_front_pro"))
                 .inputFluids(GTOMaterials.ChalcopyriteFront.getFluid(4000))
                 .outputItems(TagPrefix.dust, GTMaterials.Copper, 64)
                 .outputItems(TagPrefix.dust, GTMaterials.Copper, 64)
@@ -55,7 +56,7 @@ interface VacuumDrying {
                 .blastFurnaceTemp(4500)
                 .save();
 
-        GTORecipeTypes.VACUUM_DRYING_RECIPES.recipeBuilder(GTOCore.id("nickel_front_pro"))
+        VACUUM_DRYING_RECIPES.recipeBuilder(GTOCore.id("nickel_front_pro"))
                 .inputFluids(GTOMaterials.NickelFront.getFluid(4000))
                 .outputItems(TagPrefix.dust, GTMaterials.Nickel, 64)
                 .outputItems(TagPrefix.dust, GTMaterials.Nickel, 64)
@@ -70,7 +71,7 @@ interface VacuumDrying {
                 .blastFurnaceTemp(4500)
                 .save();
 
-        GTORecipeTypes.VACUUM_DRYING_RECIPES.recipeBuilder(GTOCore.id("pyrope_front_pro"))
+        VACUUM_DRYING_RECIPES.recipeBuilder(GTOCore.id("pyrope_front_pro"))
                 .inputFluids(GTOMaterials.PyropeFront.getFluid(4000))
                 .outputItems(TagPrefix.dust, GTMaterials.Magnesium, 64)
                 .outputItems(TagPrefix.dust, GTMaterials.Magnesium, 64)
@@ -85,7 +86,7 @@ interface VacuumDrying {
                 .blastFurnaceTemp(3500)
                 .save();
 
-        GTORecipeTypes.VACUUM_DRYING_RECIPES.recipeBuilder(GTOCore.id("platinum_front_pro"))
+        VACUUM_DRYING_RECIPES.recipeBuilder(GTOCore.id("platinum_front_pro"))
                 .inputFluids(GTOMaterials.PlatinumFront.getFluid(4000))
                 .outputItems(TagPrefix.dust, GTMaterials.Platinum, 64)
                 .outputItems(TagPrefix.dust, GTMaterials.Nickel, 48)
@@ -100,7 +101,7 @@ interface VacuumDrying {
                 .blastFurnaceTemp(5500)
                 .save();
 
-        GTORecipeTypes.VACUUM_DRYING_RECIPES.recipeBuilder(GTOCore.id("redstone_front_pro"))
+        VACUUM_DRYING_RECIPES.recipeBuilder(GTOCore.id("redstone_front_pro"))
                 .inputFluids(GTOMaterials.RedstoneFront.getFluid(4000))
                 .outputItems(TagPrefix.dust, GTMaterials.Redstone, 64)
                 .outputItems(TagPrefix.dust, GTMaterials.Redstone, 64)
@@ -115,7 +116,7 @@ interface VacuumDrying {
                 .blastFurnaceTemp(4500)
                 .save();
 
-        GTORecipeTypes.VACUUM_DRYING_RECIPES.recipeBuilder(GTOCore.id("almandine_front_pro"))
+        VACUUM_DRYING_RECIPES.recipeBuilder(GTOCore.id("almandine_front_pro"))
                 .inputFluids(GTOMaterials.AlmandineFront.getFluid(4000))
                 .outputItems(TagPrefix.dust, GTMaterials.Aluminium, 64)
                 .outputItems(TagPrefix.dust, GTMaterials.Aluminium, 64)
@@ -130,7 +131,7 @@ interface VacuumDrying {
                 .blastFurnaceTemp(5500)
                 .save();
 
-        GTORecipeTypes.VACUUM_DRYING_RECIPES.recipeBuilder(GTOCore.id("monazite_front_pro"))
+        VACUUM_DRYING_RECIPES.recipeBuilder(GTOCore.id("monazite_front_pro"))
                 .inputFluids(GTOMaterials.MonaziteFront.getFluid(4000))
                 .outputItems(TagPrefix.dust, GTMaterials.Erbium, 64)
                 .outputItems(TagPrefix.dust, GTMaterials.Neodymium, 64)
@@ -145,7 +146,7 @@ interface VacuumDrying {
                 .blastFurnaceTemp(5500)
                 .save();
 
-        GTORecipeTypes.VACUUM_DRYING_RECIPES.recipeBuilder(GTOCore.id("spessartine_front_pro"))
+        VACUUM_DRYING_RECIPES.recipeBuilder(GTOCore.id("spessartine_front_pro"))
                 .inputFluids(GTOMaterials.SpessartineFront.getFluid(4000))
                 .outputItems(TagPrefix.dust, GTMaterials.Manganese, 64)
                 .outputItems(TagPrefix.dust, GTMaterials.Manganese, 64)
@@ -160,7 +161,7 @@ interface VacuumDrying {
                 .blastFurnaceTemp(5500)
                 .save();
 
-        GTORecipeTypes.VACUUM_DRYING_RECIPES.recipeBuilder(GTOCore.id("pentlandite_front_pro"))
+        VACUUM_DRYING_RECIPES.recipeBuilder(GTOCore.id("pentlandite_front_pro"))
                 .inputFluids(GTOMaterials.PentlanditeFront.getFluid(4000))
                 .outputItems(TagPrefix.dust, GTMaterials.Iron, 64)
                 .outputItems(TagPrefix.dust, GTMaterials.Iron, 64)
@@ -175,7 +176,7 @@ interface VacuumDrying {
                 .blastFurnaceTemp(5500)
                 .save();
 
-        GTORecipeTypes.VACUUM_DRYING_RECIPES.recipeBuilder(GTOCore.id("enriched_naquadah_front_pro"))
+        VACUUM_DRYING_RECIPES.recipeBuilder(GTOCore.id("enriched_naquadah_front_pro"))
                 .inputFluids(GTOMaterials.EnrichedNaquadahFront.getFluid(4000))
                 .outputItems(TagPrefix.dust, GTMaterials.NaquadahEnriched, 64)
                 .outputItems(TagPrefix.dust, GTMaterials.NaquadahEnriched, 64)

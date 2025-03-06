@@ -10,10 +10,10 @@ import com.gto.gtocore.common.item.ItemMap;
 import com.gto.gtocore.common.machine.multiblock.electric.voidseries.VoidTransporterMachine;
 import com.gto.gtocore.common.machine.noenergy.PerformanceMonitorMachine;
 import com.gto.gtocore.common.network.ServerMessage;
+import com.gto.gtocore.common.saved.CommonSavaedData;
 import com.gto.gtocore.common.saved.DysonSphereSavaedData;
 import com.gto.gtocore.common.saved.ExtendWirelessEnergySavaedData;
 import com.gto.gtocore.common.saved.InfinityCellSavaedData;
-import com.gto.gtocore.common.saved.PlanetsTravelSavaedData;
 import com.gto.gtocore.config.GTOConfig;
 import com.gto.gtocore.utils.ServerUtils;
 import com.gto.gtocore.utils.SphereExplosion;
@@ -258,7 +258,7 @@ public final class ForgeCommonEvent {
             InfinityCellSavaedData.INSTANCE = serverLevel.getDataStorage().computeIfAbsent(InfinityCellSavaedData::readNbt, InfinityCellSavaedData::new, "infinite_storage_cell_data");
             DysonSphereSavaedData.INSTANCE = serverLevel.getDataStorage().computeIfAbsent(DysonSphereSavaedData::new, DysonSphereSavaedData::new, "dyson_sphere_data");
             WirelessEnergySavaedData.INSTANCE = serverLevel.getDataStorage().computeIfAbsent(ExtendWirelessEnergySavaedData::new, ExtendWirelessEnergySavaedData::new, "wireless_energy_data");
-            PlanetsTravelSavaedData.INSTANCE = serverLevel.getDataStorage().computeIfAbsent(PlanetsTravelSavaedData::new, PlanetsTravelSavaedData::new, "planets_trave_data");
+            CommonSavaedData.INSTANCE = serverLevel.getDataStorage().computeIfAbsent(CommonSavaedData::new, CommonSavaedData::new, "common_data");
         }
     }
 
@@ -271,7 +271,7 @@ public final class ForgeCommonEvent {
 
     @SubscribeEvent
     public static void onServerStartedEvent(ServerStartedEvent event) {
-        if (GTOConfig.INSTANCE.selfRestraint) ServerUtils.getPersistentData(event.getServer()).putBoolean("srm", true);
+        if (GTOConfig.INSTANCE.selfRestraint) ServerUtils.getPersistentData().putBoolean("srm", true);
     }
 
     @SubscribeEvent

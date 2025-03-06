@@ -767,6 +767,8 @@ public final class GTOMaterials {
     public static Material ActiniumOxalate;
     public static Material EthylHexanol;
     public static Material P507;
+    public static Material CoalSlurry;
+    public static Material WaterGas;
     public static Material NaquadahOxideMixture;
     public static Material LowPurityNaquadahEmulsion;
     public static Material LowPurityNaquadahSolution;

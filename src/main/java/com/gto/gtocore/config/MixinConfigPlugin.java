@@ -26,7 +26,7 @@ public final class MixinConfigPlugin implements IMixinConfigPlugin {
 
     @Override
     public void onLoad(String mixinPackage) {
-        if (MixinEnvironment.getDefaultEnvironment().getActiveTransformer() instanceof IMixinTransformer transformer) {
+        if (GTCEu.isClientSide() && MixinEnvironment.getDefaultEnvironment().getActiveTransformer() instanceof IMixinTransformer transformer) {
             if (transformer.getExtensions() instanceof Extensions internalExtensions) {
                 var instance = new MyIExtension();
                 try {

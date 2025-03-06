@@ -3,7 +3,9 @@ package com.gto.gtocore.common.data.machines;
 import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.api.registries.GTOMachineBuilder;
 import com.gto.gtocore.client.renderer.machine.ExResearchPartRenderer;
-import com.gto.gtocore.common.machine.multiblock.part.research.*;
+import com.gto.gtocore.common.machine.multiblock.part.research.ExResearchComputationPartMachine;
+import com.gto.gtocore.common.machine.multiblock.part.research.ExResearchCoolerPartMachine;
+import com.gto.gtocore.common.machine.multiblock.part.research.ExResearchEmptyPartMachine;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;

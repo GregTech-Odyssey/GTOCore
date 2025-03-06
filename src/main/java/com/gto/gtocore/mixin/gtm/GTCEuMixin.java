@@ -13,15 +13,6 @@ public final class GTCEuMixin {
      * @reason .
      */
     @Overwrite(remap = false)
-    public static boolean isKubeJSLoaded() {
-        return false;
-    }
-
-    /**
-     * @author .
-     * @reason .
-     */
-    @Overwrite(remap = false)
     public static boolean isFTBTeamsLoaded() {
         return false;
     }

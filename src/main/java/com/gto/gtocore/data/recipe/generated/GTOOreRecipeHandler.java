@@ -3,7 +3,6 @@ package com.gto.gtocore.data.recipe.generated;
 import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.api.recipe.GTORecipeBuilder;
 import com.gto.gtocore.common.data.GTOMaterials;
-import com.gto.gtocore.common.data.GTORecipeTypes;
 import com.gto.gtocore.config.GTOConfig;
 
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
@@ -86,7 +85,7 @@ interface GTOOreRecipeHandler {
         Material smeltingMaterial = property.getDirectSmeltResult() != null ? property.getDirectSmeltResult() : material;
 
         if (!crushedStack.isEmpty()) {
-            GTORecipeBuilder builder = GTORecipeTypes.CRUSHER_RECIPES
+            GTORecipeBuilder builder = CRUSHER_RECIPES
                     .recipeBuilder(GTOCore.id(material.getName() + "_ore_to_raw_ore"))
                     .inputItems(tag)
                     .outputItems(crushedStack.copyWithCount(oreMultiplier << 1))
@@ -361,7 +360,7 @@ interface GTOOreRecipeHandler {
         builder.outputItems(material.hasProperty(PropertyKey.GEM) && !gem.isIgnored(material) ? ChemicalHelper.get(gem, material, crushedStack.getCount()) : crushedStack);
         builder.save();
 
-        GTORecipeBuilder builder2 = GTORecipeTypes.CRUSHER_RECIPES.recipeBuilder(TagPrefix.rawOre.name + "_" + material.getName() + "_ore_to_crushed_ore")
+        GTORecipeBuilder builder2 = CRUSHER_RECIPES.recipeBuilder(TagPrefix.rawOre.name + "_" + material.getName() + "_ore_to_crushed_ore")
                 .inputItems(stack)
                 .outputItems(crushedStack.copyWithCount(crushedStack.getCount() << 1))
                 .EUt(30).duration(dur);

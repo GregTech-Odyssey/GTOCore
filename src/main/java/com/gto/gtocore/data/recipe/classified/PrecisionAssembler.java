@@ -2,7 +2,10 @@ package com.gto.gtocore.data.recipe.classified;
 
 import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.api.machine.GTOCleanroomType;
-import com.gto.gtocore.common.data.*;
+import com.gto.gtocore.common.data.GTOBlocks;
+import com.gto.gtocore.common.data.GTOFluids;
+import com.gto.gtocore.common.data.GTOItems;
+import com.gto.gtocore.common.data.GTOMaterials;
 import com.gto.gtocore.common.data.machines.MultiBlockD;
 
 import com.gregtechceu.gtceu.api.GTValues;
@@ -22,10 +25,12 @@ import net.minecraftforge.fluids.FluidStack;
 
 import com.kyanite.deeperdarker.content.DDItems;
 
+import static com.gto.gtocore.common.data.GTORecipeTypes.PRECISION_ASSEMBLER_RECIPES;
+
 interface PrecisionAssembler {
 
     static void init() {
-        GTORecipeTypes.PRECISION_ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("dyson_receiver_casing"))
+        PRECISION_ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("dyson_receiver_casing"))
                 .inputItems("gtceu:uiv_charger_4x")
                 .inputItems(GTOItems.PM_CHIP.asStack(2))
                 .inputItems(GTOItems.UIV_VOLTAGE_COIL.asStack(4))
@@ -40,7 +45,7 @@ interface PrecisionAssembler {
                 .cleanroom(CleanroomType.CLEANROOM)
                 .save();
 
-        GTORecipeTypes.PRECISION_ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("reinforced_echo_shard"))
+        PRECISION_ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("reinforced_echo_shard"))
                 .inputItems(TagPrefix.plate, GTMaterials.EchoShard, 4)
                 .inputItems(new ItemStack(DDItems.SCULK_BONE.get(), 4))
                 .inputItems(new ItemStack(Items.NETHERITE_SCRAP.asItem(), 2))
@@ -53,7 +58,7 @@ interface PrecisionAssembler {
                 .cleanroom(GTOCleanroomType.LAW_CLEANROOM)
                 .save();
 
-        GTORecipeTypes.PRECISION_ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("power_core"))
+        PRECISION_ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("power_core"))
                 .inputItems(GTOBlocks.SPACE_ELEVATOR_POWER_MODULE_1.asStack(4))
                 .inputItems(GTItems.FIELD_GENERATOR_UV.asStack(8))
                 .inputItems(GTItems.GRAVITATION_ENGINE.asStack(64))
@@ -68,7 +73,7 @@ interface PrecisionAssembler {
                 .cleanroom(CleanroomType.CLEANROOM)
                 .save();
 
-        GTORecipeTypes.PRECISION_ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("compressed_fusion_coil_mk2"))
+        PRECISION_ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("compressed_fusion_coil_mk2"))
                 .inputItems(GTOBlocks.FUSION_COIL_MK2.asStack())
                 .inputItems(GTOItems.UNSTABLE_STAR.asStack())
                 .inputItems(GTOItems.HUI_CIRCUIT_5.asStack())
@@ -80,7 +85,7 @@ interface PrecisionAssembler {
                 .cleanroom(CleanroomType.CLEANROOM)
                 .save();
 
-        GTORecipeTypes.PRECISION_ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("infinity_antimatter_fuel_rod"))
+        PRECISION_ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("infinity_antimatter_fuel_rod"))
                 .inputItems(GTOItems.PELLET_ANTIMATTER.asStack(64))
                 .inputItems(GTOItems.PELLET_ANTIMATTER.asStack(64))
                 .inputItems(GTOItems.PELLET_ANTIMATTER.asStack(64))
@@ -95,7 +100,7 @@ interface PrecisionAssembler {
                 .cleanroom(GTOCleanroomType.LAW_CLEANROOM)
                 .save();
 
-        GTORecipeTypes.PRECISION_ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("uv_kuangbiao_one_giant_nuclear_fusion_reactor"))
+        PRECISION_ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("uv_kuangbiao_one_giant_nuclear_fusion_reactor"))
                 .inputItems(GTMultiMachines.FUSION_REACTOR[GTValues.UV].asStack())
                 .inputItems(GTOBlocks.ADVANCED_COMPRESSED_FUSION_COIL.asStack())
                 .inputItems(GTOItems.HUI_CIRCUIT_3.asStack(16))
@@ -110,7 +115,7 @@ interface PrecisionAssembler {
                 .cleanroom(CleanroomType.CLEANROOM)
                 .save();
 
-        GTORecipeTypes.PRECISION_ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("bedrock_drill"))
+        PRECISION_ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("bedrock_drill"))
                 .inputItems(DDItems.REINFORCED_ECHO_SHARD.get())
                 .inputItems(new ItemStack(Blocks.BEDROCK.asItem()))
                 .inputItems(TagPrefix.toolHeadBuzzSaw, GTMaterials.Neutronium)
@@ -125,7 +130,7 @@ interface PrecisionAssembler {
                 .cleanroom(GTOCleanroomType.LAW_CLEANROOM)
                 .save();
 
-        GTORecipeTypes.PRECISION_ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("dyson_swarm_module"))
+        PRECISION_ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("dyson_swarm_module"))
                 .inputItems(TagPrefix.frameGt, GTMaterials.NaquadahEnriched, 16)
                 .inputItems(GTItems.COVER_SOLAR_PANEL.asStack(64))
                 .inputItems(GTItems.SENSOR_UEV.asStack())
@@ -140,7 +145,7 @@ interface PrecisionAssembler {
                 .cleanroom(GTOCleanroomType.LAW_CLEANROOM)
                 .save();
 
-        GTORecipeTypes.PRECISION_ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("luv_kuangbiao_one_giant_nuclear_fusion_reactor"))
+        PRECISION_ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("luv_kuangbiao_one_giant_nuclear_fusion_reactor"))
                 .inputItems(GTMultiMachines.FUSION_REACTOR[GTValues.LuV].asStack())
                 .inputItems(GTOBlocks.IMPROVED_SUPERCONDUCTOR_COIL.asStack())
                 .inputItems(GTOItems.HUI_CIRCUIT_1.asStack(16))
@@ -155,7 +160,7 @@ interface PrecisionAssembler {
                 .cleanroom(CleanroomType.CLEANROOM)
                 .save();
 
-        GTORecipeTypes.PRECISION_ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("cosmic_neutronium_antimatter_fuel_rod"))
+        PRECISION_ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("cosmic_neutronium_antimatter_fuel_rod"))
                 .inputItems(GTOItems.PELLET_ANTIMATTER.asStack(64))
                 .inputItems(GTOItems.PELLET_ANTIMATTER.asStack(64))
                 .inputItems(GTOItems.PELLET_ANTIMATTER.asStack(64))
@@ -169,7 +174,7 @@ interface PrecisionAssembler {
                 .cleanroom(GTOCleanroomType.LAW_CLEANROOM)
                 .save();
 
-        GTORecipeTypes.PRECISION_ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("hui_circuit_3"))
+        PRECISION_ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("hui_circuit_3"))
                 .inputItems(GTOItems.HUI_CIRCUIT_2.asStack())
                 .inputItems(TagPrefix.plate, GTMaterials.Sodalite, 8)
                 .inputItems(GTItems.RAW_CRYSTAL_CHIP.asStack())
@@ -184,7 +189,7 @@ interface PrecisionAssembler {
                 .cleanroom(CleanroomType.CLEANROOM)
                 .save();
 
-        GTORecipeTypes.PRECISION_ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("hui_circuit_2"))
+        PRECISION_ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("hui_circuit_2"))
                 .inputItems(GTOItems.HUI_CIRCUIT_1.asStack())
                 .inputItems(TagPrefix.plate, GTMaterials.BlueTopaz, 8)
                 .inputItems(GTItems.NAND_MEMORY_CHIP.asStack(16))
@@ -199,7 +204,7 @@ interface PrecisionAssembler {
                 .cleanroom(CleanroomType.CLEANROOM)
                 .save();
 
-        GTORecipeTypes.PRECISION_ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("hui_circuit_5"))
+        PRECISION_ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("hui_circuit_5"))
                 .inputItems(GTOItems.HUI_CIRCUIT_4.asStack())
                 .inputItems(TagPrefix.plate, GTMaterials.Opal, 8)
                 .inputItems(GTItems.NEURO_PROCESSOR.asStack())
@@ -214,7 +219,7 @@ interface PrecisionAssembler {
                 .cleanroom(CleanroomType.CLEANROOM)
                 .save();
 
-        GTORecipeTypes.PRECISION_ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("hui_circuit_4"))
+        PRECISION_ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("hui_circuit_4"))
                 .inputItems(GTOItems.HUI_CIRCUIT_3.asStack())
                 .inputItems(TagPrefix.plate, GTMaterials.GarnetRed, 8)
                 .inputItems(GTItems.QUBIT_CENTRAL_PROCESSING_UNIT.asStack(16))
@@ -229,7 +234,7 @@ interface PrecisionAssembler {
                 .cleanroom(CleanroomType.CLEANROOM)
                 .save();
 
-        GTORecipeTypes.PRECISION_ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("topological_manipulator_unit"))
+        PRECISION_ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("topological_manipulator_unit"))
                 .inputItems(GTOItems.QUANTUMCHROMODYNAMIC_PROTECTIVE_PLATING.asStack(2))
                 .inputItems(GTOItems.CONTAINED_KERR_NEWMANN_SINGULARITY.asStack())
                 .inputItems(GTOItems.MICROWORMHOLE_GENERATOR.asStack())
@@ -244,7 +249,7 @@ interface PrecisionAssembler {
                 .cleanroom(CleanroomType.CLEANROOM)
                 .save();
 
-        GTORecipeTypes.PRECISION_ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("dyson_control_casing"))
+        PRECISION_ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("dyson_control_casing"))
                 .inputItems("gtceu:uiv_machine_hull")
                 .inputItems(GTOItems.EXOTIC_PROCESSING_CORE.asStack())
                 .inputItems(CustomTags.UIV_CIRCUITS)
@@ -259,7 +264,7 @@ interface PrecisionAssembler {
                 .cleanroom(CleanroomType.CLEANROOM)
                 .save();
 
-        GTORecipeTypes.PRECISION_ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("uev_kuangbiao_one_giant_nuclear_fusion_reactor"))
+        PRECISION_ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("uev_kuangbiao_one_giant_nuclear_fusion_reactor"))
                 .inputItems(MultiBlockD.FUSION_REACTOR[GTValues.UEV].asStack())
                 .inputItems(GTOBlocks.COMPRESSED_FUSION_COIL_MK2.asStack())
                 .inputItems(GTOItems.HUI_CIRCUIT_5.asStack(16))
@@ -274,7 +279,7 @@ interface PrecisionAssembler {
                 .cleanroom(CleanroomType.CLEANROOM)
                 .save();
 
-        GTORecipeTypes.PRECISION_ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("optical_soc"))
+        PRECISION_ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("optical_soc"))
                 .inputItems(GTOItems.OPTICAL_SOC_CONTAINMENT_HOUSING.asStack())
                 .inputItems(GTOItems.OPTICAL_SLICE.asStack())
                 .inputItems(TagPrefix.bolt, GTMaterials.Gold, 8)
@@ -289,7 +294,7 @@ interface PrecisionAssembler {
                 .cleanroom(CleanroomType.CLEANROOM)
                 .save();
 
-        GTORecipeTypes.PRECISION_ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("uhv_kuangbiao_one_giant_nuclear_fusion_reactor"))
+        PRECISION_ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("uhv_kuangbiao_one_giant_nuclear_fusion_reactor"))
                 .inputItems(MultiBlockD.FUSION_REACTOR[GTValues.UHV].asStack())
                 .inputItems(GTOBlocks.COMPRESSED_FUSION_COIL_MK2_PROTOTYPE.asStack())
                 .inputItems(GTOItems.HUI_CIRCUIT_4.asStack(16))
@@ -304,7 +309,7 @@ interface PrecisionAssembler {
                 .cleanroom(CleanroomType.CLEANROOM)
                 .save();
 
-        GTORecipeTypes.PRECISION_ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("compressed_fusion_coil"))
+        PRECISION_ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("compressed_fusion_coil"))
                 .inputItems(GTBlocks.FUSION_COIL.asStack())
                 .inputItems(GTOItems.INVERTER.asStack())
                 .inputItems(GTOItems.HUI_CIRCUIT_2.asStack())
@@ -316,7 +321,7 @@ interface PrecisionAssembler {
                 .cleanroom(CleanroomType.CLEANROOM)
                 .save();
 
-        GTORecipeTypes.PRECISION_ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("x_ray_laser"))
+        PRECISION_ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("x_ray_laser"))
                 .inputItems(GTOItems.X_RAY_WAVEGUIDE.asStack())
                 .inputItems(GTOItems.MICROFOCUS_X_RAY_TUBE.asStack())
                 .inputItems(TagPrefix.gemExquisite, GTOMaterials.Jasper)
@@ -331,7 +336,7 @@ interface PrecisionAssembler {
                 .cleanroom(CleanroomType.CLEANROOM)
                 .save();
 
-        GTORecipeTypes.PRECISION_ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("compressed_fusion_coil_mk2_prototype"))
+        PRECISION_ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("compressed_fusion_coil_mk2_prototype"))
                 .inputItems(GTOBlocks.ADVANCED_FUSION_COIL.asStack())
                 .inputItems(GTItems.GRAVI_STAR.asStack())
                 .inputItems(GTOItems.HUI_CIRCUIT_4.asStack())
@@ -343,7 +348,7 @@ interface PrecisionAssembler {
                 .cleanroom(CleanroomType.CLEANROOM)
                 .save();
 
-        GTORecipeTypes.PRECISION_ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("rydberg_spinorial_assembly"))
+        PRECISION_ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("rydberg_spinorial_assembly"))
                 .inputItems(GTOItems.CRYOGENIC_INTERFACE.asStack())
                 .inputItems(GTOItems.ROTATING_TRANSPARENT_SURFACE.asStack())
                 .inputItems(GTOItems.EXOTIC_CHIP.asStack())
@@ -358,7 +363,7 @@ interface PrecisionAssembler {
                 .cleanroom(CleanroomType.CLEANROOM)
                 .save();
 
-        GTORecipeTypes.PRECISION_ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("improved_superconductor_coil"))
+        PRECISION_ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("improved_superconductor_coil"))
                 .inputItems(GTBlocks.SUPERCONDUCTING_COIL.asStack())
                 .inputItems(GTOItems.SPECIAL_CERAMICS.asStack(2))
                 .inputItems(GTOItems.HUI_CIRCUIT_1.asStack())
@@ -370,7 +375,7 @@ interface PrecisionAssembler {
                 .cleanroom(CleanroomType.CLEANROOM)
                 .save();
 
-        GTORecipeTypes.PRECISION_ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("cosmic_processing_unit_core"))
+        PRECISION_ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("cosmic_processing_unit_core"))
                 .inputItems(TagPrefix.wireFine, GTOMaterials.HeavyQuarkDegenerateMatter, 6)
                 .inputItems(GTOItems.COSMIC_SOC.asStack(4))
                 .inputItems(TagPrefix.plate, GTOMaterials.DegenerateRhenium, 3)
@@ -385,7 +390,7 @@ interface PrecisionAssembler {
                 .cleanroom(GTOCleanroomType.LAW_CLEANROOM)
                 .save();
 
-        GTORecipeTypes.PRECISION_ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("annihilation_constrainer"))
+        PRECISION_ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("annihilation_constrainer"))
                 .inputItems(GTOItems.HYPERCUBE.asStack())
                 .inputItems(GTOItems.CONTAINED_REISSNER_NORDSTROM_SINGULARITY.asStack(8))
                 .inputItems(CustomTags.UXV_CIRCUITS, 4)
@@ -398,7 +403,7 @@ interface PrecisionAssembler {
                 .cleanroom(CleanroomType.CLEANROOM)
                 .save();
 
-        GTORecipeTypes.PRECISION_ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("machine_casing_grinding_head"))
+        PRECISION_ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("machine_casing_grinding_head"))
                 .inputItems(TagPrefix.frameGt, GTMaterials.Europium)
                 .inputItems(new ItemStack(DDItems.REINFORCED_ECHO_SHARD.get(), 8))
                 .inputItems(GTItems.COMPONENT_GRINDER_TUNGSTEN.asStack(6))
@@ -413,7 +418,7 @@ interface PrecisionAssembler {
                 .cleanroom(GTOCleanroomType.LAW_CLEANROOM)
                 .save();
 
-        GTORecipeTypes.PRECISION_ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("draconium_antimatter_fuel_rod"))
+        PRECISION_ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("draconium_antimatter_fuel_rod"))
                 .inputItems(GTOItems.PELLET_ANTIMATTER.asStack(64))
                 .inputItems(GTOItems.PELLET_ANTIMATTER.asStack(64))
                 .inputItems(GTOItems.ANNIHILATION_CONSTRAINER.asStack())
@@ -426,7 +431,7 @@ interface PrecisionAssembler {
                 .cleanroom(GTOCleanroomType.LAW_CLEANROOM)
                 .save();
 
-        GTORecipeTypes.PRECISION_ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("zpm_kuangbiao_one_giant_nuclear_fusion_reactor"))
+        PRECISION_ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("zpm_kuangbiao_one_giant_nuclear_fusion_reactor"))
                 .inputItems(GTMultiMachines.FUSION_REACTOR[GTValues.ZPM].asStack())
                 .inputItems(GTOBlocks.COMPRESSED_FUSION_COIL.asStack())
                 .inputItems(GTOItems.HUI_CIRCUIT_2.asStack(16))
@@ -441,7 +446,7 @@ interface PrecisionAssembler {
                 .cleanroom(CleanroomType.CLEANROOM)
                 .save();
 
-        GTORecipeTypes.PRECISION_ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("neutronium_antimatter_fuel_rod"))
+        PRECISION_ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("neutronium_antimatter_fuel_rod"))
                 .inputItems(GTOItems.PELLET_ANTIMATTER.asStack(64))
                 .inputItems(GTOItems.ANNIHILATION_CONSTRAINER.asStack())
                 .inputFluids(GTOMaterials.LiquidHydrogen.getFluid(200000))
@@ -453,7 +458,7 @@ interface PrecisionAssembler {
                 .cleanroom(GTOCleanroomType.LAW_CLEANROOM)
                 .save();
 
-        GTORecipeTypes.PRECISION_ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("lithography_mask"))
+        PRECISION_ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("lithography_mask"))
                 .inputItems(TagPrefix.wireFine, GTMaterials.BorosilicateGlass, 64)
                 .inputItems(TagPrefix.foil, GTMaterials.Polytetrafluoroethylene, 16)
                 .inputFluids(GTMaterials.Polyethylene.getFluid(288))
@@ -466,7 +471,7 @@ interface PrecisionAssembler {
                 .cleanroom(CleanroomType.STERILE_CLEANROOM)
                 .save();
 
-        GTORecipeTypes.PRECISION_ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("closed_timelike_curve_guidance_unit"))
+        PRECISION_ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("closed_timelike_curve_guidance_unit"))
                 .inputItems(GTOItems.COSMIC_RAM_CHIP.asStack(64))
                 .inputItems(GTOItems.SUPRACAUSAL_PROCESSING_CORE.asStack())
                 .inputItems(GTOItems.QUANTUM_DISK.asStack())
@@ -481,7 +486,7 @@ interface PrecisionAssembler {
                 .cleanroom(CleanroomType.CLEANROOM)
                 .save();
 
-        GTORecipeTypes.PRECISION_ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("bioware_boule"))
+        PRECISION_ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("bioware_boule"))
                 .inputItems(GTItems.NEUTRONIUM_WAFER.asStack())
                 .inputItems(GTOItems.BIOLOGICAL_CELLS.asStack(16))
                 .inputItems(TagPrefix.dustSmall, GTMaterials.Actinium)
@@ -495,7 +500,7 @@ interface PrecisionAssembler {
                 .cleanroom(CleanroomType.STERILE_CLEANROOM)
                 .save();
 
-        GTORecipeTypes.PRECISION_ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("advanced_compressed_fusion_coil"))
+        PRECISION_ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("advanced_compressed_fusion_coil"))
                 .inputItems(GTOBlocks.COMPRESSED_FUSION_COIL.asStack())
                 .inputItems(GTItems.QUANTUM_STAR.asStack())
                 .inputItems(GTOItems.HUI_CIRCUIT_3.asStack())

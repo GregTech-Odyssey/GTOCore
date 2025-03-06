@@ -1,5 +1,8 @@
 package com.gto.gtocore.mixin.gtm;
 
+import com.gto.gtocore.common.data.GTORecipes;
+
+import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.data.chemical.material.registry.MaterialRegistry;
 import com.gregtechceu.gtceu.common.CommonProxy;
 import com.gregtechceu.gtceu.data.loot.DungeonLootLoader;
@@ -27,6 +30,9 @@ public class CommonProxyMixin {
 
     @Inject(method = "registerPackFinders", at = @At(value = "INVOKE", target = "Lcom/gregtechceu/gtceu/data/pack/GTDynamicDataPack;clearServer()V"), remap = false, cancellable = true)
     private void registerPackFinders(AddPackFindersEvent event, CallbackInfo ci) {
+        if (!GTCEu.isClientSide() && !GTORecipes.cache) {
+            GTORecipes.init();
+        }
         DungeonLootLoader.init();
         event.addRepositorySource(new GTPackSource("gtceu:dynamic_data", event.getPackType(), Pack.Position.BOTTOM, GTDynamicDataPack::new));
         ci.cancel();

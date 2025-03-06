@@ -3,16 +3,17 @@ package com.gto.gtocore.data.recipe.classified;
 import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.common.data.GTOItems;
 import com.gto.gtocore.common.data.GTOMaterials;
-import com.gto.gtocore.common.data.GTORecipeTypes;
 
 import com.gregtechceu.gtceu.api.data.chemical.material.MarkerMaterials;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.common.data.GTItems;
 
+import static com.gto.gtocore.common.data.GTORecipeTypes.DIMENSIONAL_FOCUS_ENGRAVING_ARRAY_RECIPES;
+
 interface DimensionalFocusEngravingArray {
 
     static void init() {
-        GTORecipeTypes.DIMENSIONAL_FOCUS_ENGRAVING_ARRAY_RECIPES.recipeBuilder(GTOCore.id("pm_wafer"))
+        DIMENSIONAL_FOCUS_ENGRAVING_ARRAY_RECIPES.recipeBuilder(GTOCore.id("pm_wafer"))
                 .inputItems(GTOItems.TARANIUM_WAFER.asStack())
                 .notConsumable(TagPrefix.lens, MarkerMaterials.Color.Magenta)
                 .inputFluids(GTOMaterials.EuvPhotoresist.getFluid(100))
@@ -24,7 +25,7 @@ interface DimensionalFocusEngravingArray {
                         .EUt(1966080).duration(2400))
                 .save();
 
-        GTORecipeTypes.DIMENSIONAL_FOCUS_ENGRAVING_ARRAY_RECIPES.recipeBuilder(GTOCore.id("raw_photon_carrying_wafer"))
+        DIMENSIONAL_FOCUS_ENGRAVING_ARRAY_RECIPES.recipeBuilder(GTOCore.id("raw_photon_carrying_wafer"))
                 .inputItems(GTOItems.RUTHERFORDIUM_AMPROSIUM_WAFER.asStack())
                 .notConsumable(TagPrefix.lens, MarkerMaterials.Color.Yellow)
                 .inputFluids(GTOMaterials.Photoresist.getFluid(100))
@@ -36,7 +37,7 @@ interface DimensionalFocusEngravingArray {
                         .EUt(1966080).duration(2400))
                 .save();
 
-        GTORecipeTypes.DIMENSIONAL_FOCUS_ENGRAVING_ARRAY_RECIPES.recipeBuilder(GTOCore.id("high_precision_crystal_soc"))
+        DIMENSIONAL_FOCUS_ENGRAVING_ARRAY_RECIPES.recipeBuilder(GTOCore.id("high_precision_crystal_soc"))
                 .inputItems(GTItems.CRYSTAL_SYSTEM_ON_CHIP.asStack())
                 .notConsumable(TagPrefix.lens, MarkerMaterials.Color.Lime)
                 .inputFluids(GTOMaterials.EuvPhotoresist.getFluid(100))
@@ -48,7 +49,7 @@ interface DimensionalFocusEngravingArray {
                         .EUt(7864320).duration(2400))
                 .save();
 
-        GTORecipeTypes.DIMENSIONAL_FOCUS_ENGRAVING_ARRAY_RECIPES.recipeBuilder(GTOCore.id("prepared_cosmic_soc_wafer"))
+        DIMENSIONAL_FOCUS_ENGRAVING_ARRAY_RECIPES.recipeBuilder(GTOCore.id("prepared_cosmic_soc_wafer"))
                 .inputItems(GTOItems.TARANIUM_WAFER.asStack())
                 .notConsumable(TagPrefix.lens, MarkerMaterials.Color.LightBlue)
                 .inputFluids(GTOMaterials.GammaRaysPhotoresist.getFluid(100))
@@ -60,7 +61,7 @@ interface DimensionalFocusEngravingArray {
                         .EUt(31457280).duration(2400))
                 .save();
 
-        GTORecipeTypes.DIMENSIONAL_FOCUS_ENGRAVING_ARRAY_RECIPES.recipeBuilder(GTOCore.id("nm_wafer"))
+        DIMENSIONAL_FOCUS_ENGRAVING_ARRAY_RECIPES.recipeBuilder(GTOCore.id("nm_wafer"))
                 .inputItems(GTOItems.RUTHERFORDIUM_AMPROSIUM_WAFER.asStack())
                 .notConsumable(TagPrefix.lens, MarkerMaterials.Color.Blue)
                 .inputFluids(GTOMaterials.Photoresist.getFluid(100))
@@ -72,7 +73,7 @@ interface DimensionalFocusEngravingArray {
                         .EUt(491520).duration(2400))
                 .save();
 
-        GTORecipeTypes.DIMENSIONAL_FOCUS_ENGRAVING_ARRAY_RECIPES.recipeBuilder(GTOCore.id("fm_wafer"))
+        DIMENSIONAL_FOCUS_ENGRAVING_ARRAY_RECIPES.recipeBuilder(GTOCore.id("fm_wafer"))
                 .inputItems(GTOItems.PM_WAFER.asStack())
                 .notConsumable(TagPrefix.lens, MarkerMaterials.Color.Orange)
                 .inputFluids(GTOMaterials.GammaRaysPhotoresist.getFluid(100))

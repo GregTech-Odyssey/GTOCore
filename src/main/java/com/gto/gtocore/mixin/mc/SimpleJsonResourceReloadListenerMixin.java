@@ -2,7 +2,6 @@ package com.gto.gtocore.mixin.mc;
 
 import com.gto.gtocore.common.data.GTOLoots;
 import com.gto.gtocore.common.data.GTORecipes;
-import com.gto.gtocore.integration.kjs.GTKubeJSPlugin;
 
 import com.gregtechceu.gtceu.data.recipe.configurable.RecipeRemoval;
 
@@ -38,13 +37,14 @@ public class SimpleJsonResourceReloadListenerMixin {
             case "advancements":
                 return;
             case "recipes": {
-                if (GTKubeJSPlugin.cache) return;
+                if (GTORecipes.cache) return;
                 filters = new ObjectOpenHashSet<>(2048);
                 RecipeRemoval.init(filters::add);
                 GTORecipes.removal(filters);
                 break;
             }
             case "loot_tables": {
+                if (GTOLoots.cache) return;
                 filters = new ObjectOpenHashSet<>();
                 GTOLoots.removal(filters);
                 break;

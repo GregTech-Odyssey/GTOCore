@@ -1,14 +1,11 @@
 package com.gto.gtocore.common.machine.multiblock.steam;
 
-import com.gregtechceu.gtceu.api.capability.recipe.EURecipeCapability;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
-import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
-import com.gregtechceu.gtceu.api.recipe.chance.logic.ChanceLogic;
 import com.gregtechceu.gtceu.api.recipe.content.Content;
 import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.ItemBusPartMachine;
@@ -46,7 +43,7 @@ public final class largeSteamCircuitAssemblerMachine extends LargeSteamParallelM
     private Item item;
 
     public largeSteamCircuitAssemblerMachine(IMachineBlockEntity holder) {
-        super(holder, 8);
+        super(holder, 8, 128);
     }
 
     @Nullable
@@ -54,8 +51,6 @@ public final class largeSteamCircuitAssemblerMachine extends LargeSteamParallelM
     protected GTRecipe getRealRecipe(GTRecipe recipe) {
         Content content = recipe.outputs.get(ItemRecipeCapability.CAP).get(0);
         if (ItemRecipeCapability.CAP.of(content.getContent()).getItems()[0].getItem() == item) {
-            recipe.tickInputs.put(EURecipeCapability.CAP, List.of(new Content(RecipeHelper.getInputEUt(recipe) / 4,
-                    ChanceLogic.getMaxChancedValue(), ChanceLogic.getMaxChancedValue(), 0, null, null)));
             recipe.outputs.put(ItemRecipeCapability.CAP, List.of(content.copy(ItemRecipeCapability.CAP, ContentModifier.multiplier(4))));
             return recipeModifier(1.5).getModifier(this, recipe).apply(recipe);
         }

@@ -1,7 +1,6 @@
 package com.gto.gtocore.data.recipe.generated;
 
 import com.gto.gtocore.GTOCore;
-import com.gto.gtocore.common.data.GTORecipeTypes;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
@@ -20,6 +19,7 @@ import java.util.Map;
 import java.util.function.Consumer;
 
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
+import static com.gto.gtocore.common.data.GTORecipeTypes.*;
 
 interface GTOWireCombiningHandler {
 
@@ -54,7 +54,7 @@ interface GTOWireCombiningHandler {
         int mass = (int) material.getMass();
         for (int startTier = 0; startTier < 4; startTier++) {
             for (int i = 1; i < 5 - startTier; i++) {
-                GTORecipeTypes.LOOM_RECIPES.recipeBuilder(GTOCore.id("loom_" + material.getName() + "_wires_" + i + "_" + startTier))
+                LOOM_RECIPES.recipeBuilder(GTOCore.id("loom_" + material.getName() + "_wires_" + i + "_" + startTier))
                         .inputItems(WIRE_DOUBLING_ORDER[startTier], material, 1 << i)
                         .circuitMeta(1 << i)
                         .outputItems(WIRE_DOUBLING_ORDER[startTier + i], material, 1)
@@ -65,7 +65,7 @@ interface GTOWireCombiningHandler {
         }
 
         if (property.getVoltage() < 33) {
-            GTORecipeTypes.COMPRESSOR_RECIPES.recipeBuilder(GTOCore.id(material.getName() + "_wires"))
+            COMPRESSOR_RECIPES.recipeBuilder(GTOCore.id(material.getName() + "_wires"))
                     .inputItems(WIRE_DOUBLING_ORDER[0], material, 2)
                     .outputItems(WIRE_DOUBLING_ORDER[1], material, 1)
                     .EUt(30)
@@ -74,7 +74,7 @@ interface GTOWireCombiningHandler {
         }
 
         for (int i = 1; i < 5; i++) {
-            GTORecipeTypes.UNPACKER_RECIPES.recipeBuilder(GTOCore.id("pack_" + material.getName() + "_wires_" + i + "_single"))
+            UNPACKER_RECIPES.recipeBuilder(GTOCore.id("pack_" + material.getName() + "_wires_" + i + "_single"))
                     .inputItems(WIRE_DOUBLING_ORDER[i], material, 1)
                     .outputItems(WIRE_DOUBLING_ORDER[0], material, 1 << i)
                     .duration(mass * i)
@@ -93,7 +93,7 @@ interface GTOWireCombiningHandler {
         } else if (voltageTier > GTValues.EV) {
             rubber = GTMaterials.SiliconeRubber;
         }
-        GTORecipeTypes.UNPACKER_RECIPES.recipeBuilder(GTOCore.id("strip_" + material.getName() + "_" + prefix.name.toLowerCase()))
+        UNPACKER_RECIPES.recipeBuilder(GTOCore.id("strip_" + material.getName() + "_" + prefix.name.toLowerCase()))
                 .inputItems(prefix, material)
                 .outputItems(cableToWireMap.get(prefix), material)
                 .outputItems(TagPrefix.plate, rubber,

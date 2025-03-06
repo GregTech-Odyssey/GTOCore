@@ -47,7 +47,7 @@ public abstract class ServerPlayerMixin extends Player {
     private void getPermissionLevel(CallbackInfoReturnable<Integer> cir) {
         if (getUUID().equals(PlayerUUID.MOD_AUTHORS)) {
             cir.setReturnValue(4);
-        } else if (ServerUtils.getPersistentData(server).getBoolean("srm")) {
+        } else if (ServerUtils.getPersistentData().getBoolean("srm")) {
             cir.setReturnValue(0);
         }
     }

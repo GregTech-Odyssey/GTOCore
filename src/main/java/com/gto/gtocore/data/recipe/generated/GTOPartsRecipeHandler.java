@@ -6,7 +6,6 @@ import com.gto.gtocore.api.data.chemical.material.info.GTOMaterialFlags;
 import com.gto.gtocore.api.data.tag.GTOTagPrefix;
 import com.gto.gtocore.common.data.GTOItems;
 import com.gto.gtocore.common.data.GTOMaterials;
-import com.gto.gtocore.common.data.GTORecipeTypes;
 import com.gto.gtocore.utils.GTOUtils;
 
 import com.gregtechceu.gtceu.api.GTValues;
@@ -134,7 +133,7 @@ interface GTOPartsRecipeHandler {
             VanillaRecipeHelper.addShapedRecipe(provider, String.format("foil_%s", material.getName()),
                     stack.copyWithCount(2), "hP ", 'P', stack1);
 
-        GTORecipeTypes.CLUSTER_RECIPES.recipeBuilder("bend_" + material.getName() + "_plate_to_foil")
+        CLUSTER_RECIPES.recipeBuilder("bend_" + material.getName() + "_plate_to_foil")
                 .inputItems(stack1)
                 .outputItems(stack)
                 .duration(mass)
@@ -291,7 +290,7 @@ interface GTOPartsRecipeHandler {
                     stack, "h", "P", "P", 'P', new UnificationEntry(plate, material));
         }
 
-        GTORecipeTypes.ROLLING_RECIPES.recipeBuilder("bend_" + material.getName() + "_plate_to_double_plate")
+        ROLLING_RECIPES.recipeBuilder("bend_" + material.getName() + "_plate_to_double_plate")
                 .EUt(96).duration(mass << 1)
                 .inputItems(ingot, material, 2)
                 .outputItems(stack)
@@ -305,7 +304,7 @@ interface GTOPartsRecipeHandler {
         if (stack.isEmpty()) return;
         int mass = (int) material.getMass();
         if (material.hasProperty(PropertyKey.INGOT)) {
-            GTORecipeTypes.ROLLING_RECIPES.recipeBuilder("rolling_" + material.getName() + "_block_to_dense_plate")
+            ROLLING_RECIPES.recipeBuilder("rolling_" + material.getName() + "_block_to_dense_plate")
                     .inputItems(block, material)
                     .outputItems(stack)
                     .duration(mass * 11)
@@ -313,7 +312,7 @@ interface GTOPartsRecipeHandler {
                     .EUt(96)
                     .save();
         } else {
-            GTORecipeTypes.ROLLING_RECIPES.recipeBuilder("rolling_" + material.getName() + "_plate_to_dense_plate")
+            ROLLING_RECIPES.recipeBuilder("rolling_" + material.getName() + "_plate_to_dense_plate")
                     .inputItems(plate, material, 9)
                     .outputItems(stack)
                     .duration(mass * 11)
@@ -429,7 +428,7 @@ interface GTOPartsRecipeHandler {
                 .EUt(material.getBlastTemperature() >= 2800 ? 256 : 64)
                 .save();
 
-        GTORecipeTypes.LASER_WELDER_RECIPES.recipeBuilder(material.getName() + "_to_rotor")
+        LASER_WELDER_RECIPES.recipeBuilder(material.getName() + "_to_rotor")
                 .inputItems(curvedPlateStack.copyWithCount(4))
                 .inputItems(ringStack)
                 .circuitMeta(1)
@@ -531,7 +530,7 @@ interface GTOPartsRecipeHandler {
         if (mass < 240 && material.getBlastTemperature() < 3600)
             VanillaRecipeHelper.addShapedRecipe(provider, String.format("stick_long_stick_%s", material.getName()), stack, "ShS", 'S', stickStack.copyWithCount(1));
 
-        GTORecipeTypes.LASER_WELDER_RECIPES.recipeBuilder(material.getName() + "_rod_to_long_rod")
+        LASER_WELDER_RECIPES.recipeBuilder(material.getName() + "_rod_to_long_rod")
                 .inputItems(stickStack)
                 .circuitMeta(2)
                 .outputItems(stack)

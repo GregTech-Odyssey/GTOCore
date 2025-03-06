@@ -13,7 +13,6 @@ import lombok.Getter;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import static com.gregtechceu.gtceu.api.GTValues.*;
-import static com.gregtechceu.gtceu.api.GTValues.UEV;
 
 @Getter
 @MethodsReturnNonnullByDefault

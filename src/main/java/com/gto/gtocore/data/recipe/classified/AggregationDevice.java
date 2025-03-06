@@ -4,16 +4,17 @@ import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.api.data.tag.GTOTagPrefix;
 import com.gto.gtocore.common.data.GTOItems;
 import com.gto.gtocore.common.data.GTOMaterials;
-import com.gto.gtocore.common.data.GTORecipeTypes;
 
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
+import static com.gto.gtocore.common.data.GTORecipeTypes.AGGREGATION_DEVICE_RECIPES;
+
 interface AggregationDevice {
 
     static void init() {
-        GTORecipeTypes.AGGREGATION_DEVICE_RECIPES.recipeBuilder(GTOCore.id("chaotic_core"))
+        AGGREGATION_DEVICE_RECIPES.recipeBuilder(GTOCore.id("chaotic_core"))
                 .notConsumable(GTOItems.DRAGON_STABILIZER_CORE.asStack())
                 .inputItems(GTOTagPrefix.nanites, GTOMaterials.Draconium)
                 .inputItems(GTItems.FIELD_GENERATOR_OpV.asStack())
@@ -28,7 +29,7 @@ interface AggregationDevice {
                 .duration(400)
                 .save();
 
-        GTORecipeTypes.AGGREGATION_DEVICE_RECIPES.recipeBuilder(GTOCore.id("awakened_core"))
+        AGGREGATION_DEVICE_RECIPES.recipeBuilder(GTOCore.id("awakened_core"))
                 .notConsumable(GTOItems.DRAGON_STABILIZER_CORE.asStack())
                 .inputItems(TagPrefix.dust, GTOMaterials.Draconium)
                 .inputItems(GTItems.FIELD_GENERATOR_UIV.asStack())
@@ -43,7 +44,7 @@ interface AggregationDevice {
                 .duration(400)
                 .save();
 
-        GTORecipeTypes.AGGREGATION_DEVICE_RECIPES.recipeBuilder(GTOCore.id("wyvern_core"))
+        AGGREGATION_DEVICE_RECIPES.recipeBuilder(GTOCore.id("wyvern_core"))
                 .notConsumable(GTOItems.STABILIZER_CORE.asStack())
                 .inputItems(GTOItems.DRACONIUM_DIRT.asStack())
                 .inputItems(GTItems.FIELD_GENERATOR_UHV.asStack())
@@ -58,7 +59,7 @@ interface AggregationDevice {
                 .duration(400)
                 .save();
 
-        GTORecipeTypes.AGGREGATION_DEVICE_RECIPES.recipeBuilder(GTOCore.id("draconic_core"))
+        AGGREGATION_DEVICE_RECIPES.recipeBuilder(GTOCore.id("draconic_core"))
                 .notConsumable(GTOItems.STABILIZER_CORE.asStack())
                 .inputItems(GTOItems.DRACONIUM_DIRT.asStack())
                 .inputItems(GTItems.FIELD_GENERATOR_ZPM.asStack())

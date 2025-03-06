@@ -1,7 +1,6 @@
 package com.gto.gtocore.data.recipe.generated;
 
 import com.gto.gtocore.GTOCore;
-import com.gto.gtocore.common.data.GTORecipeTypes;
 import com.gto.gtocore.utils.RegistriesUtils;
 import com.gto.gtocore.utils.TagUtils;
 
@@ -30,6 +29,8 @@ import vazkii.botania.common.block.BotaniaBlocks;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
+
+import static com.gto.gtocore.common.data.GTORecipeTypes.TREE_GROWTH_SIMULATOR_RECIPES;
 
 public interface WoodRecipes {
 
@@ -600,7 +601,7 @@ public interface WoodRecipes {
     }
 
     static void init(Consumer<FinishedRecipe> provider) {
-        GTORecipeTypes.TREE_GROWTH_SIMULATOR_RECIPES.recipeBuilder(GTOCore.id("rubber"))
+        TREE_GROWTH_SIMULATOR_RECIPES.recipeBuilder(GTOCore.id("rubber"))
                 .inputFluids(new FluidStack(Fluids.WATER, 4000))
                 .notConsumable(GTBlocks.RUBBER_SAPLING.asStack())
                 .circuitMeta(1)
@@ -610,7 +611,7 @@ public interface WoodRecipes {
                 .duration(1200)
                 .save();
 
-        GTORecipeTypes.TREE_GROWTH_SIMULATOR_RECIPES.recipeBuilder(GTOCore.id("rubbera"))
+        TREE_GROWTH_SIMULATOR_RECIPES.recipeBuilder(GTOCore.id("rubbera"))
                 .inputFluids(new FluidStack(Fluids.WATER, 8000))
                 .notConsumable(GTBlocks.RUBBER_SAPLING.asStack())
                 .inputItems(GTItems.FERTILIZER.asStack(8))
@@ -621,7 +622,7 @@ public interface WoodRecipes {
                 .duration(300)
                 .save();
 
-        GTORecipeTypes.TREE_GROWTH_SIMULATOR_RECIPES.recipeBuilder(GTOCore.id("mangrove"))
+        TREE_GROWTH_SIMULATOR_RECIPES.recipeBuilder(GTOCore.id("mangrove"))
                 .inputFluids(new FluidStack(Fluids.WATER, 4000))
                 .notConsumable(Blocks.MANGROVE_PROPAGULE.asItem())
                 .circuitMeta(1)
@@ -630,7 +631,7 @@ public interface WoodRecipes {
                 .duration(1200)
                 .save();
 
-        GTORecipeTypes.TREE_GROWTH_SIMULATOR_RECIPES.recipeBuilder(GTOCore.id("mangrovea"))
+        TREE_GROWTH_SIMULATOR_RECIPES.recipeBuilder(GTOCore.id("mangrovea"))
                 .inputFluids(new FluidStack(Fluids.WATER, 8000))
                 .notConsumable(Blocks.MANGROVE_PROPAGULE.asItem())
                 .inputItems(GTItems.FERTILIZER.asStack(8))
@@ -666,7 +667,7 @@ public interface WoodRecipes {
     private static void add(Consumer<FinishedRecipe> provider, String mod, String mane) {
         ItemStack sapling = new ItemStack(RegistriesUtils.getItem(mod, mane + "_sapling"));
         ItemStack log = new ItemStack(RegistriesUtils.getItem(mod, mane + "_log"), 16);
-        GTORecipeTypes.TREE_GROWTH_SIMULATOR_RECIPES.recipeBuilder(GTOCore.id(mane))
+        TREE_GROWTH_SIMULATOR_RECIPES.recipeBuilder(GTOCore.id(mane))
                 .inputFluids(new FluidStack(Fluids.WATER, 4000))
                 .notConsumable(sapling)
                 .circuitMeta(1)
@@ -675,7 +676,7 @@ public interface WoodRecipes {
                 .duration(1200)
                 .save();
 
-        GTORecipeTypes.TREE_GROWTH_SIMULATOR_RECIPES.recipeBuilder(GTOCore.id(mane + "a"))
+        TREE_GROWTH_SIMULATOR_RECIPES.recipeBuilder(GTOCore.id(mane + "a"))
                 .inputFluids(new FluidStack(Fluids.WATER, 8000))
                 .notConsumable(sapling)
                 .inputItems(GTItems.FERTILIZER.asStack(8))

@@ -1,8 +1,8 @@
 package com.gto.gtocore.mixin.adastra;
 
 import com.gto.gtocore.api.data.GTODimensions;
+import com.gto.gtocore.api.misc.PlanetManagement;
 import com.gto.gtocore.common.network.ClientMessage;
-import com.gto.gtocore.common.saved.PlanetsTravelSavaedData;
 
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.Tooltip;
@@ -62,7 +62,7 @@ public abstract class PlanetsScreenMixin extends AbstractContainerScreen<Planets
         Player player = getMenu().player();
         ResourceLocation planet = dimension.location();
         ClientMessage.checkPlanetIsUnlocked(planet);
-        if (!PlanetsTravelSavaedData.isClientUnlocked(planet)) {
+        if (!PlanetManagement.isClientUnlocked(planet)) {
             close = true;
             player.displayClientMessage(Component.translatable("gtocore.ununlocked"), false);
         }
@@ -90,7 +90,7 @@ public abstract class PlanetsScreenMixin extends AbstractContainerScreen<Planets
                 selectedPlanet = planet;
                 rebuildWidgets();
             }, menu.getPlanetName(planet.dimension())));
-            widget.setTooltip(Tooltip.create(Component.translatable("tooltip.avaritia.tier", tier).append(" ").append(Component.translatable(PlanetsTravelSavaedData.isClientUnlocked(resourceLocation) ? "gtocore.unlocked" : "gtocore.ununlocked"))));
+            widget.setTooltip(Tooltip.create(Component.translatable("tooltip.avaritia.tier", tier).append(" ").append(Component.translatable(PlanetManagement.isClientUnlocked(resourceLocation) ? "gtocore.unlocked" : "gtocore.ununlocked"))));
             buttons.add(widget);
         }
     }

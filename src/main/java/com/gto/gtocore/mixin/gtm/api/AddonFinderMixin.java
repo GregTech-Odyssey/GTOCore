@@ -10,7 +10,6 @@ import com.gto.gtocore.data.Datagen;
 
 import com.gregtechceu.gtceu.api.addon.AddonFinder;
 import com.gregtechceu.gtceu.api.addon.IGTAddon;
-import com.gregtechceu.gtceu.api.addon.events.KJSRecipeKeyEvent;
 import com.gregtechceu.gtceu.api.data.worldgen.bedrockore.BedrockOreDefinition;
 import com.gregtechceu.gtceu.api.registry.GTRegistries;
 import com.gregtechceu.gtceu.api.registry.registrate.GTRegistrate;
@@ -116,11 +115,6 @@ public final class AddonFinderMixin {
         @Override
         public void registerRecipeCapabilities() {
             GTORecipeCapabilities.init();
-        }
-
-        @Override
-        public void registerRecipeKeys(KJSRecipeKeyEvent event) {
-            GTORecipeCapabilities.registerRecipeKeys(event);
         }
     };
 }

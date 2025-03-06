@@ -4,7 +4,6 @@ import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.common.data.GTOItems;
 import com.gto.gtocore.common.data.GTOMachines;
 import com.gto.gtocore.common.data.GTOMaterials;
-import com.gto.gtocore.common.data.GTORecipeTypes;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.chemical.material.stack.UnificationEntry;
@@ -34,7 +33,7 @@ import com.hepdd.gtmthings.data.WirelessMachines;
 import java.util.function.Consumer;
 
 import static com.gregtechceu.gtceu.api.GTValues.VN;
-import static com.gto.gtocore.common.data.GTORecipeTypes.ASSEMBLER_RECIPES;
+import static com.gto.gtocore.common.data.GTORecipeTypes.*;
 
 public interface GTMTRecipe {
 
@@ -58,7 +57,7 @@ public interface GTMTRecipe {
                 .duration(800)
                 .save();
 
-        GTORecipeTypes.SCANNER_RECIPES.recipeBuilder("wireless_energy_binding_tool")
+        SCANNER_RECIPES.recipeBuilder("wireless_energy_binding_tool")
                 .inputItems(TagPrefix.plate, GTMaterials.Paper)
                 .inputItems(GTItems.COVER_SCREEN.asStack())
                 .outputItems(CustomItems.WIRELESS_ENERGY_BINDING_TOOL.asStack())
@@ -597,7 +596,7 @@ public interface GTMTRecipe {
                 .EUt(GTValues.VA[GTValues.EV])
                 .save();
 
-        GTORecipeTypes.LASER_WELDER_RECIPES.recipeBuilder(GTOCore.id("huge_item_import_bus_ulv"))
+        LASER_WELDER_RECIPES.recipeBuilder(GTOCore.id("huge_item_import_bus_ulv"))
                 .inputItems(GTMachines.ITEM_IMPORT_BUS[0].asStack())
                 .inputItems(GTMachines.STEEL_CRATE.asStack())
                 .inputItems(GTOItems.ULV_CONVEYOR_MODULE)
@@ -606,7 +605,7 @@ public interface GTMTRecipe {
                 .EUt(GTValues.VA[1])
                 .save();
 
-        GTORecipeTypes.LASER_WELDER_RECIPES.recipeBuilder(GTOCore.id("huge_item_export_bus_ulv"))
+        LASER_WELDER_RECIPES.recipeBuilder(GTOCore.id("huge_item_export_bus_ulv"))
                 .inputItems(GTMachines.ITEM_EXPORT_BUS[0].asStack())
                 .inputItems(GTMachines.STEEL_CRATE.asStack())
                 .inputItems(GTOItems.ULV_CONVEYOR_MODULE)
@@ -617,7 +616,7 @@ public interface GTMTRecipe {
 
         for (int tier : GTValues.tiersBetween(GTValues.LV, GTValues.OpV)) {
             String tierName = VN[tier].toLowerCase();
-            GTORecipeTypes.LASER_WELDER_RECIPES.recipeBuilder(GTOCore.id("huge_item_import_bus_" + tierName))
+            LASER_WELDER_RECIPES.recipeBuilder(GTOCore.id("huge_item_import_bus_" + tierName))
                     .inputItems(GTMachines.ITEM_IMPORT_BUS[tier].asStack())
                     .inputItems(tier > GTValues.EV ? GTMachines.QUANTUM_CHEST[tier] : GTMachines.SUPER_CHEST[tier])
                     .outputItems(CustomMachines.HUGE_ITEM_IMPORT_BUS[tier].asStack())
@@ -625,7 +624,7 @@ public interface GTMTRecipe {
                     .EUt(GTValues.VA[tier + 1])
                     .save();
 
-            GTORecipeTypes.LASER_WELDER_RECIPES.recipeBuilder(GTOCore.id("huge_item_export_bus_" + tierName))
+            LASER_WELDER_RECIPES.recipeBuilder(GTOCore.id("huge_item_export_bus_" + tierName))
                     .inputItems(GTMachines.ITEM_EXPORT_BUS[tier].asStack())
                     .inputItems(tier > GTValues.EV ? GTMachines.QUANTUM_CHEST[tier] : GTMachines.SUPER_CHEST[tier])
                     .outputItems(CustomMachines.HUGE_ITEM_EXPORT_BUS[tier].asStack())
@@ -633,7 +632,7 @@ public interface GTMTRecipe {
                     .EUt(GTValues.VA[tier + 1])
                     .save();
 
-            GTORecipeTypes.LASER_WELDER_RECIPES.recipeBuilder(GTOCore.id("huge_fluid_import_bus_" + tierName))
+            LASER_WELDER_RECIPES.recipeBuilder(GTOCore.id("huge_fluid_import_bus_" + tierName))
                     .inputItems(GTMachines.FLUID_IMPORT_HATCH[tier].asStack())
                     .inputItems(tier > GTValues.EV ? GTMachines.QUANTUM_TANK[tier] : GTMachines.SUPER_TANK[tier])
                     .outputItems(GTOMachines.HUGE_FLUID_IMPORT_HATCH[tier].asStack())
@@ -641,7 +640,7 @@ public interface GTMTRecipe {
                     .EUt(GTValues.VA[tier + 1])
                     .save();
 
-            GTORecipeTypes.LASER_WELDER_RECIPES.recipeBuilder(GTOCore.id("huge_fluid_export_bus_" + tierName))
+            LASER_WELDER_RECIPES.recipeBuilder(GTOCore.id("huge_fluid_export_bus_" + tierName))
                     .inputItems(GTMachines.FLUID_EXPORT_HATCH[tier].asStack())
                     .inputItems(tier > GTValues.EV ? GTMachines.QUANTUM_TANK[tier] : GTMachines.SUPER_TANK[tier])
                     .outputItems(GTOMachines.HUGE_FLUID_EXPORT_HATCH[tier].asStack())

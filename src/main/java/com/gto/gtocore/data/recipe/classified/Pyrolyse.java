@@ -3,15 +3,16 @@ package com.gto.gtocore.data.recipe.classified;
 import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.common.data.GTOBlocks;
 import com.gto.gtocore.common.data.GTOMaterials;
-import com.gto.gtocore.common.data.GTORecipeTypes;
 
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
+import static com.gto.gtocore.common.data.GTORecipeTypes.PYROLYSE_RECIPES;
+
 interface Pyrolyse {
 
     static void init() {
-        GTORecipeTypes.PYROLYSE_RECIPES.recipeBuilder(GTOCore.id("rawradox1"))
+        PYROLYSE_RECIPES.recipeBuilder(GTOCore.id("rawradox1"))
                 .inputItems(GTOBlocks.VARIATION_WOOD.asStack(16))
                 .circuitMeta(1)
                 .inputFluids(GTOMaterials.EnrichedXenoxene.getFluid(1000))
@@ -21,7 +22,7 @@ interface Pyrolyse {
                 .duration(600)
                 .save();
 
-        GTORecipeTypes.PYROLYSE_RECIPES.recipeBuilder(GTOCore.id("rawradox"))
+        PYROLYSE_RECIPES.recipeBuilder(GTOCore.id("rawradox"))
                 .inputItems(GTOBlocks.VARIATION_WOOD.asStack(16))
                 .circuitMeta(1)
                 .inputFluids(GTOMaterials.Xenoxene.getFluid(1000))

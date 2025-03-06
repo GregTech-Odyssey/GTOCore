@@ -41,8 +41,15 @@ public class LargeSteamParallelMultiblockMachine extends SteamParallelMultiblock
     @Persisted
     private int amountOC;
 
-    public LargeSteamParallelMultiblockMachine(IMachineBlockEntity holder, int maxParallels) {
+    private final int eut;
+
+    public LargeSteamParallelMultiblockMachine(IMachineBlockEntity holder, int maxParallels, int eut) {
         super(holder, maxParallels);
+        this.eut = eut;
+    }
+
+    public LargeSteamParallelMultiblockMachine(IMachineBlockEntity holder, int maxParallels) {
+        this(holder, maxParallels, 32);
     }
 
     @Override
@@ -59,7 +66,7 @@ public class LargeSteamParallelMultiblockMachine extends SteamParallelMultiblock
     public static RecipeModifier recipeModifier(double reductionDuration) {
         return (machine, r) -> recipe -> {
             long eut = RecipeHelper.getInputEUt(recipe);
-            if (machine instanceof LargeSteamParallelMultiblockMachine steamMachine && eut < (steamMachine.isOC ? 128 : 32)) {
+            if (machine instanceof LargeSteamParallelMultiblockMachine steamMachine && eut < (steamMachine.isOC ? (long) steamMachine.eut << 2 : steamMachine.eut)) {
                 recipe = GTORecipeModifiers.accurateParallel(machine, recipe, steamMachine.maxParallels);
                 recipe.duration = (int) (recipe.duration * reductionDuration);
                 if (steamMachine.isOC) {

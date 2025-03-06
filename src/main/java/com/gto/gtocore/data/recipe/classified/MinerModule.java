@@ -3,7 +3,6 @@ package com.gto.gtocore.data.recipe.classified;
 import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.common.data.GTOItems;
 import com.gto.gtocore.common.data.GTOMaterials;
-import com.gto.gtocore.common.data.GTORecipeTypes;
 
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
@@ -15,10 +14,12 @@ import net.minecraftforge.fluids.FluidStack;
 import appeng.core.definitions.AEBlocks;
 import earth.terrarium.adastra.common.registry.ModFluids;
 
+import static com.gto.gtocore.common.data.GTORecipeTypes.MINER_MODULE_RECIPES;
+
 interface MinerModule {
 
     static void init() {
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_8_326"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_8_326"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
                 .circuitMeta(32)
                 .inputFluids(GTOMaterials.StellarEnergyRocketFuel.getFluid(6000))
@@ -32,7 +33,7 @@ interface MinerModule {
                 .duration(9)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_7_306"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_7_306"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
                 .circuitMeta(30)
                 .inputFluids(new FluidStack(ModFluids.CRYO_FUEL.get(), 6000))
@@ -46,7 +47,7 @@ interface MinerModule {
                 .duration(12)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_7_305"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_7_305"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
                 .circuitMeta(30)
                 .inputFluids(new FluidStack(ModFluids.CRYO_FUEL.get(), 6000))
@@ -60,7 +61,7 @@ interface MinerModule {
                 .duration(25)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_7_315"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_7_315"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
                 .circuitMeta(31)
                 .inputFluids(new FluidStack(ModFluids.CRYO_FUEL.get(), 6000))
@@ -74,7 +75,7 @@ interface MinerModule {
                 .duration(25)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_7_316"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_7_316"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
                 .circuitMeta(31)
                 .inputFluids(new FluidStack(ModFluids.CRYO_FUEL.get(), 6000))
@@ -88,7 +89,7 @@ interface MinerModule {
                 .duration(12)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_7_326"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_7_326"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
                 .circuitMeta(32)
                 .inputFluids(new FluidStack(ModFluids.CRYO_FUEL.get(), 10000))
@@ -102,7 +103,7 @@ interface MinerModule {
                 .duration(18)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_96"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_96"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
                 .circuitMeta(9)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -116,7 +117,7 @@ interface MinerModule {
                 .duration(18)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_94"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_94"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
                 .circuitMeta(9)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -130,7 +131,7 @@ interface MinerModule {
                 .duration(75)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_95"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_95"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
                 .circuitMeta(9)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -144,7 +145,7 @@ interface MinerModule {
                 .duration(37)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_92"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_92"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
                 .circuitMeta(9)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -158,7 +159,7 @@ interface MinerModule {
                 .duration(300)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_93"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_93"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
                 .circuitMeta(9)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -172,7 +173,7 @@ interface MinerModule {
                 .duration(150)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_91"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_91"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
                 .circuitMeta(9)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -186,7 +187,7 @@ interface MinerModule {
                 .duration(600)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_85"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_85"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
                 .circuitMeta(8)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -200,7 +201,7 @@ interface MinerModule {
                 .duration(37)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_86"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_86"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
                 .circuitMeta(8)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -214,7 +215,7 @@ interface MinerModule {
                 .duration(18)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_83"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_83"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
                 .circuitMeta(8)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -228,7 +229,7 @@ interface MinerModule {
                 .duration(150)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_84"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_84"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
                 .circuitMeta(8)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -242,7 +243,7 @@ interface MinerModule {
                 .duration(75)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_81"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_81"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
                 .circuitMeta(8)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -256,7 +257,7 @@ interface MinerModule {
                 .duration(600)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_82"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_82"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
                 .circuitMeta(8)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -270,7 +271,7 @@ interface MinerModule {
                 .duration(300)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_76"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_76"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
                 .circuitMeta(7)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -284,7 +285,7 @@ interface MinerModule {
                 .duration(18)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_74"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_74"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
                 .circuitMeta(7)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -298,7 +299,7 @@ interface MinerModule {
                 .duration(75)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_75"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_75"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
                 .circuitMeta(7)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -312,7 +313,7 @@ interface MinerModule {
                 .duration(37)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_72"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_72"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
                 .circuitMeta(7)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -326,7 +327,7 @@ interface MinerModule {
                 .duration(300)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_73"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_73"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
                 .circuitMeta(7)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -340,7 +341,7 @@ interface MinerModule {
                 .duration(150)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_71"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_71"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
                 .circuitMeta(7)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -354,7 +355,7 @@ interface MinerModule {
                 .duration(600)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_65"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_65"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
                 .circuitMeta(6)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -368,7 +369,7 @@ interface MinerModule {
                 .duration(37)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_66"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_66"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
                 .circuitMeta(6)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -382,7 +383,7 @@ interface MinerModule {
                 .duration(18)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_63"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_63"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
                 .circuitMeta(6)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -396,7 +397,7 @@ interface MinerModule {
                 .duration(150)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_64"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_64"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
                 .circuitMeta(6)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -410,7 +411,7 @@ interface MinerModule {
                 .duration(75)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_61"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_61"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
                 .circuitMeta(6)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -424,7 +425,7 @@ interface MinerModule {
                 .duration(600)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_62"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_62"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
                 .circuitMeta(6)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -438,7 +439,7 @@ interface MinerModule {
                 .duration(300)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_56"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_56"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
                 .circuitMeta(5)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -452,7 +453,7 @@ interface MinerModule {
                 .duration(18)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_54"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_54"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
                 .circuitMeta(5)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -466,7 +467,7 @@ interface MinerModule {
                 .duration(75)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_55"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_55"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
                 .circuitMeta(5)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -480,7 +481,7 @@ interface MinerModule {
                 .duration(37)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_52"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_52"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
                 .circuitMeta(5)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -494,7 +495,7 @@ interface MinerModule {
                 .duration(300)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_53"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_53"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
                 .circuitMeta(5)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -508,7 +509,7 @@ interface MinerModule {
                 .duration(150)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_51"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_51"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
                 .circuitMeta(5)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -522,7 +523,7 @@ interface MinerModule {
                 .duration(600)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_45"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_45"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
                 .circuitMeta(4)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -536,7 +537,7 @@ interface MinerModule {
                 .duration(37)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_46"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_46"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
                 .circuitMeta(4)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -550,7 +551,7 @@ interface MinerModule {
                 .duration(18)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_43"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_43"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
                 .circuitMeta(4)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -564,7 +565,7 @@ interface MinerModule {
                 .duration(150)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_44"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_44"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
                 .circuitMeta(4)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -578,7 +579,7 @@ interface MinerModule {
                 .duration(75)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_41"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_41"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
                 .circuitMeta(4)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -592,7 +593,7 @@ interface MinerModule {
                 .duration(600)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_42"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_42"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
                 .circuitMeta(4)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -606,7 +607,7 @@ interface MinerModule {
                 .duration(300)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_36"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_36"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
                 .circuitMeta(3)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -620,7 +621,7 @@ interface MinerModule {
                 .duration(18)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_34"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_34"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
                 .circuitMeta(3)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -634,7 +635,7 @@ interface MinerModule {
                 .duration(75)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_35"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_35"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
                 .circuitMeta(3)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -648,7 +649,7 @@ interface MinerModule {
                 .duration(37)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_32"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_32"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
                 .circuitMeta(3)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -662,7 +663,7 @@ interface MinerModule {
                 .duration(300)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_33"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_33"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
                 .circuitMeta(3)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -676,7 +677,7 @@ interface MinerModule {
                 .duration(150)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_31"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_31"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
                 .circuitMeta(3)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -690,7 +691,7 @@ interface MinerModule {
                 .duration(600)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_25"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_25"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
                 .circuitMeta(2)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -704,7 +705,7 @@ interface MinerModule {
                 .duration(37)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_26"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_26"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
                 .circuitMeta(2)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -718,7 +719,7 @@ interface MinerModule {
                 .duration(18)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_23"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_23"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
                 .circuitMeta(2)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -732,7 +733,7 @@ interface MinerModule {
                 .duration(150)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_24"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_24"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
                 .circuitMeta(2)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -746,7 +747,7 @@ interface MinerModule {
                 .duration(75)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_21"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_21"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
                 .circuitMeta(2)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -760,7 +761,7 @@ interface MinerModule {
                 .duration(600)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_22"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_22"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
                 .circuitMeta(2)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -774,7 +775,7 @@ interface MinerModule {
                 .duration(300)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_16"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_16"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
                 .circuitMeta(1)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -788,7 +789,7 @@ interface MinerModule {
                 .duration(18)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_14"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_14"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
                 .circuitMeta(1)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -802,7 +803,7 @@ interface MinerModule {
                 .duration(75)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_15"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_15"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
                 .circuitMeta(1)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -816,7 +817,7 @@ interface MinerModule {
                 .duration(37)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_12"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_12"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
                 .circuitMeta(1)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -830,7 +831,7 @@ interface MinerModule {
                 .duration(300)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_13"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_13"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
                 .circuitMeta(1)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -844,7 +845,7 @@ interface MinerModule {
                 .duration(150)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_11"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_11"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
                 .circuitMeta(1)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -858,7 +859,7 @@ interface MinerModule {
                 .duration(600)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_6_294"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_6_294"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
                 .circuitMeta(29)
                 .inputFluids(GTOMaterials.RocketFuelH8n4c2o4.getFluid(6000))
@@ -872,7 +873,7 @@ interface MinerModule {
                 .duration(50)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_6_295"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_6_295"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
                 .circuitMeta(29)
                 .inputFluids(GTOMaterials.RocketFuelH8n4c2o4.getFluid(6000))
@@ -886,7 +887,7 @@ interface MinerModule {
                 .duration(25)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_6_296"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_6_296"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
                 .circuitMeta(29)
                 .inputFluids(GTOMaterials.RocketFuelH8n4c2o4.getFluid(6000))
@@ -900,7 +901,7 @@ interface MinerModule {
                 .duration(12)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_6_284"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_6_284"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
                 .circuitMeta(28)
                 .inputFluids(GTOMaterials.RocketFuelH8n4c2o4.getFluid(6000))
@@ -914,7 +915,7 @@ interface MinerModule {
                 .duration(50)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_6_285"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_6_285"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
                 .circuitMeta(28)
                 .inputFluids(GTOMaterials.RocketFuelH8n4c2o4.getFluid(6000))
@@ -928,7 +929,7 @@ interface MinerModule {
                 .duration(25)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_6_286"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_6_286"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
                 .circuitMeta(28)
                 .inputFluids(GTOMaterials.RocketFuelH8n4c2o4.getFluid(6000))
@@ -942,7 +943,7 @@ interface MinerModule {
                 .duration(12)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_6_305"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_6_305"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
                 .circuitMeta(30)
                 .inputFluids(GTOMaterials.RocketFuelH8n4c2o4.getFluid(10000))
@@ -956,7 +957,7 @@ interface MinerModule {
                 .duration(37)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_6_306"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_6_306"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
                 .circuitMeta(30)
                 .inputFluids(GTOMaterials.RocketFuelH8n4c2o4.getFluid(10000))
@@ -970,7 +971,7 @@ interface MinerModule {
                 .duration(18)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_6_315"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_6_315"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
                 .circuitMeta(31)
                 .inputFluids(GTOMaterials.RocketFuelH8n4c2o4.getFluid(10000))
@@ -984,7 +985,7 @@ interface MinerModule {
                 .duration(37)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_6_316"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_6_316"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
                 .circuitMeta(31)
                 .inputFluids(GTOMaterials.RocketFuelH8n4c2o4.getFluid(10000))
@@ -998,7 +999,7 @@ interface MinerModule {
                 .duration(18)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_3_256"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_3_256"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
                 .circuitMeta(25)
                 .inputFluids(GTOMaterials.DenseHydrazineFuelMixture.getFluid(6000))
@@ -1012,7 +1013,7 @@ interface MinerModule {
                 .duration(12)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_3_254"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_3_254"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
                 .circuitMeta(25)
                 .inputFluids(GTOMaterials.DenseHydrazineFuelMixture.getFluid(6000))
@@ -1026,7 +1027,7 @@ interface MinerModule {
                 .duration(50)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_3_255"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_3_255"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
                 .circuitMeta(25)
                 .inputFluids(GTOMaterials.DenseHydrazineFuelMixture.getFluid(6000))
@@ -1040,7 +1041,7 @@ interface MinerModule {
                 .duration(25)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_3_252"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_3_252"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
                 .circuitMeta(25)
                 .inputFluids(GTOMaterials.DenseHydrazineFuelMixture.getFluid(6000))
@@ -1054,7 +1055,7 @@ interface MinerModule {
                 .duration(200)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_3_253"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_3_253"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
                 .circuitMeta(25)
                 .inputFluids(GTOMaterials.DenseHydrazineFuelMixture.getFluid(6000))
@@ -1068,7 +1069,7 @@ interface MinerModule {
                 .duration(100)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_3_265"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_3_265"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
                 .circuitMeta(26)
                 .inputFluids(GTOMaterials.DenseHydrazineFuelMixture.getFluid(10000))
@@ -1082,7 +1083,7 @@ interface MinerModule {
                 .duration(37)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_3_266"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_3_266"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
                 .circuitMeta(26)
                 .inputFluids(GTOMaterials.DenseHydrazineFuelMixture.getFluid(10000))
@@ -1096,7 +1097,7 @@ interface MinerModule {
                 .duration(18)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_3_263"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_3_263"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
                 .circuitMeta(26)
                 .inputFluids(GTOMaterials.DenseHydrazineFuelMixture.getFluid(10000))
@@ -1110,7 +1111,7 @@ interface MinerModule {
                 .duration(150)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_3_264"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_3_264"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
                 .circuitMeta(26)
                 .inputFluids(GTOMaterials.DenseHydrazineFuelMixture.getFluid(10000))
@@ -1124,7 +1125,7 @@ interface MinerModule {
                 .duration(75)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_3_273"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_3_273"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
                 .circuitMeta(27)
                 .inputFluids(GTOMaterials.DenseHydrazineFuelMixture.getFluid(10000))
@@ -1138,7 +1139,7 @@ interface MinerModule {
                 .duration(150)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_3_276"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_3_276"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
                 .circuitMeta(27)
                 .inputFluids(GTOMaterials.DenseHydrazineFuelMixture.getFluid(10000))
@@ -1152,7 +1153,7 @@ interface MinerModule {
                 .duration(18)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_3_274"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_3_274"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
                 .circuitMeta(27)
                 .inputFluids(GTOMaterials.DenseHydrazineFuelMixture.getFluid(10000))
@@ -1166,7 +1167,7 @@ interface MinerModule {
                 .duration(75)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_3_275"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_3_275"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
                 .circuitMeta(27)
                 .inputFluids(GTOMaterials.DenseHydrazineFuelMixture.getFluid(10000))
@@ -1180,7 +1181,7 @@ interface MinerModule {
                 .duration(37)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_206"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_206"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
                 .circuitMeta(20)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -1194,7 +1195,7 @@ interface MinerModule {
                 .duration(12)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_202"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_202"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
                 .circuitMeta(20)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -1208,7 +1209,7 @@ interface MinerModule {
                 .duration(200)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_203"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_203"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
                 .circuitMeta(20)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -1222,7 +1223,7 @@ interface MinerModule {
                 .duration(100)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_204"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_204"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
                 .circuitMeta(20)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -1236,7 +1237,7 @@ interface MinerModule {
                 .duration(50)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_205"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_205"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
                 .circuitMeta(20)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -1250,7 +1251,7 @@ interface MinerModule {
                 .duration(25)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_201"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_201"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
                 .circuitMeta(20)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -1264,7 +1265,7 @@ interface MinerModule {
                 .duration(400)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_213"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_213"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
                 .circuitMeta(21)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -1278,7 +1279,7 @@ interface MinerModule {
                 .duration(100)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_214"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_214"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
                 .circuitMeta(21)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -1292,7 +1293,7 @@ interface MinerModule {
                 .duration(50)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_215"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_215"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
                 .circuitMeta(21)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -1306,7 +1307,7 @@ interface MinerModule {
                 .duration(25)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_216"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_216"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
                 .circuitMeta(21)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -1320,7 +1321,7 @@ interface MinerModule {
                 .duration(12)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_211"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_211"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
                 .circuitMeta(21)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -1334,7 +1335,7 @@ interface MinerModule {
                 .duration(400)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_212"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_212"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
                 .circuitMeta(21)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -1348,7 +1349,7 @@ interface MinerModule {
                 .duration(200)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_224"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_224"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
                 .circuitMeta(22)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -1362,7 +1363,7 @@ interface MinerModule {
                 .duration(50)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_225"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_225"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
                 .circuitMeta(22)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -1376,7 +1377,7 @@ interface MinerModule {
                 .duration(25)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_226"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_226"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
                 .circuitMeta(22)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -1390,7 +1391,7 @@ interface MinerModule {
                 .duration(12)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_221"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_221"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
                 .circuitMeta(22)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -1404,7 +1405,7 @@ interface MinerModule {
                 .duration(400)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_222"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_222"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
                 .circuitMeta(22)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -1418,7 +1419,7 @@ interface MinerModule {
                 .duration(200)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_223"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_223"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
                 .circuitMeta(22)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -1432,7 +1433,7 @@ interface MinerModule {
                 .duration(100)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_235"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_235"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
                 .circuitMeta(23)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -1446,7 +1447,7 @@ interface MinerModule {
                 .duration(25)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_236"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_236"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
                 .circuitMeta(23)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -1460,7 +1461,7 @@ interface MinerModule {
                 .duration(12)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_231"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_231"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
                 .circuitMeta(23)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -1474,7 +1475,7 @@ interface MinerModule {
                 .duration(400)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_232"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_232"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
                 .circuitMeta(23)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -1488,7 +1489,7 @@ interface MinerModule {
                 .duration(200)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_233"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_233"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
                 .circuitMeta(23)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -1502,7 +1503,7 @@ interface MinerModule {
                 .duration(100)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_234"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_234"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
                 .circuitMeta(23)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -1516,7 +1517,7 @@ interface MinerModule {
                 .duration(50)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_246"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_246"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
                 .circuitMeta(24)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -1530,7 +1531,7 @@ interface MinerModule {
                 .duration(12)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_242"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_242"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
                 .circuitMeta(24)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -1544,7 +1545,7 @@ interface MinerModule {
                 .duration(200)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_243"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_243"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
                 .circuitMeta(24)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -1558,7 +1559,7 @@ interface MinerModule {
                 .duration(100)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_244"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_244"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
                 .circuitMeta(24)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -1572,7 +1573,7 @@ interface MinerModule {
                 .duration(50)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_245"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_245"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
                 .circuitMeta(24)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -1586,7 +1587,7 @@ interface MinerModule {
                 .duration(25)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_241"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_241"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
                 .circuitMeta(24)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -1600,7 +1601,7 @@ interface MinerModule {
                 .duration(400)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_253"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_253"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
                 .circuitMeta(25)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(10000))
@@ -1614,7 +1615,7 @@ interface MinerModule {
                 .duration(150)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_254"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_254"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
                 .circuitMeta(25)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(10000))
@@ -1628,7 +1629,7 @@ interface MinerModule {
                 .duration(75)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_255"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_255"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
                 .circuitMeta(25)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(10000))
@@ -1642,7 +1643,7 @@ interface MinerModule {
                 .duration(37)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_256"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_256"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
                 .circuitMeta(25)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(10000))
@@ -1656,7 +1657,7 @@ interface MinerModule {
                 .duration(18)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_252"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_252"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
                 .circuitMeta(25)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(10000))
@@ -1670,7 +1671,7 @@ interface MinerModule {
                 .duration(300)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_4_266"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_4_266"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
                 .circuitMeta(26)
                 .inputFluids(GTOMaterials.RocketFuelCn3h7o3.getFluid(6000))
@@ -1684,7 +1685,7 @@ interface MinerModule {
                 .duration(12)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_4_263"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_4_263"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
                 .circuitMeta(26)
                 .inputFluids(GTOMaterials.RocketFuelCn3h7o3.getFluid(6000))
@@ -1698,7 +1699,7 @@ interface MinerModule {
                 .duration(100)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_4_264"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_4_264"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
                 .circuitMeta(26)
                 .inputFluids(GTOMaterials.RocketFuelCn3h7o3.getFluid(6000))
@@ -1712,7 +1713,7 @@ interface MinerModule {
                 .duration(50)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_4_265"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_4_265"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
                 .circuitMeta(26)
                 .inputFluids(GTOMaterials.RocketFuelCn3h7o3.getFluid(6000))
@@ -1726,7 +1727,7 @@ interface MinerModule {
                 .duration(25)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_4_284"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_4_284"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
                 .circuitMeta(28)
                 .inputFluids(GTOMaterials.RocketFuelCn3h7o3.getFluid(10000))
@@ -1740,7 +1741,7 @@ interface MinerModule {
                 .duration(75)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_4_285"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_4_285"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
                 .circuitMeta(28)
                 .inputFluids(GTOMaterials.RocketFuelCn3h7o3.getFluid(10000))
@@ -1754,7 +1755,7 @@ interface MinerModule {
                 .duration(37)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_4_286"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_4_286"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
                 .circuitMeta(28)
                 .inputFluids(GTOMaterials.RocketFuelCn3h7o3.getFluid(10000))
@@ -1768,7 +1769,7 @@ interface MinerModule {
                 .duration(18)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_4_273"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_4_273"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
                 .circuitMeta(27)
                 .inputFluids(GTOMaterials.RocketFuelCn3h7o3.getFluid(6000))
@@ -1782,7 +1783,7 @@ interface MinerModule {
                 .duration(100)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_4_274"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_4_274"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
                 .circuitMeta(27)
                 .inputFluids(GTOMaterials.RocketFuelCn3h7o3.getFluid(6000))
@@ -1796,7 +1797,7 @@ interface MinerModule {
                 .duration(50)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_4_275"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_4_275"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
                 .circuitMeta(27)
                 .inputFluids(GTOMaterials.RocketFuelCn3h7o3.getFluid(6000))
@@ -1810,7 +1811,7 @@ interface MinerModule {
                 .duration(25)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_4_276"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_4_276"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
                 .circuitMeta(27)
                 .inputFluids(GTOMaterials.RocketFuelCn3h7o3.getFluid(6000))
@@ -1824,7 +1825,7 @@ interface MinerModule {
                 .duration(12)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_4_294"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_4_294"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
                 .circuitMeta(29)
                 .inputFluids(GTOMaterials.RocketFuelCn3h7o3.getFluid(10000))
@@ -1838,7 +1839,7 @@ interface MinerModule {
                 .duration(75)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_4_295"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_4_295"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
                 .circuitMeta(29)
                 .inputFluids(GTOMaterials.RocketFuelCn3h7o3.getFluid(10000))
@@ -1852,7 +1853,7 @@ interface MinerModule {
                 .duration(37)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_4_296"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_4_296"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
                 .circuitMeta(29)
                 .inputFluids(GTOMaterials.RocketFuelCn3h7o3.getFluid(10000))
@@ -1866,7 +1867,7 @@ interface MinerModule {
                 .duration(18)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_103"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_103"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
                 .circuitMeta(10)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -1880,7 +1881,7 @@ interface MinerModule {
                 .duration(100)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_104"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_104"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
                 .circuitMeta(10)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -1894,7 +1895,7 @@ interface MinerModule {
                 .duration(50)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_105"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_105"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
                 .circuitMeta(10)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -1908,7 +1909,7 @@ interface MinerModule {
                 .duration(25)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_106"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_106"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
                 .circuitMeta(10)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -1922,7 +1923,7 @@ interface MinerModule {
                 .duration(12)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_101"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_101"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
                 .circuitMeta(10)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -1936,7 +1937,7 @@ interface MinerModule {
                 .duration(400)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_102"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_102"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
                 .circuitMeta(10)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -1950,7 +1951,7 @@ interface MinerModule {
                 .duration(200)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_114"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_114"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
                 .circuitMeta(11)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -1964,7 +1965,7 @@ interface MinerModule {
                 .duration(50)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_115"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_115"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
                 .circuitMeta(11)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -1978,7 +1979,7 @@ interface MinerModule {
                 .duration(25)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_116"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_116"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
                 .circuitMeta(11)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -1992,7 +1993,7 @@ interface MinerModule {
                 .duration(12)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_111"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_111"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
                 .circuitMeta(11)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -2006,7 +2007,7 @@ interface MinerModule {
                 .duration(400)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_112"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_112"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
                 .circuitMeta(11)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -2020,7 +2021,7 @@ interface MinerModule {
                 .duration(200)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_113"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_113"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
                 .circuitMeta(11)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -2034,7 +2035,7 @@ interface MinerModule {
                 .duration(100)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_125"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_125"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
                 .circuitMeta(12)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -2048,7 +2049,7 @@ interface MinerModule {
                 .duration(25)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_126"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_126"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
                 .circuitMeta(12)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -2062,7 +2063,7 @@ interface MinerModule {
                 .duration(12)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_121"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_121"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
                 .circuitMeta(12)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -2076,7 +2077,7 @@ interface MinerModule {
                 .duration(400)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_122"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_122"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
                 .circuitMeta(12)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -2090,7 +2091,7 @@ interface MinerModule {
                 .duration(200)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_123"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_123"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
                 .circuitMeta(12)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -2104,7 +2105,7 @@ interface MinerModule {
                 .duration(100)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_124"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_124"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
                 .circuitMeta(12)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -2118,7 +2119,7 @@ interface MinerModule {
                 .duration(50)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_136"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_136"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
                 .circuitMeta(13)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -2132,7 +2133,7 @@ interface MinerModule {
                 .duration(12)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_132"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_132"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
                 .circuitMeta(13)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -2146,7 +2147,7 @@ interface MinerModule {
                 .duration(200)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_133"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_133"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
                 .circuitMeta(13)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -2160,7 +2161,7 @@ interface MinerModule {
                 .duration(100)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_134"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_134"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
                 .circuitMeta(13)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -2174,7 +2175,7 @@ interface MinerModule {
                 .duration(50)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_135"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_135"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
                 .circuitMeta(13)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -2188,7 +2189,7 @@ interface MinerModule {
                 .duration(25)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_131"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_131"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
                 .circuitMeta(13)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -2202,7 +2203,7 @@ interface MinerModule {
                 .duration(400)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_143"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_143"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
                 .circuitMeta(14)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -2216,7 +2217,7 @@ interface MinerModule {
                 .duration(100)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_144"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_144"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
                 .circuitMeta(14)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -2230,7 +2231,7 @@ interface MinerModule {
                 .duration(50)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_145"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_145"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
                 .circuitMeta(14)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -2244,7 +2245,7 @@ interface MinerModule {
                 .duration(25)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_146"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_146"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
                 .circuitMeta(14)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -2258,7 +2259,7 @@ interface MinerModule {
                 .duration(12)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_141"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_141"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
                 .circuitMeta(14)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -2272,7 +2273,7 @@ interface MinerModule {
                 .duration(400)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_142"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_142"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
                 .circuitMeta(14)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -2286,7 +2287,7 @@ interface MinerModule {
                 .duration(200)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_154"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_154"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
                 .circuitMeta(15)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -2300,7 +2301,7 @@ interface MinerModule {
                 .duration(50)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_155"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_155"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
                 .circuitMeta(15)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -2314,7 +2315,7 @@ interface MinerModule {
                 .duration(25)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_156"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_156"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
                 .circuitMeta(15)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -2328,7 +2329,7 @@ interface MinerModule {
                 .duration(12)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_151"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_151"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
                 .circuitMeta(15)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -2342,7 +2343,7 @@ interface MinerModule {
                 .duration(400)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_152"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_152"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
                 .circuitMeta(15)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -2356,7 +2357,7 @@ interface MinerModule {
                 .duration(200)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_153"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_153"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
                 .circuitMeta(15)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -2370,7 +2371,7 @@ interface MinerModule {
                 .duration(100)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_165"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_165"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
                 .circuitMeta(16)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -2384,7 +2385,7 @@ interface MinerModule {
                 .duration(25)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_166"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_166"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
                 .circuitMeta(16)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -2398,7 +2399,7 @@ interface MinerModule {
                 .duration(12)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_161"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_161"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
                 .circuitMeta(16)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -2412,7 +2413,7 @@ interface MinerModule {
                 .duration(400)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_162"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_162"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
                 .circuitMeta(16)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -2426,7 +2427,7 @@ interface MinerModule {
                 .duration(200)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_163"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_163"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
                 .circuitMeta(16)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -2440,7 +2441,7 @@ interface MinerModule {
                 .duration(100)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_164"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_164"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
                 .circuitMeta(16)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -2454,7 +2455,7 @@ interface MinerModule {
                 .duration(50)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_171"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_171"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
                 .circuitMeta(17)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -2468,7 +2469,7 @@ interface MinerModule {
                 .duration(400)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_176"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_176"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
                 .circuitMeta(17)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -2482,7 +2483,7 @@ interface MinerModule {
                 .duration(12)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_172"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_172"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
                 .circuitMeta(17)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -2496,7 +2497,7 @@ interface MinerModule {
                 .duration(200)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_173"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_173"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
                 .circuitMeta(17)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -2510,7 +2511,7 @@ interface MinerModule {
                 .duration(100)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_174"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_174"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
                 .circuitMeta(17)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -2524,7 +2525,7 @@ interface MinerModule {
                 .duration(50)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_175"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_175"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
                 .circuitMeta(17)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -2538,7 +2539,7 @@ interface MinerModule {
                 .duration(25)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_181"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_181"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
                 .circuitMeta(18)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -2552,7 +2553,7 @@ interface MinerModule {
                 .duration(400)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_182"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_182"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
                 .circuitMeta(18)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -2566,7 +2567,7 @@ interface MinerModule {
                 .duration(200)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_183"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_183"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
                 .circuitMeta(18)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -2580,7 +2581,7 @@ interface MinerModule {
                 .duration(100)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_184"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_184"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
                 .circuitMeta(18)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -2594,7 +2595,7 @@ interface MinerModule {
                 .duration(50)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_185"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_185"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
                 .circuitMeta(18)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -2608,7 +2609,7 @@ interface MinerModule {
                 .duration(25)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_186"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_186"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
                 .circuitMeta(18)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -2622,7 +2623,7 @@ interface MinerModule {
                 .duration(12)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_191"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_191"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
                 .circuitMeta(19)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -2636,7 +2637,7 @@ interface MinerModule {
                 .duration(400)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_192"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_192"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
                 .circuitMeta(19)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -2650,7 +2651,7 @@ interface MinerModule {
                 .duration(200)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_193"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_193"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
                 .circuitMeta(19)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -2664,7 +2665,7 @@ interface MinerModule {
                 .duration(100)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_194"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_194"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
                 .circuitMeta(19)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -2678,7 +2679,7 @@ interface MinerModule {
                 .duration(50)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_195"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_195"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
                 .circuitMeta(19)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -2692,7 +2693,7 @@ interface MinerModule {
                 .duration(25)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_196"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_196"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
                 .circuitMeta(19)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -2706,7 +2707,7 @@ interface MinerModule {
                 .duration(12)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_195"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_195"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
                 .circuitMeta(19)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -2720,7 +2721,7 @@ interface MinerModule {
                 .duration(37)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_196"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_196"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
                 .circuitMeta(19)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -2734,7 +2735,7 @@ interface MinerModule {
                 .duration(18)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_193"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_193"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
                 .circuitMeta(19)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -2748,7 +2749,7 @@ interface MinerModule {
                 .duration(150)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_194"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_194"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
                 .circuitMeta(19)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -2762,7 +2763,7 @@ interface MinerModule {
                 .duration(75)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_191"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_191"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
                 .circuitMeta(19)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -2776,7 +2777,7 @@ interface MinerModule {
                 .duration(600)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_192"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_192"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
                 .circuitMeta(19)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -2790,7 +2791,7 @@ interface MinerModule {
                 .duration(300)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_186"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_186"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
                 .circuitMeta(18)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -2804,7 +2805,7 @@ interface MinerModule {
                 .duration(18)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_184"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_184"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
                 .circuitMeta(18)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -2818,7 +2819,7 @@ interface MinerModule {
                 .duration(75)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_185"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_185"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
                 .circuitMeta(18)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -2832,7 +2833,7 @@ interface MinerModule {
                 .duration(37)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_182"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_182"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
                 .circuitMeta(18)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -2846,7 +2847,7 @@ interface MinerModule {
                 .duration(300)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_183"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_183"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
                 .circuitMeta(18)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -2860,7 +2861,7 @@ interface MinerModule {
                 .duration(150)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_181"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_181"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
                 .circuitMeta(18)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -2874,7 +2875,7 @@ interface MinerModule {
                 .duration(600)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_175"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_175"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
                 .circuitMeta(17)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -2888,7 +2889,7 @@ interface MinerModule {
                 .duration(37)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_176"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_176"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
                 .circuitMeta(17)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -2902,7 +2903,7 @@ interface MinerModule {
                 .duration(18)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_173"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_173"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
                 .circuitMeta(17)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -2916,7 +2917,7 @@ interface MinerModule {
                 .duration(150)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_174"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_174"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
                 .circuitMeta(17)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -2930,7 +2931,7 @@ interface MinerModule {
                 .duration(75)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_171"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_171"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
                 .circuitMeta(17)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -2944,7 +2945,7 @@ interface MinerModule {
                 .duration(600)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_172"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_172"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
                 .circuitMeta(17)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -2958,7 +2959,7 @@ interface MinerModule {
                 .duration(300)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_166"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_166"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
                 .circuitMeta(16)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -2972,7 +2973,7 @@ interface MinerModule {
                 .duration(18)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_164"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_164"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
                 .circuitMeta(16)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -2986,7 +2987,7 @@ interface MinerModule {
                 .duration(75)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_165"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_165"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
                 .circuitMeta(16)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -3000,7 +3001,7 @@ interface MinerModule {
                 .duration(37)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_162"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_162"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
                 .circuitMeta(16)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -3014,7 +3015,7 @@ interface MinerModule {
                 .duration(300)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_163"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_163"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
                 .circuitMeta(16)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -3028,7 +3029,7 @@ interface MinerModule {
                 .duration(150)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_161"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_161"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
                 .circuitMeta(16)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -3042,7 +3043,7 @@ interface MinerModule {
                 .duration(600)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_155"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_155"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
                 .circuitMeta(15)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -3056,7 +3057,7 @@ interface MinerModule {
                 .duration(37)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_156"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_156"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
                 .circuitMeta(15)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -3070,7 +3071,7 @@ interface MinerModule {
                 .duration(18)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_153"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_153"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
                 .circuitMeta(15)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -3084,7 +3085,7 @@ interface MinerModule {
                 .duration(150)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_154"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_154"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
                 .circuitMeta(15)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -3098,7 +3099,7 @@ interface MinerModule {
                 .duration(75)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_151"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_151"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
                 .circuitMeta(15)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -3112,7 +3113,7 @@ interface MinerModule {
                 .duration(600)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_152"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_152"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
                 .circuitMeta(15)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -3126,7 +3127,7 @@ interface MinerModule {
                 .duration(300)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_146"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_146"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
                 .circuitMeta(14)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -3140,7 +3141,7 @@ interface MinerModule {
                 .duration(18)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_144"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_144"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
                 .circuitMeta(14)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -3154,7 +3155,7 @@ interface MinerModule {
                 .duration(75)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_145"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_145"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
                 .circuitMeta(14)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -3168,7 +3169,7 @@ interface MinerModule {
                 .duration(37)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_142"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_142"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
                 .circuitMeta(14)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -3182,7 +3183,7 @@ interface MinerModule {
                 .duration(300)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_143"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_143"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
                 .circuitMeta(14)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -3196,7 +3197,7 @@ interface MinerModule {
                 .duration(150)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_141"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_141"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
                 .circuitMeta(14)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -3210,7 +3211,7 @@ interface MinerModule {
                 .duration(600)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_135"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_135"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
                 .circuitMeta(13)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -3224,7 +3225,7 @@ interface MinerModule {
                 .duration(37)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_136"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_136"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
                 .circuitMeta(13)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -3238,7 +3239,7 @@ interface MinerModule {
                 .duration(18)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_133"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_133"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
                 .circuitMeta(13)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -3252,7 +3253,7 @@ interface MinerModule {
                 .duration(150)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_134"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_134"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
                 .circuitMeta(13)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -3266,7 +3267,7 @@ interface MinerModule {
                 .duration(75)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_131"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_131"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
                 .circuitMeta(13)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -3280,7 +3281,7 @@ interface MinerModule {
                 .duration(600)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_132"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_132"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
                 .circuitMeta(13)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -3294,7 +3295,7 @@ interface MinerModule {
                 .duration(300)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_126"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_126"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
                 .circuitMeta(12)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -3308,7 +3309,7 @@ interface MinerModule {
                 .duration(18)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_124"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_124"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
                 .circuitMeta(12)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -3322,7 +3323,7 @@ interface MinerModule {
                 .duration(75)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_125"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_125"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
                 .circuitMeta(12)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -3336,7 +3337,7 @@ interface MinerModule {
                 .duration(37)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_122"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_122"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
                 .circuitMeta(12)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -3350,7 +3351,7 @@ interface MinerModule {
                 .duration(300)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_123"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_123"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
                 .circuitMeta(12)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -3364,7 +3365,7 @@ interface MinerModule {
                 .duration(150)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_121"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_121"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
                 .circuitMeta(12)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -3378,7 +3379,7 @@ interface MinerModule {
                 .duration(600)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_115"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_115"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
                 .circuitMeta(11)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -3392,7 +3393,7 @@ interface MinerModule {
                 .duration(37)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_116"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_116"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
                 .circuitMeta(11)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -3406,7 +3407,7 @@ interface MinerModule {
                 .duration(18)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_113"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_113"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
                 .circuitMeta(11)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -3420,7 +3421,7 @@ interface MinerModule {
                 .duration(150)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_114"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_114"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
                 .circuitMeta(11)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -3434,7 +3435,7 @@ interface MinerModule {
                 .duration(75)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_111"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_111"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
                 .circuitMeta(11)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -3448,7 +3449,7 @@ interface MinerModule {
                 .duration(600)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_112"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_112"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
                 .circuitMeta(11)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -3462,7 +3463,7 @@ interface MinerModule {
                 .duration(300)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_106"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_106"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
                 .circuitMeta(10)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -3476,7 +3477,7 @@ interface MinerModule {
                 .duration(18)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_104"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_104"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
                 .circuitMeta(10)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -3490,7 +3491,7 @@ interface MinerModule {
                 .duration(75)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_105"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_105"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
                 .circuitMeta(10)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -3504,7 +3505,7 @@ interface MinerModule {
                 .duration(37)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_102"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_102"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
                 .circuitMeta(10)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -3518,7 +3519,7 @@ interface MinerModule {
                 .duration(300)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_103"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_103"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
                 .circuitMeta(10)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -3532,7 +3533,7 @@ interface MinerModule {
                 .duration(150)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_101"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_101"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
                 .circuitMeta(10)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -3546,7 +3547,7 @@ interface MinerModule {
                 .duration(600)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_245"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_245"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
                 .circuitMeta(24)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -3560,7 +3561,7 @@ interface MinerModule {
                 .duration(37)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_246"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_246"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
                 .circuitMeta(24)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -3574,7 +3575,7 @@ interface MinerModule {
                 .duration(18)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_243"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_243"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
                 .circuitMeta(24)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -3588,7 +3589,7 @@ interface MinerModule {
                 .duration(150)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_244"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_244"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
                 .circuitMeta(24)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -3602,7 +3603,7 @@ interface MinerModule {
                 .duration(75)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_241"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_241"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
                 .circuitMeta(24)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -3616,7 +3617,7 @@ interface MinerModule {
                 .duration(600)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_242"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_242"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
                 .circuitMeta(24)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -3630,7 +3631,7 @@ interface MinerModule {
                 .duration(300)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_236"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_236"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
                 .circuitMeta(23)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -3644,7 +3645,7 @@ interface MinerModule {
                 .duration(18)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_234"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_234"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
                 .circuitMeta(23)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -3658,7 +3659,7 @@ interface MinerModule {
                 .duration(75)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_235"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_235"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
                 .circuitMeta(23)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -3672,7 +3673,7 @@ interface MinerModule {
                 .duration(37)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_232"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_232"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
                 .circuitMeta(23)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -3686,7 +3687,7 @@ interface MinerModule {
                 .duration(300)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_233"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_233"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
                 .circuitMeta(23)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -3700,7 +3701,7 @@ interface MinerModule {
                 .duration(150)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_231"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_231"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
                 .circuitMeta(23)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -3714,7 +3715,7 @@ interface MinerModule {
                 .duration(600)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_225"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_225"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
                 .circuitMeta(22)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -3728,7 +3729,7 @@ interface MinerModule {
                 .duration(37)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_226"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_226"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
                 .circuitMeta(22)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -3742,7 +3743,7 @@ interface MinerModule {
                 .duration(18)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_223"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_223"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
                 .circuitMeta(22)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -3756,7 +3757,7 @@ interface MinerModule {
                 .duration(150)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_224"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_224"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
                 .circuitMeta(22)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -3770,7 +3771,7 @@ interface MinerModule {
                 .duration(75)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_221"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_221"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
                 .circuitMeta(22)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -3784,7 +3785,7 @@ interface MinerModule {
                 .duration(600)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_222"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_222"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
                 .circuitMeta(22)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -3798,7 +3799,7 @@ interface MinerModule {
                 .duration(300)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_216"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_216"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
                 .circuitMeta(21)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -3812,7 +3813,7 @@ interface MinerModule {
                 .duration(18)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_214"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_214"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
                 .circuitMeta(21)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -3826,7 +3827,7 @@ interface MinerModule {
                 .duration(75)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_215"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_215"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
                 .circuitMeta(21)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -3840,7 +3841,7 @@ interface MinerModule {
                 .duration(37)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_212"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_212"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
                 .circuitMeta(21)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -3854,7 +3855,7 @@ interface MinerModule {
                 .duration(300)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_213"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_213"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
                 .circuitMeta(21)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -3868,7 +3869,7 @@ interface MinerModule {
                 .duration(150)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_211"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_211"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
                 .circuitMeta(21)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -3882,7 +3883,7 @@ interface MinerModule {
                 .duration(600)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_205"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_205"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
                 .circuitMeta(20)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -3896,7 +3897,7 @@ interface MinerModule {
                 .duration(37)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_206"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_206"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
                 .circuitMeta(20)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -3910,7 +3911,7 @@ interface MinerModule {
                 .duration(18)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_203"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_203"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
                 .circuitMeta(20)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -3924,7 +3925,7 @@ interface MinerModule {
                 .duration(150)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_204"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_204"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
                 .circuitMeta(20)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -3938,7 +3939,7 @@ interface MinerModule {
                 .duration(75)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_201"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_201"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
                 .circuitMeta(20)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -3952,7 +3953,7 @@ interface MinerModule {
                 .duration(600)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_202"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_1_202"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
                 .circuitMeta(20)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(10000))
@@ -3966,7 +3967,7 @@ interface MinerModule {
                 .duration(300)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_96"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_96"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
                 .circuitMeta(9)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -3980,7 +3981,7 @@ interface MinerModule {
                 .duration(12)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_95"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_95"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
                 .circuitMeta(9)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -3994,7 +3995,7 @@ interface MinerModule {
                 .duration(25)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_94"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_94"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
                 .circuitMeta(9)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -4008,7 +4009,7 @@ interface MinerModule {
                 .duration(50)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_93"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_93"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
                 .circuitMeta(9)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -4022,7 +4023,7 @@ interface MinerModule {
                 .duration(100)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_92"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_92"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
                 .circuitMeta(9)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -4036,7 +4037,7 @@ interface MinerModule {
                 .duration(200)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_91"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_91"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
                 .circuitMeta(9)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -4050,7 +4051,7 @@ interface MinerModule {
                 .duration(400)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_86"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_86"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
                 .circuitMeta(8)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -4064,7 +4065,7 @@ interface MinerModule {
                 .duration(12)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_85"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_85"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
                 .circuitMeta(8)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -4078,7 +4079,7 @@ interface MinerModule {
                 .duration(25)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_84"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_84"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
                 .circuitMeta(8)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -4092,7 +4093,7 @@ interface MinerModule {
                 .duration(50)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_83"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_83"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
                 .circuitMeta(8)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -4106,7 +4107,7 @@ interface MinerModule {
                 .duration(100)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_82"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_82"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
                 .circuitMeta(8)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -4120,7 +4121,7 @@ interface MinerModule {
                 .duration(200)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_81"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_81"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
                 .circuitMeta(8)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -4134,7 +4135,7 @@ interface MinerModule {
                 .duration(400)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_76"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_76"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
                 .circuitMeta(7)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -4148,7 +4149,7 @@ interface MinerModule {
                 .duration(12)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_75"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_75"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
                 .circuitMeta(7)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -4162,7 +4163,7 @@ interface MinerModule {
                 .duration(25)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_74"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_74"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
                 .circuitMeta(7)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -4176,7 +4177,7 @@ interface MinerModule {
                 .duration(50)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_73"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_73"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
                 .circuitMeta(7)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -4190,7 +4191,7 @@ interface MinerModule {
                 .duration(100)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_72"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_72"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
                 .circuitMeta(7)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -4204,7 +4205,7 @@ interface MinerModule {
                 .duration(200)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_71"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_71"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
                 .circuitMeta(7)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -4218,7 +4219,7 @@ interface MinerModule {
                 .duration(400)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_66"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_66"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
                 .circuitMeta(6)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -4232,7 +4233,7 @@ interface MinerModule {
                 .duration(12)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_65"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_65"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
                 .circuitMeta(6)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -4246,7 +4247,7 @@ interface MinerModule {
                 .duration(25)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_64"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_64"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
                 .circuitMeta(6)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -4260,7 +4261,7 @@ interface MinerModule {
                 .duration(50)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_63"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_63"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
                 .circuitMeta(6)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -4274,7 +4275,7 @@ interface MinerModule {
                 .duration(100)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_62"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_62"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
                 .circuitMeta(6)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -4288,7 +4289,7 @@ interface MinerModule {
                 .duration(200)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_61"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_61"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
                 .circuitMeta(6)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -4302,7 +4303,7 @@ interface MinerModule {
                 .duration(400)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_56"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_56"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
                 .circuitMeta(5)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -4316,7 +4317,7 @@ interface MinerModule {
                 .duration(12)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_55"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_55"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
                 .circuitMeta(5)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -4330,7 +4331,7 @@ interface MinerModule {
                 .duration(25)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_54"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_54"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
                 .circuitMeta(5)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -4344,7 +4345,7 @@ interface MinerModule {
                 .duration(50)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_53"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_53"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
                 .circuitMeta(5)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -4358,7 +4359,7 @@ interface MinerModule {
                 .duration(100)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_52"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_52"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
                 .circuitMeta(5)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -4372,7 +4373,7 @@ interface MinerModule {
                 .duration(200)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_51"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_51"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
                 .circuitMeta(5)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -4386,7 +4387,7 @@ interface MinerModule {
                 .duration(400)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_46"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_46"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
                 .circuitMeta(4)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -4400,7 +4401,7 @@ interface MinerModule {
                 .duration(12)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_45"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_45"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
                 .circuitMeta(4)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -4414,7 +4415,7 @@ interface MinerModule {
                 .duration(25)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_44"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_44"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
                 .circuitMeta(4)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -4428,7 +4429,7 @@ interface MinerModule {
                 .duration(50)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_43"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_43"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
                 .circuitMeta(4)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -4442,7 +4443,7 @@ interface MinerModule {
                 .duration(100)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_42"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_42"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
                 .circuitMeta(4)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -4456,7 +4457,7 @@ interface MinerModule {
                 .duration(200)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_41"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_41"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
                 .circuitMeta(4)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -4470,7 +4471,7 @@ interface MinerModule {
                 .duration(400)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_36"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_36"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
                 .circuitMeta(3)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -4484,7 +4485,7 @@ interface MinerModule {
                 .duration(12)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_35"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_35"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
                 .circuitMeta(3)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -4498,7 +4499,7 @@ interface MinerModule {
                 .duration(25)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_34"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_34"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
                 .circuitMeta(3)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -4512,7 +4513,7 @@ interface MinerModule {
                 .duration(50)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_33"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_33"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
                 .circuitMeta(3)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -4526,7 +4527,7 @@ interface MinerModule {
                 .duration(100)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_32"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_32"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
                 .circuitMeta(3)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -4540,7 +4541,7 @@ interface MinerModule {
                 .duration(200)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_31"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_31"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
                 .circuitMeta(3)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -4554,7 +4555,7 @@ interface MinerModule {
                 .duration(400)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_26"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_26"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
                 .circuitMeta(2)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -4568,7 +4569,7 @@ interface MinerModule {
                 .duration(12)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_25"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_25"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
                 .circuitMeta(2)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -4582,7 +4583,7 @@ interface MinerModule {
                 .duration(25)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_24"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_24"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
                 .circuitMeta(2)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -4596,7 +4597,7 @@ interface MinerModule {
                 .duration(50)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_23"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_23"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
                 .circuitMeta(2)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -4610,7 +4611,7 @@ interface MinerModule {
                 .duration(100)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_22"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_22"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
                 .circuitMeta(2)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -4624,7 +4625,7 @@ interface MinerModule {
                 .duration(200)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_21"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_21"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
                 .circuitMeta(2)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -4638,7 +4639,7 @@ interface MinerModule {
                 .duration(400)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_16"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_16"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK6.asStack(16))
                 .circuitMeta(1)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -4652,7 +4653,7 @@ interface MinerModule {
                 .duration(12)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_15"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_15"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK5.asStack(16))
                 .circuitMeta(1)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -4666,7 +4667,7 @@ interface MinerModule {
                 .duration(25)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_14"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_14"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK4.asStack(16))
                 .circuitMeta(1)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -4680,7 +4681,7 @@ interface MinerModule {
                 .duration(50)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_13"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_13"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK3.asStack(16))
                 .circuitMeta(1)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -4694,7 +4695,7 @@ interface MinerModule {
                 .duration(100)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_12"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_12"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK2.asStack(16))
                 .circuitMeta(1)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))
@@ -4708,7 +4709,7 @@ interface MinerModule {
                 .duration(200)
                 .save();
 
-        GTORecipeTypes.MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_11"))
+        MINER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_ore_2_11"))
                 .notConsumable(GTOItems.SPACE_DRONE_MK1.asStack(16))
                 .circuitMeta(1)
                 .inputFluids(GTOMaterials.RocketFuelRp1.getFluid(6000))

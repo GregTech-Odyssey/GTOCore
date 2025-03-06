@@ -3,7 +3,6 @@ package com.gto.gtocore.data.recipe.classified;
 import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.common.data.GTOItems;
 import com.gto.gtocore.common.data.GTOMaterials;
-import com.gto.gtocore.common.data.GTORecipeTypes;
 import com.gto.gtocore.common.recipe.condition.GravityCondition;
 import com.gto.gtocore.common.recipe.condition.VacuumCondition;
 import com.gto.gtocore.utils.RegistriesUtils;
@@ -23,10 +22,12 @@ import com.enderio.base.common.init.EIOItems;
 import com.kyanite.deeperdarker.content.DDItems;
 import earth.terrarium.adastra.common.registry.ModItems;
 
+import static com.gto.gtocore.common.data.GTORecipeTypes.ARC_GENERATOR_RECIPES;
+
 interface ArcGenerator {
 
     static void init() {
-        GTORecipeTypes.ARC_GENERATOR_RECIPES.recipeBuilder(GTOCore.id("ender_pearl_dust")).duration(400).EUt(30)
+        ARC_GENERATOR_RECIPES.recipeBuilder(GTOCore.id("ender_pearl_dust")).duration(400).EUt(30)
                 .inputItems(TagPrefix.dust, GTMaterials.Beryllium)
                 .inputItems(TagPrefix.dust, GTMaterials.Potassium, 4)
                 .inputFluids(GTMaterials.Nitrogen.getFluid(5000))
@@ -35,7 +36,7 @@ interface ArcGenerator {
                 .addCondition(new VacuumCondition(3))
                 .save();
 
-        GTORecipeTypes.ARC_GENERATOR_RECIPES.recipeBuilder(GTOCore.id("fluix_pearl"))
+        ARC_GENERATOR_RECIPES.recipeBuilder(GTOCore.id("fluix_pearl"))
                 .inputItems(TagPrefix.gem, GTMaterials.EnderPearl)
                 .inputItems(TagPrefix.gemFlawless, GTOMaterials.Fluix)
                 .outputItems(new ItemStack(AEItems.FLUIX_PEARL.asItem()))
@@ -43,7 +44,7 @@ interface ArcGenerator {
                 .duration(160)
                 .save();
 
-        GTORecipeTypes.ARC_GENERATOR_RECIPES.recipeBuilder(GTOCore.id("piglin_head"))
+        ARC_GENERATOR_RECIPES.recipeBuilder(GTOCore.id("piglin_head"))
                 .notConsumable(RegistriesUtils.getItemStack("enderio:filled_soul_vial", 1, "{BlockEntityTag:{EntityStorage:{Entity:{id:\"minecraft:piglin\"}}}}"))
                 .inputItems(new ItemStack(Items.PORKCHOP.asItem(), 9))
                 .inputItems(TagPrefix.nugget, GTMaterials.Gold)
@@ -52,7 +53,7 @@ interface ArcGenerator {
                 .duration(200)
                 .save();
 
-        GTORecipeTypes.ARC_GENERATOR_RECIPES.recipeBuilder(GTOCore.id("zombie_head"))
+        ARC_GENERATOR_RECIPES.recipeBuilder(GTOCore.id("zombie_head"))
                 .notConsumable(RegistriesUtils.getItemStack("enderio:filled_soul_vial", 1, "{BlockEntityTag:{EntityStorage:{Entity:{id:\"minecraft:zombie\"}}}}"))
                 .inputItems(new ItemStack(Items.ROTTEN_FLESH.asItem(), 9))
                 .outputItems(new ItemStack(Blocks.ZOMBIE_HEAD.asItem()))
@@ -60,7 +61,7 @@ interface ArcGenerator {
                 .duration(100)
                 .save();
 
-        GTORecipeTypes.ARC_GENERATOR_RECIPES.recipeBuilder(GTOCore.id("adamantine_compounds_dust_a"))
+        ARC_GENERATOR_RECIPES.recipeBuilder(GTOCore.id("adamantine_compounds_dust_a"))
                 .notConsumable(GTOItems.MICROWORMHOLE_GENERATOR.asStack())
                 .inputItems(TagPrefix.dust, GTOMaterials.AdamantineCompounds, 4)
                 .inputFluids(GTOMaterials.TranscendingMatter.getFluid(1000))
@@ -69,7 +70,7 @@ interface ArcGenerator {
                 .duration(20)
                 .save();
 
-        GTORecipeTypes.ARC_GENERATOR_RECIPES.recipeBuilder(GTOCore.id("skeleton_skull"))
+        ARC_GENERATOR_RECIPES.recipeBuilder(GTOCore.id("skeleton_skull"))
                 .notConsumable(RegistriesUtils.getItemStack("enderio:filled_soul_vial", 1, "{BlockEntityTag:{EntityStorage:{Entity:{id:\"minecraft:skeleton\"}}}}"))
                 .inputItems(TagPrefix.rod, GTMaterials.Bone, 9)
                 .outputItems(new ItemStack(Blocks.SKELETON_SKULL.asItem()))
@@ -77,7 +78,7 @@ interface ArcGenerator {
                 .duration(100)
                 .save();
 
-        GTORecipeTypes.ARC_GENERATOR_RECIPES.recipeBuilder(GTOCore.id("thaumium_dust"))
+        ARC_GENERATOR_RECIPES.recipeBuilder(GTOCore.id("thaumium_dust"))
                 .inputItems(TagPrefix.dust, GTOMaterials.InfusedGold, 8)
                 .inputItems(TagPrefix.dust, GTOMaterials.Soularium, 4)
                 .inputItems(TagPrefix.dust, GTMaterials.Iron, 4)
@@ -88,7 +89,7 @@ interface ArcGenerator {
                 .duration(480)
                 .save();
 
-        GTORecipeTypes.ARC_GENERATOR_RECIPES.recipeBuilder(GTOCore.id("ender_air"))
+        ARC_GENERATOR_RECIPES.recipeBuilder(GTOCore.id("ender_air"))
                 .inputItems(TagPrefix.dust, GTMaterials.EnderPearl, 64)
                 .inputFluids(GTOMaterials.FumingNitricAcid.getFluid(1000))
                 .inputFluids(GTMaterials.NitrogenDioxide.getFluid(10000))
@@ -101,14 +102,14 @@ interface ArcGenerator {
                 .duration(800)
                 .save();
 
-        GTORecipeTypes.ARC_GENERATOR_RECIPES.recipeBuilder(GTOCore.id("nitric_oxide"))
+        ARC_GENERATOR_RECIPES.recipeBuilder(GTOCore.id("nitric_oxide"))
                 .inputFluids(GTMaterials.Air.getFluid(10000))
                 .outputFluids(GTMaterials.NitricOxide.getFluid(1000))
                 .EUt(120)
                 .duration(200)
                 .save();
 
-        GTORecipeTypes.ARC_GENERATOR_RECIPES.recipeBuilder(GTOCore.id("wither_skeleton_skull"))
+        ARC_GENERATOR_RECIPES.recipeBuilder(GTOCore.id("wither_skeleton_skull"))
                 .notConsumable(RegistriesUtils.getItemStack("enderio:filled_soul_vial", 1, "{BlockEntityTag:{EntityStorage:{Entity:{id:\"minecraft:wither_skeleton\"}}}}"))
                 .inputItems(new ItemStack(Blocks.SKELETON_SKULL.asItem()))
                 .inputItems(TagPrefix.gemExquisite, GTMaterials.Coal)
@@ -117,7 +118,7 @@ interface ArcGenerator {
                 .duration(200)
                 .save();
 
-        GTORecipeTypes.ARC_GENERATOR_RECIPES.recipeBuilder(GTOCore.id("netherite_scrap"))
+        ARC_GENERATOR_RECIPES.recipeBuilder(GTOCore.id("netherite_scrap"))
                 .inputItems(new ItemStack(Blocks.ANCIENT_DEBRIS.asItem()))
                 .inputItems(new ItemStack(Items.PRISMARINE_SHARD.asItem()))
                 .inputFluids(GTMaterials.NetherAir.getFluid(100))
@@ -126,7 +127,7 @@ interface ArcGenerator {
                 .duration(240)
                 .save();
 
-        GTORecipeTypes.ARC_GENERATOR_RECIPES.recipeBuilder(GTOCore.id("nether_air"))
+        ARC_GENERATOR_RECIPES.recipeBuilder(GTOCore.id("nether_air"))
                 .inputItems(TagPrefix.dust, GTMaterials.Gunpowder, 64)
                 .inputFluids(GTMaterials.Blaze.getFluid(1000))
                 .inputFluids(GTMaterials.HydrogenSulfide.getFluid(10000))
@@ -139,7 +140,7 @@ interface ArcGenerator {
                 .duration(400)
                 .save();
 
-        GTORecipeTypes.ARC_GENERATOR_RECIPES.recipeBuilder(GTOCore.id("dragon_egg"))
+        ARC_GENERATOR_RECIPES.recipeBuilder(GTOCore.id("dragon_egg"))
                 .inputItems(new ItemStack(Items.EGG.asItem()))
                 .inputItems(GTOItems.WARPED_ENDER_PEARL.asStack(64))
                 .inputFluids(GTOMaterials.Antimatter.getFluid(1000))
@@ -150,7 +151,7 @@ interface ArcGenerator {
                 .duration(2000)
                 .save();
 
-        GTORecipeTypes.ARC_GENERATOR_RECIPES.recipeBuilder(GTOCore.id("grains_of_infinity"))
+        ARC_GENERATOR_RECIPES.recipeBuilder(GTOCore.id("grains_of_infinity"))
                 .chancedInput(ChemicalHelper.get(TagPrefix.gem, GTMaterials.Flint), 2000, 0)
                 .inputItems(TagPrefix.dustTiny, GTMaterials.Obsidian)
                 .outputItems(EIOItems.GRAINS_OF_INFINITY.asStack())
@@ -158,7 +159,7 @@ interface ArcGenerator {
                 .duration(200)
                 .save();
 
-        GTORecipeTypes.ARC_GENERATOR_RECIPES.recipeBuilder(GTOCore.id("crying_obsidian"))
+        ARC_GENERATOR_RECIPES.recipeBuilder(GTOCore.id("crying_obsidian"))
                 .inputItems(TagPrefix.rock, GTMaterials.Obsidian)
                 .inputFluids(GTOMaterials.Antimatter.getFluid(10))
                 .outputItems(new ItemStack(Blocks.CRYING_OBSIDIAN.asItem()))
@@ -167,7 +168,7 @@ interface ArcGenerator {
                 .cleanroom(CleanroomType.CLEANROOM)
                 .save();
 
-        GTORecipeTypes.ARC_GENERATOR_RECIPES.recipeBuilder(GTOCore.id("nether_star_dust"))
+        ARC_GENERATOR_RECIPES.recipeBuilder(GTOCore.id("nether_star_dust"))
                 .inputItems(TagPrefix.dust, GTMaterials.Diamond)
                 .inputItems(TagPrefix.dust, GTMaterials.Iridium)
                 .inputFluids(GTMaterials.RocketFuel.getFluid(1000))
@@ -178,7 +179,7 @@ interface ArcGenerator {
                 .addCondition(new GravityCondition(true))
                 .save();
 
-        GTORecipeTypes.ARC_GENERATOR_RECIPES.recipeBuilder(GTOCore.id("nether_star"))
+        ARC_GENERATOR_RECIPES.recipeBuilder(GTOCore.id("nether_star"))
                 .inputItems(new ItemStack(Blocks.SOUL_SAND.asItem(), 4))
                 .inputItems(new ItemStack(Blocks.WITHER_SKELETON_SKULL.asItem(), 3))
                 .outputItems(TagPrefix.gem, GTMaterials.NetherStar)
@@ -187,7 +188,7 @@ interface ArcGenerator {
                 .addCondition(new GravityCondition(true))
                 .save();
 
-        GTORecipeTypes.ARC_GENERATOR_RECIPES.recipeBuilder(GTOCore.id("energetic_alloy_dust"))
+        ARC_GENERATOR_RECIPES.recipeBuilder(GTOCore.id("energetic_alloy_dust"))
                 .inputItems(TagPrefix.dust, GTMaterials.Redstone)
                 .inputItems(TagPrefix.dust, GTMaterials.Gold)
                 .inputItems(TagPrefix.dust, GTMaterials.Glowstone)
@@ -197,7 +198,7 @@ interface ArcGenerator {
                 .duration(480)
                 .save();
 
-        GTORecipeTypes.ARC_GENERATOR_RECIPES.recipeBuilder(GTOCore.id("naquadah_contain_rare_earth_fluoride_dust"))
+        ARC_GENERATOR_RECIPES.recipeBuilder(GTOCore.id("naquadah_contain_rare_earth_fluoride_dust"))
                 .inputItems(TagPrefix.dust, GTMaterials.Alunite)
                 .inputFluids(GTOMaterials.RareEarthChlorides.getFluid(6000))
                 .inputFluids(GTMaterials.AcidicEnrichedNaquadahSolution.getFluid(3000))
@@ -210,7 +211,7 @@ interface ArcGenerator {
                 .duration(400)
                 .save();
 
-        GTORecipeTypes.ARC_GENERATOR_RECIPES.recipeBuilder(GTOCore.id("ghast_tear"))
+        ARC_GENERATOR_RECIPES.recipeBuilder(GTOCore.id("ghast_tear"))
                 .inputItems(TagPrefix.dustTiny, GTMaterials.Lithium)
                 .inputItems(TagPrefix.dustTiny, GTMaterials.Potassium)
                 .inputFluids(GTMaterials.SaltWater.getFluid(1000))
@@ -219,7 +220,7 @@ interface ArcGenerator {
                 .duration(400)
                 .save();
 
-        GTORecipeTypes.ARC_GENERATOR_RECIPES.recipeBuilder(GTOCore.id("glowstone_dust"))
+        ARC_GENERATOR_RECIPES.recipeBuilder(GTOCore.id("glowstone_dust"))
                 .circuitMeta(1)
                 .inputItems(TagPrefix.dust, GTMaterials.Gold)
                 .inputItems(TagPrefix.dust, GTMaterials.Redstone)
@@ -228,7 +229,7 @@ interface ArcGenerator {
                 .duration(200)
                 .save();
 
-        GTORecipeTypes.ARC_GENERATOR_RECIPES.recipeBuilder(GTOCore.id("creeper_head"))
+        ARC_GENERATOR_RECIPES.recipeBuilder(GTOCore.id("creeper_head"))
                 .notConsumable(RegistriesUtils.getItemStack("enderio:filled_soul_vial", 1, "{BlockEntityTag:{EntityStorage:{Entity:{id:\"minecraft:creeper\"}}}}"))
                 .inputItems(TagPrefix.dust, GTMaterials.Gunpowder, 9)
                 .outputItems(new ItemStack(Blocks.CREEPER_HEAD.asItem()))
@@ -236,7 +237,7 @@ interface ArcGenerator {
                 .duration(100)
                 .save();
 
-        GTORecipeTypes.ARC_GENERATOR_RECIPES.recipeBuilder(GTOCore.id("fluix_crystal"))
+        ARC_GENERATOR_RECIPES.recipeBuilder(GTOCore.id("fluix_crystal"))
                 .circuitMeta(2)
                 .inputItems(TagPrefix.dust, GTMaterials.Redstone)
                 .inputItems(TagPrefix.gem, GTMaterials.NetherQuartz)
@@ -247,7 +248,7 @@ interface ArcGenerator {
                 .duration(80)
                 .save();
 
-        GTORecipeTypes.ARC_GENERATOR_RECIPES.recipeBuilder(GTOCore.id("enderman_head"))
+        ARC_GENERATOR_RECIPES.recipeBuilder(GTOCore.id("enderman_head"))
                 .notConsumable(RegistriesUtils.getItemStack("enderio:filled_soul_vial", 1, "{BlockEntityTag:{EntityStorage:{Entity:{id:\"minecraft:enderman\"}}}}"))
                 .inputItems(TagPrefix.gem, GTMaterials.EnderPearl, 9)
                 .outputItems(EIOBlocks.ENDERMAN_HEAD.asStack())
@@ -255,7 +256,7 @@ interface ArcGenerator {
                 .duration(100)
                 .save();
 
-        GTORecipeTypes.ARC_GENERATOR_RECIPES.recipeBuilder(GTOCore.id("charged_certus_quartz_crystal"))
+        ARC_GENERATOR_RECIPES.recipeBuilder(GTOCore.id("charged_certus_quartz_crystal"))
                 .circuitMeta(1)
                 .inputItems(TagPrefix.gem, GTMaterials.CertusQuartz)
                 .outputItems(new ItemStack(AEItems.CERTUS_QUARTZ_CRYSTAL_CHARGED.asItem()))
@@ -263,7 +264,7 @@ interface ArcGenerator {
                 .duration(60)
                 .save();
 
-        GTORecipeTypes.ARC_GENERATOR_RECIPES.recipeBuilder(GTOCore.id("echobone"))
+        ARC_GENERATOR_RECIPES.recipeBuilder(GTOCore.id("echobone"))
                 .inputItems(TagPrefix.rod, GTMaterials.Bone)
                 .inputFluids(GTMaterials.EchoShard.getFluid(144))
                 .outputItems(DDItems.SCULK_BONE.get())
@@ -271,14 +272,14 @@ interface ArcGenerator {
                 .duration(400)
                 .save();
 
-        GTORecipeTypes.ARC_GENERATOR_RECIPES.recipeBuilder(GTOCore.id("ice_shard"))
+        ARC_GENERATOR_RECIPES.recipeBuilder(GTOCore.id("ice_shard"))
                 .inputItems(new ItemStack(Blocks.BLUE_ICE.asItem()))
                 .outputItems(ModItems.ICE_SHARD.get())
                 .EUt(30)
                 .duration(200)
                 .save();
 
-        GTORecipeTypes.ARC_GENERATOR_RECIPES.recipeBuilder(GTOCore.id("prismarine"))
+        ARC_GENERATOR_RECIPES.recipeBuilder(GTOCore.id("prismarine"))
                 .inputItems(new ItemStack(Blocks.COBBLESTONE.asItem()))
                 .inputFluids(GTMaterials.SaltWater.getFluid(10))
                 .outputItems(new ItemStack(Blocks.PRISMARINE.asItem()))
@@ -286,7 +287,7 @@ interface ArcGenerator {
                 .duration(200)
                 .save();
 
-        GTORecipeTypes.ARC_GENERATOR_RECIPES.recipeBuilder(GTOCore.id("reinforced_deepslate"))
+        ARC_GENERATOR_RECIPES.recipeBuilder(GTOCore.id("reinforced_deepslate"))
                 .inputItems(TagPrefix.rock, GTMaterials.Deepslate)
                 .inputItems(TagPrefix.block, GTMaterials.EchoShard)
                 .inputItems(new ItemStack(DDItems.SCULK_BONE.get(), 4))

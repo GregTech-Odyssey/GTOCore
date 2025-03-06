@@ -4,7 +4,6 @@ import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.api.machine.GTOCleanroomType;
 import com.gto.gtocore.common.data.GTOItems;
 import com.gto.gtocore.common.data.GTOMaterials;
-import com.gto.gtocore.common.data.GTORecipeTypes;
 
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.machine.multiblock.CleanroomType;
@@ -17,10 +16,12 @@ import net.minecraft.world.level.block.Blocks;
 
 import appeng.core.definitions.AEItems;
 
+import static com.gto.gtocore.common.data.GTORecipeTypes.FORMING_PRESS_RECIPES;
+
 interface FormingPress {
 
     static void init() {
-        GTORecipeTypes.FORMING_PRESS_RECIPES.recipeBuilder(GTOCore.id("carbon_rotor"))
+        FORMING_PRESS_RECIPES.recipeBuilder(GTOCore.id("carbon_rotor"))
                 .inputItems(new ItemStack(Blocks.CHAIN.asItem()))
                 .inputItems(TagPrefix.rod, GTMaterials.Magnalium, 2)
                 .inputItems(TagPrefix.bolt, GTMaterials.Magnalium, 8)
@@ -30,7 +31,7 @@ interface FormingPress {
                 .duration(200)
                 .save();
 
-        GTORecipeTypes.FORMING_PRESS_RECIPES.recipeBuilder(GTOCore.id("logic_processor1"))
+        FORMING_PRESS_RECIPES.recipeBuilder(GTOCore.id("logic_processor1"))
                 .notConsumable(new ItemStack(AEItems.SILICON_PRESS.asItem()))
                 .notConsumable(new ItemStack(AEItems.LOGIC_PROCESSOR_PRESS.asItem()))
                 .inputItems(TagPrefix.dust, GTMaterials.Gold)
@@ -41,7 +42,7 @@ interface FormingPress {
                 .duration(20)
                 .save();
 
-        GTORecipeTypes.FORMING_PRESS_RECIPES.recipeBuilder(GTOCore.id("logic_processor"))
+        FORMING_PRESS_RECIPES.recipeBuilder(GTOCore.id("logic_processor"))
                 .notConsumable(new ItemStack(AEItems.SILICON_PRESS.asItem()))
                 .notConsumable(new ItemStack(AEItems.LOGIC_PROCESSOR_PRESS.asItem()))
                 .inputItems(TagPrefix.plate, GTMaterials.Gold)
@@ -52,7 +53,7 @@ interface FormingPress {
                 .duration(200)
                 .save();
 
-        GTORecipeTypes.FORMING_PRESS_RECIPES.recipeBuilder(GTOCore.id("raw_imprinted_resonatic_circuit_board"))
+        FORMING_PRESS_RECIPES.recipeBuilder(GTOCore.id("raw_imprinted_resonatic_circuit_board"))
                 .inputItems(TagPrefix.dust, GTOMaterials.CircuitCompound, 4)
                 .inputItems(TagPrefix.dust, GTOMaterials.MagnetoResonatic)
                 .outputItems(GTOItems.RAW_IMPRINTED_RESONATIC_CIRCUIT_BOARD.asStack())
@@ -61,7 +62,7 @@ interface FormingPress {
                 .cleanroom(CleanroomType.CLEANROOM)
                 .save();
 
-        GTORecipeTypes.FORMING_PRESS_RECIPES.recipeBuilder(GTOCore.id("scintillator_crystal"))
+        FORMING_PRESS_RECIPES.recipeBuilder(GTOCore.id("scintillator_crystal"))
                 .inputItems(TagPrefix.plate, GTOMaterials.Vibranium)
                 .inputItems(TagPrefix.dust, GTOMaterials.ThalliumThuliumDopedCaesiumIodide)
                 .inputItems(TagPrefix.dust, GTOMaterials.PolycyclicAromaticMixture)
@@ -74,7 +75,7 @@ interface FormingPress {
                 .cleanroom(GTOCleanroomType.LAW_CLEANROOM)
                 .save();
 
-        GTORecipeTypes.FORMING_PRESS_RECIPES.recipeBuilder(GTOCore.id("engineering_processor1"))
+        FORMING_PRESS_RECIPES.recipeBuilder(GTOCore.id("engineering_processor1"))
                 .notConsumable(new ItemStack(AEItems.SILICON_PRESS.asItem()))
                 .notConsumable(new ItemStack(AEItems.ENGINEERING_PROCESSOR_PRESS.asItem()))
                 .inputItems(TagPrefix.plate, GTMaterials.Diamond)
@@ -85,7 +86,7 @@ interface FormingPress {
                 .duration(200)
                 .save();
 
-        GTORecipeTypes.FORMING_PRESS_RECIPES.recipeBuilder(GTOCore.id("reactor_fuel_rod"))
+        FORMING_PRESS_RECIPES.recipeBuilder(GTOCore.id("reactor_fuel_rod"))
                 .notConsumable(GTItems.SHAPE_EXTRUDER_CELL.asStack())
                 .inputItems(TagPrefix.ingot, GTMaterials.SteelMagnetic)
                 .outputItems(GTOItems.REACTOR_FUEL_ROD.asStack())
@@ -93,7 +94,7 @@ interface FormingPress {
                 .duration(200)
                 .save();
 
-        GTORecipeTypes.FORMING_PRESS_RECIPES.recipeBuilder(GTOCore.id("calculation_processor1"))
+        FORMING_PRESS_RECIPES.recipeBuilder(GTOCore.id("calculation_processor1"))
                 .notConsumable(new ItemStack(AEItems.SILICON_PRESS.asItem()))
                 .notConsumable(new ItemStack(AEItems.CALCULATION_PROCESSOR_PRESS.asItem()))
                 .inputItems(TagPrefix.dust, GTMaterials.CertusQuartz)
@@ -104,7 +105,7 @@ interface FormingPress {
                 .duration(20)
                 .save();
 
-        GTORecipeTypes.FORMING_PRESS_RECIPES.recipeBuilder(GTOCore.id("grindball_soapstone"))
+        FORMING_PRESS_RECIPES.recipeBuilder(GTOCore.id("grindball_soapstone"))
                 .notConsumable(GTItems.SHAPE_MOLD_BALL.asStack())
                 .inputItems(TagPrefix.dust, GTMaterials.Soapstone, 16)
                 .inputItems(TagPrefix.ingot, GTMaterials.SolderingAlloy, 2)
@@ -113,7 +114,7 @@ interface FormingPress {
                 .duration(800)
                 .save();
 
-        GTORecipeTypes.FORMING_PRESS_RECIPES.recipeBuilder(GTOCore.id("cosmic_ram_wafer"))
+        FORMING_PRESS_RECIPES.recipeBuilder(GTOCore.id("cosmic_ram_wafer"))
                 .inputItems(GTOItems.TARANIUM_WAFER.asStack())
                 .inputItems(GTItems.RANDOM_ACCESS_MEMORY_WAFER.asStack())
                 .inputItems(GTOItems.PREPARED_COSMIC_SOC_WAFER.asStack())
@@ -123,7 +124,7 @@ interface FormingPress {
                 .cleanroom(GTOCleanroomType.LAW_CLEANROOM)
                 .save();
 
-        GTORecipeTypes.FORMING_PRESS_RECIPES.recipeBuilder(GTOCore.id("fishbig_fabric"))
+        FORMING_PRESS_RECIPES.recipeBuilder(GTOCore.id("fishbig_fabric"))
                 .inputItems(TagPrefix.foil, GTOMaterials.MagnetohydrodynamicallyConstrainedStarMatter, 64)
                 .inputItems(TagPrefix.foil, GTOMaterials.Shirabon, 64)
                 .inputItems(GTOItems.TWO_WAY_FOIL.asStack(64))
@@ -136,7 +137,7 @@ interface FormingPress {
                 .cleanroom(GTOCleanroomType.LAW_CLEANROOM)
                 .save();
 
-        GTORecipeTypes.FORMING_PRESS_RECIPES.recipeBuilder(GTOCore.id("wood_gear"))
+        FORMING_PRESS_RECIPES.recipeBuilder(GTOCore.id("wood_gear"))
                 .inputItems(TagPrefix.plate, GTMaterials.Wood, 4)
                 .notConsumable(GTItems.SHAPE_MOLD_GEAR.asStack())
                 .outputItems(TagPrefix.gear, GTMaterials.Wood)
@@ -144,7 +145,7 @@ interface FormingPress {
                 .duration(60)
                 .save();
 
-        GTORecipeTypes.FORMING_PRESS_RECIPES.recipeBuilder(GTOCore.id("tungsten_carbide_reactor_fuel_rod"))
+        FORMING_PRESS_RECIPES.recipeBuilder(GTOCore.id("tungsten_carbide_reactor_fuel_rod"))
                 .notConsumable(GTItems.SHAPE_EXTRUDER_CELL.asStack())
                 .inputItems(TagPrefix.ingot, GTMaterials.NeodymiumMagnetic)
                 .inputItems(TagPrefix.ingot, GTMaterials.TungstenCarbide)
@@ -153,7 +154,7 @@ interface FormingPress {
                 .duration(200)
                 .save();
 
-        GTORecipeTypes.FORMING_PRESS_RECIPES.recipeBuilder(GTOCore.id("optical_soc_containment_housing"))
+        FORMING_PRESS_RECIPES.recipeBuilder(GTOCore.id("optical_soc_containment_housing"))
                 .inputItems(GTItems.ELITE_CIRCUIT_BOARD.asStack())
                 .inputItems(TagPrefix.foil, GTMaterials.Titanium)
                 .inputItems(TagPrefix.foil, GTMaterials.YttriumBariumCuprate)
@@ -166,7 +167,7 @@ interface FormingPress {
                 .cleanroom(CleanroomType.CLEANROOM)
                 .save();
 
-        GTORecipeTypes.FORMING_PRESS_RECIPES.recipeBuilder(GTOCore.id("heavy_duty_plate_2"))
+        FORMING_PRESS_RECIPES.recipeBuilder(GTOCore.id("heavy_duty_plate_2"))
                 .inputItems(GTOItems.HEAVY_DUTY_PLATE_1.asStack())
                 .inputItems(TagPrefix.plateDouble, GTMaterials.Titanium)
                 .inputItems(TagPrefix.plateDouble, GTMaterials.DamascusSteel, 2)
@@ -175,7 +176,7 @@ interface FormingPress {
                 .duration(200)
                 .save();
 
-        GTORecipeTypes.FORMING_PRESS_RECIPES.recipeBuilder(GTOCore.id("calculation_processor"))
+        FORMING_PRESS_RECIPES.recipeBuilder(GTOCore.id("calculation_processor"))
                 .notConsumable(new ItemStack(AEItems.SILICON_PRESS.asItem()))
                 .notConsumable(new ItemStack(AEItems.CALCULATION_PROCESSOR_PRESS.asItem()))
                 .inputItems(TagPrefix.plate, GTMaterials.CertusQuartz)
@@ -186,7 +187,7 @@ interface FormingPress {
                 .duration(200)
                 .save();
 
-        GTORecipeTypes.FORMING_PRESS_RECIPES.recipeBuilder(GTOCore.id("engineering_processor"))
+        FORMING_PRESS_RECIPES.recipeBuilder(GTOCore.id("engineering_processor"))
                 .notConsumable(new ItemStack(AEItems.SILICON_PRESS.asItem()))
                 .notConsumable(new ItemStack(AEItems.ENGINEERING_PROCESSOR_PRESS.asItem()))
                 .inputItems(TagPrefix.dust, GTMaterials.Diamond)
@@ -197,7 +198,7 @@ interface FormingPress {
                 .duration(20)
                 .save();
 
-        GTORecipeTypes.FORMING_PRESS_RECIPES.recipeBuilder(GTOCore.id("grindball_aluminium"))
+        FORMING_PRESS_RECIPES.recipeBuilder(GTOCore.id("grindball_aluminium"))
                 .notConsumable(GTItems.SHAPE_MOLD_BALL.asStack())
                 .inputItems(TagPrefix.dust, GTMaterials.Aluminium, 16)
                 .inputItems(TagPrefix.ingot, GTMaterials.SolderingAlloy, 2)
@@ -206,7 +207,7 @@ interface FormingPress {
                 .duration(800)
                 .save();
 
-        GTORecipeTypes.FORMING_PRESS_RECIPES.recipeBuilder(GTOCore.id("netherite_rod"))
+        FORMING_PRESS_RECIPES.recipeBuilder(GTOCore.id("netherite_rod"))
                 .inputItems(new ItemStack(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE.asItem()))
                 .inputItems(TagPrefix.rod, GTMaterials.Neodymium, 2)
                 .inputItems(TagPrefix.ingot, GTMaterials.Netherite)
@@ -215,7 +216,7 @@ interface FormingPress {
                 .duration(400)
                 .save();
 
-        GTORecipeTypes.FORMING_PRESS_RECIPES.recipeBuilder(GTOCore.id("exotic_ram_wafer"))
+        FORMING_PRESS_RECIPES.recipeBuilder(GTOCore.id("exotic_ram_wafer"))
                 .inputItems(GTOItems.OPTICAL_RAM_WAFER.asStack())
                 .inputItems(GTItems.NOR_MEMORY_CHIP_WAFER.asStack())
                 .inputItems(GTItems.NAND_MEMORY_CHIP_WAFER.asStack())
@@ -227,7 +228,7 @@ interface FormingPress {
                 .cleanroom(CleanroomType.CLEANROOM)
                 .save();
 
-        GTORecipeTypes.FORMING_PRESS_RECIPES.recipeBuilder(GTOCore.id("optical_ram_wafer"))
+        FORMING_PRESS_RECIPES.recipeBuilder(GTOCore.id("optical_ram_wafer"))
                 .inputItems(GTOItems.RUTHERFORDIUM_AMPROSIUM_WAFER.asStack())
                 .inputItems(GTItems.RANDOM_ACCESS_MEMORY_WAFER.asStack())
                 .inputItems(GTOItems.PHOTON_CARRYING_WAFER.asStack())
@@ -237,7 +238,7 @@ interface FormingPress {
                 .cleanroom(CleanroomType.CLEANROOM)
                 .save();
 
-        GTORecipeTypes.FORMING_PRESS_RECIPES.recipeBuilder(GTOCore.id("supracausal_ram_wafer"))
+        FORMING_PRESS_RECIPES.recipeBuilder(GTOCore.id("supracausal_ram_wafer"))
                 .inputItems(GTOItems.COSMIC_RAM_WAFER.asStack())
                 .inputItems(GTOItems.EXOTIC_RAM_WAFER.asStack())
                 .inputItems(GTOItems.PELLET_ANTIMATTER.asStack())

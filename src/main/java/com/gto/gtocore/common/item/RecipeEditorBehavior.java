@@ -1,18 +1,16 @@
 package com.gto.gtocore.common.item;
 
 import com.gto.gtocore.GTOCore;
-import com.gto.gtocore.api.GTOValues;
 import com.gto.gtocore.api.machine.DummyMachine;
 import com.gto.gtocore.api.machine.GTOCleanroomType;
 import com.gto.gtocore.common.data.GTOItems;
 import com.gto.gtocore.common.data.GTORecipeTypes;
+import com.gto.gtocore.common.data.GTORecipes;
 import com.gto.gtocore.common.recipe.condition.GravityCondition;
 import com.gto.gtocore.common.recipe.condition.VacuumCondition;
 import com.gto.gtocore.config.GTOConfig;
-import com.gto.gtocore.integration.kjs.GTKubeJSPlugin;
 import com.gto.gtocore.utils.*;
 
-import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
@@ -38,6 +36,7 @@ import com.gregtechceu.gtceu.api.recipe.RecipeCondition;
 import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
 import com.gregtechceu.gtceu.api.recipe.chance.logic.ChanceLogic;
 import com.gregtechceu.gtceu.api.recipe.content.Content;
+import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
 import com.gregtechceu.gtceu.api.recipe.ingredient.SizedIngredient;
 import com.gregtechceu.gtceu.api.recipe.ui.GTRecipeTypeUI;
 import com.gregtechceu.gtceu.api.registry.GTRegistries;
@@ -50,6 +49,7 @@ import com.gregtechceu.gtceu.common.recipe.condition.CleanroomCondition;
 import com.gregtechceu.gtceu.common.recipe.condition.DimensionCondition;
 import com.gregtechceu.gtceu.core.mixins.IngredientAccessor;
 import com.gregtechceu.gtceu.core.mixins.TagValueAccessor;
+import com.gregtechceu.gtceu.data.recipe.CustomTags;
 import com.gregtechceu.gtceu.integration.ae2.gui.widget.AETextInputButtonWidget;
 
 import net.minecraft.core.BlockPos;
@@ -64,6 +64,7 @@ import net.minecraft.world.inventory.ClickType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.ShapedRecipe;
@@ -72,7 +73,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.CraftingTableBlock;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.registries.ForgeRegistries;
 
 import com.google.common.collect.Tables;
 import com.lowdragmc.lowdraglib.gui.factory.HeldItemUIFactory;
@@ -86,7 +86,6 @@ import com.lowdragmc.lowdraglib.gui.widget.ProgressWidget;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import com.lowdragmc.lowdraglib.utils.Position;
-import dev.latvian.mods.kubejs.util.ConsoleJS;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 
@@ -107,7 +106,7 @@ public final class RecipeEditorBehavior implements IItemUIFactory, IFancyUIProvi
         if (Objects.requireNonNull(context.getPlayer()).isShiftKeyDown()) {
             // KJS转换
             StringBuilder stringBuilder = new StringBuilder();
-            GTKubeJSPlugin.KJS_RECIPE.forEach(recipe -> {
+            GTORecipes.KJS_RECIPE.forEach(recipe -> {
                 if (recipe instanceof ShapelessRecipe shapelessRecipe) {
                     stringBuilder.append("\nVanillaRecipeHelper.addShapelessRecipe(provider, ");
                     stringBuilder.append("GTOCore.id(\"").append(StringUtils.decompose('_', shapelessRecipe.getId().getPath().replace("kjs/", ""))[1]).append("\"), ");
@@ -128,7 +127,7 @@ public final class RecipeEditorBehavior implements IItemUIFactory, IFancyUIProvi
                     stringBuilder.append(");");
                 }
             });
-            GTKubeJSPlugin.KJS_GT_RECIPE.forEach(recipe -> {
+            GTORecipes.KJS_GT_RECIPE.forEach(recipe -> {
                 String recipeType;
                 if (StringIndex.RECIPETYPE_MAP.containsKey(recipe.recipeType)) {
                     recipeType = StringIndex.RECIPETYPE_MAP.get(recipe.recipeType);
@@ -231,52 +230,8 @@ public final class RecipeEditorBehavior implements IItemUIFactory, IFancyUIProvi
                     if (recipe.data.contains("eu_to_start")) {
                         stringBuilder.append(".fusionStartEU(").append(recipe.data.getInt("eu_to_start")).append(")").append("\n");
                     }
-                    if (recipe.data.contains(GTOValues.COMPONENT_ASSEMBLY_CASING_TIER)) {
-                        stringBuilder.append(".addData(GTOValue.COMPONENT_ASSEMBLY_CASING_TIER, ").append(recipe.data.getInt(GTOValues.COMPONENT_ASSEMBLY_CASING_TIER)).append(")").append("\n");
-                    }
-                    if (recipe.data.contains(GTOValues.POWER_MODULE_TIER)) {
-                        stringBuilder.append(".addData(GTOValue.POWER_MODULE_TIER, ").append(recipe.data.getInt(GTOValues.POWER_MODULE_TIER)).append(")").append("\n");
-                    }
-                    if (recipe.data.contains(GTOValues.STELLAR_CONTAINMENT_TIER)) {
-                        stringBuilder.append(".addData(GTOValue.STELLAR_CONTAINMENT_TIER, ").append(recipe.data.getInt(GTOValues.STELLAR_CONTAINMENT_TIER)).append(")").append("\n");
-                    }
-                    if (recipe.data.contains("FRheat")) {
-                        stringBuilder.append(".addData(\"FRheat\", ").append(recipe.data.getInt("FRheat")).append(")").append("\n");
-                    }
-                    if (recipe.data.contains("nano_forge_tier")) {
-                        stringBuilder.append(".addData(\"nano_forge_tier\", ").append(recipe.data.getInt("nano_forge_tier")).append(")").append("\n");
-                    }
-                    if (recipe.data.contains("filter_casing")) {
-                        stringBuilder.append(".addData(\"filter_casing\", ").append(recipe.data.getInt("filter_casing")).append(")").append("\n");
-                    }
-                    if (recipe.data.contains("radioactivity")) {
-                        stringBuilder.append(".addData(\"radioactivity\", ").append(recipe.data.getInt("radioactivity")).append(")").append("\n");
-                    }
-                    if (recipe.data.contains("grindball")) {
-                        stringBuilder.append(".addData(\"grindball\", ").append(recipe.data.getInt("grindball")).append(")").append("\n");
-                    }
-                    if (recipe.data.contains("ev_min")) {
-                        stringBuilder.append(".addData(\"ev_min\", ").append(recipe.data.getInt("ev_min")).append(")").append("\n");
-                    }
-                    if (recipe.data.contains("ev_max")) {
-                        stringBuilder.append(".addData(\"ev_max\", ").append(recipe.data.getInt("ev_max")).append(")").append("\n");
-                    }
-                    if (recipe.data.contains("evt")) {
-                        stringBuilder.append(".addData(\"evt\", ").append(recipe.data.getInt("evt")).append(")").append("\n");
-                    }
-                    if (recipe.data.contains("module")) {
-                        stringBuilder.append(".addData(\"module\", ").append(recipe.data.getInt("module")).append(")").append("\n");
-                    }
-                    if (recipe.data.contains("special")) {
-                        stringBuilder.append(".addData(\"special\", ").append(recipe.data.getBoolean("special")).append(")").append("\n");
-                    }
-                    if (recipe.data.contains("MANA")) {
-                        stringBuilder.append(".perTick(true)\n");
-                        stringBuilder.append(".input(ManaRecipeCapability.CAP, ").append(recipe.data.getInt("MANA")).append(")\n");
-                        stringBuilder.append(".perTick(false)\n");
-                    }
                 }
-                stringBuilder.append(".save(provider);\n");
+                stringBuilder.append(".save();\n");
             });
             if (!stringBuilder.isEmpty() && context.getLevel().isClientSide()) GTOCore.LOGGER.error(stringBuilder.toString());
             // 冲突检查
@@ -530,37 +485,39 @@ public final class RecipeEditorBehavior implements IItemUIFactory, IFancyUIProvi
             if (cd.isRemote) return;
             StringBuilder stringBuilder = new StringBuilder();
             if (isGT) {
-                stringBuilder.append("\nevent.recipes.gtceu.").append(machine.recipeType.registryName.getPath()).append("(\"gtocore:").append(machine.id).append("\")\n");
+                String recipeType;
+                if (StringIndex.RECIPETYPE_MAP.containsKey(machine.recipeType)) {
+                    recipeType = StringIndex.RECIPETYPE_MAP.get(machine.recipeType);
+                } else {
+                    recipeType = machine.recipeType.registryName.getPath().toUpperCase() + "_RECIPES";
+                }
+                stringBuilder.append("\n").append(recipeType).append(".recipeBuilder(GTOCore.id(\"").append(machine.id).append("\"))\n");
                 for (int i = 0; i < machine.importItems.getSlots(); i++) {
                     ItemStack stack = machine.importItems.getStackInSlot(i);
                     if (stack.isEmpty()) continue;
-                    stringBuilder.append(".itemInputs(\"");
-                    if (stack.getCount() > 1) {
-                        stringBuilder.append(stack.getCount()).append("x ");
-                    }
-                    stringBuilder.append(getItemId(stack.getItem())).append("\")\n");
+                    String stringItem = StringConverter.fromItem(getItemIngredient(stack), 1);
+                    stringBuilder.append(".inputItems(").append(stringItem).append(")").append("\n");
                 }
                 for (int i = 0; i < machine.exportItems.getSlots(); i++) {
                     ItemStack stack = machine.exportItems.getStackInSlot(i);
                     if (stack.isEmpty()) continue;
-                    stringBuilder.append(".itemOutputs(\"");
-                    if (stack.getCount() > 1) {
-                        stringBuilder.append(stack.getCount()).append("x ");
-                    }
-                    stringBuilder.append(getItemId(stack.getItem())).append("\")\n");
+                    String stringItem = StringConverter.fromItem(Ingredient.of(stack), 1);
+                    stringBuilder.append(".outputItems(").append(stringItem).append(")").append("\n");
                 }
                 for (int i = 0; i < machine.importFluids.getSize(); i++) {
                     FluidStack stack = machine.importFluids.getFluidInTank(i);
                     if (stack.isEmpty()) continue;
-                    stringBuilder.append(".inputFluids(\"").append(ForgeRegistries.FLUIDS.getKey(stack.getFluid())).append(" ").append(stack.getAmount()).append("\")\n");
+                    String stringFluid = StringConverter.fromFluid(FluidIngredient.of(stack));
+                    stringBuilder.append(".inputFluids(").append(stringFluid).append(")").append("\n");
                 }
                 for (int i = 0; i < machine.exportFluids.getSize(); i++) {
                     FluidStack stack = machine.exportFluids.getFluidInTank(i);
                     if (stack.isEmpty()) continue;
-                    stringBuilder.append(".outputFluids(\"").append(ForgeRegistries.FLUIDS.getKey(stack.getFluid())).append(" ").append(stack.getAmount()).append("\")\n");
+                    String stringFluid = StringConverter.fromFluid(FluidIngredient.of(stack));
+                    stringBuilder.append(".outputFluids(").append(stringFluid).append(")").append("\n");
                 }
                 if (machine.circuit > 0) {
-                    stringBuilder.append(".circuit(").append(machine.circuit).append(")\n");
+                    stringBuilder.append(".circuitMeta(").append(machine.circuit).append(")\n");
                 }
                 if (machine.eut != 0) {
                     stringBuilder.append(".EUt(").append(machine.eut).append(")\n");
@@ -568,47 +525,55 @@ public final class RecipeEditorBehavior implements IItemUIFactory, IFancyUIProvi
                 if (machine.manat != 0) {
                     stringBuilder.append(".blastFurnaceTemp(").append(machine.temp).append(")\n");
                 }
-                stringBuilder.append(".duration(").append(machine.duration).append(")\n");
-                if (machine.manat != 0) {
-                    stringBuilder.append(".addData(\"MANA\", ").append(machine.manat).append(")\n");
+                if (machine.duration == 0) {
+                    GTOCore.LOGGER.error("无时间");
+                    return;
+                } else {
+                    stringBuilder.append(".duration(").append(machine.duration).append(")\n");
                 }
+                if (machine.manat != 0) {
+                    stringBuilder.append(".MANAt(").append(machine.manat).append(")\n");
+                }
+                stringBuilder.append(".save();\n");
             } else {
-                stringBuilder.append("\nevent.shaped(\"").append(ItemUtils.getId(machine.exportItems.getStackInSlot(0))).append("\", [\n    \"");
+                stringBuilder.append("\nVanillaRecipeHelper.addShapedRecipe(provider, ");
+                stringBuilder.append("GTOCore.id(\"").append(machine.id).append("\"), ");
+                stringBuilder.append(StringConverter.fromItem(Ingredient.of(machine.exportItems.getStackInSlot(0)), 0)).append(",\n\"");
                 char c = 'A';
-                Map<String, Character> map = new LinkedHashMap<>();
+                Map<Item, Character> map = new LinkedHashMap<>();
                 for (int i = 0, j = 0; i < machine.importItems.getSlots(); i++, j++) {
-                    ItemStack stack = machine.importItems.getStackInSlot(i);
-                    String id = getItemId(stack.getItem());
-                    if (!stack.isEmpty() && !map.containsKey(id)) {
-                        map.put(id, c);
+                    Item item = machine.importItems.getStackInSlot(i).getItem();
+                    if (item != Items.AIR && !map.containsKey(item)) {
+                        map.put(item, c);
                         c++;
                     }
-                    char d = stack.isEmpty() ? ' ' : map.get(id);
+                    char d = item == Items.AIR ? ' ' : map.get(item);
                     if (j > 2) {
-                        stringBuilder.append("\",\n    \"").append(d);
+                        stringBuilder.append("\",\n\"").append(d);
                         j = 0;
                     } else {
                         stringBuilder.append(d);
                     }
                 }
-                stringBuilder.append("\"\n], {");
-                map.forEach((k, v) -> stringBuilder.append("\n    ").append(v).append(":").append(" \"").append(k).append("\","));
-                stringBuilder.deleteCharAt(stringBuilder.length() - 1).append("\n})");
+                stringBuilder.append("\",\n");
+                map.forEach((k, v) -> stringBuilder.append("'").append(v).append("', ").append(StringConverter.fromItem(getItemIngredient(k.getDefaultInstance()), 2)).append(","));
+                stringBuilder.deleteCharAt(stringBuilder.length() - 1);
+                stringBuilder.append(");");
             }
-            ConsoleJS.SERVER.info(stringBuilder.toString());
+            GTOCore.LOGGER.info(stringBuilder.toString());
         }));
         return template;
     }
 
-    private static String getItemId(Item item) {
-        if (ItemMap.UNIVERSAL_CIRCUITS.contains(item)) {
+    private static Ingredient getItemIngredient(ItemStack stack) {
+        if (ItemMap.UNIVERSAL_CIRCUITS.contains(stack.getItem())) {
             for (int tier : GTMachineUtils.ALL_TIERS) {
-                if (GTOItems.UNIVERSAL_CIRCUIT[tier].is(item)) {
-                    return "#gtceu:circuits/" + GTValues.VN[tier].toLowerCase();
+                if (GTOItems.UNIVERSAL_CIRCUIT[tier].is(stack.getItem())) {
+                    return Ingredient.of(CustomTags.CIRCUITS_ARRAY[tier]);
                 }
             }
         }
-        return ItemUtils.getId(item);
+        return Ingredient.of(stack);
     }
 
     private static int getXOffset(GTRecipeType recipe) {

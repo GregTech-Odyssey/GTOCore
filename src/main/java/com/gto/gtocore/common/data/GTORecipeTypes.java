@@ -877,9 +877,17 @@ public interface GTORecipeTypes {
     //////////////////////////////////////
     GTORecipeType ALCHEMY_CAULDRON_RECIPES = register("alchemy_cauldron", "炼金锅", MAGIC)
             .setMaxSize(IO.IN, ManaRecipeCapability.CAP, 1)
-            .setMaxIOSize(6, 1, 1, 0)
+            .setMaxTooltips(4)
+            .setMaxIOSize(6, 1, 1, 1)
             .setProgressBar(GuiTextures.PROGRESS_BAR_BATH, LEFT_TO_RIGHT)
-            .setSound(GTSoundEntries.COOLING);
+            .setSound(GTSoundEntries.COOLING)
+            .addDataInfo(data -> {
+                int temperature = data.getInt("temperature");
+                if (temperature > 0) {
+                    return I18n.get("gtceu.multiblock.hpca.temperature", temperature);
+                }
+                return "";
+            });
 
     GTORecipeType MANA_HEATER_RECIPES = register("mana_heater", "魔力加热器", MAGIC)
             .setMaxIOSize(0, 0, 1, 0)

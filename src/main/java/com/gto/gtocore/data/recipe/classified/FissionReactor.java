@@ -2,12 +2,13 @@ package com.gto.gtocore.data.recipe.classified;
 
 import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.common.data.GTOItems;
-import com.gto.gtocore.common.data.GTORecipeTypes;
+
+import static com.gto.gtocore.common.data.GTORecipeTypes.FISSION_REACTOR_RECIPES;
 
 interface FissionReactor {
 
     static void init() {
-        GTORecipeTypes.FISSION_REACTOR_RECIPES.recipeBuilder(GTOCore.id("reactor_uranium_dual"))
+        FISSION_REACTOR_RECIPES.recipeBuilder(GTOCore.id("reactor_uranium_dual"))
                 .inputItems(GTOItems.REACTOR_URANIUM_DUAL.asStack())
                 .outputItems(GTOItems.DEPLETED_REACTOR_URANIUM_DUAL.asStack())
                 .EUt(4)
@@ -15,7 +16,7 @@ interface FissionReactor {
                 .addData("FRheat", 5)
                 .save();
 
-        GTORecipeTypes.FISSION_REACTOR_RECIPES.recipeBuilder(GTOCore.id("reactor_uranium_quad"))
+        FISSION_REACTOR_RECIPES.recipeBuilder(GTOCore.id("reactor_uranium_quad"))
                 .inputItems(GTOItems.REACTOR_URANIUM_QUAD.asStack())
                 .outputItems(GTOItems.DEPLETED_REACTOR_URANIUM_QUAD.asStack())
                 .EUt(5)
@@ -23,7 +24,7 @@ interface FissionReactor {
                 .addData("FRheat", 6)
                 .save();
 
-        GTORecipeTypes.FISSION_REACTOR_RECIPES.recipeBuilder(GTOCore.id("reactor_naquadah_simple"))
+        FISSION_REACTOR_RECIPES.recipeBuilder(GTOCore.id("reactor_naquadah_simple"))
                 .inputItems(GTOItems.REACTOR_NAQUADAH_SIMPLE.asStack())
                 .outputItems(GTOItems.DEPLETED_REACTOR_NAQUADAH_SIMPLE.asStack())
                 .EUt(3)
@@ -31,7 +32,7 @@ interface FissionReactor {
                 .addData("FRheat", 7)
                 .save();
 
-        GTORecipeTypes.FISSION_REACTOR_RECIPES.recipeBuilder(GTOCore.id("reactor_uranium_simple"))
+        FISSION_REACTOR_RECIPES.recipeBuilder(GTOCore.id("reactor_uranium_simple"))
                 .inputItems(GTOItems.REACTOR_URANIUM_SIMPLE.asStack())
                 .outputItems(GTOItems.DEPLETED_REACTOR_URANIUM_SIMPLE.asStack())
                 .EUt(3)
@@ -39,7 +40,7 @@ interface FissionReactor {
                 .addData("FRheat", 4)
                 .save();
 
-        GTORecipeTypes.FISSION_REACTOR_RECIPES.recipeBuilder(GTOCore.id("reactor_thorium_dual"))
+        FISSION_REACTOR_RECIPES.recipeBuilder(GTOCore.id("reactor_thorium_dual"))
                 .inputItems(GTOItems.REACTOR_THORIUM_DUAL.asStack())
                 .outputItems(GTOItems.DEPLETED_REACTOR_THORIUM_DUAL.asStack())
                 .EUt(8)
@@ -47,7 +48,7 @@ interface FissionReactor {
                 .addData("FRheat", 2)
                 .save();
 
-        GTORecipeTypes.FISSION_REACTOR_RECIPES.recipeBuilder(GTOCore.id("reactor_mox_quad"))
+        FISSION_REACTOR_RECIPES.recipeBuilder(GTOCore.id("reactor_mox_quad"))
                 .inputItems(GTOItems.REACTOR_MOX_QUAD.asStack())
                 .outputItems(GTOItems.DEPLETED_REACTOR_MOX_QUAD.asStack())
                 .EUt(3)
@@ -55,7 +56,7 @@ interface FissionReactor {
                 .addData("FRheat", 8)
                 .save();
 
-        GTORecipeTypes.FISSION_REACTOR_RECIPES.recipeBuilder(GTOCore.id("reactor_thorium_quad"))
+        FISSION_REACTOR_RECIPES.recipeBuilder(GTOCore.id("reactor_thorium_quad"))
                 .inputItems(GTOItems.REACTOR_THORIUM_QUAD.asStack())
                 .outputItems(GTOItems.DEPLETED_REACTOR_THORIUM_QUAD.asStack())
                 .EUt(10)
@@ -63,7 +64,7 @@ interface FissionReactor {
                 .addData("FRheat", 3)
                 .save();
 
-        GTORecipeTypes.FISSION_REACTOR_RECIPES.recipeBuilder(GTOCore.id("reactor_mox_dual"))
+        FISSION_REACTOR_RECIPES.recipeBuilder(GTOCore.id("reactor_mox_dual"))
                 .inputItems(GTOItems.REACTOR_MOX_DUAL.asStack())
                 .outputItems(GTOItems.DEPLETED_REACTOR_MOX_DUAL.asStack())
                 .EUt(2)
@@ -71,7 +72,7 @@ interface FissionReactor {
                 .addData("FRheat", 7)
                 .save();
 
-        GTORecipeTypes.FISSION_REACTOR_RECIPES.recipeBuilder(GTOCore.id("reactor_mox_simple"))
+        FISSION_REACTOR_RECIPES.recipeBuilder(GTOCore.id("reactor_mox_simple"))
                 .inputItems(GTOItems.REACTOR_MOX_SIMPLE.asStack())
                 .outputItems(GTOItems.DEPLETED_REACTOR_MOX_SIMPLE.asStack())
                 .EUt(1)
@@ -79,7 +80,7 @@ interface FissionReactor {
                 .addData("FRheat", 6)
                 .save();
 
-        GTORecipeTypes.FISSION_REACTOR_RECIPES.recipeBuilder(GTOCore.id("reactor_naquadah_quad"))
+        FISSION_REACTOR_RECIPES.recipeBuilder(GTOCore.id("reactor_naquadah_quad"))
                 .inputItems(GTOItems.REACTOR_NAQUADAH_QUAD.asStack())
                 .outputItems(GTOItems.DEPLETED_REACTOR_NAQUADAH_QUAD.asStack())
                 .EUt(7)
@@ -87,7 +88,7 @@ interface FissionReactor {
                 .addData("FRheat", 9)
                 .save();
 
-        GTORecipeTypes.FISSION_REACTOR_RECIPES.recipeBuilder(GTOCore.id("reactor_naquadah_dual"))
+        FISSION_REACTOR_RECIPES.recipeBuilder(GTOCore.id("reactor_naquadah_dual"))
                 .inputItems(GTOItems.REACTOR_NAQUADAH_DUAL.asStack())
                 .outputItems(GTOItems.DEPLETED_REACTOR_NAQUADAH_DUAL.asStack())
                 .EUt(5)
@@ -95,7 +96,7 @@ interface FissionReactor {
                 .addData("FRheat", 8)
                 .save();
 
-        GTORecipeTypes.FISSION_REACTOR_RECIPES.recipeBuilder(GTOCore.id("reactor_thorium_simple"))
+        FISSION_REACTOR_RECIPES.recipeBuilder(GTOCore.id("reactor_thorium_simple"))
                 .inputItems(GTOItems.REACTOR_THORIUM_SIMPLE.asStack())
                 .outputItems(GTOItems.DEPLETED_REACTOR_THORIUM_SIMPLE.asStack())
                 .EUt(6)

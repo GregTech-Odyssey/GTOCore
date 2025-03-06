@@ -2,15 +2,16 @@ package com.gto.gtocore.data.recipe.classified;
 
 import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.common.data.GTOMaterials;
-import com.gto.gtocore.common.data.GTORecipeTypes;
 
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
+import static com.gto.gtocore.common.data.GTORecipeTypes.ELECTROLYZER_RECIPES;
+
 interface Electrolyzer {
 
     static void init() {
-        GTORecipeTypes.ELECTROLYZER_RECIPES.recipeBuilder(GTOCore.id("radium_nitrate_dust"))
+        ELECTROLYZER_RECIPES.recipeBuilder(GTOCore.id("radium_nitrate_dust"))
                 .inputItems(TagPrefix.dust, GTOMaterials.RadiumNitrate, 9)
                 .outputItems(TagPrefix.dust, GTMaterials.Radium)
                 .outputFluids(GTMaterials.Nitrogen.getFluid(2000))
@@ -19,7 +20,7 @@ interface Electrolyzer {
                 .duration(160)
                 .save();
 
-        GTORecipeTypes.ELECTROLYZER_RECIPES.recipeBuilder(GTOCore.id("trinium_tetrafluoride_dust"))
+        ELECTROLYZER_RECIPES.recipeBuilder(GTOCore.id("trinium_tetrafluoride_dust"))
                 .inputItems(TagPrefix.dust, GTOMaterials.TriniumTetrafluoride, 5)
                 .inputFluids(GTOMaterials.MoltenCalciumSalts.getFluid(1000))
                 .outputItems(TagPrefix.dust, GTMaterials.Trinium)
@@ -29,7 +30,7 @@ interface Electrolyzer {
                 .duration(200)
                 .save();
 
-        GTORecipeTypes.ELECTROLYZER_RECIPES.recipeBuilder(GTOCore.id("sodium_chlorate_dust"))
+        ELECTROLYZER_RECIPES.recipeBuilder(GTOCore.id("sodium_chlorate_dust"))
                 .inputItems(TagPrefix.dust, GTOMaterials.SodiumHypochlorite, 9)
                 .outputItems(TagPrefix.dust, GTOMaterials.SodiumChlorate, 5)
                 .outputItems(TagPrefix.dust, GTMaterials.Salt, 4)
@@ -37,7 +38,7 @@ interface Electrolyzer {
                 .duration(210)
                 .save();
 
-        GTORecipeTypes.ELECTROLYZER_RECIPES.recipeBuilder(GTOCore.id("actinium_nitrate_dust"))
+        ELECTROLYZER_RECIPES.recipeBuilder(GTOCore.id("actinium_nitrate_dust"))
                 .inputItems(TagPrefix.dust, GTOMaterials.ActiniumNitrate, 13)
                 .outputItems(TagPrefix.dust, GTMaterials.Actinium)
                 .outputFluids(GTMaterials.Nitrogen.getFluid(3000))
@@ -46,7 +47,7 @@ interface Electrolyzer {
                 .duration(210)
                 .save();
 
-        GTORecipeTypes.ELECTROLYZER_RECIPES.recipeBuilder(GTOCore.id("purified_xenoxene"))
+        ELECTROLYZER_RECIPES.recipeBuilder(GTOCore.id("purified_xenoxene"))
                 .inputItems(TagPrefix.dust, GTOMaterials.XenoxeneCrystal, 4)
                 .inputFluids(GTMaterials.Oil.getFluid(1000))
                 .outputFluids(GTOMaterials.PurifiedXenoxene.getFluid(1000))
@@ -55,7 +56,7 @@ interface Electrolyzer {
                 .duration(900)
                 .save();
 
-        GTORecipeTypes.ELECTROLYZER_RECIPES.recipeBuilder(GTOCore.id("caesium_nitrate_dust"))
+        ELECTROLYZER_RECIPES.recipeBuilder(GTOCore.id("caesium_nitrate_dust"))
                 .inputItems(TagPrefix.dust, GTOMaterials.CaesiumNitrate, 5)
                 .outputItems(TagPrefix.dust, GTMaterials.Caesium)
                 .outputFluids(GTMaterials.Nitrogen.getFluid(1000))
@@ -64,7 +65,7 @@ interface Electrolyzer {
                 .duration(170)
                 .save();
 
-        GTORecipeTypes.ELECTROLYZER_RECIPES.recipeBuilder(GTOCore.id("lithium_aluminium_fluoride_dust"))
+        ELECTROLYZER_RECIPES.recipeBuilder(GTOCore.id("lithium_aluminium_fluoride_dust"))
                 .inputItems(TagPrefix.dust, GTOMaterials.LithiumAluminiumFluoride, 6)
                 .outputItems(TagPrefix.dust, GTOMaterials.AluminiumTrifluoride, 4)
                 .outputItems(TagPrefix.dust, GTOMaterials.LithiumFluoride, 2)
@@ -72,7 +73,7 @@ interface Electrolyzer {
                 .duration(250)
                 .save();
 
-        GTORecipeTypes.ELECTROLYZER_RECIPES.recipeBuilder(GTOCore.id("trinium_compound_dust"))
+        ELECTROLYZER_RECIPES.recipeBuilder(GTOCore.id("trinium_compound_dust"))
                 .inputItems(TagPrefix.dust, GTOMaterials.TriniumCompound, 14)
                 .outputItems(TagPrefix.dust, GTMaterials.Trinium, 3)
                 .outputItems(TagPrefix.dust, GTMaterials.Actinium, 3)
@@ -82,7 +83,7 @@ interface Electrolyzer {
                 .duration(560)
                 .save();
 
-        GTORecipeTypes.ELECTROLYZER_RECIPES.recipeBuilder(GTOCore.id("sodium_hexafluoroaluminate"))
+        ELECTROLYZER_RECIPES.recipeBuilder(GTOCore.id("sodium_hexafluoroaluminate"))
                 .inputItems(TagPrefix.dust, GTOMaterials.Alumina, 10)
                 .inputFluids(GTOMaterials.SodiumHexafluoroaluminate.getFluid(1000))
                 .outputItems(TagPrefix.dust, GTMaterials.Aluminium, 4)
@@ -93,7 +94,7 @@ interface Electrolyzer {
                 .duration(200)
                 .save();
 
-        GTORecipeTypes.ELECTROLYZER_RECIPES.recipeBuilder(GTOCore.id("trimethylamine"))
+        ELECTROLYZER_RECIPES.recipeBuilder(GTOCore.id("trimethylamine"))
                 .inputFluids(GTOMaterials.Trimethylamine.getFluid(13000))
                 .outputItems(TagPrefix.dust, GTMaterials.Carbon, 3)
                 .outputFluids(GTMaterials.Hydrogen.getFluid(9000))

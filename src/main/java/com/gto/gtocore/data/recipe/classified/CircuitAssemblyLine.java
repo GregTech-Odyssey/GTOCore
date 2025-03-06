@@ -3,16 +3,17 @@ package com.gto.gtocore.data.recipe.classified;
 import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.common.data.GTOItems;
 import com.gto.gtocore.common.data.GTOMaterials;
-import com.gto.gtocore.common.data.GTORecipeTypes;
 
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
+import static com.gto.gtocore.common.data.GTORecipeTypes.CIRCUIT_ASSEMBLY_LINE_RECIPES;
+
 interface CircuitAssemblyLine {
 
     static void init() {
-        GTORecipeTypes.CIRCUIT_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("bioware_computer3"))
+        CIRCUIT_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("bioware_computer3"))
                 .notConsumable(GTOItems.PRECISION_CIRCUIT_ASSEMBLY_ROBOT_MK3.asStack())
                 .inputItems(GTOItems.BIOWARE_PRINTED_CIRCUIT_BOARD.asStack())
                 .inputItems(GTOItems.BIOWARE_ASSEMBLY.asStack(2))
@@ -36,7 +37,7 @@ interface CircuitAssemblyLine {
                 .duration(25)
                 .save();
 
-        GTORecipeTypes.CIRCUIT_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("bioware_computer2"))
+        CIRCUIT_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("bioware_computer2"))
                 .notConsumable(GTOItems.PRECISION_CIRCUIT_ASSEMBLY_ROBOT_MK2.asStack())
                 .inputItems(GTOItems.BIOWARE_PRINTED_CIRCUIT_BOARD.asStack())
                 .inputItems(GTOItems.BIOWARE_ASSEMBLY.asStack(2))
@@ -60,7 +61,7 @@ interface CircuitAssemblyLine {
                 .duration(100)
                 .save();
 
-        GTORecipeTypes.CIRCUIT_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("bioware_computer5"))
+        CIRCUIT_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("bioware_computer5"))
                 .notConsumable(GTOItems.PRECISION_CIRCUIT_ASSEMBLY_ROBOT_MK5.asStack())
                 .inputItems(GTOItems.BIOWARE_PRINTED_CIRCUIT_BOARD.asStack())
                 .inputItems(GTOItems.BIOWARE_ASSEMBLY.asStack(2))
@@ -84,7 +85,7 @@ interface CircuitAssemblyLine {
                 .duration(1)
                 .save();
 
-        GTORecipeTypes.CIRCUIT_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("bioware_computer4"))
+        CIRCUIT_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("bioware_computer4"))
                 .notConsumable(GTOItems.PRECISION_CIRCUIT_ASSEMBLY_ROBOT_MK4.asStack())
                 .inputItems(GTOItems.BIOWARE_PRINTED_CIRCUIT_BOARD.asStack())
                 .inputItems(GTOItems.BIOWARE_ASSEMBLY.asStack(2))
@@ -108,7 +109,7 @@ interface CircuitAssemblyLine {
                 .duration(6)
                 .save();
 
-        GTORecipeTypes.CIRCUIT_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("bioware_computer1"))
+        CIRCUIT_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("bioware_computer1"))
                 .notConsumable(GTOItems.PRECISION_CIRCUIT_ASSEMBLY_ROBOT_MK1.asStack())
                 .inputItems(GTOItems.BIOWARE_PRINTED_CIRCUIT_BOARD.asStack())
                 .inputItems(GTOItems.BIOWARE_ASSEMBLY.asStack(2))
@@ -132,7 +133,7 @@ interface CircuitAssemblyLine {
                 .duration(400)
                 .save();
 
-        GTORecipeTypes.CIRCUIT_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("supracausal_mainframe"))
+        CIRCUIT_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("supracausal_mainframe"))
                 .notConsumable(GTOItems.PRECISION_CIRCUIT_ASSEMBLY_ROBOT_MK5.asStack())
                 .inputItems(TagPrefix.frameGt, GTOMaterials.Infinity, 2)
                 .inputItems(GTOItems.SUPRACAUSAL_COMPUTER.asStack(2))
@@ -158,7 +159,7 @@ interface CircuitAssemblyLine {
                 .duration(400)
                 .save();
 
-        GTORecipeTypes.CIRCUIT_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("cosmic_assembly5"))
+        CIRCUIT_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("cosmic_assembly5"))
                 .notConsumable(GTOItems.PRECISION_CIRCUIT_ASSEMBLY_ROBOT_MK5.asStack())
                 .inputItems(GTOItems.COSMIC_PRINTED_CIRCUIT_BOARD.asStack())
                 .inputItems(GTOItems.COSMIC_PROCESSOR.asStack(2))
@@ -181,7 +182,7 @@ interface CircuitAssemblyLine {
                 .duration(100)
                 .save();
 
-        GTORecipeTypes.CIRCUIT_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("cosmic_assembly4"))
+        CIRCUIT_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("cosmic_assembly4"))
                 .notConsumable(GTOItems.PRECISION_CIRCUIT_ASSEMBLY_ROBOT_MK4.asStack())
                 .inputItems(GTOItems.COSMIC_PRINTED_CIRCUIT_BOARD.asStack())
                 .inputItems(GTOItems.COSMIC_PROCESSOR.asStack(2))
@@ -204,7 +205,7 @@ interface CircuitAssemblyLine {
                 .duration(400)
                 .save();
 
-        GTORecipeTypes.CIRCUIT_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("cosmic_mainframe5"))
+        CIRCUIT_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("cosmic_mainframe5"))
                 .notConsumable(GTOItems.PRECISION_CIRCUIT_ASSEMBLY_ROBOT_MK5.asStack())
                 .inputItems(TagPrefix.frameGt, GTOMaterials.Vibranium, 2)
                 .inputItems(GTOItems.COSMIC_COMPUTER.asStack(2))
@@ -230,7 +231,7 @@ interface CircuitAssemblyLine {
                 .duration(200)
                 .save();
 
-        GTORecipeTypes.CIRCUIT_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("cosmic_mainframe4"))
+        CIRCUIT_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("cosmic_mainframe4"))
                 .notConsumable(GTOItems.PRECISION_CIRCUIT_ASSEMBLY_ROBOT_MK4.asStack())
                 .inputItems(TagPrefix.frameGt, GTOMaterials.Vibranium, 2)
                 .inputItems(GTOItems.COSMIC_COMPUTER.asStack(2))
@@ -256,7 +257,7 @@ interface CircuitAssemblyLine {
                 .duration(800)
                 .save();
 
-        GTORecipeTypes.CIRCUIT_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("exotic_assembly3"))
+        CIRCUIT_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("exotic_assembly3"))
                 .notConsumable(GTOItems.PRECISION_CIRCUIT_ASSEMBLY_ROBOT_MK3.asStack())
                 .inputItems(GTOItems.EXOTIC_PRINTED_CIRCUIT_BOARD.asStack())
                 .inputItems(GTOItems.EXOTIC_PROCESSOR.asStack(2))
@@ -279,7 +280,7 @@ interface CircuitAssemblyLine {
                 .duration(400)
                 .save();
 
-        GTORecipeTypes.CIRCUIT_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("exotic_assembly5"))
+        CIRCUIT_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("exotic_assembly5"))
                 .notConsumable(GTOItems.PRECISION_CIRCUIT_ASSEMBLY_ROBOT_MK5.asStack())
                 .inputItems(GTOItems.EXOTIC_PRINTED_CIRCUIT_BOARD.asStack())
                 .inputItems(GTOItems.EXOTIC_PROCESSOR.asStack(2))
@@ -302,7 +303,7 @@ interface CircuitAssemblyLine {
                 .duration(25)
                 .save();
 
-        GTORecipeTypes.CIRCUIT_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("exotic_assembly4"))
+        CIRCUIT_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("exotic_assembly4"))
                 .notConsumable(GTOItems.PRECISION_CIRCUIT_ASSEMBLY_ROBOT_MK4.asStack())
                 .inputItems(GTOItems.EXOTIC_PRINTED_CIRCUIT_BOARD.asStack())
                 .inputItems(GTOItems.EXOTIC_PROCESSOR.asStack(2))
@@ -325,7 +326,7 @@ interface CircuitAssemblyLine {
                 .duration(100)
                 .save();
 
-        GTORecipeTypes.CIRCUIT_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("optical_assembly3"))
+        CIRCUIT_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("optical_assembly3"))
                 .notConsumable(GTOItems.PRECISION_CIRCUIT_ASSEMBLY_ROBOT_MK3.asStack())
                 .inputItems(GTOItems.OPTICAL_PRINTED_CIRCUIT_BOARD.asStack())
                 .inputItems(GTOItems.OPTICAL_PROCESSOR.asStack(2))
@@ -346,7 +347,7 @@ interface CircuitAssemblyLine {
                 .duration(100)
                 .save();
 
-        GTORecipeTypes.CIRCUIT_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("optical_assembly2"))
+        CIRCUIT_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("optical_assembly2"))
                 .notConsumable(GTOItems.PRECISION_CIRCUIT_ASSEMBLY_ROBOT_MK2.asStack())
                 .inputItems(GTOItems.OPTICAL_PRINTED_CIRCUIT_BOARD.asStack())
                 .inputItems(GTOItems.OPTICAL_PROCESSOR.asStack(2))
@@ -367,7 +368,7 @@ interface CircuitAssemblyLine {
                 .duration(400)
                 .save();
 
-        GTORecipeTypes.CIRCUIT_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("optical_assembly5"))
+        CIRCUIT_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("optical_assembly5"))
                 .notConsumable(GTOItems.PRECISION_CIRCUIT_ASSEMBLY_ROBOT_MK5.asStack())
                 .inputItems(GTOItems.OPTICAL_PRINTED_CIRCUIT_BOARD.asStack())
                 .inputItems(GTOItems.OPTICAL_PROCESSOR.asStack(2))
@@ -388,7 +389,7 @@ interface CircuitAssemblyLine {
                 .duration(6)
                 .save();
 
-        GTORecipeTypes.CIRCUIT_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("optical_assembly4"))
+        CIRCUIT_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("optical_assembly4"))
                 .notConsumable(GTOItems.PRECISION_CIRCUIT_ASSEMBLY_ROBOT_MK4.asStack())
                 .inputItems(GTOItems.OPTICAL_PRINTED_CIRCUIT_BOARD.asStack())
                 .inputItems(GTOItems.OPTICAL_PROCESSOR.asStack(2))
@@ -409,7 +410,7 @@ interface CircuitAssemblyLine {
                 .duration(25)
                 .save();
 
-        GTORecipeTypes.CIRCUIT_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("optical_mainframe4"))
+        CIRCUIT_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("optical_mainframe4"))
                 .notConsumable(GTOItems.PRECISION_CIRCUIT_ASSEMBLY_ROBOT_MK4.asStack())
                 .inputItems(TagPrefix.frameGt, GTOMaterials.Quantanium, 2)
                 .inputItems(GTOItems.OPTICAL_COMPUTER.asStack(2))
@@ -432,7 +433,7 @@ interface CircuitAssemblyLine {
                 .duration(50)
                 .save();
 
-        GTORecipeTypes.CIRCUIT_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("optical_mainframe5"))
+        CIRCUIT_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("optical_mainframe5"))
                 .notConsumable(GTOItems.PRECISION_CIRCUIT_ASSEMBLY_ROBOT_MK5.asStack())
                 .inputItems(TagPrefix.frameGt, GTOMaterials.Quantanium, 2)
                 .inputItems(GTOItems.OPTICAL_COMPUTER.asStack(2))
@@ -455,7 +456,7 @@ interface CircuitAssemblyLine {
                 .duration(12)
                 .save();
 
-        GTORecipeTypes.CIRCUIT_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("optical_mainframe2"))
+        CIRCUIT_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("optical_mainframe2"))
                 .notConsumable(GTOItems.PRECISION_CIRCUIT_ASSEMBLY_ROBOT_MK2.asStack())
                 .inputItems(TagPrefix.frameGt, GTOMaterials.Quantanium, 2)
                 .inputItems(GTOItems.OPTICAL_COMPUTER.asStack(2))
@@ -478,7 +479,7 @@ interface CircuitAssemblyLine {
                 .duration(800)
                 .save();
 
-        GTORecipeTypes.CIRCUIT_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("optical_mainframe3"))
+        CIRCUIT_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("optical_mainframe3"))
                 .notConsumable(GTOItems.PRECISION_CIRCUIT_ASSEMBLY_ROBOT_MK3.asStack())
                 .inputItems(TagPrefix.frameGt, GTOMaterials.Quantanium, 2)
                 .inputItems(GTOItems.OPTICAL_COMPUTER.asStack(2))
@@ -501,7 +502,7 @@ interface CircuitAssemblyLine {
                 .duration(200)
                 .save();
 
-        GTORecipeTypes.CIRCUIT_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("cosmic_computer5"))
+        CIRCUIT_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("cosmic_computer5"))
                 .notConsumable(GTOItems.PRECISION_CIRCUIT_ASSEMBLY_ROBOT_MK5.asStack())
                 .inputItems(GTOItems.COSMIC_PRINTED_CIRCUIT_BOARD.asStack())
                 .inputItems(GTOItems.COSMIC_ASSEMBLY.asStack(2))
@@ -526,7 +527,7 @@ interface CircuitAssemblyLine {
                 .duration(100)
                 .save();
 
-        GTORecipeTypes.CIRCUIT_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("cosmic_computer4"))
+        CIRCUIT_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("cosmic_computer4"))
                 .notConsumable(GTOItems.PRECISION_CIRCUIT_ASSEMBLY_ROBOT_MK4.asStack())
                 .inputItems(GTOItems.COSMIC_PRINTED_CIRCUIT_BOARD.asStack())
                 .inputItems(GTOItems.COSMIC_ASSEMBLY.asStack(2))
@@ -551,7 +552,7 @@ interface CircuitAssemblyLine {
                 .duration(400)
                 .save();
 
-        GTORecipeTypes.CIRCUIT_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("bioware_assembly1"))
+        CIRCUIT_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("bioware_assembly1"))
                 .notConsumable(GTOItems.PRECISION_CIRCUIT_ASSEMBLY_ROBOT_MK1.asStack())
                 .inputItems(GTOItems.BIOWARE_PRINTED_CIRCUIT_BOARD.asStack())
                 .inputItems(GTOItems.BIOWARE_PROCESSOR.asStack(2))
@@ -573,7 +574,7 @@ interface CircuitAssemblyLine {
                 .duration(400)
                 .save();
 
-        GTORecipeTypes.CIRCUIT_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("bioware_assembly2"))
+        CIRCUIT_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("bioware_assembly2"))
                 .notConsumable(GTOItems.PRECISION_CIRCUIT_ASSEMBLY_ROBOT_MK2.asStack())
                 .inputItems(GTOItems.BIOWARE_PRINTED_CIRCUIT_BOARD.asStack())
                 .inputItems(GTOItems.BIOWARE_PROCESSOR.asStack(2))
@@ -595,7 +596,7 @@ interface CircuitAssemblyLine {
                 .duration(100)
                 .save();
 
-        GTORecipeTypes.CIRCUIT_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("bioware_assembly3"))
+        CIRCUIT_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("bioware_assembly3"))
                 .notConsumable(GTOItems.PRECISION_CIRCUIT_ASSEMBLY_ROBOT_MK3.asStack())
                 .inputItems(GTOItems.BIOWARE_PRINTED_CIRCUIT_BOARD.asStack())
                 .inputItems(GTOItems.BIOWARE_PROCESSOR.asStack(2))
@@ -617,7 +618,7 @@ interface CircuitAssemblyLine {
                 .duration(25)
                 .save();
 
-        GTORecipeTypes.CIRCUIT_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("bioware_assembly4"))
+        CIRCUIT_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("bioware_assembly4"))
                 .notConsumable(GTOItems.PRECISION_CIRCUIT_ASSEMBLY_ROBOT_MK4.asStack())
                 .inputItems(GTOItems.BIOWARE_PRINTED_CIRCUIT_BOARD.asStack())
                 .inputItems(GTOItems.BIOWARE_PROCESSOR.asStack(2))
@@ -639,7 +640,7 @@ interface CircuitAssemblyLine {
                 .duration(6)
                 .save();
 
-        GTORecipeTypes.CIRCUIT_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("bioware_assembly5"))
+        CIRCUIT_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("bioware_assembly5"))
                 .notConsumable(GTOItems.PRECISION_CIRCUIT_ASSEMBLY_ROBOT_MK5.asStack())
                 .inputItems(GTOItems.BIOWARE_PRINTED_CIRCUIT_BOARD.asStack())
                 .inputItems(GTOItems.BIOWARE_PROCESSOR.asStack(2))
@@ -661,7 +662,7 @@ interface CircuitAssemblyLine {
                 .duration(1)
                 .save();
 
-        GTORecipeTypes.CIRCUIT_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("supracausal_assembly"))
+        CIRCUIT_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("supracausal_assembly"))
                 .notConsumable(GTOItems.PRECISION_CIRCUIT_ASSEMBLY_ROBOT_MK5.asStack())
                 .inputItems(GTOItems.SUPRACAUSAL_PRINTED_CIRCUIT_BOARD.asStack())
                 .inputItems(GTOItems.SUPRACAUSAL_PROCESSOR.asStack(2))
@@ -687,7 +688,7 @@ interface CircuitAssemblyLine {
                 .duration(200)
                 .save();
 
-        GTORecipeTypes.CIRCUIT_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("exotic_computer3"))
+        CIRCUIT_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("exotic_computer3"))
                 .notConsumable(GTOItems.PRECISION_CIRCUIT_ASSEMBLY_ROBOT_MK3.asStack())
                 .inputItems(GTOItems.EXOTIC_PRINTED_CIRCUIT_BOARD.asStack())
                 .inputItems(GTOItems.EXOTIC_ASSEMBLY.asStack(2))
@@ -713,7 +714,7 @@ interface CircuitAssemblyLine {
                 .duration(400)
                 .save();
 
-        GTORecipeTypes.CIRCUIT_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("exotic_computer4"))
+        CIRCUIT_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("exotic_computer4"))
                 .notConsumable(GTOItems.PRECISION_CIRCUIT_ASSEMBLY_ROBOT_MK4.asStack())
                 .inputItems(GTOItems.EXOTIC_PRINTED_CIRCUIT_BOARD.asStack())
                 .inputItems(GTOItems.EXOTIC_ASSEMBLY.asStack(2))
@@ -739,7 +740,7 @@ interface CircuitAssemblyLine {
                 .duration(100)
                 .save();
 
-        GTORecipeTypes.CIRCUIT_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("exotic_computer5"))
+        CIRCUIT_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("exotic_computer5"))
                 .notConsumable(GTOItems.PRECISION_CIRCUIT_ASSEMBLY_ROBOT_MK5.asStack())
                 .inputItems(GTOItems.EXOTIC_PRINTED_CIRCUIT_BOARD.asStack())
                 .inputItems(GTOItems.EXOTIC_ASSEMBLY.asStack(2))
@@ -765,7 +766,7 @@ interface CircuitAssemblyLine {
                 .duration(25)
                 .save();
 
-        GTORecipeTypes.CIRCUIT_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("optical_computer2"))
+        CIRCUIT_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("optical_computer2"))
                 .notConsumable(GTOItems.PRECISION_CIRCUIT_ASSEMBLY_ROBOT_MK2.asStack())
                 .inputItems(GTOItems.OPTICAL_PRINTED_CIRCUIT_BOARD.asStack())
                 .inputItems(GTOItems.OPTICAL_ASSEMBLY.asStack(2))
@@ -790,7 +791,7 @@ interface CircuitAssemblyLine {
                 .duration(400)
                 .save();
 
-        GTORecipeTypes.CIRCUIT_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("optical_computer5"))
+        CIRCUIT_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("optical_computer5"))
                 .notConsumable(GTOItems.PRECISION_CIRCUIT_ASSEMBLY_ROBOT_MK5.asStack())
                 .inputItems(GTOItems.OPTICAL_PRINTED_CIRCUIT_BOARD.asStack())
                 .inputItems(GTOItems.OPTICAL_ASSEMBLY.asStack(2))
@@ -815,7 +816,7 @@ interface CircuitAssemblyLine {
                 .duration(6)
                 .save();
 
-        GTORecipeTypes.CIRCUIT_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("optical_computer3"))
+        CIRCUIT_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("optical_computer3"))
                 .notConsumable(GTOItems.PRECISION_CIRCUIT_ASSEMBLY_ROBOT_MK3.asStack())
                 .inputItems(GTOItems.OPTICAL_PRINTED_CIRCUIT_BOARD.asStack())
                 .inputItems(GTOItems.OPTICAL_ASSEMBLY.asStack(2))
@@ -840,7 +841,7 @@ interface CircuitAssemblyLine {
                 .duration(100)
                 .save();
 
-        GTORecipeTypes.CIRCUIT_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("optical_computer4"))
+        CIRCUIT_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("optical_computer4"))
                 .notConsumable(GTOItems.PRECISION_CIRCUIT_ASSEMBLY_ROBOT_MK4.asStack())
                 .inputItems(GTOItems.OPTICAL_PRINTED_CIRCUIT_BOARD.asStack())
                 .inputItems(GTOItems.OPTICAL_ASSEMBLY.asStack(2))
@@ -865,7 +866,7 @@ interface CircuitAssemblyLine {
                 .duration(25)
                 .save();
 
-        GTORecipeTypes.CIRCUIT_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("exotic_mainframe3"))
+        CIRCUIT_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("exotic_mainframe3"))
                 .notConsumable(GTOItems.PRECISION_CIRCUIT_ASSEMBLY_ROBOT_MK3.asStack())
                 .inputItems(TagPrefix.frameGt, GTOMaterials.Adamantium, 2)
                 .inputItems(GTOItems.EXOTIC_COMPUTER.asStack(2))
@@ -891,7 +892,7 @@ interface CircuitAssemblyLine {
                 .duration(800)
                 .save();
 
-        GTORecipeTypes.CIRCUIT_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("exotic_mainframe4"))
+        CIRCUIT_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("exotic_mainframe4"))
                 .notConsumable(GTOItems.PRECISION_CIRCUIT_ASSEMBLY_ROBOT_MK4.asStack())
                 .inputItems(TagPrefix.frameGt, GTOMaterials.Adamantium, 2)
                 .inputItems(GTOItems.EXOTIC_COMPUTER.asStack(2))
@@ -917,7 +918,7 @@ interface CircuitAssemblyLine {
                 .duration(200)
                 .save();
 
-        GTORecipeTypes.CIRCUIT_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("exotic_mainframe5"))
+        CIRCUIT_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("exotic_mainframe5"))
                 .notConsumable(GTOItems.PRECISION_CIRCUIT_ASSEMBLY_ROBOT_MK5.asStack())
                 .inputItems(TagPrefix.frameGt, GTOMaterials.Adamantium, 2)
                 .inputItems(GTOItems.EXOTIC_COMPUTER.asStack(2))
@@ -943,7 +944,7 @@ interface CircuitAssemblyLine {
                 .duration(50)
                 .save();
 
-        GTORecipeTypes.CIRCUIT_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("supracausal_computer"))
+        CIRCUIT_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("supracausal_computer"))
                 .notConsumable(GTOItems.PRECISION_CIRCUIT_ASSEMBLY_ROBOT_MK5.asStack())
                 .inputItems(GTOItems.SUPRACAUSAL_PRINTED_CIRCUIT_BOARD.asStack())
                 .inputItems(GTOItems.SUPRACAUSAL_ASSEMBLY.asStack(2))
@@ -969,7 +970,7 @@ interface CircuitAssemblyLine {
                 .duration(200)
                 .save();
 
-        GTORecipeTypes.CIRCUIT_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("bioware_mainframe2"))
+        CIRCUIT_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("bioware_mainframe2"))
                 .notConsumable(GTOItems.PRECISION_CIRCUIT_ASSEMBLY_ROBOT_MK2.asStack())
                 .inputItems(TagPrefix.frameGt, GTMaterials.Neutronium, 2)
                 .inputItems(GTOItems.BIOWARE_COMPUTER.asStack(2))
@@ -993,7 +994,7 @@ interface CircuitAssemblyLine {
                 .duration(200)
                 .save();
 
-        GTORecipeTypes.CIRCUIT_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("bioware_mainframe1"))
+        CIRCUIT_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("bioware_mainframe1"))
                 .notConsumable(GTOItems.PRECISION_CIRCUIT_ASSEMBLY_ROBOT_MK1.asStack())
                 .inputItems(TagPrefix.frameGt, GTMaterials.Neutronium, 2)
                 .inputItems(GTOItems.BIOWARE_COMPUTER.asStack(2))
@@ -1017,7 +1018,7 @@ interface CircuitAssemblyLine {
                 .duration(800)
                 .save();
 
-        GTORecipeTypes.CIRCUIT_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("bioware_mainframe5"))
+        CIRCUIT_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("bioware_mainframe5"))
                 .notConsumable(GTOItems.PRECISION_CIRCUIT_ASSEMBLY_ROBOT_MK5.asStack())
                 .inputItems(TagPrefix.frameGt, GTMaterials.Neutronium, 2)
                 .inputItems(GTOItems.BIOWARE_COMPUTER.asStack(2))
@@ -1041,7 +1042,7 @@ interface CircuitAssemblyLine {
                 .duration(3)
                 .save();
 
-        GTORecipeTypes.CIRCUIT_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("bioware_mainframe4"))
+        CIRCUIT_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("bioware_mainframe4"))
                 .notConsumable(GTOItems.PRECISION_CIRCUIT_ASSEMBLY_ROBOT_MK4.asStack())
                 .inputItems(TagPrefix.frameGt, GTMaterials.Neutronium, 2)
                 .inputItems(GTOItems.BIOWARE_COMPUTER.asStack(2))
@@ -1065,7 +1066,7 @@ interface CircuitAssemblyLine {
                 .duration(12)
                 .save();
 
-        GTORecipeTypes.CIRCUIT_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("bioware_mainframe3"))
+        CIRCUIT_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("bioware_mainframe3"))
                 .notConsumable(GTOItems.PRECISION_CIRCUIT_ASSEMBLY_ROBOT_MK3.asStack())
                 .inputItems(TagPrefix.frameGt, GTMaterials.Neutronium, 2)
                 .inputItems(GTOItems.BIOWARE_COMPUTER.asStack(2))

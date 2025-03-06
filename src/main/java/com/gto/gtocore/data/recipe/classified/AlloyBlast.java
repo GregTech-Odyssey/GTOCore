@@ -2,15 +2,16 @@ package com.gto.gtocore.data.recipe.classified;
 
 import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.common.data.GTOMaterials;
-import com.gto.gtocore.common.data.GTORecipeTypes;
 
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
+import static com.gto.gtocore.common.data.GTORecipeTypes.ALLOY_BLAST_RECIPES;
+
 interface AlloyBlast {
 
     static void init() {
-        GTORecipeTypes.ALLOY_BLAST_RECIPES.recipeBuilder(GTOCore.id("carbon_disulfide"))
+        ALLOY_BLAST_RECIPES.recipeBuilder(GTOCore.id("carbon_disulfide"))
                 .circuitMeta(8)
                 .inputItems(TagPrefix.dust, GTMaterials.Carbon)
                 .inputItems(TagPrefix.dust, GTMaterials.Sulfur, 2)

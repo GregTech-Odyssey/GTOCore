@@ -4,7 +4,6 @@ import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.api.data.tag.GTOTagPrefix;
 import com.gto.gtocore.common.data.GTOItems;
 import com.gto.gtocore.common.data.GTOMaterials;
-import com.gto.gtocore.common.data.GTORecipeTypes;
 
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
@@ -15,10 +14,13 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
 
+import static com.gto.gtocore.common.data.GTORecipeTypes.MAGIC_MANUFACTURER_RECIPES;
+import static com.gto.gtocore.common.data.GTORecipeTypes.TRANSCENDING_CRAFTING_RECIPES;
+
 interface TranscendingCrafting {
 
     static void init() {
-        GTORecipeTypes.TRANSCENDING_CRAFTING_RECIPES.recipeBuilder(GTOCore.id("draconium_dust"))
+        TRANSCENDING_CRAFTING_RECIPES.recipeBuilder(GTOCore.id("draconium_dust"))
                 .inputItems(TagPrefix.dust, GTMaterials.Netherrack)
                 .inputItems(TagPrefix.dust, GTMaterials.Endstone)
                 .inputFluids(GTOMaterials.TranscendingMatter.getFluid(1000))
@@ -28,7 +30,7 @@ interface TranscendingCrafting {
                 .duration(400)
                 .save();
 
-        GTORecipeTypes.TRANSCENDING_CRAFTING_RECIPES.recipeBuilder(GTOCore.id("magnetohydrodynamically_constrained_star_matternugget"))
+        TRANSCENDING_CRAFTING_RECIPES.recipeBuilder(GTOCore.id("magnetohydrodynamically_constrained_star_matternugget"))
                 .inputItems(TagPrefix.nugget, GTOMaterials.Eternity)
                 .inputItems(GTOItems.SOLAR_LIGHT_SPLITTER.asStack())
                 .inputFluids(GTOMaterials.TranscendingMatter.getFluid(10000))
@@ -39,7 +41,7 @@ interface TranscendingCrafting {
                 .duration(200)
                 .save();
 
-        GTORecipeTypes.TRANSCENDING_CRAFTING_RECIPES.recipeBuilder(GTOCore.id("small_magnetohydrodynamically_constrained_star_matter_dust"))
+        TRANSCENDING_CRAFTING_RECIPES.recipeBuilder(GTOCore.id("small_magnetohydrodynamically_constrained_star_matter_dust"))
                 .inputItems(TagPrefix.dustSmall, GTOMaterials.Eternity)
                 .inputItems(GTOItems.SOLAR_LIGHT_SPLITTER.asStack())
                 .inputFluids(GTOMaterials.TranscendingMatter.getFluid(10000))
@@ -50,7 +52,7 @@ interface TranscendingCrafting {
                 .duration(200)
                 .save();
 
-        GTORecipeTypes.TRANSCENDING_CRAFTING_RECIPES.recipeBuilder(GTOCore.id("liquid_starlight"))
+        TRANSCENDING_CRAFTING_RECIPES.recipeBuilder(GTOCore.id("liquid_starlight"))
                 .inputItems(new ItemStack(Blocks.BLUE_ICE.asItem(), 64))
                 .inputItems(new ItemStack(Blocks.BLUE_ICE.asItem(), 64))
                 .inputFluids(GTOMaterials.TranscendingMatter.getFluid(10000))
@@ -60,7 +62,7 @@ interface TranscendingCrafting {
                 .duration(9600)
                 .save();
 
-        GTORecipeTypes.TRANSCENDING_CRAFTING_RECIPES.recipeBuilder(GTOCore.id("magnetohydrodynamically_constrained_star_matteringot"))
+        TRANSCENDING_CRAFTING_RECIPES.recipeBuilder(GTOCore.id("magnetohydrodynamically_constrained_star_matteringot"))
                 .inputItems(TagPrefix.ingot, GTOMaterials.Eternity)
                 .inputItems(GTOItems.SOLAR_LIGHT_SPLITTER.asStack())
                 .inputFluids(GTOMaterials.TranscendingMatter.getFluid(10000))
@@ -71,7 +73,7 @@ interface TranscendingCrafting {
                 .duration(200)
                 .save();
 
-        GTORecipeTypes.TRANSCENDING_CRAFTING_RECIPES.recipeBuilder(GTOCore.id("cosmic_fabric"))
+        TRANSCENDING_CRAFTING_RECIPES.recipeBuilder(GTOCore.id("cosmic_fabric"))
                 .notConsumable(GTOTagPrefix.nanites, GTOMaterials.CosmicNeutronium)
                 .inputItems(TagPrefix.foil, GTMaterials.Rubber)
                 .inputItems(GTOItems.AMORPHOUS_MATTER.asStack())
@@ -83,7 +85,7 @@ interface TranscendingCrafting {
                 .duration(200)
                 .save();
 
-        GTORecipeTypes.TRANSCENDING_CRAFTING_RECIPES.recipeBuilder(GTOCore.id("magnetohydrodynamically_constrained_star_matterrod"))
+        TRANSCENDING_CRAFTING_RECIPES.recipeBuilder(GTOCore.id("magnetohydrodynamically_constrained_star_matterrod"))
                 .inputItems(TagPrefix.rod, GTOMaterials.Eternity)
                 .inputItems(GTOItems.SOLAR_LIGHT_SPLITTER.asStack())
                 .inputFluids(GTOMaterials.TranscendingMatter.getFluid(10000))
@@ -94,7 +96,7 @@ interface TranscendingCrafting {
                 .duration(200)
                 .save();
 
-        GTORecipeTypes.TRANSCENDING_CRAFTING_RECIPES.recipeBuilder(GTOCore.id("magnetohydrodynamically_constrained_star_matterplate"))
+        TRANSCENDING_CRAFTING_RECIPES.recipeBuilder(GTOCore.id("magnetohydrodynamically_constrained_star_matterplate"))
                 .inputItems(TagPrefix.plate, GTOMaterials.Eternity)
                 .inputItems(GTOItems.SOLAR_LIGHT_SPLITTER.asStack())
                 .inputFluids(GTOMaterials.TranscendingMatter.getFluid(10000))
@@ -105,7 +107,7 @@ interface TranscendingCrafting {
                 .duration(200)
                 .save();
 
-        GTORecipeTypes.TRANSCENDING_CRAFTING_RECIPES.recipeBuilder(GTOCore.id("echoite_plasma"))
+        TRANSCENDING_CRAFTING_RECIPES.recipeBuilder(GTOCore.id("echoite_plasma"))
                 .inputItems(TagPrefix.gemExquisite, GTMaterials.EchoShard, 16)
                 .inputItems(GTOItems.RHENIUM_PLASMA_CONTAINMENT_CELL.asStack())
                 .inputFluids(GTOMaterials.TranscendingMatter.getFluid(16000))
@@ -117,7 +119,7 @@ interface TranscendingCrafting {
                 .duration(400)
                 .save();
 
-        GTORecipeTypes.TRANSCENDING_CRAFTING_RECIPES.recipeBuilder(GTOCore.id("magnetohydrodynamically_constrained_star_matterfoil"))
+        TRANSCENDING_CRAFTING_RECIPES.recipeBuilder(GTOCore.id("magnetohydrodynamically_constrained_star_matterfoil"))
                 .inputItems(TagPrefix.foil, GTOMaterials.Eternity)
                 .inputItems(GTOItems.SOLAR_LIGHT_SPLITTER.asStack())
                 .inputFluids(GTOMaterials.TranscendingMatter.getFluid(10000))
@@ -128,7 +130,7 @@ interface TranscendingCrafting {
                 .duration(200)
                 .save();
 
-        GTORecipeTypes.TRANSCENDING_CRAFTING_RECIPES.recipeBuilder(GTOCore.id("sculk_catalyst"))
+        TRANSCENDING_CRAFTING_RECIPES.recipeBuilder(GTOCore.id("sculk_catalyst"))
                 .inputItems(new ItemStack(Blocks.TERRACOTTA.asItem()))
                 .inputFluids(GTOMaterials.TranscendingMatter.getFluid(1000))
                 .inputFluids(GTMaterials.EchoShard.getFluid(100))
@@ -137,7 +139,7 @@ interface TranscendingCrafting {
                 .duration(20)
                 .save();
 
-        GTORecipeTypes.TRANSCENDING_CRAFTING_RECIPES.recipeBuilder(GTOCore.id("magnetohydrodynamically_constrained_star_matterframe"))
+        TRANSCENDING_CRAFTING_RECIPES.recipeBuilder(GTOCore.id("magnetohydrodynamically_constrained_star_matterframe"))
                 .inputItems(TagPrefix.frameGt, GTOMaterials.Eternity)
                 .inputItems(GTOItems.SOLAR_LIGHT_SPLITTER.asStack())
                 .inputFluids(GTOMaterials.TranscendingMatter.getFluid(10000))
@@ -148,7 +150,7 @@ interface TranscendingCrafting {
                 .duration(200)
                 .save();
 
-        GTORecipeTypes.TRANSCENDING_CRAFTING_RECIPES.recipeBuilder(GTOCore.id("magmatter_ingot"))
+        TRANSCENDING_CRAFTING_RECIPES.recipeBuilder(GTOCore.id("magmatter_ingot"))
                 .notConsumable(GTOItems.INGOT_FIELD_SHAPE.asStack())
                 .circuitMeta(1)
                 .inputItems(TagPrefix.ingot, GTMaterials.Netherite)
@@ -159,7 +161,7 @@ interface TranscendingCrafting {
                 .duration(400)
                 .save();
 
-        GTORecipeTypes.TRANSCENDING_CRAFTING_RECIPES.recipeBuilder(GTOCore.id("magnetohydrodynamically_constrained_star_matterblock"))
+        TRANSCENDING_CRAFTING_RECIPES.recipeBuilder(GTOCore.id("magnetohydrodynamically_constrained_star_matterblock"))
                 .inputItems(TagPrefix.block, GTOMaterials.Eternity)
                 .inputItems(GTOItems.SOLAR_LIGHT_SPLITTER.asStack())
                 .inputFluids(GTOMaterials.TranscendingMatter.getFluid(10000))
@@ -170,7 +172,7 @@ interface TranscendingCrafting {
                 .duration(200)
                 .save();
 
-        GTORecipeTypes.TRANSCENDING_CRAFTING_RECIPES.recipeBuilder(GTOCore.id("magmatter_ingot_d"))
+        TRANSCENDING_CRAFTING_RECIPES.recipeBuilder(GTOCore.id("magmatter_ingot_d"))
                 .notConsumable(GTOItems.INGOT_FIELD_SHAPE.asStack())
                 .inputItems(TagPrefix.dust, GTOMaterials.Magmatter)
                 .inputItems(TagPrefix.ingot, GTMaterials.Netherite)
@@ -181,7 +183,7 @@ interface TranscendingCrafting {
                 .duration(200)
                 .save();
 
-        GTORecipeTypes.TRANSCENDING_CRAFTING_RECIPES.recipeBuilder(GTOCore.id("magnetohydrodynamically_constrained_star_matterdust"))
+        TRANSCENDING_CRAFTING_RECIPES.recipeBuilder(GTOCore.id("magnetohydrodynamically_constrained_star_matterdust"))
                 .inputItems(TagPrefix.dust, GTOMaterials.Eternity)
                 .inputItems(GTOItems.SOLAR_LIGHT_SPLITTER.asStack())
                 .inputFluids(GTOMaterials.TranscendingMatter.getFluid(10000))
@@ -192,7 +194,7 @@ interface TranscendingCrafting {
                 .duration(200)
                 .save();
 
-        GTORecipeTypes.TRANSCENDING_CRAFTING_RECIPES.recipeBuilder(GTOCore.id("attuned_tengam_ingot"))
+        TRANSCENDING_CRAFTING_RECIPES.recipeBuilder(GTOCore.id("attuned_tengam_ingot"))
                 .notConsumable(GTOItems.INGOT_FIELD_SHAPE.asStack())
                 .inputItems(TagPrefix.dust, GTOMaterials.AttunedTengam)
                 .inputFluids(GTOMaterials.TranscendingMatter.getFluid(1000))
@@ -201,7 +203,7 @@ interface TranscendingCrafting {
                 .duration(400)
                 .save();
 
-        GTORecipeTypes.TRANSCENDING_CRAFTING_RECIPES.recipeBuilder(GTOCore.id("photocoated_hassium_boule"))
+        TRANSCENDING_CRAFTING_RECIPES.recipeBuilder(GTOCore.id("photocoated_hassium_boule"))
                 .inputItems(GTOItems.HIGH_PURITY_SINGLE_CRYSTAL_SILICON.asStack())
                 .inputItems(TagPrefix.ingot, GTMaterials.Hassium, 2)
                 .inputItems(GTOItems.HASSIUM_SEED_CRYSTAL.asStack())
@@ -213,7 +215,7 @@ interface TranscendingCrafting {
                 .duration(1000)
                 .save();
 
-        GTORecipeTypes.TRANSCENDING_CRAFTING_RECIPES.recipeBuilder(GTOCore.id("bedrock_dust"))
+        TRANSCENDING_CRAFTING_RECIPES.recipeBuilder(GTOCore.id("bedrock_dust"))
                 .inputItems(TagPrefix.dust, GTOMaterials.CompressedStone, 64)
                 .inputItems(TagPrefix.dust, GTOMaterials.CompressedStone, 64)
                 .inputFluids(GTOMaterials.TranscendingMatter.getFluid(100000))
@@ -224,7 +226,7 @@ interface TranscendingCrafting {
                 .duration(1200)
                 .save();
 
-        GTORecipeTypes.TRANSCENDING_CRAFTING_RECIPES.recipeBuilder(GTOCore.id("dragon_stem_cells"))
+        TRANSCENDING_CRAFTING_RECIPES.recipeBuilder(GTOCore.id("dragon_stem_cells"))
                 .inputItems(GTItems.STEM_CELLS.asStack())
                 .inputFluids(GTOMaterials.TranscendingMatter.getFluid(1000))
                 .inputFluids(GTMaterials.Mutagen.getFluid(100))
@@ -234,7 +236,7 @@ interface TranscendingCrafting {
                 .duration(400)
                 .save();
 
-        GTORecipeTypes.TRANSCENDING_CRAFTING_RECIPES.recipeBuilder(GTOCore.id("tiny_magnetohydrodynamically_constrained_star_matter_dust"))
+        TRANSCENDING_CRAFTING_RECIPES.recipeBuilder(GTOCore.id("tiny_magnetohydrodynamically_constrained_star_matter_dust"))
                 .inputItems(TagPrefix.dustTiny, GTOMaterials.Eternity)
                 .inputItems(GTOItems.SOLAR_LIGHT_SPLITTER.asStack())
                 .inputFluids(GTOMaterials.TranscendingMatter.getFluid(10000))
@@ -245,7 +247,7 @@ interface TranscendingCrafting {
                 .duration(200)
                 .save();
 
-        GTORecipeTypes.TRANSCENDING_CRAFTING_RECIPES.recipeBuilder(GTOCore.id("dragon_breath"))
+        TRANSCENDING_CRAFTING_RECIPES.recipeBuilder(GTOCore.id("dragon_breath"))
                 .inputItems(new ItemStack(Items.GLASS_BOTTLE.asItem()))
                 .inputItems(new ItemStack(Blocks.DRAGON_EGG.asItem()))
                 .inputFluids(GTOMaterials.TranscendingMatter.getFluid(1000))
@@ -255,7 +257,7 @@ interface TranscendingCrafting {
                 .duration(80)
                 .save();
 
-        GTORecipeTypes.TRANSCENDING_CRAFTING_RECIPES.recipeBuilder(GTOCore.id("double_magnetohydrodynamically_constrained_star_matter_plate"))
+        TRANSCENDING_CRAFTING_RECIPES.recipeBuilder(GTOCore.id("double_magnetohydrodynamically_constrained_star_matter_plate"))
                 .inputItems(TagPrefix.plateDouble, GTOMaterials.Eternity)
                 .inputItems(GTOItems.SOLAR_LIGHT_SPLITTER.asStack())
                 .inputFluids(GTOMaterials.TranscendingMatter.getFluid(10000))
@@ -266,7 +268,7 @@ interface TranscendingCrafting {
                 .duration(200)
                 .save();
 
-        GTORecipeTypes.TRANSCENDING_CRAFTING_RECIPES.recipeBuilder(GTOCore.id("dust_blizz"))
+        TRANSCENDING_CRAFTING_RECIPES.recipeBuilder(GTOCore.id("dust_blizz"))
                 .inputItems(TagPrefix.dust, GTMaterials.Blaze)
                 .inputItems(TagPrefix.dust, GTMaterials.AluminiumSulfite)
                 .inputItems(new ItemStack(Items.SNOWBALL.asItem(), 16))
@@ -277,7 +279,7 @@ interface TranscendingCrafting {
                 .duration(200)
                 .save();
 
-        GTORecipeTypes.MAGIC_MANUFACTURER_RECIPES.recipeBuilder(GTOCore.id("mana_0"))
+        MAGIC_MANUFACTURER_RECIPES.recipeBuilder(GTOCore.id("mana_0"))
                 .MANAt(-100)
                 .notConsumable(GTItems.FIELD_GENERATOR_UEV.asStack())
                 .circuitMeta(1)
@@ -285,7 +287,7 @@ interface TranscendingCrafting {
                 .duration(20)
                 .save();
 
-        GTORecipeTypes.MAGIC_MANUFACTURER_RECIPES.recipeBuilder(GTOCore.id("mana_3"))
+        MAGIC_MANUFACTURER_RECIPES.recipeBuilder(GTOCore.id("mana_3"))
                 .MANAt(-100000)
                 .notConsumable(GTItems.FIELD_GENERATOR_OpV.asStack())
                 .circuitMeta(1)
@@ -293,7 +295,7 @@ interface TranscendingCrafting {
                 .duration(20)
                 .save();
 
-        GTORecipeTypes.MAGIC_MANUFACTURER_RECIPES.recipeBuilder(GTOCore.id("mana_4"))
+        MAGIC_MANUFACTURER_RECIPES.recipeBuilder(GTOCore.id("mana_4"))
                 .MANAt(-400)
                 .notConsumable(GTItems.FIELD_GENERATOR_UEV.asStack(4))
                 .circuitMeta(2)
@@ -301,7 +303,7 @@ interface TranscendingCrafting {
                 .duration(40)
                 .save();
 
-        GTORecipeTypes.MAGIC_MANUFACTURER_RECIPES.recipeBuilder(GTOCore.id("mana_1"))
+        MAGIC_MANUFACTURER_RECIPES.recipeBuilder(GTOCore.id("mana_1"))
                 .MANAt(-1000)
                 .notConsumable(GTItems.FIELD_GENERATOR_UIV.asStack())
                 .circuitMeta(1)
@@ -309,7 +311,7 @@ interface TranscendingCrafting {
                 .duration(20)
                 .save();
 
-        GTORecipeTypes.MAGIC_MANUFACTURER_RECIPES.recipeBuilder(GTOCore.id("mana_2"))
+        MAGIC_MANUFACTURER_RECIPES.recipeBuilder(GTOCore.id("mana_2"))
                 .MANAt(-10000)
                 .notConsumable(GTItems.FIELD_GENERATOR_UXV.asStack())
                 .circuitMeta(1)
@@ -317,7 +319,7 @@ interface TranscendingCrafting {
                 .duration(20)
                 .save();
 
-        GTORecipeTypes.MAGIC_MANUFACTURER_RECIPES.recipeBuilder(GTOCore.id("mana_7"))
+        MAGIC_MANUFACTURER_RECIPES.recipeBuilder(GTOCore.id("mana_7"))
                 .MANAt(-400000)
                 .notConsumable(GTItems.FIELD_GENERATOR_OpV.asStack(4))
                 .circuitMeta(2)
@@ -325,7 +327,7 @@ interface TranscendingCrafting {
                 .duration(40)
                 .save();
 
-        GTORecipeTypes.MAGIC_MANUFACTURER_RECIPES.recipeBuilder(GTOCore.id("mana_8"))
+        MAGIC_MANUFACTURER_RECIPES.recipeBuilder(GTOCore.id("mana_8"))
                 .MANAt(-1600)
                 .notConsumable(GTItems.FIELD_GENERATOR_UEV.asStack(16))
                 .circuitMeta(3)
@@ -333,7 +335,7 @@ interface TranscendingCrafting {
                 .duration(80)
                 .save();
 
-        GTORecipeTypes.MAGIC_MANUFACTURER_RECIPES.recipeBuilder(GTOCore.id("mana_5"))
+        MAGIC_MANUFACTURER_RECIPES.recipeBuilder(GTOCore.id("mana_5"))
                 .MANAt(-4000)
                 .notConsumable(GTItems.FIELD_GENERATOR_UIV.asStack(4))
                 .circuitMeta(2)
@@ -341,7 +343,7 @@ interface TranscendingCrafting {
                 .duration(40)
                 .save();
 
-        GTORecipeTypes.MAGIC_MANUFACTURER_RECIPES.recipeBuilder(GTOCore.id("mana_6"))
+        MAGIC_MANUFACTURER_RECIPES.recipeBuilder(GTOCore.id("mana_6"))
                 .MANAt(-40000)
                 .notConsumable(GTItems.FIELD_GENERATOR_UXV.asStack(4))
                 .circuitMeta(2)
@@ -349,7 +351,7 @@ interface TranscendingCrafting {
                 .duration(40)
                 .save();
 
-        GTORecipeTypes.MAGIC_MANUFACTURER_RECIPES.recipeBuilder(GTOCore.id("mana_9"))
+        MAGIC_MANUFACTURER_RECIPES.recipeBuilder(GTOCore.id("mana_9"))
                 .MANAt(-16000)
                 .notConsumable(GTItems.FIELD_GENERATOR_UIV.asStack(16))
                 .circuitMeta(3)
@@ -357,7 +359,7 @@ interface TranscendingCrafting {
                 .duration(80)
                 .save();
 
-        GTORecipeTypes.MAGIC_MANUFACTURER_RECIPES.recipeBuilder(GTOCore.id("mana_15"))
+        MAGIC_MANUFACTURER_RECIPES.recipeBuilder(GTOCore.id("mana_15"))
                 .MANAt(-6400000)
                 .notConsumable(GTItems.FIELD_GENERATOR_OpV.asStack(64))
                 .circuitMeta(4)
@@ -365,7 +367,7 @@ interface TranscendingCrafting {
                 .duration(160)
                 .save();
 
-        GTORecipeTypes.MAGIC_MANUFACTURER_RECIPES.recipeBuilder(GTOCore.id("mana_14"))
+        MAGIC_MANUFACTURER_RECIPES.recipeBuilder(GTOCore.id("mana_14"))
                 .MANAt(-640000)
                 .notConsumable(GTItems.FIELD_GENERATOR_UXV.asStack(64))
                 .circuitMeta(4)
@@ -373,7 +375,7 @@ interface TranscendingCrafting {
                 .duration(160)
                 .save();
 
-        GTORecipeTypes.MAGIC_MANUFACTURER_RECIPES.recipeBuilder(GTOCore.id("mana_13"))
+        MAGIC_MANUFACTURER_RECIPES.recipeBuilder(GTOCore.id("mana_13"))
                 .MANAt(-64000)
                 .notConsumable(GTItems.FIELD_GENERATOR_UIV.asStack(64))
                 .circuitMeta(4)
@@ -381,7 +383,7 @@ interface TranscendingCrafting {
                 .duration(160)
                 .save();
 
-        GTORecipeTypes.MAGIC_MANUFACTURER_RECIPES.recipeBuilder(GTOCore.id("mana_12"))
+        MAGIC_MANUFACTURER_RECIPES.recipeBuilder(GTOCore.id("mana_12"))
                 .MANAt(-6400)
                 .notConsumable(GTItems.FIELD_GENERATOR_UEV.asStack(64))
                 .circuitMeta(4)
@@ -389,7 +391,7 @@ interface TranscendingCrafting {
                 .duration(160)
                 .save();
 
-        GTORecipeTypes.MAGIC_MANUFACTURER_RECIPES.recipeBuilder(GTOCore.id("mana_11"))
+        MAGIC_MANUFACTURER_RECIPES.recipeBuilder(GTOCore.id("mana_11"))
                 .MANAt(-1600000)
                 .notConsumable(GTItems.FIELD_GENERATOR_OpV.asStack(16))
                 .circuitMeta(3)
@@ -397,7 +399,7 @@ interface TranscendingCrafting {
                 .duration(80)
                 .save();
 
-        GTORecipeTypes.MAGIC_MANUFACTURER_RECIPES.recipeBuilder(GTOCore.id("mana_10"))
+        MAGIC_MANUFACTURER_RECIPES.recipeBuilder(GTOCore.id("mana_10"))
                 .MANAt(-160000)
                 .notConsumable(GTItems.FIELD_GENERATOR_UXV.asStack(16))
                 .circuitMeta(3)

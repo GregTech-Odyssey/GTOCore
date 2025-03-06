@@ -1,23 +1,22 @@
 package com.gto.gtocore.common.network;
 
-import com.gto.gtocore.common.saved.PlanetsTravelSavaedData;
+import com.gto.gtocore.api.misc.PlanetManagement;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 
-import dev.latvian.mods.kubejs.net.SendDataFromClientMessage;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public interface ClientMessage {
 
     static void sendData(String channel, @Nullable CompoundTag data) {
-        new SendDataFromClientMessage(channel, data).sendToServer();
+        new FromClientMessage(channel, data).sendToServer();
     }
 
     static void checkPlanetIsUnlocked(ResourceLocation planet) {
-        if (PlanetsTravelSavaedData.isClientUnlocked(planet)) return;
+        if (PlanetManagement.isClientUnlocked(planet)) return;
         CompoundTag data = new CompoundTag();
         data.putString("planet", planet.toString());
         sendData("planetIsUnlocked", data);
@@ -27,7 +26,7 @@ public interface ClientMessage {
         switch (channel) {
             case "planetIsUnlocked": {
                 ResourceLocation planet = new ResourceLocation(data.getString("planet"));
-                PlanetsTravelSavaedData.checkIsUnlocked(serverPlayer, planet);
+                PlanetManagement.checkIsUnlocked(serverPlayer, planet);
                 break;
             }
             default: {

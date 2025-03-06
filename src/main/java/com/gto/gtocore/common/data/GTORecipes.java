@@ -10,7 +10,6 @@ import com.gto.gtocore.data.recipe.generated.ComponentRecipes;
 import com.gto.gtocore.data.recipe.processing.*;
 import com.gto.gtocore.integration.emi.GTEMIRecipe;
 import com.gto.gtocore.integration.emi.multipage.MultiblockInfoEmiRecipe;
-import com.gto.gtocore.integration.kjs.GTKubeJSPlugin;
 import com.gto.gtocore.utils.RLUtils;
 
 import com.gregtechceu.gtceu.GTCEu;
@@ -34,14 +33,19 @@ import com.gregtechceu.gtceu.data.recipe.misc.*;
 import com.gregtechceu.gtceu.data.recipe.serialized.chemistry.ChemistryRecipes;
 import com.gregtechceu.gtceu.integration.emi.recipe.GTRecipeEMICategory;
 
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.GsonHelper;
 import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.Block;
 
 import appeng.core.AppEng;
 import com.glodblock.github.extendedae.ExtendedAE;
 import com.google.common.collect.ImmutableSet;
+import com.google.gson.JsonObject;
 import com.kyanite.deeperdarker.DeeperDarker;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import dev.emi.emi.api.recipe.EmiRecipe;
@@ -53,6 +57,7 @@ import dev.shadowsoffire.placebo.loot.LootSystem;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 
+import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
@@ -60,6 +65,11 @@ import java.util.function.Consumer;
 import static com.gregtechceu.gtceu.api.GTValues.VN;
 
 public final class GTORecipes implements Runnable {
+
+    public static boolean cache;
+
+    public static Map<RecipeType<?>, Map<ResourceLocation, Recipe<?>>> RECIPES_CACHE;
+    public static Map<ResourceLocation, Recipe<?>> BYNAME_CACHE;
 
     public static Map<GTRecipeType, Widget> EMI_RECIPE_WIDGETS;
 
@@ -70,6 +80,10 @@ public final class GTORecipes implements Runnable {
     public static Set<ResourceLocation> GT_FILTER_RECIPES;
 
     public static Set<ResourceLocation> SHAPED_FILTER_RECIPES;
+
+    public static final Set<Recipe<?>> KJS_RECIPE = new LinkedHashSet<>();
+
+    public static final Set<GTRecipe> KJS_GT_RECIPE = new LinkedHashSet<>();
 
     public static void init() {
         long time = System.currentTimeMillis();
@@ -285,17 +299,6 @@ public final class GTORecipes implements Runnable {
         GT_RECIPE_MAP.values().forEach(recipe -> recipe.recipeCategory.addRecipe(recipe));
     }
 
-    public static void initKJSCategoryMap() {
-        GTKubeJSPlugin.KJS_GT_RECIPE.forEach(recipe -> recipe.recipeCategory.addRecipe(recipe));
-    }
-
-    public static void initCategoryMap() {
-        initGTCategoryMap();
-        initKJSCategoryMap();
-    }
-
-    public static boolean cache;
-
     public static void initLookup(Map<ResourceLocation, Recipe<?>> recipes) {
         cache = true;
         Thread thread = new Thread(new Lookup(recipes));
@@ -318,9 +321,8 @@ public final class GTORecipes implements Runnable {
             PowerlessJetpack.FUELS.clear();
             GTRegistries.RECIPE_TYPES.forEach(t -> t.getLookup().removeAllRecipes());
             GT_RECIPE_MAP.values().forEach(r -> r.recipeType.getLookup().addRecipe(r));
-            GTKubeJSPlugin.KJS_GT_RECIPE.forEach(r -> r.recipeType.getLookup().addRecipe(r));
             recipes.forEach((k, v) -> GTRecipeTypes.FURNACE_RECIPES.getLookup().addRecipe(GTRecipeTypes.FURNACE_RECIPES.toGTrecipe(k, v)));
-            if (GTCEu.Mods.isEMILoaded() && !GTKubeJSPlugin.hasKJSGTRecipe) GT_RECIPE_MAP = null;
+            if (GTCEu.Mods.isEMILoaded()) GT_RECIPE_MAP = null;
             GTOCore.LOGGER.info("InitLookup took {}ms", System.currentTimeMillis() - time);
         }
     }
@@ -657,5 +659,12 @@ public final class GTORecipes implements Runnable {
         filters.add(AppEng.makeId("materials/formationcore"));
         filters.add(AppEng.makeId("materials/advancedcard"));
         filters.add(AppEng.makeId("materials/basiccard"));
+    }
+
+    public static Recipe<?> fromJson(ResourceLocation recipeId, JsonObject json, net.minecraftforge.common.crafting.conditions.ICondition.IContext context) {
+        String s = GsonHelper.getAsString(json, "type");
+        RecipeSerializer<?> recipeSerializer = BuiltInRegistries.RECIPE_SERIALIZER.get(new ResourceLocation(s));
+        if (recipeSerializer == null) return null;
+        return recipeSerializer.fromJson(recipeId, json, context);
     }
 }

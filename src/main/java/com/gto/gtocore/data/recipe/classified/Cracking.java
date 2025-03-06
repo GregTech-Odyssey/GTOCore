@@ -2,15 +2,16 @@ package com.gto.gtocore.data.recipe.classified;
 
 import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.common.data.GTOMaterials;
-import com.gto.gtocore.common.data.GTORecipeTypes;
 
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
+import static com.gto.gtocore.common.data.GTORecipeTypes.CRACKING_RECIPES;
+
 interface Cracking {
 
     static void init() {
-        GTORecipeTypes.CRACKING_RECIPES.recipeBuilder(GTOCore.id("radon_cracked_enriched_aquadah"))
+        CRACKING_RECIPES.recipeBuilder(GTOCore.id("radon_cracked_enriched_aquadah"))
                 .circuitMeta(1)
                 .inputFluids(GTMaterials.EnrichedNaquadahSolution.getFluid(1000))
                 .inputFluids(GTMaterials.Radon.getFluid(1000))
@@ -19,7 +20,7 @@ interface Cracking {
                 .duration(160)
                 .save();
 
-        GTORecipeTypes.CRACKING_RECIPES.recipeBuilder(GTOCore.id("steam_cracked_turpentine"))
+        CRACKING_RECIPES.recipeBuilder(GTOCore.id("steam_cracked_turpentine"))
                 .circuitMeta(1)
                 .inputFluids(GTOMaterials.LeachedTurpentine.getFluid(1000))
                 .inputFluids(GTMaterials.Steam.getFluid(1000))
@@ -28,7 +29,7 @@ interface Cracking {
                 .duration(200)
                 .save();
 
-        GTORecipeTypes.CRACKING_RECIPES.recipeBuilder(GTOCore.id("crackedradox"))
+        CRACKING_RECIPES.recipeBuilder(GTOCore.id("crackedradox"))
                 .circuitMeta(1)
                 .inputFluids(GTOMaterials.SuperLightRadox.getFluid(100))
                 .inputFluids(GTMaterials.Silver.getFluid(FluidStorageKeys.PLASMA, 10))
@@ -37,7 +38,7 @@ interface Cracking {
                 .duration(300)
                 .save();
 
-        GTORecipeTypes.CRACKING_RECIPES.recipeBuilder(GTOCore.id("lightradox"))
+        CRACKING_RECIPES.recipeBuilder(GTOCore.id("lightradox"))
                 .circuitMeta(1)
                 .inputFluids(GTOMaterials.HeavyRadox.getFluid(100))
                 .inputFluids(GTMaterials.Silver.getFluid(FluidStorageKeys.PLASMA, 10))
@@ -46,7 +47,7 @@ interface Cracking {
                 .duration(200)
                 .save();
 
-        GTORecipeTypes.CRACKING_RECIPES.recipeBuilder(GTOCore.id("superlightradox"))
+        CRACKING_RECIPES.recipeBuilder(GTOCore.id("superlightradox"))
                 .circuitMeta(1)
                 .inputFluids(GTOMaterials.LightRadox.getFluid(100))
                 .inputFluids(GTMaterials.Silver.getFluid(FluidStorageKeys.PLASMA, 10))
@@ -55,7 +56,7 @@ interface Cracking {
                 .duration(300)
                 .save();
 
-        GTORecipeTypes.CRACKING_RECIPES.recipeBuilder(GTOCore.id("fluorine_cracked_aquadah"))
+        CRACKING_RECIPES.recipeBuilder(GTOCore.id("fluorine_cracked_aquadah"))
                 .circuitMeta(1)
                 .inputFluids(GTOMaterials.NaquadahSolution.getFluid(1000))
                 .inputFluids(GTMaterials.Fluorine.getFluid(1000))

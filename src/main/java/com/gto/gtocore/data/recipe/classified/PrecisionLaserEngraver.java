@@ -3,16 +3,17 @@ package com.gto.gtocore.data.recipe.classified;
 import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.common.data.GTOItems;
 import com.gto.gtocore.common.data.GTOMaterials;
-import com.gto.gtocore.common.data.GTORecipeTypes;
 
 import com.gregtechceu.gtceu.api.data.chemical.material.MarkerMaterials;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.common.data.GTItems;
 
+import static com.gto.gtocore.common.data.GTORecipeTypes.PRECISION_LASER_ENGRAVER_RECIPES;
+
 interface PrecisionLaserEngraver {
 
     static void init() {
-        GTORecipeTypes.PRECISION_LASER_ENGRAVER_RECIPES.recipeBuilder(GTOCore.id("high_precision_crystal_soc"))
+        PRECISION_LASER_ENGRAVER_RECIPES.recipeBuilder(GTOCore.id("high_precision_crystal_soc"))
                 .inputItems(GTItems.CRYSTAL_SYSTEM_ON_CHIP.asStack())
                 .notConsumable(GTOItems.LITHOGRAPHY_MASK.asStack())
                 .notConsumable(TagPrefix.lens, MarkerMaterials.Color.Yellow)
@@ -28,7 +29,7 @@ interface PrecisionLaserEngraver {
                 .duration(2400)
                 .save();
 
-        GTORecipeTypes.PRECISION_LASER_ENGRAVER_RECIPES.recipeBuilder(GTOCore.id("pm_wafer"))
+        PRECISION_LASER_ENGRAVER_RECIPES.recipeBuilder(GTOCore.id("pm_wafer"))
                 .inputItems(GTOItems.TARANIUM_WAFER.asStack())
                 .notConsumable(GTOItems.LITHOGRAPHY_MASK.asStack())
                 .notConsumable(TagPrefix.lens, MarkerMaterials.Color.Blue)
@@ -44,7 +45,7 @@ interface PrecisionLaserEngraver {
                 .duration(1800)
                 .save();
 
-        GTORecipeTypes.PRECISION_LASER_ENGRAVER_RECIPES.recipeBuilder(GTOCore.id("fm_wafer"))
+        PRECISION_LASER_ENGRAVER_RECIPES.recipeBuilder(GTOCore.id("fm_wafer"))
                 .inputItems(GTOItems.PM_WAFER.asStack())
                 .notConsumable(GTOItems.GRATING_LITHOGRAPHY_MASK.asStack())
                 .notConsumable(TagPrefix.lens, MarkerMaterials.Color.Blue)
@@ -60,7 +61,7 @@ interface PrecisionLaserEngraver {
                 .duration(2800)
                 .save();
 
-        GTORecipeTypes.PRECISION_LASER_ENGRAVER_RECIPES.recipeBuilder(GTOCore.id("nm_wafer"))
+        PRECISION_LASER_ENGRAVER_RECIPES.recipeBuilder(GTOCore.id("nm_wafer"))
                 .inputItems(GTOItems.RUTHERFORDIUM_AMPROSIUM_WAFER.asStack())
                 .notConsumable(GTOItems.LITHOGRAPHY_MASK.asStack())
                 .notConsumable(TagPrefix.lens, MarkerMaterials.Color.Blue)
@@ -76,7 +77,7 @@ interface PrecisionLaserEngraver {
                 .duration(900)
                 .save();
 
-        GTORecipeTypes.PRECISION_LASER_ENGRAVER_RECIPES.recipeBuilder(GTOCore.id("raw_photon_carrying_wafer"))
+        PRECISION_LASER_ENGRAVER_RECIPES.recipeBuilder(GTOCore.id("raw_photon_carrying_wafer"))
                 .inputItems(GTOItems.RUTHERFORDIUM_AMPROSIUM_WAFER.asStack())
                 .notConsumable(GTOItems.LITHOGRAPHY_MASK.asStack())
                 .notConsumable(TagPrefix.lens, MarkerMaterials.Color.LightGray)
@@ -92,7 +93,7 @@ interface PrecisionLaserEngraver {
                 .duration(600)
                 .save();
 
-        GTORecipeTypes.PRECISION_LASER_ENGRAVER_RECIPES.recipeBuilder(GTOCore.id("prepared_cosmic_soc_wafer"))
+        PRECISION_LASER_ENGRAVER_RECIPES.recipeBuilder(GTOCore.id("prepared_cosmic_soc_wafer"))
                 .inputItems(GTOItems.TARANIUM_WAFER.asStack())
                 .notConsumable(GTOItems.LITHOGRAPHY_MASK.asStack())
                 .notConsumable(TagPrefix.lens, MarkerMaterials.Color.Yellow)

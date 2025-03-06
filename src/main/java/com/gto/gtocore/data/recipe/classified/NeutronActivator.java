@@ -3,7 +3,6 @@ package com.gto.gtocore.data.recipe.classified;
 import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.common.data.GTOItems;
 import com.gto.gtocore.common.data.GTOMaterials;
-import com.gto.gtocore.common.data.GTORecipeTypes;
 
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
@@ -15,10 +14,12 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
 
+import static com.gto.gtocore.common.data.GTORecipeTypes.NEUTRON_ACTIVATOR_RECIPES;
+
 interface NeutronActivator {
 
     static void init() {
-        GTORecipeTypes.NEUTRON_ACTIVATOR_RECIPES.recipeBuilder(GTOCore.id("oganesson"))
+        NEUTRON_ACTIVATOR_RECIPES.recipeBuilder(GTOCore.id("oganesson"))
                 .inputFluids(GTOMaterials.MetastableOganesson.getFluid(1000))
                 .outputFluids(GTMaterials.Oganesson.getFluid(1000))
                 .duration(200)
@@ -28,7 +29,7 @@ interface NeutronActivator {
                 .addData("evt", 1200)
                 .save();
 
-        GTORecipeTypes.NEUTRON_ACTIVATOR_RECIPES.recipeBuilder(GTOCore.id("quantanium"))
+        NEUTRON_ACTIVATOR_RECIPES.recipeBuilder(GTOCore.id("quantanium"))
                 .inputItems(GTItems.QUANTUM_STAR.asStack(4))
                 .inputItems(GTItems.QUANTUM_EYE.asStack(8))
                 .inputItems(TagPrefix.dust, GTOMaterials.Mithril, 16)
@@ -43,7 +44,7 @@ interface NeutronActivator {
                 .addData("evt", 3840)
                 .save();
 
-        GTORecipeTypes.NEUTRON_ACTIVATOR_RECIPES.recipeBuilder(GTOCore.id("draconium_dust"))
+        NEUTRON_ACTIVATOR_RECIPES.recipeBuilder(GTOCore.id("draconium_dust"))
                 .notConsumable(TagPrefix.plate, GTOMaterials.DegenerateRhenium)
                 .inputItems(new ItemStack(Blocks.DRAGON_EGG.asItem()))
                 .inputFluids(GTOMaterials.UuAmplifier.getFluid(1000))
@@ -56,7 +57,7 @@ interface NeutronActivator {
                 .addData("evt", 5760)
                 .save();
 
-        GTORecipeTypes.NEUTRON_ACTIVATOR_RECIPES.recipeBuilder(GTOCore.id("hassium"))
+        NEUTRON_ACTIVATOR_RECIPES.recipeBuilder(GTOCore.id("hassium"))
                 .inputFluids(GTOMaterials.MetastableHassium.getFluid(FluidStorageKeys.LIQUID, 1000))
                 .outputFluids(GTMaterials.Hassium.getFluid(1000))
                 .duration(200)

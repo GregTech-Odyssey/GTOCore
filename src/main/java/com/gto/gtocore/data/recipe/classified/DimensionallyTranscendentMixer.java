@@ -3,16 +3,17 @@ package com.gto.gtocore.data.recipe.classified;
 import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.common.data.GTOItems;
 import com.gto.gtocore.common.data.GTOMaterials;
-import com.gto.gtocore.common.data.GTORecipeTypes;
 
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
+import static com.gto.gtocore.common.data.GTORecipeTypes.DIMENSIONALLY_TRANSCENDENT_MIXER_RECIPES;
+
 interface DimensionallyTranscendentMixer {
 
     static void init() {
-        GTORecipeTypes.DIMENSIONALLY_TRANSCENDENT_MIXER_RECIPES.recipeBuilder(GTOCore.id("transition_1_dust"))
+        DIMENSIONALLY_TRANSCENDENT_MIXER_RECIPES.recipeBuilder(GTOCore.id("transition_1_dust"))
                 .inputItems(TagPrefix.dust, GTMaterials.Titanium)
                 .inputItems(TagPrefix.dust, GTMaterials.Vanadium)
                 .inputItems(TagPrefix.dust, GTMaterials.Chromium)
@@ -27,7 +28,7 @@ interface DimensionallyTranscendentMixer {
                 .duration(1800)
                 .save();
 
-        GTORecipeTypes.DIMENSIONALLY_TRANSCENDENT_MIXER_RECIPES.recipeBuilder(GTOCore.id("alkaline_earth_dust"))
+        DIMENSIONALLY_TRANSCENDENT_MIXER_RECIPES.recipeBuilder(GTOCore.id("alkaline_earth_dust"))
                 .inputItems(TagPrefix.dust, GTMaterials.Beryllium)
                 .inputItems(TagPrefix.dust, GTMaterials.Magnesium)
                 .inputItems(TagPrefix.dust, GTMaterials.Calcium)
@@ -39,7 +40,7 @@ interface DimensionallyTranscendentMixer {
                 .duration(1200)
                 .save();
 
-        GTORecipeTypes.DIMENSIONALLY_TRANSCENDENT_MIXER_RECIPES.recipeBuilder(GTOCore.id("alkaline_dust"))
+        DIMENSIONALLY_TRANSCENDENT_MIXER_RECIPES.recipeBuilder(GTOCore.id("alkaline_dust"))
                 .inputItems(TagPrefix.dust, GTMaterials.Lithium)
                 .inputItems(TagPrefix.dust, GTMaterials.Sodium)
                 .inputItems(TagPrefix.dust, GTMaterials.Potassium)
@@ -51,7 +52,7 @@ interface DimensionallyTranscendentMixer {
                 .duration(1200)
                 .save();
 
-        GTORecipeTypes.DIMENSIONALLY_TRANSCENDENT_MIXER_RECIPES.recipeBuilder(GTOCore.id("dimensionallytranscendentprosaiccatalyst"))
+        DIMENSIONALLY_TRANSCENDENT_MIXER_RECIPES.recipeBuilder(GTOCore.id("dimensionallytranscendentprosaiccatalyst"))
                 .inputFluids(GTOMaterials.DimensionallyTranscendentCrudeCatalyst.getFluid(1000))
                 .inputFluids(GTMaterials.Sulfur.getFluid(FluidStorageKeys.PLASMA, 1000))
                 .inputFluids(GTMaterials.Oxygen.getFluid(FluidStorageKeys.PLASMA, 1000))
@@ -63,7 +64,7 @@ interface DimensionallyTranscendentMixer {
                 .duration(400)
                 .save();
 
-        GTORecipeTypes.DIMENSIONALLY_TRANSCENDENT_MIXER_RECIPES.recipeBuilder(GTOCore.id("dimensionallytranscendentstellarcatalyst"))
+        DIMENSIONALLY_TRANSCENDENT_MIXER_RECIPES.recipeBuilder(GTOCore.id("dimensionallytranscendentstellarcatalyst"))
                 .inputFluids(GTOMaterials.DimensionallyTranscendentExoticCatalyst.getFluid(1000))
                 .inputFluids(GTMaterials.Tin.getFluid(FluidStorageKeys.PLASMA, 1000))
                 .inputFluids(GTMaterials.Thorium.getFluid(FluidStorageKeys.PLASMA, 1000))
@@ -75,7 +76,7 @@ interface DimensionallyTranscendentMixer {
                 .duration(3200)
                 .save();
 
-        GTORecipeTypes.DIMENSIONALLY_TRANSCENDENT_MIXER_RECIPES.recipeBuilder(GTOCore.id("actinoids_1_dust"))
+        DIMENSIONALLY_TRANSCENDENT_MIXER_RECIPES.recipeBuilder(GTOCore.id("actinoids_1_dust"))
                 .inputItems(TagPrefix.dust, GTMaterials.Actinium)
                 .inputItems(TagPrefix.dust, GTMaterials.Thorium)
                 .inputItems(TagPrefix.dust, GTMaterials.Protactinium)
@@ -89,7 +90,7 @@ interface DimensionallyTranscendentMixer {
                 .duration(1600)
                 .save();
 
-        GTORecipeTypes.DIMENSIONALLY_TRANSCENDENT_MIXER_RECIPES.recipeBuilder(GTOCore.id("metalloid_dust"))
+        DIMENSIONALLY_TRANSCENDENT_MIXER_RECIPES.recipeBuilder(GTOCore.id("metalloid_dust"))
                 .inputItems(TagPrefix.dust, GTMaterials.Boron)
                 .inputItems(TagPrefix.dust, GTMaterials.Silicon)
                 .inputItems(TagPrefix.dust, GTMaterials.Germanium)
@@ -102,7 +103,7 @@ interface DimensionallyTranscendentMixer {
                 .duration(1400)
                 .save();
 
-        GTORecipeTypes.DIMENSIONALLY_TRANSCENDENT_MIXER_RECIPES.recipeBuilder(GTOCore.id("chaos_plasma"))
+        DIMENSIONALLY_TRANSCENDENT_MIXER_RECIPES.recipeBuilder(GTOCore.id("chaos_plasma"))
                 .inputItems(GTOItems.CHAOS_SHARD.asStack())
                 .inputFluids(GTMaterials.UUMatter.getFluid(4000))
                 .inputFluids(GTOMaterials.CosmicNeutronium.getFluid(2000))
@@ -114,7 +115,7 @@ interface DimensionallyTranscendentMixer {
                 .duration(1200)
                 .save();
 
-        GTORecipeTypes.DIMENSIONALLY_TRANSCENDENT_MIXER_RECIPES.recipeBuilder(GTOCore.id("actinoids_2_dust"))
+        DIMENSIONALLY_TRANSCENDENT_MIXER_RECIPES.recipeBuilder(GTOCore.id("actinoids_2_dust"))
                 .inputItems(TagPrefix.dust, GTMaterials.Berkelium)
                 .inputItems(TagPrefix.dust, GTMaterials.Californium)
                 .inputItems(TagPrefix.dust, GTMaterials.Einsteinium)
@@ -127,7 +128,7 @@ interface DimensionallyTranscendentMixer {
                 .duration(1400)
                 .save();
 
-        GTORecipeTypes.DIMENSIONALLY_TRANSCENDENT_MIXER_RECIPES.recipeBuilder(GTOCore.id("dimensionallytranscendentexoticcatalyst"))
+        DIMENSIONALLY_TRANSCENDENT_MIXER_RECIPES.recipeBuilder(GTOCore.id("dimensionallytranscendentexoticcatalyst"))
                 .inputFluids(GTOMaterials.DimensionallyTranscendentResplendentCatalyst.getFluid(1000))
                 .inputFluids(GTMaterials.Niobium.getFluid(FluidStorageKeys.PLASMA, 1000))
                 .inputFluids(GTOMaterials.Echoite.getFluid(FluidStorageKeys.PLASMA, 1000))
@@ -139,7 +140,7 @@ interface DimensionallyTranscendentMixer {
                 .duration(1600)
                 .save();
 
-        GTORecipeTypes.DIMENSIONALLY_TRANSCENDENT_MIXER_RECIPES.recipeBuilder(GTOCore.id("lanthanoids_2_dust"))
+        DIMENSIONALLY_TRANSCENDENT_MIXER_RECIPES.recipeBuilder(GTOCore.id("lanthanoids_2_dust"))
                 .inputItems(TagPrefix.dust, GTMaterials.Terbium)
                 .inputItems(TagPrefix.dust, GTMaterials.Dysprosium)
                 .inputItems(TagPrefix.dust, GTMaterials.Holmium)
@@ -152,7 +153,7 @@ interface DimensionallyTranscendentMixer {
                 .duration(1400)
                 .save();
 
-        GTORecipeTypes.DIMENSIONALLY_TRANSCENDENT_MIXER_RECIPES.recipeBuilder(GTOCore.id("not_found"))
+        DIMENSIONALLY_TRANSCENDENT_MIXER_RECIPES.recipeBuilder(GTOCore.id("not_found"))
                 .inputItems(TagPrefix.dust, GTMaterials.Carbon)
                 .inputItems(TagPrefix.dust, GTMaterials.Phosphorus)
                 .inputItems(TagPrefix.dust, GTMaterials.Sulfur)
@@ -169,7 +170,7 @@ interface DimensionallyTranscendentMixer {
                 .duration(2200)
                 .save();
 
-        GTORecipeTypes.DIMENSIONALLY_TRANSCENDENT_MIXER_RECIPES.recipeBuilder(GTOCore.id("poor_dust"))
+        DIMENSIONALLY_TRANSCENDENT_MIXER_RECIPES.recipeBuilder(GTOCore.id("poor_dust"))
                 .inputItems(TagPrefix.dust, GTMaterials.Aluminium)
                 .inputItems(TagPrefix.dust, GTMaterials.Gallium)
                 .inputItems(TagPrefix.dust, GTMaterials.Indium)
@@ -183,7 +184,7 @@ interface DimensionallyTranscendentMixer {
                 .duration(1600)
                 .save();
 
-        GTORecipeTypes.DIMENSIONALLY_TRANSCENDENT_MIXER_RECIPES.recipeBuilder(GTOCore.id("dimensionallytranscendentresplendentcatalyst"))
+        DIMENSIONALLY_TRANSCENDENT_MIXER_RECIPES.recipeBuilder(GTOCore.id("dimensionallytranscendentresplendentcatalyst"))
                 .inputFluids(GTOMaterials.DimensionallyTranscendentProsaicCatalyst.getFluid(1000))
                 .inputFluids(GTMaterials.Zinc.getFluid(FluidStorageKeys.PLASMA, 1000))
                 .inputFluids(GTOMaterials.Mithril.getFluid(FluidStorageKeys.PLASMA, 1000))
@@ -195,7 +196,7 @@ interface DimensionallyTranscendentMixer {
                 .duration(800)
                 .save();
 
-        GTORecipeTypes.DIMENSIONALLY_TRANSCENDENT_MIXER_RECIPES.recipeBuilder(GTOCore.id("transition_3_dust"))
+        DIMENSIONALLY_TRANSCENDENT_MIXER_RECIPES.recipeBuilder(GTOCore.id("transition_3_dust"))
                 .inputItems(TagPrefix.dust, GTMaterials.Hafnium)
                 .inputItems(TagPrefix.dust, GTMaterials.Tantalum)
                 .inputItems(TagPrefix.dust, GTMaterials.Tungsten)
@@ -210,7 +211,7 @@ interface DimensionallyTranscendentMixer {
                 .duration(1800)
                 .save();
 
-        GTORecipeTypes.DIMENSIONALLY_TRANSCENDENT_MIXER_RECIPES.recipeBuilder(GTOCore.id("exciteddtsc"))
+        DIMENSIONALLY_TRANSCENDENT_MIXER_RECIPES.recipeBuilder(GTOCore.id("exciteddtsc"))
                 .inputFluids(GTOMaterials.DimensionallyTranscendentStellarCatalyst.getFluid(10000))
                 .inputFluids(GTOMaterials.ConcentrationMixingHyperFuel2.getFluid(1000))
                 .inputFluids(GTOMaterials.HighEnergyQuarkGluon.getFluid(FluidStorageKeys.PLASMA, 1000))
@@ -219,7 +220,7 @@ interface DimensionallyTranscendentMixer {
                 .duration(12000)
                 .save();
 
-        GTORecipeTypes.DIMENSIONALLY_TRANSCENDENT_MIXER_RECIPES.recipeBuilder(GTOCore.id("transition_2_dust"))
+        DIMENSIONALLY_TRANSCENDENT_MIXER_RECIPES.recipeBuilder(GTOCore.id("transition_2_dust"))
                 .inputItems(TagPrefix.dust, GTMaterials.Zirconium)
                 .inputItems(TagPrefix.dust, GTMaterials.Niobium)
                 .inputItems(TagPrefix.dust, GTMaterials.Molybdenum)
@@ -234,7 +235,7 @@ interface DimensionallyTranscendentMixer {
                 .duration(1800)
                 .save();
 
-        GTORecipeTypes.DIMENSIONALLY_TRANSCENDENT_MIXER_RECIPES.recipeBuilder(GTOCore.id("lanthanoids_1_dust"))
+        DIMENSIONALLY_TRANSCENDENT_MIXER_RECIPES.recipeBuilder(GTOCore.id("lanthanoids_1_dust"))
                 .inputItems(TagPrefix.dust, GTMaterials.Lanthanum)
                 .inputItems(TagPrefix.dust, GTMaterials.Cerium)
                 .inputItems(TagPrefix.dust, GTMaterials.Praseodymium)
@@ -248,7 +249,7 @@ interface DimensionallyTranscendentMixer {
                 .duration(1600)
                 .save();
 
-        GTORecipeTypes.DIMENSIONALLY_TRANSCENDENT_MIXER_RECIPES.recipeBuilder(GTOCore.id("primordialmatter"))
+        DIMENSIONALLY_TRANSCENDENT_MIXER_RECIPES.recipeBuilder(GTOCore.id("primordialmatter"))
                 .inputFluids(GTOMaterials.RawStarMatter.getFluid(FluidStorageKeys.PLASMA, 1000))
                 .inputFluids(GTOMaterials.SpaceTime.getFluid(1000))
                 .inputFluids(GTOMaterials.SpatialFluid.getFluid(1000))
@@ -258,7 +259,7 @@ interface DimensionallyTranscendentMixer {
                 .duration(1200)
                 .save();
 
-        GTORecipeTypes.DIMENSIONALLY_TRANSCENDENT_MIXER_RECIPES.recipeBuilder(GTOCore.id("noble_gas"))
+        DIMENSIONALLY_TRANSCENDENT_MIXER_RECIPES.recipeBuilder(GTOCore.id("noble_gas"))
                 .inputFluids(GTMaterials.Helium.getFluid(1000))
                 .inputFluids(GTMaterials.Neon.getFluid(1000))
                 .inputFluids(GTMaterials.Argon.getFluid(1000))

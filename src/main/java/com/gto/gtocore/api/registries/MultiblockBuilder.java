@@ -94,6 +94,10 @@ public final class MultiblockBuilder extends MultiblockMachineBuilder {
         return (MultiblockBuilder) recipeType(recipeType);
     }
 
+    public MultiblockBuilder existingTooltips(String name, int index, Object... args) {
+        return tooltipsKey("gtocore.machine." + name + ".tooltip." + index, args);
+    }
+
     public MultiblockBuilder tooltipsKey(String key, Object... args) {
         return (MultiblockBuilder) tooltips(Component.translatable(key, args));
     }

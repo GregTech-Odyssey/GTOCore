@@ -1,5 +1,7 @@
 package com.gto.gtocore.utils;
 
+import com.gto.gtocore.api.item.IItem;
+
 import com.gregtechceu.gtceu.api.recipe.ingredient.SizedIngredient;
 
 import net.minecraft.resources.ResourceLocation;
@@ -7,9 +9,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.block.Block;
-
-import dev.latvian.mods.kubejs.core.IngredientKJS;
-import dev.latvian.mods.kubejs.core.ItemKJS;
 
 public final class ItemUtils {
 
@@ -26,26 +25,31 @@ public final class ItemUtils {
     }
 
     public static ItemStack getFirst(Ingredient ingredient) {
-        return ((IngredientKJS) ingredient).kjs$getFirst();
+        for (ItemStack stack : ingredient.getItems()) {
+            if (!stack.isEmpty()) {
+                return stack;
+            }
+        }
+        return ItemStack.EMPTY;
     }
 
     public static String getId(Block block) {
-        return ((ItemKJS) block.asItem()).kjs$getId();
+        return ((IItem) block.asItem()).gtocore$getId();
     }
 
     public static String getId(ItemStack item) {
-        return ((ItemKJS) item.getItem()).kjs$getId();
+        return ((IItem) item.getItem()).gtocore$getId();
     }
 
     public static String getId(Item item) {
-        return ((ItemKJS) item).kjs$getId();
+        return ((IItem) item).gtocore$getId();
     }
 
     public static ResourceLocation getIdLocation(Block block) {
-        return ((ItemKJS) block.asItem()).kjs$getIdLocation();
+        return ((IItem) block.asItem()).gtocore$getIdLocation();
     }
 
     public static ResourceLocation getIdLocation(Item item) {
-        return ((ItemKJS) item).kjs$getIdLocation();
+        return ((IItem) item).gtocore$getIdLocation();
     }
 }

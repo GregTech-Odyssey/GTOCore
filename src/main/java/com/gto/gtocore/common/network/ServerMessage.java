@@ -1,7 +1,7 @@
 package com.gto.gtocore.common.network;
 
+import com.gto.gtocore.api.misc.PlanetManagement;
 import com.gto.gtocore.client.ClientCache;
-import com.gto.gtocore.common.saved.PlanetsTravelSavaedData;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
@@ -9,16 +9,15 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 
-import dev.latvian.mods.kubejs.net.SendDataFromServerMessage;
 import org.jetbrains.annotations.Nullable;
 
 public interface ServerMessage {
 
     static void sendData(MinecraftServer server, @Nullable ServerPlayer player, String channel, @Nullable CompoundTag data) {
         if (player != null) {
-            new SendDataFromServerMessage(channel, data).sendTo(player);
+            new FromServerMessage(channel, data).sendTo(player);
         } else {
-            new SendDataFromServerMessage(channel, data).sendToAll(server);
+            new FromServerMessage(channel, data).sendToAll(server);
         }
     }
 
@@ -39,7 +38,7 @@ public interface ServerMessage {
         switch (channel) {
             case "planetUnlock": {
                 ResourceLocation planet = new ResourceLocation(data.getString("planet"));
-                PlanetsTravelSavaedData.clientUnlock(planet);
+                PlanetManagement.clientUnlock(planet);
                 break;
             }
             case "disableDrift": {

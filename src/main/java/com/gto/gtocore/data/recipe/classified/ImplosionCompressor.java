@@ -4,7 +4,6 @@ import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.api.data.tag.GTOTagPrefix;
 import com.gto.gtocore.common.data.GTOItems;
 import com.gto.gtocore.common.data.GTOMaterials;
-import com.gto.gtocore.common.data.GTORecipeTypes;
 
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
@@ -20,10 +19,13 @@ import appeng.core.definitions.AEItems;
 import committee.nova.mods.avaritia.init.registry.ModBlocks;
 import committee.nova.mods.avaritia.init.registry.ModItems;
 
+import static com.gto.gtocore.common.data.GTORecipeTypes.ELECTRIC_IMPLOSION_COMPRESSOR_RECIPES;
+import static com.gto.gtocore.common.data.GTORecipeTypes.IMPLOSION_RECIPES;
+
 interface ImplosionCompressor {
 
     static void init() {
-        GTORecipeTypes.IMPLOSION_RECIPES.recipeBuilder(GTOCore.id("diamond_lattice_tnt"))
+        IMPLOSION_RECIPES.recipeBuilder(GTOCore.id("diamond_lattice_tnt"))
                 .inputItems(TagPrefix.gemExquisite, GTMaterials.Diamond, 4)
                 .inputItems(new ItemStack(Items.NETHERITE_SCRAP.asItem()))
                 .inputItems(new ItemStack(Blocks.TNT.asItem(), 4))
@@ -33,7 +35,7 @@ interface ImplosionCompressor {
                 .duration(20)
                 .save();
 
-        GTORecipeTypes.IMPLOSION_RECIPES.recipeBuilder(GTOCore.id("command_block_core_tnt"))
+        IMPLOSION_RECIPES.recipeBuilder(GTOCore.id("command_block_core_tnt"))
                 .inputItems(new ItemStack(Blocks.COMMAND_BLOCK.asItem()))
                 .inputItems(GTOItems.TWO_WAY_FOIL.asStack())
                 .inputItems(new ItemStack(Blocks.TNT.asItem(), 4))
@@ -43,7 +45,7 @@ interface ImplosionCompressor {
                 .duration(20)
                 .save();
 
-        GTORecipeTypes.IMPLOSION_RECIPES.recipeBuilder(GTOCore.id("compressed_chest_tnt"))
+        IMPLOSION_RECIPES.recipeBuilder(GTOCore.id("compressed_chest_tnt"))
                 .inputItems(new ItemStack(Blocks.CHEST.asItem(), 2))
                 .inputItems(new ItemStack(AEBlocks.SMOOTH_SKY_STONE_CHEST.block().asItem(), 2))
                 .inputItems(new ItemStack(Blocks.TNT.asItem(), 4))
@@ -53,7 +55,7 @@ interface ImplosionCompressor {
                 .duration(20)
                 .save();
 
-        GTORecipeTypes.IMPLOSION_RECIPES.recipeBuilder(GTOCore.id("neutron_nugget_tnt"))
+        IMPLOSION_RECIPES.recipeBuilder(GTOCore.id("neutron_nugget_tnt"))
                 .inputItems(new ItemStack(ModItems.neutron_pile.get(), 64))
                 .inputItems(new ItemStack(ModItems.neutron_pile.get(), 64))
                 .inputItems(new ItemStack(Blocks.TNT.asItem(), 4))
@@ -63,7 +65,7 @@ interface ImplosionCompressor {
                 .duration(20)
                 .save();
 
-        GTORecipeTypes.IMPLOSION_RECIPES.recipeBuilder(GTOCore.id("crystal_matrix_itnt"))
+        IMPLOSION_RECIPES.recipeBuilder(GTOCore.id("crystal_matrix_itnt"))
                 .inputItems(new ItemStack(ModItems.diamond_lattice.get(), 8))
                 .inputItems(TagPrefix.gem, GTMaterials.NetherStar)
                 .inputItems(GTBlocks.INDUSTRIAL_TNT.asStack())
@@ -73,7 +75,7 @@ interface ImplosionCompressor {
                 .duration(20)
                 .save();
 
-        GTORecipeTypes.IMPLOSION_RECIPES.recipeBuilder(GTOCore.id("diamond_lattice_dynamite"))
+        IMPLOSION_RECIPES.recipeBuilder(GTOCore.id("diamond_lattice_dynamite"))
                 .inputItems(TagPrefix.gemExquisite, GTMaterials.Diamond, 4)
                 .inputItems(new ItemStack(Items.NETHERITE_SCRAP.asItem()))
                 .inputItems(GTItems.DYNAMITE.asStack(2))
@@ -83,7 +85,7 @@ interface ImplosionCompressor {
                 .duration(20)
                 .save();
 
-        GTORecipeTypes.IMPLOSION_RECIPES.recipeBuilder(GTOCore.id("double_compressed_crafting_table_powderbarrel"))
+        IMPLOSION_RECIPES.recipeBuilder(GTOCore.id("double_compressed_crafting_table_powderbarrel"))
                 .inputItems(new ItemStack(ModBlocks.compressed_crafting_table.get().asItem(), 64))
                 .inputItems(new ItemStack(ModBlocks.compressed_crafting_table.get().asItem(), 64))
                 .inputItems(GTBlocks.POWDERBARREL.asStack(8))
@@ -93,7 +95,7 @@ interface ImplosionCompressor {
                 .duration(20)
                 .save();
 
-        GTORecipeTypes.IMPLOSION_RECIPES.recipeBuilder(GTOCore.id("diamond_lattice_itnt"))
+        IMPLOSION_RECIPES.recipeBuilder(GTOCore.id("diamond_lattice_itnt"))
                 .inputItems(TagPrefix.gemExquisite, GTMaterials.Diamond, 4)
                 .inputItems(new ItemStack(Items.NETHERITE_SCRAP.asItem()))
                 .inputItems(GTBlocks.INDUSTRIAL_TNT.asStack())
@@ -103,7 +105,7 @@ interface ImplosionCompressor {
                 .duration(20)
                 .save();
 
-        GTORecipeTypes.IMPLOSION_RECIPES.recipeBuilder(GTOCore.id("heavy_duty_plate_1_dynamite"))
+        IMPLOSION_RECIPES.recipeBuilder(GTOCore.id("heavy_duty_plate_1_dynamite"))
                 .inputItems(TagPrefix.plateDouble, GTMaterials.StainlessSteel, 4)
                 .inputItems(TagPrefix.plateDense, GTMaterials.Steel, 2)
                 .inputItems(GTItems.DYNAMITE.asStack(2))
@@ -113,7 +115,7 @@ interface ImplosionCompressor {
                 .duration(20)
                 .save();
 
-        GTORecipeTypes.IMPLOSION_RECIPES.recipeBuilder(GTOCore.id("double_compressed_crafting_table_itnt"))
+        IMPLOSION_RECIPES.recipeBuilder(GTOCore.id("double_compressed_crafting_table_itnt"))
                 .inputItems(new ItemStack(ModBlocks.compressed_crafting_table.get().asItem(), 64))
                 .inputItems(new ItemStack(ModBlocks.compressed_crafting_table.get().asItem(), 64))
                 .inputItems(GTBlocks.INDUSTRIAL_TNT.asStack())
@@ -123,7 +125,7 @@ interface ImplosionCompressor {
                 .duration(20)
                 .save();
 
-        GTORecipeTypes.IMPLOSION_RECIPES.recipeBuilder(GTOCore.id("command_block_core_dynamite"))
+        IMPLOSION_RECIPES.recipeBuilder(GTOCore.id("command_block_core_dynamite"))
                 .inputItems(new ItemStack(Blocks.COMMAND_BLOCK.asItem()))
                 .inputItems(GTOItems.TWO_WAY_FOIL.asStack())
                 .inputItems(GTItems.DYNAMITE.asStack(2))
@@ -133,7 +135,7 @@ interface ImplosionCompressor {
                 .duration(20)
                 .save();
 
-        GTORecipeTypes.IMPLOSION_RECIPES.recipeBuilder(GTOCore.id("command_block_core_powderbarrel"))
+        IMPLOSION_RECIPES.recipeBuilder(GTOCore.id("command_block_core_powderbarrel"))
                 .inputItems(new ItemStack(Blocks.COMMAND_BLOCK.asItem()))
                 .inputItems(GTOItems.TWO_WAY_FOIL.asStack())
                 .inputItems(GTBlocks.POWDERBARREL.asStack(8))
@@ -143,7 +145,7 @@ interface ImplosionCompressor {
                 .duration(20)
                 .save();
 
-        GTORecipeTypes.IMPLOSION_RECIPES.recipeBuilder(GTOCore.id("heavy_duty_plate_1_powderbarrel"))
+        IMPLOSION_RECIPES.recipeBuilder(GTOCore.id("heavy_duty_plate_1_powderbarrel"))
                 .inputItems(TagPrefix.plateDouble, GTMaterials.StainlessSteel, 4)
                 .inputItems(TagPrefix.plateDense, GTMaterials.Steel, 2)
                 .inputItems(GTBlocks.POWDERBARREL.asStack(8))
@@ -153,7 +155,7 @@ interface ImplosionCompressor {
                 .duration(20)
                 .save();
 
-        GTORecipeTypes.IMPLOSION_RECIPES.recipeBuilder(GTOCore.id("compressed_chest_powderbarrel"))
+        IMPLOSION_RECIPES.recipeBuilder(GTOCore.id("compressed_chest_powderbarrel"))
                 .inputItems(new ItemStack(Blocks.CHEST.asItem(), 2))
                 .inputItems(new ItemStack(AEBlocks.SMOOTH_SKY_STONE_CHEST.block().asItem(), 2))
                 .inputItems(GTBlocks.POWDERBARREL.asStack(8))
@@ -163,7 +165,7 @@ interface ImplosionCompressor {
                 .duration(20)
                 .save();
 
-        GTORecipeTypes.IMPLOSION_RECIPES.recipeBuilder(GTOCore.id("heavy_duty_plate_3_dynamite"))
+        IMPLOSION_RECIPES.recipeBuilder(GTOCore.id("heavy_duty_plate_3_dynamite"))
                 .inputItems(GTOItems.HEAVY_DUTY_PLATE_2.asStack(4))
                 .inputItems(TagPrefix.plateDense, GTMaterials.TungstenSteel, 2)
                 .inputItems(GTItems.DYNAMITE.asStack(2))
@@ -173,7 +175,7 @@ interface ImplosionCompressor {
                 .duration(20)
                 .save();
 
-        GTORecipeTypes.IMPLOSION_RECIPES.recipeBuilder(GTOCore.id("heavy_duty_plate_1_itnt"))
+        IMPLOSION_RECIPES.recipeBuilder(GTOCore.id("heavy_duty_plate_1_itnt"))
                 .inputItems(TagPrefix.plateDouble, GTMaterials.StainlessSteel, 4)
                 .inputItems(TagPrefix.plateDense, GTMaterials.Steel, 2)
                 .inputItems(GTBlocks.INDUSTRIAL_TNT.asStack())
@@ -183,7 +185,7 @@ interface ImplosionCompressor {
                 .duration(20)
                 .save();
 
-        GTORecipeTypes.IMPLOSION_RECIPES.recipeBuilder(GTOCore.id("compressed_chest_dynamite"))
+        IMPLOSION_RECIPES.recipeBuilder(GTOCore.id("compressed_chest_dynamite"))
                 .inputItems(new ItemStack(Blocks.CHEST.asItem(), 2))
                 .inputItems(new ItemStack(AEBlocks.SMOOTH_SKY_STONE_CHEST.block().asItem(), 2))
                 .inputItems(GTItems.DYNAMITE.asStack(2))
@@ -193,7 +195,7 @@ interface ImplosionCompressor {
                 .duration(20)
                 .save();
 
-        GTORecipeTypes.IMPLOSION_RECIPES.recipeBuilder(GTOCore.id("entangled_singularity_powderbarrel"))
+        IMPLOSION_RECIPES.recipeBuilder(GTOCore.id("entangled_singularity_powderbarrel"))
                 .inputItems(new ItemStack(AEItems.SINGULARITY.asItem()))
                 .inputItems(GTOItems.WARPED_ENDER_PEARL.asStack())
                 .inputItems(GTBlocks.POWDERBARREL.asStack(8))
@@ -203,7 +205,7 @@ interface ImplosionCompressor {
                 .duration(20)
                 .save();
 
-        GTORecipeTypes.IMPLOSION_RECIPES.recipeBuilder(GTOCore.id("crystal_matrix_tnt"))
+        IMPLOSION_RECIPES.recipeBuilder(GTOCore.id("crystal_matrix_tnt"))
                 .inputItems(new ItemStack(ModItems.diamond_lattice.get(), 8))
                 .inputItems(TagPrefix.gem, GTMaterials.NetherStar)
                 .inputItems(new ItemStack(Blocks.TNT.asItem(), 4))
@@ -213,7 +215,7 @@ interface ImplosionCompressor {
                 .duration(20)
                 .save();
 
-        GTORecipeTypes.IMPLOSION_RECIPES.recipeBuilder(GTOCore.id("entangled_singularity_itnt"))
+        IMPLOSION_RECIPES.recipeBuilder(GTOCore.id("entangled_singularity_itnt"))
                 .inputItems(new ItemStack(AEItems.SINGULARITY.asItem()))
                 .inputItems(GTOItems.WARPED_ENDER_PEARL.asStack())
                 .inputItems(GTBlocks.INDUSTRIAL_TNT.asStack())
@@ -223,7 +225,7 @@ interface ImplosionCompressor {
                 .duration(20)
                 .save();
 
-        GTORecipeTypes.IMPLOSION_RECIPES.recipeBuilder(GTOCore.id("heavy_duty_plate_3_tnt"))
+        IMPLOSION_RECIPES.recipeBuilder(GTOCore.id("heavy_duty_plate_3_tnt"))
                 .inputItems(GTOItems.HEAVY_DUTY_PLATE_2.asStack(4))
                 .inputItems(TagPrefix.plateDense, GTMaterials.TungstenSteel, 2)
                 .inputItems(new ItemStack(Blocks.TNT.asItem(), 4))
@@ -233,7 +235,7 @@ interface ImplosionCompressor {
                 .duration(20)
                 .save();
 
-        GTORecipeTypes.IMPLOSION_RECIPES.recipeBuilder(GTOCore.id("diamond_lattice_powderbarrel"))
+        IMPLOSION_RECIPES.recipeBuilder(GTOCore.id("diamond_lattice_powderbarrel"))
                 .inputItems(TagPrefix.gemExquisite, GTMaterials.Diamond, 4)
                 .inputItems(new ItemStack(Items.NETHERITE_SCRAP.asItem()))
                 .inputItems(GTBlocks.POWDERBARREL.asStack(8))
@@ -243,7 +245,7 @@ interface ImplosionCompressor {
                 .duration(20)
                 .save();
 
-        GTORecipeTypes.IMPLOSION_RECIPES.recipeBuilder(GTOCore.id("heavy_duty_plate_3_powderbarrel"))
+        IMPLOSION_RECIPES.recipeBuilder(GTOCore.id("heavy_duty_plate_3_powderbarrel"))
                 .inputItems(GTOItems.HEAVY_DUTY_PLATE_2.asStack(4))
                 .inputItems(TagPrefix.plateDense, GTMaterials.TungstenSteel, 2)
                 .inputItems(GTBlocks.POWDERBARREL.asStack(8))
@@ -253,7 +255,7 @@ interface ImplosionCompressor {
                 .duration(20)
                 .save();
 
-        GTORecipeTypes.IMPLOSION_RECIPES.recipeBuilder(GTOCore.id("crystal_matrix_dynamite"))
+        IMPLOSION_RECIPES.recipeBuilder(GTOCore.id("crystal_matrix_dynamite"))
                 .inputItems(new ItemStack(ModItems.diamond_lattice.get(), 8))
                 .inputItems(TagPrefix.gem, GTMaterials.NetherStar)
                 .inputItems(GTItems.DYNAMITE.asStack(2))
@@ -263,7 +265,7 @@ interface ImplosionCompressor {
                 .duration(20)
                 .save();
 
-        GTORecipeTypes.IMPLOSION_RECIPES.recipeBuilder(GTOCore.id("heavy_duty_plate_3_itnt"))
+        IMPLOSION_RECIPES.recipeBuilder(GTOCore.id("heavy_duty_plate_3_itnt"))
                 .inputItems(GTOItems.HEAVY_DUTY_PLATE_2.asStack(4))
                 .inputItems(TagPrefix.plateDense, GTMaterials.TungstenSteel, 2)
                 .inputItems(GTBlocks.INDUSTRIAL_TNT.asStack())
@@ -273,7 +275,7 @@ interface ImplosionCompressor {
                 .duration(20)
                 .save();
 
-        GTORecipeTypes.IMPLOSION_RECIPES.recipeBuilder(GTOCore.id("neutron_nugget_powderbarrel"))
+        IMPLOSION_RECIPES.recipeBuilder(GTOCore.id("neutron_nugget_powderbarrel"))
                 .inputItems(new ItemStack(ModItems.neutron_pile.get(), 64))
                 .inputItems(new ItemStack(ModItems.neutron_pile.get(), 64))
                 .inputItems(GTBlocks.POWDERBARREL.asStack(8))
@@ -283,7 +285,7 @@ interface ImplosionCompressor {
                 .duration(20)
                 .save();
 
-        GTORecipeTypes.IMPLOSION_RECIPES.recipeBuilder(GTOCore.id("neutron_nugget_itnt"))
+        IMPLOSION_RECIPES.recipeBuilder(GTOCore.id("neutron_nugget_itnt"))
                 .inputItems(new ItemStack(ModItems.neutron_pile.get(), 64))
                 .inputItems(new ItemStack(ModItems.neutron_pile.get(), 64))
                 .inputItems(GTBlocks.INDUSTRIAL_TNT.asStack())
@@ -293,7 +295,7 @@ interface ImplosionCompressor {
                 .duration(20)
                 .save();
 
-        GTORecipeTypes.IMPLOSION_RECIPES.recipeBuilder(GTOCore.id("double_compressed_crafting_table_dynamite"))
+        IMPLOSION_RECIPES.recipeBuilder(GTOCore.id("double_compressed_crafting_table_dynamite"))
                 .inputItems(new ItemStack(ModBlocks.compressed_crafting_table.get().asItem(), 64))
                 .inputItems(new ItemStack(ModBlocks.compressed_crafting_table.get().asItem(), 64))
                 .inputItems(GTItems.DYNAMITE.asStack(2))
@@ -303,7 +305,7 @@ interface ImplosionCompressor {
                 .duration(20)
                 .save();
 
-        GTORecipeTypes.IMPLOSION_RECIPES.recipeBuilder(GTOCore.id("double_compressed_crafting_table_tnt"))
+        IMPLOSION_RECIPES.recipeBuilder(GTOCore.id("double_compressed_crafting_table_tnt"))
                 .inputItems(new ItemStack(ModBlocks.compressed_crafting_table.get().asItem(), 64))
                 .inputItems(new ItemStack(ModBlocks.compressed_crafting_table.get().asItem(), 64))
                 .inputItems(new ItemStack(Blocks.TNT.asItem(), 4))
@@ -313,7 +315,7 @@ interface ImplosionCompressor {
                 .duration(20)
                 .save();
 
-        GTORecipeTypes.IMPLOSION_RECIPES.recipeBuilder(GTOCore.id("entangled_singularity_dynamite"))
+        IMPLOSION_RECIPES.recipeBuilder(GTOCore.id("entangled_singularity_dynamite"))
                 .inputItems(new ItemStack(AEItems.SINGULARITY.asItem()))
                 .inputItems(GTOItems.WARPED_ENDER_PEARL.asStack())
                 .inputItems(GTItems.DYNAMITE.asStack(2))
@@ -323,7 +325,7 @@ interface ImplosionCompressor {
                 .duration(20)
                 .save();
 
-        GTORecipeTypes.IMPLOSION_RECIPES.recipeBuilder(GTOCore.id("neutron_nugget_dynamite"))
+        IMPLOSION_RECIPES.recipeBuilder(GTOCore.id("neutron_nugget_dynamite"))
                 .inputItems(new ItemStack(ModItems.neutron_pile.get(), 64))
                 .inputItems(new ItemStack(ModItems.neutron_pile.get(), 64))
                 .inputItems(GTItems.DYNAMITE.asStack(2))
@@ -333,7 +335,7 @@ interface ImplosionCompressor {
                 .duration(20)
                 .save();
 
-        GTORecipeTypes.IMPLOSION_RECIPES.recipeBuilder(GTOCore.id("entangled_singularity_tnt"))
+        IMPLOSION_RECIPES.recipeBuilder(GTOCore.id("entangled_singularity_tnt"))
                 .inputItems(new ItemStack(AEItems.SINGULARITY.asItem()))
                 .inputItems(GTOItems.WARPED_ENDER_PEARL.asStack())
                 .inputItems(new ItemStack(Blocks.TNT.asItem(), 4))
@@ -343,7 +345,7 @@ interface ImplosionCompressor {
                 .duration(20)
                 .save();
 
-        GTORecipeTypes.IMPLOSION_RECIPES.recipeBuilder(GTOCore.id("heavy_duty_plate_1_tnt"))
+        IMPLOSION_RECIPES.recipeBuilder(GTOCore.id("heavy_duty_plate_1_tnt"))
                 .inputItems(TagPrefix.plateDouble, GTMaterials.StainlessSteel, 4)
                 .inputItems(TagPrefix.plateDense, GTMaterials.Steel, 2)
                 .inputItems(new ItemStack(Blocks.TNT.asItem(), 4))
@@ -353,7 +355,7 @@ interface ImplosionCompressor {
                 .duration(20)
                 .save();
 
-        GTORecipeTypes.IMPLOSION_RECIPES.recipeBuilder(GTOCore.id("crystal_matrix_powderbarrel"))
+        IMPLOSION_RECIPES.recipeBuilder(GTOCore.id("crystal_matrix_powderbarrel"))
                 .inputItems(new ItemStack(ModItems.diamond_lattice.get(), 8))
                 .inputItems(TagPrefix.gem, GTMaterials.NetherStar)
                 .inputItems(GTBlocks.POWDERBARREL.asStack(8))
@@ -363,7 +365,7 @@ interface ImplosionCompressor {
                 .duration(20)
                 .save();
 
-        GTORecipeTypes.IMPLOSION_RECIPES.recipeBuilder(GTOCore.id("command_block_core_itnt"))
+        IMPLOSION_RECIPES.recipeBuilder(GTOCore.id("command_block_core_itnt"))
                 .inputItems(new ItemStack(Blocks.COMMAND_BLOCK.asItem()))
                 .inputItems(GTOItems.TWO_WAY_FOIL.asStack())
                 .inputItems(GTBlocks.INDUSTRIAL_TNT.asStack())
@@ -373,7 +375,7 @@ interface ImplosionCompressor {
                 .duration(20)
                 .save();
 
-        GTORecipeTypes.IMPLOSION_RECIPES.recipeBuilder(GTOCore.id("compressed_chest_itnt"))
+        IMPLOSION_RECIPES.recipeBuilder(GTOCore.id("compressed_chest_itnt"))
                 .inputItems(new ItemStack(Blocks.CHEST.asItem(), 2))
                 .inputItems(new ItemStack(AEBlocks.SMOOTH_SKY_STONE_CHEST.block().asItem(), 2))
                 .inputItems(GTBlocks.INDUSTRIAL_TNT.asStack())
@@ -383,7 +385,7 @@ interface ImplosionCompressor {
                 .duration(20)
                 .save();
 
-        GTORecipeTypes.ELECTRIC_IMPLOSION_COMPRESSOR_RECIPES.recipeBuilder(GTOCore.id("double_compressed_crafting_table"))
+        ELECTRIC_IMPLOSION_COMPRESSOR_RECIPES.recipeBuilder(GTOCore.id("double_compressed_crafting_table"))
                 .inputItems(new ItemStack(ModBlocks.compressed_crafting_table.get().asItem(), 64))
                 .inputItems(new ItemStack(ModBlocks.compressed_crafting_table.get().asItem(), 64))
                 .outputItems(ModBlocks.double_compressed_crafting_table.get().asItem())
@@ -391,7 +393,7 @@ interface ImplosionCompressor {
                 .duration(1)
                 .save();
 
-        GTORecipeTypes.ELECTRIC_IMPLOSION_COMPRESSOR_RECIPES.recipeBuilder(GTOCore.id("compressed_chest"))
+        ELECTRIC_IMPLOSION_COMPRESSOR_RECIPES.recipeBuilder(GTOCore.id("compressed_chest"))
                 .inputItems(new ItemStack(Blocks.CHEST.asItem(), 2))
                 .inputItems(new ItemStack(AEBlocks.SMOOTH_SKY_STONE_CHEST.block().asItem(), 2))
                 .outputItems(ModBlocks.compressed_chest.get().asItem())
@@ -399,7 +401,7 @@ interface ImplosionCompressor {
                 .duration(1)
                 .save();
 
-        GTORecipeTypes.ELECTRIC_IMPLOSION_COMPRESSOR_RECIPES.recipeBuilder(GTOCore.id("eternal_singularity"))
+        ELECTRIC_IMPLOSION_COMPRESSOR_RECIPES.recipeBuilder(GTOCore.id("eternal_singularity"))
                 .notConsumable(GTOTagPrefix.nanites, GTOMaterials.Eternity, 16)
                 .inputItems(TagPrefix.dust, GTOMaterials.SpaceTime)
                 .outputItems(ModItems.eternal_singularity.get())
@@ -407,7 +409,7 @@ interface ImplosionCompressor {
                 .duration(20)
                 .save();
 
-        GTORecipeTypes.ELECTRIC_IMPLOSION_COMPRESSOR_RECIPES.recipeBuilder(GTOCore.id("crystal_matrix"))
+        ELECTRIC_IMPLOSION_COMPRESSOR_RECIPES.recipeBuilder(GTOCore.id("crystal_matrix"))
                 .inputItems(new ItemStack(ModItems.diamond_lattice.get(), 8))
                 .inputItems(TagPrefix.gem, GTMaterials.NetherStar)
                 .outputItems(ModBlocks.crystal_matrix.get().asItem())
@@ -415,7 +417,7 @@ interface ImplosionCompressor {
                 .duration(1)
                 .save();
 
-        GTORecipeTypes.ELECTRIC_IMPLOSION_COMPRESSOR_RECIPES.recipeBuilder(GTOCore.id("command_block_core"))
+        ELECTRIC_IMPLOSION_COMPRESSOR_RECIPES.recipeBuilder(GTOCore.id("command_block_core"))
                 .inputItems(new ItemStack(Blocks.COMMAND_BLOCK.asItem()))
                 .inputItems(GTOItems.TWO_WAY_FOIL.asStack())
                 .outputItems(GTOItems.COMMAND_BLOCK_CORE.asStack())
@@ -423,7 +425,7 @@ interface ImplosionCompressor {
                 .duration(1)
                 .save();
 
-        GTORecipeTypes.ELECTRIC_IMPLOSION_COMPRESSOR_RECIPES.recipeBuilder(GTOCore.id("neutron_nugget"))
+        ELECTRIC_IMPLOSION_COMPRESSOR_RECIPES.recipeBuilder(GTOCore.id("neutron_nugget"))
                 .inputItems(new ItemStack(ModItems.neutron_pile.get(), 64))
                 .inputItems(new ItemStack(ModItems.neutron_pile.get(), 64))
                 .outputItems(ModItems.neutron_nugget.get())
@@ -431,7 +433,7 @@ interface ImplosionCompressor {
                 .duration(1)
                 .save();
 
-        GTORecipeTypes.ELECTRIC_IMPLOSION_COMPRESSOR_RECIPES.recipeBuilder(GTOCore.id("diamond_lattice"))
+        ELECTRIC_IMPLOSION_COMPRESSOR_RECIPES.recipeBuilder(GTOCore.id("diamond_lattice"))
                 .inputItems(TagPrefix.gemExquisite, GTMaterials.Diamond, 4)
                 .inputItems(new ItemStack(Items.NETHERITE_SCRAP.asItem()))
                 .outputItems(ModItems.diamond_lattice.get())
@@ -439,7 +441,7 @@ interface ImplosionCompressor {
                 .duration(1)
                 .save();
 
-        GTORecipeTypes.ELECTRIC_IMPLOSION_COMPRESSOR_RECIPES.recipeBuilder(GTOCore.id("heavy_duty_plate_3"))
+        ELECTRIC_IMPLOSION_COMPRESSOR_RECIPES.recipeBuilder(GTOCore.id("heavy_duty_plate_3"))
                 .inputItems(GTOItems.HEAVY_DUTY_PLATE_2.asStack(4))
                 .inputItems(TagPrefix.plateDense, GTMaterials.TungstenSteel, 2)
                 .outputItems(GTOItems.HEAVY_DUTY_PLATE_3.asStack())
@@ -447,7 +449,7 @@ interface ImplosionCompressor {
                 .duration(1)
                 .save();
 
-        GTORecipeTypes.ELECTRIC_IMPLOSION_COMPRESSOR_RECIPES.recipeBuilder(GTOCore.id("heavy_duty_plate_1"))
+        ELECTRIC_IMPLOSION_COMPRESSOR_RECIPES.recipeBuilder(GTOCore.id("heavy_duty_plate_1"))
                 .inputItems(TagPrefix.plateDouble, GTMaterials.StainlessSteel, 4)
                 .inputItems(TagPrefix.plateDense, GTMaterials.Steel, 2)
                 .outputItems(GTOItems.HEAVY_DUTY_PLATE_1.asStack())
@@ -455,7 +457,7 @@ interface ImplosionCompressor {
                 .duration(1)
                 .save();
 
-        GTORecipeTypes.ELECTRIC_IMPLOSION_COMPRESSOR_RECIPES.recipeBuilder(GTOCore.id("entangled_singularity"))
+        ELECTRIC_IMPLOSION_COMPRESSOR_RECIPES.recipeBuilder(GTOCore.id("entangled_singularity"))
                 .inputItems(new ItemStack(AEItems.SINGULARITY.asItem()))
                 .inputItems(GTOItems.WARPED_ENDER_PEARL.asStack())
                 .outputItems(GTOItems.ENTANGLED_SINGULARITY.asStack())

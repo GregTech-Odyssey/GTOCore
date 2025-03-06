@@ -3,16 +3,17 @@ package com.gto.gtocore.data.recipe.classified;
 import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.common.data.GTOItems;
 import com.gto.gtocore.common.data.GTOMaterials;
-import com.gto.gtocore.common.data.GTORecipeTypes;
 
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
+import static com.gto.gtocore.common.data.GTORecipeTypes.ROCKET_ASSEMBLER_RECIPES;
+
 interface RocketAssembler {
 
     static void init() {
-        GTORecipeTypes.ROCKET_ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("tier_1_rocket"))
+        ROCKET_ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("tier_1_rocket"))
                 .inputItems("ad_astra:rocket_nose_cone")
                 .inputItems(GTItems.SENSOR_HV.asStack())
                 .inputItems(GTItems.EMITTER_HV.asStack())
@@ -30,7 +31,7 @@ interface RocketAssembler {
                 .duration(600)
                 .save();
 
-        GTORecipeTypes.ROCKET_ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("tier_2_rocket"))
+        ROCKET_ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("tier_2_rocket"))
                 .inputItems("ad_astra:rocket_nose_cone")
                 .inputItems(GTItems.SENSOR_EV.asStack())
                 .inputItems(GTItems.EMITTER_EV.asStack())
@@ -48,7 +49,7 @@ interface RocketAssembler {
                 .duration(600)
                 .save();
 
-        GTORecipeTypes.ROCKET_ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("tier_3_rocket"))
+        ROCKET_ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("tier_3_rocket"))
                 .inputItems("ad_astra:rocket_nose_cone")
                 .inputItems(GTItems.SENSOR_EV.asStack(2))
                 .inputItems(GTItems.EMITTER_EV.asStack(2))
@@ -66,7 +67,7 @@ interface RocketAssembler {
                 .duration(600)
                 .save();
 
-        GTORecipeTypes.ROCKET_ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("tier_4_rocket"))
+        ROCKET_ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("tier_4_rocket"))
                 .inputItems("ad_astra:rocket_nose_cone")
                 .inputItems(GTItems.SENSOR_EV.asStack(4))
                 .inputItems(GTItems.FIELD_GENERATOR_EV.asStack(4))
@@ -84,7 +85,7 @@ interface RocketAssembler {
                 .duration(1200)
                 .save();
 
-        GTORecipeTypes.ROCKET_ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("tier_5_rocket"))
+        ROCKET_ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("tier_5_rocket"))
                 .inputItems("ad_astra:rocket_nose_cone")
                 .inputItems(GTItems.SENSOR_IV.asStack(4))
                 .inputItems(GTItems.FIELD_GENERATOR_IV.asStack(4))
@@ -102,7 +103,7 @@ interface RocketAssembler {
                 .duration(1200)
                 .save();
 
-        GTORecipeTypes.ROCKET_ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("tier_6_rocket"))
+        ROCKET_ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("tier_6_rocket"))
                 .inputItems("ad_astra:rocket_nose_cone")
                 .inputItems(GTItems.SENSOR_LuV.asStack(4))
                 .inputItems(GTItems.FIELD_GENERATOR_LuV.asStack(4))

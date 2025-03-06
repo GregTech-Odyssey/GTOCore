@@ -2,7 +2,6 @@ package com.gto.gtocore.data.recipe.processing;
 
 import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.common.data.GTOItems;
-import com.gto.gtocore.common.data.GTORecipeTypes;
 
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
 
@@ -150,7 +149,7 @@ public interface StoneDustProcess {
                 .duration(80).EUt(3000)
                 .save();
 
-        GTORecipeTypes.REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("metallic_residues_output"))
+        REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("metallic_residues_output"))
                 .inputItems(dust, OxidizedResidues, 10)
                 .inputFluids(Hydrogen.getFluid(60000))
                 .outputItems(dust, MetallicResidues, 1)
@@ -159,7 +158,7 @@ public interface StoneDustProcess {
                 .blastFurnaceTemp(3500)
                 .save();
 
-        GTORecipeTypes.REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("heavy_metallic_residues_output"))
+        REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("heavy_metallic_residues_output"))
                 .inputItems(dust, HeavyOxidizedResidues, 10)
                 .inputFluids(Hydrogen.getFluid(60000))
                 .outputItems(dust, HeavyMetallicResidues, 1)
@@ -303,7 +302,7 @@ public interface StoneDustProcess {
                 .duration(40).EUt(VA[UHV])
                 .save();
 
-        GTORecipeTypes.ARC_GENERATOR_RECIPES.recipeBuilder(GTOCore.id("nitrogen_pentoxide"))
+        ARC_GENERATOR_RECIPES.recipeBuilder(GTOCore.id("nitrogen_pentoxide"))
                 .inputFluids(Oxygen.getFluid(6000))
                 .outputFluids(Ozone.getFluid(2000))
                 .duration(120).EUt(VA[HV])

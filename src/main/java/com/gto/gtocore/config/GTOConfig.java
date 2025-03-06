@@ -12,10 +12,6 @@ import dev.toma.configuration.config.format.ConfigFormats;
 @Config(id = GTOCore.MOD_ID)
 public final class GTOConfig {
 
-    private static final String SIMPLE = "simple";
-    private static final String NORMAL = "normal";
-    private static final String DIFFICULT = "difficult";
-
     public static GTOConfig INSTANCE;
     private static final Object LOCK = new Object();
 
@@ -24,10 +20,9 @@ public final class GTOConfig {
     public static int getDifficulty() {
         if (difficulty == 0) {
             difficulty = switch (GTOConfig.INSTANCE.gameDifficulty) {
-                case SIMPLE -> 1;
-                case NORMAL -> 2;
-                case DIFFICULT -> 3;
-                default -> 0;
+                case "simple" -> 1;
+                case "normal" -> 2;
+                default -> 3;
             };
         }
         return difficulty;
@@ -95,7 +90,7 @@ public final class GTOConfig {
 
     @Configurable
     @Configurable.Comment("Optional: simple, normal, difficult")
-    public String gameDifficulty = NORMAL;
+    public String gameDifficulty = "normal";
     @Configurable
     @Configurable.Comment("Prevent cheating")
     public boolean selfRestraint;
