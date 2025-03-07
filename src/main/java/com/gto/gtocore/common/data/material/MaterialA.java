@@ -1197,7 +1197,7 @@ public interface MaterialA {
                 .flags(GENERATE_DENSE, DISABLE_DECOMPOSITION)
                 .buildAndRegister();
 
-        Lanthanoids1 = material("lanthanoids_1", "轻镧系元素混合物")
+        LanthanoidsMix1 = material("lanthanoids_mix_1", "轻镧系元素混合物")
                 .dust()
                 .color(0xef1133)
                 .components(Lanthanum, 1, Cerium, 1, Praseodymium, 1, Neodymium, 1, Promethium, 1,
@@ -1206,7 +1206,7 @@ public interface MaterialA {
                 .flags(DISABLE_DECOMPOSITION)
                 .buildAndRegister();
 
-        Lanthanoids2 = material("lanthanoids_2", "重镧系元素混合物")
+        LanthanoidsMix2 = material("lanthanoids_mix_2", "重镧系元素混合物")
                 .dust()
                 .color(0xef1133)
                 .components(Terbium, 1, Dysprosium, 1, Holmium, 1, Erbium, 1, Thulium, 1,
@@ -1215,17 +1215,17 @@ public interface MaterialA {
                 .flags(DISABLE_DECOMPOSITION)
                 .buildAndRegister();
 
-        RAREEARTH = material("rareearth", "稀土元素合金")
+        RareearthMix = material("rareearth_mix", "稀土元素合金")
                 .fluid()
                 .ingot()
                 .color(0xa52a2a)
                 .blastTemp(12400, HIGHER, GTValues.VA[GTValues.UHV], 800)
-                .components(Scandium, 1, Yttrium, 1, Lanthanoids1, 1, Lanthanoids2, 1)
+                .components(Scandium, 1, Yttrium, 1, LanthanoidsMix1, 1, LanthanoidsMix2, 1)
                 .iconSet(METALLIC)
                 .flags(DISABLE_DECOMPOSITION)
                 .buildAndRegister();
 
-        Actinoids1 = material("actinoids_1", "轻锕系元素混合物")
+        ActinoidsMix1 = material("actinoids_mix_1", "轻锕系元素混合物")
                 .dust()
                 .color(0x80eb33)
                 .components(Actinium, 1, Thorium, 1, Protactinium, 1, Uranium238, 1, Neptunium, 1,
@@ -1234,7 +1234,7 @@ public interface MaterialA {
                 .flags(DISABLE_DECOMPOSITION)
                 .buildAndRegister();
 
-        Actinoids2 = material("actinoids_2", "重锕系元素混合物")
+        ActinoidsMix2 = material("actinoids_mix_2", "重锕系元素混合物")
                 .dust()
                 .color(0x80eb33)
                 .components(Berkelium, 1, Californium, 1, Einsteinium, 1, Fermium, 1, Mendelevium, 1,
@@ -1243,15 +1243,15 @@ public interface MaterialA {
                 .flags(DISABLE_DECOMPOSITION)
                 .buildAndRegister();
 
-        Actinoids = material("actinoids", "锕系元素混合物")
+        ActinoidsMix = material("actinoids_mix", "锕系元素混合物")
                 .dust()
                 .color(0x72d22e)
-                .components(Actinoids1, 1, Actinoids2, 1)
+                .components(ActinoidsMix1, 1, ActinoidsMix2, 1)
                 .iconSet(METALLIC)
                 .flags(DISABLE_DECOMPOSITION)
                 .buildAndRegister();
 
-        Alkaline = material("alkaline", "碱金属元素混合物")
+        AlkalineMix = material("alkaline_mix", "碱金属元素混合物")
                 .dust()
                 .color(0xdd186b)
                 .components(Lithium, 1, Sodium, 1, Potassium, 1, Rubidium, 1, Caesium, 1,
@@ -1260,7 +1260,7 @@ public interface MaterialA {
                 .flags(DISABLE_DECOMPOSITION)
                 .buildAndRegister();
 
-        AlkalineEarth = material("alkaline_earth", "碱土金属元素混合物")
+        AlkalineEarthMix = material("alkaline_earth_mix", "碱土金属元素混合物")
                 .dust()
                 .color(0xc1155e)
                 .components(Beryllium, 1, Magnesium, 1, Calcium, 1, Strontium, 1, Barium, 1,
@@ -1269,7 +1269,7 @@ public interface MaterialA {
                 .flags(DISABLE_DECOMPOSITION)
                 .buildAndRegister();
 
-        Transition1 = material("transition_1", "前过渡金属元素混合物")
+        TransitionMix1 = material("transition_mix_1", "前过渡金属元素混合物")
                 .dust()
                 .color(0xa19e9d)
                 .components(Titanium, 1, Vanadium, 1, Chromium, 1, Manganese, 1, Iron, 1, Cobalt, 1,
@@ -1278,7 +1278,7 @@ public interface MaterialA {
                 .flags(DISABLE_DECOMPOSITION)
                 .buildAndRegister();
 
-        Transition2 = material("transition_2", "中过渡金属元素混合物")
+        TransitionMix2 = material("transition_mix_2", "中过渡金属元素混合物")
                 .dust()
                 .color(0x908d8c)
                 .components(Zirconium, 1, Niobium, 1, Molybdenum, 1, Technetium, 1, Ruthenium, 1,
@@ -1287,7 +1287,7 @@ public interface MaterialA {
                 .flags(DISABLE_DECOMPOSITION)
                 .buildAndRegister();
 
-        Transition3 = material("transition_3", "后过渡金属元素混合物")
+        TransitionMix3 = material("transition_mix_3", "后过渡金属元素混合物")
                 .dust()
                 .color(0x838180)
                 .components(Hafnium, 1, Tantalum, 1, Tungsten, 1, Rhenium, 1, Osmium, 1, Iridium, 1,
@@ -1296,17 +1296,17 @@ public interface MaterialA {
                 .flags(DISABLE_DECOMPOSITION)
                 .buildAndRegister();
 
-        Transition = material("transition", "过渡元素合金")
+        TransitionMix = material("transition_mix", "过渡元素合金")
                 .fluid()
                 .ingot()
                 .color(0x989594)
                 .blastTemp(13600, HIGHER, GTValues.VA[GTValues.UHV], 900)
-                .components(Transition1, 1, Transition2, 1, Transition3, 1)
+                .components(TransitionMix1, 1, TransitionMix2, 1, TransitionMix3, 1)
                 .iconSet(METALLIC)
                 .flags(DISABLE_DECOMPOSITION)
                 .buildAndRegister();
 
-        Poor = material("poor", "贫金属元素混合物")
+        PoorMix = material("poor_mix", "贫金属元素混合物")
                 .dust()
                 .color(0x916d12)
                 .components(Aluminium, 1, Gallium, 1, Indium, 1, Tin, 1, Thallium, 1, Lead, 1,
@@ -1315,7 +1315,7 @@ public interface MaterialA {
                 .flags(DISABLE_DECOMPOSITION)
                 .buildAndRegister();
 
-        Metalloid = material("metalloid", "类金属元素混合物")
+        MetalloidMix = material("metalloid_mix", "类金属元素混合物")
                 .dust()
                 .color(0x916d12)
                 .components(Boron, 1, Silicon, 1, Germanium, 1, Arsenic, 1, Antimony, 1,
@@ -1324,7 +1324,7 @@ public interface MaterialA {
                 .flags(DISABLE_DECOMPOSITION)
                 .buildAndRegister();
 
-        NotFound = material("not_found", "非金属元素混合物")
+        NotFoundMix = material("not_found_mix", "非金属元素混合物")
                 .fluid()
                 .color(0x1e0ebe)
                 .components(Hydrogen, 1, Carbon, 1, Nitrogen, 1, Oxygen, 1, Fluorine, 1,
@@ -1334,7 +1334,7 @@ public interface MaterialA {
                 .flags(DISABLE_DECOMPOSITION)
                 .buildAndRegister();
 
-        NobleGas = material("noble_gas", "稀有气体元素混合物")
+        NobleGasMix = material("noble_gas_mix", "稀有气体元素混合物")
                 .fluid()
                 .color(0xed8dea)
                 .components(Helium, 1, Neon, 1, Argon, 1, Krypton, 1, Xenon, 1, Radon, 1)
@@ -1342,12 +1342,21 @@ public interface MaterialA {
                 .flags(DISABLE_DECOMPOSITION)
                 .buildAndRegister();
 
+        SuperheavyMix = material("superheavy_mix", "超重元素混合物")
+                .dust()
+                .liquid(new FluidBuilder().temperature(12000))
+                .color(0x3E2C2B)
+                .iconSet(METALLIC)
+                .components(SuperheavyLAlloy, 1, SuperheavyHAlloy, 1)
+                .flags(NO_UNIFICATION, FORCE_GENERATE_BLOCK)
+                .buildAndRegister();
+
         Periodicium = material("periodicium", "錭錤錶")
                 .ingot()
                 .fluid()
                 .blastTemp(15200, HIGHEST, GTValues.VA[GTValues.UEV], 1200)
-                .components(NotFound, 1, NobleGas, 1, Metalloid, 1, Poor, 1, Transition, 1,
-                        AlkalineEarth, 1, RAREEARTH, 1, Alkaline, 1, Actinoids, 1)
+                .components(NotFoundMix, 1, NobleGasMix, 1, MetalloidMix, 1, PoorMix, 1, TransitionMix, 1,
+                        AlkalineEarthMix, 1, RareearthMix, 1, AlkalineMix, 1, ActinoidsMix, 1, SuperheavyMix, 1)
                 .color(0x3d4bf6)
                 .iconSet(METALLIC)
                 .flags(DISABLE_DECOMPOSITION)

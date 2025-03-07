@@ -23,7 +23,7 @@ interface DimensionallyTranscendentMixer {
                 .inputItems(TagPrefix.dust, GTMaterials.Nickel)
                 .inputItems(TagPrefix.dust, GTMaterials.Copper)
                 .inputItems(TagPrefix.dust, GTMaterials.Zinc)
-                .outputItems(TagPrefix.dust, GTOMaterials.Transition1, 9)
+                .outputItems(TagPrefix.dust, GTOMaterials.TransitionMix1, 9)
                 .EUt(31457280)
                 .duration(1800)
                 .save();
@@ -35,7 +35,7 @@ interface DimensionallyTranscendentMixer {
                 .inputItems(TagPrefix.dust, GTMaterials.Strontium)
                 .inputItems(TagPrefix.dust, GTMaterials.Barium)
                 .inputItems(TagPrefix.dust, GTMaterials.Radium)
-                .outputItems(TagPrefix.dust, GTOMaterials.AlkalineEarth, 6)
+                .outputItems(TagPrefix.dust, GTOMaterials.AlkalineEarthMix, 6)
                 .EUt(31457280)
                 .duration(1200)
                 .save();
@@ -47,7 +47,7 @@ interface DimensionallyTranscendentMixer {
                 .inputItems(TagPrefix.dust, GTMaterials.Rubidium)
                 .inputItems(TagPrefix.dust, GTMaterials.Caesium)
                 .inputItems(TagPrefix.dust, GTMaterials.Francium)
-                .outputItems(TagPrefix.dust, GTOMaterials.Alkaline, 6)
+                .outputItems(TagPrefix.dust, GTOMaterials.AlkalineMix, 6)
                 .EUt(31457280)
                 .duration(1200)
                 .save();
@@ -85,7 +85,7 @@ interface DimensionallyTranscendentMixer {
                 .inputItems(TagPrefix.dust, GTMaterials.Plutonium239)
                 .inputItems(TagPrefix.dust, GTMaterials.Americium)
                 .inputItems(TagPrefix.dust, GTMaterials.Curium)
-                .outputItems(TagPrefix.dust, GTOMaterials.Actinoids1, 8)
+                .outputItems(TagPrefix.dust, GTOMaterials.ActinoidsMix1, 8)
                 .EUt(31457280)
                 .duration(1600)
                 .save();
@@ -98,7 +98,7 @@ interface DimensionallyTranscendentMixer {
                 .inputItems(TagPrefix.dust, GTMaterials.Antimony)
                 .inputItems(TagPrefix.dust, GTMaterials.Tellurium)
                 .inputItems(TagPrefix.dust, GTMaterials.Astatine)
-                .outputItems(TagPrefix.dust, GTOMaterials.Metalloid, 7)
+                .outputItems(TagPrefix.dust, GTOMaterials.MetalloidMix, 7)
                 .EUt(31457280)
                 .duration(1400)
                 .save();
@@ -123,7 +123,7 @@ interface DimensionallyTranscendentMixer {
                 .inputItems(TagPrefix.dust, GTMaterials.Mendelevium)
                 .inputItems(TagPrefix.dust, GTMaterials.Nobelium)
                 .inputItems(TagPrefix.dust, GTMaterials.Lawrencium)
-                .outputItems(TagPrefix.dust, GTOMaterials.Actinoids2, 7)
+                .outputItems(TagPrefix.dust, GTOMaterials.ActinoidsMix2, 7)
                 .EUt(31457280)
                 .duration(1400)
                 .save();
@@ -148,7 +148,7 @@ interface DimensionallyTranscendentMixer {
                 .inputItems(TagPrefix.dust, GTMaterials.Thulium)
                 .inputItems(TagPrefix.dust, GTMaterials.Ytterbium)
                 .inputItems(TagPrefix.dust, GTMaterials.Lutetium)
-                .outputItems(TagPrefix.dust, GTOMaterials.Lanthanoids2, 7)
+                .outputItems(TagPrefix.dust, GTOMaterials.LanthanoidsMix2, 7)
                 .EUt(31457280)
                 .duration(1400)
                 .save();
@@ -165,7 +165,7 @@ interface DimensionallyTranscendentMixer {
                 .inputFluids(GTMaterials.Fluorine.getFluid(1000))
                 .inputFluids(GTMaterials.Chlorine.getFluid(1000))
                 .inputFluids(GTMaterials.Bromine.getFluid(1000))
-                .outputFluids(GTOMaterials.NotFound.getFluid(11000))
+                .outputFluids(GTOMaterials.NotFoundMix.getFluid(11000))
                 .EUt(31457280)
                 .duration(2200)
                 .save();
@@ -179,7 +179,7 @@ interface DimensionallyTranscendentMixer {
                 .inputItems(TagPrefix.dust, GTMaterials.Lead)
                 .inputItems(TagPrefix.dust, GTMaterials.Bismuth)
                 .inputItems(TagPrefix.dust, GTMaterials.Polonium)
-                .outputItems(TagPrefix.dust, GTOMaterials.Poor, 8)
+                .outputItems(TagPrefix.dust, GTOMaterials.PoorMix, 8)
                 .EUt(31457280)
                 .duration(1600)
                 .save();
@@ -206,7 +206,7 @@ interface DimensionallyTranscendentMixer {
                 .inputItems(TagPrefix.dust, GTMaterials.Platinum)
                 .inputItems(TagPrefix.dust, GTMaterials.Gold)
                 .inputFluids(GTMaterials.Mercury.getFluid(1000))
-                .outputItems(TagPrefix.dust, GTOMaterials.Transition3, 9)
+                .outputItems(TagPrefix.dust, GTOMaterials.TransitionMix3, 9)
                 .EUt(31457280)
                 .duration(1800)
                 .save();
@@ -230,7 +230,7 @@ interface DimensionallyTranscendentMixer {
                 .inputItems(TagPrefix.dust, GTMaterials.Palladium)
                 .inputItems(TagPrefix.dust, GTMaterials.Silver)
                 .inputItems(TagPrefix.dust, GTMaterials.Cadmium)
-                .outputItems(TagPrefix.dust, GTOMaterials.Transition2, 9)
+                .outputItems(TagPrefix.dust, GTOMaterials.TransitionMix2, 9)
                 .EUt(31457280)
                 .duration(1800)
                 .save();
@@ -244,7 +244,7 @@ interface DimensionallyTranscendentMixer {
                 .inputItems(TagPrefix.dust, GTMaterials.Samarium)
                 .inputItems(TagPrefix.dust, GTMaterials.Europium)
                 .inputItems(TagPrefix.dust, GTMaterials.Gadolinium)
-                .outputItems(TagPrefix.dust, GTOMaterials.Lanthanoids1, 8)
+                .outputItems(TagPrefix.dust, GTOMaterials.LanthanoidsMix1, 8)
                 .EUt(31457280)
                 .duration(1600)
                 .save();
@@ -266,7 +266,7 @@ interface DimensionallyTranscendentMixer {
                 .inputFluids(GTMaterials.Krypton.getFluid(1000))
                 .inputFluids(GTMaterials.Xenon.getFluid(1000))
                 .inputFluids(GTMaterials.Radon.getFluid(1000))
-                .outputFluids(GTOMaterials.NobleGas.getFluid(6000))
+                .outputFluids(GTOMaterials.NobleGasMix.getFluid(6000))
                 .EUt(31457280)
                 .duration(1200)
                 .save();

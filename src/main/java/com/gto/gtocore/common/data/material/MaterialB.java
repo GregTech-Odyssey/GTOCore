@@ -16,14 +16,6 @@ import static com.gto.gtocore.utils.register.MaterialsRegisterUtils.material;
 public interface MaterialB {
 
     static void init() {
-        SuperheavyMix = material("superheavy_mix", "超重元素混合物")
-                .dust()
-                .fluid()
-                .color(0x3E2C2B)
-                .iconSet(DULL)
-                .flags(NO_UNIFICATION, FORCE_GENERATE_BLOCK)
-                .buildAndRegister();
-
         CoalSlurry = material("coal_slurry", "煤浆")
                 .fluid()
                 .color(0x3E3C3A)

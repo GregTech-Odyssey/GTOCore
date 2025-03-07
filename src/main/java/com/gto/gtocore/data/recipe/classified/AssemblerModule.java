@@ -224,7 +224,7 @@ interface AssemblerModule {
                 .inputItems(GTItems.SENSOR_UIV.asStack())
                 .inputItems(GTBlocks.FUSION_COIL.asStack())
                 .inputFluids(GTMaterials.UUMatter.getFluid(10000))
-                .inputFluids(GTOMaterials.NobleGas.getFluid(2000))
+                .inputFluids(GTOMaterials.NobleGasMix.getFluid(2000))
                 .inputFluids(GTOMaterials.CosmicComputingMixture.getFluid(1000))
                 .inputFluids(GTMaterials.Neutronium.getFluid(1296))
                 .outputItems(GTOItems.RELATIVISTIC_SPINORIAL_MEMORY_SYSTEM.asStack())

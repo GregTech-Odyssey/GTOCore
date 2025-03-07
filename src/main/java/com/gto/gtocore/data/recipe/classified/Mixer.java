@@ -53,9 +53,9 @@ interface Mixer {
                 .save();
 
         MIXER_RECIPES.recipeBuilder(GTOCore.id("actinoids_dust"))
-                .inputItems(TagPrefix.dust, GTOMaterials.Actinoids1)
-                .inputItems(TagPrefix.dust, GTOMaterials.Actinoids2)
-                .outputItems(TagPrefix.dust, GTOMaterials.Actinoids, 2)
+                .inputItems(TagPrefix.dust, GTOMaterials.ActinoidsMix1)
+                .inputItems(TagPrefix.dust, GTOMaterials.ActinoidsMix2)
+                .outputItems(TagPrefix.dust, GTOMaterials.ActinoidsMix, 2)
                 .EUt(31457280)
                 .duration(400)
                 .save();

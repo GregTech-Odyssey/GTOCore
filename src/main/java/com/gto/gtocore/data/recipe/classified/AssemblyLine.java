@@ -1593,7 +1593,7 @@ interface AssemblyLine {
                 .inputItems(TagPrefix.plateDouble, GTMaterials.Hassium, 32)
                 .inputItems(TagPrefix.plateDouble, GTOMaterials.HastelloyX78, 32)
                 .inputFluids(GTOMaterials.MutatedLivingSolder.getFluid(12960))
-                .inputFluids(GTOMaterials.Transition.getFluid(5760))
+                .inputFluids(GTOMaterials.TransitionMix.getFluid(5760))
                 .inputFluids(GTOMaterials.HastelloyX78.getFluid(5760))
                 .inputFluids(GTOMaterials.HastelloyK243.getFluid(5760))
                 .outputItems(MultiBlockD.DIMENSIONALLY_TRANSCENDENT_PLASMA_FORGE.asStack())
