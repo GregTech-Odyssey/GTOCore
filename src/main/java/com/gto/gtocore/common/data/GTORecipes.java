@@ -690,6 +690,29 @@ public final class GTORecipes implements Runnable {
         filters.add(AppEng.makeId("materials/formationcore"));
         filters.add(AppEng.makeId("materials/advancedcard"));
         filters.add(AppEng.makeId("materials/basiccard"));
+
+        filters.add(RLUtils.fd("wheat_dough_from_water"));
+        filters.add(RLUtils.fd("wheat_dough_from_eggs"));
+        filters.add(RLUtils.fd("bread_from_smelting"));
+        filters.add(RLUtils.fd("bread_from_smoking"));
+        filters.add(RLUtils.fd("carrot_crate"));
+        filters.add(RLUtils.fd("potato_crate"));
+        filters.add(RLUtils.fd("beetroot_crate"));
+        filters.add(RLUtils.fd("cabbage_crate"));
+        filters.add(RLUtils.fd("tomato_crate"));
+        filters.add(RLUtils.fd("onion_crate"));
+        filters.add(RLUtils.fd("rice_bale"));
+        filters.add(RLUtils.fd("rice_bag"));
+        filters.add(RLUtils.fd("straw_bale"));
+        filters.add(RLUtils.fd("carrot_from_crate"));
+        filters.add(RLUtils.fd("potato_from_crate"));
+        filters.add(RLUtils.fd("beetroot_from_crate"));
+        filters.add(RLUtils.fd("cabbage"));
+        filters.add(RLUtils.fd("tomato"));
+        filters.add(RLUtils.fd("onion"));
+        filters.add(RLUtils.fd("rice_panicle"));
+        filters.add(RLUtils.fd("rice_from_bag"));
+        filters.add(RLUtils.fd("straw"));
     }
 
     public static Recipe<?> fromJson(ResourceLocation recipeId, JsonObject json, net.minecraftforge.common.crafting.conditions.ICondition.IContext context) {

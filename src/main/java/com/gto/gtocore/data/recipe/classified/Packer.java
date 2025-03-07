@@ -4,11 +4,15 @@ import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.api.data.tag.GTOTagPrefix;
 import com.gto.gtocore.common.data.GTOItems;
 import com.gto.gtocore.common.data.GTOMaterials;
+import com.gto.gtocore.utils.RegistriesUtils;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
+
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 
 import static com.gto.gtocore.common.data.GTORecipeTypes.PACKER_RECIPES;
 
@@ -148,6 +152,97 @@ interface Packer {
                 .outputItems(TagPrefix.dust, GTOMaterials.Magmatter)
                 .EUt(30)
                 .duration(20)
+                .save();
+
+        PACKER_RECIPES.recipeBuilder(GTOCore.id("carrot_crate"))
+                .inputItems(new ItemStack(Items.CARROT.asItem(), 9))
+                .outputItems(RegistriesUtils.getItemStack("farmersdelight:carrot_crate"))
+                .EUt(12)
+                .duration(10)
+                .save();
+
+        PACKER_RECIPES.recipeBuilder(GTOCore.id("potato_crate"))
+                .inputItems(new ItemStack(Items.POTATO.asItem(), 9))
+                .outputItems(RegistriesUtils.getItemStack("farmersdelight:potato_crate"))
+                .EUt(12)
+                .duration(10)
+                .save();
+
+        PACKER_RECIPES.recipeBuilder(GTOCore.id("beetroot_crate"))
+                .inputItems(new ItemStack(Items.BEETROOT.asItem(), 9))
+                .outputItems(RegistriesUtils.getItemStack("farmersdelight:beetroot_crate"))
+                .EUt(12)
+                .duration(10)
+                .save();
+
+        PACKER_RECIPES.recipeBuilder(GTOCore.id("cabbage_crate"))
+                .inputItems(RegistriesUtils.getItemStack("farmersdelight:cabbage", 9))
+                .outputItems(RegistriesUtils.getItemStack("farmersdelight:cabbage_crate"))
+                .EUt(12)
+                .duration(10)
+                .save();
+
+        PACKER_RECIPES.recipeBuilder(GTOCore.id("tomato_crate"))
+                .inputItems(RegistriesUtils.getItemStack("farmersdelight:tomato", 9))
+                .outputItems(RegistriesUtils.getItemStack("farmersdelight:tomato_crate"))
+                .EUt(12)
+                .duration(10)
+                .save();
+
+        PACKER_RECIPES.recipeBuilder(GTOCore.id("onion_crate"))
+                .inputItems(RegistriesUtils.getItemStack("farmersdelight:onion", 9))
+                .outputItems(RegistriesUtils.getItemStack("farmersdelight:onion_crate"))
+                .EUt(12)
+                .duration(10)
+                .save();
+
+        PACKER_RECIPES.recipeBuilder(GTOCore.id("rice_bale"))
+                .inputItems(RegistriesUtils.getItemStack("farmersdelight:rice_panicle", 9))
+                .outputItems(RegistriesUtils.getItemStack("farmersdelight:rice_bale"))
+                .EUt(12)
+                .duration(10)
+                .save();
+
+        PACKER_RECIPES.recipeBuilder(GTOCore.id("rice_bag"))
+                .inputItems(RegistriesUtils.getItemStack("farmersdelight:rice", 9))
+                .outputItems(RegistriesUtils.getItemStack("farmersdelight:rice_bag"))
+                .EUt(12)
+                .duration(10)
+                .save();
+
+        PACKER_RECIPES.recipeBuilder(GTOCore.id("straw_bale"))
+                .inputItems(RegistriesUtils.getItemStack("farmersdelight:straw", 9))
+                .outputItems(RegistriesUtils.getItemStack("farmersdelight:straw_bale"))
+                .EUt(12)
+                .duration(10)
+                .save();
+
+        PACKER_RECIPES.recipeBuilder(GTOCore.id("green_tea_leaves_sack"))
+                .inputItems(RegistriesUtils.getItemStack("farmersrespite:green_tea_leaves", 9))
+                .outputItems(RegistriesUtils.getItemStack("farmersrespite:green_tea_leaves_sack"))
+                .EUt(12)
+                .duration(10)
+                .save();
+
+        PACKER_RECIPES.recipeBuilder(GTOCore.id("yellow_tea_leaves_sack"))
+                .inputItems(RegistriesUtils.getItemStack("farmersrespite:yellow_tea_leaves", 9))
+                .outputItems(RegistriesUtils.getItemStack("farmersrespite:yellow_tea_leaves_sack"))
+                .EUt(12)
+                .duration(10)
+                .save();
+
+        PACKER_RECIPES.recipeBuilder(GTOCore.id("black_tea_leaves_sack"))
+                .inputItems(RegistriesUtils.getItemStack("farmersrespite:black_tea_leaves", 9))
+                .outputItems(RegistriesUtils.getItemStack("farmersrespite:black_tea_leaves_sack"))
+                .EUt(12)
+                .duration(10)
+                .save();
+
+        PACKER_RECIPES.recipeBuilder(GTOCore.id("coffee_beans_sack"))
+                .inputItems(RegistriesUtils.getItemStack("farmersrespite:coffee_beans", 9))
+                .outputItems(RegistriesUtils.getItemStack("farmersrespite:coffee_beans_sack"))
+                .EUt(12)
+                .duration(10)
                 .save();
     }
 }

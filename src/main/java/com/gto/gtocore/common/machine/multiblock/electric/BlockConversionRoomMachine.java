@@ -28,6 +28,7 @@ import net.minecraft.world.level.block.Blocks;
 import com.google.common.collect.ImmutableMap;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import vectorwing.farmersdelight.common.registry.ModBlocks;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,6 +63,7 @@ public final class BlockConversionRoomMachine extends StorageMultiblockMachine {
         covRecipe.put(Blocks.MOSS_BLOCK, Blocks.SCULK);
         covRecipe.put(Blocks.GRASS_BLOCK, Blocks.MOSS_BLOCK);
         covRecipe.put(GTOBlocks.INFUSED_OBSIDIAN.get(), GTOBlocks.DRACONIUM_BLOCK_CHARGED.get());
+        covRecipe.put(ModBlocks.ORGANIC_COMPOST.get(), ModBlocks.RICH_SOIL.get());
         COV_RECIPE = covRecipe.build();
     }
 

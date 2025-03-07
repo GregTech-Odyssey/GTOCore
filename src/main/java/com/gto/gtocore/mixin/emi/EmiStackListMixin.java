@@ -16,6 +16,8 @@ import it.unimi.dsi.fastutil.objects.ObjectOpenCustomHashSet;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
+import vectorwing.farmersdelight.common.registry.ModItems;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -24,6 +26,9 @@ import java.util.Set;
 
 @Mixin(EmiStackList.class)
 public final class EmiStackListMixin {
+
+    @Unique
+    private static final Set<Item> gtocore$DISABLE = Set.of(BlockRegisterUtils.REACTOR_CORE.asItem(), ModItems.WHEAT_DOUGH.get());
 
     @Shadow(remap = false)
     private static Object2IntMap<EmiStack> strictIndices;
@@ -40,7 +45,7 @@ public final class EmiStackListMixin {
         List<EmiStackList.IndexGroup> groups = Lists.newArrayList();
         Map<String, EmiStackList.IndexGroup> namespaceGroups = new LinkedHashMap<>();
         for (Item item : EmiPort.getItemRegistry()) {
-            if (item == BlockRegisterUtils.REACTOR_CORE.asItem()) continue;
+            if (gtocore$DISABLE.contains(item)) continue;
             EmiStack stack = EmiStack.of(item);
             if (stack.isEmpty()) continue;
             namespaceGroups.computeIfAbsent(stack.getId().getNamespace(), (k) -> new EmiStackList.IndexGroup()).stacks.add(stack);

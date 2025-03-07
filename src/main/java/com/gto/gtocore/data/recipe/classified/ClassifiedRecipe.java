@@ -112,5 +112,6 @@ public interface ClassifiedRecipe {
         RocketAssembler.init();
         AlchemyCauldron.init();
         PolymerizationReactor.init();
+        Unpacker.init();
     }
 }

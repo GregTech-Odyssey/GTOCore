@@ -23,6 +23,10 @@ public final class RLUtils {
         return new ResourceLocation("sophisticatedbackpacks", path);
     }
 
+    public static ResourceLocation fd(String path) {
+        return new ResourceLocation("farmersdelight", path);
+    }
+
     public static ResourceLocation ad(String path) {
         return new ResourceLocation(AdAstra.MOD_ID, path);
     }

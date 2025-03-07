@@ -1,10 +1,14 @@
 package com.gto.gtocore.data.recipe.classified;
 
 import com.gto.gtocore.GTOCore;
+import com.gto.gtocore.api.recipe.GTORecipeBuilder;
 import com.gto.gtocore.common.data.GTOItems;
 import com.gto.gtocore.common.data.GTOMaterials;
+import com.gto.gtocore.utils.StringUtils;
 
 import com.gregtechceu.gtceu.api.machine.multiblock.CleanroomType;
+
+import javax.annotation.Nullable;
 
 import static com.gto.gtocore.common.data.GTORecipeTypes.CUTTER_RECIPES;
 
@@ -139,5 +143,44 @@ interface Cutter {
                 .duration(900)
                 .cleanroom(CleanroomType.CLEANROOM)
                 .save();
+
+        add("minecraft:beef", "farmersdelight:minced_beef", 2, null, 1);
+        add("farmersdelight:ham", "minecraft:porkchop", 2, "minecraft:bone", 1);
+        add("minecraft:cake", "farmersdelight:cake_slice", 7, null, 1);
+        add("minecraft:cooked_mutton", "farmersdelight:cooked_mutton_chops", 2, null, 1);
+        add("minecraft:salmon", "farmersdelight:salmon_slice", 2, "minecraft:bone_meal", 1);
+        add("farmersdelight:smoked_ham", "minecraft:cooked_porkchop", 2, "minecraft:bone", 1);
+        add("farmersdelight:sweet_berry_cheesecake", "farmersdelight:sweet_berry_cheesecake_slice", 4, null, 1);
+        add("minecraft:chicken", "farmersdelight:chicken_cuts", 2, "minecraft:bone_meal", 1);
+        add("minecraft:cooked_cod", "farmersdelight:cooked_cod_slice", 2, "minecraft:bone_meal", 1);
+        add("gtceu:dough", "farmersdelight:raw_pasta", 1, null, 1);
+        add("farmersdelight:rice_panicle", "farmersdelight:rice", 1, "farmersdelight:straw", 1);
+        add("farmersdelight:kelp_roll", "farmersdelight:kelp_roll_slice", 3, null, 1);
+        add("minecraft:rose_bush", "farmersrespite:rose_hips", 2, null, 1);
+        add("minecraft:pumpkin", "farmersdelight:pumpkin_slice", 4, null, 1);
+        add("farmersrespite:coffee_cake", "farmersrespite:coffee_cake_slice", 7, null, 1);
+        add("minecraft:mutton", "farmersdelight:mutton_chops", 2, null, 1);
+        add("farmersrespite:coffee_berries", "farmersrespite:coffee_beans", 1, null, 1);
+        add("farmersdelight:chocolate_pie", "farmersdelight:chocolate_pie_slice", 4, null, 1);
+        add("minecraft:cooked_salmon", "farmersdelight:cooked_salmon_slice", 2, "minecraft:bone_meal", 1);
+        add("minecraft:porkchop", "farmersdelight:bacon", 2, null, 1);
+        add("farmersdelight:cabbage", "farmersdelight:cabbage_leaf", 2, null, 1);
+        add("farmersrespite:rose_hip_pie", "farmersrespite:rose_hip_pie_slice", 4, null, 1);
+        add("farmersdelight:apple_pie", "farmersdelight:apple_pie_slice", 4, null, 1);
+        add("minecraft:cod", "farmersdelight:cod_slice", 2, "minecraft:bone_meal", 1);
+        add("minecraft:cooked_chicken", "farmersdelight:cooked_chicken_cuts", 2, "minecraft:bone_meal", 1);
+    }
+
+    private static void add(String input, String output1, int c1, @Nullable String output2, int c2) {
+        GTORecipeBuilder builder = CUTTER_RECIPES.recipeBuilder(GTOCore.id(StringUtils.decompose(output1)[1]))
+                .inputItems(input)
+                .outputItems(output1, c1)
+                .EUt(8)
+                .duration(20);
+
+        if (output2 != null) {
+            builder.outputItems(output2, c2);
+        }
+        builder.save();
     }
 }
