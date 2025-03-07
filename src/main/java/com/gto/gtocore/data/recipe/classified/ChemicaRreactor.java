@@ -12,12 +12,47 @@ import com.gregtechceu.gtceu.api.machine.multiblock.CleanroomType;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
+import static com.gregtechceu.gtceu.api.GTValues.*;
+import static com.gregtechceu.gtceu.api.GTValues.MV;
+import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.foil;
+import static com.gregtechceu.gtceu.common.data.GTItems.*;
+import static com.gregtechceu.gtceu.common.data.GTItems.EXTREME_CIRCUIT_BOARD;
+import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
 import static com.gto.gtocore.common.data.GTORecipeTypes.CHEMICAL_RECIPES;
 import static com.gto.gtocore.common.data.GTORecipeTypes.LARGE_CHEMICAL_RECIPES;
 
 interface ChemicaRreactor {
 
     static void init() {
+        CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("sapphire_sodium_aluminate_dust"))
+                .inputItems(TagPrefix.dust, GTMaterials.Sapphire, 5)
+                .inputItems(TagPrefix.dust, GTMaterials.SodiumHydroxide, 6)
+                .outputItems(TagPrefix.dust, GTOMaterials.SodiumAluminate, 8)
+                .outputFluids(GTMaterials.Water.getFluid(1000))
+                .EUt(120)
+                .duration(100)
+                .heat(650)
+                .save();
+
+        CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("greensapphire_sodium_aluminate_dust"))
+                .inputItems(TagPrefix.dust, GTMaterials.GreenSapphire, 5)
+                .inputItems(TagPrefix.dust, GTMaterials.SodiumHydroxide, 6)
+                .outputItems(TagPrefix.dust, GTOMaterials.SodiumAluminate, 8)
+                .outputFluids(GTMaterials.Water.getFluid(1000))
+                .EUt(120)
+                .duration(100)
+                .heat(650)
+                .save();
+
+        CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("aluminium_trifluoride"))
+                .inputItems(TagPrefix.dust, GTMaterials.Aluminium)
+                .outputItems(TagPrefix.dust, GTOMaterials.AluminiumTrifluoride, 4)
+                .inputFluids(GTMaterials.Fluorine.getFluid(3000))
+                .circuitMeta(6)
+                .EUt(480)
+                .duration(15)
+                .save();
+
         CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("gold_cyanide"))
                 .inputItems(TagPrefix.dust, GTMaterials.Sodium)
                 .inputFluids(GTOMaterials.GoldCyanide.getFluid(1000))
@@ -279,16 +314,6 @@ interface ChemicaRreactor {
                 .duration(100)
                 .save();
 
-        CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("bioware_printed_circuit_board1"))
-                .inputItems(GTOItems.BIOWARE_CIRCUIT_BOARD.asStack())
-                .inputItems(TagPrefix.foil, GTMaterials.VanadiumGallium, 32)
-                .inputFluids(GTMaterials.SodiumPersulfate.getFluid(20000))
-                .outputItems(GTOItems.BIOWARE_PRINTED_CIRCUIT_BOARD.asStack())
-                .EUt(1920)
-                .duration(2100)
-                .cleanroom(CleanroomType.STERILE_CLEANROOM)
-                .save();
-
         CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("hexamethylenetetramine_dust"))
                 .circuitMeta(1)
                 .inputFluids(GTMaterials.Formaldehyde.getFluid(4000))
@@ -419,16 +444,6 @@ interface ChemicaRreactor {
                 .outputFluids(GTOMaterials.Bromobutane.getFluid(2000))
                 .EUt(30720)
                 .duration(290)
-                .save();
-
-        CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("bioware_printed_circuit_board"))
-                .inputItems(GTOItems.BIOWARE_CIRCUIT_BOARD.asStack())
-                .inputItems(TagPrefix.foil, GTMaterials.VanadiumGallium, 32)
-                .inputFluids(GTMaterials.Iron3Chloride.getFluid(10000))
-                .outputItems(GTOItems.BIOWARE_PRINTED_CIRCUIT_BOARD.asStack())
-                .EUt(1920)
-                .duration(2100)
-                .cleanroom(CleanroomType.STERILE_CLEANROOM)
                 .save();
 
         CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("ethylamine"))
@@ -2411,8 +2426,8 @@ interface ChemicaRreactor {
                 .inputFluids(GTOMaterials.Aniline.getFluid(2000))
                 .inputFluids(GTMaterials.HydrochloricAcid.getFluid(1000))
                 .outputFluids(GTOMaterials.DiaminodiphenylmethanMixture.getFluid(1000))
-                .EUt(122880)
-                .duration(200)
+                .EUt(7680)
+                .duration(320)
                 .cleanroom(CleanroomType.CLEANROOM)
                 .save();
 
@@ -2506,17 +2521,6 @@ interface ChemicaRreactor {
                 .cleanroom(CleanroomType.CLEANROOM)
                 .save();
 
-        LARGE_CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("sodium_aluminate_dust"))
-                .inputItems(TagPrefix.dust, GTMaterials.Bauxite)
-                .inputItems(TagPrefix.dust, GTMaterials.SodiumHydroxide, 2)
-                .circuitMeta(5)
-                .inputFluids(GTMaterials.Water.getFluid(1000))
-                .outputItems(TagPrefix.dust, GTOMaterials.SodiumAluminate, 2)
-                .outputFluids(GTMaterials.Water.getFluid(2000))
-                .EUt(120)
-                .duration(100)
-                .save();
-
         LARGE_CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("barium_titanate_ceramic_dust"))
                 .inputItems(TagPrefix.dust, GTOMaterials.TitaniumDioxide, 3)
                 .inputItems(TagPrefix.dust, GTOMaterials.BariumHydroxide, 5)
@@ -2547,10 +2551,10 @@ interface ChemicaRreactor {
                 .save();
 
         LARGE_CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("undried_hydroxyapatite_dust"))
-                .inputItems(TagPrefix.dust, GTMaterials.Apatite)
+                .inputItems(TagPrefix.dust, GTMaterials.Apatite, 4)
                 .inputItems(TagPrefix.dust, GTOMaterials.HighPurityCalciumCarbonate)
                 .circuitMeta(5)
-                .inputFluids(GTMaterials.Steam.getFluid(1000))
+                .inputFluids(GTMaterials.Steam.getFluid(10000))
                 .outputItems(TagPrefix.dust, GTOMaterials.UndriedHydroxyapatite)
                 .EUt(480)
                 .duration(100)
@@ -2602,6 +2606,98 @@ interface ChemicaRreactor {
                 .outputFluids(GTMaterials.Water.getFluid(2000))
                 .EUt(120)
                 .duration(260)
+                .save();
+
+        LARGE_CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("advanced_circuit_board_persulfate")).duration(900).EUt(VA[LV])
+                .inputItems(EPOXY_BOARD)
+                .inputItems(GTOTagPrefix.flakes, GTOMaterials.BariumTitanateCeramic, 3)
+                .inputItems(foil, Electrum, 8)
+                .inputFluids(SodiumPersulfate.getFluid(1000))
+                .outputItems(ADVANCED_CIRCUIT_BOARD)
+                .save();
+
+        LARGE_CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("advanced_circuit_board_iron3")).duration(900).EUt(VA[LV])
+                .inputItems(EPOXY_BOARD)
+                .inputItems(GTOTagPrefix.flakes, GTOMaterials.BariumTitanateCeramic, 3)
+                .inputItems(foil, Electrum, 8)
+                .inputFluids(Iron3Chloride.getFluid(500))
+                .outputItems(ADVANCED_CIRCUIT_BOARD)
+                .save();
+
+        LARGE_CHEMICAL_RECIPES.recipeBuilder("extreme_circuit_board_persulfate").duration(1200).EUt(VA[LV])
+                .inputItems(FIBER_BOARD)
+                .inputItems(GTOTagPrefix.flakes, GTOMaterials.TungstenTetraborideCeramics, 4)
+                .inputItems(foil, AnnealedCopper, 12)
+                .inputFluids(SodiumPersulfate.getFluid(2000))
+                .outputItems(EXTREME_CIRCUIT_BOARD)
+                .cleanroom(CleanroomType.CLEANROOM)
+                .save();
+
+        LARGE_CHEMICAL_RECIPES.recipeBuilder("extreme_circuit_board_iron3").duration(1200).EUt(VA[LV])
+                .inputItems(FIBER_BOARD)
+                .inputItems(GTOTagPrefix.flakes, GTOMaterials.TungstenTetraborideCeramics, 4)
+                .inputItems(foil, AnnealedCopper, 12)
+                .inputFluids(Iron3Chloride.getFluid(1000))
+                .outputItems(EXTREME_CIRCUIT_BOARD)
+                .cleanroom(CleanroomType.CLEANROOM)
+                .save();
+
+        LARGE_CHEMICAL_RECIPES.recipeBuilder("elite_circuit_board_persulfate").duration(1500).EUt(VA[MV])
+                .inputItems(MULTILAYER_FIBER_BOARD)
+                .inputItems(GTOTagPrefix.flakes, GTOMaterials.SilicaCeramic, 4)
+                .inputItems(foil, Platinum, 8)
+                .inputFluids(SodiumPersulfate.getFluid(4000))
+                .outputItems(ELITE_CIRCUIT_BOARD)
+                .cleanroom(CleanroomType.CLEANROOM)
+                .save();
+
+        LARGE_CHEMICAL_RECIPES.recipeBuilder("elite_circuit_board_iron3").duration(1500).EUt(VA[MV])
+                .inputItems(MULTILAYER_FIBER_BOARD)
+                .inputItems(GTOTagPrefix.flakes, GTOMaterials.SilicaCeramic, 4)
+                .inputItems(foil, Platinum, 8)
+                .inputFluids(Iron3Chloride.getFluid(2000))
+                .outputItems(ELITE_CIRCUIT_BOARD)
+                .cleanroom(CleanroomType.CLEANROOM)
+                .save();
+
+        LARGE_CHEMICAL_RECIPES.recipeBuilder("wetware_circuit_board_persulfate").duration(1800).EUt(VA[HV])
+                .inputItems(WETWARE_BOARD)
+                .inputItems(GTOTagPrefix.flakes, GTOMaterials.HydroxyapatiteCeramic, 4)
+                .inputItems(foil, NiobiumTitanium, 32)
+                .inputFluids(SodiumPersulfate.getFluid(10000))
+                .outputItems(WETWARE_CIRCUIT_BOARD)
+                .cleanroom(CleanroomType.CLEANROOM)
+                .save();
+
+        LARGE_CHEMICAL_RECIPES.recipeBuilder("wetware_circuit_board_iron3").duration(1800).EUt(VA[HV])
+                .inputItems(WETWARE_BOARD)
+                .inputItems(GTOTagPrefix.flakes, GTOMaterials.HydroxyapatiteCeramic, 4)
+                .inputItems(foil, NiobiumTitanium, 32)
+                .inputFluids(Iron3Chloride.getFluid(5000))
+                .outputItems(WETWARE_CIRCUIT_BOARD)
+                .cleanroom(CleanroomType.CLEANROOM)
+                .save();
+
+        LARGE_CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("bioware_printed_circuit_board"))
+                .inputItems(GTOItems.BIOWARE_CIRCUIT_BOARD.asStack())
+                .inputItems(GTOTagPrefix.flakes, GTOMaterials.TellurateCeramics, 4)
+                .inputItems(TagPrefix.foil, GTMaterials.VanadiumGallium, 32)
+                .inputFluids(GTMaterials.Iron3Chloride.getFluid(10000))
+                .outputItems(GTOItems.BIOWARE_PRINTED_CIRCUIT_BOARD.asStack())
+                .EUt(1920)
+                .duration(2100)
+                .cleanroom(CleanroomType.STERILE_CLEANROOM)
+                .save();
+
+        LARGE_CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("bioware_printed_circuit_board1"))
+                .inputItems(GTOItems.BIOWARE_CIRCUIT_BOARD.asStack())
+                .inputItems(GTOTagPrefix.flakes, GTOMaterials.TellurateCeramics, 4)
+                .inputItems(TagPrefix.foil, GTMaterials.VanadiumGallium, 32)
+                .inputFluids(GTMaterials.SodiumPersulfate.getFluid(20000))
+                .outputItems(GTOItems.BIOWARE_PRINTED_CIRCUIT_BOARD.asStack())
+                .EUt(1920)
+                .duration(2100)
+                .cleanroom(CleanroomType.STERILE_CLEANROOM)
                 .save();
     }
 }

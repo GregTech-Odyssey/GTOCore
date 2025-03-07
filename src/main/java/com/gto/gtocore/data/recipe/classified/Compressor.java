@@ -1,6 +1,7 @@
 package com.gto.gtocore.data.recipe.classified;
 
 import com.gto.gtocore.GTOCore;
+import com.gto.gtocore.api.data.tag.GTOTagPrefix;
 import com.gto.gtocore.common.data.GTOMaterials;
 
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
@@ -56,6 +57,20 @@ interface Compressor {
                 .outputItems(new ItemStack(Blocks.NETHERITE_BLOCK.asItem()))
                 .EUt(2)
                 .duration(300)
+                .save();
+
+        COMPRESSOR_RECIPES.recipeBuilder(GTOCore.id("alumina_ceramic"))
+                .inputItems(TagPrefix.dust, GTOMaterials.AluminaCeramic, 10)
+                .outputItems(GTOTagPrefix.roughBlank, GTOMaterials.AluminaCeramic)
+                .EUt(120)
+                .duration(800)
+                .save();
+
+        COMPRESSOR_RECIPES.recipeBuilder(GTOCore.id("superheavy_mix"))
+                .inputItems(TagPrefix.dust, GTOMaterials.SuperheavyMix, 9)
+                .outputItems(TagPrefix.block, GTOMaterials.SuperheavyMix)
+                .EUt(524288)
+                .duration(200)
                 .save();
     }
 }

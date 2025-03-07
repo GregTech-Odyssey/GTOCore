@@ -131,5 +131,21 @@ interface IsostaticPressing {
                 .EUt(500)
                 .duration(200)
                 .save();
+
+        ISOSTATIC_PRESSING_RECIPES.recipeBuilder(GTOCore.id("aluminaceramic_ceramic_rough_blank"))
+                .inputItems(TagPrefix.dust, GTOMaterials.AluminaCeramic, 9)
+                .outputItems(GTOTagPrefix.roughBlank, GTOMaterials.AluminaCeramic)
+                .inputFluids(GTMaterials.Glue.getFluid(1000))
+                .EUt(500)
+                .duration(200)
+                .save();
+
+        ISOSTATIC_PRESSING_RECIPES.recipeBuilder(GTOCore.id("boroncarbideceramics_ceramic_rough_blank"))
+                .inputItems(TagPrefix.dust, GTOMaterials.BoronCarbideCeramics, 9)
+                .outputItems(GTOTagPrefix.roughBlank, GTOMaterials.BoronCarbideCeramics)
+                .inputFluids(GTMaterials.Epoxy.getFluid(1000))
+                .EUt(500)
+                .duration(200)
+                .save();
     }
 }

@@ -396,7 +396,7 @@ interface AssemblerModule {
                 .inputItems(GTOItems.OPTICAL_RAM_CHIP.asStack())
                 .inputItems(GTBlocks.OPTICAL_PIPES[0].asStack(8))
                 .inputItems(GTItems.CRYSTAL_CENTRAL_PROCESSING_UNIT.asStack(2))
-                .inputItems(TagPrefix.wireFine, GTMaterials.Tritanium, 8)
+                .inputItems(GTOTagPrefix.flakes, GTOMaterials.ThuliumHexaborideCeramics, 2)
                 .inputItems(TagPrefix.bolt, GTMaterials.HSSS, 16)
                 .inputItems(TagPrefix.gemExquisite, GTMaterials.CertusQuartz)
                 .inputItems(GTOTagPrefix.curvedPlate, GTMaterials.HastelloyC276, 2)

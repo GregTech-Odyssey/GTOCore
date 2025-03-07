@@ -99,5 +99,12 @@ interface FluidSolidfication {
                 .EUt(7680)
                 .duration(800)
                 .save();
+
+        FLUID_SOLIDFICATION_RECIPES.recipeBuilder(GTOCore.id("superheavy_mix"))
+                .outputItems(TagPrefix.dust, GTOMaterials.SuperheavyMix)
+                .inputFluids(GTOMaterials.SuperheavyMix.getFluid(144))
+                .EUt(122880)
+                .duration(800)
+                .save();
     }
 }

@@ -63,7 +63,7 @@ public interface GTMachineModify {
                 .aisle("XXX", "CSC", "CCC", "CCC")
                 .where('S', Predicates.controller(blocks(GTMultiMachines.LARGE_BOILER_BRONZE.getBlock())))
                 .where('P', blocks(CASING_BRONZE_PIPE.get()))
-                .where('X', blocks(FIREBOX_BRONZE.get()).setMinGlobalLimited(3)
+                .where('X', blocks(FIREBOX_BRONZE.get()).setMinGlobalLimited(5)
                         .or(Predicates.abilities(PartAbility.IMPORT_FLUIDS).setMinGlobalLimited(1).setPreviewCount(1))
                         .or(Predicates.abilities(PartAbility.IMPORT_ITEMS).setMaxGlobalLimited(1).setPreviewCount(1)))
                 .where('C', blocks(CASING_BRONZE_BRICKS.get()).setMinGlobalLimited(20).or(Predicates.abilities(PartAbility.EXPORT_FLUIDS).setMinGlobalLimited(1).setPreviewCount(1)))

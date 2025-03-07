@@ -72,7 +72,6 @@ public interface FuelRecipe {
                 .save();
 
         LARGE_BOILER_RECIPES.recipeBuilder("lava")
-                .circuitMeta(1)
                 .inputFluids(new FluidStack(Fluids.LAVA, 100))
                 .duration(40)
                 .save();
@@ -110,6 +109,13 @@ public interface FuelRecipe {
         LARGE_BOILER_RECIPES.recipeBuilder("fish_oil")
                 .inputFluids(FishOil.getFluid(160))
                 .duration(40)
+                .save();
+
+        LARGE_BOILER_RECIPES.recipeBuilder(GTOCore.id("water_gas"))
+                .inputFluids(GTOMaterials.CoalSlurry.getFluid(1000))
+                .outputFluids(GTOMaterials.WaterGas.getFluid(1000))
+                .duration(80)
+                .temperature(1300)
                 .save();
 
         // diesel generator fuels

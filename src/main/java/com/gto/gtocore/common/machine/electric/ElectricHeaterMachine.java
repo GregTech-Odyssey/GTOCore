@@ -1,22 +1,19 @@
-package com.gto.gtocore.common.machine.mana;
+package com.gto.gtocore.common.machine.electric;
 
 import com.gto.gtocore.api.machine.feature.IHeaterMachine;
 import com.gto.gtocore.api.machine.trait.CustomRecipeLogic;
 import com.gto.gtocore.api.recipe.GTORecipeBuilder;
 import com.gto.gtocore.api.recipe.RecipeRunner;
-import com.gto.gtocore.common.data.GTOMaterials;
 import com.gto.gtocore.common.data.GTORecipeTypes;
-import com.gto.gtocore.utils.MachineUtils;
 
-import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.machine.SimpleTieredMachine;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 
 import net.minecraft.core.Direction;
-import net.minecraftforge.fluids.FluidStack;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
@@ -25,12 +22,10 @@ import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class ManaHeaterMachine extends SimpleManaMachine implements IHeaterMachine {
-
-    private static final FluidStack SALAMANDER = GTOMaterials.Salamander.getFluid(FluidStorageKeys.GAS, 10);
+public final class ElectricHeaterMachine extends SimpleTieredMachine implements IHeaterMachine {
 
     private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
-            ManaHeaterMachine.class, SimpleManaMachine.MANAGED_FIELD_HOLDER);
+            ElectricHeaterMachine.class, SimpleTieredMachine.MANAGED_FIELD_HOLDER);
 
     @Getter
     @Setter
@@ -39,14 +34,14 @@ public class ManaHeaterMachine extends SimpleManaMachine implements IHeaterMachi
 
     private TickableSubscription tickSubs;
 
-    public ManaHeaterMachine(IMachineBlockEntity holder) {
-        super(holder, 2, t -> 8000);
+    public ElectricHeaterMachine(IMachineBlockEntity holder) {
+        super(holder, 1, t -> 8000);
     }
 
     @Nullable
     private GTRecipe getRecipe() {
         if (!hasProxies() || temperature >= getMaxTemperature()) return null;
-        GTRecipe recipe = GTORecipeBuilder.ofRaw().duration(20).MANAt(16).buildRawRecipe();
+        GTRecipe recipe = GTORecipeBuilder.ofRaw().duration(20).EUt(30).buildRawRecipe();
         if (RecipeRunner.matchTickRecipe(this, recipe)) {
             return recipe;
         }
@@ -54,7 +49,7 @@ public class ManaHeaterMachine extends SimpleManaMachine implements IHeaterMachi
     }
 
     @Override
-    protected @NotNull RecipeLogic createRecipeLogic() {
+    protected @NotNull RecipeLogic createRecipeLogic(Object... args) {
         return new CustomRecipeLogic(this, this::getRecipe);
     }
 
@@ -96,8 +91,8 @@ public class ManaHeaterMachine extends SimpleManaMachine implements IHeaterMachi
     @Override
     public boolean onWorking() {
         if (super.onWorking()) {
-            if (getOffsetTimer() % 10 == 0 && getMaxTemperature() > temperature + 10) {
-                raiseTemperature(MachineUtils.inputFluid(this, SALAMANDER) ? 10 : 2);
+            if (getOffsetTimer() % 10 == 0 && getMaxTemperature() > temperature + 4) {
+                raiseTemperature(4);
             }
             return true;
         }
@@ -106,12 +101,12 @@ public class ManaHeaterMachine extends SimpleManaMachine implements IHeaterMachi
 
     @Override
     public int getHeatCapacity() {
-        return 8;
+        return 6;
     }
 
     @Override
     public int getMaxTemperature() {
-        return 2400;
+        return 1200;
     }
 
     @Override

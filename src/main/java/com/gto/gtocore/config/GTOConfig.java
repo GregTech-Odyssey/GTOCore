@@ -22,7 +22,8 @@ public final class GTOConfig {
             difficulty = switch (GTOConfig.INSTANCE.gameDifficulty) {
                 case "Simple" -> 1;
                 case "Normal" -> 2;
-                default -> 3;
+                case "Expert" -> 3;
+                default -> throw new IllegalStateException("Unexpected value: " + GTOConfig.INSTANCE.gameDifficulty);
             };
         }
         return difficulty;

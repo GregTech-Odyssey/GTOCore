@@ -19,6 +19,16 @@ interface ReactionFurnace {
 
     static void init() {
         registerBlastFurnaceRecipes();
+
+        REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("sodium_aluminate"))
+                .inputItems(TagPrefix.dust, GTMaterials.Bauxite, 5)
+                .inputItems(TagPrefix.dust, GTMaterials.SodiumHydroxide, 3)
+                .outputItems(TagPrefix.dust, GTOMaterials.SodiumAluminate, 5)
+                .EUt(120)
+                .duration(120)
+                .blastFurnaceTemp(700)
+                .save();
+
         REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("actinium_hydride_dust"))
                 .inputItems(TagPrefix.dust, GTOMaterials.ActiniumOxalate, 13)
                 .inputItems(TagPrefix.dust, GTOMaterials.SodiumHydride, 6)
@@ -529,12 +539,12 @@ interface ReactionFurnace {
                 .save();
 
         REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("alumina_ceramic_dust"))
-                .inputItems(TagPrefix.dust, GTOMaterials.AluminiumHydroxide)
+                .inputItems(TagPrefix.dust, GTOMaterials.AluminiumHydroxide, 7)
                 .outputItems(TagPrefix.dust, GTOMaterials.AluminaCeramic)
                 .outputFluids(GTMaterials.Water.getFluid(1000))
                 .EUt(120)
                 .duration(100)
-                .blastFurnaceTemp(2775)
+                .blastFurnaceTemp(2600)
                 .save();
 
         REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("tungsten_tetraboride_ceramics_dust"))
@@ -542,7 +552,7 @@ interface ReactionFurnace {
                 .outputItems(TagPrefix.dust, GTOMaterials.TungstenTetraborideCeramics)
                 .EUt(480)
                 .duration(100)
-                .blastFurnaceTemp(2775)
+                .blastFurnaceTemp(3475)
                 .save();
 
         REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("tellurate_ceramics_dust"))
@@ -551,7 +561,7 @@ interface ReactionFurnace {
                 .outputItems(TagPrefix.dust, GTOMaterials.TellurateCeramics)
                 .EUt(480)
                 .duration(5)
-                .blastFurnaceTemp(2775)
+                .blastFurnaceTemp(8600)
                 .save();
 
         REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("thulium_hexaboride_ceramics_dust"))
@@ -571,7 +581,7 @@ interface ReactionFurnace {
                 .outputItems(TagPrefix.dust, GTOMaterials.SiliconNitrideCeramic)
                 .EUt(240)
                 .duration(5)
-                .blastFurnaceTemp(2775)
+                .blastFurnaceTemp(4500)
                 .save();
 
         REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("lithium_oxide_ceramics_dust"))
@@ -581,7 +591,7 @@ interface ReactionFurnace {
                 .outputItems(TagPrefix.dust, GTOMaterials.LithiumOxideCeramics, 2)
                 .EUt(240)
                 .duration(5)
-                .blastFurnaceTemp(2775)
+                .blastFurnaceTemp(2500)
                 .save();
 
         REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("titanium_nitride_ceramic_dust"))
@@ -590,7 +600,7 @@ interface ReactionFurnace {
                 .outputItems(TagPrefix.dust, GTOMaterials.TitaniumNitrideCeramic, 2)
                 .EUt(480)
                 .duration(5)
-                .blastFurnaceTemp(2775)
+                .blastFurnaceTemp(3400)
                 .save();
 
         REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("zirconia_ceramic_dust"))
@@ -599,7 +609,7 @@ interface ReactionFurnace {
                 .outputItems(TagPrefix.dust, GTMaterials.SiliconDioxide, 3)
                 .EUt(960)
                 .duration(5)
-                .blastFurnaceTemp(2775)
+                .blastFurnaceTemp(6500)
                 .save();
 
         REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("carbon_dioxide"))

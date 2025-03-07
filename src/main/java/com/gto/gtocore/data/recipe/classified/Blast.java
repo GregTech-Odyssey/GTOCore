@@ -1,6 +1,7 @@
 package com.gto.gtocore.data.recipe.classified;
 
 import com.gto.gtocore.GTOCore;
+import com.gto.gtocore.api.data.tag.GTOTagPrefix;
 import com.gto.gtocore.common.data.GTOBlocks;
 import com.gto.gtocore.common.data.GTOItems;
 import com.gto.gtocore.common.data.GTOMaterials;
@@ -17,6 +18,15 @@ import static com.gto.gtocore.common.data.GTORecipeTypes.BLAST_RECIPES;
 interface Blast {
 
     static void init() {
+        BLAST_RECIPES.recipeBuilder(GTOCore.id("alumina_ceramic"))
+                .inputItems(GTOTagPrefix.roughBlank, GTOMaterials.AluminaCeramic)
+                .outputItems(TagPrefix.block, GTOMaterials.AluminaCeramic)
+                .inputFluids(GTMaterials.Nitrogen.getFluid(500))
+                .EUt(120)
+                .duration(600)
+                .blastFurnaceTemp(2700)
+                .save();
+
         BLAST_RECIPES.recipeBuilder(GTOCore.id("hot_draconium_ingot_1"))
                 .inputItems(TagPrefix.dust, GTOMaterials.Draconium)
                 .inputFluids(GTMaterials.CetaneBoostedDiesel.getFluid(2000))

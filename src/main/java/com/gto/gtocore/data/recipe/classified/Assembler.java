@@ -3534,5 +3534,14 @@ interface Assembler {
                 .EUt(7)
                 .duration(300)
                 .save();
+
+        ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("pi_high_temperature_insulation_mechanical_housing"))
+                .inputItems(TagPrefix.frameGt, GTMaterials.IncoloyMA956)
+                .inputItems(TagPrefix.plate, GTOMaterials.Polyimide, 6)
+                .outputItems(GTOBlocks.PI_HIGH_TEMPERATURE_INSULATION_MECHANICAL_HOUSING.asStack())
+                .circuitMeta(6)
+                .EUt(16)
+                .duration(50)
+                .save();
     }
 }

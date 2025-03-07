@@ -1,6 +1,7 @@
 package com.gto.gtocore.data.recipe.classified;
 
 import com.gto.gtocore.GTOCore;
+import com.gto.gtocore.api.data.tag.GTOTagPrefix;
 import com.gto.gtocore.api.machine.GTOCleanroomType;
 import com.gto.gtocore.common.data.GTOItems;
 import com.gto.gtocore.common.data.GTOMaterials;
@@ -54,6 +55,7 @@ interface FormingPress {
                 .save();
 
         FORMING_PRESS_RECIPES.recipeBuilder(GTOCore.id("raw_imprinted_resonatic_circuit_board"))
+                .inputItems(GTOTagPrefix.flakes, GTOMaterials.SiliconNitrideCeramic)
                 .inputItems(TagPrefix.dust, GTOMaterials.CircuitCompound, 4)
                 .inputItems(TagPrefix.dust, GTOMaterials.MagnetoResonatic)
                 .outputItems(GTOItems.RAW_IMPRINTED_RESONATIC_CIRCUIT_BOARD.asStack())

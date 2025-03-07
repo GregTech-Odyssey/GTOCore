@@ -2004,8 +2004,9 @@ public interface MaterialA {
 
         Polyimide = material("polyimide", "聚酰亚胺")
                 .fluid()
+                .polymer()
                 .components(Carbon, 22, Hydrogen, 12, Nitrogen, 2, Oxygen, 6)
-                .flags(DISABLE_DECOMPOSITION)
+                .flags(GENERATE_PLATE, DISABLE_DECOMPOSITION)
                 .color(0xff6730)
                 .iconSet(DULL)
                 .buildAndRegister();
@@ -4188,7 +4189,6 @@ public interface MaterialA {
                 .dust()
                 .color(0xcd661d)
                 .components(Carbon, 2, Hydrogen, 5, Oxygen, 1, Potassium, 1)
-                .flags(DISABLE_DECOMPOSITION)
                 .iconSet(DULL)
                 .buildAndRegister();
 

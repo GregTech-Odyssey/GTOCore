@@ -7,6 +7,7 @@ import com.gto.gtocore.common.recipe.condition.RestrictedMachineCondition;
 import com.gto.gtocore.common.recipe.condition.VacuumCondition;
 
 import com.gregtechceu.gtceu.common.data.GTBlocks;
+import com.gregtechceu.gtceu.data.recipe.CustomTags;
 
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.world.item.ItemStack;
@@ -24,6 +25,30 @@ public interface RecipeOverwrite {
 
     static void init(Consumer<FinishedRecipe> provider) {
         // 修改
+        CHEMICAL_RECIPES.recipeBuilder("plastic_circuit_board_persulfate").duration(600).EUt(VA[LV])
+                .inputItems(PLASTIC_BOARD)
+                .inputItems(GTOTagPrefix.flakes, GTOMaterials.AluminaCeramic, 2)
+                .inputFluids(SodiumPersulfate.getFluid(500))
+                .outputItems(PLASTIC_CIRCUIT_BOARD)
+                .save();
+
+        CHEMICAL_RECIPES.recipeBuilder("plastic_circuit_board_iron3").duration(600).EUt(VA[LV])
+                .inputItems(PLASTIC_BOARD)
+                .inputItems(GTOTagPrefix.flakes, GTOMaterials.AluminaCeramic, 2)
+                .inputFluids(Iron3Chloride.getFluid(250))
+                .outputItems(PLASTIC_CIRCUIT_BOARD)
+                .save();
+
+        CIRCUIT_ASSEMBLER_RECIPES.recipeBuilder("integrated_circuit_hv").EUt(VA[LV]).duration(600)
+                .inputItems(GTOTagPrefix.flakes, GTOMaterials.AluminaCeramic, 1)
+                .inputItems(INTEGRATED_CIRCUIT_MV, 2)
+                .inputItems(INTEGRATED_LOGIC_CIRCUIT, 2)
+                .inputItems(RANDOM_ACCESS_MEMORY, 2)
+                .inputItems(CustomTags.TRANSISTORS, 4)
+                .inputItems(screw, AnnealedCopper, 8)
+                .outputItems(INTEGRATED_CIRCUIT_HV)
+                .save();
+
         ASSEMBLER_RECIPES.recipeBuilder("basic_circuit_board")
                 .inputItems(foil, Copper, 4)
                 .inputItems(plate, Wood)

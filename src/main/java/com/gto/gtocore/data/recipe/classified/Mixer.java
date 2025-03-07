@@ -319,6 +319,7 @@ interface Mixer {
                 .outputFluids(GTMaterials.TinAlloy.getFluid(288))
                 .EUt(30)
                 .duration(200)
+                .heat(800)
                 .save();
 
         MIXER_RECIPES.recipeBuilder(GTOCore.id("pulsating_alloy_dust"))
@@ -648,12 +649,12 @@ interface Mixer {
                 .save();
 
         MIXER_RECIPES.recipeBuilder(GTOCore.id("aluminium_hydroxide_dust"))
-                .inputItems(TagPrefix.dust, GTOMaterials.SodiumAluminate)
-                .inputFluids(GTMaterials.Water.getFluid(2000))
-                .outputItems(TagPrefix.dust, GTOMaterials.AluminiumHydroxide)
+                .inputItems(TagPrefix.dust, GTOMaterials.SodiumAluminate, 4)
+                .inputFluids(GTMaterials.Water.getFluid(3000))
+                .outputItems(TagPrefix.dust, GTOMaterials.AluminiumHydroxide, 7)
                 .outputFluids(SodiumHydroxideSolution.getFluid(1000))
                 .EUt(120)
-                .duration(100)
+                .duration(120)
                 .save();
 
         MIXER_RECIPES.recipeBuilder(GTOCore.id("tungsten_boron_mixture_dust"))

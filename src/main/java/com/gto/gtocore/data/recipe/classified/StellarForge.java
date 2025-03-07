@@ -23,6 +23,23 @@ import static com.gto.gtocore.common.data.GTORecipeTypes.STELLAR_FORGE_RECIPES;
 interface StellarForge {
 
     static void init() {
+        STELLAR_FORGE_RECIPES.recipeBuilder(GTOCore.id("compressed_stone"))
+                .inputItems(GTOBlocks.NAQUADRIA_CHARGE.asStack())
+                .inputItems(TagPrefix.dust, GTMaterials.Stone, 1024)
+                .outputItems(TagPrefix.dust, GTOMaterials.CompressedStone)
+                .chancedOutput(TagPrefix.nugget, GTOMaterials.Bedrockium, 1, 100, 1)
+                .EUt(31457280)
+                .duration(200)
+                .save();
+
+        STELLAR_FORGE_RECIPES.recipeBuilder(GTOCore.id("neutron"))
+                .inputItems(GTOBlocks.NAQUADRIA_CHARGE.asStack())
+                .inputItems(TagPrefix.block, GTOMaterials.SuperheavyMix)
+                .outputFluids(GTOMaterials.Neutron.getFluid(1000))
+                .EUt(31457280)
+                .duration(200)
+                .save();
+
         STELLAR_FORGE_RECIPES.recipeBuilder(GTOCore.id("contained_reissner_nordstrom_singularity"))
                 .inputItems(GTOBlocks.NAQUADRIA_CHARGE.asStack())
                 .inputItems(GTOItems.TIME_DILATION_CONTAINMENT_UNIT.asStack(64))

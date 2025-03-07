@@ -13,6 +13,13 @@ import static com.gto.gtocore.common.data.GTORecipeTypes.DEHYDRATOR_RECIPES;
 interface Dehydrator {
 
     static void init() {
+        DEHYDRATOR_RECIPES.recipeBuilder(GTOCore.id("sodiumhydroxidesolution"))
+                .outputItems(TagPrefix.dust, GTMaterials.SodiumHydroxide, 3)
+                .inputFluids(GTOMaterials.SodiumHydroxideSolution.getFluid(1000))
+                .EUt(30)
+                .duration(140)
+                .save();
+
         DEHYDRATOR_RECIPES.recipeBuilder(GTOCore.id("er_lu_oxides_solution"))
                 .inputFluids(GTOMaterials.ErLuOxidesSolution.getFluid(4000))
                 .chancedOutput(TagPrefix.dust, GTOMaterials.ErbiumOxide, 5, 4300, 275)

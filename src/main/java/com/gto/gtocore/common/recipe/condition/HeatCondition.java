@@ -69,7 +69,7 @@ public final class HeatCondition extends RecipeCondition {
 
     private boolean checkNeighborHeat(Level level, BlockPos neighborPos) {
         if (MetaMachine.getMachine(level, neighborPos) instanceof IHeaterMachine heaterMachine) {
-            return heaterMachine.getTemperature() >= temperature;
+            return heaterMachine.getTemperature() >= temperature && heaterMachine.reduceTemperature(4) == 4;
         }
         return false;
     }

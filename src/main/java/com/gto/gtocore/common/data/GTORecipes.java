@@ -156,6 +156,16 @@ public final class GTORecipes implements Runnable {
         GT_FILTER_RECIPES.add(GTCEu.id("chemical_reactor/pva_from_tetrachloride_air"));
         GT_FILTER_RECIPES.add(GTCEu.id("chemical_reactor/pva_from_tetrachloride_oxygen"));
         GT_FILTER_RECIPES.add(GTCEu.id("chemical_reactor/epoxy_from_bisphenol_a"));
+        GT_FILTER_RECIPES.add(GTCEu.id("chemical_reactor/advanced_circuit_board_persulfate"));
+        GT_FILTER_RECIPES.add(GTCEu.id("chemical_reactor/advanced_circuit_board_iron3"));
+        GT_FILTER_RECIPES.add(GTCEu.id("chemical_reactor/extreme_circuit_board_iron3"));
+        GT_FILTER_RECIPES.add(GTCEu.id("chemical_reactor/extreme_circuit_board_persulfate"));
+        GT_FILTER_RECIPES.add(GTCEu.id("chemical_reactor/elite_circuit_board_persulfate"));
+        GT_FILTER_RECIPES.add(GTCEu.id("chemical_reactor/elite_circuit_board_iron3"));
+        GT_FILTER_RECIPES.add(GTCEu.id("chemical_reactor/wetware_circuit_board_persulfate"));
+        GT_FILTER_RECIPES.add(GTCEu.id("chemical_reactor/wetware_circuit_board_iron3"));
+        GT_FILTER_RECIPES.add(GTCEu.id("chemical_reactor/elite_circuit_board_persulfate"));
+        GT_FILTER_RECIPES.add(GTCEu.id("chemical_reactor/elite_circuit_board_iron3"));
         GT_FILTER_RECIPES.add(GTCEu.id("large_chemical_reactor/epoxy_shortcut"));
         GT_FILTER_RECIPES.add(GTCEu.id("large_chemical_reactor/polyethylene_from_tetrachloride_air"));
         GT_FILTER_RECIPES.add(GTCEu.id("large_chemical_reactor/polyethylene_from_tetrachloride_oxygen"));

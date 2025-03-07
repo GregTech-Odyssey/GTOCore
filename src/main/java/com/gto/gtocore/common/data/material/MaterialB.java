@@ -4,7 +4,7 @@ import com.gto.gtocore.api.data.chemical.material.info.GTOMaterialFlags;
 
 import com.gregtechceu.gtceu.api.GTValues;
 
-import static com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlags.DISABLE_DECOMPOSITION;
+import static com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlags.*;
 import static com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialIconSet.*;
 import static com.gregtechceu.gtceu.api.data.chemical.material.properties.BlastProperty.GasTier.HIGHEST;
 import static com.gregtechceu.gtceu.api.data.chemical.material.properties.BlastProperty.GasTier.LOW;
@@ -16,6 +16,14 @@ import static com.gto.gtocore.utils.register.MaterialsRegisterUtils.material;
 public interface MaterialB {
 
     static void init() {
+        SuperheavyMix = material("superheavy_mix", "超重元素混合物")
+                .dust()
+                .fluid()
+                .color(0x3E2C2B)
+                .iconSet(DULL)
+                .flags(NO_UNIFICATION, FORCE_GENERATE_BLOCK)
+                .buildAndRegister();
+
         CoalSlurry = material("coal_slurry", "煤浆")
                 .fluid()
                 .color(0x3E3C3A)

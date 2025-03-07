@@ -514,7 +514,7 @@ public final class RecipeEditorBehavior implements IItemUIFactory, IFancyUIProvi
                 if (machine.eut != 0) {
                     stringBuilder.append(".EUt(").append(machine.eut).append(")\n");
                 }
-                if (machine.manat != 0) {
+                if (machine.temp != 0) {
                     stringBuilder.append(".blastFurnaceTemp(").append(machine.temp).append(")\n");
                 }
                 if (machine.duration == 0) {

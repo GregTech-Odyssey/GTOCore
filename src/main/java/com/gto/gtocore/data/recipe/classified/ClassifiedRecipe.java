@@ -101,7 +101,6 @@ public interface ClassifiedRecipe {
         Evaporation.init();
         AlloyBlast.init();
         Extruder.init();
-        LargeBoiler.init();
         Brewing.init();
         CreateAggregation.init();
         DoorOfCreate.init();

@@ -74,5 +74,13 @@ interface Extractor {
                 .duration(200)
                 .cleanroom(GTOCleanroomType.LAW_CLEANROOM)
                 .save();
+
+        EXTRACTOR_RECIPES.recipeBuilder(GTOCore.id("tin"))
+                .inputItems(TagPrefix.dust, GTMaterials.Tin)
+                .outputFluids(GTMaterials.Tin.getFluid(144))
+                .duration(240)
+                .EUt(30)
+                .heat(600)
+                .save();
     }
 }

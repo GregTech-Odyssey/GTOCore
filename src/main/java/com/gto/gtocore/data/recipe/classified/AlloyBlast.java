@@ -20,5 +20,14 @@ interface AlloyBlast {
                 .duration(350)
                 .blastFurnaceTemp(1200)
                 .save();
+
+        ALLOY_BLAST_RECIPES.recipeBuilder(GTOCore.id("superheavy_mix"))
+                .inputItems(TagPrefix.dust, GTOMaterials.SuperheavyLAlloy)
+                .inputItems(TagPrefix.dust, GTOMaterials.SuperheavyHAlloy)
+                .outputFluids(GTOMaterials.SuperheavyMix.getFluid(288))
+                .EUt(100000000)
+                .duration(40)
+                .blastFurnaceTemp(12880)
+                .save();
     }
 }

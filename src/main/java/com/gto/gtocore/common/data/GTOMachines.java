@@ -9,6 +9,7 @@ import com.gto.gtocore.client.renderer.machine.BallHatchRenderer;
 import com.gto.gtocore.client.renderer.machine.WindMillTurbineRenderer;
 import com.gto.gtocore.common.block.BlockMap;
 import com.gto.gtocore.common.data.machines.*;
+import com.gto.gtocore.common.machine.electric.ElectricHeaterMachine;
 import com.gto.gtocore.common.machine.electric.VacuumPumpMachine;
 import com.gto.gtocore.common.machine.generator.LightningRodMachine;
 import com.gto.gtocore.common.machine.generator.MagicEnergyMachine;
@@ -220,6 +221,16 @@ public interface GTOMachines {
             .tooltipsText("Can monitor the average latency of all machines within 2 seconds and support highlighting.", "能监测全部机器2秒内的平均延迟，并支持高亮显示。")
             .workableTieredHullRenderer(GTMThings.id("block/machines/wireless_energy_monitor"))
             .tier(LV)
+            .register();
+
+    MachineDefinition ELECTRIC_HEATER = machine("electric_heater", "电力加热器", ElectricHeaterMachine::new)
+            .tier(LV)
+            .editableUI(SimpleNoEnergyMachine.EDITABLE_UI_CREATOR.apply(GTCEu.id("electric_heater"), GTORecipeTypes.MANA_HEATER_RECIPES))
+            .recipeType(GTORecipeTypes.MANA_HEATER_RECIPES)
+            .noRecipeModifier()
+            .nonYAxisRotation()
+            .tooltipsText("Start heating after power on.", "通电后开始加热")
+            .workableTieredHullRenderer(GTCEu.id("block/generators/boiler/coal"))
             .register();
 
     //////////////////////////////////////

@@ -4,6 +4,7 @@
 	"render_type": "cutout_mipped",
 	"texture_size": [64, 64],
 	"textures": {
+		"particle": "gtceu:block/overlay/machine/overlay_hatch",
 		"3": "gtocore:block/machines/alchemy_cauldron",
 		"5": "gtocore:block/machines/alchemy_cauldron_dye"
 	},
