@@ -19,11 +19,9 @@ import net.minecraft.util.GsonHelper;
 import com.google.gson.JsonObject;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
-@Getter
 @NoArgsConstructor
 public final class RestrictedMachineCondition extends RecipeCondition {
 

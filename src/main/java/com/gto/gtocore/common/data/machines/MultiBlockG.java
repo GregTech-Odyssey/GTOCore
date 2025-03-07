@@ -10,6 +10,7 @@ import com.gto.gtocore.api.pattern.GTOPredicates;
 import com.gto.gtocore.client.renderer.machine.ArrayMachineRenderer;
 import com.gto.gtocore.common.data.GTOBlocks;
 import com.gto.gtocore.common.data.GTOMachines;
+import com.gto.gtocore.common.data.GTORecipeModifiers;
 import com.gto.gtocore.common.data.GTORecipeTypes;
 import com.gto.gtocore.common.machine.multiblock.electric.ChiselMachine;
 import com.gto.gtocore.common.machine.multiblock.electric.DrawingTowerMachine;
@@ -67,6 +68,33 @@ public interface MultiBlockG {
             .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_clean_stainless_steel"),
                     GTCEu.id("block/multiblock/multi_furnace"))
             .register() : null;
+
+    MultiblockMachineDefinition POLYMERIZATION_REACTOR = multiblock("polymerization_reactor", "聚合反应器", CoilMultiblockMachine.createCoilMachine(false, false))
+            .nonYAxisRotation()
+            .recipe(GTORecipeTypes.POLYMERIZATION_REACTOR_RECIPES)
+            .recipeModifier(GTORecipeModifiers::polymerizationOverclock)
+            .existingTooltips("chemical_plant", 0)
+            .parallelizableTooltips()
+            .block(GTBlocks.CASING_STAINLESS_CLEAN)
+            .pattern(definition -> FactoryBlockPattern.start()
+                    .aisle("A   A", "ABBBA", "ACDCA", "BCDCB", " BBB ")
+                    .aisle("  B  ", "BEEEB", "C   C", "C   C", "BBBBB")
+                    .aisle(" BBB ", "BEBEB", "D B D", "D B D", "BBBBB")
+                    .aisle("  B  ", "BEEEB", "C   C", "C   C", "BBBBB")
+                    .aisle("A   A", "AB~BA", "ACDCA", "BCDCB", " BBB ")
+                    .where('~', controller(blocks(definition.get())))
+                    .where('A', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.StainlessSteel)))
+                    .where('B', blocks(GTBlocks.CASING_STAINLESS_CLEAN.get()))
+                    .where('C', blocks(GTBlocks.CASING_STAINLESS_CLEAN.get())
+                            .or(autoAbilities(definition.getRecipeTypes()))
+                            .or(abilities(PARALLEL_HATCH).setMaxGlobalLimited(1))
+                            .or(abilities(MAINTENANCE).setExactLimit(1)))
+                    .where('D', blocks(GTBlocks.CASING_TEMPERED_GLASS.get()))
+                    .where('E', blocks(GTBlocks.COIL_CUPRONICKEL.get()))
+                    .where(' ', any())
+                    .build())
+            .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_clean_stainless_steel"), GTCEu.id("block/multiblock/large_chemical_reactor"))
+            .register();
 
     MultiblockMachineDefinition SATELLITE_CONTROL_CENTER = multiblock("satellite_control_center", "卫星控制中心", SatelliteControlCenterMachine::new)
             .allRotation()

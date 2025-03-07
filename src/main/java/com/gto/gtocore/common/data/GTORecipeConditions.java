@@ -1,6 +1,7 @@
 package com.gto.gtocore.common.data;
 
 import com.gto.gtocore.common.recipe.condition.GravityCondition;
+import com.gto.gtocore.common.recipe.condition.HeatCondition;
 import com.gto.gtocore.common.recipe.condition.RestrictedMachineCondition;
 import com.gto.gtocore.common.recipe.condition.VacuumCondition;
 
@@ -17,6 +18,9 @@ public interface GTORecipeConditions {
 
     RecipeConditionType<RestrictedMachineCondition> RESTRICTED_MACHINE = GTRegistries.RECIPE_CONDITIONS.register("restricted_machine",
             new RecipeConditionType<>(RestrictedMachineCondition::new, RestrictedMachineCondition.CODEC));
+
+    RecipeConditionType<HeatCondition> HEAT = GTRegistries.RECIPE_CONDITIONS.register("heat",
+            new RecipeConditionType<>(HeatCondition::new, HeatCondition.CODEC));
 
     static void init() {}
 }

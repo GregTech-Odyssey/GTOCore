@@ -25,6 +25,7 @@ public interface PetrochemRecipes {
     private static void crack(Consumer<FinishedRecipe> provider, Material... cracked) {
         STEAM_CRACKING_RECIPES.recipeBuilder(GTOCore.id("severely_steam_crack_" + cracked[0].getName()))
                 .circuitMeta(1)
+                .inputFluids(Hydrogen.getFluid(500))
                 .inputFluids(cracked[0].getFluid(1000))
                 .outputFluids(cracked[1].getFluid(400))
                 .duration(200)
@@ -33,6 +34,7 @@ public interface PetrochemRecipes {
 
         STEAM_CRACKING_RECIPES.recipeBuilder(GTOCore.id("steam_crack_" + cracked[0].getName()))
                 .circuitMeta(2)
+                .inputFluids(Hydrogen.getFluid(500))
                 .inputFluids(cracked[0].getFluid(1000))
                 .outputFluids(cracked[2].getFluid(400))
                 .duration(200)

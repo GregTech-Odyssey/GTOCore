@@ -6,7 +6,9 @@ import com.gto.gtocore.common.data.GTORecipeTypes;
 import com.gto.gtocore.utils.MachineUtils;
 
 import com.gregtechceu.gtceu.api.GTValues;
+import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
+import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.client.util.TooltipHelper;
 import com.gregtechceu.gtceu.common.data.GTMachines;
@@ -22,7 +24,7 @@ import net.minecraft.resources.ResourceLocation;
 import java.util.UUID;
 
 import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
-import static com.gregtechceu.gtceu.common.data.GTBlocks.CASING_PRIMITIVE_BRICKS;
+import static com.gregtechceu.gtceu.common.data.GTBlocks.*;
 import static com.gregtechceu.gtceu.common.data.machines.GTMultiMachines.PRIMITIVE_BLAST_FURNACE;
 import static com.gto.gtocore.common.data.GTOMachines.PRIMITIVE_BLAST_FURNACE_HATCH;
 
@@ -54,6 +56,19 @@ public interface GTMachineModify {
                 .where('#', air())
                 .where('Y', controller(blocks(PRIMITIVE_BLAST_FURNACE.getBlock())))
                 .build()));
+
+        GTMultiMachines.LARGE_BOILER_BRONZE.setPatternFactory(SupplierMemoizer.memoize(() -> FactoryBlockPattern.start()
+                .aisle("XXX", "CCC", "CCC", "CCC")
+                .aisle("XXX", "CPC", "CPC", "CCC")
+                .aisle("XXX", "CSC", "CCC", "CCC")
+                .where('S', Predicates.controller(blocks(GTMultiMachines.LARGE_BOILER_BRONZE.getBlock())))
+                .where('P', blocks(CASING_BRONZE_PIPE.get()))
+                .where('X', blocks(FIREBOX_BRONZE.get()).setMinGlobalLimited(3)
+                        .or(Predicates.abilities(PartAbility.IMPORT_FLUIDS).setMinGlobalLimited(1).setPreviewCount(1))
+                        .or(Predicates.abilities(PartAbility.IMPORT_ITEMS).setMaxGlobalLimited(1).setPreviewCount(1)))
+                .where('C', blocks(CASING_BRONZE_BRICKS.get()).setMinGlobalLimited(20).or(Predicates.abilities(PartAbility.EXPORT_FLUIDS).setMinGlobalLimited(1).setPreviewCount(1)))
+                .build()));
+
         for (int tier : GTMachineUtils.ELECTRIC_TIERS) {
             if (tier > GTValues.LV) {
                 GTMachines.SCANNER[tier].setOnWorking(machine -> {

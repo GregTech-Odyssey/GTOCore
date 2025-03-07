@@ -2,6 +2,7 @@ package com.gto.gtocore.common.data;
 
 import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.common.saved.DysonSphereSavaedData;
+import com.gto.gtocore.utils.ItemUtils;
 import com.gto.gtocore.utils.StringConverter;
 
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
@@ -14,9 +15,12 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.HoverEvent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.BucketItem;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 
 import com.mojang.brigadier.CommandDispatcher;
@@ -47,13 +51,7 @@ public interface GTOCommands {
                 .then(Commands.literal("hand").executes(ctx -> {
                     ServerPlayer player = ctx.getSource().getPlayer();
                     if (player != null) {
-                        ItemStack stack = player.getMainHandItem();
-                        String s = StringConverter.fromItem(Ingredient.of(stack), 1);
-                        if (s != null) ctx.getSource().sendSuccess(() -> copy(Component.literal(s)), true);
-                        if (stack.getItem() instanceof BucketItem bucketItem) {
-                            String f = StringConverter.fromFluid(FluidIngredient.of(new FluidStack(bucketItem.getFluid(), 1000)));
-                            if (f != null) ctx.getSource().sendSuccess(() -> copy(Component.literal(f)), true);
-                        }
+                        hand(player);
                     }
                     return 1;
                 })));
@@ -65,5 +63,27 @@ public interface GTOCommands {
                 .withStyle(Style.EMPTY.withClickEvent(new ClickEvent(ClickEvent.Action.COPY_TO_CLIPBOARD, c.getString())))
                 .withStyle(Style.EMPTY.withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, Component.literal("Click to copy"))))
                 .append(c);
+    }
+
+    private static void hand(ServerPlayer player) {
+        player.sendSystemMessage(Component.literal("Item in hand:"));
+        ItemStack stack = player.getMainHandItem();
+        String s = StringConverter.fromItem(Ingredient.of(stack), 1);
+        if (s != null) {
+            player.sendSystemMessage(copy(Component.literal(s).withStyle(ChatFormatting.AQUA)));
+        }
+        player.sendSystemMessage(copy(Component.literal(ItemUtils.getId(stack)).withStyle(ChatFormatting.GREEN)));
+        for (TagKey<Item> tag : stack.getItemHolder().tags().toList()) {
+            player.sendSystemMessage(copy(Component.literal(tag.location().toString()).withStyle((ChatFormatting.YELLOW))));
+        }
+        if (stack.getItem() instanceof BucketItem bucketItem) {
+            player.sendSystemMessage(Component.literal("Held fluid:"));
+            Fluid fluid = bucketItem.getFluid();
+            String f = StringConverter.fromFluid(FluidIngredient.of(new FluidStack(fluid, 1000)));
+            if (f != null) {
+                player.sendSystemMessage(copy(Component.literal(f).withStyle(ChatFormatting.AQUA)));
+            }
+            player.sendSystemMessage(copy(Component.literal(fluid.builtInRegistryHolder().key().location().toString()).withStyle(ChatFormatting.GREEN)));
+        }
     }
 }

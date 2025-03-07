@@ -73,12 +73,29 @@ public interface RecipeOverwrite {
                 .inputFluids(Glue.getFluid(100))
                 .duration(80).EUt(12).save();
 
+        CHEMICAL_RECIPES.recipeBuilder("polyethylene_from_oxygen")
+                .circuitMeta(1)
+                .inputFluids(Oxygen.getFluid(1000))
+                .inputFluids(Ethylene.getFluid(L))
+                .outputFluids(Polyethylene.getFluid(144))
+                .heat(600)
+                .duration(160).EUt(VA[LV]).save(provider);
+
         CHEMICAL_RECIPES.recipeBuilder("polyethylene_from_air")
                 .circuitMeta(1)
                 .inputFluids(Air.getFluid(1000))
                 .inputFluids(Ethylene.getFluid(L))
-                .outputFluids(Polyethylene.getFluid(L))
+                .outputFluids(Polyethylene.getFluid(126))
+                .heat(600)
                 .duration(600).EUt(VA[ULV]).save();
+
+        CHEMICAL_RECIPES.recipeBuilder("polyvinyl_chloride_from_oxygen")
+                .circuitMeta(1)
+                .inputFluids(Oxygen.getFluid(1000))
+                .inputFluids(VinylChloride.getFluid(L))
+                .outputFluids(PolyvinylChloride.getFluid(144))
+                .heat(700)
+                .duration(180).EUt(VA[LV]).save(provider);
 
         ASSEMBLER_RECIPES.recipeBuilder("bucket")
                 .inputItems(GTOTagPrefix.curvedPlate, Iron, 2)

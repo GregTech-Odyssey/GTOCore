@@ -6,8 +6,6 @@ import com.gto.gtocore.api.machine.GTOCleanroomType;
 import com.gto.gtocore.common.data.GTOItems;
 import com.gto.gtocore.common.data.GTORecipeTypes;
 import com.gto.gtocore.common.data.GTORecipes;
-import com.gto.gtocore.common.recipe.condition.GravityCondition;
-import com.gto.gtocore.common.recipe.condition.VacuumCondition;
 import com.gto.gtocore.config.GTOConfig;
 import com.gto.gtocore.utils.*;
 
@@ -215,12 +213,6 @@ public final class RecipeEditorBehavior implements IItemUIFactory, IFancyUIProvi
                     }
                     if (condition instanceof DimensionCondition dimensionCondition) {
                         stringBuilder.append(".dimension(").append(dimensionCondition.getDimension().toString()).append(")").append("\n");
-                    }
-                    if (condition instanceof GravityCondition gravityCondition) {
-                        stringBuilder.append(".addCondition(").append("new GravityCondition(").append(gravityCondition.isZero()).append("))").append("\n");
-                    }
-                    if (condition instanceof VacuumCondition vacuumCondition) {
-                        stringBuilder.append(".addCondition(").append("new VacuumCondition(").append(vacuumCondition.getTier()).append("))").append("\n");
                     }
                 }
                 if (!recipe.data.isEmpty()) {

@@ -693,16 +693,6 @@ interface ChemicaRreactor {
                 .duration(80)
                 .save();
 
-        CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("polyurethane"))
-                .inputFluids(GTMaterials.Oxygen.getFluid(1000))
-                .inputFluids(GTOMaterials.EthyleneGlycol.getFluid(4000))
-                .inputFluids(GTOMaterials.TolueneDiisocyanate.getFluid(1000))
-                .outputFluids(GTOMaterials.Polyurethane.getFluid(1000))
-                .outputFluids(GTMaterials.Water.getFluid(7000))
-                .EUt(480)
-                .duration(110)
-                .save();
-
         CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("sodium_toluenesulfonate"))
                 .inputItems(TagPrefix.dust, GTMaterials.Salt, 2)
                 .inputFluids(GTMaterials.SulfuricAcid.getFluid(1000))
@@ -1548,16 +1538,6 @@ interface ChemicaRreactor {
                 .duration(170)
                 .save();
 
-        CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("pre_zylon_dust"))
-                .inputItems(TagPrefix.dust, GTOMaterials.Terephthalaldehyde, 16)
-                .inputFluids(GTOMaterials.Dinitrodipropanyloxybenzene.getFluid(1000))
-                .outputItems(TagPrefix.dust, GTOMaterials.PreZylon)
-                .outputFluids(GTMaterials.Oxygen.getFluid(6000))
-                .EUt(7864320)
-                .duration(50)
-                .cleanroom(CleanroomType.CLEANROOM)
-                .save();
-
         CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("dimethoxyethane"))
                 .inputFluids(GTOMaterials.Dimethylether.getFluid(1000))
                 .inputFluids(GTOMaterials.EthyleneOxide.getFluid(1000))
@@ -1950,19 +1930,6 @@ interface ChemicaRreactor {
                 .duration(350)
                 .save();
 
-        LARGE_CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("polyetheretherketone"))
-                .inputItems(TagPrefix.dust, GTOMaterials.Difluorobenzophenone, 24)
-                .inputItems(TagPrefix.dust, GTMaterials.SodaAsh, 6)
-                .inputFluids(GTOMaterials.Hydroquinone.getFluid(1000))
-                .outputItems(TagPrefix.dust, GTOMaterials.SodiumFluoride, 4)
-                .outputFluids(GTOMaterials.Polyetheretherketone.getFluid(2592))
-                .outputFluids(GTMaterials.Water.getFluid(1000))
-                .outputFluids(GTMaterials.CarbonDioxide.getFluid(1000))
-                .EUt(122880)
-                .duration(250)
-                .cleanroom(CleanroomType.CLEANROOM)
-                .save();
-
         LARGE_CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("phenylpentanoic_acid"))
                 .notConsumableFluid(GTOMaterials.TrimethylTinChloride.getFluid(1000))
                 .inputFluids(GTMaterials.Water.getFluid(2000))
@@ -2042,15 +2009,6 @@ interface ChemicaRreactor {
                 .outputFluids(GTOMaterials.PCBs.getFluid(8000))
                 .EUt(31457280)
                 .duration(80)
-                .cleanroom(CleanroomType.CLEANROOM)
-                .save();
-
-        LARGE_CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("paa"))
-                .inputItems(TagPrefix.dust, GTOMaterials.PyromelliticDianhydride, 18)
-                .inputFluids(GTOMaterials.Oxydianiline.getFluid(1000))
-                .outputFluids(GTOMaterials.Paa.getFluid(1000))
-                .EUt(122880)
-                .duration(400)
                 .cleanroom(CleanroomType.CLEANROOM)
                 .save();
 
@@ -2231,17 +2189,6 @@ interface ChemicaRreactor {
                 .outputFluids(GTOMaterials.AcetylatingReagent.getFluid(1000))
                 .EUt(480)
                 .duration(350)
-                .save();
-
-        LARGE_CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("polyurethaneresin"))
-                .inputItems(TagPrefix.dust, GTOMaterials.Pentaerythritol)
-                .inputItems(TagPrefix.dust, GTOMaterials.DiphenylmethaneDiisocyanate, 5)
-                .inputFluids(GTOMaterials.EthyleneGlycol.getFluid(4000))
-                .inputFluids(GTOMaterials.SiliconOil.getFluid(1000))
-                .outputFluids(GTOMaterials.PolyurethaneResin.getFluid(1000))
-                .EUt(7680)
-                .duration(600)
-                .cleanroom(CleanroomType.CLEANROOM)
                 .save();
 
         LARGE_CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("siliconoil"))

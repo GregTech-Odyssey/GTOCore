@@ -640,16 +640,6 @@ public interface Lanthanidetreatment {
                 .EUt(480)
                 .save();
 
-        LARGE_CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("make_p507_2"))
-                .inputItems(dust, Sodium, 2)
-                .inputFluids(EthylHexanol.getFluid(2000))
-                .inputFluids(PhosphoricAcid.getFluid(2000))
-                .inputFluids(Ethanol.getFluid(2000))
-                .outputFluids(P507.getFluid(1000))
-                .duration(1200)
-                .EUt(1920)
-                .save();
-
         Material[] rareEarthElements = {
                 Lanthanum,
                 Cerium,

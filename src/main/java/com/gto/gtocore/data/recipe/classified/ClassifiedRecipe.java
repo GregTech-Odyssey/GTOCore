@@ -111,5 +111,7 @@ public interface ClassifiedRecipe {
         MassFabricator.init();
         Scanner.init();
         RocketAssembler.init();
+        AlchemyCauldron.init();
+        PolymerizationReactor.init();
     }
 }

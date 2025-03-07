@@ -294,5 +294,14 @@ interface Centrifuge {
                 .EUt(30720)
                 .duration(350)
                 .save();
+
+        CENTRIFUGE_RECIPES.recipeBuilder(GTOCore.id("water_gas"))
+                .inputFluids(GTOMaterials.WaterGas.getFluid(1000))
+                .outputFluids(GTMaterials.Hydrogen.getFluid(900))
+                .outputFluids(GTMaterials.CarbonMonoxide.getFluid(800))
+                .outputFluids(GTMaterials.CoalGas.getFluid(10))
+                .EUt(7)
+                .duration(380)
+                .save();
     }
 }

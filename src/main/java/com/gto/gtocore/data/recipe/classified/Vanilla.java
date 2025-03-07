@@ -834,5 +834,10 @@ interface Vanilla {
                 "BDB",
                 "AEA",
                 'A', GTOItems.HEAVY_DUTY_PLATE_1.asStack(), 'B', GTItems.CONVEYOR_MODULE_HV, 'C', GTItems.EMITTER_HV.asStack(), 'D', RegistriesUtils.getItemStack("ad_astra:nasa_workbench"), 'E', GTItems.SENSOR_HV.asStack());
+        VanillaRecipeHelper.addShapedRecipe(provider, GTOCore.id(""), MultiBlockG.POLYMERIZATION_REACTOR.asStack(),
+                "ABA",
+                "CDC",
+                "EFE",
+                'A', RegistriesUtils.getItemStack("gtceu:huge_duct_pipe"), 'B', GTItems.ELECTRIC_PUMP_HV.asStack(), 'C', new UnificationEntry(TagPrefix.pipeHugeFluid, GTMaterials.StainlessSteel), 'D', GTBlocks.COIL_KANTHAL.asStack(), 'E', CustomTags.EV_CIRCUITS, 'F', GTMachines.HULL[GTValues.HV].asStack());
     }
 }

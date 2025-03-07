@@ -33,7 +33,7 @@ public class AlchemyCauldron extends SimpleManaMachine implements IReceiveHeatMa
     @Override
     public GTRecipe doModifyRecipe(@NotNull GTRecipe recipe) {
         int temperature = recipe.data.getInt("temperature");
-        if (temperature > 0 && temperature < this.temperature) return null;
+        if (temperature > 0 && temperature > this.temperature) return null;
         return super.doModifyRecipe(recipe);
     }
 

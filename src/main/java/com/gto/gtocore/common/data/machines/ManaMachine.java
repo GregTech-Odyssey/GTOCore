@@ -72,6 +72,7 @@ public interface ManaMachine {
             .editableUI(SimpleNoEnergyMachine.EDITABLE_UI_CREATOR.apply(GTCEu.id("alchemy_cauldron"), GTORecipeTypes.ALCHEMY_CAULDRON_RECIPES))
             .recipeType(GTORecipeTypes.ALCHEMY_CAULDRON_RECIPES)
             .alwaysTryModifyRecipe(true)
+            .tooltipsText("§7Do not use it for cooking food", "§7不要用它来做饭")
             .nonYAxisRotation()
             .modelRenderer(() -> GTOCore.id("block/machine/alchemy_cauldron"))
             .tooltips(workableNoEnergy(GTORecipeTypes.ALCHEMY_CAULDRON_RECIPES, 1600))

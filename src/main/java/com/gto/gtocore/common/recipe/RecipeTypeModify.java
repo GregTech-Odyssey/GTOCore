@@ -7,33 +7,36 @@ import com.gto.gtocore.data.recipe.generated.GenerateDisassembly;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
-import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.data.recipe.builder.GTRecipeBuilder;
 import com.gregtechceu.gtceu.utils.GTUtil;
 import com.gregtechceu.gtceu.utils.ResearchManager;
 
+import net.minecraft.client.resources.language.I18n;
+
 import java.util.Collections;
+
+import static com.gto.gtocore.common.data.GTORecipeTypes.*;
 
 public interface RecipeTypeModify {
 
     static void init() {
-        GTRecipeTypes.COMBUSTION_GENERATOR_FUELS.setMaxIOSize(0, 0, 2, 0);
-        GTRecipeTypes.GAS_TURBINE_FUELS.setMaxIOSize(0, 0, 2, 0);
-        GTRecipeTypes.DUMMY_RECIPES.setMaxIOSize(Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE);
-        GTRecipeTypes.WIREMILL_RECIPES.setMaxIOSize(1, 1, 0, 0);
+        COMBUSTION_GENERATOR_FUELS.setMaxIOSize(0, 0, 2, 0);
+        GAS_TURBINE_FUELS.setMaxIOSize(0, 0, 2, 0);
+        DUMMY_RECIPES.setMaxIOSize(Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE);
+        WIREMILL_RECIPES.setMaxIOSize(1, 1, 0, 0);
 
-        GTRecipeTypes.SIFTER_RECIPES.setMaxIOSize(1, 6, 1, 1);
+        SIFTER_RECIPES.setMaxIOSize(1, 6, 1, 1);
 
-        GTRecipeTypes.CHEMICAL_RECIPES.onRecipeBuild((r, p) -> {});
+        CHEMICAL_RECIPES.onRecipeBuild((r, p) -> {});
 
-        GTRecipeTypes.ASSEMBLY_LINE_RECIPES.onRecipeBuild((recipeBuilder, provider) -> {
+        ASSEMBLY_LINE_RECIPES.onRecipeBuild((recipeBuilder, provider) -> {
             ResearchManager.createDefaultResearchRecipe(recipeBuilder, provider);
             GenerateDisassembly.generateDisassembly(recipeBuilder, provider);
         });
 
-        GTRecipeTypes.ASSEMBLER_RECIPES.onRecipeBuild(GenerateDisassembly::generateDisassembly);
+        ASSEMBLER_RECIPES.onRecipeBuild(GenerateDisassembly::generateDisassembly);
 
-        GTRecipeTypes.PLASMA_GENERATOR_FUELS.onRecipeBuild((recipeBuilder, provider) -> {
+        PLASMA_GENERATOR_FUELS.onRecipeBuild((recipeBuilder, provider) -> {
             long eu = recipeBuilder.duration * GTValues.V[GTValues.EV];
             GTORecipeTypes.HEAT_EXCHANGER_RECIPES.recipeBuilder(recipeBuilder.id)
                     .inputFluids(FluidRecipeCapability.CAP.of(recipeBuilder.input
@@ -48,7 +51,7 @@ public interface RecipeTypeModify {
                     .save(provider);
         });
 
-        GTRecipeTypes.LASER_ENGRAVER_RECIPES.setMaxIOSize(2, 1, 2, 1)
+        LASER_ENGRAVER_RECIPES.setMaxIOSize(2, 1, 2, 1)
                 .onRecipeBuild((recipeBuilder, provider) -> {
                     if (recipeBuilder.data.contains("special")) return;
                     GTRecipeBuilder recipe = GTORecipeTypes.DIMENSIONAL_FOCUS_ENGRAVING_ARRAY_RECIPES.copyFrom(recipeBuilder)
@@ -63,7 +66,7 @@ public interface RecipeTypeModify {
                     recipe.save(provider);
                 });
 
-        GTRecipeTypes.CUTTER_RECIPES.onRecipeBuild((recipeBuilder, provider) -> {
+        CUTTER_RECIPES.onRecipeBuild((recipeBuilder, provider) -> {
             if (recipeBuilder.input.getOrDefault(FluidRecipeCapability.CAP, Collections.emptyList()).isEmpty() &&
                     recipeBuilder.tickInput.getOrDefault(FluidRecipeCapability.CAP, Collections.emptyList()).isEmpty()) {
                 if (recipeBuilder.EUt() < GTValues.VA[GTValues.MV]) {
@@ -100,7 +103,7 @@ public interface RecipeTypeModify {
             }
         });
 
-        GTRecipeTypes.CIRCUIT_ASSEMBLER_RECIPES.onRecipeBuild((recipeBuilder, provider) -> {
+        CIRCUIT_ASSEMBLER_RECIPES.onRecipeBuild((recipeBuilder, provider) -> {
             if (recipeBuilder.input.getOrDefault(FluidRecipeCapability.CAP, Collections.emptyList()).isEmpty() &&
                     recipeBuilder.tickInput.getOrDefault(FluidRecipeCapability.CAP, Collections.emptyList())
                             .isEmpty()) {
@@ -116,9 +119,17 @@ public interface RecipeTypeModify {
             }
         });
 
-        GTRecipeTypes.STEAM_BOILER_RECIPES.onRecipeBuild((builder, provider) -> GTORecipeTypes.THERMAL_GENERATOR_FUELS.copyFrom(builder)
+        STEAM_BOILER_RECIPES.onRecipeBuild((builder, provider) -> GTORecipeTypes.THERMAL_GENERATOR_FUELS.copyFrom(builder)
                 .EUt(-8)
                 .duration((int) Math.sqrt(builder.duration))
                 .save(provider));
+
+        LARGE_BOILER_RECIPES.addDataInfo(data -> {
+            int temperature = data.getInt("temperature");
+            if (temperature > 0) {
+                return I18n.get("gtceu.multiblock.hpca.temperature", temperature);
+            }
+            return "";
+        });
     }
 }

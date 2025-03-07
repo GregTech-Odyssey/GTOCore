@@ -34,13 +34,13 @@ public interface FuelRecipe {
             var resLoc = BuiltInRegistries.ITEM.getKey(fuelEntry.getKey());
             STEAM_BOILER_RECIPES.recipeBuilder(GTCEu.id(resLoc.getNamespace() + "_" + resLoc.getPath()))
                     .inputItems(fuelEntry.getKey())
-                    .duration((int) Math.min(Integer.MAX_VALUE, fuelEntry.getValue() * 12L))
+                    .duration(Math.min(Integer.MAX_VALUE, fuelEntry.getValue() << 3))
                     .save();
 
-            int time = fuelEntry.getValue() / 80;
+            int time = fuelEntry.getValue() / 20;
             if (time > 0) LARGE_BOILER_RECIPES.recipeBuilder(GTCEu.id(resLoc.getNamespace() + "_" + resLoc.getPath()))
                     .inputItems(fuelEntry.getKey())
-                    .duration(fuelEntry.getValue() / 80)
+                    .duration(time)
                     .save();
         }
 
@@ -50,71 +50,66 @@ public interface FuelRecipe {
                 var resLoc = BuiltInRegistries.ITEM.getKey(item);
                 STEAM_BOILER_RECIPES.recipeBuilder(GTCEu.id(resLoc.getNamespace() + "_" + resLoc.getPath()))
                         .inputItems(item)
-                        .duration((int) Math.min(Integer.MAX_VALUE, burnTime * 12L))
+                        .duration(Math.min(Integer.MAX_VALUE, burnTime << 3))
                         .save();
 
-                LARGE_BOILER_RECIPES.recipeBuilder(GTCEu.id(resLoc.getNamespace() + "_" + resLoc.getPath()))
+                int time = burnTime / 20;
+                if (time > 0) LARGE_BOILER_RECIPES.recipeBuilder(GTCEu.id(resLoc.getNamespace() + "_" + resLoc.getPath()))
                         .inputItems(item)
-                        .duration(burnTime / 80)
+                        .duration(time)
                         .save();
             }
         }
 
         STEAM_BOILER_RECIPES.recipeBuilder("lava")
                 .inputFluids(new FluidStack(Fluids.LAVA, 100))
-                .duration(600 * 12)
+                .duration(4800)
                 .save();
 
         STEAM_BOILER_RECIPES.recipeBuilder("creosote")
                 .inputFluids(Creosote.getFluid(250))
-                .duration(600 * 12)
+                .duration(4800)
                 .save();
 
         LARGE_BOILER_RECIPES.recipeBuilder("lava")
                 .circuitMeta(1)
                 .inputFluids(new FluidStack(Fluids.LAVA, 100))
-                .duration(600 * 12)
+                .duration(40)
                 .save();
 
-        LARGE_BOILER_RECIPES.recipeBuilder("creosote")
-                .inputFluids(Creosote.getFluid(250))
-                .duration(600 * 12)
-                .save();
-
-        // semi-fluid fuels, like creosote
         LARGE_BOILER_RECIPES.recipeBuilder("creosote")
                 .inputFluids(Creosote.getFluid(160))
-                .duration(10)
+                .duration(40)
                 .save();
 
         LARGE_BOILER_RECIPES.recipeBuilder("biomass")
                 .inputFluids(Biomass.getFluid(40))
-                .duration(10)
+                .duration(40)
                 .save();
 
         LARGE_BOILER_RECIPES.recipeBuilder("oil")
                 .inputFluids(Oil.getFluid(200))
-                .duration(10)
+                .duration(40)
                 .save();
 
         LARGE_BOILER_RECIPES.recipeBuilder("oil_heavy")
                 .inputFluids(OilHeavy.getFluid(32))
-                .duration(10)
+                .duration(40)
                 .save();
 
         LARGE_BOILER_RECIPES.recipeBuilder("sulfuric_heavy_fuel")
                 .inputFluids(SulfuricHeavyFuel.getFluid(32))
-                .duration(10)
+                .duration(40)
                 .save();
 
         LARGE_BOILER_RECIPES.recipeBuilder("heavy_fuel")
                 .inputFluids(HeavyFuel.getFluid(16))
-                .duration(30)
+                .duration(120)
                 .save();
 
         LARGE_BOILER_RECIPES.recipeBuilder("fish_oil")
                 .inputFluids(FishOil.getFluid(160))
-                .duration(10)
+                .duration(40)
                 .save();
 
         // diesel generator fuels

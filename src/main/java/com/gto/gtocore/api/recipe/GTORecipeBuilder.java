@@ -5,6 +5,7 @@ import com.gto.gtocore.api.capability.recipe.ManaRecipeCapability;
 import com.gto.gtocore.api.data.tag.ITagPrefix;
 import com.gto.gtocore.common.data.GTORecipes;
 import com.gto.gtocore.common.recipe.condition.GravityCondition;
+import com.gto.gtocore.common.recipe.condition.HeatCondition;
 import com.gto.gtocore.common.recipe.condition.VacuumCondition;
 import com.gto.gtocore.utils.RegistriesUtils;
 
@@ -1190,6 +1191,10 @@ public final class GTORecipeBuilder extends GTRecipeBuilder {
 
     public GTORecipeBuilder gravity(boolean noGravity) {
         return addCondition(new GravityCondition(noGravity));
+    }
+
+    public GTORecipeBuilder heat(int temperature) {
+        return addCondition(new HeatCondition(temperature));
     }
 
     public GTORecipeBuilder MANAt(int mana) {

@@ -58,6 +58,8 @@ public interface GTORecipeModifiers {
     static ModifierFunction largeBoilerModifier(MetaMachine machine, GTRecipe r) {
         return recipe -> {
             if (machine instanceof LargeBoilerMachine largeBoilerMachine) {
+                int temperature = recipe.data.getInt("temperature");
+                if (temperature > 0 && largeBoilerMachine.getCurrentTemperature() < temperature) return null;
                 double duration = recipe.duration * 1600.0D / largeBoilerMachine.maxTemperature;
                 if (duration < 1) {
                     recipe = accurateParallel(machine, recipe, (int) (1 / duration));
@@ -65,16 +67,24 @@ public interface GTORecipeModifiers {
                 if (largeBoilerMachine.getThrottle() < 100) {
                     duration = duration * 100 / largeBoilerMachine.getThrottle();
                 }
-                recipe.duration = (int) (recipe.duration * 100 * duration / largeBoilerMachine.getThrottle());
+                recipe.duration = (int) duration;
             }
             return recipe;
         };
     }
 
+    static ModifierFunction polymerizationOverclock(MetaMachine machine, GTRecipe r) {
+        return coilReductionOverclock(machine, r, false);
+    }
+
     static ModifierFunction chemicalPlantOverclock(MetaMachine machine, GTRecipe r) {
+        return coilReductionOverclock(machine, r, true);
+    }
+
+    private static ModifierFunction coilReductionOverclock(MetaMachine machine, GTRecipe r, boolean perfect) {
         return recipe -> {
             if (machine instanceof ICoilMachine coilMachine) {
-                return overclocking(machine, hatchParallel(machine, recipe), true, false, (1.0 - coilMachine.getCoilTier() * 0.05), (1.0 - coilMachine.getCoilTier() * 0.05));
+                return overclocking(machine, hatchParallel(machine, recipe), perfect, false, (1.0 - coilMachine.getCoilTier() * 0.05), (1.0 - coilMachine.getCoilTier() * 0.05));
             }
             return null;
         };

@@ -15,11 +15,12 @@ import static com.gto.gtocore.common.data.GTORecipeTypes.*;
 public interface NaquadahProcess {
 
     static void init(Consumer<FinishedRecipe> provider) {
-        CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("low_purity_naquadah_emulsion")).EUt(VA[HV]).duration(100)
+        REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("low_purity_naquadah_emulsion")).EUt(VA[HV]).duration(100)
                 .inputItems(dust, NaquadahOxideMixture, 6)
                 .inputFluids(FluoroantimonicAcid.getFluid(2000))
                 .outputItems(dust, TitaniumTrifluoride, 1)
                 .outputFluids(LowPurityNaquadahEmulsion.getFluid(2000))
+                .blastFurnaceTemp(4200)
                 .save();
 
         MIXER_RECIPES.recipeBuilder(GTOCore.id("low_purity_naquadah_solution")).EUt(VA[HV]).duration(160)

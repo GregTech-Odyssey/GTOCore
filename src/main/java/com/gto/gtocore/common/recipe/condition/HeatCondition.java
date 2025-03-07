@@ -1,99 +1,109 @@
 package com.gto.gtocore.common.recipe.condition;
 
-import com.gto.gtocore.api.machine.feature.IGravityPartMachine;
+import com.gto.gtocore.api.machine.feature.IHeaterMachine;
 import com.gto.gtocore.common.data.GTORecipeConditions;
 
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
-import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
-import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockControllerMachine;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.RecipeCondition;
 import com.gregtechceu.gtceu.api.recipe.condition.RecipeConditionType;
+import com.gregtechceu.gtceu.utils.GTUtil;
 
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.GsonHelper;
+import net.minecraft.world.level.Level;
 
 import com.google.gson.JsonObject;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import earth.terrarium.adastra.api.systems.GravityApi;
 import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
 @NoArgsConstructor
-public final class GravityCondition extends RecipeCondition {
+public final class HeatCondition extends RecipeCondition {
 
-    public static final Codec<GravityCondition> CODEC = RecordCodecBuilder
+    public static final Codec<HeatCondition> CODEC = RecordCodecBuilder
             .create(instance -> isReverse(instance)
-                    .and(Codec.BOOL.fieldOf("gravity").forGetter(val -> val.zero))
-                    .apply(instance, GravityCondition::new));
+                    .and(Codec.INT.fieldOf("temperature").forGetter(val -> val.temperature))
+                    .apply(instance, HeatCondition::new));
 
-    private boolean zero;
+    private int temperature;
 
-    public GravityCondition(boolean zero) {
-        this.zero = zero;
+    public HeatCondition(int temperature) {
+        this.temperature = temperature;
     }
 
-    private GravityCondition(boolean isReverse, boolean zero) {
+    private HeatCondition(boolean isReverse, int temperature) {
         super(isReverse);
-        this.zero = zero;
+        this.temperature = temperature;
     }
 
     @Override
     public RecipeConditionType<?> getType() {
-        return GTORecipeConditions.GRAVITY;
+        return GTORecipeConditions.HEAT;
     }
 
     @Override
     public Component getTooltips() {
-        return Component.translatable("gtocore.condition." + (zero ? "zero_" : "") + "gravity");
+        return Component.translatable("gtocore.recipe.heat.temperature", temperature);
     }
 
     @Override
     public boolean test(@NotNull GTRecipe recipe, @NotNull RecipeLogic recipeLogic) {
         MetaMachine machine = recipeLogic.getMachine();
-        if (machine instanceof MultiblockControllerMachine controllerMachine) {
-            for (IMultiPart part : controllerMachine.self().getParts()) {
-                if (part instanceof IGravityPartMachine gravityPart) {
-                    return gravityPart.getCurrentGravity() == (zero ? 0 : 100);
+        Level level = machine.getLevel();
+        BlockPos pos = machine.getPos();
+        if (level != null) {
+            for (Direction side : GTUtil.DIRECTIONS) {
+                if (checkNeighborHeat(level, pos.relative(side))) {
+                    return true;
                 }
             }
         }
-        return GravityApi.API.getGravity(machine.getLevel(), machine.getPos()) == 0 && zero;
+        return false;
+    }
+
+    private boolean checkNeighborHeat(Level level, BlockPos neighborPos) {
+        if (MetaMachine.getMachine(level, neighborPos) instanceof IHeaterMachine heaterMachine) {
+            return heaterMachine.getTemperature() >= temperature;
+        }
+        return false;
     }
 
     @Override
     public RecipeCondition createTemplate() {
-        return new GravityCondition();
+        return new HeatCondition();
     }
 
     @NotNull
     @Override
     public JsonObject serialize() {
         JsonObject config = super.serialize();
-        config.addProperty("gravity", zero);
+        config.addProperty("temperature", temperature);
         return config;
     }
 
     @Override
     public RecipeCondition deserialize(@NotNull JsonObject config) {
         super.deserialize(config);
-        zero = GsonHelper.getAsBoolean(config, "gravity", false);
+        temperature = GsonHelper.getAsInt(config, "temperature", 0);
         return this;
     }
 
     @Override
     public RecipeCondition fromNetwork(FriendlyByteBuf buf) {
         super.fromNetwork(buf);
-        zero = buf.readBoolean();
+        temperature = buf.readInt();
         return this;
     }
 
     @Override
     public void toNetwork(FriendlyByteBuf buf) {
         super.toNetwork(buf);
-        buf.writeBoolean(zero);
+        buf.writeInt(temperature);
     }
 }

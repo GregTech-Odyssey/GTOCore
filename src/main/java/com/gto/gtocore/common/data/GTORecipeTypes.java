@@ -747,7 +747,7 @@ public interface GTORecipeTypes {
             .setUiBuilder(COIL_UI);
 
     GTORecipeType STEAM_CRACKING_RECIPES = register("steam_cracker", "蒸汽裂化", MULTIBLOCK)
-            .setMaxIOSize(1, 0, 1, 1)
+            .setMaxIOSize(1, 0, 2, 1)
             .setEUIO(IO.IN)
             .setSlotOverlay(false, true, GuiTextures.CRACKING_OVERLAY_1)
             .setSlotOverlay(true, true, GuiTextures.CRACKING_OVERLAY_2)
@@ -841,6 +841,12 @@ public interface GTORecipeTypes {
             .setProgressBar(GuiTextures.PROGRESS_BAR_BATH, LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.ASSEMBLER);
 
+    GTORecipeType POLYMERIZATION_REACTOR_RECIPES = register("polymerization_reactor", "聚合反应", MULTIBLOCK)
+            .setEUIO(IO.IN)
+            .setMaxIOSize(2, 1, 3, 2)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_BATH, LEFT_TO_RIGHT)
+            .setSound(GTSoundEntries.CHEMICAL);
+
     // TODO 添加用途
     GTORecipeType PHYSICAL_VAPOR_DEPOSITION_RECIPES = register("physical_vapor_deposition", "物理气相沉积", MULTIBLOCK)
             .setEUIO(IO.IN)
@@ -877,7 +883,6 @@ public interface GTORecipeTypes {
     //////////////////////////////////////
     GTORecipeType ALCHEMY_CAULDRON_RECIPES = register("alchemy_cauldron", "炼金锅", MAGIC)
             .setMaxSize(IO.IN, ManaRecipeCapability.CAP, 1)
-            .setMaxTooltips(4)
             .setMaxIOSize(6, 1, 1, 1)
             .setProgressBar(GuiTextures.PROGRESS_BAR_BATH, LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.COOLING)
