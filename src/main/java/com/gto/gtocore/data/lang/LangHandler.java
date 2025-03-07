@@ -104,7 +104,6 @@ public final class LangHandler {
         addENCN("config.gtocore.option.eioFluidRate", "EIO Fluid Pipe Rate Multiplier", "EIO流体管道速率倍数");
         addENCN("config.gtocore.option.enablePrimitiveVoidOre", "Enable Primitive Void Ore Machine", "启用原始虚空矿机");
         addENCN("config.gtocore.option.oreMultiplier", "Ore Yield Multiplier", "矿石产量乘数");
-        addENCN("config.gtocore.option.spacetimePip", "Spacetime Pipe Flow", "时空管道流量");
         addENCN("config.gtocore.option.disableMultiBlockPage", "Disable MultiBlock Page", "关闭多方块页面");
         addENCN("config.gtocore.option.fastMultiBlockPage", "Fast MultiBlock Page", "优化多方块页面");
         addENCN("config.gtocore.option.recipeMaxCheckInterval", "Recipe Max Check Interval", "配方最大检查间隔");

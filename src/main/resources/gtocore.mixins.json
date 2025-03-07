@@ -39,6 +39,7 @@
         "ae2.gui.StyleManagerMixin",
         "apotheosis.AdventureModuleMixin",
         "apotheosis.ApotheosisMixin",
+        "apotheosis.LootCategoryMixin",
         "avaritia.AbilityHandlerMixin",
         "avaritia.InternalRecipeHandlerMixin",
         "botania.ContributorListMixin",

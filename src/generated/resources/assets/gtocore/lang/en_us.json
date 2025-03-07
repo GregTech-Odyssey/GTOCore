@@ -1245,7 +1245,6 @@
   "config.gtocore.option.recipeCheck": "[Debug]Recipe Abnormal Check",
   "config.gtocore.option.recipeMaxCheckInterval": "Recipe Max Check Interval",
   "config.gtocore.option.selfRestraint": "Self Restraint Mode",
-  "config.gtocore.option.spacetimePip": "Spacetime Pipe Flow",
   "config.jade.plugin_gtocore.accelerate_provider": "[GTOCore] Accelerated Bar",
   "config.jade.plugin_gtocore.mana_container_provider": "[GTOCore] Mana Container",
   "config.jade.plugin_gtocore.temperature_provider": "[GTOCore] Machine Temperature",

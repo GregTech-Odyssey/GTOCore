@@ -1,5 +1,7 @@
 package com.gto.gtocore.mixin.mc;
 
+import com.gto.gtocore.config.GTOConfig;
+
 import net.minecraft.client.Minecraft;
 
 import org.spongepowered.asm.mixin.Mixin;
@@ -12,6 +14,10 @@ public class MinecraftMixin {
 
     @Inject(method = "createTitle", at = @At("HEAD"), cancellable = true)
     private void createTitle(CallbackInfoReturnable<String> ci) {
-        ci.setReturnValue("GregTech Odyssey");
+        if (GTOConfig.INSTANCE != null) {
+            ci.setReturnValue("GregTech Odyssey [" + GTOConfig.INSTANCE.gameDifficulty + " Mode]");
+        } else {
+            ci.setReturnValue("GregTech Odyssey");
+        }
     }
 }

@@ -55,6 +55,7 @@ public interface GTMaterialExtend {
         AntimonyTrioxide.addFlags(GTOMaterialFlags.GENERATE_TINY_DUST);
         Meat.addFlags(GTOMaterialFlags.GENERATE_TINY_DUST);
         Obsidian.addFlags(GTOMaterialFlags.GENERATE_TINY_DUST);
+        Stone.addFlags(GTOMaterialFlags.GENERATE_SMALL_DUST);
         Strontium.setProperty(FLUID, new FluidProperty(FluidStorageKeys.LIQUID, new FluidBuilder()));
         Barium.setProperty(FLUID, new FluidProperty(FluidStorageKeys.LIQUID, new FluidBuilder()));
         Cadmium.setProperty(FLUID, new FluidProperty(FluidStorageKeys.LIQUID, new FluidBuilder()));

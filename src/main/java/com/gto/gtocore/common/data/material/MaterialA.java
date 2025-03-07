@@ -3,7 +3,6 @@ package com.gto.gtocore.common.data.material;
 import com.gto.gtocore.api.data.chemical.material.info.GTOMaterialFlags;
 import com.gto.gtocore.api.item.tool.GTOToolType;
 import com.gto.gtocore.common.data.GTOElements;
-import com.gto.gtocore.config.GTOConfig;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialIconSet;
@@ -522,7 +521,7 @@ public interface MaterialA {
         SpaceTime = material("spacetime", "时空")
                 .ingot()
                 .liquid(new FluidBuilder().temperature(1).customStill())
-                .fluidPipeProperties(2147483647, GTOConfig.INSTANCE.spacetimePip, true, true, true, true)
+                .fluidPipeProperties(2147483647, 33554431, true, true, true, true)
                 .element(GTOElements.SPACETIME)
                 .iconSet(new MaterialIconSet("spacetime"))
                 .flags(GTOMaterialFlags.GENERATE_NANITES, NO_UNIFICATION)

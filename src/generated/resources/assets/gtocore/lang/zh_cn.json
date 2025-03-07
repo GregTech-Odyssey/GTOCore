@@ -1245,7 +1245,6 @@
   "config.gtocore.option.recipeCheck": "[调试]配方异常检查",
   "config.gtocore.option.recipeMaxCheckInterval": "配方最大检查间隔",
   "config.gtocore.option.selfRestraint": "自我约束模式",
-  "config.gtocore.option.spacetimePip": "时空管道流量",
   "config.jade.plugin_gtocore.accelerate_provider": "[GTOCore] 加速条",
   "config.jade.plugin_gtocore.mana_container_provider": "[GTOCore] 魔力容器",
   "config.jade.plugin_gtocore.temperature_provider": "[GTOCore] 机器温度",
