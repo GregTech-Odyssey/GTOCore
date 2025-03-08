@@ -38,15 +38,17 @@ public interface RecipeTypeModify {
         ASSEMBLER_RECIPES.onRecipeBuild(GenerateDisassembly::generateDisassembly);
 
         PLASMA_GENERATOR_FUELS.onRecipeBuild((recipeBuilder, provider) -> {
-            long eu = recipeBuilder.duration * GTValues.V[GTValues.EV];
-            FluidIngredient ingredient = FluidRecipeCapability.CAP.of(recipeBuilder.output
+            long eu = recipeBuilder.duration * GTValues.V[GTValues.EV] * 5;
+            FluidIngredient output = FluidRecipeCapability.CAP.of(recipeBuilder.output
                     .get(FluidRecipeCapability.CAP).get(0).getContent()).copy();
-            ingredient.setAmount((ingredient.getAmount() << 2) / 5);
+            FluidIngredient input = FluidRecipeCapability.CAP.of(recipeBuilder.input
+                    .get(FluidRecipeCapability.CAP).get(0).getContent());
+            output.setAmount(output.getAmount() << 2);
+            input.setAmount(input.getAmount() * 5);
             GTORecipeTypes.HEAT_EXCHANGER_RECIPES.recipeBuilder(recipeBuilder.id)
-                    .inputFluids(FluidRecipeCapability.CAP.of(recipeBuilder.input
-                            .get(FluidRecipeCapability.CAP).get(0).getContent()))
+                    .inputFluids(input)
                     .inputFluids(GTMaterials.DistilledWater.getFluid((int) (eu / 160)))
-                    .outputFluids(ingredient)
+                    .outputFluids(output)
                     .outputFluids(GTMaterials.Steam.getFluid((int) eu))
                     .outputFluids(GTOMaterials.SupercriticalSteam.getFluid((int) (eu / 16)))
                     .addData("eu", eu)

@@ -9,6 +9,7 @@ import com.gto.gtocore.api.pattern.GTOPredicates;
 import com.gto.gtocore.common.data.*;
 import com.gto.gtocore.common.machine.mana.multiblock.ElectricManaMultiblockMachine;
 import com.gto.gtocore.common.machine.multiblock.electric.FishingGroundMachine;
+import com.gto.gtocore.common.machine.multiblock.electric.StellarForgeMachine;
 import com.gto.gtocore.common.machine.multiblock.electric.voidseries.VoidFluidDrillingRigMachine;
 import com.gto.gtocore.common.machine.multiblock.electric.voidseries.VoidMinerMachine;
 import com.gto.gtocore.common.machine.multiblock.noenergy.AdvancedPrimitiveBlastFurnaceMachine;
@@ -380,7 +381,12 @@ public interface MultiBlockA {
             .recipe(GTORecipeTypes.RANDOM_ORE_RECIPES)
             .tooltipsText("Precision mode consumes resources to collect specified veins", "精准模式消耗精华采集指定矿脉")
             .tooltipsText("Random mode consumes 10KB of drilling fluid and has a longer Duration to randomly collect all ores; ensure enough output space in random mode", "随机模式消耗10KB的钻井液和更长的耗时随机采集所有矿石，随机模式注意输出空间要足够")
-            .overclock()
+            .recipeModifier((machine, r) -> recipe -> {
+                if (((ElectricMultiblockMachine) machine).getRecipeType() == GTORecipeTypes.RANDOM_ORE_RECIPES) {
+                    return GTORecipeModifiers.overclocking(machine, GTORecipeModifiers.accurateParallel(machine, recipe, 1 << ((((ElectricMultiblockMachine) machine).getTier() - GTValues.ZPM) << 1)));
+                }
+                return GTORecipeModifiers.overclocking(machine, recipe);
+            })
             .block(GTBlocks.CASING_TUNGSTENSTEEL_ROBUST)
             .pattern((definition) -> FactoryBlockPattern.start()
                     .aisle("bbbbbbbbb", "bbbbbbbbb", "b       b", "b       b", "b       b", "bbbbbbbbb", "bcccccccb", "bcccccccb", "b       b", "b       b")
@@ -2275,11 +2281,12 @@ public interface MultiBlockA {
                     GTCEu.id("block/multiblock/implosion_compressor"))
             .register();
 
-    MultiblockMachineDefinition STELLAR_FORGE = multiblock("stellar_forge", "恒星炎炀锻炉", TierCasingMultiblockMachine.createMachine(STELLAR_CONTAINMENT_TIER))
+    MultiblockMachineDefinition STELLAR_FORGE = multiblock("stellar_forge", "恒星炎炀锻炉", StellarForgeMachine::new)
             .nonYAxisRotation()
             .recipe(GTORecipeTypes.STELLAR_FORGE_RECIPES)
-            .customTooltipsBuilder(true, false, false)
-            .perfectOverclock()
+            .tooltipsText("Continue running the recipe after the first run, and the subsequent recipe duration will be reduced by 50%", "在第一次运行后继续运行配方，后续配方时间将减少50%")
+            .tooltipsText("If there is a power shortage during the operation of the recipe, a huge explosion will occur.", "如果在配方运行时供电不足，将产生巨大爆炸")
+            .alwaysTryModifyRecipe(true)
             .block(GCYMBlocks.CASING_ATOMIC)
             .pattern(definition -> FactoryBlockPattern.start()
                     .aisle("               ", "      bbb      ", "      b b      ", "      b b      ", "      b b      ", "      b b      ", "      b b      ", "      bbb      ", "               ")
@@ -2306,7 +2313,7 @@ public interface MultiBlockA {
                     .where('d', GTOPredicates.tierBlock(SCMAP, STELLAR_CONTAINMENT_TIER))
                     .where(' ', any())
                     .build())
-            .workableCasingRenderer(GTCEu.id("block/casings/gcym/atomic_casing"), GTCEu.id("block/multiblock/electric_blast_furnace"))
+            .workableCasingRenderer(GTCEu.id("block/casings/gcym/atomic_casing"), GTCEu.id("block/multiblock/fusion_reactor"))
             .register();
 
     MultiblockMachineDefinition COMPONENT_ASSEMBLY_LINE = multiblock("component_assembly_line", "部件装配线", TierCasingMultiblockMachine.createMachine(COMPONENT_ASSEMBLY_CASING_TIER))

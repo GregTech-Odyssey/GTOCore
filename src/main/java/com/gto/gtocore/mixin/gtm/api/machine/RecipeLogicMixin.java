@@ -8,7 +8,6 @@ import com.gto.gtocore.config.GTOConfig;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
-import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockControllerMachine;
 import com.gregtechceu.gtceu.api.machine.trait.MachineTrait;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
@@ -123,6 +122,9 @@ public abstract class RecipeLogicMixin extends MachineTrait implements ILockable
 
     @Shadow
     public abstract void updateTickSubscription();
+
+    @Shadow
+    protected abstract void doDamping();
 
     @Unique
     private void gTOCore$unsubscribe() {
@@ -248,12 +250,13 @@ public abstract class RecipeLogicMixin extends MachineTrait implements ILockable
             setWaiting(result.reason().get());
         }
         if (isWaiting() && machine.dampingWhenWaiting()) {
-            if (machine instanceof MultiblockControllerMachine) {
-                interruptRecipe();
-            } else if (progress > 0) {
-                progress = 1;
+            if (machine instanceof IEnhancedMultiblockMachine enhancedMultiblockMachine) {
+                enhancedMultiblockMachine.doDamping(getLogic());
+            } else {
+                doDamping();
             }
         }
+        if (lastRecipe == null) return;
         if (last == RecipeLogic.Status.WORKING && getStatus() != RecipeLogic.Status.WORKING) {
             lastRecipe.postWorking(machine);
         } else if (last != RecipeLogic.Status.WORKING && getStatus() == RecipeLogic.Status.WORKING) {

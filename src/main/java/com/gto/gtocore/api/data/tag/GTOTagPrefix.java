@@ -258,6 +258,5 @@ public final class GTOTagPrefix extends TagPrefix {
             .materialIconType(new MaterialIconType("flake"))
             .unificationEnabled(true)
             .generateItem(true)
-            .enableRecycling()
             .generationCondition(mat -> mat.hasFlag(GTOMaterialFlags.GENERATE_CERAMIC));
 }

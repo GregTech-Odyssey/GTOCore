@@ -35,7 +35,7 @@ interface StellarForge {
         STELLAR_FORGE_RECIPES.recipeBuilder(GTOCore.id("neutron"))
                 .inputItems(GTOBlocks.NAQUADRIA_CHARGE.asStack())
                 .inputItems(TagPrefix.block, GTOMaterials.SuperheavyMix)
-                .outputFluids(GTOMaterials.Neutron.getFluid(1000))
+                .outputFluids(GTOMaterials.Neutron.getFluid(100))
                 .EUt(31457280)
                 .duration(200)
                 .save();

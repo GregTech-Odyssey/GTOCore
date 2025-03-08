@@ -9,7 +9,6 @@ import com.gregtechceu.gtceu.common.data.GTMaterials;
 
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.level.block.Blocks;
 
 import static com.gto.gtocore.common.data.GTORecipeTypes.FORGE_HAMMER_RECIPES;
 
@@ -45,10 +44,10 @@ interface ForgeHammer {
                 .save();
 
         FORGE_HAMMER_RECIPES.recipeBuilder(GTOCore.id("special_ceramics_dust"))
-                .inputItems(new ItemStack(Blocks.BROWN_GLAZED_TERRACOTTA.asItem()))
-                .outputItems(TagPrefix.dust, GTOMaterials.SpecialCeramics)
+                .inputItems(TagPrefix.block, GTOMaterials.TitaniumNitrideCeramic)
+                .outputItems(TagPrefix.dust, GTOMaterials.SpecialCeramics, 4)
                 .EUt(7680)
-                .duration(20)
+                .duration(400)
                 .save();
 
         FORGE_HAMMER_RECIPES.recipeBuilder(GTOCore.id("wrought_iron"))

@@ -113,5 +113,6 @@ public interface ClassifiedRecipe {
         AlchemyCauldron.init();
         PolymerizationReactor.init();
         Unpacker.init();
+        WaterPurificationPlant.init();
     }
 }

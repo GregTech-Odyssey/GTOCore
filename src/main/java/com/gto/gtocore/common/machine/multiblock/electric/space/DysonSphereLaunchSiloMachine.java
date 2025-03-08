@@ -7,6 +7,7 @@ import com.gto.gtocore.common.saved.DysonSphereSavaedData;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.Level;
 
@@ -14,6 +15,7 @@ import com.mojang.datafixers.util.Pair;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.List;
 import java.util.Objects;
 
 public final class DysonSphereLaunchSiloMachine extends ElectricMultiblockMachine {
@@ -52,5 +54,11 @@ public final class DysonSphereLaunchSiloMachine extends ElectricMultiblockMachin
                 DysonSphereSavaedData.setDysonData(getDimension(), pair.getFirst() + 1, pair.getSecond());
             }
         }
+    }
+
+    @Override
+    public void customText(@NotNull List<Component> textList) {
+        super.customText(textList);
+        if (DysonSphereSavaedData.getDimensionUse(getDimension())) textList.add(Component.translatable("gtceu.multiblock.large_miner.working"));
     }
 }

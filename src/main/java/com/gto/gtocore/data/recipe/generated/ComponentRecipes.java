@@ -138,7 +138,7 @@ public interface ComponentRecipes {
                 .inputFluids(GTOMaterials.BlackDwarfMatter.getFluid(110592))
                 .inputFluids(GTOMaterials.WhiteDwarfMatter.getFluid(110592))
                 .inputFluids(GTOMaterials.Infinity.getFluid(41472))
-                .inputFluids(GTMaterials.Neutronium.getFluid(442368))
+                .inputFluids(GTOMaterials.Neutron.getFluid(442368))
                 .outputItems(GTOItems.MAX_ELECTRIC_PUMP.asStack(64))
                 .EUt(2013265920)
                 .duration(12000)

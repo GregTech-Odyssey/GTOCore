@@ -242,7 +242,7 @@ public final class ForgeCommonEvent {
     @SubscribeEvent
     public static void onPlayerLoggedInEvent(PlayerEvent.PlayerLoggedInEvent event) {
         if (event.getEntity() instanceof ServerPlayer player) {
-            player.displayClientMessage(Component.translatable("gtocore.dev"), false);
+            if (!GTOConfig.INSTANCE.dev) player.displayClientMessage(Component.translatable("gtocore.dev"), false);
             if (player instanceof IEnhancedPlayer enhancedPlayer) {
                 ServerMessage.sendData(player.getServer(), player, "loggedIn", null);
                 enhancedPlayer.gtocore$setDrift(enhancedPlayer.gTOCore$isDisableDrift());

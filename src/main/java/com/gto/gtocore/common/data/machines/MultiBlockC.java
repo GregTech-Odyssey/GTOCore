@@ -1310,7 +1310,7 @@ public interface MultiBlockC {
 
     MultiblockMachineDefinition ENERGY_INJECTOR = multiblock("energy_injector", "能量注入仪", EnergyInjectorMachine::new)
             .nonYAxisRotation()
-            .tooltipsText("Can to charge items, Can consume electricity to repair item durability.", "可为物品充能，还可消耗电力修复物品耐久")
+            .tooltipsText("Can to charge items, Can consume electricity to repair item durability.", "可为物品充电，还可消耗电力修复物品耐久")
             .recipe(GTRecipeTypes.DUMMY_RECIPES)
             .customTooltipsBuilder(false, true, false)
             .block(GCYMBlocks.CASING_NONCONDUCTING)
@@ -1544,6 +1544,8 @@ public interface MultiBlockC {
 
     MultiblockMachineDefinition THERMAL_POWER_PUMP = multiblock("thermal_power_pump", "热力泵", ThermalPowerPumpMachine::new)
             .nonYAxisRotation()
+            .tooltipsText("Efficient Water Supply", "高效供水")
+            .tooltipsText("Input steam, generate an equal amount of water", "输入蒸汽，产生同等数量的水")
             .recipe(GTRecipeTypes.DUMMY_RECIPES)
             .block(GTOBlocks.BRASS_REINFORCED_WOODEN_CASING)
             .pattern(definition -> FactoryBlockPattern.start()

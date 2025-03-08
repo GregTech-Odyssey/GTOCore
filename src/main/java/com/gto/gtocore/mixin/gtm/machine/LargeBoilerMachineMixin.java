@@ -29,6 +29,6 @@ public abstract class LargeBoilerMachineMixin extends WorkableMultiblockMachine 
     @Override
     public void afterWorking() {
         super.onWorking();
-        getRecipeLogic().resetRecipeLogic();
+        getRecipeLogic().markLastRecipeDirty();
     }
 }

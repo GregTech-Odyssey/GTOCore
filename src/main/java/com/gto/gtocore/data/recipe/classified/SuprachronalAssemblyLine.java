@@ -394,7 +394,7 @@ interface SuprachronalAssemblyLine {
 
         SUPRACHRONAL_ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("max_electric_pump"))
                 .inputItems(GTOItems.MAX_ELECTRIC_MOTOR.asStack())
-                .inputItems(TagPrefix.pipeSmallFluid, GTMaterials.Neutronium, 64)
+                .inputItems(TagPrefix.pipeSmallFluid, GTOMaterials.Neutron, 64)
                 .inputItems(TagPrefix.plate, GTOMaterials.TranscendentMetal, 4)
                 .inputItems(TagPrefix.screw, GTOMaterials.TranscendentMetal, 16)
                 .inputItems(TagPrefix.plateDouble, GTOMaterials.BlackDwarfMatter, 4)
