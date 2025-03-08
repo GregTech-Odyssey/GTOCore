@@ -127,7 +127,7 @@ interface ChemicalBath {
 
         CHEMICAL_BATH_RECIPES.recipeBuilder(GTOCore.id("vibrant_alloy_ingot"))
                 .inputItems(TagPrefix.ingotHot, GTOMaterials.VibrantAlloy)
-                .inputFluids(GTMaterials.DistilledWater.getFluid(100))
+                .inputFluids(GTOMaterials.CoolantLiquid.getFluid(100))
                 .outputItems(TagPrefix.ingot, GTOMaterials.VibrantAlloy)
                 .EUt(120)
                 .duration(280)

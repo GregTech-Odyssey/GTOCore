@@ -179,7 +179,7 @@ interface Assembler {
                 .inputItems(CustomTags.IV_CIRCUITS, 4)
                 .inputItems(TagPrefix.gear, GTMaterials.Titanium, 2)
                 .inputItems(TagPrefix.rodLong, GTMaterials.Titanium, 2)
-                .inputItems(TagPrefix.plate, GTMaterials.Titanium, 8)
+                .inputItems(TagPrefix.plate, GTMaterials.TungstenSteel, 8)
                 .inputFluids(GTMaterials.SolderingAlloy.getFluid(1440))
                 .outputItems(MultiBlockA.VOID_MINER.asStack())
                 .EUt(480)
@@ -3542,6 +3542,16 @@ interface Assembler {
                 .circuitMeta(6)
                 .EUt(16)
                 .duration(50)
+                .save();
+
+        ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("super_capacitor"))
+                .inputItems("enderio:basic_capacitor", 8)
+                .inputItems(TagPrefix.foil, GTMaterials.Manganese, 8)
+                .inputItems(TagPrefix.rod, GTMaterials.Iron, 2)
+                .inputItems(TagPrefix.rod, GTMaterials.Lapis, 16)
+                .outputItems(GTOItems.SUPER_CAPACITOR.asStack())
+                .EUt(7)
+                .duration(300)
                 .save();
     }
 }

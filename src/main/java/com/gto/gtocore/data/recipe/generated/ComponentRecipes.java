@@ -35,22 +35,22 @@ import static com.gto.gtocore.common.data.GTORecipeTypes.*;
 public interface ComponentRecipes {
 
     static void init(Consumer<FinishedRecipe> provider) {
-        VanillaRecipeHelper.addShapedRecipe(provider, GTOCore.id("ulv_electric_motor"), GTOItems.ULV_ELECTRIC_MOTOR.asStack(),
+        VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("ulv_electric_motor"), GTOItems.ULV_ELECTRIC_MOTOR.asStack(),
                 "CWR", "WMW", "RWC", 'C', new UnificationEntry(GTOTagPrefix.curvedPlate, Copper), 'W', new UnificationEntry(wireGtSingle, Tin),
                 'R', new UnificationEntry(rod, Copper), 'M', new UnificationEntry(rod, IronMagnetic));
-        VanillaRecipeHelper.addShapedRecipe(provider, GTOCore.id("ulv_electric_piston"), GTOItems.ULV_ELECTRIC_PISTON.asStack(),
+        VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("ulv_electric_piston"), GTOItems.ULV_ELECTRIC_PISTON.asStack(),
                 "PPP", "CRR", "CMG", 'P', new UnificationEntry(plate, Copper), 'C', new UnificationEntry(cableGtSingle, Lead),
                 'R', new UnificationEntry(rod, Copper), 'M', GTOItems.ULV_ELECTRIC_MOTOR.asStack(), 'G', new UnificationEntry(gearSmall, Copper));
-        VanillaRecipeHelper.addShapedRecipe(provider, GTOCore.id("ulv_electric_conveyor"), GTOItems.ULV_CONVEYOR_MODULE.asStack(),
+        VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("ulv_electric_conveyor"), GTOItems.ULV_CONVEYOR_MODULE.asStack(),
                 "RRR", "MCM", "RRR", 'R', new UnificationEntry(plate, Rubber), 'M', GTOItems.ULV_ELECTRIC_MOTOR.asStack(),
                 'C', new UnificationEntry(cableGtSingle, Lead));
-        VanillaRecipeHelper.addShapedRecipe(provider, GTOCore.id("ulv_electric_pump"), GTOItems.ULV_ELECTRIC_PUMP.asStack(),
+        VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("ulv_electric_pump"), GTOItems.ULV_ELECTRIC_PUMP.asStack(),
                 "SFR", "sPw", "RMC", 'S', new UnificationEntry(screw, Iron), 'R', new UnificationEntry(ring, Rubber),
                 'F', new UnificationEntry(rotor, Iron), 'P', new UnificationEntry(pipeNormalFluid, Copper), 'M', GTOItems.ULV_ELECTRIC_MOTOR.asStack(), 'C', new UnificationEntry(cableGtSingle, Lead));
-        VanillaRecipeHelper.addShapedRecipe(provider, GTOCore.id("ulv_robot_arm"), GTOItems.ULV_ROBOT_ARM.asStack(),
+        VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("ulv_robot_arm"), GTOItems.ULV_ROBOT_ARM.asStack(),
                 "CCC", "MRM", "PVR", 'R', new UnificationEntry(rod, Copper), 'C', new UnificationEntry(cableGtSingle, Lead),
                 'M', GTOItems.ULV_ELECTRIC_MOTOR.asStack(), 'P', GTOItems.ULV_ELECTRIC_PISTON.asStack(), 'V', VACUUM_TUBE.asStack());
-        VanillaRecipeHelper.addShapedRecipe(provider, GTOCore.id("ulv_fluid_regulator"), GTOItems.ULV_FLUID_REGULATOR.asStack(),
+        VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("ulv_fluid_regulator"), GTOItems.ULV_FLUID_REGULATOR.asStack(),
                 "SFR", "sPw", "RMC", 'S', new UnificationEntry(screw, Iron), 'R', VACUUM_TUBE.asStack(),
                 'F', new UnificationEntry(rotor, Iron), 'P', GTOItems.ULV_ELECTRIC_PUMP.asStack(), 'M', GTOItems.ULV_ELECTRIC_MOTOR.asStack(), 'C', new UnificationEntry(cableGtSingle, Lead));
 

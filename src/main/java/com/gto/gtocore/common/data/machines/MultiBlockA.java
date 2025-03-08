@@ -1272,7 +1272,7 @@ public interface MultiBlockA {
                     .aisle("AAAAA", " B~B ", " BBB ", " BBB ", "  B  ")
                     .aisle("AAAAA", "BC CB", "B   B", "BC CB", " BBB ")
                     .aisle("AAAAA", "B D B", "B D B", "B D B", "BBBBB")
-                    .aisle("AAAAA", "B  CB", "B   B", "BC CB", " BBB ")
+                    .aisle("AAAAA", "BC CB", "B   B", "BC CB", " BBB ")
                     .aisle("AAAAA", " BBB ", " BBB ", " BBB ", "  B  ")
                     .where('~', controller(blocks(definition.get())))
                     .where('A', blocks(GTBlocks.BRONZE_BRICKS_HULL.get()))

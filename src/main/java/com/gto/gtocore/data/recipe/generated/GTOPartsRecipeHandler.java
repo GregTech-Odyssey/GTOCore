@@ -146,7 +146,7 @@ interface GTOPartsRecipeHandler {
                     .notConsumable(GTItems.SHAPE_EXTRUDER_FOIL)
                     .outputItems(stack)
                     .duration(mass << 1)
-                    .EUt(96)
+                    .EUt((long) GTOUtils.getVoltageMultiplier(material) << 2)
                     .save();
         }
     }
@@ -182,14 +182,14 @@ interface GTOPartsRecipeHandler {
                     .inputItems(wireGtSingle, material)
                     .outputItems(fineWireStack.copyWithCount(4))
                     .duration(mass * 3 / 2)
-                    .EUt(VA[ULV])
+                    .EUt(GTOUtils.getVoltageMultiplier(material))
                     .save();
         } else {
             WIREMILL_RECIPES.recipeBuilder("mill_" + material.getName() + "ingot_to_fine_wire")
                     .inputItems(ingot, material)
                     .outputItems(fineWireStack.copyWithCount(8))
                     .duration(mass * 3)
-                    .EUt(VA[ULV])
+                    .EUt(GTOUtils.getVoltageMultiplier(material))
                     .save();
         }
     }
@@ -243,7 +243,7 @@ interface GTOPartsRecipeHandler {
                         .notConsumable(GTItems.SHAPE_EXTRUDER_GEAR_SMALL)
                         .outputItems(stack)
                         .duration(mass << 1)
-                        .EUt(material.getBlastTemperature() >= 2800 ? 256 : 64)
+                        .EUt((long) GTOUtils.getVoltageMultiplier(material) << 2)
                         .save();
 
                 if (material.hasFlag(NO_SMASHING)) {
@@ -252,7 +252,7 @@ interface GTOPartsRecipeHandler {
                             .notConsumable(GTItems.SHAPE_EXTRUDER_GEAR_SMALL)
                             .outputItems(stack)
                             .duration(mass << 1)
-                            .EUt(material.getBlastTemperature() >= 2800 ? 256 : 64)
+                            .EUt((long) GTOUtils.getVoltageMultiplier(material) << 2)
                             .save();
                 }
             } else if (mass < 240 && material.getBlastTemperature() < 3600) {
@@ -425,7 +425,7 @@ interface GTOPartsRecipeHandler {
                 .notConsumable(GTItems.SHAPE_EXTRUDER_ROTOR)
                 .outputItems(stack)
                 .duration(mass << 3)
-                .EUt(material.getBlastTemperature() >= 2800 ? 256 : 64)
+                .EUt((long) GTOUtils.getVoltageMultiplier(material) << 2)
                 .save();
 
         LASER_WELDER_RECIPES.recipeBuilder(material.getName() + "_to_rotor")
@@ -443,7 +443,7 @@ interface GTOPartsRecipeHandler {
                     .notConsumable(GTItems.SHAPE_EXTRUDER_ROTOR)
                     .outputItems(stack)
                     .duration(mass << 3)
-                    .EUt(material.getBlastTemperature() >= 2800 ? 256 : 64)
+                    .EUt((long) GTOUtils.getVoltageMultiplier(material) << 2)
                     .save();
         }
     }
@@ -472,7 +472,7 @@ interface GTOPartsRecipeHandler {
                     .notConsumable(GTItems.SHAPE_EXTRUDER_BOLT)
                     .outputItems(boltStack)
                     .duration(15)
-                    .EUt(VA[MV])
+                    .EUt((long) GTOUtils.getVoltageMultiplier(material) << 2)
                     .save();
 
             if (material.hasFlag(NO_SMASHING)) {
@@ -481,7 +481,7 @@ interface GTOPartsRecipeHandler {
                         .notConsumable(GTItems.SHAPE_EXTRUDER_BOLT)
                         .outputItems(boltStack)
                         .duration(15)
-                        .EUt(VA[MV])
+                        .EUt((long) GTOUtils.getVoltageMultiplier(material) << 2)
                         .save();
             }
         }
@@ -496,7 +496,7 @@ interface GTOPartsRecipeHandler {
                     .inputItems(material.hasProperty(PropertyKey.GEM) ? gem : ingot, material)
                     .outputItems(stack.copyWithCount(2))
                     .duration(mass << 1)
-                    .EUt(16).save();
+                    .EUt(GTOUtils.getVoltageMultiplier(material)).save();
         }
 
         if (material.hasFlag(GENERATE_BOLT_SCREW)) {
@@ -544,7 +544,7 @@ interface GTOPartsRecipeHandler {
                     .notConsumable(GTItems.SHAPE_EXTRUDER_ROD_LONG)
                     .outputItems(stack)
                     .duration(mass << 1)
-                    .EUt(64)
+                    .EUt((long) GTOUtils.getVoltageMultiplier(material) << 2)
                     .save();
 
             if (material.hasFlag(NO_SMASHING)) {
@@ -553,7 +553,7 @@ interface GTOPartsRecipeHandler {
                         .notConsumable(GTItems.SHAPE_EXTRUDER_ROD_LONG)
                         .outputItems(stack)
                         .duration(mass << 1)
-                        .EUt(64)
+                        .EUt((long) GTOUtils.getVoltageMultiplier(material) << 2)
                         .save();
             }
         }

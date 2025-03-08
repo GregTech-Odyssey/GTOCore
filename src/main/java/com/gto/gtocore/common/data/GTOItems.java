@@ -135,6 +135,10 @@ public interface GTOItems {
             .onRegister(attach(ElectricStats.createRechargeableBattery(Long.MAX_VALUE, GTValues.MAX)))
             .register();
 
+    ItemEntry<ComponentItem> SUPER_CAPACITOR = item("super_capacitor", "超级电容", ComponentItem::create)
+            .onRegister(attach(ElectricStats.createRechargeableBattery(100000, GTValues.ULV)))
+            .tag(CustomTags.ULV_BATTERIES).register();
+
     ItemEntry<ComponentItem> HV_DRONE = item("hv_drone", "基础无人机", ComponentItem::create)
             .lang("Base Drone")
             .properties(p -> p.stacksTo(1))

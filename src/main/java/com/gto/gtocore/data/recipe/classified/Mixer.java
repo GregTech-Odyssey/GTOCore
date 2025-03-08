@@ -665,5 +665,13 @@ interface Mixer {
                 .EUt(480)
                 .duration(100)
                 .save();
+
+        MIXER_RECIPES.recipeBuilder(GTOCore.id("coolant_liquid"))
+                .inputItems(TagPrefix.dust, GTMaterials.Lazurite, 2)
+                .inputFluids(GTMaterials.DistilledWater.getFluid(1000))
+                .outputFluids(GTOMaterials.CoolantLiquid.getFluid(1000))
+                .EUt(30)
+                .duration(200)
+                .save();
     }
 }

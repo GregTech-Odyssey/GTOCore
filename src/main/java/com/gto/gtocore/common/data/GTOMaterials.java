@@ -3,8 +3,16 @@ package com.gto.gtocore.common.data;
 import com.gto.gtocore.common.data.material.*;
 
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
+import com.gregtechceu.gtceu.common.data.GTMaterials;
+
+import java.util.Map;
+
+import static com.gregtechceu.gtceu.api.GTValues.*;
+import static com.gregtechceu.gtceu.api.GTValues.LV;
 
 public final class GTOMaterials {
+
+    public static Map<Material, Integer> MATERIAL_VOLTAGE;
 
     public static Material Neutron;
     public static Material Fluix;
@@ -768,6 +776,7 @@ public final class GTOMaterials {
     public static Material EthylHexanol;
     public static Material P507;
     public static Material SuperheavyMix;
+    public static Material CoolantLiquid;
     public static Material CoalSlurry;
     public static Material WaterGas;
     public static Material PlatinumMetal;
@@ -883,5 +892,11 @@ public final class GTOMaterials {
         MaterialA.init();
         MaterialB.init();
         MaterialIgnored.init();
+
+        MATERIAL_VOLTAGE = Map.of(
+                GTMaterials.Gold, VA[LV],
+                GTMaterials.Copper, VH[LV],
+                GTMaterials.Cupronickel, VH[LV],
+                GTMaterials.AnnealedCopper, VH[LV]);
     }
 }

@@ -62,15 +62,15 @@ interface GTOWireCombiningHandler {
                         .duration(mass * i)
                         .save();
             }
-        }
 
-        if (property.getVoltage() < 33) {
-            COMPRESSOR_RECIPES.recipeBuilder(GTOCore.id(material.getName() + "_wires"))
-                    .inputItems(WIRE_DOUBLING_ORDER[0], material, 2)
-                    .outputItems(WIRE_DOUBLING_ORDER[1], material, 1)
-                    .EUt(30)
-                    .duration(mass)
-                    .save();
+            if (startTier < 3 && property.getVoltage() < 33) {
+                COMPRESSOR_RECIPES.recipeBuilder(GTOCore.id(material.getName() + "_wires_" + startTier))
+                        .inputItems(WIRE_DOUBLING_ORDER[startTier], material, 2)
+                        .outputItems(WIRE_DOUBLING_ORDER[startTier + 1], material, 1)
+                        .EUt(30)
+                        .duration(mass * (startTier + 1))
+                        .save();
+            }
         }
 
         for (int i = 1; i < 5; i++) {

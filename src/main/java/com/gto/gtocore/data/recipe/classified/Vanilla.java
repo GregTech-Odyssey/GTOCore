@@ -13,6 +13,7 @@ import com.gto.gtocore.utils.TagUtils;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTValues;
+import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.chemical.material.stack.UnificationEntry;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
@@ -94,6 +95,7 @@ interface Vanilla {
         VanillaRecipeHelper.addShapelessRecipe(provider, GTOCore.id("fluid_storage_cell_64m_2"), GTOItems.FLUID_STORAGE_CELL_64M.asStack(), new ItemStack(AEItems.FLUID_CELL_HOUSING.asItem()), GTOItems.CELL_COMPONENT_64M.asStack());
         VanillaRecipeHelper.addShapelessRecipe(provider, GTOCore.id("crafting_storage_1m"), GTOBlocks.CRAFTING_STORAGE_1M.asStack(), new ItemStack(AEBlocks.CRAFTING_UNIT.block().asItem()), GTOItems.CELL_COMPONENT_1M.asStack());
 
+        VanillaRecipeHelper.addShapedRecipe(provider, GTOCore.id("paper_dust"), ChemicalHelper.get(TagPrefix.dust, GTMaterials.Paper), "S", "m", 'S', RegistriesUtils.getItemStack("farmersdelight:tree_bark"));
         VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("vibrant_photovoltaic_power_station"), GeneratorMultiblock.PHOTOVOLTAIC_POWER_STATION_VIBRANT.asStack(),
                 "ABA",
                 "BCB",
@@ -844,5 +846,15 @@ interface Vanilla {
                 "BCB",
                 "DBD",
                 'A', new UnificationEntry(TagPrefix.rodLong, GTMaterials.AnnealedCopper), 'B', new UnificationEntry(TagPrefix.wireGtOctal, GTMaterials.Cupronickel), 'C', GTMachines.HULL[GTValues.LV].asStack(), 'D', new UnificationEntry(TagPrefix.plate, GTMaterials.AnnealedCopper));
+        VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id(""), GTOMachines.ULV_LATHE[GTValues.ULV].asStack(),
+                "ABA",
+                "CDE",
+                "BAF",
+                'A', new UnificationEntry(TagPrefix.cableGtSingle, GTMaterials.RedAlloy), 'B', CustomTags.ULV_CIRCUITS, 'C', GTOItems.ULV_ELECTRIC_MOTOR.asStack(), 'D', GTMachines.HULL[GTValues.ULV].asStack(), 'E', new UnificationEntry(TagPrefix.gem, GTMaterials.Diamond), 'F', GTOItems.ULV_ELECTRIC_PISTON.asStack());
+        VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id(""), GTOMachines.ULV_WIREMILL[GTValues.ULV].asStack(),
+                "ABA",
+                "CDC",
+                "ABA",
+                'A', GTOItems.ULV_ELECTRIC_MOTOR.asStack(), 'B', new UnificationEntry(TagPrefix.cableGtSingle, GTMaterials.RedAlloy), 'C', CustomTags.ULV_CIRCUITS, 'D', GTMachines.HULL[GTValues.ULV].asStack());
     }
 }

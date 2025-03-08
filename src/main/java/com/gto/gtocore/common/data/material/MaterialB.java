@@ -16,6 +16,12 @@ import static com.gto.gtocore.utils.register.MaterialsRegisterUtils.material;
 public interface MaterialB {
 
     static void init() {
+        CoolantLiquid = material("coolant_liquid", "冷却液")
+                .fluid()
+                .color(0x4B59FF)
+                .iconSet(LIMPID)
+                .buildAndRegister();
+
         CoalSlurry = material("coal_slurry", "煤浆")
                 .fluid()
                 .color(0x3E3C3A)

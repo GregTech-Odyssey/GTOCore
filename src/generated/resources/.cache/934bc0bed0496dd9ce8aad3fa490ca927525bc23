@@ -1,4 +1,4 @@
-// 1.20.1	2025-03-08T13:55:49.460755	Registrate Provider for gtocore [Recipes, Advancements, Loot Tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), generic_server_provider, Blockstates, Item models, Lang (en_us/en_ud), generic_client_provider, Lang (zh_cn), Lang (zh_tw)]
+// 1.20.1	2025-03-08T16:03:42.376027	Registrate Provider for gtocore [Recipes, Advancements, Loot Tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), generic_server_provider, Blockstates, Item models, Lang (en_us/en_ud), generic_client_provider, Lang (zh_cn), Lang (zh_tw)]
 561aa328ea8d03b161a0fff5267cad7f4a498bf2 assets/gtocore/blockstates/abs_black_casing.json
 637d4a4579c884976f720f142d9f4c2ce75d4764 assets/gtocore/blockstates/abs_blue_casing.json
 18659fe31222d417da78cd793daf37bc60dcaa78 assets/gtocore/blockstates/abs_brown_casing.json
@@ -254,10 +254,10 @@ fb0fc404a249f3aebd2ecffe35847ee0ba853db7 assets/gtocore/blockstates/uruium_coil_
 d28e1e74c60c6cb86b399220325a3a254bd616b8 assets/gtocore/blockstates/uxv_wireless_energy_unit.json
 8b64a23b9c57ba34df14d48842420d898246dd4f assets/gtocore/blockstates/zirconia_ceramic_high_strength_bending_resistance_mechanical_block.json
 54c6bf3885f977c5f032b6e310a7c114e0150432 assets/gtocore/blockstates/zpm_wireless_energy_unit.json
-6a1712da767c31c5909628e99420242de2b0eeae assets/gtocore/lang/en_ud.json
-dd9bf05b6f26609264505b5f65f9251c65bc3355 assets/gtocore/lang/en_us.json
-bff93ac6c03c4ba5135f7aac88477f5be1ec5975 assets/gtocore/lang/zh_cn.json
-eaf215b699772ac2a73cd08a946dc68a150a0531 assets/gtocore/lang/zh_tw.json
+48dc185ff006b8360ce03f4f752a6b56f12d7884 assets/gtocore/lang/en_ud.json
+6072e60b44a73ad1449c5c1c49e6ab1af5af3d6a assets/gtocore/lang/en_us.json
+becbaa1a75f4df76c74c1b5e077ba22972d76087 assets/gtocore/lang/zh_cn.json
+1daaaf8d9bb23f53ae1348a130df7e58ba5360ee assets/gtocore/lang/zh_tw.json
 a3e5be219240789ffe6fbb05d051292c0d928df5 assets/gtocore/models/block/abs_black_casing.json
 de571bbc8b5c50ea45312b4efa8ae7346d311b5a assets/gtocore/models/block/abs_blue_casing.json
 f3597b8d3a9bb06573c4f0bf5e9b90d22cb2fd82 assets/gtocore/models/block/abs_brown_casing.json
@@ -1128,6 +1128,7 @@ f26e263359e4c3063fb73370a237e9051d2ad9ae assets/gtocore/models/item/stellar_cont
 2ad9efabb27ed9fcab096e7d6280029bff5e3684 assets/gtocore/models/item/streptococcus_petri_dish.json
 432d14328aea2fff036a4f8598e8d87ab6a2a226 assets/gtocore/models/item/strontium_carbonate_ceramic_ray_absorbing_mechanical_cube.json
 26bd838c6d6b7e7eece53d1e7e096ca671625c58 assets/gtocore/models/item/sulfur_vein_essence.json
+b1b2f23a40ef5148d50ed7de855ff39df6f8093e assets/gtocore/models/item/super_capacitor.json
 63d52925df9f6252a0b867a06e223404800cbe7b assets/gtocore/models/item/super_computation_component.json
 e7620feccb0a43b407788e04a0158037b990ea1d assets/gtocore/models/item/super_cooler_component.json
 1efaa1d77bc9a5653c5288e3181004d418cd770b assets/gtocore/models/item/super_portable_fluid_storage_cell.json
@@ -1236,9 +1237,10 @@ bb1c6ddf6338e8d31b34e54eaaa8bce6182ccce5 assets/gtocore/models/item/x_ray_laser.
 bb578ab26d0aa57831c0aac0b2a9d4e79d78f71a assets/gtocore/models/item/zero_point_module_fragments.json
 01c447d7919aebca7905394eebec7e7b8f7d09c0 assets/gtocore/models/item/zirconia_ceramic_high_strength_bending_resistance_mechanical_block.json
 441aae66308b2e5fb5e8bb79a1a229a1bbfc3ec4 assets/gtocore/models/item/zpm_wireless_energy_unit.json
-fce308b0eb45d30ac10616d8a36b1181eac5277c data/ae2/tags/items/p2p_attunements/fluid_p2p_tunnel.json
+14f07935440d8143219916f2383328ded4ed2c5c data/ae2/tags/items/p2p_attunements/fluid_p2p_tunnel.json
 265932a499519425773a9724b75855bde9da2bab data/forge/tags/blocks/all_layer_stone.json
 4606bbfee784f0277649ba7bf35af6991440ceb3 data/forge/tags/blocks/mineable/wrench.json
+a7839270cf007ebc18a1b0959287c10e418ac411 data/gtceu/tags/items/batteries/ulv.json
 5f4420bf6b81089063c991a67a365cd8993c86cc data/gtceu/tags/items/circuits/ev.json
 6bd6c216136ea997887f0960acccc778155d61d0 data/gtceu/tags/items/circuits/hv.json
 5bb31d75a2d63259d73ab03bc59c575454daf6e6 data/gtceu/tags/items/circuits/iv.json

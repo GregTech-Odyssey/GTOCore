@@ -33,8 +33,8 @@ interface RocketAssembler {
 
         ROCKET_ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("tier_2_rocket"))
                 .inputItems("ad_astra:rocket_nose_cone")
-                .inputItems(GTItems.SENSOR_EV.asStack())
-                .inputItems(GTItems.EMITTER_EV.asStack())
+                .inputItems(GTItems.SENSOR_HV.asStack(2))
+                .inputItems(GTItems.EMITTER_HV.asStack(2))
                 .inputItems("ad_astra:steel_tank", 6)
                 .inputItems(TagPrefix.pipeSmallFluid, GTMaterials.StainlessSteel, 8)
                 .inputItems(TagPrefix.bolt, GTMaterials.Titanium, 32)

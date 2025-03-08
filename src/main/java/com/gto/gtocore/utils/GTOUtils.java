@@ -2,6 +2,7 @@ package com.gto.gtocore.utils;
 
 import com.gto.gtocore.api.capability.recipe.ManaRecipeCapability;
 import com.gto.gtocore.api.data.GTODimensions;
+import com.gto.gtocore.common.data.GTOMaterials;
 
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
@@ -64,10 +65,16 @@ public final class GTOUtils {
     }
 
     public static int getVoltageMultiplier(Material material) {
+        Integer voltage = GTOMaterials.MATERIAL_VOLTAGE.get(material);
+        if (voltage != null) {
+            return voltage;
+        }
         int t = material.getBlastTemperature();
         if (t > 8460) {
-            return VA[MV];
+            return VA[HV];
         } else if (t > 2700) {
+            return VA[MV];
+        } else if (t > 0) {
             return VA[LV];
         }
         return VA[ULV];

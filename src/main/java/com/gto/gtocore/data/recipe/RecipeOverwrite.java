@@ -6,7 +6,9 @@ import com.gto.gtocore.common.recipe.condition.GravityCondition;
 import com.gto.gtocore.common.recipe.condition.RestrictedMachineCondition;
 import com.gto.gtocore.common.recipe.condition.VacuumCondition;
 
+import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
+import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
 
 import net.minecraft.data.recipes.FinishedRecipe;
@@ -107,7 +109,7 @@ public interface RecipeOverwrite {
                 .duration(160).EUt(VA[LV]).save(provider);
 
         CHEMICAL_RECIPES.recipeBuilder("polyethylene_from_air")
-                .circuitMeta(1)
+                .notConsumable(TagPrefix.rod, GTMaterials.Ruby)
                 .inputFluids(Air.getFluid(1000))
                 .inputFluids(Ethylene.getFluid(L))
                 .outputFluids(Polyethylene.getFluid(126))
@@ -115,7 +117,7 @@ public interface RecipeOverwrite {
                 .duration(600).EUt(VA[ULV]).save();
 
         CHEMICAL_RECIPES.recipeBuilder("polyvinyl_chloride_from_oxygen")
-                .circuitMeta(1)
+                .notConsumable(TagPrefix.rod, GTMaterials.Ruby)
                 .inputFluids(Oxygen.getFluid(1000))
                 .inputFluids(VinylChloride.getFluid(L))
                 .outputFluids(PolyvinylChloride.getFluid(144))
@@ -231,6 +233,42 @@ public interface RecipeOverwrite {
                 .outputItems(GTBlocks.CASING_TEMPERED_GLASS.asStack())
                 .addCondition(RestrictedMachineCondition.multiblock())
                 .save();
+
+        CHEMICAL_BATH_RECIPES.recipeBuilder("silicon_cool_down")
+                .inputItems(ingotHot, Silicon)
+                .inputFluids(GTOMaterials.CoolantLiquid.getFluid(100))
+                .outputItems(ingot, Silicon)
+                .duration(250).EUt(VA[MV]).save(provider);
+
+        CHEMICAL_BATH_RECIPES.recipeBuilder("kanthal_cool_down")
+                .inputItems(ingotHot, Kanthal)
+                .inputFluids(GTOMaterials.CoolantLiquid.getFluid(100))
+                .outputItems(ingot, Kanthal)
+                .duration(250).EUt(VA[MV]).save(provider);
+
+        CHEMICAL_BATH_RECIPES.recipeBuilder("black_steel_cool_down")
+                .inputItems(ingotHot, BlackSteel)
+                .inputFluids(GTOMaterials.CoolantLiquid.getFluid(100))
+                .outputItems(ingot, BlackSteel)
+                .duration(125).EUt(VA[MV]).save(provider);
+
+        CHEMICAL_BATH_RECIPES.recipeBuilder("red_steel_cool_down")
+                .inputItems(ingotHot, RedSteel)
+                .inputFluids(GTOMaterials.CoolantLiquid.getFluid(100))
+                .outputItems(ingot, RedSteel)
+                .duration(250).EUt(VA[MV]).save(provider);
+
+        CHEMICAL_BATH_RECIPES.recipeBuilder("blue_steel_cool_down")
+                .inputItems(ingotHot, BlueSteel)
+                .inputFluids(GTOMaterials.CoolantLiquid.getFluid(100))
+                .outputItems(ingot, BlueSteel)
+                .duration(250).EUt(VA[MV]).save(provider);
+
+        MIXER_RECIPES.recipeBuilder("pcb_coolant").duration(200).EUt(VA[HV])
+                .inputFluids(PolychlorinatedBiphenyl.getFluid(750))
+                .inputFluids(GTOMaterials.CoolantLiquid.getFluid(250))
+                .outputFluids(PCBCoolant.getFluid(1000))
+                .save(provider);
 
         // 修复冲突
         CHEMICAL_RECIPES.recipeBuilder("hypochlorous_acid_mercury")

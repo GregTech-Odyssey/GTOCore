@@ -5,6 +5,7 @@ import com.gto.gtocore.common.data.GTOItems;
 import com.gto.gtocore.common.data.GTOMaterials;
 
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
+import com.gregtechceu.gtceu.common.data.GTMaterials;
 
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -48,6 +49,13 @@ interface ForgeHammer {
                 .outputItems(TagPrefix.dust, GTOMaterials.SpecialCeramics)
                 .EUt(7680)
                 .duration(20)
+                .save();
+
+        FORGE_HAMMER_RECIPES.recipeBuilder(GTOCore.id("wrought_iron"))
+                .inputItems(GTOItems.HOT_IRON_INGOT.asStack())
+                .outputItems(TagPrefix.ingot, GTMaterials.WroughtIron)
+                .EUt(16)
+                .duration(200)
                 .save();
     }
 }

@@ -571,6 +571,7 @@
     "gtocore:carbon_tetrachloride_bucket",
     "gtocore:ethyl_hexanol_bucket",
     "gtocore:p507_bucket",
+    "gtocore:coolant_liquid_bucket",
     "gtocore:coal_slurry_bucket",
     "gtocore:water_gas_bucket",
     "gtocore:low_purity_naquadah_emulsion_bucket",

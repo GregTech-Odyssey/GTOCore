@@ -163,6 +163,8 @@ public final class GTORecipes implements Runnable {
         GT_FILTER_RECIPES.add(GTCEu.id("chemical_reactor/wetware_circuit_board_iron3"));
         GT_FILTER_RECIPES.add(GTCEu.id("chemical_reactor/elite_circuit_board_persulfate"));
         GT_FILTER_RECIPES.add(GTCEu.id("chemical_reactor/elite_circuit_board_iron3"));
+        GT_FILTER_RECIPES.add(GTCEu.id("chemical_reactor/magnesia_from_magnesite"));
+        GT_FILTER_RECIPES.add(GTCEu.id("chemical_reactor/polyvinyl_chloride_from_air"));
         GT_FILTER_RECIPES.add(GTCEu.id("large_chemical_reactor/epoxy_shortcut"));
         GT_FILTER_RECIPES.add(GTCEu.id("large_chemical_reactor/polyethylene_from_tetrachloride_air"));
         GT_FILTER_RECIPES.add(GTCEu.id("large_chemical_reactor/polyethylene_from_tetrachloride_oxygen"));
@@ -170,7 +172,11 @@ public final class GTORecipes implements Runnable {
         GT_FILTER_RECIPES.add(GTCEu.id("large_chemical_reactor/polyvinyl_chloride_from_tetrachloride_oxygen"));
         GT_FILTER_RECIPES.add(GTCEu.id("large_chemical_reactor/ptfe_from_tetrachloride_air"));
         GT_FILTER_RECIPES.add(GTCEu.id("large_chemical_reactor/ptfe_from_tetrachloride_oxygen"));
-        GT_FILTER_RECIPES.add(GTCEu.id("magnesia_from_magnesite"));
+        GT_FILTER_RECIPES.add(GTCEu.id("chemical_bath/silicon_cool_down_distilled_water"));
+        GT_FILTER_RECIPES.add(GTCEu.id("chemical_bath/kanthal_cool_down_distilled_water"));
+        GT_FILTER_RECIPES.add(GTCEu.id("chemical_bath/red_steel_cool_down_distilled_water"));
+        GT_FILTER_RECIPES.add(GTCEu.id("chemical_bath/black_steel_cool_down_distilled_water"));
+        GT_FILTER_RECIPES.add(GTCEu.id("chemical_bath/blue_steel_cool_down_distilled_water"));
         GT_FILTER_RECIPES.add(GTCEu.id("forming_press/credit_cupronickel"));
         GT_FILTER_RECIPES.add(GTCEu.id("extruder/nan_certificate"));
         GT_FILTER_RECIPES.add(GTCEu.id("centrifuge/rare_earth_separation"));
@@ -725,6 +731,7 @@ public final class GTORecipes implements Runnable {
         filters.add(RLUtils.fd("rice_panicle"));
         filters.add(RLUtils.fd("rice_from_bag"));
         filters.add(RLUtils.fd("straw"));
+        filters.add(RLUtils.fd("paper_from_tree_bark"));
     }
 
     public static Recipe<?> fromJson(ResourceLocation recipeId, JsonObject json, net.minecraftforge.common.crafting.conditions.ICondition.IContext context) {
