@@ -29,6 +29,7 @@ public final class GTOMaterialIconSet extends MaterialIconSet {
     public static final GTOMaterialIconSet COSMIC = new GTOMaterialIconSet("cosmic", METALLIC, false, HaloItemRenderer.COSMIC_HALO);
     public static final GTOMaterialIconSet CHAOS = new GTOMaterialIconSet("chaos", METALLIC, false, HaloItemRenderer.CHAOS_HALO);
     public static final GTOMaterialIconSet CHAOS_INFINITY = new GTOMaterialIconSet("chaos_infinity", METALLIC, false, HaloItemRenderer.CHAOS_INFINITY_HALO);
+    public static final GTOMaterialIconSet NEUTRONIUM = new GTOMaterialIconSet("neutronium", METALLIC, false, HaloItemRenderer.NEUTRONIUM_HALO);
     public static final GTOMaterialIconSet COSMIC_NEUTRONIUM = new GTOMaterialIconSet("cosmic_neutronium", METALLIC, false, HaloItemRenderer.COSMIC_NEUTRONIUM_HALO);
     public static final GTOMaterialIconSet MAGNETOHYDRODYNAMICALLY_CONSTRAINED_STAR_MATTER = new GTOMaterialIconSet("magnetohydrodynamically_constrained_star_matter", null, true, HaloItemRenderer.MAGNETOHYDRODYNAMICALLY_CONSTRAINED_STAR_MATTER_HALO);
     public static final GTOMaterialIconSet INFINITY = new GTOMaterialIconSet("infinity", null, true, HaloItemRenderer.INFINITY_HALO);

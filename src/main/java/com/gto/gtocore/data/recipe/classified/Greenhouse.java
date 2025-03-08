@@ -187,7 +187,7 @@ interface Greenhouse {
                 .save();
 
         GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("torchflower"))
-                .notConsumable(new ItemStack(Blocks.TORCHFLOWER.asItem()))
+                .notConsumable(new ItemStack(Items.TORCHFLOWER_SEEDS.asItem()))
                 .circuitMeta(1)
                 .inputFluids(GTMaterials.Water.getFluid(1000))
                 .outputItems(new ItemStack(Blocks.TORCHFLOWER.asItem(), 8))
@@ -642,7 +642,7 @@ interface Greenhouse {
                 .save();
 
         GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("torchflower_fertilizer"))
-                .notConsumable(new ItemStack(Blocks.TORCHFLOWER.asItem()))
+                .notConsumable(new ItemStack(Items.TORCHFLOWER_SEEDS.asItem()))
                 .inputItems(GTItems.FERTILIZER.asStack(4))
                 .circuitMeta(2)
                 .inputFluids(GTMaterials.Water.getFluid(1000))

@@ -6,6 +6,7 @@ import com.gto.gtocore.data.recipe.generated.GenerateDisassembly;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
+import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.data.recipe.builder.GTRecipeBuilder;
 import com.gregtechceu.gtceu.utils.GTUtil;
@@ -38,12 +39,14 @@ public interface RecipeTypeModify {
 
         PLASMA_GENERATOR_FUELS.onRecipeBuild((recipeBuilder, provider) -> {
             long eu = recipeBuilder.duration * GTValues.V[GTValues.EV];
+            FluidIngredient ingredient = FluidRecipeCapability.CAP.of(recipeBuilder.output
+                    .get(FluidRecipeCapability.CAP).get(0).getContent()).copy();
+            ingredient.setAmount((ingredient.getAmount() << 2) / 5);
             GTORecipeTypes.HEAT_EXCHANGER_RECIPES.recipeBuilder(recipeBuilder.id)
                     .inputFluids(FluidRecipeCapability.CAP.of(recipeBuilder.input
                             .get(FluidRecipeCapability.CAP).get(0).getContent()))
                     .inputFluids(GTMaterials.DistilledWater.getFluid((int) (eu / 160)))
-                    .outputFluids(FluidRecipeCapability.CAP.of(recipeBuilder.output
-                            .get(FluidRecipeCapability.CAP).get(0).getContent()))
+                    .outputFluids(ingredient)
                     .outputFluids(GTMaterials.Steam.getFluid((int) eu))
                     .outputFluids(GTOMaterials.SupercriticalSteam.getFluid((int) (eu / 16)))
                     .addData("eu", eu)

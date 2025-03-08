@@ -3053,7 +3053,7 @@ interface AssemblyLine {
                 .save();
 
         ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("extremely_durable_plasma_cell"))
-                .inputItems(TagPrefix.plate, GTMaterials.Neutronium, 48)
+                .inputItems(TagPrefix.plate, GTOMaterials.Neutron, 48)
                 .inputItems(TagPrefix.pipeLargeFluid, GTOMaterials.HeavyQuarkDegenerateMatter, 4)
                 .inputItems(GTItems.ELECTRIC_PUMP_UXV.asStack(2))
                 .inputItems(GTItems.FIELD_GENERATOR_UXV.asStack(2))

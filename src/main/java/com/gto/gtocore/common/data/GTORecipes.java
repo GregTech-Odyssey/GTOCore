@@ -28,7 +28,6 @@ import com.gregtechceu.gtceu.common.item.armor.PowerlessJetpack;
 import com.gregtechceu.gtceu.data.pack.GTDynamicDataPack;
 import com.gregtechceu.gtceu.data.recipe.MaterialInfoLoader;
 import com.gregtechceu.gtceu.data.recipe.configurable.RecipeAddition;
-import com.gregtechceu.gtceu.data.recipe.generated.ToolRecipeHandler;
 import com.gregtechceu.gtceu.data.recipe.misc.*;
 import com.gregtechceu.gtceu.data.recipe.serialized.chemistry.ChemistryRecipes;
 import com.gregtechceu.gtceu.integration.emi.recipe.GTRecipeEMICategory;
@@ -136,8 +135,6 @@ public final class GTORecipes implements Runnable {
         GT_FILTER_RECIPES.add(GTCEu.id("assembly_line/energy_hatch_uhv"));
         GT_FILTER_RECIPES.add(GTCEu.id("assembly_line/energy_cluster"));
         GT_FILTER_RECIPES.add(GTCEu.id("bender/bucket"));
-        GT_FILTER_RECIPES.add(GTCEu.id("research_station/1_x_gtceu_uv_energy_input_hatch"));
-        GT_FILTER_RECIPES.add(GTCEu.id("research_station/1_x_gtceu_uv_energy_output_hatch"));
         GT_FILTER_RECIPES.add(GTCEu.id("mixer/rhodium_plated_palladium"));
         GT_FILTER_RECIPES.add(GTCEu.id("mixer/ender_pearl_dust"));
         GT_FILTER_RECIPES.add(GTCEu.id("mixer/rocket_fuel_from_dinitrogen_tetroxide"));
@@ -221,7 +218,6 @@ public final class GTORecipes implements Runnable {
         ChemicalHelper.reinitializeUnification();
         MaterialInfoLoader.init();
         GTOMaterialInfoLoader.init();
-        ToolRecipeHandler.setup();
 
         Consumer<FinishedRecipe> consumer = GTDynamicDataPack::addRecipe;
 
@@ -458,6 +454,22 @@ public final class GTORecipes implements Runnable {
         filters.add(RLUtils.bot("mana_diamond_block"));
         filters.add(RLUtils.bot("dragonstone_block"));
         filters.add(RLUtils.bot("conversions/dragonstone_block_deconstruct"));
+        filters.add(RLUtils.bot("dye_white"));
+        filters.add(RLUtils.bot("dye_light_gray"));
+        filters.add(RLUtils.bot("dye_gray"));
+        filters.add(RLUtils.bot("dye_black"));
+        filters.add(RLUtils.bot("dye_brown"));
+        filters.add(RLUtils.bot("dye_red"));
+        filters.add(RLUtils.bot("dye_orange"));
+        filters.add(RLUtils.bot("dye_yellow"));
+        filters.add(RLUtils.bot("dye_lime"));
+        filters.add(RLUtils.bot("dye_green"));
+        filters.add(RLUtils.bot("dye_cyan"));
+        filters.add(RLUtils.bot("dye_light_blue"));
+        filters.add(RLUtils.bot("dye_blue"));
+        filters.add(RLUtils.bot("dye_purple"));
+        filters.add(RLUtils.bot("dye_magenta"));
+        filters.add(RLUtils.bot("dye_pink"));
 
         filters.add(DeeperDarker.rl("reinforced_echo_shard"));
         filters.add(DeeperDarker.rl("resonarium_shovel_smithing"));

@@ -111,6 +111,7 @@ public final class LangHandler {
         addENCN("config.screen.gtocore", "GTO Core Config", "GTO Core 配置");
         addENCN("config.gtocore.option.recipeCheck", "[Debug]Recipe Abnormal Check", "[调试]配方异常检查");
         addENCN("config.gtocore.option.dev", "Dev mode", "开发模式");
+        addENCN("config.gtocore.option.gameDifficulty", "Game difficulty", "游戏难度");
 
         addENCN("gtceu.jei.ore_vein.bauxite_vein", "Bauxite Vein", "铝土矿脉");
         addENCN("gtceu.jei.ore_vein.chromite_vein", "Chromite Vein", "铬铁矿脉");

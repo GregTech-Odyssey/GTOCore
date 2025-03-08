@@ -7,6 +7,7 @@ import com.gto.gtocore.common.data.GTOItems;
 import com.gto.gtocore.common.data.GTOMachines;
 import com.gto.gtocore.common.data.GTOMaterials;
 import com.gto.gtocore.common.data.machines.*;
+import com.gto.gtocore.utils.RLUtils;
 import com.gto.gtocore.utils.RegistriesUtils;
 import com.gto.gtocore.utils.TagUtils;
 
@@ -23,7 +24,6 @@ import com.gregtechceu.gtceu.data.recipe.CustomTags;
 import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
 
 import net.minecraft.data.recipes.FinishedRecipe;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
@@ -647,7 +647,7 @@ interface Vanilla {
                 "ABA",
                 "CDC",
                 "AEA",
-                'A', new UnificationEntry(TagPrefix.plate, GTMaterials.Neutronium), 'B', TagUtils.createTag(new ResourceLocation("forge", "tools/hammers")), 'C', new UnificationEntry(TagPrefix.gear, GTMaterials.Neutronium), 'D', new UnificationEntry(TagPrefix.frameGt, GTMaterials.Neutronium), 'E', TagUtils.createTag(new ResourceLocation("forge", "tools/wrench")));
+                'A', new UnificationEntry(TagPrefix.plate, GTMaterials.Neutronium), 'B', TagUtils.createTag(RLUtils.forge("tools/hammers")), 'C', new UnificationEntry(TagPrefix.gear, GTMaterials.Neutronium), 'D', new UnificationEntry(TagPrefix.frameGt, GTMaterials.Neutronium), 'E', TagUtils.createTag(RLUtils.forge("tools/wrench")));
         VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("annihilation_core"), new ItemStack(AEItems.ANNIHILATION_CORE.asItem()),
                 "ABC",
                 'A', CustomTags.ULV_CIRCUITS, 'B', new ItemStack(AEItems.LOGIC_PROCESSOR.asItem()), 'C', new UnificationEntry(TagPrefix.dust, GTMaterials.NetherQuartz));

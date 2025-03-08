@@ -35,7 +35,8 @@ public final class HaloItemRenderer implements IRenderer {
     public static final HaloItemRenderer WHITE_HALO = HaloItemRenderer.create(0, 0xFFFFFFFF, 4, RLUtils.avaritia("misc/halo"));
     public static final HaloItemRenderer QUANTUM_CHROMO_DYNAMICALLY_HALO = HaloItemRenderer.create(0, () -> com.gto.gtocore.utils.ColorUtils.createARGBColor(MaterialsColorMap.quantumColor.get(), 150), () -> GTValues.RNG.nextInt(4) + 2, RLUtils.avaritia("misc/halo"));
     public static final HaloItemRenderer COSMIC_HALO = create(0, 0xB2001539, 6, RLUtils.avaritia("misc/halo"));
-    public static final HaloItemRenderer COSMIC_NEUTRONIUM_HALO = HaloItemRenderer.create(0, 0x99FFFFFF, 8, RLUtils.avaritia("misc/halo_noise"));
+    public static final HaloItemRenderer NEUTRONIUM_HALO = HaloItemRenderer.create(0, 0x99FFFFFF, 8, RLUtils.avaritia("misc/halo_noise"));
+    public static final HaloItemRenderer COSMIC_NEUTRONIUM_HALO = HaloItemRenderer.create(0.05F, 0x992F1909, 10, RLUtils.avaritia("misc/halo_noise"));
     public static final HaloItemRenderer CHAOS_HALO = HaloItemRenderer.create(0.2F, 0, 0, null);
     public static final HaloItemRenderer CHAOS_INFINITY_HALO = HaloItemRenderer.create(0.25F, () -> 0xFF000000, () -> GTValues.RNG.nextInt(4) + 6, RLUtils.avaritia("misc/halo"));
     public static final HaloItemRenderer MAGNETOHYDRODYNAMICALLY_CONSTRAINED_STAR_MATTER_HALO = HaloItemRenderer.create(0, 0xB2FF4125, 6, RLUtils.avaritia("misc/halo"));

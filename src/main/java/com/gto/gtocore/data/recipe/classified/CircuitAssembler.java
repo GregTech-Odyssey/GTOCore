@@ -9,6 +9,7 @@ import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.machine.multiblock.CleanroomType;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
+import com.gregtechceu.gtceu.config.ConfigHolder;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
 
 import com.enderio.base.common.init.EIOItems;
@@ -18,6 +19,7 @@ import static com.gto.gtocore.common.data.GTORecipeTypes.CIRCUIT_ASSEMBLER_RECIP
 interface CircuitAssembler {
 
     static void init() {
+        int outputAmount = ConfigHolder.INSTANCE.recipes.harderCircuitRecipes ? 1 : 2;
         CIRCUIT_ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("magneto_resonatic_circuit_uiv"))
                 .inputItems(GTOItems.SMD_DIODE_SUPRACAUSAL.asStack(16))
                 .inputItems(GTOItems.SMD_CAPACITOR_SUPRACAUSAL.asStack(16))
@@ -26,7 +28,7 @@ interface CircuitAssembler {
                 .inputItems(TagPrefix.gemExquisite, GTOMaterials.MagnetoResonatic)
                 .inputItems(GTOItems.MAGNETO_RESONATIC_CIRCUIT[GTValues.UEV].asStack())
                 .inputFluids(GTOMaterials.SuperMutatedLivingSolder.getFluid(432))
-                .outputItems(GTOItems.MAGNETO_RESONATIC_CIRCUIT[GTValues.UIV].asStack(2))
+                .outputItems(GTOItems.MAGNETO_RESONATIC_CIRCUIT[GTValues.UIV].asStack(outputAmount << 1))
                 .EUt(125829120)
                 .duration(790)
                 .save();
@@ -39,7 +41,7 @@ interface CircuitAssembler {
                 .inputItems(TagPrefix.gemExquisite, GTOMaterials.MagnetoResonatic)
                 .inputItems(GTOItems.MAGNETO_RESONATIC_CIRCUIT[GTValues.UV].asStack())
                 .inputFluids(GTOMaterials.MutatedLivingSolder.getFluid(432))
-                .outputItems(GTOItems.MAGNETO_RESONATIC_CIRCUIT[GTValues.UHV].asStack(2))
+                .outputItems(GTOItems.MAGNETO_RESONATIC_CIRCUIT[GTValues.UHV].asStack(outputAmount << 1))
                 .EUt(7864320)
                 .duration(750)
                 .save();
@@ -52,7 +54,7 @@ interface CircuitAssembler {
                 .inputItems(TagPrefix.gem, GTOMaterials.MagnetoResonatic)
                 .inputItems(GTItems.VACUUM_TUBE.asStack())
                 .inputFluids(GTMaterials.Tin.getFluid(144))
-                .outputItems(GTOItems.MAGNETO_RESONATIC_CIRCUIT[GTValues.ULV].asStack(2))
+                .outputItems(GTOItems.MAGNETO_RESONATIC_CIRCUIT[GTValues.ULV].asStack(outputAmount << 1))
                 .EUt(30)
                 .duration(50)
                 .save();
@@ -65,7 +67,7 @@ interface CircuitAssembler {
                 .inputItems(TagPrefix.gemExquisite, GTOMaterials.MagnetoResonatic)
                 .inputItems(GTOItems.MAGNETO_RESONATIC_CIRCUIT[GTValues.UHV].asStack())
                 .inputFluids(GTOMaterials.SuperMutatedLivingSolder.getFluid(288))
-                .outputItems(GTOItems.MAGNETO_RESONATIC_CIRCUIT[GTValues.UEV].asStack(2))
+                .outputItems(GTOItems.MAGNETO_RESONATIC_CIRCUIT[GTValues.UEV].asStack(outputAmount << 1))
                 .EUt(31457280)
                 .duration(770)
                 .save();
@@ -78,7 +80,7 @@ interface CircuitAssembler {
                 .inputItems(TagPrefix.gemExquisite, GTOMaterials.MagnetoResonatic)
                 .inputItems(GTOItems.MAGNETO_RESONATIC_CIRCUIT[GTValues.LuV].asStack())
                 .inputFluids(GTOMaterials.MutatedLivingSolder.getFluid(144))
-                .outputItems(GTOItems.MAGNETO_RESONATIC_CIRCUIT[GTValues.ZPM].asStack(2))
+                .outputItems(GTOItems.MAGNETO_RESONATIC_CIRCUIT[GTValues.ZPM].asStack(outputAmount << 1))
                 .EUt(491520)
                 .duration(710)
                 .save();
@@ -89,9 +91,9 @@ interface CircuitAssembler {
                 .inputItems(GTItems.HIGHLY_ADVANCED_SOC.asStack())
                 .inputItems(GTOItems.SMD_CAPACITOR_EXOTIC.asStack(8))
                 .inputItems(GTOItems.SMD_TRANSISTOR_EXOTIC.asStack(8))
-                .inputItems(TagPrefix.wireFine, GTOMaterials.Cinobite, 8)
+                .inputItems(TagPrefix.wireFine, GTOMaterials.Cinobite, 16)
                 .inputFluids(GTOMaterials.MutatedLivingSolder.getFluid(432))
-                .outputItems(GTOItems.EXOTIC_PROCESSOR.asStack(2))
+                .outputItems(GTOItems.EXOTIC_PROCESSOR.asStack(outputAmount))
                 .EUt(7864320)
                 .duration(200)
                 .cleanroom(CleanroomType.CLEANROOM)
@@ -103,9 +105,9 @@ interface CircuitAssembler {
                 .inputItems(GTItems.HIGHLY_ADVANCED_SOC.asStack())
                 .inputItems(GTOItems.SMD_CAPACITOR_BIOWARE.asStack(8))
                 .inputItems(GTOItems.SMD_TRANSISTOR_BIOWARE.asStack(8))
-                .inputItems(TagPrefix.wireFine, GTMaterials.Naquadah, 8)
+                .inputItems(TagPrefix.wireFine, GTMaterials.Naquadah, 16)
                 .inputFluids(GTOMaterials.MutatedLivingSolder.getFluid(144))
-                .outputItems(GTOItems.BIOWARE_PROCESSOR.asStack(2))
+                .outputItems(GTOItems.BIOWARE_PROCESSOR.asStack())
                 .EUt(491520)
                 .duration(200)
                 .cleanroom(CleanroomType.STERILE_CLEANROOM)
@@ -119,7 +121,7 @@ interface CircuitAssembler {
                 .inputItems(TagPrefix.gemFlawless, GTOMaterials.MagnetoResonatic)
                 .inputItems(GTOItems.MAGNETO_RESONATIC_CIRCUIT[GTValues.IV].asStack())
                 .inputFluids(GTMaterials.SolderingAlloy.getFluid(144))
-                .outputItems(GTOItems.MAGNETO_RESONATIC_CIRCUIT[GTValues.LuV].asStack(2))
+                .outputItems(GTOItems.MAGNETO_RESONATIC_CIRCUIT[GTValues.LuV].asStack(outputAmount << 1))
                 .EUt(122880)
                 .duration(570)
                 .save();
@@ -132,7 +134,7 @@ interface CircuitAssembler {
                 .inputItems(GTOItems.MANIFOLD_OSCILLATORY_POWER_CELL.asStack())
                 .inputItems(TagPrefix.plate, GTOMaterials.CrystalMatrix)
                 .inputFluids(GTOMaterials.SuperMutatedLivingSolder.getFluid(432))
-                .outputItems(GTOItems.SUPRACAUSAL_PROCESSOR.asStack(2))
+                .outputItems(GTOItems.SUPRACAUSAL_PROCESSOR.asStack(outputAmount))
                 .EUt(125829120)
                 .duration(100)
                 .cleanroom(CleanroomType.CLEANROOM)
@@ -146,7 +148,7 @@ interface CircuitAssembler {
                 .inputItems(TagPrefix.gem, GTOMaterials.MagnetoResonatic)
                 .inputItems(GTOItems.MAGNETO_RESONATIC_CIRCUIT[GTValues.LV].asStack())
                 .inputFluids(GTMaterials.SolderingAlloy.getFluid(144))
-                .outputItems(GTOItems.MAGNETO_RESONATIC_CIRCUIT[GTValues.MV].asStack(2))
+                .outputItems(GTOItems.MAGNETO_RESONATIC_CIRCUIT[GTValues.MV].asStack(outputAmount << 1))
                 .EUt(480)
                 .duration(150)
                 .save();
@@ -159,7 +161,7 @@ interface CircuitAssembler {
                 .inputItems(TagPrefix.gem, GTOMaterials.MagnetoResonatic)
                 .inputItems(GTOItems.MAGNETO_RESONATIC_CIRCUIT[GTValues.ULV].asStack())
                 .inputFluids(GTMaterials.Tin.getFluid(144))
-                .outputItems(GTOItems.MAGNETO_RESONATIC_CIRCUIT[GTValues.LV].asStack(2))
+                .outputItems(GTOItems.MAGNETO_RESONATIC_CIRCUIT[GTValues.LV].asStack(outputAmount << 1))
                 .EUt(120)
                 .duration(90)
                 .save();
@@ -172,7 +174,7 @@ interface CircuitAssembler {
                 .inputItems(TagPrefix.gemExquisite, GTOMaterials.MagnetoResonatic)
                 .inputItems(GTOItems.MAGNETO_RESONATIC_CIRCUIT[GTValues.ZPM].asStack())
                 .inputFluids(GTOMaterials.MutatedLivingSolder.getFluid(288))
-                .outputItems(GTOItems.MAGNETO_RESONATIC_CIRCUIT[GTValues.UV].asStack(2))
+                .outputItems(GTOItems.MAGNETO_RESONATIC_CIRCUIT[GTValues.UV].asStack(outputAmount << 1))
                 .EUt(1966080)
                 .duration(730)
                 .save();
@@ -185,7 +187,7 @@ interface CircuitAssembler {
                 .inputItems(TagPrefix.gemFlawless, GTOMaterials.MagnetoResonatic)
                 .inputItems(GTOItems.MAGNETO_RESONATIC_CIRCUIT[GTValues.HV].asStack())
                 .inputFluids(GTMaterials.SolderingAlloy.getFluid(144))
-                .outputItems(GTOItems.MAGNETO_RESONATIC_CIRCUIT[GTValues.EV].asStack(2))
+                .outputItems(GTOItems.MAGNETO_RESONATIC_CIRCUIT[GTValues.EV].asStack(outputAmount << 1))
                 .EUt(7680)
                 .duration(330)
                 .save();
@@ -198,7 +200,7 @@ interface CircuitAssembler {
                 .inputItems(TagPrefix.gemFlawless, GTOMaterials.MagnetoResonatic)
                 .inputItems(GTOItems.MAGNETO_RESONATIC_CIRCUIT[GTValues.EV].asStack())
                 .inputFluids(GTMaterials.SolderingAlloy.getFluid(144))
-                .outputItems(GTOItems.MAGNETO_RESONATIC_CIRCUIT[GTValues.IV].asStack(2))
+                .outputItems(GTOItems.MAGNETO_RESONATIC_CIRCUIT[GTValues.IV].asStack(outputAmount << 1))
                 .EUt(30720)
                 .duration(450)
                 .save();
@@ -211,7 +213,7 @@ interface CircuitAssembler {
                 .inputItems(TagPrefix.gemFlawless, GTOMaterials.MagnetoResonatic)
                 .inputItems(GTOItems.MAGNETO_RESONATIC_CIRCUIT[GTValues.MV].asStack())
                 .inputFluids(GTMaterials.SolderingAlloy.getFluid(144))
-                .outputItems(GTOItems.MAGNETO_RESONATIC_CIRCUIT[GTValues.HV].asStack(2))
+                .outputItems(GTOItems.MAGNETO_RESONATIC_CIRCUIT[GTValues.HV].asStack(outputAmount << 1))
                 .EUt(1920)
                 .duration(230)
                 .save();
@@ -250,9 +252,9 @@ interface CircuitAssembler {
                 .inputItems(GTItems.HIGHLY_ADVANCED_SOC.asStack())
                 .inputItems(GTOItems.SMD_CAPACITOR_COSMIC.asStack(16))
                 .inputItems(GTOItems.SMD_TRANSISTOR_COSMIC.asStack(16))
-                .inputItems(TagPrefix.wireFine, GTOMaterials.Cinobite, 8)
+                .inputItems(TagPrefix.wireFine, GTOMaterials.Cinobite, 16)
                 .inputFluids(GTOMaterials.SuperMutatedLivingSolder.getFluid(288))
-                .outputItems(GTOItems.COSMIC_PROCESSOR.asStack(2))
+                .outputItems(GTOItems.COSMIC_PROCESSOR.asStack(outputAmount))
                 .EUt(31457280)
                 .duration(200)
                 .cleanroom(CleanroomType.CLEANROOM)
@@ -264,9 +266,9 @@ interface CircuitAssembler {
                 .inputItems(GTItems.HIGHLY_ADVANCED_SOC.asStack())
                 .inputItems(GTOItems.SMD_CAPACITOR_OPTICAL.asStack(8))
                 .inputItems(GTOItems.SMD_TRANSISTOR_OPTICAL.asStack(8))
-                .inputItems(TagPrefix.wireFine, GTMaterials.Dubnium, 8)
+                .inputItems(TagPrefix.wireFine, GTMaterials.Dubnium, 16)
                 .inputFluids(GTOMaterials.MutatedLivingSolder.getFluid(288))
-                .outputItems(GTOItems.OPTICAL_PROCESSOR.asStack(2))
+                .outputItems(GTOItems.OPTICAL_PROCESSOR.asStack(outputAmount))
                 .EUt(1966080)
                 .duration(200)
                 .cleanroom(CleanroomType.CLEANROOM)

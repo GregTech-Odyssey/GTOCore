@@ -5,6 +5,7 @@ import com.gto.gtocore.api.data.chemical.material.info.GTOMaterialIconSet;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlags;
+import com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialIconSet;
 import com.gregtechceu.gtceu.api.data.chemical.material.properties.*;
 import com.gregtechceu.gtceu.api.data.chemical.material.stack.MaterialStack;
 import com.gregtechceu.gtceu.api.fluids.FluidBuilder;
@@ -14,11 +15,12 @@ import com.gregtechceu.gtceu.api.item.tool.GTToolType;
 import com.gregtechceu.gtceu.common.data.GTElements;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
+import java.util.List;
+
 import static com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlags.*;
 import static com.gregtechceu.gtceu.api.data.chemical.material.properties.PropertyKey.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
-import static com.gto.gtocore.common.data.GTOMaterials.NaquadahOxideMixture;
-import static com.gto.gtocore.common.data.GTOMaterials.Neutron;
+import static com.gto.gtocore.common.data.GTOMaterials.*;
 import static com.gto.gtocore.utils.register.MaterialsRegisterUtils.material;
 
 public interface GTMaterialExtend {
@@ -39,6 +41,29 @@ public interface GTMaterialExtend {
                 .buildAndRegister()
                 .setFormula("Ap", false);
 
+        PlatinumMetal = material("platinum_metal", "铂金属")
+                .dust()
+                .color(0xfff4ba).secondaryColor(0x8d8d71)
+                .iconSet(MaterialIconSet.LIGNITE)
+                .components(Platinum, 1)
+                .flags(DISABLE_DECOMPOSITION)
+                .buildAndRegister();
+
+        PalladiumMetal = material("palladium_metal", "钯金属")
+                .dust()
+                .color(0xbd92b5).secondaryColor(0x535b14)
+                .iconSet(MaterialIconSet.LIGNITE)
+                .components(Palladium, 1)
+                .flags(DISABLE_DECOMPOSITION)
+                .buildAndRegister();
+
+        NaquadahOxideMixture = material("naquadah_oxide_mixture", "氧化硅岩混合物")
+                .dust()
+                .color(0x000A1B)
+                .iconSet(MaterialIconSet.LIGNITE)
+                .buildAndRegister();
+
+        Cooperite.setComponents(new MaterialStack(PlatinumMetal, 3), new MaterialStack(Nickel, 1), new MaterialStack(Sulfur, 1), new MaterialStack(PalladiumMetal, 1));
         RutheniumTriniumAmericiumNeutronate.setComponents(new MaterialStack(Ruthenium, 1), new MaterialStack(Trinium, 2), new MaterialStack(Americium, 1), new MaterialStack(Neutronium, 2), new MaterialStack(Oxygen, 8));
         Clay.addFlags(GTOMaterialFlags.GENERATE_SMALL_DUST);
         Brick.addFlags(GTOMaterialFlags.GENERATE_SMALL_DUST);
@@ -235,7 +260,8 @@ public interface GTMaterialExtend {
         Indium.getProperty(ORE).setOreByProducts(Aluminium, Zinc);
         NaquadahEnriched.setProperty(ORE, new OreProperty());
         NaquadahEnriched.getProperty(ORE).setOreByProducts(Naquadah, Sulfur);
-        Naquadah.getProperty(ORE).setOreByProducts(NaquadahOxideMixture);
+        Naquadah.getProperty(ORE).setOreByProducts(List.of(NaquadahOxideMixture));
+        Palladium.getProperty(ORE).setOreByProducts(List.of(PalladiumMetal));
         EchoShard.setProperty(FLUID, new FluidProperty(FluidStorageKeys.LIQUID, new FluidBuilder()));
         Graphite.setProperty(INGOT, new IngotProperty());
         VanadiumSteel.addFlags(GENERATE_FRAME);

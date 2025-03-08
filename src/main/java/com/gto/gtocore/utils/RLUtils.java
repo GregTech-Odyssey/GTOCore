@@ -11,6 +11,10 @@ public final class RLUtils {
         return new ResourceLocation("minecraft", path);
     }
 
+    public static ResourceLocation forge(String path) {
+        return new ResourceLocation("forge", path);
+    }
+
     public static ResourceLocation avaritia(String path) {
         return new ResourceLocation("avaritia", path);
     }

@@ -1,6 +1,10 @@
 package com.gto.gtocore.data.recipe.processing;
 
 import com.gto.gtocore.GTOCore;
+import com.gto.gtocore.common.data.GTOMaterials;
+
+import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
+import com.gregtechceu.gtceu.common.data.GTMaterials;
 
 import net.minecraft.data.recipes.FinishedRecipe;
 
@@ -99,7 +103,7 @@ public interface PlatGroupMetals {
 
         // PALLADIUM
         LARGE_CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("raw_palladium_separation"))
-                .inputItems(dust, PalladiumRaw, 4)
+                .inputItems(dust, PalladiumRaw, 5)
                 .inputFluids(FormicAcid.getFluid(1000))
                 .outputItems(dust, Palladium, 1)
                 .outputFluids(Ammonia.getFluid(1000))
@@ -268,6 +272,26 @@ public interface PlatGroupMetals {
                 .inputFluids(Hydrogen.getFluid(3000))
                 .outputItems(dust, Iridium)
                 .outputFluids(HydrochloricAcid.getFluid(3000))
+                .save();
+
+        CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("platinum_raw"))
+                .inputItems(TagPrefix.dust, GTOMaterials.PlatinumMetal)
+                .outputItems(TagPrefix.dust, GTMaterials.PlatinumRaw, 3)
+                .inputFluids(GTMaterials.HydrochloricAcid.getFluid(2000))
+                .inputFluids(GTOMaterials.HydrogenPeroxide.getFluid(1000))
+                .outputFluids(GTMaterials.Water.getFluid(2000))
+                .EUt(120)
+                .duration(80)
+                .save();
+
+        CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("palladium_raw"))
+                .inputItems(TagPrefix.dust, GTOMaterials.PalladiumMetal)
+                .inputItems(TagPrefix.dust, GTMaterials.AmmoniumChloride, 6)
+                .outputItems(TagPrefix.dust, GTMaterials.PalladiumRaw, 5)
+                .inputFluids(GTMaterials.Water.getFluid(1000))
+                .outputFluids(GTMaterials.DilutedHydrochloricAcid.getFluid(2000))
+                .EUt(120)
+                .duration(120)
                 .save();
     }
 }

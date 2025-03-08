@@ -324,7 +324,7 @@ interface AssemblerModule {
         ASSEMBLER_MODULE_RECIPES.recipeBuilder(GTOCore.id("microwormhole_generator"))
                 .inputItems(GTItems.EMITTER_ZPM.asStack(2))
                 .inputItems(TagPrefix.wireGtSingle, GTMaterials.EnrichedNaquadahTriniumEuropiumDuranide, 2)
-                .inputItems(TagPrefix.plate, GTMaterials.Neutronium, 2)
+                .inputItems(TagPrefix.plate, GTOMaterials.Neutron, 2)
                 .inputItems(GTItems.FIELD_GENERATOR_ZPM.asStack())
                 .inputItems(GTOItems.CONTAINED_KERR_SINGULARITY.asStack())
                 .inputItems(GTOItems.VOID_MATTER.asStack())

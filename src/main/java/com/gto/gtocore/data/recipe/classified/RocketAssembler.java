@@ -63,8 +63,8 @@ interface RocketAssembler {
                 .inputFluids(GTMaterials.PolyvinylChloride.getFluid(2304))
                 .inputFluids(GTMaterials.Lubricant.getFluid(8000))
                 .outputItems("ad_astra:tier_3_rocket")
-                .EUt(7680)
-                .duration(600)
+                .EUt(1920)
+                .duration(1200)
                 .save();
 
         ROCKET_ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("tier_4_rocket"))

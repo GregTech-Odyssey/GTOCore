@@ -159,6 +159,7 @@ public final class GTOTagPrefix extends TagPrefix {
             .materialIconType(new MaterialIconType("curved_plate"))
             .unificationEnabled(true)
             .generateItem(true)
+            .enableRecycling()
             .generationCondition(mat -> mat.hasFlag(GTOMaterialFlags.GENERATE_CURVED_PLATE) || mat.hasFlag(MaterialFlags.GENERATE_ROTOR) || ((mat.hasProperty(PropertyKey.FLUID_PIPE) || mat.hasProperty(PropertyKey.ITEM_PIPE)) && !mat.hasFlag(NO_SMASHING) && mat.getMass() < 240 && mat.getBlastTemperature() < 3600));
 
     public static final TagPrefix motorEnclosure = new TagPrefix("motor_enclosure")
@@ -169,6 +170,7 @@ public final class GTOTagPrefix extends TagPrefix {
             .materialIconType(new MaterialIconType("motor_enclosure"))
             .unificationEnabled(true)
             .generateItem(true)
+            .enableRecycling()
             .generationCondition(mat -> mat.hasFlag(GTOMaterialFlags.GENERATE_COMPONENT));
 
     public static final TagPrefix pumpBarrel = new TagPrefix("pump_barrel")
@@ -179,6 +181,7 @@ public final class GTOTagPrefix extends TagPrefix {
             .materialIconType(new MaterialIconType("pump_barrel"))
             .unificationEnabled(true)
             .generateItem(true)
+            .enableRecycling()
             .generationCondition(mat -> mat.hasFlag(GTOMaterialFlags.GENERATE_COMPONENT));
 
     public static final TagPrefix pistonHousing = new TagPrefix("piston_housing")
@@ -189,6 +192,7 @@ public final class GTOTagPrefix extends TagPrefix {
             .materialIconType(new MaterialIconType("piston_housing"))
             .unificationEnabled(true)
             .generateItem(true)
+            .enableRecycling()
             .generationCondition(mat -> mat.hasFlag(GTOMaterialFlags.GENERATE_COMPONENT));
 
     public static final TagPrefix emitterBases = new TagPrefix("emitter_base")
@@ -199,6 +203,7 @@ public final class GTOTagPrefix extends TagPrefix {
             .materialIconType(new MaterialIconType("emitter_base"))
             .unificationEnabled(true)
             .generateItem(true)
+            .enableRecycling()
             .generationCondition(mat -> mat.hasFlag(GTOMaterialFlags.GENERATE_COMPONENT));
 
     public static final TagPrefix sensorCasing = new TagPrefix("sensor_casing")
@@ -209,6 +214,7 @@ public final class GTOTagPrefix extends TagPrefix {
             .materialIconType(new MaterialIconType("sensor_casing"))
             .unificationEnabled(true)
             .generateItem(true)
+            .enableRecycling()
             .generationCondition(mat -> mat.hasFlag(GTOMaterialFlags.GENERATE_COMPONENT));
 
     public static final TagPrefix fieldGeneratorCasing = new TagPrefix("field_generator_casing")
@@ -219,6 +225,7 @@ public final class GTOTagPrefix extends TagPrefix {
             .materialIconType(new MaterialIconType("field_generator_casing"))
             .unificationEnabled(true)
             .generateItem(true)
+            .enableRecycling()
             .generationCondition(mat -> mat.hasFlag(GTOMaterialFlags.GENERATE_COMPONENT));
 
     public static final TagPrefix roughBlank = new TagPrefix("rough_blank")
@@ -240,6 +247,7 @@ public final class GTOTagPrefix extends TagPrefix {
             .materialIconType(MaterialIconType.ingot)
             .unificationEnabled(true)
             .generateItem(true)
+            .enableRecycling()
             .generationCondition(mat -> mat.hasFlag(GTOMaterialFlags.GENERATE_CERAMIC));
 
     public static final TagPrefix flakes = new TagPrefix("flake")
@@ -250,5 +258,6 @@ public final class GTOTagPrefix extends TagPrefix {
             .materialIconType(new MaterialIconType("flake"))
             .unificationEnabled(true)
             .generateItem(true)
+            .enableRecycling()
             .generationCondition(mat -> mat.hasFlag(GTOMaterialFlags.GENERATE_CERAMIC));
 }

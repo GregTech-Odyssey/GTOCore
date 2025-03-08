@@ -28,12 +28,6 @@ public interface MaterialB {
                 .iconSet(DULL)
                 .buildAndRegister();
 
-        NaquadahOxideMixture = material("naquadah_oxide_mixture", "氧化硅岩混合物")
-                .dust()
-                .color(0x000A1B)
-                .iconSet(DULL)
-                .buildAndRegister();
-
         LowPurityNaquadahEmulsion = material("low_purity_naquadah_emulsion", "低纯硅岩乳液")
                 .fluid()
                 .color(0x363635)

@@ -770,6 +770,8 @@ public final class GTOMaterials {
     public static Material SuperheavyMix;
     public static Material CoalSlurry;
     public static Material WaterGas;
+    public static Material PlatinumMetal;
+    public static Material PalladiumMetal;
     public static Material NaquadahOxideMixture;
     public static Material LowPurityNaquadahEmulsion;
     public static Material LowPurityNaquadahSolution;

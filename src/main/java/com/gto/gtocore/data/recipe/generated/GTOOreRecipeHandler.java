@@ -64,7 +64,7 @@ interface GTOOreRecipeHandler {
         int oreTypeMultiplier = GTOConfig.INSTANCE.oreMultiplier;
         long mass = material.getMass();
         int dur = (int) Math.max(8, Math.sqrt(mass) * 2 * oreTypeMultiplier);
-        crushedStack.setCount(crushedStack.getCount() * oreMultiplier);
+        crushedStack.setCount(oreTypeMultiplier * oreMultiplier);
 
         GTORecipeBuilder forge_builder = FORGE_HAMMER_RECIPES.recipeBuilder(material.getName() + "_ore_to_raw_ore")
                 .inputItems(TagPrefix.ore.getItemTags(material)[0])
@@ -88,7 +88,7 @@ interface GTOOreRecipeHandler {
             GTORecipeBuilder builder = CRUSHER_RECIPES
                     .recipeBuilder(GTOCore.id(material.getName() + "_ore_to_raw_ore"))
                     .inputItems(tag)
-                    .outputItems(crushedStack.copyWithCount(oreMultiplier << 1))
+                    .outputItems(crushedStack)
                     .chancedOutput(byproductStack, 1400, 850)
                     .EUt(30)
                     .duration(dur);
@@ -101,7 +101,7 @@ interface GTOOreRecipeHandler {
 
             builder.save();
 
-            int crushedAmount = oreMultiplier << 1;
+            int crushedAmount = crushedStack.getCount();
 
             GTORecipeBuilder opBuilder1 = INTEGRATED_ORE_PROCESSOR
                     .recipeBuilder(GTOCore.id("processor_1_" + material.getName()))
@@ -362,7 +362,7 @@ interface GTOOreRecipeHandler {
 
         GTORecipeBuilder builder2 = CRUSHER_RECIPES.recipeBuilder(TagPrefix.rawOre.name + "_" + material.getName() + "_ore_to_crushed_ore")
                 .inputItems(stack)
-                .outputItems(crushedStack.copyWithCount(crushedStack.getCount() << 1))
+                .outputItems(crushedStack)
                 .EUt(30).duration(dur);
 
         Material byproductMaterial = property.getOreByProduct(0, material);
@@ -379,7 +379,7 @@ interface GTOOreRecipeHandler {
         }
         builder2.save();
 
-        int crushedAmount = crushedStack.getCount() << 1;
+        int crushedAmount = crushedStack.getCount();
 
         // 1 破碎-研磨-离心
         GTORecipeBuilder opBuilder1 = INTEGRATED_ORE_PROCESSOR.recipeBuilder(GTOCore.id("raw_processor_1_" + material.getName()))
@@ -813,7 +813,13 @@ interface GTOOreRecipeHandler {
     }
 
     private static Material getOutputMaterial(Material material) {
-        if (material == Naquadah) return GTOMaterials.NaquadahOxideMixture;
+        if (material == Naquadah) {
+            return GTOMaterials.NaquadahOxideMixture;
+        } else if (material == Platinum) {
+            return GTOMaterials.PlatinumMetal;
+        } else if (material == Palladium) {
+            return GTOMaterials.PalladiumMetal;
+        }
         return material;
     }
 }

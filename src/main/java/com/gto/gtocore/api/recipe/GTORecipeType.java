@@ -1,5 +1,6 @@
 package com.gto.gtocore.api.recipe;
 
+import com.gto.gtocore.common.data.GTORecipes;
 import com.gto.gtocore.mixin.gtm.api.recipe.GTRecipeTypeAccessor;
 
 import com.gregtechceu.gtceu.GTCEu;
@@ -59,10 +60,15 @@ public class GTORecipeType extends GTRecipeType {
 
     @Override
     public GTORecipeBuilder recipeBuilder(ResourceLocation id, Object... append) {
+        GTORecipeBuilder builder;
         if (append.length > 0) {
-            return getRecipeBuilder().copy(new ResourceLocation(id.getNamespace(), id.getPath() + Arrays.stream(append).map(Object::toString).map(FormattingUtil::toLowerCaseUnder).reduce("", (a, b) -> a + "_" + b)));
+            builder = getRecipeBuilder().copy(new ResourceLocation(id.getNamespace(), id.getPath() + Arrays.stream(append).map(Object::toString).map(FormattingUtil::toLowerCaseUnder).reduce("", (a, b) -> a + "_" + b)));
+        } else {
+            builder = getRecipeBuilder().copy(id);
         }
-        return getRecipeBuilder().copy(id);
+        builder.typeid = GTORecipeBuilder.getTypeID(builder.id, builder.recipeType);
+        builder.deleted = GTORecipes.GT_FILTER_RECIPES != null && GTORecipes.GT_FILTER_RECIPES.contains(builder.typeid);
+        return builder;
     }
 
     @Override

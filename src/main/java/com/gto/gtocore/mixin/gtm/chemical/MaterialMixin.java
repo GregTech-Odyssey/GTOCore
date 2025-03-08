@@ -1,10 +1,13 @@
 package com.gto.gtocore.mixin.gtm.chemical;
 
 import com.gto.gtocore.api.data.chemical.material.GTOMaterial;
+import com.gto.gtocore.api.data.chemical.material.info.GTOMaterialIconSet;
 import com.gto.gtocore.client.renderer.item.MaterialsColorMap;
+import com.gto.gtocore.common.data.GTOMaterials;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
+import com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialIconSet;
 import com.gregtechceu.gtceu.api.data.chemical.material.properties.MaterialProperties;
 
 import net.minecraft.world.item.Rarity;
@@ -59,6 +62,13 @@ public class MaterialMixin implements GTOMaterial {
     @Override
     public void gtocore$setTemp(int temp) {
         gTOCore$temp = temp;
+    }
+
+    @Inject(method = "getMaterialIconSet", at = @At("HEAD"), remap = false, cancellable = true)
+    public void getMaterialIconSet(CallbackInfoReturnable<MaterialIconSet> cir) {
+        if ((Object) this == GTOMaterials.Neutron) {
+            cir.setReturnValue(GTOMaterialIconSet.NEUTRONIUM);
+        }
     }
 
     @Inject(method = "getMass", at = @At("HEAD"), remap = false, cancellable = true)

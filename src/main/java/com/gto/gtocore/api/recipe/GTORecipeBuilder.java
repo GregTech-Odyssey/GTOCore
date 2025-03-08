@@ -64,6 +64,9 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @MethodsReturnNonnullByDefault
 public final class GTORecipeBuilder extends GTRecipeBuilder {
 
+    boolean deleted;
+    ResourceLocation typeid;
+
     GTORecipeBuilder(ResourceLocation id, GTRecipeType recipeType) {
         super(id, recipeType);
     }
@@ -103,6 +106,7 @@ public final class GTORecipeBuilder extends GTRecipeBuilder {
 
     @Override
     public <T> GTORecipeBuilder input(RecipeCapability<T> capability, T obj) {
+        if (deleted) return this;
         var t = (perTick ? tickInput : input);
         t.computeIfAbsent(capability, c -> new ArrayList<>()).add(new Content(capability.of(obj), chance, maxChance, tierChanceBoost, slotName, uiName));
         return this;
@@ -111,6 +115,7 @@ public final class GTORecipeBuilder extends GTRecipeBuilder {
     @Override
     @SafeVarargs
     public final <T> GTORecipeBuilder input(RecipeCapability<T> capability, T... obj) {
+        if (deleted) return this;
         var t = (perTick ? tickInput : input);
         t.computeIfAbsent(capability, c -> new ArrayList<>()).addAll(Arrays.stream(obj).map(capability::of).map(o -> new Content(o, chance, maxChance, tierChanceBoost, slotName, uiName)).toList());
         return this;
@@ -118,6 +123,7 @@ public final class GTORecipeBuilder extends GTRecipeBuilder {
 
     @Override
     public <T> GTORecipeBuilder output(RecipeCapability<T> capability, T obj) {
+        if (deleted) return this;
         var t = (perTick ? tickOutput : output);
         t.computeIfAbsent(capability, c -> new ArrayList<>()).add(new Content(capability.of(obj), chance, maxChance, tierChanceBoost, slotName, uiName));
         return this;
@@ -126,6 +132,7 @@ public final class GTORecipeBuilder extends GTRecipeBuilder {
     @SafeVarargs
     @Override
     public final <T> GTORecipeBuilder output(RecipeCapability<T> capability, T... obj) {
+        if (deleted) return this;
         var t = (perTick ? tickOutput : output);
         t.computeIfAbsent(capability, c -> new ArrayList<>()).addAll(Arrays.stream(obj).map(capability::of).map(o -> new Content(o, chance, maxChance, tierChanceBoost, slotName, uiName)).toList());
         return this;
@@ -133,6 +140,7 @@ public final class GTORecipeBuilder extends GTRecipeBuilder {
 
     @Override
     public <T> GTORecipeBuilder inputs(RecipeCapability<T> capability, Object obj) {
+        if (deleted) return this;
         var t = (perTick ? tickInput : input);
         t.computeIfAbsent(capability, c -> new ArrayList<>()).add(new Content(capability.of(obj), chance, maxChance, tierChanceBoost, slotName, uiName));
         return this;
@@ -140,6 +148,7 @@ public final class GTORecipeBuilder extends GTRecipeBuilder {
 
     @Override
     public <T> GTORecipeBuilder inputs(RecipeCapability<T> capability, Object... obj) {
+        if (deleted) return this;
         var t = (perTick ? tickInput : input);
         t.computeIfAbsent(capability, c -> new ArrayList<>()).addAll(Arrays.stream(obj).map(capability::of).map(o -> new Content(o, chance, maxChance, tierChanceBoost, slotName, uiName)).toList());
         return this;
@@ -147,6 +156,7 @@ public final class GTORecipeBuilder extends GTRecipeBuilder {
 
     @Override
     public <T> GTORecipeBuilder outputs(RecipeCapability<T> capability, Object obj) {
+        if (deleted) return this;
         var t = (perTick ? tickOutput : output);
         t.computeIfAbsent(capability, c -> new ArrayList<>()).add(new Content(capability.of(obj), chance, maxChance, tierChanceBoost, slotName, uiName));
         return this;
@@ -154,6 +164,7 @@ public final class GTORecipeBuilder extends GTRecipeBuilder {
 
     @Override
     public <T> GTORecipeBuilder outputs(RecipeCapability<T> capability, Object... obj) {
+        if (deleted) return this;
         var t = (perTick ? tickOutput : output);
         t.computeIfAbsent(capability, c -> new ArrayList<>()).addAll(Arrays.stream(obj).map(capability::of).map(o -> new Content(o, chance, maxChance, tierChanceBoost, slotName, uiName)).toList());
         return this;
@@ -161,6 +172,7 @@ public final class GTORecipeBuilder extends GTRecipeBuilder {
 
     @Override
     public GTORecipeBuilder addCondition(RecipeCondition condition) {
+        if (deleted) return this;
         conditions.add(condition);
         return this;
     }
@@ -172,6 +184,7 @@ public final class GTORecipeBuilder extends GTRecipeBuilder {
 
     @Override
     public GTORecipeBuilder EUt(long eu) {
+        if (deleted) return this;
         if (eu == 0) {
             GTOCore.LOGGER.error("EUt can't be explicitly set to 0, id: {}", id);
         }
@@ -200,6 +213,7 @@ public final class GTORecipeBuilder extends GTRecipeBuilder {
 
     @Override
     public GTORecipeBuilder CWUt(int cwu) {
+        if (deleted) return this;
         if (cwu == 0) {
             GTOCore.LOGGER.error("CWUt can't be explicitly set to 0, id: {}", id);
         }
@@ -231,6 +245,7 @@ public final class GTORecipeBuilder extends GTRecipeBuilder {
 
     @Override
     public GTORecipeBuilder inputItems(Object input) {
+        if (deleted) return this;
         if (input instanceof String string) {
             return inputItems(string);
         } else if (input instanceof Item item) {
@@ -255,6 +270,7 @@ public final class GTORecipeBuilder extends GTRecipeBuilder {
 
     @Override
     public GTORecipeBuilder inputItems(Object input, int count) {
+        if (deleted) return this;
         if (input instanceof String string) {
             return inputItems(string, count);
         } else if (input instanceof Item item) {
@@ -289,6 +305,7 @@ public final class GTORecipeBuilder extends GTRecipeBuilder {
 
     @Override
     public GTORecipeBuilder inputItems(ItemStack input) {
+        if (deleted) return this;
         if (input.isEmpty()) {
             GTOCore.LOGGER.error("Input items is empty, id: {}", id);
         }
@@ -297,6 +314,7 @@ public final class GTORecipeBuilder extends GTRecipeBuilder {
 
     @Override
     public GTORecipeBuilder inputItems(ItemStack... inputs) {
+        if (deleted) return this;
         for (ItemStack itemStack : inputs) {
             if (itemStack.isEmpty()) {
                 GTOCore.LOGGER.error("Input item is empty, id: {}", id);
@@ -307,6 +325,7 @@ public final class GTORecipeBuilder extends GTRecipeBuilder {
 
     @Override
     public GTORecipeBuilder inputItems(TagKey<Item> tag, int amount) {
+        if (deleted) return this;
         if (amount == 0) {
             GTOCore.LOGGER.error("Item Count is 0, id: {}", id);
         }
@@ -320,21 +339,25 @@ public final class GTORecipeBuilder extends GTRecipeBuilder {
 
     @Override
     public GTORecipeBuilder inputItems(Item input, int amount) {
+        if (deleted) return this;
         return inputItems(new ItemStack(input, amount));
     }
 
     @Override
     public GTORecipeBuilder inputItems(Item input) {
+        if (deleted) return this;
         return inputItems(SizedIngredient.create(new ItemStack(input)));
     }
 
     @Override
     public GTORecipeBuilder inputItems(Supplier<? extends Item> input) {
+        if (deleted) return this;
         return inputItems(input.get());
     }
 
     @Override
     public GTORecipeBuilder inputItems(Supplier<? extends Item> input, int amount) {
+        if (deleted) return this;
         return inputItems(new ItemStack(input.get(), amount));
     }
 
@@ -361,6 +384,7 @@ public final class GTORecipeBuilder extends GTRecipeBuilder {
 
     @Override
     public GTORecipeBuilder inputItems(TagPrefix orePrefix, Material material, int count) {
+        if (deleted) return this;
         if (((ITagPrefix) orePrefix).gtocore$isTagInput()) {
             TagKey<Item> tag = ChemicalHelper.getTag(orePrefix, material);
             if (tag != null) {
@@ -382,6 +406,7 @@ public final class GTORecipeBuilder extends GTRecipeBuilder {
 
     @Override
     public GTORecipeBuilder outputItems(Object input) {
+        if (deleted) return this;
         if (input instanceof String string) {
             return outputItems(string);
         } else if (input instanceof Item item) {
@@ -402,6 +427,7 @@ public final class GTORecipeBuilder extends GTRecipeBuilder {
 
     @Override
     public GTORecipeBuilder outputItems(Object input, int count) {
+        if (deleted) return this;
         if (input instanceof String string) {
             return outputItems(string, count);
         } else if (input instanceof Item item) {
@@ -427,6 +453,7 @@ public final class GTORecipeBuilder extends GTRecipeBuilder {
 
     @Override
     public GTORecipeBuilder outputItems(ItemStack output) {
+        if (deleted) return this;
         if (output.isEmpty()) {
             GTOCore.LOGGER.error("Output items is empty, id: {}", id);
         }
@@ -435,6 +462,7 @@ public final class GTORecipeBuilder extends GTRecipeBuilder {
 
     @Override
     public GTORecipeBuilder outputItems(ItemStack... outputs) {
+        if (deleted) return this;
         for (ItemStack itemStack : outputs) {
             if (itemStack.isEmpty()) {
                 GTOCore.LOGGER.error("Output items is empty, id: {}", id);
@@ -445,21 +473,25 @@ public final class GTORecipeBuilder extends GTRecipeBuilder {
 
     @Override
     public GTORecipeBuilder outputItems(Item output, int amount) {
+        if (deleted) return this;
         return outputItems(new ItemStack(output, amount));
     }
 
     @Override
     public GTORecipeBuilder outputItems(Item output) {
+        if (deleted) return this;
         return outputItems(new ItemStack(output));
     }
 
     @Override
     public GTORecipeBuilder outputItems(Supplier<? extends ItemLike> input) {
+        if (deleted) return this;
         return outputItems(new ItemStack(input.get().asItem()));
     }
 
     @Override
     public GTORecipeBuilder outputItems(Supplier<? extends ItemLike> input, int amount) {
+        if (deleted) return this;
         return outputItems(new ItemStack(input.get().asItem(), amount));
     }
 
@@ -470,6 +502,7 @@ public final class GTORecipeBuilder extends GTRecipeBuilder {
 
     @Override
     public GTORecipeBuilder outputItems(TagPrefix orePrefix, Material material, int count) {
+        if (deleted) return this;
         var item = ChemicalHelper.get(orePrefix, material, count);
         if (item.isEmpty()) {
             GTOCore.LOGGER.error("Tried to set output item stack that doesn't exist, TagPrefix: {}, Material: {}", orePrefix, material);
@@ -505,21 +538,25 @@ public final class GTORecipeBuilder extends GTRecipeBuilder {
 
     @Override
     public GTORecipeBuilder outputItemsRanged(ItemStack output, IntProvider intProvider) {
+        if (deleted) return this;
         return outputItems(IntProviderIngredient.create(SizedIngredient.create(output), intProvider));
     }
 
     @Override
     public GTORecipeBuilder outputItemsRanged(Item input, IntProvider intProvider) {
+        if (deleted) return this;
         return outputItemsRanged(new ItemStack(input), intProvider);
     }
 
     @Override
     public GTORecipeBuilder outputItemsRanged(Supplier<? extends ItemLike> output, IntProvider intProvider) {
+        if (deleted) return this;
         return outputItemsRanged(new ItemStack(output.get().asItem()), intProvider);
     }
 
     @Override
     public GTORecipeBuilder outputItemsRanged(TagPrefix orePrefix, Material material, IntProvider intProvider) {
+        if (deleted) return this;
         var item = ChemicalHelper.get(orePrefix, material, 1);
         if (item.isEmpty()) {
             GTOCore.LOGGER.error("Tried to set output ranged item stack that doesn't exist, TagPrefix: {}, Material: {}", orePrefix, material);
@@ -529,11 +566,13 @@ public final class GTORecipeBuilder extends GTRecipeBuilder {
 
     @Override
     public GTORecipeBuilder outputItemsRanged(MachineDefinition machine, IntProvider intProvider) {
+        if (deleted) return this;
         return outputItemsRanged(machine.asStack(), intProvider);
     }
 
     @Override
     public GTORecipeBuilder notConsumable(ItemStack itemStack) {
+        if (deleted) return this;
         int lastChance = this.chance;
         this.chance = 0;
         inputItems(itemStack);
@@ -543,6 +582,7 @@ public final class GTORecipeBuilder extends GTRecipeBuilder {
 
     @Override
     public GTORecipeBuilder notConsumable(Ingredient ingredient) {
+        if (deleted) return this;
         int lastChance = this.chance;
         this.chance = 0;
         inputItems(ingredient);
@@ -552,6 +592,7 @@ public final class GTORecipeBuilder extends GTRecipeBuilder {
 
     @Override
     public GTORecipeBuilder notConsumable(Item item) {
+        if (deleted) return this;
         int lastChance = this.chance;
         this.chance = 0;
         inputItems(item);
@@ -561,6 +602,7 @@ public final class GTORecipeBuilder extends GTRecipeBuilder {
 
     @Override
     public GTORecipeBuilder notConsumable(Supplier<? extends Item> item) {
+        if (deleted) return this;
         int lastChance = this.chance;
         this.chance = 0;
         inputItems(item);
@@ -570,6 +612,7 @@ public final class GTORecipeBuilder extends GTRecipeBuilder {
 
     @Override
     public GTORecipeBuilder notConsumable(TagPrefix orePrefix, Material material) {
+        if (deleted) return this;
         int lastChance = this.chance;
         this.chance = 0;
         inputItems(orePrefix, material);
@@ -579,6 +622,7 @@ public final class GTORecipeBuilder extends GTRecipeBuilder {
 
     @Override
     public GTORecipeBuilder notConsumable(TagPrefix orePrefix, Material material, int count) {
+        if (deleted) return this;
         int lastChance = this.chance;
         this.chance = 0;
         inputItems(orePrefix, material, count);
@@ -588,11 +632,13 @@ public final class GTORecipeBuilder extends GTRecipeBuilder {
 
     @Override
     public GTORecipeBuilder notConsumableFluid(FluidStack fluid) {
+        if (deleted) return this;
         return notConsumableFluid(FluidIngredient.of(fluid));
     }
 
     @Override
     public GTORecipeBuilder notConsumableFluid(FluidIngredient ingredient) {
+        if (deleted) return this;
         int lastChance = this.chance;
         this.chance = 0;
         inputFluids(ingredient);
@@ -602,6 +648,7 @@ public final class GTORecipeBuilder extends GTRecipeBuilder {
 
     @Override
     public GTORecipeBuilder circuitMeta(int configuration) {
+        if (deleted) return this;
         if (configuration < 0 || configuration > IntCircuitBehaviour.CIRCUIT_MAX) {
             GTOCore.LOGGER.error("Circuit configuration must be in the bounds 0 - 32");
         }
@@ -610,6 +657,7 @@ public final class GTORecipeBuilder extends GTRecipeBuilder {
 
     @Override
     public GTORecipeBuilder chancedInput(ItemStack stack, int chance, int tierChanceBoost) {
+        if (deleted) return this;
         if (0 >= chance || chance > ChanceLogic.getMaxChancedValue()) {
             GTOCore.LOGGER.error("Chance cannot be less or equal to 0 or more than {}. Actual: {}.", ChanceLogic.getMaxChancedValue(), chance, new Throwable());
             return this;
@@ -626,6 +674,7 @@ public final class GTORecipeBuilder extends GTRecipeBuilder {
 
     @Override
     public GTORecipeBuilder chancedInput(FluidStack stack, int chance, int tierChanceBoost) {
+        if (deleted) return this;
         if (0 >= chance || chance > ChanceLogic.getMaxChancedValue()) {
             GTOCore.LOGGER.error("Chance cannot be less or equal to 0 or more than {}. Actual: {}.", ChanceLogic.getMaxChancedValue(), chance, new Throwable());
             return this;
@@ -642,6 +691,7 @@ public final class GTORecipeBuilder extends GTRecipeBuilder {
 
     @Override
     public GTORecipeBuilder chancedOutput(ItemStack stack, int chance, int tierChanceBoost) {
+        if (deleted) return this;
         if (0 >= chance || chance > ChanceLogic.getMaxChancedValue()) {
             GTOCore.LOGGER.error("Chance cannot be less or equal to 0 or more than {}. Actual: {}.", ChanceLogic.getMaxChancedValue(), chance, new Throwable());
             return this;
@@ -658,6 +708,7 @@ public final class GTORecipeBuilder extends GTRecipeBuilder {
 
     @Override
     public GTORecipeBuilder chancedOutput(FluidStack stack, int chance, int tierChanceBoost) {
+        if (deleted) return this;
         if (0 >= chance || chance > ChanceLogic.getMaxChancedValue()) {
             GTOCore.LOGGER.error("Chance cannot be less or equal to 0 or more than {}. Actual: {}.", ChanceLogic.getMaxChancedValue(), chance, new Throwable());
             return this;
@@ -674,16 +725,19 @@ public final class GTORecipeBuilder extends GTRecipeBuilder {
 
     @Override
     public GTORecipeBuilder chancedOutput(TagPrefix tag, Material mat, int chance, int tierChanceBoost) {
+        if (deleted) return this;
         return chancedOutput(ChemicalHelper.get(tag, mat), chance, tierChanceBoost);
     }
 
     @Override
     public GTORecipeBuilder chancedOutput(TagPrefix tag, Material mat, int count, int chance, int tierChanceBoost) {
+        if (deleted) return this;
         return chancedOutput(ChemicalHelper.get(tag, mat, count), chance, tierChanceBoost);
     }
 
     @Override
     public GTORecipeBuilder chancedOutput(ItemStack stack, String fraction, int tierChanceBoost) {
+        if (deleted) return this;
         if (stack.isEmpty()) {
             return this;
         }
@@ -727,26 +781,31 @@ public final class GTORecipeBuilder extends GTRecipeBuilder {
 
     @Override
     public GTORecipeBuilder chancedOutput(TagPrefix prefix, Material material, int count, String fraction, int tierChanceBoost) {
+        if (deleted) return this;
         return chancedOutput(ChemicalHelper.get(prefix, material, count), fraction, tierChanceBoost);
     }
 
     @Override
     public GTORecipeBuilder chancedOutput(TagPrefix prefix, Material material, String fraction, int tierChanceBoost) {
+        if (deleted) return this;
         return chancedOutput(prefix, material, 1, fraction, tierChanceBoost);
     }
 
     @Override
     public GTORecipeBuilder chancedOutput(Item item, int count, String fraction, int tierChanceBoost) {
+        if (deleted) return this;
         return chancedOutput(new ItemStack(item, count), fraction, tierChanceBoost);
     }
 
     @Override
     public GTORecipeBuilder chancedOutput(Item item, String fraction, int tierChanceBoost) {
+        if (deleted) return this;
         return chancedOutput(item, 1, fraction, tierChanceBoost);
     }
 
     @Override
     public GTORecipeBuilder chancedFluidOutput(FluidStack stack, String fraction, int tierChanceBoost) {
+        if (deleted) return this;
         if (stack.isEmpty()) {
             return this;
         }
@@ -788,85 +847,39 @@ public final class GTORecipeBuilder extends GTRecipeBuilder {
         return this;
     }
 
-    /**
-     * Set a chanced output logic for a specific capability.
-     * all capabilities default to OR logic if not set.
-     *
-     * @param cap   the {@link RecipeCapability} to set the logic for
-     * @param logic the {@link ChanceLogic} to use
-     * @return this builder
-     */
-    @Override
-    public GTORecipeBuilder chancedOutputLogic(RecipeCapability<?> cap, ChanceLogic logic) {
-        this.outputChanceLogic.put(cap, logic);
-        return this;
-    }
-
-    @Override
-    public GTORecipeBuilder chancedItemOutputLogic(ChanceLogic logic) {
-        return chancedOutputLogic(ItemRecipeCapability.CAP, logic);
-    }
-
-    @Override
-    public GTORecipeBuilder chancedFluidOutputLogic(ChanceLogic logic) {
-        return chancedOutputLogic(FluidRecipeCapability.CAP, logic);
-    }
-
-    @Override
-    public GTORecipeBuilder chancedInputLogic(RecipeCapability<?> cap, ChanceLogic logic) {
-        this.inputChanceLogic.put(cap, logic);
-        return this;
-    }
-
-    @Override
-    public GTORecipeBuilder chancedItemInputLogic(ChanceLogic logic) {
-        return chancedInputLogic(ItemRecipeCapability.CAP, logic);
-    }
-
-    @Override
-    public GTORecipeBuilder chancedFluidInputLogic(ChanceLogic logic) {
-        return chancedInputLogic(FluidRecipeCapability.CAP, logic);
-    }
-
-    @Override
-    public GTORecipeBuilder chancedTickOutputLogic(RecipeCapability<?> cap, ChanceLogic logic) {
-        this.tickOutputChanceLogic.put(cap, logic);
-        return this;
-    }
-
-    @Override
-    public GTORecipeBuilder chancedTickInputLogic(RecipeCapability<?> cap, ChanceLogic logic) {
-        this.tickInputChanceLogic.put(cap, logic);
-        return this;
-    }
-
     @Override
     public GTORecipeBuilder inputFluids(FluidStack input) {
+        if (deleted) return this;
         return input(FluidRecipeCapability.CAP, FluidIngredient.of(input));
     }
 
     @Override
     public GTORecipeBuilder inputFluids(FluidStack... inputs) {
+        if (deleted) return this;
         return input(FluidRecipeCapability.CAP, Arrays.stream(inputs).map(FluidIngredient::of).toArray(FluidIngredient[]::new));
     }
 
     @Override
     public GTORecipeBuilder inputFluids(FluidIngredient... inputs) {
+        if (deleted) return this;
         return input(FluidRecipeCapability.CAP, inputs);
     }
 
     @Override
     public GTORecipeBuilder outputFluids(FluidStack output) {
+        if (deleted) return this;
         return output(FluidRecipeCapability.CAP, FluidIngredient.of(output));
     }
 
     @Override
     public GTORecipeBuilder outputFluids(FluidStack... outputs) {
+        if (deleted) return this;
         return output(FluidRecipeCapability.CAP, Arrays.stream(outputs).map(FluidIngredient::of).toArray(FluidIngredient[]::new));
     }
 
     @Override
     public GTORecipeBuilder outputFluids(FluidIngredient... outputs) {
+        if (deleted) return this;
         return output(FluidRecipeCapability.CAP, outputs);
     }
 
@@ -875,82 +888,97 @@ public final class GTORecipeBuilder extends GTRecipeBuilder {
     //////////////////////////////////////
     @Override
     public GTORecipeBuilder addData(String key, Tag data) {
+        if (deleted) return this;
         this.data.put(key, data);
         return this;
     }
 
     @Override
     public GTORecipeBuilder addData(String key, int data) {
+        if (deleted) return this;
         this.data.putInt(key, data);
         return this;
     }
 
     @Override
     public GTORecipeBuilder addData(String key, long data) {
+        if (deleted) return this;
         this.data.putLong(key, data);
         return this;
     }
 
     @Override
     public GTORecipeBuilder addData(String key, String data) {
+        if (deleted) return this;
         this.data.putString(key, data);
         return this;
     }
 
     @Override
     public GTORecipeBuilder addData(String key, Float data) {
+        if (deleted) return this;
         this.data.putFloat(key, data);
         return this;
     }
 
     @Override
     public GTORecipeBuilder addData(String key, boolean data) {
+        if (deleted) return this;
         this.data.putBoolean(key, data);
         return this;
     }
 
     @Override
     public GTORecipeBuilder blastFurnaceTemp(int blastTemp) {
+        if (deleted) return this;
         return addData("ebf_temp", blastTemp);
     }
 
     @Override
     public GTORecipeBuilder explosivesAmount(int explosivesAmount) {
+        if (deleted) return this;
         return inputItems(new ItemStack(Blocks.TNT, explosivesAmount));
     }
 
     @Override
     public GTORecipeBuilder explosivesType(ItemStack explosivesType) {
+        if (deleted) return this;
         return inputItems(explosivesType);
     }
 
     @Override
     public GTORecipeBuilder solderMultiplier(int multiplier) {
+        if (deleted) return this;
         return addData("solder_multiplier", multiplier);
     }
 
     @Override
     public GTORecipeBuilder disableDistilleryRecipes(boolean flag) {
+        if (deleted) return this;
         return addData("disable_distillery", flag);
     }
 
     @Override
     public GTORecipeBuilder fusionStartEU(long eu) {
+        if (deleted) return this;
         return addData("eu_to_start", eu);
     }
 
     @Override
     public GTORecipeBuilder researchScan(boolean isScan) {
+        if (deleted) return this;
         return addData("scan_for_research", isScan);
     }
 
     @Override
     public GTORecipeBuilder durationIsTotalCWU(boolean durationIsTotalCWU) {
+        if (deleted) return this;
         return addData("duration_is_total_cwu", durationIsTotalCWU);
     }
 
     @Override
     public GTORecipeBuilder hideDuration(boolean hideDuration) {
+        if (deleted) return this;
         return addData("hide_duration", hideDuration);
     }
 
@@ -959,66 +987,79 @@ public final class GTORecipeBuilder extends GTRecipeBuilder {
     //////////////////////////////////////
     @Override
     public GTORecipeBuilder cleanroom(CleanroomType cleanroomType) {
+        if (deleted) return this;
         return addCondition(new CleanroomCondition(cleanroomType));
     }
 
     @Override
     public GTORecipeBuilder dimension(ResourceLocation dimension, boolean reverse) {
+        if (deleted) return this;
         return addCondition(new DimensionCondition(dimension).setReverse(reverse));
     }
 
     @Override
     public GTORecipeBuilder dimension(ResourceLocation dimension) {
+        if (deleted) return this;
         return dimension(dimension, false);
     }
 
     @Override
     public GTORecipeBuilder biome(ResourceLocation biome, boolean reverse) {
+        if (deleted) return this;
         return addCondition(new BiomeCondition(biome).setReverse(reverse));
     }
 
     @Override
     public GTORecipeBuilder biome(ResourceLocation biome) {
+        if (deleted) return this;
         return biome(biome, false);
     }
 
     @Override
     public GTORecipeBuilder rain(float level, boolean reverse) {
+        if (deleted) return this;
         return addCondition(new RainingCondition(level).setReverse(reverse));
     }
 
     @Override
     public GTORecipeBuilder rain(float level) {
+        if (deleted) return this;
         return rain(level, false);
     }
 
     @Override
     public GTORecipeBuilder thunder(float level, boolean reverse) {
+        if (deleted) return this;
         return addCondition(new ThunderCondition(level).setReverse(reverse));
     }
 
     @Override
     public GTORecipeBuilder thunder(float level) {
+        if (deleted) return this;
         return thunder(level, false);
     }
 
     @Override
     public GTORecipeBuilder posY(int min, int max, boolean reverse) {
+        if (deleted) return this;
         return addCondition(new PositionYCondition(min, max).setReverse(reverse));
     }
 
     @Override
     public GTORecipeBuilder posY(int min, int max) {
+        if (deleted) return this;
         return posY(min, max, false);
     }
 
     @Override
     public GTORecipeBuilder daytime(boolean isNight) {
+        if (deleted) return this;
         return addCondition(new DaytimeCondition().setReverse(isNight));
     }
 
     @Override
     public GTORecipeBuilder daytime() {
+        if (deleted) return this;
         return daytime(false);
     }
 
@@ -1030,6 +1071,7 @@ public final class GTORecipeBuilder extends GTRecipeBuilder {
      */
     @Override
     public GTORecipeBuilder researchWithoutRecipe(@NotNull String researchId) {
+        if (deleted) return this;
         return researchWithoutRecipe(researchId, ResearchManager.getDefaultScannerItem());
     }
 
@@ -1042,6 +1084,7 @@ public final class GTORecipeBuilder extends GTRecipeBuilder {
      */
     @Override
     public GTORecipeBuilder researchWithoutRecipe(@NotNull String researchId, @NotNull ItemStack dataStack) {
+        if (deleted) return this;
         return (GTORecipeBuilder) super.researchWithoutRecipe(researchId, dataStack);
     }
 
@@ -1050,6 +1093,7 @@ public final class GTORecipeBuilder extends GTRecipeBuilder {
      */
     @Override
     public GTORecipeBuilder scannerResearch(UnaryOperator<ResearchRecipeBuilder.ScannerRecipeBuilder> research) {
+        if (deleted) return this;
         return (GTORecipeBuilder) super.scannerResearch(research);
     }
 
@@ -1061,6 +1105,7 @@ public final class GTORecipeBuilder extends GTRecipeBuilder {
      */
     @Override
     public GTORecipeBuilder scannerResearch(@NotNull ItemStack researchStack) {
+        if (deleted) return this;
         return scannerResearch(b -> b.researchStack(researchStack));
     }
 
@@ -1069,6 +1114,7 @@ public final class GTORecipeBuilder extends GTRecipeBuilder {
      */
     @Override
     public GTORecipeBuilder stationResearch(UnaryOperator<ResearchRecipeBuilder.StationRecipeBuilder> research) {
+        if (deleted) return this;
         return (GTORecipeBuilder) super.stationResearch(research);
     }
 
@@ -1081,27 +1127,6 @@ public final class GTORecipeBuilder extends GTRecipeBuilder {
     @Override
     public void save(Consumer<FinishedRecipe> consumer) {
         save();
-    }
-
-    public void save() {
-        ResourceLocation typeid = getTypeID(this.id, this.recipeType);
-        if (GTORecipes.GT_FILTER_RECIPES != null && GTORecipes.GT_FILTER_RECIPES.contains(typeid)) return;
-        if (onSave != null) {
-            onSave.accept(this, a -> {});
-        }
-        if (recipeType.isHasResearchSlot()) {
-            ResearchCondition condition = this.conditions.stream().filter(ResearchCondition.class::isInstance).findAny().map(ResearchCondition.class::cast).orElse(null);
-            if (condition != null) {
-                for (ResearchData.ResearchEntry entry : condition.data) {
-                    this.recipeType.addDataStickEntry(entry.getResearchId(), buildRawRecipe());
-                }
-            }
-        }
-        GTORecipes.GT_RECIPE_MAP.put(typeid, new GTRecipe(this.recipeType, typeid, this.input, this.output, this.tickInput, this.tickOutput, Map.of(), Map.of(), Map.of(), Map.of(), this.conditions, List.of(), this.data, this.duration, false, this.recipeCategory));
-    }
-
-    public static ResourceLocation getTypeID(ResourceLocation id, GTRecipeType recipeType) {
-        return new ResourceLocation(id.getNamespace(), recipeType.registryName.getPath() + "/" + id.getPath());
     }
 
     @Override
@@ -1167,6 +1192,27 @@ public final class GTORecipeBuilder extends GTRecipeBuilder {
     public GTORecipeBuilder onSave(@Nullable BiConsumer<GTRecipeBuilder, Consumer<FinishedRecipe>> onSave) {
         this.onSave = onSave;
         return this;
+    }
+
+    public void save() {
+        if (deleted) return;
+        if (onSave != null) {
+            onSave.accept(this, a -> {});
+        }
+        if (recipeType.isHasResearchSlot()) {
+            ResearchCondition condition = this.conditions.stream().filter(ResearchCondition.class::isInstance).findAny().map(ResearchCondition.class::cast).orElse(null);
+            if (condition != null) {
+                for (ResearchData.ResearchEntry entry : condition.data) {
+                    this.recipeType.addDataStickEntry(entry.getResearchId(), buildRawRecipe());
+                }
+            }
+        }
+        if (typeid == null) typeid = getTypeID(id, recipeType);
+        GTORecipes.GT_RECIPE_MAP.put(typeid, new GTRecipe(this.recipeType, typeid, this.input, this.output, this.tickInput, this.tickOutput, Map.of(), Map.of(), Map.of(), Map.of(), this.conditions, List.of(), this.data, this.duration, false, this.recipeCategory));
+    }
+
+    public static ResourceLocation getTypeID(ResourceLocation id, GTRecipeType recipeType) {
+        return new ResourceLocation(id.getNamespace(), recipeType.registryName.getPath() + "/" + id.getPath());
     }
 
     public GTORecipeBuilder inputItems(String id) {

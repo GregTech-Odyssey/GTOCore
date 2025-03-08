@@ -5,6 +5,8 @@ import com.gto.gtocore.api.machine.GTOCleanroomType;
 import com.gto.gtocore.common.data.GTOItems;
 import com.gto.gtocore.common.data.GTOMaterials;
 import com.gto.gtocore.common.recipe.condition.GravityCondition;
+import com.gto.gtocore.utils.RLUtils;
+import com.gto.gtocore.utils.TagUtils;
 
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
@@ -81,6 +83,32 @@ interface Extractor {
                 .duration(240)
                 .EUt(30)
                 .heat(600)
+                .save();
+
+        addBotDye("white");
+        addBotDye("light_gray");
+        addBotDye("gray");
+        addBotDye("black");
+        addBotDye("brown");
+        addBotDye("red");
+        addBotDye("orange");
+        addBotDye("yellow");
+        addBotDye("lime");
+        addBotDye("green");
+        addBotDye("cyan");
+        addBotDye("light_blue");
+        addBotDye("blue");
+        addBotDye("purple");
+        addBotDye("magenta");
+        addBotDye("pink");
+    }
+
+    private static void addBotDye(String dye) {
+        EXTRACTOR_RECIPES.recipeBuilder(GTOCore.id(dye + "_petals"))
+                .inputItems(TagUtils.createTag(RLUtils.bot("petals/" + dye)))
+                .outputItems("minecraft:" + dye + "_dye")
+                .duration(400)
+                .EUt(2)
                 .save();
     }
 }

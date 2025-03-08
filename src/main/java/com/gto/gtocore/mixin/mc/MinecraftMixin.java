@@ -15,7 +15,7 @@ public class MinecraftMixin {
     @Inject(method = "createTitle", at = @At("HEAD"), cancellable = true)
     private void createTitle(CallbackInfoReturnable<String> ci) {
         if (GTOConfig.INSTANCE != null) {
-            ci.setReturnValue("GregTech Odyssey [" + GTOConfig.INSTANCE.gameDifficulty + " Mode]");
+            ci.setReturnValue("GregTech Odyssey [" + (GTOConfig.INSTANCE.dev ? "Dev" : GTOConfig.INSTANCE.gameDifficulty) + " Mode]");
         } else {
             ci.setReturnValue("GregTech Odyssey");
         }
