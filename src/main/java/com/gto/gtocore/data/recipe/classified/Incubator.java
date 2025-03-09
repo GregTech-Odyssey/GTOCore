@@ -27,7 +27,6 @@ interface Incubator {
 
     static void init() {
         INCUBATOR_RECIPES.recipeBuilder(GTOCore.id("certus_quartz_essence"))
-                .notConsumable(GTOItems.DIMENSION_DATA.asStack())
                 .inputItems(GTOItems.ESSENCE_SEED.asStack())
                 .inputItems(TagUtils.createTGTag("ores/quartzite"))
                 .inputItems(TagUtils.createTGTag("ores/certus_quartz"))
@@ -40,7 +39,6 @@ interface Incubator {
                 .save();
 
         INCUBATOR_RECIPES.recipeBuilder(GTOCore.id("monazite_vein_essence"))
-                .notConsumable(GTOItems.DIMENSION_DATA.asStack())
                 .inputItems(GTOItems.ESSENCE_SEED.asStack())
                 .inputItems(TagUtils.createTGTag("ores/bastnasite"))
                 .inputItems(TagUtils.createTGTag("ores/molybdenum"))
@@ -66,7 +64,6 @@ interface Incubator {
                 .save();
 
         INCUBATOR_RECIPES.recipeBuilder(GTOCore.id("iron_vein_essence"))
-                .notConsumable(GTOItems.DIMENSION_DATA.asStack())
                 .inputItems(GTOItems.ESSENCE_SEED.asStack())
                 .inputItems(TagUtils.createTGTag("ores/goethite"))
                 .inputItems(TagUtils.createTGTag("ores/yellow_limonite"))
@@ -94,7 +91,6 @@ interface Incubator {
                 .save();
 
         INCUBATOR_RECIPES.recipeBuilder(GTOCore.id("lubricant_vein_essence"))
-                .notConsumable(GTOItems.DIMENSION_DATA.asStack())
                 .inputItems(GTOItems.ESSENCE_SEED.asStack())
                 .inputItems(TagUtils.createTGTag("ores/soapstone"))
                 .inputItems(TagUtils.createTGTag("ores/talc"))
@@ -108,7 +104,6 @@ interface Incubator {
                 .save();
 
         INCUBATOR_RECIPES.recipeBuilder(GTOCore.id("lapis_vein_essence"))
-                .notConsumable(GTOItems.DIMENSION_DATA.asStack())
                 .inputItems(GTOItems.ESSENCE_SEED.asStack())
                 .inputItems(TagUtils.createTGTag("ores/lazurite"))
                 .inputItems(TagUtils.createTGTag("ores/sodalite"))
@@ -136,7 +131,6 @@ interface Incubator {
                 .save();
 
         INCUBATOR_RECIPES.recipeBuilder(GTOCore.id("copper_vein_essence"))
-                .notConsumable(GTOItems.DIMENSION_DATA.asStack())
                 .inputItems(GTOItems.ESSENCE_SEED.asStack())
                 .inputItems(TagUtils.createTGTag("ores/chalcopyrite"))
                 .inputItems(TagUtils.createTGTag("ores/iron"))
@@ -150,7 +144,6 @@ interface Incubator {
                 .save();
 
         INCUBATOR_RECIPES.recipeBuilder(GTOCore.id("nickel_vein_essence"))
-                .notConsumable(GTOItems.DIMENSION_DATA.asStack())
                 .inputItems(GTOItems.ESSENCE_SEED.asStack())
                 .inputItems(TagUtils.createTGTag("ores/garnierite"))
                 .inputItems(TagUtils.createTGTag("ores/nickel"))
@@ -164,7 +157,6 @@ interface Incubator {
                 .save();
 
         INCUBATOR_RECIPES.recipeBuilder(GTOCore.id("oilsands_vein_essence"))
-                .notConsumable(GTOItems.DIMENSION_DATA.asStack())
                 .inputItems(GTOItems.ESSENCE_SEED.asStack())
                 .inputItems(TagUtils.createTGTag("ores/oilsands"))
                 .inputFluids(GTMaterials.Biomass.getFluid(10000))
@@ -175,7 +167,6 @@ interface Incubator {
                 .save();
 
         INCUBATOR_RECIPES.recipeBuilder(GTOCore.id("banded_iron_vein_essence"))
-                .notConsumable(GTOItems.DIMENSION_DATA.asStack())
                 .inputItems(GTOItems.ESSENCE_SEED.asStack())
                 .inputItems(TagUtils.createTGTag("ores/goethite"))
                 .inputItems(TagUtils.createTGTag("ores/yellow_limonite"))
@@ -199,7 +190,6 @@ interface Incubator {
                 .save();
 
         INCUBATOR_RECIPES.recipeBuilder(GTOCore.id("magnetite_vein_end_essence"))
-                .notConsumable(GTOItems.DIMENSION_DATA.asStack())
                 .inputItems(GTOItems.ESSENCE_SEED.asStack())
                 .inputItems(TagUtils.createTGTag("ores/magnetite"))
                 .inputItems(TagUtils.createTGTag("ores/vanadium_magnetite"))
@@ -213,7 +203,6 @@ interface Incubator {
                 .save();
 
         INCUBATOR_RECIPES.recipeBuilder(GTOCore.id("pitchblende_vein_end_essence"))
-                .notConsumable(GTOItems.DIMENSION_DATA.asStack())
                 .inputItems(GTOItems.ESSENCE_SEED.asStack())
                 .inputItems(TagUtils.createTGTag("ores/pitchblende"))
                 .inputItems(TagUtils.createTGTag("ores/uraninite"))
@@ -239,7 +228,6 @@ interface Incubator {
                 .save();
 
         INCUBATOR_RECIPES.recipeBuilder(GTOCore.id("galena_vein_essence"))
-                .notConsumable(GTOItems.DIMENSION_DATA.asStack())
                 .inputItems(GTOItems.ESSENCE_SEED.asStack())
                 .inputItems(TagUtils.createTGTag("ores/galena"))
                 .inputItems(TagUtils.createTGTag("ores/silver"))
@@ -252,7 +240,6 @@ interface Incubator {
                 .save();
 
         INCUBATOR_RECIPES.recipeBuilder(GTOCore.id("saltpeter_vein_essence"))
-                .notConsumable(GTOItems.DIMENSION_DATA.asStack())
                 .inputItems(GTOItems.ESSENCE_SEED.asStack())
                 .inputItems(TagUtils.createTGTag("ores/saltpeter"))
                 .inputItems(TagUtils.createTGTag("ores/diatomite"))
@@ -266,7 +253,6 @@ interface Incubator {
                 .save();
 
         INCUBATOR_RECIPES.recipeBuilder(GTOCore.id("molybdenum_vein_essence"))
-                .notConsumable(GTOItems.DIMENSION_DATA.asStack())
                 .inputItems(GTOItems.ESSENCE_SEED.asStack())
                 .inputItems(TagUtils.createTGTag("ores/wulfenite"))
                 .inputItems(TagUtils.createTGTag("ores/molybdenite"))
@@ -292,7 +278,6 @@ interface Incubator {
                 .save();
 
         INCUBATOR_RECIPES.recipeBuilder(GTOCore.id("salts_vein_essence"))
-                .notConsumable(GTOItems.DIMENSION_DATA.asStack())
                 .inputItems(GTOItems.ESSENCE_SEED.asStack())
                 .inputItems(TagUtils.createTGTag("ores/rock_salt"))
                 .inputItems(TagUtils.createTGTag("ores/salt"))
@@ -306,7 +291,6 @@ interface Incubator {
                 .save();
 
         INCUBATOR_RECIPES.recipeBuilder(GTOCore.id("redstone_vein_essence"))
-                .notConsumable(GTOItems.DIMENSION_DATA.asStack())
                 .inputItems(GTOItems.ESSENCE_SEED.asStack())
                 .inputItems(TagUtils.createTGTag("ores/redstone"))
                 .inputItems(TagUtils.createTGTag("ores/ruby"))
@@ -319,7 +303,6 @@ interface Incubator {
                 .save();
 
         INCUBATOR_RECIPES.recipeBuilder(GTOCore.id("apatite_vein_essence"))
-                .notConsumable(GTOItems.DIMENSION_DATA.asStack())
                 .inputItems(GTOItems.ESSENCE_SEED.asStack())
                 .inputItems(TagUtils.createTGTag("ores/apatite"))
                 .inputItems(TagUtils.createTGTag("ores/tricalcium_phosphate"))
@@ -343,7 +326,6 @@ interface Incubator {
                 .save();
 
         INCUBATOR_RECIPES.recipeBuilder(GTOCore.id("sheldonite_vein_essence"))
-                .notConsumable(GTOItems.DIMENSION_DATA.asStack())
                 .inputItems(GTOItems.ESSENCE_SEED.asStack())
                 .inputItems(TagUtils.createTGTag("ores/bornite"))
                 .inputItems(TagUtils.createTGTag("ores/cooperite"))
@@ -357,7 +339,6 @@ interface Incubator {
                 .save();
 
         INCUBATOR_RECIPES.recipeBuilder(GTOCore.id("mica_vein_essence"))
-                .notConsumable(GTOItems.DIMENSION_DATA.asStack())
                 .inputItems(GTOItems.ESSENCE_SEED.asStack())
                 .inputItems(TagUtils.createTGTag("ores/kyanite"))
                 .inputItems(TagUtils.createTGTag("ores/mica"))
@@ -371,7 +352,6 @@ interface Incubator {
                 .save();
 
         INCUBATOR_RECIPES.recipeBuilder(GTOCore.id("nether_quartz_vein_essence"))
-                .notConsumable(GTOItems.DIMENSION_DATA.asStack())
                 .inputItems(GTOItems.ESSENCE_SEED.asStack())
                 .inputItems(TagUtils.createTGTag("ores/nether_quartz"))
                 .inputItems(TagUtils.createTGTag("ores/quartzite"))
@@ -384,7 +364,6 @@ interface Incubator {
                 .save();
 
         INCUBATOR_RECIPES.recipeBuilder(GTOCore.id("olivine_vein_essence"))
-                .notConsumable(GTOItems.DIMENSION_DATA.asStack())
                 .inputItems(GTOItems.ESSENCE_SEED.asStack())
                 .inputItems(TagUtils.createTGTag("ores/bentonite"))
                 .inputItems(TagUtils.createTGTag("ores/magnetite"))
@@ -398,7 +377,6 @@ interface Incubator {
                 .save();
 
         INCUBATOR_RECIPES.recipeBuilder(GTOCore.id("beryllium_vein_essence"))
-                .notConsumable(GTOItems.DIMENSION_DATA.asStack())
                 .inputItems(GTOItems.ESSENCE_SEED.asStack())
                 .inputItems(TagUtils.createTGTag("ores/beryllium"))
                 .inputItems(TagUtils.createTGTag("ores/emerald"))
@@ -410,7 +388,6 @@ interface Incubator {
                 .save();
 
         INCUBATOR_RECIPES.recipeBuilder(GTOCore.id("mineral_sand_vein_essence"))
-                .notConsumable(GTOItems.DIMENSION_DATA.asStack())
                 .inputItems(GTOItems.ESSENCE_SEED.asStack())
                 .inputItems(TagUtils.createTGTag("ores/basaltic_mineral_sand"))
                 .inputItems(TagUtils.createTGTag("ores/granitic_mineral_sand"))
@@ -424,7 +401,6 @@ interface Incubator {
                 .save();
 
         INCUBATOR_RECIPES.recipeBuilder(GTOCore.id("topaz_vein_essence"))
-                .notConsumable(GTOItems.DIMENSION_DATA.asStack())
                 .inputItems(GTOItems.ESSENCE_SEED.asStack())
                 .inputItems(TagUtils.createTGTag("ores/blue_topaz"))
                 .inputItems(TagUtils.createTGTag("ores/topaz"))
@@ -438,7 +414,6 @@ interface Incubator {
                 .save();
 
         INCUBATOR_RECIPES.recipeBuilder(GTOCore.id("manganese_vein_essence"))
-                .notConsumable(GTOItems.DIMENSION_DATA.asStack())
                 .inputItems(GTOItems.ESSENCE_SEED.asStack())
                 .inputItems(TagUtils.createTGTag("ores/grossular"))
                 .inputItems(TagUtils.createTGTag("ores/pyrolusite"))
@@ -451,7 +426,6 @@ interface Incubator {
                 .save();
 
         INCUBATOR_RECIPES.recipeBuilder(GTOCore.id("cassiterite_vein_essence"))
-                .notConsumable(GTOItems.DIMENSION_DATA.asStack())
                 .inputItems(GTOItems.ESSENCE_SEED.asStack())
                 .inputItems(TagUtils.createTGTag("ores/tin"))
                 .inputItems(TagUtils.createTGTag("ores/cassiterite"))
@@ -463,7 +437,6 @@ interface Incubator {
                 .save();
 
         INCUBATOR_RECIPES.recipeBuilder(GTOCore.id("naquadah_vein_essence"))
-                .notConsumable(GTOItems.DIMENSION_DATA.asStack())
                 .inputItems(GTOItems.ESSENCE_SEED.asStack())
                 .inputItems(TagUtils.createTGTag("ores/naquadah"))
                 .inputItems(TagUtils.createTGTag("ores/plutonium"))
@@ -475,7 +448,6 @@ interface Incubator {
                 .save();
 
         INCUBATOR_RECIPES.recipeBuilder(GTOCore.id("sapphire_vein_essence"))
-                .notConsumable(GTOItems.DIMENSION_DATA.asStack())
                 .inputItems(GTOItems.ESSENCE_SEED.asStack())
                 .inputItems(TagUtils.createTGTag("ores/almandine"))
                 .inputItems(TagUtils.createTGTag("ores/pyrope"))
@@ -489,7 +461,6 @@ interface Incubator {
                 .save();
 
         INCUBATOR_RECIPES.recipeBuilder(GTOCore.id("diamond_vein_essence"))
-                .notConsumable(GTOItems.DIMENSION_DATA.asStack())
                 .inputItems(GTOItems.ESSENCE_SEED.asStack())
                 .inputItems(TagUtils.createTGTag("ores/graphite"))
                 .inputItems(TagUtils.createTGTag("ores/diamond"))
@@ -501,7 +472,6 @@ interface Incubator {
                 .save();
 
         INCUBATOR_RECIPES.recipeBuilder(GTOCore.id("bauxite_vein_end_essence"))
-                .notConsumable(GTOItems.DIMENSION_DATA.asStack())
                 .inputItems(GTOItems.ESSENCE_SEED.asStack())
                 .inputItems(TagUtils.createTGTag("ores/bauxite"))
                 .inputItems(TagUtils.createTGTag("ores/ilmenite"))
@@ -514,7 +484,6 @@ interface Incubator {
                 .save();
 
         INCUBATOR_RECIPES.recipeBuilder(GTOCore.id("garnet_vein_essence"))
-                .notConsumable(GTOItems.DIMENSION_DATA.asStack())
                 .inputItems(GTOItems.ESSENCE_SEED.asStack())
                 .inputItems(TagUtils.createTGTag("ores/red_garnet"))
                 .inputItems(TagUtils.createTGTag("ores/yellow_garnet"))
@@ -528,7 +497,6 @@ interface Incubator {
                 .save();
 
         INCUBATOR_RECIPES.recipeBuilder(GTOCore.id("garnet_tin_vein_essence"))
-                .notConsumable(GTOItems.DIMENSION_DATA.asStack())
                 .inputItems(GTOItems.ESSENCE_SEED.asStack())
                 .inputItems(TagUtils.createTGTag("ores/cassiterite_sand"))
                 .inputItems(TagUtils.createTGTag("ores/garnet_sand"))
@@ -566,7 +534,6 @@ interface Incubator {
                 .save();
 
         INCUBATOR_RECIPES.recipeBuilder(GTOCore.id("tetrahedrite_vein_essence"))
-                .notConsumable(GTOItems.DIMENSION_DATA.asStack())
                 .inputItems(GTOItems.ESSENCE_SEED.asStack())
                 .inputItems(TagUtils.createTGTag("ores/tetrahedrite"))
                 .inputItems(TagUtils.createTGTag("ores/copper"))
@@ -592,7 +559,6 @@ interface Incubator {
                 .save();
 
         INCUBATOR_RECIPES.recipeBuilder(GTOCore.id("copper_tin_vein_essence"))
-                .notConsumable(GTOItems.DIMENSION_DATA.asStack())
                 .inputItems(GTOItems.ESSENCE_SEED.asStack())
                 .inputItems(TagUtils.createTGTag("ores/chalcopyrite"))
                 .inputItems(TagUtils.createTGTag("ores/zeolite"))
@@ -645,7 +611,6 @@ interface Incubator {
                 .save();
 
         INCUBATOR_RECIPES.recipeBuilder(GTOCore.id("sulfur_vein_essence"))
-                .notConsumable(GTOItems.DIMENSION_DATA.asStack())
                 .inputItems(GTOItems.ESSENCE_SEED.asStack())
                 .inputItems(TagUtils.createTGTag("ores/sulfur"))
                 .inputItems(TagUtils.createTGTag("ores/pyrite"))
@@ -672,7 +637,6 @@ interface Incubator {
                 .save();
 
         INCUBATOR_RECIPES.recipeBuilder(GTOCore.id("coal_vein_essence"))
-                .notConsumable(GTOItems.DIMENSION_DATA.asStack())
                 .inputItems(GTOItems.ESSENCE_SEED.asStack())
                 .inputItems(TagUtils.createTGTag("ores/coal"))
                 .inputFluids(GTMaterials.Biomass.getFluid(10000))
@@ -683,7 +647,6 @@ interface Incubator {
                 .save();
 
         INCUBATOR_RECIPES.recipeBuilder(GTOCore.id("scheelite_vein_essence"))
-                .notConsumable(GTOItems.DIMENSION_DATA.asStack())
                 .inputItems(GTOItems.ESSENCE_SEED.asStack())
                 .inputItems(TagUtils.createTGTag("ores/scheelite"))
                 .inputItems(TagUtils.createTGTag("ores/tungstate"))

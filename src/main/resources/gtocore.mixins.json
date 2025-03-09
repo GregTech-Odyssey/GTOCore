@@ -91,6 +91,7 @@
         "gtm.item.MaterialPipeBlockItemMixin",
         "gtm.item.TagPrefixItemMixin",
         "gtm.item.TreeFellingBehaviorMixin",
+        "gtm.machine.AirScrubberMachineMixin",
         "gtm.machine.BufferMachineMixin",
         "gtm.machine.CoilWorkableElectricMultiblockMachineMixin",
         "gtm.machine.DataAccessHatchMachineMixin",

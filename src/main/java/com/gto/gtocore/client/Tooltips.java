@@ -29,7 +29,7 @@ public final class Tooltips {
         TOOL_TIPS_KEY_MAP = toolTipsKey.build();
 
         ImmutableMap.Builder<Item, LangHandler.ENCNS> toolTipsBuilder = ImmutableMap.builder();
-        toolTipsBuilder.put(GTItems.VACUUM_TUBE.get(), new LangHandler.ENCNS(new String[] { "Right-click the handheld rough vacuum tube to obtain vacuum supply from a machine with vacuum level greater than 0" }, new String[] { "手持粗真空管右击真空等级大于0的真空提供机器获取" }));
+        toolTipsBuilder.put(GTItems.VACUUM_TUBE.get(), new LangHandler.ENCNS(new String[] { "Right-click the handheld rough vacuum tube to obtain vacuum supply from a machine with vacuum level greater than 0" }, new String[] { "手持粗真空管潜行右击真空等级大于0的真空提供机器获取" }));
         toolTipsBuilder.put(GTOBlocks.URUIUM_COIL_BLOCK.asItem(), new LangHandler.ENCNS(new String[] { "Can provide 32000K furnace temperature for the hyper-dimensional plasma furnace", "Only this coil can be used in stellar furnace mode" }, new String[] { "可为超维度等离子锻炉提供32000K炉温", "恒星锻炉模式仅可使用该线圈" }));
         toolTipsBuilder.put(GTOBlocks.QUANTUM_GLASS.asItem(), new LangHandler.ENCNS(new String[] { "Dense but Transparent", "§bGlass & Elegance" }, new String[] { "致密但透明", "§b玻璃&优雅" }));
 

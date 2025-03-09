@@ -529,5 +529,33 @@ public interface MaterialB {
                 .iconSet(LIMPID)
                 .flags(DISABLE_DECOMPOSITION)
                 .buildAndRegister();
+
+        BasicMFPC = material("basic_mfpc", "多功能相变微粒（MFPC）")
+                .dust()
+                .color(0xC0C0C0)
+                .iconSet(SAND)
+                // 后面画.iconSet(new MaterialIconSet("basic_mfpc"))
+                .buildAndRegister();
+
+        CascadeMFPC = material("cascade_mfpc", "串级相变MFPC微粒（Cascade-MFPC）")
+                .dust()
+                .color(0x303030)
+                .iconSet(SAND)
+                // 后面画.iconSet(new MaterialIconSet("cascade_mfpc"))
+                .buildAndRegister();
+
+        InvalidationBasicMFPC = material("invalidation_basic_mfpc", "失效的多功能相变微粒（MFPC")
+                .dust()
+                .color(0xC0C0C0)
+                .iconSet(SAND)
+                // 后面画.iconSet(new MaterialIconSet("basic_mfpc"))
+                .buildAndRegister();
+
+        InvalidationCascadeMFPC = material("invalidation_cascade_mfpc", "失效的串级相变MFPC微粒（Cascade-MFPC）")
+                .dust()
+                .color(0x303030)
+                .iconSet(SAND)
+                // 后面画.iconSet(new MaterialIconSet("cascade_mfpc"))
+                .buildAndRegister();
     }
 }

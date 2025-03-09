@@ -1058,17 +1058,6 @@ interface ChemicaRreactor {
                 .duration(900)
                 .save();
 
-        CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("carbon_nanotubes_ingot"))
-                .notConsumable(TagPrefix.plate, GTMaterials.Rhenium)
-                .circuitMeta(1)
-                .inputFluids(GTMaterials.Methane.getFluid(800))
-                .inputFluids(GTOMaterials.Cycloparaphenylene.getFluid(200))
-                .outputItems(TagPrefix.ingot, GTOMaterials.CarbonNanotubes)
-                .EUt(320000)
-                .duration(290)
-                .cleanroom(CleanroomType.CLEANROOM)
-                .save();
-
         CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("p_nitroaniline"))
                 .notConsumableFluid(GTMaterials.AceticAnhydride.getFluid(1000))
                 .inputFluids(GTOMaterials.Aniline.getFluid(1000))
@@ -1672,17 +1661,6 @@ interface ChemicaRreactor {
                 .duration(110)
                 .save();
 
-        LARGE_CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("neutronium_doped_nanotubes"))
-                .inputItems(TagPrefix.dust, GTOMaterials.Neutron)
-                .notConsumable(TagPrefix.plate, GTMaterials.Rhenium)
-                .inputFluids(GTMaterials.Methane.getFluid(800))
-                .inputFluids(GTOMaterials.Cycloparaphenylene.getFluid(200))
-                .outputFluids(GTOMaterials.NeutroniumDopedNanotubes.getFluid(1000))
-                .EUt(491520)
-                .duration(500)
-                .cleanroom(CleanroomType.CLEANROOM)
-                .save();
-
         LARGE_CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("pentaerythritol_dust"))
                 .notConsumable(TagPrefix.dust, GTMaterials.SodiumHydroxide)
                 .inputFluids(GTMaterials.Formaldehyde.getFluid(4000))
@@ -1790,17 +1768,6 @@ interface ChemicaRreactor {
                 .outputFluids(GTOMaterials.RareEarthChlorides.getFluid(1000))
                 .EUt(7864320)
                 .duration(200)
-                .save();
-
-        LARGE_CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("seaborgium_doped_nanotubes"))
-                .inputItems(TagPrefix.dust, GTMaterials.Seaborgium)
-                .notConsumable(TagPrefix.plate, GTMaterials.Rhenium)
-                .inputFluids(GTMaterials.Methane.getFluid(800))
-                .inputFluids(GTOMaterials.Cycloparaphenylene.getFluid(200))
-                .outputFluids(GTOMaterials.SeaborgiumDopedNanotubes.getFluid(144))
-                .EUt(320000)
-                .duration(390)
-                .cleanroom(CleanroomType.CLEANROOM)
                 .save();
 
         LARGE_CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("fluorocarborane_dust"))
@@ -2342,17 +2309,6 @@ interface ChemicaRreactor {
                 .EUt(125829120)
                 .duration(600)
                 .cleanroom(GTOCleanroomType.LAW_CLEANROOM)
-                .save();
-
-        LARGE_CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("fullerene_doped_nanotubes"))
-                .inputItems(TagPrefix.dust, GTOMaterials.Fullerene)
-                .notConsumable(TagPrefix.plate, GTMaterials.Rhenium)
-                .inputFluids(GTMaterials.Methane.getFluid(14400))
-                .inputFluids(GTOMaterials.Cycloparaphenylene.getFluid(3600))
-                .outputFluids(GTOMaterials.FullereneDopedNanotubes.getFluid(18000))
-                .EUt(320000)
-                .duration(290)
-                .cleanroom(CleanroomType.CLEANROOM)
                 .save();
 
         LARGE_CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("stellar_energy_rocket_fuel"))

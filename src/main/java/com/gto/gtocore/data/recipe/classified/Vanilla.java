@@ -866,5 +866,20 @@ interface Vanilla {
                 "CDC",
                 "EFE",
                 'A', new UnificationEntry(TagPrefix.plate, GTMaterials.Steel), 'B', RegistriesUtils.getItemStack("botania:mana_bomb"), 'C', GTMachines.ENERGY_CONVERTER_8A[GTValues.ULV].asStack(), 'D', GTOMachines.PRIMITIVE_MAGIC_ENERGY[GTValues.LV].asStack(), 'E', RegistriesUtils.getItemStack("botania:lens_piston"), 'F', new UnificationEntry(TagPrefix.plateDouble, GTMaterials.Steel));
+        VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("chemical_vapor_deposition"), MultiBlockC.CHEMICAL_VAPOR_DEPOSITION.asStack(),
+                "ABA",
+                "CDC",
+                "EBE",
+                'A', new UnificationEntry(TagPrefix.pipeTinyFluid, GTMaterials.Polytetrafluoroethylene), 'B', new UnificationEntry(TagPrefix.plate, GTMaterials.StainlessSteel), 'C', GTItems.FLUID_REGULATOR_HV.asStack(), 'D', GTMultiMachines.LARGE_CHEMICAL_REACTOR.asStack(), 'E', new UnificationEntry(TagPrefix.pipeTinyFluid, GTMaterials.TungstenCarbide));
+        VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("physical_vapor_deposition"), MultiBlockC.PHYSICAL_VAPOR_DEPOSITION.asStack(),
+                "ABA",
+                "CDC",
+                "EBE",
+                'A', new UnificationEntry(TagPrefix.pipeTinyFluid, GTMaterials.Polybenzimidazole), 'B', new UnificationEntry(TagPrefix.plate, GTMaterials.TungstenSteel), 'C', GTItems.FLUID_REGULATOR_EV.asStack(), 'D', GTMachines.HULL[GTValues.EV].asStack(), 'E', new UnificationEntry(TagPrefix.pipeTinyFluid, GTMaterials.Chromium));
+        VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("energy_injector"), MultiBlockC.ENERGY_INJECTOR.asStack(),
+                "ABA",
+                "BCB",
+                "ABA",
+                'A', GTBlocks.SUPERCONDUCTING_COIL.asStack(), 'B', GTMachines.HI_AMP_TRANSFORMER_2A[GTValues.LuV].asStack(), 'C', GTMachines.CHARGER_4[GTValues.LuV].asStack());
     }
 }

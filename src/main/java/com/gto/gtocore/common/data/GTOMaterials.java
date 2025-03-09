@@ -855,6 +855,10 @@ public final class GTOMaterials {
     public static Material TetrafluorosilaneSolution;
     public static Material HighPuritySilica;
     public static Material CarbonTetrafluoride;
+    public static Material BasicMFPC;
+    public static Material CascadeMFPC;
+    public static Material InvalidationBasicMFPC;
+    public static Material InvalidationCascadeMFPC;
 
     public static Material Manasteel;
     public static Material Terrasteel;

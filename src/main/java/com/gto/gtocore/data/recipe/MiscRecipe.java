@@ -26,6 +26,10 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.material.Fluids;
+import net.minecraftforge.fluids.FluidStack;
+
+import com.enderio.base.common.init.EIOFluids;
 
 import java.util.function.Consumer;
 
@@ -241,5 +245,41 @@ public interface MiscRecipe {
                 .circuitMeta(4)
                 .outputItems(new ItemStack(Blocks.WHITE_WOOL))
                 .duration(100).EUt(4).save();
+
+        AIR_SCRUBBER_RECIPES.recipeBuilder("overworld_scrubber")
+                .circuitMeta(1)
+                .inputFluids(new FluidStack(Fluids.WATER, 1000))
+                .outputItems(dustTiny, Ash)
+                .duration(200)
+                .EUt(VHA[LV])
+                .dimension(GTODimensions.OVERWORLD)
+                .save(provider);
+
+        AIR_SCRUBBER_RECIPES.recipeBuilder("end_scrubber")
+                .circuitMeta(3)
+                .inputFluids(new FluidStack(Fluids.WATER, 1000))
+                .outputFluids(NitricAcid.getFluid(500))
+                .duration(200)
+                .EUt(VHA[HV])
+                .dimension(GTODimensions.THE_END)
+                .save(provider);
+
+        AIR_SCRUBBER_RECIPES.recipeBuilder("nether_scrubber")
+                .circuitMeta(2)
+                .inputFluids(new FluidStack(Fluids.WATER, 1000))
+                .outputFluids(SulfuricAcid.getFluid(500))
+                .duration(200)
+                .EUt(VHA[MV])
+                .dimension(GTODimensions.THE_NETHER)
+                .save(provider);
+
+        AIR_SCRUBBER_RECIPES.recipeBuilder("otherside_scrubber")
+                .circuitMeta(4)
+                .inputFluids(new FluidStack(Fluids.WATER, 1000))
+                .outputFluids(new FluidStack(EIOFluids.XP_JUICE.get(), 800))
+                .duration(200)
+                .EUt(VHA[EV])
+                .dimension(GTODimensions.OTHERSIDE)
+                .save(provider);
     }
 }
