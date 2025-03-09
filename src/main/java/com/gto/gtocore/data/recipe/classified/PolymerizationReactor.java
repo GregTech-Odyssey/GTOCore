@@ -11,10 +11,9 @@ import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.dust;
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.ingot;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
-import static com.gregtechceu.gtceu.common.data.GTMaterials.Polyethylene;
 import static com.gto.gtocore.common.data.GTOMaterials.EthylHexanol;
 import static com.gto.gtocore.common.data.GTOMaterials.P507;
-import static com.gto.gtocore.common.data.GTORecipeTypes.*;
+import static com.gto.gtocore.common.data.GTORecipeTypes.POLYMERIZATION_REACTOR_RECIPES;
 
 interface PolymerizationReactor {
 

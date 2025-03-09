@@ -158,16 +158,6 @@ public interface RecipeOverwrite {
                 .addCondition(new VacuumCondition(3))
                 .duration(40).EUt(VA[LV]).save();
 
-        BLAST_RECIPES.recipeBuilder("engraved_crystal_chip_from_emerald")
-                .inputItems(plate, Emerald)
-                .inputItems(RAW_CRYSTAL_CHIP)
-                .inputFluids(Helium.getFluid(1000))
-                .outputItems(ENGRAVED_CRYSTAL_CHIP)
-                .blastFurnaceTemp(5000)
-                .duration(900).EUt(VA[HV])
-                .addCondition(new GravityCondition(true))
-                .save();
-
         BLAST_RECIPES.recipeBuilder("engraved_crystal_chip_from_olivine")
                 .inputItems(plate, Olivine)
                 .inputItems(RAW_CRYSTAL_CHIP)

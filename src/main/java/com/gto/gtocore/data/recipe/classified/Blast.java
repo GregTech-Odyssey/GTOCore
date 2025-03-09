@@ -74,17 +74,6 @@ interface Blast {
                 .blastFurnaceTemp(8100)
                 .save();
 
-        BLAST_RECIPES.recipeBuilder(GTOCore.id("taranium_boulea"))
-                .inputItems(TagPrefix.block, GTOMaterials.UltraHighPuritySilicon, 64)
-                .inputItems(TagPrefix.ingot, GTOMaterials.Taranium, 8)
-                .inputItems(TagPrefix.dust, GTMaterials.GalliumArsenide, 4)
-                .inputFluids(GTMaterials.Radon.getFluid(16000))
-                .outputItems(GTOItems.TARANIUM_BOULE.asStack())
-                .EUt(122880)
-                .duration(24000)
-                .blastFurnaceTemp(10500)
-                .save();
-
         BLAST_RECIPES.recipeBuilder(GTOCore.id("ostrum_ingot"))
                 .inputItems(TagPrefix.dust, GTOMaterials.Ostrum)
                 .inputItems(TagPrefix.dust, GTMaterials.TitaniumCarbide)
@@ -142,17 +131,6 @@ interface Blast {
                 .EUt(7864320)
                 .duration(400)
                 .blastFurnaceTemp(16200)
-                .save();
-
-        BLAST_RECIPES.recipeBuilder(GTOCore.id("lepton_trap_crystal"))
-                .inputItems(TagPrefix.dust, GTMaterials.Meitnerium)
-                .inputItems(TagPrefix.dust, GTMaterials.Molybdenum)
-                .inputItems(TagPrefix.dust, GTMaterials.Rhenium)
-                .inputFluids(GTMaterials.NaquadahAlloy.getFluid(288))
-                .outputItems(GTOItems.LEPTON_TRAP_CRYSTAL.asStack())
-                .EUt(3450000)
-                .duration(340)
-                .blastFurnaceTemp(10900)
                 .save();
     }
 }

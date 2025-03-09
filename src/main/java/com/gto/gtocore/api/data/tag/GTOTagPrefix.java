@@ -26,7 +26,6 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
-import static com.gregtechceu.gtceu.api.GTValues.M;
 import static com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlags.NO_SMASHING;
 
 @Getter

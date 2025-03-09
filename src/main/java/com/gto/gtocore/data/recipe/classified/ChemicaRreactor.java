@@ -13,10 +13,8 @@ import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
 import static com.gregtechceu.gtceu.api.GTValues.*;
-import static com.gregtechceu.gtceu.api.GTValues.MV;
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.foil;
 import static com.gregtechceu.gtceu.common.data.GTItems.*;
-import static com.gregtechceu.gtceu.common.data.GTItems.EXTREME_CIRCUIT_BOARD;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
 import static com.gto.gtocore.common.data.GTORecipeTypes.CHEMICAL_RECIPES;
 import static com.gto.gtocore.common.data.GTORecipeTypes.LARGE_CHEMICAL_RECIPES;

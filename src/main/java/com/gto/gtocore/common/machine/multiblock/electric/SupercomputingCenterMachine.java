@@ -10,7 +10,7 @@ import com.gto.gtocore.common.machine.multiblock.part.research.ExResearchComputa
 import com.gto.gtocore.common.machine.multiblock.part.research.ExResearchCoolerPartMachine;
 
 import com.gregtechceu.gtceu.api.GTValues;
-import com.gregtechceu.gtceu.api.capability.*;
+import com.gregtechceu.gtceu.api.capability.IOpticalComputationProvider;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
@@ -29,13 +29,11 @@ import net.minecraft.world.item.ItemStack;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.List;
+import java.util.Set;
 
 import javax.annotation.ParametersAreNonnullByDefault;
-
-import static com.gregtechceu.gtceu.api.GTValues.*;
-import static com.gregtechceu.gtceu.api.machine.multiblock.PartAbility.*;
-import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault

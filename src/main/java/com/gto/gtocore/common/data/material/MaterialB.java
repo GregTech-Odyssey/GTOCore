@@ -4,11 +4,12 @@ import com.gto.gtocore.api.data.chemical.material.info.GTOMaterialFlags;
 
 import com.gregtechceu.gtceu.api.GTValues;
 
-import static com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlags.*;
+import static com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlags.DISABLE_DECOMPOSITION;
 import static com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialIconSet.*;
 import static com.gregtechceu.gtceu.api.data.chemical.material.properties.BlastProperty.GasTier.HIGHEST;
 import static com.gregtechceu.gtceu.api.data.chemical.material.properties.BlastProperty.GasTier.LOW;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
+import static com.gto.gtocore.api.data.chemical.material.info.GTOMaterialFlags.GENERATE_CRYSTAL_SEED;
 import static com.gto.gtocore.api.data.chemical.material.info.GTOMaterialIconSet.LIMPID;
 import static com.gto.gtocore.common.data.GTOMaterials.*;
 import static com.gto.gtocore.utils.register.MaterialsRegisterUtils.material;
@@ -445,21 +446,23 @@ public interface MaterialB {
         ElectronicGradeSilicon = material("electronic_grade_silicon", "电子级硅")
                 .dust()
                 .ingot()
+                .fluid()
                 .blastTemp(2273, LOW)
                 .color(0x414151)
                 .components(Silicon, 1)
                 .iconSet(METALLIC)
-                .flags(DISABLE_DECOMPOSITION)
+                .flags(DISABLE_DECOMPOSITION, GENERATE_CRYSTAL_SEED)
                 .buildAndRegister().setFormula("Si(6N)");
 
         UltraHighPuritySilicon = material("ultra_high_purity_silicon", "超高纯硅")
                 .dust()
                 .ingot()
+                .fluid()
                 .blastTemp(10000, HIGHEST, GTValues.VA[GTValues.UV], 1200)
                 .color(0x414151)
                 .components(Silicon, 1)
                 .iconSet(METALLIC)
-                .flags(DISABLE_DECOMPOSITION)
+                .flags(DISABLE_DECOMPOSITION, GENERATE_CRYSTAL_SEED)
                 .buildAndRegister().setFormula("Si(N12)");
 
         Trichlorosilane = material("trichlorosilane", "三氯硅烷")

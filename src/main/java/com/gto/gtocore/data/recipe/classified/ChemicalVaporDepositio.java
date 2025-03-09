@@ -7,12 +7,12 @@ import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.machine.multiblock.CleanroomType;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
-import static com.gregtechceu.gtceu.api.GTValues.*;
+import static com.gregtechceu.gtceu.api.GTValues.EV;
+import static com.gregtechceu.gtceu.api.GTValues.VA;
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.dust;
 import static com.gregtechceu.gtceu.common.data.GTItems.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
-import static com.gregtechceu.gtceu.common.data.GTMaterials.Radon;
-import static com.gto.gtocore.common.data.GTORecipeTypes.*;
+import static com.gto.gtocore.common.data.GTORecipeTypes.CHEMICAL_VAPOR_DEPOSITION_RECIPES;
 
 interface ChemicalVaporDepositio {
 

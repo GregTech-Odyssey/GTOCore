@@ -48,16 +48,6 @@ interface Autoclave {
                 .duration(260)
                 .save();
 
-        AUTOCLAVE_RECIPES.recipeBuilder(GTOCore.id("periodically_poled_lithium_niobate_boule"))
-                .notConsumable(GTOItems.ELECTRON_SOURCE.asStack())
-                .inputItems(TagPrefix.dust, GTOMaterials.LithiumNiobateNanoparticles, 2)
-                .inputFluids(GTMaterials.Xenon.getFluid(1000))
-                .outputItems(GTOItems.PERIODICALLY_POLED_LITHIUM_NIOBATE_BOULE.asStack())
-                .EUt(1966080)
-                .duration(600)
-                .cleanroom(CleanroomType.CLEANROOM)
-                .save();
-
         AUTOCLAVE_RECIPES.recipeBuilder(GTOCore.id("soul_soil"))
                 .inputItems(EIOItems.FILLED_SOUL_VIAL.asStack())
                 .inputItems(new ItemStack(Blocks.ROOTED_DIRT.asItem()))

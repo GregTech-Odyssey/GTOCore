@@ -4,6 +4,7 @@ import com.gto.gtocore.common.data.GTORecipes;
 import com.gto.gtocore.mixin.gtm.api.recipe.GTRecipeTypeAccessor;
 
 import com.gregtechceu.gtceu.GTCEu;
+import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.recipe.*;
 import com.gregtechceu.gtceu.api.data.chemical.material.stack.UnificationEntry;
 import com.gregtechceu.gtceu.api.gui.SteamTexture;
@@ -53,7 +54,8 @@ public class GTORecipeType extends GTRecipeType {
         }
         builder.outputItems(recipe.getResultItem(RegistryAccess.fromRegistryOfRegistries(BuiltInRegistries.REGISTRY)));
         if (recipe instanceof SmeltingRecipe smeltingRecipe) {
-            builder.duration(smeltingRecipe.getCookingTime());
+            builder.duration(smeltingRecipe.getCookingTime() / 4);
+            builder.EUt(GTValues.VA[GTValues.LV]);
         }
         return builder.buildRawRecipe();
     }

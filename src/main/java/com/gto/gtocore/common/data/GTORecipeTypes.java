@@ -859,8 +859,8 @@ public interface GTORecipeTypes {
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.ARC);
 
-    GTORecipeType CRYSTALLIZATION_RECIPES = register("crystallization", MULTIBLOCK)
-            .setMaxIOSize(3, 1, 1, 0)
+    GTORecipeType CRYSTALLIZATION_RECIPES = register("crystallization", "结晶", MULTIBLOCK)
+            .setMaxIOSize(3, 1, 2, 0)
             .setEUIO(IO.IN)
             .setProgressBar(GuiTextures.PROGRESS_BAR_CRYSTALLIZATION, LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.FURNACE)

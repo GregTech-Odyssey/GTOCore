@@ -117,5 +117,6 @@ public interface ClassifiedRecipe {
         PhysicalVaporDeposition.init();
         ChemicalVaporDepositio.init();
         ElectricCooking.init();
+        Crystallization.init();
     }
 }
