@@ -40,8 +40,11 @@ public class ExResearchPartRenderer extends TieredHullMachineRenderer {
                                   @Nullable ResourceLocation damagedTexture,
                                   @Nullable ResourceLocation damagedActiveTexture,
                                   @Nullable ResourceLocation damagedActiveEmissiveTexture) {
-        super(GTValues.ZPM,
-                tire == 3 ? GTOCore.id("block/variant/biocomputer_shell") : GTOCore.id("block/variant/biocomputer_shell"));
+        super(GTValues.ZPM, switch (tire) {
+            case 3 -> GTOCore.id("block/variant/biocomputer_shell_active");
+            case 4 -> GTOCore.id("block/variant/biocomputer_shell_active");
+            default -> GTOCore.id("block/variant/biocomputer_shell_active");
+        });
         this.texture = texture;
         this.activeTexture = activeTexture;
         this.activeEmissiveTexture = activeEmissiveTexture;

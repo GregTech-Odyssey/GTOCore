@@ -43,7 +43,7 @@ public abstract class ExResearchBasePartMachine extends MultiblockPartMachine im
     }
 
     boolean doesAllowBridging() {
-        return false;
+        return true;
     }
 
     @Override

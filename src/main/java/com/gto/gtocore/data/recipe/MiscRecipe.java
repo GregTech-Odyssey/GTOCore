@@ -1,7 +1,5 @@
 package com.gto.gtocore.data.recipe;
 
-import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
-import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.api.data.GTODimensions;
 import com.gto.gtocore.api.data.tag.GTOTagPrefix;
