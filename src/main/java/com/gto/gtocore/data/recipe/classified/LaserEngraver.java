@@ -1,6 +1,7 @@
 package com.gto.gtocore.data.recipe.classified;
 
 import com.gto.gtocore.GTOCore;
+import com.gto.gtocore.api.data.tag.GTOTagPrefix;
 import com.gto.gtocore.common.data.GTOItems;
 import com.gto.gtocore.common.data.GTOMaterials;
 import com.gto.gtocore.utils.RegistriesUtils;
@@ -172,6 +173,42 @@ interface LaserEngraver {
                 .EUt(122880)
                 .duration(13)
                 .cleanroom(CleanroomType.CLEANROOM)
+                .save();
+
+        LASER_ENGRAVER_RECIPES.recipeBuilder(GTOCore.id("diamond_crystal_circuit"))
+                .inputItems(GTOTagPrefix.artificialGem, GTMaterials.Diamond)
+                .notConsumable(TagPrefix.lens, GTOMaterials.ElfGlass)
+                .outputItems(GTOItems.DIAMOND_CRYSTAL_CIRCUIT.asStack(8))
+                .inputFluids(GTMaterials.DistilledWater.getFluid(800))
+                .EUt(1920)
+                .duration(800)
+                .save();
+
+        LASER_ENGRAVER_RECIPES.recipeBuilder(GTOCore.id("emerald_crystal_circuit"))
+                .inputItems(GTOTagPrefix.artificialGem, GTMaterials.Emerald)
+                .notConsumable(TagPrefix.lens, GTOMaterials.ElfGlass)
+                .outputItems(GTOItems.EMERALD_CRYSTAL_CIRCUIT.asStack(8))
+                .inputFluids(GTMaterials.DistilledWater.getFluid(800))
+                .EUt(1920)
+                .duration(800)
+                .save();
+
+        LASER_ENGRAVER_RECIPES.recipeBuilder(GTOCore.id("ruby_crystal_circuit"))
+                .inputItems(GTOTagPrefix.artificialGem, GTMaterials.Ruby)
+                .notConsumable(TagPrefix.lens, GTOMaterials.ElfGlass)
+                .outputItems(GTOItems.RUBY_CRYSTAL_CIRCUIT.asStack(8))
+                .inputFluids(GTMaterials.DistilledWater.getFluid(800))
+                .EUt(1920)
+                .duration(800)
+                .save();
+
+        LASER_ENGRAVER_RECIPES.recipeBuilder(GTOCore.id("sapphire_crystal_circuit"))
+                .inputItems(GTOTagPrefix.artificialGem, GTMaterials.Sapphire)
+                .notConsumable(TagPrefix.lens, GTOMaterials.ElfGlass)
+                .outputItems(GTOItems.SAPPHIRE_CRYSTAL_CIRCUIT.asStack(8))
+                .inputFluids(GTMaterials.DistilledWater.getFluid(800))
+                .EUt(1920)
+                .duration(800)
                 .save();
     }
 }

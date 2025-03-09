@@ -13,6 +13,8 @@ import com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialIconType;
 import com.gregtechceu.gtceu.api.data.chemical.material.properties.PropertyKey;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.MapColor;
@@ -259,4 +261,26 @@ public final class GTOTagPrefix extends TagPrefix {
             .unificationEnabled(true)
             .generateItem(true)
             .generationCondition(mat -> mat.hasFlag(GTOMaterialFlags.GENERATE_CERAMIC));
+
+    public static final TagPrefix artificialGem = new TagPrefix("artificial_gem")
+            .idPattern("artificial_%s_gem")
+            .defaultTagPath("artificial_gem/%s")
+            .unformattedTagPath("artificial_gem")
+            .materialAmount(GTValues.M << 2)
+            .materialIconType(new MaterialIconType("artificial_gem"))
+            .unificationEnabled(true)
+            .generateItem(true)
+            .enableRecycling()
+            .tooltip((m, l) -> l.add(Component.translatable("gtocore.tooltip.artificial_gem").withStyle(ChatFormatting.GRAY)))
+            .generationCondition(mat -> mat.hasFlag(GTOMaterialFlags.GENERATE_ARTIFICIAL_GEM));
+
+    public static final TagPrefix crystalSeed = new TagPrefix("crystal_seed")
+            .idPattern("%s_crystal_seed")
+            .defaultTagPath("crystal_seed/%s")
+            .unformattedTagPath("crystal_seed")
+            .materialAmount(GTValues.M / 8)
+            .materialIconType(new MaterialIconType("crystal_seed"))
+            .unificationEnabled(true)
+            .generateItem(true)
+            .generationCondition(mat -> mat.hasFlag(GTOMaterialFlags.GENERATE_CRYSTAL_SEED));
 }

@@ -45,7 +45,7 @@ public final class EyeOfHarmonyRenderer extends WorkableCasingMachineRenderer im
             GTOCore.id("obj/the_end"));
 
     public EyeOfHarmonyRenderer() {
-        super(GTOCore.id("block/casings/dimensionally_transcendent_casing"), GTCEu.id("block/multiblock/cosmos_simulation"));
+        super(GTOCore.id("block/casings/dimensionally_transcendent_casing"), GTOCore.id("block/multiblock/cosmos_simulation"));
     }
 
     @Override

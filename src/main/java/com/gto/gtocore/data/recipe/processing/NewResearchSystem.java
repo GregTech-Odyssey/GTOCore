@@ -17,7 +17,8 @@ import java.util.function.Consumer;
 import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
 import static com.gregtechceu.gtceu.common.data.GTBlocks.OPTICAL_PIPES;
-import static com.gregtechceu.gtceu.common.data.GTItems.*;
+import static com.gregtechceu.gtceu.common.data.GTItems.DUCT_TAPE;
+import static com.gregtechceu.gtceu.common.data.GTItems.SHAPE_MOLD_CYLINDER;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
 import static com.gto.gtocore.common.data.GTOItems.*;
 import static com.gto.gtocore.common.data.GTOMaterials.*;
@@ -27,50 +28,14 @@ public interface NewResearchSystem {
 
     static void init(Consumer<FinishedRecipe> provider) {
         // 重写配方
-        {
-            CHEMICAL_RECIPES.recipeBuilder("polydimethylsiloxane_from_silicon")
-                    .inputItems(dust, Silicon)
-                    .inputFluids(HydrochloricAcid.getFluid(2000))
-                    .inputFluids(Methanol.getFluid(2000))
-                    .outputItems(dust, Polydimethylsiloxane, 3)
-                    .outputFluids(DilutedHydrochloricAcid.getFluid(2000))
-                    .circuitMeta(2)
-                    .duration(480).EUt(96).save();
-
-            BLAST_RECIPES.recipeBuilder("silicon_boule")
-                    .inputItems(dust, ElectronicGradeSilicon, 32)
-                    .inputItems(dustSmall, GalliumArsenide)
-                    .outputItems(SILICON_BOULE)
-                    .blastFurnaceTemp(1784)
-                    .duration(9000).EUt(VA[MV]).save();
-
-            BLAST_RECIPES.recipeBuilder("phosphorus_boule")
-                    .inputItems(dust, ElectronicGradeSilicon, 64)
-                    .inputItems(dust, Phosphorus, 8)
-                    .inputItems(dustSmall, GalliumArsenide, 2)
-                    .inputFluids(Nitrogen.getFluid(8000))
-                    .outputItems(PHOSPHORUS_BOULE)
-                    .blastFurnaceTemp(2484)
-                    .duration(12000).EUt(VA[HV]).save();
-
-            BLAST_RECIPES.recipeBuilder("naquadah_boule")
-                    .inputItems(block, ElectronicGradeSilicon, 16)
-                    .inputItems(ingot, Naquadah)
-                    .inputItems(dust, GalliumArsenide)
-                    .inputFluids(Argon.getFluid(8000))
-                    .outputItems(NAQUADAH_BOULE)
-                    .blastFurnaceTemp(5400)
-                    .duration(15000).EUt(VA[EV]).save();
-
-            BLAST_RECIPES.recipeBuilder("neutronium_boule")
-                    .inputItems(block, UltraHighPuritySilicon, 32)
-                    .inputItems(ingot, Neutronium, 4)
-                    .inputItems(dust, GalliumArsenide, 2)
-                    .inputFluids(Xenon.getFluid(8000))
-                    .outputItems(NEUTRONIUM_BOULE)
-                    .blastFurnaceTemp(6484)
-                    .duration(18000).EUt(VA[IV]).save();
-        }
+        CHEMICAL_RECIPES.recipeBuilder("polydimethylsiloxane_from_silicon")
+                .inputItems(dust, Silicon)
+                .inputFluids(HydrochloricAcid.getFluid(2000))
+                .inputFluids(Methanol.getFluid(2000))
+                .outputItems(dust, Polydimethylsiloxane, 3)
+                .outputFluids(DilutedHydrochloricAcid.getFluid(2000))
+                .circuitMeta(2)
+                .duration(480).EUt(96).save();
 
         // 低相关度配方
         {
@@ -255,14 +220,6 @@ public interface NewResearchSystem {
                     .EUt(VA[IV])
                     .addCondition(new VacuumCondition(4))
                     .save();
-
-            BLAST_RECIPES.recipeBuilder("make_high_purity_single_crystal_silicon")
-                    .inputItems(block, UltraHighPuritySilicon, 16)
-                    .inputItems(dust, GalliumArsenide)
-                    .inputFluids(Xenon.getFluid(8000))
-                    .outputItems(HIGH_PURITY_SINGLE_CRYSTAL_SILICON)
-                    .blastFurnaceTemp(8684)
-                    .duration(21000).EUt(VA[ZPM]).save();
         }
 
         // 高纯度二氧化硅/光纤产线

@@ -251,5 +251,18 @@ interface FormingPress {
                 .duration(750)
                 .cleanroom(GTOCleanroomType.LAW_CLEANROOM)
                 .save();
+
+        FORMING_PRESS_RECIPES.recipeBuilder(GTOCore.id(""))
+                .inputItems(GTItems.ENGRAVED_CRYSTAL_CHIP.asStack())
+                .inputItems(GTOItems.DIAMOND_CRYSTAL_CIRCUIT.asStack())
+                .inputItems(GTOItems.RUBY_CRYSTAL_CIRCUIT.asStack())
+                .inputItems(GTOItems.EMERALD_CRYSTAL_CIRCUIT.asStack())
+                .inputItems(GTOItems.SAPPHIRE_CRYSTAL_CIRCUIT.asStack())
+                .inputItems(TagPrefix.plate, GTMaterials.Tantalum)
+                .outputItems(GTItems.CRYSTAL_CENTRAL_PROCESSING_UNIT.asStack())
+                .EUt(10000)
+                .duration(100)
+                .cleanroom(CleanroomType.CLEANROOM)
+                .save();
     }
 }

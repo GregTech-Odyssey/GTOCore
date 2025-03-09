@@ -52,7 +52,10 @@ final class ItemLang {
         addENCN("tagprefix.brick", "%s Brick", "%s砖");
         addENCN("tagprefix.flake", "%s Flake", "%s薄片");
         addENCN("tagprefix.catalyst", "%s Catalyst", "%s催化剂");
+        addENCN("tagprefix.artificial_gem", "Artificial %s", "人造%s");
+        addENCN("tagprefix.crystal_seed", "%s Crystal Seed", "%s晶种");
 
+        addENCN("gtocore.tooltip.artificial_gem", "Better than nature", "比自然的更好");
         addENCN("gtocore.tooltip.unknown", "Unknown", "未知");
 
         addENCN("item.gtceu.tool.hv_vajra", "%s Basic Vajra", "%s 基础金刚杵");

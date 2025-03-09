@@ -1,7 +1,7 @@
 {
   "parent": "item/handheld",
   "textures": {
-    "layer0": "gtceu:item/material_sets/magnetohydrodynamically_constrained_star_matter/rod",
-    "layer1": "gtceu:item/material_sets/magnetohydrodynamically_constrained_star_matter/rod_overlay"
+    "layer0": "gtocore:item/material_sets/magnetohydrodynamically_constrained_star_matter/rod",
+    "layer1": "gtocore:item/material_sets/magnetohydrodynamically_constrained_star_matter/rod_overlay"
   }
 }

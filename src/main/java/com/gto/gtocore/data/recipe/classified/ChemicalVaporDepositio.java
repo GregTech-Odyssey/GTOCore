@@ -7,7 +7,12 @@ import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.machine.multiblock.CleanroomType;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
-import static com.gto.gtocore.common.data.GTORecipeTypes.*;
+import static com.gregtechceu.gtceu.api.GTValues.EV;
+import static com.gregtechceu.gtceu.api.GTValues.VA;
+import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.dust;
+import static com.gregtechceu.gtceu.common.data.GTItems.*;
+import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
+import static com.gto.gtocore.common.data.GTORecipeTypes.CHEMICAL_VAPOR_DEPOSITION_RECIPES;
 
 interface ChemicalVaporDepositio {
 
@@ -55,5 +60,39 @@ interface ChemicalVaporDepositio {
                 .duration(390)
                 .cleanroom(CleanroomType.CLEANROOM)
                 .save();
+
+        CHEMICAL_VAPOR_DEPOSITION_RECIPES.recipeBuilder(GTOCore.id("graphene"))
+                .notConsumable(TagPrefix.plate, GTMaterials.Nickel)
+                .inputItems(TagPrefix.dust, GTOMaterials.GrapheneOxide, 3)
+                .outputItems(TagPrefix.foil, GTMaterials.Graphene, 8)
+                .inputFluids(GTMaterials.Methane.getFluid(1000))
+                .outputFluids(GTMaterials.Water.getFluid(2000))
+                .EUt(7680)
+                .duration(120)
+                .save();
+
+        CHEMICAL_VAPOR_DEPOSITION_RECIPES.recipeBuilder("nano_cpu_wafer")
+                .inputItems(CENTRAL_PROCESSING_UNIT_WAFER)
+                .inputItems(CARBON_FIBERS, 16)
+                .inputFluids(Glowstone.getFluid(576))
+                .outputItems(NANO_CENTRAL_PROCESSING_UNIT_WAFER)
+                .cleanroom(CleanroomType.CLEANROOM)
+                .duration(1200).EUt(VA[EV]).save();
+
+        CHEMICAL_VAPOR_DEPOSITION_RECIPES.recipeBuilder("qbit_cpu_wafer_quantum_eye")
+                .inputItems(NANO_CENTRAL_PROCESSING_UNIT_WAFER)
+                .inputItems(QUANTUM_EYE, 2)
+                .inputFluids(GalliumArsenide.getFluid(288))
+                .outputItems(QUBIT_CENTRAL_PROCESSING_UNIT_WAFER)
+                .cleanroom(CleanroomType.CLEANROOM)
+                .duration(900).EUt(VA[EV]).save();
+
+        CHEMICAL_VAPOR_DEPOSITION_RECIPES.recipeBuilder("qbit_cpu_wafer_radon")
+                .inputItems(NANO_CENTRAL_PROCESSING_UNIT_WAFER)
+                .inputItems(dust, IndiumGalliumPhosphide)
+                .inputFluids(Radon.getFluid(50))
+                .outputItems(QUBIT_CENTRAL_PROCESSING_UNIT_WAFER)
+                .cleanroom(CleanroomType.CLEANROOM)
+                .duration(1200).EUt(VA[EV]).save();
     }
 }

@@ -16,7 +16,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 public class ExResearchEmptyPartMachine extends ExResearchBasePartMachine {
 
     public ExResearchEmptyPartMachine(IMachineBlockEntity holder) {
-        super(holder, 0);
+        super(holder, 3);
     }
 
     @Override

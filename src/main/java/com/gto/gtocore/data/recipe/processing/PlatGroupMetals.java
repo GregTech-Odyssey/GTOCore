@@ -116,8 +116,8 @@ public interface PlatGroupMetals {
                 .inputItems(dust, InertMetalMixture, 6)
                 .inputItems(dust, SodiumNitrate, 10)
                 .inputFluids(SulfuricAcid.getFluid(1000))
-                .outputFluids(RhodiumSulfateGas.getFluid(500))
-                .outputItems(dust, SodiumRutheniate, 7)
+                .outputFluids(RhodiumSulfateGas.getFluid(600))
+                .outputItems(dust, SodiumRutheniate, 6)
                 .blastFurnaceTemp(775)
                 .duration(70).EUt(VA[MV]).save();
 
@@ -138,8 +138,8 @@ public interface PlatGroupMetals {
         DISTILLATION_RECIPES.recipeBuilder(GTOCore.id("hot_ruthenium_tetroxide_distill"))
                 .inputFluids(RutheniumTetroxideHot.getFluid(3000))
                 .outputItems(dust, Salt, 2)
-                .outputFluids(Water.getFluid(1800))
-                .outputFluids(RutheniumTetroxideLQ.getFluid(1000))
+                .outputFluids(Water.getFluid(1000))
+                .outputFluids(RutheniumTetroxideLQ.getFluid(900))
                 .duration(80).EUt(VA[HV]).save();
 
         FLUID_SOLIDFICATION_RECIPES.recipeBuilder(GTOCore.id("ruthenium_tetroxide_dust"))
@@ -217,7 +217,7 @@ public interface PlatGroupMetals {
         DISTILLERY_RECIPES.recipeBuilder(GTOCore.id("reprecipitated_rhodium"))
                 .inputFluids(RhodiumFilterCakeSolution.getFluid(1000))
                 .circuitMeta(1)
-                .outputItems(dust, ReprecipitatedRhodium, 7)
+                .outputItems(dust, ReprecipitatedRhodium, 6)
                 .duration(150).EUt(VA[LV]).save();
 
         CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("rhodium_dust"))
@@ -240,9 +240,18 @@ public interface PlatGroupMetals {
         DISTILLATION_RECIPES.recipeBuilder(GTOCore.id("acidic_osmium_solution_separation"))
                 .duration(180).EUt(VA[LV])
                 .inputFluids(AcidicOsmiumSolution.getFluid(2000))
-                .outputItems(dust, OsmiumTetroxide, 5)
-                .outputFluids(Water.getFluid(2000))
+                .outputItems(dust, OsmiumOxideMetal, 5)
+                .outputFluids(Water.getFluid(1000))
                 .outputFluids(HydrochloricAcid.getFluid(1000))
+                .save();
+
+        CHEMICAL_BATH_RECIPES.recipeBuilder(GTOCore.id("osmium_tetroxide"))
+                .inputItems(TagPrefix.dust, GTOMaterials.OsmiumOxideMetal, 7)
+                .outputItems(TagPrefix.dust, GTMaterials.OsmiumTetroxide, 4)
+                .inputFluids(GTMaterials.SulfuricAcid.getFluid(1000))
+                .outputFluids(GTMaterials.DilutedSulfuricAcid.getFluid(2000))
+                .EUt(30)
+                .duration(140)
                 .save();
 
         CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("iridium_dioxide_dissolving"))

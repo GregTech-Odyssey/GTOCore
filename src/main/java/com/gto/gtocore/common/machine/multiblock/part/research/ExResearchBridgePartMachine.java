@@ -34,7 +34,7 @@ public class ExResearchBridgePartMachine extends ExResearchBasePartMachine {
     }
 
     @Override
-    boolean doesAllowBridging() {
+    public boolean doesAllowBridging() {
         return true;
     }
 }

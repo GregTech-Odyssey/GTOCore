@@ -31,6 +31,7 @@ import java.util.function.Consumer;
 
 import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlags.*;
+import static com.gregtechceu.gtceu.common.data.GTMaterials.DistilledWater;
 import static com.gto.gtocore.api.data.tag.GTOTagPrefix.*;
 import static com.gto.gtocore.common.data.GTORecipeTypes.*;
 
@@ -106,6 +107,9 @@ interface GTOPartsRecipeHandler {
         if (GTOUtils.isGeneration(roughBlank, material)) {
             processroughBlank(material, provider);
         }
+        if (GTOUtils.isGeneration(artificialGem, material)) {
+            processCrystallization(material);
+        }
     }
 
     private static void processScrew(Material material, Consumer<FinishedRecipe> provider) {
@@ -146,7 +150,7 @@ interface GTOPartsRecipeHandler {
                     .notConsumable(GTItems.SHAPE_EXTRUDER_FOIL)
                     .outputItems(stack)
                     .duration(mass << 1)
-                    .EUt((long) GTOUtils.getVoltageMultiplier(material) << 2)
+                    .EUt((long) GTOUtils.getVoltageMultiplier(material) << 3)
                     .save();
         }
     }
@@ -176,20 +180,24 @@ interface GTOPartsRecipeHandler {
         if (!ChemicalHelper.get(foil, material).isEmpty() && mass < 240 && material.getBlastTemperature() < 3600)
             VanillaRecipeHelper.addShapelessRecipe(provider, String.format("fine_wire_%s", material.getName()),
                     fineWireStack, 'x', new UnificationEntry(foil, material));
-
+        int voltageMultiplier = GTOUtils.getVoltageMultiplier(material);
+        Integer voltage = GTOMaterials.MATERIAL_VOLTAGE.get(material);
+        if (voltage != null) {
+            voltageMultiplier = voltage;
+        }
         if (material.hasProperty(PropertyKey.WIRE)) {
             WIREMILL_RECIPES.recipeBuilder("mill_" + material.getName() + "_wire_to_fine_wire")
                     .inputItems(wireGtSingle, material)
                     .outputItems(fineWireStack.copyWithCount(4))
                     .duration(mass * 3 / 2)
-                    .EUt(GTOUtils.getVoltageMultiplier(material))
+                    .EUt(voltageMultiplier)
                     .save();
         } else {
             WIREMILL_RECIPES.recipeBuilder("mill_" + material.getName() + "ingot_to_fine_wire")
                     .inputItems(ingot, material)
                     .outputItems(fineWireStack.copyWithCount(8))
                     .duration(mass * 3)
-                    .EUt(GTOUtils.getVoltageMultiplier(material))
+                    .EUt(voltageMultiplier)
                     .save();
         }
     }
@@ -225,7 +233,7 @@ interface GTOPartsRecipeHandler {
                     .notConsumable(isSmall ? GTItems.SHAPE_MOLD_GEAR_SMALL : GTItems.SHAPE_MOLD_GEAR)
                     .inputFluids(material.getFluid(L * (isSmall ? 1 : 4)))
                     .outputItems(stack)
-                    .duration(isSmall ? 20 : 100)
+                    .duration(isSmall ? 100 : 500)
                     .EUt(VA[ULV])
                     .save();
         }
@@ -243,7 +251,7 @@ interface GTOPartsRecipeHandler {
                         .notConsumable(GTItems.SHAPE_EXTRUDER_GEAR_SMALL)
                         .outputItems(stack)
                         .duration(mass << 1)
-                        .EUt((long) GTOUtils.getVoltageMultiplier(material) << 2)
+                        .EUt((long) GTOUtils.getVoltageMultiplier(material) << 3)
                         .save();
 
                 if (material.hasFlag(NO_SMASHING)) {
@@ -252,7 +260,7 @@ interface GTOPartsRecipeHandler {
                             .notConsumable(GTItems.SHAPE_EXTRUDER_GEAR_SMALL)
                             .outputItems(stack)
                             .duration(mass << 1)
-                            .EUt((long) GTOUtils.getVoltageMultiplier(material) << 2)
+                            .EUt((long) GTOUtils.getVoltageMultiplier(material) << 3)
                             .save();
                 }
             } else if (mass < 240 && material.getBlastTemperature() < 3600) {
@@ -274,7 +282,7 @@ interface GTOPartsRecipeHandler {
                         .notConsumable(GTItems.SHAPE_MOLD_PLATE)
                         .inputFluids(fluidStack)
                         .outputItems(stack)
-                        .duration(40)
+                        .duration(200)
                         .EUt(VA[ULV])
                         .save();
             }
@@ -415,7 +423,7 @@ interface GTOPartsRecipeHandler {
                     .notConsumable(GTItems.SHAPE_MOLD_ROTOR)
                     .inputFluids(material.getFluid(L * 5))
                     .outputItems(stack)
-                    .duration(mass << 2)
+                    .duration(550)
                     .EUt(20)
                     .save();
         }
@@ -425,7 +433,7 @@ interface GTOPartsRecipeHandler {
                 .notConsumable(GTItems.SHAPE_EXTRUDER_ROTOR)
                 .outputItems(stack)
                 .duration(mass << 3)
-                .EUt((long) GTOUtils.getVoltageMultiplier(material) << 2)
+                .EUt((long) GTOUtils.getVoltageMultiplier(material) << 3)
                 .save();
 
         LASER_WELDER_RECIPES.recipeBuilder(material.getName() + "_to_rotor")
@@ -443,7 +451,7 @@ interface GTOPartsRecipeHandler {
                     .notConsumable(GTItems.SHAPE_EXTRUDER_ROTOR)
                     .outputItems(stack)
                     .duration(mass << 3)
-                    .EUt((long) GTOUtils.getVoltageMultiplier(material) << 2)
+                    .EUt((long) GTOUtils.getVoltageMultiplier(material) << 3)
                     .save();
         }
     }
@@ -544,7 +552,7 @@ interface GTOPartsRecipeHandler {
                     .notConsumable(GTItems.SHAPE_EXTRUDER_ROD_LONG)
                     .outputItems(stack)
                     .duration(mass << 1)
-                    .EUt((long) GTOUtils.getVoltageMultiplier(material) << 2)
+                    .EUt((long) GTOUtils.getVoltageMultiplier(material) << 3)
                     .save();
 
             if (material.hasFlag(NO_SMASHING)) {
@@ -553,7 +561,7 @@ interface GTOPartsRecipeHandler {
                         .notConsumable(GTItems.SHAPE_EXTRUDER_ROD_LONG)
                         .outputItems(stack)
                         .duration(mass << 1)
-                        .EUt((long) GTOUtils.getVoltageMultiplier(material) << 2)
+                        .EUt((long) GTOUtils.getVoltageMultiplier(material) << 3)
                         .save();
             }
         }
@@ -580,7 +588,7 @@ interface GTOPartsRecipeHandler {
                 .inputItems(screw, material, 2)
                 .outputItems(stack)
                 .duration(mass * 10)
-                .EUt((long) GTOUtils.getVoltageMultiplier(material) << 2)
+                .EUt((long) GTOUtils.getVoltageMultiplier(material) << 3)
                 .save();
     }
 
@@ -597,7 +605,7 @@ interface GTOPartsRecipeHandler {
         }
 
         LATHE_RECIPES.recipeBuilder("lathe_" + material.getName() + "_nugget_to_round")
-                .EUt(VA[ULV]).duration(Math.min(1, (int) material.getMass() / 9))
+                .EUt(GTOUtils.getVoltageMultiplier(material)).duration(Math.min(1, (int) material.getMass() / 9))
                 .inputItems(stack)
                 .outputItems(stack1)
                 .save();
@@ -899,6 +907,27 @@ interface GTOPartsRecipeHandler {
                 .outputItems(flakes, material, 4)
                 .duration(200)
                 .EUt(30)
+                .save();
+    }
+
+    private static void processCrystallization(Material material) {
+        ItemStack stack = ChemicalHelper.get(crystalSeed, material, 2);
+        ItemStack stack1 = ChemicalHelper.get(gemExquisite, material);
+        if (stack1.isEmpty()) return;
+        CUTTER_RECIPES.recipeBuilder(GTOCore.id("%s_gem".formatted(material.getName())))
+                .inputItems(artificialGem, material)
+                .outputItems(stack1)
+                .outputItems(stack)
+                .duration((int) (material.getMass() << 1))
+                .EUt(16)
+                .save();
+
+        AUTOCLAVE_RECIPES.recipeBuilder(GTOCore.id("%s_seed".formatted(material.getName())))
+                .inputItems(stack1)
+                .inputFluids(DistilledWater.getFluid(800))
+                .outputItems(stack)
+                .duration((int) (material.getMass() << 2))
+                .EUt(7)
                 .save();
     }
 }

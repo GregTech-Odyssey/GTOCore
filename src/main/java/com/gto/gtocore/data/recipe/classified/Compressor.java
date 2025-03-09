@@ -72,5 +72,12 @@ interface Compressor {
                 .EUt(524288)
                 .duration(200)
                 .save();
+
+        COMPRESSOR_RECIPES.recipeBuilder(GTOCore.id("diamond_lattice_block"))
+                .inputItems("avaritia:diamond_lattice", 9)
+                .outputItems("avaritia:diamond_lattice_block")
+                .EUt(1920)
+                .duration(400)
+                .save();
     }
 }

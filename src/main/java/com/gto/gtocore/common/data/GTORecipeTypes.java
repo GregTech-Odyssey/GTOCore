@@ -803,7 +803,7 @@ public interface GTORecipeTypes {
 
     GTORecipeType ELECTRIC_COOKING_RECIPES = register("electric_cooking", "电力烹饪", MULTIBLOCK)
             .setEUIO(IO.IN)
-            .setMaxIOSize(6, 1, 1, 0)
+            .setMaxIOSize(7, 2, 2, 2)
             .setProgressBar(GuiTextures.PROGRESS_BAR_BATH, LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.FURNACE);
 
@@ -858,6 +858,15 @@ public interface GTORecipeTypes {
             .setMaxIOSize(1, 1, 1, 1)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.ARC);
+
+    GTORecipeType CRYSTALLIZATION_RECIPES = register("crystallization", "结晶", MULTIBLOCK)
+            .setMaxIOSize(3, 1, 2, 0)
+            .setEUIO(IO.IN)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_CRYSTALLIZATION, LEFT_TO_RIGHT)
+            .setSound(GTSoundEntries.FURNACE)
+            .addDataInfo(TEMPERATURE)
+            .addDataInfo(COIL)
+            .setUiBuilder(COIL_UI);
 
     // TODO 添加用途
     GTORecipeType BIOCHEMICAL_REACTION_RECIPES = register("biochemical_reaction", "生化反应", MULTIBLOCK)

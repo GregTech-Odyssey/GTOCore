@@ -881,5 +881,10 @@ interface Vanilla {
                 "BCB",
                 "ABA",
                 'A', GTBlocks.SUPERCONDUCTING_COIL.asStack(), 'B', GTMachines.HI_AMP_TRANSFORMER_2A[GTValues.LuV].asStack(), 'C', GTMachines.CHARGER_4[GTValues.LuV].asStack());
+        VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("crystallization_chamber"), MultiBlockG.CRYSTALLIZATION_CHAMBER.asStack(),
+                "ABA",
+                "CDC",
+                "ABA",
+                'A', GTBlocks.COIL_CUPRONICKEL.asStack(), 'B', new UnificationEntry(TagPrefix.pipeHugeFluid, GTMaterials.Gold), 'C', GTItems.FLUID_REGULATOR_MV.asStack(), 'D', GTMachines.AUTOCLAVE[GTValues.LV].asStack());
     }
 }

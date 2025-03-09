@@ -26,7 +26,7 @@ interface ImplosionCompressor {
 
     static void init() {
         IMPLOSION_RECIPES.recipeBuilder(GTOCore.id("diamond_lattice_tnt"))
-                .inputItems(TagPrefix.gemExquisite, GTMaterials.Diamond, 4)
+                .inputItems(TagPrefix.gemExquisite, GTOMaterials.ManaDiamond, 4)
                 .inputItems(new ItemStack(Items.NETHERITE_SCRAP.asItem()))
                 .inputItems(new ItemStack(Blocks.TNT.asItem(), 4))
                 .outputItems(ModItems.diamond_lattice.get())
@@ -66,7 +66,7 @@ interface ImplosionCompressor {
                 .save();
 
         IMPLOSION_RECIPES.recipeBuilder(GTOCore.id("crystal_matrix_itnt"))
-                .inputItems(new ItemStack(ModItems.diamond_lattice.get(), 8))
+                .inputItems(ModBlocks.diamond_lattice_block.get())
                 .inputItems(TagPrefix.gem, GTMaterials.NetherStar)
                 .inputItems(GTBlocks.INDUSTRIAL_TNT.asStack())
                 .outputItems(ModBlocks.crystal_matrix.get().asItem())
@@ -76,7 +76,7 @@ interface ImplosionCompressor {
                 .save();
 
         IMPLOSION_RECIPES.recipeBuilder(GTOCore.id("diamond_lattice_dynamite"))
-                .inputItems(TagPrefix.gemExquisite, GTMaterials.Diamond, 4)
+                .inputItems(TagPrefix.gemExquisite, GTOMaterials.ManaDiamond, 4)
                 .inputItems(new ItemStack(Items.NETHERITE_SCRAP.asItem()))
                 .inputItems(GTItems.DYNAMITE.asStack(2))
                 .outputItems(ModItems.diamond_lattice.get())
@@ -96,7 +96,7 @@ interface ImplosionCompressor {
                 .save();
 
         IMPLOSION_RECIPES.recipeBuilder(GTOCore.id("diamond_lattice_itnt"))
-                .inputItems(TagPrefix.gemExquisite, GTMaterials.Diamond, 4)
+                .inputItems(TagPrefix.gemExquisite, GTOMaterials.ManaDiamond, 4)
                 .inputItems(new ItemStack(Items.NETHERITE_SCRAP.asItem()))
                 .inputItems(GTBlocks.INDUSTRIAL_TNT.asStack())
                 .outputItems(ModItems.diamond_lattice.get())
@@ -206,7 +206,7 @@ interface ImplosionCompressor {
                 .save();
 
         IMPLOSION_RECIPES.recipeBuilder(GTOCore.id("crystal_matrix_tnt"))
-                .inputItems(new ItemStack(ModItems.diamond_lattice.get(), 8))
+                .inputItems(ModBlocks.diamond_lattice_block.get())
                 .inputItems(TagPrefix.gem, GTMaterials.NetherStar)
                 .inputItems(new ItemStack(Blocks.TNT.asItem(), 4))
                 .outputItems(ModBlocks.crystal_matrix.get().asItem())
@@ -236,7 +236,7 @@ interface ImplosionCompressor {
                 .save();
 
         IMPLOSION_RECIPES.recipeBuilder(GTOCore.id("diamond_lattice_powderbarrel"))
-                .inputItems(TagPrefix.gemExquisite, GTMaterials.Diamond, 4)
+                .inputItems(TagPrefix.gemExquisite, GTOMaterials.ManaDiamond, 4)
                 .inputItems(new ItemStack(Items.NETHERITE_SCRAP.asItem()))
                 .inputItems(GTBlocks.POWDERBARREL.asStack(8))
                 .outputItems(ModItems.diamond_lattice.get())
@@ -256,7 +256,7 @@ interface ImplosionCompressor {
                 .save();
 
         IMPLOSION_RECIPES.recipeBuilder(GTOCore.id("crystal_matrix_dynamite"))
-                .inputItems(new ItemStack(ModItems.diamond_lattice.get(), 8))
+                .inputItems(ModBlocks.diamond_lattice_block.get())
                 .inputItems(TagPrefix.gem, GTMaterials.NetherStar)
                 .inputItems(GTItems.DYNAMITE.asStack(2))
                 .outputItems(ModBlocks.crystal_matrix.get().asItem())
@@ -356,7 +356,7 @@ interface ImplosionCompressor {
                 .save();
 
         IMPLOSION_RECIPES.recipeBuilder(GTOCore.id("crystal_matrix_powderbarrel"))
-                .inputItems(new ItemStack(ModItems.diamond_lattice.get(), 8))
+                .inputItems(ModBlocks.diamond_lattice_block.get())
                 .inputItems(TagPrefix.gem, GTMaterials.NetherStar)
                 .inputItems(GTBlocks.POWDERBARREL.asStack(8))
                 .outputItems(ModBlocks.crystal_matrix.get().asItem())
@@ -410,7 +410,7 @@ interface ImplosionCompressor {
                 .save();
 
         ELECTRIC_IMPLOSION_COMPRESSOR_RECIPES.recipeBuilder(GTOCore.id("crystal_matrix"))
-                .inputItems(new ItemStack(ModItems.diamond_lattice.get(), 8))
+                .inputItems(ModBlocks.diamond_lattice_block.get())
                 .inputItems(TagPrefix.gem, GTMaterials.NetherStar)
                 .outputItems(ModBlocks.crystal_matrix.get().asItem())
                 .EUt(491520)
@@ -434,7 +434,7 @@ interface ImplosionCompressor {
                 .save();
 
         ELECTRIC_IMPLOSION_COMPRESSOR_RECIPES.recipeBuilder(GTOCore.id("diamond_lattice"))
-                .inputItems(TagPrefix.gemExquisite, GTMaterials.Diamond, 4)
+                .inputItems(TagPrefix.gemExquisite, GTOMaterials.ManaDiamond, 4)
                 .inputItems(new ItemStack(Items.NETHERITE_SCRAP.asItem()))
                 .outputItems(ModItems.diamond_lattice.get())
                 .EUt(491520)

@@ -1,12 +1,15 @@
 package com.gto.gtocore.data.recipe.classified;
 
 import com.gto.gtocore.GTOCore;
+import com.gto.gtocore.api.data.tag.GTOTagPrefix;
 import com.gto.gtocore.api.recipe.GTORecipeBuilder;
 import com.gto.gtocore.common.data.GTOItems;
 import com.gto.gtocore.common.data.GTOMaterials;
 import com.gto.gtocore.utils.StringUtils;
 
+import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.machine.multiblock.CleanroomType;
+import com.gregtechceu.gtceu.common.data.GTMaterials;
 
 import javax.annotation.Nullable;
 
@@ -142,6 +145,30 @@ interface Cutter {
                 .EUt(122880)
                 .duration(900)
                 .cleanroom(CleanroomType.CLEANROOM)
+                .save();
+
+        CUTTER_RECIPES.recipeBuilder(GTOCore.id("silicon_crystal_seed"))
+                .inputItems(TagPrefix.block, GTMaterials.Silicon)
+                .outputItems(GTOTagPrefix.crystalSeed, GTMaterials.Silicon, 16)
+                .inputFluids(GTMaterials.DistilledWater.getFluid(10000))
+                .EUt(120)
+                .duration(2600)
+                .save();
+
+        CUTTER_RECIPES.recipeBuilder(GTOCore.id("electronicgradesilicon_crystal_seed"))
+                .inputItems(TagPrefix.block, GTOMaterials.ElectronicGradeSilicon)
+                .outputItems(GTOTagPrefix.crystalSeed, GTOMaterials.ElectronicGradeSilicon, 16)
+                .inputFluids(GTOMaterials.OzoneWater.getFluid(10000))
+                .EUt(480)
+                .duration(4800)
+                .save();
+
+        CUTTER_RECIPES.recipeBuilder(GTOCore.id("ultrahighpuritysilicon_crystal_seed"))
+                .inputItems(TagPrefix.block, GTOMaterials.UltraHighPuritySilicon)
+                .outputItems(GTOTagPrefix.crystalSeed, GTOMaterials.UltraHighPuritySilicon, 16)
+                .inputFluids(GTOMaterials.PHNeutralWater.getFluid(10000))
+                .EUt(1920)
+                .duration(6000)
                 .save();
 
         add("minecraft:beef", "farmersdelight:minced_beef", 2, null, 1);

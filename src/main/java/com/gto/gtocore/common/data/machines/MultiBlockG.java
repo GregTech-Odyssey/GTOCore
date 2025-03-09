@@ -5,6 +5,7 @@ import com.gto.gtocore.api.GTOValues;
 import com.gto.gtocore.api.data.GTODimensions;
 import com.gto.gtocore.api.machine.multiblock.CoilMultiblockMachine;
 import com.gto.gtocore.api.machine.multiblock.ElectricMultiblockMachine;
+import com.gto.gtocore.api.machine.multiblock.NoEnergyMultiblockMachine;
 import com.gto.gtocore.api.machine.part.GTOPartAbility;
 import com.gto.gtocore.api.pattern.GTOPredicates;
 import com.gto.gtocore.client.renderer.machine.ArrayMachineRenderer;
@@ -68,6 +69,61 @@ public interface MultiBlockG {
             .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_clean_stainless_steel"),
                     GTCEu.id("block/multiblock/multi_furnace"))
             .register() : null;
+
+    MultiblockMachineDefinition CRYSTALLIZATION_CHAMBER = multiblock("crystallization_chamber", "结晶器", CoilMultiblockMachine.createCoilMachine(false, true))
+            .nonYAxisRotation()
+            .recipe(GTORecipeTypes.CRYSTALLIZATION_RECIPES)
+            .overclock()
+            .block(GTBlocks.CASING_STEEL_SOLID)
+            .pattern(definition -> FactoryBlockPattern.start()
+                    .aisle("AaaaA", "ABBBA", "ABBBA", "AAAAA", "     ")
+                    .aisle("aCCCa", "B   B", "B   B", "ACCCA", " AAA ")
+                    .aisle("aCDCa", "B E B", "B E B", "ACDCA", " AAA ")
+                    .aisle("aCCCa", "B   B", "B   B", "ACCCA", " AAA ")
+                    .aisle("Aa~aA", "ABBBA", "ABBBA", "AAAAA", "     ")
+                    .where('~', controller(blocks(definition.get())))
+                    .where('A', blocks(GTBlocks.CASING_STEEL_SOLID.get()))
+                    .where('a', blocks(GTBlocks.CASING_STEEL_SOLID.get())
+                            .or(autoAbilities(definition.getRecipeTypes()))
+                            .or(abilities(MAINTENANCE).setExactLimit(1)))
+                    .where('B', blocks(GTBlocks.CASING_TEMPERED_GLASS.get()))
+                    .where('C', blocks(GTBlocks.COIL_CUPRONICKEL.get()))
+                    .where('D', blocks(GTBlocks.CASING_INVAR_HEATPROOF.get()))
+                    .where('E', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.Steel)))
+                    .where(' ', any())
+                    .build())
+            .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_solid_steel"), GTCEu.id("block/multiblock/large_chemical_reactor"))
+            .register();
+
+    MultiblockMachineDefinition ALGAE_FARM = multiblock("algae_farm", "藻类农场", NoEnergyMultiblockMachine::new)
+            .nonYAxisRotation()
+            .recipe(GTORecipeTypes.DUMMY_RECIPES)
+            .block(GTBlocks.PLASTCRETE)
+            .pattern(definition -> FactoryBlockPattern.start()
+                    .aisle("AAAGGGAAA", "CCCGGGCCC", "CCCCCCCCC")
+                    .aisle("AEAEAEAEA", "C C C C C", "CFCFCFCFC")
+                    .aisle("AEAEAEAEA", "C C C C C", "CCCCCCCCC")
+                    .aisle("AEAEAEAEA", "C C C C C", "DFDFDFDFD")
+                    .aisle("BBBBBBBBB", "C C C C C", "DFDFDFDFD")
+                    .aisle("AEAEAEAEA", "C C C C C", "DFDFDFDFD")
+                    .aisle("AEAEAEAEA", "C C C C C", "CCCCCCCCC")
+                    .aisle("AEAEAEAEA", "C C C C C", "CFCFCFCFC")
+                    .aisle("AAAGHGAAA", "CCCGGGCCC", "CCCCCCCCC")
+                    .where('A', blocks(GTBlocks.PLASTCRETE.get()))
+                    .where('B', blocks(GTBlocks.CASING_STEEL_PIPE.get()))
+                    .where('C', blocks(GTOBlocks.BRASS_REINFORCED_WOODEN_CASING.get()))
+                    .where('D', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.Aluminium)))
+                    .where('E', blocks(GTBlocks.CASING_STAINLESS_CLEAN.get()))
+                    .where('F', blocks(Blocks.GLASS))
+                    .where('G', blocks(GTBlocks.PLASTCRETE.get())
+                            .or(abilities(IMPORT_FLUIDS).setExactLimit(1))
+                            .or(abilities(EXPORT_ITEMS).setExactLimit(1))
+                            .or(abilities(MAINTENANCE).setExactLimit(1)))
+                    .where('H', controller(blocks(definition.get())))
+                    .where(' ', any())
+                    .build())
+            .workableCasingRenderer(GTCEu.id("block/casings/cleanroom/plascrete"), GTCEu.id("block/multiblock/large_chemical_reactor"))
+            .register();
 
     MultiblockMachineDefinition POLYMERIZATION_REACTOR = multiblock("polymerization_reactor", "聚合反应器", CoilMultiblockMachine.createCoilMachine(false, false))
             .nonYAxisRotation()

@@ -629,8 +629,8 @@ public interface GTOItems {
     ItemEntry<Item> HYPERCUBE = register("hypercube", "超立方体");
     ItemEntry<Item> ANNIHILATION_CONSTRAINER = register("annihilation_constrainer", "湮灭约束器");
     ItemEntry<Item> SOLAR_LIGHT_SPLITTER = register("solar_light_splitter", "阳光分离器");
-    ItemEntry<ToolTipsItem> CREATE_ULTIMATE_BATTERY = registerTooltip("create_ultimate_battery", "创造电池", () -> Component.literal(I18n.get("tooltip.avaritia.tier", "-" + StringUtils.white_blue(I18n.get("gtocore.tooltip.unknown")))).withStyle(ChatFormatting.GREEN));
-    ItemEntry<ToolTipsItem> SUPRACHRONAL_MAINFRAME_COMPLEX = registerTooltip("suprachronal_mainframe_complex", "创造主机", () -> Component.literal(I18n.get("tooltip.avaritia.tier", "-" + StringUtils.white_blue(I18n.get("gtocore.tooltip.unknown")))).withStyle(ChatFormatting.GREEN));
+    ItemEntry<ToolTipsItem> CREATE_ULTIMATE_BATTERY = registerTooltip("create_ultimate_battery", "创造电池", () -> Component.literal(I18n.get("tooltip.avaritia.tier", StringUtils.white_blue(I18n.get("gtocore.tooltip.unknown")))).withStyle(ChatFormatting.GREEN));
+    ItemEntry<ToolTipsItem> SUPRACHRONAL_MAINFRAME_COMPLEX = registerTooltip("suprachronal_mainframe_complex", "创造主机", () -> Component.literal(I18n.get("tooltip.avaritia.tier", StringUtils.white_blue(I18n.get("gtocore.tooltip.unknown")))).withStyle(ChatFormatting.GREEN));
     ItemEntry<Item> ZERO_POINT_MODULE_FRAGMENTS = register("zero_point_module_fragments", "零点模块碎片");
     ItemEntry<Item> TCETIESEAWEEDEXTRACT = register("tcetieseaweedextract", "鲸鱼座T星E藻类提取物");
     ItemEntry<Item> TCETIEDANDELIONS = register("tcetiedandelions", "鲸鱼座T星E藻类");
@@ -753,6 +753,11 @@ public interface GTOItems {
     ItemEntry<Item> BALL_FIELD_SHAPE = register("ball_field_shape", "球状形态力场");
     ItemEntry<Item> NON_LINEAR_OPTICAL_LENS = register("non_linear_optical_lens", "非线性光学透镜");
     ItemEntry<Item> CATALYST_BASE = register("catalyst_base", "催化剂基底");
+
+    ItemEntry<Item> DIAMOND_CRYSTAL_CIRCUIT = register("diamond_crystal_circuit", "钻石晶体电路");
+    ItemEntry<Item> RUBY_CRYSTAL_CIRCUIT = register("ruby_crystal_circuit", "红宝石晶体电路");
+    ItemEntry<Item> EMERALD_CRYSTAL_CIRCUIT = register("emerald_crystal_circuit", "绿宝石晶体电路");
+    ItemEntry<Item> SAPPHIRE_CRYSTAL_CIRCUIT = register("sapphire_crystal_circuit", "蓝宝石晶体电路");
 
     ItemEntry<Item> HIGH_PURITY_SILICON_BOULE = register("high_purity_silicon_boule", "高纯多晶硅");
     ItemEntry<Item> REGIONAL_SMELTING_SILICON_BOULE = register("regional_smelting_silicon_boule", "区域熔炼的多晶硅");

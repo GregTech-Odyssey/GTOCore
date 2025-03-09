@@ -14,7 +14,7 @@ interface ElectromagneticSeparator {
     static void init() {
         ELECTROMAGNETIC_SEPARATOR_RECIPES.recipeBuilder(GTOCore.id("graphene_oxide_dust"))
                 .inputItems(GTOItems.GRAPHENE_IRON_PLATE.asStack())
-                .outputItems(TagPrefix.dust, GTOMaterials.GrapheneOxide, 3)
+                .outputItems(TagPrefix.dust, GTOMaterials.GrapheneOxide, 9)
                 .outputItems(TagPrefix.dust, GTMaterials.Iron)
                 .EUt(30)
                 .duration(120)

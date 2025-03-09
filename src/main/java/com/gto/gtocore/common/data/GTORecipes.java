@@ -138,6 +138,7 @@ public final class GTORecipes implements Runnable {
         GT_FILTER_RECIPES.add(GTCEu.id("mixer/rhodium_plated_palladium"));
         GT_FILTER_RECIPES.add(GTCEu.id("mixer/ender_pearl_dust"));
         GT_FILTER_RECIPES.add(GTCEu.id("mixer/rocket_fuel_from_dinitrogen_tetroxide"));
+        GT_FILTER_RECIPES.add(GTCEu.id("mixer/graphene"));
         GT_FILTER_RECIPES.add(GTCEu.id("chemical_reactor/stem_cells"));
         GT_FILTER_RECIPES.add(GTCEu.id("chemical_reactor/formaldehyde"));
         GT_FILTER_RECIPES.add(GTCEu.id("chemical_reactor/ptfe_from_air"));
@@ -165,6 +166,9 @@ public final class GTORecipes implements Runnable {
         GT_FILTER_RECIPES.add(GTCEu.id("chemical_reactor/elite_circuit_board_iron3"));
         GT_FILTER_RECIPES.add(GTCEu.id("chemical_reactor/magnesia_from_magnesite"));
         GT_FILTER_RECIPES.add(GTCEu.id("chemical_reactor/polyvinyl_chloride_from_air"));
+        GT_FILTER_RECIPES.add(GTCEu.id("chemical_reactor/nano_cpu_wafer"));
+        GT_FILTER_RECIPES.add(GTCEu.id("chemical_reactor/qbit_cpu_wafer_radon"));
+        GT_FILTER_RECIPES.add(GTCEu.id("chemical_reactor/qbit_cpu_wafer_quantum_eye"));
         GT_FILTER_RECIPES.add(GTCEu.id("large_chemical_reactor/epoxy_shortcut"));
         GT_FILTER_RECIPES.add(GTCEu.id("large_chemical_reactor/polyethylene_from_tetrachloride_air"));
         GT_FILTER_RECIPES.add(GTCEu.id("large_chemical_reactor/polyethylene_from_tetrachloride_oxygen"));
@@ -200,6 +204,12 @@ public final class GTORecipes implements Runnable {
         GT_FILTER_RECIPES.add(GTCEu.id("electric_blast_furnace/blast_silicon_dioxide"));
         GT_FILTER_RECIPES.add(GTCEu.id("electric_blast_furnace/aluminium_from_sapphire_dust"));
         GT_FILTER_RECIPES.add(GTCEu.id("electric_blast_furnace/titanium_from_tetrachloride"));
+        GT_FILTER_RECIPES.add(GTCEu.id("electric_blast_furnace/silicon_boule"));
+        GT_FILTER_RECIPES.add(GTCEu.id("electric_blast_furnace/phosphorus_boule"));
+        GT_FILTER_RECIPES.add(GTCEu.id("electric_blast_furnace/naquadah_boule"));
+        GT_FILTER_RECIPES.add(GTCEu.id("electric_blast_furnace/neutronium_boule"));
+        GT_FILTER_RECIPES.add(GTCEu.id("electric_blast_furnace/engraved_crystal_chip_from_emerald"));
+        GT_FILTER_RECIPES.add(GTCEu.id("laser_engraver/crystal_cpu"));
 
         Material[] fluidMap = { GTMaterials.Glue, GTMaterials.Polyethylene,
                 GTMaterials.Polytetrafluoroethylene, GTMaterials.Polybenzimidazole };
@@ -517,6 +527,8 @@ public final class GTORecipes implements Runnable {
         filters.add(RLUtils.mc("neutron_ingot_from_neutron_block"));
         filters.add(RLUtils.mc("neutron_nugget"));
         filters.add(RLUtils.mc("neutron"));
+        filters.add(RLUtils.mc("diamond_lattice_block"));
+        filters.add(RLUtils.mc("diamond_lattice"));
 
         filters.add(RLUtils.avaritia("infinity_catalyst"));
         filters.add(RLUtils.avaritia("crystal_matrix_ingot"));
