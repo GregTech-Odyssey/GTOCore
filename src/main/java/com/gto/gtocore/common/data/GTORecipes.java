@@ -272,7 +272,6 @@ public final class GTORecipes implements Runnable {
         DyeRecipes.init(consumer);
         WoodRecipes.init(consumer);
         ClassifiedRecipe.init(consumer);
-
         GenerateDisassembly.DISASSEMBLY_RECORD.clear();
         GenerateDisassembly.DISASSEMBLY_BLACKLIST.clear();
         RecyclingRecipes.init(consumer);

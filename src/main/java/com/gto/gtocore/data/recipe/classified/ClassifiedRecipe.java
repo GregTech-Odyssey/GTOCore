@@ -114,5 +114,6 @@ public interface ClassifiedRecipe {
         PolymerizationReactor.init();
         Unpacker.init();
         WaterPurificationPlant.init();
+        ElectricCooking.init();
     }
 }
