@@ -4609,7 +4609,7 @@ public interface MaterialA {
                 .buildAndRegister();
 
         Azafullerene = material("azafullerene", "氮杂富勒烯")
-                .fluid()
+                .gas()
                 .components(Carbon, 60, Hydrogen, 12, Nitrogen, 12)
                 .flags(DISABLE_DECOMPOSITION)
                 .color(0xb3a500)

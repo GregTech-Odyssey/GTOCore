@@ -114,5 +114,7 @@ public interface ClassifiedRecipe {
         PolymerizationReactor.init();
         Unpacker.init();
         WaterPurificationPlant.init();
+        PhysicalVaporDeposition.init();
+        ChemicalVaporDepositio.init();
     }
 }

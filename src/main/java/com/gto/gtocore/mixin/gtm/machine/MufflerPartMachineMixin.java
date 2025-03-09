@@ -1,11 +1,13 @@
 package com.gto.gtocore.mixin.gtm.machine;
 
 import com.gto.gtocore.api.GTOValues;
+import com.gto.gtocore.api.machine.feature.IAirScrubberInteractor;
 import com.gto.gtocore.api.machine.feature.IDroneInteractionMachine;
 import com.gto.gtocore.api.misc.Drone;
 import com.gto.gtocore.common.machine.multiblock.noenergy.DroneControlCenterMachine;
 import com.gto.gtocore.utils.MachineUtils;
 
+import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
@@ -15,6 +17,7 @@ import com.gregtechceu.gtceu.api.machine.feature.multiblock.IWorkableMultiContro
 import com.gregtechceu.gtceu.api.machine.multiblock.part.TieredPartMachine;
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
+import com.gregtechceu.gtceu.common.machine.electric.AirScrubberMachine;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.MufflerPartMachine;
 
 import net.minecraft.core.BlockPos;
@@ -33,7 +36,7 @@ import org.spongepowered.asm.mixin.Unique;
 import java.util.List;
 
 @Mixin(MufflerPartMachine.class)
-public abstract class MufflerPartMachineMixin extends TieredPartMachine implements IMufflerMachine, IDroneInteractionMachine {
+public abstract class MufflerPartMachineMixin extends TieredPartMachine implements IMufflerMachine, IDroneInteractionMachine, IAirScrubberInteractor {
 
     @Shadow(remap = false)
     @SuppressWarnings("all")
@@ -46,8 +49,23 @@ public abstract class MufflerPartMachineMixin extends TieredPartMachine implemen
     @Unique
     private DroneControlCenterMachine gtocore$cache;
 
+    @Unique
+    private AirScrubberMachine gtocore$airScrubberCache;
+
     protected MufflerPartMachineMixin(IMachineBlockEntity holder, int tier) {
         super(holder, tier);
+    }
+
+    @Unique
+    @SuppressWarnings("all")
+    public AirScrubberMachine getAirScrubberMachineCache() {
+        return gtocore$airScrubberCache;
+    }
+
+    @Unique
+    @SuppressWarnings("all")
+    public void setAirScrubberMachineCache(AirScrubberMachine cache) {
+        gtocore$airScrubberCache = cache;
     }
 
     @Unique
@@ -107,6 +125,7 @@ public abstract class MufflerPartMachineMixin extends TieredPartMachine implemen
             gtocore$tickSubs.unsubscribe();
             gtocore$tickSubs = null;
         }
+        gtocore$airScrubberCache = null;
         removeNetMachineCache();
     }
 
@@ -157,6 +176,8 @@ public abstract class MufflerPartMachineMixin extends TieredPartMachine implemen
 
     @Unique
     private void gtocore$insertAsh() {
+        AirScrubberMachine machine = getAirScrubberMachine();
+        if (machine != null && GTValues.RNG.nextInt(1 << machine.getTier()) == 1) return;
         if (gtocore$ASH == null) {
             gtocore$ASH = ChemicalHelper.get(TagPrefix.dustTiny, GTMaterials.Ash);
         }

@@ -2,6 +2,8 @@ package com.gto.gtocore.api.machine;
 
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.util.Set;
 
 public interface INetMachineInteractor<T extends MetaMachine> {
@@ -20,6 +22,7 @@ public interface INetMachineInteractor<T extends MetaMachine> {
         setNetMachineCache(null);
     }
 
+    @Nullable
     default T getNetMachine() {
         if (getNetMachineCache() == null) {
             for (T machine : getMachineNet()) {

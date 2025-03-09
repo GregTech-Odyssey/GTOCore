@@ -1876,7 +1876,7 @@
   "gtocore.tooltip.item.universal_circuit": "一個通用的電路",
   "gtocore.tooltip.item.uruium_coil_block.0": "可為超維度等離子鍛爐提供32000K爐溫",
   "gtocore.tooltip.item.uruium_coil_block.1": "恆星鍛爐模式僅可使用該線圈",
-  "gtocore.tooltip.item.vacuum_tube.0": "手持粗真空管右擊真空等級大於0的真空提供機器獲取",
+  "gtocore.tooltip.item.vacuum_tube.0": "手持粗真空管潛行右擊真空等級大於0的真空提供機器獲取",
   "gtocore.tooltip.item.virtual_item_provider": "為機器的虛擬電路槽提供物品",
   "gtocore.tooltip.unknown": "未知",
   "gtocore.universal.tooltip.ampere_out": "§b輸齣電流：§r%sA",

@@ -1876,7 +1876,7 @@
   "gtocore.tooltip.item.universal_circuit": "一个通用的电路",
   "gtocore.tooltip.item.uruium_coil_block.0": "可为超维度等离子锻炉提供32000K炉温",
   "gtocore.tooltip.item.uruium_coil_block.1": "恒星锻炉模式仅可使用该线圈",
-  "gtocore.tooltip.item.vacuum_tube.0": "手持粗真空管右击真空等级大于0的真空提供机器获取",
+  "gtocore.tooltip.item.vacuum_tube.0": "手持粗真空管潜行右击真空等级大于0的真空提供机器获取",
   "gtocore.tooltip.item.virtual_item_provider": "为机器的虚拟电路槽提供物品",
   "gtocore.tooltip.unknown": "未知",
   "gtocore.universal.tooltip.ampere_out": "§b输出电流：§r%sA",

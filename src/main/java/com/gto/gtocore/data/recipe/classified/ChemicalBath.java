@@ -7,7 +7,6 @@ import com.gto.gtocore.common.data.GTOItems;
 import com.gto.gtocore.common.data.GTOMaterials;
 
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
-import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
 import com.gregtechceu.gtceu.api.machine.multiblock.CleanroomType;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
@@ -183,30 +182,12 @@ interface ChemicalBath {
                 .duration(400)
                 .save();
 
-        CHEMICAL_BATH_RECIPES.recipeBuilder(GTOCore.id("highly_insulating_foil"))
-                .inputItems(TagPrefix.foil, GTOMaterials.Polyetheretherketone)
-                .inputFluids(GTOMaterials.Azafullerene.getFluid(10))
-                .outputItems(GTOItems.HIGHLY_INSULATING_FOIL.asStack())
-                .EUt(7680)
-                .duration(70)
-                .cleanroom(CleanroomType.CLEANROOM)
-                .save();
-
         CHEMICAL_BATH_RECIPES.recipeBuilder(GTOCore.id("fullerene_polymer_matrix_pulp_dust"))
                 .inputItems(TagPrefix.dust, GTOMaterials.PalladiumFullereneMatrix)
                 .inputFluids(GTOMaterials.PCBs.getFluid(1000))
                 .outputItems(TagPrefix.dust, GTOMaterials.FullerenePolymerMatrixPulp, 2)
                 .EUt(8000000)
                 .duration(40)
-                .cleanroom(CleanroomType.CLEANROOM)
-                .save();
-
-        CHEMICAL_BATH_RECIPES.recipeBuilder(GTOCore.id("cosmic_soc_wafer"))
-                .inputItems(GTOItems.PREPARED_COSMIC_SOC_WAFER.asStack())
-                .inputFluids(GTMaterials.Argon.getFluid(FluidStorageKeys.PLASMA, 1000))
-                .outputItems(GTOItems.COSMIC_SOC_WAFER.asStack())
-                .EUt(7864320)
-                .duration(600)
                 .cleanroom(CleanroomType.CLEANROOM)
                 .save();
 
