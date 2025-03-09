@@ -27,7 +27,14 @@ public final class GTOMaterialFlags {
             .requireFlags(GENERATE_CURVED_PLATE, MaterialFlags.GENERATE_RING)
             .build();
 
-    public static final MaterialFlag GENERATE_CERAMIC = new MaterialFlag.Builder("GENERATE_CERAMIC")
+    public static final MaterialFlag GENERATE_CERAMIC = new MaterialFlag.Builder("generate_ceramic")
             .requireFlags(MaterialFlags.FORCE_GENERATE_BLOCK)
+            .build();
+
+    public static final MaterialFlag GENERATE_CRYSTAL_SEED = new MaterialFlag.Builder("generate_crystal_seed")
+            .build();
+
+    public static final MaterialFlag GENERATE_ARTIFICIAL_GEM = new MaterialFlag.Builder("generate_artificial_gem")
+            .requireFlags(GENERATE_CRYSTAL_SEED)
             .build();
 }

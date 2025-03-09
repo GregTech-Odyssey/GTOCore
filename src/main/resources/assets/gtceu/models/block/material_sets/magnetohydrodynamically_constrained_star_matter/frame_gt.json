@@ -1,6 +1,6 @@
 {
   "parent": "gtceu:block/cube/tinted/all_0",
   "textures": {
-    "all": "gtceu:block/material_sets/magnetohydrodynamically_constrained_star_matter/frame_gt"
+    "all": "gtocore:block/material_sets/magnetohydrodynamically_constrained_star_matter/frame_gt"
   }
 }

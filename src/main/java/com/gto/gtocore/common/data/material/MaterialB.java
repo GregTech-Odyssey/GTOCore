@@ -16,6 +16,12 @@ import static com.gto.gtocore.utils.register.MaterialsRegisterUtils.material;
 public interface MaterialB {
 
     static void init() {
+        OsmiumOxideMetal = material("osmium_oxide_metal", "氧化锇金属")
+                .dust()
+                .color(0x4E748F)
+                .iconSet(LIGNITE)
+                .buildAndRegister().setFormula("OsO4?");
+
         CoolantLiquid = material("coolant_liquid", "冷却液")
                 .fluid()
                 .color(0x4B59FF)

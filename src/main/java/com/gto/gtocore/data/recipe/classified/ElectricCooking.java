@@ -1,14 +1,15 @@
 package com.gto.gtocore.data.recipe.classified;
 
-import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
-import com.gregtechceu.gtceu.common.data.GTItems;
-import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gto.gtocore.GTOCore;
-
 import com.gto.gtocore.api.recipe.GTORecipeBuilder;
 import com.gto.gtocore.utils.RLUtils;
 import com.gto.gtocore.utils.StringUtils;
 import com.gto.gtocore.utils.TagUtils;
+
+import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
+import com.gregtechceu.gtceu.common.data.GTItems;
+import com.gregtechceu.gtceu.common.data.GTMaterials;
+
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 
@@ -18,7 +19,7 @@ interface ElectricCooking {
 
     static void init() {
         ELECTRIC_COOKING_RECIPES.recipeBuilder(GTOCore.id("baked_cod_stew"))
-                .inputItems(TagUtils.createTag(RLUtils.forge( "raw_fishes/cod")))
+                .inputItems(TagUtils.createTag(RLUtils.forge("raw_fishes/cod")))
                 .inputItems(new ItemStack(Items.POTATO.asItem()))
                 .inputItems(new ItemStack(Items.EGG.asItem()))
                 .inputItems("farmersdelight:tomato")
@@ -31,7 +32,7 @@ interface ElectricCooking {
                 .save();
 
         ELECTRIC_COOKING_RECIPES.recipeBuilder(GTOCore.id("squid_ink_pasta"))
-                .inputItems(TagUtils.createTag(RLUtils.forge( "raw_fishes")))
+                .inputItems(TagUtils.createTag(RLUtils.forge("raw_fishes")))
                 .inputItems("farmersdelight:raw_pasta")
                 .inputItems("farmersdelight:tomato")
                 .inputItems(new ItemStack(Items.INK_SAC.asItem()))
@@ -46,7 +47,7 @@ interface ElectricCooking {
                 .inputItems(new ItemStack(Items.BLAZE_POWDER.asItem(), 2))
                 .inputItems(new ItemStack(Items.NETHER_WART.asItem(), 2))
                 .inputItems("farmersrespite:coffee_beans")
-                .inputItems(TagUtils.createTag(RLUtils.forge( "raw_beef")))
+                .inputItems(TagUtils.createTag(RLUtils.forge("raw_beef")))
                 .inputItems(new ItemStack(Items.BOWL.asItem()))
                 .outputItems("farmersrespite:blazing_chili")
                 .circuitMeta(1)
@@ -59,7 +60,7 @@ interface ElectricCooking {
                 .inputItems(new ItemStack(Items.RABBIT.asItem()))
                 .inputItems(new ItemStack(Items.CARROT.asItem()))
                 .inputItems(new ItemStack(Items.BOWL.asItem()))
-                .inputItems(TagUtils.createTag(RLUtils.forge( "mushrooms")))
+                .inputItems(TagUtils.createTag(RLUtils.forge("mushrooms")))
                 .outputItems(new ItemStack(Items.RABBIT_STEW.asItem()))
                 .inputFluids(GTMaterials.Water.getFluid(1000))
                 .circuitMeta(1)
@@ -69,7 +70,7 @@ interface ElectricCooking {
 
         ELECTRIC_COOKING_RECIPES.recipeBuilder(GTOCore.id("bone_broth"))
                 .inputItems(new ItemStack(Items.BONE.asItem()))
-                .inputItems(TagUtils.createTag(RLUtils.forge( "mushrooms")))
+                .inputItems(TagUtils.createTag(RLUtils.forge("mushrooms")))
                 .inputItems(new ItemStack(Items.BOWL.asItem()))
                 .outputItems("farmersdelight:bone_broth")
                 .inputFluids(GTMaterials.Water.getFluid(1000))
@@ -81,8 +82,8 @@ interface ElectricCooking {
 
         ELECTRIC_COOKING_RECIPES.recipeBuilder(GTOCore.id("tea_curry"))
                 .inputItems("farmersrespite:yellow_tea_leaves", 2)
-                .inputItems(TagUtils.createTag(RLUtils.forge( "raw_chicken")))
-                .inputItems(TagUtils.createTag(RLUtils.forge( "crops/cabbage")))
+                .inputItems(TagUtils.createTag(RLUtils.forge("raw_chicken")))
+                .inputItems(TagUtils.createTag(RLUtils.forge("crops/cabbage")))
                 .inputItems("farmersdelight:onion")
                 .inputItems("farmersdelight:rice")
                 .inputItems(new ItemStack(Items.BOWL.asItem()))
@@ -94,8 +95,8 @@ interface ElectricCooking {
                 .save();
 
         ELECTRIC_COOKING_RECIPES.recipeBuilder(GTOCore.id("cabbage_rolls"))
-                .inputItems(TagUtils.createTag(RLUtils.forge( "crops/cabbage")))
-                .inputItems(TagUtils.createTag(RLUtils.fd( "cabbage_roll_ingredients")))
+                .inputItems(TagUtils.createTag(RLUtils.forge("crops/cabbage")))
+                .inputItems(TagUtils.createTag(RLUtils.fd("cabbage_roll_ingredients")))
                 .outputItems("farmersdelight:cabbage_rolls")
                 .circuitMeta(2)
                 .EUt(120)
@@ -103,7 +104,7 @@ interface ElectricCooking {
                 .save();
 
         ELECTRIC_COOKING_RECIPES.recipeBuilder(GTOCore.id("beef_stew"))
-                .inputItems(TagUtils.createTag(RLUtils.forge( "raw_beef")))
+                .inputItems(TagUtils.createTag(RLUtils.forge("raw_beef")))
                 .inputItems(new ItemStack(Items.CARROT.asItem()))
                 .inputItems(new ItemStack(Items.POTATO.asItem()))
                 .inputItems(new ItemStack(Items.BOWL.asItem()))
@@ -141,8 +142,8 @@ interface ElectricCooking {
                 .inputItems(new ItemStack(Items.CARROT.asItem()))
                 .inputItems(new ItemStack(Items.BROWN_MUSHROOM.asItem()))
                 .inputItems("farmersdelight:raw_pasta")
-                .inputItems(TagUtils.createTag(RLUtils.forge( "crops/cabbage")))
-                .inputItems(TagUtils.createTag(RLUtils.forge( "vegetables")))
+                .inputItems(TagUtils.createTag(RLUtils.forge("crops/cabbage")))
+                .inputItems(TagUtils.createTag(RLUtils.forge("vegetables")))
                 .inputItems(new ItemStack(Items.BOWL.asItem()))
                 .outputItems("farmersdelight:vegetable_noodles")
                 .circuitMeta(1)
@@ -152,9 +153,9 @@ interface ElectricCooking {
 
         ELECTRIC_COOKING_RECIPES.recipeBuilder(GTOCore.id("dumplings"))
                 .inputItems(GTItems.DOUGH.asStack())
-                .inputItems(TagUtils.createTag(RLUtils.forge( "crops/cabbage")))
+                .inputItems(TagUtils.createTag(RLUtils.forge("crops/cabbage")))
                 .inputItems("farmersdelight:onion")
-                .inputItems(TagUtils.createTag(RLUtils.forge( "raw_pork")))
+                .inputItems(TagUtils.createTag(RLUtils.forge("raw_pork")))
                 .outputItems("farmersdelight:dumplings", 2)
                 .inputFluids(GTMaterials.Water.getFluid(1000))
                 .circuitMeta(1)
@@ -178,7 +179,7 @@ interface ElectricCooking {
                 .inputItems(new ItemStack(Items.CARROT.asItem()))
                 .inputItems(new ItemStack(Items.POTATO.asItem()))
                 .inputItems(new ItemStack(Items.BEETROOT.asItem()))
-                .inputItems(TagUtils.createTag(RLUtils.forge( "crops/cabbage")))
+                .inputItems(TagUtils.createTag(RLUtils.forge("crops/cabbage")))
                 .inputItems(new ItemStack(Items.BOWL.asItem()))
                 .outputItems("farmersdelight:vegetable_soup")
                 .inputFluids(GTMaterials.Water.getFluid(1000))
@@ -203,8 +204,8 @@ interface ElectricCooking {
                 .inputItems("farmersdelight:onion")
                 .inputItems(new ItemStack(Items.BROWN_MUSHROOM.asItem()))
                 .inputItems(new ItemStack(Items.POTATO.asItem()))
-                .inputItems(TagUtils.createTag(RLUtils.mc( "fox_food")))
-                .inputItems(TagUtils.createTag(RLUtils.forge( "vegetables")))
+                .inputItems(TagUtils.createTag(RLUtils.mc("fox_food")))
+                .inputItems(TagUtils.createTag(RLUtils.forge("vegetables")))
                 .inputItems(new ItemStack(Items.PUMPKIN.asItem()))
                 .outputItems("farmersdelight:stuffed_pumpkin_block")
                 .circuitMeta(1)
@@ -213,10 +214,10 @@ interface ElectricCooking {
                 .save();
 
         ELECTRIC_COOKING_RECIPES.recipeBuilder(GTOCore.id("chicken_soup"))
-                .inputItems(TagUtils.createTag(RLUtils.forge( "raw_chicken")))
+                .inputItems(TagUtils.createTag(RLUtils.forge("raw_chicken")))
                 .inputItems(new ItemStack(Items.CARROT.asItem()))
-                .inputItems(TagUtils.createTag(RLUtils.forge( "vegetables")))
-                .inputItems(TagUtils.createTag(RLUtils.forge( "crops/cabbage")))
+                .inputItems(TagUtils.createTag(RLUtils.forge("vegetables")))
+                .inputItems(TagUtils.createTag(RLUtils.forge("crops/cabbage")))
                 .inputItems(new ItemStack(Items.BOWL.asItem()))
                 .outputItems("farmersdelight:chicken_soup")
                 .inputFluids(GTMaterials.Water.getFluid(1000))
@@ -261,7 +262,7 @@ interface ElectricCooking {
         ELECTRIC_COOKING_RECIPES.recipeBuilder(GTOCore.id("dog_food"))
                 .inputItems(new ItemStack(Items.ROTTEN_FLESH.asItem()))
                 .inputItems(new ItemStack(Items.BONE.asItem()))
-                .inputItems(TagUtils.createTag(RLUtils.fd( "wolf_prey")))
+                .inputItems(TagUtils.createTag(RLUtils.fd("wolf_prey")))
                 .inputItems("farmersdelight:rice")
                 .inputItems(new ItemStack(Items.BOWL.asItem()))
                 .outputItems("farmersdelight:dog_food")
@@ -284,7 +285,7 @@ interface ElectricCooking {
                 .inputItems("farmersdelight:tomato")
                 .inputItems("farmersdelight:onion")
                 .inputItems(new ItemStack(Items.BEETROOT.asItem()))
-                .inputItems(TagUtils.createTag(RLUtils.forge( "vegetables")))
+                .inputItems(TagUtils.createTag(RLUtils.forge("vegetables")))
                 .inputItems(new ItemStack(Items.BOWL.asItem()))
                 .outputItems("farmersdelight:ratatouille")
                 .circuitMeta(1)
@@ -293,7 +294,7 @@ interface ElectricCooking {
                 .save();
 
         ELECTRIC_COOKING_RECIPES.recipeBuilder(GTOCore.id("pasta_with_mutton_chop"))
-                .inputItems(TagUtils.createTag(RLUtils.forge( "raw_mutton")))
+                .inputItems(TagUtils.createTag(RLUtils.forge("raw_mutton")))
                 .inputItems("farmersdelight:raw_pasta")
                 .inputItems("farmersdelight:tomato_sauce")
                 .inputItems(new ItemStack(Items.BOWL.asItem()))
@@ -306,8 +307,8 @@ interface ElectricCooking {
 
         ELECTRIC_COOKING_RECIPES.recipeBuilder(GTOCore.id("pumpkin_soup"))
                 .inputItems("farmersdelight:pumpkin_slice")
-                .inputItems(TagUtils.createTag(RLUtils.forge( "crops/cabbage")))
-                .inputItems(TagUtils.createTag(RLUtils.forge( "raw_pork")))
+                .inputItems(TagUtils.createTag(RLUtils.forge("crops/cabbage")))
+                .inputItems(TagUtils.createTag(RLUtils.forge("raw_pork")))
                 .inputItems(new ItemStack(Items.BOWL.asItem()))
                 .outputItems("farmersdelight:pumpkin_soup")
                 .inputFluids(GTMaterials.Milk.getFluid(1000))
@@ -320,7 +321,7 @@ interface ElectricCooking {
                 .inputItems("farmersdelight:raw_pasta")
                 .inputItems("farmersdelight:fried_egg")
                 .inputItems(new ItemStack(Items.DRIED_KELP.asItem()))
-                .inputItems(TagUtils.createTag(RLUtils.forge( "raw_pork")))
+                .inputItems(TagUtils.createTag(RLUtils.forge("raw_pork")))
                 .inputItems(new ItemStack(Items.BOWL.asItem()))
                 .outputItems("farmersdelight:noodle_soup")
                 .inputFluids(GTMaterials.Water.getFluid(1000))
@@ -330,7 +331,7 @@ interface ElectricCooking {
                 .save();
 
         ELECTRIC_COOKING_RECIPES.recipeBuilder(GTOCore.id("fish_stew"))
-                .inputItems(TagUtils.createTag(RLUtils.forge( "raw_fishes")))
+                .inputItems(TagUtils.createTag(RLUtils.forge("raw_fishes")))
                 .inputItems("farmersdelight:tomato_sauce")
                 .inputItems("farmersdelight:onion")
                 .inputItems(new ItemStack(Items.BOWL.asItem()))
@@ -342,26 +343,26 @@ interface ElectricCooking {
                 .duration(200)
                 .save();
 
-        addSmoking("farmersdelight:chicken_cuts","farmersdelight:cooked_chicken_cuts");
-        addSmoking("minecraft:beef","minecraft:cooked_beef");
-        addSmoking("minecraft:egg","farmersdelight:fried_egg");
-        addSmoking("farmersdelight:bacon","farmersdelight:cooked_bacon");
-        addSmoking("farmersdelight:salmon_slice","farmersdelight:cooked_salmon_slice");
-        addSmoking("minecraft:cod","minecraft:cooked_cod");
-        addSmoking("farmersdelight:bacon","farmersdelight:cooked_bacon");
-        addSmoking("farmersdelight:minced_beef","farmersdelight:beef_patty");
-        addSmoking("gtceu:dough","minecraft:bread");
-        addSmoking("minecraft:mutton","minecraft:cooked_mutton");
-        addSmoking("minecraft:chicken","minecraft:cooked_chicken");
-        addSmoking("minecraft:salmon","minecraft:cooked_salmon");
-        addSmoking("farmersdelight:mutton_chops","farmersdelight:cooked_mutton_chops");
-        addSmoking("minecraft:mutton","minecraft:cooked_mutton");
-        addSmoking("minecraft:kelp","minecraft:dried_kelp");
-        addSmoking("farmersdelight:ham","farmersdelight:smoked_ham");
-        addSmoking("minecraft:potato","minecraft:baked_potato");
-        addSmoking("minecraft:rabbit","minecraft:cooked_rabbit");
-        addSmoking("farmersdelight:cod_slice","farmersdelight:cooked_cod_slice");
-        addSmoking("minecraft:porkchop","minecraft:cooked_porkchop");
+        addSmoking("farmersdelight:chicken_cuts", "farmersdelight:cooked_chicken_cuts");
+        addSmoking("minecraft:beef", "minecraft:cooked_beef");
+        addSmoking("minecraft:egg", "farmersdelight:fried_egg");
+        addSmoking("farmersdelight:bacon", "farmersdelight:cooked_bacon");
+        addSmoking("farmersdelight:salmon_slice", "farmersdelight:cooked_salmon_slice");
+        addSmoking("minecraft:cod", "minecraft:cooked_cod");
+        addSmoking("farmersdelight:bacon", "farmersdelight:cooked_bacon");
+        addSmoking("farmersdelight:minced_beef", "farmersdelight:beef_patty");
+        addSmoking("gtceu:dough", "minecraft:bread");
+        addSmoking("minecraft:mutton", "minecraft:cooked_mutton");
+        addSmoking("minecraft:chicken", "minecraft:cooked_chicken");
+        addSmoking("minecraft:salmon", "minecraft:cooked_salmon");
+        addSmoking("farmersdelight:mutton_chops", "farmersdelight:cooked_mutton_chops");
+        addSmoking("minecraft:mutton", "minecraft:cooked_mutton");
+        addSmoking("minecraft:kelp", "minecraft:dried_kelp");
+        addSmoking("farmersdelight:ham", "farmersdelight:smoked_ham");
+        addSmoking("minecraft:potato", "minecraft:baked_potato");
+        addSmoking("minecraft:rabbit", "minecraft:cooked_rabbit");
+        addSmoking("farmersdelight:cod_slice", "farmersdelight:cooked_cod_slice");
+        addSmoking("minecraft:porkchop", "minecraft:cooked_porkchop");
 
         addDrinking("farmersrespite:green_tea_leaves", "farmersrespite:green_tea_leaves", "farmersrespite:green_tea");
         addDrinking("farmersrespite:yellow_tea_leaves", "farmersrespite:yellow_tea_leaves", "farmersrespite:yellow_tea");
@@ -394,7 +395,7 @@ interface ElectricCooking {
 
         ELECTRIC_COOKING_RECIPES.recipeBuilder(GTOCore.id("dandelion_tea"))
                 .inputItems(new ItemStack(Items.DANDELION.asItem()))
-                .inputItems(TagUtils.createTag(RLUtils.fr( "tea_leaves")))
+                .inputItems(TagUtils.createTag(RLUtils.fr("tea_leaves")))
                 .inputItems(new ItemStack(Items.GLASS_BOTTLE.asItem()))
                 .outputItems("farmersrespite:dandelion_tea")
                 .inputFluids(GTMaterials.Water.getFluid(1000))
@@ -405,7 +406,7 @@ interface ElectricCooking {
 
         ELECTRIC_COOKING_RECIPES.recipeBuilder(GTOCore.id("long_dandelion_tea"))
                 .inputItems(new ItemStack(Items.DANDELION.asItem()))
-                .inputItems(TagUtils.createTag(RLUtils.fr( "tea_leaves")))
+                .inputItems(TagUtils.createTag(RLUtils.fr("tea_leaves")))
                 .inputItems(new ItemStack(Items.GLASS_BOTTLE.asItem()))
                 .outputItems("farmersrespite:long_dandelion_tea")
                 .inputFluids(GTMaterials.Water.getFluid(1000))
@@ -438,45 +439,44 @@ interface ElectricCooking {
                 .EUt(120)
                 .duration(300)
                 .save();
-
     }
 
-        private static void addSmoking(String input, String output) {
-            GTORecipeBuilder builder = ELECTRIC_COOKING_RECIPES.recipeBuilder(GTOCore.id(StringUtils.decompose(output)[1]))
-                    .inputItems(input)
-                    .outputItems(output)
-                    .circuitMeta(3)
-                    .EUt(120)
-                    .duration(200);
-            builder.save();
-        }
+    private static void addSmoking(String input, String output) {
+        GTORecipeBuilder builder = ELECTRIC_COOKING_RECIPES.recipeBuilder(GTOCore.id(StringUtils.decompose(output)[1]))
+                .inputItems(input)
+                .outputItems(output)
+                .circuitMeta(3)
+                .EUt(120)
+                .duration(200);
+        builder.save();
+    }
 
-        private static void addDrinking(String input1, String input2, String output) {
-            GTORecipeBuilder builder = ELECTRIC_COOKING_RECIPES.recipeBuilder(GTOCore.id(StringUtils.decompose(output)[1]))
-                    .inputItems(input1)
-                    .inputItems(input2)
-                    .inputItems(new ItemStack(Items.GLASS_BOTTLE.asItem()))
-                    .outputItems(output)
-                    .inputFluids(GTMaterials.Water.getFluid(1000))
-                    .circuitMeta(4)
-                    .EUt(120)
-                    .duration(200);
-            builder.save();
-        }
+    private static void addDrinking(String input1, String input2, String output) {
+        GTORecipeBuilder builder = ELECTRIC_COOKING_RECIPES.recipeBuilder(GTOCore.id(StringUtils.decompose(output)[1]))
+                .inputItems(input1)
+                .inputItems(input2)
+                .inputItems(new ItemStack(Items.GLASS_BOTTLE.asItem()))
+                .outputItems(output)
+                .inputFluids(GTMaterials.Water.getFluid(1000))
+                .circuitMeta(4)
+                .EUt(120)
+                .duration(200);
+        builder.save();
+    }
 
-        private static void addDrinkingLong(String input1, String input2, String output) {
-            GTORecipeBuilder builder = ELECTRIC_COOKING_RECIPES.recipeBuilder(GTOCore.id(StringUtils.decompose(output)[1]))
-                    .inputItems(input1)
-                    .inputItems(input2)
-                    .inputItems(new ItemStack(Items.GLASS_BOTTLE.asItem()))
-                    .outputItems(output)
-                    .inputFluids(GTMaterials.Water.getFluid(1000))
-                    .inputFluids(GTMaterials.Milk.getFluid(1000))
-                    .circuitMeta(5)
-                    .EUt(120)
-                    .duration(300);
-            builder.save();
-        }
+    private static void addDrinkingLong(String input1, String input2, String output) {
+        GTORecipeBuilder builder = ELECTRIC_COOKING_RECIPES.recipeBuilder(GTOCore.id(StringUtils.decompose(output)[1]))
+                .inputItems(input1)
+                .inputItems(input2)
+                .inputItems(new ItemStack(Items.GLASS_BOTTLE.asItem()))
+                .outputItems(output)
+                .inputFluids(GTMaterials.Water.getFluid(1000))
+                .inputFluids(GTMaterials.Milk.getFluid(1000))
+                .circuitMeta(5)
+                .EUt(120)
+                .duration(300);
+        builder.save();
+    }
 
     private static void addDrinkingStrong(String input1, String input2, String output) {
         GTORecipeBuilder builder = ELECTRIC_COOKING_RECIPES.recipeBuilder(GTOCore.id(StringUtils.decompose(output)[1]))
@@ -492,5 +492,4 @@ interface ElectricCooking {
                 .duration(300);
         builder.save();
     }
-
-    };
+};

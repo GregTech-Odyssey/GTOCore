@@ -289,7 +289,7 @@ public interface MultiBlockD {
                     .where('s', blocks(GTOBlocks.DIMENSIONAL_BRIDGE_CASING.get()))
                     .where(' ', any())
                     .build())
-            .workableCasingRenderer(GTOCore.id("block/casings/dimensionally_transcendent_casing"), GTCEu.id("block/multiblock/dimensionally_transcendent_plasma_forge"))
+            .workableCasingRenderer(GTOCore.id("block/casings/dimensionally_transcendent_casing"), GTOCore.id("block/multiblock/dimensionally_transcendent_plasma_forge"))
             .register();
 
     MultiblockMachineDefinition CIRCUIT_ASSEMBLY_LINE = multiblock("circuit_assembly_line", "电路装配线", CircuitAssemblyLineMachine::new)
@@ -601,7 +601,7 @@ public interface MultiBlockD {
                 }
                 return true;
             })
-            .workableCasingRenderer(GTOCore.id("block/casings/dimension_connection_casing"), GTCEu.id("block/multiblock/door_of_create"))
+            .workableCasingRenderer(GTOCore.id("block/casings/dimension_connection_casing"), GTOCore.id("block/multiblock/door_of_create"))
             .register();
 
     MultiblockMachineDefinition BEDROCK_DRILLING_RIG = multiblock("bedrock_drilling_rig", "基岩钻机", ElectricMultiblockMachine::new)
@@ -714,7 +714,7 @@ public interface MultiBlockD {
                 }
                 return true;
             })
-            .workableCasingRenderer(GTOCore.id("block/casings/dimension_connection_casing"), GTCEu.id("block/multiblock/create_aggregation"))
+            .workableCasingRenderer(GTOCore.id("block/casings/dimension_connection_casing"), GTOCore.id("block/multiblock/create_aggregation"))
             .register();
 
     MultiblockMachineDefinition SUPRACHRONAL_ASSEMBLY_LINE = multiblock("suprachronal_assembly_line", "超时空装配线", SuprachronalAssemblyLineMachine::new)
@@ -1447,7 +1447,7 @@ public interface MultiBlockD {
                     .where('g', blocks(GTBlocks.CASING_LAMINATED_GLASS.get()))
                     .where(' ', any())
                     .build())
-            .workableCasingRenderer(GTCEu.id("block/casings/hpca/computer_casing/back"), GTCEu.id("block/multiblock/super_computation"))
+            .workableCasingRenderer(GTCEu.id("block/casings/hpca/computer_casing/back"), GTOCore.id("block/multiblock/super_computation"))
             .register();
 
     MultiblockMachineDefinition CREATE_COMPUTATION = multiblock("create_computation", "创造计算机", (holder) -> new ComputationProviderMachine(holder, true))

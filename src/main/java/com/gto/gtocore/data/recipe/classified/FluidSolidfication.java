@@ -1,7 +1,6 @@
 package com.gto.gtocore.data.recipe.classified;
 
 import com.gto.gtocore.GTOCore;
-import com.gto.gtocore.common.data.GTOBlocks;
 import com.gto.gtocore.common.data.GTOItems;
 import com.gto.gtocore.common.data.GTOMaterials;
 
@@ -22,24 +21,6 @@ interface FluidSolidfication {
                 .outputItems(GTOItems.MEMORY_FOAM_BLOCK.asStack())
                 .EUt(30)
                 .duration(60)
-                .save();
-
-        FLUID_SOLIDFICATION_RECIPES.recipeBuilder(GTOCore.id("omni_purpose_infinity_fused_glass"))
-                .inputItems(GTOBlocks.TARANIUM_BOROSILICATE_GLASS.asStack())
-                .inputFluids(GTOMaterials.QuarkGluon.getFluid(FluidStorageKeys.PLASMA, 500))
-                .outputItems(GTOBlocks.OMNI_PURPOSE_INFINITY_FUSED_GLASS.asStack())
-                .EUt(491520)
-                .duration(200)
-                .cleanroom(CleanroomType.CLEANROOM)
-                .save();
-
-        FLUID_SOLIDFICATION_RECIPES.recipeBuilder(GTOCore.id("non_photonic_matter_exclusion_glass"))
-                .inputItems(GTOBlocks.QUARKS_BOROSILICATE_GLASS.asStack())
-                .inputFluids(GTOMaterials.Legendarium.getFluid(FluidStorageKeys.PLASMA, 576))
-                .outputItems(GTOBlocks.NON_PHOTONIC_MATTER_EXCLUSION_GLASS.asStack())
-                .EUt(1966080)
-                .duration(400)
-                .cleanroom(CleanroomType.CLEANROOM)
                 .save();
 
         FLUID_SOLIDFICATION_RECIPES.recipeBuilder(GTOCore.id("lumin_essence_dust"))
@@ -73,15 +54,6 @@ interface FluidSolidfication {
                 .outputItems(TagPrefix.dust, GTOMaterials.XenoxeneCrystal, 3)
                 .EUt(1920)
                 .duration(200)
-                .save();
-
-        FLUID_SOLIDFICATION_RECIPES.recipeBuilder(GTOCore.id("electron_permeable_neutronium_coated_glass"))
-                .inputItems(GTOBlocks.AMPROSIUM_BOROSILICATE_GLASS.asStack())
-                .inputFluids(GTMaterials.Sulfur.getFluid(FluidStorageKeys.PLASMA, 288))
-                .outputItems(GTOBlocks.ELECTRON_PERMEABLE_AMPROSIUM_COATED_GLASS.asStack())
-                .EUt(122880)
-                .duration(100)
-                .cleanroom(CleanroomType.CLEANROOM)
                 .save();
 
         FLUID_SOLIDFICATION_RECIPES.recipeBuilder(GTOCore.id("degenerate_rhenium_plate"))

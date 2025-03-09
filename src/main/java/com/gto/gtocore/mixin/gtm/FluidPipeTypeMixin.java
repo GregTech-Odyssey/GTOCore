@@ -1,8 +1,8 @@
 package com.gto.gtocore.mixin.gtm;
 
+import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.common.data.GTOMaterials;
 
-import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.client.model.PipeModel;
 import com.gregtechceu.gtceu.common.pipelike.fluidpipe.FluidPipeType;
@@ -28,8 +28,8 @@ public class FluidPipeTypeMixin {
     @Inject(method = "createPipeModel", at = @At("HEAD"), remap = false, cancellable = true)
     private void createPipeModel(Material material, CallbackInfoReturnable<PipeModel> cir) {
         if (material == GTOMaterials.SpaceTime) {
-            cir.setReturnValue(new PipeModel(thickness, () -> GTCEu.id("block/material_sets/spacetime/pipe_side"),
-                    () -> GTCEu.id("block/material_sets/spacetime/pipe_%s_in".formatted(name)), null, null));
+            cir.setReturnValue(new PipeModel(thickness, () -> GTOCore.id("block/material_sets/spacetime/pipe_side"),
+                    () -> GTOCore.id("block/material_sets/spacetime/pipe_%s_in".formatted(name)), null, null));
         }
     }
 }

@@ -267,6 +267,7 @@ public interface MultiBlockF {
             .coilParallelTooltips()
             .customTooltipsBuilder(true, true, true)
             .recipe(GTRecipeTypes.AUTOCLAVE_RECIPES)
+            .recipe(GTORecipeTypes.CRYSTALLIZATION_RECIPES)
             .block(GTOBlocks.MOLECULAR_CASING)
             .pattern((definition) -> FactoryBlockPattern.start(RelativeDirection.RIGHT, RelativeDirection.UP, RelativeDirection.BACK)
                     .aisle("          AAA          ", "          QQQ          ", "          QRQ          ", "          QQQ          ", "                       ", "                       ", "                       ", "                       ", "                       ", "                       ", "                       ", "                       ", "                       ", "                       ", "                       ", "                       ", "                       ", "                       ", "                       ", "                       ", "                       ", "                       ", "                       ", "                       ", "                       ", "                       ", "                       ", "                       ", "                       ", "                       ", "                       ", "                       ", "                       ", "                       ")

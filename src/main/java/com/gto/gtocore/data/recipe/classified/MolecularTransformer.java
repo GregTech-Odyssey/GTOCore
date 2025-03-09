@@ -108,13 +108,6 @@ interface MolecularTransformer {
                 .duration(160)
                 .save();
 
-        MOLECULAR_TRANSFORMER_RECIPES.recipeBuilder(GTOCore.id("small_iridium_dust"))
-                .inputItems(TagPrefix.dustSmall, GTMaterials.Platinum)
-                .outputItems(TagPrefix.dustSmall, GTMaterials.Iridium)
-                .EUt(480)
-                .duration(400)
-                .save();
-
         MOLECULAR_TRANSFORMER_RECIPES.recipeBuilder(GTOCore.id("lapotron_gem"))
                 .inputItems(TagPrefix.gemExquisite, GTMaterials.Sodalite)
                 .outputItems(TagPrefix.gem, GTMaterials.Lapotron)
@@ -127,6 +120,13 @@ interface MolecularTransformer {
                 .outputItems(TagPrefix.dust, GTMaterials.Bone)
                 .EUt(30)
                 .duration(80)
+                .save();
+
+        MOLECULAR_TRANSFORMER_RECIPES.recipeBuilder(GTOCore.id("graphene"))
+                .inputItems(TagPrefix.dust, GTMaterials.Graphite)
+                .outputItems(TagPrefix.dust, GTMaterials.Graphene)
+                .EUt(524288)
+                .duration(180)
                 .save();
     }
 }

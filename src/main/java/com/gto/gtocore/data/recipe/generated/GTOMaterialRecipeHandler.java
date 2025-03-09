@@ -160,14 +160,14 @@ interface GTOMaterialRecipeHandler {
                 }
             }
 
-            int voltageMultiplier = GTOUtils.getVoltageMultiplier(material);
+            int voltageMultiplier = GTOUtils.getVoltageMultiplier(material) << 3;
             if (!ChemicalHelper.get(plate, material).isEmpty()) {
                 EXTRUDER_RECIPES.recipeBuilder("extrude_" + material.getName() + "_to_plate")
                         .inputItems(stack)
                         .notConsumable(GTItems.SHAPE_EXTRUDER_PLATE)
                         .outputItems(plate, material)
                         .duration(mass << 1)
-                        .EUt(8L * voltageMultiplier)
+                        .EUt(voltageMultiplier)
                         .save();
 
                 if (material.hasFlag(NO_SMASHING)) {
@@ -176,7 +176,7 @@ interface GTOMaterialRecipeHandler {
                             .notConsumable(GTItems.SHAPE_EXTRUDER_PLATE)
                             .outputItems(plate, material)
                             .duration(mass << 1)
-                            .EUt(8L * voltageMultiplier)
+                            .EUt(voltageMultiplier)
                             .save();
                 }
             }

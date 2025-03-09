@@ -13,4 +13,5 @@ public interface GTOPartAbility {
     PartAbility INPUT_MANA = new PartAbility("input_mana");
     PartAbility OUTPUT_MANA = new PartAbility("output_mana");
     PartAbility EXTRACT_MANA = new PartAbility("extract_mana");
+    PartAbility COMPUTING_COMPONENT = new PartAbility("computing_component");
 }

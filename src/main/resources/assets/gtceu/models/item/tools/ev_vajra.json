@@ -1,6 +1,6 @@
 {
   "parent": "item/handheld",
   "textures": {
-    "layer0": "gtceu:item/tools/ev_vajra"
+    "layer0": "gtocore:item/tools/ev_vajra"
   }
 }

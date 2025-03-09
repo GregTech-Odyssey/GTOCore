@@ -83,6 +83,11 @@ public interface GTMaterialExtend {
         Meat.addFlags(GTOMaterialFlags.GENERATE_TINY_DUST);
         Obsidian.addFlags(GTOMaterialFlags.GENERATE_TINY_DUST);
         Stone.addFlags(GTOMaterialFlags.GENERATE_SMALL_DUST);
+        Silicon.addFlags(GTOMaterialFlags.GENERATE_CRYSTAL_SEED);
+        Diamond.addFlags(GTOMaterialFlags.GENERATE_ARTIFICIAL_GEM);
+        Sapphire.addFlags(GTOMaterialFlags.GENERATE_ARTIFICIAL_GEM);
+        Ruby.addFlags(GTOMaterialFlags.GENERATE_ARTIFICIAL_GEM);
+        Emerald.addFlags(GTOMaterialFlags.GENERATE_ARTIFICIAL_GEM);
         Strontium.setProperty(FLUID, new FluidProperty(FluidStorageKeys.LIQUID, new FluidBuilder()));
         Barium.setProperty(FLUID, new FluidProperty(FluidStorageKeys.LIQUID, new FluidBuilder()));
         Cadmium.setProperty(FLUID, new FluidProperty(FluidStorageKeys.LIQUID, new FluidBuilder()));

@@ -91,14 +91,6 @@ interface ChemicalBath {
                 .dimension(GTODimensions.ANCIENT_WORLD)
                 .save();
 
-        CHEMICAL_BATH_RECIPES.recipeBuilder(GTOCore.id("fullerene_polymer_matrix_soft_tubing"))
-                .inputItems(TagPrefix.wireFine, GTOMaterials.Polyetheretherketone)
-                .inputFluids(GTOMaterials.FullerenePolymerMatrixPulp.getFluid(18))
-                .outputItems(GTOItems.FULLERENE_POLYMER_MATRIX_SOFT_TUBING.asStack())
-                .EUt(100)
-                .duration(80)
-                .save();
-
         CHEMICAL_BATH_RECIPES.recipeBuilder(GTOCore.id("end_stone"))
                 .inputItems(new ItemStack(Blocks.ANDESITE.asItem()))
                 .inputFluids(GTMaterials.LiquidEnderAir.getFluid(1000))

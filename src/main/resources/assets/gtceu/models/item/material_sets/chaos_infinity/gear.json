@@ -1,6 +1,6 @@
 {
   "parent": "item/handheld",
   "textures": {
-    "layer0": "gtceu:item/material_sets/chaos_infinity/gear"
+    "layer0": "gtocore:item/material_sets/chaos_infinity/gear"
   }
 }

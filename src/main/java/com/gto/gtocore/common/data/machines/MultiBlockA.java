@@ -1119,7 +1119,7 @@ public interface MultiBlockA {
                     .where('#', air())
                     .where(' ', any())
                     .build())
-            .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_bronze_plated_bricks"), GTCEu.id("block/multiblock/steam_pressor"))
+            .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_bronze_plated_bricks"), GTOCore.id("block/multiblock/steam_pressor"))
             .register();
 
     MultiblockMachineDefinition STEAM_FOUNDRY = multiblock("steam_foundry", "蒸汽铸造炉", (holder) -> new LargeSteamParallelMultiblockMachine(holder, 8))
@@ -1206,7 +1206,7 @@ public interface MultiBlockA {
                             .or(abilities(EXPORT_ITEMS).setMaxGlobalLimited(1)))
                     .where(' ', any())
                     .build())
-            .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_bronze_plated_bricks"), GTCEu.id("block/multiblock/steam_circuit_assembler"))
+            .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_bronze_plated_bricks"), GTOCore.id("block/multiblock/steam_circuit_assembler"))
             .register();
 
     MultiblockMachineDefinition LARGE_STEAM_MIXER = multiblock("large_steam_mixer", "大型蒸汽搅拌机", (holder) -> new LargeSteamParallelMultiblockMachine(holder, 32))
@@ -1237,7 +1237,7 @@ public interface MultiBlockA {
                             .or(abilities(EXPORT_ITEMS).setMaxGlobalLimited(1)))
                     .where(' ', any())
                     .build())
-            .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_bronze_plated_bricks"), GTCEu.id("block/multiblock/steam_mixer"))
+            .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_bronze_plated_bricks"), GTOCore.id("block/multiblock/steam_mixer"))
             .register();
 
     MultiblockMachineDefinition STEAM_MIXER = multiblock("steam_mixer", "蒸汽搅拌机", (holder) -> new LargeSteamParallelMultiblockMachine(holder, 8))
@@ -1265,7 +1265,7 @@ public interface MultiBlockA {
                             .or(air()))
                     .where(' ', any())
                     .build())
-            .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_bronze_plated_bricks"), GTCEu.id("block/multiblock/steam_mixer"))
+            .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_bronze_plated_bricks"), GTOCore.id("block/multiblock/steam_mixer"))
             .register();
 
     MultiblockMachineDefinition STEAM_SEPARATOR = multiblock("steam_separator", "蒸汽分离机", (holder) -> new LargeSteamParallelMultiblockMachine(holder, 8, 8))
@@ -1294,7 +1294,7 @@ public interface MultiBlockA {
                     .where('D', blocks(GTBlocks.CASING_BRONZE_GEARBOX.get()))
                     .where(' ', any())
                     .build())
-            .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_bronze_plated_bricks"), GTCEu.id("block/multiblock/steam_centrifuge"))
+            .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_bronze_plated_bricks"), GTOCore.id("block/multiblock/steam_centrifuge"))
             .register();
 
     MultiblockMachineDefinition LARGE_STEAM_CENTRIFUGE = multiblock("large_steam_centrifuge", "大型蒸汽离心机", (holder) -> new LargeSteamParallelMultiblockMachine(holder, 32, 8))
@@ -1330,7 +1330,7 @@ public interface MultiBlockA {
                             .or(abilities(EXPORT_ITEMS).setMaxGlobalLimited(4)))
                     .where(' ', any())
                     .build())
-            .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_bronze_plated_bricks"), GTCEu.id("block/multiblock/steam_centrifuge"))
+            .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_bronze_plated_bricks"), GTOCore.id("block/multiblock/steam_centrifuge"))
             .register();
 
     MultiblockMachineDefinition LARGE_STEAM_THERMAL_CENTRIFUGE = multiblock("large_steam_thermal_centrifuge", "大型蒸汽热力离心机", (holder) -> new LargeSteamParallelMultiblockMachine(holder, 32))
@@ -1359,7 +1359,7 @@ public interface MultiBlockA {
                             .or(abilities(EXPORT_ITEMS).setMaxGlobalLimited(3)))
                     .where(' ', any())
                     .build())
-            .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_bronze_plated_bricks"), GTCEu.id("block/multiblock/steam_thermal_centrifuge"))
+            .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_bronze_plated_bricks"), GTOCore.id("block/multiblock/steam_thermal_centrifuge"))
             .register();
 
     MultiblockMachineDefinition LARGE_STEAM_BATH = multiblock("large_steam_bath", "大型蒸汽浸洗机", (holder) -> new LargeSteamParallelMultiblockMachine(holder, 32))
@@ -1448,7 +1448,7 @@ public interface MultiBlockA {
                             .or(abilities(EXPORT_ITEMS).setMaxGlobalLimited(3)))
                     .where(' ', air())
                     .build())
-            .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_bronze_plated_bricks"), GTCEu.id("block/multiblock/steam_ore_washer"))
+            .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_bronze_plated_bricks"), GTOCore.id("block/multiblock/steam_ore_washer"))
             .register();
 
     MultiblockMachineDefinition STEAM_ORE_WASHER = multiblock("steam_ore_washer", "蒸汽洗矿机", (holder) -> new LargeSteamParallelMultiblockMachine(holder, 8))
@@ -1474,7 +1474,7 @@ public interface MultiBlockA {
                     .where('E', blocks(GTBlocks.CASING_BRONZE_PIPE.get()))
                     .where(' ', air())
                     .build())
-            .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_bronze_plated_bricks"), GTCEu.id("block/multiblock/steam_ore_washer"))
+            .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_bronze_plated_bricks"), GTOCore.id("block/multiblock/steam_ore_washer"))
             .register();
 
     MultiblockMachineDefinition LARGE_STEAM_FURNACE = multiblock("large_steam_furnace", "大型蒸汽熔炉", (holder) -> new LargeSteamParallelMultiblockMachine(holder, 32))

@@ -466,7 +466,7 @@ interface PrecisionAssembler {
                 .inputFluids(GTMaterials.Polycaprolactam.getFluid(288))
                 .inputFluids(GTMaterials.PolyvinylButyral.getFluid(288))
                 .outputItems(GTOItems.LITHOGRAPHY_MASK.asStack())
-                .EUt(491520)
+                .EUt(480)
                 .duration(1200)
                 .cleanroom(CleanroomType.STERILE_CLEANROOM)
                 .save();

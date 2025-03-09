@@ -776,6 +776,7 @@ public final class GTOMaterials {
     public static Material EthylHexanol;
     public static Material P507;
     public static Material SuperheavyMix;
+    public static Material OsmiumOxideMetal;
     public static Material CoolantLiquid;
     public static Material CoalSlurry;
     public static Material WaterGas;

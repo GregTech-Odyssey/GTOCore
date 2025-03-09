@@ -530,7 +530,7 @@ public interface Lanthanidetreatment {
                 .EUt(120)
                 .save();
 
-        LARGE_CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("fluorinated_samarium_concentrate_powder62"))
+        CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("fluorinated_samarium_concentrate_powder62"))
                 .inputItems(dust, SamariumRareEarthConcentratePowder, 1)
                 .inputFluids(HydrofluoricAcid.getFluid(2000))
                 .outputItems(dust, RareEarth, 4)
@@ -550,7 +550,7 @@ public interface Lanthanidetreatment {
                 .blastFurnaceTemp(1200)
                 .save();
 
-        CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("nitrided_samarium_terbium_mixture_powder64"))
+        MIXER_RECIPES.recipeBuilder(GTOCore.id("nitrided_samarium_terbium_mixture_powder64"))
                 .inputItems(dust, SamariumTerbiumMixturePowder, 1)
                 .inputItems(dust, AmmoniumChloride, 9)
                 .outputItems(dust, NitridedSamariumTerbiumMixturePowder, 1)

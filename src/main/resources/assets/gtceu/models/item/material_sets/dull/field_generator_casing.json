@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "gtceu:item/material_sets/dull/field_generator_casing"
+    "layer0": "gtocore:item/material_sets/dull/field_generator_casing"
   }
 }

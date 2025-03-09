@@ -71,6 +71,11 @@ public final class Tooltips {
             add(GTOItems.BIOWARE_MAINFRAME, "§7Network of microbial consciousness", "§7菌群意识网络");
             add(GTOItems.BIOWARE_PROCESSOR, "§7Viscous organic slurry adheres to the surface", "§7粘稠的有机浆液附着于表面");
 
+            add(GTOItems.DIAMOND_CRYSTAL_CIRCUIT, "§7Crystal Circuit - Logic", "§7晶体电路-逻辑");
+            add(GTOItems.RUBY_CRYSTAL_CIRCUIT, "§7Crystal Circuit - Control", "§7晶体电路-控制");
+            add(GTOItems.EMERALD_CRYSTAL_CIRCUIT, "§7Crystal Circuit - Storage", "§7晶体电路-存储");
+            add(GTOItems.SAPPHIRE_CRYSTAL_CIRCUIT, "§7Crystal Circuit - Conversion", "§7晶体电路-转换");
+
             add(GTOBlocks.NAQUADRIA_CHARGE, "Can be activated by Quantum Star", "可由量子之星激活");
             add(GTOBlocks.LEPTONIC_CHARGE, "Can be activated by Gravity Star", "可由重力之星激活");
             add(GTOBlocks.QUANTUM_CHROMODYNAMIC_CHARGE, "Can be activated by Unstable Star", "可由易变之星激活");
