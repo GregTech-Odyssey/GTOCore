@@ -817,13 +817,52 @@ interface Greenhouse {
 
         add("farmersdelight", "cabbage", "cabbage_seeds", 8);
         add("farmersdelight", "tomato", "tomato_seeds", 8);
+        add("farmersdelight", "onion", null, 8);
+        add("farmersdelight", "rice_panicle", "rice", 8);
+
+        add("farmersrespite", "coffee_berries", "coffee_beans", 8);
+        add("farmersrespite", "green_tea_leaves", null, 8);
+        add("farmersrespite", "yellow_tea_leaves", null, 8);
+        add("farmersrespite", "black_tea_leaves", null, 8);
+
         add("botania", "white_mystical_flower", null, 12);
         add("botania", "light_gray_mystical_flower", null, 12);
+        add("botania", "gray_mystical_flower", null, 12);
+        add("botania", "black_mystical_flower", null, 12);
+        add("botania", "brown_mystical_flower", null, 12);
+        add("botania", "red_mystical_flower", null, 12);
+        add("botania", "orange_mystical_flower", null, 12);
+        add("botania", "yellow_mystical_flower", null, 12);
+        add("botania", "lime_mystical_flower", null, 12);
+        add("botania", "green_mystical_flower", null, 12);
+        add("botania", "cyan_mystical_flower", null, 12);
+        add("botania", "light_blue_mystical_flower", null, 12);
+        add("botania", "blue_mystical_flower", null, 12);
+        add("botania", "purple_mystical_flower", null, 12);
+        add("botania", "magenta_mystical_flower", null, 12);
+        add("botania", "pink_mystical_flower", null, 12);
+
+        add("botania", "white_mushroom", null, 12);
+        add("botania", "light_gray_mushroom", null, 12);
+        add("botania", "gray_mushroom", null, 12);
+        add("botania", "black_mushroom", null, 12);
+        add("botania", "brown_mushroom", null, 12);
+        add("botania", "red_mushroom", null, 12);
+        add("botania", "orange_mushroom", null, 12);
+        add("botania", "yellow_mushroom", null, 12);
+        add("botania", "lime_mushroom", null, 12);
+        add("botania", "green_mushroom", null, 12);
+        add("botania", "cyan_mushroom", null, 12);
+        add("botania", "light_blue_mushroom", null, 12);
+        add("botania", "blue_mushroom", null, 12);
+        add("botania", "purple_mushroom", null, 12);
+        add("botania", "magentamushroom", null, 12);
+        add("botania", "pink_mushroom", null, 12);
     }
 
     private static void add(String mod, String output, @Nullable String input, int count) {
         ItemStack stack1 = new ItemStack(RegistriesUtils.getItem(mod, output), count);
-        ItemStack stack2 = input == null ? stack1 : new ItemStack(RegistriesUtils.getItem(mod, input));
+        ItemStack stack2 = input == null ? stack1.copyWithCount(1) : new ItemStack(RegistriesUtils.getItem(mod, input));
         GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id(output))
                 .notConsumable(stack2)
                 .circuitMeta(1)
