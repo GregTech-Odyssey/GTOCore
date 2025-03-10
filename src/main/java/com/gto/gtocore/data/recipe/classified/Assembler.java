@@ -30,6 +30,25 @@ import static com.gto.gtocore.common.data.GTORecipeTypes.ASSEMBLER_RECIPES;
 interface Assembler {
 
     static void init() {
+        ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("basic_circuit_board"))
+                .inputItems(GTItems.COATED_BOARD.asStack())
+                .inputItems(TagPrefix.foil, GTMaterials.Copper, 4)
+                .outputItems(GTItems.BASIC_CIRCUIT_BOARD.asStack())
+                .inputFluids(GTMaterials.Glue.getFluid(100))
+                .EUt(7)
+                .duration(200)
+                .vacuum(2)
+                .save();
+
+        ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("resistor"))
+                .inputItems(TagPrefix.dust, GTMaterials.Carbon)
+                .inputItems(TagPrefix.wireFine, GTMaterials.Copper, 8)
+                .outputItems(GTItems.RESISTOR.asStack(4))
+                .inputFluids(GTMaterials.Glue.getFluid(200))
+                .EUt(7)
+                .duration(300)
+                .save();
+
         ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("electricaly_wired_petri_dish"))
                 .inputItems(GTOItems.STERILIZED_PETRI_DISH)
                 .inputItems(TagPrefix.wireFine, GTMaterials.Titanium)

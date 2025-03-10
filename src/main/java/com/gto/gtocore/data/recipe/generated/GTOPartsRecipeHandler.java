@@ -181,10 +181,6 @@ interface GTOPartsRecipeHandler {
             VanillaRecipeHelper.addShapelessRecipe(provider, String.format("fine_wire_%s", material.getName()),
                     fineWireStack, 'x', new UnificationEntry(foil, material));
         int voltageMultiplier = GTOUtils.getVoltageMultiplier(material);
-        Integer voltage = GTOMaterials.MATERIAL_VOLTAGE.get(material);
-        if (voltage != null) {
-            voltageMultiplier = voltage;
-        }
         if (material.hasProperty(PropertyKey.WIRE)) {
             WIREMILL_RECIPES.recipeBuilder("mill_" + material.getName() + "_wire_to_fine_wire")
                     .inputItems(wireGtSingle, material)

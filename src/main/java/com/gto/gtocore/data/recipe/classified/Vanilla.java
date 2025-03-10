@@ -96,6 +96,11 @@ interface Vanilla {
         VanillaRecipeHelper.addShapelessRecipe(provider, GTOCore.id("crafting_storage_1m"), GTOBlocks.CRAFTING_STORAGE_1M.asStack(), new ItemStack(AEBlocks.CRAFTING_UNIT.block().asItem()), GTOItems.CELL_COMPONENT_1M.asStack());
 
         VanillaRecipeHelper.addShapedRecipe(provider, GTOCore.id("paper_dust"), ChemicalHelper.get(TagPrefix.dust, GTMaterials.Paper), "S", "m", 'S', RegistriesUtils.getItemStack("farmersdelight:tree_bark"));
+        VanillaRecipeHelper.addShapedRecipe(provider, GTOCore.id("item_conduit"), RegistriesUtils.getItemStack("enderio:item_conduit", 8),
+                "AAA",
+                "BCD",
+                "AAA",
+                'A', RegistriesUtils.getItemStack("enderio:conduit_binder"), 'B', new UnificationEntry(TagPrefix.pipeSmallItem, GTMaterials.Nickel), 'C', new UnificationEntry(TagPrefix.pipeSmallItem, GTMaterials.Cobalt), 'D', new UnificationEntry(TagPrefix.pipeSmallItem, GTMaterials.Brass));
         VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("vibrant_photovoltaic_power_station"), GeneratorMultiblock.PHOTOVOLTAIC_POWER_STATION_VIBRANT.asStack(),
                 "ABA",
                 "BCB",

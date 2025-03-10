@@ -12,8 +12,10 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.BiomeTags;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
@@ -73,6 +75,19 @@ public final class GTOUtils {
             return VA[LV];
         }
         return VA[ULV];
+    }
+
+    public static boolean canSeeSunClearly(Level world, BlockPos blockPos) {
+        if (!world.canSeeSky(blockPos.above())) return false;
+        if (world.dimension().location().equals(GTODimensions.VOID) || world.dimension().location().equals(GTODimensions.FLAT)) return true;
+        Biome biome = world.getBiome(blockPos.above()).value();
+        if (world.isRaining()) {
+            if (biome.warmEnoughToRain(blockPos.above()) || biome.coldEnoughToSnow(blockPos.above())) {
+                return false;
+            }
+        }
+        if (world.getBiome(blockPos.above()).is(BiomeTags.IS_END)) return false;
+        return world.isDay();
     }
 
     public static String[] shapeToPattern(List<String[]> shape) {

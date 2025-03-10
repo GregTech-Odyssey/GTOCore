@@ -12,6 +12,7 @@ import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
+import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMufflerMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IWorkableMultiController;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.TieredPartMachine;
@@ -32,6 +33,9 @@ import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.List;
 
@@ -131,7 +135,7 @@ public abstract class MufflerPartMachineMixin extends TieredPartMachine implemen
 
     @Override
     public boolean isFrontFaceFree() {
-        if (gtocore$isAshFull) return false;
+        if (!beforeWorking(null)) return false;
         if (!gtocore$isFrontFaceFree || self().getOffsetTimer() % 20 == 0) {
             gtocore$isFrontFaceFree = true;
             BlockPos pos = self().getPos();
@@ -182,5 +186,10 @@ public abstract class MufflerPartMachineMixin extends TieredPartMachine implemen
             gtocore$ASH = ChemicalHelper.get(TagPrefix.dustTiny, GTMaterials.Ash);
         }
         ItemHandlerHelper.insertItemStacked(inventory, gtocore$ASH.copy(), false);
+    }
+
+    @Inject(method = "<init>", at = @At("TAIL"), remap = false)
+    private void init(IMachineBlockEntity holder, int tier, CallbackInfo ci) {
+        inventory.setOnContentsChanged(() -> { if (getControllers().first() instanceof IRecipeLogicMachine recipeLogicMachine) recipeLogicMachine.getRecipeLogic().updateTickSubscription(); });
     }
 }

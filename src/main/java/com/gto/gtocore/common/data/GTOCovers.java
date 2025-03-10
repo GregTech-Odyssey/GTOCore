@@ -2,7 +2,9 @@ package com.gto.gtocore.common.data;
 
 import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.common.cover.AirVentCover;
+import com.gto.gtocore.common.cover.FluidRegulatorCover;
 import com.gto.gtocore.common.cover.SteamPumpCover;
+import com.gto.gtocore.common.cover.ULVPumpCover;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.cover.CoverDefinition;
@@ -11,7 +13,6 @@ import com.gregtechceu.gtceu.client.renderer.cover.PumpCoverRenderer;
 import com.gregtechceu.gtceu.client.renderer.cover.RobotArmCoverRenderer;
 import com.gregtechceu.gtceu.client.renderer.cover.SimpleCoverRenderer;
 import com.gregtechceu.gtceu.common.cover.ConveyorCover;
-import com.gregtechceu.gtceu.common.cover.FluidRegulatorCover;
 import com.gregtechceu.gtceu.common.cover.PumpCover;
 import com.gregtechceu.gtceu.common.cover.RobotArmCover;
 import com.gregtechceu.gtceu.common.data.GTCovers;
@@ -28,14 +29,10 @@ public interface GTOCovers {
     CoverDefinition STEAM_PUMP = GTCovers.register("steam_pump", SteamPumpCover::new, PumpCoverRenderer.INSTANCE);
 
     CoverDefinition ELECTRIC_PUMP_ULV = GTCovers.register(
-            "pump.ulv",
-            (def, coverable, side) -> new PumpCover(def, coverable, side, GTValues.ULV),
-            PumpCoverRenderer.INSTANCE);
+            "pump.ulv", ULVPumpCover::new, PumpCoverRenderer.INSTANCE);
 
     CoverDefinition FLUID_REGULATOR_ULV = GTCovers.register(
-            "fluid_regulator.ulv",
-            (def, coverable, side) -> new FluidRegulatorCover(def, coverable, side, GTValues.ULV),
-            PumpCoverRenderer.INSTANCE);
+            "fluid_regulator.ulv", FluidRegulatorCover::new, PumpCoverRenderer.INSTANCE);
 
     CoverDefinition CONVEYOR_MODULE_ULV = GTCovers.register(
             "conveyor.ulv",

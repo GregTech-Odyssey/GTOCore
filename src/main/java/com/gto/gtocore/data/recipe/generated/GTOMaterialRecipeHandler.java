@@ -152,7 +152,7 @@ interface GTOMaterialRecipeHandler {
                     FORGE_HAMMER_RECIPES.recipeBuilder("hammer_" + material.getName() + "_to_plate")
                             .inputItems(stack.copyWithCount(3))
                             .outputItems(plateStack.copyWithCount(2))
-                            .EUt(16).duration(mass)
+                            .EUt(16).duration(Math.max(1, mass / 2))
                             .save();
                     if (mass < 240 && material.getBlastTemperature() < 3600)
                         VanillaRecipeHelper.addShapedRecipe(provider, String.format("plate_%s", material.getName()),

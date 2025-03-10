@@ -3,6 +3,7 @@ package com.gto.gtocore.data.recipe.generated;
 import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.api.recipe.GTORecipeBuilder;
 import com.gto.gtocore.common.data.GTOItems;
+import com.gto.gtocore.common.data.GTOMaterials;
 import com.gto.gtocore.utils.GTOUtils;
 
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
@@ -58,11 +59,16 @@ interface GTOWireRecipeHandler {
         TagPrefix prefix = material.hasProperty(PropertyKey.INGOT) ? ingot :
                 material.hasProperty(PropertyKey.GEM) ? gem : dust;
         int mass = (int) material.getMass();
+        long voltageMultiplier = GTOUtils.getVoltageMultiplier(material);
+        Integer voltage = GTOMaterials.MATERIAL_VOLTAGE.get(material);
+        if (voltage != null) {
+            voltageMultiplier = voltage;
+        }
         WIREMILL_RECIPES.recipeBuilder(GTOCore.id("mill_" + material.getName() + "_wire"))
                 .inputItems(prefix, material)
                 .outputItems(wireGtSingle, material, 2)
                 .duration(mass)
-                .EUt(GTOUtils.getVoltageMultiplier(material))
+                .EUt(voltageMultiplier)
                 .save();
 
         if (!material.hasFlag(MaterialFlags.NO_WORKING) && material.hasFlag(MaterialFlags.GENERATE_PLATE) && mass < 240 && material.getBlastTemperature() < 3600) {

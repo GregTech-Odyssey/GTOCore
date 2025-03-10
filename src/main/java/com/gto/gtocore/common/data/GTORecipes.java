@@ -80,6 +80,8 @@ public final class GTORecipes implements Runnable {
 
     public static Set<ResourceLocation> SHAPED_FILTER_RECIPES;
 
+    public static Set<ResourceLocation> SHAPELESS_FILTER_RECIPES;
+
     public static final Set<Recipe<?>> KJS_RECIPE = new LinkedHashSet<>();
 
     public static final Set<GTRecipe> KJS_GT_RECIPE = new LinkedHashSet<>();
@@ -87,12 +89,23 @@ public final class GTORecipes implements Runnable {
     public static void init() {
         long time = System.currentTimeMillis();
         SHAPED_FILTER_RECIPES = new ObjectOpenHashSet<>();
+        SHAPELESS_FILTER_RECIPES = new ObjectOpenHashSet<>();
         GT_FILTER_RECIPES = new ObjectOpenHashSet<>(200);
+        SHAPELESS_FILTER_RECIPES.add(GTCEu.id("coated_board_1x"));
         SHAPED_FILTER_RECIPES.add(GTCEu.id("large_plasma_turbine"));
         SHAPED_FILTER_RECIPES.add(GTCEu.id("maintenance_hatch_cleaning"));
         SHAPED_FILTER_RECIPES.add(GTCEu.id("vacuum_tube"));
         SHAPED_FILTER_RECIPES.add(GTCEu.id("iron_bucket"));
         SHAPED_FILTER_RECIPES.add(GTCEu.id("steam_alloy_smelter_bronze"));
+        SHAPED_FILTER_RECIPES.add(GTCEu.id("basic_circuit_board"));
+        SHAPED_FILTER_RECIPES.add(GTCEu.id("coated_board"));
+        SHAPED_FILTER_RECIPES.add(GTCEu.id("good_circuit_board"));
+        SHAPED_FILTER_RECIPES.add(GTCEu.id("resistor_wire"));
+        SHAPED_FILTER_RECIPES.add(GTCEu.id("resistor_wire_fine"));
+        SHAPED_FILTER_RECIPES.add(GTCEu.id("resistor_wire_fine_charcoal"));
+        SHAPED_FILTER_RECIPES.add(GTCEu.id("resistor_wire_carbon"));
+        SHAPED_FILTER_RECIPES.add(GTCEu.id("resistor_wire_fine_carbon"));
+        SHAPED_FILTER_RECIPES.add(GTCEu.id("resistor_wire_charcoal"));
         GT_FILTER_RECIPES.add(GTCEu.id("packer/unpackage_lv_cadmium_battery"));
         GT_FILTER_RECIPES.add(GTCEu.id("packer/unpackage_lv_lithium_battery"));
         GT_FILTER_RECIPES.add(GTCEu.id("packer/unpackage_lv_sodium_battery"));
@@ -131,6 +144,13 @@ public final class GTORecipes implements Runnable {
         GT_FILTER_RECIPES.add(GTCEu.id("assembler/wool_from_string"));
         GT_FILTER_RECIPES.add(GTCEu.id("assembler/diode_glass"));
         GT_FILTER_RECIPES.add(GTCEu.id("assembler/diode_glass_annealed"));
+        GT_FILTER_RECIPES.add(GTCEu.id("assembler/basic_circuit_board"));
+        GT_FILTER_RECIPES.add(GTCEu.id("assembler/phenolic_board"));
+        GT_FILTER_RECIPES.add(GTCEu.id("assembler/resistor_carbon"));
+        GT_FILTER_RECIPES.add(GTCEu.id("assembler/resistor_coal_annealed"));
+        GT_FILTER_RECIPES.add(GTCEu.id("assembler/resistor_coal"));
+        GT_FILTER_RECIPES.add(GTCEu.id("assembler/resistor_charcoal"));
+        GT_FILTER_RECIPES.add(GTCEu.id("assembler/resistor_charcoal_annealed"));
         GT_FILTER_RECIPES.add(GTCEu.id("assembly_line/dynamo_hatch_uhv"));
         GT_FILTER_RECIPES.add(GTCEu.id("assembly_line/energy_hatch_uhv"));
         GT_FILTER_RECIPES.add(GTCEu.id("assembly_line/energy_cluster"));
@@ -259,6 +279,7 @@ public final class GTORecipes implements Runnable {
         RecipeAddition.init(consumer);
         GT_FILTER_RECIPES = null;
         SHAPED_FILTER_RECIPES = null;
+        SHAPELESS_FILTER_RECIPES = null;
 
         ForEachMaterial.init(consumer);
 
@@ -300,7 +321,7 @@ public final class GTORecipes implements Runnable {
             EmiConfig.logUntranslatedTags = false;
             EmiConfig.workstationLocation = SidebarSide.LEFT;
             EmiRepairItemRecipe.TOOLS.clear();
-            initGTCategoryMap();
+            initCategoryMap();
             EMI_RECIPE_WIDGETS = new Object2ObjectOpenHashMap<>();
             ImmutableSet.Builder<EmiRecipe> recipes = ImmutableSet.builder();
             for (GTRecipeCategory category : GTRegistries.RECIPE_CATEGORIES) {
@@ -319,25 +340,25 @@ public final class GTORecipes implements Runnable {
             }
             EMI_RECIPE_WIDGETS = null;
             EMI_RECIPES = recipes.build();
-            clearCategoryMap(false);
+            clearCategoryMap();
             GTOCore.LOGGER.info("Pre initialization EMI GTRecipe took {}ms", System.currentTimeMillis() - time);
         }
         GTOLoots.BLOCKS.forEach(b -> LootSystem.defaultBlockTable((Block) b));
         GTOLoots.BLOCKS = null;
     }
 
-    public static void clearCategoryMap(boolean thoroughly) {
+    private static void clearCategoryMap() {
         if (GTOConfig.INSTANCE.recipeCheck) return;
         for (GTRecipeType type : GTRegistries.RECIPE_TYPES) {
-            if (thoroughly) {
-                type.getCategoryMap().clear();
+            if (type == GTORecipeTypes.FURNACE_RECIPES) {
+                type.getCategoryMap().putIfAbsent(GTRecipeTypes.FURNACE_RECIPES.getCategory(), Set.of());
             } else {
-                type.getCategoryMap().values().forEach(Set::clear);
+                type.getCategoryMap().replaceAll((k, v) -> Set.of());
             }
         }
     }
 
-    private static void initGTCategoryMap() {
+    private static void initCategoryMap() {
         GT_RECIPE_MAP.values().forEach(recipe -> recipe.recipeCategory.addRecipe(recipe));
     }
 

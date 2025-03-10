@@ -51,54 +51,13 @@ public interface RecipeOverwrite {
                 .outputItems(INTEGRATED_CIRCUIT_HV)
                 .save();
 
-        ASSEMBLER_RECIPES.recipeBuilder("basic_circuit_board")
-                .inputItems(foil, Copper, 4)
-                .inputItems(plate, Wood)
-                .inputFluids(Glue.getFluid(100))
-                .outputItems(BASIC_CIRCUIT_BOARD)
-                .duration(50).EUt(VA[LV]).save();
-
-        ASSEMBLER_RECIPES.recipeBuilder("resistor_coal")
-                .inputItems(dust, Coal)
-                .inputItems(wireFine, Copper, 4)
-                .outputItems(RESISTOR, 2)
-                .inputFluids(Glue.getFluid(100))
-                .duration(80).EUt(12).save();
-
-        ASSEMBLER_RECIPES.recipeBuilder("resistor_charcoal")
-                .inputItems(dust, Charcoal)
-                .inputItems(wireFine, Copper, 4)
-                .outputItems(RESISTOR, 2)
-                .inputFluids(Glue.getFluid(100))
-                .duration(80).EUt(12).save();
-
-        ASSEMBLER_RECIPES.recipeBuilder("resistor_carbon")
-                .inputItems(dust, Carbon)
-                .inputItems(wireFine, Copper, 4)
-                .outputItems(RESISTOR, 2)
-                .inputFluids(Glue.getFluid(100))
-                .duration(80).EUt(12).save();
-
-        ASSEMBLER_RECIPES.recipeBuilder("resistor_coal_annealed")
-                .inputItems(dust, Coal)
-                .inputItems(wireFine, AnnealedCopper, 4)
-                .outputItems(RESISTOR, 4)
-                .inputFluids(Glue.getFluid(100))
-                .duration(80).EUt(12).save();
-
-        ASSEMBLER_RECIPES.recipeBuilder("resistor_charcoal_annealed")
-                .inputItems(dust, Charcoal)
-                .inputItems(wireFine, AnnealedCopper, 4)
-                .outputItems(RESISTOR, 4)
-                .inputFluids(Glue.getFluid(100))
-                .duration(80).EUt(12).save();
-
-        ASSEMBLER_RECIPES.recipeBuilder("resistor_carbon_annealed")
-                .inputItems(dust, Carbon)
-                .inputItems(wireFine, AnnealedCopper, 4)
-                .outputItems(RESISTOR, 4)
-                .inputFluids(Glue.getFluid(100))
-                .duration(80).EUt(12).save();
+        CIRCUIT_ASSEMBLER_RECIPES.recipeBuilder("electronic_circuit_lv").EUt(16).duration(200)
+                .inputItems(BASIC_CIRCUIT_BOARD)
+                .inputItems(CustomTags.RESISTORS, 2)
+                .inputItems(wireGtSingle, RedAlloy, 2)
+                .inputItems(CustomTags.ULV_CIRCUITS, 2)
+                .outputItems(ELECTRONIC_CIRCUIT_LV, 2)
+                .save(provider);
 
         CHEMICAL_RECIPES.recipeBuilder("polyethylene_from_oxygen")
                 .circuitMeta(1)
@@ -114,7 +73,7 @@ public interface RecipeOverwrite {
                 .inputFluids(Ethylene.getFluid(L))
                 .outputFluids(Polyethylene.getFluid(126))
                 .heat(600)
-                .duration(600).EUt(VA[ULV]).save();
+                .duration(300).EUt(VA[ULV]).save();
 
         CHEMICAL_RECIPES.recipeBuilder("polyvinyl_chloride_from_oxygen")
                 .notConsumable(TagPrefix.rod, GTMaterials.Ruby)
@@ -123,6 +82,13 @@ public interface RecipeOverwrite {
                 .outputFluids(PolyvinylChloride.getFluid(144))
                 .heat(700)
                 .duration(180).EUt(VA[LV]).save(provider);
+
+        CHEMICAL_RECIPES.recipeBuilder("methanol_from_monoxide")
+                .circuitMeta(1)
+                .inputFluids(Hydrogen.getFluid(4000))
+                .inputFluids(CarbonMonoxide.getFluid(1000))
+                .outputFluids(Methanol.getFluid(1000))
+                .duration(360).EUt(30).save();
 
         ASSEMBLER_RECIPES.recipeBuilder("bucket")
                 .inputItems(GTOTagPrefix.curvedPlate, Iron, 2)

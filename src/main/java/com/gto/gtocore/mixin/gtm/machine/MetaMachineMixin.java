@@ -3,9 +3,11 @@ package com.gto.gtocore.mixin.gtm.machine;
 import com.gto.gtocore.api.machine.feature.IPerformanceDisplayMachine;
 import com.gto.gtocore.common.machine.noenergy.PerformanceMonitorMachine;
 
+import com.gregtechceu.gtceu.api.block.BlockProperties;
 import com.gregtechceu.gtceu.api.item.tool.GTToolType;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
+import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.integration.ae2.machine.feature.IGridConnectedMachine;
 
 import net.minecraft.core.BlockPos;
@@ -28,6 +30,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.EnumSet;
+import java.util.List;
 import java.util.Set;
 
 @Mixin(MetaMachine.class)
@@ -67,6 +70,17 @@ public abstract class MetaMachineMixin implements IPerformanceDisplayMachine {
     @Shadow(remap = false)
     public abstract long getOffsetTimer();
 
+    @Shadow(remap = false)
+    @Final
+    private List<TickableSubscription> serverTicks;
+
+    @Shadow(remap = false)
+    @Final
+    private List<TickableSubscription> waitingToAdd;
+
+    @Shadow(remap = false)
+    public abstract boolean isInValid();
+
     @Override
     public int gtocore$getTickTime() {
         return gTOCore$averageTickTime;
@@ -97,6 +111,10 @@ public abstract class MetaMachineMixin implements IPerformanceDisplayMachine {
                 gTOCore$totaTtickCount = 0;
             }
             if (PerformanceMonitorMachine.observe) PerformanceMonitorMachine.PERFORMANCE_MAP.put((MetaMachine) (Object) this, gTOCore$averageTickTime);
+        } else if (serverTicks.isEmpty() && waitingToAdd.isEmpty() && !isInValid()) {
+            gTOCore$averageTickTime = 0;
+            gTOCore$totaTtickCount = 0;
+            getLevel().setBlockAndUpdate(getPos(), getBlockState().setValue(BlockProperties.SERVER_TICK, false));
         }
     }
 
