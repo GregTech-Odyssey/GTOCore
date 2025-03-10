@@ -856,7 +856,7 @@ interface Greenhouse {
         add("botania", "light_blue_mushroom", null, 12);
         add("botania", "blue_mushroom", null, 12);
         add("botania", "purple_mushroom", null, 12);
-        add("botania", "magentamushroom", null, 12);
+        add("botania", "magenta_mushroom", null, 12);
         add("botania", "pink_mushroom", null, 12);
     }
 
