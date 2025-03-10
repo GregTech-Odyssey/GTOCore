@@ -163,12 +163,4 @@ public final class GTODimensions {
         PLANET_DISTANCESBuilder.put(PLUTO, 8);
         PLANET_DISTANCES = PLANET_DISTANCESBuilder.build();
     }
-
-    public static int calculateDistance(ResourceLocation planet1, ResourceLocation planet2) {
-        if (planet1 == null || planet2 == null) return 7;
-        Integer distanceFromEarth1 = PLANET_DISTANCES.get(planet1);
-        Integer distanceFromEarth2 = PLANET_DISTANCES.get(planet2);
-        if (distanceFromEarth1 == null || distanceFromEarth2 == null) return 7;
-        return Math.max(1, Math.min(6, Math.abs(distanceFromEarth1 - distanceFromEarth2)));
-    }
 }

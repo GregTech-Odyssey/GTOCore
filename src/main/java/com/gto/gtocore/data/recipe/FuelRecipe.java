@@ -3,6 +3,7 @@ package com.gto.gtocore.data.recipe;
 import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.common.data.GTOItems;
 import com.gto.gtocore.common.data.GTOMaterials;
+import com.gto.gtocore.utils.ItemUtils;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
@@ -10,6 +11,7 @@ import com.gregtechceu.gtceu.utils.GTUtil;
 
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.entity.FurnaceBlockEntity;
 import net.minecraft.world.level.material.Fluids;
@@ -30,8 +32,9 @@ public interface FuelRecipe {
     static void init(Consumer<FinishedRecipe> provider) {
         Set<Item> addedItems = new ObjectOpenHashSet<>();
         for (var fuelEntry : FurnaceBlockEntity.getFuel().entrySet()) {
+            if (fuelEntry.getKey() instanceof BucketItem) continue;
             addedItems.add(fuelEntry.getKey());
-            var resLoc = BuiltInRegistries.ITEM.getKey(fuelEntry.getKey());
+            var resLoc = ItemUtils.getIdLocation(fuelEntry.getKey());
             STEAM_BOILER_RECIPES.recipeBuilder(GTCEu.id(resLoc.getNamespace() + "_" + resLoc.getPath()))
                     .inputItems(fuelEntry.getKey())
                     .duration(Math.min(Integer.MAX_VALUE, fuelEntry.getValue() << 3))
@@ -45,9 +48,10 @@ public interface FuelRecipe {
         }
 
         for (Item item : BuiltInRegistries.ITEM) {
+            if (item instanceof BucketItem) continue;
             int burnTime = GTUtil.getItemBurnTime(item);
             if (burnTime > 0 && !addedItems.contains(item)) {
-                var resLoc = BuiltInRegistries.ITEM.getKey(item);
+                var resLoc = ItemUtils.getIdLocation(item);
                 STEAM_BOILER_RECIPES.recipeBuilder(GTCEu.id(resLoc.getNamespace() + "_" + resLoc.getPath()))
                         .inputItems(item)
                         .duration(Math.min(Integer.MAX_VALUE, burnTime << 3))

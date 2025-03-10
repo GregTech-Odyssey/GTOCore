@@ -1,6 +1,5 @@
 package com.gto.gtocore.mixin.adastra;
 
-import com.gto.gtocore.api.data.GTODimensions;
 import com.gto.gtocore.api.misc.PlanetManagement;
 import com.gto.gtocore.common.network.ClientMessage;
 
@@ -82,7 +81,7 @@ public abstract class PlanetsScreenMixin extends AbstractContainerScreen<Planets
             if (planet.isSpace()) continue;
             if (!planet.solarSystem().equals(selectedSolarSystem)) continue;
             ResourceLocation resourceLocation = planet.dimension().location();
-            int tier = GTODimensions.PLANET_DISTANCES.containsKey(resourceLocation) ? GTODimensions.calculateDistance(getMenu().player().level().dimension().location(), resourceLocation) : planet.tier();
+            int tier = PlanetManagement.calculateTier(planet, getMenu().player().level().dimension().location());
             if (menu.tier() < tier) continue;
             ClientMessage.checkPlanetIsUnlocked(resourceLocation);
             Button widget = addWidget(new LabeledImageButton(10, 0, 99, 20, 0, 0, 20, BUTTON, 99, 40, b -> {
