@@ -79,7 +79,7 @@ public final class GTOUtils {
 
     public static boolean canSeeSunClearly(Level world, BlockPos blockPos) {
         if (!world.canSeeSky(blockPos.above())) return false;
-        if (world.dimension().location().equals(GTODimensions.VOID) || world.dimension().location().equals(GTODimensions.FLAT)) return true;
+        if (GTODimensions.isVoid(world.dimension().location())) return true;
         Biome biome = world.getBiome(blockPos.above()).value();
         if (world.isRaining()) {
             if (biome.warmEnoughToRain(blockPos.above()) || biome.coldEnoughToSnow(blockPos.above())) {

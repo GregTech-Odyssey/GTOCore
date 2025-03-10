@@ -115,7 +115,7 @@ public final class WindMillTurbineMachine extends TieredEnergyMachine implements
             Level level = getLevel();
             if (level == null) return;
             actualPower = 0;
-            if (!level.dimension().location().equals(GTODimensions.FLAT) && !level.dimension().location().equals(GTODimensions.VOID)) {
+            if (!GTODimensions.isOverworld(level.dimension().location())) {
                 Planet planet = PlanetApi.API.getPlanet(level);
                 if (planet == null || !planet.oxygen()) return;
             }

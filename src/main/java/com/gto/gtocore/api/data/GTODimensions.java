@@ -139,6 +139,17 @@ public final class GTODimensions {
         return ResourceKey.create(Registries.DIMENSION, resourceLocation);
     }
 
+    private static final Set<ResourceLocation> VOID_SET = Set.of(VOID, FLAT);
+
+    public static boolean isVoid(ResourceLocation location) {
+        return VOID_SET.contains(location);
+    }
+
+    public static boolean isOverworld(ResourceLocation location) {
+        if (OVERWORLD.equals(location)) return true;
+        return isVoid(location);
+    }
+
     public static String getGalaxy(ResourceLocation d) {
         if (SOLAR.containsKey(d)) return "proxima_centauri";
         if (PROXIMA_CENTAURI.containsKey(d)) return "barnarda";
