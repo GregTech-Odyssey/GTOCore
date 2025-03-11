@@ -1640,6 +1640,8 @@
   "gtocore.machine.molecular_oscillation_dehydrator.tooltip.0": "脱水！脱水！脱水！",
   "gtocore.machine.multiple_recipes.tooltip": "支持跨配方并行",
   "gtocore.machine.nanites_integrated_processing_center.tooltip.0": "我们先进的纳米蜂群生产技术已经完全超越了老式的化工产线",
+  "gtocore.machine.nanites_integrated_processing_center.tooltip.1": "安装对应模块解锁对应配方",
+  "gtocore.machine.nanites_integrated_processing_center.tooltip.2": "主机中放入纳米蜂群可减少污染概率",
   "gtocore.machine.nano_core.tooltip.0": "能够运行任意等级的纳米锻炉配方",
   "gtocore.machine.nano_core.tooltip.1": "处理速度固定为20倍",
   "gtocore.machine.nano_forge.tooltip.0": "放入对应的纳米蜂群才能工作，并且按蜂群数量来并行",

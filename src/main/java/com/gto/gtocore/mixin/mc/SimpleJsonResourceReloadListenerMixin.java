@@ -40,7 +40,7 @@ public class SimpleJsonResourceReloadListenerMixin {
                 if (GTORecipes.cache) return;
                 filters = new ObjectOpenHashSet<>(2048);
                 RecipeRemoval.init(filters::add);
-                GTORecipes.removal(filters);
+                GTORecipes.initJsonFilter(filters);
                 break;
             }
             case "loot_tables": {

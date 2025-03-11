@@ -21,7 +21,6 @@ import com.gto.gtocore.utils.MachineUtils;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTValues;
-import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.fluids.PropertyFluidFilter;
@@ -231,7 +230,6 @@ public interface MultiBlockC {
             .recipe(GTORecipeTypes.CRUSHER_RECIPES)
             .steamOverclock()
             .block(GTBlocks.CASING_BRONZE_BRICKS)
-            .addOutputLimit(ItemRecipeCapability.CAP, 1)
             .pattern(definition -> FactoryBlockPattern.start()
                     .aisle("A   A", "bbbbb", "BCCCB", "BBBBB", " BBB ")
                     .aisle("A   A", "bBABb", "BCCCB", "BD#DB", "BB#BB")
@@ -928,6 +926,8 @@ public interface MultiBlockC {
     MultiblockMachineDefinition NANITES_INTEGRATED_PROCESSING_CENTER = multiblock("nanites_integrated_processing_center", "纳米集成加工中心", NanitesIntegratedMachine::new)
             .nonYAxisRotation()
             .tooltipsText("Our advanced nanites colony production technology has completely surpassed the old-fashioned chemical production line", "我们先进的纳米蜂群生产技术已经完全超越了老式的化工产线")
+            .tooltipsText("Install the corresponding module to unlock the corresponding recipe", "安装对应模块解锁对应配方")
+            .tooltipsText("Installing a nanites into the host can reduce the probability of pollution.", "主机中放入纳米蜂群可减少污染概率")
             .recipe(GTORecipeTypes.NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES)
             .customTooltipsBuilder(false, true, false)
             .block(GTOBlocks.NAQUADAH_ALLOY_CASING)
@@ -977,7 +977,7 @@ public interface MultiBlockC {
                     .where('K', blocks(GTBlocks.CASING_STAINLESS_TURBINE.get()))
                     .where('L', blocks(GTBlocks.CASING_POLYTETRAFLUOROETHYLENE_PIPE.get()))
                     .where('M', blocks(GTBlocks.HIGH_POWER_CASING.get()))
-                    .where('N', blocks(GTOBlocks.HYPER_CORE.get()))
+                    .where('N', blocks(GTOBlocks.PPS_CORROSION_RESISTANT_MECHANICAL_HOUSING.get()))
                     .where('O', blocks(GTOBlocks.AMPROSIUM_GEARBOX.get()))
                     .where('P', blocks(GCYMBlocks.ELECTROLYTIC_CELL.get()))
                     .where('a', blocks(GTOBlocks.NAQUADAH_ALLOY_CASING.get())

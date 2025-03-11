@@ -223,7 +223,7 @@ public interface GTORecipeModifiers {
             if (machine instanceof IOverclockConfigMachine configMachine) {
                 limit = configMachine.gTOCore$getOCLimit();
             } else {
-                limit = 20;
+                limit = 2;
             }
             int ocLevel = 0;
             while (duration > limit) {
