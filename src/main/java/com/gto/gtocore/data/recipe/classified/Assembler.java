@@ -3576,7 +3576,7 @@ interface Assembler {
                 .inputItems(GTItems.BATTERY_HV_CADMIUM.asStack(4))
                 .inputItems(GTItems.EMITTER_HV.asStack(2))
                 .inputItems(GTItems.POWER_THRUSTER_ADVANCED.asStack(2))
-                .inputItems(GTItems.COVER_SOLAR_PANEL_ULV.asStack(4))
+                .inputItems("enderio:photovoltaic_plate", 2)
                 .inputItems(GTItems.ROBOT_ARM_HV.asStack())
                 .inputItems(TagPrefix.rod, GTMaterials.StainlessSteel, 4)
                 .inputItems(TagPrefix.plate, GTMaterials.StainlessSteel, 16)

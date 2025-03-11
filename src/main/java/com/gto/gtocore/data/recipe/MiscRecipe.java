@@ -17,6 +17,7 @@ import com.gregtechceu.gtceu.api.data.chemical.material.stack.UnificationEntry;
 import com.gregtechceu.gtceu.api.machine.multiblock.CleanroomType;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTMaterialItems;
+import com.gregtechceu.gtceu.data.recipe.CustomTags;
 import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
 
 import net.minecraft.data.recipes.FinishedRecipe;
@@ -281,5 +282,33 @@ public interface MiscRecipe {
                 .EUt(VHA[EV])
                 .dimension(GTODimensions.OTHERSIDE)
                 .save(provider);
+
+        ASSEMBLER_RECIPES.recipeBuilder("cover_item_voiding")
+                .inputItems(screw, Steel, 2)
+                .inputItems(COVER_ITEM_DETECTOR)
+                .inputItems(pipeNormalItem, Brass)
+                .inputItems(Items.ENDER_PEARL)
+                .outputItems(COVER_ITEM_VOIDING)
+                .duration(100).EUt(VA[LV]).save(provider);
+
+        ASSEMBLER_RECIPES.recipeBuilder("cover_item_voiding_advanced")
+                .inputItems(COVER_ITEM_VOIDING)
+                .inputItems(CustomTags.MV_CIRCUITS, 1)
+                .outputItems(COVER_ITEM_VOIDING_ADVANCED)
+                .duration(100).EUt(VA[LV]).save(provider);
+
+        ASSEMBLER_RECIPES.recipeBuilder("cover_fluid_voiding")
+                .inputItems(screw, Steel, 2)
+                .inputItems(COVER_FLUID_DETECTOR)
+                .inputItems(pipeNormalFluid, Bronze)
+                .inputItems(Items.ENDER_PEARL)
+                .outputItems(COVER_FLUID_VOIDING)
+                .duration(100).EUt(VA[LV]).save(provider);
+
+        ASSEMBLER_RECIPES.recipeBuilder("cover_fluid_voiding_advanced")
+                .inputItems(COVER_FLUID_VOIDING)
+                .inputItems(CustomTags.MV_CIRCUITS, 1)
+                .outputItems(COVER_FLUID_VOIDING_ADVANCED)
+                .duration(100).EUt(VA[LV]).save(provider);
     }
 }

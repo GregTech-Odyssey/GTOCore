@@ -2536,9 +2536,9 @@ interface ChemicaRreactor {
         CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("titanium_dioxide_dust"))
                 .circuitMeta(5)
                 .inputFluids(GTMaterials.TitaniumTetrachloride.getFluid(1000))
-                .inputFluids(GTMaterials.Oxygen.getFluid(1000))
+                .inputFluids(GTMaterials.Water.getFluid(2000))
                 .outputItems(TagPrefix.dust, GTOMaterials.TitaniumDioxide, 3)
-                .outputFluids(GTMaterials.Chlorine.getFluid(2000))
+                .outputFluids(GTMaterials.HydrochloricAcid.getFluid(4000))
                 .EUt(240)
                 .duration(100)
                 .save();
