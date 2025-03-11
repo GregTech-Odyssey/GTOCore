@@ -7,8 +7,8 @@ import com.gto.gtocore.api.recipe.RecipeRunner;
 import com.gto.gtocore.common.data.GTORecipeTypes;
 
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
-import com.gregtechceu.gtceu.api.machine.SimpleTieredMachine;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
+import com.gregtechceu.gtceu.api.machine.WorkableTieredMachine;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
@@ -22,10 +22,10 @@ import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public final class ElectricHeaterMachine extends SimpleTieredMachine implements IHeaterMachine {
+public final class ElectricHeaterMachine extends WorkableTieredMachine implements IHeaterMachine {
 
     private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
-            ElectricHeaterMachine.class, SimpleTieredMachine.MANAGED_FIELD_HOLDER);
+            ElectricHeaterMachine.class, WorkableTieredMachine.MANAGED_FIELD_HOLDER);
 
     @Getter
     @Setter
