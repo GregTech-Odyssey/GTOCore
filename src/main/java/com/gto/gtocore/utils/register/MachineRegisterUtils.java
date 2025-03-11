@@ -29,13 +29,11 @@ import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
-import com.gregtechceu.gtceu.api.recipe.OverclockingLogic;
 import com.gregtechceu.gtceu.api.registry.registrate.GTRegistrate;
 import com.gregtechceu.gtceu.api.registry.registrate.MultiblockMachineBuilder;
 import com.gregtechceu.gtceu.client.renderer.machine.OverlayTieredMachineRenderer;
 import com.gregtechceu.gtceu.client.renderer.machine.SimpleGeneratorMachineRenderer;
 import com.gregtechceu.gtceu.client.util.TooltipHelper;
-import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
 import com.gregtechceu.gtceu.common.data.machines.GTMachineUtils;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.LaserHatchPartMachine;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
@@ -160,7 +158,7 @@ public final class MachineRegisterUtils {
                         .renderer(() -> new SimpleGeneratorMachineRenderer(tier, GTOCore.id("block/generators/" + name)))
                         .tooltips(Component.translatable("gtocore.machine.efficiency.tooltip", GeneratorArrayMachine.getEfficiency(recipeType, tier)).append("%"))
                         .tooltips(Component.translatable("gtocore.universal.tooltip.ampere_out", GeneratorArrayMachine.getAmperage(tier)))
-                        .tooltips(GTMachineUtils.workableTiered(tier, V[tier], V[tier] * 64 * GeneratorArrayMachine.getAmperage(tier), recipeType, tankScalingFunction.apply(tier), false))
+                        .tooltips(GTMachineUtils.workableTiered(tier, V[tier], V[tier] << 6, recipeType, tankScalingFunction.apply(tier), false))
                         .register(),
                 tiers);
     }
@@ -183,7 +181,7 @@ public final class MachineRegisterUtils {
                                                              ResourceLocation workableModel, int... tiers) {
         return registerTieredMachines(name, tier -> "%s%s %s".formatted(GTOValues.VLVHCN[tier], cn, VLVT[tier]),
                 (holder, tier) -> new SimpleTieredMachine(holder, tier, tankScalingFunction), (tier, builder) -> {
-                    builder.recipeModifier(GTRecipeModifiers.ELECTRIC_OVERCLOCK.apply(OverclockingLogic.NON_PERFECT_OVERCLOCK));
+                    builder.recipeModifier(GTORecipeModifiers.OVERCLOCKING);
                     return builder
                             .langValue("%s %s %s".formatted(VLVH[tier], FormattingUtil.toEnglishName(name), VLVT[tier]))
                             .editableUI(SimpleTieredMachine.EDITABLE_UI_CREATOR.apply(GTCEu.id(name), recipeType))

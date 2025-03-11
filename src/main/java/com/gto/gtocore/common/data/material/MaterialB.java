@@ -17,6 +17,12 @@ import static com.gto.gtocore.utils.register.MaterialsRegisterUtils.material;
 public interface MaterialB {
 
     static void init() {
+        PhenolicResin = material("phenolic_resin", "酚醛树脂")
+                .fluid()
+                .color(0x7F4503)
+                .iconSet(DULL)
+                .buildAndRegister();
+
         OsmiumOxideMetal = material("osmium_oxide_metal", "氧化锇金属")
                 .dust()
                 .color(0x4E748F)

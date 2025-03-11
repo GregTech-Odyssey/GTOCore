@@ -86,7 +86,7 @@ interface IsostaticPressing {
 
         ISOSTATIC_PRESSING_RECIPES.recipeBuilder(GTOCore.id("lithium_oxide_ceramics_rough_blank"))
                 .inputItems(TagPrefix.dust, GTOMaterials.LithiumOxideCeramics, 9)
-                .inputFluids(GTMaterials.Glue.getFluid(1000))
+                .inputFluids(GTOMaterials.PhenolicResin.getFluid(1000))
                 .outputItems(GTOTagPrefix.roughBlank, GTOMaterials.LithiumOxideCeramics)
                 .EUt(500)
                 .duration(200)
@@ -102,7 +102,7 @@ interface IsostaticPressing {
 
         ISOSTATIC_PRESSING_RECIPES.recipeBuilder(GTOCore.id("tricalcium_phosphate_ceramic_rough_blank"))
                 .inputItems(TagPrefix.dust, GTOMaterials.TricalciumPhosphateCeramic, 9)
-                .inputFluids(GTMaterials.Glue.getFluid(1000))
+                .inputFluids(GTOMaterials.PhenolicResin.getFluid(1000))
                 .outputItems(GTOTagPrefix.roughBlank, GTOMaterials.TricalciumPhosphateCeramic)
                 .EUt(500)
                 .duration(200)

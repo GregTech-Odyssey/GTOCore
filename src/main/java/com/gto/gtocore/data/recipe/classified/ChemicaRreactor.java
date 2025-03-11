@@ -22,6 +22,36 @@ import static com.gto.gtocore.common.data.GTORecipeTypes.LARGE_CHEMICAL_RECIPES;
 interface ChemicaRreactor {
 
     static void init() {
+        CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("phenolic_board"))
+                .inputItems(TagPrefix.plate, TreatedWood)
+                .inputItems(TagPrefix.foil, GTMaterials.Lead, 4)
+                .outputItems(GTItems.PHENOLIC_BOARD.asStack())
+                .inputFluids(GTOMaterials.PhenolicResin.getFluid(144))
+                .inputFluids(GTMaterials.SulfuricAcid.getFluid(250))
+                .EUt(30)
+                .duration(300)
+                .save();
+
+        CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("coated_board"))
+                .inputItems(TagPrefix.plate, GTMaterials.Wood)
+                .inputItems(GTItems.STICKY_RESIN.asStack(2))
+                .outputItems(GTItems.COATED_BOARD.asStack())
+                .inputFluids(GTMaterials.Benzene.getFluid(100))
+                .inputFluids(GTMaterials.Oxygen.getFluid(100))
+                .EUt(7)
+                .duration(160)
+                .save();
+
+        CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("phenolic_resin"))
+                .notConsumable(TagPrefix.dust, GTMaterials.SodiumHydroxide)
+                .inputFluids(GTMaterials.Phenol.getFluid(1000))
+                .inputFluids(GTMaterials.Formaldehyde.getFluid(1000))
+                .inputFluids(GTMaterials.Oxygen.getFluid(1000))
+                .outputFluids(GTOMaterials.PhenolicResin.getFluid(1000))
+                .EUt(30)
+                .duration(240)
+                .save();
+
         CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("sapphire_sodium_aluminate_dust"))
                 .inputItems(TagPrefix.dust, GTMaterials.Sapphire, 5)
                 .inputItems(TagPrefix.dust, GTMaterials.SodiumHydroxide, 6)
@@ -74,8 +104,17 @@ interface ChemicaRreactor {
                 .inputFluids(GTMaterials.Methanol.getFluid(1000))
                 .inputFluids(GTMaterials.Oxygen.getFluid(1000))
                 .outputFluids(GTMaterials.Formaldehyde.getFluid(1000))
-                .EUt(7680)
+                .EUt(120)
                 .duration(200)
+                .save();
+
+        CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("formaldehyde_a"))
+                .notConsumable(GTOTagPrefix.dust, GTMaterials.Silver)
+                .inputFluids(GTMaterials.Methanol.getFluid(1000))
+                .inputFluids(GTMaterials.Oxygen.getFluid(1000))
+                .outputFluids(GTMaterials.Formaldehyde.getFluid(500))
+                .EUt(30)
+                .duration(300)
                 .save();
 
         CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("bismuth_tellurite_dust"))
@@ -1460,7 +1499,7 @@ interface ChemicaRreactor {
                 .inputFluids(GTMaterials.Oxygen.getFluid(1000))
                 .outputFluids(GTMaterials.Formaldehyde.getFluid(1000))
                 .outputFluids(GTOMaterials.Acetaldehyde.getFluid(1000))
-                .EUt(30720)
+                .EUt(480)
                 .duration(320)
                 .save();
 

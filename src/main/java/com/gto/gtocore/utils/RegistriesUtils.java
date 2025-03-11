@@ -4,7 +4,6 @@ import com.gto.gtocore.GTOCore;
 
 import com.gregtechceu.gtceu.utils.SupplierMemoizer;
 
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.TagParser;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
@@ -56,10 +55,10 @@ public final class RegistriesUtils {
     }
 
     public static Block getBlock(String s) {
-        return BuiltInRegistries.BLOCK.get(new ResourceLocation(s));
+        return ForgeRegistries.BLOCKS.getValue(new ResourceLocation(s));
     }
 
     public static Fluid getFluid(String s) {
-        return BuiltInRegistries.FLUID.get(new ResourceLocation(s));
+        return ForgeRegistries.FLUIDS.getValue(new ResourceLocation(s));
     }
 }

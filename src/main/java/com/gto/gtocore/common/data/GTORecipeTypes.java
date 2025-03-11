@@ -803,7 +803,7 @@ public interface GTORecipeTypes {
 
     GTORecipeType ELECTRIC_COOKING_RECIPES = register("electric_cooking", "电力烹饪", MULTIBLOCK)
             .setEUIO(IO.IN)
-            .setMaxIOSize(7, 2, 2, 2)
+            .setMaxIOSize(7, 2, 2, 0)
             .setProgressBar(GuiTextures.PROGRESS_BAR_BATH, LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.FURNACE);
 
@@ -815,16 +815,6 @@ public interface GTORecipeTypes {
             .addDataInfo(TEMPERATURE)
             .addDataInfo(COIL)
             .setSound(GTSoundEntries.COMPRESSOR)
-            /*
-             * .addDataInfo(data -> LocalizationUtils.format("gtocore.recipe.spool",
-             * switch (data.getInt("spool")) {
-             * case 1 -> I18n.get("item.gtocore.spools_micro");
-             * case 2 -> I18n.get("item.gtocore.spools_small");
-             * case 3 -> I18n.get("item.gtocore.spools_medium");
-             * case 4 -> I18n.get("item.gtocore.spools_large");
-             * default -> I18n.get("item.gtocore.spools_jumbo");
-             * }))
-             */
             .setUiBuilder((recipe, widgetGroup) -> {
                 ItemStack itemStack = new ItemStack(SPOOL.entrySet().stream()
                         .filter(entry -> entry.getValue() == recipe.data.getInt("spool"))

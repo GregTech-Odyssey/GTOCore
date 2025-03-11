@@ -29,6 +29,7 @@ public final class GTOLoots {
 
     public static void removal(Set<ResourceLocation> filters) {
         filters.add(new ResourceLocation("expatternprovider", "blocks/ex_emc_interface"));
+        filters.add(new ResourceLocation("farmersrespite", "blocks/kettle"));
     }
 
     public static Pair<ImmutableMap<LootDataId<?>, ?>, ImmutableMultimap<LootDataType<?>, ResourceLocation>> apply(Map<LootDataType<?>, Map<ResourceLocation, ?>> collectedElements) {

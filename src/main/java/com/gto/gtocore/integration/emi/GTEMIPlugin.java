@@ -9,10 +9,8 @@ import com.gregtechceu.gtceu.common.data.GTFluids;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.fluid.potion.PotionFluid;
 import com.gregtechceu.gtceu.common.fluid.potion.PotionFluidHelper;
-import com.gregtechceu.gtceu.config.ConfigHolder;
 import com.gregtechceu.gtceu.integration.emi.circuit.GTProgrammedCircuitCategory;
 import com.gregtechceu.gtceu.integration.emi.multipage.MultiblockInfoEmiCategory;
-import com.gregtechceu.gtceu.integration.emi.oreprocessing.GTOreProcessingEmiCategory;
 import com.gregtechceu.gtceu.integration.emi.orevein.GTBedrockFluidEmiCategory;
 import com.gregtechceu.gtceu.integration.emi.orevein.GTOreVeinEmiCategory;
 import com.gregtechceu.gtceu.integration.emi.recipe.GTEmiRecipeHandler;
@@ -37,8 +35,6 @@ public final class GTEMIPlugin implements EmiPlugin {
     public void register(EmiRegistry registry) {
         if (GTCEu.isProd()) ChiselRecipe.register(registry);
         registry.addCategory(MultiblockInfoEmiCategory.CATEGORY);
-        if (!ConfigHolder.INSTANCE.compat.hideOreProcessingDiagrams)
-            registry.addCategory(GTOreProcessingEmiCategory.CATEGORY);
         registry.addCategory(GTOreVeinEmiCategory.CATEGORY);
         registry.addCategory(GTBedrockFluidEmiCategory.CATEGORY);
         for (GTRecipeCategory category : GTRegistries.RECIPE_CATEGORIES) {
@@ -52,8 +48,6 @@ public final class GTEMIPlugin implements EmiPlugin {
         registry.addCategory(GTProgrammedCircuitCategory.CATEGORY);
 
         GTRecipeEMICategory.registerDisplays(registry);
-        if (!ConfigHolder.INSTANCE.compat.hideOreProcessingDiagrams)
-            GTOreProcessingEmiCategory.registerDisplays(registry);
         GTOreVeinEmiCategory.registerDisplays(registry);
         GTBedrockFluidEmiCategory.registerDisplays(registry);
         GTProgrammedCircuitCategory.registerDisplays(registry);

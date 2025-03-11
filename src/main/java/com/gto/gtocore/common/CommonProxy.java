@@ -5,6 +5,7 @@ import com.gto.gtocore.api.entity.IEnhancedPlayer;
 import com.gto.gtocore.common.data.*;
 import com.gto.gtocore.common.forge.ForgeCommonEvent;
 import com.gto.gtocore.config.GTOConfig;
+import com.gto.gtocore.data.Data;
 import com.gto.gtocore.integration.ae2.InfinityCellGuiHandler;
 import com.gto.gtocore.integration.ae2.storage.InfinityCellHandler;
 import com.gto.gtocore.integration.ftbquests.EMIRecipeModHelper;
@@ -78,7 +79,7 @@ public class CommonProxy {
         if (GTCEu.isProd()) EMIRecipeModHelper.setRecipeModHelper();
 
         if (GTCEu.isClientSide()) {
-            Thread thread = new Thread(new GTORecipes());
+            Thread thread = new Thread(new Data.PreInitialization(), "GTOCore Data");
             thread.setDaemon(true);
             thread.setPriority(Thread.MIN_PRIORITY);
             thread.start();

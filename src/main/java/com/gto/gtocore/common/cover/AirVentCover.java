@@ -1,5 +1,7 @@
 package com.gto.gtocore.common.cover;
 
+import com.gto.gtocore.api.data.GTODimensions;
+
 import com.gregtechceu.gtceu.api.capability.ICoverable;
 import com.gregtechceu.gtceu.api.cover.CoverBehavior;
 import com.gregtechceu.gtceu.api.cover.CoverDefinition;
@@ -8,7 +10,6 @@ import com.gregtechceu.gtceu.common.data.GTMaterials;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.Direction;
-import net.minecraft.world.level.Level;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.IFluidHandler;
@@ -47,7 +48,7 @@ public final class AirVentCover extends CoverBehavior {
     }
 
     private void update() {
-        if (coverHolder.getOffsetTimer() % 20 == 0 && coverHolder.getLevel().dimension() == Level.OVERWORLD && coverHolder.getLevel().getBlockState(coverHolder.getPos().relative(attachedSide)).isAir()) {
+        if (coverHolder.getOffsetTimer() % 20 == 0 && GTODimensions.isOverworld(coverHolder.getLevel().dimension().location()) && coverHolder.getLevel().getBlockState(coverHolder.getPos().relative(attachedSide)).isAir()) {
             FluidUtil.getFluidHandler(coverHolder.getLevel(), coverHolder.getPos(), attachedSide).ifPresent(h -> h.fill(AIR, IFluidHandler.FluidAction.EXECUTE));
         }
     }

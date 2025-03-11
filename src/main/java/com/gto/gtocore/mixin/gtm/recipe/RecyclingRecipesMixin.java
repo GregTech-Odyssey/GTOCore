@@ -2,6 +2,7 @@ package com.gto.gtocore.mixin.gtm.recipe;
 
 import com.gto.gtocore.api.recipe.GTORecipeBuilder;
 import com.gto.gtocore.common.data.GTORecipeTypes;
+import com.gto.gtocore.utils.ItemUtils;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
@@ -17,7 +18,6 @@ import com.gregtechceu.gtceu.common.data.GTRecipeCategories;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.data.recipe.misc.RecyclingRecipes;
 
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -103,7 +103,7 @@ public abstract class RecyclingRecipesMixin {
 
         int voltageMultiplier = calculateVoltageMultiplier(components);
 
-        if (prefix != null && prefix != TagPrefix.dust) {
+        if (prefix != TagPrefix.dust) {
             registerMaceratorRecycling(provider, input, components, voltageMultiplier);
         }
         if (prefix == TagPrefix.ingot || prefix == TagPrefix.dust) {
@@ -142,7 +142,7 @@ public abstract class RecyclingRecipesMixin {
     private static void registerMaceratorRecycling(Consumer<FinishedRecipe> provider, ItemStack input, List<MaterialStack> materials, int multiplier) {
         List<ItemStack> outputs = finalizeOutputs(materials, GTORecipeTypes.MACERATOR_RECIPES.getMaxOutputs(ItemRecipeCapability.CAP), ChemicalHelper::getDust);
         if (outputs != null && !outputs.isEmpty()) {
-            ResourceLocation itemPath = BuiltInRegistries.ITEM.getKey(input.getItem());
+            ResourceLocation itemPath = ItemUtils.getIdLocation(input.getItem());
             GTORecipeBuilder builder = GTORecipeTypes.MACERATOR_RECIPES.recipeBuilder("macerate_" + itemPath.getPath()).outputItems(outputs.toArray(ItemStack[]::new)).duration(calculateDuration(outputs)).EUt(2L * (long) multiplier);
             builder.inputItems(input);
             builder.category(GTRecipeCategories.MACERATOR_RECYCLING);
@@ -170,7 +170,7 @@ public abstract class RecyclingRecipesMixin {
                 return;
             }
 
-            ResourceLocation itemPath = BuiltInRegistries.ITEM.getKey(input.getItem());
+            ResourceLocation itemPath = ItemUtils.getIdLocation(input.getItem());
             GTORecipeTypes.LIQUEFACTION_FURNACE_RECIPES.recipeBuilder("extract_" + itemPath.getPath())
                     .outputFluids(m.getFluid((int) (ms.amount() * L / M)))
                     .duration((int) Math.max(1, ms.amount() * ms.material().getMass() / M))
@@ -203,7 +203,7 @@ public abstract class RecyclingRecipesMixin {
         duration = Math.max(1L, duration / M);
 
         // Build the final Recipe.
-        ResourceLocation itemPath = BuiltInRegistries.ITEM.getKey(input.getItem());
+        ResourceLocation itemPath = ItemUtils.getIdLocation(input.getItem());
         GTORecipeBuilder extractorBuilder = GTORecipeTypes.LIQUEFACTION_FURNACE_RECIPES
                 .recipeBuilder("extract_" + itemPath.getPath())
                 .outputFluids(fluidMs.material().getFluid((int) (fluidMs.amount() * L / M)))
@@ -236,7 +236,7 @@ public abstract class RecyclingRecipesMixin {
                 materials = combineStacks(materials.stream().map(RecyclingRecipesMixin::getArcSmeltingResult).filter(Objects::nonNull).collect(Collectors.toList()));
                 List<ItemStack> outputs = finalizeOutputs(materials, GTRecipeTypes.ARC_FURNACE_RECIPES.getMaxOutputs(ItemRecipeCapability.CAP), RecyclingRecipesMixin::getArcIngotOrDust);
                 if (outputs != null && !outputs.isEmpty()) {
-                    ResourceLocation itemPath = BuiltInRegistries.ITEM.getKey(input.getItem());
+                    ResourceLocation itemPath = ItemUtils.getIdLocation(input.getItem());
                     GTORecipeBuilder builder = GTORecipeTypes.ARC_FURNACE_RECIPES.recipeBuilder("arc_" + itemPath.getPath()).outputItems(outputs.toArray(ItemStack[]::new)).duration(calculateDuration(outputs)).EUt(GTValues.VA[1]);
                     builder.inputItems(input.copy());
 
@@ -249,7 +249,7 @@ public abstract class RecyclingRecipesMixin {
             } else {
                 if (ms != null && !ms.material().hasProperty(PropertyKey.GEM)) {
                     ItemStack output = ChemicalHelper.get(TagPrefix.ingot, ms.material().getProperty(PropertyKey.INGOT).getArcSmeltingInto(), (int) (TagPrefix.block.getMaterialAmount(ms.material()) / 3628800L));
-                    ResourceLocation itemPath = BuiltInRegistries.ITEM.getKey(input.getItem());
+                    ResourceLocation itemPath = ItemUtils.getIdLocation(input.getItem());
                     GTORecipeBuilder builder = GTORecipeTypes.ARC_FURNACE_RECIPES.recipeBuilder("arc_" + itemPath.getPath()).outputItems(output).duration(calculateDuration(Collections.singletonList(output))).EUt(GTValues.VA[1]);
                     builder.inputItems(input.copy());
 

@@ -55,12 +55,12 @@ public interface PlatGroupMetals {
                 .outputFluids(AquaRegia.getFluid(3000))
                 .save();
 
-        CENTRIFUGE_RECIPES.recipeBuilder(GTOCore.id("pgs_separation")).duration(40).EUt(VA[HV])
+        CENTRIFUGE_RECIPES.recipeBuilder(GTOCore.id("pgs_separation")).duration(150).EUt(VA[HV])
                 .inputItems(dust, PlatinumGroupSludge, 6)
                 .inputFluids(AquaRegia.getFluid(1200))
                 .chancedOutput(dust, PlatinumSlag, 6, 7500, 500)
-                .chancedOutput(dust, PlatinumRaw, 4, 8000, 500)
-                .chancedOutput(dust, PalladiumRaw, 4, 8000, 500)
+                .chancedOutput(dust, PalladiumRaw, 3, 8000, 500)
+                .chancedOutput(dust, PlatinumRaw, 2, 8000, 500)
                 .chancedOutput(dust, PlatinumSludgeResidue, 2, 8500, 500)
                 .chancedOutput(dustTiny, InertMetalMixture, 4, 9000, 500)
                 .chancedOutput(dustTiny, RarestMetalMixture, 1, 9000, 100)

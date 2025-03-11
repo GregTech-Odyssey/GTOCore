@@ -79,8 +79,10 @@ public final class LightningRodMachine extends TieredEnergyMachine {
 
     @Override
     protected NotifiableEnergyContainer createEnergyContainer(Object... args) {
-        return NotifiableEnergyContainer.emitterContainer(this, getCharge(),
+        NotifiableEnergyContainer energyContainer = NotifiableEnergyContainer.emitterContainer(this, getCharge(),
                 GTValues.V[getTier() - 1], getMaxInputOutputAmperage());
+        energyContainer.setSideOutputCondition(side -> !hasFrontFacing() || side == getFrontFacing());
+        return energyContainer;
     }
 
     @Override

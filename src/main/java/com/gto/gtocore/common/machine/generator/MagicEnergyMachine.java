@@ -52,8 +52,10 @@ public final class MagicEnergyMachine extends TieredEnergyMachine {
     @Override
     protected NotifiableEnergyContainer createEnergyContainer(Object... args) {
         long tierVoltage = GTValues.V[getTier()];
-        return NotifiableEnergyContainer.emitterContainer(this,
+        NotifiableEnergyContainer energyContainer = NotifiableEnergyContainer.emitterContainer(this,
                 tierVoltage << 9, tierVoltage, getMaxInputOutputAmperage());
+        energyContainer.setSideOutputCondition(side -> !hasFrontFacing() || side == getFrontFacing());
+        return energyContainer;
     }
 
     @Override

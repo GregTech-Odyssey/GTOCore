@@ -133,6 +133,7 @@ public final class ItemRegisterUtils {
                 })
                 .model(NonNullBiConsumer.noop())
                 .color(() -> TagPrefixItem::tintColor)
+                .onRegister(GTItems::cauldronInteraction)
                 .register());
     }
 

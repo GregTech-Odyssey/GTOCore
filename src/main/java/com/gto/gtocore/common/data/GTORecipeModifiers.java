@@ -9,6 +9,7 @@ import com.gto.gtocore.utils.MachineUtils;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.recipe.EURecipeCapability;
+import com.gregtechceu.gtceu.api.capability.recipe.IRecipeCapabilityHolder;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.SimpleGeneratorMachine;
 import com.gregtechceu.gtceu.api.machine.feature.IOverclockMachine;
@@ -43,14 +44,17 @@ public interface GTORecipeModifiers {
         return (machine, r) -> recipe -> overclocking(machine, recipe, perfect, false, reductionEUt, reductionDuration);
     }
 
-    static ModifierFunction simpleGeneratorMachineModifier(@NotNull MetaMachine machine, @NotNull GTRecipe recipe) {
+    static ModifierFunction simpleGeneratorMachineModifier(@NotNull MetaMachine machine, @NotNull GTRecipe r) {
         if (machine instanceof SimpleGeneratorMachine generator) {
-            var EUt = RecipeHelper.getOutputEUt(recipe);
-            if (EUt > 0) {
-                int maxParallel = (int) ((GTValues.V[generator.getTier()] * GeneratorArrayMachine.getAmperage(generator.getTier())) / EUt);
-                int parallels = ParallelLogic.getParallelAmountFast(generator, recipe, maxParallel);
-                return ModifierFunction.builder().durationMultiplier((double) GeneratorArrayMachine.getEfficiency(generator.getRecipeType(), generator.getTier()) / 100).inputModifier(ContentModifier.multiplier(parallels)).outputModifier(ContentModifier.multiplier(parallels)).eutMultiplier(parallels).parallels(parallels).build();
-            }
+            return recipe -> {
+                var EUt = RecipeHelper.getOutputEUt(recipe);
+                if (EUt > 0) {
+                    recipe = fastParallel(machine, recipe, (int) ((GTValues.V[generator.getTier()] * GeneratorArrayMachine.getAmperage(generator.getTier())) / EUt));
+                    recipe.duration = recipe.duration * GeneratorArrayMachine.getEfficiency(generator.getRecipeType(), generator.getTier()) / 100;
+                    return recipe;
+                }
+                return recipe;
+            };
         }
         return ModifierFunction.NULL;
     }
@@ -160,6 +164,20 @@ public interface GTORecipeModifiers {
         return recipe;
     }
 
+    static GTRecipe fastParallel(MetaMachine machine, GTRecipe recipe, int maxParallel) {
+        if (maxParallel <= 1) return recipe;
+        if (machine instanceof IRecipeCapabilityHolder holder) {
+            while (maxParallel > 0) {
+                var copied = recipe.copy(ContentModifier.multiplier(maxParallel), false);
+                if (copied.matchRecipe(holder).isSuccess()) {
+                    return copied;
+                }
+                maxParallel /= 2;
+            }
+        }
+        return recipe;
+    }
+
     static GTRecipe recipeReduction(MetaMachine machine, GTRecipe recipe, double reductionEUt, double reductionDuration) {
         if (reductionEUt != 1) {
             recipe.tickInputs.put(EURecipeCapability.CAP, List.of(new Content((long) Math.max(1, RecipeHelper.getInputEUt(recipe) * reductionEUt), ChanceLogic.getMaxChancedValue(), ChanceLogic.getMaxChancedValue(), 0, null, null)));
@@ -205,7 +223,7 @@ public interface GTORecipeModifiers {
             if (machine instanceof IOverclockConfigMachine configMachine) {
                 limit = configMachine.gTOCore$getOCLimit();
             } else {
-                limit = 20;
+                limit = 2;
             }
             int ocLevel = 0;
             while (duration > limit) {

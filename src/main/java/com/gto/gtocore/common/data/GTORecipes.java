@@ -1,45 +1,24 @@
 package com.gto.gtocore.common.data;
 
 import com.gto.gtocore.GTOCore;
-import com.gto.gtocore.api.machine.IMultiblockMachineDefinition;
-import com.gto.gtocore.config.GTOConfig;
-import com.gto.gtocore.data.recipe.*;
-import com.gto.gtocore.data.recipe.classified.ClassifiedRecipe;
-import com.gto.gtocore.data.recipe.generated.*;
-import com.gto.gtocore.data.recipe.generated.ComponentRecipes;
-import com.gto.gtocore.data.recipe.processing.*;
-import com.gto.gtocore.integration.emi.GTEMIRecipe;
-import com.gto.gtocore.integration.emi.multipage.MultiblockInfoEmiRecipe;
 import com.gto.gtocore.utils.RLUtils;
 
 import com.gregtechceu.gtceu.GTCEu;
-import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
-import com.gregtechceu.gtceu.api.machine.MachineDefinition;
-import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
-import com.gregtechceu.gtceu.api.recipe.category.GTRecipeCategory;
 import com.gregtechceu.gtceu.api.registry.GTRegistries;
 import com.gregtechceu.gtceu.common.data.GTMachines;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.common.item.armor.PowerlessJetpack;
-import com.gregtechceu.gtceu.data.pack.GTDynamicDataPack;
-import com.gregtechceu.gtceu.data.recipe.MaterialInfoLoader;
-import com.gregtechceu.gtceu.data.recipe.configurable.RecipeAddition;
-import com.gregtechceu.gtceu.data.recipe.misc.*;
-import com.gregtechceu.gtceu.data.recipe.serialized.chemistry.ChemistryRecipes;
-import com.gregtechceu.gtceu.integration.emi.recipe.GTRecipeEMICategory;
 
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
-import net.minecraft.world.level.block.Block;
 
 import appeng.core.AppEng;
 import com.glodblock.github.extendedae.ExtendedAE;
@@ -48,22 +27,16 @@ import com.google.gson.JsonObject;
 import com.kyanite.deeperdarker.DeeperDarker;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import dev.emi.emi.api.recipe.EmiRecipe;
-import dev.emi.emi.api.recipe.EmiRecipeCategory;
-import dev.emi.emi.config.EmiConfig;
-import dev.emi.emi.config.SidebarSide;
-import dev.emi.emi.recipe.special.EmiRepairItemRecipe;
-import dev.shadowsoffire.placebo.loot.LootSystem;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
-import java.util.function.Consumer;
 
 import static com.gregtechceu.gtceu.api.GTValues.VN;
 
-public final class GTORecipes implements Runnable {
+public final class GTORecipes {
 
     public static boolean cache;
 
@@ -80,19 +53,31 @@ public final class GTORecipes implements Runnable {
 
     public static Set<ResourceLocation> SHAPED_FILTER_RECIPES;
 
+    public static Set<ResourceLocation> SHAPELESS_FILTER_RECIPES;
+
     public static final Set<Recipe<?>> KJS_RECIPE = new LinkedHashSet<>();
 
     public static final Set<GTRecipe> KJS_GT_RECIPE = new LinkedHashSet<>();
 
-    public static void init() {
-        long time = System.currentTimeMillis();
+    public static void initFilter() {
         SHAPED_FILTER_RECIPES = new ObjectOpenHashSet<>();
+        SHAPELESS_FILTER_RECIPES = new ObjectOpenHashSet<>();
         GT_FILTER_RECIPES = new ObjectOpenHashSet<>(200);
+        SHAPELESS_FILTER_RECIPES.add(GTCEu.id("coated_board_1x"));
         SHAPED_FILTER_RECIPES.add(GTCEu.id("large_plasma_turbine"));
         SHAPED_FILTER_RECIPES.add(GTCEu.id("maintenance_hatch_cleaning"));
         SHAPED_FILTER_RECIPES.add(GTCEu.id("vacuum_tube"));
         SHAPED_FILTER_RECIPES.add(GTCEu.id("iron_bucket"));
         SHAPED_FILTER_RECIPES.add(GTCEu.id("steam_alloy_smelter_bronze"));
+        SHAPED_FILTER_RECIPES.add(GTCEu.id("basic_circuit_board"));
+        SHAPED_FILTER_RECIPES.add(GTCEu.id("coated_board"));
+        SHAPED_FILTER_RECIPES.add(GTCEu.id("good_circuit_board"));
+        SHAPED_FILTER_RECIPES.add(GTCEu.id("resistor_wire"));
+        SHAPED_FILTER_RECIPES.add(GTCEu.id("resistor_wire_fine"));
+        SHAPED_FILTER_RECIPES.add(GTCEu.id("resistor_wire_fine_charcoal"));
+        SHAPED_FILTER_RECIPES.add(GTCEu.id("resistor_wire_carbon"));
+        SHAPED_FILTER_RECIPES.add(GTCEu.id("resistor_wire_fine_carbon"));
+        SHAPED_FILTER_RECIPES.add(GTCEu.id("resistor_wire_charcoal"));
         GT_FILTER_RECIPES.add(GTCEu.id("packer/unpackage_lv_cadmium_battery"));
         GT_FILTER_RECIPES.add(GTCEu.id("packer/unpackage_lv_lithium_battery"));
         GT_FILTER_RECIPES.add(GTCEu.id("packer/unpackage_lv_sodium_battery"));
@@ -125,12 +110,27 @@ public final class GTORecipes implements Runnable {
         GT_FILTER_RECIPES.add(GTCEu.id("assembler/casing_zpm"));
         GT_FILTER_RECIPES.add(GTCEu.id("assembler/casing_uv"));
         GT_FILTER_RECIPES.add(GTCEu.id("assembler/casing_uhv"));
+        GT_FILTER_RECIPES.add(GTCEu.id("assembler/hull_ulv"));
+        GT_FILTER_RECIPES.add(GTCEu.id("assembler/hull_lv"));
+        GT_FILTER_RECIPES.add(GTCEu.id("assembler/hull_mv"));
+        GT_FILTER_RECIPES.add(GTCEu.id("assembler/hull_mv_annealed"));
         GT_FILTER_RECIPES.add(GTCEu.id("assembler/hull_hv"));
         GT_FILTER_RECIPES.add(GTCEu.id("assembler/hull_ev"));
+        GT_FILTER_RECIPES.add(GTCEu.id("assembler/hull_iv"));
+        GT_FILTER_RECIPES.add(GTCEu.id("assembler/hull_luv"));
+        GT_FILTER_RECIPES.add(GTCEu.id("assembler/hull_zpm"));
+        GT_FILTER_RECIPES.add(GTCEu.id("assembler/hull_uv"));
         GT_FILTER_RECIPES.add(GTCEu.id("assembler/hull_uhv"));
         GT_FILTER_RECIPES.add(GTCEu.id("assembler/wool_from_string"));
         GT_FILTER_RECIPES.add(GTCEu.id("assembler/diode_glass"));
         GT_FILTER_RECIPES.add(GTCEu.id("assembler/diode_glass_annealed"));
+        GT_FILTER_RECIPES.add(GTCEu.id("assembler/basic_circuit_board"));
+        GT_FILTER_RECIPES.add(GTCEu.id("assembler/phenolic_board"));
+        GT_FILTER_RECIPES.add(GTCEu.id("assembler/resistor_carbon"));
+        GT_FILTER_RECIPES.add(GTCEu.id("assembler/resistor_coal_annealed"));
+        GT_FILTER_RECIPES.add(GTCEu.id("assembler/resistor_coal"));
+        GT_FILTER_RECIPES.add(GTCEu.id("assembler/resistor_charcoal"));
+        GT_FILTER_RECIPES.add(GTCEu.id("assembler/resistor_charcoal_annealed"));
         GT_FILTER_RECIPES.add(GTCEu.id("assembly_line/dynamo_hatch_uhv"));
         GT_FILTER_RECIPES.add(GTCEu.id("assembly_line/energy_hatch_uhv"));
         GT_FILTER_RECIPES.add(GTCEu.id("assembly_line/energy_cluster"));
@@ -231,145 +231,9 @@ public final class GTORecipes implements Runnable {
                 GT_FILTER_RECIPES.add(GTCEu.id("assembler/" + "dual_export_bus_" + VN[tier].toLowerCase() + "_" + fluidMap[j].getName()));
             }
         }
-        ChemicalHelper.reinitializeUnification();
-        MaterialInfoLoader.init();
-        GTOMaterialInfoLoader.init();
-
-        Consumer<FinishedRecipe> consumer = GTDynamicDataPack::addRecipe;
-
-        CustomToolRecipes.init(consumer);
-        ChemistryRecipes.init(consumer);
-        MetaTileEntityMachineRecipeLoader.init(consumer);
-        MiscRecipeLoader.init(consumer);
-        VanillaStandardRecipes.init(consumer);
-        WoodMachineRecipes.init(consumer);
-        StoneMachineRecipes.init(consumer);
-        CraftingRecipeLoader.init(consumer);
-        FusionLoader.init(consumer);
-        MachineRecipeLoader.init(consumer);
-        AssemblerRecipeLoader.init(consumer);
-        AssemblyLineLoader.init(consumer);
-        BatteryRecipes.init(consumer);
-        DecorationRecipes.init(consumer);
-
-        CircuitRecipes.init(consumer);
-        MetaTileEntityLoader.init(consumer);
-
-        GCYMRecipes.init(consumer);
-        RecipeAddition.init(consumer);
-        GT_FILTER_RECIPES = null;
-        SHAPED_FILTER_RECIPES = null;
-
-        ForEachMaterial.init(consumer);
-
-        // GTO
-        GTMTRecipe.init(consumer);
-        FuelRecipe.init(consumer);
-        NaquadahProcess.init(consumer);
-        PlatGroupMetals.init(consumer);
-        GCYRecipes.init(consumer);
-        MachineRecipe.init(consumer);
-        ComponentRecipes.init(consumer);
-        MiscRecipe.init(consumer);
-        ElementCopying.init(consumer);
-        StoneDustProcess.init(consumer);
-        Lanthanidetreatment.init(consumer);
-        NewResearchSystem.init(consumer);
-        RadiationHatchRecipes.init(consumer);
-        RecipeOverwrite.init(consumer);
-        PetrochemRecipes.init(consumer);
-        GlassRecipe.init(consumer);
-        DyeRecipes.init(consumer);
-        WoodRecipes.init(consumer);
-        ClassifiedRecipe.init(consumer);
-        GenerateDisassembly.DISASSEMBLY_RECORD.clear();
-        GenerateDisassembly.DISASSEMBLY_BLACKLIST.clear();
-        RecyclingRecipes.init(consumer);
-        ChemicalHelper.ITEM_MATERIAL_INFO.clear();
-        GTOCore.LOGGER.info("Data loading took {}ms", System.currentTimeMillis() - time);
     }
 
-    @Override
-    public void run() {
-        init();
-        if (!GTOConfig.INSTANCE.disableMultiBlockPage) {
-            IMultiblockMachineDefinition.init();
-        }
-        if (GTCEu.Mods.isEMILoaded()) {
-            long time = System.currentTimeMillis();
-            EmiConfig.logUntranslatedTags = false;
-            EmiConfig.workstationLocation = SidebarSide.LEFT;
-            EmiRepairItemRecipe.TOOLS.clear();
-            initGTCategoryMap();
-            EMI_RECIPE_WIDGETS = new Object2ObjectOpenHashMap<>();
-            ImmutableSet.Builder<EmiRecipe> recipes = ImmutableSet.builder();
-            for (GTRecipeCategory category : GTRegistries.RECIPE_CATEGORIES) {
-                if (!category.shouldRegisterDisplays()) continue;
-                var type = category.getRecipeType();
-                if (category == type.getCategory()) type.buildRepresentativeRecipes();
-                EmiRecipeCategory emiCategory = GTRecipeEMICategory.CATEGORIES.apply(category);
-                type.getRecipesInCategory(category).stream().map(recipe -> new GTEMIRecipe(recipe, emiCategory)).forEach(recipes::add);
-            }
-            if (!GTOConfig.INSTANCE.disableMultiBlockPage) {
-                for (MachineDefinition machine : GTRegistries.MACHINES.values()) {
-                    if (machine instanceof MultiblockMachineDefinition definition && definition.isRenderXEIPreview()) {
-                        recipes.add(new MultiblockInfoEmiRecipe(definition));
-                    }
-                }
-            }
-            EMI_RECIPE_WIDGETS = null;
-            EMI_RECIPES = recipes.build();
-            clearCategoryMap(false);
-            GTOCore.LOGGER.info("Pre initialization EMI GTRecipe took {}ms", System.currentTimeMillis() - time);
-        }
-        GTOLoots.BLOCKS.forEach(b -> LootSystem.defaultBlockTable((Block) b));
-        GTOLoots.BLOCKS = null;
-    }
-
-    public static void clearCategoryMap(boolean thoroughly) {
-        if (GTOConfig.INSTANCE.recipeCheck) return;
-        for (GTRecipeType type : GTRegistries.RECIPE_TYPES) {
-            if (thoroughly) {
-                type.getCategoryMap().clear();
-            } else {
-                type.getCategoryMap().values().forEach(Set::clear);
-            }
-        }
-    }
-
-    private static void initGTCategoryMap() {
-        GT_RECIPE_MAP.values().forEach(recipe -> recipe.recipeCategory.addRecipe(recipe));
-    }
-
-    public static void initLookup(Map<ResourceLocation, Recipe<?>> recipes) {
-        cache = true;
-        Thread thread = new Thread(new Lookup(recipes));
-        thread.setDaemon(true);
-        thread.setPriority(Thread.MIN_PRIORITY);
-        thread.start();
-    }
-
-    private static final class Lookup implements Runnable {
-
-        private final Map<ResourceLocation, Recipe<?>> recipes;
-
-        private Lookup(Map<ResourceLocation, Recipe<?>> map) {
-            recipes = map;
-        }
-
-        @Override
-        public void run() {
-            long time = System.currentTimeMillis();
-            PowerlessJetpack.FUELS.clear();
-            GTRegistries.RECIPE_TYPES.forEach(t -> t.getLookup().removeAllRecipes());
-            GT_RECIPE_MAP.values().forEach(r -> r.recipeType.getLookup().addRecipe(r));
-            recipes.forEach((k, v) -> GTRecipeTypes.FURNACE_RECIPES.getLookup().addRecipe(GTRecipeTypes.FURNACE_RECIPES.toGTrecipe(k, v)));
-            if (GTCEu.Mods.isEMILoaded()) GT_RECIPE_MAP = null;
-            GTOCore.LOGGER.info("InitLookup took {}ms", System.currentTimeMillis() - time);
-        }
-    }
-
-    public static void removal(Set<ResourceLocation> filters) {
+    public static void initJsonFilter(Set<ResourceLocation> filters) {
         String[] ore1 = new String[] { "coal", "redstone", "emerald", "diamond" };
         String[] ore2 = new String[] { "iron", "copper", "gold" };
         String[] ore3 = new String[] { "desh", "ostrum", "calorite" };
@@ -755,5 +619,33 @@ public final class GTORecipes implements Runnable {
         RecipeSerializer<?> recipeSerializer = BuiltInRegistries.RECIPE_SERIALIZER.get(new ResourceLocation(s));
         if (recipeSerializer == null) return null;
         return recipeSerializer.fromJson(recipeId, json, context);
+    }
+
+    public static void initLookup(Map<ResourceLocation, Recipe<?>> recipes) {
+        cache = true;
+        Thread thread = new Thread(new Lookup(recipes));
+        thread.setDaemon(true);
+        thread.setPriority(Thread.MIN_PRIORITY);
+        thread.start();
+    }
+
+    private static final class Lookup implements Runnable {
+
+        private final Map<ResourceLocation, Recipe<?>> recipes;
+
+        private Lookup(Map<ResourceLocation, Recipe<?>> map) {
+            recipes = map;
+        }
+
+        @Override
+        public void run() {
+            long time = System.currentTimeMillis();
+            PowerlessJetpack.FUELS.clear();
+            GTRegistries.RECIPE_TYPES.forEach(t -> t.getLookup().removeAllRecipes());
+            GT_RECIPE_MAP.values().forEach(r -> r.recipeType.getLookup().addRecipe(r));
+            recipes.forEach((k, v) -> GTRecipeTypes.FURNACE_RECIPES.getLookup().addRecipe(GTRecipeTypes.FURNACE_RECIPES.toGTrecipe(k, v)));
+            if (GTCEu.Mods.isEMILoaded()) GT_RECIPE_MAP = null;
+            GTOCore.LOGGER.info("InitLookup took {}ms", System.currentTimeMillis() - time);
+        }
     }
 }

@@ -30,6 +30,67 @@ import static com.gto.gtocore.common.data.GTORecipeTypes.ASSEMBLER_RECIPES;
 interface Assembler {
 
     static void init() {
+        ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("wireless_data_transmitter_hatch"))
+                .inputItems("gtceu:data_transmitter_hatch")
+                .inputItems(GTItems.FIELD_GENERATOR_UHV.asStack())
+                .inputItems(CustomTags.UHV_CIRCUITS)
+                .outputItems(GTOMachines.WIRELESS_DATA_HATCH_TRANSMITTER.asStack())
+                .inputFluids(GTMaterials.Polybenzimidazole.getFluid(576))
+                .EUt(524288)
+                .duration(400)
+                .save();
+
+        ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("wireless_data_receiver_hatch"))
+                .inputItems("gtceu:data_receiver_hatch")
+                .inputItems(GTItems.SENSOR_UV.asStack())
+                .inputItems(CustomTags.UHV_CIRCUITS)
+                .outputItems(GTOMachines.WIRELESS_DATA_HATCH_RECEIVER.asStack())
+                .inputFluids(GTMaterials.Polybenzimidazole.getFluid(576))
+                .EUt(524288)
+                .duration(400)
+                .save();
+
+        ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("catalyst_hatch"))
+                .inputItems(GTMachines.ITEM_IMPORT_BUS[GTValues.IV].asStack())
+                .inputItems(GTOItems.CATALYST_BASE.asStack(4))
+                .inputItems(GTItems.EMITTER_IV.asStack())
+                .inputItems(CustomTags.IV_CIRCUITS)
+                .outputItems(GTOMachines.CATALYST_HATCH.asStack())
+                .inputFluids(GTMaterials.Polytetrafluoroethylene.getFluid(576))
+                .EUt(7680)
+                .duration(400)
+                .save();
+
+        ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("degassing_control_hatch"))
+                .inputItems(GTMachines.HULL[GTValues.LuV].asStack())
+                .inputItems(GTItems.SENSOR_UV.asStack(2))
+                .inputItems(GTItems.FLUID_REGULATOR_UV.asStack(4))
+                .inputItems(CustomTags.UHV_CIRCUITS)
+                .outputItems(GTOMachines.DEGASSING_CONTROL_HATCH.asStack())
+                .inputFluids(GTOMaterials.Polyimide.getFluid(576))
+                .EUt(122880)
+                .duration(400)
+                .save();
+
+        ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("basic_circuit_board"))
+                .inputItems(GTItems.COATED_BOARD.asStack())
+                .inputItems(TagPrefix.foil, GTMaterials.Copper, 4)
+                .outputItems(GTItems.BASIC_CIRCUIT_BOARD.asStack())
+                .inputFluids(GTMaterials.Glue.getFluid(100))
+                .EUt(7)
+                .duration(200)
+                .vacuum(2)
+                .save();
+
+        ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("resistor"))
+                .inputItems(TagPrefix.dust, GTMaterials.Carbon)
+                .inputItems(TagPrefix.wireFine, GTMaterials.Copper, 8)
+                .outputItems(GTItems.RESISTOR.asStack(4))
+                .inputFluids(GTMaterials.Glue.getFluid(200))
+                .EUt(7)
+                .duration(300)
+                .save();
+
         ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("electricaly_wired_petri_dish"))
                 .inputItems(GTOItems.STERILIZED_PETRI_DISH)
                 .inputItems(TagPrefix.wireFine, GTMaterials.Titanium)

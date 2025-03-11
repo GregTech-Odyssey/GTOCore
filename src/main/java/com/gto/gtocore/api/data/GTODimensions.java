@@ -139,6 +139,17 @@ public final class GTODimensions {
         return ResourceKey.create(Registries.DIMENSION, resourceLocation);
     }
 
+    private static final Set<ResourceLocation> VOID_SET = Set.of(VOID, FLAT);
+
+    public static boolean isVoid(ResourceLocation location) {
+        return VOID_SET.contains(location);
+    }
+
+    public static boolean isOverworld(ResourceLocation location) {
+        if (OVERWORLD.equals(location)) return true;
+        return isVoid(location);
+    }
+
     public static String getGalaxy(ResourceLocation d) {
         if (SOLAR.containsKey(d)) return "proxima_centauri";
         if (PROXIMA_CENTAURI.containsKey(d)) return "barnarda";
@@ -162,13 +173,5 @@ public final class GTODimensions {
         PLANET_DISTANCESBuilder.put(CERES, 7);
         PLANET_DISTANCESBuilder.put(PLUTO, 8);
         PLANET_DISTANCES = PLANET_DISTANCESBuilder.build();
-    }
-
-    public static int calculateDistance(ResourceLocation planet1, ResourceLocation planet2) {
-        if (planet1 == null || planet2 == null) return 7;
-        Integer distanceFromEarth1 = PLANET_DISTANCES.get(planet1);
-        Integer distanceFromEarth2 = PLANET_DISTANCES.get(planet2);
-        if (distanceFromEarth1 == null || distanceFromEarth2 == null) return 7;
-        return Math.max(1, Math.min(6, Math.abs(distanceFromEarth1 - distanceFromEarth2)));
     }
 }

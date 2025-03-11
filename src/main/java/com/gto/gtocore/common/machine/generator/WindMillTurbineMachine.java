@@ -1,5 +1,6 @@
 package com.gto.gtocore.common.machine.generator;
 
+import com.gto.gtocore.api.data.GTODimensions;
 import com.gto.gtocore.common.item.KineticRotorItem;
 import com.gto.gtocore.common.machine.multiblock.part.BallHatchPartMachine;
 
@@ -114,8 +115,10 @@ public final class WindMillTurbineMachine extends TieredEnergyMachine implements
             Level level = getLevel();
             if (level == null) return;
             actualPower = 0;
-            Planet planet = PlanetApi.API.getPlanet(level);
-            if (planet == null || !planet.oxygen()) return;
+            if (!GTODimensions.isOverworld(level.dimension().location())) {
+                Planet planet = PlanetApi.API.getPlanet(level);
+                if (planet == null || !planet.oxygen()) return;
+            }
             BlockPos pos = getPos();
             wind = (float) ((level.isThundering() ? 2 : level.isRaining() ? 1.5 : 1) * Math.sqrt(pos.getY()));
 
@@ -198,8 +201,10 @@ public final class WindMillTurbineMachine extends TieredEnergyMachine implements
     @Override
     protected NotifiableEnergyContainer createEnergyContainer(Object... args) {
         long tierVoltage = GTValues.V[getTier()];
-        return NotifiableEnergyContainer.emitterContainer(this,
+        NotifiableEnergyContainer energyContainer = NotifiableEnergyContainer.emitterContainer(this,
                 tierVoltage << 6, tierVoltage, getMaxInputOutputAmperage());
+        energyContainer.setSideOutputCondition(side -> !hasFrontFacing() || side == getFrontFacing());
+        return energyContainer;
     }
 
     @Override

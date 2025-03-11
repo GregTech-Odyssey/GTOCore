@@ -1,8 +1,7 @@
 package com.gto.gtocore.mixin.adastra;
 
-import com.gto.gtocore.api.data.GTODimensions;
+import com.gto.gtocore.api.misc.PlanetManagement;
 
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
@@ -53,9 +52,7 @@ public final class ModUtilsMixin {
                 if (rocket.getY() < (double) AdAstraConfig.atmosphereLeave) {
                     return false;
                 } else {
-                    ResourceLocation resourceLocation = targetPlanet.dimension().location();
-                    int tier = GTODimensions.PLANET_DISTANCES.containsKey(resourceLocation) ? GTODimensions.calculateDistance(rocket.level().dimension().location(), resourceLocation) : targetPlanet.tier();
-                    return tier <= rocket.tier();
+                    return PlanetManagement.calculateTier(targetPlanet, rocket.level().dimension().location()) <= rocket.tier();
                 }
             } else {
                 return false;
