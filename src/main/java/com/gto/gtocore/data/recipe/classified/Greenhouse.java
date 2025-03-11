@@ -815,6 +815,9 @@ interface Greenhouse {
                 .duration(200)
                 .save();
 
+        add("minecraft", "crimson_fungus", null, 8);
+        add("minecraft", "warped_fungus", null, 8);
+
         add("farmersdelight", "cabbage", "cabbage_seeds", 8);
         add("farmersdelight", "tomato", "tomato_seeds", 8);
         add("farmersdelight", "onion", null, 8);
@@ -856,7 +859,7 @@ interface Greenhouse {
         add("botania", "light_blue_mushroom", null, 12);
         add("botania", "blue_mushroom", null, 12);
         add("botania", "purple_mushroom", null, 12);
-        add("botania", "magentamushroom", null, 12);
+        add("botania", "magenta_mushroom", null, 12);
         add("botania", "pink_mushroom", null, 12);
     }
 
