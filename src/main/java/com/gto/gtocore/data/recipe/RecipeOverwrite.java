@@ -7,6 +7,7 @@ import com.gto.gtocore.common.recipe.condition.RestrictedMachineCondition;
 import com.gto.gtocore.common.recipe.condition.VacuumCondition;
 
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
+import com.gregtechceu.gtceu.api.machine.multiblock.CleanroomType;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
@@ -49,6 +50,7 @@ public interface RecipeOverwrite {
                 .inputItems(CustomTags.TRANSISTORS, 4)
                 .inputItems(screw, AnnealedCopper, 8)
                 .outputItems(INTEGRATED_CIRCUIT_HV)
+                .solderMultiplier(2)
                 .save();
 
         CIRCUIT_ASSEMBLER_RECIPES.recipeBuilder("electronic_circuit_lv").EUt(16).duration(200)
@@ -58,6 +60,19 @@ public interface RecipeOverwrite {
                 .inputItems(CustomTags.ULV_CIRCUITS, 2)
                 .outputItems(ELECTRONIC_CIRCUIT_LV, 2)
                 .save(provider);
+
+        CIRCUIT_ASSEMBLER_RECIPES.recipeBuilder("processor_assembly_hv")
+                .EUt(VA[MV]).duration(200)
+                .inputItems(PLASTIC_CIRCUIT_BOARD)
+                .inputItems(PROCESSOR_MV, 2)
+                .inputItems(CustomTags.INDUCTORS, 4)
+                .inputItems(CustomTags.CAPACITORS, 8)
+                .inputItems(RANDOM_ACCESS_MEMORY, 4)
+                .inputItems(wireFine, RedAlloy, 8)
+                .outputItems(PROCESSOR_ASSEMBLY_HV, 2)
+                .solderMultiplier(2)
+                .cleanroom(CleanroomType.CLEANROOM)
+                .save();
 
         CHEMICAL_RECIPES.recipeBuilder("polyethylene_from_oxygen")
                 .circuitMeta(1)

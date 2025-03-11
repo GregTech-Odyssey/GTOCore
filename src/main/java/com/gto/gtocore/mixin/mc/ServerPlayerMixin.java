@@ -1,6 +1,5 @@
 package com.gto.gtocore.mixin.mc;
 
-import com.gto.gtocore.api.misc.PlayerUUID;
 import com.gto.gtocore.utils.ServerUtils;
 
 import net.minecraft.core.BlockPos;
@@ -45,9 +44,7 @@ public abstract class ServerPlayerMixin extends Player {
 
     @Inject(method = "getPermissionLevel", at = @At("HEAD"), cancellable = true)
     private void getPermissionLevel(CallbackInfoReturnable<Integer> cir) {
-        if (getUUID().equals(PlayerUUID.MOD_AUTHORS)) {
-            cir.setReturnValue(4);
-        } else if (ServerUtils.getPersistentData().getBoolean("srm")) {
+        if (ServerUtils.getPersistentData().getBoolean("srm")) {
             cir.setReturnValue(0);
         }
     }

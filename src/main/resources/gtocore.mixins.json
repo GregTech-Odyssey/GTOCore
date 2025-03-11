@@ -67,6 +67,7 @@
         "gtm.FluidPipeTypeMixin",
         "gtm.ForgeCommonEventListenerMixin",
         "gtm.GTCEuMixin",
+        "gtm.GTRecipeWidgetMixin",
         "gtm.GTUtilMixin",
         "gtm.RockBreakerConditionMixin",
         "gtm.TagTypeMixin",

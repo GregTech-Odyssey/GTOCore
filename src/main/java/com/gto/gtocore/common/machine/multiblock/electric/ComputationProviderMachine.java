@@ -53,7 +53,7 @@ public final class ComputationProviderMachine extends StorageMultiblockMachine i
     public void onStructureFormed() {
         super.onStructureFormed();
         onMachineChanged();
-        recipe = GTORecipeBuilder.ofRaw().EUt(getOverclockVoltage()).duration(20).buildRawRecipe();
+        if (getOverclockVoltage() > 0) recipe = GTORecipeBuilder.ofRaw().EUt(getOverclockVoltage()).duration(20).buildRawRecipe();
     }
 
     @Override
@@ -116,6 +116,7 @@ public final class ComputationProviderMachine extends StorageMultiblockMachine i
                 }
             }
         }
+        collection.add(this);
         return 0;
     }
 

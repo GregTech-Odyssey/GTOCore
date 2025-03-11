@@ -153,9 +153,9 @@ interface Vanilla {
                 'A', new UnificationEntry(TagPrefix.plate, GTMaterials.Aluminium), 'B', new ItemStack(AEItems.CALCULATION_PROCESSOR.asItem()), 'C', RegistriesUtils.getItemStack("ae2:fluix_glass_cable"), 'D', CustomTags.MV_CIRCUITS, 'E', new ItemStack(AEItems.LOGIC_PROCESSOR.asItem()));
         VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("steam_assembly_block"), GTOBlocks.STEAM_ASSEMBLY_BLOCK.asStack(),
                 "ABA",
-                "BCB",
-                "ABA",
-                'A', new UnificationEntry(TagPrefix.pipeNormalFluid, GTMaterials.Bronze), 'B', GTOItems.PRECISION_STEAM_MECHANISM.asStack(), 'C', new UnificationEntry(TagPrefix.frameGt, GTMaterials.Bronze));
+                "DCD",
+                "ADA",
+                'A', new UnificationEntry(TagPrefix.pipeNormalFluid, GTMaterials.Bronze), 'B', GTOItems.PRECISION_STEAM_MECHANISM.asStack(), 'C', new UnificationEntry(TagPrefix.frameGt, GTMaterials.Bronze), 'D', new UnificationEntry(TagPrefix.plate, GTMaterials.Bronze));
         VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("steam_foundry"), MultiBlockA.STEAM_FOUNDRY.asStack(),
                 "ABA",
                 "CDC",

@@ -7,7 +7,6 @@ import com.gto.gtocore.api.machine.part.GTOPartAbility;
 import com.gto.gtocore.api.machine.part.ItemHatchPartMachine;
 import com.gto.gtocore.client.renderer.machine.BallHatchRenderer;
 import com.gto.gtocore.client.renderer.machine.WindMillTurbineRenderer;
-import com.gto.gtocore.common.block.BlockMap;
 import com.gto.gtocore.common.data.machines.*;
 import com.gto.gtocore.common.machine.electric.ElectricHeaterMachine;
 import com.gto.gtocore.common.machine.electric.VacuumPumpMachine;
@@ -32,10 +31,7 @@ import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
 import com.gregtechceu.gtceu.api.machine.steam.SimpleSteamMachine;
 import com.gregtechceu.gtceu.client.renderer.machine.*;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
-import com.gregtechceu.gtceu.common.data.machines.GTAEMachines;
 import com.gregtechceu.gtceu.common.data.machines.GTMachineUtils;
-import com.gregtechceu.gtceu.common.data.machines.GTMultiMachines;
-import com.gregtechceu.gtceu.common.data.machines.GTResearchMachines;
 import com.gregtechceu.gtceu.common.item.TurbineRotorBehaviour;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.DataAccessHatchMachine;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.DualHatchPartMachine;
@@ -47,10 +43,6 @@ import net.minecraft.network.chat.Component;
 
 import com.hepdd.gtmthings.GTMThings;
 import com.hepdd.gtmthings.common.block.machine.multiblock.part.ProgrammableHatchPartMachine;
-import com.hepdd.gtmthings.data.CreativeMachines;
-import com.hepdd.gtmthings.data.CreativeModeTabs;
-import com.hepdd.gtmthings.data.CustomMachines;
-import com.hepdd.gtmthings.data.WirelessMachines;
 import it.unimi.dsi.fastutil.Pair;
 
 import static com.gregtechceu.gtceu.api.GTValues.*;
@@ -59,28 +51,7 @@ import static com.gto.gtocore.utils.register.MachineRegisterUtils.*;
 
 public interface GTOMachines {
 
-    static void init() {
-        BlockMap.init();
-        GTMultiMachines.init();
-        GTResearchMachines.init();
-        GTAEMachines.init();
-        GTMachineModify.init();
-        GCYMMachines.init();
-        CreativeModeTabs.init();
-        CreativeMachines.init();
-        WirelessMachines.init();
-        CustomMachines.init();
-        ManaMachine.init();
-        GeneratorMultiblock.init();
-        ExResearchMachines.init();
-        MultiBlockA.init();
-        MultiBlockB.init();
-        MultiBlockC.init();
-        MultiBlockD.init();
-        MultiBlockE.init();
-        MultiBlockF.init();
-        MultiBlockG.init();
-    }
+    static void init() {}
 
     //////////////////////////////////////
     // *** Simple Machine ***//

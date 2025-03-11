@@ -276,4 +276,29 @@ public interface GTORecipeModifiers {
         }
         return recipe;
     }
+
+    class Overclocking implements OverclockingLogic {
+
+        private final boolean perfect;
+
+        public Overclocking(boolean perfect) {
+            this.perfect = perfect;
+        }
+
+        @Override
+        public OCResult runOverclockingLogic(@NotNull OCParams ocParams, long maxVoltage) {
+            int duration = ocParams.duration();
+            long recipeVoltage = ocParams.eut();
+            int factor = perfect ? 1 : 2;
+            int ocLevel = 0;
+            while (duration > 2) {
+                long overclockVoltage = recipeVoltage << factor;
+                if (overclockVoltage > maxVoltage) break;
+                recipeVoltage = overclockVoltage;
+                duration >>= 1;
+                ocLevel += factor;
+            }
+            return new OCResult((double) recipeVoltage / ocParams.eut(), (double) duration / ocParams.duration(), ocLevel / 2, ocParams.maxParallels());
+        }
+    }
 }
