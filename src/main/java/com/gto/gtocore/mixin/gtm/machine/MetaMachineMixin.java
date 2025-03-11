@@ -97,13 +97,15 @@ public abstract class MetaMachineMixin implements IPerformanceDisplayMachine {
      */
     @Overwrite(remap = false)
     public final void serverTick() {
-        long currentTime = System.nanoTime();
-        if (currentTime - gTOCore$lastExecutionTime < 40000000) {
+        long currentTime = System.currentTimeMillis();
+        if (currentTime - gTOCore$lastExecutionTime < 40) {
             return;
         }
         gTOCore$lastExecutionTime = currentTime;
+        boolean observe = PerformanceMonitorMachine.observe || gtocore$observe;
+        if (observe) currentTime = System.nanoTime();
         executeTick();
-        if (PerformanceMonitorMachine.observe || gtocore$observe) {
+        if (observe) {
             gTOCore$totaTtickCount += System.nanoTime() - currentTime;
             if (getOffsetTimer() % 40 == 0) {
                 gtocore$observe = false;

@@ -4,6 +4,7 @@ import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.api.data.chemical.material.GTOMaterial;
 import com.gto.gtocore.api.data.chemical.material.info.GTOMaterialFlags;
 import com.gto.gtocore.api.data.tag.GTOTagPrefix;
+import com.gto.gtocore.api.recipe.GTORecipeBuilder;
 import com.gto.gtocore.common.data.GTOItems;
 import com.gto.gtocore.common.data.GTOMaterials;
 import com.gto.gtocore.utils.GTOUtils;
@@ -19,6 +20,7 @@ import com.gregtechceu.gtceu.api.machine.multiblock.CleanroomType;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.item.TurbineRotorBehaviour;
+import com.gregtechceu.gtceu.config.ConfigHolder;
 import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
 
 import net.minecraft.data.recipes.FinishedRecipe;
@@ -522,11 +524,16 @@ interface GTOPartsRecipeHandler {
         if (stack.isEmpty()) return;
         ItemStack stickStack = ChemicalHelper.get(rod, material, 2);
         int mass = (int) material.getMass();
-        CUTTER_RECIPES.recipeBuilder("cut_" + material.getName() + "_long_rod_to_rod")
+        GTORecipeBuilder builder = CUTTER_RECIPES.recipeBuilder("cut_" + material.getName() + "_long_rod_to_rod")
                 .inputItems(stack)
-                .outputItems(stickStack)
-                .duration(mass).EUt(4)
-                .save();
+                .duration(mass).EUt(4);
+        if (ConfigHolder.INSTANCE.recipes.harderRods) {
+            builder.outputItems(stickStack.copyWithCount(1));
+            builder.outputItems(dustSmall, material, 2);
+        } else {
+            builder.outputItems(stickStack);
+        }
+        builder.save();
 
         if (mass < 240 && material.getBlastTemperature() < 3600)
             VanillaRecipeHelper.addShapedRecipe(provider, String.format("stick_long_%s", material.getName()), stickStack, "s", "X", 'X', stack);

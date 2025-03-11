@@ -6,6 +6,7 @@ import com.gto.gtocore.common.data.GTOItems;
 import com.gto.gtocore.common.data.GTOMaterials;
 
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
+import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
 import net.minecraft.world.item.ItemStack;
@@ -130,6 +131,13 @@ interface Macerator {
                 .outputItems(new ItemStack(AEItems.SKY_DUST.asItem()))
                 .EUt(2)
                 .duration(200)
+                .save();
+
+        MACERATOR_RECIPES.recipeBuilder(GTOCore.id("treated_wood_dust"))
+                .inputItems(GTBlocks.TREATED_WOOD_PLANK.asStack())
+                .outputItems(TagPrefix.dust, GTMaterials.TreatedWood)
+                .EUt(2)
+                .duration(98)
                 .save();
     }
 }

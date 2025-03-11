@@ -201,8 +201,10 @@ public final class WindMillTurbineMachine extends TieredEnergyMachine implements
     @Override
     protected NotifiableEnergyContainer createEnergyContainer(Object... args) {
         long tierVoltage = GTValues.V[getTier()];
-        return NotifiableEnergyContainer.emitterContainer(this,
+        NotifiableEnergyContainer energyContainer = NotifiableEnergyContainer.emitterContainer(this,
                 tierVoltage << 6, tierVoltage, getMaxInputOutputAmperage());
+        energyContainer.setSideOutputCondition(side -> !hasFrontFacing() || side == getFrontFacing());
+        return energyContainer;
     }
 
     @Override

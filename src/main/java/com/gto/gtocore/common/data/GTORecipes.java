@@ -138,8 +138,16 @@ public final class GTORecipes implements Runnable {
         GT_FILTER_RECIPES.add(GTCEu.id("assembler/casing_zpm"));
         GT_FILTER_RECIPES.add(GTCEu.id("assembler/casing_uv"));
         GT_FILTER_RECIPES.add(GTCEu.id("assembler/casing_uhv"));
+        GT_FILTER_RECIPES.add(GTCEu.id("assembler/hull_ulv"));
+        GT_FILTER_RECIPES.add(GTCEu.id("assembler/hull_lv"));
+        GT_FILTER_RECIPES.add(GTCEu.id("assembler/hull_mv"));
+        GT_FILTER_RECIPES.add(GTCEu.id("assembler/hull_mv_annealed"));
         GT_FILTER_RECIPES.add(GTCEu.id("assembler/hull_hv"));
         GT_FILTER_RECIPES.add(GTCEu.id("assembler/hull_ev"));
+        GT_FILTER_RECIPES.add(GTCEu.id("assembler/hull_iv"));
+        GT_FILTER_RECIPES.add(GTCEu.id("assembler/hull_luv"));
+        GT_FILTER_RECIPES.add(GTCEu.id("assembler/hull_zpm"));
+        GT_FILTER_RECIPES.add(GTCEu.id("assembler/hull_uv"));
         GT_FILTER_RECIPES.add(GTCEu.id("assembler/hull_uhv"));
         GT_FILTER_RECIPES.add(GTCEu.id("assembler/wool_from_string"));
         GT_FILTER_RECIPES.add(GTCEu.id("assembler/diode_glass"));

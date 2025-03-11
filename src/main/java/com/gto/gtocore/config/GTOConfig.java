@@ -40,7 +40,7 @@ public final class GTOConfig {
         int difficulty = getDifficulty();
         ConfigHolder.INSTANCE.recipes.generateLowQualityGems = false;
         ConfigHolder.INSTANCE.recipes.disableManualCompression = difficulty > 1;
-        ConfigHolder.INSTANCE.recipes.harderRods = difficulty > 1;
+        ConfigHolder.INSTANCE.recipes.harderRods = difficulty > 2;
         ConfigHolder.INSTANCE.recipes.harderBrickRecipes = difficulty > 2;
         ConfigHolder.INSTANCE.recipes.nerfWoodCrafting = difficulty > 1;
         ConfigHolder.INSTANCE.recipes.hardWoodRecipes = difficulty > 1;
@@ -58,7 +58,7 @@ public final class GTOConfig {
         ConfigHolder.INSTANCE.recipes.removeVanillaTNTRecipe = difficulty > 1;
         ConfigHolder.INSTANCE.recipes.casingsPerCraft = Math.max(1, 3 - difficulty);
         ConfigHolder.INSTANCE.recipes.harderCircuitRecipes = difficulty > 1;
-        ConfigHolder.INSTANCE.recipes.hardMultiRecipes = difficulty > 1;
+        ConfigHolder.INSTANCE.recipes.hardMultiRecipes = difficulty > 2;
         ConfigHolder.INSTANCE.recipes.enchantedTools = difficulty < 2;
 
         ConfigHolder.INSTANCE.compat.energy.nativeEUToFE = true;
