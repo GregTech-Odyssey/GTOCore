@@ -21,19 +21,33 @@ import net.minecraft.world.item.alchemy.Potion;
 import net.minecraft.world.item.alchemy.PotionUtils;
 import net.minecraftforge.fluids.FluidStack;
 
+import appeng.api.stacks.AEFluidKey;
+import appeng.api.stacks.AEItemKey;
+import appeng.api.stacks.AEKey;
+import appeng.api.stacks.GenericStack;
 import appeng.menu.me.items.PatternEncodingTermMenu;
 import com.lowdragmc.lowdraglib.gui.modular.ModularUIContainer;
 import de.mari_023.ae2wtlib.wet.WETMenu;
 import dev.emi.emi.api.EmiPlugin;
 import dev.emi.emi.api.EmiRegistry;
-import dev.emi.emi.api.stack.Comparison;
-import dev.emi.emi.api.stack.EmiStack;
+import dev.emi.emi.api.stack.*;
 
 public final class GTEMIPlugin implements EmiPlugin {
+
+    public static EmiIngredient genericStackToEmiIngredient(GenericStack stack) {
+        AEKey key = stack.what();
+        if (key instanceof AEItemKey itemKey) {
+            return new ItemEmiStack(itemKey.getItem(), itemKey.getTag(), stack.amount());
+        } else if (key instanceof AEFluidKey fluidKey) {
+            return new FluidEmiStack(fluidKey.getFluid(), fluidKey.getTag(), stack.amount());
+        }
+        return EmiStack.EMPTY;
+    }
 
     @Override
     public void register(EmiRegistry registry) {
         if (GTCEu.isProd()) ChiselRecipe.register(registry);
+
         registry.addCategory(MultiblockInfoEmiCategory.CATEGORY);
         registry.addCategory(GTOreVeinEmiCategory.CATEGORY);
         registry.addCategory(GTBedrockFluidEmiCategory.CATEGORY);

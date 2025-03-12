@@ -129,7 +129,7 @@ public interface Data {
                 EmiConfig.logUntranslatedTags = false;
                 EmiConfig.workstationLocation = SidebarSide.LEFT;
                 EmiRepairItemRecipe.TOOLS.clear();
-                GT_RECIPE_MAP.values().forEach(recipe -> recipe.recipeCategory.addRecipe(recipe));
+                GTORecipeBuilder.RECIPE_MAP.values().forEach(recipe -> recipe.recipeCategory.addRecipe(recipe));
                 EMI_RECIPE_WIDGETS = new Object2ObjectOpenHashMap<>();
                 ImmutableSet.Builder<EmiRecipe> recipes = ImmutableSet.builder();
                 for (GTRecipeCategory category : GTRegistries.RECIPE_CATEGORIES) {

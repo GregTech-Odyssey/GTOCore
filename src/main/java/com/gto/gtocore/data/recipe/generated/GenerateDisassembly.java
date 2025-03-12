@@ -2,7 +2,6 @@ package com.gto.gtocore.data.recipe.generated;
 
 import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.api.recipe.GTORecipeBuilder;
-import com.gto.gtocore.common.data.GTORecipes;
 import com.gto.gtocore.utils.ItemUtils;
 
 import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
@@ -60,10 +59,10 @@ public interface GenerateDisassembly {
         if (DISASSEMBLY_BLACKLIST.contains(id)) return;
         boolean cal = recipeBuilder.recipeType == CIRCUIT_ASSEMBLY_LINE_RECIPES;
         ResourceLocation typeid = GTORecipeBuilder.getTypeID(id, DISASSEMBLY_RECIPES);
-        if (cal && GTORecipes.GT_RECIPE_MAP.containsKey(typeid)) return;
+        if (cal && GTORecipeBuilder.RECIPE_MAP.containsKey(typeid)) return;
         if ((!cal && DISASSEMBLY_RECORD.remove(id)) || isExcludeItems(id.toString())) {
             DISASSEMBLY_BLACKLIST.add(id);
-            GTORecipes.GT_RECIPE_MAP.remove(typeid);
+            GTORecipeBuilder.RECIPE_MAP.remove(typeid);
             return;
         }
         GTORecipeBuilder builder = DISASSEMBLY_RECIPES.recipeBuilder(id)

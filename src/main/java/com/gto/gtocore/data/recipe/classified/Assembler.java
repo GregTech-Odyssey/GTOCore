@@ -2284,7 +2284,7 @@ interface Assembler {
         ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("digestion_tank"))
                 .inputItems(TagPrefix.frameGt, GTMaterials.TungstenSteel)
                 .inputItems(CustomTags.IV_CIRCUITS, 4)
-                .inputItems(GTItems.ELECTRIC_PUMP_IV.asStack(2))
+                .inputItems(GTItems.ELECTRIC_PUMP_EV.asStack(2))
                 .inputItems(TagPrefix.pipeNormalFluid, GTMaterials.Chromium, 4)
                 .inputItems(TagPrefix.plateDouble, GTMaterials.Electrum, 4)
                 .inputItems(TagPrefix.plateDouble, GTMaterials.Cupronickel, 4)

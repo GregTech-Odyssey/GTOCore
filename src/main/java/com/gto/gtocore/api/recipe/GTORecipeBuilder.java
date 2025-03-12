@@ -4,7 +4,6 @@ import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.api.capability.recipe.ManaRecipeCapability;
 import com.gto.gtocore.api.data.tag.ITagPrefix;
 import com.gto.gtocore.api.item.NBTItem;
-import com.gto.gtocore.common.data.GTORecipes;
 import com.gto.gtocore.common.recipe.condition.GravityCondition;
 import com.gto.gtocore.common.recipe.condition.HeatCondition;
 import com.gto.gtocore.common.recipe.condition.VacuumCondition;
@@ -65,10 +64,13 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @MethodsReturnNonnullByDefault
 public final class GTORecipeBuilder extends GTRecipeBuilder {
 
+    public static Map<ResourceLocation, GTRecipe> RECIPE_MAP;
+
     private static Map<NBTItem, Ingredient> ITEM_INGREDIENT_MAP;
     private static Map<TagKey<Item>, Ingredient> TAG_INGREDIENT_MAP;
 
     public static void initialization() {
+        RECIPE_MAP = new Object2ObjectOpenHashMap<>(4096);
         ITEM_INGREDIENT_MAP = new Object2ObjectOpenHashMap<>(1024, Hash.VERY_FAST_LOAD_FACTOR);
         TAG_INGREDIENT_MAP = new Object2ObjectOpenHashMap<>(1024, Hash.VERY_FAST_LOAD_FACTOR);
     }
@@ -1254,7 +1256,7 @@ public final class GTORecipeBuilder extends GTRecipeBuilder {
             }
         }
         if (typeid == null) typeid = getTypeID(id, recipeType);
-        GTORecipes.GT_RECIPE_MAP.put(typeid, new GTRecipe(this.recipeType, typeid, this.input, this.output, this.tickInput, this.tickOutput, Map.of(), Map.of(), Map.of(), Map.of(), this.conditions, List.of(), this.data, this.duration, false, this.recipeCategory));
+        RECIPE_MAP.put(typeid, new GTRecipe(this.recipeType, typeid, this.input, this.output, this.tickInput, this.tickOutput, Map.of(), Map.of(), Map.of(), Map.of(), this.conditions, List.of(), this.data, this.duration, false, this.recipeCategory));
     }
 
     public static ResourceLocation getTypeID(ResourceLocation id, GTRecipeType recipeType) {

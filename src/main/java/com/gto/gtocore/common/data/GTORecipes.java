@@ -1,6 +1,7 @@
 package com.gto.gtocore.common.data;
 
 import com.gto.gtocore.GTOCore;
+import com.gto.gtocore.api.recipe.GTORecipeBuilder;
 import com.gto.gtocore.utils.RLUtils;
 
 import com.gregtechceu.gtceu.GTCEu;
@@ -27,7 +28,6 @@ import com.google.gson.JsonObject;
 import com.kyanite.deeperdarker.DeeperDarker;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import dev.emi.emi.api.recipe.EmiRecipe;
-import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 
 import java.util.LinkedHashSet;
@@ -46,8 +46,6 @@ public final class GTORecipes {
     public static Map<GTRecipeType, Widget> EMI_RECIPE_WIDGETS;
 
     public static ImmutableSet<EmiRecipe> EMI_RECIPES;
-
-    public static Map<ResourceLocation, GTRecipe> GT_RECIPE_MAP = new Object2ObjectOpenHashMap<>(5000);
 
     public static Set<ResourceLocation> GT_FILTER_RECIPES;
 
@@ -645,9 +643,9 @@ public final class GTORecipes {
             long time = System.currentTimeMillis();
             PowerlessJetpack.FUELS.clear();
             GTRegistries.RECIPE_TYPES.forEach(t -> t.getLookup().removeAllRecipes());
-            GT_RECIPE_MAP.values().forEach(r -> r.recipeType.getLookup().addRecipe(r));
+            GTORecipeBuilder.RECIPE_MAP.values().forEach(r -> r.recipeType.getLookup().addRecipe(r));
             recipes.forEach((k, v) -> GTRecipeTypes.FURNACE_RECIPES.getLookup().addRecipe(GTRecipeTypes.FURNACE_RECIPES.toGTrecipe(k, v)));
-            if (GTCEu.Mods.isEMILoaded()) GT_RECIPE_MAP = null;
+            if (GTCEu.Mods.isEMILoaded()) GTORecipeBuilder.RECIPE_MAP = null;
             GTOCore.LOGGER.info("InitLookup took {}ms", System.currentTimeMillis() - time);
         }
     }

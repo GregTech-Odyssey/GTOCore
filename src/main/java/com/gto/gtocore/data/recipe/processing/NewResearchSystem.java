@@ -315,16 +315,16 @@ public interface NewResearchSystem {
                     .blastFurnaceTemp(1800)
                     .save();
 
-                CHEMICAL_VAPOR_DEPOSITION_RECIPES.recipeBuilder("vapro_simple_optical_fiber_preform_" + 1)
-                        .inputItems(MultiStepItemHelper.locateStep(stack1, 1))
-                        .inputFluids(Tetrachlorosilane.getFluid(2000))
-                        .inputFluids(GermaniumTetrachlorideSolution.getFluid(FluidStorageKeys.GAS, 100))
-                        .inputFluids(Oxygen.getFluid(10000))
-                        .outputItems(MultiStepItemHelper.locateStep(stack1, 2))
-                        .duration(6000)
-                        .EUt(VA[HV])
-                        .blastFurnaceTemp(3200)
-                        .save();
+            CHEMICAL_VAPOR_DEPOSITION_RECIPES.recipeBuilder("vapro_simple_optical_fiber_preform_" + 1)
+                    .inputItems(MultiStepItemHelper.locateStep(stack1, 1))
+                    .inputFluids(Tetrachlorosilane.getFluid(2000))
+                    .inputFluids(GermaniumTetrachlorideSolution.getFluid(FluidStorageKeys.GAS, 100))
+                    .inputFluids(Oxygen.getFluid(10000))
+                    .outputItems(MultiStepItemHelper.locateStep(stack1, 2))
+                    .duration(6000)
+                    .EUt(VA[HV])
+                    .blastFurnaceTemp(3200)
+                    .save();
 
             CHEMICAL_VAPOR_DEPOSITION_RECIPES.recipeBuilder("vapro_simple_optical_fiber_preform_2")
                     .inputItems(MultiStepItemHelper.locateStep(stack1, 2))

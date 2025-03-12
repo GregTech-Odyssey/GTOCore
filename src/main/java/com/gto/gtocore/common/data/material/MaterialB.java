@@ -1,6 +1,5 @@
 package com.gto.gtocore.common.data.material;
 
-import com.gregtechceu.gtceu.api.GTValues;
 import com.gto.gtocore.api.data.chemical.material.info.GTOMaterialFlags;
 import com.gto.gtocore.common.data.GTOElements;
 
@@ -10,7 +9,6 @@ import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
 
 import static com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlags.*;
 import static com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialIconSet.*;
-import static com.gregtechceu.gtceu.api.data.chemical.material.properties.BlastProperty.GasTier.HIGHER;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
 import static com.gto.gtocore.api.data.chemical.material.info.GTOMaterialIconSet.LIMPID;
 import static com.gto.gtocore.common.data.GTOMaterials.*;

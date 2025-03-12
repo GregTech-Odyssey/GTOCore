@@ -88,6 +88,7 @@ public interface GTMaterialExtend {
         Sapphire.addFlags(GTOMaterialFlags.GENERATE_ARTIFICIAL_GEM);
         Ruby.addFlags(GTOMaterialFlags.GENERATE_ARTIFICIAL_GEM);
         Emerald.addFlags(GTOMaterialFlags.GENERATE_ARTIFICIAL_GEM);
+        RhodiumPlatedPalladium.addFlags(DISABLE_ALLOY_BLAST);
         Strontium.setProperty(FLUID, new FluidProperty(FluidStorageKeys.LIQUID, new FluidBuilder()));
         Barium.setProperty(FLUID, new FluidProperty(FluidStorageKeys.LIQUID, new FluidBuilder()));
         Cadmium.setProperty(FLUID, new FluidProperty(FluidStorageKeys.LIQUID, new FluidBuilder()));

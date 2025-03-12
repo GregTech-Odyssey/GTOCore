@@ -11,6 +11,7 @@
         "ae2.gui.PatternProviderScreenMixin",
         "ae2.gui.ProcessingEncodingPanelMixin",
         "ae2.gui.SettingToggleButtonMixin",
+        "emi.CraftConfirmScreenMixin",
         "emi.RecipeScreenMixin",
         "gtm.api.recipe.ContentMixin",
         "gtm.renderer.TagPrefixItemRendererMixin",
