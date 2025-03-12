@@ -245,14 +245,6 @@ public interface NewResearchSystem {
                     .EUt(VA[HV])
                     .save();
 
-            LIQUEFACTION_FURNACE_RECIPES.recipeBuilder("liquefaction_high_purity_silica")
-                    .inputItems(dust, HighPuritySilica, 1)
-                    .outputFluids(HighPuritySilica.getFluid(144))
-                    .duration(60)
-                    .blastFurnaceTemp(2000)
-                    .EUt(VA[HV])
-                    .save();
-
             ItemStack stack0 = MultiStepItemHelper.toMultiStepItem(HIGH_PURITY_SILICA_TUBE.asStack(), 0, 6);
 
             FORMING_PRESS_RECIPES.recipeBuilder("extruder_high_purity_silica_tube")
@@ -310,7 +302,7 @@ public interface NewResearchSystem {
                     .EUt(VA[LV])
                     .save();
 
-            ItemStack stack1 = MultiStepItemHelper.toMultiStepItem(SIMPLE_OPTICAL_FIBER_PREFORM.asStack(), 9, 9);
+            ItemStack stack1 = MultiStepItemHelper.toMultiStepItem(SIMPLE_OPTICAL_FIBER_PREFORM.asStack(), 5, 5);
 
             CHEMICAL_VAPOR_DEPOSITION_RECIPES.recipeBuilder("vapro_simple_optical_fiber_preform_0")
                     .inputItems(MultiStepItemHelper.locateStep(stack0, 6))
@@ -323,64 +315,43 @@ public interface NewResearchSystem {
                     .blastFurnaceTemp(1800)
                     .save();
 
-            for (int n = 1; n <= 3; n++) {
-                CHEMICAL_VAPOR_DEPOSITION_RECIPES.recipeBuilder("vapro_simple_optical_fiber_preform_" + n)
-                        .inputItems(MultiStepItemHelper.locateStep(stack1, n))
-                        .inputFluids(Tetrachlorosilane.getFluid(600))
-                        .inputFluids(GermaniumTetrachlorideSolution.getFluid(FluidStorageKeys.GAS, 30))
-                        .inputFluids(Oxygen.getFluid(3000))
-                        .outputItems(MultiStepItemHelper.locateStep(stack1, n + 1))
-                        .duration(600)
+                CHEMICAL_VAPOR_DEPOSITION_RECIPES.recipeBuilder("vapro_simple_optical_fiber_preform_" + 1)
+                        .inputItems(MultiStepItemHelper.locateStep(stack1, 1))
+                        .inputFluids(Tetrachlorosilane.getFluid(2000))
+                        .inputFluids(GermaniumTetrachlorideSolution.getFluid(FluidStorageKeys.GAS, 100))
+                        .inputFluids(Oxygen.getFluid(10000))
+                        .outputItems(MultiStepItemHelper.locateStep(stack1, 2))
+                        .duration(6000)
                         .EUt(VA[HV])
                         .blastFurnaceTemp(3200)
                         .save();
-            }
 
-            CHEMICAL_VAPOR_DEPOSITION_RECIPES.recipeBuilder("vapro_simple_optical_fiber_preform_4")
+            CHEMICAL_VAPOR_DEPOSITION_RECIPES.recipeBuilder("vapro_simple_optical_fiber_preform_2")
+                    .inputItems(MultiStepItemHelper.locateStep(stack1, 2))
+                    .inputFluids(Tetrachlorosilane.getFluid(1000))
+                    .inputFluids(CarbonTetrafluoride.getFluid(100))
+                    .inputFluids(Oxygen.getFluid(1000))
+                    .outputItems(MultiStepItemHelper.locateStep(stack1, 3))
+                    .duration(400)
+                    .EUt(VA[MV])
+                    .blastFurnaceTemp(2500)
+                    .save();
+
+            CHEMICAL_VAPOR_DEPOSITION_RECIPES.recipeBuilder("vapro_simple_optical_fiber_preform_3")
+                    .inputItems(MultiStepItemHelper.locateStep(stack1, 3))
+                    .inputFluids(Tetrachlorosilane.getFluid(1000))
+                    .inputFluids(CarbonTetrafluoride.getFluid(100))
+                    .inputFluids(Oxygen.getFluid(1000))
+                    .outputItems(MultiStepItemHelper.locateStep(stack1, 4))
+                    .duration(400)
+                    .EUt(VA[MV])
+                    .blastFurnaceTemp(2500)
+                    .save();
+
+            BLAST_RECIPES.recipeBuilder("vapro_simple_optical_fiber_preform_4")
                     .inputItems(MultiStepItemHelper.locateStep(stack1, 4))
-                    .inputFluids(Tetrachlorosilane.getFluid(1000))
-                    .inputFluids(CarbonTetrafluoride.getFluid(100))
-                    .inputFluids(Oxygen.getFluid(1000))
                     .outputItems(MultiStepItemHelper.locateStep(stack1, 5))
-                    .duration(400)
-                    .EUt(VA[MV])
-                    .blastFurnaceTemp(2500)
-                    .save();
-
-            CHEMICAL_VAPOR_DEPOSITION_RECIPES.recipeBuilder("vapro_simple_optical_fiber_preform_5")
-                    .inputItems(MultiStepItemHelper.locateStep(stack1, 5))
-                    .inputFluids(Tetrachlorosilane.getFluid(1000))
-                    .inputFluids(CarbonTetrafluoride.getFluid(100))
-                    .inputFluids(Oxygen.getFluid(1000))
-                    .outputItems(MultiStepItemHelper.locateStep(stack1, 6))
-                    .duration(400)
-                    .EUt(VA[MV])
-                    .blastFurnaceTemp(2500)
-                    .save();
-
-            BLAST_RECIPES.recipeBuilder("vapro_simple_optical_fiber_preform_6")
-                    .inputItems(MultiStepItemHelper.locateStep(stack1, 6))
-                    .outputItems(MultiStepItemHelper.locateStep(stack1, 7))
                     .duration(12000)
-                    .EUt(VA[EV])
-                    .blastFurnaceTemp(4200)
-                    .save();
-
-            CHEMICAL_VAPOR_DEPOSITION_RECIPES.recipeBuilder("vapro_simple_optical_fiber_preform_7")
-                    .inputItems(MultiStepItemHelper.locateStep(stack1, 7))
-                    .inputFluids(Tetrachlorosilane.getFluid(1000))
-                    .inputFluids(CarbonTetrafluoride.getFluid(100))
-                    .inputFluids(Oxygen.getFluid(1000))
-                    .outputItems(MultiStepItemHelper.locateStep(stack1, 8))
-                    .duration(400)
-                    .EUt(VA[MV])
-                    .blastFurnaceTemp(2500)
-                    .save();
-
-            BLAST_RECIPES.recipeBuilder("vapro_simple_optical_fiber_preform_8")
-                    .inputItems(MultiStepItemHelper.locateStep(stack1, 8))
-                    .outputItems(MultiStepItemHelper.locateStep(stack1, 9))
-                    .duration(4000)
                     .EUt(VA[EV])
                     .blastFurnaceTemp(4200)
                     .save();
@@ -404,7 +375,7 @@ public interface NewResearchSystem {
             for (int n = 1; n <= 3; n++) {
                 int m = (int) Math.pow(4, n - 1);
                 DRAWING_RECIPES.recipeBuilder("drawing_simple_fiber_optic_" + n)
-                        .inputItems(MultiStepItemHelper.locateStep(stack1, 9))
+                        .inputItems(MultiStepItemHelper.locateStep(stack1, 5))
                         .outputItems(SIMPLE_FIBER_OPTIC_ROUGH, m << 6)
                         .addData("spool", n)
                         .duration((60000 * m) + 12000)
@@ -415,7 +386,7 @@ public interface NewResearchSystem {
             for (int n = 4; n <= 5; n++) {
                 int m = (int) Math.pow(4, n - 1);
                 DRAWING_RECIPES.recipeBuilder("drawing_simple_fiber_optic_" + n)
-                        .inputItems(MultiStepItemHelper.locateStep(stack1, 9))
+                        .inputItems(MultiStepItemHelper.locateStep(stack1, 5))
                         .outputItems(SIMPLE_FIBER_OPTIC_ROUGH, m << 6)
                         .addData("spool", n)
                         .duration((60000 * m) + 12000)
