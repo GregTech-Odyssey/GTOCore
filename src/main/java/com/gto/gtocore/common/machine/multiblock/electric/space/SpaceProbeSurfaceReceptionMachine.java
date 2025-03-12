@@ -35,8 +35,8 @@ public final class SpaceProbeSurfaceReceptionMachine extends ElectricMultiblockM
     @Persisted
     private boolean use;
 
-    public SpaceProbeSurfaceReceptionMachine(IMachineBlockEntity holder, Object... args) {
-        super(holder, args);
+    public SpaceProbeSurfaceReceptionMachine(IMachineBlockEntity holder) {
+        super(holder);
     }
 
     private ResourceKey<Level> getDimension() {

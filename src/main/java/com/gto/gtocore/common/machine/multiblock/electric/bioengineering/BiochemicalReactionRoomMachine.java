@@ -6,7 +6,7 @@ import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 
 public final class BiochemicalReactionRoomMachine extends ElectricMultiblockMachine {
 
-    public BiochemicalReactionRoomMachine(IMachineBlockEntity holder, Object... args) {
-        super(holder, args);
+    public BiochemicalReactionRoomMachine(IMachineBlockEntity holder) {
+        super(holder);
     }
 }

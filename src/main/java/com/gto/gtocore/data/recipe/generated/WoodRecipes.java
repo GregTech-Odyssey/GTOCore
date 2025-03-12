@@ -603,7 +603,7 @@ public interface WoodRecipes {
     static void init(Consumer<FinishedRecipe> provider) {
         TREE_GROWTH_SIMULATOR_RECIPES.recipeBuilder(GTOCore.id("rubber"))
                 .inputFluids(new FluidStack(Fluids.WATER, 4000))
-                .notConsumable(GTBlocks.RUBBER_SAPLING.asStack())
+                .notConsumable(GTBlocks.RUBBER_SAPLING.asItem())
                 .circuitMeta(1)
                 .outputItems(GTBlocks.RUBBER_LOG.asStack(16))
                 .outputItems(GTItems.STICKY_RESIN.asStack(4))
@@ -613,7 +613,7 @@ public interface WoodRecipes {
 
         TREE_GROWTH_SIMULATOR_RECIPES.recipeBuilder(GTOCore.id("rubbera"))
                 .inputFluids(new FluidStack(Fluids.WATER, 8000))
-                .notConsumable(GTBlocks.RUBBER_SAPLING.asStack())
+                .notConsumable(GTBlocks.RUBBER_SAPLING.asItem())
                 .inputItems(GTItems.FERTILIZER.asStack(8))
                 .circuitMeta(2)
                 .outputItems(GTBlocks.RUBBER_LOG.asStack(64))

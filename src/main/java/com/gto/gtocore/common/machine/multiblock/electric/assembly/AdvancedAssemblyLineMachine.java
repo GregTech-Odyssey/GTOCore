@@ -53,7 +53,7 @@ public final class AdvancedAssemblyLineMachine extends ElectricMultiblockMachine
      */
     private static Ingredient[] getRecipeIngredients(GTRecipe recipe) {
         return recipe.inputs.get(ItemRecipeCapability.CAP).stream()
-                .map(i -> ItemRecipeCapability.CAP.of(i.getContent()))
+                .map(i -> ItemUtils.getInnerIngredient(ItemRecipeCapability.CAP.of(i.getContent())))
                 .toArray(Ingredient[]::new);
     }
 

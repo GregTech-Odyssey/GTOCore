@@ -1,7 +1,5 @@
 package com.gto.gtocore.api.item;
 
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
@@ -14,7 +12,7 @@ import java.util.Set;
 
 public final class ItemStackSet implements Set<ItemStack> {
 
-    private final Map<Content, ItemStack> map = new Object2ObjectOpenHashMap<>();
+    private final Map<NBTItem, ItemStack> map = new Object2ObjectOpenHashMap<>();
 
     @Override
     public int size() {
@@ -29,7 +27,7 @@ public final class ItemStackSet implements Set<ItemStack> {
     @Override
     public boolean contains(Object o) {
         if (o instanceof ItemStack stack) {
-            return map.containsKey(Content.of(stack));
+            return map.containsKey(NBTItem.of(stack));
         }
         return false;
     }
@@ -52,7 +50,7 @@ public final class ItemStackSet implements Set<ItemStack> {
     @Override
     public boolean add(ItemStack itemStack) {
         if (itemStack.isEmpty()) return false;
-        Content content = Content.of(itemStack);
+        NBTItem content = NBTItem.of(itemStack);
         ItemStack stack = map.get(content);
         if (stack == null) {
             map.put(content, itemStack.copy());
@@ -91,28 +89,5 @@ public final class ItemStackSet implements Set<ItemStack> {
     @Override
     public void clear() {
         map.clear();
-    }
-
-    private record Content(Item item, CompoundTag nbt) {
-
-        private static Content of(ItemStack stack) {
-            return new Content(stack.getItem(), stack.hasTag() ? stack.getTag() : null);
-        }
-
-        @Override
-        public boolean equals(Object obj) {
-            if (obj instanceof Content content) {
-                return item == content.item && (nbt == null || nbt.equals(content.nbt));
-            }
-            return false;
-        }
-
-        @Override
-        public int hashCode() {
-            int h = 0;
-            h = 31 * h + item.hashCode();
-            h = 31 * h + nbt.hashCode();
-            return h;
-        }
     }
 }

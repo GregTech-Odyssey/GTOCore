@@ -21,8 +21,8 @@ public final class IsaMillMachine extends ElectricMultiblockMachine {
 
     private BallHatchPartMachine ballHatchPartMachine;
 
-    public IsaMillMachine(IMachineBlockEntity holder, Object... args) {
-        super(holder, args);
+    public IsaMillMachine(IMachineBlockEntity holder) {
+        super(holder);
     }
 
     @Override

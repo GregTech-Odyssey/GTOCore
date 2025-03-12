@@ -23,8 +23,8 @@ public final class PlanetCoreDrillingMachine extends ElectricMultiblockMachine {
 
     private Set<Material> materials;
 
-    public PlanetCoreDrillingMachine(IMachineBlockEntity holder, Object... args) {
-        super(holder, args);
+    public PlanetCoreDrillingMachine(IMachineBlockEntity holder) {
+        super(holder);
     }
 
     @Nullable

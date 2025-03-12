@@ -39,8 +39,8 @@ public final class DissolvingTankMachine extends ElectricMultiblockMachine imple
     @RequireRerender
     private final Set<BlockPos> fluidBlockOffsets = new ObjectOpenHashSet<>();
 
-    public DissolvingTankMachine(IMachineBlockEntity holder, Object... args) {
-        super(holder, args);
+    public DissolvingTankMachine(IMachineBlockEntity holder) {
+        super(holder);
     }
 
     @Override

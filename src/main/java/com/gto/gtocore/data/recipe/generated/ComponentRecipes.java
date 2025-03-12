@@ -49,7 +49,7 @@ public interface ComponentRecipes {
                 'F', new UnificationEntry(rotor, Iron), 'P', new UnificationEntry(pipeNormalFluid, Copper), 'M', GTOItems.ULV_ELECTRIC_MOTOR.asStack(), 'C', new UnificationEntry(cableGtSingle, Lead));
         VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("ulv_robot_arm"), GTOItems.ULV_ROBOT_ARM.asStack(),
                 "CCC", "MRM", "PVR", 'R', new UnificationEntry(rod, Copper), 'C', new UnificationEntry(cableGtSingle, Lead),
-                'M', GTOItems.ULV_ELECTRIC_MOTOR.asStack(), 'P', GTOItems.ULV_ELECTRIC_PISTON.asStack(), 'V', VACUUM_TUBE.asStack());
+                'M', GTOItems.ULV_ELECTRIC_MOTOR.asStack(), 'P', GTOItems.ULV_ELECTRIC_PISTON.asStack(), 'V', VACUUM_TUBE.asItem());
         VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("ulv_fluid_regulator"), GTOItems.ULV_FLUID_REGULATOR.asStack(),
                 "SFR", "sPw", "RMC", 'S', new UnificationEntry(screw, Iron), 'R', VACUUM_TUBE.asStack(),
                 'F', new UnificationEntry(rotor, Iron), 'P', GTOItems.ULV_ELECTRIC_PUMP.asStack(), 'M', GTOItems.ULV_ELECTRIC_MOTOR.asStack(), 'C', new UnificationEntry(cableGtSingle, Lead));
@@ -78,7 +78,7 @@ public interface ComponentRecipes {
                 .inputItems(TagPrefix.wireFine, GTOMaterials.Cosmic, 3072)
                 .inputItems(TagPrefix.cableGtHex, GTOMaterials.CosmicNeutronium, 96)
                 .inputFluids(GTOMaterials.SuperMutatedLivingSolder.getFluid(1769472))
-                .inputFluids(GTMaterials.SolderingAlloy.getFluid(3538944))
+                .inputFluids(GTOMaterials.SpacetimeContinuum.getFluid(3538944))
                 .inputFluids(GTOMaterials.BlackDwarfMatter.getFluid(110592))
                 .inputFluids(GTOMaterials.WhiteDwarfMatter.getFluid(110592))
                 .inputFluids(GTOMaterials.Shirabon.getFluid(110592))
@@ -98,7 +98,7 @@ public interface ComponentRecipes {
                 .inputItems(TagPrefix.frameGt, GTOMaterials.Infinity, 48)
                 .inputItems(TagPrefix.cableGtHex, GTOMaterials.CosmicNeutronium, 96)
                 .inputFluids(GTOMaterials.SuperMutatedLivingSolder.getFluid(1769472))
-                .inputFluids(GTMaterials.SolderingAlloy.getFluid(3538944))
+                .inputFluids(GTOMaterials.SpacetimeContinuum.getFluid(3538944))
                 .inputFluids(GTOMaterials.BlackDwarfMatter.getFluid(110592))
                 .inputFluids(GTOMaterials.WhiteDwarfMatter.getFluid(110592))
                 .inputFluids(GTOMaterials.Shirabon.getFluid(110592))
@@ -115,8 +115,8 @@ public interface ComponentRecipes {
                 .inputItems(TagPrefix.plateDouble, GTOMaterials.TranscendentMetal, 192)
                 .inputItems(TagPrefix.cableGtHex, GTOMaterials.CosmicNeutronium, 48)
                 .inputFluids(GTOMaterials.SuperMutatedLivingSolder.getFluid(884736))
-                .inputFluids(GTMaterials.SolderingAlloy.getFluid(1769472))
-                .inputFluids(GTMaterials.Lubricant.getFluid(3072000))
+                .inputFluids(GTOMaterials.SpacetimeContinuum.getFluid(1769472))
+                .inputFluids(GTOMaterials.DimensionAllyshiftedSuperFluid.getFluid(3072000))
                 .inputFluids(GTOMaterials.TranscendentMetal.getFluid(148992))
                 .inputFluids(GTOMaterials.Infinity.getFluid(27648))
                 .outputItems(GTOItems.MAX_ELECTRIC_PISTON.asStack(64))
@@ -131,8 +131,8 @@ public interface ComponentRecipes {
                 .inputItems(GTOItems.MAX_ELECTRIC_MOTOR.asStack(48))
                 .inputItems(TagPrefix.cableGtHex, GTOMaterials.CosmicNeutronium, 48)
                 .inputFluids(GTOMaterials.SuperMutatedLivingSolder.getFluid(884736))
-                .inputFluids(GTMaterials.SolderingAlloy.getFluid(1769472))
-                .inputFluids(GTMaterials.Lubricant.getFluid(3072000))
+                .inputFluids(GTOMaterials.SpacetimeContinuum.getFluid(1769472))
+                .inputFluids(GTOMaterials.DimensionAllyshiftedSuperFluid.getFluid(3072000))
                 .inputFluids(GTMaterials.StyreneButadieneRubber.getFluid(110592))
                 .inputFluids(GTOMaterials.TranscendentMetal.getFluid(33792))
                 .inputFluids(GTOMaterials.BlackDwarfMatter.getFluid(110592))
@@ -151,7 +151,7 @@ public interface ComponentRecipes {
                 .inputItems(TagPrefix.plateDouble, GTOMaterials.TranscendentMetal, 96)
                 .inputItems(TagPrefix.cableGtHex, GTOMaterials.CosmicNeutronium, 48)
                 .inputFluids(GTOMaterials.SuperMutatedLivingSolder.getFluid(884736))
-                .inputFluids(GTMaterials.Lubricant.getFluid(3072000))
+                .inputFluids(GTOMaterials.DimensionAllyshiftedSuperFluid.getFluid(3072000))
                 .inputFluids(GTMaterials.StyreneButadieneRubber.getFluid(1050624))
                 .inputFluids(GTOMaterials.TranscendentMetal.getFluid(44544))
                 .inputFluids(GTOMaterials.BlackDwarfMatter.getFluid(110592))
@@ -168,8 +168,8 @@ public interface ComponentRecipes {
                 .inputItems(TagPrefix.rodLong, GTOMaterials.Magmatter, 48)
                 .inputItems(TagPrefix.cableGtHex, GTOMaterials.CosmicNeutronium, 48)
                 .inputFluids(GTOMaterials.SuperMutatedLivingSolder.getFluid(768000))
-                .inputFluids(GTMaterials.SolderingAlloy.getFluid(1536000))
-                .inputFluids(GTMaterials.Lubricant.getFluid(3072000))
+                .inputFluids(GTOMaterials.SpacetimeContinuum.getFluid(1536000))
+                .inputFluids(GTOMaterials.DimensionAllyshiftedSuperFluid.getFluid(3072000))
                 .inputFluids(GTOMaterials.BlackDwarfMatter.getFluid(110592))
                 .inputFluids(GTOMaterials.WhiteDwarfMatter.getFluid(110592))
                 .inputFluids(GTOMaterials.Infinity.getFluid(27648))
@@ -189,8 +189,8 @@ public interface ComponentRecipes {
                 .inputItems(CustomTags.MAX_CIRCUITS, 48)
                 .inputItems(TagPrefix.cableGtHex, GTOMaterials.CosmicNeutronium, 96)
                 .inputFluids(GTOMaterials.SuperMutatedLivingSolder.getFluid(884736))
-                .inputFluids(GTMaterials.SolderingAlloy.getFluid(1769472))
-                .inputFluids(GTMaterials.Lubricant.getFluid(3072000))
+                .inputFluids(GTOMaterials.SpacetimeContinuum.getFluid(1769472))
+                .inputFluids(GTOMaterials.DimensionAllyshiftedSuperFluid.getFluid(3072000))
                 .inputFluids(GTOMaterials.TranscendentMetal.getFluid(152064))
                 .inputFluids(GTOMaterials.Infinity.getFluid(27648))
                 .outputItems(GTOItems.MAX_ROBOT_ARM.asStack(64))
@@ -208,7 +208,7 @@ public interface ComponentRecipes {
                 .inputItems(TagPrefix.foil, GTOMaterials.Cosmic, 3072)
                 .inputItems(TagPrefix.cableGtHex, GTOMaterials.CosmicNeutronium, 96)
                 .inputFluids(GTOMaterials.SuperMutatedLivingSolder.getFluid(1769472))
-                .inputFluids(GTMaterials.SolderingAlloy.getFluid(3538944))
+                .inputFluids(GTOMaterials.SpacetimeContinuum.getFluid(3538944))
                 .inputFluids(GTOMaterials.TranscendentMetal.getFluid(55296))
                 .inputFluids(GTOMaterials.BlackDwarfMatter.getFluid(110592))
                 .inputFluids(GTOMaterials.WhiteDwarfMatter.getFluid(110592))

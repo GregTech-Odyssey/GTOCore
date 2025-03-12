@@ -17,7 +17,7 @@ interface ForgeHammer {
     static void init() {
         FORGE_HAMMER_RECIPES.recipeBuilder(GTOCore.id("long_netherite_rod"))
                 .inputItems(GTOItems.NETHERITE_ROD.asStack(2))
-                .outputItems(GTOItems.LONG_NETHERITE_ROD.asStack())
+                .outputItems(GTOItems.LONG_NETHERITE_ROD.asItem())
                 .EUt(30)
                 .duration(200)
                 .save();
@@ -31,7 +31,7 @@ interface ForgeHammer {
 
         FORGE_HAMMER_RECIPES.recipeBuilder(GTOCore.id("magnetic_long_netherite_rod"))
                 .inputItems(GTOItems.MAGNETIC_NETHERITE_ROD.asStack(2))
-                .outputItems(GTOItems.MAGNETIC_LONG_NETHERITE_ROD.asStack())
+                .outputItems(GTOItems.MAGNETIC_LONG_NETHERITE_ROD.asItem())
                 .EUt(30)
                 .duration(200)
                 .save();
@@ -51,7 +51,7 @@ interface ForgeHammer {
                 .save();
 
         FORGE_HAMMER_RECIPES.recipeBuilder(GTOCore.id("wrought_iron"))
-                .inputItems(GTOItems.HOT_IRON_INGOT.asStack())
+                .inputItems(GTOItems.HOT_IRON_INGOT.asItem())
                 .outputItems(TagPrefix.ingot, GTMaterials.WroughtIron)
                 .EUt(16)
                 .duration(200)

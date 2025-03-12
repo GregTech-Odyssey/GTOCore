@@ -14,8 +14,8 @@ interface Extruder {
     static void init() {
         EXTRUDER_RECIPES.recipeBuilder(GTOCore.id("special_ceramics"))
                 .inputItems(TagPrefix.dust, GTOMaterials.SpecialCeramics, 2)
-                .notConsumable(GTItems.SHAPE_EXTRUDER_PLATE.asStack())
-                .outputItems(GTOItems.SPECIAL_CERAMICS.asStack())
+                .notConsumable(GTItems.SHAPE_EXTRUDER_PLATE.asItem())
+                .outputItems(GTOItems.SPECIAL_CERAMICS.asItem())
                 .EUt(480)
                 .duration(20)
                 .save();

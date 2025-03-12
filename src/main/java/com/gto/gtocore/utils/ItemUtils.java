@@ -12,6 +12,13 @@ import net.minecraft.world.level.block.Block;
 
 public final class ItemUtils {
 
+    public static ItemStack getFirstSized(Ingredient ingredient) {
+        if (ingredient instanceof SizedIngredient sizedIngredient) {
+            return getFirstSized(sizedIngredient);
+        }
+        return getFirst(ingredient);
+    }
+
     public static ItemStack getFirstSized(SizedIngredient sizedIngredient) {
         return getFirst(getSizedInner(sizedIngredient));
     }
@@ -22,6 +29,13 @@ public final class ItemUtils {
             return getSizedInner(ingredient);
         }
         return inner;
+    }
+
+    public static Ingredient getInnerIngredient(Ingredient ingredient) {
+        if (ingredient instanceof SizedIngredient sizedIngredient) {
+            return getSizedInner(sizedIngredient);
+        }
+        return ingredient;
     }
 
     public static ItemStack getFirst(Ingredient ingredient) {

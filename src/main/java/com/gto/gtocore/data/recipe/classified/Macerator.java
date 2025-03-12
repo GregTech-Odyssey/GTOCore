@@ -23,8 +23,8 @@ interface Macerator {
 
     static void init() {
         MACERATOR_RECIPES.recipeBuilder(GTOCore.id("prescient_powder"))
-                .inputItems(EIOItems.PRESCIENT_CRYSTAL.asStack())
-                .outputItems(EIOItems.PRESCIENT_POWDER.asStack())
+                .inputItems(EIOItems.PRESCIENT_CRYSTAL.asItem())
+                .outputItems(EIOItems.PRESCIENT_POWDER.asItem())
                 .EUt(30)
                 .duration(200)
                 .save();
@@ -37,8 +37,8 @@ interface Macerator {
                 .save();
 
         MACERATOR_RECIPES.recipeBuilder(GTOCore.id("essence"))
-                .inputItems(GTOBlocks.ESSENCE_BLOCK.asStack())
-                .outputItems(GTOItems.ESSENCE.asStack())
+                .inputItems(GTOBlocks.ESSENCE_BLOCK.asItem())
+                .outputItems(GTOItems.ESSENCE.asItem())
                 .chancedOutput(GTOItems.ESSENCE.asStack(), 5000, 400)
                 .chancedOutput(GTOItems.ESSENCE.asStack(), 5000, 200)
                 .chancedOutput(GTOItems.ESSENCE.asStack(), 5000, 100)
@@ -54,14 +54,14 @@ interface Macerator {
                 .save();
 
         MACERATOR_RECIPES.recipeBuilder(GTOCore.id("vibrant_powder"))
-                .inputItems(EIOItems.VIBRANT_CRYSTAL.asStack())
-                .outputItems(EIOItems.VIBRANT_POWDER.asStack())
+                .inputItems(EIOItems.VIBRANT_CRYSTAL.asItem())
+                .outputItems(EIOItems.VIBRANT_POWDER.asItem())
                 .EUt(30)
                 .duration(200)
                 .save();
 
         MACERATOR_RECIPES.recipeBuilder(GTOCore.id("draconium_dust"))
-                .inputItems(GTOBlocks.DRACONIUM_BLOCK_CHARGED.asStack())
+                .inputItems(GTOBlocks.DRACONIUM_BLOCK_CHARGED.asItem())
                 .outputItems(GTOItems.DRACONIUM_DIRT.asStack(9))
                 .outputItems(TagPrefix.dust, GTMaterials.Obsidian)
                 .outputItems(TagPrefix.dust, GTMaterials.EnderEye)
@@ -85,8 +85,8 @@ interface Macerator {
                 .save();
 
         MACERATOR_RECIPES.recipeBuilder(GTOCore.id("pulsating_powder"))
-                .inputItems(EIOItems.PULSATING_CRYSTAL.asStack())
-                .outputItems(EIOItems.PULSATING_POWDER.asStack())
+                .inputItems(EIOItems.PULSATING_CRYSTAL.asItem())
+                .outputItems(EIOItems.PULSATING_POWDER.asItem())
                 .EUt(30)
                 .duration(200)
                 .save();
@@ -99,8 +99,8 @@ interface Macerator {
                 .save();
 
         MACERATOR_RECIPES.recipeBuilder(GTOCore.id("ender_crystal_powder"))
-                .inputItems(EIOItems.ENDER_CRYSTAL.asStack())
-                .outputItems(EIOItems.ENDER_CRYSTAL_POWDER.asStack())
+                .inputItems(EIOItems.ENDER_CRYSTAL.asItem())
+                .outputItems(EIOItems.ENDER_CRYSTAL_POWDER.asItem())
                 .EUt(30)
                 .duration(200)
                 .save();
@@ -134,7 +134,7 @@ interface Macerator {
                 .save();
 
         MACERATOR_RECIPES.recipeBuilder(GTOCore.id("treated_wood_dust"))
-                .inputItems(GTBlocks.TREATED_WOOD_PLANK.asStack())
+                .inputItems(GTBlocks.TREATED_WOOD_PLANK.asItem())
                 .outputItems(TagPrefix.dust, GTMaterials.TreatedWood)
                 .EUt(2)
                 .duration(98)

@@ -152,7 +152,7 @@ interface ElectricCooking {
                 .save();
 
         ELECTRIC_COOKING_RECIPES.recipeBuilder(GTOCore.id("dumplings"))
-                .inputItems(GTItems.DOUGH.asStack())
+                .inputItems(GTItems.DOUGH.asItem())
                 .inputItems(TagUtils.createTag(RLUtils.forge("crops/cabbage")))
                 .inputItems("farmersdelight:onion")
                 .inputItems(TagUtils.createTag(RLUtils.forge("raw_pork")))

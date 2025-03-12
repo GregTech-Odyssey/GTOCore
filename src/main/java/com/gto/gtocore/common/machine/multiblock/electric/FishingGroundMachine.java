@@ -37,8 +37,8 @@ public class FishingGroundMachine extends ElectricMultiblockMachine {
 
     private FishingHook fishingHook;
 
-    public FishingGroundMachine(IMachineBlockEntity holder, Object... args) {
-        super(holder, args);
+    public FishingGroundMachine(IMachineBlockEntity holder) {
+        super(holder);
     }
 
     @Nullable

@@ -56,8 +56,8 @@ public final class FissionReactorMachine extends ElectricMultiblockMachine imple
 
     private SensorPartMachine sensorMachine;
 
-    public FissionReactorMachine(IMachineBlockEntity holder, Object... args) {
-        super(holder, args);
+    public FissionReactorMachine(IMachineBlockEntity holder) {
+        super(holder);
         HeatSubs = new ConditionalSubscriptionHandler(this, this::HeatUpdate, () -> isFormed() || heat > 298);
     }
 

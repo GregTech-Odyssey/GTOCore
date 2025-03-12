@@ -13,8 +13,8 @@ public class ManaMultiblockMachine extends NoEnergyMultiblockMachine implements 
 
     private final ManaTrait manaTrait;
 
-    public ManaMultiblockMachine(IMachineBlockEntity holder, Object... args) {
-        super(holder, args);
+    public ManaMultiblockMachine(IMachineBlockEntity holder) {
+        super(holder);
         this.manaTrait = new ManaTrait(this);
     }
 

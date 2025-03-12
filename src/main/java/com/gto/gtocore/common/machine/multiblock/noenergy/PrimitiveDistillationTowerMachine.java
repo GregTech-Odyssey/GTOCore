@@ -64,8 +64,8 @@ public final class PrimitiveDistillationTowerMachine extends NoEnergyMultiblockM
 
     private SensorPartMachine sensorMachine;
 
-    public PrimitiveDistillationTowerMachine(IMachineBlockEntity holder, Object... args) {
-        super(holder, args);
+    public PrimitiveDistillationTowerMachine(IMachineBlockEntity holder) {
+        super(holder);
         tickSubs = new ConditionalSubscriptionHandler(this, this::tickUpdate, () -> isFormed || heat > 298 || time > 0);
     }
 

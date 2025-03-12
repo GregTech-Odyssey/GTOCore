@@ -88,7 +88,7 @@ public final class StringConverter {
             } else if (StringIndex.ITEM_MAP.containsKey(stack.getItem())) {
                 return "new ItemStack(" + StringIndex.ITEM_MAP.get(stack.getItem()) + (amount > 1 ? ", " + amount : "") + ")";
             } else if (ItemUtils.getIdLocation(stack.getItem()).getNamespace().equals(GTOCore.MOD_ID)) {
-                return "GTOItems." + ItemUtils.getIdLocation(stack.getItem()).getPath().toUpperCase() + ".asStack(" + (amount > 1 ? amount : "") + ")";
+                return "GTOItems." + ItemUtils.getIdLocation(stack.getItem()).getPath().toUpperCase() + (amount > 1 ? ".asStack(" + amount + ")" : ".asItem()");
             } else if (ItemUtils.getIdLocation(stack.getItem()).getNamespace().equals("minecraft")) {
                 return "new ItemStack(Items." + ItemUtils.getIdLocation(stack.getItem()).getPath().toUpperCase() + ".asItem()" + (amount > 1 ? ", " + amount : "") + ")";
             }

@@ -104,7 +104,7 @@ interface DimensionallyTranscendentMixer {
                 .save();
 
         DIMENSIONALLY_TRANSCENDENT_MIXER_RECIPES.recipeBuilder(GTOCore.id("chaos_plasma"))
-                .inputItems(GTOItems.CHAOS_SHARD.asStack())
+                .inputItems(GTOItems.CHAOS_SHARD.asItem())
                 .inputFluids(GTMaterials.UUMatter.getFluid(4000))
                 .inputFluids(GTOMaterials.CosmicNeutronium.getFluid(2000))
                 .inputFluids(GTOMaterials.CosmicMesh.getFluid(FluidStorageKeys.PLASMA, 2000))

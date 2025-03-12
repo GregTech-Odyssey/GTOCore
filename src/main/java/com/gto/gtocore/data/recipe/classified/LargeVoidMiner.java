@@ -17,7 +17,7 @@ interface LargeVoidMiner {
 
     static void init() {
         LARGE_VOID_MINER_RECIPES.recipeBuilder(GTOCore.id("diamond_vein_essence"))
-                .inputItems(GTOItems.DIAMOND_VEIN_ESSENCE.asStack())
+                .inputItems(GTOItems.DIAMOND_VEIN_ESSENCE.asItem())
                 .inputFluids(GTMaterials.DrillingFluid.getFluid(1000000))
                 .outputItems(TagPrefix.ore, GTMaterials.Graphite, 120)
                 .outputItems(TagPrefix.ore, GTMaterials.Diamond, 80)
@@ -27,7 +27,7 @@ interface LargeVoidMiner {
                 .save();
 
         LARGE_VOID_MINER_RECIPES.recipeBuilder(GTOCore.id("pitchblende_vein_end_essence"))
-                .inputItems(GTOItems.PITCHBLENDE_VEIN_ESSENCE.asStack())
+                .inputItems(GTOItems.PITCHBLENDE_VEIN_ESSENCE.asItem())
                 .inputFluids(GTMaterials.DrillingFluid.getFluid(1000000))
                 .outputItems(TagPrefix.ore, GTMaterials.Pitchblende, 180)
                 .outputItems(TagPrefix.ore, GTMaterials.Uraninite, 120)
@@ -37,7 +37,7 @@ interface LargeVoidMiner {
                 .save();
 
         LARGE_VOID_MINER_RECIPES.recipeBuilder(GTOCore.id("galena_vein_essence"))
-                .inputItems(GTOItems.GALENA_VEIN_ESSENCE.asStack())
+                .inputItems(GTOItems.GALENA_VEIN_ESSENCE.asItem())
                 .inputFluids(GTMaterials.DrillingFluid.getFluid(1000000))
                 .outputItems(TagPrefix.ore, GTMaterials.Galena, 120)
                 .outputItems(TagPrefix.ore, GTMaterials.Silver, 80)
@@ -47,7 +47,7 @@ interface LargeVoidMiner {
                 .save();
 
         LARGE_VOID_MINER_RECIPES.recipeBuilder(GTOCore.id("banded_iron_vein_essence"))
-                .inputItems(GTOItems.BANDED_IRON_VEIN_ESSENCE.asStack())
+                .inputItems(GTOItems.BANDED_IRON_VEIN_ESSENCE.asItem())
                 .inputFluids(GTMaterials.DrillingFluid.getFluid(1000000))
                 .outputItems(TagPrefix.ore, GTMaterials.Goethite, 90)
                 .outputItems(TagPrefix.ore, GTMaterials.YellowLimonite, 60)
@@ -58,7 +58,7 @@ interface LargeVoidMiner {
                 .save();
 
         LARGE_VOID_MINER_RECIPES.recipeBuilder(GTOCore.id("redstone_vein_essence"))
-                .inputItems(GTOItems.REDSTONE_VEIN_ESSENCE.asStack())
+                .inputItems(GTOItems.REDSTONE_VEIN_ESSENCE.asItem())
                 .inputFluids(GTMaterials.DrillingFluid.getFluid(1000000))
                 .outputItems(TagPrefix.ore, GTMaterials.Redstone, 180)
                 .outputItems(TagPrefix.ore, GTMaterials.Ruby, 120)
@@ -69,7 +69,7 @@ interface LargeVoidMiner {
                 .save();
 
         LARGE_VOID_MINER_RECIPES.recipeBuilder(GTOCore.id("salts_vein_essence"))
-                .inputItems(GTOItems.SALTS_VEIN_ESSENCE.asStack())
+                .inputItems(GTOItems.SALTS_VEIN_ESSENCE.asItem())
                 .inputFluids(GTMaterials.DrillingFluid.getFluid(1000000))
                 .outputItems(TagPrefix.ore, GTMaterials.RockSalt, 150)
                 .outputItems(TagPrefix.ore, GTMaterials.Salt, 10)
@@ -80,7 +80,7 @@ interface LargeVoidMiner {
                 .save();
 
         LARGE_VOID_MINER_RECIPES.recipeBuilder(GTOCore.id("sapphire_vein_essence"))
-                .inputItems(GTOItems.SAPPHIRE_VEIN_ESSENCE.asStack())
+                .inputItems(GTOItems.SAPPHIRE_VEIN_ESSENCE.asItem())
                 .inputFluids(GTMaterials.DrillingFluid.getFluid(1000000))
                 .outputItems(TagPrefix.ore, GTMaterials.Almandine, 180)
                 .outputItems(TagPrefix.ore, GTMaterials.Pyrope, 120)
@@ -91,7 +91,7 @@ interface LargeVoidMiner {
                 .save();
 
         LARGE_VOID_MINER_RECIPES.recipeBuilder(GTOCore.id("molybdenum_vein_essence"))
-                .inputItems(GTOItems.MOLYBDENUM_VEIN_ESSENCE.asStack())
+                .inputItems(GTOItems.MOLYBDENUM_VEIN_ESSENCE.asItem())
                 .inputFluids(GTMaterials.DrillingFluid.getFluid(1000000))
                 .outputItems(TagPrefix.ore, GTMaterials.Wulfenite, 150)
                 .outputItems(TagPrefix.ore, GTMaterials.Molybdenite, 100)
@@ -102,7 +102,7 @@ interface LargeVoidMiner {
                 .save();
 
         LARGE_VOID_MINER_RECIPES.recipeBuilder(GTOCore.id("olivine_vein_essence"))
-                .inputItems(GTOItems.OLIVINE_VEIN_ESSENCE.asStack())
+                .inputItems(GTOItems.OLIVINE_VEIN_ESSENCE.asItem())
                 .inputFluids(GTMaterials.DrillingFluid.getFluid(1000000))
                 .outputItems(TagPrefix.ore, GTMaterials.Bentonite, 60)
                 .outputItems(TagPrefix.ore, GTMaterials.Magnetite, 40)
@@ -113,7 +113,7 @@ interface LargeVoidMiner {
                 .save();
 
         LARGE_VOID_MINER_RECIPES.recipeBuilder(GTOCore.id("copper_vein_essence"))
-                .inputItems(GTOItems.COPPER_VEIN_ESSENCE.asStack())
+                .inputItems(GTOItems.COPPER_VEIN_ESSENCE.asItem())
                 .inputFluids(GTMaterials.DrillingFluid.getFluid(1000000))
                 .outputItems(TagPrefix.ore, GTMaterials.Chalcopyrite, 40)
                 .outputItems(TagPrefix.ore, GTMaterials.Iron, 160)
@@ -124,7 +124,7 @@ interface LargeVoidMiner {
                 .save();
 
         LARGE_VOID_MINER_RECIPES.recipeBuilder(GTOCore.id("lubricant_vein_essence"))
-                .inputItems(GTOItems.LUBRICANT_VEIN_ESSENCE.asStack())
+                .inputItems(GTOItems.LUBRICANT_VEIN_ESSENCE.asItem())
                 .inputFluids(GTMaterials.DrillingFluid.getFluid(1000000))
                 .outputItems(TagPrefix.ore, GTMaterials.Soapstone, 120)
                 .outputItems(TagPrefix.ore, GTMaterials.Talc, 80)
@@ -135,7 +135,7 @@ interface LargeVoidMiner {
                 .save();
 
         LARGE_VOID_MINER_RECIPES.recipeBuilder(GTOCore.id("copper_tin_vein_essence"))
-                .inputItems(GTOItems.COPPER_TIN_VEIN_ESSENCE.asStack())
+                .inputItems(GTOItems.COPPER_TIN_VEIN_ESSENCE.asItem())
                 .inputFluids(GTMaterials.DrillingFluid.getFluid(1000000))
                 .outputItems(TagPrefix.ore, GTMaterials.Chalcopyrite, 250)
                 .outputItems(TagPrefix.ore, GTMaterials.Zeolite, 10)
@@ -146,7 +146,7 @@ interface LargeVoidMiner {
                 .save();
 
         LARGE_VOID_MINER_RECIPES.recipeBuilder(GTOCore.id("manganese_vein_essence"))
-                .inputItems(GTOItems.MANGANESE_VEIN_ESSENCE.asStack())
+                .inputItems(GTOItems.MANGANESE_VEIN_ESSENCE.asItem())
                 .inputFluids(GTMaterials.DrillingFluid.getFluid(1000000))
                 .outputItems(TagPrefix.ore, GTMaterials.Grossular, 60)
                 .outputItems(TagPrefix.ore, GTMaterials.Pyrolusite, 40)
@@ -157,7 +157,7 @@ interface LargeVoidMiner {
                 .save();
 
         LARGE_VOID_MINER_RECIPES.recipeBuilder(GTOCore.id("beryllium_vein_essence"))
-                .inputItems(GTOItems.BERYLLIUM_VEIN_ESSENCE.asStack())
+                .inputItems(GTOItems.BERYLLIUM_VEIN_ESSENCE.asItem())
                 .inputFluids(GTMaterials.DrillingFluid.getFluid(1000000))
                 .outputItems(TagPrefix.ore, GTMaterials.Beryllium, 90)
                 .outputItems(TagPrefix.ore, GTMaterials.Emerald, 120)
@@ -167,7 +167,7 @@ interface LargeVoidMiner {
                 .save();
 
         LARGE_VOID_MINER_RECIPES.recipeBuilder(GTOCore.id("oilsands_vein_essence"))
-                .inputItems(GTOItems.OILSANDS_VEIN_ESSENCE.asStack())
+                .inputItems(GTOItems.OILSANDS_VEIN_ESSENCE.asItem())
                 .inputFluids(GTMaterials.DrillingFluid.getFluid(1000000))
                 .outputItems(TagPrefix.ore, GTMaterials.Oilsands, 240)
                 .EUt(30720)
@@ -175,7 +175,7 @@ interface LargeVoidMiner {
                 .save();
 
         LARGE_VOID_MINER_RECIPES.recipeBuilder(GTOCore.id("lapis_vein_essence"))
-                .inputItems(GTOItems.LAPIS_VEIN_ESSENCE.asStack())
+                .inputItems(GTOItems.LAPIS_VEIN_ESSENCE.asItem())
                 .inputFluids(GTMaterials.DrillingFluid.getFluid(1000000))
                 .outputItems(TagPrefix.ore, GTMaterials.Lazurite, 120)
                 .outputItems(TagPrefix.ore, GTMaterials.Sodalite, 80)
@@ -186,7 +186,7 @@ interface LargeVoidMiner {
                 .save();
 
         LARGE_VOID_MINER_RECIPES.recipeBuilder(GTOCore.id("topaz_vein_essence"))
-                .inputItems(GTOItems.TOPAZ_VEIN_ESSENCE.asStack())
+                .inputItems(GTOItems.TOPAZ_VEIN_ESSENCE.asItem())
                 .inputFluids(GTMaterials.DrillingFluid.getFluid(1000000))
                 .outputItems(TagPrefix.ore, GTMaterials.BlueTopaz, 210)
                 .outputItems(TagPrefix.ore, GTMaterials.Topaz, 140)
@@ -197,7 +197,7 @@ interface LargeVoidMiner {
                 .save();
 
         LARGE_VOID_MINER_RECIPES.recipeBuilder(GTOCore.id("bauxite_vein_end_essence"))
-                .inputItems(GTOItems.BAUXITE_VEIN_ESSENCE.asStack())
+                .inputItems(GTOItems.BAUXITE_VEIN_ESSENCE.asItem())
                 .inputFluids(GTMaterials.DrillingFluid.getFluid(1000000))
                 .outputItems(TagPrefix.ore, GTMaterials.Bauxite, 160)
                 .outputItems(TagPrefix.ore, GTMaterials.Ilmenite, 80)
@@ -208,7 +208,7 @@ interface LargeVoidMiner {
                 .save();
 
         LARGE_VOID_MINER_RECIPES.recipeBuilder(GTOCore.id("coal_vein_essence"))
-                .inputItems(GTOItems.COAL_VEIN_ESSENCE.asStack())
+                .inputItems(GTOItems.COAL_VEIN_ESSENCE.asItem())
                 .inputFluids(GTMaterials.DrillingFluid.getFluid(1000000))
                 .outputItems(TagPrefix.ore, GTMaterials.Coal, 240)
                 .EUt(30720)
@@ -216,7 +216,7 @@ interface LargeVoidMiner {
                 .save();
 
         LARGE_VOID_MINER_RECIPES.recipeBuilder(GTOCore.id("apatite_vein_essence"))
-                .inputItems(GTOItems.APATITE_VEIN_ESSENCE.asStack())
+                .inputItems(GTOItems.APATITE_VEIN_ESSENCE.asItem())
                 .inputFluids(GTMaterials.DrillingFluid.getFluid(1000000))
                 .outputItems(TagPrefix.ore, GTMaterials.Apatite, 120)
                 .outputItems(TagPrefix.ore, GTMaterials.TricalciumPhosphate, 80)
@@ -226,7 +226,7 @@ interface LargeVoidMiner {
                 .save();
 
         LARGE_VOID_MINER_RECIPES.recipeBuilder(GTOCore.id("nether_quartz_vein_essence"))
-                .inputItems(GTOItems.NETHER_QUARTZ_VEIN_ESSENCE.asStack())
+                .inputItems(GTOItems.NETHER_QUARTZ_VEIN_ESSENCE.asItem())
                 .inputFluids(GTMaterials.DrillingFluid.getFluid(1000000))
                 .outputItems(TagPrefix.ore, GTMaterials.NetherQuartz, 240)
                 .outputItems(TagPrefix.ore, GTMaterials.Quartzite, 80)
@@ -236,7 +236,7 @@ interface LargeVoidMiner {
                 .save();
 
         LARGE_VOID_MINER_RECIPES.recipeBuilder(GTOCore.id("cassiterite_vein_essence"))
-                .inputItems(GTOItems.CASSITERITE_VEIN_ESSENCE.asStack())
+                .inputItems(GTOItems.CASSITERITE_VEIN_ESSENCE.asItem())
                 .inputFluids(GTMaterials.DrillingFluid.getFluid(1000000))
                 .outputItems(TagPrefix.ore, GTMaterials.Tin, 320)
                 .outputItems(TagPrefix.ore, GTMaterials.Cassiterite, 160)
@@ -245,7 +245,7 @@ interface LargeVoidMiner {
                 .save();
 
         LARGE_VOID_MINER_RECIPES.recipeBuilder(GTOCore.id("scheelite_vein_essence"))
-                .inputItems(GTOItems.SCHEELITE_VEIN_ESSENCE.asStack())
+                .inputItems(GTOItems.SCHEELITE_VEIN_ESSENCE.asItem())
                 .inputFluids(GTMaterials.DrillingFluid.getFluid(1000000))
                 .outputItems(TagPrefix.ore, GTMaterials.Scheelite, 120)
                 .outputItems(TagPrefix.ore, GTMaterials.Tungstate, 80)
@@ -256,7 +256,7 @@ interface LargeVoidMiner {
                 .save();
 
         LARGE_VOID_MINER_RECIPES.recipeBuilder(GTOCore.id("tetrahedrite_vein_essence"))
-                .inputItems(GTOItems.TETRAHEDRITE_VEIN_ESSENCE.asStack())
+                .inputItems(GTOItems.TETRAHEDRITE_VEIN_ESSENCE.asItem())
                 .inputFluids(GTMaterials.DrillingFluid.getFluid(1000000))
                 .outputItems(TagPrefix.ore, GTMaterials.Tetrahedrite, 280)
                 .outputItems(TagPrefix.ore, GTMaterials.Copper, 140)
@@ -266,7 +266,7 @@ interface LargeVoidMiner {
                 .save();
 
         LARGE_VOID_MINER_RECIPES.recipeBuilder(GTOCore.id("sulfur_vein_essence"))
-                .inputItems(GTOItems.SULFUR_VEIN_ESSENCE.asStack())
+                .inputItems(GTOItems.SULFUR_VEIN_ESSENCE.asItem())
                 .inputFluids(GTMaterials.DrillingFluid.getFluid(1000000))
                 .outputItems(TagPrefix.ore, GTMaterials.Sulfur, 300)
                 .outputItems(TagPrefix.ore, GTMaterials.Pyrite, 200)
@@ -277,7 +277,7 @@ interface LargeVoidMiner {
                 .save();
 
         LARGE_VOID_MINER_RECIPES.recipeBuilder(GTOCore.id("saltpeter_vein_essence"))
-                .inputItems(GTOItems.SALTPETER_VEIN_ESSENCE.asStack())
+                .inputItems(GTOItems.SALTPETER_VEIN_ESSENCE.asItem())
                 .inputFluids(GTMaterials.DrillingFluid.getFluid(1000000))
                 .outputItems(TagPrefix.ore, GTMaterials.Saltpeter, 120)
                 .outputItems(TagPrefix.ore, GTMaterials.Diatomite, 80)
@@ -288,7 +288,7 @@ interface LargeVoidMiner {
                 .save();
 
         LARGE_VOID_MINER_RECIPES.recipeBuilder(GTOCore.id("naquadah_vein_essence"))
-                .inputItems(GTOItems.NAQUADAH_VEIN_ESSENCE.asStack())
+                .inputItems(GTOItems.NAQUADAH_VEIN_ESSENCE.asItem())
                 .inputFluids(GTMaterials.DrillingFluid.getFluid(1000000))
                 .outputItems(TagPrefix.ore, GTMaterials.Naquadah, 180)
                 .outputItems(TagPrefix.ore, GTMaterials.NaquadahEnriched, 80)
@@ -299,7 +299,7 @@ interface LargeVoidMiner {
                 .save();
 
         LARGE_VOID_MINER_RECIPES.recipeBuilder(GTOCore.id("monazite_vein_essence"))
-                .inputItems(GTOItems.MONAZITE_VEIN_ESSENCE.asStack())
+                .inputItems(GTOItems.MONAZITE_VEIN_ESSENCE.asItem())
                 .inputFluids(GTMaterials.DrillingFluid.getFluid(1000000))
                 .outputItems(TagPrefix.ore, GTMaterials.Bastnasite, 90)
                 .outputItems(TagPrefix.ore, GTMaterials.Molybdenum, 30)
@@ -310,7 +310,7 @@ interface LargeVoidMiner {
                 .save();
 
         LARGE_VOID_MINER_RECIPES.recipeBuilder(GTOCore.id("magnetite_vein_end_essence"))
-                .inputItems(GTOItems.MAGNETITE_VEIN_END_ESSENCE.asStack())
+                .inputItems(GTOItems.MAGNETITE_VEIN_END_ESSENCE.asItem())
                 .inputFluids(GTMaterials.DrillingFluid.getFluid(1000000))
                 .outputItems(TagPrefix.ore, GTMaterials.Magnetite, 180)
                 .outputItems(TagPrefix.ore, GTMaterials.VanadiumMagnetite, 120)
@@ -321,7 +321,7 @@ interface LargeVoidMiner {
                 .save();
 
         LARGE_VOID_MINER_RECIPES.recipeBuilder(GTOCore.id("nickel_vein_essence"))
-                .inputItems(GTOItems.NICKEL_VEIN_ESSENCE.asStack())
+                .inputItems(GTOItems.NICKEL_VEIN_ESSENCE.asItem())
                 .inputFluids(GTMaterials.DrillingFluid.getFluid(1000000))
                 .outputItems(TagPrefix.ore, GTMaterials.Garnierite, 120)
                 .outputItems(TagPrefix.ore, GTMaterials.Nickel, 80)
@@ -332,7 +332,7 @@ interface LargeVoidMiner {
                 .save();
 
         LARGE_VOID_MINER_RECIPES.recipeBuilder(GTOCore.id("certus_quartz_essence"))
-                .inputItems(GTOItems.CERTUS_QUARTZ_ESSENCE.asStack())
+                .inputItems(GTOItems.CERTUS_QUARTZ_ESSENCE.asItem())
                 .inputFluids(GTMaterials.DrillingFluid.getFluid(1000000))
                 .outputItems(TagPrefix.ore, GTMaterials.Quartzite, 120)
                 .outputItems(TagPrefix.ore, GTMaterials.CertusQuartz, 80)
@@ -342,7 +342,7 @@ interface LargeVoidMiner {
                 .save();
 
         LARGE_VOID_MINER_RECIPES.recipeBuilder(GTOCore.id("mineral_sand_vein_essence"))
-                .inputItems(GTOItems.MINERAL_SAND_VEIN_ESSENCE.asStack())
+                .inputItems(GTOItems.MINERAL_SAND_VEIN_ESSENCE.asItem())
                 .inputFluids(GTMaterials.DrillingFluid.getFluid(1000000))
                 .outputItems(TagPrefix.ore, GTMaterials.BasalticMineralSand, 240)
                 .outputItems(TagPrefix.ore, GTMaterials.GraniticMineralSand, 160)
@@ -353,7 +353,7 @@ interface LargeVoidMiner {
                 .save();
 
         LARGE_VOID_MINER_RECIPES.recipeBuilder(GTOCore.id("sheldonite_vein_essence"))
-                .inputItems(GTOItems.SHELDONITE_VEIN_ESSENCE.asStack())
+                .inputItems(GTOItems.SHELDONITE_VEIN_ESSENCE.asItem())
                 .inputFluids(GTMaterials.DrillingFluid.getFluid(1000000))
                 .outputItems(TagPrefix.ore, GTMaterials.Bornite, 60)
                 .outputItems(TagPrefix.ore, GTMaterials.Cooperite, 40)
@@ -364,7 +364,7 @@ interface LargeVoidMiner {
                 .save();
 
         LARGE_VOID_MINER_RECIPES.recipeBuilder(GTOCore.id("iron_vein_essence"))
-                .inputItems(GTOItems.IRON_VEIN_ESSENCE.asStack())
+                .inputItems(GTOItems.IRON_VEIN_ESSENCE.asItem())
                 .inputFluids(GTMaterials.DrillingFluid.getFluid(1000000))
                 .outputItems(TagPrefix.ore, GTMaterials.Goethite, 60)
                 .outputItems(TagPrefix.ore, GTMaterials.YellowLimonite, 240)
@@ -375,7 +375,7 @@ interface LargeVoidMiner {
                 .save();
 
         LARGE_VOID_MINER_RECIPES.recipeBuilder(GTOCore.id("garnet_tin_vein_essence"))
-                .inputItems(GTOItems.GARNET_TIN_VEIN_ESSENCE.asStack())
+                .inputItems(GTOItems.GARNET_TIN_VEIN_ESSENCE.asItem())
                 .inputFluids(GTMaterials.DrillingFluid.getFluid(1000000))
                 .outputItems(TagPrefix.ore, GTMaterials.CassiteriteSand, 240)
                 .outputItems(TagPrefix.ore, GTMaterials.GarnetSand, 160)
@@ -386,7 +386,7 @@ interface LargeVoidMiner {
                 .save();
 
         LARGE_VOID_MINER_RECIPES.recipeBuilder(GTOCore.id("mica_vein_essence"))
-                .inputItems(GTOItems.MICA_VEIN_ESSENCE.asStack())
+                .inputItems(GTOItems.MICA_VEIN_ESSENCE.asItem())
                 .inputFluids(GTMaterials.DrillingFluid.getFluid(1000000))
                 .outputItems(TagPrefix.ore, GTMaterials.Kyanite, 60)
                 .outputItems(TagPrefix.ore, GTMaterials.Mica, 40)
@@ -397,7 +397,7 @@ interface LargeVoidMiner {
                 .save();
 
         LARGE_VOID_MINER_RECIPES.recipeBuilder(GTOCore.id("garnet_vein_essence"))
-                .inputItems(GTOItems.GARNET_VEIN_ESSENCE.asStack())
+                .inputItems(GTOItems.GARNET_VEIN_ESSENCE.asItem())
                 .inputFluids(GTMaterials.DrillingFluid.getFluid(1000000))
                 .outputItems(TagPrefix.ore, GTMaterials.GarnetRed, 120)
                 .outputItems(TagPrefix.ore, GTMaterials.GarnetYellow, 80)

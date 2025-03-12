@@ -202,7 +202,7 @@ interface ReactionFurnace {
                 .save();
 
         REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("dust_cryotheum"))
-                .inputItems(GTOItems.DUST_BLIZZ.asStack())
+                .inputItems(GTOItems.DUST_BLIZZ.asItem())
                 .inputItems(TagPrefix.dust, GTOMaterials.Enderium)
                 .outputItems(GTOItems.DUST_CRYOTHEUM.asStack(2))
                 .EUt(7864320)
@@ -259,12 +259,12 @@ interface ReactionFurnace {
                 .save();
 
         REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("blaze_casing"))
-                .inputItems(GCYMBlocks.CASING_HIGH_TEMPERATURE_SMELTING.asStack())
+                .inputItems(GCYMBlocks.CASING_HIGH_TEMPERATURE_SMELTING.asItem())
                 .inputItems(TagPrefix.foil, GTMaterials.Tin, 32)
                 .inputFluids(GTMaterials.Blaze.getFluid(1440))
                 .inputFluids(GTMaterials.GalliumArsenide.getFluid(576))
                 .inputFluids(GTMaterials.VanadiumGallium.getFluid(288))
-                .outputItems(GTOBlocks.BLAZE_CASING.asStack())
+                .outputItems(GTOBlocks.BLAZE_CASING.asItem())
                 .EUt(1920)
                 .duration(900)
                 .blastFurnaceTemp(4500)
@@ -283,7 +283,7 @@ interface ReactionFurnace {
         REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("aerographene"))
                 .inputItems(TagPrefix.dust, GTOMaterials.DryGrapheneGel)
                 .inputFluids(GTOMaterials.SupercriticalCarbonDioxide.getFluid(1000))
-                .outputItems(GTOItems.AEROGRAPHENE.asStack())
+                .outputItems(GTOItems.AEROGRAPHENE.asItem())
                 .EUt(120)
                 .duration(400)
                 .blastFurnaceTemp(5000)
@@ -406,7 +406,7 @@ interface ReactionFurnace {
         REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("dragon_strength_tritanium_casing"))
                 .inputItems(GTOBlocks.EXTREME_STRENGTH_TRITANIUM_CASING.asStack(16))
                 .inputItems(GTOBlocks.DRACONIUM_BLOCK_CHARGED.asStack(16))
-                .outputItems(GTOBlocks.DRAGON_STRENGTH_TRITANIUM_CASING.asStack())
+                .outputItems(GTOBlocks.DRAGON_STRENGTH_TRITANIUM_CASING.asItem())
                 .EUt(7864320)
                 .duration(2000)
                 .blastFurnaceTemp(8000)
@@ -521,9 +521,9 @@ interface ReactionFurnace {
                 .save();
 
         REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("infused_obsidian"))
-                .inputItems(GTOBlocks.ENDER_OBSIDIAN.asStack())
-                .inputItems(GTOItems.DRACONIUM_DIRT.asStack())
-                .outputItems(GTOBlocks.INFUSED_OBSIDIAN.asStack())
+                .inputItems(GTOBlocks.ENDER_OBSIDIAN.asItem())
+                .inputItems(GTOItems.DRACONIUM_DIRT.asItem())
+                .outputItems(GTOBlocks.INFUSED_OBSIDIAN.asItem())
                 .EUt(7864320)
                 .duration(200)
                 .blastFurnaceTemp(11200)

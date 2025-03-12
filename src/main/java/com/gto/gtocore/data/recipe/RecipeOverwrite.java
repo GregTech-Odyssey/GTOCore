@@ -201,7 +201,7 @@ public interface RecipeOverwrite {
 
         ARC_FURNACE_RECIPES.recipeBuilder("tempered_glass").duration(60).EUt(VA[LV])
                 .inputItems(block, Glass)
-                .outputItems(GTBlocks.CASING_TEMPERED_GLASS.asStack())
+                .outputItems(GTBlocks.CASING_TEMPERED_GLASS.asItem())
                 .addCondition(RestrictedMachineCondition.multiblock())
                 .save();
 

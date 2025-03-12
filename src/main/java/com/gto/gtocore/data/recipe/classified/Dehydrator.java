@@ -119,7 +119,7 @@ interface Dehydrator {
                 .notConsumable(TagPrefix.rodLong, GTMaterials.YttriumBariumCuprate)
                 .inputItems(TagPrefix.dust, GTMaterials.Sodium, 3)
                 .inputFluids(GTOMaterials.GlucoseIronSolution.getFluid(1000))
-                .outputItems(GTOItems.GRAPHENE_IRON_PLATE.asStack())
+                .outputItems(GTOItems.GRAPHENE_IRON_PLATE.asItem())
                 .outputItems(TagPrefix.gem, GTMaterials.Salt, 6)
                 .EUt(120)
                 .duration(40)

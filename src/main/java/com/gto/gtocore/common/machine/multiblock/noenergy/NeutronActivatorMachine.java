@@ -66,8 +66,8 @@ public class NeutronActivatorMachine extends NoEnergyMultiblockMachine implement
 
     private final Set<NeutronAcceleratorPartMachine> acceleratorMachines = new ObjectOpenHashSet<>();
 
-    public NeutronActivatorMachine(IMachineBlockEntity holder, Object... args) {
-        super(holder, args);
+    public NeutronActivatorMachine(IMachineBlockEntity holder) {
+        super(holder);
         neutronEnergySubs = new ConditionalSubscriptionHandler(this, this::neutronEnergyUpdate, () -> isFormed || eV > 0);
     }
 

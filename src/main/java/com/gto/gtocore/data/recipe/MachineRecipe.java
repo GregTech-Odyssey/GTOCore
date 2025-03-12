@@ -50,91 +50,91 @@ public interface MachineRecipe {
                 "PPP",
                 "PwP", "PPP", 'P', new UnificationEntry(plate, GTOMaterials.Chaos));
         LASER_WELDER_RECIPES.recipeBuilder("casing_ulv").EUt(16).inputItems(plate, WroughtIron, 8)
-                .outputItems(GTBlocks.MACHINE_CASING_ULV.asStack()).circuitMeta(8).duration(25).save();
+                .outputItems(GTBlocks.MACHINE_CASING_ULV.asItem()).circuitMeta(8).duration(25).save();
         LASER_WELDER_RECIPES.recipeBuilder("casing_lv").EUt(16).inputItems(plate, Steel, 8)
-                .outputItems(GTBlocks.MACHINE_CASING_LV.asStack()).circuitMeta(8).duration(50).save();
+                .outputItems(GTBlocks.MACHINE_CASING_LV.asItem()).circuitMeta(8).duration(50).save();
         LASER_WELDER_RECIPES.recipeBuilder("casing_mv").EUt(16).inputItems(plate, Aluminium, 8)
-                .outputItems(GTBlocks.MACHINE_CASING_MV.asStack()).circuitMeta(8).duration(50).save();
+                .outputItems(GTBlocks.MACHINE_CASING_MV.asItem()).circuitMeta(8).duration(50).save();
         LASER_WELDER_RECIPES.recipeBuilder("casing_hv").EUt(16).inputItems(plate, StainlessSteel, 8)
-                .outputItems(GTBlocks.MACHINE_CASING_HV.asStack()).circuitMeta(8).duration(50).save();
+                .outputItems(GTBlocks.MACHINE_CASING_HV.asItem()).circuitMeta(8).duration(50).save();
         LASER_WELDER_RECIPES.recipeBuilder("casing_ev").EUt(16).inputItems(plate, Titanium, 8)
-                .outputItems(GTBlocks.MACHINE_CASING_EV.asStack()).circuitMeta(8).duration(50).save();
+                .outputItems(GTBlocks.MACHINE_CASING_EV.asItem()).circuitMeta(8).duration(50).save();
         LASER_WELDER_RECIPES.recipeBuilder("casing_iv").EUt(16).inputItems(plate, TungstenSteel, 8)
-                .outputItems(GTBlocks.MACHINE_CASING_IV.asStack()).circuitMeta(8).duration(50).save();
+                .outputItems(GTBlocks.MACHINE_CASING_IV.asItem()).circuitMeta(8).duration(50).save();
         LASER_WELDER_RECIPES.recipeBuilder("casing_luv").EUt(16).inputItems(plate, RhodiumPlatedPalladium, 8)
-                .outputItems(GTBlocks.MACHINE_CASING_LuV.asStack()).circuitMeta(8).duration(50).save();
+                .outputItems(GTBlocks.MACHINE_CASING_LuV.asItem()).circuitMeta(8).duration(50).save();
         LASER_WELDER_RECIPES.recipeBuilder("casing_zpm").EUt(16).inputItems(plate, NaquadahAlloy, 8)
-                .outputItems(GTBlocks.MACHINE_CASING_ZPM.asStack()).circuitMeta(8).duration(50).save();
+                .outputItems(GTBlocks.MACHINE_CASING_ZPM.asItem()).circuitMeta(8).duration(50).save();
         LASER_WELDER_RECIPES.recipeBuilder("casing_uv").EUt(16).inputItems(plate, Darmstadtium, 8)
-                .outputItems(GTBlocks.MACHINE_CASING_UV.asStack()).circuitMeta(8).duration(50).save();
+                .outputItems(GTBlocks.MACHINE_CASING_UV.asItem()).circuitMeta(8).duration(50).save();
         LASER_WELDER_RECIPES.recipeBuilder("casing_uhv").EUt(16).inputItems(plate, Neutronium, 8)
-                .outputItems(GTBlocks.MACHINE_CASING_UHV.asStack()).circuitMeta(8).duration(50).save();
+                .outputItems(GTBlocks.MACHINE_CASING_UHV.asItem()).circuitMeta(8).duration(50).save();
         LASER_WELDER_RECIPES.recipeBuilder(GTOCore.id("casing_uev")).EUt(16).inputItems(plate, GTOMaterials.Quantanium, 8)
-                .outputItems(GTBlocks.MACHINE_CASING_UEV.asStack()).circuitMeta(8).duration(50).save();
+                .outputItems(GTBlocks.MACHINE_CASING_UEV.asItem()).circuitMeta(8).duration(50).save();
         LASER_WELDER_RECIPES.recipeBuilder(GTOCore.id("casing_uiv")).EUt(16).inputItems(plate, GTOMaterials.Adamantium, 8)
-                .outputItems(GTBlocks.MACHINE_CASING_UIV.asStack()).circuitMeta(8).duration(50).save();
+                .outputItems(GTBlocks.MACHINE_CASING_UIV.asItem()).circuitMeta(8).duration(50).save();
         LASER_WELDER_RECIPES.recipeBuilder(GTOCore.id("casing_uxv")).EUt(16).inputItems(plate, GTOMaterials.Vibranium, 8)
-                .outputItems(GTBlocks.MACHINE_CASING_UXV.asStack()).circuitMeta(8).duration(50).save();
+                .outputItems(GTBlocks.MACHINE_CASING_UXV.asItem()).circuitMeta(8).duration(50).save();
         LASER_WELDER_RECIPES.recipeBuilder(GTOCore.id("casing_opv")).EUt(16).inputItems(plate, GTOMaterials.Draconium, 8)
-                .outputItems(GTBlocks.MACHINE_CASING_OpV.asStack()).circuitMeta(8).duration(50).save();
+                .outputItems(GTBlocks.MACHINE_CASING_OpV.asItem()).circuitMeta(8).duration(50).save();
         LASER_WELDER_RECIPES.recipeBuilder(GTOCore.id("casing_max")).EUt(16).inputItems(plate, GTOMaterials.Chaos, 8)
-                .outputItems(GTBlocks.MACHINE_CASING_MAX.asStack()).circuitMeta(8).duration(50).save();
+                .outputItems(GTBlocks.MACHINE_CASING_MAX.asItem()).circuitMeta(8).duration(50).save();
 
         ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("hull_ulv")).duration(25).EUt(16)
-                .inputItems(GTBlocks.MACHINE_CASING_ULV.asStack()).inputItems(cableGtSingle, RedAlloy, 2)
+                .inputItems(GTBlocks.MACHINE_CASING_ULV.asItem()).inputItems(cableGtSingle, RedAlloy, 2)
                 .inputFluids(Polyethylene.getFluid(L)).outputItems(GTMachines.HULL[0]).save();
-        ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("hull_lv")).duration(50).EUt(16).inputItems(GTBlocks.MACHINE_CASING_LV.asStack())
+        ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("hull_lv")).duration(50).EUt(16).inputItems(GTBlocks.MACHINE_CASING_LV.asItem())
                 .inputItems(cableGtSingle, Tin, 2).inputFluids(Polyethylene.getFluid(L))
                 .outputItems(GTMachines.HULL[1]).save();
         ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("hull_mv")).duration(50).EUt(16)
-                .inputItems(GTBlocks.MACHINE_CASING_MV.asStack()).inputItems(cableGtSingle, Copper, 2)
+                .inputItems(GTBlocks.MACHINE_CASING_MV.asItem()).inputItems(cableGtSingle, Copper, 2)
                 .inputFluids(Polyethylene.getFluid(L)).outputItems(GTMachines.HULL[2]).save();
-        ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("hull_hv")).duration(50).EUt(16).inputItems(GTBlocks.MACHINE_CASING_HV.asStack())
+        ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("hull_hv")).duration(50).EUt(16).inputItems(GTBlocks.MACHINE_CASING_HV.asItem())
                 .inputItems(cableGtSingle, Gold, 2).inputFluids(PolyvinylChloride.getFluid(L))
                 .outputItems(GTMachines.HULL[3]).save();
-        ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("hull_ev")).duration(50).EUt(16).inputItems(GTBlocks.MACHINE_CASING_EV.asStack())
+        ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("hull_ev")).duration(50).EUt(16).inputItems(GTBlocks.MACHINE_CASING_EV.asItem())
                 .inputItems(cableGtSingle, Aluminium, 2).inputFluids(PolyvinylChloride.getFluid(L))
                 .outputItems(GTMachines.HULL[4]).save();
-        ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("hull_iv")).duration(50).EUt(16).inputItems(GTBlocks.MACHINE_CASING_IV.asStack())
+        ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("hull_iv")).duration(50).EUt(16).inputItems(GTBlocks.MACHINE_CASING_IV.asItem())
                 .inputItems(cableGtSingle, Platinum, 2).inputFluids(Polytetrafluoroethylene.getFluid(L))
                 .outputItems(GTMachines.HULL[5]).save();
         ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("hull_luv")).duration(50).EUt(16)
-                .inputItems(GTBlocks.MACHINE_CASING_LuV.asStack()).inputItems(cableGtSingle, NiobiumTitanium, 2)
+                .inputItems(GTBlocks.MACHINE_CASING_LuV.asItem()).inputItems(cableGtSingle, NiobiumTitanium, 2)
                 .inputFluids(Polytetrafluoroethylene.getFluid(L)).outputItems(GTMachines.HULL[6]).save();
         ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("hull_zpm")).duration(50).EUt(16)
-                .inputItems(GTBlocks.MACHINE_CASING_ZPM.asStack()).inputItems(cableGtSingle, VanadiumGallium, 2)
+                .inputItems(GTBlocks.MACHINE_CASING_ZPM.asItem()).inputItems(cableGtSingle, VanadiumGallium, 2)
                 .inputFluids(Polybenzimidazole.getFluid(L)).outputItems(GTMachines.HULL[7]).save();
-        ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("hull_uv")).duration(50).EUt(16).inputItems(GTBlocks.MACHINE_CASING_UV.asStack())
+        ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("hull_uv")).duration(50).EUt(16).inputItems(GTBlocks.MACHINE_CASING_UV.asItem())
                 .inputItems(cableGtSingle, YttriumBariumCuprate, 2).inputFluids(Polybenzimidazole.getFluid(L))
                 .outputItems(GTMachines.HULL[8]).save();
         ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("hull_uhv")).duration(50).EUt(16)
-                .inputItems(GTBlocks.MACHINE_CASING_UHV.asStack())
+                .inputItems(GTBlocks.MACHINE_CASING_UHV.asItem())
                 .inputItems(cableGtSingle, Europium, 2)
                 .inputFluids(GTOMaterials.Polyetheretherketone.getFluid(L))
                 .outputItems(GTMachines.HULL[9]).save();
 
         ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("hull_uev")).duration(50).EUt(16)
-                .inputItems(GTBlocks.MACHINE_CASING_UEV.asStack())
+                .inputItems(GTBlocks.MACHINE_CASING_UEV.asItem())
                 .inputItems(cableGtSingle, GTOMaterials.Mithril, 2)
                 .inputFluids(GTOMaterials.Polyetheretherketone.getFluid(L))
                 .outputItems(GTMachines.HULL[10]).save();
         ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("hull_uiv")).duration(50).EUt(16)
-                .inputItems(GTBlocks.MACHINE_CASING_UIV.asStack())
+                .inputItems(GTBlocks.MACHINE_CASING_UIV.asItem())
                 .inputItems(cableGtSingle, Neutronium, 2)
                 .inputFluids(GTOMaterials.Zylon.getFluid(L))
                 .outputItems(GTMachines.HULL[11]).save();
         ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("hull_uxv")).duration(50).EUt(16)
-                .inputItems(GTBlocks.MACHINE_CASING_UXV.asStack())
+                .inputItems(GTBlocks.MACHINE_CASING_UXV.asItem())
                 .inputItems(cableGtSingle, GTOMaterials.Taranium, 2)
                 .inputFluids(GTOMaterials.Zylon.getFluid(L))
                 .outputItems(GTMachines.HULL[12]).save();
         ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("hull_opv")).duration(50).EUt(16)
-                .inputItems(GTBlocks.MACHINE_CASING_OpV.asStack())
+                .inputItems(GTBlocks.MACHINE_CASING_OpV.asItem())
                 .inputItems(cableGtSingle, GTOMaterials.CrystalMatrix, 2)
                 .inputFluids(GTOMaterials.FullerenePolymerMatrixPulp.getFluid(L))
                 .outputItems(GTMachines.HULL[13]).save();
         ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("hull_max")).duration(50).EUt(16)
-                .inputItems(GTBlocks.MACHINE_CASING_MAX.asStack())
+                .inputItems(GTBlocks.MACHINE_CASING_MAX.asItem())
                 .inputItems(cableGtSingle, GTOMaterials.CosmicNeutronium, 2)
                 .inputFluids(GTOMaterials.Radox.getFluid(L))
                 .outputItems(GTMachines.HULL[14]).save();
@@ -174,7 +174,7 @@ public interface MachineRecipe {
 
         VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("thermal_generator"), GTOMachines.THERMAL_GENERATOR[0].asStack(),
                 "PVP", "CMC", "WBW", 'M', GTMachines.HULL[0].asStack(), 'P', new UnificationEntry(plate, Steel), 'V',
-                GTOItems.ULV_ELECTRIC_MOTOR.asStack(), 'C', CustomTags.ULV_CIRCUITS, 'W', new UnificationEntry(wireGtSingle, Lead), 'B', GTMachines.STEAM_SOLID_BOILER.first().asStack());
+                GTOItems.ULV_ELECTRIC_MOTOR.asStack(), 'C', CustomTags.ULV_CIRCUITS, 'W', new UnificationEntry(wireGtSingle, Lead), 'B', GTMachines.STEAM_SOLID_BOILER.first().getItem());
 
         VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("ulv_wind_mill_turbine"), GTOMachines.WIND_MILL_TURBINE[0].asStack(),
                 "RGR", "MHM", "WCW", 'H', GTOMachines.THERMAL_GENERATOR[0].asStack(), 'G', new UnificationEntry(gear, Bronze), 'R', new UnificationEntry(rod, WroughtIron),
@@ -182,22 +182,22 @@ public interface MachineRecipe {
 
         VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("lv_wind_mill_turbine"), GTOMachines.WIND_MILL_TURBINE[1].asStack(),
                 "RGR", "MHM", "WCW", 'H', GTMachines.HULL[1].asStack(), 'G', new UnificationEntry(gear, Steel), 'R', new UnificationEntry(rod, Invar),
-                'C', CustomTags.LV_CIRCUITS, 'W', new UnificationEntry(cableGtSingle, Tin), 'M', GTItems.ELECTRIC_MOTOR_LV.asStack());
+                'C', CustomTags.LV_CIRCUITS, 'W', new UnificationEntry(cableGtSingle, Tin), 'M', GTItems.ELECTRIC_MOTOR_LV.asItem());
 
         VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("mv_wind_mill_turbine"), GTOMachines.WIND_MILL_TURBINE[2].asStack(),
                 "RGR", "MHM", "WCW", 'H', GTMachines.HULL[2].asStack(), 'G', new UnificationEntry(gear, Aluminium), 'R', new UnificationEntry(rod, VanadiumSteel),
-                'C', CustomTags.MV_CIRCUITS, 'W', new UnificationEntry(cableGtSingle, Copper), 'M', GTItems.ELECTRIC_MOTOR_MV.asStack());
+                'C', CustomTags.MV_CIRCUITS, 'W', new UnificationEntry(cableGtSingle, Copper), 'M', GTItems.ELECTRIC_MOTOR_MV.asItem());
 
         VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("hv_wind_mill_turbine"), GTOMachines.WIND_MILL_TURBINE[3].asStack(),
                 "RGR", "MHM", "WCW", 'H', GTMachines.HULL[3].asStack(), 'G', new UnificationEntry(gear, StainlessSteel), 'R', new UnificationEntry(rod, BlackSteel),
-                'C', CustomTags.HV_CIRCUITS, 'W', new UnificationEntry(cableGtSingle, Gold), 'M', GTItems.ELECTRIC_MOTOR_HV.asStack());
+                'C', CustomTags.HV_CIRCUITS, 'W', new UnificationEntry(cableGtSingle, Gold), 'M', GTItems.ELECTRIC_MOTOR_HV.asItem());
 
         VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("ulv_packer"), GTOMachines.ULV_PACKER[0].asStack(),
                 "BCA", "RMV", "WCW", 'M', GTMachines.HULL[0].asStack(), 'R', GTItems.RESISTOR.asStack(), 'V', Tags.Items.CHESTS_WOODEN,
-                'C', CustomTags.ULV_CIRCUITS, 'W', new UnificationEntry(cableGtSingle, RedAlloy), 'B', GTOItems.ULV_ROBOT_ARM.asStack(), 'A', GTOItems.ULV_CONVEYOR_MODULE.asStack());
+                'C', CustomTags.ULV_CIRCUITS, 'W', new UnificationEntry(cableGtSingle, RedAlloy), 'B', GTOItems.ULV_ROBOT_ARM.asStack(), 'A', GTOItems.ULV_CONVEYOR_MODULE.asItem());
         VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("ulv_unpacker"), GTOMachines.ULV_UNPACKER[0].asStack(),
                 "WCW", "VMR", "ACB", 'M', GTMachines.HULL[0].asStack(), 'R', GTItems.RESISTOR.asStack(), 'V', Tags.Items.CHESTS_WOODEN,
-                'C', CustomTags.ULV_CIRCUITS, 'W', new UnificationEntry(cableGtSingle, RedAlloy), 'B', GTOItems.ULV_ROBOT_ARM.asStack(), 'A', GTOItems.ULV_CONVEYOR_MODULE.asStack());
+                'C', CustomTags.ULV_CIRCUITS, 'W', new UnificationEntry(cableGtSingle, RedAlloy), 'B', GTOItems.ULV_ROBOT_ARM.asStack(), 'A', GTOItems.ULV_CONVEYOR_MODULE.asItem());
         VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("ulv_chemical_reactor"), GTOMachines.ULV_CHEMICAL_REACTOR[0].asStack(), "GRG", "WEW", "CMC", 'M', GTMachines.HULL[0].asStack(), 'R', new UnificationEntry(rotor, Tin), 'E',
                 GTOItems.ULV_ELECTRIC_MOTOR.asStack(), 'C', CustomTags.ULV_CIRCUITS, 'W', new UnificationEntry(cableGtSingle, RedAlloy), 'G', Blocks.GLASS.asItem());
         VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("ulv_fluid_solidifier"), GTOMachines.ULV_FLUID_SOLIDIFIER[0].asStack(), "PGP", "WMW", "CBC", 'M', GTMachines.HULL[0].asStack(), 'P', GTOItems.ULV_ELECTRIC_PUMP.asStack(), 'C',
@@ -229,7 +229,7 @@ public interface MachineRecipe {
         VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("generator_array"),
                 GeneratorMultiblock.GENERATOR_ARRAY.asStack(),
                 "ABA", "BCB", "ABA", 'A', new UnificationEntry(plate, Steel),
-                'B', CustomTags.LV_CIRCUITS, 'C', GTItems.EMITTER_LV.asStack());
+                'B', CustomTags.LV_CIRCUITS, 'C', GTItems.EMITTER_LV.asItem());
 
         VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("hermetic_casing_uev"),
                 GTOBlocks.HERMETIC_CASING_UEV.asStack(), "PPP", "PFP", "PPP", 'P',
@@ -258,7 +258,7 @@ public interface MachineRecipe {
                 new UnificationEntry(plate, GTOMaterials.Quantanium), 'U',
                 GTItems.ELECTRIC_PUMP_UHV.asStack(),
                 'G', GTItems.FIELD_GENERATOR_UV.asStack(), 'H',
-                GTOBlocks.HERMETIC_CASING_UEV.asStack());
+                GTOBlocks.HERMETIC_CASING_UEV.asItem());
 
         VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("quantum_tank_uiv"),
                 GTMachines.QUANTUM_TANK[UIV].asStack(),
@@ -266,7 +266,7 @@ public interface MachineRecipe {
                 new UnificationEntry(plate, GTOMaterials.Adamantium), 'U',
                 GTItems.ELECTRIC_PUMP_UEV.asStack(),
                 'G', GTItems.FIELD_GENERATOR_UHV.asStack(), 'H',
-                GTOBlocks.HERMETIC_CASING_UIV.asStack());
+                GTOBlocks.HERMETIC_CASING_UIV.asItem());
 
         VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("quantum_tank_uxv"),
                 GTMachines.QUANTUM_TANK[UXV].asStack(),
@@ -274,7 +274,7 @@ public interface MachineRecipe {
                 new UnificationEntry(plate, GTOMaterials.Vibranium), 'U',
                 GTItems.ELECTRIC_PUMP_UIV.asStack(),
                 'G', GTItems.FIELD_GENERATOR_UEV.asStack(), 'H',
-                GTOBlocks.HERMETIC_CASING_UXV.asStack());
+                GTOBlocks.HERMETIC_CASING_UXV.asItem());
 
         VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("quantum_tank_opv"),
                 GTMachines.QUANTUM_TANK[OpV].asStack(),
@@ -282,42 +282,42 @@ public interface MachineRecipe {
                 new UnificationEntry(plate, GTOMaterials.Draconium), 'U',
                 GTItems.ELECTRIC_PUMP_UXV.asStack(),
                 'G', GTItems.FIELD_GENERATOR_UIV.asStack(), 'H',
-                GTOBlocks.HERMETIC_CASING_OpV.asStack());
+                GTOBlocks.HERMETIC_CASING_OpV.asItem());
 
         VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("quantum_chest_uev"),
                 GTMachines.QUANTUM_CHEST[UEV].asStack(), "CPC", "PHP", "CFC", 'C',
                 CustomTags.UEV_CIRCUITS, 'P',
                 new UnificationEntry(plate, GTOMaterials.Quantanium), 'F',
-                GTItems.FIELD_GENERATOR_UV.asStack(), 'H', GTMachines.HULL[10].asStack());
+                GTItems.FIELD_GENERATOR_UV.asStack(), 'H', GTMachines.HULL[10].getItem());
 
         VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("quantum_chest_uiv"),
                 GTMachines.QUANTUM_CHEST[UIV].asStack(), "CPC", "PHP", "CFC", 'C',
                 CustomTags.UIV_CIRCUITS, 'P',
                 new UnificationEntry(plate, GTOMaterials.Adamantium), 'F',
-                GTItems.FIELD_GENERATOR_UHV.asStack(), 'H', GTMachines.HULL[11].asStack());
+                GTItems.FIELD_GENERATOR_UHV.asStack(), 'H', GTMachines.HULL[11].getItem());
 
         VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("quantum_chest_uxv"),
                 GTMachines.QUANTUM_CHEST[UXV].asStack(), "CPC", "PHP", "CFC", 'C',
                 CustomTags.UXV_CIRCUITS, 'P',
                 new UnificationEntry(plate, GTOMaterials.Vibranium), 'F',
-                GTItems.FIELD_GENERATOR_UEV.asStack(), 'H', GTMachines.HULL[12].asStack());
+                GTItems.FIELD_GENERATOR_UEV.asStack(), 'H', GTMachines.HULL[12].getItem());
 
         VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("quantum_chest_opv"),
                 GTMachines.QUANTUM_CHEST[OpV].asStack(), "CPC", "PHP", "CFC", 'C',
                 CustomTags.OpV_CIRCUITS, 'P',
                 new UnificationEntry(plate, GTOMaterials.Draconium), 'F',
-                GTItems.FIELD_GENERATOR_UIV.asStack(), 'H', GTMachines.HULL[13].asStack());
+                GTItems.FIELD_GENERATOR_UIV.asStack(), 'H', GTMachines.HULL[13].getItem());
 
         VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("large_block_conversion_room"),
                 MultiBlockD.LARGE_BLOCK_CONVERSION_ROOM.asStack(), "SES", "EHE", "SES",
                 'S', GTItems.SENSOR_ZPM.asStack(), 'E', GTItems.EMITTER_ZPM.asStack(), 'H',
-                MultiBlockD.BLOCK_CONVERSION_ROOM.asStack());
+                MultiBlockD.BLOCK_CONVERSION_ROOM.getItem());
 
-        VanillaRecipeHelper.addShapedRecipe(provider, GTOCore.id("hp_steam_vacuum_pump"), GTOMachines.STEAM_VACUUM_PUMP.right().asStack(), "ABA", "CDC", "ECE", 'B', new UnificationEntry(TagPrefix.pipeHugeFluid, GTMaterials.TinAlloy), 'D', GTOMachines.STEAM_VACUUM_PUMP.first().asStack(), 'C', new UnificationEntry(TagPrefix.pipeLargeFluid, GTMaterials.TinAlloy), 'E', new UnificationEntry(TagPrefix.plate, GTMaterials.WroughtIron), 'A', GTMachines.STEEL_DRUM.asStack());
+        VanillaRecipeHelper.addShapedRecipe(provider, GTOCore.id("hp_steam_vacuum_pump"), GTOMachines.STEAM_VACUUM_PUMP.right().asStack(), "ABA", "CDC", "ECE", 'B', new UnificationEntry(TagPrefix.pipeHugeFluid, GTMaterials.TinAlloy), 'D', GTOMachines.STEAM_VACUUM_PUMP.first().asStack(), 'C', new UnificationEntry(TagPrefix.pipeLargeFluid, GTMaterials.TinAlloy), 'E', new UnificationEntry(TagPrefix.plate, GTMaterials.WroughtIron), 'A', GTMachines.STEEL_DRUM.getItem());
         VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("steam_vacuum_pump"), GTOMachines.STEAM_VACUUM_PUMP.first().asStack(), "DSD",
                 "SMS", "GSG", 'M', GTBlocks.BRONZE_BRICKS_HULL.asStack(), 'S', new UnificationEntry(pipeNormalFluid, Bronze), 'D', GTMachines.BRONZE_DRUM.asStack(), 'G', new UnificationEntry(gearSmall, Bronze));
         VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("steam_alloy_smelter_bronze"), GTMachines.STEAM_ALLOY_SMELTER.left().asStack(),
-                "XXX", "FMF", "XXX", 'M', GTBlocks.BRONZE_BRICKS_HULL.asStack(), 'X', new UnificationEntry(TagPrefix.pipeSmallFluid, GTMaterials.Bronze), 'F', MachineBlocks.PRIMITIVE_ALLOY_SMELTER.asStack());
+                "XXX", "FMF", "XXX", 'M', GTBlocks.BRONZE_BRICKS_HULL.asStack(), 'X', new UnificationEntry(TagPrefix.pipeSmallFluid, GTMaterials.Bronze), 'F', MachineBlocks.PRIMITIVE_ALLOY_SMELTER.asItem());
 
         ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("infinity_fluid_drilling_rig"))
                 .inputItems(GTMachines.HULL[UV])

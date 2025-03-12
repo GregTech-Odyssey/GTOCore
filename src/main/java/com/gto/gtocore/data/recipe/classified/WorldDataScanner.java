@@ -14,7 +14,7 @@ interface WorldDataScanner {
 
     static void init() {
         WORLD_DATA_SCANNER_RECIPES.recipeBuilder(GTOCore.id("end_data"))
-                .inputItems(GTItems.TOOL_DATA_STICK.asStack())
+                .inputItems(GTItems.TOOL_DATA_STICK.asItem())
                 .inputItems(TagPrefix.dust, GTMaterials.Endstone, 64)
                 .inputFluids(GTMaterials.PCBCoolant.getFluid(400))
                 .inputFluids(GTMaterials.EnderAir.getFluid(64000))
@@ -25,7 +25,7 @@ interface WorldDataScanner {
                 .save();
 
         WORLD_DATA_SCANNER_RECIPES.recipeBuilder(GTOCore.id("nether_data"))
-                .inputItems(GTItems.TOOL_DATA_STICK.asStack())
+                .inputItems(GTItems.TOOL_DATA_STICK.asItem())
                 .inputItems(TagPrefix.dust, GTMaterials.Netherrack, 64)
                 .inputFluids(GTMaterials.PCBCoolant.getFluid(200))
                 .inputFluids(GTMaterials.NetherAir.getFluid(64000))
@@ -36,7 +36,7 @@ interface WorldDataScanner {
                 .save();
 
         WORLD_DATA_SCANNER_RECIPES.recipeBuilder(GTOCore.id("overworld_data"))
-                .inputItems(GTItems.TOOL_DATA_STICK.asStack())
+                .inputItems(GTItems.TOOL_DATA_STICK.asItem())
                 .inputItems(TagPrefix.dust, GTMaterials.Stone, 64)
                 .inputFluids(GTMaterials.PCBCoolant.getFluid(100))
                 .inputFluids(GTMaterials.Air.getFluid(64000))

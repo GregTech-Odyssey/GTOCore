@@ -23,7 +23,7 @@ public final class DysonSphereLaunchSiloMachine extends ElectricMultiblockMachin
     private ResourceKey<Level> dimension;
 
     public DysonSphereLaunchSiloMachine(IMachineBlockEntity holder) {
-        super(holder, false);
+        super(holder);
     }
 
     private ResourceKey<Level> getDimension() {

@@ -261,6 +261,8 @@ public final class GTORecipes {
         for (String o : ore3) {
             filters.add(RLUtils.ad("smelting/" + o + "_ingot_from_smelting_deepslate_" + o + "_ore"));
             filters.add(RLUtils.ad("blasting/" + o + "_ingot_from_blasting_deepslate_" + o + "_ore"));
+            filters.add(RLUtils.ad("smelting/" + o + "_ingot_from_smelting_raw_" + o));
+            filters.add(RLUtils.ad("blasting/" + o + "_ingot_from_blasting_raw_" + o));
         }
         filters.add(RLUtils.mc("gold_ingot_from_blasting_nether_gold_ore"));
         filters.add(RLUtils.mc("gold_ingot_from_smelting_nether_gold_ore"));
@@ -561,6 +563,7 @@ public final class GTORecipes {
         filters.add(RLUtils.sp("stack_upgrade_tier_2"));
         filters.add(RLUtils.sp("stack_upgrade_tier_3"));
         filters.add(RLUtils.sp("stack_upgrade_tier_4"));
+        filters.add(RLUtils.sp("stack_upgrade_omega_tier"));
 
         filters.add(AppEng.makeId("network/cells/item_storage_components_cell_1k_part"));
         filters.add(AppEng.makeId("network/cells/item_storage_components_cell_4k_part"));

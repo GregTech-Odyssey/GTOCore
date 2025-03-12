@@ -27,8 +27,8 @@ public final class ThermalPowerPumpMachine extends NoEnergyMultiblockMachine {
 
     private int biomeModifier;
 
-    public ThermalPowerPumpMachine(IMachineBlockEntity holder, Object... args) {
-        super(holder, args);
+    public ThermalPowerPumpMachine(IMachineBlockEntity holder) {
+        super(holder);
     }
 
     @Nullable

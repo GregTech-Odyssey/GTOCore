@@ -19,15 +19,15 @@ interface Polarizer {
                 .save();
 
         POLARIZER_RECIPES.recipeBuilder(GTOCore.id("magnetic_long_netherite_rod"))
-                .inputItems(GTOItems.LONG_NETHERITE_ROD.asStack())
-                .outputItems(GTOItems.MAGNETIC_LONG_NETHERITE_ROD.asStack())
+                .inputItems(GTOItems.LONG_NETHERITE_ROD.asItem())
+                .outputItems(GTOItems.MAGNETIC_LONG_NETHERITE_ROD.asItem())
                 .EUt(1966080)
                 .duration(400)
                 .save();
 
         POLARIZER_RECIPES.recipeBuilder(GTOCore.id("magnetic_netherite_rod"))
-                .inputItems(GTOItems.NETHERITE_ROD.asStack())
-                .outputItems(GTOItems.MAGNETIC_NETHERITE_ROD.asStack())
+                .inputItems(GTOItems.NETHERITE_ROD.asItem())
+                .outputItems(GTOItems.MAGNETIC_NETHERITE_ROD.asItem())
                 .EUt(1966080)
                 .duration(200)
                 .save();
@@ -40,8 +40,8 @@ interface Polarizer {
                 .save();
 
         POLARIZER_RECIPES.recipeBuilder(GTOCore.id("triplet_neutronium_sphere"))
-                .inputItems(GTOItems.NEUTRONIUM_SPHERE.asStack())
-                .outputItems(GTOItems.TRIPLET_NEUTRONIUM_SPHERE.asStack())
+                .inputItems(GTOItems.NEUTRONIUM_SPHERE.asItem())
+                .outputItems(GTOItems.TRIPLET_NEUTRONIUM_SPHERE.asItem())
                 .EUt(5000000)
                 .duration(200)
                 .save();

@@ -3,6 +3,7 @@ package com.gto.gtocore.api.recipe;
 import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.api.capability.recipe.ManaRecipeCapability;
 import com.gto.gtocore.api.data.tag.ITagPrefix;
+import com.gto.gtocore.api.item.NBTItem;
 import com.gto.gtocore.common.data.GTORecipes;
 import com.gto.gtocore.common.recipe.condition.GravityCondition;
 import com.gto.gtocore.common.recipe.condition.HeatCondition;
@@ -22,10 +23,7 @@ import com.gregtechceu.gtceu.api.recipe.*;
 import com.gregtechceu.gtceu.api.recipe.category.GTRecipeCategory;
 import com.gregtechceu.gtceu.api.recipe.chance.logic.ChanceLogic;
 import com.gregtechceu.gtceu.api.recipe.content.Content;
-import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
-import com.gregtechceu.gtceu.api.recipe.ingredient.IntCircuitIngredient;
-import com.gregtechceu.gtceu.api.recipe.ingredient.IntProviderIngredient;
-import com.gregtechceu.gtceu.api.recipe.ingredient.SizedIngredient;
+import com.gregtechceu.gtceu.api.recipe.ingredient.*;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.common.item.IntCircuitBehaviour;
 import com.gregtechceu.gtceu.common.recipe.condition.*;
@@ -43,8 +41,11 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraftforge.common.crafting.StrictNBTIngredient;
 import net.minecraftforge.fluids.FluidStack;
 
+import it.unimi.dsi.fastutil.Hash;
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -63,6 +64,51 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public final class GTORecipeBuilder extends GTRecipeBuilder {
+
+    private static Map<NBTItem, Ingredient> ITEM_INGREDIENT_MAP;
+    private static Map<TagKey<Item>, Ingredient> TAG_INGREDIENT_MAP;
+
+    public static void initialization() {
+        ITEM_INGREDIENT_MAP = new Object2ObjectOpenHashMap<>(1024, Hash.VERY_FAST_LOAD_FACTOR);
+        TAG_INGREDIENT_MAP = new Object2ObjectOpenHashMap<>(1024, Hash.VERY_FAST_LOAD_FACTOR);
+    }
+
+    public static void clean() {
+        ITEM_INGREDIENT_MAP = null;
+        TAG_INGREDIENT_MAP = null;
+    }
+
+    private static SizedIngredient createSizedIngredient(ItemStack stack) {
+        if (ITEM_INGREDIENT_MAP == null) return SizedIngredient.create(stack);
+        NBTItem nbtItem = NBTItem.of(stack);
+        Ingredient ingredient = ITEM_INGREDIENT_MAP.get(nbtItem);
+        if (ingredient == null) {
+            ingredient = nbtItem.nbt() == null ? Ingredient.of(stack) : StrictNBTIngredient.of(stack);
+            ITEM_INGREDIENT_MAP.put(nbtItem, ingredient);
+        }
+        return SizedIngredient.create(ingredient, stack.getCount());
+    }
+
+    private static SizedIngredient createSizedIngredient(Item item, int amount) {
+        if (ITEM_INGREDIENT_MAP == null) return SizedIngredient.create(Ingredient.of(item), amount);
+        NBTItem nbtItem = new NBTItem(item, null);
+        Ingredient ingredient = ITEM_INGREDIENT_MAP.get(nbtItem);
+        if (ingredient == null) {
+            ingredient = Ingredient.of(item);
+            ITEM_INGREDIENT_MAP.put(nbtItem, ingredient);
+        }
+        return SizedIngredient.create(ingredient, amount);
+    }
+
+    private static SizedIngredient createSizedIngredient(TagKey<Item> tag, int amount) {
+        if (TAG_INGREDIENT_MAP == null) return SizedIngredient.create(tag, amount);
+        Ingredient ingredient = TAG_INGREDIENT_MAP.get(tag);
+        if (ingredient == null) {
+            ingredient = Ingredient.of(tag);
+            TAG_INGREDIENT_MAP.put(tag, ingredient);
+        }
+        return SizedIngredient.create(ingredient, amount);
+    }
 
     boolean deleted;
     ResourceLocation typeid;
@@ -309,7 +355,7 @@ public final class GTORecipeBuilder extends GTRecipeBuilder {
         if (input.isEmpty()) {
             GTOCore.LOGGER.error("Input items is empty, id: {}", id);
         }
-        return input(ItemRecipeCapability.CAP, SizedIngredient.create(input));
+        return input(ItemRecipeCapability.CAP, createSizedIngredient(input));
     }
 
     @Override
@@ -320,7 +366,7 @@ public final class GTORecipeBuilder extends GTRecipeBuilder {
                 GTOCore.LOGGER.error("Input item is empty, id: {}", id);
             }
         }
-        return input(ItemRecipeCapability.CAP, Arrays.stream(inputs).map(SizedIngredient::create).toArray(Ingredient[]::new));
+        return input(ItemRecipeCapability.CAP, Arrays.stream(inputs).map(GTORecipeBuilder::createSizedIngredient).toArray(Ingredient[]::new));
     }
 
     @Override
@@ -329,7 +375,7 @@ public final class GTORecipeBuilder extends GTRecipeBuilder {
         if (amount == 0) {
             GTOCore.LOGGER.error("Item Count is 0, id: {}", id);
         }
-        return inputItems(SizedIngredient.create(tag, amount));
+        return inputItems(createSizedIngredient(tag, amount));
     }
 
     @Override
@@ -340,13 +386,13 @@ public final class GTORecipeBuilder extends GTRecipeBuilder {
     @Override
     public GTORecipeBuilder inputItems(Item input, int amount) {
         if (deleted) return this;
-        return inputItems(new ItemStack(input, amount));
+        return inputItems(createSizedIngredient(input, amount));
     }
 
     @Override
     public GTORecipeBuilder inputItems(Item input) {
         if (deleted) return this;
-        return inputItems(SizedIngredient.create(new ItemStack(input)));
+        return inputItems(input, 1);
     }
 
     @Override
@@ -358,7 +404,7 @@ public final class GTORecipeBuilder extends GTRecipeBuilder {
     @Override
     public GTORecipeBuilder inputItems(Supplier<? extends Item> input, int amount) {
         if (deleted) return this;
-        return inputItems(new ItemStack(input.get(), amount));
+        return inputItems(input.get(), amount);
     }
 
     @Override
@@ -457,7 +503,7 @@ public final class GTORecipeBuilder extends GTRecipeBuilder {
         if (output.isEmpty()) {
             GTOCore.LOGGER.error("Output items is empty, id: {}", id);
         }
-        return output(ItemRecipeCapability.CAP, SizedIngredient.create(output));
+        return output(ItemRecipeCapability.CAP, createSizedIngredient(output));
     }
 
     @Override
@@ -468,31 +514,31 @@ public final class GTORecipeBuilder extends GTRecipeBuilder {
                 GTOCore.LOGGER.error("Output items is empty, id: {}", id);
             }
         }
-        return output(ItemRecipeCapability.CAP, Arrays.stream(outputs).map(SizedIngredient::create).toArray(Ingredient[]::new));
+        return output(ItemRecipeCapability.CAP, Arrays.stream(outputs).map(GTORecipeBuilder::createSizedIngredient).toArray(Ingredient[]::new));
     }
 
     @Override
     public GTORecipeBuilder outputItems(Item output, int amount) {
         if (deleted) return this;
-        return outputItems(new ItemStack(output, amount));
+        return output(ItemRecipeCapability.CAP, createSizedIngredient(output, amount));
     }
 
     @Override
     public GTORecipeBuilder outputItems(Item output) {
         if (deleted) return this;
-        return outputItems(new ItemStack(output));
+        return outputItems(output, 1);
     }
 
     @Override
     public GTORecipeBuilder outputItems(Supplier<? extends ItemLike> input) {
         if (deleted) return this;
-        return outputItems(new ItemStack(input.get().asItem()));
+        return outputItems(input.get().asItem());
     }
 
     @Override
     public GTORecipeBuilder outputItems(Supplier<? extends ItemLike> input, int amount) {
         if (deleted) return this;
-        return outputItems(new ItemStack(input.get().asItem(), amount));
+        return outputItems(input.get().asItem(), amount);
     }
 
     @Override
@@ -539,19 +585,19 @@ public final class GTORecipeBuilder extends GTRecipeBuilder {
     @Override
     public GTORecipeBuilder outputItemsRanged(ItemStack output, IntProvider intProvider) {
         if (deleted) return this;
-        return outputItems(IntProviderIngredient.create(SizedIngredient.create(output), intProvider));
+        return output(ItemRecipeCapability.CAP, IntProviderIngredient.create(createSizedIngredient(output), intProvider));
     }
 
     @Override
-    public GTORecipeBuilder outputItemsRanged(Item input, IntProvider intProvider) {
+    public GTORecipeBuilder outputItemsRanged(Item output, IntProvider intProvider) {
         if (deleted) return this;
-        return outputItemsRanged(new ItemStack(input), intProvider);
+        return output(ItemRecipeCapability.CAP, IntProviderIngredient.create(createSizedIngredient(output, 1), intProvider));
     }
 
     @Override
     public GTORecipeBuilder outputItemsRanged(Supplier<? extends ItemLike> output, IntProvider intProvider) {
         if (deleted) return this;
-        return outputItemsRanged(new ItemStack(output.get().asItem()), intProvider);
+        return outputItemsRanged(output.get().asItem(), intProvider);
     }
 
     @Override
@@ -1216,19 +1262,19 @@ public final class GTORecipeBuilder extends GTRecipeBuilder {
     }
 
     public GTORecipeBuilder inputItems(String id) {
-        return inputItems(RegistriesUtils.getItemStack(id));
+        return inputItems(RegistriesUtils.getItem(id));
     }
 
     public GTORecipeBuilder inputItems(String id, int count) {
-        return inputItems(RegistriesUtils.getItemStack(id, count));
+        return inputItems(RegistriesUtils.getItem(id), count);
     }
 
     public GTORecipeBuilder outputItems(String id) {
-        return outputItems(RegistriesUtils.getItemStack(id));
+        return outputItems(RegistriesUtils.getItem(id));
     }
 
     public GTORecipeBuilder outputItems(String id, int count) {
-        return outputItems(RegistriesUtils.getItemStack(id, count));
+        return outputItems(RegistriesUtils.getItem(id), count);
     }
 
     public GTORecipeBuilder vacuum(int tier) {

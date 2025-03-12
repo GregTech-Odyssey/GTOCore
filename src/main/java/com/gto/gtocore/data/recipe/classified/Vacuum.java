@@ -36,17 +36,17 @@ interface Vacuum {
                 .save();
 
         VACUUM_RECIPES.recipeBuilder(GTOCore.id("fullerene_polymer_matrix_fine_tubing"))
-                .inputItems(GTOItems.FULLERENE_POLYMER_MATRIX_SOFT_TUBING.asStack())
-                .outputItems(GTOItems.FULLERENE_POLYMER_MATRIX_FINE_TUBING.asStack())
+                .inputItems(GTOItems.FULLERENE_POLYMER_MATRIX_SOFT_TUBING.asItem())
+                .outputItems(GTOItems.FULLERENE_POLYMER_MATRIX_FINE_TUBING.asItem())
                 .EUt(500)
                 .duration(240)
                 .save();
 
         VACUUM_RECIPES.recipeBuilder(GTOCore.id("cold_ice_casing"))
-                .inputItems(GTBlocks.CASING_ALUMINIUM_FROSTPROOF.asStack())
+                .inputItems(GTBlocks.CASING_ALUMINIUM_FROSTPROOF.asItem())
                 .inputFluids(GTMaterials.Ice.getFluid(10000))
                 .inputFluids(GTMaterials.VanadiumGallium.getFluid(576))
-                .outputItems(GTOBlocks.COLD_ICE_CASING.asStack())
+                .outputItems(GTOBlocks.COLD_ICE_CASING.asItem())
                 .EUt(1920)
                 .duration(200)
                 .save();

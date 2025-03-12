@@ -61,8 +61,8 @@ public final class WaterPurificationPlantMachine extends ElectricMultiblockMachi
 
     final Map<WaterPurificationUnitMachine, Boolean> waterPurificationUnitMachineMap = new Object2ObjectOpenHashMap<>();
 
-    public WaterPurificationPlantMachine(IMachineBlockEntity holder, Object... args) {
-        super(holder, args);
+    public WaterPurificationPlantMachine(IMachineBlockEntity holder) {
+        super(holder);
     }
 
     @Override

@@ -11,7 +11,7 @@ interface Recycler {
     static void init() {
         RECYCLER_RECIPES.recipeBuilder(GTOCore.id("recycler_a"))
                 .inputItems(TagUtils.createTGTag("ingots"))
-                .outputItems(GTOItems.SCRAP.asStack())
+                .outputItems(GTOItems.SCRAP.asItem())
                 .EUt(30)
                 .duration(200)
                 .save();
@@ -25,7 +25,7 @@ interface Recycler {
 
         RECYCLER_RECIPES.recipeBuilder(GTOCore.id("recycler_c"))
                 .inputItems(TagUtils.createTGTag("gems"))
-                .outputItems(GTOItems.SCRAP.asStack())
+                .outputItems(GTOItems.SCRAP.asItem())
                 .EUt(30)
                 .duration(200)
                 .save();

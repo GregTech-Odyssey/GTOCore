@@ -13,7 +13,7 @@ interface Brewing {
 
     static void init() {
         BREWING_RECIPES.recipeBuilder(GTOCore.id("dragon_blood"))
-                .inputItems(GTOItems.DRAGON_CELLS.asStack())
+                .inputItems(GTOItems.DRAGON_CELLS.asItem())
                 .inputFluids(GTMaterials.SterileGrowthMedium.getFluid(1000))
                 .outputFluids(GTOMaterials.DragonBlood.getFluid(1000))
                 .EUt(480)

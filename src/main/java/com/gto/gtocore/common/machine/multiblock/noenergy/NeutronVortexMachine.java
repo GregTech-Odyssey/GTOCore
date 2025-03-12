@@ -52,8 +52,8 @@ public final class NeutronVortexMachine extends NeutronActivatorMachine implemen
     @Persisted
     private boolean energy;
 
-    public NeutronVortexMachine(IMachineBlockEntity holder, Object... args) {
-        super(holder, args);
+    public NeutronVortexMachine(IMachineBlockEntity holder) {
+        super(holder);
     }
 
     @Nullable

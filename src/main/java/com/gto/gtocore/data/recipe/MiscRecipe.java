@@ -62,7 +62,7 @@ public interface MiscRecipe {
             ItemStack stack = GTOItems.DIMENSION_DATA.get().getDimensionData(layer);
             int tier = DimensionDataItem.getDimensionMarker(stack).tier + 1;
             WORLD_DATA_SCANNER_RECIPES.recipeBuilder(GTOCore.id(layer.getPath()))
-                    .inputItems(TOOL_DATA_STICK.asStack())
+                    .inputItems(TOOL_DATA_STICK.asItem())
                     .circuitMeta(i)
                     .inputFluids(PCBCoolant.getFluid(1000 * tier))
                     .outputItems(stack)
@@ -95,7 +95,7 @@ public interface MiscRecipe {
 
         VanillaRecipeHelper.addBlastingRecipe(provider, GTOCore.id("hot_iron_ingot"), ChemicalHelper.getTag(ingot, Iron), GTOItems.HOT_IRON_INGOT.asStack(), 0);
 
-        VanillaRecipeHelper.addShapedRecipe(provider, GTOCore.id("wrought_iron_ingot"), ChemicalHelper.get(ingot, WroughtIron), "h", "H", 'H', GTOItems.HOT_IRON_INGOT.asStack());
+        VanillaRecipeHelper.addShapedRecipe(provider, GTOCore.id("wrought_iron_ingot"), ChemicalHelper.get(ingot, WroughtIron), "h", "H", 'H', GTOItems.HOT_IRON_INGOT.asItem());
 
         VanillaRecipeHelper.addShapedRecipe(provider, GTOCore.id("raw_vacuum_tube"), GTOItems.RAW_VACUUM_TUBE.asStack(),
                 "PTP", "WWW",
@@ -108,9 +108,9 @@ public interface MiscRecipe {
                 'R', new UnificationEntry(rod, Steel),
                 'O', new UnificationEntry(rotor, Iron));
 
-        VanillaRecipeHelper.addShapedEnergyTransferRecipe(provider, true, true, true, GTOCore.id("hv_vajra"), Ingredient.of(POWER_UNIT_HV.asStack()), GTMaterialItems.TOOL_ITEMS.get(GTOMaterials.DarkSteel, GTOToolType.VAJRA_HV).get().get(0, GTCapabilityHelper.getElectricItem(POWER_UNIT_HV.asStack()).getMaxCharge()), "PEP", "CFC", "RUR", 'E', EMITTER_HV.asStack(), 'F', FIELD_GENERATOR_HV.asStack(), 'P', new UnificationEntry(plateDouble, GTOMaterials.DarkSteel), 'R', new UnificationEntry(plateDense, Steel), 'C', CARBON_FIBER_PLATE.asStack(), 'U', POWER_UNIT_HV.asStack());
-        VanillaRecipeHelper.addShapedEnergyTransferRecipe(provider, true, true, true, GTOCore.id("ev_vajra"), Ingredient.of(POWER_UNIT_EV.asStack()), GTMaterialItems.TOOL_ITEMS.get(GTOMaterials.Ostrum, GTOToolType.VAJRA_EV).get().get(0, GTCapabilityHelper.getElectricItem(POWER_UNIT_EV.asStack()).getMaxCharge()), "PEP", "CFC", "RUR", 'E', EMITTER_HV.asStack(), 'F', FIELD_GENERATOR_EV.asStack(), 'P', new UnificationEntry(plateDouble, GTOMaterials.Ostrum), 'R', new UnificationEntry(plateDense, TungstenSteel), 'C', CARBON_FIBER_PLATE.asStack(), 'U', POWER_UNIT_EV.asStack());
-        VanillaRecipeHelper.addShapedEnergyTransferRecipe(provider, true, true, true, GTOCore.id("iv_vajra"), Ingredient.of(POWER_UNIT_IV.asStack()), GTMaterialItems.TOOL_ITEMS.get(GTOMaterials.Enderium, GTOToolType.VAJRA_IV).get().get(0, GTCapabilityHelper.getElectricItem(POWER_UNIT_IV.asStack()).getMaxCharge()), "PEP", "CFC", "RUR", 'E', EMITTER_HV.asStack(), 'F', FIELD_GENERATOR_IV.asStack(), 'P', new UnificationEntry(plateDouble, GTOMaterials.Enderium), 'R', new UnificationEntry(plateDense, NaquadahAlloy), 'C', CARBON_FIBER_PLATE.asStack(), 'U', POWER_UNIT_IV.asStack());
+        VanillaRecipeHelper.addShapedEnergyTransferRecipe(provider, true, true, true, GTOCore.id("hv_vajra"), Ingredient.of(POWER_UNIT_HV.asItem()), GTMaterialItems.TOOL_ITEMS.get(GTOMaterials.DarkSteel, GTOToolType.VAJRA_HV).get().get(0, GTCapabilityHelper.getElectricItem(POWER_UNIT_HV.asStack()).getMaxCharge()), "PEP", "CFC", "RUR", 'E', EMITTER_HV.asStack(), 'F', FIELD_GENERATOR_HV.asStack(), 'P', new UnificationEntry(plateDouble, GTOMaterials.DarkSteel), 'R', new UnificationEntry(plateDense, Steel), 'C', CARBON_FIBER_PLATE.asStack(), 'U', POWER_UNIT_HV.asItem());
+        VanillaRecipeHelper.addShapedEnergyTransferRecipe(provider, true, true, true, GTOCore.id("ev_vajra"), Ingredient.of(POWER_UNIT_EV.asItem()), GTMaterialItems.TOOL_ITEMS.get(GTOMaterials.Ostrum, GTOToolType.VAJRA_EV).get().get(0, GTCapabilityHelper.getElectricItem(POWER_UNIT_EV.asStack()).getMaxCharge()), "PEP", "CFC", "RUR", 'E', EMITTER_HV.asStack(), 'F', FIELD_GENERATOR_EV.asStack(), 'P', new UnificationEntry(plateDouble, GTOMaterials.Ostrum), 'R', new UnificationEntry(plateDense, TungstenSteel), 'C', CARBON_FIBER_PLATE.asStack(), 'U', POWER_UNIT_EV.asItem());
+        VanillaRecipeHelper.addShapedEnergyTransferRecipe(provider, true, true, true, GTOCore.id("iv_vajra"), Ingredient.of(POWER_UNIT_IV.asItem()), GTMaterialItems.TOOL_ITEMS.get(GTOMaterials.Enderium, GTOToolType.VAJRA_IV).get().get(0, GTCapabilityHelper.getElectricItem(POWER_UNIT_IV.asStack()).getMaxCharge()), "PEP", "CFC", "RUR", 'E', EMITTER_HV.asStack(), 'F', FIELD_GENERATOR_IV.asStack(), 'P', new UnificationEntry(plateDouble, GTOMaterials.Enderium), 'R', new UnificationEntry(plateDense, NaquadahAlloy), 'C', CARBON_FIBER_PLATE.asStack(), 'U', POWER_UNIT_IV.asItem());
 
         VACUUM_PUMP_RECIPES.recipeBuilder(GTOCore.id("a"))
                 .notConsumable(pipeHugeFluid, Bronze)

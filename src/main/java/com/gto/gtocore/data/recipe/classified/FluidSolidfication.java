@@ -16,9 +16,9 @@ interface FluidSolidfication {
 
     static void init() {
         FLUID_SOLIDFICATION_RECIPES.recipeBuilder(GTOCore.id("memory_foam_block"))
-                .notConsumable(GTItems.SHAPE_MOLD_BLOCK.asStack())
+                .notConsumable(GTItems.SHAPE_MOLD_BLOCK.asItem())
                 .inputFluids(GTOMaterials.ViscoelasticPolyurethaneFoam.getFluid(1000))
-                .outputItems(GTOItems.MEMORY_FOAM_BLOCK.asStack())
+                .outputItems(GTOItems.MEMORY_FOAM_BLOCK.asItem())
                 .EUt(30)
                 .duration(60)
                 .save();
@@ -32,17 +32,17 @@ interface FluidSolidfication {
                 .save();
 
         FLUID_SOLIDFICATION_RECIPES.recipeBuilder(GTOCore.id("pellet_antimatter"))
-                .notConsumable(GTOItems.BALL_FIELD_SHAPE.asStack())
+                .notConsumable(GTOItems.BALL_FIELD_SHAPE.asItem())
                 .inputFluids(GTOMaterials.Antimatter.getFluid(1000))
-                .outputItems(GTOItems.PELLET_ANTIMATTER.asStack())
+                .outputItems(GTOItems.PELLET_ANTIMATTER.asItem())
                 .EUt(491520)
                 .duration(800)
                 .save();
 
         FLUID_SOLIDFICATION_RECIPES.recipeBuilder(GTOCore.id("kevlar_fiber"))
-                .notConsumable(GTItems.SHAPE_MOLD_NUGGET.asStack())
+                .notConsumable(GTItems.SHAPE_MOLD_NUGGET.asItem())
                 .inputFluids(GTOMaterials.LiquidCrystalKevlar.getFluid(72))
-                .outputItems(GTOItems.KEVLAR_FIBER.asStack())
+                .outputItems(GTOItems.KEVLAR_FIBER.asItem())
                 .EUt(30)
                 .duration(800)
                 .cleanroom(CleanroomType.CLEANROOM)
@@ -57,7 +57,7 @@ interface FluidSolidfication {
                 .save();
 
         FLUID_SOLIDFICATION_RECIPES.recipeBuilder(GTOCore.id("degenerate_rhenium_plate"))
-                .notConsumable(GTItems.SHAPE_MOLD_PLATE.asStack())
+                .notConsumable(GTItems.SHAPE_MOLD_PLATE.asItem())
                 .inputFluids(GTOMaterials.DegenerateRhenium.getFluid(FluidStorageKeys.LIQUID, 144))
                 .outputItems(TagPrefix.plate, GTOMaterials.DegenerateRhenium)
                 .EUt(7)

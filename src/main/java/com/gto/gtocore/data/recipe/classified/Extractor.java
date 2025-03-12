@@ -48,7 +48,7 @@ interface Extractor {
 
         EXTRACTOR_RECIPES.recipeBuilder(GTOCore.id("tcetieseaweedextract"))
                 .inputItems(GTOItems.TCETIEDANDELIONS.asStack(64))
-                .outputItems(GTOItems.TCETIESEAWEEDEXTRACT.asStack())
+                .outputItems(GTOItems.TCETIESEAWEEDEXTRACT.asItem())
                 .EUt(16)
                 .duration(200)
                 .addCondition(new GravityCondition(false))

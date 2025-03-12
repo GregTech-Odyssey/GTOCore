@@ -52,6 +52,7 @@ public final class AbsoluteBaryonicPerfectionPurificationUnitMachine extends Wat
             GTOItems.CHARM_QUARK_RELEASING_CATALYST.get());
 
     private static final Fluid QUARK_GLUON = GTOMaterials.QuarkGluon.getFluid(FluidStorageKeys.PLASMA);
+    private static final Fluid STABLE_BARYONIC_MATTER = GTOMaterials.StableBaryonicMatter.getFluid();
 
     @Persisted
     @DescSynced
@@ -116,7 +117,7 @@ public final class AbsoluteBaryonicPerfectionPurificationUnitMachine extends Wat
                             ItemStack stack1 = inv.getStackInSlot(i + 1);
                             if (!stack1.isEmpty() && MachineUtils.inputFluid(this, QUARK_GLUON, stack1.getCount() * 144)) {
                                 if (stack1.getItem() == catalyst2) {
-                                    // TODO 输出稳定重子
+                                    MachineUtils.outputFluid(this, STABLE_BARYONIC_MATTER, 1000);
                                     successful = true;
                                     this.successful = true;
                                 }

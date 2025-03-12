@@ -723,6 +723,16 @@ public interface GTOItems {
     ItemEntry<Item> MICROFOCUS_X_RAY_TUBE = register("microfocus_x_ray_tube", "微焦点X射线管");
     ItemEntry<Item> SEPARATION_ELECTROMAGNET = register("separation_electromagnet", "分离用电磁铁");
     ItemEntry<Item> HIGHLY_INSULATING_FOIL = registerCustomModel("highly_insulating_foil", "高绝缘性箔");
+
+    ItemEntry<Item> BLUE_ALGAE = registerAlgae("blue", "蓝");
+    ItemEntry<Item> BROWN_ALGAE = registerAlgae("brown", "褐");
+    ItemEntry<Item> GOLD_ALGAE = registerAlgae("gold", "金");
+    ItemEntry<Item> GREEN_ALGAE = registerAlgae("green", "绿");
+    ItemEntry<Item> RED_ALGAE = registerAlgae("red", "红");
+    ItemEntry<Item> GOLD_ALGAE_FIBER = register("gold_algae_fiber", "金藻纤维");
+    ItemEntry<Item> GREEN_ALGAE_FIBER = register("green_algae_fiber", "绿藻纤维");
+    ItemEntry<Item> RED_ALGAE_FIBER = register("red_algae_fiber", "红藻纤维");
+
     ItemEntry<Item> STERILIZED_PETRI_DISH = registerCustomModel("sterilized_petri_dish", "无菌培养皿");
     ItemEntry<Item> ELECTRICALY_WIRED_PETRI_DISH = registerCustomModel("electricaly_wired_petri_dish", "电信号培养皿");
     ItemEntry<Item> CONTAMINATED_PETRI_DISH = register("contaminated_petri_dish", "污染的培养皿");

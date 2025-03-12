@@ -41,7 +41,7 @@ public interface GenerateDisassembly {
 
     private static boolean isExcludeItems(String id) {
         for (String pattern : outputItem) {
-            if (id.equals(pattern)) {
+            if (id.contains(pattern)) {
                 return true;
             }
         }
@@ -56,39 +56,38 @@ public interface GenerateDisassembly {
         }
         Ingredient output = ItemRecipeCapability.CAP.of(c.get(0).getContent());
         if (output.isEmpty()) return;
-        ResourceLocation id = ItemUtils.getIdLocation(ItemUtils.getFirst(output).getItem());
+        ResourceLocation id = ItemUtils.getIdLocation(ItemUtils.getFirstSized(output).getItem());
         if (DISASSEMBLY_BLACKLIST.contains(id)) return;
         boolean cal = recipeBuilder.recipeType == CIRCUIT_ASSEMBLY_LINE_RECIPES;
         ResourceLocation typeid = GTORecipeBuilder.getTypeID(id, DISASSEMBLY_RECIPES);
         if (cal && GTORecipes.GT_RECIPE_MAP.containsKey(typeid)) return;
-        if (isExcludeItems(id.toString())) return;
-        if (!cal && DISASSEMBLY_RECORD.remove(id)) {
+        if ((!cal && DISASSEMBLY_RECORD.remove(id)) || isExcludeItems(id.toString())) {
             DISASSEMBLY_BLACKLIST.add(id);
             GTORecipes.GT_RECIPE_MAP.remove(typeid);
-        } else {
-            GTORecipeBuilder builder = DISASSEMBLY_RECIPES.recipeBuilder(id)
-                    .inputItems(SizedIngredient.copy(output))
-                    .duration(recipeBuilder.duration)
-                    .EUt(recipeBuilder.EUt());
-            boolean hasOutput = false;
-            List<Content> itemList = recipeBuilder.input.getOrDefault(ItemRecipeCapability.CAP, null);
-            List<Content> fluidList = recipeBuilder.input.getOrDefault(FluidRecipeCapability.CAP, null);
-            if (itemList != null) {
-                for (Content content : itemList) {
-                    Ingredient input = ItemRecipeCapability.CAP.of(content.getContent());
-                    if (input instanceof SizedIngredient sizedIngredient) {
-                        Ingredient inner = sizedIngredient.getInner();
-                        a:
-                        for (Ingredient.Value value : ((IngredientAccessor) inner).getValues()) {
-                            if (value instanceof Ingredient.ItemValue itemValue) {
-                                Collection<ItemStack> stacks = itemValue.getItems();
-                                if (stacks.size() == 1) {
-                                    for (ItemStack item : stacks) {
-                                        if (!item.isEmpty() && content.chance == ChanceLogic.getMaxChancedValue() && !item.hasTag()) {
-                                            builder.output(ItemRecipeCapability.CAP, SizedIngredient.copy(input));
-                                            hasOutput = true;
-                                            break a;
-                                        }
+            return;
+        }
+        GTORecipeBuilder builder = DISASSEMBLY_RECIPES.recipeBuilder(id)
+                .inputItems(SizedIngredient.copy(output))
+                .duration(recipeBuilder.duration)
+                .EUt(recipeBuilder.EUt());
+        boolean hasOutput = false;
+        List<Content> itemList = recipeBuilder.input.getOrDefault(ItemRecipeCapability.CAP, null);
+        List<Content> fluidList = recipeBuilder.input.getOrDefault(FluidRecipeCapability.CAP, null);
+        if (itemList != null) {
+            for (Content content : itemList) {
+                Ingredient input = ItemRecipeCapability.CAP.of(content.getContent());
+                if (input instanceof SizedIngredient sizedIngredient) {
+                    Ingredient inner = sizedIngredient.getInner();
+                    a:
+                    for (Ingredient.Value value : ((IngredientAccessor) inner).getValues()) {
+                        if (value instanceof Ingredient.ItemValue itemValue) {
+                            Collection<ItemStack> stacks = itemValue.getItems();
+                            if (stacks.size() == 1) {
+                                for (ItemStack item : stacks) {
+                                    if (!item.isEmpty() && content.chance == ChanceLogic.getMaxChancedValue() && !item.hasTag()) {
+                                        builder.output(ItemRecipeCapability.CAP, SizedIngredient.copy(input));
+                                        hasOutput = true;
+                                        break a;
                                     }
                                 }
                             }
@@ -96,17 +95,17 @@ public interface GenerateDisassembly {
                     }
                 }
             }
-            if (fluidList != null) {
-                for (Content content : fluidList) {
-                    FluidIngredient fluid = FluidRecipeCapability.CAP.of(content.getContent());
-                    if (content.chance == ChanceLogic.getMaxChancedValue() && !fluid.isEmpty()) {
-                        builder.outputFluids(fluid.copy());
-                        hasOutput = true;
-                    }
+        }
+        if (fluidList != null) {
+            for (Content content : fluidList) {
+                FluidIngredient fluid = FluidRecipeCapability.CAP.of(content.getContent());
+                if (content.chance == ChanceLogic.getMaxChancedValue() && !fluid.isEmpty()) {
+                    builder.outputFluids(fluid.copy());
+                    hasOutput = true;
                 }
             }
-            if (hasOutput) builder.save();
         }
+        if (hasOutput) builder.save();
         DISASSEMBLY_RECORD.add(id);
     }
 }

@@ -57,7 +57,7 @@ interface ChemicalBath {
                 .save();
 
         CHEMICAL_BATH_RECIPES.recipeBuilder(GTOCore.id("kevlar_plate"))
-                .inputItems(GTOItems.WOVEN_KEVLAR.asStack())
+                .inputItems(GTOItems.WOVEN_KEVLAR.asItem())
                 .inputFluids(GTOMaterials.PolyurethaneResin.getFluid(1000))
                 .outputItems(TagPrefix.plate, GTOMaterials.Kevlar)
                 .EUt(480)
@@ -66,9 +66,9 @@ interface ChemicalBath {
                 .save();
 
         CHEMICAL_BATH_RECIPES.recipeBuilder(GTOCore.id("photon_carrying_wafer"))
-                .inputItems(GTOItems.RAW_PHOTON_CARRYING_WAFER.asStack())
+                .inputItems(GTOItems.RAW_PHOTON_CARRYING_WAFER.asItem())
                 .inputFluids(GTMaterials.Blaze.getFluid(288))
-                .outputItems(GTOItems.PHOTON_CARRYING_WAFER.asStack())
+                .outputItems(GTOItems.PHOTON_CARRYING_WAFER.asItem())
                 .EUt(1920)
                 .duration(800)
                 .cleanroom(CleanroomType.CLEANROOM)
@@ -77,7 +77,7 @@ interface ChemicalBath {
         CHEMICAL_BATH_RECIPES.recipeBuilder(GTOCore.id("high_strength_concrete"))
                 .inputItems(TagPrefix.frameGt, GTMaterials.Steel)
                 .inputFluids(GTMaterials.Concrete.getFluid(1152))
-                .outputItems(GTOBlocks.HIGH_STRENGTH_CONCRETE.asStack())
+                .outputItems(GTOBlocks.HIGH_STRENGTH_CONCRETE.asItem())
                 .EUt(480)
                 .duration(200)
                 .save();
@@ -102,7 +102,7 @@ interface ChemicalBath {
         CHEMICAL_BATH_RECIPES.recipeBuilder(GTOCore.id("resonating_gem"))
                 .inputItems(TagPrefix.gemExquisite, GTMaterials.Sapphire)
                 .inputFluids(GTOMaterials.LiquidStarlight.getFluid(1000))
-                .outputItems(GTOItems.RESONATING_GEM.asStack())
+                .outputItems(GTOItems.RESONATING_GEM.asItem())
                 .EUt(31457280)
                 .duration(400)
                 .cleanroom(CleanroomType.CLEANROOM)
@@ -133,9 +133,9 @@ interface ChemicalBath {
                 .save();
 
         CHEMICAL_BATH_RECIPES.recipeBuilder(GTOCore.id("x_ray_waveguide"))
-                .inputItems(GTOItems.FULLERENE_POLYMER_MATRIX_FINE_TUBING.asStack())
+                .inputItems(GTOItems.FULLERENE_POLYMER_MATRIX_FINE_TUBING.asItem())
                 .inputFluids(GTOMaterials.IridiumTrichlorideSolution.getFluid(100))
-                .outputItems(GTOItems.X_RAY_WAVEGUIDE.asStack())
+                .outputItems(GTOItems.X_RAY_WAVEGUIDE.asItem())
                 .EUt(8000000)
                 .duration(240)
                 .cleanroom(CleanroomType.CLEANROOM)
@@ -152,7 +152,7 @@ interface ChemicalBath {
         CHEMICAL_BATH_RECIPES.recipeBuilder(GTOCore.id("x_ray_mirror_plate"))
                 .inputItems(TagPrefix.plate, GTMaterials.Graphene)
                 .inputFluids(GTOMaterials.IridiumTrichlorideSolution.getFluid(100))
-                .outputItems(GTOItems.X_RAY_MIRROR_PLATE.asStack())
+                .outputItems(GTOItems.X_RAY_MIRROR_PLATE.asItem())
                 .EUt(2000000)
                 .duration(240)
                 .cleanroom(CleanroomType.CLEANROOM)
@@ -192,9 +192,9 @@ interface ChemicalBath {
                 .save();
 
         CHEMICAL_BATH_RECIPES.recipeBuilder(GTOCore.id("ender_obsidian"))
-                .inputItems(GTOBlocks.SHINING_OBSIDIAN.asStack())
+                .inputItems(GTOBlocks.SHINING_OBSIDIAN.asItem())
                 .inputFluids(GTMaterials.EnderEye.getFluid(1152))
-                .outputItems(GTOBlocks.ENDER_OBSIDIAN.asStack())
+                .outputItems(GTOBlocks.ENDER_OBSIDIAN.asItem())
                 .EUt(480)
                 .duration(200)
                 .save();
@@ -208,9 +208,9 @@ interface ChemicalBath {
                 .save();
 
         CHEMICAL_BATH_RECIPES.recipeBuilder(GTOCore.id("eternity_catalyst"))
-                .inputItems(GTOItems.SPACETIME_CATALYST.asStack())
+                .inputItems(GTOItems.SPACETIME_CATALYST.asItem())
                 .inputFluids(GTOMaterials.Eternity.getFluid(1000))
-                .outputItems(GTOItems.ETERNITY_CATALYST.asStack())
+                .outputItems(GTOItems.ETERNITY_CATALYST.asItem())
                 .EUt(8053063680L)
                 .duration(1600)
                 .save();

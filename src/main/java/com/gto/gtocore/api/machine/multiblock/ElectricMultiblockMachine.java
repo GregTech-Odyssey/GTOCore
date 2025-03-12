@@ -29,8 +29,8 @@ public class ElectricMultiblockMachine extends WorkableElectricMultiblockMachine
     @Getter
     private final List<MultiblockTrait> multiblockTraits = new ArrayList<>(2);
 
-    public ElectricMultiblockMachine(IMachineBlockEntity holder, Object... args) {
-        super(holder, args);
+    public ElectricMultiblockMachine(IMachineBlockEntity holder) {
+        super(holder);
     }
 
     @Override

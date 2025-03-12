@@ -38,7 +38,7 @@ interface LargeGasCollector {
 
         LARGE_GAS_COLLECTOR_RECIPES.recipeBuilder(GTOCore.id("5"))
                 .notConsumable(GTOItems.DIMENSION_DATA.get().getDimensionData(GTODimensions.THE_NETHER))
-                .notConsumable(GTMultiMachines.VACUUM_FREEZER.asStack())
+                .notConsumable(GTMultiMachines.VACUUM_FREEZER.getItem())
                 .outputFluids(GTMaterials.LiquidNetherAir.getFluid(100000))
                 .EUt(1920)
                 .duration(2000)
@@ -46,7 +46,7 @@ interface LargeGasCollector {
 
         LARGE_GAS_COLLECTOR_RECIPES.recipeBuilder(GTOCore.id("4"))
                 .notConsumable(GTOItems.DIMENSION_DATA.get().getDimensionData(GTODimensions.OVERWORLD))
-                .notConsumable(GTMultiMachines.VACUUM_FREEZER.asStack())
+                .notConsumable(GTMultiMachines.VACUUM_FREEZER.getItem())
                 .outputFluids(GTMaterials.LiquidAir.getFluid(100000))
                 .EUt(480)
                 .duration(2000)
@@ -54,7 +54,7 @@ interface LargeGasCollector {
 
         LARGE_GAS_COLLECTOR_RECIPES.recipeBuilder(GTOCore.id("6"))
                 .notConsumable(GTOItems.DIMENSION_DATA.get().getDimensionData(GTODimensions.THE_END))
-                .notConsumable(GTMultiMachines.VACUUM_FREEZER.asStack())
+                .notConsumable(GTMultiMachines.VACUUM_FREEZER.getItem())
                 .outputFluids(GTMaterials.LiquidEnderAir.getFluid(100000))
                 .EUt(7680)
                 .duration(2000)

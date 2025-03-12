@@ -13,8 +13,8 @@ interface Lathe {
 
     static void init() {
         LATHE_RECIPES.recipeBuilder(GTOCore.id("non_linear_optical_lens"))
-                .inputItems(GTOItems.PERIODICALLY_POLED_LITHIUM_NIOBATE_BOULE.asStack())
-                .outputItems(GTOItems.NON_LINEAR_OPTICAL_LENS.asStack())
+                .inputItems(GTOItems.PERIODICALLY_POLED_LITHIUM_NIOBATE_BOULE.asItem())
+                .outputItems(GTOItems.NON_LINEAR_OPTICAL_LENS.asItem())
                 .EUt(1966080)
                 .duration(360)
                 .cleanroom(CleanroomType.CLEANROOM)

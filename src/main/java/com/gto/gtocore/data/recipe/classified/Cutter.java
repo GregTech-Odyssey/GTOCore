@@ -19,7 +19,7 @@ interface Cutter {
 
     static void init() {
         CUTTER_RECIPES.recipeBuilder(GTOCore.id("exotic_ram_chip"))
-                .inputItems(GTOItems.EXOTIC_RAM_WAFER.asStack())
+                .inputItems(GTOItems.EXOTIC_RAM_WAFER.asItem())
                 .inputFluids(GTOMaterials.ExtremeTemperatureWater.getFluid(480))
                 .outputItems(GTOItems.EXOTIC_RAM_CHIP.asStack(32))
                 .EUt(524288)
@@ -28,7 +28,7 @@ interface Cutter {
                 .save();
 
         CUTTER_RECIPES.recipeBuilder(GTOCore.id("bioware_chip"))
-                .inputItems(GTOItems.BIOWARE_BOULE.asStack())
+                .inputItems(GTOItems.BIOWARE_BOULE.asItem())
                 .inputFluids(GTOMaterials.ExtremeTemperatureWater.getFluid(300))
                 .outputItems(GTOItems.BIOWARE_CHIP.asStack(16))
                 .outputItems(GTOItems.BIOLOGICAL_CELLS.asStack(8))
@@ -38,7 +38,7 @@ interface Cutter {
                 .save();
 
         CUTTER_RECIPES.recipeBuilder(GTOCore.id("fm_chip"))
-                .inputItems(GTOItems.FM_WAFER.asStack())
+                .inputItems(GTOItems.FM_WAFER.asItem())
                 .inputFluids(GTOMaterials.ExtremeTemperatureWater.getFluid(1440))
                 .outputItems(GTOItems.FM_CHIP.asStack(2))
                 .EUt(524288)
@@ -47,7 +47,7 @@ interface Cutter {
                 .save();
 
         CUTTER_RECIPES.recipeBuilder(GTOCore.id("cosmic_soc"))
-                .inputItems(GTOItems.COSMIC_SOC_WAFER.asStack())
+                .inputItems(GTOItems.COSMIC_SOC_WAFER.asItem())
                 .inputFluids(GTOMaterials.DegassedWater.getFluid(450))
                 .outputItems(GTOItems.COSMIC_SOC.asStack(8))
                 .EUt(7864320)
@@ -56,7 +56,7 @@ interface Cutter {
                 .save();
 
         CUTTER_RECIPES.recipeBuilder(GTOCore.id("pm_chip"))
-                .inputItems(GTOItems.PM_WAFER.asStack())
+                .inputItems(GTOItems.PM_WAFER.asItem())
                 .inputFluids(GTOMaterials.PHNeutralWater.getFluid(900))
                 .outputItems(GTOItems.PM_CHIP.asStack(4))
                 .EUt(122880)
@@ -65,7 +65,7 @@ interface Cutter {
                 .save();
 
         CUTTER_RECIPES.recipeBuilder(GTOCore.id("nm_chip"))
-                .inputItems(GTOItems.NM_WAFER.asStack())
+                .inputItems(GTOItems.NM_WAFER.asItem())
                 .inputFluids(GTOMaterials.FlocculentWater.getFluid(900))
                 .outputItems(GTOItems.NM_CHIP.asStack(4))
                 .EUt(30720)
@@ -74,7 +74,7 @@ interface Cutter {
                 .save();
 
         CUTTER_RECIPES.recipeBuilder(GTOCore.id("photocoated_hassium_wafer"))
-                .inputItems(GTOItems.PHOTOCOATED_HASSIUM_BOULE.asStack())
+                .inputItems(GTOItems.PHOTOCOATED_HASSIUM_BOULE.asItem())
                 .inputFluids(GTOMaterials.BaryonicPerfectionWater.getFluid(140))
                 .outputItems(GTOItems.PHOTOCOATED_HASSIUM_WAFER.asStack(4))
                 .EUt(31457280)
@@ -83,7 +83,7 @@ interface Cutter {
                 .save();
 
         CUTTER_RECIPES.recipeBuilder(GTOCore.id("cosmic_ram_chip"))
-                .inputItems(GTOItems.COSMIC_RAM_WAFER.asStack())
+                .inputItems(GTOItems.COSMIC_RAM_WAFER.asItem())
                 .inputFluids(GTOMaterials.ElectricEquilibriumWater.getFluid(480))
                 .outputItems(GTOItems.COSMIC_RAM_CHIP.asStack(32))
                 .EUt(2097152)
@@ -92,7 +92,7 @@ interface Cutter {
                 .save();
 
         CUTTER_RECIPES.recipeBuilder(GTOCore.id("rutherfordium_neutronium_wafer"))
-                .inputItems(GTOItems.RUTHERFORDIUM_AMPROSIUM_BOULE.asStack())
+                .inputItems(GTOItems.RUTHERFORDIUM_AMPROSIUM_BOULE.asItem())
                 .inputFluids(GTOMaterials.FlocculentWater.getFluid(1600))
                 .outputItems(GTOItems.RUTHERFORDIUM_AMPROSIUM_WAFER.asStack(64))
                 .outputItems(GTOItems.RUTHERFORDIUM_AMPROSIUM_WAFER.asStack(32))
@@ -102,7 +102,7 @@ interface Cutter {
                 .save();
 
         CUTTER_RECIPES.recipeBuilder(GTOCore.id("supracausal_ram_chip"))
-                .inputItems(GTOItems.SUPRACAUSAL_RAM_WAFER.asStack())
+                .inputItems(GTOItems.SUPRACAUSAL_RAM_WAFER.asItem())
                 .inputFluids(GTOMaterials.DegassedWater.getFluid(480))
                 .outputItems(GTOItems.SUPRACAUSAL_RAM_CHIP.asStack(4))
                 .EUt(8388608)
@@ -111,7 +111,7 @@ interface Cutter {
                 .save();
 
         CUTTER_RECIPES.recipeBuilder(GTOCore.id("taranium_wafer"))
-                .inputItems(GTOItems.TARANIUM_BOULE.asStack())
+                .inputItems(GTOItems.TARANIUM_BOULE.asItem())
                 .inputFluids(GTOMaterials.PHNeutralWater.getFluid(1600))
                 .outputItems(GTOItems.TARANIUM_WAFER.asStack(64))
                 .outputItems(GTOItems.TARANIUM_WAFER.asStack(64))
@@ -121,7 +121,7 @@ interface Cutter {
                 .save();
 
         CUTTER_RECIPES.recipeBuilder(GTOCore.id("optical_slice"))
-                .inputItems(GTOItems.OPTICAL_WAFER.asStack())
+                .inputItems(GTOItems.OPTICAL_WAFER.asItem())
                 .inputFluids(GTOMaterials.ElectricEquilibriumWater.getFluid(280))
                 .outputItems(GTOItems.OPTICAL_SLICE.asStack(16))
                 .EUt(1966080)
@@ -130,7 +130,7 @@ interface Cutter {
                 .save();
 
         CUTTER_RECIPES.recipeBuilder(GTOCore.id("exotic_chip"))
-                .inputItems(GTOItems.EXOTIC_WAFER.asStack())
+                .inputItems(GTOItems.EXOTIC_WAFER.asItem())
                 .inputFluids(GTOMaterials.ElectricEquilibriumWater.getFluid(450))
                 .outputItems(GTOItems.EXOTIC_CHIP.asStack(4))
                 .EUt(1966080)
@@ -139,7 +139,7 @@ interface Cutter {
                 .save();
 
         CUTTER_RECIPES.recipeBuilder(GTOCore.id("optical_ram_chip"))
-                .inputItems(GTOItems.OPTICAL_RAM_WAFER.asStack())
+                .inputItems(GTOItems.OPTICAL_RAM_WAFER.asItem())
                 .inputFluids(GTOMaterials.PHNeutralWater.getFluid(450))
                 .outputItems(GTOItems.OPTICAL_RAM_CHIP.asStack(32))
                 .EUt(122880)

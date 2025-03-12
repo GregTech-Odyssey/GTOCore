@@ -400,6 +400,9 @@ public final class GTOMaterials {
     public static Material Benzylamine;
     public static Material Glyoxal;
     public static Material BenzylChloride;
+    public static Material SpacetimeContinuum;
+    public static Material DimensionAllyshiftedSuperFluid;
+    public static Material StableBaryonicMatter;
     public static Material TranscendingMatter;
     public static Material RareEarthHydroxides;
     public static Material QuantumDots;

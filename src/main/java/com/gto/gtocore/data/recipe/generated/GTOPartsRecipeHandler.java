@@ -664,7 +664,7 @@ interface GTOPartsRecipeHandler {
         ItemStack data = GTOItems.DATA_DISC.get().getDisc(motorEnclosureStack);
 
         SCANNER_RECIPES.recipeBuilder(GTOCore.id(material.getName() + "_motor_enclosure"))
-                .inputItems(GTOItems.DATA_DISC.asStack())
+                .inputItems(GTOItems.DATA_DISC.asItem())
                 .inputItems(motorEnclosureStack)
                 .outputItems(data)
                 .EUt((long) GTOUtils.getVoltageMultiplier(material) << 4)
@@ -702,7 +702,7 @@ interface GTOPartsRecipeHandler {
         ItemStack data = GTOItems.DATA_DISC.get().getDisc(pumpBarrelStack);
 
         SCANNER_RECIPES.recipeBuilder(GTOCore.id(material.getName() + "_pump_barrel"))
-                .inputItems(GTOItems.DATA_DISC.asStack())
+                .inputItems(GTOItems.DATA_DISC.asItem())
                 .inputItems(pumpBarrelStack)
                 .outputItems(data)
                 .EUt((long) GTOUtils.getVoltageMultiplier(material) << 4)
@@ -740,7 +740,7 @@ interface GTOPartsRecipeHandler {
         ItemStack data = GTOItems.DATA_DISC.get().getDisc(pistonHousingStack);
 
         SCANNER_RECIPES.recipeBuilder(GTOCore.id(material.getName() + "_pump_barrel"))
-                .inputItems(GTOItems.DATA_DISC.asStack())
+                .inputItems(GTOItems.DATA_DISC.asItem())
                 .inputItems(pistonHousingStack)
                 .outputItems(data)
                 .EUt((long) GTOUtils.getVoltageMultiplier(material) << 4)
@@ -779,7 +779,7 @@ interface GTOPartsRecipeHandler {
         ItemStack data = GTOItems.DATA_DISC.get().getDisc(emitterBasesStack);
 
         SCANNER_RECIPES.recipeBuilder(GTOCore.id(material.getName() + "_emitter_base"))
-                .inputItems(GTOItems.DATA_DISC.asStack())
+                .inputItems(GTOItems.DATA_DISC.asItem())
                 .inputItems(emitterBasesStack)
                 .outputItems(data)
                 .EUt((long) GTOUtils.getVoltageMultiplier(material) << 4)
@@ -817,7 +817,7 @@ interface GTOPartsRecipeHandler {
         ItemStack data = GTOItems.DATA_DISC.get().getDisc(sensorCasingStack);
 
         SCANNER_RECIPES.recipeBuilder(GTOCore.id(material.getName() + "_sensor_casing"))
-                .inputItems(GTOItems.DATA_DISC.asStack())
+                .inputItems(GTOItems.DATA_DISC.asItem())
                 .inputItems(sensorCasingStack)
                 .outputItems(data)
                 .EUt((long) GTOUtils.getVoltageMultiplier(material) << 4)
@@ -855,7 +855,7 @@ interface GTOPartsRecipeHandler {
         ItemStack data = GTOItems.DATA_DISC.get().getDisc(fieldGeneratorCasingStack);
 
         SCANNER_RECIPES.recipeBuilder(GTOCore.id(material.getName() + "_sensor_casing"))
-                .inputItems(GTOItems.DATA_DISC.asStack())
+                .inputItems(GTOItems.DATA_DISC.asItem())
                 .inputItems(fieldGeneratorCasingStack)
                 .outputItems(data)
                 .EUt((long) GTOUtils.getVoltageMultiplier(material) << 4)
@@ -876,7 +876,7 @@ interface GTOPartsRecipeHandler {
         ItemStack stack = ChemicalHelper.get(catalyst, material);
         if (stack.isEmpty()) return;
         ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id(material.getName() + "_catalyst"))
-                .inputItems(GTOItems.CATALYST_BASE.asStack())
+                .inputItems(GTOItems.CATALYST_BASE.asItem())
                 .inputItems(dust, material, 16)
                 .outputItems(stack)
                 .duration((int) material.getMass() << 2)

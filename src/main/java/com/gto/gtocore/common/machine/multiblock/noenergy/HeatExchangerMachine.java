@@ -34,8 +34,8 @@ public final class HeatExchangerMachine extends NoEnergyMultiblockMachine implem
     private static final Fluid SupercriticalSteam = GTOMaterials.SupercriticalSteam.getFluid();
     private static final Fluid DistilledWater = GTMaterials.DistilledWater.getFluid();
 
-    public HeatExchangerMachine(IMachineBlockEntity holder, Object... args) {
-        super(holder, args);
+    public HeatExchangerMachine(IMachineBlockEntity holder) {
+        super(holder);
     }
 
     @Persisted

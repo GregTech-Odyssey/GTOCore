@@ -22,8 +22,8 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @MethodsReturnNonnullByDefault
 public final class GreenhouseMachine extends ElectricMultiblockMachine {
 
-    public GreenhouseMachine(IMachineBlockEntity holder, Object... args) {
-        super(holder, args);
+    public GreenhouseMachine(IMachineBlockEntity holder) {
+        super(holder);
     }
 
     private int SkyLight = 15;

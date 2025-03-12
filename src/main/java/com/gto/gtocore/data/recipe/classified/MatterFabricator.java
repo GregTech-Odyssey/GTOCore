@@ -14,7 +14,7 @@ interface MatterFabricator {
 
     static void init() {
         MATTER_FABRICATOR_RECIPES.recipeBuilder(GTOCore.id("uu_amplifier"))
-                .inputItems(GTOItems.SCRAP.asStack())
+                .inputItems(GTOItems.SCRAP.asItem())
                 .circuitMeta(1)
                 .outputFluids(GTOMaterials.UuAmplifier.getFluid(1))
                 .EUt(491520)
@@ -22,7 +22,7 @@ interface MatterFabricator {
                 .save();
 
         MATTER_FABRICATOR_RECIPES.recipeBuilder(GTOCore.id("uu_amplifier_1"))
-                .inputItems(GTOItems.SCRAP.asStack())
+                .inputItems(GTOItems.SCRAP.asItem())
                 .circuitMeta(2)
                 .outputItems(new ItemStack(AEItems.MATTER_BALL.asItem(), 64))
                 .EUt(491520)
@@ -30,7 +30,7 @@ interface MatterFabricator {
                 .save();
 
         MATTER_FABRICATOR_RECIPES.recipeBuilder(GTOCore.id("uu_amplifier_2"))
-                .inputItems(GTOItems.SCRAP_BOX.asStack())
+                .inputItems(GTOItems.SCRAP_BOX.asItem())
                 .circuitMeta(2)
                 .outputItems(new ItemStack(AEItems.MATTER_BALL.asItem(), 576))
                 .EUt(1966080)
@@ -38,7 +38,7 @@ interface MatterFabricator {
                 .save();
 
         MATTER_FABRICATOR_RECIPES.recipeBuilder(GTOCore.id("uu_amplifier_a"))
-                .inputItems(GTOItems.SCRAP_BOX.asStack())
+                .inputItems(GTOItems.SCRAP_BOX.asItem())
                 .circuitMeta(1)
                 .outputFluids(GTOMaterials.UuAmplifier.getFluid(9))
                 .EUt(1966080)

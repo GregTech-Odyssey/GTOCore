@@ -80,8 +80,8 @@ public class CrossRecipeMultiblockMachine extends ElectricMultiblockMachine impl
     private final boolean infinite;
     private final boolean isHatchParallel;
 
-    protected CrossRecipeMultiblockMachine(IMachineBlockEntity holder, boolean infinite, boolean isHatchParallel, @NotNull Function<CrossRecipeMultiblockMachine, Integer> parallel, Object... args) {
-        super(holder, args);
+    protected CrossRecipeMultiblockMachine(IMachineBlockEntity holder, boolean infinite, boolean isHatchParallel, @NotNull Function<CrossRecipeMultiblockMachine, Integer> parallel) {
+        super(holder);
         this.infinite = infinite;
         this.isHatchParallel = isHatchParallel;
         customParallelTrait = new CustomParallelTrait(this, false, machine -> parallel.apply((CrossRecipeMultiblockMachine) machine));

@@ -42,8 +42,8 @@ public class NoEnergyMultiblockMachine extends WorkableMultiblockMachine impleme
 
     private final List<MultiblockTrait> multiblockTraits = new ArrayList<>(2);
 
-    public NoEnergyMultiblockMachine(IMachineBlockEntity holder, Object... args) {
-        super(holder, args);
+    public NoEnergyMultiblockMachine(IMachineBlockEntity holder) {
+        super(holder);
     }
 
     @Override

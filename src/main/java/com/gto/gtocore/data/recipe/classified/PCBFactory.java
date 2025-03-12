@@ -15,11 +15,11 @@ interface PCBFactory {
 
     static void init() {
         PCB_FACTORY_RECIPES.recipeBuilder(GTOCore.id("wetware_printed_circuit_board"))
-                .inputItems(GTItems.WETWARE_BOARD.asStack())
+                .inputItems(GTItems.WETWARE_BOARD.asItem())
                 .inputItems(TagPrefix.foil, GTMaterials.NiobiumTitanium, 32)
                 .inputFluids(GTMaterials.SodiumPersulfate.getFluid(1000))
                 .inputFluids(GTMaterials.Iron3Chloride.getFluid(500))
-                .outputItems(GTItems.WETWARE_CIRCUIT_BOARD.asStack())
+                .outputItems(GTItems.WETWARE_CIRCUIT_BOARD.asItem())
                 .EUt(1920)
                 .duration(450)
                 .save();
@@ -65,11 +65,11 @@ interface PCBFactory {
                 .save();
 
         PCB_FACTORY_RECIPES.recipeBuilder(GTOCore.id("supracausal_circuit_board"))
-                .inputItems(GTOItems.COSMIC_CIRCUIT_BOARD.asStack())
+                .inputItems(GTOItems.COSMIC_CIRCUIT_BOARD.asItem())
                 .inputItems(TagPrefix.foil, GTOMaterials.Echoite, 32)
                 .inputFluids(GTOMaterials.DenseNeutron.getFluid(FluidStorageKeys.PLASMA, 1000))
                 .inputFluids(GTOMaterials.QuantumChromoDynamicallyConfinedMatter.getFluid(FluidStorageKeys.PLASMA, 100))
-                .outputItems(GTOItems.SUPRACAUSAL_CIRCUIT_BOARD.asStack())
+                .outputItems(GTOItems.SUPRACAUSAL_CIRCUIT_BOARD.asItem())
                 .EUt(1966080)
                 .duration(1500)
                 .save();
@@ -85,11 +85,11 @@ interface PCBFactory {
                 .save();
 
         PCB_FACTORY_RECIPES.recipeBuilder(GTOCore.id("bioware_printed_circuit_board"))
-                .inputItems(GTOItems.BIOWARE_CIRCUIT_BOARD.asStack())
+                .inputItems(GTOItems.BIOWARE_CIRCUIT_BOARD.asItem())
                 .inputItems(TagPrefix.foil, GTMaterials.VanadiumGallium, 32)
                 .inputFluids(GTMaterials.SodiumPersulfate.getFluid(2000))
                 .inputFluids(GTMaterials.Iron3Chloride.getFluid(1000))
-                .outputItems(GTOItems.BIOWARE_PRINTED_CIRCUIT_BOARD.asStack())
+                .outputItems(GTOItems.BIOWARE_PRINTED_CIRCUIT_BOARD.asItem())
                 .EUt(7680)
                 .duration(525)
                 .save();
@@ -99,7 +99,7 @@ interface PCBFactory {
                 .inputItems(TagPrefix.foil, GTMaterials.Rhodium, 32)
                 .inputFluids(GTMaterials.SulfuricAcid.getFluid(1000))
                 .inputFluids(GTOMaterials.Mithril.getFluid(FluidStorageKeys.PLASMA, 100))
-                .outputItems(GTOItems.OPTICAL_CIRCUIT_BOARD.asStack())
+                .outputItems(GTOItems.OPTICAL_CIRCUIT_BOARD.asItem())
                 .EUt(30720)
                 .duration(600)
                 .save();
@@ -159,17 +159,17 @@ interface PCBFactory {
                 .inputItems(TagPrefix.foil, GTOMaterials.Enderium, 32)
                 .inputFluids(GTMaterials.SulfuricAcid.getFluid(1000))
                 .inputFluids(GTOMaterials.Vibranium.getFluid(FluidStorageKeys.PLASMA, 100))
-                .outputItems(GTOItems.EXOTIC_CIRCUIT_BOARD.asStack())
+                .outputItems(GTOItems.EXOTIC_CIRCUIT_BOARD.asItem())
                 .EUt(122880)
                 .duration(900)
                 .save();
 
         PCB_FACTORY_RECIPES.recipeBuilder(GTOCore.id("optical_printed_circuit_board"))
-                .inputItems(GTOItems.OPTICAL_CIRCUIT_BOARD.asStack())
+                .inputItems(GTOItems.OPTICAL_CIRCUIT_BOARD.asItem())
                 .inputItems(TagPrefix.foil, GTMaterials.Ruthenium, 32)
                 .inputFluids(GTMaterials.SodiumPersulfate.getFluid(4000))
                 .inputFluids(GTMaterials.Iron3Chloride.getFluid(2000))
-                .outputItems(GTOItems.OPTICAL_PRINTED_CIRCUIT_BOARD.asStack())
+                .outputItems(GTOItems.OPTICAL_PRINTED_CIRCUIT_BOARD.asItem())
                 .EUt(30720)
                 .duration(600)
                 .save();
@@ -205,21 +205,21 @@ interface PCBFactory {
                 .save();
 
         PCB_FACTORY_RECIPES.recipeBuilder(GTOCore.id("exotic_printed_circuit_board"))
-                .inputItems(GTOItems.EXOTIC_CIRCUIT_BOARD.asStack())
+                .inputItems(GTOItems.EXOTIC_CIRCUIT_BOARD.asItem())
                 .inputItems(TagPrefix.foil, GTMaterials.Americium, 32)
                 .inputFluids(GTMaterials.SodiumPersulfate.getFluid(8000))
                 .inputFluids(GTMaterials.Iron3Chloride.getFluid(4000))
-                .outputItems(GTOItems.EXOTIC_PRINTED_CIRCUIT_BOARD.asStack())
+                .outputItems(GTOItems.EXOTIC_PRINTED_CIRCUIT_BOARD.asItem())
                 .EUt(122880)
                 .duration(900)
                 .save();
 
         PCB_FACTORY_RECIPES.recipeBuilder(GTOCore.id("cosmic_printed_circuit_board"))
-                .inputItems(GTOItems.COSMIC_CIRCUIT_BOARD.asStack())
+                .inputItems(GTOItems.COSMIC_CIRCUIT_BOARD.asItem())
                 .inputItems(TagPrefix.foil, GTOMaterials.Uruium, 32)
                 .inputFluids(GTMaterials.SodiumPersulfate.getFluid(8000))
                 .inputFluids(GTMaterials.Iron3Chloride.getFluid(4000))
-                .outputItems(GTOItems.COSMIC_PRINTED_CIRCUIT_BOARD.asStack())
+                .outputItems(GTOItems.COSMIC_PRINTED_CIRCUIT_BOARD.asItem())
                 .EUt(491520)
                 .duration(1200)
                 .save();
@@ -235,11 +235,11 @@ interface PCBFactory {
                 .save();
 
         PCB_FACTORY_RECIPES.recipeBuilder(GTOCore.id("supracausal_printed_circuit_board"))
-                .inputItems(GTOItems.SUPRACAUSAL_CIRCUIT_BOARD.asStack())
+                .inputItems(GTOItems.SUPRACAUSAL_CIRCUIT_BOARD.asItem())
                 .inputItems(TagPrefix.foil, GTOMaterials.Legendarium, 32)
                 .inputFluids(GTMaterials.SodiumPersulfate.getFluid(16000))
                 .inputFluids(GTMaterials.Iron3Chloride.getFluid(8000))
-                .outputItems(GTOItems.SUPRACAUSAL_PRINTED_CIRCUIT_BOARD.asStack())
+                .outputItems(GTOItems.SUPRACAUSAL_PRINTED_CIRCUIT_BOARD.asItem())
                 .EUt(1966080)
                 .duration(1500)
                 .save();
@@ -249,7 +249,7 @@ interface PCBFactory {
                 .inputItems(TagPrefix.foil, GTOMaterials.HeavyQuarkDegenerateMatter, 32)
                 .inputFluids(GTMaterials.SulfuricAcid.getFluid(1000))
                 .inputFluids(GTOMaterials.MetastableHassium.getFluid(FluidStorageKeys.PLASMA, 100))
-                .outputItems(GTOItems.COSMIC_CIRCUIT_BOARD.asStack())
+                .outputItems(GTOItems.COSMIC_CIRCUIT_BOARD.asItem())
                 .EUt(491520)
                 .duration(1200)
                 .save();

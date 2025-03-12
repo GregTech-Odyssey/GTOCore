@@ -18,23 +18,23 @@ interface GravitationShockburst {
         GRAVITATION_SHOCKBURST_RECIPES.recipeBuilder(GTOCore.id("command_block_broken"))
                 .inputItems(new ItemStack(Blocks.COMMAND_BLOCK.asItem()))
                 .inputItems(TagPrefix.dust, GTOMaterials.MagnetohydrodynamicallyConstrainedStarMatter)
-                .outputItems(GTOBlocks.COMMAND_BLOCK_BROKEN.asStack())
+                .outputItems(GTOBlocks.COMMAND_BLOCK_BROKEN.asItem())
                 .EUt(131941395333120L)
                 .duration(20)
                 .save();
 
         GRAVITATION_SHOCKBURST_RECIPES.recipeBuilder(GTOCore.id("repeating_command_block_core"))
-                .inputItems(GTOItems.CHAIN_COMMAND_BLOCK_CORE.asStack())
+                .inputItems(GTOItems.CHAIN_COMMAND_BLOCK_CORE.asItem())
                 .inputItems(new ItemStack(Blocks.CALIBRATED_SCULK_SENSOR.asItem(), 64))
-                .outputItems(GTOItems.REPEATING_COMMAND_BLOCK_CORE.asStack())
+                .outputItems(GTOItems.REPEATING_COMMAND_BLOCK_CORE.asItem())
                 .EUt(131941395333120L)
                 .duration(20)
                 .save();
 
         GRAVITATION_SHOCKBURST_RECIPES.recipeBuilder(GTOCore.id("chain_command_block_core"))
-                .inputItems(GTOItems.COMMAND_BLOCK_CORE.asStack())
+                .inputItems(GTOItems.COMMAND_BLOCK_CORE.asItem())
                 .inputItems(new ItemStack(Blocks.OBSERVER.asItem(), 64))
-                .outputItems(GTOItems.CHAIN_COMMAND_BLOCK_CORE.asStack())
+                .outputItems(GTOItems.CHAIN_COMMAND_BLOCK_CORE.asItem())
                 .EUt(131941395333120L)
                 .duration(20)
                 .save();
@@ -42,7 +42,7 @@ interface GravitationShockburst {
         GRAVITATION_SHOCKBURST_RECIPES.recipeBuilder(GTOCore.id("chain_command_block_broken"))
                 .inputItems(new ItemStack(Blocks.CHAIN_COMMAND_BLOCK.asItem()))
                 .inputItems(TagPrefix.dust, GTOMaterials.MagnetohydrodynamicallyConstrainedStarMatter)
-                .outputItems(GTOBlocks.CHAIN_COMMAND_BLOCK_BROKEN.asStack())
+                .outputItems(GTOBlocks.CHAIN_COMMAND_BLOCK_BROKEN.asItem())
                 .EUt(131941395333120L)
                 .duration(20)
                 .save();

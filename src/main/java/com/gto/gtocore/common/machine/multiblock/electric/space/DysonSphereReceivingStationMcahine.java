@@ -29,8 +29,8 @@ public final class DysonSphereReceivingStationMcahine extends ElectricMultiblock
 
     private ResourceKey<Level> dimension;
 
-    public DysonSphereReceivingStationMcahine(IMachineBlockEntity holder, Object... args) {
-        super(holder, args);
+    public DysonSphereReceivingStationMcahine(IMachineBlockEntity holder) {
+        super(holder);
     }
 
     private ResourceKey<Level> getDimension() {

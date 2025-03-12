@@ -20,7 +20,7 @@ interface LaserEngraver {
 
     static void init() {
         LASER_ENGRAVER_RECIPES.recipeBuilder(GTOCore.id("advanced_soc_wafer"))
-                .inputItems(GTOItems.TARANIUM_WAFER.asStack())
+                .inputItems(GTOItems.TARANIUM_WAFER.asItem())
                 .notConsumable(TagPrefix.lens, MarkerMaterials.Color.Purple)
                 .outputItems(GTItems.ADVANCED_SYSTEM_ON_CHIP_WAFER.asStack(8))
                 .EUt(122880)
@@ -29,7 +29,7 @@ interface LaserEngraver {
                 .save();
 
         LASER_ENGRAVER_RECIPES.recipeBuilder(GTOCore.id("soc_wafer"))
-                .inputItems(GTOItems.TARANIUM_WAFER.asStack())
+                .inputItems(GTOItems.TARANIUM_WAFER.asItem())
                 .notConsumable(TagPrefix.lens, MarkerMaterials.Color.Yellow)
                 .outputItems(GTItems.SYSTEM_ON_CHIP_WAFER.asStack(32))
                 .EUt(122880)
@@ -38,7 +38,7 @@ interface LaserEngraver {
                 .save();
 
         LASER_ENGRAVER_RECIPES.recipeBuilder(GTOCore.id("ilc_wafer"))
-                .inputItems(GTOItems.TARANIUM_WAFER.asStack())
+                .inputItems(GTOItems.TARANIUM_WAFER.asItem())
                 .notConsumable(TagPrefix.lens, MarkerMaterials.Color.Red)
                 .outputItems(GTItems.INTEGRATED_LOGIC_CIRCUIT_WAFER.asStack(64))
                 .EUt(122880)
@@ -47,7 +47,7 @@ interface LaserEngraver {
                 .save();
 
         LASER_ENGRAVER_RECIPES.recipeBuilder(GTOCore.id("ulpic_wafer"))
-                .inputItems(GTOItems.TARANIUM_WAFER.asStack())
+                .inputItems(GTOItems.TARANIUM_WAFER.asItem())
                 .notConsumable(TagPrefix.lens, MarkerMaterials.Color.Blue)
                 .outputItems(GTItems.ULTRA_LOW_POWER_INTEGRATED_CIRCUIT_WAFER.asStack(64))
                 .EUt(122880)
@@ -67,7 +67,7 @@ interface LaserEngraver {
                 .save();
 
         LASER_ENGRAVER_RECIPES.recipeBuilder(GTOCore.id("lpic_wafer"))
-                .inputItems(GTOItems.TARANIUM_WAFER.asStack())
+                .inputItems(GTOItems.TARANIUM_WAFER.asItem())
                 .notConsumable(TagPrefix.lens, MarkerMaterials.Color.Orange)
                 .outputItems(GTItems.LOW_POWER_INTEGRATED_CIRCUIT_WAFER.asStack(64))
                 .EUt(122880)
@@ -76,7 +76,7 @@ interface LaserEngraver {
                 .save();
 
         LASER_ENGRAVER_RECIPES.recipeBuilder(GTOCore.id("nor_memory_wafer"))
-                .inputItems(GTOItems.TARANIUM_WAFER.asStack())
+                .inputItems(GTOItems.TARANIUM_WAFER.asItem())
                 .notConsumable(TagPrefix.lens, MarkerMaterials.Color.Pink)
                 .outputItems(GTItems.NOR_MEMORY_CHIP_WAFER.asStack(32))
                 .EUt(122880)
@@ -85,7 +85,7 @@ interface LaserEngraver {
                 .save();
 
         LASER_ENGRAVER_RECIPES.recipeBuilder(GTOCore.id("cpu_wafer"))
-                .inputItems(GTOItems.TARANIUM_WAFER.asStack())
+                .inputItems(GTOItems.TARANIUM_WAFER.asItem())
                 .notConsumable(TagPrefix.lens, MarkerMaterials.Color.LightBlue)
                 .outputItems(GTItems.CENTRAL_PROCESSING_UNIT_WAFER.asStack(64))
                 .EUt(122880)
@@ -105,7 +105,7 @@ interface LaserEngraver {
                 .save();
 
         LASER_ENGRAVER_RECIPES.recipeBuilder(GTOCore.id("nand_memory_wafer"))
-                .inputItems(GTOItems.TARANIUM_WAFER.asStack())
+                .inputItems(GTOItems.TARANIUM_WAFER.asItem())
                 .notConsumable(TagPrefix.lens, MarkerMaterials.Color.Gray)
                 .outputItems(GTItems.NAND_MEMORY_CHIP_WAFER.asStack(32))
                 .EUt(122880)
@@ -114,7 +114,7 @@ interface LaserEngraver {
                 .save();
 
         LASER_ENGRAVER_RECIPES.recipeBuilder(GTOCore.id("highly_advanced_soc_wafer"))
-                .inputItems(GTOItems.TARANIUM_WAFER.asStack())
+                .inputItems(GTOItems.TARANIUM_WAFER.asItem())
                 .notConsumable(TagPrefix.lens, MarkerMaterials.Color.Black)
                 .outputItems(GTItems.HIGHLY_ADVANCED_SOC_WAFER.asStack(4))
                 .EUt(122880)
@@ -123,7 +123,7 @@ interface LaserEngraver {
                 .save();
 
         LASER_ENGRAVER_RECIPES.recipeBuilder(GTOCore.id("ram_wafer"))
-                .inputItems(GTOItems.TARANIUM_WAFER.asStack())
+                .inputItems(GTOItems.TARANIUM_WAFER.asItem())
                 .notConsumable(TagPrefix.lens, MarkerMaterials.Color.Green)
                 .outputItems(GTItems.RANDOM_ACCESS_MEMORY_WAFER.asStack(64))
                 .EUt(122880)
@@ -132,7 +132,7 @@ interface LaserEngraver {
                 .save();
 
         LASER_ENGRAVER_RECIPES.recipeBuilder(GTOCore.id("mpic_wafer"))
-                .inputItems(GTOItems.TARANIUM_WAFER.asStack())
+                .inputItems(GTOItems.TARANIUM_WAFER.asItem())
                 .notConsumable(TagPrefix.lens, MarkerMaterials.Color.Brown)
                 .outputItems(GTItems.POWER_INTEGRATED_CIRCUIT_WAFER.asStack(32))
                 .EUt(122880)
@@ -141,9 +141,9 @@ interface LaserEngraver {
                 .save();
 
         LASER_ENGRAVER_RECIPES.recipeBuilder(GTOCore.id("diffractor_grating_mirror"))
-                .inputItems(GTOItems.PHOTOCOATED_HASSIUM_WAFER.asStack())
-                .notConsumable(GTOItems.GRATING_LITHOGRAPHY_MASK.asStack())
-                .outputItems(GTOItems.DIFFRACTOR_GRATING_MIRROR.asStack())
+                .inputItems(GTOItems.PHOTOCOATED_HASSIUM_WAFER.asItem())
+                .notConsumable(GTOItems.GRATING_LITHOGRAPHY_MASK.asItem())
+                .outputItems(GTOItems.DIFFRACTOR_GRATING_MIRROR.asItem())
                 .EUt(31457280)
                 .duration(600)
                 .cleanroom(CleanroomType.CLEANROOM)
@@ -159,15 +159,15 @@ interface LaserEngraver {
 
         LASER_ENGRAVER_RECIPES.recipeBuilder(GTOCore.id("exotic_wafer"))
                 .notConsumable(TagPrefix.lens, MarkerMaterials.Color.Magenta)
-                .inputItems(GTItems.HIGHLY_ADVANCED_SOC_WAFER.asStack())
-                .outputItems(GTOItems.EXOTIC_WAFER.asStack())
+                .inputItems(GTItems.HIGHLY_ADVANCED_SOC_WAFER.asItem())
+                .outputItems(GTOItems.EXOTIC_WAFER.asItem())
                 .EUt(1966080)
                 .duration(600)
                 .cleanroom(CleanroomType.CLEANROOM)
                 .save();
 
         LASER_ENGRAVER_RECIPES.recipeBuilder(GTOCore.id("simple_soc_wafer"))
-                .inputItems(GTOItems.TARANIUM_WAFER.asStack())
+                .inputItems(GTOItems.TARANIUM_WAFER.asItem())
                 .notConsumable(TagPrefix.lens, MarkerMaterials.Color.Cyan)
                 .outputItems(GTItems.SIMPLE_SYSTEM_ON_CHIP_WAFER.asStack(64))
                 .EUt(122880)

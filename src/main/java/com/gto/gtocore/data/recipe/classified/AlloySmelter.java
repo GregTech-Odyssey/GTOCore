@@ -18,9 +18,9 @@ interface AlloySmelter {
 
     static void init() {
         ALLOY_SMELTER_RECIPES.recipeBuilder(GTOCore.id("vibrant_gear"))
-                .inputItems(EIOItems.GEAR_ENERGIZED.asStack())
+                .inputItems(EIOItems.GEAR_ENERGIZED.asItem())
                 .inputItems(TagPrefix.ingot, GTOMaterials.VibrantAlloy, 4)
-                .outputItems(EIOItems.GEAR_VIBRANT.asStack())
+                .outputItems(EIOItems.GEAR_VIBRANT.asItem())
                 .EUt(16)
                 .duration(160)
                 .save();
@@ -28,7 +28,7 @@ interface AlloySmelter {
         ALLOY_SMELTER_RECIPES.recipeBuilder(GTOCore.id("infinity_gear"))
                 .inputItems(TagPrefix.gear, GTMaterials.Iron)
                 .inputItems(EIOItems.GRAINS_OF_INFINITY.asStack(2))
-                .outputItems(EIOItems.GEAR_IRON.asStack())
+                .outputItems(EIOItems.GEAR_IRON.asItem())
                 .EUt(16)
                 .duration(80)
                 .save();
@@ -42,25 +42,25 @@ interface AlloySmelter {
                 .save();
 
         ALLOY_SMELTER_RECIPES.recipeBuilder(GTOCore.id("dark_bimetal_gear"))
-                .inputItems(EIOItems.GEAR_IRON.asStack())
+                .inputItems(EIOItems.GEAR_IRON.asItem())
                 .inputItems(TagPrefix.ingot, GTOMaterials.DarkSteel, 4)
-                .outputItems(EIOItems.GEAR_DARK_STEEL.asStack())
+                .outputItems(EIOItems.GEAR_DARK_STEEL.asItem())
                 .EUt(16)
                 .duration(160)
                 .save();
 
         ALLOY_SMELTER_RECIPES.recipeBuilder(GTOCore.id("netherite_ingot"))
                 .inputItems(new ItemStack(Blocks.NETHERITE_BLOCK.asItem()))
-                .notConsumable(GTItems.SHAPE_MOLD_INGOT.asStack())
+                .notConsumable(GTItems.SHAPE_MOLD_INGOT.asItem())
                 .outputItems(TagPrefix.ingot, GTMaterials.Netherite, 9)
                 .EUt(7)
                 .duration(1188)
                 .save();
 
         ALLOY_SMELTER_RECIPES.recipeBuilder(GTOCore.id("energetic_gear"))
-                .inputItems(EIOItems.GEAR_IRON.asStack())
+                .inputItems(EIOItems.GEAR_IRON.asItem())
                 .inputItems(TagPrefix.ingot, GTOMaterials.EnergeticAlloy, 4)
-                .outputItems(EIOItems.GEAR_ENERGIZED.asStack())
+                .outputItems(EIOItems.GEAR_ENERGIZED.asItem())
                 .EUt(16)
                 .duration(120)
                 .save();

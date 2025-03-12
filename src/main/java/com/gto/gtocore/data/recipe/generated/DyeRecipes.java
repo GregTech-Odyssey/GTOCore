@@ -24,7 +24,7 @@ public interface DyeRecipes {
             Block abs = ColorBlockMap.ABS_MAP.get(color);
             if (abs != null && color != DyeColor.WHITE) {
                 CHEMICAL_BATH_RECIPES.recipeBuilder(GTOCore.id("abs_%s".formatted(colorName)))
-                        .inputItems(GTOBlocks.ABS_WHITE_CASING.asStack())
+                        .inputItems(GTOBlocks.ABS_WHITE_CASING.asItem())
                         .inputFluids(CHEMICAL_DYES[i].getFluid(144))
                         .outputItems(abs.asItem())
                         .EUt(7).duration(200)

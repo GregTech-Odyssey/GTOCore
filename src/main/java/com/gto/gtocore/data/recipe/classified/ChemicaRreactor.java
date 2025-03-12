@@ -25,7 +25,7 @@ interface ChemicaRreactor {
         CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("phenolic_board"))
                 .inputItems(TagPrefix.plate, TreatedWood)
                 .inputItems(TagPrefix.foil, GTMaterials.Lead, 4)
-                .outputItems(GTItems.PHENOLIC_BOARD.asStack())
+                .outputItems(GTItems.PHENOLIC_BOARD.asItem())
                 .inputFluids(GTOMaterials.PhenolicResin.getFluid(144))
                 .inputFluids(GTMaterials.SulfuricAcid.getFluid(250))
                 .EUt(30)
@@ -35,8 +35,7 @@ interface ChemicaRreactor {
         CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("coated_board"))
                 .inputItems(TagPrefix.plate, GTMaterials.Wood)
                 .inputItems(GTItems.STICKY_RESIN.asStack(2))
-                .outputItems(GTItems.COATED_BOARD.asStack())
-                .inputFluids(GTMaterials.Benzene.getFluid(100))
+                .outputItems(GTItems.COATED_BOARD.asItem())
                 .inputFluids(GTMaterials.Oxygen.getFluid(100))
                 .EUt(7)
                 .duration(160)
@@ -427,7 +426,7 @@ interface ChemicaRreactor {
                 .save();
 
         CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("benzyl_chloride"))
-                .notConsumable(GTItems.BLACKLIGHT.asStack())
+                .notConsumable(GTItems.BLACKLIGHT.asItem())
                 .inputFluids(GTMaterials.Toluene.getFluid(1000))
                 .inputFluids(GTMaterials.Chlorine.getFluid(2000))
                 .outputFluids(GTOMaterials.BenzylChloride.getFluid(1000))
@@ -577,7 +576,7 @@ interface ChemicaRreactor {
                 .save();
 
         CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("fluorotoluene"))
-                .notConsumable(GTItems.BLACKLIGHT.asStack())
+                .notConsumable(GTItems.BLACKLIGHT.asItem())
                 .inputFluids(GTMaterials.FluoroantimonicAcid.getFluid(1000))
                 .inputFluids(GTMaterials.Methane.getFluid(1000))
                 .inputFluids(GTOMaterials.FluoroBenzene.getFluid(1000))
@@ -849,7 +848,7 @@ interface ChemicaRreactor {
                 .inputItems(TagPrefix.plate, GTMaterials.Germanium)
                 .inputFluids(GTMaterials.HydrogenSulfide.getFluid(1000))
                 .inputFluids(GTMaterials.Zinc.getFluid(144))
-                .outputItems(GTOItems.HIGHLY_REFLECTIVE_MIRROR.asStack())
+                .outputItems(GTOItems.HIGHLY_REFLECTIVE_MIRROR.asItem())
                 .EUt(710000)
                 .duration(240)
                 .cleanroom(CleanroomType.CLEANROOM)
@@ -1290,7 +1289,7 @@ interface ChemicaRreactor {
                 .save();
 
         CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("krypton_difluoride"))
-                .notConsumable(GTItems.BLACKLIGHT.asStack())
+                .notConsumable(GTItems.BLACKLIGHT.asItem())
                 .inputFluids(GTMaterials.Fluorine.getFluid(2000))
                 .inputFluids(GTMaterials.Krypton.getFluid(1000))
                 .outputFluids(GTOMaterials.KryptonDifluoride.getFluid(1000))
@@ -1609,7 +1608,7 @@ interface ChemicaRreactor {
                 .save();
 
         LARGE_CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("tetracene_dust"))
-                .notConsumable(GTItems.BLACKLIGHT.asStack())
+                .notConsumable(GTItems.BLACKLIGHT.asItem())
                 .inputFluids(GTOMaterials.IsopropylAlcohol.getFluid(1000))
                 .inputFluids(GTOMaterials.Dichlorodicyanobenzoquinone.getFluid(2000))
                 .inputFluids(GTOMaterials.Dihydroiodotetracene.getFluid(2000))
@@ -1649,9 +1648,9 @@ interface ChemicaRreactor {
                 .save();
 
         LARGE_CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("mutated_living_solder"))
-                .notConsumable(GTItems.GRAVI_STAR.asStack())
+                .notConsumable(GTItems.GRAVI_STAR.asItem())
                 .inputItems(GTOItems.BIOLOGICAL_CELLS.asStack(16))
-                .inputItems(GTItems.QUANTUM_STAR.asStack())
+                .inputItems(GTItems.QUANTUM_STAR.asItem())
                 .inputFluids(GTMaterials.Helium.getFluid(FluidStorageKeys.PLASMA, 2000))
                 .inputFluids(GTMaterials.Oxygen.getFluid(FluidStorageKeys.PLASMA, 2000))
                 .inputFluids(GTMaterials.Tin.getFluid(2000))
@@ -1901,7 +1900,7 @@ interface ChemicaRreactor {
                 .save();
 
         LARGE_CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("diiodobiphenyl_dust"))
-                .notConsumable(GTItems.BLACKLIGHT.asStack())
+                .notConsumable(GTItems.BLACKLIGHT.asItem())
                 .inputItems(TagPrefix.dust, GTMaterials.Iodine, 2)
                 .inputItems(TagPrefix.dust, GTMaterials.Biphenyl, 22)
                 .outputItems(TagPrefix.dust, GTOMaterials.Diiodobiphenyl, 22)
@@ -1965,7 +1964,7 @@ interface ChemicaRreactor {
                 .save();
 
         LARGE_CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("saturated_fullerene_sieving_matrix"))
-                .inputItems(GTOItems.SATURATED_FULLERENE_SIEVING_MATRIX.asStack())
+                .inputItems(GTOItems.SATURATED_FULLERENE_SIEVING_MATRIX.asItem())
                 .inputFluids(GTOMaterials.KryptonDifluoride.getFluid(16000))
                 .inputFluids(GTMaterials.FluoroantimonicAcid.getFluid(8000))
                 .outputItems(TagPrefix.dust, GTMaterials.AntimonyTrifluoride, 32)
@@ -2365,11 +2364,11 @@ interface ChemicaRreactor {
 
         LARGE_CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("charged_lepton_trap_crystal"))
                 .notConsumable(GTOTagPrefix.nanites, GTOMaterials.Starmetal)
-                .inputItems(GTOItems.LEPTON_TRAP_CRYSTAL.asStack())
+                .inputItems(GTOItems.LEPTON_TRAP_CRYSTAL.asItem())
                 .inputItems(TagPrefix.dustSmall, GTOMaterials.Vibranium, 2)
                 .inputFluids(GTOMaterials.FreeElectronGas.getFluid(1000))
                 .inputFluids(GTOMaterials.HeavyLeptonMixture.getFluid(1000))
-                .outputItems(GTOItems.CHARGED_LEPTON_TRAP_CRYSTAL.asStack())
+                .outputItems(GTOItems.CHARGED_LEPTON_TRAP_CRYSTAL.asItem())
                 .EUt(491520)
                 .duration(240)
                 .cleanroom(GTOCleanroomType.LAW_CLEANROOM)
@@ -2439,11 +2438,11 @@ interface ChemicaRreactor {
 
         LARGE_CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("optical_wafer"))
                 .inputItems(TagPrefix.dust, GTOMaterials.FranciumCaesiumCadmiumBromide, 2)
-                .inputItems(GTOItems.PHOTON_CARRYING_WAFER.asStack())
+                .inputItems(GTOItems.PHOTON_CARRYING_WAFER.asItem())
                 .inputItems(GTOTagPrefix.nanites, GTMaterials.Glowstone)
                 .inputFluids(GTOMaterials.SeaborgiumDopedNanotubes.getFluid(144))
                 .inputFluids(GTOMaterials.CarbonNanotubes.getFluid(144))
-                .outputItems(GTOItems.OPTICAL_WAFER.asStack())
+                .outputItems(GTOItems.OPTICAL_WAFER.asItem())
                 .EUt(1966080)
                 .duration(400)
                 .cleanroom(CleanroomType.CLEANROOM)
@@ -2672,22 +2671,22 @@ interface ChemicaRreactor {
                 .save();
 
         LARGE_CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("bioware_printed_circuit_board"))
-                .inputItems(GTOItems.BIOWARE_CIRCUIT_BOARD.asStack())
+                .inputItems(GTOItems.BIOWARE_CIRCUIT_BOARD.asItem())
                 .inputItems(GTOTagPrefix.flakes, GTOMaterials.TellurateCeramics, 4)
                 .inputItems(TagPrefix.foil, GTMaterials.VanadiumGallium, 32)
                 .inputFluids(GTMaterials.Iron3Chloride.getFluid(10000))
-                .outputItems(GTOItems.BIOWARE_PRINTED_CIRCUIT_BOARD.asStack())
+                .outputItems(GTOItems.BIOWARE_PRINTED_CIRCUIT_BOARD.asItem())
                 .EUt(1920)
                 .duration(2100)
                 .cleanroom(CleanroomType.STERILE_CLEANROOM)
                 .save();
 
         LARGE_CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("bioware_printed_circuit_board1"))
-                .inputItems(GTOItems.BIOWARE_CIRCUIT_BOARD.asStack())
+                .inputItems(GTOItems.BIOWARE_CIRCUIT_BOARD.asItem())
                 .inputItems(GTOTagPrefix.flakes, GTOMaterials.TellurateCeramics, 4)
                 .inputItems(TagPrefix.foil, GTMaterials.VanadiumGallium, 32)
                 .inputFluids(GTMaterials.SodiumPersulfate.getFluid(20000))
-                .outputItems(GTOItems.BIOWARE_PRINTED_CIRCUIT_BOARD.asStack())
+                .outputItems(GTOItems.BIOWARE_PRINTED_CIRCUIT_BOARD.asItem())
                 .EUt(1920)
                 .duration(2100)
                 .cleanroom(CleanroomType.STERILE_CLEANROOM)

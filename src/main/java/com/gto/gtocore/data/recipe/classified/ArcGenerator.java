@@ -62,7 +62,7 @@ interface ArcGenerator {
                 .save();
 
         ARC_GENERATOR_RECIPES.recipeBuilder(GTOCore.id("adamantine_compounds_dust_a"))
-                .notConsumable(GTOItems.MICROWORMHOLE_GENERATOR.asStack())
+                .notConsumable(GTOItems.MICROWORMHOLE_GENERATOR.asItem())
                 .inputItems(TagPrefix.dust, GTOMaterials.AdamantineCompounds, 4)
                 .inputFluids(GTOMaterials.TranscendingMatter.getFluid(1000))
                 .outputItems(TagPrefix.dust, GTOMaterials.Adamantine)
@@ -154,7 +154,7 @@ interface ArcGenerator {
         ARC_GENERATOR_RECIPES.recipeBuilder(GTOCore.id("grains_of_infinity"))
                 .chancedInput(ChemicalHelper.get(TagPrefix.gem, GTMaterials.Flint), 2000, 0)
                 .inputItems(TagPrefix.dustTiny, GTMaterials.Obsidian)
-                .outputItems(EIOItems.GRAINS_OF_INFINITY.asStack())
+                .outputItems(EIOItems.GRAINS_OF_INFINITY.asItem())
                 .EUt(30)
                 .duration(200)
                 .save();
@@ -251,7 +251,7 @@ interface ArcGenerator {
         ARC_GENERATOR_RECIPES.recipeBuilder(GTOCore.id("enderman_head"))
                 .notConsumable(RegistriesUtils.getItemStack("enderio:filled_soul_vial", 1, "{BlockEntityTag:{EntityStorage:{Entity:{id:\"minecraft:enderman\"}}}}"))
                 .inputItems(TagPrefix.gem, GTMaterials.EnderPearl, 9)
-                .outputItems(EIOBlocks.ENDERMAN_HEAD.asStack())
+                .outputItems(EIOBlocks.ENDERMAN_HEAD.asItem())
                 .EUt(480)
                 .duration(100)
                 .save();

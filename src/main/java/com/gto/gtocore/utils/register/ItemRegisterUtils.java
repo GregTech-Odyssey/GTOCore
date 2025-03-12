@@ -208,6 +208,13 @@ public final class ItemRegisterUtils {
                 .register();
     }
 
+    public static ItemEntry<Item> registerAlgae(String id, String cn) {
+        return item(id + "_algae", cn + "藻", Item::new)
+                .model((ctx, prov) -> prov.generated(ctx, GTOCore.id("item/algae/" + id)))
+                .tag(TagUtil.optionalTag(BuiltInRegistries.ITEM, GTOCore.id("algae")))
+                .register();
+    }
+
     public static ItemEntry<Item> registerCustomModel(String id, String cn) {
         return item(id, cn, Item::new).model(NonNullBiConsumer.noop()).register();
     }

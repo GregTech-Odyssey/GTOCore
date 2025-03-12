@@ -5,7 +5,6 @@ import com.gto.gtocore.api.GTOValues;
 import com.gto.gtocore.api.data.GTODimensions;
 import com.gto.gtocore.api.machine.multiblock.CoilMultiblockMachine;
 import com.gto.gtocore.api.machine.multiblock.ElectricMultiblockMachine;
-import com.gto.gtocore.api.machine.multiblock.NoEnergyMultiblockMachine;
 import com.gto.gtocore.api.machine.part.GTOPartAbility;
 import com.gto.gtocore.api.pattern.GTOPredicates;
 import com.gto.gtocore.client.renderer.machine.ArrayMachineRenderer;
@@ -21,6 +20,7 @@ import com.gto.gtocore.common.machine.multiblock.electric.processing.ProcessingA
 import com.gto.gtocore.common.machine.multiblock.electric.space.SatelliteControlCenterMachine;
 import com.gto.gtocore.common.machine.multiblock.electric.voidseries.DrillingControlCenterMachine;
 import com.gto.gtocore.common.machine.multiblock.electric.voidseries.VoidTransporterMachine;
+import com.gto.gtocore.common.machine.multiblock.noenergy.AlgaeFarmMachine;
 import com.gto.gtocore.common.machine.multiblock.noenergy.DroneControlCenterMachine;
 import com.gto.gtocore.common.machine.multiblock.storage.WirelessEnergySubstationMachine;
 import com.gto.gtocore.config.GTOConfig;
@@ -33,6 +33,7 @@ import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
+import com.gregtechceu.gtceu.common.data.GTMachines;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
 import net.minecraft.core.BlockPos;
@@ -95,8 +96,11 @@ public interface MultiBlockG {
             .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_solid_steel"), GTCEu.id("block/multiblock/large_chemical_reactor"))
             .register();
 
-    MultiblockMachineDefinition ALGAE_FARM = multiblock("algae_farm", "藻类农场", NoEnergyMultiblockMachine::new)
+    MultiblockMachineDefinition ALGAE_FARM = multiblock("algae_farm", "藻类农场", AlgaeFarmMachine::new)
             .nonYAxisRotation()
+            .tooltipsText("Every 10 seconds, randomly consume 5-10B water, and randomly output 1-10 algae", "每10秒随机消耗5-10B水，随机输出1-10个藻类")
+            .tooltipsText("If 10B fermentation biomass is placed on the input bus, then increase the output amount by 10 times", "如果输入10B发酵生物质，则输出量提升10倍")
+            .tooltipsText("If n algae are in the input bus, specify the output content, and increase the output amount by n/4 times", "如果在输入总线放入n个特定藻类，则指定输出内容，且输出量提升n/4倍")
             .recipe(GTORecipeTypes.DUMMY_RECIPES)
             .block(GTBlocks.PLASTCRETE)
             .pattern(definition -> FactoryBlockPattern.start()
@@ -116,9 +120,9 @@ public interface MultiBlockG {
                     .where('E', blocks(GTBlocks.CASING_STAINLESS_CLEAN.get()))
                     .where('F', blocks(Blocks.GLASS))
                     .where('G', blocks(GTBlocks.PLASTCRETE.get())
+                            .or(blocks(GTMachines.ITEM_IMPORT_BUS[ULV].getBlock()).setMaxGlobalLimited(1))
                             .or(abilities(IMPORT_FLUIDS).setExactLimit(1))
-                            .or(abilities(EXPORT_ITEMS).setExactLimit(1))
-                            .or(abilities(MAINTENANCE).setExactLimit(1)))
+                            .or(abilities(EXPORT_ITEMS).setExactLimit(1)))
                     .where('H', controller(blocks(definition.get())))
                     .where(' ', any())
                     .build())

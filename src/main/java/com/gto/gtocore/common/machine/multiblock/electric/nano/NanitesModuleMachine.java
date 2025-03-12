@@ -18,8 +18,8 @@ public final class NanitesModuleMachine extends ElectricMultiblockMachine {
 
     NanitesIntegratedMachine nanitesIntegratedMachine;
 
-    public NanitesModuleMachine(IMachineBlockEntity holder, Object... args) {
-        super(holder, args);
+    public NanitesModuleMachine(IMachineBlockEntity holder) {
+        super(holder);
     }
 
     @Override

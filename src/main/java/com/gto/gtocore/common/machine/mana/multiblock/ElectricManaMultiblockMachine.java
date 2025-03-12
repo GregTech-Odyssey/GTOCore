@@ -13,8 +13,8 @@ public class ElectricManaMultiblockMachine extends ElectricMultiblockMachine imp
 
     private final ManaTrait manaTrait;
 
-    public ElectricManaMultiblockMachine(IMachineBlockEntity holder, Object... args) {
-        super(holder, args);
+    public ElectricManaMultiblockMachine(IMachineBlockEntity holder) {
+        super(holder);
         this.manaTrait = new ManaTrait(this);
     }
 

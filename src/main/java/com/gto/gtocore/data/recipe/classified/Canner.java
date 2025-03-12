@@ -33,10 +33,10 @@ interface Canner {
                 .save();
 
         CANNER_RECIPES.recipeBuilder(GTOCore.id("reactor_uranium_simple"))
-                .inputItems(GTOItems.REACTOR_FUEL_ROD.asStack())
+                .inputItems(GTOItems.REACTOR_FUEL_ROD.asItem())
                 .inputItems(TagPrefix.dust, GTMaterials.Uranium238, 16)
                 .inputFluids(GTMaterials.Uranium235.getFluid(96))
-                .outputItems(GTOItems.REACTOR_URANIUM_SIMPLE.asStack())
+                .outputItems(GTOItems.REACTOR_URANIUM_SIMPLE.asItem())
                 .EUt(1920)
                 .duration(120)
                 .save();
@@ -52,27 +52,27 @@ interface Canner {
 
         CANNER_RECIPES.recipeBuilder(GTOCore.id("dense_neutron_plasma_cell"))
                 .notConsumable(GTOTagPrefix.nanites, GTMaterials.Neutronium)
-                .inputItems(GTOItems.EXTREMELY_DURABLE_PLASMA_CELL.asStack())
+                .inputItems(GTOItems.EXTREMELY_DURABLE_PLASMA_CELL.asItem())
                 .inputFluids(GTOMaterials.DenseNeutron.getFluid(FluidStorageKeys.PLASMA, 1000))
-                .outputItems(GTOItems.DENSE_NEUTRON_PLASMA_CELL.asStack())
+                .outputItems(GTOItems.DENSE_NEUTRON_PLASMA_CELL.asItem())
                 .EUt(125829120)
                 .duration(20)
                 .cleanroom(CleanroomType.CLEANROOM)
                 .save();
 
         CANNER_RECIPES.recipeBuilder(GTOCore.id("reactor_mox_simple"))
-                .inputItems(GTOItems.REACTOR_FUEL_ROD.asStack())
+                .inputItems(GTOItems.REACTOR_FUEL_ROD.asItem())
                 .inputItems(TagPrefix.dust, GTMaterials.Uranium238, 18)
                 .inputFluids(GTMaterials.Plutonium239.getFluid(432))
-                .outputItems(GTOItems.REACTOR_MOX_SIMPLE.asStack())
+                .outputItems(GTOItems.REACTOR_MOX_SIMPLE.asItem())
                 .EUt(7680)
                 .duration(120)
                 .save();
 
         CANNER_RECIPES.recipeBuilder(GTOCore.id("reactor_thorium_simple"))
-                .inputItems(GTOItems.REACTOR_FUEL_ROD.asStack())
+                .inputItems(GTOItems.REACTOR_FUEL_ROD.asItem())
                 .inputItems(TagPrefix.dust, GTMaterials.Thorium, 12)
-                .outputItems(GTOItems.REACTOR_THORIUM_SIMPLE.asStack())
+                .outputItems(GTOItems.REACTOR_THORIUM_SIMPLE.asItem())
                 .EUt(480)
                 .duration(120)
                 .save();
@@ -88,28 +88,28 @@ interface Canner {
 
         CANNER_RECIPES.recipeBuilder(GTOCore.id("crystal_matrix_plasma_containment_cell"))
                 .notConsumable(GTOTagPrefix.nanites, GTOMaterials.Enderium)
-                .inputItems(GTOItems.PLASMA_CONTAINMENT_CELL.asStack())
+                .inputItems(GTOItems.PLASMA_CONTAINMENT_CELL.asItem())
                 .inputFluids(GTOMaterials.CrystalMatrix.getFluid(FluidStorageKeys.PLASMA, 1000))
-                .outputItems(GTOItems.CRYSTAL_MATRIX_PLASMA_CONTAINMENT_CELL.asStack())
+                .outputItems(GTOItems.CRYSTAL_MATRIX_PLASMA_CONTAINMENT_CELL.asItem())
                 .EUt(125829120)
                 .duration(20)
                 .cleanroom(CleanroomType.CLEANROOM)
                 .save();
 
         CANNER_RECIPES.recipeBuilder(GTOCore.id("reactor_naquadah_simple"))
-                .inputItems(GTOItems.TUNGSTEN_CARBIDE_REACTOR_FUEL_ROD.asStack())
+                .inputItems(GTOItems.TUNGSTEN_CARBIDE_REACTOR_FUEL_ROD.asItem())
                 .inputItems(TagPrefix.dust, GTMaterials.Naquadah, 4)
                 .inputFluids(GTMaterials.Thorium.getFluid(144))
-                .outputItems(GTOItems.REACTOR_NAQUADAH_SIMPLE.asStack())
+                .outputItems(GTOItems.REACTOR_NAQUADAH_SIMPLE.asItem())
                 .EUt(30720)
                 .duration(120)
                 .save();
 
         CANNER_RECIPES.recipeBuilder(GTOCore.id("rhenium_plasma_containment_cell"))
                 .notConsumable(GTOTagPrefix.nanites, GTMaterials.Naquadah)
-                .inputItems(GTOItems.PLASMA_CONTAINMENT_CELL.asStack())
+                .inputItems(GTOItems.PLASMA_CONTAINMENT_CELL.asItem())
                 .inputFluids(GTOMaterials.DegenerateRhenium.getFluid(FluidStorageKeys.PLASMA, 1000))
-                .outputItems(GTOItems.RHENIUM_PLASMA_CONTAINMENT_CELL.asStack())
+                .outputItems(GTOItems.RHENIUM_PLASMA_CONTAINMENT_CELL.asItem())
                 .EUt(30720)
                 .duration(20)
                 .cleanroom(CleanroomType.CLEANROOM)
@@ -117,9 +117,9 @@ interface Canner {
 
         CANNER_RECIPES.recipeBuilder(GTOCore.id("chaos_containment_unit"))
                 .notConsumable(GTOTagPrefix.nanites, GTOMaterials.CosmicNeutronium)
-                .inputItems(GTOItems.TIME_DILATION_CONTAINMENT_UNIT.asStack())
+                .inputItems(GTOItems.TIME_DILATION_CONTAINMENT_UNIT.asItem())
                 .inputFluids(GTOMaterials.Chaos.getFluid(FluidStorageKeys.PLASMA, 1000))
-                .outputItems(GTOItems.CHAOS_CONTAINMENT_UNIT.asStack())
+                .outputItems(GTOItems.CHAOS_CONTAINMENT_UNIT.asItem())
                 .EUt(503316480)
                 .duration(20)
                 .cleanroom(CleanroomType.CLEANROOM)
@@ -127,9 +127,9 @@ interface Canner {
 
         CANNER_RECIPES.recipeBuilder(GTOCore.id("bose_einstein_cooling_container"))
                 .notConsumable(GTOTagPrefix.nanites, GTMaterials.Iridium)
-                .inputItems(GTOItems.EMPTY_LASER_COOLING_CONTAINER.asStack())
+                .inputItems(GTOItems.EMPTY_LASER_COOLING_CONTAINER.asItem())
                 .inputFluids(GTMaterials.Rubidium.getFluid(288))
-                .outputItems(GTOItems.BOSE_EINSTEIN_COOLING_CONTAINER.asStack())
+                .outputItems(GTOItems.BOSE_EINSTEIN_COOLING_CONTAINER.asItem())
                 .EUt(90000)
                 .duration(280)
                 .cleanroom(CleanroomType.CLEANROOM)
@@ -137,9 +137,9 @@ interface Canner {
 
         CANNER_RECIPES.recipeBuilder(GTOCore.id("actinium_superhydride_plasma_containment_cell"))
                 .notConsumable(GTOTagPrefix.nanites, GTOMaterials.Infuscolium)
-                .inputItems(GTOItems.PLASMA_CONTAINMENT_CELL.asStack())
+                .inputItems(GTOItems.PLASMA_CONTAINMENT_CELL.asItem())
                 .inputFluids(GTOMaterials.ActiniumSuperhydride.getFluid(FluidStorageKeys.PLASMA, 1000))
-                .outputItems(GTOItems.ACTINIUM_SUPERHYDRIDE_PLASMA_CONTAINMENT_CELL.asStack())
+                .outputItems(GTOItems.ACTINIUM_SUPERHYDRIDE_PLASMA_CONTAINMENT_CELL.asItem())
                 .EUt(31457280)
                 .duration(20)
                 .cleanroom(CleanroomType.CLEANROOM)
@@ -147,9 +147,9 @@ interface Canner {
 
         CANNER_RECIPES.recipeBuilder(GTOCore.id("awakened_draconium_plasma_containment_cell"))
                 .notConsumable(GTOTagPrefix.nanites, GTOMaterials.Draconium)
-                .inputItems(GTOItems.PLASMA_CONTAINMENT_CELL.asStack())
+                .inputItems(GTOItems.PLASMA_CONTAINMENT_CELL.asItem())
                 .inputFluids(GTOMaterials.AwakenedDraconium.getFluid(FluidStorageKeys.PLASMA, 1000))
-                .outputItems(GTOItems.AWAKENED_DRACONIUM_PLASMA_CONTAINMENT_CELL.asStack())
+                .outputItems(GTOItems.AWAKENED_DRACONIUM_PLASMA_CONTAINMENT_CELL.asItem())
                 .EUt(125829120)
                 .duration(20)
                 .cleanroom(CleanroomType.CLEANROOM)
@@ -157,9 +157,9 @@ interface Canner {
 
         CANNER_RECIPES.recipeBuilder(GTOCore.id("charged_triplet_neutronium_sphere"))
                 .notConsumable(GTOTagPrefix.nanites, GTMaterials.Neutronium)
-                .inputItems(GTOItems.TRIPLET_NEUTRONIUM_SPHERE.asStack())
+                .inputItems(GTOItems.TRIPLET_NEUTRONIUM_SPHERE.asItem())
                 .inputFluids(GTOMaterials.FreeAlphaGas.getFluid(1000))
-                .outputItems(GTOItems.CHARGED_TRIPLET_NEUTRONIUM_SPHERE.asStack())
+                .outputItems(GTOItems.CHARGED_TRIPLET_NEUTRONIUM_SPHERE.asItem())
                 .EUt(500000)
                 .duration(200)
                 .cleanroom(CleanroomType.CLEANROOM)
@@ -167,9 +167,9 @@ interface Canner {
 
         CANNER_RECIPES.recipeBuilder(GTOCore.id("cosmic_mesh_containment_unit"))
                 .notConsumable(GTOTagPrefix.nanites, GTOMaterials.Uruium)
-                .inputItems(GTOItems.TIME_DILATION_CONTAINMENT_UNIT.asStack())
+                .inputItems(GTOItems.TIME_DILATION_CONTAINMENT_UNIT.asItem())
                 .inputFluids(GTOMaterials.CosmicMesh.getFluid(FluidStorageKeys.PLASMA, 1000))
-                .outputItems(GTOItems.COSMIC_MESH_CONTAINMENT_UNIT.asStack())
+                .outputItems(GTOItems.COSMIC_MESH_CONTAINMENT_UNIT.asItem())
                 .EUt(503316480)
                 .duration(20)
                 .save();

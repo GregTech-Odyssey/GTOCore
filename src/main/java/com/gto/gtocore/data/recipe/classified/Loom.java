@@ -21,7 +21,7 @@ interface Loom {
                 .save();
 
         LOOM_RECIPES.recipeBuilder(GTOCore.id("plant_fiber"))
-                .inputItems(GTItems.PLANT_BALL.asStack())
+                .inputItems(GTItems.PLANT_BALL.asItem())
                 .outputItems(GTOItems.PLANT_FIBER.asStack(2))
                 .EUt(7)
                 .duration(200)

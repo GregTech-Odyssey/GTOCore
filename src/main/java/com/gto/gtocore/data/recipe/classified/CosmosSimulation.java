@@ -14,7 +14,7 @@ interface CosmosSimulation {
 
     static void init() {
         COSMOS_SIMULATION_RECIPES.recipeBuilder(GTOCore.id("cosmos_simulation1"))
-                .inputItems(GTOBlocks.QUANTUM_CHROMODYNAMIC_CHARGE.asStack())
+                .inputItems(GTOBlocks.QUANTUM_CHROMODYNAMIC_CHARGE.asItem())
                 .inputFluids(GTOMaterials.CosmicElement.getFluid(1024000))
                 .outputItems(TagPrefix.dust, GTMaterials.Carbon, 131072)
                 .outputItems(TagPrefix.dust, GTMaterials.Phosphorus, 131072)

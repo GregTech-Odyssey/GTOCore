@@ -89,7 +89,7 @@ interface Mixer {
                 .save();
 
         MIXER_RECIPES.recipeBuilder(GTOCore.id("sunnarium"))
-                .notConsumable(GTItems.FIELD_GENERATOR_UXV.asStack())
+                .notConsumable(GTItems.FIELD_GENERATOR_UXV.asItem())
                 .inputFluids(GTMaterials.Helium.getFluid(FluidStorageKeys.PLASMA, 1000))
                 .inputFluids(GTMaterials.Glowstone.getFluid(1000))
                 .outputFluids(GTOMaterials.Sunnarium.getFluid(1000))
@@ -192,7 +192,7 @@ interface Mixer {
                 .save();
 
         MIXER_RECIPES.recipeBuilder(GTOCore.id("dimensionallytranscendentcrudecatalyst"))
-                .inputItems(GTOItems.RESONATING_GEM.asStack())
+                .inputItems(GTOItems.RESONATING_GEM.asItem())
                 .inputFluids(GTMaterials.Nitrogen.getFluid(FluidStorageKeys.PLASMA, 1000))
                 .inputFluids(GTMaterials.Helium.getFluid(FluidStorageKeys.PLASMA, 1000))
                 .outputFluids(GTOMaterials.DimensionallyTranscendentCrudeCatalyst.getFluid(1000))
@@ -210,14 +210,14 @@ interface Mixer {
 
         MIXER_RECIPES.recipeBuilder(GTOCore.id("filled_soul_vial"))
                 .notConsumable(new ItemStack(Blocks.SOUL_CAMPFIRE.asItem()))
-                .inputItems(EIOItems.EMPTY_SOUL_VIAL.asStack())
-                .outputItems(EIOItems.FILLED_SOUL_VIAL.asStack())
+                .inputItems(EIOItems.EMPTY_SOUL_VIAL.asItem())
+                .outputItems(EIOItems.FILLED_SOUL_VIAL.asItem())
                 .EUt(2)
                 .duration(2000)
                 .save();
 
         MIXER_RECIPES.recipeBuilder(GTOCore.id("fertilizer_"))
-                .inputItems(GTItems.FERTILIZER.asStack())
+                .inputItems(GTItems.FERTILIZER.asItem())
                 .inputItems(GTOItems.SCRAP.asStack(2))
                 .outputItems(GTItems.FERTILIZER.asStack(2))
                 .EUt(480)
@@ -260,7 +260,7 @@ interface Mixer {
 
         MIXER_RECIPES.recipeBuilder(GTOCore.id("essence_seed"))
                 .inputItems(new ItemStack(Blocks.BEETROOTS.asItem(), 16))
-                .inputItems(GTOItems.ESSENCE.asStack())
+                .inputItems(GTOItems.ESSENCE.asItem())
                 .inputFluids(GTMaterials.DistilledWater.getFluid(1000))
                 .inputFluids(GTMaterials.CarbonDioxide.getFluid(1000))
                 .outputItems(GTOItems.ESSENCE_SEED.asStack(16))
@@ -422,9 +422,9 @@ interface Mixer {
         MIXER_RECIPES.recipeBuilder(GTOCore.id("actinium_trinium_hydroxides_dust"))
                 .inputItems(TagPrefix.dust, GTOMaterials.ActiniumTriniumHydroxides, 58)
                 .inputItems(TagPrefix.dust, GTMaterials.Radium, 6)
-                .inputItems(GTOItems.PROTONATED_FULLERENE_SIEVING_MATRIX.asStack())
+                .inputItems(GTOItems.PROTONATED_FULLERENE_SIEVING_MATRIX.asItem())
                 .inputFluids(GTMaterials.Water.getFluid(2000))
-                .outputItems(GTOItems.SATURATED_FULLERENE_SIEVING_MATRIX.asStack())
+                .outputItems(GTOItems.SATURATED_FULLERENE_SIEVING_MATRIX.asItem())
                 .outputFluids(GTOMaterials.ActiniumRadiumHydroxideSolution.getFluid(2000))
                 .EUt(245760)
                 .duration(210)
@@ -499,7 +499,7 @@ interface Mixer {
                 .save();
 
         MIXER_RECIPES.recipeBuilder(GTOCore.id("antihydrogen"))
-                .notConsumable(GTItems.FIELD_GENERATOR_UV.asStack())
+                .notConsumable(GTItems.FIELD_GENERATOR_UV.asItem())
                 .inputFluids(GTOMaterials.PositiveElectron.getFluid(200))
                 .inputFluids(GTOMaterials.Antiproton.getFluid(200))
                 .outputFluids(GTOMaterials.Antihydrogen.getFluid(200))
@@ -580,7 +580,7 @@ interface Mixer {
                 .save();
 
         MIXER_RECIPES.recipeBuilder(GTOCore.id("explosivehydrazine"))
-                .notConsumable(GTItems.FIELD_GENERATOR_LuV.asStack())
+                .notConsumable(GTItems.FIELD_GENERATOR_LuV.asItem())
                 .inputItems(GTItems.GELLED_TOLUENE.asStack(16))
                 .inputItems(new ItemStack(Items.FIRE_CHARGE.asItem(), 8))
                 .inputFluids(GTMaterials.GlycerylTrinitrate.getFluid(1000))

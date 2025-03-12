@@ -52,7 +52,7 @@ public interface GCYRecipes {
                 new UnificationEntry(cableGtSingle, Platinum));
         VanillaRecipeHelper.addShapedRecipe(provider, true, "large_packer", LARGE_PACKER.asStack(), "RCR", "PXP", "KPK",
                 'C', EV_CIRCUITS, 'P', new UnificationEntry(plate, HSLASteel), 'R', ROBOT_ARM_HV.asStack(),
-                'K', CONVEYOR_MODULE_HV.asStack(), 'X', PACKER[HV].asStack());
+                'K', CONVEYOR_MODULE_HV.asStack(), 'X', PACKER[HV].getItem());
         VanillaRecipeHelper.addShapedRecipe(provider, true, "large_mixer", LARGE_MIXER.asStack(), "FCF", "RXR", "MKM",
                 'C', IV_CIRCUITS, 'F', ChemicalHelper.get(pipeNormalFluid, Polybenzimidazole), 'R',
                 ChemicalHelper.get(rotor, Osmiridium), 'M', ELECTRIC_MOTOR_IV.asStack(), 'X', MIXER[IV].asStack(), 'K',
@@ -78,7 +78,7 @@ public interface GCYRecipes {
                 new UnificationEntry(cableGtSingle, Platinum));
         VanillaRecipeHelper.addShapedRecipe(provider, true, "blast_alloy_smelter", BLAST_ALLOY_SMELTER.asStack(), "TCT",
                 "WXW", "TCT", 'C', EV_CIRCUITS, 'T', new UnificationEntry(plate, TantalumCarbide), 'W',
-                new UnificationEntry(cableGtSingle, Aluminium), 'X', ALLOY_SMELTER[EV].asStack());
+                new UnificationEntry(cableGtSingle, Aluminium), 'X', ALLOY_SMELTER[EV].getItem());
         VanillaRecipeHelper.addShapedRecipe(provider, true, "mega_blast_furnace", MEGA_BLAST_FURNACE.asStack(), "PCP",
                 "FSF", "DWD", 'C', ZPM_CIRCUITS, 'S', GTMultiMachines.ELECTRIC_BLAST_FURNACE.asStack(), 'F',
                 FIELD_GENERATOR_ZPM.asStack(), 'P', new UnificationEntry(spring, Naquadah), 'D',
@@ -128,10 +128,10 @@ public interface GCYRecipes {
     private static void registerPartsRecipes(Consumer<FinishedRecipe> provider) {
         VanillaRecipeHelper.addShapedRecipe(provider, "crushing_wheels", CRUSHING_WHEELS.asStack(2), "TTT", "UCU",
                 "UMU", 'T', new UnificationEntry(gearSmall, TungstenCarbide), 'U', ChemicalHelper.get(gear, Ultimet),
-                'C', CASING_SECURE_MACERATION.asStack(), 'M', ELECTRIC_MOTOR_IV.asStack());
+                'C', CASING_SECURE_MACERATION.asStack(), 'M', ELECTRIC_MOTOR_IV.asItem());
         VanillaRecipeHelper.addShapedRecipe(provider, "slicing_blades", SLICING_BLADES.asStack(2), "PPP", "UCU", "UMU",
                 'P', new UnificationEntry(plate, TungstenCarbide), 'U', ChemicalHelper.get(gear, Ultimet), 'C',
-                CASING_SHOCK_PROOF.asStack(), 'M', ELECTRIC_MOTOR_IV.asStack());
+                CASING_SHOCK_PROOF.asStack(), 'M', ELECTRIC_MOTOR_IV.asItem());
         VanillaRecipeHelper.addShapedRecipe(provider, "electrolytic_cell", ELECTROLYTIC_CELL.asStack(2), "WWW", "WCW",
                 "ZKZ", 'W', new UnificationEntry(wireGtDouble, Platinum), 'Z', IV_CIRCUITS, 'C',
                 CASING_NONCONDUCTING.asStack(), 'K', ChemicalHelper.get(cableGtSingle, Tungsten));

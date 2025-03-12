@@ -2,6 +2,7 @@ package com.gto.gtocore.data;
 
 import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.api.machine.IMultiblockMachineDefinition;
+import com.gto.gtocore.api.recipe.GTORecipeBuilder;
 import com.gto.gtocore.common.data.GTOLoots;
 import com.gto.gtocore.common.data.GTORecipeTypes;
 import com.gto.gtocore.common.data.GTORecipes;
@@ -55,6 +56,7 @@ public interface Data {
         MaterialInfoLoader.init();
         GTOMaterialInfoLoader.init();
         GTORecipes.initFilter();
+        GTORecipeBuilder.initialization();
         Consumer<FinishedRecipe> consumer = GTDynamicDataPack::addRecipe;
 
         CustomToolRecipes.init(consumer);
@@ -107,6 +109,7 @@ public interface Data {
         GenerateDisassembly.DISASSEMBLY_BLACKLIST.clear();
         RecyclingRecipes.init(consumer);
         ChemicalHelper.ITEM_MATERIAL_INFO.clear();
+        GTORecipeBuilder.clean();
         LootSystem.defaultBlockTable(RegistriesUtils.getBlock("farmersrespite:kettle"));
         GTOLoots.BLOCKS.forEach(b -> LootSystem.defaultBlockTable((Block) b));
         GTOLoots.BLOCKS = null;

@@ -55,8 +55,8 @@ public final class HarmonyMachine extends NoEnergyMultiblockMachine implements I
 
     private final ConditionalSubscriptionHandler StartupSubs;
 
-    public HarmonyMachine(IMachineBlockEntity holder, Object... args) {
-        super(holder, args);
+    public HarmonyMachine(IMachineBlockEntity holder) {
+        super(holder);
         StartupSubs = new ConditionalSubscriptionHandler(this, this::StartupUpdate, this::isFormed);
     }
 

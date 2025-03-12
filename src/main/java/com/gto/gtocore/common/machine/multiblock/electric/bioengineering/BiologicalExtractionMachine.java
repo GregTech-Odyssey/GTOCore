@@ -6,7 +6,7 @@ import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 
 public final class BiologicalExtractionMachine extends ElectricMultiblockMachine {
 
-    public BiologicalExtractionMachine(IMachineBlockEntity holder, Object... args) {
-        super(holder, args);
+    public BiologicalExtractionMachine(IMachineBlockEntity holder) {
+        super(holder);
     }
 }

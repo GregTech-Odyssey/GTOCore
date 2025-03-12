@@ -75,7 +75,7 @@ interface NanoForge {
 
         NANO_FORGE_RECIPES.recipeBuilder(GTOCore.id("spacetime_nanites"))
                 .notConsumable(TagPrefix.lens, GTMaterials.Sapphire)
-                .notConsumable(GTOItems.QUANTUM_ANOMALY.asStack())
+                .notConsumable(GTOItems.QUANTUM_ANOMALY.asItem())
                 .inputItems(TagPrefix.block, GTOMaterials.SpaceTime, 8)
                 .inputItems(GTOItems.EIGENFOLDED_KERR_MANIFOLD.asStack(4))
                 .inputItems(GTOItems.SUPRACAUSAL_RAM_WAFER.asStack(16))
@@ -251,8 +251,8 @@ interface NanoForge {
                 .save();
 
         NANO_FORGE_RECIPES.recipeBuilder(GTOCore.id("transcendent_metal_nanites"))
-                .notConsumable(GTOItems.NON_LINEAR_OPTICAL_LENS.asStack())
-                .notConsumable(GTOItems.HYPERCUBE.asStack())
+                .notConsumable(GTOItems.NON_LINEAR_OPTICAL_LENS.asItem())
+                .notConsumable(GTOItems.HYPERCUBE.asItem())
                 .inputItems(GTOTagPrefix.nanites, GTMaterials.Rhenium)
                 .inputItems(TagPrefix.block, GTOMaterials.TranscendentMetal, 8)
                 .inputItems(GTOItems.RECURSIVELY_FOLDED_NEGATIVE_SPACE.asStack(8))
@@ -268,8 +268,8 @@ interface NanoForge {
 
         NANO_FORGE_RECIPES.recipeBuilder(GTOCore.id("eternity_nanites"))
                 .notConsumable(TagPrefix.lens, MarkerMaterials.Color.Blue)
-                .notConsumable(GTOItems.QUANTUM_ANOMALY.asStack())
-                .notConsumable(GTOItems.ETERNITY_CATALYST.asStack())
+                .notConsumable(GTOItems.QUANTUM_ANOMALY.asItem())
+                .notConsumable(GTOItems.ETERNITY_CATALYST.asItem())
                 .inputItems(GTOTagPrefix.nanites, GTMaterials.Neutronium)
                 .inputItems(TagPrefix.block, GTOMaterials.Eternity, 8)
                 .inputItems(GTOItems.CLOSED_TIMELIKE_CURVE_COMPUTATIONAL_UNIT.asStack(8))
