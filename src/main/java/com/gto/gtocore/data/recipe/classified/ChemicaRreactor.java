@@ -22,6 +22,40 @@ import static com.gto.gtocore.common.data.GTORecipeTypes.LARGE_CHEMICAL_RECIPES;
 interface ChemicaRreactor {
 
     static void init() {
+        CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("copper_nitrate"))
+                .inputItems(TagPrefix.dust, GTMaterials.Copper)
+                .outputItems(TagPrefix.dust, GTOMaterials.CopperNitrate, 9)
+                .inputFluids(GTMaterials.NitricAcid.getFluid(2000))
+                .EUt(120)
+                .duration(240)
+                .save();
+
+        CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("barium_nitrate"))
+                .inputItems(TagPrefix.dust, GTMaterials.BariumSulfide, 2)
+                .outputItems(TagPrefix.dust, GTOMaterials.BariumNitrate, 9)
+                .inputFluids(GTMaterials.NitricAcid.getFluid(2000))
+                .EUt(120)
+                .duration(240)
+                .save();
+
+        CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("yttrium_nitrate"))
+                .inputItems(TagPrefix.dust, GTOMaterials.YttriumOxide, 5)
+                .outputItems(TagPrefix.dust, GTOMaterials.YttriumNitrate, 26)
+                .inputFluids(GTMaterials.NitricAcid.getFluid(6000))
+                .EUt(120)
+                .duration(240)
+                .save();
+
+        CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("yttrium_oxide"))
+                .inputItems(TagPrefix.dust, GTMaterials.Yttrium, 2)
+                .outputItems(TagPrefix.dust, GTOMaterials.YttriumOxide, 5)
+                .inputFluids(GTMaterials.SulfuricAcid.getFluid(1000))
+                .outputFluids(GTMaterials.HydrogenSulfide.getFluid(1000))
+                .outputFluids(GTMaterials.Oxygen.getFluid(1000))
+                .EUt(480)
+                .duration(100)
+                .save();
+
         CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("phenolic_board"))
                 .inputItems(TagPrefix.plate, TreatedWood)
                 .inputItems(TagPrefix.foil, GTMaterials.Lead, 4)
@@ -2690,6 +2724,35 @@ interface ChemicaRreactor {
                 .EUt(1920)
                 .duration(2100)
                 .cleanroom(CleanroomType.STERILE_CLEANROOM)
+                .save();
+
+        LARGE_CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("citric_acid"))
+                .inputItems(TagPrefix.dustTiny, GTMaterials.PotassiumDichromate)
+                .outputItems(TagPrefix.dust, GTMaterials.AmmoniumChloride, 18)
+                .inputFluids(GTMaterials.HypochlorousAcid.getFluid(1000))
+                .inputFluids(GTMaterials.HydrochloricAcid.getFluid(2000))
+                .inputFluids(GTMaterials.Glycerol.getFluid(1000))
+                .inputFluids(GTMaterials.Water.getFluid(3000))
+                .inputFluids(GTMaterials.HydrogenCyanide.getFluid(3000))
+                .outputFluids(GTOMaterials.CitricAcid.getFluid(1000))
+                .circuitMeta(4)
+                .EUt(1920)
+                .duration(240)
+                .save();
+
+        LARGE_CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("well_mixed_ybcoxides"))
+                .inputItems(TagPrefix.dust, GTOMaterials.CopperNitrate, 27)
+                .inputItems(TagPrefix.dust, GTOMaterials.BariumNitrate, 18)
+                .inputItems(TagPrefix.dust, GTOMaterials.YttriumNitrate, 13)
+                .outputItems(TagPrefix.dust, GTOMaterials.WellMixedYbcOxides, 12)
+                .inputFluids(GTOMaterials.CitricAcid.getFluid(1000))
+                .inputFluids(GTMaterials.Ammonia.getFluid(2000))
+                .outputFluids(GTMaterials.NitrogenDioxide.getFluid(15000))
+                .outputFluids(GTMaterials.CarbonMonoxide.getFluid(6000))
+                .outputFluids(GTMaterials.Water.getFluid(4000))
+                .outputFluids(GTMaterials.Hydrogen.getFluid(6000))
+                .EUt(1920)
+                .duration(260)
                 .save();
     }
 }

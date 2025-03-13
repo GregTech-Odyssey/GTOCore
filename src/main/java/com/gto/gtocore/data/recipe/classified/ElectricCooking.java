@@ -492,4 +492,4 @@ interface ElectricCooking {
                 .duration(300);
         builder.save();
     }
-};
+}

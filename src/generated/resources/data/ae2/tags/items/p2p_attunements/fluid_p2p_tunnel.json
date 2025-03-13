@@ -621,6 +621,22 @@
     "gtocore:tetrafluorosilane_solution_bucket",
     "gtocore:high_purity_silica_bucket",
     "gtocore:molten_high_purity_silica_bucket",
-    "gtocore:carbon_tetrafluoride_bucket"
+    "gtocore:carbon_tetrafluoride_bucket",
+    "gtocore:citric_acid_bucket",
+    "gtocore:blood_bucket",
+    "gtocore:blood_cells_bucket",
+    "gtocore:blood_plasma_bucket",
+    "gtocore:bacterial_growth_medium_bucket",
+    "gtocore:animal_cells_bucket",
+    "gtocore:rapidly_replicating_animal_cells_bucket",
+    "gtocore:myc_gene_bucket",
+    "gtocore:oct_4_gene_bucket",
+    "gtocore:sox_2_gene_bucket",
+    "gtocore:kfl_4_gene_bucket",
+    "gtocore:cas_9_protein_bucket",
+    "gtocore:pluripotency_induction_gene_plasmids_bucket",
+    "gtocore:chitosan_bucket",
+    "gtocore:chitin_bucket",
+    "gtocore:pluripotency_induction_gene_therapy_fluid_bucket"
   ]
 }

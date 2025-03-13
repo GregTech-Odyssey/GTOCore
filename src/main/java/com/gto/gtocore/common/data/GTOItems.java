@@ -725,9 +725,9 @@ public interface GTOItems {
     ItemEntry<Item> GOLD_ALGAE = registerAlgae("gold", "金");
     ItemEntry<Item> GREEN_ALGAE = registerAlgae("green", "绿");
     ItemEntry<Item> RED_ALGAE = registerAlgae("red", "红");
-    ItemEntry<Item> GOLD_ALGAE_FIBER = register("gold_algae_fiber", "金藻纤维");
-    ItemEntry<Item> GREEN_ALGAE_FIBER = register("green_algae_fiber", "绿藻纤维");
-    ItemEntry<Item> RED_ALGAE_FIBER = register("red_algae_fiber", "红藻纤维");
+    ItemEntry<Item> GOLD_ALGAE_FIBER = registerAlgaeFiber("gold", "金");
+    ItemEntry<Item> GREEN_ALGAE_FIBER = registerAlgaeFiber("green", "绿");
+    ItemEntry<Item> RED_ALGAE_FIBER = registerAlgaeFiber("red", "红");
 
     ItemEntry<Item> STERILIZED_PETRI_DISH = registerCustomModel("sterilized_petri_dish", "无菌培养皿");
     ItemEntry<Item> ELECTRICALY_WIRED_PETRI_DISH = registerCustomModel("electricaly_wired_petri_dish", "电信号培养皿");

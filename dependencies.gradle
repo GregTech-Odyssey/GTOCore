@@ -75,6 +75,8 @@ dependencies {
 
     modCompileOnly("curse.maven:biomes-o-plenty-220318:6028852")
 
+    modCompileOnly("curse.maven:emi-trades-villager-trading-emi-plugin-735523:4901194")
+
     modRuntimeOnly("curse.maven:cloth-config-348521:5729105")
 
     modRuntimeOnly("curse.maven:FerriteCore-429235:4810975")

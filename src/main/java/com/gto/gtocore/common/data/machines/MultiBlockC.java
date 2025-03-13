@@ -4,10 +4,10 @@ import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.api.machine.feature.multiblock.ICoilMachine;
 import com.gto.gtocore.api.machine.feature.multiblock.ITierCasingMachine;
 import com.gto.gtocore.api.machine.multiblock.*;
+import com.gto.gtocore.api.machine.part.GTOPartAbility;
 import com.gto.gtocore.api.pattern.GTOPredicates;
 import com.gto.gtocore.common.data.*;
 import com.gto.gtocore.common.machine.multiblock.electric.EnergyInjectorMachine;
-import com.gto.gtocore.common.machine.multiblock.electric.bioengineering.BiochemicalReactionRoomMachine;
 import com.gto.gtocore.common.machine.multiblock.electric.bioengineering.BiologicalExtractionMachine;
 import com.gto.gtocore.common.machine.multiblock.electric.nano.NanitesIntegratedMachine;
 import com.gto.gtocore.common.machine.multiblock.electric.nano.NanitesModuleMachine;
@@ -847,7 +847,7 @@ public interface MultiBlockC {
             .workableCasingRenderer(GTOCore.id("block/casings/dimension_injection_casing"), GTCEu.id("block/multiblock/fusion_reactor"))
             .register();
 
-    MultiblockMachineDefinition BIOCHEMICAL_REACTION = multiblock("biochemical_reaction", "生化反应室", BiochemicalReactionRoomMachine::new)
+    MultiblockMachineDefinition BIOCHEMICAL_REACTION = multiblock("biochemical_reaction", "生化反应室", ElectricMultiblockMachine::new)
             .nonYAxisRotation()
             .recipe(GTORecipeTypes.BIOCHEMICAL_REACTION_RECIPES)
             .block(GTOBlocks.IRIDIUM_CASING)
@@ -892,7 +892,16 @@ public interface MultiBlockC {
 
     MultiblockMachineDefinition BIOCHEMICAL_EXTRACTION = multiblock("biochemical_extraction", "生物提取机", BiologicalExtractionMachine::new)
             .nonYAxisRotation()
+            .tooltipsText("The machine requires specific fluids as input during operation; otherwise, the recipe is interrupted", "机器运行时需要输入特定流体，否则中断配方")
+            .tooltipsText("It needs to input 1B nutrient distillation once per second, and upon success, emits a redstone signal once", "每秒需要输入1B营养精华一次，成功后发出一次红石信号")
+            .tooltipsText("After continuous operation for 5 seconds, it needs to input 1B cloud seed concentrated once", "连续运行5秒后需要输入1B浓缩云之精华一次")
+            .tooltipsText("After continuous operation for 15 seconds, it needs to input 1B fire water once", "连续运行15秒后需要输入1B火焰水一次")
+            .tooltipsText("After continuous operation for 20 seconds, it needs to input 1B vapor of levity once", "连续运行20秒后需要输入1B轻盈之气一次")
+            .tooltipsText("If the required fluids for continuous operation do not meet the requirements, the recipe is interrupted; nutrient distillation can be input simultaneously with other fluids", "如果连续运行要求输入的流体不符合要求，则中断配方，营养精华可与其他流体同时输入")
+            .tooltipsText("After 20 seconds, only the requirement for inputting nutrient distillation once per second needs to be completed, recipe output begins", "20秒后只需完成每秒的营养精华输入要求，配方开始输出")
             .recipe(GTORecipeTypes.BIOCHEMICAL_EXTRACTION_RECIPES)
+            .parallelizableTooltips()
+            .customTooltipsBuilder(false, false, true)
             .block(GTBlocks.CASING_STAINLESS_CLEAN)
             .pattern((definition) -> FactoryBlockPattern.start(RelativeDirection.FRONT, RelativeDirection.UP, RelativeDirection.RIGHT)
                     .aisle("   AAAAA    ", "   BBBBB    ", "   CCCCC    ", "   CCCCC    ", "   CCCCC    ", "  BDDDDDB   ", "   CCCCC    ", "   CCCCC    ", "   CCCCC    ", "  BDDDDDB   ", "   CCCCC    ", "   CCCCC    ", "   CCCCC    ", "   BBBBB    ", "    BBB     ")
@@ -917,6 +926,9 @@ public interface MultiBlockC {
                     .where('H', blocks(GTBlocks.CASING_POLYTETRAFLUOROETHYLENE_PIPE.get()))
                     .where('a', blocks(GTBlocks.CASING_STAINLESS_CLEAN.get())
                             .or(autoAbilities(definition.getRecipeTypes()))
+                            .or(abilities(GTOPartAbility.THREAD_HATCH).setMaxGlobalLimited(1))
+                            .or(abilities(PARALLEL_HATCH).setMaxGlobalLimited(1))
+                            .or(abilities(IMPORT_FLUIDS).setExactLimit(1))
                             .or(abilities(MAINTENANCE).setExactLimit(1)))
                     .where(' ', any())
                     .build())

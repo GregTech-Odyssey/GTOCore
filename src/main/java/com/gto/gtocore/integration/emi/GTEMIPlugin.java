@@ -25,14 +25,65 @@ import appeng.api.stacks.AEFluidKey;
 import appeng.api.stacks.AEItemKey;
 import appeng.api.stacks.AEKey;
 import appeng.api.stacks.GenericStack;
+import appeng.integration.modules.jei.JEIPlugin;
 import appeng.menu.me.items.PatternEncodingTermMenu;
+import com.enderio.base.common.integrations.jei.EnderIOJEI;
+import com.enderio.machines.common.integrations.jei.MachinesJEI;
+import com.lowdragmc.lowdraglib.LDLib;
+import com.lowdragmc.lowdraglib.emi.EMIPlugin;
 import com.lowdragmc.lowdraglib.gui.modular.ModularUIContainer;
+import committee.nova.mods.avaritia.Static;
+import committee.nova.mods.avaritia.init.compat.emi.AvaritiaEmiPlugin;
 import de.mari_023.ae2wtlib.wet.WETMenu;
+import dev.emi.emi.VanillaPlugin;
 import dev.emi.emi.api.EmiPlugin;
 import dev.emi.emi.api.EmiRegistry;
 import dev.emi.emi.api.stack.*;
+import dev.emi.emi.jemi.JemiPlugin;
+import dev.emi.emi.registry.EmiPluginContainer;
+import dev.shadowsoffire.apotheosis.ench.compat.EnchJEIPlugin;
+import dev.shadowsoffire.apotheosis.potion.compat.PotionJEIPlugin;
+import dev.shadowsoffire.apotheosis.village.compat.VillageJEIPlugin;
+import io.github.prismwork.emitrades.EMITradesPlugin;
+import jeresources.jei.JEIConfig;
+import mezz.jei.api.IModPlugin;
+import mezz.jei.library.plugins.jei.JeiInternalPlugin;
+import mythicbotany.jei.MythicJei;
+import umpaz.farmersrespite.integration.jei.JEIFRPlugin;
+import vazkii.botania.api.BotaniaAPI;
+import vazkii.botania.client.integration.emi.BotaniaEmiPlugin;
+
+import java.util.List;
 
 public final class GTEMIPlugin implements EmiPlugin {
+
+    public static void addJEIPlugin(List<IModPlugin> list) {
+        list.add(new mezz.jei.library.plugins.vanilla.VanillaPlugin());
+        list.add(new JeiInternalPlugin());
+        list.add(new JEIPlugin());
+        list.add(new EnderIOJEI());
+        list.add(new MachinesJEI());
+        list.add(new JemiPlugin());
+        list.add(new EnchJEIPlugin());
+        list.add(new PotionJEIPlugin());
+        list.add(new VillageJEIPlugin());
+        list.add(new JEIConfig());
+        list.add(new MythicJei());
+        list.add(new JEIFRPlugin());
+        list.add(new de.mari_023.ae2wtlib.reijei.JEIPlugin());
+        list.add(new vectorwing.farmersdelight.integration.jei.JEIPlugin());
+    }
+
+    public static void addEMIPlugin(List<EmiPluginContainer> list) {
+        list.add(new EmiPluginContainer(new VanillaPlugin(), "emi"));
+        if (GTCEu.isProd()) {
+            list.add(new EmiPluginContainer(new EMITradesPlugin(), "emitrades"));
+        }
+        list.add(new EmiPluginContainer(new AvaritiaEmiPlugin(), Static.MOD_ID));
+        list.add(new EmiPluginContainer(new BotaniaEmiPlugin(), BotaniaAPI.MODID));
+        list.add(new EmiPluginContainer(new EMIPlugin(), LDLib.MOD_ID));
+        list.add(new EmiPluginContainer(new GTEMIPlugin(), GTCEu.MOD_ID));
+    }
 
     public static EmiIngredient genericStackToEmiIngredient(GenericStack stack) {
         AEKey key = stack.what();

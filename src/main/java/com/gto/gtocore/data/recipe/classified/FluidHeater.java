@@ -1,12 +1,17 @@
 package com.gto.gtocore.data.recipe.classified;
 
 import com.gto.gtocore.GTOCore;
+import com.gto.gtocore.common.data.GTOItems;
 import com.gto.gtocore.common.data.GTOMaterials;
 
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
 import com.gregtechceu.gtceu.api.machine.multiblock.CleanroomType;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
+
+import net.minecraftforge.fluids.FluidStack;
+
+import com.enderio.base.common.init.EIOFluids;
 
 import static com.gto.gtocore.common.data.GTORecipeTypes.FLUID_HEATER_RECIPES;
 
@@ -49,6 +54,22 @@ interface FluidHeater {
                 .outputFluids(GTOMaterials.GermaniumTetrachlorideSolution.getFluid(FluidStorageKeys.GAS, 1000))
                 .EUt(30)
                 .duration(20)
+                .save();
+
+        FLUID_HEATER_RECIPES.recipeBuilder(GTOCore.id("fire_water"))
+                .inputItems(TagPrefix.dustTiny, GTMaterials.Blaze)
+                .inputFluids(new FluidStack(EIOFluids.HOOTCH.getSource(), 1000))
+                .outputFluids(new FluidStack(EIOFluids.FIRE_WATER.getSource(), 1000))
+                .EUt(120)
+                .duration(40)
+                .save();
+
+        FLUID_HEATER_RECIPES.recipeBuilder(GTOCore.id(""))
+                .inputItems(GTOItems.GOLD_ALGAE.asStack(4))
+                .inputFluids(GTOMaterials.CoolantLiquid.getFluid(1000))
+                .outputFluids(new FluidStack(EIOFluids.CLOUD_SEED.getSource(), 1000))
+                .EUt(30)
+                .duration(300)
                 .save();
     }
 }

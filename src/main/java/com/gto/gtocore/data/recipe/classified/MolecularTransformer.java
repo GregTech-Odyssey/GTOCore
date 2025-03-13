@@ -56,7 +56,8 @@ interface MolecularTransformer {
                 .inputItems(EIOItems.CLAYED_GLOWSTONE.asItem())
                 .outputItems(TagPrefix.dustSmall, GTOMaterials.Sunnarium)
                 .EUt(524288)
-                .duration(200)
+                .duration(1600)
+                .daytime()
                 .save();
 
         MOLECULAR_TRANSFORMER_RECIPES.recipeBuilder(GTOCore.id("steel_dust"))

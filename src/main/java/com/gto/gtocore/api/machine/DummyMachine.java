@@ -1,5 +1,7 @@
 package com.gto.gtocore.api.machine;
 
+import com.gto.gtocore.common.data.GTORecipeTypes;
+
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
@@ -34,7 +36,7 @@ public final class DummyMachine extends MetaMachine {
 
     private DummyMachine(IMachineBlockEntity holder, GTRecipeType type) {
         super(holder);
-        recipeType = type;
+        recipeType = type == GTORecipeTypes.CHEMICAL ? GTORecipeTypes.LARGE_CHEMICAL_RECIPES : type;
         importItems = createImportItemHandler();
         exportItems = createExportItemHandler();
         importFluids = createImportFluidHandler();

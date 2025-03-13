@@ -4,6 +4,7 @@ import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.common.data.GTOBlocks;
 import com.gto.gtocore.common.data.GTOItems;
 import com.gto.gtocore.common.data.GTOMaterials;
+import com.gto.gtocore.utils.TagUtils;
 
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
@@ -138,6 +139,13 @@ interface Macerator {
                 .outputItems(TagPrefix.dust, GTMaterials.TreatedWood)
                 .EUt(2)
                 .duration(98)
+                .save();
+
+        MACERATOR_RECIPES.recipeBuilder(GTOCore.id("algae_paper"))
+                .inputItems(TagUtils.createTag(GTOCore.id("algae_fiber")))
+                .outputItems(TagPrefix.dust, GTMaterials.Paper)
+                .duration(320)
+                .EUt(2)
                 .save();
     }
 }

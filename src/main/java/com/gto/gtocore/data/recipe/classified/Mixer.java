@@ -17,6 +17,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.fluids.FluidStack;
 
+import com.enderio.base.common.init.EIOFluids;
 import com.enderio.base.common.init.EIOItems;
 import earth.terrarium.adastra.common.registry.ModFluids;
 
@@ -89,9 +90,9 @@ interface Mixer {
                 .save();
 
         MIXER_RECIPES.recipeBuilder(GTOCore.id("sunnarium"))
-                .notConsumable(GTItems.FIELD_GENERATOR_UXV.asItem())
+                .notConsumable(GTItems.FIELD_GENERATOR_UIV.asItem())
                 .inputFluids(GTMaterials.Helium.getFluid(FluidStorageKeys.PLASMA, 1000))
-                .inputFluids(GTMaterials.Glowstone.getFluid(1000))
+                .inputFluids(new FluidStack(EIOFluids.LIQUID_SUNSHINE.getSource(), 1000))
                 .outputFluids(GTOMaterials.Sunnarium.getFluid(1000))
                 .EUt(125829120)
                 .duration(400)
@@ -672,6 +673,16 @@ interface Mixer {
                 .outputFluids(GTOMaterials.CoolantLiquid.getFluid(1000))
                 .EUt(30)
                 .duration(200)
+                .save();
+
+        MIXER_RECIPES.recipeBuilder(GTOCore.id("dew_of_the_void"))
+                .inputItems("enderio:pulsating_powder")
+                .inputItems(GTOItems.GREEN_ALGAE.asStack(8))
+                .inputItems(GTOItems.BROWN_ALGAE.asStack(8))
+                .inputFluids(new FluidStack(EIOFluids.NUTRIENT_DISTILLATION.getSource(), 4000))
+                .outputFluids(new FluidStack(EIOFluids.DEW_OF_THE_VOID.getSource(), 4000))
+                .EUt(120)
+                .duration(400)
                 .save();
     }
 }

@@ -10,10 +10,7 @@ import com.gto.gtocore.common.data.machines.structure.AnnihilateGeneratorA;
 import com.gto.gtocore.common.data.machines.structure.AnnihilateGeneratorB;
 import com.gto.gtocore.common.machine.multiblock.electric.space.DysonSphereLaunchSiloMachine;
 import com.gto.gtocore.common.machine.multiblock.electric.space.DysonSphereReceivingStationMcahine;
-import com.gto.gtocore.common.machine.multiblock.generator.ChemicalEnergyDevourerMachine;
-import com.gto.gtocore.common.machine.multiblock.generator.GeneratorArrayMachine;
-import com.gto.gtocore.common.machine.multiblock.generator.PhotovoltaicPowerStationMachine;
-import com.gto.gtocore.common.machine.multiblock.generator.TurbineMachine;
+import com.gto.gtocore.common.machine.multiblock.generator.*;
 import com.gto.gtocore.utils.MachineUtils;
 
 import com.gregtechceu.gtceu.GTCEu;
@@ -21,7 +18,6 @@ import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
-import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
@@ -30,7 +26,6 @@ import com.gregtechceu.gtceu.common.data.GCYMBlocks;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
-import com.gregtechceu.gtceu.common.machine.multiblock.part.LaserHatchPartMachine;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -87,27 +82,16 @@ public interface GeneratorMultiblock {
                 .register();
     }
 
-    MultiblockMachineDefinition MAGNETIC_FLUID_GENERATOR = multiblock("magnetic_fluid_generator", "磁流体发电机", ElectricMultiblockMachine::new)
+    MultiblockMachineDefinition MAGNETIC_FLUID_GENERATOR = multiblock("magnetic_fluid_generator", "磁流体发电机", MagneticFluidGeneratorMachine::new)
             .allRotation()
             .recipe(GTRecipeTypes.PLASMA_GENERATOR_FUELS)
             .tooltipsText("Actual output is determined by plasma heat value", "实际产出由等离子热值决定")
+            .tooltipsText("The glass tier limits the energy output hatch tier", "玻璃等级限制了能量输出仓等级")
             .tooltipsText("If a laser hatch is used, power generation is increased by x2^tier", "如果使用激光仓，则提升发电量x2^等级")
             .tooltipsText("A torrent of plasma rushes forward with majestic energy", "等离子体洪流带着磅礴的能量奔涌")
             .customTooltipsBuilder(false, true, false)
             .generator()
-            .recipeModifier((machine, r) -> recipe -> {
-                if (machine instanceof ElectricMultiblockMachine multiblockMachine) {
-                    int tier = 0;
-                    for (IMultiPart part : multiblockMachine.getParts()) {
-                        if (part instanceof LaserHatchPartMachine laserHatchPartMachine) {
-                            tier = laserHatchPartMachine.getTier();
-                            break;
-                        }
-                    }
-                    return GTORecipeModifiers.generatorOverclocking(multiblockMachine, GTORecipeModifiers.accurateParallel(machine, recipe, 1 << tier));
-                }
-                return recipe;
-            })
+            .alwaysTryModifyRecipe(true)
             .block(GTBlocks.CASING_TUNGSTENSTEEL_ROBUST)
             .pattern(definition -> FactoryBlockPattern.start(RelativeDirection.FRONT, RelativeDirection.UP, RelativeDirection.RIGHT)
                     .aisle("AAAABBBBBBBBBAAAA", "CCCCBBBBBBBBBCCCC", "CDDCBEEEEEEEBCCCC", "CDDCBBBBBBBBBCCCC", "CDDCBEEEEEEEBCCCC", "CCCCBBBBBBBBBCCCC", "AAAABBBBBBBBBAAAA")
@@ -120,7 +104,7 @@ public interface GeneratorMultiblock {
                     .where('A', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.Tungsten)))
                     .where('B', blocks(GTBlocks.CASING_TUNGSTENSTEEL_TURBINE.get()))
                     .where('C', GTOPredicates.absBlocks())
-                    .where('D', blocks(GTBlocks.CASING_TEMPERED_GLASS.get()))
+                    .where('D', GTOPredicates.glass())
                     .where('E', blocks(GCYMBlocks.ELECTROLYTIC_CELL.get()))
                     .where('F', blocks(GTBlocks.CASING_TUNGSTENSTEEL_ROBUST.get()))
                     .where('G', blocks(ChemicalHelper.getBlock(TagPrefix.block, GTMaterials.NeodymiumMagnetic)))

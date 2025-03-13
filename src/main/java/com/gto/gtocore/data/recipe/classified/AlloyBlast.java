@@ -4,6 +4,7 @@ import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.common.data.GTOMaterials;
 
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
+import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
 import static com.gto.gtocore.common.data.GTORecipeTypes.ALLOY_BLAST_RECIPES;
@@ -29,6 +30,17 @@ interface AlloyBlast {
                 .EUt(100000000)
                 .duration(40)
                 .blastFurnaceTemp(12880)
+                .save();
+
+        ALLOY_BLAST_RECIPES.recipeBuilder(GTOCore.id("yttrium_barium_cuprate"))
+                .inputItems(TagPrefix.dust, GTMaterials.Yttrium)
+                .inputItems(TagPrefix.dust, GTMaterials.Barium, 2)
+                .inputItems(TagPrefix.dust, GTMaterials.Copper, 3)
+                .inputFluids(GTMaterials.Oxygen.getFluid(1000))
+                .outputFluids(GTMaterials.YttriumBariumCuprate.getFluid(FluidStorageKeys.MOLTEN, 1000))
+                .EUt(524288)
+                .blastFurnaceTemp(12288)
+                .duration(3450)
                 .save();
     }
 }

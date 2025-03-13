@@ -6,6 +6,7 @@ import com.gto.gtocore.common.data.GTOBlocks;
 import com.gto.gtocore.common.data.GTOFluids;
 import com.gto.gtocore.common.data.GTOItems;
 import com.gto.gtocore.common.data.GTOMaterials;
+import com.gto.gtocore.common.data.machines.GeneratorMultiblock;
 import com.gto.gtocore.common.data.machines.MultiBlockD;
 
 import com.gregtechceu.gtceu.api.GTValues;
@@ -14,6 +15,7 @@ import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
 import com.gregtechceu.gtceu.api.machine.multiblock.CleanroomType;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTItems;
+import com.gregtechceu.gtceu.common.data.GTMachines;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.data.machines.GTMultiMachines;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
@@ -510,6 +512,32 @@ interface PrecisionAssembler {
                 .EUt(491520)
                 .duration(200)
                 .cleanroom(CleanroomType.CLEANROOM)
+                .save();
+
+        PRECISION_ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("magnetic_fluid_generator"))
+                .inputItems(GTOBlocks.PLASMA_HEATER_CASING.asStack(8))
+                .inputItems(GTMachines.POLARIZER[GTValues.LuV].asStack(4))
+                .inputItems(TagPrefix.wireGtOctal, GTMaterials.SamariumIronArsenicOxide, 8)
+                .inputItems(TagPrefix.rodLong, GTMaterials.RhodiumPlatedPalladium, 16)
+                .outputItems(GeneratorMultiblock.MAGNETIC_FLUID_GENERATOR.getItem())
+                .inputFluids(GTMaterials.Trinium.getFluid(2304))
+                .inputFluids(GTMaterials.RedSteel.getFluid(2304))
+                .inputFluids(GTMaterials.Praseodymium.getFluid(2304))
+                .inputFluids(GTMaterials.Polybenzimidazole.getFluid(2304))
+                .EUt(7680)
+                .duration(800)
+                .save();
+
+        PRECISION_ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("guardian_diode"))
+                .inputItems(new ItemStack(Items.PRISMARINE_CRYSTALS.asItem(), 4))
+                .inputItems(GTItems.SMD_DIODE.asStack(4))
+                .inputItems(TagPrefix.wireGtSingle, GTOMaterials.EnergeticAlloy, 2)
+                .inputItems(TagPrefix.wireFine, GTMaterials.TungstenSteel, 8)
+                .outputItems("enderio:guardian_diode")
+                .inputFluids(GTMaterials.Gallium.getFluid(144))
+                .inputFluids(GTMaterials.Indium.getFluid(72))
+                .EUt(7680)
+                .duration(100)
                 .save();
     }
 }

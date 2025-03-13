@@ -858,19 +858,19 @@ public interface GTORecipeTypes {
             .addDataInfo(COIL)
             .setUiBuilder(COIL_UI);
 
-    // TODO 添加用途
     GTORecipeType BIOCHEMICAL_REACTION_RECIPES = register("biochemical_reaction", "生化反应", MULTIBLOCK)
             .setEUIO(IO.IN)
-            .setMaxIOSize(3, 3, 3, 3)
+            .setMaxIOSize(2, 2, 5, 1)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
-            .setSound(GTSoundEntries.ARC);
+            .setSound(GTSoundEntries.COOLING);
 
     GTORecipeType BIOCHEMICAL_EXTRACTION_RECIPES = register("biochemical_extraction", "生物提取", MULTIBLOCK)
             .setEUIO(IO.IN)
-            .setMaxIOSize(1, 0, 1, 0)
+            .setMaxIOSize(1, 1, 0, 1)
             .setProgressBar(GuiTextures.PROGRESS_BAR_EXTRACT, LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.ARC);
 
+    // TODO 添加用途
     GTORecipeType PLASMA_CENTRIFUGE_RECIPES = register("plasma_centrifuge", "等离子体离心", MULTIBLOCK)
             .setEUIO(IO.IN)
             .setMaxIOSize(1, 0, 1, 9)

@@ -7,7 +7,7 @@ import com.gregtechceu.gtceu.api.fluids.FluidBuilder;
 import com.gregtechceu.gtceu.api.fluids.attribute.FluidAttributes;
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
 
-import static com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlags.*;
+import static com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlags.DISABLE_DECOMPOSITION;
 import static com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialIconSet.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
 import static com.gto.gtocore.api.data.chemical.material.info.GTOMaterialIconSet.LIMPID;
@@ -4740,32 +4740,40 @@ public interface MaterialB {
                 .flags(DISABLE_DECOMPOSITION)
                 .buildAndRegister();
 
-        BasicMFPC = material("basic_mfpc", "多功能相变微粒（MFPC）")
+        AlgaeExtract = material("algae_extract", "藻类提取物")
                 .dust()
-                .color(0xC0C0C0)
-                .iconSet(SAND)
-                // 后面画.iconSet(new MaterialIconSet("basic_mfpc"))
+                .color(0xA3CA00)
+                .iconSet(DULL)
                 .buildAndRegister();
 
-        CascadeMFPC = material("cascade_mfpc", "串级相变MFPC微粒（Cascade-MFPC）")
+        CopperNitrate = material("copper_nitrate", "硝酸铜")
                 .dust()
-                .color(0x303030)
-                .iconSet(SAND)
-                // 后面画.iconSet(new MaterialIconSet("cascade_mfpc"))
-                .buildAndRegister();
+                .color(0x8EFAF4)
+                .iconSet(DULL)
+                .buildAndRegister().setFormula("Cu(NO3)2");
 
-        InvalidationBasicMFPC = material("invalidation_basic_mfpc", "失效的多功能相变微粒（MFPC")
+        BariumNitrate = material("barium_nitrate", "硝酸钡")
                 .dust()
-                .color(0xC0C0C0)
-                .iconSet(SAND)
-                // 后面画.iconSet(new MaterialIconSet("basic_mfpc"))
-                .buildAndRegister();
+                .color(0xE464D6)
+                .iconSet(DULL)
+                .buildAndRegister().setFormula("Ba(NO3)2");
 
-        InvalidationCascadeMFPC = material("invalidation_cascade_mfpc", "失效的串级相变MFPC微粒（Cascade-MFPC）")
+        YttriumNitrate = material("yttrium_nitrate", "硝酸钇")
                 .dust()
-                .color(0x303030)
-                .iconSet(SAND)
-                // 后面画.iconSet(new MaterialIconSet("cascade_mfpc"))
-                .buildAndRegister();
+                .color(0xAAC6E4)
+                .iconSet(DULL)
+                .buildAndRegister().setFormula("Y(NO3)3");
+
+        CitricAcid = material("citric_acid", "柠檬酸")
+                .liquid(new FluidBuilder().attribute(FluidAttributes.ACID))
+                .color(0xFADD0C)
+                .iconSet(DULL)
+                .buildAndRegister().setFormula("C6H8O7");
+
+        WellMixedYbcOxides = material("well_mixed_ybc_oxides", "精致钇-钡-铜氧化混合物")
+                .dust()
+                .color(0x283301)
+                .iconSet(DULL)
+                .buildAndRegister().setFormula("YBa2Cu3O6");
     }
 }

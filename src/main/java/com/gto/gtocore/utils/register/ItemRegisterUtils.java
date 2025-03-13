@@ -215,6 +215,12 @@ public final class ItemRegisterUtils {
                 .register();
     }
 
+    public static ItemEntry<Item> registerAlgaeFiber(String id, String cn) {
+        return item(id + "_algae_fiber", cn + "藻纤维", Item::new)
+                .tag(TagUtil.optionalTag(BuiltInRegistries.ITEM, GTOCore.id("algae_fiber")))
+                .register();
+    }
+
     public static ItemEntry<Item> registerCustomModel(String id, String cn) {
         return item(id, cn, Item::new).model(NonNullBiConsumer.noop()).register();
     }

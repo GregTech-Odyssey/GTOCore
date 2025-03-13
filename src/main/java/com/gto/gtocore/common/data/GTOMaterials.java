@@ -845,6 +845,33 @@ public final class GTOMaterials {
     public static Material TetrafluorosilaneSolution;
     public static Material HighPuritySilica;
     public static Material CarbonTetrafluoride;
+    public static Material WellMixedYbcOxides;
+    public static Material AlgaeExtract;
+    public static Material CopperNitrate;
+    public static Material BariumNitrate;
+    public static Material YttriumNitrate;
+    public static Material CitricAcid;
+    public static Material Blood;
+    public static Material BloodCells;
+    public static Material BloodPlasma;
+    public static Material BacterialGrowthMedium;
+    public static Material AnimalCells;
+    public static Material RapidlyReplicatingAnimalCells;
+    public static Material MycGene;
+    public static Material Oct4Gene;
+    public static Material Sox2Gene;
+    public static Material Kfl4Gene;
+    public static Material Cas9Protein;
+    public static Material PluripotencyInductionGenePlasmids;
+    public static Material Chitosan;
+    public static Material Chitin;
+    public static Material PluripotencyInductionGeneTherapyFluid;
+    public static Material Shewanella;
+    public static Material StreptococcusPyogenes;
+    public static Material EschericiaColi;
+    public static Material BifidobacteriumBreve;
+    public static Material BrevibacteriumFlavium;
+    public static Material CupriavidusNecator;
     public static Material BasicMFPC;
     public static Material CascadeMFPC;
     public static Material InvalidationBasicMFPC;
@@ -885,6 +912,7 @@ public final class GTOMaterials {
         MagicMaterial.init();
         MaterialA.init();
         MaterialB.init();
+        MaterialC.init();
         MaterialIgnored.init();
 
         MATERIAL_VOLTAGE = Map.of(

@@ -73,5 +73,12 @@ interface Vacuum {
                 .EUt(125829120)
                 .duration(100)
                 .save();
+
+        VACUUM_RECIPES.recipeBuilder(GTOCore.id("rhodium_plated_palladium"))
+                .outputItems(TagPrefix.ingot, GTMaterials.RhodiumPlatedPalladium)
+                .inputFluids(GTMaterials.RhodiumPlatedPalladium.getFluid(FluidStorageKeys.MOLTEN, 144))
+                .EUt(1920)
+                .duration(300)
+                .save();
     }
 }

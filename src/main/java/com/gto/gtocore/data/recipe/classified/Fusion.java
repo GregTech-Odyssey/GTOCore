@@ -95,7 +95,7 @@ interface Fusion {
         FUSION_RECIPES.recipeBuilder(GTOCore.id("neon"))
                 .inputFluids(GTMaterials.Boron.getFluid(FluidStorageKeys.PLASMA, 144))
                 .inputFluids(GTMaterials.Calcium.getFluid(FluidStorageKeys.PLASMA, 16))
-                .outputFluids(GTMaterials.Neon.getFluid(FluidStorageKeys.PLASMA, 1000))
+                .outputFluids(GTMaterials.Neon.getFluid(FluidStorageKeys.PLASMA, 125))
                 .duration(64)
                 .EUt(30720)
                 .fusionStartEU(100_000_000)

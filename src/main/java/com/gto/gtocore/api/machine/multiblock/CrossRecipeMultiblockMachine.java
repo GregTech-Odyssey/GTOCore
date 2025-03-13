@@ -137,7 +137,7 @@ public class CrossRecipeMultiblockMachine extends ElectricMultiblockMachine impl
         boolean isLocked = getRecipeLogic().gTOCore$isLockRecipe();
         if (isLocked && originRecipes.size() >= getThread()) {
             for (GTRecipe recipe : originRecipes) {
-                recipe = modifyRecipe(recipe.copy());
+                recipe = getRecipe(recipe.copy());
                 if (recipe != null) return recipe;
             }
         } else {
@@ -145,7 +145,7 @@ public class CrossRecipeMultiblockMachine extends ElectricMultiblockMachine impl
             while (matches != null && matches.hasNext()) {
                 GTRecipe recipe = matches.next();
                 if (recipe != null) {
-                    GTRecipe modify = modifyRecipe(recipe.copy());
+                    GTRecipe modify = getRecipe(recipe.copy());
                     if (modify != null) {
                         if (isLocked) originRecipes.add(recipe);
                         return modify;
@@ -156,7 +156,7 @@ public class CrossRecipeMultiblockMachine extends ElectricMultiblockMachine impl
         return null;
     }
 
-    private GTRecipe modifyRecipe(GTRecipe recipe) {
+    private GTRecipe getRecipe(GTRecipe recipe) {
         int rt = RecipeHelper.getRecipeEUtTier(recipe);
         if (rt <= getMaxOverclockTier() && recipe.checkConditions(getRecipeLogic()).isSuccess()) {
             recipe.conditions.clear();
@@ -164,7 +164,7 @@ public class CrossRecipeMultiblockMachine extends ElectricMultiblockMachine impl
                 recipe = part.modifyRecipe(recipe);
                 if (recipe == null) return null;
             }
-            recipe = GTORecipeModifiers.accurateParallel(this, recipe, isHatchParallel ? getMaxParallel() : getParallel());
+            recipe = modifyRecipe(recipe);
             if (RecipeRunner.matchRecipeInput(this, recipe) && RecipeRunner.handleRecipeInput(this, recipe)) {
                 recipe.ocLevel = getTier() - rt;
                 recipe.inputs.clear();
@@ -177,10 +177,15 @@ public class CrossRecipeMultiblockMachine extends ElectricMultiblockMachine impl
         return null;
     }
 
+    protected GTRecipe modifyRecipe(GTRecipe recipe) {
+        return GTORecipeModifiers.accurateParallel(this, recipe, isHatchParallel ? getMaxParallel() : getParallel());
+    }
+
     @Override
     public void addDisplayText(@NotNull List<Component> textList) {
         super.addDisplayText(textList);
         if (!isFormed()) return;
+        if (!isActive()) return;
         for (GTRecipe recipe : lastRecipes) {
             textList.add(Component.translatable("gtceu.top.recipe_output"));
             int recipeTier = RecipeHelper.getPreOCRecipeEuTier(recipe);

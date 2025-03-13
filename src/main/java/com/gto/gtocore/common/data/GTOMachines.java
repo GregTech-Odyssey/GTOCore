@@ -7,7 +7,6 @@ import com.gto.gtocore.api.machine.part.GTOPartAbility;
 import com.gto.gtocore.api.machine.part.ItemHatchPartMachine;
 import com.gto.gtocore.client.renderer.machine.BallHatchRenderer;
 import com.gto.gtocore.client.renderer.machine.WindMillTurbineRenderer;
-import com.gto.gtocore.common.data.machines.*;
 import com.gto.gtocore.common.machine.electric.ElectricHeaterMachine;
 import com.gto.gtocore.common.machine.electric.VacuumPumpMachine;
 import com.gto.gtocore.common.machine.generator.LightningRodMachine;

@@ -54,5 +54,13 @@ interface ArcFurnace {
                 .duration(800)
                 .addCondition(new RestrictedMachineCondition(GTOCore.id("magnetic_energy_reaction_furnace")))
                 .save();
+
+        ARC_FURNACE_RECIPES.recipeBuilder(GTOCore.id("yttrium_barium_cuprate"))
+                .inputItems(TagPrefix.dust, GTOMaterials.WellMixedYbcOxides, 12)
+                .outputItems(TagPrefix.ingotHot, GTMaterials.YttriumBariumCuprate, 13)
+                .inputFluids(GTMaterials.Oxygen.getFluid(1000))
+                .EUt(1920)
+                .duration(2580)
+                .save();
     }
 }

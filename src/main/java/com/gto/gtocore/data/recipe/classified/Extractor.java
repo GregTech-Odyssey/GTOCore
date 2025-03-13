@@ -54,13 +54,6 @@ interface Extractor {
                 .addCondition(new GravityCondition(false))
                 .save();
 
-        EXTRACTOR_RECIPES.recipeBuilder(GTOCore.id("milk1"))
-                .notConsumable(new ItemStack(Items.COW_SPAWN_EGG.asItem()))
-                .outputFluids(GTMaterials.Milk.getFluid(100))
-                .EUt(30)
-                .duration(20)
-                .save();
-
         EXTRACTOR_RECIPES.recipeBuilder(GTOCore.id("bones"))
                 .inputItems(new ItemStack(Blocks.DIRT.asItem()))
                 .chancedOutput(TagPrefix.rod, GTMaterials.Bone, 25, 0)
@@ -83,6 +76,21 @@ interface Extractor {
                 .duration(240)
                 .EUt(30)
                 .heat(600)
+                .save();
+
+        EXTRACTOR_RECIPES.recipeBuilder(GTOCore.id("algae"))
+                .inputItems(TagUtils.createTag(GTOCore.id("algae")))
+                .outputItems(TagPrefix.dust, GTOMaterials.AlgaeExtract)
+                .duration(120)
+                .EUt(30)
+                .save();
+
+        EXTRACTOR_RECIPES.recipeBuilder(GTOCore.id("liquid_sunshine"))
+                .inputItems(TagPrefix.dust, GTMaterials.Glowstone)
+                .outputFluids(new FluidStack(EIOFluids.LIQUID_SUNSHINE.getSource(), 100))
+                .EUt(120)
+                .duration(400)
+                .daytime()
                 .save();
 
         addBotDye("white");

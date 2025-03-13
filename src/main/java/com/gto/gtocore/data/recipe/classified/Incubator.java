@@ -18,7 +18,6 @@ import net.minecraftforge.fluids.FluidStack;
 
 import appeng.core.definitions.AEItems;
 import com.enderio.base.common.init.EIOFluids;
-import com.enderio.base.common.init.EIOItems;
 import earth.terrarium.adastra.common.registry.ModFluids;
 
 import static com.gto.gtocore.common.data.GTORecipeTypes.INCUBATOR_RECIPES;
@@ -215,6 +214,7 @@ interface Incubator {
 
         INCUBATOR_RECIPES.recipeBuilder(GTOCore.id("seaweedbroth"))
                 .inputItems(new ItemStack(Blocks.KELP.asItem(), 64))
+                .inputItems(TagPrefix.dust, GTOMaterials.AlgaeExtract, 32)
                 .inputItems(TagPrefix.dust, GTOMaterials.AlienAlgae, 20)
                 .inputItems(GTItems.ENERGIUM_DUST.asStack(8))
                 .inputItems(TagPrefix.dust, GTOMaterials.Mithril)
@@ -581,18 +581,6 @@ interface Incubator {
                 .EUt(480)
                 .duration(1200)
                 .addData("radioactivity", 180)
-                .save();
-
-        INCUBATOR_RECIPES.recipeBuilder(GTOCore.id("cow_spawn_egg"))
-                .notConsumable(EIOItems.FILLED_SOUL_VIAL.asItem())
-                .inputItems(new ItemStack(Items.BEEF.asItem(), 4))
-                .inputItems(TagPrefix.rod, GTMaterials.Bone, 4)
-                .inputItems(new ItemStack(Items.LEATHER.asItem(), 4))
-                .inputFluids(GTMaterials.Milk.getFluid(1000))
-                .outputItems(new ItemStack(Items.COW_SPAWN_EGG.asItem()))
-                .EUt(480)
-                .duration(1200)
-                .addData("radioactivity", 120)
                 .save();
 
         INCUBATOR_RECIPES.recipeBuilder(GTOCore.id("echo"))

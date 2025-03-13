@@ -277,7 +277,7 @@ public interface MiscRecipe {
         AIR_SCRUBBER_RECIPES.recipeBuilder("otherside_scrubber")
                 .circuitMeta(4)
                 .inputFluids(new FluidStack(Fluids.WATER, 1000))
-                .outputFluids(new FluidStack(EIOFluids.XP_JUICE.get(), 800))
+                .outputFluids(new FluidStack(EIOFluids.XP_JUICE.getSource(), 800))
                 .duration(200)
                 .EUt(VHA[EV])
                 .dimension(GTODimensions.OTHERSIDE)

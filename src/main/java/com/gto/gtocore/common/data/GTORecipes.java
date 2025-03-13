@@ -137,6 +137,7 @@ public final class GTORecipes {
         GT_FILTER_RECIPES.add(GTCEu.id("mixer/ender_pearl_dust"));
         GT_FILTER_RECIPES.add(GTCEu.id("mixer/rocket_fuel_from_dinitrogen_tetroxide"));
         GT_FILTER_RECIPES.add(GTCEu.id("mixer/graphene"));
+        GT_FILTER_RECIPES.add(GTCEu.id("mixer/yttrium_barium_cuprate"));
         GT_FILTER_RECIPES.add(GTCEu.id("chemical_reactor/stem_cells"));
         GT_FILTER_RECIPES.add(GTCEu.id("chemical_reactor/formaldehyde"));
         GT_FILTER_RECIPES.add(GTCEu.id("chemical_reactor/ptfe_from_air"));

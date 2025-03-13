@@ -55,6 +55,7 @@
         "emi.EmiPersistentDataMixin",
         "emi.EmiRecipesMixin",
         "emi.EmiScreenManagerMixin",
+        "emi.EmiSearchMixin",
         "emi.EmiStackListMixin",
         "emi.ForgePluginFinderMixin",
         "emi.GTRecipeEMICategoryMixin",
