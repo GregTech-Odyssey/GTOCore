@@ -33,7 +33,6 @@ import com.gregtechceu.gtceu.client.renderer.machine.*;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.common.data.machines.GTMachineUtils;
 import com.gregtechceu.gtceu.common.item.TurbineRotorBehaviour;
-import com.gregtechceu.gtceu.common.machine.multiblock.part.DataAccessHatchMachine;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.DualHatchPartMachine;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.EnergyHatchPartMachine;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
@@ -606,16 +605,6 @@ public interface GTOMachines {
             .tier(IV)
             .allRotation()
             .overlayTieredHullRenderer("catalyst_hatch")
-            .register();
-
-    MachineDefinition QUANTUM_DATA_ACCESS_HATCH = machine("quantum_data_access_hatch", "量子数据访问仓", (holder) -> new DataAccessHatchMachine(holder, UV, false))
-            .tier(UV)
-            .allRotation()
-            .abilities(PartAbility.DATA_ACCESS)
-            .tooltips(Component.translatable("gtceu.machine.data_access_hatch.tooltip.0"),
-                    Component.translatable("gtceu.machine.data_access_hatch.tooltip.1", 36),
-                    Component.translatable("gtceu.universal.disabled"))
-            .renderer(() -> new OverlayTieredMachineRenderer(UV, GTCEu.id("block/machine/part/data_access_hatch")))
             .register();
 
     MachineDefinition MACHINE_ACCESS_INTERFACE = machine("machine_access_interface", "机器访问接口", MachineAccessInterfacePartMachine::new)

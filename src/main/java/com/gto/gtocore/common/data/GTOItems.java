@@ -291,10 +291,6 @@ public interface GTOItems {
             .onRegister(attach(new DataItemBehavior(true)))
             .register();
 
-    ItemEntry<ComponentItem> QUANTUM_DISK = item("quantum_disk", "量子磁盘", ComponentItem::create)
-            .onRegister(attach(new DataItemBehavior(true)))
-            .register();
-
     ItemEntry<ComponentItem> CLOSED_TIMELIKE_CURVE_GUIDANCE_UNIT = item("closed_timelike_curve_guidance_unit", "封闭类时曲线引导单元", ComponentItem::create)
             .onRegister(attach(new DataItemBehavior(true)))
             .register();

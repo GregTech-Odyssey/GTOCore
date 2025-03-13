@@ -81,9 +81,9 @@ public final class AdvancedInfiniteDrillMachine extends StorageMultiblockMachine
     private void heatUpdate() {
         if (getOffsetTimer() % 5 != 0) return;
         heatSubs.updateSubscription();
+        if (!getRecipeLogic().isWorking()) currentHeat = Math.max(300, currentHeat - 1);
         if (isEmpty()) return;
         int heat = 0;
-
         if (getRecipeLogic().isWorking()) {
             if (process <= 0) {
                 heat += (int) Math.floor(Math.abs(currentHeat - RUNNING_HEAT) / 2000.0D);

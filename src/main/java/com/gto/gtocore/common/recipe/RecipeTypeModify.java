@@ -26,7 +26,7 @@ public interface RecipeTypeModify {
         DUMMY_RECIPES.setMaxIOSize(Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE);
         WIREMILL_RECIPES.setMaxIOSize(1, 1, 0, 0);
 
-        SIFTER_RECIPES.setMaxIOSize(1, 6, 1, 1);
+        SIFTER_RECIPES.setMaxIOSize(1, 6, 1, 0);
 
         CHEMICAL_RECIPES.onRecipeBuild((r, p) -> {});
 

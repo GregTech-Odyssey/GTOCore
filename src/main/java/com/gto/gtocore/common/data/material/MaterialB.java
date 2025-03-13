@@ -3901,7 +3901,7 @@ public interface MaterialB {
                 .buildAndRegister();
 
         // wanggugu'sLanthanidetreatment
-        SamariumRefinedPowder = material("samarium_refined_powder", "钐精")
+        SamariumRefinedPowder = material("samarium_refined", "钐精")
                 .dust()
                 .color(0x8a6d7d)
                 .iconSet(BRIGHT)
@@ -3919,7 +3919,7 @@ public interface MaterialB {
                 .iconSet(LIMPID)
                 .buildAndRegister();
 
-        ThoritePowder = material("thorite_powder", "方钍石")
+        ThoritePowder = material("thorite", "方钍石")
                 .dust()
                 .components(Thorium, 1, Silicon, 1, Oxygen, 4)
                 .color(0x7d7d7d)
@@ -3932,7 +3932,7 @@ public interface MaterialB {
                 .iconSet(LIMPID)
                 .buildAndRegister();
 
-        RedZirconPowder = material("red_zircon_powder", "红锆石")
+        RedZirconPowder = material("red_zircon", "红锆石")
                 .dust()
                 .components(Zirconium, 1, Silicon, 1, Oxygen, 4)
                 .color(0xff4500)
@@ -3940,67 +3940,37 @@ public interface MaterialB {
                 .flags(DISABLE_DECOMPOSITION)
                 .buildAndRegister();
 
-        MonaziteSulfatePowder = material("monazite_sulfate_powder", "硫酸独居石")
-                .dust()
-                .color(0xcccccc)
-                .iconSet(SAND)
-                .buildAndRegister();
-
-        AcidicMonazitePowder = material("acidic_monazite_powder", "酸性独居石")
+        AcidicMonazitePowder = material("acidic_monazite", "酸性独居石")
                 .dust()
                 .color(0x9acd32)
                 .iconSet(SAND)
                 .buildAndRegister();
 
-        ThoriumPhosphateRefinedPowder = material("thorium_phosphate_refined_powder", "磷酸钍精")
+        ThoriumPhosphateRefinedPowder = material("thorium_phosphate_refined", "磷酸钍精")
                 .dust()
                 .color(0x545454)
                 .iconSet(SAND)
                 .buildAndRegister().setFormula("??ThP??", false);
 
-        MonaziteRareEarthFilterResiduePowder = material("monazite_rare_earth_filter_residue_powder", "独居石稀土滤渣")
-                .dust()
-                .color(0x7f7f7f)
-                .iconSet(SAND)
-                .buildAndRegister();
-
-        NeutralizedMonaziteRareEarthFilterResiduePowder = material("neutralized_monazite_rare_earth_filter_residue_powder", "中和独居石稀土滤渣")
-                .dust()
-                .color(0x969696)
-                .iconSet(SAND)
-                .buildAndRegister();
-
-        UraniumFilterResiduePowder = material("uranium_filter_residue_powder", "铀滤渣")
+        UraniumFilterResiduePowder = material("uranium_filter_residue", "铀滤渣")
                 .dust()
                 .color(0x545454)
                 .iconSet(SAND)
                 .buildAndRegister();
 
-        NeutralizedUraniumFilterResiduePowder = material("neutralized_uranium_filter_residue_powder", "中和铀滤渣")
-                .dust()
-                .color(0x7f7f7f)
-                .iconSet(SAND)
-                .buildAndRegister();
-
-        ConcentratedMonaziteRareEarthHydroxidePowder = material("concentrated_monazite_rare_earth_hydroxide_powder", "浓缩独居石稀土氢氧化物")
+        ConcentratedMonaziteRareEarthHydroxidePowder = material("concentrated_monazite_rare_earth_hydroxide", "浓缩独居石稀土氢氧化物")
                 .dust()
                 .color(0xc0c0c0)
                 .iconSet(SAND)
                 .buildAndRegister();
 
-        ConcentratedNitrideMonaziteRareEarthSolution = material("concentrated_nitride_monazite_rare_earth_solution", "浓缩氮化独居石稀土溶液")
-                .fluid()
-                .color(0xadd8e6)
-                .iconSet(LIMPID)
-                .buildAndRegister();
-
-        CeriumRichMixturePowder = material("cerium_rich_mixture_powder", "富铈混合物")
+        CeriumRichMixturePowder = material("cerium_rich_mixture", "富铈混合物")
                 .dust()
                 .color(0x808080)
                 .iconSet(SAND)
                 .buildAndRegister().setFormula("??Ce??", false);
 
-        CeriumChloridePowder = material("cerium_chloride_powder", "氯化铈")
+        CeriumChloridePowder = material("cerium_chloride", "氯化铈")
                 .dust()
                 .components(Cerium, 1, Chlorine, 3)
                 .color(0x808080)
@@ -4016,7 +3986,7 @@ public interface MaterialB {
                 .iconSet(LIMPID)
                 .buildAndRegister();
 
-        VanadiumPentoxidePowder = material("vanadium_pentoxide_powder", "五氧化二钒")
+        VanadiumPentoxidePowder = material("vanadium_pentoxide", "五氧化二钒")
                 .dust()
                 .components(Vanadium, 2, Oxygen, 5)
                 .flags(DISABLE_DECOMPOSITION)
@@ -4024,7 +3994,7 @@ public interface MaterialB {
                 .iconSet(SAND)
                 .buildAndRegister();
 
-        CeriumOxalatePowder = material("cerium_oxalate_powder", "草酸铈")
+        CeriumOxalatePowder = material("cerium_oxalate", "草酸铈")
                 .dust()
                 .components(Cerium, 1, Carbon, 2, Hydrogen, 2, Oxygen, 4)
                 .color(0x969696)
@@ -4046,37 +4016,19 @@ public interface MaterialB {
                 .iconSet(LIMPID)
                 .buildAndRegister();
 
-        ConcentratedNitricLeachateFromMonazite = material("concentrated_nitric_leachate_from_monazite", "浓缩硝酸独居石浸出溶液")
-                .fluid()
-                .color(0x00ffff)
-                .iconSet(LIMPID)
-                .buildAndRegister();
-
-        CoolingConcentratedNitricMonaziteRareEarthPowder = material("cooling_concentrated_nitric_monazite_rare_earth_powder", "冷却浓缩硝酸独居石稀土")
-                .dust()
-                .color(0xc0c0c0)
-                .iconSet(SAND)
-                .buildAndRegister();
-
-        MonaziteRareEarthPrecipitatePowder = material("monazite_rare_earth_precipitate_powder", "独居石罕土沉淀")
+        MonaziteRareEarthPrecipitatePowder = material("monazite_rare_earth_precipitate", "独居石罕土沉淀")
                 .dust()
                 .color(0x808080)
                 .iconSet(SAND)
                 .buildAndRegister();
 
-        HeterogeneousHalideMonaziteRareEarthMixturePowder = material("heterogeneous_halide_monazite_rare_earth_mixture_powder", "异质卤化独居石稀土混合物")
-                .dust()
-                .color(0x808080)
-                .iconSet(SAND)
-                .buildAndRegister();
-
-        SaturatedMonaziteRareEarthPowder = material("saturated_monazite_rare_earth_powder", "饱和独居石稀土")
+        SaturatedMonaziteRareEarthPowder = material("saturated_monazite_rare_earth", "饱和独居石稀土")
                 .dust()
                 .color(0xffffff)
                 .iconSet(SAND)
                 .buildAndRegister();
 
-        SamariumPrecipitatePowder = material("samarium_precipitate_powder", "钐沉淀")
+        SamariumPrecipitatePowder = material("samarium_precipitate", "钐沉淀")
                 .dust()
                 .components(Samarium, 2, Gadolinium, 1)
                 .color(0x969696)
@@ -4108,7 +4060,7 @@ public interface MaterialB {
                 .iconSet(LIMPID)
                 .buildAndRegister();
 
-        NeodymiumRareEarthConcentratePowder = material("neodymium_rare_earth_concentrate_powder", "钕稀土精")
+        NeodymiumRareEarthConcentratePowder = material("neodymium_rare_earth_concentrate", "钕稀土精")
                 .dust()
                 .color(0x969696)
                 .iconSet(SAND)
@@ -4138,7 +4090,7 @@ public interface MaterialB {
                 .flags(DISABLE_DECOMPOSITION)
                 .buildAndRegister();
 
-        SamariumChlorideSodiumChlorideMixturePowder = material("samarium_chloride_sodium_chloride_mixture_powder", "氯化钐-氯化钠混合物")
+        SamariumChlorideSodiumChlorideMixturePowder = material("samarium_chloride_sodium_chloride_mixture", "氯化钐-氯化钠混合物")
                 .dust()
                 .components(Samarium, 1, Chlorine, 3, Sodium, 1, Chlorine, 1)
                 .flags(DISABLE_DECOMPOSITION)
@@ -4146,7 +4098,7 @@ public interface MaterialB {
                 .iconSet(SAND)
                 .buildAndRegister();
 
-        PhosphorusFreeSamariumConcentratePowder = material("phosphorus_free_samarium_concentrate_powder", "脱磷钐精")
+        PhosphorusFreeSamariumConcentratePowder = material("phosphorus_free_samarium_concentrate", "脱磷钐精")
                 .dust()
                 .components(Samarium, 1)
                 .flags(DISABLE_DECOMPOSITION)
@@ -4199,48 +4151,10 @@ public interface MaterialB {
                 .iconSet(LIMPID)
                 .buildAndRegister();
 
-        FluoroCarbonLanthanideCeriumOxidePowder = material("fluoro_carbon_lanthanide_cerium_oxide_powder", "氟碳镧铈稀土氧化物")
+        FluoroCarbonLanthanideCeriumOxidePowder = material("fluoro_carbon_lanthanide_cerium_oxide", "氟碳镧铈稀土氧化物")
                 .dust()
                 .color(0x7f7f7f)
                 .iconSet(BRIGHT)
-                .buildAndRegister();
-
-        AcidLeachedFluoroCarbonLanthanideCeriumOxidePowder = material("acid_leached_fluoro_carbon_lanthanide_cerium_oxide_powder", "酸浸氟碳镧铈稀土氧化物")
-                .dust()
-                .color(0x555555)
-                .iconSet(BRIGHT)
-                .buildAndRegister();
-
-        CalcinedRareEarthOxidePowder = material("calcined_rare_earth_oxide_powder", "焙烧稀土氧化物")
-                .dust()
-                .color(0x969696)
-                .iconSet(BRIGHT)
-                .buildAndRegister();
-
-        WetRareEarthOxidePowder = material("wet_rare_earth_oxide_powder", "湿稀土氧化物")
-                .dust()
-                .color(0x6699cc)
-                .iconSet(BRIGHT)
-                .buildAndRegister();
-
-        CeriumOxideRareEarthOxidePowder = material("cerium_oxide_rare_earth_oxide_powder", "氧化铈稀土氧化物")
-                .dust()
-                .components(Cerium, 1, Oxygen, 2)
-                .flags(DISABLE_DECOMPOSITION)
-                .color(0xd2d2d2)
-                .iconSet(BRIGHT)
-                .buildAndRegister();
-
-        FluoroCarbonLanthanideCeriumRareEarthOxidePowder = material("fluoro_carbon_lanthanide_cerium_rare_earth_oxide_powder", "氟碳镧铈罕土氧化物")
-                .dust()
-                .color(0x7f7f7f)
-                .iconSet(BRIGHT)
-                .buildAndRegister();
-
-        NitridedFluoroCarbonLanthanideCeriumRareEarthOxideSolution = material("nitrided_fluoro_carbon_lanthanide_cerium_rare_earth_oxide_solution", "氮化氟碳镧铈罕土氧化物")
-                .fluid()
-                .color(0x9999ff)
-                .iconSet(LIMPID)
                 .buildAndRegister();
 
         FluoroCarbonLanthanideCeriumRareEarthSuspension = material("fluoro_carbon_lanthanide_cerium_rare_earth_suspension", "氟碳镧铈罕土氧化物悬浊液")
@@ -4249,31 +4163,31 @@ public interface MaterialB {
                 .iconSet(LIMPID)
                 .buildAndRegister();
 
-        SamariumRareEarthConcentratePowder = material("samarium_rare_earth_concentrate_powder", "钐稀土精")
+        SamariumRareEarthConcentratePowder = material("samarium_rare_earth_concentrate", "钐稀土精")
                 .dust()
                 .color(0x808080)
                 .iconSet(BRIGHT)
                 .buildAndRegister();
 
-        FluorinatedSamariumConcentratePowder = material("fluorinated_samarium_concentrate_powder", "氟化钐精")
+        FluorinatedSamariumConcentratePowder = material("fluorinated_samarium_concentrate", "氟化钐精")
                 .dust()
                 .color(0x969696)
                 .iconSet(BRIGHT)
                 .buildAndRegister();
 
-        SamariumTerbiumMixturePowder = material("samarium_terbium_mixture_powder", "钐-铽混合物")
+        SamariumTerbiumMixturePowder = material("samarium_terbium_mixture", "钐-铽混合物")
                 .dust()
                 .color(0x969696)
                 .iconSet(BRIGHT)
                 .buildAndRegister();
 
-        NitridedSamariumTerbiumMixturePowder = material("nitrided_samarium_terbium_mixture_powder", "氮化钐-铽混合物")
+        NitridedSamariumTerbiumMixturePowder = material("nitrided_samarium_terbium_mixture", "氮化钐-铽混合物")
                 .dust()
                 .color(0x7f7f7f)
                 .iconSet(BRIGHT)
                 .buildAndRegister();
 
-        TerbiumNitratePowder = material("terbium_nitrate_powder", "硝酸铽")
+        TerbiumNitratePowder = material("terbium_nitrate", "硝酸铽")
                 .dust()
                 .color(0x0080ff)
                 .components(Terbium, 1, Nitrogen, 1, Oxygen, 3)

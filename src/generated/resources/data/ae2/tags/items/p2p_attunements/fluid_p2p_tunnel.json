@@ -555,11 +555,9 @@
     "gtocore:samarium_rare_earth_turbid_liquid_bucket",
     "gtocore:monazite_rare_earth_turbid_liquid_bucket",
     "gtocore:diluted_monazite_slurry_bucket",
-    "gtocore:concentrated_nitride_monazite_rare_earth_solution_bucket",
     "gtocore:oxalic_acid_bucket",
     "gtocore:concentrated_cerium_chloride_solution_bucket",
     "gtocore:nitric_leachate_from_monazite_bucket",
-    "gtocore:concentrated_nitric_leachate_from_monazite_bucket",
     "gtocore:concentrated_rare_earth_chloride_solution_bucket",
     "gtocore:enriched_rare_earth_chloride_solution_bucket",
     "gtocore:diluted_rare_earth_chloride_solution_bucket",
@@ -571,7 +569,6 @@
     "gtocore:steam_cracked_fluoro_carbon_lanthanide_slurry_bucket",
     "gtocore:modulated_fluoro_carbon_lanthanide_slurry_bucket",
     "gtocore:diluted_fluoro_carbon_lanthanide_slurry_bucket",
-    "gtocore:nitrided_fluoro_carbon_lanthanide_cerium_rare_earth_oxide_solution_bucket",
     "gtocore:fluoro_carbon_lanthanide_cerium_rare_earth_suspension_bucket",
     "gtocore:carbon_tetrachloride_bucket",
     "gtocore:ethyl_hexanol_bucket",
@@ -623,6 +620,7 @@
     "gtocore:pure_silane_bucket",
     "gtocore:tetrafluorosilane_solution_bucket",
     "gtocore:high_purity_silica_bucket",
+    "gtocore:molten_high_purity_silica_bucket",
     "gtocore:carbon_tetrafluoride_bucket"
   ]
 }

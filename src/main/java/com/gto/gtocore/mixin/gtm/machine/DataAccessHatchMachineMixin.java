@@ -1,7 +1,5 @@
 package com.gto.gtocore.mixin.gtm.machine;
 
-import com.gto.gtocore.common.data.GTOItems;
-
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.TieredPartMachine;
@@ -29,7 +27,7 @@ public class DataAccessHatchMachineMixin extends TieredPartMachine {
 
     @Inject(method = "<init>", at = @At("TAIL"), remap = false)
     private void init(IMachineBlockEntity holder, int tier, boolean isCreative, CallbackInfo ci) {
-        importItems.setFilter(i -> !(i.is(GTOItems.QUANTUM_DISK.get()) && getTier() != GTValues.UV));
+        importItems.setFilter(i -> true);
     }
 
     @Inject(method = "getInventorySize", at = @At("TAIL"), remap = false, cancellable = true)

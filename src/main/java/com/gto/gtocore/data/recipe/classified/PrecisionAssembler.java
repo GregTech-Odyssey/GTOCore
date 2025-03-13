@@ -474,7 +474,7 @@ interface PrecisionAssembler {
         PRECISION_ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("closed_timelike_curve_guidance_unit"))
                 .inputItems(GTOItems.COSMIC_RAM_CHIP.asStack(64))
                 .inputItems(GTOItems.SUPRACAUSAL_PROCESSING_CORE.asItem())
-                .inputItems(GTOItems.QUANTUM_DISK.asItem())
+                .inputItems(GTOItems.OBSIDIAN_MATRIX.asItem())
                 .inputItems(GTOItems.NUCLEAR_CLOCK.asItem())
                 .inputFluids(GTOMaterials.ArceusAlloy2B.getFluid(1296))
                 .inputFluids(GTOMaterials.SuperMutatedLivingSolder.getFluid(1296))

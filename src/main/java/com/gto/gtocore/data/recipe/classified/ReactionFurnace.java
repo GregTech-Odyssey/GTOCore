@@ -539,6 +539,7 @@ interface ReactionFurnace {
                 .save();
 
         REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("alumina_ceramic_dust"))
+                .circuitMeta(2)
                 .inputItems(TagPrefix.dust, GTOMaterials.AluminiumHydroxide, 7)
                 .outputItems(TagPrefix.dust, GTOMaterials.AluminaCeramic)
                 .outputFluids(GTMaterials.Water.getFluid(1000))
@@ -713,6 +714,15 @@ interface ReactionFurnace {
                 .outputItems(dust, outputMaterial)
                 .chancedOutput(dust, Ash, "1/9", 0)
                 .outputFluids(SulfurDioxide.getFluid(sulfurDioxideAmount))
+                .save();
+
+        REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("poly_aluminium_chloride"))
+                .circuitMeta(1)
+                .inputItems(TagPrefix.dust, GTOMaterials.AluminiumChloride, 4)
+                .inputItems(TagPrefix.dust, GTOMaterials.AluminiumHydroxide, 7)
+                .outputFluids(GTOMaterials.PolyAluminiumChloride.getFluid(1000))
+                .EUt(480)
+                .duration(360)
                 .save();
     }
 }

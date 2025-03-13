@@ -58,5 +58,13 @@ interface Distillery {
                 .EUt(30)
                 .duration(200)
                 .save();
+
+        DISTILLERY_RECIPES.recipeBuilder(GTOCore.id("poly_aluminium_chloride"))
+                .outputItems(TagPrefix.dustTiny, GTMaterials.DarkAsh)
+                .inputFluids(GTOMaterials.FlocculationWasteSolution.getFluid(1000))
+                .outputFluids(GTOMaterials.PolyAluminiumChloride.getFluid(990))
+                .EUt(120)
+                .duration(400)
+                .save();
     }
 }

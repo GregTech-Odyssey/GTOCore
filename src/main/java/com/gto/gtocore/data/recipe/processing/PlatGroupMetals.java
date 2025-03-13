@@ -22,28 +22,28 @@ public interface PlatGroupMetals {
         CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("pgs_from_chalcocite")).duration(110).EUt(VA[LV])
                 .inputItems(crushedPurified, Chalcocite)
                 .inputFluids(NitricAcid.getFluid(100))
-                .outputItems(dust, PlatinumGroupSludge, 8)
+                .outputItems(dust, PlatinumGroupSludge, 4)
                 .outputFluids(SulfuricCopperSolution.getFluid(1000))
                 .save();
 
         CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("pgs_from_bornite")).duration(110).EUt(VA[LV])
                 .inputItems(crushedPurified, Bornite)
                 .inputFluids(NitricAcid.getFluid(100))
-                .outputItems(dust, PlatinumGroupSludge, 8)
+                .outputItems(dust, PlatinumGroupSludge, 4)
                 .outputFluids(SulfuricCopperSolution.getFluid(1000))
                 .save();
 
         CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("pgs_from_tetrahedrite")).duration(110).EUt(VA[LV])
                 .inputItems(crushedPurified, Tetrahedrite)
                 .inputFluids(NitricAcid.getFluid(100))
-                .outputItems(dust, PlatinumGroupSludge, 8)
+                .outputItems(dust, PlatinumGroupSludge, 4)
                 .outputFluids(SulfuricCopperSolution.getFluid(1000))
                 .save();
 
         CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("pgs_from_cooperite")).duration(150).EUt(VA[LV])
                 .inputItems(crushedPurified, Cooperite)
                 .inputFluids(NitricAcid.getFluid(100))
-                .outputItems(dust, PlatinumGroupSludge, 16)
+                .outputItems(dust, PlatinumGroupSludge, 8)
                 .outputFluids(SulfuricNickelSolution.getFluid(1000))
                 .save();
 

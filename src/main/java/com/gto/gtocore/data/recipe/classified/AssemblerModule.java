@@ -235,7 +235,7 @@ interface AssemblerModule {
 
         ASSEMBLER_MODULE_RECIPES.recipeBuilder(GTOCore.id("space_probe_mk3"))
                 .inputItems(GTItems.ULTIMATE_BATTERY.asItem())
-                .inputItems(GTOItems.QUANTUM_DISK.asStack(64))
+                .inputItems(GTOItems.ATOMIC_ARCHIVES.asStack(64))
                 .inputItems(GTItems.EMITTER_OpV.asStack(2))
                 .inputItems(GTItems.SENSOR_OpV.asStack(2))
                 .inputItems(GTItems.FIELD_GENERATOR_OpV.asItem())

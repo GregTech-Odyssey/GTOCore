@@ -1162,7 +1162,7 @@ interface AssemblyLine {
                 .EUt(122880)
                 .duration(1000)
                 .stationResearch(b -> b.researchStack(MultiBlockA.LARGE_CRACKER.asStack())
-                        .CWUt(512)
+                        .CWUt(72)
                         .EUt(122880))
                 .save();
 
@@ -1205,7 +1205,7 @@ interface AssemblyLine {
                 .inputItems(CustomTags.UEV_CIRCUITS, 64)
                 .inputItems(GTItems.FIELD_GENERATOR_UV.asStack(64))
                 .inputItems(GTItems.FIELD_GENERATOR_UV.asStack(64))
-                .inputItems(GTOItems.QUANTUM_DISK.asStack(16))
+                .inputItems(GTOItems.NEURAL_MATRIX.asStack(16))
                 .inputItems(GTOTagPrefix.nanites, GTMaterials.Gold, 8)
                 .inputItems("gtceu:hpca_bridge_component", 4)
                 .inputItems(GTItems.COVER_SCREEN.asStack(16))
@@ -2389,7 +2389,7 @@ interface AssemblyLine {
         ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("infinite_cell_component"))
                 .inputItems(GTOBlocks.CRAFTING_STORAGE_MAX.asStack(16))
                 .inputItems(GTResearchMachines.DATA_BANK.asStack(16))
-                .inputItems(GTOItems.QUANTUM_DISK.asStack(16))
+                .inputItems(GTOItems.NEURAL_MATRIX.asStack(16))
                 .inputItems(new ItemStack(AEBlocks.CREATIVE_ENERGY_CELL.block().asItem(), 64))
                 .inputItems(CustomTags.UEV_CIRCUITS, 64)
                 .inputItems(TagPrefix.wireGtHex, GTMaterials.RutheniumTriniumAmericiumNeutronate, 64)
