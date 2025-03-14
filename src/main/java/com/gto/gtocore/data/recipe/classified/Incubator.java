@@ -49,17 +49,15 @@ interface Incubator {
                 .duration(12000)
                 .save();
 
-        INCUBATOR_RECIPES.recipeBuilder(GTOCore.id("biomediumraw1"))
+        INCUBATOR_RECIPES.recipeBuilder(GTOCore.id("biomediumraw"))
                 .inputItems(GTOItems.BIOLOGICAL_CELLS.asStack(64))
                 .inputItems(GTOItems.TCETIESEAWEEDEXTRACT.asStack(16))
-                .inputItems(TagPrefix.dust, GTMaterials.Tritanium)
                 .inputFluids(GTMaterials.RawGrowthMedium.getFluid(10000))
                 .outputFluids(GTOMaterials.BiomediumRaw.getFluid(10000))
                 .EUt(1920)
                 .duration(1200)
                 .addCondition(new GravityCondition(true))
                 .addData("filter_casing", 2)
-                .addData("radioactivity", 120)
                 .save();
 
         INCUBATOR_RECIPES.recipeBuilder(GTOCore.id("iron_vein_essence"))
@@ -116,17 +114,13 @@ interface Incubator {
                 .save();
 
         INCUBATOR_RECIPES.recipeBuilder(GTOCore.id("stem_cells"))
-                .chancedInput(GTOItems.GLACIO_SPIRIT.asStack(), 6000, 500)
-                .inputItems(TagPrefix.dust, GTMaterials.Osmiridium)
-                .inputFluids(GTMaterials.SterileGrowthMedium.getFluid(500))
-                .inputFluids(GTMaterials.Bacteria.getFluid(500))
-                .outputItems(GTItems.STEM_CELLS.asStack(32))
-                .outputFluids(GTMaterials.BacterialSludge.getFluid(500))
+                .chancedInput(GTOItems.GLACIO_SPIRIT.asStack(), 2000, 100)
+                .inputItems(GTItems.STEM_CELLS.asStack(32))
+                .inputFluids(GTMaterials.SterileGrowthMedium.getFluid(400))
+                .outputItems(GTItems.STEM_CELLS.asStack(64))
                 .EUt(30720)
                 .duration(300)
-                .addCondition(new GravityCondition(true))
                 .addData("filter_casing", 2)
-                .addData("radioactivity", 10)
                 .save();
 
         INCUBATOR_RECIPES.recipeBuilder(GTOCore.id("copper_vein_essence"))
@@ -214,8 +208,8 @@ interface Incubator {
 
         INCUBATOR_RECIPES.recipeBuilder(GTOCore.id("seaweedbroth"))
                 .inputItems(new ItemStack(Blocks.KELP.asItem(), 64))
-                .inputItems(TagPrefix.dust, GTOMaterials.AlgaeExtract, 32)
-                .inputItems(TagPrefix.dust, GTOMaterials.AlienAlgae, 20)
+                .inputItems(TagPrefix.dust, GTOMaterials.AlienAlgae, 32)
+                .inputItems(TagPrefix.dust, GTOMaterials.AlgaeExtract, 16)
                 .inputItems(GTItems.ENERGIUM_DUST.asStack(8))
                 .inputItems(TagPrefix.dust, GTOMaterials.Mithril)
                 .inputFluids(GTOMaterials.UnknownNutrientAgar.getFluid(50000))
@@ -266,15 +260,13 @@ interface Incubator {
                 .save();
 
         INCUBATOR_RECIPES.recipeBuilder(GTOCore.id("dragon_cells"))
-                .inputItems(GTOItems.DRAGON_STEM_CELLS.asStack(64))
-                .inputItems(TagPrefix.dust, GTMaterials.Naquadria, 16)
-                .inputFluids(GTOMaterials.BiohmediumSterilized.getFluid(10000))
-                .inputFluids(GTMaterials.Mutagen.getFluid(10000))
+                .chancedInput(GTOItems.GLACIO_SPIRIT.asStack(), 6000, 100)
+                .inputItems(GTOItems.DRAGON_STEM_CELLS.asStack(32))
+                .inputFluids(GTOMaterials.BiohmediumSterilized.getFluid(4000))
                 .outputItems(GTOItems.DRAGON_CELLS.asStack(64))
                 .EUt(491520)
                 .duration(1600)
                 .addData("filter_casing", 3)
-                .addData("radioactivity", 560)
                 .save();
 
         INCUBATOR_RECIPES.recipeBuilder(GTOCore.id("salts_vein_essence"))
@@ -510,15 +502,13 @@ interface Incubator {
                 .save();
 
         INCUBATOR_RECIPES.recipeBuilder(GTOCore.id("biological_cells"))
-                .inputItems(GTItems.STEM_CELLS.asStack(64))
-                .inputItems(TagPrefix.dust, GTMaterials.NaquadahEnriched)
-                .inputFluids(GTOMaterials.BiohmediumSterilized.getFluid(1000))
-                .inputFluids(GTMaterials.Mutagen.getFluid(1000))
+                .chancedInput(GTOItems.GLACIO_SPIRIT.asStack(), 4000, 100)
+                .inputItems(GTOItems.BIOLOGICAL_CELLS.asStack(32))
+                .inputFluids(GTOMaterials.BiohmediumSterilized.getFluid(400))
                 .outputItems(GTOItems.BIOLOGICAL_CELLS.asStack(64))
                 .EUt(122880)
                 .duration(800)
                 .addData("filter_casing", 2)
-                .addData("radioactivity", 60)
                 .save();
 
         INCUBATOR_RECIPES.recipeBuilder(GTOCore.id("glacio_spirit"))
@@ -545,19 +535,6 @@ interface Incubator {
                 .duration(12000)
                 .save();
 
-        INCUBATOR_RECIPES.recipeBuilder(GTOCore.id("biomediumraw"))
-                .inputItems(GTItems.STEM_CELLS.asStack(64))
-                .inputItems(GTOItems.TCETIESEAWEEDEXTRACT.asStack(16))
-                .inputItems(TagPrefix.dust, GTMaterials.Tritanium)
-                .inputFluids(GTMaterials.RawGrowthMedium.getFluid(1000))
-                .outputFluids(GTOMaterials.BiomediumRaw.getFluid(1000))
-                .EUt(1920)
-                .duration(1200)
-                .addCondition(new GravityCondition(true))
-                .addData("filter_casing", 2)
-                .addData("radioactivity", 80)
-                .save();
-
         INCUBATOR_RECIPES.recipeBuilder(GTOCore.id("copper_tin_vein_essence"))
                 .inputItems(GTOItems.ESSENCE_SEED.asItem())
                 .inputItems(TagUtils.createTGTag("ores/chalcopyrite"))
@@ -576,7 +553,7 @@ interface Incubator {
                 .inputItems(new ItemStack(AEItems.SKY_DUST.asItem()))
                 .inputItems(TagPrefix.dustTiny, GTMaterials.NetherStar)
                 .inputFluids(GTMaterials.Biomass.getFluid(100))
-                .inputFluids(GTMaterials.SterileGrowthMedium.getFluid(100))
+                .inputFluids(GTMaterials.SterileGrowthMedium.getFluid(10))
                 .outputItems(GTOItems.SPACE_ESSENCE.asItem())
                 .EUt(480)
                 .duration(1200)
@@ -644,6 +621,95 @@ interface Incubator {
                 .outputItems(GTOItems.SCHEELITE_VEIN_ESSENCE.asStack(64))
                 .EUt(480)
                 .duration(12000)
+                .save();
+
+        INCUBATOR_RECIPES.recipeBuilder(GTOCore.id("dragon_cells"))
+                .inputItems(GTOItems.DRAGON_STEM_CELLS.asStack(1))
+                .inputItems(TagPrefix.dust, GTMaterials.Naquadria, 16)
+                .inputFluids(GTOMaterials.BiohmediumSterilized.getFluid(10000))
+                .inputFluids(GTMaterials.Mutagen.getFluid(10000))
+                .outputItems(GTOItems.DRAGON_CELLS.asStack(1))
+                .EUt(491520)
+                .duration(800)
+                .addData("radioactivity", 560)
+                .save();
+
+        INCUBATOR_RECIPES.recipeBuilder(GTOCore.id("super_cerebrum"))
+                .inputItems(GTOItems.CEREBRUM.asItem())
+                .inputItems(TagPrefix.dustSmall, GTMaterials.Naquadria)
+                .outputItems(GTOItems.SUPER_CEREBRUM.asItem())
+                .inputFluids(GTOMaterials.RapidlyReplicatingAnimalCells.getFluid(100))
+                .inputFluids(GTMaterials.Mutagen.getFluid(100))
+                .EUt(7680)
+                .duration(200)
+                .addData("filter_casing", 2)
+                .addData("radioactivity", 60)
+                .save();
+
+        INCUBATOR_RECIPES.recipeBuilder(GTOCore.id("brevibacterium"))
+                .notConsumable(GTOItems.BREVIBACTERIUM_PETRI_DISH.asItem())
+                .inputItems(TagPrefix.dust, GTOMaterials.BrevibacteriumFlavium, 16)
+                .outputItems(TagPrefix.dust, GTOMaterials.BrevibacteriumFlavium, 64)
+                .inputFluids(GTOMaterials.BacterialGrowthMedium.getFluid(100))
+                .inputFluids(GTMaterials.Bacteria.getFluid(100))
+                .EUt(480)
+                .duration(200)
+                .addData("filter_casing", 2)
+                .save();
+
+        INCUBATOR_RECIPES.recipeBuilder(GTOCore.id("bifidobacteriumm"))
+                .notConsumable(GTOItems.BIFIDOBACTERIUMM_PETRI_DISH.asItem())
+                .inputItems(TagPrefix.dust, GTOMaterials.BifidobacteriumBreve, 16)
+                .outputItems(TagPrefix.dust, GTOMaterials.BifidobacteriumBreve, 64)
+                .inputFluids(GTOMaterials.BacterialGrowthMedium.getFluid(100))
+                .inputFluids(GTMaterials.Bacteria.getFluid(100))
+                .EUt(480)
+                .duration(200)
+                .addData("filter_casing", 2)
+                .save();
+
+        INCUBATOR_RECIPES.recipeBuilder(GTOCore.id("eschericia"))
+                .notConsumable(GTOItems.ESCHERICIA_PETRI_DISH.asItem())
+                .inputItems(TagPrefix.dust, GTOMaterials.EschericiaColi, 16)
+                .outputItems(TagPrefix.dust, GTOMaterials.EschericiaColi, 64)
+                .inputFluids(GTOMaterials.BacterialGrowthMedium.getFluid(100))
+                .inputFluids(GTMaterials.Bacteria.getFluid(100))
+                .EUt(480)
+                .duration(200)
+                .addData("filter_casing", 2)
+                .save();
+
+        INCUBATOR_RECIPES.recipeBuilder(GTOCore.id("streptococcus"))
+                .notConsumable(GTOItems.STREPTOCOCCUS_PETRI_DISH.asItem())
+                .inputItems(TagPrefix.dust, GTOMaterials.StreptococcusPyogenes, 16)
+                .outputItems(TagPrefix.dust, GTOMaterials.StreptococcusPyogenes, 64)
+                .inputFluids(GTOMaterials.BacterialGrowthMedium.getFluid(100))
+                .inputFluids(GTMaterials.Bacteria.getFluid(100))
+                .EUt(480)
+                .duration(200)
+                .addData("filter_casing", 2)
+                .save();
+
+        INCUBATOR_RECIPES.recipeBuilder(GTOCore.id("cupriavidus"))
+                .notConsumable(GTOItems.CUPRIAVIDUS_PETRI_DISH.asItem())
+                .inputItems(TagPrefix.dust, GTOMaterials.CupriavidusNecator, 16)
+                .outputItems(TagPrefix.dust, GTOMaterials.CupriavidusNecator, 64)
+                .inputFluids(GTOMaterials.BacterialGrowthMedium.getFluid(100))
+                .inputFluids(GTMaterials.Bacteria.getFluid(100))
+                .EUt(480)
+                .duration(200)
+                .addData("filter_casing", 2)
+                .save();
+
+        INCUBATOR_RECIPES.recipeBuilder(GTOCore.id("shewanella"))
+                .notConsumable(GTOItems.SHEWANELLA_PETRI_DISH.asItem())
+                .inputItems(TagPrefix.dust, GTOMaterials.Shewanella, 16)
+                .outputItems(TagPrefix.dust, GTOMaterials.Shewanella, 64)
+                .inputFluids(GTOMaterials.BacterialGrowthMedium.getFluid(100))
+                .inputFluids(GTMaterials.Bacteria.getFluid(100))
+                .EUt(480)
+                .duration(200)
+                .addData("filter_casing", 2)
                 .save();
     }
 }

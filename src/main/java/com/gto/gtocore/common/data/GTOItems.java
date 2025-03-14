@@ -352,6 +352,8 @@ public interface GTOItems {
 
     ItemEntry<ToolTipsItem>[] UNIVERSAL_CIRCUIT = registerCircuits("universal_circuit", "通用电路", GTValues.tiersBetween(GTValues.ULV, GTValues.MAX), tier -> Component.translatable("gtocore.tooltip.item.tier_circuit", GTValues.VN[tier]).withStyle(ChatFormatting.AQUA));
 
+    ItemEntry<Item> WETWARE_SOC = registerLang("wetware_soc", "Wetware SoC", "湿件SoC");
+
     ItemEntry<Item> BIOWARE_CIRCUIT_BOARD = register("bioware_circuit_board", "生物电路基板");
     ItemEntry<Item> BIOWARE_PRINTED_CIRCUIT_BOARD = register("bioware_printed_circuit_board", "生物印刷电路基板");
     ItemEntry<Item> SMD_CAPACITOR_BIOWARE = registerLang("smd_capacitor_bioware", "Bioware Capacitor", "生物活性贴片电容");
@@ -511,7 +513,7 @@ public interface GTOItems {
     ItemEntry<Item> COSMIC_NEUTRONIUM_ANTIMATTER_FUEL_ROD = registerTexture("cosmic_neutronium_antimatter_fuel_rod", "宇宙中子反物质燃料棒", "antimatter_fuel_rod");
     ItemEntry<Item> INFINITY_ANTIMATTER_FUEL_ROD = registerTexture("infinity_antimatter_fuel_rod", "无尽反物质燃料棒", "antimatter_fuel_rod");
 
-    ItemEntry<Item> SPACE_ESSENCE = register("space_essence", "");
+    ItemEntry<Item> SPACE_ESSENCE = register("space_essence", "宇宙精华");
     ItemEntry<Item> BEDROCK_DESTROYER = register("bedrock_destroyer", "基岩破坏者");
     ItemEntry<Item> LEPTON_TRAP_CRYSTAL = register("lepton_trap_crystal", "轻子阱晶体");
     ItemEntry<Item> CHARGED_LEPTON_TRAP_CRYSTAL = register("charged_lepton_trap_crystal", "带电轻子阱晶体");
@@ -545,18 +547,18 @@ public interface GTOItems {
     ItemEntry<Item> DRAGON_CELLS = register("dragon_cells", "龙细胞");
     ItemEntry<Item> BIOWARE_BOULE = register("bioware_boule", "生物活性晶圆");
     ItemEntry<Item> BIOWARE_CHIP = register("bioware_chip", "生物活性芯片");
-    ItemEntry<Item> BIOWARE_PROCESSING_CORE = register("bioware_processing_core", "生物活性CPU");
+    ItemEntry<Item> BIOWARE_PROCESSING_CORE = register("bioware_processing_core", "生物活性处理器核心");
     ItemEntry<Item> BIOLOGICAL_CELLS = register("biological_cells", "生物细胞");
-    ItemEntry<Item> OPTICAL_SOC = register("optical_soc", "光学SoC");
-    ItemEntry<Item> OPTICAL_SOC_CONTAINMENT_HOUSING = register("optical_soc_containment_housing", "光学SoC密封外壳");
+    ItemEntry<Item> SIMPLE_OPTICAL_SOC = registerLang("simple_optical_soc", "Simple Optical SoC", "简易光学SoC");
+    ItemEntry<Item> OPTICAL_SOC_CONTAINMENT_HOUSING = registerLang("optical_soc_containment_housing", "Optical SoC Containment Housing", "光学SoC密封外壳");
     ItemEntry<Item> OPTICAL_SLICE = register("optical_slice", "光学裸片");
-    ItemEntry<Item> OPTICAL_PROCESSING_CORE = register("optical_processing_core", "光学CPU");
+    ItemEntry<Item> OPTICAL_PROCESSING_CORE = register("optical_processing_core", "光学处理器核心");
     ItemEntry<Item> OPTICAL_WAFER = register("optical_wafer", "光学晶圆");
     ItemEntry<Item> PHOTON_CARRYING_WAFER = register("photon_carrying_wafer", "光电子承载晶圆");
     ItemEntry<Item> RAW_PHOTON_CARRYING_WAFER = register("raw_photon_carrying_wafer", "未成型的光电子承载晶圆");
-    ItemEntry<Item> EXOTIC_PROCESSING_CORE = register("exotic_processing_core", "奇异CPU");
-    ItemEntry<Item> COSMIC_PROCESSING_CORE = register("cosmic_processing_core", "寰宇CPU");
-    ItemEntry<Item> SUPRACAUSAL_PROCESSING_CORE = register("supracausal_processing_core", "超因果CPU");
+    ItemEntry<Item> EXOTIC_PROCESSING_CORE = register("exotic_processing_core", "奇异处理器核心");
+    ItemEntry<Item> COSMIC_PROCESSING_CORE = register("cosmic_processing_core", "寰宇处理器核心");
+    ItemEntry<Item> SUPRACAUSAL_PROCESSING_CORE = register("supracausal_processing_core", "超因果处理器核心");
     ItemEntry<Item> PERIODICALLY_POLED_LITHIUM_NIOBATE_BOULE = register("periodically_poled_lithium_niobate_boule", "周期性极化铌酸锂晶体");
     ItemEntry<Item> NEUTRON_PLASMA_CONTAINMENT_CELL = register("neutron_plasma_containment_cell", "中子等离子体密闭容器");
     ItemEntry<Item> CRYSTAL_MATRIX_PLASMA_CONTAINMENT_CELL = register("crystal_matrix_plasma_containment_cell", "水晶矩阵等离子体密闭容器");
@@ -570,7 +572,7 @@ public interface GTOItems {
     ItemEntry<Item> BLUE_HALIDE_LAMP = register("blue_halide_lamp", "蓝光卤素灯");
     ItemEntry<Item> BALLAST = register("ballast", "镇流器");
     ItemEntry<Item> EMPTY_LASER_COOLING_CONTAINER = register("empty_laser_cooling_container", "空的激光冷却容器");
-    ItemEntry<Item> HIGH_PRECISION_CRYSTAL_SOC = register("high_precision_crystal_soc", "高精度晶体SoC");
+    ItemEntry<Item> HIGH_PRECISION_CRYSTAL_SOC = registerLang("high_precision_crystal_soc", "High Precision Crystal SoC", "高精度晶体SoC");
     ItemEntry<Item> BOSE_EINSTEIN_COOLING_CONTAINER = register("bose_einstein_cooling_container", "玻色-爱因斯坦凝聚态物质遏制装置");
     ItemEntry<Item> LASER_COOLING_UNIT = register("laser_cooling_unit", "激光冷却单元");
     ItemEntry<Item> LASER_DIODE = register("laser_diode", "激光二极管");
@@ -650,9 +652,9 @@ public interface GTOItems {
     ItemEntry<Item> RUTHERFORDIUM_AMPROSIUM_WAFER = register("rutherfordium_amprosium_wafer", "𬬻强化的安普洛掺杂的晶圆");
     ItemEntry<Item> TARANIUM_BOULE = register("taranium_boule", "塔兰掺杂的单晶硅");
     ItemEntry<Item> TARANIUM_WAFER = register("taranium_wafer", "塔兰掺杂的晶圆");
-    ItemEntry<Item> PREPARED_COSMIC_SOC_WAFER = register("prepared_cosmic_soc_wafer", "预备寰宇SoC晶圆");
-    ItemEntry<Item> COSMIC_SOC_WAFER = register("cosmic_soc_wafer", "寰宇SoC晶圆");
-    ItemEntry<Item> COSMIC_SOC = register("cosmic_soc", "寰宇SoC");
+    ItemEntry<Item> PREPARED_COSMIC_SOC_WAFER = registerLang("prepared_cosmic_soc_wafer", "Prepared Cosmic SoC Wafer", "预备寰宇SoC晶圆");
+    ItemEntry<Item> SIMPLE_COSMIC_SOC_WAFER = registerLang("simple_cosmic_soc_wafer", "Simple Cosmic SoC Wafer", "简易寰宇SoC晶圆");
+    ItemEntry<Item> SIMPLE_COSMIC_SOC = registerLang("simple_cosmic_soc", "Simple Cosmic SoC", "简易寰宇SoC");
     ItemEntry<Item> NM_WAFER = register("nm_wafer", "纳米功率集成电路晶圆");
     ItemEntry<Item> NM_CHIP = register("nm_chip", "纳米功率集成电路");
     ItemEntry<Item> PM_WAFER = register("pm_wafer", "皮米功率集成电路晶圆");
@@ -729,6 +731,9 @@ public interface GTOItems {
     ItemEntry<Item> GREEN_ALGAE_FIBER = registerAlgaeFiber("green", "绿");
     ItemEntry<Item> RED_ALGAE_FIBER = registerAlgaeFiber("red", "红");
 
+    ItemEntry<Item> CEREBRUM = register("cerebrum", "大脑");
+    ItemEntry<Item> SUPER_CEREBRUM = register("super_cerebrum", "超级大脑");
+    ItemEntry<Item> PREPARATION_PETRI_DISH = register("preparation_petri_dish", "预备培养皿");
     ItemEntry<Item> STERILIZED_PETRI_DISH = registerCustomModel("sterilized_petri_dish", "无菌培养皿");
     ItemEntry<Item> ELECTRICALY_WIRED_PETRI_DISH = registerCustomModel("electricaly_wired_petri_dish", "电信号培养皿");
     ItemEntry<Item> CONTAMINATED_PETRI_DISH = register("contaminated_petri_dish", "污染的培养皿");
@@ -736,7 +741,7 @@ public interface GTOItems {
     ItemEntry<Item> BIFIDOBACTERIUMM_PETRI_DISH = registerTexture("bifidobacteriumm_petri_dish", "短双歧杆菌培养皿", "germ");
     ItemEntry<Item> ESCHERICIA_PETRI_DISH = registerTexture("eschericia_petri_dish", "大肠杆菌培养皿", "germ");
     ItemEntry<Item> STREPTOCOCCUS_PETRI_DISH = registerTexture("streptococcus_petri_dish", "酿脓链球菌培养皿", "germ");
-    ItemEntry<Item> CUPRIAVIDUS_PETRI_DISH = registerTexture("cupriavidus_petri_dish", "钩虫贪铜菌培养皿", "germ");
+    ItemEntry<Item> CUPRIAVIDUS_PETRI_DISH = registerTexture("cupriavidus_petri_dish", "贪铜钩虫菌培养皿", "germ");
     ItemEntry<Item> SHEWANELLA_PETRI_DISH = registerTexture("shewanella_petri_dish", "希瓦氏菌培养皿", "germ");
 
     ItemEntry<Item> CONVERSION_SIMULATE_CARD = register("conversion_simulate_card", "转换模拟卡");

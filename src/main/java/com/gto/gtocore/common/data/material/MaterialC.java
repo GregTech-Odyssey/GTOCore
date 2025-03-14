@@ -1,7 +1,6 @@
 package com.gto.gtocore.common.data.material;
 
-import static com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialIconSet.DULL;
-import static com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialIconSet.SAND;
+import static com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialIconSet.*;
 import static com.gto.gtocore.common.data.GTOMaterials.*;
 import static com.gto.gtocore.utils.register.MaterialsRegisterUtils.material;
 
@@ -86,7 +85,7 @@ public interface MaterialC {
                 .iconSet(DULL)
                 .buildAndRegister().setFormula("?");
 
-        Chitin = material("chitin", "甲壳质")
+        Chitin = material("chitin", "几丁质")
                 .fluid()
                 .color(0x998422)
                 .iconSet(DULL)
@@ -106,33 +105,123 @@ public interface MaterialC {
 
         StreptococcusPyogenes = material("streptococcus_pyogenes", "酿脓链球菌")
                 .dust()
-                .color(0x800C4F)
+                .color(0x19520B)
                 .iconSet(DULL)
                 .buildAndRegister();
 
         EschericiaColi = material("eschericia_coli", "大肠杆菌")
                 .dust()
-                .color(0x800C4F)
+                .color(0x546F2F)
                 .iconSet(DULL)
                 .buildAndRegister();
 
         BifidobacteriumBreve = material("bifidobacterium_breve", "短双歧杆菌")
                 .dust()
-                .color(0x800C4F)
+                .color(0x4D7511)
                 .iconSet(DULL)
                 .buildAndRegister();
 
         BrevibacteriumFlavium = material("brevibacterium_flavium", "黄色短杆菌")
                 .dust()
-                .color(0x800C4F)
+                .color(0x667532)
                 .iconSet(DULL)
                 .buildAndRegister();
 
-        CupriavidusNecator = material("cupriavidus_necator", "钩虫贪铜菌")
+        CupriavidusNecator = material("cupriavidus_necator", "贪铜钩虫菌")
                 .dust()
-                .color(0x800C4F)
+                .color(0x008C07)
                 .iconSet(DULL)
                 .buildAndRegister();
+
+        Yeast = material("yeast", "酵母")
+                .dust()
+                .color(0xAE9C00)
+                .iconSet(LIGNITE)
+                .buildAndRegister().setFormula("?");
+
+        BetaPinene = material("beta_pinene", "β-蒎烯")
+                .dust()
+                .color(0x059600)
+                .iconSet(DULL)
+                .buildAndRegister().setFormula("C10H16");
+
+        Glutamine = material("glutamine", "谷氨酰胺")
+                .dust()
+                .color(0x948635)
+                .iconSet(DULL)
+                .buildAndRegister().setFormula("C5H10N2O3");
+
+        Catalase = material("catalase", "过氧化氢酶")
+                .fluid()
+                .color(0xBD577E)
+                .iconSet(DULL)
+                .buildAndRegister().setFormula("?");
+
+        BasicFibroblastGrowthFactor = material("basic_fibroblast_growth_factor", "碱性成纤维细胞生长因子")
+                .fluid()
+                .color(0xBD03B4)
+                .iconSet(DULL)
+                .buildAndRegister().setFormula("bfgf");
+
+        EpidermalGrowthFactor = material("epidermal_growth_factor", "表皮生长因子")
+                .fluid()
+                .color(0x772B61)
+                .iconSet(DULL)
+                .buildAndRegister().setFormula("C₂₅₇H₃₈₁N₇₃O₈₃S₇", false);
+
+        PropargylChloride = material("propargyl_chloride", "炔丙基氯")
+                .fluid()
+                .color(0x776B00)
+                .iconSet(DULL)
+                .buildAndRegister().setFormula("HC2CH2Cl");
+
+        BetaIonone = material("beta_ionone", "β-香堇酮")
+                .fluid()
+                .color(0xD60B7F)
+                .iconSet(DULL)
+                .buildAndRegister().setFormula("C₁₃H₂₀O", false);
+
+        PropargylAlcohol = material("propargyl_alcohol", "炔丙醇")
+                .fluid()
+                .color(0xBCB600)
+                .iconSet(DULL)
+                .buildAndRegister().setFormula("CHCCH₂OH", false);
+
+        VitaminA = material("vitamin_a", "维生素A")
+                .fluid()
+                .color(0x9D60AB)
+                .iconSet(DULL)
+                .buildAndRegister().setFormula("C₂₀H₃₀O", false);
+
+        Citral = material("citral", "柠檬醛")
+                .fluid()
+                .color(0xC3DA00)
+                .iconSet(DULL)
+                .buildAndRegister().setFormula("C₁₀H₁₆O", false);
+
+        ClearAmmoniaSolution = material("clear_ammonia_solution", "纯净氨水")
+                .fluid()
+                .color(0x48B7A5)
+                .iconSet(DULL)
+                .buildAndRegister().setFormula("NH₃(H₂O)", false);
+
+        B27Supplement = material("b27_supplement", "B27 Supplement", "B27细胞培养添加剂")
+                .fluid()
+                .color(0x2C6D28)
+                .iconSet(DULL)
+                .buildAndRegister().setFormula("C₁₄₂H₂₃₀N₃₆O₄₄S", false);
+
+        LinoleicAcid = material("linoleic_acid", "亚油酸")
+                .fluid()
+                .color(0x979744)
+                .iconSet(DULL)
+                .buildAndRegister().setFormula("C₁₈H₃₂O₂", false);
+
+        Biotin = material("biotin", "生物素")
+                .fluid()
+                .color(0x3E9743)
+                .iconSet(DULL)
+                .buildAndRegister().setFormula("C₁₀H₁₆N₂O₃S", false);
 
         BasicMFPC = material("basic_mfpc", "多功能相变微粒（MFPC）")
                 .dust()

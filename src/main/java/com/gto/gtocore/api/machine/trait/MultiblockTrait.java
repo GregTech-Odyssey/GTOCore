@@ -16,7 +16,7 @@ import java.util.List;
 
 public abstract class MultiblockTrait extends MachineTrait {
 
-    static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(MultiblockTrait.class);
+    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(MultiblockTrait.class);
 
     protected MultiblockTrait(IMultiblockTraitHolder machine) {
         super((MetaMachine) machine);
@@ -31,9 +31,21 @@ public abstract class MultiblockTrait extends MachineTrait {
         return recipe;
     }
 
+    /**
+     * @return 是否取消配方
+     */
     public boolean beforeWorking(@NotNull GTRecipe recipe) {
         return false;
     }
+
+    /**
+     * @return 是否中断配方
+     */
+    public boolean onWorking() {
+        return false;
+    }
+
+    public void afterWorking() {}
 
     public void customText(@NotNull List<Component> textList) {}
 

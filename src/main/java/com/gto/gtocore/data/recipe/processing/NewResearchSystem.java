@@ -279,16 +279,8 @@ public interface NewResearchSystem {
                     .save();
 
             CHEMICAL_BATH_RECIPES.recipeBuilder("make_high_purity_silica_tube4")
-                    .inputItems(MultiStepItemHelper.locateStep(stack0, 2))
-                    .inputFluids(SodiumHydroxideSolution.getFluid(1000))
-                    .outputItems(MultiStepItemHelper.locateStep(stack0, 3))
-                    .duration(100)
-                    .EUt(VA[LV])
-                    .save();
-
-            CHEMICAL_BATH_RECIPES.recipeBuilder("make_high_purity_silica_tube5")
                     .inputItems(MultiStepItemHelper.locateStep(stack0, 3))
-                    .inputFluids(DistilledWater.getFluid(8000))
+                    .inputFluids(SodiumHydroxideSolution.getFluid(1000))
                     .outputItems(MultiStepItemHelper.locateStep(stack0, 4))
                     .duration(100)
                     .EUt(VA[LV])

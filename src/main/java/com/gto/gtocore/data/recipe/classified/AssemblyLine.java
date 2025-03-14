@@ -1078,7 +1078,7 @@ interface AssemblyLine {
                 .inputItems(TagPrefix.foil, GTOMaterials.Polyetheretherketone, 2)
                 .inputItems(GTOItems.NON_LINEAR_OPTICAL_LENS.asStack(2))
                 .inputItems(GTOItems.OPTICAL_DATA_STICK.asStack(4))
-                .inputItems(GTOItems.OPTICAL_SOC.asStack(8))
+                .inputItems(GTOItems.SIMPLE_OPTICAL_SOC.asStack(8))
                 .inputItems(GTOItems.SOLAR_LIGHT_SPLITTER.asStack(4))
                 .inputItems(GTOItems.LOW_FREQUENCY_LASER.asStack())
                 .inputItems(GTOItems.MEDIUM_FREQUENCY_LASER.asStack())
@@ -1092,7 +1092,7 @@ interface AssemblyLine {
                 .outputItems(GTOItems.OPTICAL_PROCESSING_CORE.asStack(8))
                 .EUt(1474560)
                 .duration(320)
-                .stationResearch(b -> b.researchStack(GTOItems.OPTICAL_SOC.asStack())
+                .stationResearch(b -> b.researchStack(GTOItems.SIMPLE_OPTICAL_SOC.asStack())
                         .CWUt(128)
                         .EUt(1966080))
                 .save();

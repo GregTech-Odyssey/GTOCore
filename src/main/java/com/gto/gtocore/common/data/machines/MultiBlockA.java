@@ -15,7 +15,6 @@ import com.gto.gtocore.common.machine.multiblock.electric.voidseries.VoidMinerMa
 import com.gto.gtocore.common.machine.multiblock.noenergy.AdvancedPrimitiveBlastFurnaceMachine;
 import com.gto.gtocore.common.machine.multiblock.steam.LargeSteamParallelMultiblockMachine;
 import com.gto.gtocore.common.machine.multiblock.steam.largeSteamCircuitAssemblerMachine;
-import com.gto.gtocore.utils.MachineUtils;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTValues;
@@ -2050,7 +2049,7 @@ public interface MultiBlockA {
             .workableCasingRenderer(GTOCore.id("block/casings/process_machine_casing"), GTCEu.id("block/multiblock/assembly_line"))
             .register();
 
-    MultiblockMachineDefinition ELEMENT_COPYING = multiblock("element_copying", "元素复制机", CrossRecipeMultiblockMachine.createParallel(true, true, MachineUtils::getHatchParallel))
+    MultiblockMachineDefinition ELEMENT_COPYING = multiblock("element_copying", "元素复制机", CrossRecipeMultiblockMachine::createHatchParallel)
             .allRotation()
             .recipe(GTORecipeTypes.ELEMENT_COPYING_RECIPES)
             .parallelizableTooltips()
@@ -2080,6 +2079,7 @@ public interface MultiBlockA {
                             .or(abilities(IMPORT_FLUIDS).setMaxGlobalLimited(5).setPreviewCount(1))
                             .or(abilities(INPUT_LASER).setMaxGlobalLimited(1))
                             .or(abilities(PARALLEL_HATCH).setMaxGlobalLimited(1))
+                            .or(abilities(GTOPartAbility.THREAD_HATCH).setMaxGlobalLimited(1))
                             .or(abilities(INPUT_ENERGY).setMaxGlobalLimited(2).setPreviewCount(1)))
                     .where('B', blocks(GTOBlocks.HYPER_CORE.get()))
                     .where('C', blocks(GTOBlocks.MOLECULAR_COIL.get()))
@@ -2385,7 +2385,7 @@ public interface MultiBlockA {
             .workableCasingRenderer(GTOCore.id("block/casings/iridium_casing"), GTCEu.id("block/multiblock/assembly_line"))
             .register();
 
-    MultiblockMachineDefinition ADVANCED_INTEGRATED_ORE_PROCESSOR = multiblock("advanced_integrated_ore_processor", "进阶集成矿石处理厂", CrossRecipeMultiblockMachine.createParallel(true, false, m -> Integer.MAX_VALUE))
+    MultiblockMachineDefinition ADVANCED_INTEGRATED_ORE_PROCESSOR = multiblock("advanced_integrated_ore_processor", "进阶集成矿石处理厂", CrossRecipeMultiblockMachine.createParallel(false, false, m -> Integer.MAX_VALUE))
             .nonYAxisRotation()
             .recipe(GTORecipeTypes.INTEGRATED_ORE_PROCESSOR)
             .tooltipsKey("gtocore.machine.integrated_ore_processor.tooltip.0")
@@ -2428,7 +2428,7 @@ public interface MultiBlockA {
                     .aisle(" ABBBBBBBBBBBBBA ", " A   BCCCCCB   A ", " A   BCCDCCB   A ", " A   BCCCCCB   A ", " A   BBBBBBB   A ", "      BBBBB      ", "                 ", "                 ", "                 ", "                 ", "                 ", "                 ", "                 ", "                 ", "                 ", "                 ", "                 ")
                     .where('A', blocks(GTOBlocks.NAQUADAH_REINFORCED_PLANT_CASING.get()))
                     .where('B', blocks(GTBlocks.CASING_HSSE_STURDY.get()))
-                    .where('C', blocks(GTOBlocks.DIMENSION_INJECTION_CASING.get()).or(GTOPredicates.autoLaserAbilities(definition.getRecipeTypes())))
+                    .where('C', blocks(GTOBlocks.DIMENSION_INJECTION_CASING.get()).or(GTOPredicates.autoThreadLaserAbilities(definition.getRecipeTypes())))
                     .where('D', controller(blocks(definition.get())))
                     .where('E', blocks(GTOBlocks.DIMENSIONALLY_TRANSCENDENT_CASING.get()))
                     .where('F', blocks(GCYMBlocks.CASING_ATOMIC.get()))

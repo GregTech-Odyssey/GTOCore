@@ -1266,6 +1266,22 @@ public final class GTORecipeBuilder extends GTRecipeBuilder {
         return new ResourceLocation(id.getNamespace(), recipeType.registryName.getPath() + "/" + id.getPath());
     }
 
+    public GTORecipeBuilder notConsumable(TagKey<Item> tag) {
+        int lastChance = this.chance;
+        this.chance = 0;
+        inputItems(tag);
+        this.chance = lastChance;
+        return this;
+    }
+
+    public GTORecipeBuilder notConsumable(String id) {
+        return notConsumable(RegistriesUtils.getItem(id));
+    }
+
+    public GTORecipeBuilder notConsumable(String id, int count) {
+        return notConsumable(RegistriesUtils.getItemStack(id, count));
+    }
+
     public GTORecipeBuilder inputItems(String id) {
         return inputItems(RegistriesUtils.getItem(id));
     }

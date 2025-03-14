@@ -8,6 +8,7 @@ import com.gto.gtocore.api.machine.part.GTOPartAbility;
 import com.gto.gtocore.api.pattern.GTOPredicates;
 import com.gto.gtocore.common.data.*;
 import com.gto.gtocore.common.machine.multiblock.electric.EnergyInjectorMachine;
+import com.gto.gtocore.common.machine.multiblock.electric.bioengineering.BiochemicalReactionRoomMachine;
 import com.gto.gtocore.common.machine.multiblock.electric.bioengineering.BiologicalExtractionMachine;
 import com.gto.gtocore.common.machine.multiblock.electric.nano.NanitesIntegratedMachine;
 import com.gto.gtocore.common.machine.multiblock.electric.nano.NanitesModuleMachine;
@@ -847,9 +848,11 @@ public interface MultiBlockC {
             .workableCasingRenderer(GTOCore.id("block/casings/dimension_injection_casing"), GTCEu.id("block/multiblock/fusion_reactor"))
             .register();
 
-    MultiblockMachineDefinition BIOCHEMICAL_REACTION = multiblock("biochemical_reaction", "生化反应室", ElectricMultiblockMachine::new)
+    MultiblockMachineDefinition BIOCHEMICAL_REACTION = multiblock("biochemical_reaction", "生化反应室", BiochemicalReactionRoomMachine::new)
             .nonYAxisRotation()
             .recipe(GTORecipeTypes.BIOCHEMICAL_REACTION_RECIPES)
+            .parallelizableTooltips()
+            .perfectOverclock()
             .block(GTOBlocks.IRIDIUM_CASING)
             .pattern((definition) -> FactoryBlockPattern.start(RelativeDirection.FRONT, RelativeDirection.UP, RelativeDirection.RIGHT)
                     .aisle("       A   A       ", "       A   A       ", "       A   A       ", "       A   A       ", "       A   A       ", "       A   A       ", "       A   A       ", "       ABBBA       ", "       ABBBA       ", "       ABBBA       ", "       A   A       ", "       A   A       ", "       A   A       ", "       ACCCA       ", "       CDDDC       ", "       CDEDC       ", "       CDDDC       ", "        CCC        ", "                   ")
@@ -884,6 +887,8 @@ public interface MultiBlockC {
                     .where('J', blocks(GTBlocks.FILTER_CASING_STERILE.get()))
                     .where('a', blocks(GTOBlocks.IRIDIUM_CASING.get())
                             .or(autoAbilities(definition.getRecipeTypes()))
+                            .or(abilities(PARALLEL_HATCH).setMaxGlobalLimited(1))
+                            .or(blocks(GTOMachines.RADIATION_HATCH.getBlock()).setMaxGlobalLimited(8))
                             .or(abilities(MAINTENANCE).setExactLimit(1)))
                     .where(' ', any())
                     .build())

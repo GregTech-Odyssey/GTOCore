@@ -14,7 +14,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class AmountConfigurationHatchPartMachine extends TieredPartMachine {
 
-    private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
+    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
             AmountConfigurationHatchPartMachine.class, TieredPartMachine.MANAGED_FIELD_HOLDER);
 
     private final int min;

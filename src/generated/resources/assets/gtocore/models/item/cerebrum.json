@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "gtocore:item/optical_soc"
+    "layer0": "gtocore:item/cerebrum"
   }
 }

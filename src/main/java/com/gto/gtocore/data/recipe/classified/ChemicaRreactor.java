@@ -22,6 +22,60 @@ import static com.gto.gtocore.common.data.GTORecipeTypes.LARGE_CHEMICAL_RECIPES;
 interface ChemicaRreactor {
 
     static void init() {
+        CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("betaionone"))
+                .inputFluids(GTMaterials.Acetone.getFluid(1000))
+                .inputFluids(GTOMaterials.Citral.getFluid(1000))
+                .outputFluids(GTOMaterials.BetaIonone.getFluid(1000))
+                .outputFluids(GTMaterials.Water.getFluid(1000))
+                .EUt(120)
+                .duration(250)
+                .save();
+
+        CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("citral"))
+                .inputItems(TagPrefix.dust, GTOMaterials.BetaPinene, 26)
+                .inputFluids(GTMaterials.Oxygen.getFluid(2000))
+                .inputFluids(GTMaterials.Isoprene.getFluid(2000))
+                .outputFluids(GTOMaterials.Citral.getFluid(2000))
+                .EUt(480)
+                .duration(100)
+                .save();
+
+        CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("beta_pinene"))
+                .outputItems(TagPrefix.dust, GTOMaterials.BetaPinene, 26)
+                .inputFluids(GTOMaterials.Turpentine.getFluid(1000))
+                .inputFluids(GTMaterials.SulfuricAcid.getFluid(1000))
+                .outputFluids(GTMaterials.DilutedSulfuricAcid.getFluid(1000))
+                .EUt(480)
+                .duration(110)
+                .save();
+
+        CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("propargyl_chloride"))
+                .inputFluids(GTMaterials.HydrochloricAcid.getFluid(1000))
+                .inputFluids(GTOMaterials.PropargylAlcohol.getFluid(1000))
+                .outputFluids(GTOMaterials.PropargylChloride.getFluid(1000))
+                .outputFluids(GTMaterials.Water.getFluid(1000))
+                .EUt(120)
+                .duration(100)
+                .save();
+
+        CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("propargyl_alcohol"))
+                .inputItems(GTOTagPrefix.catalyst, GTMaterials.Copper)
+                .inputFluids(GTOMaterials.Acetylene.getFluid(1000))
+                .inputFluids(GTMaterials.Formaldehyde.getFluid(1000))
+                .outputFluids(GTOMaterials.PropargylAlcohol.getFluid(1000))
+                .EUt(120)
+                .duration(120)
+                .save();
+
+        CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("propadiene"))
+                .inputFluids(GTMaterials.Butene.getFluid(1000))
+                .inputFluids(GTMaterials.Propene.getFluid(1000))
+                .outputFluids(GTMaterials.Butane.getFluid(1000))
+                .outputFluids(GTOMaterials.Propadiene.getFluid(1000))
+                .EUt(480)
+                .duration(240)
+                .save();
+
         CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("copper_nitrate"))
                 .inputItems(TagPrefix.dust, GTMaterials.Copper)
                 .outputItems(TagPrefix.dust, GTOMaterials.CopperNitrate, 9)
@@ -1798,15 +1852,6 @@ interface ChemicaRreactor {
                 .cleanroom(CleanroomType.CLEANROOM)
                 .save();
 
-        LARGE_CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("propadiene"))
-                .inputFluids(GTMaterials.Butene.getFluid(1000))
-                .inputFluids(GTMaterials.Propene.getFluid(1000))
-                .outputFluids(GTMaterials.Butane.getFluid(1000))
-                .outputFluids(GTOMaterials.Propadiene.getFluid(1000))
-                .EUt(480)
-                .duration(2400)
-                .save();
-
         LARGE_CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("liquidcrystalkevlar"))
                 .inputItems(TagPrefix.dust, GTMaterials.CalciumChloride)
                 .inputItems(TagPrefix.dust, GTOMaterials.TerephthaloylChloride, 9)
@@ -2357,18 +2402,6 @@ interface ChemicaRreactor {
                 .duration(780)
                 .save();
 
-        LARGE_CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("unknownnutrientagar"))
-                .inputItems(TagPrefix.dust, GTMaterials.Salt, 16)
-                .inputItems(TagPrefix.dust, GTMaterials.Meat, 16)
-                .inputItems(TagPrefix.dust, GTMaterials.Agar, 16)
-                .inputFluids(GTOMaterials.UnknowWater.getFluid(4000))
-                .inputFluids(GTMaterials.PhthalicAcid.getFluid(4000))
-                .outputFluids(GTOMaterials.UnknownNutrientAgar.getFluid(8000))
-                .EUt(1920)
-                .duration(800)
-                .cleanroom(CleanroomType.STERILE_CLEANROOM)
-                .save();
-
         LARGE_CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("cosmic_superconductor"))
                 .inputItems(TagPrefix.dust, GTOMaterials.RheniumHassiumThalliumIsophtaloylbisdiethylthioureaHexaf, 125)
                 .inputItems(TagPrefix.dust, GTOMaterials.ActiniumSuperhydride, 39)
@@ -2753,6 +2786,28 @@ interface ChemicaRreactor {
                 .outputFluids(GTMaterials.Hydrogen.getFluid(6000))
                 .EUt(1920)
                 .duration(260)
+                .save();
+
+        LARGE_CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("b27supplement"))
+                .inputFluids(GTOMaterials.Catalase.getFluid(1000))
+                .inputFluids(GTOMaterials.LinoleicAcid.getFluid(1000))
+                .inputFluids(GTOMaterials.Biotin.getFluid(1000))
+                .inputFluids(GTOMaterials.Ethanolamine.getFluid(1000))
+                .inputFluids(GTOMaterials.VitaminA.getFluid(1000))
+                .outputFluids(GTOMaterials.B27Supplement.getFluid(5000))
+                .EUt(7680)
+                .duration(150)
+                .cleanroom(CleanroomType.STERILE_CLEANROOM)
+                .save();
+
+        LARGE_CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("vitamina"))
+                .inputFluids(GTOMaterials.PropargylChloride.getFluid(5000))
+                .inputFluids(GTOMaterials.BetaIonone.getFluid(25000))
+                .outputFluids(GTOMaterials.VitaminA.getFluid(17000))
+                .outputFluids(GTMaterials.Oxygen.getFluid(8000))
+                .outputFluids(GTMaterials.HydrochloricAcid.getFluid(5000))
+                .EUt(480)
+                .duration(150)
                 .save();
     }
 }

@@ -46,6 +46,8 @@ import java.util.function.Supplier;
 
 public class CrossRecipeMultiblockMachine extends ElectricMultiblockMachine implements IParallelMachine, IOverclockConfigMachine {
 
+    private static final CompoundTag EMPTY_TAG = new CompoundTag();
+
     public static CrossRecipeMultiblockMachine createHatchParallel(IMachineBlockEntity holder) {
         return new CrossRecipeMultiblockMachine(holder, false, true, MachineUtils::getHatchParallel);
     }
@@ -91,6 +93,11 @@ public class CrossRecipeMultiblockMachine extends ElectricMultiblockMachine impl
         return infinite ? 128 : threadHatchPartMachine == null ? 1 : threadHatchPartMachine.getCurrentThread();
     }
 
+    private boolean isRepeatedRecipes() {
+        if (threadHatchPartMachine == null) return true;
+        return threadHatchPartMachine.isRepeatedRecipes();
+    }
+
     @Override
     public void attachConfigurators(ConfiguratorPanel configuratorPanel) {
         super.attachConfigurators(configuratorPanel);
@@ -121,8 +128,8 @@ public class CrossRecipeMultiblockMachine extends ElectricMultiblockMachine impl
         lastRecipes.clear();
         for (int i = 0; i < getThread(); i++) {
             totalEu += match.duration * match.data.getLong("eut");
-            match.data = new CompoundTag();
-            match.id = GTOCore.id("thread_recipe_" + i);
+            match.data = EMPTY_TAG;
+            if (isRepeatedRecipes()) match.id = GTOCore.id("thread_" + i);
             lastRecipes.add(match);
             match = LookupRecipe();
             if (match == null) break;
@@ -145,10 +152,12 @@ public class CrossRecipeMultiblockMachine extends ElectricMultiblockMachine impl
             while (matches != null && matches.hasNext()) {
                 GTRecipe recipe = matches.next();
                 if (recipe != null) {
-                    GTRecipe modify = getRecipe(recipe.copy());
-                    if (modify != null) {
-                        if (isLocked) originRecipes.add(recipe);
-                        return modify;
+                    if (isRepeatedRecipes() || !lastRecipes.contains(recipe)) {
+                        GTRecipe modify = getRecipe(recipe.copy());
+                        if (modify != null) {
+                            if (isLocked) originRecipes.add(recipe);
+                            return modify;
+                        }
                     }
                 }
             }

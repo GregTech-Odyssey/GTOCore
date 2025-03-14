@@ -303,5 +303,24 @@ interface Centrifuge {
                 .EUt(7)
                 .duration(380)
                 .save();
+
+        CENTRIFUGE_RECIPES.recipeBuilder(GTOCore.id("blood"))
+                .inputFluids(GTOMaterials.Blood.getFluid(1000))
+                .outputFluids(GTOMaterials.BloodCells.getFluid(500))
+                .outputFluids(GTOMaterials.BloodPlasma.getFluid(500))
+                .EUt(480)
+                .duration(200)
+                .cleanroom(CleanroomType.STERILE_CLEANROOM)
+                .save();
+
+        CENTRIFUGE_RECIPES.recipeBuilder(GTOCore.id("blood_plasma"))
+                .inputFluids(GTOMaterials.BloodPlasma.getFluid(1000))
+                .outputFluids(GTOMaterials.Catalase.getFluid(200))
+                .outputFluids(GTOMaterials.BasicFibroblastGrowthFactor.getFluid(200))
+                .outputFluids(GTOMaterials.EpidermalGrowthFactor.getFluid(200))
+                .EUt(480)
+                .duration(50)
+                .cleanroom(CleanroomType.STERILE_CLEANROOM)
+                .save();
     }
 }

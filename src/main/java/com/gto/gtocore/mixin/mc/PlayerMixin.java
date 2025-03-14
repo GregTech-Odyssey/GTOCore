@@ -7,6 +7,8 @@ import com.gto.gtocore.client.ClientCache;
 import com.gto.gtocore.common.network.ServerMessage;
 import com.gto.gtocore.utils.ServerUtils;
 
+import com.gregtechceu.gtceu.GTCEu;
+
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
@@ -122,7 +124,7 @@ public abstract class PlayerMixin extends LivingEntity implements IEnhancedPlaye
                     gTOCore$discard(server);
                 }
             } else if ((Object) this instanceof ServerPlayer serverPlayer) {
-                if (GTODimensions.ALL_PLANET.containsKey(level.dimension().location()) && !PlanetManagement.isUnlocked(serverPlayer, level.dimension().location())) {
+                if (GTCEu.isProd() && GTODimensions.ALL_PLANET.containsKey(level.dimension().location()) && !PlanetManagement.isUnlocked(serverPlayer, level.dimension().location())) {
                     serverPlayer.displayClientMessage(Component.translatable("gtocore.ununlocked"), false);
                     gTOCore$discard(server);
                 }

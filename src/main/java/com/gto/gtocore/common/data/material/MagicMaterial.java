@@ -188,7 +188,7 @@ public interface MagicMaterial {
                 .ingot()
                 .fluid()
                 .color(0xe6ffef)
-                .blastTemp(14500, LOW)
+                .blastTemp(1450, LOW)
                 .components(GTMaterials.Steel, 1)
                 .flags(DISABLE_DECOMPOSITION, GENERATE_FRAME, GENERATE_LONG_ROD, GENERATE_FOIL, GENERATE_GEAR, GENERATE_BOLT_SCREW)
                 .iconSet(METALLIC)

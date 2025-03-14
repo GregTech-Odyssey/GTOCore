@@ -3,6 +3,8 @@ package com.gto.gtocore.mixin.adastra;
 import com.gto.gtocore.api.misc.PlanetManagement;
 import com.gto.gtocore.common.network.ClientMessage;
 
+import com.gregtechceu.gtceu.GTCEu;
+
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
@@ -57,6 +59,7 @@ public abstract class PlanetsScreenMixin extends AbstractContainerScreen<Planets
 
     @Inject(method = "land", at = @At("HEAD"), remap = false, cancellable = true)
     private void land(ResourceKey<Level> dimension, CallbackInfo ci) {
+        if (GTCEu.isDev()) return;
         boolean close = false;
         Player player = getMenu().player();
         ResourceLocation planet = dimension.location();

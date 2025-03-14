@@ -290,7 +290,7 @@ interface PrecisionAssembler {
                 .inputFluids(GTOMaterials.MutatedLivingSolder.getFluid(144))
                 .inputFluids(GTMaterials.SolderingAlloy.getFluid(288))
                 .inputFluids(GTMaterials.Helium.getFluid(100))
-                .outputItems(GTOItems.OPTICAL_SOC.asItem())
+                .outputItems(GTOItems.SIMPLE_OPTICAL_SOC.asItem())
                 .EUt(1966080)
                 .duration(400)
                 .cleanroom(CleanroomType.CLEANROOM)
@@ -379,7 +379,7 @@ interface PrecisionAssembler {
 
         PRECISION_ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("cosmic_processing_unit_core"))
                 .inputItems(TagPrefix.wireFine, GTOMaterials.HeavyQuarkDegenerateMatter, 6)
-                .inputItems(GTOItems.COSMIC_SOC.asStack(4))
+                .inputItems(GTOItems.SIMPLE_COSMIC_SOC.asStack(4))
                 .inputItems(TagPrefix.plate, GTOMaterials.DegenerateRhenium, 3)
                 .inputItems(GTOItems.EMPTY_LASER_COOLING_CONTAINER.asItem())
                 .inputFluids(GTOMaterials.CosmicComputingMixture.getFluid(1000))
@@ -538,6 +538,30 @@ interface PrecisionAssembler {
                 .inputFluids(GTMaterials.Indium.getFluid(72))
                 .EUt(7680)
                 .duration(100)
+                .save();
+
+        PRECISION_ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("wetware_soc"))
+                .inputItems(GTItems.HIGHLY_ADVANCED_SOC.asStack())
+                .inputItems(GTOItems.SUPER_CEREBRUM.asItem())
+                .inputItems(TagPrefix.dust, GTOMaterials.Shewanella, 2)
+                .inputItems(TagPrefix.foil, GTMaterials.Tritanium, 4)
+                .outputItems(GTOItems.WETWARE_SOC.asItem())
+                .inputFluids(GTMaterials.SterileGrowthMedium.getFluid(250))
+                .inputFluids(GTMaterials.Polybenzimidazole.getFluid(288))
+                .EUt(524288)
+                .duration(100)
+                .cleanroom(CleanroomType.STERILE_CLEANROOM)
+                .save();
+
+        PRECISION_ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("preparation_petri_dish"))
+                .inputItems(GTOItems.STERILIZED_PETRI_DISH.asItem())
+                .inputItems(TagPrefix.dust, GTMaterials.Agar, 4)
+                .outputItems(GTOItems.PREPARATION_PETRI_DISH.asItem())
+                .inputFluids(GTOMaterials.BacterialGrowthMedium.getFluid(1000))
+                .inputFluids(GTMaterials.Bacteria.getFluid(100))
+                .EUt(480)
+                .duration(200)
+                .cleanroom(CleanroomType.STERILE_CLEANROOM)
                 .save();
     }
 }

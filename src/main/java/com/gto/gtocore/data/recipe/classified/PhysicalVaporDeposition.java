@@ -27,7 +27,7 @@ interface PhysicalVaporDeposition {
         PHYSICAL_VAPOR_DEPOSITION_RECIPES.recipeBuilder(GTOCore.id("cosmic_soc_wafer"))
                 .inputItems(GTOItems.PREPARED_COSMIC_SOC_WAFER.asItem())
                 .inputFluids(GTMaterials.Argon.getFluid(FluidStorageKeys.PLASMA, 1000))
-                .outputItems(GTOItems.COSMIC_SOC_WAFER.asItem())
+                .outputItems(GTOItems.SIMPLE_COSMIC_SOC_WAFER.asItem())
                 .EUt(7864320)
                 .duration(600)
                 .cleanroom(CleanroomType.CLEANROOM)

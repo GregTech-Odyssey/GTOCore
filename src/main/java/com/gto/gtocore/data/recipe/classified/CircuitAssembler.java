@@ -101,7 +101,7 @@ interface CircuitAssembler {
 
         CIRCUIT_ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("bioware_processor"))
                 .inputItems(GTOItems.BIOWARE_PROCESSING_CORE.asItem())
-                .inputItems(GTItems.QUBIT_CENTRAL_PROCESSING_UNIT.asStack(4))
+                .inputItems(GTItems.NEURO_PROCESSOR.asStack())
                 .inputItems(GTItems.HIGHLY_ADVANCED_SOC.asItem())
                 .inputItems(GTOItems.SMD_CAPACITOR_BIOWARE.asStack(8))
                 .inputItems(GTOItems.SMD_TRANSISTOR_BIOWARE.asStack(8))

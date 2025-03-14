@@ -9,6 +9,7 @@ import com.gto.gtocore.utils.RLUtils;
 import com.gto.gtocore.utils.TagUtils;
 
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
+import com.gregtechceu.gtceu.api.machine.multiblock.CleanroomType;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
 import net.minecraft.world.item.ItemStack;
@@ -91,6 +92,21 @@ interface Extractor {
                 .EUt(120)
                 .duration(400)
                 .daytime()
+                .save();
+
+        EXTRACTOR_RECIPES.recipeBuilder(GTOCore.id("blood"))
+                .inputItems(TagPrefix.dust, GTMaterials.Meat)
+                .outputFluids(GTOMaterials.Blood.getFluid(100))
+                .EUt(120)
+                .duration(50)
+                .cleanroom(CleanroomType.STERILE_CLEANROOM)
+                .save();
+
+        EXTRACTOR_RECIPES.recipeBuilder(GTOCore.id("chitin"))
+                .inputItems(TagUtils.createTag(RLUtils.forge("mushrooms")))
+                .outputFluids(GTOMaterials.Chitin.getFluid(100))
+                .EUt(30)
+                .duration(100)
                 .save();
 
         addBotDye("white");

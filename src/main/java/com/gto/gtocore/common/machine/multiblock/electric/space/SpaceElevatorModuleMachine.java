@@ -3,6 +3,7 @@ package com.gto.gtocore.common.machine.multiblock.electric.space;
 import com.gto.gtocore.api.machine.multiblock.CustomParallelMultiblockMachine;
 import com.gto.gtocore.common.data.GTORecipeModifiers;
 
+import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
@@ -72,6 +73,6 @@ public final class SpaceElevatorModuleMachine extends CustomParallelMultiblockMa
     }
 
     private double getDurationMultiplier() {
-        return Math.sqrt(1.0D / ((getSpaceElevatorTier() - 1) * (isSuper() ? 2 : 1)));
+        return Math.sqrt(1.0D / ((getSpaceElevatorTier() - GTValues.ZPM) * (isSuper() ? 2 : 1)));
     }
 }

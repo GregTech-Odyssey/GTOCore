@@ -3693,5 +3693,33 @@ interface Assembler {
                 .duration(200)
                 .EUt(1920)
                 .save();
+
+        ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("biochemical_extraction"))
+                .inputItems(GTMachines.EXTRACTOR[GTValues.ZPM].asStack())
+                .inputItems(GTItems.EMITTER_ZPM.asStack(4))
+                .inputItems(GTItems.SENSOR_ZPM.asStack(4))
+                .inputItems(GTItems.ELECTRIC_PUMP_ZPM.asStack(8))
+                .inputItems(GTOTagPrefix.curvedPlate, GTMaterials.NaquadahAlloy, 12)
+                .inputItems(TagPrefix.rod, GTMaterials.NaquadahEnriched, 16)
+                .inputItems(TagPrefix.plate, GTMaterials.UraniumRhodiumDinaquadide, 16)
+                .outputItems(MultiBlockC.BIOCHEMICAL_EXTRACTION.asStack())
+                .inputFluids(GTMaterials.Polybenzimidazole.getFluid(2304))
+                .EUt(122880)
+                .duration(800)
+                .save();
+
+        ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("biochemical_reaction"))
+                .inputItems(GTMachines.CHEMICAL_REACTOR[GTValues.ZPM].asStack())
+                .inputItems(GTItems.EMITTER_ZPM.asStack(4))
+                .inputItems(GTItems.SENSOR_ZPM.asStack(4))
+                .inputItems(GTItems.ELECTRIC_PUMP_ZPM.asStack(8))
+                .inputItems(GTOTagPrefix.curvedPlate, GTMaterials.NaquadahAlloy, 12)
+                .inputItems(TagPrefix.rod, GTMaterials.NaquadahEnriched, 16)
+                .inputItems(TagPrefix.plate, GTMaterials.UraniumRhodiumDinaquadide, 16)
+                .outputItems(MultiBlockC.BIOCHEMICAL_REACTION.asStack())
+                .inputFluids(GTMaterials.Polybenzimidazole.getFluid(2304))
+                .EUt(122880)
+                .duration(800)
+                .save();
     }
 }

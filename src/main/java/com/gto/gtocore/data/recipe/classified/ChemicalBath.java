@@ -109,7 +109,7 @@ interface ChemicalBath {
                 .save();
 
         CHEMICAL_BATH_RECIPES.recipeBuilder(GTOCore.id("leached_turpentine"))
-                .inputItems(new ItemStack(Blocks.DARK_OAK_LOG.asItem()))
+                .inputItems(Blocks.DARK_OAK_LOG.asItem(), 16)
                 .inputFluids(GTMaterials.Naphtha.getFluid(1000))
                 .outputFluids(GTOMaterials.LeachedTurpentine.getFluid(1000))
                 .EUt(480)
@@ -122,6 +122,22 @@ interface ChemicalBath {
                 .outputItems(TagPrefix.ingot, GTOMaterials.VibrantAlloy)
                 .EUt(120)
                 .duration(280)
+                .save();
+
+        CHEMICAL_BATH_RECIPES.recipeBuilder(GTOCore.id("electronic_grade_silicon"))
+                .inputItems(TagPrefix.ingotHot, GTOMaterials.ElectronicGradeSilicon)
+                .outputItems(TagPrefix.ingot, GTOMaterials.ElectronicGradeSilicon)
+                .inputFluids(GTOMaterials.CoolantLiquid.getFluid(100))
+                .EUt(120)
+                .duration(250)
+                .save();
+
+        CHEMICAL_BATH_RECIPES.recipeBuilder(GTOCore.id("electronic_grade_silicon"))
+                .inputItems(TagPrefix.ingotHot, GTOMaterials.Terrasteel)
+                .outputItems(TagPrefix.ingot, GTOMaterials.Terrasteel)
+                .inputFluids(GTOMaterials.CoolantLiquid.getFluid(100))
+                .EUt(120)
+                .duration(230)
                 .save();
 
         CHEMICAL_BATH_RECIPES.recipeBuilder(GTOCore.id("sculk_vein"))

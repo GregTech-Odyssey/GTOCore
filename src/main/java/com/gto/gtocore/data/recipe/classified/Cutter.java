@@ -47,9 +47,9 @@ interface Cutter {
                 .save();
 
         CUTTER_RECIPES.recipeBuilder(GTOCore.id("cosmic_soc"))
-                .inputItems(GTOItems.COSMIC_SOC_WAFER.asItem())
+                .inputItems(GTOItems.SIMPLE_COSMIC_SOC_WAFER.asItem())
                 .inputFluids(GTOMaterials.DegassedWater.getFluid(450))
-                .outputItems(GTOItems.COSMIC_SOC.asStack(8))
+                .outputItems(GTOItems.SIMPLE_COSMIC_SOC.asStack(8))
                 .EUt(7864320)
                 .duration(900)
                 .cleanroom(CleanroomType.CLEANROOM)

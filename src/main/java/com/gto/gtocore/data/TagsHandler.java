@@ -1,6 +1,8 @@
 package com.gto.gtocore.data;
 
+import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.common.data.GTOBlocks;
+import com.gto.gtocore.utils.TagUtils;
 
 import com.gregtechceu.gtceu.api.data.tag.TagUtil;
 
@@ -9,6 +11,7 @@ import net.minecraft.data.tags.TagsProvider;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 
@@ -19,6 +22,7 @@ import earth.terrarium.adastra.common.registry.ModBlocks;
 public interface TagsHandler {
 
     TagKey<Block> ALL_LAYER_STONE = TagUtil.createBlockTag("all_layer_stone");
+    TagKey<Item> HUMAN_EGG = TagUtils.createTag(GTOCore.id("human_egg"));
 
     static void initBlock(RegistrateTagsProvider<Block> provider) {
         provider.addTag(ALL_LAYER_STONE).addTag(BlockTags.STONE_ORE_REPLACEABLES).addTag(BlockTags.DEEPSLATE_ORE_REPLACEABLES).addTag(BlockTags.NETHER_CARVER_REPLACEABLES);
@@ -28,7 +32,9 @@ public interface TagsHandler {
                 DDBlocks.SCULK_STONE.get(), DDBlocks.GLOOMSLATE.get());
     }
 
-    static void initItem(RegistrateTagsProvider<Item> provider) {}
+    static void initItem(RegistrateTagsProvider<Item> provider) {
+        create(provider, HUMAN_EGG, Items.VILLAGER_SPAWN_EGG, Items.WITCH_SPAWN_EGG);
+    }
 
     private static void create(RegistrateTagsProvider<Block> provider, TagKey<Block> tagKey, Block... rls) {
         TagsProvider.TagAppender<Block> builder = provider.addTag(tagKey);

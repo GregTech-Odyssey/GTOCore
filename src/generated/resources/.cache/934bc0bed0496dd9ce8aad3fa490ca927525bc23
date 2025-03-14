@@ -1,4 +1,4 @@
-// 1.20.1	2025-03-13T20:46:48.174972	Registrate Provider for gtocore [Recipes, Advancements, Loot Tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), generic_server_provider, Blockstates, Item models, Lang (en_us/en_ud), generic_client_provider, Lang (zh_cn), Lang (zh_tw)]
+// 1.20.1	2025-03-14T18:58:05.953079	Registrate Provider for gtocore [Recipes, Advancements, Loot Tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), generic_server_provider, Blockstates, Item models, Lang (en_us/en_ud), generic_client_provider, Lang (zh_cn), Lang (zh_tw)]
 561aa328ea8d03b161a0fff5267cad7f4a498bf2 assets/gtocore/blockstates/abs_black_casing.json
 637d4a4579c884976f720f142d9f4c2ce75d4764 assets/gtocore/blockstates/abs_blue_casing.json
 18659fe31222d417da78cd793daf37bc60dcaa78 assets/gtocore/blockstates/abs_brown_casing.json
@@ -254,10 +254,10 @@ fb0fc404a249f3aebd2ecffe35847ee0ba853db7 assets/gtocore/blockstates/uruium_coil_
 d28e1e74c60c6cb86b399220325a3a254bd616b8 assets/gtocore/blockstates/uxv_wireless_energy_unit.json
 8b64a23b9c57ba34df14d48842420d898246dd4f assets/gtocore/blockstates/zirconia_ceramic_high_strength_bending_resistance_mechanical_block.json
 54c6bf3885f977c5f032b6e310a7c114e0150432 assets/gtocore/blockstates/zpm_wireless_energy_unit.json
-99e62aa8d6497d82e7e9117c8869c8bf20629152 assets/gtocore/lang/en_ud.json
-824000748b9a761f4db6ff8cfd6978d035f90ac8 assets/gtocore/lang/en_us.json
-113ce06399c496cfaf155d424d1610b35db61519 assets/gtocore/lang/zh_cn.json
-cdb7e15ddead2d19d03ae824a70fbcdaeacfdba4 assets/gtocore/lang/zh_tw.json
+9ed256fae081877b2b0b9f19e3b32cd0a74db3f0 assets/gtocore/lang/en_ud.json
+9763eec7ed39fc91d158ab37c376fddff3fcacc1 assets/gtocore/lang/en_us.json
+d0e0bc479828669060cab584c342cfff695823ef assets/gtocore/lang/zh_cn.json
+c4dbde74caeeeea528ce51436ae677c38525a707 assets/gtocore/lang/zh_tw.json
 a3e5be219240789ffe6fbb05d051292c0d928df5 assets/gtocore/models/block/abs_black_casing.json
 de571bbc8b5c50ea45312b4efa8ae7346d311b5a assets/gtocore/models/block/abs_blue_casing.json
 f3597b8d3a9bb06573c4f0bf5e9b90d22cb2fd82 assets/gtocore/models/block/abs_brown_casing.json
@@ -570,6 +570,7 @@ c9ad345fdd52f2d87a1946360c2bb5605fea08dc assets/gtocore/models/item/carbon_rotor
 661d103ed4f76380e87751391f9701a2180a7987 assets/gtocore/models/item/cell_component_4m.json
 aed663ee650355a9d0af79378a32dabe411a71cf assets/gtocore/models/item/cell_component_64m.json
 4ce08e441a48d7888b94538cf7afc207d9dd3529 assets/gtocore/models/item/central_graviton_flow_modulator.json
+513f2b25d9a43a5ffa6cf55ca715dcec272db424 assets/gtocore/models/item/cerebrum.json
 95a9f09526258f5e4a4470236b38d88c013f6bf8 assets/gtocore/models/item/ceres_grunt.json
 e4c0d3ab515e705c53b33063c4867873279658b1 assets/gtocore/models/item/ceres_stone.json
 ad35f025bc7691dd0501a518db5dd4ae20b78595 assets/gtocore/models/item/certus_quartz_essence.json
@@ -636,8 +637,6 @@ f2cfe7c6d28d5126fda7359c53c6315763b10096 assets/gtocore/models/item/cosmic_proce
 5f2bc083e980fd5a2102bafe33159b384040fee8 assets/gtocore/models/item/cosmic_processor.json
 2b3f429fc1761680fb7a46302b640dc21b9c2377 assets/gtocore/models/item/cosmic_ram_chip.json
 88e63fe0cb189297b423f8ca27bdb9be8d6e5087 assets/gtocore/models/item/cosmic_ram_wafer.json
-2c560f9aceec6ee4c294ebaf5792ba5d027d2a76 assets/gtocore/models/item/cosmic_soc.json
-9c523ca9009199a4187231c37e0ae37953126e58 assets/gtocore/models/item/cosmic_soc_wafer.json
 4e305bd7e2354304ef4391b8942f8c139427b5d6 assets/gtocore/models/item/crafting_storage_16m.json
 c0b89dc64de1141c97074a5c0447e9e04e793e0d assets/gtocore/models/item/crafting_storage_1m.json
 4b23bcb1010abe50b8845c1c34034bf3c61bd3b6 assets/gtocore/models/item/crafting_storage_256m.json
@@ -955,7 +954,6 @@ d2348fbd6ebbf447c36cbdd2e619f7d478781b75 assets/gtocore/models/item/optical_comp
 beaf45d0f2e2c2b17089c30f8d12f1c2d419e602 assets/gtocore/models/item/optical_ram_chip.json
 6025bafd1be59359f2838ec9d7893ff30e519a2f assets/gtocore/models/item/optical_ram_wafer.json
 76540a4c33d8640f6b9da1bff51bf928200f8553 assets/gtocore/models/item/optical_slice.json
-f9e84bbabba9da91838599a22d1a84a125f1bdfa assets/gtocore/models/item/optical_soc.json
 f8da009c2465eae34b649334103862ceb90f1cae assets/gtocore/models/item/optical_soc_containment_housing.json
 80d74c3fefed705715aa9d70b3dcff5d061d617e assets/gtocore/models/item/optical_wafer.json
 605c7e04f96a5a9f627d1ffe03a50404f8b3c06d assets/gtocore/models/item/opv_hermetic_casing.json
@@ -990,6 +988,7 @@ e2a938382369e5422b254c72d38d68b30eea704d assets/gtocore/models/item/precision_ci
 2a38510981f74115a9c74658c27058d6bcf9fcee assets/gtocore/models/item/precision_circuit_assembly_robot_mk4.json
 982bddc9168904dddc105a6eac86be5ffab65146 assets/gtocore/models/item/precision_circuit_assembly_robot_mk5.json
 4e87f00233df61ab677aeb17810cc381ac588821 assets/gtocore/models/item/precision_steam_mechanism.json
+6f8319539fe99e939f7106de2de9ceb382163a98 assets/gtocore/models/item/preparation_petri_dish.json
 997107aab491d1536e882fbc24740a579703491d assets/gtocore/models/item/prepared_cosmic_soc_wafer.json
 138b7f5bf56c7b0b848e77fde3305e507d88ea98 assets/gtocore/models/item/pressure_containment_casing.json
 506e88ced42b8faa9e91c66cbc04ab39d733cc34 assets/gtocore/models/item/process_machine_casing.json
@@ -1060,9 +1059,12 @@ d4d4a50e8ba9782de76987a81707cfeaa7a1c5d5 assets/gtocore/models/item/saturated_fu
 2ad9efabb27ed9fcab096e7d6280029bff5e3684 assets/gtocore/models/item/shewanella_petri_dish.json
 06d63cf9927cc7d374208bfd6931ca7f0f8f424d assets/gtocore/models/item/shielded_accelerator.json
 ecc9ed7207834b4e8e217fb2c7d9f5a93c1bc41c assets/gtocore/models/item/shining_obsidian.json
+8a8d74f190fe35fc31c50ad280f20e86c72b3d07 assets/gtocore/models/item/simple_cosmic_soc.json
+1af66d696821f7c314888aa272a21693dbfd7664 assets/gtocore/models/item/simple_cosmic_soc_wafer.json
 7f158c561305d01163715bc3a4fd59ac052945ba assets/gtocore/models/item/simple_fiber_optic.json
 32edd9a67babbd5a476e5636c3f9b2ed861ef1d1 assets/gtocore/models/item/simple_fiber_optic_rough.json
 bccb614cebb7f5a69de4d971e572016b7e3661e7 assets/gtocore/models/item/simple_optical_fiber_preform.json
+3fbe947a81fe50229c1e02d88458edd709114b96 assets/gtocore/models/item/simple_optical_soc.json
 f290a2334745d95c454c6f6f2016b3cc2fb57879 assets/gtocore/models/item/singularity_reinforced_stellar_shielding_casing.json
 91164ae70311e8e6ae242dc58069079efd42d30a assets/gtocore/models/item/smd_capacitor_bioware.json
 6bc5d818b6a264f5abdc6246ea0c8fd2abae5016 assets/gtocore/models/item/smd_capacitor_cosmic.json
@@ -1140,6 +1142,7 @@ f26e263359e4c3063fb73370a237e9051d2ad9ae assets/gtocore/models/item/stellar_cont
 432d14328aea2fff036a4f8598e8d87ab6a2a226 assets/gtocore/models/item/strontium_carbonate_ceramic_ray_absorbing_mechanical_cube.json
 26bd838c6d6b7e7eece53d1e7e096ca671625c58 assets/gtocore/models/item/sulfur_vein_essence.json
 b1b2f23a40ef5148d50ed7de855ff39df6f8093e assets/gtocore/models/item/super_capacitor.json
+6e58605e5c39f97085a571dadc99b78cdc87ad17 assets/gtocore/models/item/super_cerebrum.json
 63d52925df9f6252a0b867a06e223404800cbe7b assets/gtocore/models/item/super_computation_component.json
 e7620feccb0a43b407788e04a0158037b990ea1d assets/gtocore/models/item/super_cooler_component.json
 1efaa1d77bc9a5653c5288e3181004d418cd770b assets/gtocore/models/item/super_portable_fluid_storage_cell.json
@@ -1238,6 +1241,7 @@ d28db2b923a002a944e4b553b4bb6ea98a8d4dcc assets/gtocore/models/item/variation_wo
 82ebd4a4570adee8ff7065783bdc7d5ae3d98eac assets/gtocore/models/item/vibrant_photovoltaic_block.json
 75b07e36f7c0c4f1f1981578482aab05a7bc00f0 assets/gtocore/models/item/void_matter.json
 cd5564c2b85e03906213dd7c27dc883d5586ddb8 assets/gtocore/models/item/warped_ender_pearl.json
+8b4123228d42f0d2e07e6882117bd431e36403bf assets/gtocore/models/item/wetware_soc.json
 f61023c562392c95eed61f75b43d9d279ebbbece assets/gtocore/models/item/wood_rotor.json
 d5ec6bc92862a0596de0440d4e55340a5ed6dcc6 assets/gtocore/models/item/woven_kevlar.json
 498395a0a99e5aeadffcd8f3f5da8aa774c4d347 assets/gtocore/models/item/wyvern_core.json
@@ -1248,7 +1252,7 @@ bb1c6ddf6338e8d31b34e54eaaa8bce6182ccce5 assets/gtocore/models/item/x_ray_laser.
 bb578ab26d0aa57831c0aac0b2a9d4e79d78f71a assets/gtocore/models/item/zero_point_module_fragments.json
 01c447d7919aebca7905394eebec7e7b8f7d09c0 assets/gtocore/models/item/zirconia_ceramic_high_strength_bending_resistance_mechanical_block.json
 441aae66308b2e5fb5e8bb79a1a229a1bbfc3ec4 assets/gtocore/models/item/zpm_wireless_energy_unit.json
-ab9ba32c59731c87efd32ee5974135a9e3633283 data/ae2/tags/items/p2p_attunements/fluid_p2p_tunnel.json
+ffcc358a0ae5d38934dbccfbb315788b7ac41cfb data/ae2/tags/items/p2p_attunements/fluid_p2p_tunnel.json
 265932a499519425773a9724b75855bde9da2bab data/forge/tags/blocks/all_layer_stone.json
 4606bbfee784f0277649ba7bf35af6991440ceb3 data/forge/tags/blocks/mineable/wrench.json
 a7839270cf007ebc18a1b0959287c10e418ac411 data/gtceu/tags/items/batteries/ulv.json
@@ -1269,6 +1273,7 @@ f357593ec26d751180407ad7e4e0cb748b326714 data/gtceu/tags/items/circuits/opv.json
 bbe063ec17dae384a3d79f5f41ba20f76643111f data/gtceu/tags/items/circuits/zpm.json
 c492c7314a8ea246211a8d64bb49ad86c04ecb65 data/gtocore/tags/items/algae.json
 bea770f1e973c493ff1a24eccd85481fc8a450cb data/gtocore/tags/items/algae_fiber.json
+364039dcd619c2fb993fb6932b05ee5a2d71949a data/gtocore/tags/items/human_egg.json
 e6b6c856d219c5570aa301343933ac477284ab50 data/gtocore/tags/items/vein_essence.json
 591ff29c72c28d568a05a1eb8c0c1e600f3a8990 data/minecraft/tags/blocks/mineable/axe.json
 5e9a3431f4efeff7b5556ce95073cf17fec10a6d data/minecraft/tags/blocks/mineable/pickaxe.json

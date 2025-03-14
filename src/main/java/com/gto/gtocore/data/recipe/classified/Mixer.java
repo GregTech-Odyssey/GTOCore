@@ -684,5 +684,41 @@ interface Mixer {
                 .EUt(120)
                 .duration(400)
                 .save();
+
+        MIXER_RECIPES.recipeBuilder(GTOCore.id("bacterial_growth_medium"))
+                .inputFluids(GTMaterials.DistilledWater.getFluid(1000))
+                .inputFluids(GTOMaterials.BloodCells.getFluid(1000))
+                .outputFluids(GTOMaterials.BacterialGrowthMedium.getFluid(1000))
+                .EUt(120)
+                .duration(100)
+                .cleanroom(CleanroomType.STERILE_CLEANROOM)
+                .save();
+
+        MIXER_RECIPES.recipeBuilder(GTOCore.id("animal_cells"))
+                .inputItems(TagPrefix.dust, GTMaterials.Meat, 2)
+                .inputFluids(GTMaterials.DistilledWater.getFluid(1000))
+                .outputFluids(GTOMaterials.AnimalCells.getFluid(1000))
+                .EUt(480)
+                .duration(100)
+                .cleanroom(CleanroomType.STERILE_CLEANROOM)
+                .save();
+
+        MIXER_RECIPES.recipeBuilder(GTOCore.id("pluripotency_induction_gene_therapy_fluid"))
+                .inputFluids(GTOMaterials.PluripotencyInductionGenePlasmids.getFluid(1000))
+                .inputFluids(GTOMaterials.Chitosan.getFluid(1000))
+                .outputFluids(GTOMaterials.PluripotencyInductionGeneTherapyFluid.getFluid(1000))
+                .EUt(7680)
+                .duration(24)
+                .cleanroom(CleanroomType.STERILE_CLEANROOM)
+                .save();
+
+        MIXER_RECIPES.recipeBuilder(GTOCore.id("clear_ammonia_solution"))
+                .inputFluids(GTMaterials.Ammonia.getFluid(1000))
+                .inputFluids(GTMaterials.DistilledWater.getFluid(1000))
+                .outputFluids(GTOMaterials.ClearAmmoniaSolution.getFluid(1000))
+                .EUt(480)
+                .duration(100)
+                .cleanroom(CleanroomType.CLEANROOM)
+                .save();
     }
 }

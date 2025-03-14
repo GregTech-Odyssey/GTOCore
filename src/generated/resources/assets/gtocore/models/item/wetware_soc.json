@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "gtocore:item/cosmic_soc_wafer"
+    "layer0": "gtocore:item/wetware_soc"
   }
 }

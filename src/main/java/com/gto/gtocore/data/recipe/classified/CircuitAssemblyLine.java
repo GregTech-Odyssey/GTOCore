@@ -675,7 +675,7 @@ interface CircuitAssemblyLine {
                 .inputItems(TagPrefix.wireFine, GTOMaterials.HeavyQuarkDegenerateMatter, 64)
                 .inputItems(TagPrefix.foil, GTOMaterials.Radox, 16)
                 .inputItems(TagPrefix.wireGtSingle, GTOMaterials.Legendarium, 8)
-                .inputItems(GTOItems.OPTICAL_SOC.asStack(8))
+                .inputItems(GTOItems.SIMPLE_OPTICAL_SOC.asStack(8))
                 .inputItems(GTOItems.RECURSIVELY_FOLDED_NEGATIVE_SPACE.asItem())
                 .inputItems(GTOItems.CONTAINED_EXOTIC_MATTER.asItem())
                 .inputItems(TagPrefix.plate, GTOMaterials.TriniumTitanium, 16)

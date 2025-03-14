@@ -1,6 +1,7 @@
 package com.gto.gtocore.data.recipe;
 
 import com.gto.gtocore.api.data.tag.GTOTagPrefix;
+import com.gto.gtocore.common.data.GTOItems;
 import com.gto.gtocore.common.data.GTOMaterials;
 import com.gto.gtocore.common.recipe.condition.GravityCondition;
 import com.gto.gtocore.common.recipe.condition.RestrictedMachineCondition;
@@ -9,7 +10,9 @@ import com.gto.gtocore.common.recipe.condition.VacuumCondition;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.machine.multiblock.CleanroomType;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
+import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
+import com.gregtechceu.gtceu.config.ConfigHolder;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
 
 import net.minecraft.data.recipes.FinishedRecipe;
@@ -27,6 +30,7 @@ import static com.gto.gtocore.common.data.GTORecipeTypes.*;
 public interface RecipeOverwrite {
 
     static void init(Consumer<FinishedRecipe> provider) {
+        int outputAmount = ConfigHolder.INSTANCE.recipes.harderCircuitRecipes ? 1 : 2;
         // 修改
         CHEMICAL_RECIPES.recipeBuilder("plastic_circuit_board_persulfate").duration(600).EUt(VA[LV])
                 .inputItems(PLASTIC_BOARD)
@@ -58,7 +62,7 @@ public interface RecipeOverwrite {
                 .inputItems(CustomTags.RESISTORS, 2)
                 .inputItems(wireGtSingle, RedAlloy, 2)
                 .inputItems(CustomTags.ULV_CIRCUITS, 2)
-                .outputItems(ELECTRONIC_CIRCUIT_LV, 2)
+                .outputItems(ELECTRONIC_CIRCUIT_LV, outputAmount << 1)
                 .save(provider);
 
         CIRCUIT_ASSEMBLER_RECIPES.recipeBuilder("processor_assembly_hv")
@@ -69,10 +73,19 @@ public interface RecipeOverwrite {
                 .inputItems(CustomTags.CAPACITORS, 8)
                 .inputItems(RANDOM_ACCESS_MEMORY, 4)
                 .inputItems(wireFine, RedAlloy, 8)
-                .outputItems(PROCESSOR_ASSEMBLY_HV, 2)
+                .outputItems(PROCESSOR_ASSEMBLY_HV, outputAmount << 1)
                 .solderMultiplier(2)
                 .cleanroom(CleanroomType.CLEANROOM)
                 .save();
+
+        CIRCUIT_ASSEMBLER_RECIPES.recipeBuilder("wetware_processor_luv_soc").EUt(150000).duration(100)
+                .inputItems(GTItems.WETWARE_CIRCUIT_BOARD)
+                .inputItems(GTOItems.WETWARE_SOC)
+                .inputItems(wireFine, YttriumBariumCuprate, 8)
+                .inputItems(bolt, Naquadah, 8)
+                .outputItems(WETWARE_PROCESSOR_LuV, outputAmount << 1)
+                .cleanroom(CleanroomType.STERILE_CLEANROOM)
+                .save(provider);
 
         CHEMICAL_RECIPES.recipeBuilder("polyethylene_from_oxygen")
                 .circuitMeta(1)

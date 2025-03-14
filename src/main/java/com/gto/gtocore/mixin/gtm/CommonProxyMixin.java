@@ -2,6 +2,7 @@ package com.gto.gtocore.mixin.gtm;
 
 import com.gto.gtocore.common.data.GTORecipes;
 import com.gto.gtocore.data.Data;
+import com.gto.gtocore.data.loot.DungeonLoot;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.data.chemical.material.registry.MaterialRegistry;
@@ -36,6 +37,7 @@ public class CommonProxyMixin {
                 Data.init();
             }
             DungeonLootLoader.init();
+            DungeonLoot.init();
             event.addRepositorySource(new GTPackSource("gtceu:dynamic_data", event.getPackType(), Pack.Position.BOTTOM, GTDynamicDataPack::new));
         }
         ci.cancel();

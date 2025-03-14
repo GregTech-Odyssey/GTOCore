@@ -159,6 +159,7 @@ public interface MiscRecipe {
                 .save();
 
         AUTOCLAVE_RECIPES.recipeBuilder(GTOCore.id("water_agar_mix")).EUt(VA[HV]).duration(600)
+                .chancedInput(GTOItems.RED_ALGAE_FIBER.asStack(), 1000, 0)
                 .inputItems(dust, Gelatin)
                 .inputFluids(DistilledWater.getFluid(1000))
                 .outputFluids(GTOMaterials.WaterAgarMix.getFluid(1000))

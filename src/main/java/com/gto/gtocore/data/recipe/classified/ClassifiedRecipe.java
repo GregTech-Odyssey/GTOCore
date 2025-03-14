@@ -119,5 +119,6 @@ public interface ClassifiedRecipe {
         ElectricCooking.init();
         Crystallization.init();
         BiochemicalExtraction.init();
+        BiochemicaReaction.init();
     }
 }

@@ -2,6 +2,8 @@ package com.gto.gtocore.mixin.adastra;
 
 import com.gto.gtocore.api.misc.PlanetManagement;
 
+import com.gregtechceu.gtceu.GTCEu;
+
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
@@ -32,7 +34,7 @@ public final class ModUtilsMixin {
      */
     @Overwrite(remap = false)
     public static boolean canTeleportToPlanet(Player player, Planet targetPlanet) {
-        if (player.removeTag("spaceelevatorst")) {
+        if (GTCEu.isDev() || player.removeTag("spaceelevatorst")) {
             player.addTag("canTeleportToPlanet");
             return true;
         }

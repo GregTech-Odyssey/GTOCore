@@ -64,6 +64,22 @@ public class ElectricMultiblockMachine extends WorkableElectricMultiblockMachine
     }
 
     @Override
+    public boolean onWorking() {
+        for (MultiblockTrait trait : multiblockTraits) {
+            if (trait.onWorking()) return false;
+        }
+        return super.onWorking();
+    }
+
+    @Override
+    public void afterWorking() {
+        for (MultiblockTrait trait : multiblockTraits) {
+            trait.afterWorking();
+        }
+        super.afterWorking();
+    }
+
+    @Override
     public void onStructureFormed() {
         super.onStructureFormed();
         multiblockTraits.forEach(MultiblockTrait::onStructureFormed);

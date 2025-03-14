@@ -637,6 +637,18 @@
     "gtocore:pluripotency_induction_gene_plasmids_bucket",
     "gtocore:chitosan_bucket",
     "gtocore:chitin_bucket",
-    "gtocore:pluripotency_induction_gene_therapy_fluid_bucket"
+    "gtocore:pluripotency_induction_gene_therapy_fluid_bucket",
+    "gtocore:catalase_bucket",
+    "gtocore:basic_fibroblast_growth_factor_bucket",
+    "gtocore:epidermal_growth_factor_bucket",
+    "gtocore:propargyl_chloride_bucket",
+    "gtocore:beta_ionone_bucket",
+    "gtocore:propargyl_alcohol_bucket",
+    "gtocore:vitamin_a_bucket",
+    "gtocore:citral_bucket",
+    "gtocore:clear_ammonia_solution_bucket",
+    "gtocore:b27_supplement_bucket",
+    "gtocore:linoleic_acid_bucket",
+    "gtocore:biotin_bucket"
   ]
 }

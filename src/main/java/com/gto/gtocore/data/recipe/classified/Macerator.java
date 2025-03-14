@@ -147,5 +147,12 @@ interface Macerator {
                 .duration(320)
                 .EUt(2)
                 .save();
+
+        MACERATOR_RECIPES.recipeBuilder(GTOCore.id("yeast"))
+                .inputItems(Items.SWEET_BERRIES.asItem())
+                .chancedOutput(TagPrefix.dust, GTOMaterials.Yeast, 500, 500)
+                .EUt(30)
+                .duration(50)
+                .save();
     }
 }
