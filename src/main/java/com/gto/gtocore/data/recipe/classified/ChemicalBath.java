@@ -132,7 +132,7 @@ interface ChemicalBath {
                 .duration(250)
                 .save();
 
-        CHEMICAL_BATH_RECIPES.recipeBuilder(GTOCore.id("electronic_grade_silicon"))
+        CHEMICAL_BATH_RECIPES.recipeBuilder(GTOCore.id("terrasteel_silicon"))
                 .inputItems(TagPrefix.ingotHot, GTOMaterials.Terrasteel)
                 .outputItems(TagPrefix.ingot, GTOMaterials.Terrasteel)
                 .inputFluids(GTOMaterials.CoolantLiquid.getFluid(100))

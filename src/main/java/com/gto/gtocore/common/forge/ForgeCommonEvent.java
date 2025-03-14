@@ -44,6 +44,7 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.EntityTravelToDimensionEvent;
+import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
@@ -87,6 +88,11 @@ public final class ForgeCommonEvent {
                 animal.hurt(player.damageSources().playerAttack(player), Math.max(animal.getMaxHealth() / 20, 0.5F));
             }
         }
+    }
+
+    @SubscribeEvent
+    public static void onDropsEvent(LivingDropsEvent e) {
+        dev.shadowsoffire.apotheosis.Apoth.Enchantments.CAPTURING.get().handleCapturing(e);
     }
 
     @SubscribeEvent

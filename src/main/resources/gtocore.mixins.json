@@ -41,6 +41,7 @@
         "ae2.gui.StyleManagerMixin",
         "apotheosis.AdventureModuleMixin",
         "apotheosis.ApotheosisMixin",
+        "apotheosis.CapturingEnchantMixin",
         "apotheosis.LootCategoryMixin",
         "avaritia.AbilityHandlerMixin",
         "avaritia.InternalRecipeHandlerMixin",

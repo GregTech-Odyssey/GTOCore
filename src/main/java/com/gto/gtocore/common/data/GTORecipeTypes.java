@@ -907,6 +907,6 @@ public interface GTORecipeTypes {
     //////////////////////////////////////
     // ********** Joint **********//
     //////////////////////////////////////
-    GTORecipeType CHEMICAL = JointRecipeType.register("chemical", GTRecipeTypes.CHEMICAL_RECIPES, GTRecipeTypes.LARGE_CHEMICAL_RECIPES).setMaxIOSize(3, 3, 5, 4).setEUIO(IO.IN).setSound(GTSoundEntries.CHEMICAL);
-    GTORecipeType CHEMICAL_ENERGY_DEVOURER_FUELS = JointRecipeType.register("chemical_energy_devourer", GTRecipeTypes.COMBUSTION_GENERATOR_FUELS, GTRecipeTypes.GAS_TURBINE_FUELS, GTORecipeTypes.ROCKET_ENGINE_FUELS).setSound(GTSoundEntries.COMBUSTION);
+    GTORecipeType CHEMICAL = JointRecipeType.register("chemical", CHEMICAL_RECIPES, LARGE_CHEMICAL_RECIPES).setMaxIOSize(3, 3, 5, 4).setEUIO(IO.IN).setSound(GTSoundEntries.CHEMICAL);
+    GTORecipeType CHEMICAL_ENERGY_DEVOURER_FUELS = JointRecipeType.register("chemical_energy_devourer", COMBUSTION_GENERATOR_FUELS, GAS_TURBINE_FUELS, ROCKET_ENGINE_FUELS).setSound(GTSoundEntries.COMBUSTION);
 }
