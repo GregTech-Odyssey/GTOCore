@@ -12,21 +12,19 @@ import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.common.data.GTElements;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
-import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.function.Consumer;
 
 import static com.gto.gtocore.common.data.GTORecipeTypes.ELEMENT_COPYING_RECIPES;
 import static com.gto.gtocore.common.data.GTORecipeTypes.SCANNER_RECIPES;
 
 public interface ElementCopying {
 
-    static void init(Consumer<FinishedRecipe> provider) {
+    static void init() {
         List<Material> fes = List.of(
                 GTMaterials.Hydrogen,
                 GTMaterials.Deuterium,

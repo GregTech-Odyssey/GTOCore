@@ -87,23 +87,23 @@ public interface Data {
 
         // GTO
         GTMTRecipe.init(consumer);
-        FuelRecipe.init(consumer);
-        NaquadahProcess.init(consumer);
-        PlatGroupMetals.init(consumer);
         GCYRecipes.init(consumer);
         MachineRecipe.init(consumer);
         ComponentRecipes.init(consumer);
         MiscRecipe.init(consumer);
-        ElementCopying.init(consumer);
-        StoneDustProcess.init(consumer);
-        Lanthanidetreatment.init(consumer);
-        NewResearchSystem.init(consumer);
-        RadiationHatchRecipes.init(consumer);
-        RecipeOverwrite.init(consumer);
-        PetrochemRecipes.init(consumer);
-        GlassRecipe.init(consumer);
-        DyeRecipes.init(consumer);
-        WoodRecipes.init(consumer);
+        FuelRecipe.init();
+        NaquadahProcess.init();
+        PlatGroupMetals.init();
+        ElementCopying.init();
+        StoneDustProcess.init();
+        Lanthanidetreatment.init();
+        NewResearchSystem.init();
+        RadiationHatchRecipes.init();
+        RecipeOverwrite.init();
+        PetrochemRecipes.init();
+        GlassRecipe.init();
+        DyeRecipes.init();
+        WoodRecipes.init();
         ClassifiedRecipe.init(consumer);
         GenerateDisassembly.DISASSEMBLY_RECORD.clear();
         GenerateDisassembly.DISASSEMBLY_BLACKLIST.clear();

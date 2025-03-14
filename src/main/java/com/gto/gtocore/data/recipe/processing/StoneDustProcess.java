@@ -5,10 +5,6 @@ import com.gto.gtocore.common.data.GTOItems;
 
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
 
-import net.minecraft.data.recipes.FinishedRecipe;
-
-import java.util.function.Consumer;
-
 import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.dust;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
@@ -17,7 +13,7 @@ import static com.gto.gtocore.common.data.GTORecipeTypes.*;
 
 public interface StoneDustProcess {
 
-    static void init(Consumer<FinishedRecipe> provider) {
+    static void init() {
         MIXER_RECIPES.recipeBuilder(GTOCore.id("dirty_hexafluorosilicic_acid_output"))
                 .inputItems(dust, Stone, 24)
                 .inputFluids(HydrofluoricAcid.getFluid(6000))

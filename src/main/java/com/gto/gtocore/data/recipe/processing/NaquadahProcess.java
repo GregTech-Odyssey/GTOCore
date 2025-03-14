@@ -2,10 +2,6 @@ package com.gto.gtocore.data.recipe.processing;
 
 import com.gto.gtocore.GTOCore;
 
-import net.minecraft.data.recipes.FinishedRecipe;
-
-import java.util.function.Consumer;
-
 import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
@@ -14,7 +10,7 @@ import static com.gto.gtocore.common.data.GTORecipeTypes.*;
 
 public interface NaquadahProcess {
 
-    static void init(Consumer<FinishedRecipe> provider) {
+    static void init() {
         REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("low_purity_naquadah_emulsion")).EUt(VA[HV]).duration(100)
                 .inputItems(dust, NaquadahOxideMixture, 6)
                 .inputFluids(FluoroantimonicAcid.getFluid(2000))

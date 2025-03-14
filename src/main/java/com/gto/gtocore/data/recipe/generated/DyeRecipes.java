@@ -6,18 +6,15 @@ import com.gto.gtocore.common.data.GTOBlocks;
 
 import com.gregtechceu.gtceu.common.data.GTRecipeCategories;
 
-import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.block.Block;
-
-import java.util.function.Consumer;
 
 import static com.gregtechceu.gtceu.common.data.GTMaterials.CHEMICAL_DYES;
 import static com.gto.gtocore.common.data.GTORecipeTypes.CHEMICAL_BATH_RECIPES;
 
 public interface DyeRecipes {
 
-    static void init(Consumer<FinishedRecipe> provider) {
+    static void init() {
         for (int i = 0; i < CHEMICAL_DYES.length; i++) {
             DyeColor color = DyeColor.values()[i];
             String colorName = color.getName();

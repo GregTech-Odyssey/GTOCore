@@ -7,10 +7,6 @@ import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
-import net.minecraft.data.recipes.FinishedRecipe;
-
-import java.util.function.Consumer;
-
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
 import static com.gto.gtocore.api.data.tag.GTOTagPrefix.nanites;
@@ -19,7 +15,7 @@ import static com.gto.gtocore.common.data.GTORecipeTypes.*;
 
 public interface Lanthanidetreatment {
 
-    static void init(Consumer<FinishedRecipe> provider) {
+    static void init() {
         EXTRACTOR_RECIPES.recipeBuilder("monazite_extraction")
                 .inputItems(gemExquisite, Monazite)
                 .outputItems(dustSmall, RareEarth, 10)

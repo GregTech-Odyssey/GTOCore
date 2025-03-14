@@ -11,7 +11,6 @@ import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.data.recipe.WoodTypeEntry;
 
-import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
@@ -28,7 +27,6 @@ import vazkii.botania.common.block.BotaniaBlocks;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Consumer;
 
 import static com.gto.gtocore.common.data.GTORecipeTypes.TREE_GROWTH_SIMULATOR_RECIPES;
 
@@ -600,7 +598,7 @@ public interface WoodRecipes {
         return entries;
     }
 
-    static void init(Consumer<FinishedRecipe> provider) {
+    static void init() {
         TREE_GROWTH_SIMULATOR_RECIPES.recipeBuilder(GTOCore.id("rubber"))
                 .inputFluids(new FluidStack(Fluids.WATER, 4000))
                 .notConsumable(GTBlocks.RUBBER_SAPLING.asItem())
@@ -641,30 +639,30 @@ public interface WoodRecipes {
                 .duration(300)
                 .save();
 
-        add(provider, "minecraft", "oak");
-        add(provider, "minecraft", "spruce");
-        add(provider, "minecraft", "birch");
-        add(provider, "minecraft", "jungle");
-        add(provider, "minecraft", "acacia");
-        add(provider, "minecraft", "dark_oak");
-        add(provider, "minecraft", "cherry");
-        add(provider, "deeperdarker", "echo");
+        add("minecraft", "oak");
+        add("minecraft", "spruce");
+        add("minecraft", "birch");
+        add("minecraft", "jungle");
+        add("minecraft", "acacia");
+        add("minecraft", "dark_oak");
+        add("minecraft", "cherry");
+        add("deeperdarker", "echo");
 
         if (GTCEu.isModLoaded("biomesoplenty")) {
-            add(provider, "biomesoplenty", "fir");
-            add(provider, "biomesoplenty", "redwood");
-            add(provider, "biomesoplenty", "mahogany");
-            add(provider, "biomesoplenty", "jacaranda");
-            add(provider, "biomesoplenty", "palm");
-            add(provider, "biomesoplenty", "willow");
-            add(provider, "biomesoplenty", "hellbark");
-            add(provider, "biomesoplenty", "dead");
-            add(provider, "biomesoplenty", "umbran");
-            add(provider, "biomesoplenty", "magic");
+            add("biomesoplenty", "fir");
+            add("biomesoplenty", "redwood");
+            add("biomesoplenty", "mahogany");
+            add("biomesoplenty", "jacaranda");
+            add("biomesoplenty", "palm");
+            add("biomesoplenty", "willow");
+            add("biomesoplenty", "hellbark");
+            add("biomesoplenty", "dead");
+            add("biomesoplenty", "umbran");
+            add("biomesoplenty", "magic");
         }
     }
 
-    private static void add(Consumer<FinishedRecipe> provider, String mod, String mane) {
+    private static void add(String mod, String mane) {
         ItemStack sapling = new ItemStack(RegistriesUtils.getItem(mod, mane + "_sapling"));
         ItemStack log = new ItemStack(RegistriesUtils.getItem(mod, mane + "_log"), 16);
         TREE_GROWTH_SIMULATOR_RECIPES.recipeBuilder(GTOCore.id(mane))

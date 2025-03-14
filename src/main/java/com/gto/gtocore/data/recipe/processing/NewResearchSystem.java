@@ -9,10 +9,7 @@ import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
 import com.gregtechceu.gtceu.api.machine.multiblock.CleanroomType;
 
-import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.world.item.ItemStack;
-
-import java.util.function.Consumer;
 
 import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
@@ -26,7 +23,7 @@ import static com.gto.gtocore.common.data.GTORecipeTypes.*;
 
 public interface NewResearchSystem {
 
-    static void init(Consumer<FinishedRecipe> provider) {
+    static void init() {
         // 重写配方
         CHEMICAL_RECIPES.recipeBuilder("polydimethylsiloxane_from_silicon")
                 .inputItems(dust, Silicon)

@@ -2,6 +2,7 @@ package com.gto.gtocore.api.recipe;
 
 import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.api.capability.recipe.ManaRecipeCapability;
+import com.gto.gtocore.api.data.chemical.GTOChemicalHelper;
 import com.gto.gtocore.api.data.tag.ITagPrefix;
 import com.gto.gtocore.api.item.NBTItem;
 import com.gto.gtocore.common.recipe.condition.GravityCondition;
@@ -40,6 +41,7 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.util.valueproviders.IntProvider;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Blocks;
@@ -69,18 +71,35 @@ public final class GTORecipeBuilder extends GTRecipeBuilder {
 
     public static Map<ResourceLocation, GTRecipe> RECIPE_MAP;
 
+    private static Map<UnificationEntry, Ingredient> MATERIAL_INGREDIENT_MAP;
     private static Map<NBTItem, Ingredient> ITEM_INGREDIENT_MAP;
     private static Map<TagKey<Item>, Ingredient> TAG_INGREDIENT_MAP;
 
     public static void initialization() {
         RECIPE_MAP = new Object2ObjectOpenHashMap<>(4096);
+        MATERIAL_INGREDIENT_MAP = new Object2ObjectOpenHashMap<>(1024, Hash.VERY_FAST_LOAD_FACTOR);
         ITEM_INGREDIENT_MAP = new Object2ObjectOpenHashMap<>(1024, Hash.VERY_FAST_LOAD_FACTOR);
         TAG_INGREDIENT_MAP = new Object2ObjectOpenHashMap<>(1024, Hash.VERY_FAST_LOAD_FACTOR);
     }
 
     public static void clean() {
+        MATERIAL_INGREDIENT_MAP = null;
         ITEM_INGREDIENT_MAP = null;
         TAG_INGREDIENT_MAP = null;
+    }
+
+    private static SizedIngredient createSizedIngredient(UnificationEntry unificationEntry, int amount) {
+        if (MATERIAL_INGREDIENT_MAP == null) return SizedIngredient.create(ChemicalHelper.get(unificationEntry, amount));
+        Ingredient ingredient = MATERIAL_INGREDIENT_MAP.get(unificationEntry);
+        if (ingredient == null) {
+            Item item = GTOChemicalHelper.getItem(unificationEntry);
+            if (item == Items.AIR) {
+                GTOCore.LOGGER.error("Tried to set output item stack that doesn't exist, TagPrefix: {}, Material: {}", unificationEntry.tagPrefix, unificationEntry.material);
+            }
+            ingredient = Ingredient.of(item);
+            MATERIAL_INGREDIENT_MAP.put(unificationEntry, ingredient);
+        }
+        return SizedIngredient.create(ingredient, amount);
     }
 
     private static SizedIngredient createSizedIngredient(ItemStack stack) {
@@ -419,30 +438,29 @@ public final class GTORecipeBuilder extends GTRecipeBuilder {
 
     @Override
     public GTORecipeBuilder inputItems(UnificationEntry input) {
-        if (input.material == null) {
-            GTOCore.LOGGER.error("Unification Entry material is null, id: {}, TagPrefix: {}", id, input.tagPrefix);
-        }
-        return inputItems(input.tagPrefix, input.material, 1);
+        return inputItems(input, 1);
     }
 
     @Override
     public GTORecipeBuilder inputItems(UnificationEntry input, int count) {
+        if (deleted) return this;
         if (input.material == null) {
             GTOCore.LOGGER.error("Unification Entry material is null, id: {}, TagPrefix: {}", id, input.tagPrefix);
+            return this;
         }
-        return inputItems(input.tagPrefix, input.material, count);
+        if (((ITagPrefix) input.tagPrefix).gtocore$isTagInput()) {
+            TagKey<Item> tag = ChemicalHelper.getTag(input.tagPrefix, input.material);
+            if (tag != null) {
+                return inputItems(tag, count);
+            }
+        }
+        return input(ItemRecipeCapability.CAP, createSizedIngredient(input, count));
     }
 
     @Override
     public GTORecipeBuilder inputItems(TagPrefix orePrefix, Material material, int count) {
         if (deleted) return this;
-        if (((ITagPrefix) orePrefix).gtocore$isTagInput()) {
-            TagKey<Item> tag = ChemicalHelper.getTag(orePrefix, material);
-            if (tag != null) {
-                return inputItems(tag, count);
-            }
-        }
-        return inputItems(ChemicalHelper.get(orePrefix, material, count));
+        return inputItems(new UnificationEntry(orePrefix, material), count);
     }
 
     @Override
@@ -554,27 +572,22 @@ public final class GTORecipeBuilder extends GTRecipeBuilder {
     @Override
     public GTORecipeBuilder outputItems(TagPrefix orePrefix, Material material, int count) {
         if (deleted) return this;
-        var item = ChemicalHelper.get(orePrefix, material, count);
-        if (item.isEmpty()) {
-            GTOCore.LOGGER.error("Tried to set output item stack that doesn't exist, TagPrefix: {}, Material: {}", orePrefix, material);
-        }
-        return outputItems(item);
+        return outputItems(new UnificationEntry(orePrefix, material), count);
     }
 
     @Override
     public GTORecipeBuilder outputItems(UnificationEntry entry) {
-        if (entry.material == null) {
-            GTOCore.LOGGER.error("Unification Entry material is null, id: {}, TagPrefix: {}", id, entry.tagPrefix);
-        }
-        return outputItems(entry.tagPrefix, entry.material);
+        return outputItems(entry, 1);
     }
 
     @Override
-    public GTORecipeBuilder outputItems(UnificationEntry entry, int count) {
-        if (entry.material == null) {
-            GTOCore.LOGGER.error("Unification Entry material is null, id: {}, TagPrefix: {}", id, entry.tagPrefix);
+    public GTORecipeBuilder outputItems(UnificationEntry output, int count) {
+        if (deleted) return this;
+        if (output.material == null) {
+            GTOCore.LOGGER.error("Unification Entry material is null, id: {}, TagPrefix: {}", id, output.tagPrefix);
+            return this;
         }
-        return outputItems(entry.tagPrefix, entry.material, count);
+        return output(ItemRecipeCapability.CAP, createSizedIngredient(output, count));
     }
 
     @Override

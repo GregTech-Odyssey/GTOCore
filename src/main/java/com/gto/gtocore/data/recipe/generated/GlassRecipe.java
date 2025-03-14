@@ -11,19 +11,16 @@ import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.data.GTRecipeCategories;
 
-import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.fluids.FluidStack;
 
 import com.tterrag.registrate.util.entry.BlockEntry;
 
-import java.util.function.Consumer;
-
 import static com.gto.gtocore.common.data.GTORecipeTypes.*;
 
 public interface GlassRecipe {
 
-    static void init(Consumer<FinishedRecipe> provider) {
+    static void init() {
         ALLOY_SMELTER_RECIPES.recipeBuilder(GTOCore.id("borosilicate_glass"))
                 .inputItems(TagPrefix.block, GTMaterials.BorosilicateGlass)
                 .notConsumable(GTItems.SHAPE_MOLD_BLOCK)
@@ -33,20 +30,20 @@ public interface GlassRecipe {
                 .duration(200)
                 .save();
 
-        addGlass(GTValues.EV, GTMaterials.Titanium, GTOBlocks.TITANIUM_BOROSILICATE_GLASS, provider);
-        addGlass(GTValues.IV, GTMaterials.Tungsten, GTOBlocks.TUNGSTEN_BOROSILICATE_GLASS, provider);
-        addGlass(GTValues.LuV, GTMaterials.HSSS, GTOBlocks.HSSS_BOROSILICATE_GLASS, provider);
-        addGlass(GTValues.ZPM, GTMaterials.Naquadah, GTOBlocks.NAQUADAH_BOROSILICATE_GLASS, provider);
-        addGlass(GTValues.UV, GTMaterials.Tritanium, GTOBlocks.TRITANIUM_BOROSILICATE_GLASS, provider);
-        addGlass(GTValues.UHV, GTMaterials.Neutronium, GTOBlocks.AMPROSIUM_BOROSILICATE_GLASS, provider);
-        addGlass(GTValues.UEV, GTOMaterials.Enderium, GTOBlocks.ENDERIUM_BOROSILICATE_GLASS, provider);
-        addGlass(GTValues.UIV, GTOMaterials.Taranium, GTOBlocks.TARANIUM_BOROSILICATE_GLASS, provider);
-        addGlass(GTValues.UXV, GTOMaterials.HeavyQuarkDegenerateMatter, GTOBlocks.QUARKS_BOROSILICATE_GLASS, provider);
-        addGlass(GTValues.OpV, GTOMaterials.Draconium, GTOBlocks.DRACONIUM_BOROSILICATE_GLASS, provider);
-        addGlass(GTValues.MAX, GTOMaterials.CosmicNeutronium, GTOBlocks.COSMIC_NEUTRONIUM_BOROSILICATE_GLASS, provider);
+        addGlass(GTValues.EV, GTMaterials.Titanium, GTOBlocks.TITANIUM_BOROSILICATE_GLASS);
+        addGlass(GTValues.IV, GTMaterials.Tungsten, GTOBlocks.TUNGSTEN_BOROSILICATE_GLASS);
+        addGlass(GTValues.LuV, GTMaterials.HSSS, GTOBlocks.HSSS_BOROSILICATE_GLASS);
+        addGlass(GTValues.ZPM, GTMaterials.Naquadah, GTOBlocks.NAQUADAH_BOROSILICATE_GLASS);
+        addGlass(GTValues.UV, GTMaterials.Tritanium, GTOBlocks.TRITANIUM_BOROSILICATE_GLASS);
+        addGlass(GTValues.UHV, GTMaterials.Neutronium, GTOBlocks.AMPROSIUM_BOROSILICATE_GLASS);
+        addGlass(GTValues.UEV, GTOMaterials.Enderium, GTOBlocks.ENDERIUM_BOROSILICATE_GLASS);
+        addGlass(GTValues.UIV, GTOMaterials.Taranium, GTOBlocks.TARANIUM_BOROSILICATE_GLASS);
+        addGlass(GTValues.UXV, GTOMaterials.HeavyQuarkDegenerateMatter, GTOBlocks.QUARKS_BOROSILICATE_GLASS);
+        addGlass(GTValues.OpV, GTOMaterials.Draconium, GTOBlocks.DRACONIUM_BOROSILICATE_GLASS);
+        addGlass(GTValues.MAX, GTOMaterials.CosmicNeutronium, GTOBlocks.COSMIC_NEUTRONIUM_BOROSILICATE_GLASS);
     }
 
-    private static void addGlass(int tier, Material material, BlockEntry<Block> block, Consumer<FinishedRecipe> provider) {
+    private static void addGlass(int tier, Material material, BlockEntry<Block> block) {
         FluidStack fluidStack = material.getFluid(1152);
         FLUID_SOLIDFICATION_RECIPES.recipeBuilder(GTOCore.id("borosilicate_glass_" + material.getName()))
                 .inputItems(GTOBlocks.BOROSILICATE_GLASS.asItem())

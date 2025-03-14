@@ -11,7 +11,7 @@ import com.gregtechceu.gtceu.common.data.GTMaterials;
 
 import net.minecraft.world.item.Items;
 
-import static com.gto.gtocore.common.data.GTORecipeTypes.*;
+import static com.gto.gtocore.common.data.GTORecipeTypes.BIOCHEMICAL_REACTION_RECIPES;
 
 interface BiochemicaReaction {
 

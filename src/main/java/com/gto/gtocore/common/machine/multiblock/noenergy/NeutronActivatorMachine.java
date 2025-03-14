@@ -1,5 +1,6 @@
 package com.gto.gtocore.common.machine.multiblock.noenergy;
 
+import com.gto.gtocore.api.data.chemical.GTOChemicalHelper;
 import com.gto.gtocore.api.machine.multiblock.NoEnergyMultiblockMachine;
 import com.gto.gtocore.common.data.GTORecipeModifiers;
 import com.gto.gtocore.common.machine.multiblock.part.NeutronAcceleratorPartMachine;
@@ -9,7 +10,6 @@ import com.gto.gtocore.utils.MachineUtils;
 import com.gto.gtocore.utils.NumberUtils;
 
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
-import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.machine.ConditionalSubscriptionHandler;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
@@ -48,8 +48,8 @@ public class NeutronActivatorMachine extends NoEnergyMultiblockMachine implement
         return MANAGED_FIELD_HOLDER;
     }
 
-    private static final Item dustBeryllium = ChemicalHelper.get(TagPrefix.dust, GTMaterials.Beryllium).getItem();
-    private static final Item dustGraphite = ChemicalHelper.get(TagPrefix.dust, GTMaterials.Graphite).getItem();
+    private static final Item dustBeryllium = GTOChemicalHelper.getItem(TagPrefix.dust, GTMaterials.Beryllium);
+    private static final Item dustGraphite = GTOChemicalHelper.getItem(TagPrefix.dust, GTMaterials.Graphite);
 
     int height;
 

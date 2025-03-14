@@ -1,5 +1,6 @@
 package com.gto.gtocore.common.machine.multiblock.water;
 
+import com.gto.gtocore.api.data.chemical.GTOChemicalHelper;
 import com.gto.gtocore.api.machine.part.ItemHatchPartMachine;
 import com.gto.gtocore.api.recipe.GTORecipeBuilder;
 import com.gto.gtocore.api.recipe.RecipeRunner;
@@ -7,7 +8,6 @@ import com.gto.gtocore.common.machine.multiblock.part.IndicatorHatchPartMachine;
 import com.gto.gtocore.utils.MachineUtils;
 
 import com.gregtechceu.gtceu.api.GTValues;
-import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.chemical.material.MarkerMaterials;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
@@ -38,16 +38,16 @@ public final class HighEnergyLaserPurificationUnitMachine extends WaterPurificat
     }
 
     private static final List<Item> LENS = List.of(
-            ChemicalHelper.get(TagPrefix.lens, MarkerMaterials.Color.Red).getItem(),
-            ChemicalHelper.get(TagPrefix.lens, MarkerMaterials.Color.Orange).getItem(),
-            ChemicalHelper.get(TagPrefix.lens, MarkerMaterials.Color.Brown).getItem(),
-            ChemicalHelper.get(TagPrefix.lens, MarkerMaterials.Color.Yellow).getItem(),
-            ChemicalHelper.get(TagPrefix.lens, MarkerMaterials.Color.Green).getItem(),
-            ChemicalHelper.get(TagPrefix.lens, MarkerMaterials.Color.Cyan).getItem(),
-            ChemicalHelper.get(TagPrefix.lens, MarkerMaterials.Color.Blue).getItem(),
-            ChemicalHelper.get(TagPrefix.lens, MarkerMaterials.Color.Purple).getItem(),
-            ChemicalHelper.get(TagPrefix.lens, MarkerMaterials.Color.Magenta).getItem(),
-            ChemicalHelper.get(TagPrefix.lens, MarkerMaterials.Color.Pink).getItem());
+            GTOChemicalHelper.getItem(TagPrefix.lens, MarkerMaterials.Color.Red),
+            GTOChemicalHelper.getItem(TagPrefix.lens, MarkerMaterials.Color.Orange),
+            GTOChemicalHelper.getItem(TagPrefix.lens, MarkerMaterials.Color.Brown),
+            GTOChemicalHelper.getItem(TagPrefix.lens, MarkerMaterials.Color.Yellow),
+            GTOChemicalHelper.getItem(TagPrefix.lens, MarkerMaterials.Color.Green),
+            GTOChemicalHelper.getItem(TagPrefix.lens, MarkerMaterials.Color.Cyan),
+            GTOChemicalHelper.getItem(TagPrefix.lens, MarkerMaterials.Color.Blue),
+            GTOChemicalHelper.getItem(TagPrefix.lens, MarkerMaterials.Color.Purple),
+            GTOChemicalHelper.getItem(TagPrefix.lens, MarkerMaterials.Color.Magenta),
+            GTOChemicalHelper.getItem(TagPrefix.lens, MarkerMaterials.Color.Pink));
 
     @Persisted
     private int index;

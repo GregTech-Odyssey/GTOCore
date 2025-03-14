@@ -6,10 +6,6 @@ import com.gto.gtocore.common.data.GTOMaterials;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
-import net.minecraft.data.recipes.FinishedRecipe;
-
-import java.util.function.Consumer;
-
 import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
@@ -18,7 +14,7 @@ import static com.gto.gtocore.common.data.GTORecipeTypes.*;
 
 public interface PlatGroupMetals {
 
-    static void init(Consumer<FinishedRecipe> provider) {
+    static void init() {
         CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("pgs_from_chalcocite")).duration(110).EUt(VA[LV])
                 .inputItems(crushedPurified, Chalcocite)
                 .inputFluids(NitricAcid.getFluid(100))
