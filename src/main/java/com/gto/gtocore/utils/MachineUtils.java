@@ -44,22 +44,32 @@ import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 public final class MachineUtils {
 
     public static final Function<MultiblockMachineDefinition, BlockPattern> EMPTY_PATTERN = (d) -> new BlockPattern(new TraceabilityPredicate[0][0][0], new RelativeDirection[0], new int[0][0], new int[0]) {};
 
-    public static List<MultiblockShapeInfo> getMatchingShapes(BlockPattern blockPattern) {
-        return repetitionDFS(blockPattern, new ArrayList<>(), blockPattern.aisleRepetitions, new Stack<>());
+    public static List<MultiblockShapeInfo> getMatchingShapes(boolean fast, BlockPattern blockPattern) {
+        List<Supplier<MultiblockShapeInfo>> list = repetitionDFS(blockPattern, new ArrayList<>(), blockPattern.aisleRepetitions, new Stack<>());
+        if (fast) {
+            List<MultiblockShapeInfo> shapes = new ArrayList<>();
+            shapes.add(list.get(0).get());
+            if (list.size() > 1) {
+                shapes.add(list.get(list.size() - 1).get());
+            }
+            return shapes;
+        }
+        return list.stream().map(Supplier::get).toList();
     }
 
-    private static List<MultiblockShapeInfo> repetitionDFS(BlockPattern pattern, List<MultiblockShapeInfo> pages, int[][] aisleRepetitions, Stack<Integer> repetitionStack) {
+    private static List<Supplier<MultiblockShapeInfo>> repetitionDFS(BlockPattern pattern, List<Supplier<MultiblockShapeInfo>> pages, int[][] aisleRepetitions, Stack<Integer> repetitionStack) {
         if (repetitionStack.size() == aisleRepetitions.length) {
             int[] repetition = new int[repetitionStack.size()];
             for (int i = 0; i < repetitionStack.size(); i++) {
                 repetition[i] = repetitionStack.get(i);
             }
-            pages.add(new MultiblockShapeInfo(pattern.getPreview(repetition)));
+            pages.add(() -> new MultiblockShapeInfo(pattern.getPreview(repetition)));
         } else {
             for (int i = aisleRepetitions[repetitionStack.size()][0]; i <= aisleRepetitions[repetitionStack.size()][1]; i++) {
                 repetitionStack.push(i);

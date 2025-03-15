@@ -25,6 +25,7 @@ interface BiochemicalExtraction {
                 .notConsumable(TagsHandler.HUMAN_EGG)
                 .outputItems(GTOItems.CEREBRUM)
                 .duration(200)
+                .EUt(30)
                 .save();
 
         BIOCHEMICAL_EXTRACTION_RECIPES.recipeBuilder(GTOCore.id("mycgene"))

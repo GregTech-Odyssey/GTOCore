@@ -7,10 +7,12 @@ import com.gto.gtocore.utils.GTOUtils;
 
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
 
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Map;
 import java.util.Set;
 
 public interface IDroneInteractionMachine extends INetMachineInteractor<DroneControlCenterMachine> {
@@ -20,15 +22,15 @@ public interface IDroneInteractionMachine extends INetMachineInteractor<DroneCon
     }
 
     @Override
-    default Set<DroneControlCenterMachine> getMachineNet() {
-        return DroneControlCenterMachine.DRONE_NETWORK;
+    default Map<ResourceLocation, Set<DroneControlCenterMachine>> getMachineNet() {
+        return DroneControlCenterMachine.NETWORK;
     }
 
     @Override
     default boolean firstTestMachine(DroneControlCenterMachine machine) {
         Level level = machine.getLevel();
         if (level == null) return false;
-        return machine.isFormed() && machine.getRecipeLogic().isWorking() && level.dimension().equals(level.dimension()) && GTOUtils.calculateDistance(machine.getPos(), getMachine().getPos()) < 256;
+        return machine.isFormed() && machine.getRecipeLogic().isWorking() && GTOUtils.calculateDistance(machine.getPos(), getMachine().getPos()) < 256;
     }
 
     @Override

@@ -1,8 +1,8 @@
 package com.gto.gtocore.api.machine;
 
 import com.gto.gtocore.GTOCore;
-import com.gto.gtocore.common.data.machines.MultiBlockD;
 import com.gto.gtocore.config.GTOConfig;
+import com.gto.gtocore.utils.MachineUtils;
 
 import com.gregtechceu.gtceu.api.gui.widget.PatternPreviewWidget;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
@@ -25,12 +25,9 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 public interface IMultiblockMachineDefinition {
-
-    Set<MachineDefinition> DYNAMIC_STRUCTURE = Set.of(MultiBlockD.NANO_FORGE);
 
     void gtocore$clear();
 
@@ -42,19 +39,14 @@ public interface IMultiblockMachineDefinition {
         long time = System.currentTimeMillis();
         for (MachineDefinition machine : GTRegistries.MACHINES.values()) {
             if (machine instanceof MultiblockMachineDefinition definition && definition.isRenderXEIPreview() && definition instanceof IMultiblockMachineDefinition machineDefinition) {
-                List<MultiblockShapeInfo> shapes = definition.getMatchingShapes();
+                List<MultiblockShapeInfo> shapes = definition.getShapes().get();
+                if (shapes.isEmpty()) {
+                    shapes = MachineUtils.getMatchingShapes(GTOConfig.INSTANCE.fastMultiBlockPage, definition.getPatternFactory().get());
+                }
                 Pattern[] patterns;
-                if (DYNAMIC_STRUCTURE.contains(definition) || !GTOConfig.INSTANCE.fastMultiBlockPage) {
-                    patterns = new Pattern[shapes.size()];
-                    for (int i = 0; i < shapes.size(); i++) {
-                        patterns[i] = initializePattern(shapes.get(i));
-                    }
-                } else {
-                    int amount = shapes.size() - 1;
-                    boolean repetition = amount > 0;
-                    patterns = new Pattern[repetition ? 2 : 1];
-                    patterns[0] = initializePattern(shapes.get(0));
-                    if (repetition) patterns[1] = initializePattern(shapes.get(amount));
+                patterns = new Pattern[shapes.size()];
+                for (int i = 0; i < shapes.size(); i++) {
+                    patterns[i] = initializePattern(shapes.get(i));
                 }
                 machineDefinition.gtocore$setPatterns(patterns);
             }

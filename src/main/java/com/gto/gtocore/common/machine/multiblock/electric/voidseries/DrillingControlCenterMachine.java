@@ -1,5 +1,6 @@
 package com.gto.gtocore.common.machine.multiblock.electric.voidseries;
 
+import com.gto.gtocore.api.machine.INetMachineInteractor;
 import com.gto.gtocore.api.machine.multiblock.ElectricMultiblockMachine;
 import com.gto.gtocore.api.machine.trait.CustomRecipeLogic;
 import com.gto.gtocore.api.recipe.GTORecipeBuilder;
@@ -12,19 +13,21 @@ import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 
 import com.lowdragmc.lowdraglib.gui.util.ClickData;
 import com.lowdragmc.lowdraglib.gui.widget.ComponentPanelWidget;
-import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public final class DrillingControlCenterMachine extends ElectricMultiblockMachine {
 
-    public static final Set<DrillingControlCenterMachine> DRILLING_NETWORK = new ObjectOpenHashSet<>();
+    public static final Map<ResourceLocation, Set<DrillingControlCenterMachine>> NETWORK = new Object2ObjectOpenHashMap<>();
 
     public DrillingControlCenterMachine(IMachineBlockEntity holder) {
         super(holder);
@@ -37,19 +40,19 @@ public final class DrillingControlCenterMachine extends ElectricMultiblockMachin
     @Override
     public void onStructureFormed() {
         super.onStructureFormed();
-        if (!isRemote()) DRILLING_NETWORK.add(this);
+        INetMachineInteractor.addToNet(NETWORK, this);
     }
 
     @Override
     public void onStructureInvalid() {
         super.onStructureInvalid();
-        DRILLING_NETWORK.remove(this);
+        INetMachineInteractor.removeFromNet(NETWORK, this);
     }
 
     @Override
     public void onUnload() {
         super.onUnload();
-        DRILLING_NETWORK.remove(this);
+        INetMachineInteractor.removeFromNet(NETWORK, this);
     }
 
     @Override

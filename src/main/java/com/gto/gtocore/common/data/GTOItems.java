@@ -770,6 +770,8 @@ public interface GTOItems {
     ItemEntry<Item> EMERALD_CRYSTAL_CIRCUIT = register("emerald_crystal_circuit", "绿宝石晶体电路");
     ItemEntry<Item> SAPPHIRE_CRYSTAL_CIRCUIT = register("sapphire_crystal_circuit", "蓝宝石晶体电路");
 
+    ItemEntry<Item> NANOTUBE_SPOOL = register("nanotube_spool", "纳米管线轴");
+
     ItemEntry<Item> HIGH_PURITY_SILICON_BOULE = register("high_purity_silicon_boule", "高纯多晶硅");
     ItemEntry<Item> REGIONAL_SMELTING_SILICON_BOULE = register("regional_smelting_silicon_boule", "区域熔炼的多晶硅");
     ItemEntry<Item> ETCHED_SILICON_BOULE = register("etched_silicon_boule", "电子束蚀刻的多晶硅");

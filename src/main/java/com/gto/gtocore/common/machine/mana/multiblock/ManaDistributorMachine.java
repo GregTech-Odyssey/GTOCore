@@ -1,6 +1,7 @@
 package com.gto.gtocore.common.machine.mana.multiblock;
 
 import com.gto.gtocore.api.capability.IManaContainer;
+import com.gto.gtocore.api.machine.INetMachineInteractor;
 import com.gto.gtocore.api.machine.mana.feature.IManaMultiblock;
 import com.gto.gtocore.api.machine.mana.trait.ManaTrait;
 import com.gto.gtocore.api.machine.multiblock.NoRecipeLogicMultiblockMachine;
@@ -12,19 +13,21 @@ import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 
 import com.lowdragmc.lowdraglib.gui.util.ClickData;
 import com.lowdragmc.lowdraglib.gui.widget.ComponentPanelWidget;
-import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
 
 public final class ManaDistributorMachine extends NoRecipeLogicMultiblockMachine implements IManaMultiblock {
 
-    public static final Set<ManaDistributorMachine> DISTRIBUTOR_NETWORK = new ObjectOpenHashSet<>();
+    public static final Map<ResourceLocation, Set<ManaDistributorMachine>> NETWORK = new Object2ObjectOpenHashMap<>();
 
     private int amount = 0;
 
@@ -76,20 +79,20 @@ public final class ManaDistributorMachine extends NoRecipeLogicMultiblockMachine
         super.onStructureFormed();
         if (isRemote()) return;
         centrepos = MachineUtils.getOffsetPos(2, 2, getFrontFacing(), getPos());
-        DISTRIBUTOR_NETWORK.add(this);
+        INetMachineInteractor.addToNet(NETWORK, this);
     }
 
     @Override
     public void onStructureInvalid() {
         centrepos = null;
-        DISTRIBUTOR_NETWORK.remove(this);
+        INetMachineInteractor.removeFromNet(NETWORK, this);
         super.onStructureInvalid();
     }
 
     @Override
     public void onUnload() {
         super.onUnload();
-        DISTRIBUTOR_NETWORK.remove(this);
+        INetMachineInteractor.removeFromNet(NETWORK, this);
     }
 
     @Override

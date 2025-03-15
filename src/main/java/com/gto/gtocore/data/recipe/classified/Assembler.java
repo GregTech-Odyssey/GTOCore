@@ -1102,15 +1102,6 @@ interface Assembler {
                 .duration(320)
                 .save();
 
-        ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("woven_kevlar"))
-                .inputItems(GTOItems.KEVLAR_FIBER.asStack(8))
-                .circuitMeta(8)
-                .outputItems(GTOItems.WOVEN_KEVLAR.asStack())
-                .EUt(120)
-                .duration(200)
-                .cleanroom(CleanroomType.CLEANROOM)
-                .save();
-
         ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("smd_inductor_optical"))
                 .inputItems(TagPrefix.wireFine, GTMaterials.Dubnium, 8)
                 .inputItems(TagPrefix.ring, GTOMaterials.Quantanium)
@@ -2101,22 +2092,6 @@ interface Assembler {
                 .outputItems(GTOItems.CONVERSION_SIMULATE_CARD.asStack())
                 .EUt(1920)
                 .duration(200)
-                .save();
-
-        ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("fluix_covered_cable2"))
-                .inputItems("ae2:fluix_glass_cable")
-                .inputFluids(GTMaterials.StyreneButadieneRubber.getFluid(1))
-                .outputItems("ae2:fluix_covered_cable")
-                .EUt(30)
-                .duration(20)
-                .save();
-
-        ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("fluix_covered_cable1"))
-                .inputItems("ae2:fluix_glass_cable")
-                .inputFluids(GTMaterials.SiliconeRubber.getFluid(2))
-                .outputItems("ae2:fluix_covered_cable")
-                .EUt(30)
-                .duration(20)
                 .save();
 
         ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("speeding_pipe"))
@@ -3184,14 +3159,6 @@ interface Assembler {
                 .outputItems(GTOItems.BALL_FIELD_SHAPE.asStack())
                 .EUt(30720)
                 .duration(200)
-                .save();
-
-        ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("fluix_covered_cable"))
-                .inputItems("ae2:fluix_glass_cable")
-                .inputFluids(GTMaterials.Rubber.getFluid(4))
-                .outputItems("ae2:fluix_covered_cable")
-                .EUt(30)
-                .duration(20)
                 .save();
 
         ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("blank_pattern_best"))

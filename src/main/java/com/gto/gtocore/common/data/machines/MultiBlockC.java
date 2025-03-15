@@ -1366,7 +1366,7 @@ public interface MultiBlockC {
             .shapeInfos(definition -> {
                 List<MultiblockShapeInfo> shapeInfos = new ArrayList<>();
                 for (int i = 0; i < 2; i++) {
-                    shapeInfos.addAll(MachineUtils.getMatchingShapes(NeutronVortexMachine.getBlockPattern(i, definition)));
+                    shapeInfos.addAll(MachineUtils.getMatchingShapes(false, NeutronVortexMachine.getBlockPattern(i, definition)));
                 }
                 return shapeInfos;
             })

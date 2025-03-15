@@ -8,7 +8,7 @@ import com.gto.gtocore.common.data.GTORecipeTypes;
 import com.gto.gtocore.common.data.GTORecipes;
 import com.gto.gtocore.config.GTOConfig;
 import com.gto.gtocore.data.recipe.*;
-import com.gto.gtocore.data.recipe.classified.ClassifiedRecipe;
+import com.gto.gtocore.data.recipe.classified.$ClassifiedRecipe;
 import com.gto.gtocore.data.recipe.generated.*;
 import com.gto.gtocore.data.recipe.generated.ComponentRecipes;
 import com.gto.gtocore.data.recipe.processing.*;
@@ -104,7 +104,7 @@ public interface Data {
         GlassRecipe.init();
         DyeRecipes.init();
         WoodRecipes.init();
-        ClassifiedRecipe.init(consumer);
+        $ClassifiedRecipe.init(consumer);
         GenerateDisassembly.DISASSEMBLY_RECORD.clear();
         GenerateDisassembly.DISASSEMBLY_BLACKLIST.clear();
         RecyclingRecipes.init(consumer);

@@ -11,6 +11,7 @@ import com.gregtechceu.gtceu.api.sound.SoundEntry;
 import com.gregtechceu.gtceu.common.data.GTSoundEntries;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
@@ -18,6 +19,7 @@ import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Map;
 import java.util.Set;
 
 @MethodsReturnNonnullByDefault
@@ -56,14 +58,14 @@ public abstract class WaterPurificationUnitMachine extends NoEnergyCustomParalle
     }
 
     @Override
-    public Set<WaterPurificationPlantMachine> getMachineNet() {
-        return WaterPurificationPlantMachine.WATER_NETWORK;
+    public Map<ResourceLocation, Set<WaterPurificationPlantMachine>> getMachineNet() {
+        return WaterPurificationPlantMachine.NETWORK;
     }
 
     @Override
     public boolean firstTestMachine(WaterPurificationPlantMachine machine) {
         Level level = machine.getLevel();
-        if (level != null && machine.isFormed() && level.dimension().equals(level.dimension()) && GTOUtils.calculateDistance(machine.getPos(), getPos()) < 32) {
+        if (level != null && machine.isFormed() && GTOUtils.calculateDistance(machine.getPos(), getPos()) < 32) {
             machine.waterPurificationUnitMachineMap.put(this, getRecipeLogic().isWorking());
             return true;
         }

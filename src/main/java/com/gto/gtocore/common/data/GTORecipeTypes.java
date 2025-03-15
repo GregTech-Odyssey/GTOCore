@@ -1,6 +1,7 @@
 package com.gto.gtocore.common.data;
 
 import com.gto.gtocore.api.capability.recipe.ManaRecipeCapability;
+import com.gto.gtocore.api.gui.GTOGuiTextures;
 import com.gto.gtocore.api.machine.trait.TierCasingTrait;
 import com.gto.gtocore.api.recipe.GTORecipeType;
 import com.gto.gtocore.api.recipe.JointRecipeType;
@@ -40,6 +41,7 @@ import static com.gto.gtocore.common.machine.multiblock.part.SpoolHatchPartMachi
 import static com.gto.gtocore.utils.register.RecipeTypeRegisterUtils.*;
 import static com.gto.gtocore.utils.register.RecipeTypeRegisterUtils.register;
 import static com.lowdragmc.lowdraglib.gui.texture.ProgressTexture.FillDirection.LEFT_TO_RIGHT;
+import static com.lowdragmc.lowdraglib.gui.texture.ProgressTexture.FillDirection.UP_TO_DOWN;
 
 public interface GTORecipeTypes {
 
@@ -476,13 +478,13 @@ public interface GTORecipeTypes {
     GTORecipeType MINER_MODULE_RECIPES = register("miner_module", "Space Miner", "太空采矿", MULTIBLOCK)
             .setEUIO(IO.IN)
             .setMaxIOSize(2, 6, 1, 0)
-            .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
+            .setProgressBar(GTOGuiTextures.PROGRESS_BAR_MINING_MODULE, UP_TO_DOWN)
             .setSound(GTSoundEntries.MINER);
 
     GTORecipeType DRILLING_MODULE_RECIPES = register("drilling_module", "Space Drilling", "太空钻井", MULTIBLOCK)
             .setEUIO(IO.IN)
             .setMaxIOSize(2, 0, 1, 1)
-            .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
+            .setProgressBar(GTOGuiTextures.PROGRESS_BAR_DRILLING_MODULE, UP_TO_DOWN)
             .setSound(GTSoundEntries.MINER);
 
     GTORecipeType FISHING_GROUND_RECIPES = register("fishing_ground", "渔场", MULTIBLOCK)

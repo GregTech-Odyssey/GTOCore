@@ -1,5 +1,6 @@
 package com.gto.gtocore.common.machine.multiblock.noenergy;
 
+import com.gto.gtocore.api.machine.INetMachineInteractor;
 import com.gto.gtocore.api.machine.multiblock.NoEnergyMultiblockMachine;
 import com.gto.gtocore.api.machine.trait.CustomRecipeLogic;
 import com.gto.gtocore.api.misc.Drone;
@@ -15,17 +16,19 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.resources.ResourceLocation;
 
-import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public final class DroneControlCenterMachine extends NoEnergyMultiblockMachine {
 
-    public static final Set<DroneControlCenterMachine> DRONE_NETWORK = new ObjectOpenHashSet<>();
+    public static final Map<ResourceLocation, Set<DroneControlCenterMachine>> NETWORK = new Object2ObjectOpenHashMap<>();
 
     private DroneHatchPartMachine droneHatchPartMachine;
 
@@ -50,20 +53,20 @@ public final class DroneControlCenterMachine extends NoEnergyMultiblockMachine {
     @Override
     public void onStructureFormed() {
         super.onStructureFormed();
-        if (!isRemote()) DRONE_NETWORK.add(this);
+        INetMachineInteractor.addToNet(NETWORK, this);
     }
 
     @Override
     public void onStructureInvalid() {
         super.onStructureInvalid();
         droneHatchPartMachine = null;
-        DRONE_NETWORK.remove(this);
+        INetMachineInteractor.removeFromNet(NETWORK, this);
     }
 
     @Override
     public void onUnload() {
         super.onUnload();
-        DRONE_NETWORK.remove(this);
+        INetMachineInteractor.removeFromNet(NETWORK, this);
     }
 
     @Override

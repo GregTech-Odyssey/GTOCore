@@ -1,5 +1,6 @@
 package com.gto.gtocore.common.machine.multiblock.water;
 
+import com.gto.gtocore.api.machine.INetMachineInteractor;
 import com.gto.gtocore.api.machine.multiblock.ElectricMultiblockMachine;
 import com.gto.gtocore.api.machine.trait.CustomRecipeLogic;
 import com.gto.gtocore.api.recipe.GTORecipeBuilder;
@@ -18,13 +19,13 @@ import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.material.Fluid;
 
 import com.lowdragmc.lowdraglib.gui.util.ClickData;
 import com.lowdragmc.lowdraglib.gui.widget.ComponentPanelWidget;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
-import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -38,7 +39,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @MethodsReturnNonnullByDefault
 public final class WaterPurificationPlantMachine extends ElectricMultiblockMachine {
 
-    public static final Set<WaterPurificationPlantMachine> WATER_NETWORK = new ObjectOpenHashSet<>();
+    public static final Map<ResourceLocation, Set<WaterPurificationPlantMachine>> NETWORK = new Object2ObjectOpenHashMap<>();
 
     private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
             WaterPurificationPlantMachine.class, ElectricMultiblockMachine.MANAGED_FIELD_HOLDER);
@@ -68,18 +69,18 @@ public final class WaterPurificationPlantMachine extends ElectricMultiblockMachi
     @Override
     public void onStructureFormed() {
         super.onStructureFormed();
-        if (!isRemote()) WATER_NETWORK.add(this);
+        INetMachineInteractor.addToNet(NETWORK, this);
     }
 
     @Override
     public void onUnload() {
         super.onUnload();
-        WATER_NETWORK.remove(this);
+        INetMachineInteractor.removeFromNet(NETWORK, this);
     }
 
     @Override
     public void onStructureInvalid() {
-        WATER_NETWORK.remove(this);
+        INetMachineInteractor.removeFromNet(NETWORK, this);
         for (Map.Entry<WaterPurificationUnitMachine, Boolean> entry : waterPurificationUnitMachineMap.entrySet()) {
             if (entry.getValue()) {
                 entry.getKey().getRecipeLogic().resetRecipeLogic();

@@ -5,6 +5,7 @@ import com.gto.gtocore.api.machine.multiblock.CoilCrossRecipeMultiblockMachine;
 import com.gto.gtocore.api.machine.multiblock.CoilMultiblockMachine;
 import com.gto.gtocore.api.machine.multiblock.CrossRecipeMultiblockMachine;
 import com.gto.gtocore.api.machine.multiblock.ElectricMultiblockMachine;
+import com.gto.gtocore.api.machine.part.GTOPartAbility;
 import com.gto.gtocore.api.pattern.GTOPredicates;
 import com.gto.gtocore.client.renderer.machine.FluidRenderer;
 import com.gto.gtocore.client.renderer.machine.SpaceElevatorRenderer;
@@ -931,6 +932,7 @@ public interface MultiBlockB {
                     .where('M', GTOPredicates.tierBlock(SEPMMAP, POWER_MODULE_TIER))
                     .where('N', blocks(GTOBlocks.SPACE_ELEVATOR_POWER_CORE.get()))
                     .where('X', blocks(GTOBlocks.SPACE_ELEVATOR_MECHANICAL_CASING.get())
+                            .or(abilities(GTOPartAbility.ITEMS_INPUT).setExactLimit(1))
                             .or(abilities(INPUT_ENERGY).setExactLimit(1))
                             .or(abilities(COMPUTATION_DATA_RECEPTION).setExactLimit(1)))
                     .where(' ', any())

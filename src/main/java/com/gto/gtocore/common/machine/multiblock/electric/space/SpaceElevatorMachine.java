@@ -6,6 +6,7 @@ import com.gto.gtocore.api.machine.multiblock.TierCasingMultiblockMachine;
 import com.gto.gtocore.api.machine.trait.CustomRecipeLogic;
 import com.gto.gtocore.api.recipe.GTORecipeBuilder;
 import com.gto.gtocore.api.recipe.RecipeRunner;
+import com.gto.gtocore.common.data.GTOItems;
 import com.gto.gtocore.utils.MachineUtils;
 
 import com.gregtechceu.gtceu.api.GTValues;
@@ -60,7 +61,14 @@ public class SpaceElevatorMachine extends TierCasingMultiblockMachine implements
     @Persisted
     @DescSynced
     private double high;
-    private int mam;
+
+    @Getter
+    @Persisted
+    @DescSynced
+    private int spoolCount;
+
+    private int moduleCount;
+
     @DescSynced
     final Set<BlockPos> poss = new ObjectOpenHashSet<>();
 
@@ -68,17 +76,33 @@ public class SpaceElevatorMachine extends TierCasingMultiblockMachine implements
 
     private void update(boolean promptly) {
         if (promptly || getOffsetTimer() % 40 == 0) {
-            mam = 0;
+            moduleCount = 0;
+            if (spoolCount < getMaxSpoolCount()) {
+                MachineUtils.forEachInputItems(this, stack -> {
+                    if (stack.getItem() == GTOItems.NANOTUBE_SPOOL.get()) {
+                        int count = Math.min(stack.getCount(), getMaxSpoolCount() - spoolCount);
+                        if (count < 1) return true;
+                        spoolCount += count;
+                        stack.shrink(count);
+                    }
+                    return false;
+                });
+                return;
+            }
             Level level = getLevel();
             if (level == null) return;
             for (BlockPos blockPoss : poss) {
                 MetaMachine metaMachine = getMachine(level, blockPoss);
                 if (metaMachine instanceof SpaceElevatorModuleMachine moduleMachine && moduleMachine.isFormed()) {
                     moduleMachine.spaceElevatorMachine = this;
-                    mam++;
+                    moduleCount++;
                 }
             }
         }
+    }
+
+    public int getMaxSpoolCount() {
+        return 256;
     }
 
     int getBaseHigh() {
@@ -127,7 +151,8 @@ public class SpaceElevatorMachine extends TierCasingMultiblockMachine implements
     public void customText(@NotNull List<Component> textList) {
         super.customText(textList);
         update(false);
-        textList.add(Component.translatable("gtocore.machine.module", mam));
+        if (spoolCount < getMaxSpoolCount()) textList.add(Component.translatable("item.gtocore.nanotube_spool").append(": ").append(Component.translatable("gui.ae2.Missing", getMaxSpoolCount() - spoolCount)));
+        textList.add(Component.translatable("gtocore.machine.module", moduleCount));
     }
 
     @Override

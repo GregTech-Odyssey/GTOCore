@@ -88,6 +88,21 @@ public final class GTORecipeBuilder extends GTRecipeBuilder {
         TAG_INGREDIENT_MAP = null;
     }
 
+    private static Ingredient getNonRepetitionIngredient(Item item) {
+        if (ITEM_INGREDIENT_MAP == null) return Ingredient.of(item);
+        NBTItem nbtItem = new NBTItem(item, null);
+        Ingredient ingredient = ITEM_INGREDIENT_MAP.get(nbtItem);
+        if (ingredient == null) {
+            ingredient = Ingredient.of(item);
+            ITEM_INGREDIENT_MAP.put(nbtItem, ingredient);
+        }
+        return ingredient;
+    }
+
+    private static SizedIngredient createSizedIngredient(Item item, int amount) {
+        return SizedIngredient.create(getNonRepetitionIngredient(item), amount);
+    }
+
     private static SizedIngredient createSizedIngredient(UnificationEntry unificationEntry, int amount) {
         if (MATERIAL_INGREDIENT_MAP == null) return SizedIngredient.create(ChemicalHelper.get(unificationEntry, amount));
         Ingredient ingredient = MATERIAL_INGREDIENT_MAP.get(unificationEntry);
@@ -96,7 +111,7 @@ public final class GTORecipeBuilder extends GTRecipeBuilder {
             if (item == Items.AIR) {
                 GTOCore.LOGGER.error("Tried to set output item stack that doesn't exist, TagPrefix: {}, Material: {}", unificationEntry.tagPrefix, unificationEntry.material);
             }
-            ingredient = Ingredient.of(item);
+            ingredient = getNonRepetitionIngredient(item);
             MATERIAL_INGREDIENT_MAP.put(unificationEntry, ingredient);
         }
         return SizedIngredient.create(ingredient, amount);
@@ -111,17 +126,6 @@ public final class GTORecipeBuilder extends GTRecipeBuilder {
             ITEM_INGREDIENT_MAP.put(nbtItem, ingredient);
         }
         return SizedIngredient.create(ingredient, stack.getCount());
-    }
-
-    private static SizedIngredient createSizedIngredient(Item item, int amount) {
-        if (ITEM_INGREDIENT_MAP == null) return SizedIngredient.create(Ingredient.of(item), amount);
-        NBTItem nbtItem = new NBTItem(item, null);
-        Ingredient ingredient = ITEM_INGREDIENT_MAP.get(nbtItem);
-        if (ingredient == null) {
-            ingredient = Ingredient.of(item);
-            ITEM_INGREDIENT_MAP.put(nbtItem, ingredient);
-        }
-        return SizedIngredient.create(ingredient, amount);
     }
 
     private static SizedIngredient createSizedIngredient(TagKey<Item> tag, int amount) {

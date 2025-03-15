@@ -1815,7 +1815,7 @@ interface ChemicaRreactor {
                 .outputItems(TagPrefix.dust, GTOMaterials.Dichlorocyclooctadieneplatinum, 23)
                 .outputItems(TagPrefix.dust, GTMaterials.RockSalt, 4)
                 .EUt(491520)
-                .duration(400)
+                .duration(160)
                 .cleanroom(CleanroomType.CLEANROOM)
                 .save();
 
@@ -2321,7 +2321,7 @@ interface ChemicaRreactor {
                 .outputFluids(GTOMaterials.OneOctene.getFluid(3000))
                 .outputFluids(GTMaterials.HydrofluoricAcid.getFluid(4000))
                 .EUt(1966080)
-                .duration(800)
+                .duration(200)
                 .cleanroom(CleanroomType.CLEANROOM)
                 .save();
 

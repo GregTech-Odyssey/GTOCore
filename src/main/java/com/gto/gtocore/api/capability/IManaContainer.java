@@ -6,15 +6,22 @@ import com.gto.gtocore.common.machine.mana.multiblock.ManaDistributorMachine;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
 
+import java.util.Map;
 import java.util.Set;
 
 public interface IManaContainer extends INetMachineInteractor<ManaDistributorMachine> {
 
     @Override
-    default Set<ManaDistributorMachine> getMachineNet() {
-        return ManaDistributorMachine.DISTRIBUTOR_NETWORK;
+    default Level getLevel() {
+        return getMachine().getLevel();
+    }
+
+    @Override
+    default Map<ResourceLocation, Set<ManaDistributorMachine>> getMachineNet() {
+        return ManaDistributorMachine.NETWORK;
     }
 
     @Override
@@ -23,7 +30,7 @@ public interface IManaContainer extends INetMachineInteractor<ManaDistributorMac
         BlockPos pos = getMachine().getPos();
         Level level = machine.getLevel();
         if (level == null) return false;
-        return machine.isFormed() && level.dimension().equals(level.dimension()) && machine.add(pos);
+        return machine.isFormed() && machine.add(pos);
     }
 
     @Override

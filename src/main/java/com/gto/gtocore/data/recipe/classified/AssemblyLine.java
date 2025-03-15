@@ -399,7 +399,7 @@ interface AssemblyLine {
                 .EUt(122880)
                 .duration(1000)
                 .stationResearch(b -> b.researchStack(GCYMMachines.LARGE_ASSEMBLER.asStack())
-                        .CWUt(48)
+                        .CWUt(32)
                         .EUt(122880))
                 .save();
 

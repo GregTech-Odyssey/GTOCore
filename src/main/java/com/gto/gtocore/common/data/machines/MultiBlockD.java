@@ -937,7 +937,7 @@ public interface MultiBlockD {
             .shapeInfos(definition -> {
                 List<MultiblockShapeInfo> shapeInfos = new ArrayList<>();
                 for (int i = 1; i < 4; i++) {
-                    shapeInfos.addAll(MachineUtils.getMatchingShapes(NanoForgeMachine.getBlockPattern(i, definition)));
+                    shapeInfos.addAll(MachineUtils.getMatchingShapes(false, NanoForgeMachine.getBlockPattern(i, definition)));
                 }
                 return shapeInfos;
             })
@@ -1199,6 +1199,7 @@ public interface MultiBlockD {
                     .where('I', air())
                     .where('J', blocks(GTOBlocks.SPACE_ELEVATOR_POWER_CORE.get()))
                     .where('X', blocks(GTOBlocks.SPACE_ELEVATOR_MECHANICAL_CASING.get())
+                            .or(abilities(GTOPartAbility.ITEMS_INPUT).setExactLimit(1))
                             .or(abilities(INPUT_ENERGY).setExactLimit(1))
                             .or(abilities(COMPUTATION_DATA_RECEPTION).setExactLimit(1)))
                     .where(' ', any())

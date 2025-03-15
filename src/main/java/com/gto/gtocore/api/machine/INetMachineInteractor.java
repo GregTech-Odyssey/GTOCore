@@ -2,17 +2,25 @@ package com.gto.gtocore.api.machine;
 
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.Level;
+
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Map;
 import java.util.Set;
 
 public interface INetMachineInteractor<T extends MetaMachine> {
+
+    @Nullable
+    Level getLevel();
 
     T getNetMachineCache();
 
     void setNetMachineCache(T cache);
 
-    Set<T> getMachineNet();
+    Map<ResourceLocation, Set<T>> getMachineNet();
 
     boolean testMachine(T machine);
 
@@ -25,19 +33,41 @@ public interface INetMachineInteractor<T extends MetaMachine> {
     @Nullable
     default T getNetMachine() {
         if (getNetMachineCache() == null) {
-            for (T machine : getMachineNet()) {
-                if (firstTestMachine(machine)) {
-                    setNetMachineCache(machine);
-                    return machine;
+            Level level = getLevel();
+            if (level != null) {
+                Set<T> set = getMachineNet().get(level.dimension().location());
+                if (set != null) {
+                    for (T machine : set) {
+                        if (firstTestMachine(machine)) {
+                            setNetMachineCache(machine);
+                            return machine;
+                        }
+                    }
                 }
             }
         }
         T machine = getNetMachineCache();
-        if (machine != null && testMachine(machine)) {
-            return machine;
-        } else {
-            removeNetMachineCache();
+        if (machine != null) {
+            if (testMachine(machine)) {
+                return machine;
+            } else {
+                removeNetMachineCache();
+            }
         }
         return null;
+    }
+
+    static <T extends MetaMachine> void addToNet(Map<ResourceLocation, Set<T>> map, T machine) {
+        if (machine.isRemote()) return;
+        Level level = machine.getLevel();
+        if (level == null) return;
+        map.computeIfAbsent(level.dimension().location(), k -> new ObjectOpenHashSet<>()).add(machine);
+    }
+
+    static <T extends MetaMachine> void removeFromNet(Map<ResourceLocation, Set<T>> map, T machine) {
+        if (machine.isRemote()) return;
+        Level level = machine.getLevel();
+        if (level == null) return;
+        map.computeIfAbsent(level.dimension().location(), k -> new ObjectOpenHashSet<>()).remove(machine);
     }
 }

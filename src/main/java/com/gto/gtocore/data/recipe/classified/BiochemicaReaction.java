@@ -273,7 +273,7 @@ interface BiochemicaReaction {
                 .inputItems(GTOItems.STERILIZED_PETRI_DISH.asItem())
                 .outputItems(GTItems.STEM_CELLS.asStack())
                 .outputItems(GTOItems.CONTAMINATED_PETRI_DISH.asItem())
-                .inputFluids(GTOMaterials.PluripotencyInductionGenePlasmids.getFluid(1000))
+                .inputFluids(GTOMaterials.PluripotencyInductionGeneTherapyFluid.getFluid(1000))
                 .inputFluids(GTOMaterials.AnimalCells.getFluid(1000))
                 .inputFluids(GTMaterials.SterileGrowthMedium.getFluid(1000))
                 .EUt(30720)

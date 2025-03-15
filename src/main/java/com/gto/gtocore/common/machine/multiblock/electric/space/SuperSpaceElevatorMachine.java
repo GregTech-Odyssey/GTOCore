@@ -13,6 +13,11 @@ public final class SuperSpaceElevatorMachine extends SpaceElevatorMachine {
     }
 
     @Override
+    public int getMaxSpoolCount() {
+        return 1024;
+    }
+
+    @Override
     int getBaseHigh() {
         poss.clear();
         BlockPos blockPos = MachineUtils.getOffsetPos(4, -2, getFrontFacing(), getPos());
