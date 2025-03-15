@@ -33,10 +33,9 @@ public class ExResearchCoolerPartMachine extends ExResearchBasePartMachine imple
 
     @Override
     public int getUpkeepEUt() {
-        if (tier == 3) return GTValues.VA[LuV];
-        else if (tier == 4) return GTValues.VA[UV];
-        else if (tier == 5) return GTValues.VA[UHV];
-        else return GTValues.VA[UEV];
+        if (tier == 3) return GTValues.VA[UV];
+        else if (tier == 4) return GTValues.VA[UHV];
+        else return GTValues.VA[UIV];
     }
 
     @Override
@@ -47,9 +46,8 @@ public class ExResearchCoolerPartMachine extends ExResearchBasePartMachine imple
     @Override
     public int getCoolingAmount() {
         if (tier == 3) return 8;
-        else if (tier == 4) return 16;
-        else if (tier == 5) return 64;
-        else return 128;
+        else if (tier == 4) return 64;
+        else return 256;
     }
 
     @Override
@@ -60,8 +58,7 @@ public class ExResearchCoolerPartMachine extends ExResearchBasePartMachine imple
     @Override
     public int getMaxCoolantPerTick() {
         if (tier == 3) return 80;
-        else if (tier == 4) return 160;
-        else if (tier == 5) return 640;
+        else if (tier == 4) return 320;
         else return 1280;
     }
 }

@@ -110,7 +110,11 @@ public final class SupercomputingCenterMachine extends StorageMultiblockMachine 
                 }
             }
         }
-        if (maxEUt > 0) runRecipe = GTORecipeBuilder.ofRaw().inputFluids(GTMaterials.PCBCoolant.getFluid(coolingAmount)).EUt(maxEUt).duration(20).buildRawRecipe();
+        if (maxEUt > 0) runRecipe = GTORecipeBuilder.ofRaw()
+                .inputFluids(GTMaterials.Helium.getFluid(coolingAmount))
+                .EUt(maxEUt)
+                .duration(20)
+                .buildRawRecipe();
     }
 
     @Override

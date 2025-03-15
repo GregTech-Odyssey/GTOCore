@@ -28,12 +28,10 @@ public class ExResearchComputationPartMachine extends ExResearchBasePartMachine 
         if (isDamaged()) {
             if (tier == 3) return GuiTextures.HPCA_ICON_DAMAGED_ADVANCED_COMPUTATION_COMPONENT;
             else if (tier == 4) return GuiTextures.HPCA_ICON_DAMAGED_ADVANCED_COMPUTATION_COMPONENT;
-            else if (tier == 5) return GuiTextures.HPCA_ICON_DAMAGED_ADVANCED_COMPUTATION_COMPONENT;
             else return GuiTextures.HPCA_ICON_DAMAGED_ADVANCED_COMPUTATION_COMPONENT;
         }
         if (tier == 3) return GuiTextures.HPCA_ICON_ADVANCED_COMPUTATION_COMPONENT;
         else if (tier == 4) return GuiTextures.HPCA_ICON_ADVANCED_COMPUTATION_COMPONENT;
-        else if (tier == 5) return GuiTextures.HPCA_ICON_ADVANCED_COMPUTATION_COMPONENT;
         else return GuiTextures.HPCA_ICON_ADVANCED_COMPUTATION_COMPONENT;
     }
 
@@ -41,7 +39,6 @@ public class ExResearchComputationPartMachine extends ExResearchBasePartMachine 
     public int getUpkeepEUt() {
         if (tier == 3) return GTValues.VA[LuV];
         else if (tier == 4) return GTValues.VA[UV];
-        else if (tier == 5) return GTValues.VA[UHV];
         else return GTValues.VA[UEV];
     }
 
@@ -49,7 +46,6 @@ public class ExResearchComputationPartMachine extends ExResearchBasePartMachine 
     public int getMaxEUt() {
         if (tier == 3) return GTValues.VA[UV];
         else if (tier == 4) return GTValues.VA[UEV];
-        else if (tier == 5) return GTValues.VA[UIV];
         else return GTValues.VA[OpV];
     }
 
@@ -57,17 +53,15 @@ public class ExResearchComputationPartMachine extends ExResearchBasePartMachine 
     public int getCWUPerTick() {
         if (isDamaged()) return 0;
         else if (tier == 3) return 64;
-        else if (tier == 4) return 256;
-        else if (tier == 5) return 1024;
-        else return 4096;
+        else if (tier == 4) return 1024;
+        else return 16384;
     }
 
     @Override
     public int getCoolingPerTick() {
         if (tier == 3) return 16;
-        else if (tier == 4) return 32;
-        else if (tier == 5) return 256;
-        else return 512;
+        else if (tier == 4) return 256;
+        else return 4096;
     }
 
     @Override

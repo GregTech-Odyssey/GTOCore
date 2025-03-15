@@ -38,9 +38,8 @@ public abstract class ExResearchBasePartMachine extends HPCAComponentPartMachine
             if (drop.getItem() == this.getDefinition().getItem()) {
                 if (canBeDamaged() && isDamaged()) {
                     if (tier == 3) drops.set(i, GTOBlocks.BIOCOMPUTER_SHELL.asStack());
-                    else if (tier == 4) drops.set(i, GTOBlocks.BIOCOMPUTER_SHELL.asStack());
-                    else if (tier == 5) drops.set(i, GTOBlocks.BIOCOMPUTER_SHELL.asStack());
-                    else drops.set(i, GTOBlocks.BIOCOMPUTER_SHELL.asStack());
+                    else if (tier == 4) drops.set(i, GTOBlocks.GRAVITON_COMPUTER_SHELL.asStack());
+                    else drops.set(i, GTOBlocks.GRAVITON_COMPUTER_SHELL.asStack());
                 }
                 break;
             }

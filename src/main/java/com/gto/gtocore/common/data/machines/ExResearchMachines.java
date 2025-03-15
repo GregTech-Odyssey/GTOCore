@@ -61,8 +61,7 @@ public interface ExResearchMachines {
                     .where(' ', any())
                     .where('C', blocks(GTOBlocks.BIOCOMPUTER_SHELL.get()))
                     .where('K', blocks(GTOBlocks.AMPROSIUM_BOROSILICATE_GLASS.get()))
-                    .where('E', blocks(ExResearchMachines.NICH_EMPTY_COMPONENT.get())
-                            .or(abilities(PartAbility.HPCA_COMPONENT))
+                    .where('E', abilities(PartAbility.HPCA_COMPONENT)
                             .or(abilities(GTOPartAbility.COMPUTING_COMPONENT)))
                     .where('D', blocks(GTOBlocks.PHASE_CHANGE_BIOCOMPUTER_COOLING_VENTS.get()))
                     .where('V', blocks(GTOBlocks.BIOCOMPUTER_SHELL.get())
@@ -96,11 +95,37 @@ public interface ExResearchMachines {
     MachineDefinition NICH_COOLING_COMPONENTS = registerHPCAPart(
             "nich_cooling_components", "NICH冷却组件",
             holder -> new ExResearchCoolerPartMachine(holder, 3), true, false, 3)
+            .tooltips(Component.translatable("gtceu.machine.hpca.component_general.max_eut", GTValues.VA[GTValues.UV]),
+                    Component.translatable("gtceu.machine.hpca.component_type.cooler_active"),
+                    Component.translatable("gtceu.machine.hpca.component_type.cooler_active_coolant",
+                            80, GTMaterials.Helium.getLocalizedName()),
+                    Component.translatable("gtceu.machine.hpca.component_type.cooler_cooling", 8))
+            .register();
+
+    MachineDefinition GWCA_EMPTY_COMPONENT = registerHPCAPart(
+            "gwca_empty_component", "空GWCA组件",
+            ExResearchEmptyPartMachine::new, false, false, 4)
+            .register();
+
+    MachineDefinition GWCA_COMPUTING_COMPONENTS = registerHPCAPart(
+            "gwca_computing_components", "GWCA计算组件",
+            holder -> new ExResearchComputationPartMachine(holder, 4), true, true, 4)
+            .tooltips(
+                    Component.translatable("gtceu.machine.hpca.component_general.upkeep_eut", GTValues.VA[GTValues.UV]),
+                    Component.translatable("gtceu.machine.hpca.component_general.max_eut", GTValues.VA[GTValues.UEV]),
+                    Component.translatable("gtceu.machine.hpca.component_type.computation_cwut", 1024),
+                    Component.translatable("gtceu.machine.hpca.component_type.computation_cooling", 256))
+            .tooltipBuilder(OVERHEAT_TOOLTIPS)
+            .register();
+
+    MachineDefinition GWCA_COOLING_COMPONENTS = registerHPCAPart(
+            "gwca_cooling_components", "GWCA冷却组件",
+            holder -> new ExResearchCoolerPartMachine(holder, 4), true, false, 4)
             .tooltips(Component.translatable("gtceu.machine.hpca.component_general.max_eut", GTValues.VA[GTValues.UHV]),
                     Component.translatable("gtceu.machine.hpca.component_type.cooler_active"),
                     Component.translatable("gtceu.machine.hpca.component_type.cooler_active_coolant",
-                            800, GTMaterials.PCBCoolant.getLocalizedName()),
-                    Component.translatable("gtceu.machine.hpca.component_type.cooler_cooling", 8))
+                            320, GTMaterials.Helium.getLocalizedName()),
+                    Component.translatable("gtceu.machine.hpca.component_type.cooler_cooling", 64))
             .register();
 
     private static GTOMachineBuilder registerHPCAPart(String name, String cn,
