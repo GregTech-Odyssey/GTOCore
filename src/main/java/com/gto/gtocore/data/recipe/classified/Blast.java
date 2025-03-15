@@ -10,9 +10,6 @@ import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
-
 import static com.gto.gtocore.common.data.GTORecipeTypes.BLAST_RECIPES;
 
 interface Blast {
@@ -52,16 +49,6 @@ interface Blast {
                 .EUt(125829120)
                 .duration(400)
                 .blastFurnaceTemp(21600)
-                .save();
-
-        BLAST_RECIPES.recipeBuilder(GTOCore.id("netherite_ingot"))
-                .inputItems(new ItemStack(Items.NETHERITE_SCRAP.asItem()))
-                .inputItems(TagPrefix.ingot, GTOMaterials.Calorite)
-                .inputFluids(GTMaterials.Neon.getFluid(100))
-                .outputItems(TagPrefix.ingot, GTMaterials.Netherite)
-                .EUt(1920)
-                .duration(800)
-                .blastFurnaceTemp(6470)
                 .save();
 
         BLAST_RECIPES.recipeBuilder(GTOCore.id("rutherfordium_neutronium_boule"))

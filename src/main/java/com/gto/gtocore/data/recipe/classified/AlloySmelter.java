@@ -6,6 +6,7 @@ import com.gto.gtocore.common.data.GTOMaterials;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
+import com.gregtechceu.gtceu.common.data.GTRecipeCategories;
 
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
@@ -55,6 +56,7 @@ interface AlloySmelter {
                 .outputItems(TagPrefix.ingot, GTMaterials.Netherite, 9)
                 .EUt(7)
                 .duration(1188)
+                .category(GTRecipeCategories.INGOT_MOLDING)
                 .save();
 
         ALLOY_SMELTER_RECIPES.recipeBuilder(GTOCore.id("energetic_gear"))

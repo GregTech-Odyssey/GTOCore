@@ -123,6 +123,8 @@
         "gtm.machine.SteamSolidBoilerMachineMixin",
         "gtm.machine.WorkableElectricMultiblockMachineMixin",
         "gtm.machine.WorkableMultiblockMachineMixin",
+        "gtm.pattern.FactoryBlockPatternMixin",
+        "gtm.pattern.MultiblockStateMixin",
         "gtm.recipe.ArcFurnaceLogicMixin",
         "gtm.recipe.CraftingComponentMixin",
         "gtm.recipe.GCYMRecipesMixin",

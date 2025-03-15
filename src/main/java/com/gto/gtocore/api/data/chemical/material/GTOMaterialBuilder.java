@@ -19,6 +19,8 @@ public class GTOMaterialBuilder extends Material.Builder {
 
     private Rarity rarity;
 
+    private boolean glow;
+
     private int temp;
 
     public GTOMaterialBuilder(String name) {
@@ -140,6 +142,7 @@ public class GTOMaterialBuilder extends Material.Builder {
         Material mat = super.buildAndRegister();
         if (mat instanceof GTOMaterial material) {
             if (rarity != null) material.gtocore$setRarity(rarity);
+            if (glow) material.gtocore$setGlow();
             if (temp > 0) material.gtocore$setTemp(temp);
         }
         return mat;

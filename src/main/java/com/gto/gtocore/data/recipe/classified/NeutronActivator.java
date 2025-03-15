@@ -4,6 +4,7 @@ import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.common.data.GTOItems;
 import com.gto.gtocore.common.data.GTOMaterials;
 
+import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
 import com.gregtechceu.gtceu.api.machine.multiblock.CleanroomType;
@@ -35,7 +36,7 @@ interface NeutronActivator {
                 .inputItems(TagPrefix.dust, GTOMaterials.Mithril, 16)
                 .inputItems(TagPrefix.dust, GTMaterials.Gadolinium, 16)
                 .inputItems(TagPrefix.gemExquisite, GTOMaterials.Fluix, 16)
-                .inputItems(new ItemStack(Items.NETHERITE_SCRAP.asItem(), 64))
+                .inputItems(TagPrefix.dust, GTOMaterials.EnergeticNetherite, 64)
                 .inputFluids(GTMaterials.Neon.getFluid(10000))
                 .outputFluids(GTOMaterials.Quantanium.getFluid(10000))
                 .duration(1200)
@@ -65,6 +66,25 @@ interface NeutronActivator {
                 .addData("ev_min", 340)
                 .addData("ev_max", 380)
                 .addData("evt", 480)
+                .save();
+
+        NEUTRON_ACTIVATOR_RECIPES.recipeBuilder(GTOCore.id("netherite"))
+                .inputItems(new ItemStack(Items.NETHERITE_SCRAP.asItem(), 4))
+                .outputItems(TagPrefix.dust, GTMaterials.Netherite)
+                .inputFluids(GTMaterials.Gold.getFluid(576))
+                .duration(600)
+                .addData("ev_min", 100)
+                .addData("ev_max", 1200)
+                .addData("evt", 300)
+                .save();
+
+        NEUTRON_ACTIVATOR_RECIPES.recipeBuilder(GTOCore.id("netherite_a"))
+                .inputItems(Items.ANCIENT_DEBRIS.asItem())
+                .outputItems(TagPrefix.dust, GTMaterials.Netherite)
+                .duration(400)
+                .addData("ev_min", 1100)
+                .addData("ev_max", 1200)
+                .addData("evt", GTValues.VH[GTValues.OpV])
                 .save();
     }
 }

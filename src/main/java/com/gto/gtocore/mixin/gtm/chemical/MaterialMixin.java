@@ -39,6 +39,9 @@ public class MaterialMixin implements GTOMaterial {
     @Unique
     private Rarity gtocore$rarity;
 
+    @Unique
+    private boolean gtocore$glow;
+
     @Override
     public Rarity gtocore$rarity() {
         return gtocore$rarity;
@@ -47,6 +50,16 @@ public class MaterialMixin implements GTOMaterial {
     @Override
     public void gtocore$setRarity(Rarity rarity) {
         this.gtocore$rarity = rarity;
+    }
+
+    @Override
+    public boolean gtocore$glow() {
+        return gtocore$glow;
+    }
+
+    @Override
+    public void gtocore$setGlow() {
+        this.gtocore$glow = true;
     }
 
     @Override

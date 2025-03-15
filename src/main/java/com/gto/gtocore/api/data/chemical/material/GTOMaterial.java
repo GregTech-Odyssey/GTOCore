@@ -6,11 +6,15 @@ import net.minecraft.world.item.Rarity;
 
 public interface GTOMaterial {
 
+    MaterialProperties gtocore$getProperties();
+
     Rarity gtocore$rarity();
 
     void gtocore$setRarity(Rarity rarity);
 
-    MaterialProperties gtocore$getProperties();
+    boolean gtocore$glow();
+
+    void gtocore$setGlow();
 
     int gtocore$temp();
 

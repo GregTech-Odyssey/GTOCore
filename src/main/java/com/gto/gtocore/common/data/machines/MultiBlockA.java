@@ -2253,11 +2253,9 @@ public interface MultiBlockA {
 
     MultiblockMachineDefinition ELECTRIC_IMPLOSION_COMPRESSOR = multiblock("electric_implosion_compressor", "电力聚爆压缩机", ElectricMultiblockMachine::new)
             .nonYAxisRotation()
-            .eutMultiplierTooltips(0.8)
-            .durationMultiplierTooltips(0.6)
             .parallelizableTooltips()
             .recipe(GTORecipeTypes.ELECTRIC_IMPLOSION_COMPRESSOR_RECIPES)
-            .recipeModifiers(GTORecipeModifiers.GCYM_OVERCLOCKING)
+            .parallelizableOverclock()
             .block(GTBlocks.CASING_TUNGSTENSTEEL_ROBUST)
             .pattern(definition -> FactoryBlockPattern.start()
                     .aisle("XXXXX", "F###F", "F###F", "F###F", "F###F", "F###F", "F###F", "XXXXX")

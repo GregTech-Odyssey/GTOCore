@@ -536,10 +536,6 @@ public interface GTOItems {
     ItemEntry<Item> SCRAP_BOX = register("scrap_box", "废料盒");
     ItemEntry<Item> NUCLEAR_WASTE = register("nuclear_waste", "核废料");
     ItemEntry<Item> RESONATING_GEM = register("resonating_gem", "共振宝石");
-    ItemEntry<Item> NETHERITE_ROD = register("netherite_rod", "下界合金杆");
-    ItemEntry<Item> LONG_NETHERITE_ROD = register("long_netherite_rod", "长下界合金杆");
-    ItemEntry<Item> MAGNETIC_NETHERITE_ROD = register("magnetic_netherite_rod", "磁化下界合金杆");
-    ItemEntry<Item> MAGNETIC_LONG_NETHERITE_ROD = register("magnetic_long_netherite_rod", "长磁化下界合金杆");
     ItemEntry<Item> PLASMA_CONTAINMENT_CELL = register("plasma_containment_cell", "等离子体密闭容器");
     ItemEntry<Item> RHENIUM_PLASMA_CONTAINMENT_CELL = register("rhenium_plasma_containment_cell", "铼等离子体密闭容器");
     ItemEntry<Item> ACTINIUM_SUPERHYDRIDE_PLASMA_CONTAINMENT_CELL = register("actinium_superhydride_plasma_containment_cell", "超氢化锕等离子体密闭容器");

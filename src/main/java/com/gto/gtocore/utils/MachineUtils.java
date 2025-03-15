@@ -48,7 +48,7 @@ import java.util.function.Supplier;
 
 public final class MachineUtils {
 
-    public static final Function<MultiblockMachineDefinition, BlockPattern> EMPTY_PATTERN = (d) -> new BlockPattern(new TraceabilityPredicate[0][0][0], new RelativeDirection[0], new int[0][0], new int[0]) {};
+    public static final Function<MultiblockMachineDefinition, BlockPattern> EMPTY_PATTERN = (d) -> new BlockPattern(new TraceabilityPredicate[0][0][0], new RelativeDirection[0], new int[0][0], new int[0]);
 
     public static List<MultiblockShapeInfo> getMatchingShapes(boolean fast, BlockPattern blockPattern) {
         List<Supplier<MultiblockShapeInfo>> list = repetitionDFS(blockPattern, new ArrayList<>(), blockPattern.aisleRepetitions, new Stack<>());

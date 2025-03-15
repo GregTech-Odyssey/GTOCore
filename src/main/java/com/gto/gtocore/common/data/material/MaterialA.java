@@ -1576,6 +1576,15 @@ public interface MaterialA {
                 .flags(DISABLE_DECOMPOSITION)
                 .buildAndRegister();
 
+        EnergeticNetherite = material("energetic_netherite", "充能下界合金")
+                .ingot()
+                .glow(true)
+                .color(0x4b4042)
+                .blastTemp(10200, HIGHEST, GTValues.VA[GTValues.ZPM], 600)
+                .flags(IS_MAGNETIC, GENERATE_LONG_ROD)
+                .iconSet(MAGNETIC)
+                .buildAndRegister();
+
         SpacetimeContinuum = material("spacetime_continuum", "时空连续体")
                 .liquid(new FluidBuilder().customStill())
                 .iconSet(DULL)

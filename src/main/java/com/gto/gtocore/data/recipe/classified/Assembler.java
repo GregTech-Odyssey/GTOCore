@@ -1383,7 +1383,7 @@ interface Assembler {
                 .save();
 
         ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("uhv_voltage_coil"))
-                .inputItems(GTOItems.MAGNETIC_NETHERITE_ROD.asStack())
+                .inputItems(TagPrefix.rod, GTOMaterials.EnergeticNetherite)
                 .inputItems(TagPrefix.wireFine, GTOMaterials.AbyssalAlloy, 16)
                 .circuitMeta(1)
                 .outputItems(GTOItems.UHV_VOLTAGE_COIL.asStack())
@@ -3037,7 +3037,7 @@ interface Assembler {
                 .save();
 
         ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("uev_voltage_coil"))
-                .inputItems(GTOItems.MAGNETIC_NETHERITE_ROD.asStack())
+                .inputItems(TagPrefix.rod, GTOMaterials.EnergeticNetherite)
                 .inputItems(TagPrefix.wireFine, GTOMaterials.TitanSteel, 16)
                 .circuitMeta(1)
                 .outputItems(GTOItems.UEV_VOLTAGE_COIL.asStack())

@@ -12,7 +12,6 @@ import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
 
 import appeng.core.definitions.AEItems;
@@ -207,15 +206,6 @@ interface FormingPress {
                 .outputItems(GTOItems.GRINDBALL_ALUMINIUM.asItem())
                 .EUt(7680)
                 .duration(800)
-                .save();
-
-        FORMING_PRESS_RECIPES.recipeBuilder(GTOCore.id("netherite_rod"))
-                .inputItems(new ItemStack(Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE.asItem()))
-                .inputItems(TagPrefix.rod, GTMaterials.Neodymium, 2)
-                .inputItems(TagPrefix.ingot, GTMaterials.Netherite)
-                .outputItems(GTOItems.NETHERITE_ROD.asStack(2))
-                .EUt(480)
-                .duration(400)
                 .save();
 
         FORMING_PRESS_RECIPES.recipeBuilder(GTOCore.id("exotic_ram_wafer"))

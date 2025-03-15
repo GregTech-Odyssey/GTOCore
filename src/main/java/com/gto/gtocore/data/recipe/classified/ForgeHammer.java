@@ -15,25 +15,11 @@ import static com.gto.gtocore.common.data.GTORecipeTypes.FORGE_HAMMER_RECIPES;
 interface ForgeHammer {
 
     static void init() {
-        FORGE_HAMMER_RECIPES.recipeBuilder(GTOCore.id("long_netherite_rod"))
-                .inputItems(GTOItems.NETHERITE_ROD.asStack(2))
-                .outputItems(GTOItems.LONG_NETHERITE_ROD.asItem())
-                .EUt(30)
-                .duration(200)
-                .save();
-
         FORGE_HAMMER_RECIPES.recipeBuilder(GTOCore.id("prismarine_crystals"))
                 .inputItems(new ItemStack(Items.PRISMARINE_SHARD.asItem()))
                 .outputItems(new ItemStack(Items.PRISMARINE_CRYSTALS.asItem()))
                 .EUt(16)
                 .duration(20)
-                .save();
-
-        FORGE_HAMMER_RECIPES.recipeBuilder(GTOCore.id("magnetic_long_netherite_rod"))
-                .inputItems(GTOItems.MAGNETIC_NETHERITE_ROD.asStack(2))
-                .outputItems(GTOItems.MAGNETIC_LONG_NETHERITE_ROD.asItem())
-                .EUt(30)
-                .duration(200)
                 .save();
 
         FORGE_HAMMER_RECIPES.recipeBuilder(GTOCore.id("long_magmatter_rod"))
