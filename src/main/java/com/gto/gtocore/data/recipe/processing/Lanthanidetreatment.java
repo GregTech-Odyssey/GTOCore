@@ -517,6 +517,38 @@ public interface Lanthanidetreatment {
                 .EUt(491520)
                 .save();
 
+        RARE_EARTH_CENTRIFUGAL_RECIPES.recipeBuilder(GTOCore.id("raw_adamantine"))
+                .inputItems(TagPrefix.dust, GTOMaterials.NaquadahContainRareEarth)
+                .chancedOutput(TagPrefix.rawOre, GTOMaterials.AdamantineCompounds, 5000, 1000)
+                .outputItems(TagPrefix.dust, GTMaterials.EnrichedNaquadahSulfate, 6)
+                .outputItems(TagPrefix.dust, GTMaterials.NaquadriaSulfate, 6)
+                .EUt(7864320)
+                .duration(200)
+                .save();
+
+        RARE_EARTH_CENTRIFUGAL_RECIPES.recipeBuilder(GTOCore.id("rare_earth_centrifugal"))
+                .inputItems(TagPrefix.dust, GTOMaterials.RareEarthMetal)
+                .outputItems(TagPrefix.dustSmall, GTMaterials.Lanthanum)
+                .outputItems(TagPrefix.dustSmall, GTMaterials.Cerium)
+                .outputItems(TagPrefix.dustSmall, GTMaterials.Neodymium)
+                .outputItems(TagPrefix.dustSmall, GTMaterials.Promethium)
+                .outputItems(TagPrefix.dustSmall, GTMaterials.Samarium)
+                .outputItems(TagPrefix.dustSmall, GTMaterials.Europium)
+                .outputItems(TagPrefix.dustSmall, GTMaterials.Praseodymium)
+                .outputItems(TagPrefix.dustSmall, GTMaterials.Gadolinium)
+                .outputItems(TagPrefix.dustSmall, GTMaterials.Terbium)
+                .outputItems(TagPrefix.dustSmall, GTMaterials.Dysprosium)
+                .outputItems(TagPrefix.dustSmall, GTMaterials.Holmium)
+                .outputItems(TagPrefix.dustSmall, GTMaterials.Erbium)
+                .outputItems(TagPrefix.dustSmall, GTMaterials.Thulium)
+                .outputItems(TagPrefix.dustSmall, GTMaterials.Ytterbium)
+                .outputItems(TagPrefix.dustSmall, GTMaterials.Scandium)
+                .outputItems(TagPrefix.dustSmall, GTMaterials.Lutetium)
+                .outputItems(TagPrefix.dustSmall, GTMaterials.Yttrium)
+                .EUt(491520)
+                .duration(200)
+                .save();
+
         LARGE_CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("make_p507_1"))
                 .notConsumable(plate, Copper, 1)
                 .inputFluids(SeedOil.getFluid(3000))
@@ -635,38 +667,6 @@ public interface Lanthanidetreatment {
                     .outputFluids(Chlorine.getFluid(3000))
                     .duration(100)
                     .EUt(122880)
-                    .save();
-
-            RARE_EARTH_CENTRIFUGAL_RECIPES.recipeBuilder(GTOCore.id("raw_adamantine"))
-                    .inputItems(TagPrefix.dust, GTOMaterials.NaquadahContainRareEarth)
-                    .chancedOutput(TagPrefix.rawOre, GTOMaterials.AdamantineCompounds, 5000, 1000)
-                    .outputItems(TagPrefix.dust, GTMaterials.EnrichedNaquadahSulfate, 6)
-                    .outputItems(TagPrefix.dust, GTMaterials.NaquadriaSulfate, 6)
-                    .EUt(7864320)
-                    .duration(200)
-                    .save();
-
-            RARE_EARTH_CENTRIFUGAL_RECIPES.recipeBuilder(GTOCore.id("rare_earth_centrifugal"))
-                    .inputItems(TagPrefix.dust, GTOMaterials.RareEarthMetal)
-                    .outputItems(TagPrefix.dustSmall, GTMaterials.Lanthanum)
-                    .outputItems(TagPrefix.dustSmall, GTMaterials.Cerium)
-                    .outputItems(TagPrefix.dustSmall, GTMaterials.Neodymium)
-                    .outputItems(TagPrefix.dustSmall, GTMaterials.Promethium)
-                    .outputItems(TagPrefix.dustSmall, GTMaterials.Samarium)
-                    .outputItems(TagPrefix.dustSmall, GTMaterials.Europium)
-                    .outputItems(TagPrefix.dustSmall, GTMaterials.Praseodymium)
-                    .outputItems(TagPrefix.dustSmall, GTMaterials.Gadolinium)
-                    .outputItems(TagPrefix.dustSmall, GTMaterials.Terbium)
-                    .outputItems(TagPrefix.dustSmall, GTMaterials.Dysprosium)
-                    .outputItems(TagPrefix.dustSmall, GTMaterials.Holmium)
-                    .outputItems(TagPrefix.dustSmall, GTMaterials.Erbium)
-                    .outputItems(TagPrefix.dustSmall, GTMaterials.Thulium)
-                    .outputItems(TagPrefix.dustSmall, GTMaterials.Ytterbium)
-                    .outputItems(TagPrefix.dustSmall, GTMaterials.Scandium)
-                    .outputItems(TagPrefix.dustSmall, GTMaterials.Lutetium)
-                    .outputItems(TagPrefix.dustSmall, GTMaterials.Yttrium)
-                    .EUt(491520)
-                    .duration(200)
                     .save();
         }
     }

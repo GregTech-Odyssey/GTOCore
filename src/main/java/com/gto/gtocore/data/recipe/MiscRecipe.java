@@ -8,15 +8,20 @@ import com.gto.gtocore.common.data.GTOItems;
 import com.gto.gtocore.common.data.GTOMaterials;
 import com.gto.gtocore.common.item.DimensionDataItem;
 import com.gto.gtocore.common.machine.multiblock.electric.BlockConversionRoomMachine;
+import com.gto.gtocore.common.recipe.condition.GravityCondition;
+import com.gto.gtocore.common.recipe.condition.RestrictedMachineCondition;
+import com.gto.gtocore.common.recipe.condition.VacuumCondition;
 import com.gto.gtocore.config.GTOConfig;
 import com.gto.gtocore.utils.ItemUtils;
 
 import com.gregtechceu.gtceu.api.capability.GTCapabilityHelper;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.chemical.material.stack.UnificationEntry;
+import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.machine.multiblock.CleanroomType;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTMaterialItems;
+import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
 import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
 
@@ -173,39 +178,6 @@ public interface MiscRecipe {
                 .cleanroom(CleanroomType.STERILE_CLEANROOM)
                 .save();
 
-        UNPACKER_RECIPES.recipeBuilder(GTOCore.id("unpackage_lv_cadmium_battery")).inputItems(BATTERY_LV_CADMIUM)
-                .outputItems(BATTERY_HULL_LV).save();
-        UNPACKER_RECIPES.recipeBuilder(GTOCore.id("unpackage_lv_lithium_battery")).inputItems(BATTERY_LV_LITHIUM)
-                .outputItems(BATTERY_HULL_LV).save();
-        UNPACKER_RECIPES.recipeBuilder(GTOCore.id("unpackage_lv_sodium_battery")).inputItems(BATTERY_LV_SODIUM)
-                .outputItems(BATTERY_HULL_LV).save();
-
-        UNPACKER_RECIPES.recipeBuilder(GTOCore.id("unpackage_mv_cadmium_battery")).inputItems(BATTERY_MV_CADMIUM)
-                .outputItems(BATTERY_HULL_MV).save();
-        UNPACKER_RECIPES.recipeBuilder(GTOCore.id("unpackage_mv_lithium_battery")).inputItems(BATTERY_MV_LITHIUM)
-                .outputItems(BATTERY_HULL_MV).save();
-        UNPACKER_RECIPES.recipeBuilder(GTOCore.id("unpackage_mv_sodium_battery")).inputItems(BATTERY_MV_SODIUM)
-                .outputItems(BATTERY_HULL_MV).save();
-
-        UNPACKER_RECIPES.recipeBuilder(GTOCore.id("unpackage_hv_cadmium_battery")).inputItems(BATTERY_HV_CADMIUM)
-                .outputItems(BATTERY_HULL_HV).save();
-        UNPACKER_RECIPES.recipeBuilder(GTOCore.id("unpackage_hv_lithium_battery")).inputItems(BATTERY_HV_LITHIUM)
-                .outputItems(BATTERY_HULL_HV).save();
-        UNPACKER_RECIPES.recipeBuilder(GTOCore.id("unpackage_hv_sodium_battery")).inputItems(BATTERY_HV_SODIUM)
-                .outputItems(BATTERY_HULL_HV).save();
-
-        UNPACKER_RECIPES.recipeBuilder(GTOCore.id("unpackage_ev_vanadium_battery")).inputItems(BATTERY_EV_VANADIUM)
-                .outputItems(BATTERY_HULL_SMALL_VANADIUM).save();
-        UNPACKER_RECIPES.recipeBuilder(GTOCore.id("unpackage_iv_vanadium_battery")).inputItems(BATTERY_IV_VANADIUM)
-                .outputItems(BATTERY_HULL_MEDIUM_VANADIUM).save();
-        UNPACKER_RECIPES.recipeBuilder(GTOCore.id("unpackage_luv_vanadium_battery")).inputItems(BATTERY_LuV_VANADIUM)
-                .outputItems(BATTERY_HULL_LARGE_VANADIUM).save();
-
-        UNPACKER_RECIPES.recipeBuilder(GTOCore.id("unpackage_zpm_naquadria_battery")).inputItems(BATTERY_ZPM_NAQUADRIA)
-                .outputItems(BATTERY_HULL_MEDIUM_NAQUADRIA).save();
-        UNPACKER_RECIPES.recipeBuilder(GTOCore.id("unpackage_uv_naquadria_battery")).inputItems(BATTERY_UV_NAQUADRIA)
-                .outputItems(BATTERY_HULL_LARGE_NAQUADRIA).save();
-
         UNPACKER_RECIPES.recipeBuilder(GTOCore.id("unpackage_ev_lapotronic_battery"))
                 .inputItems(GTBlocks.BATTERY_LAPOTRONIC_EV.asStack(1))
                 .outputItems(GTBlocks.BATTERY_EMPTY_TIER_I.asStack(1))
@@ -311,5 +283,282 @@ public interface MiscRecipe {
                 .inputItems(CustomTags.MV_CIRCUITS, 1)
                 .outputItems(COVER_FLUID_VOIDING_ADVANCED)
                 .duration(100).EUt(VA[LV]).save(provider);
+
+        CHEMICAL_RECIPES.builder("plastic_circuit_board_persulfate").duration(600).EUt(VA[LV])
+                .inputItems(PLASTIC_BOARD)
+                .inputItems(GTOTagPrefix.flakes, GTOMaterials.AluminaCeramic, 2)
+                .inputFluids(SodiumPersulfate.getFluid(500))
+                .outputItems(PLASTIC_CIRCUIT_BOARD)
+                .save();
+
+        CHEMICAL_RECIPES.builder("plastic_circuit_board_iron3").duration(600).EUt(VA[LV])
+                .inputItems(PLASTIC_BOARD)
+                .inputItems(GTOTagPrefix.flakes, GTOMaterials.AluminaCeramic, 2)
+                .inputFluids(Iron3Chloride.getFluid(250))
+                .outputItems(PLASTIC_CIRCUIT_BOARD)
+                .save();
+
+        CHEMICAL_RECIPES.builder("polyethylene_from_oxygen")
+                .circuitMeta(1)
+                .inputFluids(Oxygen.getFluid(1000))
+                .inputFluids(Ethylene.getFluid(L))
+                .outputFluids(Polyethylene.getFluid(144))
+                .heat(600)
+                .duration(160).EUt(VA[LV]).save();
+
+        CHEMICAL_RECIPES.builder("polyethylene_from_air")
+                .notConsumable(TagPrefix.rod, GTMaterials.Ruby)
+                .inputFluids(Air.getFluid(1000))
+                .inputFluids(Ethylene.getFluid(L))
+                .outputFluids(Polyethylene.getFluid(126))
+                .heat(600)
+                .duration(300).EUt(VA[ULV]).save();
+
+        CHEMICAL_RECIPES.builder("polyvinyl_chloride_from_oxygen")
+                .notConsumable(TagPrefix.rod, GTMaterials.Ruby)
+                .inputFluids(Oxygen.getFluid(1000))
+                .inputFluids(VinylChloride.getFluid(L))
+                .outputFluids(PolyvinylChloride.getFluid(144))
+                .heat(700)
+                .duration(180).EUt(VA[LV]).save();
+
+        CHEMICAL_RECIPES.builder("methanol_from_monoxide")
+                .circuitMeta(1)
+                .inputFluids(Hydrogen.getFluid(4000))
+                .inputFluids(CarbonMonoxide.getFluid(1000))
+                .outputFluids(Methanol.getFluid(1000))
+                .duration(360).EUt(30).save();
+
+        ASSEMBLER_RECIPES.builder("vacuum_tube_plain")
+                .inputItems(GLASS_TUBE)
+                .inputItems(bolt, Steel)
+                .inputItems(wireGtSingle, Copper, 2)
+                .circuitMeta(1)
+                .outputItems(VACUUM_TUBE, 2)
+                .addCondition(new VacuumCondition(1))
+                .duration(120).EUt(VA[ULV]).save();
+
+        ASSEMBLER_RECIPES.builder("vacuum_tube_red_alloy")
+                .inputItems(GLASS_TUBE)
+                .inputItems(bolt, Steel)
+                .inputItems(wireGtSingle, Copper, 2)
+                .inputFluids(RedAlloy.getFluid(18))
+                .outputItems(VACUUM_TUBE, 4)
+                .addCondition(new VacuumCondition(2))
+                .duration(40).EUt(16).save();
+
+        ASSEMBLER_RECIPES.builder("vacuum_tube_red_alloy_annealed")
+                .inputItems(GLASS_TUBE)
+                .inputItems(bolt, Steel)
+                .inputItems(wireGtSingle, AnnealedCopper, 2)
+                .inputFluids(RedAlloy.getFluid(18))
+                .outputItems(VACUUM_TUBE, 6)
+                .addCondition(new VacuumCondition(3))
+                .duration(40).EUt(VA[LV]).save();
+
+        BLAST_RECIPES.builder("engraved_crystal_chip_from_olivine")
+                .inputItems(plate, Olivine)
+                .inputItems(RAW_CRYSTAL_CHIP)
+                .inputFluids(Helium.getFluid(1000))
+                .outputItems(ENGRAVED_CRYSTAL_CHIP)
+                .blastFurnaceTemp(5000)
+                .duration(900).EUt(VA[HV])
+                .addCondition(new GravityCondition(true))
+                .save();
+
+        CHEMICAL_BATH_RECIPES.builder("quantum_star")
+                .inputItems(gem, NetherStar)
+                .inputFluids(Radon.getFluid(1250))
+                .outputItems(QUANTUM_STAR)
+                .duration(1920).EUt(VA[HV])
+                .addCondition(new GravityCondition(true))
+                .save();
+
+        AUTOCLAVE_RECIPES.builder("gravi_star")
+                .inputItems(QUANTUM_STAR)
+                .inputFluids(Neutronium.getFluid(L << 1))
+                .outputItems(GRAVI_STAR)
+                .duration(480).EUt(VA[IV])
+                .addCondition(new GravityCondition(true))
+                .save();
+
+        CHEMICAL_BATH_RECIPES.builder("quantum_eye")
+                .inputItems(gem, EnderEye)
+                .inputFluids(Radon.getFluid(250))
+                .outputItems(QUANTUM_EYE)
+                .duration(480).EUt(VA[HV])
+                .addCondition(new GravityCondition(true))
+                .save();
+
+        CHEMICAL_RECIPES.builder("formic_acid")
+                .inputFluids(GTOMaterials.SodiumFormate.getFluid(2000))
+                .inputFluids(SulfuricAcid.getFluid(1000))
+                .circuitMeta(1)
+                .outputFluids(FormicAcid.getFluid(2000))
+                .outputItems(dust, GTOMaterials.SodiumSulfate, 7)
+                .duration(15).EUt(VA[LV]).save();
+
+        PRIMITIVE_BLAST_FURNACE_RECIPES.builder("steel_from_coal_block").inputItems(block, Iron)
+                .inputItems(block, Coal, 2).outputItems(ingot, Steel, 9).outputItems(dust, DarkAsh, 2).duration(12150)
+                .save();
+        PRIMITIVE_BLAST_FURNACE_RECIPES.builder("steel_from_charcoal_block").inputItems(block, Iron)
+                .inputItems(block, Charcoal, 2).outputItems(ingot, Steel, 9).outputItems(dust, DarkAsh, 2).duration(12150)
+                .save();
+        PRIMITIVE_BLAST_FURNACE_RECIPES.builder("steel_from_coke_block").inputItems(block, Iron)
+                .inputItems(block, Coke).outputItems(ingot, Steel, 9).outputItems(dust, Ash).duration(10125)
+                .save();
+        PRIMITIVE_BLAST_FURNACE_RECIPES.builder("steel_from_coal_block_wrought").inputItems(block, WroughtIron)
+                .inputItems(block, Coal, 2).outputItems(ingot, Steel, 9).outputItems(dust, DarkAsh, 2).duration(5400)
+                .save();
+        PRIMITIVE_BLAST_FURNACE_RECIPES.builder("steel_from_charcoal_block_wrought")
+                .inputItems(block, WroughtIron).inputItems(block, Charcoal, 2).outputItems(ingot, Steel, 9)
+                .outputItems(dust, DarkAsh, 2).duration(5400).save();
+        PRIMITIVE_BLAST_FURNACE_RECIPES.builder("steel_from_coke_block_wrought").inputItems(block, WroughtIron)
+                .inputItems(block, Coke).outputItems(ingot, Steel, 9).outputItems(dust, Ash).duration(4050).save();
+
+        ARC_FURNACE_RECIPES.builder("tempered_glass").duration(60).EUt(VA[LV])
+                .inputItems(block, Glass)
+                .outputItems(GTBlocks.CASING_TEMPERED_GLASS.asItem())
+                .addCondition(RestrictedMachineCondition.multiblock())
+                .save();
+
+        CHEMICAL_BATH_RECIPES.builder("silicon_cool_down")
+                .inputItems(ingotHot, Silicon)
+                .inputFluids(GTOMaterials.CoolantLiquid.getFluid(100))
+                .outputItems(ingot, Silicon)
+                .duration(250).EUt(VA[MV]).save();
+
+        CHEMICAL_BATH_RECIPES.builder("kanthal_cool_down")
+                .inputItems(ingotHot, Kanthal)
+                .inputFluids(GTOMaterials.CoolantLiquid.getFluid(100))
+                .outputItems(ingot, Kanthal)
+                .duration(250).EUt(VA[MV]).save();
+
+        CHEMICAL_BATH_RECIPES.builder("black_steel_cool_down")
+                .inputItems(ingotHot, BlackSteel)
+                .inputFluids(GTOMaterials.CoolantLiquid.getFluid(100))
+                .outputItems(ingot, BlackSteel)
+                .duration(125).EUt(VA[MV]).save();
+
+        CHEMICAL_BATH_RECIPES.builder("red_steel_cool_down")
+                .inputItems(ingotHot, RedSteel)
+                .inputFluids(GTOMaterials.CoolantLiquid.getFluid(100))
+                .outputItems(ingot, RedSteel)
+                .duration(250).EUt(VA[MV]).save();
+
+        CHEMICAL_BATH_RECIPES.builder("blue_steel_cool_down")
+                .inputItems(ingotHot, BlueSteel)
+                .inputFluids(GTOMaterials.CoolantLiquid.getFluid(100))
+                .outputItems(ingot, BlueSteel)
+                .duration(250).EUt(VA[MV]).save();
+
+        MIXER_RECIPES.builder("pcb_coolant").duration(200).EUt(VA[HV])
+                .inputFluids(PolychlorinatedBiphenyl.getFluid(750))
+                .inputFluids(GTOMaterials.CoolantLiquid.getFluid(250))
+                .outputFluids(PCBCoolant.getFluid(1000))
+                .save();
+
+        CHEMICAL_RECIPES.builder("hypochlorous_acid_mercury")
+                .circuitMeta(10)
+                .inputFluids(Mercury.getFluid(1000))
+                .inputFluids(Water.getFluid(10000))
+                .inputFluids(Chlorine.getFluid(10000))
+                .outputFluids(HypochlorousAcid.getFluid(10000))
+                .duration(600).EUt(VA[ULV]).save();
+
+        CHEMICAL_RECIPES.builder("hypochlorous_acid")
+                .circuitMeta(11)
+                .inputFluids(Water.getFluid(1000))
+                .inputFluids(Chlorine.getFluid(2000))
+                .outputFluids(DilutedHydrochloricAcid.getFluid(1000))
+                .outputFluids(HypochlorousAcid.getFluid(1000))
+                .duration(120).EUt(VA[LV]).save();
+
+        CHEMICAL_RECIPES.builder("benzene_from_biphenyl")
+                .circuitMeta(1)
+                .inputItems(dust, Biphenyl, 2)
+                .inputFluids(Hydrogen.getFluid(2000))
+                .outputFluids(Benzene.getFluid(2000))
+                .duration(400).EUt(VA[EV]).save();
+
+        CHEMICAL_RECIPES.builder("polychlorinated_biphenyl")
+                .circuitMeta(2)
+                .inputItems(dust, Biphenyl, 2)
+                .inputFluids(Chlorine.getFluid(4000))
+                .outputFluids(PolychlorinatedBiphenyl.getFluid(1000))
+                .outputFluids(HydrochloricAcid.getFluid(2000))
+                .duration(200).EUt(VH[HV]).save();
+
+        CHEMICAL_RECIPES.builder("calcium_hydroxide")
+                .circuitMeta(1)
+                .inputItems(dust, Quicklime, 2)
+                .inputFluids(Water.getFluid(1000))
+                .outputItems(dust, CalciumHydroxide, 3)
+                .duration(100).EUt(VHA[MV]).save();
+
+        CHEMICAL_RECIPES.builder("calcite_from_quicklime")
+                .circuitMeta(1)
+                .inputItems(dust, Quicklime, 2)
+                .inputFluids(CarbonDioxide.getFluid(1000))
+                .outputItems(dust, Calcite, 5)
+                .duration(80).EUt(VA[LV]).save();
+
+        CHEMICAL_RECIPES.builder("ethylene_from_ethanol")
+                .circuitMeta(1)
+                .inputFluids(SulfuricAcid.getFluid(1000))
+                .inputFluids(Ethanol.getFluid(1000))
+                .outputFluids(Ethylene.getFluid(1000))
+                .outputFluids(DilutedSulfuricAcid.getFluid(1000))
+                .duration(1200).EUt(VA[MV]).save();
+
+        CHEMICAL_RECIPES.builder("dimethylchlorosilane_from_chloromethane")
+                .circuitMeta(1)
+                .inputItems(dust, Silicon)
+                .inputFluids(Chloromethane.getFluid(2000))
+                .outputFluids(Dimethyldichlorosilane.getFluid(1000))
+                .duration(240).EUt(96).save();
+
+        CHEMICAL_RECIPES.builder("vinyl_chloride_from_ethane")
+                .circuitMeta(1)
+                .inputFluids(Chlorine.getFluid(4000))
+                .inputFluids(Ethane.getFluid(1000))
+                .outputFluids(VinylChloride.getFluid(1000))
+                .outputFluids(HydrochloricAcid.getFluid(3000))
+                .duration(160).EUt(VA[LV]).save();
+
+        CHEMICAL_RECIPES.builder("styrene_from_ethylbenzene")
+                .circuitMeta(1)
+                .inputFluids(Ethylbenzene.getFluid(1000))
+                .outputFluids(Styrene.getFluid(1000))
+                .outputFluids(Hydrogen.getFluid(2000))
+                .duration(30).EUt(VA[LV])
+                .save();
+
+        CHEMICAL_RECIPES.builder("soda_ash_from_carbon_dioxide")
+                .circuitMeta(2)
+                .inputItems(dust, SodiumHydroxide, 6)
+                .inputFluids(CarbonDioxide.getFluid(1000))
+                .outputItems(dust, SodaAsh, 6)
+                .outputFluids(Water.getFluid(1000))
+                .duration(80).EUt(VA[HV])
+                .save();
+
+        LARGE_CHEMICAL_RECIPES.builder("iron_2_chloride")
+                .circuitMeta(1)
+                .inputFluids(Iron3Chloride.getFluid(2000))
+                .inputFluids(Chlorobenzene.getFluid(1000))
+                .outputFluids(Iron2Chloride.getFluid(2000))
+                .outputFluids(HydrochloricAcid.getFluid(1000))
+                .outputFluids(Dichlorobenzene.getFluid(1000))
+                .duration(400).EUt(VA[MV])
+                .save();
+
+        MIXER_RECIPES.builder("tantalum_carbide")
+                .inputItems(dust, Tantalum)
+                .inputItems(dust, Carbon)
+                .circuitMeta(2)
+                .outputItems(dust, TantalumCarbide, 2)
+                .duration(150).EUt(VA[EV])
+                .save();
     }
 }

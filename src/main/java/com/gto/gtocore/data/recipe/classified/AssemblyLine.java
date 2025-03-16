@@ -2740,7 +2740,7 @@ interface AssemblyLine {
                 .outputItems(MultiBlockA.COMPONENT_ASSEMBLY_LINE.asStack())
                 .EUt(1966080)
                 .duration(4200)
-                .stationResearch(b -> b.researchStack(GTOBlocks.COMPONENT_ASSEMBLY_LINE_CASING_ZPM.asStack())
+                .stationResearch(b -> b.researchStack(MultiBlockC.COMPONENT_ASSEMBLER.asStack())
                         .CWUt(512)
                         .EUt(1966080))
                 .save();

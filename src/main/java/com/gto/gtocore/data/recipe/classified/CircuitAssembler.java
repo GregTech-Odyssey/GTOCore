@@ -1,6 +1,7 @@
 package com.gto.gtocore.data.recipe.classified;
 
 import com.gto.gtocore.GTOCore;
+import com.gto.gtocore.api.data.tag.GTOTagPrefix;
 import com.gto.gtocore.common.data.GTOItems;
 import com.gto.gtocore.common.data.GTOMaterials;
 
@@ -14,6 +15,11 @@ import com.gregtechceu.gtceu.data.recipe.CustomTags;
 
 import com.enderio.base.common.init.EIOItems;
 
+import static com.gregtechceu.gtceu.api.GTValues.*;
+import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
+import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.foil;
+import static com.gregtechceu.gtceu.common.data.GTItems.*;
+import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
 import static com.gto.gtocore.common.data.GTORecipeTypes.CIRCUIT_ASSEMBLER_RECIPES;
 
 interface CircuitAssembler {
@@ -284,6 +290,59 @@ interface CircuitAssembler {
                 .outputItems(GTOItems.PLANET_DATA_CHIP.asItem())
                 .EUt(120)
                 .duration(400)
+                .save();
+
+        CIRCUIT_ASSEMBLER_RECIPES.builder("integrated_circuit_hv").EUt(VA[LV]).duration(600)
+                .inputItems(GTOTagPrefix.flakes, GTOMaterials.AluminaCeramic, 1)
+                .inputItems(INTEGRATED_CIRCUIT_MV, 2)
+                .inputItems(INTEGRATED_LOGIC_CIRCUIT, 2)
+                .inputItems(RANDOM_ACCESS_MEMORY, 2)
+                .inputItems(CustomTags.TRANSISTORS, 4)
+                .inputItems(screw, AnnealedCopper, 8)
+                .outputItems(INTEGRATED_CIRCUIT_HV)
+                .solderMultiplier(2)
+                .save();
+
+        CIRCUIT_ASSEMBLER_RECIPES.builder("electronic_circuit_lv").EUt(16).duration(200)
+                .inputItems(BASIC_CIRCUIT_BOARD)
+                .inputItems(CustomTags.RESISTORS, 2)
+                .inputItems(wireGtSingle, RedAlloy, 2)
+                .inputItems(CustomTags.ULV_CIRCUITS, 2)
+                .outputItems(ELECTRONIC_CIRCUIT_LV, outputAmount << 1)
+                .save();
+
+        CIRCUIT_ASSEMBLER_RECIPES.builder("processor_assembly_hv")
+                .EUt(VA[MV]).duration(200)
+                .inputItems(PLASTIC_CIRCUIT_BOARD)
+                .inputItems(PROCESSOR_MV, 2)
+                .inputItems(CustomTags.INDUCTORS, 4)
+                .inputItems(CustomTags.CAPACITORS, 8)
+                .inputItems(RANDOM_ACCESS_MEMORY, 4)
+                .inputItems(wireFine, RedAlloy, 8)
+                .outputItems(PROCESSOR_ASSEMBLY_HV, outputAmount << 1)
+                .solderMultiplier(2)
+                .cleanroom(CleanroomType.CLEANROOM)
+                .save();
+
+        CIRCUIT_ASSEMBLER_RECIPES.builder("wetware_processor_luv_soc").EUt(150000).duration(100)
+                .inputItems(GTItems.WETWARE_CIRCUIT_BOARD)
+                .inputItems(GTOItems.WETWARE_SOC)
+                .inputItems(wireFine, YttriumBariumCuprate, 8)
+                .inputItems(bolt, Naquadah, 8)
+                .outputItems(WETWARE_PROCESSOR_LuV, outputAmount << 1)
+                .cleanroom(CleanroomType.STERILE_CLEANROOM)
+                .save();
+
+        CIRCUIT_ASSEMBLER_RECIPES.builder("wetware_board").duration(1200).EUt(VA[LuV])
+                .inputItems(MULTILAYER_FIBER_BOARD, 16)
+                .inputItems(GTOItems.STERILIZED_PETRI_DISH)
+                .inputItems(ELECTRIC_PUMP_LuV)
+                .inputItems(SENSOR_IV)
+                .inputItems(CustomTags.IV_CIRCUITS)
+                .inputItems(foil, NiobiumTitanium, 16)
+                .inputFluids(GTOMaterials.Indalloy140.getFluid(2304))
+                .outputItems(WETWARE_BOARD, 16)
+                .cleanroom(CleanroomType.CLEANROOM)
                 .save();
     }
 }

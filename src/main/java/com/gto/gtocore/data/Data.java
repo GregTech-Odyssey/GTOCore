@@ -5,7 +5,6 @@ import com.gto.gtocore.api.machine.IMultiblockMachineDefinition;
 import com.gto.gtocore.api.recipe.GTORecipeBuilder;
 import com.gto.gtocore.common.data.GTOLoots;
 import com.gto.gtocore.common.data.GTORecipeTypes;
-import com.gto.gtocore.common.data.GTORecipes;
 import com.gto.gtocore.config.GTOConfig;
 import com.gto.gtocore.data.recipe.*;
 import com.gto.gtocore.data.recipe.classified.$ClassifiedRecipe;
@@ -55,8 +54,8 @@ public interface Data {
         ChemicalHelper.reinitializeUnification();
         MaterialInfoLoader.init();
         GTOMaterialInfoLoader.init();
-        GTORecipes.initFilter();
         GTORecipeBuilder.initialization();
+        RecipeFilter.init();
         Consumer<FinishedRecipe> consumer = GTDynamicDataPack::addRecipe;
 
         CustomToolRecipes.init(consumer);
@@ -79,7 +78,6 @@ public interface Data {
 
         GCYMRecipes.init(consumer);
         RecipeAddition.init(consumer);
-        GT_FILTER_RECIPES = null;
         SHAPED_FILTER_RECIPES = null;
         SHAPELESS_FILTER_RECIPES = null;
 
@@ -99,7 +97,6 @@ public interface Data {
         Lanthanidetreatment.init();
         NewResearchSystem.init();
         RadiationHatchRecipes.init();
-        RecipeOverwrite.init();
         PetrochemRecipes.init();
         GlassRecipe.init();
         DyeRecipes.init();

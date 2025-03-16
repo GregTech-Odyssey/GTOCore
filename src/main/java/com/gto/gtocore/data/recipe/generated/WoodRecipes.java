@@ -52,7 +52,6 @@ public interface WoodRecipes {
                 .hangingSign(Items.OAK_HANGING_SIGN, "oak_hanging_sign")
                 .button(Items.OAK_BUTTON, "oak_button")
                 .pressurePlate(Items.OAK_PRESSURE_PLATE, "oak_pressure_plate")
-                .registerAllUnificationInfo()
                 .build());
         entries.add(new WoodTypeEntry.Builder("minecraft", "spruce")
                 .planks(Items.SPRUCE_PLANKS, "spruce_planks")
@@ -72,7 +71,6 @@ public interface WoodRecipes {
                 .hangingSign(Items.SPRUCE_HANGING_SIGN, "spruce_hanging_sign")
                 .button(Items.SPRUCE_BUTTON, "spruce_button")
                 .pressurePlate(Items.SPRUCE_PRESSURE_PLATE, "spruce_pressure_plate")
-                .registerAllUnificationInfo()
                 .build());
         entries.add(new WoodTypeEntry.Builder("minecraft", "birch")
                 .planks(Items.BIRCH_PLANKS, "birch_planks")
@@ -92,7 +90,6 @@ public interface WoodRecipes {
                 .hangingSign(Items.BIRCH_HANGING_SIGN, "birch_hanging_sign")
                 .button(Items.BIRCH_BUTTON, "birch_button")
                 .pressurePlate(Items.BIRCH_PRESSURE_PLATE, "birch_pressure_plate")
-                .registerAllUnificationInfo()
                 .build());
         entries.add(new WoodTypeEntry.Builder("minecraft", "jungle")
                 .planks(Items.JUNGLE_PLANKS, "jungle_planks")
@@ -112,7 +109,6 @@ public interface WoodRecipes {
                 .hangingSign(Items.JUNGLE_HANGING_SIGN, "jungle_hanging_sign")
                 .button(Items.JUNGLE_BUTTON, "jungle_button")
                 .pressurePlate(Items.JUNGLE_PRESSURE_PLATE, "jungle_pressure_plate")
-                .registerAllUnificationInfo()
                 .build());
         entries.add(new WoodTypeEntry.Builder("minecraft", "acacia")
                 .planks(Items.ACACIA_PLANKS, "acacia_planks")
@@ -132,7 +128,6 @@ public interface WoodRecipes {
                 .hangingSign(Items.ACACIA_HANGING_SIGN, "acacia_hanging_sign")
                 .button(Items.ACACIA_BUTTON, "acacia_button")
                 .pressurePlate(Items.ACACIA_PRESSURE_PLATE, "acacia_pressure_plate")
-                .registerAllUnificationInfo()
                 .build());
         entries.add(new WoodTypeEntry.Builder("minecraft", "dark_oak")
                 .planks(Items.DARK_OAK_PLANKS, "dark_oak_planks")
@@ -152,7 +147,6 @@ public interface WoodRecipes {
                 .hangingSign(Items.DARK_OAK_HANGING_SIGN, "dark_oak_hanging_sign")
                 .button(Items.DARK_OAK_BUTTON, "dark_oak_button")
                 .pressurePlate(Items.DARK_OAK_PRESSURE_PLATE, "dark_oak_pressure_plate")
-                .registerAllUnificationInfo()
                 .build());
         entries.add(new WoodTypeEntry.Builder("minecraft", "bamboo")
                 .planks(Items.BAMBOO_PLANKS, "bamboo_planks")
@@ -171,7 +165,6 @@ public interface WoodRecipes {
                 .hangingSign(Items.BAMBOO_HANGING_SIGN, "bamboo_hanging_sign")
                 .button(Items.BAMBOO_BUTTON, "bamboo_button")
                 .pressurePlate(Items.BAMBOO_PRESSURE_PLATE, "bamboo_pressure_plate")
-                .registerAllUnificationInfo()
                 .build());
         entries.add(new WoodTypeEntry.Builder("minecraft", "cherry")
                 .planks(Items.CHERRY_PLANKS, "cherry_planks")
@@ -191,7 +184,6 @@ public interface WoodRecipes {
                 .hangingSign(Items.CHERRY_HANGING_SIGN, "cherry_hanging_sign")
                 .button(Items.CHERRY_BUTTON, "cherry_button")
                 .pressurePlate(Items.CHERRY_PRESSURE_PLATE, "cherry_pressure_plate")
-                .registerAllUnificationInfo()
                 .build());
         entries.add(new WoodTypeEntry.Builder("minecraft", "mangrove")
                 .planks(Items.MANGROVE_PLANKS, "mangrove_planks")
@@ -211,7 +203,6 @@ public interface WoodRecipes {
                 .hangingSign(Items.MANGROVE_HANGING_SIGN, "mangrove_hanging_sign")
                 .button(Items.MANGROVE_BUTTON, "mangrove_button")
                 .pressurePlate(Items.MANGROVE_PRESSURE_PLATE, "mangrove_pressure_plate")
-                .registerAllUnificationInfo()
                 .build());
         entries.add(new WoodTypeEntry.Builder("minecraft", "crimson")
                 .planks(Items.CRIMSON_PLANKS, "crimson_planks")
@@ -230,7 +221,6 @@ public interface WoodRecipes {
                 .hangingSign(Items.CRIMSON_HANGING_SIGN, "crimson_hanging_sign")
                 .button(Items.CRIMSON_BUTTON, "crimson_button")
                 .pressurePlate(Items.CRIMSON_PRESSURE_PLATE, "crimson_pressure_plate")
-                .registerAllUnificationInfo()
                 .build());
         entries.add(new WoodTypeEntry.Builder("minecraft", "warped")
                 .planks(Items.WARPED_PLANKS, "warped_planks")
@@ -249,7 +239,6 @@ public interface WoodRecipes {
                 .hangingSign(Items.WARPED_HANGING_SIGN, "warped_hanging_sign")
                 .button(Items.WARPED_BUTTON, "warped_button")
                 .pressurePlate(Items.WARPED_PRESSURE_PLATE, "warped_pressure_plate")
-                .registerAllUnificationInfo()
                 .build());
         entries.add(new WoodTypeEntry.Builder(GTCEu.MOD_ID, "rubber")
                 .planks(GTBlocks.RUBBER_PLANK.asItem(), null)
@@ -270,7 +259,6 @@ public interface WoodRecipes {
                 .button(GTBlocks.RUBBER_BUTTON.asItem(), null)
                 .pressurePlate(GTBlocks.RUBBER_PRESSURE_PLATE.asItem(), null)
                 .registerAllTags()
-                .registerAllUnificationInfo()
                 .build());
         entries.add(new WoodTypeEntry.Builder(GTCEu.MOD_ID, "treated")
                 .planks(GTBlocks.TREATED_WOOD_PLANK.asItem(), null)
@@ -288,7 +276,6 @@ public interface WoodRecipes {
                 .pressurePlate(GTBlocks.TREATED_WOOD_PRESSURE_PLATE.asItem(), null)
                 .material(GTMaterials.TreatedWood)
                 .generateLogToPlankRecipe(false)
-                .registerUnificationInfo(false, true, true, true, true, true, true, true, true, true)
                 .build());
         entries.add(new WoodTypeEntry.Builder(AdAstra.MOD_ID, "glacian")
                 .planks(ModBlocks.GLACIAN_PLANKS.get().asItem(), "glacian_planks")

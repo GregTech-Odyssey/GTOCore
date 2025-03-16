@@ -261,7 +261,7 @@ interface Incubator {
 
         INCUBATOR_RECIPES.recipeBuilder(GTOCore.id("dragon_cells"))
                 .chancedInput(GTOItems.GLACIO_SPIRIT.asStack(), 6000, 100)
-                .inputItems(GTOItems.DRAGON_STEM_CELLS.asStack(32))
+                .inputItems(GTOItems.DRAGON_CELLS.asStack(32))
                 .inputFluids(GTOMaterials.BiohmediumSterilized.getFluid(4000))
                 .outputItems(GTOItems.DRAGON_CELLS.asStack(64))
                 .EUt(491520)
@@ -621,17 +621,6 @@ interface Incubator {
                 .outputItems(GTOItems.SCHEELITE_VEIN_ESSENCE.asStack(64))
                 .EUt(480)
                 .duration(12000)
-                .save();
-
-        INCUBATOR_RECIPES.recipeBuilder(GTOCore.id("dragon_cells"))
-                .inputItems(GTOItems.DRAGON_STEM_CELLS.asStack(1))
-                .inputItems(TagPrefix.dust, GTMaterials.Naquadria, 16)
-                .inputFluids(GTOMaterials.BiohmediumSterilized.getFluid(10000))
-                .inputFluids(GTMaterials.Mutagen.getFluid(10000))
-                .outputItems(GTOItems.DRAGON_CELLS.asStack(1))
-                .EUt(491520)
-                .duration(800)
-                .addData("radioactivity", 560)
                 .save();
 
         INCUBATOR_RECIPES.recipeBuilder(GTOCore.id("super_cerebrum"))

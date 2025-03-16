@@ -483,7 +483,7 @@ public final class RecipeEditorBehavior implements IItemUIFactory, IFancyUIProvi
                 } else {
                     recipeType = machine.recipeType.registryName.getPath().toUpperCase() + "_RECIPES";
                 }
-                stringBuilder.append("\n").append(recipeType).append(".recipeBuilder(GTOCore.id(\"").append(machine.id).append("\"))\n");
+                stringBuilder.append("\n").append(recipeType).append(".builder(\"").append(machine.id).append("\")\n");
                 for (int i = 0; i < machine.importItems.getSlots(); i++) {
                     ItemStack stack = machine.importItems.getStackInSlot(i);
                     if (stack.isEmpty()) continue;

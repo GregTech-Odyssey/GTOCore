@@ -27,6 +27,7 @@ import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
 import com.gregtechceu.gtceu.api.recipe.ingredient.IntCircuitIngredient;
 import com.gregtechceu.gtceu.api.recipe.ingredient.IntProviderIngredient;
 import com.gregtechceu.gtceu.api.recipe.ingredient.SizedIngredient;
+import com.gregtechceu.gtceu.api.registry.GTRegistries;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.common.item.IntCircuitBehaviour;
 import com.gregtechceu.gtceu.common.recipe.condition.*;
@@ -48,7 +49,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.common.crafting.StrictNBTIngredient;
 import net.minecraftforge.fluids.FluidStack;
 
-import it.unimi.dsi.fastutil.Hash;
+import it.unimi.dsi.fastutil.objects.Object2BooleanOpenHashMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -64,6 +65,8 @@ import java.util.function.UnaryOperator;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import static it.unimi.dsi.fastutil.Hash.*;
+
 @SuppressWarnings({ "unchecked", "UnusedReturnValue" })
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
@@ -77,15 +80,22 @@ public final class GTORecipeBuilder extends GTRecipeBuilder {
 
     public static void initialization() {
         RECIPE_MAP = new Object2ObjectOpenHashMap<>(4096);
-        MATERIAL_INGREDIENT_MAP = new Object2ObjectOpenHashMap<>(1024, Hash.VERY_FAST_LOAD_FACTOR);
-        ITEM_INGREDIENT_MAP = new Object2ObjectOpenHashMap<>(1024, Hash.VERY_FAST_LOAD_FACTOR);
-        TAG_INGREDIENT_MAP = new Object2ObjectOpenHashMap<>(1024, Hash.VERY_FAST_LOAD_FACTOR);
+        MATERIAL_INGREDIENT_MAP = new Object2ObjectOpenHashMap<>(1024, VERY_FAST_LOAD_FACTOR);
+        ITEM_INGREDIENT_MAP = new Object2ObjectOpenHashMap<>(1024, VERY_FAST_LOAD_FACTOR);
+        TAG_INGREDIENT_MAP = new Object2ObjectOpenHashMap<>(1024, VERY_FAST_LOAD_FACTOR);
+        GTRegistries.RECIPE_TYPES.forEach(t -> ((GTORecipeType) t).filter = new Object2BooleanOpenHashMap<>(DEFAULT_INITIAL_SIZE, VERY_FAST_LOAD_FACTOR));
     }
 
     public static void clean() {
         MATERIAL_INGREDIENT_MAP = null;
         ITEM_INGREDIENT_MAP = null;
         TAG_INGREDIENT_MAP = null;
+        GTRegistries.RECIPE_TYPES.forEach(t -> {
+            ((GTORecipeType) t).filter.forEach((k, v) -> {
+                if (!v) GTOCore.LOGGER.error("Recipe filter [{}] not in use", k);
+            });
+            ((GTORecipeType) t).filter = null;
+        });
     }
 
     private static Ingredient getNonRepetitionIngredient(Item item) {
@@ -139,7 +149,6 @@ public final class GTORecipeBuilder extends GTRecipeBuilder {
     }
 
     boolean deleted;
-    ResourceLocation typeid;
 
     GTORecipeBuilder(ResourceLocation id, GTRecipeType recipeType) {
         super(id, recipeType);
@@ -1264,6 +1273,8 @@ public final class GTORecipeBuilder extends GTRecipeBuilder {
 
     public void save() {
         if (deleted) return;
+        ResourceLocation typeid = getTypeID(id, recipeType);
+        if (!id.getNamespace().equals(GTCEu.MOD_ID) && RECIPE_MAP.containsKey(typeid)) throw new IllegalStateException("Recipe with id " + typeid + " already exists!");
         if (onSave != null) {
             onSave.accept(this, a -> {});
         }
@@ -1275,7 +1286,6 @@ public final class GTORecipeBuilder extends GTRecipeBuilder {
                 }
             }
         }
-        if (typeid == null) typeid = getTypeID(id, recipeType);
         RECIPE_MAP.put(typeid, new GTRecipe(this.recipeType, typeid, this.input, this.output, this.tickInput, this.tickOutput, Map.of(), Map.of(), Map.of(), Map.of(), this.conditions, List.of(), this.data, this.duration, false, this.recipeCategory));
     }
 

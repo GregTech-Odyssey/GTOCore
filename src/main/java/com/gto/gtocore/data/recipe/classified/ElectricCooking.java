@@ -349,10 +349,8 @@ interface ElectricCooking {
         addSmoking("farmersdelight:bacon", "farmersdelight:cooked_bacon");
         addSmoking("farmersdelight:salmon_slice", "farmersdelight:cooked_salmon_slice");
         addSmoking("minecraft:cod", "minecraft:cooked_cod");
-        addSmoking("farmersdelight:bacon", "farmersdelight:cooked_bacon");
         addSmoking("farmersdelight:minced_beef", "farmersdelight:beef_patty");
         addSmoking("gtceu:dough", "minecraft:bread");
-        addSmoking("minecraft:mutton", "minecraft:cooked_mutton");
         addSmoking("minecraft:chicken", "minecraft:cooked_chicken");
         addSmoking("minecraft:salmon", "minecraft:cooked_salmon");
         addSmoking("farmersdelight:mutton_chops", "farmersdelight:cooked_mutton_chops");

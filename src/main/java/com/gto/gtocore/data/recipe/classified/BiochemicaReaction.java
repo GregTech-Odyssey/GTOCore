@@ -294,6 +294,17 @@ interface BiochemicaReaction {
                 .addData("radioactivity", 60)
                 .save();
 
+        BIOCHEMICAL_REACTION_RECIPES.recipeBuilder(GTOCore.id("dragon_cells"))
+                .inputItems(GTOItems.DRAGON_STEM_CELLS.asStack(1))
+                .inputItems(TagPrefix.dust, GTMaterials.Naquadria, 16)
+                .inputFluids(GTOMaterials.BiohmediumSterilized.getFluid(10000))
+                .inputFluids(GTMaterials.Mutagen.getFluid(10000))
+                .outputItems(GTOItems.DRAGON_CELLS.asStack(1))
+                .EUt(491520)
+                .duration(800)
+                .addData("radioactivity", 560)
+                .save();
+
         BIOCHEMICAL_REACTION_RECIPES.recipeBuilder(GTOCore.id("rapidly_replicating_animal_cells"))
                 .circuitMeta(2)
                 .inputFluids(GTOMaterials.AnimalCells.getFluid(1000))

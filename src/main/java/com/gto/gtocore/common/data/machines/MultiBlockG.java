@@ -88,7 +88,7 @@ public interface MultiBlockG {
                             .or(autoAbilities(definition.getRecipeTypes()))
                             .or(abilities(MAINTENANCE).setExactLimit(1)))
                     .where('B', blocks(GTBlocks.CASING_TEMPERED_GLASS.get()))
-                    .where('C', blocks(GTBlocks.COIL_CUPRONICKEL.get()))
+                    .where('C', heatingCoils())
                     .where('D', blocks(GTBlocks.CASING_INVAR_HEATPROOF.get()))
                     .where('E', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.Steel)))
                     .where(' ', any())

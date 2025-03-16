@@ -739,7 +739,7 @@ interface GTOPartsRecipeHandler {
 
         ItemStack data = GTOItems.DATA_DISC.get().getDisc(pistonHousingStack);
 
-        SCANNER_RECIPES.recipeBuilder(GTOCore.id(material.getName() + "_pump_barrel"))
+        SCANNER_RECIPES.recipeBuilder(GTOCore.id(material.getName() + "_piston_housing"))
                 .inputItems(GTOItems.DATA_DISC.asItem())
                 .inputItems(pistonHousingStack)
                 .outputItems(data)
@@ -747,7 +747,7 @@ interface GTOPartsRecipeHandler {
                 .duration(mass)
                 .save();
 
-        THREE_DIMENSIONAL_PRINTER_RECIPES.recipeBuilder(GTOCore.id(material.getName() + "_pump_barrel"))
+        THREE_DIMENSIONAL_PRINTER_RECIPES.recipeBuilder(GTOCore.id(material.getName() + "_piston_housing"))
                 .notConsumable(data)
                 .inputFluids(material.getFluid(GTValues.L * 3))
                 .outputItems(pistonHousingStack)
@@ -854,7 +854,7 @@ interface GTOPartsRecipeHandler {
 
         ItemStack data = GTOItems.DATA_DISC.get().getDisc(fieldGeneratorCasingStack);
 
-        SCANNER_RECIPES.recipeBuilder(GTOCore.id(material.getName() + "_sensor_casing"))
+        SCANNER_RECIPES.recipeBuilder(GTOCore.id(material.getName() + "_field_generator_casing"))
                 .inputItems(GTOItems.DATA_DISC.asItem())
                 .inputItems(fieldGeneratorCasingStack)
                 .outputItems(data)
@@ -862,7 +862,7 @@ interface GTOPartsRecipeHandler {
                 .duration(mass)
                 .save();
 
-        THREE_DIMENSIONAL_PRINTER_RECIPES.recipeBuilder(GTOCore.id(material.getName() + "_sensor_casing"))
+        THREE_DIMENSIONAL_PRINTER_RECIPES.recipeBuilder(GTOCore.id(material.getName() + "_field_generator_casing"))
                 .notConsumable(data)
                 .inputFluids(material.getFluid(GTValues.L << 3))
                 .outputItems(fieldGeneratorCasingStack)

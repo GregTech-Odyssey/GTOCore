@@ -25,6 +25,8 @@ import appeng.core.definitions.AEItems;
 import com.kyanite.deeperdarker.content.DDItems;
 import earth.terrarium.adastra.common.registry.ModItems;
 
+import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.plate;
+import static com.gregtechceu.gtceu.common.data.GTMaterials.Iron;
 import static com.gto.gtocore.common.data.GTORecipeTypes.ASSEMBLER_RECIPES;
 
 interface Assembler {
@@ -3687,6 +3689,13 @@ interface Assembler {
                 .inputFluids(GTMaterials.Polybenzimidazole.getFluid(2304))
                 .EUt(122880)
                 .duration(800)
+                .save();
+
+        ASSEMBLER_RECIPES.builder("bucket")
+                .inputItems(GTOTagPrefix.curvedPlate, Iron, 2)
+                .inputItems(plate, Iron)
+                .outputItems(new ItemStack(Items.BUCKET))
+                .duration(100).EUt(4)
                 .save();
     }
 }

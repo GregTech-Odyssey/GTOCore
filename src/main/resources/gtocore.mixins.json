@@ -25,10 +25,10 @@
         "mc.WindowMixin"
     ],
     "mixins": [
+        "adastra.AdAstraMixin",
         "adastra.ModUtilsMixin",
         "adastra.PlanetsMenuMixin",
         "adastra.RocketMixin",
-        "adastra.StationLoaderMixin",
         "adastra.VehicleItemMixin",
         "ae2.BasicCellInventoryMixin",
         "ae2.CPUSelectionListMixin",

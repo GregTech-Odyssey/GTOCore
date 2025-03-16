@@ -2,6 +2,7 @@ package com.gto.gtocore.mixin.mc;
 
 import com.gto.gtocore.common.data.GTOLoots;
 import com.gto.gtocore.common.data.GTORecipes;
+import com.gto.gtocore.data.recipe.RecipeFilter;
 
 import com.gregtechceu.gtceu.data.recipe.configurable.RecipeRemoval;
 
@@ -40,7 +41,7 @@ public class SimpleJsonResourceReloadListenerMixin {
                 if (GTORecipes.cache) return;
                 filters = new ObjectOpenHashSet<>(2048);
                 RecipeRemoval.init(filters::add);
-                GTORecipes.initJsonFilter(filters);
+                RecipeFilter.initJsonFilter(filters);
                 break;
             }
             case "loot_tables": {

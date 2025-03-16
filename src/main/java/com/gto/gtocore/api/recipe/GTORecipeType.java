@@ -1,6 +1,6 @@
 package com.gto.gtocore.api.recipe;
 
-import com.gto.gtocore.common.data.GTORecipes;
+import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.mixin.gtm.api.recipe.GTRecipeTypeAccessor;
 
 import com.gregtechceu.gtceu.GTCEu;
@@ -34,12 +34,15 @@ import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
+import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
 public class GTORecipeType extends GTRecipeType {
+
+    Map<ResourceLocation, Boolean> filter;
 
     public GTORecipeType(ResourceLocation registryName, String group, RecipeType<?>... proxyRecipes) {
         super(registryName, group, proxyRecipes);
@@ -68,8 +71,10 @@ public class GTORecipeType extends GTRecipeType {
         } else {
             builder = getRecipeBuilder().copy(id);
         }
-        builder.typeid = GTORecipeBuilder.getTypeID(builder.id, builder.recipeType);
-        builder.deleted = GTORecipes.GT_FILTER_RECIPES != null && GTORecipes.GT_FILTER_RECIPES.contains(builder.typeid);
+        if (filter != null && filter.containsKey(id)) {
+            builder.deleted = true;
+            filter.put(id, true);
+        }
         return builder;
     }
 
@@ -244,6 +249,14 @@ public class GTORecipeType extends GTRecipeType {
     @Override
     public GTORecipeType setVoltageTextOffset(final int voltageTextOffset) {
         return (GTORecipeType) super.setVoltageTextOffset(voltageTextOffset);
+    }
+
+    public GTORecipeBuilder builder(String id, Object... append) {
+        return recipeBuilder(GTOCore.id(id), append);
+    }
+
+    public void addFilter(String id) {
+        filter.put(GTCEu.id(id), false);
     }
 
     private GTORecipeBuilder getRecipeBuilder() {
