@@ -94,6 +94,7 @@ public class VoidTransporterMachine extends ElectricMultiblockMachine {
     }
 
     private boolean check() {
+        getRecipeLogic().updateTickSubscription();
         return energyContainer.getEnergyStored() >= 409600 && energyContainer.removeEnergy(409600) == 409600;
     }
 

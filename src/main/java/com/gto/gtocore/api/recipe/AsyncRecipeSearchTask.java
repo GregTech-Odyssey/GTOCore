@@ -39,7 +39,7 @@ public class AsyncRecipeSearchTask {
         return searchRecipe(logic);
     }
 
-    private static final CopyOnWriteArrayList<AsyncRecipeSearchTask> tasks = new CopyOnWriteArrayList<>();
+    private static final CopyOnWriteArraySet<AsyncRecipeSearchTask> tasks = new CopyOnWriteArraySet<>();
     private static ScheduledExecutorService executorService;
     private final static ThreadFactory THREAD_FACTORY = new ThreadFactoryBuilder()
             .setNameFormat("Async Recipe Search Thread-%d")
@@ -98,7 +98,6 @@ public class AsyncRecipeSearchTask {
                     try {
                         task.result = task.searchRecipe();
                         task.hasRequest = false;
-                        GTOCore.LOGGER.error("Recipe search result: {}", task.result);
                     } catch (Throwable e) {
                         GTOCore.LOGGER.error("Error while searching recipe: {}", e.getMessage());
                     }

@@ -1,6 +1,7 @@
 package com.gto.gtocore.common.machine.generator;
 
 import com.gto.gtocore.api.data.GTODimensions;
+import com.gto.gtocore.client.ClientUtil;
 import com.gto.gtocore.common.item.KineticRotorItem;
 import com.gto.gtocore.common.machine.multiblock.part.BallHatchPartMachine;
 
@@ -50,13 +51,13 @@ public final class WindMillTurbineMachine extends TieredEnergyMachine implements
     private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
             WindMillTurbineMachine.class, TieredEnergyMachine.MANAGED_FIELD_HOLDER);
 
+    private static long time;
+
     @Getter
     @Persisted
     @DescSynced
     private float spinSpeed;
 
-    @Getter
-    @DescSynced
     private float bladeAngle;
 
     @Getter
@@ -108,6 +109,11 @@ public final class WindMillTurbineMachine extends TieredEnergyMachine implements
             energySubs.unsubscribe();
             energySubs = null;
         }
+    }
+
+    public float getBladeAngle() {
+        if (ClientUtil.synchronizedTick()) bladeAngle += spinSpeed;
+        return bladeAngle;
     }
 
     private void checkEnergy() {
@@ -176,7 +182,6 @@ public final class WindMillTurbineMachine extends TieredEnergyMachine implements
                 inventory.storage.setStackInSlot(0, ItemStack.EMPTY);
             }
         }
-        bladeAngle += spinSpeed;
     }
 
     @Override

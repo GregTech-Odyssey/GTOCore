@@ -153,6 +153,7 @@
         "gtmt.WirelessMachinesMixin",
         "jade.CommonProxyMixin",
         "jei.JEIConfigMixin",
+        "lowdraglib.AsyncThreadDataMixin",
         "mc.AbstractSkeletonMixin",
         "mc.BlockBehaviourMixin",
         "mc.DragonFireballMixin",
