@@ -40,7 +40,7 @@ public abstract class WorkableMultiblockMachineMixin extends MultiblockControlle
         return instance.addChangedListener(() -> {
             getRecipeLogic().updateTickSubscription();
             if (this instanceof IEnhancedMultiblockMachine enhancedRecipeLogicMachine) {
-                enhancedRecipeLogicMachine.onContentChanges();
+                enhancedRecipeLogicMachine.onContentChanges(instance);
             }
         });
     }

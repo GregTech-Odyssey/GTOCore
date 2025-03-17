@@ -25,6 +25,7 @@ import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
+import java.util.Iterator;
 import java.util.List;
 
 @Mixin(value = RecipeLogic.class, remap = false)
@@ -119,6 +120,12 @@ public abstract class RecipeLogicMixin extends MachineTrait implements IEnhanced
 
     @Shadow
     protected abstract void doDamping();
+
+    @Shadow
+    public abstract Iterator<GTRecipe> searchRecipe();
+
+    @Shadow
+    protected abstract void handleSearchingRecipes(Iterator<GTRecipe> matches);
 
     @Unique
     private void gTOCore$unsubscribe() {
@@ -233,21 +240,26 @@ public abstract class RecipeLogicMixin extends MachineTrait implements IEnhanced
                 }
             } else {
                 lastOriginRecipe = null;
-                if (gtocore$hasAsyncTask()) {
-                    if (gtocore$asyncRecipeSearchTask.getResult() != null) {
-                        AsyncRecipeSearchTask.IResult result = gtocore$asyncRecipeSearchTask.getResult();
-                        if (result.recipe() != null) {
-                            setupRecipe(result.modified());
-                            if (lastRecipe != null && getStatus() == RecipeLogic.Status.WORKING) {
-                                lastOriginRecipe = result.recipe();
-                                lastFailedMatches = null;
-                                if (gTOCore$lockRecipe) gTOCore$originRecipe = lastOriginRecipe;
+                if (canLockRecipe()) {
+                    if (gtocore$hasAsyncTask()) {
+                        if (gtocore$asyncRecipeSearchTask.getResult() != null) {
+                            AsyncRecipeSearchTask.IResult result = gtocore$asyncRecipeSearchTask.getResult();
+                            if (result.recipe() != null) {
+                                setupRecipe(result.modified());
+                                if (lastRecipe != null && getStatus() == RecipeLogic.Status.WORKING) {
+                                    lastOriginRecipe = result.recipe();
+                                    lastFailedMatches = null;
+                                    if (gTOCore$lockRecipe) gTOCore$originRecipe = lastOriginRecipe;
+                                }
                             }
+                            gtocore$asyncRecipeSearchTask.clean();
                         }
-                        gtocore$asyncRecipeSearchTask.clean();
+                    } else {
+                        AsyncRecipeSearchTask.addAsyncLogic(getLogic());
                     }
                 } else {
-                    AsyncRecipeSearchTask.addAsyncLogic(getLogic());
+                    handleSearchingRecipes(searchRecipe());
+                    if (gTOCore$lockRecipe) gTOCore$originRecipe = lastOriginRecipe;
                 }
             }
         }

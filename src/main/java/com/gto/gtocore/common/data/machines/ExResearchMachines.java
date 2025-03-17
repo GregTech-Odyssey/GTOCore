@@ -70,7 +70,7 @@ public interface ExResearchMachines {
                             .or(abilities(EXPORT_ITEMS))
                             .or(abilities(EXPORT_FLUIDS))
                             .or(abilities(INPUT_ENERGY).setMaxGlobalLimited(2))
-                            .or(abilities(OPTICAL_DATA_TRANSMISSION).setMaxGlobalLimited(1))
+                            .or(abilities(COMPUTATION_DATA_TRANSMISSION).setMaxGlobalLimited(1))
                             .or(abilities(MAINTENANCE).setExactLimit(1)))
                     .build())
             .workableCasingRenderer(GTCEu.id("block/casings/hpca/computer_casing/back"), GTCEu.id("block/multiblock/large_miner"))

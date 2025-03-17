@@ -25,7 +25,8 @@ import java.util.Map;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
 
-import static it.unimi.dsi.fastutil.Hash.*;
+import static it.unimi.dsi.fastutil.Hash.DEFAULT_INITIAL_SIZE;
+import static it.unimi.dsi.fastutil.Hash.VERY_FAST_LOAD_FACTOR;
 
 public final class OptimizedBlockPattern extends BlockPattern {
 

@@ -48,7 +48,7 @@ public class AsyncRecipeSearchTask {
 
     private static int tick = 0;
 
-    public static void createExecutorService() {
+    private static void createExecutorService() {
         if (executorService != null && !executorService.isShutdown()) return;
         executorService = Executors.newSingleThreadScheduledExecutor(THREAD_FACTORY);
         executorService.scheduleAtFixedRate(AsyncRecipeSearchTask::searchingTask, 0, 50, TimeUnit.MILLISECONDS);

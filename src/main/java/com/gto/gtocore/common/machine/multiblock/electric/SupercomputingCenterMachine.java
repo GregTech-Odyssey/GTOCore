@@ -45,7 +45,7 @@ public final class SupercomputingCenterMachine extends StorageMultiblockMachine 
 
     private boolean incompatible, canBridge;
 
-    private int maxCWUt, coolingAmount, maxCoolingAmount, allocatedCWUt;
+    private int maxCWUt, coolingAmount, maxCoolingAmount, allocatedCWUt, cachedEUt;
 
     private long maxEUt;
 
@@ -130,8 +130,16 @@ public final class SupercomputingCenterMachine extends StorageMultiblockMachine 
     }
 
     @Override
-    public void afterWorking() {
+    public boolean onWorking() {
+        cachedEUt = allocatedCWUt;
+        if (allocatedCWUt == 0) return false;
         allocatedCWUt = 0;
+        return super.onWorking();
+    }
+
+    @Override
+    public void afterWorking() {
+        cachedEUt = 0;
         if (coolingAmount > maxCoolingAmount) {
             for (IMultiPart part : getParts()) {
                 if (part instanceof HPCAComponentPartMachine componentPartMachine && componentPartMachine.canBeDamaged()) {
@@ -142,10 +150,14 @@ public final class SupercomputingCenterMachine extends StorageMultiblockMachine 
         super.afterWorking();
     }
 
-    private int requestCWUt(int cwut) {
-        if (cwut > maxCWUt) return 0;
-        allocatedCWUt = cwut;
-        return cwut;
+    private int requestCWUt(boolean simulate, int cwut) {
+        int maxCWUt = getMaxCWUt();
+        int availableCWUt = maxCWUt - this.allocatedCWUt;
+        int toAllocate = Math.min(cwut, availableCWUt);
+        if (!simulate) {
+            this.allocatedCWUt += toAllocate;
+        }
+        return toAllocate;
     }
 
     @Override
@@ -153,12 +165,13 @@ public final class SupercomputingCenterMachine extends StorageMultiblockMachine 
         seen.add(this);
         if (incompatible) return 0;
         if (runRecipe != null) {
+            if (simulate) return requestCWUt(true, cwut);
             if (getRecipeLogic().isWorking()) {
-                return requestCWUt(cwut);
+                return requestCWUt(false, cwut);
             } else if (RecipeRunner.matchTickRecipe(this, runRecipe) && RecipeRunner.matchRecipe(this, runRecipe)) {
                 getRecipeLogic().setupRecipe(runRecipe);
                 if (getRecipeLogic().isWorking()) {
-                    return requestCWUt(cwut);
+                    return requestCWUt(false, cwut);
                 }
             }
         }
@@ -187,7 +200,7 @@ public final class SupercomputingCenterMachine extends StorageMultiblockMachine 
         } else {
             super.customText(textList);
             textList.add(Component.translatable("gtceu.multiblock.energy_consumption", maxEUt, GTValues.VNF[GTUtil.getTierByVoltage(maxEUt)]).withStyle(ChatFormatting.YELLOW));
-            textList.add(Component.translatable("gtceu.multiblock.hpca.computation", Component.literal(allocatedCWUt + " / " + getMaxCWUt()).append(Component.literal(" CWU/t")).withStyle(ChatFormatting.AQUA)).withStyle(ChatFormatting.GRAY));
+            textList.add(Component.translatable("gtceu.multiblock.hpca.computation", Component.literal(cachedEUt + " / " + getMaxCWUt()).append(Component.literal(" CWU/t")).withStyle(ChatFormatting.AQUA)).withStyle(ChatFormatting.GRAY));
             textList.add(Component.translatable("gtceu.multiblock.hpca.info_max_cooling_demand", Component.literal(coolingAmount + " / " + maxCoolingAmount).append(Component.literal(" mB/t")).withStyle(ChatFormatting.AQUA)).withStyle(ChatFormatting.GRAY));
         }
     }

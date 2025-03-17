@@ -9,7 +9,9 @@ import com.gto.gtocore.utils.MachineUtils;
 import com.gto.gtocore.utils.StringUtils;
 
 import com.gregtechceu.gtceu.api.GTValues;
+import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.machine.trait.IRecipeHandlerTrait;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 
@@ -133,14 +135,16 @@ public final class SlaughterhouseMachine extends StorageMultiblockMachine {
     }
 
     @Override
-    public void onContentChanges() {
-        attackDamage = 1;
-        MachineUtils.forEachInputItems(this, itemStack -> {
-            if (itemStack.getItem() instanceof SwordItem swordItem) {
-                attackDamage += (int) swordItem.getDamage();
-            }
-            return false;
-        });
+    public void onContentChanges(IRecipeHandlerTrait<?> handler) {
+        if (handler.getHandlerIO() == IO.IN) {
+            attackDamage = 1;
+            MachineUtils.forEachInputItems(this, itemStack -> {
+                if (itemStack.getItem() instanceof SwordItem swordItem) {
+                    attackDamage += (int) swordItem.getDamage();
+                }
+                return false;
+            });
+        }
     }
 
     @Override

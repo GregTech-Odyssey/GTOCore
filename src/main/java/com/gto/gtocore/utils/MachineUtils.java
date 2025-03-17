@@ -42,10 +42,15 @@ import net.minecraftforge.fluids.FluidStack;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
+/**
+ * MachineUtils 类提供了多种静态方法，用于处理GT机器（Machines）的相关操作。
+ * 该类包含了一系列工具方法，用于获取匹配的机器形状、处理机器的输入输出、检查电路配置等。
+ */
 public final class MachineUtils {
 
     public static final Function<MultiblockMachineDefinition, BlockPattern> EMPTY_PATTERN = (d) -> new BlockPattern(new TraceabilityPredicate[0][0][0], new RelativeDirection[0], new int[0][0], new int[0]);
@@ -168,6 +173,12 @@ public final class MachineUtils {
         textList.add(Component.translatable("gtceu.gui.machinemode", Component.translatable(type.registryName.toLanguageKey())).withStyle(ChatFormatting.AQUA));
     }
 
+    /**
+     * 获取控制器的并行数量。
+     * 
+     * @param machine 元机器对象，可以是多控制器机器。
+     * @return 并行数量，如果机器是多控制器且已形成，则返回并行接口的当前并行数量，否则返回默认值1。
+     */
     public static int getHatchParallel(MetaMachine machine) {
         if (machine instanceof IMultiController controller && controller.isFormed()) {
             Optional<IParallelHatch> parallelHatch = controller.getParallelHatch();
@@ -178,25 +189,32 @@ public final class MachineUtils {
         return 1;
     }
 
+    /**
+     * 检查机器中的电路配置。
+     *
+     * @param machine 机器对象，包含电路配置信息。
+     * @param sum     是否将所有电路配置值相加。如果为true，则返回所有电路配置值的总和；如果为false，则返回第一个找到的电路配置值。
+     * @return 电路配置值。如果sum为true，则返回所有电路配置值的总和；如果sum为false，则返回第一个找到的电路配置值。如果没有找到电路配置，则返回0。
+     */
     public static int checkingCircuit(IRecipeLogicMachine machine, boolean sum) {
-        int circuit = 0;
-        for (IRecipeHandler<?> handler : Objects.requireNonNullElseGet(machine.getCapabilitiesProxy().get(IO.IN, ItemRecipeCapability.CAP), Collections::<IRecipeHandler<?>>emptyList)) {
-            if (!handler.isProxy()) {
-                for (Object contents : handler.getContents()) {
-                    if (contents instanceof ItemStack itemStack && itemStack.is(GTItems.PROGRAMMED_CIRCUIT.get())) {
-                        int c = IntCircuitBehaviour.getCircuitConfiguration(itemStack);
-                        if (sum) {
-                            circuit += c;
-                        } else {
-                            return c;
-                        }
-                    }
-                }
+        AtomicInteger circuit = new AtomicInteger();
+        forEachInputItems(machine, itemStack -> {
+            if (itemStack.is(GTItems.PROGRAMMED_CIRCUIT.get())) {
+                circuit.addAndGet(IntCircuitBehaviour.getCircuitConfiguration(itemStack));
+                return !sum;
             }
-        }
-        return circuit;
+            return false;
+        });
+        return circuit.get();
     }
 
+    /**
+     * 获取指定流体在机器中的总量。
+     *
+     * @param machine 机器对象，用于获取输入流体信息。
+     * @param fluids  需要查询的流体数组。
+     * @return 一个整数数组，每个元素表示对应流体的总量。
+     */
     public static int[] getFluidAmount(IRecipeLogicMachine machine, Fluid... fluids) {
         int[] amounts = new int[fluids.length];
         Map<Fluid, Integer> fluidIndexMap = new Object2IntOpenHashMap<>();
@@ -213,6 +231,13 @@ public final class MachineUtils {
         return amounts;
     }
 
+    /**
+     * 获取指定物品在机器中的总量。
+     *
+     * @param machine 机器对象，用于获取输入物品信息。
+     * @param items   需要查询的物品数组。
+     * @return 一个整数数组，每个元素表示对应物品的总量。
+     */
     public static int[] getItemAmount(IRecipeLogicMachine machine, Item... items) {
         int[] amounts = new int[items.length];
         Map<Item, Integer> itemIndexMap = new Object2IntOpenHashMap<>();
@@ -229,6 +254,13 @@ public final class MachineUtils {
         return amounts;
     }
 
+    /**
+     * 遍历机器的所有输入物品，并对每个物品应用给定的函数。
+     * 如果函数对某个物品返回 true，则立即返回，不再继续遍历。
+     *
+     * @param machine  要遍历的机器实例
+     * @param function 应用于每个物品的函数，函数接收一个 ItemStack 参数并返回一个 Boolean 值
+     */
     public static void forEachInputItems(IRecipeLogicMachine machine, Function<ItemStack, Boolean> function) {
         for (IRecipeHandler<?> handler : Objects.requireNonNullElseGet(machine.getCapabilitiesProxy().get(IO.IN, ItemRecipeCapability.CAP), Collections::<IRecipeHandler<?>>emptyList)) {
             if (!handler.isProxy()) {
@@ -241,6 +273,13 @@ public final class MachineUtils {
         }
     }
 
+    /**
+     * 遍历机器的所有输入流体，并对每个流体应用给定的函数。
+     * 如果函数对某个流体返回true，则立即返回，不再继续遍历。
+     *
+     * @param machine  要遍历的机器实例
+     * @param function 要应用于每个流体栈的函数
+     */
     public static void forEachInputFluids(IRecipeLogicMachine machine, Function<FluidStack, Boolean> function) {
         for (IRecipeHandler<?> handler : Objects.requireNonNullElseGet(machine.getCapabilitiesProxy().get(IO.IN, FluidRecipeCapability.CAP), Collections::<IRecipeHandler<?>>emptyList)) {
             if (!handler.isProxy()) {

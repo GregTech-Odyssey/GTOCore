@@ -65,7 +65,8 @@ import java.util.function.UnaryOperator;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
-import static it.unimi.dsi.fastutil.Hash.*;
+import static it.unimi.dsi.fastutil.Hash.DEFAULT_INITIAL_SIZE;
+import static it.unimi.dsi.fastutil.Hash.VERY_FAST_LOAD_FACTOR;
 
 @SuppressWarnings({ "unchecked", "UnusedReturnValue" })
 @ParametersAreNonnullByDefault

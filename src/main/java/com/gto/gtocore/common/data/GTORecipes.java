@@ -26,9 +26,6 @@ import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 
-import static com.gregtechceu.gtceu.api.GTValues.*;
-import static com.gto.gtocore.common.data.GTORecipeTypes.*;
-
 public final class GTORecipes {
 
     public static boolean cache;
