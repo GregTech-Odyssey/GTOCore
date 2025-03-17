@@ -223,31 +223,31 @@ public interface MaterialC {
                 .iconSet(DULL)
                 .buildAndRegister().setFormula("C₁₀H₁₆N₂O₃S", false);
 
-        BasicMFPC = material("basic_mfpc", "多功能相变微粒（MFPC）")
-                .dust()
+        BasicMFPC = material("basic_mfpc", "多功能相变（MFPC）")
+                .polymer()
                 .color(0xC0C0C0)
-                .iconSet(SAND)
+                .iconSet(DULL)
                 // 后面画.iconSet(new MaterialIconSet("basic_mfpc"))
                 .buildAndRegister();
 
-        CascadeMFPC = material("cascade_mfpc", "串级相变MFPC微粒（Cascade-MFPC）")
-                .dust()
+        CascadeMFPC = material("cascade_mfpc", "串级相变MFPC（Cascade-MFPC）")
+                .polymer()
                 .color(0x303030)
-                .iconSet(SAND)
+                .iconSet(DULL)
                 // 后面画.iconSet(new MaterialIconSet("cascade_mfpc"))
                 .buildAndRegister();
 
-        InvalidationBasicMFPC = material("invalidation_basic_mfpc", "失效的多功能相变微粒（MFPC")
-                .dust()
+        InvalidationBasicMFPC = material("invalidation_basic_mfpc", "失效的多功能相变（MFPC）")
+                .polymer()
                 .color(0xC0C0C0)
-                .iconSet(SAND)
+                .iconSet(DULL)
                 // 后面画.iconSet(new MaterialIconSet("basic_mfpc"))
                 .buildAndRegister();
 
-        InvalidationCascadeMFPC = material("invalidation_cascade_mfpc", "失效的串级相变MFPC微粒（Cascade-MFPC）")
-                .dust()
+        InvalidationCascadeMFPC = material("invalidation_cascade_mfpc", "失效的串级相变MFPC（Cascade-MFPC）")
+                .polymer()
                 .color(0x303030)
-                .iconSet(SAND)
+                .iconSet(DULL)
                 // 后面画.iconSet(new MaterialIconSet("cascade_mfpc"))
                 .buildAndRegister();
     }

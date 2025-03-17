@@ -113,5 +113,6 @@ final class MachineLang {
         addENCN("gtocore.machine.recipe.run", "When running the % recipe: ", "运行%s配方时：");
         addENCN("gtocore.machine.parallel", "Maximum number of parallel: %s", "最大并行数：%s");
         addENCN("gtocore.machine.repeated_recipes", "Parallel repeated recipes [%s]", "并行重复配方[%s]");
+        addENCN("gtocore.machine.cwut_modification", "Hashrate correction factor: %s", "算力修正系数：%s");
     }
 }
