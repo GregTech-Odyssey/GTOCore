@@ -3,6 +3,7 @@ package com.gto.gtocore.common.forge;
 import com.gto.gtocore.api.data.GTODimensions;
 import com.gto.gtocore.api.entity.IEnhancedPlayer;
 import com.gto.gtocore.api.machine.feature.IVacuumMachine;
+import com.gto.gtocore.api.recipe.AsyncRecipeSearchTask;
 import com.gto.gtocore.common.data.GTOBlocks;
 import com.gto.gtocore.common.data.GTOCommands;
 import com.gto.gtocore.common.data.GTOItems;
@@ -51,6 +52,7 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.level.BlockEvent;
 import net.minecraftforge.event.level.LevelEvent;
 import net.minecraftforge.event.server.ServerStartedEvent;
+import net.minecraftforge.event.server.ServerStoppingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 import com.hepdd.gtmthings.data.WirelessEnergySavaedData;
@@ -278,6 +280,11 @@ public final class ForgeCommonEvent {
     @SubscribeEvent
     public static void onServerStartedEvent(ServerStartedEvent event) {
         if (GTOConfig.INSTANCE.selfRestraint) ServerUtils.getPersistentData().putBoolean("srm", true);
+    }
+
+    @SubscribeEvent
+    public static void onServerStartedEvent(ServerStoppingEvent event) {
+        AsyncRecipeSearchTask.releaseExecutorService();
     }
 
     @SubscribeEvent

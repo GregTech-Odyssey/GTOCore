@@ -4,7 +4,7 @@ import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.api.machine.feature.multiblock.ICoilMachine;
 import com.gto.gtocore.api.machine.multiblock.*;
 import com.gto.gtocore.api.machine.part.GTOPartAbility;
-import com.gto.gtocore.api.machine.trait.ILockableRecipe;
+import com.gto.gtocore.api.machine.trait.IEnhancedRecipeLogic;
 import com.gto.gtocore.api.pattern.GTOPredicates;
 import com.gto.gtocore.common.data.*;
 import com.gto.gtocore.common.machine.mana.multiblock.ElectricManaMultiblockMachine;
@@ -496,7 +496,7 @@ public interface MultiBlockA {
             .afterWorking(m -> {
                 if (m.getRecipeLogic().getLastRecipe() != null && m.getRecipeLogic().getLastRecipe().data.getBoolean("isCustom")) {
                     m.getRecipeLogic().markLastRecipeDirty();
-                    ((ILockableRecipe) m.getRecipeLogic()).gTOCore$setLockRecipe(false);
+                    ((IEnhancedRecipeLogic) m.getRecipeLogic()).gTOCore$setLockRecipe(false);
                 }
             })
             .register();

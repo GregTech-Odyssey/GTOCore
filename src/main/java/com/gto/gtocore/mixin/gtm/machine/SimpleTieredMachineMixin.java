@@ -1,6 +1,6 @@
 package com.gto.gtocore.mixin.gtm.machine;
 
-import com.gto.gtocore.api.machine.trait.ILockableRecipe;
+import com.gto.gtocore.api.machine.trait.IEnhancedRecipeLogic;
 
 import com.gregtechceu.gtceu.api.gui.fancy.ConfiguratorPanel;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
@@ -40,6 +40,6 @@ public class SimpleTieredMachineMixin extends WorkableTieredMachine {
 
     @Inject(method = "attachConfigurators", at = @At(value = "TAIL"), remap = false)
     private void attachConfigurators(ConfiguratorPanel configuratorPanel, CallbackInfo ci) {
-        ILockableRecipe.attachRecipeLockable(configuratorPanel, getRecipeLogic());
+        IEnhancedRecipeLogic.attachRecipeLockable(configuratorPanel, getRecipeLogic());
     }
 }

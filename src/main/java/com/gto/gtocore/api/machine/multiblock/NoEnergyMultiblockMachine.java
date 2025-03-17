@@ -3,7 +3,7 @@ package com.gto.gtocore.api.machine.multiblock;
 import com.gto.gtocore.api.machine.feature.multiblock.ICheckPatternMachine;
 import com.gto.gtocore.api.machine.feature.multiblock.IEnhancedMultiblockMachine;
 import com.gto.gtocore.api.machine.feature.multiblock.IMultiblockTraitHolder;
-import com.gto.gtocore.api.machine.trait.ILockableRecipe;
+import com.gto.gtocore.api.machine.trait.IEnhancedRecipeLogic;
 import com.gto.gtocore.api.machine.trait.MultiblockTrait;
 import com.gto.gtocore.utils.MachineUtils;
 
@@ -112,7 +112,7 @@ public class NoEnergyMultiblockMachine extends WorkableMultiblockMachine impleme
     @Override
     public void attachConfigurators(ConfiguratorPanel configuratorPanel) {
         IFancyUIMachine.super.attachConfigurators(configuratorPanel);
-        ILockableRecipe.attachRecipeLockable(configuratorPanel, getRecipeLogic());
+        IEnhancedRecipeLogic.attachRecipeLockable(configuratorPanel, getRecipeLogic());
         ICheckPatternMachine.attachConfigurators(configuratorPanel, this);
     }
 

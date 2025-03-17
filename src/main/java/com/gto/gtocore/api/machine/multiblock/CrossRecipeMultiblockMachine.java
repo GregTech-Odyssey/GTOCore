@@ -1,13 +1,12 @@
 package com.gto.gtocore.api.machine.multiblock;
 
-import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.api.gui.ParallelConfigurator;
 import com.gto.gtocore.api.machine.feature.multiblock.IOverclockConfigMachine;
 import com.gto.gtocore.api.machine.feature.multiblock.IParallelMachine;
 import com.gto.gtocore.api.machine.trait.CustomParallelTrait;
 import com.gto.gtocore.api.machine.trait.CustomRecipeLogic;
-import com.gto.gtocore.api.recipe.GTORecipeBuilder;
-import com.gto.gtocore.api.recipe.RecipeRunner;
+import com.gto.gtocore.api.recipe.AsyncCrossRecipeSearchTask;
+import com.gto.gtocore.api.recipe.AsyncRecipeSearchTask;
 import com.gto.gtocore.common.data.GTORecipeModifiers;
 import com.gto.gtocore.common.machine.multiblock.part.ThreadHatchPartMachine;
 import com.gto.gtocore.utils.ItemUtils;
@@ -27,7 +26,6 @@ import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 
@@ -38,15 +36,12 @@ import lombok.Getter;
 import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
 public class CrossRecipeMultiblockMachine extends ElectricMultiblockMachine implements IParallelMachine, IOverclockConfigMachine {
-
-    private static final CompoundTag EMPTY_TAG = new CompoundTag();
 
     public static CrossRecipeMultiblockMachine createHatchParallel(IMachineBlockEntity holder) {
         return new CrossRecipeMultiblockMachine(holder, false, true, MachineUtils::getHatchParallel);
@@ -65,6 +60,7 @@ public class CrossRecipeMultiblockMachine extends ElectricMultiblockMachine impl
     }
 
     @Persisted
+    @Getter
     private final Set<GTRecipe> originRecipes = new ObjectOpenHashSet<>();
     @Persisted
     @Getter
@@ -93,7 +89,7 @@ public class CrossRecipeMultiblockMachine extends ElectricMultiblockMachine impl
         return infinite ? 128 : threadHatchPartMachine == null ? 1 : threadHatchPartMachine.getCurrentThread();
     }
 
-    private boolean isRepeatedRecipes() {
+    public boolean isRepeatedRecipes() {
         if (threadHatchPartMachine == null) return true;
         return threadHatchPartMachine.isRepeatedRecipes();
     }
@@ -109,9 +105,28 @@ public class CrossRecipeMultiblockMachine extends ElectricMultiblockMachine impl
                 .setTooltipsSupplier(pressed -> List.of(Component.translatable("gtceu.top.recipe_output").append(Component.translatable(pressed ? "waila.ae2.Showing" : "config.jade.display_fluids_none")))));
     }
 
+    private GTRecipe findAndHandleRecipe() {
+        if (getRecipeLogic().gtocore$getAsyncRecipeSearchTask() instanceof AsyncCrossRecipeSearchTask task && (task.isNext() || task.isHasTask())) {
+            task.setNext(false);
+            if (task.getResult() != null) {
+                if (task.getResult() instanceof AsyncCrossRecipeSearchTask.Result result && result.recipe() != null) {
+                    lastRecipes.addAll(result.lastRecipes());
+                    GTRecipe recipe = result.recipe();
+                    task.setNext(true);
+                    task.clean();
+                    return recipe;
+                }
+                task.clean();
+            }
+        } else {
+            AsyncRecipeSearchTask.addAsyncLogic(getRecipeLogic());
+        }
+        return null;
+    }
+
     @Override
     protected @NotNull RecipeLogic createRecipeLogic(Object @NotNull... args) {
-        return new CrossRecipeLogic(this, this::getRecipe);
+        return new CrossRecipeLogic(this, this::findAndHandleRecipe);
     }
 
     @NotNull
@@ -120,73 +135,7 @@ public class CrossRecipeMultiblockMachine extends ElectricMultiblockMachine impl
         return (CrossRecipeLogic) super.getRecipeLogic();
     }
 
-    private GTRecipe getRecipe() {
-        if (!hasProxies()) return null;
-        GTRecipe match = LookupRecipe();
-        if (match == null) return null;
-        long totalEu = 0;
-        lastRecipes.clear();
-        for (int i = 0; i < getThread(); i++) {
-            totalEu += match.duration * match.data.getLong("eut");
-            match.data = EMPTY_TAG;
-            if (isRepeatedRecipes()) match.id = GTOCore.id("thread_" + i);
-            lastRecipes.add(match);
-            match = LookupRecipe();
-            if (match == null) break;
-        }
-        long maxEUt = getOverclockVoltage();
-        double d = (double) totalEu / maxEUt;
-        int limit = gTOCore$getOCLimit();
-        return GTORecipeBuilder.ofRaw().EUt(d >= limit ? maxEUt : (long) (maxEUt * d / limit)).duration((int) Math.max(d, limit)).buildRawRecipe();
-    }
-
-    private GTRecipe LookupRecipe() {
-        boolean isLocked = getRecipeLogic().gTOCore$isLockRecipe();
-        if (isLocked && originRecipes.size() >= getThread()) {
-            for (GTRecipe recipe : originRecipes) {
-                recipe = getRecipe(recipe.copy());
-                if (recipe != null) return recipe;
-            }
-        } else {
-            Iterator<GTRecipe> matches = getRecipeType().searchRecipe(this);
-            while (matches != null && matches.hasNext()) {
-                GTRecipe recipe = matches.next();
-                if (recipe != null) {
-                    if (isRepeatedRecipes() || !lastRecipes.contains(recipe)) {
-                        GTRecipe modify = getRecipe(recipe.copy());
-                        if (modify != null) {
-                            if (isLocked) originRecipes.add(recipe);
-                            return modify;
-                        }
-                    }
-                }
-            }
-        }
-        return null;
-    }
-
-    private GTRecipe getRecipe(GTRecipe recipe) {
-        int rt = RecipeHelper.getRecipeEUtTier(recipe);
-        if (rt <= getMaxOverclockTier() && recipe.checkConditions(getRecipeLogic()).isSuccess()) {
-            recipe.conditions.clear();
-            for (IMultiPart part : getParts()) {
-                recipe = part.modifyRecipe(recipe);
-                if (recipe == null) return null;
-            }
-            recipe = modifyRecipe(recipe);
-            if (RecipeRunner.matchRecipeInput(this, recipe) && RecipeRunner.handleRecipeInput(this, recipe)) {
-                recipe.ocLevel = getTier() - rt;
-                recipe.inputs.clear();
-                long eut = RecipeHelper.getInputEUt(recipe);
-                recipe.data.putLong("eut", eut);
-                recipe.tickInputs.clear();
-                return recipe;
-            }
-        }
-        return null;
-    }
-
-    protected GTRecipe modifyRecipe(GTRecipe recipe) {
+    public GTRecipe modifyRecipe(GTRecipe recipe) {
         return GTORecipeModifiers.accurateParallel(this, recipe, isHatchParallel ? getMaxParallel() : getParallel());
     }
 
@@ -281,6 +230,11 @@ public class CrossRecipeMultiblockMachine extends ElectricMultiblockMachine impl
 
         CrossRecipeLogic(IRecipeLogicMachine machine, Supplier<GTRecipe> recipeSupplier) {
             super(machine, recipeSupplier);
+        }
+
+        @Override
+        public AsyncRecipeSearchTask gtocore$createAsyncRecipeSearchTask() {
+            return new AsyncCrossRecipeSearchTask(getLogic());
         }
 
         @Override

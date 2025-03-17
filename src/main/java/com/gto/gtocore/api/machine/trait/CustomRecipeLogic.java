@@ -9,7 +9,7 @@ import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 
 import java.util.function.Supplier;
 
-public class CustomRecipeLogic extends RecipeLogic implements ILockableRecipe {
+public class CustomRecipeLogic extends RecipeLogic implements IEnhancedRecipeLogic {
 
     private final Supplier<GTRecipe> recipeSupplier;
 
@@ -44,7 +44,7 @@ public class CustomRecipeLogic extends RecipeLogic implements ILockableRecipe {
             setStatus(Status.SUSPEND);
             suspendAfterFinish = false;
         } else {
-            if (tryLast && lastRecipe != null && RecipeRunner.matchRecipe(machine, lastRecipe) && RecipeRunner.matchTickRecipe(machine, lastRecipe) && lastRecipe.checkConditions(this).isSuccess()) {
+            if (!recipeDirty && tryLast && lastRecipe != null && RecipeRunner.matchRecipe(machine, lastRecipe) && RecipeRunner.matchTickRecipe(machine, lastRecipe) && lastRecipe.checkConditions(this).isSuccess()) {
                 setupRecipe(lastRecipe);
                 return;
             } else {

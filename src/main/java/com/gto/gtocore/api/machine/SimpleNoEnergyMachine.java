@@ -1,7 +1,7 @@
 package com.gto.gtocore.api.machine;
 
 import com.gto.gtocore.api.machine.feature.multiblock.IEnhancedMultiblockMachine;
-import com.gto.gtocore.api.machine.trait.ILockableRecipe;
+import com.gto.gtocore.api.machine.trait.IEnhancedRecipeLogic;
 
 import com.gregtechceu.gtceu.api.capability.recipe.*;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
@@ -378,7 +378,7 @@ public class SimpleNoEnergyMachine extends TieredMachine implements IRecipeLogic
     public void attachConfigurators(ConfiguratorPanel configuratorPanel) {
         IFancyUIMachine.super.attachConfigurators(configuratorPanel);
         configuratorPanel.attachConfigurators(new CircuitFancyConfigurator(circuitInventory.storage));
-        ILockableRecipe.attachRecipeLockable(configuratorPanel, recipeLogic);
+        IEnhancedRecipeLogic.attachRecipeLockable(configuratorPanel, recipeLogic);
     }
 
     public static final BiFunction<ResourceLocation, GTRecipeType, EditableMachineUI> EDITABLE_UI_CREATOR = Util.memoize((path, recipeType) -> new EditableMachineUI("simple", path, () -> {

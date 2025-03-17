@@ -22,7 +22,7 @@ public final class AccelerateHatchPartMachine extends AmountConfigurationHatchPa
             if (t > 0) {
                 reduction = Math.min(100, reduction + 20 * t);
             }
-            recipe.duration = recipe.duration * 100 / reduction;
+            recipe.duration = Math.max(1, recipe.duration * 100 / reduction);
         }
         return recipe;
     }

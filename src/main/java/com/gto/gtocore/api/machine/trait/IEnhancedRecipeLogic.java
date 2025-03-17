@@ -1,5 +1,7 @@
 package com.gto.gtocore.api.machine.trait;
 
+import com.gto.gtocore.api.recipe.AsyncRecipeSearchTask;
+
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.fancy.ConfiguratorPanel;
 import com.gregtechceu.gtceu.api.gui.fancy.IFancyConfiguratorButton;
@@ -9,11 +11,25 @@ import net.minecraft.network.chat.Component;
 
 import java.util.List;
 
-public interface ILockableRecipe {
+public interface IEnhancedRecipeLogic {
 
     default RecipeLogic getLogic() {
         return (RecipeLogic) this;
     }
+
+    default boolean gtocore$hasAsyncTask() {
+        return false;
+    }
+
+    default AsyncRecipeSearchTask gtocore$createAsyncRecipeSearchTask() {
+        return new AsyncRecipeSearchTask(getLogic());
+    }
+
+    default AsyncRecipeSearchTask gtocore$getAsyncRecipeSearchTask() {
+        return null;
+    }
+
+    default void gtocore$setAsyncRecipeSearchTask(AsyncRecipeSearchTask task) {}
 
     default boolean canLockRecipe() {
         return getLogic().getClass() == RecipeLogic.class;
@@ -26,7 +42,7 @@ public interface ILockableRecipe {
     default void gTOCore$setLockRecipe(boolean lockRecipe) {}
 
     static void attachRecipeLockable(ConfiguratorPanel configuratorPanel, RecipeLogic logic) {
-        if (logic instanceof ILockableRecipe lockableRecipe && lockableRecipe.canLockRecipe()) {
+        if (logic instanceof IEnhancedRecipeLogic lockableRecipe && lockableRecipe.canLockRecipe()) {
             configuratorPanel.attachConfigurators(new IFancyConfiguratorButton.Toggle(
                     GuiTextures.BUTTON_PUBLIC_PRIVATE.getSubTexture(0, 0, 1, 0.5),
                     GuiTextures.BUTTON_PUBLIC_PRIVATE.getSubTexture(0, 0.5, 1, 0.5),

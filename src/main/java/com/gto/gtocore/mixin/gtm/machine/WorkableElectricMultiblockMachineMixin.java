@@ -3,7 +3,7 @@ package com.gto.gtocore.mixin.gtm.machine;
 import com.gto.gtocore.api.gui.OverclockConfigurator;
 import com.gto.gtocore.api.machine.feature.multiblock.ICheckPatternMachine;
 import com.gto.gtocore.api.machine.feature.multiblock.IOverclockConfigMachine;
-import com.gto.gtocore.api.machine.trait.ILockableRecipe;
+import com.gto.gtocore.api.machine.trait.IEnhancedRecipeLogic;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.IControllable;
@@ -101,7 +101,7 @@ public abstract class WorkableElectricMultiblockMachineMixin extends WorkableMul
                     configuratorPanel.attachConfigurators(configurator);
             }
         }
-        ILockableRecipe.attachRecipeLockable(configuratorPanel, getRecipeLogic());
+        IEnhancedRecipeLogic.attachRecipeLockable(configuratorPanel, getRecipeLogic());
         ICheckPatternMachine.attachConfigurators(configuratorPanel, self());
     }
 

@@ -1,7 +1,8 @@
 package com.gto.gtocore.mixin.gtm.api.machine;
 
 import com.gto.gtocore.api.machine.feature.multiblock.IEnhancedMultiblockMachine;
-import com.gto.gtocore.api.machine.trait.ILockableRecipe;
+import com.gto.gtocore.api.machine.trait.IEnhancedRecipeLogic;
+import com.gto.gtocore.api.recipe.AsyncRecipeSearchTask;
 import com.gto.gtocore.api.recipe.RecipeRunner;
 import com.gto.gtocore.config.GTOConfig;
 
@@ -24,11 +25,13 @@ import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
-import java.util.Iterator;
 import java.util.List;
 
 @Mixin(value = RecipeLogic.class, remap = false)
-public abstract class RecipeLogicMixin extends MachineTrait implements ILockableRecipe {
+public abstract class RecipeLogicMixin extends MachineTrait implements IEnhancedRecipeLogic {
+
+    @Unique
+    private AsyncRecipeSearchTask gtocore$asyncRecipeSearchTask;
 
     @Unique
     @Persisted(key = "lockRecipe")
@@ -99,9 +102,6 @@ public abstract class RecipeLogicMixin extends MachineTrait implements ILockable
     public List<GTRecipe> lastFailedMatches;
 
     @Shadow
-    protected int fuelTime;
-
-    @Shadow
     protected TickableSubscription subscription;
 
     @Shadow
@@ -115,12 +115,6 @@ public abstract class RecipeLogicMixin extends MachineTrait implements ILockable
     protected boolean recipeDirty;
 
     @Shadow
-    protected abstract void handleSearchingRecipes(Iterator<GTRecipe> matches);
-
-    @Shadow
-    public abstract Iterator<GTRecipe> searchRecipe();
-
-    @Shadow
     public abstract void updateTickSubscription();
 
     @Shadow
@@ -132,6 +126,26 @@ public abstract class RecipeLogicMixin extends MachineTrait implements ILockable
             subscription.unsubscribe();
             subscription = null;
         }
+    }
+
+    @Override
+    public boolean gtocore$hasAsyncTask() {
+        return gtocore$asyncRecipeSearchTask != null && gtocore$asyncRecipeSearchTask.isHasTask();
+    }
+
+    @Override
+    public void gtocore$setAsyncRecipeSearchTask(AsyncRecipeSearchTask task) {
+        gtocore$asyncRecipeSearchTask = task;
+    }
+
+    @Override
+    public AsyncRecipeSearchTask gtocore$getAsyncRecipeSearchTask() {
+        return gtocore$asyncRecipeSearchTask;
+    }
+
+    @Override
+    public void onMachineUnLoad() {
+        AsyncRecipeSearchTask.removeAsyncLogic(getLogic());
     }
 
     @Override
@@ -177,7 +191,7 @@ public abstract class RecipeLogicMixin extends MachineTrait implements ILockable
                 }
             } else if (lastRecipe != null) {
                 findAndHandleRecipe();
-            } else if (getMachine().getOffsetTimer() % gtocore$interval == 0) {
+            } else if (gtocore$hasAsyncTask() || getMachine().getOffsetTimer() % gtocore$interval == 0) {
                 if (lastFailedMatches != null) {
                     for (GTRecipe match : lastFailedMatches) {
                         if (checkMatchedRecipeAvailable(match)) {
@@ -187,16 +201,13 @@ public abstract class RecipeLogicMixin extends MachineTrait implements ILockable
                     }
                 }
                 findAndHandleRecipe();
-                if (lastRecipe == null && isIdle() && !machine.keepSubscribing() && !recipeDirty && lastFailedMatches == null) {
+                if (!gtocore$hasAsyncTask() && lastRecipe == null && isIdle() && !machine.keepSubscribing() && !recipeDirty && lastFailedMatches == null) {
                     if (gtocore$interval < GTOConfig.INSTANCE.recipeMaxCheckInterval) {
                         gtocore$interval <<= 1;
                     }
                     gTOCore$unsubscribe();
                 }
             }
-        }
-        if (fuelTime > 0) {
-            fuelTime--;
         }
     }
 
@@ -222,8 +233,22 @@ public abstract class RecipeLogicMixin extends MachineTrait implements ILockable
                 }
             } else {
                 lastOriginRecipe = null;
-                handleSearchingRecipes(searchRecipe());
-                if (gTOCore$lockRecipe) gTOCore$originRecipe = lastOriginRecipe;
+                if (gtocore$hasAsyncTask()) {
+                    if (gtocore$asyncRecipeSearchTask.getResult() != null) {
+                        AsyncRecipeSearchTask.IResult result = gtocore$asyncRecipeSearchTask.getResult();
+                        if (result.recipe() != null) {
+                            setupRecipe(result.modified());
+                            if (lastRecipe != null && getStatus() == RecipeLogic.Status.WORKING) {
+                                lastOriginRecipe = result.recipe();
+                                lastFailedMatches = null;
+                                if (gTOCore$lockRecipe) gTOCore$originRecipe = lastOriginRecipe;
+                            }
+                        }
+                        gtocore$asyncRecipeSearchTask.clean();
+                    }
+                } else {
+                    AsyncRecipeSearchTask.addAsyncLogic(getLogic());
+                }
             }
         }
         recipeDirty = false;
