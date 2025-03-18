@@ -611,4 +611,10 @@ public interface GTOMachines {
             .allRotation()
             .renderer(() -> new OverlayTieredMachineRenderer(IV, GTCEu.id("block/machine/part/data_access_hatch")))
             .register();
+
+    MachineDefinition THERMAL_CONDUCTOR_HATCH = machine("thermal_conductor_hatch", "导热剂仓", ThermalConductorHatchPartMachine::new)
+            .tier(LuV)
+            .allRotation()
+            .overlayTieredHullRenderer("neutron_sensor")
+            .register();
 }
