@@ -33,7 +33,6 @@ import com.gregtechceu.gtceu.api.registry.registrate.GTRegistrate;
 import com.gregtechceu.gtceu.api.registry.registrate.MultiblockMachineBuilder;
 import com.gregtechceu.gtceu.client.renderer.machine.OverlayTieredMachineRenderer;
 import com.gregtechceu.gtceu.client.renderer.machine.SimpleGeneratorMachineRenderer;
-import com.gregtechceu.gtceu.client.util.TooltipHelper;
 import com.gregtechceu.gtceu.common.data.machines.GTMachineUtils;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.LaserHatchPartMachine;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
@@ -41,7 +40,6 @@ import com.gregtechceu.gtceu.utils.FormattingUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 
 import com.hepdd.gtmthings.GTMThings;
@@ -68,8 +66,6 @@ import static com.gto.gtocore.utils.register.BlockRegisterUtils.addLang;
 public final class MachineRegisterUtils {
 
     private static final MultiblockMachineDefinition DUMMY_MULTIBLOCK = MultiblockMachineDefinition.createDefinition(GTOCore.id("dummy"));
-
-    public static final BiConsumer<ItemStack, List<Component>> GTO_MODIFY = (stack, components) -> components.add(Component.translatable("gtocore.registry.modify").withStyle(style -> style.withColor(TooltipHelper.RAINBOW.getCurrent())));
 
     public static final BiConsumer<IMultiController, List<Component>> CHEMICAL_PLANT_DISPLAY = (controller, components) -> {
         double value = 1 - ((ICoilMachine) controller).getCoilTier() * 0.05;
@@ -294,7 +290,6 @@ public final class MachineRegisterUtils {
                         .build())
                 .workableCasingRenderer(casingTexture, overlayModel)
                 .tooltips(Component.translatable("gtceu.universal.tooltip.base_production_eut", V[tier] << 1), Component.translatable("gtceu.universal.tooltip.uses_per_hour_lubricant", FluidHelper.getBucket()), tier > EV ? Component.translatable("gtceu.machine.large_combustion_engine.tooltip.boost_extreme", V[tier] << 3) : Component.translatable("gtceu.machine.large_combustion_engine.tooltip.boost_regular", V[tier] * 6));
-        if (isGTM) builder.tooltipBuilder(GTO_MODIFY);
         return builder.register();
     }
 
@@ -323,7 +318,6 @@ public final class MachineRegisterUtils {
                         .build())
                 .workableCasingRenderer(casingTexture, overlayModel)
                 .tooltips(Component.translatable("gtceu.universal.tooltip.base_production_eut", (int) (V[tier] * (special ? 2.5 : 2))), Component.translatable("gtceu.multiblock.turbine.efficiency_tooltip", VNF[tier]));
-        if (isGTM) builder.tooltipBuilder(GTO_MODIFY);
         return builder.register();
     }
 

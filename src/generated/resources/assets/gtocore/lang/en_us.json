@@ -1876,7 +1876,6 @@
   "gtocore.recipe.restricted_machine": "Only runnable on: %s",
   "gtocore.recipe.spool": "Spool Type: %s",
   "gtocore.recipe.vacuum.tier": "Vacuum Tier: %s",
-  "gtocore.registry.modify": "Modified by GregTech Odyssey",
   "gtocore.tier.advanced": "Advanced",
   "gtocore.tier.base": "Basic",
   "gtocore.tier.ca": "Casing Tier: %s",

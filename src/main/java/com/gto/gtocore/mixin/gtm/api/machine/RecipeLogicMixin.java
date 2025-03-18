@@ -326,7 +326,7 @@ public abstract class RecipeLogicMixin extends MachineTrait implements IEnhanced
         } else {
             setWaiting(result.reason().get());
         }
-        if (isWaiting() && machine.dampingWhenWaiting()) {
+        if (isWaiting()) {
             if (machine instanceof IEnhancedMultiblockMachine enhancedMultiblockMachine) {
                 enhancedMultiblockMachine.doDamping(getLogic());
             } else {

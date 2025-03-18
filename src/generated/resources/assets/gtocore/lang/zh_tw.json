@@ -1876,7 +1876,6 @@
   "gtocore.recipe.restricted_machine": "只能運行在：%s",
   "gtocore.recipe.spool": "線軸類型：%s",
   "gtocore.recipe.vacuum.tier": "真空等級：%s",
-  "gtocore.registry.modify": "由GregTech Odyssey修改",
   "gtocore.tier.advanced": "高級",
   "gtocore.tier.base": "基礎",
   "gtocore.tier.ca": "外殼等級：%s",

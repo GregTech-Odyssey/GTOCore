@@ -2,7 +2,7 @@ package com.gto.gtocore.api.machine.mana.feature;
 
 import com.gto.gtocore.api.capability.IManaContainer;
 
-import com.gregtechceu.gtceu.api.machine.MetaMachine;
+import com.gregtechceu.gtceu.api.machine.feature.IMachineFeature;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
@@ -11,23 +11,19 @@ import org.jetbrains.annotations.NotNull;
 import vazkii.botania.api.internal.ManaBurst;
 import vazkii.botania.api.mana.ManaCollector;
 
-public interface IManaMachine extends ManaCollector {
-
-    default MetaMachine getMachine() {
-        return (MetaMachine) this;
-    }
+public interface IManaMachine extends ManaCollector, IMachineFeature {
 
     @NotNull
     IManaContainer getManaContainer();
 
     @Override
     default Level getManaReceiverLevel() {
-        return getMachine().getLevel();
+        return self().getLevel();
     }
 
     @Override
     default BlockPos getManaReceiverPos() {
-        return getMachine().getPos();
+        return self().getPos();
     }
 
     @Override

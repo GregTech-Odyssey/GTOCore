@@ -189,6 +189,11 @@ public final class GeneratorArrayMachine extends StorageMultiblockMachine implem
         return (105 - 5 * tier);
     }
 
+    @Override
+    public boolean canVoidRecipeOutputs(RecipeCapability<?> capability) {
+        return capability != EURecipeCapability.CAP;
+    }
+
     @Nullable
     @Override
     protected GTRecipe getRealRecipe(GTRecipe recipe) {

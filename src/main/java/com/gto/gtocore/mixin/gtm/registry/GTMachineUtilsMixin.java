@@ -96,7 +96,6 @@ public final class GTMachineUtilsMixin {
                                         Component.translatable("gtceu.universal.tooltip.item_storage_capacity", tier * tier),
                                         Component.translatable("gtceu.universal.tooltip.fluid_storage_capacity_mult", tier, DualHatchPartMachine.getTankCapacity(DualHatchPartMachine.INITIAL_TANK_CAPACITY, tier)),
                                         Component.translatable("gtceu.universal.enabled"))
-                                .tooltipBuilder(MachineRegisterUtils.GTO_MODIFY)
                                 .register(),
                         tiersBetween(LV, GTCEuAPI.isHighTier() ? MAX : UHV)));
                 break;
@@ -112,7 +111,6 @@ public final class GTMachineUtilsMixin {
                                         Component.translatable("gtceu.universal.tooltip.item_storage_capacity", tier * tier),
                                         Component.translatable("gtceu.universal.tooltip.fluid_storage_capacity_mult", tier, DualHatchPartMachine.getTankCapacity(DualHatchPartMachine.INITIAL_TANK_CAPACITY, tier)),
                                         Component.translatable("gtceu.universal.enabled"))
-                                .tooltipBuilder(MachineRegisterUtils.GTO_MODIFY)
                                 .register(),
                         tiersBetween(LV, GTCEuAPI.isHighTier() ? MAX : UHV)));
                 break;
@@ -124,7 +122,6 @@ public final class GTMachineUtilsMixin {
                                 .tieredHullRenderer(GTCEu.id("block/machine/buffer"))
                                 .tooltips(Component.translatable("gtceu.machine.buffer.tooltip"), Component.translatable("gtceu.universal.tooltip.item_storage_capacity", BufferMachine.getInventorySize(tier)),
                                         Component.translatable("gtceu.universal.tooltip.fluid_storage_capacity_mult", BufferMachine.getTankSize(tier), FluidHatchPartMachine.getTankCapacity(DualHatchPartMachine.INITIAL_TANK_CAPACITY, tier)))
-                                .tooltipBuilder(MachineRegisterUtils.GTO_MODIFY)
                                 .register(),
                         tiersBetween(LV, GTCEuAPI.isHighTier() ? MAX : UHV)));
                 break;
@@ -182,7 +179,6 @@ public final class GTMachineUtilsMixin {
                         .tooltips(Component.translatable("gtocore.machine.efficiency.tooltip", GeneratorArrayMachine.getEfficiency(recipeType, tier)).append("%"))
                         .tooltips(Component.translatable("gtocore.universal.tooltip.ampere_out", GeneratorArrayMachine.getAmperage(tier)))
                         .tooltips(GTMachineUtils.workableTiered(tier, V[tier], V[tier] << 6, recipeType, tankScalingFunction.apply(tier), false))
-                        .tooltipBuilder(MachineRegisterUtils.GTO_MODIFY)
                         .register(),
                 tiers));
     }

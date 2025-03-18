@@ -26,7 +26,9 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
+import appeng.api.networking.pathing.ChannelMode;
 import appeng.api.storage.StorageCells;
+import appeng.core.AEConfig;
 import com.hepdd.gtmthings.common.item.AdvancedTerminalBehavior;
 import earth.terrarium.adastra.api.events.AdAstraEvents;
 
@@ -62,6 +64,7 @@ public class CommonProxy {
         event.enqueueWork(ItemRegisterUtils::InitUpgrades);
         StorageCells.addCellHandler(InfinityCellHandler.INSTANCE);
         StorageCells.addCellGuiHandler(new InfinityCellGuiHandler());
+        if (GTOConfig.getDifficulty() == 3) AEConfig.instance().setChannelModel(ChannelMode.DEFAULT);
 
         FusionReactorMachine.registerFusionTier(GTValues.UHV, " (MKIV)");
         FusionReactorMachine.registerFusionTier(GTValues.UEV, " (MKV)");

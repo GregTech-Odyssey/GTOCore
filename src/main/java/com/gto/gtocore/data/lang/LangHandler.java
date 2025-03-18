@@ -144,7 +144,6 @@ public final class LangHandler {
         addENCN("gtocore.recipe.vacuum.tier", "Vacuum Tier: %s", "真空等级：%s");
         addENCN("gtocore.recipe.restricted_machine", "Only runnable on: %s", "只能运行在：%s");
         addENCN("gtocore.recipe.heat.temperature", "External heat source is required: %s K", "需要外部热源：%s K");
-        addENCN("gtocore.registry.modify", "Modified by GregTech Odyssey", "由GregTech Odyssey修改");
         addENCN("gtocore.tier.advanced", "Advanced", "高级");
         addENCN("gtocore.tier.base", "Basic", "基础");
         addENCN("gtocore.tier.ultimate", "Ultimate", "终极");

@@ -10,12 +10,14 @@ import com.gto.gtocore.common.wireless.ExtendWirelessEnergyContainer;
 import com.gto.gtocore.utils.FunctionContainer;
 
 import com.gregtechceu.gtceu.api.GTValues;
+import com.gregtechceu.gtceu.api.machine.ConditionalSubscriptionHandler;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.IMachineLife;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.gregtechceu.gtceu.utils.GTUtil;
 
 import net.minecraft.ChatFormatting;
+import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
@@ -55,9 +57,38 @@ public final class WirelessEnergySubstationMachine extends NoRecipeLogicMultiblo
 
     private final TierCasingTrait tierCasingTrait;
 
+    private final ConditionalSubscriptionHandler tickSubs;
+
+    private int redstoneSignalOutput;
+
     public WirelessEnergySubstationMachine(IMachineBlockEntity holder) {
         super(holder);
         tierCasingTrait = new TierCasingTrait(this, GTOValues.GLASS_TIER);
+        tickSubs = new ConditionalSubscriptionHandler(this, this::tickUpdate, () -> isFormed && WirelessEnergyContainerCache != null);
+    }
+
+    private void tickUpdate() {
+        if (getOffsetTimer() % 100 == 0) {
+            WirelessEnergyContainer container = getWirelessEnergyContainer();
+            if (container != null && container.getCapacity().compareTo(BigInteger.ZERO) > 0) {
+                redstoneSignalOutput = container.getStorage().multiply(BigInteger.valueOf(15)).divide(container.getCapacity()).intValue();
+                updateSignal();
+            }
+            tickSubs.updateSubscription();
+        }
+    }
+
+    @Override
+    public int getOutputSignal(@Nullable Direction side) {
+        if (side == getFrontFacing().getOpposite()) {
+            return redstoneSignalOutput;
+        }
+        return 0;
+    }
+
+    @Override
+    public boolean canConnectRedstone(@NotNull Direction side) {
+        return side == getFrontFacing();
     }
 
     @Override
@@ -99,6 +130,7 @@ public final class WirelessEnergySubstationMachine extends NoRecipeLogicMultiblo
         }
         container.setLoss(i == 0 ? 0 : loss / i);
         container.setCapacity(capacity.multiply(BigInteger.valueOf(Math.max(1, i / 2))));
+        tickSubs.initialize(getLevel());
     }
 
     @Override

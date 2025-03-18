@@ -1,5 +1,9 @@
 package com.gto.gtocore.api.machine.feature.multiblock;
 
+import com.gto.gtocore.config.GTOConfig;
+
+import com.gregtechceu.gtceu.api.machine.feature.IMachineFeature;
+import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.machine.trait.IRecipeHandlerTrait;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
@@ -8,7 +12,7 @@ import com.gregtechceu.gtceu.api.sound.SoundEntry;
 /**
  * 该接口提供了一系列默认方法，用于处理多方块机器的常见操作，如配方完成、内容变化、声音获取、部件扫描以及阻尼处理等。
  */
-public interface IEnhancedMultiblockMachine {
+public interface IEnhancedMultiblockMachine extends IMachineFeature {
 
     /**
      * 当配方真正完成时调用，不同于afterWorking()。
@@ -36,6 +40,10 @@ public interface IEnhancedMultiblockMachine {
      * 多方块机器跳电时调用。
      */
     default void doDamping(RecipeLogic recipeLogic) {
-        if (recipeLogic.getProgress() > 1) recipeLogic.setProgress(1);
+        if (GTOConfig.getDifficulty() == 3) {
+            recipeLogic.interruptRecipe();
+        } else if (((IRecipeLogicMachine) self()).dampingWhenWaiting()) {
+            if (recipeLogic.getProgress() > 1) recipeLogic.setProgress(1);
+        }
     }
 }

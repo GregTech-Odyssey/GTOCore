@@ -591,7 +591,6 @@ public interface RecipeFilter {
         filters.add(AppEng.makeId("misc/deconstruction_fluix_block"));
         filters.add(AppEng.makeId("misc/fluixpearl"));
         filters.add(AppEng.makeId("network/cables/glass_fluix"));
-        filters.add(AppEng.makeId("network/blocks/controller"));
         filters.add(AppEng.makeId("network/crafting/patterns_blank"));
         filters.add(AppEng.makeId("network/parts/export_bus"));
         filters.add(AppEng.makeId("network/parts/import_bus"));

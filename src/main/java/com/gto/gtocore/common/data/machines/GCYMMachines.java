@@ -48,7 +48,6 @@ import static com.gregtechceu.gtceu.common.data.GCYMRecipeTypes.ALLOY_BLAST_RECI
 import static com.gregtechceu.gtceu.common.data.GTBlocks.*;
 import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.*;
 import static com.gregtechceu.gtceu.common.registry.GTRegistration.REGISTRATE;
-import static com.gto.gtocore.utils.register.MachineRegisterUtils.GTO_MODIFY;
 
 /**
  * @author Rundas
@@ -65,7 +64,6 @@ public interface GCYMMachines {
                     .abilities(PARALLEL_HATCH)
                     .workableTieredHullRenderer(GTCEu.id("block/machines/parallel_hatch_mk" + (tier - 4)))
                     .tooltips(Component.translatable("gtceu.machine.parallel_hatch_mk" + (tier + 1) + ".tooltip"))
-                    .tooltipBuilder(GTO_MODIFY)
                     .register(),
             IV, LuV, ZPM, UV, UHV, UEV, UIV, UXV, OpV, MAX);
 
@@ -76,7 +74,6 @@ public interface GCYMMachines {
             .tooltips(Component.translatable("gtceu.multiblock.parallelizable.tooltip"))
             .tooltips(Component.translatable("gtceu.machine.available_recipe_map_1.tooltip",
                     Component.translatable("gtceu.macerator")))
-            .tooltipBuilder(GTO_MODIFY)
             .rotationState(RotationState.ALL)
             .recipeType(MACERATOR_RECIPES)
             .recipeModifiers(true, GTORecipeModifiers.GCYM_OVERCLOCKING)
@@ -105,7 +102,6 @@ public interface GCYMMachines {
             .tooltips(Component.translatable("gtceu.multiblock.parallelizable.tooltip"))
             .tooltips(Component.translatable("gtceu.machine.available_recipe_map_2.tooltip",
                     Component.translatable("gtceu.ore_washer"), Component.translatable("gtceu.chemical_bath")))
-            .tooltipBuilder(GTO_MODIFY)
             .rotationState(RotationState.ALL)
             .recipeTypes(CHEMICAL_BATH_RECIPES, ORE_WASHER_RECIPES)
             .recipeModifiers(true, GTORecipeModifiers.GCYM_OVERCLOCKING)
@@ -137,7 +133,6 @@ public interface GCYMMachines {
             .tooltips(Component.translatable("gtceu.multiblock.parallelizable.tooltip"))
             .tooltips(Component.translatable("gtceu.machine.available_recipe_map_2.tooltip",
                     Component.translatable("gtceu.centrifuge"), Component.translatable("gtceu.thermal_centrifuge")))
-            .tooltipBuilder(GTO_MODIFY)
             .rotationState(RotationState.ALL)
             .recipeTypes(CENTRIFUGE_RECIPES, THERMAL_CENTRIFUGE_RECIPES)
             .recipeModifiers(true, GTORecipeModifiers.GCYM_OVERCLOCKING)
@@ -167,7 +162,6 @@ public interface GCYMMachines {
             .tooltips(Component.translatable("gtceu.multiblock.parallelizable.tooltip"))
             .tooltips(Component.translatable("gtceu.machine.available_recipe_map_1.tooltip",
                     Component.translatable("gtceu.mixer")))
-            .tooltipBuilder(GTO_MODIFY)
             .rotationState(RotationState.ALL)
             .recipeType(MIXER_RECIPES)
             .recipeModifiers(true, GTORecipeModifiers.GCYM_OVERCLOCKING)
@@ -200,7 +194,6 @@ public interface GCYMMachines {
             .tooltips(Component.translatable("gtceu.multiblock.parallelizable.tooltip"))
             .tooltips(Component.translatable("gtceu.machine.available_recipe_map_1.tooltip",
                     Component.translatable("gtceu.electrolyzer")))
-            .tooltipBuilder(GTO_MODIFY)
             .rotationState(RotationState.ALL)
             .recipeType(ELECTROLYZER_RECIPES)
             .recipeModifiers(true, GTORecipeModifiers.GCYM_OVERCLOCKING)
@@ -228,7 +221,6 @@ public interface GCYMMachines {
             .tooltips(Component.translatable("gtceu.machine.available_recipe_map_2.tooltip",
                     Component.translatable("gtceu.electromagnetic_separator"),
                     Component.translatable("gtceu.polarizer")))
-            .tooltipBuilder(GTO_MODIFY)
             .rotationState(RotationState.ALL)
             .recipeTypes(ELECTROMAGNETIC_SEPARATOR_RECIPES, POLARIZER_RECIPES)
             .recipeModifiers(true, GTORecipeModifiers.GCYM_OVERCLOCKING)
@@ -255,7 +247,6 @@ public interface GCYMMachines {
             .tooltips(Component.translatable("gtceu.multiblock.parallelizable.tooltip"))
             .tooltips(Component.translatable("gtceu.machine.available_recipe_map_2.tooltip",
                     Component.translatable("gtceu.packer"), Component.translatable("gtceu.unpacker")))
-            .tooltipBuilder(GTO_MODIFY)
             .rotationState(RotationState.ALL)
             .recipeType(PACKER_RECIPES)
             .recipeType(GTORecipeTypes.UNPACKER_RECIPES)
@@ -284,7 +275,6 @@ public interface GCYMMachines {
             .tooltips(Component.translatable("gtocore.machine.duration_multiplier.tooltip", 0.6))
             .tooltips(Component.translatable("gtceu.multiblock.parallelizable.tooltip"))
             .tooltips(Component.translatable("gtceu.machine.available_recipe_map_1.tooltip", Component.translatable("gtceu.assembler")))
-            .tooltipBuilder(GTO_MODIFY)
             .rotationState(RotationState.ALL)
             .recipeType(ASSEMBLER_RECIPES)
             .recipeModifiers(true, GTORecipeModifiers.GCYM_OVERCLOCKING)
@@ -313,7 +303,6 @@ public interface GCYMMachines {
             .tooltips(Component.translatable("gtceu.machine.available_recipe_map_1.tooltip",
                     Component.translatable("gtceu.circuit_assembler")))
             .tooltips(Component.translatable("gtceu.multiblock.exact_hatch_1.tooltip"))
-            .tooltipBuilder(GTO_MODIFY)
             .rotationState(RotationState.ALL)
             .recipeType(CIRCUIT_ASSEMBLER_RECIPES)
             .recipeModifiers(true, GTORecipeModifiers.GCYM_OVERCLOCKING)
@@ -347,7 +336,6 @@ public interface GCYMMachines {
             .tooltips(Component.translatable("gtocore.machine.duration_multiplier.tooltip", 0.6))
             .tooltips(Component.translatable("gtceu.multiblock.parallelizable.tooltip"))
             .tooltips(Component.translatable("gtceu.machine.available_recipe_map_1.tooltip", Component.translatable("gtceu.arc_furnace")))
-            .tooltipBuilder(GTO_MODIFY)
             .rotationState(RotationState.ALL)
             .recipeType(ARC_FURNACE_RECIPES)
             .recipeModifiers(true, GTORecipeModifiers.GCYM_OVERCLOCKING)
@@ -376,7 +364,6 @@ public interface GCYMMachines {
             .tooltips(Component.translatable("gtocore.machine.duration_multiplier.tooltip", 0.6))
             .tooltips(Component.translatable("gtceu.multiblock.parallelizable.tooltip"))
             .tooltips(Component.translatable("gtceu.machine.available_recipe_map_1.tooltip", Component.translatable("gtceu.laser_engraver")))
-            .tooltipBuilder(GTO_MODIFY)
             .rotationState(RotationState.ALL)
             .recipeType(LASER_ENGRAVER_RECIPES)
             .recipeModifiers(true, GTORecipeModifiers.GCYM_OVERCLOCKING)
@@ -407,7 +394,6 @@ public interface GCYMMachines {
             .tooltips(Component.translatable("gtceu.multiblock.parallelizable.tooltip"))
             .tooltips(Component.translatable("gtceu.machine.available_recipe_map_1.tooltip",
                     Component.translatable("gtceu.sifter")))
-            .tooltipBuilder(GTO_MODIFY)
             .rotationState(RotationState.ALL)
             .recipeType(SIFTER_RECIPES)
             .recipeModifiers(true, GTORecipeModifiers.GCYM_OVERCLOCKING)
@@ -445,7 +431,6 @@ public interface GCYMMachines {
             .tooltips(Component.translatable("gtocore.machine.coil_parallel"))
             .tooltips(Component.translatable("gtceu.machine.available_recipe_map_2.tooltip",
                     Component.translatable("gtceu.alloy_blast_smelter"), Component.translatable("gtceu.alloy_smelter")))
-            .tooltipBuilder(GTO_MODIFY)
             .rotationState(RotationState.ALL)
             .recipeType(ALLOY_BLAST_RECIPES)
             .recipeType(ALLOY_SMELTER_RECIPES)
@@ -487,7 +472,6 @@ public interface GCYMMachines {
             .tooltips(Component.translatable("gtceu.multiblock.parallelizable.tooltip"))
             .tooltips(Component.translatable("gtceu.machine.available_recipe_map_1.tooltip",
                     Component.translatable("gtceu.autoclave")))
-            .tooltipBuilder(GTO_MODIFY)
             .rotationState(RotationState.ALL)
             .recipeType(AUTOCLAVE_RECIPES)
             .recipeModifiers(true, GTORecipeModifiers.GCYM_OVERCLOCKING)
@@ -516,7 +500,6 @@ public interface GCYMMachines {
             .tooltips(Component.translatable("gtceu.multiblock.parallelizable.tooltip"))
             .tooltips(Component.translatable("gtceu.machine.available_recipe_map_1.tooltip",
                     Component.translatable("gtceu.compressor")))
-            .tooltipBuilder(GTO_MODIFY)
             .rotationState(RotationState.ALL)
             .recipeTypes(COMPRESSOR_RECIPES)
             .recipeModifiers(true, GTORecipeModifiers.GCYM_OVERCLOCKING)
@@ -545,7 +528,6 @@ public interface GCYMMachines {
             .tooltips(Component.translatable("gtceu.machine.available_recipe_map_3.tooltip",
                     Component.translatable("gtceu.brewery"), Component.translatable("gtceu.fermenter"),
                     Component.translatable("gtceu.fluid_heater")))
-            .tooltipBuilder(GTO_MODIFY)
             .rotationState(RotationState.ALL)
             .recipeTypes(BREWING_RECIPES, FERMENTING_RECIPES, FLUID_HEATER_RECIPES)
             .recipeModifiers(true, GTORecipeModifiers.GCYM_OVERCLOCKING)
@@ -577,7 +559,6 @@ public interface GCYMMachines {
             .tooltips(Component.translatable("gtceu.multiblock.parallelizable.tooltip"))
             .tooltips(Component.translatable("gtceu.machine.available_recipe_map_2.tooltip",
                     Component.translatable("gtceu.cutter"), Component.translatable("gtceu.lathe")))
-            .tooltipBuilder(GTO_MODIFY)
             .rotationState(RotationState.ALL)
             .recipeTypes(CUTTER_RECIPES, LATHE_RECIPES)
             .recipeModifiers(true, GTORecipeModifiers.GCYM_OVERCLOCKING)
@@ -607,7 +588,6 @@ public interface GCYMMachines {
             .tooltips(Component.translatable("gtceu.multiblock.parallelizable.tooltip"))
             .tooltips(Component.translatable("gtceu.machine.available_recipe_map_2.tooltip",
                     Component.translatable("gtceu.distillation_tower"), Component.translatable("gtceu.distillery")))
-            .tooltipBuilder(GTO_MODIFY)
             .rotationState(RotationState.NON_Y_AXIS)
             .recipeTypes(DISTILLATION_RECIPES, DISTILLERY_RECIPES)
             .recipeModifiers(true, GTORecipeModifiers.GCYM_OVERCLOCKING)
@@ -696,7 +676,6 @@ public interface GCYMMachines {
             .tooltips(Component.translatable("gtceu.multiblock.parallelizable.tooltip"))
             .tooltips(Component.translatable("gtceu.machine.available_recipe_map_2.tooltip",
                     Component.translatable("gtceu.extractor"), Component.translatable("gtceu.canner")))
-            .tooltipBuilder(GTO_MODIFY)
             .rotationState(RotationState.ALL)
             .recipeTypes(EXTRACTOR_RECIPES, CANNER_RECIPES)
             .recipeModifiers(true, GTORecipeModifiers.GCYM_OVERCLOCKING)
@@ -723,7 +702,6 @@ public interface GCYMMachines {
             .tooltips(Component.translatable("gtceu.multiblock.parallelizable.tooltip"))
             .tooltips(Component.translatable("gtceu.machine.available_recipe_map_1.tooltip",
                     Component.translatable("gtceu.extruder")))
-            .tooltipBuilder(GTO_MODIFY)
             .rotationState(RotationState.ALL)
             .recipeType(EXTRUDER_RECIPES)
             .recipeModifiers(true, GTORecipeModifiers.GCYM_OVERCLOCKING)
@@ -754,7 +732,6 @@ public interface GCYMMachines {
             .tooltips(Component.translatable("gtceu.multiblock.parallelizable.tooltip"))
             .tooltips(Component.translatable("gtceu.machine.available_recipe_map_1.tooltip",
                     Component.translatable("gtceu.fluid_solidifier")))
-            .tooltipBuilder(GTO_MODIFY)
             .rotationState(RotationState.ALL)
             .recipeType(FLUID_SOLIDFICATION_RECIPES)
             .recipeModifiers(true, GTORecipeModifiers.GCYM_OVERCLOCKING)
@@ -784,7 +761,6 @@ public interface GCYMMachines {
             .tooltips(Component.translatable("gtceu.multiblock.parallelizable.tooltip"))
             .tooltips(Component.translatable("gtceu.machine.available_recipe_map_2.tooltip",
                     Component.translatable("gtceu.wiremill"), Component.translatable("gtceu.loom")))
-            .tooltipBuilder(GTO_MODIFY)
             .rotationState(RotationState.ALL)
             .recipeType(WIREMILL_RECIPES)
             .recipeType(GTORecipeTypes.LOOM_RECIPES)
@@ -813,7 +789,6 @@ public interface GCYMMachines {
             .tooltips(Component.translatable("gtceu.multiblock.parallelizable.tooltip"))
             .tooltips(Component.translatable("gtceu.machine.available_recipe_map_1.tooltip",
                     Component.translatable("gtceu.electric_blast_furnace")))
-            .tooltipBuilder(GTO_MODIFY)
             .rotationState(RotationState.ALL)
             .recipeType(BLAST_RECIPES)
             .recipeModifiers(true, GTORecipeModifiers.GCYM_OVERCLOCKING)
@@ -900,7 +875,6 @@ public interface GCYMMachines {
             .tooltips(Component.translatable("gtceu.multiblock.parallelizable.tooltip"))
             .tooltips(Component.translatable("gtceu.machine.available_recipe_map_1.tooltip",
                     Component.translatable("gtceu.vacuum_freezer")))
-            .tooltipBuilder(GTO_MODIFY)
             .rotationState(RotationState.ALL)
             .recipeType(VACUUM_RECIPES)
             .recipeModifiers(true, GTORecipeModifiers.GCYM_OVERCLOCKING)
