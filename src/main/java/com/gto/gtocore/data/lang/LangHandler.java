@@ -107,6 +107,8 @@ public final class LangHandler {
         addENCN("config.gtocore.option.disableMultiBlockPage", "Disable MultiBlock Page", "关闭多方块页面");
         addENCN("config.gtocore.option.fastMultiBlockPage", "Fast MultiBlock Page", "优化多方块页面");
         addENCN("config.gtocore.option.recipeMaxCheckInterval", "Recipe Max Check Interval", "配方最大检查间隔");
+        addENCN("config.gtocore.option.asyncRecipeSearch", "Async Recipe Search", "异步配方搜索");
+        addENCN("config.gtocore.option.asyncRecipeOutput", "Async Recipe Output", "异步配方输出");
         addENCN("config.gtocore.option.breakBlocksBlackList", "Black List Of Chain Blocks", "连锁挖掘黑名单");
         addENCN("config.screen.gtocore", "GTO Core Config", "GTO Core 配置");
         addENCN("config.gtocore.option.recipeCheck", "[Debug]Recipe Abnormal Check", "[调试]配方异常检查");

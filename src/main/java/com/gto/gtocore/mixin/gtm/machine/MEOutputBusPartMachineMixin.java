@@ -1,10 +1,12 @@
 package com.gto.gtocore.mixin.gtm.machine;
 
+import com.gto.gtocore.api.machine.trait.InaccessibleInfiniteHandler;
+import com.gto.gtocore.integration.ae2.KeyMap;
+
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.integration.ae2.machine.MEOutputBusPartMachine;
 import com.gregtechceu.gtceu.integration.ae2.utils.KeyStorage;
 
-import com.hepdd.gtmthings.api.machine.trait.InaccessibleInfiniteHandler;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -19,7 +21,7 @@ public class MEOutputBusPartMachineMixin {
 
     @Inject(method = "createInventory", at = @At("HEAD"), remap = false, cancellable = true)
     private void createInventory(Object[] args, CallbackInfoReturnable<NotifiableItemStackHandler> cir) {
-        this.internalBuffer = new KeyStorage();
-        cir.setReturnValue(new InaccessibleInfiniteHandler((MEOutputBusPartMachine) (Object) this, internalBuffer));
+        this.internalBuffer = new KeyMap();
+        cir.setReturnValue(new InaccessibleInfiniteHandler((MEOutputBusPartMachine) (Object) this, (KeyMap) internalBuffer));
     }
 }

@@ -1243,6 +1243,8 @@
   "block.gtocore.zpm_unpacker": "§cElite Unpacker III§r",
   "block.gtocore.zpm_wireless_energy_unit": "Zpm Wireless Energy Unit",
   "block.gtocore.zpm_world_data_scanner": "§cElite World Data Scanner III§r",
+  "config.gtocore.option.asyncRecipeOutput": "Async Recipe Output",
+  "config.gtocore.option.asyncRecipeSearch": "Async Recipe Search",
   "config.gtocore.option.breakBlocksBlackList": "Black List Of Chain Blocks",
   "config.gtocore.option.dev": "Dev mode",
   "config.gtocore.option.disableMultiBlockPage": "Disable MultiBlock Page",

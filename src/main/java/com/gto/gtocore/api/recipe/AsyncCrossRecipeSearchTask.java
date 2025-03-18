@@ -113,7 +113,7 @@ public final class AsyncCrossRecipeSearchTask extends AsyncRecipeSearchTask {
                 if (recipe == null) return null;
             }
             recipe = machine.modifyRecipe(recipe);
-            if (RecipeRunner.matchRecipeInput(machine, recipe) && handleRecipeInput(machine, recipe)) {
+            if (RecipeRunner.matchRecipeInput(machine, recipe) && RecipeRunner.handleRecipeInput(machine, recipe)) {
                 recipe.ocLevel = machine.getTier() - rt;
                 recipe.inputs.clear();
                 long eut = RecipeHelper.getInputEUt(recipe);
@@ -123,10 +123,6 @@ public final class AsyncCrossRecipeSearchTask extends AsyncRecipeSearchTask {
             }
         }
         return null;
-    }
-
-    private synchronized static boolean handleRecipeInput(CrossRecipeMultiblockMachine machine, GTRecipe recipe) {
-        return RecipeRunner.handleRecipeInput(machine, recipe);
     }
 
     public record Result(GTRecipe recipe, Set<GTRecipe> lastRecipes) implements IResult {

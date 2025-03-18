@@ -151,7 +151,7 @@ public final class SlaughterhouseMachine extends StorageMultiblockMachine {
     public void customText(List<Component> textList) {
         super.customText(textList);
         textList.add(Component.translatable("item.gtceu.tool.tooltip.attack_damage", attackDamage));
-        textList.add(Component.translatable("gtocore.machine.slaughterhouse.is_spawn").append(ComponentPanelWidget.withButton(Component.literal("[").append(isSpawn ? Component.translatable("gtocore.machine.off") : Component.translatable("gtocore.machine.on")).append(Component.literal("]")), "spawn_switch")));
+        textList.add(Component.translatable("gtocore.machine.slaughterhouse.is_spawn").append(ComponentPanelWidget.withButton(Component.literal("[").append(isSpawn ? Component.translatable("gtocore.machine.on") : Component.translatable("gtocore.machine.off")).append(Component.literal("]")), "spawn_switch")));
     }
 
     @Override
@@ -165,7 +165,7 @@ public final class SlaughterhouseMachine extends StorageMultiblockMachine {
 
     @Nullable
     private GTRecipe getRecipe() {
-        if (hasProxies() && getLevel() instanceof ServerLevel serverLevel) {
+        if (hasProxies() && getLevel() instanceof ServerLevel serverLevel && getTier() > 1) {
             int c = MachineUtils.checkingCircuit(this, false);
             if (c == 0) return null;
             ItemStackSet itemStacks = new ItemStackSet();
@@ -200,7 +200,7 @@ public final class SlaughterhouseMachine extends StorageMultiblockMachine {
                 if (entityType.isEmpty()) continue;
                 Entity entity = entityType.get().create(serverLevel);
                 if (!(entity instanceof Mob mob1)) continue;
-                if (!isSpawn) {
+                if (isSpawn) {
                     mob1.setPos(blockPos.getCenter());
                     mob1.setNoAi(true);
                     serverLevel.addFreshEntity(mob1);

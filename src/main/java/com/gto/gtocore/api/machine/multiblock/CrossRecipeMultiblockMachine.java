@@ -6,9 +6,12 @@ import com.gto.gtocore.api.machine.feature.multiblock.IParallelMachine;
 import com.gto.gtocore.api.machine.trait.CustomParallelTrait;
 import com.gto.gtocore.api.machine.trait.CustomRecipeLogic;
 import com.gto.gtocore.api.recipe.AsyncCrossRecipeSearchTask;
+import com.gto.gtocore.api.recipe.AsyncRecipeOutputTask;
 import com.gto.gtocore.api.recipe.AsyncRecipeSearchTask;
+import com.gto.gtocore.api.recipe.RecipeRunner;
 import com.gto.gtocore.common.data.GTORecipeModifiers;
 import com.gto.gtocore.common.machine.multiblock.part.ThreadHatchPartMachine;
+import com.gto.gtocore.config.GTOConfig;
 import com.gto.gtocore.utils.ItemUtils;
 import com.gto.gtocore.utils.MachineUtils;
 
@@ -36,6 +39,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Function;
@@ -254,12 +258,23 @@ public class CrossRecipeMultiblockMachine extends ElectricMultiblockMachine impl
         }
 
         @Override
-        public void onRecipeFinish() {
-            for (GTRecipe recipe : getMachine().lastRecipes) {
-                handleRecipeIO(recipe, IO.OUT);
+        protected boolean handleRecipeIO(GTRecipe recipe, IO io) {
+            if (io == IO.OUT) {
+                if (GTOConfig.INSTANCE.asyncRecipeOutput) {
+                    AsyncRecipeOutputTask.addAsyncLogic(this, () -> output(new HashSet<>(getMachine().lastRecipes)));
+                } else {
+                    output(getMachine().lastRecipes);
+                }
+                getMachine().lastRecipes.clear();
+                return true;
             }
-            getMachine().lastRecipes.clear();
-            super.onRecipeFinish();
+            return recipe.handleRecipeIO(io, this.machine, this.chanceCaches);
+        }
+
+        private void output(Set<GTRecipe> recipes) {
+            for (GTRecipe recipe : recipes) {
+                RecipeRunner.handleRecipeOutput(this.machine, recipe);
+            }
         }
     }
 }

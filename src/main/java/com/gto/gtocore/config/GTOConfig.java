@@ -173,6 +173,12 @@ public final class GTOConfig {
     @Configurable.Range(min = 1, max = 200)
     public int recipeMaxCheckInterval = 80;
     @Configurable
+    @Configurable.Comment("After enabling, the recipe search runs in an independent thread and will not affect the TPS.")
+    public boolean asyncRecipeSearch = true;
+    @Configurable
+    @Configurable.Comment("After enabling, the recipe output runs in an independent thread and will not affect the TPS.")
+    public boolean asyncRecipeOutput = true;
+    @Configurable
     @Configurable.Comment("Ore product multiplier")
     @Configurable.Range(min = 1, max = 64)
     public int oreMultiplier = 4;

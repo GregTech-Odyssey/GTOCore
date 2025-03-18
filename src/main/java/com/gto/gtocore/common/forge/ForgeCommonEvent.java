@@ -3,6 +3,7 @@ package com.gto.gtocore.common.forge;
 import com.gto.gtocore.api.data.GTODimensions;
 import com.gto.gtocore.api.entity.IEnhancedPlayer;
 import com.gto.gtocore.api.machine.feature.IVacuumMachine;
+import com.gto.gtocore.api.recipe.AsyncRecipeOutputTask;
 import com.gto.gtocore.api.recipe.AsyncRecipeSearchTask;
 import com.gto.gtocore.common.data.GTOBlocks;
 import com.gto.gtocore.common.data.GTOCommands;
@@ -285,6 +286,7 @@ public final class ForgeCommonEvent {
     @SubscribeEvent
     public static void onServerStartedEvent(ServerStoppingEvent event) {
         AsyncRecipeSearchTask.releaseExecutorService();
+        AsyncRecipeOutputTask.releaseExecutorService();
     }
 
     @SubscribeEvent

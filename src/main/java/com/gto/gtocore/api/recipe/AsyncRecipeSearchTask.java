@@ -46,8 +46,6 @@ public class AsyncRecipeSearchTask {
             .setDaemon(true)
             .build();
 
-    private static int tick = 0;
-
     private static void createExecutorService() {
         if (executorService != null && !executorService.isShutdown()) return;
         executorService = Executors.newSingleThreadScheduledExecutor(THREAD_FACTORY);
@@ -91,15 +89,14 @@ public class AsyncRecipeSearchTask {
     private static void searchingTask() {
         try {
             if (!GTCEu.canGetServerLevel()) return;
-            if (tick > 100) tick = 0;
-            tick++;
             for (var task : tasks) {
-                if (task.hasRequest && (task.logic.getMachine().holder.getOffset() + tick) % 5 == 0) {
+                if (task.hasRequest) {
                     try {
-                        task.result = task.searchRecipe();
                         task.hasRequest = false;
+                        task.result = task.searchRecipe();
                     } catch (Throwable e) {
                         GTOCore.LOGGER.error("Error while searching recipe: {}", e.getMessage());
+                        e.printStackTrace();
                     }
                 }
             }

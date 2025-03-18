@@ -2,10 +2,14 @@ package com.gto.gtocore.mixin.gtm.api.machine;
 
 import com.gto.gtocore.api.machine.feature.multiblock.IEnhancedMultiblockMachine;
 import com.gto.gtocore.api.machine.trait.IEnhancedRecipeLogic;
+import com.gto.gtocore.api.recipe.AsyncCrossRecipeSearchTask;
+import com.gto.gtocore.api.recipe.AsyncRecipeOutputTask;
 import com.gto.gtocore.api.recipe.AsyncRecipeSearchTask;
 import com.gto.gtocore.api.recipe.RecipeRunner;
 import com.gto.gtocore.config.GTOConfig;
 
+import com.gregtechceu.gtceu.api.capability.recipe.IO;
+import com.gregtechceu.gtceu.api.capability.recipe.RecipeCapability;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
@@ -20,19 +24,26 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 @Mixin(value = RecipeLogic.class, remap = false)
 public abstract class RecipeLogicMixin extends MachineTrait implements IEnhancedRecipeLogic {
 
     @Unique
     private AsyncRecipeSearchTask gtocore$asyncRecipeSearchTask;
+
+    @Unique
+    private AsyncRecipeOutputTask gtocore$asyncRecipeOutputTask;
 
     @Unique
     @Persisted(key = "lockRecipe")
@@ -127,6 +138,10 @@ public abstract class RecipeLogicMixin extends MachineTrait implements IEnhanced
     @Shadow
     protected abstract void handleSearchingRecipes(Iterator<GTRecipe> matches);
 
+    @Shadow
+    @Final
+    protected Map<RecipeCapability<?>, Object2IntMap<?>> chanceCaches;
+
     @Unique
     private void gTOCore$unsubscribe() {
         if (subscription != null) {
@@ -151,8 +166,19 @@ public abstract class RecipeLogicMixin extends MachineTrait implements IEnhanced
     }
 
     @Override
+    public void gtocore$setAsyncRecipeOutputTask(AsyncRecipeOutputTask task) {
+        gtocore$asyncRecipeOutputTask = task;
+    }
+
+    @Override
+    public AsyncRecipeOutputTask gtocore$getAsyncRecipeOutputTask() {
+        return gtocore$asyncRecipeOutputTask;
+    }
+
+    @Override
     public void onMachineUnLoad() {
         AsyncRecipeSearchTask.removeAsyncLogic(getLogic());
+        AsyncRecipeOutputTask.removeAsyncLogic(getLogic());
     }
 
     @Override
@@ -165,6 +191,14 @@ public abstract class RecipeLogicMixin extends MachineTrait implements IEnhanced
     @Override
     public boolean gTOCore$isLockRecipe() {
         return gTOCore$lockRecipe;
+    }
+
+    @Inject(method = "handleRecipeIO", at = @At("HEAD"), remap = false, cancellable = true)
+    protected void handleRecipeIO(GTRecipe recipe, IO io, CallbackInfoReturnable<Boolean> cir) {
+        if (io == IO.OUT && GTOConfig.INSTANCE.asyncRecipeOutput) {
+            AsyncRecipeOutputTask.addAsyncLogic(getLogic(), () -> recipe.handleRecipeIO(IO.OUT, this.machine, this.chanceCaches));
+            cir.setReturnValue(true);
+        }
     }
 
     @OnlyIn(Dist.CLIENT)
@@ -199,11 +233,24 @@ public abstract class RecipeLogicMixin extends MachineTrait implements IEnhanced
             } else if (lastRecipe != null) {
                 findAndHandleRecipe();
             } else if (gtocore$hasAsyncTask() || getMachine().getOffsetTimer() % gtocore$interval == 0) {
+                if (gtocore$hasAsyncTask() && gtocore$asyncRecipeSearchTask.getResult() != null && !(gtocore$asyncRecipeSearchTask instanceof AsyncCrossRecipeSearchTask)) {
+                    AsyncRecipeSearchTask.IResult result = gtocore$asyncRecipeSearchTask.getResult();
+                    if (result.recipe() != null) {
+                        setupRecipe(result.modified());
+                        if (lastRecipe != null && getStatus() == RecipeLogic.Status.WORKING) {
+                            lastOriginRecipe = result.recipe();
+                            lastFailedMatches = null;
+                            if (gTOCore$lockRecipe) gTOCore$originRecipe = lastOriginRecipe;
+                            return;
+                        }
+                    }
+                    gtocore$asyncRecipeSearchTask.clean();
+                }
                 if (lastFailedMatches != null) {
                     for (GTRecipe match : lastFailedMatches) {
                         if (checkMatchedRecipeAvailable(match)) {
                             if (gTOCore$lockRecipe) gTOCore$originRecipe = lastOriginRecipe;
-                            break;
+                            return;
                         }
                     }
                 }
@@ -240,21 +287,8 @@ public abstract class RecipeLogicMixin extends MachineTrait implements IEnhanced
                 }
             } else {
                 lastOriginRecipe = null;
-                if (canLockRecipe()) {
-                    if (gtocore$hasAsyncTask()) {
-                        if (gtocore$asyncRecipeSearchTask.getResult() != null) {
-                            AsyncRecipeSearchTask.IResult result = gtocore$asyncRecipeSearchTask.getResult();
-                            if (result.recipe() != null) {
-                                setupRecipe(result.modified());
-                                if (lastRecipe != null && getStatus() == RecipeLogic.Status.WORKING) {
-                                    lastOriginRecipe = result.recipe();
-                                    lastFailedMatches = null;
-                                    if (gTOCore$lockRecipe) gTOCore$originRecipe = lastOriginRecipe;
-                                }
-                            }
-                            gtocore$asyncRecipeSearchTask.clean();
-                        }
-                    } else {
+                if (canLockRecipe() && GTOConfig.INSTANCE.asyncRecipeSearch) {
+                    if (!gtocore$hasAsyncTask()) {
                         AsyncRecipeSearchTask.addAsyncLogic(getLogic());
                     }
                 } else {

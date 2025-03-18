@@ -1,5 +1,6 @@
 package com.gto.gtocore.api.machine.trait;
 
+import com.gto.gtocore.api.recipe.AsyncRecipeOutputTask;
 import com.gto.gtocore.api.recipe.AsyncRecipeSearchTask;
 
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
@@ -29,7 +30,13 @@ public interface IEnhancedRecipeLogic {
         return null;
     }
 
+    default AsyncRecipeOutputTask gtocore$getAsyncRecipeOutputTask() {
+        return null;
+    }
+
     default void gtocore$setAsyncRecipeSearchTask(AsyncRecipeSearchTask task) {}
+
+    default void gtocore$setAsyncRecipeOutputTask(AsyncRecipeOutputTask task) {}
 
     default boolean canLockRecipe() {
         return getLogic().getClass() == RecipeLogic.class;

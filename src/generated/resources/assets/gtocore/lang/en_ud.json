@@ -1243,6 +1243,8 @@
   "block.gtocore.zpm_unpacker": "ɹ§III ɹǝʞɔɐdu∩ ǝʇıןƎɔ§",
   "block.gtocore.zpm_wireless_energy_unit": "ʇıu∩ ʎbɹǝuƎ ssǝןǝɹıM ɯdZ",
   "block.gtocore.zpm_world_data_scanner": "ɹ§III ɹǝuuɐɔS ɐʇɐᗡ pןɹoM ǝʇıןƎɔ§",
+  "config.gtocore.option.asyncRecipeOutput": "ʇndʇnO ǝdıɔǝᴚ ɔuʎsⱯ",
+  "config.gtocore.option.asyncRecipeSearch": "ɥɔɹɐǝS ǝdıɔǝᴚ ɔuʎsⱯ",
   "config.gtocore.option.breakBlocksBlackList": "sʞɔoןᗺ uıɐɥƆ ɟO ʇsıꞀ ʞɔɐןᗺ",
   "config.gtocore.option.dev": "ǝpoɯ ʌǝᗡ",
   "config.gtocore.option.disableMultiBlockPage": "ǝbɐԀ ʞɔoןᗺıʇןnW ǝןqɐsıᗡ",

@@ -1243,6 +1243,8 @@
   "block.gtocore.zpm_unpacker": "§c精英解包机 III§r",
   "block.gtocore.zpm_wireless_energy_unit": "§cZPM§r无线能量单元",
   "block.gtocore.zpm_world_data_scanner": "§c精英世界信息扫描仪 III§r",
+  "config.gtocore.option.asyncRecipeOutput": "异步配方输出",
+  "config.gtocore.option.asyncRecipeSearch": "异步配方搜索",
   "config.gtocore.option.breakBlocksBlackList": "连锁挖掘黑名单",
   "config.gtocore.option.dev": "开发模式",
   "config.gtocore.option.disableMultiBlockPage": "关闭多方块页面",
