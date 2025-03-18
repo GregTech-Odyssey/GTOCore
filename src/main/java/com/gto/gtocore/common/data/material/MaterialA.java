@@ -1290,7 +1290,7 @@ public interface MaterialA {
                 .dust()
                 .ingot()
                 .fluid()
-                .blastTemp(1823, LOW)
+                .blastTemp(2273, LOW)
                 .color(0x414151)
                 .components(Silicon, 1)
                 .iconSet(METALLIC)

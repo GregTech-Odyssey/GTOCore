@@ -60,15 +60,14 @@ import static com.gto.gtocore.common.data.GTOMaterials.*;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public final class SupercomputingCenterMachine extends StorageMultiblockMachine
-        implements IOpticalComputationProvider, IParallelMachine, IMultiStructureMachine {
+public final class SupercomputingCenterMachine extends StorageMultiblockMachine implements IOpticalComputationProvider, IParallelMachine, IMultiStructureMachine {
 
     private static final Set<Item> MAINFRAME = Set.of(GTOItems.BIOWARE_MAINFRAME.asItem(), GTOItems.EXOTIC_MAINFRAME.asItem());
 
     @Setter
     private ThermalConductorHatchPartMachine thermalConductorHatchPartMachine;
 
-    public static final Map<Item, Item> MFPCs;
+    private static final Map<Item, Item> MFPCs;
 
     private final ConditionalSubscriptionHandler maxCWUtModificationSubs;
 
@@ -111,17 +110,19 @@ public final class SupercomputingCenterMachine extends StorageMultiblockMachine
         MFPCs = mfpcRecipe.build();
     }
 
-    private int getIndexForItem(Item item) {
-        if (item.equals(GTOChemicalHelper.getItem(block, CascadeMFPC))) return 0;
-        if (item.equals(GTOChemicalHelper.getItem(block, BasicMFPC))) return 1;
-        if (item.equals(GTOChemicalHelper.getItem(ingot, CascadeMFPC))) return 2;
-        if (item.equals(GTOChemicalHelper.getItem(ingot, BasicMFPC))) return 3;
-        if (item.equals(GTOChemicalHelper.getItem(nugget, CascadeMFPC))) return 4;
-        if (item.equals(GTOChemicalHelper.getItem(nugget, BasicMFPC))) return 5;
-        return -1;
+    private static final Map<Item, Integer> ITEM_INDEX_MAP = Map.of(
+            GTOChemicalHelper.getItem(block, CascadeMFPC), 0,
+            GTOChemicalHelper.getItem(block, BasicMFPC), 1,
+            GTOChemicalHelper.getItem(ingot, CascadeMFPC), 2,
+            GTOChemicalHelper.getItem(ingot, BasicMFPC), 3,
+            GTOChemicalHelper.getItem(nugget, CascadeMFPC), 4,
+            GTOChemicalHelper.getItem(nugget, BasicMFPC), 5);
+
+    private static int getIndexForItem(Item item) {
+        return ITEM_INDEX_MAP.getOrDefault(item, -1);
     }
 
-    int[] N_MFPCs = { 5400, 1800, 600, 200, 66, 22 };
+    private final int[] N_MFPCs = { 5400, 1800, 600, 200, 66, 22 };
 
     @Override
     public void onPartScan(IMultiPart part) {
@@ -133,6 +134,12 @@ public final class SupercomputingCenterMachine extends StorageMultiblockMachine
 
     @Override
     protected void onMachineChanged() {
+        updateCheck();
+    }
+
+    @Override
+    public void onStructureFormed() {
+        super.onStructureFormed();
         clean();
         ItemStack stack1 = getStorageStack();
         Item Item1 = stack1.getItem();
@@ -180,13 +187,7 @@ public final class SupercomputingCenterMachine extends StorageMultiblockMachine
                 .EUt(maxEUt)
                 .duration(20)
                 .buildRawRecipe();
-    }
-
-    @Override
-    public void onStructureFormed() {
-        super.onStructureFormed();
         maxCWUtModificationSubs.initialize(getLevel());
-        onMachineChanged();
     }
 
     @Override
@@ -244,7 +245,7 @@ public final class SupercomputingCenterMachine extends StorageMultiblockMachine
         return 0;
     }
 
-    void maxCWUtModificationUpdate() {
+    private void maxCWUtModificationUpdate() {
         if (isFormed) {
             if (machineTier > 1) {
                 if (getOffsetTimer() % 10 == 0) {
@@ -314,8 +315,6 @@ public final class SupercomputingCenterMachine extends StorageMultiblockMachine
     }
 
     private static final Map<Integer, BlockPattern> PATTERNS = new Int2ObjectOpenHashMap<>(4, 0.9F);
-
-
 
     public static BlockPattern getBlockPattern(int tier, MachineDefinition definition) {
         FactoryBlockPattern builder = FactoryBlockPattern.start()

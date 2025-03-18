@@ -175,7 +175,7 @@ public abstract class RecyclingRecipesMixin {
                     .outputFluids(m.getFluid((int) (ms.amount() * L / M)))
                     .duration((int) Math.max(1, ms.amount() * ms.material().getMass() / M))
                     .blastFurnaceTemp(Math.max(800, (int) (ms.material().getBlastTemperature() * 0.6)))
-                    .EUt((long) GTValues.VA[GTValues.LV] * multiplier)
+                    .EUt((long) GTValues.VA[GTValues.ULV] * multiplier)
                     .inputItems(input)
                     .save();
             return;
@@ -209,7 +209,7 @@ public abstract class RecyclingRecipesMixin {
                 .outputFluids(fluidMs.material().getFluid((int) (fluidMs.amount() * L / M)))
                 .duration((int) duration)
                 .blastFurnaceTemp(Math.max(800, (int) (fluidMs.material().getBlastTemperature() * 0.6)))
-                .EUt((long) GTValues.VA[GTValues.LV] * multiplier);
+                .EUt((long) GTValues.VA[GTValues.ULV] * multiplier);
 
         extractorBuilder.inputItems(input);
 
