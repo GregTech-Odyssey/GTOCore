@@ -8,13 +8,16 @@ import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 
+import java.util.Set;
 import java.util.concurrent.*;
 
 public class AsyncRecipeOutputTask {
 
-    private Runnable runnable;
+    private final Set<Runnable> runnables = ConcurrentHashMap.newKeySet();
 
     private boolean hasRequest, inQueue;
+
+    private final RecipeLogic logic;
 
     private static final CopyOnWriteArraySet<AsyncRecipeOutputTask> tasks = new CopyOnWriteArraySet<>();
     private static ScheduledExecutorService executorService;
@@ -22,6 +25,12 @@ public class AsyncRecipeOutputTask {
             .setNameFormat("Async Recipe Output Thread-%d")
             .setDaemon(true)
             .build();
+
+    private static int tick = 0;
+
+    private AsyncRecipeOutputTask(RecipeLogic logic) {
+        this.logic = logic;
+    }
 
     private static void createExecutorService() {
         if (executorService != null && !executorService.isShutdown()) return;
@@ -33,10 +42,10 @@ public class AsyncRecipeOutputTask {
         if (logic instanceof IEnhancedRecipeLogic enhancedRecipeLogic) {
             AsyncRecipeOutputTask task = enhancedRecipeLogic.gtocore$getAsyncRecipeOutputTask();
             if (task == null) {
-                task = new AsyncRecipeOutputTask();
+                task = new AsyncRecipeOutputTask(logic);
                 enhancedRecipeLogic.gtocore$setAsyncRecipeOutputTask(task);
             }
-            task.runnable = runnable;
+            task.runnables.add(runnable);
             task.hasRequest = true;
             if (task.inQueue) return;
             tasks.add(task);
@@ -53,7 +62,7 @@ public class AsyncRecipeOutputTask {
             if (task.inQueue && tasks.remove(task)) {
                 task.hasRequest = false;
                 task.inQueue = false;
-                task.runnable = null;
+                task.runnables.clear();
                 if (tasks.isEmpty()) {
                     releaseExecutorService();
                 }
@@ -64,12 +73,16 @@ public class AsyncRecipeOutputTask {
     private static void outputTask() {
         try {
             if (!GTCEu.canGetServerLevel()) return;
+            if (tick > 100) tick = 0;
+            tick++;
             for (var task : tasks) {
-                if (task.hasRequest) {
+                if (task.hasRequest && (task.logic.getMachine().holder.getOffset() + tick) % 5 == 0) {
                     try {
                         task.hasRequest = false;
-                        if (task.runnable != null) task.runnable.run();
-                        task.runnable = null;
+                        for (Runnable runnable : task.runnables) {
+                            runnable.run();
+                        }
+                        task.runnables.clear();
                     } catch (Throwable e) {
                         GTOCore.LOGGER.error("Error while output recipe: {}", e.getMessage());
                         e.printStackTrace();

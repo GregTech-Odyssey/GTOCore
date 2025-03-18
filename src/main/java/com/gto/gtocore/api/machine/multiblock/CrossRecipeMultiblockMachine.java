@@ -261,7 +261,8 @@ public class CrossRecipeMultiblockMachine extends ElectricMultiblockMachine impl
         protected boolean handleRecipeIO(GTRecipe recipe, IO io) {
             if (io == IO.OUT) {
                 if (GTOConfig.INSTANCE.asyncRecipeOutput) {
-                    AsyncRecipeOutputTask.addAsyncLogic(this, () -> output(new HashSet<>(getMachine().lastRecipes)));
+                    Set<GTRecipe> recipes = new HashSet<>(getMachine().lastRecipes);
+                    AsyncRecipeOutputTask.addAsyncLogic(this, () -> output(recipes));
                 } else {
                     output(getMachine().lastRecipes);
                 }
