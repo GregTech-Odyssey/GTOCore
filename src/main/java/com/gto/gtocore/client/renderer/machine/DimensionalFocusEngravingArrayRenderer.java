@@ -15,6 +15,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 import com.lowdragmc.lowdraglib.utils.ColorUtils;
+import com.lowdragmc.lowdraglib.utils.TrackedDummyWorld;
 import com.lowdragmc.lowdraglib.utils.interpolate.Eases;
 import com.lowdragmc.shimmer.client.shader.RenderUtils;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -31,8 +32,8 @@ public final class DimensionalFocusEngravingArrayRenderer extends WorkableCasing
     @Override
     @OnlyIn(Dist.CLIENT)
     public void render(BlockEntity blockEntity, float partialTicks, PoseStack stack, MultiBufferSource buffer, int combinedLight, int combinedOverlay) {
-        if (blockEntity instanceof IMachineBlockEntity machineBlockEntity && machineBlockEntity.getMetaMachine() instanceof CoilCrossRecipeMultiblockMachine machine && machine.isFormed() && machine.getRecipeLogic().isWorking()) {
-            if (GTCEu.Mods.isShimmerLoaded()) {
+        if (blockEntity instanceof IMachineBlockEntity machineBlockEntity && machineBlockEntity.getMetaMachine() instanceof CoilCrossRecipeMultiblockMachine machine && machine.isFormed() && (machine.getRecipeLogic().isWorking() || blockEntity.getLevel() instanceof TrackedDummyWorld)) {
+            if (GTCEu.Mods.isShimmerLoaded() && !(blockEntity.getLevel() instanceof TrackedDummyWorld)) {
                 PoseStack finalStack = RenderUtils.copyPoseStack(stack);
                 BloomUtils.entityBloom(source -> renderLightRing(machine, partialTicks, finalStack, source));
             } else {

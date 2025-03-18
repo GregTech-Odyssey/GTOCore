@@ -23,7 +23,7 @@ public interface RecipeTypeModify {
     static void init() {
         COMBUSTION_GENERATOR_FUELS.setMaxIOSize(0, 0, 2, 0);
         GAS_TURBINE_FUELS.setMaxIOSize(0, 0, 2, 0);
-        DUMMY_RECIPES.setMaxIOSize(Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE, Integer.MAX_VALUE);
+        DUMMY_RECIPES.setMaxIOSize(1, 1, 1, 1);
         WIREMILL_RECIPES.setMaxIOSize(1, 1, 0, 0);
 
         SIFTER_RECIPES.setMaxIOSize(1, 6, 1, 0);

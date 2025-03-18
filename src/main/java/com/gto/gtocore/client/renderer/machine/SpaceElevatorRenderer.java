@@ -22,6 +22,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.model.data.ModelData;
 
+import com.lowdragmc.lowdraglib.utils.TrackedDummyWorld;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import java.util.function.Consumer;
@@ -39,7 +40,7 @@ public final class SpaceElevatorRenderer extends WorkableCasingMachineRenderer {
     public void render(BlockEntity blockEntity, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int combinedLight, int combinedOverlay) {
         if (blockEntity instanceof IMachineBlockEntity machineBlockEntity) {
             MetaMachine metaMachine = machineBlockEntity.getMetaMachine();
-            if (metaMachine instanceof SpaceElevatorMachine machine && machine.isFormed() && machine.getSpoolCount() >= machine.getMaxSpoolCount()) {
+            if (metaMachine instanceof SpaceElevatorMachine machine && machine.isFormed() && (machine.getSpoolCount() >= machine.getMaxSpoolCount() || blockEntity.getLevel() instanceof TrackedDummyWorld)) {
                 boolean Super = machine instanceof SuperSpaceElevatorMachine;
                 double x = 0.5, y = 1, z = 0.5;
                 if (Super) {

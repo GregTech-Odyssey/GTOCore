@@ -3,6 +3,7 @@ package com.gto.gtocore.common.data.machines;
 import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.api.machine.multiblock.ElectricMultiblockMachine;
 import com.gto.gtocore.api.pattern.GTOPredicates;
+import com.gto.gtocore.client.renderer.machine.AdvancedHyperRenderer;
 import com.gto.gtocore.client.renderer.machine.AnnihilateGeneratorRenderer;
 import com.gto.gtocore.client.renderer.machine.ArrayMachineRenderer;
 import com.gto.gtocore.common.data.*;
@@ -493,7 +494,8 @@ public interface GeneratorMultiblock {
                             .or(abilities(OUTPUT_LASER).setMaxGlobalLimited(1)))
                     .where(' ', any())
                     .build())
-            .workableCasingRenderer(GTOCore.id("block/casings/enhance_hyper_mechanical_casing"), GTCEu.id("block/multiblock/fusion_reactor"))
+            .renderer(AdvancedHyperRenderer::new)
+            .hasTESR(true)
             .register();
 
     MultiblockMachineDefinition HYPER_REACTOR = multiblock("hyper_reactor", "超能反应堆", ElectricMultiblockMachine::new)

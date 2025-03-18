@@ -74,7 +74,7 @@ public final class AsyncCrossRecipeSearchTask extends AsyncRecipeSearchTask {
                 if (recipe != null) return recipe;
             }
         } else {
-            Iterator<GTRecipe> iterator = machine.getRecipeType().getLookup().getRecipeIterator(machine, recipe -> !recipe.isFuel && recipe.matchRecipe(machine).isSuccess() && recipe.matchTickRecipe(machine).isSuccess());
+            Iterator<GTRecipe> iterator = machine.getRecipeType().getLookup().getRecipeIterator(machine, recipe -> !recipe.isFuel && RecipeRunner.matchRecipe(logic.machine, recipe) && RecipeRunner.matchTickRecipe(logic.machine, recipe));
             while (iterator.hasNext()) {
                 GTRecipe recipe = checkRecipe(isLocked, machine, iterator.next());
                 if (recipe != null) {

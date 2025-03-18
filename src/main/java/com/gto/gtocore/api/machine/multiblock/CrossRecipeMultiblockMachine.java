@@ -1,6 +1,7 @@
 package com.gto.gtocore.api.machine.multiblock;
 
 import com.gto.gtocore.api.gui.ParallelConfigurator;
+import com.gto.gtocore.api.machine.feature.multiblock.IMEOutputMachine;
 import com.gto.gtocore.api.machine.feature.multiblock.IOverclockConfigMachine;
 import com.gto.gtocore.api.machine.feature.multiblock.IParallelMachine;
 import com.gto.gtocore.api.machine.trait.CustomParallelTrait;
@@ -260,7 +261,7 @@ public class CrossRecipeMultiblockMachine extends ElectricMultiblockMachine impl
         @Override
         protected boolean handleRecipeIO(GTRecipe recipe, IO io) {
             if (io == IO.OUT) {
-                if (GTOConfig.INSTANCE.asyncRecipeOutput) {
+                if (GTOConfig.INSTANCE.asyncRecipeOutput && machine instanceof IMEOutputMachine outputMachine && outputMachine.gTOCore$DualMEOutput()) {
                     Set<GTRecipe> recipes = new HashSet<>(getMachine().lastRecipes);
                     AsyncRecipeOutputTask.addAsyncLogic(this, () -> output(recipes));
                 } else {

@@ -171,7 +171,7 @@ public final class GTOConfig {
     @Configurable
     @Configurable.Comment("The interval increases gradually when the machine cannot find a recipe; this is the maximum interval.")
     @Configurable.Range(min = 1, max = 200)
-    public int recipeMaxCheckInterval = 80;
+    public int recipeMaxCheckInterval = 40;
     @Configurable
     @Configurable.Comment("After enabling, the recipe search runs in an independent thread and will not affect the TPS.")
     public boolean asyncRecipeSearch = true;

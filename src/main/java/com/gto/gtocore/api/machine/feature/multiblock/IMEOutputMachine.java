@@ -9,4 +9,8 @@ public interface IMEOutputMachine {
     default boolean gTOCore$isFluidOutput() {
         return false;
     }
+
+    default boolean gTOCore$DualMEOutput() {
+        return false;
+    }
 }

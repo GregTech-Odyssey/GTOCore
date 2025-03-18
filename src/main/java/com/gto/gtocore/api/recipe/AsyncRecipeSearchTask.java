@@ -115,7 +115,7 @@ public class AsyncRecipeSearchTask {
 
     private static IResult searchRecipe(RecipeLogic logic) {
         if (logic.machine.hasProxies()) {
-            Iterator<GTRecipe> iterator = logic.machine.getRecipeType().getLookup().getRecipeIterator(logic.machine, recipe -> !recipe.isFuel && recipe.matchRecipe(logic.machine).isSuccess() && recipe.matchTickRecipe(logic.machine).isSuccess());
+            Iterator<GTRecipe> iterator = logic.machine.getRecipeType().getLookup().getRecipeIterator(logic.machine, recipe -> !recipe.isFuel && RecipeRunner.matchRecipe(logic.machine, recipe) && RecipeRunner.matchRecipeTickInput(logic.machine, recipe));
             while (iterator.hasNext()) {
                 GTRecipe recipe = iterator.next();
                 if (recipe == null) continue;
@@ -148,7 +148,7 @@ public class AsyncRecipeSearchTask {
     private static GTRecipe modifyRecipe(GTRecipe recipe, RecipeLogic logic) {
         GTRecipe modified = logic.machine.fullModifyRecipe(recipe.copy());
         if (modified != null) {
-            if (modified.checkConditions(logic).isSuccess() && modified.matchRecipe(logic.machine).isSuccess() && modified.matchTickRecipe(logic.machine).isSuccess()) {
+            if (modified.checkConditions(logic).isSuccess() && RecipeRunner.matchRecipe(logic.machine, recipe) && RecipeRunner.matchTickRecipe(logic.machine, recipe)) {
                 return modified;
             }
         }

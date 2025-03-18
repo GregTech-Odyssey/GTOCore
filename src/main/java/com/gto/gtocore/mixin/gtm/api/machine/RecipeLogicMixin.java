@@ -1,6 +1,7 @@
 package com.gto.gtocore.mixin.gtm.api.machine;
 
 import com.gto.gtocore.api.machine.feature.multiblock.IEnhancedMultiblockMachine;
+import com.gto.gtocore.api.machine.feature.multiblock.IMEOutputMachine;
 import com.gto.gtocore.api.machine.trait.IEnhancedRecipeLogic;
 import com.gto.gtocore.api.recipe.AsyncCrossRecipeSearchTask;
 import com.gto.gtocore.api.recipe.AsyncRecipeOutputTask;
@@ -195,7 +196,7 @@ public abstract class RecipeLogicMixin extends MachineTrait implements IEnhanced
 
     @Inject(method = "handleRecipeIO", at = @At("HEAD"), remap = false, cancellable = true)
     protected void handleRecipeIO(GTRecipe recipe, IO io, CallbackInfoReturnable<Boolean> cir) {
-        if (io == IO.OUT && GTOConfig.INSTANCE.asyncRecipeOutput) {
+        if (io == IO.OUT && GTOConfig.INSTANCE.asyncRecipeOutput && machine instanceof IMEOutputMachine outputMachine && outputMachine.gTOCore$DualMEOutput()) {
             AsyncRecipeOutputTask.addAsyncLogic(getLogic(), () -> recipe.handleRecipeIO(IO.OUT, this.machine, this.chanceCaches));
             cir.setReturnValue(true);
         }
@@ -233,6 +234,7 @@ public abstract class RecipeLogicMixin extends MachineTrait implements IEnhanced
             } else if (lastRecipe != null) {
                 findAndHandleRecipe();
             } else if (gtocore$hasAsyncTask() || getMachine().getOffsetTimer() % gtocore$interval == 0) {
+                boolean hasResult = false;
                 if (gtocore$hasAsyncTask() && gtocore$asyncRecipeSearchTask.getResult() != null && !(gtocore$asyncRecipeSearchTask instanceof AsyncCrossRecipeSearchTask)) {
                     AsyncRecipeSearchTask.IResult result = gtocore$asyncRecipeSearchTask.getResult();
                     if (result.recipe() != null) {
@@ -240,21 +242,25 @@ public abstract class RecipeLogicMixin extends MachineTrait implements IEnhanced
                         if (lastRecipe != null && getStatus() == RecipeLogic.Status.WORKING) {
                             lastOriginRecipe = result.recipe();
                             lastFailedMatches = null;
+                            gtocore$interval = 5;
                             if (gTOCore$lockRecipe) gTOCore$originRecipe = lastOriginRecipe;
+                            gtocore$asyncRecipeSearchTask.clean();
                             return;
                         }
                     }
+                    hasResult = true;
                     gtocore$asyncRecipeSearchTask.clean();
                 }
                 if (lastFailedMatches != null) {
                     for (GTRecipe match : lastFailedMatches) {
                         if (checkMatchedRecipeAvailable(match)) {
+                            gtocore$interval = 5;
                             if (gTOCore$lockRecipe) gTOCore$originRecipe = lastOriginRecipe;
                             return;
                         }
                     }
                 }
-                findAndHandleRecipe();
+                if (!hasResult) findAndHandleRecipe();
                 if (!gtocore$hasAsyncTask() && lastRecipe == null && isIdle() && !machine.keepSubscribing() && !recipeDirty && lastFailedMatches == null) {
                     if (gtocore$interval < GTOConfig.INSTANCE.recipeMaxCheckInterval) {
                         gtocore$interval <<= 1;
@@ -331,7 +337,6 @@ public abstract class RecipeLogicMixin extends MachineTrait implements IEnhanced
         if (last == RecipeLogic.Status.WORKING && getStatus() != RecipeLogic.Status.WORKING) {
             lastRecipe.postWorking(machine);
         } else if (last != RecipeLogic.Status.WORKING && getStatus() == RecipeLogic.Status.WORKING) {
-            gtocore$interval = 5;
             lastRecipe.preWorking(machine);
         }
     }

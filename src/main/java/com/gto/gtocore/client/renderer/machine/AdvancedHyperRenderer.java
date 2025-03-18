@@ -1,5 +1,6 @@
 package com.gto.gtocore.client.renderer.machine;
 
+import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.api.machine.multiblock.ElectricMultiblockMachine;
 import com.gto.gtocore.client.ClientUtil;
 
@@ -23,12 +24,12 @@ import org.joml.Quaternionf;
 
 import java.util.function.Consumer;
 
-import static com.gto.gtocore.client.renderer.machine.EyeOfHarmonyRenderer.STAR_MODEL;
+public final class AdvancedHyperRenderer extends WorkableCasingMachineRenderer {
 
-public final class AnnihilateGeneratorRenderer extends WorkableCasingMachineRenderer {
+    private static final ResourceLocation BLUE_STAR_MODEL = GTOCore.id("obj/blue_star");
 
-    public AnnihilateGeneratorRenderer() {
-        super(GTCEu.id("block/casings/hpca/high_power_casing"), GTCEu.id("block/multiblock/fusion_reactor"));
+    public AdvancedHyperRenderer() {
+        super(GTOCore.id("block/casings/enhance_hyper_mechanical_casing"), GTCEu.id("block/multiblock/fusion_reactor"));
     }
 
     @Override
@@ -36,12 +37,12 @@ public final class AnnihilateGeneratorRenderer extends WorkableCasingMachineRend
     public void render(BlockEntity blockEntity, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int combinedLight, int combinedOverlay) {
         if (blockEntity instanceof IMachineBlockEntity machineBlockEntity && machineBlockEntity.getMetaMachine() instanceof ElectricMultiblockMachine machine && machine.isFormed() && (machine.isActive() || blockEntity.getLevel() instanceof TrackedDummyWorld)) {
             float tick = machine.getOffsetTimer() + partialTicks;
-            double x = 0.5, y = 36.5, z = 0.5;
+            double x = 0.5, y = 8.25, z = 0.5;
             switch (machine.getFrontFacing()) {
-                case NORTH -> z = 39.5;
-                case SOUTH -> z = -38.5;
-                case WEST -> x = 39.5;
-                case EAST -> x = -38.5;
+                case NORTH -> z = 18.5;
+                case SOUTH -> z = -17.5;
+                case WEST -> x = 18.5;
+                case EAST -> x = -17.5;
             }
             poseStack.pushPose();
             poseStack.translate(x, y, z);
@@ -53,9 +54,9 @@ public final class AnnihilateGeneratorRenderer extends WorkableCasingMachineRend
     @OnlyIn(Dist.CLIENT)
     private static void renderStar(float tick, PoseStack poseStack, MultiBufferSource buffer) {
         poseStack.pushPose();
-        poseStack.scale(0.45F, 0.45F, 0.45F);
-        poseStack.mulPose(new Quaternionf().fromAxisAngleDeg(0.0F, 1.0F, 1.0F, tick % 360.0F));
-        ClientUtil.modelRenderer().renderModel(poseStack.last(), buffer.getBuffer(RenderType.translucent()), null, ClientUtil.getBakedModel(STAR_MODEL), 1.0F, 1.0F, 1.0F, LightTexture.FULL_BRIGHT, OverlayTexture.NO_OVERLAY, ModelData.EMPTY, RenderType.translucent());
+        poseStack.scale(0.105F, 0.105F, 0.105F);
+        poseStack.mulPose(new Quaternionf().fromAxisAngleDeg(1.0F, 1.0F, 0.0F, (tick % 36.0F) * 4));
+        ClientUtil.modelRenderer().renderModel(poseStack.last(), buffer.getBuffer(RenderType.translucent()), null, ClientUtil.getBakedModel(BLUE_STAR_MODEL), 1.0F, 1.0F, 1.0F, LightTexture.FULL_BRIGHT, OverlayTexture.NO_OVERLAY, ModelData.EMPTY, RenderType.translucent());
         poseStack.popPose();
     }
 
@@ -63,7 +64,7 @@ public final class AnnihilateGeneratorRenderer extends WorkableCasingMachineRend
     @OnlyIn(Dist.CLIENT)
     public void onAdditionalModel(Consumer<ResourceLocation> registry) {
         super.onAdditionalModel(registry);
-        registry.accept(STAR_MODEL);
+        registry.accept(BLUE_STAR_MODEL);
     }
 
     @Override
@@ -81,6 +82,6 @@ public final class AnnihilateGeneratorRenderer extends WorkableCasingMachineRend
     @Override
     @OnlyIn(Dist.CLIENT)
     public int getViewDistance() {
-        return 256;
+        return 128;
     }
 }

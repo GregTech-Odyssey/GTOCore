@@ -3,19 +3,23 @@ package com.gto.gtocore.mixin.gtm.machine;
 import com.gto.gtocore.api.machine.feature.multiblock.IEnhancedMultiblockMachine;
 import com.gto.gtocore.api.machine.feature.multiblock.IMEOutputMachine;
 
+import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
+import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IWorkableMultiController;
 import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockControllerMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableMultiblockMachine;
 import com.gregtechceu.gtceu.api.machine.trait.IRecipeHandlerTrait;
+import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.integration.ae2.machine.MEOutputBusPartMachine;
 import com.gregtechceu.gtceu.integration.ae2.machine.MEOutputHatchPartMachine;
 
 import com.hepdd.gtmthings.common.block.machine.multiblock.part.appeng.MEOutputPartMachine;
-import com.llamalad7.mixinextras.sugar.Local;
 import com.lowdragmc.lowdraglib.syncdata.ISubscription;
+import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -25,11 +29,20 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(WorkableMultiblockMachine.class)
 public abstract class WorkableMultiblockMachineMixin extends MultiblockControllerMachine implements IWorkableMultiController, IMEOutputMachine {
 
+    @Shadow(remap = false)
+    public abstract @NotNull GTRecipeType getRecipeType();
+
     @Unique
     private boolean gTOCore$isItemOutput;
 
     @Unique
     private boolean gTOCore$isFluidOutput;
+
+    @Unique
+    private boolean gTOCore$isDualOutput;
+
+    @Unique
+    private boolean gTOCore$DualMEOutput;
 
     protected WorkableMultiblockMachineMixin(IMachineBlockEntity holder) {
         super(holder);
@@ -45,26 +58,47 @@ public abstract class WorkableMultiblockMachineMixin extends MultiblockControlle
         });
     }
 
-    @Inject(method = "onStructureFormed", at = @At(value = "INVOKE", target = "Ljava/util/Map;getOrDefault(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;"), remap = false)
-    private void onStructureFormed(CallbackInfo ci, @Local IMultiPart part) {
-        if (this instanceof IEnhancedMultiblockMachine enhancedRecipeLogicMachine) {
-            enhancedRecipeLogicMachine.onPartScan(part);
+    @Inject(method = "onStructureFormed", at = @At(value = "TAIL"), remap = false)
+    private void onStructureFormed(CallbackInfo ci) {
+        for (IMultiPart part : getParts()) {
+            if (this instanceof IEnhancedMultiblockMachine enhancedRecipeLogicMachine) {
+                enhancedRecipeLogicMachine.onPartScan(part);
+            }
+            if (gTOCore$isItemOutput && gTOCore$isFluidOutput) continue;
+            if (part instanceof MEOutputPartMachine) {
+                gTOCore$isItemOutput = true;
+                gTOCore$isFluidOutput = true;
+                gTOCore$isDualOutput = true;
+            } else if (part instanceof MEOutputBusPartMachine) {
+                gTOCore$isItemOutput = true;
+            } else if (part instanceof MEOutputHatchPartMachine) {
+                gTOCore$isFluidOutput = true;
+            }
         }
-        if (gTOCore$isItemOutput && gTOCore$isFluidOutput) return;
-        if (part instanceof MEOutputPartMachine) {
-            gTOCore$isItemOutput = true;
-            gTOCore$isFluidOutput = true;
-        } else if (part instanceof MEOutputBusPartMachine) {
-            gTOCore$isItemOutput = true;
-        } else if (part instanceof MEOutputHatchPartMachine) {
-            gTOCore$isFluidOutput = true;
-        }
+        gtocore$refreshMEStatus();
+    }
+
+    @Inject(method = "setActiveRecipeType", at = @At(value = "TAIL"), remap = false)
+    public void setActiveRecipeType(CallbackInfo ci) {
+        gtocore$refreshMEStatus();
     }
 
     @Inject(method = "onStructureInvalid", at = @At(value = "TAIL"), remap = false)
     private void onStructureInvalid(CallbackInfo ci) {
         gTOCore$isItemOutput = false;
         gTOCore$isFluidOutput = false;
+    }
+
+    @Unique
+    private void gtocore$refreshMEStatus() {
+        gTOCore$DualMEOutput = true;
+        if (gTOCore$isDualOutput) return;
+        if (getRecipeType().getMaxOutputs(ItemRecipeCapability.CAP) > 0) {
+            gTOCore$DualMEOutput = gTOCore$isItemOutput;
+        }
+        if (gTOCore$DualMEOutput && getRecipeType().getMaxOutputs(FluidRecipeCapability.CAP) > 0) {
+            gTOCore$DualMEOutput = gTOCore$isFluidOutput;
+        }
     }
 
     @Override
@@ -75,6 +109,11 @@ public abstract class WorkableMultiblockMachineMixin extends MultiblockControlle
     @Override
     public boolean gTOCore$isFluidOutput() {
         return gTOCore$isFluidOutput;
+    }
+
+    @Override
+    public boolean gTOCore$DualMEOutput() {
+        return gTOCore$DualMEOutput;
     }
 
     @Override
