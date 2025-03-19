@@ -11,14 +11,12 @@ import com.gto.gtocore.common.wireless.ExtendWirelessEnergyContainer;
 import com.gto.gtocore.utils.FunctionContainer;
 
 import com.gregtechceu.gtceu.api.GTValues;
-import com.gregtechceu.gtceu.api.machine.ConditionalSubscriptionHandler;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.IMachineLife;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.gregtechceu.gtceu.utils.GTUtil;
 
 import net.minecraft.ChatFormatting;
-import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
@@ -58,19 +56,11 @@ public final class WirelessEnergySubstationMachine extends NoRecipeLogicMultiblo
 
     private final TierCasingTrait tierCasingTrait;
 
-    private final ConditionalSubscriptionHandler tickSubs;
-
     public WirelessEnergySubstationMachine(IMachineBlockEntity holder) {
         super(holder);
         tierCasingTrait = new TierCasingTrait(this, GTOValues.GLASS_TIER);
-        tickSubs = new ConditionalSubscriptionHandler(this, this::tickUpdate, () -> isFormed && WirelessEnergyContainerCache != null);
     }
 
-    private void tickUpdate() {
-        if (getOffsetTimer() % 100 == 0) {
-            tickSubs.updateSubscription();
-        }
-    }
 
     @Override
     public void onMachinePlaced(@Nullable LivingEntity player, ItemStack stack) {
@@ -111,7 +101,6 @@ public final class WirelessEnergySubstationMachine extends NoRecipeLogicMultiblo
         }
         container.setLoss(i == 0 ? 0 : loss / i);
         container.setCapacity(capacity.multiply(BigInteger.valueOf(Math.max(1, i / 2))));
-        tickSubs.initialize(getLevel());
     }
 
     @Override
@@ -132,7 +121,12 @@ public final class WirelessEnergySubstationMachine extends NoRecipeLogicMultiblo
 
     @Override
     public EnergyInfo getEnergyInfo() {
-        return new EnergyInfo(WirelessEnergyContainerCache.getCapacity(), WirelessEnergyContainerCache.getStorage());
+        var container = getWirelessEnergyContainer();
+        if (container == null) {
+            return new EnergyInfo(BigInteger.ZERO, BigInteger.ZERO);
+        } else {
+            return new EnergyInfo(container.getCapacity(), container.getStorage());
+        }
     }
 
     @Override
