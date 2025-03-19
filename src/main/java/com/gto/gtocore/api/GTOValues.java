@@ -40,6 +40,8 @@ public final class GTOValues {
     public static final String GLASS_TIER = "gb";
     public static final String MACHINE_CASING_TIER = "mc";
     public static final String GRAVITON_FLOW_TIER = "gf";
+    public static final String COMPUTER_CASING_TIER = "computer";
+    public static final String COMPUTER_HEAT_TIER = "computer_heat";
 
     // Drone State
     public static final String REMOVING_ASH = "gtocore.drone.removing_ash";

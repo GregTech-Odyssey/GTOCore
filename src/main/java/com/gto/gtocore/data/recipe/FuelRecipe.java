@@ -33,12 +33,13 @@ public interface FuelRecipe {
             if (fuelEntry.getKey() instanceof BucketItem) continue;
             addedItems.add(fuelEntry.getKey());
             var resLoc = ItemUtils.getIdLocation(fuelEntry.getKey());
+            long burnTime = fuelEntry.getValue();
             STEAM_BOILER_RECIPES.recipeBuilder(GTCEu.id(resLoc.getNamespace() + "_" + resLoc.getPath()))
                     .inputItems(fuelEntry.getKey())
-                    .duration(Math.min(Integer.MAX_VALUE, fuelEntry.getValue() << 3))
+                    .duration((int) Math.min(Integer.MAX_VALUE, burnTime << 3))
                     .save();
 
-            int time = fuelEntry.getValue() / 20;
+            int time = (int) (burnTime / 20);
             if (time > 0) LARGE_BOILER_RECIPES.recipeBuilder(GTCEu.id(resLoc.getNamespace() + "_" + resLoc.getPath()))
                     .inputItems(fuelEntry.getKey())
                     .duration(time)
@@ -47,15 +48,15 @@ public interface FuelRecipe {
 
         for (Item item : BuiltInRegistries.ITEM) {
             if (item instanceof BucketItem) continue;
-            int burnTime = GTUtil.getItemBurnTime(item);
+            long burnTime = GTUtil.getItemBurnTime(item);
             if (burnTime > 0 && !addedItems.contains(item)) {
                 var resLoc = ItemUtils.getIdLocation(item);
                 STEAM_BOILER_RECIPES.recipeBuilder(GTCEu.id(resLoc.getNamespace() + "_" + resLoc.getPath()))
                         .inputItems(item)
-                        .duration(Math.min(Integer.MAX_VALUE, burnTime << 3))
+                        .duration((int) Math.min(Integer.MAX_VALUE, burnTime << 3))
                         .save();
 
-                int time = burnTime / 20;
+                int time = (int) (burnTime / 20);
                 if (time > 0) LARGE_BOILER_RECIPES.recipeBuilder(GTCEu.id(resLoc.getNamespace() + "_" + resLoc.getPath()))
                         .inputItems(item)
                         .duration(time)

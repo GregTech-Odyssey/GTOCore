@@ -15,13 +15,17 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 
 import appeng.api.stacks.AEFluidKey;
+import com.lowdragmc.lowdraglib.syncdata.ISubscription;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class InaccessibleInfiniteTank extends NotifiableFluidTank {
+
+    private final List<Runnable> listener = new CopyOnWriteArrayList<>();
 
     private final FluidStorageDelegate storage;
 
@@ -30,6 +34,18 @@ public class InaccessibleInfiniteTank extends NotifiableFluidTank {
         internalBuffer.setOnContentsChanged(this::onContentsChanged);
         storage = (FluidStorageDelegate) getStorages()[0];
         allowSameFluids = true;
+        listeners = null;
+    }
+
+    @Override
+    public ISubscription addChangedListener(Runnable runnable) {
+        listener.add(runnable);
+        return () -> listener.remove(runnable);
+    }
+
+    @Override
+    public void notifyListeners() {
+        listener.forEach(Runnable::run);
     }
 
     @Override

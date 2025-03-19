@@ -14,13 +14,17 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 
 import appeng.api.stacks.AEItemKey;
+import com.lowdragmc.lowdraglib.syncdata.ISubscription;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
-public class InaccessibleInfiniteHandler extends NotifiableItemStackHandler {
+public final class InaccessibleInfiniteHandler extends NotifiableItemStackHandler {
+
+    private final List<Runnable> listener = new CopyOnWriteArrayList<>();
 
     private final ItemStackHandlerDelegate delegate;
 
@@ -28,6 +32,18 @@ public class InaccessibleInfiniteHandler extends NotifiableItemStackHandler {
         super(holder, 1, IO.OUT, IO.NONE, i -> new ItemStackHandlerDelegate(internalBuffer));
         internalBuffer.setOnContentsChanged(this::onContentsChanged);
         delegate = ((ItemStackHandlerDelegate) storage);
+        listeners = null;
+    }
+
+    @Override
+    public ISubscription addChangedListener(Runnable runnable) {
+        listener.add(runnable);
+        return () -> listener.remove(runnable);
+    }
+
+    @Override
+    public void notifyListeners() {
+        listener.forEach(Runnable::run);
     }
 
     @Override

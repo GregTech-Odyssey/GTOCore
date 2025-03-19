@@ -1,15 +1,11 @@
 package com.gto.gtocore.common.machine.multiblock.electric;
 
+import com.gto.gtocore.api.GTOValues;
 import com.gto.gtocore.api.data.chemical.GTOChemicalHelper;
-import com.gto.gtocore.api.machine.feature.multiblock.IMultiStructureMachine;
-import com.gto.gtocore.api.machine.feature.multiblock.IParallelMachine;
 import com.gto.gtocore.api.machine.multiblock.StorageMultiblockMachine;
 import com.gto.gtocore.api.recipe.GTORecipeBuilder;
 import com.gto.gtocore.api.recipe.RecipeRunner;
-import com.gto.gtocore.common.data.GTOBlocks;
 import com.gto.gtocore.common.data.GTOItems;
-import com.gto.gtocore.common.data.GTOMachines;
-import com.gto.gtocore.common.data.machines.ExResearchMachines;
 import com.gto.gtocore.common.machine.multiblock.part.ThermalConductorHatchPartMachine;
 import com.gto.gtocore.common.machine.multiblock.part.research.ExResearchBasePartMachine;
 import com.gto.gtocore.common.machine.multiblock.part.research.ExResearchBridgePartMachine;
@@ -20,13 +16,9 @@ import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.IOpticalComputationProvider;
 import com.gregtechceu.gtceu.api.machine.ConditionalSubscriptionHandler;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
-import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
-import com.gregtechceu.gtceu.api.pattern.BlockPattern;
-import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
-import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.hpca.HPCABridgePartMachine;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.hpca.HPCAComponentPartMachine;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.hpca.HPCAComputationPartMachine;
@@ -40,7 +32,8 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
 import com.google.common.collect.ImmutableMap;
-import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
+import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 
@@ -52,52 +45,22 @@ import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
 import static com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys.GAS;
 import static com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys.LIQUID;
 import static com.gregtechceu.gtceu.api.machine.multiblock.PartAbility.*;
-import static com.gregtechceu.gtceu.api.machine.multiblock.PartAbility.MAINTENANCE;
 import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
-import static com.gregtechceu.gtceu.api.pattern.Predicates.abilities;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
 import static com.gto.gtocore.common.data.GTOMaterials.*;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public final class SupercomputingCenterMachine extends StorageMultiblockMachine implements IOpticalComputationProvider, IParallelMachine, IMultiStructureMachine {
+public final class SupercomputingCenterMachine extends StorageMultiblockMachine implements IOpticalComputationProvider {
 
-    private static final Set<Item> MAINFRAME = Set.of(GTOItems.BIOWARE_MAINFRAME.asItem(), GTOItems.EXOTIC_MAINFRAME.asItem());
+    private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
+            SupercomputingCenterMachine.class, StorageMultiblockMachine.MANAGED_FIELD_HOLDER);
 
-    @Setter
-    private ThermalConductorHatchPartMachine thermalConductorHatchPartMachine;
+    private static final Map<Item, Integer> MAINFRAME = Map.of(GTOItems.BIOWARE_MAINFRAME.asItem(), 2, GTOItems.EXOTIC_MAINFRAME.asItem(), 3);
+
+    private static final Map<Integer, Integer> GLASS_MAP = Map.of(1, GTValues.IV, 2, GTValues.UHV, 3, GTValues.UIV);
 
     private static final Map<Item, Item> MFPCs;
-
-    private final ConditionalSubscriptionHandler maxCWUtModificationSubs;
-
-    private int machineTier;
-
-    private boolean incompatible, canBridge;
-
-    private int maxCWUt, coolingAmount, maxCoolingAmount, allocatedCWUt, maxCWUtModification;
-
-    private long maxEUt;
-
-    private GTRecipe runRecipe;
-
-    public SupercomputingCenterMachine(IMachineBlockEntity holder) {
-        super(holder, 1, stack -> MAINFRAME.contains(stack.getItem()));
-        maxCWUtModificationSubs = new ConditionalSubscriptionHandler(this, this::maxCWUtModificationUpdate, () -> isFormed || maxCWUtModification > 0);
-    }
-
-    private void clean() {
-        machineTier = 1;
-        canBridge = false;
-        incompatible = false;
-        runRecipe = null;
-        allocatedCWUt = 0;
-        maxCWUt = 0;
-        coolingAmount = 0;
-        maxCoolingAmount = 0;
-        maxEUt = 0;
-        maxCWUtModification = 10000;
-    }
 
     static {
         ImmutableMap.Builder<Item, Item> mfpcRecipe = ImmutableMap.builder();
@@ -118,35 +81,61 @@ public final class SupercomputingCenterMachine extends StorageMultiblockMachine 
             GTOChemicalHelper.getItem(nugget, CascadeMFPC), 4,
             GTOChemicalHelper.getItem(nugget, BasicMFPC), 5);
 
-    private static int getIndexForItem(Item item) {
-        return ITEM_INDEX_MAP.getOrDefault(item, -1);
+    @Setter
+    private ThermalConductorHatchPartMachine thermalConductorHatchPartMachine;
+
+    private final ConditionalSubscriptionHandler maxCWUtModificationSubs;
+
+    @Persisted
+    private int machineTier;
+
+    private boolean incompatible, canBridge;
+
+    private int maxCWUt, coolingAmount, maxCoolingAmount, allocatedCWUt, maxCWUtModification;
+
+    private long maxEUt;
+
+    private GTRecipe runRecipe;
+
+    public SupercomputingCenterMachine(IMachineBlockEntity holder) {
+        super(holder, 1, stack -> MAINFRAME.containsKey(stack.getItem()));
+        maxCWUtModificationSubs = new ConditionalSubscriptionHandler(this, this::maxCWUtModificationUpdate, () -> isFormed);
     }
 
-    private final int[] N_MFPCs = { 5400, 1800, 600, 200, 66, 22 };
-
     @Override
-    public void onPartScan(IMultiPart part) {
-        super.onPartScan(part);
-        if (thermalConductorHatchPartMachine == null && part instanceof ThermalConductorHatchPartMachine thermalConductorHatchPart) {
-            thermalConductorHatchPartMachine = thermalConductorHatchPart;
-        }
+    public ManagedFieldHolder getFieldHolder() {
+        return MANAGED_FIELD_HOLDER;
     }
 
-    @Override
-    protected void onMachineChanged() {
-        updateCheck();
+    private void clean() {
+        canBridge = false;
+        incompatible = false;
+        runRecipe = null;
+        allocatedCWUt = 0;
+        maxCWUt = 0;
+        coolingAmount = 0;
+        maxCoolingAmount = 0;
+        maxEUt = 0;
+        maxCWUtModification = 10000;
     }
 
-    @Override
-    public void onStructureFormed() {
-        super.onStructureFormed();
+    private void changed() {
         clean();
-        ItemStack stack1 = getStorageStack();
-        Item Item1 = stack1.getItem();
-        if (Item1.equals(GTOItems.BIOWARE_MAINFRAME.asItem())) {
-            machineTier = 2;
-        } else if (Item1.equals(GTOItems.EXOTIC_MAINFRAME.asItem())) {
-            machineTier = 3;
+        if (!isFormed) return;
+        Integer computerTier = getMultiblockState().getMatchContext().get(GTOValues.COMPUTER_CASING_TIER);
+        if (computerTier == null || machineTier != computerTier) {
+            incompatible = true;
+            return;
+        }
+        Integer heatTier = getMultiblockState().getMatchContext().get(GTOValues.COMPUTER_HEAT_TIER);
+        if (heatTier == null || machineTier != heatTier) {
+            incompatible = true;
+            return;
+        }
+        Integer glassTier = getMultiblockState().getMatchContext().get(GTOValues.GLASS_TIER);
+        if (glassTier == null || glassTier < GLASS_MAP.get(machineTier)) {
+            incompatible = true;
+            return;
         }
         for (IMultiPart part : getParts()) {
             if (incompatible) return;
@@ -188,6 +177,36 @@ public final class SupercomputingCenterMachine extends StorageMultiblockMachine 
                 .duration(20)
                 .buildRawRecipe();
         maxCWUtModificationSubs.initialize(getLevel());
+    }
+
+    private static int getIndexForItem(Item item) {
+        return ITEM_INDEX_MAP.getOrDefault(item, -1);
+    }
+
+    private final int[] N_MFPCs = { 5400, 1800, 600, 200, 66, 22 };
+
+    @Override
+    public void onPartScan(IMultiPart part) {
+        super.onPartScan(part);
+        if (thermalConductorHatchPartMachine == null && part instanceof ThermalConductorHatchPartMachine thermalConductorHatchPart) {
+            thermalConductorHatchPartMachine = thermalConductorHatchPart;
+        }
+    }
+
+    @Override
+    protected void onMachineChanged() {
+        machineTier = 1;
+        Integer integer = MAINFRAME.get(getStorageStack().getItem());
+        if (integer != null) {
+            machineTier = integer;
+        }
+        changed();
+    }
+
+    @Override
+    public void onStructureFormed() {
+        super.onStructureFormed();
+        changed();
     }
 
     @Override
@@ -255,22 +274,23 @@ public final class SupercomputingCenterMachine extends StorageMultiblockMachine 
                         CustomItemStackHandler stackTransfer = thermalConductorHatchPartMachine.getInventory().storage;
                         for (int i = 0; i < stackTransfer.getSlots(); i++) {
                             ItemStack itemStack = stackTransfer.getStackInSlot(i);
-                            if (MFPCs.containsKey(itemStack.getItem())) {
+                            Item valueItem = MFPCs.get(itemStack.getItem());
+                            if (valueItem != null) {
                                 int count = itemStack.getCount();
                                 int index = getIndexForItem(itemStack.getItem());
-                                int Consumption = Math.min(count, (max - maxCWUtModification) / N_MFPCs[index] + 1);
-                                stackTransfer.setStackInSlot(i, new ItemStack(itemStack.getItem(), count - Consumption));
-                                maxCWUtModification += N_MFPCs[index] * Consumption;
+                                int consumption = Math.min(count, (max - maxCWUtModification) / N_MFPCs[index] + 1);
+                                stackTransfer.setStackInSlot(i, itemStack.copyWithCount(count - consumption));
+                                maxCWUtModification += N_MFPCs[index] * consumption;
                                 for (int j = 0; j < stackTransfer.getSlots(); j++) {
-                                    if (stackTransfer.getStackInSlot(j).getItem() == MFPCs.get(itemStack.getItem())) {
+                                    if (stackTransfer.getStackInSlot(j).getItem() == valueItem) {
                                         int count2 = stackTransfer.getStackInSlot(j).getCount();
-                                        if (count2 + Consumption <= 64) {
-                                            stackTransfer.setStackInSlot(j, new ItemStack(MFPCs.get(itemStack.getItem()), count2 + Consumption));
+                                        if (count2 + consumption <= 64) {
+                                            stackTransfer.setStackInSlot(j, new ItemStack(valueItem, count2 + consumption));
                                             break;
                                         }
                                     }
                                     if (stackTransfer.getStackInSlot(j).isEmpty()) {
-                                        ItemStack convertedStack = new ItemStack(MFPCs.get(itemStack.getItem()), Consumption);
+                                        ItemStack convertedStack = new ItemStack(valueItem, consumption);
                                         stackTransfer.setStackInSlot(j, convertedStack);
                                         break;
                                     }
@@ -301,87 +321,22 @@ public final class SupercomputingCenterMachine extends StorageMultiblockMachine 
     }
 
     @Override
-    public void customText(List<Component> textList) {
-        textList.add(Component.translatable("tooltip.avaritia.tier", machineTier));
+    public void addDisplayText(@NotNull List<Component> textList) {
         if (incompatible) {
+            textList.add(Component.translatable("tooltip.avaritia.tier", machineTier));
             textList.add(Component.translatable("gtceu.multiblock.invalid_structure").withStyle(ChatFormatting.RED));
         } else {
-            super.customText(textList);
-            textList.add(Component.translatable("gtceu.multiblock.energy_consumption", maxEUt, GTValues.VNF[GTUtil.getTierByVoltage(maxEUt)]).withStyle(ChatFormatting.YELLOW));
-            textList.add(Component.translatable("gtceu.multiblock.hpca.computation", Component.literal(allocatedCWUt + " / " + getMaxCWUt()).append(Component.literal(" CWU/t")).withStyle(ChatFormatting.AQUA)).withStyle(ChatFormatting.GRAY));
-            textList.add(Component.translatable("gtocore.machine.cwut_modification", ((double) maxCWUtModification / 10000)).withStyle(ChatFormatting.GRAY));
-            textList.add(Component.translatable("gtceu.multiblock.hpca.info_max_coolant_required", Component.literal(coolingAmount + " / " + maxCoolingAmount).append(Component.literal(" mB/t")).withStyle(ChatFormatting.AQUA)).withStyle(ChatFormatting.GRAY));
+            super.addDisplayText(textList);
         }
     }
 
-    private static final Map<Integer, BlockPattern> PATTERNS = new Int2ObjectOpenHashMap<>(4, 0.9F);
-
-    public static BlockPattern getBlockPattern(int tier, MachineDefinition definition) {
-        FactoryBlockPattern builder = FactoryBlockPattern.start()
-                .aisle("  AAAAAAAAAAA  ", " AA         AA ", "AA           AA", "A             A", "A             A", "A             A", "A             A", "AA           AA", " AA         AA ", "  AAAAAAAAAAA  ")
-                .aisle(" AAABBBBBBBAAA ", "AACCCCCCCCCCCAA", "ACCKKKKKKKKKCCA", " CKKKKKKKKKKKC ", " CKKKKKKKKKKKC ", " CKKKKKKKKKKKC ", " CKKKKKKKKKKKC ", "ACCKKKKKKKKKCCA", "AACCCCCCCCCCCAA", " AA         AA ")
-                .aisle("AAABBBBBBBBBAAA", "ACC         CCA", " C           C ", " K           K ", " K           K ", " K           K ", " K           K ", " C           C ", "ACCKKKKKKKKKCCA", "AA           AA")
-                .aisle("AABBBBBBBBBBBAA", " C  CC   CC  C ", " K  CC   CC  K ", " K  CC   CC  K ", " K  CC   CC  K ", " K  CC   CC  K ", " K  CC   CC  K ", " K  CC   CC  K ", " CKKKKKKKKKKKC ", "A             A")
-                .aisle("ABBBBBBBBBBBBBA", " C  CC   CC  C ", " K  DE   ED  K ", " K  DE   ED  K ", " K  DE   ED  K ", " K  DE   ED  K ", " K  DE   ED  K ", " K  CC   CC  K ", " CKKKKKKKKKKKC ", "A             A")
-                .aisle("ABBBBBBBBBBBBBA", " C  CC   CC  C ", " K  DE   ED  K ", " K  DE   ED  K ", " K  DE   ED  K ", " K  DE   ED  K ", " K  DE   ED  K ", " K  CC   CC  K ", " CKKKKKKKKKKKC ", "A             A")
-                .aisle("ABBBBBBBBBBBBBA", " C  CC   CC  C ", " K  DE   ED  K ", " K  DE   ED  K ", " K  DE   ED  K ", " K  DE   ED  K ", " K  DE   ED  K ", " K  CC   CC  K ", " CKKKKKKKKKKKC ", "A             A")
-                .aisle("ABBBBBBBBBBBBBA", " C  CC   CC  C ", " K  DE   ED  K ", " K  DE   ED  K ", " K  DE   ED  K ", " K  DE   ED  K ", " K  DE   ED  K ", " K  CC   CC  K ", " CKKKKKKKKKKKC ", "A             A")
-                .aisle("ABBBBBBBBBBBBBA", " C  CC   CC  C ", " K  DE   ED  K ", " K  DE   ED  K ", " K  DE   ED  K ", " K  DE   ED  K ", " K  DE   ED  K ", " K  CC   CC  K ", " CKKKKKKKKKKKC ", "A             A")
-                .aisle("AABBBBBBBBBBBAA", " C  CC   CC  C ", " K  CC   CC  K ", " K  CC   CC  K ", " K  CC   CC  K ", " K  CC   CC  K ", " K  CC   CC  K ", " K  CC   CC  K ", " CKKKKKKKKKKKC ", "A             A")
-                .aisle("AAABBBBBBBBBAAA", "ACC         CCA", " C           C ", " K           K ", " K           K ", " K           K ", " K           K ", " C           C ", "ACCKKKKKKKKKCCA", "AA           AA")
-                .aisle(" AAABBBBBBBAAA ", "AACCCCCCCCCCCAA", "ACCKKKKKKKKKCCA", " CKKKVVVVVKKKC ", " CKKVVV~VVVKKC ", " CKKKVVVVVKKKC ", " CKKKKKKKKKKKC ", "ACCKKKKKKKKKCCA", "AACCCCCCCCCCCAA", " AA         AA ")
-                .aisle("  AAAAAAAAAAA  ", " AA         AA ", "AA           AA", "A             A", "A             A", "A             A", "A             A", "AA           AA", " AA         AA ", "  AAAAAAAAAAA  ")
-                .where('A', blocks(GTBlocks.ADVANCED_COMPUTER_CASING.get()))
-                .where('B', blocks(GTBlocks.HIGH_POWER_CASING.get()))
-                .where('~', controller(blocks(definition.get())))
-                .where(' ', any())
-                .where('V', blocks(GTBlocks.COMPUTER_CASING.get())
-                        .or(blocks(GTOMachines.THERMAL_CONDUCTOR_HATCH.get()).setMaxGlobalLimited(1))
-                        .or(abilities(IMPORT_ITEMS))
-                        .or(abilities(IMPORT_FLUIDS))
-                        .or(abilities(EXPORT_ITEMS))
-                        .or(abilities(EXPORT_FLUIDS))
-                        .or(abilities(INPUT_ENERGY).setMaxGlobalLimited(2))
-                        .or(abilities(COMPUTATION_DATA_TRANSMISSION).setMaxGlobalLimited(1))
-                        .or(abilities(MAINTENANCE).setExactLimit(1)));
-        return PATTERNS.computeIfAbsent(tier, t -> switch (t) {
-            case 2 -> builder
-                    .where('C', blocks(GTOBlocks.BIOCOMPUTER_SHELL.get()))
-                    .where('K', blocks(GTOBlocks.AMPROSIUM_BOROSILICATE_GLASS.get()))
-                    .where('E', blocks(ExResearchMachines.NICH_EMPTY_COMPONENT.get())
-                            .or(blocks(ExResearchMachines.NICH_COOLING_COMPONENTS.get()))
-                            .or(blocks(ExResearchMachines.NICH_COMPUTING_COMPONENTS.get())))
-                    .where('D', blocks(GTOBlocks.PHASE_CHANGE_BIOCOMPUTER_COOLING_VENTS.get()))
-                    .build();
-            case 3 -> builder
-                    .where('C', blocks(GTOBlocks.GRAVITON_COMPUTER_SHELL.get()))
-                    .where('K', blocks(GTOBlocks.TARANIUM_BOROSILICATE_GLASS.get()))
-                    .where('E', blocks(ExResearchMachines.GWCA_EMPTY_COMPONENT.get())
-                            .or(blocks(ExResearchMachines.GWCA_COMPUTING_COMPONENTS.get()))
-                            .or(blocks(ExResearchMachines.GWCA_COOLING_COMPONENTS.get())))
-                    .where('D', blocks(GTOBlocks.ANTI_ENTROPY_COMPUTER_CONDENSATION_MATRIX.get()))
-                    .build();
-            default -> builder
-                    .where('C', blocks(GTBlocks.COMPUTER_CASING.get()))
-                    .where('K', blocks(GTBlocks.CASING_LAMINATED_GLASS.get()))
-                    .where('E', abilities(HPCA_COMPONENT))
-                    .where('D', blocks(GTBlocks.COMPUTER_HEAT_VENT.get()))
-                    .build();
-        });
-    }
-
     @Override
-    public BlockPattern getPattern() {
-        return getBlockPattern(machineTier, getDefinition());
-    }
-
-    @Override
-    public int getMaxParallel() {
-        return machineTier > 0 ? getStorageStack().getCount() : 0;
-    }
-
-    @Override
-    public List<BlockPattern> getMultiPattern() {
-        return List.of(getBlockPattern(1, getDefinition()), getBlockPattern(2, getDefinition()), getBlockPattern(3, getDefinition()));
+    public void customText(List<Component> textList) {
+        super.customText(textList);
+        textList.add(Component.translatable("tooltip.avaritia.tier", machineTier));
+        textList.add(Component.translatable("gtceu.multiblock.energy_consumption", maxEUt, GTValues.VNF[GTUtil.getTierByVoltage(maxEUt)]).withStyle(ChatFormatting.YELLOW));
+        textList.add(Component.translatable("gtceu.multiblock.hpca.computation", Component.literal(allocatedCWUt + " / " + getMaxCWUt()).append(Component.literal(" CWU/t")).withStyle(ChatFormatting.AQUA)).withStyle(ChatFormatting.GRAY));
+        textList.add(Component.translatable("gtocore.machine.cwut_modification", ((double) maxCWUtModification / 10000)).withStyle(ChatFormatting.GRAY));
+        textList.add(Component.translatable("gtceu.multiblock.hpca.info_max_coolant_required", Component.literal(coolingAmount + " / " + maxCoolingAmount).append(Component.literal(" mB/t")).withStyle(ChatFormatting.AQUA)).withStyle(ChatFormatting.GRAY));
     }
 }

@@ -10,7 +10,6 @@ import com.gto.gtocore.api.recipe.RecipeRunner;
 import com.gto.gtocore.config.GTOConfig;
 
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
-import com.gregtechceu.gtceu.api.capability.recipe.RecipeCapability;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
@@ -25,7 +24,6 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
@@ -35,7 +33,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 @Mixin(value = RecipeLogic.class, remap = false)
 public abstract class RecipeLogicMixin extends MachineTrait implements IEnhancedRecipeLogic {
@@ -109,9 +106,6 @@ public abstract class RecipeLogicMixin extends MachineTrait implements IEnhanced
     public abstract void onRecipeFinish();
 
     @Shadow
-    public abstract boolean checkMatchedRecipeAvailable(GTRecipe match);
-
-    @Shadow
     public List<GTRecipe> lastFailedMatches;
 
     @Shadow
@@ -139,16 +133,24 @@ public abstract class RecipeLogicMixin extends MachineTrait implements IEnhanced
     @Shadow
     protected abstract void handleSearchingRecipes(Iterator<GTRecipe> matches);
 
-    @Shadow
-    @Final
-    protected Map<RecipeCapability<?>, Object2IntMap<?>> chanceCaches;
-
     @Unique
     private void gTOCore$unsubscribe() {
         if (subscription != null) {
             subscription.unsubscribe();
             subscription = null;
         }
+    }
+
+    @Unique
+    private boolean gTOCore$successfullyRecipe(GTRecipe originrecipe) {
+        if (lastRecipe != null && getStatus() == RecipeLogic.Status.WORKING) {
+            lastOriginRecipe = originrecipe;
+            lastFailedMatches = null;
+            gtocore$interval = 5;
+            if (gTOCore$lockRecipe) gTOCore$originRecipe = originrecipe;
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -197,7 +199,7 @@ public abstract class RecipeLogicMixin extends MachineTrait implements IEnhanced
     @Inject(method = "handleRecipeIO", at = @At("HEAD"), remap = false, cancellable = true)
     protected void handleRecipeIO(GTRecipe recipe, IO io, CallbackInfoReturnable<Boolean> cir) {
         if (io == IO.OUT && GTOConfig.INSTANCE.asyncRecipeOutput && machine instanceof IMEOutputMachine outputMachine && outputMachine.gTOCore$DualMEOutput()) {
-            AsyncRecipeOutputTask.addAsyncLogic(getLogic(), () -> recipe.handleRecipeIO(IO.OUT, this.machine, this.chanceCaches));
+            AsyncRecipeOutputTask.addAsyncLogic(getLogic(), () -> RecipeRunner.handleRecipeOutput(machine, recipe));
             cir.setReturnValue(true);
         }
     }
@@ -239,11 +241,8 @@ public abstract class RecipeLogicMixin extends MachineTrait implements IEnhanced
                     AsyncRecipeSearchTask.IResult result = gtocore$asyncRecipeSearchTask.getResult();
                     if (result.recipe() != null) {
                         setupRecipe(result.modified());
-                        if (lastRecipe != null && getStatus() == RecipeLogic.Status.WORKING) {
-                            lastOriginRecipe = result.recipe();
-                            lastFailedMatches = null;
-                            gtocore$interval = 5;
-                            if (gTOCore$lockRecipe) gTOCore$originRecipe = lastOriginRecipe;
+                        if (gTOCore$successfullyRecipe(result.recipe())) {
+                            recipeDirty = false;
                             gtocore$asyncRecipeSearchTask.clean();
                             return;
                         }
@@ -254,8 +253,7 @@ public abstract class RecipeLogicMixin extends MachineTrait implements IEnhanced
                 if (lastFailedMatches != null) {
                     for (GTRecipe match : lastFailedMatches) {
                         if (checkMatchedRecipeAvailable(match)) {
-                            gtocore$interval = 5;
-                            if (gTOCore$lockRecipe) gTOCore$originRecipe = lastOriginRecipe;
+                            recipeDirty = false;
                             return;
                         }
                     }
@@ -269,6 +267,22 @@ public abstract class RecipeLogicMixin extends MachineTrait implements IEnhanced
                 }
             }
         }
+    }
+
+    /**
+     * @author .
+     * @reason .
+     */
+    @Overwrite(remap = false)
+    public boolean checkMatchedRecipeAvailable(GTRecipe match) {
+        GTRecipe modified = machine.fullModifyRecipe(match.copy());
+        if (modified != null) {
+            if (modified.checkConditions(getLogic()).isSuccess() && RecipeRunner.matchRecipe(machine, modified) && RecipeRunner.matchTickRecipe(machine, modified)) {
+                setupRecipe(modified);
+            }
+            return gTOCore$successfullyRecipe(match);
+        }
+        return false;
     }
 
     /**
@@ -299,7 +313,6 @@ public abstract class RecipeLogicMixin extends MachineTrait implements IEnhanced
                     }
                 } else {
                     handleSearchingRecipes(searchRecipe());
-                    if (gTOCore$lockRecipe) gTOCore$originRecipe = lastOriginRecipe;
                 }
             }
         }

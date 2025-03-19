@@ -386,8 +386,8 @@ public interface GTOBlocks {
     BlockEntry<Block> ABS_LIGHT_BULL_CASING = createCasingBlock("abs_light_bull_casing", "浅蓝色ABS塑料机械外壳", GTOCore.id("block/casings/abs_light_bull_casing"));
     BlockEntry<Block> ABS_LIGHT_GREY_CASING = createCasingBlock("abs_light_grey_casing", "浅灰色ABS塑料机械外壳", GTOCore.id("block/casings/abs_light_grey_casing"));
 
-    BlockEntry<ActiveBlock> BIOCOMPUTER_SHELL = createActiveCasing("biocomputer_shell", "生物计算机外壳", "block/variant/biocomputer_shell");
+    BlockEntry<ActiveBlock> BIOCOMPUTER_CASING = createActiveCasing("biocomputer_casing", "生物计算机外壳", "block/variant/biocomputer_shell");
     BlockEntry<ActiveBlock> PHASE_CHANGE_BIOCOMPUTER_COOLING_VENTS = createActiveCasing("phase_change_biocomputer_cooling_vents", "相变计算机散热口", "block/variant/phase_change_biocomputer_cooling_vents");
-    BlockEntry<Block> GRAVITON_COMPUTER_SHELL = createCasingBlock("graviton_computer_shell", "引力子计算机外壳", GTOCore.id("block/casings/about_computer/graviton_computer_shell"));
+    BlockEntry<Block> GRAVITON_COMPUTER_CASING = createCasingBlock("graviton_computer_casing", "引力子计算机外壳", GTOCore.id("block/casings/about_computer/graviton_computer_shell"));
     BlockEntry<Block> ANTI_ENTROPY_COMPUTER_CONDENSATION_MATRIX = createCasingBlock("anti_entropy_computer_condensation_matrix", "逆熵计算机冷凝矩阵", GTOCore.id("block/casings/about_computer/anti_entropy_computer_condensation_matrix"));
 }

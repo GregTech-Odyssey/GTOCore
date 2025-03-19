@@ -1,6 +1,5 @@
 package com.gto.gtocore.common.machine.multiblock.storage;
 
-import com.gregtechceu.gtceu.api.capability.IEnergyInfoProvider;
 import com.gto.gtocore.api.GTOValues;
 import com.gto.gtocore.api.machine.feature.IExtendWirelessEnergyContainerHolder;
 import com.gto.gtocore.api.machine.feature.multiblock.ITierCasingMachine;
@@ -11,6 +10,7 @@ import com.gto.gtocore.common.wireless.ExtendWirelessEnergyContainer;
 import com.gto.gtocore.utils.FunctionContainer;
 
 import com.gregtechceu.gtceu.api.GTValues;
+import com.gregtechceu.gtceu.api.capability.IEnergyInfoProvider;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.IMachineLife;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
@@ -60,7 +60,6 @@ public final class WirelessEnergySubstationMachine extends NoRecipeLogicMultiblo
         super(holder);
         tierCasingTrait = new TierCasingTrait(this, GTOValues.GLASS_TIER);
     }
-
 
     @Override
     public void onMachinePlaced(@Nullable LivingEntity player, ItemStack stack) {

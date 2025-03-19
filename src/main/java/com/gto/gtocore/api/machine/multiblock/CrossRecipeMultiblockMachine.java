@@ -270,7 +270,7 @@ public class CrossRecipeMultiblockMachine extends ElectricMultiblockMachine impl
                 getMachine().lastRecipes.clear();
                 return true;
             }
-            return recipe.handleRecipeIO(io, this.machine, this.chanceCaches);
+            return RecipeRunner.handleRecipeInput(machine, recipe);
         }
 
         private void output(Set<GTRecipe> recipes) {
