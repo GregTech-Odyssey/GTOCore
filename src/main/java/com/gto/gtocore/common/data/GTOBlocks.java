@@ -3,6 +3,7 @@ package com.gto.gtocore.common.data;
 import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.api.registries.GTORegistration;
 import com.gto.gtocore.common.block.*;
+import com.gto.gtocore.config.GTOConfig;
 import com.gto.gtocore.utils.RLUtils;
 
 import com.gregtechceu.gtceu.api.GTValues;
@@ -388,6 +389,8 @@ public interface GTOBlocks {
 
     BlockEntry<ActiveBlock> BIOCOMPUTER_CASING = createActiveCasing("biocomputer_casing", "生物计算机外壳", "block/variant/biocomputer_shell");
     BlockEntry<ActiveBlock> PHASE_CHANGE_BIOCOMPUTER_COOLING_VENTS = createActiveCasing("phase_change_biocomputer_cooling_vents", "相变计算机散热口", "block/variant/phase_change_biocomputer_cooling_vents");
-    BlockEntry<Block> GRAVITON_COMPUTER_CASING = createCasingBlock("graviton_computer_casing", "引力子计算机外壳", GTOCore.id("block/casings/about_computer/graviton_computer_shell"));
+    BlockEntry<Block> GRAVITON_COMPUTER_CASING = createCasingBlock("graviton_computer_casing", "引力子计算机外壳", GTOCore.id("block/casings/about_computer/graviton_computer_casing"));
     BlockEntry<Block> ANTI_ENTROPY_COMPUTER_CONDENSATION_MATRIX = createCasingBlock("anti_entropy_computer_condensation_matrix", "逆熵计算机冷凝矩阵", GTOCore.id("block/casings/about_computer/anti_entropy_computer_condensation_matrix"));
+
+    BlockEntry<Block> MATERIAL_TESTING = GTOConfig.INSTANCE.dev ? createGlassCasingBlock("material_testing", "材质测试", GTOCore.id("block/material_testing")) : null;
 }

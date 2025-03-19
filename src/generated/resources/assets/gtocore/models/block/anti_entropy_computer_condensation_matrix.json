@@ -2,7 +2,7 @@
   "parent": "minecraft:block/cube_all",
   "textures": {
     "all": "gtocore:block/casings/about_computer/anti_entropy_computer_condensation_matrix",
-    "up": "gtocore:block/casings/about_computer/graviton_computer_shell",
-    "down": "gtocore:block/casings/about_computer/graviton_computer_shell"
+    "up": "gtocore:block/casings/about_computer/graviton_computer_casing",
+    "down": "gtocore:block/casings/about_computer/graviton_computer_casing"
   }
 }

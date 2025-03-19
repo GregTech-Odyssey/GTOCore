@@ -42,7 +42,7 @@ public class ExResearchPartRenderer extends TieredHullMachineRenderer {
                                   @Nullable ResourceLocation damagedActiveEmissiveTexture) {
         super(GTValues.ZPM, switch (tire) {
             case 3 -> GTOCore.id("block/variant/biocomputer_shell_active");
-            case 4 -> GTOCore.id("block/graviton_computer_shell");
+            case 4 -> GTOCore.id("block/graviton_computer_casing");
             default -> GTOCore.id("block/variant/biocomputer_shell_active");
         });
         this.texture = texture;

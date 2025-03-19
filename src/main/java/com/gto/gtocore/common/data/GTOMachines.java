@@ -212,7 +212,7 @@ public interface GTOMachines {
                     .langValue(VNF[tier] + " Thread Hatch")
                     .allRotation()
                     .abilities(GTOPartAbility.THREAD_HATCH)
-                    .workableTieredHullRenderer(GTOCore.id("block/machines/thread_hatch"))
+                    .workableTieredHullRenderer(GTOCore.id("block/machines/thread_hatch/thread_hatch_mk" + (tier - 8)))
                     .tooltips(Component.translatable("gtocore.machine.thread_hatch.tooltip.0", 1 << (tier - ZPM)))
                     .register(),
             UHV, UEV, UIV, UXV, OpV, MAX);
@@ -224,7 +224,7 @@ public interface GTOMachines {
                     .abilities(GTOPartAbility.ACCELERATE_HATCH)
                     .tooltips(Component.translatable("gtocore.machine.accelerate_hatch.tooltip.0"))
                     .tooltips(Component.translatable("gtocore.machine.accelerate_hatch.tooltip.1"))
-                    .workableTieredHullRenderer(GTOCore.id("block/machines/accelerate_hatch"))
+                    .workableTieredHullRenderer(GTOCore.id("block/machines/accelerate_hatch/accelerate_hatch_mk" + tier))
                     .register(),
             tiersBetween(LV, MAX));
 

@@ -56,13 +56,13 @@ public interface MultiBlockG {
 
     static void init() {}
 
-    MultiblockMachineDefinition BLOOK_TEXT = GTOConfig.INSTANCE.enablePrimitiveVoidOre ? multiblock("blook_test",
+    MultiblockMachineDefinition BLOOK_TEXT = GTOConfig.INSTANCE.dev ? multiblock("blook_test",
             "方块测试", ElectricMultiblockMachine::new)
             .allRotation().recipe(GTORecipeTypes.PRIMITIVE_VOID_ORE_RECIPES).block(GTOBlocks.PHASE_CHANGE_BIOCOMPUTER_COOLING_VENTS)
             .pattern(definition -> FactoryBlockPattern.start(RelativeDirection.RIGHT, RelativeDirection.UP,
                     RelativeDirection.BACK)
                     .aisle("AAAAAAA").aisle("AA AAAA").aisle("A   AAA").aisle("AA AAAA").aisle("AMFNAAA")
-                    .where('A', blocks(ExResearchMachines.GWCA_COOLING_COMPONENTS.get()))
+                    .where('A', blocks(GTOBlocks.MATERIAL_TESTING.get()))
                     .where('M', blocks(CreativeMachines.CREATIVE_FLUID_INPUT_HATCH.get()))
                     .where('N', blocks(CustomMachines.ME_EXPORT_BUFFER.get()))
                     .where('F', controller(blocks(definition.get()))).where(' ', any())

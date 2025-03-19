@@ -237,6 +237,7 @@
     "gtocore:biocomputer_casing",
     "gtocore:phase_change_biocomputer_cooling_vents",
     "gtocore:graviton_computer_casing",
-    "gtocore:anti_entropy_computer_condensation_matrix"
+    "gtocore:anti_entropy_computer_condensation_matrix",
+    "gtocore:material_testing"
   ]
 }

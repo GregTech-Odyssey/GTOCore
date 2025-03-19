@@ -44,8 +44,6 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
 import static com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys.GAS;
 import static com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys.LIQUID;
-import static com.gregtechceu.gtceu.api.machine.multiblock.PartAbility.*;
-import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
 import static com.gto.gtocore.common.data.GTOMaterials.*;
 
@@ -269,7 +267,7 @@ public final class SupercomputingCenterMachine extends StorageMultiblockMachine 
             if (machineTier > 1) {
                 if (getOffsetTimer() % 10 == 0) {
                     int max = (machineTier == 2) ? 40000 : 160000;
-                    maxCWUtModification -= (int) (Math.pow(maxCWUtModification - 4000, 2) / 500000);
+                    maxCWUtModification -= (int) ((Math.pow(maxCWUtModification - 4000, 2) / 50000000) * (0.8 / (Math.log(maxCWUtModification + 600000) - Math.log(10000))));
                     if ((maxCWUtModification <= max) && (thermalConductorHatchPartMachine != null)) {
                         CustomItemStackHandler stackTransfer = thermalConductorHatchPartMachine.getInventory().storage;
                         for (int i = 0; i < stackTransfer.getSlots(); i++) {

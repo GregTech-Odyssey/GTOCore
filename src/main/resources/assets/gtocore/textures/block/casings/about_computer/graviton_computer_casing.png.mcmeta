@@ -1,0 +1,8 @@
+{
+  "ldlib": {
+    "connection": "gtocore:block/casings/about_computer/graviton_computer_casing_ctm"
+  },
+  "animation": {
+    "frametime": 1
+  }
+}
