@@ -91,12 +91,9 @@ public abstract class MetaMachineMixin implements IPerformanceDisplayMachine {
         gtocore$observe = true;
     }
 
-    /**
-     * @author .
-     * @reason .
-     */
-    @Overwrite(remap = false)
-    public final void serverTick() {
+    @Override
+    public void gtocore$tick() {
+        if (gtocore$cancel()) return;
         long currentTime = System.currentTimeMillis();
         if (currentTime - gTOCore$lastExecutionTime < 40) {
             return;
@@ -118,6 +115,15 @@ public abstract class MetaMachineMixin implements IPerformanceDisplayMachine {
             gTOCore$totaTtickCount = 0;
             getLevel().setBlockAndUpdate(getPos(), getBlockState().setValue(BlockProperties.SERVER_TICK, false));
         }
+    }
+
+    /**
+     * @author .
+     * @reason .
+     */
+    @Overwrite(remap = false)
+    public final void serverTick() {
+        gtocore$tick();
     }
 
     @Inject(method = "onToolClick", at = @At("RETURN"), remap = false, cancellable = true)

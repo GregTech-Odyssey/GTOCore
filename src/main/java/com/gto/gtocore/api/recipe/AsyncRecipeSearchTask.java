@@ -96,7 +96,6 @@ public class AsyncRecipeSearchTask {
                         task.result = task.searchRecipe();
                     } catch (Throwable e) {
                         GTOCore.LOGGER.error("Error while searching recipe: {}", e.getMessage());
-                        e.printStackTrace();
                     }
                 }
             }

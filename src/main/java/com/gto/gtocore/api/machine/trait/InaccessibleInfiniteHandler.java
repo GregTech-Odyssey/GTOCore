@@ -97,7 +97,7 @@ public final class InaccessibleInfiniteHandler extends NotifiableItemStackHandle
             var key = AEItemKey.of(stack);
             long oldValue = internalBuffer.storage.getOrDefault(key, 0);
             long changeValue = Math.min(Long.MAX_VALUE - oldValue, count);
-            KeyMap.put(internalBuffer.storage, key, oldValue + changeValue);
+            internalBuffer.put(key, oldValue + changeValue);
         }
 
         @Override
@@ -125,7 +125,7 @@ public final class InaccessibleInfiniteHandler extends NotifiableItemStackHandle
             long oldValue = internalBuffer.storage.getOrDefault(key, 0);
             long changeValue = Math.min(Long.MAX_VALUE - oldValue, count);
             if (!simulate) {
-                KeyMap.put(internalBuffer.storage, key, oldValue + changeValue);
+                internalBuffer.put(key, oldValue + changeValue);
             } else if (count != changeValue) {
                 return stack.copyWithCount((int) (count - changeValue));
             }

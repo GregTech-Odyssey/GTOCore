@@ -178,7 +178,8 @@
         "placebo.RecipeHelperMixin",
         "placebo.TrailsManagerMixin",
         "placebo.WingsManagerMixin",
-        "registrate.BlockBuilderMixin"
+        "registrate.BlockBuilderMixin",
+        "gtm.machine.MEStockingBusPartMachineMixin"
     ],
     "injectors": {
         "defaultRequire": 1,

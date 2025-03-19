@@ -142,7 +142,7 @@ public class InaccessibleInfiniteTank extends NotifiableFluidTank {
             long oldValue = internalBuffer.storage.getOrDefault(key, 0);
             long changeValue = Math.min(Long.MAX_VALUE - oldValue, amount);
             if (changeValue > 0) {
-                KeyMap.put(internalBuffer.storage, key, oldValue + changeValue);
+                internalBuffer.put(key, oldValue + changeValue);
             }
         }
 
@@ -161,7 +161,7 @@ public class InaccessibleInfiniteTank extends NotifiableFluidTank {
             long oldValue = internalBuffer.storage.getOrDefault(key, 0);
             long changeValue = Math.min(Long.MAX_VALUE - oldValue, amount);
             if (changeValue > 0 && action.execute()) {
-                KeyMap.put(internalBuffer.storage, key, oldValue + changeValue);
+                internalBuffer.put(key, oldValue + changeValue);
             }
             return (int) changeValue;
         }
