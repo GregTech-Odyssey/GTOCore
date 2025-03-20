@@ -10,6 +10,7 @@ import com.gto.gtocore.api.recipe.RecipeRunner;
 import com.gto.gtocore.config.GTOConfig;
 
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
+import com.gregtechceu.gtceu.api.capability.recipe.RecipeCapability;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
@@ -17,6 +18,7 @@ import com.gregtechceu.gtceu.api.machine.trait.MachineTrait;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
+import com.gregtechceu.gtceu.api.recipe.content.Content;
 import com.gregtechceu.gtceu.api.sound.SoundEntry;
 
 import net.minecraft.network.chat.Component;
@@ -33,6 +35,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 @Mixin(value = RecipeLogic.class, remap = false)
 public abstract class RecipeLogicMixin extends MachineTrait implements IEnhancedRecipeLogic {
@@ -61,9 +64,6 @@ public abstract class RecipeLogicMixin extends MachineTrait implements IEnhanced
     protected RecipeLogicMixin(MetaMachine machine) {
         super(machine);
     }
-
-    @Shadow
-    public abstract GTRecipe.ActionResult handleTickRecipe(GTRecipe recipe);
 
     @Shadow
     public abstract void setStatus(RecipeLogic.Status status);
@@ -219,7 +219,7 @@ public abstract class RecipeLogicMixin extends MachineTrait implements IEnhanced
      * @author .
      * @reason .
      */
-    @Overwrite(remap = false)
+    @Overwrite
     public void serverTick() {
         if (isSuspend()) {
             gTOCore$unsubscribe();
@@ -273,11 +273,11 @@ public abstract class RecipeLogicMixin extends MachineTrait implements IEnhanced
      * @author .
      * @reason .
      */
-    @Overwrite(remap = false)
+    @Overwrite
     public boolean checkMatchedRecipeAvailable(GTRecipe match) {
         GTRecipe modified = machine.fullModifyRecipe(match.copy());
         if (modified != null) {
-            if (modified.checkConditions(getLogic()).isSuccess() && RecipeRunner.matchRecipe(machine, modified) && RecipeRunner.matchTickRecipe(machine, modified)) {
+            if (RecipeRunner.checkConditions(machine, modified) && RecipeRunner.matchRecipe(machine, modified) && RecipeRunner.matchTickRecipe(machine, modified)) {
                 setupRecipe(modified);
             }
             return gTOCore$successfullyRecipe(match);
@@ -289,10 +289,10 @@ public abstract class RecipeLogicMixin extends MachineTrait implements IEnhanced
      * @author .
      * @reason .
      */
-    @Overwrite(remap = false)
+    @Overwrite
     public void findAndHandleRecipe() {
         lastFailedMatches = null;
-        if (!recipeDirty && lastRecipe != null && RecipeRunner.matchRecipe(machine, lastRecipe) && RecipeRunner.matchTickRecipe(machine, lastRecipe) && lastRecipe.checkConditions(getLogic()).isSuccess()) {
+        if (!recipeDirty && lastRecipe != null && RecipeRunner.matchRecipe(machine, lastRecipe) && RecipeRunner.matchTickRecipe(machine, lastRecipe) && RecipeRunner.checkConditions(machine, lastRecipe)) {
             GTRecipe recipe = lastRecipe;
             lastRecipe = null;
             lastOriginRecipe = null;
@@ -302,7 +302,7 @@ public abstract class RecipeLogicMixin extends MachineTrait implements IEnhanced
             if (gTOCore$lockRecipe && gTOCore$originRecipe != null) {
                 lastOriginRecipe = gTOCore$originRecipe;
                 GTRecipe modified = machine.fullModifyRecipe(lastOriginRecipe.copy());
-                if (modified != null && RecipeRunner.matchRecipe(machine, modified) && RecipeRunner.matchTickRecipe(machine, modified) && modified.checkConditions(getLogic()).isSuccess()) {
+                if (modified != null && RecipeRunner.matchRecipe(machine, modified) && RecipeRunner.matchTickRecipe(machine, modified) && RecipeRunner.checkConditions(machine, modified)) {
                     setupRecipe(modified);
                 }
             } else {
@@ -323,12 +323,11 @@ public abstract class RecipeLogicMixin extends MachineTrait implements IEnhanced
      * @author .
      * @reason .
      */
-    @Overwrite(remap = false)
+    @Overwrite
     public void handleRecipeWorking() {
         RecipeLogic.Status last = status;
         assert lastRecipe != null;
-        GTRecipe.ActionResult result = handleTickRecipe(lastRecipe);
-        if (result.isSuccess()) {
+        if (gtocore$handleTickRecipe(lastRecipe)) {
             if (!machine.onWorking()) {
                 interruptRecipe();
                 return;
@@ -337,7 +336,7 @@ public abstract class RecipeLogicMixin extends MachineTrait implements IEnhanced
             progress++;
             totalContinuousRunningTime++;
         } else {
-            setWaiting(result.reason().get());
+            setWaiting(null);
         }
         if (isWaiting()) {
             if (machine instanceof IEnhancedMultiblockMachine enhancedMultiblockMachine) {
@@ -352,5 +351,20 @@ public abstract class RecipeLogicMixin extends MachineTrait implements IEnhanced
         } else if (last != RecipeLogic.Status.WORKING && getStatus() == RecipeLogic.Status.WORKING) {
             lastRecipe.preWorking(machine);
         }
+    }
+
+    @Unique
+    private boolean gtocore$handleTickRecipe(GTRecipe recipe) {
+        for (Map.Entry<RecipeCapability<?>, List<Content>> entry : recipe.tickInputs.entrySet()) {
+            if (RecipeRunner.handleTickRecipe(machine, IO.IN, recipe, entry.getValue(), entry.getKey())) {
+                return false;
+            }
+        }
+        for (Map.Entry<RecipeCapability<?>, List<Content>> entry : recipe.tickOutputs.entrySet()) {
+            if (RecipeRunner.handleTickRecipe(machine, IO.OUT, recipe, entry.getValue(), entry.getKey())) {
+                return false;
+            }
+        }
+        return true;
     }
 }

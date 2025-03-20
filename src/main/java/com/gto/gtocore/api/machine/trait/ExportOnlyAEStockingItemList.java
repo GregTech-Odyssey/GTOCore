@@ -1,6 +1,7 @@
 package com.gto.gtocore.api.machine.trait;
 
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
+import com.gregtechceu.gtceu.integration.ae2.machine.MEInputBusPartMachine;
 import com.gregtechceu.gtceu.integration.ae2.machine.MEStockingBusPartMachine;
 import com.gregtechceu.gtceu.integration.ae2.slot.ExportOnlyAEItemList;
 import com.gregtechceu.gtceu.integration.ae2.slot.ExportOnlyAEItemSlot;
@@ -15,19 +16,20 @@ import appeng.api.storage.MEStorage;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class ExportOnlyAEStockingItemList extends ExportOnlyAEItemList {
+public final class ExportOnlyAEStockingItemList extends ExportOnlyAEItemList {
 
     public ExportOnlyAEStockingItemList(MetaMachine holder, int slots) {
-        super(holder, slots, () -> new ExportOnlyAEStockingItemSlot((MEStockingBusPartMachine) holder));
+        super(holder, slots, () -> new ExportOnlyAEStockingItemSlot((MEInputBusPartMachine) holder));
     }
 
-    public MEStockingBusPartMachine getMachine() {
-        return (MEStockingBusPartMachine) super.getMachine();
+    public MEInputBusPartMachine getMachine() {
+        return (MEInputBusPartMachine) super.getMachine();
     }
 
     @Override
     public boolean isAutoPull() {
-        return getMachine().isAutoPull();
+        if (getMachine() instanceof MEStockingBusPartMachine pull) return pull.isAutoPull();
+        return true;
     }
 
     @Override
@@ -39,32 +41,60 @@ public class ExportOnlyAEStockingItemList extends ExportOnlyAEItemList {
     public boolean hasStackInConfig(GenericStack stack, boolean checkExternal) {
         boolean inThisBus = super.hasStackInConfig(stack, false);
         if (inThisBus) return true;
-        if (checkExternal) {
-            return getMachine().testConfiguredInOtherPart(stack);
+        if (checkExternal && getMachine() instanceof MEStockingBusPartMachine pull) {
+            return pull.testConfiguredInOtherPart(stack);
         }
         return false;
     }
 
     private static class ExportOnlyAEStockingItemSlot extends ExportOnlyAEItemSlot {
 
-        private final MEStockingBusPartMachine machine;
+        private final MEInputBusPartMachine machine;
 
-        public ExportOnlyAEStockingItemSlot(MEStockingBusPartMachine machine) {
+        public ExportOnlyAEStockingItemSlot(MEInputBusPartMachine machine) {
             super();
             this.machine = machine;
         }
 
-        public ExportOnlyAEStockingItemSlot(@Nullable GenericStack config, @Nullable GenericStack stock, MEStockingBusPartMachine machine) {
+        public ExportOnlyAEStockingItemSlot(@Nullable GenericStack config, @Nullable GenericStack stock, MEInputBusPartMachine machine) {
             super(config, stock);
             this.machine = machine;
         }
 
+        @Nullable
+        public GenericStack requestStack() {
+            synchronized (this) {
+                return super.requestStack();
+            }
+        }
+
+        @Nullable
+        public GenericStack exceedStack() {
+            synchronized (this) {
+                return super.exceedStack();
+            }
+        }
+
+        @Override
+        public void addStack(@NotNull GenericStack stack) {
+            synchronized (this) {
+                super.addStack(stack);
+            }
+        }
+
+        @Override
+        public void setStock(@Nullable GenericStack stack) {
+            synchronized (this) {
+                super.setStock(stack);
+            }
+        }
+
         @Override
         public @NotNull ItemStack extractItem(int slot, int amount, boolean simulate) {
-            if (slot == 0 && this.stock != null) {
-                if (this.config != null) {
-                    if (!machine.isOnline()) return ItemStack.EMPTY;
-                    synchronized (this) {
+            synchronized (this) {
+                if (slot == 0 && this.stock != null) {
+                    if (this.config != null) {
+                        if (!machine.isOnline()) return ItemStack.EMPTY;
                         MEStorage aeNetwork = machine.getMainNode().getGrid().getStorageService().getInventory();
                         Actionable action = simulate ? Actionable.SIMULATE : Actionable.MODULATE;
                         var key = config.what();
@@ -84,8 +114,8 @@ public class ExportOnlyAEStockingItemList extends ExportOnlyAEItemList {
                         }
                     }
                 }
+                return ItemStack.EMPTY;
             }
-            return ItemStack.EMPTY;
         }
 
         @Override

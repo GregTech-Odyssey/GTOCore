@@ -43,46 +43,50 @@ public final class AsyncCrossRecipeSearchTask extends AsyncRecipeSearchTask {
 
     @Override
     Result searchRecipe() {
-        return new Result(getRecipe((CrossRecipeMultiblockMachine) logic.machine), lastRecipes);
+        return new Result(getRecipe(), lastRecipes);
     }
 
-    private GTRecipe getRecipe(CrossRecipeMultiblockMachine machine) {
-        if (!machine.hasProxies()) return null;
-        GTRecipe match = LookupRecipe(machine);
+    private CrossRecipeMultiblockMachine getMachine() {
+        return (CrossRecipeMultiblockMachine) logic.machine;
+    }
+
+    private GTRecipe getRecipe() {
+        if (!getMachine().hasProxies()) return null;
+        GTRecipe match = LookupRecipe();
         if (match == null) return null;
         long totalEu = 0;
         lastRecipes.clear();
-        for (int i = 0; i < machine.getThread(); i++) {
-            totalEu += match.duration * match.data.getLong("eut");
+        for (int i = 0; i < getMachine().getThread(); i++) {
+            totalEu += match.duration * RecipeHelper.getInputEUt(match);
+            match.tickInputs.clear();
             match.data = EMPTY_TAG;
-            if (machine.isRepeatedRecipes()) match.id = GTOCore.id("thread_" + i);
+            if (getMachine().isRepeatedRecipes()) match.id = GTOCore.id("thread_" + i);
             lastRecipes.add(match);
-            match = LookupRecipe(machine);
+            match = LookupRecipe();
             if (match == null) break;
         }
-        long maxEUt = machine.getOverclockVoltage();
+        long maxEUt = getMachine().getOverclockVoltage();
         double d = (double) totalEu / maxEUt;
-        int limit = machine.gTOCore$getOCLimit();
+        int limit = getMachine().gTOCore$getOCLimit();
         return GTORecipeBuilder.ofRaw().EUt(d >= limit ? maxEUt : (long) (maxEUt * d / limit)).duration((int) Math.max(d, limit)).buildRawRecipe();
     }
 
-    private GTRecipe LookupRecipe(CrossRecipeMultiblockMachine machine) {
-        boolean isLocked = machine.getRecipeLogic().gTOCore$isLockRecipe();
-        if (isLocked && machine.getOriginRecipes().size() >= machine.getThread()) {
-            for (GTRecipe recipe : machine.getOriginRecipes()) {
-                recipe = modifyRecipe(machine, recipe.copy());
+    private GTRecipe LookupRecipe() {
+        if (getMachine().getRecipeLogic().gTOCore$isLockRecipe() && getMachine().getOriginRecipes().size() >= getMachine().getThread()) {
+            for (GTRecipe recipe : getMachine().getOriginRecipes()) {
+                recipe = modifyRecipe(recipe.copy());
                 if (recipe != null) return recipe;
             }
         } else {
-            Iterator<GTRecipe> iterator = machine.getRecipeType().getLookup().getRecipeIterator(machine, recipe -> !recipe.isFuel && RecipeRunner.matchRecipe(logic.machine, recipe) && RecipeRunner.matchTickRecipe(logic.machine, recipe));
+            Iterator<GTRecipe> iterator = getMachine().getRecipeType().getLookup().getRecipeIterator(getMachine(), recipe -> !recipe.isFuel && RecipeRunner.matchRecipe(getMachine(), recipe) && RecipeRunner.matchTickRecipe(getMachine(), recipe));
             while (iterator.hasNext()) {
-                GTRecipe recipe = checkRecipe(isLocked, machine, iterator.next());
+                GTRecipe recipe = checkRecipe(iterator.next());
                 if (recipe != null) {
                     return recipe;
                 }
             }
-            for (GTRecipeType.ICustomRecipeLogic customRecipeLogic : machine.getRecipeType().getCustomRecipeLogicRunners()) {
-                GTRecipe recipe = checkRecipe(isLocked, machine, customRecipeLogic.createCustomRecipe(machine));
+            for (GTRecipeType.ICustomRecipeLogic customRecipeLogic : getMachine().getRecipeType().getCustomRecipeLogicRunners()) {
+                GTRecipe recipe = checkRecipe(customRecipeLogic.createCustomRecipe(getMachine()));
                 if (recipe != null) {
                     return recipe;
                 }
@@ -91,12 +95,12 @@ public final class AsyncCrossRecipeSearchTask extends AsyncRecipeSearchTask {
         return null;
     }
 
-    private GTRecipe checkRecipe(boolean isLocked, CrossRecipeMultiblockMachine machine, GTRecipe recipe) {
+    private GTRecipe checkRecipe(GTRecipe recipe) {
         if (recipe != null) {
-            if (machine.isRepeatedRecipes() || !lastRecipes.contains(recipe)) {
-                GTRecipe modify = modifyRecipe(machine, recipe.copy());
+            if (getMachine().isRepeatedRecipes() || !lastRecipes.contains(recipe)) {
+                GTRecipe modify = modifyRecipe(recipe.copy());
                 if (modify != null) {
-                    if (isLocked) machine.getOriginRecipes().add(recipe);
+                    if (getMachine().getRecipeLogic().gTOCore$isLockRecipe()) getMachine().getOriginRecipes().add(recipe);
                     return modify;
                 }
             }
@@ -104,21 +108,18 @@ public final class AsyncCrossRecipeSearchTask extends AsyncRecipeSearchTask {
         return null;
     }
 
-    private static GTRecipe modifyRecipe(CrossRecipeMultiblockMachine machine, GTRecipe recipe) {
+    private GTRecipe modifyRecipe(GTRecipe recipe) {
         int rt = RecipeHelper.getRecipeEUtTier(recipe);
-        if (rt <= machine.getMaxOverclockTier() && recipe.checkConditions(machine.getRecipeLogic()).isSuccess()) {
+        if (rt <= getMachine().getMaxOverclockTier() && RecipeRunner.checkConditions(getMachine(), recipe)) {
             recipe.conditions.clear();
-            for (IMultiPart part : machine.getParts()) {
+            for (IMultiPart part : getMachine().getParts()) {
                 recipe = part.modifyRecipe(recipe);
                 if (recipe == null) return null;
             }
-            recipe = machine.modifyRecipe(recipe);
-            if (RecipeRunner.matchRecipeInput(machine, recipe) && RecipeRunner.handleRecipeInput(machine, recipe)) {
-                recipe.ocLevel = machine.getTier() - rt;
+            recipe = getMachine().modifyRecipe(recipe);
+            if (RecipeRunner.matchRecipeInput(getMachine(), recipe) && RecipeRunner.handleRecipeInput(getMachine(), recipe)) {
+                recipe.ocLevel = getMachine().getTier() - rt;
                 recipe.inputs.clear();
-                long eut = RecipeHelper.getInputEUt(recipe);
-                recipe.data.putLong("eut", eut);
-                recipe.tickInputs.clear();
                 return recipe;
             }
         }

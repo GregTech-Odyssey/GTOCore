@@ -2,7 +2,6 @@ package com.gto.gtocore.api.gui;
 
 import com.gto.gtocore.api.machine.feature.multiblock.IParallelMachine;
 
-import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.gui.fancy.IFancyConfigurator;
 import com.gregtechceu.gtceu.api.gui.widget.IntInputWidget;
 
@@ -12,7 +11,6 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture;
-import com.lowdragmc.lowdraglib.gui.texture.ResourceTexture;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 
@@ -31,7 +29,7 @@ public final class ParallelConfigurator implements IFancyConfigurator {
 
     @Override
     public IGuiTexture getIcon() {
-        return new ResourceTexture(GTCEu.id("textures/gui/icon/io_config/cover_settings.png"));
+        return GTOGuiTextures.PARALLEL_CONFIG;
     }
 
     @Override

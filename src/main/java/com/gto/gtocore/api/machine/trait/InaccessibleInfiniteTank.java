@@ -23,7 +23,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-public class InaccessibleInfiniteTank extends NotifiableFluidTank {
+public final class InaccessibleInfiniteTank extends NotifiableFluidTank {
 
     private final List<Runnable> listener = new CopyOnWriteArrayList<>();
 
@@ -139,7 +139,7 @@ public class InaccessibleInfiniteTank extends NotifiableFluidTank {
 
         private void fill(Fluid fluid, int amount, CompoundTag tag) {
             var key = AEFluidKey.of(fluid, tag);
-            long oldValue = internalBuffer.storage.getOrDefault(key, 0);
+            long oldValue = internalBuffer.getOrDefault(key);
             long changeValue = Math.min(Long.MAX_VALUE - oldValue, amount);
             if (changeValue > 0) {
                 internalBuffer.put(key, oldValue + changeValue);
@@ -158,7 +158,7 @@ public class InaccessibleInfiniteTank extends NotifiableFluidTank {
         public int fill(FluidStack resource, FluidAction action) {
             var key = AEFluidKey.of(resource.getFluid(), resource.getTag());
             int amount = resource.getAmount();
-            long oldValue = internalBuffer.storage.getOrDefault(key, 0);
+            long oldValue = internalBuffer.getOrDefault(key);
             long changeValue = Math.min(Long.MAX_VALUE - oldValue, amount);
             if (changeValue > 0 && action.execute()) {
                 internalBuffer.put(key, oldValue + changeValue);

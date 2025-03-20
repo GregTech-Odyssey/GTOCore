@@ -42,7 +42,7 @@ public class AsyncRecipeSearchTask {
     private static final CopyOnWriteArraySet<AsyncRecipeSearchTask> tasks = new CopyOnWriteArraySet<>();
     private static ScheduledExecutorService executorService;
     private final static ThreadFactory THREAD_FACTORY = new ThreadFactoryBuilder()
-            .setNameFormat("Async Recipe Search Thread-%d")
+            .setNameFormat("Recipe Search Thread-%d")
             .setDaemon(true)
             .build();
 
@@ -114,7 +114,7 @@ public class AsyncRecipeSearchTask {
 
     private static IResult searchRecipe(RecipeLogic logic) {
         if (logic.machine.hasProxies()) {
-            Iterator<GTRecipe> iterator = logic.machine.getRecipeType().getLookup().getRecipeIterator(logic.machine, recipe -> !recipe.isFuel && RecipeRunner.matchRecipe(logic.machine, recipe) && RecipeRunner.matchRecipeTickInput(logic.machine, recipe));
+            Iterator<GTRecipe> iterator = logic.machine.getRecipeType().getLookup().getRecipeIterator(logic.machine, recipe -> !recipe.isFuel && RecipeRunner.matchRecipe(logic.machine, recipe) && RecipeRunner.matchTickRecipe(logic.machine, recipe));
             while (iterator.hasNext()) {
                 GTRecipe recipe = iterator.next();
                 if (recipe == null) continue;
@@ -147,7 +147,7 @@ public class AsyncRecipeSearchTask {
     private static GTRecipe modifyRecipe(GTRecipe recipe, RecipeLogic logic) {
         GTRecipe modified = logic.machine.fullModifyRecipe(recipe.copy());
         if (modified != null) {
-            if (modified.checkConditions(logic).isSuccess() && RecipeRunner.matchRecipe(logic.machine, recipe) && RecipeRunner.matchTickRecipe(logic.machine, recipe)) {
+            if (RecipeRunner.checkConditions(logic.machine, modified) && RecipeRunner.matchRecipe(logic.machine, recipe) && RecipeRunner.matchTickRecipe(logic.machine, recipe)) {
                 return modified;
             }
         }

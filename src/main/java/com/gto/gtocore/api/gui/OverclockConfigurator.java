@@ -1,6 +1,5 @@
 package com.gto.gtocore.api.gui;
 
-import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.api.machine.feature.multiblock.IOverclockConfigMachine;
 
 import com.gregtechceu.gtceu.api.gui.fancy.IFancyConfigurator;
@@ -9,7 +8,6 @@ import com.gregtechceu.gtceu.api.gui.widget.IntInputWidget;
 import net.minecraft.network.chat.Component;
 
 import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture;
-import com.lowdragmc.lowdraglib.gui.texture.ResourceTexture;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 
@@ -28,7 +26,7 @@ public final class OverclockConfigurator implements IFancyConfigurator {
 
     @Override
     public IGuiTexture getIcon() {
-        return new ResourceTexture(GTOCore.id("textures/block/machines/accelerate_hatch/overlay_front.png"));
+        return GTOGuiTextures.OVERCLOCK_CONFIG;
     }
 
     @Override

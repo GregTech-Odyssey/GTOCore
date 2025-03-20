@@ -117,7 +117,7 @@ final class MachineLang {
         addENCN("gtocore.machine.tag_filter.tag_config_title", "Tag Filtering Configuration", "标签过滤配置");
         addENCN("gtocore.machine.tag_filter.tag_white_list", "White List", "白名单");
         addENCN("gtocore.machine.tag_filter.tag_black_list", "Black List", "黑名单");
-        addENCN("gtocore.machine.tag_filter.tooltip.0", "* Indicates a wildcard () Indicates Priority",  "* 表示通配符 () 表示优先");
+        addENCN("gtocore.machine.tag_filter.tooltip.0", "* Indicates a wildcard () Indicates Priority", "* 表示通配符 () 表示优先");
         addENCN("gtocore.machine.tag_filter.tooltip.1", "White List", "& = Logic with | = Logic or ^ = Logical XOR");
     }
 }

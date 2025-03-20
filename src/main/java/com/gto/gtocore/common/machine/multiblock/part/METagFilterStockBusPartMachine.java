@@ -1,5 +1,26 @@
 package com.gto.gtocore.common.machine.multiblock.part;
 
+import com.gto.gtocore.api.machine.trait.ExportOnlyAEStockingItemList;
+
+import com.gregtechceu.gtceu.api.gui.GuiTextures;
+import com.gregtechceu.gtceu.api.gui.fancy.ConfiguratorPanel;
+import com.gregtechceu.gtceu.api.gui.fancy.IFancyConfigurator;
+import com.gregtechceu.gtceu.api.gui.fancy.IFancyConfiguratorButton;
+import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
+import com.gregtechceu.gtceu.common.item.IntCircuitBehaviour;
+import com.gregtechceu.gtceu.integration.ae2.machine.MEInputBusPartMachine;
+import com.gregtechceu.gtceu.integration.ae2.slot.ExportOnlyAEItemSlot;
+
+import net.minecraft.MethodsReturnNonnullByDefault;
+import net.minecraft.core.Holder;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraftforge.registries.ForgeRegistries;
+
 import appeng.api.config.Actionable;
 import appeng.api.networking.IGrid;
 import appeng.api.networking.storage.IStorageService;
@@ -9,18 +30,6 @@ import appeng.api.stacks.GenericStack;
 import appeng.api.storage.MEStorage;
 import appeng.util.prioritylist.IPartitionList;
 import com.glodblock.github.extendedae.common.me.taglist.TagExpParser;
-import com.gregtechceu.gtceu.api.gui.GuiTextures;
-import com.gregtechceu.gtceu.api.gui.fancy.ConfiguratorPanel;
-import com.gregtechceu.gtceu.api.gui.fancy.IFancyConfigurator;
-import com.gregtechceu.gtceu.api.gui.fancy.IFancyConfiguratorButton;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
-import com.gregtechceu.gtceu.api.machine.MetaMachine;
-import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
-import com.gregtechceu.gtceu.common.item.IntCircuitBehaviour;
-import com.gregtechceu.gtceu.integration.ae2.machine.MEInputBusPartMachine;
-import com.gregtechceu.gtceu.integration.ae2.slot.ExportOnlyAEItemList;
-import com.gregtechceu.gtceu.integration.ae2.slot.ExportOnlyAEItemSlot;
-import com.gregtechceu.gtceu.integration.ae2.slot.ExportOnlyAESlot;
 import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture;
 import com.lowdragmc.lowdraglib.gui.texture.TextTexture;
 import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
@@ -34,27 +43,17 @@ import it.unimi.dsi.fastutil.objects.Reference2BooleanMap;
 import it.unimi.dsi.fastutil.objects.Reference2BooleanOpenHashMap;
 import lombok.Getter;
 import lombok.Setter;
-import net.minecraft.MethodsReturnNonnullByDefault;
-import net.minecraft.core.Holder;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.Component;
-import net.minecraft.tags.TagKey;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.material.Fluid;
-import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 /**
  * @author EasterFG on 2025/2/8
  */
-@Setter
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
 public class METagFilterStockBusPartMachine extends MEInputBusPartMachine {
@@ -88,10 +87,10 @@ public class METagFilterStockBusPartMachine extends MEInputBusPartMachine {
         super.attachConfigurators(configuratorPanel);
         configuratorPanel.attachConfigurators(new IFancyConfiguratorButton.Toggle(
                 new TextTexture("A-Z"),
-                new TextTexture("数量▼"),
+                new TextTexture("Amount▼"),
                 this::isCountSort,
                 (clickData, pressed) -> setCountSort(pressed))
-                .setTooltipsSupplier(pressed -> List.of(Component.literal("自动拉取排序方式"))));
+                .setTooltipsSupplier(pressed -> List.of(Component.literal("Automatically fetch sorting method"))));
         configuratorPanel.attachConfigurators(new FilterIFancyConfigurator());
     }
 
@@ -212,7 +211,7 @@ public class METagFilterStockBusPartMachine extends MEInputBusPartMachine {
 
         @Override
         public Component getTitle() {
-            return Component.literal("");
+            return Component.literal("Tag Filter Configuration");
         }
 
         @Override
@@ -237,70 +236,6 @@ public class METagFilterStockBusPartMachine extends MEInputBusPartMachine {
                             () -> "gtocore.machine.tag_filter.tooltip.0"))
                     .addWidget(new LabelWidget(0, 84,
                             () -> "gtocore.machine.tag_filter.tooltip.1"));
-        }
-    }
-
-    private class ExportOnlyAEStockingItemList extends ExportOnlyAEItemList {
-
-        public ExportOnlyAEStockingItemList(MetaMachine holder, int slots) {
-            super(holder, slots, ExportOnlyAEStockingItemSlot::new);
-        }
-
-        @Override
-        public boolean isStocking() {
-            return true;
-        }
-
-        @Override
-        public boolean isAutoPull() {
-            // only read from the network, cant config this slot
-            return true;
-        }
-    }
-
-    private class ExportOnlyAEStockingItemSlot extends ExportOnlyAEItemSlot {
-
-        public ExportOnlyAEStockingItemSlot() {
-            super();
-        }
-
-        public ExportOnlyAEStockingItemSlot(@Nullable GenericStack config, @Nullable GenericStack stock) {
-            super(config, stock);
-        }
-
-        @Override
-        public ItemStack extractItem(int slot, int amount, boolean simulate) {
-            if (slot == 0 && this.stock != null) {
-                if (this.config != null) {
-                    if (!isOnline()) return ItemStack.EMPTY;
-                    IGrid grid = getMainNode().getGrid();
-                    if (grid == null) return ItemStack.EMPTY;
-                    MEStorage aeNetwork = grid.getStorageService().getInventory();
-                    Actionable action = simulate ? Actionable.SIMULATE : Actionable.MODULATE;
-                    var key = config.what();
-                    long extracted = aeNetwork.extract(key, amount, action, actionSource);
-                    if (extracted > 0) {
-                        ItemStack resultStack = key instanceof AEItemKey itemKey ? itemKey.toStack((int) extracted) : ItemStack.EMPTY;
-                        if (!simulate) {
-                            // may as well update the display here
-                            this.stock = ExportOnlyAESlot.copy(stock, stock.amount() - extracted);
-                            if (this.stock.amount() == 0) {
-                                this.stock = null;
-                            }
-                            if (this.onContentsChanged != null) {
-                                this.onContentsChanged.run();
-                            }
-                        }
-                        return resultStack;
-                    }
-                }
-            }
-            return ItemStack.EMPTY;
-        }
-
-        @Override
-        public ExportOnlyAEStockingItemSlot copy() {
-            return new ExportOnlyAEStockingItemSlot(this.config == null ? null : copy(this.config), this.stock == null ? null : copy(this.stock));
         }
     }
 

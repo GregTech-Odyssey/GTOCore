@@ -3,18 +3,15 @@ package com.gto.gtocore.common.data;
 import com.gto.gtocore.api.capability.recipe.ManaRecipeCapability;
 import com.gto.gtocore.api.machine.feature.multiblock.ICoilMachine;
 import com.gto.gtocore.api.machine.feature.multiblock.IOverclockConfigMachine;
-import com.gto.gtocore.api.recipe.RecipeRunner;
 import com.gto.gtocore.common.machine.multiblock.generator.GeneratorArrayMachine;
 import com.gto.gtocore.utils.GTOUtils;
 import com.gto.gtocore.utils.MachineUtils;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.recipe.EURecipeCapability;
-import com.gregtechceu.gtceu.api.capability.recipe.IRecipeCapabilityHolder;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.SimpleGeneratorMachine;
 import com.gregtechceu.gtceu.api.machine.feature.IOverclockMachine;
-import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.OverclockingLogic;
@@ -51,8 +48,9 @@ public interface GTORecipeModifiers {
             return recipe -> {
                 var EUt = RecipeHelper.getOutputEUt(recipe);
                 if (EUt > 0) {
-                    recipe = fastParallel(machine, recipe, (int) ((GTValues.V[generator.getTier()] * GeneratorArrayMachine.getAmperage(generator.getTier())) / EUt));
+                    recipe = accurateParallel(machine, recipe, (int) ((GTValues.V[generator.getTier()] * GeneratorArrayMachine.getAmperage(generator.getTier())) / EUt));
                     recipe.duration = recipe.duration * GeneratorArrayMachine.getEfficiency(generator.getRecipeType(), generator.getTier()) / 100;
+                    if (recipe.duration < 1) return null;
                     return recipe;
                 }
                 return recipe;
@@ -162,20 +160,6 @@ public interface GTORecipeModifiers {
         if (parallel > 1) {
             recipe = recipe.copy(ContentModifier.multiplier(parallel), false);
             recipe.parallels *= parallel;
-        }
-        return recipe;
-    }
-
-    static GTRecipe fastParallel(MetaMachine machine, GTRecipe recipe, int maxParallel) {
-        if (maxParallel <= 1) return recipe;
-        if (machine instanceof IRecipeCapabilityHolder holder) {
-            while (maxParallel > 0) {
-                var copied = recipe.copy(ContentModifier.multiplier(maxParallel), false);
-                if (RecipeRunner.matchRecipe((IRecipeLogicMachine) machine, recipe)) {
-                    return copied;
-                }
-                maxParallel /= 2;
-            }
         }
         return recipe;
     }

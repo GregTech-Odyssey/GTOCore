@@ -1,10 +1,13 @@
 package com.gto.gtocore.common.machine.multiblock.part.maintenance;
 
+import com.gto.gtocore.config.GTOConfig;
+
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMaintenanceMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.MultiblockPartMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.TieredPartMachine;
+import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.network.chat.Component;
@@ -23,6 +26,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.function.Supplier;
 
+import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 @Getter
@@ -33,9 +37,10 @@ public class ACMHatchPartMachine extends TieredPartMachine implements IMaintenan
     static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
             ACMHatchPartMachine.class, MultiblockPartMachine.MANAGED_FIELD_HOLDER);
 
-    private static final float MAX_DURATION_MULTIPLIER = 1.2f;
-    private static final float MIN_DURATION_MULTIPLIER = 0.8f;
+    private static final float MAX_DURATION_MULTIPLIER = 1 + (0.1F * (4 - GTOConfig.getDifficulty()));
+    private static final float MIN_DURATION_MULTIPLIER = 1 - (0.1F * (4 - GTOConfig.getDifficulty()));
     private static final float DURATION_ACTION_AMOUNT = 0.01f;
+
     @Persisted
     private float durationMultiplier = 1.0f;
 
@@ -80,6 +85,12 @@ public class ACMHatchPartMachine extends TieredPartMachine implements IMaintenan
     @Override
     public ManagedFieldHolder getFieldHolder() {
         return MANAGED_FIELD_HOLDER;
+    }
+
+    @Override
+    public @Nullable GTRecipe modifyRecipe(GTRecipe recipe) {
+        recipe.duration = Math.max(1, (int) (recipe.duration * durationMultiplier));
+        return recipe;
     }
 
     @Override

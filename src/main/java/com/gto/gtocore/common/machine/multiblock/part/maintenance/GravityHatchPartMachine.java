@@ -5,6 +5,7 @@ import com.gto.gtocore.api.machine.feature.IGravityPartMachine;
 import com.gregtechceu.gtceu.api.gui.widget.IntInputWidget;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.MultiblockPartMachine;
+import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.AutoMaintenanceHatchPartMachine;
 
 import net.minecraft.util.Mth;
@@ -38,6 +39,11 @@ public final class GravityHatchPartMachine extends AutoMaintenanceHatchPartMachi
 
     private void setCurrentGravity(int gravity) {
         currentGravity = Mth.clamp(gravity, 0, 100);
+    }
+
+    @Override
+    public GTRecipe modifyRecipe(GTRecipe recipe) {
+        return recipe;
     }
 
     @Override

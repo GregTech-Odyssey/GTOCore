@@ -895,5 +895,10 @@ interface Vanilla {
                 "CDC",
                 "ABA",
                 'A', new UnificationEntry(GTOTagPrefix.curvedPlate, GTMaterials.StainlessSteel), 'B', new UnificationEntry(TagPrefix.rodLong, GTMaterials.StainlessSteel), 'C', new UnificationEntry(TagPrefix.pipeNormalFluid, GTMaterials.Aluminium), 'D', GTMachines.FERMENTER[GTValues.HV].asStack());
+        VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("time_twister"), GTOItems.TIME_TWISTER.asStack(),
+                "ABA",
+                "BCB",
+                "ABA",
+                'A', new UnificationEntry(TagPrefix.plateDouble, GTOMaterials.Gaia), 'B', RegistriesUtils.getItemStack("enderio:redstone_timer_filter"), 'C', RegistriesUtils.getItemStack("gtmthings:mv_4a_wireless_energy_receive_cover"));
     }
 }

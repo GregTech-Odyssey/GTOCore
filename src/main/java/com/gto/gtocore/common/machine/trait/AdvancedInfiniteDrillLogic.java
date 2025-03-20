@@ -4,7 +4,6 @@ import com.gto.gtocore.api.recipe.GTORecipeBuilder;
 import com.gto.gtocore.api.recipe.RecipeRunner;
 import com.gto.gtocore.common.machine.multiblock.electric.voidseries.AdvancedInfiniteDrillMachine;
 
-import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.data.worldgen.bedrockfluid.BedrockFluidVeinSavedData;
 import com.gregtechceu.gtceu.api.data.worldgen.bedrockfluid.FluidVeinWorldEntry;
 import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
@@ -155,7 +154,7 @@ public final class AdvancedInfiniteDrillLogic extends RecipeLogic {
     public void onRecipeFinish() {
         machine.afterWorking();
         if (lastRecipe != null) {
-            lastRecipe.handleRecipeIO(IO.OUT, machine, chanceCaches);
+            RecipeRunner.handleRecipeOutput(machine, lastRecipe);
         }
         // try it again
         var match = getFluidDrillRecipe();

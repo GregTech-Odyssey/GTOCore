@@ -11,7 +11,7 @@ import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import java.util.Set;
 import java.util.concurrent.*;
 
-public class AsyncRecipeOutputTask {
+public final class AsyncRecipeOutputTask {
 
     private final Set<Runnable> runnables = ConcurrentHashMap.newKeySet();
 
@@ -22,7 +22,7 @@ public class AsyncRecipeOutputTask {
     private static final CopyOnWriteArraySet<AsyncRecipeOutputTask> tasks = new CopyOnWriteArraySet<>();
     private static ScheduledExecutorService executorService;
     private final static ThreadFactory THREAD_FACTORY = new ThreadFactoryBuilder()
-            .setNameFormat("Async Recipe Output Thread-%d")
+            .setNameFormat("Recipe Output Thread-%d")
             .setDaemon(true)
             .build();
 

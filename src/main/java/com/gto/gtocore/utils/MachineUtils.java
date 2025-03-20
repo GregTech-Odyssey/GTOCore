@@ -296,7 +296,7 @@ public final class MachineUtils {
         if (!item.isEmpty()) {
             GTRecipe recipe = GTORecipeBuilder.ofRaw().inputItems(item).buildRawRecipe();
             if (RecipeRunner.matchRecipe(machine, recipe)) {
-                return RecipeRunner.handleRecipeIO(machine, recipe, IO.IN);
+                return RecipeRunner.handleRecipeInput(machine, recipe);
             }
         }
         return false;
@@ -328,7 +328,7 @@ public final class MachineUtils {
         if (!fluid.isEmpty()) {
             GTRecipe recipe = GTORecipeBuilder.ofRaw().inputFluids(fluid).buildRawRecipe();
             if (RecipeRunner.matchRecipe(machine, recipe)) {
-                return RecipeRunner.handleRecipeIO(machine, recipe, IO.IN);
+                return RecipeRunner.handleRecipeInput(machine, recipe);
             }
         }
         return false;
@@ -352,7 +352,7 @@ public final class MachineUtils {
         if (eu != 0) {
             GTRecipe recipe = GTORecipeBuilder.ofRaw().inputEU(eu).buildRawRecipe();
             if (RecipeRunner.matchRecipe(machine, recipe)) {
-                return RecipeRunner.handleRecipeIO(machine, recipe, IO.IN);
+                return RecipeRunner.handleRecipeInput(machine, recipe);
             }
         }
         return false;

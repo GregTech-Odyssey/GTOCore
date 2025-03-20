@@ -95,7 +95,7 @@ public final class InaccessibleInfiniteHandler extends NotifiableItemStackHandle
 
         private void insertItem(ItemStack stack, int count) {
             var key = AEItemKey.of(stack);
-            long oldValue = internalBuffer.storage.getOrDefault(key, 0);
+            long oldValue = internalBuffer.getOrDefault(key);
             long changeValue = Math.min(Long.MAX_VALUE - oldValue, count);
             internalBuffer.put(key, oldValue + changeValue);
         }
@@ -122,7 +122,7 @@ public final class InaccessibleInfiniteHandler extends NotifiableItemStackHandle
         public @NotNull ItemStack insertItem(int slot, @NotNull ItemStack stack, boolean simulate) {
             var key = AEItemKey.of(stack);
             int count = stack.getCount();
-            long oldValue = internalBuffer.storage.getOrDefault(key, 0);
+            long oldValue = internalBuffer.getOrDefault(key);
             long changeValue = Math.min(Long.MAX_VALUE - oldValue, count);
             if (!simulate) {
                 internalBuffer.put(key, oldValue + changeValue);

@@ -7,7 +7,6 @@ import com.gto.gtocore.common.data.GTORecipeModifiers;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.recipe.EURecipeCapability;
-import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.fancy.TooltipsPanel;
@@ -111,13 +110,13 @@ public final class CombustionEngineMachine extends ElectricMultiblockMachine {
         if (!super.onWorking()) return false;
         long totalContinuousRunningTime = recipeLogic.getTotalContinuousRunningTime();
         if ((totalContinuousRunningTime == 1 || totalContinuousRunningTime % 72 == 0)) {
-            if (!getLubricantRecipe().handleRecipeIO(IO.IN, this, recipeLogic.getChanceCaches())) {
+            if (!RecipeRunner.handleRecipeInput(this, getLubricantRecipe())) {
                 return false;
             }
         }
         if ((totalContinuousRunningTime == 1 || totalContinuousRunningTime % 20 == 0) && isBoostAllowed()) {
             var boosterRecipe = getBoostRecipe();
-            isOxygenBoosted = RecipeRunner.matchRecipe(this, boosterRecipe) && RecipeRunner.handleRecipeIO(this, boosterRecipe, IO.IN);
+            isOxygenBoosted = RecipeRunner.matchRecipe(this, boosterRecipe) && RecipeRunner.handleRecipeInput(this, boosterRecipe);
         }
         return true;
     }

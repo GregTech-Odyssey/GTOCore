@@ -7,7 +7,6 @@ import com.gto.gtocore.common.data.GTORecipeModifiers;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.recipe.EURecipeCapability;
-import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.fancy.TooltipsPanel;
@@ -114,15 +113,15 @@ public final class ChemicalEnergyDevourerMachine extends ElectricMultiblockMachi
         if (!super.onWorking()) return false;
         long totalContinuousRunningTime = recipeLogic.getTotalContinuousRunningTime();
         if ((totalContinuousRunningTime == 1 || totalContinuousRunningTime % 72 == 0)) {
-            if (!getLubricantRecipe().handleRecipeIO(IO.IN, this, recipeLogic.getChanceCaches())) {
+            if (!RecipeRunner.handleRecipeInput(this, getLubricantRecipe())) {
                 return false;
             }
         }
         if ((totalContinuousRunningTime == 1 || totalContinuousRunningTime % 20 == 0) && isBoostAllowed()) {
             var boosterRecipe = getBoostRecipe();
             var boosterRecipea = getBoostRecipea();
-            isOxygenBoosted = RecipeRunner.matchRecipe(this, boosterRecipe) && RecipeRunner.handleRecipeIO(this, boosterRecipe, IO.IN);
-            isDinitrogenTetroxideBoosted = RecipeRunner.matchRecipe(this, boosterRecipea) && RecipeRunner.handleRecipeIO(this, boosterRecipea, IO.IN);
+            isOxygenBoosted = RecipeRunner.matchRecipe(this, boosterRecipe) && RecipeRunner.handleRecipeInput(this, boosterRecipe);
+            isDinitrogenTetroxideBoosted = RecipeRunner.matchRecipe(this, boosterRecipea) && RecipeRunner.handleRecipeInput(this, boosterRecipea);
         }
         return true;
     }
