@@ -5,6 +5,7 @@ import com.gto.gtocore.common.data.GTORecipes;
 import net.minecraft.resources.ResourceLocation;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import dev.emi.emi.api.recipe.EmiRecipe;
 import dev.emi.emi.api.recipe.EmiRecipeCategory;
 import dev.emi.emi.api.recipe.EmiRecipeManager;
@@ -17,6 +18,8 @@ import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.annotation.Nullable;
 
@@ -37,6 +40,10 @@ public final class EMIManager implements EmiRecipeManager {
         this.recipes = recipes;
         byCategory = new Object2ObjectOpenHashMap<>(categories.size());
         byId = new Object2ObjectOpenHashMap<>(recipes.size());
+
+        Map<EmiStack, Set<EmiRecipe>> byOutput = new Object2ObjectOpenCustomHashMap<>(
+                new EmiStackList.ComparisonHashStrategy());
+
         for (EmiRecipe recipe : recipes) {
             ResourceLocation id = recipe.getId();
             EmiRecipeCategory category = recipe.getCategory();
@@ -58,9 +65,14 @@ public final class EMIManager implements EmiRecipeManager {
             }
 
             for (EmiStack output : recipe.getOutputs()) {
-                byOutput.computeIfAbsent(output, b -> Lists.newArrayList()).add(recipe);
+                byOutput.computeIfAbsent(output, b -> Sets.newLinkedHashSet()).add(recipe);
             }
         }
+
+        this.byOutput.putAll(byOutput
+                .entrySet()
+                .stream()
+                .collect(Collectors.toMap(Map.Entry::getKey, entry -> Lists.newArrayList(entry.getValue()))));
 
         for (Map.Entry<EmiRecipeCategory, List<EmiRecipe>> entry : byCategory.entrySet()) {
             for (EmiIngredient ingredient : workstations.getOrDefault(entry.getKey(), List.of())) {
