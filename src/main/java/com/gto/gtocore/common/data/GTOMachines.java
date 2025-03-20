@@ -617,4 +617,16 @@ public interface GTOMachines {
             .allRotation()
             .overlayTieredHullRenderer("neutron_sensor")
             .register();
+
+    MachineDefinition TAG_FILTER_ME_STOCK_BUS_PART_MACHINE = machine("me_tag_filter_stock_bus_part_machine", "ME标签过滤库存输入总线", METagFilterStockBusPartMachine::new)
+            .tier(LuV)
+            .abilities(PartAbility.IMPORT_ITEMS)
+            .allRotation()
+            .renderer(() -> new OverlayTieredMachineRenderer(LuV, GTCEu.id("block/machine/part/me_item_bus.import")))
+            .tooltips(
+                    Component.translatable("gtceu.machine.item_bus.import.tooltip"),
+                    Component.translatable("gtceu.machine.me.item_import.tooltip"),
+                    Component.translatable("gtceu.machine.me.copy_paste.tooltip"),
+                    Component.translatable("gtceu.universal.enabled"))
+            .register();
 }

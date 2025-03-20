@@ -114,5 +114,10 @@ final class MachineLang {
         addENCN("gtocore.machine.parallel", "Maximum number of parallel: %s", "最大并行数：%s");
         addENCN("gtocore.machine.repeated_recipes", "Parallel repeated recipes [%s]", "并行重复配方[%s]");
         addENCN("gtocore.machine.cwut_modification", "Hashrate correction factor: %s", "算力修正系数：%s");
+        addENCN("gtocore.machine.tag_filter.tag_config_title", "Tag Filtering Configuration", "标签过滤配置");
+        addENCN("gtocore.machine.tag_filter.tag_white_list", "White List", "白名单");
+        addENCN("gtocore.machine.tag_filter.tag_black_list", "Black List", "黑名单");
+        addENCN("gtocore.machine.tag_filter.tooltip.0", "* Indicates a wildcard () Indicates Priority",  "* 表示通配符 () 表示优先");
+        addENCN("gtocore.machine.tag_filter.tooltip.1", "White List", "& = Logic with | = Logic or ^ = Logical XOR");
     }
 }
