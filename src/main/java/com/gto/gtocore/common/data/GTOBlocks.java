@@ -183,8 +183,6 @@ public interface GTOBlocks {
     BlockEntry<ActiveBlock> SPACE_ELEVATOR_SUPPORT = createActiveCasing("space_elevator_support", "太空电梯支撑结构", "block/variant/space_elevator_support");
     BlockEntry<ActiveBlock> SPACE_ELEVATOR_POWER_CORE = createActiveCasing("space_elevator_power_core", "太空电梯动力核心", "block/variant/space_elevator_power_core");
     BlockEntry<ActiveBlock> HYPER_CORE = createActiveCasing("hyper_core", "超能核心", "block/variant/hyper_core");
-    BlockEntry<ActiveBlock> SUPER_COMPUTATION_COMPONENT = createActiveCasing("super_computation_component", "超级计算机组件", "block/variant/super_computation_component");
-    BlockEntry<ActiveBlock> SUPER_COOLER_COMPONENT = createActiveCasing("super_cooler_component", "超级冷却组件", "block/variant/super_cooler_component");
     BlockEntry<ActiveBlock> SPACETIMECONTINUUMRIPPER = createActiveCasing("spacetimecontinuumripper", "时空连续体撕裂方块", "block/variant/spacetimecontinuumripper");
     BlockEntry<ActiveBlock> SPACETIMEBENDINGCORE = createActiveCasing("spacetimebendingcore", "时空扭曲核心方块", "block/variant/spacetimebendingcore");
     BlockEntry<ActiveBlock> QUANTUM_FORCE_TRANSFORMER_COIL = createActiveCasing("quantum_force_transformer_coil", "量子操纵者线圈方块", "block/variant/quantum_force_transformer_coil");

@@ -88,8 +88,8 @@ public interface GTMaterialExtend {
         Sapphire.addFlags(GTOMaterialFlags.GENERATE_ARTIFICIAL_GEM);
         Ruby.addFlags(GTOMaterialFlags.GENERATE_ARTIFICIAL_GEM);
         Emerald.addFlags(GTOMaterialFlags.GENERATE_ARTIFICIAL_GEM);
-        RhodiumPlatedPalladium.addFlags(DISABLE_ALLOY_BLAST);
-        YttriumBariumCuprate.addFlags(DISABLE_ALLOY_BLAST);
+        RhodiumPlatedPalladium.addFlags(DISABLE_ALLOY_PROPERTY);
+        YttriumBariumCuprate.addFlags(DISABLE_ALLOY_PROPERTY);
         Kanthal.getProperty(BLAST).setEUtOverride(GTValues.VA[GTValues.MV]);
         Netherite.setProperty(BLAST, new BlastProperty(4810));
         Strontium.setProperty(FLUID, new FluidProperty(FluidStorageKeys.LIQUID, new FluidBuilder()));
