@@ -91,7 +91,7 @@ public interface MultiBlockB {
             .workableCasingRenderer(GTCEu.id("block/casings/gcym/stress_proof_casing"), GTCEu.id("block/multiblock/gcym/large_material_press"))
             .register();
 
-    MultiblockMachineDefinition LARGE_ROLLING = multiblock("large_rolling", "大型辊压机", ElectricMultiblockMachine::new)
+    MultiblockMachineDefinition LARGE_ROLLING = multiblock("large_rolling", "大型辊轧机", ElectricMultiblockMachine::new)
             .allRotation()
             .eutMultiplierTooltips(0.8)
             .durationMultiplierTooltips(0.6)

@@ -436,7 +436,7 @@ public interface FuelRecipe {
         PLASMA_GENERATOR_FUELS.recipeBuilder(GTOCore.id("tin"))
                 .inputFluids(Tin.getFluid(FluidStorageKeys.PLASMA, 1))
                 .outputFluids(Tin.getFluid(1))
-                .duration(138)
+                .duration(128)
                 .EUt(-V[EV])
                 .save();
 

@@ -32,6 +32,27 @@ import static com.gto.gtocore.common.data.GTORecipeTypes.ASSEMBLER_RECIPES;
 interface Assembler {
 
     static void init() {
+        ASSEMBLER_RECIPES.builder("base_mana_distributor")
+                .inputItems(TagPrefix.frameGt, GTOMaterials.OriginalBronze)
+                .inputItems("botania:mana_distributor", 4)
+                .inputItems("botania:mana_gun", 4)
+                .inputItems(TagPrefix.bolt, GTOMaterials.Manasteel, 8)
+                .inputItems(TagPrefix.plate, GTOMaterials.Livingrock, 16)
+                .outputItems(ManaMultiBlock.BASE_MANA_DISTRIBUTOR.asStack())
+                .duration(200)
+                .MANAt(8)
+                .save();
+
+        ASSEMBLER_RECIPES.builder("manasteel_casing")
+                .inputItems(TagPrefix.frameGt, GTOMaterials.Manasteel)
+                .inputItems(TagPrefix.plate, GTOMaterials.Livingwood, 4)
+                .inputItems(TagPrefix.plate, GTOMaterials.Manasteel, 2)
+                .outputItems(GTOBlocks.MANASTEEL_CASING.asStack())
+                .circuitMeta(6)
+                .duration(100)
+                .MANAt(2)
+                .save();
+
         ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("wireless_data_transmitter_hatch"))
                 .inputItems("gtceu:data_transmitter_hatch")
                 .inputItems(GTItems.FIELD_GENERATOR_UHV.asStack())

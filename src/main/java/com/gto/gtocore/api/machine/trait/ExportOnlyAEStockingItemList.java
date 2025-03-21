@@ -7,6 +7,7 @@ import com.gregtechceu.gtceu.integration.ae2.slot.ExportOnlyAEItemList;
 import com.gregtechceu.gtceu.integration.ae2.slot.ExportOnlyAEItemSlot;
 import com.gregtechceu.gtceu.integration.ae2.slot.ExportOnlyAESlot;
 
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
 
 import appeng.api.config.Actionable;
@@ -22,6 +23,7 @@ public final class ExportOnlyAEStockingItemList extends ExportOnlyAEItemList {
         super(holder, slots, () -> new ExportOnlyAEStockingItemSlot((MEInputBusPartMachine) holder));
     }
 
+    @Override
     public MEInputBusPartMachine getMachine() {
         return (MEInputBusPartMachine) super.getMachine();
     }
@@ -49,6 +51,8 @@ public final class ExportOnlyAEStockingItemList extends ExportOnlyAEItemList {
 
     private static class ExportOnlyAEStockingItemSlot extends ExportOnlyAEItemSlot {
 
+        private final Object lock = new Object();
+
         private final MEInputBusPartMachine machine;
 
         public ExportOnlyAEStockingItemSlot(MEInputBusPartMachine machine) {
@@ -63,35 +67,42 @@ public final class ExportOnlyAEStockingItemList extends ExportOnlyAEItemList {
 
         @Nullable
         public GenericStack requestStack() {
-            synchronized (this) {
+            synchronized (lock) {
                 return super.requestStack();
             }
         }
 
         @Nullable
         public GenericStack exceedStack() {
-            synchronized (this) {
+            synchronized (lock) {
                 return super.exceedStack();
             }
         }
 
         @Override
         public void addStack(@NotNull GenericStack stack) {
-            synchronized (this) {
+            synchronized (lock) {
                 super.addStack(stack);
             }
         }
 
         @Override
         public void setStock(@Nullable GenericStack stack) {
-            synchronized (this) {
+            synchronized (lock) {
                 super.setStock(stack);
             }
         }
 
         @Override
+        public void deserializeNBT(CompoundTag tag) {
+            synchronized (lock) {
+                super.deserializeNBT(tag);
+            }
+        }
+
+        @Override
         public @NotNull ItemStack extractItem(int slot, int amount, boolean simulate) {
-            synchronized (this) {
+            synchronized (lock) {
                 if (slot == 0 && this.stock != null) {
                     if (this.config != null) {
                         if (!machine.isOnline()) return ItemStack.EMPTY;

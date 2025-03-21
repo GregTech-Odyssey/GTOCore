@@ -1868,7 +1868,7 @@ public interface MultiBlockA {
             .workableCasingRenderer(GTOCore.id("block/casings/molecular_casing"), GTCEu.id("block/multiblock/fusion_reactor"))
             .register();
 
-    MultiblockMachineDefinition HEAVY_ROLLING = multiblock("heavy_rolling", "重型辊压机", CoilCrossRecipeMultiblockMachine::createCoilParallel)
+    MultiblockMachineDefinition HEAVY_ROLLING = multiblock("heavy_rolling", "重型辊轧机", CoilCrossRecipeMultiblockMachine::createCoilParallel)
             .allRotation()
             .recipe(GTORecipeTypes.CLUSTER_RECIPES)
             .recipe(GTORecipeTypes.ROLLING_RECIPES)

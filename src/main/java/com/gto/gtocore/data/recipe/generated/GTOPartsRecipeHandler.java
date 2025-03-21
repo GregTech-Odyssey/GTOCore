@@ -590,8 +590,8 @@ interface GTOPartsRecipeHandler {
                 .inputItems(plateDouble, material, 5)
                 .inputItems(screw, material, 2)
                 .outputItems(stack)
-                .duration(mass * 10)
-                .EUt((long) GTOUtils.getVoltageMultiplier(material) << 3)
+                .duration(mass << 4)
+                .EUt((long) GTOUtils.getVoltageMultiplier(material) << 2)
                 .save();
     }
 
@@ -649,12 +649,14 @@ interface GTOPartsRecipeHandler {
         int mass = (int) material.getMass();
         ItemStack motorEnclosureStack = ChemicalHelper.get(motorEnclosure, material);
         ItemStack curvedPlateStack = ChemicalHelper.get(curvedPlate, material);
+        ItemStack ringStack = ChemicalHelper.get(ring, material);
         if (mass < 240 && material.getBlastTemperature() < 3600)
             VanillaRecipeHelper.addShapedRecipe(provider, String.format("motor_enclosure_%s", material.getName()),
-                    motorEnclosureStack, " h ", "IwI", 'I', curvedPlateStack);
+                    motorEnclosureStack, "SwS", "IRI", " h ", 'I', curvedPlateStack, 'S', new UnificationEntry(screw, material), 'R', ringStack);
 
         LASER_WELDER_RECIPES.recipeBuilder(GTOCore.id(material.getName() + "_motor_enclosure"))
                 .inputItems(curvedPlateStack.copyWithCount(2))
+                .inputItems(ringStack)
                 .outputItems(motorEnclosureStack)
                 .circuitMeta(3)
                 .duration(mass)
@@ -688,7 +690,7 @@ interface GTOPartsRecipeHandler {
         ItemStack ringStack = ChemicalHelper.get(ring, material);
         if (mass < 240 && material.getBlastTemperature() < 3600)
             VanillaRecipeHelper.addShapedRecipe(provider, String.format("pump_barrel_%s", material.getName()),
-                    pumpBarrelStack, "wIh", "R R", " I ", 'I', curvedPlateStack, 'R', ringStack);
+                    pumpBarrelStack, "wIw", "ShS", "RIR", 'I', curvedPlateStack, 'R', ringStack, 'S', new UnificationEntry(screw, material));
 
         LASER_WELDER_RECIPES.recipeBuilder(GTOCore.id(material.getName() + "_pump_barrel"))
                 .inputItems(curvedPlateStack.copyWithCount(2))
@@ -726,7 +728,7 @@ interface GTOPartsRecipeHandler {
         ItemStack plateStack = ChemicalHelper.get(plate, material);
         if (mass < 240 && material.getBlastTemperature() < 3600)
             VanillaRecipeHelper.addShapedRecipe(provider, String.format("piston_housing_%s", material.getName()),
-                    pistonHousingStack, "IwI", "hPh", 'I', curvedPlateStack, 'P', plateStack);
+                    pistonHousingStack, "IhI", "SPS", "whw", 'I', curvedPlateStack, 'P', plateStack, 'S', new UnificationEntry(screw, material));
 
         LASER_WELDER_RECIPES.recipeBuilder(GTOCore.id(material.getName() + "_piston_housing"))
                 .inputItems(curvedPlateStack.copyWithCount(2))
@@ -765,7 +767,7 @@ interface GTOPartsRecipeHandler {
         ItemStack rodStack = ChemicalHelper.get(rod, material);
         if (mass < 240 && material.getBlastTemperature() < 3600)
             VanillaRecipeHelper.addShapedRecipe(provider, String.format("emitter_base_%s", material.getName()),
-                    emitterBasesStack, " w ", "IPI", "RhR", 'I', curvedPlateStack, 'P', plateStack, 'R', rodStack);
+                    emitterBasesStack, "SwS", "IPI", "RhR", 'I', curvedPlateStack, 'P', plateStack, 'R', rodStack, 'S', new UnificationEntry(screw, material));
 
         LASER_WELDER_RECIPES.recipeBuilder(GTOCore.id(material.getName() + "_emitter_base"))
                 .inputItems(curvedPlateStack.copyWithCount(2))
@@ -803,7 +805,7 @@ interface GTOPartsRecipeHandler {
         ItemStack rodStack = ChemicalHelper.get(rod, material);
         if (mass < 240 && material.getBlastTemperature() < 3600)
             VanillaRecipeHelper.addShapedRecipe(provider, String.format("sensor_casing_%s", material.getName()),
-                    sensorCasingStack, "wIh", "IRI", " I ", 'I', curvedPlateStack, 'R', rodStack);
+                    sensorCasingStack, "wIh", "IRI", "SIS", 'I', curvedPlateStack, 'R', rodStack, 'S', new UnificationEntry(screw, material));
 
         LASER_WELDER_RECIPES.recipeBuilder(GTOCore.id(material.getName() + "_sensor_casing"))
                 .inputItems(curvedPlateStack.copyWithCount(4))

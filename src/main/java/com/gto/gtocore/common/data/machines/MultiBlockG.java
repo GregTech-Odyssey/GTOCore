@@ -62,7 +62,7 @@ public interface MultiBlockG {
             .pattern(definition -> FactoryBlockPattern.start(RelativeDirection.RIGHT, RelativeDirection.UP,
                     RelativeDirection.BACK)
                     .aisle("AAAAAAA").aisle("AA AAAA").aisle("A   AAA").aisle("AA AAAA").aisle("AMFNAAA")
-                    .where('A', blocks(GTOBlocks.MATERIAL_TESTING.get()))
+                    .where('A', blocks(GTOBlocks.MANASTEEL_CASING.get()))
                     .where('M', blocks(CreativeMachines.CREATIVE_FLUID_INPUT_HATCH.get()))
                     .where('N', blocks(CustomMachines.ME_EXPORT_BUFFER.get()))
                     .where('F', controller(blocks(definition.get()))).where(' ', any())

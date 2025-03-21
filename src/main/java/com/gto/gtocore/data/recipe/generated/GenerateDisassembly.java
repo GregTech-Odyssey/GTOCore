@@ -48,6 +48,8 @@ public interface GenerateDisassembly {
     }
 
     static void generateDisassembly(GTRecipeBuilder recipeBuilder, Consumer<FinishedRecipe> consumer) {
+        long eut = recipeBuilder.EUt();
+        if (eut < 1) return;
         List<Content> c = recipeBuilder.output.getOrDefault(ItemRecipeCapability.CAP, null);
         if (c == null) {
             GTOCore.LOGGER.atError().log("配方{}没有输出", recipeBuilder.id);
@@ -68,7 +70,7 @@ public interface GenerateDisassembly {
         GTORecipeBuilder builder = DISASSEMBLY_RECIPES.recipeBuilder(id)
                 .inputItems(SizedIngredient.copy(output))
                 .duration(recipeBuilder.duration)
-                .EUt(recipeBuilder.EUt());
+                .EUt(eut);
         boolean hasOutput = false;
         List<Content> itemList = recipeBuilder.input.getOrDefault(ItemRecipeCapability.CAP, null);
         List<Content> fluidList = recipeBuilder.input.getOrDefault(FluidRecipeCapability.CAP, null);

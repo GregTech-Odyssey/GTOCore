@@ -152,7 +152,7 @@ public interface GTORecipeTypes {
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.MOTOR);
 
-    GTORecipeType ROLLING_RECIPES = register("rolling", "辊压机", ELECTRIC)
+    GTORecipeType ROLLING_RECIPES = register("rolling", "辊轧机", ELECTRIC)
             .setMaxIOSize(2, 1, 0, 0)
             .setEUIO(IO.IN)
             .setProgressBar(GuiTextures.PROGRESS_BAR_BENDING, LEFT_TO_RIGHT)

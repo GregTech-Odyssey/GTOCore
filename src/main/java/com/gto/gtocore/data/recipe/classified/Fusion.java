@@ -65,15 +65,6 @@ interface Fusion {
                 .fusionStartEU(200_000_000)
                 .save();
 
-        FUSION_RECIPES.recipeBuilder(GTOCore.id("tin"))
-                .inputFluids(GTMaterials.Silver.getFluid(144))
-                .inputFluids(GTMaterials.Helium3.getFluid(275))
-                .outputFluids(GTMaterials.Tin.getFluid(FluidStorageKeys.PLASMA, 288))
-                .duration(16)
-                .EUt(49152)
-                .fusionStartEU(280_000_000)
-                .save();
-
         FUSION_RECIPES.recipeBuilder(GTOCore.id("lead"))
                 .inputFluids(GTMaterials.Tellurium.getFluid(288))
                 .inputFluids(GTMaterials.Zinc.getFluid(288))
@@ -243,6 +234,15 @@ interface Fusion {
                 .EUt(65536)
                 .duration(128)
                 .fusionStartEU(720000000)
+                .save();
+
+        FUSION_RECIPES.builder("americium_and_naquadria_to_neutronium_plasma")
+                .inputFluids(GTMaterials.Americium.getFluid(FluidStorageKeys.PLASMA, 128))
+                .inputFluids(GTMaterials.Naquadria.getFluid(128))
+                .outputFluids(GTMaterials.Neutronium.getFluid(32))
+                .duration(200)
+                .EUt(98304)
+                .fusionStartEU(600_000_000)
                 .save();
     }
 }

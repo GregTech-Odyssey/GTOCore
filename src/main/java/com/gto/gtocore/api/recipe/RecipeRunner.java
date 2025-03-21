@@ -1,11 +1,17 @@
 package com.gto.gtocore.api.recipe;
 
-import com.gregtechceu.gtceu.api.capability.recipe.*;
+import com.gregtechceu.gtceu.api.capability.recipe.IO;
+import com.gregtechceu.gtceu.api.capability.recipe.IRecipeCapabilityHolder;
+import com.gregtechceu.gtceu.api.capability.recipe.IRecipeHandler;
+import com.gregtechceu.gtceu.api.capability.recipe.RecipeCapability;
 import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.content.Content;
 
+import it.unimi.dsi.fastutil.objects.Object2IntMap;
+
 import java.util.List;
+import java.util.Map;
 
 public interface RecipeRunner {
 
@@ -13,27 +19,27 @@ public interface RecipeRunner {
         return recipe.checkConditions(holder.getRecipeLogic()).isSuccess();
     }
 
-    static boolean matchRecipe(IRecipeLogicMachine holder, GTRecipe recipe) {
+    static boolean matchRecipe(IRecipeCapabilityHolder holder, GTRecipe recipe) {
         return recipe.matchRecipe(holder).isSuccess();
     }
 
-    static boolean matchTickRecipe(IRecipeLogicMachine holder, GTRecipe recipe) {
+    static boolean matchTickRecipe(IRecipeCapabilityHolder holder, GTRecipe recipe) {
         return recipe.matchTickRecipe(holder).isSuccess();
     }
 
-    static boolean matchRecipeInput(IRecipeLogicMachine holder, GTRecipe recipe) {
+    static boolean matchRecipeInput(IRecipeCapabilityHolder holder, GTRecipe recipe) {
         return recipe.matchRecipeContents(IO.IN, holder, recipe.inputs, false).isSuccess();
     }
 
-    static boolean matchRecipeOutput(IRecipeLogicMachine holder, GTRecipe recipe) {
+    static boolean matchRecipeOutput(IRecipeCapabilityHolder holder, GTRecipe recipe) {
         return recipe.matchRecipeContents(IO.OUT, holder, recipe.outputs, false).isSuccess();
     }
 
-    static boolean matchRecipeTickInput(IRecipeLogicMachine holder, GTRecipe recipe) {
+    static boolean matchRecipeTickInput(IRecipeCapabilityHolder holder, GTRecipe recipe) {
         return recipe.matchRecipeContents(IO.IN, holder, recipe.tickInputs, true).isSuccess();
     }
 
-    static boolean matchRecipeTickOutput(IRecipeLogicMachine holder, GTRecipe recipe) {
+    static boolean matchRecipeTickOutput(IRecipeCapabilityHolder holder, GTRecipe recipe) {
         return recipe.matchRecipeContents(IO.OUT, holder, recipe.tickOutputs, true).isSuccess();
     }
 
@@ -46,13 +52,17 @@ public interface RecipeRunner {
     }
 
     static boolean handleRecipeIO(IRecipeLogicMachine holder, GTRecipe recipe, IO io) {
-        return recipe.handleRecipeIO(io, holder, holder.getRecipeLogic().getChanceCaches());
+        return handleRecipeIO(holder, recipe, io, holder.getRecipeLogic().getChanceCaches());
+    }
+
+    static boolean handleRecipeIO(IRecipeCapabilityHolder holder, GTRecipe recipe, IO io, Map<RecipeCapability<?>, Object2IntMap<?>> chanceCaches) {
+        return recipe.handleRecipeIO(io, holder, chanceCaches);
     }
 
     /**
      * @return 是否失败
      */
-    static boolean handleTickRecipe(IRecipeLogicMachine holder, IO io, GTRecipe recipe, List<Content> contents, RecipeCapability<?> capability) {
+    static boolean handleTickRecipe(IRecipeCapabilityHolder holder, IO io, GTRecipe recipe, List<Content> contents, RecipeCapability<?> capability) {
         if (contents == null || contents.isEmpty()) return false;
         List<IRecipeHandler<?>> handlers = holder.getCapabilitiesProxy().get(io, capability);
         if (handlers == null) return true;

@@ -284,7 +284,7 @@ public final class ForgeCommonEvent {
     }
 
     @SubscribeEvent
-    public static void onServerStartedEvent(ServerStoppingEvent event) {
+    public static void onServerStoppingEvent(ServerStoppingEvent event) {
         AsyncRecipeSearchTask.releaseExecutorService();
         AsyncRecipeOutputTask.releaseExecutorService();
     }

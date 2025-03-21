@@ -198,7 +198,7 @@ public interface MagicMaterial {
         OriginalBronze = material("original_bronze", "原始青铜")
                 .ingot()
                 .fluid()
-                .color(0x302a4a)
+                .color(0x562f20)
                 .blastTemp(1395, LOW)
                 .components(GTMaterials.Bronze, 2)
                 .flags(DISABLE_DECOMPOSITION, GENERATE_FRAME, GENERATE_LONG_ROD, GENERATE_FOIL, GENERATE_GEAR, GENERATE_BOLT_SCREW)
@@ -235,21 +235,21 @@ public interface MagicMaterial {
 
         Livingrock = material("livingrock", "活石")
                 .dust()
-                .flags(FORCE_GENERATE_BLOCK, GENERATE_ROD, GENERATE_PLATE)
+                .flags(FORCE_GENERATE_BLOCK, GENERATE_PLATE)
                 .color(0xcbcdbb)
                 .iconSet(FINE)
                 .buildAndRegister();
 
         Runerock = material("runerock", "符文石")
                 .dust()
-                .flags(FORCE_GENERATE_BLOCK, GENERATE_ROD, GENERATE_PLATE)
+                .flags(FORCE_GENERATE_BLOCK, GENERATE_PLATE)
                 .color(0xbcf7e5)
                 .iconSet(FINE)
                 .buildAndRegister();
 
         Shimmerrock = material("shimmerrock", "微光石")
                 .dust()
-                .flags(FORCE_GENERATE_BLOCK, GENERATE_ROD, GENERATE_PLATE)
+                .flags(FORCE_GENERATE_BLOCK, GENERATE_PLATE)
                 .iconSet(FINE)
                 .buildAndRegister();
 

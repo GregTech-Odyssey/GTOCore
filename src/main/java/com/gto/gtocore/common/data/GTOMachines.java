@@ -82,7 +82,7 @@ public interface GTOMachines {
 
     MachineDefinition[] CLUSTER = registerSimpleMachines("cluster", "多辊式轧机", GTORecipeTypes.CLUSTER_RECIPES, GTMachineUtils.defaultTankSizeFunction);
 
-    MachineDefinition[] ROLLING = registerSimpleMachines("rolling", "辊压机", GTORecipeTypes.ROLLING_RECIPES, GTMachineUtils.defaultTankSizeFunction);
+    MachineDefinition[] ROLLING = registerSimpleMachines("rolling", "辊轧机", GTORecipeTypes.ROLLING_RECIPES, GTMachineUtils.defaultTankSizeFunction);
 
     MachineDefinition[] LAMINATOR = registerSimpleMachines("laminator", "过胶机", GTORecipeTypes.LAMINATOR_RECIPES, GTMachineUtils.defaultTankSizeFunction);
 
@@ -623,10 +623,15 @@ public interface GTOMachines {
             .abilities(PartAbility.IMPORT_ITEMS)
             .allRotation()
             .renderer(() -> new OverlayTieredMachineRenderer(LuV, GTCEu.id("block/machine/part/me_item_bus.import")))
-            .tooltips(
-                    Component.translatable("gtceu.machine.item_bus.import.tooltip"),
+            .tooltips(Component.translatable("gtceu.machine.item_bus.import.tooltip"),
                     Component.translatable("gtceu.machine.me.item_import.tooltip"),
                     Component.translatable("gtceu.machine.me.copy_paste.tooltip"),
                     Component.translatable("gtceu.universal.enabled"))
+            .register();
+
+    MachineDefinition INFINITE_PARALLEL_HATCH = machine("infinite_parallel_hatch", "无限并行仓", h -> new ParallelHatchPartMachine(h, -1))
+            .tier(MAX)
+            .allRotation()
+            .workableTieredHullRenderer(GTCEu.id("block/machines/parallel_hatch"))
             .register();
 }

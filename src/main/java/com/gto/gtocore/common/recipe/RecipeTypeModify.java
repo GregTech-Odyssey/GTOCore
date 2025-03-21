@@ -1,11 +1,13 @@
 package com.gto.gtocore.common.recipe;
 
+import com.gto.gtocore.api.capability.recipe.ManaRecipeCapability;
 import com.gto.gtocore.common.data.GTOMaterials;
 import com.gto.gtocore.common.data.GTORecipeTypes;
 import com.gto.gtocore.data.recipe.generated.GenerateDisassembly;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
+import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.data.recipe.builder.GTRecipeBuilder;
@@ -35,6 +37,7 @@ public interface RecipeTypeModify {
             GenerateDisassembly.generateDisassembly(recipeBuilder, provider);
         });
 
+        ASSEMBLER_RECIPES.setMaxSize(IO.IN, ManaRecipeCapability.CAP, 1);
         ASSEMBLER_RECIPES.onRecipeBuild(GenerateDisassembly::generateDisassembly);
 
         PLASMA_GENERATOR_FUELS.onRecipeBuild((recipeBuilder, provider) -> {

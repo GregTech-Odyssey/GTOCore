@@ -15,19 +15,19 @@ import java.util.Iterator;
 public final class KeyMap extends KeyStorage {
 
     public void put(AEKey key, long value) {
-        synchronized (this) {
+        synchronized (storage) {
             storage.put(key, value);
         }
     }
 
     public long getOrDefault(AEKey key) {
-        synchronized (this) {
+        synchronized (storage) {
             return storage.getOrDefault(key, 0L);
         }
     }
 
     private ObjectSet<Object2LongMap.Entry<AEKey>> object2LongEntrySet() {
-        synchronized (this) {
+        synchronized (storage) {
             return storage.object2LongEntrySet();
         }
     }

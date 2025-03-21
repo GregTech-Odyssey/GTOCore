@@ -115,16 +115,6 @@ interface PlasmaCondenser {
                 .duration(800)
                 .save();
 
-        PLASMA_CONDENSER_RECIPES.recipeBuilder(GTOCore.id("nitrogen_condenser"))
-                .circuitMeta(1)
-                .inputFluids(GTMaterials.Nitrogen.getFluid(FluidStorageKeys.PLASMA, 1000))
-                .inputFluids(GTMaterials.Helium.getFluid(FluidStorageKeys.LIQUID, 100000))
-                .outputFluids(GTMaterials.Nitrogen.getFluid(1000))
-                .outputFluids(GTMaterials.Helium.getFluid(100000))
-                .EUt(1966080)
-                .duration(600)
-                .save();
-
         PLASMA_CONDENSER_RECIPES.recipeBuilder(GTOCore.id("mithril_condenser"))
                 .circuitMeta(1)
                 .inputFluids(GTOMaterials.Mithril.getFluid(FluidStorageKeys.PLASMA, 1000))
@@ -352,36 +342,6 @@ interface PlasmaCondenser {
                 .outputFluids(GTOMaterials.Chaos.getFluid(1000))
                 .EUt(503316480)
                 .duration(1600)
-                .save();
-
-        PLASMA_CONDENSER_RECIPES.recipeBuilder(GTOCore.id("argon_condenser"))
-                .circuitMeta(1)
-                .inputFluids(GTMaterials.Argon.getFluid(FluidStorageKeys.PLASMA, 1000))
-                .inputFluids(GTMaterials.Helium.getFluid(FluidStorageKeys.LIQUID, 100000))
-                .outputFluids(GTMaterials.Argon.getFluid(1000))
-                .outputFluids(GTMaterials.Helium.getFluid(100000))
-                .EUt(1966080)
-                .duration(600)
-                .save();
-
-        PLASMA_CONDENSER_RECIPES.recipeBuilder(GTOCore.id("helium_condenser"))
-                .circuitMeta(1)
-                .inputFluids(GTMaterials.Helium.getFluid(FluidStorageKeys.PLASMA, 1000))
-                .inputFluids(GTMaterials.Helium.getFluid(FluidStorageKeys.LIQUID, 100000))
-                .outputFluids(GTMaterials.Helium.getFluid(1000))
-                .outputFluids(GTMaterials.Helium.getFluid(100000))
-                .EUt(1966080)
-                .duration(600)
-                .save();
-
-        PLASMA_CONDENSER_RECIPES.recipeBuilder(GTOCore.id("oxygen_condenser"))
-                .circuitMeta(1)
-                .inputFluids(GTMaterials.Oxygen.getFluid(FluidStorageKeys.PLASMA, 1000))
-                .inputFluids(GTMaterials.Helium.getFluid(FluidStorageKeys.LIQUID, 100000))
-                .outputFluids(GTMaterials.Oxygen.getFluid(1000))
-                .outputFluids(GTMaterials.Helium.getFluid(100000))
-                .EUt(1966080)
-                .duration(600)
                 .save();
 
         PLASMA_CONDENSER_RECIPES.recipeBuilder(GTOCore.id("vibranium_ingot_condenser"))

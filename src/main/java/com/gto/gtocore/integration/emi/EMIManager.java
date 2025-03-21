@@ -5,7 +5,6 @@ import com.gto.gtocore.common.data.GTORecipes;
 import net.minecraft.resources.ResourceLocation;
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
 import dev.emi.emi.api.recipe.EmiRecipe;
 import dev.emi.emi.api.recipe.EmiRecipeCategory;
 import dev.emi.emi.api.recipe.EmiRecipeManager;
@@ -15,11 +14,12 @@ import dev.emi.emi.registry.EmiRecipes;
 import dev.emi.emi.registry.EmiStackList;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenCustomHashMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import javax.annotation.Nullable;
 
@@ -28,8 +28,10 @@ public final class EMIManager implements EmiRecipeManager {
     private final List<EmiRecipeCategory> categories;
     private final Map<EmiRecipeCategory, List<EmiIngredient>> workstations;
     private final List<EmiRecipe> recipes;
-    private final Map<EmiStack, List<EmiRecipe>> byInput = new Object2ObjectOpenCustomHashMap<>(new EmiStackList.ComparisonHashStrategy());
-    private final Map<EmiStack, List<EmiRecipe>> byOutput = new Object2ObjectOpenCustomHashMap<>(new EmiStackList.ComparisonHashStrategy());
+    private final Map<EmiStack, Set<EmiRecipe>> byInput = new Object2ObjectOpenCustomHashMap<>(new EmiStackList.ComparisonHashStrategy());
+    private final Map<EmiStack, Set<EmiRecipe>> byOutput = new Object2ObjectOpenCustomHashMap<>(new EmiStackList.ComparisonHashStrategy());
+    private final Map<EmiStack, List<EmiRecipe>> byInputList = new Object2ObjectOpenCustomHashMap<>(new EmiStackList.ComparisonHashStrategy());
+    private final Map<EmiStack, List<EmiRecipe>> byOutputList = new Object2ObjectOpenCustomHashMap<>(new EmiStackList.ComparisonHashStrategy());
     private final Map<EmiRecipeCategory, List<EmiRecipe>> byCategory;
     private final Map<ResourceLocation, EmiRecipe> byId;
 
@@ -41,9 +43,6 @@ public final class EMIManager implements EmiRecipeManager {
         byCategory = new Object2ObjectOpenHashMap<>(categories.size());
         byId = new Object2ObjectOpenHashMap<>(recipes.size());
 
-        Map<EmiStack, Set<EmiRecipe>> byOutput = new Object2ObjectOpenCustomHashMap<>(
-                new EmiStackList.ComparisonHashStrategy());
-
         for (EmiRecipe recipe : recipes) {
             ResourceLocation id = recipe.getId();
             EmiRecipeCategory category = recipe.getCategory();
@@ -54,25 +53,20 @@ public final class EMIManager implements EmiRecipeManager {
 
             for (EmiIngredient input : recipe.getInputs()) {
                 for (EmiStack stack : input.getEmiStacks()) {
-                    byInput.computeIfAbsent(stack, b -> Lists.newArrayList()).add(recipe);
+                    byInput.computeIfAbsent(stack, b -> new ObjectOpenHashSet<>()).add(recipe);
                 }
             }
 
             for (EmiIngredient catalyst : recipe.getCatalysts()) {
                 for (EmiStack stack : catalyst.getEmiStacks()) {
-                    byInput.computeIfAbsent(stack, b -> Lists.newArrayList()).add(recipe);
+                    byInput.computeIfAbsent(stack, b -> new ObjectOpenHashSet<>()).add(recipe);
                 }
             }
 
             for (EmiStack output : recipe.getOutputs()) {
-                byOutput.computeIfAbsent(output, b -> Sets.newLinkedHashSet()).add(recipe);
+                byOutput.computeIfAbsent(output, b -> new ObjectOpenHashSet<>()).add(recipe);
             }
         }
-
-        this.byOutput.putAll(byOutput
-                .entrySet()
-                .stream()
-                .collect(Collectors.toMap(Map.Entry::getKey, entry -> Lists.newArrayList(entry.getValue()))));
 
         for (Map.Entry<EmiRecipeCategory, List<EmiRecipe>> entry : byCategory.entrySet()) {
             for (EmiIngredient ingredient : workstations.getOrDefault(entry.getKey(), List.of())) {
@@ -110,11 +104,27 @@ public final class EMIManager implements EmiRecipeManager {
 
     @Override
     public List<EmiRecipe> getRecipesByInput(EmiStack stack) {
-        return byInput.getOrDefault(stack, List.of());
+        return byInputList.computeIfAbsent(stack, k -> {
+            Set<EmiRecipe> set = byInput.get(k);
+            if (set == null) {
+                return List.of();
+            } else {
+                byInput.remove(k);
+                return new ArrayList<>(set);
+            }
+        });
     }
 
     @Override
     public List<EmiRecipe> getRecipesByOutput(EmiStack stack) {
-        return byOutput.getOrDefault(stack, List.of());
+        return byOutputList.computeIfAbsent(stack, k -> {
+            Set<EmiRecipe> set = byOutput.get(k);
+            if (set == null) {
+                return List.of();
+            } else {
+                byOutput.remove(k);
+                return new ArrayList<>(set);
+            }
+        });
     }
 }

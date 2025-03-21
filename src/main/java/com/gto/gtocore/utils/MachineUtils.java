@@ -7,10 +7,7 @@ import com.gto.gtocore.api.recipe.GTORecipeBuilder;
 import com.gto.gtocore.api.recipe.RecipeRunner;
 
 import com.gregtechceu.gtceu.api.capability.IParallelHatch;
-import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
-import com.gregtechceu.gtceu.api.capability.recipe.IO;
-import com.gregtechceu.gtceu.api.capability.recipe.IRecipeHandler;
-import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
+import com.gregtechceu.gtceu.api.capability.recipe.*;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
@@ -23,6 +20,7 @@ import com.gregtechceu.gtceu.api.pattern.TraceabilityPredicate;
 import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
+import com.gregtechceu.gtceu.api.recipe.content.Content;
 import com.gregtechceu.gtceu.api.recipe.ingredient.IntCircuitIngredient;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
@@ -350,10 +348,7 @@ public final class MachineUtils {
 
     public static boolean inputEU(IRecipeLogicMachine machine, long eu) {
         if (eu != 0) {
-            GTRecipe recipe = GTORecipeBuilder.ofRaw().inputEU(eu).buildRawRecipe();
-            if (RecipeRunner.matchRecipe(machine, recipe)) {
-                return RecipeRunner.handleRecipeInput(machine, recipe);
-            }
+            return RecipeRunner.handleTickRecipe(machine, IO.IN, null, List.of(new Content(eu, 0, 0, 0, null, null)), EURecipeCapability.CAP);
         }
         return false;
     }
