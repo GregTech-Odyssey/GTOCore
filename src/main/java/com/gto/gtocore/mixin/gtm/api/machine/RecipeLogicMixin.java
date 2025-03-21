@@ -3,7 +3,6 @@ package com.gto.gtocore.mixin.gtm.api.machine;
 import com.gto.gtocore.api.machine.feature.multiblock.IEnhancedMultiblockMachine;
 import com.gto.gtocore.api.machine.feature.multiblock.IMEOutputMachine;
 import com.gto.gtocore.api.machine.trait.IEnhancedRecipeLogic;
-import com.gto.gtocore.api.recipe.AsyncCrossRecipeSearchTask;
 import com.gto.gtocore.api.recipe.AsyncRecipeOutputTask;
 import com.gto.gtocore.api.recipe.AsyncRecipeSearchTask;
 import com.gto.gtocore.api.recipe.RecipeRunner;
@@ -237,8 +236,8 @@ public abstract class RecipeLogicMixin extends MachineTrait implements IEnhanced
                 findAndHandleRecipe();
             } else if (gtocore$hasAsyncTask() || getMachine().getOffsetTimer() % gtocore$interval == 0) {
                 boolean hasResult = false;
-                if (gtocore$hasAsyncTask() && gtocore$asyncRecipeSearchTask.getResult() != null && !(gtocore$asyncRecipeSearchTask instanceof AsyncCrossRecipeSearchTask)) {
-                    AsyncRecipeSearchTask.IResult result = gtocore$asyncRecipeSearchTask.getResult();
+                if (gtocore$hasAsyncTask() && gtocore$asyncRecipeSearchTask.getResult() != null) {
+                    AsyncRecipeSearchTask.Result result = gtocore$asyncRecipeSearchTask.getResult();
                     if (result.recipe() != null) {
                         setupRecipe(result.modified());
                         if (gTOCore$successfullyRecipe(result.recipe())) {
@@ -307,7 +306,7 @@ public abstract class RecipeLogicMixin extends MachineTrait implements IEnhanced
                 }
             } else {
                 lastOriginRecipe = null;
-                if (canLockRecipe() && GTOConfig.INSTANCE.asyncRecipeSearch) {
+                if (GTOConfig.INSTANCE.asyncRecipeSearch && getLogic().getClass() == RecipeLogic.class) {
                     if (!gtocore$hasAsyncTask()) {
                         AsyncRecipeSearchTask.addAsyncLogic(getLogic());
                     }

@@ -111,8 +111,6 @@
         "gtm.machine.MEHatchPartMachineMixin",
         "gtm.machine.MEOutputBusPartMachineMixin",
         "gtm.machine.MEOutputHatchPartMachineMixin",
-        "gtm.machine.MEStockingBusPartMachineMixin",
-        "gtm.machine.MEStockingHatchPartMachineMixin",
         "gtm.machine.MetaMachineMixin",
         "gtm.machine.MufflerPartMachineMixin",
         "gtm.machine.MultiblockControllerMachineMixin",

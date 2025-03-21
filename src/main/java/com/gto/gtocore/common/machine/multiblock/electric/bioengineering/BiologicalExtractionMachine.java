@@ -33,13 +33,13 @@ public final class BiologicalExtractionMachine extends CrossRecipeMultiblockMach
     }
 
     @Override
-    public GTRecipe modifyRecipe(@NotNull GTRecipe recipe) {
+    public GTRecipe getRealRecipe(@NotNull GTRecipe recipe) {
         if (getRecipeLogic().getTotalContinuousRunningTime() < 400) {
             recipe.outputs.remove(ItemRecipeCapability.CAP);
             recipe.outputs.remove(FluidRecipeCapability.CAP);
             return recipe;
         } else {
-            return super.modifyRecipe(recipe);
+            return super.getRealRecipe(recipe);
         }
     }
 

@@ -1,51 +1,69 @@
 package com.gto.gtocore.api.machine.trait;
 
+import com.gto.gtocore.api.machine.IMEHatchPart;
 import com.gto.gtocore.integration.ae2.KeyMap;
 import com.gto.gtocore.utils.FluidUtils;
 
+import com.gregtechceu.gtceu.api.capability.IControllable;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
+import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableFluidTank;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
 import com.gregtechceu.gtceu.api.transfer.fluid.CustomFluidTank;
+import com.gregtechceu.gtceu.integration.ae2.machine.feature.IGridConnectedMachine;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 
+import appeng.api.networking.IGrid;
 import appeng.api.stacks.AEFluidKey;
-import com.lowdragmc.lowdraglib.syncdata.ISubscription;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 public final class InaccessibleInfiniteTank extends NotifiableFluidTank {
 
-    private final List<Runnable> listener = new CopyOnWriteArrayList<>();
+    private final FluidStorageDelegate delegate;
 
-    private final FluidStorageDelegate storage;
+    private TickableSubscription updateSubs;
 
     public InaccessibleInfiniteTank(MetaMachine holder, KeyMap internalBuffer) {
         super(holder, List.of(new FluidStorageDelegate(internalBuffer)), IO.OUT, IO.NONE);
-        internalBuffer.setOnContentsChanged(this::onContentsChanged);
-        storage = (FluidStorageDelegate) getStorages()[0];
+        internalBuffer.setOnContentsChanged(null);
+        delegate = (FluidStorageDelegate) getStorages()[0];
         allowSameFluids = true;
-        listeners = null;
     }
 
     @Override
-    public ISubscription addChangedListener(Runnable runnable) {
-        listener.add(runnable);
-        return () -> listener.remove(runnable);
+    public void onMachineLoad() {
+        super.onMachineLoad();
+        updateSubs = getMachine().subscribeServerTick(updateSubs, this::updateTick);
     }
 
     @Override
-    public void notifyListeners() {
-        listener.forEach(Runnable::run);
+    public void onMachineUnLoad() {
+        super.onMachineUnLoad();
+        if (updateSubs != null) {
+            updateSubs.unsubscribe();
+            updateSubs = null;
+        }
+    }
+
+    private void updateTick() {
+        if (machine instanceof IControllable controllable && !controllable.isWorkingEnabled()) return;
+        if (machine instanceof IGridConnectedMachine connectedMachine && connectedMachine.isOnline() && connectedMachine.shouldSyncME() && connectedMachine.updateMEStatus()) {
+            IGrid grid = connectedMachine.getMainNode().getGrid();
+            synchronized (delegate.internalBuffer.storage) {
+                if (grid != null && !delegate.internalBuffer.isEmpty()) {
+                    delegate.internalBuffer.insertInventory(grid.getStorageService().getInventory(), ((IMEHatchPart) machine).gtocore$getActionSource());
+                }
+            }
+        }
     }
 
     @Override
@@ -55,10 +73,9 @@ public final class InaccessibleInfiniteTank extends NotifiableFluidTank {
                 if (((FluidIngredient) ingredient).isEmpty()) continue;
                 Fluid fluid = FluidUtils.getFirst((FluidIngredient) ingredient);
                 if (fluid != null) {
-                    storage.fill(fluid, ((FluidIngredient) ingredient).getAmount(), ((FluidIngredient) ingredient).getNbt());
+                    delegate.fill(fluid, ((FluidIngredient) ingredient).getAmount(), ((FluidIngredient) ingredient).getNbt());
                 }
             }
-            storage.internalBuffer.onChanged();
             return null;
         }
         return null;
@@ -102,32 +119,6 @@ public final class InaccessibleInfiniteTank extends NotifiableFluidTank {
         return true;
     }
 
-    @Override
-    @Nullable
-    public List<FluidIngredient> handleRecipeInner(IO io, GTRecipe recipe, List<FluidIngredient> left,
-                                                   @Nullable String slotName, boolean simulate) {
-        if (io != IO.OUT) return left;
-        FluidAction action = simulate ? FluidAction.SIMULATE : FluidAction.EXECUTE;
-        for (var it = left.iterator(); it.hasNext();) {
-            var ingredient = it.next();
-            if (ingredient.isEmpty()) {
-                it.remove();
-                continue;
-            }
-
-            var fluids = ingredient.getStacks();
-            if (fluids.length == 0 || fluids[0].isEmpty()) {
-                it.remove();
-                continue;
-            }
-
-            FluidStack output = fluids[0];
-            ingredient.shrink(storage.fill(output, action));
-            if (ingredient.getAmount() <= 0) it.remove();
-        }
-        return left.isEmpty() ? null : left;
-    }
-
     private static class FluidStorageDelegate extends CustomFluidTank {
 
         private final KeyMap internalBuffer;
@@ -139,10 +130,12 @@ public final class InaccessibleInfiniteTank extends NotifiableFluidTank {
 
         private void fill(Fluid fluid, int amount, CompoundTag tag) {
             var key = AEFluidKey.of(fluid, tag);
-            long oldValue = internalBuffer.getOrDefault(key);
-            long changeValue = Math.min(Long.MAX_VALUE - oldValue, amount);
-            if (changeValue > 0) {
-                internalBuffer.put(key, oldValue + changeValue);
+            synchronized (internalBuffer.storage) {
+                long oldValue = internalBuffer.storage.getOrDefault(key, 0);
+                long changeValue = Math.min(Long.MAX_VALUE - oldValue, amount);
+                if (changeValue > 0) {
+                    internalBuffer.storage.put(key, oldValue + changeValue);
+                }
             }
         }
 
@@ -156,14 +149,7 @@ public final class InaccessibleInfiniteTank extends NotifiableFluidTank {
 
         @Override
         public int fill(FluidStack resource, FluidAction action) {
-            var key = AEFluidKey.of(resource.getFluid(), resource.getTag());
-            int amount = resource.getAmount();
-            long oldValue = internalBuffer.getOrDefault(key);
-            long changeValue = Math.min(Long.MAX_VALUE - oldValue, amount);
-            if (changeValue > 0 && action.execute()) {
-                internalBuffer.put(key, oldValue + changeValue);
-            }
-            return (int) changeValue;
+            return 0;
         }
 
         @Override

@@ -15,16 +15,16 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.concurrent.*;
 
-public class AsyncRecipeSearchTask {
+public final class AsyncRecipeSearchTask {
 
     @Getter
-    private IResult result;
+    private Result result;
 
     @Getter
-    boolean hasTask;
+    private boolean hasTask;
     private boolean hasRequest, inQueue;
 
-    final RecipeLogic logic;
+    private final RecipeLogic logic;
 
     public AsyncRecipeSearchTask(RecipeLogic logic) {
         this.logic = logic;
@@ -33,10 +33,6 @@ public class AsyncRecipeSearchTask {
     public void clean() {
         result = null;
         hasTask = false;
-    }
-
-    IResult searchRecipe() {
-        return searchRecipe(logic);
     }
 
     private static final CopyOnWriteArraySet<AsyncRecipeSearchTask> tasks = new CopyOnWriteArraySet<>();
@@ -93,7 +89,7 @@ public class AsyncRecipeSearchTask {
                 if (task.hasRequest) {
                     try {
                         task.hasRequest = false;
-                        task.result = task.searchRecipe();
+                        task.result = searchRecipe(task.logic);
                     } catch (Throwable e) {
                         GTOCore.LOGGER.error("Error while searching recipe: {}", e.getMessage());
                     }
@@ -112,7 +108,7 @@ public class AsyncRecipeSearchTask {
         executorService = null;
     }
 
-    private static IResult searchRecipe(RecipeLogic logic) {
+    private static Result searchRecipe(RecipeLogic logic) {
         if (logic.machine.hasProxies()) {
             Iterator<GTRecipe> iterator = logic.machine.getRecipeType().getLookup().getRecipeIterator(logic.machine, recipe -> !recipe.isFuel && RecipeRunner.matchRecipe(logic.machine, recipe) && RecipeRunner.matchTickRecipe(logic.machine, recipe));
             while (iterator.hasNext()) {
@@ -154,12 +150,5 @@ public class AsyncRecipeSearchTask {
         return null;
     }
 
-    private record Result(GTRecipe recipe, GTRecipe modified) implements IResult {}
-
-    public interface IResult {
-
-        GTRecipe recipe();
-
-        GTRecipe modified();
-    }
+    public record Result(GTRecipe recipe, GTRecipe modified) {}
 }

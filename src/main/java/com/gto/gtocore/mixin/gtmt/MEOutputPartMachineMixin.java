@@ -1,5 +1,6 @@
 package com.gto.gtocore.mixin.gtmt;
 
+import com.gto.gtocore.api.machine.IMEHatchPart;
 import com.gto.gtocore.api.machine.trait.InaccessibleInfiniteHandler;
 import com.gto.gtocore.api.machine.trait.InaccessibleInfiniteTank;
 import com.gto.gtocore.integration.ae2.KeyMap;
@@ -14,8 +15,11 @@ import com.gregtechceu.gtceu.integration.ae2.utils.KeyStorage;
 
 import net.minecraft.core.Direction;
 
+import appeng.api.networking.security.IActionSource;
 import com.hepdd.gtmthings.common.block.machine.multiblock.part.appeng.MEOutputPartMachine;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -25,7 +29,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import java.util.EnumSet;
 
 @Mixin(MEOutputPartMachine.class)
-public abstract class MEOutputPartMachineMixin extends DualHatchPartMachine implements IGridConnectedMachine {
+public abstract class MEOutputPartMachineMixin extends DualHatchPartMachine implements IGridConnectedMachine, IMEHatchPart {
 
     @Shadow(remap = false)
     private KeyStorage internalBuffer;
@@ -33,8 +37,26 @@ public abstract class MEOutputPartMachineMixin extends DualHatchPartMachine impl
     @Shadow(remap = false)
     private KeyStorage internalTankBuffer;
 
+    @Shadow(remap = false)
+    @Final
+    protected IActionSource actionSource;
+
     protected MEOutputPartMachineMixin(IMachineBlockEntity holder, int tier, IO io, Object... args) {
         super(holder, tier, io, args);
+    }
+
+    @Override
+    public IActionSource gtocore$getActionSource() {
+        return actionSource;
+    }
+
+    /**
+     * @author .
+     * @reason .
+     */
+    @Overwrite(remap = false)
+    protected boolean shouldSubscribe() {
+        return false;
     }
 
     @Inject(method = "createInventory", at = @At("HEAD"), remap = false, cancellable = true)
