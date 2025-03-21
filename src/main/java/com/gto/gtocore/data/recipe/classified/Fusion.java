@@ -62,7 +62,7 @@ interface Fusion {
                 .outputFluids(GTMaterials.Niobium.getFluid(FluidStorageKeys.PLASMA, 144))
                 .duration(16)
                 .EUt(49152)
-                .fusionStartEU(200_000_000)
+                .fusionStartEU(125_000_000)
                 .save();
 
         FUSION_RECIPES.recipeBuilder(GTOCore.id("lead"))
@@ -237,9 +237,9 @@ interface Fusion {
                 .save();
 
         FUSION_RECIPES.builder("americium_and_naquadria_to_neutronium_plasma")
-                .inputFluids(GTMaterials.Americium.getFluid(FluidStorageKeys.PLASMA, 128))
-                .inputFluids(GTMaterials.Naquadria.getFluid(128))
-                .outputFluids(GTMaterials.Neutronium.getFluid(32))
+                .inputFluids(GTMaterials.Americium.getFluid(FluidStorageKeys.PLASMA, 144))
+                .inputFluids(GTMaterials.Naquadria.getFluid(36))
+                .outputFluids(GTMaterials.Neutronium.getFluid(36))
                 .duration(200)
                 .EUt(98304)
                 .fusionStartEU(600_000_000)

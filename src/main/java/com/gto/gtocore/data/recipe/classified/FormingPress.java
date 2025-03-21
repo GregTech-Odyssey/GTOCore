@@ -242,7 +242,7 @@ interface FormingPress {
                 .cleanroom(GTOCleanroomType.LAW_CLEANROOM)
                 .save();
 
-        FORMING_PRESS_RECIPES.recipeBuilder(GTOCore.id(""))
+        FORMING_PRESS_RECIPES.recipeBuilder(GTOCore.id("crystal_central_processing_unit"))
                 .inputItems(GTItems.ENGRAVED_CRYSTAL_CHIP.asItem())
                 .inputItems(GTOItems.DIAMOND_CRYSTAL_CIRCUIT.asItem())
                 .inputItems(GTOItems.RUBY_CRYSTAL_CIRCUIT.asItem())

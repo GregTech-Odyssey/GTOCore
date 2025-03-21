@@ -140,7 +140,7 @@ interface CosmosSimulation {
                 .outputFluids(GTOMaterials.RawStarMatter.getFluid(FluidStorageKeys.PLASMA, 1310720))
                 .outputFluids(GTOMaterials.QuarkGluon.getFluid(FluidStorageKeys.PLASMA, 1310720))
                 .outputFluids(GTOMaterials.HeavyQuarkDegenerateMatter.getFluid(FluidStorageKeys.PLASMA, 1310720))
-                .outputFluids(GTMaterials.Neutronium.getFluid(13107200))
+                .outputFluids(GTOMaterials.Neutron.getFluid(13107200))
                 .outputFluids(GTOMaterials.HeavyLeptonMixture.getFluid(13107200))
                 .outputFluids(GTMaterials.Hydrogen.getFluid(131072000))
                 .outputFluids(GTMaterials.Nitrogen.getFluid(131072000))

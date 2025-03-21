@@ -8,6 +8,7 @@ import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialIconSet;
 import com.gregtechceu.gtceu.api.data.chemical.material.properties.ToolProperty;
 import com.gregtechceu.gtceu.api.fluids.FluidBuilder;
+import com.gregtechceu.gtceu.common.data.GTElements;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.world.item.Rarity;
@@ -1192,7 +1193,7 @@ public interface MaterialA {
         Tantalloy61 = material("tantalloy_61", "钽钨合金-61")
                 .ingot()
                 .fluid()
-                .blastTemp(6900, HIGHER, GTValues.VA[GTValues.LuV], 500)
+                .blastTemp(6900, HIGHER, GTValues.VA[GTValues.IV], 500)
                 .components(Tantalum, 13, Tungsten, 12, Titanium, 6, Yttrium, 4)
                 .color(0x363636)
                 .iconSet(METALLIC)
@@ -1584,6 +1585,106 @@ public interface MaterialA {
                 .flags(IS_MAGNETIC, GENERATE_LONG_ROD)
                 .iconSet(MAGNETIC)
                 .buildAndRegister();
+
+        DuraniumAlloy = material("duranium_alloy", "铿铀合金")
+                .ingot()
+                .fluid()
+                .color(0x378D94)
+                .blastTemp(7600, HIGH, GTValues.VA[GTValues.LuV], 540)
+                .components(Duranium, 7, Magnesium, 1)
+                .flags(GENERATE_PLATE, GENERATE_BOLT_SCREW)
+                .iconSet(METALLIC)
+                .buildAndRegister();
+
+        Quicksilver = material("quicksilver", "银钻")
+                .ingot()
+                .fluid()
+                .blastTemp(10100, HIGHEST)
+                .element(GTElements.Ag)
+                .color(0x58C8B6)
+                .iconSet(METALLIC)
+                .flags(GENERATE_PLATE)
+                .buildAndRegister().setFormula("Qs", false);
+
+        Ignatius = material("ignatius", "伊格内休斯")
+                .ingot()
+                .fluid()
+                .blastTemp(12300, HIGHEST)
+                .element(GTOElements.ORICHALCUM)
+                .color(0xFF9F34)
+                .iconSet(METALLIC)
+                .flags(GENERATE_PLATE)
+                .buildAndRegister().setFormula("Ig", false);
+
+        Ceruclase = material("ceruclase", "暗影秘银")
+                .ingot()
+                .fluid()
+                .blastTemp(12100, HIGHEST)
+                .element(GTOElements.MITHRIL)
+                .color(0x3680B6)
+                .iconSet(METALLIC)
+                .flags(GENERATE_PLATE)
+                .buildAndRegister().setFormula("Cc", false);
+
+        Lemurite = material("lemurite", "利莫利亚")
+                .ingot()
+                .fluid()
+                .blastTemp(12300, HIGHEST)
+                .element(GTElements.Nq2)
+                .color(0xC5CACB)
+                .iconSet(METALLIC)
+                .flags(GENERATE_PLATE)
+                .buildAndRegister().setFormula("Lm", false);
+
+        Alduorite = material("alduorite", "神秘蓝金")
+                .ingot()
+                .fluid()
+                .blastTemp(13300, HIGHEST)
+                .element(GTOElements.ENDERIUM)
+                .color(0x17B4CB)
+                .iconSet(METALLIC)
+                .flags(GENERATE_PLATE)
+                .buildAndRegister().setFormula("Lm", false);
+
+        Kalendrite = material("kalendrite", "幽冥魂石")
+                .ingot()
+                .fluid()
+                .blastTemp(13500, HIGHEST)
+                .element(GTOElements.INFUSCOLIUM)
+                .color(0x9A3AB3)
+                .iconSet(METALLIC)
+                .flags(GENERATE_PLATE)
+                .buildAndRegister().setFormula("Kl", false);
+
+        Celenegil = material("celenegil", "幽冥毒晶")
+                .ingot()
+                .fluid()
+                .blastTemp(13700, HIGHEST)
+                .element(GTOElements.INFUSCOLIUM)
+                .color(0x399936)
+                .iconSet(METALLIC)
+                .flags(GENERATE_PLATE)
+                .buildAndRegister().setFormula("Cg", false);
+
+        Haderoth = material("haderoth", "幻铜")
+                .ingot()
+                .fluid()
+                .blastTemp(14100, HIGHEST)
+                .element(GTOElements.COPPER76)
+                .color(0xB34616)
+                .iconSet(METALLIC)
+                .flags(GENERATE_PLATE)
+                .buildAndRegister().setFormula("Hd", false);
+
+        Sanguinite = material("sanguinite", "狱炎")
+                .ingot()
+                .fluid()
+                .blastTemp(14900, HIGHEST)
+                .element(GTOElements.ADAMANTIUM)
+                .color(0xC81B00)
+                .iconSet(METALLIC)
+                .flags(GENERATE_PLATE)
+                .buildAndRegister().setFormula("Su", false);
 
         SpacetimeContinuum = material("spacetime_continuum", "时空连续体")
                 .liquid(new FluidBuilder().customStill())

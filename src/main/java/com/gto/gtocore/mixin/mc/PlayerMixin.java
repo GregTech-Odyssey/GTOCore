@@ -8,11 +8,15 @@ import com.gto.gtocore.common.network.ServerMessage;
 import com.gto.gtocore.utils.ServerUtils;
 
 import com.gregtechceu.gtceu.GTCEu;
+import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
+import com.gregtechceu.gtceu.api.data.chemical.material.stack.MaterialStack;
+import com.gregtechceu.gtceu.common.data.GTMaterials;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EntityType;
@@ -42,6 +46,8 @@ public abstract class PlayerMixin extends LivingEntity implements IEnhancedPlaye
     @Shadow
     public abstract void onUpdateAbilities();
 
+    @Unique
+    private boolean gTOCore$amprosium;
     @Unique
     private boolean gTOCore$disableDrift;
     @Unique
@@ -73,6 +79,11 @@ public abstract class PlayerMixin extends LivingEntity implements IEnhancedPlaye
     @Override
     public boolean gTOCore$isDisableDrift() {
         return gTOCore$disableDrift;
+    }
+
+    @Override
+    public boolean gTOCore$isAmprosium() {
+        return gTOCore$amprosium;
     }
 
     @Override
@@ -110,6 +121,14 @@ public abstract class PlayerMixin extends LivingEntity implements IEnhancedPlaye
             Level level = level();
             MinecraftServer server = level.getServer();
             if (server == null) return;
+            gTOCore$amprosium = false;
+            MaterialStack materialStack = ChemicalHelper.getMaterial(getItemInHand(InteractionHand.MAIN_HAND));
+            if (materialStack == null) {
+                materialStack = ChemicalHelper.getMaterial(getItemInHand(InteractionHand.OFF_HAND));
+            }
+            if (materialStack != null && materialStack.material() == GTMaterials.Neutronium) {
+                gTOCore$amprosium = true;
+            }
             String name = getName().getString();
             String armorSlots = getArmorSlots().toString();
             gTOCore$wardenState = Objects.equals(armorSlots, "[1 warden_boots, 1 warden_leggings, 1 warden_chestplate, 1 warden_helmet]");

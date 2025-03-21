@@ -54,7 +54,7 @@ interface UltimateMaterialForge {
                 .inputItems(GTOItems.TRIPLET_NEUTRONIUM_SPHERE.asItem())
                 .inputFluids(GTMaterials.UUMatter.getFluid(1000))
                 .outputItems(GTOItems.PROTO_MATTER.asItem())
-                .chancedOutput(TagPrefix.ingot, GTMaterials.Neutronium, 6000, 0)
+                .chancedOutput(TagPrefix.ingot, GTOMaterials.Neutron, 6000, 0)
                 .EUt(503316480)
                 .duration(1600)
                 .save();
@@ -94,7 +94,7 @@ interface UltimateMaterialForge {
 
         ULTIMATE_MATERIAL_FORGE_RECIPES.recipeBuilder(GTOCore.id("pellet_antimatter"))
                 .inputItems(new ItemStack(AEItems.MATTER_BALL.asItem(), 64))
-                .inputItems(TagPrefix.nugget, GTMaterials.Neutronium)
+                .inputItems(TagPrefix.nugget, GTOMaterials.Neutron)
                 .inputFluids(GTMaterials.UUMatter.getFluid(1000))
                 .inputFluids(GTOMaterials.Antihydrogen.getFluid(10))
                 .outputItems(GTOItems.PELLET_ANTIMATTER.asItem())

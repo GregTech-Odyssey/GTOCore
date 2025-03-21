@@ -177,7 +177,7 @@ interface QuantumForceTransformer {
 
         QUANTUM_FORCE_TRANSFORMER_RECIPES.recipeBuilder(GTOCore.id("eternal_singularity_1"))
                 .notConsumable(GTOItems.ETERNITY_CATALYST.asItem())
-                .inputItems(TagPrefix.block, GTMaterials.Neutronium, 64)
+                .inputItems(TagPrefix.block, GTOMaterials.Neutron, 64)
                 .inputItems(GTOItems.COMBINED_SINGULARITY_0.asItem())
                 .inputItems(GTOItems.COMBINED_SINGULARITY_1.asItem())
                 .inputItems(GTOItems.COMBINED_SINGULARITY_2.asItem())
@@ -228,7 +228,7 @@ interface QuantumForceTransformer {
 
         QUANTUM_FORCE_TRANSFORMER_RECIPES.recipeBuilder(GTOCore.id("eternal_singularity"))
                 .notConsumable(ModItems.infinity_catalyst.get())
-                .inputItems(TagPrefix.block, GTMaterials.Neutronium, 64)
+                .inputItems(TagPrefix.block, GTOMaterials.Neutron, 64)
                 .inputItems(GTOItems.COMBINED_SINGULARITY_0.asItem())
                 .inputItems(GTOItems.COMBINED_SINGULARITY_1.asItem())
                 .inputItems(GTOItems.COMBINED_SINGULARITY_2.asItem())

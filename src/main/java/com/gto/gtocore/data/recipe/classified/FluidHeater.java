@@ -64,7 +64,7 @@ interface FluidHeater {
                 .duration(40)
                 .save();
 
-        FLUID_HEATER_RECIPES.recipeBuilder(GTOCore.id(""))
+        FLUID_HEATER_RECIPES.recipeBuilder(GTOCore.id("cloud_seed"))
                 .inputItems(GTOItems.GOLD_ALGAE.asStack(4))
                 .inputFluids(GTOMaterials.CoolantLiquid.getFluid(1000))
                 .outputFluids(new FluidStack(EIOFluids.CLOUD_SEED.getSource(), 1000))

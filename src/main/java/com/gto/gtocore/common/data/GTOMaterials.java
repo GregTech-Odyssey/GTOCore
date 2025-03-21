@@ -401,6 +401,16 @@ public final class GTOMaterials {
     public static Material Glyoxal;
     public static Material BenzylChloride;
     public static Material EnergeticNetherite;
+    public static Material DuraniumAlloy;
+    public static Material Quicksilver;
+    public static Material Ignatius;
+    public static Material Ceruclase;
+    public static Material Lemurite;
+    public static Material Alduorite;
+    public static Material Kalendrite;
+    public static Material Celenegil;
+    public static Material Haderoth;
+    public static Material Sanguinite;
     public static Material SpacetimeContinuum;
     public static Material DimensionAllyshiftedSuperFluid;
     public static Material StableBaryonicMatter;

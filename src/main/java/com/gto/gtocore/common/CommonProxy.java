@@ -72,6 +72,7 @@ public class CommonProxy {
         AdAstraEvents.OxygenTickEvent.register(IEnhancedPlayer::spaceTick);
         AdAstraEvents.AcidRainTickEvent.register(IEnhancedPlayer::spaceTick);
         AdAstraEvents.TemperatureTickEvent.register(IEnhancedPlayer::spaceTick);
+        AdAstraEvents.EntityGravityEvent.register(IEnhancedPlayer::gravity);
 
         AdvancedTerminalBehavior.AutoBuildSetting.HATCH_NAMES.add("thread_hatch");
         AdvancedTerminalBehavior.AutoBuildSetting.HATCH_NAMES.add("accelerate_hatch");

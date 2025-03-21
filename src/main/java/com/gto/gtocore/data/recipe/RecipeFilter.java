@@ -227,7 +227,7 @@ public interface RecipeFilter {
         LASER_ENGRAVER_RECIPES.addFilter("crystal_cpu");
 
         FUSION_RECIPES.addFilter("americium_and_naquadria_to_neutronium_plasma");
-        FUSION_RECIPES.addFilter("plutonium_241_and_hydrogen_gas_to_americium_plasma");
+        FUSION_RECIPES.addFilter("enriched_naquadah_and_radon_to_naquadria_plasma");
 
         Material[] fluidMap = { GTMaterials.Glue, GTMaterials.Polyethylene,
                 GTMaterials.Polytetrafluoroethylene, GTMaterials.Polybenzimidazole };

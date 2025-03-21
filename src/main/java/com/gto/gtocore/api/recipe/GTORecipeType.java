@@ -65,9 +65,11 @@ public class GTORecipeType extends GTRecipeType {
 
     @Override
     public GTORecipeBuilder recipeBuilder(ResourceLocation id, Object... append) {
+        String path = id.getPath();
+        if (path.isEmpty()) GTOCore.LOGGER.error("Empty path for recipe: {}", registryName);
         GTORecipeBuilder builder;
         if (append.length > 0) {
-            builder = getRecipeBuilder().copy(new ResourceLocation(id.getNamespace(), id.getPath() + Arrays.stream(append).map(Object::toString).map(FormattingUtil::toLowerCaseUnder).reduce("", (a, b) -> a + "_" + b)));
+            builder = getRecipeBuilder().copy(new ResourceLocation(id.getNamespace(), path + Arrays.stream(append).map(Object::toString).map(FormattingUtil::toLowerCaseUnder).reduce("", (a, b) -> a + "_" + b)));
         } else {
             builder = getRecipeBuilder().copy(id);
         }

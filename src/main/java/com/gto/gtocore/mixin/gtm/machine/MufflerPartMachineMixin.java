@@ -181,7 +181,7 @@ public abstract class MufflerPartMachineMixin extends TieredPartMachine implemen
     @Unique
     private void gtocore$insertAsh() {
         AirScrubberMachine machine = getAirScrubberMachine();
-        if (machine != null && GTValues.RNG.nextInt(1 << machine.getTier()) == 1) return;
+        if (machine != null && GTValues.RNG.nextInt(machine.getTier() << 1) > 1) return;
         if (gtocore$ASH == null) {
             gtocore$ASH = ChemicalHelper.get(TagPrefix.dustTiny, GTMaterials.Ash);
         }

@@ -57,12 +57,13 @@ public interface GTOElements {
     Element ASTRALTITANIUM = new Element(1000, 1000, -1, null, "astral_titanium", "✧◇✧", false);
     Element CELESTIALTUNGSTEN = new Element(10000, 10000, -1, null, "celestial_tungsten", "✦◆✦", false);
     Element QUANTANIUM = new Element(800, 800, -1, null, "quantanium", "Qt", false);
-    Element HEXAPHASECOPPER = new Element(152936, 52460, -1, null, "hexaphasecopper", "✢", false);
+    Element HEXAPHASECOPPER = new Element(1536, 5246, -1, null, "hexaphasecopper", "✢", false);
     Element DESH = new Element(200, 300, -1, null, "desh", "Ds", false);
     Element OSTRUM = new Element(300, 300, -1, null, "ostrum", "Ot", false);
     Element CALORITE = new Element(300, 400, -1, null, "calorite", "Ci", false);
     Element CHROMATICGLASS = new Element(300, 400, -1, null, "chromatic_glass", "⌘☯☯⌘", false);
     Element BEDROCKIUM = new Element(1000, 1000, -1, null, "bedrockium", "?", false);
+
     Element MANASTEEL = new Element(26, 30, -1, null, "manasteel", "*Ma*", false);
     Element TERRASTEEL = new Element(56, 66, -1, null, "terrasteel", "*Tr*", false);
     Element ELEMENTIUM = new Element(66, 66, -1, null, "elementium", "*Em*", false);

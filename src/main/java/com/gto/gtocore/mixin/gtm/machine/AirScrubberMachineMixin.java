@@ -1,5 +1,6 @@
 package com.gto.gtocore.mixin.gtm.machine;
 
+import com.gto.gtocore.api.machine.INetMachineInteractor;
 import com.gto.gtocore.api.machine.feature.IAirScrubberInteractor;
 
 import com.gregtechceu.gtceu.api.data.medicalcondition.MedicalCondition;
@@ -22,19 +23,19 @@ public class AirScrubberMachineMixin extends SimpleTieredMachine {
     @Override
     public void afterWorking() {
         super.afterWorking();
-        IAirScrubberInteractor.NETWORK.remove((AirScrubberMachine) (Object) this);
+        INetMachineInteractor.removeFromNet(IAirScrubberInteractor.NETWORK, (AirScrubberMachine) (Object) this);
     }
 
     @Override
     public void onWaiting() {
         super.onWaiting();
-        IAirScrubberInteractor.NETWORK.remove((AirScrubberMachine) (Object) this);
+        INetMachineInteractor.removeFromNet(IAirScrubberInteractor.NETWORK, (AirScrubberMachine) (Object) this);
     }
 
     @Override
     public void onUnload() {
         super.onUnload();
-        IAirScrubberInteractor.NETWORK.remove((AirScrubberMachine) (Object) this);
+        INetMachineInteractor.removeFromNet(IAirScrubberInteractor.NETWORK, (AirScrubberMachine) (Object) this);
     }
 
     @Override
@@ -52,7 +53,7 @@ public class AirScrubberMachineMixin extends SimpleTieredMachine {
     @Overwrite(remap = false)
     public boolean beforeWorking(GTRecipe recipe) {
         if (super.beforeWorking(recipe)) {
-            IAirScrubberInteractor.NETWORK.add((AirScrubberMachine) (Object) this);
+            INetMachineInteractor.addToNet(IAirScrubberInteractor.NETWORK, (AirScrubberMachine) (Object) this);
             return true;
         }
         return false;

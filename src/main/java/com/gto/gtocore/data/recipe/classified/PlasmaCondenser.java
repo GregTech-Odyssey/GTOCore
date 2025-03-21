@@ -14,7 +14,7 @@ import static com.gto.gtocore.common.data.GTORecipeTypes.PLASMA_CONDENSER_RECIPE
 interface PlasmaCondenser {
 
     static void init() {
-        PLASMA_CONDENSER_RECIPES.recipeBuilder(GTOCore.id(""))
+        PLASMA_CONDENSER_RECIPES.recipeBuilder(GTOCore.id("chromatic_glass"))
                 .circuitMeta(1)
                 .inputFluids(GTOMaterials.ChromaticGlass.getFluid(FluidStorageKeys.PLASMA, 1000))
                 .inputFluids(GTMaterials.Helium.getFluid(FluidStorageKeys.LIQUID, 100000))

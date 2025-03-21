@@ -1,10 +1,13 @@
 package com.gto.gtocore.api.item.tool;
 
 import com.gregtechceu.gtceu.api.GTValues;
-import com.gregtechceu.gtceu.api.data.tag.TagUtil;
 import com.gregtechceu.gtceu.api.item.tool.GTToolType;
 import com.gregtechceu.gtceu.common.item.tool.behavior.DisableShieldBehavior;
 import com.gregtechceu.gtceu.common.item.tool.behavior.ToolModeSwitchBehavior;
+import com.gregtechceu.gtceu.data.recipe.CustomTags;
+
+import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.ItemTags;
 
 public final class GTOToolType {
 
@@ -14,16 +17,16 @@ public final class GTOToolType {
 
     private static GTToolType vajra(GTToolType.Builder builder) {
         return builder.idFormat("%s_vajra")
-                .toolTag(TagUtil.createItemTag("tools/wrenches", false))
-                .toolTag(TagUtil.createItemTag("tools/wrench", false))
-                .toolTag(TagUtil.createItemTag("tools/wire_cutters", false))
-                .toolTag(TagUtil.createItemTag("pickaxes", true))
-                .toolTag(TagUtil.createItemTag("shovels", true))
-                .toolTag(TagUtil.createItemTag("axes", true))
-                .harvestTag(TagUtil.createBlockTag("mineable/pickaxe", true))
-                .harvestTag(TagUtil.createBlockTag("mineable/shovel", true))
-                .harvestTag(TagUtil.createBlockTag("mineable/axe", true))
-                .harvestTag(TagUtil.createBlockTag("mineable/wrench", false))
+                .toolTag(CustomTags.WRENCHES)
+                .toolTag(CustomTags.WRENCH)
+                .toolTag(CustomTags.WIRE_CUTTERS)
+                .toolTag(ItemTags.PICKAXES)
+                .toolTag(ItemTags.SHOVELS)
+                .toolTag(ItemTags.AXES)
+                .harvestTag(BlockTags.MINEABLE_WITH_PICKAXE)
+                .harvestTag(BlockTags.MINEABLE_WITH_SHOVEL)
+                .harvestTag(BlockTags.MINEABLE_WITH_AXE)
+                .harvestTag(CustomTags.MINEABLE_WITH_WRENCH)
                 .toolStats(b -> b.crafting().blockBreaking().sneakBypassUse().attacking().attackDamage(10.0F).attackSpeed(2.0F).behaviors(DisableShieldBehavior.INSTANCE, ToolModeSwitchBehavior.INSTANCE))
                 .toolClasses(GTToolType.WRENCH, GTToolType.WIRE_CUTTER, GTToolType.PICKAXE, GTToolType.SHEARS, GTToolType.AXE)
                 .build();
