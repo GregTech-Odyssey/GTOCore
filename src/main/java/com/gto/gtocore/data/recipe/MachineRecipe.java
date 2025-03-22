@@ -333,17 +333,17 @@ public interface MachineRecipe {
                 .duration(400).EUt(VA[UV]).save();
 
         ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("wood_distillation"))
-                .inputItems(MultiBlockA.LARGE_PYROLYSE_OVEN.asStack(), 4)
-                .inputItems(GCYMMachines.LARGE_DISTILLERY.asStack(), 4)
-                .inputItems(CustomTags.ZPM_CIRCUITS, 16)
-                .inputItems(GTItems.EMITTER_LuV.asStack(), 4)
-                .inputItems(pipeHugeFluid, StainlessSteel, 8)
-                .inputItems(GTItems.ELECTRIC_PUMP_IV.asStack(), 8)
-                .inputItems(plate, WatertightSteel, 16)
-                .inputItems(plateDouble, StainlessSteel, 32)
-                .inputFluids(SolderingAlloy.getFluid(1296))
+                .inputItems(MultiBlockA.LARGE_PYROLYSE_OVEN.asStack(), 16)
+                .inputItems(GCYMMachines.LARGE_DISTILLERY.asStack(), 16)
+                .inputItems(CustomTags.ZPM_CIRCUITS, 64)
+                .inputItems(GTItems.EMITTER_LuV.asStack(), 32)
+                .inputItems(pipeHugeFluid, StainlessSteel, 64)
+                .inputItems(GTItems.ELECTRIC_PUMP_IV.asStack(), 32)
+                .inputItems(plate, WatertightSteel, 64)
+                .inputItems(plateDouble, StainlessSteel, 64)
+                .inputFluids(SolderingAlloy.getFluid(5184))
                 .outputItems(MultiBlockB.WOOD_DISTILLATION)
-                .duration(400).EUt(VA[ZPM])
+                .duration(800).EUt(VA[ZPM])
                 .save();
     }
 }

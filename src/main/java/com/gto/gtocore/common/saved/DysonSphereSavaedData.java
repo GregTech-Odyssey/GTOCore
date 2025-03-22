@@ -63,7 +63,6 @@ public final class DysonSphereSavaedData extends SavedData {
         DysonDamageData = new Object2IntOpenHashMap<>();
         DysonLaunchData = new Object2IntOpenHashMap<>();
         DysonUse = new Object2BooleanOpenHashMap<>();
-        setDirty();
     }
 
     public DysonSphereSavaedData(CompoundTag compoundTag) {

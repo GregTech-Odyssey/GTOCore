@@ -42,6 +42,9 @@ public final class largeSteamCircuitAssemblerMachine extends LargeSteamParallelM
     @Persisted
     private Item item;
 
+    @Persisted
+    private int count;
+
     public largeSteamCircuitAssemblerMachine(IMachineBlockEntity holder) {
         super(holder, 8, 128);
     }
@@ -49,6 +52,7 @@ public final class largeSteamCircuitAssemblerMachine extends LargeSteamParallelM
     @Nullable
     @Override
     protected GTRecipe getRealRecipe(GTRecipe recipe) {
+        if (count < 16) return null;
         Content content = recipe.outputs.get(ItemRecipeCapability.CAP).get(0);
         if (ItemRecipeCapability.CAP.of(content.getContent()).getItems()[0].getItem() == item) {
             recipe.outputs.put(ItemRecipeCapability.CAP, List.of(content.copy(ItemRecipeCapability.CAP, ContentModifier.multiplier(4))));
@@ -63,6 +67,9 @@ public final class largeSteamCircuitAssemblerMachine extends LargeSteamParallelM
         if (isFormed()) {
             textList.add(ComponentPanelWidget.withButton(Component.translatable("gtocore.machine.large_steam_circuit_assembler.engrave_circuit"), "engraveCircuit"));
             textList.add(Component.translatable("gtocore.machine.large_steam_circuit_assembler.circuit", (item == null ? "null" : LocalizationUtils.format(item.getDescriptionId()))));
+            if (item != null && count < 16) {
+                textList.add(Component.translatable("gui.ae2.Missing", 16 - count));
+            }
         }
     }
 
@@ -79,9 +86,17 @@ public final class largeSteamCircuitAssemblerMachine extends LargeSteamParallelM
                             ItemStack stack = inv.getStackInSlot(i);
                             for (TagKey<Item> tagKey : stack.getTags().toList()) {
                                 if (tagKey.location().toString().contains("gtceu:circuits/")) {
-                                    inv.extractItemInternal(i, 1, false);
+                                    int c = stack.getCount();
+                                    if (stack.getItem() == item) {
+                                        c = Math.min(16 - count, c);
+                                        count += c;
+                                    } else {
+                                        c = Math.min(16, c);
+                                        count = c;
+                                    }
                                     item = stack.getItem();
-                                    return;
+                                    inv.extractItemInternal(i, c, false);
+                                    if (count >= 16) return;
                                 }
                             }
                         }

@@ -87,7 +87,7 @@ interface GTOMaterialRecipeHandler {
                         .inputItems(stack)
                         .notConsumable(GTItems.SHAPE_EXTRUDER_ROD)
                         .outputItems(rod, material, 2)
-                        .duration(mass << 2)
+                        .duration(mass << 1)
                         .EUt(6L * GTOUtils.getVoltageMultiplier(material))
                         .save();
             }
@@ -175,7 +175,7 @@ interface GTOMaterialRecipeHandler {
                             .inputItems(dust, material)
                             .notConsumable(GTItems.SHAPE_EXTRUDER_PLATE)
                             .outputItems(plate, material)
-                            .duration(mass << 1)
+                            .duration(mass)
                             .EUt(voltageMultiplier)
                             .save();
                 }
@@ -224,7 +224,7 @@ interface GTOMaterialRecipeHandler {
                     .notConsumable(GTItems.SHAPE_MOLD_BLOCK)
                     .inputFluids(material.getFluid((int) (materialAmount * L / M)))
                     .outputItems(blockStack)
-                    .duration(mass).EUt(VA[ULV])
+                    .duration((int) (mass * materialAmount)).EUt(VA[ULV])
                     .save();
         }
 

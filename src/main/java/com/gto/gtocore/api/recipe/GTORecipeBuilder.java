@@ -7,6 +7,7 @@ import com.gto.gtocore.api.data.tag.ITagPrefix;
 import com.gto.gtocore.api.item.NBTItem;
 import com.gto.gtocore.common.recipe.condition.GravityCondition;
 import com.gto.gtocore.common.recipe.condition.HeatCondition;
+import com.gto.gtocore.common.recipe.condition.RunLimitCondition;
 import com.gto.gtocore.common.recipe.condition.VacuumCondition;
 import com.gto.gtocore.utils.RegistriesUtils;
 
@@ -1352,5 +1353,9 @@ public final class GTORecipeBuilder extends GTRecipeBuilder {
 
     public GTORecipeBuilder temperature(int temperature) {
         return addData("temperature", temperature);
+    }
+
+    public GTORecipeBuilder runLimit(int count) {
+        return addCondition(new RunLimitCondition(count));
     }
 }

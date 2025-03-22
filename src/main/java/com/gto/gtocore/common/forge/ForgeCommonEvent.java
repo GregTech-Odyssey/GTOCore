@@ -12,10 +12,7 @@ import com.gto.gtocore.common.item.ItemMap;
 import com.gto.gtocore.common.machine.multiblock.electric.voidseries.VoidTransporterMachine;
 import com.gto.gtocore.common.machine.noenergy.PerformanceMonitorMachine;
 import com.gto.gtocore.common.network.ServerMessage;
-import com.gto.gtocore.common.saved.CommonSavaedData;
-import com.gto.gtocore.common.saved.DysonSphereSavaedData;
-import com.gto.gtocore.common.saved.ExtendWirelessEnergySavaedData;
-import com.gto.gtocore.common.saved.InfinityCellSavaedData;
+import com.gto.gtocore.common.saved.*;
 import com.gto.gtocore.config.GTOConfig;
 import com.gto.gtocore.utils.ServerUtils;
 import com.gto.gtocore.utils.SphereExplosion;
@@ -268,6 +265,7 @@ public final class ForgeCommonEvent {
             DysonSphereSavaedData.INSTANCE = serverLevel.getDataStorage().computeIfAbsent(DysonSphereSavaedData::new, DysonSphereSavaedData::new, "dyson_sphere_data");
             WirelessEnergySavaedData.INSTANCE = serverLevel.getDataStorage().computeIfAbsent(ExtendWirelessEnergySavaedData::new, ExtendWirelessEnergySavaedData::new, "wireless_energy_data");
             CommonSavaedData.INSTANCE = serverLevel.getDataStorage().computeIfAbsent(CommonSavaedData::new, CommonSavaedData::new, "common_data");
+            RecipeRunLimitSavaedData.INSTANCE = serverLevel.getDataStorage().computeIfAbsent(RecipeRunLimitSavaedData::new, RecipeRunLimitSavaedData::new, " recipe_run_limit_data");
         }
     }
 

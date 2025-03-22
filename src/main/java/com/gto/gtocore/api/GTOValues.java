@@ -86,9 +86,9 @@ public final class GTOValues {
     public static final String[] VLVHCN = new String[] {
             "原始",
             "基础",
-            AQUA + "高级",
-            GOLD + "高级",
-            DARK_PURPLE + "高级",
+            AQUA + "进阶",
+            GOLD + "进阶",
+            DARK_PURPLE + "进阶",
             BLUE + "精英",
             LIGHT_PURPLE + "精英",
             RED + "精英",

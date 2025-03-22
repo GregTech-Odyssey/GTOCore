@@ -1,9 +1,6 @@
 package com.gto.gtocore.common.data;
 
-import com.gto.gtocore.common.recipe.condition.GravityCondition;
-import com.gto.gtocore.common.recipe.condition.HeatCondition;
-import com.gto.gtocore.common.recipe.condition.RestrictedMachineCondition;
-import com.gto.gtocore.common.recipe.condition.VacuumCondition;
+import com.gto.gtocore.common.recipe.condition.*;
 
 import com.gregtechceu.gtceu.api.recipe.condition.RecipeConditionType;
 import com.gregtechceu.gtceu.api.registry.GTRegistries;
@@ -21,6 +18,9 @@ public interface GTORecipeConditions {
 
     RecipeConditionType<HeatCondition> HEAT = GTRegistries.RECIPE_CONDITIONS.register("heat",
             new RecipeConditionType<>(HeatCondition::new, HeatCondition.CODEC));
+
+    RecipeConditionType<RunLimitCondition> RUN_LIMIT = GTRegistries.RECIPE_CONDITIONS.register("run_limit",
+            new RecipeConditionType<>(RunLimitCondition::new, RunLimitCondition.CODEC));
 
     static void init() {}
 }

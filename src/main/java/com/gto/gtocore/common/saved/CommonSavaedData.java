@@ -38,7 +38,6 @@ public final class CommonSavaedData extends SavedData {
     public CommonSavaedData() {
         planetUnlocked = new Object2ObjectOpenHashMap<>();
         data = new CompoundTag();
-        setDirty();
     }
 
     public CommonSavaedData(CompoundTag compoundTag) {

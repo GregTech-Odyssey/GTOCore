@@ -117,17 +117,6 @@ public final class StringIndex {
         TAG_MAP.put(CustomTags.OpV_CIRCUITS, "CustomTags.OpV_CIRCUITS");
         TAG_MAP.put(CustomTags.MAX_CIRCUITS, "CustomTags.MAX_CIRCUITS");
 
-        ITEM_LINK_MAP.put(GTItems.CREDIT_COPPER.get(), "GTItems.CREDIT_COPPER");
-        ITEM_LINK_MAP.put(GTItems.CREDIT_CUPRONICKEL.get(), "GTItems.CREDIT_CUPRONICKEL");
-        ITEM_LINK_MAP.put(GTItems.CREDIT_SILVER.get(), "GTItems.CREDIT_SILVER");
-        ITEM_LINK_MAP.put(GTItems.CREDIT_GOLD.get(), "GTItems.CREDIT_GOLD");
-        ITEM_LINK_MAP.put(GTItems.CREDIT_PLATINUM.get(), "GTItems.CREDIT_PLATINUM");
-        ITEM_LINK_MAP.put(GTItems.CREDIT_OSMIUM.get(), "GTItems.CREDIT_OSMIUM");
-        ITEM_LINK_MAP.put(GTItems.CREDIT_NAQUADAH.get(), "GTItems.CREDIT_NAQUADAH");
-        ITEM_LINK_MAP.put(GTItems.CREDIT_NEUTRONIUM.get(), "GTItems.CREDIT_NEUTRONIUM");
-        ITEM_LINK_MAP.put(GTItems.COIN_GOLD_ANCIENT.get(), "GTItems.COIN_GOLD_ANCIENT");
-        ITEM_LINK_MAP.put(GTItems.COIN_DOGE.get(), "GTItems.COIN_DOGE");
-        ITEM_LINK_MAP.put(GTItems.COIN_CHOCOLATE.get(), "GTItems.COIN_CHOCOLATE");
         ITEM_LINK_MAP.put(GTItems.COMPRESSED_CLAY.get(), "GTItems.COMPRESSED_CLAY");
         ITEM_LINK_MAP.put(GTItems.COMPRESSED_COKE_CLAY.get(), "GTItems.COMPRESSED_COKE_CLAY");
         ITEM_LINK_MAP.put(GTItems.COMPRESSED_FIRECLAY.get(), "GTItems.COMPRESSED_FIRECLAY");
@@ -138,7 +127,6 @@ public final class StringIndex {
         ITEM_LINK_MAP.put(GTItems.SHAPE_EMPTY.get(), "GTItems.SHAPE_EMPTY");
         ITEM_LINK_MAP.put(GTItems.SHAPE_MOLD_PLATE.get(), "GTItems.SHAPE_MOLD_PLATE");
         ITEM_LINK_MAP.put(GTItems.SHAPE_MOLD_GEAR.get(), "GTItems.SHAPE_MOLD_GEAR");
-        ITEM_LINK_MAP.put(GTItems.SHAPE_MOLD_CREDIT.get(), "GTItems.SHAPE_MOLD_CREDIT");
         ITEM_LINK_MAP.put(GTItems.SHAPE_MOLD_BOTTLE.get(), "GTItems.SHAPE_MOLD_BOTTLE");
         ITEM_LINK_MAP.put(GTItems.SHAPE_MOLD_INGOT.get(), "GTItems.SHAPE_MOLD_INGOT");
         ITEM_LINK_MAP.put(GTItems.SHAPE_MOLD_BALL.get(), "GTItems.SHAPE_MOLD_BALL");

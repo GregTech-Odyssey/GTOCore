@@ -22,12 +22,10 @@ public final class InfinityCellSavaedData extends SavedData {
 
     public InfinityCellSavaedData() {
         cells = new Object2ObjectOpenHashMap<>();
-        setDirty();
     }
 
     private InfinityCellSavaedData(Map<UUID, InfinityCellDataStorage> cells) {
         this.cells = cells;
-        setDirty();
     }
 
     @Override

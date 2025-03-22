@@ -34,7 +34,6 @@ final class MachineLang {
         addENCN("gtocore.machine.large_combustion_engine.supply_dinitrogen_tetroxide_to_boost", "Provide Dinitrogen Tetroxide to joint combustion", "提供四氧化二氮来联合促燃");
         addENCN("gtocore.machine.large_steam_circuit_assembler.circuit", "Inscribed Circuit: %s", "已铭刻电路: %s");
         addENCN("gtocore.machine.large_steam_circuit_assembler.engrave_circuit", "Engrave Circuit", "铭刻电路");
-        addENCN("gtocore.machine.large_steam_input_hatch.tooltip.0", "Increases steam multi-block recipe limit to MV and unlocks overclocking function", "将蒸汽多方块配方限制提升到MV，并解锁超频功能");
         addENCN("gtocore.machine.laser.tooltip", "Allows the use of laser chambers", "允许使用激光仓");
         addENCN("gtocore.machine.lightning_rod.tooltip.0", "Large amounts of energy are generated after the lightning rod above is struck", "上方避雷针被雷击后产生大量能量");
         addENCN("gtocore.machine.lightning_rod.tooltip.1", "Can only generate energy once every 0.5 seconds, with a chance to damage the lightning rod above", "每0.5秒只能产生一次能量，且有一定几率破坏上方避雷针");

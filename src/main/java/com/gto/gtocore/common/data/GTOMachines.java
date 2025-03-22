@@ -403,8 +403,7 @@ public interface GTOMachines {
             .allRotation()
             .abilities(PartAbility.STEAM)
             .renderer(() -> new OverlaySteamMachineRenderer(GTCEu.id("block/machine/part/" + "steam_hatch")))
-            .tooltips(Component.translatable("gtocore.machine.large_steam_input_hatch.tooltip.0"),
-                    Component.translatable("gtceu.universal.tooltip.fluid_storage_capacity", 4096000),
+            .tooltips(Component.translatable("gtceu.universal.tooltip.fluid_storage_capacity", 4096000),
                     Component.translatable("gtceu.machine.steam.steam_hatch.tooltip"))
             .register();
 

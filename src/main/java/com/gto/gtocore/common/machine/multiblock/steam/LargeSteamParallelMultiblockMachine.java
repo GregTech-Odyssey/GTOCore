@@ -70,7 +70,7 @@ public class LargeSteamParallelMultiblockMachine extends SteamParallelMultiblock
                 recipe = GTORecipeModifiers.accurateParallel(machine, recipe, steamMachine.maxParallels);
                 recipe.duration = (int) (recipe.duration * reductionDuration);
                 if (steamMachine.isOC) {
-                    recipe.tickInputs.put(EURecipeCapability.CAP, List.of(new Content((long) Math.max(1, eut * Math.pow(3, steamMachine.amountOC)), ChanceLogic.getMaxChancedValue(), ChanceLogic.getMaxChancedValue(), 0, null, null)));
+                    recipe.tickInputs.put(EURecipeCapability.CAP, List.of(new Content(Math.max(1, eut << (2 * steamMachine.amountOC)), ChanceLogic.getMaxChancedValue(), ChanceLogic.getMaxChancedValue(), 0, null, null)));
                     recipe.duration = Math.max(1, recipe.duration / (1 << (steamMachine.amountOC)));
                 }
                 return recipe;

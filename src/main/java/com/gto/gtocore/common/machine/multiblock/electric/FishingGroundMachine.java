@@ -9,12 +9,10 @@ import com.gto.gtocore.api.recipe.RecipeRunner;
 import com.gto.gtocore.common.data.GTORecipeModifiers;
 import com.gto.gtocore.utils.MachineUtils;
 
-import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
-import com.gregtechceu.gtceu.common.data.GTItems;
 
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntityType;
@@ -65,11 +63,7 @@ public class FishingGroundMachine extends ElectricMultiblockMachine {
                 recipe = GTORecipeModifiers.accurateParallel(this, builder.copy(GTOCore.id("test")).outputItems(Items.STICK).buildRawRecipe(), MachineUtils.getHatchParallel(this));
                 builder.EUt(RecipeHelper.getInputEUt(recipe));
                 for (int i = 0; i < recipe.parallels; i++) {
-                    if (GTValues.RNG.nextInt(100) > 99) {
-                        itemStacks.add(GTItems.COIN_GOLD_ANCIENT.asStack());
-                    } else {
-                        itemStacks.addAll(lootTable.getRandomItems(lootContext));
-                    }
+                    itemStacks.addAll(lootTable.getRandomItems(lootContext));
                 }
                 itemStacks.forEach(builder::outputItems);
                 recipe = builder.buildRawRecipe();

@@ -151,7 +151,7 @@ interface GTOPartsRecipeHandler {
                     .inputItems(ingot, material)
                     .notConsumable(GTItems.SHAPE_EXTRUDER_FOIL)
                     .outputItems(stack)
-                    .duration(mass << 1)
+                    .duration(mass)
                     .EUt((long) GTOUtils.getVoltageMultiplier(material) << 3)
                     .save();
         }
@@ -210,7 +210,7 @@ interface GTOPartsRecipeHandler {
                     .inputItems(ingot, material, 4)
                     .notConsumable(GTItems.SHAPE_EXTRUDER_GEAR)
                     .outputItems(gearPrefix, material)
-                    .duration(mass * 10)
+                    .duration(mass * 5)
                     .EUt(8L * voltageMultiplier)
                     .save();
 
@@ -219,7 +219,7 @@ interface GTOPartsRecipeHandler {
                         .inputItems(dust, material, 4)
                         .notConsumable(GTItems.SHAPE_EXTRUDER_GEAR)
                         .outputItems(gearPrefix, material)
-                        .duration(mass * 10)
+                        .duration(mass * 5)
                         .EUt(8L * voltageMultiplier)
                         .save();
             }
@@ -231,8 +231,8 @@ interface GTOPartsRecipeHandler {
                     .notConsumable(isSmall ? GTItems.SHAPE_MOLD_GEAR_SMALL : GTItems.SHAPE_MOLD_GEAR)
                     .inputFluids(material.getFluid(L * (isSmall ? 1 : 4)))
                     .outputItems(stack)
-                    .duration(isSmall ? 100 : 500)
-                    .EUt(VA[ULV])
+                    .duration(mass * (isSmall ? 2 : 8))
+                    .EUt(VA[LV])
                     .save();
         }
 
@@ -248,7 +248,7 @@ interface GTOPartsRecipeHandler {
                         .inputItems(ingot, material)
                         .notConsumable(GTItems.SHAPE_EXTRUDER_GEAR_SMALL)
                         .outputItems(stack)
-                        .duration(mass << 1)
+                        .duration(mass)
                         .EUt((long) GTOUtils.getVoltageMultiplier(material) << 3)
                         .save();
 
@@ -257,7 +257,7 @@ interface GTOPartsRecipeHandler {
                             .inputItems(dust, material)
                             .notConsumable(GTItems.SHAPE_EXTRUDER_GEAR_SMALL)
                             .outputItems(stack)
-                            .duration(mass << 1)
+                            .duration(mass)
                             .EUt((long) GTOUtils.getVoltageMultiplier(material) << 3)
                             .save();
                 }
@@ -280,7 +280,7 @@ interface GTOPartsRecipeHandler {
                         .notConsumable(GTItems.SHAPE_MOLD_PLATE)
                         .inputFluids(fluidStack)
                         .outputItems(stack)
-                        .duration(200)
+                        .duration((int) material.getMass())
                         .EUt(VA[ULV])
                         .save();
             }
@@ -336,7 +336,7 @@ interface GTOPartsRecipeHandler {
                 .inputItems(ingot, material)
                 .notConsumable(GTItems.SHAPE_EXTRUDER_RING)
                 .outputItems(stack)
-                .duration(mass << 2)
+                .duration(mass << 1)
                 .EUt(6L * GTOUtils.getVoltageMultiplier(material))
                 .save();
 
@@ -344,7 +344,7 @@ interface GTOPartsRecipeHandler {
             BENDER_RECIPES.recipeBuilder("bender_" + material.getName() + "_rod_to_ring")
                     .inputItems(rod, material)
                     .outputItems(stack.copyWithCount(2))
-                    .duration(mass << 1)
+                    .duration(mass)
                     .EUt(16)
                     .circuitMeta(2)
                     .save();
@@ -361,7 +361,7 @@ interface GTOPartsRecipeHandler {
                     .inputItems(dust, material)
                     .notConsumable(GTItems.SHAPE_EXTRUDER_RING)
                     .outputItems(stack)
-                    .duration(mass << 2)
+                    .duration(mass << 1)
                     .EUt(6L * GTOUtils.getVoltageMultiplier(material))
                     .save();
         }
@@ -421,8 +421,8 @@ interface GTOPartsRecipeHandler {
                     .notConsumable(GTItems.SHAPE_MOLD_ROTOR)
                     .inputFluids(material.getFluid(L * 5))
                     .outputItems(stack)
-                    .duration(550)
-                    .EUt(20)
+                    .duration(mass * 6)
+                    .EUt(VA[LV])
                     .save();
         }
 
@@ -430,7 +430,7 @@ interface GTOPartsRecipeHandler {
                 .inputItems(ingot, material, 5)
                 .notConsumable(GTItems.SHAPE_EXTRUDER_ROTOR)
                 .outputItems(stack)
-                .duration(mass << 3)
+                .duration(mass << 2)
                 .EUt((long) GTOUtils.getVoltageMultiplier(material) << 3)
                 .save();
 
@@ -448,7 +448,7 @@ interface GTOPartsRecipeHandler {
                     .inputItems(dust, material, 5)
                     .notConsumable(GTItems.SHAPE_EXTRUDER_ROTOR)
                     .outputItems(stack)
-                    .duration(mass << 3)
+                    .duration(mass << 2)
                     .EUt((long) GTOUtils.getVoltageMultiplier(material) << 3)
                     .save();
         }
@@ -554,7 +554,7 @@ interface GTOPartsRecipeHandler {
                     .inputItems(ingot, material)
                     .notConsumable(GTItems.SHAPE_EXTRUDER_ROD_LONG)
                     .outputItems(stack)
-                    .duration(mass << 1)
+                    .duration(mass)
                     .EUt((long) GTOUtils.getVoltageMultiplier(material) << 3)
                     .save();
 
@@ -563,7 +563,7 @@ interface GTOPartsRecipeHandler {
                         .inputItems(dust, material)
                         .notConsumable(GTItems.SHAPE_EXTRUDER_ROD_LONG)
                         .outputItems(stack)
-                        .duration(mass << 1)
+                        .duration(mass)
                         .EUt((long) GTOUtils.getVoltageMultiplier(material) << 3)
                         .save();
             }

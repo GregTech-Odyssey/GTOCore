@@ -214,8 +214,6 @@ public interface RecipeFilter {
 
         ARC_FURNACE_RECIPES.addFilter("tempered_glass");
 
-        FORMING_PRESS_RECIPES.addFilter("credit_cupronickel");
-
         EXTRUDER_RECIPES.addFilter("nan_certificate");
 
         CENTRIFUGE_RECIPES.addFilter("rare_earth_separation");
