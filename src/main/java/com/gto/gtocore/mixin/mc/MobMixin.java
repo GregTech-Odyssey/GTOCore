@@ -35,8 +35,9 @@ public abstract class MobMixin extends LivingEntity {
 
     @Inject(method = "<init>", at = @At("TAIL"))
     private void init(CallbackInfo ci) {
-        if (GTOConfig.getDifficulty() == 1 || getRandom().nextBoolean()) return;
+        if (GTOConfig.getDifficulty() == 1) return;
         boolean isBoss = CommonProxy.isBoss(this);
+        if (!isBoss && getRandom().nextBoolean()) return;
         int difficultyValue = Math.max(1, level().getDifficulty().getId());
         AttributeInstance maxHealthInstance = getAttribute(Attributes.MAX_HEALTH);
         if (maxHealthInstance != null) {

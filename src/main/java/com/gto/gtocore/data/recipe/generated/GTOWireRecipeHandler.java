@@ -17,6 +17,7 @@ import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
 import com.gregtechceu.gtceu.utils.GTUtil;
 
 import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.world.item.ItemStack;
 
 import com.google.common.collect.ImmutableMap;
 import org.jetbrains.annotations.NotNull;
@@ -44,7 +45,7 @@ interface GTOWireRecipeHandler {
             return;
         }
         processWires(material, provider);
-
+        if (property.isSuperconductor()) return;
         generateCableCovering(wireGtSingle, material, property, provider);
         generateCableCovering(wireGtDouble, material, property, provider);
         generateCableCovering(wireGtQuadruple, material, property, provider);
@@ -53,9 +54,8 @@ interface GTOWireRecipeHandler {
     }
 
     private static void processWires(Material material, Consumer<FinishedRecipe> provider) {
-        if (!wireGtSingle.shouldGenerateRecipes(material)) {
-            return;
-        }
+        ItemStack wireSingle = ChemicalHelper.get(TagPrefix.wireGtSingle, material, 2);
+        if (wireSingle.isEmpty()) return;
         TagPrefix prefix = material.hasProperty(PropertyKey.INGOT) ? ingot :
                 material.hasProperty(PropertyKey.GEM) ? gem : dust;
         int mass = (int) material.getMass();
@@ -66,23 +66,21 @@ interface GTOWireRecipeHandler {
         }
         WIREMILL_RECIPES.recipeBuilder(GTOCore.id("mill_" + material.getName() + "_wire"))
                 .inputItems(prefix, material)
-                .outputItems(wireGtSingle, material, 2)
+                .outputItems(wireSingle)
                 .duration(mass)
                 .EUt(voltageMultiplier)
                 .save();
 
         if (!material.hasFlag(MaterialFlags.NO_WORKING) && material.hasFlag(MaterialFlags.GENERATE_PLATE) && mass < 240 && material.getBlastTemperature() < 3600) {
             VanillaRecipeHelper.addShapedRecipe(provider, String.format("%s_wire_single", material.getName()),
-                    ChemicalHelper.get(wireGtSingle, material), "Xx",
+                    wireSingle.copyWithCount(1), "Xx",
                     'X', new UnificationEntry(plate, material));
         }
     }
 
     private static void generateCableCovering(TagPrefix wirePrefix, Material material, WireProperties property, Consumer<FinishedRecipe> provider) {
-        if (!wirePrefix.shouldGenerateRecipes(material)) {
-            return;
-        }
-        if (property.isSuperconductor()) return;
+        ItemStack wire = ChemicalHelper.get(wirePrefix, material);
+        if (wire.isEmpty()) return;
 
         TagPrefix cablePrefix = TagPrefix.get("cable" + wirePrefix.name().substring(4));
         int voltageTier = GTUtil.getTierByVoltage(property.getVoltage());
@@ -96,7 +94,7 @@ interface GTOWireRecipeHandler {
             GTORecipeBuilder builder = LAMINATOR_RECIPES
                     .recipeBuilder(GTOCore.id("cover_" + material.getName() + "_" + wirePrefix.name().toLowerCase() + "_rubber"))
                     .EUt(VA[ULV]).duration(100)
-                    .inputItems(wirePrefix, material)
+                    .inputItems(wire)
                     .outputItems(cablePrefix, material)
                     .inputFluids(Rubber.getFluid(L * insulationAmount));
 
@@ -108,7 +106,7 @@ interface GTOWireRecipeHandler {
             GTORecipeBuilder builder = LAMINATOR_RECIPES
                     .recipeBuilder(GTOCore.id("cover_" + material.getName() + "_" + wirePrefix.name().toLowerCase() + "_silicone"))
                     .EUt(VA[ULV]).duration(100)
-                    .inputItems(wirePrefix, material)
+                    .inputItems(wire)
                     .outputItems(cablePrefix, material);
 
             if (voltageTier >= LuV) {
@@ -123,7 +121,7 @@ interface GTOWireRecipeHandler {
             GTORecipeBuilder builder = LAMINATOR_RECIPES
                     .recipeBuilder(GTOCore.id("cover_" + material.getName() + "_" + wirePrefix.name().toLowerCase() + "_styrene_butadiene"))
                     .EUt(VA[ULV]).duration(100)
-                    .inputItems(wirePrefix, material)
+                    .inputItems(wire)
                     .outputItems(cablePrefix, material);
 
             if (voltageTier > UEV) {

@@ -56,7 +56,7 @@ public interface MultiBlockG {
 
     static void init() {}
 
-    MultiblockMachineDefinition BLOOK_TEXT = GTOConfig.INSTANCE.dev ? multiblock("blook_test",
+    MultiblockMachineDefinition BLOOK_TEXT = GTOConfig.INSTANCE.enablePrimitiveVoidOre ? multiblock("blook_test",
             "方块测试", ElectricMultiblockMachine::new)
             .allRotation().recipe(GTORecipeTypes.PRIMITIVE_VOID_ORE_RECIPES).block(GTOBlocks.PHASE_CHANGE_BIOCOMPUTER_COOLING_VENTS)
             .pattern(definition -> FactoryBlockPattern.start(RelativeDirection.RIGHT, RelativeDirection.UP,

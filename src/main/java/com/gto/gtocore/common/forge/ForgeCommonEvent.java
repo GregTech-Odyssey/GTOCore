@@ -116,17 +116,6 @@ public final class ForgeCommonEvent {
         InteractionHand hand = event.getHand();
         ItemStack itemStack = player.getItemInHand(hand);
         Item item = itemStack.getItem();
-
-        if (item == Items.ENDER_EYE && level.getBlockState(pos).getBlock() == Blocks.END_PORTAL_FRAME) {
-            ItemStack stack = player.getOffhandItem();
-            if (stack.is(GTOItems.DIMENSION_DATA.get()) && stack.hasTag() && stack.getOrCreateTag().getString("dim").equals(GTODimensions.THE_END.toString())) {
-                player.setItemInHand(InteractionHand.OFF_HAND, stack.copyWithCount(stack.getCount() - 1));
-                return;
-            }
-            event.setCanceled(true);
-            return;
-        }
-
         if (item == GTOItems.RAW_VACUUM_TUBE.get() && player.isShiftKeyDown() && MetaMachine.getMachine(level, pos) instanceof IVacuumMachine vacuumMachine && vacuumMachine.getVacuumTier() > 0) {
             player.setItemInHand(hand, itemStack.copyWithCount(itemStack.getCount() - 1));
             level.addFreshEntity(new ItemEntity(level, pos.getX(), pos.getY() + 1, pos.getZ(), GTItems.VACUUM_TUBE.asStack()));

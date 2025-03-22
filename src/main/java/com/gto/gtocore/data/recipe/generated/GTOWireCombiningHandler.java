@@ -41,14 +41,14 @@ interface GTOWireCombiningHandler {
         }
         processWireCompression(material, property, provider);
 
+        if (property.isSuperconductor()) return;
         for (TagPrefix cablePrefix : cableToWireMap.keySet()) {
             processCableStripping(cablePrefix, material, property, provider);
         }
     }
 
-    private static void processWireCompression(Material material, WireProperties property,
-                                               Consumer<FinishedRecipe> provider) {
-        if (!wireGtSingle.shouldGenerateRecipes(material)) {
+    private static void processWireCompression(Material material, WireProperties property, Consumer<FinishedRecipe> provider) {
+        if (!material.shouldGenerateRecipesFor(wireGtSingle)) {
             return;
         }
         int mass = (int) material.getMass();
@@ -83,7 +83,7 @@ interface GTOWireCombiningHandler {
     }
 
     private static void processCableStripping(TagPrefix prefix, Material material, WireProperties property, Consumer<FinishedRecipe> provider) {
-        if (!prefix.shouldGenerateRecipes(material)) {
+        if (!material.shouldGenerateRecipesFor(prefix)) {
             return;
         }
         Material rubber = GTMaterials.Rubber;

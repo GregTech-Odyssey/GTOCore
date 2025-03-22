@@ -7,6 +7,7 @@ import com.gto.gtocore.common.data.GTORecipeModifiers;
 import com.gto.gtocore.common.machine.multiblock.part.SensorPartMachine;
 import com.gto.gtocore.utils.FunctionContainer;
 import com.gto.gtocore.utils.MachineUtils;
+import com.gto.gtocore.utils.SphereExplosion;
 
 import com.gregtechceu.gtceu.api.machine.ConditionalSubscriptionHandler;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
@@ -19,7 +20,6 @@ import com.gregtechceu.gtceu.common.data.GTMaterials;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.Fluid;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
@@ -112,8 +112,7 @@ public final class FissionReactorMachine extends ElectricMultiblockMachine imple
         var level = machine.getLevel();
         if (level != null) {
             level.removeBlock(machine.getPos(), false);
-            level.explode(null, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5,
-                    explosionPower, Level.ExplosionInteraction.BLOCK);
+            SphereExplosion.explosion(pos, level, (int) Math.sqrt(explosionPower), false, true);
         }
     }
 

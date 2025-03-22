@@ -59,7 +59,7 @@ interface GTOMaterialRecipeHandler {
             processTinyDust(material, provider);
         }
 
-        if (gemExquisite.shouldGenerateRecipes(material)) {
+        if (material.shouldGenerateRecipesFor(gemExquisite)) {
             for (TagPrefix orePrefix : Arrays.asList(gem, gemFlawless, gemExquisite)) {
                 processGemConversion(orePrefix, material, provider);
             }

@@ -455,7 +455,7 @@ interface GTOPartsRecipeHandler {
     }
 
     private static void processBolt(@NotNull Material material, @NotNull Consumer<FinishedRecipe> provider) {
-        if (!bolt.shouldGenerateRecipes(material)) {
+        if (!material.shouldGenerateRecipesFor(bolt)) {
             return;
         }
 

@@ -210,16 +210,11 @@ interface GTOPipeRecipeHandler {
 
     private static void processPipeQuadruple(@NotNull Consumer<FinishedRecipe> provider,
                                              @NotNull Material material) {
-        if (!TagPrefix.pipeQuadrupleFluid.shouldGenerateRecipes(material)) {
-            return;
-        }
-        if (!material.hasProperty((PropertyKey<?>) PropertyKey.FLUID_PIPE)) {
-            return;
-        }
+        ItemStack quadPipe = ChemicalHelper.get(TagPrefix.pipeQuadrupleFluid, material);
+        if (quadPipe.isEmpty()) return;
 
         if (material.hasProperty(PropertyKey.WOOD)) return;
         ItemStack smallPipe = ChemicalHelper.get(pipeSmallFluid, material, 4);
-        ItemStack quadPipe = ChemicalHelper.get(TagPrefix.pipeQuadrupleFluid, material);
 
         PACKER_RECIPES.recipeBuilder("package_" + material.getName() + "_quadruple_pipe")
                 .inputItems(smallPipe)
@@ -230,18 +225,11 @@ interface GTOPipeRecipeHandler {
                 .save();
     }
 
-    private static void processPipeNonuple(@NotNull Consumer<FinishedRecipe> provider,
-                                           @NotNull Material material) {
-        if (!TagPrefix.pipeNonupleFluid.shouldGenerateRecipes(material)) {
-            return;
-        }
-        if (!material.hasProperty((PropertyKey<?>) PropertyKey.FLUID_PIPE)) {
-            return;
-        }
-
+    private static void processPipeNonuple(@NotNull Consumer<FinishedRecipe> provider, @NotNull Material material) {
+        ItemStack nonuplePipe = ChemicalHelper.get(TagPrefix.pipeNonupleFluid, material);
+        if (nonuplePipe.isEmpty()) return;
         if (material.hasProperty(PropertyKey.WOOD)) return;
         ItemStack smallPipe = ChemicalHelper.get(pipeSmallFluid, material, 9);
-        ItemStack nonuplePipe = ChemicalHelper.get(TagPrefix.pipeNonupleFluid, material);
 
         PACKER_RECIPES.recipeBuilder("package_" + material.getName() + "_nonuple_pipe")
                 .inputItems(smallPipe)

@@ -103,68 +103,6 @@ public interface ExResearchMachines {
             .workableCasingRenderer(GTCEu.id("block/casings/hpca/computer_casing/back"), GTCEu.id("block/multiblock/large_miner"))
             .register();
 
-    /*
-     * (数据访问仓的注册方法绑定数据库,希望添加新的数据中心。
-     * 希望在重写createImportItemHandler时，检查物品是否是数据项并且带有研究标签的时候，增加不同等级数据访问仓放入物品种类的检查)
-     *
-     *
-     * MultiblockMachineDefinition DATA_CENTER = multiblock("data_center", "数据中心", DataCenterMachine::new)
-     * .nonYAxisRotation()
-     * .recipe(GTRecipeTypes.DUMMY_RECIPES)
-     * .appearanceBlock(COMPUTER_CASING)
-     * .tooltips(Component.translatable("gtceu.machine.data_bank.tooltip.0"),
-     * Component.translatable("gtceu.machine.data_bank.tooltip.1"),
-     * Component.translatable("gtceu.machine.data_bank.tooltip.2"),
-     * Component.translatable("gtceu.machine.data_bank.tooltip.3",
-     * FormattingUtil.formatNumbers(DataBankMachine.EUT_PER_HATCH)),
-     * Component.translatable("gtceu.machine.data_bank.tooltip.4",
-     * FormattingUtil.formatNumbers(DataBankMachine.EUT_PER_HATCH_CHAINED)))
-     * .pattern(definition -> FactoryBlockPattern.start()
-     * .aisle("  AAAAAAAAAAA  ", " AA         AA ", "AA           AA", "A             A", "A             A",
-     * "A             A", "A             A", "AA           AA", " AA         AA ", "  AAAAAAAAAAA  ")
-     * .aisle(" AAABBBBBBBAAA ", "AACCCCCCCCCCCAA", "ACCKKKKKKKKKCCA", " CKKKKKKKKKKKC ", " CKKKKKKKKKKKC ",
-     * " CKKKKKKKKKKKC ", " CKKKKKKKKKKKC ", "ACCKKKKKKKKKCCA", "AACCCCCCCCCCCAA", " AA         AA ")
-     * .aisle("AAABBBBBBBBBAAA", "ACC         CCA", " C           C ", " K           K ", " K           K ",
-     * " K           K ", " K           K ", " C           C ", "ACCKKKKKKKKKCCA", "AA           AA")
-     * .aisle("AABBBBBBBBBBBAA", " C  CC   CC  C ", " K  CC   CC  K ", " K  CC   CC  K ", " K  CC   CC  K ",
-     * " K  CC   CC  K ", " K  CC   CC  K ", " K  CC   CC  K ", " CKKKKKKKKKKKC ", "A             A")
-     * .aisle("ABBBBBBBBBBBBBA", " C  CC   CC  C ", " K  DE   ED  K ", " K  DE   ED  K ", " K  DE   ED  K ",
-     * " K  DE   ED  K ", " K  DE   ED  K ", " K  CC   CC  K ", " CKKKKKKKKKKKC ", "A             A")
-     * .aisle("ABBBBBBBBBBBBBA", " C  CC   CC  C ", " K  DE   ED  K ", " K  DE   ED  K ", " K  DE   ED  K ",
-     * " K  DE   ED  K ", " K  DE   ED  K ", " K  CC   CC  K ", " CKKKKKKKKKKKC ", "A             A")
-     * .aisle("ABBBBBBBBBBBBBA", " C  CC   CC  C ", " K  DE   ED  K ", " K  DE   ED  K ", " K  DE   ED  K ",
-     * " K  DE   ED  K ", " K  DE   ED  K ", " K  CC   CC  K ", " CKKKKKKKKKKKC ", "A             A")
-     * .aisle("ABBBBBBBBBBBBBA", " C  CC   CC  C ", " K  DE   ED  K ", " K  DE   ED  K ", " K  DE   ED  K ",
-     * " K  DE   ED  K ", " K  DE   ED  K ", " K  CC   CC  K ", " CKKKKKKKKKKKC ", "A             A")
-     * .aisle("ABBBBBBBBBBBBBA", " C  CC   CC  C ", " K  DE   ED  K ", " K  DE   ED  K ", " K  DE   ED  K ",
-     * " K  DE   ED  K ", " K  DE   ED  K ", " K  CC   CC  K ", " CKKKKKKKKKKKC ", "A             A")
-     * .aisle("AABBBBBBBBBBBAA", " C  CC   CC  C ", " K  CC   CC  K ", " K  CC   CC  K ", " K  CC   CC  K ",
-     * " K  CC   CC  K ", " K  CC   CC  K ", " K  CC   CC  K ", " CKKKKKKKKKKKC ", "A             A")
-     * .aisle("AAABBBBBBBBBAAA", "ACC         CCA", " C           C ", " K           K ", " K           K ",
-     * " K           K ", " K           K ", " C           C ", "ACCKKKKKKKKKCCA", "AA           AA")
-     * .aisle(" AAABBBBBBBAAA ", "AACCCCCCCCCCCAA", "ACCKKKKKKKKKCCA", " CKKKVVVVVKKKC ", " CKKVVV~VVVKKC ",
-     * " CKKKVVVVVKKKC ", " CKKKKKKKKKKKC ", "ACCKKKKKKKKKCCA", "AACCCCCCCCCCCAA", " AA         AA ")
-     * .aisle("  AAAAAAAAAAA  ", " AA         AA ", "AA           AA", "A             A", "A             A",
-     * "A             A", "A             A", "AA           AA", " AA         AA ", "  AAAAAAAAAAA  ")
-     * .where('A', blocks(GTBlocks.ADVANCED_COMPUTER_CASING.get()))
-     * .where('B', blocks(GTBlocks.HIGH_POWER_CASING.get())
-     * .or(abilities(OPTICAL_DATA_TRANSMISSION)))
-     * .where('~', controller(blocks(definition.get())))
-     * .where(' ', any())
-     * .where('V', blocks(GTBlocks.COMPUTER_CASING.get())
-     * .or(abilities(INPUT_ENERGY).setMaxGlobalLimited(2))
-     * .or(abilities(OPTICAL_DATA_TRANSMISSION))
-     * .or(abilities(MAINTENANCE).setExactLimit(1)))
-     * .where('C', GTOPredicates.tierBlock(BlockMap.COMPUTER_CASING_MAP, GTOValues.COMPUTER_CASING_TIER))
-     * .where('K', GTOPredicates.glass())
-     * .where('E', abilities(GTOPartAbility.ExDATA_ACCESS))
-     * .where('D', GTOPredicates.tierBlock(BlockMap.COMPUTER_HEAT_MAP, GTOValues.COMPUTER_HEAT_TIER))
-     * .build())
-     * .workableCasingRenderer(GTCEu.id("block/casings/hpca/high_power_casing"), GTCEu.id("block/multiblock/data_bank"))
-     * .register();
-     * 
-     */
-
     MachineDefinition NICH_EMPTY_COMPONENT = registerHPCAPart(
             "nich_empty_component", "空NICH组件",
             ExResearchEmptyPartMachine::new, false, false, 3)

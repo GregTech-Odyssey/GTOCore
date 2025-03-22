@@ -56,7 +56,7 @@ interface GTOOreRecipeHandler {
     }
 
     private static void processOre(Material material, OreProperty property, Consumer<FinishedRecipe> provider) {
-        if (!TagPrefix.ore.shouldGenerateRecipes(material)) {
+        if (!material.shouldGenerateRecipesFor(ore)) {
             return;
         }
         ItemStack crushedStack = ChemicalHelper.get(crushed, material);
