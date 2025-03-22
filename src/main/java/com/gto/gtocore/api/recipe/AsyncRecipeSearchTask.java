@@ -91,13 +91,12 @@ public final class AsyncRecipeSearchTask {
                         task.hasRequest = false;
                         task.result = searchRecipe(task.logic);
                     } catch (Throwable e) {
-                        GTOCore.LOGGER.error("Error while searching recipe: {}", e.getMessage());
+                        GTOCore.LOGGER.error("Error while searching recipe");
+                        e.printStackTrace();
                     }
                 }
             }
-        } catch (Throwable e) {
-            GTOCore.LOGGER.error("Error while searching task: {}", e.getMessage());
-        }
+        } catch (Throwable ignored) {}
     }
 
     public static void releaseExecutorService() {
@@ -143,7 +142,7 @@ public final class AsyncRecipeSearchTask {
     private static GTRecipe modifyRecipe(GTRecipe recipe, RecipeLogic logic) {
         GTRecipe modified = logic.machine.fullModifyRecipe(recipe.copy());
         if (modified != null) {
-            if (RecipeRunner.checkConditions(logic.machine, modified) && RecipeRunner.matchRecipe(logic.machine, recipe) && RecipeRunner.matchTickRecipe(logic.machine, recipe)) {
+            if (RecipeRunner.checkConditions(logic.machine, modified) && RecipeRunner.matchRecipe(logic.machine, modified) && RecipeRunner.matchTickRecipe(logic.machine, modified)) {
                 return modified;
             }
         }

@@ -84,14 +84,12 @@ public final class AsyncRecipeOutputTask {
                         }
                         task.runnables.clear();
                     } catch (Throwable e) {
-                        GTOCore.LOGGER.error("Error while output recipe: {}", e.getMessage());
+                        GTOCore.LOGGER.error("Error while output recipe");
                         e.printStackTrace();
                     }
                 }
             }
-        } catch (Throwable e) {
-            GTOCore.LOGGER.error("Error while output task: {}", e.getMessage());
-        }
+        } catch (Throwable ignored) {}
     }
 
     public static void releaseExecutorService() {

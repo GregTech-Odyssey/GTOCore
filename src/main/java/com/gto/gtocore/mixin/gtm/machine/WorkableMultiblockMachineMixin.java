@@ -12,6 +12,7 @@ import com.gregtechceu.gtceu.api.machine.feature.multiblock.IWorkableMultiContro
 import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockControllerMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableMultiblockMachine;
 import com.gregtechceu.gtceu.api.machine.trait.IRecipeHandlerTrait;
+import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.integration.ae2.machine.MEOutputBusPartMachine;
 import com.gregtechceu.gtceu.integration.ae2.machine.MEOutputHatchPartMachine;
@@ -31,6 +32,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import java.util.List;
 import java.util.Set;
 
 @Mixin(WorkableMultiblockMachine.class)
@@ -47,9 +49,6 @@ public abstract class WorkableMultiblockMachineMixin extends MultiblockControlle
 
     @Unique
     private boolean gTOCore$isDualOutput;
-
-    @Unique
-    private boolean gTOCore$DualMEOutput;
 
     @Unique
     private boolean gTOCore$isGridOnline;
@@ -112,7 +111,10 @@ public abstract class WorkableMultiblockMachineMixin extends MultiblockControlle
                 }
                 gTOCore$grid.add(gridConnectedMachine);
             }
-            if (gTOCore$isItemOutput && gTOCore$isFluidOutput) continue;
+            if (gTOCore$isItemOutput && gTOCore$isFluidOutput) {
+                gTOCore$isDualOutput = true;
+                continue;
+            }
             if (part instanceof MEOutputPartMachine) {
                 gTOCore$isItemOutput = true;
                 gTOCore$isFluidOutput = true;
@@ -123,30 +125,12 @@ public abstract class WorkableMultiblockMachineMixin extends MultiblockControlle
                 gTOCore$isFluidOutput = true;
             }
         }
-        gtocore$refreshMEStatus();
-    }
-
-    @Inject(method = "setActiveRecipeType", at = @At(value = "TAIL"), remap = false)
-    public void setActiveRecipeType(CallbackInfo ci) {
-        gtocore$refreshMEStatus();
     }
 
     @Inject(method = "onStructureInvalid", at = @At(value = "TAIL"), remap = false)
     private void onStructureInvalid(CallbackInfo ci) {
         gTOCore$isItemOutput = false;
         gTOCore$isFluidOutput = false;
-    }
-
-    @Unique
-    private void gtocore$refreshMEStatus() {
-        gTOCore$DualMEOutput = true;
-        if (gTOCore$isDualOutput) return;
-        if (getRecipeType().getMaxOutputs(ItemRecipeCapability.CAP) > 0) {
-            gTOCore$DualMEOutput = gTOCore$isItemOutput;
-        }
-        if (gTOCore$DualMEOutput && getRecipeType().getMaxOutputs(FluidRecipeCapability.CAP) > 0) {
-            gTOCore$DualMEOutput = gTOCore$isFluidOutput;
-        }
     }
 
     @Override
@@ -160,8 +144,21 @@ public abstract class WorkableMultiblockMachineMixin extends MultiblockControlle
     }
 
     @Override
-    public boolean gTOCore$DualMEOutput() {
-        return gTOCore$DualMEOutput;
+    public boolean gTOCore$DualMEOutput(@NotNull GTRecipe recipe) {
+        if (gTOCore$isDualOutput) return true;
+        if (gTOCore$isItemOutput || recipe.outputs.getOrDefault(ItemRecipeCapability.CAP, List.of()).isEmpty()) {
+            return gTOCore$isFluidOutput || recipe.outputs.getOrDefault(FluidRecipeCapability.CAP, List.of()).isEmpty();
+        }
+        return false;
+    }
+
+    @Override
+    public boolean gTOCore$DualMEOutput(boolean hasItem, boolean hasFluid) {
+        if (gTOCore$isDualOutput) return true;
+        if (gTOCore$isItemOutput || hasItem) {
+            return gTOCore$isFluidOutput || hasFluid;
+        }
+        return false;
     }
 
     @Override

@@ -77,6 +77,11 @@ public class CrossRecipeMultiblockMachine extends ElectricMultiblockMachine impl
     private final Set<GTRecipe> lastRecipes = new ObjectOpenHashSet<>();
 
     @Persisted
+    private boolean hasItem;
+    @Persisted
+    private boolean hasFluid;
+
+    @Persisted
     @Getter
     @Setter
     private boolean jadeInfo;
@@ -121,11 +126,19 @@ public class CrossRecipeMultiblockMachine extends ElectricMultiblockMachine impl
         if (match == null) return null;
         long totalEu = 0;
         lastRecipes.clear();
+        hasItem = false;
+        hasFluid = false;
         for (int i = 0; i < getThread(); i++) {
             totalEu += match.duration * RecipeHelper.getInputEUt(match);
             match.tickInputs.clear();
             match.data = EMPTY_TAG;
             if (isRepeatedRecipes()) match.id = GTOCore.id("thread_" + i);
+            if (!hasItem && match.outputs.getOrDefault(ItemRecipeCapability.CAP, List.of()).isEmpty()) {
+                hasItem = true;
+            }
+            if (!hasFluid && match.outputs.getOrDefault(FluidRecipeCapability.CAP, List.of()).isEmpty()) {
+                hasFluid = true;
+            }
             lastRecipes.add(match);
             match = LookupRecipe();
             if (match == null) break;
@@ -319,7 +332,7 @@ public class CrossRecipeMultiblockMachine extends ElectricMultiblockMachine impl
         @Override
         protected boolean handleRecipeIO(GTRecipe recipe, IO io) {
             if (io == IO.OUT) {
-                if (GTOConfig.INSTANCE.asyncRecipeOutput && machine instanceof IMEOutputMachine outputMachine && outputMachine.gTOCore$DualMEOutput()) {
+                if (GTOConfig.INSTANCE.asyncRecipeOutput && machine instanceof IMEOutputMachine outputMachine && outputMachine.gTOCore$DualMEOutput(getMachine().hasItem, getMachine().hasFluid)) {
                     Set<GTRecipe> recipes = new HashSet<>(getMachine().lastRecipes);
                     AsyncRecipeOutputTask.addAsyncLogic(this, () -> output(recipes));
                 } else {

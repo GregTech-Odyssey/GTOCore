@@ -25,12 +25,11 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.Iterator;
 import java.util.List;
@@ -100,10 +99,6 @@ public abstract class RecipeLogicMixin extends MachineTrait implements IEnhanced
 
     @Shadow
     protected int duration;
-
-    @Shadow
-    public abstract void onRecipeFinish();
-
     @Shadow
     public List<GTRecipe> lastFailedMatches;
 
@@ -131,6 +126,22 @@ public abstract class RecipeLogicMixin extends MachineTrait implements IEnhanced
 
     @Shadow
     protected abstract void handleSearchingRecipes(Iterator<GTRecipe> matches);
+
+    @Shadow
+    protected int consecutiveRecipes;
+
+    @Shadow
+    @Final
+    protected Map<RecipeCapability<?>, Object2IntMap<?>> chanceCaches;
+
+    @Shadow
+    public abstract void markLastRecipeDirty();
+
+    @Shadow
+    protected boolean suspendAfterFinish;
+
+    @Shadow
+    protected boolean isActive;
 
     @Unique
     private void gTOCore$unsubscribe() {
@@ -193,14 +204,6 @@ public abstract class RecipeLogicMixin extends MachineTrait implements IEnhanced
     @Override
     public boolean gTOCore$isLockRecipe() {
         return gTOCore$lockRecipe;
-    }
-
-    @Inject(method = "handleRecipeIO", at = @At("HEAD"), remap = false, cancellable = true)
-    protected void handleRecipeIO(GTRecipe recipe, IO io, CallbackInfoReturnable<Boolean> cir) {
-        if (io == IO.OUT && GTOConfig.INSTANCE.asyncRecipeOutput && machine instanceof IMEOutputMachine outputMachine && outputMachine.gTOCore$DualMEOutput()) {
-            AsyncRecipeOutputTask.addAsyncLogic(getLogic(), () -> RecipeRunner.handleRecipeOutput(machine, recipe));
-            cir.setReturnValue(true);
-        }
     }
 
     @OnlyIn(Dist.CLIENT)
@@ -316,6 +319,59 @@ public abstract class RecipeLogicMixin extends MachineTrait implements IEnhanced
             }
         }
         recipeDirty = false;
+    }
+
+    /**
+     * @author .
+     * @reason .
+     */
+    @Overwrite
+    public void onRecipeFinish() {
+        machine.afterWorking();
+        if (lastRecipe != null) {
+            consecutiveRecipes++;
+            lastRecipe.postWorking(this.machine);
+            handleRecipeIO(lastRecipe, IO.OUT);
+            if (machine.alwaysTryModifyRecipe()) {
+                if (lastOriginRecipe != null) {
+                    var modified = machine.fullModifyRecipe(lastOriginRecipe.copy());
+                    if (modified == null) {
+                        markLastRecipeDirty();
+                    } else {
+                        lastRecipe = modified;
+                    }
+                } else {
+                    markLastRecipeDirty();
+                }
+            }
+            if (!recipeDirty && !suspendAfterFinish && RecipeRunner.checkConditions(machine, lastRecipe) && RecipeRunner.matchRecipe(machine, lastRecipe) && RecipeRunner.matchTickRecipe(machine, lastRecipe)) {
+                setupRecipe(lastRecipe);
+            } else {
+                if (suspendAfterFinish) {
+                    setStatus(RecipeLogic.Status.SUSPEND);
+                    suspendAfterFinish = false;
+                } else {
+                    setStatus(RecipeLogic.Status.IDLE);
+                }
+                consecutiveRecipes = 0;
+                progress = 0;
+                duration = 0;
+                isActive = false;
+            }
+        }
+    }
+
+    /**
+     * @author .
+     * @reason .
+     */
+    @Overwrite
+    protected boolean handleRecipeIO(GTRecipe recipe, IO io) {
+        if (io == IO.OUT && GTOConfig.INSTANCE.asyncRecipeOutput && machine instanceof IMEOutputMachine outputMachine && outputMachine.gTOCore$DualMEOutput(recipe)) {
+            AsyncRecipeOutputTask.addAsyncLogic(getLogic(), () -> RecipeRunner.handleRecipeOutput(machine, recipe));
+            return true;
+        }
+        return RecipeRunner.handleRecipeIO(machine, recipe, io, chanceCaches);
     }
 
     /**

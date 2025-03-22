@@ -1,5 +1,7 @@
 package com.gto.gtocore.api.recipe;
 
+import com.gto.gtocore.api.machine.feature.multiblock.IMEOutputMachine;
+
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.capability.recipe.IRecipeCapabilityHolder;
 import com.gregtechceu.gtceu.api.capability.recipe.IRecipeHandler;
@@ -20,26 +22,34 @@ public interface RecipeRunner {
     }
 
     static boolean matchRecipe(IRecipeCapabilityHolder holder, GTRecipe recipe) {
+        if (holder instanceof IMEOutputMachine machine && machine.gTOCore$DualMEOutput(recipe)) {
+            return matchRecipeInput(holder, recipe);
+        }
         return recipe.matchRecipe(holder).isSuccess();
     }
 
     static boolean matchTickRecipe(IRecipeCapabilityHolder holder, GTRecipe recipe) {
-        return recipe.matchTickRecipe(holder).isSuccess();
+        if (!matchRecipeTickInput(holder, recipe)) return false;
+        return matchRecipeTickOutput(holder, recipe);
     }
 
     static boolean matchRecipeInput(IRecipeCapabilityHolder holder, GTRecipe recipe) {
+        if (recipe.inputs.isEmpty()) return true;
         return recipe.matchRecipeContents(IO.IN, holder, recipe.inputs, false).isSuccess();
     }
 
     static boolean matchRecipeOutput(IRecipeCapabilityHolder holder, GTRecipe recipe) {
+        if (recipe.outputs.isEmpty()) return true;
         return recipe.matchRecipeContents(IO.OUT, holder, recipe.outputs, false).isSuccess();
     }
 
     static boolean matchRecipeTickInput(IRecipeCapabilityHolder holder, GTRecipe recipe) {
+        if (recipe.tickInputs.isEmpty()) return true;
         return recipe.matchRecipeContents(IO.IN, holder, recipe.tickInputs, true).isSuccess();
     }
 
     static boolean matchRecipeTickOutput(IRecipeCapabilityHolder holder, GTRecipe recipe) {
+        if (recipe.tickOutputs.isEmpty()) return true;
         return recipe.matchRecipeContents(IO.OUT, holder, recipe.tickOutputs, true).isSuccess();
     }
 

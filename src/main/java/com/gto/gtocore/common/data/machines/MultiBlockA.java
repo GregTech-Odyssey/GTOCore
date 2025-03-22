@@ -2383,11 +2383,11 @@ public interface MultiBlockA {
             .workableCasingRenderer(GTOCore.id("block/casings/iridium_casing"), GTCEu.id("block/multiblock/assembly_line"))
             .register();
 
-    MultiblockMachineDefinition ADVANCED_INTEGRATED_ORE_PROCESSOR = multiblock("advanced_integrated_ore_processor", "进阶集成矿石处理厂", CrossRecipeMultiblockMachine.createParallel(false, false, m -> Integer.MAX_VALUE))
+    MultiblockMachineDefinition ADVANCED_INTEGRATED_ORE_PROCESSOR = multiblock("advanced_integrated_ore_processor", "进阶集成矿石处理厂", CrossRecipeMultiblockMachine.createParallel(false, false, m -> Integer.MAX_VALUE - 1))
             .nonYAxisRotation()
             .recipe(GTORecipeTypes.INTEGRATED_ORE_PROCESSOR)
             .tooltipsKey("gtocore.machine.integrated_ore_processor.tooltip.0")
-            .tooltipsText("Maximum Parallelism: 2147483647", "最大并行数：2147483647")
+            .tooltipsKey("gtceu.universal.tooltip.parallel", Integer.MAX_VALUE - 1)
             .customTooltipsBuilder(true, true, true)
             .block(GTOBlocks.DIMENSION_INJECTION_CASING)
             .pattern((definition) -> FactoryBlockPattern.start()

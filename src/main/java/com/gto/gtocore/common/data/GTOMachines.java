@@ -45,6 +45,7 @@ import it.unimi.dsi.fastutil.Pair;
 
 import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.api.capability.recipe.IO.IN;
+import static com.gregtechceu.gtceu.api.machine.multiblock.PartAbility.PARALLEL_HATCH;
 import static com.gto.gtocore.utils.register.MachineRegisterUtils.*;
 
 public interface GTOMachines {
@@ -631,6 +632,8 @@ public interface GTOMachines {
     MachineDefinition INFINITE_PARALLEL_HATCH = machine("infinite_parallel_hatch", "无限并行仓", h -> new ParallelHatchPartMachine(h, -1))
             .tier(MAX)
             .allRotation()
+            .abilities(PARALLEL_HATCH)
+            .tooltips(Component.translatable("gtceu.universal.tooltip.parallel", Integer.MAX_VALUE - 1))
             .workableTieredHullRenderer(GTCEu.id("block/machines/parallel_hatch"))
             .register();
 }
