@@ -1,6 +1,7 @@
 package com.gto.gtocore.api.machine.multiblock;
 
 import com.gto.gtocore.GTOCore;
+import com.gto.gtocore.api.gui.GTOGuiTextures;
 import com.gto.gtocore.api.gui.ParallelConfigurator;
 import com.gto.gtocore.api.machine.feature.multiblock.IMEOutputMachine;
 import com.gto.gtocore.api.machine.feature.multiblock.IOverclockConfigMachine;
@@ -19,7 +20,6 @@ import com.gto.gtocore.utils.MachineUtils;
 import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
-import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.fancy.ConfiguratorPanel;
 import com.gregtechceu.gtceu.api.gui.fancy.IFancyConfiguratorButton;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
@@ -109,8 +109,8 @@ public class CrossRecipeMultiblockMachine extends ElectricMultiblockMachine impl
         super.attachConfigurators(configuratorPanel);
         if (!isHatchParallel) configuratorPanel.attachConfigurators(new ParallelConfigurator(this));
         configuratorPanel.attachConfigurators(new IFancyConfiguratorButton.Toggle(
-                GuiTextures.BUTTON_SILK_TOUCH_MODE.getSubTexture(0, 0, 1, 0.5),
-                GuiTextures.BUTTON_SILK_TOUCH_MODE.getSubTexture(0, 0.5, 1, 0.5),
+                GTOGuiTextures.FOLDING_OUTPUT.getSubTexture(0, 0, 1, 0.5),
+                GTOGuiTextures.FOLDING_OUTPUT.getSubTexture(0, 0.5, 1, 0.5),
                 this::isJadeInfo, (clickData, pressed) -> this.setJadeInfo(pressed))
                 .setTooltipsSupplier(pressed -> List.of(Component.translatable("gtceu.top.recipe_output").append(Component.translatable(pressed ? "waila.ae2.Showing" : "config.jade.display_fluids_none")))));
     }

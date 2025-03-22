@@ -6,9 +6,7 @@ import com.gregtechceu.gtceu.api.machine.multiblock.part.TieredPartMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.DataAccessHatchMachine;
 
-import org.spongepowered.asm.mixin.Final;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -32,6 +30,8 @@ public class DataAccessHatchMachineMixin extends TieredPartMachine {
 
     @Inject(method = "getInventorySize", at = @At("TAIL"), remap = false, cancellable = true)
     private void getInventorySize(CallbackInfoReturnable<Integer> cir) {
-        if (getTier() == GTValues.UV) cir.setReturnValue(36);
+        if (getTier() == GTValues.UHV) cir.setReturnValue(25);
+        if (getTier() == GTValues.UIV) cir.setReturnValue(36);
+        if (getTier() == GTValues.OpV) cir.setReturnValue(64);
     }
 }

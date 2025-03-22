@@ -25,7 +25,7 @@ public class ExResearchBridgePartMachine extends ExResearchBasePartMachine {
 
     @Override
     public int getUpkeepEUt() {
-        return GTValues.VA[GTValues.UEV];
+        return GTValues.VA[GTValues.UHV];
     }
 
     @Override

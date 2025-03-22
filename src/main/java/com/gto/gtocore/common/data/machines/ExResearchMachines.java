@@ -9,30 +9,36 @@ import com.gto.gtocore.client.renderer.machine.ExResearchPartRenderer;
 import com.gto.gtocore.common.block.BlockMap;
 import com.gto.gtocore.common.data.GTOMachines;
 import com.gto.gtocore.common.machine.multiblock.electric.SupercomputingCenterMachine;
+import com.gto.gtocore.common.machine.multiblock.part.research.ExResearchBridgePartMachine;
 import com.gto.gtocore.common.machine.multiblock.part.research.ExResearchComputationPartMachine;
 import com.gto.gtocore.common.machine.multiblock.part.research.ExResearchCoolerPartMachine;
 import com.gto.gtocore.common.machine.multiblock.part.research.ExResearchEmptyPartMachine;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTValues;
+import com.gregtechceu.gtceu.api.data.RotationState;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
+import com.gregtechceu.gtceu.client.renderer.machine.OverlayTieredMachineRenderer;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
+import com.gregtechceu.gtceu.common.machine.multiblock.part.DataAccessHatchMachine;
 
 import net.minecraft.network.chat.Component;
 
 import java.util.function.Function;
 
+import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.api.machine.multiblock.PartAbility.*;
 import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
 import static com.gregtechceu.gtceu.common.data.machines.GTResearchMachines.OVERHEAT_TOOLTIPS;
 import static com.gto.gtocore.api.registries.GTORegistration.REGISTRATE;
 import static com.gto.gtocore.utils.register.BlockRegisterUtils.addLang;
+import static com.gto.gtocore.utils.register.MachineRegisterUtils.machine;
 import static com.gto.gtocore.utils.register.MachineRegisterUtils.multiblock;
 
 public interface ExResearchMachines {
@@ -44,9 +50,13 @@ public interface ExResearchMachines {
             .tooltipsText("The use of advanced cooling solutions enables it to output more computing power", "采用先进的冷却方案使其能够输出更多的算力")
             .tooltipsText("The machine has three levels, switched by placing items in the mainframe:", "机器有三个等级，通过在主机内放置物品切换：")
             .tooltipsText("The structure blocks of each level of the machine need to match the machine level", "每个等级的机器结构方块需要与机器等级匹配")
-            .tooltipsText("Level 1: Slots are empty - HPCA series components can be placed", "等级1：槽位空置—可放置HPCA系列组件")
-            .tooltipsText("Level 2: Place biological host - can place NICH series components", "等级2：放入生物主机—可放置NICH系列组件")
-            .tooltipsText("Level 3: Place the Hyper-Causal Host - GWCA series components can be placed (with built-in bridge)", "等级3：放入超因果主机—可放置GWCA系列组件(自带桥接)")
+            .tooltipsText("Level 1: Slots are empty - HPCA series components can be placed", "等级1：槽位空置 - 可放置HPCA系列组件")
+            .tooltipsText("Tungsten Borosilicate Glass - Computer Casing - Computer Heat Vent", "钨强化硼玻璃 - 计算机外壳 - 计算机散热口")
+            .tooltipsText("Level 2: Place biological host - can place NICH series components", "等级2：放入生物主机 - 可放置NICH系列组件")
+            .tooltipsText("Neutronium Borosilicate Glass - Biocomputer Casing - Phase Change Biocomputer Cooling Vents", "安普洛强化硼玻璃 - 生物计算机外壳 - 相变计算机散热口")
+            .tooltipsText("Level 3: Place the Hyper-Causal Host - GWCA series components can be placed (with built-in bridge)", "等级3：放入超因果主机 - 可放置GWCA系列组件(自带桥接)")
+            .tooltipsText("Taranium Borosilicate Glass - Graviton Computer Casing - Anti Entropy Computer Condensation Matrix", "塔兰强化硼玻璃 - 引力子计算机外壳 - 逆熵计算机冷凝矩阵")
+            .tooltipsText("The machine's computing power is affected by the Hashrate correction factor", "机器算力受到 算力修正系数 的影响")
             .tooltipsText("Maximum output computing power = computing power of computing components * Hashrate correction factor", "最大输出算力 = 计算组件的算力和 * 算力修正系数")
             .tooltipsText("When level is 2 or 3, the hashrate correction factor will change", "当等级为2或3时，算力修正系数会发生变化")
             .tooltipsText("Every 10 ticks, the Hashrate correction factor will decrease by ((Hashrate correction factor - 0.4)^2/5000)*(0.8/log(Hashrate correction factor + 6)) but will not be less than 0.8", "每10tick 算力修正系数会减少 ((算力修正系数-0.4)^2/5000)*(0.8/log(算力修正系数+6)) 但是不会小于0.8")
@@ -57,6 +67,7 @@ public interface ExResearchMachines {
             .nonYAxisRotation()
             .block(GTBlocks.COMPUTER_CASING)
             .recipe(GTRecipeTypes.DUMMY_RECIPES)
+            .nonYAxisRotation()
             .pattern(definition -> FactoryBlockPattern.start()
                     .aisle("  AAAAAAAAAAA  ", " AA         AA ", "AA           AA", "A             A", "A             A", "A             A", "A             A", "AA           AA", " AA         AA ", "  AAAAAAAAAAA  ")
                     .aisle(" AAABBBBBBBAAA ", "AACCCCCCCCCCCAA", "ACCKKKKKKKKKCCA", " CKKKKKKKKKKKC ", " CKKKKKKKKKKKC ", " CKKKKKKKKKKKC ", " CKKKKKKKKKKKC ", "ACCKKKKKKKKKCCA", "AACCCCCCCCCCCAA", " AA         AA ")
@@ -92,6 +103,68 @@ public interface ExResearchMachines {
             .workableCasingRenderer(GTCEu.id("block/casings/hpca/computer_casing/back"), GTCEu.id("block/multiblock/large_miner"))
             .register();
 
+    /*
+     * (数据访问仓的注册方法绑定数据库,希望添加新的数据中心。
+     * 希望在重写createImportItemHandler时，检查物品是否是数据项并且带有研究标签的时候，增加不同等级数据访问仓放入物品种类的检查)
+     *
+     *
+     * MultiblockMachineDefinition DATA_CENTER = multiblock("data_center", "数据中心", DataCenterMachine::new)
+     * .nonYAxisRotation()
+     * .recipe(GTRecipeTypes.DUMMY_RECIPES)
+     * .appearanceBlock(COMPUTER_CASING)
+     * .tooltips(Component.translatable("gtceu.machine.data_bank.tooltip.0"),
+     * Component.translatable("gtceu.machine.data_bank.tooltip.1"),
+     * Component.translatable("gtceu.machine.data_bank.tooltip.2"),
+     * Component.translatable("gtceu.machine.data_bank.tooltip.3",
+     * FormattingUtil.formatNumbers(DataBankMachine.EUT_PER_HATCH)),
+     * Component.translatable("gtceu.machine.data_bank.tooltip.4",
+     * FormattingUtil.formatNumbers(DataBankMachine.EUT_PER_HATCH_CHAINED)))
+     * .pattern(definition -> FactoryBlockPattern.start()
+     * .aisle("  AAAAAAAAAAA  ", " AA         AA ", "AA           AA", "A             A", "A             A",
+     * "A             A", "A             A", "AA           AA", " AA         AA ", "  AAAAAAAAAAA  ")
+     * .aisle(" AAABBBBBBBAAA ", "AACCCCCCCCCCCAA", "ACCKKKKKKKKKCCA", " CKKKKKKKKKKKC ", " CKKKKKKKKKKKC ",
+     * " CKKKKKKKKKKKC ", " CKKKKKKKKKKKC ", "ACCKKKKKKKKKCCA", "AACCCCCCCCCCCAA", " AA         AA ")
+     * .aisle("AAABBBBBBBBBAAA", "ACC         CCA", " C           C ", " K           K ", " K           K ",
+     * " K           K ", " K           K ", " C           C ", "ACCKKKKKKKKKCCA", "AA           AA")
+     * .aisle("AABBBBBBBBBBBAA", " C  CC   CC  C ", " K  CC   CC  K ", " K  CC   CC  K ", " K  CC   CC  K ",
+     * " K  CC   CC  K ", " K  CC   CC  K ", " K  CC   CC  K ", " CKKKKKKKKKKKC ", "A             A")
+     * .aisle("ABBBBBBBBBBBBBA", " C  CC   CC  C ", " K  DE   ED  K ", " K  DE   ED  K ", " K  DE   ED  K ",
+     * " K  DE   ED  K ", " K  DE   ED  K ", " K  CC   CC  K ", " CKKKKKKKKKKKC ", "A             A")
+     * .aisle("ABBBBBBBBBBBBBA", " C  CC   CC  C ", " K  DE   ED  K ", " K  DE   ED  K ", " K  DE   ED  K ",
+     * " K  DE   ED  K ", " K  DE   ED  K ", " K  CC   CC  K ", " CKKKKKKKKKKKC ", "A             A")
+     * .aisle("ABBBBBBBBBBBBBA", " C  CC   CC  C ", " K  DE   ED  K ", " K  DE   ED  K ", " K  DE   ED  K ",
+     * " K  DE   ED  K ", " K  DE   ED  K ", " K  CC   CC  K ", " CKKKKKKKKKKKC ", "A             A")
+     * .aisle("ABBBBBBBBBBBBBA", " C  CC   CC  C ", " K  DE   ED  K ", " K  DE   ED  K ", " K  DE   ED  K ",
+     * " K  DE   ED  K ", " K  DE   ED  K ", " K  CC   CC  K ", " CKKKKKKKKKKKC ", "A             A")
+     * .aisle("ABBBBBBBBBBBBBA", " C  CC   CC  C ", " K  DE   ED  K ", " K  DE   ED  K ", " K  DE   ED  K ",
+     * " K  DE   ED  K ", " K  DE   ED  K ", " K  CC   CC  K ", " CKKKKKKKKKKKC ", "A             A")
+     * .aisle("AABBBBBBBBBBBAA", " C  CC   CC  C ", " K  CC   CC  K ", " K  CC   CC  K ", " K  CC   CC  K ",
+     * " K  CC   CC  K ", " K  CC   CC  K ", " K  CC   CC  K ", " CKKKKKKKKKKKC ", "A             A")
+     * .aisle("AAABBBBBBBBBAAA", "ACC         CCA", " C           C ", " K           K ", " K           K ",
+     * " K           K ", " K           K ", " C           C ", "ACCKKKKKKKKKCCA", "AA           AA")
+     * .aisle(" AAABBBBBBBAAA ", "AACCCCCCCCCCCAA", "ACCKKKKKKKKKCCA", " CKKKVVVVVKKKC ", " CKKVVV~VVVKKC ",
+     * " CKKKVVVVVKKKC ", " CKKKKKKKKKKKC ", "ACCKKKKKKKKKCCA", "AACCCCCCCCCCCAA", " AA         AA ")
+     * .aisle("  AAAAAAAAAAA  ", " AA         AA ", "AA           AA", "A             A", "A             A",
+     * "A             A", "A             A", "AA           AA", " AA         AA ", "  AAAAAAAAAAA  ")
+     * .where('A', blocks(GTBlocks.ADVANCED_COMPUTER_CASING.get()))
+     * .where('B', blocks(GTBlocks.HIGH_POWER_CASING.get())
+     * .or(abilities(OPTICAL_DATA_TRANSMISSION)))
+     * .where('~', controller(blocks(definition.get())))
+     * .where(' ', any())
+     * .where('V', blocks(GTBlocks.COMPUTER_CASING.get())
+     * .or(abilities(INPUT_ENERGY).setMaxGlobalLimited(2))
+     * .or(abilities(OPTICAL_DATA_TRANSMISSION))
+     * .or(abilities(MAINTENANCE).setExactLimit(1)))
+     * .where('C', GTOPredicates.tierBlock(BlockMap.COMPUTER_CASING_MAP, GTOValues.COMPUTER_CASING_TIER))
+     * .where('K', GTOPredicates.glass())
+     * .where('E', abilities(GTOPartAbility.ExDATA_ACCESS))
+     * .where('D', GTOPredicates.tierBlock(BlockMap.COMPUTER_HEAT_MAP, GTOValues.COMPUTER_HEAT_TIER))
+     * .build())
+     * .workableCasingRenderer(GTCEu.id("block/casings/hpca/high_power_casing"), GTCEu.id("block/multiblock/data_bank"))
+     * .register();
+     * 
+     */
+
     MachineDefinition NICH_EMPTY_COMPONENT = registerHPCAPart(
             "nich_empty_component", "空NICH组件",
             ExResearchEmptyPartMachine::new, false, false, 3)
@@ -101,7 +174,7 @@ public interface ExResearchMachines {
             "nich_computing_components", "NICH计算组件",
             holder -> new ExResearchComputationPartMachine(holder, 3), true, true, 3)
             .tooltips(
-                    Component.translatable("gtceu.machine.hpca.component_general.upkeep_eut", GTValues.VA[GTValues.ZPM]),
+                    Component.translatable("gtceu.machine.hpca.component_general.upkeep_eut", GTValues.VA[ZPM]),
                     Component.translatable("gtceu.machine.hpca.component_general.max_eut", GTValues.VA[GTValues.UHV]),
                     Component.translatable("gtceu.machine.hpca.component_type.computation_cwut", 64),
                     Component.translatable("gtceu.machine.hpca.component_type.computation_cooling", 16))
@@ -116,6 +189,13 @@ public interface ExResearchMachines {
                     Component.translatable("gtceu.machine.hpca.component_type.cooler_active_coolant",
                             80, GTMaterials.Helium.getLocalizedName()),
                     Component.translatable("gtceu.machine.hpca.component_type.cooler_cooling", 8))
+            .register();
+
+    MachineDefinition NICH_BRIDGE_COMPONENT = registerHPCAPart(
+            "nich_bridge_component", "NICH桥接组件",
+            holder -> new ExResearchBridgePartMachine(holder, 3), true, false, 3)
+            .tooltips(Component.translatable("gtceu.machine.hpca.component_type.bridge"),
+                    Component.translatable("gtceu.machine.hpca.component_general.max_eut", GTValues.VA[GTValues.UHV]))
             .register();
 
     MachineDefinition GWCA_EMPTY_COMPONENT = registerHPCAPart(
@@ -142,6 +222,36 @@ public interface ExResearchMachines {
                     Component.translatable("gtceu.machine.hpca.component_type.cooler_active_coolant",
                             320, GTMaterials.Helium.getLocalizedName()),
                     Component.translatable("gtceu.machine.hpca.component_type.cooler_cooling", 64))
+            .register();
+
+    MachineDefinition BIO_DATA_ACCESS_HATCH = machine("bio_data_access_hatch", "生物数据访问仓", (holder) -> new DataAccessHatchMachine(holder, UHV, false))
+            .tier(UHV)
+            .rotationState(RotationState.ALL)
+            .abilities(GTOPartAbility.ExDATA_ACCESS)
+            .tooltips(Component.translatable("gtceu.machine.data_access_hatch.tooltip.0"),
+                    Component.translatable("gtceu.machine.data_access_hatch.tooltip.1", 25),
+                    Component.translatable("gtceu.universal.disabled"))
+            .renderer(() -> new OverlayTieredMachineRenderer(UHV, GTCEu.id("block/machine/part/data_access_hatch")))
+            .register();
+
+    MachineDefinition BLACK_HOLE_DATA_ACCESS_HATCH = machine("black_hole_data_access_hatch", "黑洞数据访问仓", (holder) -> new DataAccessHatchMachine(holder, UIV, false))
+            .tier(UIV)
+            .rotationState(RotationState.ALL)
+            .abilities(GTOPartAbility.ExDATA_ACCESS)
+            .tooltips(Component.translatable("gtceu.machine.data_access_hatch.tooltip.0"),
+                    Component.translatable("gtceu.machine.data_access_hatch.tooltip.1", 36),
+                    Component.translatable("gtceu.universal.disabled"))
+            .renderer(() -> new OverlayTieredMachineRenderer(UIV, GTCEu.id("block/machine/part/data_access_hatch")))
+            .register();
+
+    MachineDefinition VIRTUAL_UNIVERSE_DATA_ACCESS_HATCH = machine("virtual_universe_data_access_hatch", "虚拟宇宙数据访问仓", (holder) -> new DataAccessHatchMachine(holder, OpV, false))
+            .tier(OpV)
+            .rotationState(RotationState.ALL)
+            .abilities(GTOPartAbility.ExDATA_ACCESS)
+            .tooltips(Component.translatable("gtceu.machine.data_access_hatch.tooltip.0"),
+                    Component.translatable("gtceu.machine.data_access_hatch.tooltip.1", 64),
+                    Component.translatable("gtceu.universal.disabled"))
+            .renderer(() -> new OverlayTieredMachineRenderer(OpV, GTCEu.id("block/machine/part/data_access_hatch")))
             .register();
 
     private static GTOMachineBuilder registerHPCAPart(String name, String cn,
