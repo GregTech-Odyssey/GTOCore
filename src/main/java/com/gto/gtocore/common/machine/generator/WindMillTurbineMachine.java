@@ -1,7 +1,6 @@
 package com.gto.gtocore.common.machine.generator;
 
 import com.gto.gtocore.api.data.GTODimensions;
-import com.gto.gtocore.client.ClientUtil;
 import com.gto.gtocore.common.item.KineticRotorItem;
 import com.gto.gtocore.common.machine.multiblock.part.BallHatchPartMachine;
 
@@ -30,6 +29,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
@@ -58,6 +59,7 @@ public final class WindMillTurbineMachine extends TieredEnergyMachine implements
     @DescSynced
     private float spinSpeed;
 
+    @Getter
     private float bladeAngle;
 
     @Getter
@@ -111,9 +113,10 @@ public final class WindMillTurbineMachine extends TieredEnergyMachine implements
         }
     }
 
-    public float getBladeAngle() {
-        if (ClientUtil.synchronizedTick()) bladeAngle += spinSpeed;
-        return bladeAngle;
+    @OnlyIn(Dist.CLIENT)
+    public void clientTick() {
+        super.clientTick();
+        bladeAngle += spinSpeed;
     }
 
     private void checkEnergy() {

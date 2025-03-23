@@ -345,6 +345,7 @@ public interface NewResearchSystem {
             for (int n = 1; n <= 3; n++) {
                 int m = (int) Math.pow(4, n - 1);
                 DRAWING_RECIPES.recipeBuilder("drawing_simple_fiber_optic_" + n)
+                        .circuitMeta(1)
                         .inputItems(MultiStepItemHelper.locateStep(stack1, 4))
                         .outputItems(SIMPLE_FIBER_OPTIC_ROUGH, m << 6)
                         .addData("spool", n)
@@ -356,6 +357,7 @@ public interface NewResearchSystem {
             for (int n = 4; n <= 5; n++) {
                 int m = (int) Math.pow(4, n - 1);
                 DRAWING_RECIPES.recipeBuilder("drawing_simple_fiber_optic_" + n)
+                        .circuitMeta(2)
                         .inputItems(MultiStepItemHelper.locateStep(stack1, 4))
                         .outputItems(SIMPLE_FIBER_OPTIC_ROUGH, m << 6)
                         .addData("spool", n)

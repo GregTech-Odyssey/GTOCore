@@ -3718,5 +3718,15 @@ interface Assembler {
                 .outputItems(new ItemStack(Items.BUCKET))
                 .duration(100).EUt(4)
                 .save();
+
+        ASSEMBLER_RECIPES.builder("catalyst_base")
+                .inputItems(TagPrefix.plateDense, GTMaterials.Steel)
+                .inputItems(TagPrefix.bolt, GTMaterials.Steel, 16)
+                .inputItems(TagPrefix.foil, GTMaterials.Steel, 8)
+                .outputItems(GTOItems.CATALYST_BASE.asItem())
+                .inputFluids(GTMaterials.StainlessSteel.getFluid(576))
+                .EUt(120)
+                .duration(400)
+                .save();
     }
 }

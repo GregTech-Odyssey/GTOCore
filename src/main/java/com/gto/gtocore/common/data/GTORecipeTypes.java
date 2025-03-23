@@ -812,7 +812,7 @@ public interface GTORecipeTypes {
     GTORecipeType DRAWING_RECIPES = register("drawing", "拉丝", MULTIBLOCK)
             .setEUIO(IO.IN)
             .setMaxTooltips(5)
-            .setMaxIOSize(1, 1, 0, 0)
+            .setMaxIOSize(2, 1, 0, 0)
             .setProgressBar(GuiTextures.PROGRESS_BAR_WIREMILL, LEFT_TO_RIGHT)
             .addDataInfo(TEMPERATURE)
             .addDataInfo(COIL)

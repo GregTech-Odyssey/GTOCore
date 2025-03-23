@@ -1,10 +1,10 @@
-package com.gto.gtocore.api.item;
+package com.gto.gtocore.api.fluid;
 
 import net.minecraft.resources.ResourceLocation;
 
 import org.jetbrains.annotations.NotNull;
 
-public interface IItem {
+public interface IFluid {
 
     @NotNull
     ResourceLocation gtocore$getIdLocation();

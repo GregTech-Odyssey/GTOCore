@@ -1635,6 +1635,8 @@
   "gtocore.machine.laser.tooltip": "允许使用激光仓",
   "gtocore.machine.lava_furnace.tooltip.0": "每提供一个任意类型的圆石或石头可输出1B熔岩",
   "gtocore.machine.leap_forward_one_blast_furnace.tooltip.0": "我们走在大路上！",
+  "gtocore.machine.leap_forward_one_blast_furnace.tooltip.1": "按连续运行时间，下次配方获得max(0.01, 20/(运行时间^0.5))的时间减免",
+  "gtocore.machine.leap_forward_one_blast_furnace.tooltip.2": "根据搭建高度获得并行，最大并行数：高度x2",
   "gtocore.machine.lightning_rod.tooltip.0": "上方避雷针被雷击后产生大量能量",
   "gtocore.machine.lightning_rod.tooltip.1": "每0.5秒只能产生一次能量，且有一定几率破坏上方避雷针",
   "gtocore.machine.lightning_rod.tooltip.2": "如果存储能量已满，机器将会爆炸",

@@ -1514,6 +1514,8 @@ public interface MultiBlockA {
     MultiblockMachineDefinition LEAP_FORWARD_ONE_BLAST_FURNACE = multiblock("leap_forward_one_blast_furnace", "跃进一号高炉", AdvancedPrimitiveBlastFurnaceMachine::new)
             .nonYAxisRotation()
             .tooltipsText("We're on the road!", "我们走在大路上！")
+            .tooltipsText("According to the continuous running time, the next recipe obtains a duration reduction of max(0.01, 20/(running time^0.5)).", "按连续运行时间，下次配方获得max(0.01, 20/(运行时间^0.5))的时间减免")
+            .tooltipsText("Based on the construction height, the parallelism is obtained, with a maximum parallelism of: 1 + height * 2", "根据搭建高度获得并行，最大并行数：高度x2")
             .recipe(GTRecipeTypes.PRIMITIVE_BLAST_FURNACE_RECIPES)
             .alwaysTryModifyRecipe(true)
             .block(GTBlocks.CASING_PRIMITIVE_BRICKS)

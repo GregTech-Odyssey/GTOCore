@@ -1635,6 +1635,8 @@
   "gtocore.machine.laser.tooltip": "Allows the use of laser chambers",
   "gtocore.machine.lava_furnace.tooltip.0": "Each provided piece of any type of cobblestone or stone can output 1B of lava.",
   "gtocore.machine.leap_forward_one_blast_furnace.tooltip.0": "We're on the road!",
+  "gtocore.machine.leap_forward_one_blast_furnace.tooltip.1": "According to the continuous running time, the next recipe obtains a duration reduction of max(0.01, 20/(running time^0.5)).",
+  "gtocore.machine.leap_forward_one_blast_furnace.tooltip.2": "Based on the construction height, the parallelism is obtained, with a maximum parallelism of: 1 + height * 2",
   "gtocore.machine.lightning_rod.tooltip.0": "Large amounts of energy are generated after the lightning rod above is struck",
   "gtocore.machine.lightning_rod.tooltip.1": "Can only generate energy once every 0.5 seconds, with a chance to damage the lightning rod above",
   "gtocore.machine.lightning_rod.tooltip.2": "If the stored energy is full, the machine will explode",

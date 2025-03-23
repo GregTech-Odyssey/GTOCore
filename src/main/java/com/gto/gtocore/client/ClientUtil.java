@@ -2,8 +2,6 @@ package com.gto.gtocore.client;
 
 import com.gto.gtocore.client.forge.ForgeClientEvent;
 
-import com.gregtechceu.gtceu.api.GTValues;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.player.LocalPlayer;
@@ -27,14 +25,6 @@ import com.mojang.blaze3d.vertex.PoseStack;
 
 @OnlyIn(Dist.CLIENT)
 public final class ClientUtil {
-
-    private static long TIME;
-
-    public static boolean synchronizedTick() {
-        boolean synchronize = GTValues.CLIENT_TIME != TIME;
-        TIME = GTValues.CLIENT_TIME;
-        return synchronize;
-    }
 
     public static void highlighting(BlockPos pos, int radius) {
         if (pos == null) return;

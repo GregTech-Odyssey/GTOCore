@@ -54,7 +54,7 @@ public final class GTOConfig {
         ConfigHolder.INSTANCE.recipes.hardDyeRecipes = difficulty > 1;
         ConfigHolder.INSTANCE.recipes.harderCharcoalRecipe = difficulty > 1;
         ConfigHolder.INSTANCE.recipes.flintAndSteelRequireSteel = difficulty > 1;
-        ConfigHolder.INSTANCE.recipes.removeVanillaBlockRecipes = difficulty > 2;
+        ConfigHolder.INSTANCE.recipes.removeVanillaBlockRecipes = difficulty > 1;
         ConfigHolder.INSTANCE.recipes.removeVanillaTNTRecipe = difficulty > 1;
         ConfigHolder.INSTANCE.recipes.casingsPerCraft = Math.max(1, 3 - difficulty);
         ConfigHolder.INSTANCE.recipes.harderCircuitRecipes = difficulty > 1;

@@ -48,15 +48,15 @@ public final class ItemUtils {
     }
 
     public static String getId(Block block) {
-        return ((IItem) block.asItem()).gtocore$getId();
+        return getIdLocation(block.asItem()).toString();
     }
 
     public static String getId(ItemStack item) {
-        return ((IItem) item.getItem()).gtocore$getId();
+        return getIdLocation(item.getItem()).toString();
     }
 
     public static String getId(Item item) {
-        return ((IItem) item).gtocore$getId();
+        return getIdLocation(item).toString();
     }
 
     public static ResourceLocation getIdLocation(Block block) {

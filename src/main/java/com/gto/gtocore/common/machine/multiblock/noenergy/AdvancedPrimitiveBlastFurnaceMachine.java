@@ -51,7 +51,7 @@ public final class AdvancedPrimitiveBlastFurnaceMachine extends NoEnergyCustomPa
     private double duration = 1;
 
     public AdvancedPrimitiveBlastFurnaceMachine(IMachineBlockEntity holder) {
-        super(holder, false, m -> ((AdvancedPrimitiveBlastFurnaceMachine) m).height + 1);
+        super(holder, false, m -> ((AdvancedPrimitiveBlastFurnaceMachine) m).height << 1);
     }
 
     @Override
@@ -84,11 +84,17 @@ public final class AdvancedPrimitiveBlastFurnaceMachine extends NoEnergyCustomPa
 
     @Override
     protected GTRecipe getRealRecipe(GTRecipe recipe) {
-        double dm = Math.max(0.1, Math.min(1, 20 / Math.sqrt(getRecipeLogic().getTotalContinuousRunningTime())));
+        double dm = Math.max(0.01, Math.min(1, 20 / Math.sqrt(getRecipeLogic().getTotalContinuousRunningTime())));
         duration = dm;
         recipe = GTORecipeModifiers.accurateParallel(this, recipe, getParallel());
         recipe.duration = (int) (recipe.duration * dm);
         return recipe;
+    }
+
+    @Override
+    public void afterWorking() {
+        super.afterWorking();
+        duration = 1;
     }
 
     @Override

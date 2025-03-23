@@ -156,7 +156,7 @@ public class CrossRecipeMultiblockMachine extends ElectricMultiblockMachine impl
                 if (recipe != null) return recipe;
             }
         } else {
-            Iterator<GTRecipe> iterator = getRecipeType().getLookup().getRecipeIterator(this, recipe -> !recipe.isFuel && RecipeRunner.matchRecipe(this, recipe) && RecipeRunner.matchTickRecipe(this, recipe));
+            Iterator<GTRecipe> iterator = getRecipeType().getLookup().getRecipeIterator(this, recipe -> !recipe.isFuel && RecipeRunner.matchRecipe(this, recipe));
             while (iterator.hasNext()) {
                 GTRecipe recipe = checkRecipe(iterator.next());
                 if (recipe != null) {

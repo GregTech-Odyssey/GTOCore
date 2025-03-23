@@ -567,6 +567,7 @@ interface ReactionFurnace {
                 .save();
 
         REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("tellurium_oxide_dust"))
+                .circuitMeta(2)
                 .inputItems(TagPrefix.dust, GTMaterials.Tellurium)
                 .inputFluids(GTMaterials.Oxygen.getFluid(2000))
                 .outputItems(TagPrefix.dust, GTOMaterials.TelluriumOxide, 3)
@@ -642,6 +643,7 @@ interface ReactionFurnace {
                 .save();
 
         REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("tellurate_ceramics_dust"))
+                .circuitMeta(3)
                 .inputItems(TagPrefix.dust, GTMaterials.Tellurium)
                 .inputFluids(GTMaterials.Oxygen.getFluid(3000))
                 .outputItems(TagPrefix.dust, GTOMaterials.TellurateCeramics)

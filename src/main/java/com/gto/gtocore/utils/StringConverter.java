@@ -20,7 +20,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.registries.ForgeRegistries;
 
 public final class StringConverter {
 
@@ -100,7 +99,7 @@ public final class StringConverter {
     public static String fromFluid(FluidIngredient ingredient) {
         if (ingredient.isEmpty() || ingredient.getStacks().length < 1) return null;
         FluidStack stack = ingredient.getStacks()[0];
-        ResourceLocation resourceLocation = ForgeRegistries.FLUIDS.getKey(stack.getFluid());
+        ResourceLocation resourceLocation = FluidUtils.getIdLocation(stack.getFluid());
         if (resourceLocation == null) return null;
         boolean plasma = false;
         boolean liquid = false;
