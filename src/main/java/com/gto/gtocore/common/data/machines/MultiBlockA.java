@@ -1286,7 +1286,7 @@ public interface MultiBlockA {
                             .or(abilities(STEAM_IMPORT_ITEMS).setMaxGlobalLimited(1).setPreviewCount(1))
                             .or(abilities(STEAM_EXPORT_ITEMS).setMaxGlobalLimited(1).setPreviewCount(1))
                             .or(abilities(EXPORT_FLUIDS).setMaxGlobalLimited(4).setPreviewCount(1))
-                            .or(abilities(IMPORT_FLUIDS).setMaxGlobalLimited(1).setPreviewCount(1))
+                            .or(abilities(IMPORT_FLUIDS).setMaxGlobalLimited(2).setPreviewCount(1))
                             .or(abilities(IMPORT_ITEMS).setMaxGlobalLimited(1))
                             .or(abilities(EXPORT_ITEMS).setMaxGlobalLimited(4)))
                     .where('C', blocks(GTBlocks.CASING_BRONZE_PIPE.get()))

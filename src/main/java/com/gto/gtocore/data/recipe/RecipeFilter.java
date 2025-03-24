@@ -333,6 +333,12 @@ public interface RecipeFilter {
         filters.add(new ResourceLocation("mythicbotany", "alfsteel_nugget_compress"));
         filters.add(new ResourceLocation("mythicbotany", "alfsteel_ingot_compress"));
         filters.add(new ResourceLocation("mythicbotany", "alfsteel_ingot_decompress"));
+        filters.add(new ResourceLocation("mythicbotany", "smelting/elementium_ingot"));
+        filters.add(new ResourceLocation("mythicbotany", "blasting/elementium_ingot"));
+        filters.add(new ResourceLocation("mythicbotany", "smelting/dragonstone"));
+        filters.add(new ResourceLocation("mythicbotany", "blasting/dragonstone"));
+        filters.add(new ResourceLocation("mythicbotany", "smelting/elementium_ingot"));
+        filters.add(new ResourceLocation("mythicbotany", "blasting/elementium_ingot"));
         filters.add(RLUtils.bot("mana_infusion/mana_diamond_block"));
         filters.add(RLUtils.bot("mana_infusion/manasteel_block"));
         filters.add(RLUtils.bot("conversions/manasteel_block_deconstruct"));

@@ -6,14 +6,6 @@ import org.jetbrains.annotations.NotNull;
 
 public interface IMEOutputMachine {
 
-    default boolean gTOCore$isItemOutput() {
-        return false;
-    }
-
-    default boolean gTOCore$isFluidOutput() {
-        return false;
-    }
-
     default boolean gTOCore$DualMEOutput(@NotNull GTRecipe recipe) {
         return false;
     }

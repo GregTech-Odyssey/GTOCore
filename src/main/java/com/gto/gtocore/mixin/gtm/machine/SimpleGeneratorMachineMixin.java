@@ -2,6 +2,7 @@ package com.gto.gtocore.mixin.gtm.machine;
 
 import com.gto.gtocore.common.machine.multiblock.generator.GeneratorArrayMachine;
 
+import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.SimpleGeneratorMachine;
 import com.gregtechceu.gtceu.api.machine.WorkableTieredMachine;
@@ -24,5 +25,10 @@ public class SimpleGeneratorMachineMixin extends WorkableTieredMachine {
     @Overwrite(remap = false)
     protected long getMaxInputOutputAmperage() {
         return GeneratorArrayMachine.getAmperage(getTier());
+    }
+
+    @Override
+    public long getOverclockVoltage() {
+        return GTValues.V[getTier()] * getMaxInputOutputAmperage();
     }
 }

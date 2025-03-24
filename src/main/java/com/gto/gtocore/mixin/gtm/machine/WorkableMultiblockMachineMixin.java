@@ -6,6 +6,7 @@ import com.gto.gtocore.api.machine.feature.multiblock.IMEOutputMachine;
 
 import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
 import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
+import com.gregtechceu.gtceu.api.capability.recipe.RecipeCapability;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IWorkableMultiController;
@@ -76,6 +77,16 @@ public abstract class WorkableMultiblockMachineMixin extends MultiblockControlle
     }
 
     @Override
+    public boolean canVoidRecipeOutputs(RecipeCapability<?> capability) {
+        if (capability == ItemRecipeCapability.CAP && gTOCore$isItemOutput) {
+            return true;
+        } else if (capability == FluidRecipeCapability.CAP && gTOCore$isFluidOutput) {
+            return true;
+        }
+        return self().getDefinition().getRecipeOutputLimits().containsKey(capability);
+    }
+
+    @Override
     public void saveCustomPersistedData(@NotNull CompoundTag tag, boolean forDrop) {
         super.saveCustomPersistedData(tag, forDrop);
         tag.putBoolean("isGrid", gTOCore$isGrid);
@@ -131,16 +142,7 @@ public abstract class WorkableMultiblockMachineMixin extends MultiblockControlle
     private void onStructureInvalid(CallbackInfo ci) {
         gTOCore$isItemOutput = false;
         gTOCore$isFluidOutput = false;
-    }
-
-    @Override
-    public boolean gTOCore$isItemOutput() {
-        return gTOCore$isItemOutput;
-    }
-
-    @Override
-    public boolean gTOCore$isFluidOutput() {
-        return gTOCore$isFluidOutput;
+        gTOCore$isDualOutput = false;
     }
 
     @Override

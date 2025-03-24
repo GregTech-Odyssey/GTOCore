@@ -216,8 +216,8 @@ public final class GeneratorArrayMachine extends StorageMultiblockMachine implem
                 GTRecipe paraRecipe = recipe.copy(ContentModifier.multiplier(multipliers), false);
                 paraRecipe.duration = paraRecipe.duration * getEfficiency(getRecipeType(), getTier()) / 100;
                 if (isw) {
-                    eut = RecipeHelper.getOutputEUt(paraRecipe) * 9 / 10;
                     paraRecipe.tickOutputs.remove(EURecipeCapability.CAP);
+                    eut = EUt * multipliers;
                 }
                 return paraRecipe;
             }

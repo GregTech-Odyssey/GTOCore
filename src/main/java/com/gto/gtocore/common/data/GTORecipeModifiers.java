@@ -52,7 +52,7 @@ public interface GTORecipeModifiers {
             return recipe -> {
                 var EUt = RecipeHelper.getOutputEUt(recipe);
                 if (EUt > 0) {
-                    recipe = accurateParallel(machine, recipe, (int) ((GTValues.V[generator.getTier()] * GeneratorArrayMachine.getAmperage(generator.getTier())) / EUt));
+                    recipe = accurateParallel(machine, recipe, (int) (generator.getOverclockVoltage() / EUt));
                     recipe.duration = recipe.duration * GeneratorArrayMachine.getEfficiency(generator.getRecipeType(), generator.getTier()) / 100;
                     if (recipe.duration < 1) return null;
                     return recipe;
