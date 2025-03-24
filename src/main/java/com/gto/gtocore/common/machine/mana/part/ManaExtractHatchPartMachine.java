@@ -1,7 +1,10 @@
 package com.gto.gtocore.common.machine.mana.part;
 
+import com.gto.gtocore.api.machine.mana.feature.IManaMachine;
+
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.utils.GTMath;
 
 import vazkii.botania.api.mana.ManaPool;
 import vazkii.botania.api.mana.ManaReceiver;
@@ -25,10 +28,10 @@ public final class ManaExtractHatchPartMachine extends ManaHatchPartMachine {
     protected void tickUpdate() {
         if (getOffsetTimer() % 20 != 0 || isFull()) return;
         ManaReceiver receiver = XplatAbstractions.INSTANCE.findManaReceiver(getLevel(), getPos().relative(getFrontFacing()), null);
-        if (receiver instanceof ManaPool pool) {
-            int change = getManaContainer().addMana(pool.getCurrentMana(), 20);
+        if (receiver instanceof ManaPool || receiver instanceof IManaMachine) {
+            int change = GTMath.saturatedCast(getManaContainer().addMana(receiver.getCurrentMana(), 20));
             if (change <= 0) return;
-            pool.receiveMana(-change);
+            receiver.receiveMana(-change);
         }
     }
 }

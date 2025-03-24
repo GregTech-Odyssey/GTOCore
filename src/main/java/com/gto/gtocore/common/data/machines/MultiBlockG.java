@@ -35,6 +35,8 @@ import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTMachines;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
+import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
+import com.gregtechceu.gtceu.common.machine.multiblock.primitive.CokeOvenMachine;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.Blocks;
@@ -48,6 +50,8 @@ import earth.terrarium.adastra.common.registry.ModBlocks;
 import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.api.machine.multiblock.PartAbility.*;
 import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
+import static com.gregtechceu.gtceu.common.data.GTBlocks.CASING_COKE_BRICKS;
+import static com.gregtechceu.gtceu.common.data.GTMachines.COKE_OVEN_HATCH;
 import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.DUMMY_RECIPES;
 import static com.gto.gtocore.utils.register.MachineRegisterUtils.multiblock;
 import static com.gto.gtocore.utils.register.MachineRegisterUtils.registerTieredMultis;
@@ -70,6 +74,26 @@ public interface MultiBlockG {
             .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_clean_stainless_steel"),
                     GTCEu.id("block/multiblock/multi_furnace"))
             .register() : null;
+
+    MultiblockMachineDefinition LARGE_COKE_OVEN = multiblock("large_coke_oven", "大型焦炉", CokeOvenMachine::new)
+            .nonYAxisRotation()
+            .tooltipsKey("gtceu.universal.tooltip.parallel", 16)
+            .recipeModifiers(GTORecipeModifiers.accurateParallel(16))
+            .recipe(GTRecipeTypes.COKE_OVEN_RECIPES)
+            .block(GTBlocks.CASING_COKE_BRICKS)
+            .pattern(definition -> FactoryBlockPattern.start()
+                    .aisle("AAAAA", " AAA ", " AAA ", " AAA ")
+                    .aisle("AAAAA", "AA AA", "AA AA", "AAAAA")
+                    .aisle("AAAAA", "AA AA", "A   A", "AAAAA")
+                    .aisle("AAAAA", "AA AA", "A   A", "AAAAA")
+                    .aisle("AAAAA", "AA AA", "AA AA", "AAAAA")
+                    .aisle("AAAAA", " AAA ", " ABA ", " AAA ")
+                    .where('A', blocks(CASING_COKE_BRICKS.get()).or(blocks(COKE_OVEN_HATCH.get()).setMaxGlobalLimited(5)))
+                    .where('B', controller(blocks(definition.get())))
+                    .where(' ', air())
+                    .build())
+            .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_coke_bricks"), GTCEu.id("block/multiblock/coke_oven"))
+            .register();
 
     MultiblockMachineDefinition CRYSTALLIZATION_CHAMBER = multiblock("crystallization_chamber", "结晶器", CoilMultiblockMachine.createCoilMachine(false, true))
             .nonYAxisRotation()

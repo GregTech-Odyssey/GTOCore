@@ -41,10 +41,12 @@ public final class ManaRecipeCapability extends RecipeCapability<Integer> {
 
     @Override
     public void addXEIInfo(WidgetGroup group, int xOffset, GTRecipe recipe, List<Content> contents, boolean perTick, boolean isInput, MutableInt yOffset) {
+        int mana = contents.stream().map(Content::getContent).mapToInt(CAP::of).sum();
+        group.addWidget(new LabelWidget(3 - xOffset, yOffset.addAndGet(10),
+                LocalizationUtils.format(isInput ? "gtocore.machine.mana_input" : "gtocore.machine.mana_output", mana) + (perTick ? " /t" : "")));
         if (perTick) {
-            int mana = contents.stream().map(Content::getContent).mapToInt(CAP::of).sum();
             group.addWidget(new LabelWidget(3 - xOffset, yOffset.addAndGet(10),
-                    LocalizationUtils.format(isInput ? "gtocore.recipe.nama_in" : "gtocore.recipe.nama_out", mana)));
+                    LocalizationUtils.format("gtocore.machine.mana_stored", mana * recipe.duration)));
         }
     }
 

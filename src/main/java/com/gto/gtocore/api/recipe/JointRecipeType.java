@@ -35,22 +35,54 @@ public final class JointRecipeType extends GTORecipeType {
     }
 
     @Override
-    public Iterator<GTRecipe> searchRecipe(IRecipeCapabilityHolder holder) {
-        for (GTRecipeType type : types) {
-            Iterator<GTRecipe> result = type.searchRecipe(holder);
-            if (result != null && result.hasNext()) {
-                return result;
-            }
-        }
-        return null;
+    public Iterator<GTRecipe> searchRecipe(IRecipeCapabilityHolder holder, boolean tick) {
+        if (!holder.hasProxies()) return null;
+        return new JointSearchRecipeIterator(holder, this, tick);
     }
 
     @Override
     public Set<GTRecipeCategory> getCategories() {
-        Set<GTRecipeCategory> categories = new ObjectOpenHashSet<>();
+        Set<GTRecipeCategory> categories = new ObjectOpenHashSet<>(types.length);
         for (GTRecipeType type : types) {
             categories.addAll(type.getCategories());
         }
         return Collections.unmodifiableSet(categories);
+    }
+
+    private static class JointSearchRecipeIterator extends SearchRecipeIterator {
+
+        private final RecipeIterator[] recipeIterators;
+
+        private JointSearchRecipeIterator(IRecipeCapabilityHolder holder, JointRecipeType recipeType, boolean tick) {
+            super(holder, recipeType, tick);
+            recipeIterators = new RecipeIterator[recipeType.types.length];
+            for (int i = 0; i < recipeType.types.length; i++) {
+                recipeIterators[i] = new RecipeIterator(recipeType.types[i], ingredients, canHandle);
+            }
+        }
+
+        @Override
+        RecipeIterator createRecipeIterator() {
+            return null;
+        }
+
+        @Override
+        public GTRecipe next() {
+            for (RecipeIterator recipeIterator : recipeIterators) {
+                while (recipeIterator.hasNext()) {
+                    GTRecipe recipe = recipeIterator.next();
+                    if (recipe == null) continue;
+                    return recipe;
+                }
+            }
+            for (GTRecipeType type : ((JointRecipeType) recipeType).types) {
+                for (GTRecipeType.ICustomRecipeLogic logic : type.getCustomRecipeLogicRunners()) {
+                    GTRecipe recipe = logic.createCustomRecipe(holder);
+                    if (recipe != null) return recipe;
+                }
+            }
+            hasNext = false;
+            return null;
+        }
     }
 }

@@ -10,6 +10,7 @@ import com.gto.gtocore.api.machine.trait.CustomParallelTrait;
 import com.gto.gtocore.api.machine.trait.CustomRecipeLogic;
 import com.gto.gtocore.api.recipe.AsyncRecipeOutputTask;
 import com.gto.gtocore.api.recipe.GTORecipeBuilder;
+import com.gto.gtocore.api.recipe.GTORecipeType;
 import com.gto.gtocore.api.recipe.RecipeRunner;
 import com.gto.gtocore.common.data.GTORecipeModifiers;
 import com.gto.gtocore.common.machine.multiblock.part.ThreadHatchPartMachine;
@@ -27,7 +28,6 @@ import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
-import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 
@@ -156,17 +156,13 @@ public class CrossRecipeMultiblockMachine extends ElectricMultiblockMachine impl
                 if (recipe != null) return recipe;
             }
         } else {
-            Iterator<GTRecipe> iterator = getRecipeType().getLookup().getRecipeIterator(this, recipe -> !recipe.isFuel && RecipeRunner.matchRecipe(this, recipe));
-            while (iterator.hasNext()) {
-                GTRecipe recipe = checkRecipe(iterator.next());
-                if (recipe != null) {
-                    return recipe;
-                }
-            }
-            for (GTRecipeType.ICustomRecipeLogic customRecipeLogic : getRecipeType().getCustomRecipeLogicRunners()) {
-                GTRecipe recipe = checkRecipe(customRecipeLogic.createCustomRecipe(this));
-                if (recipe != null) {
-                    return recipe;
+            Iterator<GTRecipe> iterator = ((GTORecipeType) getRecipeType()).searchRecipe(this, false);
+            if (iterator != null) {
+                while (iterator.hasNext()) {
+                    GTRecipe recipe = checkRecipe(iterator.next());
+                    if (recipe != null) {
+                        return recipe;
+                    }
                 }
             }
         }

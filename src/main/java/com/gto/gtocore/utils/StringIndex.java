@@ -37,7 +37,7 @@ public final class StringIndex {
 
     static final Map<TagKey<Item>, String> TAG_MAP = new Object2ObjectOpenHashMap<>();
 
-    static final Map<Material, String> MATERIAL_MAP = new Object2ObjectOpenHashMap<>();
+    public static final Map<Material, String> MATERIAL_MAP = new Object2ObjectOpenHashMap<>();
 
     static final Map<TagPrefix, String> TAGPREFIX_MAP = new Object2ObjectOpenHashMap<>();
 

@@ -16,7 +16,7 @@ import it.unimi.dsi.fastutil.ints.Int2IntFunction;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
-public class SimpleManaMachine extends SimpleNoEnergyMachine implements IManaMachine {
+abstract class SimpleManaMachine extends SimpleNoEnergyMachine implements IManaMachine {
 
     static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
             SimpleManaMachine.class, SimpleNoEnergyMachine.MANAGED_FIELD_HOLDER);
@@ -36,7 +36,7 @@ public class SimpleManaMachine extends SimpleNoEnergyMachine implements IManaMac
     SimpleManaMachine(IMachineBlockEntity holder, int tier, Int2IntFunction tankScalingFunction, Object... args) {
         super(holder, tier, tankScalingFunction, args);
         tierMana = GTOValues.MANA[tier];
-        manaContainer = new NotifiableManaContainer(this, IO.IN, 256 * tierMana, tierMana);
+        manaContainer = new NotifiableManaContainer(this, IO.IN, 256L * tierMana, tierMana);
         manaContainer.setAcceptDistributor(true);
     }
 

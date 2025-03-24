@@ -39,10 +39,10 @@ public class SimpleWorkManaMachine extends SimpleManaMachine implements IManaEne
     public GTRecipe doModifyRecipe(@NotNull GTRecipe recipe) {
         long eu = RecipeHelper.getInputEUt(recipe);
         if (eu > 0) {
-            recipe = GTORecipeModifiers.externalEnergyOverclocking(this, recipe, eu, getTierMana(), false, 1, 1);
+            recipe = GTORecipeModifiers.externalEnergyOverclocking(this, recipe, eu, getTierMana(), true, 1, 1);
             return recipe;
         } else {
-            return GTORecipeModifiers.manaOverclocking(this, recipe, getTierMana(), false, 1, 1);
+            return GTORecipeModifiers.manaOverclocking(this, recipe, getTierMana(), true, 1, 1);
         }
     }
 

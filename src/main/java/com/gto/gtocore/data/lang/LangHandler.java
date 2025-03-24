@@ -145,14 +145,14 @@ public final class LangHandler {
         addENCN("gtocore.recipe.restricted_machine", "Only runnable on: %s", "只能运行在：%s");
         addENCN("gtocore.recipe.heat.temperature", "External heat source is required: %s K", "需要外部热源：%s K");
         addENCN("gtocore.recipe.runlimit.count", "Run Limit: %s times", "运行次数限制：%s");
+
+        addENCN("gtocore.condition.gravity", "Requires Strong Gravity Environment", "需要强重力环境");
+        addENCN("gtocore.condition.zero_gravity", "Requires Zero Gravity Environment", "需要无重力环境");
+
         addENCN("gtocore.tier.advanced", "Advanced", "高级");
         addENCN("gtocore.tier.base", "Basic", "基础");
         addENCN("gtocore.tier.ultimate", "Ultimate", "终极");
         addENCN("gtocore.universal.tooltip.ampere_out", "§bOutput Current: §r%sA", "§b输出电流：§r%sA");
-        addENCN("gtocore.condition.gravity", "Requires Strong Gravity Environment", "需要强重力环境");
-        addENCN("gtocore.condition.zero_gravity", "Requires Zero Gravity Environment", "需要无重力环境");
-        addENCN("gtocore.recipe.nama_in", "Mana Input : %s / Tick", "魔力输入：%s/t");
-        addENCN("gtocore.recipe.nama_out", "Mana Output : %s / Tick", "魔力输出：%s/t");
 
         addENCN("config.jade.plugin_gtocore.accelerate_provider", "[GTOCore] Accelerated Bar", "[GTOCore] 加速条");
         addENCN("config.jade.plugin_gtocore.wireless_data_hatch_provider", "[GTOCore] Wireless Data", "[GTOCore] 无线数据");

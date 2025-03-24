@@ -98,10 +98,10 @@ final class MachineLang {
         addENCN("gtocore.machine.steam.tooltip.0", "Default has 8 parallel, large one is 32", "默认拥有8并行，大型为32");
         addENCN("gtocore.machine.steam.tooltip.1", "Unless otherwise specified, default can process LV-Tier recipes and below, processing time is 1.5 times", "无特殊说明时，默认可处理LV等级及以下的配方，处理耗时为1.5倍");
         addENCN("gtocore.machine.steam.tooltip.2", "After installing a large steam input hatch, upgrade one recipe tier and unlock the overclocking function", "安装大型蒸汽输入仓后提升一个配方等级，并解锁超频功能");
-        addENCN("gtocore.machine.mana_stored", "Total Mana: %s / %s", "魔力总量：%s / %s");
-        addENCN("gtocore.machine.mana_consumption", "Max Mana IO Rate: %s/t", "最大魔力IO速率：%s/t");
-        addENCN("gtocore.machine.mana_input", "Mana input: %s/t", "魔力输入：%s/t");
-        addENCN("gtocore.machine.mana_output", "Mana output: %s/t", "魔力输出：%s/t");
+        addENCN("gtocore.machine.mana_stored", "Total Mana: %s", "魔力总量：%s");
+        addENCN("gtocore.machine.mana_consumption", "Max Mana IO Rate: %s", "最大魔力IO速率：%s");
+        addENCN("gtocore.machine.mana_input", "Mana input: %s", "魔力输入：%s");
+        addENCN("gtocore.machine.mana_output", "Mana output: %s", "魔力输出：%s");
         addENCN("gtocore.machine.mana_eu", "Supports EU recipes, conversion ratio 1:1", "支持电力配方，转换比1:1");
         addENCN("gtocore.machine.processing_array.tooltip.0", "Tier is limited by glass grade", "玻璃等级限制了内部机器等级");
         addENCN("gtocore.machine.processing_array.tooltip.1", "Parallel are determined by the number of internal machines", "并行数由内部机器数量决定");

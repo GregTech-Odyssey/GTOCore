@@ -1,7 +1,9 @@
 package com.gto.gtocore.integration.jade.provider;
 
 import com.gto.gtocore.api.machine.feature.IInfinityEnergyMachine;
-import com.gto.gtocore.api.machine.mana.feature.IManaEnergyMachine;
+import com.gto.gtocore.api.machine.mana.feature.IManaMachine;
+import com.gto.gtocore.api.machine.mana.feature.IManaMultiblock;
+import com.gto.gtocore.utils.GTOUtils;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTValues;
@@ -55,19 +57,23 @@ public final class RecipeLogicProvider extends CapabilityBlockProvider<RecipeLog
                 isInput = false;
                 EUt = RecipeHelper.getOutputEUt(recipe);
             }
-
+            if (EUt == 0) {
+                EUt = GTOUtils.getInputMANAt(recipe);
+                isInput = true;
+            }
+            if (EUt == 0) {
+                EUt = GTOUtils.getOutputMANAt(recipe);
+                isInput = false;
+            }
+            if (EUt == 0) return;
             recipeInfo.putLong("EUt", EUt);
             recipeInfo.putBoolean("isInput", isInput);
         }
-
-        if (!recipeInfo.isEmpty()) {
-            data.put("Recipe", recipeInfo);
-        }
+        data.put("Recipe", recipeInfo);
     }
 
     @Override
-    protected void addTooltip(CompoundTag capData, ITooltip tooltip, Player player, BlockAccessor block,
-                              BlockEntity blockEntity, IPluginConfig config) {
+    protected void addTooltip(CompoundTag capData, ITooltip tooltip, Player player, BlockAccessor block, BlockEntity blockEntity, IPluginConfig config) {
         if (capData.getBoolean("Working")) {
             var recipeInfo = capData.getCompound("Recipe");
             if (!recipeInfo.isEmpty()) {
@@ -85,7 +91,7 @@ public final class RecipeLogicProvider extends CapabilityBlockProvider<RecipeLog
                     } else if (machine instanceof SteamParallelMultiblockMachine smb) {
                         EUt = (long) (EUt * smb.getConversionRate());
                         isSteam = true;
-                    } else if (machine instanceof IManaEnergyMachine) {
+                    } else if (machine instanceof IManaMachine || machine instanceof IManaMultiblock) {
                         isMana = true;
                     }
                 }

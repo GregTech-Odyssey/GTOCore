@@ -47,7 +47,7 @@ public final class GTOValues {
     public static final String REMOVING_ASH = "gtocore.drone.removing_ash";
     public static final String MAINTAINING = "gtocore.drone.maintaining";
 
-    public static final int[] MANA = new int[] { 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384, 32768, 65536, 131072, 262144, 524288, 1048576, 2097152 };
+    public static final int[] MANA = new int[] { 1, 4, 16, 64, 256, 1024, 4096, 16384, 65536, 262144, 1048576, 4194304, 16777216, 67108864 };
 
     public static final String[] MANAN = new String[] {
             "Primitive",
@@ -59,7 +59,6 @@ public final class GTOValues {
             "Magisters",
             "Mysteries",
             "Philosopher",
-            "Original",
             "Regards",
             "Awaken",
             "Prosperity",
@@ -76,7 +75,6 @@ public final class GTOValues {
             "导师",
             "秘仪",
             "贤者",
-            "原初",
             "启示",
             "觉醒",
             "黄金",

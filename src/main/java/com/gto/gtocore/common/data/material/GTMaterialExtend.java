@@ -91,7 +91,7 @@ public interface GTMaterialExtend {
         RhodiumPlatedPalladium.addFlags(DISABLE_ALLOY_PROPERTY);
         YttriumBariumCuprate.addFlags(DISABLE_ALLOY_PROPERTY);
         Kanthal.getProperty(BLAST).setEUtOverride(GTValues.VA[GTValues.MV]);
-        Netherite.setProperty(BLAST, new BlastProperty(4810));
+        Netherite.setProperty(BLAST, new BlastProperty(1748, BlastProperty.GasTier.MID, 480, 1340, 120, 120));
         Strontium.setProperty(FLUID, new FluidProperty(FluidStorageKeys.LIQUID, new FluidBuilder()));
         Barium.setProperty(FLUID, new FluidProperty(FluidStorageKeys.LIQUID, new FluidBuilder()));
         Cadmium.setProperty(FLUID, new FluidProperty(FluidStorageKeys.LIQUID, new FluidBuilder()));

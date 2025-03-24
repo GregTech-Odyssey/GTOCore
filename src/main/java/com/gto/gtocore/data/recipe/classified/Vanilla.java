@@ -900,5 +900,10 @@ interface Vanilla {
                 "BCB",
                 "ABA",
                 'A', new UnificationEntry(TagPrefix.plateDouble, GTOMaterials.Gaia), 'B', RegistriesUtils.getItemStack("enderio:redstone_timer_filter"), 'C', RegistriesUtils.getItemStack("gtmthings:mv_4a_wireless_energy_receive_cover"));
+        VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("large_coke_oven"), MultiBlockG.LARGE_COKE_OVEN.asStack(),
+                "AhA",
+                "BCB",
+                "DDD",
+                'A', new UnificationEntry(TagPrefix.rod, GTMaterials.Steel), 'B', new UnificationEntry(TagPrefix.springSmall, GTMaterials.Steel), 'C', GTMultiMachines.COKE_OVEN.asStack(), 'D', new UnificationEntry(TagPrefix.plate, GTMaterials.Steel));
     }
 }

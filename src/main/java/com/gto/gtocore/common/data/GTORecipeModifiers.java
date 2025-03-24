@@ -43,6 +43,10 @@ public interface GTORecipeModifiers {
         return (machine, r) -> recipe -> overclocking(machine, recipe, perfect, false, reductionEUt, reductionDuration);
     }
 
+    static RecipeModifier accurateParallel(int parallel) {
+        return (machine, r) -> recipe -> accurateParallel(machine, recipe, parallel);
+    }
+
     static ModifierFunction simpleGeneratorMachineModifier(@NotNull MetaMachine machine, @NotNull GTRecipe r) {
         if (machine instanceof SimpleGeneratorMachine generator) {
             return recipe -> {

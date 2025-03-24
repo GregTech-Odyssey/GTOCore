@@ -1,5 +1,8 @@
 package com.gto.gtocore.common.data;
 
+import com.gto.gtocore.GTOCore;
+import com.gto.gtocore.utils.StringIndex;
+
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.data.worldgen.GTOreDefinition;
@@ -20,10 +23,7 @@ import com.mojang.datafixers.util.Pair;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Consumer;
 
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
@@ -37,12 +37,45 @@ public interface GTOOres {
     Map<ResourceLocation, BedrockOre> BEDROCK_ORES = new Object2ObjectOpenHashMap<>();
     Map<ResourceLocation, BedrockOreDefinition> BEDROCK_ORES_DEFINITION = new Object2ObjectOpenHashMap<>();
 
-    static void init() {}
+    static void init() {
+        if (false) {
+            Map<ResourceLocation, Set<String>> ORE_MAP = new Object2ObjectOpenHashMap<>();
+            ORE_MAP.put(THE_NETHER, Set.of("TagPrefix.oreNetherrack"));
+            ORE_MAP.put(THE_END, Set.of("TagPrefix.oreEndstone"));
+            ORE_MAP.put(MOON, Set.of("GTOTagPrefix.moon_stone"));
+            ORE_MAP.put(MARS, Set.of("GTOTagPrefix.mars_stone"));
+            ORE_MAP.put(VENUS, Set.of("GTOTagPrefix.venus_stone"));
+            ORE_MAP.put(MERCURY, Set.of("GTOTagPrefix.mercury_stone"));
+            ORE_MAP.put(GLACIO, Set.of("GTOTagPrefix.glacio_stone"));
+            ORE_MAP.put(TITAN, Set.of("GTOTagPrefix.titan_stone"));
+            ORE_MAP.put(PLUTO, Set.of("GTOTagPrefix.pluto_stone"));
+            ORE_MAP.put(IO, Set.of("GTOTagPrefix.io_stone"));
+            ORE_MAP.put(GANYMEDE, Set.of("GTOTagPrefix.ganymede_stone"));
+            ORE_MAP.put(ENCELADUS, Set.of("GTOTagPrefix.enceladus_stone"));
+            ORE_MAP.put(CERES, Set.of("GTOTagPrefix.ceres_stone"));
+            StringBuilder stringBuilder = new StringBuilder();
+            Map<String, Set<String>> a = new Object2ObjectOpenHashMap<>();
+            GTOOres.ALL_ORES.forEach((k, v) -> v.keySet().forEach(m -> {
+                Set<String> b = a.computeIfAbsent(StringIndex.MATERIAL_MAP.get(m), m1 -> new HashSet<>());
+                if (ORE_MAP.containsKey(k.location())) b.addAll(ORE_MAP.get(k.location()));
+                a.put(StringIndex.MATERIAL_MAP.get(m), b);
+            }));
+            a.forEach((m, s) -> {
+                stringBuilder.append("\nOREBuilder.put(").append(m).append(", ");
+                StringBuilder sb = new StringBuilder();
+                sb.append("Set.of(");
+                s.forEach(s1 -> sb.append(s1).append(","));
+                sb.deleteCharAt(sb.length() - 1).append(")");
+                stringBuilder.append(sb).append(");");
+            });
+            GTOCore.LOGGER.error(stringBuilder.toString());
+        }
+    }
 
     GTOreDefinition BAUXITE_VEIN = create("bauxite_vein", vein -> vein
             .clusterSize(UniformInt.of(32, 40)).density(0.3f).weight(40)
             .layer(ALL_LAYER)
-            .dimensions(MOON, GANYMEDE, THE_END, OTHERSIDE)
+            .dimensions(MOON, GANYMEDE, OTHERSIDE)
             .heightRangeUniform(10, 80)
             .layeredVeinGenerator(generator -> generator
                     .buildLayerPattern(config -> config
@@ -57,7 +90,7 @@ public interface GTOOres {
     GTOreDefinition CHROMITE_VEIN = create("chromite_vein", vein -> vein
             .clusterSize(UniformInt.of(38, 44)).density(0.15f).weight(30)
             .layer(ALL_LAYER)
-            .dimensions(VENUS, TITAN, THE_END, OTHERSIDE)
+            .dimensions(VENUS, TITAN, OTHERSIDE)
             .heightRangeUniform(20, 80)
             .layeredVeinGenerator(generator -> generator
                     .buildLayerPattern(config -> config
@@ -72,7 +105,7 @@ public interface GTOOres {
     GTOreDefinition NAQUADAH_VEIN = create("naquadah_vein", vein -> vein
             .clusterSize(UniformInt.of(48, 80)).density(0.25f).weight(30)
             .layer(ALL_LAYER)
-            .dimensions(IO, PLUTO, THE_END, BARNARDA_C, OTHERSIDE)
+            .dimensions(IO, PLUTO, BARNARDA_C, OTHERSIDE)
             .heightRangeUniform(10, 90)
             .cuboidVeinGenerator(generator -> generator
                     .top(b -> b.mat(Naquadah).size(2))
@@ -86,7 +119,7 @@ public interface GTOOres {
     GTOreDefinition PITCHBLENDE_VEIN = create("pitchblende_vein", vein -> vein
             .clusterSize(UniformInt.of(32, 64)).density(0.25f).weight(30)
             .layer(ALL_LAYER)
-            .dimensions(MOON, TITAN, PLUTO, THE_END, OTHERSIDE)
+            .dimensions(MOON, TITAN, PLUTO, OTHERSIDE)
             .heightRangeUniform(30, 60)
             .cuboidVeinGenerator(generator -> generator
                     .top(b -> b.mat(Pitchblende).size(2))
@@ -100,7 +133,7 @@ public interface GTOOres {
     GTOreDefinition SCHEELITE_VEIN = create("scheelite_vein", vein -> vein
             .clusterSize(UniformInt.of(50, 64)).density(0.7f).weight(20)
             .layer(ALL_LAYER)
-            .dimensions(MARS, GLACIO, CERES, THE_END, OTHERSIDE)
+            .dimensions(MARS, GLACIO, CERES, OTHERSIDE)
             .heightRangeUniform(20, 60)
             .dikeVeinGenerator(generator -> generator
                     .withBlock(new DikeVeinGenerator.DikeBlockDefinition(Scheelite, 3, 20, 60))
@@ -113,7 +146,7 @@ public interface GTOOres {
     GTOreDefinition SHELDONITE_VEIN = create("sheldonite_vein", vein -> vein
             .clusterSize(UniformInt.of(25, 29)).density(0.2f).weight(10)
             .layer(ALL_LAYER)
-            .dimensions(MARS, MERCURY, ENCELADUS, GLACIO, THE_END, OTHERSIDE)
+            .dimensions(MARS, MERCURY, ENCELADUS, GLACIO, OTHERSIDE)
             .heightRangeUniform(5, 50)
             .layeredVeinGenerator(generator -> generator
                     .buildLayerPattern(config -> config
@@ -209,7 +242,7 @@ public interface GTOOres {
     GTOreDefinition MONAZITE_VEIN = create("monazite_vein", vein -> vein
             .clusterSize(UniformInt.of(25, 29)).density(0.25f).weight(30)
             .layer(ALL_LAYER)
-            .dimensions(MOON, THE_NETHER, CERES, GLACIO, OTHERSIDE)
+            .dimensions(MOON, CERES, GLACIO, OTHERSIDE)
             .heightRangeUniform(20, 40)
             .layeredVeinGenerator(generator -> generator
                     .buildLayerPattern(config -> config
@@ -701,7 +734,7 @@ public interface GTOOres {
     GTOreDefinition TITANIUM_VEIN = create("titanium_vein", vein -> vein
             .clusterSize(UniformInt.of(15, 25)).density(0.1f).weight(40)
             .layer(ALL_LAYER)
-            .dimensions(ENCELADUS, THE_END, OTHERSIDE)
+            .dimensions(ENCELADUS, OTHERSIDE)
             .heightRangeUniform(-40, -20)
             .layeredVeinGenerator(generator -> generator
                     .buildLayerPattern(config -> config
@@ -752,39 +785,6 @@ public interface GTOOres {
         BEDROCK_ORES.put(id, new BedrockOre(definition.dimensionFilter(), definition.weight(), materials));
         return definition;
     }
-
-    // static {
-    // Map<ResourceLocation, Set<String>> ORE_MAP = new Object2ObjectOpenHashMap<>();
-    // ORE_MAP.put(THE_NETHER, Set.of("TagPrefix.oreNetherrack"));
-    // ORE_MAP.put(THE_END, Set.of("TagPrefix.oreEndstone"));
-    // ORE_MAP.put(MOON, Set.of("GTOTagPrefix.moon_stone"));
-    // ORE_MAP.put(MARS, Set.of("GTOTagPrefix.mars_stone"));
-    // ORE_MAP.put(VENUS, Set.of("GTOTagPrefix.venus_stone"));
-    // ORE_MAP.put(MERCURY, Set.of("GTOTagPrefix.mercury_stone"));
-    // ORE_MAP.put(GLACIO, Set.of("GTOTagPrefix.glacio_stone"));
-    // ORE_MAP.put(TITAN, Set.of("GTOTagPrefix.titan_stone"));
-    // ORE_MAP.put(PLUTO, Set.of("GTOTagPrefix.pluto_stone"));
-    // ORE_MAP.put(IO, Set.of("GTOTagPrefix.io_stone"));
-    // ORE_MAP.put(GANYMEDE, Set.of("GTOTagPrefix.ganymede_stone"));
-    // ORE_MAP.put(ENCELADUS, Set.of("GTOTagPrefix.enceladus_stone"));
-    // ORE_MAP.put(CERES, Set.of("GTOTagPrefix.ceres_stone"));
-    // StringBuilder stringBuilder = new StringBuilder();
-    // Map<String, Set<String>> a = new Object2ObjectOpenHashMap<>();
-    // GTOOres.ALL_ORES.forEach((k, v) -> v.keySet().forEach(m -> {
-    // Set<String> b = a.computeIfAbsent(StringIndex.MATERIAL_MAP.get(m), m1 -> new HashSet<>());
-    // if (ORE_MAP.containsKey(k.location())) b.addAll(ORE_MAP.get(k.location()));
-    // a.put(StringIndex.MATERIAL_MAP.get(m), b);
-    // }));
-    // a.forEach((m, s) -> {
-    // stringBuilder.append("\nOREBuilder.put(").append(m).append(", ");
-    // StringBuilder sb = new StringBuilder();
-    // sb.append("Set.of(");
-    // s.forEach(s1 -> sb.append(s1).append(","));
-    // sb.deleteCharAt(sb.length() - 1).append(")");
-    // stringBuilder.append(sb).append(");");
-    // });
-    // GTOCore.LOGGER.error(stringBuilder.toString());
-    // }
 
     record BedrockOre(Set<ResourceKey<Level>> dimensions, int weight, List<Pair<Material, Integer>> materials) {}
 }

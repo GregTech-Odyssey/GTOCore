@@ -36,12 +36,12 @@ public interface IManaMachine extends ManaCollector, IMachineFeature {
 
     @Override
     default int getMaxMana() {
-        return getManaContainer().getMaxMana();
+        return getManaContainer().getSaturatedMaxMana();
     }
 
     @Override
     default int getCurrentMana() {
-        return getManaContainer().getCurrentMana();
+        return getManaContainer().getSaturatedCurrentMana();
     }
 
     @Override
@@ -51,6 +51,10 @@ public interface IManaMachine extends ManaCollector, IMachineFeature {
 
     @Override
     default void receiveMana(int mana) {
-        getManaContainer().addMana(mana, 1);
+        if (mana > 0) {
+            getManaContainer().addMana(mana, 1);
+        } else if (mana < 0) {
+            getManaContainer().removeMana(-mana, 1);
+        }
     }
 }

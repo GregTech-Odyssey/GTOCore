@@ -10,17 +10,20 @@ import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableRecipeHandlerTrait;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.utils.GTMath;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collections;
 import java.util.List;
 
+@Slf4j
 public class NotifiableManaContainer extends NotifiableRecipeHandlerTrait<Integer> implements IManaContainer {
 
     private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
@@ -40,7 +43,7 @@ public class NotifiableManaContainer extends NotifiableRecipeHandlerTrait<Intege
 
     @Persisted
     @DescSynced
-    private int manaStored;
+    private long manaStored;
 
     @Setter
     private boolean acceptDistributor;
@@ -48,11 +51,11 @@ public class NotifiableManaContainer extends NotifiableRecipeHandlerTrait<Intege
     @Getter
     private final IO handlerIO;
 
-    private final int max;
+    private final long max;
     @Getter
     private final int maxConsumption;
 
-    public NotifiableManaContainer(MetaMachine machine, IO io, int max, int maxConsumption) {
+    public NotifiableManaContainer(MetaMachine machine, IO io, long max, int maxConsumption) {
         super(machine);
         handlerIO = io;
         this.max = max;
@@ -79,7 +82,7 @@ public class NotifiableManaContainer extends NotifiableRecipeHandlerTrait<Intege
         if (getMachine().getOffsetTimer() % 20 == 0) {
             ManaDistributorMachine distributor = getNetMachine();
             if (distributor == null) return;
-            int mana = max - manaStored;
+            long mana = max - manaStored;
             if (mana <= 0) return;
             manaStored = manaStored + distributor.removeMana(mana, 20);
         }
@@ -90,13 +93,13 @@ public class NotifiableManaContainer extends NotifiableRecipeHandlerTrait<Intege
         int sum = left.stream().reduce(0, Integer::sum);
         if (sum > maxConsumption) return Collections.singletonList(sum);
         if (io == IO.IN) {
-            int canOutput = manaStored;
+            int canOutput = getSaturatedCurrentMana();
             if (!simulate) {
                 manaStored -= Math.min(canOutput, sum);
             }
             sum = sum - canOutput;
         } else if (io == IO.OUT) {
-            int canInput = max - manaStored;
+            int canInput = GTMath.saturatedCast(max - manaStored);
             if (!simulate) {
                 manaStored += Math.min(canInput, sum);
             }
@@ -126,17 +129,17 @@ public class NotifiableManaContainer extends NotifiableRecipeHandlerTrait<Intege
     }
 
     @Override
-    public int getMaxMana() {
+    public long getMaxMana() {
         return max;
     }
 
     @Override
-    public void setCurrentMana(int mana) {
+    public void setCurrentMana(long mana) {
         manaStored = mana;
     }
 
     @Override
-    public int getCurrentMana() {
+    public long getCurrentMana() {
         return manaStored;
     }
 }

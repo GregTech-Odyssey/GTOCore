@@ -34,6 +34,7 @@ import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
@@ -47,6 +48,17 @@ public class GTORecipeType extends GTRecipeType {
     public GTORecipeType(ResourceLocation registryName, String group, RecipeType<?>... proxyRecipes) {
         super(registryName, group, proxyRecipes);
         setRecipeBuilder(new GTORecipeBuilder(registryName, this));
+    }
+
+    @Nullable
+    public Iterator<GTRecipe> searchRecipe(IRecipeCapabilityHolder holder, boolean tick) {
+        if (!holder.hasProxies()) return null;
+        return new SearchRecipeIterator(holder, this, tick);
+    }
+
+    @Override
+    public Iterator<GTRecipe> searchRecipe(IRecipeCapabilityHolder holder) {
+        return searchRecipe(holder, true);
     }
 
     @Override

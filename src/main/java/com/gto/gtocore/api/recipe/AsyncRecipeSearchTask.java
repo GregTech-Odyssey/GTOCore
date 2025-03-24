@@ -6,7 +6,6 @@ import com.gto.gtocore.api.machine.trait.IEnhancedRecipeLogic;
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
-import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import lombok.Getter;
@@ -109,22 +108,11 @@ public final class AsyncRecipeSearchTask {
 
     private static Result searchRecipe(RecipeLogic logic) {
         if (logic.machine.hasProxies()) {
-            Iterator<GTRecipe> iterator = logic.machine.getRecipeType().getLookup().getRecipeIterator(logic.machine, recipe -> !recipe.isFuel && RecipeRunner.matchRecipe(logic.machine, recipe) && RecipeRunner.matchTickRecipe(logic.machine, recipe));
-            while (iterator.hasNext()) {
-                GTRecipe recipe = iterator.next();
-                if (recipe == null) continue;
-                GTRecipe modified = modifyRecipe(recipe, logic);
-                if (modified != null) {
-                    return new Result(recipe, modified);
-                }
-                if (logic.lastFailedMatches == null) {
-                    logic.lastFailedMatches = new ArrayList<>();
-                }
-                logic.lastFailedMatches.add(recipe);
-            }
-            for (GTRecipeType.ICustomRecipeLogic customRecipeLogic : logic.machine.getRecipeType().getCustomRecipeLogicRunners()) {
-                GTRecipe recipe = customRecipeLogic.createCustomRecipe(logic.machine);
-                if (recipe != null) {
+            Iterator<GTRecipe> iterator = logic.machine.getRecipeType().searchRecipe(logic.machine);
+            if (iterator != null) {
+                while (iterator.hasNext()) {
+                    GTRecipe recipe = iterator.next();
+                    if (recipe == null) continue;
                     GTRecipe modified = modifyRecipe(recipe, logic);
                     if (modified != null) {
                         return new Result(recipe, modified);

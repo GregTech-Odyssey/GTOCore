@@ -89,7 +89,7 @@ public class ManaTrait extends MultiblockTrait {
     @Override
     public void customText(@NotNull List<Component> textList) {
         super.customText(textList);
-        textList.add(Component.translatable("gtocore.machine.mana_stored", getCurrentMana(), getMaxMana()));
-        textList.add(Component.translatable("gtocore.machine.mana_consumption", getMaxConsumption()));
+        textList.add(Component.translatable("gtocore.machine.mana_stored", getCurrentMana() + " / " + getMaxMana()));
+        textList.add(Component.translatable("gtocore.machine.mana_consumption", getMaxConsumption() + " /t"));
     }
 }

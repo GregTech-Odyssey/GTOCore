@@ -9,7 +9,6 @@ import com.gto.gtocore.api.registries.GTOMachineBuilder;
 import com.gto.gtocore.api.registries.MultiblockBuilder;
 import com.gto.gtocore.common.data.GTORecipeModifiers;
 import com.gto.gtocore.common.data.machines.MultiBlockA;
-import com.gto.gtocore.common.machine.mana.SimpleManaMachine;
 import com.gto.gtocore.common.machine.mana.SimpleWorkManaMachine;
 import com.gto.gtocore.common.machine.multiblock.generator.CombustionEngineMachine;
 import com.gto.gtocore.common.machine.multiblock.generator.GeneratorArrayMachine;
@@ -18,6 +17,7 @@ import com.gto.gtocore.common.machine.multiblock.part.HugeFluidHatchPartMachine;
 import com.gto.gtocore.common.machine.multiblock.part.WirelessEnergyHatchPartMachine;
 
 import com.gregtechceu.gtceu.GTCEu;
+import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
@@ -64,6 +64,8 @@ import static com.gto.gtocore.api.registries.GTORegistration.REGISTRATE;
 import static com.gto.gtocore.utils.register.BlockRegisterUtils.addLang;
 
 public final class MachineRegisterUtils {
+
+    public static final int[] MANA_TIERS = GTValues.tiersBetween(LV, ZPM);
 
     private static final MultiblockMachineDefinition DUMMY_MULTIBLOCK = MultiblockMachineDefinition.createDefinition(GTOCore.id("dummy"));
 
@@ -334,11 +336,12 @@ public final class MachineRegisterUtils {
             builder.noRecipeModifier();
             return builder
                     .langValue("%s %s".formatted(MANAN[tier], FormattingUtil.toEnglishName(name)))
-                    .editableUI(SimpleManaMachine.EDITABLE_UI_CREATOR.apply(GTCEu.id(name), recipeType))
+                    .editableUI(SimpleNoEnergyMachine.EDITABLE_UI_CREATOR.apply(GTCEu.id(name), recipeType))
                     .nonYAxisRotation()
                     .recipeType(recipeType)
-                    .tooltips(Component.translatable("gtocore.machine.mana_eu").withStyle(ChatFormatting.GRAY))
-                    .tooltips(Component.translatable("gtocore.machine.mana_input", GTOValues.MANA[tier]).withStyle(ChatFormatting.AQUA))
+                    .tooltips(Component.translatable("gtocore.machine.mana_eu").withStyle(ChatFormatting.GREEN))
+                    .tooltips(Component.translatable("gtceu.machine.perfect_oc").withStyle(ChatFormatting.YELLOW))
+                    .tooltips(Component.translatable("gtocore.machine.mana_input", Component.literal(GTOValues.MANA[tier] + " /t").withStyle(ChatFormatting.WHITE)).withStyle(ChatFormatting.AQUA))
                     .workableTieredHullRenderer(workableModel)
                     .tooltips(workableNoEnergy(recipeType, tankScalingFunction.apply(tier)))
                     .register();

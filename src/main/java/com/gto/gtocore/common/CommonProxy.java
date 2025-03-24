@@ -14,6 +14,7 @@ import com.gto.gtocore.utils.register.ItemRegisterUtils;
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTCEuAPI;
 import com.gregtechceu.gtceu.api.GTValues;
+import com.gregtechceu.gtceu.api.data.DimensionMarker;
 import com.gregtechceu.gtceu.api.data.chemical.material.event.MaterialEvent;
 import com.gregtechceu.gtceu.api.data.chemical.material.event.MaterialRegistryEvent;
 import com.gregtechceu.gtceu.api.recipe.condition.RecipeConditionType;
@@ -46,6 +47,7 @@ public class CommonProxy {
         eventBus.addListener(CommonProxy::addMaterials);
         eventBus.addListener(CommonProxy::registerMaterialRegistry);
         eventBus.addGenericListener(RecipeConditionType.class, CommonProxy::registerRecipeConditions);
+        eventBus.addGenericListener(DimensionMarker.class, CommonProxy::registerDimensionMarkers);
         MinecraftForge.EVENT_BUS.register(ForgeCommonEvent.class);
     }
 
@@ -100,5 +102,9 @@ public class CommonProxy {
 
     private static void registerRecipeConditions(GTCEuAPI.RegisterEvent<ResourceLocation, RecipeConditionType<?>> event) {
         GTORecipeConditions.init();
+    }
+
+    private static void registerDimensionMarkers(GTCEuAPI.RegisterEvent<ResourceLocation, DimensionMarker> event) {
+        GTODimensionMarkers.init();
     }
 }

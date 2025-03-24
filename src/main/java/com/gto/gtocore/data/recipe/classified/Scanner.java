@@ -17,7 +17,7 @@ interface Scanner {
                 .inputItems(MultiBlockG.ANCIENT_REACTOR_CORE.getItem())
                 .inputFluids(GTMaterials.Wax.getFluid(2304))
                 .outputItems(MultiBlockG.NETHER_REACTOR_CORE.getItem())
-                .EUt(480)
+                .EUt(120)
                 .duration(1200)
                 .save();
 

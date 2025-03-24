@@ -32,7 +32,7 @@ public interface ManaMachine {
         ManaMultiBlock.init();
     }
 
-    MachineDefinition[] MANA_ASSEMBLER = registerSimpleManaMachines("mana_assembler", "魔力组装机", GTRecipeTypes.ASSEMBLER_RECIPES, GTMachineUtils.defaultTankSizeFunction, GTCEu.id("block/machines/assembler"), GTMachineUtils.ELECTRIC_TIERS);
+    MachineDefinition[] MANA_ASSEMBLER = registerSimpleManaMachines("mana_assembler", "魔力组装机", GTRecipeTypes.ASSEMBLER_RECIPES, GTMachineUtils.defaultTankSizeFunction, GTCEu.id("block/machines/assembler"), MANA_TIERS);
 
     MachineDefinition[] MANA_EXTRACT_HATCH = registerTieredManaMachines("mana_extract_hatch", tier -> "%s%s".formatted(MANACN[tier], "魔力抽取仓"),
             ManaExtractHatchPartMachine::new,
@@ -40,7 +40,7 @@ public interface ManaMachine {
                     .langValue(MANAN[tier] + " Mana Extract Hatch")
                     .allRotation()
                     .abilities(GTOPartAbility.EXTRACT_MANA)
-                    .tooltips(Component.translatable("gtocore.machine.mana_input", GTOValues.MANA[tier] << 2).withStyle(ChatFormatting.AQUA))
+                    .tooltips(Component.translatable("gtocore.machine.mana_input", Component.literal((GTOValues.MANA[tier] << 2) + " /t").withStyle(ChatFormatting.WHITE)).withStyle(ChatFormatting.AQUA))
                     .renderer(() -> new OverlayTieredMachineRenderer(tier, GTCEu.id("block/machine/part/" + "energy_hatch.input_64a")))
                     .register(),
             GTMachineUtils.ELECTRIC_TIERS);
@@ -51,7 +51,7 @@ public interface ManaMachine {
                     .langValue(MANAN[tier] + " Mana Input Hatch")
                     .allRotation()
                     .abilities(GTOPartAbility.INPUT_MANA)
-                    .tooltips(Component.translatable("gtocore.machine.mana_input", GTOValues.MANA[tier]).withStyle(ChatFormatting.AQUA))
+                    .tooltips(Component.translatable("gtocore.machine.mana_input", Component.literal(GTOValues.MANA[tier] + " /t").withStyle(ChatFormatting.WHITE)).withStyle(ChatFormatting.AQUA))
                     .renderer(() -> new OverlayTieredMachineRenderer(tier, GTCEu.id("block/machine/part/" + "energy_hatch.input_64a")))
                     .register(),
             GTMachineUtils.ELECTRIC_TIERS);
@@ -62,7 +62,7 @@ public interface ManaMachine {
                     .langValue(MANAN[tier] + " Mana Output Hatch")
                     .allRotation()
                     .abilities(GTOPartAbility.OUTPUT_MANA)
-                    .tooltips(Component.translatable("gtocore.machine.mana_output", GTOValues.MANA[tier]).withStyle(ChatFormatting.AQUA))
+                    .tooltips(Component.translatable("gtocore.machine.mana_output", Component.literal(GTOValues.MANA[tier] + " /t").withStyle(ChatFormatting.WHITE)).withStyle(ChatFormatting.AQUA))
                     .renderer(() -> new OverlayTieredMachineRenderer(tier, GTCEu.id("block/machine/part/" + "energy_hatch.output_64a")))
                     .register(),
             GTMachineUtils.ELECTRIC_TIERS);

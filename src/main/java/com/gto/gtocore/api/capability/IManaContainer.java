@@ -4,6 +4,7 @@ import com.gto.gtocore.api.machine.INetMachineInteractor;
 import com.gto.gtocore.common.machine.mana.multiblock.ManaDistributorMachine;
 
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
+import com.gregtechceu.gtceu.utils.GTMath;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
@@ -51,23 +52,31 @@ public interface IManaContainer extends INetMachineInteractor<ManaDistributorMac
 
     MetaMachine getMachine();
 
-    int getMaxMana();
+    long getMaxMana();
 
-    int getCurrentMana();
+    long getCurrentMana();
 
-    void setCurrentMana(int mana);
+    void setCurrentMana(long mana);
+
+    default int getSaturatedMaxMana() {
+        return GTMath.saturatedCast(getMaxMana());
+    }
+
+    default int getSaturatedCurrentMana() {
+        return GTMath.saturatedCast(getCurrentMana());
+    }
 
     int getMaxConsumption();
 
-    default int addMana(int amount, int limit) {
-        int change = Math.min(getMaxMana() - getCurrentMana(), Math.min(limit * getMaxConsumption(), amount));
+    default long addMana(long amount, int limit) {
+        long change = Math.min(getMaxMana() - getCurrentMana(), Math.min((long) limit * getMaxConsumption(), amount));
         if (change <= 0) return 0;
         setCurrentMana(getCurrentMana() + change);
         return change;
     }
 
-    default int removeMana(int amount, int limit) {
-        int change = Math.min(getCurrentMana(), Math.min(limit * getMaxConsumption(), amount));
+    default long removeMana(long amount, int limit) {
+        long change = Math.min(getCurrentMana(), Math.min((long) limit * getMaxConsumption(), amount));
         if (change <= 0) return 0;
         setCurrentMana(getCurrentMana() - change);
         return change;

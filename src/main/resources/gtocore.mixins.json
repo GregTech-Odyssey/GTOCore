@@ -135,7 +135,6 @@
         "gtm.recipe.WoodMachineRecipesMixin",
         "gtm.registry.GTBedrockFluidsMixin",
         "gtm.registry.GTBlocksMixin",
-        "gtm.registry.GTDimensionMarkersMixin",
         "gtm.registry.GTFluidsMixin",
         "gtm.registry.GTMachinesMixin",
         "gtm.registry.GTMachineUtilsMixin",
