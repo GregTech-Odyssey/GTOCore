@@ -75,13 +75,13 @@ public final class PatternProviderTargetCache {
                         return true;
                     }
                     break;
-                case CONTAIN:
+                case NON_CONTAIN:
                     for (var stack : storage.getAvailableStacks()) {
                         if (patternInputs.contains(stack.getKey().dropSecondary())) continue;
-                        return false;
+                        return true;
                     }
                     break;
-                case NON_CONTAIN:
+                case CONTAIN:
                     for (var stack : storage.getAvailableStacks()) {
                         if (patternInputs.contains(stack.getKey().dropSecondary())) return true;
                     }
