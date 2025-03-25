@@ -16,7 +16,6 @@ import com.gregtechceu.gtceu.common.data.machines.GTResearchMachines;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
 
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.fluids.FluidStack;
 
@@ -660,31 +659,6 @@ interface AssemblyLine {
                 .stationResearch(b -> b.researchStack(GTOBlocks.RESTRAINT_DEVICE.asStack())
                         .CWUt(512)
                         .EUt(31457280))
-                .save();
-
-        ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("magic_manufacturer"))
-                .inputItems(TagPrefix.plate, GTOMaterials.Adamantium, 8)
-                .inputItems(TagPrefix.rod, GTMaterials.Kanthal, 16)
-                .inputItems(TagPrefix.screw, GTMaterials.Ultimet, 16)
-                .inputItems(new ItemStack(Items.END_CRYSTAL.asItem(), 16))
-                .inputItems(GTOItems.BALLAST.asStack(16))
-                .inputItems(GTItems.ELECTRIC_PUMP_UEV.asStack())
-                .inputItems(GTItems.FIELD_GENERATOR_UEV.asStack(2))
-                .inputItems(new ItemStack(Blocks.DRAGON_EGG.asItem()))
-                .inputItems(CustomTags.UIV_CIRCUITS, 4)
-                .inputItems(GTOItems.REALLY_MAX_BATTERY.asStack())
-                .inputItems(TagPrefix.plateDense, GTMaterials.Obsidian, 8)
-                .inputItems(TagPrefix.plateDouble, GTOMaterials.Stellite, 16)
-                .inputFluids(GTMaterials.SolderingAlloy.getFluid(2880))
-                .inputFluids(GTOMaterials.Indalloy140.getFluid(2592))
-                .inputFluids(GTOMaterials.MutatedLivingSolder.getFluid(1296))
-                .inputFluids(GTOMaterials.Tairitsu.getFluid(1296))
-                .outputItems(MultiBlockA.MAGIC_MANUFACTURER.asStack())
-                .EUt(7864320)
-                .duration(600)
-                .stationResearch(b -> b.researchStack(GTOBlocks.MAGIC_CORE.asStack())
-                        .CWUt(128)
-                        .EUt(7864320))
                 .save();
 
         ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("spacetimebendingcore"))

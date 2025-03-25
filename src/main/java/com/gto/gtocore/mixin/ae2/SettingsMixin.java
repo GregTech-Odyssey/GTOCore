@@ -1,10 +1,10 @@
 package com.gto.gtocore.mixin.ae2;
 
+import com.gto.gtocore.integration.ae2.BlockingType;
 import com.gto.gtocore.integration.ae2.GTOSettings;
 
 import appeng.api.config.Setting;
 import appeng.api.config.Settings;
-import appeng.api.config.YesNo;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -22,6 +22,6 @@ public class SettingsMixin {
 
     @Inject(method = "<clinit>", at = @At("TAIL"), remap = false)
     private static void init(CallbackInfo ci) {
-        GTOSettings.ENHANCED_BLOCKING_MODE = register("enhanced_blocking_mode", YesNo.YES, YesNo.NO);
+        GTOSettings.BLOCKING_TYPE = register("blocking_type", BlockingType.ALL, BlockingType.CONTAIN, BlockingType.NON_CONTAIN);
     }
 }

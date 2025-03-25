@@ -1,5 +1,6 @@
 package com.gto.gtocore.mixin.ae2.gui;
 
+import com.gto.gtocore.integration.ae2.BlockingType;
 import com.gto.gtocore.integration.ae2.GTOSettings;
 
 import net.minecraft.network.chat.Component;
@@ -7,7 +8,6 @@ import net.minecraft.network.chat.Component;
 import appeng.api.config.CondenserOutput;
 import appeng.api.config.Setting;
 import appeng.api.config.Settings;
-import appeng.api.config.YesNo;
 import appeng.client.gui.Icon;
 import appeng.client.gui.widgets.SettingToggleButton;
 import appeng.core.localization.ButtonToolTips;
@@ -31,7 +31,8 @@ public class SettingToggleButtonMixin {
                 ButtonToolTips.CondenserOutput,
                 ButtonToolTips.Trash);
 
-        registerApp(Icon.BLOCKING_MODE_YES, GTOSettings.ENHANCED_BLOCKING_MODE, YesNo.YES, ButtonToolTips.InterfaceBlockingMode, Component.translatable("gtocore.pattern.blocking_mode"));
-        registerApp(Icon.BLOCKING_MODE_NO, GTOSettings.ENHANCED_BLOCKING_MODE, YesNo.NO, ButtonToolTips.InterfaceBlockingMode, Component.translatable("ftbquests.file.defaults"));
+        registerApp(Icon.BLOCKING_MODE_YES, GTOSettings.BLOCKING_TYPE, BlockingType.ALL, ButtonToolTips.InterfaceBlockingMode, Component.translatable("gtocore.pattern.blocking_mode"));
+        registerApp(Icon.BLOCKING_MODE_NO, GTOSettings.BLOCKING_TYPE, BlockingType.CONTAIN, ButtonToolTips.InterfaceBlockingMode, Component.translatable("ftbquests.file.defaults"));
+        registerApp(Icon.BLOCKING_MODE_NO, GTOSettings.BLOCKING_TYPE, BlockingType.NON_CONTAIN, ButtonToolTips.InterfaceBlockingMode, Component.translatable("gtocore.pattern.blocking_reverse"));
     }
 }

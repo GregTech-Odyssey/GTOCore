@@ -67,6 +67,8 @@ dependencies {
 
     modCompileOnly("dev.ftb.mods:ftb-ultimine-forge:2001.1.5") { transitive false }
 
+    modCompileOnly("software.bernie.geckolib:geckolib-forge-${minecraft_version}:4.7.1.2")
+
     modCompileOnly("curse.maven:Shimmer-forge-627824:5685940")
 
     modCompileOnly("curse.maven:just-enough-resources-jer-240630:5057220")
@@ -75,7 +77,11 @@ dependencies {
 
     modCompileOnly("curse.maven:biomes-o-plenty-220318:6028852")
 
+    modCompileOnly("curse.maven:oh-the-biomes-weve-gone-1070751:6337823")
+
     modCompileOnly("curse.maven:emi-trades-villager-trading-emi-plugin-735523:4901194")
+
+    modCompileOnly("curse.maven:open-parties-and-claims-636608:6242869")
 
     modRuntimeOnly("curse.maven:cloth-config-348521:5729105")
 

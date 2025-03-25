@@ -54,6 +54,13 @@ public final class WoodMachineRecipesMixin {
         DEFAULT_ENTRIES = null;
     }
 
+    @Inject(method = "hardWoodTypeRecipes", at = @At("HEAD"), remap = false)
+    private static void hardWoodTypeRecipes(Consumer<ResourceLocation> registry, @NotNull WoodTypeEntry entry, CallbackInfo ci) {
+        if (entry.modid.equals("biomeswevegone")) {
+            registry.accept(new ResourceLocation("biomeswevegone", entry.woodName + "_crafting_table"));
+        }
+    }
+
     /**
      * @author .
      * @reason fix null
@@ -63,7 +70,6 @@ public final class WoodMachineRecipesMixin {
         final String name = entry.woodName;
         TagKey<Item> logTag = entry.logTag;
         boolean hasPlanksRecipe = entry.planksRecipeName != null;
-
         // strip log
         if (entry.log != null && entry.strippedLog != null) LATHE_RECIPES.recipeBuilder("strip_" + entry.woodName + "_log")
                 .inputItems(entry.log)

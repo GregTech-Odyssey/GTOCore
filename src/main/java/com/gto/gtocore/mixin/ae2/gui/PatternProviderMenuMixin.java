@@ -1,9 +1,9 @@
 package com.gto.gtocore.mixin.ae2.gui;
 
+import com.gto.gtocore.integration.ae2.BlockingType;
 import com.gto.gtocore.integration.ae2.GTOSettings;
 import com.gto.gtocore.integration.ae2.IPatternProviderMenu;
 
-import appeng.api.config.YesNo;
 import appeng.helpers.patternprovider.PatternProviderLogic;
 import appeng.menu.guisync.GuiSync;
 import appeng.menu.implementations.PatternProviderMenu;
@@ -24,15 +24,15 @@ public class PatternProviderMenuMixin implements IPatternProviderMenu {
 
     @Unique
     @GuiSync(8)
-    private YesNo gtocore$enhancedblockingmode = YesNo.NO;
+    private BlockingType gtocore$enhancedblockingmode = BlockingType.ALL;
 
     @Inject(method = "broadcastChanges", at = @At(value = "INVOKE", target = "Lappeng/helpers/patternprovider/PatternProviderLogic;getUnlockStack()Lappeng/api/stacks/GenericStack;", remap = false))
     private void broadcastChanges(CallbackInfo ci) {
-        gtocore$enhancedblockingmode = logic.getConfigManager().getSetting(GTOSettings.ENHANCED_BLOCKING_MODE);
+        gtocore$enhancedblockingmode = logic.getConfigManager().getSetting(GTOSettings.BLOCKING_TYPE);
     }
 
     @Override
-    public YesNo gtocore$getEnhancedBlockingMode() {
+    public BlockingType gtocore$getBlocking() {
         return gtocore$enhancedblockingmode;
     }
 }

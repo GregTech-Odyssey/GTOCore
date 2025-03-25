@@ -35,20 +35,18 @@ import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.AABB;
-import net.minecraftforge.common.util.FakePlayer;
 
+import appeng.util.Platform;
 import com.enderio.machines.common.init.MachineBlocks;
 import com.lowdragmc.lowdraglib.gui.util.ClickData;
 import com.lowdragmc.lowdraglib.gui.widget.ComponentPanelWidget;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
-import com.mojang.authlib.GameProfile;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -62,7 +60,6 @@ public final class SlaughterhouseMachine extends StorageMultiblockMachine {
     private int attackDamage;
     @Persisted
     private boolean isSpawn;
-    private Player fakePlayer;
     private DamageSource damageSource;
     private static final String[] mobList1 = {
             "minecraft:chicken",
@@ -118,17 +115,13 @@ public final class SlaughterhouseMachine extends StorageMultiblockMachine {
         super.onRecipeFinish();
     }
 
-    private Player getFakePlayer(ServerLevel level) {
-        if (fakePlayer == null) {
-            fakePlayer = new FakePlayer(level, new GameProfile(UUID.randomUUID(), "slaughter"));
-        }
-        return fakePlayer;
+    private static Player getFakePlayer(ServerLevel level) {
+        return Platform.getFakePlayer(level, null);
     }
 
     private DamageSource getDamageSource(ServerLevel level) {
         if (damageSource == null) {
-            damageSource = new DamageSource(level.registryAccess().registryOrThrow(Registries.DAMAGE_TYPE)
-                    .getHolderOrThrow(DamageTypes.GENERIC_KILL), getFakePlayer(level));
+            damageSource = new DamageSource(level.registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(DamageTypes.GENERIC_KILL), getFakePlayer(level));
         }
         getRecipeLogic().onMachineLoad();
         return damageSource;

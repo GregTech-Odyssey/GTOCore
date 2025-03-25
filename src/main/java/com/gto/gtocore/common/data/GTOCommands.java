@@ -70,9 +70,10 @@ public interface GTOCommands {
         ItemStack stack = player.getMainHandItem();
         String s = StringConverter.fromItem(Ingredient.of(stack), 1);
         if (s != null) {
-            player.sendSystemMessage(copy(Component.literal(s).withStyle(ChatFormatting.AQUA)));
+            player.sendSystemMessage(copy(Component.literal(s).withStyle(ChatFormatting.DARK_BLUE)));
         }
         player.sendSystemMessage(copy(Component.literal(ItemUtils.getId(stack)).withStyle(ChatFormatting.GREEN)));
+        if (stack.hasTag()) player.sendSystemMessage(copy(Component.literal(stack.getTag().toString()).withStyle(ChatFormatting.AQUA)));
         for (TagKey<Item> tag : stack.getItemHolder().tags().toList()) {
             player.sendSystemMessage(copy(Component.literal(tag.location().toString()).withStyle((ChatFormatting.YELLOW))));
         }

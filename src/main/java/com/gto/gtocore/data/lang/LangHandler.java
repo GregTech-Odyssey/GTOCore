@@ -77,6 +77,7 @@ public final class LangHandler {
         addENCN("structure_writer.structural_scale", "Structural Scale: X:%s  Y:%s  Z:%s", "结构规模： X:%s  Y:%s  Z:%s");
 
         addENCN("gtocore.pattern.blocking_mode", "Block insertion when the container has any content (except for programming circuits)", "容器有任何内容时阻止插入（编程电路除外）");
+        addENCN("gtocore.pattern.blocking_reverse", "Reverse", "反转");
         addENCN("gtocore.pattern.multiply", "Pattern Recipe x %s", "样板配方 x %s");
         addENCN("gtocore.pattern.tooltip.multiply", "Multiply Pattern materials amount by %s", "将样板材料数量 x %s");
         addENCN("gtocore.pattern.divide", "Pattern Recipe ÷ %s", "样板配方 ÷ %s");

@@ -1,5 +1,6 @@
 package com.gto.gtocore.mixin.ae2;
 
+import com.gto.gtocore.integration.ae2.BlockingType;
 import com.gto.gtocore.integration.ae2.GTOSettings;
 import com.gto.gtocore.integration.ae2.IPatternProviderLogic;
 import com.gto.gtocore.integration.ae2.PatternProviderTargetCache;
@@ -7,7 +8,6 @@ import com.gto.gtocore.integration.ae2.PatternProviderTargetCache;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 
-import appeng.api.config.YesNo;
 import appeng.api.networking.IManagedGridNode;
 import appeng.api.networking.security.IActionSource;
 import appeng.helpers.patternprovider.PatternProviderLogic;
@@ -40,12 +40,12 @@ public class PatternProviderLogicMixin implements IPatternProviderLogic {
 
     @Inject(method = "<init>(Lappeng/api/networking/IManagedGridNode;Lappeng/helpers/patternprovider/PatternProviderLogicHost;I)V", at = @At("TAIL"), remap = false)
     private void PatternProviderLogic(IManagedGridNode mainNode, PatternProviderLogicHost host, int patternInventorySize, CallbackInfo ci) {
-        configManager.registerSetting(GTOSettings.ENHANCED_BLOCKING_MODE, YesNo.NO);
+        configManager.registerSetting(GTOSettings.BLOCKING_TYPE, BlockingType.ALL);
     }
 
     @Override
-    public boolean gtocore$isEnhancedBlocking() {
-        return configManager.getSetting(GTOSettings.ENHANCED_BLOCKING_MODE) == YesNo.YES;
+    public BlockingType gtocore$getBlocking() {
+        return configManager.getSetting(GTOSettings.BLOCKING_TYPE);
     }
 
     /**

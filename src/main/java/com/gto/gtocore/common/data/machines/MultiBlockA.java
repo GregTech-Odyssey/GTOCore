@@ -7,7 +7,6 @@ import com.gto.gtocore.api.machine.part.GTOPartAbility;
 import com.gto.gtocore.api.machine.trait.IEnhancedRecipeLogic;
 import com.gto.gtocore.api.pattern.GTOPredicates;
 import com.gto.gtocore.common.data.*;
-import com.gto.gtocore.common.machine.mana.multiblock.ElectricManaMultiblockMachine;
 import com.gto.gtocore.common.machine.multiblock.electric.FishingGroundMachine;
 import com.gto.gtocore.common.machine.multiblock.electric.StellarForgeMachine;
 import com.gto.gtocore.common.machine.multiblock.electric.voidseries.VoidFluidDrillingRigMachine;
@@ -150,40 +149,6 @@ public interface MultiBlockA {
                     .where(' ', any())
                     .build())
             .workableCasingRenderer(GTOCore.id("block/casings/sps_casing"), GTCEu.id("block/multiblock/gcym/large_centrifuge"))
-            .register();
-
-    MultiblockMachineDefinition MAGIC_MANUFACTURER = multiblock("magic_manufacturer", "魔法制造机", ElectricManaMultiblockMachine::new)
-            .nonYAxisRotation()
-            .recipe(GTORecipeTypes.MAGIC_MANUFACTURER_RECIPES)
-            .customTooltipsBuilder(true, false, false)
-            .perfectOverclock()
-            .block(GTBlocks.MACHINE_CASING_UIV)
-            .pattern((definition) -> FactoryBlockPattern.start()
-                    .aisle("bbbbbbbbb", "ccccccccc", "         ", "         ")
-                    .aisle("bbbbbbbbb", "cdddddddc", "         ", "         ")
-                    .aisle("bbbbbbbbb", "cdeeeeedc", "         ", "         ")
-                    .aisle("bbbbbbbbb", "cdefffedc", "   ggg   ", "         ")
-                    .aisle("bbbbbbbbb", "cdefifedc", "   ggg   ", "    h    ")
-                    .aisle("bbbbbbbbb", "cdefffedc", "   ggg   ", "         ")
-                    .aisle("bbbbbbbbb", "cdeeeeedc", "         ", "         ")
-                    .aisle("bbbbbbbbb", "cdddddddc", "         ", "         ")
-                    .aisle("bbbbabbbb", "ccccccccc", "         ", "         ")
-                    .where('a', controller(blocks(definition.get())))
-                    .where('b', blocks(GTBlocks.MACHINE_CASING_UIV.get())
-                            .setMinGlobalLimited(70)
-                            .or(autoAbilities(definition.getRecipeTypes()))
-                            .or(abilities(GTOPartAbility.OUTPUT_MANA).setMaxGlobalLimited(1))
-                            .or(abilities(MAINTENANCE).setExactLimit(1)))
-                    .where('c', blocks(Blocks.PURPLE_CANDLE))
-                    .where('d', blocks(Blocks.CRYING_OBSIDIAN))
-                    .where('e', blocks(GTOBlocks.HYPER_CORE.get()))
-                    .where('f', blocks(GTBlocks.FUSION_COIL.get()))
-                    .where('g', blocks(Blocks.NETHERITE_BLOCK))
-                    .where('h', blocks(Blocks.BEACON))
-                    .where('i', blocks(GTOBlocks.MAGIC_CORE.get()))
-                    .where(' ', any())
-                    .build())
-            .workableCasingRenderer(GTCEu.id("block/casings/voltage/uiv/side"), GTCEu.id("block/multiblock/implosion_compressor"))
             .register();
 
     MultiblockMachineDefinition SPS_CRAFTING = multiblock("sps_crafting", "超临界合成机", ElectricMultiblockMachine::new)

@@ -905,5 +905,10 @@ interface Vanilla {
                 "BCB",
                 "DDD",
                 'A', new UnificationEntry(TagPrefix.rod, GTMaterials.Steel), 'B', new UnificationEntry(TagPrefix.springSmall, GTMaterials.Steel), 'C', GTMultiMachines.COKE_OVEN.asStack(), 'D', new UnificationEntry(TagPrefix.plate, GTMaterials.Steel));
+        VanillaRecipeHelper.addShapedRecipe(provider, GTOCore.id("water_infinity_cell"), RegistriesUtils.getItemStack("expatternprovider:infinity_cell"),
+                "ABA",
+                "BCB",
+                "ABA",
+                'A', RegistriesUtils.getItemStack("botania:rune_water"), 'B', GTItems.COVER_INFINITE_WATER.asStack(), 'C', new ItemStack(AEItems.FLUID_CELL_256K.asItem()));
     }
 }

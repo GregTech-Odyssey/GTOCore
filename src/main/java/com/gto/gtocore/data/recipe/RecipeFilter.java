@@ -423,6 +423,8 @@ public interface RecipeFilter {
         filters.add(RLUtils.avaritia("diamond_lattice"));
 
         filters.add(ExtendedAE.id("fishbig"));
+        filters.add(ExtendedAE.id("cobblestone_cell"));
+        filters.add(ExtendedAE.id("water_cell"));
 
         filters.add(RLUtils.ad("refining/fuel_from_refining_oil"));
         filters.add(RLUtils.ad("oxygen_loading/oxygen_from_oxygen_loading_oxygen"));

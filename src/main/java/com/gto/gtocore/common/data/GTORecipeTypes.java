@@ -335,13 +335,6 @@ public interface GTORecipeTypes {
             .setProgressBar(GuiTextures.CENTRIFUGE_OVERLAY, LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.CENTRIFUGE);
 
-    GTORecipeType MAGIC_MANUFACTURER_RECIPES = register("magic_manufacturer", "魔力生成", MULTIBLOCK)
-            .setEUIO(IO.IN)
-            .setMaxIOSize(2, 0, 0, 0)
-            .setMaxTooltips(4)
-            .setProgressBar(GuiTextures.PROGRESS_BAR_MASS_FAB, LEFT_TO_RIGHT)
-            .setSound(GTSoundEntries.COOLING);
-
     GTORecipeType TRANSCENDING_CRAFTING_RECIPES = register("transcending_crafting", "超临界合成", MULTIBLOCK)
             .setEUIO(IO.IN)
             .setMaxIOSize(3, 1, 3, 1)

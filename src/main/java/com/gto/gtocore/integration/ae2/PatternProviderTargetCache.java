@@ -68,17 +68,23 @@ public final class PatternProviderTargetCache {
 
         @Override
         public boolean containsPatternInput(Set<AEKey> patternInputs) {
-            if (logic.gtocore$isEnhancedBlocking()) {
-                for (var stack : storage.getAvailableStacks()) {
-                    if (stack.getKey() instanceof AEItemKey itemKey && itemKey.getItem() == GTItems.PROGRAMMED_CIRCUIT.asItem()) continue;
-                    return true;
-                }
-            } else {
-                for (var stack : storage.getAvailableStacks()) {
-                    if (patternInputs.contains(stack.getKey().dropSecondary())) {
+            switch (logic.gtocore$getBlocking()) {
+                case ALL:
+                    for (var stack : storage.getAvailableStacks()) {
+                        if (stack.getKey() instanceof AEItemKey itemKey && itemKey.getItem() == GTItems.PROGRAMMED_CIRCUIT.asItem()) continue;
                         return true;
                     }
-                }
+                    break;
+                case CONTAIN:
+                    for (var stack : storage.getAvailableStacks()) {
+                        if (patternInputs.contains(stack.getKey().dropSecondary())) continue;
+                        return false;
+                    }
+                    break;
+                case NON_CONTAIN:
+                    for (var stack : storage.getAvailableStacks()) {
+                        if (patternInputs.contains(stack.getKey().dropSecondary())) return true;
+                    }
             }
             return false;
         }
