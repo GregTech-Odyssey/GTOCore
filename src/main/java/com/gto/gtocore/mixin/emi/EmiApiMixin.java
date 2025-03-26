@@ -2,6 +2,8 @@ package com.gto.gtocore.mixin.emi;
 
 import com.gto.gtocore.utils.RegistriesUtils;
 
+import com.gregtechceu.gtceu.api.item.ComponentItem;
+
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.world.item.BucketItem;
@@ -46,8 +48,8 @@ public abstract class EmiApiMixin {
             Fluid fluid = Fluids.EMPTY;
             if (emiStack.getKey() instanceof BucketItem bucketItem) {
                 fluid = bucketItem.getFluid();
-            } else if (emiStack.hasNbt()) {
-                CompoundTag nbt = stack.getEmiStacks().get(0).getNbt();
+            } else if (emiStack.getKey() instanceof ComponentItem && emiStack.hasNbt()) {
+                CompoundTag nbt = emiStack.getNbt();
                 if (nbt.contains("Fluid", Tag.TAG_COMPOUND)) {
                     var fluidTag = nbt.getCompound("Fluid");
                     var fluidName = fluidTag.getString("FluidName");
