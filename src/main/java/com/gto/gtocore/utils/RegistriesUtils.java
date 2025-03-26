@@ -11,6 +11,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.function.Supplier;
@@ -59,6 +60,7 @@ public final class RegistriesUtils {
     }
 
     public static Fluid getFluid(String s) {
-        return ForgeRegistries.FLUIDS.getValue(new ResourceLocation(s));
+        var fluid = ForgeRegistries.FLUIDS.getValue(new ResourceLocation(s));
+        return fluid == null ? Fluids.EMPTY : fluid;
     }
 }
