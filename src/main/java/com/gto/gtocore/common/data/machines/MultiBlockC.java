@@ -1180,7 +1180,7 @@ public interface MultiBlockC {
     MultiblockMachineDefinition PLANET_CORE_DRILLING = multiblock("planet_core_drilling", "星核钻机", PlanetCoreDrillingMachine::new)
             .nonYAxisRotation()
             .tooltipsText("A hammer capable of shaking the core of a planet", "一把能够撼动星核的重锤")
-            .tooltipsText("Produces a total of 1024 ores from the current world per second.", "每秒产出当前世界的全部矿石1024份")
+            .tooltipsText("Produces a total of 1024 ores from the current world per second.", "每秒产出当前世界的全部矿石65536份")
             .recipe(GTRecipeTypes.DUMMY_RECIPES)
             .customTooltipsBuilder(false, true, false)
             .block(GTOBlocks.MOLECULAR_CASING)

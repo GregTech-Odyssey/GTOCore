@@ -384,7 +384,7 @@ public interface GTOBedrockFluids {
         ResourceKey<Level> dimension = definition.dimensionFilter.iterator().next();
         if (dimension != getDimensionKey(VOID) || dimension != getDimensionKey(FLAT) || dimension != getDimensionKey(CREATE)) {
             List<FluidStack> fluidStacks = ALL_BEDROCK_FLUID.computeIfAbsent(dimension, k -> new ArrayList<>());
-            fluidStacks.add(new FluidStack(definition.getStoredFluid().get(), definition.getMaximumYield() * definition.getWeight()));
+            fluidStacks.add(new FluidStack(definition.getStoredFluid().get(), Math.max(1, definition.getMaximumYield() * definition.getWeight())));
             ALL_BEDROCK_FLUID.put(dimension, fluidStacks);
         }
     }

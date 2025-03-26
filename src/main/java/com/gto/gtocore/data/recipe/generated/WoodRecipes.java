@@ -1109,7 +1109,6 @@ public interface WoodRecipes {
         }
 
         if (Mods.biomeswevegone()) {
-            add("biomeswevegone", "sakura");
             add("biomeswevegone", "skyris");
             add("biomeswevegone", "white_mangrove");
             add("biomeswevegone", "willow");
@@ -1132,7 +1131,6 @@ public interface WoodRecipes {
             add("biomeswevegone", "ebony");
             add("biomeswevegone", "fir");
             add("biomeswevegone", "green_enchanted");
-            add("biomeswevegone", "florus");
         }
     }
 

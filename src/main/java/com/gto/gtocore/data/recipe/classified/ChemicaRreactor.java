@@ -2632,7 +2632,8 @@ interface ChemicaRreactor {
                 .inputItems(TagPrefix.dust, GTMaterials.Magnesium)
                 .circuitMeta(5)
                 .inputFluids(GTMaterials.HydrochloricAcid.getFluid(2000))
-                .outputItems(TagPrefix.dust, GTMaterials.MagnesiumChloride)
+                .outputFluids(Hydrogen.getFluid(2000))
+                .outputItems(TagPrefix.dust, GTMaterials.MagnesiumChloride, 3)
                 .EUt(480)
                 .duration(100)
                 .save();

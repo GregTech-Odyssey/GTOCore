@@ -186,7 +186,7 @@ interface VacuumDrying {
                 .outputItems(TagPrefix.dust, GTMaterials.Trinium, 32)
                 .outputFluids(GTOMaterials.RedMud.getFluid(200))
                 .outputFluids(GTMaterials.Water.getFluid(2000))
-                .EUt(122880)
+                .EUt(491520)
                 .duration(2400)
                 .blastFurnaceTemp(9500)
                 .save();

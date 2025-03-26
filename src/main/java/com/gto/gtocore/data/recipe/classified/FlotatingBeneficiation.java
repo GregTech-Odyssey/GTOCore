@@ -51,10 +51,10 @@ interface FlotatingBeneficiation {
         FLOTATING_BENEFICIATION_RECIPES.recipeBuilder(GTOCore.id("enriched_naquadah_front"))
                 .inputItems(TagPrefix.dust, GTOMaterials.PotassiumEthylxanthate, 64)
                 .inputItems(GTOTagPrefix.milled, GTMaterials.NaquadahEnriched, 64)
-                .inputFluids(GTOMaterials.Turpentine.getFluid(140000))
+                .inputFluids(GTOMaterials.Turpentine.getFluid(280000))
                 .outputFluids(GTOMaterials.EnrichedNaquadahFront.getFluid(1000))
-                .EUt(30720)
-                .duration(9600)
+                .EUt(491520)
+                .duration(2400)
                 .save();
 
         FLOTATING_BENEFICIATION_RECIPES.recipeBuilder(GTOCore.id("grossular_front"))

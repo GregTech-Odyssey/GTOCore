@@ -401,7 +401,8 @@ public interface GTORecipeTypes {
     GTORecipeType COSMOS_SIMULATION_RECIPES = register("cosmos_simulation", "宇宙模拟", MULTIBLOCK)
             .setMaxIOSize(1, 120, 1, 24)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
-            .setSound(GTSoundEntries.ARC);
+            .setSound(GTSoundEntries.ARC)
+            .addDataInfo(data -> I18n.get("tooltip.avaritia.tier", data.getInt("tier")));
 
     GTORecipeType SPACE_PROBE_SURFACE_RECEPTION_RECIPES = register("space_probe_surface_reception", "宇宙射线搜集", MULTIBLOCK)
             .setEUIO(IO.IN)

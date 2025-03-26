@@ -125,8 +125,8 @@ public final class GTODimensions {
         ImmutableMap.Builder<ResourceLocation, Integer> ALL_LAYERBuilder = ImmutableMap.builder();
         ALL_LAYERBuilder.putAll(ALL_PLANET);
         ALL_LAYERBuilder.put(ANCIENT_WORLD, 0);
-        ALL_LAYERBuilder.put(THE_NETHER, 3);
-        ALL_LAYERBuilder.put(THE_END, 6);
+        ALL_LAYERBuilder.put(THE_NETHER, 0);
+        ALL_LAYERBuilder.put(THE_END, 0);
         ALL_LAYERBuilder.put(OTHERSIDE, 10);
         ALL_LAYER_DIMENSION = ALL_LAYERBuilder.build();
     }

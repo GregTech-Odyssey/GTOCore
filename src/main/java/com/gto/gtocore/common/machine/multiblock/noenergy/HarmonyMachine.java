@@ -47,6 +47,10 @@ public final class HarmonyMachine extends NoEnergyMultiblockMachine implements I
     private WirelessEnergyContainer WirelessEnergyContainerCache;
 
     @Persisted
+    private int tier = 1;
+    @Persisted
+    private int count;
+    @Persisted
     private int oc;
     @Persisted
     private long hydrogen, helium;
@@ -101,12 +105,20 @@ public final class HarmonyMachine extends NoEnergyMultiblockMachine implements I
     @Nullable
     @Override
     protected GTRecipe getRealRecipe(GTRecipe recipe) {
-        if (userid != null && hydrogen >= 1024000000 && helium >= 1024000000 && oc > 0) {
+        if (userid != null && tier <= recipe.data.getInt("tier") && hydrogen >= 1024000000 && helium >= 1024000000 && oc > 0) {
             hydrogen -= 1024000000;
             helium -= 1024000000;
             ExtendWirelessEnergyContainer container = getWirelessEnergyContainer();
-            if (container != null && container.removeEnergy(getStartupEnergy(), this) == -getStartupEnergy()) {
-                recipe.duration = 4800 / (1 << (oc));
+            long energy = getStartupEnergy() * Math.max(1, (recipe.data.getInt("tier") - 1) << 2);
+            if (container != null && container.unrestrictedRemoveEnergy(energy) == -energy) {
+                if (tier == recipe.data.getInt("tier")) {
+                    count++;
+                    if (count > 16 + (tier << 2)) {
+                        count = 0;
+                        tier++;
+                    }
+                }
+                recipe.duration = (recipe.duration << 2) / (1 << (oc));
                 return recipe;
             }
         }
@@ -124,6 +136,8 @@ public final class HarmonyMachine extends NoEnergyMultiblockMachine implements I
     @Override
     public void customText(List<Component> textList) {
         super.customText(textList);
+        textList.add(Component.translatable("tooltip.avaritia.tier", tier));
+        textList.add(Component.translatable("behaviour.lighter.uses", 16 + (tier << 2) - count));
         if (userid != null) {
             ExtendWirelessEnergyContainer container = getWirelessEnergyContainer();
             textList.add(Component.translatable("gtmthings.machine.wireless_energy_monitor.tooltip.0",

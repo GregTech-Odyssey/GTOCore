@@ -1001,11 +1001,11 @@ interface AssemblyLine {
                 .inputFluids(GTMaterials.SolderingAlloy.getFluid(5760))
                 .inputFluids(GTMaterials.Lubricant.getFluid(6000))
                 .inputFluids(GTMaterials.WatertightSteel.getFluid(1152))
-                .outputItems(MultiBlockA.FLOTATION_CELL_REGULATOR.asStack())
+                .outputItems(MultiBlockA.INDUSTRIAL_FLOTATION_CELL.asStack())
                 .EUt(30720)
                 .duration(2400)
                 .stationResearch(b -> b.researchStack(GTMachines.ORE_WASHER[GTValues.IV].asStack())
-                        .CWUt(96)
+                        .CWUt(32)
                         .EUt(7680))
                 .save();
 
@@ -3091,7 +3091,7 @@ interface AssemblyLine {
                 .EUt(30720)
                 .duration(2400)
                 .stationResearch(b -> b.researchStack(GTMachines.MACERATOR[GTValues.IV].asStack())
-                        .CWUt(96)
+                        .CWUt(32)
                         .EUt(7680))
                 .save();
 

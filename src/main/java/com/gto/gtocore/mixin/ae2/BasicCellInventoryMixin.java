@@ -7,7 +7,6 @@ import appeng.api.storage.cells.ISaveProvider;
 import appeng.me.cells.BasicCellInventory;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -30,14 +29,5 @@ public class BasicCellInventoryMixin {
     @Inject(method = "<init>", at = @At("RETURN"), remap = false)
     private void BasicCellInventory(IBasicCellItem cellType, ItemStack o, ISaveProvider container, CallbackInfo ci) {
         maxItemTypes = this.cellType.getTotalTypes(i);
-    }
-
-    /**
-     * @author .
-     * @reason .
-     */
-    @Overwrite(remap = false)
-    public int getBytesPerType() {
-        return 1;
     }
 }
