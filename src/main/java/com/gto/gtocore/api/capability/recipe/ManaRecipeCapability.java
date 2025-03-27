@@ -54,9 +54,9 @@ public final class ManaRecipeCapability extends RecipeCapability<Integer> {
     public int getMaxParallelRatio(IRecipeCapabilityHolder holder, GTRecipe recipe, int parallelAmount) {
         int maxMana = 0;
         List<IRecipeHandler<?>> recipeHandlerList = Objects
-                .requireNonNullElseGet(holder.getCapabilitiesProxy().get(IO.IN, CAP), Collections::<IRecipeHandler<?>>emptyList)
+                .requireNonNullElseGet(holder.getCapabilitiesFlat(IO.IN, CAP), Collections::<IRecipeHandler<?>>emptyList)
                 .stream()
-                .filter(handler -> !handler.isProxy()).toList();
+                .toList();
         for (IRecipeHandler<?> container : recipeHandlerList) {
             if (container.getContents() instanceof IManaContainer manaContainer) {
                 maxMana += manaContainer.getMaxConsumption();

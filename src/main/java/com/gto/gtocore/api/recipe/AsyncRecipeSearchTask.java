@@ -107,21 +107,19 @@ public final class AsyncRecipeSearchTask {
     }
 
     private static Result searchRecipe(RecipeLogic logic) {
-        if (logic.machine.hasProxies()) {
-            Iterator<GTRecipe> iterator = logic.machine.getRecipeType().searchRecipe(logic.machine);
-            if (iterator != null) {
-                while (iterator.hasNext()) {
-                    GTRecipe recipe = iterator.next();
-                    if (recipe == null) continue;
-                    GTRecipe modified = modifyRecipe(recipe, logic);
-                    if (modified != null) {
-                        return new Result(recipe, modified);
-                    }
-                    if (logic.lastFailedMatches == null) {
-                        logic.lastFailedMatches = new ArrayList<>();
-                    }
-                    logic.lastFailedMatches.add(recipe);
+        if (logic.machine.hasCapabilityProxies()) {
+            Iterator<GTRecipe> iterator = logic.machine.getRecipeType().searchRecipe(logic.machine, null);
+            while (iterator.hasNext()) {
+                GTRecipe recipe = iterator.next();
+                if (recipe == null) continue;
+                GTRecipe modified = modifyRecipe(recipe, logic);
+                if (modified != null) {
+                    return new Result(recipe, modified);
                 }
+                if (logic.lastFailedMatches == null) {
+                    logic.lastFailedMatches = new ArrayList<>();
+                }
+                logic.lastFailedMatches.add(recipe);
             }
         }
         return new Result(null, null);

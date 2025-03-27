@@ -41,7 +41,7 @@ public class FishingGroundMachine extends ElectricMultiblockMachine {
 
     @Nullable
     private GTRecipe getRecipe() {
-        if (!hasProxies()) return null;
+        if (!hasCapabilityProxies()) return null;
         GTRecipe recipe = null;
         int mode = MachineUtils.checkingCircuit(this, false);
         if (mode > 0) {

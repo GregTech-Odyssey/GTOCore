@@ -5,7 +5,7 @@ import com.gto.gtocore.config.GTOConfig;
 import com.gregtechceu.gtceu.api.machine.feature.IMachineFeature;
 import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
-import com.gregtechceu.gtceu.api.machine.trait.IRecipeHandlerTrait;
+import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.sound.SoundEntry;
 
@@ -22,7 +22,7 @@ public interface IEnhancedMultiblockMachine extends IMachineFeature {
     /**
      * 当内容发生变化时调用。
      */
-    default void onContentChanges(IRecipeHandlerTrait<?> handler) {}
+    default void onContentChanges(RecipeHandlerList handlerList) {}
 
     /**
      * 覆盖默认声音条目。

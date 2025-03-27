@@ -8,16 +8,9 @@ import com.gregtechceu.gtceu.api.capability.recipe.IRecipeHandler;
 import com.gregtechceu.gtceu.api.capability.recipe.RecipeCapability;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 
-import com.google.common.collect.Table;
-import org.jetbrains.annotations.Nullable;
-
 import java.util.List;
 
 public interface IManaEnergyMachine {
-
-    static void addProxy(Table<IO, RecipeCapability<?>, List<IRecipeHandler<?>>> capabilitiesProxy, long eut, IManaContainer manaContainer) {
-        capabilitiesProxy.put(IO.IN, EURecipeCapability.CAP, List.of(new ManaEnergyRecipeHandler(eut, manaContainer)));
-    }
 
     final class ManaEnergyRecipeHandler implements IRecipeHandler<Long> {
 
@@ -25,13 +18,13 @@ public interface IManaEnergyMachine {
 
         private final IManaContainer container;
 
-        private ManaEnergyRecipeHandler(long eut, IManaContainer container) {
+        public ManaEnergyRecipeHandler(long eut, IManaContainer container) {
             this.eut = eut;
             this.container = container;
         }
 
         @Override
-        public List<Long> handleRecipeInner(IO io, GTRecipe recipe, List<Long> left, @Nullable String slotName, boolean simulate) {
+        public List<Long> handleRecipeInner(IO io, GTRecipe recipe, List<Long> left, boolean simulate) {
             long total = left.stream().reduce(0L, Long::sum);
             if (total > eut || total > container.getCurrentMana()) return left;
             container.setCurrentMana((int) (container.getCurrentMana() - total));

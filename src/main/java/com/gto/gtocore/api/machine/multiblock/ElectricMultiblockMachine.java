@@ -45,7 +45,7 @@ public class ElectricMultiblockMachine extends WorkableElectricMultiblockMachine
     @Override
     @Nullable
     public GTRecipe fullModifyRecipe(@NotNull GTRecipe recipe) {
-        recipe = recipe.trimRecipeOutputs(getOutputLimits());
+        recipe = RecipeHelper.trimRecipeOutputs(recipe, getOutputLimits());
         if (!isGenerator() && GTUtil.getTierByVoltage(RecipeHelper.getInputEUt(recipe)) > getMaxOverclockTier()) return null;
         for (MultiblockTrait trait : multiblockTraits) {
             recipe = trait.modifyRecipe(recipe);

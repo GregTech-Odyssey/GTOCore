@@ -125,19 +125,6 @@ interface FormingPress {
                 .cleanroom(GTOCleanroomType.LAW_CLEANROOM)
                 .save();
 
-        FORMING_PRESS_RECIPES.recipeBuilder(GTOCore.id("fishbig_fabric"))
-                .inputItems(TagPrefix.foil, GTOMaterials.MagnetohydrodynamicallyConstrainedStarMatter, 64)
-                .inputItems(TagPrefix.foil, GTOMaterials.Shirabon, 64)
-                .inputItems(GTOItems.TWO_WAY_FOIL.asStack(64))
-                .inputItems(TagPrefix.foil, GTOMaterials.Cosmic, 64)
-                .inputItems(TagPrefix.foil, GTOMaterials.CosmicNeutronium, 64)
-                .inputItems(TagPrefix.foil, GTOMaterials.Eternity, 64)
-                .outputItems(GTOItems.FISHBIG_FABRIC.asItem())
-                .EUt(131941395333120L)
-                .duration(200)
-                .cleanroom(GTOCleanroomType.LAW_CLEANROOM)
-                .save();
-
         FORMING_PRESS_RECIPES.recipeBuilder(GTOCore.id("wood_gear"))
                 .inputItems(TagPrefix.plate, GTMaterials.Wood, 4)
                 .notConsumable(GTItems.SHAPE_MOLD_GEAR.asItem())

@@ -15,8 +15,10 @@ import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
 import com.gregtechceu.gtceu.api.machine.trait.MachineTrait;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
+import com.gregtechceu.gtceu.api.recipe.ActionResult;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
+import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
 import com.gregtechceu.gtceu.api.recipe.content.Content;
 import com.gregtechceu.gtceu.api.sound.SoundEntry;
 
@@ -330,7 +332,7 @@ public abstract class RecipeLogicMixin extends MachineTrait implements IEnhanced
         machine.afterWorking();
         if (lastRecipe != null) {
             consecutiveRecipes++;
-            lastRecipe.postWorking(this.machine);
+            RecipeHelper.postWorking(machine, lastRecipe);
             handleRecipeIO(lastRecipe, IO.OUT);
             if (machine.alwaysTryModifyRecipe()) {
                 if (lastOriginRecipe != null) {
@@ -366,12 +368,15 @@ public abstract class RecipeLogicMixin extends MachineTrait implements IEnhanced
      * @reason .
      */
     @Overwrite
-    protected boolean handleRecipeIO(GTRecipe recipe, IO io) {
+    protected ActionResult handleRecipeIO(GTRecipe recipe, IO io) {
         if (io == IO.OUT && GTOConfig.INSTANCE.asyncRecipeOutput && machine instanceof IMEOutputMachine outputMachine && outputMachine.gTOCore$DualMEOutput(recipe)) {
             AsyncRecipeOutputTask.addAsyncLogic(getLogic(), () -> RecipeRunner.handleRecipeOutput(machine, recipe));
-            return true;
+            return ActionResult.SUCCESS;
         }
-        return RecipeRunner.handleRecipeIO(machine, recipe, io, chanceCaches);
+        if (RecipeRunner.handleRecipeIO(machine, recipe, io, chanceCaches)) {
+            return ActionResult.SUCCESS;
+        }
+        return ActionResult.PASS_NO_CONTENTS;
     }
 
     /**
@@ -402,9 +407,9 @@ public abstract class RecipeLogicMixin extends MachineTrait implements IEnhanced
         }
         if (lastRecipe == null) return;
         if (last == RecipeLogic.Status.WORKING && getStatus() != RecipeLogic.Status.WORKING) {
-            lastRecipe.postWorking(machine);
+            RecipeHelper.postWorking(machine, lastRecipe);
         } else if (last != RecipeLogic.Status.WORKING && getStatus() == RecipeLogic.Status.WORKING) {
-            lastRecipe.preWorking(machine);
+            RecipeHelper.preWorking(machine, lastRecipe);
         }
     }
 

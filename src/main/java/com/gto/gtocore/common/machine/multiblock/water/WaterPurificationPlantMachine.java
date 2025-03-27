@@ -160,7 +160,7 @@ public final class WaterPurificationPlantMachine extends ElectricMultiblockMachi
 
     @Nullable
     private GTRecipe getRecipe() {
-        if (!hasProxies()) return null;
+        if (!hasCapabilityProxies()) return null;
         long eut = 0;
         for (WaterPurificationUnitMachine machine : waterPurificationUnitMachineMap.keySet()) {
             if (machine.isFormed() && machine.getRecipeLogic().isIdle()) {

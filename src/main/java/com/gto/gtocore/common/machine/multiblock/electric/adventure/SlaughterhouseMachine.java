@@ -11,7 +11,7 @@ import com.gto.gtocore.utils.StringUtils;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
-import com.gregtechceu.gtceu.api.machine.trait.IRecipeHandlerTrait;
+import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 
@@ -128,8 +128,8 @@ public final class SlaughterhouseMachine extends StorageMultiblockMachine {
     }
 
     @Override
-    public void onContentChanges(IRecipeHandlerTrait<?> handler) {
-        if (handler.getHandlerIO() == IO.IN) {
+    public void onContentChanges(RecipeHandlerList handlerList) {
+        if (handlerList.getHandlerIO() == IO.IN) {
             attackDamage = 1;
             MachineUtils.forEachInputItems(this, itemStack -> {
                 if (itemStack.getItem() instanceof SwordItem swordItem) {
@@ -158,7 +158,7 @@ public final class SlaughterhouseMachine extends StorageMultiblockMachine {
 
     @Nullable
     private GTRecipe getRecipe() {
-        if (hasProxies() && getLevel() instanceof ServerLevel serverLevel && getTier() > 1) {
+        if (hasCapabilityProxies() && getLevel() instanceof ServerLevel serverLevel && getTier() > 1) {
             int c = MachineUtils.checkingCircuit(this, false);
             if (c == 0) return null;
             ItemStackSet itemStacks = new ItemStackSet();

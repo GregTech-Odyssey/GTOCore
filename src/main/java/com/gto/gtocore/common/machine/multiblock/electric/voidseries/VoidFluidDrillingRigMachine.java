@@ -42,10 +42,10 @@ public final class VoidFluidDrillingRigMachine extends StorageMultiblockMachine 
     @Override
     protected GTRecipe getRealRecipe(@NotNull GTRecipe recipe) {
         if (!getStorageStack().isEmpty()) {
-            recipe.tickInputs.put(EURecipeCapability.CAP, List.of(new Content(getOverclockVoltage(), ChanceLogic.getMaxChancedValue(), ChanceLogic.getMaxChancedValue(), 0, null, null)));
+            recipe.tickInputs.put(EURecipeCapability.CAP, List.of(new Content(getOverclockVoltage(), ChanceLogic.getMaxChancedValue(), ChanceLogic.getMaxChancedValue(), 0)));
             FluidStack fluidStack = fluidStacks.get(c).copy();
             fluidStack.setAmount(fluidStack.getAmount() * (1 << Math.max(0, getTier() - 6)));
-            recipe.outputs.put(FluidRecipeCapability.CAP, List.of(new Content(FluidIngredient.of(fluidStack), ChanceLogic.getMaxChancedValue(), ChanceLogic.getMaxChancedValue(), 0, null, null)));
+            recipe.outputs.put(FluidRecipeCapability.CAP, List.of(new Content(FluidIngredient.of(fluidStack), ChanceLogic.getMaxChancedValue(), ChanceLogic.getMaxChancedValue(), 0)));
             return recipe;
         }
         return recipe;

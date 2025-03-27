@@ -29,7 +29,7 @@ public final class PlanetCoreDrillingMachine extends ElectricMultiblockMachine {
 
     @Nullable
     private GTRecipe getRecipe() {
-        if (hasProxies()) {
+        if (hasCapabilityProxies()) {
             GTORecipeBuilder builder = GTORecipeBuilder.ofRaw().duration(20).EUt(GTValues.VA[GTValues.MAX]);
             for (Material material : getMaterials()) {
                 builder.outputItems(TagPrefix.ore, material, 65536);

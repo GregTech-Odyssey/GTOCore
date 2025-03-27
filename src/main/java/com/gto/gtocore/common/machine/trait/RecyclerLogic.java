@@ -24,7 +24,7 @@ public final class RecyclerLogic implements GTRecipeType.ICustomRecipeLogic {
 
     @Override
     public @Nullable GTRecipe createCustomRecipe(IRecipeCapabilityHolder holder) {
-        if (!holder.hasProxies()) return null;
+        if (!holder.hasCapabilityProxies()) return null;
         if (holder instanceof CustomParallelMultiblockMachine parallelMultiblockMachine && MachineUtils.notConsumableItem(parallelMultiblockMachine, GTOItems.SCRAP_BOX.asStack())) {
             GTORecipeBuilder builder = GTORecipeBuilder.ofRaw().EUt(480);
             int parallel = MachineUtils.getItemAmount(parallelMultiblockMachine, GTOItems.SCRAP_BOX.get())[0];

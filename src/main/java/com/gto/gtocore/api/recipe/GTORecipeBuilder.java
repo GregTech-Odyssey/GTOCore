@@ -193,7 +193,7 @@ public final class GTORecipeBuilder extends GTRecipeBuilder {
     public <T> GTORecipeBuilder input(RecipeCapability<T> capability, T obj) {
         if (deleted) return this;
         var t = (perTick ? tickInput : input);
-        t.computeIfAbsent(capability, c -> new ArrayList<>()).add(new Content(capability.of(obj), chance, maxChance, tierChanceBoost, slotName, uiName));
+        t.computeIfAbsent(capability, c -> new ArrayList<>()).add(new Content(capability.of(obj), chance, maxChance, tierChanceBoost));
         return this;
     }
 
@@ -202,7 +202,7 @@ public final class GTORecipeBuilder extends GTRecipeBuilder {
     public final <T> GTORecipeBuilder input(RecipeCapability<T> capability, T... obj) {
         if (deleted) return this;
         var t = (perTick ? tickInput : input);
-        t.computeIfAbsent(capability, c -> new ArrayList<>()).addAll(Arrays.stream(obj).map(capability::of).map(o -> new Content(o, chance, maxChance, tierChanceBoost, slotName, uiName)).toList());
+        t.computeIfAbsent(capability, c -> new ArrayList<>()).addAll(Arrays.stream(obj).map(capability::of).map(o -> new Content(o, chance, maxChance, tierChanceBoost)).toList());
         return this;
     }
 
@@ -210,7 +210,7 @@ public final class GTORecipeBuilder extends GTRecipeBuilder {
     public <T> GTORecipeBuilder output(RecipeCapability<T> capability, T obj) {
         if (deleted) return this;
         var t = (perTick ? tickOutput : output);
-        t.computeIfAbsent(capability, c -> new ArrayList<>()).add(new Content(capability.of(obj), chance, maxChance, tierChanceBoost, slotName, uiName));
+        t.computeIfAbsent(capability, c -> new ArrayList<>()).add(new Content(capability.of(obj), chance, maxChance, tierChanceBoost));
         return this;
     }
 
@@ -219,7 +219,7 @@ public final class GTORecipeBuilder extends GTRecipeBuilder {
     public final <T> GTORecipeBuilder output(RecipeCapability<T> capability, T... obj) {
         if (deleted) return this;
         var t = (perTick ? tickOutput : output);
-        t.computeIfAbsent(capability, c -> new ArrayList<>()).addAll(Arrays.stream(obj).map(capability::of).map(o -> new Content(o, chance, maxChance, tierChanceBoost, slotName, uiName)).toList());
+        t.computeIfAbsent(capability, c -> new ArrayList<>()).addAll(Arrays.stream(obj).map(capability::of).map(o -> new Content(o, chance, maxChance, tierChanceBoost)).toList());
         return this;
     }
 
@@ -227,7 +227,7 @@ public final class GTORecipeBuilder extends GTRecipeBuilder {
     public <T> GTORecipeBuilder inputs(RecipeCapability<T> capability, Object obj) {
         if (deleted) return this;
         var t = (perTick ? tickInput : input);
-        t.computeIfAbsent(capability, c -> new ArrayList<>()).add(new Content(capability.of(obj), chance, maxChance, tierChanceBoost, slotName, uiName));
+        t.computeIfAbsent(capability, c -> new ArrayList<>()).add(new Content(capability.of(obj), chance, maxChance, tierChanceBoost));
         return this;
     }
 
@@ -235,7 +235,7 @@ public final class GTORecipeBuilder extends GTRecipeBuilder {
     public <T> GTORecipeBuilder inputs(RecipeCapability<T> capability, Object... obj) {
         if (deleted) return this;
         var t = (perTick ? tickInput : input);
-        t.computeIfAbsent(capability, c -> new ArrayList<>()).addAll(Arrays.stream(obj).map(capability::of).map(o -> new Content(o, chance, maxChance, tierChanceBoost, slotName, uiName)).toList());
+        t.computeIfAbsent(capability, c -> new ArrayList<>()).addAll(Arrays.stream(obj).map(capability::of).map(o -> new Content(o, chance, maxChance, tierChanceBoost)).toList());
         return this;
     }
 
@@ -243,7 +243,7 @@ public final class GTORecipeBuilder extends GTRecipeBuilder {
     public <T> GTORecipeBuilder outputs(RecipeCapability<T> capability, Object obj) {
         if (deleted) return this;
         var t = (perTick ? tickOutput : output);
-        t.computeIfAbsent(capability, c -> new ArrayList<>()).add(new Content(capability.of(obj), chance, maxChance, tierChanceBoost, slotName, uiName));
+        t.computeIfAbsent(capability, c -> new ArrayList<>()).add(new Content(capability.of(obj), chance, maxChance, tierChanceBoost));
         return this;
     }
 
@@ -251,7 +251,7 @@ public final class GTORecipeBuilder extends GTRecipeBuilder {
     public <T> GTORecipeBuilder outputs(RecipeCapability<T> capability, Object... obj) {
         if (deleted) return this;
         var t = (perTick ? tickOutput : output);
-        t.computeIfAbsent(capability, c -> new ArrayList<>()).addAll(Arrays.stream(obj).map(capability::of).map(o -> new Content(o, chance, maxChance, tierChanceBoost, slotName, uiName)).toList());
+        t.computeIfAbsent(capability, c -> new ArrayList<>()).addAll(Arrays.stream(obj).map(capability::of).map(o -> new Content(o, chance, maxChance, tierChanceBoost)).toList());
         return this;
     }
 
@@ -1210,7 +1210,7 @@ public final class GTORecipeBuilder extends GTRecipeBuilder {
 
     @Override
     public GTRecipe buildRawRecipe() {
-        return new GTRecipe(recipeType, id.withPrefix(recipeType.registryName.getPath() + "/"), input, output, tickInput, tickOutput, Map.of(), Map.of(), Map.of(), Map.of(), conditions, List.of(), data, duration, false, recipeCategory);
+        return new GTRecipe(recipeType, id.withPrefix(recipeType.registryName.getPath() + "/"), input, output, tickInput, tickOutput, Map.of(), Map.of(), Map.of(), Map.of(), conditions, List.of(), data, duration, recipeCategory);
     }
 
     @Override
@@ -1288,7 +1288,7 @@ public final class GTORecipeBuilder extends GTRecipeBuilder {
                 }
             }
         }
-        RECIPE_MAP.put(typeid, new GTRecipe(this.recipeType, typeid, this.input, this.output, this.tickInput, this.tickOutput, Map.of(), Map.of(), Map.of(), Map.of(), this.conditions, List.of(), this.data, this.duration, false, this.recipeCategory));
+        RECIPE_MAP.put(typeid, new GTRecipe(this.recipeType, typeid, this.input, this.output, this.tickInput, this.tickOutput, Map.of(), Map.of(), Map.of(), Map.of(), this.conditions, List.of(), this.data, this.duration, this.recipeCategory));
     }
 
     public static ResourceLocation getTypeID(ResourceLocation id, GTRecipeType recipeType) {

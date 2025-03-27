@@ -45,8 +45,8 @@ public final class VoidMinerMachine extends StorageMultiblockMachine {
     @Override
     protected GTRecipe getRealRecipe(@NotNull GTRecipe recipe) {
         if (getStorageStack().isEmpty()) {
-            recipe.tickInputs.put(EURecipeCapability.CAP, List.of(new Content((long) GTValues.VA[getTier()], ChanceLogic.getMaxChancedValue(), ChanceLogic.getMaxChancedValue(), 0, null, null)));
-            recipe.outputs.put(ItemRecipeCapability.CAP, List.of(new Content(SizedIngredient.create(ChemicalHelper.get(TagPrefix.rawOre, PrimitiveOreMachine.selectMaterial(materialIntegerMap)).copyWithCount((int) Math.pow(getTier() - 3, Math.random() + 1))), ChanceLogic.getMaxChancedValue(), ChanceLogic.getMaxChancedValue(), 0, null, null)));
+            recipe.tickInputs.put(EURecipeCapability.CAP, List.of(new Content((long) GTValues.VA[getTier()], ChanceLogic.getMaxChancedValue(), ChanceLogic.getMaxChancedValue(), 0)));
+            recipe.outputs.put(ItemRecipeCapability.CAP, List.of(new Content(SizedIngredient.create(ChemicalHelper.get(TagPrefix.rawOre, PrimitiveOreMachine.selectMaterial(materialIntegerMap)).copyWithCount((int) Math.pow(getTier() - 3, Math.random() + 1))), ChanceLogic.getMaxChancedValue(), ChanceLogic.getMaxChancedValue(), 0)));
             return GTORecipeModifiers.accurateParallel(this, recipe, 64);
         }
         return recipe;

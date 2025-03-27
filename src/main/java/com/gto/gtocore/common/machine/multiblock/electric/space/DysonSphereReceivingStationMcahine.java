@@ -58,7 +58,7 @@ public final class DysonSphereReceivingStationMcahine extends ElectricMultiblock
 
     @Nullable
     private GTRecipe getRecipe() {
-        if (hasProxies()) {
+        if (hasCapabilityProxies()) {
             if (DysonSphereSavaedData.getDimensionUse(getDimension())) return null;
             Pair<Integer, Integer> pair = DysonSphereSavaedData.getDimensionData(getDimension());
             if (pair.getFirst() < 1) return null;

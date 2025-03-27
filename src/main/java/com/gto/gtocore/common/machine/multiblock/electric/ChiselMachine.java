@@ -31,7 +31,7 @@ public final class ChiselMachine extends CustomParallelMultiblockMachine {
 
     @Nullable
     private GTRecipe getRecipe() {
-        if (hasProxies()) {
+        if (hasCapabilityProxies()) {
             AtomicInteger c = new AtomicInteger();
             AtomicReference<Item> item = new AtomicReference<>();
             MachineUtils.forEachInputItems(this, itemStack -> {

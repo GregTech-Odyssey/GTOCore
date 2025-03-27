@@ -52,7 +52,7 @@ public final class RunLimitCondition extends RecipeCondition {
     }
 
     @Override
-    public boolean test(@NotNull GTRecipe recipe, @NotNull RecipeLogic recipeLogic) {
+    public boolean testCondition(@NotNull GTRecipe recipe, @NotNull RecipeLogic recipeLogic) {
         MetaMachine machine = recipeLogic.getMachine();
         IMachineOwner owner = machine.holder.getOwner();
         if (owner == null) return false;

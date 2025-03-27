@@ -67,7 +67,7 @@ public final class RestrictedMachineCondition extends RecipeCondition {
     }
 
     @Override
-    public boolean test(@NotNull GTRecipe recipe, @NotNull RecipeLogic recipeLogic) {
+    public boolean testCondition(@NotNull GTRecipe recipe, @NotNull RecipeLogic recipeLogic) {
         MachineDefinition machineDefinition = recipeLogic.getMachine().getDefinition();
         if (id.equals(MULTIBLOCK)) {
             return recipeLogic.getMachine() instanceof MultiblockControllerMachine;

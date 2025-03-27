@@ -23,9 +23,9 @@ public class CWURecipeCapabilityMixin extends RecipeCapability<Integer> {
     public int getMaxParallelRatio(IRecipeCapabilityHolder holder, GTRecipe recipe, int parallelAmount) {
         long maxCWU = 0;
         List<IRecipeHandler<?>> recipeHandlerList = Objects
-                .requireNonNullElseGet(holder.getCapabilitiesProxy().get(IO.IN, CWURecipeCapability.CAP), Collections::<IRecipeHandler<?>>emptyList)
+                .requireNonNullElseGet(holder.getCapabilitiesFlat().get(IO.IN).get(CWURecipeCapability.CAP), Collections::<IRecipeHandler<?>>emptyList)
                 .stream()
-                .filter(handler -> !handler.isProxy()).toList();
+                .toList();
         for (IRecipeHandler<?> container : recipeHandlerList) {
             if (container.getContents() instanceof IOpticalComputationHatch ncc) {
                 maxCWU += ncc.requestCWUt(Integer.MAX_VALUE, true);

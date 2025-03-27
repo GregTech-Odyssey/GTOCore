@@ -27,6 +27,7 @@ import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
+import com.gregtechceu.gtceu.api.recipe.ActionResult;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
@@ -121,7 +122,7 @@ public class CrossRecipeMultiblockMachine extends ElectricMultiblockMachine impl
     }
 
     private GTRecipe getRecipe() {
-        if (!hasProxies()) return null;
+        if (!hasCapabilityProxies()) return null;
         GTRecipe match = LookupRecipe();
         if (match == null) return null;
         long totalEu = 0;
@@ -326,7 +327,7 @@ public class CrossRecipeMultiblockMachine extends ElectricMultiblockMachine impl
         }
 
         @Override
-        protected boolean handleRecipeIO(GTRecipe recipe, IO io) {
+        protected ActionResult handleRecipeIO(GTRecipe recipe, IO io) {
             if (io == IO.OUT) {
                 if (GTOConfig.INSTANCE.asyncRecipeOutput && machine instanceof IMEOutputMachine outputMachine && outputMachine.gTOCore$DualMEOutput(getMachine().hasItem, getMachine().hasFluid)) {
                     Set<GTRecipe> recipes = new HashSet<>(getMachine().lastRecipes);
@@ -335,9 +336,12 @@ public class CrossRecipeMultiblockMachine extends ElectricMultiblockMachine impl
                     output(getMachine().lastRecipes);
                 }
                 getMachine().lastRecipes.clear();
-                return true;
+                return ActionResult.SUCCESS;
             }
-            return RecipeRunner.handleRecipeInput(machine, recipe);
+            if (RecipeRunner.handleRecipeInput(machine, recipe)) {
+                return ActionResult.SUCCESS;
+            }
+            return ActionResult.FAIL_NO_REASON;
         }
 
         private void output(Set<GTRecipe> recipes) {

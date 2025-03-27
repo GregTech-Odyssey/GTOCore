@@ -21,7 +21,6 @@ import net.minecraftforge.fluids.FluidStack;
 import appeng.api.networking.IGrid;
 import appeng.api.stacks.AEFluidKey;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.Collections;
 import java.util.List;
@@ -67,7 +66,7 @@ public final class InaccessibleInfiniteTank extends NotifiableFluidTank {
     }
 
     @Override
-    public List<FluidIngredient> handleRecipe(IO io, GTRecipe recipe, List<?> left, @Nullable String slotName, boolean simulate) {
+    public List<FluidIngredient> handleRecipe(IO io, GTRecipe recipe, List<?> left, boolean simulate) {
         if (!simulate && io == IO.OUT) {
             for (Object ingredient : left) {
                 if (((FluidIngredient) ingredient).isEmpty()) continue;
@@ -83,7 +82,7 @@ public final class InaccessibleInfiniteTank extends NotifiableFluidTank {
 
     @Override
     public int getTanks() {
-        return 128;
+        return 1;
     }
 
     @Override
@@ -160,11 +159,6 @@ public final class InaccessibleInfiniteTank extends NotifiableFluidTank {
         @Override
         public boolean supportsDrain(int tank) {
             return false;
-        }
-
-        @Override
-        public CustomFluidTank copy() {
-            return new FluidStorageDelegate(internalBuffer);
         }
     }
 }

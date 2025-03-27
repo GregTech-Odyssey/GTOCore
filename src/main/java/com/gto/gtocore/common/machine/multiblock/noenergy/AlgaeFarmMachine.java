@@ -52,7 +52,7 @@ public final class AlgaeFarmMachine extends NoEnergyMultiblockMachine {
 
     @Nullable
     private GTRecipe getRecipe() {
-        if (!hasProxies()) return null;
+        if (!hasCapabilityProxies()) return null;
         boolean raise = MachineUtils.inputFluid(this, FERMENTEDBIOMASS, 10000);
         int amount = raise ? 10 : 1;
         amount = amount + GTValues.RNG.nextInt(9 * amount);

@@ -149,7 +149,7 @@ public interface GTORecipeModifiers {
                 }
                 recipe.ocLevel = ocLevel / 2;
                 recipe.duration = duration;
-                recipe.tickInputs.put(EURecipeCapability.CAP, List.of(new Content(recipeVoltage, ChanceLogic.getMaxChancedValue(), ChanceLogic.getMaxChancedValue(), 0, null, null)));
+                recipe.tickInputs.put(EURecipeCapability.CAP, List.of(new Content(recipeVoltage, ChanceLogic.getMaxChancedValue(), ChanceLogic.getMaxChancedValue(), 0)));
             }
             return recipe;
         };
@@ -170,7 +170,7 @@ public interface GTORecipeModifiers {
 
     static GTRecipe recipeReduction(MetaMachine machine, GTRecipe recipe, double reductionEUt, double reductionDuration) {
         if (reductionEUt != 1) {
-            recipe.tickInputs.put(EURecipeCapability.CAP, List.of(new Content((long) Math.max(1, RecipeHelper.getInputEUt(recipe) * reductionEUt), ChanceLogic.getMaxChancedValue(), ChanceLogic.getMaxChancedValue(), 0, null, null)));
+            recipe.tickInputs.put(EURecipeCapability.CAP, List.of(new Content((long) Math.max(1, RecipeHelper.getInputEUt(recipe) * reductionEUt), ChanceLogic.getMaxChancedValue(), ChanceLogic.getMaxChancedValue(), 0)));
         }
         if (reductionDuration != 1) {
             recipe.duration = (int) Math.max(1, recipe.duration * reductionDuration);
@@ -226,7 +226,7 @@ public interface GTORecipeModifiers {
             }
             recipe.ocLevel = ocLevel / 2;
             recipe.duration = duration;
-            List<Content> content = List.of(new Content(recipeVoltage, ChanceLogic.getMaxChancedValue(), ChanceLogic.getMaxChancedValue(), 0, null, null));
+            List<Content> content = List.of(new Content(recipeVoltage, ChanceLogic.getMaxChancedValue(), ChanceLogic.getMaxChancedValue(), 0));
             if (generator) {
                 recipe.tickOutputs.put(EURecipeCapability.CAP, content);
             } else {
@@ -261,7 +261,7 @@ public interface GTORecipeModifiers {
             }
             recipe.ocLevel = ocLevel / 2;
             recipe.duration = duration;
-            List<Content> content = List.of(new Content(recipeMana, ChanceLogic.getMaxChancedValue(), ChanceLogic.getMaxChancedValue(), 0, null, null));
+            List<Content> content = List.of(new Content(recipeMana, ChanceLogic.getMaxChancedValue(), ChanceLogic.getMaxChancedValue(), 0));
             recipe.tickInputs.put(ManaRecipeCapability.CAP, content);
         }
         return recipe;

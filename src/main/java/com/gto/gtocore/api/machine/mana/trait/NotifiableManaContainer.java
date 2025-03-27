@@ -89,7 +89,7 @@ public class NotifiableManaContainer extends NotifiableRecipeHandlerTrait<Intege
     }
 
     @Override
-    public List<Integer> handleRecipeInner(IO io, GTRecipe recipe, List<Integer> left, @Nullable String slotName, boolean simulate) {
+    public List<Integer> handleRecipeInner(IO io, GTRecipe recipe, List<Integer> left, boolean simulate) {
         int sum = left.stream().reduce(0, Integer::sum);
         if (sum > maxConsumption) return Collections.singletonList(sum);
         if (io == IO.IN) {

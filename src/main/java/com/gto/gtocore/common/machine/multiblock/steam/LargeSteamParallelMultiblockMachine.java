@@ -67,10 +67,10 @@ public class LargeSteamParallelMultiblockMachine extends SteamParallelMultiblock
         return (machine, r) -> recipe -> {
             long eut = RecipeHelper.getInputEUt(recipe);
             if (machine instanceof LargeSteamParallelMultiblockMachine steamMachine && eut < (steamMachine.isOC ? (long) steamMachine.eut << 2 : steamMachine.eut)) {
-                recipe = GTORecipeModifiers.accurateParallel(machine, recipe, steamMachine.maxParallels);
+                recipe = GTORecipeModifiers.accurateParallel(machine, recipe, steamMachine.getMaxParallels());
                 recipe.duration = (int) (recipe.duration * reductionDuration);
                 if (steamMachine.isOC) {
-                    recipe.tickInputs.put(EURecipeCapability.CAP, List.of(new Content(Math.max(1, eut << (2 * steamMachine.amountOC)), ChanceLogic.getMaxChancedValue(), ChanceLogic.getMaxChancedValue(), 0, null, null)));
+                    recipe.tickInputs.put(EURecipeCapability.CAP, List.of(new Content(Math.max(1, eut << (2 * steamMachine.amountOC)), ChanceLogic.getMaxChancedValue(), ChanceLogic.getMaxChancedValue(), 0)));
                     recipe.duration = Math.max(1, recipe.duration / (1 << (steamMachine.amountOC)));
                 }
                 return recipe;

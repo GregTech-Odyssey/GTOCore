@@ -70,7 +70,7 @@ public final class DrillingControlCenterMachine extends ElectricMultiblockMachin
 
     @Nullable
     private GTRecipe getRecipe() {
-        if (!hasProxies() && getTier() < GTValues.IV) return null;
+        if (!hasCapabilityProxies() && getTier() < GTValues.IV) return null;
         GTRecipe recipe = GTORecipeBuilder.ofRaw().duration(20).EUt(getOverclockVoltage()).buildRawRecipe();
         if (RecipeRunner.matchTickRecipe(this, recipe)) return recipe;
         return null;

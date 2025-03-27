@@ -2,7 +2,6 @@ package com.gto.gtocore.api.recipe;
 
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.capability.recipe.IRecipeCapabilityHolder;
-import com.gregtechceu.gtceu.api.capability.recipe.IRecipeHandler;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.recipe.lookup.AbstractMapIngredient;
@@ -10,6 +9,7 @@ import com.gregtechceu.gtceu.api.recipe.lookup.AbstractMapIngredient;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.function.Predicate;
@@ -28,9 +28,9 @@ class SearchRecipeIterator implements Iterator<GTRecipe> {
         this.holder = holder;
         this.recipeType = recipeType;
         if (tick) {
-            canHandle = recipe -> !recipe.isFuel && RecipeRunner.matchRecipe(holder, recipe) && RecipeRunner.matchTickRecipe(holder, recipe);
+            canHandle = recipe -> RecipeRunner.matchRecipe(holder, recipe) && RecipeRunner.matchTickRecipe(holder, recipe);
         } else {
-            canHandle = recipe -> !recipe.isFuel && RecipeRunner.matchRecipe(holder, recipe);
+            canHandle = recipe -> RecipeRunner.matchRecipe(holder, recipe);
         }
         ingredients = fromHolder(holder);
         recipeIterator = createRecipeIterator();
@@ -61,20 +61,18 @@ class SearchRecipeIterator implements Iterator<GTRecipe> {
     }
 
     private static List<List<AbstractMapIngredient>> fromHolder(@NotNull IRecipeCapabilityHolder r) {
-        List<List<AbstractMapIngredient>> list = new ObjectArrayList<>(r.getCapabilitiesProxy().row(IO.IN).size());
-        r.getCapabilitiesProxy().row(IO.IN).forEach((cap, handlers) -> {
-            if (cap.isRecipeSearchFilter() && !handlers.isEmpty()) {
-                for (IRecipeHandler<?> handler : handlers) {
-                    if (handler.isProxy()) {
-                        continue;
-                    }
-                    List<Object> compressed = cap.compressIngredients(handler.getContents());
-                    for (Object content : compressed) {
-                        list.add(cap.convertToMapIngredient(content));
-                    }
-                }
+        var handlerMap = r.getCapabilitiesFlat().getOrDefault(IO.IN, Collections.emptyMap());
+        int size = handlerMap.size();
+        List<List<AbstractMapIngredient>> list = new ObjectArrayList<>(size);
+        for (var entry : handlerMap.entrySet()) {
+            var cap = entry.getKey();
+            var handlers = entry.getValue();
+            if (!cap.isRecipeSearchFilter()) continue;
+            for (var handler : handlers) {
+                var compressed = cap.compressIngredients(handler.getContents());
+                list.addAll(cap.convertCompressedIngredients(compressed));
             }
-        });
+        }
         if (list.isEmpty()) return null;
         return list;
     }

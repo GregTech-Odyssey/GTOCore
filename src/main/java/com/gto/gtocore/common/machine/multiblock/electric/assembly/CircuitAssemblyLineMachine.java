@@ -21,7 +21,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
-import java.util.function.Function;
+import java.util.function.Predicate;
 
 public final class CircuitAssemblyLineMachine extends StorageMultiblockMachine {
 
@@ -34,7 +34,7 @@ public final class CircuitAssemblyLineMachine extends StorageMultiblockMachine {
     }
 
     @Override
-    protected @NotNull NotifiableItemStackHandler createMachineStorage(Function<ItemStack, Boolean> filter) {
+    protected @NotNull NotifiableItemStackHandler createMachineStorage(Predicate<ItemStack> filter) {
         NotifiableItemStackHandler storage = new NotifiableItemStackHandler(
                 this, 1, IO.IN, IO.BOTH, slots -> new CustomItemStackHandler(1) {
 
@@ -52,8 +52,8 @@ public final class CircuitAssemblyLineMachine extends StorageMultiblockMachine {
     public void onStructureFormed() {
         super.onStructureFormed();
         onMachineChanged();
-        List<IRecipeHandler<?>> itemProxy = getCapabilitiesProxy().get(IO.IN, ItemRecipeCapability.CAP);
-        if (itemProxy != null) {
+        List<IRecipeHandler<?>> itemProxy = getCapabilitiesFlat(IO.IN, ItemRecipeCapability.CAP);
+        if (!itemProxy.isEmpty()) {
             itemProxy.add(machineStorage);
         }
     }

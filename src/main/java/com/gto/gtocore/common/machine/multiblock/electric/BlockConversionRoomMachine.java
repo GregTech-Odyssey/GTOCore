@@ -139,7 +139,7 @@ public final class BlockConversionRoomMachine extends StorageMultiblockMachine {
 
     @Nullable
     private GTRecipe getRecipe() {
-        if (hasProxies()) {
+        if (hasCapabilityProxies()) {
             GTRecipe recipe = GTORecipeBuilder.ofRaw().duration(400).EUt(getOverclockVoltage()).buildRawRecipe();
             if (RecipeRunner.matchRecipeTickInput(this, recipe)) return recipe;
         }

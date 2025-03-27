@@ -36,7 +36,7 @@ public final class JointRecipeType extends GTORecipeType {
 
     @Override
     public Iterator<GTRecipe> searchRecipe(IRecipeCapabilityHolder holder, boolean tick) {
-        if (!holder.hasProxies()) return null;
+        if (!holder.hasCapabilityProxies()) return null;
         return new JointSearchRecipeIterator(holder, this, tick);
     }
 

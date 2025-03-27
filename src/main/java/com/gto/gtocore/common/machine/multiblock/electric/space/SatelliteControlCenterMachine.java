@@ -137,7 +137,7 @@ public final class SatelliteControlCenterMachine extends ElectricMultiblockMachi
 
     @Nullable
     private GTRecipe getRecipe() {
-        if (launch && hasProxies() && getTier() > GTValues.MV) {
+        if (launch && hasCapabilityProxies() && getTier() > GTValues.MV) {
             launch = false;
             Item item = GTOUtils.getKeyByValue(ROCKET, tier);
             if (item == null) return null;

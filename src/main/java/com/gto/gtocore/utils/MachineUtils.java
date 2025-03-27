@@ -260,12 +260,10 @@ public final class MachineUtils {
      * @param function 应用于每个物品的函数，函数接收一个 ItemStack 参数并返回一个 Boolean 值
      */
     public static void forEachInputItems(IRecipeLogicMachine machine, Function<ItemStack, Boolean> function) {
-        for (IRecipeHandler<?> handler : Objects.requireNonNullElseGet(machine.getCapabilitiesProxy().get(IO.IN, ItemRecipeCapability.CAP), Collections::<IRecipeHandler<?>>emptyList)) {
-            if (!handler.isProxy()) {
-                for (Object contents : handler.getContents()) {
-                    if (contents instanceof ItemStack itemStack) {
-                        if (function.apply(itemStack)) return;
-                    }
+        for (IRecipeHandler<?> handler : machine.getCapabilitiesFlat(IO.IN, ItemRecipeCapability.CAP)) {
+            for (Object contents : handler.getContents()) {
+                if (contents instanceof ItemStack itemStack) {
+                    if (function.apply(itemStack)) return;
                 }
             }
         }
@@ -279,12 +277,10 @@ public final class MachineUtils {
      * @param function 要应用于每个流体栈的函数
      */
     public static void forEachInputFluids(IRecipeLogicMachine machine, Function<FluidStack, Boolean> function) {
-        for (IRecipeHandler<?> handler : Objects.requireNonNullElseGet(machine.getCapabilitiesProxy().get(IO.IN, FluidRecipeCapability.CAP), Collections::<IRecipeHandler<?>>emptyList)) {
-            if (!handler.isProxy()) {
-                for (Object contents : handler.getContents()) {
-                    if (contents instanceof FluidStack fluidStack) {
-                        if (function.apply(fluidStack)) return;
-                    }
+        for (IRecipeHandler<?> handler : machine.getCapabilitiesFlat(IO.IN, FluidRecipeCapability.CAP)) {
+            for (Object contents : handler.getContents()) {
+                if (contents instanceof FluidStack fluidStack) {
+                    if (function.apply(fluidStack)) return;
                 }
             }
         }
@@ -348,7 +344,7 @@ public final class MachineUtils {
 
     public static boolean inputEU(IRecipeLogicMachine machine, long eu) {
         if (eu != 0) {
-            return RecipeRunner.handleTickRecipe(machine, IO.IN, null, List.of(new Content(eu, 0, 0, 0, null, null)), EURecipeCapability.CAP);
+            return RecipeRunner.handleTickRecipe(machine, IO.IN, null, List.of(new Content(eu, 0, 0, 0)), EURecipeCapability.CAP);
         }
         return false;
     }

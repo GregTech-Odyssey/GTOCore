@@ -1,5 +1,7 @@
 package com.gto.gtocore.common.machine.multiblock.part;
 
+import com.gto.gtocore.api.recipe.RecipeRunner;
+
 import com.gregtechceu.gtceu.api.capability.recipe.*;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.widget.SlotWidget;
@@ -8,6 +10,7 @@ import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.feature.IMachineModifyDrops;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.MultiblockPartMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
+import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 
@@ -16,17 +19,13 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemStack;
 
-import com.google.common.collect.Table;
-import com.google.common.collect.Tables;
 import com.lowdragmc.lowdraglib.gui.util.ClickData;
 import com.lowdragmc.lowdraglib.gui.widget.*;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import lombok.Getter;
 
-import java.util.EnumMap;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -61,15 +60,19 @@ public final class RadiationHatchPartMachine extends MultiblockPartMachine imple
     @Persisted
     private int initialTime;
 
-    private final Table<IO, RecipeCapability<?>, List<IRecipeHandler<?>>> capabilitiesProxy;
+    @Getter
+    private final Map<IO, List<RecipeHandlerList>> capabilitiesProxy;
+    @Getter
+    private final Map<IO, Map<RecipeCapability<?>, List<IRecipeHandler<?>>>> capabilitiesFlat;
 
     private TickableSubscription radiationSubs;
 
     public RadiationHatchPartMachine(IMachineBlockEntity holder) {
         super(holder);
         inventory = new NotifiableItemStackHandler(this, 1, IO.IN, IO.BOTH);
-        capabilitiesProxy = Tables.newCustomTable(new EnumMap<>(IO.class), HashMap::new);
-        capabilitiesProxy.put(IO.IN, ItemRecipeCapability.CAP, List.of(inventory));
+        this.capabilitiesProxy = new EnumMap<>(IO.class);
+        this.capabilitiesFlat = new EnumMap<>(IO.class);
+        addHandlerList(RecipeHandlerList.of(IO.IN, inventory));
         radiationSubs = subscribeServerTick(radiationSubs, this::checkRadiation);
     }
 
@@ -82,7 +85,7 @@ public final class RadiationHatchPartMachine extends MultiblockPartMachine imple
             if (recipeTypes != null) {
                 GTRecipeType recipeType = recipeTypes[0];
                 GTRecipe recipe = recipeType.getLookup().findRecipe(this);
-                if (recipe != null && recipe.handleRecipeIO(IO.IN, this, null)) {
+                if (recipe != null && RecipeRunner.handleRecipeIO(this, recipe, IO.IN, Collections.emptyMap())) {
                     initialRadioactivity = recipe.data.getInt("radioactivity") - inhibitionDose;
                     initialTime = recipe.duration * (inhibitionDose + 200) / 200;
                     time = initialTime;
@@ -118,11 +121,6 @@ public final class RadiationHatchPartMachine extends MultiblockPartMachine imple
     @Override
     public void onDrops(List<ItemStack> drops) {
         clearInventory(inventory.storage);
-    }
-
-    @Override
-    public Table<IO, RecipeCapability<?>, List<IRecipeHandler<?>>> getCapabilitiesProxy() {
-        return capabilitiesProxy;
     }
 
     @Override

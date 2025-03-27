@@ -90,7 +90,7 @@ public final class CatalystHatchPartMachine extends TieredIOPartMachine {
 
         @Override
         @Nullable
-        public List<Ingredient> handleRecipeInner(IO io, GTRecipe recipe, List<Ingredient> left, @Nullable String slotName, boolean simulate) {
+        public List<Ingredient> handleRecipeInner(IO io, GTRecipe recipe, List<Ingredient> left, boolean simulate) {
             if (io != IO.IN) return left;
             for (var it = left.listIterator(); it.hasNext();) {
                 var ingredient = it.next();

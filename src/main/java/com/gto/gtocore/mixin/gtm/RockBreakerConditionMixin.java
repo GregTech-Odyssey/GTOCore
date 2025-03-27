@@ -33,17 +33,18 @@ public abstract class RockBreakerConditionMixin extends RecipeCondition {
      */
     @Override
     @Overwrite(remap = false)
-    public boolean test(@NotNull GTRecipe recipe, @NotNull RecipeLogic recipeLogic) {
+    public boolean testCondition(@NotNull GTRecipe recipe, @NotNull RecipeLogic recipeLogic) {
         Fluid fluidA = RegistriesUtils.getFluid(recipe.data.getString("fluidA"));
         Fluid fluidB = RegistriesUtils.getFluid(recipe.data.getString("fluidB"));
         boolean hasFluidA = false, hasFluidB = false;
         if (recipeLogic.machine instanceof ElectricMultiblockMachine MMachine) {
-            List<IRecipeHandler<?>> handlers = MMachine.getCapabilitiesProxy().get(IO.IN, FluidRecipeCapability.CAP);
+            List<IRecipeHandler<?>> handlers = MMachine.getCapabilitiesFlat().get(IO.IN).get(FluidRecipeCapability.CAP);
             if (handlers != null) {
                 for (IRecipeHandler<?> handler : handlers) {
                     if (handler instanceof NotifiableFluidTank tank) {
                         if (tank.getFluidInTank(0).getFluid() == fluidA) hasFluidA = true;
                         if (tank.getFluidInTank(0).getFluid() == fluidB) hasFluidB = true;
+                        if (hasFluidA || hasFluidB) break;
                     }
                 }
             }

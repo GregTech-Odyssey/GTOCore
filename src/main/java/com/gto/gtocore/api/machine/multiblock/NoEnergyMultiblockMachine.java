@@ -18,6 +18,7 @@ import com.gregtechceu.gtceu.api.machine.feature.multiblock.IDisplayUIMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableMultiblockMachine;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.network.chat.Component;
@@ -58,7 +59,7 @@ public class NoEnergyMultiblockMachine extends WorkableMultiblockMachine impleme
     @Override
     @Nullable
     public GTRecipe fullModifyRecipe(@NotNull GTRecipe recipe) {
-        recipe = recipe.trimRecipeOutputs(getOutputLimits());
+        recipe = RecipeHelper.trimRecipeOutputs(recipe, getOutputLimits());
         for (MultiblockTrait trait : multiblockTraits) {
             recipe = trait.modifyRecipe(recipe);
             if (recipe == null) return null;

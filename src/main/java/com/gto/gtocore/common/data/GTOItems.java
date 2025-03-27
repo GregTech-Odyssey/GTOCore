@@ -699,15 +699,6 @@ public interface GTOItems {
     ItemEntry<Item> SPECIAL_CERAMICS = register("special_ceramics", "特种陶瓷");
     ItemEntry<Item> PLANET_SCAN_SATELLITE = register("planet_scan_satellite", "行星扫描卫星");
     ItemEntry<Item> HYPERDIMENSIONAL_DRONE = register("hyperdimensional_drone", "超维度无人机");
-    ItemEntry<Item> FISHBIG_BODY = register("fishbig_body", "Fishbig Body");
-    ItemEntry<Item> FISHBIG_HADE = register("fishbig_hade", "Fishbig Hade");
-    ItemEntry<Item> FISHBIG_HAIR = register("fishbig_hair", "Fishbig Hair");
-    ItemEntry<Item> FISHBIG_LHAND = register("fishbig_lhand", "Fishbig Lhand");
-    ItemEntry<Item> FISHBIG_LLEG = register("fishbig_lleg", "Fishbig Lleg");
-    ItemEntry<Item> FISHBIG_RHAND = register("fishbig_rhand", "Fishbig Rhand");
-    ItemEntry<Item> FISHBIG_RLEG = register("fishbig_rleg", "Fishbig Rleg");
-    ItemEntry<Item> FISHBIG_FABRIC = register("fishbig_fabric", "Fishbig Fabric");
-    ItemEntry<Item> FISHBIG_FRAME = register("fishbig_frame", "Fishbig Frame");
 
     ItemEntry<Item> HOT_IRON_INGOT = registerCustomModel("hot_iron_ingot", "热铁锭");
     ItemEntry<Item> RAW_VACUUM_TUBE = registerCustomModel("raw_vacuum_tube", "粗真空管");

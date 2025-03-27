@@ -64,7 +64,7 @@ public final class NeutronVortexMachine extends NeutronActivatorMachine implemen
             int ev = (recipe.data.getInt("ev_max") + recipe.data.getInt("ev_min")) * 5;
             eV = ev * 100000;
             recipe.duration = recipe.duration / 5;
-            recipe.tickInputs.put(EURecipeCapability.CAP, List.of(new Content((long) ev * ev, ChanceLogic.getMaxChancedValue(), ChanceLogic.getMaxChancedValue(), 0, null, null)));
+            recipe.tickInputs.put(EURecipeCapability.CAP, List.of(new Content((long) ev * ev, ChanceLogic.getMaxChancedValue(), ChanceLogic.getMaxChancedValue(), 0)));
             return recipe;
         }
         return super.getRealRecipe(recipe);

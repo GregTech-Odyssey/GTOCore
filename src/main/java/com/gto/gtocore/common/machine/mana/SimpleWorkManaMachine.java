@@ -5,8 +5,10 @@ import com.gto.gtocore.api.machine.feature.multiblock.IOverclockConfigMachine;
 import com.gto.gtocore.api.machine.mana.feature.IManaEnergyMachine;
 import com.gto.gtocore.common.data.GTORecipeModifiers;
 
+import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.gui.fancy.ConfiguratorPanel;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
 
@@ -31,7 +33,7 @@ public class SimpleWorkManaMachine extends SimpleManaMachine implements IManaEne
 
     public SimpleWorkManaMachine(IMachineBlockEntity holder, int tier, Int2IntFunction tankScalingFunction, Object... args) {
         super(holder, tier, tankScalingFunction, args);
-        IManaEnergyMachine.addProxy(capabilitiesProxy, getTierMana(), getManaContainer());
+        addHandlerList(RecipeHandlerList.of(IO.IN, new ManaEnergyRecipeHandler(getTierMana(), getManaContainer())));
     }
 
     @Nullable

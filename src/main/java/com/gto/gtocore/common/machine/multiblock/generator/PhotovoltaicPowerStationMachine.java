@@ -47,7 +47,7 @@ public final class PhotovoltaicPowerStationMachine extends ElectricMultiblockMac
 
     @Nullable
     private GTRecipe getRecipe() {
-        if (hasProxies()) {
+        if (hasCapabilityProxies()) {
             Level level = getLevel();
             if (level != null && canSeeSky(level)) {
                 int eut;

@@ -12,7 +12,7 @@ import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IWorkableMultiController;
 import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockControllerMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableMultiblockMachine;
-import com.gregtechceu.gtceu.api.machine.trait.IRecipeHandlerTrait;
+import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.integration.ae2.machine.MEOutputBusPartMachine;
@@ -22,15 +22,16 @@ import com.gregtechceu.gtceu.integration.ae2.machine.feature.IGridConnectedMachi
 import net.minecraft.nbt.CompoundTag;
 
 import com.hepdd.gtmthings.common.block.machine.multiblock.part.appeng.MEOutputPartMachine;
+import com.llamalad7.mixinextras.sugar.Local;
 import com.lowdragmc.lowdraglib.syncdata.ISubscription;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import org.jetbrains.annotations.NotNull;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.List;
@@ -41,6 +42,10 @@ public abstract class WorkableMultiblockMachineMixin extends MultiblockControlle
 
     @Shadow(remap = false)
     public abstract @NotNull GTRecipeType getRecipeType();
+
+    @Shadow(remap = false)
+    @Final
+    protected List<ISubscription> traitSubscriptions;
 
     @Unique
     private boolean gTOCore$isItemOutput;
@@ -98,14 +103,13 @@ public abstract class WorkableMultiblockMachineMixin extends MultiblockControlle
         gTOCore$isGrid = tag.getBoolean("isGrid");
     }
 
-    @Redirect(method = "onStructureFormed", at = @At(value = "INVOKE", target = "Lcom/gregtechceu/gtceu/api/machine/trait/IRecipeHandlerTrait;addChangedListener(Ljava/lang/Runnable;)Lcom/lowdragmc/lowdraglib/syncdata/ISubscription;", ordinal = 0), remap = false)
-    private ISubscription onContentChanges(IRecipeHandlerTrait<?> instance, Runnable runnable) {
-        return instance.addChangedListener(() -> {
-            getRecipeLogic().updateTickSubscription();
+    @Inject(method = "onStructureFormed", at = @At(value = "INVOKE", target = "Ljava/util/List;add(Ljava/lang/Object;)Z", ordinal = 0), remap = false)
+    private void onContentChanges(CallbackInfo ci, @Local RecipeHandlerList list) {
+        traitSubscriptions.add(list.subscribe(() -> {
             if (this instanceof IEnhancedMultiblockMachine enhancedRecipeLogicMachine) {
-                enhancedRecipeLogicMachine.onContentChanges(instance);
+                enhancedRecipeLogicMachine.onContentChanges(list);
             }
-        });
+        }));
     }
 
     @Inject(method = "onStructureFormed", at = @At(value = "TAIL"), remap = false)

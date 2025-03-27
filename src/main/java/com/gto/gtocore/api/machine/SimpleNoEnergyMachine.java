@@ -30,7 +30,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 
-import com.google.common.collect.Table;
 import com.google.common.collect.Tables;
 import com.lowdragmc.lowdraglib.gui.texture.ResourceTexture;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
@@ -122,7 +121,9 @@ public class SimpleNoEnergyMachine extends TieredMachine implements IRecipeLogic
     @Persisted
     private final NotifiableComputationContainer exportComputation;
     @Getter
-    protected final Table<IO, RecipeCapability<?>, List<IRecipeHandler<?>>> capabilitiesProxy;
+    protected final Map<IO, List<RecipeHandlerList>> capabilitiesProxy;
+    @Getter
+    protected final Map<IO, Map<RecipeCapability<?>, List<IRecipeHandler<?>>>> capabilitiesFlat;
     private final List<ISubscription> traitSubscriptions;
     @Persisted
     @DescSynced
@@ -134,7 +135,8 @@ public class SimpleNoEnergyMachine extends TieredMachine implements IRecipeLogic
         recipeTypes = getDefinition().getRecipeTypes();
         activeRecipeType = 0;
         this.tankScalingFunction = tankScalingFunction;
-        capabilitiesProxy = Tables.newCustomTable(new EnumMap<>(IO.class), IdentityHashMap::new);
+        this.capabilitiesProxy = new EnumMap<>(IO.class);
+        this.capabilitiesFlat = new EnumMap<>(IO.class);
         traitSubscriptions = new ArrayList<>();
         recipeLogic = createRecipeLogic();
         importItems = createImportItemHandler();
@@ -192,14 +194,16 @@ public class SimpleNoEnergyMachine extends TieredMachine implements IRecipeLogic
     @Override
     public void onLoad() {
         super.onLoad();
+        Map<IO, List<IRecipeHandler<?>>> ioTraits = new EnumMap<>(IO.class);
         for (MachineTrait trait : getTraits()) {
             if (trait instanceof IRecipeHandlerTrait<?> handlerTrait) {
-                if (!capabilitiesProxy.contains(handlerTrait.getHandlerIO(), handlerTrait.getCapability())) {
-                    capabilitiesProxy.put(handlerTrait.getHandlerIO(), handlerTrait.getCapability(), new ArrayList<>());
-                }
-                Objects.requireNonNull(capabilitiesProxy.get(handlerTrait.getHandlerIO(), handlerTrait.getCapability())).add(handlerTrait);
-                traitSubscriptions.add(handlerTrait.addChangedListener(recipeLogic::updateTickSubscription));
+                ioTraits.computeIfAbsent(handlerTrait.getHandlerIO(), i -> new ArrayList<>()).add(handlerTrait);
             }
+        }
+        for (var entry : ioTraits.entrySet()) {
+            var handlerList = RecipeHandlerList.of(entry.getKey(), entry.getValue());
+            this.addHandlerList(handlerList);
+            traitSubscriptions.add(handlerList.subscribe(recipeLogic::updateTickSubscription));
         }
         if (!isRemote()) {
             if (getLevel() instanceof ServerLevel serverLevel) {
@@ -215,6 +219,8 @@ public class SimpleNoEnergyMachine extends TieredMachine implements IRecipeLogic
         super.onUnload();
         traitSubscriptions.forEach(ISubscription::unsubscribe);
         traitSubscriptions.clear();
+        capabilitiesProxy.clear();
+        capabilitiesFlat.clear();
         recipeLogic.inValid();
         if (exportItemSubs != null) {
             exportItemSubs.unsubscribe();

@@ -51,8 +51,8 @@ public final class INFFluidDrillMachine extends ElectricMultiblockMachine {
     }
 
     public int getEnergyTier() {
-        var energyContainer = getCapabilitiesProxy().get(IO.IN, EURecipeCapability.CAP);
-        if (energyContainer == null) return tier;
+        var energyContainer = getCapabilitiesFlat(IO.IN, EURecipeCapability.CAP);
+        if (energyContainer.isEmpty()) return tier;
         var energyCont = new EnergyContainerList(energyContainer.stream().filter(IEnergyContainer.class::isInstance)
                 .map(IEnergyContainer.class::cast).toList());
 

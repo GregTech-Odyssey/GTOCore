@@ -5,12 +5,14 @@ import com.gto.gtocore.api.machine.multiblock.NoEnergyMultiblockMachine;
 import com.gto.gtocore.common.machine.multiblock.part.SensorPartMachine;
 import com.gto.gtocore.utils.MachineUtils;
 
+import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.machine.ConditionalSubscriptionHandler;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.IExplosionMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
+import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.config.ConfigHolder;
@@ -269,7 +271,7 @@ public final class PrimitiveDistillationTowerMachine extends NoEnergyMultiblockM
     @Override
     public void onStructureFormed() {
         super.onStructureFormed();
-        IInfinityEnergyMachine.addProxy(getCapabilitiesProxy(), 120);
+        addHandlerList(RecipeHandlerList.of(IO.IN, new InfinityEnergyRecipeHandler(120)));
         tickSubs.initialize(getLevel());
     }
 

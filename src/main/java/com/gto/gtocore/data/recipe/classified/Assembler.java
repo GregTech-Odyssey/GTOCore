@@ -214,40 +214,6 @@ interface Assembler {
                 .duration(200)
                 .save();
 
-        ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("fishbig_lhand"))
-                .inputItems(GTOItems.FISHBIG_FABRIC.asStack(64))
-                .inputItems(GTOItems.FISHBIG_FABRIC.asStack(64))
-                .inputItems(GTOItems.FISHBIG_FRAME.asStack(64))
-                .inputItems(GTOItems.FISHBIG_FABRIC.asStack(64))
-                .inputItems(GTOBlocks.COMPONENT_ASSEMBLY_LINE_CASING_MAX.asStack(64))
-                .inputItems(GTOItems.FISHBIG_FABRIC.asStack(64))
-                .inputItems(GTOItems.FISHBIG_FABRIC.asStack(64))
-                .inputItems(GTOItems.FISHBIG_FABRIC.asStack(64))
-                .circuitMeta(2)
-                .inputFluids(GTOMaterials.Eternity.getFluid(18432))
-                .outputItems(GTOItems.FISHBIG_LHAND.asStack())
-                .EUt(131941395333120L)
-                .duration(200)
-                .cleanroom(GTOCleanroomType.LAW_CLEANROOM)
-                .save();
-
-        ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("fishbig_frame"))
-                .circuitMeta(6)
-                .inputItems(TagPrefix.plate, GTOMaterials.Cosmic, 64)
-                .inputItems(GTOTagPrefix.NANITES, GTOMaterials.Eternity, 64)
-                .inputItems(TagPrefix.rodLong, GTOMaterials.Cosmic, 64)
-                .inputItems(TagPrefix.frameGt, GTOMaterials.Infinity, 64)
-                .inputItems(TagPrefix.rodLong, GTOMaterials.TranscendentMetal, 64)
-                .inputItems(TagPrefix.rodLong, GTOMaterials.CosmicNeutronium, 64)
-                .inputItems(TagPrefix.frameGt, GTOMaterials.MagnetohydrodynamicallyConstrainedStarMatter, 64)
-                .inputItems(TagPrefix.rodLong, GTOMaterials.Magmatter, 64)
-                .inputFluids(GTOMaterials.Shirabon.getFluid(18432))
-                .outputItems(GTOItems.FISHBIG_FRAME.asStack())
-                .EUt(131941395333120L)
-                .duration(200)
-                .cleanroom(GTOCleanroomType.LAW_CLEANROOM)
-                .save();
-
         ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("pps_corrosion_resistant_mechanical_housing"))
                 .inputItems(TagPrefix.frameGt, GTMaterials.Polytetrafluoroethylene)
                 .inputItems(TagPrefix.plate, GTMaterials.PolyphenyleneSulfide, 6)
@@ -1486,23 +1452,6 @@ interface Assembler {
                 .duration(200)
                 .save();
 
-        ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("fishbig_body"))
-                .inputItems(GTOItems.FISHBIG_FABRIC.asStack(64))
-                .inputItems(GTOItems.FISHBIG_FRAME.asStack(64))
-                .inputItems(GTOItems.FISHBIG_FABRIC.asStack(64))
-                .inputItems(GTOItems.FISHBIG_FABRIC.asStack(64))
-                .inputItems(MultiBlockD.CREATE_AGGREGATION.asStack(64))
-                .inputItems(GTOItems.FISHBIG_FABRIC.asStack(64))
-                .inputItems(GTOItems.FISHBIG_FABRIC.asStack(64))
-                .inputItems(GTOItems.FISHBIG_FRAME.asStack(64))
-                .inputItems(GTOItems.FISHBIG_FABRIC.asStack(64))
-                .inputFluids(GTOMaterials.Eternity.getFluid(18432))
-                .outputItems(GTOItems.FISHBIG_BODY.asStack())
-                .EUt(131941395333120L)
-                .duration(200)
-                .cleanroom(GTOCleanroomType.LAW_CLEANROOM)
-                .save();
-
         ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("oxidation_resistant_hastelloy_n_mechanical_casing"))
                 .inputItems(TagPrefix.frameGt, GTOMaterials.HastelloyN)
                 .inputItems(TagPrefix.plate, GTOMaterials.HastelloyN, 6)
@@ -2197,23 +2146,6 @@ interface Assembler {
                 .cleanroom(CleanroomType.CLEANROOM)
                 .save();
 
-        ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("fishbig_rleg"))
-                .inputItems(GTOItems.FISHBIG_FRAME.asStack(64))
-                .inputItems(GTOItems.FISHBIG_FABRIC.asStack(64))
-                .inputItems(GTOItems.FISHBIG_FABRIC.asStack(64))
-                .inputItems(GTOItems.FISHBIG_FABRIC.asStack(64))
-                .inputItems(GTMachines.BUFFER[GTValues.MAX].asStack(64))
-                .inputItems(GTOItems.FISHBIG_FABRIC.asStack(64))
-                .inputItems(GTOItems.FISHBIG_FABRIC.asStack(64))
-                .inputItems(GTOItems.FISHBIG_FABRIC.asStack(64))
-                .circuitMeta(1)
-                .inputFluids(GTOMaterials.Eternity.getFluid(18432))
-                .outputItems(GTOItems.FISHBIG_RLEG.asStack())
-                .EUt(131941395333120L)
-                .duration(200)
-                .cleanroom(GTOCleanroomType.LAW_CLEANROOM)
-                .save();
-
         ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("neutronium_gearbox"))
                 .inputItems(TagPrefix.plate, GTMaterials.Neutronium, 4)
                 .inputItems(TagPrefix.gear, GTMaterials.Neutronium, 2)
@@ -2248,23 +2180,6 @@ interface Assembler {
                 .EUt(125829120)
                 .duration(400)
                 .cleanroom(CleanroomType.CLEANROOM)
-                .save();
-
-        ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("fishbig_rhand"))
-                .inputItems(GTOItems.FISHBIG_FRAME.asStack(64))
-                .inputItems(GTOItems.FISHBIG_FABRIC.asStack(64))
-                .inputItems(GTOItems.FISHBIG_FABRIC.asStack(64))
-                .inputItems(GTOItems.FISHBIG_FABRIC.asStack(64))
-                .inputItems(GTOBlocks.COMPONENT_ASSEMBLY_LINE_CASING_MAX.asStack(64))
-                .inputItems(GTOItems.FISHBIG_FABRIC.asStack(64))
-                .inputItems(GTOItems.FISHBIG_FABRIC.asStack(64))
-                .inputItems(GTOItems.FISHBIG_FABRIC.asStack(64))
-                .circuitMeta(1)
-                .inputFluids(GTOMaterials.Eternity.getFluid(18432))
-                .outputItems(GTOItems.FISHBIG_RHAND.asStack())
-                .EUt(131941395333120L)
-                .duration(200)
-                .cleanroom(GTOCleanroomType.LAW_CLEANROOM)
                 .save();
 
         ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("smd_diode_optical"))
@@ -2737,23 +2652,6 @@ interface Assembler {
                 .duration(480)
                 .save();
 
-        ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("fishbig_hade"))
-                .inputItems(TagPrefix.plateDouble, GTOMaterials.Cosmic, 64)
-                .inputItems(TagPrefix.plateDouble, GTOMaterials.Cosmic, 64)
-                .inputItems(TagPrefix.plateDouble, GTOMaterials.Cosmic, 64)
-                .inputItems(GTOItems.MAX_SENSOR.asStack(64))
-                .inputItems(MultiBlockD.CREATE_COMPUTATION.asStack(64))
-                .inputItems(GTOItems.MAX_SENSOR.asStack(64))
-                .inputItems(TagPrefix.plateDouble, GTOMaterials.Cosmic, 64)
-                .inputItems(GTOItems.FISHBIG_FRAME.asStack(64))
-                .inputItems(TagPrefix.plateDouble, GTOMaterials.Cosmic, 64)
-                .inputFluids(GTOMaterials.TranscendentMetal.getFluid(18432))
-                .outputItems(GTOItems.FISHBIG_HADE.asStack())
-                .EUt(131941395333120L)
-                .duration(200)
-                .cleanroom(GTOCleanroomType.LAW_CLEANROOM)
-                .save();
-
         ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("spacetime_assembly_line_casing"))
                 .inputItems(GTBlocks.CASING_ASSEMBLY_CONTROL.asStack())
                 .inputItems(GTItems.EMITTER_UHV.asStack())
@@ -2795,23 +2693,6 @@ interface Assembler {
                 .EUt(1920)
                 .duration(200)
                 .cleanroom(CleanroomType.CLEANROOM)
-                .save();
-
-        ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("fishbig_hair"))
-                .inputItems(GTOItems.FISHBIG_FABRIC.asStack(64))
-                .inputItems(GTOItems.FISHBIG_FABRIC.asStack(64))
-                .inputItems(GTOItems.FISHBIG_FABRIC.asStack(64))
-                .inputItems(GTOItems.FISHBIG_FABRIC.asStack(64))
-                .inputItems(GTOItems.FISHBIG_FRAME.asStack(64))
-                .inputItems(GTOItems.FISHBIG_FABRIC.asStack(64))
-                .inputItems(GTOItems.FISHBIG_FABRIC.asStack(64))
-                .inputItems(GTOBlocks.INFINITY_GLASS.asStack(64))
-                .inputItems(GTOItems.FISHBIG_FABRIC.asStack(64))
-                .inputFluids(GTOMaterials.Eternity.getFluid(18432))
-                .outputItems(GTOItems.FISHBIG_HAIR.asStack())
-                .EUt(131941395333120L)
-                .duration(200)
-                .cleanroom(GTOCleanroomType.LAW_CLEANROOM)
                 .save();
 
         ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("large_gas_collector"))
@@ -3028,23 +2909,6 @@ interface Assembler {
                 .outputItems(GTOMachines.NEUTRON_ACCELERATOR[GTValues.LV].asStack())
                 .EUt(30)
                 .duration(400)
-                .save();
-
-        ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("fishbig_lleg"))
-                .inputItems(GTOItems.FISHBIG_FABRIC.asStack(64))
-                .inputItems(GTOItems.FISHBIG_FABRIC.asStack(64))
-                .inputItems(GTOItems.FISHBIG_FRAME.asStack(64))
-                .inputItems(GTOItems.FISHBIG_FABRIC.asStack(64))
-                .inputItems(GTMachines.BUFFER[GTValues.MAX].asStack(64))
-                .inputItems(GTOItems.FISHBIG_FABRIC.asStack(64))
-                .inputItems(GTOItems.FISHBIG_FABRIC.asStack(64))
-                .inputItems(GTOItems.FISHBIG_FABRIC.asStack(64))
-                .circuitMeta(2)
-                .inputFluids(GTOMaterials.Eternity.getFluid(18432))
-                .outputItems(GTOItems.FISHBIG_LLEG.asStack())
-                .EUt(131941395333120L)
-                .duration(200)
-                .cleanroom(GTOCleanroomType.LAW_CLEANROOM)
                 .save();
 
         ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("smd_capacitor_cosmic"))

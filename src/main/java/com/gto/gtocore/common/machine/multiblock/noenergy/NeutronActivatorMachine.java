@@ -79,7 +79,7 @@ public class NeutronActivatorMachine extends NoEnergyMultiblockMachine implement
             if (io == IO.IN || io == IO.BOTH) {
                 busMachines.add(itemBusPart);
                 for (var handler : part.getRecipeHandlers()) {
-                    handler.addChangedListener(this::absorptionUpdate);
+                    handler.subscribe(this::absorptionUpdate);
                 }
             }
         } else if (part instanceof NeutronAcceleratorPartMachine neutronAccelerator) {

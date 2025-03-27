@@ -33,7 +33,7 @@ public class SimpleTieredMachineMixin extends WorkableTieredMachine {
     @Override
     @Nullable
     public GTRecipe fullModifyRecipe(@NotNull GTRecipe recipe) {
-        recipe = recipe.trimRecipeOutputs(getOutputLimits());
+        recipe = RecipeHelper.trimRecipeOutputs(recipe, getOutputLimits());
         if (GTUtil.getTierByVoltage(RecipeHelper.getInputEUt(recipe)) > getMaxOverclockTier()) return null;
         return doModifyRecipe(recipe);
     }

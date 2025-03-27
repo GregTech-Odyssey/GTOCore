@@ -31,15 +31,14 @@ import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture;
 import com.lowdragmc.lowdraglib.gui.texture.ProgressTexture;
 import com.lowdragmc.lowdraglib.gui.texture.ResourceTexture;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.function.BiConsumer;
-import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.function.Supplier;
+import java.util.function.*;
 
 public class GTORecipeType extends GTRecipeType {
 
@@ -52,13 +51,15 @@ public class GTORecipeType extends GTRecipeType {
 
     @Nullable
     public Iterator<GTRecipe> searchRecipe(IRecipeCapabilityHolder holder, boolean tick) {
-        if (!holder.hasProxies()) return null;
+        if (!holder.hasCapabilityProxies()) return null;
         return new SearchRecipeIterator(holder, this, tick);
     }
 
     @Override
-    public Iterator<GTRecipe> searchRecipe(IRecipeCapabilityHolder holder) {
-        return searchRecipe(holder, true);
+    public @NotNull Iterator<GTRecipe> searchRecipe(IRecipeCapabilityHolder holder, Predicate<GTRecipe> canHandle) {
+        Iterator<GTRecipe> iterator = searchRecipe(holder, true);
+        if (iterator == null) return Collections.emptyIterator();
+        return iterator;
     }
 
     @Override
@@ -232,12 +233,6 @@ public class GTORecipeType extends GTRecipeType {
     @Override
     public GTORecipeType setSound(@Nullable final SoundEntry sound) {
         this.sound = sound;
-        return this;
-    }
-
-    @Override
-    public GTORecipeType setFuelRecipeType(final boolean isFuelRecipeType) {
-        this.isFuelRecipeType = isFuelRecipeType;
         return this;
     }
 

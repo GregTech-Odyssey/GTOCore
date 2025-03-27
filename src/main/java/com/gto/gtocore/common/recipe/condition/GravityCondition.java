@@ -52,7 +52,7 @@ public final class GravityCondition extends RecipeCondition {
     }
 
     @Override
-    public boolean test(@NotNull GTRecipe recipe, @NotNull RecipeLogic recipeLogic) {
+    public boolean testCondition(@NotNull GTRecipe recipe, @NotNull RecipeLogic recipeLogic) {
         MetaMachine machine = recipeLogic.getMachine();
         if (machine instanceof MultiblockControllerMachine controllerMachine) {
             for (IMultiPart part : controllerMachine.self().getParts()) {
