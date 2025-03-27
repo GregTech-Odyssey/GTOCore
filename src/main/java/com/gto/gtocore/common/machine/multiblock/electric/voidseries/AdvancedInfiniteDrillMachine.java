@@ -159,8 +159,8 @@ public final class AdvancedInfiniteDrillMachine extends StorageMultiblockMachine
     private int getDrillHeadTier() {
         ItemStack itemStack = getStorageStack();
         if (!itemStack.isEmpty()) {
-            MaterialStack ms = ChemicalHelper.getMaterial(itemStack);
-            if (ms != null) {
+            MaterialStack ms = ChemicalHelper.getMaterialStack(itemStack);
+            if (!ms.isEmpty()) {
                 Material material = ms.material();
                 Integer result = HEAT_MAP.get(material);
                 if (result != null) return result;

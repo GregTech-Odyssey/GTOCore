@@ -22,6 +22,7 @@ import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
+import com.mojang.datafixers.util.Pair;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
@@ -81,10 +82,10 @@ public abstract class RecyclingRecipesMixin {
      */
     @Overwrite(remap = false)
     public static void init(Consumer<FinishedRecipe> provider) {
-        for (Map.Entry<ItemStack, ItemMaterialInfo> entry : ChemicalHelper.getAllItemInfos()) {
-            ItemStack itemStack = entry.getKey();
+        for (Pair<ItemStack, ItemMaterialInfo> entry : ChemicalHelper.getAllItemInfos()) {
+            ItemStack itemStack = entry.getFirst();
             if (itemStack.getItem() instanceof IGTTool) continue;
-            RecyclingRecipes.registerRecyclingRecipes(provider, itemStack, new ArrayList<>(entry.getValue().getMaterials()), false, null);
+            RecyclingRecipes.registerRecyclingRecipes(provider, itemStack, new ArrayList<>(entry.getSecond().getMaterials()), false, null);
         }
     }
 
@@ -157,8 +158,8 @@ public abstract class RecyclingRecipesMixin {
     @Overwrite(remap = false)
     private static void registerExtractorRecycling(Consumer<FinishedRecipe> provider, ItemStack input, List<MaterialStack> materials, int multiplier, @Nullable TagPrefix prefix) {
         if (prefix != null && prefix.secondaryMaterials().isEmpty()) {
-            MaterialStack ms = ChemicalHelper.getMaterial(input);
-            if (ms == null || ms.material() == null) {
+            MaterialStack ms = ChemicalHelper.getMaterialStack(input);
+            if (ms.isEmpty()) {
                 return;
             }
             Material m = ms.material();
@@ -230,8 +231,8 @@ public abstract class RecyclingRecipesMixin {
      */
     @Overwrite(remap = false)
     private static void registerArcRecycling(Consumer<FinishedRecipe> provider, ItemStack input, List<MaterialStack> materials, @Nullable TagPrefix prefix) {
-        MaterialStack ms = ChemicalHelper.getMaterial(input);
-        if (prefix != TagPrefix.dust || ms == null || !ms.material().hasProperty(PropertyKey.BLAST)) {
+        MaterialStack ms = ChemicalHelper.getMaterialStack(input);
+        if (prefix != TagPrefix.dust || ms.isEmpty() || !ms.material().hasProperty(PropertyKey.BLAST)) {
             if (prefix != TagPrefix.block) {
                 materials = combineStacks(materials.stream().map(RecyclingRecipesMixin::getArcSmeltingResult).filter(Objects::nonNull).collect(Collectors.toList()));
                 List<ItemStack> outputs = finalizeOutputs(materials, GTRecipeTypes.ARC_FURNACE_RECIPES.getMaxOutputs(ItemRecipeCapability.CAP), RecyclingRecipesMixin::getArcIngotOrDust);
@@ -247,7 +248,7 @@ public abstract class RecyclingRecipesMixin {
                     builder.save();
                 }
             } else {
-                if (ms != null && !ms.material().hasProperty(PropertyKey.GEM)) {
+                if (!ms.isEmpty() && !ms.material().hasProperty(PropertyKey.GEM)) {
                     ItemStack output = ChemicalHelper.get(TagPrefix.ingot, ms.material().getProperty(PropertyKey.INGOT).getArcSmeltingInto(), (int) (TagPrefix.block.getMaterialAmount(ms.material()) / 3628800L));
                     ResourceLocation itemPath = ItemUtils.getIdLocation(input.getItem());
                     GTORecipeBuilder builder = GTORecipeTypes.ARC_FURNACE_RECIPES.recipeBuilder("arc_" + itemPath.getPath()).outputItems(output).duration(calculateDuration(Collections.singletonList(output))).EUt(GTValues.VA[1]);

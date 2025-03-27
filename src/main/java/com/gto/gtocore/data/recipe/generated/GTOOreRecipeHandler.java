@@ -82,7 +82,7 @@ interface GTOOreRecipeHandler {
         ItemStack byproductStack = ChemicalHelper.get(gem, byproductMaterial).isEmpty() ?
                 ChemicalHelper.get(dust, byproductMaterial) : ChemicalHelper.get(gem, byproductMaterial);
 
-        Material smeltingMaterial = property.getDirectSmeltResult() != null ? property.getDirectSmeltResult() : material;
+        Material smeltingMaterial = property.getDirectSmeltResult().isNull() ? material : property.getDirectSmeltResult();
 
         if (!crushedStack.isEmpty()) {
             GTORecipeBuilder builder = CRUSHER_RECIPES
@@ -225,7 +225,7 @@ interface GTOOreRecipeHandler {
                 }
             }
 
-            if (property.getWashedIn().getFirst() != null) {
+            if (!property.getWashedIn().getFirst().isNull()) {
                 Material washingByproduct = property.getOreByProduct(3, material);
                 Pair<Material, Integer> washedInTuple = property.getWashedIn();
                 // 5 破碎-浸洗-热离-研磨
@@ -346,7 +346,7 @@ interface GTOOreRecipeHandler {
         long mass = material.getMass();
         int dur = (int) Math.max(6, Math.sqrt(mass) * oreTypeMultiplier * 2 / 3);
         ItemStack crushedStack = ChemicalHelper.get(crushed, material, material.getProperty(PropertyKey.ORE).getOreMultiplier() * oreTypeMultiplier / 2);
-        Material smeltingMaterial = property.getDirectSmeltResult() == null ? material : property.getDirectSmeltResult();
+        Material smeltingMaterial = property.getDirectSmeltResult().isNull() ? material : property.getDirectSmeltResult();
         ItemStack ingotStack = material.hasProperty(PropertyKey.INGOT) ? ChemicalHelper.get(ingot, smeltingMaterial, material.getProperty(PropertyKey.ORE).getOreMultiplier()) :
                 material.hasProperty(PropertyKey.GEM) ? ChemicalHelper.get(gem, smeltingMaterial, material.getProperty(PropertyKey.ORE).getOreMultiplier()) :
                         ChemicalHelper.get(dust, smeltingMaterial, material.getProperty(PropertyKey.ORE).getOreMultiplier());
@@ -461,7 +461,7 @@ interface GTOOreRecipeHandler {
             opBuilder4.save();
         }
 
-        if (property.getWashedIn().getFirst() != null) {
+        if (!property.getWashedIn().getFirst().isNull()) {
             Material washingByproduct = property.getOreByProduct(3, material);
             Pair<Material, Integer> washedInTuple = property.getWashedIn();
 
@@ -600,7 +600,7 @@ interface GTOOreRecipeHandler {
                 .outputItems(TagPrefix.dust, GTMaterials.Stone)
                 .save();
 
-        if (property.getWashedIn().getFirst() != null) {
+        if (!property.getWashedIn().getFirst().isNull()) {
             Material washingByproduct = property.getOreByProduct(3, material);
             Pair<Material, Integer> washedInTuple = property.getWashedIn();
             CHEMICAL_BATH_RECIPES.recipeBuilder(material.getName() + "_crushed_ore_to_purified_ore")
@@ -802,7 +802,7 @@ interface GTOOreRecipeHandler {
 
     private static void processMetalSmelting(@NotNull Consumer<FinishedRecipe> provider, @NotNull OreProperty property,
                                              @NotNull TagPrefix prefix, @NotNull Material material) {
-        Material smeltingResult = property.getDirectSmeltResult() == null ? material : property.getDirectSmeltResult();
+        Material smeltingResult = property.getDirectSmeltResult().isNull() ? material : property.getDirectSmeltResult();
         if (smeltingResult.hasProperty(PropertyKey.INGOT)) {
             ItemStack ingotStack = ChemicalHelper.get(ingot, smeltingResult);
             if (!ingotStack.isEmpty() && doesMaterialUseNormalFurnace(smeltingResult) && !prefix.isIgnored(material)) {

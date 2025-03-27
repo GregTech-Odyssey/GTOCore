@@ -122,11 +122,11 @@ public abstract class PlayerMixin extends LivingEntity implements IEnhancedPlaye
             MinecraftServer server = level.getServer();
             if (server == null) return;
             gTOCore$amprosium = false;
-            MaterialStack materialStack = ChemicalHelper.getMaterial(getItemInHand(InteractionHand.MAIN_HAND));
-            if (materialStack == null) {
-                materialStack = ChemicalHelper.getMaterial(getItemInHand(InteractionHand.OFF_HAND));
+            MaterialStack materialStack = ChemicalHelper.getMaterialStack(getItemInHand(InteractionHand.MAIN_HAND));
+            if (materialStack.isEmpty()) {
+                materialStack = ChemicalHelper.getMaterialStack(getItemInHand(InteractionHand.OFF_HAND));
             }
-            if (materialStack != null && materialStack.material() == GTMaterials.Neutronium) {
+            if (materialStack.material() == GTMaterials.Neutronium) {
                 gTOCore$amprosium = true;
             }
             String name = getName().getString();

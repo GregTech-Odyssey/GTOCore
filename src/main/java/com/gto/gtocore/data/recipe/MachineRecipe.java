@@ -7,7 +7,7 @@ import com.gto.gtocore.common.data.GTOMachines;
 import com.gto.gtocore.common.data.GTOMaterials;
 import com.gto.gtocore.common.data.machines.*;
 
-import com.gregtechceu.gtceu.api.data.chemical.material.stack.UnificationEntry;
+import com.gregtechceu.gtceu.api.data.chemical.material.stack.MaterialEntry;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTItems;
@@ -39,19 +39,19 @@ public interface MachineRecipe {
         HatchRecipe.init(provider);
         VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("casing_uev"), GTBlocks.MACHINE_CASING_UEV.asStack(),
                 "PPP",
-                "PwP", "PPP", 'P', new UnificationEntry(plate, GTOMaterials.Quantanium));
+                "PwP", "PPP", 'P', new MaterialEntry(plate, GTOMaterials.Quantanium));
         VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("casing_uiv"), GTBlocks.MACHINE_CASING_UIV.asStack(),
                 "PPP",
-                "PwP", "PPP", 'P', new UnificationEntry(plate, GTOMaterials.Adamantium));
+                "PwP", "PPP", 'P', new MaterialEntry(plate, GTOMaterials.Adamantium));
         VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("casing_uxv"), GTBlocks.MACHINE_CASING_UXV.asStack(),
                 "PPP",
-                "PwP", "PPP", 'P', new UnificationEntry(plate, GTOMaterials.Vibranium));
+                "PwP", "PPP", 'P', new MaterialEntry(plate, GTOMaterials.Vibranium));
         VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("casing_opv"), GTBlocks.MACHINE_CASING_OpV.asStack(),
                 "PPP",
-                "PwP", "PPP", 'P', new UnificationEntry(plate, GTOMaterials.Draconium));
+                "PwP", "PPP", 'P', new MaterialEntry(plate, GTOMaterials.Draconium));
         VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("casing_max"), GTBlocks.MACHINE_CASING_MAX.asStack(),
                 "PPP",
-                "PwP", "PPP", 'P', new UnificationEntry(plate, GTOMaterials.Chaos));
+                "PwP", "PPP", 'P', new MaterialEntry(plate, GTOMaterials.Chaos));
         LASER_WELDER_RECIPES.recipeBuilder("casing_ulv").EUt(16).inputItems(plate, WroughtIron, 8)
                 .outputItems(GTBlocks.MACHINE_CASING_ULV.asItem()).circuitMeta(8).duration(25).save();
         LASER_WELDER_RECIPES.recipeBuilder("casing_lv").EUt(16).inputItems(plate, Steel, 8)
@@ -171,93 +171,93 @@ public interface MachineRecipe {
         registerMachineRecipe(provider, GTOMachines.WORLD_DATA_SCANNER, "CDC", "BAB", "CDC", 'A', HULL, 'B', CABLE, 'C', SENSOR, 'D', CIRCUIT);
         registerMachineRecipe(provider, GTOMachines.ACCELERATE_HATCH, "CFC", "FAF", "CFC", 'A', HULL, 'F', FIELD_GENERATOR, 'C', SENSOR);
 
-        VanillaRecipeHelper.addShapedRecipe(provider, GTOCore.id("lv_thermal_generator"), GTOMachines.THERMAL_GENERATOR[LV].asStack(), "ABA", "CDC", "EFE", 'B', GTItems.ELECTRIC_MOTOR_LV.asStack(), 'F', GTBlocks.FIREBOX_BRONZE.asStack(), 'D', GTMachines.HULL[LV].asStack(), 'C', CustomTags.LV_CIRCUITS, 'E', new UnificationEntry(TagPrefix.cableGtSingle, GTMaterials.Cobalt), 'A', new UnificationEntry(TagPrefix.plate, GTMaterials.Invar));
-        VanillaRecipeHelper.addShapedRecipe(provider, GTOCore.id("mv_thermal_generator"), GTOMachines.THERMAL_GENERATOR[MV].asStack(), "ABA", "CDC", "EFE", 'B', GTItems.ELECTRIC_MOTOR_MV.asStack(), 'F', GTBlocks.FIREBOX_STEEL.asStack(), 'D', GTMachines.HULL[MV].asStack(), 'C', CustomTags.MV_CIRCUITS, 'E', new UnificationEntry(TagPrefix.cableGtSingle, GTMaterials.AnnealedCopper), 'A', new UnificationEntry(TagPrefix.plate, GTOMaterials.DarkSteel));
+        VanillaRecipeHelper.addShapedRecipe(provider, GTOCore.id("lv_thermal_generator"), GTOMachines.THERMAL_GENERATOR[LV].asStack(), "ABA", "CDC", "EFE", 'B', GTItems.ELECTRIC_MOTOR_LV.asStack(), 'F', GTBlocks.FIREBOX_BRONZE.asStack(), 'D', GTMachines.HULL[LV].asStack(), 'C', CustomTags.LV_CIRCUITS, 'E', new MaterialEntry(TagPrefix.cableGtSingle, GTMaterials.Cobalt), 'A', new MaterialEntry(TagPrefix.plate, GTMaterials.Invar));
+        VanillaRecipeHelper.addShapedRecipe(provider, GTOCore.id("mv_thermal_generator"), GTOMachines.THERMAL_GENERATOR[MV].asStack(), "ABA", "CDC", "EFE", 'B', GTItems.ELECTRIC_MOTOR_MV.asStack(), 'F', GTBlocks.FIREBOX_STEEL.asStack(), 'D', GTMachines.HULL[MV].asStack(), 'C', CustomTags.MV_CIRCUITS, 'E', new MaterialEntry(TagPrefix.cableGtSingle, GTMaterials.AnnealedCopper), 'A', new MaterialEntry(TagPrefix.plate, GTOMaterials.DarkSteel));
 
         VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("thermal_generator"), GTOMachines.THERMAL_GENERATOR[0].asStack(),
-                "PVP", "CMC", "WBW", 'M', GTMachines.HULL[0].asStack(), 'P', new UnificationEntry(plate, Steel), 'V',
-                GTOItems.ULV_ELECTRIC_MOTOR.asStack(), 'C', CustomTags.ULV_CIRCUITS, 'W', new UnificationEntry(wireGtSingle, Lead), 'B', GTMachines.STEAM_SOLID_BOILER.first().getItem());
+                "PVP", "CMC", "WBW", 'M', GTMachines.HULL[0].asStack(), 'P', new MaterialEntry(plate, Steel), 'V',
+                GTOItems.ULV_ELECTRIC_MOTOR.asStack(), 'C', CustomTags.ULV_CIRCUITS, 'W', new MaterialEntry(wireGtSingle, Lead), 'B', GTMachines.STEAM_SOLID_BOILER.first().getItem());
 
         VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("ulv_wind_mill_turbine"), GTOMachines.WIND_MILL_TURBINE[0].asStack(),
-                "RGR", "MHM", "WCW", 'H', GTOMachines.THERMAL_GENERATOR[0].asStack(), 'G', new UnificationEntry(gear, Bronze), 'R', new UnificationEntry(rod, WroughtIron),
-                'C', CustomTags.ULV_CIRCUITS, 'W', new UnificationEntry(cableGtSingle, RedAlloy), 'M', new UnificationEntry(rod, IronMagnetic));
+                "RGR", "MHM", "WCW", 'H', GTOMachines.THERMAL_GENERATOR[0].asStack(), 'G', new MaterialEntry(gear, Bronze), 'R', new MaterialEntry(rod, WroughtIron),
+                'C', CustomTags.ULV_CIRCUITS, 'W', new MaterialEntry(cableGtSingle, RedAlloy), 'M', new MaterialEntry(rod, IronMagnetic));
 
         VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("lv_wind_mill_turbine"), GTOMachines.WIND_MILL_TURBINE[1].asStack(),
-                "RGR", "MHM", "WCW", 'H', GTMachines.HULL[1].asStack(), 'G', new UnificationEntry(gear, Steel), 'R', new UnificationEntry(rod, Invar),
-                'C', CustomTags.LV_CIRCUITS, 'W', new UnificationEntry(cableGtSingle, Tin), 'M', GTItems.ELECTRIC_MOTOR_LV.asItem());
+                "RGR", "MHM", "WCW", 'H', GTMachines.HULL[1].asStack(), 'G', new MaterialEntry(gear, Steel), 'R', new MaterialEntry(rod, Invar),
+                'C', CustomTags.LV_CIRCUITS, 'W', new MaterialEntry(cableGtSingle, Tin), 'M', GTItems.ELECTRIC_MOTOR_LV.asItem());
 
         VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("mv_wind_mill_turbine"), GTOMachines.WIND_MILL_TURBINE[2].asStack(),
-                "RGR", "MHM", "WCW", 'H', GTMachines.HULL[2].asStack(), 'G', new UnificationEntry(gear, Aluminium), 'R', new UnificationEntry(rod, VanadiumSteel),
-                'C', CustomTags.MV_CIRCUITS, 'W', new UnificationEntry(cableGtSingle, Copper), 'M', GTItems.ELECTRIC_MOTOR_MV.asItem());
+                "RGR", "MHM", "WCW", 'H', GTMachines.HULL[2].asStack(), 'G', new MaterialEntry(gear, Aluminium), 'R', new MaterialEntry(rod, VanadiumSteel),
+                'C', CustomTags.MV_CIRCUITS, 'W', new MaterialEntry(cableGtSingle, Copper), 'M', GTItems.ELECTRIC_MOTOR_MV.asItem());
 
         VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("hv_wind_mill_turbine"), GTOMachines.WIND_MILL_TURBINE[3].asStack(),
-                "RGR", "MHM", "WCW", 'H', GTMachines.HULL[3].asStack(), 'G', new UnificationEntry(gear, StainlessSteel), 'R', new UnificationEntry(rod, BlackSteel),
-                'C', CustomTags.HV_CIRCUITS, 'W', new UnificationEntry(cableGtSingle, Gold), 'M', GTItems.ELECTRIC_MOTOR_HV.asItem());
+                "RGR", "MHM", "WCW", 'H', GTMachines.HULL[3].asStack(), 'G', new MaterialEntry(gear, StainlessSteel), 'R', new MaterialEntry(rod, BlackSteel),
+                'C', CustomTags.HV_CIRCUITS, 'W', new MaterialEntry(cableGtSingle, Gold), 'M', GTItems.ELECTRIC_MOTOR_HV.asItem());
 
         VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("ulv_packer"), GTOMachines.ULV_PACKER[0].asStack(),
                 "BCA", "RMV", "WCW", 'M', GTMachines.HULL[0].asStack(), 'R', GTItems.RESISTOR.asStack(), 'V', Tags.Items.CHESTS_WOODEN,
-                'C', CustomTags.ULV_CIRCUITS, 'W', new UnificationEntry(cableGtSingle, RedAlloy), 'B', GTOItems.ULV_ROBOT_ARM.asStack(), 'A', GTOItems.ULV_CONVEYOR_MODULE.asItem());
+                'C', CustomTags.ULV_CIRCUITS, 'W', new MaterialEntry(cableGtSingle, RedAlloy), 'B', GTOItems.ULV_ROBOT_ARM.asStack(), 'A', GTOItems.ULV_CONVEYOR_MODULE.asItem());
         VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("ulv_unpacker"), GTOMachines.ULV_UNPACKER[0].asStack(),
                 "WCW", "VMR", "ACB", 'M', GTMachines.HULL[0].asStack(), 'R', GTItems.RESISTOR.asStack(), 'V', Tags.Items.CHESTS_WOODEN,
-                'C', CustomTags.ULV_CIRCUITS, 'W', new UnificationEntry(cableGtSingle, RedAlloy), 'B', GTOItems.ULV_ROBOT_ARM.asStack(), 'A', GTOItems.ULV_CONVEYOR_MODULE.asItem());
-        VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("ulv_chemical_reactor"), GTOMachines.ULV_CHEMICAL_REACTOR[0].asStack(), "GRG", "WEW", "CMC", 'M', GTMachines.HULL[0].asStack(), 'R', new UnificationEntry(rotor, Tin), 'E',
-                GTOItems.ULV_ELECTRIC_MOTOR.asStack(), 'C', CustomTags.ULV_CIRCUITS, 'W', new UnificationEntry(cableGtSingle, RedAlloy), 'G', Blocks.GLASS.asItem());
+                'C', CustomTags.ULV_CIRCUITS, 'W', new MaterialEntry(cableGtSingle, RedAlloy), 'B', GTOItems.ULV_ROBOT_ARM.asStack(), 'A', GTOItems.ULV_CONVEYOR_MODULE.asItem());
+        VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("ulv_chemical_reactor"), GTOMachines.ULV_CHEMICAL_REACTOR[0].asStack(), "GRG", "WEW", "CMC", 'M', GTMachines.HULL[0].asStack(), 'R', new MaterialEntry(rotor, Tin), 'E',
+                GTOItems.ULV_ELECTRIC_MOTOR.asStack(), 'C', CustomTags.ULV_CIRCUITS, 'W', new MaterialEntry(cableGtSingle, RedAlloy), 'G', Blocks.GLASS.asItem());
         VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("ulv_fluid_solidifier"), GTOMachines.ULV_FLUID_SOLIDIFIER[0].asStack(), "PGP", "WMW", "CBC", 'M', GTMachines.HULL[0].asStack(), 'P', GTOItems.ULV_ELECTRIC_PUMP.asStack(), 'C',
-                CustomTags.ULV_CIRCUITS, 'W', new UnificationEntry(cableGtSingle, RedAlloy), 'G', Blocks.GLASS.asItem(), 'B', Tags.Items.CHESTS_WOODEN);
+                CustomTags.ULV_CIRCUITS, 'W', new MaterialEntry(cableGtSingle, RedAlloy), 'G', Blocks.GLASS.asItem(), 'B', Tags.Items.CHESTS_WOODEN);
         VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("ulv_assembler"), GTOMachines.ULV_ASSEMBLER[0].asStack(), "ACA", "VMV", "WCW", 'M', GTMachines.HULL[0].asStack(), 'V', GTOItems.ULV_CONVEYOR_MODULE.asStack(), 'A',
-                GTOItems.ULV_ROBOT_ARM.asStack(), 'C', CustomTags.ULV_CIRCUITS, 'W', new UnificationEntry(cableGtSingle, RedAlloy));
+                GTOItems.ULV_ROBOT_ARM.asStack(), 'C', CustomTags.ULV_CIRCUITS, 'W', new MaterialEntry(cableGtSingle, RedAlloy));
 
         VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("large_rolling"), MultiBlockB.LARGE_ROLLING.asStack(),
                 "PKP", "BZB", "FKH", 'Z', CustomTags.IV_CIRCUITS, 'B', GTItems.ELECTRIC_MOTOR_IV.asStack(), 'P',
                 GTItems.ELECTRIC_PISTON_IV.asStack(), 'H', GTOMachines.ROLLING[IV].asStack(),
-                'F', GTOMachines.CLUSTER[IV].asStack(), 'K', new UnificationEntry(cableGtSingle, Platinum));
+                'F', GTOMachines.CLUSTER[IV].asStack(), 'K', new MaterialEntry(cableGtSingle, Platinum));
         VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("large_bender"), MultiBlockB.LARGE_BENDER.asStack(),
                 "PKP", "BZB", "HKH", 'Z', CustomTags.IV_CIRCUITS, 'H', GTItems.ELECTRIC_MOTOR_IV.asStack(), 'P',
-                GTItems.ELECTRIC_PISTON_IV.asStack(), 'B', GTMachines.BENDER[IV].asStack(), 'K', new UnificationEntry(cableGtSingle, Platinum));
+                GTItems.ELECTRIC_PISTON_IV.asStack(), 'B', GTMachines.BENDER[IV].asStack(), 'K', new MaterialEntry(cableGtSingle, Platinum));
         VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("large_forming"), MultiBlockB.LARGE_FORMING.asStack(),
                 "PKP", "GZG", "HKH", 'Z', CustomTags.IV_CIRCUITS, 'P', GTItems.ELECTRIC_PISTON_IV.asStack(),
-                'G', GTMachines.FORMING_PRESS[IV].asStack(), 'H', GTMachines.FORGE_HAMMER[IV].asStack(), 'K', new UnificationEntry(cableGtSingle, Platinum));
+                'G', GTMachines.FORMING_PRESS[IV].asStack(), 'H', GTMachines.FORGE_HAMMER[IV].asStack(), 'K', new MaterialEntry(cableGtSingle, Platinum));
         VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("large_crusher"), MultiBlockC.LARGE_CRUSHER.asStack(),
                 "PKP", "GZG", "HKH", 'Z', CustomTags.IV_CIRCUITS, 'P', GTItems.ELECTRIC_PISTON_IV.asStack(),
-                'G', GTMachines.MACERATOR[IV].asStack(), 'H', GTMachines.FORGE_HAMMER[IV].asStack(), 'K', new UnificationEntry(cableGtSingle, Platinum));
+                'G', GTMachines.MACERATOR[IV].asStack(), 'H', GTMachines.FORGE_HAMMER[IV].asStack(), 'K', new MaterialEntry(cableGtSingle, Platinum));
         VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("large_laminator"), MultiBlockC.LARGE_LAMINATOR.asStack(), "RKR", "CXC",
                 "MKM", 'C', CustomTags.IV_CIRCUITS, 'R', GTItems.ELECTRIC_PUMP_IV.asStack(), 'M', GTItems.CONVEYOR_MODULE_IV.asStack(), 'X',
-                GTOMachines.LAMINATOR[IV].asStack(), 'K', new UnificationEntry(cableGtSingle, Platinum));
+                GTOMachines.LAMINATOR[IV].asStack(), 'K', new MaterialEntry(cableGtSingle, Platinum));
         VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("large_laser_welder"), MultiBlockC.LARGE_LASER_WELDER.asStack(), "ICI",
-                "EXE", "PKP", 'C', CustomTags.IV_CIRCUITS, 'P', new UnificationEntry(plateDouble, TantalumCarbide), 'I',
+                "EXE", "PKP", 'C', CustomTags.IV_CIRCUITS, 'P', new MaterialEntry(plateDouble, TantalumCarbide), 'I',
                 GTItems.EMITTER_IV.asStack(), 'E', GTItems.CONVEYOR_MODULE_IV.asStack(), 'X', GTOMachines.LASER_WELDER[IV].asStack(), 'K',
-                new UnificationEntry(cableGtSingle, Platinum));
+                new MaterialEntry(cableGtSingle, Platinum));
 
         VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("generator_array"),
                 GeneratorMultiblock.GENERATOR_ARRAY.asStack(),
-                "ABA", "BCB", "ABA", 'A', new UnificationEntry(plate, Steel),
+                "ABA", "BCB", "ABA", 'A', new MaterialEntry(plate, Steel),
                 'B', CustomTags.LV_CIRCUITS, 'C', GTItems.EMITTER_LV.asItem());
 
         VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("hermetic_casing_uev"),
                 GTOBlocks.HERMETIC_CASING_UEV.asStack(), "PPP", "PFP", "PPP", 'P',
-                new UnificationEntry(plate, GTOMaterials.Quantanium), 'F',
-                new UnificationEntry(pipeLargeFluid, Neutronium));
+                new MaterialEntry(plate, GTOMaterials.Quantanium), 'F',
+                new MaterialEntry(pipeLargeFluid, Neutronium));
 
         VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("hermetic_casing_uiv"),
                 GTOBlocks.HERMETIC_CASING_UIV.asStack(), "PPP", "PFP", "PPP", 'P',
-                new UnificationEntry(plate, GTOMaterials.Adamantium), 'F',
-                new UnificationEntry(pipeLargeFluid, Neutronium));
+                new MaterialEntry(plate, GTOMaterials.Adamantium), 'F',
+                new MaterialEntry(pipeLargeFluid, Neutronium));
 
         VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("hermetic_casing_uxv"),
                 GTOBlocks.HERMETIC_CASING_UXV.asStack(), "PPP", "PFP", "PPP", 'P',
-                new UnificationEntry(plate, GTOMaterials.Vibranium), 'F',
-                new UnificationEntry(pipeLargeFluid, GTOMaterials.Enderium));
+                new MaterialEntry(plate, GTOMaterials.Vibranium), 'F',
+                new MaterialEntry(pipeLargeFluid, GTOMaterials.Enderium));
 
         VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("hermetic_casing_opv"),
                 GTOBlocks.HERMETIC_CASING_OpV.asStack(), "PPP", "PFP", "PPP", 'P',
-                new UnificationEntry(plate, GTOMaterials.Draconium), 'F',
-                new UnificationEntry(pipeLargeFluid,
+                new MaterialEntry(plate, GTOMaterials.Draconium), 'F',
+                new MaterialEntry(pipeLargeFluid,
                         GTOMaterials.HeavyQuarkDegenerateMatter));
 
         VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("quantum_tank_uev"),
                 GTMachines.QUANTUM_TANK[UEV].asStack(),
                 "CGC", "PHP", "CUC", 'C', CustomTags.UEV_CIRCUITS, 'P',
-                new UnificationEntry(plate, GTOMaterials.Quantanium), 'U',
+                new MaterialEntry(plate, GTOMaterials.Quantanium), 'U',
                 GTItems.ELECTRIC_PUMP_UHV.asStack(),
                 'G', GTItems.FIELD_GENERATOR_UV.asStack(), 'H',
                 GTOBlocks.HERMETIC_CASING_UEV.asItem());
@@ -265,7 +265,7 @@ public interface MachineRecipe {
         VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("quantum_tank_uiv"),
                 GTMachines.QUANTUM_TANK[UIV].asStack(),
                 "CGC", "PHP", "CUC", 'C', CustomTags.UIV_CIRCUITS, 'P',
-                new UnificationEntry(plate, GTOMaterials.Adamantium), 'U',
+                new MaterialEntry(plate, GTOMaterials.Adamantium), 'U',
                 GTItems.ELECTRIC_PUMP_UEV.asStack(),
                 'G', GTItems.FIELD_GENERATOR_UHV.asStack(), 'H',
                 GTOBlocks.HERMETIC_CASING_UIV.asItem());
@@ -273,7 +273,7 @@ public interface MachineRecipe {
         VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("quantum_tank_uxv"),
                 GTMachines.QUANTUM_TANK[UXV].asStack(),
                 "CGC", "PHP", "CUC", 'C', CustomTags.UXV_CIRCUITS, 'P',
-                new UnificationEntry(plate, GTOMaterials.Vibranium), 'U',
+                new MaterialEntry(plate, GTOMaterials.Vibranium), 'U',
                 GTItems.ELECTRIC_PUMP_UIV.asStack(),
                 'G', GTItems.FIELD_GENERATOR_UEV.asStack(), 'H',
                 GTOBlocks.HERMETIC_CASING_UXV.asItem());
@@ -281,7 +281,7 @@ public interface MachineRecipe {
         VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("quantum_tank_opv"),
                 GTMachines.QUANTUM_TANK[OpV].asStack(),
                 "CGC", "PHP", "CUC", 'C', CustomTags.OpV_CIRCUITS, 'P',
-                new UnificationEntry(plate, GTOMaterials.Draconium), 'U',
+                new MaterialEntry(plate, GTOMaterials.Draconium), 'U',
                 GTItems.ELECTRIC_PUMP_UXV.asStack(),
                 'G', GTItems.FIELD_GENERATOR_UIV.asStack(), 'H',
                 GTOBlocks.HERMETIC_CASING_OpV.asItem());
@@ -289,25 +289,25 @@ public interface MachineRecipe {
         VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("quantum_chest_uev"),
                 GTMachines.QUANTUM_CHEST[UEV].asStack(), "CPC", "PHP", "CFC", 'C',
                 CustomTags.UEV_CIRCUITS, 'P',
-                new UnificationEntry(plate, GTOMaterials.Quantanium), 'F',
+                new MaterialEntry(plate, GTOMaterials.Quantanium), 'F',
                 GTItems.FIELD_GENERATOR_UV.asStack(), 'H', GTMachines.HULL[10].getItem());
 
         VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("quantum_chest_uiv"),
                 GTMachines.QUANTUM_CHEST[UIV].asStack(), "CPC", "PHP", "CFC", 'C',
                 CustomTags.UIV_CIRCUITS, 'P',
-                new UnificationEntry(plate, GTOMaterials.Adamantium), 'F',
+                new MaterialEntry(plate, GTOMaterials.Adamantium), 'F',
                 GTItems.FIELD_GENERATOR_UHV.asStack(), 'H', GTMachines.HULL[11].getItem());
 
         VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("quantum_chest_uxv"),
                 GTMachines.QUANTUM_CHEST[UXV].asStack(), "CPC", "PHP", "CFC", 'C',
                 CustomTags.UXV_CIRCUITS, 'P',
-                new UnificationEntry(plate, GTOMaterials.Vibranium), 'F',
+                new MaterialEntry(plate, GTOMaterials.Vibranium), 'F',
                 GTItems.FIELD_GENERATOR_UEV.asStack(), 'H', GTMachines.HULL[12].getItem());
 
         VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("quantum_chest_opv"),
                 GTMachines.QUANTUM_CHEST[OpV].asStack(), "CPC", "PHP", "CFC", 'C',
                 CustomTags.OpV_CIRCUITS, 'P',
-                new UnificationEntry(plate, GTOMaterials.Draconium), 'F',
+                new MaterialEntry(plate, GTOMaterials.Draconium), 'F',
                 GTItems.FIELD_GENERATOR_UIV.asStack(), 'H', GTMachines.HULL[13].getItem());
 
         VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("large_block_conversion_room"),
@@ -315,11 +315,11 @@ public interface MachineRecipe {
                 'S', GTItems.SENSOR_UHV.asStack(), 'E', GTItems.EMITTER_UHV.asStack(), 'H',
                 MultiBlockD.BLOCK_CONVERSION_ROOM.getItem());
 
-        VanillaRecipeHelper.addShapedRecipe(provider, GTOCore.id("hp_steam_vacuum_pump"), GTOMachines.STEAM_VACUUM_PUMP.right().asStack(), "ABA", "CDC", "ECE", 'B', new UnificationEntry(TagPrefix.pipeHugeFluid, GTMaterials.TinAlloy), 'D', GTOMachines.STEAM_VACUUM_PUMP.first().asStack(), 'C', new UnificationEntry(TagPrefix.pipeLargeFluid, GTMaterials.TinAlloy), 'E', new UnificationEntry(TagPrefix.plate, GTMaterials.WroughtIron), 'A', GTMachines.STEEL_DRUM.getItem());
+        VanillaRecipeHelper.addShapedRecipe(provider, GTOCore.id("hp_steam_vacuum_pump"), GTOMachines.STEAM_VACUUM_PUMP.right().asStack(), "ABA", "CDC", "ECE", 'B', new MaterialEntry(TagPrefix.pipeHugeFluid, GTMaterials.TinAlloy), 'D', GTOMachines.STEAM_VACUUM_PUMP.first().asStack(), 'C', new MaterialEntry(TagPrefix.pipeLargeFluid, GTMaterials.TinAlloy), 'E', new MaterialEntry(TagPrefix.plate, GTMaterials.WroughtIron), 'A', GTMachines.STEEL_DRUM.getItem());
         VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("steam_vacuum_pump"), GTOMachines.STEAM_VACUUM_PUMP.first().asStack(), "DSD",
-                "SMS", "GSG", 'M', GTBlocks.BRONZE_BRICKS_HULL.asStack(), 'S', new UnificationEntry(pipeNormalFluid, Bronze), 'D', GTMachines.BRONZE_DRUM.asStack(), 'G', new UnificationEntry(gearSmall, Bronze));
+                "SMS", "GSG", 'M', GTBlocks.BRONZE_BRICKS_HULL.asStack(), 'S', new MaterialEntry(pipeNormalFluid, Bronze), 'D', GTMachines.BRONZE_DRUM.asStack(), 'G', new MaterialEntry(gearSmall, Bronze));
         VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("steam_alloy_smelter_bronze"), GTMachines.STEAM_ALLOY_SMELTER.left().asStack(),
-                "XXX", "FMF", "XXX", 'M', GTBlocks.BRONZE_BRICKS_HULL.asStack(), 'X', new UnificationEntry(TagPrefix.pipeSmallFluid, GTMaterials.Bronze), 'F', MachineBlocks.PRIMITIVE_ALLOY_SMELTER.asItem());
+                "XXX", "FMF", "XXX", 'M', GTBlocks.BRONZE_BRICKS_HULL.asStack(), 'X', new MaterialEntry(TagPrefix.pipeSmallFluid, GTMaterials.Bronze), 'F', MachineBlocks.PRIMITIVE_ALLOY_SMELTER.asItem());
 
         ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("infinity_fluid_drilling_rig"))
                 .inputItems(GTMachines.HULL[UV])

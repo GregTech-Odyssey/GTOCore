@@ -248,7 +248,7 @@ public final class FluidRegulatorCover extends ULVPumpCover {
     // ***** LDLib SyncData ******//
     //////////////////////////////////////
 
-    public static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(FluidRegulatorCover.class,
+    private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(FluidRegulatorCover.class,
             ULVPumpCover.MANAGED_FIELD_HOLDER);
 
     @Override

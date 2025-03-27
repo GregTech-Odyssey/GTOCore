@@ -18,7 +18,7 @@ public class EnderManMixin extends Monster {
     }
 
     @Inject(method = "teleport()Z", at = @At("HEAD"), cancellable = true)
-    protected void teleport(CallbackInfoReturnable<Boolean> cir) {
+    private void teleport(CallbackInfoReturnable<Boolean> cir) {
         if (isNoAi()) cir.setReturnValue(false);
     }
 }

@@ -16,15 +16,12 @@ import com.gto.gtocore.integration.emi.multipage.MultiblockInfoEmiRecipe;
 import com.gto.gtocore.utils.RegistriesUtils;
 
 import com.gregtechceu.gtceu.GTCEu;
-import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
-import com.gregtechceu.gtceu.api.data.chemical.material.properties.BlastProperty;
+import com.gregtechceu.gtceu.api.data.chemical.material.ItemMaterialData;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.recipe.category.GTRecipeCategory;
-import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
 import com.gregtechceu.gtceu.api.registry.GTRegistries;
-import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.data.pack.GTDynamicDataPack;
 import com.gregtechceu.gtceu.data.recipe.MaterialInfoLoader;
@@ -48,27 +45,20 @@ import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import java.util.Set;
 import java.util.function.Consumer;
 
-import static com.gregtechceu.gtceu.common.data.GTRecipes.EBF_GASES;
 import static com.gto.gtocore.common.data.GTORecipes.*;
 
 public interface Data {
 
     static void init() {
         long time = System.currentTimeMillis();
-        EBF_GASES.clear();
-        EBF_GASES.put(BlastProperty.GasTier.LOW, FluidIngredient.of(GTMaterials.Nitrogen.getFluid(1000)));
-        EBF_GASES.put(BlastProperty.GasTier.MID, FluidIngredient.of(GTMaterials.Helium.getFluid(100)));
-        EBF_GASES.put(BlastProperty.GasTier.HIGH, FluidIngredient.of(GTMaterials.Argon.getFluid(100)));
-        EBF_GASES.put(BlastProperty.GasTier.HIGHER, FluidIngredient.of(GTMaterials.Neon.getFluid(100)));
-        EBF_GASES.put(BlastProperty.GasTier.HIGHEST, FluidIngredient.of(GTMaterials.Krypton.getFluid(100)));
 
-        ChemicalHelper.reinitializeUnification();
+        ItemMaterialData.reinitializeMaterialData();
         MaterialInfoLoader.init();
-        GTOMaterialInfoLoader.init();
         GTORecipeBuilder.initialization();
         RecipeFilter.init();
         Consumer<FinishedRecipe> consumer = GTDynamicDataPack::addRecipe;
 
+        ForEachMaterial.init(consumer);
         CustomToolRecipes.init(consumer);
         ChemistryRecipes.init(consumer);
         MetaTileEntityMachineRecipeLoader.init(consumer);
@@ -92,8 +82,6 @@ public interface Data {
         SHAPED_FILTER_RECIPES = null;
         SHAPELESS_FILTER_RECIPES = null;
 
-        ForEachMaterial.init(consumer);
-
         // GTO
         GTMTRecipe.init(consumer);
         GCYRecipes.init(consumer);
@@ -116,7 +104,7 @@ public interface Data {
         GenerateDisassembly.DISASSEMBLY_RECORD.clear();
         GenerateDisassembly.DISASSEMBLY_BLACKLIST.clear();
         RecyclingRecipes.init(consumer);
-        ChemicalHelper.ITEM_MATERIAL_INFO.clear();
+        ItemMaterialData.ITEM_MATERIAL_INFO.clear();
         GTORecipeBuilder.clean();
         LootSystem.defaultBlockTable(RegistriesUtils.getBlock("farmersrespite:kettle"));
         GTOLoots.BLOCKS.forEach(b -> LootSystem.defaultBlockTable((Block) b));

@@ -193,9 +193,7 @@ interface CosmosSimulation {
             Integer tier = GTODimensions.ALL_LAYER_DIMENSION.get(dimension);
             if (tier == null || tier == 0) tier = 1;
             if (tier > 9) tier = 9;
-            int size = 0;
             Map<Material, Integer> materialMap = new Object2IntOpenHashMap<>();
-            Map<Material, Integer> secondaryMap = new Object2IntOpenHashMap<>();
             Map<Fluid, Integer> fluid = new Object2IntOpenHashMap<>();
             GTORecipeBuilder builder = COSMOS_SIMULATION_RECIPES.recipeBuilder(GTOCore.id(dimension.getPath()))
                     .addData("tier", tier)
@@ -212,9 +210,6 @@ interface CosmosSimulation {
 
             for (Map.Entry<Material, Integer> ore : entry.getValue().entrySet()) {
                 Map<Material, Integer> map = getOreMaterial(ore.getKey(), ore.getValue());
-                for (Map.Entry<Material, Integer> material : map.entrySet()) {
-                    secondaryMap.merge(material.getKey(), (int) (Math.sqrt(material.getValue() << 20)) << 8, (a, b) -> (int) (a + b / 1.5));
-                }
                 for (Map.Entry<Material, Integer> material : getOreMaterial(map).entrySet()) {
                     materialMap.merge(material.getKey(), (int) (Math.sqrt(material.getValue() << 20)) << 8, (a, b) -> (int) (a + b / 1.5));
                 }
@@ -227,25 +222,15 @@ interface CosmosSimulation {
             for (Map.Entry<Material, Integer> material : materialMap.entrySet()) {
                 Item item = GTOChemicalHelper.getItem(TagPrefix.dust, material.getKey());
                 if (item != Items.AIR) {
-                    size++;
                     dust.merge(item, material.getValue(), Integer::sum);
-                }
-            }
-            for (Map.Entry<Material, Integer> material : secondaryMap.entrySet()) {
-                if (size > 120) break;
-                Item item = GTOChemicalHelper.getItem(TagPrefix.dust, material.getKey());
-                if (item != Items.AIR) {
-                    size++;
-                    dust.merge(item, material.getValue(), (a, b) -> (int) (a + b / 1.75));
                 }
             }
             dust.entrySet().stream().sorted(Map.Entry.comparingByValue()).toList().forEach(e -> builder.outputItems(e.getKey(), e.getValue()));
             fluid.putAll(fluidContent.getOrDefault(tier, Map.of()));
             for (Map.Entry<Fluid, Integer> content : fluid.entrySet().stream().sorted(Map.Entry.comparingByValue()).toList()) {
-                size++;
                 builder.outputFluids(new FluidStack(content.getKey(), content.getValue()));
             }
-            builder.duration((int) Math.sqrt(size * tier * 256)).save();
+            builder.duration((int) Math.sqrt(tier * dust.size() << 16)).save();
         }
     }
 

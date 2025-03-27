@@ -70,8 +70,8 @@ public final class NanoForgeMachine extends StorageMultiblockMachine implements 
     @Override
     protected void onMachineChanged() {
         machineTier = 0;
-        MaterialStack stack = ChemicalHelper.getMaterial(getStorageStack());
-        if (stack == null) return;
+        MaterialStack stack = ChemicalHelper.getMaterialStack(getStorageStack());
+        if (stack.isEmpty()) return;
         Material material = stack.material();
         if (material == GTMaterials.Carbon) {
             machineTier = 1;

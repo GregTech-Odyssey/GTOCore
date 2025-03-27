@@ -12,7 +12,7 @@ import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.block.ICoilType;
 import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
-import com.gregtechceu.gtceu.api.data.chemical.material.stack.UnificationEntry;
+import com.gregtechceu.gtceu.api.data.chemical.material.stack.MaterialEntry;
 import com.gregtechceu.gtceu.api.gui.fancy.ConfiguratorPanel;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
@@ -63,8 +63,8 @@ public final class NanitesIntegratedMachine extends StorageMultiblockMachine imp
 
     public NanitesIntegratedMachine(IMachineBlockEntity holder) {
         super(holder, 64, i -> {
-            UnificationEntry entry = ChemicalHelper.getUnificationEntry(i.getItem());
-            return entry != null && entry.tagPrefix == GTOTagPrefix.NANITES && entry.material != GTMaterials.Carbon;
+            MaterialEntry entry = ChemicalHelper.getMaterialEntry(i.getItem());
+            return entry.tagPrefix() == GTOTagPrefix.NANITES && entry.material() != GTMaterials.Carbon;
         });
         coilTrait = new CoilTrait(this, false, true);
     }

@@ -7,7 +7,7 @@ import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.chemical.material.MarkerMaterials;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.data.chemical.material.properties.*;
-import com.gregtechceu.gtceu.api.data.chemical.material.stack.UnificationEntry;
+import com.gregtechceu.gtceu.api.data.chemical.material.stack.MaterialEntry;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
@@ -31,7 +31,6 @@ import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlags.*;
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
-import static com.gregtechceu.gtceu.common.data.GTRecipes.EBF_GASES;
 import static com.gto.gtocore.common.data.GTORecipeTypes.*;
 
 interface GTOMaterialRecipeHandler {
@@ -269,7 +268,7 @@ interface GTOMaterialRecipeHandler {
         if (material.getMass() < 240 && material.getBlastTemperature() < 3600)
             VanillaRecipeHelper.addShapedRecipe(provider, String.format("frame_%s", material.getName()),
                     stack.copyWithCount(2), "SSS", isWoodenFrame ? "SsS" : "SwS", "SSS",
-                    'S', new UnificationEntry(rod, material));
+                    'S', new MaterialEntry(rod, material));
 
         ASSEMBLER_RECIPES.recipeBuilder("assemble_" + material.getName() + "_frame")
                 .inputItems(rod, material, 4)
@@ -281,7 +280,7 @@ interface GTOMaterialRecipeHandler {
 
     private static void processGemConversion(TagPrefix gemPrefix, Material material, Consumer<FinishedRecipe> provider) {
         if (material.hasFlag(MORTAR_GRINDABLE)) {
-            VanillaRecipeHelper.addShapedRecipe(provider, String.format("gem_to_dust_%s_%s", material.getName(), FormattingUtil.toLowerCaseUnder(gemPrefix.name)), ChemicalHelper.getDust(material, gemPrefix.getMaterialAmount(material)), "X", "m", 'X', new UnificationEntry(gemPrefix, material));
+            VanillaRecipeHelper.addShapedRecipe(provider, String.format("gem_to_dust_%s_%s", material.getName(), FormattingUtil.toLowerCaseUnder(gemPrefix.name)), ChemicalHelper.getDust(material, gemPrefix.getMaterialAmount(material)), "X", "m", 'X', new MaterialEntry(gemPrefix, material));
         }
 
         TagPrefix prevPrefix = GTUtil.getItem(GEM_ORDER, GEM_ORDER.indexOf(gemPrefix) - 1, null);
@@ -369,7 +368,7 @@ interface GTOMaterialRecipeHandler {
 
             if (oreProperty != null) {
                 Material smeltingResult = oreProperty.getDirectSmeltResult();
-                if (smeltingResult != null) {
+                if (!smeltingResult.isNull()) {
                     VanillaRecipeHelper.addSmeltingRecipe(provider, id + "_ingot",
                             dustStack, ChemicalHelper.get(ingot, smeltingResult));
                 }
@@ -382,7 +381,7 @@ interface GTOMaterialRecipeHandler {
                 ItemStack ingotStack = ChemicalHelper.get(hasHotIngot ? ingotHot : ingot, material);
                 if (ingotStack.isEmpty() && oreProperty != null) {
                     Material smeltingResult = oreProperty.getDirectSmeltResult();
-                    if (smeltingResult != null) {
+                    if (smeltingResult.isNull()) {
                         ingotStack = ChemicalHelper.get(ingot, smeltingResult);
                     }
                 }
@@ -401,7 +400,7 @@ interface GTOMaterialRecipeHandler {
 
                     processEBFRecipe(material, blastProperty, ingotStack, provider);
 
-                    if (ingotProperty.getMagneticMaterial() != null) {
+                    if (!ingotProperty.getMagneticMaterial().isNull()) {
                         processEBFRecipe(ingotProperty.getMagneticMaterial(), blastProperty, ingotStack, provider);
                     }
                 }
@@ -417,7 +416,7 @@ interface GTOMaterialRecipeHandler {
             // Some Ores with Direct Smelting Results have neither ingot nor gem properties
             if (oreProperty != null) {
                 Material smeltingResult = oreProperty.getDirectSmeltResult();
-                if (smeltingResult != null) {
+                if (smeltingResult.isNull()) {
                     ItemStack ingotStack = ChemicalHelper.get(ingot, smeltingResult);
                     if (!ingotStack.isEmpty()) {
                         VanillaRecipeHelper.addSmeltingRecipe(provider, id + "_dust_to_ingot", dustStack, ingotStack);
@@ -477,7 +476,7 @@ interface GTOMaterialRecipeHandler {
                 .EUt(EUt);
 
         if (gasTier != null) {
-            FluidIngredient gas = EBF_GASES.get(gasTier).copy();
+            FluidIngredient gas = property.getGasTier().getFluid();
 
             blastBuilder.copy("blast_" + material.getName())
                     .circuitMeta(1)

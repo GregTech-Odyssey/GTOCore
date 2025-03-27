@@ -3,7 +3,7 @@ package com.gto.gtocore.mixin.gtm.recipe;
 import com.gto.gtocore.data.recipe.generated.WoodRecipes;
 
 import com.gregtechceu.gtceu.api.GTValues;
-import com.gregtechceu.gtceu.api.data.chemical.material.stack.UnificationEntry;
+import com.gregtechceu.gtceu.api.data.chemical.material.stack.MaterialEntry;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
 import com.gregtechceu.gtceu.data.recipe.WoodTypeEntry;
@@ -131,8 +131,8 @@ public final class WoodMachineRecipesMixin {
                         "PTd", "PRS", "PPs",
                         'P', entry.planks,
                         'T', entry.trapdoor,
-                        'R', new UnificationEntry(ring, Iron),
-                        'S', new UnificationEntry(screw, Iron));
+                        'R', new MaterialEntry(ring, Iron),
+                        'S', new MaterialEntry(screw, Iron));
 
                 // plank -> door assembling
                 ASSEMBLER_RECIPES.recipeBuilder(name + "_door")
@@ -146,8 +146,8 @@ public final class WoodMachineRecipesMixin {
                         "PTd", "PRS", "PPs",
                         'P', entry.planks,
                         'T', ItemTags.WOODEN_TRAPDOORS,
-                        'R', new UnificationEntry(ring, Iron),
-                        'S', new UnificationEntry(screw, Iron));
+                        'R', new MaterialEntry(ring, Iron),
+                        'S', new MaterialEntry(screw, Iron));
 
                 // plank -> door assembling
                 ASSEMBLER_RECIPES.recipeBuilder(name + "_door")
@@ -166,7 +166,7 @@ public final class WoodMachineRecipesMixin {
             VanillaRecipeHelper.addShapedRecipe(provider, recipeName, new ItemStack(entry.sign),
                     "LLL", "RPR", "sSd",
                     'P', entry.planks,
-                    'R', new UnificationEntry(screw, Iron),
+                    'R', new MaterialEntry(screw, Iron),
                     'L', entry.slab,
                     'S', entry.getStick());
 
@@ -187,7 +187,7 @@ public final class WoodMachineRecipesMixin {
                 VanillaRecipeHelper.addShapedRecipe(provider, recipeNameHanging, new ItemStack(entry.hangingSign),
                         "LLL", "C C", "RSR",
                         'C', Items.CHAIN,
-                        'R', new UnificationEntry(ring, Iron),
+                        'R', new MaterialEntry(ring, Iron),
                         'S', new ItemStack(entry.sign),
                         'L', new ItemStack(entry.slab));
 
@@ -208,7 +208,7 @@ public final class WoodMachineRecipesMixin {
             VanillaRecipeHelper.addShapedRecipe(provider, recipeName, new ItemStack(entry.trapdoor),
                     "BPS", "PdP", "SPB",
                     'P', entry.planks,
-                    'B', new UnificationEntry(bolt, Iron),
+                    'B', new MaterialEntry(bolt, Iron),
                     'S', entry.getStick());
 
             // plank -> trapdoor assembling
@@ -287,7 +287,7 @@ public final class WoodMachineRecipesMixin {
                     "IdI", "SPS", "SPS",
                     'P', entry.planks,
                     'S', entry.getStick(),
-                    'I', new UnificationEntry(screw, Iron));
+                    'I', new MaterialEntry(screw, Iron));
 
             // plank -> fence gate assembling
             ASSEMBLER_RECIPES.recipeBuilder(name + "_fence_gate")
@@ -325,7 +325,7 @@ public final class WoodMachineRecipesMixin {
                         new ItemStack(entry.chestBoat),
                         " B ", "SCS", " w ",
                         'B', entry.boat,
-                        'S', new UnificationEntry(bolt, Wood),
+                        'S', new MaterialEntry(bolt, Wood),
                         'C', Tags.Items.CHESTS_WOODEN);
 
                 // boat -> chest boat assembling
@@ -354,9 +354,9 @@ public final class WoodMachineRecipesMixin {
         if (entry.pressurePlate != null && entry.slab != null) {
             VanillaRecipeHelper.addShapedRecipe(provider, name + "_pressure_plate",
                     new ItemStack(entry.pressurePlate, 2), "SrS", "LCL", "SdS",
-                    'S', new UnificationEntry(bolt, GTMaterials.Wood),
+                    'S', new MaterialEntry(bolt, GTMaterials.Wood),
                     'L', entry.slab.asItem(),
-                    'C', new UnificationEntry(spring, GTMaterials.Iron));
+                    'C', new MaterialEntry(spring, GTMaterials.Iron));
 
             ASSEMBLER_RECIPES.recipeBuilder(name + "_pressure_plate")
                     .inputItems(new ItemStack(entry.slab, 2))

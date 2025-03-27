@@ -21,7 +21,7 @@ public abstract class LargeBoilerMachineMixin extends WorkableMultiblockMachine 
     protected abstract void updateSteamSubscription();
 
     @Inject(method = "updateCurrentTemperature", at = @At(value = "INVOKE", target = "Lcom/gregtechceu/gtceu/common/machine/multiblock/steam/LargeBoilerMachine;doExplosion(F)V"), remap = false, cancellable = true)
-    protected void updateCurrentTemperature(CallbackInfo ci) {
+    private void updateCurrentTemperature(CallbackInfo ci) {
         updateSteamSubscription();
         ci.cancel();
     }

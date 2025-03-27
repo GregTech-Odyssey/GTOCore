@@ -5,7 +5,7 @@ import com.gto.gtocore.GTOCore;
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
-import com.gregtechceu.gtceu.api.data.chemical.material.stack.UnificationEntry;
+import com.gregtechceu.gtceu.api.data.chemical.material.stack.MaterialEntry;
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
 import com.gregtechceu.gtceu.api.recipe.ingredient.SizedIngredient;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
@@ -35,21 +35,21 @@ public final class StringConverter {
         for (Ingredient.Value value : ((IngredientAccessor) inner).getValues()) {
             if (value instanceof Ingredient.ItemValue itemValue) {
                 for (ItemStack itemStack : itemValue.getItems()) {
-                    UnificationEntry entry = ChemicalHelper.getUnificationEntry(itemStack.getItem());
-                    if (entry != null && entry != UnificationEntry.EmptyMapMarkerEntry && entry.material != null) {
+                    MaterialEntry entry = ChemicalHelper.getMaterialEntry(itemStack.getItem());
+                    if (!entry.isEmpty()) {
                         String material;
                         String tagPrefix;
-                        if (StringIndex.MATERIAL_MAP.containsKey(entry.material)) {
-                            material = StringIndex.MATERIAL_MAP.get(entry.material);
+                        if (StringIndex.MATERIAL_MAP.containsKey(entry.material())) {
+                            material = StringIndex.MATERIAL_MAP.get(entry.material());
                         } else {
-                            material = "GTOMaterials." + FormattingUtil.lowerUnderscoreToUpperCamel(entry.material.getName());
+                            material = "GTOMaterials." + FormattingUtil.lowerUnderscoreToUpperCamel(entry.material().getName());
                         }
-                        if (StringIndex.TAGPREFIX_MAP.containsKey(entry.tagPrefix)) {
-                            tagPrefix = StringIndex.TAGPREFIX_MAP.get(entry.tagPrefix);
+                        if (StringIndex.TAGPREFIX_MAP.containsKey(entry.tagPrefix())) {
+                            tagPrefix = StringIndex.TAGPREFIX_MAP.get(entry.tagPrefix());
                         } else {
-                            tagPrefix = "GTOTagPrefix." + entry.tagPrefix.name().toUpperCase();
+                            tagPrefix = "GTOTagPrefix." + entry.tagPrefix().name().toUpperCase();
                         }
-                        if (re == 2) return "new UnificationEntry(" + tagPrefix + ", " + material + (amount > 1 ? ", " + amount : "") + ")";
+                        if (re == 2) return "new MaterialEntry(" + tagPrefix + ", " + material + (amount > 1 ? ", " + amount : "") + ")";
                         if (re == 1) return tagPrefix + ", " + material + (amount > 1 ? ", " + amount : "");
                         return "ChemicalHelper.get(" + tagPrefix + ", " + material + (amount > 1 ? ", " + amount : "") + ")";
                     }
@@ -100,26 +100,25 @@ public final class StringConverter {
         if (ingredient.isEmpty() || ingredient.getStacks().length < 1) return null;
         FluidStack stack = ingredient.getStacks()[0];
         ResourceLocation resourceLocation = FluidUtils.getIdLocation(stack.getFluid());
-        if (resourceLocation == null) return null;
         boolean plasma = false;
         boolean liquid = false;
         boolean molten = false;
         Material material = GTMaterials.get(resourceLocation.toString());
-        if (material == null && resourceLocation.toString().contains("_plasma")) {
+        if (material.isNull() && resourceLocation.toString().contains("_plasma")) {
             material = GTMaterials.get(resourceLocation.toString().replace("_plasma", ""));
-            if (material != null) plasma = true;
+            if (!material.isNull()) plasma = true;
         }
-        if (material == null && resourceLocation.toString().contains("liquid_")) {
+        if (material.isNull() && resourceLocation.toString().contains("liquid_")) {
             material = GTMaterials.get(resourceLocation.toString().replace("liquid_", ""));
-            if (material != null) liquid = true;
+            if (!material.isNull()) liquid = true;
         }
-        if (material == null && resourceLocation.toString().contains("molten_")) {
+        if (material.isNull() && resourceLocation.toString().contains("molten_")) {
             material = GTMaterials.get(resourceLocation.toString().replace("molten_", ""));
-            if (material != null) molten = true;
+            if (!material.isNull()) molten = true;
         }
         String m;
         String s;
-        if (material != null) {
+        if (!material.isNull()) {
             String a = "";
             if (plasma) {
                 a = "FluidStorageKeys.PLASMA, ";

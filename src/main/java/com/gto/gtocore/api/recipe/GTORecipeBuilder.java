@@ -15,7 +15,7 @@ import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.capability.recipe.*;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
-import com.gregtechceu.gtceu.api.data.chemical.material.stack.UnificationEntry;
+import com.gregtechceu.gtceu.api.data.chemical.material.stack.MaterialEntry;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.item.component.IDataItem;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
@@ -76,7 +76,7 @@ public final class GTORecipeBuilder extends GTRecipeBuilder {
 
     public static Map<ResourceLocation, GTRecipe> RECIPE_MAP;
 
-    private static Map<UnificationEntry, Ingredient> MATERIAL_INGREDIENT_MAP;
+    private static Map<MaterialEntry, Ingredient> MATERIAL_INGREDIENT_MAP;
     private static Map<NBTItem, Ingredient> ITEM_INGREDIENT_MAP;
     private static Map<TagKey<Item>, Ingredient> TAG_INGREDIENT_MAP;
 
@@ -115,16 +115,16 @@ public final class GTORecipeBuilder extends GTRecipeBuilder {
         return SizedIngredient.create(getNonRepetitionIngredient(item), amount);
     }
 
-    private static SizedIngredient createSizedIngredient(UnificationEntry unificationEntry, int amount) {
-        if (MATERIAL_INGREDIENT_MAP == null) return SizedIngredient.create(ChemicalHelper.get(unificationEntry, amount));
-        Ingredient ingredient = MATERIAL_INGREDIENT_MAP.get(unificationEntry);
+    private static SizedIngredient createSizedIngredient(MaterialEntry MaterialEntry, int amount) {
+        if (MATERIAL_INGREDIENT_MAP == null) return SizedIngredient.create(ChemicalHelper.get(MaterialEntry, amount));
+        Ingredient ingredient = MATERIAL_INGREDIENT_MAP.get(MaterialEntry);
         if (ingredient == null) {
-            Item item = GTOChemicalHelper.getItem(unificationEntry);
+            Item item = GTOChemicalHelper.getItem(MaterialEntry);
             if (item == Items.AIR) {
-                GTOCore.LOGGER.error("Tried to set output item stack that doesn't exist, TagPrefix: {}, Material: {}", unificationEntry.tagPrefix, unificationEntry.material);
+                GTOCore.LOGGER.error("Tried to set output item stack that doesn't exist, TagPrefix: {}, Material: {}", MaterialEntry.tagPrefix(), MaterialEntry.material());
             }
             ingredient = getNonRepetitionIngredient(item);
-            MATERIAL_INGREDIENT_MAP.put(unificationEntry, ingredient);
+            MATERIAL_INGREDIENT_MAP.put(MaterialEntry, ingredient);
         }
         return SizedIngredient.create(ingredient, amount);
     }
@@ -341,14 +341,14 @@ public final class GTORecipeBuilder extends GTRecipeBuilder {
             return inputItems(stack);
         } else if (input instanceof Ingredient ingredient) {
             return inputItems(ingredient);
-        } else if (input instanceof UnificationEntry entry) {
+        } else if (input instanceof MaterialEntry entry) {
             return inputItems(entry);
         } else if (input instanceof TagKey<?> tag) {
             return inputItems((TagKey<Item>) tag);
         } else if (input instanceof MachineDefinition machine) {
             return inputItems(machine);
         } else {
-            GTOCore.LOGGER.error("Input item is not one of: Item, Supplier<Item>, ItemStack, Ingredient, UnificationEntry, TagKey<Item>, MachineDefinition, id: {}", id);
+            GTOCore.LOGGER.error("Input item is not one of: Item, Supplier<Item>, ItemStack, Ingredient, MaterialEntry, TagKey<Item>, MachineDefinition, id: {}", id);
             return this;
         }
     }
@@ -366,14 +366,14 @@ public final class GTORecipeBuilder extends GTRecipeBuilder {
             return inputItems(stack.copyWithCount(count));
         } else if (input instanceof Ingredient ingredient) {
             return inputItems(ingredient, count);
-        } else if (input instanceof UnificationEntry entry) {
+        } else if (input instanceof MaterialEntry entry) {
             return inputItems(entry, count);
         } else if (input instanceof TagKey<?> tag) {
             return inputItems((TagKey<Item>) tag, count);
         } else if (input instanceof MachineDefinition machine) {
             return inputItems(machine, count);
         } else {
-            GTOCore.LOGGER.error("Input item is not one of: Item, Supplier<Item>, ItemStack, Ingredient, UnificationEntry, TagKey<Item>, MachineDefinition, id: {}", id);
+            GTOCore.LOGGER.error("Input item is not one of: Item, Supplier<Item>, ItemStack, Ingredient, MaterialEntry, TagKey<Item>, MachineDefinition, id: {}", id);
             return this;
         }
     }
@@ -452,19 +452,19 @@ public final class GTORecipeBuilder extends GTRecipeBuilder {
     }
 
     @Override
-    public GTORecipeBuilder inputItems(UnificationEntry input) {
+    public GTORecipeBuilder inputItems(MaterialEntry input) {
         return inputItems(input, 1);
     }
 
     @Override
-    public GTORecipeBuilder inputItems(UnificationEntry input, int count) {
+    public GTORecipeBuilder inputItems(MaterialEntry input, int count) {
         if (deleted) return this;
-        if (input.material == null) {
-            GTOCore.LOGGER.error("Unification Entry material is null, id: {}, TagPrefix: {}", id, input.tagPrefix);
+        if (input.material().isNull()) {
+            GTOCore.LOGGER.error("Unification Entry material is null, id: {}, TagPrefix: {}", id, input.tagPrefix());
             return this;
         }
-        if (((ITagPrefix) input.tagPrefix).gtocore$isTagInput()) {
-            TagKey<Item> tag = ChemicalHelper.getTag(input.tagPrefix, input.material);
+        if (((ITagPrefix) input.tagPrefix()).gtocore$isTagInput()) {
+            TagKey<Item> tag = ChemicalHelper.getTag(input.tagPrefix(), input.material());
             if (tag != null) {
                 return inputItems(tag, count);
             }
@@ -475,7 +475,7 @@ public final class GTORecipeBuilder extends GTRecipeBuilder {
     @Override
     public GTORecipeBuilder inputItems(TagPrefix orePrefix, Material material, int count) {
         if (deleted) return this;
-        return inputItems(new UnificationEntry(orePrefix, material), count);
+        return inputItems(new MaterialEntry(orePrefix, material), count);
     }
 
     @Override
@@ -499,12 +499,12 @@ public final class GTORecipeBuilder extends GTRecipeBuilder {
             return outputItems(item.asItem());
         } else if (input instanceof ItemStack stack) {
             return outputItems(stack);
-        } else if (input instanceof UnificationEntry entry) {
+        } else if (input instanceof MaterialEntry entry) {
             return outputItems(entry);
         } else if (input instanceof MachineDefinition machine) {
             return outputItems(machine);
         } else {
-            GTOCore.LOGGER.error("Output item is not one of: Item, Supplier<Item>, ItemStack, Ingredient, UnificationEntry, TagKey<Item>, MachineDefinition, id: {}", id);
+            GTOCore.LOGGER.error("Output item is not one of: Item, Supplier<Item>, ItemStack, Ingredient, MaterialEntry, TagKey<Item>, MachineDefinition, id: {}", id);
             return this;
         }
     }
@@ -520,12 +520,12 @@ public final class GTORecipeBuilder extends GTRecipeBuilder {
             return outputItems(item.asItem(), count);
         } else if (input instanceof ItemStack stack) {
             return outputItems(stack.copyWithCount(count));
-        } else if (input instanceof UnificationEntry entry) {
+        } else if (input instanceof MaterialEntry entry) {
             return outputItems(entry, count);
         } else if (input instanceof MachineDefinition machine) {
             return outputItems(machine, count);
         } else {
-            GTOCore.LOGGER.error("Output item is not one of: Item, Supplier<Item>, ItemStack, Ingredient, UnificationEntry, TagKey<Item>, MachineDefinition, id: {}", id);
+            GTOCore.LOGGER.error("Output item is not one of: Item, Supplier<Item>, ItemStack, Ingredient, MaterialEntry, TagKey<Item>, MachineDefinition, id: {}", id);
             return this;
         }
     }
@@ -587,19 +587,19 @@ public final class GTORecipeBuilder extends GTRecipeBuilder {
     @Override
     public GTORecipeBuilder outputItems(TagPrefix orePrefix, Material material, int count) {
         if (deleted) return this;
-        return outputItems(new UnificationEntry(orePrefix, material), count);
+        return outputItems(new MaterialEntry(orePrefix, material), count);
     }
 
     @Override
-    public GTORecipeBuilder outputItems(UnificationEntry entry) {
+    public GTORecipeBuilder outputItems(MaterialEntry entry) {
         return outputItems(entry, 1);
     }
 
     @Override
-    public GTORecipeBuilder outputItems(UnificationEntry output, int count) {
+    public GTORecipeBuilder outputItems(MaterialEntry output, int count) {
         if (deleted) return this;
-        if (output.material == null) {
-            GTOCore.LOGGER.error("Unification Entry material is null, id: {}, TagPrefix: {}", id, output.tagPrefix);
+        if (output.material().isNull()) {
+            GTOCore.LOGGER.error("Unification Entry material is null, id: {}, TagPrefix: {}", id, output.tagPrefix());
             return this;
         }
         return output(ItemRecipeCapability.CAP, createSizedIngredient(output, count));

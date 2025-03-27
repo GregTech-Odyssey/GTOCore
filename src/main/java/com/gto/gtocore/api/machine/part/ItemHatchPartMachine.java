@@ -56,7 +56,7 @@ public class ItemHatchPartMachine extends MultiblockPartMachine implements IMach
         return storage;
     }
 
-    protected int getSlotLimit() {
+    private int getSlotLimit() {
         return limit;
     }
 
@@ -64,7 +64,7 @@ public class ItemHatchPartMachine extends MultiblockPartMachine implements IMach
         return true;
     }
 
-    protected void onMachineChanged() {}
+    private void onMachineChanged() {}
 
     @Override
     public ManagedFieldHolder getFieldHolder() {

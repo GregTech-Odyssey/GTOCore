@@ -6,7 +6,7 @@ import com.gto.gtocore.mixin.gtm.api.recipe.GTRecipeTypeAccessor;
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.recipe.*;
-import com.gregtechceu.gtceu.api.data.chemical.material.stack.UnificationEntry;
+import com.gregtechceu.gtceu.api.data.chemical.material.stack.MaterialEntry;
 import com.gregtechceu.gtceu.api.gui.SteamTexture;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
@@ -96,8 +96,8 @@ public class GTORecipeType extends GTRecipeType {
     }
 
     @Override
-    public GTORecipeBuilder recipeBuilder(UnificationEntry entry, Object... append) {
-        return recipeBuilder(GTCEu.id(entry.tagPrefix + (entry.material == null ? "" : "_" + entry.material.getName())), append);
+    public GTORecipeBuilder recipeBuilder(MaterialEntry entry, Object... append) {
+        return recipeBuilder(GTCEu.id(entry.tagPrefix() + (entry.material().isNull() ? "" : "_" + entry.material().getName())), append);
     }
 
     @Override

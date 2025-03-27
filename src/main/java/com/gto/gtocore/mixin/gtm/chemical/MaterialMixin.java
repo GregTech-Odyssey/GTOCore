@@ -9,9 +9,11 @@ import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialIconSet;
 import com.gregtechceu.gtceu.api.data.chemical.material.properties.MaterialProperties;
+import com.gregtechceu.gtceu.api.data.chemical.material.stack.MaterialStack;
 
 import net.minecraft.world.item.Rarity;
 
+import com.google.common.collect.ImmutableList;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -24,11 +26,14 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import java.util.function.Supplier;
 
 @Mixin(Material.class)
-public class MaterialMixin implements GTOMaterial {
+public abstract class MaterialMixin implements GTOMaterial {
 
     @Shadow(remap = false)
     @Final
     private @NotNull MaterialProperties properties;
+
+    @Shadow(remap = false)
+    public abstract ImmutableList<MaterialStack> getMaterialComponents();
 
     @Unique
     private long gTOCore$mass;
@@ -78,7 +83,7 @@ public class MaterialMixin implements GTOMaterial {
     }
 
     @Inject(method = "getMaterialIconSet", at = @At("HEAD"), remap = false, cancellable = true)
-    public void getMaterialIconSet(CallbackInfoReturnable<MaterialIconSet> cir) {
+    private void getMaterialIconSet(CallbackInfoReturnable<MaterialIconSet> cir) {
         if ((Object) this == GTOMaterials.Neutron) {
             cir.setReturnValue(GTOMaterialIconSet.NEUTRONIUM);
         }
@@ -86,7 +91,7 @@ public class MaterialMixin implements GTOMaterial {
 
     @Inject(method = "getMass", at = @At("HEAD"), remap = false, cancellable = true)
     private void gmass(CallbackInfoReturnable<Long> cir) {
-        if (gTOCore$mass > 0) cir.setReturnValue(gTOCore$mass);
+        if (getMaterialComponents() == null || gTOCore$mass > 0) cir.setReturnValue(gTOCore$mass);
     }
 
     @Inject(method = "getMass", at = @At("RETURN"), remap = false)

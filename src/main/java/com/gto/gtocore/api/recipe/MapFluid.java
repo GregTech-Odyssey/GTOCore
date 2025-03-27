@@ -11,8 +11,8 @@ import java.util.Objects;
 
 public final class MapFluid extends AbstractMapIngredient {
 
-    public final Fluid f;
-    public final CompoundTag t;
+    private final Fluid f;
+    private final CompoundTag t;
 
     public MapFluid(Fluid fluid, CompoundTag tag) {
         this.f = fluid;

@@ -5,7 +5,7 @@ import com.gto.gtocore.api.data.tag.GTOTagPrefix;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.data.chemical.material.properties.PropertyKey;
-import com.gregtechceu.gtceu.api.data.chemical.material.stack.UnificationEntry;
+import com.gregtechceu.gtceu.api.data.chemical.material.stack.MaterialEntry;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
@@ -92,7 +92,7 @@ interface GTOPipeRecipeHandler {
         } else if (material.getMass() < 240 && material.getBlastTemperature() < 3600) {
             VanillaRecipeHelper.addShapedRecipe(provider, String.format("tiny_%s_pipe", material.getName()),
                     pipeStack.copyWithCount(2), " s ", "hXw",
-                    'X', new UnificationEntry(GTOTagPrefix.CURVED_PLATE, material));
+                    'X', new MaterialEntry(GTOTagPrefix.CURVED_PLATE, material));
         }
     }
 
@@ -120,7 +120,7 @@ interface GTOPipeRecipeHandler {
         } else if (material.getMass() < 240 && material.getBlastTemperature() < 3600) {
             VanillaRecipeHelper.addShapedRecipe(provider, String.format("small_%s_pipe", material.getName()),
                     pipeStack, "wXh",
-                    'X', new UnificationEntry(GTOTagPrefix.CURVED_PLATE, material));
+                    'X', new MaterialEntry(GTOTagPrefix.CURVED_PLATE, material));
         }
     }
 
@@ -148,7 +148,7 @@ interface GTOPipeRecipeHandler {
         } else if (material.getMass() < 240 && material.getBlastTemperature() < 3600) {
             VanillaRecipeHelper.addShapedRecipe(provider, String.format("medium_%s_pipe", material.getName()),
                     pipeStack, "XXX", "w h",
-                    'X', new UnificationEntry(GTOTagPrefix.CURVED_PLATE, material));
+                    'X', new MaterialEntry(GTOTagPrefix.CURVED_PLATE, material));
         }
     }
 
@@ -176,7 +176,7 @@ interface GTOPipeRecipeHandler {
         } else if (material.getMass() < 240 && material.getBlastTemperature() < 3600) {
             VanillaRecipeHelper.addShapedRecipe(provider, String.format("large_%s_pipe", material.getName()),
                     pipeStack, "XXX", "w h", "XXX",
-                    'X', new UnificationEntry(GTOTagPrefix.CURVED_PLATE, material));
+                    'X', new MaterialEntry(GTOTagPrefix.CURVED_PLATE, material));
         }
     }
 
@@ -204,7 +204,7 @@ interface GTOPipeRecipeHandler {
         } else if (plateDouble.doGenerateItem(material) && material.getMass() < 240 && material.getBlastTemperature() < 3600) {
             VanillaRecipeHelper.addShapedRecipe(provider, String.format("huge_%s_pipe", material.getName()),
                     pipeStack, "XXX", "w h", "XXX",
-                    'X', new UnificationEntry(plateDouble, material));
+                    'X', new MaterialEntry(plateDouble, material));
         }
     }
 

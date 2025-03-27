@@ -104,7 +104,7 @@ public class CrossRecipeMultiblockMachine extends ElectricMultiblockMachine impl
         return infinite ? 128 : threadHatchPartMachine == null ? 1 : threadHatchPartMachine.getCurrentThread();
     }
 
-    public boolean isRepeatedRecipes() {
+    private boolean isRepeatedRecipes() {
         if (threadHatchPartMachine == null) return true;
         return threadHatchPartMachine.isRepeatedRecipes();
     }

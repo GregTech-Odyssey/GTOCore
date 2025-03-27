@@ -54,11 +54,11 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @MethodsReturnNonnullByDefault
 public class ULVPumpCover extends CoverBehavior implements IUICover, IControllable {
 
-    public static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(ULVPumpCover.class,
+    static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(ULVPumpCover.class,
             CoverBehavior.MANAGED_FIELD_HOLDER);
 
-    public static final int tier = 0;
-    public static final int maxMilliBucketsPerTick = 32;
+    private static final int tier = 0;
+    private static final int maxMilliBucketsPerTick = 32;
 
     @Persisted
     @DescSynced
@@ -84,12 +84,12 @@ public class ULVPumpCover extends CoverBehavior implements IUICover, IControllab
     @Persisted
     @Getter
     protected boolean isWorkingEnabled = true;
-    protected int milliBucketsLeftToTransferLastSecond;
+    private int milliBucketsLeftToTransferLastSecond;
 
     @Persisted
     @DescSynced
-    protected final FilterHandler<FluidStack, FluidFilter> filterHandler;
-    protected final ConditionalSubscriptionHandler subscriptionHandler;
+    final FilterHandler<FluidStack, FluidFilter> filterHandler;
+    private final ConditionalSubscriptionHandler subscriptionHandler;
     private NumberInputWidget<Integer> transferRateWidget;
 
     public ULVPumpCover(CoverDefinition definition, ICoverable coverHolder, Direction attachedSide) {
@@ -103,15 +103,17 @@ public class ULVPumpCover extends CoverBehavior implements IUICover, IControllab
                 .onFilterRemoved(f -> configureFilter());
     }
 
-    protected boolean isSubscriptionActive() {
+    private boolean isSubscriptionActive() {
         return isWorkingEnabled && getAdjacentFluidHandler() != null;
     }
 
-    protected @Nullable IFluidHandlerModifiable getOwnFluidHandler() {
+    @Nullable
+    private IFluidHandlerModifiable getOwnFluidHandler() {
         return coverHolder.getFluidHandlerCap(attachedSide, false);
     }
 
-    protected @Nullable IFluidHandler getAdjacentFluidHandler() {
+    @Nullable
+    private IFluidHandler getAdjacentFluidHandler() {
         return GTTransferUtils.getAdjacentFluidHandler(coverHolder.getLevel(), coverHolder.getPos(), attachedSide)
                 .resolve()
                 .orElse(null);
@@ -129,7 +131,7 @@ public class ULVPumpCover extends CoverBehavior implements IUICover, IControllab
         return getOwnFluidHandler() != null;
     }
 
-    public void setIo(IO io) {
+    private void setIo(IO io) {
         if (io == IO.IN || io == IO.OUT) {
             this.io = io;
         }
@@ -171,11 +173,11 @@ public class ULVPumpCover extends CoverBehavior implements IUICover, IControllab
 
     // Transfer Logic
 
-    public void setTransferRate(int milliBucketsPerTick) {
+    private void setTransferRate(int milliBucketsPerTick) {
         this.currentMilliBucketsPerTick = Math.min(Math.max(milliBucketsPerTick, 0), maxMilliBucketsPerTick);
     }
 
-    public void setBucketMode(BucketMode bucketMode) {
+    private void setBucketMode(BucketMode bucketMode) {
         var oldMultiplier = this.bucketMode.multiplier;
         var newMultiplier = bucketMode.multiplier;
 
@@ -194,12 +196,12 @@ public class ULVPumpCover extends CoverBehavior implements IUICover, IControllab
         }
     }
 
-    protected void setManualIOMode(ManualIOMode manualIOMode) {
+    private void setManualIOMode(ManualIOMode manualIOMode) {
         this.manualIOMode = manualIOMode;
         coverHolder.markDirty();
     }
 
-    protected void update() {
+    private void update() {
         long timer = coverHolder.getOffsetTimer();
         if (timer % 5 != 0)
             return;
@@ -231,11 +233,11 @@ public class ULVPumpCover extends CoverBehavior implements IUICover, IControllab
         return 0;
     }
 
-    protected int doTransferFluidsInternal(IFluidHandlerModifiable source, IFluidHandlerModifiable destination, int platformTransferLimit) {
+    int doTransferFluidsInternal(IFluidHandlerModifiable source, IFluidHandlerModifiable destination, int platformTransferLimit) {
         return transferAny(source, destination, platformTransferLimit);
     }
 
-    protected int transferAny(IFluidHandlerModifiable source, IFluidHandlerModifiable destination, int platformTransferLimit) {
+    int transferAny(IFluidHandlerModifiable source, IFluidHandlerModifiable destination, int platformTransferLimit) {
         return GTTransferUtils.transferFluidsFiltered(source, destination, filterHandler.getFilter(), platformTransferLimit);
     }
 
@@ -244,7 +246,7 @@ public class ULVPumpCover extends CoverBehavior implements IUICover, IControllab
         EXTRACT
     }
 
-    protected static Map<FluidStack, Integer> enumerateDistinctFluids(IFluidHandlerModifiable fluidHandler, TransferDirection direction) {
+    static Map<FluidStack, Integer> enumerateDistinctFluids(IFluidHandlerModifiable fluidHandler, TransferDirection direction) {
         final Map<FluidStack, Integer> summedFluids = new Object2IntOpenCustomHashMap<>(
                 FluidStackHashStrategy.comparingAllButAmount());
 
@@ -319,13 +321,13 @@ public class ULVPumpCover extends CoverBehavior implements IUICover, IControllab
     }
 
     @NotNull
-    protected String getUITitle() {
+    String getUITitle() {
         return "cover.pump.title";
     }
 
-    protected void buildAdditionalUI(WidgetGroup group) {}
+    void buildAdditionalUI(WidgetGroup group) {}
 
-    protected void configureFilter() {}
+    void configureFilter() {}
 
     private CoverableFluidHandlerWrapper fluidHandlerWrapper;
 
@@ -343,7 +345,7 @@ public class ULVPumpCover extends CoverBehavior implements IUICover, IControllab
 
     private class CoverableFluidHandlerWrapper extends FluidHandlerDelegate {
 
-        public CoverableFluidHandlerWrapper(IFluidHandlerModifiable delegate) {
+        CoverableFluidHandlerWrapper(IFluidHandlerModifiable delegate) {
             super(delegate);
         }
 

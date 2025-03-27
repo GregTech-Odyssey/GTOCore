@@ -61,14 +61,14 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @ParametersAreNonnullByDefault
 public class METagFilterStockBusPartMachine extends MEInputBusPartMachine {
 
-    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(METagFilterStockBusPartMachine.class,
+    private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(METagFilterStockBusPartMachine.class,
             MEInputBusPartMachine.MANAGED_FIELD_HOLDER);
 
     @Persisted
-    protected String tagWhite = "";
+    private String tagWhite = "";
 
     @Persisted
-    protected String tagBlack = "";
+    private String tagBlack = "";
 
     @Getter
     @Setter
@@ -235,12 +235,12 @@ public class METagFilterStockBusPartMachine extends MEInputBusPartMachine {
 
             private final MEInputBusPartMachine machine;
 
-            public ExportOnlyAEStockingItemSlot(MEInputBusPartMachine machine) {
+            ExportOnlyAEStockingItemSlot(MEInputBusPartMachine machine) {
                 super();
                 this.machine = machine;
             }
 
-            public ExportOnlyAEStockingItemSlot(@Nullable GenericStack config, @Nullable GenericStack stock, MEInputBusPartMachine machine) {
+            ExportOnlyAEStockingItemSlot(@Nullable GenericStack config, @Nullable GenericStack stock, MEInputBusPartMachine machine) {
                 super(config, stock);
                 this.machine = machine;
             }
@@ -318,7 +318,7 @@ public class METagFilterStockBusPartMachine extends MEInputBusPartMachine {
         private final String tagExp;
         private final Reference2BooleanMap<Object> memory = new Reference2BooleanOpenHashMap<>();
 
-        public ItemTagPriority(Set<TagKey<?>> whiteSet, Set<TagKey<?>> blackSet, String tagExp) {
+        ItemTagPriority(Set<TagKey<?>> whiteSet, Set<TagKey<?>> blackSet, String tagExp) {
             this.whiteSet = whiteSet;
             this.blackSet = blackSet;
             this.tagExp = tagExp;

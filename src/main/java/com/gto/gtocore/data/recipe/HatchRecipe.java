@@ -10,7 +10,7 @@ import com.gto.gtocore.utils.TagUtils;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
-import com.gregtechceu.gtceu.api.data.chemical.material.stack.UnificationEntry;
+import com.gregtechceu.gtceu.api.data.chemical.material.stack.MaterialEntry;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.item.ComponentItem;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
@@ -47,30 +47,30 @@ import static com.gto.gtocore.common.data.GTORecipeTypes.LASER_WELDER_RECIPES;
 interface HatchRecipe {
 
     static void init(Consumer<FinishedRecipe> provider) {
-        UnificationEntry lensDiamond = new UnificationEntry(lens, Diamond);
+        MaterialEntry lensDiamond = new MaterialEntry(lens, Diamond);
         ItemStack activeTransformer = GTMultiMachines.ACTIVE_TRANSFORMER.asStack();
         ItemStack coverEnergyDetector = GTItems.COVER_ENERGY_DETECTOR_ADVANCED.asStack();
 
         VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("rotor_holder_uhv"), GTMachines.ROTOR_HOLDER[UHV].asStack(),
                 "SGS", "GHG", "SGS", 'H', GTMachines.HULL[UHV].asStack(), 'G',
-                new UnificationEntry(TagPrefix.gear, GTOMaterials.Orichalcum), 'S',
-                new UnificationEntry(TagPrefix.gearSmall, GTMaterials.Neutronium));
+                new MaterialEntry(TagPrefix.gear, GTOMaterials.Orichalcum), 'S',
+                new MaterialEntry(TagPrefix.gearSmall, GTMaterials.Neutronium));
         VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("rotor_holder_uev"), GTMachines.ROTOR_HOLDER[UEV].asStack(),
                 "SGS", "GHG", "SGS", 'H', GTMachines.HULL[UEV].asStack(), 'G',
-                new UnificationEntry(TagPrefix.gear, GTOMaterials.AstralTitanium), 'S',
-                new UnificationEntry(TagPrefix.gearSmall, GTOMaterials.Quantanium));
+                new MaterialEntry(TagPrefix.gear, GTOMaterials.AstralTitanium), 'S',
+                new MaterialEntry(TagPrefix.gearSmall, GTOMaterials.Quantanium));
         VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("rotor_holder_uiv"), GTMachines.ROTOR_HOLDER[UIV].asStack(),
                 "SGS", "GHG", "SGS", 'H', GTMachines.HULL[UIV].asStack(), 'G',
-                new UnificationEntry(TagPrefix.gear, GTOMaterials.CelestialTungsten), 'S',
-                new UnificationEntry(TagPrefix.gearSmall, GTOMaterials.Infuscolium));
+                new MaterialEntry(TagPrefix.gear, GTOMaterials.CelestialTungsten), 'S',
+                new MaterialEntry(TagPrefix.gearSmall, GTOMaterials.Infuscolium));
         VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("rotor_holder_uxv"), GTMachines.ROTOR_HOLDER[UXV].asStack(),
                 "SGS", "GHG", "SGS", 'H', GTMachines.HULL[UXV].asStack(), 'G',
-                new UnificationEntry(TagPrefix.gear, GTOMaterials.Vibramantium), 'S',
-                new UnificationEntry(TagPrefix.gearSmall, GTOMaterials.HastelloyK243));
+                new MaterialEntry(TagPrefix.gear, GTOMaterials.Vibramantium), 'S',
+                new MaterialEntry(TagPrefix.gearSmall, GTOMaterials.HastelloyK243));
         VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("rotor_holder_opv"), GTMachines.ROTOR_HOLDER[OpV].asStack(),
                 "SGS", "GHG", "SGS", 'H', GTMachines.HULL[OpV].asStack(), 'G',
-                new UnificationEntry(TagPrefix.gear, GTOMaterials.HexaphaseCopper), 'S',
-                new UnificationEntry(TagPrefix.gearSmall, GTOMaterials.TranscendentMetal));
+                new MaterialEntry(TagPrefix.gear, GTOMaterials.HexaphaseCopper), 'S',
+                new MaterialEntry(TagPrefix.gearSmall, GTOMaterials.TranscendentMetal));
         VanillaRecipeHelper.addShapedRecipe(provider, GTOCore.id("primitive_blast_furnace_hatch"), GTOMachines.PRIMITIVE_BLAST_FURNACE_HATCH.asStack(),
                 "ABA",
                 'B', GTBlocks.CASING_PRIMITIVE_BRICKS.asStack(), 'A', TagUtils.createTag(RLUtils.forge("chests")));
@@ -148,22 +148,22 @@ interface HatchRecipe {
                     provider, true, GTOCore.id("fluid_import_hatch_4x_" + tierName),
                     importHatch4x.asStack(), "P", "M",
                     'M', importHatch.asStack(),
-                    'P', new UnificationEntry(TagPrefix.pipeQuadrupleFluid, material));
+                    'P', new MaterialEntry(TagPrefix.pipeQuadrupleFluid, material));
             VanillaRecipeHelper.addShapedRecipe(
                     provider, true, GTOCore.id("fluid_export_hatch_4x_" + tierName),
                     exportHatch4x.asStack(), "M", "P",
                     'M', exportHatch.asStack(),
-                    'P', new UnificationEntry(TagPrefix.pipeQuadrupleFluid, material));
+                    'P', new MaterialEntry(TagPrefix.pipeQuadrupleFluid, material));
             VanillaRecipeHelper.addShapedRecipe(
                     provider, true, GTOCore.id("fluid_import_hatch_9x_" + tierName),
                     importHatch9x.asStack(), "P", "M",
                     'M', importHatch.asStack(),
-                    'P', new UnificationEntry(TagPrefix.pipeNonupleFluid, material));
+                    'P', new MaterialEntry(TagPrefix.pipeNonupleFluid, material));
             VanillaRecipeHelper.addShapedRecipe(
                     provider, true, GTOCore.id("fluid_export_hatch_9x_" + tierName),
                     exportHatch9x.asStack(), "M", "P",
                     'M', exportHatch.asStack(),
-                    'P', new UnificationEntry(TagPrefix.pipeNonupleFluid, material));
+                    'P', new MaterialEntry(TagPrefix.pipeNonupleFluid, material));
         }
 
         for (int tier = 1; tier < 4; tier++) {
@@ -484,7 +484,7 @@ interface HatchRecipe {
                     Item sensor = ((ItemStack) SENSOR.get(tier)).getItem();
                     Item emitter = ((ItemStack) EMITTER.get(tier)).getItem();
                     Item pump = ((ItemStack) PUMP.get(tier)).getItem();
-                    UnificationEntry cable = (UnificationEntry) CABLE_OCT.get(tier);
+                    MaterialEntry cable = (MaterialEntry) CABLE_OCT.get(tier);
 
                     ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id(tierName + "16384_i"))
                             .inputItems(HULL[tier])

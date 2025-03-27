@@ -6,7 +6,7 @@ import com.gto.gtocore.common.data.GTOMachines;
 import com.gto.gtocore.common.data.GTOMaterials;
 
 import com.gregtechceu.gtceu.api.GTValues;
-import com.gregtechceu.gtceu.api.data.chemical.material.stack.UnificationEntry;
+import com.gregtechceu.gtceu.api.data.chemical.material.stack.MaterialEntry;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.machine.multiblock.CleanroomType;
@@ -715,10 +715,10 @@ public interface GTMTRecipe {
 
         VanillaRecipeHelper.addShapedRecipe(provider, true, "advanced_terminal", CustomItems.ADVANCED_TERMINAL.asStack(),
                 "SGS", "PBP", "PWP",
-                'S', new UnificationEntry(TagPrefix.screw, GTMaterials.Steel),
+                'S', new MaterialEntry(TagPrefix.screw, GTMaterials.Steel),
                 'G', Tags.Items.GLASS_PANES,
                 'B', CustomTags.LV_CIRCUITS,
-                'P', new UnificationEntry(TagPrefix.plate, GTMaterials.Steel),
+                'P', new MaterialEntry(TagPrefix.plate, GTMaterials.Steel),
                 'W', GTItems.TERMINAL);
     }
 }

@@ -23,7 +23,7 @@ import java.util.Map;
 import java.util.Set;
 
 @MethodsReturnNonnullByDefault
-public abstract class WaterPurificationUnitMachine extends NoEnergyCustomParallelMultiblockMachine implements INetMachineInteractor<WaterPurificationPlantMachine> {
+abstract class WaterPurificationUnitMachine extends NoEnergyCustomParallelMultiblockMachine implements INetMachineInteractor<WaterPurificationPlantMachine> {
 
     static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
             WaterPurificationUnitMachine.class, NoEnergyCustomParallelMultiblockMachine.MANAGED_FIELD_HOLDER);
