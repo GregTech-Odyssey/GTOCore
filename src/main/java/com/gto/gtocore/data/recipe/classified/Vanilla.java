@@ -244,7 +244,7 @@ interface Vanilla {
                 "ABA",
                 "CDC",
                 "EBE",
-                'A', new UnificationEntry(GTOTagPrefix.curvedPlate, GTMaterials.Brass), 'B', new UnificationEntry(TagPrefix.gear, GTMaterials.Diamond), 'C', GTOItems.PRECISION_STEAM_MECHANISM.asStack(), 'D', MultiBlockC.STEAM_CRUSHER.asStack(), 'E', new UnificationEntry(TagPrefix.gear, GTMaterials.CobaltBrass));
+                'A', new UnificationEntry(GTOTagPrefix.CURVED_PLATE, GTMaterials.Brass), 'B', new UnificationEntry(TagPrefix.gear, GTMaterials.Diamond), 'C', GTOItems.PRECISION_STEAM_MECHANISM.asStack(), 'D', MultiBlockC.STEAM_CRUSHER.asStack(), 'E', new UnificationEntry(TagPrefix.gear, GTMaterials.CobaltBrass));
         VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("large_steam_centrifuge"), MultiBlockA.LARGE_STEAM_CENTRIFUGE.asStack(),
                 "ABA",
                 "CDC",
@@ -312,7 +312,7 @@ interface Vanilla {
                 "ABA",
                 "CDC",
                 "ABA",
-                'A', new UnificationEntry(TagPrefix.block, GTMaterials.Bronze), 'B', new UnificationEntry(GTOTagPrefix.curvedPlate, GTMaterials.Bronze), 'C', new UnificationEntry(TagPrefix.gear, GTMaterials.Rubber), 'D', GTBlocks.CASING_BRONZE_GEARBOX.asItem());
+                'A', new UnificationEntry(TagPrefix.block, GTMaterials.Bronze), 'B', new UnificationEntry(GTOTagPrefix.CURVED_PLATE, GTMaterials.Bronze), 'C', new UnificationEntry(TagPrefix.gear, GTMaterials.Rubber), 'D', GTBlocks.CASING_BRONZE_GEARBOX.asItem());
         VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("uxv_thread_hatch"), GTOMachines.THREAD_HATCH[GTValues.UXV].asStack(),
                 "ABA",
                 "CDC",
@@ -409,7 +409,7 @@ interface Vanilla {
         VanillaRecipeHelper.addShapedRecipe(provider, GTOCore.id("wireless_receiver"), new ItemStack(AEItems.WIRELESS_RECEIVER.asItem()),
                 "ABA",
                 "CDC",
-                'A', CustomTags.EV_CIRCUITS, 'B', new ItemStack(AEItems.FLUIX_PEARL.asItem()), 'C', new UnificationEntry(GTOTagPrefix.curvedPlate, GTMaterials.Titanium), 'D', GTItems.SENSOR_HV.asItem());
+                'A', CustomTags.EV_CIRCUITS, 'B', new ItemStack(AEItems.FLUIX_PEARL.asItem()), 'C', new UnificationEntry(GTOTagPrefix.CURVED_PLATE, GTMaterials.Titanium), 'D', GTItems.SENSOR_HV.asItem());
         VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("processing_plant"), MultiBlockD.PROCESSING_PLANT.asStack(),
                 "ABA",
                 "CDE",
@@ -719,12 +719,12 @@ interface Vanilla {
                 "ABA",
                 "BCB",
                 "DBD",
-                'B', new UnificationEntry(TagPrefix.wireGtSingle, GTMaterials.Lead), 'D', new UnificationEntry(GTOTagPrefix.curvedPlate, GTMaterials.Steel), 'C', GTBlocks.MACHINE_CASING_ULV.asStack(), 'A', GTItems.VOLTAGE_COIL_ULV.asItem());
+                'B', new UnificationEntry(TagPrefix.wireGtSingle, GTMaterials.Lead), 'D', new UnificationEntry(GTOTagPrefix.CURVED_PLATE, GTMaterials.Steel), 'C', GTBlocks.MACHINE_CASING_ULV.asStack(), 'A', GTItems.VOLTAGE_COIL_ULV.asItem());
         VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("steam_pump"), GTOItems.STEAM_PUMP.asStack(),
                 "ABA",
                 "CDC",
                 "ABA",
-                'B', new UnificationEntry(TagPrefix.pipeHugeFluid, GTMaterials.Steel), 'D', GTItems.FLUID_REGULATOR_LV.asStack(), 'C', new UnificationEntry(TagPrefix.pipeNonupleFluid, GTMaterials.Copper), 'A', new UnificationEntry(GTOTagPrefix.curvedPlate, GTMaterials.Electrum));
+                'B', new UnificationEntry(TagPrefix.pipeHugeFluid, GTMaterials.Steel), 'D', GTItems.FLUID_REGULATOR_LV.asStack(), 'C', new UnificationEntry(TagPrefix.pipeNonupleFluid, GTMaterials.Copper), 'A', new UnificationEntry(GTOTagPrefix.CURVED_PLATE, GTMaterials.Electrum));
         VanillaRecipeHelper.addShapedRecipe(provider, GTOCore.id("structure_detect"), GTOItems.STRUCTURE_DETECT.asStack(),
                 " A ",
                 "ABA",
@@ -734,7 +734,7 @@ interface Vanilla {
                 "ABA",
                 "CDC",
                 "EFE",
-                'B', GTItems.CONVEYOR_MODULE_LV.asStack(), 'F', GTItems.VOLTAGE_COIL_LV.asStack(), 'D', GTMachines.HULL[GTValues.LV].asStack(), 'C', new UnificationEntry(GTOTagPrefix.curvedPlate, GTMaterials.Magnalium), 'E', GTItems.ROBOT_ARM_LV.asStack(), 'A', new UnificationEntry(TagPrefix.pipeNormalRestrictive, GTMaterials.Brass));
+                'B', GTItems.CONVEYOR_MODULE_LV.asStack(), 'F', GTItems.VOLTAGE_COIL_LV.asStack(), 'D', GTMachines.HULL[GTValues.LV].asStack(), 'C', new UnificationEntry(GTOTagPrefix.CURVED_PLATE, GTMaterials.Magnalium), 'E', GTItems.ROBOT_ARM_LV.asStack(), 'A', new UnificationEntry(TagPrefix.pipeNormalRestrictive, GTMaterials.Brass));
         VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("drone_control_center"), MultiBlockG.DRONE_CONTROL_CENTER.asStack(),
                 "ABA",
                 "CDC",
@@ -749,17 +749,17 @@ interface Vanilla {
                 "ABA",
                 "CDC",
                 "ABA",
-                'B', CustomTags.EV_CIRCUITS, 'D', GTMachines.ITEM_IMPORT_BUS[GTValues.EV].asStack(), 'C', GTItems.ROBOT_ARM_EV.asStack(), 'A', new UnificationEntry(GTOTagPrefix.curvedPlate, GTMaterials.Titanium));
+                'B', CustomTags.EV_CIRCUITS, 'D', GTMachines.ITEM_IMPORT_BUS[GTValues.EV].asStack(), 'C', GTItems.ROBOT_ARM_EV.asStack(), 'A', new UnificationEntry(GTOTagPrefix.CURVED_PLATE, GTMaterials.Titanium));
         VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("iv_drone_hatch"), GTOMachines.DRONE_HATCH[GTValues.IV].asStack(),
                 "ABA",
                 "CDC",
                 "ABA",
-                'B', CustomTags.IV_CIRCUITS, 'D', GTMachines.ITEM_IMPORT_BUS[GTValues.IV].asStack(), 'C', GTItems.ROBOT_ARM_IV.asStack(), 'A', new UnificationEntry(GTOTagPrefix.curvedPlate, GTMaterials.TungstenSteel));
+                'B', CustomTags.IV_CIRCUITS, 'D', GTMachines.ITEM_IMPORT_BUS[GTValues.IV].asStack(), 'C', GTItems.ROBOT_ARM_IV.asStack(), 'A', new UnificationEntry(GTOTagPrefix.CURVED_PLATE, GTMaterials.TungstenSteel));
         VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("hv_drone_hatch"), GTOMachines.DRONE_HATCH[GTValues.HV].asStack(),
                 "ABA",
                 "CDC",
                 "ABA",
-                'B', CustomTags.HV_CIRCUITS, 'D', GTMachines.ITEM_IMPORT_BUS[GTValues.HV].asStack(), 'C', GTItems.ROBOT_ARM_HV.asStack(), 'A', new UnificationEntry(GTOTagPrefix.curvedPlate, GTMaterials.StainlessSteel));
+                'B', CustomTags.HV_CIRCUITS, 'D', GTMachines.ITEM_IMPORT_BUS[GTValues.HV].asStack(), 'C', GTItems.ROBOT_ARM_HV.asStack(), 'A', new UnificationEntry(GTOTagPrefix.CURVED_PLATE, GTMaterials.StainlessSteel));
         VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("heater"), GTOMachines.HEATER.asStack(),
                 "AAA",
                 "BCB",
@@ -894,7 +894,7 @@ interface Vanilla {
                 "ABA",
                 "CDC",
                 "ABA",
-                'A', new UnificationEntry(GTOTagPrefix.curvedPlate, GTMaterials.StainlessSteel), 'B', new UnificationEntry(TagPrefix.rodLong, GTMaterials.StainlessSteel), 'C', new UnificationEntry(TagPrefix.pipeNormalFluid, GTMaterials.Aluminium), 'D', GTMachines.FERMENTER[GTValues.HV].asStack());
+                'A', new UnificationEntry(GTOTagPrefix.CURVED_PLATE, GTMaterials.StainlessSteel), 'B', new UnificationEntry(TagPrefix.rodLong, GTMaterials.StainlessSteel), 'C', new UnificationEntry(TagPrefix.pipeNormalFluid, GTMaterials.Aluminium), 'D', GTMachines.FERMENTER[GTValues.HV].asStack());
         VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("time_twister"), GTOItems.TIME_TWISTER.asStack(),
                 "ABA",
                 "BCB",

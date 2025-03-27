@@ -54,7 +54,7 @@ interface FormingPress {
                 .save();
 
         FORMING_PRESS_RECIPES.recipeBuilder(GTOCore.id("raw_imprinted_resonatic_circuit_board"))
-                .inputItems(GTOTagPrefix.flakes, GTOMaterials.SiliconNitrideCeramic)
+                .inputItems(GTOTagPrefix.FLAKES, GTOMaterials.SiliconNitrideCeramic)
                 .inputItems(TagPrefix.dust, GTOMaterials.CircuitCompound, 4)
                 .inputItems(TagPrefix.dust, GTOMaterials.MagnetoResonatic)
                 .outputItems(GTOItems.RAW_IMPRINTED_RESONATIC_CIRCUIT_BOARD.asItem())

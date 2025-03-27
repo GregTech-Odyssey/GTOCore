@@ -176,7 +176,7 @@ interface LaserEngraver {
                 .save();
 
         LASER_ENGRAVER_RECIPES.recipeBuilder(GTOCore.id("diamond_crystal_circuit"))
-                .inputItems(GTOTagPrefix.artificialGem, GTMaterials.Diamond)
+                .inputItems(GTOTagPrefix.ARTIFICIAL_GEM, GTMaterials.Diamond)
                 .notConsumable(TagPrefix.lens, GTOMaterials.ElfGlass)
                 .outputItems(GTOItems.DIAMOND_CRYSTAL_CIRCUIT.asStack(8))
                 .inputFluids(GTMaterials.DistilledWater.getFluid(800))
@@ -185,7 +185,7 @@ interface LaserEngraver {
                 .save();
 
         LASER_ENGRAVER_RECIPES.recipeBuilder(GTOCore.id("emerald_crystal_circuit"))
-                .inputItems(GTOTagPrefix.artificialGem, GTMaterials.Emerald)
+                .inputItems(GTOTagPrefix.ARTIFICIAL_GEM, GTMaterials.Emerald)
                 .notConsumable(TagPrefix.lens, GTOMaterials.ElfGlass)
                 .outputItems(GTOItems.EMERALD_CRYSTAL_CIRCUIT.asStack(8))
                 .inputFluids(GTMaterials.DistilledWater.getFluid(800))
@@ -194,7 +194,7 @@ interface LaserEngraver {
                 .save();
 
         LASER_ENGRAVER_RECIPES.recipeBuilder(GTOCore.id("ruby_crystal_circuit"))
-                .inputItems(GTOTagPrefix.artificialGem, GTMaterials.Ruby)
+                .inputItems(GTOTagPrefix.ARTIFICIAL_GEM, GTMaterials.Ruby)
                 .notConsumable(TagPrefix.lens, GTOMaterials.ElfGlass)
                 .outputItems(GTOItems.RUBY_CRYSTAL_CIRCUIT.asStack(8))
                 .inputFluids(GTMaterials.DistilledWater.getFluid(800))
@@ -203,7 +203,7 @@ interface LaserEngraver {
                 .save();
 
         LASER_ENGRAVER_RECIPES.recipeBuilder(GTOCore.id("sapphire_crystal_circuit"))
-                .inputItems(GTOTagPrefix.artificialGem, GTMaterials.Sapphire)
+                .inputItems(GTOTagPrefix.ARTIFICIAL_GEM, GTMaterials.Sapphire)
                 .notConsumable(TagPrefix.lens, GTOMaterials.ElfGlass)
                 .outputItems(GTOItems.SAPPHIRE_CRYSTAL_CIRCUIT.asStack(8))
                 .inputFluids(GTMaterials.DistilledWater.getFluid(800))

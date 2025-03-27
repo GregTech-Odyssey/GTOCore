@@ -1,6 +1,5 @@
 package com.gto.gtocore.utils;
 
-import com.gto.gtocore.api.data.tag.GTOTagPrefix;
 import com.gto.gtocore.common.data.GTOMaterials;
 import com.gto.gtocore.common.data.GTORecipeTypes;
 import com.gto.gtocore.common.data.machines.GCYMMachines;
@@ -2737,29 +2736,5 @@ public final class StringIndex {
         TAGPREFIX_MAP.put(TagPrefix.cableGtQuadruple, "TagPrefix.cableGtQuadruple");
         TAGPREFIX_MAP.put(TagPrefix.cableGtDouble, "TagPrefix.cableGtDouble");
         TAGPREFIX_MAP.put(TagPrefix.cableGtSingle, "TagPrefix.cableGtSingle");
-        TAGPREFIX_MAP.put(GTOTagPrefix.moon_stone, "GTOTagPrefix.moon_stone");
-        TAGPREFIX_MAP.put(GTOTagPrefix.mars_stone, "GTOTagPrefix.mars_stone");
-        TAGPREFIX_MAP.put(GTOTagPrefix.venus_stone, "GTOTagPrefix.venus_stone");
-        TAGPREFIX_MAP.put(GTOTagPrefix.mercury_stone, "GTOTagPrefix.mercury_stone");
-        TAGPREFIX_MAP.put(GTOTagPrefix.glacio_stone, "GTOTagPrefix.glacio_stone");
-        TAGPREFIX_MAP.put(GTOTagPrefix.titan_stone, "GTOTagPrefix.titan_stone");
-        TAGPREFIX_MAP.put(GTOTagPrefix.pluto_stone, "GTOTagPrefix.pluto_stone");
-        TAGPREFIX_MAP.put(GTOTagPrefix.io_stone, "GTOTagPrefix.io_stone");
-        TAGPREFIX_MAP.put(GTOTagPrefix.ganymede_stone, "GTOTagPrefix.ganymede_stone");
-        TAGPREFIX_MAP.put(GTOTagPrefix.enceladus_stone, "GTOTagPrefix.enceladus_stone");
-        TAGPREFIX_MAP.put(GTOTagPrefix.ceres_stone, "GTOTagPrefix.ceres_stone");
-        TAGPREFIX_MAP.put(GTOTagPrefix.nanites, "GTOTagPrefix.nanites");
-        TAGPREFIX_MAP.put(GTOTagPrefix.contaminableNanites, "GTOTagPrefix.contaminableNanites");
-        TAGPREFIX_MAP.put(GTOTagPrefix.milled, "GTOTagPrefix.milled");
-        TAGPREFIX_MAP.put(GTOTagPrefix.curvedPlate, "GTOTagPrefix.curvedPlate");
-        TAGPREFIX_MAP.put(GTOTagPrefix.motorEnclosure, "GTOTagPrefix.motorEnclosure");
-        TAGPREFIX_MAP.put(GTOTagPrefix.pumpBarrel, "GTOTagPrefix.pumpBarrel");
-        TAGPREFIX_MAP.put(GTOTagPrefix.pistonHousing, "GTOTagPrefix.pistonHousing");
-        TAGPREFIX_MAP.put(GTOTagPrefix.emitterBases, "GTOTagPrefix.emitterBases");
-        TAGPREFIX_MAP.put(GTOTagPrefix.sensorCasing, "GTOTagPrefix.sensorCasing");
-        TAGPREFIX_MAP.put(GTOTagPrefix.fieldGeneratorCasing, "GTOTagPrefix.fieldGeneratorCasing");
-        TAGPREFIX_MAP.put(GTOTagPrefix.roughBlank, "GTOTagPrefix.roughBlank");
-        TAGPREFIX_MAP.put(GTOTagPrefix.brick, "GTOTagPrefix.brick");
-        TAGPREFIX_MAP.put(GTOTagPrefix.flakes, "GTOTagPrefix.flakes");
     }
 }

@@ -65,8 +65,8 @@ interface PlasmaCondenser {
                 .save();
 
         PLASMA_CONDENSER_RECIPES.recipeBuilder(GTOCore.id("quantumchromodynamic_protective_plating"))
-                .notConsumable(GTOTagPrefix.nanites, GTOMaterials.Vibranium)
-                .notConsumable(GTOTagPrefix.nanites, GTOMaterials.Infuscolium)
+                .notConsumable(GTOTagPrefix.NANITES, GTOMaterials.Vibranium)
+                .notConsumable(GTOTagPrefix.NANITES, GTOMaterials.Infuscolium)
                 .inputFluids(GTMaterials.Helium.getFluid(FluidStorageKeys.LIQUID, 10000))
                 .inputFluids(GTOMaterials.HighEnergyQuarkGluon.getFluid(FluidStorageKeys.PLASMA, 100))
                 .outputItems(GTOItems.QUANTUMCHROMODYNAMIC_PROTECTIVE_PLATING.asItem())

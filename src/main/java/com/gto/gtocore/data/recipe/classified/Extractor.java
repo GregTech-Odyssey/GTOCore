@@ -108,31 +108,5 @@ interface Extractor {
                 .EUt(30)
                 .duration(100)
                 .save();
-
-        addBotDye("white");
-        addBotDye("light_gray");
-        addBotDye("gray");
-        addBotDye("black");
-        addBotDye("brown");
-        addBotDye("red");
-        addBotDye("orange");
-        addBotDye("yellow");
-        addBotDye("lime");
-        addBotDye("green");
-        addBotDye("cyan");
-        addBotDye("light_blue");
-        addBotDye("blue");
-        addBotDye("purple");
-        addBotDye("magenta");
-        addBotDye("pink");
-    }
-
-    private static void addBotDye(String dye) {
-        EXTRACTOR_RECIPES.recipeBuilder(GTOCore.id(dye + "_petals"))
-                .inputItems(TagUtils.createTag(RLUtils.bot("petals/" + dye)))
-                .outputItems("minecraft:" + dye + "_dye")
-                .duration(400)
-                .EUt(2)
-                .save();
     }
 }

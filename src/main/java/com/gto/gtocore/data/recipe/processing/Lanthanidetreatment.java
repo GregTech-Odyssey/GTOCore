@@ -9,7 +9,7 @@ import com.gregtechceu.gtceu.common.data.GTMaterials;
 
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
-import static com.gto.gtocore.api.data.tag.GTOTagPrefix.nanites;
+import static com.gto.gtocore.api.data.tag.GTOTagPrefix.NANITES;
 import static com.gto.gtocore.common.data.GTOMaterials.*;
 import static com.gto.gtocore.common.data.GTORecipeTypes.*;
 
@@ -624,7 +624,7 @@ public interface Lanthanidetreatment {
             Material extractedNanoResin = extractedNanoResins[i];
 
             LASER_ENGRAVER_RECIPES.recipeBuilder(GTOCore.id("make_extraction_nano_resin_" + i))
-                    .inputItems(nanites, Carbon, 1)
+                    .inputItems(NANITES, Carbon, 1)
                     .notConsumable(lens, NetherStar, 1)
                     .inputFluids(rareEarthElement.getFluid(4000))
                     .inputFluids(P507.getFluid(4000))

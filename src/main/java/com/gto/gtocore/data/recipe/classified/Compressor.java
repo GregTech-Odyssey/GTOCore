@@ -61,7 +61,7 @@ interface Compressor {
 
         COMPRESSOR_RECIPES.recipeBuilder(GTOCore.id("alumina_ceramic"))
                 .inputItems(TagPrefix.dust, GTOMaterials.AluminaCeramic, 10)
-                .outputItems(GTOTagPrefix.roughBlank, GTOMaterials.AluminaCeramic)
+                .outputItems(GTOTagPrefix.ROUGH_BLANK, GTOMaterials.AluminaCeramic)
                 .EUt(120)
                 .duration(800)
                 .save();

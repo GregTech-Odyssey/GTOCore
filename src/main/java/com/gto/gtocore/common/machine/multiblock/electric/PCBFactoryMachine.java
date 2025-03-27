@@ -26,7 +26,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 public final class PCBFactoryMachine extends StorageMultiblockMachine {
 
     public PCBFactoryMachine(IMachineBlockEntity holder) {
-        super(holder, 64, i -> ChemicalHelper.getPrefix(i.getItem()) == GTOTagPrefix.nanites);
+        super(holder, 64, i -> ChemicalHelper.getPrefix(i.getItem()) == GTOTagPrefix.NANITES);
     }
 
     private double reductionEUt = 1, reductionDuration = 1;

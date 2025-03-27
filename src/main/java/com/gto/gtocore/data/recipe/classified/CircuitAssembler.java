@@ -292,7 +292,7 @@ interface CircuitAssembler {
                 .save();
 
         CIRCUIT_ASSEMBLER_RECIPES.builder("integrated_circuit_hv").EUt(VA[LV]).duration(600)
-                .inputItems(GTOTagPrefix.flakes, GTOMaterials.AluminaCeramic, 1)
+                .inputItems(GTOTagPrefix.FLAKES, GTOMaterials.AluminaCeramic, 1)
                 .inputItems(INTEGRATED_CIRCUIT_MV, 2)
                 .inputItems(INTEGRATED_LOGIC_CIRCUIT, 2)
                 .inputItems(RANDOM_ACCESS_MEMORY, 2)

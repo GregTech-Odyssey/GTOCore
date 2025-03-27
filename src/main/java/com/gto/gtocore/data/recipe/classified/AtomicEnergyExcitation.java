@@ -15,7 +15,7 @@ interface AtomicEnergyExcitation {
 
     static void init() {
         ATOMIC_ENERGY_EXCITATION_RECIPES.recipeBuilder(GTOCore.id("concentration_mixing_hyper_fuel_1"))
-                .notConsumable(GTOTagPrefix.nanites, GTOMaterials.WhiteDwarfMatter)
+                .notConsumable(GTOTagPrefix.NANITES, GTOMaterials.WhiteDwarfMatter)
                 .inputItems(GTOItems.RESONATING_GEM.asStack(4))
                 .inputItems(TagPrefix.dust, GTMaterials.Hassium, 16)
                 .inputFluids(GTOMaterials.HyperFuel4.getFluid(8000))
@@ -32,7 +32,7 @@ interface AtomicEnergyExcitation {
                 .save();
 
         ATOMIC_ENERGY_EXCITATION_RECIPES.recipeBuilder(GTOCore.id("concentration_mixing_hyper_fuel_2"))
-                .notConsumable(GTOTagPrefix.nanites, GTOMaterials.BlackDwarfMatter)
+                .notConsumable(GTOTagPrefix.NANITES, GTOMaterials.BlackDwarfMatter)
                 .inputItems(TagPrefix.dust, GTOMaterials.Draconium, 16)
                 .inputItems(TagPrefix.dust, GTOMaterials.Starmetal, 18)
                 .inputFluids(GTOMaterials.ConcentrationMixingHyperFuel1.getFluid(6000))
@@ -113,7 +113,7 @@ interface AtomicEnergyExcitation {
                 .save();
 
         ATOMIC_ENERGY_EXCITATION_RECIPES.recipeBuilder(GTOCore.id("enriched_naquadah_fuel"))
-                .notConsumable(GTOTagPrefix.nanites, GTOMaterials.Vibranium)
+                .notConsumable(GTOTagPrefix.NANITES, GTOMaterials.Vibranium)
                 .inputItems(TagPrefix.dust, GTMaterials.NaquadahEnriched, 16)
                 .inputItems(TagPrefix.dust, GTMaterials.Antimony, 4)
                 .notConsumableFluid(GTOMaterials.CaesiumFluoride.getFluid(1000))
@@ -129,7 +129,7 @@ interface AtomicEnergyExcitation {
                 .save();
 
         ATOMIC_ENERGY_EXCITATION_RECIPES.recipeBuilder(GTOCore.id("naquadah_fuel"))
-                .notConsumable(GTOTagPrefix.nanites, GTOMaterials.Orichalcum)
+                .notConsumable(GTOTagPrefix.NANITES, GTOMaterials.Orichalcum)
                 .inputItems(TagPrefix.dust, GTMaterials.Naquadah, 16)
                 .inputFluids(GTMaterials.Hydrogen.getFluid(30000))
                 .inputFluids(GTMaterials.Nitrogen.getFluid(15000))

@@ -402,7 +402,7 @@ interface ImplosionCompressor {
                 .save();
 
         ELECTRIC_IMPLOSION_COMPRESSOR_RECIPES.recipeBuilder(GTOCore.id("eternal_singularity"))
-                .notConsumable(GTOTagPrefix.nanites, GTOMaterials.Eternity, 16)
+                .notConsumable(GTOTagPrefix.NANITES, GTOMaterials.Eternity, 16)
                 .inputItems(TagPrefix.dust, GTOMaterials.SpaceTime)
                 .outputItems(ModItems.eternal_singularity.get())
                 .EUt(2013265920)

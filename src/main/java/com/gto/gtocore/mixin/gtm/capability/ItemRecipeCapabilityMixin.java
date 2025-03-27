@@ -25,7 +25,7 @@ public class ItemRecipeCapabilityMixin {
     private SlotWidget setXEIChance(SlotWidget instance, float XEIChance, @Local(argsOnly = true) IO io, @Local(argsOnly = true) Content content) {
         if (io == IO.IN) {
             Ingredient ingredient = ItemRecipeCapability.CAP.of(content.getContent());
-            if (ingredient instanceof SizedIngredient sizedIngredient && ItemUtils.getFirstSized(sizedIngredient).getItem() instanceof TagPrefixItem item && item.tagPrefix == GTOTagPrefix.catalyst) {
+            if (ingredient instanceof SizedIngredient sizedIngredient && ItemUtils.getFirstSized(sizedIngredient).getItem() instanceof TagPrefixItem item && item.tagPrefix == GTOTagPrefix.CATALYST) {
                 instance.setIngredientIO(IngredientIO.CATALYST);
                 return instance.setXEIChance(0);
             }

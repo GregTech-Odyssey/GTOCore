@@ -73,7 +73,7 @@ interface TranscendingCrafting {
                 .save();
 
         TRANSCENDING_CRAFTING_RECIPES.recipeBuilder(GTOCore.id("cosmic_fabric"))
-                .notConsumable(GTOTagPrefix.nanites, GTOMaterials.CosmicNeutronium)
+                .notConsumable(GTOTagPrefix.NANITES, GTOMaterials.CosmicNeutronium)
                 .inputItems(TagPrefix.foil, GTMaterials.Rubber)
                 .inputItems(GTOItems.AMORPHOUS_MATTER.asItem())
                 .inputFluids(GTOMaterials.TranscendingMatter.getFluid(1000))

@@ -47,6 +47,7 @@
         "avaritia.InternalRecipeHandlerMixin",
         "biomeswevegone.ManOWarMixin",
         "botania.ContributorListMixin",
+        "corgilib.CorgiLibForgeClientEventsMixin",
         "deeperdarker.DDItemsMixin",
         "eio.EntityCaptureUtilsMixin",
         "eio.FluidConduitTickerMixin",

@@ -69,6 +69,8 @@ dependencies {
 
     modCompileOnly("software.bernie.geckolib:geckolib-forge-${minecraft_version}:4.7.1.2")
 
+    modCompileOnly("corgitaco.corgilib:Corgilib-Forge:$minecraft_version-4.0.3.3")
+
     modCompileOnly("curse.maven:Shimmer-forge-627824:5685940")
 
     modCompileOnly("curse.maven:just-enough-resources-jer-240630:5057220")

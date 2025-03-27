@@ -19,7 +19,7 @@ interface QuantumForceTransformer {
 
     static void init() {
         QUANTUM_FORCE_TRANSFORMER_RECIPES.recipeBuilder(GTOCore.id("hyper_stable_self_healing_adhesive"))
-                .chancedInput(ChemicalHelper.get(GTOTagPrefix.nanites, GTOMaterials.Uruium), 500, 0)
+                .chancedInput(ChemicalHelper.get(GTOTagPrefix.NANITES, GTOMaterials.Uruium), 500, 0)
                 .inputItems(TagPrefix.dust, GTMaterials.ActivatedCarbon, 64)
                 .inputItems(TagPrefix.dust, GTMaterials.Bismuth, 64)
                 .inputFluids(GTMaterials.Oxygen.getFluid(20000))
@@ -30,8 +30,8 @@ interface QuantumForceTransformer {
                 .save();
 
         QUANTUM_FORCE_TRANSFORMER_RECIPES.recipeBuilder(GTOCore.id("spacetime_hex_wire"))
-                .notConsumable(GTOTagPrefix.nanites, GTOMaterials.SpaceTime, 32)
-                .notConsumable(GTOTagPrefix.nanites, GTOMaterials.TranscendentMetal, 32)
+                .notConsumable(GTOTagPrefix.NANITES, GTOMaterials.SpaceTime, 32)
+                .notConsumable(GTOTagPrefix.NANITES, GTOMaterials.TranscendentMetal, 32)
                 .inputItems(TagPrefix.wireGtOctal, GTOMaterials.SpaceTime, 2)
                 .inputFluids(GTOMaterials.Rhugnor.getFluid(1600))
                 .outputItems(TagPrefix.wireGtHex, GTOMaterials.SpaceTime)
@@ -89,8 +89,8 @@ interface QuantumForceTransformer {
                 .save();
 
         QUANTUM_FORCE_TRANSFORMER_RECIPES.recipeBuilder(GTOCore.id("spacetime_double_wire"))
-                .notConsumable(GTOTagPrefix.nanites, GTOMaterials.SpaceTime, 4)
-                .notConsumable(GTOTagPrefix.nanites, GTOMaterials.TranscendentMetal, 4)
+                .notConsumable(GTOTagPrefix.NANITES, GTOMaterials.SpaceTime, 4)
+                .notConsumable(GTOTagPrefix.NANITES, GTOMaterials.TranscendentMetal, 4)
                 .inputItems(TagPrefix.wireGtSingle, GTOMaterials.SpaceTime, 2)
                 .inputFluids(GTOMaterials.Rhugnor.getFluid(200))
                 .outputItems(TagPrefix.wireGtDouble, GTOMaterials.SpaceTime)
@@ -99,8 +99,8 @@ interface QuantumForceTransformer {
                 .save();
 
         QUANTUM_FORCE_TRANSFORMER_RECIPES.recipeBuilder(GTOCore.id("spacetime_octal_wire"))
-                .notConsumable(GTOTagPrefix.nanites, GTOMaterials.SpaceTime, 16)
-                .notConsumable(GTOTagPrefix.nanites, GTOMaterials.TranscendentMetal, 16)
+                .notConsumable(GTOTagPrefix.NANITES, GTOMaterials.SpaceTime, 16)
+                .notConsumable(GTOTagPrefix.NANITES, GTOMaterials.TranscendentMetal, 16)
                 .inputItems(TagPrefix.wireGtQuadruple, GTOMaterials.SpaceTime, 2)
                 .inputFluids(GTOMaterials.Rhugnor.getFluid(800))
                 .outputItems(TagPrefix.wireGtOctal, GTOMaterials.SpaceTime)
@@ -109,7 +109,7 @@ interface QuantumForceTransformer {
                 .save();
 
         QUANTUM_FORCE_TRANSFORMER_RECIPES.recipeBuilder(GTOCore.id("cosmic_ingot"))
-                .notConsumable(GTOTagPrefix.nanites, GTOMaterials.CosmicNeutronium)
+                .notConsumable(GTOTagPrefix.NANITES, GTOMaterials.CosmicNeutronium)
                 .chancedInput(GTOItems.COSMIC_SINGULARITY.asStack(), 1000, 0)
                 .inputItems(GTOItems.HYPERCUBE.asItem())
                 .inputItems(TagPrefix.ingot, GTOMaterials.Infinity)
@@ -122,7 +122,7 @@ interface QuantumForceTransformer {
                 .save();
 
         QUANTUM_FORCE_TRANSFORMER_RECIPES.recipeBuilder(GTOCore.id("quantum_anomaly"))
-                .chancedInput(ChemicalHelper.get(GTOTagPrefix.nanites, GTOMaterials.Draconium), 100, 0)
+                .chancedInput(ChemicalHelper.get(GTOTagPrefix.NANITES, GTOMaterials.Draconium), 100, 0)
                 .inputItems(GTOItems.ENTANGLED_SINGULARITY.asItem())
                 .inputFluids(GTMaterials.Duranium.getFluid(144))
                 .inputFluids(GTOMaterials.ExcitedDtec.getFluid(100))
@@ -132,7 +132,7 @@ interface QuantumForceTransformer {
                 .save();
 
         QUANTUM_FORCE_TRANSFORMER_RECIPES.recipeBuilder(GTOCore.id("black_body_naquadria_supersolid"))
-                .chancedInput(ChemicalHelper.get(GTOTagPrefix.nanites, GTOMaterials.Uruium), 500, 0)
+                .chancedInput(ChemicalHelper.get(GTOTagPrefix.NANITES, GTOMaterials.Uruium), 500, 0)
                 .inputItems(TagPrefix.dust, GTMaterials.Naquadria, 64)
                 .inputItems(TagPrefix.dust, GTMaterials.Magnesium, 64)
                 .inputFluids(GTMaterials.PhosphoricAcid.getFluid(20000))
@@ -143,8 +143,8 @@ interface QuantumForceTransformer {
                 .save();
 
         QUANTUM_FORCE_TRANSFORMER_RECIPES.recipeBuilder(GTOCore.id("spacetime_single_wire"))
-                .notConsumable(GTOTagPrefix.nanites, GTOMaterials.SpaceTime)
-                .notConsumable(GTOTagPrefix.nanites, GTOMaterials.TranscendentMetal)
+                .notConsumable(GTOTagPrefix.NANITES, GTOMaterials.SpaceTime)
+                .notConsumable(GTOTagPrefix.NANITES, GTOMaterials.TranscendentMetal)
                 .inputItems(TagPrefix.wireGtSingle, GTOMaterials.Infinity)
                 .inputFluids(GTOMaterials.SpaceTime.getFluid(100))
                 .inputFluids(GTOMaterials.Rhugnor.getFluid(100))
@@ -154,7 +154,7 @@ interface QuantumForceTransformer {
                 .save();
 
         QUANTUM_FORCE_TRANSFORMER_RECIPES.recipeBuilder(GTOCore.id("fullerene_polymer_matrix_pulp_dust"))
-                .notConsumable(GTOTagPrefix.nanites, GTOMaterials.Starmetal)
+                .notConsumable(GTOTagPrefix.NANITES, GTOMaterials.Starmetal)
                 .inputItems(TagPrefix.dust, GTOMaterials.Fullerene, 16)
                 .inputItems(TagPrefix.dust, GTMaterials.Palladium, 8)
                 .inputFluids(GTMaterials.Nitrogen.getFluid(15000))
@@ -166,8 +166,8 @@ interface QuantumForceTransformer {
                 .save();
 
         QUANTUM_FORCE_TRANSFORMER_RECIPES.recipeBuilder(GTOCore.id("spacetime_quadruple_wire"))
-                .notConsumable(GTOTagPrefix.nanites, GTOMaterials.SpaceTime, 8)
-                .notConsumable(GTOTagPrefix.nanites, GTOMaterials.TranscendentMetal, 8)
+                .notConsumable(GTOTagPrefix.NANITES, GTOMaterials.SpaceTime, 8)
+                .notConsumable(GTOTagPrefix.NANITES, GTOMaterials.TranscendentMetal, 8)
                 .inputItems(TagPrefix.wireGtDouble, GTOMaterials.SpaceTime, 2)
                 .inputFluids(GTOMaterials.Rhugnor.getFluid(400))
                 .outputItems(TagPrefix.wireGtQuadruple, GTOMaterials.SpaceTime)
@@ -254,8 +254,8 @@ interface QuantumForceTransformer {
                 .save();
 
         QUANTUM_FORCE_TRANSFORMER_RECIPES.recipeBuilder(GTOCore.id("timepiece"))
-                .notConsumable(GTOTagPrefix.nanites, GTOMaterials.WhiteDwarfMatter)
-                .notConsumable(GTOTagPrefix.nanites, GTOMaterials.BlackDwarfMatter)
+                .notConsumable(GTOTagPrefix.NANITES, GTOMaterials.WhiteDwarfMatter)
+                .notConsumable(GTOTagPrefix.NANITES, GTOMaterials.BlackDwarfMatter)
                 .chancedInput(ChemicalHelper.get(TagPrefix.wireGtHex, GTOMaterials.SpaceTime), 1, 0)
                 .inputFluids(GTOMaterials.CosmicElement.getFluid(100))
                 .chancedOutput(GTOItems.TIMEPIECE.asStack(), 2500, 0)

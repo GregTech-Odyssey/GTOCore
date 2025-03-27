@@ -54,7 +54,7 @@ public final class NanoForgeMachine extends StorageMultiblockMachine implements 
     private int machineTier;
 
     public NanoForgeMachine(IMachineBlockEntity holder) {
-        super(holder, 64, i -> ChemicalHelper.getPrefix(i.getItem()) == GTOTagPrefix.nanites);
+        super(holder, 64, i -> ChemicalHelper.getPrefix(i.getItem()) == GTOTagPrefix.NANITES);
     }
 
     @Nullable

@@ -67,4 +67,7 @@ repositories {
             includeGroup("com.eliotlash.mclib")
         }
     }
+    maven {
+        url "https://maven.jt-dev.tech/releases/"
+    }
 }

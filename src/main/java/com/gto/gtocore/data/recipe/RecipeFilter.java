@@ -1,5 +1,7 @@
 package com.gto.gtocore.data.recipe;
 
+import com.gto.gtocore.data.recipe.generated.DyeRecipes;
+import com.gto.gtocore.integration.Mods;
 import com.gto.gtocore.utils.RLUtils;
 
 import com.gregtechceu.gtceu.GTCEu;
@@ -633,10 +635,19 @@ public interface RecipeFilter {
         filters.add(RLUtils.fd("rice_from_bag"));
         filters.add(RLUtils.fd("straw"));
         filters.add(RLUtils.fd("paper_from_tree_bark"));
+        filters.add(RLUtils.mc("red_dye"));
 
         filters.add(new ResourceLocation("farmersrespite", "green_tea_leaves_sack"));
         filters.add(new ResourceLocation("farmersrespite", "yellow_tea_leaves_sack"));
         filters.add(new ResourceLocation("farmersrespite", "black_tea_leaves_sack"));
         filters.add(new ResourceLocation("farmersrespite", "coffee_beans_sack"));
+
+        if (Mods.biomeswevegone()) {
+            DyeRecipes.BWG.forEach((k, v) -> {
+                filters.add(new ResourceLocation("minecraft", k + "_dye_from_bwg_dye_tag"));
+                if (v) filters.add(new ResourceLocation("minecraft", k + "_dye_from_bwg_2_dye_tag"));
+            });
+            DyeRecipes.BWG.clear();
+        }
     }
 }

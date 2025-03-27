@@ -16,7 +16,7 @@ interface AggregationDevice {
     static void init() {
         AGGREGATION_DEVICE_RECIPES.recipeBuilder(GTOCore.id("chaotic_core"))
                 .notConsumable(GTOItems.DRAGON_STABILIZER_CORE.asItem())
-                .inputItems(GTOTagPrefix.nanites, GTOMaterials.Draconium)
+                .inputItems(GTOTagPrefix.NANITES, GTOMaterials.Draconium)
                 .inputItems(GTItems.FIELD_GENERATOR_OpV.asItem())
                 .inputItems(GTOItems.CHAOS_SHARD.asItem())
                 .inputItems(TagPrefix.block, GTOMaterials.Legendarium)

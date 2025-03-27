@@ -47,7 +47,7 @@ public final class StringConverter {
                         if (StringIndex.TAGPREFIX_MAP.containsKey(entry.tagPrefix)) {
                             tagPrefix = StringIndex.TAGPREFIX_MAP.get(entry.tagPrefix);
                         } else {
-                            tagPrefix = "GTOTagPrefix." + FormattingUtil.lowerUnderscoreToUpperCamel(entry.tagPrefix.name());
+                            tagPrefix = "GTOTagPrefix." + entry.tagPrefix.name().toUpperCase();
                         }
                         if (re == 2) return "new UnificationEntry(" + tagPrefix + ", " + material + (amount > 1 ? ", " + amount : "") + ")";
                         if (re == 1) return tagPrefix + ", " + material + (amount > 1 ? ", " + amount : "");

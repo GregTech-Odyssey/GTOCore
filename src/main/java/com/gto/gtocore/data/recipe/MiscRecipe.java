@@ -96,7 +96,7 @@ public interface MiscRecipe {
                 .save();
 
         VanillaRecipeHelper.addShapedRecipe(provider, GTOCore.id("iron_bucket"), new ItemStack(Items.BUCKET), "ChC", " X ", 'X',
-                new UnificationEntry(plate, Iron), 'C', new UnificationEntry(GTOTagPrefix.curvedPlate, Iron));
+                new UnificationEntry(plate, Iron), 'C', new UnificationEntry(GTOTagPrefix.CURVED_PLATE, Iron));
 
         VanillaRecipeHelper.addBlastingRecipe(provider, GTOCore.id("hot_iron_ingot"), ChemicalHelper.getTag(ingot, Iron), GTOItems.HOT_IRON_INGOT.asStack(), 0);
 
@@ -286,14 +286,14 @@ public interface MiscRecipe {
 
         CHEMICAL_RECIPES.builder("plastic_circuit_board_persulfate").duration(600).EUt(VA[LV])
                 .inputItems(PLASTIC_BOARD)
-                .inputItems(GTOTagPrefix.flakes, GTOMaterials.AluminaCeramic, 2)
+                .inputItems(GTOTagPrefix.FLAKES, GTOMaterials.AluminaCeramic, 2)
                 .inputFluids(SodiumPersulfate.getFluid(500))
                 .outputItems(PLASTIC_CIRCUIT_BOARD)
                 .save();
 
         CHEMICAL_RECIPES.builder("plastic_circuit_board_iron3").duration(600).EUt(VA[LV])
                 .inputItems(PLASTIC_BOARD)
-                .inputItems(GTOTagPrefix.flakes, GTOMaterials.AluminaCeramic, 2)
+                .inputItems(GTOTagPrefix.FLAKES, GTOMaterials.AluminaCeramic, 2)
                 .inputFluids(Iron3Chloride.getFluid(250))
                 .outputItems(PLASTIC_CIRCUIT_BOARD)
                 .save();

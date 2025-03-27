@@ -89,10 +89,10 @@ interface GTOPartsRecipeHandler {
         if (GTOUtils.isGeneration(round, material)) {
             processRound(material, provider);
         }
-        if (GTOUtils.isGeneration(nanites, material)) {
+        if (GTOUtils.isGeneration(NANITES, material)) {
             processManoswarm(material, provider);
         }
-        if (GTOUtils.isGeneration(curvedPlate, material)) {
+        if (GTOUtils.isGeneration(CURVED_PLATE, material)) {
             processcurvedPlate(material, provider);
         }
         if (material.hasFlag(GTOMaterialFlags.GENERATE_COMPONENT)) {
@@ -103,13 +103,13 @@ interface GTOPartsRecipeHandler {
             processSensorCasing(material, provider);
             processFieldGeneratorCasing(material, provider);
         }
-        if (GTOUtils.isGeneration(catalyst, material)) {
+        if (GTOUtils.isGeneration(CATALYST, material)) {
             processCatalyst(material, provider);
         }
-        if (GTOUtils.isGeneration(roughBlank, material)) {
+        if (GTOUtils.isGeneration(ROUGH_BLANK, material)) {
             processroughBlank(material, provider);
         }
-        if (GTOUtils.isGeneration(artificialGem, material)) {
+        if (GTOUtils.isGeneration(ARTIFICIAL_GEM, material)) {
             processCrystallization(material);
         }
     }
@@ -407,7 +407,7 @@ interface GTOPartsRecipeHandler {
         ItemStack stack = ChemicalHelper.get(TagPrefix.rotor, material);
         if (stack.isEmpty()) return;
         int mass = (int) material.getMass();
-        ItemStack curvedPlateStack = ChemicalHelper.get(GTOTagPrefix.curvedPlate, material);
+        ItemStack curvedPlateStack = ChemicalHelper.get(GTOTagPrefix.CURVED_PLATE, material);
         ItemStack ringStack = ChemicalHelper.get(ring, material);
         if (mass < 240 && material.getBlastTemperature() < 3600)
             VanillaRecipeHelper.addShapedRecipe(provider, String.format("rotor_%s", material.getName()), stack,
@@ -615,11 +615,11 @@ interface GTOPartsRecipeHandler {
     }
 
     private static void processManoswarm(Material material, Consumer<FinishedRecipe> provider) {
-        ItemStack stack = ChemicalHelper.get(nanites, material);
+        ItemStack stack = ChemicalHelper.get(NANITES, material);
         if (stack.isEmpty()) return;
         CHEMICAL_BATH_RECIPES.recipeBuilder(material.getName() + "_nano_bath")
                 .inputFluids(GTOMaterials.PiranhaSolution.getFluid((int) (10000 * Math.sqrt((double) material.getMass() / GTOMaterials.Eternity.getMass()))))
-                .inputItems(contaminableNanites, material)
+                .inputItems(CONTAMINABLE_NANITES, material)
                 .outputItems(stack)
                 .duration((int) material.getMass() << 4)
                 .EUt(480)
@@ -628,7 +628,7 @@ interface GTOPartsRecipeHandler {
     }
 
     private static void processcurvedPlate(Material material, Consumer<FinishedRecipe> provider) {
-        ItemStack stack = ChemicalHelper.get(curvedPlate, material);
+        ItemStack stack = ChemicalHelper.get(CURVED_PLATE, material);
         if (stack.isEmpty()) return;
         int mass = (int) material.getMass();
         ItemStack plateStack = ChemicalHelper.get(plate, material);
@@ -647,8 +647,8 @@ interface GTOPartsRecipeHandler {
 
     private static void processMotorEnclosure(Material material, Consumer<FinishedRecipe> provider) {
         int mass = (int) material.getMass();
-        ItemStack motorEnclosureStack = ChemicalHelper.get(motorEnclosure, material);
-        ItemStack curvedPlateStack = ChemicalHelper.get(curvedPlate, material);
+        ItemStack motorEnclosureStack = ChemicalHelper.get(MOTOR_ENCLOSURE, material);
+        ItemStack curvedPlateStack = ChemicalHelper.get(CURVED_PLATE, material);
         ItemStack ringStack = ChemicalHelper.get(ring, material);
         if (mass < 240 && material.getBlastTemperature() < 3600)
             VanillaRecipeHelper.addShapedRecipe(provider, String.format("motor_enclosure_%s", material.getName()),
@@ -685,8 +685,8 @@ interface GTOPartsRecipeHandler {
 
     private static void processPumpBarrel(Material material, Consumer<FinishedRecipe> provider) {
         int mass = (int) material.getMass();
-        ItemStack pumpBarrelStack = ChemicalHelper.get(pumpBarrel, material);
-        ItemStack curvedPlateStack = ChemicalHelper.get(curvedPlate, material);
+        ItemStack pumpBarrelStack = ChemicalHelper.get(PUMP_BARREL, material);
+        ItemStack curvedPlateStack = ChemicalHelper.get(CURVED_PLATE, material);
         ItemStack ringStack = ChemicalHelper.get(ring, material);
         if (mass < 240 && material.getBlastTemperature() < 3600)
             VanillaRecipeHelper.addShapedRecipe(provider, String.format("pump_barrel_%s", material.getName()),
@@ -723,8 +723,8 @@ interface GTOPartsRecipeHandler {
 
     private static void processPistonHousing(Material material, Consumer<FinishedRecipe> provider) {
         int mass = (int) material.getMass();
-        ItemStack pistonHousingStack = ChemicalHelper.get(pistonHousing, material);
-        ItemStack curvedPlateStack = ChemicalHelper.get(curvedPlate, material);
+        ItemStack pistonHousingStack = ChemicalHelper.get(PISTON_HOUSING, material);
+        ItemStack curvedPlateStack = ChemicalHelper.get(CURVED_PLATE, material);
         ItemStack plateStack = ChemicalHelper.get(plate, material);
         if (mass < 240 && material.getBlastTemperature() < 3600)
             VanillaRecipeHelper.addShapedRecipe(provider, String.format("piston_housing_%s", material.getName()),
@@ -761,8 +761,8 @@ interface GTOPartsRecipeHandler {
 
     private static void processEmitterBases(Material material, Consumer<FinishedRecipe> provider) {
         int mass = (int) material.getMass();
-        ItemStack emitterBasesStack = ChemicalHelper.get(emitterBases, material);
-        ItemStack curvedPlateStack = ChemicalHelper.get(curvedPlate, material);
+        ItemStack emitterBasesStack = ChemicalHelper.get(EMITTER_BASES, material);
+        ItemStack curvedPlateStack = ChemicalHelper.get(CURVED_PLATE, material);
         ItemStack plateStack = ChemicalHelper.get(plate, material);
         ItemStack rodStack = ChemicalHelper.get(rod, material);
         if (mass < 240 && material.getBlastTemperature() < 3600)
@@ -800,8 +800,8 @@ interface GTOPartsRecipeHandler {
 
     private static void processSensorCasing(Material material, Consumer<FinishedRecipe> provider) {
         int mass = (int) material.getMass();
-        ItemStack sensorCasingStack = ChemicalHelper.get(sensorCasing, material);
-        ItemStack curvedPlateStack = ChemicalHelper.get(curvedPlate, material);
+        ItemStack sensorCasingStack = ChemicalHelper.get(SENSOR_CASING, material);
+        ItemStack curvedPlateStack = ChemicalHelper.get(CURVED_PLATE, material);
         ItemStack rodStack = ChemicalHelper.get(rod, material);
         if (mass < 240 && material.getBlastTemperature() < 3600)
             VanillaRecipeHelper.addShapedRecipe(provider, String.format("sensor_casing_%s", material.getName()),
@@ -838,8 +838,8 @@ interface GTOPartsRecipeHandler {
 
     private static void processFieldGeneratorCasing(Material material, Consumer<FinishedRecipe> provider) {
         int mass = (int) material.getMass();
-        ItemStack fieldGeneratorCasingStack = ChemicalHelper.get(fieldGeneratorCasing, material);
-        ItemStack curvedPlateStack = ChemicalHelper.get(curvedPlate, material);
+        ItemStack fieldGeneratorCasingStack = ChemicalHelper.get(FIELD_GENERATOR_CASING, material);
+        ItemStack curvedPlateStack = ChemicalHelper.get(CURVED_PLATE, material);
         ItemStack plateStack = ChemicalHelper.get(plate, material);
         if (mass < 240 && material.getBlastTemperature() < 3600)
             VanillaRecipeHelper.addShapedRecipe(provider, String.format("field_generator_casing_%s", material.getName()),
@@ -875,7 +875,7 @@ interface GTOPartsRecipeHandler {
     }
 
     private static void processCatalyst(Material material, Consumer<FinishedRecipe> provider) {
-        ItemStack stack = ChemicalHelper.get(catalyst, material);
+        ItemStack stack = ChemicalHelper.get(CATALYST, material);
         if (stack.isEmpty()) return;
         ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id(material.getName() + "_catalyst"))
                 .inputItems(GTOItems.CATALYST_BASE.asItem())
@@ -888,10 +888,10 @@ interface GTOPartsRecipeHandler {
     }
 
     private static void processroughBlank(Material material, Consumer<FinishedRecipe> provider) {
-        ItemStack stack = ChemicalHelper.get(roughBlank, material);
+        ItemStack stack = ChemicalHelper.get(ROUGH_BLANK, material);
         if (stack.isEmpty()) return;
         ItemStack stack1 = ChemicalHelper.get(block, material);
-        ItemStack stack2 = ChemicalHelper.get(brick, material);
+        ItemStack stack2 = ChemicalHelper.get(BRICK, material);
         SINTERING_FURNACE_RECIPES.recipeBuilder(GTOCore.id(material.getName() + "_rough_blank"))
                 .inputItems(stack)
                 .outputItems(stack1)
@@ -909,18 +909,18 @@ interface GTOPartsRecipeHandler {
 
         CUTTER_RECIPES.recipeBuilder(GTOCore.id(material.getName() + "_flakes"))
                 .inputItems(stack2)
-                .outputItems(flakes, material, 4)
+                .outputItems(FLAKES, material, 4)
                 .duration(200)
                 .EUt(30)
                 .save();
     }
 
     private static void processCrystallization(Material material) {
-        ItemStack stack = ChemicalHelper.get(crystalSeed, material, 2);
+        ItemStack stack = ChemicalHelper.get(CRYSTAL_SEED, material, 2);
         ItemStack stack1 = ChemicalHelper.get(gemExquisite, material);
         if (stack1.isEmpty()) return;
         CUTTER_RECIPES.recipeBuilder(GTOCore.id("%s_gem".formatted(material.getName())))
-                .inputItems(artificialGem, material)
+                .inputItems(ARTIFICIAL_GEM, material)
                 .outputItems(stack1)
                 .outputItems(stack)
                 .duration((int) (material.getMass() << 1))

@@ -20,9 +20,9 @@ interface Crystallization {
 
     static void init() {
         CRYSTALLIZATION_RECIPES.recipeBuilder(GTOCore.id("ruby"))
-                .inputItems(GTOTagPrefix.crystalSeed, GTMaterials.Ruby)
+                .inputItems(GTOTagPrefix.CRYSTAL_SEED, GTMaterials.Ruby)
                 .inputItems(TagPrefix.dust, GTMaterials.Chromium)
-                .outputItems(GTOTagPrefix.artificialGem, GTMaterials.Ruby)
+                .outputItems(GTOTagPrefix.ARTIFICIAL_GEM, GTMaterials.Ruby)
                 .inputFluids(GTMaterials.Aluminium.getFluid(432))
                 .inputFluids(GTMaterials.Oxygen.getFluid(4000))
                 .EUt(120)
@@ -31,9 +31,9 @@ interface Crystallization {
                 .save();
 
         CRYSTALLIZATION_RECIPES.recipeBuilder(GTOCore.id("sapphire"))
-                .inputItems(GTOTagPrefix.crystalSeed, GTMaterials.Sapphire)
+                .inputItems(GTOTagPrefix.CRYSTAL_SEED, GTMaterials.Sapphire)
                 .inputItems(TagPrefix.dustTiny, GTMaterials.Iron)
-                .outputItems(GTOTagPrefix.artificialGem, GTMaterials.Sapphire)
+                .outputItems(GTOTagPrefix.ARTIFICIAL_GEM, GTMaterials.Sapphire)
                 .inputFluids(GTMaterials.Aluminium.getFluid(432))
                 .inputFluids(GTMaterials.Oxygen.getFluid(4000))
                 .EUt(120)
@@ -42,10 +42,10 @@ interface Crystallization {
                 .save();
 
         CRYSTALLIZATION_RECIPES.recipeBuilder(GTOCore.id("emerald"))
-                .inputItems(GTOTagPrefix.crystalSeed, GTMaterials.Emerald)
+                .inputItems(GTOTagPrefix.CRYSTAL_SEED, GTMaterials.Emerald)
                 .inputItems(TagPrefix.dustSmall, GTMaterials.Silicon, 6)
                 .inputItems(TagPrefix.dustSmall, GTMaterials.Beryllium, 3)
-                .outputItems(GTOTagPrefix.artificialGem, GTMaterials.Emerald)
+                .outputItems(GTOTagPrefix.ARTIFICIAL_GEM, GTMaterials.Emerald)
                 .inputFluids(GTMaterials.Aluminium.getFluid(72))
                 .inputFluids(GTMaterials.Oxygen.getFluid(2500))
                 .EUt(120)
@@ -54,9 +54,9 @@ interface Crystallization {
                 .save();
 
         CRYSTALLIZATION_RECIPES.recipeBuilder(GTOCore.id("diamond"))
-                .inputItems(GTOTagPrefix.crystalSeed, GTMaterials.Diamond)
+                .inputItems(GTOTagPrefix.CRYSTAL_SEED, GTMaterials.Diamond)
                 .inputItems(TagPrefix.gemExquisite, GTMaterials.Diamond)
-                .outputItems(GTOTagPrefix.artificialGem, GTMaterials.Diamond)
+                .outputItems(GTOTagPrefix.ARTIFICIAL_GEM, GTMaterials.Diamond)
                 .inputFluids(GTMaterials.Carbon.getFluid(576))
                 .inputFluids(GTMaterials.Helium.getFluid(1000))
                 .EUt(480)
@@ -88,7 +88,7 @@ interface Crystallization {
                 .save();
 
         CRYSTALLIZATION_RECIPES.recipeBuilder(GTOCore.id("silicon_boule"))
-                .inputItems(GTOTagPrefix.crystalSeed, GTMaterials.Silicon)
+                .inputItems(GTOTagPrefix.CRYSTAL_SEED, GTMaterials.Silicon)
                 .inputItems(dustSmall, GalliumArsenide)
                 .inputFluids(GTOMaterials.ElectronicGradeSilicon.getFluid(4608))
                 .outputItems(SILICON_BOULE)
@@ -96,7 +96,7 @@ interface Crystallization {
                 .duration(3000).EUt(VA[MV]).save();
 
         CRYSTALLIZATION_RECIPES.recipeBuilder(GTOCore.id("phosphorus_boule"))
-                .inputItems(GTOTagPrefix.crystalSeed, GTMaterials.Silicon)
+                .inputItems(GTOTagPrefix.CRYSTAL_SEED, GTMaterials.Silicon)
                 .inputItems(dust, Phosphorus, 8)
                 .inputItems(dustSmall, GalliumArsenide, 2)
                 .inputFluids(GTOMaterials.ElectronicGradeSilicon.getFluid(9216))
@@ -106,7 +106,7 @@ interface Crystallization {
                 .duration(4000).EUt(VA[HV]).save();
 
         CRYSTALLIZATION_RECIPES.recipeBuilder(GTOCore.id("naquadah_boule"))
-                .inputItems(GTOTagPrefix.crystalSeed, GTOMaterials.ElectronicGradeSilicon)
+                .inputItems(GTOTagPrefix.CRYSTAL_SEED, GTOMaterials.ElectronicGradeSilicon)
                 .inputItems(ingot, Naquadah)
                 .inputItems(dust, GalliumArsenide)
                 .inputFluids(GTOMaterials.ElectronicGradeSilicon.getFluid(20736))
@@ -116,7 +116,7 @@ interface Crystallization {
                 .duration(15000).EUt(VA[EV]).save();
 
         CRYSTALLIZATION_RECIPES.recipeBuilder(GTOCore.id("neutronium_boule"))
-                .inputItems(GTOTagPrefix.crystalSeed, GTOMaterials.ElectronicGradeSilicon)
+                .inputItems(GTOTagPrefix.CRYSTAL_SEED, GTOMaterials.ElectronicGradeSilicon)
                 .inputItems(ingot, Neutronium, 4)
                 .inputItems(dust, GalliumArsenide, 2)
                 .inputFluids(GTOMaterials.UltraHighPuritySilicon.getFluid(41472))
@@ -126,7 +126,7 @@ interface Crystallization {
                 .duration(18000).EUt(VA[IV]).save();
 
         CRYSTALLIZATION_RECIPES.recipeBuilder("make_high_purity_single_crystal_silicon")
-                .inputItems(GTOTagPrefix.crystalSeed, GTOMaterials.UltraHighPuritySilicon)
+                .inputItems(GTOTagPrefix.CRYSTAL_SEED, GTOMaterials.UltraHighPuritySilicon)
                 .inputItems(dust, GalliumArsenide)
                 .inputFluids(GTOMaterials.UltraHighPuritySilicon.getFluid(20736))
                 .inputFluids(Xenon.getFluid(8000))
@@ -135,7 +135,7 @@ interface Crystallization {
                 .duration(21000).EUt(VA[ZPM]).save();
 
         CRYSTALLIZATION_RECIPES.recipeBuilder(GTOCore.id("taranium_boulea"))
-                .inputItems(GTOTagPrefix.crystalSeed, GTOMaterials.UltraHighPuritySilicon)
+                .inputItems(GTOTagPrefix.CRYSTAL_SEED, GTOMaterials.UltraHighPuritySilicon)
                 .inputItems(TagPrefix.ingot, GTOMaterials.Taranium, 8)
                 .inputItems(TagPrefix.dust, GTMaterials.GalliumArsenide, 4)
                 .inputFluids(GTOMaterials.UltraHighPuritySilicon.getFluid(82944))

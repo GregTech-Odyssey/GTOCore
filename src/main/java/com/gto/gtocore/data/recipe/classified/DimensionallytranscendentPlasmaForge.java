@@ -151,10 +151,10 @@ interface DimensionallytranscendentPlasmaForge {
 
         DIMENSIONALLY_TRANSCENDENT_PLASMA_FORGE_RECIPES.recipeBuilder(GTOCore.id("magnetohydrodynamically_constrained_star_matter"))
                 .notConsumable(GTOItems.ETERNITY_CATALYST.asItem())
-                .inputItems(GTOTagPrefix.nanites, GTOMaterials.Eternity)
+                .inputItems(GTOTagPrefix.NANITES, GTOMaterials.Eternity)
                 .inputFluids(GTOMaterials.RawStarMatter.getFluid(FluidStorageKeys.PLASMA, 100000))
                 .inputFluids(GTOMaterials.ExcitedDtsc.getFluid(100000))
-                .chancedOutput(GTOTagPrefix.contaminableNanites, GTOMaterials.Eternity, 5000, 0)
+                .chancedOutput(GTOTagPrefix.CONTAMINABLE_NANITES, GTOMaterials.Eternity, 5000, 0)
                 .outputFluids(GTOMaterials.MagnetohydrodynamicallyConstrainedStarMatter.getFluid(100000))
                 .outputFluids(GTOMaterials.DimensionallyTranscendentResidue.getFluid(100))
                 .EUt(2061584302080L)

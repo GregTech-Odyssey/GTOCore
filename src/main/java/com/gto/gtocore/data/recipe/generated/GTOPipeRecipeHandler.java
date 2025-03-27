@@ -92,7 +92,7 @@ interface GTOPipeRecipeHandler {
         } else if (material.getMass() < 240 && material.getBlastTemperature() < 3600) {
             VanillaRecipeHelper.addShapedRecipe(provider, String.format("tiny_%s_pipe", material.getName()),
                     pipeStack.copyWithCount(2), " s ", "hXw",
-                    'X', new UnificationEntry(GTOTagPrefix.curvedPlate, material));
+                    'X', new UnificationEntry(GTOTagPrefix.CURVED_PLATE, material));
         }
     }
 
@@ -120,7 +120,7 @@ interface GTOPipeRecipeHandler {
         } else if (material.getMass() < 240 && material.getBlastTemperature() < 3600) {
             VanillaRecipeHelper.addShapedRecipe(provider, String.format("small_%s_pipe", material.getName()),
                     pipeStack, "wXh",
-                    'X', new UnificationEntry(GTOTagPrefix.curvedPlate, material));
+                    'X', new UnificationEntry(GTOTagPrefix.CURVED_PLATE, material));
         }
     }
 
@@ -148,7 +148,7 @@ interface GTOPipeRecipeHandler {
         } else if (material.getMass() < 240 && material.getBlastTemperature() < 3600) {
             VanillaRecipeHelper.addShapedRecipe(provider, String.format("medium_%s_pipe", material.getName()),
                     pipeStack, "XXX", "w h",
-                    'X', new UnificationEntry(GTOTagPrefix.curvedPlate, material));
+                    'X', new UnificationEntry(GTOTagPrefix.CURVED_PLATE, material));
         }
     }
 
@@ -176,7 +176,7 @@ interface GTOPipeRecipeHandler {
         } else if (material.getMass() < 240 && material.getBlastTemperature() < 3600) {
             VanillaRecipeHelper.addShapedRecipe(provider, String.format("large_%s_pipe", material.getName()),
                     pipeStack, "XXX", "w h", "XXX",
-                    'X', new UnificationEntry(GTOTagPrefix.curvedPlate, material));
+                    'X', new UnificationEntry(GTOTagPrefix.CURVED_PLATE, material));
         }
     }
 

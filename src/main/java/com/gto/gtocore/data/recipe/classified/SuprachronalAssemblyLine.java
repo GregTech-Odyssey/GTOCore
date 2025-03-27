@@ -447,7 +447,7 @@ interface SuprachronalAssemblyLine {
                 .inputItems(TagPrefix.wireFine, GTOMaterials.WhiteDwarfMatter, 64)
                 .inputItems(TagPrefix.wireFine, GTOMaterials.WhiteDwarfMatter, 64)
                 .inputItems(TagPrefix.cableGtSingle, GTOMaterials.CosmicNeutronium, 16)
-                .inputItems(GTOTagPrefix.curvedPlate, GTOMaterials.TranscendentMetal, 4)
+                .inputItems(GTOTagPrefix.CURVED_PLATE, GTOMaterials.TranscendentMetal, 4)
                 .inputFluids(GTOMaterials.SuperMutatedLivingSolder.getFluid(16000))
                 .inputFluids(GTOMaterials.SpacetimeContinuum.getFluid(32000))
                 .inputFluids(GTOMaterials.DimensionAllyshiftedSuperFluid.getFluid(64000))

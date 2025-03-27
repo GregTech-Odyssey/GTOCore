@@ -64,7 +64,7 @@ public final class NanitesIntegratedMachine extends StorageMultiblockMachine imp
     public NanitesIntegratedMachine(IMachineBlockEntity holder) {
         super(holder, 64, i -> {
             UnificationEntry entry = ChemicalHelper.getUnificationEntry(i.getItem());
-            return entry != null && entry.tagPrefix == GTOTagPrefix.nanites && entry.material != GTMaterials.Carbon;
+            return entry != null && entry.tagPrefix == GTOTagPrefix.NANITES && entry.material != GTMaterials.Carbon;
         });
         coilTrait = new CoilTrait(this, false, true);
     }

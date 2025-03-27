@@ -149,7 +149,7 @@ interface Cutter {
 
         CUTTER_RECIPES.recipeBuilder(GTOCore.id("silicon_crystal_seed"))
                 .inputItems(TagPrefix.block, GTMaterials.Silicon)
-                .outputItems(GTOTagPrefix.crystalSeed, GTMaterials.Silicon, 16)
+                .outputItems(GTOTagPrefix.CRYSTAL_SEED, GTMaterials.Silicon, 16)
                 .inputFluids(GTMaterials.DistilledWater.getFluid(10000))
                 .EUt(120)
                 .duration(2600)
@@ -157,7 +157,7 @@ interface Cutter {
 
         CUTTER_RECIPES.recipeBuilder(GTOCore.id("electronicgradesilicon_crystal_seed"))
                 .inputItems(TagPrefix.block, GTOMaterials.ElectronicGradeSilicon)
-                .outputItems(GTOTagPrefix.crystalSeed, GTOMaterials.ElectronicGradeSilicon, 16)
+                .outputItems(GTOTagPrefix.CRYSTAL_SEED, GTOMaterials.ElectronicGradeSilicon, 16)
                 .inputFluids(GTOMaterials.OzoneWater.getFluid(10000))
                 .EUt(480)
                 .duration(4800)
@@ -165,7 +165,7 @@ interface Cutter {
 
         CUTTER_RECIPES.recipeBuilder(GTOCore.id("ultrahighpuritysilicon_crystal_seed"))
                 .inputItems(TagPrefix.block, GTOMaterials.UltraHighPuritySilicon)
-                .outputItems(GTOTagPrefix.crystalSeed, GTOMaterials.UltraHighPuritySilicon, 16)
+                .outputItems(GTOTagPrefix.CRYSTAL_SEED, GTOMaterials.UltraHighPuritySilicon, 16)
                 .inputFluids(GTOMaterials.PHNeutralWater.getFluid(10000))
                 .EUt(1920)
                 .duration(6000)

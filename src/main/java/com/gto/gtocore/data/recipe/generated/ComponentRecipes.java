@@ -36,7 +36,7 @@ public interface ComponentRecipes {
 
     static void init(Consumer<FinishedRecipe> provider) {
         VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("ulv_electric_motor"), GTOItems.ULV_ELECTRIC_MOTOR.asStack(),
-                "CWR", "WMW", "RWC", 'C', new UnificationEntry(GTOTagPrefix.curvedPlate, Copper), 'W', new UnificationEntry(wireGtDouble, Tin),
+                "CWR", "WMW", "RWC", 'C', new UnificationEntry(GTOTagPrefix.CURVED_PLATE, Copper), 'W', new UnificationEntry(wireGtDouble, Tin),
                 'R', new UnificationEntry(rod, Copper), 'M', new UnificationEntry(rod, IronMagnetic));
         VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("ulv_electric_piston"), GTOItems.ULV_ELECTRIC_PISTON.asStack(),
                 "PPP", "CRR", "CMG", 'P', new UnificationEntry(plate, Copper), 'C', new UnificationEntry(cableGtSingle, Lead),
@@ -232,7 +232,7 @@ public interface ComponentRecipes {
         ItemStack field_generator = (ItemStack) FIELD_GENERATOR.get(tier);
         TagKey<Item> circuit = (TagKey<Item>) CIRCUIT.get(tier);
         ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id(String.format("motor_%s", VN[tier].toLowerCase())))
-                .inputItems(GTOTagPrefix.motorEnclosure, material[0])
+                .inputItems(GTOTagPrefix.MOTOR_ENCLOSURE, material[0])
                 .inputItems(rod, material[0], 2)
                 .inputItems(rod, material[2])
                 .inputItems(wireGtDouble, material[3], 4)
@@ -269,7 +269,7 @@ public interface ComponentRecipes {
                 .duration(400).EUt(VA[tier]).save();
 
         ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id(String.format("pump_%s", VN[tier].toLowerCase())))
-                .inputItems(GTOTagPrefix.pumpBarrel, material[0])
+                .inputItems(GTOTagPrefix.PUMP_BARREL, material[0])
                 .inputItems(pipeNormalFluid, material[5])
                 .inputItems(motor.copyWithCount(1))
                 .inputItems(screw, material[6], 2)
@@ -301,7 +301,7 @@ public interface ComponentRecipes {
                 .save();
 
         ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id(String.format("piston_%s", VN[tier].toLowerCase())))
-                .inputItems(GTOTagPrefix.pistonHousing, material[0])
+                .inputItems(GTOTagPrefix.PISTON_HOUSING, material[0])
                 .inputItems(rod, material[0], 2)
                 .inputItems(cableGtSingle, material[1], 2)
                 .inputItems(plate, material[0])
@@ -340,7 +340,7 @@ public interface ComponentRecipes {
                 .duration(400).EUt(VA[tier]).save();
 
         ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id(String.format("emitter_%s", VN[tier].toLowerCase())))
-                .inputItems(GTOTagPrefix.emitterBases, material[0])
+                .inputItems(GTOTagPrefix.EMITTER_BASES, material[0])
                 .inputItems(rod, material[7], 2)
                 .inputItems(cableGtSingle, material[1], 2)
                 .inputItems(circuit, 2)
@@ -360,7 +360,7 @@ public interface ComponentRecipes {
                 .duration(400).EUt(VA[tier]).save();
 
         ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id(String.format("sensor_%s", VN[tier].toLowerCase())))
-                .inputItems(GTOTagPrefix.sensorCasing, material[0])
+                .inputItems(GTOTagPrefix.SENSOR_CASING, material[0])
                 .inputItems(rod, material[7])
                 .inputItems(cableGtSingle, material[1])
                 .inputItems(circuit, 2)
@@ -380,7 +380,7 @@ public interface ComponentRecipes {
                 .duration(400).EUt(VA[tier]).save();
 
         ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id(String.format("field_generator_%s", VN[tier].toLowerCase())))
-                .inputItems(GTOTagPrefix.fieldGeneratorCasing, material[0])
+                .inputItems(GTOTagPrefix.FIELD_GENERATOR_CASING, material[0])
                 .inputItems(emitter)
                 .inputItems(field_gem)
                 .inputItems(circuit, 2)
@@ -413,7 +413,7 @@ public interface ComponentRecipes {
         TagKey<Item> circuit = (TagKey<Item>) CIRCUIT.get(tier);
 
         GTORecipeBuilder builder_motor = ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id(String.format("motor_%s", VN[tier].toLowerCase())))
-                .inputItems(GTOTagPrefix.motorEnclosure, material[0])
+                .inputItems(GTOTagPrefix.MOTOR_ENCLOSURE, material[0])
                 .inputItems(magnetic)
                 .inputItems(rodLong, material[0], 4)
                 .inputItems(ring, material[0], 4)
@@ -505,7 +505,7 @@ public interface ComponentRecipes {
                 .duration(2400).EUt(VA[tier]).save();
 
         GTORecipeBuilder builder_pump = ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id(String.format("pump_%s", VN[tier].toLowerCase())))
-                .inputItems(GTOTagPrefix.pumpBarrel, material[0])
+                .inputItems(GTOTagPrefix.PUMP_BARREL, material[0])
                 .inputItems(motor)
                 .inputItems(pipe)
                 .inputItems(screw, material[0], 8)
@@ -560,7 +560,7 @@ public interface ComponentRecipes {
                 .save();
 
         GTORecipeBuilder builder_piston = ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id(String.format("piston_%s", VN[tier].toLowerCase())))
-                .inputItems(GTOTagPrefix.pistonHousing, material[0])
+                .inputItems(GTOTagPrefix.PISTON_HOUSING, material[0])
                 .inputItems(motor)
                 .inputItems(plate, material[0], 2)
                 .inputItems(ring, material[0], 4)
@@ -657,7 +657,7 @@ public interface ComponentRecipes {
 
         GTORecipeBuilder builder_emitter = ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id(String.format("emitter_%s", VN[tier].toLowerCase())))
                 .inputItems(frameGt, material[7])
-                .inputItems(GTOTagPrefix.emitterBases, material[0])
+                .inputItems(GTOTagPrefix.EMITTER_BASES, material[0])
                 .inputItems(motor)
                 .inputItems(rodLong, material[0], 2)
                 .inputItems(emitter_gem.copyWithCount(2))
@@ -706,7 +706,7 @@ public interface ComponentRecipes {
 
         GTORecipeBuilder builder_sensor = ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id(String.format("sensor_%s", VN[tier].toLowerCase())))
                 .inputItems(frameGt, material[7])
-                .inputItems(GTOTagPrefix.sensorCasing, material[0])
+                .inputItems(GTOTagPrefix.SENSOR_CASING, material[0])
                 .inputItems(motor)
                 .inputItems(plate, material[0], 2)
                 .inputItems(emitter_gem.copyWithCount(2))
@@ -755,7 +755,7 @@ public interface ComponentRecipes {
 
         GTORecipeBuilder builder_field_generator = ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id(String.format("field_generator_%s", VN[tier].toLowerCase())))
                 .inputItems(frameGt, material[7])
-                .inputItems(GTOTagPrefix.fieldGeneratorCasing, material[0])
+                .inputItems(GTOTagPrefix.FIELD_GENERATOR_CASING, material[0])
                 .inputItems(emitter_gem)
                 .inputItems(emitter.copyWithCount(2))
                 .inputItems(circuit, 2)

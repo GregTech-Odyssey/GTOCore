@@ -146,9 +146,9 @@ interface Packer {
                 .save();
 
         PACKER_RECIPES.recipeBuilder(GTOCore.id("magmatter_dust"))
-                .inputItems(GTOTagPrefix.nanites, GTOMaterials.TranscendentMetal)
+                .inputItems(GTOTagPrefix.NANITES, GTOMaterials.TranscendentMetal)
                 .inputItems(TagPrefix.dustSmall, GTOMaterials.Magmatter, 4)
-                .outputItems(GTOTagPrefix.contaminableNanites, GTOMaterials.TranscendentMetal)
+                .outputItems(GTOTagPrefix.CONTAMINABLE_NANITES, GTOMaterials.TranscendentMetal)
                 .outputItems(TagPrefix.dust, GTOMaterials.Magmatter)
                 .EUt(30)
                 .duration(20)

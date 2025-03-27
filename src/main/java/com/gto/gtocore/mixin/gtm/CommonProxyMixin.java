@@ -38,8 +38,8 @@ public class CommonProxyMixin {
             }
             DungeonLootLoader.init();
             DungeonLoot.init();
-            event.addRepositorySource(new GTPackSource("gtceu:dynamic_data", event.getPackType(), Pack.Position.BOTTOM, GTDynamicDataPack::new));
         }
+        event.addRepositorySource(new GTPackSource("gtceu:dynamic_data", event.getPackType(), Pack.Position.BOTTOM, GTDynamicDataPack::new));
         ci.cancel();
     }
 }

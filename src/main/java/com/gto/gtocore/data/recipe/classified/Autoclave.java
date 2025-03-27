@@ -77,10 +77,10 @@ interface Autoclave {
                 .save();
 
         AUTOCLAVE_RECIPES.recipeBuilder(GTOCore.id("unstable_star"))
-                .inputItems(GTOTagPrefix.nanites, GTOMaterials.Orichalcum)
+                .inputItems(GTOTagPrefix.NANITES, GTOMaterials.Orichalcum)
                 .inputItems(GTItems.GRAVI_STAR.asItem())
                 .inputFluids(GTOMaterials.Adamantine.getFluid(288))
-                .outputItems(GTOTagPrefix.contaminableNanites, GTOMaterials.Orichalcum)
+                .outputItems(GTOTagPrefix.CONTAMINABLE_NANITES, GTOMaterials.Orichalcum)
                 .outputItems(GTOItems.UNSTABLE_STAR.asItem())
                 .EUt(491520)
                 .duration(480)
@@ -88,10 +88,10 @@ interface Autoclave {
                 .save();
 
         AUTOCLAVE_RECIPES.recipeBuilder(GTOCore.id("nuclear_star"))
-                .inputItems(GTOTagPrefix.nanites, GTOMaterials.CosmicNeutronium)
+                .inputItems(GTOTagPrefix.NANITES, GTOMaterials.CosmicNeutronium)
                 .inputItems(GTOItems.UNSTABLE_STAR.asItem())
                 .inputFluids(GTOMaterials.Infinity.getFluid(288))
-                .outputItems(GTOTagPrefix.contaminableNanites, GTOMaterials.CosmicNeutronium)
+                .outputItems(GTOTagPrefix.CONTAMINABLE_NANITES, GTOMaterials.CosmicNeutronium)
                 .outputItems(GTOItems.NUCLEAR_STAR.asItem())
                 .EUt(31457280)
                 .duration(480)
@@ -109,7 +109,7 @@ interface Autoclave {
                 .save();
 
         AUTOCLAVE_RECIPES.recipeBuilder(GTOCore.id("contained_kerr_singularity"))
-                .notConsumable(GTOTagPrefix.nanites, GTOMaterials.Vibranium)
+                .notConsumable(GTOTagPrefix.NANITES, GTOMaterials.Vibranium)
                 .inputItems(GTOItems.CONTAINED_KERR_NEWMANN_SINGULARITY.asItem())
                 .inputFluids(GTOMaterials.FreeElectronGas.getFluid(1000))
                 .outputItems(GTOItems.CONTAINED_KERR_SINGULARITY.asItem())
@@ -119,7 +119,7 @@ interface Autoclave {
                 .save();
 
         AUTOCLAVE_RECIPES.recipeBuilder(GTOCore.id("draconium_dust"))
-                .notConsumable(GTOTagPrefix.nanites, GTOMaterials.Enderium, 64)
+                .notConsumable(GTOTagPrefix.NANITES, GTOMaterials.Enderium, 64)
                 .inputItems(GTOItems.DRACONIUM_DIRT.asItem())
                 .inputFluids(GTOMaterials.DragonElement.getFluid(1000))
                 .outputItems(TagPrefix.dust, GTOMaterials.Draconium)

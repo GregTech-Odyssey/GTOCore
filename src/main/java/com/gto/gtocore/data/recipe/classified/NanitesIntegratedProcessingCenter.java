@@ -16,7 +16,7 @@ interface NanitesIntegratedProcessingCenter {
 
     static void init() {
         NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES.recipeBuilder(GTOCore.id("zylon_dust"))
-                .inputItems(GTOTagPrefix.nanites, GTOMaterials.BlackDwarfMatter)
+                .inputItems(GTOTagPrefix.NANITES, GTOMaterials.BlackDwarfMatter)
                 .inputItems(TagPrefix.dust, GTMaterials.Sulfur, 1762)
                 .inputItems(TagPrefix.dust, GTMaterials.Sodium, 41)
                 .inputFluids(GTMaterials.Bromine.getFluid(15200))
@@ -27,7 +27,7 @@ interface NanitesIntegratedProcessingCenter {
                 .inputFluids(GTMaterials.NitricAcid.getFluid(67000))
                 .inputFluids(GTMaterials.Oxygen.getFluid(40000))
                 .inputFluids(GTMaterials.Benzene.getFluid(70000))
-                .outputItems(GTOTagPrefix.contaminableNanites, GTOMaterials.BlackDwarfMatter)
+                .outputItems(GTOTagPrefix.CONTAMINABLE_NANITES, GTOMaterials.BlackDwarfMatter)
                 .outputItems(TagPrefix.dust, GTOMaterials.Zylon, 115)
                 .EUt(125829120)
                 .duration(3200)
@@ -36,7 +36,7 @@ interface NanitesIntegratedProcessingCenter {
                 .save();
 
         NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES.recipeBuilder(GTOCore.id("biological_cells"))
-                .inputItems(GTOTagPrefix.nanites, GTMaterials.Neutronium)
+                .inputItems(GTOTagPrefix.NANITES, GTMaterials.Neutronium)
                 .inputItems(GTItems.STEM_CELLS.asStack(256))
                 .inputItems(TagPrefix.dust, GTMaterials.Meat, 64)
                 .inputItems(TagPrefix.dust, GTMaterials.Salt, 64)
@@ -46,7 +46,7 @@ interface NanitesIntegratedProcessingCenter {
                 .inputItems(TagPrefix.dust, GTMaterials.NaquadahEnriched, 2)
                 .inputItems(TagPrefix.dust, GTMaterials.Tritanium)
                 .inputFluids(GTMaterials.Mutagen.getFluid(10000))
-                .outputItems(GTOTagPrefix.contaminableNanites, GTMaterials.Neutronium)
+                .outputItems(GTOTagPrefix.CONTAMINABLE_NANITES, GTMaterials.Neutronium)
                 .outputItems(GTOItems.BIOLOGICAL_CELLS.asStack(64))
                 .EUt(491520)
                 .duration(4000)
@@ -55,7 +55,7 @@ interface NanitesIntegratedProcessingCenter {
                 .save();
 
         NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES.recipeBuilder(GTOCore.id("hexanitrohexaaxaisowurtzitane_dust"))
-                .inputItems(GTOTagPrefix.nanites, GTOMaterials.Orichalcum)
+                .inputItems(GTOTagPrefix.NANITES, GTOMaterials.Orichalcum)
                 .notConsumable(GTOItems.UNSTABLE_STAR.asStack(16))
                 .inputItems(TagPrefix.dust, GTOMaterials.SilicaGel, 191)
                 .inputItems(TagPrefix.dust, GTOMaterials.SuccinicAcid, 76)
@@ -73,7 +73,7 @@ interface NanitesIntegratedProcessingCenter {
                 .inputFluids(GTMaterials.Oxygen.getFluid(FluidStorageKeys.PLASMA, 11000))
                 .inputFluids(GTMaterials.AceticAnhydride.getFluid(9000))
                 .inputFluids(GTMaterials.Nitrogen.getFluid(FluidStorageKeys.PLASMA, 7000))
-                .outputItems(GTOTagPrefix.contaminableNanites, GTOMaterials.Orichalcum)
+                .outputItems(GTOTagPrefix.CONTAMINABLE_NANITES, GTOMaterials.Orichalcum)
                 .outputItems(TagPrefix.dust, GTOMaterials.Hexanitrohexaaxaisowurtzitane, 288)
                 .EUt(125829120)
                 .duration(6400)
@@ -82,12 +82,12 @@ interface NanitesIntegratedProcessingCenter {
                 .save();
 
         NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES.recipeBuilder(GTOCore.id("silicone_rubber"))
-                .inputItems(GTOTagPrefix.nanites, GTMaterials.Carbon)
+                .inputItems(GTOTagPrefix.NANITES, GTMaterials.Carbon)
                 .inputItems(TagPrefix.dust, GTMaterials.Silicon, 3)
                 .inputItems(TagPrefix.dust, GTMaterials.Sulfur)
                 .inputFluids(GTMaterials.Water.getFluid(2000))
                 .inputFluids(GTMaterials.Methane.getFluid(4000))
-                .outputItems(GTOTagPrefix.contaminableNanites, GTMaterials.Carbon)
+                .outputItems(GTOTagPrefix.CONTAMINABLE_NANITES, GTMaterials.Carbon)
                 .outputFluids(GTMaterials.SiliconeRubber.getFluid(1296))
                 .outputFluids(GTMaterials.Hydrogen.getFluid(4000))
                 .EUt(30720)
@@ -97,7 +97,7 @@ interface NanitesIntegratedProcessingCenter {
                 .save();
 
         NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES.recipeBuilder(GTOCore.id("euv_photoresist"))
-                .inputItems(GTOTagPrefix.nanites, GTOMaterials.Infuscolium)
+                .inputItems(GTOTagPrefix.NANITES, GTOMaterials.Infuscolium)
                 .inputItems(TagPrefix.dust, GTMaterials.Rhenium, 30)
                 .inputItems(TagPrefix.dust, GTMaterials.Lithium, 56)
                 .inputItems(TagPrefix.dust, GTMaterials.Selenium, 40)
@@ -111,7 +111,7 @@ interface NanitesIntegratedProcessingCenter {
                 .inputFluids(GTMaterials.Oxygen.getFluid(89000))
                 .inputFluids(GTMaterials.Nitrogen.getFluid(40000))
                 .inputFluids(GTMaterials.Butane.getFluid(57000))
-                .outputItems(GTOTagPrefix.contaminableNanites, GTOMaterials.Infuscolium)
+                .outputItems(GTOTagPrefix.CONTAMINABLE_NANITES, GTOMaterials.Infuscolium)
                 .outputFluids(GTOMaterials.EuvPhotoresist.getFluid(21600))
                 .EUt(503316480)
                 .duration(12800)
@@ -120,14 +120,14 @@ interface NanitesIntegratedProcessingCenter {
                 .save();
 
         NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES.recipeBuilder(GTOCore.id("cycloparaphenylene"))
-                .inputItems(GTOTagPrefix.nanites, GTMaterials.Osmium)
+                .inputItems(GTOTagPrefix.NANITES, GTMaterials.Osmium)
                 .inputItems(TagPrefix.dust, GTMaterials.Carbon, 1920)
                 .inputItems(TagPrefix.dust, GTMaterials.Iodine, 64)
                 .inputFluids(GTMaterials.Hydrogen.getFluid(640000))
                 .inputFluids(GTMaterials.Oxygen.getFluid(96000))
                 .inputFluids(GTMaterials.Chlorine.getFluid(96000))
                 .inputFluids(GTMaterials.Fluorine.getFluid(96000))
-                .outputItems(GTOTagPrefix.contaminableNanites, GTMaterials.Osmium)
+                .outputItems(GTOTagPrefix.CONTAMINABLE_NANITES, GTMaterials.Osmium)
                 .outputFluids(GTOMaterials.Cycloparaphenylene.getFluid(32000))
                 .outputFluids(GTMaterials.Fluorine.getFluid(4800))
                 .outputFluids(GTMaterials.Chlorine.getFluid(3200))
@@ -138,7 +138,7 @@ interface NanitesIntegratedProcessingCenter {
                 .save();
 
         NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES.recipeBuilder(GTOCore.id("cosmic_superconductor"))
-                .inputItems(GTOTagPrefix.nanites, GTOMaterials.Draconium)
+                .inputItems(GTOTagPrefix.NANITES, GTOMaterials.Draconium)
                 .inputItems(TagPrefix.dust, GTMaterials.Phosphorus)
                 .inputItems(TagPrefix.dust, GTMaterials.Sulfur, 18)
                 .inputItems(TagPrefix.dust, GTMaterials.Sodium, 6)
@@ -156,7 +156,7 @@ interface NanitesIntegratedProcessingCenter {
                 .inputFluids(GTOMaterials.QuarkGluon.getFluid(FluidStorageKeys.PLASMA, 17000))
                 .inputFluids(GTMaterials.Benzene.getFluid(3000))
                 .inputFluids(GTMaterials.Acetone.getFluid(6000))
-                .outputItems(GTOTagPrefix.contaminableNanites, GTOMaterials.Draconium)
+                .outputItems(GTOTagPrefix.CONTAMINABLE_NANITES, GTOMaterials.Draconium)
                 .outputFluids(GTOMaterials.CosmicSuperconductor.getFluid(10000))
                 .EUt(2013265920)
                 .duration(16000)
@@ -165,12 +165,12 @@ interface NanitesIntegratedProcessingCenter {
                 .save();
 
         NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES.recipeBuilder(GTOCore.id("unfolded_fullerene_dust"))
-                .inputItems(GTOTagPrefix.nanites, GTOMaterials.Enderium)
+                .inputItems(GTOTagPrefix.NANITES, GTOMaterials.Enderium)
                 .inputItems(TagPrefix.dust, GTMaterials.Carbon, 3780)
                 .inputFluids(GTMaterials.Methane.getFluid(60000))
                 .inputFluids(GTMaterials.Bromine.getFluid(60000))
                 .inputFluids(GTMaterials.Nitrogen.getFluid(60000))
-                .outputItems(GTOTagPrefix.contaminableNanites, GTOMaterials.Enderium)
+                .outputItems(GTOTagPrefix.CONTAMINABLE_NANITES, GTOMaterials.Enderium)
                 .outputItems(TagPrefix.dust, GTOMaterials.UnfoldedFullerene, 64)
                 .outputFluids(GTOMaterials.HydrobromicAcid.getFluid(60000))
                 .EUt(31457280)
@@ -180,11 +180,11 @@ interface NanitesIntegratedProcessingCenter {
                 .save();
 
         NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES.recipeBuilder(GTOCore.id("polyimide"))
-                .inputItems(GTOTagPrefix.nanites, GTMaterials.Glowstone)
+                .inputItems(GTOTagPrefix.NANITES, GTMaterials.Glowstone)
                 .inputItems(TagPrefix.dust, GTMaterials.Carbon, 486)
                 .inputFluids(GTMaterials.Hydrogen.getFluid(256000))
                 .inputFluids(GTMaterials.NitrogenDioxide.getFluid(64000))
-                .outputItems(GTOTagPrefix.contaminableNanites, GTMaterials.Glowstone)
+                .outputItems(GTOTagPrefix.CONTAMINABLE_NANITES, GTMaterials.Glowstone)
                 .outputFluids(GTOMaterials.Polyimide.getFluid(21000))
                 .outputFluids(GTMaterials.Hydrogen.getFluid(12800))
                 .outputFluids(GTMaterials.Nitrogen.getFluid(6400))
@@ -195,13 +195,13 @@ interface NanitesIntegratedProcessingCenter {
                 .save();
 
         NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES.recipeBuilder(GTOCore.id("platinum_dust"))
-                .inputItems(GTOTagPrefix.nanites, GTMaterials.Iridium)
+                .inputItems(GTOTagPrefix.NANITES, GTMaterials.Iridium)
                 .inputItems(TagPrefix.dust, GTMaterials.PlatinumGroupSludge, 576)
                 .inputItems(TagPrefix.dust, GTMaterials.Sulfur, 16)
                 .inputFluids(GTMaterials.Hydrogen.getFluid(72000))
                 .inputFluids(GTMaterials.Oxygen.getFluid(128000))
                 .inputFluids(GTMaterials.Chlorine.getFluid(14400))
-                .outputItems(GTOTagPrefix.contaminableNanites, GTMaterials.Iridium)
+                .outputItems(GTOTagPrefix.CONTAMINABLE_NANITES, GTMaterials.Iridium)
                 .outputItems(TagPrefix.dust, GTMaterials.Platinum, 64)
                 .outputItems(TagPrefix.dust, GTMaterials.Palladium, 64)
                 .outputItems(TagPrefix.dust, GTMaterials.Ruthenium, 60)
@@ -218,7 +218,7 @@ interface NanitesIntegratedProcessingCenter {
                 .save();
 
         NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES.recipeBuilder(GTOCore.id("photopolymer"))
-                .inputItems(GTOTagPrefix.nanites, GTOMaterials.WhiteDwarfMatter)
+                .inputItems(GTOTagPrefix.NANITES, GTOMaterials.WhiteDwarfMatter)
                 .inputItems(TagPrefix.dust, GTMaterials.Carbon, 768)
                 .inputItems(TagPrefix.dust, GTMaterials.Rutile, 50)
                 .inputItems(TagPrefix.dust, GTOMaterials.SuccinicAcid, 70)
@@ -233,7 +233,7 @@ interface NanitesIntegratedProcessingCenter {
                 .inputFluids(GTMaterials.Chlorine.getFluid(5600))
                 .inputFluids(GTMaterials.Propene.getFluid(16000))
                 .inputFluids(GTMaterials.Butene.getFluid(80000))
-                .outputItems(GTOTagPrefix.contaminableNanites, GTOMaterials.WhiteDwarfMatter)
+                .outputItems(GTOTagPrefix.CONTAMINABLE_NANITES, GTOMaterials.WhiteDwarfMatter)
                 .outputFluids(GTOMaterials.Photopolymer.getFluid(16000))
                 .EUt(2013265920)
                 .duration(5120)
@@ -242,7 +242,7 @@ interface NanitesIntegratedProcessingCenter {
                 .save();
 
         NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES.recipeBuilder(GTOCore.id("photoresist"))
-                .inputItems(GTOTagPrefix.nanites, GTOMaterials.Uruium)
+                .inputItems(GTOTagPrefix.NANITES, GTOMaterials.Uruium)
                 .inputItems(TagPrefix.dust, GTMaterials.Rutile, 91)
                 .inputItems(TagPrefix.dust, GTMaterials.Carbon, 60)
                 .inputItems(TagPrefix.dust, GTMaterials.SodiumHydroxide, 42)
@@ -252,7 +252,7 @@ interface NanitesIntegratedProcessingCenter {
                 .inputFluids(GTMaterials.Propene.getFluid(15000))
                 .inputFluids(GTMaterials.Benzene.getFluid(39000))
                 .inputFluids(GTMaterials.Ethylene.getFluid(47000))
-                .outputItems(GTOTagPrefix.contaminableNanites, GTOMaterials.Uruium)
+                .outputItems(GTOTagPrefix.CONTAMINABLE_NANITES, GTOMaterials.Uruium)
                 .outputFluids(GTOMaterials.Photoresist.getFluid(16000))
                 .EUt(7864320)
                 .duration(9600)
@@ -261,7 +261,7 @@ interface NanitesIntegratedProcessingCenter {
                 .save();
 
         NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES.recipeBuilder(GTOCore.id("stem_cells"))
-                .inputItems(GTOTagPrefix.nanites, GTMaterials.Naquadah)
+                .inputItems(GTOTagPrefix.NANITES, GTMaterials.Naquadah)
                 .chancedInput(GTOItems.GLACIO_SPIRIT.asStack(), 8000, 100)
                 .inputItems(TagPrefix.dustTiny, GTMaterials.Naquadah)
                 .inputItems(TagPrefix.dust, GTMaterials.Osmiridium)
@@ -274,7 +274,7 @@ interface NanitesIntegratedProcessingCenter {
                 .inputFluids(GTMaterials.Water.getFluid(3000))
                 .inputFluids(GTMaterials.DistilledWater.getFluid(2000))
                 .inputFluids(GTMaterials.Biomass.getFluid(1000))
-                .outputItems(GTOTagPrefix.contaminableNanites, GTMaterials.Naquadah)
+                .outputItems(GTOTagPrefix.CONTAMINABLE_NANITES, GTMaterials.Naquadah)
                 .outputItems(GTItems.STEM_CELLS.asStack(64))
                 .outputItems(TagPrefix.dust, GTMaterials.Phosphorus)
                 .EUt(1966080)
@@ -284,11 +284,11 @@ interface NanitesIntegratedProcessingCenter {
                 .save();
 
         NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES.recipeBuilder(GTOCore.id("polyvinyl_chloride"))
-                .inputItems(GTOTagPrefix.nanites, GTMaterials.Glowstone)
+                .inputItems(GTOTagPrefix.NANITES, GTMaterials.Glowstone)
                 .inputFluids(GTMaterials.Oxygen.getFluid(10000))
                 .inputFluids(GTMaterials.Chlorine.getFluid(1440))
                 .inputFluids(GTMaterials.Ethylene.getFluid(1440))
-                .outputItems(GTOTagPrefix.contaminableNanites, GTMaterials.Glowstone)
+                .outputItems(GTOTagPrefix.CONTAMINABLE_NANITES, GTMaterials.Glowstone)
                 .outputFluids(GTMaterials.PolyvinylChloride.getFluid(2160))
                 .outputFluids(GTMaterials.Hydrogen.getFluid(1440))
                 .EUt(7680)
@@ -298,13 +298,13 @@ interface NanitesIntegratedProcessingCenter {
                 .save();
 
         NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES.recipeBuilder(GTOCore.id("styrene_butadiene_rubber"))
-                .inputItems(GTOTagPrefix.nanites, GTMaterials.Iron)
+                .inputItems(GTOTagPrefix.NANITES, GTMaterials.Iron)
                 .inputItems(TagPrefix.dust, GTMaterials.Sulfur, 5)
                 .inputFluids(GTMaterials.Butadiene.getFluid(3000))
                 .inputFluids(GTMaterials.Benzene.getFluid(1000))
                 .inputFluids(GTMaterials.Ethylene.getFluid(1000))
                 .inputFluids(GTMaterials.Oxygen.getFluid(15000))
-                .outputItems(GTOTagPrefix.contaminableNanites, GTMaterials.Iron)
+                .outputItems(GTOTagPrefix.CONTAMINABLE_NANITES, GTMaterials.Iron)
                 .outputFluids(GTMaterials.StyreneButadieneRubber.getFluid(6480))
                 .outputFluids(GTMaterials.Hydrogen.getFluid(2000))
                 .EUt(122880)
@@ -314,7 +314,7 @@ interface NanitesIntegratedProcessingCenter {
                 .save();
 
         NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES.recipeBuilder(GTOCore.id("polybenzimidazole"))
-                .inputItems(GTOTagPrefix.nanites, GTMaterials.Iridium)
+                .inputItems(GTOTagPrefix.NANITES, GTMaterials.Iridium)
                 .notConsumable(TagPrefix.dust, GTMaterials.PotassiumDichromate)
                 .inputItems(TagPrefix.dust, GTMaterials.Carbon, 1152)
                 .inputItems(TagPrefix.dust, GTMaterials.Copper, 16)
@@ -324,7 +324,7 @@ interface NanitesIntegratedProcessingCenter {
                 .inputFluids(GTMaterials.Hydrogen.getFluid(316800))
                 .inputFluids(GTMaterials.Nitrogen.getFluid(57600))
                 .inputFluids(GTMaterials.Oxygen.getFluid(201600))
-                .outputItems(GTOTagPrefix.contaminableNanites, GTMaterials.Iridium)
+                .outputItems(GTOTagPrefix.CONTAMINABLE_NANITES, GTMaterials.Iridium)
                 .outputFluids(GTMaterials.Polybenzimidazole.getFluid(21600))
                 .EUt(1966080)
                 .duration(2000)
@@ -333,11 +333,11 @@ interface NanitesIntegratedProcessingCenter {
                 .save();
 
         NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES.recipeBuilder(GTOCore.id("polytetrafluoroethylene"))
-                .inputItems(GTOTagPrefix.nanites, GTMaterials.Copper)
+                .inputItems(GTOTagPrefix.NANITES, GTMaterials.Copper)
                 .inputFluids(GTMaterials.Oxygen.getFluid(5000))
                 .inputFluids(GTMaterials.Methane.getFluid(1440))
                 .inputFluids(GTMaterials.Fluorine.getFluid(2880))
-                .outputItems(GTOTagPrefix.contaminableNanites, GTMaterials.Copper)
+                .outputItems(GTOTagPrefix.CONTAMINABLE_NANITES, GTMaterials.Copper)
                 .outputFluids(GTMaterials.Polytetrafluoroethylene.getFluid(1080))
                 .outputFluids(GTMaterials.Hydrogen.getFluid(5760))
                 .EUt(122880)
@@ -347,10 +347,10 @@ interface NanitesIntegratedProcessingCenter {
                 .save();
 
         NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES.recipeBuilder(GTOCore.id("acidic_naquadria_solution"))
-                .inputItems(GTOTagPrefix.nanites, GTMaterials.Carbon)
+                .inputItems(GTOTagPrefix.NANITES, GTMaterials.Carbon)
                 .inputItems(TagPrefix.dust, GTMaterials.NaquadahEnriched)
                 .inputFluids(GTMaterials.SulfuricAcid.getFluid(2000))
-                .outputItems(GTOTagPrefix.contaminableNanites, GTMaterials.Carbon)
+                .outputItems(GTOTagPrefix.CONTAMINABLE_NANITES, GTMaterials.Carbon)
                 .outputFluids(GTMaterials.AcidicNaquadriaSolution.getFluid(3000))
                 .EUt(491520)
                 .duration(200)
@@ -359,14 +359,14 @@ interface NanitesIntegratedProcessingCenter {
                 .save();
 
         NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES.recipeBuilder(GTOCore.id("zirconium_dust"))
-                .inputItems(GTOTagPrefix.nanites, GTMaterials.Osmium)
+                .inputItems(GTOTagPrefix.NANITES, GTMaterials.Osmium)
                 .inputItems(TagPrefix.dust, GTOMaterials.Zircon, 1152)
                 .inputItems(TagPrefix.dust, GTMaterials.Potassium, 64)
                 .inputFluids(GTMaterials.Chlorine.getFluid(512000))
                 .inputFluids(GTMaterials.Hydrogen.getFluid(256000))
                 .inputFluids(GTOMaterials.HydrogenPeroxide.getFluid(128000))
                 .inputFluids(GTMaterials.SulfurTrioxide.getFluid(64000))
-                .outputItems(GTOTagPrefix.contaminableNanites, GTMaterials.Osmium)
+                .outputItems(GTOTagPrefix.CONTAMINABLE_NANITES, GTMaterials.Osmium)
                 .outputItems(TagPrefix.dust, GTMaterials.Zirconium, 64)
                 .outputItems(TagPrefix.dust, GTMaterials.Hafnium, 48)
                 .outputItems(TagPrefix.dust, GTMaterials.PotassiumSulfate, 448)
@@ -378,7 +378,7 @@ interface NanitesIntegratedProcessingCenter {
                 .save();
 
         NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES.recipeBuilder(GTOCore.id("liquidcrystalkevlar"))
-                .inputItems(GTOTagPrefix.nanites, GTMaterials.Rhenium)
+                .inputItems(GTOTagPrefix.NANITES, GTMaterials.Rhenium)
                 .notConsumable(TagPrefix.dust, GTMaterials.AnnealedCopper)
                 .inputItems(TagPrefix.dust, GTMaterials.Carbon, 64)
                 .inputItems(TagPrefix.dust, GTMaterials.Calcium, 2)
@@ -386,7 +386,7 @@ interface NanitesIntegratedProcessingCenter {
                 .inputFluids(GTMaterials.Chlorine.getFluid(16000))
                 .inputFluids(GTMaterials.Oxygen.getFluid(18000))
                 .inputFluids(GTMaterials.Nitrogen.getFluid(18000))
-                .outputItems(GTOTagPrefix.contaminableNanites, GTMaterials.Rhenium)
+                .outputItems(GTOTagPrefix.CONTAMINABLE_NANITES, GTMaterials.Rhenium)
                 .outputFluids(GTOMaterials.LiquidCrystalKevlar.getFluid(45000))
                 .EUt(31457280)
                 .duration(4000)
@@ -395,7 +395,7 @@ interface NanitesIntegratedProcessingCenter {
                 .save();
 
         NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES.recipeBuilder(GTOCore.id("naquadria_dust"))
-                .inputItems(GTOTagPrefix.nanites, GTMaterials.Naquadah)
+                .inputItems(GTOTagPrefix.NANITES, GTMaterials.Naquadah)
                 .inputItems(TagPrefix.dust, GTOMaterials.NaquadahOxideMixture, 128)
                 .inputItems(TagPrefix.dust, GTMaterials.Caesium, 16)
                 .inputFluids(GTMaterials.Fluorine.getFluid(32000))
@@ -404,7 +404,7 @@ interface NanitesIntegratedProcessingCenter {
                 .inputFluids(GTMaterials.Radon.getFluid(8000))
                 .inputFluids(GTMaterials.NitrogenDioxide.getFluid(4000))
                 .inputFluids(GTMaterials.Xenon.getFluid(4000))
-                .outputItems(GTOTagPrefix.contaminableNanites, GTMaterials.Naquadah)
+                .outputItems(GTOTagPrefix.CONTAMINABLE_NANITES, GTMaterials.Naquadah)
                 .outputItems(TagPrefix.dust, GTMaterials.Naquadria, 64)
                 .outputItems(TagPrefix.dust, GTMaterials.Trinium, 64)
                 .outputItems(TagPrefix.dust, GTMaterials.AntimonyTrifluoride, 256)
@@ -419,14 +419,14 @@ interface NanitesIntegratedProcessingCenter {
                 .save();
 
         NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES.recipeBuilder(GTOCore.id("epoxy"))
-                .inputItems(GTOTagPrefix.nanites, GTMaterials.Copper)
+                .inputItems(GTOTagPrefix.NANITES, GTMaterials.Copper)
                 .inputItems(TagPrefix.dust, GTMaterials.Phosphorus)
                 .inputItems(TagPrefix.dust, GTMaterials.Salt, 16)
                 .inputFluids(GTMaterials.Water.getFluid(21500))
                 .inputFluids(GTMaterials.Oxygen.getFluid(10500))
                 .inputFluids(GTMaterials.Propene.getFluid(4000))
                 .inputFluids(GTMaterials.Benzene.getFluid(6000))
-                .outputItems(GTOTagPrefix.contaminableNanites, GTMaterials.Copper)
+                .outputItems(GTOTagPrefix.CONTAMINABLE_NANITES, GTMaterials.Copper)
                 .outputItems(TagPrefix.dust, GTMaterials.SodiumHydroxide, 86)
                 .outputFluids(GTMaterials.Epoxy.getFluid(4000))
                 .outputFluids(GTMaterials.Hydrogen.getFluid(16000))
@@ -438,10 +438,10 @@ interface NanitesIntegratedProcessingCenter {
                 .save();
 
         NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES.recipeBuilder(GTOCore.id("polyphenylene_sulfide"))
-                .inputItems(GTOTagPrefix.nanites, GTMaterials.Silver)
+                .inputItems(GTOTagPrefix.NANITES, GTMaterials.Silver)
                 .inputItems(TagPrefix.dust, GTMaterials.Sulfur, 16)
                 .inputFluids(GTMaterials.Benzene.getFluid(16000))
-                .outputItems(GTOTagPrefix.contaminableNanites, GTMaterials.Silver)
+                .outputItems(GTOTagPrefix.CONTAMINABLE_NANITES, GTMaterials.Silver)
                 .outputFluids(GTMaterials.PolyphenyleneSulfide.getFluid(24000))
                 .outputFluids(GTMaterials.Hydrogen.getFluid(32000))
                 .EUt(491520)
@@ -451,11 +451,11 @@ interface NanitesIntegratedProcessingCenter {
                 .save();
 
         NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES.recipeBuilder(GTOCore.id("mutagen"))
-                .inputItems(GTOTagPrefix.nanites, GTMaterials.Silver)
+                .inputItems(GTOTagPrefix.NANITES, GTMaterials.Silver)
                 .inputItems(GTItems.BIO_CHAFF.asStack(256))
                 .inputItems(TagPrefix.dust, GTMaterials.Naquadria)
                 .inputFluids(GTMaterials.DistilledWater.getFluid(10000))
-                .outputItems(GTOTagPrefix.contaminableNanites, GTMaterials.Silver)
+                .outputItems(GTOTagPrefix.CONTAMINABLE_NANITES, GTMaterials.Silver)
                 .outputFluids(GTMaterials.Mutagen.getFluid(10000))
                 .EUt(491520)
                 .duration(2000)
@@ -464,7 +464,7 @@ interface NanitesIntegratedProcessingCenter {
                 .save();
 
         NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES.recipeBuilder(GTOCore.id("polyurethaneresin"))
-                .inputItems(GTOTagPrefix.nanites, GTMaterials.Gold)
+                .inputItems(GTOTagPrefix.NANITES, GTMaterials.Gold)
                 .inputItems(TagPrefix.dust, GTMaterials.Tin, 45)
                 .inputItems(TagPrefix.dust, GTMaterials.Carbon, 64)
                 .inputItems(TagPrefix.dust, GTMaterials.Nickel, 5)
@@ -475,7 +475,7 @@ interface NanitesIntegratedProcessingCenter {
                 .inputFluids(GTMaterials.Hydrogen.getFluid(529000))
                 .inputFluids(GTMaterials.Chlorine.getFluid(870000))
                 .inputFluids(GTMaterials.Nitrogen.getFluid(45000))
-                .outputItems(GTOTagPrefix.contaminableNanites, GTMaterials.Gold)
+                .outputItems(GTOTagPrefix.CONTAMINABLE_NANITES, GTMaterials.Gold)
                 .outputFluids(GTOMaterials.PolyurethaneResin.getFluid(45000))
                 .EUt(7864320)
                 .duration(2700)
@@ -484,10 +484,10 @@ interface NanitesIntegratedProcessingCenter {
                 .save();
 
         NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES.recipeBuilder(GTOCore.id("acidic_enriched_naquadah_solution"))
-                .inputItems(GTOTagPrefix.nanites, GTMaterials.Carbon)
+                .inputItems(GTOTagPrefix.NANITES, GTMaterials.Carbon)
                 .inputItems(TagPrefix.dust, GTMaterials.Naquadria)
                 .inputFluids(GTMaterials.SulfuricAcid.getFluid(2000))
-                .outputItems(GTOTagPrefix.contaminableNanites, GTMaterials.Carbon)
+                .outputItems(GTOTagPrefix.CONTAMINABLE_NANITES, GTMaterials.Carbon)
                 .outputFluids(GTMaterials.AcidicEnrichedNaquadahSolution.getFluid(3000))
                 .EUt(491520)
                 .duration(200)
@@ -496,14 +496,14 @@ interface NanitesIntegratedProcessingCenter {
                 .save();
 
         NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES.recipeBuilder(GTOCore.id("polyetheretherketone"))
-                .inputItems(GTOTagPrefix.nanites, GTOMaterials.Vibranium)
+                .inputItems(GTOTagPrefix.NANITES, GTOMaterials.Vibranium)
                 .inputItems(TagPrefix.dust, GTMaterials.Sodium, 16)
                 .inputFluids(GTMaterials.Chlorine.getFluid(48000))
                 .inputFluids(GTMaterials.Benzene.getFluid(16000))
                 .inputFluids(GTMaterials.Oxygen.getFluid(60000))
                 .inputFluids(GTMaterials.Propene.getFluid(8000))
                 .inputFluids(GTMaterials.NitricAcid.getFluid(8000))
-                .outputItems(GTOTagPrefix.contaminableNanites, GTOMaterials.Vibranium)
+                .outputItems(GTOTagPrefix.CONTAMINABLE_NANITES, GTOMaterials.Vibranium)
                 .outputItems(TagPrefix.dust, GTOMaterials.SodiumFluoride, 32)
                 .outputFluids(GTOMaterials.Polyetheretherketone.getFluid(20736))
                 .outputFluids(GTMaterials.Water.getFluid(8000))
@@ -515,7 +515,7 @@ interface NanitesIntegratedProcessingCenter {
                 .save();
 
         NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES.recipeBuilder(GTOCore.id("polyvinyl_butyral"))
-                .inputItems(GTOTagPrefix.nanites, GTMaterials.Carbon)
+                .inputItems(GTOTagPrefix.NANITES, GTMaterials.Carbon)
                 .inputItems(TagPrefix.dust, GTMaterials.Carbon, 96)
                 .inputItems(TagPrefix.dust, GTMaterials.Rutile, 4)
                 .inputFluids(GTMaterials.Hydrogen.getFluid(52000))
@@ -523,7 +523,7 @@ interface NanitesIntegratedProcessingCenter {
                 .inputFluids(GTMaterials.Chlorine.getFluid(4000))
                 .inputFluids(GTMaterials.Propene.getFluid(1000))
                 .inputFluids(GTMaterials.Ethylene.getFluid(10000))
-                .outputItems(GTOTagPrefix.contaminableNanites, GTMaterials.Carbon)
+                .outputItems(GTOTagPrefix.CONTAMINABLE_NANITES, GTMaterials.Carbon)
                 .outputFluids(GTMaterials.PolyvinylButyral.getFluid(36864))
                 .EUt(491520)
                 .duration(2400)

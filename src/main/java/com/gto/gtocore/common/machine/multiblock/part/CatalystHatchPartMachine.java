@@ -72,7 +72,7 @@ public final class CatalystHatchPartMachine extends TieredIOPartMachine {
 
         NotifiableCatalystHandler(MetaMachine machine) {
             super(machine, 16, IO.IN, IO.BOTH);
-            setFilter(i -> ChemicalHelper.getPrefix(i.getItem()) == GTOTagPrefix.catalyst || i.is(GTOItems.CATALYST_BASE.get()));
+            setFilter(i -> ChemicalHelper.getPrefix(i.getItem()) == GTOTagPrefix.CATALYST || i.is(GTOItems.CATALYST_BASE.get()));
         }
 
         @Override

@@ -16,7 +16,7 @@ interface Blast {
 
     static void init() {
         BLAST_RECIPES.recipeBuilder(GTOCore.id("alumina_ceramic"))
-                .inputItems(GTOTagPrefix.roughBlank, GTOMaterials.AluminaCeramic)
+                .inputItems(GTOTagPrefix.ROUGH_BLANK, GTOMaterials.AluminaCeramic)
                 .outputItems(TagPrefix.block, GTOMaterials.AluminaCeramic)
                 .inputFluids(GTMaterials.Nitrogen.getFluid(500))
                 .EUt(120)
