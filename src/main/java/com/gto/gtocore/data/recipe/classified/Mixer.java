@@ -21,8 +21,7 @@ import com.enderio.base.common.init.EIOFluids;
 import com.enderio.base.common.init.EIOItems;
 import earth.terrarium.adastra.common.registry.ModFluids;
 
-import static com.gregtechceu.gtceu.common.data.GTMaterials.Ethanol;
-import static com.gregtechceu.gtceu.common.data.GTMaterials.SulfuricAcid;
+import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
 import static com.gto.gtocore.common.data.GTOMaterials.*;
 import static com.gto.gtocore.common.data.GTORecipeTypes.MIXER_RECIPES;
 

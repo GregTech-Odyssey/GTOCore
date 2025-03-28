@@ -2,14 +2,19 @@ package com.gto.gtocore.common.machine.multiblock.electric.voidseries;
 
 import com.gto.gtocore.api.data.GTODimensions;
 import com.gto.gtocore.api.machine.multiblock.StorageMultiblockMachine;
+import com.gto.gtocore.api.machine.trait.CustomRecipeLogic;
+import com.gto.gtocore.api.recipe.GTORecipeBuilder;
+import com.gto.gtocore.api.recipe.RecipeRunner;
 import com.gto.gtocore.common.data.GTOBedrockFluids;
 import com.gto.gtocore.common.data.GTOItems;
 import com.gto.gtocore.common.item.DimensionDataItem;
 import com.gto.gtocore.utils.MachineUtils;
 
+import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.recipe.EURecipeCapability;
 import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.chance.logic.ChanceLogic;
 import com.gregtechceu.gtceu.api.recipe.content.Content;
@@ -22,9 +27,17 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
+import static com.gregtechceu.gtceu.api.GTValues.VA;
+import static com.gregtechceu.gtceu.common.data.GTItems.PROGRAMMED_CIRCUIT;
 import static net.minecraft.network.chat.Component.translatable;
 
 public final class VoidFluidDrillingRigMachine extends StorageMultiblockMachine {
+
+    private static final GTRecipe RECIPE = GTORecipeBuilder.ofRaw()
+            .notConsumable(PROGRAMMED_CIRCUIT.get())
+            .EUt(VA[GTValues.LuV])
+            .duration(20)
+            .buildRawRecipe();
 
     private int c;
     private List<FluidStack> fluidStacks;
@@ -39,16 +52,19 @@ public final class VoidFluidDrillingRigMachine extends StorageMultiblockMachine 
         c = MachineUtils.checkingCircuit(this, false);
     }
 
-    @Override
-    protected GTRecipe getRealRecipe(@NotNull GTRecipe recipe) {
-        if (!getStorageStack().isEmpty()) {
-            recipe.tickInputs.put(EURecipeCapability.CAP, List.of(new Content(getOverclockVoltage(), ChanceLogic.getMaxChancedValue(), ChanceLogic.getMaxChancedValue(), 0)));
-            FluidStack fluidStack = fluidStacks.get(c).copy();
-            fluidStack.setAmount(fluidStack.getAmount() * (1 << Math.max(0, getTier() - 6)));
-            recipe.outputs.put(FluidRecipeCapability.CAP, List.of(new Content(FluidIngredient.of(fluidStack), ChanceLogic.getMaxChancedValue(), ChanceLogic.getMaxChancedValue(), 0)));
-            return recipe;
+    private GTRecipe getRecipe() {
+        if (fluidStacks == null) return null;
+        if (!isEmpty()) {
+            if (RecipeRunner.matchRecipeInput(this, RECIPE)) {
+                GTRecipe recipe = RECIPE.copy();
+                recipe.tickInputs.put(EURecipeCapability.CAP, List.of(new Content(getOverclockVoltage(), ChanceLogic.getMaxChancedValue(), ChanceLogic.getMaxChancedValue(), 0)));
+                FluidStack fluidStack = fluidStacks.get(c).copy();
+                fluidStack.setAmount(fluidStack.getAmount() * (1 << Math.max(0, getTier() - 6)));
+                recipe.outputs.put(FluidRecipeCapability.CAP, List.of(new Content(FluidIngredient.of(fluidStack), ChanceLogic.getMaxChancedValue(), ChanceLogic.getMaxChancedValue(), 0)));
+                return recipe;
+            }
         }
-        return recipe;
+        return null;
     }
 
     @Override
@@ -64,5 +80,10 @@ public final class VoidFluidDrillingRigMachine extends StorageMultiblockMachine 
             textList.add(translatable("gui.ae2.Fluids").append(":"));
             fluidStacks.forEach(f -> textList.add(f.getFluid().getFluidType().getDescription().copy().append("x" + f.getAmount())));
         }
+    }
+
+    @Override
+    protected @NotNull RecipeLogic createRecipeLogic(Object @NotNull... args) {
+        return new CustomRecipeLogic(this, this::getRecipe);
     }
 }

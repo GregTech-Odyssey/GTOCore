@@ -283,7 +283,7 @@ public interface PlatGroupMetals {
                 .inputItems(TagPrefix.dust, GTOMaterials.PlatinumMetal)
                 .outputItems(TagPrefix.dust, GTMaterials.PlatinumRaw, 3)
                 .inputFluids(GTMaterials.HydrochloricAcid.getFluid(2000))
-                .inputFluids(GTOMaterials.HydrogenPeroxide.getFluid(1000))
+                .inputFluids(GTMaterials.HydrogenPeroxide.getFluid(1000))
                 .outputFluids(GTMaterials.Water.getFluid(2000))
                 .EUt(120)
                 .duration(80)

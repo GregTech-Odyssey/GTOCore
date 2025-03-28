@@ -83,7 +83,7 @@ public final class WirelessEnergyHatchPartMachine extends TieredIOPartMachine im
     @Override
     public InteractionResult onUse(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
         if (player.getItemInHand(hand).is(GTItems.TOOL_DATA_STICK.asItem())) {
-            energyContainer.setUUID(player.getUUID());
+            setOwnerUUID(player.getUUID());
             if (isRemote()) {
                 player.sendSystemMessage(Component.translatable("gtmthings.machine.wireless_energy_hatch.tooltip.bind", GetName(player)));
             }
@@ -95,7 +95,7 @@ public final class WirelessEnergyHatchPartMachine extends TieredIOPartMachine im
     @Override
     public boolean onLeftClick(Player player, Level world, InteractionHand hand, BlockPos pos, Direction direction) {
         if (player.getItemInHand(hand).is(GTItems.TOOL_DATA_STICK.asItem())) {
-            energyContainer.setUUID(null);
+            setOwnerUUID(null);
             if (isRemote()) {
                 player.sendSystemMessage(Component.translatable("gtmthings.machine.wireless_energy_hatch.tooltip.unbind"));
             }
@@ -107,7 +107,7 @@ public final class WirelessEnergyHatchPartMachine extends TieredIOPartMachine im
     @Override
     public void onMachinePlaced(@Nullable LivingEntity player, ItemStack stack) {
         if (player != null) {
-            energyContainer.setUUID(player.getUUID());
+            setOwnerUUID(player.getUUID());
         }
     }
 

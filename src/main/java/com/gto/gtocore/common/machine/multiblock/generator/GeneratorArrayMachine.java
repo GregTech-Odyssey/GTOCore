@@ -64,9 +64,6 @@ public final class GeneratorArrayMachine extends StorageMultiblockMachine implem
     private GTRecipeType[] RecipeTypeCache;
 
     @Persisted
-    private UUID userid;
-
-    @Persisted
     private boolean isw;
 
     @Persisted
@@ -138,8 +135,8 @@ public final class GeneratorArrayMachine extends StorageMultiblockMachine implem
 
     @Override
     public boolean shouldOpenUI(Player player, InteractionHand hand, BlockHitResult hit) {
-        if (userid == null || !userid.equals(player.getUUID())) {
-            userid = player.getUUID();
+        if (getUUID() == null) {
+            setOwnerUUID(player.getUUID());
         }
         return true;
     }
@@ -252,7 +249,7 @@ public final class GeneratorArrayMachine extends StorageMultiblockMachine implem
     }
 
     @Override
-    public UUID getUUID() {
-        return userid;
+    public @Nullable UUID getUUID() {
+        return getOwnerUUID();
     }
 }

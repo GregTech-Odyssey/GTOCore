@@ -1,13 +1,83 @@
 package com.gto.gtocore.common.data.material;
 
+import static com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlags.DISABLE_DECOMPOSITION;
 import static com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialIconSet.DULL;
 import static com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialIconSet.LIGNITE;
+import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
 import static com.gto.gtocore.common.data.GTOMaterials.*;
 import static com.gto.gtocore.utils.register.MaterialsRegisterUtils.material;
 
 public interface MaterialC {
 
     static void init() {
+        AcidicBromineSolution = material("acidic_bromine_solution", "酸性溴溶液")
+                .liquid()
+                .color(0xc49b52)
+                .components(Chlorine, 1, Bromine, 1)
+                .flags(DISABLE_DECOMPOSITION)
+                .buildAndRegister();
+
+        ConcentratedBromineSolution = material("concentrated_bromine_solution", "浓缩溴溶液")
+                .liquid()
+                .color(0x91481e)
+                .components(Bromine, 2, Chlorine, 1)
+                .flags(DISABLE_DECOMPOSITION)
+                .buildAndRegister();
+
+        HydrogenIodide = material("hydrogen_iodide", "碘化氢")
+                .gas()
+                .color(0x8187a6)
+                .components(Hydrogen, 1, Iodine, 1)
+                .flags(DISABLE_DECOMPOSITION)
+                .buildAndRegister();
+
+        HotBrine = material("hot_brine", "热卤水")
+                .liquid(320)
+                .color(0xbe6026)
+                .buildAndRegister();
+
+        HotChlorinatedBrominatedBrine = material("hot_chlorinated_brominated_brine", "热氯化溴化盐水")
+                .liquid(320)
+                .color(0xab765d)
+                .components(HotBrine, 1, Chlorine, 1)
+                .flags(DISABLE_DECOMPOSITION)
+                .buildAndRegister();
+
+        HotDebrominatedBrine = material("hot_debrominated_brine", "热脱溴盐水")
+                .liquid(320)
+                .color(0xab896d)
+                .buildAndRegister();
+
+        HotAlkalineDebrominatedBrine = material("hot_alkaline_debrominated_brine", "热碱性脱溴盐水")
+                .liquid(320)
+                .color(0xbe8938)
+                .components(HotDebrominatedBrine, 2, Chlorine, 1)
+                .flags(DISABLE_DECOMPOSITION)
+                .buildAndRegister();
+
+        RawBrine = material("raw_brine", "粗盐水")
+                .liquid()
+                .color(0x9f6b26)
+                .buildAndRegister();
+
+        DebrominatedBrine = material("debrominated_brine", "脱溴化盐水")
+                .liquid()
+                .color(0xab8c6d)
+                .buildAndRegister();
+
+        BrominatedChlorineVapor = material("brominated_chlorine_vapor", "溴化氯气")
+                .gas()
+                .color(0xbb9b72)
+                .components(Chlorine, 1, Bromine, 1, Steam, 1)
+                .flags(DISABLE_DECOMPOSITION)
+                .buildAndRegister();
+
+        AcidicBromineExhaust = material("acidic_bromine_exhaust", "酸性溴废气")
+                .gas()
+                .color(0x8f681e)
+                .components(Steam, 3, Chlorine, 1)
+                .buildAndRegister();
+
         Blood = material("blood", "血")
                 .fluid()
                 .color(0xA2000A)

@@ -54,8 +54,6 @@ public final class HarmonyMachine extends NoEnergyMultiblockMachine implements I
     private int oc;
     @Persisted
     private long hydrogen, helium;
-    @Persisted
-    private UUID userid;
 
     private final ConditionalSubscriptionHandler StartupSubs;
 
@@ -105,7 +103,7 @@ public final class HarmonyMachine extends NoEnergyMultiblockMachine implements I
     @Nullable
     @Override
     protected GTRecipe getRealRecipe(GTRecipe recipe) {
-        if (userid != null && tier <= recipe.data.getInt("tier") && hydrogen >= 1024000000 && helium >= 1024000000 && oc > 0) {
+        if (getUUID() != null && tier <= recipe.data.getInt("tier") && hydrogen >= 1024000000 && helium >= 1024000000 && oc > 0) {
             hydrogen -= 1024000000;
             helium -= 1024000000;
             ExtendWirelessEnergyContainer container = getWirelessEnergyContainer();
@@ -127,8 +125,8 @@ public final class HarmonyMachine extends NoEnergyMultiblockMachine implements I
 
     @Override
     public boolean shouldOpenUI(Player player, InteractionHand hand, BlockHitResult hit) {
-        if (userid == null || !userid.equals(player.getUUID())) {
-            userid = player.getUUID();
+        if (getUUID() == null) {
+            setOwnerUUID(player.getUUID());
         }
         return true;
     }
@@ -138,10 +136,10 @@ public final class HarmonyMachine extends NoEnergyMultiblockMachine implements I
         super.customText(textList);
         textList.add(Component.translatable("tooltip.avaritia.tier", tier));
         textList.add(Component.translatable("behaviour.lighter.uses", 16 + (tier << 2) - count));
-        if (userid != null) {
+        if (getUUID() != null) {
             ExtendWirelessEnergyContainer container = getWirelessEnergyContainer();
             textList.add(Component.translatable("gtmthings.machine.wireless_energy_monitor.tooltip.0",
-                    TeamUtil.GetName(getLevel(), userid)));
+                    TeamUtil.GetName(getLevel(), getUUID())));
             if (container != null) textList.add(Component.translatable("gtmthings.machine.wireless_energy_monitor.tooltip.1",
                     FormattingUtil.formatNumbers(container.getStorage())));
         }
@@ -151,7 +149,7 @@ public final class HarmonyMachine extends NoEnergyMultiblockMachine implements I
     }
 
     @Override
-    public UUID getUUID() {
-        return userid;
+    public @Nullable UUID getUUID() {
+        return getOwnerUUID();
     }
 }

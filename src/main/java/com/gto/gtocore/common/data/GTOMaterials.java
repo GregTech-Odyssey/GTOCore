@@ -13,6 +13,17 @@ public final class GTOMaterials {
 
     public static Map<Material, Integer> MATERIAL_VOLTAGE;
 
+    public static Material AcidicBromineSolution;
+    public static Material ConcentratedBromineSolution;
+    public static Material HydrogenIodide;
+    public static Material RawBrine;
+    public static Material DebrominatedBrine;
+    public static Material BrominatedChlorineVapor;
+    public static Material AcidicBromineExhaust;
+    public static Material HotBrine;
+    public static Material HotChlorinatedBrominatedBrine;
+    public static Material HotDebrominatedBrine;
+    public static Material HotAlkalineDebrominatedBrine;
     public static Material Neutron;
     public static Material Fluix;
     public static Material Desh;
@@ -162,7 +173,6 @@ public final class GTOMaterials {
     public static Material TritiumHydride;
     public static Material DustyLiquidHeliumIII;
     public static Material Ozone;
-    public static Material HydrogenPeroxide;
     public static Material RareEarthChlorides;
 
     public static Material PentlanditeFront;

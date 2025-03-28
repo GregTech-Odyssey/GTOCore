@@ -5,6 +5,7 @@ import com.gto.gtocore.api.machine.feature.IDroneInteractionMachine;
 import com.gto.gtocore.api.misc.Drone;
 import com.gto.gtocore.common.machine.multiblock.noenergy.DroneControlCenterMachine;
 
+import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMaintenanceMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.TieredPartMachine;
@@ -40,6 +41,17 @@ public abstract class MaintenanceHatchPartMachineMixin extends TieredPartMachine
     @SuppressWarnings("all")
     public void setNetMachineCache(DroneControlCenterMachine cache) {
         gtocore$cache = cache;
+    }
+
+    @Override
+    public void calculateMaintenance(IMaintenanceMachine maintenanceMachine, int duration) {
+        if (maintenanceMachine.isFullAuto()) return;
+        if (calculateTime((int) (duration * maintenanceMachine.getTimeMultiplier()))) {
+            if (GTValues.RNG.nextFloat() - 0.5f >= 0) {
+                causeRandomMaintenanceProblems();
+                maintenanceMachine.setTaped(false);
+            }
+        }
     }
 
     @Inject(method = "update", at = @At(value = "INVOKE", target = "Lcom/gregtechceu/gtceu/common/machine/multiblock/part/MaintenanceHatchPartMachine;consumeDuctTape(Lnet/minecraftforge/items/IItemHandler;I)Z"), remap = false, cancellable = true)

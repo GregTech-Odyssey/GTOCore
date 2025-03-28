@@ -89,6 +89,7 @@ public interface Data {
         ComponentRecipes.init(consumer);
         MiscRecipe.init(consumer);
         FuelRecipe.init();
+        BrineRecipes.init();
         NaquadahProcess.init();
         PlatGroupMetals.init();
         ElementCopying.init();

@@ -178,8 +178,6 @@ public final class GTORecipeBuilder extends GTRecipeBuilder {
         copy.chance = this.chance;
         copy.perTick = this.perTick;
         copy.recipeCategory = this.recipeCategory;
-        copy.uiName = this.uiName;
-        copy.slotName = this.slotName;
         copy.onSave = this.onSave;
         return copy;
     }
@@ -1234,18 +1232,6 @@ public final class GTORecipeBuilder extends GTRecipeBuilder {
     @Override
     public GTORecipeBuilder perTick(final boolean perTick) {
         this.perTick = perTick;
-        return this;
-    }
-
-    @Override
-    public GTORecipeBuilder slotName(final String slotName) {
-        this.slotName = slotName;
-        return this;
-    }
-
-    @Override
-    public GTORecipeBuilder uiName(final String uiName) {
-        this.uiName = uiName;
         return this;
     }
 

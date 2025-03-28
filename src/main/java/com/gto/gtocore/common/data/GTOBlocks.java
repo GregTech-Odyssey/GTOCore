@@ -389,6 +389,8 @@ public interface GTOBlocks {
     BlockEntry<Block> GRAVITON_COMPUTER_CASING = createCasingBlock("graviton_computer_casing", "引力子计算机外壳", GTOCore.id("block/casings/about_computer/graviton_computer_casing"));
     BlockEntry<Block> ANTI_ENTROPY_COMPUTER_CONDENSATION_MATRIX = createCasingBlock("anti_entropy_computer_condensation_matrix", "逆熵计算机冷凝矩阵", GTOCore.id("block/casings/about_computer/anti_entropy_computer_condensation_matrix"));
 
+    BlockEntry<Block> STAINLESS_EVAPORATION_CASING = createCasingBlock("stainless_evaporation_casing", "不锈钢蒸发外壳", GTOCore.id("block/casings/stainless_evaporation_casing"));
+
     BlockEntry<Block> MANASTEEL_CASING = createCasingBlock("manasteel_casing", "魔力钢外壳", GTOCore.id("block/casings/manasteel_casing"));
     BlockEntry<Block> ORIGINAL_BRONZE_CASING = createCasingBlock("original_bronze_casing", "原始青铜外壳", GTOCore.id("block/casings/original_bronze_casing"));
 }

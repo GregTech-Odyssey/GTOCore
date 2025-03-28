@@ -12,10 +12,9 @@ import net.minecraft.core.Direction;
 
 import com.hepdd.gtmthings.api.misc.BasicTransferData;
 import com.hepdd.gtmthings.api.misc.WirelessEnergyContainer;
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import lombok.Getter;
 import lombok.Setter;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.UUID;
 
@@ -23,13 +22,7 @@ import java.util.UUID;
 @Getter
 public final class WirelessEnergyContainerTrait extends NotifiableEnergyContainer implements IExtendWirelessEnergyContainerHolder {
 
-    private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
-            WirelessEnergyContainerTrait.class, NotifiableEnergyContainer.MANAGED_FIELD_HOLDER);
-
     private WirelessEnergyContainer WirelessEnergyContainerCache;
-
-    @Persisted
-    private UUID UUID;
 
     private WirelessEnergyContainerTrait(MetaMachine machine, long maxCapacity, long maxInputVoltage, long maxInputAmperage, long maxOutputVoltage, long maxOutputAmperage) {
         super(machine, maxCapacity, maxInputVoltage, maxInputAmperage, maxOutputVoltage, maxOutputAmperage);
@@ -54,13 +47,13 @@ public final class WirelessEnergyContainerTrait extends NotifiableEnergyContaine
             change = Math.min(energyToAdd, Math.min(getEnergyCapacity() - oldEnergyStored, container.getRate()));
             if (change > 0 && WirelessEnergyContainer.observed && getMachine() != null) {
                 long loss = (change / 1000) * container.getLoss();
-                WirelessEnergyContainer.TRANSFER_DATA.put(getMachine(), new ExtendTransferData(UUID, change - loss, loss, getMachine()));
+                WirelessEnergyContainer.TRANSFER_DATA.put(getMachine(), new ExtendTransferData(getUUID(), change - loss, loss, getMachine()));
             }
         } else {
             change = Math.min(-energyToAdd, Math.min(oldEnergyStored, container.getRate()));
             change = -change;
             if (change < 0 && WirelessEnergyContainer.observed && getMachine() != null) {
-                WirelessEnergyContainer.TRANSFER_DATA.put(getMachine(), new BasicTransferData(UUID, change, getMachine()));
+                WirelessEnergyContainer.TRANSFER_DATA.put(getMachine(), new BasicTransferData(getUUID(), change, getMachine()));
             }
         }
         setEnergyStored(oldEnergyStored + change);
@@ -106,7 +99,7 @@ public final class WirelessEnergyContainerTrait extends NotifiableEnergyContaine
     }
 
     @Override
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
+    public @Nullable UUID getUUID() {
+        return getMachine().getOwnerUUID();
     }
 }

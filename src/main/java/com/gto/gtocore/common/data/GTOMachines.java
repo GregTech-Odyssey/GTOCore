@@ -13,6 +13,7 @@ import com.gto.gtocore.common.machine.generator.LightningRodMachine;
 import com.gto.gtocore.common.machine.generator.MagicEnergyMachine;
 import com.gto.gtocore.common.machine.generator.WindMillTurbineMachine;
 import com.gto.gtocore.common.machine.multiblock.part.*;
+import com.gto.gtocore.common.machine.multiblock.part.ae.METagFilterStockBusPartMachine;
 import com.gto.gtocore.common.machine.multiblock.part.maintenance.*;
 import com.gto.gtocore.common.machine.noenergy.BoilWaterMachine;
 import com.gto.gtocore.common.machine.noenergy.HeaterMachine;

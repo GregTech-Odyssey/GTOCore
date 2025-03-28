@@ -20,8 +20,10 @@ import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
+import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.MultiblockShapeInfo;
+import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
 import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
 import com.gregtechceu.gtceu.common.data.*;
@@ -37,8 +39,12 @@ import appeng.core.definitions.AEBlocks;
 import com.hepdd.gtmthings.data.CustomMachines;
 import earth.terrarium.adastra.common.registry.ModBlocks;
 
+import java.util.Comparator;
+
 import static com.gregtechceu.gtceu.api.machine.multiblock.PartAbility.*;
 import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
+import static com.gregtechceu.gtceu.api.pattern.util.RelativeDirection.*;
+import static com.gregtechceu.gtceu.common.data.GTMaterials.Aluminium;
 import static com.gto.gtocore.api.GTOValues.*;
 import static com.gto.gtocore.common.block.BlockMap.CALMAP;
 import static com.gto.gtocore.common.block.BlockMap.SCMAP;
@@ -48,6 +54,35 @@ import static com.gto.gtocore.utils.register.MachineRegisterUtils.multiblock;
 public interface MultiBlockA {
 
     static void init() {}
+
+    MultiblockMachineDefinition EVAPORATION_PLANT = multiblock("evaporation_plant", "蒸发塔", ElectricMultiblockMachine::new)
+            .langValue("Evaporation Tower")
+            .nonYAxisRotation()
+            .recipe(GTORecipeTypes.EVAPORATION_RECIPES)
+            .overclock()
+            .block(GTOBlocks.STAINLESS_EVAPORATION_CASING)
+            .pattern(definition -> FactoryBlockPattern.start(RIGHT, BACK, UP)
+                    .aisle("FYF", "YYY", "FYF")
+                    .aisle("YSY", "Y#Y", "YYY")
+                    .aisle("XXX", "X#X", "XXX").setRepeatable(5)
+                    .aisle(" Z ", "ZZZ", " Z ")
+                    .where('S', Predicates.controller(blocks(definition.getBlock())))
+                    .where('Y', blocks(GTOBlocks.STAINLESS_EVAPORATION_CASING.get())
+                            .or(Predicates.abilities(PartAbility.INPUT_ENERGY).setMinGlobalLimited(1)
+                                    .setMaxGlobalLimited(2))
+                            .or(Predicates.abilities(PartAbility.IMPORT_FLUIDS).setExactLimit(1))
+                            .or(Predicates.abilities(PartAbility.EXPORT_ITEMS).setMaxGlobalLimited(1)))
+                    .where('X', blocks(GTOBlocks.STAINLESS_EVAPORATION_CASING.get())
+                            .or(Predicates.abilities(PartAbility.EXPORT_FLUIDS_1X).setMinLayerLimited(1)
+                                    .setMaxLayerLimited(1)))
+                    .where('Z', blocks(GTOBlocks.STAINLESS_EVAPORATION_CASING.get()))
+                    .where('F', Predicates.frames(Aluminium))
+                    .where('#', Predicates.air())
+                    .where(' ', Predicates.any())
+                    .build())
+            .partSorter(Comparator.comparingInt(a -> a.self().getPos().getY()))
+            .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_stainless_evaporation"), GTCEu.id("block/multiblock/evaporation_plant"))
+            .register();
 
     MultiblockMachineDefinition PLASMA_CONDENSER = multiblock("plasma_condenser", "等离子冷凝器", ElectricMultiblockMachine::new)
             .allRotation()
@@ -287,7 +322,9 @@ public interface MultiBlockA {
 
     MultiblockMachineDefinition VOID_FLUID_DRILLING_RIG = multiblock("void_fluid_drilling_rig", "虚空流体钻机", VoidFluidDrillingRigMachine::new)
             .nonYAxisRotation()
-            .recipe(GTORecipeTypes.VOID_FLUID_DRILLING_RIG_RECIPES)
+            .tooltipsText("Requires a minimum power of 30,720EU/t", "需要最低30720EU/t的功率")
+            .tooltipsText("Outputs fluids based on the dimension and circuit value", "按维度和电路值输出流体")
+            .recipe(GTORecipeTypes.DUMMY_RECIPES)
             .alwaysTryModifyRecipe(true)
             .block(GTBlocks.CASING_HSSE_STURDY)
             .pattern((definition) -> FactoryBlockPattern.start(RelativeDirection.BACK, RelativeDirection.UP, RelativeDirection.LEFT)
@@ -305,7 +342,9 @@ public interface MultiBlockA {
                     .where('H', controller(blocks(definition.get())))
                     .where('I', blocks(GTBlocks.CASING_TUNGSTENSTEEL_ROBUST.get()))
                     .where('A', blocks(GTBlocks.CASING_HSSE_STURDY.get())
-                            .or(autoAbilities(definition.getRecipeTypes()))
+                            .or(abilities(INPUT_ENERGY).setMaxGlobalLimited(2).setMinGlobalLimited(1))
+                            .or(abilities(GTOPartAbility.ITEMS_INPUT).setExactLimit(1))
+                            .or(abilities(EXPORT_FLUIDS).setExactLimit(1))
                             .or(abilities(MAINTENANCE).setExactLimit(1)))
                     .where(' ', any())
                     .build())
@@ -314,7 +353,9 @@ public interface MultiBlockA {
 
     MultiblockMachineDefinition VOID_MINER = multiblock("void_miner", "虚空采矿机", VoidMinerMachine::new)
             .nonYAxisRotation()
-            .recipe(GTORecipeTypes.VOID_MINER_RECIPES)
+            .tooltipsText("Requires 1B drilling fluid and a minimum power of 1920EU/t", "需要输入1B钻井液和最低1920EU/t的功率")
+            .tooltipsText("Randomly selects 4 types of ores output based on the dimension, with the voltage level determining the maximum output quantity and the current determining the parallels", "按维度随机选取4分矿石输出，电压等级决定最大输出数量，电流决定并行数")
+            .recipe(GTORecipeTypes.DUMMY_RECIPES)
             .alwaysTryModifyRecipe(true)
             .block(GTBlocks.CASING_TUNGSTENSTEEL_ROBUST)
             .pattern((definition) -> FactoryBlockPattern.start(RelativeDirection.FRONT, RelativeDirection.UP, RelativeDirection.RIGHT)
@@ -332,7 +373,9 @@ public interface MultiBlockA {
                     .where('F', blocks(GTBlocks.CASING_STAINLESS_STEEL_GEARBOX.get()))
                     .where('G', controller(blocks(definition.get())))
                     .where('B', blocks(GTBlocks.CASING_TUNGSTENSTEEL_ROBUST.get())
-                            .or(autoAbilities(definition.getRecipeTypes()))
+                            .or(abilities(INPUT_ENERGY).setMaxGlobalLimited(2).setMinGlobalLimited(1))
+                            .or(abilities(IMPORT_FLUIDS).setExactLimit(1))
+                            .or(abilities(EXPORT_ITEMS).setExactLimit(1))
                             .or(abilities(MAINTENANCE).setExactLimit(1)))
                     .where(' ', any())
                     .build())

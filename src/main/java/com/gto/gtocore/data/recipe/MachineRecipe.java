@@ -37,6 +37,10 @@ public interface MachineRecipe {
 
     static void init(Consumer<FinishedRecipe> provider) {
         HatchRecipe.init(provider);
+        VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("evaporation_plant"),
+                MultiBlockA.EVAPORATION_PLANT.asStack(), "CBC", "FMF", "CBC", 'M', GTMachines.HULL[HV].asStack(),
+                'B', new MaterialEntry(TagPrefix.wireGtDouble, GTMaterials.Kanthal), 'C', CustomTags.HV_CIRCUITS,
+                'F', GTItems.ELECTRIC_PUMP_HV);
         VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("casing_uev"), GTBlocks.MACHINE_CASING_UEV.asStack(),
                 "PPP",
                 "PwP", "PPP", 'P', new MaterialEntry(plate, GTOMaterials.Quantanium));

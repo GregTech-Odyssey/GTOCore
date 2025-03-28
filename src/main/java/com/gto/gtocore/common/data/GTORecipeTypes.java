@@ -99,7 +99,6 @@ public interface GTORecipeTypes {
     GTORecipeType PRIMITIVE_BLAST_FURNACE_RECIPES = (GTORecipeType) GTRecipeTypes.PRIMITIVE_BLAST_FURNACE_RECIPES;
     GTORecipeType BLAST_RECIPES = (GTORecipeType) GTRecipeTypes.BLAST_RECIPES;
     GTORecipeType DISTILLATION_RECIPES = (GTORecipeType) GTRecipeTypes.DISTILLATION_RECIPES;
-    GTORecipeType EVAPORATION_RECIPES = (GTORecipeType) GTRecipeTypes.EVAPORATION_RECIPES;
     GTORecipeType PYROLYSE_RECIPES = (GTORecipeType) GTRecipeTypes.PYROLYSE_RECIPES;
     GTORecipeType CRACKING_RECIPES = (GTORecipeType) GTRecipeTypes.CRACKING_RECIPES;
     GTORecipeType IMPLOSION_RECIPES = (GTORecipeType) GTRecipeTypes.IMPLOSION_RECIPES;
@@ -219,6 +218,12 @@ public interface GTORecipeTypes {
             .setMaxIOSize(0, 0, 1, 0)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.COMBUSTION);
+
+    GTORecipeType EVAPORATION_RECIPES = register("evaporation", "蒸发", ELECTRIC)
+            .setMaxIOSize(0, 0, 1, 1)
+            .setEUIO(IO.IN)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW_MULTIPLE, LEFT_TO_RIGHT)
+            .setSound(GTSoundEntries.MOTOR);
 
     GTORecipeType ELECTRIC_IMPLOSION_COMPRESSOR_RECIPES = register("electric_implosion_compressor", "电力聚爆压缩", MULTIBLOCK)
             .setMaxIOSize(2, 1, 0, 0).setEUIO(IO.IN)
@@ -347,13 +352,6 @@ public interface GTORecipeTypes {
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.COOLING);
 
-    GTORecipeType VOID_MINER_RECIPES = register("void_miner", "虚空采矿", MULTIBLOCK)
-            .setEUIO(IO.IN)
-            .setMaxIOSize(0, 0, 1, 0)
-            .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
-            .setXEIVisible(false)
-            .setSound(GTSoundEntries.MINER);
-
     GTORecipeType LARGE_VOID_MINER_RECIPES = register("large_void_miner", "Precise Void Mining", "精准虚空采矿", MULTIBLOCK)
             .setEUIO(IO.IN)
             .setMaxIOSize(1, 4, 1, 0)
@@ -366,13 +364,6 @@ public interface GTORecipeTypes {
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
             .setXEIVisible(false)
             .setSound(GTSoundEntries.MINER);
-
-    GTORecipeType VOID_FLUID_DRILLING_RIG_RECIPES = register("void_fluid_drilling_rig", "虚空流体钻机", MULTIBLOCK)
-            .setEUIO(IO.IN)
-            .setMaxIOSize(1, 0, 0, 1)
-            .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
-            .setXEIVisible(false)
-            .setSound(GTSoundEntries.CHEMICAL);
 
     GTORecipeType ANNIHILATE_GENERATOR_RECIPES = register("annihilate_generator", "湮灭发电", MULTIBLOCK)
             .setEUIO(IO.OUT)

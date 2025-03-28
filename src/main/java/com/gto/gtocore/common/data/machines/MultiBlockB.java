@@ -238,7 +238,7 @@ public interface MultiBlockB {
                     .where('M', controller(blocks(definition.get())))
                     .where('I', blocks(GTBlocks.CASING_INVAR_HEATPROOF.get()))
                     .where('N', blocks(GTBlocks.HERMETIC_CASING_HV.get()))
-                    .where('J', blocks(GTBlocks.CASING_STAINLESS_EVAPORATION.get()))
+                    .where('J', blocks(GTOBlocks.STAINLESS_EVAPORATION_CASING.get()))
                     .where('E', blocks(GTBlocks.FILTER_CASING.get()))
                     .where('L', blocks(GTBlocks.CASING_INVAR_HEATPROOF.get())
                             .or(abilities(INPUT_ENERGY).setMaxGlobalLimited(2).setPreviewCount(1))

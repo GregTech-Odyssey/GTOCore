@@ -42,7 +42,7 @@ interface ChemicalBath {
 
         CHEMICAL_BATH_RECIPES.recipeBuilder(GTOCore.id("caesium_hydroxide_dust"))
                 .inputItems(TagPrefix.dust, GTMaterials.Caesium, 2)
-                .inputFluids(GTOMaterials.HydrogenPeroxide.getFluid(1000))
+                .inputFluids(GTMaterials.HydrogenPeroxide.getFluid(1000))
                 .outputItems(TagPrefix.dust, GTOMaterials.CaesiumHydroxide, 6)
                 .EUt(120)
                 .duration(180)

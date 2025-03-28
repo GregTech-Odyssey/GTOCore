@@ -449,7 +449,7 @@ public interface MultiBlockD {
                     .where('h', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.Ultimet)))
                     .where('i', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.HSLASteel)))
                     .where('k', blocks(GCYMBlocks.CASING_STRESS_PROOF.get()))
-                    .where('l', blocks(GTBlocks.CASING_STAINLESS_EVAPORATION.get()))
+                    .where('l', blocks(GTOBlocks.STAINLESS_EVAPORATION_CASING.get()))
                     .where(' ', any())
                     .build())
             .workableCasingRenderer(GTCEu.id("block/casings/gcym/watertight_casing"), GTCEu.id("block/multiblock/gcym/large_maceration_tower"))

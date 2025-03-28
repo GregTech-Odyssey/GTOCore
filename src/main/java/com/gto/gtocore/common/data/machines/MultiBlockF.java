@@ -187,7 +187,7 @@ public interface MultiBlockF {
             .parallelizableTooltips()
             .customTooltipsBuilder(true, true, true)
             .recipe(GTRecipeTypes.DISTILLATION_RECIPES)
-            .recipe(GTRecipeTypes.EVAPORATION_RECIPES)
+            .recipe(GTORecipeTypes.EVAPORATION_RECIPES)
             .block(GTOBlocks.STRENGTHEN_THE_BASE_BLOCK)
             .pattern(definition -> FactoryBlockPattern.start(RelativeDirection.RIGHT, RelativeDirection.UP, RelativeDirection.BACK)
                     .aisle("   AAAAA   AAAAA   AAAAA   ", "   AAAAA   AABAA   AAAAA   ", "    C C    DDDDD    C C    ", "    C C    D   D    C C    ", "    C C    DDDDD    C C    ", "    C C    D   D    C C    ", "    C C    DDDDD    C C    ", "    EEE    D   D    EEE    ", "           DDDDD           ", "                           ", "                           ", "                           ", "                           ", "                           ", "                           ", "                           ", "                           ", "                           ", "                           ", "                           ", "                           ", "                           ", "                           ", "                           ", "                           ", "                           ", "                           ", "                           ", "                           ", "                           ", "                           ", "                           ", "                           ", "                           ", "                           ", "                           ", "                           ", "                           ")

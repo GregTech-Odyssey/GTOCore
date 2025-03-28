@@ -4,6 +4,7 @@ import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.api.data.GTODimensions;
 import com.gto.gtocore.api.data.tag.GTOTagPrefix;
 import com.gto.gtocore.api.item.tool.GTOToolType;
+import com.gto.gtocore.common.data.GTOBlocks;
 import com.gto.gtocore.common.data.GTOItems;
 import com.gto.gtocore.common.data.GTOMaterials;
 import com.gto.gtocore.common.item.DimensionDataItem;
@@ -82,18 +83,6 @@ public interface MiscRecipe {
                 .outputItems(b.asItem())
                 .duration(20)
                 .save());
-
-        VOID_MINER_RECIPES.recipeBuilder(GTOCore.id("a"))
-                .inputFluids(DrillingFluid.getFluid(1000))
-                .EUt(VA[4])
-                .duration(20)
-                .save();
-
-        VOID_FLUID_DRILLING_RIG_RECIPES.recipeBuilder(GTOCore.id("a"))
-                .notConsumable(PROGRAMMED_CIRCUIT.get())
-                .EUt(VA[6])
-                .duration(20)
-                .save();
 
         VanillaRecipeHelper.addShapedRecipe(provider, GTOCore.id("iron_bucket"), new ItemStack(Items.BUCKET), "ChC", " X ", 'X',
                 new MaterialEntry(plate, Iron), 'C', new MaterialEntry(GTOTagPrefix.CURVED_PLATE, Iron));
@@ -560,5 +549,12 @@ public interface MiscRecipe {
                 .outputItems(dust, TantalumCarbide, 2)
                 .duration(150).EUt(VA[EV])
                 .save();
+
+        ASSEMBLER_RECIPES.builder("casing_stainless_evaporation")
+                .inputItems(GTBlocks.CASING_STAINLESS_CLEAN.asStack(1))
+                .inputItems(wireGtDouble, AnnealedCopper, 4)
+                .inputFluids(PolyvinylChloride, L << 1)
+                .outputItems(GTOBlocks.STAINLESS_EVAPORATION_CASING.asStack())
+                .duration(30).EUt(VA[HV]).save(provider);
     }
 }

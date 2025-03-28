@@ -3879,13 +3879,6 @@ public interface MaterialB {
                 .flags(DISABLE_DECOMPOSITION)
                 .buildAndRegister();
 
-        HydrogenPeroxide = material("hydrogen_peroxide", "过氧化氢")
-                .fluid()
-                .components(Hydrogen, 2, Oxygen, 2)
-                .color(0xc8ffff).iconSet(LIMPID)
-                .flags(DISABLE_DECOMPOSITION)
-                .buildAndRegister();
-
         RareEarthChlorides = material("rare_earth_chlorides", "稀土氯化物")
                 .fluid()
                 .components(Concrete, 1, Chlorine, 1)

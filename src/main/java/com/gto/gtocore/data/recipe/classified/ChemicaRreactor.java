@@ -278,7 +278,7 @@ interface ChemicaRreactor {
 
         CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("sodium_perchlorate_dust"))
                 .inputItems(TagPrefix.dust, GTOMaterials.SodiumChlorate, 5)
-                .inputFluids(GTOMaterials.HydrogenPeroxide.getFluid(1000))
+                .inputFluids(GTMaterials.HydrogenPeroxide.getFluid(1000))
                 .outputItems(TagPrefix.dust, GTOMaterials.SodiumPerchlorate, 6)
                 .outputFluids(GTMaterials.Water.getFluid(1000))
                 .EUt(120)
@@ -1370,7 +1370,7 @@ interface ChemicaRreactor {
                 .notConsumableFluid(GTOMaterials.Anthracene.getFluid(1000))
                 .inputFluids(GTOMaterials.Ethylanthrahydroquinone.getFluid(1000))
                 .inputFluids(GTMaterials.Oxygen.getFluid(2000))
-                .outputFluids(GTOMaterials.HydrogenPeroxide.getFluid(1000))
+                .outputFluids(GTMaterials.HydrogenPeroxide.getFluid(1000))
                 .outputFluids(GTOMaterials.Ethylanthraquinone.getFluid(1000))
                 .EUt(480)
                 .duration(600)
@@ -1448,7 +1448,7 @@ interface ChemicaRreactor {
                 .save();
 
         CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("dichlorodicyanobenzoquinone_1"))
-                .inputFluids(GTOMaterials.HydrogenPeroxide.getFluid(1000))
+                .inputFluids(GTMaterials.HydrogenPeroxide.getFluid(1000))
                 .inputFluids(GTOMaterials.Dichlorodicyanohydroquinone.getFluid(1000))
                 .outputFluids(GTMaterials.Water.getFluid(2000))
                 .outputFluids(GTOMaterials.Dichlorodicyanobenzoquinone.getFluid(1000))
@@ -1725,7 +1725,7 @@ interface ChemicaRreactor {
                 .inputItems(TagPrefix.dust, GTMaterials.Hematite, 10)
                 .inputFluids(GTOMaterials.ZirconiumHafniumOxychloride.getFluid(3000))
                 .inputFluids(GTMaterials.SulfurTrioxide.getFluid(3000))
-                .inputFluids(GTOMaterials.HydrogenPeroxide.getFluid(6000))
+                .inputFluids(GTMaterials.HydrogenPeroxide.getFluid(6000))
                 .outputItems(TagPrefix.dust, GTMaterials.PotassiumSulfate, 21)
                 .outputItems(TagPrefix.dust, GTOMaterials.ZirconiumOxide, 3)
                 .chancedOutput(TagPrefix.dust, GTOMaterials.HafniumOxide, 3, 8000, 0)
@@ -1915,7 +1915,7 @@ interface ChemicaRreactor {
         LARGE_CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("decaborane_dust"))
                 .inputItems(TagPrefix.dust, GTOMaterials.SodiumBorohydride, 51)
                 .inputFluids(GTOMaterials.BoronTrifluorideAcetate.getFluid(10000))
-                .inputFluids(GTOMaterials.HydrogenPeroxide.getFluid(2000))
+                .inputFluids(GTMaterials.HydrogenPeroxide.getFluid(2000))
                 .inputFluids(GTMaterials.HydrofluoricAcid.getFluid(1000))
                 .outputItems(TagPrefix.dust, GTOMaterials.Decaborane, 24)
                 .outputItems(TagPrefix.dust, GTOMaterials.SodiumFluoride, 2)
@@ -2070,7 +2070,7 @@ interface ChemicaRreactor {
                 .save();
 
         LARGE_CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("hydrazine"))
-                .inputFluids(GTOMaterials.HydrogenPeroxide.getFluid(1000))
+                .inputFluids(GTMaterials.HydrogenPeroxide.getFluid(1000))
                 .inputFluids(GTMaterials.Ammonia.getFluid(2000))
                 .outputFluids(GTOMaterials.Hydrazine.getFluid(1000))
                 .outputFluids(GTMaterials.Water.getFluid(1000))
@@ -2170,7 +2170,7 @@ interface ChemicaRreactor {
 
         LARGE_CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("phenylenedioxydiacetic_acid"))
                 .inputFluids(GTMaterials.Water.getFluid(1000))
-                .inputFluids(GTOMaterials.HydrogenPeroxide.getFluid(1000))
+                .inputFluids(GTMaterials.HydrogenPeroxide.getFluid(1000))
                 .inputFluids(GTMaterials.Phenol.getFluid(1000))
                 .inputFluids(GTMaterials.Ethenone.getFluid(2000))
                 .inputFluids(GTMaterials.Chlorine.getFluid(4000))
@@ -2661,7 +2661,7 @@ interface ChemicaRreactor {
         CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("silica_ceramic_dust"))
                 .inputItems(TagPrefix.dust, GTMaterials.Naquadah)
                 .inputItems(TagPrefix.dustTiny, GTMaterials.NaquadahEnriched)
-                .inputFluids(GTOMaterials.HydrogenPeroxide.getFluid(2000))
+                .inputFluids(GTMaterials.HydrogenPeroxide.getFluid(2000))
                 .outputItems(TagPrefix.dust, GTOMaterials.SilicaCeramic)
                 .outputFluids(GTMaterials.Water.getFluid(2000))
                 .EUt(120)

@@ -45,7 +45,6 @@ public interface GTMachineModify {
         GTMultiMachines.LARGE_CHEMICAL_REACTOR.setRecipeModifier(GTORecipeModifiers.PERFECT_OVERCLOCKING);
         GTMultiMachines.IMPLOSION_COMPRESSOR.setRecipeModifier(GTORecipeModifiers.OVERCLOCKING);
         GTMultiMachines.DISTILLATION_TOWER.setRecipeModifier(GTORecipeModifiers.OVERCLOCKING);
-        GTMultiMachines.EVAPORATION_PLANT.setRecipeModifier(GTORecipeModifiers.OVERCLOCKING);
         GTMultiMachines.VACUUM_FREEZER.setRecipeModifier(GTORecipeModifiers.OVERCLOCKING);
         GTMultiMachines.ASSEMBLY_LINE.setRecipeModifier(GTORecipeModifiers.OVERCLOCKING);
         GTMultiMachines.PRIMITIVE_BLAST_FURNACE.setPatternFactory(SupplierMemoizer.memoize(() -> FactoryBlockPattern.start()

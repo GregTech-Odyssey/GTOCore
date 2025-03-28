@@ -1,15 +1,18 @@
 package com.gto.gtocore.common.data;
 
 import com.gto.gtocore.GTOCore;
+import com.gto.gtocore.api.data.GTODimensions;
 import com.gto.gtocore.utils.StringIndex;
 
 import com.gregtechceu.gtceu.GTCEu;
+import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.data.worldgen.GTOreDefinition;
 import com.gregtechceu.gtceu.api.data.worldgen.bedrockore.BedrockOreDefinition;
 import com.gregtechceu.gtceu.api.data.worldgen.generator.indicators.SurfaceIndicatorGenerator;
 import com.gregtechceu.gtceu.api.data.worldgen.generator.veins.DikeVeinGenerator;
 import com.gregtechceu.gtceu.api.data.worldgen.generator.veins.VeinedVeinGenerator;
+import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.data.GTOres;
 
 import net.minecraft.resources.ResourceKey;
@@ -33,6 +36,7 @@ import static com.gto.gtocore.api.data.GTOWorldGenLayers.ALL_LAYER;
 @SuppressWarnings("unused")
 public interface GTOOres {
 
+    Map<ResourceLocation, MaterialSelector> RANDOM_ORES = new Object2ObjectOpenHashMap<>();
     Map<ResourceKey<Level>, Map<Material, Integer>> ALL_ORES = new Object2ObjectOpenHashMap<>();
     Map<ResourceLocation, BedrockOre> BEDROCK_ORES = new Object2ObjectOpenHashMap<>();
     Map<ResourceLocation, BedrockOreDefinition> BEDROCK_ORES_DEFINITION = new Object2ObjectOpenHashMap<>();
@@ -787,4 +791,40 @@ public interface GTOOres {
     }
 
     record BedrockOre(Set<ResourceKey<Level>> dimensions, int weight, List<Pair<Material, Integer>> materials) {}
+
+    static Material selectMaterial(ResourceLocation level) {
+        MaterialSelector selector = RANDOM_ORES.computeIfAbsent(level, k -> {
+            Map<Material, Integer> ores = ALL_ORES.get(GTODimensions.getDimensionKey(k));
+            if (ores == null) return null;
+            return new MaterialSelector(ores);
+        });
+        if (selector == null) return GTMaterials.NULL;
+        return selector.selectMaterial();
+    }
+
+    class MaterialSelector {
+
+        private final List<Material> materialList;
+        private final List<Integer> cumulativeWeights;
+        private int totalWeight;
+
+        private MaterialSelector(Map<Material, Integer> materials) {
+            this.materialList = new ArrayList<>(materials.keySet());
+            this.cumulativeWeights = new ArrayList<>();
+            this.totalWeight = 0;
+            for (Integer weight : materials.values()) {
+                this.totalWeight += weight;
+                this.cumulativeWeights.add(this.totalWeight);
+            }
+        }
+
+        private Material selectMaterial() {
+            int randomValue = GTValues.RNG.nextInt(this.totalWeight);
+            int index = Collections.binarySearch(this.cumulativeWeights, randomValue);
+            if (index < 0) {
+                index = -index - 1;
+            }
+            return materialList.get(index);
+        }
+    }
 }

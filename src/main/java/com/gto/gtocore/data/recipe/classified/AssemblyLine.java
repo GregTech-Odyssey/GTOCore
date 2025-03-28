@@ -1790,7 +1790,7 @@ interface AssemblyLine {
 
         ASSEMBLY_LINE_RECIPES.recipeBuilder(GTOCore.id("compound_distillation_fractionator"))
                 .inputItems(GTMultiMachines.DISTILLATION_TOWER.asStack(16))
-                .inputItems(GTMultiMachines.EVAPORATION_PLANT.asStack(16))
+                .inputItems(MultiBlockA.EVAPORATION_PLANT.asStack(16))
                 .inputItems(TagPrefix.pipeHugeFluid, GTMaterials.TungstenSteel, 8)
                 .inputItems(GTItems.ELECTRIC_PUMP_UHV.asStack(16))
                 .inputItems(GTItems.SENSOR_UEV.asStack(4))

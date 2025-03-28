@@ -678,7 +678,6 @@ public final class StringIndex {
         BLOCK_LINK_MAP.put(GTBlocks.CASING_HSSE_STURDY.get(), "GTBlocks.CASING_HSSE_STURDY");
         BLOCK_LINK_MAP.put(GTBlocks.CASING_PALLADIUM_SUBSTATION.get(), "GTBlocks.CASING_PALLADIUM_SUBSTATION");
         BLOCK_LINK_MAP.put(GTBlocks.CASING_TEMPERED_GLASS.get(), "GTBlocks.CASING_TEMPERED_GLASS");
-        BLOCK_LINK_MAP.put(GTBlocks.CASING_STAINLESS_EVAPORATION.get(), "GTBlocks.CASING_STAINLESS_EVAPORATION");
         BLOCK_LINK_MAP.put(GTBlocks.CASING_GRATE.get(), "GTBlocks.CASING_GRATE");
         BLOCK_LINK_MAP.put(GTBlocks.CASING_ASSEMBLY_CONTROL.get(), "GTBlocks.CASING_ASSEMBLY_CONTROL");
         BLOCK_LINK_MAP.put(GTBlocks.CASING_LAMINATED_GLASS.get(), "GTBlocks.CASING_LAMINATED_GLASS");
@@ -863,7 +862,6 @@ public final class StringIndex {
         BLOCK_LINK_MAP.put(GTMultiMachines.MULTI_SMELTER.getBlock(), "GTMultiMachines.MULTI_SMELTER");
         BLOCK_LINK_MAP.put(GTMultiMachines.CRACKER.getBlock(), "GTMultiMachines.CRACKER");
         BLOCK_LINK_MAP.put(GTMultiMachines.DISTILLATION_TOWER.getBlock(), "GTMultiMachines.DISTILLATION_TOWER");
-        BLOCK_LINK_MAP.put(GTMultiMachines.EVAPORATION_PLANT.getBlock(), "GTMultiMachines.EVAPORATION_PLANT");
         BLOCK_LINK_MAP.put(GTMultiMachines.VACUUM_FREEZER.getBlock(), "GTMultiMachines.VACUUM_FREEZER");
         BLOCK_LINK_MAP.put(GTMultiMachines.ASSEMBLY_LINE.getBlock(), "GTMultiMachines.ASSEMBLY_LINE");
         BLOCK_LINK_MAP.put(GTMultiMachines.PRIMITIVE_PUMP.getBlock(), "GTMultiMachines.PRIMITIVE_PUMP");
@@ -1547,9 +1545,6 @@ public final class StringIndex {
         MATERIAL_MAP.put(GTMaterials.DiethylenetriaminePentaacetonitrile, "GTMaterials.DiethylenetriaminePentaacetonitrile");
         MATERIAL_MAP.put(GTMaterials.DiethylenetriaminepentaaceticAcid, "GTMaterials.DiethylenetriaminepentaaceticAcid");
         MATERIAL_MAP.put(GTMaterials.SodiumNitrite, "GTMaterials.SodiumNitrite");
-        MATERIAL_MAP.put(GTMaterials.AcidicBromineSolution, "GTMaterials.AcidicBromineSolution");
-        MATERIAL_MAP.put(GTMaterials.ConcentratedBromineSolution, "GTMaterials.ConcentratedBromineSolution");
-        MATERIAL_MAP.put(GTMaterials.HydrogenIodide, "GTMaterials.HydrogenIodide");
         MATERIAL_MAP.put(GTMaterials.SiliconeRubber, "GTMaterials.SiliconeRubber");
         MATERIAL_MAP.put(GTMaterials.RawRubber, "GTMaterials.RawRubber");
         MATERIAL_MAP.put(GTMaterials.RawStyreneButadieneRubber, "GTMaterials.RawStyreneButadieneRubber");
@@ -1818,10 +1813,6 @@ public final class StringIndex {
         MATERIAL_MAP.put(GTMaterials.Redstone, "GTMaterials.Redstone");
         MATERIAL_MAP.put(GTMaterials.Dichloroethane, "GTMaterials.Dichloroethane");
         MATERIAL_MAP.put(GTMaterials.Diethylenetriamine, "GTMaterials.Diethylenetriamine");
-        MATERIAL_MAP.put(GTMaterials.RawBrine, "GTMaterials.RawBrine");
-        MATERIAL_MAP.put(GTMaterials.DebrominatedBrine, "GTMaterials.DebrominatedBrine");
-        MATERIAL_MAP.put(GTMaterials.BrominatedChlorineVapor, "GTMaterials.BrominatedChlorineVapor");
-        MATERIAL_MAP.put(GTMaterials.AcidicBromineExhaust, "GTMaterials.AcidicBromineExhaust");
         MATERIAL_MAP.put(GTMaterials.Wax, "GTMaterials.Wax");
         MATERIAL_MAP.put(GTMaterials.Electrotine, "GTMaterials.Electrotine");
         MATERIAL_MAP.put(GTMaterials.EnderEye, "GTMaterials.EnderEye");
@@ -1838,10 +1829,6 @@ public final class StringIndex {
         MATERIAL_MAP.put(GTMaterials.Brick, "GTMaterials.Brick");
         MATERIAL_MAP.put(GTMaterials.Fireclay, "GTMaterials.Fireclay");
         MATERIAL_MAP.put(GTMaterials.Diorite, "GTMaterials.Diorite");
-        MATERIAL_MAP.put(GTMaterials.HotBrine, "GTMaterials.HotBrine");
-        MATERIAL_MAP.put(GTMaterials.HotChlorinatedBrominatedBrine, "GTMaterials.HotChlorinatedBrominatedBrine");
-        MATERIAL_MAP.put(GTMaterials.HotDebrominatedBrine, "GTMaterials.HotDebrominatedBrine");
-        MATERIAL_MAP.put(GTMaterials.HotAlkalineDebrominatedBrine, "GTMaterials.HotAlkalineDebrominatedBrine");
         MATERIAL_MAP.put(GTMaterials.RedAlloy, "GTMaterials.RedAlloy");
         MATERIAL_MAP.put(GTMaterials.BlueAlloy, "GTMaterials.BlueAlloy");
         MATERIAL_MAP.put(GTMaterials.BasalticMineralSand, "GTMaterials.BasalticMineralSand");
@@ -2007,7 +1994,7 @@ public final class StringIndex {
         MATERIAL_MAP.put(GTOMaterials.TritiumHydride, "GTOMaterials.TritiumHydride");
         MATERIAL_MAP.put(GTOMaterials.DustyLiquidHeliumIII, "GTOMaterials.DustyLiquidHeliumIII");
         MATERIAL_MAP.put(GTOMaterials.Ozone, "GTOMaterials.Ozone");
-        MATERIAL_MAP.put(GTOMaterials.HydrogenPeroxide, "GTOMaterials.HydrogenPeroxide");
+        MATERIAL_MAP.put(GTMaterials.HydrogenPeroxide, "GTMaterials.HydrogenPeroxide");
         MATERIAL_MAP.put(GTOMaterials.RareEarthChlorides, "GTOMaterials.RareEarthChlorides");
         MATERIAL_MAP.put(GTOMaterials.PentlanditeFront, "GTOMaterials.PentlanditeFront");
         MATERIAL_MAP.put(GTOMaterials.EnrichedNaquadahFront, "GTOMaterials.EnrichedNaquadahFront");

@@ -158,6 +158,8 @@ public interface RecipeFilter {
         CHEMICAL_RECIPES.addFilter("styrene_from_ethylbenzene");
         CHEMICAL_RECIPES.addFilter("soda_ash_from_carbon_dioxide");
         CHEMICAL_RECIPES.addFilter("formic_acid");
+        CHEMICAL_RECIPES.addFilter("iodine");
+        CHEMICAL_RECIPES.addFilter("hydrogen_peroxide");
 
         LARGE_CHEMICAL_RECIPES.addFilter("epoxy_shortcut");
         LARGE_CHEMICAL_RECIPES.addFilter("polyethylene_from_tetrachloride_air");

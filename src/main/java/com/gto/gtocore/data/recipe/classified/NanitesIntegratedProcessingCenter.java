@@ -364,7 +364,7 @@ interface NanitesIntegratedProcessingCenter {
                 .inputItems(TagPrefix.dust, GTMaterials.Potassium, 64)
                 .inputFluids(GTMaterials.Chlorine.getFluid(512000))
                 .inputFluids(GTMaterials.Hydrogen.getFluid(256000))
-                .inputFluids(GTOMaterials.HydrogenPeroxide.getFluid(128000))
+                .inputFluids(GTMaterials.HydrogenPeroxide.getFluid(128000))
                 .inputFluids(GTMaterials.SulfurTrioxide.getFluid(64000))
                 .outputItems(GTOTagPrefix.CONTAMINABLE_NANITES, GTMaterials.Osmium)
                 .outputItems(TagPrefix.dust, GTMaterials.Zirconium, 64)
