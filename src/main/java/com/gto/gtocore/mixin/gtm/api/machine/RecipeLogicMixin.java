@@ -296,7 +296,7 @@ public abstract class RecipeLogicMixin extends MachineTrait implements IEnhanced
     @Overwrite
     public void findAndHandleRecipe() {
         lastFailedMatches = null;
-        if (!recipeDirty && lastRecipe != null && RecipeRunner.checkConditions(machine, lastRecipe) && RecipeRunner.matchRecipe(machine, lastRecipe) && RecipeRunner.matchTickRecipe(machine, lastRecipe)) {
+        if (!recipeDirty && RecipeRunner.check(machine, lastRecipe)) {
             GTRecipe recipe = lastRecipe;
             lastRecipe = null;
             lastOriginRecipe = null;
@@ -306,7 +306,7 @@ public abstract class RecipeLogicMixin extends MachineTrait implements IEnhanced
             if (gTOCore$lockRecipe && gTOCore$originRecipe != null) {
                 lastOriginRecipe = gTOCore$originRecipe;
                 GTRecipe modified = machine.fullModifyRecipe(lastOriginRecipe.copy());
-                if (modified != null && RecipeRunner.checkConditions(machine, modified) && RecipeRunner.matchRecipe(machine, modified) && RecipeRunner.matchTickRecipe(machine, modified)) {
+                if (RecipeRunner.check(machine, modified)) {
                     setupRecipe(modified);
                 }
             } else {
@@ -346,7 +346,7 @@ public abstract class RecipeLogicMixin extends MachineTrait implements IEnhanced
                     markLastRecipeDirty();
                 }
             }
-            if (!recipeDirty && !suspendAfterFinish && RecipeRunner.checkConditions(machine, lastRecipe) && RecipeRunner.matchRecipe(machine, lastRecipe) && RecipeRunner.matchTickRecipe(machine, lastRecipe)) {
+            if (!recipeDirty && !suspendAfterFinish && RecipeRunner.check(machine, lastRecipe)) {
                 setupRecipe(lastRecipe);
             } else {
                 if (suspendAfterFinish) {

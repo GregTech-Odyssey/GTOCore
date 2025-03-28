@@ -66,18 +66,23 @@ public final class InaccessibleInfiniteTank extends NotifiableFluidTank {
     }
 
     @Override
-    public List<FluidIngredient> handleRecipe(IO io, GTRecipe recipe, List<?> left, boolean simulate) {
+    public List<FluidIngredient> handleRecipeInner(IO io, GTRecipe recipe, List<FluidIngredient> left, boolean simulate) {
         if (!simulate && io == IO.OUT) {
-            for (Object ingredient : left) {
-                if (((FluidIngredient) ingredient).isEmpty()) continue;
-                Fluid fluid = FluidUtils.getFirst((FluidIngredient) ingredient);
+            for (FluidIngredient ingredient : left) {
+                if (ingredient.isEmpty()) continue;
+                Fluid fluid = FluidUtils.getFirst(ingredient);
                 if (fluid != null) {
-                    delegate.fill(fluid, ((FluidIngredient) ingredient).getAmount(), ((FluidIngredient) ingredient).getNbt());
+                    delegate.fill(fluid, ingredient.getAmount(), ingredient.getNbt());
                 }
             }
             return null;
         }
         return null;
+    }
+
+    @Override
+    public List<FluidIngredient> handleRecipe(IO io, GTRecipe recipe, List<?> left, boolean simulate) {
+        return handleRecipeInner(io, recipe, (List<FluidIngredient>) left, simulate);
     }
 
     @Override

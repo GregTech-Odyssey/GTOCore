@@ -1718,7 +1718,7 @@
   "gtocore.machine.processing_array.tooltip.1": "Parallel are determined by the number of internal machines",
   "gtocore.machine.processing_plant.mismatched": "Recipe tier does not match small machine tier",
   "gtocore.machine.processing_plant.tooltip.0": "Requires one corresponding tier small machine to operate",
-  "gtocore.machine.processing_plant.tooltip.1": "For each tier above LV, maximum parallelism increases by 4",
+  "gtocore.machine.processing_plant.tooltip.1": "For each tier above ULV, maximum parallelism increases by 2",
   "gtocore.machine.processing_plant.tooltip.2": "Unable to obtain a clean environment through a clean maintenance warehouse",
   "gtocore.machine.pulsating_photovoltaic_power_station.tooltip.0": "Output EU based on dimensions and weather",
   "gtocore.machine.pulsating_photovoltaic_power_station.tooltip.1": "The space station can maintain full power operation, requires a distilled water supply of Power/4 mB per second",

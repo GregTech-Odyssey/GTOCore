@@ -1718,7 +1718,7 @@
   "gtocore.machine.processing_array.tooltip.1": "併行數由內部機器數量決定",
   "gtocore.machine.processing_plant.mismatched": "配方等級與小機器等級不匹配",
   "gtocore.machine.processing_plant.tooltip.0": "需要放入一個對應配方等級的小機器纔能運行",
-  "gtocore.machine.processing_plant.tooltip.1": "配方等級每高齣LV一級，最大併行數+4",
+  "gtocore.machine.processing_plant.tooltip.1": "配方等級每高齣ULV一級，最大併行數+2",
   "gtocore.machine.processing_plant.tooltip.2": "無法通過超淨維護倉獲得潔淨環境",
   "gtocore.machine.pulsating_photovoltaic_power_station.tooltip.0": "根據維度和天氣輸齣EU",
   "gtocore.machine.pulsating_photovoltaic_power_station.tooltip.1": "在空間站運行時可保持最大功率，但需提供每秒功率/4mB的蒸餾水保持運行",

@@ -89,7 +89,7 @@ public final class ProcessingPlantMachine extends StorageMultiblockMachine imple
 
     public ProcessingPlantMachine(IMachineBlockEntity holder) {
         super(holder, 1, ProcessingPlantMachine::filter);
-        customParallelTrait = new CustomParallelTrait(this, true, machine -> ((ProcessingPlantMachine) machine).getTier() > 0 ? 4 * (((ProcessingPlantMachine) machine).getTier() - 1) : 0);
+        customParallelTrait = new CustomParallelTrait(this, true, machine -> ((ProcessingPlantMachine) machine).getTier() > 0 ? ((ProcessingPlantMachine) machine).getTier() << 1 : 0);
     }
 
     private static boolean filter(ItemStack itemStack) {

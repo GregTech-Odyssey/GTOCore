@@ -192,7 +192,7 @@ public class CrossRecipeMultiblockMachine extends ElectricMultiblockMachine impl
                 if (recipe == null) return null;
             }
             recipe = getRealRecipe(recipe);
-            if (recipe != null && RecipeRunner.matchRecipeInput(this, recipe) && RecipeRunner.handleRecipeInput(this, recipe)) {
+            if (recipe != null && (recipe.parallels > 1 || RecipeRunner.matchRecipeInput(this, recipe)) && RecipeRunner.handleRecipeInput(this, recipe)) {
                 recipe.ocLevel = getTier() - rt;
                 recipe.inputs.clear();
                 return recipe;

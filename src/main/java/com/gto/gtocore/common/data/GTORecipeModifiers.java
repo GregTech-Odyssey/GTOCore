@@ -3,12 +3,14 @@ package com.gto.gtocore.common.data;
 import com.gto.gtocore.api.capability.recipe.ManaRecipeCapability;
 import com.gto.gtocore.api.machine.feature.multiblock.ICoilMachine;
 import com.gto.gtocore.api.machine.feature.multiblock.IOverclockConfigMachine;
+import com.gto.gtocore.api.recipe.RecipeRunner;
 import com.gto.gtocore.common.machine.multiblock.generator.GeneratorArrayMachine;
 import com.gto.gtocore.utils.GTOUtils;
 import com.gto.gtocore.utils.MachineUtils;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.recipe.EURecipeCapability;
+import com.gregtechceu.gtceu.api.capability.recipe.IRecipeCapabilityHolder;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.SimpleGeneratorMachine;
 import com.gregtechceu.gtceu.api.machine.feature.IOverclockMachine;
@@ -160,10 +162,18 @@ public interface GTORecipeModifiers {
     }
 
     static GTRecipe accurateParallel(MetaMachine machine, GTRecipe recipe, int maxParallel) {
-        int parallel = ParallelLogic.getParallelAmount(machine, recipe, maxParallel);
+        return matchParallel(machine, recipe, ParallelLogic.getParallelAmount(machine, recipe, maxParallel));
+    }
+
+    private static GTRecipe matchParallel(MetaMachine machine, GTRecipe recipe, int parallel) {
         if (parallel > 1) {
-            recipe = recipe.copy(ContentModifier.multiplier(parallel), false);
-            recipe.parallels *= parallel;
+            GTRecipe copied = recipe.copy(ContentModifier.multiplier(parallel), false);
+            if (RecipeRunner.matchRecipeInput((IRecipeCapabilityHolder) machine, copied)) {
+                copied.parallels *= parallel;
+                return copied;
+            } else {
+                return matchParallel(machine, recipe, parallel / 2);
+            }
         }
         return recipe;
     }

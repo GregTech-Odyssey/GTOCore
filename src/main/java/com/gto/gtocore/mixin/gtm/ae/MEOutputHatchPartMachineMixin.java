@@ -1,10 +1,10 @@
-package com.gto.gtocore.mixin.gtm.machine;
+package com.gto.gtocore.mixin.gtm.ae;
 
-import com.gto.gtocore.api.machine.trait.InaccessibleInfiniteHandler;
+import com.gto.gtocore.api.machine.trait.InaccessibleInfiniteTank;
 import com.gto.gtocore.integration.ae2.KeyMap;
 
-import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
-import com.gregtechceu.gtceu.integration.ae2.machine.MEOutputBusPartMachine;
+import com.gregtechceu.gtceu.api.machine.trait.NotifiableFluidTank;
+import com.gregtechceu.gtceu.integration.ae2.machine.MEOutputHatchPartMachine;
 import com.gregtechceu.gtceu.integration.ae2.utils.KeyStorage;
 
 import org.spongepowered.asm.mixin.Mixin;
@@ -14,8 +14,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-@Mixin(MEOutputBusPartMachine.class)
-public class MEOutputBusPartMachineMixin {
+@Mixin(MEOutputHatchPartMachine.class)
+public class MEOutputHatchPartMachineMixin {
 
     @Shadow(remap = false)
     private KeyStorage internalBuffer;
@@ -29,9 +29,9 @@ public class MEOutputBusPartMachineMixin {
         return false;
     }
 
-    @Inject(method = "createInventory", at = @At("HEAD"), remap = false, cancellable = true)
-    private void createInventory(Object[] args, CallbackInfoReturnable<NotifiableItemStackHandler> cir) {
+    @Inject(method = "createTank", at = @At("HEAD"), remap = false, cancellable = true)
+    private void createTank(int initialCapacity, int slots, Object[] args, CallbackInfoReturnable<NotifiableFluidTank> cir) {
         this.internalBuffer = new KeyMap();
-        cir.setReturnValue(new InaccessibleInfiniteHandler((MEOutputBusPartMachine) (Object) this, (KeyMap) internalBuffer));
+        cir.setReturnValue(new InaccessibleInfiniteTank((MEOutputHatchPartMachine) (Object) this, (KeyMap) internalBuffer));
     }
 }

@@ -12,12 +12,19 @@ import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
 import com.gregtechceu.gtceu.api.recipe.content.Content;
 
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
 public interface RecipeRunner {
+
+    static boolean check(IRecipeLogicMachine machine, @Nullable GTRecipe recipe) {
+        if (recipe == null) return false;
+        if (recipe.parallels > 1) return true;
+        return RecipeRunner.checkConditions(machine, recipe) && RecipeRunner.matchRecipe(machine, recipe) && RecipeRunner.matchTickRecipe(machine, recipe);
+    }
 
     static boolean checkConditions(IRecipeLogicMachine holder, GTRecipe recipe) {
         return RecipeHelper.checkConditions(recipe, holder.getRecipeLogic()).isSuccess();
@@ -78,9 +85,9 @@ public interface RecipeRunner {
         if (contents == null || contents.isEmpty()) return false;
         List<IRecipeHandler<?>> handlers = holder.getCapabilitiesFlat().get(io).get(capability);
         if (handlers == null) return true;
-        List contentList = contents.stream().map(Content::getContent).toList();
+        List<?> contentList = contents.stream().map(Content::getContent).toList();
         for (IRecipeHandler<?> handler : handlers) {
-            contentList = handler.handleRecipe(io, recipe, contentList, false);
+            contentList = handler.handleRecipeInner(io, recipe, (List) contentList, false);
             if (contentList == null || contentList.isEmpty()) return false;
         }
         return !contentList.isEmpty();

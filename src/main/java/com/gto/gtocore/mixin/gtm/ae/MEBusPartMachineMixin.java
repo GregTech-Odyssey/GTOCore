@@ -1,4 +1,4 @@
-package com.gto.gtocore.mixin.gtm.machine;
+package com.gto.gtocore.mixin.gtm.ae;
 
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
