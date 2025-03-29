@@ -10,13 +10,18 @@ import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.SteamHatchPartMachine;
 import com.gregtechceu.gtceu.common.machine.multiblock.steam.SteamParallelMultiblockMachine;
 
+import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(SteamParallelMultiblockMachine.class)
 public final class SteamParallelMultiblockMachineMixin extends WorkableMultiblockMachine {
+
+    @Shadow(remap = false)
+    private @Nullable SteamEnergyRecipeHandler steamEnergy;
 
     private SteamParallelMultiblockMachineMixin(IMachineBlockEntity holder, Object... args) {
         super(holder, args);
@@ -31,7 +36,8 @@ public final class SteamParallelMultiblockMachineMixin extends WorkableMultibloc
         while (itr.hasNext()) {
             if (itr.next() instanceof NotifiableFluidTank tank && tank.getMachine() instanceof SteamHatchPartMachine) {
                 itr.remove();
-                addHandlerList(RecipeHandlerList.of(IO.IN, new SteamEnergyRecipeHandler(tank, 2)));
+                steamEnergy = new SteamEnergyRecipeHandler(tank, 2);
+                addHandlerList(RecipeHandlerList.of(IO.IN, steamEnergy));
                 return;
             }
         }

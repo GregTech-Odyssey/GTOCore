@@ -6,12 +6,9 @@ import com.gregtechceu.gtceu.forge.ForgeCommonEventListener;
 
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.monster.Zombie;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -51,8 +48,6 @@ public final class ForgeCommonEventListenerMixin {
                 zombie.setItemSlot(EquipmentSlot.MAINHAND, BuiltInRegistries.ITEM.getOrCreateTag(ItemTags.SWORDS).getRandomElement(zombie.getRandom()).orElseGet(() -> BuiltInRegistries.ITEM.wrapAsHolder(Items.STICK)).value().getDefaultInstance());
                 zombie.setDropChance(EquipmentSlot.MAINHAND, 0.0f);
             }
-        } else if (entity instanceof Creeper creeper && creeper.getRandom().nextBoolean()) {
-            creeper.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, Integer.MAX_VALUE, creeper.getRandom().nextInt(1, 5), false, false, false));
         }
     }
 

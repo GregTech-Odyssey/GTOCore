@@ -32,6 +32,46 @@ import static com.gto.gtocore.common.data.GTORecipeTypes.ASSEMBLER_RECIPES;
 interface Assembler {
 
     static void init() {
+        ASSEMBLER_RECIPES.builder("lv_power_amplifiers")
+                .inputItems(TagPrefix.plate, GTMaterials.Iron, 8)
+                .inputItems("apotheosis:rare_material", 16)
+                .inputItems(GTItems.VOLTAGE_COIL_ULV.asStack())
+                .outputItems(GTOItems.LV_POWER_AMPLIFIERS.asItem())
+                .circuitMeta(14)
+                .EUt(30)
+                .duration(400)
+                .save();
+
+        ASSEMBLER_RECIPES.builder("mv_power_amplifiers")
+                .inputItems(TagPrefix.plate, GTMaterials.Aluminium, 8)
+                .inputItems("apotheosis:epic_material", 16)
+                .inputItems(GTItems.VOLTAGE_COIL_LV.asStack())
+                .outputItems(GTOItems.MV_POWER_AMPLIFIERS.asItem())
+                .circuitMeta(14)
+                .EUt(120)
+                .duration(400)
+                .save();
+
+        ASSEMBLER_RECIPES.builder("hv_power_amplifiers")
+                .inputItems(TagPrefix.plate, GTMaterials.StainlessSteel, 8)
+                .inputItems("apotheosis:mythic_material", 16)
+                .inputItems(GTItems.VOLTAGE_COIL_MV.asStack())
+                .outputItems(GTOItems.HV_POWER_AMPLIFIERS.asItem())
+                .circuitMeta(14)
+                .EUt(480)
+                .duration(400)
+                .save();
+
+        ASSEMBLER_RECIPES.builder("ev_power_amplifiers")
+                .inputItems(TagPrefix.plate, GTMaterials.Titanium, 8)
+                .inputItems("apotheosis:sigil_of_enhancement", 16)
+                .inputItems(GTItems.VOLTAGE_COIL_HV.asStack())
+                .outputItems(GTOItems.EV_POWER_AMPLIFIERS.asItem())
+                .circuitMeta(14)
+                .EUt(480)
+                .duration(400)
+                .save();
+
         ASSEMBLER_RECIPES.builder("base_mana_distributor")
                 .inputItems(TagPrefix.frameGt, GTOMaterials.OriginalBronze)
                 .inputItems("botania:mana_distributor", 4)

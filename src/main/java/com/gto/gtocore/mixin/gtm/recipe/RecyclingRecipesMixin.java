@@ -107,7 +107,7 @@ public abstract class RecyclingRecipesMixin {
         if (prefix != TagPrefix.dust) {
             registerMaceratorRecycling(provider, input, components, voltageMultiplier);
         }
-        if (prefix == TagPrefix.ingot || prefix == TagPrefix.dust) {
+        if (prefix != null) {
             registerExtractorRecycling(provider, input, components, voltageMultiplier, prefix);
         }
         if (ignoreArcSmelting) return;
@@ -156,8 +156,8 @@ public abstract class RecyclingRecipesMixin {
      * @reason .
      */
     @Overwrite(remap = false)
-    private static void registerExtractorRecycling(Consumer<FinishedRecipe> provider, ItemStack input, List<MaterialStack> materials, int multiplier, @Nullable TagPrefix prefix) {
-        if (prefix != null && prefix.secondaryMaterials().isEmpty()) {
+    private static void registerExtractorRecycling(Consumer<FinishedRecipe> provider, ItemStack input, List<MaterialStack> materials, int multiplier, @NotNull TagPrefix prefix) {
+        if (prefix.secondaryMaterials().isEmpty()) {
             MaterialStack ms = ChemicalHelper.getMaterialStack(input);
             if (ms.isEmpty()) {
                 return;

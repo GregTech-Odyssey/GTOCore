@@ -1,17 +1,11 @@
 package com.gto.gtocore.common.data;
 
 import com.gto.gtocore.GTOCore;
-import com.gto.gtocore.common.cover.AirVentCover;
-import com.gto.gtocore.common.cover.FluidRegulatorCover;
-import com.gto.gtocore.common.cover.SteamPumpCover;
-import com.gto.gtocore.common.cover.ULVPumpCover;
+import com.gto.gtocore.common.cover.*;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.cover.CoverDefinition;
-import com.gregtechceu.gtceu.client.renderer.cover.ConveyorCoverRenderer;
-import com.gregtechceu.gtceu.client.renderer.cover.PumpCoverRenderer;
-import com.gregtechceu.gtceu.client.renderer.cover.RobotArmCoverRenderer;
-import com.gregtechceu.gtceu.client.renderer.cover.SimpleCoverRenderer;
+import com.gregtechceu.gtceu.client.renderer.cover.*;
 import com.gregtechceu.gtceu.common.cover.ConveyorCover;
 import com.gregtechceu.gtceu.common.cover.PumpCover;
 import com.gregtechceu.gtceu.common.cover.RobotArmCover;
@@ -23,6 +17,10 @@ import com.hepdd.gtmthings.common.cover.WirelessEnergyReceiveCover;
 import java.util.Locale;
 
 public interface GTOCovers {
+
+    ICoverRenderer POWER_AMPLIFIER = new SimpleCoverRenderer(GTOCore.id("gui/overclock_config"));
+
+    CoverDefinition[] POWER_AMPLIFIERS = GTCovers.registerTiered("power_amplifier", PowerAmplifierCover::new, tier -> POWER_AMPLIFIER, GTValues.tiersBetween(GTValues.LV, GTValues.EV));
 
     CoverDefinition AIR_VENT = GTCovers.register("air_vent", AirVentCover::new, new SimpleCoverRenderer(GTOCore.id("block/machines/vacuum_pump/overlay_top")));
 

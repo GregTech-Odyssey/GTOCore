@@ -5,6 +5,7 @@ import com.gto.gtocore.api.entity.IEnhancedPlayer;
 import com.gto.gtocore.api.misc.PlanetManagement;
 import com.gto.gtocore.client.ClientCache;
 import com.gto.gtocore.common.network.ServerMessage;
+import com.gto.gtocore.config.GTOConfig;
 import com.gto.gtocore.utils.ServerUtils;
 
 import com.gregtechceu.gtceu.GTCEu;
@@ -23,6 +24,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Abilities;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.food.FoodData;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 
@@ -45,6 +47,9 @@ public abstract class PlayerMixin extends LivingEntity implements IEnhancedPlaye
 
     @Shadow
     public abstract void onUpdateAbilities();
+
+    @Shadow
+    public abstract FoodData getFoodData();
 
     @Unique
     private boolean gTOCore$amprosium;
@@ -121,6 +126,9 @@ public abstract class PlayerMixin extends LivingEntity implements IEnhancedPlaye
             Level level = level();
             MinecraftServer server = level.getServer();
             if (server == null) return;
+            if (getFoodData().getFoodLevel() > 10 && tickCount % 80 == 0 && getRandom().nextBoolean()) {
+                heal(Math.max(1, (int) Math.ceil(Math.log(getMaxHealth() * Math.max(1, 4 - GTOConfig.getDifficulty())))));
+            }
             gTOCore$amprosium = false;
             MaterialStack materialStack = ChemicalHelper.getMaterialStack(getItemInHand(InteractionHand.MAIN_HAND));
             if (materialStack.isEmpty()) {

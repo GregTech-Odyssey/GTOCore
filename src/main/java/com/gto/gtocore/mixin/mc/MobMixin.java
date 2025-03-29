@@ -65,7 +65,7 @@ public abstract class MobMixin extends LivingEntity {
 
     @Inject(method = "tick", at = @At(value = "HEAD"))
     private void tick(CallbackInfo ci) {
-        if (GTOConfig.getDifficulty() == 1 || tickCount % 80 == 0 && getRandom().nextBoolean()) {
+        if (tickCount % 80 == 0 && getRandom().nextBoolean()) {
             int value = Math.max(1, (int) Math.ceil(Math.log(getMaxHealth() * Math.max(1, level().getDifficulty().getId()))));
             heal(value);
         }

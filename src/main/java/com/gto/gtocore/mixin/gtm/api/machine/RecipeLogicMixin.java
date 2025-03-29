@@ -121,7 +121,7 @@ public abstract class RecipeLogicMixin extends MachineTrait implements IEnhanced
     public abstract void updateTickSubscription();
 
     @Shadow
-    protected abstract void doDamping();
+    protected abstract void regressRecipe();
 
     @Shadow
     public abstract Iterator<GTRecipe> searchRecipe();
@@ -402,7 +402,7 @@ public abstract class RecipeLogicMixin extends MachineTrait implements IEnhanced
             if (machine instanceof IEnhancedMultiblockMachine enhancedMultiblockMachine) {
                 enhancedMultiblockMachine.doDamping(getLogic());
             } else {
-                doDamping();
+                regressRecipe();
             }
         }
         if (lastRecipe == null) return;

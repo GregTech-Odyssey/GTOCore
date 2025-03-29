@@ -42,7 +42,7 @@ public interface IEnhancedMultiblockMachine extends IMachineFeature {
     default void doDamping(RecipeLogic recipeLogic) {
         if (GTOConfig.getDifficulty() == 3) {
             recipeLogic.interruptRecipe();
-        } else if (((IRecipeLogicMachine) self()).dampingWhenWaiting()) {
+        } else if (((IRecipeLogicMachine) self()).regressWhenWaiting()) {
             if (recipeLogic.getProgress() > 1) recipeLogic.setProgress(1);
         }
     }

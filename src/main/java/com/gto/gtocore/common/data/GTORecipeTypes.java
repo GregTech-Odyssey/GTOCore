@@ -721,8 +721,7 @@ public interface GTORecipeTypes {
             .setProgressBar(GuiTextures.PROGRESS_BAR_EXTRACT, LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.ARC)
             .addDataInfo(TEMPERATURE)
-            .addDataInfo(COIL)
-            .setUiBuilder(COIL_UI);
+            .addDataInfo(COIL);
 
     GTORecipeType REACTION_FURNACE_RECIPES = register("reaction_furnace", "高温反应", MULTIBLOCK)
             .setMaxIOSize(3, 3, 3, 3)

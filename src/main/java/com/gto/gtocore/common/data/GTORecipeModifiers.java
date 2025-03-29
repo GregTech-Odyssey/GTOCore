@@ -49,6 +49,10 @@ public interface GTORecipeModifiers {
         return (machine, r) -> recipe -> accurateParallel(machine, recipe, parallel);
     }
 
+    static RecipeModifier recipeReduction(double reductionEUt, double reductionDuration) {
+        return (machine, r) -> recipe -> recipeReduction(machine, recipe, reductionEUt, reductionDuration);
+    }
+
     static ModifierFunction simpleGeneratorMachineModifier(@NotNull MetaMachine machine, @NotNull GTRecipe r) {
         if (machine instanceof SimpleGeneratorMachine generator) {
             return recipe -> {
