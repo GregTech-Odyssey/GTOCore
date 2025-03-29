@@ -1,17 +1,17 @@
 package com.gto.gtocore.common.machine.multiblock.part.ae;
 
+import com.gto.gtocore.common.machine.multiblock.part.ae.slots.ExportOnlyAEStockingItemList;
+import com.gto.gtocore.common.machine.multiblock.part.ae.slots.NetworkSlotMachine;
+
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.fancy.ConfiguratorPanel;
 import com.gregtechceu.gtceu.api.gui.fancy.IFancyConfigurator;
 import com.gregtechceu.gtceu.api.gui.fancy.IFancyConfiguratorButton;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
-import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.common.item.IntCircuitBehaviour;
 import com.gregtechceu.gtceu.integration.ae2.machine.MEInputBusPartMachine;
-import com.gregtechceu.gtceu.integration.ae2.slot.ExportOnlyAEItemList;
 import com.gregtechceu.gtceu.integration.ae2.slot.ExportOnlyAEItemSlot;
-import com.gregtechceu.gtceu.integration.ae2.slot.ExportOnlyAESlot;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.Holder;
@@ -19,7 +19,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.registries.ForgeRegistries;
 
@@ -46,7 +45,6 @@ import it.unimi.dsi.fastutil.objects.Reference2BooleanOpenHashMap;
 import lombok.Getter;
 import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,7 +57,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
  */
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
-public class METagFilterStockBusPartMachine extends MEInputBusPartMachine {
+public class METagFilterStockBusPartMachine extends MEInputBusPartMachine implements NetworkSlotMachine {
 
     private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(METagFilterStockBusPartMachine.class,
             MEInputBusPartMachine.MANAGED_FIELD_HOLDER);
@@ -208,75 +206,6 @@ public class METagFilterStockBusPartMachine extends MEInputBusPartMachine {
     @Override
     public ManagedFieldHolder getFieldHolder() {
         return MANAGED_FIELD_HOLDER;
-    }
-
-    private static class ExportOnlyAEStockingItemList extends ExportOnlyAEItemList {
-
-        private ExportOnlyAEStockingItemList(MetaMachine holder, int slots) {
-            super(holder, slots, () -> new ExportOnlyAEStockingItemSlot((MEInputBusPartMachine) holder));
-        }
-
-        @Override
-        public MEInputBusPartMachine getMachine() {
-            return (MEInputBusPartMachine) super.getMachine();
-        }
-
-        @Override
-        public boolean isAutoPull() {
-            return true;
-        }
-
-        @Override
-        public boolean isStocking() {
-            return true;
-        }
-
-        private static class ExportOnlyAEStockingItemSlot extends ExportOnlyAEItemSlot {
-
-            private final MEInputBusPartMachine machine;
-
-            ExportOnlyAEStockingItemSlot(MEInputBusPartMachine machine) {
-                super();
-                this.machine = machine;
-            }
-
-            ExportOnlyAEStockingItemSlot(@Nullable GenericStack config, @Nullable GenericStack stock, MEInputBusPartMachine machine) {
-                super(config, stock);
-                this.machine = machine;
-            }
-
-            @Override
-            public @NotNull ItemStack extractItem(int slot, int amount, boolean simulate) {
-                if (slot == 0 && this.stock != null) {
-                    if (this.config != null) {
-                        if (!machine.isOnline()) return ItemStack.EMPTY;
-                        MEStorage aeNetwork = machine.getMainNode().getGrid().getStorageService().getInventory();
-                        Actionable action = simulate ? Actionable.SIMULATE : Actionable.MODULATE;
-                        var key = config.what();
-                        long extracted = aeNetwork.extract(key, amount, action, machine.getActionSource());
-                        if (extracted > 0) {
-                            ItemStack resultStack = key instanceof AEItemKey itemKey ? itemKey.toStack((int) extracted) : ItemStack.EMPTY;
-                            if (!simulate) {
-                                this.stock = ExportOnlyAESlot.copy(stock, stock.amount() - extracted);
-                                if (this.stock.amount() == 0) {
-                                    this.stock = null;
-                                }
-                                if (this.onContentsChanged != null) {
-                                    this.onContentsChanged.run();
-                                }
-                            }
-                            return resultStack;
-                        }
-                    }
-                }
-                return ItemStack.EMPTY;
-            }
-
-            @Override
-            public @NotNull ExportOnlyAEStockingItemSlot copy() {
-                return new ExportOnlyAEStockingItemSlot(this.config == null ? null : copy(this.config), this.stock == null ? null : copy(this.stock), machine);
-            }
-        }
     }
 
     private class FilterIFancyConfigurator implements IFancyConfigurator {

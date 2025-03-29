@@ -117,6 +117,12 @@ final class MachineLang {
         addENCN("gtocore.machine.tag_filter.tag_white_list", "White List", "白名单");
         addENCN("gtocore.machine.tag_filter.tag_black_list", "Black List", "黑名单");
         addENCN("gtocore.machine.tag_filter.tooltip.0", "* Indicates a wildcard () Indicates Priority", "* 表示通配符 () 表示优先");
-        addENCN("gtocore.machine.tag_filter.tooltip.1", "White List", "& = Logic with | = Logic or ^ = Logical XOR");
+        addENCN("gtocore.machine.tag_filter.tooltip.1", "& = Logic with | = Logic or ^ = Logical XOR", "& = 逻辑与 | = 逻辑或 ^ = 逻辑异或");
+        addENCN("gtocore.machine.me_dual_hatch_stock.turns.0", "Auto-Pull Disable", "自动拉取关");
+        addENCN("gtocore.machine.me_dual_hatch_stock.turns.1", "Auto-Pull Fluid or Item", "自动拉取流体/物品");
+        addENCN("gtocore.machine.me_dual_hatch_stock.turns.2", "Auto-Pull Item", "仅拉取物品");
+        addENCN("gtocore.machine.me_dual_hatch_stock.turns.3", "Auto-Pull Fluid", "仅拉取流体");
+        addENCN("gtocore.machine.me_dual_hatch_stock.tooltip.0", "Keeps 64 fluid or item types in stock", "可标记64种流体或物品");
+        addENCN("gtocore.machine.me_dual_hatch_stock.tooltip.1", "Retrieves fluids or item directly from the ME network", "直接从ME网络抽取流体或物品");
     }
 }

@@ -13,6 +13,7 @@ import com.gto.gtocore.common.machine.generator.LightningRodMachine;
 import com.gto.gtocore.common.machine.generator.MagicEnergyMachine;
 import com.gto.gtocore.common.machine.generator.WindMillTurbineMachine;
 import com.gto.gtocore.common.machine.multiblock.part.*;
+import com.gto.gtocore.common.machine.multiblock.part.ae.MEDualHatchStockPartMachine;
 import com.gto.gtocore.common.machine.multiblock.part.ae.METagFilterStockBusPartMachine;
 import com.gto.gtocore.common.machine.multiblock.part.maintenance.*;
 import com.gto.gtocore.common.machine.noenergy.BoilWaterMachine;
@@ -626,6 +627,17 @@ public interface GTOMachines {
             .renderer(() -> new OverlayTieredMachineRenderer(LuV, GTCEu.id("block/machine/part/me_item_bus.import")))
             .tooltips(Component.translatable("gtceu.machine.item_bus.import.tooltip"),
                     Component.translatable("gtceu.machine.me.item_import.tooltip"),
+                    Component.translatable("gtceu.machine.me.copy_paste.tooltip"),
+                    Component.translatable("gtceu.universal.enabled"))
+            .register();
+
+    MachineDefinition ME_DUAL_HATCH_STOCK_PART_MACHINE = machine("me_dual_hatch_stock_part_machine", "ME库存输入总成", MEDualHatchStockPartMachine::new)
+            .tier(LuV)
+            .allRotation()
+            .renderer(() -> new OverlayTieredMachineRenderer(LuV, GTCEu.id("block/machine/part/me_item_bus.import")))
+            .tooltips(Component.translatable("gtceu.machine.dual_hatch.import.tooltip"),
+                    Component.translatable("gtocore.machine.me_dual_hatch_stock.tooltip.0"),
+                    Component.translatable("gtocore.machine.me_dual_hatch_stock.tooltip.1"),
                     Component.translatable("gtceu.machine.me.copy_paste.tooltip"),
                     Component.translatable("gtceu.universal.enabled"))
             .register();
