@@ -1,5 +1,6 @@
 package com.gto.gtocore.integration.emi;
 
+import com.gto.gtocore.api.recipe.FastSizedIngredient;
 import com.gto.gtocore.common.data.GTORecipes;
 import com.gto.gtocore.mixin.mc.IngredientTagValueAccessor;
 import com.gto.gtocore.utils.ItemUtils;
@@ -9,7 +10,6 @@ import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.chance.logic.ChanceLogic;
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
-import com.gregtechceu.gtceu.api.recipe.ingredient.SizedIngredient;
 import com.gregtechceu.gtceu.core.mixins.IngredientAccessor;
 import com.gregtechceu.gtceu.integration.xei.widgets.GTRecipeWidget;
 
@@ -72,7 +72,7 @@ public final class GTEMIRecipe extends ModularEmiRecipe<Widget> {
     private static EmiIngredient getEmiIngredient(Ingredient ingredient, boolean input) {
         Ingredient inner = ingredient;
         boolean sized;
-        if (ingredient instanceof SizedIngredient sizedIngredient) {
+        if (ingredient instanceof FastSizedIngredient sizedIngredient) {
             inner = ItemUtils.getSizedInner(sizedIngredient);
             sized = true;
         } else {
@@ -82,7 +82,7 @@ public final class GTEMIRecipe extends ModularEmiRecipe<Widget> {
         if (itemStacks.length == 0) return EmiStack.EMPTY;
         ItemStack itemStack = itemStacks[0];
         for (Ingredient.Value value : ((IngredientAccessor) inner).getValues()) {
-            int amount = sized ? ((SizedIngredient) ingredient).getAmount() : itemStack.getCount();
+            int amount = sized ? ((FastSizedIngredient) ingredient).getAmount() : itemStack.getCount();
             if (input && value instanceof Ingredient.TagValue tagValue) {
                 TagKey<Item> tagKey = ((IngredientTagValueAccessor) tagValue).getTag();
                 return new TagEmiIngredient(tagKey, amount);

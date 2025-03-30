@@ -1,6 +1,7 @@
 package com.gto.gtocore.api.machine.trait;
 
 import com.gto.gtocore.api.machine.IMEHatchPart;
+import com.gto.gtocore.api.recipe.FastSizedIngredient;
 import com.gto.gtocore.integration.ae2.KeyMap;
 import com.gto.gtocore.utils.ItemUtils;
 
@@ -10,7 +11,6 @@ import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
-import com.gregtechceu.gtceu.api.recipe.ingredient.SizedIngredient;
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
 import com.gregtechceu.gtceu.integration.ae2.machine.feature.IGridConnectedMachine;
 
@@ -70,7 +70,7 @@ public final class InaccessibleInfiniteHandler extends NotifiableItemStackHandle
                 if (((Ingredient) ingredient).isEmpty()) continue;
                 ItemStack item;
                 int count;
-                if (ingredient instanceof SizedIngredient sizedIngredient) {
+                if (ingredient instanceof FastSizedIngredient sizedIngredient) {
                     item = ItemUtils.getFirstSized(sizedIngredient);
                     count = sizedIngredient.getAmount();
                 } else {

@@ -27,7 +27,6 @@ import com.gregtechceu.gtceu.api.recipe.content.Content;
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
 import com.gregtechceu.gtceu.api.recipe.ingredient.IntCircuitIngredient;
 import com.gregtechceu.gtceu.api.recipe.ingredient.IntProviderIngredient;
-import com.gregtechceu.gtceu.api.recipe.ingredient.SizedIngredient;
 import com.gregtechceu.gtceu.api.registry.GTRegistries;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.common.item.IntCircuitBehaviour;
@@ -111,12 +110,12 @@ public final class GTORecipeBuilder extends GTRecipeBuilder {
         return ingredient;
     }
 
-    private static SizedIngredient createSizedIngredient(Item item, int amount) {
-        return SizedIngredient.create(getNonRepetitionIngredient(item), amount);
+    private static FastSizedIngredient createSizedIngredient(Item item, int amount) {
+        return FastSizedIngredient.create(getNonRepetitionIngredient(item), amount);
     }
 
-    private static SizedIngredient createSizedIngredient(MaterialEntry MaterialEntry, int amount) {
-        if (MATERIAL_INGREDIENT_MAP == null) return SizedIngredient.create(ChemicalHelper.get(MaterialEntry, amount));
+    private static FastSizedIngredient createSizedIngredient(MaterialEntry MaterialEntry, int amount) {
+        if (MATERIAL_INGREDIENT_MAP == null) return FastSizedIngredient.create(ChemicalHelper.get(MaterialEntry, amount));
         Ingredient ingredient = MATERIAL_INGREDIENT_MAP.get(MaterialEntry);
         if (ingredient == null) {
             Item item = GTOChemicalHelper.getItem(MaterialEntry);
@@ -126,28 +125,28 @@ public final class GTORecipeBuilder extends GTRecipeBuilder {
             ingredient = getNonRepetitionIngredient(item);
             MATERIAL_INGREDIENT_MAP.put(MaterialEntry, ingredient);
         }
-        return SizedIngredient.create(ingredient, amount);
+        return FastSizedIngredient.create(ingredient, amount);
     }
 
-    private static SizedIngredient createSizedIngredient(ItemStack stack) {
-        if (ITEM_INGREDIENT_MAP == null) return SizedIngredient.create(stack);
+    private static FastSizedIngredient createSizedIngredient(ItemStack stack) {
+        if (ITEM_INGREDIENT_MAP == null) return FastSizedIngredient.create(stack);
         NBTItem nbtItem = NBTItem.of(stack);
         Ingredient ingredient = ITEM_INGREDIENT_MAP.get(nbtItem);
         if (ingredient == null) {
             ingredient = nbtItem.nbt() == null ? Ingredient.of(stack) : StrictNBTIngredient.of(stack);
             ITEM_INGREDIENT_MAP.put(nbtItem, ingredient);
         }
-        return SizedIngredient.create(ingredient, stack.getCount());
+        return FastSizedIngredient.create(ingredient, stack.getCount());
     }
 
-    private static SizedIngredient createSizedIngredient(TagKey<Item> tag, int amount) {
-        if (TAG_INGREDIENT_MAP == null) return SizedIngredient.create(tag, amount);
+    private static FastSizedIngredient createSizedIngredient(TagKey<Item> tag, int amount) {
+        if (TAG_INGREDIENT_MAP == null) return FastSizedIngredient.create(tag, amount);
         Ingredient ingredient = TAG_INGREDIENT_MAP.get(tag);
         if (ingredient == null) {
             ingredient = Ingredient.of(tag);
             TAG_INGREDIENT_MAP.put(tag, ingredient);
         }
-        return SizedIngredient.create(ingredient, amount);
+        return FastSizedIngredient.create(ingredient, amount);
     }
 
     boolean deleted;
@@ -925,6 +924,11 @@ public final class GTORecipeBuilder extends GTRecipeBuilder {
     }
 
     @Override
+    public GTRecipeBuilder inputFluids(@NotNull Material material, int amount) {
+        return inputFluids(material.getFluid(amount));
+    }
+
+    @Override
     public GTORecipeBuilder inputFluids(FluidStack input) {
         if (deleted) return this;
         return input(FluidRecipeCapability.CAP, FluidIngredient.of(input));
@@ -940,6 +944,10 @@ public final class GTORecipeBuilder extends GTRecipeBuilder {
     public GTORecipeBuilder inputFluids(FluidIngredient... inputs) {
         if (deleted) return this;
         return input(FluidRecipeCapability.CAP, inputs);
+    }
+
+    public GTRecipeBuilder outputFluids(@NotNull Material material, int amount) {
+        return outputFluids(material.getFluid(amount));
     }
 
     @Override

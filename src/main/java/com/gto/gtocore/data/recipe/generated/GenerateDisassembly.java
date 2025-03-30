@@ -1,6 +1,7 @@
 package com.gto.gtocore.data.recipe.generated;
 
 import com.gto.gtocore.GTOCore;
+import com.gto.gtocore.api.recipe.FastSizedIngredient;
 import com.gto.gtocore.api.recipe.GTORecipeBuilder;
 import com.gto.gtocore.utils.ItemUtils;
 
@@ -9,7 +10,6 @@ import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
 import com.gregtechceu.gtceu.api.recipe.chance.logic.ChanceLogic;
 import com.gregtechceu.gtceu.api.recipe.content.Content;
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
-import com.gregtechceu.gtceu.api.recipe.ingredient.SizedIngredient;
 import com.gregtechceu.gtceu.core.mixins.IngredientAccessor;
 import com.gregtechceu.gtceu.data.recipe.builder.GTRecipeBuilder;
 
@@ -68,7 +68,7 @@ public interface GenerateDisassembly {
             return;
         }
         GTORecipeBuilder builder = DISASSEMBLY_RECIPES.recipeBuilder(id)
-                .inputItems(SizedIngredient.copy(output))
+                .inputItems(FastSizedIngredient.copy(output))
                 .duration(recipeBuilder.duration)
                 .EUt(eut);
         boolean hasOutput = false;
@@ -77,7 +77,7 @@ public interface GenerateDisassembly {
         if (itemList != null) {
             for (Content content : itemList) {
                 Ingredient input = ItemRecipeCapability.CAP.of(content.getContent());
-                if (input instanceof SizedIngredient sizedIngredient) {
+                if (input instanceof FastSizedIngredient sizedIngredient) {
                     Ingredient inner = sizedIngredient.getInner();
                     a:
                     for (Ingredient.Value value : ((IngredientAccessor) inner).getValues()) {
@@ -86,7 +86,7 @@ public interface GenerateDisassembly {
                             if (stacks.size() == 1) {
                                 for (ItemStack item : stacks) {
                                     if (!item.isEmpty() && content.chance == ChanceLogic.getMaxChancedValue() && !item.hasTag()) {
-                                        builder.output(ItemRecipeCapability.CAP, SizedIngredient.copy(input));
+                                        builder.output(ItemRecipeCapability.CAP, FastSizedIngredient.copy(input));
                                         hasOutput = true;
                                         break a;
                                     }

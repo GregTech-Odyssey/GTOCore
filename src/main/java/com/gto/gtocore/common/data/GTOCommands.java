@@ -80,7 +80,7 @@ public interface GTOCommands {
         if (stack.getItem() instanceof BucketItem bucketItem) {
             player.sendSystemMessage(Component.literal("Held fluid:"));
             Fluid fluid = bucketItem.getFluid();
-            String f = StringConverter.fromFluid(FluidIngredient.of(new FluidStack(fluid, 1000)));
+            String f = StringConverter.fromFluid(FluidIngredient.of(new FluidStack(fluid, 1000)), false);
             if (f != null) {
                 player.sendSystemMessage(copy(Component.literal(f).withStyle(ChatFormatting.AQUA)));
             }

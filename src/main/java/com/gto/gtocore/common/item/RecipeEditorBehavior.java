@@ -3,6 +3,7 @@ package com.gto.gtocore.common.item;
 import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.api.machine.DummyMachine;
 import com.gto.gtocore.api.machine.GTOCleanroomType;
+import com.gto.gtocore.api.recipe.FastSizedIngredient;
 import com.gto.gtocore.common.data.GTOItems;
 import com.gto.gtocore.common.data.GTORecipeTypes;
 import com.gto.gtocore.common.data.GTORecipes;
@@ -35,7 +36,6 @@ import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
 import com.gregtechceu.gtceu.api.recipe.chance.logic.ChanceLogic;
 import com.gregtechceu.gtceu.api.recipe.content.Content;
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
-import com.gregtechceu.gtceu.api.recipe.ingredient.SizedIngredient;
 import com.gregtechceu.gtceu.api.recipe.ui.GTRecipeTypeUI;
 import com.gregtechceu.gtceu.api.registry.GTRegistries;
 import com.gregtechceu.gtceu.common.data.GTItems;
@@ -155,7 +155,7 @@ public final class RecipeEditorBehavior implements IItemUIFactory, IFancyUIProvi
                 }
                 if (recipe.inputs.containsKey(FluidRecipeCapability.CAP)) {
                     for (Content content : recipe.inputs.get(FluidRecipeCapability.CAP)) {
-                        String i = StringConverter.fromFluid(FluidRecipeCapability.CAP.of(content.getContent()));
+                        String i = StringConverter.fromFluid(FluidRecipeCapability.CAP.of(content.getContent()), true);
                         if (i == null) {
                             GTOCore.LOGGER.error("输入流体为空：{}{}", recipe.getId(), content);
                         } else {
@@ -183,7 +183,7 @@ public final class RecipeEditorBehavior implements IItemUIFactory, IFancyUIProvi
                 }
                 if (recipe.outputs.containsKey(FluidRecipeCapability.CAP)) {
                     for (Content content : recipe.outputs.get(FluidRecipeCapability.CAP)) {
-                        String i = StringConverter.fromFluid(FluidRecipeCapability.CAP.of(content.getContent()));
+                        String i = StringConverter.fromFluid(FluidRecipeCapability.CAP.of(content.getContent()), true);
                         if (i == null) {
                             GTOCore.LOGGER.error("输出流体为空：{}{}", recipe.getId(), content);
                         } else {
@@ -241,7 +241,7 @@ public final class RecipeEditorBehavior implements IItemUIFactory, IFancyUIProvi
                                 for (Content content : recipe.inputs.get(ItemRecipeCapability.CAP)) {
                                     Ingredient ingredient = ItemRecipeCapability.CAP.of(content.getContent());
                                     Ingredient inner = ingredient;
-                                    if (ingredient instanceof SizedIngredient sizedIngredient) {
+                                    if (ingredient instanceof FastSizedIngredient sizedIngredient) {
                                         inner = sizedIngredient.getInner();
                                     }
                                     a:
@@ -499,13 +499,13 @@ public final class RecipeEditorBehavior implements IItemUIFactory, IFancyUIProvi
                 for (int i = 0; i < machine.importFluids.getSize(); i++) {
                     FluidStack stack = machine.importFluids.getFluidInTank(i);
                     if (stack.isEmpty()) continue;
-                    String stringFluid = StringConverter.fromFluid(FluidIngredient.of(stack));
+                    String stringFluid = StringConverter.fromFluid(FluidIngredient.of(stack), true);
                     stringBuilder.append(".inputFluids(").append(stringFluid).append(")").append("\n");
                 }
                 for (int i = 0; i < machine.exportFluids.getSize(); i++) {
                     FluidStack stack = machine.exportFluids.getFluidInTank(i);
                     if (stack.isEmpty()) continue;
-                    String stringFluid = StringConverter.fromFluid(FluidIngredient.of(stack));
+                    String stringFluid = StringConverter.fromFluid(FluidIngredient.of(stack), true);
                     stringBuilder.append(".outputFluids(").append(stringFluid).append(")").append("\n");
                 }
                 if (machine.circuit > 0) {

@@ -68,7 +68,7 @@ interface GTOWireCombiningHandler {
                         .inputItems(WIRE_DOUBLING_ORDER[startTier], material, 2)
                         .outputItems(WIRE_DOUBLING_ORDER[startTier + 1], material, 1)
                         .EUt(30)
-                        .duration(mass * (startTier + 1))
+                        .duration(Math.max(1, mass * (startTier + 1) / 4))
                         .save();
             }
         }

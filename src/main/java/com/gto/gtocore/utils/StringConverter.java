@@ -1,13 +1,13 @@
 package com.gto.gtocore.utils;
 
 import com.gto.gtocore.GTOCore;
+import com.gto.gtocore.api.recipe.FastSizedIngredient;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.data.chemical.material.stack.MaterialEntry;
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
-import com.gregtechceu.gtceu.api.recipe.ingredient.SizedIngredient;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.core.mixins.IngredientAccessor;
 import com.gregtechceu.gtceu.core.mixins.TagValueAccessor;
@@ -28,7 +28,7 @@ public final class StringConverter {
         ItemStack stack = ingredient.getItems()[0];
         int amount = stack.getCount();
         Ingredient inner = ingredient;
-        if (ingredient instanceof SizedIngredient sizedIngredient) {
+        if (ingredient instanceof FastSizedIngredient sizedIngredient) {
             amount = sizedIngredient.getAmount();
             inner = sizedIngredient.getInner();
         }
@@ -96,7 +96,7 @@ public final class StringConverter {
         return "RegistriesUtils.getItemStack(\"" + ItemUtils.getId(ingredient.getItems()[0]) + (amount > 1 ? "\", " + amount : "\"") + ")";
     }
 
-    public static String fromFluid(FluidIngredient ingredient) {
+    public static String fromFluid(FluidIngredient ingredient, boolean r) {
         if (ingredient.isEmpty() || ingredient.getStacks().length < 1) return null;
         FluidStack stack = ingredient.getStacks()[0];
         ResourceLocation resourceLocation = FluidUtils.getIdLocation(stack.getFluid());
@@ -134,7 +134,7 @@ public final class StringConverter {
             } else {
                 m = "GTOMaterials." + FormattingUtil.lowerUnderscoreToUpperCamel(material.getName());
             }
-            s = m + ".getFluid(" + a + stack.getAmount() + ")";
+            s = (r && a.isEmpty()) ? m + ", " + stack.getAmount() : m + ".getFluid(" + a + stack.getAmount() + ")";
         } else {
             s = "RegistriesUtils.getFluidStack(\"" + resourceLocation + "\", " + stack.getAmount() + ")";
         }

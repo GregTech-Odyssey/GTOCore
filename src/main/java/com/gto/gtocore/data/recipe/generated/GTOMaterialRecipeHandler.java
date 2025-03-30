@@ -122,7 +122,7 @@ interface GTOMaterialRecipeHandler {
         if (!ChemicalHelper.get(block, material).isEmpty()) {
             int amount = (int) (block.getMaterialAmount(material) / M);
             ALLOY_SMELTER_RECIPES.recipeBuilder("alloy_smelt_" + material.getName() + "_to_ingot")
-                    .EUt(VA[ULV]).duration(mass * amount)
+                    .EUt(16).duration(Math.max(1, mass * amount / 4))
                     .inputItems(block, material)
                     .notConsumable(GTItems.SHAPE_MOLD_INGOT)
                     .outputItems(stack.copyWithCount(amount))
@@ -130,7 +130,7 @@ interface GTOMaterialRecipeHandler {
                     .save();
 
             COMPRESSOR_RECIPES.recipeBuilder("compress_" + material.getName() + "_to_block")
-                    .EUt(2).duration(mass * amount)
+                    .EUt(VA[ULV]).duration(Math.max(1, mass * amount / 2))
                     .inputItems(stack.copyWithCount(amount))
                     .outputItems(block, material)
                     .save();
@@ -191,7 +191,7 @@ interface GTOMaterialRecipeHandler {
             COMPRESSOR_RECIPES.recipeBuilder("compress_" + material.getName() + "_nugget_to_ingot")
                     .inputItems(nuggetStack)
                     .outputItems(ingotStack)
-                    .EUt(2).duration(300).save();
+                    .EUt(VA[ULV]).duration((int) material.getMass()).save();
 
             ALLOY_SMELTER_RECIPES.recipeBuilder("alloy_smelt_" + material.getName() + "_nugget_to_ingot")
                     .EUt(VA[ULV]).duration((int) material.getMass())
@@ -217,13 +217,13 @@ interface GTOMaterialRecipeHandler {
         ItemStack blockStack = ChemicalHelper.get(TagPrefix.block, material);
         if (blockStack.isEmpty()) return;
         int mass = (int) material.getMass();
-        long materialAmount = TagPrefix.block.getMaterialAmount(material);
+        int amount = (int) (block.getMaterialAmount(material) / M);
         if (material.hasFluid()) {
             FLUID_SOLIDFICATION_RECIPES.recipeBuilder("solidify_" + material.getName() + "_block")
                     .notConsumable(GTItems.SHAPE_MOLD_BLOCK)
-                    .inputFluids(material.getFluid((int) (materialAmount * L / M)))
+                    .inputFluids(material.getFluid(amount * L))
                     .outputItems(blockStack)
-                    .duration((int) (mass * materialAmount)).EUt(VA[ULV])
+                    .duration(mass * amount).EUt(VA[ULV])
                     .save();
         }
 
@@ -232,7 +232,7 @@ interface GTOMaterialRecipeHandler {
             if (!plateStack.isEmpty()) {
                 CUTTER_RECIPES.recipeBuilder("cut_" + material.getName() + "_block_to_plate")
                         .inputItems(blockStack)
-                        .outputItems(plateStack.copyWithCount((int) (materialAmount / M)))
+                        .outputItems(plateStack.copyWithCount(amount))
                         .duration(mass << 3).EUt(VA[LV])
                         .save();
             }
@@ -241,7 +241,7 @@ interface GTOMaterialRecipeHandler {
         if (!material.hasFlag(EXCLUDE_BLOCK_CRAFTING_RECIPES)) {
             if (material.hasProperty(PropertyKey.INGOT)) {
                 EXTRUDER_RECIPES.recipeBuilder("extrude_" + material.getName() + "_ingot_to_block")
-                        .inputItems(ingot, material, (int) (materialAmount / M))
+                        .inputItems(ingot, material, amount)
                         .notConsumable(GTItems.SHAPE_EXTRUDER_BLOCK)
                         .outputItems(blockStack)
                         .duration(mass << 1).EUt(8L * GTOUtils.getVoltageMultiplier(material))
@@ -249,13 +249,13 @@ interface GTOMaterialRecipeHandler {
 
             } else if (material.hasProperty(PropertyKey.GEM)) {
                 COMPRESSOR_RECIPES.recipeBuilder("compress_" + material.getName() + "_gem_to_block")
-                        .inputItems(gem, material, (int) (block.getMaterialAmount(material) / M))
+                        .inputItems(gem, material, amount)
                         .outputItems(blockStack)
-                        .duration(300).EUt(2).save();
+                        .duration(Math.max(1, mass * amount / 4)).EUt(VA[ULV]).save();
 
                 FORGE_HAMMER_RECIPES.recipeBuilder("hammer_" + material.getName() + "_block_to_gem")
                         .inputItems(blockStack)
-                        .outputItems(gem, material, (int) (block.getMaterialAmount(material) / M))
+                        .outputItems(gem, material, amount)
                         .duration(100).EUt(24).save();
             }
         }
@@ -410,6 +410,8 @@ interface GTOMaterialRecipeHandler {
                 COMPRESSOR_RECIPES.recipeBuilder("compress_plate_" + id)
                         .inputItems(dustStack)
                         .outputItems(plate, material)
+                        .EUt(VA[ULV])
+                        .duration((int) material.getMass())
                         .save();
             }
 

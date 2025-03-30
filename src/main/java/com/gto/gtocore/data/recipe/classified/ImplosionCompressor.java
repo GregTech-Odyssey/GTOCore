@@ -389,80 +389,60 @@ interface ImplosionCompressor {
                 .inputItems(new ItemStack(ModBlocks.compressed_crafting_table.get().asItem(), 64))
                 .inputItems(new ItemStack(ModBlocks.compressed_crafting_table.get().asItem(), 64))
                 .outputItems(ModBlocks.double_compressed_crafting_table.get().asItem())
-                .EUt(491520)
-                .duration(1)
                 .save();
 
         ELECTRIC_IMPLOSION_COMPRESSOR_RECIPES.recipeBuilder(GTOCore.id("compressed_chest"))
                 .inputItems(new ItemStack(Blocks.CHEST.asItem(), 2))
                 .inputItems(new ItemStack(AEBlocks.SMOOTH_SKY_STONE_CHEST.block().asItem(), 2))
                 .outputItems(ModBlocks.compressed_chest.get().asItem())
-                .EUt(491520)
-                .duration(1)
                 .save();
 
         ELECTRIC_IMPLOSION_COMPRESSOR_RECIPES.recipeBuilder(GTOCore.id("eternal_singularity"))
                 .notConsumable(GTOTagPrefix.NANITES, GTOMaterials.Eternity, 16)
                 .inputItems(TagPrefix.dust, GTOMaterials.SpaceTime)
                 .outputItems(ModItems.eternal_singularity.get())
-                .EUt(2013265920)
-                .duration(20)
                 .save();
 
         ELECTRIC_IMPLOSION_COMPRESSOR_RECIPES.recipeBuilder(GTOCore.id("crystal_matrix"))
                 .inputItems(ModBlocks.diamond_lattice_block.get().asItem())
                 .inputItems(TagPrefix.gem, GTMaterials.NetherStar)
                 .outputItems(ModBlocks.crystal_matrix.get().asItem())
-                .EUt(491520)
-                .duration(1)
                 .save();
 
         ELECTRIC_IMPLOSION_COMPRESSOR_RECIPES.recipeBuilder(GTOCore.id("command_block_core"))
                 .inputItems(new ItemStack(Blocks.COMMAND_BLOCK.asItem()))
                 .inputItems(GTOItems.TWO_WAY_FOIL.asItem())
                 .outputItems(GTOItems.COMMAND_BLOCK_CORE.asItem())
-                .EUt(491520)
-                .duration(1)
                 .save();
 
         ELECTRIC_IMPLOSION_COMPRESSOR_RECIPES.recipeBuilder(GTOCore.id("neutron_nugget"))
                 .inputItems(new ItemStack(ModItems.neutron_pile.get(), 64))
                 .inputItems(new ItemStack(ModItems.neutron_pile.get(), 64))
                 .outputItems(ModItems.neutron_nugget.get())
-                .EUt(491520)
-                .duration(1)
                 .save();
 
         ELECTRIC_IMPLOSION_COMPRESSOR_RECIPES.recipeBuilder(GTOCore.id("diamond_lattice"))
                 .inputItems(TagPrefix.gemExquisite, GTOMaterials.ManaDiamond, 4)
                 .inputItems(new ItemStack(Items.NETHERITE_SCRAP.asItem()))
                 .outputItems(ModItems.diamond_lattice.get())
-                .EUt(491520)
-                .duration(1)
                 .save();
 
         ELECTRIC_IMPLOSION_COMPRESSOR_RECIPES.recipeBuilder(GTOCore.id("heavy_duty_plate_3"))
                 .inputItems(GTOItems.HEAVY_DUTY_PLATE_2.asStack(4))
                 .inputItems(TagPrefix.plateDense, GTMaterials.TungstenSteel, 2)
                 .outputItems(GTOItems.HEAVY_DUTY_PLATE_3.asItem())
-                .EUt(491520)
-                .duration(1)
                 .save();
 
         ELECTRIC_IMPLOSION_COMPRESSOR_RECIPES.recipeBuilder(GTOCore.id("heavy_duty_plate_1"))
                 .inputItems(TagPrefix.plateDouble, GTMaterials.StainlessSteel, 4)
                 .inputItems(TagPrefix.plateDense, GTMaterials.Steel, 2)
                 .outputItems(GTOItems.HEAVY_DUTY_PLATE_1.asItem())
-                .EUt(491520)
-                .duration(1)
                 .save();
 
         ELECTRIC_IMPLOSION_COMPRESSOR_RECIPES.recipeBuilder(GTOCore.id("entangled_singularity"))
                 .inputItems(new ItemStack(AEItems.SINGULARITY.asItem()))
                 .inputItems(GTOItems.WARPED_ENDER_PEARL.asItem())
                 .outputItems(GTOItems.ENTANGLED_SINGULARITY.asItem())
-                .EUt(491520)
-                .duration(1)
                 .save();
     }
 }

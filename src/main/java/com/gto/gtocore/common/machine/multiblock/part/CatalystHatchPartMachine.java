@@ -1,6 +1,7 @@
 package com.gto.gtocore.common.machine.multiblock.part;
 
 import com.gto.gtocore.api.data.tag.GTOTagPrefix;
+import com.gto.gtocore.api.recipe.FastSizedIngredient;
 import com.gto.gtocore.common.data.GTOItems;
 
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
@@ -12,7 +13,6 @@ import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.TieredIOPartMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
-import com.gregtechceu.gtceu.api.recipe.ingredient.SizedIngredient;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.world.item.Item;
@@ -104,7 +104,7 @@ public final class CatalystHatchPartMachine extends TieredIOPartMachine {
                     continue;
                 }
                 int count;
-                if (ingredient instanceof SizedIngredient si) count = si.getAmount();
+                if (ingredient instanceof FastSizedIngredient si) count = si.getAmount();
                 else count = items[0].getCount();
                 for (int slot = 0; slot < storage.getSlots(); ++slot) {
                     ItemStack stored = storage.getStackInSlot(slot);
@@ -124,7 +124,7 @@ public final class CatalystHatchPartMachine extends TieredIOPartMachine {
                     }
                 }
                 if (count > 0) {
-                    if (ingredient instanceof SizedIngredient si) {
+                    if (ingredient instanceof FastSizedIngredient si) {
                         si.setAmount(count);
                     } else {
                         items[0].setCount(count);

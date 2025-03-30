@@ -4,6 +4,7 @@ import com.gto.gtocore.api.data.GTODimensions;
 import com.gto.gtocore.api.data.chemical.GTOChemicalHelper;
 import com.gto.gtocore.api.machine.multiblock.StorageMultiblockMachine;
 import com.gto.gtocore.api.machine.trait.CustomRecipeLogic;
+import com.gto.gtocore.api.recipe.FastSizedIngredient;
 import com.gto.gtocore.api.recipe.GTORecipeBuilder;
 import com.gto.gtocore.api.recipe.RecipeRunner;
 import com.gto.gtocore.common.data.GTOItems;
@@ -20,7 +21,6 @@ import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.chance.logic.ChanceLogic;
 import com.gregtechceu.gtceu.api.recipe.content.Content;
-import com.gregtechceu.gtceu.api.recipe.ingredient.SizedIngredient;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -69,7 +69,7 @@ public final class VoidMinerMachine extends StorageMultiblockMachine {
     }
 
     private Content content() {
-        return new Content(SizedIngredient.create(new ItemStack(GTOChemicalHelper.getItem(TagPrefix.rawOre, GTOOres.selectMaterial(dim)), (int) Math.pow(getTier() - 3, Math.random() + 1))), ChanceLogic.getMaxChancedValue(), ChanceLogic.getMaxChancedValue(), 0);
+        return new Content(FastSizedIngredient.create(new ItemStack(GTOChemicalHelper.getItem(TagPrefix.rawOre, GTOOres.selectMaterial(dim)), (int) Math.pow(getTier() - 3, Math.random() + 1))), ChanceLogic.getMaxChancedValue(), ChanceLogic.getMaxChancedValue(), 0);
     }
 
     @Override

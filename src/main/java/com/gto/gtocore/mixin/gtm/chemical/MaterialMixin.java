@@ -94,9 +94,12 @@ public abstract class MaterialMixin implements GTOMaterial {
         if (getMaterialComponents() == null || gTOCore$mass > 0) cir.setReturnValue(gTOCore$mass);
     }
 
-    @Inject(method = "getMass", at = @At("RETURN"), remap = false)
+    @Inject(method = "getMass", at = @At("RETURN"), remap = false, cancellable = true)
     private void smass(CallbackInfoReturnable<Long> cir) {
-        if (gTOCore$mass == 0) gTOCore$mass = cir.getReturnValue();
+        if (gTOCore$mass == 0) {
+            gTOCore$mass = Math.max(10, Math.min(Integer.MAX_VALUE, cir.getReturnValue()));
+            cir.setReturnValue(gTOCore$mass);
+        }
     }
 
     @Inject(method = "getMaterialRGB()I", at = @At("HEAD"), remap = false, cancellable = true)

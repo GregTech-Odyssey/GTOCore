@@ -17,11 +17,14 @@ import com.gto.gtocore.utils.RegistriesUtils;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.data.chemical.material.ItemMaterialData;
+import com.gregtechceu.gtceu.api.data.chemical.material.properties.BlastProperty;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.recipe.category.GTRecipeCategory;
+import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
 import com.gregtechceu.gtceu.api.registry.GTRegistries;
+import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.data.pack.GTDynamicDataPack;
 import com.gregtechceu.gtceu.data.recipe.MaterialInfoLoader;
@@ -58,7 +61,12 @@ public interface Data {
         RecipeFilter.init();
         Consumer<FinishedRecipe> consumer = GTDynamicDataPack::addRecipe;
 
-        ForEachMaterial.init(consumer);
+        BlastProperty.GasTier.LOW.setFluid(() -> FluidIngredient.of(GTMaterials.Nitrogen.getFluid(1000)));
+        BlastProperty.GasTier.MID.setFluid(() -> FluidIngredient.of(GTMaterials.Helium.getFluid(100)));
+        BlastProperty.GasTier.HIGH.setFluid(() -> FluidIngredient.of(GTMaterials.Argon.getFluid(100)));
+        BlastProperty.GasTier.HIGHER.setFluid(() -> FluidIngredient.of(GTMaterials.Neon.getFluid(100)));
+        BlastProperty.GasTier.HIGHEST.setFluid(() -> FluidIngredient.of(GTMaterials.Krypton.getFluid(100)));
+
         CustomToolRecipes.init(consumer);
         ChemistryRecipes.init(consumer);
         MetaTileEntityMachineRecipeLoader.init(consumer);
@@ -81,6 +89,8 @@ public interface Data {
         RecipeAddition.init(consumer);
         SHAPED_FILTER_RECIPES = null;
         SHAPELESS_FILTER_RECIPES = null;
+
+        ForEachMaterial.init(consumer);
 
         // GTO
         GTMTRecipe.init(consumer);
