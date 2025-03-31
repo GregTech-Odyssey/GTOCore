@@ -21,7 +21,7 @@ import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import lombok.Getter;
 
 import java.util.List;
-import java.util.function.Function;
+import java.util.function.Predicate;
 
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -39,17 +39,17 @@ public class ItemHatchPartMachine extends MultiblockPartMachine implements IMach
     protected NotifiableItemStackHandler inventory;
     private final int limit;
 
-    public ItemHatchPartMachine(IMachineBlockEntity holder, int limit, @Nullable Function<ItemStack, Boolean> filter) {
+    public ItemHatchPartMachine(IMachineBlockEntity holder, int limit, @Nullable Predicate<ItemStack> filter) {
         super(holder);
         this.limit = limit;
         inventory = createMachineStorage(filter);
     }
 
-    private NotifiableItemStackHandler createMachineStorage(@Nullable Function<ItemStack, Boolean> filter) {
+    private NotifiableItemStackHandler createMachineStorage(@Nullable Predicate<ItemStack> filter) {
         NotifiableItemStackHandler storage = new NotifiableItemStackHandler(this, 1, IO.NONE, IO.BOTH, slots -> new MachineItemStackHandler(this::getSlotLimit, this::onMachineChanged));
         storage.setFilter(i -> {
             if (filter != null) {
-                if (!filter.apply(i)) return false;
+                if (!filter.test(i)) return false;
             }
             return storageFilter(i);
         });

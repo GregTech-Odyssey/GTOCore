@@ -13,7 +13,9 @@ import com.gto.gtocore.common.machine.generator.LightningRodMachine;
 import com.gto.gtocore.common.machine.generator.MagicEnergyMachine;
 import com.gto.gtocore.common.machine.generator.WindMillTurbineMachine;
 import com.gto.gtocore.common.machine.multiblock.part.*;
+import com.gto.gtocore.common.machine.multiblock.part.ae.MECatalystPatternBufferPartMachine;
 import com.gto.gtocore.common.machine.multiblock.part.ae.MEDualHatchStockPartMachine;
+import com.gto.gtocore.common.machine.multiblock.part.ae.MEProgrammablePatternBufferPartMachine;
 import com.gto.gtocore.common.machine.multiblock.part.ae.METagFilterStockBusPartMachine;
 import com.gto.gtocore.common.machine.multiblock.part.maintenance.*;
 import com.gto.gtocore.common.machine.noenergy.BoilWaterMachine;
@@ -640,6 +642,22 @@ public interface GTOMachines {
                     Component.translatable("gtocore.machine.me_dual_hatch_stock.tooltip.1"),
                     Component.translatable("gtceu.machine.me.copy_paste.tooltip"),
                     Component.translatable("gtceu.universal.enabled"))
+            .register();
+
+    MachineDefinition ME_PATTERN_BUFFER = machine("me_catalyst_pattern_buffer", "ME催化剂样板总成", MECatalystPatternBufferPartMachine::new)
+            .langValue("ME Catalyst Pattern Buffer")
+            .tier(ZPM)
+            .allRotation()
+            .abilities(PartAbility.IMPORT_ITEMS, PartAbility.IMPORT_FLUIDS)
+            .renderer(() -> new OverlayTieredMachineRenderer(ZPM, GTCEu.id("block/machine/part/me_pattern_buffer")))
+            .register();
+
+    MachineDefinition ME_PROGRAMMABLE_PATTERN_BUFFER = machine("me_programmable_pattern_buffer", "ME可编程样板总成", MEProgrammablePatternBufferPartMachine::new)
+            .langValue("ME Programmable Pattern Buffer")
+            .tier(UV)
+            .allRotation()
+            .abilities(PartAbility.IMPORT_ITEMS, PartAbility.IMPORT_FLUIDS)
+            .renderer(() -> new OverlayTieredMachineRenderer(UV, GTCEu.id("block/machine/part/me_pattern_buffer")))
             .register();
 
     MachineDefinition INFINITE_PARALLEL_HATCH = machine("infinite_parallel_hatch", "无限并行仓", h -> new ParallelHatchPartMachine(h, -1))

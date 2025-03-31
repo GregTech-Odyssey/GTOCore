@@ -105,6 +105,8 @@ public interface GTOItems {
     ItemEntry<InfinityCellItem> ITEM_INFINITY_CELL = item("item_infinity_cell", "无限物品存储元件", p -> new InfinityCellItem(AEKeyType.items())).register();
     ItemEntry<InfinityCellItem> FLUID_INFINITY_CELL = item("fluid_infinity_cell", "无限流体存储元件", p -> new InfinityCellItem(AEKeyType.fluids())).register();
 
+    ItemEntry<Item> ORDER = register("order", "订单");
+
     ItemEntry<ComponentItem> REALLY_MAX_BATTERY = item("really_max_battery", "真·终极电池", ComponentItem::create)
             .lang("Really MAX Battery")
             .onRegister(attach(new TooltipBehavior(lines -> lines.add(Component.translatable("gtocore.tooltip.item.really_max_battery").withStyle(ChatFormatting.GRAY)))))

@@ -43,6 +43,7 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 /**
@@ -259,11 +260,11 @@ public final class MachineUtils {
      * @param machine  要遍历的机器实例
      * @param function 应用于每个物品的函数，函数接收一个 ItemStack 参数并返回一个 Boolean 值
      */
-    public static void forEachInputItems(IRecipeLogicMachine machine, Function<ItemStack, Boolean> function) {
+    public static void forEachInputItems(IRecipeLogicMachine machine, Predicate<ItemStack> function) {
         for (IRecipeHandler<?> handler : machine.getCapabilitiesFlat(IO.IN, ItemRecipeCapability.CAP)) {
             for (Object contents : handler.getContents()) {
                 if (contents instanceof ItemStack itemStack) {
-                    if (function.apply(itemStack)) return;
+                    if (function.test(itemStack)) return;
                 }
             }
         }
@@ -276,11 +277,11 @@ public final class MachineUtils {
      * @param machine  要遍历的机器实例
      * @param function 要应用于每个流体栈的函数
      */
-    public static void forEachInputFluids(IRecipeLogicMachine machine, Function<FluidStack, Boolean> function) {
+    public static void forEachInputFluids(IRecipeLogicMachine machine, Predicate<FluidStack> function) {
         for (IRecipeHandler<?> handler : machine.getCapabilitiesFlat(IO.IN, FluidRecipeCapability.CAP)) {
             for (Object contents : handler.getContents()) {
                 if (contents instanceof FluidStack fluidStack) {
-                    if (function.apply(fluidStack)) return;
+                    if (function.test(fluidStack)) return;
                 }
             }
         }

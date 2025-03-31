@@ -53,30 +53,30 @@ import javax.annotation.ParametersAreNonnullByDefault;
  */
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class MEDualHatchStockPartMachine extends MEInputBusPartMachine implements NetworkSlotMachine {
+public final class MEDualHatchStockPartMachine extends MEInputBusPartMachine implements NetworkSlotMachine {
 
-    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(MEDualHatchStockPartMachine.class,
+    private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(MEDualHatchStockPartMachine.class,
             MEInputBusPartMachine.MANAGED_FIELD_HOLDER);
 
-    protected static final int CONFIG_SIZE = 64;
-    protected static final int AUTO_PULL_OFF = 0;
-    protected static final int AUTO_PULL_ALL = 1;
-    protected static final int AUTO_PULL_ITEM = 2;
-    protected static final int AUTO_PULL_FLUID = 3;
+    private static final int CONFIG_SIZE = 64;
+    private static final int AUTO_PULL_OFF = 0;
+    private static final int AUTO_PULL_ALL = 1;
+    private static final int AUTO_PULL_ITEM = 2;
+    private static final int AUTO_PULL_FLUID = 3;
 
     private static final IGuiTexture AUTO_PULL_ALL_ICON = new TextTexture("ALL", 0xFFAA00);
     private static final IGuiTexture AUTO_PULL_ITEM_ICON = new ItemStackTexture(Items.IRON_INGOT);
     private static final IGuiTexture AUTO_PULL_FLUID_ICON = new ItemStackTexture(Items.WATER_BUCKET);
 
-    protected ExportOnlyAEItemList aeItemHandler;
+    private ExportOnlyAEItemList aeItemHandler;
 
-    protected ExportOnlyAEFluidList aeFluidHandler;
+    private ExportOnlyAEFluidList aeFluidHandler;
 
     @Persisted
-    protected NotifiableFluidTank fluidTank;
+    private final NotifiableFluidTank fluidTank;
 
     @Setter
-    protected int page = 1;
+    private int page = 1;
 
     @DescSynced
     @Persisted
@@ -100,7 +100,7 @@ public class MEDualHatchStockPartMachine extends MEInputBusPartMachine implement
         return this.aeItemHandler;
     }
 
-    protected NotifiableFluidTank createTank() {
+    private NotifiableFluidTank createTank() {
         this.aeFluidHandler = new ExportOnlyAEStockingFluidList(this, CONFIG_SIZE) {
 
             @Override
@@ -243,7 +243,7 @@ public class MEDualHatchStockPartMachine extends MEInputBusPartMachine implement
                 AUTO_PULL_FLUID_ICON).setTooltipsSupplier(mode -> List.of(Component.translatable("gtocore.machine.me_dual_hatch_stock.turns." + mode))));
     }
 
-    protected void setAutoPullMode(int autoPullMode) {
+    private void setAutoPullMode(int autoPullMode) {
         this.autoPullMode = autoPullMode;
         if (!isRemote()) {
             if (this.autoPullMode == 0) {

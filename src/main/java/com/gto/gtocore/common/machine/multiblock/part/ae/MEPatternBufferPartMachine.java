@@ -75,12 +75,13 @@ import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.UnmodifiableView;
 
 import java.util.*;
+import java.util.function.Predicate;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public final class MEPatternBufferPartMachine extends MEBusPartMachine implements ICraftingProvider, PatternContainer, IDataStickInteractable {
+public class MEPatternBufferPartMachine extends MEBusPartMachine implements ICraftingProvider, PatternContainer, IDataStickInteractable {
 
     private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
             MEPatternBufferPartMachine.class, MEBusPartMachine.MANAGED_FIELD_HOLDER);
@@ -128,7 +129,7 @@ public final class MEPatternBufferPartMachine extends MEBusPartMachine implement
     @Persisted
     private final InternalSlot[] internalInventory = new InternalSlot[MAX_PATTERN_COUNT];
 
-    private final BiMap<IPatternDetails, InternalSlot> detailsSlotMap = HashBiMap.create(MAX_PATTERN_COUNT);
+    final BiMap<IPatternDetails, InternalSlot> detailsSlotMap = HashBiMap.create(MAX_PATTERN_COUNT);
 
     @DescSynced
     @Persisted
@@ -147,19 +148,27 @@ public final class MEPatternBufferPartMachine extends MEBusPartMachine implement
     @Nullable
     private TickableSubscription updateSubs;
 
-    public MEPatternBufferPartMachine(IMachineBlockEntity holder, Object... args) {
-        super(holder, IO.IN, args);
+    public MEPatternBufferPartMachine(IMachineBlockEntity holder) {
+        super(holder, IO.IN);
         this.patternInventory.setFilter(stack -> stack.getItem() instanceof ProcessingPatternItem);
         for (int i = 0; i < this.internalInventory.length; i++) {
             this.internalInventory[i] = new InternalSlot();
         }
         getMainNode().addService(ICraftingProvider.class, this);
-        this.circuitInventorySimulated = new NotifiableItemStackHandler(this, 1, IO.IN, IO.NONE)
-                .setFilter(IntCircuitBehaviour::isIntegratedCircuit)
-                .shouldSearchContent(false);
-        this.shareInventory = new NotifiableItemStackHandler(this, 9, IO.IN, IO.NONE);
+        this.circuitInventorySimulated = createCircuitInventory();
+        this.shareInventory = createShareInventory();
         this.shareTank = new NotifiableFluidTank(this, 9, 8 * FluidType.BUCKET_VOLUME, IO.IN, IO.NONE);
         this.internalRecipeHandler = new InternalSlotRecipeHandler(this, internalInventory);
+    }
+
+    NotifiableItemStackHandler createShareInventory() {
+        return new NotifiableItemStackHandler(this, 9, IO.IN, IO.NONE);
+    }
+
+    NotifiableItemStackHandler createCircuitInventory() {
+        return new NotifiableItemStackHandler(this, 1, IO.IN, IO.NONE)
+                .setFilter(IntCircuitBehaviour::isIntegratedCircuit)
+                .shouldSearchContent(false);
     }
 
     @Override
@@ -341,13 +350,10 @@ public final class MEPatternBufferPartMachine extends MEBusPartMachine implement
 
     @Override
     public boolean pushPattern(IPatternDetails patternDetails, KeyCounter[] inputHolder) {
-        if (!isFormed() || !getMainNode().isActive() || !detailsSlotMap.containsKey(patternDetails) || !checkInput(inputHolder)) {
-            return false;
-        }
-
+        if (!isFormed() || !getMainNode().isActive()) return false;
         var slot = detailsSlotMap.get(patternDetails);
         if (slot != null) {
-            slot.pushPattern(patternDetails, inputHolder);
+            slot.pushPattern(patternDetails, inputHolder, i -> false);
             return true;
         }
         return false;
@@ -356,17 +362,6 @@ public final class MEPatternBufferPartMachine extends MEBusPartMachine implement
     @Override
     public boolean isBusy() {
         return false;
-    }
-
-    private static boolean checkInput(KeyCounter[] inputHolder) {
-        for (KeyCounter input : inputHolder) {
-            var illegal = input.keySet().stream()
-                    .map(AEKey::getType)
-                    .map(AEKeyType::getId)
-                    .anyMatch(id -> !id.equals(AEKeyType.items().getId()) && !id.equals(AEKeyType.fluids().getId()));
-            if (illegal) return false;
-        }
-        return true;
     }
 
     @Override
@@ -461,6 +456,10 @@ public final class MEPatternBufferPartMachine extends MEBusPartMachine implement
         private List<ItemStack> itemStacks = null;
         private List<FluidStack> fluidStacks = null;
 
+        boolean isEmpty() {
+            return isItemEmpty() && isFluidEmpty();
+        }
+
         public boolean isItemEmpty() {
             return itemInventory.isEmpty();
         }
@@ -475,10 +474,11 @@ public final class MEPatternBufferPartMachine extends MEBusPartMachine implement
             onContentsChanged.run();
         }
 
-        private void add(AEKey what, long amount) {
+        private void add(AEKey what, long amount, Predicate<ItemStack> predicate) {
             if (amount <= 0L) return;
             if (what instanceof AEItemKey itemKey) {
                 var stack = itemKey.toStack();
+                if (predicate.test(stack)) return;
                 synchronized (itemInventory) {
                     itemInventory.addTo(stack, amount);
                 }
@@ -566,8 +566,8 @@ public final class MEPatternBufferPartMachine extends MEBusPartMachine implement
             }
         }
 
-        private void pushPattern(IPatternDetails patternDetails, KeyCounter[] inputHolder) {
-            patternDetails.pushInputsToExternalInventory(inputHolder, this::add);
+        void pushPattern(IPatternDetails patternDetails, KeyCounter[] inputHolder, Predicate<ItemStack> predicate) {
+            patternDetails.pushInputsToExternalInventory(inputHolder, (k, a) -> add(k, a, predicate));
             onContentsChanged();
         }
 

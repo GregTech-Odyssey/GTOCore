@@ -33,6 +33,8 @@
         "adastra.VehicleItemMixin",
         "ae2.BasicCellInventoryMixin",
         "ae2.CPUSelectionListMixin",
+        "ae2.CraftingCpuLogicMixin",
+        "ae2.ExecutingCraftingJobAccessor",
         "ae2.FacadeCreativeTabMixin",
         "ae2.PatternProviderLogicMixin",
         "ae2.SettingsMixin",

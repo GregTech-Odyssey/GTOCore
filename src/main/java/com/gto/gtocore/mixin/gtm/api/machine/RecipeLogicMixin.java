@@ -18,7 +18,6 @@ import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.recipe.ActionResult;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
-import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
 import com.gregtechceu.gtceu.api.recipe.content.Content;
 import com.gregtechceu.gtceu.api.sound.SoundEntry;
 
@@ -332,7 +331,6 @@ public abstract class RecipeLogicMixin extends MachineTrait implements IEnhanced
         machine.afterWorking();
         if (lastRecipe != null) {
             consecutiveRecipes++;
-            RecipeHelper.postWorking(machine, lastRecipe);
             handleRecipeIO(lastRecipe, IO.OUT);
             if (machine.alwaysTryModifyRecipe()) {
                 if (lastOriginRecipe != null) {
@@ -385,7 +383,6 @@ public abstract class RecipeLogicMixin extends MachineTrait implements IEnhanced
      */
     @Overwrite
     public void handleRecipeWorking() {
-        RecipeLogic.Status last = status;
         assert lastRecipe != null;
         if (gtocore$handleTickRecipe(lastRecipe)) {
             if (!machine.onWorking()) {
@@ -404,12 +401,6 @@ public abstract class RecipeLogicMixin extends MachineTrait implements IEnhanced
             } else {
                 regressRecipe();
             }
-        }
-        if (lastRecipe == null) return;
-        if (last == RecipeLogic.Status.WORKING && getStatus() != RecipeLogic.Status.WORKING) {
-            RecipeHelper.postWorking(machine, lastRecipe);
-        } else if (last != RecipeLogic.Status.WORKING && getStatus() == RecipeLogic.Status.WORKING) {
-            RecipeHelper.preWorking(machine, lastRecipe);
         }
     }
 
