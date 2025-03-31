@@ -1,6 +1,5 @@
 package com.gto.gtocore.integration.emi.oreprocessing;
 
-import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.common.data.machines.MultiBlockC;
 import com.gto.gtocore.data.recipe.generated.GTOOreRecipeHandler;
 
@@ -102,12 +101,6 @@ final class OreByProductWrapper {
                 property.getOreByProduct(2, material),
                 property.getOreByProduct(3, material)
         });
-
-        GTOCore.LOGGER.info("dump material");
-        GTOCore.LOGGER.info(material.getName());
-        for (var p : byproducts) {
-            GTOCore.LOGGER.info(p.getName());
-        }
 
         // "INPUTS"
 
