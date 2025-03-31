@@ -1,6 +1,7 @@
 package com.gto.gtocore.integration.emi;
 
 import com.gto.gtocore.integration.chisel.ChiselRecipe;
+import com.gto.gtocore.integration.emi.oreprocessing.OreProcessingEmiCategory;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.recipe.category.GTRecipeCategory;
@@ -111,11 +112,13 @@ public final class GTEMIPlugin implements EmiPlugin {
         registry.addRecipeHandler(PatternEncodingTermMenu.TYPE, new Ae2PatternTerminalHandler<>());
         registry.addRecipeHandler(WETMenu.TYPE, new Ae2PatternTerminalHandler<>());
         registry.addCategory(GTProgrammedCircuitCategory.CATEGORY);
+        registry.addCategory(OreProcessingEmiCategory.CATEGORY);
 
         GTRecipeEMICategory.registerDisplays(registry);
         GTOreVeinEmiCategory.registerDisplays(registry);
         GTBedrockFluidEmiCategory.registerDisplays(registry);
         GTProgrammedCircuitCategory.registerDisplays(registry);
+        OreProcessingEmiCategory.registerDisplays(registry);
         GTRecipeEMICategory.registerWorkStations(registry);
         GTOreVeinEmiCategory.registerWorkStations(registry);
         GTBedrockFluidEmiCategory.registerWorkStations(registry);
