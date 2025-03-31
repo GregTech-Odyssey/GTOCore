@@ -35,7 +35,7 @@ public class BlockBehaviourMixin {
             cir.setReturnValue(p);
             return;
         }
-        float i = stack.isCorrectToolForDrops(state) ? 1 : state.getBlock().defaultDestroyTime() > 1 ? 0.001F : 0.5F;
+        float i = stack.isCorrectToolForDrops(state) ? 1 : (state.getBlock().defaultDestroyTime() > 1 && state.getTags().noneMatch(a -> true)) ? 0.001F : 0.5F;
         cir.setReturnValue(i * player.getDigSpeed(state, pos) / f / 30);
     }
 }

@@ -101,6 +101,7 @@ public final class GTEMIPlugin implements EmiPlugin {
         if (GTCEu.isProd()) ChiselRecipe.register(registry);
 
         registry.addCategory(MultiblockInfoEmiCategory.CATEGORY);
+        registry.addCategory(OreProcessingEmiCategory.CATEGORY);
         registry.addCategory(GTOreVeinEmiCategory.CATEGORY);
         registry.addCategory(GTBedrockFluidEmiCategory.CATEGORY);
         for (GTRecipeCategory category : GTRegistries.RECIPE_CATEGORIES) {
@@ -112,13 +113,12 @@ public final class GTEMIPlugin implements EmiPlugin {
         registry.addRecipeHandler(PatternEncodingTermMenu.TYPE, new Ae2PatternTerminalHandler<>());
         registry.addRecipeHandler(WETMenu.TYPE, new Ae2PatternTerminalHandler<>());
         registry.addCategory(GTProgrammedCircuitCategory.CATEGORY);
-        registry.addCategory(OreProcessingEmiCategory.CATEGORY);
 
         GTRecipeEMICategory.registerDisplays(registry);
+        OreProcessingEmiCategory.registerDisplays(registry);
         GTOreVeinEmiCategory.registerDisplays(registry);
         GTBedrockFluidEmiCategory.registerDisplays(registry);
         GTProgrammedCircuitCategory.registerDisplays(registry);
-        OreProcessingEmiCategory.registerDisplays(registry);
         GTRecipeEMICategory.registerWorkStations(registry);
         GTOreVeinEmiCategory.registerWorkStations(registry);
         GTBedrockFluidEmiCategory.registerWorkStations(registry);

@@ -811,7 +811,7 @@ public interface GTOOreRecipeHandler {
         }
     }
 
-    public static Material getOutputMaterial(Material material) {
+    static Material getOutputMaterial(Material material) {
         if (material == Naquadah) {
             return GTOMaterials.NaquadahOxideMixture;
         } else if (material == Platinum) {

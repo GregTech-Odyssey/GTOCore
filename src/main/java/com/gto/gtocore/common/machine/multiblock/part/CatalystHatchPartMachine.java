@@ -31,7 +31,7 @@ public final class CatalystHatchPartMachine extends TieredIOPartMachine {
 
     public CatalystHatchPartMachine(IMachineBlockEntity holder) {
         super(holder, 7, IO.IN);
-        this.inventory = new NotifiableCatalystHandler(this, 16);
+        this.inventory = new NotifiableCatalystHandler(this, 36, true);
     }
 
     @Override
@@ -41,7 +41,7 @@ public final class CatalystHatchPartMachine extends TieredIOPartMachine {
 
     @Override
     public Widget createUIWidget() {
-        int rowSize = 4;
+        int rowSize = 6;
         var group = new WidgetGroup(0, 0, 18 * rowSize + 16, 18 * rowSize + 16);
         var container = new WidgetGroup(4, 4, 18 * rowSize + 8, 18 * rowSize + 8);
         int index = 0;

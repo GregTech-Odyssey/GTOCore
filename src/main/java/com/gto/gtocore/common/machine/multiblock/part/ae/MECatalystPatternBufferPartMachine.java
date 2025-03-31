@@ -16,6 +16,6 @@ public final class MECatalystPatternBufferPartMachine extends MEPatternBufferPar
     @Override
     @NotNull
     NotifiableItemStackHandler createShareInventory() {
-        return new NotifiableCatalystHandler(this, 9);
+        return new NotifiableCatalystHandler(this, 16, false);
     }
 }

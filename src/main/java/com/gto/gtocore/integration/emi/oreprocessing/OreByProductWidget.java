@@ -43,19 +43,12 @@ import com.lowdragmc.lowdraglib.jei.IngredientIO;
 import com.mojang.datafixers.util.Pair;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
+import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 final class OreByProductWrapper {
-
-    private static final List<TagPrefix> ORES = new ArrayList<>();
-
-    public static void addOreByProductPrefix(TagPrefix orePrefix) {
-        if (!ORES.contains(orePrefix)) {
-            ORES.add(orePrefix);
-        }
-    }
 
     private static final ImmutableList<TagPrefix> IN_PROCESSING_STEPS = ImmutableList.of(
             TagPrefix.crushed,
@@ -76,18 +69,21 @@ final class OreByProductWrapper {
             GTMachines.CENTRIFUGE[GTValues.LV].asStack());
 
     private final Int2ObjectMap<Content> chances = new Int2ObjectOpenHashMap<>();
-    protected final List<ItemEntryList> itemInputs = new ArrayList<>();
-    protected final NonNullList<ItemStack> itemOutputs = NonNullList.create();
-    protected final List<FluidEntryList> fluidInputs = new ArrayList<>();
+    @Getter
+    private final List<ItemEntryList> itemInputs = new ArrayList<>();
+    @Getter
+    private final NonNullList<ItemStack> itemOutputs = NonNullList.create();
+    @Getter
+    private final List<FluidEntryList> fluidInputs = new ArrayList<>();
     private boolean hasDirectSmelt = false;
     private boolean hasChemBath = false;
     private boolean hasSeparator = false;
     private boolean hasSifter = false;
     private int currentSlot;
 
-    private static ItemStack patchedAddPrefix(TagPrefix tag, Material mat, int size) {
+    private static ItemStack patchedAddPrefix(Material mat) {
         final var transformed = GTOOreRecipeHandler.getOutputMaterial(mat);
-        return ChemicalHelper.get(tag, transformed, size);
+        return ChemicalHelper.get(TagPrefix.dust, transformed, 1);
     }
 
     public OreByProductWrapper(Material material) {
@@ -108,10 +104,6 @@ final class OreByProductWrapper {
         List<Material> separatedInto = property.getSeparatedInto();
 
         ItemTagList oreStacks = new ItemTagList();
-        for (TagPrefix prefix : ORES) {
-            // get all ores with the relevant oredicts instead of just the first unified ore
-            oreStacks.add(ChemicalHelper.getTag(prefix, material), 1, null);
-        }
         oreStacks.add(ChemicalHelper.getTag(TagPrefix.rawOre, material), 1, null);
         itemInputs.add(oreStacks);
 
@@ -217,7 +209,7 @@ final class OreByProductWrapper {
         addChance(3333, 0);
 
         // macerate centrifuged -> dust
-        addToOutputsPatched(material, TagPrefix.dust, 1);
+        addToOutputsPatched(material);
         addToOutputs(byproducts[2], TagPrefix.dust, 1);
         addChance(1400, 850);
 
@@ -227,7 +219,7 @@ final class OreByProductWrapper {
         addChance(1400, 850);
 
         // centrifuge purified -> dust
-        addToOutputsPatched(material, TagPrefix.dust, 1);
+        addToOutputsPatched(material);
         addToOutputs(byproducts[1], TagPrefix.dust, 1);
         addChance(1111, 0);
 
@@ -235,9 +227,9 @@ final class OreByProductWrapper {
         addToOutputs(material, TagPrefix.crushed, 1);
         addToOutputs(material, TagPrefix.crushedPurified, 1);
         addToOutputs(material, TagPrefix.dustImpure, 1);
-        addToOutputsPatched(material, TagPrefix.dust, 1);
+        addToOutputsPatched(material);
         addToOutputs(material, TagPrefix.dustPure, 1);
-        addToOutputsPatched(material, TagPrefix.dust, 1);
+        addToOutputsPatched(material);
 
         // ADVANCED PROCESSING
 
@@ -260,7 +252,7 @@ final class OreByProductWrapper {
             ItemStack separatedStack2 = ChemicalHelper.get(prefix, separatedInto.get(separatedInto.size() - 1),
                     prefix == TagPrefix.nugget ? 2 : 1);
 
-            addToOutputsPatched(material, TagPrefix.dust, 1);
+            addToOutputsPatched(material);
             addToOutputs(separatedInto.get(0), TagPrefix.dust, 1);
             addChance(1000, 250);
             addToOutputs(separatedStack2);
@@ -335,8 +327,8 @@ final class OreByProductWrapper {
         addToOutputs(ChemicalHelper.get(prefix, material, size));
     }
 
-    private void addToOutputsPatched(Material material, TagPrefix prefix, int size) {
-        addToOutputs(patchedAddPrefix(prefix, material, size));
+    private void addToOutputsPatched(Material material) {
+        addToOutputs(patchedAddPrefix(material));
     }
 
     private void addToOutputs(ItemStack stack) {
@@ -368,18 +360,6 @@ final class OreByProductWrapper {
         } else {
             addChance(baseLow, tierLow);
         }
-    }
-
-    public List<ItemEntryList> getItemInputs() {
-        return itemInputs;
-    }
-
-    public NonNullList<ItemStack> getItemOutputs() {
-        return itemOutputs;
-    }
-
-    public List<FluidEntryList> getFluidInputs() {
-        return fluidInputs;
     }
 }
 
@@ -540,7 +520,7 @@ public class OreByProductWidget extends WidgetGroup {
 
         for (int i = 0; i < ITEM_OUTPUT_LOCATIONS.size(); i += 2) {
             // stupid hack to show all sifter slots if the first one exists
-            if (itemOutputExists.get(i / 2) || (i > 28 * 2 && itemOutputExists.get(28) && hasSifter)) {
+            if (itemOutputExists.get(i / 2) || (i > 28 << 1 && itemOutputExists.get(28) && hasSifter)) {
                 addWidget(this.widgets.size() - 3, new ImageWidget(ITEM_OUTPUT_LOCATIONS.get(i),
                         ITEM_OUTPUT_LOCATIONS.get(i + 1), 18, 18, GuiTextures.SLOT));
             }
