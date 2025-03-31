@@ -35,7 +35,7 @@ import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
 import static com.gto.gtocore.common.data.GTORecipeTypes.*;
 
-interface GTOOreRecipeHandler {
+public interface GTOOreRecipeHandler {
 
     private static boolean doesMaterialUseNormalFurnace(Material material) {
         return !material.hasProperty(PropertyKey.BLAST) && !material.hasFlag(MaterialFlags.NO_ORE_SMELTING);
@@ -811,7 +811,7 @@ interface GTOOreRecipeHandler {
         }
     }
 
-    private static Material getOutputMaterial(Material material) {
+    public static Material getOutputMaterial(Material material) {
         if (material == Naquadah) {
             return GTOMaterials.NaquadahOxideMixture;
         } else if (material == Platinum) {
