@@ -35,7 +35,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import java.util.List;
 
 @Mixin(WorkableElectricMultiblockMachine.class)
-public abstract class WorkableElectricMultiblockMachineMixin extends WorkableMultiblockMachine implements IFancyUIMachine, IOverclockConfigMachine {
+public abstract class WorkableElectricMultiblockMachineMixin extends WorkableMultiblockMachine implements IFancyUIMachine, IOverclockConfigMachine, ICheckPatternMachine {
+
+    @Unique
+    private int gTOCore$time;
 
     @Unique
     private int gTOCore$ocLimit = 20;
@@ -51,6 +54,16 @@ public abstract class WorkableElectricMultiblockMachineMixin extends WorkableMul
 
     protected WorkableElectricMultiblockMachineMixin(IMachineBlockEntity holder, Object... args) {
         super(holder, args);
+    }
+
+    @Override
+    public void gTOCore$setTime(int time) {
+        gTOCore$time = time;
+    }
+
+    @Override
+    public int gTOCore$getTime() {
+        return gTOCore$time;
     }
 
     @Override

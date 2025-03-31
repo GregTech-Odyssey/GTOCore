@@ -30,7 +30,9 @@ import java.util.List;
 import java.util.Objects;
 
 @Getter
-public class NoRecipeLogicMultiblockMachine extends MultiblockControllerMachine implements IFancyUIMachine, IDisplayUIMachine, IMultiblockTraitHolder {
+public class NoRecipeLogicMultiblockMachine extends MultiblockControllerMachine implements IFancyUIMachine, IDisplayUIMachine, IMultiblockTraitHolder, ICheckPatternMachine {
+
+    private int checkTime;
 
     private final List<MultiblockTrait> multiblockTraits = new ArrayList<>(2);
 
@@ -100,5 +102,15 @@ public class NoRecipeLogicMultiblockMachine extends MultiblockControllerMachine 
         for (IMultiPart part : getParts()) {
             part.attachFancyTooltipsToController(this, tooltipsPanel);
         }
+    }
+
+    @Override
+    public void gTOCore$setTime(int time) {
+        checkTime = time;
+    }
+
+    @Override
+    public int gTOCore$getTime() {
+        return checkTime;
     }
 }

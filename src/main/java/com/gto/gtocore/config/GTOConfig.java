@@ -13,7 +13,6 @@ import dev.toma.configuration.config.format.ConfigFormats;
 public final class GTOConfig {
 
     public static GTOConfig INSTANCE;
-    private static final Object LOCK = new Object();
 
     private static int difficulty = 0;
 
@@ -30,10 +29,8 @@ public final class GTOConfig {
     }
 
     public static void init() {
-        synchronized (LOCK) {
-            if (INSTANCE == null) {
-                INSTANCE = Configuration.registerConfig(GTOConfig.class, ConfigFormats.yaml()).getConfigInstance();
-            }
+        if (INSTANCE == null) {
+            INSTANCE = Configuration.registerConfig(GTOConfig.class, ConfigFormats.yaml()).getConfigInstance();
         }
         ConfigHolder.init();
 
@@ -163,11 +160,12 @@ public final class GTOConfig {
     @Configurable.Comment("Enabled, no mining required")
     public boolean enablePrimitiveVoidOre;
     @Configurable
-    @Configurable.Comment("Reduce resource usage for the MultiBlock page (Reduce memory usage, improve startup speed, only on the client side)")
-    public boolean disableMultiBlockPage;
-    @Configurable
     @Configurable.Comment("Remove unnecessary loading")
     public boolean fastMultiBlockPage = true;
+    @Configurable
+    @Configurable.Comment("GT BlockEntity synchronization of client and server data")
+    @Configurable.Range(min = 1, max = 40)
+    public int synchronousInterval = 10;
     @Configurable
     @Configurable.Comment("The interval increases gradually when the machine cannot find a recipe; this is the maximum interval.")
     @Configurable.Range(min = 1, max = 200)

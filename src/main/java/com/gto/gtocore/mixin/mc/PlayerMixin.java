@@ -126,8 +126,8 @@ public abstract class PlayerMixin extends LivingEntity implements IEnhancedPlaye
             Level level = level();
             MinecraftServer server = level.getServer();
             if (server == null) return;
-            if (getFoodData().getFoodLevel() > 10 && tickCount % 80 == 0 && getRandom().nextBoolean()) {
-                heal(Math.max(1, (int) Math.ceil(Math.log(getMaxHealth() * Math.max(1, 4 - GTOConfig.getDifficulty())))));
+            if (getFoodData().getFoodLevel() > 15 && tickCount % 80 == 0 && getRandom().nextBoolean()) {
+                heal(Math.max(1, (int) Math.log(getMaxHealth() * Math.max(1, 4 - GTOConfig.getDifficulty()) / 4)));
             }
             gTOCore$amprosium = false;
             MaterialStack materialStack = ChemicalHelper.getMaterialStack(getItemInHand(InteractionHand.MAIN_HAND));

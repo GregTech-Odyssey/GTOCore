@@ -128,9 +128,7 @@ public interface Data {
         @Override
         public void run() {
             init();
-            if (!GTOConfig.INSTANCE.disableMultiBlockPage) {
-                IMultiblockMachineDefinition.init();
-            }
+            IMultiblockMachineDefinition.init();
             if (GTCEu.Mods.isEMILoaded()) {
                 long time = System.currentTimeMillis();
                 EmiConfig.logUntranslatedTags = false;
@@ -146,11 +144,9 @@ public interface Data {
                     EmiRecipeCategory emiCategory = GTRecipeEMICategory.CATEGORIES.apply(category);
                     type.getRecipesInCategory(category).stream().map(recipe -> new GTEMIRecipe(recipe, emiCategory)).forEach(recipes::add);
                 }
-                if (!GTOConfig.INSTANCE.disableMultiBlockPage) {
-                    for (MachineDefinition machine : GTRegistries.MACHINES.values()) {
-                        if (machine instanceof MultiblockMachineDefinition definition && definition.isRenderXEIPreview()) {
-                            recipes.add(new MultiblockInfoEmiRecipe(definition));
-                        }
+                for (MachineDefinition machine : GTRegistries.MACHINES.values()) {
+                    if (machine instanceof MultiblockMachineDefinition definition && definition.isRenderXEIPreview()) {
+                        recipes.add(new MultiblockInfoEmiRecipe(definition));
                     }
                 }
                 EMI_RECIPE_WIDGETS = null;

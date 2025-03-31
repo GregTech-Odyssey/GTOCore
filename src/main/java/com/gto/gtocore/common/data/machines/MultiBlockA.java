@@ -81,7 +81,7 @@ public interface MultiBlockA {
                     .where(' ', Predicates.any())
                     .build())
             .partSorter(Comparator.comparingInt(a -> a.self().getPos().getY()))
-            .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_stainless_evaporation"), GTCEu.id("block/multiblock/evaporation_plant"))
+            .workableCasingRenderer(GTOCore.id("block/casings/stainless_evaporation_casing"), GTCEu.id("block/multiblock/evaporation_plant"))
             .register();
 
     MultiblockMachineDefinition PLASMA_CONDENSER = multiblock("plasma_condenser", "等离子冷凝器", ElectricMultiblockMachine::new)

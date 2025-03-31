@@ -64,7 +64,7 @@ interface GTOOreRecipeHandler {
         int oreTypeMultiplier = GTOConfig.INSTANCE.oreMultiplier;
         long mass = material.getMass();
         int dur = (int) Math.max(8, Math.sqrt(mass) * 2 * oreTypeMultiplier);
-        crushedStack.setCount(oreTypeMultiplier * oreMultiplier);
+        crushedStack.setCount(Math.max(oreTypeMultiplier * oreMultiplier, 1));
 
         GTORecipeBuilder forge_builder = FORGE_HAMMER_RECIPES.recipeBuilder(material.getName() + "_ore_to_raw_ore")
                 .inputItems(TagPrefix.ore.getItemTags(material)[0])
@@ -74,7 +74,7 @@ interface GTOOreRecipeHandler {
         ItemStack outputStack = material.hasProperty(PropertyKey.GEM) && !gem.isIgnored(material) ?
                 ChemicalHelper.get(gem, material, crushedStack.getCount()) : crushedStack;
 
-        forge_builder.outputItems(outputStack.copyWithCount(oreMultiplier * oreTypeMultiplier));
+        forge_builder.outputItems(outputStack);
         forge_builder.save();
 
         TagKey<Item> tag = TagPrefix.ore.getItemTags(material)[0];
@@ -329,7 +329,7 @@ interface GTOOreRecipeHandler {
                     material.hasProperty(PropertyKey.GEM) ? ChemicalHelper.get(gem, smeltingMaterial) :
                             ChemicalHelper.get(dust, smeltingMaterial);
 
-            ingotStack.setCount(ingotStack.getCount() * oreMultiplier * oreTypeMultiplier);
+            ingotStack.setCount(crushedStack.getCount());
 
             if (!ingotStack.isEmpty() && doesMaterialUseNormalFurnace(smeltingMaterial) && !TagPrefix.ore.isIgnored(material)) {
                 float xp = Math.round(((1 + oreTypeMultiplier * 0.5f) * 0.5f - 0.05f) * 10.0f) / 10.0f;
@@ -345,11 +345,11 @@ interface GTOOreRecipeHandler {
         int oreTypeMultiplier = GTOConfig.INSTANCE.oreMultiplier;
         long mass = material.getMass();
         int dur = (int) Math.max(6, Math.sqrt(mass) * oreTypeMultiplier * 2 / 3);
-        ItemStack crushedStack = ChemicalHelper.get(crushed, material, material.getProperty(PropertyKey.ORE).getOreMultiplier() * oreTypeMultiplier / 2);
+        ItemStack crushedStack = ChemicalHelper.get(crushed, material, Math.max(1, property.getOreMultiplier() * oreTypeMultiplier / 2));
         Material smeltingMaterial = property.getDirectSmeltResult().isNull() ? material : property.getDirectSmeltResult();
-        ItemStack ingotStack = material.hasProperty(PropertyKey.INGOT) ? ChemicalHelper.get(ingot, smeltingMaterial, material.getProperty(PropertyKey.ORE).getOreMultiplier()) :
-                material.hasProperty(PropertyKey.GEM) ? ChemicalHelper.get(gem, smeltingMaterial, material.getProperty(PropertyKey.ORE).getOreMultiplier()) :
-                        ChemicalHelper.get(dust, smeltingMaterial, material.getProperty(PropertyKey.ORE).getOreMultiplier());
+        ItemStack ingotStack = material.hasProperty(PropertyKey.INGOT) ? ChemicalHelper.get(ingot, smeltingMaterial, property.getOreMultiplier()) :
+                material.hasProperty(PropertyKey.GEM) ? ChemicalHelper.get(gem, smeltingMaterial, property.getOreMultiplier()) :
+                        ChemicalHelper.get(dust, smeltingMaterial, property.getOreMultiplier());
 
         if (crushedStack.isEmpty()) return;
 

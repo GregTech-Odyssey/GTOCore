@@ -7,35 +7,21 @@ import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockControllerMachine;
 import com.gregtechceu.gtceu.api.pattern.BlockPattern;
 
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Unique;
 
 @Mixin(MultiblockControllerMachine.class)
 public abstract class MultiblockControllerMachineMixin implements IMultiController, ICheckPatternMachine {
 
-    @Unique
-    private int gTOCore$time;
-
-    @Override
-    public void gTOCore$setTime(int time) {
-        gTOCore$time = time;
-    }
-
-    @Override
-    public int gTOCore$getTime() {
-        return gTOCore$time;
-    }
-
     @Override
     public boolean checkPattern() {
-        if (gTOCore$time < 1) {
+        if (gTOCore$getTime() < 1) {
             BlockPattern pattern = getPattern();
             if (pattern != null && pattern.checkPatternAt(getMultiblockState(), false)) {
                 return true;
             } else {
-                gTOCore$time = 10;
+                gTOCore$setTime(10);
             }
         } else {
-            gTOCore$time--;
+            gTOCore$setTime(gTOCore$getTime() - 1);
         }
         return false;
     }

@@ -12,9 +12,11 @@ import java.util.List;
 
 public interface ICheckPatternMachine {
 
-    void gTOCore$setTime(int time);
+    default void gTOCore$setTime(int time) {}
 
-    int gTOCore$getTime();
+    default int gTOCore$getTime() {
+        return 0;
+    }
 
     static void attachConfigurators(ConfiguratorPanel configuratorPanel, MetaMachine machine) {
         if (machine instanceof ICheckPatternMachine checkPatternMachine) {

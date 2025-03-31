@@ -39,7 +39,9 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @Getter
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class NoEnergyMultiblockMachine extends WorkableMultiblockMachine implements IFancyUIMachine, IDisplayUIMachine, IEnhancedMultiblockMachine, IMultiblockTraitHolder {
+public class NoEnergyMultiblockMachine extends WorkableMultiblockMachine implements IFancyUIMachine, IDisplayUIMachine, IEnhancedMultiblockMachine, IMultiblockTraitHolder, ICheckPatternMachine {
+
+    private int checkTime;
 
     private final List<MultiblockTrait> multiblockTraits = new ArrayList<>(2);
 
@@ -149,5 +151,15 @@ public class NoEnergyMultiblockMachine extends WorkableMultiblockMachine impleme
         for (IMultiPart part : getParts()) {
             part.attachFancyTooltipsToController(this, tooltipsPanel);
         }
+    }
+
+    @Override
+    public void gTOCore$setTime(int time) {
+        checkTime = time;
+    }
+
+    @Override
+    public int gTOCore$getTime() {
+        return checkTime;
     }
 }
