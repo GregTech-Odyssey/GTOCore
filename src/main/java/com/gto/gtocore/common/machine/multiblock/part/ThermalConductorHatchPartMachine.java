@@ -9,7 +9,7 @@ import com.gregtechceu.gtceu.api.machine.multiblock.part.TieredIOPartMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
-import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
 
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
@@ -37,7 +37,7 @@ public class ThermalConductorHatchPartMachine extends TieredIOPartMachine implem
 
     private NotifiableItemStackHandler createInventoryItemHandler() {
         NotifiableItemStackHandler storage = new NotifiableItemStackHandler(this, 25, IO.NONE, IO.BOTH);
-        storage.setFilter(i -> i.getItem() instanceof BlockItem);
+        storage.setFilter(i -> i.getItem() instanceof Item);
         return storage;
     }
 
