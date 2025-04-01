@@ -25,7 +25,6 @@ import com.gregtechceu.gtceu.common.machine.multiblock.part.hpca.HPCAComputation
 import com.gregtechceu.gtceu.common.machine.multiblock.part.hpca.HPCACoolerPartMachine;
 import com.gregtechceu.gtceu.utils.GTUtil;
 
-import lombok.Getter;
 import net.minecraft.ChatFormatting;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.network.chat.Component;

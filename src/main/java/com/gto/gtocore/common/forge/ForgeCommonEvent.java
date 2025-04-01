@@ -52,7 +52,6 @@ import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.level.BlockEvent;
 import net.minecraftforge.event.level.LevelEvent;
-import net.minecraftforge.event.server.ServerStartedEvent;
 import net.minecraftforge.event.server.ServerStoppingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
@@ -261,6 +260,7 @@ public final class ForgeCommonEvent {
             WirelessEnergySavaedData.INSTANCE = serverLevel.getDataStorage().computeIfAbsent(ExtendWirelessEnergySavaedData::new, ExtendWirelessEnergySavaedData::new, "wireless_energy_data");
             CommonSavaedData.INSTANCE = serverLevel.getDataStorage().computeIfAbsent(CommonSavaedData::new, CommonSavaedData::new, "common_data");
             RecipeRunLimitSavaedData.INSTANCE = serverLevel.getDataStorage().computeIfAbsent(RecipeRunLimitSavaedData::new, RecipeRunLimitSavaedData::new, " recipe_run_limit_data");
+            if (GTOConfig.INSTANCE.selfRestraint) ServerUtils.getPersistentData().putBoolean("srm", true);
         }
     }
 
@@ -269,11 +269,6 @@ public final class ForgeCommonEvent {
         if (event.phase == TickEvent.Phase.START) {
             PerformanceMonitorMachine.observe = false;
         }
-    }
-
-    @SubscribeEvent
-    public static void onServerStartedEvent(ServerStartedEvent event) {
-        if (GTOConfig.INSTANCE.selfRestraint) ServerUtils.getPersistentData().putBoolean("srm", true);
     }
 
     @SubscribeEvent

@@ -1786,7 +1786,7 @@
   "gtocore.machine.space_probe_surface_reception.tooltip.0": "只能運行在空間站",
   "gtocore.machine.space_probe_surface_reception.tooltip.1": "如果該星繫存在未使用的戴森球，則嘗試連接，根據戴森球模塊數量提升產齣，該操作不會損坏戴森球",
   "gtocore.machine.steam.tooltip.0": "默認擁有8併行，大型為32",
-  "gtocore.machine.steam.tooltip.1": "無特殊說明時，默認可處理LV等級及以下的配方，處理耗時為1.5倍",
+  "gtocore.machine.steam.tooltip.1": "無特殊說明時，默認支持LV等級及以下的配方處理，耗時為基礎的1.5倍",
   "gtocore.machine.steam.tooltip.2": "安裝大型蒸汽輸入倉後提升一個配方等級，併解鎖超頻功能",
   "gtocore.machine.steam_mega_turbine.tooltip.0": "運行效率相當於16台同類大型渦輪，可使用更多動力倉",
   "gtocore.machine.steam_mega_turbine.tooltip.1": "可安裝轉子倉，從中自動取齣轉子安裝到空轉子支架",

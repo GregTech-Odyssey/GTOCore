@@ -78,7 +78,7 @@ public interface GTORecipeTypes {
     GTORecipeType LATHE_RECIPES = (GTORecipeType) GTRecipeTypes.LATHE_RECIPES;
     GTORecipeType MIXER_RECIPES = (GTORecipeType) GTRecipeTypes.MIXER_RECIPES;
     GTORecipeType ORE_WASHER_RECIPES = (GTORecipeType) GTRecipeTypes.ORE_WASHER_RECIPES;
-    GTORecipeType PACKER_RECIPES = (GTORecipeType) GTRecipeTypes.PACKER_RECIPES;
+    GTORecipeType PACKER_RECIPES = (GTORecipeType) GTRecipeTypes.PACKER_RECIPES.prepareBuilder(recipeBuilder -> recipeBuilder.EUt(7).duration(20));
     GTORecipeType POLARIZER_RECIPES = (GTORecipeType) GTRecipeTypes.POLARIZER_RECIPES;
     GTORecipeType LASER_ENGRAVER_RECIPES = (GTORecipeType) GTRecipeTypes.LASER_ENGRAVER_RECIPES;
     GTORecipeType SIFTER_RECIPES = (GTORecipeType) GTRecipeTypes.SIFTER_RECIPES;

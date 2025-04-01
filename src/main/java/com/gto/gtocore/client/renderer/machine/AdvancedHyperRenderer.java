@@ -7,6 +7,7 @@ import com.gto.gtocore.client.ClientUtil;
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.client.renderer.machine.WorkableCasingMachineRenderer;
+import com.gregtechceu.gtceu.client.util.BloomUtils;
 
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -19,6 +20,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.model.data.ModelData;
 
 import com.lowdragmc.lowdraglib.utils.TrackedDummyWorld;
+import com.lowdragmc.shimmer.client.shader.RenderUtils;
 import com.mojang.blaze3d.vertex.PoseStack;
 import org.joml.Quaternionf;
 
@@ -46,15 +48,18 @@ public final class AdvancedHyperRenderer extends WorkableCasingMachineRenderer {
             }
             poseStack.pushPose();
             poseStack.translate(x, y, z);
-            renderStar(tick, poseStack, buffer);
-            poseStack.popPose();
+            if (GTCEu.Mods.isShimmerLoaded() && !(blockEntity.getLevel() instanceof TrackedDummyWorld)) {
+                BloomUtils.entityBloom(source -> renderStar(tick, RenderUtils.copyPoseStack(poseStack), source));
+            } else {
+                renderStar(tick, poseStack, buffer);
+            }
         }
     }
 
     @OnlyIn(Dist.CLIENT)
     private static void renderStar(float tick, PoseStack poseStack, MultiBufferSource buffer) {
         poseStack.pushPose();
-        poseStack.scale(0.105F, 0.105F, 0.105F);
+        poseStack.scale(0.10F, 0.10F, 0.10F);
         poseStack.mulPose(new Quaternionf().fromAxisAngleDeg(1.0F, 1.0F, 0.0F, (tick % 36.0F) * 4));
         ClientUtil.modelRenderer().renderModel(poseStack.last(), buffer.getBuffer(RenderType.translucent()), null, ClientUtil.getBakedModel(BLUE_STAR_MODEL), 1.0F, 1.0F, 1.0F, LightTexture.FULL_BRIGHT, OverlayTexture.NO_OVERLAY, ModelData.EMPTY, RenderType.translucent());
         poseStack.popPose();
