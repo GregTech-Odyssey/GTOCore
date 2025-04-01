@@ -25,6 +25,7 @@ import com.gregtechceu.gtceu.common.machine.multiblock.part.hpca.HPCAComputation
 import com.gregtechceu.gtceu.common.machine.multiblock.part.hpca.HPCACoolerPartMachine;
 import com.gregtechceu.gtceu.utils.GTUtil;
 
+import lombok.Getter;
 import net.minecraft.ChatFormatting;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.network.chat.Component;
@@ -34,6 +35,7 @@ import net.minecraft.world.item.ItemStack;
 import com.google.common.collect.ImmutableMap;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
+import earth.terrarium.adastra.common.registry.ModItems;
 import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 
@@ -47,6 +49,7 @@ import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
 import static com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys.GAS;
 import static com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys.LIQUID;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.Helium;
+import static com.gregtechceu.gtceu.common.data.GTMaterials.Ice;
 import static com.gto.gtocore.common.data.GTOMaterials.*;
 
 @ParametersAreNonnullByDefault
@@ -70,6 +73,7 @@ public final class SupercomputingCenterMachine extends StorageMultiblockMachine 
         mfpcRecipe.put(GTOChemicalHelper.getItem(ingot, BasicMFPC), GTOChemicalHelper.getItem(ingot, InvalidationBasicMFPC));
         mfpcRecipe.put(GTOChemicalHelper.getItem(nugget, CascadeMFPC), GTOChemicalHelper.getItem(nugget, InvalidationCascadeMFPC));
         mfpcRecipe.put(GTOChemicalHelper.getItem(nugget, BasicMFPC), GTOChemicalHelper.getItem(nugget, InvalidationBasicMFPC));
+        mfpcRecipe.put(ModItems.ICE_SHARD.get().asItem(), GTOChemicalHelper.getItem(dustTiny, Ice));
         MFPCs = mfpcRecipe.build();
     }
 
@@ -79,19 +83,20 @@ public final class SupercomputingCenterMachine extends StorageMultiblockMachine 
             GTOChemicalHelper.getItem(ingot, CascadeMFPC), 2,
             GTOChemicalHelper.getItem(ingot, BasicMFPC), 3,
             GTOChemicalHelper.getItem(nugget, CascadeMFPC), 4,
-            GTOChemicalHelper.getItem(nugget, BasicMFPC), 5);
+            GTOChemicalHelper.getItem(nugget, BasicMFPC), 5,
+            ModItems.ICE_SHARD.get().asItem(), 6);
 
     @Setter
-    private ThermalConductorHatchPartMachine thermalConductorHatchPartMachine;
+    private ThermalConductorHatchPartMachine ThermalConductorHatchPart;
 
     private final ConditionalSubscriptionHandler maxCWUtModificationSubs;
 
     @Persisted
-    private int machineTier;
+    private int machineTier, maxCWUtModification;
 
     private boolean incompatible, canBridge;
 
-    private int maxCWUt, coolingAmount, maxCoolingAmount, allocatedCWUt, maxCWUtModification;
+    private int maxCWUt, coolingAmount, maxCoolingAmount, allocatedCWUt;
 
     private long maxEUt;
 
@@ -183,13 +188,13 @@ public final class SupercomputingCenterMachine extends StorageMultiblockMachine 
         return ITEM_INDEX_MAP.getOrDefault(item, -1);
     }
 
-    private final int[] N_MFPCs = { 5400, 1800, 600, 200, 66, 22 };
+    private final int[] N_MFPCs = { 5400, 1800, 600, 200, 66, 22, 1 };
 
     @Override
     public void onPartScan(IMultiPart part) {
         super.onPartScan(part);
-        if (thermalConductorHatchPartMachine == null && part instanceof ThermalConductorHatchPartMachine thermalConductorHatchPart) {
-            thermalConductorHatchPartMachine = thermalConductorHatchPart;
+        if (ThermalConductorHatchPart == null && part instanceof ThermalConductorHatchPartMachine thermalConductorHatchPart) {
+            ThermalConductorHatchPart = thermalConductorHatchPart;
         }
     }
 
@@ -212,7 +217,7 @@ public final class SupercomputingCenterMachine extends StorageMultiblockMachine 
     @Override
     public void onStructureInvalid() {
         super.onStructureInvalid();
-        thermalConductorHatchPartMachine = null;
+        ThermalConductorHatchPart = null;
         clean();
     }
 
@@ -269,9 +274,9 @@ public final class SupercomputingCenterMachine extends StorageMultiblockMachine 
             if (machineTier > 1) {
                 if (getOffsetTimer() % 10 == 0) {
                     int max = (machineTier == 2) ? 40000 : 160000;
-                    maxCWUtModification -= (int) ((Math.pow(maxCWUtModification - 4000, 2) / 50000000) * (0.8 / (Math.log(maxCWUtModification + 600000) - Math.log(10000))));
-                    if ((maxCWUtModification <= max) && (thermalConductorHatchPartMachine != null)) {
-                        CustomItemStackHandler stackTransfer = thermalConductorHatchPartMachine.getInventory().storage;
+                    maxCWUtModification -= (int) ((Math.pow(maxCWUtModification - 4000, 2) / 500000) * (0.8 / (Math.log(maxCWUtModification + 600000) - Math.log(10000))));
+                    if ((maxCWUtModification <= max) && (ThermalConductorHatchPart != null)) {
+                        CustomItemStackHandler stackTransfer = ThermalConductorHatchPart.getInventory().storage;
                         for (int i = 0; i < stackTransfer.getSlots(); i++) {
                             ItemStack itemStack = stackTransfer.getStackInSlot(i);
                             Item valueItem = MFPCs.get(itemStack.getItem());

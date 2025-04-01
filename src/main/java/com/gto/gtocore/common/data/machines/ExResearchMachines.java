@@ -7,7 +7,9 @@ import com.gto.gtocore.api.pattern.GTOPredicates;
 import com.gto.gtocore.api.registries.GTOMachineBuilder;
 import com.gto.gtocore.client.renderer.machine.ExResearchPartRenderer;
 import com.gto.gtocore.common.block.BlockMap;
+import com.gto.gtocore.common.data.GTOBlocks;
 import com.gto.gtocore.common.data.GTOMachines;
+import com.gto.gtocore.common.machine.multiblock.electric.DataCenterMachine;
 import com.gto.gtocore.common.machine.multiblock.electric.SupercomputingCenterMachine;
 import com.gto.gtocore.common.machine.multiblock.part.research.ExResearchBridgePartMachine;
 import com.gto.gtocore.common.machine.multiblock.part.research.ExResearchComputationPartMachine;
@@ -26,7 +28,9 @@ import com.gregtechceu.gtceu.client.renderer.machine.OverlayTieredMachineRendere
 import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
+import com.gregtechceu.gtceu.common.machine.multiblock.electric.research.DataBankMachine;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.DataAccessHatchMachine;
+import com.gregtechceu.gtceu.utils.FormattingUtil;
 
 import net.minecraft.network.chat.Component;
 
@@ -35,6 +39,7 @@ import java.util.function.Function;
 import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.api.machine.multiblock.PartAbility.*;
 import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
+import static com.gregtechceu.gtceu.common.data.GTBlocks.COMPUTER_CASING;
 import static com.gregtechceu.gtceu.common.data.machines.GTResearchMachines.OVERHEAT_TOOLTIPS;
 import static com.gto.gtocore.api.registries.GTORegistration.REGISTRATE;
 import static com.gto.gtocore.utils.register.BlockRegisterUtils.addLang;
@@ -45,8 +50,8 @@ public interface ExResearchMachines {
 
     static void init() {}
 
-    MultiblockMachineDefinition SUPERCOMPUTING_CENTER = multiblock("supercomputing_center", "超算中心", SupercomputingCenterMachine::new)
-            .tooltipsText("Putting lots of computers together to provide lots of computing power", "将大量计算机放置在一起提供大量算力")
+    MultiblockMachineDefinition SUPERCOMPUTING_CENTER = multiblock("supercomputing_center", "运算中心", SupercomputingCenterMachine::new)
+            .tooltipsText("Putting computers together to provide lots of computing power", "将计算机放置在一起提供大量算力")
             .tooltipsText("The use of advanced cooling solutions enables it to output more computing power", "采用先进的冷却方案使其能够输出更多的算力")
             .tooltipsText("The machine has three levels, switched by placing items in the mainframe:", "机器有三个等级，通过在主机内放置物品切换：")
             .tooltipsText("The structure blocks of each level of the machine need to match the machine level", "每个等级的机器结构方块需要与机器等级匹配")
@@ -60,10 +65,11 @@ public interface ExResearchMachines {
             .tooltipsText("Maximum output computing power = computing power of computing components * Hashrate correction factor", "最大输出算力 = 计算组件的算力和 * 算力修正系数")
             .tooltipsText("When level is 2 or 3, the hashrate correction factor will change", "当等级为2或3时，算力修正系数会发生变化")
             .tooltipsText("Every 10 ticks, the Hashrate correction factor will decrease by ((Hashrate correction factor - 0.4)^2/5000)*(0.8/log(Hashrate correction factor + 6)) but will not be less than 0.8", "每10tick 算力修正系数会减少 ((算力修正系数-0.4)^2/5000)*(0.8/log(算力修正系数+6)) 但是不会小于0.8")
-            .tooltipsText("The phase change MFPC can be input through the thermal conductive agent tank to increase the computing power correction coefficient. The phase change MFPC will become invalid after use.", "可以通过导热剂仓输入相变MFPC增加算力修正系数，相变MFPC使用后会失效")
+            .tooltipsText("The thermal conductivity can be input through the thermal conductive agent tank to increase the computing power correction coefficient. The thermal conductivity will become invalid after use.", "可以通过导热剂仓输入导热剂增加算力修正系数，导热剂使用后会失效")
             .tooltipsText("If you upgrade to level 4 at level 2, you cannot upgrade further. If you upgrade to level 16 at level 3, you cannot upgrade further.", "等级2时提升到4将无法继续升高，等级3时提升到16将无法继续升高")
-            .tooltipsText("The calculation power correction coefficients that can be improved by multi-function phase change (MFPC) and cascade phase change MFPC (Cascade-MFPC) are", "多功能相变(MFPC)和串级相变MFPC(Cascade-MFPC)所能提高算力修正系数值分别是")
+            .tooltipsText("The calculation power correction coefficients that can be improved by thermal conductivity multi-function phase change (MFPC) and cascade phase change MFPC (Cascade-MFPC) are", "导热剂多功能相变(MFPC)和串级相变MFPC(Cascade-MFPC)所能提高算力修正系数值分别是")
             .tooltipsText("Block 0.18/0.54 Ingot 0.02/0.06 Nugget 0.0022/0.0066", "块0.18/0.54 条0.02/0.06 粒0.0022/0.0066")
+            .tooltipsText("Inputting ice shards is an extremely inefficient method, each providing 0.0001", "输入寒冰碎片是一种效率极低的方式，每个可以提供0.0001")
             .nonYAxisRotation()
             .block(GTBlocks.COMPUTER_CASING)
             .recipe(GTRecipeTypes.DUMMY_RECIPES)
@@ -101,6 +107,37 @@ public interface ExResearchMachines {
                     .where('D', GTOPredicates.tierBlock(BlockMap.COMPUTER_HEAT_MAP, GTOValues.COMPUTER_HEAT_TIER))
                     .build())
             .workableCasingRenderer(GTCEu.id("block/casings/hpca/computer_casing/back"), GTCEu.id("block/multiblock/large_miner"))
+            .register();
+
+    MultiblockMachineDefinition DATA_CENTER = multiblock("data_center", "数据中心", DataCenterMachine::new)
+            .tooltipsText("Your home network storage", "你的家庭网络存储器")
+            .tooltipsText("Ultra-large data storage, using optical cable transmission", "超大容量数据存储，使用光缆传输")
+            .nonYAxisRotation()
+            .recipe(GTRecipeTypes.DUMMY_RECIPES)
+            .appearanceBlock(GTBlocks.COMPUTER_CASING)
+            .pattern(definition -> FactoryBlockPattern.start()
+                    .aisle(" AAAAAAA ", "AA     AA", "A       A", "A       A", "A       A", "A       A", "A       A", "AA     AA", " AAAAAAA ")
+                    .aisle("AA     AA", "AAAAAAAAA", " ABBBBBA ", " ABBBBBA ", " ABBBBBA ", " ABBBBBA ", " ABBBBBA ", "AAAAAAAAA", "AA     AA")
+                    .aisle("A       A", " ABBBBBA ", " B     B ", " B     B ", " B     B ", " B     B ", " B     B ", " ACCCCCA ", "A       A")
+                    .aisle("A       A", " ABBBBBA ", " B     B ", " B DDD B ", " B DDD B ", " B DDD B ", " B     B ", " ACCCCCA ", "A       A")
+                    .aisle("A       A", " ABBBBBA ", " B     B ", " B DDD B ", " B D D B ", " B DDD B ", " B     B ", " ACC~CCA ", "A       A")
+                    .aisle("A       A", " ABBBBBA ", " B     B ", " B DDD B ", " B DDD B ", " B DDD B ", " B     B ", " ACCCCCA ", "A       A")
+                    .aisle("A       A", " ABBBBBA ", " B     B ", " B     B ", " B     B ", " B     B ", " B     B ", " ACCCCCA ", "A       A")
+                    .aisle("AA     AA", "AAAAAAAAA", " ABBBBBA ", " ABBBBBA ", " ABBBBBA ", " ABBBBBA ", " ABBBBBA ", "AAAAAAAAA", "AA     AA")
+                    .aisle(" AAAAAAA ", "AA     AA", "A       A", "A       A", "A       A", "A       A", "A       A", "AA     AA", " AAAAAAA ")
+                    .where('~', controller(blocks(definition.get())))
+                    .where('A', blocks(GTOBlocks.BIOCOMPUTER_CASING.get()))
+                    .where('B', blocks(GTBlocks.HIGH_POWER_CASING.get())
+                            .or(abilities(GTOPartAbility.ExDATA_ACCESS)))
+                    .where('C', blocks(GTBlocks.HIGH_POWER_CASING.get())
+                            .or(abilities(INPUT_ENERGY).setMaxGlobalLimited(2))
+                            .or(abilities(OPTICAL_DATA_RECEPTION))
+                            .or(abilities(OPTICAL_DATA_TRANSMISSION))
+                            .or(abilities(MAINTENANCE).setExactLimit(1)))
+                    .where('D', blocks(GTOBlocks.AMPROSIUM_ACTIVE_CASING.get()))
+                    .where(' ', any())
+                    .build())
+            .workableCasingRenderer(GTCEu.id("block/casings/hpca/high_power_casing"), GTCEu.id("block/multiblock/data_bank"))
             .register();
 
     MachineDefinition NICH_EMPTY_COMPONENT = registerHPCAPart(
@@ -187,7 +224,7 @@ public interface ExResearchMachines {
             .rotationState(RotationState.ALL)
             .abilities(GTOPartAbility.ExDATA_ACCESS)
             .tooltips(Component.translatable("gtceu.machine.data_access_hatch.tooltip.0"),
-                    Component.translatable("gtceu.machine.data_access_hatch.tooltip.1", 64),
+                    Component.translatable("gtceu.machine.data_access_hatch.tooltip.1", 49),
                     Component.translatable("gtceu.universal.disabled"))
             .renderer(() -> new OverlayTieredMachineRenderer(OpV, GTCEu.id("block/machine/part/data_access_hatch")))
             .register();
