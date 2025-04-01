@@ -21,17 +21,267 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
 
+import appeng.core.definitions.AEBlocks;
 import appeng.core.definitions.AEItems;
 import com.kyanite.deeperdarker.content.DDItems;
 import earth.terrarium.adastra.common.registry.ModItems;
 
-import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.plate;
-import static com.gregtechceu.gtceu.common.data.GTMaterials.Iron;
+import static com.gregtechceu.gtceu.api.GTValues.*;
+import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
+import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
 import static com.gto.gtocore.common.data.GTORecipeTypes.ASSEMBLER_RECIPES;
 
 interface Assembler {
 
     static void init() {
+        ASSEMBLER_RECIPES.builder("coil_cupronickel").EUt(VA[LV]).inputItems(wireGtDouble, Cupronickel, 8)
+                .inputItems(GTOItems.MICA_INSULATOR_FOIL, 8)
+                .inputItems(foil, Bronze, 8).inputFluids(TinAlloy, GTValues.L)
+                .outputItems(GTBlocks.COIL_CUPRONICKEL.asStack()).duration(200)
+                .addMaterialInfo(true, true).save();
+        ASSEMBLER_RECIPES.builder("coil_kanthal").EUt(VA[MV]).inputItems(wireGtDouble, Kanthal, 8)
+                .inputItems(GTOItems.MICA_INSULATOR_FOIL, 8)
+                .inputItems(foil, Aluminium, 8).inputFluids(Copper, GTValues.L)
+                .outputItems(GTBlocks.COIL_KANTHAL.asStack()).duration(300)
+                .addMaterialInfo(true, true).save();
+        ASSEMBLER_RECIPES.builder("coil_nichrome").EUt(VA[HV]).inputItems(wireGtDouble, Nichrome, 8)
+                .inputItems(GTOItems.MICA_INSULATOR_FOIL, 8)
+                .inputItems(foil, StainlessSteel, 8).inputFluids(Aluminium, GTValues.L)
+                .outputItems(GTBlocks.COIL_NICHROME.asStack()).duration(400)
+                .addMaterialInfo(true, true).save();
+        ASSEMBLER_RECIPES.builder("coil_rtm_alloy").EUt(VA[EV]).inputItems(wireGtDouble, RTMAlloy, 8)
+                .inputItems(GTOItems.MICA_INSULATOR_FOIL, 8)
+                .inputItems(foil, VanadiumSteel, 8).inputFluids(Nichrome, GTValues.L)
+                .outputItems(GTBlocks.COIL_RTMALLOY.asStack()).duration(500)
+                .addMaterialInfo(true, true).save();
+        ASSEMBLER_RECIPES.builder("coil_hssg").EUt(VA[IV]).inputItems(wireGtDouble, HSSG, 8)
+                .inputItems(GTOItems.MICA_INSULATOR_FOIL, 8)
+                .inputItems(foil, TungstenCarbide, 8).inputFluids(Tungsten, GTValues.L)
+                .outputItems(GTBlocks.COIL_HSSG.asStack()).duration(600)
+                .addMaterialInfo(true, true).save();
+        ASSEMBLER_RECIPES.builder("coil_naquadah").EUt(VA[LuV]).inputItems(wireGtDouble, Naquadah, 8)
+                .inputItems(GTOItems.MICA_INSULATOR_FOIL, 8)
+                .inputItems(foil, Osmium, 8).inputFluids(TungstenSteel, GTValues.L)
+                .outputItems(GTBlocks.COIL_NAQUADAH.asStack()).duration(700)
+                .addMaterialInfo(true, true).save();
+        ASSEMBLER_RECIPES.builder("coil_trinium").EUt(VA[ZPM]).inputItems(wireGtDouble, Trinium, 8)
+                .inputItems(GTOItems.MICA_INSULATOR_FOIL, 8)
+                .inputItems(foil, NaquadahEnriched, 8).inputFluids(Naquadah, GTValues.L)
+                .outputItems(GTBlocks.COIL_TRINIUM.asStack()).duration(800)
+                .addMaterialInfo(true, true).save();
+        ASSEMBLER_RECIPES.builder("coil_tritanium").EUt(VA[UV]).inputItems(wireGtDouble, Tritanium, 8)
+                .inputItems(GTOItems.MICA_INSULATOR_FOIL, 8)
+                .inputItems(foil, Naquadria, 8).inputFluids(Trinium, GTValues.L)
+                .outputItems(GTBlocks.COIL_TRITANIUM.asStack()).duration(900)
+                .addMaterialInfo(true, true).save();
+
+        ASSEMBLER_RECIPES.builder("controller")
+                .inputItems(new ItemStack(AEBlocks.ENERGY_ACCEPTOR.block().asItem()))
+                .inputItems(new ItemStack(AEBlocks.SMOOTH_SKY_STONE_BLOCK.block().asItem(), 4))
+                .inputItems(TagPrefix.plate, GTOMaterials.Fluix, 4)
+                .inputItems(new ItemStack(AEItems.LOGIC_PROCESSOR.asItem()))
+                .inputItems(new ItemStack(AEItems.CALCULATION_PROCESSOR.asItem()))
+                .inputItems(new ItemStack(AEItems.ENGINEERING_PROCESSOR.asItem()))
+                .outputItems(new ItemStack(AEBlocks.CONTROLLER.block().asItem()))
+                .inputFluids(GTMaterials.SolderingAlloy, 288)
+                .EUt(120)
+                .duration(100)
+                .save();
+
+        ASSEMBLER_RECIPES.builder("drive")
+                .inputItems(TagPrefix.frameGt, GTMaterials.Aluminium)
+                .inputItems(TagPrefix.plate, GTMaterials.VanadiumSteel, 6)
+                .inputItems(new ItemStack(AEItems.ENGINEERING_PROCESSOR.asItem(), 4))
+                .inputItems("ae2:fluix_glass_cable", 4)
+                .inputItems(CustomTags.MV_CIRCUITS)
+                .inputItems(TagPrefix.rotor, GTMaterials.Aluminium)
+                .inputItems(GTItems.ELECTRIC_MOTOR_MV.asStack())
+                .inputItems(TagPrefix.gem, GTMaterials.CertusQuartz, 4)
+                .outputItems(new ItemStack(AEBlocks.DRIVE.block().asItem()))
+                .inputFluids(GTMaterials.SolderingAlloy, 288)
+                .EUt(120)
+                .duration(200)
+                .save();
+
+        ASSEMBLER_RECIPES.builder("annihilation_core")
+                .inputItems(GTItems.FIELD_GENERATOR_LV.asStack())
+                .inputItems(new ItemStack(AEItems.LOGIC_PROCESSOR.asItem(), 4))
+                .inputItems(CustomTags.ULV_CIRCUITS)
+                .inputItems(TagPrefix.dust, GTMaterials.NetherQuartz, 8)
+                .outputItems(new ItemStack(AEItems.ANNIHILATION_CORE.asItem(), 8))
+                .inputFluids(GTMaterials.BlackSteel, 576)
+                .EUt(120)
+                .duration(200)
+                .save();
+
+        ASSEMBLER_RECIPES.builder("formation_core")
+                .inputItems(GTItems.FIELD_GENERATOR_LV.asStack())
+                .inputItems(new ItemStack(AEItems.LOGIC_PROCESSOR.asItem(), 4))
+                .inputItems(CustomTags.ULV_CIRCUITS)
+                .inputItems(TagPrefix.dust, GTMaterials.CertusQuartz, 8)
+                .outputItems(new ItemStack(AEItems.FORMATION_CORE.asItem(), 8))
+                .inputFluids(GTMaterials.BlackSteel, 576)
+                .EUt(120)
+                .duration(200)
+                .save();
+
+        ASSEMBLER_RECIPES.builder("molecular_assembler")
+                .inputItems(new ItemStack(AEItems.FORMATION_CORE.asItem(), 2))
+                .inputItems(new ItemStack(AEItems.ANNIHILATION_CORE.asItem(), 2))
+                .inputItems(GTItems.ROBOT_ARM_MV.asStack())
+                .inputItems(GTItems.CONVEYOR_MODULE_MV.asStack())
+                .inputItems(TagPrefix.frameGt, GTMaterials.Aluminium)
+                .inputItems(TagPrefix.plate, GTMaterials.Polyethylene, 6)
+                .inputItems(TagPrefix.plate, GTMaterials.Steel, 6)
+                .outputItems(new ItemStack(AEBlocks.MOLECULAR_ASSEMBLER.block().asItem()))
+                .inputFluids(GTMaterials.BorosilicateGlass, 576)
+                .EUt(120)
+                .duration(100)
+                .save();
+
+        ASSEMBLER_RECIPES.builder("energy_acceptor")
+                .inputItems(GTItems.ULTRA_LOW_POWER_INTEGRATED_CIRCUIT.asStack(4))
+                .inputItems(TagPrefix.frameGt, GTMaterials.VanadiumSteel)
+                .inputItems(new ItemStack(AEBlocks.QUARTZ_GLASS.block().asItem(), 4))
+                .inputItems(TagPrefix.plate, GTOMaterials.Fluix, 4)
+                .inputItems("ae2:fluix_glass_cable", 4)
+                .inputItems(TagPrefix.wireGtQuadruple, GTOMaterials.EnergeticAlloy, 4)
+                .inputItems(CustomTags.MV_CIRCUITS)
+                .inputItems(TagPrefix.plateDouble, GTMaterials.Aluminium, 4)
+                .inputItems(GTMachines.DIODE[GTValues.MV].asStack())
+                .outputItems(new ItemStack(AEBlocks.ENERGY_ACCEPTOR.block().asItem()))
+                .inputFluids(GTMaterials.SodiumPotassium, 1000)
+                .EUt(120)
+                .duration(200)
+                .save();
+
+        ASSEMBLER_RECIPES.builder("interface")
+                .inputItems(new ItemStack(AEItems.FORMATION_CORE.asItem()))
+                .inputItems(new ItemStack(AEItems.ANNIHILATION_CORE.asItem()))
+                .inputItems(TagPrefix.frameGt, GTMaterials.Aluminium)
+                .inputItems(GTItems.CONVEYOR_MODULE_MV.asStack())
+                .inputItems(CustomTags.MV_CIRCUITS)
+                .inputItems(TagPrefix.plateDouble, GTMaterials.Steel, 2)
+                .inputItems(GTBlocks.CASING_TEMPERED_GLASS.asStack(4))
+                .outputItems(new ItemStack(AEBlocks.INTERFACE.block().asItem(), 2))
+                .inputFluids(GTMaterials.Polyethylene, 288)
+                .EUt(120)
+                .duration(100)
+                .save();
+
+        ASSEMBLER_RECIPES.builder("assembler_matrix_frame")
+                .inputItems(GTBlocks.PLASTCRETE.asStack())
+                .inputItems(new ItemStack(AEBlocks.QUARTZ_GLASS.block().asItem()))
+                .inputItems(TagPrefix.dust, GTMaterials.Lapis, 8)
+                .inputItems(TagPrefix.frameGt, GTMaterials.StainlessSteel)
+                .outputItems("expatternprovider:assembler_matrix_frame")
+                .inputFluids(GTMaterials.Polytetrafluoroethylene, 288)
+                .EUt(120)
+                .duration(100)
+                .save();
+
+        ASSEMBLER_RECIPES.builder("assembler_matrix_wall")
+                .inputItems("expatternprovider:assembler_matrix_frame")
+                .inputItems(new ItemStack(AEItems.LOGIC_PROCESSOR.asItem(), 2))
+                .inputItems("ae2:fluix_smart_cable", 4)
+                .inputItems(TagPrefix.gemFlawless, GTMaterials.NetherQuartz, 4)
+                .inputItems(CustomTags.HV_CIRCUITS)
+                .outputItems("expatternprovider:assembler_matrix_wall", 2)
+                .inputFluids(GTMaterials.PolyvinylChloride, 288)
+                .EUt(120)
+                .duration(100)
+                .save();
+
+        ASSEMBLER_RECIPES.builder("assembler_matrix_pattern")
+                .inputItems("expatternprovider:assembler_matrix_wall")
+                .inputItems("expatternprovider:ex_pattern_provider", 2)
+                .inputItems("ae2:blue_lumen_paint_ball", 6)
+                .inputItems(CustomTags.HV_CIRCUITS)
+                .inputItems("ae2:fluix_glass_cable", 4)
+                .inputItems(new ItemStack(AEItems.LOGIC_PROCESSOR.asItem()))
+                .inputItems(new ItemStack(AEItems.CALCULATION_PROCESSOR.asItem()))
+                .inputItems(new ItemStack(AEItems.ENGINEERING_PROCESSOR.asItem()))
+                .outputItems("expatternprovider:assembler_matrix_pattern", 2)
+                .inputFluids(GTMaterials.SolderingAlloy, 288)
+                .EUt(120)
+                .duration(100)
+                .save();
+
+        ASSEMBLER_RECIPES.builder("assembler_matrix_crafter")
+                .inputItems("expatternprovider:assembler_matrix_wall")
+                .inputItems("expatternprovider:ex_molecular_assembler", 2)
+                .inputItems("ae2:purple_lumen_paint_ball", 6)
+                .inputItems(CustomTags.HV_CIRCUITS)
+                .inputItems("ae2:fluix_glass_cable", 4)
+                .inputItems(new ItemStack(AEItems.LOGIC_PROCESSOR.asItem()))
+                .inputItems(new ItemStack(AEItems.CALCULATION_PROCESSOR.asItem()))
+                .inputItems(new ItemStack(AEItems.ENGINEERING_PROCESSOR.asItem()))
+                .outputItems("expatternprovider:assembler_matrix_crafter", 2)
+                .inputFluids(GTMaterials.SolderingAlloy, 576)
+                .EUt(120)
+                .duration(100)
+                .save();
+
+        ASSEMBLER_RECIPES.builder("assembler_matrix_speed")
+                .inputItems("expatternprovider:assembler_matrix_wall")
+                .inputItems(new ItemStack(AEItems.SPEED_CARD.asItem(), 2))
+                .inputItems("ae2:red_lumen_paint_ball", 6)
+                .inputItems(CustomTags.HV_CIRCUITS)
+                .inputItems("ae2:fluix_glass_cable", 4)
+                .inputItems(new ItemStack(AEItems.LOGIC_PROCESSOR.asItem()))
+                .inputItems(new ItemStack(AEItems.CALCULATION_PROCESSOR.asItem()))
+                .inputItems(new ItemStack(AEItems.ENGINEERING_PROCESSOR.asItem()))
+                .outputItems("expatternprovider:assembler_matrix_speed", 2)
+                .inputFluids(GTMaterials.SolderingAlloy, 288)
+                .EUt(480)
+                .duration(100)
+                .save();
+
+        ASSEMBLER_RECIPES.builder("crafting_unit")
+                .inputItems(TagPrefix.frameGt, GTMaterials.BlueSteel)
+                .inputItems(TagPrefix.plateDouble, GTMaterials.StainlessSteel, 4)
+                .inputItems(new ItemStack(AEItems.LOGIC_PROCESSOR.asItem()))
+                .inputItems(new ItemStack(AEItems.CALCULATION_PROCESSOR.asItem()))
+                .inputItems(CustomTags.HV_CIRCUITS)
+                .inputItems("ae2:fluix_glass_cable", 4)
+                .outputItems(new ItemStack(AEBlocks.CRAFTING_UNIT.block().asItem(), 2))
+                .inputFluids(GTMaterials.Polytetrafluoroethylene, 288)
+                .EUt(480)
+                .duration(100)
+                .save();
+
+        ASSEMBLER_RECIPES.builder("pattern_provider")
+                .inputItems(new ItemStack(AEItems.FORMATION_CORE.asItem()))
+                .inputItems(new ItemStack(AEItems.ANNIHILATION_CORE.asItem()))
+                .inputItems(CustomTags.HV_CIRCUITS)
+                .inputItems(GTItems.ROBOT_ARM_MV.asStack(2))
+                .inputItems(TagPrefix.frameGt, GTMaterials.Aluminium)
+                .inputItems(TagPrefix.plate, GTMaterials.StainlessSteel, 4)
+                .inputItems(new ItemStack(AEItems.LOGIC_PROCESSOR.asItem()))
+                .inputItems(new ItemStack(AEItems.CALCULATION_PROCESSOR.asItem()))
+                .inputItems(new ItemStack(AEItems.ENGINEERING_PROCESSOR.asItem()))
+                .outputItems(new ItemStack(AEBlocks.PATTERN_PROVIDER.block().asItem(), 2))
+                .inputFluids(GTMaterials.PolyvinylChloride, 576)
+                .EUt(480)
+                .duration(100)
+                .save();
+
+        ASSEMBLER_RECIPES.builder("requester")
+                .inputItems(GTItems.TOOL_DATA_STICK.asStack(8))
+                .inputItems(TagPrefix.frameGt, GTMaterials.Titanium)
+                .inputItems(new ItemStack(AEItems.ENGINEERING_PROCESSOR.asItem(), 4))
+                .inputItems("ae2:cable_interface")
+                .inputItems(new ItemStack(AEBlocks.CRAFTING_ACCELERATOR.block().asItem()))
+                .inputItems(TagPrefix.gemExquisite, GTMaterials.Amethyst, 2)
+                .inputItems("ae2:fluix_glass_cable", 4)
+                .inputItems(TagPrefix.plate, GTMaterials.StainlessSteel, 6)
+                .inputItems(new ItemStack(AEBlocks.INTERFACE.block().asItem()))
+                .outputItems("merequester:requester")
+                .inputFluids(GTMaterials.SolderingAlloy, 576)
+                .EUt(7680)
+                .duration(400)
+                .save();
+
         ASSEMBLER_RECIPES.builder("lv_power_amplifiers")
                 .inputItems(TagPrefix.plate, GTMaterials.Iron, 8)
                 .inputItems("apotheosis:rare_material", 16)
@@ -726,6 +976,7 @@ interface Assembler {
 
         ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("adamantine_coil_block"))
                 .inputItems(TagPrefix.wireGtDouble, GTOMaterials.Adamantine, 8)
+                .inputItems(GTOItems.MICA_INSULATOR_FOIL, 8)
                 .inputItems(TagPrefix.foil, GTMaterials.Neutronium, 8)
                 .inputFluids(GTOMaterials.TitanSteel.getFluid(144))
                 .outputItems(GTOBlocks.ADAMANTINE_COIL_BLOCK.asStack())
@@ -830,6 +1081,7 @@ interface Assembler {
 
         ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("naquadriatictaranium_coil_block"))
                 .inputItems(TagPrefix.wireGtDouble, GTOMaterials.NaquadriaticTaranium, 8)
+                .inputItems(GTOItems.MICA_INSULATOR_FOIL, 8)
                 .inputItems(TagPrefix.foil, GTOMaterials.Taranium, 8)
                 .inputFluids(GTOMaterials.Adamantine.getFluid(144))
                 .outputItems(GTOBlocks.NAQUADRIATICTARANIUM_COIL_BLOCK.asStack())
@@ -1298,6 +1550,7 @@ interface Assembler {
 
         ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("abyssalalloy_coil_block"))
                 .inputItems(TagPrefix.wireGtDouble, GTOMaterials.AbyssalAlloy, 8)
+                .inputItems(GTOItems.MICA_INSULATOR_FOIL, 8)
                 .inputItems(TagPrefix.foil, GTMaterials.Europium, 8)
                 .inputFluids(GTMaterials.Tritanium.getFluid(144))
                 .outputItems(GTOBlocks.ABYSSALALLOY_COIL_BLOCK.asStack())
@@ -1473,6 +1726,7 @@ interface Assembler {
 
         ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("starmetal_coil_block"))
                 .inputItems(TagPrefix.wireGtDouble, GTOMaterials.Starmetal, 8)
+                .inputItems(GTOItems.MICA_INSULATOR_FOIL, 8)
                 .inputItems(TagPrefix.foil, GTOMaterials.CrystalMatrix, 8)
                 .inputFluids(GTOMaterials.NaquadriaticTaranium.getFluid(144))
                 .outputItems(GTOBlocks.STARMETAL_COIL_BLOCK.asStack())
@@ -1682,6 +1936,7 @@ interface Assembler {
 
         ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("titansteel_coil_block"))
                 .inputItems(TagPrefix.wireGtDouble, GTOMaterials.TitanSteel, 8)
+                .inputItems(GTOItems.MICA_INSULATOR_FOIL, 8)
                 .inputItems(TagPrefix.foil, GTOMaterials.Mithril, 8)
                 .inputFluids(GTOMaterials.AbyssalAlloy.getFluid(144))
                 .outputItems(GTOBlocks.TITANSTEEL_COIL_BLOCK.asStack())
@@ -2390,8 +2645,8 @@ interface Assembler {
                 .inputItems(TagPrefix.plate, GTMaterials.Polytetrafluoroethylene, 2)
                 .inputItems(TagPrefix.plate, GTMaterials.RedAlloy, 4)
                 .inputItems(CustomTags.EV_CIRCUITS)
-                .inputFluids(GTMaterials.Glass.getFluid(576))
-                .outputItems(new ItemStack(AEItems.BLANK_PATTERN.asItem(), 2))
+                .inputFluids(GTMaterials.Glass.getFluid(1152))
+                .outputItems(new ItemStack(AEItems.BLANK_PATTERN.asItem(), 4))
                 .EUt(480)
                 .duration(200)
                 .save();
@@ -3093,8 +3348,8 @@ interface Assembler {
                 .inputItems(TagPrefix.plate, GTMaterials.Polybenzimidazole, 2)
                 .inputItems(TagPrefix.plate, GTMaterials.RedAlloy, 4)
                 .inputItems(CustomTags.IV_CIRCUITS)
-                .inputFluids(GTMaterials.Glass.getFluid(1152))
-                .outputItems(new ItemStack(AEItems.BLANK_PATTERN.asItem(), 8))
+                .inputFluids(GTMaterials.Glass.getFluid(2304))
+                .outputItems(new ItemStack(AEItems.BLANK_PATTERN.asItem(), 16))
                 .EUt(1920)
                 .duration(200)
                 .save();

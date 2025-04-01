@@ -273,6 +273,8 @@ public interface GTMaterialExtend {
         NaquadahEnriched.getProperty(ORE).setOreByProducts(Naquadah, Sulfur);
         Naquadah.getProperty(ORE).setOreByProducts(List.of(NaquadahOxideMixture));
         Palladium.getProperty(ORE).setOreByProducts(List.of(PalladiumMetal));
+        Cooperite.getProperty(PropertyKey.ORE).setOreByProducts(Nickel, Nickel, Cobalt, PalladiumMetal);
+        Nickel.getProperty(PropertyKey.ORE).setOreByProducts(Cobalt, Iron, PlatinumMetal);
         EchoShard.setProperty(FLUID, new FluidProperty(FluidStorageKeys.LIQUID, new FluidBuilder()));
         Graphite.setProperty(INGOT, new IngotProperty());
         VanadiumSteel.addFlags(GENERATE_FRAME);

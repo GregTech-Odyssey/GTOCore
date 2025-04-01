@@ -46,17 +46,17 @@ public interface GTOOres {
             Map<ResourceLocation, Set<String>> ORE_MAP = new Object2ObjectOpenHashMap<>();
             ORE_MAP.put(THE_NETHER, Set.of("TagPrefix.oreNetherrack"));
             ORE_MAP.put(THE_END, Set.of("TagPrefix.oreEndstone"));
-            ORE_MAP.put(MOON, Set.of("GTOTagPrefix.moon_stone"));
-            ORE_MAP.put(MARS, Set.of("GTOTagPrefix.mars_stone"));
-            ORE_MAP.put(VENUS, Set.of("GTOTagPrefix.venus_stone"));
-            ORE_MAP.put(MERCURY, Set.of("GTOTagPrefix.mercury_stone"));
-            ORE_MAP.put(GLACIO, Set.of("GTOTagPrefix.glacio_stone"));
-            ORE_MAP.put(TITAN, Set.of("GTOTagPrefix.titan_stone"));
-            ORE_MAP.put(PLUTO, Set.of("GTOTagPrefix.pluto_stone"));
-            ORE_MAP.put(IO, Set.of("GTOTagPrefix.io_stone"));
-            ORE_MAP.put(GANYMEDE, Set.of("GTOTagPrefix.ganymede_stone"));
-            ORE_MAP.put(ENCELADUS, Set.of("GTOTagPrefix.enceladus_stone"));
-            ORE_MAP.put(CERES, Set.of("GTOTagPrefix.ceres_stone"));
+            ORE_MAP.put(MOON, Set.of("GTOTagPrefix.MOON_STONE"));
+            ORE_MAP.put(MARS, Set.of("GTOTagPrefix.MARS_STONE"));
+            ORE_MAP.put(VENUS, Set.of("GTOTagPrefix.VENUS_STONE"));
+            ORE_MAP.put(MERCURY, Set.of("GTOTagPrefix.MERCURY_STONE"));
+            ORE_MAP.put(GLACIO, Set.of("GTOTagPrefix.GLACIO_STONE"));
+            ORE_MAP.put(TITAN, Set.of("GTOTagPrefix.TITAN_STONE"));
+            ORE_MAP.put(PLUTO, Set.of("GTOTagPrefix.PLUTO_STONE"));
+            ORE_MAP.put(IO, Set.of("GTOTagPrefix.IO_STONE"));
+            ORE_MAP.put(GANYMEDE, Set.of("GTOTagPrefix.GANYMEDE_STONE"));
+            ORE_MAP.put(ENCELADUS, Set.of("GTOTagPrefix.ENCELADUS_STONE"));
+            ORE_MAP.put(CERES, Set.of("GTOTagPrefix.CERES_STONE"));
             StringBuilder stringBuilder = new StringBuilder();
             Map<String, Set<String>> a = new Object2ObjectOpenHashMap<>();
             GTOOres.ALL_ORES.forEach((k, v) -> v.keySet().forEach(m -> {
@@ -727,7 +727,6 @@ public interface GTOOres {
             .layeredVeinGenerator(generator -> generator
                     .buildLayerPattern(config -> config
                             .layer(l -> l.weight(1).mat(GTOMaterials.Ostrum).size(2, 4))
-                            .layer(l -> l.weight(1).mat(Tungsten).size(1, 2))
                             .layer(l -> l.weight(2).mat(Gold).size(1, 4))
                             .build()))
             .surfaceIndicatorGenerator(indicator -> indicator
@@ -758,7 +757,7 @@ public interface GTOOres {
             .layeredVeinGenerator(generator -> generator
                     .buildLayerPattern(config -> config
                             .layer(l -> l.weight(1).mat(GTOMaterials.Zircon).size(1, 4))
-                            .layer(l -> l.weight(1).mat(Grossular).size(2, 4))
+                            .layer(l -> l.weight(1).mat(Tungsten).size(1, 2))
                             .layer(l -> l.weight(1).mat(Pyrolusite).size(2, 4))
                             .layer(l -> l.weight(1).mat(Tantalite).size(1, 2))
                             .build()))

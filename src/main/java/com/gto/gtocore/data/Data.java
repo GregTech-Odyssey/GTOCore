@@ -10,6 +10,7 @@ import com.gto.gtocore.data.recipe.*;
 import com.gto.gtocore.data.recipe.classified.$ClassifiedRecipe;
 import com.gto.gtocore.data.recipe.generated.*;
 import com.gto.gtocore.data.recipe.generated.ComponentRecipes;
+import com.gto.gtocore.data.recipe.mod.ImmersiveAircraft;
 import com.gto.gtocore.data.recipe.processing.*;
 import com.gto.gtocore.integration.emi.GTEMIRecipe;
 import com.gto.gtocore.integration.emi.multipage.MultiblockInfoEmiRecipe;
@@ -111,6 +112,7 @@ public interface Data {
         GlassRecipe.init();
         DyeRecipes.init();
         WoodRecipes.init();
+        ImmersiveAircraft.init(consumer);
         $ClassifiedRecipe.init(consumer);
         GenerateDisassembly.DISASSEMBLY_RECORD.clear();
         GenerateDisassembly.DISASSEMBLY_BLACKLIST.clear();

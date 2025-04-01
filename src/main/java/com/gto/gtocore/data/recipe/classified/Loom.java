@@ -73,5 +73,19 @@ interface Loom {
                 .EUt(7680)
                 .duration(200)
                 .save();
+
+        LOOM_RECIPES.builder("fluix_covered_dense_cable")
+                .inputItems("ae2:fluix_covered_cable", 4)
+                .outputItems("ae2:fluix_covered_dense_cable")
+                .EUt(32)
+                .duration(5)
+                .save();
+
+        LOOM_RECIPES.builder("fluix_smart_dense_cable")
+                .inputItems("ae2:fluix_smart_cable", 4)
+                .outputItems("ae2:fluix_smart_dense_cable")
+                .EUt(32)
+                .duration(5)
+                .save();
     }
 }
