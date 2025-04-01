@@ -121,5 +121,6 @@ public interface $ClassifiedRecipe {
         BiochemicalExtraction.init();
         BiochemicaReaction.init();
         Laminator.init();
+        Cluster.init();
     }
 }

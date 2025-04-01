@@ -1,6 +1,7 @@
 package com.gto.gtocore.data.recipe.classified;
 
 import com.gto.gtocore.GTOCore;
+import com.gto.gtocore.common.data.GTOItems;
 import com.gto.gtocore.common.data.GTOMaterials;
 
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
@@ -18,6 +19,14 @@ import static com.gto.gtocore.common.data.GTORecipeTypes.ALLOY_SMELTER_RECIPES;
 interface AlloySmelter {
 
     static void init() {
+        ALLOY_SMELTER_RECIPES.builder("mica_insulator_sheet")
+                .inputItems(GTOItems.MICA_BASED_SHEET.asStack(5))
+                .inputItems(TagPrefix.dust, GTMaterials.SiliconDioxide, 3)
+                .outputItems(GTOItems.MICA_INSULATOR_SHEET.asStack(5))
+                .EUt(30)
+                .duration(400)
+                .save();
+
         ALLOY_SMELTER_RECIPES.recipeBuilder(GTOCore.id("vibrant_gear"))
                 .inputItems(EIOItems.GEAR_ENERGIZED.asItem())
                 .inputItems(TagPrefix.ingot, GTOMaterials.VibrantAlloy, 4)

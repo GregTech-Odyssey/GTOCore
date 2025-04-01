@@ -32,7 +32,7 @@ public final class InternalSlotRecipeHandler {
     }
 
     @Getter
-    protected static class SlotRHL extends RecipeHandlerList {
+    static class SlotRHL extends RecipeHandlerList {
 
         private final SlotItemRecipeHandler itemRecipeHandler;
         private final SlotFluidRecipeHandler fluidRecipeHandler;
@@ -59,11 +59,6 @@ public final class InternalSlotRecipeHandler {
 
         private final MEPatternBufferPartMachine.InternalSlot slot;
         private final int priority;
-
-        private final int size = 81;
-        private final RecipeCapability<Ingredient> capability = ItemRecipeCapability.CAP;
-        private final IO handlerIO = IO.IN;
-        private final boolean isDistinct = true;
 
         private SlotItemRecipeHandler(MEPatternBufferPartMachine buffer, MEPatternBufferPartMachine.InternalSlot slot, int index) {
             super(buffer);
@@ -92,6 +87,26 @@ public final class InternalSlotRecipeHandler {
         public double getTotalContentAmount() {
             return slot.getItems().stream().mapToLong(ItemStack::getCount).sum();
         }
+
+        @Override
+        public int getSize() {
+            return 81;
+        }
+
+        @Override
+        public boolean isDistinct() {
+            return true;
+        }
+
+        @Override
+        public RecipeCapability<Ingredient> getCapability() {
+            return ItemRecipeCapability.CAP;
+        }
+
+        @Override
+        public IO getHandlerIO() {
+            return IO.IN;
+        }
     }
 
     @Getter
@@ -99,11 +114,6 @@ public final class InternalSlotRecipeHandler {
 
         private final MEPatternBufferPartMachine.InternalSlot slot;
         private final int priority;
-
-        private final int size = 81;
-        private final RecipeCapability<FluidIngredient> capability = FluidRecipeCapability.CAP;
-        private final IO handlerIO = IO.IN;
-        private final boolean isDistinct = true;
 
         private SlotFluidRecipeHandler(MEPatternBufferPartMachine buffer, MEPatternBufferPartMachine.InternalSlot slot, int index) {
             super(buffer);
@@ -131,6 +141,26 @@ public final class InternalSlotRecipeHandler {
         @Override
         public double getTotalContentAmount() {
             return slot.getFluids().stream().mapToLong(FluidStack::getAmount).sum();
+        }
+
+        @Override
+        public int getSize() {
+            return 81;
+        }
+
+        @Override
+        public boolean isDistinct() {
+            return true;
+        }
+
+        @Override
+        public RecipeCapability<FluidIngredient> getCapability() {
+            return FluidRecipeCapability.CAP;
+        }
+
+        @Override
+        public IO getHandlerIO() {
+            return IO.IN;
         }
     }
 }

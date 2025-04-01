@@ -778,6 +778,11 @@ public interface GTOItems {
 
     ItemEntry<Item> NANOTUBE_SPOOL = register("nanotube_spool", "纳米管线轴");
 
+    ItemEntry<Item> MICA_BASED_PULP = register("mica_based_pulp", "云母浆");
+    ItemEntry<Item> MICA_BASED_SHEET = register("mica_based_sheet", "云母基板");
+    ItemEntry<Item> MICA_INSULATOR_SHEET = register("mica_insulator_sheet", "云母绝缘板");
+    ItemEntry<Item> MICA_INSULATOR_FOIL = register("mica_insulator_foil", "云母绝缘薄片");
+
     ItemEntry<Item> HIGH_PURITY_SILICON_BOULE = register("high_purity_silicon_boule", "高纯多晶硅");
     ItemEntry<Item> REGIONAL_SMELTING_SILICON_BOULE = register("regional_smelting_silicon_boule", "区域熔炼的多晶硅");
     ItemEntry<Item> ETCHED_SILICON_BOULE = register("etched_silicon_boule", "电子束蚀刻的多晶硅");

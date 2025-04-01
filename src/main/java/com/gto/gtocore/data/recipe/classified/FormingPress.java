@@ -21,6 +21,14 @@ import static com.gto.gtocore.common.data.GTORecipeTypes.FORMING_PRESS_RECIPES;
 interface FormingPress {
 
     static void init() {
+        FORMING_PRESS_RECIPES.builder("mica_based_sheet")
+                .inputItems(GTOItems.MICA_BASED_PULP.asStack(3))
+                .inputItems(TagPrefix.dust, GTMaterials.Asbestos, 2)
+                .outputItems(GTOItems.MICA_BASED_SHEET.asStack(2))
+                .EUt(30)
+                .duration(400)
+                .save();
+
         FORMING_PRESS_RECIPES.recipeBuilder(GTOCore.id("carbon_rotor"))
                 .inputItems(new ItemStack(Blocks.CHAIN.asItem()))
                 .inputItems(TagPrefix.rod, GTMaterials.Magnalium, 2)

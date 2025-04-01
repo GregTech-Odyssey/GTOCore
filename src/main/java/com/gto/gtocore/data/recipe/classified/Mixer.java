@@ -28,6 +28,14 @@ import static com.gto.gtocore.common.data.GTORecipeTypes.MIXER_RECIPES;
 interface Mixer {
 
     static void init() {
+        MIXER_RECIPES.builder("mica_based_pulp")
+                .inputItems(TagPrefix.dust, GTMaterials.Mica, 3)
+                .inputItems(TagPrefix.dust, GTMaterials.RawRubber, 2)
+                .outputItems(GTOItems.MICA_BASED_PULP.asStack(5))
+                .EUt(8)
+                .duration(300)
+                .save();
+
         MIXER_RECIPES.recipeBuilder(GTOCore.id("absolute_ethanol"))
                 .inputFluids(Ethanol.getFluid(1000))
                 .inputItems(TagPrefix.dust, ZeoliteSievingPellets)
