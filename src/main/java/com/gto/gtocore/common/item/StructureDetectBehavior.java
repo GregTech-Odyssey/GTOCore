@@ -16,6 +16,9 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionResult;
@@ -35,8 +38,6 @@ public final class StructureDetectBehavior extends TooltipBehavior implements IT
 
     private static final ReentrantLock LOCK = new ReentrantLock();
 
-    private static BlockPos[] poses = new BlockPos[2];
-
     public static final StructureDetectBehavior INSTANCE = new StructureDetectBehavior(lines -> {
         lines.add(Component.translatable("item.gtocore.structure_detect.tooltip.0"));
         lines.add(Component.translatable("item.gtocore.structure_detect.tooltip.1"));
@@ -46,9 +47,40 @@ public final class StructureDetectBehavior extends TooltipBehavior implements IT
         super(tooltips);
     }
 
-    public static BlockPos[] getPos() {
-        if (poses[0] != null) return poses;
+    public static BlockPos[] getPos(ItemStack stack) {
+        var tag = stack.getOrCreateTagElement("error_pos");
+        if (tag.contains("pos", Tag.TAG_LIST)) {
+            return tag.getList("pos", Tag.TAG_COMPOUND)
+                    .stream()
+                    .map(p -> {
+                        var pos = (CompoundTag) p;
+                        return new BlockPos(pos.getInt("x"), pos.getInt("y"), pos.getInt("z"));
+                    })
+                    .toArray(BlockPos[]::new);
+        }
         return null;
+    }
+
+    private static void addPos(ItemStack stack, int index, BlockPos pos) {
+        var tag = stack.getOrCreateTagElement("error_pos");
+        if (tag.contains("pos", Tag.TAG_LIST)) {
+            var list = tag.getList("pos", Tag.TAG_COMPOUND);
+            if (list.size() <= 2) {
+                list.set(index, pos2tag(pos));
+            }
+        } else {
+            ListTag list = new ListTag();
+            list.add(pos2tag(pos));
+            tag.put("pos", list);
+        }
+    }
+
+    private static CompoundTag pos2tag(BlockPos pos) {
+        var tag = new CompoundTag();
+        tag.putInt("x", pos.getX());
+        tag.putInt("y", pos.getY());
+        tag.putInt("z", pos.getZ());
+        return tag;
     }
 
     @Override
@@ -62,21 +94,20 @@ public final class StructureDetectBehavior extends TooltipBehavior implements IT
                 if (controller.isFormed()) {
                     player.sendSystemMessage(Component.translatable("gtceu.top.valid_structure").withStyle(ChatFormatting.GREEN));
                 } else {
-                    poses = new BlockPos[2];
                     if (!controller.self().allowFlip()) {
                         MultiblockState multiblockState = controller.getMultiblockState();
                         PatternError error = multiblockState.error;
                         if (error != null) {
-                            showError(player, error, false, 0);
+                            showError(player, error, false, 0, stack);
                         }
                     } else {
                         ((ServerLevel) level).getServer().execute(() -> {
                             BlockPattern pattern = controller.getPattern();
                             LOCK.lock();
                             if (LOCK.tryLock()) {
-                                var result = check(controller, pattern);
+                                var result = check(controller, pattern, stack);
                                 for (int i = 0; i < result.size(); i++) {
-                                    showError(player, result.get(i), (i == 1), i);
+                                    showError(player, result.get(i), (i == 1), i, stack);
                                 }
                                 LOCK.unlock();
                             } else {
@@ -91,7 +122,7 @@ public final class StructureDetectBehavior extends TooltipBehavior implements IT
         return InteractionResult.PASS;
     }
 
-    private static List<PatternError> check(IMultiController controller, BlockPattern pattern) {
+    private static List<PatternError> check(IMultiController controller, BlockPattern pattern, ItemStack stack) {
         List<PatternError> errors = new ArrayList<>();
         if (controller == null) {
             errors.add(new PatternStringError("no controller found"));
@@ -120,7 +151,7 @@ public final class StructureDetectBehavior extends TooltipBehavior implements IT
         return errors;
     }
 
-    private static void showError(Player player, PatternError error, boolean flip, int index) {
+    private static void showError(Player player, PatternError error, boolean flip, int index, ItemStack stack) {
         List<Component> show = new ArrayList<>();
         if (error instanceof PatternStringError pe) {
             player.sendSystemMessage(pe.getErrorInfo());
@@ -145,7 +176,7 @@ public final class StructureDetectBehavior extends TooltipBehavior implements IT
             }
         }
         show.forEach(player::sendSystemMessage);
-        poses[index] = error.getPos();
+        addPos(stack, index, error.getPos());
     }
 
     public static boolean isItem(ItemStack stack) {

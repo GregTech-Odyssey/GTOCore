@@ -1428,7 +1428,7 @@
   "gtceu.world_data_scanner": "World Data Scanner",
   "gtocore.condition.gravity": "Requires Strong Gravity Environment",
   "gtocore.condition.zero_gravity": "Requires Zero Gravity Environment",
-  "gtocore.dev": "The current version is a development test version and cannot guarantee the stability and completeness of the content. If you encounter any issues or have any suggestions, please provide feedback on GitHub.",
+  "gtocore.dev": "The current version is a development test version and cannot guarantee the stability and completeness of the content. If you encounter any issues or have any suggestions, please go to %s to provide feedback.",
   "gtocore.drone.maintaining": "Maintaining...",
   "gtocore.drone.removing_ash": "Removing ash...",
   "gtocore.fly_speed": "fly Speed x%s",

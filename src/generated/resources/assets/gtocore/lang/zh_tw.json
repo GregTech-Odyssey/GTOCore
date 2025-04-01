@@ -1428,7 +1428,7 @@
   "gtceu.world_data_scanner": "世界信息掃描儀",
   "gtocore.condition.gravity": "需要強重力環境",
   "gtocore.condition.zero_gravity": "需要無重力環境",
-  "gtocore.dev": "當前版本是開髮測試版本，不能保證內容的穩定性和完整性。如果您遇到任何問題或有任何建議，請訪問GitHub提供反饋。",
+  "gtocore.dev": "當前版本是開髮測試版本，不能保證內容的穩定性和完整性。如果您遇到任何問題或有任何建議，請前往%s提供反饋。",
   "gtocore.drone.maintaining": "維護中...",
   "gtocore.drone.removing_ash": "掏灰中...",
   "gtocore.fly_speed": "飛行速度 x%s",

@@ -21,9 +21,12 @@ import com.gto.gtocore.utils.register.BlockRegisterUtils;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.common.data.GTItems;
 
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
@@ -237,7 +240,10 @@ public final class ForgeCommonEvent {
     @SubscribeEvent
     public static void onPlayerLoggedInEvent(PlayerEvent.PlayerLoggedInEvent event) {
         if (event.getEntity() instanceof ServerPlayer player) {
-            if (!GTOConfig.INSTANCE.dev) player.displayClientMessage(Component.translatable("gtocore.dev"), false);
+            if (!GTOConfig.INSTANCE.dev) player.displayClientMessage(Component.translatable("gtocore.dev", Component.literal("GitHub")
+                    .withStyle(Style.EMPTY.withColor(ChatFormatting.GREEN)
+                            .withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://github.com/GregTech-Odyssey/GregTech-Odyssey/issues")))),
+                    false);
             if (player instanceof IEnhancedPlayer enhancedPlayer) {
                 ServerMessage.sendData(player.getServer(), player, "loggedIn", null);
                 enhancedPlayer.gtocore$setDrift(enhancedPlayer.gTOCore$isDisableDrift());

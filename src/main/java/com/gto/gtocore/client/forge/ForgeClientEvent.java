@@ -100,12 +100,12 @@ public final class ForgeClientEvent {
                     highlightBlock(camera, poseStack, poses);
                 }
             } else if (StructureDetectBehavior.isItem(held)) {
-                poses = StructureDetectBehavior.getPos();
-                if (poses != null) {
+                poses = StructureDetectBehavior.getPos(held);
+                if (poses != null && poses.length >= 1) {
                     if (poses[0] != null) {
                         highlightBlock(camera, poseStack, poses[0], poses[0]);
                     }
-                    if (poses[1] != null) {
+                    if (poses.length == 2 && poses[1] != null) {
                         highlightBlock(camera, poseStack, poses[1], poses[1]);
                     }
                 }
