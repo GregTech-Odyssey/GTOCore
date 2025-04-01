@@ -145,11 +145,6 @@ interface Vanilla {
                 "CDC",
                 "ABA",
                 'A', new MaterialEntry(TagPrefix.plate, GTMaterials.Bronze), 'B', new ItemStack(Blocks.COMPARATOR.asItem()), 'C', GTOItems.PRECISION_STEAM_MECHANISM.asStack(), 'D', new ItemStack(AEBlocks.MOLECULAR_ASSEMBLER.block().asItem()));
-        VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("crafting_unit"), new ItemStack(AEBlocks.CRAFTING_UNIT.block().asItem()),
-                "ABA",
-                "CDC",
-                "AEA",
-                'A', new MaterialEntry(TagPrefix.plate, GTMaterials.Aluminium), 'B', new ItemStack(AEItems.CALCULATION_PROCESSOR.asItem()), 'C', RegistriesUtils.getItemStack("ae2:fluix_glass_cable"), 'D', CustomTags.MV_CIRCUITS, 'E', new ItemStack(AEItems.LOGIC_PROCESSOR.asItem()));
         VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("steam_assembly_block"), GTOBlocks.STEAM_ASSEMBLY_BLOCK.asStack(),
                 "ABA",
                 "DCD",
@@ -285,9 +280,6 @@ interface Vanilla {
                 "CDC",
                 "ABA",
                 'A', GTItems.ELECTRIC_PISTON_IV.asStack(), 'B', CustomTags.IV_CIRCUITS, 'C', new MaterialEntry(TagPrefix.cableGtDouble, GTMaterials.Platinum), 'D', GTMachines.ROCK_CRUSHER[GTValues.IV].getItem());
-        VanillaRecipeHelper.addShapedRecipe(provider, GTOCore.id("formation_core"), new ItemStack(AEItems.FORMATION_CORE.asItem()),
-                "ABC",
-                'A', CustomTags.ULV_CIRCUITS, 'B', new ItemStack(AEItems.LOGIC_PROCESSOR.asItem()), 'C', new MaterialEntry(TagPrefix.dust, GTMaterials.CertusQuartz));
         VanillaRecipeHelper.addShapedRecipe(provider, GTOCore.id("item_storage_cell_64m"), GTOItems.ITEM_STORAGE_CELL_64M.asStack(),
                 "ABA",
                 "BCB",
@@ -654,9 +646,6 @@ interface Vanilla {
                 "CDC",
                 "AEA",
                 'A', new MaterialEntry(TagPrefix.plate, GTMaterials.Neutronium), 'B', TagUtils.createTag(RLUtils.forge("tools/hammers")), 'C', new MaterialEntry(TagPrefix.gear, GTMaterials.Neutronium), 'D', new MaterialEntry(TagPrefix.frameGt, GTMaterials.Neutronium), 'E', TagUtils.createTag(RLUtils.forge("tools/wrench")));
-        VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("annihilation_core"), new ItemStack(AEItems.ANNIHILATION_CORE.asItem()),
-                "ABC",
-                'A', CustomTags.ULV_CIRCUITS, 'B', new ItemStack(AEItems.LOGIC_PROCESSOR.asItem()), 'C', new MaterialEntry(TagPrefix.dust, GTMaterials.NetherQuartz));
         VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("gravitation_shockburst"), MultiBlockB.GRAVITATION_SHOCKBURST.asStack(),
                 "ABA",
                 "BCB",
@@ -910,5 +899,10 @@ interface Vanilla {
                 "BCB",
                 "ABA",
                 'A', RegistriesUtils.getItemStack("botania:rune_water"), 'B', GTItems.COVER_INFINITE_WATER.asStack(), 'C', new ItemStack(AEItems.FLUID_CELL_256K.asItem()));
+        VanillaRecipeHelper.addShapedRecipe(provider, GTOCore.id("me_packing_tape"), RegistriesUtils.getItemStack("expatternprovider:me_packing_tape"),
+                "ABC",
+                "BDB",
+                "CBA",
+                'A', new MaterialEntry(TagPrefix.dust, GTOMaterials.Fluix), 'B', GTItems.DUCT_TAPE.asStack(), 'C', new ItemStack(Items.SLIME_BALL.asItem()), 'D', new MaterialEntry(TagPrefix.dust, GTMaterials.EnderPearl));
     }
 }

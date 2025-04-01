@@ -1,6 +1,7 @@
 package com.gto.gtocore.data.recipe;
 
 import com.gto.gtocore.data.recipe.generated.DyeRecipes;
+import com.gto.gtocore.data.recipe.mod.ImmersiveAircraft;
 import com.gto.gtocore.integration.Mods;
 import com.gto.gtocore.utils.RLUtils;
 
@@ -18,7 +19,8 @@ import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 
 import java.util.Set;
 
-import static com.gregtechceu.gtceu.api.GTValues.VN;
+import static com.gregtechceu.gtceu.api.GTValues.*;
+import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
 import static com.gto.gtocore.common.data.GTORecipeTypes.*;
 import static com.gto.gtocore.common.data.GTORecipes.SHAPED_FILTER_RECIPES;
 import static com.gto.gtocore.common.data.GTORecipes.SHAPELESS_FILTER_RECIPES;
@@ -88,6 +90,14 @@ public interface RecipeFilter {
         ASSEMBLER_RECIPES.addFilter("vacuum_tube_plain");
         ASSEMBLER_RECIPES.addFilter("vacuum_tube_red_alloy");
         ASSEMBLER_RECIPES.addFilter("vacuum_tube_red_alloy_annealed");
+        ASSEMBLER_RECIPES.addFilter("coil_cupronickel");
+        ASSEMBLER_RECIPES.addFilter("coil_kanthal");
+        ASSEMBLER_RECIPES.addFilter("coil_nichrome");
+        ASSEMBLER_RECIPES.addFilter("coil_rtm_alloy");
+        ASSEMBLER_RECIPES.addFilter("coil_hssg");
+        ASSEMBLER_RECIPES.addFilter("coil_naquadah");
+        ASSEMBLER_RECIPES.addFilter("coil_trinium");
+        ASSEMBLER_RECIPES.addFilter("coil_tritanium");
 
         ASSEMBLY_LINE_RECIPES.addFilter("dynamo_hatch_uhv");
         ASSEMBLY_LINE_RECIPES.addFilter("energy_hatch_uhv");
@@ -254,6 +264,8 @@ public interface RecipeFilter {
     }
 
     static void initJsonFilter(Set<ResourceLocation> filters) {
+        ImmersiveAircraft.initJsonFilter(filters);
+
         String[] ore1 = new String[] { "coal", "redstone", "emerald", "diamond" };
         String[] ore2 = new String[] { "iron", "copper", "gold" };
         String[] ore3 = new String[] { "desh", "ostrum", "calorite" };
@@ -425,10 +437,6 @@ public interface RecipeFilter {
         filters.add(RLUtils.avaritia("infinity_catalyst"));
         filters.add(RLUtils.avaritia("crystal_matrix_ingot"));
         filters.add(RLUtils.avaritia("diamond_lattice"));
-
-        filters.add(ExtendedAE.id("fishbig"));
-        filters.add(ExtendedAE.id("cobblestone_cell"));
-        filters.add(ExtendedAE.id("water_cell"));
 
         filters.add(RLUtils.ad("refining/fuel_from_refining_oil"));
         filters.add(RLUtils.ad("oxygen_loading/oxygen_from_oxygen_loading_oxygen"));
@@ -613,6 +621,26 @@ public interface RecipeFilter {
         filters.add(AppEng.makeId("materials/formationcore"));
         filters.add(AppEng.makeId("materials/advancedcard"));
         filters.add(AppEng.makeId("materials/basiccard"));
+        filters.add(AppEng.makeId("network/cables/dense_covered_fluix"));
+        filters.add(AppEng.makeId("network/cables/dense_smart_from_smart"));
+        filters.add(AppEng.makeId("network/cables/dense_smart_fluix"));
+        filters.add(AppEng.makeId("network/blocks/controller"));
+        filters.add(AppEng.makeId("network/blocks/storage_drive"));
+        filters.add(AppEng.makeId("network/crafting/molecular_assembler"));
+        filters.add(AppEng.makeId("network/blocks/energy_energy_acceptor"));
+        filters.add(AppEng.makeId("network/blocks/interfaces_interface"));
+        filters.add(AppEng.makeId("network/blocks/pattern_providers_interface"));
+
+        filters.add(new ResourceLocation("merequester", "requester"));
+
+        filters.add(ExtendedAE.id("cobblestone_cell"));
+        filters.add(ExtendedAE.id("water_cell"));
+        filters.add(ExtendedAE.id("tape"));
+        filters.add(ExtendedAE.id("assembler_matrix_wall"));
+        filters.add(ExtendedAE.id("assembler_matrix_frame"));
+        filters.add(ExtendedAE.id("assembler_matrix_crafter"));
+        filters.add(ExtendedAE.id("assembler_matrix_pattern"));
+        filters.add(ExtendedAE.id("assembler_matrix_speed"));
 
         filters.add(RLUtils.fd("wheat_dough_from_water"));
         filters.add(RLUtils.fd("wheat_dough_from_eggs"));

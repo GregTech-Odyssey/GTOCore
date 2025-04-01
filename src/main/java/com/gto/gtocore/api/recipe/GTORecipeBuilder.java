@@ -924,7 +924,7 @@ public final class GTORecipeBuilder extends GTRecipeBuilder {
     }
 
     @Override
-    public GTRecipeBuilder inputFluids(@NotNull Material material, int amount) {
+    public GTORecipeBuilder inputFluids(@NotNull Material material, int amount) {
         return inputFluids(material.getFluid(amount));
     }
 
@@ -1265,6 +1265,11 @@ public final class GTORecipeBuilder extends GTRecipeBuilder {
     public GTORecipeBuilder onSave(@Nullable BiConsumer<GTRecipeBuilder, Consumer<FinishedRecipe>> onSave) {
         this.onSave = onSave;
         return this;
+    }
+
+    @Override
+    public GTORecipeBuilder addMaterialInfo(boolean item, boolean fluid) {
+        return (GTORecipeBuilder) super.addMaterialInfo(item, fluid);
     }
 
     public void save() {
