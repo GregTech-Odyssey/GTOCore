@@ -61,7 +61,7 @@ public class MEPatternBufferProvider implements IBlockComponentProvider, IServer
         return GTCEu.id("me_pattern_buffer");
     }
 
-    public static void writeBufferTag(CompoundTag compoundTag, MEPatternBufferPartMachine buffer) {
+    private static void writeBufferTag(CompoundTag compoundTag, MEPatternBufferPartMachine buffer) {
         var merged = buffer.mergeInternalSlots();
         var items = merged.items();
         var fluids = merged.fluids();
@@ -83,7 +83,7 @@ public class MEPatternBufferProvider implements IBlockComponentProvider, IServer
         if (!fluidsTag.isEmpty()) compoundTag.put("fluids", fluidsTag);
     }
 
-    public static void readBufferTag(ITooltip iTooltip, CompoundTag serverData) {
+    private static void readBufferTag(ITooltip iTooltip, CompoundTag serverData) {
         IElementHelper helper = iTooltip.getElementHelper();
 
         ListTag itemsTag = serverData.getList("items", Tag.TAG_COMPOUND);

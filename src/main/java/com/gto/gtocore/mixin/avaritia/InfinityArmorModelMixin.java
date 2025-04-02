@@ -10,5 +10,5 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 public class InfinityArmorModelMixin {
 
     @Redirect(method = "renderToBuffer", at = @At(value = "INVOKE", target = "Lorg/apache/logging/log4j/Logger;info(Ljava/lang/Object;)V", remap = false))
-    public void renderToBuffer(Logger instance, Object object) {}
+    private void renderToBuffer(Logger instance, Object object) {}
 }

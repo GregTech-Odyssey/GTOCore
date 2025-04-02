@@ -43,24 +43,24 @@ import static com.lowdragmc.lowdraglib.gui.widget.PhantomFluidWidget.drainFrom;
 /**
  * @author EasterFG on 2025/3/7
  */
-public class AEDualConfigSlotWidget extends Widget implements IGhostItemTarget, IGhostFluidTarget {
+public final class AEDualConfigSlotWidget extends Widget implements IGhostItemTarget, IGhostFluidTarget {
 
-    protected AEDualConfigWidget parentWidget;
-    protected int index;
-    protected final static int REMOVE_ID = 1000;
-    protected final static int ITEM_UPDATE_ID = 1001;
-    protected final static int FLUID_UPDATE_ID = 1002;
+    private final AEDualConfigWidget parentWidget;
+    private final int index;
+    private final static int REMOVE_ID = 1000;
+    private final static int ITEM_UPDATE_ID = 1001;
+    private final static int FLUID_UPDATE_ID = 1002;
 
     @Setter
-    protected boolean select = false;
+    private boolean select = false;
 
     public AEDualConfigSlotWidget(int x, int y, AEDualConfigWidget widget, int index) {
-        super(new Position(x, y), new Size(18, 18 * 2));
+        super(new Position(x, y), new Size(18, 18 << 1));
         this.parentWidget = widget;
         this.index = index;
     }
 
-    protected int getIndex() {
+    private int getIndex() {
         return (this.parentWidget.page - 1) * AEDualConfigWidget.CONFIG_SIZE + index;
     }
 
@@ -95,27 +95,27 @@ public class AEDualConfigSlotWidget extends Widget implements IGhostItemTarget, 
         }
     }
 
-    protected boolean mouseOverConfig(double mouseX, double mouseY) {
+    private boolean mouseOverConfig(double mouseX, double mouseY) {
         Position position = getPosition();
         return isMouseOver(position.x, position.y, 18, 18, mouseX, mouseY);
     }
 
-    protected boolean mouseOverStock(double mouseX, double mouseY) {
+    private boolean mouseOverStock(double mouseX, double mouseY) {
         Position position = getPosition();
         return isMouseOver(position.x, position.y + 18, 18, 18, mouseX, mouseY);
     }
 
     @OnlyIn(Dist.CLIENT)
-    public static void drawSelectionOverlay(GuiGraphics graphics, int x, int y, int width, int height) {
+    private static void drawSelectionOverlay(GuiGraphics graphics, int x, int y) {
         RenderSystem.disableDepthTest();
         RenderSystem.colorMask(true, true, true, false);
-        drawGradientRect(graphics, x, y, width, height, -2130706433, -2130706433);
+        drawGradientRect(graphics, x, y, 16, 16, -2130706433, -2130706433);
         RenderSystem.colorMask(true, true, true, true);
         RenderSystem.enableDepthTest();
         RenderSystem.enableBlend();
     }
 
-    protected boolean isStackValidForSlot(GenericStack stack) {
+    private boolean isStackValidForSlot(GenericStack stack) {
         if (stack == null || stack.amount() < 0) return false;
         return parentWidget.hasStackInConfig(stack);
     }
@@ -165,9 +165,9 @@ public class AEDualConfigSlotWidget extends Widget implements IGhostItemTarget, 
                         stackX + 17, stackY + 18 + 17, 16777215, true, 0.5f);
             }
             if (mouseOverConfig(mouseX, mouseY)) {
-                drawSelectionOverlay(graphics, stackX, stackY, 16, 16);
+                drawSelectionOverlay(graphics, stackX, stackY);
             } else if (mouseOverStock(mouseX, mouseY)) {
-                drawSelectionOverlay(graphics, stackX, stackY + 18, 16, 16);
+                drawSelectionOverlay(graphics, stackX, stackY + 18);
             }
         }
     }
@@ -328,12 +328,12 @@ public class AEDualConfigSlotWidget extends Widget implements IGhostItemTarget, 
     }
 
     @OnlyIn(Dist.CLIENT)
-    protected Object convertIngredientItem(Object ingredient) {
+    private Object convertIngredientItem(Object ingredient) {
         return IGhostItemTarget.super.convertIngredient(ingredient);
     }
 
     @OnlyIn(Dist.CLIENT)
-    protected Object convertIngredientFluid(Object ingredient) {
+    private Object convertIngredientFluid(Object ingredient) {
         return IGhostFluidTarget.super.convertIngredient(ingredient);
     }
 

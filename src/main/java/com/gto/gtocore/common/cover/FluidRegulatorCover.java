@@ -176,7 +176,7 @@ public final class FluidRegulatorCover extends ULVPumpCover {
     }
 
     @Override
-    protected void configureFilter() {
+    void configureFilter() {
         if (filterHandler.getFilter() instanceof SimpleFluidFilter filter) {
             filter.setMaxStackSize(transferMode == TransferMode.TRANSFER_ANY ? 1 : MAX_STACK_SIZE);
         }

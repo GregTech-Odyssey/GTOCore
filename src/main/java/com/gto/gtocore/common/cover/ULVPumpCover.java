@@ -128,7 +128,7 @@ public class ULVPumpCover extends CoverBehavior implements IUICover, IControllab
 
     @Override
     public boolean canAttach() {
-        return getOwnFluidHandler() != null;
+        return super.canAttach() && getOwnFluidHandler() != null;
     }
 
     private void setIo(IO io) {

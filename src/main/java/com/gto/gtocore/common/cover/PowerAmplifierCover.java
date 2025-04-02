@@ -38,16 +38,18 @@ public final class PowerAmplifierCover extends CoverBehavior {
 
     @Override
     public boolean canAttach() {
-        var machine = getMachine();
-        if (machine instanceof IRecipeLogicMachine && machine instanceof IOverclockMachine) {
-            if (machine instanceof SimpleGeneratorMachine) return false;
-            if (!(machine.getDefinition() instanceof MultiblockMachineDefinition)) {
-                for (CoverBehavior cover : machine.getCoverContainer().getCovers()) {
-                    if (cover instanceof PowerAmplifierCover) {
-                        return false;
+        if (super.canAttach()) {
+            var machine = getMachine();
+            if (machine instanceof IRecipeLogicMachine && machine instanceof IOverclockMachine) {
+                if (machine instanceof SimpleGeneratorMachine) return false;
+                if (!(machine.getDefinition() instanceof MultiblockMachineDefinition)) {
+                    for (CoverBehavior cover : machine.getCoverContainer().getCovers()) {
+                        if (cover instanceof PowerAmplifierCover) {
+                            return false;
+                        }
                     }
+                    return true;
                 }
-                return true;
             }
         }
         return false;

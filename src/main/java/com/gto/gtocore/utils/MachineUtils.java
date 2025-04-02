@@ -136,6 +136,7 @@ public final class MachineUtils {
     }
 
     public static void addMachineText(List<Component> textList, WorkableMultiblockMachine machine, Consumer<List<Component>> customConsumer) {
+        if (machine.isRemote()) return;
         MultiblockDisplayText.Builder builder = MultiblockDisplayText.builder(textList, machine.isFormed()).setWorkingStatus(machine.recipeLogic.isWorkingEnabled(), machine.recipeLogic.isActive());
         if (!machine.isFormed()) return;
         int numThread = 0;

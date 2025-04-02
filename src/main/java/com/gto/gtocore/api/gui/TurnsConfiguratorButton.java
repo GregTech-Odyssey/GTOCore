@@ -19,13 +19,13 @@ import java.util.function.IntSupplier;
 /**
  * @author EasterFG on 2025/3/22
  */
-public class TurnsConfiguratorButton implements IFancyConfiguratorButton {
+public final class TurnsConfiguratorButton implements IFancyConfiguratorButton {
 
-    protected IGuiTexture[] group;
-    protected BiConsumer<ClickData, Integer> onClick;
-    protected IntSupplier intSupplier;
-    int mode;
-    Function<Integer, List<Component>> tooltipsSupplier = isPressed -> Collections.emptyList();
+    private final IGuiTexture[] group;
+    private final BiConsumer<ClickData, Integer> onClick;
+    private final IntSupplier intSupplier;
+    private int mode;
+    private Function<Integer, List<Component>> tooltipsSupplier = isPressed -> Collections.emptyList();
 
     public TurnsConfiguratorButton(IntSupplier intSupplier, BiConsumer<ClickData, Integer> onClick, IGuiTexture... turns) {
         this.intSupplier = intSupplier;

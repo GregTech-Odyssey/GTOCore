@@ -21,7 +21,7 @@ public class DualHatchPartMachineMixin extends ItemBusPartMachine {
     }
 
     @Inject(method = "<init>", at = @At("TAIL"), remap = false)
-    public void init(IMachineBlockEntity holder, int tier, IO io, Object[] args, CallbackInfo ci) {
+    private void init(IMachineBlockEntity holder, int tier, IO io, Object[] args, CallbackInfo ci) {
         setDistinct(true);
     }
 

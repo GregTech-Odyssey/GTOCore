@@ -97,10 +97,6 @@ public final class ProxySlotRecipeHandler {
         private IRecipeHandlerTrait<Ingredient> proxy = null;
         private ISubscription proxySub = null;
 
-        private final IO handlerIO = IO.IN;
-        private final RecipeCapability<Ingredient> capability = ItemRecipeCapability.CAP;
-        private final boolean isDistinct = true;
-
         private ProxyItemRecipeHandler(MetaMachine machine) {
             super(machine);
         }
@@ -140,9 +136,25 @@ public final class ProxySlotRecipeHandler {
             return proxy.getTotalContentAmount();
         }
 
+        @Override
         public int getPriority() {
             if (proxy == null) return IFilteredHandler.LOW;
             return proxy.getPriority();
+        }
+
+        @Override
+        public boolean isDistinct() {
+            return true;
+        }
+
+        @Override
+        public RecipeCapability<Ingredient> getCapability() {
+            return ItemRecipeCapability.CAP;
+        }
+
+        @Override
+        public IO getHandlerIO() {
+            return IO.IN;
         }
     }
 
@@ -151,10 +163,6 @@ public final class ProxySlotRecipeHandler {
 
         private IRecipeHandlerTrait<FluidIngredient> proxy = null;
         private ISubscription proxySub = null;
-
-        private final IO handlerIO = IO.IN;
-        private final RecipeCapability<FluidIngredient> capability = FluidRecipeCapability.CAP;
-        private final boolean isDistinct = true;
 
         private ProxyFluidRecipeHandler(MetaMachine machine) {
             super(machine);
@@ -200,6 +208,21 @@ public final class ProxySlotRecipeHandler {
         public int getPriority() {
             if (proxy == null) return IFilteredHandler.LOW;
             return proxy.getPriority();
+        }
+
+        @Override
+        public boolean isDistinct() {
+            return true;
+        }
+
+        @Override
+        public RecipeCapability<FluidIngredient> getCapability() {
+            return FluidRecipeCapability.CAP;
+        }
+
+        @Override
+        public IO getHandlerIO() {
+            return IO.IN;
         }
     }
 }

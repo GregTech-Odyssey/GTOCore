@@ -24,28 +24,26 @@ import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 /**
  * @author EasterFG on 2025/3/7
  */
-public class AEDualConfigWidget extends WidgetGroup {
+public final class AEDualConfigWidget extends WidgetGroup {
 
-    protected final IConfigurableSlot[] config;
-    protected Int2ObjectMap<IConfigurableSlot> changeMap = new Int2ObjectOpenHashMap<>();
+    private final IConfigurableSlot[] config;
+    private final Int2ObjectMap<IConfigurableSlot> changeMap = new Int2ObjectOpenHashMap<>();
 
-    protected IConfigurableSlot[] cached;
-    protected IConfigurableSlot[] displayList;
-    protected ButtonWidget pageUpWidget;
-    protected ButtonWidget pageDownWidget;
+    private IConfigurableSlot[] cached;
+    private IConfigurableSlot[] displayList;
     private final ExportOnlyAEItemList aeItem;
     private final ExportOnlyAEFluidList aeFluid;
     private final MEDualHatchStockPartMachine machine;
 
     public static final int CONFIG_SIZE = 16;
-    protected int page;
-    protected final int MAX_PAGE;
+    int page;
+    private final int MAX_PAGE;
     private final int offset;
 
     private static final int UPDATE_ID = 1001;
 
     public AEDualConfigWidget(int x, int y, ExportOnlyAEItemList aeItem, ExportOnlyAEFluidList aeFluid, MEDualHatchStockPartMachine machine, int page) {
-        super(new Position(x, y), new Size(CONFIG_SIZE / 2 * 18, 18 * 4 + 2 + 19));
+        super(new Position(x, y), new Size(CONFIG_SIZE / 2 * 18, (18 << 2) + 2 + 19));
         this.aeItem = aeItem;
         this.aeFluid = aeFluid;
         this.machine = machine;
@@ -54,28 +52,28 @@ public class AEDualConfigWidget extends WidgetGroup {
         this.MAX_PAGE = Math.max(1, offset / CONFIG_SIZE);
         this.config = marge();
         init();
-        this.pageUpWidget = new ButtonWidget(3, 77, 16, 16,
+        ButtonWidget pageUpWidget = new ButtonWidget(3, 77, 16, 16,
                 GuiTextures.BUTTON_LEFT, this::pageUp);
-        this.pageDownWidget = new ButtonWidget(125, 77, 16, 16,
+        ButtonWidget pageDownWidget = new ButtonWidget(125, 77, 16, 16,
                 GuiTextures.BUTTON_RIGHT, this::pageDown);
         this.addWidget(new LabelWidget(65, 82, () -> this.page + " / " + MAX_PAGE));
-        this.addWidget(this.pageUpWidget);
-        this.addWidget(this.pageDownWidget);
+        this.addWidget(pageUpWidget);
+        this.addWidget(pageDownWidget);
     }
 
-    protected void pageUp(ClickData data) {
+    private void pageUp(ClickData data) {
         if (page < 2) return;
         page--;
         machine.setPage(page);
     }
 
-    protected void pageDown(ClickData data) {
+    private void pageDown(ClickData data) {
         if (page >= MAX_PAGE) return;
         page++;
         machine.setPage(page);
     }
 
-    protected boolean isAutoPull() {
+    boolean isAutoPull() {
         return aeFluid.isAutoPull() || aeItem.isAutoPull();
     }
 
@@ -88,7 +86,7 @@ public class AEDualConfigWidget extends WidgetGroup {
         return result;
     }
 
-    protected final void init() {
+    private void init() {
         int line;
         this.displayList = new IConfigurableSlot[this.config.length];
         this.cached = new IConfigurableSlot[this.config.length];
@@ -98,7 +96,7 @@ public class AEDualConfigWidget extends WidgetGroup {
             this.cached[index] = index < half ? new ExportOnlyAEItemSlot() : new ExportOnlyAEFluidSlot();
             line = index / 8;
             if (line >= 2) continue;
-            this.addWidget(new AEDualConfigSlotWidget((index - line * 8) * 18, line * (18 * 2 + 2), this, index));
+            this.addWidget(new AEDualConfigSlotWidget((index - (line << 3)) * 18, line * ((18 << 1) + 2), this, index));
         }
     }
 
@@ -182,7 +180,7 @@ public class AEDualConfigWidget extends WidgetGroup {
                 aeFluid.hasStackInConfig(stack, true);
     }
 
-    public final void setItemConfig(int index, GenericStack stack) {
+    public void setItemConfig(int index, GenericStack stack) {
         var fluidConfig = getFluidConfig(index);
         if (fluidConfig != null) {
             fluidConfig.setConfig(null);
@@ -190,7 +188,7 @@ public class AEDualConfigWidget extends WidgetGroup {
         getItemConfig(index).setConfig(stack);
     }
 
-    public final void setFluidConfig(int index, GenericStack stack) {
+    public void setFluidConfig(int index, GenericStack stack) {
         var itemConfig = getItemConfig(index);
         if (itemConfig != null) {
             itemConfig.setConfig(null);
@@ -198,15 +196,15 @@ public class AEDualConfigWidget extends WidgetGroup {
         getFluidConfig(index).setConfig(stack);
     }
 
-    public final IConfigurableSlot getItemConfig(int index) {
+    private IConfigurableSlot getItemConfig(int index) {
         return config[index];
     }
 
-    public final IConfigurableSlot getFluidConfig(int index) {
+    private IConfigurableSlot getFluidConfig(int index) {
         return config[index + offset];
     }
 
-    public final IConfigurableSlot getConfig(int index) {
+    public IConfigurableSlot getConfig(int index) {
         var c = getItemConfig(index);
         if (c.getConfig() == null) {
             return getFluidConfig(index);
@@ -214,7 +212,7 @@ public class AEDualConfigWidget extends WidgetGroup {
         return c;
     }
 
-    public final IConfigurableSlot getDisplay(int index) {
+    public IConfigurableSlot getDisplay(int index) {
         var c = displayList[index];
         if (c.getConfig() == null) {
             return displayList[index + offset];
@@ -222,7 +220,7 @@ public class AEDualConfigWidget extends WidgetGroup {
         return c;
     }
 
-    protected final boolean areAEStackCountsEqual(GenericStack s1, GenericStack s2) {
+    private static boolean areAEStackCountsEqual(GenericStack s1, GenericStack s2) {
         if (s2 == s1) {
             return false;
         }

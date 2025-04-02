@@ -91,7 +91,7 @@ public final class InaccessibleInfiniteHandler extends NotifiableItemStackHandle
     }
 
     @Override
-    public List<Object> getContents() {
+    public @NotNull List<Object> getContents() {
         return Collections.emptyList();
     }
 

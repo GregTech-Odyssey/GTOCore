@@ -91,6 +91,7 @@ public final class WirelessEnergySubstationMachine extends NoRecipeLogicMultiblo
     @Override
     public void customText(@NotNull List<Component> textList) {
         super.customText(textList);
+        if (this.getUUID() == null) return;
         ExtendWirelessEnergyContainer container = getWirelessEnergyContainer();
         if (container == null) return;
         textList.add(Component.translatable("gtmthings.machine.wireless_energy_monitor.tooltip.0", TeamUtil.GetName(getLevel(), this.getUUID())).withStyle(ChatFormatting.AQUA));

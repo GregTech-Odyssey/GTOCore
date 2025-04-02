@@ -54,6 +54,7 @@ public class NoRecipeLogicMultiblockMachine extends MultiblockControllerMachine 
 
     @Override
     public void addDisplayText(List<Component> textList) {
+        if (isRemote()) return;
         if (isFormed()) {
             customText(textList);
         } else {

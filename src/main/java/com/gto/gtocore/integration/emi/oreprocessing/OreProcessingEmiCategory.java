@@ -18,7 +18,7 @@ public class OreProcessingEmiCategory extends EmiRecipeCategory {
 
     public static final OreProcessingEmiCategory CATEGORY = new OreProcessingEmiCategory();
 
-    public OreProcessingEmiCategory() {
+    private OreProcessingEmiCategory() {
         super(GTOCore.id("ore_processing_diagram"), EmiStack.of(Items.RAW_IRON));
     }
 

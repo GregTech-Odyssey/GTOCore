@@ -40,12 +40,12 @@ public class ExportOnlyAEStockingItemList extends ExportOnlyAEItemList {
 
         private final NetworkSlotMachine machine;
 
-        public ExportOnlyAEStockingItemSlot(NetworkSlotMachine machine) {
+        ExportOnlyAEStockingItemSlot(NetworkSlotMachine machine) {
             super();
             this.machine = machine;
         }
 
-        public ExportOnlyAEStockingItemSlot(@Nullable GenericStack config, @Nullable GenericStack stock, NetworkSlotMachine machine) {
+        ExportOnlyAEStockingItemSlot(@Nullable GenericStack config, @Nullable GenericStack stock, NetworkSlotMachine machine) {
             super(config, stock);
             this.machine = machine;
         }

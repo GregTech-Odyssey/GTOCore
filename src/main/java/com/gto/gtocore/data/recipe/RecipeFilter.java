@@ -20,7 +20,6 @@ import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import java.util.Set;
 
 import static com.gregtechceu.gtceu.api.GTValues.*;
-import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
 import static com.gto.gtocore.common.data.GTORecipeTypes.*;
 import static com.gto.gtocore.common.data.GTORecipes.SHAPED_FILTER_RECIPES;
 import static com.gto.gtocore.common.data.GTORecipes.SHAPELESS_FILTER_RECIPES;

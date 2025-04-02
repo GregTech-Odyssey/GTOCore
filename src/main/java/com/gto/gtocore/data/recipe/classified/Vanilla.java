@@ -270,11 +270,6 @@ interface Vanilla {
                 "CDC",
                 "EFE",
                 'A', GTItems.ELECTRIC_PISTON_HV.asStack(), 'B', CustomTags.HV_CIRCUITS, 'C', GTItems.ELECTRIC_MOTOR_HV.asStack(), 'D', GTMachines.HULL[GTValues.HV].asStack(), 'E', new MaterialEntry(TagPrefix.gear, GTMaterials.Chromium), 'F', new MaterialEntry(TagPrefix.cableGtDouble, GTMaterials.Electrum));
-        VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("law_cleaning_maintenance_hatch"), GTOMachines.LAW_CLEANING_MAINTENANCE_HATCH.asStack(),
-                "ABA",
-                "CDC",
-                "ABA",
-                'A', GTOBlocks.LAW_FILTER_CASING.asStack(), 'B', GTOMachines.STERILE_CLEANING_MAINTENANCE_HATCH.asStack(), 'C', GTItems.FIELD_GENERATOR_UEV.asStack(), 'D', GTMachines.HULL[GTValues.UEV].getItem());
         VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("large_rock_crusher"), MultiBlockA.LARGE_ROCK_CRUSHER.asStack(),
                 "ABA",
                 "CDC",
@@ -656,11 +651,6 @@ interface Vanilla {
                 "CDC",
                 "ABA",
                 'A', new MaterialEntry(TagPrefix.plateDouble, GTMaterials.Copper), 'B', new MaterialEntry(TagPrefix.plateDouble, GTMaterials.WroughtIron), 'C', new MaterialEntry(TagPrefix.cableGtHex, GTMaterials.Tin), 'D', GTMultiMachines.STEAM_OVEN.getItem());
-        VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("sterile_cleaning_maintenance_hatch"), GTOMachines.STERILE_CLEANING_MAINTENANCE_HATCH.asStack(),
-                "ABA",
-                "CDC",
-                "ABA",
-                'A', GTBlocks.FILTER_CASING_STERILE.asStack(), 'B', RegistriesUtils.getItemStack("gtceu:cleaning_maintenance_hatch"), 'C', GTItems.FIELD_GENERATOR_ZPM.asStack(), 'D', GTMachines.HULL[GTValues.ZPM].getItem());
         VanillaRecipeHelper.addShapedRecipe(provider, GTOCore.id("fluid_storage_cell_1m"), GTOItems.FLUID_STORAGE_CELL_1M.asStack(),
                 "ABA",
                 "BCB",

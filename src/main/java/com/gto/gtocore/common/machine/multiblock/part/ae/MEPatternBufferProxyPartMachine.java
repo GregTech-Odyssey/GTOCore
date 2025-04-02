@@ -69,7 +69,7 @@ public final class MEPatternBufferProxyPartMachine extends TieredIOPartMachine i
         return proxySlotRecipeHandler.getProxySlotHandlers();
     }
 
-    public void setBuffer(@Nullable BlockPos pos) {
+    private void setBuffer(@Nullable BlockPos pos) {
         bufferResolved = true;
         var level = getLevel();
         if (level == null || pos == null) {

@@ -14,7 +14,6 @@ import com.gregtechceu.gtceu.integration.emi.circuit.GTProgrammedCircuitCategory
 import com.gregtechceu.gtceu.integration.emi.multipage.MultiblockInfoEmiCategory;
 import com.gregtechceu.gtceu.integration.emi.orevein.GTBedrockFluidEmiCategory;
 import com.gregtechceu.gtceu.integration.emi.orevein.GTOreVeinEmiCategory;
-import com.gregtechceu.gtceu.integration.emi.recipe.GTEmiRecipeHandler;
 import com.gregtechceu.gtceu.integration.emi.recipe.GTRecipeEMICategory;
 
 import net.minecraft.core.registries.BuiltInRegistries;

@@ -91,7 +91,7 @@ public final class InaccessibleInfiniteTank extends NotifiableFluidTank {
     }
 
     @Override
-    public List<Object> getContents() {
+    public @NotNull List<Object> getContents() {
         return Collections.emptyList();
     }
 

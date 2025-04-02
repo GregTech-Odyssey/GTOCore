@@ -363,10 +363,10 @@ final class OreByProductWrapper {
     }
 }
 
-public class OreByProductWidget extends WidgetGroup {
+class OreByProductWidget extends WidgetGroup {
 
     // XY positions of every item and fluid, in three enormous lists
-    protected final static ImmutableList<Integer> ITEM_INPUT_LOCATIONS = ImmutableList.of(
+    private final static ImmutableList<Integer> ITEM_INPUT_LOCATIONS = ImmutableList.of(
             3, 3, // ore
             23, 3, // furnace (direct smelt)
             3, 24, // macerator (ore -> crushed)
@@ -385,7 +385,7 @@ public class OreByProductWidget extends WidgetGroup {
             101, 25 // sifter
     );
 
-    protected final static ImmutableList<Integer> ITEM_OUTPUT_LOCATIONS = ImmutableList.of(
+    private final static ImmutableList<Integer> ITEM_OUTPUT_LOCATIONS = ImmutableList.of(
             46, 3, // smelt result: 0
             3, 47, // ore -> crushed: 2
             3, 65, // byproduct: 4
@@ -422,22 +422,22 @@ public class OreByProductWidget extends WidgetGroup {
             155, 21 // 66
     );
 
-    protected final static ImmutableList<Integer> FLUID_LOCATIONS = ImmutableList.of(
+    private final static ImmutableList<Integer> FLUID_LOCATIONS = ImmutableList.of(
             42, 25, // washer in
             42, 48 // chem bath in
     );
 
     // Used to set intermediates as both input and output
-    protected final static ImmutableSet<Integer> FINAL_OUTPUT_INDICES = ImmutableSet.of(
+    private final static ImmutableSet<Integer> FINAL_OUTPUT_INDICES = ImmutableSet.of(
             0, 4, 8, 10, 12, 16, 20, 22, 24, 28, 30, 32, 40, 44, 48, 50, 52, 54, 56, 58, 60, 62, 64, 66);
 
-    public OreByProductWidget(Material material) {
+    OreByProductWidget(Material material) {
         super(0, 0, 176, 166);
         setClientSideWidget();
         setRecipe(new OreByProductWrapper(material));
     }
 
-    public void setRecipe(OreByProductWrapper recipeWrapper) {
+    private void setRecipe(OreByProductWrapper recipeWrapper) {
         List<Boolean> itemOutputExists = new ArrayList<>();
 
         // only draw slot on inputs if it is the ore

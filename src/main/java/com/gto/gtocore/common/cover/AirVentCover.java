@@ -30,7 +30,7 @@ public final class AirVentCover extends CoverBehavior {
 
     @Override
     public boolean canAttach() {
-        return FluidUtil.getFluidHandler(coverHolder.getLevel(), coverHolder.getPos(), attachedSide).isPresent();
+        return super.canAttach() && FluidUtil.getFluidHandler(coverHolder.getLevel(), coverHolder.getPos(), attachedSide).isPresent();
     }
 
     @Override

@@ -8,11 +8,11 @@ import com.lowdragmc.lowdraglib.emi.ModularEmiRecipe;
 import dev.emi.emi.api.recipe.EmiRecipeCategory;
 import org.jetbrains.annotations.Nullable;
 
-public class OreProcessingEmiRecipe extends ModularEmiRecipe<OreByProductWidget> {
+class OreProcessingEmiRecipe extends ModularEmiRecipe<OreByProductWidget> {
 
-    final Material material;
+    private final Material material;
 
-    public OreProcessingEmiRecipe(Material material) {
+    OreProcessingEmiRecipe(Material material) {
         super(() -> new OreByProductWidget(material));
         this.material = material;
     }

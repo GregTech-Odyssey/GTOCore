@@ -36,7 +36,7 @@ public class ExportOnlyAEStockingFluidList extends ExportOnlyAEFluidList {
         return true;
     }
 
-    public static class ExportOnlyAEStockingFluidSlot extends ExportOnlyAEFluidSlot {
+    static class ExportOnlyAEStockingFluidSlot extends ExportOnlyAEFluidSlot {
 
         private final NetworkSlotMachine machine;
 

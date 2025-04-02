@@ -8,6 +8,8 @@ import com.gregtechceu.gtceu.api.capability.recipe.IRecipeHandler;
 import com.gregtechceu.gtceu.api.capability.recipe.RecipeCapability;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.List;
 
 public interface IManaEnergyMachine {
@@ -32,7 +34,7 @@ public interface IManaEnergyMachine {
         }
 
         @Override
-        public List<Object> getContents() {
+        public @NotNull List<Object> getContents() {
             return List.of(container.getCurrentMana());
         }
 

@@ -75,6 +75,30 @@ interface Assembler {
                 .outputItems(GTBlocks.COIL_TRITANIUM.asStack()).duration(900)
                 .addMaterialInfo(true, true).save();
 
+        ASSEMBLER_RECIPES.builder("sterile_cleaning_maintenance_hatch")
+                .inputItems(GTMachines.HULL[GTValues.ZPM].asStack())
+                .inputItems("gtceu:cleaning_maintenance_hatch")
+                .inputItems(GTBlocks.FILTER_CASING_STERILE.asStack(16))
+                .inputItems(GTItems.FIELD_GENERATOR_ZPM.asStack(8))
+                .outputItems(GTOMachines.STERILE_CLEANING_MAINTENANCE_HATCH.asStack())
+                .inputFluids(GTMaterials.Polybenzimidazole, 1152)
+                .EUt(122880)
+                .duration(400)
+                .cleanroom(CleanroomType.STERILE_CLEANROOM)
+                .save();
+
+        ASSEMBLER_RECIPES.builder("law_cleaning_maintenance_hatch")
+                .inputItems(GTMachines.HULL[GTValues.UEV].asStack())
+                .inputItems(GTOMachines.STERILE_CLEANING_MAINTENANCE_HATCH.asStack())
+                .inputItems(GTOBlocks.LAW_FILTER_CASING.asStack(16))
+                .inputItems(GTItems.FIELD_GENERATOR_UEV.asStack(8))
+                .outputItems(GTOMachines.LAW_CLEANING_MAINTENANCE_HATCH.asStack())
+                .inputFluids(GTOMaterials.Polyimide, 1152)
+                .EUt(7864320)
+                .duration(400)
+                .cleanroom(GTOCleanroomType.LAW_CLEANROOM)
+                .save();
+
         ASSEMBLER_RECIPES.builder("controller")
                 .inputItems(new ItemStack(AEBlocks.ENERGY_ACCEPTOR.block().asItem()))
                 .inputItems(new ItemStack(AEBlocks.SMOOTH_SKY_STONE_BLOCK.block().asItem(), 4))
@@ -109,9 +133,9 @@ interface Assembler {
                 .inputItems(CustomTags.ULV_CIRCUITS)
                 .inputItems(TagPrefix.dust, GTMaterials.NetherQuartz, 8)
                 .outputItems(new ItemStack(AEItems.ANNIHILATION_CORE.asItem(), 8))
-                .inputFluids(GTMaterials.BlackSteel, 576)
-                .EUt(120)
-                .duration(200)
+                .inputFluids(GTMaterials.SolderingAlloy, 288)
+                .EUt(30)
+                .duration(400)
                 .save();
 
         ASSEMBLER_RECIPES.builder("formation_core")
@@ -120,23 +144,22 @@ interface Assembler {
                 .inputItems(CustomTags.ULV_CIRCUITS)
                 .inputItems(TagPrefix.dust, GTMaterials.CertusQuartz, 8)
                 .outputItems(new ItemStack(AEItems.FORMATION_CORE.asItem(), 8))
-                .inputFluids(GTMaterials.BlackSteel, 576)
-                .EUt(120)
-                .duration(200)
+                .inputFluids(GTMaterials.SolderingAlloy, 288)
+                .EUt(30)
+                .duration(400)
                 .save();
 
         ASSEMBLER_RECIPES.builder("molecular_assembler")
                 .inputItems(new ItemStack(AEItems.FORMATION_CORE.asItem(), 2))
                 .inputItems(new ItemStack(AEItems.ANNIHILATION_CORE.asItem(), 2))
-                .inputItems(GTItems.ROBOT_ARM_MV.asStack())
-                .inputItems(GTItems.CONVEYOR_MODULE_MV.asStack())
-                .inputItems(TagPrefix.frameGt, GTMaterials.Aluminium)
-                .inputItems(TagPrefix.plate, GTMaterials.Polyethylene, 6)
-                .inputItems(TagPrefix.plate, GTMaterials.Steel, 6)
+                .inputItems(TagPrefix.frameGt, GTMaterials.Steel)
+                .inputItems(GTItems.ROBOT_ARM_LV.asStack())
+                .inputItems(GTItems.CONVEYOR_MODULE_LV.asStack())
+                .inputItems(TagPrefix.plate, GTMaterials.Invar, 6)
                 .outputItems(new ItemStack(AEBlocks.MOLECULAR_ASSEMBLER.block().asItem()))
-                .inputFluids(GTMaterials.BorosilicateGlass, 576)
-                .EUt(120)
-                .duration(100)
+                .inputFluids(GTMaterials.Glass, 288)
+                .EUt(30)
+                .duration(200)
                 .save();
 
         ASSEMBLER_RECIPES.builder("energy_acceptor")
