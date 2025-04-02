@@ -1704,7 +1704,7 @@ public interface MultiBlockA {
             .durationMultiplierTooltips(0.6)
             .tooltipsText("Requires the corresponding fluid to be placed in the input chamber", "需要在输入仓中放入对应流体")
             .parallelizableTooltips()
-            .recipeModifiers(GTORecipeModifiers.GCYM_OVERCLOCKING)
+            .recipeModifier(GTORecipeModifiers.GCYM_OVERCLOCKING)
             .block(GCYMBlocks.CASING_SECURE_MACERATION)
             .pattern((definition) -> FactoryBlockPattern.start()
                     .aisle("AAAAA", "AAAAA", "AAAAA", "AAAAA")

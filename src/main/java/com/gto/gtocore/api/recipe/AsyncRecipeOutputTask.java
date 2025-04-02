@@ -17,8 +17,6 @@ public final class AsyncRecipeOutputTask {
 
     private boolean hasRequest, inQueue;
 
-    private final RecipeLogic logic;
-
     private static final CopyOnWriteArraySet<AsyncRecipeOutputTask> tasks = new CopyOnWriteArraySet<>();
     private static ScheduledExecutorService executorService;
     private final static ThreadFactory THREAD_FACTORY = new ThreadFactoryBuilder()
@@ -26,11 +24,7 @@ public final class AsyncRecipeOutputTask {
             .setDaemon(true)
             .build();
 
-    private static int tick = 0;
-
-    private AsyncRecipeOutputTask(RecipeLogic logic) {
-        this.logic = logic;
-    }
+    private AsyncRecipeOutputTask() {}
 
     private static void createExecutorService() {
         if (executorService != null && !executorService.isShutdown()) return;
@@ -42,7 +36,7 @@ public final class AsyncRecipeOutputTask {
         if (logic instanceof IEnhancedRecipeLogic enhancedRecipeLogic) {
             AsyncRecipeOutputTask task = enhancedRecipeLogic.gtocore$getAsyncRecipeOutputTask();
             if (task == null) {
-                task = new AsyncRecipeOutputTask(logic);
+                task = new AsyncRecipeOutputTask();
                 enhancedRecipeLogic.gtocore$setAsyncRecipeOutputTask(task);
             }
             task.runnables.add(runnable);
@@ -73,10 +67,8 @@ public final class AsyncRecipeOutputTask {
     private static void outputTask() {
         try {
             if (!GTCEu.canGetServerLevel()) return;
-            if (tick > 100) tick = 0;
-            tick++;
             for (var task : tasks) {
-                if (task.hasRequest && (task.logic.getMachine().holder.getOffset() + tick) % 5 == 0) {
+                if (task.hasRequest) {
                     try {
                         task.hasRequest = false;
                         for (Runnable runnable : task.runnables) {

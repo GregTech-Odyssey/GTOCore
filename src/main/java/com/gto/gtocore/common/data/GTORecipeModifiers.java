@@ -3,6 +3,7 @@ package com.gto.gtocore.common.data;
 import com.gto.gtocore.api.capability.recipe.ManaRecipeCapability;
 import com.gto.gtocore.api.machine.feature.multiblock.ICoilMachine;
 import com.gto.gtocore.api.machine.feature.multiblock.IOverclockConfigMachine;
+import com.gto.gtocore.api.machine.trait.IEnhancedRecipeLogic;
 import com.gto.gtocore.api.recipe.RecipeRunner;
 import com.gto.gtocore.common.machine.multiblock.generator.GeneratorArrayMachine;
 import com.gto.gtocore.utils.GTOUtils;
@@ -14,6 +15,7 @@ import com.gregtechceu.gtceu.api.capability.recipe.IRecipeCapabilityHolder;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.SimpleGeneratorMachine;
 import com.gregtechceu.gtceu.api.machine.feature.IOverclockMachine;
+import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.OverclockingLogic;
@@ -24,16 +26,23 @@ import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
 import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
 import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
 import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
+import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifierList;
 import com.gregtechceu.gtceu.common.machine.multiblock.steam.LargeBoilerMachine;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+import java.util.Set;
 
 @SuppressWarnings("unused")
 public interface GTORecipeModifiers {
 
-    RecipeModifier GCYM_OVERCLOCKING = (machine, r) -> recipe -> overclocking(machine, hatchParallel(machine, recipe), false, false, 0.8, 0.6);
+    RecipeModifier PARALLELIZABLE_OVERCLOCK = new RecipeModifierList(GTORecipeModifiers.HATCH_PARALLEL, GTORecipeModifiers.OVERCLOCKING);
+    RecipeModifier PARALLELIZABLE_PERFECT_OVERCLOCK = new RecipeModifierList(GTORecipeModifiers.HATCH_PARALLEL, GTORecipeModifiers.PERFECT_OVERCLOCKING);
+
+    RecipeModifier GCYM_OVERCLOCKING = new RecipeModifierList((machine, r) -> recipe -> overclocking(machine, hatchParallel(machine, recipe), false, false, 0.8, 0.6));
+
+    Set<RecipeModifier> TRY_AGAIN = Set.of(PARALLELIZABLE_OVERCLOCK, PARALLELIZABLE_PERFECT_OVERCLOCK, GCYM_OVERCLOCKING);
 
     RecipeModifier GENERATOR_OVERCLOCKING = (machine, r) -> recipe -> generatorOverclocking(machine, recipe);
     RecipeModifier PERFECT_OVERCLOCKING = (machine, r) -> recipe -> perfectOverclocking(machine, recipe);
@@ -166,17 +175,27 @@ public interface GTORecipeModifiers {
     }
 
     static GTRecipe accurateParallel(MetaMachine machine, GTRecipe recipe, int maxParallel) {
-        return matchParallel(machine, recipe, ParallelLogic.getParallelAmount(machine, recipe, maxParallel));
+        if (machine instanceof IRecipeLogicMachine holder) {
+            if (holder.getRecipeLogic() instanceof IEnhancedRecipeLogic logic && logic.gtocore$getlastParallel() == maxParallel) {
+                GTRecipe copied = recipe.copy(ContentModifier.multiplier(maxParallel), false);
+                if (RecipeRunner.matchRecipe(holder, copied)) {
+                    copied.parallels = maxParallel;
+                    return copied;
+                }
+            }
+            return matchParallel(holder, recipe, ParallelLogic.getParallelAmount(machine, recipe, maxParallel));
+        }
+        return recipe;
     }
 
-    private static GTRecipe matchParallel(MetaMachine machine, GTRecipe recipe, int parallel) {
+    private static GTRecipe matchParallel(IRecipeCapabilityHolder holder, GTRecipe recipe, int parallel) {
         if (parallel > 1) {
             GTRecipe copied = recipe.copy(ContentModifier.multiplier(parallel), false);
-            if (RecipeRunner.matchRecipeInput((IRecipeCapabilityHolder) machine, copied)) {
+            if (RecipeRunner.matchRecipeInput(holder, copied)) {
                 copied.parallels *= parallel;
                 return copied;
             } else {
-                return matchParallel(machine, recipe, parallel / 2);
+                return matchParallel(holder, recipe, parallel / 2);
             }
         }
         return recipe;

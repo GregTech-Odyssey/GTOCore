@@ -106,12 +106,12 @@ public final class OrderItem implements IItemUIFactory, IFancyUIProvider, ICusto
         sideTabs.setMainTab(this);
     }
 
-    private class ItemHandler implements IItemTransfer {
+    private static class ItemHandler implements IItemTransfer {
 
         @NotNull
         private ItemStack stack = ItemStack.EMPTY;
-        private InteractionHand hand;
-        private Player player;
+        private final InteractionHand hand;
+        private final Player player;
 
         public ItemHandler(InteractionHand hand, @NotNull Player player) {
             this.hand = hand;

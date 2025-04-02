@@ -346,7 +346,7 @@ public final class MachineUtils {
 
     public static boolean inputEU(IRecipeLogicMachine machine, long eu) {
         if (eu != 0) {
-            return RecipeRunner.handleTickRecipe(machine, IO.IN, null, List.of(new Content(eu, 0, 0, 0)), EURecipeCapability.CAP);
+            return !RecipeRunner.handleTickRecipe(machine, IO.IN, null, List.of(new Content(eu, 0, 0, 0)), EURecipeCapability.CAP);
         }
         return false;
     }
