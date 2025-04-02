@@ -40,6 +40,9 @@ import java.util.Map;
 public abstract class RecipeLogicMixin extends MachineTrait implements IEnhancedRecipeLogic {
 
     @Unique
+    private int gtocore$lastParallel;
+
+    @Unique
     private AsyncRecipeSearchTask gtocore$asyncRecipeSearchTask;
 
     @Unique
@@ -162,6 +165,11 @@ public abstract class RecipeLogicMixin extends MachineTrait implements IEnhanced
             return true;
         }
         return false;
+    }
+
+    @Override
+    public int gtocore$getlastParallel() {
+        return gtocore$lastParallel;
     }
 
     @Override
@@ -329,11 +337,13 @@ public abstract class RecipeLogicMixin extends MachineTrait implements IEnhanced
     @Overwrite
     public void onRecipeFinish() {
         machine.afterWorking();
+        gtocore$lastParallel = 1;
         if (lastRecipe != null) {
             consecutiveRecipes++;
             handleRecipeIO(lastRecipe, IO.OUT);
             if (machine.alwaysTryModifyRecipe()) {
                 if (lastOriginRecipe != null) {
+                    gtocore$lastParallel = lastRecipe.parallels;
                     var modified = machine.fullModifyRecipe(lastOriginRecipe.copy());
                     if (modified == null) {
                         markLastRecipeDirty();

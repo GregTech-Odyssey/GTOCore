@@ -18,6 +18,10 @@ public interface IEnhancedRecipeLogic {
         return (RecipeLogic) this;
     }
 
+    default int gtocore$getlastParallel() {
+        return 1;
+    }
+
     default boolean gtocore$hasAsyncTask() {
         return false;
     }
