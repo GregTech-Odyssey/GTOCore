@@ -1506,6 +1506,8 @@
   "gtocore.machine.create_computation.tooltip.0": "输入电压：§4§lMAX§r",
   "gtocore.machine.current_temperature": "当前温度: %sK",
   "gtocore.machine.cwut_modification": "算力修正系数：%s",
+  "gtocore.machine.data_center.tooltip.0": "你的家庭网络存储器",
+  "gtocore.machine.data_center.tooltip.1": "超大容量数据存储，使用光缆传输",
   "gtocore.machine.dimensionally_transcendent_plasma_forge.coil": "当前配方模式无法使用该线圈",
   "gtocore.machine.disassembly.tooltip.0": "可拆解: %s, %s, %s, %s, %s, %s",
   "gtocore.machine.disassembly.tooltip.1": "同对应配方时间与耗能，可由多个配方获取的物品无法拆解",

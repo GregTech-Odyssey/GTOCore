@@ -4,7 +4,6 @@ import com.gto.gtocore.api.machine.multiblock.ElectricMultiblockMachine;
 import com.gto.gtocore.api.machine.trait.CustomRecipeLogic;
 import com.gto.gtocore.api.recipe.GTORecipeBuilder;
 import com.gto.gtocore.api.recipe.RecipeRunner;
-import com.gto.gtocore.utils.GTOUtils;
 import com.gto.gtocore.utils.MachineUtils;
 
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
@@ -32,7 +31,7 @@ public final class PhotovoltaicPowerStationMachine extends ElectricMultiblockMac
         BlockPos pos = MachineUtils.getOffsetPos(1, 5, getFrontFacing(), getPos());
         for (int i = -2; i < 3; i++) {
             for (int j = -2; j < 3; j++) {
-                if (GTOUtils.canSeeSunClearly(level, pos.offset(i, 0, j))) {
+                if (!level.canSeeSky(pos.offset(i, 0, j))) {
                     return false;
                 }
             }
@@ -64,6 +63,7 @@ public final class PhotovoltaicPowerStationMachine extends ElectricMultiblockMac
                     if (level.isRaining()) easing -= level.isThundering() ? 0.7f : 0.3f;
                     eut = (int) (easing * basic);
                 }
+                if (eut == 0) return null;
                 GTRecipe recipe = GTORecipeBuilder.ofRaw().duration(20).EUt(-eut).buildRawRecipe();
                 if (RecipeRunner.matchRecipeTickOutput(this, recipe)) return recipe;
             }

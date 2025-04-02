@@ -93,11 +93,9 @@ dependencies {
 
     // modRuntimeOnly("curse.maven:modern-ui-352491:5977000")
 
-    // modImplementation("com.gregtechceu.gtceu:gtceu-$project.minecraft_version:$project.gtceu_version") { transitive = false }
+    // modImplementation("com.gregtechceu.gtceu:gtceu-$project.minecraft_version:$project.gtceu_version")
 
-    modImplementation("dev:gtceu-$project.minecraft_version:$project.gtceu_version")
-
-  //  modImplementation("curse.maven:gtmthings-1104310:6167532")
+    jarJar(modImplementation("dev:gtceu-$project.minecraft_version:$project.gtceu_version"))
 
     modImplementation("dev:gtmthings-1.4.0.a")
 

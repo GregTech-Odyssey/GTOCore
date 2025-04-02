@@ -1506,6 +1506,8 @@
   "gtocore.machine.create_computation.tooltip.0": "Input Voltage: %4§lMAX%r",
   "gtocore.machine.current_temperature": "Current Temperature: %sK",
   "gtocore.machine.cwut_modification": "Hashrate correction factor: %s",
+  "gtocore.machine.data_center.tooltip.0": "Your home network storage",
+  "gtocore.machine.data_center.tooltip.1": "Ultra-large data storage, using optical cable transmission",
   "gtocore.machine.dimensionally_transcendent_plasma_forge.coil": "Current recipe mode cannot use this coil",
   "gtocore.machine.disassembly.tooltip.0": "Disassembleable: %s, %s, %s, %s, %s, %s",
   "gtocore.machine.disassembly.tooltip.1": "Corresponding to the recipe time and energy consumption, items obtained from multiple recipes cannot be disassembled",

@@ -38,6 +38,16 @@ import static com.gto.gtocore.common.data.GTORecipeTypes.*;
 public interface GTMTRecipe {
 
     static void init(Consumer<FinishedRecipe> provider) {
+        ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("programmable_cover"))
+                .inputItems(GTItems.ROBOT_ARM_MV.asStack(2))
+                .inputItems(CustomItems.VIRTUAL_ITEM_PROVIDER.asStack())
+                .inputItems(CustomTags.HV_CIRCUITS, 2)
+                .outputItems(CustomItems.PROGRAMMABLE_COVER)
+                .inputFluids(GTMaterials.SolderingAlloy.getFluid(144))
+                .duration(200)
+                .EUt(GTValues.VA[GTValues.MV])
+                .save();
+
         ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("virtual_item_provider"))
                 .inputItems(GTItems.PROGRAMMED_CIRCUIT.asItem())
                 .inputItems(new ItemStack(AEBlocks.QUARTZ_VIBRANT_GLASS.block().asItem()))

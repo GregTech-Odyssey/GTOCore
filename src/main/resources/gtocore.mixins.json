@@ -48,6 +48,7 @@
         "apotheosis.LootCategoryMixin",
         "avaritia.AbilityHandlerMixin",
         "avaritia.InternalRecipeHandlerMixin",
+        "avaritia.ServerChannelManagerMixin",
         "biomeswevegone.ManOWarMixin",
         "botania.ContributorListMixin",
         "corgilib.CorgiLibForgeClientEventsMixin",
