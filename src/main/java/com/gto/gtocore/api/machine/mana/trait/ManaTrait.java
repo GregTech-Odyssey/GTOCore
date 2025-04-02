@@ -42,24 +42,20 @@ public class ManaTrait extends MultiblockTrait {
         super.onStructureFormed();
         if (getMachine() instanceof WorkableMultiblockMachine workableMultiblockMachine) {
             if (((IManaMultiblock) machine).isGeneratorMana()) {
-                List<IRecipeHandler<?>> capabilities = workableMultiblockMachine.getCapabilitiesFlat().get(IO.OUT).get(ManaRecipeCapability.CAP);
-                if (capabilities != null) {
-                    for (IRecipeHandler<?> handler : capabilities) {
-                        if (handler instanceof IManaContainer container) {
-                            manaContainers.add(container);
-                        }
+                List<IRecipeHandler<?>> capabilities = workableMultiblockMachine.getCapabilitiesFlat(IO.OUT, ManaRecipeCapability.CAP);
+                for (IRecipeHandler<?> handler : capabilities) {
+                    if (handler instanceof IManaContainer container) {
+                        manaContainers.add(container);
                     }
                 }
             } else {
-                List<IRecipeHandler<?>> capabilities = workableMultiblockMachine.getCapabilitiesFlat().get(IO.IN).get(ManaRecipeCapability.CAP);
-                if (capabilities != null) {
-                    for (IRecipeHandler<?> handler : capabilities) {
-                        if (handler instanceof IManaContainer container) {
-                            manaContainers.add(container);
-                        }
+                List<IRecipeHandler<?>> capabilities = workableMultiblockMachine.getCapabilitiesFlat(IO.IN, ManaRecipeCapability.CAP);
+                for (IRecipeHandler<?> handler : capabilities) {
+                    if (handler instanceof IManaContainer container) {
+                        manaContainers.add(container);
                     }
-
                 }
+
             }
         } else {
             for (IMultiPart part : getMachine().getParts()) {

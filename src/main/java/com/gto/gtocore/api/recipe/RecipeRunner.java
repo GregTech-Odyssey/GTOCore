@@ -83,8 +83,8 @@ public interface RecipeRunner {
      */
     static boolean handleTickRecipe(IRecipeCapabilityHolder holder, IO io, GTRecipe recipe, List<Content> contents, RecipeCapability<?> capability) {
         if (contents == null || contents.isEmpty()) return false;
-        List<IRecipeHandler<?>> handlers = holder.getCapabilitiesFlat().get(io).get(capability);
-        if (handlers == null) return true;
+        List<IRecipeHandler<?>> handlers = holder.getCapabilitiesFlat(io, capability);
+        if (handlers.isEmpty()) return true;
         List<?> contentList = contents.stream().map(Content::getContent).toList();
         for (IRecipeHandler<?> handler : handlers) {
             contentList = handler.handleRecipeInner(io, recipe, (List) contentList, false);

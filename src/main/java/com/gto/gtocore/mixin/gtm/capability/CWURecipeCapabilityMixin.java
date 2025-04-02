@@ -8,10 +8,6 @@ import com.gregtechceu.gtceu.api.recipe.content.IContentSerializer;
 import com.google.common.primitives.Ints;
 import org.spongepowered.asm.mixin.Mixin;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
-
 @Mixin(CWURecipeCapability.class)
 public class CWURecipeCapabilityMixin extends RecipeCapability<Integer> {
 
@@ -22,11 +18,7 @@ public class CWURecipeCapabilityMixin extends RecipeCapability<Integer> {
     @Override
     public int getMaxParallelRatio(IRecipeCapabilityHolder holder, GTRecipe recipe, int parallelAmount) {
         long maxCWU = 0;
-        List<IRecipeHandler<?>> recipeHandlerList = Objects
-                .requireNonNullElseGet(holder.getCapabilitiesFlat().get(IO.IN).get(CWURecipeCapability.CAP), Collections::<IRecipeHandler<?>>emptyList)
-                .stream()
-                .toList();
-        for (IRecipeHandler<?> container : recipeHandlerList) {
+        for (IRecipeHandler<?> container : holder.getCapabilitiesFlat(IO.IN, CWURecipeCapability.CAP)) {
             if (container.getContents() instanceof IOpticalComputationHatch ncc) {
                 maxCWU += ncc.requestCWUt(Integer.MAX_VALUE, true);
             }
