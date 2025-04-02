@@ -6,7 +6,9 @@ import com.gto.gtocore.api.machine.trait.IEnhancedRecipeLogic;
 import com.gto.gtocore.api.recipe.AsyncRecipeOutputTask;
 import com.gto.gtocore.api.recipe.AsyncRecipeSearchTask;
 import com.gto.gtocore.api.recipe.RecipeRunner;
+import com.gto.gtocore.common.data.GTORecipeModifiers;
 import com.gto.gtocore.config.GTOConfig;
+import com.gto.gtocore.utils.MachineUtils;
 
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.capability.recipe.RecipeCapability;
@@ -288,7 +290,7 @@ public abstract class RecipeLogicMixin extends MachineTrait implements IEnhanced
     public boolean checkMatchedRecipeAvailable(GTRecipe match) {
         GTRecipe modified = machine.fullModifyRecipe(match.copy());
         if (modified != null) {
-            if (RecipeRunner.checkConditions(machine, modified) && RecipeRunner.matchRecipe(machine, modified) && RecipeRunner.matchTickRecipe(machine, modified)) {
+            if (RecipeRunner.check(machine, modified)) {
                 setupRecipe(modified);
             }
             return gTOCore$successfullyRecipe(match);
@@ -343,12 +345,14 @@ public abstract class RecipeLogicMixin extends MachineTrait implements IEnhanced
             handleRecipeIO(lastRecipe, IO.OUT);
             if (machine.alwaysTryModifyRecipe()) {
                 if (lastOriginRecipe != null) {
-                    gtocore$lastParallel = lastRecipe.parallels;
-                    var modified = machine.fullModifyRecipe(lastOriginRecipe.copy());
-                    if (modified == null) {
-                        markLastRecipeDirty();
-                    } else {
-                        lastRecipe = modified;
+                    if (!(GTORecipeModifiers.TRY_AGAIN.contains(getMachine().getDefinition().getRecipeModifier()) && lastRecipe.parallels == MachineUtils.getHatchParallel(getMachine()) && RecipeRunner.checkConditions(machine, lastRecipe) && RecipeRunner.matchRecipe(machine, lastRecipe) && RecipeRunner.matchTickRecipe(machine, lastRecipe))) {
+                        gtocore$lastParallel = lastRecipe.parallels;
+                        var modified = machine.fullModifyRecipe(lastOriginRecipe.copy());
+                        if (modified == null) {
+                            markLastRecipeDirty();
+                        } else {
+                            lastRecipe = modified;
+                        }
                     }
                 } else {
                     markLastRecipeDirty();

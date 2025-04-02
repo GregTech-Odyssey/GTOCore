@@ -26,16 +26,23 @@ import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
 import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
 import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
 import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
+import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifierList;
 import com.gregtechceu.gtceu.common.machine.multiblock.steam.LargeBoilerMachine;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+import java.util.Set;
 
 @SuppressWarnings("unused")
 public interface GTORecipeModifiers {
 
-    RecipeModifier GCYM_OVERCLOCKING = (machine, r) -> recipe -> overclocking(machine, hatchParallel(machine, recipe), false, false, 0.8, 0.6);
+    RecipeModifier PARALLELIZABLE_OVERCLOCK = new RecipeModifierList(GTORecipeModifiers.HATCH_PARALLEL, GTORecipeModifiers.OVERCLOCKING);
+    RecipeModifier PARALLELIZABLE_PERFECT_OVERCLOCK = new RecipeModifierList(GTORecipeModifiers.HATCH_PARALLEL, GTORecipeModifiers.PERFECT_OVERCLOCKING);
+
+    RecipeModifier GCYM_OVERCLOCKING = new RecipeModifierList((machine, r) -> recipe -> overclocking(machine, hatchParallel(machine, recipe), false, false, 0.8, 0.6));
+
+    Set<RecipeModifier> TRY_AGAIN = Set.of(PARALLELIZABLE_OVERCLOCK, PARALLELIZABLE_PERFECT_OVERCLOCK, GCYM_OVERCLOCKING);
 
     RecipeModifier GENERATOR_OVERCLOCKING = (machine, r) -> recipe -> generatorOverclocking(machine, recipe);
     RecipeModifier PERFECT_OVERCLOCKING = (machine, r) -> recipe -> perfectOverclocking(machine, recipe);

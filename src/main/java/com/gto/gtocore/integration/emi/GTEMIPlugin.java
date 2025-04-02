@@ -20,6 +20,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.item.alchemy.Potion;
 import net.minecraft.world.item.alchemy.PotionUtils;
 import net.minecraftforge.fluids.FluidStack;
+import net.p3pp3rf1y.sophisticatedbackpacks.compat.jei.SBPPlugin;
 
 import appeng.api.stacks.AEFluidKey;
 import appeng.api.stacks.AEItemKey;
@@ -72,6 +73,7 @@ public final class GTEMIPlugin implements EmiPlugin {
         list.add(new JEIFRPlugin());
         list.add(new de.mari_023.ae2wtlib.reijei.JEIPlugin());
         list.add(new vectorwing.farmersdelight.integration.jei.JEIPlugin());
+        list.add(new SBPPlugin());
     }
 
     public static void addEMIPlugin(List<EmiPluginContainer> list) {

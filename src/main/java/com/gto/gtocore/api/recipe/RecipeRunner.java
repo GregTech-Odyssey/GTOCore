@@ -21,9 +21,9 @@ import java.util.Map;
 public interface RecipeRunner {
 
     static boolean check(IRecipeLogicMachine machine, @Nullable GTRecipe recipe) {
-        if (recipe == null) return false;
+        if (recipe == null || !checkConditions(machine, recipe) || !matchTickRecipe(machine, recipe)) return false;
         if (recipe.parallels > 1) return true;
-        return RecipeRunner.checkConditions(machine, recipe) && RecipeRunner.matchRecipe(machine, recipe) && RecipeRunner.matchTickRecipe(machine, recipe);
+        return matchRecipe(machine, recipe);
     }
 
     static boolean checkConditions(IRecipeLogicMachine holder, GTRecipe recipe) {
@@ -53,13 +53,21 @@ public interface RecipeRunner {
     }
 
     static boolean matchRecipeTickInput(IRecipeCapabilityHolder holder, GTRecipe recipe) {
-        if (recipe.tickInputs.isEmpty()) return true;
-        return RecipeHelper.handleRecipe(holder, recipe, IO.IN, recipe.tickInputs, Collections.emptyMap(), true, true).isSuccess();
+        for (Map.Entry<RecipeCapability<?>, List<Content>> entry : recipe.tickInputs.entrySet()) {
+            if (handleTickRecipe(holder, IO.IN, recipe, entry.getValue(), entry.getKey(), true)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     static boolean matchRecipeTickOutput(IRecipeCapabilityHolder holder, GTRecipe recipe) {
-        if (recipe.tickOutputs.isEmpty()) return true;
-        return RecipeHelper.handleRecipe(holder, recipe, IO.OUT, recipe.tickOutputs, Collections.emptyMap(), true, true).isSuccess();
+        for (Map.Entry<RecipeCapability<?>, List<Content>> entry : recipe.tickOutputs.entrySet()) {
+            if (handleTickRecipe(holder, IO.OUT, recipe, entry.getValue(), entry.getKey(), true)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     static boolean handleRecipeInput(IRecipeLogicMachine holder, GTRecipe recipe) {
@@ -82,12 +90,16 @@ public interface RecipeRunner {
      * @return 是否失败
      */
     static boolean handleTickRecipe(IRecipeCapabilityHolder holder, IO io, GTRecipe recipe, List<Content> contents, RecipeCapability<?> capability) {
+        return handleTickRecipe(holder, io, recipe, contents, capability, false);
+    }
+
+    private static boolean handleTickRecipe(IRecipeCapabilityHolder holder, IO io, GTRecipe recipe, List<Content> contents, RecipeCapability<?> capability, boolean simulate) {
         if (contents == null || contents.isEmpty()) return false;
         List<IRecipeHandler<?>> handlers = holder.getCapabilitiesFlat(io, capability);
         if (handlers.isEmpty()) return true;
         List<?> contentList = contents.stream().map(Content::getContent).toList();
         for (IRecipeHandler<?> handler : handlers) {
-            contentList = handler.handleRecipeInner(io, recipe, (List) contentList, false);
+            contentList = handler.handleRecipeInner(io, recipe, (List) contentList, simulate);
             if (contentList == null || contentList.isEmpty()) return false;
         }
         return !contentList.isEmpty();

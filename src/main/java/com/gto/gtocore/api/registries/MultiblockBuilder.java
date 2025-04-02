@@ -77,6 +77,7 @@ public final class MultiblockBuilder extends MultiblockMachineBuilder {
 
     @Override
     public MultiblockBuilder recipeModifiers(RecipeModifier... recipeModifiers) {
+        if (recipeModifiers.length == 1) return recipeModifier(recipeModifiers[0]);
         alwaysTryModifyRecipe(true);
         return (MultiblockBuilder) super.recipeModifiers(recipeModifiers);
     }
@@ -161,11 +162,11 @@ public final class MultiblockBuilder extends MultiblockMachineBuilder {
     }
 
     public MultiblockBuilder parallelizableOverclock() {
-        return recipeModifiers(GTORecipeModifiers.HATCH_PARALLEL, GTORecipeModifiers.OVERCLOCKING);
+        return recipeModifier(GTORecipeModifiers.PARALLELIZABLE_OVERCLOCK);
     }
 
     public MultiblockBuilder parallelizablePerfectOverclock() {
-        return recipeModifiers(GTORecipeModifiers.HATCH_PARALLEL, GTORecipeModifiers.PERFECT_OVERCLOCKING);
+        return recipeModifier(GTORecipeModifiers.PARALLELIZABLE_PERFECT_OVERCLOCK);
     }
 
     public MultiblockBuilder steamOverclock() {
