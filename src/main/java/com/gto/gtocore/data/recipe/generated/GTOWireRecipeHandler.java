@@ -1,6 +1,7 @@
 package com.gto.gtocore.data.recipe.generated;
 
 import com.gto.gtocore.GTOCore;
+import com.gto.gtocore.api.data.tag.GTOTagPrefix;
 import com.gto.gtocore.api.recipe.GTORecipeBuilder;
 import com.gto.gtocore.common.data.GTOItems;
 import com.gto.gtocore.common.data.GTOMaterials;
@@ -44,7 +45,7 @@ interface GTOWireRecipeHandler {
         if (property == null) {
             return;
         }
-        processWires(material, provider);
+        processWires(material, property, provider);
         if (property.isSuperconductor()) return;
         generateCableCovering(wireGtSingle, material, property, provider);
         generateCableCovering(wireGtDouble, material, property, provider);
@@ -53,8 +54,8 @@ interface GTOWireRecipeHandler {
         generateCableCovering(wireGtHex, material, property, provider);
     }
 
-    private static void processWires(Material material, Consumer<FinishedRecipe> provider) {
-        ItemStack wireSingle = ChemicalHelper.get(TagPrefix.wireGtSingle, material, 2);
+    private static void processWires(Material material, WireProperties property, Consumer<FinishedRecipe> provider) {
+        ItemStack wireSingle = ChemicalHelper.get((property.isSuperconductor() && property.getVoltage() < VA[MAX]) ? GTOTagPrefix.SUPERCONDUCTOR_BASE : TagPrefix.wireGtSingle, material, 2);
         if (wireSingle.isEmpty()) return;
         TagPrefix prefix = material.hasProperty(PropertyKey.INGOT) ? ingot :
                 material.hasProperty(PropertyKey.GEM) ? gem : dust;

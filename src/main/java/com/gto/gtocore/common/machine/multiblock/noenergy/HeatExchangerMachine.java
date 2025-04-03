@@ -31,6 +31,7 @@ public final class HeatExchangerMachine extends NoEnergyMultiblockMachine implem
     }
 
     private static final Fluid Steam = GTMaterials.Steam.getFluid();
+    private static final Fluid HighPressureSteam = GTOMaterials.HighPressureSteam.getFluid();
     private static final Fluid SupercriticalSteam = GTOMaterials.SupercriticalSteam.getFluid();
     private static final Fluid DistilledWater = GTMaterials.DistilledWater.getFluid();
 
@@ -41,12 +42,19 @@ public final class HeatExchangerMachine extends NoEnergyMultiblockMachine implem
     @Persisted
     private int count;
 
+    @Persisted
+    private boolean water;
+
     @Nullable
     @Override
     protected GTRecipe getRealRecipe(@NotNull GTRecipe recipe) {
-        if (FluidRecipeCapability.CAP.of(recipe.inputs.get(FluidRecipeCapability.CAP)
-                .get(1).getContent()).getStacks()[0].getFluid() == Fluids.WATER) {
-            return GTORecipeModifiers.accurateParallel(this, recipe, Integer.MAX_VALUE);
+        water = false;
+        if (FluidRecipeCapability.CAP.of(recipe.inputs.get(FluidRecipeCapability.CAP).get(1).getContent()).getStacks()[0].getFluid() == Fluids.WATER) {
+            water = true;
+            recipe.outputs.clear();
+            recipe = GTORecipeModifiers.accurateParallel(this, recipe, Integer.MAX_VALUE);
+            count = 6400 * recipe.parallels;
+            return recipe;
         }
         GTRecipe result = GTORecipeModifiers.accurateParallel(this, GTORecipeBuilder.ofRaw()
                 .inputFluids(FluidRecipeCapability.CAP.of(recipe.inputs
@@ -57,7 +65,7 @@ public final class HeatExchangerMachine extends NoEnergyMultiblockMachine implem
                 .buildRawRecipe(), Integer.MAX_VALUE);
         long count = result.parallels * recipe.data.getLong("eu");
         if (MachineUtils.inputFluid(this, DistilledWater, (int) (count / 160))) {
-            this.count = (int) (count / 16);
+            this.count = (int) (count / 4);
             return result;
         } else {
             doExplosion(Math.min(10, count / 1000));
@@ -70,9 +78,17 @@ public final class HeatExchangerMachine extends NoEnergyMultiblockMachine implem
         super.onRecipeFinish();
         if (count != 0) {
             if (getRecipeLogic().getConsecutiveRecipes() > 4) {
-                MachineUtils.outputFluid(this, SupercriticalSteam, count);
+                if (water) {
+                    MachineUtils.outputFluid(this, HighPressureSteam, count);
+                } else {
+                    MachineUtils.outputFluid(this, SupercriticalSteam, count / 4);
+                }
             } else {
-                MachineUtils.outputFluid(this, Steam, count << 4);
+                if (water) {
+                    MachineUtils.outputFluid(this, Steam, count << 2);
+                } else {
+                    MachineUtils.outputFluid(this, HighPressureSteam, count);
+                }
             }
         }
         count = 0;

@@ -1,6 +1,5 @@
 package com.gto.gtocore.common.recipe;
 
-import com.gto.gtocore.api.capability.recipe.ManaRecipeCapability;
 import com.gto.gtocore.common.data.GTOMaterials;
 import com.gto.gtocore.common.data.GTORecipeTypes;
 import com.gto.gtocore.data.recipe.generated.GenerateDisassembly;
@@ -37,7 +36,7 @@ public interface RecipeTypeModify {
             GenerateDisassembly.generateDisassembly(recipeBuilder, provider);
         });
 
-        ASSEMBLER_RECIPES.setMaxSize(IO.IN, ManaRecipeCapability.CAP, 1);
+        ASSEMBLER_RECIPES.setMANAIO(IO.IN);
         ASSEMBLER_RECIPES.onRecipeBuild(GenerateDisassembly::generateDisassembly);
 
         PLASMA_GENERATOR_FUELS.onRecipeBuild((recipeBuilder, provider) -> {
@@ -52,7 +51,7 @@ public interface RecipeTypeModify {
                     .inputFluids(input)
                     .inputFluids(GTMaterials.DistilledWater.getFluid((int) (eu / 160)))
                     .outputFluids(output)
-                    .outputFluids(GTMaterials.Steam.getFluid((int) eu))
+                    .outputFluids(GTOMaterials.HighPressureSteam.getFluid((int) (eu / 4)))
                     .outputFluids(GTOMaterials.SupercriticalSteam.getFluid((int) (eu / 16)))
                     .addData("eu", eu)
                     .duration(200)

@@ -80,7 +80,7 @@ public final class InternalSlotRecipeHandler {
 
         @Override
         public @NotNull List<Object> getContents() {
-            return new ArrayList<>(slot.getItems());
+            return (List) slot.getItems();
         }
 
         @Override
@@ -135,7 +135,7 @@ public final class InternalSlotRecipeHandler {
 
         @Override
         public @NotNull List<Object> getContents() {
-            return new ArrayList<>(slot.getFluids());
+            return (List) slot.getFluids();
         }
 
         @Override

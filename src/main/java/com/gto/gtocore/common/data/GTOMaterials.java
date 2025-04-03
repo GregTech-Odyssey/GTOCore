@@ -13,6 +13,9 @@ public final class GTOMaterials {
 
     public static Map<Material, Integer> MATERIAL_VOLTAGE;
 
+    public static Material LiquidNitrogen;
+    public static Material HighPressureNitrogen;
+    public static Material HighPressureSteam;
     public static Material AcidicBromineSolution;
     public static Material ConcentratedBromineSolution;
     public static Material HydrogenIodide;

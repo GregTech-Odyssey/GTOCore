@@ -173,10 +173,8 @@ public class SpaceElevatorMachine extends TierCasingMultiblockMachine implements
 
     @Nullable
     private GTRecipe getRecipe() {
-        if (hasCapabilityProxies()) {
-            GTRecipe recipe = GTORecipeBuilder.ofRaw().duration(400).CWUt(128 * (getTier() - GTValues.ZPM)).EUt(GTValues.VA[getTier()]).buildRawRecipe();
-            if (RecipeRunner.matchRecipeTickInput(this, recipe)) return recipe;
-        }
+        GTRecipe recipe = GTORecipeBuilder.ofRaw().duration(400).CWUt(128 * (getTier() - GTValues.ZPM)).EUt(GTValues.VA[getTier()]).buildRawRecipe();
+        if (RecipeRunner.matchRecipeTickInput(this, recipe)) return recipe;
         return null;
     }
 

@@ -2,10 +2,12 @@ package com.gto.gtocore.common.machine.multiblock.water;
 
 import com.gto.gtocore.api.machine.INetMachineInteractor;
 import com.gto.gtocore.api.machine.multiblock.NoEnergyCustomParallelMultiblockMachine;
+import com.gto.gtocore.api.machine.trait.CustomRecipeLogic;
 import com.gto.gtocore.utils.GTOUtils;
 
 import com.gregtechceu.gtceu.api.machine.ConditionalSubscriptionHandler;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.sound.SoundEntry;
 import com.gregtechceu.gtceu.common.data.GTSoundEntries;
@@ -18,6 +20,7 @@ import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import lombok.Getter;
 import lombok.Setter;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
 import java.util.Set;
@@ -117,5 +120,10 @@ abstract class WaterPurificationUnitMachine extends NoEnergyCustomParallelMultib
     @Override
     public ManagedFieldHolder getFieldHolder() {
         return MANAGED_FIELD_HOLDER;
+    }
+
+    @Override
+    protected @NotNull RecipeLogic createRecipeLogic(Object @NotNull... args) {
+        return new CustomRecipeLogic(this, () -> null);
     }
 }

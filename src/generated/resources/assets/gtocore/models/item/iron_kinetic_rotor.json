@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "gtocore:item/steel_rotor"
+    "layer0": "gtocore:item/iron_kinetic_rotor"
   }
 }

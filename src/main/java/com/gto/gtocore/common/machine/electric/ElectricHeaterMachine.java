@@ -40,7 +40,7 @@ public final class ElectricHeaterMachine extends WorkableTieredMachine implement
 
     @Nullable
     private GTRecipe getRecipe() {
-        if (!hasCapabilityProxies() || temperature >= getMaxTemperature()) return null;
+        if (temperature >= getMaxTemperature()) return null;
         GTRecipe recipe = GTORecipeBuilder.ofRaw().duration(20).EUt(30).buildRawRecipe();
         if (RecipeRunner.matchTickRecipe(this, recipe)) {
             return recipe;

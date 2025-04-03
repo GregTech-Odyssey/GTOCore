@@ -2,16 +2,22 @@ package com.gto.gtocore.common.data.machines;
 
 import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.api.machine.part.GTOPartAbility;
+import com.gto.gtocore.common.data.GTOBlocks;
+import com.gto.gtocore.common.data.GTORecipeModifiers;
+import com.gto.gtocore.common.data.GTORecipeTypes;
 import com.gto.gtocore.common.machine.mana.multiblock.ManaDistributorMachine;
+import com.gto.gtocore.common.machine.mana.multiblock.ManaMultiblockMachine;
 import com.gto.gtocore.utils.RLUtils;
 import com.gto.gtocore.utils.RegistriesUtils;
 
+import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 
 import net.minecraft.world.level.block.Blocks;
 
+import static com.gregtechceu.gtceu.api.machine.multiblock.PartAbility.*;
 import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
 import static com.gto.gtocore.utils.register.MachineRegisterUtils.multiblock;
 
@@ -79,5 +85,33 @@ public interface ManaMultiBlock {
                     .where(' ', any())
                     .build())
             .workableCasingRenderer(RLUtils.bot("block/livingrock_bricks"), GTOCore.id("block/multiblock/mana"))
+            .register();
+
+    MultiblockMachineDefinition MANA_INFUSER = multiblock("mana_infuser", "魔力灌注机", ManaMultiblockMachine::new)
+            .nonYAxisRotation()
+            .parallelizableTooltips()
+            .recipeModifiers(GTORecipeModifiers.HATCH_PARALLEL)
+            .recipe(GTORecipeTypes.MANA_INFUSER_RECIPES)
+            .block(GTOBlocks.MANASTEEL_CASING)
+            .pattern(definition -> FactoryBlockPattern.start()
+                    .aisle("    AAA ", "    ABA ", "    ABA ", "    ABA ", "    AAA ", "        ", "        ")
+                    .aisle("AAAAAAAA", "AAAA   A", " AAA   A", "   A   A", "   AAAAA", "        ", "        ")
+                    .aisle("ADDAAAAA", "AEEA F B", "AEAA F B", " G A F B", " G AAEAA", " G   G  ", " GGGGG  ")
+                    .aisle("AAAAAAAA", "ACAA   A", " AAA   A", "   A   A", "   AAAAA", "        ", "        ")
+                    .aisle("    AAA ", "    ABA ", "    ABA ", "    ABA ", "    AAA ", "        ", "        ")
+                    .where('A', blocks(GTOBlocks.MANASTEEL_CASING.get())
+                            .or(abilities(GTOPartAbility.INPUT_MANA).setMaxGlobalLimited(4, 1))
+                            .or(abilities(PARALLEL_HATCH).setMaxGlobalLimited(1))
+                            .or(abilities(EXPORT_ITEMS).setMaxGlobalLimited(1, 1))
+                            .or(abilities(IMPORT_ITEMS).setMaxGlobalLimited(1, 1)))
+                    .where('B', blocks(RegistriesUtils.getBlock("botania:mana_glass")))
+                    .where('C', controller(blocks(definition.get())))
+                    .where('D', blocks(GTOBlocks.MANASTEEL_CASING.get()))
+                    .where('E', blocks(RegistriesUtils.getBlock("botania:mana_fluxfield")))
+                    .where('F', blocks(RegistriesUtils.getBlock("botania:mana_distributor")))
+                    .where('G', blocks(RegistriesUtils.getBlock("botania:livingrock")))
+                    .where(' ', any())
+                    .build())
+            .workableCasingRenderer(GTOCore.id("block/casings/manasteel_casing"), GTCEu.id("block/multiblock/gcym/large_chemical_bath"))
             .register();
 }

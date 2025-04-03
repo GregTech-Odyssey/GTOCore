@@ -946,7 +946,7 @@ public final class GTORecipeBuilder extends GTRecipeBuilder {
         return input(FluidRecipeCapability.CAP, inputs);
     }
 
-    public GTRecipeBuilder outputFluids(@NotNull Material material, int amount) {
+    public GTORecipeBuilder outputFluids(@NotNull Material material, int amount) {
         return outputFluids(material.getFluid(amount));
     }
 

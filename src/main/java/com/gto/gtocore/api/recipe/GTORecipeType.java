@@ -1,6 +1,7 @@
 package com.gto.gtocore.api.recipe;
 
 import com.gto.gtocore.GTOCore;
+import com.gto.gtocore.api.capability.recipe.ManaRecipeCapability;
 import com.gto.gtocore.mixin.gtm.api.recipe.GTRecipeTypeAccessor;
 
 import com.gregtechceu.gtceu.GTCEu;
@@ -31,6 +32,9 @@ import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture;
 import com.lowdragmc.lowdraglib.gui.texture.ProgressTexture;
 import com.lowdragmc.lowdraglib.gui.texture.ResourceTexture;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.Accessors;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -43,6 +47,11 @@ import java.util.function.*;
 public class GTORecipeType extends GTRecipeType {
 
     Map<ResourceLocation, Boolean> filter;
+
+    @Setter
+    @Getter
+    @Accessors(chain = true, fluent = true)
+    private boolean noSearch;
 
     public GTORecipeType(ResourceLocation registryName, String group, RecipeType<?>... proxyRecipes) {
         super(registryName, group, proxyRecipes);
@@ -256,6 +265,16 @@ public class GTORecipeType extends GTRecipeType {
     @Override
     public GTORecipeType setVoltageTextOffset(final int voltageTextOffset) {
         return (GTORecipeType) super.setVoltageTextOffset(voltageTextOffset);
+    }
+
+    public GTORecipeType setMANAIO(IO io) {
+        if (io.support(IO.IN)) {
+            setMaxSize(IO.IN, ManaRecipeCapability.CAP, 1);
+        }
+        if (io.support(IO.OUT)) {
+            setMaxSize(IO.OUT, ManaRecipeCapability.CAP, 1);
+        }
+        return this;
     }
 
     public GTORecipeBuilder builder(String id, Object... append) {

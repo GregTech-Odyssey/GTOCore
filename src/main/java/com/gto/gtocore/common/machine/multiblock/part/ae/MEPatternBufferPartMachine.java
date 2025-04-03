@@ -495,11 +495,13 @@ public class MEPatternBufferPartMachine extends MEBusPartMachine implements ICra
 
         public List<ItemStack> getItems() {
             if (itemStacks == null) {
-                itemStacks = new ArrayList<>();
                 synchronized (itemInventory) {
-                    itemInventory.object2LongEntrySet().stream()
-                            .map(e -> GTMath.splitStacks(e.getKey(), e.getLongValue()))
-                            .forEach(itemStacks::addAll);
+                    List<ItemStack> stacks = new ObjectArrayList<>(itemInventory.size());
+                    for (Object2LongMap.Entry<ItemStack> e : itemInventory.object2LongEntrySet()) {
+                        e.getKey().setCount(GTMath.saturatedCast(e.getLongValue()));
+                        stacks.add(e.getKey());
+                    }
+                    itemStacks = stacks;
                 }
             }
             return itemStacks;
@@ -508,9 +510,12 @@ public class MEPatternBufferPartMachine extends MEBusPartMachine implements ICra
         public List<FluidStack> getFluids() {
             if (fluidStacks == null) {
                 synchronized (fluidInventory) {
-                    fluidStacks = fluidInventory.object2LongEntrySet().stream()
-                            .map(e -> new FluidStack(e.getKey(), GTMath.saturatedCast(e.getLongValue())))
-                            .toList();
+                    List<FluidStack> stacks = new ObjectArrayList<>(fluidInventory.size());
+                    for (Object2LongMap.Entry<FluidStack> e : fluidInventory.object2LongEntrySet()) {
+                        e.getKey().setAmount(GTMath.saturatedCast(e.getLongValue()));
+                        stacks.add(e.getKey());
+                    }
+                    fluidStacks = stacks;
                 }
             }
             return fluidStacks;

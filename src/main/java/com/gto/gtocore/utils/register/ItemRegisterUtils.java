@@ -177,7 +177,7 @@ public final class ItemRegisterUtils {
     }
 
     public static ItemEntry<KineticRotorItem> registerRotor(String id, String cn, int durability, int min, int max, int material) {
-        return item(id, cn + "转子", p -> new KineticRotorItem(p, durability, min, max, material)).register();
+        return item(id, cn + "动力转子", p -> new KineticRotorItem(p, durability, min, max, material)).register();
     }
 
     public static ItemEntry<ToolTipsItem>[] registerCircuits(String name, String cn, int[] tiers, Function<Integer, Component> componentFunction) {

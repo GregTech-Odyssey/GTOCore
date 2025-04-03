@@ -126,7 +126,7 @@ public class VoidTransporterMachine extends ElectricMultiblockMachine {
 
     @Nullable
     private GTRecipe getRecipe() {
-        if (hasCapabilityProxies() && eu < getOverclockVoltage() && energyContainer.getEnergyStored() < 409600) {
+        if (eu < getOverclockVoltage() && energyContainer.getEnergyStored() < 409600) {
             GTRecipe recipe = GTORecipeBuilder.ofRaw().EUt(getOverclockVoltage()).duration(200).buildRawRecipe();
             if (RecipeRunner.matchTickRecipe(this, recipe)) return recipe;
         }

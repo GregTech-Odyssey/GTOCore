@@ -24,7 +24,6 @@ import net.minecraft.world.level.material.Fluid;
 
 import com.lowdragmc.lowdraglib.gui.util.ClickData;
 import com.lowdragmc.lowdraglib.gui.widget.ComponentPanelWidget;
-import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -40,14 +39,6 @@ import javax.annotation.ParametersAreNonnullByDefault;
 public final class WaterPurificationPlantMachine extends ElectricMultiblockMachine {
 
     public static final Map<ResourceLocation, Set<WaterPurificationPlantMachine>> NETWORK = new Object2ObjectOpenHashMap<>();
-
-    private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
-            WaterPurificationPlantMachine.class, ElectricMultiblockMachine.MANAGED_FIELD_HOLDER);
-
-    @Override
-    public ManagedFieldHolder getFieldHolder() {
-        return MANAGED_FIELD_HOLDER;
-    }
 
     static final int DURATION = 2400;
 
@@ -160,7 +151,6 @@ public final class WaterPurificationPlantMachine extends ElectricMultiblockMachi
 
     @Nullable
     private GTRecipe getRecipe() {
-        if (!hasCapabilityProxies()) return null;
         long eut = 0;
         for (WaterPurificationUnitMachine machine : waterPurificationUnitMachineMap.keySet()) {
             if (machine.isFormed() && machine.getRecipeLogic().isIdle()) {

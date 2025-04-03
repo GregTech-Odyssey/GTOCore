@@ -31,30 +31,28 @@ public final class ChiselMachine extends CustomParallelMultiblockMachine {
 
     @Nullable
     private GTRecipe getRecipe() {
-        if (hasCapabilityProxies()) {
-            AtomicInteger c = new AtomicInteger();
-            AtomicReference<Item> item = new AtomicReference<>();
-            MachineUtils.forEachInputItems(this, itemStack -> {
-                if (itemStack.is(GTItems.PROGRAMMED_CIRCUIT.get())) {
-                    c.addAndGet(IntCircuitBehaviour.getCircuitConfiguration(itemStack));
-                } else {
-                    item.set(itemStack.getItem());
-                }
-                return false;
-            });
-            if (c.get() > 0 && item.get() != null) {
-                List<Item> list = ChiselGroupLookup.getBlocksInGroup(item.get());
-                if (list.isEmpty()) return null;
-                Item output = list.get(c.get() - 1);
-                if (output == null) return null;
-                GTORecipeBuilder builder = GTORecipeBuilder.ofRaw().duration(20).EUt(30);
-                builder.inputItems(item.get());
-                builder.outputItems(output);
-                GTRecipe recipe = builder.buildRawRecipe();
-                recipe = GTORecipeModifiers.accurateParallel(this, recipe, getParallel());
-                if (recipe != null && RecipeRunner.matchRecipe(this, recipe) && RecipeRunner.matchTickRecipe(this, recipe)) {
-                    return recipe;
-                }
+        AtomicInteger c = new AtomicInteger();
+        AtomicReference<Item> item = new AtomicReference<>();
+        MachineUtils.forEachInputItems(this, itemStack -> {
+            if (itemStack.is(GTItems.PROGRAMMED_CIRCUIT.get())) {
+                c.addAndGet(IntCircuitBehaviour.getCircuitConfiguration(itemStack));
+            } else {
+                item.set(itemStack.getItem());
+            }
+            return false;
+        });
+        if (c.get() > 0 && item.get() != null) {
+            List<Item> list = ChiselGroupLookup.getBlocksInGroup(item.get());
+            if (list.isEmpty()) return null;
+            Item output = list.get(c.get() - 1);
+            if (output == null) return null;
+            GTORecipeBuilder builder = GTORecipeBuilder.ofRaw().duration(20).EUt(30);
+            builder.inputItems(item.get());
+            builder.outputItems(output);
+            GTRecipe recipe = builder.buildRawRecipe();
+            recipe = GTORecipeModifiers.accurateParallel(this, recipe, getParallel());
+            if (recipe != null && RecipeRunner.matchRecipe(this, recipe) && RecipeRunner.matchTickRecipe(this, recipe)) {
+                return recipe;
             }
         }
         return null;

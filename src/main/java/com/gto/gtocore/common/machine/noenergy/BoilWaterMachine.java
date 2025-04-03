@@ -59,7 +59,7 @@ public final class BoilWaterMachine extends SimpleNoEnergyMachine implements IRe
 
     @Nullable
     private GTRecipe getRecipe() {
-        if (!hasCapabilityProxies() || temperature < 360) return null;
+        if (temperature < 360) return null;
         GTRecipe recipe = GTORecipeBuilder.ofRaw().duration(20).inputFluids(new FluidStack(Fluids.WATER, 6)).outputFluids(GTMaterials.Steam.getFluid(960 * temperature / 600)).buildRawRecipe();
         if (RecipeRunner.matchRecipe(this, recipe)) {
             return recipe;

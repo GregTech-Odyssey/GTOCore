@@ -33,7 +33,6 @@ public final class ThermalPowerPumpMachine extends NoEnergyMultiblockMachine {
 
     @Nullable
     private GTRecipe getRecipe() {
-        if (!hasCapabilityProxies()) return null;
         if (biomeModifier == 0) {
             biomeModifier = GTUtil.getPumpBiomeModifier(Objects.requireNonNull(getLevel()).getBiome(getPos()));
         } else if (biomeModifier > 0) {

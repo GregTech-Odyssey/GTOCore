@@ -58,7 +58,7 @@ public final class ManaRecipeCapability extends RecipeCapability<Integer> {
                 .stream()
                 .toList();
         for (IRecipeHandler<?> container : recipeHandlerList) {
-            if (container.getContents() instanceof IManaContainer manaContainer) {
+            if (container instanceof IManaContainer manaContainer) {
                 maxMana += manaContainer.getMaxConsumption();
             }
         }

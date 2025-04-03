@@ -274,7 +274,6 @@ public final class GodForgeMachine extends NoEnergyMultiblockMachine implements 
 
     @Nullable
     private GTRecipe getRecipe() {
-        if (!hasCapabilityProxies()) return null;
         return GTORecipeBuilder.ofRaw().duration(20).buildRawRecipe();
     }
 

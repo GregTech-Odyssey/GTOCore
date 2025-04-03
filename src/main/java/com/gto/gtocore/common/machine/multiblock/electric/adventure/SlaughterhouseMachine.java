@@ -158,7 +158,7 @@ public final class SlaughterhouseMachine extends StorageMultiblockMachine {
 
     @Nullable
     private GTRecipe getRecipe() {
-        if (hasCapabilityProxies() && getLevel() instanceof ServerLevel serverLevel && getTier() > 1) {
+        if (getLevel() instanceof ServerLevel serverLevel && getTier() > 1) {
             int c = MachineUtils.checkingCircuit(this, false);
             if (c == 0) return null;
             ItemStackSet itemStacks = new ItemStackSet();

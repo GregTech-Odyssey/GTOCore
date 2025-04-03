@@ -1,8 +1,10 @@
 package com.gto.gtocore.common.data.material;
 
+import com.gregtechceu.gtceu.api.fluids.FluidBuilder;
+import com.gregtechceu.gtceu.common.data.GTElements;
+
 import static com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlags.DISABLE_DECOMPOSITION;
-import static com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialIconSet.DULL;
-import static com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialIconSet.LIGNITE;
+import static com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialIconSet.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
 import static com.gto.gtocore.common.data.GTOMaterials.*;
 import static com.gto.gtocore.utils.register.MaterialsRegisterUtils.material;
@@ -10,6 +12,28 @@ import static com.gto.gtocore.utils.register.MaterialsRegisterUtils.material;
 public interface MaterialC {
 
     static void init() {
+        LiquidNitrogen = material("liquid_nitrogen", "液氮")
+                .liquid(new FluidBuilder().temperature(77))
+                .color(0x057A99)
+                .iconSet(FLUID)
+                .element(GTElements.N)
+                .buildAndRegister();
+
+        HighPressureNitrogen = material("high_pressure_nitrogen", "高压氮气")
+                .gas()
+                .color(0x139099)
+                .iconSet(DULL)
+                .element(GTElements.N)
+                .buildAndRegister();
+
+        HighPressureSteam = material("high_pressure_steam", "高压蒸汽")
+                .gas()
+                .color(0xEEF2E9)
+                .iconSet(DULL)
+                .components(Hydrogen, 2, Oxygen, 1)
+                .flags(DISABLE_DECOMPOSITION)
+                .buildAndRegister();
+
         AcidicBromineSolution = material("acidic_bromine_solution", "酸性溴溶液")
                 .liquid()
                 .color(0xc49b52)

@@ -2,6 +2,7 @@ package com.gto.gtocore.utils.register;
 
 import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.api.GTOValues;
+import com.gto.gtocore.api.data.tag.GTOTagPrefix;
 import com.gto.gtocore.common.block.*;
 import com.gto.gtocore.common.data.GTOLoots;
 
@@ -97,6 +98,7 @@ public final class BlockRegisterUtils {
                 if (tagPrefixes == null || (!gTOCore$DEEPSLATE.contains(oreTag) && !tagPrefixes.contains(oreTag))) continue;
             }
             final TagPrefix.OreType oreType = ore.getValue();
+            if (ore.getKey() instanceof GTOTagPrefix) registrate = REGISTRATE;
             var entry = registrate.block("%s%s_ore".formatted(oreTag != TagPrefix.ore ? FormattingUtil.toLowerCaseUnder(oreTag.name()) + "_" : "", material.getName()), properties -> new OreBlock(properties, oreTag, material, true))
                     .initialProperties(() -> {
                         if (oreType.stoneType().get().isAir()) {

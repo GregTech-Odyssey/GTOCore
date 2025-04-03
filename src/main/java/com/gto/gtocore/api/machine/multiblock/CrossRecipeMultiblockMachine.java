@@ -8,6 +8,7 @@ import com.gto.gtocore.api.machine.feature.multiblock.IOverclockConfigMachine;
 import com.gto.gtocore.api.machine.feature.multiblock.IParallelMachine;
 import com.gto.gtocore.api.machine.trait.CustomParallelTrait;
 import com.gto.gtocore.api.machine.trait.CustomRecipeLogic;
+import com.gto.gtocore.api.machine.trait.MultiblockTrait;
 import com.gto.gtocore.api.recipe.AsyncRecipeOutputTask;
 import com.gto.gtocore.api.recipe.GTORecipeBuilder;
 import com.gto.gtocore.api.recipe.GTORecipeType;
@@ -42,6 +43,7 @@ import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import lombok.Getter;
 import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.HashSet;
 import java.util.Iterator;
@@ -122,7 +124,6 @@ public class CrossRecipeMultiblockMachine extends ElectricMultiblockMachine impl
     }
 
     private GTRecipe getRecipe() {
-        if (!hasCapabilityProxies()) return null;
         GTRecipe match = LookupRecipe();
         if (match == null) return null;
         long totalEu = 0;
@@ -187,11 +188,7 @@ public class CrossRecipeMultiblockMachine extends ElectricMultiblockMachine impl
         int rt = RecipeHelper.getRecipeEUtTier(recipe);
         if (rt <= getMaxOverclockTier() && RecipeRunner.checkConditions(this, recipe)) {
             recipe.conditions.clear();
-            for (IMultiPart part : getParts()) {
-                recipe = part.modifyRecipe(recipe);
-                if (recipe == null) return null;
-            }
-            recipe = getRealRecipe(recipe);
+            recipe = fullModifyRecipe(recipe);
             if (recipe != null && (recipe.parallels > 1 || RecipeRunner.matchRecipeInput(this, recipe)) && RecipeRunner.handleRecipeInput(this, recipe)) {
                 recipe.ocLevel = getTier() - rt;
                 recipe.inputs.clear();
@@ -210,6 +207,16 @@ public class CrossRecipeMultiblockMachine extends ElectricMultiblockMachine impl
     @Override
     public CrossRecipeLogic getRecipeLogic() {
         return (CrossRecipeLogic) super.getRecipeLogic();
+    }
+
+    @Override
+    @Nullable
+    public GTRecipe fullModifyRecipe(@NotNull GTRecipe recipe) {
+        for (MultiblockTrait trait : getMultiblockTraits()) {
+            recipe = trait.modifyRecipe(recipe);
+            if (recipe == null) return null;
+        }
+        return doModifyRecipe(recipe);
     }
 
     @Override

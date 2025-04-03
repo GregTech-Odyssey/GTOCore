@@ -257,6 +257,7 @@ public final class MachineUtils {
     /**
      * 遍历机器的所有输入物品，并对每个物品应用给定的函数。
      * 如果函数对某个物品返回 true，则立即返回，不再继续遍历。
+     * 如果机器包含非{@link com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler}的仓，不要修改。
      *
      * @param machine  要遍历的机器实例
      * @param function 应用于每个物品的函数，函数接收一个 ItemStack 参数并返回一个 Boolean 值
@@ -274,6 +275,7 @@ public final class MachineUtils {
     /**
      * 遍历机器的所有输入流体，并对每个流体应用给定的函数。
      * 如果函数对某个流体返回true，则立即返回，不再继续遍历。
+     * 如果机器包含非{@link com.gregtechceu.gtceu.api.machine.trait.NotifiableFluidTank}的仓，不要修改。
      *
      * @param machine  要遍历的机器实例
      * @param function 要应用于每个流体栈的函数

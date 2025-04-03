@@ -214,6 +214,13 @@ public interface FuelRecipe {
                 .EUt(-V[LV])
                 .save();
 
+        STEAM_TURBINE_FUELS.recipeBuilder("high_pressure_steam")
+                .inputFluids(GTOMaterials.HighPressureSteam.getFluid(320))
+                .outputFluids(DistilledWater.getFluid(8))
+                .duration(20)
+                .EUt(-V[MV])
+                .save();
+
         // gas turbine fuels
         GAS_TURBINE_FUELS.recipeBuilder("natural_gas")
                 .inputFluids(NaturalGas.getFluid(32))

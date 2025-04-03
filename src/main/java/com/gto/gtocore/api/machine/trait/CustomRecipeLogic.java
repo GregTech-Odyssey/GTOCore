@@ -28,9 +28,11 @@ public class CustomRecipeLogic extends RecipeLogic implements IEnhancedRecipeLog
     @Override
     public void findAndHandleRecipe() {
         lastRecipe = null;
-        GTRecipe match = recipeSupplier.get();
-        if (match != null) {
-            setupRecipe(match);
+        if (machine.hasCapabilityProxies()) {
+            GTRecipe match = recipeSupplier.get();
+            if (match != null) {
+                setupRecipe(match);
+            }
         }
     }
 

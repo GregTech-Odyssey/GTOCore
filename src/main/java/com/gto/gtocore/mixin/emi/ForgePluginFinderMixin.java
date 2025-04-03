@@ -1,6 +1,6 @@
 package com.gto.gtocore.mixin.emi;
 
-import com.gto.gtocore.integration.emi.GTEMIPlugin;
+import com.gto.gtocore.integration.jei.GTJEIPlugin;
 
 import mezz.jei.api.IModPlugin;
 import mezz.jei.forge.startup.ForgePluginFinder;
@@ -20,7 +20,7 @@ public final class ForgePluginFinderMixin {
     @Overwrite(remap = false)
     public static List<IModPlugin> getModPlugins() {
         List<IModPlugin> plugins = new ArrayList<>();
-        GTEMIPlugin.addJEIPlugin(plugins);
+        GTJEIPlugin.addJEIPlugin(plugins);
         return plugins;
     }
 }

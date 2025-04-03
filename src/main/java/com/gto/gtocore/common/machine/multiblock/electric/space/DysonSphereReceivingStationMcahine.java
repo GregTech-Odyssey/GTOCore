@@ -58,32 +58,29 @@ public final class DysonSphereReceivingStationMcahine extends ElectricMultiblock
 
     @Nullable
     private GTRecipe getRecipe() {
-        if (hasCapabilityProxies()) {
-            if (DysonSphereSavaedData.getDimensionUse(getDimension())) return null;
-            Pair<Integer, Integer> pair = DysonSphereSavaedData.getDimensionData(getDimension());
-            if (pair.getFirst() < 1) return null;
-            if (GTValues.RNG.nextFloat() < 0.01F * (1 + (double) pair.getFirst() / 128)) {
-                if (pair.getSecond() > 99) {
-                    int count = pair.getFirst() - 1;
-                    if (count < 1) {
-                        DysonSphereSavaedData.setDysonData(getDimension(), 0, 0);
-                        return null;
-                    }
-                    DysonSphereSavaedData.setDysonData(getDimension(), count, 0);
-                } else {
-                    DysonSphereSavaedData.setDysonData(getDimension(), pair.getFirst(), pair.getSecond() + 1);
+        if (DysonSphereSavaedData.getDimensionUse(getDimension())) return null;
+        Pair<Integer, Integer> pair = DysonSphereSavaedData.getDimensionData(getDimension());
+        if (pair.getFirst() < 1) return null;
+        if (GTValues.RNG.nextFloat() < 0.01F * (1 + (double) pair.getFirst() / 128)) {
+            if (pair.getSecond() > 99) {
+                int count = pair.getFirst() - 1;
+                if (count < 1) {
+                    DysonSphereSavaedData.setDysonData(getDimension(), 0, 0);
+                    return null;
                 }
+                DysonSphereSavaedData.setDysonData(getDimension(), count, 0);
+            } else {
+                DysonSphereSavaedData.setDysonData(getDimension(), pair.getFirst(), pair.getSecond() + 1);
             }
-            Integer integer = GTODimensions.ALL_GALAXY_DIM.get(getDimension().location());
-            if (integer == null) return null;
-            GTRecipe recipe = GTORecipeBuilder.ofRaw().duration(20)
-                    .CWUt(Math.max(1, pair.getFirst() * integer / 2))
-                    .EUt(-GTValues.V[GTValues.MAX] * pair.getFirst() * (50 - Math.max(0, pair.getSecond() - 60)) / 50)
-                    .inputFluids(new FluidStack(GTOFluids.GELID_CRYOTHEUM.get(), Math.max(1, (int) Math.sqrt(pair.getFirst()))))
-                    .buildRawRecipe();
-            if (RecipeRunner.matchRecipe(this, recipe) && RecipeRunner.matchTickRecipe(this, recipe)) return recipe;
-            return recipe;
         }
+        Integer integer = GTODimensions.ALL_GALAXY_DIM.get(getDimension().location());
+        if (integer == null) return null;
+        GTRecipe recipe = GTORecipeBuilder.ofRaw().duration(20)
+                .CWUt(Math.max(1, pair.getFirst() * integer / 2))
+                .EUt(-GTValues.V[GTValues.MAX] * pair.getFirst() * (50 - Math.max(0, pair.getSecond() - 60)) / 50)
+                .inputFluids(new FluidStack(GTOFluids.GELID_CRYOTHEUM.get(), Math.max(1, (int) Math.sqrt(pair.getFirst()))))
+                .buildRawRecipe();
+        if (RecipeRunner.matchRecipe(this, recipe) && RecipeRunner.matchTickRecipe(this, recipe)) return recipe;
         return null;
     }
 

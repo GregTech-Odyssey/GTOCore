@@ -2,6 +2,7 @@ package com.gto.gtocore.common.data;
 
 import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.api.recipe.GTORecipeBuilder;
+import com.gto.gtocore.api.recipe.GTORecipeType;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
@@ -73,7 +74,11 @@ public final class GTORecipes {
             long time = System.currentTimeMillis();
             PowerlessJetpack.FUELS.clear();
             GTRegistries.RECIPE_TYPES.forEach(t -> t.getLookup().removeAllRecipes());
-            GTORecipeBuilder.RECIPE_MAP.values().forEach(r -> r.recipeType.getLookup().addRecipe(r));
+            GTORecipeBuilder.RECIPE_MAP.values().forEach(r -> {
+                if (r.recipeType instanceof GTORecipeType type && !type.noSearch()) {
+                    type.getLookup().addRecipe(r);
+                }
+            });
             recipes.forEach((k, v) -> GTRecipeTypes.FURNACE_RECIPES.getLookup().addRecipe(GTRecipeTypes.FURNACE_RECIPES.toGTrecipe(k, v)));
             if (GTCEu.Mods.isEMILoaded()) GTORecipeBuilder.RECIPE_MAP = null;
             GTOCore.LOGGER.info("InitLookup took {}ms", System.currentTimeMillis() - time);

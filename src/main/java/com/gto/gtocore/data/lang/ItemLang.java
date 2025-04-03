@@ -54,6 +54,7 @@ final class ItemLang {
         addENCN("tagprefix.catalyst", "%s Catalyst", "%s催化剂");
         addENCN("tagprefix.artificial_gem", "Artificial %s", "人造%s");
         addENCN("tagprefix.crystal_seed", "%s Crystal Seed", "%s晶种");
+        addENCN("tagprefix.superconductor_base", "%s Superconductor Base", "%s超导粗胚");
 
         addENCN("gtocore.tooltip.artificial_gem", "Better than nature", "比自然的更好");
         addENCN("gtocore.tooltip.unknown", "Unknown", "未知");

@@ -122,5 +122,7 @@ public interface $ClassifiedRecipe {
         BiochemicaReaction.init();
         Laminator.init();
         Cluster.init();
+        GasCompressor.init();
+        ManaInfuser.init();
     }
 }

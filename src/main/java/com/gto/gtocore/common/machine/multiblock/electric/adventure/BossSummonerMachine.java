@@ -45,7 +45,6 @@ public final class BossSummonerMachine extends ElectricMultiblockMachine {
 
     @Nullable
     private GTRecipe getRecipe() {
-        if (!hasCapabilityProxies()) return null;
         GTRecipe recipe = GTORecipeBuilder.ofRaw().duration(Math.max(5, 400 / (getTier() + 1))).EUt(getOverclockVoltage()).buildRawRecipe();
         if (RecipeRunner.matchTickRecipe(this, recipe)) return recipe;
         return null;

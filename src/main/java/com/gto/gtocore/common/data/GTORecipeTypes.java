@@ -1,6 +1,5 @@
 package com.gto.gtocore.common.data;
 
-import com.gto.gtocore.api.capability.recipe.ManaRecipeCapability;
 import com.gto.gtocore.api.gui.GTOGuiTextures;
 import com.gto.gtocore.api.machine.trait.TierCasingTrait;
 import com.gto.gtocore.api.recipe.GTORecipeType;
@@ -480,6 +479,7 @@ public interface GTORecipeTypes {
 
     GTORecipeType BLOCK_CONVERSIONRECIPES = register("block_conversion", "方块转换", MULTIBLOCK)
             .setEUIO(IO.IN)
+            .noSearch(true)
             .setMaxIOSize(1, 1, 0, 0)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.ARC);
@@ -824,6 +824,7 @@ public interface GTORecipeTypes {
             .setSound(GTSoundEntries.CHEMICAL);
 
     GTORecipeType WATER_PURIFICATION_PLANT_RECIPES = register("water_purification_plant", "净化水厂", MULTIBLOCK)
+            .noSearch(true)
             .setMaxIOSize(0, 0, 1, 1)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.ARC)
@@ -857,6 +858,12 @@ public interface GTORecipeTypes {
             .setProgressBar(GuiTextures.PROGRESS_BAR_EXTRACT, LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.ARC);
 
+    GTORecipeType GAS_COMPRESSOR_RECIPES = register("gas_compressor", "气体压缩", MULTIBLOCK)
+            .setEUIO(IO.IN)
+            .setMaxIOSize(0, 0, 1, 1)
+            .setProgressBar(GuiTextures.COMPRESSOR_OVERLAY, LEFT_TO_RIGHT)
+            .setSound(GTSoundEntries.COMPRESSOR);
+
     // TODO 添加用途
     GTORecipeType PLASMA_CENTRIFUGE_RECIPES = register("plasma_centrifuge", "等离子体离心", MULTIBLOCK)
             .setEUIO(IO.IN)
@@ -874,7 +881,7 @@ public interface GTORecipeTypes {
     // ********** Magic **********//
     //////////////////////////////////////
     GTORecipeType ALCHEMY_CAULDRON_RECIPES = register("alchemy_cauldron", "炼金锅", MAGIC)
-            .setMaxSize(IO.IN, ManaRecipeCapability.CAP, 1)
+            .setMANAIO(IO.IN)
             .setMaxIOSize(6, 1, 1, 1)
             .setProgressBar(GuiTextures.PROGRESS_BAR_BATH, LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.COOLING)
@@ -889,6 +896,12 @@ public interface GTORecipeTypes {
     GTORecipeType MANA_HEATER_RECIPES = register("mana_heater", "魔力加热器", MAGIC)
             .setMaxIOSize(0, 0, 1, 0)
             .setSound(GTSoundEntries.FURNACE);
+
+    GTORecipeType MANA_INFUSER_RECIPES = register("mana_infuser", "魔力灌注", MAGIC)
+            .setMANAIO(IO.IN)
+            .setMaxIOSize(1, 1, 0, 0)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_BATH, LEFT_TO_RIGHT)
+            .setSound(GTSoundEntries.BATH);
 
     //////////////////////////////////////
     // ********** Joint **********//

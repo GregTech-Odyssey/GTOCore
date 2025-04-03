@@ -338,10 +338,10 @@ public interface GTOItems {
             .onRegister(attach(new DataItemBehavior(true)))
             .register();// OPV鸿蒙之眼后解锁,MAX初期开使用
 
-    ItemEntry<KineticRotorItem> WOOD_ROTOR = registerRotor("wood_rotor", "木", 2400, 4, 10, 0);
-    ItemEntry<KineticRotorItem> IRON_ROTOR = registerRotor("iron_rotor", "铁", 14000, 10, 20, 1);
-    ItemEntry<KineticRotorItem> STEEL_ROTOR = registerRotor("steel_rotor", "钢", 16000, 10, 30, 1);
-    ItemEntry<KineticRotorItem> CARBON_ROTOR = registerRotor("carbon_rotor", "碳", 24000, 2, 40, 2);
+    ItemEntry<KineticRotorItem> WOOD_ROTOR = registerRotor("wood_kinetic_rotor", "木", 2400, 4, 10, 0);
+    ItemEntry<KineticRotorItem> IRON_ROTOR = registerRotor("iron_kinetic_rotor", "铁", 14000, 10, 20, 1);
+    ItemEntry<KineticRotorItem> STEEL_ROTOR = registerRotor("steel_kinetic_rotor", "钢", 16000, 10, 30, 1);
+    ItemEntry<KineticRotorItem> CARBON_ROTOR = registerRotor("carbon_kinetic_rotor", "碳", 24000, 2, 40, 2);
 
     ItemEntry<ToolTipsItem> BIOWARE_PROCESSOR = registerCircuit("bioware_processor", "生物活性处理器", CustomTags.ZPM_CIRCUITS, () -> StringUtils.dark_green(I18n.get("gtocore.tooltip.item.tier_circuit", "ZPM")));
     ItemEntry<ToolTipsItem> BIOWARE_ASSEMBLY = registerCircuit("bioware_assembly", "生物活性处理器集群", CustomTags.UV_CIRCUITS, () -> StringUtils.dark_green(I18n.get("gtocore.tooltip.item.tier_circuit", "UV")));

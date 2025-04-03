@@ -86,6 +86,7 @@ dependencies {
     modCompileOnly("curse.maven:open-parties-and-claims-636608:6242869")
 
     modCompileOnly("curse.maven:sophisticated-backpacks-422301:6376978")
+    modCompileOnly("curse.maven:sophisticated-core-618298:6379145")
 
     modRuntimeOnly("curse.maven:cloth-config-348521:5729105")
 

@@ -32,6 +32,7 @@ public final class TimeTwisterBehavior implements IInteractionItem {
 
     @Override
     public InteractionResult onItemUseFirst(ItemStack stack, UseOnContext context) {
+        if (context.getLevel().isClientSide()) return InteractionResult.PASS;
         Player player = context.getPlayer();
         if (player == null) return InteractionResult.PASS;
         WirelessEnergyContainer container = WirelessEnergyContainer.getOrCreateContainer(context.getPlayer().getUUID());

@@ -92,7 +92,7 @@ public final class DroneControlCenterMachine extends NoEnergyMultiblockMachine {
 
     @Nullable
     private GTRecipe getRecipe() {
-        if (!hasCapabilityProxies() || droneHatchPartMachine == null) return null;
+        if (droneHatchPartMachine == null) return null;
         return GTORecipeBuilder.ofRaw().duration(20).buildRawRecipe();
     }
 

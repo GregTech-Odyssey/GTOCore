@@ -4,6 +4,7 @@ import com.gto.gtocore.api.capability.recipe.ManaRecipeCapability;
 import com.gto.gtocore.api.machine.feature.multiblock.ICoilMachine;
 import com.gto.gtocore.api.machine.feature.multiblock.IOverclockConfigMachine;
 import com.gto.gtocore.api.machine.trait.IEnhancedRecipeLogic;
+import com.gto.gtocore.api.recipe.IGTRecipe;
 import com.gto.gtocore.api.recipe.RecipeRunner;
 import com.gto.gtocore.common.machine.multiblock.generator.GeneratorArrayMachine;
 import com.gto.gtocore.utils.GTOUtils;
@@ -175,7 +176,7 @@ public interface GTORecipeModifiers {
     }
 
     static GTRecipe accurateParallel(MetaMachine machine, GTRecipe recipe, int maxParallel) {
-        if (machine instanceof IRecipeLogicMachine holder) {
+        if (maxParallel > 1 && machine instanceof IRecipeLogicMachine holder) {
             if (holder.getRecipeLogic() instanceof IEnhancedRecipeLogic logic && logic.gtocore$getlastParallel() == maxParallel) {
                 GTRecipe copied = recipe.copy(ContentModifier.multiplier(maxParallel), false);
                 if (RecipeRunner.matchRecipe(holder, copied)) {
@@ -239,7 +240,7 @@ public interface GTORecipeModifiers {
     }
 
     static GTRecipe overclocking(MetaMachine machine, GTRecipe recipe, long recipeVoltage, long maxVoltage, boolean perfect, boolean laserLoss, boolean generator, double reductionDuration) {
-        if (recipe != null) {
+        if (recipe instanceof IGTRecipe igtRecipe && !igtRecipe.gtocore$overclocking()) {
             int duration = (int) (recipe.duration * reductionDuration);
             int factor = perfect ? 1 : 2;
             int limit;
