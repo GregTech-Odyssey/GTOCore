@@ -814,14 +814,6 @@ public interface MaterialB {
                 .iconSet(DULL)
                 .buildAndRegister();
 
-        LiquidHydrogen = material("liquid_hydrogen", "液态氢")
-                .fluid()
-                .color(0x4fc4a2)
-                .components(Hydrogen, 1)
-                .iconSet(DULL)
-                .flags(DISABLE_DECOMPOSITION)
-                .buildAndRegister();
-
         BedrockSmoke = material("bedrock_smoke", "基岩烟")
                 .gas()
                 .color(0xa9a9a9)

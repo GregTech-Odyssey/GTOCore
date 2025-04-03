@@ -19,6 +19,7 @@ public interface IReceiveHeatMachine extends ITemperatureMachine {
         if (this instanceof IRedstoneSignalMachine redstoneSignalMachine) redstoneSignalMachine.updateSignal();
         if (this instanceof IRecipeLogicMachine machine && machine.getRecipeLogic().isWorking()) return;
         reduceTemperature(1);
+        if (getTemperature() > 293 && this instanceof IRecipeLogicMachine machine) machine.getRecipeLogic().updateTickSubscription();
     }
 
     @Override

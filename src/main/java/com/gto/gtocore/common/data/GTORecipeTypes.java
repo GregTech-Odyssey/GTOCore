@@ -903,6 +903,18 @@ public interface GTORecipeTypes {
             .setProgressBar(GuiTextures.PROGRESS_BAR_BATH, LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.BATH);
 
+    GTORecipeType MANA_CONDENSER_RECIPES = register("mana_condenser", "魔力凝聚", MAGIC)
+            .setMANAIO(IO.IN)
+            .setMaxIOSize(3, 1, 1, 0)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
+            .setSound(GTSoundEntries.FIRE);
+
+    GTORecipeType ELF_EXCHANGE_RECIPES = register("elf_exchange", "ELF Exchange", "精灵交易", MAGIC)
+            .setMANAIO(IO.IN)
+            .setMaxIOSize(2, 1, 0, 0)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
+            .setSound(GTSoundEntries.REPLICATOR);
+
     //////////////////////////////////////
     // ********** Joint **********//
     //////////////////////////////////////

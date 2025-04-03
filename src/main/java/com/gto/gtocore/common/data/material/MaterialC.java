@@ -1,7 +1,6 @@
 package com.gto.gtocore.common.data.material;
 
 import com.gregtechceu.gtceu.api.fluids.FluidBuilder;
-import com.gregtechceu.gtceu.common.data.GTElements;
 
 import static com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlags.DISABLE_DECOMPOSITION;
 import static com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialIconSet.*;
@@ -12,18 +11,44 @@ import static com.gto.gtocore.utils.register.MaterialsRegisterUtils.material;
 public interface MaterialC {
 
     static void init() {
-        LiquidNitrogen = material("liquid_nitrogen", "液氮")
+        LiquidHydrogen = material("liquid_hydrogen", "液态氢")
+                .liquid(new FluidBuilder().temperature(20))
+                .color(0x4fc4a2)
+                .components(Hydrogen, 1)
+                .flags(DISABLE_DECOMPOSITION)
+                .iconSet(FLUID)
+                .buildAndRegister();
+
+        HighPressureHydrogen = material("high_pressure_hydrogen", "高压氢气")
+                .gas()
+                .color(0x00009D)
+                .iconSet(DULL)
+                .components(Hydrogen, 1)
+                .flags(DISABLE_DECOMPOSITION)
+                .buildAndRegister();
+
+        HighPressureOxygen = material("high_pressure_oxygen", "高压氧气")
+                .gas()
+                .color(0x3FA2D4)
+                .iconSet(DULL)
+                .components(Oxygen, 1)
+                .flags(DISABLE_DECOMPOSITION)
+                .buildAndRegister();
+
+        LiquidNitrogen = material("liquid_nitrogen", "液态氮")
                 .liquid(new FluidBuilder().temperature(77))
                 .color(0x057A99)
                 .iconSet(FLUID)
-                .element(GTElements.N)
+                .components(Nitrogen, 1)
+                .flags(DISABLE_DECOMPOSITION)
                 .buildAndRegister();
 
         HighPressureNitrogen = material("high_pressure_nitrogen", "高压氮气")
                 .gas()
                 .color(0x139099)
                 .iconSet(DULL)
-                .element(GTElements.N)
+                .components(Nitrogen, 1)
+                .flags(DISABLE_DECOMPOSITION)
                 .buildAndRegister();
 
         HighPressureSteam = material("high_pressure_steam", "高压蒸汽")

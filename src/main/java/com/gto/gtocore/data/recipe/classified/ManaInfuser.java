@@ -57,36 +57,43 @@ interface ManaInfuser {
                 .save();
 
         MANA_INFUSER_RECIPES.builder("pulsatingalloy")
-                .inputItems(GTOTagPrefix.SUPERCONDUCTOR_BASE, GTOMaterials.PulsatingAlloy)
-                .outputItems(TagPrefix.wireGtSingle, GTOMaterials.PulsatingAlloy)
+                .inputItems(GTOTagPrefix.SUPERCONDUCTOR_BASE, GTOMaterials.PulsatingAlloy, 2)
+                .outputItems(TagPrefix.wireGtSingle, GTOMaterials.PulsatingAlloy, 2)
                 .duration(20)
                 .MANAt(8)
                 .save();
 
         MANA_INFUSER_RECIPES.builder("conductivealloy")
-                .inputItems(GTOTagPrefix.SUPERCONDUCTOR_BASE, GTOMaterials.ConductiveAlloy)
-                .outputItems(TagPrefix.wireGtSingle, GTOMaterials.ConductiveAlloy)
+                .inputItems(GTOTagPrefix.SUPERCONDUCTOR_BASE, GTOMaterials.ConductiveAlloy, 2)
+                .outputItems(TagPrefix.wireGtSingle, GTOMaterials.ConductiveAlloy, 2)
                 .duration(20)
                 .MANAt(32)
                 .save();
 
         MANA_INFUSER_RECIPES.builder("energeticalloy")
-                .inputItems(GTOTagPrefix.SUPERCONDUCTOR_BASE, GTOMaterials.EnergeticAlloy)
-                .outputItems(TagPrefix.wireGtSingle, GTOMaterials.EnergeticAlloy)
+                .inputItems(GTOTagPrefix.SUPERCONDUCTOR_BASE, GTOMaterials.EnergeticAlloy, 2)
+                .outputItems(TagPrefix.wireGtSingle, GTOMaterials.EnergeticAlloy, 2)
                 .duration(20)
                 .MANAt(128)
                 .save();
 
         MANA_INFUSER_RECIPES.builder("vibrantalloy")
-                .inputItems(GTOTagPrefix.SUPERCONDUCTOR_BASE, GTOMaterials.VibrantAlloy)
-                .outputItems(TagPrefix.wireGtSingle, GTOMaterials.VibrantAlloy)
+                .inputItems(GTOTagPrefix.SUPERCONDUCTOR_BASE, GTOMaterials.VibrantAlloy, 2)
+                .outputItems(TagPrefix.wireGtSingle, GTOMaterials.VibrantAlloy, 2)
                 .duration(20)
                 .MANAt(512)
                 .save();
 
         MANA_INFUSER_RECIPES.builder("endsteel")
-                .inputItems(GTOTagPrefix.SUPERCONDUCTOR_BASE, GTOMaterials.EndSteel)
-                .outputItems(TagPrefix.wireGtSingle, GTOMaterials.EndSteel)
+                .inputItems(GTOTagPrefix.SUPERCONDUCTOR_BASE, GTOMaterials.EndSteel, 2)
+                .outputItems(TagPrefix.wireGtSingle, GTOMaterials.EndSteel, 2)
+                .duration(20)
+                .MANAt(2048)
+                .save();
+
+        MANA_INFUSER_RECIPES.builder("uranium_rhodium_dinaquadide")
+                .inputItems(GTOTagPrefix.SUPERCONDUCTOR_BASE, GTMaterials.UraniumRhodiumDinaquadide, 2)
+                .outputItems(TagPrefix.wireGtSingle, GTMaterials.UraniumRhodiumDinaquadide, 2)
                 .duration(20)
                 .MANAt(2048)
                 .save();

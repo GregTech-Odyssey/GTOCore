@@ -240,6 +240,8 @@ public interface RecipeFilter {
         FUSION_RECIPES.addFilter("americium_and_naquadria_to_neutronium_plasma");
         FUSION_RECIPES.addFilter("enriched_naquadah_and_radon_to_naquadria_plasma");
 
+        VACUUM_RECIPES.addFilter("liquid_oxygen");
+
         Material[] fluidMap = { GTMaterials.Glue, GTMaterials.Polyethylene,
                 GTMaterials.Polytetrafluoroethylene, GTMaterials.Polybenzimidazole };
 

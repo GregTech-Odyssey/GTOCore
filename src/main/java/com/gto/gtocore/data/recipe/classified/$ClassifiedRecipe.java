@@ -124,5 +124,6 @@ public interface $ClassifiedRecipe {
         Cluster.init();
         GasCompressor.init();
         ManaInfuser.init();
+        ManaCondenser.init();
     }
 }

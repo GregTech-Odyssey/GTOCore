@@ -13,6 +13,8 @@ public final class GTOMaterials {
 
     public static Map<Material, Integer> MATERIAL_VOLTAGE;
 
+    public static Material HighPressureHydrogen;
+    public static Material HighPressureOxygen;
     public static Material LiquidNitrogen;
     public static Material HighPressureNitrogen;
     public static Material HighPressureSteam;

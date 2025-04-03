@@ -16,6 +16,20 @@ interface GasCompressor {
                 .duration(600)
                 .save();
 
+        GAS_COMPRESSOR_RECIPES.builder("high_pressure_hydrogen")
+                .inputFluids(GTMaterials.Hydrogen, 1000)
+                .outputFluids(GTOMaterials.HighPressureHydrogen, 1000)
+                .EUt(480)
+                .duration(400)
+                .save();
+
+        GAS_COMPRESSOR_RECIPES.builder("high_pressure_oxygen")
+                .inputFluids(GTMaterials.Oxygen, 1000)
+                .outputFluids(GTOMaterials.HighPressureOxygen, 1000)
+                .EUt(120)
+                .duration(400)
+                .save();
+
         GAS_COMPRESSOR_RECIPES.builder("high_pressure_steam")
                 .inputFluids(GTMaterials.Steam, 120000)
                 .outputFluids(GTOMaterials.HighPressureSteam, 30000)

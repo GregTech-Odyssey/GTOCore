@@ -3,16 +3,22 @@ package com.gto.gtocore.common.data.machines;
 import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.api.machine.part.GTOPartAbility;
 import com.gto.gtocore.common.data.GTOBlocks;
+import com.gto.gtocore.common.data.GTOMaterials;
 import com.gto.gtocore.common.data.GTORecipeModifiers;
 import com.gto.gtocore.common.data.GTORecipeTypes;
+import com.gto.gtocore.common.machine.mana.multiblock.ManaAlloyBlastSmelterMachine;
 import com.gto.gtocore.common.machine.mana.multiblock.ManaDistributorMachine;
 import com.gto.gtocore.common.machine.mana.multiblock.ManaMultiblockMachine;
 import com.gto.gtocore.utils.RLUtils;
 import com.gto.gtocore.utils.RegistriesUtils;
 
 import com.gregtechceu.gtceu.GTCEu;
+import com.gregtechceu.gtceu.api.GTValues;
+import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
+import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
+import com.gregtechceu.gtceu.common.data.GTMachines;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 
 import net.minecraft.world.level.block.Blocks;
@@ -24,6 +30,42 @@ import static com.gto.gtocore.utils.register.MachineRegisterUtils.multiblock;
 public interface ManaMultiBlock {
 
     static void init() {}
+
+    MultiblockMachineDefinition MANA_ALLOY_BLAST_SMELTER = multiblock("mana_alloy_blast_smelter", "魔力合金炉", ManaAlloyBlastSmelterMachine::new)
+            .nonYAxisRotation()
+            .tooltipsKey("gtceu.universal.tooltip.parallel", 8)
+            .alwaysTryModifyRecipe(true)
+            .recipe(GTORecipeTypes.ALLOY_BLAST_RECIPES)
+            .block(GTOBlocks.MANASTEEL_CASING)
+            .pattern(definition -> FactoryBlockPattern.start()
+                    .aisle("     AAA     ", "      A      ", "      A      ", "      A      ", "      A      ", "      A      ", "      A      ", "      A      ", "     CCC     ", "             ", "             ", "             ", "             ", "             ")
+                    .aisle("   AABBBAA   ", "    A   A    ", "    A   A    ", "    A   A    ", "    A   A    ", "    A   A    ", "    A   A    ", "    A   CC   ", "    A        ", "   CC        ", "             ", "             ", "             ", "             ")
+                    .aisle("  ABBBBBBBA  ", "  A       A  ", "  A       A  ", "  A       A  ", "  A       A  ", "  A       A  ", "  A       C  ", "  A          ", "  A          ", "  A          ", "  C          ", "             ", "             ", "             ")
+                    .aisle(" ABBBBBBBBBA ", "             ", "             ", "             ", "             ", "           C ", "             ", "             ", "             ", "             ", "             ", " C           ", "             ", "             ")
+                    .aisle(" ABBBCCCBBBA ", " A   EEE   A ", " A   EEE   A ", " A   EEE   A ", " A   EEE   A ", " A   EEE   C ", " A   EEE     ", " A   EEE     ", " A   CEE     ", " A   FCE     ", " A   F C     ", " C   F F     ", "     F F     ", "     CCC     ")
+                    .aisle("ABBBCCCCCBBBA", "    EGHGE    ", "    EGHGE    ", "    EGHGE    ", "    EGHGE   C", "    EGHGE    ", "    EGHGE    ", "    CGHGE    ", "    FGHGE    ", "    FGHGE    ", "    FGHGE    ", "    FGHGC    ", "    FGHGF    ", "    CCCCC    ")
+                    .aisle("ABBBCCCCCBBBA", "    EH HE   A", "    EH HE   A", "    EH HE   A", "    EH HE   C", "    EH HE    ", "    CH HE    ", "     H HE    ", "     H HE    ", "     H HE    ", "     H HE    ", "     H HE    ", "     H HC    ", "    CCICC    ")
+                    .aisle("ABBBCCCCCBBBA", "    EGHGC    ", "    EGHGF    ", "    EGHGF    ", "    EGHGF   C", "    CGHGF    ", "    FGHGF    ", "    FGHGF    ", "    FGHGF    ", "    FGHGF    ", "    FGHGF    ", "    FGHGF    ", "    FGHGF    ", "    CCCCC    ")
+                    .aisle(" ABBBCCCBBBA ", "     EEE   A ", "     EEC   A ", "     ECF   C ", "     C F     ", "     F F     ", "     F F     ", "     F F     ", "     F F     ", "     F F     ", "     F F     ", "     F F     ", "     F F     ", "     CCC     ")
+                    .aisle(" ABBBBBBBBBA ", "             ", "             ", "           C ", "             ", "             ", "             ", "             ", "             ", "             ", "             ", "             ", "             ", "             ")
+                    .aisle("  ABBBCBBBA  ", "      D   A  ", "          C  ", "             ", "             ", "             ", "             ", "             ", "             ", "             ", "             ", "             ", "             ", "             ")
+                    .aisle("   AABBBAA   ", "         C   ", "             ", "             ", "             ", "             ", "             ", "             ", "             ", "             ", "             ", "             ", "             ", "             ")
+                    .aisle("     AAA     ", "             ", "             ", "             ", "             ", "             ", "             ", "             ", "             ", "             ", "             ", "             ", "             ", "             ")
+                    .where('A', blocks(RegistriesUtils.getBlock("botania:livingrock")))
+                    .where('B', blocks(GTOBlocks.MANASTEEL_CASING.get())
+                            .or(autoAbilities(definition.getRecipeTypes()))
+                            .or(abilities(MAINTENANCE).setExactLimit(1)))
+                    .where('C', blocks(GTOBlocks.MANASTEEL_CASING.get()))
+                    .where('D', controller(blocks(definition.get())))
+                    .where('E', blocks(RegistriesUtils.getBlock("botania:elf_glass")))
+                    .where('F', blocks(RegistriesUtils.getBlock("botania:livingrock_wall")))
+                    .where('G', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTOMaterials.Gaiasteel)))
+                    .where('H', heatingCoils())
+                    .where('I', blocks(GTMachines.MUFFLER_HATCH[GTValues.IV].get()))
+                    .where(' ', any())
+                    .build())
+            .workableCasingRenderer(GTOCore.id("block/casings/manasteel_casing"), GTCEu.id("block/multiblock/gcym/blast_alloy_smelter"))
+            .register();
 
     MultiblockMachineDefinition BASE_MANA_DISTRIBUTOR = multiblock("base_mana_distributor", "基础魔力分配器", ManaDistributorMachine.create(16, 8))
             .nonYAxisRotation()
@@ -113,5 +155,76 @@ public interface ManaMultiBlock {
                     .where(' ', any())
                     .build())
             .workableCasingRenderer(GTOCore.id("block/casings/manasteel_casing"), GTCEu.id("block/multiblock/gcym/large_chemical_bath"))
+            .register();
+
+    MultiblockMachineDefinition MANA_CONDENSER = multiblock("mana_condenser", "魔力凝聚器", ManaMultiblockMachine::new)
+            .nonYAxisRotation()
+            .parallelizableTooltips()
+            .recipeModifiers(GTORecipeModifiers.HATCH_PARALLEL)
+            .recipe(GTORecipeTypes.MANA_CONDENSER_RECIPES)
+            .block(GTOBlocks.MANASTEEL_CASING)
+            .pattern(definition -> FactoryBlockPattern.start()
+                    .aisle(" AAAAA ", " AAAAA ", " ACCCA ", " ACCCA ", " AAAAA ", " A   A ")
+                    .aisle("AADDDAA", "AEFFFEA", "AE   EA", "AE   EA", "AE G EA", "AAAAAAA")
+                    .aisle("ADDDDDA", "AFHIHFA", "C     C", "C     C", "A     A", " ADDDA ")
+                    .aisle("ADDDDDA", "AFIJIFA", "C  K  C", "C     C", "AG K GA", " ADDDA ")
+                    .aisle("ADDDDDA", "AFHIHFA", "C     C", "C     C", "A     A", " ADDDA ")
+                    .aisle("AADDDAA", "AEFFFEA", "AE   EA", "AE   EA", "AE G EA", "AAAAAAA")
+                    .aisle(" AAAAA ", " AABAA ", " ACCCA ", " ACCCA ", " AAAAA ", " A   A ")
+                    .where('A', blocks(GTOBlocks.MANASTEEL_CASING.get())
+                            .or(abilities(GTOPartAbility.INPUT_MANA).setMaxGlobalLimited(8, 1))
+                            .or(abilities(PARALLEL_HATCH).setMaxGlobalLimited(1))
+                            .or(abilities(IMPORT_FLUIDS).setMaxGlobalLimited(1, 1))
+                            .or(abilities(EXPORT_ITEMS).setMaxGlobalLimited(1, 1))
+                            .or(abilities(IMPORT_ITEMS).setMaxGlobalLimited(3, 1)))
+                    .where('B', controller(blocks(definition.get())))
+                    .where('C', blocks(RegistriesUtils.getBlock("botania:mana_glass")))
+                    .where('D', blocks(RegistriesUtils.getBlock("botania:elf_quartz")))
+                    .where('E', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTOMaterials.Alfsteel)))
+                    .where('F', blocks(RegistriesUtils.getBlock("botania:terra_plate")))
+                    .where('G', blocks(RegistriesUtils.getBlock("botania:prism")))
+                    .where('H', blocks(RegistriesUtils.getBlock("botania:fabulous_pool")))
+                    .where('I', blocks(RegistriesUtils.getBlock("botania:runic_altar")))
+                    .where('J', blocks(RegistriesUtils.getBlock("botania:bifrost_perm")))
+                    .where('K', blocks(RegistriesUtils.getBlock("botania:gaia_pylon")))
+                    .where(' ', any())
+                    .build())
+            .workableCasingRenderer(GTOCore.id("block/casings/manasteel_casing"), GTCEu.id("block/multiblock/gcym/large_mixer"))
+            .register();
+
+    MultiblockMachineDefinition ELF_EXCHANGE = multiblock("elf_exchange", "精灵交易所", ManaMultiblockMachine::new)
+            .langValue("ELF Exchange")
+            .nonYAxisRotation()
+            .parallelizableTooltips()
+            .recipeModifiers(GTORecipeModifiers.HATCH_PARALLEL)
+            .recipe(GTORecipeTypes.ELF_EXCHANGE_RECIPES)
+            .block(GTOBlocks.MANASTEEL_CASING)
+            .pattern(definition -> FactoryBlockPattern.start()
+                    .aisle(" BBB ", " BBB ", " BBB ", " BBB ", "     ", "     ")
+                    .aisle("GEEEG", "DGGGD", "DGJGD", "DGGGD", " BBB ", "     ")
+                    .aisle("GEEEG", "DIIID", "DIFID", "DIIID", "DDDDD", "DDDDD")
+                    .aisle("GEEEG", "D   D", "H F H", "D   D", " DHD ", "     ")
+                    .aisle("GEEEG", "D   D", "H F H", "D   D", " DHD ", "     ")
+                    .aisle("GEEEG", "D   D", "H F H", "D   D", " DHD ", "     ")
+                    .aisle("GEEEG", "D   D", "H F H", "D   D", " DHD ", "     ")
+                    .aisle("DEEED", "D   D", "D F D", "D   D", "DDDDD", "     ")
+                    .aisle("ABBBA", "ABBBA", "ABCBA", " BBB ", "     ", "     ")
+                    .where('A', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTOMaterials.Manasteel)))
+                    .where('B', blocks(GTOBlocks.MANASTEEL_CASING.get())
+                            .or(abilities(GTOPartAbility.INPUT_MANA).setMaxGlobalLimited(2, 1))
+                            .or(abilities(PARALLEL_HATCH).setMaxGlobalLimited(1))
+                            .or(abilities(EXPORT_ITEMS).setMaxGlobalLimited(1, 1))
+                            .or(abilities(IMPORT_ITEMS).setMaxGlobalLimited(2, 1)))
+                    .where('C', controller(blocks(definition.get())))
+                    .where('D', blocks(RegistriesUtils.getBlock("botania:polished_livingrock")))
+                    .where('E', blocks(GTOBlocks.MANASTEEL_CASING.get()))
+                    .where('F', blocks(RegistriesUtils.getBlock("botania:bifrost_perm")))
+                    .where('G', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTOMaterials.Elementium)))
+                    .where('H', blocks(RegistriesUtils.getBlock("botania:elf_glass")))
+                    .where('I', blocks(RegistriesUtils.getBlock("botania:alfheim_portal")))
+                    .where('J', blocks(RegistriesUtils.getBlock("botania:dragonstone_block")))
+                    .where(' ', any())
+                    .build())
+            .workableCasingRenderer(GTOCore.id("block/casings/manasteel_casing"), GTCEu.id("block/multiblock/gcym/large_centrifuge"))
             .register();
 }

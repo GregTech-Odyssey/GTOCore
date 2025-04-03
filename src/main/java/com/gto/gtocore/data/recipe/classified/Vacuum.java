@@ -13,6 +13,8 @@ import com.gregtechceu.gtceu.common.data.GTMaterials;
 
 import net.minecraftforge.fluids.FluidStack;
 
+import static com.gregtechceu.gtceu.api.GTValues.*;
+import static com.gregtechceu.gtceu.common.data.GTMaterials.Oxygen;
 import static com.gto.gtocore.common.data.GTORecipeTypes.VACUUM_RECIPES;
 
 interface Vacuum {
@@ -59,7 +61,7 @@ interface Vacuum {
                 .save();
 
         VACUUM_RECIPES.recipeBuilder(GTOCore.id("liquid_hydrogen"))
-                .inputFluids(GTMaterials.Hydrogen.getFluid(1000))
+                .inputFluids(GTOMaterials.HighPressureHydrogen.getFluid(1000))
                 .outputFluids(GTOMaterials.LiquidHydrogen.getFluid(1000))
                 .EUt(7680)
                 .duration(240)
@@ -73,5 +75,15 @@ interface Vacuum {
                 .EUt(125829120)
                 .duration(100)
                 .save();
+
+        VACUUM_RECIPES.builder("liquid_oxygen")
+                .inputFluids(GTOMaterials.HighPressureOxygen.getFluid(1000))
+                .outputFluids(Oxygen.getFluid(FluidStorageKeys.LIQUID, 1000))
+                .duration(240).EUt(VA[EV]).save();
+
+        VACUUM_RECIPES.builder("liquid_nitrogen")
+                .inputFluids(GTOMaterials.HighPressureNitrogen.getFluid(1000))
+                .outputFluids(GTOMaterials.LiquidNitrogen.getFluid(1000))
+                .duration(320).EUt(VA[EV]).save();
     }
 }
