@@ -1,34 +1,17 @@
 package com.gto.gtocore.api.machine.mana.feature;
 
-import com.gto.gtocore.api.capability.IManaContainer;
+import com.gto.gtocore.api.capability.ManaContainerList;
 
-import java.util.Set;
+import org.jetbrains.annotations.NotNull;
 
 public interface IManaMultiblock {
 
-    Set<IManaContainer> getManaContainer();
+    @NotNull
+    ManaContainerList getManaContainer();
 
     boolean isGeneratorMana();
 
-    default long addMana(long amount, int limit, boolean simulate) {
-        long change = 0;
-        for (IManaContainer container : getManaContainer()) {
-            if (amount <= 0) return change;
-            long mana = container.addMana(amount, limit, simulate);
-            change += mana;
-            amount -= mana;
-        }
-        return change;
-    }
-
     default long removeMana(long amount, int limit, boolean simulate) {
-        long change = 0;
-        for (IManaContainer container : getManaContainer()) {
-            if (amount <= 0) return change;
-            long mana = container.removeMana(amount, limit, simulate);
-            change += mana;
-            amount -= mana;
-        }
-        return change;
+        return getManaContainer().removeMana(amount, limit, simulate);
     }
 }

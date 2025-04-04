@@ -29,8 +29,10 @@ public interface IManaEnergyMachine {
         public List<Long> handleRecipeInner(IO io, GTRecipe recipe, List<Long> left, boolean simulate) {
             long total = left.stream().reduce(0L, Long::sum);
             if (total > eut || total > container.getCurrentMana()) return left;
-            container.setCurrentMana((int) (container.getCurrentMana() - total));
-            return null;
+            if (container.removeMana(total, 1, simulate) == total) {
+                return null;
+            }
+            return left;
         }
 
         @Override

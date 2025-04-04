@@ -8,6 +8,7 @@ import com.gto.gtocore.common.data.GTORecipeModifiers;
 import com.gto.gtocore.common.data.GTORecipeTypes;
 import com.gto.gtocore.common.machine.mana.multiblock.ManaAlloyBlastSmelterMachine;
 import com.gto.gtocore.common.machine.mana.multiblock.ManaDistributorMachine;
+import com.gto.gtocore.common.machine.mana.multiblock.ManaEnergyMultiblockMachine;
 import com.gto.gtocore.common.machine.mana.multiblock.ManaMultiblockMachine;
 import com.gto.gtocore.utils.RLUtils;
 import com.gto.gtocore.utils.RegistriesUtils;
@@ -32,6 +33,7 @@ public interface ManaMultiBlock {
 
     MultiblockMachineDefinition MANA_ALLOY_BLAST_SMELTER = multiblock("mana_alloy_blast_smelter", "魔力合金炉", ManaAlloyBlastSmelterMachine::new)
             .nonYAxisRotation()
+            .durationMultiplierTooltips(0.5)
             .tooltipsKey("gtceu.universal.tooltip.parallel", 8)
             .recipeModifier(GTORecipeModifiers.overclocking(false, 1, 0.5))
             .recipe(GTORecipeTypes.ALLOY_BLAST_RECIPES)
@@ -264,10 +266,11 @@ public interface ManaMultiBlock {
             .workableCasingRenderer(GTOCore.id("block/casings/manasteel_casing"), GTCEu.id("block/multiblock/gcym/large_centrifuge"))
             .register();
 
-    MultiblockMachineDefinition MANA_GREENHOUSE = multiblock("mana_greenhouse", "魔力温室", ManaMultiblockMachine::new)
+    MultiblockMachineDefinition MANA_GREENHOUSE = multiblock("mana_greenhouse", "魔力温室", ManaEnergyMultiblockMachine::new)
             .nonYAxisRotation()
             .parallelizableTooltips()
-            .recipeModifiers(GTORecipeModifiers.HATCH_PARALLEL)
+            .customTooltipsBuilder(true, false, false)
+            .recipeModifier(GTORecipeModifiers.HATCH_PARALLEL)
             .recipe(GTORecipeTypes.GREENHOUSE_RECIPES)
             .block(GTOBlocks.MANASTEEL_CASING)
             .pattern(definition -> FactoryBlockPattern.start(RelativeDirection.RIGHT, RelativeDirection.UP, RelativeDirection.BACK)

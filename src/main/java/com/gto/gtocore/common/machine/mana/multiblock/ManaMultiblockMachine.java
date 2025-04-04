@@ -1,13 +1,13 @@
 package com.gto.gtocore.common.machine.mana.multiblock;
 
-import com.gto.gtocore.api.capability.IManaContainer;
+import com.gto.gtocore.api.capability.ManaContainerList;
 import com.gto.gtocore.api.machine.mana.feature.IManaMultiblock;
 import com.gto.gtocore.api.machine.mana.trait.ManaTrait;
 import com.gto.gtocore.api.machine.multiblock.NoEnergyMultiblockMachine;
 
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 
-import java.util.Set;
+import org.jetbrains.annotations.NotNull;
 
 public class ManaMultiblockMachine extends NoEnergyMultiblockMachine implements IManaMultiblock {
 
@@ -19,7 +19,7 @@ public class ManaMultiblockMachine extends NoEnergyMultiblockMachine implements 
     }
 
     @Override
-    public Set<IManaContainer> getManaContainer() {
+    public @NotNull ManaContainerList getManaContainer() {
         return manaTrait.getManaContainers();
     }
 

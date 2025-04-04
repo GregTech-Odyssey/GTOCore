@@ -24,7 +24,6 @@ import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 
-import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
@@ -55,7 +54,6 @@ public class NeutronActivatorMachine extends NoEnergyMultiblockMachine implement
 
     @Getter
     @Persisted
-    @DescSynced
     protected int eV;
 
     private final ConditionalSubscriptionHandler neutronEnergySubs;
@@ -145,16 +143,18 @@ public class NeutronActivatorMachine extends NoEnergyMultiblockMachine implement
     }
 
     void neutronEnergyUpdate() {
+        boolean active = false;
         if (isFormed) {
             for (var accelerator : acceleratorMachines) {
                 long increase = accelerator.consumeEnergy();
                 if (increase > 0) {
+                    active = true;
                     eV += (int) Math.round(Math.max(increase * getEfficiencyFactor(), 1));
                 }
             }
             if (eV > 1200000000) doExplosion(6);
         }
-        if (getOffsetTimer() % 20 == 0) {
+        if (!active && getOffsetTimer() % 20 == 0) {
             eV = Math.max(eV - 72 * 1000, 0);
         }
         if (eV < 0) eV = 0;

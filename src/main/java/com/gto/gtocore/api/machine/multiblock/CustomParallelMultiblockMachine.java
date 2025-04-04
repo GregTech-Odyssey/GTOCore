@@ -19,7 +19,7 @@ public class CustomParallelMultiblockMachine extends ElectricMultiblockMachine i
         return holder -> new CustomParallelMultiblockMachine(holder, defaultParallel, parallel);
     }
 
-    private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
+    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
             CustomParallelMultiblockMachine.class, ElectricMultiblockMachine.MANAGED_FIELD_HOLDER);
 
     @Override

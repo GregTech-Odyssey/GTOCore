@@ -41,6 +41,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -91,7 +92,10 @@ public final class SupercomputingCenterMachine extends StorageMultiblockMachine 
     private final ConditionalSubscriptionHandler maxCWUtModificationSubs;
 
     @Persisted
-    private int machineTier, maxCWUtModification;
+    private int machineTier = 1;
+
+    @Persisted
+    private int maxCWUtModification;
 
     private boolean incompatible, canBridge;
 
@@ -120,7 +124,6 @@ public final class SupercomputingCenterMachine extends StorageMultiblockMachine 
         coolingAmount = 0;
         maxCoolingAmount = 0;
         maxEUt = 0;
-        maxCWUtModification = 10000;
     }
 
     private void changed() {
@@ -217,6 +220,7 @@ public final class SupercomputingCenterMachine extends StorageMultiblockMachine 
     public void onStructureInvalid() {
         super.onStructureInvalid();
         ThermalConductorHatchPart = null;
+        maxCWUtModification = 10000;
         clean();
     }
 
@@ -231,10 +235,13 @@ public final class SupercomputingCenterMachine extends StorageMultiblockMachine 
     public void afterWorking() {
         allocatedCWUt = 0;
         if (coolingAmount > maxCoolingAmount) {
-            for (IMultiPart part : getParts()) {
+            int damaged = coolingAmount - maxCoolingAmount;
+            for (IMultiPart part : Set.copyOf(getParts())) {
                 if (part instanceof HPCAComponentPartMachine componentPartMachine && componentPartMachine.canBeDamaged()) {
+                    damaged -= GTValues.RNG.nextInt(256);
                     componentPartMachine.setDamaged(true);
                 }
+                if (damaged <= 0) break;
             }
         }
         super.afterWorking();

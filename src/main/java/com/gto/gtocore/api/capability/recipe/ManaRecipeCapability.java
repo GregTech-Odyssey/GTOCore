@@ -17,9 +17,7 @@ import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import com.lowdragmc.lowdraglib.utils.LocalizationUtils;
 import org.apache.commons.lang3.mutable.MutableInt;
 
-import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 
 public final class ManaRecipeCapability extends RecipeCapability<Integer> {
 
@@ -53,11 +51,7 @@ public final class ManaRecipeCapability extends RecipeCapability<Integer> {
     @Override
     public int getMaxParallelRatio(IRecipeCapabilityHolder holder, GTRecipe recipe, int parallelAmount) {
         int maxMana = 0;
-        List<IRecipeHandler<?>> recipeHandlerList = Objects
-                .requireNonNullElseGet(holder.getCapabilitiesFlat(IO.IN, CAP), Collections::<IRecipeHandler<?>>emptyList)
-                .stream()
-                .toList();
-        for (IRecipeHandler<?> container : recipeHandlerList) {
+        for (IRecipeHandler<?> container : holder.getCapabilitiesFlat(IO.IN, CAP)) {
             if (container instanceof IManaContainer manaContainer) {
                 maxMana += manaContainer.getMaxConsumption();
             }

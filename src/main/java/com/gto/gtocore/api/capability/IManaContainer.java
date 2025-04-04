@@ -56,6 +56,9 @@ public interface IManaContainer extends INetMachineInteractor<ManaDistributorMac
 
     long getCurrentMana();
 
+    /**
+     * {@link IManaContainer} 接口内部使用
+     */
     void setCurrentMana(long mana);
 
     default int getSaturatedMaxMana() {

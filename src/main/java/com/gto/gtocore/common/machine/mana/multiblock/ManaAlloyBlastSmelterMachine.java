@@ -1,9 +1,9 @@
 package com.gto.gtocore.common.machine.mana.multiblock;
 
-import com.gto.gtocore.api.capability.IManaContainer;
+import com.gto.gtocore.api.capability.ManaContainerList;
 import com.gto.gtocore.api.machine.mana.feature.IManaMultiblock;
 import com.gto.gtocore.api.machine.mana.trait.ManaTrait;
-import com.gto.gtocore.api.machine.multiblock.CoilMultiblockMachine;
+import com.gto.gtocore.api.machine.multiblock.CoilCustomParallelMultiblockMachine;
 
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
@@ -13,12 +13,10 @@ import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Set;
-
-public final class ManaAlloyBlastSmelterMachine extends CoilMultiblockMachine implements IManaMultiblock {
+public final class ManaAlloyBlastSmelterMachine extends CoilCustomParallelMultiblockMachine implements IManaMultiblock {
 
     private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
-            ManaAlloyBlastSmelterMachine.class, CoilMultiblockMachine.MANAGED_FIELD_HOLDER);
+            ManaAlloyBlastSmelterMachine.class, CoilCustomParallelMultiblockMachine.MANAGED_FIELD_HOLDER);
 
     @Persisted
     private int time;
@@ -28,7 +26,7 @@ public final class ManaAlloyBlastSmelterMachine extends CoilMultiblockMachine im
     private final ManaTrait manaTrait;
 
     public ManaAlloyBlastSmelterMachine(IMachineBlockEntity holder) {
-        super(holder, true, true);
+        super(holder, true, true, true, m -> 8);
         this.manaTrait = new ManaTrait(this);
     }
 
@@ -68,7 +66,7 @@ public final class ManaAlloyBlastSmelterMachine extends CoilMultiblockMachine im
     }
 
     @Override
-    public Set<IManaContainer> getManaContainer() {
+    public @NotNull ManaContainerList getManaContainer() {
         return manaTrait.getManaContainers();
     }
 

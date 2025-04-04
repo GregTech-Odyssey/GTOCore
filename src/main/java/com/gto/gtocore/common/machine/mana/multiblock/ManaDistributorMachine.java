@@ -1,6 +1,6 @@
 package com.gto.gtocore.common.machine.mana.multiblock;
 
-import com.gto.gtocore.api.capability.IManaContainer;
+import com.gto.gtocore.api.capability.ManaContainerList;
 import com.gto.gtocore.api.machine.INetMachineInteractor;
 import com.gto.gtocore.api.machine.mana.feature.IManaMultiblock;
 import com.gto.gtocore.api.machine.mana.trait.ManaTrait;
@@ -96,7 +96,7 @@ public final class ManaDistributorMachine extends NoRecipeLogicMultiblockMachine
     }
 
     @Override
-    public Set<IManaContainer> getManaContainer() {
+    public @NotNull ManaContainerList getManaContainer() {
         return manaTrait.getManaContainers();
     }
 
