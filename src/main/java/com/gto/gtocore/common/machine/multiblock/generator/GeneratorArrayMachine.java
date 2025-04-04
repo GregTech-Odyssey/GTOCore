@@ -1,8 +1,10 @@
 package com.gto.gtocore.common.machine.multiblock.generator;
 
 import com.gto.gtocore.api.machine.feature.IExtendWirelessEnergyContainerHolder;
+import com.gto.gtocore.api.machine.feature.IRecipeSearchMachine;
 import com.gto.gtocore.api.machine.feature.multiblock.IArrayMachine;
 import com.gto.gtocore.api.machine.multiblock.StorageMultiblockMachine;
+import com.gto.gtocore.api.recipe.RecipeRunner;
 import com.gto.gtocore.common.data.GTORecipeTypes;
 import com.gto.gtocore.common.wireless.ExtendWirelessEnergyContainer;
 
@@ -48,7 +50,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public final class GeneratorArrayMachine extends StorageMultiblockMachine implements IArrayMachine, IExtendWirelessEnergyContainerHolder {
+public final class GeneratorArrayMachine extends StorageMultiblockMachine implements IArrayMachine, IExtendWirelessEnergyContainerHolder, IRecipeSearchMachine {
 
     private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
             GeneratorArrayMachine.class, StorageMultiblockMachine.MANAGED_FIELD_HOLDER);
@@ -130,7 +132,11 @@ public final class GeneratorArrayMachine extends StorageMultiblockMachine implem
     @Override
     public int getTier() {
         MachineDefinition definition = getMachineDefinition();
-        return Math.min(definition == null ? 0 : definition.getTier(), tier);
+        int definitionTier = definition == null ? 0 : definition.getTier();
+        if (isw) {
+            return definitionTier;
+        }
+        return Math.min(definitionTier, tier);
     }
 
     @Override
@@ -158,12 +164,6 @@ public final class GeneratorArrayMachine extends StorageMultiblockMachine implem
             }
         }
         return true;
-    }
-
-    @Override
-    public void afterWorking() {
-        eut = 0;
-        super.afterWorking();
     }
 
     public static int getAmperage(int tier) {
@@ -198,6 +198,7 @@ public final class GeneratorArrayMachine extends StorageMultiblockMachine implem
         if (a > 0) {
             long EUt = RecipeHelper.getOutputEUt(recipe);
             if (EUt > 0) {
+                recipe.outputs.clear();
                 int maxParallel = (int) (2 * GTValues.V[getOverclockTier()] * a * getAmperage(getTier()) / EUt);
                 int multipliers = 0;
                 for (RecipeCapability<?> cap : recipe.inputs.keySet()) {
@@ -239,6 +240,8 @@ public final class GeneratorArrayMachine extends StorageMultiblockMachine implem
         if (!clickData.isRemote) {
             if ("wireless_switch".equals(componentData)) {
                 isw = !isw;
+                eut = 0;
+                getRecipeLogic().markLastRecipeDirty();
             }
         }
     }
@@ -251,5 +254,15 @@ public final class GeneratorArrayMachine extends StorageMultiblockMachine implem
     @Override
     public @Nullable UUID getUUID() {
         return getOwnerUUID();
+    }
+
+    @Override
+    public boolean matchRecipe(GTRecipe recipe) {
+        return RecipeRunner.matchRecipeInput(this, recipe);
+    }
+
+    @Override
+    public boolean matchTickRecipe(GTRecipe recipe) {
+        return isw || IRecipeSearchMachine.super.matchTickRecipe(recipe);
     }
 }

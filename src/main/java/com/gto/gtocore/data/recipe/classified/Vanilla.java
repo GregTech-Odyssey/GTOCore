@@ -894,5 +894,27 @@ interface Vanilla {
                 "BDB",
                 "CBA",
                 'A', new MaterialEntry(TagPrefix.dust, GTOMaterials.Fluix), 'B', GTItems.DUCT_TAPE.asStack(), 'C', new ItemStack(Items.SLIME_BALL.asItem()), 'D', new MaterialEntry(TagPrefix.dust, GTMaterials.EnderPearl));
+        VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("lv_mana_assembler"), ManaMachine.MANA_ASSEMBLER[GTValues.LV].asStack(),
+                "ABA",
+                "CDC",
+                "AEA",
+                'A', new MaterialEntry(TagPrefix.plate, GTOMaterials.Manasteel), 'B', GTItems.ROBOT_ARM_LV.asStack(), 'C', CustomTags.LV_CIRCUITS, 'D', GTMachines.HULL[GTValues.LV].asStack(), 'E', GTItems.FIELD_GENERATOR_LV.asStack());
+        VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("mv_mana_assembler"), ManaMachine.MANA_ASSEMBLER[GTValues.MV].asStack(),
+                "ABC",
+                "DED",
+                "FGH",
+                'A', RegistriesUtils.getItemStack("botania:rune_water"), 'B', GTItems.ROBOT_ARM_MV.asStack(), 'C', RegistriesUtils.getItemStack("botania:rune_fire"), 'D', CustomTags.MV_CIRCUITS, 'E', GTMachines.HULL[GTValues.MV].asStack(), 'F', RegistriesUtils.getItemStack("botania:rune_earth"), 'G', GTItems.FIELD_GENERATOR_MV.asStack(), 'H', RegistriesUtils.getItemStack("botania:rune_air"));
+
+        VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("hv_mana_assembler"), ManaMachine.MANA_ASSEMBLER[GTValues.HV].asStack(),
+                "ABA",
+                "CDC",
+                "AEA",
+                'A', new MaterialEntry(TagPrefix.plate, GTOMaterials.Terrasteel), 'B', GTItems.ROBOT_ARM_HV.asStack(), 'C', CustomTags.HV_CIRCUITS, 'D', GTMachines.HULL[GTValues.HV].asStack(), 'E', GTItems.FIELD_GENERATOR_HV.asStack());
+
+        VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("ev_mana_assembler"), ManaMachine.MANA_ASSEMBLER[GTValues.EV].asStack(),
+                "ABA",
+                "CDC",
+                "AEA",
+                'A', new MaterialEntry(TagPrefix.plate, GTOMaterials.Elementium), 'B', GTItems.ROBOT_ARM_EV.asStack(), 'C', CustomTags.EV_CIRCUITS, 'D', GTMachines.HULL[GTValues.EV].asStack(), 'E', GTItems.FIELD_GENERATOR_EV.asStack());
     }
 }

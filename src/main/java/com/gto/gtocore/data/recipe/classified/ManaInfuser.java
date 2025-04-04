@@ -14,11 +14,25 @@ import static com.gto.gtocore.common.data.GTORecipeTypes.MANA_INFUSER_RECIPES;
 interface ManaInfuser {
 
     static void init() {
+        MANA_INFUSER_RECIPES.builder("livingwood_log")
+                .inputItems(Items.OAK_LOG.asItem(), 16)
+                .outputItems("botania:livingwood_log", 16)
+                .duration(20)
+                .MANAt(8)
+                .save();
+
+        MANA_INFUSER_RECIPES.builder("livingrock")
+                .inputItems(TagPrefix.rock, GTMaterials.Stone, 16)
+                .outputItems(TagPrefix.block, GTOMaterials.Livingrock, 16)
+                .duration(20)
+                .MANAt(8)
+                .save();
+
         MANA_INFUSER_RECIPES.builder("mana_dust")
                 .inputItems(TagUtils.createTGTag("dusts"))
                 .outputItems(TagPrefix.dust, GTOMaterials.Mana)
                 .duration(20)
-                .MANAt(1)
+                .MANAt(32)
                 .save();
 
         MANA_INFUSER_RECIPES.builder("mana_string")
@@ -32,28 +46,28 @@ interface ManaInfuser {
                 .inputItems(TagPrefix.block, GTMaterials.Glass)
                 .outputItems(TagPrefix.block, GTOMaterials.ManaGlass)
                 .duration(20)
-                .MANAt(1)
+                .MANAt(48)
                 .save();
 
         MANA_INFUSER_RECIPES.builder("manasteel")
                 .inputItems(TagPrefix.ingot, GTMaterials.Steel)
                 .outputItems(TagPrefix.ingot, GTOMaterials.Manasteel)
                 .duration(20)
-                .MANAt(2)
+                .MANAt(64)
                 .save();
 
         MANA_INFUSER_RECIPES.builder("mana_pearl")
                 .inputItems("torchmaster:frozen_pearl")
                 .outputItems("botania:mana_pearl")
                 .duration(20)
-                .MANAt(8)
+                .MANAt(64)
                 .save();
 
         MANA_INFUSER_RECIPES.builder("mana_diamond")
                 .inputItems(TagPrefix.gem, GTMaterials.Diamond)
                 .outputItems(TagPrefix.gem, GTOMaterials.ManaDiamond)
                 .duration(20)
-                .MANAt(16)
+                .MANAt(64)
                 .save();
 
         MANA_INFUSER_RECIPES.builder("pulsatingalloy")

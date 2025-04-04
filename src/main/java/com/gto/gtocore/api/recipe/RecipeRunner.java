@@ -1,5 +1,6 @@
 package com.gto.gtocore.api.recipe;
 
+import com.gto.gtocore.api.machine.feature.IRecipeSearchMachine;
 import com.gto.gtocore.api.machine.feature.multiblock.IMEOutputMachine;
 
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
@@ -31,6 +32,9 @@ public interface RecipeRunner {
     }
 
     static boolean matchRecipe(IRecipeCapabilityHolder holder, GTRecipe recipe) {
+        if (holder instanceof IRecipeSearchMachine searchMachine) {
+            return searchMachine.matchRecipe(recipe);
+        }
         if (holder instanceof IMEOutputMachine machine && machine.gTOCore$DualMEOutput(recipe)) {
             return matchRecipeInput(holder, recipe);
         }
@@ -38,6 +42,9 @@ public interface RecipeRunner {
     }
 
     static boolean matchTickRecipe(IRecipeCapabilityHolder holder, GTRecipe recipe) {
+        if (holder instanceof IRecipeSearchMachine searchMachine) {
+            return searchMachine.matchTickRecipe(recipe);
+        }
         if (!matchRecipeTickInput(holder, recipe)) return false;
         return matchRecipeTickOutput(holder, recipe);
     }
