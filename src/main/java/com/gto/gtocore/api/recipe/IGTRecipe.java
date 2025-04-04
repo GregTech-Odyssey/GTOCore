@@ -2,7 +2,7 @@ package com.gto.gtocore.api.recipe;
 
 public interface IGTRecipe {
 
-    boolean gtocore$overclocking();
+    boolean gtocore$perfect();
 
-    void gtocore$setOverclocking();
+    void gtocore$setPerfect(boolean perfect);
 }

@@ -45,6 +45,9 @@ public abstract class RecipeLogicMixin extends MachineTrait implements IEnhanced
     private int gtocore$lastParallel;
 
     @Unique
+    private boolean gtocore$modifyRecipe;
+
+    @Unique
     private AsyncRecipeSearchTask gtocore$asyncRecipeSearchTask;
 
     @Unique
@@ -172,6 +175,11 @@ public abstract class RecipeLogicMixin extends MachineTrait implements IEnhanced
     @Override
     public int gtocore$getlastParallel() {
         return gtocore$lastParallel;
+    }
+
+    @Override
+    public void gtocore$setModifyRecipe() {
+        gtocore$modifyRecipe = true;
     }
 
     @Override
@@ -343,9 +351,9 @@ public abstract class RecipeLogicMixin extends MachineTrait implements IEnhanced
         if (lastRecipe != null) {
             consecutiveRecipes++;
             handleRecipeIO(lastRecipe, IO.OUT);
-            if (machine.alwaysTryModifyRecipe()) {
+            if (machine.alwaysTryModifyRecipe() || gtocore$modifyRecipe) {
                 if (lastOriginRecipe != null) {
-                    if (!(GTORecipeModifiers.TRY_AGAIN.contains(getMachine().getDefinition().getRecipeModifier()) && lastRecipe.parallels == MachineUtils.getHatchParallel(getMachine()) && RecipeRunner.checkConditions(machine, lastRecipe) && RecipeRunner.matchRecipe(machine, lastRecipe) && RecipeRunner.matchTickRecipe(machine, lastRecipe))) {
+                    if (gtocore$modifyRecipe || !(GTORecipeModifiers.TRY_AGAIN.contains(getMachine().getDefinition().getRecipeModifier()) && lastRecipe.parallels == MachineUtils.getHatchParallel(getMachine()) && RecipeRunner.checkConditions(machine, lastRecipe) && RecipeRunner.matchRecipe(machine, lastRecipe) && RecipeRunner.matchTickRecipe(machine, lastRecipe))) {
                         gtocore$lastParallel = lastRecipe.parallels;
                         var modified = machine.fullModifyRecipe(lastOriginRecipe.copy());
                         if (modified == null) {
@@ -357,6 +365,7 @@ public abstract class RecipeLogicMixin extends MachineTrait implements IEnhanced
                 } else {
                     markLastRecipeDirty();
                 }
+                gtocore$modifyRecipe = false;
             }
             if (!recipeDirty && !suspendAfterFinish && RecipeRunner.check(machine, lastRecipe)) {
                 setupRecipe(lastRecipe);

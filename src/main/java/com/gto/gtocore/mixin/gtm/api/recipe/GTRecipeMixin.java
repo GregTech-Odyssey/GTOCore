@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.Unique;
 public class GTRecipeMixin implements IGTRecipe {
 
     @Unique
-    private boolean gtocore$overclocking;
+    private boolean gtocore$perfect;
 
     /**
      * @author .
@@ -27,12 +27,12 @@ public class GTRecipeMixin implements IGTRecipe {
     }
 
     @Override
-    public boolean gtocore$overclocking() {
-        return gtocore$overclocking;
+    public boolean gtocore$perfect() {
+        return gtocore$perfect;
     }
 
     @Override
-    public void gtocore$setOverclocking() {
-        gtocore$overclocking = true;
+    public void gtocore$setPerfect(boolean perfect) {
+        gtocore$perfect = perfect;
     }
 }

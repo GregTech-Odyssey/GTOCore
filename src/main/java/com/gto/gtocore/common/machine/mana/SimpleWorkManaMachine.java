@@ -3,6 +3,7 @@ package com.gto.gtocore.common.machine.mana;
 import com.gto.gtocore.api.gui.OverclockConfigurator;
 import com.gto.gtocore.api.machine.feature.multiblock.IOverclockConfigMachine;
 import com.gto.gtocore.api.machine.mana.feature.IManaEnergyMachine;
+import com.gto.gtocore.api.machine.trait.IEnhancedRecipeLogic;
 import com.gto.gtocore.common.data.GTORecipeModifiers;
 
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
@@ -57,8 +58,8 @@ public class SimpleWorkManaMachine extends SimpleManaMachine implements IManaEne
     @Override
     public void gTOCore$setOCLimit(int number) {
         if (number != ocLimit) {
-            if (getRecipeLogic().getLastRecipe() != null) {
-                getRecipeLogic().markLastRecipeDirty();
+            if (getRecipeLogic().getLastRecipe() != null && getRecipeLogic() instanceof IEnhancedRecipeLogic recipeLogic) {
+                recipeLogic.gtocore$setModifyRecipe();
             }
             ocLimit = number;
         }

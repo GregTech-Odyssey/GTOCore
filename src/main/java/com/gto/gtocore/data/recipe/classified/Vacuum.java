@@ -13,7 +13,8 @@ import com.gregtechceu.gtceu.common.data.GTMaterials;
 
 import net.minecraftforge.fluids.FluidStack;
 
-import static com.gregtechceu.gtceu.api.GTValues.*;
+import static com.gregtechceu.gtceu.api.GTValues.EV;
+import static com.gregtechceu.gtceu.api.GTValues.VA;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.Oxygen;
 import static com.gto.gtocore.common.data.GTORecipeTypes.VACUUM_RECIPES;
 

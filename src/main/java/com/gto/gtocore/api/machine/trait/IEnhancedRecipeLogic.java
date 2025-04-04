@@ -22,6 +22,8 @@ public interface IEnhancedRecipeLogic {
         return 1;
     }
 
+    default void gtocore$setModifyRecipe() {}
+
     default boolean gtocore$hasAsyncTask() {
         return false;
     }

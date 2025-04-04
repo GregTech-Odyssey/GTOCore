@@ -42,7 +42,7 @@ public interface GTMachineModify {
         GTMultiMachines.ELECTRIC_BLAST_FURNACE.setRecipeModifier(GTORecipeModifiers::ebfOverclock);
         GTMultiMachines.PYROLYSE_OVEN.setRecipeModifier(GTORecipeModifiers::pyrolyseOvenOverclock);
         GTMultiMachines.CRACKER.setRecipeModifier(GTORecipeModifiers::crackerOverclock);
-        GTMultiMachines.LARGE_CHEMICAL_REACTOR.setRecipeModifier(GTORecipeModifiers.PERFECT_OVERCLOCKING);
+        GTMultiMachines.LARGE_CHEMICAL_REACTOR.setRecipeModifier(GTORecipeModifiers::largeChemicaloroverclock);
         GTMultiMachines.IMPLOSION_COMPRESSOR.setRecipeModifier(GTORecipeModifiers.OVERCLOCKING);
         GTMultiMachines.DISTILLATION_TOWER.setRecipeModifier(GTORecipeModifiers.OVERCLOCKING);
         GTMultiMachines.VACUUM_FREEZER.setRecipeModifier(GTORecipeModifiers.OVERCLOCKING);

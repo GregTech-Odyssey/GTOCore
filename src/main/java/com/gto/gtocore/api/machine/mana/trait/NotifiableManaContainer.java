@@ -83,10 +83,14 @@ public class NotifiableManaContainer extends NotifiableRecipeHandlerTrait<Intege
         if (getMachine().getOffsetTimer() % 20 == 0) {
             ManaDistributorMachine distributor = getNetMachine();
             if (distributor == null) return;
-            long mana = max - manaStored;
+            long mana = extractionRate();
             if (mana <= 0) return;
-            manaStored = manaStored + distributor.removeMana(mana, 20);
+            manaStored = manaStored + distributor.removeMana(mana, 20, false);
         }
+    }
+
+    protected long extractionRate() {
+        return max - manaStored;
     }
 
     @Override

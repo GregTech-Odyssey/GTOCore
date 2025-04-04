@@ -28,7 +28,7 @@ public interface ForEachMaterial {
             GTOPartsRecipeHandler.run(consumer, material);
             GTOPipeRecipeHandler.run(consumer, material);
             GTORecyclingRecipeHandler.run(consumer, material);
-            GTOWireCombiningHandler.run(consumer, material);
+            GTOWireCombiningHandler.run(material);
             GTOWireRecipeHandler.run(consumer, material);
         }
     }

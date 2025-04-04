@@ -2189,7 +2189,7 @@ interface AssemblyLine {
                 .outputItems(MultiBlockD.NANO_FORGE.asStack())
                 .EUt(491520)
                 .duration(2400)
-                .stationResearch(b -> b.researchStack(RegistriesUtils.getItemStack("gtceu:carbon_nanites"))
+                .stationResearch(b -> b.researchStack(RegistriesUtils.getItemStack("gtocore:carbon_nanites"))
                         .CWUt(64)
                         .EUt(491520))
                 .save();

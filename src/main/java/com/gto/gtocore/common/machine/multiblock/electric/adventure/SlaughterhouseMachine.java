@@ -110,11 +110,6 @@ public final class SlaughterhouseMachine extends StorageMultiblockMachine {
         return MANAGED_FIELD_HOLDER;
     }
 
-    @Override
-    public void onRecipeFinish() {
-        super.onRecipeFinish();
-    }
-
     private static Player getFakePlayer(ServerLevel level) {
         return Platform.getFakePlayer(level, null);
     }
@@ -123,7 +118,6 @@ public final class SlaughterhouseMachine extends StorageMultiblockMachine {
         if (damageSource == null) {
             damageSource = new DamageSource(level.registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(DamageTypes.GENERIC_KILL), getFakePlayer(level));
         }
-        getRecipeLogic().onMachineLoad();
         return damageSource;
     }
 

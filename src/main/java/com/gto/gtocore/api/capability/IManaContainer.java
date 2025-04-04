@@ -68,17 +68,17 @@ public interface IManaContainer extends INetMachineInteractor<ManaDistributorMac
 
     int getMaxConsumption();
 
-    default long addMana(long amount, int limit) {
+    default long addMana(long amount, int limit, boolean simulate) {
         long change = Math.min(getMaxMana() - getCurrentMana(), Math.min((long) limit * getMaxConsumption(), amount));
         if (change <= 0) return 0;
-        setCurrentMana(getCurrentMana() + change);
+        if (!simulate) setCurrentMana(getCurrentMana() + change);
         return change;
     }
 
-    default long removeMana(long amount, int limit) {
+    default long removeMana(long amount, int limit, boolean simulate) {
         long change = Math.min(getCurrentMana(), Math.min((long) limit * getMaxConsumption(), amount));
         if (change <= 0) return 0;
-        setCurrentMana(getCurrentMana() - change);
+        if (!simulate) setCurrentMana(getCurrentMana() - change);
         return change;
     }
 }

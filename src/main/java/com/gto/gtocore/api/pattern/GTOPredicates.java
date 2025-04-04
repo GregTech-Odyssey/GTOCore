@@ -3,6 +3,7 @@ package com.gto.gtocore.api.pattern;
 import com.gto.gtocore.api.machine.part.GTOPartAbility;
 import com.gto.gtocore.common.block.WirelessEnergyUnitBlock;
 import com.gto.gtocore.common.data.GTOBlocks;
+import com.gto.gtocore.common.data.machines.ManaMachine;
 import com.gto.gtocore.utils.FunctionContainer;
 import com.gto.gtocore.utils.GTOUtils;
 
@@ -67,6 +68,10 @@ public interface GTOPredicates {
 
     static TraceabilityPredicate autoAccelerateAbilities(GTRecipeType... recipeType) {
         return Predicates.autoAbilities(recipeType).or(Predicates.abilities(GTOPartAbility.ACCELERATE_HATCH).setMaxGlobalLimited(1));
+    }
+
+    static TraceabilityPredicate autoMnaAccelerateAbilities(GTRecipeType... recipeType) {
+        return autoAccelerateAbilities(recipeType).or(Predicates.blocks(ManaMachine.MANA_AMPLIFIER_HATCH.getBlock()).setMaxGlobalLimited(1));
     }
 
     static TraceabilityPredicate autoThreadLaserAbilities(GTRecipeType... recipeType) {

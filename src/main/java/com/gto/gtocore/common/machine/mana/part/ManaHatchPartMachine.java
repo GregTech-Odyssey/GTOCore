@@ -27,7 +27,6 @@ import vazkii.botania.api.mana.ManaPool;
 import vazkii.botania.api.mana.ManaReceiver;
 import vazkii.botania.xplat.XplatAbstractions;
 
-@Getter
 public class ManaHatchPartMachine extends TieredIOPartMachine implements IManaMachine {
 
     private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
@@ -35,6 +34,7 @@ public class ManaHatchPartMachine extends TieredIOPartMachine implements IManaMa
 
     protected TickableSubscription tickSubs;
 
+    @Getter
     @Persisted
     private final NotifiableManaContainer manaContainer;
 
@@ -91,7 +91,7 @@ public class ManaHatchPartMachine extends TieredIOPartMachine implements IManaMa
             } else if (receiver instanceof ManaPool pool) {
                 mana = Math.min(mana, pool.getMaxMana() - pool.getCurrentMana());
             }
-            int change = GTMath.saturatedCast(manaContainer.removeMana(mana, 20));
+            int change = GTMath.saturatedCast(manaContainer.removeMana(mana, 20, false));
             if (change > 0) {
                 receiver.receiveMana(change);
             }

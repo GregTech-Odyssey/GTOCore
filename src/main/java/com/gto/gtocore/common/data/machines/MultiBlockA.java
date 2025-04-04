@@ -804,7 +804,7 @@ public interface MultiBlockA {
                     .aisle("   eeeee   ", "   cbbbc   ", "   cb~bc   ", "   cbbbc   ", "   eeeee   ", "   bbbbb   ", "           ", "           ", "           ", "           ", "           ", "           ", "           ", "           ", "           ", "           ", "           ", "           ")
                     .where('~', controller(blocks(definition.get())))
                     .where('b', blocks(GCYMBlocks.CASING_HIGH_TEMPERATURE_SMELTING.get()).setMinGlobalLimited(280)
-                            .or(autoAbilities(definition.getRecipeTypes()))
+                            .or(GTOPredicates.autoMnaAccelerateAbilities(definition.getRecipeTypes()))
                             .or(abilities(MAINTENANCE).setExactLimit(1))
                             .or(abilities(PARALLEL_HATCH).setMaxGlobalLimited(1)))
                     .where('a', heatingCoils())

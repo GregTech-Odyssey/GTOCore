@@ -11,6 +11,7 @@ import com.gto.gtocore.utils.GTOUtils;
 import com.gto.gtocore.utils.MachineUtils;
 
 import com.gregtechceu.gtceu.api.GTValues;
+import com.gregtechceu.gtceu.api.block.ICoilType;
 import com.gregtechceu.gtceu.api.capability.recipe.EURecipeCapability;
 import com.gregtechceu.gtceu.api.capability.recipe.IRecipeCapabilityHolder;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
@@ -38,8 +39,8 @@ import java.util.Set;
 @SuppressWarnings("unused")
 public interface GTORecipeModifiers {
 
-    RecipeModifier PARALLELIZABLE_OVERCLOCK = new RecipeModifierList(GTORecipeModifiers.HATCH_PARALLEL, GTORecipeModifiers.OVERCLOCKING);
-    RecipeModifier PARALLELIZABLE_PERFECT_OVERCLOCK = new RecipeModifierList(GTORecipeModifiers.HATCH_PARALLEL, GTORecipeModifiers.PERFECT_OVERCLOCKING);
+    RecipeModifier PARALLELIZABLE_OVERCLOCK = new RecipeModifierList((machine, r) -> recipe -> overclocking(machine, hatchParallel(machine, recipe)));
+    RecipeModifier PARALLELIZABLE_PERFECT_OVERCLOCK = new RecipeModifierList((machine, r) -> recipe -> perfectOverclocking(machine, hatchParallel(machine, recipe)));
 
     RecipeModifier GCYM_OVERCLOCKING = new RecipeModifierList((machine, r) -> recipe -> overclocking(machine, hatchParallel(machine, recipe), false, false, 0.8, 0.6));
 
@@ -99,6 +100,15 @@ public interface GTORecipeModifiers {
 
     static ModifierFunction polymerizationOverclock(MetaMachine machine, GTRecipe r) {
         return coilReductionOverclock(machine, r, false);
+    }
+
+    static ModifierFunction largeChemicaloroverclock(MetaMachine machine, GTRecipe r) {
+        return recipe -> {
+            if (machine instanceof WorkableElectricMultiblockMachine multiblockMachine && multiblockMachine.getMultiblockState().getMatchContext().get("CoilType") instanceof ICoilType coil && coil.getTier() >= multiblockMachine.getTier()) {
+                return perfectOverclocking(machine, recipe);
+            }
+            return overclocking(machine, recipe);
+        };
     }
 
     static ModifierFunction chemicalPlantOverclock(MetaMachine machine, GTRecipe r) {
@@ -240,9 +250,9 @@ public interface GTORecipeModifiers {
     }
 
     static GTRecipe overclocking(MetaMachine machine, GTRecipe recipe, long recipeVoltage, long maxVoltage, boolean perfect, boolean laserLoss, boolean generator, double reductionDuration) {
-        if (recipe instanceof IGTRecipe igtRecipe && !igtRecipe.gtocore$overclocking()) {
+        if (recipe instanceof IGTRecipe igtRecipe) {
             int duration = (int) (recipe.duration * reductionDuration);
-            int factor = perfect ? 1 : 2;
+            int factor = (perfect || igtRecipe.gtocore$perfect()) ? 1 : 2;
             int limit;
             if (machine instanceof IOverclockConfigMachine configMachine) {
                 limit = configMachine.gTOCore$getOCLimit();

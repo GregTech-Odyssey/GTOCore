@@ -1,7 +1,10 @@
 package com.gto.gtocore.api.machine.part;
 
+import com.gto.gtocore.api.machine.trait.IEnhancedRecipeLogic;
+
 import com.gregtechceu.gtceu.api.gui.widget.IntInputWidget;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.TieredPartMachine;
 
 import net.minecraft.util.Mth;
@@ -47,6 +50,11 @@ public class AmountConfigurationHatchPartMachine extends TieredPartMachine {
 
     private void setCurrent(int amount) {
         current = Mth.clamp(amount, min, max);
+        for (var c : getControllers()) {
+            if (c instanceof IRecipeLogicMachine machine && machine.getRecipeLogic() instanceof IEnhancedRecipeLogic recipeLogic) {
+                recipeLogic.gtocore$setModifyRecipe();
+            }
+        }
     }
 
     protected int getCurrent() {

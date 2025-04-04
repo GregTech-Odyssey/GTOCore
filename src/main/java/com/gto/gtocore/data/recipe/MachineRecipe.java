@@ -198,6 +198,8 @@ public interface MachineRecipe {
                 "RGR", "MHM", "WCW", 'H', GTMachines.HULL[3].asStack(), 'G', new MaterialEntry(gear, StainlessSteel), 'R', new MaterialEntry(rod, BlackSteel),
                 'C', CustomTags.HV_CIRCUITS, 'W', new MaterialEntry(cableGtSingle, Gold), 'M', GTItems.ELECTRIC_MOTOR_HV.asItem());
 
+        VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("ulv_loom"), GTOMachines.ULV_LOOM[0].asStack(),
+                "CWC", "EME", "EWE", 'M', GTMachines.HULL[0].asStack(), 'E', GTOItems.ULV_ELECTRIC_MOTOR.asStack(), 'C', CustomTags.ULV_CIRCUITS, 'W', new MaterialEntry(cableGtSingle, RedAlloy));
         VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("ulv_packer"), GTOMachines.ULV_PACKER[0].asStack(),
                 "BCA", "RMV", "WCW", 'M', GTMachines.HULL[0].asStack(), 'R', GTItems.RESISTOR.asStack(), 'V', Tags.Items.CHESTS_WOODEN,
                 'C', CustomTags.ULV_CIRCUITS, 'W', new MaterialEntry(cableGtSingle, RedAlloy), 'B', GTOItems.ULV_ROBOT_ARM.asStack(), 'A', GTOItems.ULV_CONVEYOR_MODULE.asItem());

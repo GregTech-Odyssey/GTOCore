@@ -1,6 +1,7 @@
 package com.gto.gtocore.data.recipe.classified;
 
 import com.gto.gtocore.GTOCore;
+import com.gto.gtocore.api.recipe.GTORecipeBuilder;
 import com.gto.gtocore.utils.RegistriesUtils;
 
 import com.gregtechceu.gtceu.common.data.GTItems;
@@ -23,7 +24,7 @@ interface Greenhouse {
                 .inputFluids(GTMaterials.Water.getFluid(1000))
                 .outputItems(new ItemStack(Blocks.AZURE_BLUET.asItem(), 8))
                 .EUt(30)
-                .duration(600)
+                .duration(1200)
                 .save();
 
         GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("blue_orchid_fertilizer"))
@@ -33,7 +34,7 @@ interface Greenhouse {
                 .inputFluids(GTMaterials.Water.getFluid(1000))
                 .outputItems(new ItemStack(Blocks.BLUE_ORCHID.asItem(), 16))
                 .EUt(60)
-                .duration(200)
+                .duration(400)
                 .save();
 
         GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("sweet_berries_fertilizer"))
@@ -43,7 +44,7 @@ interface Greenhouse {
                 .inputFluids(GTMaterials.Water.getFluid(1000))
                 .outputItems(new ItemStack(Blocks.SWEET_BERRY_BUSH.asItem(), 32))
                 .EUt(60)
-                .duration(200)
+                .duration(400)
                 .save();
 
         GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("red_tulip"))
@@ -52,7 +53,7 @@ interface Greenhouse {
                 .inputFluids(GTMaterials.Water.getFluid(1000))
                 .outputItems(new ItemStack(Blocks.RED_TULIP.asItem(), 8))
                 .EUt(30)
-                .duration(600)
+                .duration(1200)
                 .save();
 
         GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("cactus_fertilizer"))
@@ -62,7 +63,7 @@ interface Greenhouse {
                 .inputFluids(GTMaterials.Water.getFluid(1000))
                 .outputItems(new ItemStack(Blocks.CACTUS.asItem(), 24))
                 .EUt(60)
-                .duration(200)
+                .duration(400)
                 .save();
 
         GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("wither_rose"))
@@ -71,7 +72,7 @@ interface Greenhouse {
                 .inputFluids(GTMaterials.Water.getFluid(1000))
                 .outputItems(new ItemStack(Blocks.WITHER_ROSE.asItem(), 8))
                 .EUt(30)
-                .duration(600)
+                .duration(1200)
                 .save();
 
         GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("beetroot_seeds_fertilizer"))
@@ -81,7 +82,7 @@ interface Greenhouse {
                 .inputFluids(GTMaterials.Water.getFluid(1000))
                 .outputItems(new ItemStack(Items.BEETROOT.asItem(), 32))
                 .EUt(60)
-                .duration(200)
+                .duration(400)
                 .save();
 
         GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("spore_blossom_fertilizer"))
@@ -91,7 +92,7 @@ interface Greenhouse {
                 .inputFluids(GTMaterials.Water.getFluid(1000))
                 .outputItems(new ItemStack(Blocks.SPORE_BLOSSOM.asItem(), 16))
                 .EUt(60)
-                .duration(200)
+                .duration(400)
                 .save();
 
         GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("orange_tulip_fertilizer"))
@@ -101,7 +102,7 @@ interface Greenhouse {
                 .inputFluids(GTMaterials.Water.getFluid(1000))
                 .outputItems(new ItemStack(Blocks.ORANGE_TULIP.asItem(), 16))
                 .EUt(60)
-                .duration(200)
+                .duration(400)
                 .save();
 
         GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("lilac"))
@@ -110,7 +111,7 @@ interface Greenhouse {
                 .inputFluids(GTMaterials.Water.getFluid(1000))
                 .outputItems(new ItemStack(Blocks.LILAC.asItem(), 8))
                 .EUt(30)
-                .duration(600)
+                .duration(1200)
                 .save();
 
         GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("pink_petals_fertilizer"))
@@ -120,7 +121,7 @@ interface Greenhouse {
                 .inputFluids(GTMaterials.Water.getFluid(1000))
                 .outputItems(new ItemStack(Blocks.PINK_PETALS.asItem(), 16))
                 .EUt(60)
-                .duration(200)
+                .duration(400)
                 .save();
 
         GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("sea_pickle"))
@@ -129,7 +130,7 @@ interface Greenhouse {
                 .inputFluids(GTMaterials.Water.getFluid(1000))
                 .outputItems(new ItemStack(Blocks.SEA_PICKLE.asItem(), 16))
                 .EUt(30)
-                .duration(600)
+                .duration(1200)
                 .save();
 
         GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("pink_petals"))
@@ -138,7 +139,7 @@ interface Greenhouse {
                 .inputFluids(GTMaterials.Water.getFluid(1000))
                 .outputItems(new ItemStack(Blocks.PINK_PETALS.asItem(), 8))
                 .EUt(30)
-                .duration(600)
+                .duration(1200)
                 .save();
 
         GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("pitcher_plant"))
@@ -147,7 +148,7 @@ interface Greenhouse {
                 .inputFluids(GTMaterials.Water.getFluid(1000))
                 .outputItems(new ItemStack(Blocks.PITCHER_PLANT.asItem(), 8))
                 .EUt(30)
-                .duration(600)
+                .duration(1200)
                 .save();
 
         GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("orange_tulip"))
@@ -156,7 +157,7 @@ interface Greenhouse {
                 .inputFluids(GTMaterials.Water.getFluid(1000))
                 .outputItems(new ItemStack(Blocks.ORANGE_TULIP.asItem(), 8))
                 .EUt(30)
-                .duration(600)
+                .duration(1200)
                 .save();
 
         GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("carrot"))
@@ -165,7 +166,7 @@ interface Greenhouse {
                 .inputFluids(GTMaterials.Water.getFluid(1000))
                 .outputItems(new ItemStack(Blocks.CARROTS.asItem(), 12))
                 .EUt(30)
-                .duration(600)
+                .duration(1200)
                 .save();
 
         GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("tall_grass"))
@@ -174,7 +175,7 @@ interface Greenhouse {
                 .inputFluids(GTMaterials.Water.getFluid(1000))
                 .outputItems(new ItemStack(Blocks.TALL_GRASS.asItem(), 12))
                 .EUt(30)
-                .duration(600)
+                .duration(1200)
                 .save();
 
         GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("dandelion"))
@@ -183,7 +184,7 @@ interface Greenhouse {
                 .inputFluids(GTMaterials.Water.getFluid(1000))
                 .outputItems(new ItemStack(Blocks.DANDELION.asItem(), 8))
                 .EUt(30)
-                .duration(600)
+                .duration(1200)
                 .save();
 
         GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("torchflower"))
@@ -192,7 +193,7 @@ interface Greenhouse {
                 .inputFluids(GTMaterials.Water.getFluid(1000))
                 .outputItems(new ItemStack(Blocks.TORCHFLOWER.asItem(), 8))
                 .EUt(30)
-                .duration(600)
+                .duration(1200)
                 .save();
 
         GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("nether_wart_fertilizer"))
@@ -202,7 +203,7 @@ interface Greenhouse {
                 .inputFluids(GTMaterials.Water.getFluid(1000))
                 .outputItems(new ItemStack(Blocks.NETHER_WART.asItem(), 24))
                 .EUt(60)
-                .duration(200)
+                .duration(400)
                 .save();
 
         GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("poppy"))
@@ -211,7 +212,7 @@ interface Greenhouse {
                 .inputFluids(GTMaterials.Water.getFluid(1000))
                 .outputItems(new ItemStack(Blocks.POPPY.asItem(), 8))
                 .EUt(30)
-                .duration(600)
+                .duration(1200)
                 .save();
 
         GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("oxeye_daisy_fertilizer"))
@@ -221,7 +222,7 @@ interface Greenhouse {
                 .inputFluids(GTMaterials.Water.getFluid(1000))
                 .outputItems(new ItemStack(Blocks.OXEYE_DAISY.asItem(), 16))
                 .EUt(60)
-                .duration(200)
+                .duration(400)
                 .save();
 
         GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("carrot_fertilizer"))
@@ -231,7 +232,7 @@ interface Greenhouse {
                 .inputFluids(GTMaterials.Water.getFluid(1000))
                 .outputItems(new ItemStack(Blocks.CARROTS.asItem(), 24))
                 .EUt(60)
-                .duration(200)
+                .duration(400)
                 .save();
 
         GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("red_mushroom_fertilizer"))
@@ -241,7 +242,7 @@ interface Greenhouse {
                 .inputFluids(GTMaterials.Water.getFluid(1000))
                 .outputItems(new ItemStack(Blocks.RED_MUSHROOM.asItem(), 24))
                 .EUt(60)
-                .duration(200)
+                .duration(400)
                 .save();
 
         GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("sugar_cane_fertilizer"))
@@ -251,7 +252,7 @@ interface Greenhouse {
                 .inputFluids(GTMaterials.Water.getFluid(1000))
                 .outputItems(new ItemStack(Blocks.SUGAR_CANE.asItem(), 24))
                 .EUt(60)
-                .duration(200)
+                .duration(400)
                 .save();
 
         GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("white_tulip"))
@@ -260,7 +261,7 @@ interface Greenhouse {
                 .inputFluids(GTMaterials.Water.getFluid(1000))
                 .outputItems(new ItemStack(Blocks.WHITE_TULIP.asItem(), 8))
                 .EUt(30)
-                .duration(600)
+                .duration(1200)
                 .save();
 
         GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("sweet_berries"))
@@ -269,7 +270,7 @@ interface Greenhouse {
                 .inputFluids(GTMaterials.Water.getFluid(1000))
                 .outputItems(new ItemStack(Blocks.SWEET_BERRY_BUSH.asItem(), 16))
                 .EUt(30)
-                .duration(600)
+                .duration(1200)
                 .save();
 
         GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("lily_of_the_valley"))
@@ -278,7 +279,7 @@ interface Greenhouse {
                 .inputFluids(GTMaterials.Water.getFluid(1000))
                 .outputItems(new ItemStack(Blocks.LILY_OF_THE_VALLEY.asItem(), 8))
                 .EUt(30)
-                .duration(600)
+                .duration(1200)
                 .save();
 
         GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("blue_orchid"))
@@ -287,7 +288,7 @@ interface Greenhouse {
                 .inputFluids(GTMaterials.Water.getFluid(1000))
                 .outputItems(new ItemStack(Blocks.BLUE_ORCHID.asItem(), 8))
                 .EUt(30)
-                .duration(600)
+                .duration(1200)
                 .save();
 
         GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("wheat_seeds_fertilizer"))
@@ -297,7 +298,7 @@ interface Greenhouse {
                 .inputFluids(GTMaterials.Water.getFluid(1000))
                 .outputItems(new ItemStack(Items.WHEAT.asItem(), 32))
                 .EUt(60)
-                .duration(200)
+                .duration(400)
                 .save();
 
         GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("rose_bush_fertilizer"))
@@ -307,7 +308,7 @@ interface Greenhouse {
                 .inputFluids(GTMaterials.Water.getFluid(1000))
                 .outputItems(new ItemStack(Blocks.ROSE_BUSH.asItem(), 16))
                 .EUt(60)
-                .duration(200)
+                .duration(400)
                 .save();
 
         GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("potato_fertilizer"))
@@ -317,7 +318,7 @@ interface Greenhouse {
                 .inputFluids(GTMaterials.Water.getFluid(1000))
                 .outputItems(new ItemStack(Blocks.POTATOES.asItem(), 24))
                 .EUt(60)
-                .duration(200)
+                .duration(400)
                 .save();
 
         GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("kelp_fertilizer"))
@@ -327,7 +328,7 @@ interface Greenhouse {
                 .inputFluids(GTMaterials.Water.getFluid(1000))
                 .outputItems(new ItemStack(Blocks.KELP.asItem(), 24))
                 .EUt(60)
-                .duration(200)
+                .duration(400)
                 .save();
 
         GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("pumpkin_seeds_fertilizer"))
@@ -337,7 +338,7 @@ interface Greenhouse {
                 .inputFluids(GTMaterials.Water.getFluid(1000))
                 .outputItems(new ItemStack(Blocks.PUMPKIN.asItem(), 12))
                 .EUt(60)
-                .duration(200)
+                .duration(400)
                 .save();
 
         GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("wither_rose_fertilizer"))
@@ -347,7 +348,7 @@ interface Greenhouse {
                 .inputFluids(GTMaterials.Water.getFluid(1000))
                 .outputItems(new ItemStack(Blocks.WITHER_ROSE.asItem(), 16))
                 .EUt(60)
-                .duration(200)
+                .duration(400)
                 .save();
 
         GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("wheat_seeds"))
@@ -356,7 +357,7 @@ interface Greenhouse {
                 .inputFluids(GTMaterials.Water.getFluid(1000))
                 .outputItems(new ItemStack(Items.WHEAT.asItem(), 16))
                 .EUt(30)
-                .duration(600)
+                .duration(1200)
                 .save();
 
         GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("fern"))
@@ -365,7 +366,7 @@ interface Greenhouse {
                 .inputFluids(GTMaterials.Water.getFluid(1000))
                 .outputItems(new ItemStack(Blocks.FERN.asItem(), 16))
                 .EUt(30)
-                .duration(600)
+                .duration(1200)
                 .save();
 
         GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("cocoa_beans_fertilizer"))
@@ -375,7 +376,7 @@ interface Greenhouse {
                 .inputFluids(GTMaterials.Water.getFluid(1000))
                 .outputItems(new ItemStack(Blocks.COCOA.asItem(), 24))
                 .EUt(60)
-                .duration(200)
+                .duration(400)
                 .save();
 
         GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("sugar_cane"))
@@ -384,7 +385,7 @@ interface Greenhouse {
                 .inputFluids(GTMaterials.Water.getFluid(1000))
                 .outputItems(new ItemStack(Blocks.SUGAR_CANE.asItem(), 12))
                 .EUt(30)
-                .duration(600)
+                .duration(1200)
                 .save();
 
         GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("allium_fertilizer"))
@@ -394,7 +395,7 @@ interface Greenhouse {
                 .inputFluids(GTMaterials.Water.getFluid(1000))
                 .outputItems(new ItemStack(Blocks.ALLIUM.asItem(), 16))
                 .EUt(60)
-                .duration(200)
+                .duration(400)
                 .save();
 
         GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("glow_berries"))
@@ -403,7 +404,7 @@ interface Greenhouse {
                 .inputFluids(GTMaterials.Water.getFluid(1000))
                 .outputItems(new ItemStack(Blocks.CAVE_VINES.asItem(), 8))
                 .EUt(30)
-                .duration(600)
+                .duration(1200)
                 .save();
 
         GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("brown_mushroom_fertilizer"))
@@ -413,7 +414,7 @@ interface Greenhouse {
                 .inputFluids(GTMaterials.Water.getFluid(1000))
                 .outputItems(new ItemStack(Blocks.BROWN_MUSHROOM.asItem(), 24))
                 .EUt(60)
-                .duration(200)
+                .duration(400)
                 .save();
 
         GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("sunflower"))
@@ -422,7 +423,7 @@ interface Greenhouse {
                 .inputFluids(GTMaterials.Water.getFluid(1000))
                 .outputItems(new ItemStack(Blocks.SUNFLOWER.asItem(), 8))
                 .EUt(30)
-                .duration(600)
+                .duration(1200)
                 .save();
 
         GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("brown_mushroom"))
@@ -431,7 +432,7 @@ interface Greenhouse {
                 .inputFluids(GTMaterials.Water.getFluid(1000))
                 .outputItems(new ItemStack(Blocks.BROWN_MUSHROOM.asItem(), 12))
                 .EUt(30)
-                .duration(600)
+                .duration(1200)
                 .save();
 
         GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("azure_bluet_fertilizer"))
@@ -441,7 +442,7 @@ interface Greenhouse {
                 .inputFluids(GTMaterials.Water.getFluid(1000))
                 .outputItems(new ItemStack(Blocks.AZURE_BLUET.asItem(), 16))
                 .EUt(60)
-                .duration(200)
+                .duration(400)
                 .save();
 
         GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("grass"))
@@ -450,7 +451,7 @@ interface Greenhouse {
                 .inputFluids(GTMaterials.Water.getFluid(1000))
                 .outputItems(new ItemStack(Blocks.GRASS.asItem(), 24))
                 .EUt(30)
-                .duration(600)
+                .duration(1200)
                 .save();
 
         GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("peony_fertilizer"))
@@ -460,7 +461,7 @@ interface Greenhouse {
                 .inputFluids(GTMaterials.Water.getFluid(1000))
                 .outputItems(new ItemStack(Blocks.PEONY.asItem(), 16))
                 .EUt(60)
-                .duration(200)
+                .duration(400)
                 .save();
 
         GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("dandelion_fertilizer"))
@@ -470,7 +471,7 @@ interface Greenhouse {
                 .inputFluids(GTMaterials.Water.getFluid(1000))
                 .outputItems(new ItemStack(Blocks.DANDELION.asItem(), 16))
                 .EUt(60)
-                .duration(200)
+                .duration(400)
                 .save();
 
         GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("sunflower_fertilizer"))
@@ -480,7 +481,7 @@ interface Greenhouse {
                 .inputFluids(GTMaterials.Water.getFluid(1000))
                 .outputItems(new ItemStack(Blocks.SUNFLOWER.asItem(), 16))
                 .EUt(60)
-                .duration(200)
+                .duration(400)
                 .save();
 
         GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("oxeye_daisy"))
@@ -489,7 +490,7 @@ interface Greenhouse {
                 .inputFluids(GTMaterials.Water.getFluid(1000))
                 .outputItems(new ItemStack(Blocks.OXEYE_DAISY.asItem(), 8))
                 .EUt(30)
-                .duration(600)
+                .duration(1200)
                 .save();
 
         GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("red_mushroom"))
@@ -498,7 +499,7 @@ interface Greenhouse {
                 .inputFluids(GTMaterials.Water.getFluid(1000))
                 .outputItems(new ItemStack(Blocks.RED_MUSHROOM.asItem(), 12))
                 .EUt(30)
-                .duration(600)
+                .duration(1200)
                 .save();
 
         GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("pumpkin_seeds"))
@@ -507,7 +508,7 @@ interface Greenhouse {
                 .inputFluids(GTMaterials.Water.getFluid(1000))
                 .outputItems(new ItemStack(Blocks.PUMPKIN.asItem(), 6))
                 .EUt(30)
-                .duration(600)
+                .duration(1200)
                 .save();
 
         GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("bamboo"))
@@ -516,7 +517,7 @@ interface Greenhouse {
                 .inputFluids(GTMaterials.Water.getFluid(1000))
                 .outputItems(new ItemStack(Blocks.BAMBOO.asItem(), 16))
                 .EUt(30)
-                .duration(600)
+                .duration(1200)
                 .save();
 
         GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("glow_berries_fertilizer"))
@@ -526,7 +527,7 @@ interface Greenhouse {
                 .inputFluids(GTMaterials.Water.getFluid(1000))
                 .outputItems(new ItemStack(Blocks.CAVE_VINES.asItem(), 16))
                 .EUt(60)
-                .duration(200)
+                .duration(400)
                 .save();
 
         GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("tall_grass_fertilizer"))
@@ -536,7 +537,7 @@ interface Greenhouse {
                 .inputFluids(GTMaterials.Water.getFluid(1000))
                 .outputItems(new ItemStack(Blocks.TALL_GRASS.asItem(), 24))
                 .EUt(60)
-                .duration(200)
+                .duration(400)
                 .save();
 
         GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("lilac_fertilizer"))
@@ -546,7 +547,7 @@ interface Greenhouse {
                 .inputFluids(GTMaterials.Water.getFluid(1000))
                 .outputItems(new ItemStack(Blocks.LILAC.asItem(), 16))
                 .EUt(60)
-                .duration(200)
+                .duration(400)
                 .save();
 
         GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("grass_fertilizer"))
@@ -556,7 +557,7 @@ interface Greenhouse {
                 .inputFluids(GTMaterials.Water.getFluid(1000))
                 .outputItems(new ItemStack(Blocks.GRASS.asItem(), 48))
                 .EUt(60)
-                .duration(200)
+                .duration(400)
                 .save();
 
         GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("peony"))
@@ -565,7 +566,7 @@ interface Greenhouse {
                 .inputFluids(GTMaterials.Water.getFluid(1000))
                 .outputItems(new ItemStack(Blocks.PEONY.asItem(), 8))
                 .EUt(30)
-                .duration(600)
+                .duration(1200)
                 .save();
 
         GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("kelp"))
@@ -574,7 +575,7 @@ interface Greenhouse {
                 .inputFluids(GTMaterials.Water.getFluid(1000))
                 .outputItems(new ItemStack(Blocks.KELP.asItem(), 12))
                 .EUt(30)
-                .duration(600)
+                .duration(1200)
                 .save();
 
         GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("melon_seeds"))
@@ -583,7 +584,7 @@ interface Greenhouse {
                 .inputFluids(GTMaterials.Water.getFluid(1000))
                 .outputItems(new ItemStack(Blocks.MELON.asItem(), 6))
                 .EUt(30)
-                .duration(600)
+                .duration(1200)
                 .save();
 
         GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("potato"))
@@ -592,7 +593,7 @@ interface Greenhouse {
                 .inputFluids(GTMaterials.Water.getFluid(1000))
                 .outputItems(new ItemStack(Blocks.POTATOES.asItem(), 12))
                 .EUt(30)
-                .duration(600)
+                .duration(1200)
                 .save();
 
         GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("allium"))
@@ -601,7 +602,7 @@ interface Greenhouse {
                 .inputFluids(GTMaterials.Water.getFluid(1000))
                 .outputItems(new ItemStack(Blocks.ALLIUM.asItem(), 8))
                 .EUt(30)
-                .duration(600)
+                .duration(1200)
                 .save();
 
         GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("pink_tulip_fertilizer"))
@@ -611,7 +612,7 @@ interface Greenhouse {
                 .inputFluids(GTMaterials.Water.getFluid(1000))
                 .outputItems(new ItemStack(Blocks.PINK_TULIP.asItem(), 16))
                 .EUt(60)
-                .duration(200)
+                .duration(400)
                 .save();
 
         GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("rose_bush"))
@@ -620,7 +621,7 @@ interface Greenhouse {
                 .inputFluids(GTMaterials.Water.getFluid(1000))
                 .outputItems(new ItemStack(Blocks.ROSE_BUSH.asItem(), 8))
                 .EUt(30)
-                .duration(600)
+                .duration(1200)
                 .save();
 
         GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("vine"))
@@ -629,7 +630,7 @@ interface Greenhouse {
                 .inputFluids(GTMaterials.Water.getFluid(1000))
                 .outputItems(new ItemStack(Blocks.VINE.asItem(), 16))
                 .EUt(30)
-                .duration(600)
+                .duration(1200)
                 .save();
 
         GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("pink_tulip"))
@@ -638,7 +639,7 @@ interface Greenhouse {
                 .inputFluids(GTMaterials.Water.getFluid(1000))
                 .outputItems(new ItemStack(Blocks.PINK_TULIP.asItem(), 8))
                 .EUt(30)
-                .duration(600)
+                .duration(1200)
                 .save();
 
         GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("torchflower_fertilizer"))
@@ -648,7 +649,7 @@ interface Greenhouse {
                 .inputFluids(GTMaterials.Water.getFluid(1000))
                 .outputItems(new ItemStack(Blocks.TORCHFLOWER.asItem(), 16))
                 .EUt(60)
-                .duration(200)
+                .duration(400)
                 .save();
 
         GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("sea_pickle_fertilizer"))
@@ -658,7 +659,7 @@ interface Greenhouse {
                 .inputFluids(GTMaterials.Water.getFluid(1000))
                 .outputItems(new ItemStack(Blocks.SEA_PICKLE.asItem(), 32))
                 .EUt(60)
-                .duration(200)
+                .duration(400)
                 .save();
 
         GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("beetroot_seeds"))
@@ -667,7 +668,7 @@ interface Greenhouse {
                 .inputFluids(GTMaterials.Water.getFluid(1000))
                 .outputItems(new ItemStack(Items.BEETROOT.asItem(), 16))
                 .EUt(30)
-                .duration(600)
+                .duration(1200)
                 .save();
 
         GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("poppy_fertilizer"))
@@ -677,7 +678,7 @@ interface Greenhouse {
                 .inputFluids(GTMaterials.Water.getFluid(1000))
                 .outputItems(new ItemStack(Blocks.POPPY.asItem(), 16))
                 .EUt(60)
-                .duration(200)
+                .duration(400)
                 .save();
 
         GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("pitcher_plant_fertilizer"))
@@ -687,7 +688,7 @@ interface Greenhouse {
                 .inputFluids(GTMaterials.Water.getFluid(1000))
                 .outputItems(new ItemStack(Blocks.PITCHER_PLANT.asItem(), 16))
                 .EUt(60)
-                .duration(200)
+                .duration(400)
                 .save();
 
         GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("large_fern"))
@@ -696,7 +697,7 @@ interface Greenhouse {
                 .inputFluids(GTMaterials.Water.getFluid(1000))
                 .outputItems(new ItemStack(Blocks.LARGE_FERN.asItem(), 8))
                 .EUt(30)
-                .duration(600)
+                .duration(1200)
                 .save();
 
         GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("white_tulip_fertilizer"))
@@ -706,7 +707,7 @@ interface Greenhouse {
                 .inputFluids(GTMaterials.Water.getFluid(1000))
                 .outputItems(new ItemStack(Blocks.WHITE_TULIP.asItem(), 16))
                 .EUt(60)
-                .duration(200)
+                .duration(400)
                 .save();
 
         GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("bamboo_fertilizer"))
@@ -716,7 +717,7 @@ interface Greenhouse {
                 .inputFluids(GTMaterials.Water.getFluid(1000))
                 .outputItems(new ItemStack(Blocks.BAMBOO.asItem(), 32))
                 .EUt(60)
-                .duration(200)
+                .duration(400)
                 .save();
 
         GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("spore_blossom"))
@@ -725,7 +726,7 @@ interface Greenhouse {
                 .inputFluids(GTMaterials.Water.getFluid(1000))
                 .outputItems(new ItemStack(Blocks.SPORE_BLOSSOM.asItem(), 8))
                 .EUt(30)
-                .duration(600)
+                .duration(1200)
                 .save();
 
         GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("cocoa_beans"))
@@ -734,7 +735,7 @@ interface Greenhouse {
                 .inputFluids(GTMaterials.Water.getFluid(1000))
                 .outputItems(new ItemStack(Blocks.COCOA.asItem(), 12))
                 .EUt(30)
-                .duration(600)
+                .duration(1200)
                 .save();
 
         GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("large_fern_fertilizer"))
@@ -744,7 +745,7 @@ interface Greenhouse {
                 .inputFluids(GTMaterials.Water.getFluid(1000))
                 .outputItems(new ItemStack(Blocks.LARGE_FERN.asItem(), 16))
                 .EUt(60)
-                .duration(200)
+                .duration(400)
                 .save();
 
         GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("vine_fertilizer"))
@@ -754,7 +755,7 @@ interface Greenhouse {
                 .inputFluids(GTMaterials.Water.getFluid(1000))
                 .outputItems(new ItemStack(Blocks.VINE.asItem(), 32))
                 .EUt(60)
-                .duration(200)
+                .duration(400)
                 .save();
 
         GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("nether_wart"))
@@ -763,7 +764,7 @@ interface Greenhouse {
                 .inputFluids(GTMaterials.Water.getFluid(1000))
                 .outputItems(new ItemStack(Blocks.NETHER_WART.asItem(), 12))
                 .EUt(30)
-                .duration(600)
+                .duration(1200)
                 .save();
 
         GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("fern_fertilizer"))
@@ -773,7 +774,7 @@ interface Greenhouse {
                 .inputFluids(GTMaterials.Water.getFluid(1000))
                 .outputItems(new ItemStack(Blocks.FERN.asItem(), 32))
                 .EUt(60)
-                .duration(200)
+                .duration(400)
                 .save();
 
         GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("cactus"))
@@ -782,7 +783,7 @@ interface Greenhouse {
                 .inputFluids(GTMaterials.Water.getFluid(1000))
                 .outputItems(new ItemStack(Blocks.CACTUS.asItem(), 12))
                 .EUt(30)
-                .duration(600)
+                .duration(1200)
                 .save();
 
         GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("lily_of_the_valley_fertilizer"))
@@ -792,7 +793,7 @@ interface Greenhouse {
                 .inputFluids(GTMaterials.Water.getFluid(1000))
                 .outputItems(new ItemStack(Blocks.LILY_OF_THE_VALLEY.asItem(), 16))
                 .EUt(60)
-                .duration(200)
+                .duration(400)
                 .save();
 
         GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("melon_seeds_fertilizer"))
@@ -802,7 +803,7 @@ interface Greenhouse {
                 .inputFluids(GTMaterials.Water.getFluid(1000))
                 .outputItems(new ItemStack(Blocks.MELON.asItem(), 12))
                 .EUt(60)
-                .duration(200)
+                .duration(400)
                 .save();
 
         GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id("red_tulip_fertilizer"))
@@ -812,7 +813,7 @@ interface Greenhouse {
                 .inputFluids(GTMaterials.Water.getFluid(1000))
                 .outputItems(new ItemStack(Blocks.RED_TULIP.asItem(), 16))
                 .EUt(60)
-                .duration(200)
+                .duration(400)
                 .save();
 
         add("minecraft", "crimson_fungus", null, 8);
@@ -864,23 +865,33 @@ interface Greenhouse {
     private static void add(String mod, String output, @Nullable String input, int count) {
         ItemStack stack1 = new ItemStack(RegistriesUtils.getItem(mod, output), count);
         ItemStack stack2 = input == null ? stack1.copyWithCount(1) : new ItemStack(RegistriesUtils.getItem(mod, input));
-        GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id(output))
+        GTORecipeBuilder builder = GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id(output))
                 .notConsumable(stack2)
                 .circuitMeta(1)
                 .inputFluids(GTMaterials.Water.getFluid(1000))
                 .outputItems(stack1)
-                .EUt(30)
-                .duration(600)
-                .save();
+                .duration(1200);
 
-        GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id(output + "_fertilizer"))
+        if (mod.equals("botania")) {
+            builder.MANAt(4);
+        } else {
+            builder.EUt(30);
+        }
+        builder.save();
+
+        builder = GREENHOUSE_RECIPES.recipeBuilder(GTOCore.id(output + "_fertilizer"))
                 .notConsumable(stack2)
                 .inputItems(GTItems.FERTILIZER.asStack(4))
                 .circuitMeta(2)
                 .inputFluids(GTMaterials.Water.getFluid(1000))
                 .outputItems(stack1.copyWithCount(count << 1))
-                .EUt(60)
-                .duration(200)
-                .save();
+                .duration(400);
+
+        if (mod.equals("botania")) {
+            builder.MANAt(8);
+        } else {
+            builder.EUt(60);
+        }
+        builder.save();
     }
 }

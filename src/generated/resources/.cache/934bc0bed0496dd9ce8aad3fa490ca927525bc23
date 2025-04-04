@@ -1,4 +1,4 @@
-// 1.20.1	2025-04-03T21:53:46.664065	Registrate Provider for gtocore [Recipes, Advancements, Loot Tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), generic_server_provider, Blockstates, Item models, Lang (en_us/en_ud), generic_client_provider, Lang (zh_cn), Lang (zh_tw)]
+// 1.20.1	2025-04-04T13:53:18.838007	Registrate Provider for gtocore [Recipes, Advancements, Loot Tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), generic_server_provider, Blockstates, Item models, Lang (en_us/en_ud), generic_client_provider, Lang (zh_cn), Lang (zh_tw)]
 561aa328ea8d03b161a0fff5267cad7f4a498bf2 assets/gtocore/blockstates/abs_black_casing.json
 637d4a4579c884976f720f142d9f4c2ce75d4764 assets/gtocore/blockstates/abs_blue_casing.json
 18659fe31222d417da78cd793daf37bc60dcaa78 assets/gtocore/blockstates/abs_brown_casing.json
@@ -257,10 +257,10 @@ fb0fc404a249f3aebd2ecffe35847ee0ba853db7 assets/gtocore/blockstates/uruium_coil_
 d28e1e74c60c6cb86b399220325a3a254bd616b8 assets/gtocore/blockstates/uxv_wireless_energy_unit.json
 8b64a23b9c57ba34df14d48842420d898246dd4f assets/gtocore/blockstates/zirconia_ceramic_high_strength_bending_resistance_mechanical_block.json
 54c6bf3885f977c5f032b6e310a7c114e0150432 assets/gtocore/blockstates/zpm_wireless_energy_unit.json
-78492c3836e94b029832b6d251d0296feab82206 assets/gtocore/lang/en_ud.json
-ba04c9a1b47f4993f6ffc2449b96d680f570dd1c assets/gtocore/lang/en_us.json
-e85b26532fb799d8468e89ffc60a7a53e98f26fd assets/gtocore/lang/zh_cn.json
-a4ca5e99a80bafe68a46f61c0be3e67e6f642f88 assets/gtocore/lang/zh_tw.json
+7775879d172acd8af9d82a4ed649bb503e384f90 assets/gtocore/lang/en_ud.json
+df96b6edbd2944ce4c67e4ba8e606b46ce05bfd1 assets/gtocore/lang/en_us.json
+57422974e19285dfac5d2c25928793c6e96f2c73 assets/gtocore/lang/zh_cn.json
+3bd16ff72ec7de613246ff8a24247018eac4072c assets/gtocore/lang/zh_tw.json
 a3e5be219240789ffe6fbb05d051292c0d928df5 assets/gtocore/models/block/abs_black_casing.json
 de571bbc8b5c50ea45312b4efa8ae7346d311b5a assets/gtocore/models/block/abs_blue_casing.json
 f3597b8d3a9bb06573c4f0bf5e9b90d22cb2fd82 assets/gtocore/models/block/abs_brown_casing.json

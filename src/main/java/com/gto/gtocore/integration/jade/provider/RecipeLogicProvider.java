@@ -1,8 +1,7 @@
 package com.gto.gtocore.integration.jade.provider;
 
 import com.gto.gtocore.api.machine.feature.IInfinityEnergyMachine;
-import com.gto.gtocore.api.machine.mana.feature.IManaMachine;
-import com.gto.gtocore.api.machine.mana.feature.IManaMultiblock;
+import com.gto.gtocore.api.machine.mana.feature.IManaEnergyMachine;
 import com.gto.gtocore.utils.GTOUtils;
 
 import com.gregtechceu.gtceu.GTCEu;
@@ -53,6 +52,7 @@ public final class RecipeLogicProvider extends CapabilityBlockProvider<RecipeLog
         if (recipe != null) {
             var EUt = RecipeHelper.getInputEUt(recipe);
             var isInput = true;
+            var isMana = false;
             if (EUt == 0) {
                 isInput = false;
                 EUt = RecipeHelper.getOutputEUt(recipe);
@@ -60,6 +60,7 @@ public final class RecipeLogicProvider extends CapabilityBlockProvider<RecipeLog
             if (EUt == 0) {
                 EUt = GTOUtils.getInputMANAt(recipe);
                 isInput = true;
+                isMana = true;
             }
             if (EUt == 0) {
                 EUt = GTOUtils.getOutputMANAt(recipe);
@@ -68,6 +69,7 @@ public final class RecipeLogicProvider extends CapabilityBlockProvider<RecipeLog
             if (EUt == 0) return;
             recipeInfo.putLong("EUt", EUt);
             recipeInfo.putBoolean("isInput", isInput);
+            recipeInfo.putBoolean("isMana", isMana);
         }
         data.put("Recipe", recipeInfo);
     }
@@ -79,8 +81,8 @@ public final class RecipeLogicProvider extends CapabilityBlockProvider<RecipeLog
             if (!recipeInfo.isEmpty()) {
                 var EUt = recipeInfo.getLong("EUt");
                 var isInput = recipeInfo.getBoolean("isInput");
+                var isMana = recipeInfo.getBoolean("isMana");
                 boolean isSteam = false;
-                boolean isMana = false;
                 if (blockEntity instanceof MetaMachineBlockEntity mbe) {
                     var machine = mbe.getMetaMachine();
                     if (machine instanceof IInfinityEnergyMachine) {
@@ -91,7 +93,7 @@ public final class RecipeLogicProvider extends CapabilityBlockProvider<RecipeLog
                     } else if (machine instanceof SteamParallelMultiblockMachine smb) {
                         EUt = (long) (EUt * smb.getConversionRate());
                         isSteam = true;
-                    } else if (machine instanceof IManaMachine || machine instanceof IManaMultiblock) {
+                    } else if (machine instanceof IManaEnergyMachine) {
                         isMana = true;
                     }
                 }

@@ -52,9 +52,9 @@ public interface IManaMachine extends ManaCollector, IMachineFeature {
     @Override
     default void receiveMana(int mana) {
         if (mana > 0) {
-            getManaContainer().addMana(mana, 1);
+            getManaContainer().addMana(mana, 1, false);
         } else if (mana < 0) {
-            getManaContainer().removeMana(-mana, 1);
+            getManaContainer().removeMana(-mana, 1, false);
         }
     }
 }

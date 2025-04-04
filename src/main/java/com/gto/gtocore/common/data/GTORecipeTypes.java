@@ -295,6 +295,7 @@ public interface GTORecipeTypes {
 
     GTORecipeType GREENHOUSE_RECIPES = register("greenhouse", "温室培育", MULTIBLOCK)
             .setEUIO(IO.IN)
+            .setMANAIO(IO.IN)
             .setMaxIOSize(3, 1, 1, 0)
             .setProgressBar(GuiTextures.PROGRESS_BAR_BATH, LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.COOLING);
@@ -914,6 +915,12 @@ public interface GTORecipeTypes {
             .setMaxIOSize(2, 1, 0, 0)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.REPLICATOR);
+
+    GTORecipeType INDUSTRIAL_ALTAR_RECIPES = register("industrial_altar", "工业祭坛", MAGIC)
+            .setMANAIO(IO.IN)
+            .setMaxIOSize(12, 1, 3, 0)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
+            .setSound(GTSoundEntries.ARC);
 
     //////////////////////////////////////
     // ********** Joint **********//

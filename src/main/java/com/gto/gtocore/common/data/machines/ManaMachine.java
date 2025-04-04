@@ -7,6 +7,7 @@ import com.gto.gtocore.api.machine.part.GTOPartAbility;
 import com.gto.gtocore.common.data.GTORecipeTypes;
 import com.gto.gtocore.common.machine.mana.AlchemyCauldron;
 import com.gto.gtocore.common.machine.mana.ManaHeaterMachine;
+import com.gto.gtocore.common.machine.mana.part.ManaAmplifierPartMachine;
 import com.gto.gtocore.common.machine.mana.part.ManaExtractHatchPartMachine;
 import com.gto.gtocore.common.machine.mana.part.ManaHatchPartMachine;
 
@@ -66,6 +67,14 @@ public interface ManaMachine {
                     .renderer(() -> new OverlayTieredMachineRenderer(tier, GTCEu.id("block/machine/part/" + "energy_hatch.output_64a")))
                     .register(),
             GTMachineUtils.ELECTRIC_TIERS);
+
+    MachineDefinition MANA_AMPLIFIER_HATCH = manaMachine("mana_amplifier_hatch", "魔力增幅仓", ManaAmplifierPartMachine::new)
+            .tier(MV)
+            .allRotation()
+            .tooltipsText("If mana equivalent to the machine's maximum power is input prior to operation, the current recipe will switch to perfect overclocking.", "如果运行前输入了等同机器最大功率的魔力，则将本次配方改为无损超频")
+            .tooltipsText("Otherwise, the machine will not execute the recipe.", "否则，机器不执行配方")
+            .workableTieredHullRenderer(GTOCore.id("block/multiblock/mana"))
+            .register();
 
     MachineDefinition ALCHEMY_CAULDRON = manaMachine("alchemy_cauldron", "炼金锅", AlchemyCauldron::new)
             .tier(LV)

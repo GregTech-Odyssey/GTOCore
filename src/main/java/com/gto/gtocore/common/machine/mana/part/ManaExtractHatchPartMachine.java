@@ -29,7 +29,7 @@ public final class ManaExtractHatchPartMachine extends ManaHatchPartMachine {
         if (getOffsetTimer() % 20 != 0 || isFull()) return;
         ManaReceiver receiver = XplatAbstractions.INSTANCE.findManaReceiver(getLevel(), getPos().relative(getFrontFacing()), null);
         if (receiver instanceof ManaPool || receiver instanceof IManaMachine) {
-            int change = GTMath.saturatedCast(getManaContainer().addMana(receiver.getCurrentMana(), 20));
+            int change = GTMath.saturatedCast(getManaContainer().addMana(receiver.getCurrentMana(), 20, false));
             if (change <= 0) return;
             receiver.receiveMana(-change);
         }
