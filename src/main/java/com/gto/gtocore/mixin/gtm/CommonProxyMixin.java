@@ -12,6 +12,7 @@ import com.gregtechceu.gtceu.api.recipe.ingredient.IntCircuitIngredient;
 import com.gregtechceu.gtceu.api.recipe.ingredient.IntProviderIngredient;
 import com.gregtechceu.gtceu.api.recipe.ingredient.SizedIngredient;
 import com.gregtechceu.gtceu.common.CommonProxy;
+import com.gregtechceu.gtceu.common.data.GTRecipes;
 import com.gregtechceu.gtceu.data.loot.DungeonLootLoader;
 import com.gregtechceu.gtceu.data.pack.GTDynamicDataPack;
 import com.gregtechceu.gtceu.data.pack.GTPackSource;
@@ -48,6 +49,8 @@ public class CommonProxyMixin {
             DungeonLootLoader.init();
             DungeonLoot.init();
         }
+        GTRecipes.recipeRemoval();
+        GTRecipes.recipeAddition(GTDynamicDataPack::addRecipe);
         event.addRepositorySource(new GTPackSource("gtceu:dynamic_data", event.getPackType(), Pack.Position.BOTTOM, GTDynamicDataPack::new));
         ci.cancel();
     }

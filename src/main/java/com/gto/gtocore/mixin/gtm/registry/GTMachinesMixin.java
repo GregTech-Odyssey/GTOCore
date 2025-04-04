@@ -5,11 +5,15 @@ import com.gto.gtocore.common.data.GTOCreativeModeTabs;
 import com.gto.gtocore.common.data.GTOMachines;
 import com.gto.gtocore.common.data.machines.*;
 
+import com.gregtechceu.gtceu.api.GTCEuAPI;
+import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.registry.GTRegistries;
 import com.gregtechceu.gtceu.common.data.GTMachines;
 import com.gregtechceu.gtceu.common.data.machines.GTAEMachines;
 import com.gregtechceu.gtceu.common.data.machines.GTMultiMachines;
 import com.gregtechceu.gtceu.common.data.machines.GTResearchMachines;
+
+import net.minecraftforge.fml.ModLoader;
 
 import com.hepdd.gtmthings.data.CreativeMachines;
 import com.hepdd.gtmthings.data.CreativeModeTabs;
@@ -51,6 +55,7 @@ public final class GTMachinesMixin {
         MultiBlockE.init();
         MultiBlockF.init();
         MultiBlockG.init();
+        ModLoader.get().postEvent(new GTCEuAPI.RegisterEvent<>(GTRegistries.MACHINES, MachineDefinition.class));
         GTRegistries.MACHINES.freeze();
     }
 }
