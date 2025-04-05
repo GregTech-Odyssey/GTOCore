@@ -1,4 +1,4 @@
-package com.gto.gtocore.api.machine.feature.multiblock;
+package com.gto.gtocore.api.machine.feature;
 
 public interface IOverclockConfigMachine {
 

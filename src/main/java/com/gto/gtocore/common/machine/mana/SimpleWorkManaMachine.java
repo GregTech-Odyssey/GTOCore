@@ -1,7 +1,7 @@
 package com.gto.gtocore.common.machine.mana;
 
 import com.gto.gtocore.api.gui.OverclockConfigurator;
-import com.gto.gtocore.api.machine.feature.multiblock.IOverclockConfigMachine;
+import com.gto.gtocore.api.machine.feature.IOverclockConfigMachine;
 import com.gto.gtocore.api.machine.mana.feature.IManaEnergyMachine;
 import com.gto.gtocore.api.machine.trait.IEnhancedRecipeLogic;
 import com.gto.gtocore.common.data.GTORecipeModifiers;

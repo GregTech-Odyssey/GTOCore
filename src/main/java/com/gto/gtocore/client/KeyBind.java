@@ -34,7 +34,7 @@ final class KeyBind {
         @Override
         public void setDown(boolean isDown) {
             super.setDown(isDown);
-            if (isDownOld != isDown && isDown) {
+            if (isDownOld != isDown && isDown && ClientUtil.getPlayer() != null) {
                 ClientMessage.sendData(String.valueOf(type), null);
             }
             isDownOld = isDown;

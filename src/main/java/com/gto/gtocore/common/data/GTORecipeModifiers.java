@@ -1,8 +1,8 @@
 package com.gto.gtocore.common.data;
 
 import com.gto.gtocore.api.capability.recipe.ManaRecipeCapability;
+import com.gto.gtocore.api.machine.feature.IOverclockConfigMachine;
 import com.gto.gtocore.api.machine.feature.multiblock.ICoilMachine;
-import com.gto.gtocore.api.machine.feature.multiblock.IOverclockConfigMachine;
 import com.gto.gtocore.api.machine.trait.IEnhancedRecipeLogic;
 import com.gto.gtocore.api.recipe.IGTRecipe;
 import com.gto.gtocore.api.recipe.RecipeRunner;

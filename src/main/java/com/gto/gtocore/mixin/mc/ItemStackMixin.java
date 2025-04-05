@@ -35,7 +35,7 @@ public abstract class ItemStackMixin extends CapabilityProvider<ItemStack> {
     @Inject(method = "save", at = @At("HEAD"), cancellable = true)
     private void save(CompoundTag compoundTag, CallbackInfoReturnable<CompoundTag> cir) {
         compoundTag.putString("id", ItemUtils.getId(getItem()));
-        compoundTag.putByte("Count", (byte) this.count);
+        compoundTag.putByte("Count", (byte) Math.min(64, this.count));
         if (this.tag != null) {
             compoundTag.put("tag", this.tag.copy());
         }

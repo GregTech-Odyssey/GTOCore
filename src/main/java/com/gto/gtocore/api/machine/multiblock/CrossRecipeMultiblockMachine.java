@@ -3,8 +3,8 @@ package com.gto.gtocore.api.machine.multiblock;
 import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.api.gui.GTOGuiTextures;
 import com.gto.gtocore.api.gui.ParallelConfigurator;
+import com.gto.gtocore.api.machine.feature.IOverclockConfigMachine;
 import com.gto.gtocore.api.machine.feature.multiblock.IMEOutputMachine;
-import com.gto.gtocore.api.machine.feature.multiblock.IOverclockConfigMachine;
 import com.gto.gtocore.api.machine.feature.multiblock.IParallelMachine;
 import com.gto.gtocore.api.machine.trait.CustomParallelTrait;
 import com.gto.gtocore.api.machine.trait.CustomRecipeLogic;
@@ -147,7 +147,7 @@ public class CrossRecipeMultiblockMachine extends ElectricMultiblockMachine impl
         }
         long maxEUt = getOverclockVoltage();
         double d = (double) totalEu / maxEUt;
-        int limit = gTOCore$getOCLimit();
+        int limit = Math.max(5, gTOCore$getOCLimit());
         return GTORecipeBuilder.ofRaw().EUt(d >= limit ? maxEUt : (long) (maxEUt * d / limit)).duration((int) Math.max(d, limit)).buildRawRecipe();
     }
 

@@ -443,9 +443,7 @@ public class MEPatternBufferPartMachine extends MEBusPartMachine implements ICra
         var items = new Object2LongOpenCustomHashMap<>(ItemStackHashStrategy.comparingAllButCount());
         var fluids = new Object2LongOpenHashMap<FluidStack>();
         for (InternalSlot slot : internalInventory) {
-            synchronized (slot.itemInventory) {
-                slot.itemInventory.object2LongEntrySet().fastForEach(e -> items.addTo(e.getKey(), e.getLongValue()));
-            }
+            slot.itemInventory.object2LongEntrySet().fastForEach(e -> items.addTo(e.getKey(), e.getLongValue()));
             slot.fluidInventory.object2LongEntrySet().fastForEach(e -> fluids.addTo(e.getKey(), e.getLongValue()));
         }
         return new BufferData(items, fluids);
@@ -457,7 +455,9 @@ public class MEPatternBufferPartMachine extends MEBusPartMachine implements ICra
         @Setter
         private Runnable onContentsChanged = () -> {};
 
+        @Getter
         private final Object2LongOpenCustomHashMap<ItemStack> itemInventory = new Object2LongOpenCustomHashMap<>(ItemStackHashStrategy.comparingAllButCount());
+        @Getter
         private final Object2LongOpenHashMap<FluidStack> fluidInventory = new Object2LongOpenHashMap<>();
         private List<ItemStack> itemStacks = null;
         private List<FluidStack> fluidStacks = null;
@@ -466,24 +466,12 @@ public class MEPatternBufferPartMachine extends MEBusPartMachine implements ICra
             return isItemEmpty() && isFluidEmpty();
         }
 
-        public Object2LongOpenCustomHashMap<ItemStack> getItemInventory() {
-            synchronized (itemInventory) {
-                return itemInventory;
-            }
-        }
-
-        public Object2LongOpenHashMap<FluidStack> getFluidInventory() {
-            synchronized (fluidInventory) {
-                return fluidInventory;
-            }
-        }
-
         public boolean isItemEmpty() {
-            return getItemInventory().isEmpty();
+            return itemInventory.isEmpty();
         }
 
         public boolean isFluidEmpty() {
-            return getFluidInventory().isEmpty();
+            return fluidInventory.isEmpty();
         }
 
         private void onContentsChanged() {
@@ -692,22 +680,18 @@ public class MEPatternBufferPartMachine extends MEBusPartMachine implements ICra
             CompoundTag tag = new CompoundTag();
 
             ListTag itemsTag = new ListTag();
-            synchronized (itemInventory) {
-                for (var entry : itemInventory.object2LongEntrySet()) {
-                    var ct = entry.getKey().serializeNBT();
-                    ct.putLong("real", entry.getLongValue());
-                    itemsTag.add(ct);
-                }
+            for (var entry : itemInventory.object2LongEntrySet()) {
+                var ct = entry.getKey().serializeNBT();
+                ct.putLong("real", entry.getLongValue());
+                itemsTag.add(ct);
             }
             if (!itemsTag.isEmpty()) tag.put("inventory", itemsTag);
 
             ListTag fluidsTag = new ListTag();
-            synchronized (fluidInventory) {
-                for (var entry : fluidInventory.object2LongEntrySet()) {
-                    var ct = entry.getKey().writeToNBT(new CompoundTag());
-                    ct.putLong("real", entry.getLongValue());
-                    fluidsTag.add(ct);
-                }
+            for (var entry : fluidInventory.object2LongEntrySet()) {
+                var ct = entry.getKey().writeToNBT(new CompoundTag());
+                ct.putLong("real", entry.getLongValue());
+                fluidsTag.add(ct);
             }
             if (!fluidsTag.isEmpty()) tag.put("fluidInventory", fluidsTag);
 
