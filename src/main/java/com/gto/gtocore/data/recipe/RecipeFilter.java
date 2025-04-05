@@ -569,6 +569,7 @@ public interface RecipeFilter {
         filters.add(RLUtils.eio("alloy_smelting/vibrant_alloy_ingot"));
         filters.add(RLUtils.eio("alloy_smelting/dark_steel_ingot"));
         filters.add(RLUtils.eio("alloy_smelting/end_steel_ingot"));
+        filters.add(RLUtils.eio("sag_milling/ender_pearl"));
 
         filters.add(RLUtils.sp("backpack"));
         filters.add(RLUtils.sp("pickup_upgrade"));

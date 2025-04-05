@@ -1,5 +1,6 @@
 package com.gto.gtocore.mixin.gtm.api.machine;
 
+import com.gto.gtocore.api.fluid.StrictFluidStack;
 import com.gto.gtocore.api.machine.feature.multiblock.IEnhancedMultiblockMachine;
 import com.gto.gtocore.api.machine.feature.multiblock.IMEOutputMachine;
 import com.gto.gtocore.api.machine.trait.IEnhancedRecipeLogic;
@@ -21,14 +22,21 @@ import com.gregtechceu.gtceu.api.recipe.ActionResult;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.recipe.content.Content;
+import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
 import com.gregtechceu.gtceu.api.sound.SoundEntry;
 
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.fluids.FluidStack;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
+import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
+import it.unimi.dsi.fastutil.objects.Object2LongOpenCustomHashMap;
+import it.unimi.dsi.fastutil.objects.Object2LongOpenHashMap;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
@@ -40,6 +48,36 @@ import java.util.Map;
 
 @Mixin(value = RecipeLogic.class, remap = false)
 public abstract class RecipeLogicMixin extends MachineTrait implements IEnhancedRecipeLogic {
+
+    @Unique
+    private Object2LongOpenCustomHashMap<ItemStack> gtocore$parallelItemMap;
+
+    @Unique
+    private Object2LongOpenCustomHashMap<ItemStack> gtocore$itemMap;
+
+    @Unique
+    private Object2LongOpenHashMap<ItemStack> gtocore$itemIngredientStacks;
+
+    @Unique
+    private Object2IntOpenHashMap<Ingredient> gtocore$itemNotConsumableMap;
+
+    @Unique
+    private Object2IntOpenHashMap<Ingredient> gtocore$itemConsumableMap;
+
+    @Unique
+    private Object2LongOpenHashMap<FluidStack> gtocore$parallelFluidMap;
+
+    @Unique
+    private Object2LongOpenHashMap<StrictFluidStack> gtocore$fluidIngredientStacks;
+
+    @Unique
+    private Object2LongOpenHashMap<FluidStack> gtocore$fluidMap;
+
+    @Unique
+    private Object2IntOpenHashMap<FluidIngredient> gtocore$fluidNotConsumableMap;
+
+    @Unique
+    private Object2IntOpenHashMap<FluidIngredient> gtocore$fluidConsumableMap;
 
     @Unique
     private int gtocore$lastParallel;
@@ -96,9 +134,6 @@ public abstract class RecipeLogicMixin extends MachineTrait implements IEnhanced
 
     @Shadow
     public abstract RecipeLogic.Status getStatus();
-
-    @Shadow
-    private RecipeLogic.Status status;
 
     @Shadow
     public abstract boolean isSuspend();
@@ -170,6 +205,118 @@ public abstract class RecipeLogicMixin extends MachineTrait implements IEnhanced
             return true;
         }
         return false;
+    }
+
+    @Override
+    public Object2LongOpenCustomHashMap<ItemStack> gtocore$getParallelItemMap() {
+        if (gtocore$parallelItemMap == null) {
+            gtocore$parallelItemMap = IEnhancedRecipeLogic.super.gtocore$getParallelItemMap();
+        } else {
+            gtocore$parallelItemMap.clear();
+        }
+        return gtocore$parallelItemMap;
+    }
+
+    @Override
+    public Object2LongOpenCustomHashMap<ItemStack> gtocore$getItemMap() {
+        if (gtocore$itemMap == null) {
+            gtocore$itemMap = IEnhancedRecipeLogic.super.gtocore$getItemMap();
+        } else {
+            gtocore$itemMap.clear();
+        }
+        return gtocore$itemMap;
+    }
+
+    @Override
+    public Object2LongOpenHashMap<ItemStack> gtocore$getItemIngredientStacks() {
+        if (gtocore$itemIngredientStacks == null) {
+            gtocore$itemIngredientStacks = IEnhancedRecipeLogic.super.gtocore$getItemIngredientStacks();
+        } else {
+            gtocore$itemIngredientStacks.clear();
+        }
+        return gtocore$itemIngredientStacks;
+    }
+
+    @Override
+    public Object2IntOpenHashMap<Ingredient> gtocore$getItemNotConsumableMap() {
+        if (gtocore$itemNotConsumableMap == null) {
+            gtocore$itemNotConsumableMap = IEnhancedRecipeLogic.super.gtocore$getItemNotConsumableMap();
+        } else {
+            gtocore$itemNotConsumableMap.clear();
+        }
+        return gtocore$itemNotConsumableMap;
+    }
+
+    @Override
+    public Object2IntOpenHashMap<Ingredient> gtocore$getItemConsumableMap() {
+        if (gtocore$itemConsumableMap == null) {
+            gtocore$itemConsumableMap = IEnhancedRecipeLogic.super.gtocore$getItemConsumableMap();
+        } else {
+            gtocore$itemConsumableMap.clear();
+        }
+        return gtocore$itemConsumableMap;
+    }
+
+    @Override
+    public Object2LongOpenHashMap<FluidStack> gtocore$getParallelFluidMap() {
+        if (gtocore$parallelFluidMap == null) {
+            gtocore$parallelFluidMap = IEnhancedRecipeLogic.super.gtocore$getParallelFluidMap();
+        } else {
+            gtocore$parallelFluidMap.clear();
+        }
+        return gtocore$parallelFluidMap;
+    }
+
+    @Override
+    public Object2LongOpenHashMap<FluidStack> gtocore$getFluidMap() {
+        if (gtocore$fluidMap == null) {
+            gtocore$fluidMap = IEnhancedRecipeLogic.super.gtocore$getFluidMap();
+        } else {
+            gtocore$fluidMap.clear();
+        }
+        return gtocore$fluidMap;
+    }
+
+    @Override
+    public Object2LongOpenHashMap<StrictFluidStack> gtocore$getFluidIngredientStacks() {
+        if (gtocore$fluidIngredientStacks == null) {
+            gtocore$fluidIngredientStacks = IEnhancedRecipeLogic.super.gtocore$getFluidIngredientStacks();
+        } else {
+            gtocore$fluidIngredientStacks.clear();
+        }
+        return gtocore$fluidIngredientStacks;
+    }
+
+    @Override
+    public Object2IntOpenHashMap<FluidIngredient> gtocore$getFluidNotConsumableMap() {
+        if (gtocore$fluidNotConsumableMap == null) {
+            gtocore$fluidNotConsumableMap = IEnhancedRecipeLogic.super.gtocore$getFluidNotConsumableMap();
+        } else {
+            gtocore$fluidNotConsumableMap.clear();
+        }
+        return gtocore$fluidNotConsumableMap;
+    }
+
+    @Override
+    public Object2IntOpenHashMap<FluidIngredient> gtocore$getFluidConsumableMap() {
+        if (gtocore$fluidConsumableMap == null) {
+            gtocore$fluidConsumableMap = IEnhancedRecipeLogic.super.gtocore$getFluidConsumableMap();
+        } else {
+            gtocore$fluidConsumableMap.clear();
+        }
+        return gtocore$fluidConsumableMap;
+    }
+
+    @Override
+    public void gtocore$cleanParallelMap() {
+        if (gtocore$parallelItemMap != null) gtocore$parallelItemMap.clear();
+        if (gtocore$itemIngredientStacks != null) gtocore$itemIngredientStacks.clear();
+        if (gtocore$itemNotConsumableMap != null) gtocore$itemNotConsumableMap.clear();
+        if (gtocore$itemConsumableMap != null) gtocore$itemConsumableMap.clear();
+        if (gtocore$parallelFluidMap != null) gtocore$parallelFluidMap.clear();
+        if (gtocore$fluidIngredientStacks != null) gtocore$fluidIngredientStacks.clear();
+        if (gtocore$fluidNotConsumableMap != null) gtocore$fluidNotConsumableMap.clear();
+        if (gtocore$fluidConsumableMap != null) gtocore$fluidConsumableMap.clear();
     }
 
     @Override

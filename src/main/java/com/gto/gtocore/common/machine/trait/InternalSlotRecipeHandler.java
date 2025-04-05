@@ -1,5 +1,6 @@
 package com.gto.gtocore.common.machine.trait;
 
+import com.gto.gtocore.api.machine.trait.IPatternBufferRecipeHandler;
 import com.gto.gtocore.common.machine.multiblock.part.ae.MEPatternBufferPartMachine;
 
 import com.gregtechceu.gtceu.api.capability.recipe.*;
@@ -12,6 +13,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraftforge.fluids.FluidStack;
 
+import it.unimi.dsi.fastutil.objects.Object2LongOpenCustomHashMap;
+import it.unimi.dsi.fastutil.objects.Object2LongOpenHashMap;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
@@ -55,7 +58,7 @@ public final class InternalSlotRecipeHandler {
     }
 
     @Getter
-    private static class SlotItemRecipeHandler extends NotifiableRecipeHandlerTrait<Ingredient> {
+    private static class SlotItemRecipeHandler extends NotifiableRecipeHandlerTrait<Ingredient> implements IPatternBufferRecipeHandler {
 
         private final MEPatternBufferPartMachine.InternalSlot slot;
         private final int priority;
@@ -107,10 +110,20 @@ public final class InternalSlotRecipeHandler {
         public IO getHandlerIO() {
             return IO.IN;
         }
+
+        @Override
+        public Object2LongOpenCustomHashMap<ItemStack> getItemMap() {
+            return slot.getItemInventory();
+        }
+
+        @Override
+        public Object2LongOpenHashMap<FluidStack> getFluidMap() {
+            return slot.getFluidInventory();
+        }
     }
 
     @Getter
-    private static class SlotFluidRecipeHandler extends NotifiableRecipeHandlerTrait<FluidIngredient> {
+    private static class SlotFluidRecipeHandler extends NotifiableRecipeHandlerTrait<FluidIngredient> implements IPatternBufferRecipeHandler {
 
         private final MEPatternBufferPartMachine.InternalSlot slot;
         private final int priority;
@@ -161,6 +174,16 @@ public final class InternalSlotRecipeHandler {
         @Override
         public IO getHandlerIO() {
             return IO.IN;
+        }
+
+        @Override
+        public Object2LongOpenCustomHashMap<ItemStack> getItemMap() {
+            return slot.getItemInventory();
+        }
+
+        @Override
+        public Object2LongOpenHashMap<FluidStack> getFluidMap() {
+            return slot.getFluidInventory();
         }
     }
 }

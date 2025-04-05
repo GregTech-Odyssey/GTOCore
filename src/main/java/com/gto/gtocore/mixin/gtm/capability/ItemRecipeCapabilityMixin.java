@@ -1,15 +1,19 @@
 package com.gto.gtocore.mixin.gtm.capability;
 
 import com.gto.gtocore.api.data.tag.GTOTagPrefix;
+import com.gto.gtocore.api.machine.trait.IEnhancedRecipeLogic;
+import com.gto.gtocore.api.machine.trait.IPatternBufferRecipeHandler;
 import com.gto.gtocore.api.recipe.FastSizedIngredient;
 import com.gto.gtocore.utils.ItemUtils;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.capability.recipe.IRecipeCapabilityHolder;
+import com.gregtechceu.gtceu.api.capability.recipe.IRecipeHandler;
 import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
 import com.gregtechceu.gtceu.api.gui.widget.SlotWidget;
 import com.gregtechceu.gtceu.api.item.TagPrefixItem;
+import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.content.Content;
 import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
@@ -36,9 +40,8 @@ import net.minecraftforge.common.crafting.StrictNBTIngredient;
 
 import com.llamalad7.mixinextras.sugar.Local;
 import com.lowdragmc.lowdraglib.jei.IngredientIO;
-import it.unimi.dsi.fastutil.objects.Object2IntMap;
-import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import it.unimi.dsi.fastutil.objects.*;
+import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
@@ -49,11 +52,9 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 import java.util.Collection;
 import java.util.List;
 
+@Slf4j
 @Mixin(ItemRecipeCapability.class)
 public abstract class ItemRecipeCapabilityMixin {
-
-    @Shadow(remap = false)
-    protected abstract Object2IntMap<ItemStack> getIngredientStacks(IRecipeCapabilityHolder holder);
 
     @Shadow(remap = false)
     @Nullable
@@ -240,75 +241,107 @@ public abstract class ItemRecipeCapabilityMixin {
      */
     @Overwrite(remap = false)
     public int getMaxParallelRatio(IRecipeCapabilityHolder holder, GTRecipe recipe, int parallelAmount) {
-        Object2IntMap<ItemStack> ingredientStacks = getIngredientStacks(holder);
+        if (holder instanceof IRecipeLogicMachine machine && machine.getRecipeLogic() instanceof IEnhancedRecipeLogic recipeLogic) {
 
-        int minMultiplier = Integer.MAX_VALUE;
-        Object2IntOpenHashMap<Ingredient> notConsumableMap = new Object2IntOpenHashMap<>();
-        Object2IntOpenHashMap<Ingredient> countableMap = new Object2IntOpenHashMap<>();
-        for (Content content : recipe.getInputContents(ItemRecipeCapability.CAP)) {
-            Ingredient recipeIngredient = ItemRecipeCapability.CAP.of(content.content);
-            int ingredientCount;
-            if (recipeIngredient instanceof FastSizedIngredient sizedIngredient) {
-                ingredientCount = sizedIngredient.getAmount();
-            } else if (recipeIngredient instanceof IntProviderIngredient intProviderIngredient) {
-                ingredientCount = intProviderIngredient.getSampledCount(GTValues.RNG);
-            } else {
-                ingredientCount = 1;
-            }
-            if (content.chance == 0) {
-                notConsumableMap.computeIfPresent(recipeIngredient, (k, v) -> v + ingredientCount);
-                notConsumableMap.putIfAbsent(recipeIngredient, ingredientCount);
-            } else {
-                countableMap.computeIfPresent(recipeIngredient, (k, v) -> v + ingredientCount);
-                countableMap.putIfAbsent(recipeIngredient, ingredientCount);
-            }
-        }
+            Object2LongOpenCustomHashMap<ItemStack> map = recipeLogic.gtocore$getParallelItemMap();
+            Object2LongOpenHashMap<ItemStack> ingredientStacks = recipeLogic.gtocore$getItemIngredientStacks();
 
-        for (Object2IntMap.Entry<Ingredient> recipeInputEntry : notConsumableMap.object2IntEntrySet()) {
-            int needed = recipeInputEntry.getIntValue();
-            int available = 0;
-            for (Object2IntMap.Entry<ItemStack> inventoryEntry : ingredientStacks.object2IntEntrySet()) {
-                if (recipeInputEntry.getKey().test(inventoryEntry.getKey())) {
-                    available = inventoryEntry.getIntValue();
-                    if (available > needed) {
-                        inventoryEntry.setValue(available - needed);
-                        needed -= available;
-                        break;
-                    } else {
-                        inventoryEntry.setValue(0);
-                        recipeInputEntry.setValue(needed - available);
-                        needed -= available;
+            var recipeHandlerList = holder.getCapabilitiesFlat(IO.IN, ItemRecipeCapability.CAP);
+
+            for (IRecipeHandler<?> container : recipeHandlerList) {
+                boolean patternBuffer = container instanceof IPatternBufferRecipeHandler;
+                Object2LongOpenCustomHashMap<ItemStack> itemMap;
+                if (patternBuffer) {
+                    itemMap = ((IPatternBufferRecipeHandler) container).getItemMap();
+                } else {
+                    itemMap = recipeLogic.gtocore$getItemMap();
+                    for (Object object : container.getContents()) {
+                        if (object instanceof ItemStack itemStack) {
+                            itemMap.computeLong(itemStack, (k, v) -> v == null ? itemStack.getCount() : v + itemStack.getCount());
+                        }
                     }
                 }
-            }
-            if (needed >= available) {
-                return 0;
-            }
-        }
 
-        if (countableMap.isEmpty() && !notConsumableMap.isEmpty()) {
-            return parallelAmount;
-        }
+                if (container.isDistinct()) {
+                    ingredientStacks.putAll(itemMap);
+                } else {
+                    for (Object2LongMap.Entry<ItemStack> obj : itemMap.object2LongEntrySet()) {
+                        map.computeLong(obj.getKey(), (k, v) -> v == null ? obj.getLongValue() : v + obj.getLongValue());
+                    }
+                }
+                if (!patternBuffer) itemMap.clear();
+            }
+            ingredientStacks.putAll(map);
 
-        for (Object2IntMap.Entry<Ingredient> recipeInputEntry : countableMap.object2IntEntrySet()) {
-            int needed = recipeInputEntry.getIntValue();
-            int available = 0;
-            for (Object2IntMap.Entry<ItemStack> inventoryEntry : ingredientStacks.object2IntEntrySet()) {
-                if (recipeInputEntry.getKey().test(inventoryEntry.getKey())) {
-                    available += inventoryEntry.getIntValue();
-                    break;
+            long minMultiplier = Integer.MAX_VALUE - 1;
+            Object2IntOpenHashMap<Ingredient> notConsumableMap = recipeLogic.gtocore$getItemNotConsumableMap();
+            Object2IntOpenHashMap<Ingredient> countableMap = recipeLogic.gtocore$getItemConsumableMap();
+            for (Content content : recipe.getInputContents(ItemRecipeCapability.CAP)) {
+                Ingredient recipeIngredient = ItemRecipeCapability.CAP.of(content.content);
+                int ingredientCount;
+                if (recipeIngredient instanceof FastSizedIngredient sizedIngredient) {
+                    ingredientCount = sizedIngredient.getAmount();
+                } else if (recipeIngredient instanceof IntProviderIngredient intProviderIngredient) {
+                    ingredientCount = intProviderIngredient.getSampledCount(GTValues.RNG);
+                } else {
+                    ingredientCount = 1;
+                }
+                if (content.chance == 0) {
+                    notConsumableMap.computeIfPresent(recipeIngredient, (k, v) -> v + ingredientCount);
+                    notConsumableMap.putIfAbsent(recipeIngredient, ingredientCount);
+                } else {
+                    countableMap.computeIfPresent(recipeIngredient, (k, v) -> v + ingredientCount);
+                    countableMap.putIfAbsent(recipeIngredient, ingredientCount);
                 }
             }
-            if (available >= needed) {
-                int ratio = Math.min(parallelAmount, available / needed);
-                if (ratio < minMultiplier) {
-                    minMultiplier = ratio;
+
+            for (Object2IntMap.Entry<Ingredient> recipeInputEntry : notConsumableMap.object2IntEntrySet()) {
+                long needed = recipeInputEntry.getIntValue();
+                long available = 0;
+                for (Object2LongMap.Entry<ItemStack> inventoryEntry : ingredientStacks.object2LongEntrySet()) {
+                    if (recipeInputEntry.getKey().test(inventoryEntry.getKey())) {
+                        available = inventoryEntry.getLongValue();
+                        if (available > needed) {
+                            inventoryEntry.setValue(available - needed);
+                            needed -= available;
+                            break;
+                        } else {
+                            inventoryEntry.setValue(0);
+                            recipeInputEntry.setValue((int) (needed - available));
+                            needed -= available;
+                        }
+                    }
                 }
-            } else {
-                return 0;
+                if (needed >= available) {
+                    return 0;
+                }
             }
+
+            if (countableMap.isEmpty() && !notConsumableMap.isEmpty()) {
+                return parallelAmount;
+            }
+
+            for (Object2IntMap.Entry<Ingredient> recipeInputEntry : countableMap.object2IntEntrySet()) {
+                long needed = recipeInputEntry.getIntValue();
+                long available = 0;
+                for (Object2LongMap.Entry<ItemStack> inventoryEntry : ingredientStacks.object2LongEntrySet()) {
+                    if (recipeInputEntry.getKey().test(inventoryEntry.getKey())) {
+                        available += inventoryEntry.getLongValue();
+                        break;
+                    }
+                }
+                if (available >= needed) {
+                    long ratio = Math.min(parallelAmount, available / needed);
+                    if (ratio < minMultiplier) {
+                        minMultiplier = ratio;
+                    }
+                } else {
+                    return 0;
+                }
+            }
+            return (int) minMultiplier;
         }
-        return minMultiplier;
+        return 1;
     }
 
     /**

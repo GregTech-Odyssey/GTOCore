@@ -199,7 +199,7 @@ public final class GeneratorArrayMachine extends StorageMultiblockMachine implem
             long EUt = RecipeHelper.getOutputEUt(recipe);
             if (EUt > 0) {
                 recipe.outputs.clear();
-                int maxParallel = (int) (2 * GTValues.V[getOverclockTier()] * a * getAmperage(getTier()) / EUt);
+                int maxParallel = (int) (GTValues.V[getOverclockTier()] * a * getAmperage(getTier()) / EUt);
                 int multipliers = 0;
                 for (RecipeCapability<?> cap : recipe.inputs.keySet()) {
                     if (cap instanceof FluidRecipeCapability fluidRecipeCapability) {

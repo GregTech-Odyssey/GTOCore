@@ -71,7 +71,7 @@ public final class FastSizedIngredient extends Ingredient {
             }
             return FastSizedIngredient.create(innerIngredient, fastSizedIngredient.amount);
         } else if (ingredient instanceof IntCircuitIngredient circuit) {
-            return circuit.copy();
+            return circuit;
         } else if (ingredient instanceof IntProviderIngredient) {
             return SizedIngredient.copy(ingredient);
         }
@@ -105,11 +105,13 @@ public final class FastSizedIngredient extends Ingredient {
             return intProviderIngredient.getItems();
         }
         if (itemStacks == null) {
-            itemStacks = Arrays.stream(inner.getItems()).map(i -> {
+            List<ItemStack> itemList = new ArrayList<>(inner.getItems().length);
+            for (ItemStack i : inner.getItems()) {
                 ItemStack ic = i.copy();
                 ic.setCount(amount);
-                return ic;
-            }).toArray(ItemStack[]::new);
+                itemList.add(ic);
+            }
+            itemStacks = itemList.toArray(new ItemStack[0]);
         }
         return itemStacks;
     }

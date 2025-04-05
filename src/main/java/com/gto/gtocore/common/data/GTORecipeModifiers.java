@@ -186,15 +186,17 @@ public interface GTORecipeModifiers {
     }
 
     static GTRecipe accurateParallel(MetaMachine machine, GTRecipe recipe, int maxParallel) {
-        if (maxParallel > 1 && machine instanceof IRecipeLogicMachine holder) {
-            if (holder.getRecipeLogic() instanceof IEnhancedRecipeLogic logic && logic.gtocore$getlastParallel() == maxParallel) {
+        if (maxParallel > 1 && machine instanceof IRecipeLogicMachine holder && holder.getRecipeLogic() instanceof IEnhancedRecipeLogic logic) {
+            if (logic.gtocore$getlastParallel() == maxParallel) {
                 GTRecipe copied = recipe.copy(ContentModifier.multiplier(maxParallel), false);
                 if (RecipeRunner.matchRecipe(holder, copied)) {
                     copied.parallels = maxParallel;
                     return copied;
                 }
             }
-            return matchParallel(holder, recipe, ParallelLogic.getParallelAmount(machine, recipe, maxParallel));
+            maxParallel = ParallelLogic.getParallelAmount(machine, recipe, maxParallel);
+            logic.gtocore$cleanParallelMap();
+            return matchParallel(holder, recipe, maxParallel);
         }
         return recipe;
     }

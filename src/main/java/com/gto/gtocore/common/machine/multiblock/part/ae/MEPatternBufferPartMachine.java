@@ -466,12 +466,24 @@ public class MEPatternBufferPartMachine extends MEBusPartMachine implements ICra
             return isItemEmpty() && isFluidEmpty();
         }
 
+        public Object2LongOpenCustomHashMap<ItemStack> getItemInventory() {
+            synchronized (itemInventory) {
+                return itemInventory;
+            }
+        }
+
+        public Object2LongOpenHashMap<FluidStack> getFluidInventory() {
+            synchronized (fluidInventory) {
+                return fluidInventory;
+            }
+        }
+
         public boolean isItemEmpty() {
-            return itemInventory.isEmpty();
+            return getItemInventory().isEmpty();
         }
 
         public boolean isFluidEmpty() {
-            return fluidInventory.isEmpty();
+            return getFluidInventory().isEmpty();
         }
 
         private void onContentsChanged() {
@@ -486,12 +498,12 @@ public class MEPatternBufferPartMachine extends MEBusPartMachine implements ICra
                 var stack = itemKey.toStack();
                 if (predicate.test(stack)) return;
                 synchronized (itemInventory) {
-                    itemInventory.addTo(stack, amount);
+                    itemInventory.computeLong(stack, (k, v) -> v == null ? amount : v + amount);
                 }
             } else if (what instanceof AEFluidKey fluidKey) {
                 var stack = fluidKey.toStack(1);
                 synchronized (fluidInventory) {
-                    fluidInventory.addTo(stack, amount);
+                    fluidInventory.computeLong(stack, (k, v) -> v == null ? amount : v + amount);
                 }
             }
         }

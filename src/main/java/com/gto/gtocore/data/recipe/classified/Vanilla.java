@@ -916,5 +916,10 @@ interface Vanilla {
                 "CDC",
                 "AEA",
                 'A', new MaterialEntry(TagPrefix.plate, GTOMaterials.Elementium), 'B', GTItems.ROBOT_ARM_EV.asStack(), 'C', CustomTags.EV_CIRCUITS, 'D', GTMachines.HULL[GTValues.EV].asStack(), 'E', GTItems.FIELD_GENERATOR_EV.asStack());
+        VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("gas_compressor"), MultiBlockG.GAS_COMPRESSOR.asStack(),
+                "ABA",
+                "CDC",
+                "ABA",
+                'A', new MaterialEntry(TagPrefix.pipeHugeFluid, GTMaterials.Steel), 'B', new MaterialEntry(TagPrefix.plateDense, GTMaterials.Steel), 'C', GTItems.FLUID_REGULATOR_LV.asStack(), 'D', GTMachines.COMPRESSOR[GTValues.LV].asStack());
     }
 }
