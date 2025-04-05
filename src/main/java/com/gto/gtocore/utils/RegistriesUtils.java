@@ -2,7 +2,7 @@ package com.gto.gtocore.utils;
 
 import com.gto.gtocore.GTOCore;
 
-import com.gregtechceu.gtceu.utils.SupplierMemoizer;
+import com.gregtechceu.gtceu.utils.memoization.GTMemoizer;
 
 import net.minecraft.nbt.TagParser;
 import net.minecraft.resources.ResourceLocation;
@@ -52,7 +52,7 @@ public final class RegistriesUtils {
     }
 
     public static Supplier<? extends Block> getSupplierBlock(String s) {
-        return SupplierMemoizer.memoize(() -> getBlock(s));
+        return GTMemoizer.memoize(() -> getBlock(s));
     }
 
     public static Block getBlock(String s) {

@@ -2,6 +2,7 @@ package com.gto.gtocore.mixin.gtm.recipe;
 
 import com.gto.gtocore.data.CraftingComponents;
 
+import com.gregtechceu.gtceu.data.recipe.CraftingComponent;
 import com.gregtechceu.gtceu.data.recipe.GTCraftingComponents;
 
 import org.spongepowered.asm.mixin.Mixin;
@@ -12,8 +13,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(GTCraftingComponents.class)
 public class CraftingComponentMixin {
 
-    @Inject(method = "initializeComponents()V", at = @At(value = "TAIL"), remap = false)
+    @Inject(method = "init", at = @At(value = "TAIL"), remap = false)
     private static void initializeAddition(CallbackInfo ci) {
         CraftingComponents.init();
+        CraftingComponent.ALL_COMPONENTS.clear();
     }
 }

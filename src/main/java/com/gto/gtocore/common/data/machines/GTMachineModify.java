@@ -15,7 +15,7 @@ import com.gregtechceu.gtceu.common.data.GTMachines;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.common.data.machines.GTMachineUtils;
 import com.gregtechceu.gtceu.common.data.machines.GTMultiMachines;
-import com.gregtechceu.gtceu.utils.SupplierMemoizer;
+import com.gregtechceu.gtceu.utils.memoization.GTMemoizer;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -47,7 +47,7 @@ public interface GTMachineModify {
         GTMultiMachines.DISTILLATION_TOWER.setRecipeModifier(GTORecipeModifiers.OVERCLOCKING);
         GTMultiMachines.VACUUM_FREEZER.setRecipeModifier(GTORecipeModifiers.OVERCLOCKING);
         GTMultiMachines.ASSEMBLY_LINE.setRecipeModifier(GTORecipeModifiers.OVERCLOCKING);
-        GTMultiMachines.PRIMITIVE_BLAST_FURNACE.setPatternFactory(SupplierMemoizer.memoize(() -> FactoryBlockPattern.start()
+        GTMultiMachines.PRIMITIVE_BLAST_FURNACE.setPatternFactory(GTMemoizer.memoize(() -> FactoryBlockPattern.start()
                 .aisle("XXX", "XXX", "XXX", "XXX")
                 .aisle("XXX", "X#X", "X#X", "X#X")
                 .aisle("XXX", "XYX", "XXX", "XXX")
@@ -56,7 +56,7 @@ public interface GTMachineModify {
                 .where('Y', controller(blocks(PRIMITIVE_BLAST_FURNACE.getBlock())))
                 .build()));
 
-        GTMultiMachines.LARGE_BOILER_BRONZE.setPatternFactory(SupplierMemoizer.memoize(() -> FactoryBlockPattern.start()
+        GTMultiMachines.LARGE_BOILER_BRONZE.setPatternFactory(GTMemoizer.memoize(() -> FactoryBlockPattern.start()
                 .aisle("XXX", "CCC", "CCC", "CCC")
                 .aisle("XXX", "CPC", "CPC", "CCC")
                 .aisle("XXX", "CSC", "CCC", "CCC")

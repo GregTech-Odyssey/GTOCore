@@ -28,6 +28,7 @@ import com.gregtechceu.gtceu.api.registry.GTRegistries;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.data.pack.GTDynamicDataPack;
+import com.gregtechceu.gtceu.data.recipe.GTCraftingComponents;
 import com.gregtechceu.gtceu.data.recipe.MaterialInfoLoader;
 import com.gregtechceu.gtceu.data.recipe.configurable.RecipeAddition;
 import com.gregtechceu.gtceu.data.recipe.misc.*;
@@ -58,6 +59,7 @@ public interface Data {
 
         ItemMaterialData.reinitializeMaterialData();
         MaterialInfoLoader.init();
+        GTCraftingComponents.init();
         GTORecipeBuilder.initialization();
         RecipeFilter.init();
         Consumer<FinishedRecipe> consumer = GTDynamicDataPack::addRecipe;

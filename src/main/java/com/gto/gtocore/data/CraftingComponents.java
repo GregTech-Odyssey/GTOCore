@@ -245,14 +245,14 @@ public final class CraftingComponents {
                 .add(13, new MaterialEntry(TagPrefix.wireGtOctal, GTOMaterials.CrystalMatrix))
                 .add(14, new MaterialEntry(TagPrefix.wireGtHex, GTOMaterials.CrystalMatrix));
 
-        STICK_DISTILLATION.add(9, new MaterialEntry(TagPrefix.spring, GTMaterials.Europium))
+        ROD_DISTILLATION.add(9, new MaterialEntry(TagPrefix.spring, GTMaterials.Europium))
                 .add(10, new MaterialEntry(TagPrefix.spring, GTOMaterials.Mithril))
                 .add(11, new MaterialEntry(TagPrefix.spring, GTMaterials.Neutronium))
                 .add(12, new MaterialEntry(TagPrefix.spring, GTOMaterials.Taranium))
                 .add(13, new MaterialEntry(TagPrefix.spring, GTOMaterials.CrystalMatrix))
                 .add(14, new MaterialEntry(TagPrefix.spring, GTOMaterials.CosmicNeutronium));
 
-        STICK_ELECTROMAGNETIC.add(5, new MaterialEntry(TagPrefix.rod, GTMaterials.VanadiumGallium))
+        ROD_ELECTROMAGNETIC.add(5, new MaterialEntry(TagPrefix.rod, GTMaterials.VanadiumGallium))
                 .add(6, new MaterialEntry(TagPrefix.rod, GTMaterials.VanadiumGallium))
                 .add(7, new MaterialEntry(TagPrefix.rod, GTMaterials.NiobiumTitanium))
                 .add(8, new MaterialEntry(TagPrefix.rod, GTMaterials.NiobiumTitanium))
