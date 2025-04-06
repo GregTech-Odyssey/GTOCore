@@ -1,0 +1,7 @@
+{
+  "parent": "gtceu:block/cube_2_layer/all",
+  "textures": {
+    "bot_all": "gtocore:block/advanced_compressed_fusion_coil",
+    "top_all": "gtocore:block/fusion_coil_bloom"
+  }
+}

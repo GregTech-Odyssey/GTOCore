@@ -1,0 +1,58 @@
+{
+  "has_precipitation": true,
+  "temperature": 0.5,
+  "downfall": 0.2,
+  "effects": {
+    "foliage_color": -162,
+    "grass_color": -162,
+    "sky_color": -43,
+    "fog_color": -43,
+    "water_color": -10027060,
+    "water_fog_color": -3342388
+  },
+  "spawners": {
+    "monster": [],
+    "creature": [],
+    "ambient": [],
+    "axolotls": [],
+    "underground_water_creature": [],
+    "water_creature": [],
+    "water_ambient": [],
+    "misc": []
+  },
+  "spawn_costs": {},
+  "carvers": {},
+  "features": [
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [
+      "gtocore:ancient_world_biome_tree",
+      "minecraft:forest_flowers",
+      "minecraft:patch_grass_taiga_2",
+      "minecraft:brown_mushroom_taiga",
+      "minecraft:red_mushroom_taiga",
+      "minecraft:patch_grass_forest",
+      "minecraft:bamboo_light",
+      "minecraft:trees_savanna",
+      "minecraft:patch_grass_jungle",
+      "minecraft:lush_caves_ceiling_vegetation",
+      "minecraft:cave_vines",
+      "minecraft:lush_caves_clay",
+      "minecraft:lush_caves_vegetation",
+      "minecraft:rooted_azalea_tree",
+      "minecraft:spore_blossom",
+      "minecraft:classic_vines_cave_feature",
+      "minecraft:seagrass_simple"
+    ],
+    [
+      "minecraft:freeze_top_layer"
+    ]
+  ]
+}

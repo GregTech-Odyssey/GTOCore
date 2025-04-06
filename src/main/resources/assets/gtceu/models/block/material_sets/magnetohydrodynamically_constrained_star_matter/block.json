@@ -1,0 +1,6 @@
+{
+  "parent": "gtceu:block/cube/tinted/all_0",
+  "textures": {
+    "all": "gtocore:block/fluids/fluid.magnetohydrodynamically_constrained_star_matter"
+  }
+}

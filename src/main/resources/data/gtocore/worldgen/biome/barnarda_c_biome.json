@@ -1,0 +1,55 @@
+{
+  "has_precipitation": true,
+  "temperature": 0.4,
+  "downfall": 0.4,
+  "effects": {
+    "foliage_color": -3407617,
+    "grass_color": -10092340,
+    "sky_color": -6724096,
+    "fog_color": -6724096,
+    "water_color": -3342388,
+    "water_fog_color": -52
+  },
+  "spawners": {
+    "monster": [],
+    "creature": [],
+    "ambient": [],
+    "axolotls": [],
+    "underground_water_creature": [],
+    "water_creature": [
+      {
+        "type": "glow_squid",
+        "weight": 1,
+        "minCount": 1,
+        "maxCount": 2
+      }
+    ],
+    "water_ambient": [],
+    "misc": []
+  },
+  "spawn_costs": {},
+  "carvers": {},
+  "features": [
+    [],
+    [],
+    [
+      "minecraft:large_dripstone"
+    ],
+    [
+      "minecraft:fossil_upper",
+      "minecraft:fossil_lower"
+    ],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [
+      "gtocore:barnarda_c_biome_tree",
+      "minecraft:patch_dead_bush_2"
+    ],
+    [
+      "minecraft:freeze_top_layer"
+    ]
+  ]
+}

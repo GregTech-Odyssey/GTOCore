@@ -1,0 +1,9 @@
+{
+  "parent": "gtceu:block/cube_2_layer/all",
+  "textures": {
+    "bot_all": "gtocore:block/casings/about_computer/phase_change_biocomputer_cooling_vents_active",
+    "top_all": "gtocore:block/casings/about_computer/phase_change_biocomputer_cooling_vents_active_emissive",
+    "top_up": "gtocore:block/casings/about_computer/biocomputer_shell_active",
+    "top_own": "gtocore:block/casings/about_computer/biocomputer_shell_active"
+  }
+}

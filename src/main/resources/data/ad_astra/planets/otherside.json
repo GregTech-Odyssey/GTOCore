@@ -1,0 +1,10 @@
+{
+  "dimension": "deeperdarker:otherside",
+  "gravity": 10,
+  "orbit": "ad_astra:earth_orbit",
+  "oxygen": false,
+  "solar_power": 1,
+  "solar_system": "ad_astra:solar_system",
+  "temperature": 100,
+  "tier": 100
+}

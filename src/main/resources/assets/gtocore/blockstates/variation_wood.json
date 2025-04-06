@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "axis=x": {
+      "model": "gtocore:block/variation_wood",
+      "x": 90,
+      "y": 90
+    },
+    "axis=y": {
+      "model": "gtocore:block/variation_wood"
+    },
+    "axis=z": {
+      "model": "gtocore:block/variation_wood",
+      "x": 90
+    }
+  }
+}

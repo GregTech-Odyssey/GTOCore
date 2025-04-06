@@ -1,0 +1,31 @@
+modLoader="javafml"
+loaderVersion = "[47,)"
+license="${mod_license}"
+
+[[mods]]
+modId="${mod_id}"
+version="${version}"
+displayName="${mod_name}"
+authors="${mod_authors}"
+description='''${mod_description}'''
+
+[[dependencies.${mod_id}]]
+modId = "gtceu"
+mandatory = false
+versionRange = "[1,)"
+ordering = "BEFORE"
+side = "BOTH"
+
+[[dependencies.${mod_id}]]
+modId = "ad_astra"
+mandatory = false
+versionRange = "[1,)"
+ordering = "AFTER"
+side = "BOTH"
+
+[[dependencies.${mod_id}]]
+modId = "deeperdarker"
+mandatory = false
+versionRange = "[1,)"
+ordering = "AFTER"
+side = "BOTH"

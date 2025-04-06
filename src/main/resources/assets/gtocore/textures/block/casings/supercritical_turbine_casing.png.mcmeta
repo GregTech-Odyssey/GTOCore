@@ -1,0 +1,5 @@
+{
+    "ldlib": {
+        "connection": "gtocore:block/casings/supercritical_turbine_casing_ctm"
+    }
+}

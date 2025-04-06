@@ -1,0 +1,6 @@
+{
+  "parent": "item/handheld",
+  "textures": {
+    "layer0": "gtocore:item/tools/ev_vajra"
+  }
+}

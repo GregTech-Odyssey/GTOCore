@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "gtocore:block/fluid/gelid_cryotheum"
+    }
+  }
+}

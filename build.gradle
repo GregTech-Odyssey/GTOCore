@@ -1,0 +1,47 @@
+plugins {
+    id 'idea'
+    id 'java-library'
+    id 'maven-publish'
+    alias libs.plugins.modDevGradleLegacy
+    alias libs.plugins.lombok
+    alias libs.plugins.spotless
+}
+
+version = mod_version
+
+java.toolchain.languageVersion = JavaLanguageVersion.of(17)
+
+sourceSets.main.resources { srcDir 'src/generated/resources' }
+
+apply from: "$rootDir/gradle/scripts/moddevgradle.gradle"
+apply from: "$rootDir/gradle/scripts/repositories.gradle"
+apply from: "$rootDir/dependencies.gradle"
+apply from: "$rootDir/gradle/scripts/resources.gradle"
+apply from: "$rootDir/gradle/scripts/jars.gradle"
+apply from: "$rootDir/gradle/scripts/spotless.gradle"
+
+generateModMetadata.doFirst {
+    mkdir('run/server')
+    mkdir('run/data')
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = "UTF-8"
+    options.compilerArgs << "-Xlint:-deprecation" << "-Xlint:-removal" // 忽略删除和过时，真删了报错再说吧
+}
+
+lombok {
+    version = "1.18.36"
+}
+
+jar {
+    exclude "**/.cache"
+    exclude "**/SimplifiedToTraditional.properties"
+}
+
+idea {
+    module {
+        downloadSources = true
+        downloadJavadoc = true
+    }
+}

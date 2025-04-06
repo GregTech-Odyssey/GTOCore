@@ -1,0 +1,5 @@
+{
+    "ldlib": {
+        "connection": "gtocore:block/casings/molecular_casing_ctm"
+    }
+}

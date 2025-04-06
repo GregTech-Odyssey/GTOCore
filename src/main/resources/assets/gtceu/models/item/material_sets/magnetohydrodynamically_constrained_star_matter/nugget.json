@@ -1,0 +1,7 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "gtocore:item/material_sets/magnetohydrodynamically_constrained_star_matter/nugget",
+    "layer1": "gtocore:item/material_sets/magnetohydrodynamically_constrained_star_matter/nugget_overlay"
+  }
+}

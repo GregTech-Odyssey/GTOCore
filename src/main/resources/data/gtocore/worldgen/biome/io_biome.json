@@ -1,0 +1,46 @@
+{
+  "has_precipitation": false,
+  "temperature": 0.2,
+  "downfall": 0,
+  "effects": {
+    "particle": {
+      "options": {
+        "type": "lava"
+      },
+      "probability": 0.005
+    },
+    "foliage_color": -10066330,
+    "grass_color": -10066330,
+    "sky_color": -16777216,
+    "fog_color": -16777216,
+    "water_color": -3355444,
+    "water_fog_color": -1
+  },
+  "spawners": {
+    "monster": [],
+    "creature": [],
+    "ambient": [],
+    "axolotls": [],
+    "underground_water_creature": [],
+    "water_creature": [],
+    "water_ambient": [],
+    "misc": []
+  },
+  "spawn_costs": {},
+  "carvers": {},
+  "features": [
+    [],
+    [],
+    [],
+    [],
+    [
+      "minecraft:desert_well"
+    ],
+    [],
+    [],
+    [],
+    [],
+    [],
+    []
+  ]
+}

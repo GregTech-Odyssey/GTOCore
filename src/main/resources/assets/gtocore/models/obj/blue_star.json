@@ -1,0 +1,9 @@
+{
+  "flip_v": true,
+  "loader": "forge:obj",
+  "model": "gtocore:models/obj/star.obj",
+  "textures": {
+    "texture0": "gtocore:block/obj/blue_star_layer",
+    "particle":"gtocore:block/obj/blue_star_layer"
+  }
+}

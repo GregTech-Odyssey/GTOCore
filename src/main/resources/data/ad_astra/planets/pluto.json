@@ -1,0 +1,10 @@
+{
+  "dimension": "gtocore:pluto",
+  "gravity":  3.724,
+  "orbit": "gtocore:pluto_orbit",
+  "oxygen": false,
+  "solar_power": 7,
+  "solar_system": "ad_astra:solar_system",
+  "temperature": -235,
+  "tier": 6
+}

@@ -168,6 +168,7 @@ public class CrossRecipeMultiblockMachine extends ElectricMultiblockMachine impl
                 if (match == null) {
                     lastMatchRecipe = null;
                 } else {
+                    if (lastParallel != getRealParallel()) lastMatchRecipe = null;
                     return match;
                 }
             }

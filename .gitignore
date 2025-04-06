@@ -8,13 +8,9 @@ classes/
 bin/
 run/
 src/generated/
-src/main/resources/
-src/main/templates/
 spotless/
 libs/
 gradle/
-gradle.properties
-*.gradle
 *.launch
 *.iml
 *.ipr

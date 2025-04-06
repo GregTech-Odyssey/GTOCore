@@ -1,0 +1,8 @@
+{
+    "ldlib": {
+        "connection": "gtocore:block/coil/hypogen_coil_block_ctm"
+    },
+    "animation": {
+        "frametime": 2
+    }
+}

@@ -1,0 +1,5 @@
+{
+    "ldlib": {
+        "connection": "gtocore:block/casings/process_machine_casing_ctm"
+    }
+}

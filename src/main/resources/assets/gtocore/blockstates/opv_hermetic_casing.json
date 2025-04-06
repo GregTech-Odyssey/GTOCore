@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "gtocore:block/opv_hermetic_casing"
+    }
+  }
+}

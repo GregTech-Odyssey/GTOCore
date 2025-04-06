@@ -1,0 +1,20 @@
+{
+  "replace": false,
+  "values": [
+    "gtocore:titan_stone",
+    "gtocore:titan_grunt",
+    "gtocore:pluto_stone",
+    "gtocore:pluto_grunt",
+    "gtocore:io_stone",
+    "gtocore:io_ash",
+    "gtocore:ganymede_stone",
+    "gtocore:ganymede_grunt",
+    "gtocore:enceladus_stone",
+    "minecraft:powder_snow",
+    "gtocore:ceres_stone",
+    "gtocore:ceres_grunt",
+    "minecraft:stone",
+    "minecraft:grass_block",
+    "minecraft:dirt"
+  ]
+}

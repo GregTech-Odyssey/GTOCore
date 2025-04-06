@@ -1,0 +1,8 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "gtocore:item/material_sets/dull/catalyst_overlay",
+    "layer1": "gtceu:block/casings/fusion/fusion_casing_bloom",
+    "layer2": "gtocore:item/catalyst_base"
+  }
+}

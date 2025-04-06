@@ -1,0 +1,5 @@
+{
+    "ldlib": {
+        "connection": "gtocore:block/casings/dimension_connection_casing_ctm"
+    }
+}

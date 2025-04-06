@@ -1,0 +1,9 @@
+{
+  "ldlib": {
+    "connection": "gtocore:block/casings/about_computer/biocomputer_shell_active_ctm"
+  },
+  "animation": {
+    "interpolate": false,
+    "frametime": 10
+  }
+}

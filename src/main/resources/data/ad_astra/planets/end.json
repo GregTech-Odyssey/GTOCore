@@ -1,0 +1,10 @@
+{
+  "dimension": "minecraft:the_end",
+  "gravity": 4.5,
+  "orbit": "ad_astra:earth_orbit",
+  "oxygen": false,
+  "solar_power": 5,
+  "solar_system": "ad_astra:solar_system",
+  "temperature": 0,
+  "tier": 100
+}
