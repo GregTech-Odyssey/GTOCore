@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:item/generated",
-  "textures": {
-    "layer0": "gtocore:item/contained_high_density_protonic_matter"
-  }
-}

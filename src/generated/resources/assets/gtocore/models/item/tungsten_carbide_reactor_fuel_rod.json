@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:item/generated",
-  "textures": {
-    "layer0": "gtocore:item/tungsten_carbide_reactor_fuel_rod"
-  }
-}

@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:item/generated",
-  "textures": {
-    "layer0": "gtocore:item/actinium_superhydride_plasma_containment_cell"
-  }
-}

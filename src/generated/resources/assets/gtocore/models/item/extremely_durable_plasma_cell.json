@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:item/generated",
-  "textures": {
-    "layer0": "gtocore:item/extremely_durable_plasma_cell"
-  }
-}

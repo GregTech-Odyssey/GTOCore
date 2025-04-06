@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:item/generated",
-  "textures": {
-    "layer0": "gtocore:item/periodically_poled_lithium_niobate_boule"
-  }
-}

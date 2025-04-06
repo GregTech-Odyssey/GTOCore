@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:block/cube_all",
-  "textures": {
-    "all": "gtocore:block/mc_nylon_tensile_mechanical_shell"
-  }
-}

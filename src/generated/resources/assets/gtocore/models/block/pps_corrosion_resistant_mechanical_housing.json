@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:block/cube_all",
-  "textures": {
-    "all": "gtocore:block/pps_corrosion_resistant_mechanical_housing"
-  }
-}

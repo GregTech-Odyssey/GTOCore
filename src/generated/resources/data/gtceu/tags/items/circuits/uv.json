@@ -1,9 +1,0 @@
-{
-  "values": [
-    "gtocore:bioware_assembly",
-    "gtocore:optical_processor",
-    "gtocore:suprachronal_circuit_uv",
-    "gtocore:magneto_resonatic_circuit_uv",
-    "gtocore:universal_circuit_uv"
-  ]
-}

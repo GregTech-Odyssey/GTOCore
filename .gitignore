@@ -7,6 +7,12 @@ classes/
 .vscode/
 bin/
 run/
+src/generated/
+spotless/
+libs/
+gradle/
+gradle.properties
+*.gradle
 *.launch
 *.iml
 *.ipr

@@ -1,7 +1,0 @@
-{
-  "variants": {
-    "": {
-      "model": "gtocore:block/containment_field_generator"
-    }
-  }
-}

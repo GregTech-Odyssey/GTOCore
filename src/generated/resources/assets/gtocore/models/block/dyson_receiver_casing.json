@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/cube_bottom_top",
-  "textures": {
-    "bottom": "gtocore:block/casings/dyson_receiver_casing/top",
-    "side": "gtocore:block/casings/dyson_receiver_casing/side",
-    "top": "gtocore:block/casings/dyson_receiver_casing/top"
-  }
-}
