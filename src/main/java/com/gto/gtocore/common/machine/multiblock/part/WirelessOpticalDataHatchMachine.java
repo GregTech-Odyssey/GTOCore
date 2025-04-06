@@ -28,7 +28,6 @@ import com.hepdd.gtmthings.api.capability.IGTMTJadeIF;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import lombok.Getter;
-import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -55,12 +54,10 @@ public final class WirelessOpticalDataHatchMachine extends MultiblockPartMachine
     private final boolean transmitter;
 
     @Getter
-    @Setter
     @Persisted
     private BlockPos transmitterPos;
 
     @Getter
-    @Setter
     @Persisted
     private BlockPos receiverPos;
 
@@ -96,8 +93,9 @@ public final class WirelessOpticalDataHatchMachine extends MultiblockPartMachine
             } else {
                 Level level = getLevel();
                 if (level == null || transmitterPos == null) return false;
-                WirelessOpticalDataHatchMachine machine = (WirelessOpticalDataHatchMachine) getMachine(level, transmitterPos);
-                return machine != null && machine.isRecipeAvailable(recipe, seen);
+                if (getMachine(level, transmitterPos) instanceof WirelessOpticalDataHatchMachine machine) {
+                    return machine.isRecipeAvailable(recipe, seen);
+                }
             }
         }
         return false;
@@ -198,6 +196,44 @@ public final class WirelessOpticalDataHatchMachine extends MultiblockPartMachine
             return InteractionResult.SUCCESS;
         }
         return InteractionResult.PASS;
+    }
+
+    private void setTransmitterPos(BlockPos pos) {
+        if (transmitterPos != null) {
+            var level = getLevel();
+            if (level != null) {
+                if (getMachine(level, transmitterPos) instanceof WirelessOpticalDataHatchMachine machine) {
+                    machine.receiverPos = null;
+                }
+            }
+        }
+        transmitterPos = pos;
+    }
+
+    private void setReceiverPos(BlockPos pos) {
+        if (receiverPos != null) {
+            var level = getLevel();
+            if (level != null) {
+                if (getMachine(level, transmitterPos) instanceof WirelessOpticalDataHatchMachine machine) {
+                    machine.transmitterPos = null;
+                }
+            }
+        }
+        receiverPos = pos;
+    }
+
+    @Override
+    public void removedFromController(IMultiController controller) {
+        if (getLevel() == null) return;
+        if (transmitter && receiverPos != null) {
+            if (getMachine(getLevel(), receiverPos) instanceof WirelessOpticalDataHatchMachine machine) {
+                machine.transmitterPos = null;
+            }
+        } else if (!transmitter && transmitterPos != null) {
+            if (getMachine(getLevel(), transmitterPos) instanceof WirelessOpticalDataHatchMachine machine) {
+                machine.receiverPos = null;
+            }
+        }
     }
 
     @Override
