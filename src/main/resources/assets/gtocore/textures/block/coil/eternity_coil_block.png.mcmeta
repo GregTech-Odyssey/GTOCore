@@ -1,8 +1,0 @@
-{
-    "ldlib": {
-        "connection": "gtocore:block/coil/eternity_coil_block_ctm"
-    },
-    "animation": {
-        "frametime": 3
-    }
-}
