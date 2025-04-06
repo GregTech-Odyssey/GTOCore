@@ -90,6 +90,7 @@ public interface GTMaterialExtend {
         Emerald.addFlags(GTOMaterialFlags.GENERATE_ARTIFICIAL_GEM);
         RhodiumPlatedPalladium.addFlags(DISABLE_ALLOY_PROPERTY);
         YttriumBariumCuprate.addFlags(DISABLE_ALLOY_PROPERTY);
+        IncoloyMA956.addFlags(GENERATE_GEAR);
         Kanthal.getProperty(BLAST).setEUtOverride(GTValues.VA[GTValues.MV]);
         Netherite.setProperty(BLAST, new BlastProperty(1748, BlastProperty.GasTier.MID, 480, 1340, 120, 120));
         Strontium.setProperty(FLUID, new FluidProperty(FluidStorageKeys.LIQUID, new FluidBuilder()));

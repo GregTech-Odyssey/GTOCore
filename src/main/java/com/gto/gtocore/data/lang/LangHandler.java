@@ -133,6 +133,7 @@ public final class LangHandler {
         addENCN(TierCasingTrait.getTierTranslationKey(COMPONENT_ASSEMBLY_CASING_TIER), "Casing Tier: %s", "外壳等级：%s");
         addENCN(TierCasingTrait.getTierTranslationKey(POWER_MODULE_TIER), "Power Module Tier: %s", "动力模块等级：%s");
         addENCN(TierCasingTrait.getTierTranslationKey(STELLAR_CONTAINMENT_TIER), "Stellar Container Tier: %s", "恒星热力容器等级：%s");
+        addENCN(TierCasingTrait.getTierTranslationKey(INTEGRAL_FRAMEWORK_TIER), "Integral Framework Tier: %s", "整体框架等级：%s");
         addENCN("gtocore.recipe.ev_max", "Maximum Neutron Energy: %s MeV", "最大中子动能：%s MeV");
         addENCN("gtocore.recipe.ev_min", "Minimum Neutron Energy: %s MeV", "最小中子动能：%s MeV");
         addENCN("gtocore.recipe.evt", "Energy Consumption per Tick: %s KeV", "每刻中子动能消耗：%s KeV");

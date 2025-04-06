@@ -20,6 +20,8 @@ public interface BlockMap {
 
     Int2ObjectOpenHashMap<Supplier<?>> MACHINECASINGMAP = new Int2ObjectOpenHashMap<>();
 
+    Int2ObjectOpenHashMap<Supplier<?>> INTEGRALFRAMEWORKMAP = new Int2ObjectOpenHashMap<>();
+
     Int2ObjectOpenHashMap<Supplier<?>> GRAVITONFLOWMAP = new Int2ObjectOpenHashMap<>();
 
     Int2ObjectOpenHashMap<Supplier<?>> COMPUTER_CASING_MAP = new Int2ObjectOpenHashMap<>();

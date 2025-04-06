@@ -483,7 +483,22 @@ public final class RecipeEditorBehavior implements IItemUIFactory, IFancyUIProvi
                 } else {
                     recipeType = machine.recipeType.registryName.getPath().toUpperCase() + "_RECIPES";
                 }
-                stringBuilder.append("\n").append(recipeType).append(".builder(\"").append(machine.id).append("\")\n");
+                String id = machine.id;
+                if (id.isEmpty()) {
+                    for (int i = 0; i < machine.exportItems.getSlots(); i++) {
+                        if (!id.isEmpty()) break;
+                        ItemStack stack = machine.exportItems.getStackInSlot(i);
+                        if (stack.isEmpty()) continue;
+                        id = ItemUtils.getIdLocation(stack.getItem()).getPath();
+                    }
+                    for (int i = 0; i < machine.exportFluids.getSize(); i++) {
+                        if (!id.isEmpty()) break;
+                        FluidStack stack = machine.exportFluids.getFluidInTank(i);
+                        if (stack.isEmpty()) continue;
+                        id = FluidUtils.getIdLocation(stack.getFluid()).getPath();
+                    }
+                }
+                stringBuilder.append("\n").append(recipeType).append(".builder(\"").append(id).append("\")\n");
                 for (int i = 0; i < machine.importItems.getSlots(); i++) {
                     ItemStack stack = machine.importItems.getStackInSlot(i);
                     if (stack.isEmpty()) continue;
@@ -528,8 +543,10 @@ public final class RecipeEditorBehavior implements IItemUIFactory, IFancyUIProvi
                 }
                 stringBuilder.append(".save();\n");
             } else {
+                String id = machine.id;
+                if (id.isEmpty()) id = ItemUtils.getIdLocation(machine.exportItems.getStackInSlot(0).getItem()).getPath();
                 stringBuilder.append("\nVanillaRecipeHelper.addShapedRecipe(provider, ");
-                stringBuilder.append("GTOCore.id(\"").append(machine.id).append("\"), ");
+                stringBuilder.append("GTOCore.id(\"").append(id).append("\"), ");
                 stringBuilder.append(StringConverter.fromItem(Ingredient.of(machine.exportItems.getStackInSlot(0)), 0)).append(",\n\"");
                 char c = 'A';
                 Map<Item, Character> map = new LinkedHashMap<>();
@@ -561,11 +578,11 @@ public final class RecipeEditorBehavior implements IItemUIFactory, IFancyUIProvi
         if (ItemMap.UNIVERSAL_CIRCUITS.contains(stack.getItem())) {
             for (int tier : GTMachineUtils.ALL_TIERS) {
                 if (GTOItems.UNIVERSAL_CIRCUIT[tier].is(stack.getItem())) {
-                    return Ingredient.of(CustomTags.CIRCUITS_ARRAY[tier]);
+                    return FastSizedIngredient.create(CustomTags.CIRCUITS_ARRAY[tier], stack.getCount());
                 }
             }
         }
-        return Ingredient.of(stack);
+        return FastSizedIngredient.create(stack);
     }
 
     private static int getXOffset(GTRecipeType recipe) {

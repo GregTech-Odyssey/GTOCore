@@ -33,10 +33,8 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.function.Supplier;
 
-import static com.gto.gtocore.api.GTOValues.GLASS_TIER;
-import static com.gto.gtocore.api.GTOValues.MACHINE_CASING_TIER;
-import static com.gto.gtocore.common.block.BlockMap.GLASSMAP;
-import static com.gto.gtocore.common.block.BlockMap.MACHINECASINGMAP;
+import static com.gto.gtocore.api.GTOValues.*;
+import static com.gto.gtocore.common.block.BlockMap.*;
 
 public interface GTOPredicates {
 
@@ -46,6 +44,10 @@ public interface GTOPredicates {
 
     static TraceabilityPredicate machineCasing() {
         return tierBlock(MACHINECASINGMAP, MACHINE_CASING_TIER);
+    }
+
+    static TraceabilityPredicate integralFramework() {
+        return tierBlock(INTEGRALFRAMEWORKMAP, INTEGRAL_FRAMEWORK_TIER);
     }
 
     static TraceabilityPredicate absBlocks() {

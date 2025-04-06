@@ -7,7 +7,6 @@ import com.gto.gtocore.common.data.GTOItems;
 import com.gto.gtocore.common.data.GTOMaterials;
 
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
-import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
@@ -119,14 +118,6 @@ interface Blast {
                 .EUt(7864320)
                 .duration(400)
                 .blastFurnaceTemp(16200)
-                .save();
-
-        BLAST_RECIPES.builder("aether_gas")
-                .inputFluids(GTOMaterials.Aether, 1000)
-                .inputFluids(GTOMaterials.Aether.getFluid(FluidStorageKeys.GAS, 1000))
-                .EUt(480)
-                .blastFurnaceTemp(4800)
-                .duration(200)
                 .save();
     }
 }

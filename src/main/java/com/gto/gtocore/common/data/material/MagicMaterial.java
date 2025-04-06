@@ -26,7 +26,6 @@ public interface MagicMaterial {
                 .setFormula(ChatFormatting.ITALIC + "*Ma*", false);
 
         Salamander = material("salamander", "火元素")
-                .fluid()
                 .gas()
                 .dust()
                 .color(0xff0000)
@@ -35,7 +34,6 @@ public interface MagicMaterial {
                 .setFormula("*Sa*", false);
 
         Undine = material("undine", "水元素")
-                .fluid()
                 .gas()
                 .dust()
                 .color(0x0099ff)
@@ -44,7 +42,6 @@ public interface MagicMaterial {
                 .setFormula("*Un*", false);
 
         Sylph = material("sylph", "风元素")
-                .fluid()
                 .gas()
                 .dust()
                 .color(0x13e841)
@@ -53,7 +50,6 @@ public interface MagicMaterial {
                 .setFormula("*Sy*", false);
 
         Gnome = material("gnome", "地元素")
-                .fluid()
                 .gas()
                 .dust()
                 .color(0xedc31c)
@@ -62,7 +58,6 @@ public interface MagicMaterial {
                 .setFormula("*Gn*", false);
 
         Aether = material("aether", "以太")
-                .fluid()
                 .gas()
                 .dust()
                 .color(0xfbedff)

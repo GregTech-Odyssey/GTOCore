@@ -9,6 +9,7 @@ import com.gto.gtocore.api.pattern.GTOPredicates;
 import com.gto.gtocore.common.data.*;
 import com.gto.gtocore.common.machine.multiblock.electric.FishingGroundMachine;
 import com.gto.gtocore.common.machine.multiblock.electric.StellarForgeMachine;
+import com.gto.gtocore.common.machine.multiblock.electric.gcym.GCYMMultiblockMachine;
 import com.gto.gtocore.common.machine.multiblock.electric.voidseries.VoidFluidDrillingRigMachine;
 import com.gto.gtocore.common.machine.multiblock.electric.voidseries.VoidMinerMachine;
 import com.gto.gtocore.common.machine.multiblock.noenergy.AdvancedPrimitiveBlastFurnaceMachine;
@@ -1697,7 +1698,7 @@ public interface MultiBlockA {
             .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_clean_stainless_steel"), GTCEu.id("block/multiblock/pyrolyse_oven"))
             .register();
 
-    MultiblockMachineDefinition LARGE_ROCK_CRUSHER = multiblock("large_rock_crusher", "大型碎岩机", ElectricMultiblockMachine::new)
+    MultiblockMachineDefinition LARGE_ROCK_CRUSHER = multiblock("large_rock_crusher", "大型碎岩机", GCYMMultiblockMachine::new)
             .allRotation()
             .recipe(GTRecipeTypes.ROCK_BREAKER_RECIPES)
             .eutMultiplierTooltips(0.8)
@@ -1709,7 +1710,7 @@ public interface MultiBlockA {
             .pattern((definition) -> FactoryBlockPattern.start()
                     .aisle("AAAAA", "AAAAA", "AAAAA", "AAAAA")
                     .aisle("AAAAA", "ABBBA", "A   A", "A C A")
-                    .aisle("AAAAA", "AB BA", "A   A", "ACCCA")
+                    .aisle("AAAAA", "ABaBA", "A   A", "ACCCA")
                     .aisle("AAAAA", "ABBBA", "A   A", "A C A")
                     .aisle("AAAAA", "AA~AA", "AAAAA", "AAAAA")
                     .where('~', controller(blocks(definition.get())))
@@ -1724,6 +1725,7 @@ public interface MultiBlockA {
                     .where('B', blocks(GCYMBlocks.CRUSHING_WHEELS.get()))
                     .where('C', frames(GTMaterials.MaragingSteel300))
                     .where(' ', air())
+                    .where('a', GTOPredicates.integralFramework())
                     .build())
             .workableCasingRenderer(GTCEu.id("block/casings/gcym/secure_maceration_casing"), GTCEu.id("block/machines/rock_crusher"))
             .register();

@@ -22,6 +22,26 @@ import static com.gto.gtocore.common.data.GTORecipeTypes.LARGE_CHEMICAL_RECIPES;
 interface ChemicaRreactor {
 
     static void init() {
+        LARGE_CHEMICAL_RECIPES.builder("ethylenedioxythiophene")
+                .notConsumable(GTItems.GELLED_TOLUENE.asStack())
+                .inputFluids(GTOMaterials.Dietoxythiophene, 1000)
+                .inputFluids(GTOMaterials.EthyleneGlycol, 1000)
+                .outputFluids(GTOMaterials.Ethylenedioxythiophene, 1000)
+                .outputFluids(GTMaterials.Ethanol, 1000)
+                .EUt(120)
+                .duration(140)
+                .save();
+
+        CHEMICAL_RECIPES.builder("iron_sulfate")
+                .inputItems(TagPrefix.dust, GTMaterials.Iron)
+                .outputItems(TagPrefix.dust, GTOMaterials.IronSulfate, 6)
+                .inputFluids(GTMaterials.SulfuricAcid, 1000)
+                .outputFluids(GTMaterials.Hydrogen, 2000)
+                .circuitMeta(4)
+                .EUt(30)
+                .duration(250)
+                .save();
+
         CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("betaionone"))
                 .inputFluids(GTMaterials.Acetone.getFluid(1000))
                 .inputFluids(GTOMaterials.Citral.getFluid(1000))
@@ -2809,6 +2829,42 @@ interface ChemicaRreactor {
                 .outputFluids(GTMaterials.HydrochloricAcid.getFluid(5000))
                 .EUt(480)
                 .duration(150)
+                .save();
+
+        LARGE_CHEMICAL_RECIPES.builder("pedot")
+                .inputItems(GTOTagPrefix.CATALYST, GTOMaterials.IronSulfate)
+                .outputItems(TagPrefix.dust, GTOMaterials.Pedot)
+                .notConsumableFluid(GTMaterials.SodiumPersulfate, 1000)
+                .inputFluids(GTOMaterials.Ethylenedioxythiophene, 1000)
+                .inputFluids(GTMaterials.SulfuricAcid, 1000)
+                .inputFluids(GTMaterials.Styrene, 1000)
+                .outputFluids(GTMaterials.DilutedSulfuricAcid, 1000)
+                .EUt(1920)
+                .duration(320)
+                .save();
+
+        LARGE_CHEMICAL_RECIPES.builder("dietoxythiophene")
+                .inputItems(GTOTagPrefix.CATALYST, GTMaterials.Zinc)
+                .inputItems(TagPrefix.dust, GTOMaterials.SodiumEthylate, 18)
+                .outputItems(TagPrefix.dust, GTOMaterials.SodiumBromide, 8)
+                .inputFluids(GTOMaterials.Perbromothiophene, 1000)
+                .inputFluids(GTMaterials.AceticAcid, 1000)
+                .inputFluids(GTMaterials.Water, 1000)
+                .outputFluids(GTOMaterials.Dietoxythiophene, 1000)
+                .outputFluids(GTOMaterials.HydrobromicAcid, 2000)
+                .outputFluids(GTMaterials.CarbonDioxide, 1000)
+                .EUt(480)
+                .duration(80)
+                .save();
+
+        LARGE_CHEMICAL_RECIPES.builder("perbromothiophene")
+                .inputItems(TagPrefix.dust, GTOMaterials.SuccinicAcid, 14)
+                .inputFluids(GTMaterials.HydrogenSulfide, 1000)
+                .inputFluids(GTMaterials.Bromine, 1000)
+                .outputFluids(GTOMaterials.Perbromothiophene, 1000)
+                .outputFluids(GTMaterials.Water, 4000)
+                .EUt(1920)
+                .duration(140)
                 .save();
     }
 }

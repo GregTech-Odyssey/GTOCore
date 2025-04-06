@@ -214,6 +214,18 @@ public interface GTOBlocks {
     BlockEntry<Block> COMPONENT_ASSEMBLY_LINE_CASING_OPV = createTierCasings("component_assembly_line_casing_opv", "部件装配线外壳(OPV)", GTOCore.id("block/casings/component_assembly_line/component_assembly_line_casing_opv"), CALMAP, 13);
     BlockEntry<Block> COMPONENT_ASSEMBLY_LINE_CASING_MAX = createTierCasings("component_assembly_line_casing_max", "部件装配线外壳(MAX)", GTOCore.id("block/casings/component_assembly_line/component_assembly_line_casing_max"), CALMAP, 14);
 
+    BlockEntry<Block> INTEGRAL_FRAMEWORK_EV = createTierCasings("integral_framework_ev", "整体框架(EV)", GTOCore.id("block/casings/integral_framework/ev"), INTEGRALFRAMEWORKMAP, 4);
+    BlockEntry<Block> INTEGRAL_FRAMEWORK_IV = createTierCasings("integral_framework_iv", "整体框架(IV)", GTOCore.id("block/casings/integral_framework/iv"), INTEGRALFRAMEWORKMAP, 5);
+    BlockEntry<Block> INTEGRAL_FRAMEWORK_LUV = createTierCasings("integral_framework_luv", "整体框架(LuV)", GTOCore.id("block/casings/integral_framework/luv"), INTEGRALFRAMEWORKMAP, 6);
+    BlockEntry<Block> INTEGRAL_FRAMEWORK_ZPM = createTierCasings("integral_framework_zpm", "整体框架(ZPM)", GTOCore.id("block/casings/integral_framework/zpm"), INTEGRALFRAMEWORKMAP, 7);
+    BlockEntry<Block> INTEGRAL_FRAMEWORK_UV = createTierCasings("integral_framework_uv", "整体框架(UV)", GTOCore.id("block/casings/integral_framework/uv"), INTEGRALFRAMEWORKMAP, 8);
+    BlockEntry<Block> INTEGRAL_FRAMEWORK_UHV = createTierCasings("integral_framework_uhv", "整体框架(UHV)", GTOCore.id("block/casings/integral_framework/uhv"), INTEGRALFRAMEWORKMAP, 9);
+    BlockEntry<Block> INTEGRAL_FRAMEWORK_UEV = createTierCasings("integral_framework_uev", "整体框架(UEV)", GTOCore.id("block/casings/integral_framework/uev"), INTEGRALFRAMEWORKMAP, 10);
+    BlockEntry<Block> INTEGRAL_FRAMEWORK_UIV = createTierCasings("integral_framework_uiv", "整体框架(UIV)", GTOCore.id("block/casings/integral_framework/uiv"), INTEGRALFRAMEWORKMAP, 11);
+    BlockEntry<Block> INTEGRAL_FRAMEWORK_UXV = createTierCasings("integral_framework_uxv", "整体框架(UXV)", GTOCore.id("block/casings/integral_framework/uxv"), INTEGRALFRAMEWORKMAP, 12);
+    BlockEntry<Block> INTEGRAL_FRAMEWORK_OPV = createTierCasings("integral_framework_opv", "整体框架(OPV)", GTOCore.id("block/casings/integral_framework/opv"), INTEGRALFRAMEWORKMAP, 13);
+    BlockEntry<Block> INTEGRAL_FRAMEWORK_MAX = createTierCasings("integral_framework_max", "整体框架(MAX)", GTOCore.id("block/casings/integral_framework/max"), INTEGRALFRAMEWORKMAP, 14);
+
     BlockEntry<Block> REMOTE_GRAVITON_FLOW_MODULATOR = createTierCasings("remote_graviton_flow_modulator", "远程引力流调节器", GTOCore.id("block/remote_graviton_flow_modulator"), GRAVITONFLOWMAP, 1);
     BlockEntry<Block> MEDIAL_GRAVITON_FLOW_MODULATOR = createTierCasings("medial_graviton_flow_modulator", "中介引力流调节器", GTOCore.id("block/medial_graviton_flow_modulator"), GRAVITONFLOWMAP, 2);
     BlockEntry<Block> CENTRAL_GRAVITON_FLOW_MODULATOR = createTierCasings("central_graviton_flow_modulator", "中心引力流调节器", GTOCore.id("block/central_graviton_flow_modulator"), GRAVITONFLOWMAP, 3);

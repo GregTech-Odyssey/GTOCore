@@ -34,14 +34,15 @@ public final class GTOValues {
     public static final String PLANET_NAME = "n";
 
     // Tier Type
-    public static final String STELLAR_CONTAINMENT_TIER = "sc";
-    public static final String POWER_MODULE_TIER = "pm";
-    public static final String COMPONENT_ASSEMBLY_CASING_TIER = "ca";
-    public static final String GLASS_TIER = "gb";
-    public static final String MACHINE_CASING_TIER = "mc";
-    public static final String GRAVITON_FLOW_TIER = "gf";
-    public static final String COMPUTER_CASING_TIER = "computer";
-    public static final String COMPUTER_HEAT_TIER = "computer_heat";
+    public static final String STELLAR_CONTAINMENT_TIER = "s_c";
+    public static final String POWER_MODULE_TIER = "p_m";
+    public static final String COMPONENT_ASSEMBLY_CASING_TIER = "c_a";
+    public static final String GLASS_TIER = "g_b";
+    public static final String MACHINE_CASING_TIER = "m_c";
+    public static final String GRAVITON_FLOW_TIER = "g_f";
+    public static final String INTEGRAL_FRAMEWORK_TIER = "i_f";
+    public static final String COMPUTER_CASING_TIER = "c_c";
+    public static final String COMPUTER_HEAT_TIER = "c_h";
 
     // Drone State
     public static final String REMOVING_ASH = "gtocore.drone.removing_ash";

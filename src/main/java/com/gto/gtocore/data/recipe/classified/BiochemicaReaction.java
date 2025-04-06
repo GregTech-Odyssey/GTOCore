@@ -52,6 +52,14 @@ interface BiochemicaReaction {
                 .duration(1600)
                 .save();
 
+        BIOCHEMICAL_REACTION_RECIPES.builder("succinic_acid_dust")
+                .inputItems(TagPrefix.dust, GTMaterials.Sugar, 24)
+                .inputItems(TagPrefix.dust, GTOMaterials.EschericiaColi)
+                .outputItems(TagPrefix.dust, GTOMaterials.SuccinicAcid, 14)
+                .EUt(480)
+                .duration(200)
+                .save();
+
         BIOCHEMICAL_REACTION_RECIPES.recipeBuilder(GTOCore.id("succinic_anhydride"))
                 .inputItems(TagPrefix.dust, GTOMaterials.Succinimide, 12)
                 .inputItems(TagPrefix.dust, GTOMaterials.BrevibacteriumFlavium)

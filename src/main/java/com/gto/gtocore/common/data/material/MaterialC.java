@@ -1,16 +1,43 @@
 package com.gto.gtocore.common.data.material;
 
+import com.gto.gtocore.api.data.chemical.material.info.GTOMaterialFlags;
+
 import com.gregtechceu.gtceu.api.fluids.FluidBuilder;
 
 import static com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlags.DISABLE_DECOMPOSITION;
-import static com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialIconSet.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
+import static com.gto.gtocore.api.data.chemical.material.info.GTOMaterialIconSet.*;
 import static com.gto.gtocore.common.data.GTOMaterials.*;
 import static com.gto.gtocore.utils.register.MaterialsRegisterUtils.material;
 
 public interface MaterialC {
 
     static void init() {
+        Ethylenedioxythiophene = material("ethylenedioxythiophene", "EDOT", "乙撑二氧噻吩")
+                .fluid()
+                .color(0x57acad)
+                .iconSet(LIMPID)
+                .buildAndRegister().setFormula("C₂H₄O₂C₄H₂S(C₆H₆O₂S)", false);
+
+        Dietoxythiophene = material("dietoxythiophene", "Dietoxythiophene", "二乙氧基噻吩")
+                .fluid()
+                .color(0x67ff6a)
+                .iconSet(LIMPID)
+                .buildAndRegister().setFormula("C₄H₂(OC₂H₅)₂S", false);
+
+        Perbromothiophene = material("perbromothiophene", "Perbromothiophene", "二溴噻吩")
+                .fluid()
+                .color(0x87B657)
+                .iconSet(LIMPID)
+                .buildAndRegister().setFormula("C₄Br₄S", false);
+
+        IronSulfate = material("iron_sulfate", "硫酸亚铁")
+                .dust()
+                .color(0x8EB64F)
+                .flags(GTOMaterialFlags.GENERATE_CATALYST)
+                .iconSet(DULL)
+                .buildAndRegister().setFormula("FeSO4");
+
         LiquidHydrogen = material("liquid_hydrogen", "液态氢")
                 .liquid(new FluidBuilder().temperature(20))
                 .color(0x4fc4a2)

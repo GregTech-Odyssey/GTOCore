@@ -269,6 +269,7 @@ public final class GTOMaterials {
     public static Material BabbittAlloy;
     public static Material DepletedUraniumAlloy;
     public static Material Trinaquadalloy;
+    public static Material NitinolA;
     public static Material ChaosInfinityAlloy;
     public static Material Grisium;
     public static Material Stellite;
@@ -382,6 +383,7 @@ public final class GTOMaterials {
     public static Material AshLeachingSolution;
     public static Material Tannic;
     public static Material GermaniumTetrachlorideSolution;
+    public static Material Pedot;
     public static Material Polyimide;
     public static Material Aniline;
     public static Material Oxydianiline;
@@ -438,6 +440,10 @@ public final class GTOMaterials {
     public static Material Soap;
     public static Material Tricotylphosphine;
     public static Material IridiumTrichlorideSolution;
+    public static Material Ethylenedioxythiophene;
+    public static Material Dietoxythiophene;
+    public static Material Perbromothiophene;
+    public static Material IronSulfate;
     public static Material LiquidHydrogen;
     public static Material BedrockSmoke;
     public static Material BedrockSootSolution;

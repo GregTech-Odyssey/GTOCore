@@ -1,0 +1,19 @@
+package com.gto.gtocore.common.machine.multiblock.electric.gcym;
+
+import com.gto.gtocore.api.GTOValues;
+import com.gto.gtocore.api.machine.multiblock.TierCasingMultiblockMachine;
+
+import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+
+public class GCYMMultiblockMachine extends TierCasingMultiblockMachine {
+
+    public GCYMMultiblockMachine(IMachineBlockEntity holder) {
+        super(holder, GTOValues.INTEGRAL_FRAMEWORK_TIER);
+    }
+
+    @Override
+    public void onStructureFormed() {
+        super.onStructureFormed();
+        tier = Math.min(getCasingTiers().get(GTOValues.INTEGRAL_FRAMEWORK_TIER), tier);
+    }
+}

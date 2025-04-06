@@ -1254,7 +1254,7 @@ public interface MaterialA {
                 .components(EglinSteel, 8, Indium, 2, Chromium, 4, Dysprosium, 1, Rhenium, 1)
                 .color(0xffb7ef)
                 .iconSet(METALLIC)
-                .flags(GENERATE_PLATE, GENERATE_FRAME, DISABLE_DECOMPOSITION)
+                .flags(GENERATE_GEAR, GENERATE_FRAME, DISABLE_DECOMPOSITION)
                 .buildAndRegister();
 
         BabbittAlloy = material("babbitt_alloy", "巴氏合金")
@@ -1264,7 +1264,7 @@ public interface MaterialA {
                 .iconSet(METALLIC)
                 .components(Tin, 5, Lead, 36, Antimony, 8, Astatine, 1)
                 .blastTemp(737, MID, GTValues.VA[GTValues.MV], 230)
-                .flags(GENERATE_PLATE, GENERATE_FRAME, DISABLE_DECOMPOSITION)
+                .flags(GENERATE_GEAR, GENERATE_FRAME, DISABLE_DECOMPOSITION)
                 .buildAndRegister();
 
         DepletedUraniumAlloy = material("depleted_uranium_alloy", "贫铀合金")
@@ -1285,6 +1285,16 @@ public interface MaterialA {
                 .flags(GENERATE_PLATE, GENERATE_FRAME, DISABLE_DECOMPOSITION)
                 .components(Trinium, 6, Naquadah, 2, Carbon, 1)
                 .blastTemp(8747, HIGHER, GTValues.VA[GTValues.ZPM], 1200)
+                .buildAndRegister();
+
+        NitinolA = material("nitinol_a", "Nitinol 60", "镍钛诺60")
+                .ingot()
+                .fluid()
+                .color(0xccb0ec)
+                .iconSet(METALLIC)
+                .flags(GENERATE_GEAR)
+                .components(Nickel, 2, Titanium, 3)
+                .blastTemp(1941, MID, GTValues.VA[GTValues.HV], 450)
                 .buildAndRegister();
 
         ElectronicGradeSilicon = material("electronic_grade_silicon", "电子级硅")
@@ -1308,6 +1318,15 @@ public interface MaterialA {
                 .iconSet(METALLIC)
                 .flags(DISABLE_DECOMPOSITION, GENERATE_CRYSTAL_SEED)
                 .buildAndRegister().setFormula("Si(N12)");
+
+        Pedot = material("pedot", "PEDOT", "PEDOT")
+                .polymer()
+                .fluid()
+                .components(Carbon, 6, Hydrogen, 6, Oxygen, 2, Sulfur, 1)
+                .color(0x5cef20)
+                .iconSet(DULL)
+                .flags(GENERATE_FOIL, DISABLE_DECOMPOSITION)
+                .buildAndRegister();
 
         Polyimide = material("polyimide", "聚酰亚胺")
                 .fluid()
@@ -1592,7 +1611,7 @@ public interface MaterialA {
                 .color(0x378D94)
                 .blastTemp(7600, HIGH, GTValues.VA[GTValues.LuV], 540)
                 .components(Duranium, 7, Magnesium, 1)
-                .flags(GENERATE_PLATE, GENERATE_BOLT_SCREW)
+                .flags(GENERATE_GEAR, GENERATE_BOLT_SCREW)
                 .iconSet(METALLIC)
                 .buildAndRegister();
 

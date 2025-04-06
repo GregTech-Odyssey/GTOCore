@@ -1294,6 +1294,10 @@ public final class GTORecipeBuilder extends GTRecipeBuilder {
         return new ResourceLocation(id.getNamespace(), recipeType.registryName.getPath() + "/" + id.getPath());
     }
 
+    public GTORecipeBuilder notConsumableFluid(@NotNull Material material, int amount) {
+        return notConsumableFluid(material.getFluid(amount));
+    }
+
     public GTORecipeBuilder notConsumable(TagKey<Item> tag) {
         int lastChance = this.chance;
         this.chance = 0;

@@ -4,7 +4,6 @@ import com.gto.gtocore.api.data.tag.GTOTagPrefix;
 import com.gto.gtocore.common.data.GTOMaterials;
 
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
-import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
 import static com.gto.gtocore.common.data.GTORecipeTypes.MANA_CONDENSER_RECIPES;
@@ -34,7 +33,7 @@ interface ManaCondenser {
         MANA_CONDENSER_RECIPES.builder("enriched_naquadah_trinium_europium_duranide")
                 .inputItems(GTOTagPrefix.SUPERCONDUCTOR_BASE, GTMaterials.EnrichedNaquadahTriniumEuropiumDuranide, 4)
                 .outputItems(TagPrefix.wireGtSingle, GTMaterials.EnrichedNaquadahTriniumEuropiumDuranide, 4)
-                .inputFluids(GTOMaterials.Aether.getFluid(FluidStorageKeys.GAS, 1000))
+                .inputFluids(GTOMaterials.Aether.getFluid(1000))
                 .duration(80)
                 .MANAt(2048)
                 .save();
@@ -42,7 +41,7 @@ interface ManaCondenser {
         MANA_CONDENSER_RECIPES.builder("ruthenium_trinium_americium_neutronate")
                 .inputItems(GTOTagPrefix.SUPERCONDUCTOR_BASE, GTMaterials.RutheniumTriniumAmericiumNeutronate, 4)
                 .outputItems(TagPrefix.wireGtSingle, GTMaterials.RutheniumTriniumAmericiumNeutronate, 4)
-                .inputFluids(GTOMaterials.Aether.getFluid(FluidStorageKeys.GAS, 1000))
+                .inputFluids(GTOMaterials.Aether.getFluid(1000))
                 .duration(80)
                 .MANAt(8192)
                 .save();

@@ -10,6 +10,7 @@ import com.gto.gtocore.api.pattern.GTOPredicates;
 import com.gto.gtocore.client.renderer.machine.FluidRenderer;
 import com.gto.gtocore.client.renderer.machine.SpaceElevatorRenderer;
 import com.gto.gtocore.common.data.*;
+import com.gto.gtocore.common.machine.multiblock.electric.gcym.GCYMMultiblockMachine;
 import com.gto.gtocore.common.machine.multiblock.electric.space.SuperSpaceElevatorMachine;
 import com.gto.gtocore.common.machine.multiblock.noenergy.PrimitiveOreMachine;
 import com.gto.gtocore.common.machine.multiblock.water.*;
@@ -62,7 +63,7 @@ public interface MultiBlockB {
                     .register() :
             null;
 
-    MultiblockMachineDefinition LARGE_BENDER = multiblock("large_bender", "大型卷弯机", ElectricMultiblockMachine::new)
+    MultiblockMachineDefinition LARGE_BENDER = multiblock("large_bender", "大型卷弯机", GCYMMultiblockMachine::new)
             .allRotation()
             .eutMultiplierTooltips(0.8)
             .durationMultiplierTooltips(0.6)
@@ -74,7 +75,7 @@ public interface MultiBlockB {
                     .aisle("AAAAA", "A   A", "AAAAA", " AAA ")
                     .aisle("AAAAA", "A   A", "ACCCA", "AAAAA")
                     .aisle("AAAAA", "ADDDA", "DDDDD", "AAAAA")
-                    .aisle("AAAAA", "ABBBA", "ABBBA", "AAAAA")
+                    .aisle("AAAAA", "ABaBA", "ABBBA", "AAAAA")
                     .aisle("AAAAA", "ADDDA", "DDDDD", "AAAAA")
                     .aisle("AAAAA", "A   A", "ACCCA", "AAAAA")
                     .aisle("AA~AA", "A   A", "AAAAA", " AAA ")
@@ -87,11 +88,12 @@ public interface MultiBlockB {
                     .where('C', blocks(GTBlocks.CASING_TUNGSTENSTEEL_PIPE.get()))
                     .where('D', blocks(GTBlocks.CASING_TUNGSTENSTEEL_GEARBOX.get()))
                     .where(' ', any())
+                    .where('a', GTOPredicates.integralFramework())
                     .build())
             .workableCasingRenderer(GTCEu.id("block/casings/gcym/stress_proof_casing"), GTCEu.id("block/multiblock/gcym/large_material_press"))
             .register();
 
-    MultiblockMachineDefinition LARGE_ROLLING = multiblock("large_rolling", "大型辊轧机", ElectricMultiblockMachine::new)
+    MultiblockMachineDefinition LARGE_ROLLING = multiblock("large_rolling", "大型辊轧机", GCYMMultiblockMachine::new)
             .allRotation()
             .eutMultiplierTooltips(0.8)
             .durationMultiplierTooltips(0.6)
@@ -104,7 +106,7 @@ public interface MultiBlockB {
                     .aisle("AAAAA", "B   B", "CCCCC", "     ")
                     .aisle("ACCCA", "B   B", "CBBBC", "     ")
                     .aisle("ADDDA", "E   E", "CDDDC", "ACCCA")
-                    .aisle("AFFFG", "E   E", "CFFFC", "ACCCA")
+                    .aisle("AFaFG", "E   E", "CFFFC", "ACCCA")
                     .aisle("ADDDA", "E   E", "CDDDC", "ACCCA")
                     .aisle("ACCCA", "B   B", "CBBBC", "     ")
                     .aisle("AAAAA", "B   B", "CCCCC", "     ")
@@ -118,11 +120,12 @@ public interface MultiBlockB {
                             .or(GTOPredicates.autoMnaAccelerateAbilities(definition.getRecipeTypes()))
                             .or(autoAbilities(true, false, true)))
                     .where(' ', any())
+                    .where('a', GTOPredicates.integralFramework())
                     .build())
             .workableCasingRenderer(GTCEu.id("block/casings/gcym/stress_proof_casing"), GTCEu.id("block/multiblock/gcym/large_material_press"))
             .register();
 
-    MultiblockMachineDefinition LARGE_FORMING = multiblock("large_forming", "大型冲压机", ElectricMultiblockMachine::new)
+    MultiblockMachineDefinition LARGE_FORMING = multiblock("large_forming", "大型冲压机", GCYMMultiblockMachine::new)
             .allRotation()
             .eutMultiplierTooltips(0.8)
             .durationMultiplierTooltips(0.6)
@@ -135,7 +138,7 @@ public interface MultiBlockB {
                     .aisle("EEEEE", "AAAAA", "DDDDD", "DHHHD", "DDDDD", "DHHHD", "DDDDD", "     ")
                     .aisle("EEEEE", "AFFFA", "D   D", "     ", "DFFFD", "CGGGC", "DD DD", " DDD ")
                     .aisle("EEEEE", "AFFFA", "     ", "     ", "DFFFD", "CGGGC", "D   D", " DDD ")
-                    .aisle("EEEEE", "AFFFA", "D   D", "     ", "DFFFD", "CGGGC", "DD DD", " DDD ")
+                    .aisle("EEaEE", "AFFFA", "D   D", "     ", "DFFFD", "CGGGC", "DD DD", " DDD ")
                     .aisle("AABAA", "A   A", "A   A", "ACCCA", "DDDDD", "DCCCD", "DDDDD", "     ")
                     .where('B', controller(blocks(definition.get())))
                     .where('C', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.BlueSteel)))
@@ -148,6 +151,7 @@ public interface MultiBlockB {
                             .or(GTOPredicates.autoMnaAccelerateAbilities(definition.getRecipeTypes()))
                             .or(autoAbilities(true, false, true)))
                     .where(' ', any())
+                    .where('a', GTOPredicates.integralFramework())
                     .build())
             .workableCasingRenderer(GTCEu.id("block/casings/gcym/stress_proof_casing"), GTCEu.id("block/multiblock/gcym/large_material_press"))
             .register();
