@@ -127,48 +127,41 @@ public interface Data {
         GTOCore.LOGGER.info("Data loading took {}ms", System.currentTimeMillis() - time);
     }
 
-    class PreInitialization implements Runnable {
-
-        @Override
-        public void run() {
-            init();
-            IMultiblockMachineDefinition.init();
-            if (GTCEu.Mods.isEMILoaded()) {
-                long time = System.currentTimeMillis();
-                EmiConfig.logUntranslatedTags = false;
-                EmiConfig.workstationLocation = SidebarSide.LEFT;
-                EmiRepairItemRecipe.TOOLS.clear();
-                GTORecipeBuilder.RECIPE_MAP.values().forEach(recipe -> recipe.recipeCategory.addRecipe(recipe));
-                EMI_RECIPE_WIDGETS = new Object2ObjectOpenHashMap<>();
-                ImmutableSet.Builder<EmiRecipe> recipes = ImmutableSet.builder();
-                for (GTRecipeCategory category : GTRegistries.RECIPE_CATEGORIES) {
-                    if (!category.shouldRegisterDisplays()) continue;
-                    var type = category.getRecipeType();
-                    if (category == type.getCategory()) type.buildRepresentativeRecipes();
-                    EmiRecipeCategory emiCategory = GTRecipeEMICategory.CATEGORIES.apply(category);
-                    type.getRecipesInCategory(category).stream().map(recipe -> new GTEMIRecipe(recipe, emiCategory)).forEach(recipes::add);
+    static void asyncInit() {
+        init();
+        IMultiblockMachineDefinition.init();
+        GTORecipeBuilder.RECIPE_MAP.values().forEach(recipe -> recipe.recipeCategory.addRecipe(recipe));
+        if (GTCEu.Mods.isEMILoaded()) {
+            long time = System.currentTimeMillis();
+            EmiConfig.logUntranslatedTags = false;
+            EmiConfig.workstationLocation = SidebarSide.LEFT;
+            EmiRepairItemRecipe.TOOLS.clear();
+            EMI_RECIPE_WIDGETS = new Object2ObjectOpenHashMap<>();
+            ImmutableSet.Builder<EmiRecipe> recipes = ImmutableSet.builder();
+            for (GTRecipeCategory category : GTRegistries.RECIPE_CATEGORIES) {
+                if (!category.shouldRegisterDisplays()) continue;
+                var type = category.getRecipeType();
+                if (category == type.getCategory()) type.buildRepresentativeRecipes();
+                EmiRecipeCategory emiCategory = GTRecipeEMICategory.CATEGORIES.apply(category);
+                type.getRecipesInCategory(category).stream().map(recipe -> new GTEMIRecipe(recipe, emiCategory)).forEach(recipes::add);
+            }
+            for (MachineDefinition machine : GTRegistries.MACHINES.values()) {
+                if (machine instanceof MultiblockMachineDefinition definition && definition.isRenderXEIPreview()) {
+                    recipes.add(new MultiblockInfoEmiRecipe(definition));
                 }
-                for (MachineDefinition machine : GTRegistries.MACHINES.values()) {
-                    if (machine instanceof MultiblockMachineDefinition definition && definition.isRenderXEIPreview()) {
-                        recipes.add(new MultiblockInfoEmiRecipe(definition));
+            }
+            EMI_RECIPE_WIDGETS = null;
+            EMI_RECIPES = recipes.build();
+            if (!GTOConfig.INSTANCE.recipeCheck) {
+                for (GTRecipeType type : GTRegistries.RECIPE_TYPES) {
+                    if (type == GTORecipeTypes.FURNACE_RECIPES) {
+                        type.getCategoryMap().putIfAbsent(GTRecipeTypes.FURNACE_RECIPES.getCategory(), Set.of());
+                    } else {
+                        type.getCategoryMap().replaceAll((k, v) -> Set.of());
                     }
                 }
-                EMI_RECIPE_WIDGETS = null;
-                EMI_RECIPES = recipes.build();
-                clearCategoryMap();
-                GTOCore.LOGGER.info("Pre initialization EMI GTRecipe took {}ms", System.currentTimeMillis() - time);
             }
-        }
-
-        private static void clearCategoryMap() {
-            if (GTOConfig.INSTANCE.recipeCheck) return;
-            for (GTRecipeType type : GTRegistries.RECIPE_TYPES) {
-                if (type == GTORecipeTypes.FURNACE_RECIPES) {
-                    type.getCategoryMap().putIfAbsent(GTRecipeTypes.FURNACE_RECIPES.getCategory(), Set.of());
-                } else {
-                    type.getCategoryMap().replaceAll((k, v) -> Set.of());
-                }
-            }
+            GTOCore.LOGGER.info("Pre initialization EMI GTRecipe took {}ms", System.currentTimeMillis() - time);
         }
     }
 }

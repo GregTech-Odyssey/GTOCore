@@ -69,6 +69,8 @@ import static com.gto.gtocore.common.block.BlockMap.GLASSMAP;
 
 public final class BlockRegisterUtils {
 
+    private BlockRegisterUtils() {}
+
     public static BlockEntry<Block> REACTOR_CORE;
 
     public static final Map<String, String> LANG = GTCEu.isDataGen() ? new HashMap<>() : null;

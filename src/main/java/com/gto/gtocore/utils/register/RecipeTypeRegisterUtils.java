@@ -29,6 +29,8 @@ import java.util.function.Function;
 
 public final class RecipeTypeRegisterUtils {
 
+    private RecipeTypeRegisterUtils() {}
+
     public static final String MAGIC = "magic";
 
     public static final Map<String, LangHandler.ENCN> LANG = GTCEu.isDataGen() ? new HashMap<>() : null;

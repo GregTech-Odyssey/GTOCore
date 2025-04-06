@@ -10,6 +10,8 @@ import net.minecraft.world.level.material.Fluid;
 
 public final class FluidUtils {
 
+    private FluidUtils() {}
+
     public static String getId(Fluid fluid) {
         return getIdLocation(fluid).toString();
     }

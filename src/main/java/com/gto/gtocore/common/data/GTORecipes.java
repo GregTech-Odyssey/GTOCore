@@ -4,7 +4,6 @@ import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.api.recipe.GTORecipeBuilder;
 import com.gto.gtocore.api.recipe.GTORecipeType;
 
-import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.registry.GTRegistries;
@@ -28,6 +27,8 @@ import java.util.Map;
 import java.util.Set;
 
 public final class GTORecipes {
+
+    private GTORecipes() {}
 
     public static boolean cache;
 
@@ -55,22 +56,7 @@ public final class GTORecipes {
 
     public static void initLookup(Map<ResourceLocation, Recipe<?>> recipes) {
         cache = true;
-        Thread thread = new Thread(new Lookup(recipes));
-        thread.setDaemon(true);
-        thread.setPriority(Thread.MIN_PRIORITY);
-        thread.start();
-    }
-
-    private static final class Lookup implements Runnable {
-
-        private final Map<ResourceLocation, Recipe<?>> recipes;
-
-        private Lookup(Map<ResourceLocation, Recipe<?>> map) {
-            recipes = map;
-        }
-
-        @Override
-        public void run() {
+        Thread thread = new Thread(() -> {
             long time = System.currentTimeMillis();
             PowerlessJetpack.FUELS.clear();
             GTRegistries.RECIPE_TYPES.forEach(t -> t.getLookup().removeAllRecipes());
@@ -80,8 +66,11 @@ public final class GTORecipes {
                 }
             });
             recipes.forEach((k, v) -> GTRecipeTypes.FURNACE_RECIPES.getLookup().addRecipe(GTRecipeTypes.FURNACE_RECIPES.toGTrecipe(k, v)));
-            if (GTCEu.Mods.isEMILoaded()) GTORecipeBuilder.RECIPE_MAP = null;
+            GTORecipeBuilder.RECIPE_MAP = null;
             GTOCore.LOGGER.info("InitLookup took {}ms", System.currentTimeMillis() - time);
-        }
+        });
+        thread.setDaemon(true);
+        thread.setPriority(Thread.MIN_PRIORITY);
+        thread.start();
     }
 }

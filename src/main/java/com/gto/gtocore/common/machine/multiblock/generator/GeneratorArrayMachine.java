@@ -7,6 +7,7 @@ import com.gto.gtocore.api.machine.multiblock.StorageMultiblockMachine;
 import com.gto.gtocore.api.recipe.RecipeRunnerHelper;
 import com.gto.gtocore.common.data.GTORecipeTypes;
 import com.gto.gtocore.common.wireless.ExtendWirelessEnergyContainer;
+import com.gto.gtocore.config.GTOConfig;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.recipe.EURecipeCapability;
@@ -199,7 +200,7 @@ public final class GeneratorArrayMachine extends StorageMultiblockMachine implem
             long EUt = RecipeHelper.getOutputEUt(recipe);
             if (EUt > 0) {
                 recipe.outputs.clear();
-                int maxParallel = (int) (GTValues.V[getOverclockTier()] * a * getAmperage(getTier()) / EUt);
+                int maxParallel = (int) (getMultiply() * GTValues.V[getOverclockTier()] * a * getAmperage(getTier()) / EUt);
                 int multipliers = 0;
                 for (RecipeCapability<?> cap : recipe.inputs.keySet()) {
                     if (cap instanceof FluidRecipeCapability fluidRecipeCapability) {
@@ -264,5 +265,22 @@ public final class GeneratorArrayMachine extends StorageMultiblockMachine implem
     @Override
     public boolean matchTickRecipe(GTRecipe recipe) {
         return isw || IRecipeSearchMachine.super.matchTickRecipe(recipe);
+    }
+
+    public static double getMultiply() {
+        switch (GTOConfig.getDifficulty()) {
+            case 1 -> {
+                return 2;
+            }
+            case 2 -> {
+                return 1.5;
+            }
+            case 3 -> {
+                return 1.2;
+            }
+            default -> {
+                return 0;
+            }
+        }
     }
 }

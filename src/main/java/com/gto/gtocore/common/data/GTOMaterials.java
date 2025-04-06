@@ -11,6 +11,8 @@ import static com.gregtechceu.gtceu.api.GTValues.*;
 
 public final class GTOMaterials {
 
+    private GTOMaterials() {}
+
     public static Map<Material, Integer> MATERIAL_VOLTAGE;
 
     public static Material HighPressureHydrogen;

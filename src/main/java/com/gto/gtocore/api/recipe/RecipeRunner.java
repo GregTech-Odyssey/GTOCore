@@ -24,7 +24,7 @@ public final class RecipeRunner {
 
     public record RecipeHandlingResult(ActionResult result, @Nullable RecipeCapability<?> capability) {
 
-        public static RecipeHandlingResult SUCCESS = new RecipeHandlingResult(ActionResult.SUCCESS, null);
+        static final RecipeHandlingResult SUCCESS = new RecipeHandlingResult(ActionResult.SUCCESS, null);
 
         public boolean isSuccess() {
             return result.isSuccess();

@@ -1117,7 +1117,8 @@ public interface MultiBlockB {
 
     MultiblockMachineDefinition HORIZONTAL_COMPRESSOR = multiblock("horizontal_compressor", "卧式压缩机", CrossRecipeMultiblockMachine::createHatchParallel)
             .allRotation()
-            .recipe(GTRecipeTypes.COMPRESSOR_RECIPES)
+            .recipe(GTORecipeTypes.COMPRESSOR_RECIPES)
+            .recipe(GTORecipeTypes.GAS_COMPRESSOR_RECIPES)
             .parallelizableTooltips()
             .customTooltipsBuilder(true, true, true)
             .block(GTBlocks.CASING_TUNGSTENSTEEL_ROBUST)

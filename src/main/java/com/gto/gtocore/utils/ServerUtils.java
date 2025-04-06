@@ -14,6 +14,8 @@ import earth.terrarium.adastra.common.utils.ModUtils;
 
 public final class ServerUtils {
 
+    private ServerUtils() {}
+
     public static CompoundTag getPersistentData() {
         return CommonSavaedData.getData();
     }

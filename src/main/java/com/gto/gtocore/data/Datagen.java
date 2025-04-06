@@ -3,6 +3,7 @@ package com.gto.gtocore.data;
 import com.gto.gtocore.data.lang.LangHandler;
 import com.gto.gtocore.data.lang.provider.SimplifiedChineseLanguageProvider;
 import com.gto.gtocore.data.lang.provider.TraditionalChineseLanguageProvider;
+import com.gto.gtocore.data.tag.TagsHandler;
 
 import com.gregtechceu.gtceu.GTCEu;
 

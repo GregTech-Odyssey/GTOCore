@@ -18,6 +18,8 @@ import java.util.function.Supplier;
 
 public final class RegistriesUtils {
 
+    private RegistriesUtils() {}
+
     public static Item getItem(String s) {
         return getItem(new ResourceLocation(s));
     }

@@ -25,7 +25,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 /**
  * @author Kovrax
- * @date 2025/3/3
+ *         &#064;date 2025/3/3
  * @implNote PrimitiveBlastFurnaceHatch
  */
 @ParametersAreNonnullByDefault

@@ -3,16 +3,16 @@ package com.gto.gtocore.mixin.gtm;
 import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.common.data.GTOMaterials;
 
+import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
+import com.gregtechceu.gtceu.api.data.chemical.material.properties.PropertyKey;
 import com.gregtechceu.gtceu.client.model.PipeModel;
 import com.gregtechceu.gtceu.common.pipelike.fluidpipe.FluidPipeType;
 
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(FluidPipeType.class)
 public class FluidPipeTypeMixin {
@@ -25,11 +25,19 @@ public class FluidPipeTypeMixin {
     @Final
     public String name;
 
-    @Inject(method = "createPipeModel", at = @At("HEAD"), remap = false, cancellable = true)
-    private void createPipeModel(Material material, CallbackInfoReturnable<PipeModel> cir) {
+    /**
+     * @author .
+     * @reason .
+     */
+    @Overwrite(remap = false)
+    public PipeModel createPipeModel(Material material) {
         if (material == GTOMaterials.SpaceTime) {
-            cir.setReturnValue(new PipeModel(thickness, () -> GTOCore.id("block/material_sets/spacetime/pipe_side"),
-                    () -> GTOCore.id("block/material_sets/spacetime/pipe_%s_in".formatted(name)), null, null));
+            return new PipeModel(thickness, () -> GTOCore.id("block/material_sets/spacetime/pipe_side"),
+                    () -> GTOCore.id("block/material_sets/spacetime/pipe_%s_in".formatted(name)), null, null);
         }
+        if (material.hasProperty(PropertyKey.WOOD)) {
+            return new PipeModel(thickness, () -> GTCEu.id("block/pipe/pipe_side_wood"), () -> GTCEu.id("block/pipe/pipe_%s_in_wood".formatted(name)), null, null);
+        }
+        return new PipeModel(thickness, () -> GTCEu.id("block/pipe/pipe_side"), () -> GTCEu.id("block/pipe/pipe_%s_in".formatted(name)), null, null);
     }
 }

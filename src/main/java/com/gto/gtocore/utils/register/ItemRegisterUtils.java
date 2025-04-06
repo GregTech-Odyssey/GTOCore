@@ -61,6 +61,8 @@ import static com.gto.gtocore.common.data.GTOItems.*;
 
 public final class ItemRegisterUtils {
 
+    private ItemRegisterUtils() {}
+
     public static final Map<String, String> LANG = GTCEu.isDataGen() ? new HashMap<>() : null;
 
     public static @NotNull <T extends Item> ItemBuilder<T, Registrate> item(String name, String cn, NonNullFunction<Item.Properties, T> factory) {

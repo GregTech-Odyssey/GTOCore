@@ -13,6 +13,8 @@ import java.util.function.Supplier;
 
 public final class MaterialsRegisterUtils {
 
+    private MaterialsRegisterUtils() {}
+
     public static final Map<String, LangHandler.ENCN> LANG = GTCEu.isDataGen() ? new HashMap<>() : null;
 
     private static void addLang(String name, Supplier<LangHandler.ENCN> supplier) {

@@ -9,6 +9,8 @@ import java.text.DecimalFormat;
 
 public final class NumberUtils {
 
+    private NumberUtils() {}
+
     private static final DecimalFormat DF = new DecimalFormat("#.##");
 
     public static String formatDouble(double number) {

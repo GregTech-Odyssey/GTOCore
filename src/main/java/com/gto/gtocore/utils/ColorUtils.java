@@ -2,6 +2,8 @@ package com.gto.gtocore.utils;
 
 public final class ColorUtils {
 
+    private ColorUtils() {}
+
     public static int getInterpolatedColor(int hexColor1, int hexColor2, float ratio) {
         int red1 = (hexColor1 >> 16) & 0xFF;
         int green1 = (hexColor1 >> 8) & 0xFF;

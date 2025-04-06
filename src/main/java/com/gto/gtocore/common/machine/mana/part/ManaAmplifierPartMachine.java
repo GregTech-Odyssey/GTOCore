@@ -72,7 +72,7 @@ public final class ManaAmplifierPartMachine extends AmountConfigurationHatchPart
 
     private static class ManaContainer extends NotifiableManaContainer {
 
-        public ManaContainer(ManaAmplifierPartMachine machine) {
+        private ManaContainer(ManaAmplifierPartMachine machine) {
             super(machine, IO.IN, Long.MAX_VALUE, Integer.MAX_VALUE);
         }
 

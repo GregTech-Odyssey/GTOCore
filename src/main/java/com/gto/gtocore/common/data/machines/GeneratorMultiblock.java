@@ -577,6 +577,7 @@ public interface GeneratorMultiblock {
             .allRotation()
             .recipe(GTRecipeTypes.DUMMY_RECIPES)
             .generator()
+            .tooltipsText("Strong operational environment will %s the power of small generators inside the machine.", "强大的运行环境会让机器中的小发电机功率x%s", GeneratorArrayMachine.getMultiply())
             .tooltipsText("Can enable wireless network mode, the generated electrical energy will be directly sent to the wireless network, %s", "可以开启无线电网模式，产生的电能会直接送入无线电网，%s", Component.translatable("gtocore.machine.energy_loss", "5%"))
             .tooltipsKey("gtceu.machine.available_recipe_map_6.tooltip",
                     Component.translatable("gtceu.steam_turbine"),

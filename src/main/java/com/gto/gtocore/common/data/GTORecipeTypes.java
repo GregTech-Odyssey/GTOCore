@@ -236,7 +236,6 @@ public interface GTORecipeTypes {
             .setMaxIOSize(1, 16, 0, 4)
             .setEUIO(IO.IN)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW_MULTIPLE, LEFT_TO_RIGHT)
-            .setXEIVisible(false)
             .setSound(GTSoundEntries.ASSEMBLER);
 
     GTORecipeType NEUTRON_ACTIVATOR_RECIPES = register("neutron_activator", "中子活化", MULTIBLOCK)
@@ -262,7 +261,6 @@ public interface GTORecipeTypes {
             .setEUIO(IO.IN)
             .setMaxIOSize(2, 9, 1, 0)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
-            .setXEIVisible(false)
             .setSound(GTSoundEntries.MACERATOR);
 
     GTORecipeType FISSION_REACTOR_RECIPES = register("fission_reactor", "裂变反应堆", MULTIBLOCK)
@@ -511,7 +509,6 @@ public interface GTORecipeTypes {
             .setEUIO(IO.IN)
             .setMaxIOSize(1, 0, 0, 1)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARC_FURNACE, LEFT_TO_RIGHT)
-            .setXEIVisible(false)
             .setSound(GTSoundEntries.FURNACE);
 
     GTORecipeType LARGE_GAS_COLLECTOR_RECIPES = register("large_gas_collector", "Void Gas Collector", "虚空集气", MULTIBLOCK)
@@ -608,7 +605,6 @@ public interface GTORecipeTypes {
     GTORecipeType DYSON_SPHERE_RECIPES = register("dyson_sphere", "戴森球", MULTIBLOCK)
             .setEUIO(IO.IN)
             .setMaxIOSize(1, 0, 0, 0)
-            .setXEIVisible(false)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.ARC);
 

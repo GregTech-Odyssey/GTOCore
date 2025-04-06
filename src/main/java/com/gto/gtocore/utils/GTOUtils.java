@@ -28,6 +28,8 @@ import static com.gregtechceu.gtceu.api.GTValues.*;
 
 public final class GTOUtils {
 
+    private GTOUtils() {}
+
     public static boolean isGeneration(TagPrefix tagPrefix, Material material) {
         Predicate<Material> condition = tagPrefix.generationCondition();
         if (condition == null) return true;

@@ -1,10 +1,6 @@
-package com.gto.gtocore.data;
+package com.gto.gtocore.data.tag;
 
-import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.common.data.GTOBlocks;
-import com.gto.gtocore.utils.TagUtils;
-
-import com.gregtechceu.gtceu.api.data.tag.TagUtil;
 
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.tags.TagsProvider;
@@ -21,19 +17,16 @@ import earth.terrarium.adastra.common.registry.ModBlocks;
 
 public interface TagsHandler {
 
-    TagKey<Block> ALL_LAYER_STONE = TagUtil.createBlockTag("all_layer_stone");
-    TagKey<Item> HUMAN_EGG = TagUtils.createTag(GTOCore.id("human_egg"));
-
     static void initBlock(RegistrateTagsProvider<Block> provider) {
-        provider.addTag(ALL_LAYER_STONE).addTag(BlockTags.STONE_ORE_REPLACEABLES).addTag(BlockTags.DEEPSLATE_ORE_REPLACEABLES).addTag(BlockTags.NETHER_CARVER_REPLACEABLES);
-        create(provider, ALL_LAYER_STONE, Blocks.END_STONE, ModBlocks.MOON_STONE.get(), ModBlocks.MARS_STONE.get(), ModBlocks.VENUS_STONE.get(),
+        provider.addTag(Tags.ALL_LAYER_STONE).addTag(BlockTags.STONE_ORE_REPLACEABLES).addTag(BlockTags.DEEPSLATE_ORE_REPLACEABLES).addTag(BlockTags.NETHER_CARVER_REPLACEABLES);
+        create(provider, Tags.ALL_LAYER_STONE, Blocks.END_STONE, ModBlocks.MOON_STONE.get(), ModBlocks.MARS_STONE.get(), ModBlocks.VENUS_STONE.get(),
                 ModBlocks.MERCURY_STONE.get(), ModBlocks.GLACIO_STONE.get(), GTOBlocks.TITAN_STONE.get(), GTOBlocks.PLUTO_STONE.get(),
                 GTOBlocks.IO_STONE.get(), GTOBlocks.GANYMEDE_STONE.get(), GTOBlocks.ENCELADUS_STONE.get(), GTOBlocks.CERES_STONE.get(),
                 DDBlocks.SCULK_STONE.get(), DDBlocks.GLOOMSLATE.get());
     }
 
     static void initItem(RegistrateTagsProvider<Item> provider) {
-        create(provider, HUMAN_EGG, Items.VILLAGER_SPAWN_EGG, Items.WITCH_SPAWN_EGG);
+        create(provider, Tags.HUMAN_EGG, Items.VILLAGER_SPAWN_EGG, Items.WITCH_SPAWN_EGG);
     }
 
     private static void create(RegistrateTagsProvider<Block> provider, TagKey<Block> tagKey, Block... rls) {

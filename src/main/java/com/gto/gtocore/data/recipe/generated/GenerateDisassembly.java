@@ -3,6 +3,9 @@ package com.gto.gtocore.data.recipe.generated;
 import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.api.recipe.FastSizedIngredient;
 import com.gto.gtocore.api.recipe.GTORecipeBuilder;
+import com.gto.gtocore.common.data.GTOItems;
+import com.gto.gtocore.data.tag.Tags;
+import com.gto.gtocore.mixin.mc.IngredientTagValueAccessor;
 import com.gto.gtocore.utils.ItemUtils;
 
 import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
@@ -91,6 +94,12 @@ public interface GenerateDisassembly {
                                         break a;
                                     }
                                 }
+                            }
+                        } else if (value instanceof Ingredient.TagValue tagValue) {
+                            Integer i = Tags.CIRCUITS_ARRAY.get(((IngredientTagValueAccessor) tagValue).getTag());
+                            if (i != null) {
+                                builder.outputItems(GTOItems.UNIVERSAL_CIRCUIT[i].get(), sizedIngredient.getAmount());
+                                break;
                             }
                         }
                     }

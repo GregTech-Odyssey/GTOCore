@@ -7,6 +7,8 @@ import net.minecraft.world.item.Item;
 
 public final class TagUtils {
 
+    private TagUtils() {}
+
     public static TagKey<Item> createTag(ResourceLocation id) {
         return TagKey.create(BuiltInRegistries.ITEM.key(), id);
     }

@@ -55,7 +55,7 @@ public class MultiblockStateMixin {
                      target = "Lcom/gregtechceu/gtceu/api/machine/feature/multiblock/IMultiController;checkPatternWithLock()Z"),
             remap = false,
             cancellable = true)
-    protected void onBlockStateChangedHook(BlockPos pos, BlockState state, CallbackInfo ci, @Local IMultiController controller) {
+    private void onBlockStateChangedHook(BlockPos pos, BlockState state, CallbackInfo ci, @Local IMultiController controller) {
         // 当结构已经不成型时, 忽略后续的方块更新检查
         if (!controller.isFormed()) {
             ci.cancel();

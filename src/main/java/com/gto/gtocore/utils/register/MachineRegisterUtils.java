@@ -65,6 +65,8 @@ import static com.gto.gtocore.utils.register.BlockRegisterUtils.addLang;
 
 public final class MachineRegisterUtils {
 
+    private MachineRegisterUtils() {}
+
     public static final int[] MANA_TIERS = GTValues.tiersBetween(LV, ZPM);
 
     private static final MultiblockMachineDefinition DUMMY_MULTIBLOCK = MultiblockMachineDefinition.createDefinition(GTOCore.id("dummy"));

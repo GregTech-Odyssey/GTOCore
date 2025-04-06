@@ -3,7 +3,7 @@ package com.gto.gtocore.data.recipe.classified;
 import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.common.data.GTOItems;
 import com.gto.gtocore.common.data.GTOMaterials;
-import com.gto.gtocore.data.TagsHandler;
+import com.gto.gtocore.data.tag.Tags;
 
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
@@ -22,7 +22,7 @@ interface BiochemicalExtraction {
                 .save();
 
         BIOCHEMICAL_EXTRACTION_RECIPES.recipeBuilder(GTOCore.id("cerebrum"))
-                .notConsumable(TagsHandler.HUMAN_EGG)
+                .notConsumable(Tags.HUMAN_EGG)
                 .outputItems(GTOItems.CEREBRUM)
                 .duration(200)
                 .EUt(30)

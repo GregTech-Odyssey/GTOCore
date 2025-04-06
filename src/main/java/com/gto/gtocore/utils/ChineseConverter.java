@@ -7,6 +7,8 @@ import java.util.ResourceBundle;
 
 public final class ChineseConverter {
 
+    private ChineseConverter() {}
+
     private static final Map<Character, Character> mappingTable = new Char2CharOpenHashMap();
 
     static {

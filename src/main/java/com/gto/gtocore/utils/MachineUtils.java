@@ -46,11 +46,12 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
-/**
- * MachineUtils 类提供了多种静态方法，用于处理GT机器（Machines）的相关操作。
- * 该类包含了一系列工具方法，用于获取匹配的机器形状、处理机器的输入输出、检查电路配置等。
- */
+import javax.annotation.ParametersAreNonnullByDefault;
+
+@ParametersAreNonnullByDefault
 public final class MachineUtils {
+
+    private MachineUtils() {}
 
     public static final Function<MultiblockMachineDefinition, BlockPattern> EMPTY_PATTERN = (d) -> new BlockPattern(new TraceabilityPredicate[0][0][0], new RelativeDirection[0], new int[0][0], new int[0]);
 
@@ -348,7 +349,7 @@ public final class MachineUtils {
 
     public static boolean inputEU(IRecipeLogicMachine machine, long eu) {
         if (eu != 0) {
-            return !RecipeRunnerHelper.handleTickRecipe(machine, IO.IN, null, List.of(new Content(eu, 0, 0, 0)), EURecipeCapability.CAP);
+            return !RecipeRunnerHelper.handleTickRecipe(machine, IO.IN, List.of(new Content(eu, 0, 0, 0)), EURecipeCapability.CAP);
         }
         return false;
     }

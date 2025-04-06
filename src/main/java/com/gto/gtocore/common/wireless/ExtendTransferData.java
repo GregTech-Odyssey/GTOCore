@@ -21,6 +21,7 @@ public record ExtendTransferData(UUID UUID, long Throughput, long loss, MetaMach
     @Override
     public Component getInfo() {
         MetaMachine machine = machine();
+        if (machine.getLevel() == null) return Component.empty();
         long eut = Throughput();
         String pos = machine.getPos().toShortString();
         if (eut > 0) {

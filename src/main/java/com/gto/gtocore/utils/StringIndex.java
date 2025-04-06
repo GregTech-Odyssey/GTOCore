@@ -24,6 +24,8 @@ import java.util.Map;
 
 public final class StringIndex {
 
+    private StringIndex() {}
+
     public static final Map<GTRecipeType, String> RECIPETYPE_MAP = new Object2ObjectOpenHashMap<>();
 
     public static final Map<Block, String> BLOCK_LINK_MAP = new Object2ObjectOpenHashMap<>();

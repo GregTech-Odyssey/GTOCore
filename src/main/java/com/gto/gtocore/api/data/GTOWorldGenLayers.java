@@ -1,6 +1,6 @@
 package com.gto.gtocore.api.data;
 
-import com.gto.gtocore.data.TagsHandler;
+import com.gto.gtocore.data.tag.Tags;
 
 import com.gregtechceu.gtceu.api.data.worldgen.IWorldGenLayer;
 import com.gregtechceu.gtceu.api.data.worldgen.WorldGeneratorUtils;
@@ -17,7 +17,7 @@ import static com.gto.gtocore.api.data.GTODimensions.ALL_LAYER_DIMENSION;
 
 public final class GTOWorldGenLayers implements IWorldGenLayer {
 
-    public static final GTOWorldGenLayers ALL_LAYER = new GTOWorldGenLayers("all_layer", new TagMatchTest(TagsHandler.ALL_LAYER_STONE), ALL_LAYER_DIMENSION.keySet());
+    public static final GTOWorldGenLayers ALL_LAYER = new GTOWorldGenLayers("all_layer", new TagMatchTest(Tags.ALL_LAYER_STONE), ALL_LAYER_DIMENSION.keySet());
 
     private final String id;
     private final RuleTest target;

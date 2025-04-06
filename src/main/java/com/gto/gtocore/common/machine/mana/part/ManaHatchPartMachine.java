@@ -32,7 +32,7 @@ public class ManaHatchPartMachine extends TieredIOPartMachine implements IManaMa
     private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
             ManaHatchPartMachine.class, TieredIOPartMachine.MANAGED_FIELD_HOLDER);
 
-    protected TickableSubscription tickSubs;
+    TickableSubscription tickSubs;
 
     @Getter
     @Persisted

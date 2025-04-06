@@ -23,6 +23,8 @@ import net.minecraftforge.fluids.FluidStack;
 
 public final class StringConverter {
 
+    private StringConverter() {}
+
     public static String fromItem(Ingredient ingredient, int re) {
         if (ingredient.isEmpty() || ingredient.getItems().length < 1) return null;
         ItemStack stack = ingredient.getItems()[0];

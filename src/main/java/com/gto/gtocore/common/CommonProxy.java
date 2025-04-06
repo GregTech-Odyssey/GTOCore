@@ -82,10 +82,10 @@ public class CommonProxy {
         AdvancedTerminalBehavior.AutoBuildSetting.HATCH_NAMES.add("gravity_hatch");
         AdvancedTerminalBehavior.AutoBuildSetting.HATCH_NAMES.add("vacuum_hatch");
 
-        if (GTCEu.isProd()) EMIRecipeModHelper.setRecipeModHelper();
+        if (GTCEu.isProd() && GTCEu.Mods.isEMILoaded()) EMIRecipeModHelper.setRecipeModHelper();
 
         if (GTCEu.isClientSide()) {
-            Thread thread = new Thread(new Data.PreInitialization(), "GTOCore Data");
+            Thread thread = new Thread(Data::asyncInit, "GTOCore Data");
             thread.setDaemon(true);
             thread.setPriority(Thread.MIN_PRIORITY);
             thread.start();

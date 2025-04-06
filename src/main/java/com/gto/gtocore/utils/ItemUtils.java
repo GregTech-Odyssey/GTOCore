@@ -11,6 +11,8 @@ import net.minecraft.world.level.block.Block;
 
 public final class ItemUtils {
 
+    private ItemUtils() {}
+
     public static ItemStack getFirstSized(Ingredient ingredient) {
         if (ingredient instanceof FastSizedIngredient sizedIngredient) {
             return getFirstSized(sizedIngredient);

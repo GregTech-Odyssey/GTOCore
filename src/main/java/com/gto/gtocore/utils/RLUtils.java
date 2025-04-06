@@ -7,6 +7,8 @@ import vazkii.botania.api.BotaniaAPI;
 
 public final class RLUtils {
 
+    private RLUtils() {}
+
     public static ResourceLocation mc(String path) {
         return new ResourceLocation("minecraft", path);
     }

@@ -19,6 +19,8 @@ import java.util.Set;
 
 public final class GTOLoots {
 
+    private GTOLoots() {}
+
     public static Set<Object> BLOCKS = new ObjectOpenHashSet<>();
 
     public static boolean cache;

@@ -69,8 +69,8 @@ public abstract class WorkableElectricMultiblockMachineMixin extends WorkableMul
     @Override
     public void gTOCore$setOCLimit(int number) {
         if (number != gTOCore$ocLimit) {
-            if (getRecipeLogic().getLastRecipe() != null && getRecipeLogic() instanceof IEnhancedRecipeLogic recipeLogic) {
-                recipeLogic.gtocore$setModifyRecipe();
+            if (getRecipeLogic().getLastRecipe() != null && getRecipeLogic() instanceof IEnhancedRecipeLogic enhancedRecipeLogic) {
+                enhancedRecipeLogic.gtocore$setModifyRecipe();
             }
             gTOCore$ocLimit = number;
         }
