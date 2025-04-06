@@ -1,7 +1,7 @@
 package com.gto.gtocore.common.machine.multiblock.water;
 
 import com.gto.gtocore.api.recipe.GTORecipeBuilder;
-import com.gto.gtocore.api.recipe.RecipeRunner;
+import com.gto.gtocore.api.recipe.RecipeRunnerHelper;
 import com.gto.gtocore.common.data.GTOMaterials;
 import com.gto.gtocore.utils.MachineUtils;
 
@@ -43,7 +43,7 @@ public final class OzonationPurificationUnitMachine extends WaterPurificationUni
             builder.outputFluids(new FluidStack(WaterPurificationPlantMachine.GradePurifiedWater1, outputCount));
         }
         recipe = builder.buildRawRecipe();
-        if (RecipeRunner.matchRecipe(this, recipe)) {
+        if (RecipeRunnerHelper.matchRecipe(this, recipe)) {
             eut = inputCount;
         }
         return eut;

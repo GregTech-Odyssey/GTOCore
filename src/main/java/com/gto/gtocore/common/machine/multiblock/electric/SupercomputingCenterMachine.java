@@ -4,7 +4,7 @@ import com.gto.gtocore.api.GTOValues;
 import com.gto.gtocore.api.data.chemical.GTOChemicalHelper;
 import com.gto.gtocore.api.machine.multiblock.StorageMultiblockMachine;
 import com.gto.gtocore.api.recipe.GTORecipeBuilder;
-import com.gto.gtocore.api.recipe.RecipeRunner;
+import com.gto.gtocore.api.recipe.RecipeRunnerHelper;
 import com.gto.gtocore.common.data.GTOItems;
 import com.gto.gtocore.common.machine.multiblock.part.ThermalConductorHatchPartMachine;
 import com.gto.gtocore.common.machine.multiblock.part.research.ExResearchBasePartMachine;
@@ -265,7 +265,7 @@ public final class SupercomputingCenterMachine extends StorageMultiblockMachine 
             if (simulate) return requestCWUt(true, cwut);
             if (getRecipeLogic().isWorking()) {
                 return requestCWUt(false, cwut);
-            } else if (RecipeRunner.matchTickRecipe(this, runRecipe) && RecipeRunner.matchRecipe(this, runRecipe)) {
+            } else if (RecipeRunnerHelper.matchTickRecipe(this, runRecipe) && RecipeRunnerHelper.matchRecipe(this, runRecipe)) {
                 getRecipeLogic().setupRecipe(runRecipe);
                 if (getRecipeLogic().isWorking()) {
                     return requestCWUt(false, cwut);

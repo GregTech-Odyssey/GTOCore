@@ -3,7 +3,7 @@ package com.gto.gtocore.common.machine.multiblock.electric.adventure;
 import com.gto.gtocore.api.machine.multiblock.ElectricMultiblockMachine;
 import com.gto.gtocore.api.machine.trait.CustomRecipeLogic;
 import com.gto.gtocore.api.recipe.GTORecipeBuilder;
-import com.gto.gtocore.api.recipe.RecipeRunner;
+import com.gto.gtocore.api.recipe.RecipeRunnerHelper;
 import com.gto.gtocore.utils.MachineUtils;
 
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
@@ -46,7 +46,7 @@ public final class BossSummonerMachine extends ElectricMultiblockMachine {
     @Nullable
     private GTRecipe getRecipe() {
         GTRecipe recipe = GTORecipeBuilder.ofRaw().duration(Math.max(5, 400 / (getTier() + 1))).EUt(getOverclockVoltage()).buildRawRecipe();
-        if (RecipeRunner.matchTickRecipe(this, recipe)) return recipe;
+        if (RecipeRunnerHelper.matchTickRecipe(this, recipe)) return recipe;
         return null;
     }
 

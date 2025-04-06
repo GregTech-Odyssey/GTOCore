@@ -4,7 +4,7 @@ import com.gto.gtocore.api.data.GTODimensions;
 import com.gto.gtocore.api.machine.multiblock.StorageMultiblockMachine;
 import com.gto.gtocore.api.machine.trait.CustomRecipeLogic;
 import com.gto.gtocore.api.recipe.GTORecipeBuilder;
-import com.gto.gtocore.api.recipe.RecipeRunner;
+import com.gto.gtocore.api.recipe.RecipeRunnerHelper;
 import com.gto.gtocore.common.data.GTOBedrockFluids;
 import com.gto.gtocore.common.data.GTOItems;
 import com.gto.gtocore.common.item.DimensionDataItem;
@@ -55,7 +55,7 @@ public final class VoidFluidDrillingRigMachine extends StorageMultiblockMachine 
     private GTRecipe getRecipe() {
         if (fluidStacks == null) return null;
         if (!isEmpty()) {
-            if (RecipeRunner.matchRecipeInput(this, RECIPE)) {
+            if (RecipeRunnerHelper.matchRecipeInput(this, RECIPE)) {
                 GTRecipe recipe = RECIPE.copy();
                 recipe.tickInputs.put(EURecipeCapability.CAP, List.of(new Content(getOverclockVoltage(), ChanceLogic.getMaxChancedValue(), ChanceLogic.getMaxChancedValue(), 0)));
                 FluidStack fluidStack = fluidStacks.get(c).copy();

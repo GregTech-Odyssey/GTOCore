@@ -1,6 +1,6 @@
 package com.gto.gtocore.api.machine.trait;
 
-import com.gto.gtocore.api.recipe.RecipeRunner;
+import com.gto.gtocore.api.recipe.RecipeRunnerHelper;
 
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
@@ -46,7 +46,7 @@ public class CustomRecipeLogic extends RecipeLogic implements IEnhancedRecipeLog
             setStatus(Status.SUSPEND);
             suspendAfterFinish = false;
         } else {
-            if (tryLast && RecipeRunner.check(machine, lastRecipe)) {
+            if (tryLast && RecipeRunnerHelper.check(machine, lastRecipe)) {
                 setupRecipe(lastRecipe);
                 return;
             } else {

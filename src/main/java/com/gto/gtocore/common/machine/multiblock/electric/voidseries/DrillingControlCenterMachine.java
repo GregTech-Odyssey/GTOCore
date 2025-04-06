@@ -4,7 +4,7 @@ import com.gto.gtocore.api.machine.INetMachineInteractor;
 import com.gto.gtocore.api.machine.multiblock.ElectricMultiblockMachine;
 import com.gto.gtocore.api.machine.trait.CustomRecipeLogic;
 import com.gto.gtocore.api.recipe.GTORecipeBuilder;
-import com.gto.gtocore.api.recipe.RecipeRunner;
+import com.gto.gtocore.api.recipe.RecipeRunnerHelper;
 import com.gto.gtocore.client.ClientUtil;
 
 import com.gregtechceu.gtceu.api.GTValues;
@@ -72,7 +72,7 @@ public final class DrillingControlCenterMachine extends ElectricMultiblockMachin
     private GTRecipe getRecipe() {
         if (getTier() < GTValues.IV) return null;
         GTRecipe recipe = GTORecipeBuilder.ofRaw().duration(20).EUt(getOverclockVoltage()).buildRawRecipe();
-        if (RecipeRunner.matchTickRecipe(this, recipe)) return recipe;
+        if (RecipeRunnerHelper.matchTickRecipe(this, recipe)) return recipe;
         return null;
     }
 

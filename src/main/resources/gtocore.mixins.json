@@ -94,6 +94,7 @@
         "gtm.api.recipe.GTRecipeLookupMixin",
         "gtm.api.recipe.GTRecipeMixin",
         "gtm.api.recipe.GTRecipeTypeAccessor",
+        "gtm.api.recipe.RecipeHelperMixin",
         "gtm.api.recipe.ResearchManagerMixin",
         "gtm.api.recipe.SerializerIngredientMixin",
         "gtm.builder.ShapedRecipeBuilderMixin",

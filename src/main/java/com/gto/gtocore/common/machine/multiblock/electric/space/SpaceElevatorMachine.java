@@ -5,7 +5,7 @@ import com.gto.gtocore.api.machine.feature.multiblock.IHighlightMachine;
 import com.gto.gtocore.api.machine.multiblock.TierCasingMultiblockMachine;
 import com.gto.gtocore.api.machine.trait.CustomRecipeLogic;
 import com.gto.gtocore.api.recipe.GTORecipeBuilder;
-import com.gto.gtocore.api.recipe.RecipeRunner;
+import com.gto.gtocore.api.recipe.RecipeRunnerHelper;
 import com.gto.gtocore.common.data.GTOItems;
 import com.gto.gtocore.utils.MachineUtils;
 
@@ -174,7 +174,7 @@ public class SpaceElevatorMachine extends TierCasingMultiblockMachine implements
     @Nullable
     private GTRecipe getRecipe() {
         GTRecipe recipe = GTORecipeBuilder.ofRaw().duration(400).CWUt(128 * (getTier() - GTValues.ZPM)).EUt(GTValues.VA[getTier()]).buildRawRecipe();
-        if (RecipeRunner.matchRecipeTickInput(this, recipe)) return recipe;
+        if (RecipeRunnerHelper.matchRecipeTickInput(this, recipe)) return recipe;
         return null;
     }
 

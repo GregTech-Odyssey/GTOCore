@@ -2,7 +2,7 @@ package com.gto.gtocore.common.machine.multiblock.electric;
 
 import com.gto.gtocore.api.machine.multiblock.StorageMultiblockMachine;
 import com.gto.gtocore.api.recipe.GTORecipeBuilder;
-import com.gto.gtocore.api.recipe.RecipeRunner;
+import com.gto.gtocore.api.recipe.RecipeRunnerHelper;
 import com.gto.gtocore.common.data.GTOItems;
 import com.gto.gtocore.utils.StringUtils;
 
@@ -109,7 +109,7 @@ public final class ComputationProviderMachine extends StorageMultiblockMachine i
         if (recipe != null) {
             if (getRecipeLogic().isWorking()) {
                 return requestCWUt(i, collection);
-            } else if (RecipeRunner.matchTickRecipe(this, recipe)) {
+            } else if (RecipeRunnerHelper.matchTickRecipe(this, recipe)) {
                 getRecipeLogic().setupRecipe(recipe);
                 if (getRecipeLogic().isWorking()) {
                     return requestCWUt(i, collection);

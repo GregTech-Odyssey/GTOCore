@@ -1,7 +1,7 @@
 package com.gto.gtocore.common.machine.multiblock.water;
 
 import com.gto.gtocore.api.recipe.GTORecipeBuilder;
-import com.gto.gtocore.api.recipe.RecipeRunner;
+import com.gto.gtocore.api.recipe.RecipeRunnerHelper;
 import com.gto.gtocore.common.data.GTOMaterials;
 import com.gto.gtocore.common.machine.multiblock.part.SensorPartMachine;
 import com.gto.gtocore.utils.MachineUtils;
@@ -128,7 +128,7 @@ public final class ExtremeTemperatureFluctuationPurificationUnitMachine extends 
         cycle = false;
         inputCount = Math.min(getParallel(), MachineUtils.getFluidAmount(this, WaterPurificationPlantMachine.GradePurifiedWater4)[0]);
         recipe = GTORecipeBuilder.ofRaw().duration(WaterPurificationPlantMachine.DURATION).inputFluids(new FluidStack(WaterPurificationPlantMachine.GradePurifiedWater4, inputCount)).buildRawRecipe();
-        if (RecipeRunner.matchRecipe(this, recipe)) {
+        if (RecipeRunnerHelper.matchRecipe(this, recipe)) {
             eut = (long) inputCount << 3;
         }
         return eut;

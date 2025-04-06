@@ -3,7 +3,7 @@ package com.gto.gtocore.common.machine.multiblock.electric;
 import com.gto.gtocore.api.machine.multiblock.StorageMultiblockMachine;
 import com.gto.gtocore.api.machine.trait.CustomRecipeLogic;
 import com.gto.gtocore.api.recipe.GTORecipeBuilder;
-import com.gto.gtocore.api.recipe.RecipeRunner;
+import com.gto.gtocore.api.recipe.RecipeRunnerHelper;
 import com.gto.gtocore.common.data.GTOBlocks;
 import com.gto.gtocore.common.data.GTOItems;
 import com.gto.gtocore.common.machine.multiblock.part.BlockBusPartMachine;
@@ -140,7 +140,7 @@ public final class BlockConversionRoomMachine extends StorageMultiblockMachine {
     @Nullable
     private GTRecipe getRecipe() {
         GTRecipe recipe = GTORecipeBuilder.ofRaw().duration(400).EUt(getOverclockVoltage()).buildRawRecipe();
-        if (RecipeRunner.matchRecipeTickInput(this, recipe)) return recipe;
+        if (RecipeRunnerHelper.matchRecipeTickInput(this, recipe)) return recipe;
         return null;
     }
 

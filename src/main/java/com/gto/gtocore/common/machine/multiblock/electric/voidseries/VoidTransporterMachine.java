@@ -5,7 +5,7 @@ import com.gto.gtocore.api.machine.feature.multiblock.ICheckPatternMachine;
 import com.gto.gtocore.api.machine.multiblock.ElectricMultiblockMachine;
 import com.gto.gtocore.api.machine.trait.CustomRecipeLogic;
 import com.gto.gtocore.api.recipe.GTORecipeBuilder;
-import com.gto.gtocore.api.recipe.RecipeRunner;
+import com.gto.gtocore.api.recipe.RecipeRunnerHelper;
 import com.gto.gtocore.utils.ServerUtils;
 import com.gto.gtocore.utils.register.BlockRegisterUtils;
 
@@ -128,7 +128,7 @@ public class VoidTransporterMachine extends ElectricMultiblockMachine {
     private GTRecipe getRecipe() {
         if (eu < getOverclockVoltage() && energyContainer.getEnergyStored() < 409600) {
             GTRecipe recipe = GTORecipeBuilder.ofRaw().EUt(getOverclockVoltage()).duration(200).buildRawRecipe();
-            if (RecipeRunner.matchTickRecipe(this, recipe)) return recipe;
+            if (RecipeRunnerHelper.matchTickRecipe(this, recipe)) return recipe;
         }
         return null;
     }

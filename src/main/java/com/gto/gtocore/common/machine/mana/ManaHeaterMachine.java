@@ -3,7 +3,7 @@ package com.gto.gtocore.common.machine.mana;
 import com.gto.gtocore.api.machine.feature.IHeaterMachine;
 import com.gto.gtocore.api.machine.trait.CustomRecipeLogic;
 import com.gto.gtocore.api.recipe.GTORecipeBuilder;
-import com.gto.gtocore.api.recipe.RecipeRunner;
+import com.gto.gtocore.api.recipe.RecipeRunnerHelper;
 import com.gto.gtocore.common.data.GTOMaterials;
 import com.gto.gtocore.common.data.GTORecipeTypes;
 import com.gto.gtocore.utils.MachineUtils;
@@ -47,7 +47,7 @@ public class ManaHeaterMachine extends SimpleManaMachine implements IHeaterMachi
     private GTRecipe getRecipe() {
         if (temperature >= getMaxTemperature()) return null;
         GTRecipe recipe = GTORecipeBuilder.ofRaw().duration(20).MANAt(16).buildRawRecipe();
-        if (RecipeRunner.matchTickRecipe(this, recipe)) {
+        if (RecipeRunnerHelper.matchTickRecipe(this, recipe)) {
             return recipe;
         }
         return null;

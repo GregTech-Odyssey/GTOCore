@@ -2,7 +2,7 @@ package com.gto.gtocore.common.machine.multiblock.generator;
 
 import com.gto.gtocore.api.machine.multiblock.ElectricMultiblockMachine;
 import com.gto.gtocore.api.recipe.GTORecipeBuilder;
-import com.gto.gtocore.api.recipe.RecipeRunner;
+import com.gto.gtocore.api.recipe.RecipeRunnerHelper;
 import com.gto.gtocore.common.data.GTORecipeModifiers;
 
 import com.gregtechceu.gtceu.api.GTValues;
@@ -95,7 +95,7 @@ public final class CombustionEngineMachine extends ElectricMultiblockMachine {
     @Override
     protected GTRecipe getRealRecipe(GTRecipe recipe) {
         long EUt = RecipeHelper.getOutputEUt(recipe);
-        if (EUt > 0 && RecipeRunner.matchRecipe(this, getLubricantRecipe()) && !isIntakesObstructed()) {
+        if (EUt > 0 && RecipeRunnerHelper.matchRecipe(this, getLubricantRecipe()) && !isIntakesObstructed()) {
             recipe = GTORecipeModifiers.accurateParallel(this, recipe, (int) (getOverclockVoltage() / EUt));
             if (isOxygenBoosted) {
                 recipe.tickOutputs.put(EURecipeCapability.CAP, List.of(new Content((long) (RecipeHelper.getOutputEUt(recipe) * (isExtreme() ? 2 : 1.5)), ChanceLogic.getMaxChancedValue(), ChanceLogic.getMaxChancedValue(), 0)));
@@ -110,13 +110,13 @@ public final class CombustionEngineMachine extends ElectricMultiblockMachine {
         if (!super.onWorking()) return false;
         long totalContinuousRunningTime = recipeLogic.getTotalContinuousRunningTime();
         if ((totalContinuousRunningTime == 1 || totalContinuousRunningTime % 72 == 0)) {
-            if (!RecipeRunner.handleRecipeInput(this, getLubricantRecipe())) {
+            if (!RecipeRunnerHelper.handleRecipeInput(this, getLubricantRecipe())) {
                 return false;
             }
         }
         if ((totalContinuousRunningTime == 1 || totalContinuousRunningTime % 20 == 0) && isBoostAllowed()) {
             var boosterRecipe = getBoostRecipe();
-            isOxygenBoosted = RecipeRunner.matchRecipe(this, boosterRecipe) && RecipeRunner.handleRecipeInput(this, boosterRecipe);
+            isOxygenBoosted = RecipeRunnerHelper.matchRecipe(this, boosterRecipe) && RecipeRunnerHelper.handleRecipeInput(this, boosterRecipe);
         }
         return true;
     }

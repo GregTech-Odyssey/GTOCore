@@ -2,7 +2,7 @@ package com.gto.gtocore.common.machine.multiblock.water;
 
 import com.gto.gtocore.api.machine.feature.multiblock.IFluidRendererMachine;
 import com.gto.gtocore.api.recipe.GTORecipeBuilder;
-import com.gto.gtocore.api.recipe.RecipeRunner;
+import com.gto.gtocore.api.recipe.RecipeRunnerHelper;
 import com.gto.gtocore.common.data.GTOItems;
 import com.gto.gtocore.utils.MachineUtils;
 import com.gto.gtocore.utils.NumberUtils;
@@ -109,7 +109,7 @@ public final class ClarifierPurificationUnitMachine extends WaterPurificationUni
             builder.outputFluids(new FluidStack(Fluids.WATER, outputCount));
         }
         recipe = builder.buildRawRecipe();
-        if (RecipeRunner.matchRecipe(this, recipe)) {
+        if (RecipeRunnerHelper.matchRecipe(this, recipe)) {
             count += NumberUtils.chanceOccurrences(Math.min(10000, inputCount / 1000), 3, 800);
             eut = inputCount / 2;
         }

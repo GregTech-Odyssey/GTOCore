@@ -12,7 +12,7 @@ import com.gto.gtocore.api.machine.trait.MultiblockTrait;
 import com.gto.gtocore.api.recipe.AsyncRecipeOutputTask;
 import com.gto.gtocore.api.recipe.GTORecipeBuilder;
 import com.gto.gtocore.api.recipe.GTORecipeType;
-import com.gto.gtocore.api.recipe.RecipeRunner;
+import com.gto.gtocore.api.recipe.RecipeRunnerHelper;
 import com.gto.gtocore.common.data.GTORecipeModifiers;
 import com.gto.gtocore.common.machine.multiblock.part.ThreadHatchPartMachine;
 import com.gto.gtocore.config.GTOConfig;
@@ -201,10 +201,10 @@ public class CrossRecipeMultiblockMachine extends ElectricMultiblockMachine impl
 
     private GTRecipe modifyRecipe(GTRecipe recipe) {
         int rt = RecipeHelper.getRecipeEUtTier(recipe);
-        if (rt <= getMaxOverclockTier() && RecipeRunner.checkConditions(this, recipe)) {
+        if (rt <= getMaxOverclockTier() && RecipeRunnerHelper.checkConditions(this, recipe)) {
             recipe.conditions.clear();
             recipe = fullModifyRecipe(recipe);
-            if (recipe != null && (recipe.parallels > 1 || RecipeRunner.matchRecipeInput(this, recipe)) && RecipeRunner.handleRecipeInput(this, recipe)) {
+            if (recipe != null && (recipe.parallels > 1 || RecipeRunnerHelper.matchRecipeInput(this, recipe)) && RecipeRunnerHelper.handleRecipeInput(this, recipe)) {
                 recipe.ocLevel = getTier() - rt;
                 recipe.inputs.clear();
                 lastParallel = recipe.parallels;
@@ -365,7 +365,7 @@ public class CrossRecipeMultiblockMachine extends ElectricMultiblockMachine impl
                 getMachine().lastRecipes.clear();
                 return ActionResult.SUCCESS;
             }
-            if (RecipeRunner.handleRecipeInput(machine, recipe)) {
+            if (RecipeRunnerHelper.handleRecipeInput(machine, recipe)) {
                 return ActionResult.SUCCESS;
             }
             return ActionResult.FAIL_NO_REASON;
@@ -373,7 +373,7 @@ public class CrossRecipeMultiblockMachine extends ElectricMultiblockMachine impl
 
         private void output(Set<GTRecipe> recipes) {
             for (GTRecipe recipe : recipes) {
-                RecipeRunner.handleRecipeOutput(this.machine, recipe);
+                RecipeRunnerHelper.handleRecipeOutput(this.machine, recipe);
             }
         }
     }

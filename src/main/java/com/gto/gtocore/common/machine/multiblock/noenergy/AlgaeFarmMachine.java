@@ -3,7 +3,7 @@ package com.gto.gtocore.common.machine.multiblock.noenergy;
 import com.gto.gtocore.api.machine.multiblock.NoEnergyMultiblockMachine;
 import com.gto.gtocore.api.machine.trait.CustomRecipeLogic;
 import com.gto.gtocore.api.recipe.GTORecipeBuilder;
-import com.gto.gtocore.api.recipe.RecipeRunner;
+import com.gto.gtocore.api.recipe.RecipeRunnerHelper;
 import com.gto.gtocore.common.data.GTOItems;
 import com.gto.gtocore.utils.MachineUtils;
 
@@ -44,7 +44,7 @@ public final class AlgaeFarmMachine extends NoEnergyMultiblockMachine {
         GTORecipeBuilder builder = GTORecipeBuilder.ofRaw().inputFluids(new FluidStack(Fluids.WATER, 100 * GTValues.RNG.nextInt(50) + 5000)).duration(200);
         builder.outputItems(stack);
         GTRecipe recipe = builder.buildRawRecipe();
-        if (RecipeRunner.matchRecipe(this, recipe)) {
+        if (RecipeRunnerHelper.matchRecipe(this, recipe)) {
             return recipe;
         }
         return null;

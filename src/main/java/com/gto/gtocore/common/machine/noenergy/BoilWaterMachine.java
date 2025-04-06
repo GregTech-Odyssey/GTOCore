@@ -4,7 +4,7 @@ import com.gto.gtocore.api.machine.SimpleNoEnergyMachine;
 import com.gto.gtocore.api.machine.feature.IReceiveHeatMachine;
 import com.gto.gtocore.api.machine.trait.CustomRecipeLogic;
 import com.gto.gtocore.api.recipe.GTORecipeBuilder;
-import com.gto.gtocore.api.recipe.RecipeRunner;
+import com.gto.gtocore.api.recipe.RecipeRunnerHelper;
 import com.gto.gtocore.utils.MachineUtils;
 
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
@@ -61,7 +61,7 @@ public final class BoilWaterMachine extends SimpleNoEnergyMachine implements IRe
     private GTRecipe getRecipe() {
         if (temperature < 360) return null;
         GTRecipe recipe = GTORecipeBuilder.ofRaw().duration(20).inputFluids(new FluidStack(Fluids.WATER, 6)).outputFluids(GTMaterials.Steam.getFluid(960 * temperature / 600)).buildRawRecipe();
-        if (RecipeRunner.matchRecipe(this, recipe)) {
+        if (RecipeRunnerHelper.matchRecipe(this, recipe)) {
             return recipe;
         } else if (temperature > 400) {
             if (MachineUtils.inputFluid(this, Fluids.WATER, 1)) {

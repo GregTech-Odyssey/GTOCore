@@ -4,7 +4,7 @@ import com.gto.gtocore.api.machine.feature.IExtendWirelessEnergyContainerHolder;
 import com.gto.gtocore.api.machine.feature.IRecipeSearchMachine;
 import com.gto.gtocore.api.machine.feature.multiblock.IArrayMachine;
 import com.gto.gtocore.api.machine.multiblock.StorageMultiblockMachine;
-import com.gto.gtocore.api.recipe.RecipeRunner;
+import com.gto.gtocore.api.recipe.RecipeRunnerHelper;
 import com.gto.gtocore.common.data.GTORecipeTypes;
 import com.gto.gtocore.common.wireless.ExtendWirelessEnergyContainer;
 
@@ -258,7 +258,7 @@ public final class GeneratorArrayMachine extends StorageMultiblockMachine implem
 
     @Override
     public boolean matchRecipe(GTRecipe recipe) {
-        return RecipeRunner.matchRecipeInput(this, recipe);
+        return RecipeRunnerHelper.matchRecipeInput(this, recipe);
     }
 
     @Override

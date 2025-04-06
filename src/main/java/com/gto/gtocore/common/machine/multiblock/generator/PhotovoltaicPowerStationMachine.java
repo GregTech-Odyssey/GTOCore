@@ -3,7 +3,7 @@ package com.gto.gtocore.common.machine.multiblock.generator;
 import com.gto.gtocore.api.machine.multiblock.ElectricMultiblockMachine;
 import com.gto.gtocore.api.machine.trait.CustomRecipeLogic;
 import com.gto.gtocore.api.recipe.GTORecipeBuilder;
-import com.gto.gtocore.api.recipe.RecipeRunner;
+import com.gto.gtocore.api.recipe.RecipeRunnerHelper;
 import com.gto.gtocore.utils.MachineUtils;
 
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
@@ -64,7 +64,7 @@ public final class PhotovoltaicPowerStationMachine extends ElectricMultiblockMac
             }
             if (eut == 0) return null;
             GTRecipe recipe = GTORecipeBuilder.ofRaw().duration(20).EUt(-eut).buildRawRecipe();
-            if (RecipeRunner.matchRecipeTickOutput(this, recipe)) return recipe;
+            if (RecipeRunnerHelper.matchRecipeTickOutput(this, recipe)) return recipe;
         }
         return null;
     }

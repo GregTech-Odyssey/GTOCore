@@ -1,6 +1,5 @@
 package com.gto.gtocore.api.machine.trait;
 
-import com.gto.gtocore.api.fluid.StrictFluidStack;
 import com.gto.gtocore.api.recipe.AsyncRecipeOutputTask;
 import com.gto.gtocore.api.recipe.AsyncRecipeSearchTask;
 
@@ -32,8 +31,8 @@ public interface IEnhancedRecipeLogic {
         return new Object2LongOpenCustomHashMap<>(ItemStackHashStrategy.comparingAllButCount());
     }
 
-    default Object2LongOpenHashMap<ItemStack> gtocore$getItemIngredientStacks() {
-        return new Object2LongOpenHashMap<>();
+    default Object2LongOpenCustomHashMap<ItemStack> gtocore$getItemIngredientStacks() {
+        return new Object2LongOpenCustomHashMap<>(ItemStackHashStrategy.comparingAllButCount());
     }
 
     default Object2LongOpenCustomHashMap<ItemStack> gtocore$getItemMap() {
@@ -52,7 +51,7 @@ public interface IEnhancedRecipeLogic {
         return new Object2LongOpenHashMap<>();
     }
 
-    default Object2LongOpenHashMap<StrictFluidStack> gtocore$getFluidIngredientStacks() {
+    default Object2LongOpenHashMap<FluidStack> gtocore$getFluidIngredientStacks() {
         return new Object2LongOpenHashMap<>();
     }
 

@@ -2,7 +2,7 @@ package com.gto.gtocore.common.machine.trait;
 
 import com.gto.gtocore.api.machine.trait.IFluidDrillLogic;
 import com.gto.gtocore.api.recipe.GTORecipeBuilder;
-import com.gto.gtocore.api.recipe.RecipeRunner;
+import com.gto.gtocore.api.recipe.RecipeRunnerHelper;
 import com.gto.gtocore.common.machine.multiblock.electric.voidseries.DrillingControlCenterMachine;
 import com.gto.gtocore.common.machine.multiblock.electric.voidseries.INFFluidDrillMachine;
 
@@ -57,7 +57,7 @@ public final class INFFluidDrillLogic extends RecipeLogic implements IFluidDrill
             }
             var match = getFluidDrillRecipe();
             if (match != null) {
-                if (RecipeRunner.matchRecipe(machine, match) && RecipeRunner.matchTickRecipe(machine, match)) {
+                if (RecipeRunnerHelper.matchRecipe(machine, match) && RecipeRunnerHelper.matchTickRecipe(machine, match)) {
                     setupRecipe(match);
                 }
             }
@@ -73,7 +73,7 @@ public final class INFFluidDrillLogic extends RecipeLogic implements IFluidDrill
                     .duration(MAX_PROGRESS)
                     .EUt((long) (GTValues.VA[getMachine().getEnergyTier()] * Math.pow(parallel, 1.2)))
                     .buildRawRecipe();
-            if (RecipeRunner.matchRecipe(machine, recipe) && RecipeRunner.matchTickRecipe(machine, recipe)) {
+            if (RecipeRunnerHelper.matchRecipe(machine, recipe) && RecipeRunnerHelper.matchTickRecipe(machine, recipe)) {
                 return recipe;
             }
         }
@@ -113,11 +113,11 @@ public final class INFFluidDrillLogic extends RecipeLogic implements IFluidDrill
     public void onRecipeFinish() {
         machine.afterWorking();
         if (lastRecipe != null) {
-            RecipeRunner.handleRecipeOutput(machine, lastRecipe);
+            RecipeRunnerHelper.handleRecipeOutput(machine, lastRecipe);
         }
         var match = getFluidDrillRecipe();
         if (match != null) {
-            if (RecipeRunner.matchRecipe(machine, match) && RecipeRunner.matchTickRecipe(machine, match)) {
+            if (RecipeRunnerHelper.matchRecipe(machine, match) && RecipeRunnerHelper.matchTickRecipe(machine, match)) {
                 setupRecipe(match);
                 return;
             }

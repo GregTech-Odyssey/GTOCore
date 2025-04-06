@@ -1,12 +1,11 @@
 package com.gto.gtocore.mixin.gtm.api.machine;
 
-import com.gto.gtocore.api.fluid.StrictFluidStack;
 import com.gto.gtocore.api.machine.feature.multiblock.IEnhancedMultiblockMachine;
 import com.gto.gtocore.api.machine.feature.multiblock.IMEOutputMachine;
 import com.gto.gtocore.api.machine.trait.IEnhancedRecipeLogic;
 import com.gto.gtocore.api.recipe.AsyncRecipeOutputTask;
 import com.gto.gtocore.api.recipe.AsyncRecipeSearchTask;
-import com.gto.gtocore.api.recipe.RecipeRunner;
+import com.gto.gtocore.api.recipe.RecipeRunnerHelper;
 import com.gto.gtocore.common.data.GTORecipeModifiers;
 import com.gto.gtocore.config.GTOConfig;
 import com.gto.gtocore.utils.MachineUtils;
@@ -56,7 +55,7 @@ public abstract class RecipeLogicMixin extends MachineTrait implements IEnhanced
     private Object2LongOpenCustomHashMap<ItemStack> gtocore$itemMap;
 
     @Unique
-    private Object2LongOpenHashMap<ItemStack> gtocore$itemIngredientStacks;
+    private Object2LongOpenCustomHashMap<ItemStack> gtocore$itemIngredientStacks;
 
     @Unique
     private Object2IntOpenHashMap<Ingredient> gtocore$itemNotConsumableMap;
@@ -68,7 +67,7 @@ public abstract class RecipeLogicMixin extends MachineTrait implements IEnhanced
     private Object2LongOpenHashMap<FluidStack> gtocore$parallelFluidMap;
 
     @Unique
-    private Object2LongOpenHashMap<StrictFluidStack> gtocore$fluidIngredientStacks;
+    private Object2LongOpenHashMap<FluidStack> gtocore$fluidIngredientStacks;
 
     @Unique
     private Object2LongOpenHashMap<FluidStack> gtocore$fluidMap;
@@ -228,7 +227,7 @@ public abstract class RecipeLogicMixin extends MachineTrait implements IEnhanced
     }
 
     @Override
-    public Object2LongOpenHashMap<ItemStack> gtocore$getItemIngredientStacks() {
+    public Object2LongOpenCustomHashMap<ItemStack> gtocore$getItemIngredientStacks() {
         if (gtocore$itemIngredientStacks == null) {
             gtocore$itemIngredientStacks = IEnhancedRecipeLogic.super.gtocore$getItemIngredientStacks();
         } else {
@@ -278,7 +277,7 @@ public abstract class RecipeLogicMixin extends MachineTrait implements IEnhanced
     }
 
     @Override
-    public Object2LongOpenHashMap<StrictFluidStack> gtocore$getFluidIngredientStacks() {
+    public Object2LongOpenHashMap<FluidStack> gtocore$getFluidIngredientStacks() {
         if (gtocore$fluidIngredientStacks == null) {
             gtocore$fluidIngredientStacks = IEnhancedRecipeLogic.super.gtocore$getFluidIngredientStacks();
         } else {
@@ -445,7 +444,7 @@ public abstract class RecipeLogicMixin extends MachineTrait implements IEnhanced
     public boolean checkMatchedRecipeAvailable(GTRecipe match) {
         GTRecipe modified = machine.fullModifyRecipe(match.copy());
         if (modified != null) {
-            if (RecipeRunner.check(machine, modified)) {
+            if (RecipeRunnerHelper.check(machine, modified)) {
                 setupRecipe(modified);
             }
             return gTOCore$successfullyRecipe(match);
@@ -460,7 +459,7 @@ public abstract class RecipeLogicMixin extends MachineTrait implements IEnhanced
     @Overwrite
     public void findAndHandleRecipe() {
         lastFailedMatches = null;
-        if (!recipeDirty && RecipeRunner.check(machine, lastRecipe)) {
+        if (!recipeDirty && RecipeRunnerHelper.check(machine, lastRecipe)) {
             GTRecipe recipe = lastRecipe;
             lastRecipe = null;
             lastOriginRecipe = null;
@@ -470,7 +469,7 @@ public abstract class RecipeLogicMixin extends MachineTrait implements IEnhanced
             if (gTOCore$lockRecipe && gTOCore$originRecipe != null) {
                 lastOriginRecipe = gTOCore$originRecipe;
                 GTRecipe modified = machine.fullModifyRecipe(lastOriginRecipe.copy());
-                if (RecipeRunner.check(machine, modified)) {
+                if (RecipeRunnerHelper.check(machine, modified)) {
                     setupRecipe(modified);
                 }
             } else {
@@ -500,7 +499,7 @@ public abstract class RecipeLogicMixin extends MachineTrait implements IEnhanced
             handleRecipeIO(lastRecipe, IO.OUT);
             if (machine.alwaysTryModifyRecipe() || gtocore$modifyRecipe) {
                 if (lastOriginRecipe != null) {
-                    if (gtocore$modifyRecipe || !(GTORecipeModifiers.TRY_AGAIN.contains(getMachine().getDefinition().getRecipeModifier()) && lastRecipe.parallels == MachineUtils.getHatchParallel(getMachine()) && RecipeRunner.checkConditions(machine, lastRecipe) && RecipeRunner.matchRecipe(machine, lastRecipe) && RecipeRunner.matchTickRecipe(machine, lastRecipe))) {
+                    if (gtocore$modifyRecipe || !(GTORecipeModifiers.TRY_AGAIN.contains(getMachine().getDefinition().getRecipeModifier()) && lastRecipe.parallels == MachineUtils.getHatchParallel(getMachine()) && RecipeRunnerHelper.checkConditions(machine, lastRecipe) && RecipeRunnerHelper.matchRecipe(machine, lastRecipe) && RecipeRunnerHelper.matchTickRecipe(machine, lastRecipe))) {
                         gtocore$lastParallel = lastRecipe.parallels;
                         var modified = machine.fullModifyRecipe(lastOriginRecipe.copy());
                         if (modified == null) {
@@ -514,7 +513,7 @@ public abstract class RecipeLogicMixin extends MachineTrait implements IEnhanced
                 }
                 gtocore$modifyRecipe = false;
             }
-            if (!recipeDirty && !suspendAfterFinish && RecipeRunner.check(machine, lastRecipe)) {
+            if (!recipeDirty && !suspendAfterFinish && RecipeRunnerHelper.check(machine, lastRecipe)) {
                 setupRecipe(lastRecipe);
             } else {
                 if (suspendAfterFinish) {
@@ -538,10 +537,10 @@ public abstract class RecipeLogicMixin extends MachineTrait implements IEnhanced
     @Overwrite
     protected ActionResult handleRecipeIO(GTRecipe recipe, IO io) {
         if (io == IO.OUT && GTOConfig.INSTANCE.asyncRecipeOutput && machine instanceof IMEOutputMachine outputMachine && outputMachine.gTOCore$DualMEOutput(recipe)) {
-            AsyncRecipeOutputTask.addAsyncLogic(getLogic(), () -> RecipeRunner.handleRecipeOutput(machine, recipe));
+            AsyncRecipeOutputTask.addAsyncLogic(getLogic(), () -> RecipeRunnerHelper.handleRecipeOutput(machine, recipe));
             return ActionResult.SUCCESS;
         }
-        if (RecipeRunner.handleRecipeIO(machine, recipe, io, chanceCaches)) {
+        if (RecipeRunnerHelper.handleRecipeIO(machine, recipe, io, chanceCaches)) {
             return ActionResult.SUCCESS;
         }
         return ActionResult.PASS_NO_CONTENTS;
@@ -577,12 +576,12 @@ public abstract class RecipeLogicMixin extends MachineTrait implements IEnhanced
     @Unique
     private boolean gtocore$handleTickRecipe(GTRecipe recipe) {
         for (Map.Entry<RecipeCapability<?>, List<Content>> entry : recipe.tickInputs.entrySet()) {
-            if (RecipeRunner.handleTickRecipe(machine, IO.IN, recipe, entry.getValue(), entry.getKey())) {
+            if (RecipeRunnerHelper.handleTickRecipe(machine, IO.IN, recipe, entry.getValue(), entry.getKey())) {
                 return false;
             }
         }
         for (Map.Entry<RecipeCapability<?>, List<Content>> entry : recipe.tickOutputs.entrySet()) {
-            if (RecipeRunner.handleTickRecipe(machine, IO.OUT, recipe, entry.getValue(), entry.getKey())) {
+            if (RecipeRunnerHelper.handleTickRecipe(machine, IO.OUT, recipe, entry.getValue(), entry.getKey())) {
                 return false;
             }
         }

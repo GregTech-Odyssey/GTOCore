@@ -28,9 +28,9 @@ class SearchRecipeIterator implements Iterator<GTRecipe> {
         this.holder = holder;
         this.recipeType = recipeType;
         if (tick) {
-            canHandle = recipe -> RecipeRunner.matchRecipe(holder, recipe) && RecipeRunner.matchTickRecipe(holder, recipe);
+            canHandle = recipe -> RecipeRunnerHelper.matchRecipe(holder, recipe) && RecipeRunnerHelper.matchTickRecipe(holder, recipe);
         } else {
-            canHandle = recipe -> RecipeRunner.matchRecipe(holder, recipe);
+            canHandle = recipe -> RecipeRunnerHelper.matchRecipe(holder, recipe);
         }
         ingredients = fromHolder(holder);
         recipeIterator = createRecipeIterator();

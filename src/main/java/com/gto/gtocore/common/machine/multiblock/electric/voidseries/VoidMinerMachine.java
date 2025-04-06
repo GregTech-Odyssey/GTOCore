@@ -6,7 +6,7 @@ import com.gto.gtocore.api.machine.multiblock.StorageMultiblockMachine;
 import com.gto.gtocore.api.machine.trait.CustomRecipeLogic;
 import com.gto.gtocore.api.recipe.FastSizedIngredient;
 import com.gto.gtocore.api.recipe.GTORecipeBuilder;
-import com.gto.gtocore.api.recipe.RecipeRunner;
+import com.gto.gtocore.api.recipe.RecipeRunnerHelper;
 import com.gto.gtocore.common.data.GTOItems;
 import com.gto.gtocore.common.data.GTOOres;
 import com.gto.gtocore.common.data.GTORecipeModifiers;
@@ -58,7 +58,7 @@ public final class VoidMinerMachine extends StorageMultiblockMachine {
     private GTRecipe getRecipe() {
         if (dim == null) return null;
         if (!isEmpty()) {
-            if (RecipeRunner.matchRecipeInput(this, RECIPE)) {
+            if (RecipeRunnerHelper.matchRecipeInput(this, RECIPE)) {
                 GTRecipe recipe = RECIPE.copy();
                 recipe.tickInputs.put(EURecipeCapability.CAP, List.of(new Content((long) GTValues.VA[getTier()], ChanceLogic.getMaxChancedValue(), ChanceLogic.getMaxChancedValue(), 0)));
                 recipe.outputs.put(ItemRecipeCapability.CAP, List.of(content(), content(), content(), content()));

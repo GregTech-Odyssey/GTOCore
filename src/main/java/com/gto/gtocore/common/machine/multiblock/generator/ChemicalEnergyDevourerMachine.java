@@ -2,7 +2,7 @@ package com.gto.gtocore.common.machine.multiblock.generator;
 
 import com.gto.gtocore.api.machine.multiblock.ElectricMultiblockMachine;
 import com.gto.gtocore.api.recipe.GTORecipeBuilder;
-import com.gto.gtocore.api.recipe.RecipeRunner;
+import com.gto.gtocore.api.recipe.RecipeRunnerHelper;
 import com.gto.gtocore.common.data.GTORecipeModifiers;
 
 import com.gregtechceu.gtceu.api.GTValues;
@@ -96,7 +96,7 @@ public final class ChemicalEnergyDevourerMachine extends ElectricMultiblockMachi
     @Override
     protected GTRecipe getRealRecipe(GTRecipe recipe) {
         var EUt = RecipeHelper.getOutputEUt(recipe);
-        if (EUt > 0 && RecipeRunner.matchRecipe(this, getLubricantRecipe()) && !isIntakesObstructed()) {
+        if (EUt > 0 && RecipeRunnerHelper.matchRecipe(this, getLubricantRecipe()) && !isIntakesObstructed()) {
             recipe = GTORecipeModifiers.accurateParallel(this, recipe, (int) (getOverclockVoltage() / EUt));
             if (isOxygenBoosted && isDinitrogenTetroxideBoosted) {
                 recipe.tickOutputs.put(EURecipeCapability.CAP, List.of(new Content(EUt * recipe.parallels * 4, ChanceLogic.getMaxChancedValue(), ChanceLogic.getMaxChancedValue(), 0)));
@@ -113,15 +113,15 @@ public final class ChemicalEnergyDevourerMachine extends ElectricMultiblockMachi
         if (!super.onWorking()) return false;
         long totalContinuousRunningTime = recipeLogic.getTotalContinuousRunningTime();
         if ((totalContinuousRunningTime == 1 || totalContinuousRunningTime % 72 == 0)) {
-            if (!RecipeRunner.handleRecipeInput(this, getLubricantRecipe())) {
+            if (!RecipeRunnerHelper.handleRecipeInput(this, getLubricantRecipe())) {
                 return false;
             }
         }
         if ((totalContinuousRunningTime == 1 || totalContinuousRunningTime % 20 == 0) && isBoostAllowed()) {
             var boosterRecipe = getBoostRecipe();
             var boosterRecipea = getBoostRecipea();
-            isOxygenBoosted = RecipeRunner.matchRecipe(this, boosterRecipe) && RecipeRunner.handleRecipeInput(this, boosterRecipe);
-            isDinitrogenTetroxideBoosted = RecipeRunner.matchRecipe(this, boosterRecipea) && RecipeRunner.handleRecipeInput(this, boosterRecipea);
+            isOxygenBoosted = RecipeRunnerHelper.matchRecipe(this, boosterRecipe) && RecipeRunnerHelper.handleRecipeInput(this, boosterRecipe);
+            isDinitrogenTetroxideBoosted = RecipeRunnerHelper.matchRecipe(this, boosterRecipea) && RecipeRunnerHelper.handleRecipeInput(this, boosterRecipea);
         }
         return true;
     }

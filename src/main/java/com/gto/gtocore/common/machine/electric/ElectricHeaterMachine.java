@@ -3,7 +3,7 @@ package com.gto.gtocore.common.machine.electric;
 import com.gto.gtocore.api.machine.feature.IHeaterMachine;
 import com.gto.gtocore.api.machine.trait.CustomRecipeLogic;
 import com.gto.gtocore.api.recipe.GTORecipeBuilder;
-import com.gto.gtocore.api.recipe.RecipeRunner;
+import com.gto.gtocore.api.recipe.RecipeRunnerHelper;
 import com.gto.gtocore.common.data.GTORecipeTypes;
 
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
@@ -42,7 +42,7 @@ public final class ElectricHeaterMachine extends WorkableTieredMachine implement
     private GTRecipe getRecipe() {
         if (temperature >= getMaxTemperature()) return null;
         GTRecipe recipe = GTORecipeBuilder.ofRaw().duration(20).EUt(30).buildRawRecipe();
-        if (RecipeRunner.matchTickRecipe(this, recipe)) {
+        if (RecipeRunnerHelper.matchTickRecipe(this, recipe)) {
             return recipe;
         }
         return null;

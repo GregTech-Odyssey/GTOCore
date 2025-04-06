@@ -127,7 +127,7 @@ public final class AsyncRecipeSearchTask {
 
     private static GTRecipe modifyRecipe(GTRecipe recipe, RecipeLogic logic) {
         GTRecipe modified = logic.machine.fullModifyRecipe(recipe.copy());
-        if (RecipeRunner.check(logic.machine, modified)) {
+        if (RecipeRunnerHelper.check(logic.machine, modified)) {
             return modified;
         }
         return null;

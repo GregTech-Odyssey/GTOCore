@@ -4,7 +4,7 @@ import com.gto.gtocore.api.machine.feature.multiblock.IParallelMachine;
 import com.gto.gtocore.api.machine.multiblock.CrossRecipeMultiblockMachine;
 import com.gto.gtocore.api.machine.multiblock.ElectricMultiblockMachine;
 import com.gto.gtocore.api.recipe.GTORecipeBuilder;
-import com.gto.gtocore.api.recipe.RecipeRunner;
+import com.gto.gtocore.api.recipe.RecipeRunnerHelper;
 
 import com.gregtechceu.gtceu.api.capability.IParallelHatch;
 import com.gregtechceu.gtceu.api.capability.recipe.*;
@@ -293,8 +293,8 @@ public final class MachineUtils {
     public static boolean inputItem(IRecipeLogicMachine machine, ItemStack item) {
         if (!item.isEmpty()) {
             GTRecipe recipe = GTORecipeBuilder.ofRaw().inputItems(item).buildRawRecipe();
-            if (RecipeRunner.matchRecipe(machine, recipe)) {
-                return RecipeRunner.handleRecipeInput(machine, recipe);
+            if (RecipeRunnerHelper.matchRecipe(machine, recipe)) {
+                return RecipeRunnerHelper.handleRecipeInput(machine, recipe);
             }
         }
         return false;
@@ -303,19 +303,19 @@ public final class MachineUtils {
     public static boolean outputItem(IRecipeLogicMachine machine, ItemStack item) {
         if (!item.isEmpty()) {
             GTRecipe recipe = GTORecipeBuilder.ofRaw().outputItems(item).buildRawRecipe();
-            if (RecipeRunner.matchRecipe(machine, recipe)) {
-                return RecipeRunner.handleRecipeOutput(machine, recipe);
+            if (RecipeRunnerHelper.matchRecipe(machine, recipe)) {
+                return RecipeRunnerHelper.handleRecipeOutput(machine, recipe);
             }
         }
         return false;
     }
 
     public static boolean notConsumableItem(IRecipeLogicMachine machine, ItemStack item) {
-        return RecipeRunner.matchRecipe(machine, GTORecipeBuilder.ofRaw().inputItems(item).buildRawRecipe());
+        return RecipeRunnerHelper.matchRecipe(machine, GTORecipeBuilder.ofRaw().inputItems(item).buildRawRecipe());
     }
 
     public static boolean notConsumableCircuit(IRecipeLogicMachine machine, int configuration) {
-        return RecipeRunner.matchRecipe(machine, GTORecipeBuilder.ofRaw().inputItems(IntCircuitIngredient.circuitInput(configuration)).buildRawRecipe());
+        return RecipeRunnerHelper.matchRecipe(machine, GTORecipeBuilder.ofRaw().inputItems(IntCircuitIngredient.circuitInput(configuration)).buildRawRecipe());
     }
 
     public static boolean inputFluid(IRecipeLogicMachine machine, Fluid fluid, int amount) {
@@ -325,8 +325,8 @@ public final class MachineUtils {
     public static boolean inputFluid(IRecipeLogicMachine machine, FluidStack fluid) {
         if (!fluid.isEmpty()) {
             GTRecipe recipe = GTORecipeBuilder.ofRaw().inputFluids(fluid).buildRawRecipe();
-            if (RecipeRunner.matchRecipe(machine, recipe)) {
-                return RecipeRunner.handleRecipeInput(machine, recipe);
+            if (RecipeRunnerHelper.matchRecipe(machine, recipe)) {
+                return RecipeRunnerHelper.handleRecipeInput(machine, recipe);
             }
         }
         return false;
@@ -339,8 +339,8 @@ public final class MachineUtils {
     public static boolean outputFluid(IRecipeLogicMachine machine, FluidStack fluid) {
         if (!fluid.isEmpty()) {
             GTRecipe recipe = GTORecipeBuilder.ofRaw().outputFluids(fluid).buildRawRecipe();
-            if (RecipeRunner.matchRecipe(machine, recipe)) {
-                return RecipeRunner.handleRecipeOutput(machine, recipe);
+            if (RecipeRunnerHelper.matchRecipe(machine, recipe)) {
+                return RecipeRunnerHelper.handleRecipeOutput(machine, recipe);
             }
         }
         return false;
@@ -348,7 +348,7 @@ public final class MachineUtils {
 
     public static boolean inputEU(IRecipeLogicMachine machine, long eu) {
         if (eu != 0) {
-            return !RecipeRunner.handleTickRecipe(machine, IO.IN, null, List.of(new Content(eu, 0, 0, 0)), EURecipeCapability.CAP);
+            return !RecipeRunnerHelper.handleTickRecipe(machine, IO.IN, null, List.of(new Content(eu, 0, 0, 0)), EURecipeCapability.CAP);
         }
         return false;
     }

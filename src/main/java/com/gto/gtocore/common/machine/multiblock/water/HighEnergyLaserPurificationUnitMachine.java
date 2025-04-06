@@ -3,7 +3,7 @@ package com.gto.gtocore.common.machine.multiblock.water;
 import com.gto.gtocore.api.data.chemical.GTOChemicalHelper;
 import com.gto.gtocore.api.machine.part.ItemHatchPartMachine;
 import com.gto.gtocore.api.recipe.GTORecipeBuilder;
-import com.gto.gtocore.api.recipe.RecipeRunner;
+import com.gto.gtocore.api.recipe.RecipeRunnerHelper;
 import com.gto.gtocore.common.machine.multiblock.part.IndicatorHatchPartMachine;
 import com.gto.gtocore.utils.MachineUtils;
 
@@ -151,7 +151,7 @@ public final class HighEnergyLaserPurificationUnitMachine extends WaterPurificat
         time = GTValues.RNG.nextInt(4) + 4;
         inputCount = Math.min(getParallel(), MachineUtils.getFluidAmount(this, WaterPurificationPlantMachine.GradePurifiedWater5)[0]);
         recipe = GTORecipeBuilder.ofRaw().duration(WaterPurificationPlantMachine.DURATION).inputFluids(new FluidStack(WaterPurificationPlantMachine.GradePurifiedWater5, inputCount)).buildRawRecipe();
-        if (RecipeRunner.matchRecipe(this, recipe)) {
+        if (RecipeRunnerHelper.matchRecipe(this, recipe)) {
             eut = (long) inputCount << 4;
         }
         return eut;

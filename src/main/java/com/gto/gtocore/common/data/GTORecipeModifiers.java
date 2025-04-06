@@ -5,7 +5,7 @@ import com.gto.gtocore.api.machine.feature.IOverclockConfigMachine;
 import com.gto.gtocore.api.machine.feature.multiblock.ICoilMachine;
 import com.gto.gtocore.api.machine.trait.IEnhancedRecipeLogic;
 import com.gto.gtocore.api.recipe.IGTRecipe;
-import com.gto.gtocore.api.recipe.RecipeRunner;
+import com.gto.gtocore.api.recipe.RecipeRunnerHelper;
 import com.gto.gtocore.common.machine.multiblock.generator.GeneratorArrayMachine;
 import com.gto.gtocore.utils.GTOUtils;
 import com.gto.gtocore.utils.MachineUtils;
@@ -189,7 +189,7 @@ public interface GTORecipeModifiers {
         if (maxParallel > 1 && machine instanceof IRecipeLogicMachine holder && holder.getRecipeLogic() instanceof IEnhancedRecipeLogic logic) {
             if (logic.gtocore$getlastParallel() == maxParallel) {
                 GTRecipe copied = recipe.copy(ContentModifier.multiplier(maxParallel), false);
-                if (RecipeRunner.matchRecipe(holder, copied)) {
+                if (RecipeRunnerHelper.matchRecipe(holder, copied)) {
                     copied.parallels = maxParallel;
                     return copied;
                 }
@@ -204,7 +204,7 @@ public interface GTORecipeModifiers {
     private static GTRecipe matchParallel(IRecipeCapabilityHolder holder, GTRecipe recipe, int parallel) {
         if (parallel > 1) {
             GTRecipe copied = recipe.copy(ContentModifier.multiplier(parallel), false);
-            if (RecipeRunner.matchRecipeInput(holder, copied)) {
+            if (RecipeRunnerHelper.matchRecipeInput(holder, copied)) {
                 copied.parallels *= parallel;
                 return copied;
             } else {

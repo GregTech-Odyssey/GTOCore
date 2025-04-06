@@ -5,7 +5,7 @@ import com.gto.gtocore.api.item.ItemStackSet;
 import com.gto.gtocore.api.machine.multiblock.ElectricMultiblockMachine;
 import com.gto.gtocore.api.machine.trait.CustomRecipeLogic;
 import com.gto.gtocore.api.recipe.GTORecipeBuilder;
-import com.gto.gtocore.api.recipe.RecipeRunner;
+import com.gto.gtocore.api.recipe.RecipeRunnerHelper;
 import com.gto.gtocore.common.data.GTORecipeModifiers;
 import com.gto.gtocore.utils.MachineUtils;
 
@@ -73,7 +73,7 @@ public class FishingGroundMachine extends ElectricMultiblockMachine {
                 recipe = fullModifyRecipe(match.copy());
             }
         }
-        if (recipe != null && RecipeRunner.matchRecipe(this, recipe) && RecipeRunner.matchTickRecipe(this, recipe)) {
+        if (recipe != null && RecipeRunnerHelper.matchRecipe(this, recipe) && RecipeRunnerHelper.matchTickRecipe(this, recipe)) {
             return recipe;
         }
         return null;

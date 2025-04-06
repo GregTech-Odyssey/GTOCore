@@ -244,7 +244,7 @@ public abstract class ItemRecipeCapabilityMixin {
         if (holder instanceof IRecipeLogicMachine machine && machine.getRecipeLogic() instanceof IEnhancedRecipeLogic recipeLogic) {
 
             Object2LongOpenCustomHashMap<ItemStack> map = recipeLogic.gtocore$getParallelItemMap();
-            Object2LongOpenHashMap<ItemStack> ingredientStacks = recipeLogic.gtocore$getItemIngredientStacks();
+            Object2LongOpenCustomHashMap<ItemStack> ingredientStacks = recipeLogic.gtocore$getItemIngredientStacks();
 
             var recipeHandlerList = holder.getCapabilitiesFlat(IO.IN, ItemRecipeCapability.CAP);
 
@@ -263,7 +263,9 @@ public abstract class ItemRecipeCapabilityMixin {
                 }
 
                 if (container.isDistinct()) {
-                    ingredientStacks.putAll(itemMap);
+                    for (var entry : itemMap.object2LongEntrySet()) {
+                        ingredientStacks.computeLong(entry.getKey(), (k, v) -> v == null ? entry.getLongValue() : Math.min(v, entry.getLongValue()));
+                    }
                 } else {
                     for (Object2LongMap.Entry<ItemStack> obj : itemMap.object2LongEntrySet()) {
                         map.computeLong(obj.getKey(), (k, v) -> v == null ? obj.getLongValue() : v + obj.getLongValue());
@@ -271,7 +273,9 @@ public abstract class ItemRecipeCapabilityMixin {
                 }
                 if (!patternBuffer) itemMap.clear();
             }
-            ingredientStacks.putAll(map);
+            for (var entry : map.object2LongEntrySet()) {
+                ingredientStacks.computeLong(entry.getKey(), (k, v) -> v == null ? entry.getLongValue() : v + entry.getLongValue());
+            }
 
             long minMultiplier = Integer.MAX_VALUE - 1;
             Object2IntOpenHashMap<Ingredient> notConsumableMap = recipeLogic.gtocore$getItemNotConsumableMap();

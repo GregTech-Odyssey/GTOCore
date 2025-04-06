@@ -3,7 +3,7 @@ package com.gto.gtocore.common.machine.multiblock.electric.voidseries;
 import com.gto.gtocore.api.machine.multiblock.ElectricMultiblockMachine;
 import com.gto.gtocore.api.machine.trait.CustomRecipeLogic;
 import com.gto.gtocore.api.recipe.GTORecipeBuilder;
-import com.gto.gtocore.api.recipe.RecipeRunner;
+import com.gto.gtocore.api.recipe.RecipeRunnerHelper;
 import com.gto.gtocore.common.data.GTOOres;
 
 import com.gregtechceu.gtceu.api.GTValues;
@@ -34,7 +34,7 @@ public final class PlanetCoreDrillingMachine extends ElectricMultiblockMachine {
             builder.outputItems(TagPrefix.ore, material, 65536);
         }
         GTRecipe recipe = builder.buildRawRecipe();
-        if (RecipeRunner.matchRecipeTickInput(this, recipe) && RecipeRunner.matchRecipeOutput(this, recipe)) return recipe;
+        if (RecipeRunnerHelper.matchRecipeTickInput(this, recipe) && RecipeRunnerHelper.matchRecipeOutput(this, recipe)) return recipe;
         return null;
     }
 
