@@ -579,7 +579,7 @@ public interface MultiBlockA {
             .workableCasingRenderer(GTCEu.id("block/casings/voltage/uxv/side"), GTCEu.id("block/multiblock/fusion_reactor"))
             .register();
 
-    MultiblockMachineDefinition PRECISION_ASSEMBLER = multiblock("precision_assembler", "精密组装机", TierCasingParallelMultiblockMachine.createParallel(m -> 1 << (m.getCasingTiers().get(GLASS_TIER)), true, GLASS_TIER, MACHINE_CASING_TIER))
+    MultiblockMachineDefinition PRECISION_ASSEMBLER = multiblock("precision_assembler", "精密组装机", TierCasingParallelMultiblockMachine.createParallel(m -> 1 << (m.getCasingTier(GLASS_TIER)), true, GLASS_TIER, MACHINE_CASING_TIER))
             .allRotation()
             .recipe(GTORecipeTypes.PRECISION_ASSEMBLER_RECIPES)
             .recipe(GTRecipeTypes.ASSEMBLER_RECIPES)

@@ -7,17 +7,17 @@ import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 
 import net.minecraft.network.chat.Component;
 
+import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
-import java.util.Map;
 
 @Getter
 public class TierCasingTrait extends MultiblockTrait {
 
-    private final Map<String, Integer> casingTiers = new Object2IntOpenHashMap<>(2);
+    private final Object2IntMap<String> casingTiers = new Object2IntOpenHashMap<>(2);
 
     public TierCasingTrait(ITierCasingMachine machine, String... tierTypes) {
         super((IMultiblockTraitHolder) machine);
@@ -38,10 +38,10 @@ public class TierCasingTrait extends MultiblockTrait {
 
     @Override
     public boolean beforeWorking(@NotNull GTRecipe recipe) {
-        for (Map.Entry<String, Integer> entry : casingTiers.entrySet()) {
+        for (Object2IntMap.Entry<String> entry : casingTiers.object2IntEntrySet()) {
             String type = entry.getKey();
             if (recipe.data.contains(type)) {
-                if (recipe.data.getInt(type) > entry.getValue()) {
+                if (recipe.data.getInt(type) > entry.getIntValue()) {
                     return true;
                 }
             }
@@ -51,8 +51,8 @@ public class TierCasingTrait extends MultiblockTrait {
 
     @Override
     public void customText(@NotNull List<Component> textList) {
-        for (Map.Entry<String, Integer> entry : casingTiers.entrySet()) {
-            textList.add(Component.translatable(getTierTranslationKey(entry.getKey()), entry.getValue()));
+        for (Object2IntMap.Entry<String> entry : casingTiers.object2IntEntrySet()) {
+            textList.add(Component.translatable(getTierTranslationKey(entry.getKey()), entry.getIntValue()));
         }
     }
 

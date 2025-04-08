@@ -33,7 +33,7 @@ public final class EnergyInjectorMachine extends ElectricMultiblockMachine {
     }
 
     @Override
-    public void onPartScan(IMultiPart part) {
+    public void onPartScan(@NotNull IMultiPart part) {
         super.onPartScan(part);
         if (busPartMachine == null && part instanceof ItemBusPartMachine itemBusPartMachine) {
             IO io = itemBusPartMachine.getInventory().getHandlerIO();

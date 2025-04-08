@@ -7,7 +7,8 @@ import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 
-import java.util.Map;
+import it.unimi.dsi.fastutil.objects.Object2IntMap;
+
 import java.util.function.Function;
 
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -28,7 +29,7 @@ public class TierCasingMultiblockMachine extends ElectricMultiblockMachine imple
     }
 
     @Override
-    public Map<String, Integer> getCasingTiers() {
+    public Object2IntMap<String> getCasingTiers() {
         return tierCasingTrait.getCasingTiers();
     }
 }

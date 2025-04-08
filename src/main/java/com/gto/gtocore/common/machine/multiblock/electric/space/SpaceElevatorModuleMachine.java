@@ -29,7 +29,7 @@ public final class SpaceElevatorModuleMachine extends CustomParallelMultiblockMa
     private final boolean power_module_tier;
 
     public SpaceElevatorModuleMachine(IMachineBlockEntity holder, boolean power_module_tier) {
-        super(holder, false, m -> ((SpaceElevatorModuleMachine) m).getSpaceElevatorTier() > 7 ? (int) Math.pow(((SpaceElevatorModuleMachine) m).isSuper() ? 8 : 4, ((SpaceElevatorModuleMachine) m).spaceElevatorMachine.getCasingTiers().get(POWER_MODULE_TIER) - 1) : 0);
+        super(holder, false, m -> ((SpaceElevatorModuleMachine) m).getSpaceElevatorTier() > 7 ? (int) Math.pow(((SpaceElevatorModuleMachine) m).isSuper() ? 8 : 4, ((SpaceElevatorModuleMachine) m).spaceElevatorMachine.getCasingTier(POWER_MODULE_TIER) - 1) : 0);
         this.power_module_tier = power_module_tier;
     }
 
@@ -50,7 +50,7 @@ public final class SpaceElevatorModuleMachine extends CustomParallelMultiblockMa
         if (getSpaceElevatorTier() < 8) {
             return null;
         }
-        if (power_module_tier && recipe.data.getInt(POWER_MODULE_TIER) > spaceElevatorMachine.getCasingTiers().get(POWER_MODULE_TIER)) {
+        if (power_module_tier && recipe.data.getInt(POWER_MODULE_TIER) > spaceElevatorMachine.getCasingTier(POWER_MODULE_TIER)) {
             return null;
         }
         return GTORecipeModifiers.overclocking(this, GTORecipeModifiers.accurateParallel(this, recipe, getParallel()), false, false, 1, getDurationMultiplier());

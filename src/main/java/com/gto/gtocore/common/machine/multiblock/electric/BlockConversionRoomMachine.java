@@ -79,7 +79,7 @@ public final class BlockConversionRoomMachine extends StorageMultiblockMachine {
     }
 
     @Override
-    public void onPartScan(IMultiPart part) {
+    public void onPartScan(@NotNull IMultiPart part) {
         super.onPartScan(part);
         if (part instanceof BlockBusPartMachine busPartMachine) {
             blockBusPartMachine = busPartMachine;

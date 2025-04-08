@@ -27,6 +27,7 @@ import net.minecraft.world.entity.player.Player;
 import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
 import com.lowdragmc.lowdraglib.gui.widget.*;
 import lombok.Getter;
+import org.jetbrains.annotations.MustBeInvokedByOverriders;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -95,12 +96,22 @@ public class NoEnergyMultiblockMachine extends WorkableMultiblockMachine impleme
     }
 
     @Override
+    @MustBeInvokedByOverriders
+    public void onPartScan(IMultiPart part) {
+        for (MultiblockTrait trait : multiblockTraits) {
+            trait.onPartScan(part);
+        }
+    }
+
+    @Override
+    @MustBeInvokedByOverriders
     public void onStructureFormed() {
         super.onStructureFormed();
         multiblockTraits.forEach(MultiblockTrait::onStructureFormed);
     }
 
     @Override
+    @MustBeInvokedByOverriders
     public void onStructureInvalid() {
         super.onStructureInvalid();
         multiblockTraits.forEach(MultiblockTrait::onStructureInvalid);

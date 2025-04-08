@@ -34,13 +34,11 @@ public class ManaTrait extends MultiblockTrait {
 
     @Override
     public void onStructureInvalid() {
-        super.onStructureInvalid();
         manaContainers = ManaContainerList.EMPTY;
     }
 
     @Override
     public void onStructureFormed() {
-        super.onStructureFormed();
         List<IManaContainer> containers = new ArrayList<>();
         if (getMachine() instanceof WorkableMultiblockMachine workableMultiblockMachine) {
             if (((IManaMultiblock) machine).isGeneratorMana()) {

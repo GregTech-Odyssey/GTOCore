@@ -1,7 +1,7 @@
 package com.gto.gtocore.utils;
 
 import com.gto.gtocore.api.fluid.IFluid;
-import com.gto.gtocore.mixin.gtm.api.recipe.FluidIngredientAccessor;
+import com.gto.gtocore.mixin.gtm.api.recipe.FluidIngredientFluidValueAccessor;
 
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
 
@@ -23,7 +23,7 @@ public final class FluidUtils {
     public static Fluid getFirst(FluidIngredient fluidIngredient) {
         for (FluidIngredient.Value value : fluidIngredient.values) {
             if (value instanceof FluidIngredient.FluidValue fluidValue) {
-                return ((FluidIngredientAccessor) fluidValue).getFluid();
+                return ((FluidIngredientFluidValueAccessor) fluidValue).getFluid();
             }
             for (Fluid fluid : value.getFluids()) {
                 return fluid;

@@ -1,6 +1,7 @@
 package com.gto.gtocore.mixin.gtm.api.machine;
 
 import com.gto.gtocore.api.recipe.FastSizedIngredient;
+import com.gto.gtocore.utils.ItemUtils;
 
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
@@ -38,7 +39,7 @@ public class NotifiableItemStackHandlerMiixn {
                 provider.setItemStacks(null);
                 provider.setSampledCount(null);
             }
-            var items = ingredient.getItems();
+            var items = ItemUtils.getInnerIngredient(ingredient).getItems();
             if (items.length == 0 || items[0].isEmpty()) {
                 it.remove();
                 continue;

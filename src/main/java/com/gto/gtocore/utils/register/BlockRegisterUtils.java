@@ -55,7 +55,7 @@ import com.tterrag.registrate.util.entry.BlockEntry;
 import com.tterrag.registrate.util.nullness.NonNullBiConsumer;
 import com.tterrag.registrate.util.nullness.NonNullFunction;
 import com.tterrag.registrate.util.nullness.NonNullSupplier;
-import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
+import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -145,7 +145,7 @@ public final class BlockRegisterUtils {
     }
 
     public static BlockEntry<Block> createTierCasings(String name, String cn, ResourceLocation texture,
-                                                      Int2ObjectOpenHashMap<Supplier<?>> map, int tier) {
+                                                      Int2ObjectMap<Supplier<?>> map, int tier) {
         return createTierCasings(name, cn, texture, () -> Blocks.IRON_BLOCK, p -> new Block(p) {
 
             @Override
@@ -171,7 +171,7 @@ public final class BlockRegisterUtils {
                                                        NonNullSupplier<? extends Block> block,
                                                        NonNullFunction<BlockBehaviour.Properties, Block> blockSupplier,
                                                        Supplier<Supplier<RenderType>> type,
-                                                       Int2ObjectOpenHashMap<Supplier<?>> map, int tier) {
+                                                       Int2ObjectMap<Supplier<?>> map, int tier) {
         BlockEntry<Block> Block = block(name, cn, blockSupplier)
                 .initialProperties(block)
                 .properties(p -> p.isValidSpawn((state, level, pos, ent) -> false))
@@ -197,8 +197,7 @@ public final class BlockRegisterUtils {
                 .register();
     }
 
-    public static BlockEntry<ActiveBlock> createActiveTierCasing(String name, String cn, String baseModelPath,
-                                                                 Int2ObjectOpenHashMap<Supplier<?>> map, int tier) {
+    public static BlockEntry<ActiveBlock> createActiveTierCasing(String name, String cn, String baseModelPath, Int2ObjectMap<Supplier<?>> map, int tier) {
         BlockEntry<ActiveBlock> Block = block(name, cn, p -> (ActiveBlock) new ActiveBlock(p) {
 
             @Override

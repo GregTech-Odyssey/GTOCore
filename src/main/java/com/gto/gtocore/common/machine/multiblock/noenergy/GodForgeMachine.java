@@ -22,9 +22,8 @@ import net.minecraft.MethodsReturnNonnullByDefault;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
+import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.Map;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -55,14 +54,14 @@ public final class GodForgeMachine extends NoEnergyMultiblockMachine implements 
     }
 
     @Override
-    public Map<String, Integer> getCasingTiers() {
+    public Object2IntMap<String> getCasingTiers() {
         return tierCasingTrait.getCasingTiers();
     }
 
     @Override
     public void onStructureFormed() {
         super.onStructureFormed();
-        color = 1 - 0.1F * getCasingTiers().get(GRAVITON_FLOW_TIER);
+        color = 1 - 0.1F * getCasingTier(GRAVITON_FLOW_TIER);
     }
 
     @Override

@@ -14,6 +14,6 @@ public class GCYMMultiblockMachine extends TierCasingMultiblockMachine {
     @Override
     public void onStructureFormed() {
         super.onStructureFormed();
-        tier = Math.min(getCasingTiers().get(GTOValues.INTEGRAL_FRAMEWORK_TIER), tier);
+        tier = Math.min(getCasingTier(GTOValues.INTEGRAL_FRAMEWORK_TIER), tier);
     }
 }

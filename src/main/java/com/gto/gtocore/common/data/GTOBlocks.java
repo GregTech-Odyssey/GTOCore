@@ -214,6 +214,9 @@ public interface GTOBlocks {
     BlockEntry<Block> COMPONENT_ASSEMBLY_LINE_CASING_OPV = createTierCasings("component_assembly_line_casing_opv", "部件装配线外壳(OPV)", GTOCore.id("block/casings/component_assembly_line/component_assembly_line_casing_opv"), CALMAP, 13);
     BlockEntry<Block> COMPONENT_ASSEMBLY_LINE_CASING_MAX = createTierCasings("component_assembly_line_casing_max", "部件装配线外壳(MAX)", GTOCore.id("block/casings/component_assembly_line/component_assembly_line_casing_max"), CALMAP, 14);
 
+    BlockEntry<Block> INTEGRAL_FRAMEWORK_LV = createTierCasings("integral_framework_lv", "整体框架(LV)", GTOCore.id("block/casings/integral_framework/lv"), INTEGRALFRAMEWORKMAP, 1);
+    BlockEntry<Block> INTEGRAL_FRAMEWORK_MV = createTierCasings("integral_framework_mv", "整体框架(MV)", GTOCore.id("block/casings/integral_framework/mv"), INTEGRALFRAMEWORKMAP, 2);
+    BlockEntry<Block> INTEGRAL_FRAMEWORK_HV = createTierCasings("integral_framework_hv", "整体框架(HV)", GTOCore.id("block/casings/integral_framework/hv"), INTEGRALFRAMEWORKMAP, 3);
     BlockEntry<Block> INTEGRAL_FRAMEWORK_EV = createTierCasings("integral_framework_ev", "整体框架(EV)", GTOCore.id("block/casings/integral_framework/ev"), INTEGRALFRAMEWORKMAP, 4);
     BlockEntry<Block> INTEGRAL_FRAMEWORK_IV = createTierCasings("integral_framework_iv", "整体框架(IV)", GTOCore.id("block/casings/integral_framework/iv"), INTEGRALFRAMEWORKMAP, 5);
     BlockEntry<Block> INTEGRAL_FRAMEWORK_LUV = createTierCasings("integral_framework_luv", "整体框架(LuV)", GTOCore.id("block/casings/integral_framework/luv"), INTEGRALFRAMEWORKMAP, 6);

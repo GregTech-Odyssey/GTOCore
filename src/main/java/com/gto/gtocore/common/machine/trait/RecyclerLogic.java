@@ -15,10 +15,9 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
+import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.Map;
 
 public final class RecyclerLogic implements GTRecipeType.ICustomRecipeLogic {
 
@@ -28,11 +27,11 @@ public final class RecyclerLogic implements GTRecipeType.ICustomRecipeLogic {
             GTORecipeBuilder builder = GTORecipeBuilder.ofRaw().EUt(480);
             int parallel = MachineUtils.getItemAmount(parallelMultiblockMachine, GTOItems.SCRAP_BOX.get())[0];
             builder.duration(20 * parallel).inputItems(GTOItems.SCRAP_BOX.asStack(parallel));
-            Map<Item, Integer> map = new Object2IntOpenHashMap<>();
+            Object2IntMap<Item> map = new Object2IntOpenHashMap<>();
             for (int i = 0; i < parallel; i++) {
                 ItemStack stack = ItemMap.getScrapItem();
                 if (map.containsKey(stack.getItem())) {
-                    map.put(stack.getItem(), map.get(stack.getItem()) + 1);
+                    map.put(stack.getItem(), map.getInt(stack.getItem()) + 1);
                 } else {
                     map.put(stack.getItem(), 1);
                 }

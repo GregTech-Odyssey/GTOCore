@@ -1,9 +1,12 @@
 package com.gto.gtocore.common.machine.multiblock.electric.processing;
 
+import com.gto.gtocore.api.GTOValues;
 import com.gto.gtocore.api.gui.ParallelConfigurator;
 import com.gto.gtocore.api.machine.feature.multiblock.IParallelMachine;
+import com.gto.gtocore.api.machine.feature.multiblock.ITierCasingMachine;
 import com.gto.gtocore.api.machine.multiblock.StorageMultiblockMachine;
 import com.gto.gtocore.api.machine.trait.CustomParallelTrait;
+import com.gto.gtocore.api.machine.trait.TierCasingTrait;
 import com.gto.gtocore.common.data.GTORecipeModifiers;
 import com.gto.gtocore.common.data.GTORecipeTypes;
 import com.gto.gtocore.utils.MachineUtils;
@@ -26,6 +29,7 @@ import net.minecraft.world.item.ItemStack;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
+import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -36,7 +40,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public final class ProcessingPlantMachine extends StorageMultiblockMachine implements IParallelMachine {
+public final class ProcessingPlantMachine extends StorageMultiblockMachine implements IParallelMachine, ITierCasingMachine {
 
     private static final Set<GTRecipeType> RECIPE_TYPES = Set.of(
             GTRecipeTypes.BENDER_RECIPES,
@@ -87,9 +91,12 @@ public final class ProcessingPlantMachine extends StorageMultiblockMachine imple
     @Persisted
     private final CustomParallelTrait customParallelTrait;
 
+    private final TierCasingTrait tierCasingTrait;
+
     public ProcessingPlantMachine(IMachineBlockEntity holder) {
         super(holder, 1, ProcessingPlantMachine::filter);
         customParallelTrait = new CustomParallelTrait(this, true, machine -> ((ProcessingPlantMachine) machine).getTier() > 0 ? ((ProcessingPlantMachine) machine).getTier() << 1 : 0);
+        tierCasingTrait = new TierCasingTrait(this, GTOValues.INTEGRAL_FRAMEWORK_TIER);
     }
 
     private static boolean filter(ItemStack itemStack) {
@@ -190,5 +197,16 @@ public final class ProcessingPlantMachine extends StorageMultiblockMachine imple
     @Override
     public void setCleanroom(@Nullable ICleanroomProvider provider) {
         if (provider instanceof CleanroomMachine) super.setCleanroom(provider);
+    }
+
+    @Override
+    public int getTier() {
+        if (isEmpty() || mismatched) return tier;
+        return Math.min(getCasingTier(GTOValues.INTEGRAL_FRAMEWORK_TIER), tier);
+    }
+
+    @Override
+    public Object2IntMap<String> getCasingTiers() {
+        return tierCasingTrait.getCasingTiers();
     }
 }

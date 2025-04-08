@@ -43,7 +43,7 @@ public final class DroneControlCenterMachine extends NoEnergyMultiblockMachine {
     }
 
     @Override
-    public void onPartScan(IMultiPart part) {
+    public void onPartScan(@NotNull IMultiPart part) {
         super.onPartScan(part);
         if (droneHatchPartMachine == null && part instanceof DroneHatchPartMachine machine) {
             droneHatchPartMachine = machine;

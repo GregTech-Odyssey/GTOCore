@@ -25,7 +25,7 @@ public final class MagneticFluidGeneratorMachine extends TierCasingMultiblockMac
     }
 
     @Override
-    public void onPartScan(IMultiPart part) {
+    public void onPartScan(@NotNull IMultiPart part) {
         super.onPartScan(part);
         if (outputTier > 0) return;
         if (part instanceof LaserHatchPartMachine laserHatchPartMachine) {
@@ -39,7 +39,7 @@ public final class MagneticFluidGeneratorMachine extends TierCasingMultiblockMac
     @Override
     public void onStructureFormed() {
         super.onStructureFormed();
-        int tier = getCasingTiers().get(GTOValues.GLASS_TIER);
+        int tier = getCasingTier(GTOValues.GLASS_TIER);
         if (tier < outputTier) outputTier = 0;
     }
 

@@ -23,6 +23,7 @@ import net.minecraft.world.item.ItemStack;
 
 import com.hepdd.gtmthings.api.misc.WirelessEnergyContainer;
 import com.hepdd.gtmthings.utils.TeamUtil;
+import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import lombok.Getter;
 import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
@@ -31,7 +32,6 @@ import org.jetbrains.annotations.Nullable;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 public final class WirelessEnergySubstationMachine extends NoRecipeLogicMultiblockMachine implements IMachineLife, IExtendWirelessEnergyContainerHolder, ITierCasingMachine, IEnergyInfoProvider {
@@ -68,7 +68,7 @@ public final class WirelessEnergySubstationMachine extends NoRecipeLogicMultiblo
         super.onStructureFormed();
         ExtendWirelessEnergyContainer container = getWirelessEnergyContainer();
         if (container == null) return;
-        Integer tier = getCasingTiers().get(GTOValues.GLASS_TIER);
+        int tier = getCasingTier(GTOValues.GLASS_TIER);
         FunctionContainer<ArrayList<WirelessEnergyUnitBlock>, ?> functionContainer = getMultiblockState().getMatchContext().get("wirelessEnergyUnit");
         int loss = 0;
         int i = 0;
@@ -101,7 +101,7 @@ public final class WirelessEnergySubstationMachine extends NoRecipeLogicMultiblo
     }
 
     @Override
-    public Map<String, Integer> getCasingTiers() {
+    public Object2IntMap<String> getCasingTiers() {
         return tierCasingTrait.getCasingTiers();
     }
 

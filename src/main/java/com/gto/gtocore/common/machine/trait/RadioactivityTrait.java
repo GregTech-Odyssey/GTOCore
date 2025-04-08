@@ -38,17 +38,14 @@ public final class RadioactivityTrait extends MultiblockTrait {
     }
 
     @Override
-    public void onStructureFormed() {
-        for (IMultiPart part : getMachine().getParts()) {
-            if (part instanceof RadiationHatchPartMachine radiationHatchPartMachine) {
-                radiationHatchPartMachines.add(radiationHatchPartMachine);
-            }
+    public void onPartScan(IMultiPart part) {
+        if (part instanceof RadiationHatchPartMachine radiationHatchPartMachine) {
+            radiationHatchPartMachines.add(radiationHatchPartMachine);
         }
     }
 
     @Override
     public void onStructureInvalid() {
-        super.onStructureInvalid();
         radiationHatchPartMachines.clear();
     }
 

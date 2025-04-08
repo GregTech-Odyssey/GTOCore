@@ -1,5 +1,6 @@
 package com.gto.gtocore.api.recipe;
 
+import com.gto.gtocore.utils.EmptyStream;
 import com.gto.gtocore.utils.ItemUtils;
 
 import com.gregtechceu.gtceu.api.recipe.ingredient.IntCircuitIngredient;
@@ -21,11 +22,13 @@ import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.*;
-import java.util.function.*;
-import java.util.stream.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public final class FastSizedIngredient extends Ingredient {
+
+    private static final EmptyStream<Ingredient.Value> EMPTY_STREAM = EmptyStream.create(new Ingredient.Value[0]);
 
     @Getter
     private int amount;
@@ -34,7 +37,7 @@ public final class FastSizedIngredient extends Ingredient {
     private ItemStack[] itemStacks = null;
 
     private FastSizedIngredient(Ingredient inner, int amount) {
-        super(EmptyStream.INSTANCE);
+        super(EMPTY_STREAM);
         this.amount = amount;
         this.inner = inner;
     }
@@ -171,210 +174,4 @@ public final class FastSizedIngredient extends Ingredient {
             ingredient.inner.toNetwork(buffer);
         }
     };
-
-    @SuppressWarnings("unchecked")
-    private static class EmptyStream implements Stream<Ingredient.Value> {
-
-        private static final EmptyStream INSTANCE = new EmptyStream();
-
-        private static final Stream EMPTY = Stream.empty();
-        private static final IntStream EMPTY_INT = IntStream.empty();
-        private static final LongStream EMPTY_LONG = LongStream.empty();
-        private static final DoubleStream EMPTY_DOUBLE = DoubleStream.empty();
-        private static final Ingredient.Value[] EMPTY_ARRAY = new Ingredient.Value[0];
-
-        @Override
-        public Stream<Ingredient.Value> filter(Predicate<? super Ingredient.Value> predicate) {
-            return INSTANCE;
-        }
-
-        @Override
-        public <R> Stream<R> map(Function<? super Ingredient.Value, ? extends R> mapper) {
-            return EMPTY;
-        }
-
-        @Override
-        public IntStream mapToInt(ToIntFunction<? super Ingredient.Value> mapper) {
-            return EMPTY_INT;
-        }
-
-        @Override
-        public LongStream mapToLong(ToLongFunction<? super Ingredient.Value> mapper) {
-            return EMPTY_LONG;
-        }
-
-        @Override
-        public DoubleStream mapToDouble(ToDoubleFunction<? super Ingredient.Value> mapper) {
-            return EMPTY_DOUBLE;
-        }
-
-        @Override
-        public <R> Stream<R> flatMap(Function<? super Ingredient.Value, ? extends Stream<? extends R>> mapper) {
-            return EMPTY;
-        }
-
-        @Override
-        public IntStream flatMapToInt(Function<? super Ingredient.Value, ? extends IntStream> mapper) {
-            return EMPTY_INT;
-        }
-
-        @Override
-        public LongStream flatMapToLong(Function<? super Ingredient.Value, ? extends LongStream> mapper) {
-            return EMPTY_LONG;
-        }
-
-        @Override
-        public DoubleStream flatMapToDouble(Function<? super Ingredient.Value, ? extends DoubleStream> mapper) {
-            return EMPTY_DOUBLE;
-        }
-
-        @Override
-        public Stream<Ingredient.Value> distinct() {
-            return INSTANCE;
-        }
-
-        @Override
-        public Stream<Ingredient.Value> sorted() {
-            return INSTANCE;
-        }
-
-        @Override
-        public Stream<Ingredient.Value> sorted(Comparator<? super Ingredient.Value> comparator) {
-            return INSTANCE;
-        }
-
-        @Override
-        public Stream<Ingredient.Value> peek(Consumer<? super Ingredient.Value> action) {
-            return INSTANCE;
-        }
-
-        @Override
-        public Stream<Ingredient.Value> limit(long maxSize) {
-            return INSTANCE;
-        }
-
-        @Override
-        public Stream<Ingredient.Value> skip(long n) {
-            return INSTANCE;
-        }
-
-        @Override
-        public void forEach(Consumer<? super Ingredient.Value> action) {}
-
-        @Override
-        public void forEachOrdered(Consumer<? super Ingredient.Value> action) {}
-
-        @Override
-        public @NotNull Ingredient.Value @NotNull [] toArray() {
-            return EMPTY_ARRAY;
-        }
-
-        @Override
-        public @NotNull <A> A @NotNull [] toArray(IntFunction<A[]> generator) {
-            return (A[]) EMPTY_ARRAY;
-        }
-
-        @Override
-        public Ingredient.Value reduce(Ingredient.Value identity, BinaryOperator<Ingredient.Value> accumulator) {
-            return null;
-        }
-
-        @Override
-        public @NotNull Optional<Ingredient.Value> reduce(BinaryOperator<Ingredient.Value> accumulator) {
-            return Optional.empty();
-        }
-
-        @Override
-        public <U> U reduce(U identity, BiFunction<U, ? super Ingredient.Value, U> accumulator, BinaryOperator<U> combiner) {
-            return null;
-        }
-
-        @Override
-        public <R> R collect(Supplier<R> supplier, BiConsumer<R, ? super Ingredient.Value> accumulator, BiConsumer<R, R> combiner) {
-            return null;
-        }
-
-        @Override
-        public <R, A> R collect(Collector<? super Ingredient.Value, A, R> collector) {
-            return null;
-        }
-
-        @Override
-        public @NotNull Optional<Ingredient.Value> min(Comparator<? super Ingredient.Value> comparator) {
-            return Optional.empty();
-        }
-
-        @Override
-        public @NotNull Optional<Ingredient.Value> max(Comparator<? super Ingredient.Value> comparator) {
-            return Optional.empty();
-        }
-
-        @Override
-        public long count() {
-            return 0;
-        }
-
-        @Override
-        public boolean anyMatch(Predicate<? super Ingredient.Value> predicate) {
-            return false;
-        }
-
-        @Override
-        public boolean allMatch(Predicate<? super Ingredient.Value> predicate) {
-            return false;
-        }
-
-        @Override
-        public boolean noneMatch(Predicate<? super Ingredient.Value> predicate) {
-            return false;
-        }
-
-        @Override
-        public @NotNull Optional<Ingredient.Value> findFirst() {
-            return Optional.empty();
-        }
-
-        @Override
-        public @NotNull Optional<Ingredient.Value> findAny() {
-            return Optional.empty();
-        }
-
-        @Override
-        public @NotNull Iterator<Ingredient.Value> iterator() {
-            return Collections.emptyIterator();
-        }
-
-        @Override
-        public @NotNull Spliterator<Ingredient.Value> spliterator() {
-            return Spliterators.emptySpliterator();
-        }
-
-        @Override
-        public boolean isParallel() {
-            return false;
-        }
-
-        @Override
-        public @NotNull Stream<Ingredient.Value> sequential() {
-            return INSTANCE;
-        }
-
-        @Override
-        public @NotNull Stream<Ingredient.Value> parallel() {
-            return INSTANCE;
-        }
-
-        @Override
-        public @NotNull Stream<Ingredient.Value> unordered() {
-            return INSTANCE;
-        }
-
-        @Override
-        public @NotNull Stream<Ingredient.Value> onClose(@NotNull Runnable closeHandler) {
-            return INSTANCE;
-        }
-
-        @Override
-        public void close() {}
-    }
 }

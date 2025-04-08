@@ -3,6 +3,7 @@ package com.gto.gtocore.api.machine.trait;
 import com.gto.gtocore.api.data.tag.GTOTagPrefix;
 import com.gto.gtocore.api.recipe.FastSizedIngredient;
 import com.gto.gtocore.common.data.GTOItems;
+import com.gto.gtocore.utils.ItemUtils;
 
 import com.gregtechceu.gtceu.api.capability.IControllable;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
@@ -76,7 +77,7 @@ public final class NotifiableCatalystHandler extends NotifiableItemStackHandler 
                     it.remove();
                     continue;
                 }
-                var items = ingredient.getItems();
+                var items = ItemUtils.getInnerIngredient(ingredient).getItems();
                 if (items.length == 0 || items[0].isEmpty()) {
                     it.remove();
                     continue;
@@ -99,13 +100,6 @@ public final class NotifiableCatalystHandler extends NotifiableItemStackHandler 
                             it.remove();
                             break;
                         }
-                    }
-                }
-                if (count > 0) {
-                    if (ingredient instanceof FastSizedIngredient si) {
-                        si.setAmount(count);
-                    } else {
-                        items[0].setCount(count);
                     }
                 }
             }

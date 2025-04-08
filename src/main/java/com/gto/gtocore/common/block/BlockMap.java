@@ -4,29 +4,30 @@ import com.gto.gtocore.common.data.GTOBlocks;
 
 import com.gregtechceu.gtceu.common.data.GTBlocks;
 
+import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 
 import java.util.function.Supplier;
 
 public interface BlockMap {
 
-    Int2ObjectOpenHashMap<Supplier<?>> SCMAP = new Int2ObjectOpenHashMap<>();
+    Int2ObjectMap<Supplier<?>> SCMAP = new Int2ObjectOpenHashMap<>();
 
-    Int2ObjectOpenHashMap<Supplier<?>> SEPMMAP = new Int2ObjectOpenHashMap<>();
+    Int2ObjectMap<Supplier<?>> SEPMMAP = new Int2ObjectOpenHashMap<>();
 
-    Int2ObjectOpenHashMap<Supplier<?>> CALMAP = new Int2ObjectOpenHashMap<>();
+    Int2ObjectMap<Supplier<?>> CALMAP = new Int2ObjectOpenHashMap<>();
 
-    Int2ObjectOpenHashMap<Supplier<?>> GLASSMAP = new Int2ObjectOpenHashMap<>();
+    Int2ObjectMap<Supplier<?>> GLASSMAP = new Int2ObjectOpenHashMap<>();
 
-    Int2ObjectOpenHashMap<Supplier<?>> MACHINECASINGMAP = new Int2ObjectOpenHashMap<>();
+    Int2ObjectMap<Supplier<?>> MACHINECASINGMAP = new Int2ObjectOpenHashMap<>();
 
-    Int2ObjectOpenHashMap<Supplier<?>> INTEGRALFRAMEWORKMAP = new Int2ObjectOpenHashMap<>();
+    Int2ObjectMap<Supplier<?>> INTEGRALFRAMEWORKMAP = new Int2ObjectOpenHashMap<>();
 
-    Int2ObjectOpenHashMap<Supplier<?>> GRAVITONFLOWMAP = new Int2ObjectOpenHashMap<>();
+    Int2ObjectMap<Supplier<?>> GRAVITONFLOWMAP = new Int2ObjectOpenHashMap<>();
 
-    Int2ObjectOpenHashMap<Supplier<?>> COMPUTER_CASING_MAP = new Int2ObjectOpenHashMap<>();
+    Int2ObjectMap<Supplier<?>> COMPUTER_CASING_MAP = new Int2ObjectOpenHashMap<>();
 
-    Int2ObjectOpenHashMap<Supplier<?>> COMPUTER_HEAT_MAP = new Int2ObjectOpenHashMap<>();
+    Int2ObjectMap<Supplier<?>> COMPUTER_HEAT_MAP = new Int2ObjectOpenHashMap<>();
 
     static void init() {
         GLASSMAP.put(2, GTBlocks.CASING_TEMPERED_GLASS);

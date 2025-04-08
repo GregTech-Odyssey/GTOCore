@@ -822,6 +822,7 @@ public interface MultiBlockD {
             .durationMultiplierTooltips(0.8)
             .tooltipsText("Requires one corresponding tier small machine to operate", "需要放入一个对应配方等级的小机器才能运行")
             .tooltipsText("For each tier above ULV, maximum parallelism increases by 2", "配方等级每高出ULV一级，最大并行数+2")
+            .tooltipsText("The final recipe tier is constrained by the integral framework tier.", "最终配方等级受限于整体框架等级")
             .tooltipsText("Unable to obtain a clean environment through a clean maintenance warehouse", "无法通过超净维护仓获得洁净环境")
             .tooltipsKey("gtceu.machine.available_recipe_map_1.tooltip",
                     Component.translatable("gtceu.bender")
@@ -872,7 +873,7 @@ public interface MultiBlockD {
                             .or(abilities(EXPORT_FLUIDS))
                             .or(abilities(INPUT_ENERGY).setMaxGlobalLimited(2).setPreviewCount(1))
                             .or(abilities(MAINTENANCE).setExactLimit(1)))
-                    .where('c', blocks(GTBlocks.CASING_BRONZE_GEARBOX.get()))
+                    .where('c', GTOPredicates.integralFramework())
                     .build())
             .workableCasingRenderer(GTOCore.id("block/casings/multi_functional_casing"), GTCEu.id("block/multiblock/gcym/large_assembler"))
             .register();

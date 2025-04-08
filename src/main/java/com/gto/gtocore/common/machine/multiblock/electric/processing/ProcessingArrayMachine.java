@@ -78,7 +78,7 @@ public final class ProcessingArrayMachine extends TierCasingMultiblockMachine im
         if (itemStack.getItem() instanceof MetaMachineItem metaMachineItem) {
             MachineDefinition definition = metaMachineItem.getDefinition();
             if (definition instanceof MultiblockMachineDefinition) return false;
-            if (definition.getTier() > machine.getCasingTiers().get(GTOValues.GLASS_TIER)) return false;
+            if (definition.getTier() > machine.getCasingTier(GTOValues.GLASS_TIER)) return false;
             GTRecipeType[] recipeTypes = definition.getRecipeTypes();
             if (recipeTypes != null && recipeTypes.length == 1) {
                 return GTRecipeTypes.ELECTRIC.equals(recipeTypes[0].group);

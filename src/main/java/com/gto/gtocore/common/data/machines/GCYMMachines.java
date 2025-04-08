@@ -7,7 +7,9 @@ import com.gto.gtocore.api.pattern.GTOPredicates;
 import com.gto.gtocore.client.renderer.machine.FluidRenderer;
 import com.gto.gtocore.common.data.GTORecipeModifiers;
 import com.gto.gtocore.common.data.GTORecipeTypes;
-import com.gto.gtocore.common.machine.multiblock.electric.gcym.*;
+import com.gto.gtocore.common.machine.multiblock.electric.gcym.GCYMMultiblockMachine;
+import com.gto.gtocore.common.machine.multiblock.electric.gcym.LargeChemicalBathMachine;
+import com.gto.gtocore.common.machine.multiblock.electric.gcym.LargeMixerMachine;
 import com.gto.gtocore.common.machine.multiblock.part.ParallelHatchPartMachine;
 
 import com.gregtechceu.gtceu.GTCEu;

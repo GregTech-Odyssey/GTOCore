@@ -1,6 +1,8 @@
 package com.gto.gtocore.common.machine.multiblock.part.ae;
 
+import com.gto.gtocore.api.recipe.FastSizedIngredient;
 import com.gto.gtocore.common.machine.trait.InternalSlotRecipeHandler;
+import com.gto.gtocore.utils.ItemUtils;
 
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
@@ -172,9 +174,9 @@ public class MEPatternBufferPartMachine extends MEBusPartMachine implements ICra
     }
 
     NotifiableItemStackHandler createCircuitInventory() {
-        return new NotifiableItemStackHandler(this, 1, IO.IN, IO.NONE)
-                .setFilter(IntCircuitBehaviour::isIntegratedCircuit)
-                .shouldSearchContent(false);
+        NotifiableItemStackHandler handle = new NotifiableItemStackHandler(this, 1, IO.IN, IO.NONE);
+        handle.setFilter(IntCircuitBehaviour::isIntegratedCircuit);
+        return handle;
     }
 
     @Override
@@ -196,6 +198,11 @@ public class MEPatternBufferPartMachine extends MEBusPartMachine implements ICra
     @Override
     public List<RecipeHandlerList> getRecipeHandlers() {
         return internalRecipeHandler.getSlotHandlers();
+    }
+
+    @Override
+    protected RecipeHandlerList getHandlerList() {
+        return RecipeHandlerList.NO_DATA;
     }
 
     @Override
@@ -591,13 +598,14 @@ public class MEPatternBufferPartMachine extends MEBusPartMachine implements ICra
                     continue;
                 }
 
-                var items = ingredient.getItems();
+                var items = ItemUtils.getInnerIngredient(ingredient).getItems();
                 if (items.length == 0 || items[0].isEmpty()) {
                     it.remove();
                     continue;
                 }
-
-                int amount = items[0].getCount();
+                int amount;
+                if (ingredient instanceof FastSizedIngredient si) amount = si.getAmount();
+                else amount = items[0].getCount();
                 synchronized (itemInventory) {
                     for (var it2 = itemInventory.object2LongEntrySet().iterator(); it2.hasNext();) {
                         var entry = it2.next();
@@ -617,7 +625,7 @@ public class MEPatternBufferPartMachine extends MEBusPartMachine implements ICra
                         }
                         amount -= extracted;
 
-                        if (amount <= 0) {
+                        if (amount < 1) {
                             it.remove();
                             break;
                         }
@@ -663,7 +671,7 @@ public class MEPatternBufferPartMachine extends MEBusPartMachine implements ICra
                         }
                         amount -= extracted;
 
-                        if (amount <= 0) {
+                        if (amount < 1) {
                             it.remove();
                             break;
                         }

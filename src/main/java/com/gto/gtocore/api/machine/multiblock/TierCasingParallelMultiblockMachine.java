@@ -5,7 +5,8 @@ import com.gto.gtocore.api.machine.trait.TierCasingTrait;
 
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 
-import java.util.Map;
+import it.unimi.dsi.fastutil.objects.Object2IntMap;
+
 import java.util.function.Function;
 
 public final class TierCasingParallelMultiblockMachine extends CustomParallelMultiblockMachine implements ITierCasingMachine {
@@ -22,7 +23,7 @@ public final class TierCasingParallelMultiblockMachine extends CustomParallelMul
     }
 
     @Override
-    public Map<String, Integer> getCasingTiers() {
+    public Object2IntMap<String> getCasingTiers() {
         return tierCasingTrait.getCasingTiers();
     }
 }

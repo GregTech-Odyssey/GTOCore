@@ -1,8 +1,12 @@
 package com.gto.gtocore.api.machine.feature.multiblock;
 
-import java.util.Map;
+import it.unimi.dsi.fastutil.objects.Object2IntMap;
 
 public interface ITierCasingMachine {
 
-    Map<String, Integer> getCasingTiers();
+    Object2IntMap<String> getCasingTiers();
+
+    default int getCasingTier(String type) {
+        return getCasingTiers().getInt(type);
+    }
 }

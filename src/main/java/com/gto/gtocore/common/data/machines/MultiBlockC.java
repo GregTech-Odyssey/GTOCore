@@ -509,7 +509,7 @@ public interface MultiBlockC {
                     .where('J', blocks(GTBlocks.CASING_STEEL_GEARBOX.get()))
                     .where(' ', any())
                     .build())
-            .beforeWorking((m, r) -> ((ITierCasingMachine) m).getCasingTiers().get(COMPONENT_ASSEMBLY_CASING_TIER) < GTValues.LuV)
+            .beforeWorking((m, r) -> ((ITierCasingMachine) m).getCasingTier(COMPONENT_ASSEMBLY_CASING_TIER) < GTValues.LuV)
             .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_solid_steel"), GTCEu.id("block/multiblock/gcym/large_assembler"))
             .register();
 
@@ -708,7 +708,7 @@ public interface MultiBlockC {
             .tooltipsKey("gtocore.machine.automatic_chisel.tooltip.1")
             .tooltipsText("The higher the glass tier, the faster the operation speed", "玻璃等级越高，运行速度越快")
             .recipe(GTORecipeTypes.PHYSICAL_VAPOR_DEPOSITION_RECIPES)
-            .recipeModifiers((machine, r) -> recipe -> GTORecipeModifiers.recipeReduction(machine, recipe, 1, Math.sqrt(1.0D / ((ITierCasingMachine) machine).getCasingTiers().get(GLASS_TIER))), GTORecipeModifiers.OVERCLOCKING)
+            .recipeModifiers((machine, r) -> recipe -> GTORecipeModifiers.recipeReduction(machine, recipe, 1, Math.sqrt(1.0D / ((ITierCasingMachine) machine).getCasingTier(GLASS_TIER))), GTORecipeModifiers.OVERCLOCKING)
             .block(GTBlocks.PLASTCRETE)
             .pattern(definition -> FactoryBlockPattern.start()
                     .aisle("AAAA     ", "AAAA     ", "JJJA     ", "AAJA     ", "AAAA     ")
@@ -731,7 +731,7 @@ public interface MultiBlockC {
                     .where('I', blocks(GTBlocks.FILTER_CASING.get()))
                     .where(' ', any())
                     .build())
-            .additionalDisplay((controller, components) -> components.add(Component.translatable("gtocore.machine.duration_multiplier.tooltip", Component.literal(FormattingUtil.formatNumbers(Math.sqrt(1.0D / ((ITierCasingMachine) controller).getCasingTiers().get(GLASS_TIER)))))))
+            .additionalDisplay((controller, components) -> components.add(Component.translatable("gtocore.machine.duration_multiplier.tooltip", Component.literal(FormattingUtil.formatNumbers(Math.sqrt(1.0D / ((ITierCasingMachine) controller).getCasingTier(GLASS_TIER)))))))
             .workableCasingRenderer(GTCEu.id("block/casings/cleanroom/plascrete"), GTCEu.id("block/multiblock/gcym/large_chemical_bath"))
             .register();
 

@@ -3,6 +3,7 @@ package com.gto.gtocore.api.machine.trait;
 import com.gto.gtocore.api.machine.feature.multiblock.IMultiblockTraitHolder;
 
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
+import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockControllerMachine;
 import com.gregtechceu.gtceu.api.machine.trait.MachineTrait;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
@@ -48,6 +49,8 @@ public abstract class MultiblockTrait extends MachineTrait {
     public void afterWorking() {}
 
     public void customText(@NotNull List<Component> textList) {}
+
+    public void onPartScan(IMultiPart part) {}
 
     public void onStructureFormed() {}
 

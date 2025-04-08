@@ -274,7 +274,7 @@ public abstract class ItemRecipeCapabilityMixin {
                 if (!patternBuffer) itemMap.clear();
             }
             for (var entry : map.object2LongEntrySet()) {
-                ingredientStacks.computeLong(entry.getKey(), (k, v) -> v == null ? entry.getLongValue() : v + entry.getLongValue());
+                ingredientStacks.computeLong(entry.getKey(), (k, v) -> v == null ? entry.getLongValue() : Math.max(v, entry.getLongValue()));
             }
 
             long minMultiplier = Integer.MAX_VALUE - 1;

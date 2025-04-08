@@ -3951,6 +3951,41 @@ interface Assembler {
                 .duration(400)
                 .save();
 
+        ASSEMBLER_RECIPES.builder("integral_framework_lv")
+                .inputItems(GTMachines.HULL[GTValues.LV].asStack())
+                .inputItems(TagPrefix.gear, GTMaterials.RoseGold, 4)
+                .inputItems(TagPrefix.plate, GTMaterials.RoseGold, 4)
+                .inputItems(TagPrefix.cableGtOctal, GTMaterials.Nickel)
+                .inputItems(CustomTags.LV_CIRCUITS, 2)
+                .outputItems(GTOBlocks.INTEGRAL_FRAMEWORK_LV.asStack())
+                .inputFluids(GTMaterials.Silicon, 288)
+                .duration(100)
+                .save();
+
+        ASSEMBLER_RECIPES.builder("integral_framework_mv")
+                .inputItems(GTMachines.HULL[GTValues.MV].asStack())
+                .inputItems(TagPrefix.gear, GTOMaterials.EglinSteel, 4)
+                .inputItems(TagPrefix.plate, GTOMaterials.EglinSteel, 4)
+                .inputItems(TagPrefix.cableGtOctal, GTMaterials.AnnealedCopper)
+                .inputItems(CustomTags.MV_CIRCUITS, 2)
+                .outputItems(GTOBlocks.INTEGRAL_FRAMEWORK_MV.asStack())
+                .inputFluids(GTMaterials.DamascusSteel, 288)
+                .EUt(120)
+                .duration(100)
+                .save();
+
+        ASSEMBLER_RECIPES.builder("integral_framework_hv")
+                .inputItems(GTMachines.HULL[GTValues.HV].asStack())
+                .inputItems(TagPrefix.gear, GTMaterials.BlackSteel, 4)
+                .inputItems(TagPrefix.plate, GTMaterials.BlackSteel, 4)
+                .inputItems(TagPrefix.cableGtOctal, GTMaterials.Electrum)
+                .inputItems(CustomTags.HV_CIRCUITS, 2)
+                .outputItems(GTOBlocks.INTEGRAL_FRAMEWORK_HV.asStack())
+                .inputFluids(GTOMaterials.NitinolA, 288)
+                .EUt(480)
+                .duration(100)
+                .save();
+
         ASSEMBLER_RECIPES.builder("integral_framework_ev")
                 .inputItems(GTMachines.HULL[GTValues.EV].asStack())
                 .inputItems(TagPrefix.gear, GTOMaterials.NitinolA, 4)
@@ -3970,7 +4005,7 @@ interface Assembler {
                 .inputItems(TagPrefix.cableGtOctal, GTMaterials.Tungsten)
                 .inputItems(CustomTags.IV_CIRCUITS, 2)
                 .outputItems(GTOBlocks.INTEGRAL_FRAMEWORK_IV.asStack())
-                .inputFluids(GTMaterials.Thorium, 288)
+                .inputFluids(GTOMaterials.Inconel625, 288)
                 .EUt(7680)
                 .duration(100)
                 .save();

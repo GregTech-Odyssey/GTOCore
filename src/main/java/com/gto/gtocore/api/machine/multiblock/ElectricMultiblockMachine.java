@@ -16,6 +16,7 @@ import com.gregtechceu.gtceu.utils.GTUtil;
 import net.minecraft.network.chat.Component;
 
 import lombok.Getter;
+import org.jetbrains.annotations.MustBeInvokedByOverriders;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -80,12 +81,22 @@ public class ElectricMultiblockMachine extends WorkableElectricMultiblockMachine
     }
 
     @Override
+    @MustBeInvokedByOverriders
+    public void onPartScan(@NotNull IMultiPart part) {
+        for (MultiblockTrait trait : multiblockTraits) {
+            trait.onPartScan(part);
+        }
+    }
+
+    @Override
+    @MustBeInvokedByOverriders
     public void onStructureFormed() {
         super.onStructureFormed();
         multiblockTraits.forEach(MultiblockTrait::onStructureFormed);
     }
 
     @Override
+    @MustBeInvokedByOverriders
     public void onStructureInvalid() {
         super.onStructureInvalid();
         multiblockTraits.forEach(MultiblockTrait::onStructureInvalid);
@@ -93,6 +104,7 @@ public class ElectricMultiblockMachine extends WorkableElectricMultiblockMachine
     }
 
     @Override
+    @MustBeInvokedByOverriders
     public void onPartUnload() {
         super.onPartUnload();
         overclockVoltage = -1;

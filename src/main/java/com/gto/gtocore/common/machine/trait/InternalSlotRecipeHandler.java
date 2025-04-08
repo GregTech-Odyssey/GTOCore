@@ -15,6 +15,7 @@ import net.minecraftforge.fluids.FluidStack;
 
 import it.unimi.dsi.fastutil.objects.Object2LongOpenCustomHashMap;
 import it.unimi.dsi.fastutil.objects.Object2LongOpenHashMap;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
@@ -35,7 +36,7 @@ public final class InternalSlotRecipeHandler {
     }
 
     @Getter
-    static class SlotRHL extends RecipeHandlerList {
+    public static class SlotRHL extends RecipeHandlerList {
 
         private final SlotItemRecipeHandler itemRecipeHandler;
         private final SlotFluidRecipeHandler fluidRecipeHandler;
@@ -72,12 +73,13 @@ public final class InternalSlotRecipeHandler {
 
         @Override
         public List<Ingredient> handleRecipe(IO io, GTRecipe recipe, List<?> left, boolean simulate) {
-            return handleRecipeInner(io, recipe, (List<Ingredient>) left, simulate);
+            List<Ingredient> list = (List<Ingredient>) left;
+            if (io != IO.IN || slot.isItemEmpty()) return list;
+            return handleRecipeInner(io, recipe, new ObjectArrayList<>(list), simulate);
         }
 
         @Override
         public List<Ingredient> handleRecipeInner(IO io, GTRecipe recipe, List<Ingredient> left, boolean simulate) {
-            if (io != IO.IN || slot.isItemEmpty()) return left;
             return slot.handleItemInternal(left, simulate);
         }
 
@@ -137,12 +139,13 @@ public final class InternalSlotRecipeHandler {
 
         @Override
         public List<FluidIngredient> handleRecipe(IO io, GTRecipe recipe, List<?> left, boolean simulate) {
-            return handleRecipeInner(io, recipe, (List<FluidIngredient>) left, simulate);
+            List<FluidIngredient> list = (List<FluidIngredient>) left;
+            if (io != IO.IN || slot.isFluidEmpty()) return list;
+            return handleRecipeInner(io, recipe, new ObjectArrayList<>(list), simulate);
         }
 
         @Override
         public List<FluidIngredient> handleRecipeInner(IO io, GTRecipe recipe, List<FluidIngredient> left, boolean simulate) {
-            if (io != IO.IN || slot.isFluidEmpty()) return left;
             return slot.handleFluidInternal(left, simulate);
         }
 

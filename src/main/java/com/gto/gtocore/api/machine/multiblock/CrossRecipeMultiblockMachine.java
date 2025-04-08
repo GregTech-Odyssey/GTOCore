@@ -82,6 +82,7 @@ public class CrossRecipeMultiblockMachine extends ElectricMultiblockMachine impl
     private GTRecipe lastMatchRecipe;
 
     private int lastParallel;
+    private int lastparallel;
 
     @Persisted
     private boolean hasItem;
@@ -164,11 +165,15 @@ public class CrossRecipeMultiblockMachine extends ElectricMultiblockMachine impl
         } else {
             GTRecipe match;
             if (lastMatchRecipe != null) {
+                lastparallel = lastParallel;
                 match = checkRecipe(lastMatchRecipe);
                 if (match == null) {
                     lastMatchRecipe = null;
                 } else {
-                    if (lastParallel != getRealParallel()) lastMatchRecipe = null;
+                    if (lastParallel != getRealParallel()) {
+                        lastparallel = 1;
+                        lastMatchRecipe = null;
+                    }
                     return match;
                 }
             }
@@ -299,7 +304,7 @@ public class CrossRecipeMultiblockMachine extends ElectricMultiblockMachine impl
     }
 
     @Override
-    public void onPartScan(IMultiPart part) {
+    public void onPartScan(@NotNull IMultiPart part) {
         super.onPartScan(part);
         if (threadHatchPartMachine == null && part instanceof ThreadHatchPartMachine threadHatchPart) {
             threadHatchPartMachine = threadHatchPart;
@@ -352,6 +357,11 @@ public class CrossRecipeMultiblockMachine extends ElectricMultiblockMachine impl
         public void gTOCore$setLockRecipe(boolean look) {
             super.gTOCore$setLockRecipe(look);
             getMachine().originRecipes.clear();
+        }
+
+        @Override
+        public int gtocore$getlastParallel() {
+            return getMachine().lastparallel;
         }
 
         @Override

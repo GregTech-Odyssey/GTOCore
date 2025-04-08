@@ -3,7 +3,7 @@ package com.gto.gtocore.mixin.gtm.capability;
 import com.gto.gtocore.api.machine.trait.IEnhancedRecipeLogic;
 import com.gto.gtocore.api.machine.trait.IPatternBufferRecipeHandler;
 import com.gto.gtocore.api.recipe.MapFluid;
-import com.gto.gtocore.mixin.gtm.api.recipe.FluidIngredientAccessor;
+import com.gto.gtocore.mixin.gtm.api.recipe.FluidIngredientFluidValueAccessor;
 
 import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
@@ -18,10 +18,7 @@ import com.gregtechceu.gtceu.api.recipe.lookup.MapFluidTagIngredient;
 
 import net.minecraftforge.fluids.FluidStack;
 
-import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
-import it.unimi.dsi.fastutil.objects.Object2LongMap;
-import it.unimi.dsi.fastutil.objects.Object2LongOpenHashMap;
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import it.unimi.dsi.fastutil.objects.*;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 
@@ -43,7 +40,7 @@ public class FluidRecipeCapabilityMixin {
                 if (value instanceof FluidIngredient.TagValue tagValue) {
                     ingredients.add(new MapFluidTagIngredient(tagValue.getTag()));
                 } else {
-                    ingredients.add(new MapFluid(((FluidIngredientAccessor) value).getFluid(), ingredient.getNbt()));
+                    ingredients.add(new MapFluid(((FluidIngredientFluidValueAccessor) value).getFluid(), ingredient.getNbt()));
                 }
             }
         } else if (obj instanceof FluidStack stack) {
@@ -90,7 +87,7 @@ public class FluidRecipeCapabilityMixin {
                 if (!patternBuffer) fluidMap.clear();
             }
             for (var entry : map.object2LongEntrySet()) {
-                ingredientStacks.computeLong(entry.getKey(), (k, v) -> v == null ? entry.getLongValue() : v + entry.getLongValue());
+                ingredientStacks.computeLong(entry.getKey(), (k, v) -> v == null ? entry.getLongValue() : Math.max(v, entry.getLongValue()));
             }
 
             long minMultiplier = Integer.MAX_VALUE - 1;
@@ -108,8 +105,8 @@ public class FluidRecipeCapabilityMixin {
                 }
             }
 
-            for (Map.Entry<FluidIngredient, Integer> notConsumableFluid : notConsumableMap.object2IntEntrySet()) {
-                long needed = notConsumableFluid.getValue();
+            for (Object2IntMap.Entry<FluidIngredient> notConsumableFluid : notConsumableMap.object2IntEntrySet()) {
+                long needed = notConsumableFluid.getIntValue();
                 long available = 0;
                 for (Map.Entry<FluidStack, Long> inputFluid : ingredientStacks.object2LongEntrySet()) {
                     if (notConsumableFluid.getKey().test(inputFluid.getKey())) {
@@ -134,8 +131,8 @@ public class FluidRecipeCapabilityMixin {
                 return parallelAmount;
             }
 
-            for (Map.Entry<FluidIngredient, Integer> fs : fluidCountMap.object2IntEntrySet()) {
-                long needed = fs.getValue();
+            for (Object2IntMap.Entry<FluidIngredient> fs : fluidCountMap.object2IntEntrySet()) {
+                long needed = fs.getIntValue();
                 long available = 0;
                 for (Map.Entry<FluidStack, Long> inputFluid : ingredientStacks.object2LongEntrySet()) {
                     if (fs.getKey().test(inputFluid.getKey())) {

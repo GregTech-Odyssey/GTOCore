@@ -8,7 +8,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 
 @Mixin(FluidIngredient.FluidValue.class)
-public interface FluidIngredientAccessor {
+public interface FluidIngredientFluidValueAccessor {
 
     @Accessor(value = "fluid", remap = false)
     Fluid getFluid();

@@ -129,9 +129,9 @@ public interface Data {
 
     static void asyncInit() {
         init();
-        IMultiblockMachineDefinition.init();
         GTORecipeBuilder.RECIPE_MAP.values().forEach(recipe -> recipe.recipeCategory.addRecipe(recipe));
         if (GTCEu.Mods.isEMILoaded()) {
+            IMultiblockMachineDefinition.init();
             long time = System.currentTimeMillis();
             EmiConfig.logUntranslatedTags = false;
             EmiConfig.workstationLocation = SidebarSide.LEFT;
