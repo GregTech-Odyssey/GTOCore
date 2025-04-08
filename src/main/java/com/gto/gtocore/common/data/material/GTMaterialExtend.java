@@ -115,6 +115,7 @@ public interface GTMaterialExtend {
         Platinum.addFlags(GTOMaterialFlags.GENERATE_CATALYST);
         Palladium.addFlags(GTOMaterialFlags.GENERATE_CATALYST);
         RhodiumPlatedPalladium.addFlags(GTOMaterialFlags.GENERATE_CATALYST);
+        Brass.addFlags(GTOMaterialFlags.GENERATE_CATALYST);
         HastelloyC276.addFlags(GENERATE_ROTOR);
         Steel.addFlags(GTOMaterialFlags.GENERATE_COMPONENT);
         Aluminium.addFlags(GTOMaterialFlags.GENERATE_COMPONENT);

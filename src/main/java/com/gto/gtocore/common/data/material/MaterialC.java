@@ -5,6 +5,8 @@ import com.gto.gtocore.api.data.chemical.material.info.GTOMaterialFlags;
 import com.gregtechceu.gtceu.api.fluids.FluidBuilder;
 
 import static com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlags.DISABLE_DECOMPOSITION;
+import static com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlags.GENERATE_FOIL;
+import static com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialIconSet.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
 import static com.gto.gtocore.api.data.chemical.material.info.GTOMaterialIconSet.*;
 import static com.gto.gtocore.common.data.GTOMaterials.*;
@@ -397,5 +399,72 @@ public interface MaterialC {
                 .iconSet(DULL)
                 // 后面画.iconSet(new MaterialIconSet("cascade_mfpc"))
                 .buildAndRegister();
+
+        RecycleBasicMFPC = material("recycle_basic_mfpc", "回收的多功能相变(MFPC)")
+                .dust()
+                .color(0xC0C0C0)
+                .iconSet(DULL)
+                .buildAndRegister();
+
+        RecycleCascadeMFPC = material("recycle_cascade_mfpc", "回收的串级相变MFPC(Cascade-MFPC)")
+                .dust()
+                .color(0x303030)
+                .iconSet(DULL)
+                .buildAndRegister();
+
+        PrecursorMFPC = material("precursor_mfpc", "多功能相变(MFPC)前体")
+                .dust()
+                .color(0x2b2d30)
+                .iconSet(SAND)
+                .buildAndRegister();
+
+        EthylSilicate = material("ethyl_silicate", "硅酸乙酯(TEOS)")
+                .fluid()
+                .color(0xfcffc1)
+                .iconSet(FLUID)
+                .buildAndRegister().setFormula("(C₂H₅O)₄Si", false);
+
+        SilicicAcid = material("silicic_acid", "硅酸")
+                .fluid()
+                .color(0xd3d2d5)
+                .iconSet(DULL)
+                .buildAndRegister().setFormula("Si(OH)₄", false);
+
+        Polystyrene = material("polystyrene", "聚苯乙烯")
+                .polymer(1)
+                .liquid(new FluidBuilder().temperature(240))
+                .flags(GENERATE_FOIL)
+                .color(0xc6c6c6)
+                .buildAndRegister().setFormula("(C₈H₈)n", false);
+
+        Trimethylsilanol = material("trimethylsilanol", "三甲基硅醇")
+                .fluid()
+                .iconSet(DULL)
+                .color(0x622998)
+                .buildAndRegister().setFormula("(CH₃)₃SiOH", false);
+
+        Hexamethyldisiloxane = material("hexamethyldisiloxane", "六甲基二硅氧烷")
+                .fluid()
+                .iconSet(DULL)
+                .color(0xffffff)
+                .buildAndRegister().setFormula("(CH₃)₆OSi₂", false);
+
+        Triethoxysilane = material("triethoxysilane", "三乙氧基氢硅烷")
+                .fluid()
+                .iconSet(DULL)
+                .color(0xbcbec4)
+                .buildAndRegister().setFormula("(CH₅O)₃SiH", false);
+
+        Chloropropyltriethoxysilane = material("chloropropyltriethoxysilane", "氯丙基三乙氧基硅烷")
+                .fluid()
+                .iconSet(DULL)
+                .color(0xb8bb90)
+                .buildAndRegister().setFormula("(CH₅O)₃(C₃H₆Cl)Si", false);
+
+        KH550SilaneCouplingAgent = material("kh550_silane_coupling_agent", "KH-550硅烷偶联剂")
+                .fluid()
+                .iconSet(DULL)
+                .color(0xf5f5f5)
+                .buildAndRegister().setFormula("(CH₅O)₃(C₃H₆NH₂)Si", false);
     }
 }

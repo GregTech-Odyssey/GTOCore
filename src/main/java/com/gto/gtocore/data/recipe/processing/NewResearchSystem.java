@@ -2,24 +2,33 @@ package com.gto.gtocore.data.recipe.processing;
 
 import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.api.item.MultiStepItemHelper;
+import com.gto.gtocore.common.data.machines.ExResearchMachines;
 import com.gto.gtocore.common.recipe.condition.VacuumCondition;
 
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
 import com.gregtechceu.gtceu.api.machine.multiblock.CleanroomType;
+import com.gregtechceu.gtceu.common.data.GTMaterials;
+import com.gregtechceu.gtceu.data.recipe.CustomTags;
 
 import net.minecraft.world.item.ItemStack;
 
 import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
+import static com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys.LIQUID;
+import static com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys.PLASMA;
+import static com.gregtechceu.gtceu.common.data.GTBlocks.ADVANCED_COMPUTER_CASING;
 import static com.gregtechceu.gtceu.common.data.GTBlocks.OPTICAL_PIPES;
-import static com.gregtechceu.gtceu.common.data.GTItems.DUCT_TAPE;
-import static com.gregtechceu.gtceu.common.data.GTItems.SHAPE_MOLD_CYLINDER;
+import static com.gregtechceu.gtceu.common.data.GTItems.*;
+import static com.gregtechceu.gtceu.common.data.GTItems.EMITTER_UHV;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
+import static com.gto.gtocore.api.data.tag.GTOTagPrefix.CATALYST;
+import static com.gto.gtocore.common.data.GTOBlocks.*;
 import static com.gto.gtocore.common.data.GTOItems.*;
 import static com.gto.gtocore.common.data.GTOMaterials.*;
 import static com.gto.gtocore.common.data.GTORecipeTypes.*;
+import static com.gto.gtocore.common.data.machines.ExResearchMachines.*;
 
 public interface NewResearchSystem {
 
@@ -53,6 +62,117 @@ public interface NewResearchSystem {
                     .circuitMeta(2)
                     .duration(20)
                     .EUt(VA[HV])
+                    .save();
+
+            CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("make_ethyl_silicate_1"))
+                    .inputFluids(Tetrachlorosilane.getFluid(1000))
+                    .inputFluids(Ethanol.getFluid(4000))
+                    .outputFluids(EthylSilicate.getFluid(1000))
+                    .outputFluids(HydrochloricAcid.getFluid(4000))
+                    .duration(1000)
+                    .EUt(VA[IV])
+                    .save();
+
+            AUTOCLAVE_RECIPES.recipeBuilder(GTOCore.id("make_ethyl_silicate_2"))
+                    .inputItems(CATALYST, GTMaterials.Brass)
+                    .inputItems(dust, ElectronicGradeSilicon, 1)
+                    .inputFluids(AbsoluteEthanol.getFluid(4000))
+                    .outputFluids(EthylSilicate.getFluid(1000))
+                    .cleanroom(CleanroomType.CLEANROOM)
+                    .duration(20)
+                    .EUt(VA[ZPM])
+                    .save();
+
+            CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("hydrolysis_silicic_acid"))
+                    .inputFluids(SilicicAcid.getFluid(1000))
+                    .inputFluids(HydrofluoricAcid.getFluid(4000))
+                    .outputFluids(Tetrafluorosilane.getFluid(1000))
+                    .outputFluids(Water.getFluid(3000))
+                    .duration(40)
+                    .EUt(VA[LV])
+                    .save();
+
+            CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("hydrolysis_tetrafluorosilane_1"))
+                    .inputFluids(Tetrafluorosilane.getFluid(1000))
+                    .inputFluids(Water.getFluid(2000))
+                    .outputFluids(DiluteHexafluorosilicicAcid.getFluid(1000))
+                    .circuitMeta(1)
+                    .duration(40)
+                    .EUt(VA[LV])
+                    .save();
+
+            CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("hydrolysis_tetrafluorosilane_2"))
+                    .notConsumable(DUST_CRYOTHEUM)
+                    .inputFluids(Tetrafluorosilane.getFluid(1000))
+                    .inputFluids(Water.getFluid(2000))
+                    .outputFluids(TetrafluorosilaneSolution.getFluid(1000))
+                    .circuitMeta(2)
+                    .duration(40)
+                    .EUt(VA[LV])
+                    .save();
+
+            MIXER_RECIPES.recipeBuilder(GTOCore.id("mixer_silver_nitrate_solution"))
+                    .inputItems(dust, SilverNitrate, 5)
+                    .inputFluids(Water.getFluid(1000))
+                    .outputFluids(SilverNitrateSolution.getFluid(1000))
+                    .EUt(60)
+                    .duration(80)
+                    .save();
+
+            CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("chemical_silver_nitrate_solution"))
+                    .inputItems(dust, SilverChloride, 2)
+                    .inputFluids(NitricAcid.getFluid(1000))
+                    .outputFluids(SilverNitrateSolution.getFluid(1000))
+                    .outputFluids(HydrochloricAcid.getFluid(1000))
+                    .EUt(60)
+                    .duration(100)
+                    .save();
+
+            CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("chemical_trimethylsilanol"))
+                    .inputFluids(Trimethylchlorosilane.getFluid(1000))
+                    .inputFluids(Water.getFluid(1000))
+                    .outputFluids(Trimethylsilanol.getFluid(1000))
+                    .outputFluids(HydrochloricAcid.getFluid(1000))
+                    .EUt(1920)
+                    .duration(200)
+                    .save();
+
+            CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("chemical_hexamethyldisiloxane"))
+                    .notConsumable(dust, SiliconDioxide)
+                    .inputFluids(Trimethylsilanol.getFluid(1000))
+                    .outputFluids(Hexamethyldisiloxane.getFluid(1000))
+                    .outputFluids(Water.getFluid(1000))
+                    .EUt(1920)
+                    .duration(600)
+                    .save();
+
+            LARGE_CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("chemical_triethoxysilane"))
+                    .notConsumable(CATALYST, Brass)
+                    .inputItems(dust, UltraHighPuritySilicon)
+                    .inputFluids(AbsoluteEthanol.getFluid(3000))
+                    .outputFluids(Triethoxysilane.getFluid(1000))
+                    .outputFluids(Hydrogen.getFluid(1000))
+                    .cleanroom(CleanroomType.CLEANROOM)
+                    .EUt(30720)
+                    .duration(200)
+                    .save();
+
+            CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("chemical_chloropropyltriethoxysilane"))
+                    .notConsumable(CATALYST, PlatinumFront)
+                    .inputFluids(Triethoxysilane.getFluid(1000))
+                    .inputFluids(AllylChloride.getFluid(1000))
+                    .outputFluids(Chloropropyltriethoxysilane.getFluid(1000))
+                    .EUt(16380)
+                    .duration(300)
+                    .save();
+
+            CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("chemical_kh550_silane_coupling_agent"))
+                    .inputFluids(Chloropropyltriethoxysilane.getFluid(1000))
+                    .inputFluids(Ammonia.getFluid(4000))
+                    .outputFluids(KH550SilaneCouplingAgent.getFluid(1000))
+                    .outputFluids(HydrochloricAcid.getFluid(2000))
+                    .EUt(120)
+                    .duration(100)
                     .save();
         }
 
@@ -370,7 +490,7 @@ public interface NewResearchSystem {
 
             LAMINATOR_RECIPES.recipeBuilder("make_simple_fiber_optic")
                     .inputItems(SIMPLE_FIBER_OPTIC_ROUGH)
-                    .inputFluids(EthylAcrylate.getFluid(72))
+                    .inputFluids(EthylAcrylate.getFluid(18))
                     .outputItems(SIMPLE_FIBER_OPTIC)
                     .duration(100)
                     .EUt(7)
@@ -388,6 +508,219 @@ public interface NewResearchSystem {
                     .EUt(VA[IV])
                     .save();
 
+        }
+
+        // MFPC相变微粒产线
+        {
+            ItemStack stack2 = MultiStepItemHelper.toMultiStepItem(ChemicalHelper.get(dust, PrecursorMFPC), 1, 8);
+            ItemStack stack3 = MultiStepItemHelper.toMultiStepItem(ChemicalHelper.get(dust, RecycleBasicMFPC), 1, 3);
+
+            LARGE_CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("make_silicic_acid"))
+                    .inputFluids(EthylSilicate.getFluid(1000))
+                    .inputFluids(ClearAmmoniaSolution.getFluid(4000))
+                    .outputFluids(SilicicAcid.getFluid(1000))
+                    .outputFluids(Ethanol.getFluid(4000))
+                    .outputFluids(Ammonia.getFluid(4000))
+                    .duration(120)
+                    .EUt(VA[EV])
+                    .save();
+
+            LARGE_CHEMICAL_RECIPES.recipeBuilder("make_mfpc_1")
+                    .inputItems(dust, Polystyrene, 1)
+                    .inputFluids(SilicicAcid.getFluid(500))
+                    .outputItems(MultiStepItemHelper.locateStep(stack2, 1,"中空陶瓷微珠粗胚"), 16)
+                    .outputFluids(Water.getFluid(500))
+                    .duration(100)
+                    .EUt(VA[IV])
+                    .save();
+
+            SINTERING_FURNACE_RECIPES.recipeBuilder(GTOCore.id("make_mfpc_2"))
+                    .inputItems(MultiStepItemHelper.locateStep(stack2, 1,"中空陶瓷微珠粗胚"))
+                    .outputItems(MultiStepItemHelper.locateStep(stack2, 2,"中空陶瓷微珠"))
+                    .duration(20)
+                    .EUt(VA[HV])
+                    .blastFurnaceTemp(800)
+                    .save();
+
+            CHEMICAL_VAPOR_DEPOSITION_RECIPES.recipeBuilder(GTOCore.id("make_mfpc_3"))
+                    .inputItems(MultiStepItemHelper.locateStep(stack2, 2,"中空陶瓷微珠"), 8)
+                    .inputFluids(SilverNitrateSolution.getFluid(500))
+                    .inputFluids(Hydrazine.getFluid(500))
+                    .outputItems(MultiStepItemHelper.locateStep(stack2, 3,"镀银的中空陶瓷微珠"), 8)
+                    .outputFluids(Ammonia.getFluid(1000))
+                    .duration(12000)
+                    .EUt(VA[UV])
+                    .blastFurnaceTemp(600)
+                    .save();
+
+            CANNER_RECIPES.recipeBuilder(GTOCore.id("make_mfpc_4"))
+                    .inputItems(MultiStepItemHelper.locateStep(stack2, 3,"镀银的中空陶瓷微珠"), 10)
+                    .inputFluids(Octane.getFluid(800))
+                    .outputItems(MultiStepItemHelper.locateStep(stack2, 4,"镀银的辛烷陶瓷微珠"), 10)
+                    .duration(2000)
+                    .EUt(VA[MV])
+                    .save();
+
+            LASER_ENGRAVER_RECIPES.recipeBuilder(GTOCore.id("make_mfpc_5"))
+                    .inputItems(MultiStepItemHelper.locateStep(stack2, 4,"镀银的辛烷陶瓷微珠"), 4)
+                    .notConsumable(lens, NetherStar)
+                    .inputFluids(Hexamethyldisiloxane.getFluid(50))
+                    .inputFluids(Argon.getFluid(PLASMA, 1))
+                    .outputItems(MultiStepItemHelper.locateStep(stack2, 5,"密封相变微珠"), 4)
+                    .duration(300)
+                    .EUt(VA[ZPM])
+                    .save();
+
+            CHEMICAL_VAPOR_DEPOSITION_RECIPES.recipeBuilder(GTOCore.id("make_mfpc_6"))
+                    .notConsumable(dust, Cobalt)
+                    .inputItems(MultiStepItemHelper.locateStep(stack2, 5,"密封相变微珠"), 16)
+                    .inputFluids(Methane.getFluid(1000))
+                    .inputFluids(Hydrogen.getFluid(4000))
+                    .inputFluids(Argon.getFluid(PLASMA, 100))
+                    .outputItems(MultiStepItemHelper.locateStep(stack2, 6,"碳纳米管包覆的相变微珠"), 16)
+                    .duration(800)
+                    .EUt(VA[IV])
+                    .save();
+
+            PHYSICAL_VAPOR_DEPOSITION_RECIPES.recipeBuilder(GTOCore.id("make_mfpc_7"))
+                    .inputItems(MultiStepItemHelper.locateStep(stack2, 6,"碳纳米管包覆的相变微珠"), 32)
+                    .inputItems(plate, SiliconCarbide, 1)
+                    .inputItems(dust, FerriteMixture, 1)
+                    .inputFluids(Argon.getFluid(PLASMA, 100))
+                    .outputItems(MultiStepItemHelper.locateStep(stack2, 7,"微波衰减涂覆的相变微珠"), 32)
+                    .duration(4000)
+                    .EUt(VA[UV])
+                    .save();
+
+            CHEMICAL_BATH_RECIPES.recipeBuilder(GTOCore.id("make_mfpc_8"))
+                    .inputItems(MultiStepItemHelper.locateStep(stack2, 7,"微波衰减涂覆的相变微珠"))
+                    .inputFluids(KH550SilaneCouplingAgent.getFluid(5))
+                    .outputItems(MultiStepItemHelper.locateStep(stack2, 8,"表面功能化的相变微珠"))
+                    .duration(100)
+                    .EUt(VA[MV])
+                    .save();
+
+            ISOSTATIC_PRESSING_RECIPES.recipeBuilder(GTOCore.id("make_mfpc_9"))
+                    .inputItems(MultiStepItemHelper.locateStep(stack2, 8,"表面功能化的相变微珠"))
+                    .inputFluids(MutatedLivingSolder.getFluid(10))
+                    .outputItems(dust, BasicMFPC)
+                    .duration(600)
+                    .EUt(VA[UV])
+                    .save();
+
+            CENTRIFUGE_RECIPES.recipeBuilder(GTOCore.id("recycle_mfpc_1"))
+                    .inputItems(dust, InvalidationBasicMFPC)
+                    .outputItems(MultiStepItemHelper.locateStep(stack3, 1,"回收的多功能相变(MFPC)末"))
+                    .duration(20)
+                    .EUt(VA[LV])
+                    .save();
+
+            CANNER_RECIPES.recipeBuilder(GTOCore.id("recycle_mfpc_2"))
+                    .inputItems(MultiStepItemHelper.locateStep(stack3, 1,"回收的多功能相变(MFPC)末"), 10)
+                    .inputFluids(Octane.getFluid(800))
+                    .outputItems(MultiStepItemHelper.locateStep(stack3, 2,"重载辛烷的相变微珠"), 10)
+                    .duration(2000)
+                    .EUt(VA[MV])
+                    .save();
+
+            CHEMICAL_BATH_RECIPES.recipeBuilder(GTOCore.id("recycle_mfpc_3"))
+                    .inputItems(MultiStepItemHelper.locateStep(stack3, 2,"重载辛烷的相变微珠"))
+                    .inputFluids(KH550SilaneCouplingAgent.getFluid(5))
+                    .outputItems(MultiStepItemHelper.locateStep(stack3, 3,"重新活化的相变微珠"))
+                    .duration(100)
+                    .EUt(VA[MV])
+                    .save();
+
+            ISOSTATIC_PRESSING_RECIPES.recipeBuilder(GTOCore.id("recycle_mfpc_4"))
+                    .inputItems(MultiStepItemHelper.locateStep(stack3, 3,"重新活化的相变微珠"))
+                    .inputFluids(MutatedLivingSolder.getFluid(10))
+                    .outputItems(dust, BasicMFPC)
+                    .duration(600)
+                    .EUt(VA[UV])
+                    .save();
+
+        }
+
+        {
+            CIRCUIT_ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("make_neural_matrix"))
+                    .inputItems(BIOWARE_PRINTED_CIRCUIT_BOARD)
+                    .inputItems(CustomTags.UHV_CIRCUITS, 2)
+                    .inputItems(SUPER_CEREBRUM, 2)
+                    .inputItems(BIOWARE_CHIP, 32)
+                    .inputItems(NM_CHIP, 64)
+                    .inputItems(wireFine, RutheniumTriniumAmericiumNeutronate, 64)
+                    .outputItems(NEURAL_MATRIX)
+                    .duration(600)
+                    .EUt(VA[UV])
+                    .save();
+
+            ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("make_biocomputer_casing"))
+                    .inputItems(ADVANCED_COMPUTER_CASING)
+                    .inputItems(CustomTags.UHV_CIRCUITS, 2)
+                    .inputItems(wireFine,Titanium,64)
+                    .inputItems(wireFine,AbyssalAlloy,64)
+                    .inputItems(wireGtSingle, RutheniumTriniumAmericiumNeutronate, 16)
+                    .outputItems(BIOCOMPUTER_CASING)
+                    .duration(400)
+                    .EUt(VA[UV])
+                    .save();
+
+            ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("make_phase_change_biocomputer_cooling_vents"))
+                    .inputItems(BIOCOMPUTER_CASING)
+                    .inputItems(ELECTRIC_MOTOR_UHV, 2)
+                    .inputItems(ingot,BasicMFPC,64)
+                    .inputItems(pipeTinyFluid, Neutronium, 16)
+                    .inputItems(plate, Orichalcum, 16)
+                    .inputItems(wireGtSingle, RutheniumTriniumAmericiumNeutronate, 16)
+                    .outputItems(PHASE_CHANGE_BIOCOMPUTER_COOLING_VENTS)
+                    .duration(400)
+                    .EUt(VA[UV])
+                    .save();
+
+            ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("make_nich_empty_component"))
+                    .inputItems(BIOCOMPUTER_CASING)
+                    .inputItems(CustomTags.UV_CIRCUITS, 2)
+                    .inputItems(NEURAL_MATRIX)
+                    .inputFluids(Helium.getFluid(LIQUID,8000))
+                    .outputItems(NICH_EMPTY_COMPONENT)
+                    .cleanroom(CleanroomType.CLEANROOM)
+                    .duration(200)
+                    .EUt(VA[UHV])
+                    .save();
+
+            ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("make_nich_computing_components"))
+                    .inputItems(NICH_EMPTY_COMPONENT)
+                    .inputItems(CustomTags.UEV_CIRCUITS, 8)
+                    .inputItems(FIELD_GENERATOR_UHV)
+                    .inputFluids(Helium.getFluid(LIQUID,8000))
+                    .outputItems(NICH_COMPUTING_COMPONENTS)
+                    .cleanroom(CleanroomType.CLEANROOM)
+                    .duration(200)
+                    .EUt(VA[UHV])
+                    .save();
+
+            ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("make_nich_cooling_components"))
+                    .inputItems(NICH_EMPTY_COMPONENT)
+                    .inputItems(block,BasicMFPC,64)
+                    .inputItems(pipeTinyFluid, Neutronium, 8)
+                    .inputItems(plate, Orichalcum, 32)
+                    .outputItems(NICH_COOLING_COMPONENTS)
+                    .cleanroom(CleanroomType.CLEANROOM)
+                    .duration(200)
+                    .EUt(VA[UHV])
+                    .save();
+
+            ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("make_nich_bridge_component"))
+                    .inputItems(NICH_EMPTY_COMPONENT)
+                    .inputItems(CustomTags.UEV_CIRCUITS, 2)
+                    .inputItems(EMITTER_UHV)
+                    .inputItems(OPTICAL_PIPES[0].asStack(32))
+                    .inputFluids(Helium.getFluid(LIQUID,8000))
+                    .outputItems(NICH_BRIDGE_COMPONENT)
+                    .cleanroom(CleanroomType.CLEANROOM)
+                    .duration(200)
+                    .EUt(VA[UHV])
+                    .save();
         }
     }
 }

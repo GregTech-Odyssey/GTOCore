@@ -29,6 +29,22 @@ public final class MultiStepItemHelper {
         return stack;
     }
 
+    public static ItemStack locateStep(ItemStack stack0, int step, String name) {
+        ItemStack stack = stack0.copy();
+        CompoundTag nbt = stack.getOrCreateTag();
+        if (stack.getTag() != null) {
+            stack.getTag().putInt("current_craft_step", step);
+        }
+        if (name != null && !name.isEmpty()) {
+            CompoundTag display = nbt.getCompound("display");
+            String jsonName = "{\"text\":\"" + name + "\",\"italic\":false}";
+            display.putString("Name", jsonName);
+            nbt.put("display", display);
+        }
+        stack.setTag(nbt);
+        return stack;
+    }
+
     public static ItemStack promoteStep(ItemStack stack) {
         int step = getStep(stack) + 1;
         int max = getMaxStep(stack);

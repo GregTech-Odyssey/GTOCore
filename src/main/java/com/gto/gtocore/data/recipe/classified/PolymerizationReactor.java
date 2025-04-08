@@ -11,8 +11,7 @@ import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.dust;
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.ingot;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
-import static com.gto.gtocore.common.data.GTOMaterials.EthylHexanol;
-import static com.gto.gtocore.common.data.GTOMaterials.P507;
+import static com.gto.gtocore.common.data.GTOMaterials.*;
 import static com.gto.gtocore.common.data.GTORecipeTypes.POLYMERIZATION_REACTOR_RECIPES;
 
 interface PolymerizationReactor {
@@ -117,6 +116,7 @@ interface PolymerizationReactor {
                 .duration(400).EUt(VA[HV]).save();
 
         POLYMERIZATION_REACTOR_RECIPES.recipeBuilder("raw_sbr_from_oxygen")
+                .circuitMeta(3)
                 .inputFluids(Butadiene.getFluid(3000))
                 .inputFluids(Styrene.getFluid(1000))
                 .inputFluids(Oxygen.getFluid(15000))
@@ -181,6 +181,21 @@ interface PolymerizationReactor {
                 .inputFluids(Tetrafluoroethylene.getFluid(2160))
                 .inputFluids(TitaniumTetrachloride.getFluid(100))
                 .outputFluids(Polytetrafluoroethylene.getFluid(4320))
+                .duration(800).EUt(VA[LV]).save();
+
+        POLYMERIZATION_REACTOR_RECIPES.recipeBuilder("styrene_from_oxygen")
+                .circuitMeta(1)
+                .inputFluids(Oxygen.getFluid(1000))
+                .inputFluids(Styrene.getFluid(L))
+                .outputFluids(Polystyrene.getFluid(216))
+                .duration(160).EUt(VA[LV]).save();
+
+        POLYMERIZATION_REACTOR_RECIPES.recipeBuilder("polyethylene_from_tetrachloride_oxygen")
+                .circuitMeta(2)
+                .inputFluids(Oxygen.getFluid(7500))
+                .inputFluids(Styrene.getFluid(2160))
+                .inputFluids(TitaniumTetrachloride.getFluid(100))
+                .outputFluids(Polystyrene.getFluid(4320))
                 .duration(800).EUt(VA[LV]).save();
     }
 }

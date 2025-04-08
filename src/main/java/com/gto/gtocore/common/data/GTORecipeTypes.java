@@ -774,7 +774,7 @@ public interface GTORecipeTypes {
 
     GTORecipeType CHEMICAL_VAPOR_DEPOSITION_RECIPES = register("chemical_vapor_deposition", "化学气相沉积", MULTIBLOCK)
             .setEUIO(IO.IN)
-            .setMaxIOSize(2, 1, 3, 1)
+            .setMaxIOSize(3, 1, 3, 1)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.CHEMICAL);
 
@@ -829,7 +829,7 @@ public interface GTORecipeTypes {
 
     GTORecipeType PHYSICAL_VAPOR_DEPOSITION_RECIPES = register("physical_vapor_deposition", "物理气相沉积", MULTIBLOCK)
             .setEUIO(IO.IN)
-            .setMaxIOSize(1, 1, 1, 1)
+            .setMaxIOSize(3, 1, 3, 1)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.ARC);
 

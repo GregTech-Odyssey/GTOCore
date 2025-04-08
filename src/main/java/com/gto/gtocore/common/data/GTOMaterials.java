@@ -112,6 +112,7 @@ public final class GTOMaterials {
     public static Material CesiumCarborane;
     public static Material SilverIodide;
     public static Material SilverNitrate;
+    public static Material SilverNitrateSolution;
     public static Material TrifluoroaceticPhosphateEster;
     public static Material EthyleneSulfide;
     public static Material EthylTrifluoroacetate;
@@ -877,6 +878,7 @@ public final class GTOMaterials {
     public static Material PureTrichlorosilane;
     public static Material PureSilane;
     public static Material TetrafluorosilaneSolution;
+    public static Material Tetrafluorosilane;
     public static Material HighPuritySilica;
     public static Material CarbonTetrafluoride;
     public static Material WellMixedYbcOxides;
@@ -925,6 +927,17 @@ public final class GTOMaterials {
     public static Material CascadeMFPC;
     public static Material InvalidationBasicMFPC;
     public static Material InvalidationCascadeMFPC;
+    public static Material RecycleBasicMFPC;
+    public static Material RecycleCascadeMFPC;
+    public static Material PrecursorMFPC;
+    public static Material EthylSilicate;
+    public static Material SilicicAcid;
+    public static Material Polystyrene;
+    public static Material Trimethylsilanol;
+    public static Material Hexamethyldisiloxane;
+    public static Material Triethoxysilane;
+    public static Material Chloropropyltriethoxysilane;
+    public static Material KH550SilaneCouplingAgent;
 
     public static Material Manasteel;
     public static Material Terrasteel;
