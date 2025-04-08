@@ -28,7 +28,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
 import com.hepdd.gtmthings.data.CustomItems;
-import com.hepdd.gtmthings.data.CustomMachines;
 import com.tterrag.registrate.util.entry.ItemEntry;
 
 import java.util.List;
@@ -100,20 +99,6 @@ interface HatchRecipe {
                     .outputItems(DUAL_EXPORT_HATCH[tier].getItem())
                     .duration(300)
                     .EUt(VA[tier])
-                    .save();
-
-            if (tier == MAX) continue;
-            ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("huge_dual_hatch_" + VN[tier].toLowerCase()))
-                    .inputItems(FRAME.get(tier), 4)
-                    .inputItems(CustomMachines.HUGE_ITEM_IMPORT_BUS[tier].getItem())
-                    .inputItems(GTOMachines.HUGE_FLUID_IMPORT_HATCH[tier].getItem())
-                    .inputItems(GTMachines.BUFFER[tier].asStack(4))
-                    .inputItems(PIPE_LARGE.get(tier), 4)
-                    .inputItems(GLASS.get(tier))
-                    .outputItems(CustomMachines.HUGE_INPUT_DUAL_HATCH[tier].getItem())
-                    .inputFluids(GTMaterials.SolderingAlloy.getFluid(576))
-                    .duration(600)
-                    .EUt(VA[tier + 1])
                     .save();
         }
 

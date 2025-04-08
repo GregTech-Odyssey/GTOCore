@@ -92,7 +92,7 @@ public class CrossRecipeMultiblockMachine extends ElectricMultiblockMachine impl
     @Persisted
     @Getter
     @Setter
-    private boolean jadeInfo;
+    private boolean jadeInfo = true;
 
     private ThreadHatchPartMachine threadHatchPartMachine;
 

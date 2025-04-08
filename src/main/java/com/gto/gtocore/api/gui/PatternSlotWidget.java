@@ -2,6 +2,8 @@ package com.gto.gtocore.api.gui;
 
 import com.gregtechceu.gtceu.api.gui.widget.SlotWidget;
 
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
 import net.minecraftforge.items.IItemHandlerModifiable;
 
 import com.lowdragmc.lowdraglib.gui.editor.ColorPattern;
@@ -24,6 +26,7 @@ public final class PatternSlotWidget extends SlotWidget {
         setClientSideWidget();
         setBackgroundTexture(ColorPattern.T_GRAY.rectTexture());
         ingredient = () -> EmiStack.of(itemHandler.getStackInSlot(0));
+        appendHoverTooltips(Component.translatable("gui.tooltips.ae2.Amount", itemHandler.getStackInSlot(0).getCount()).withStyle(ChatFormatting.GRAY));
     }
 
     @Override

@@ -18,6 +18,10 @@ public class CustomMachinesMixin {
 
     @Inject(method = "registerTieredMachines", at = @At("HEAD"), remap = false, cancellable = true)
     private static void registerTieredMachines(String name, BiFunction<IMachineBlockEntity, Integer, MetaMachine> factory, BiFunction<Integer, MachineBuilder<MachineDefinition>, MachineDefinition> builder, int[] tiers, CallbackInfoReturnable<MachineDefinition[]> cir) {
-        if (name.equals("programmablec_hatch")) cir.setReturnValue(new MachineDefinition[0]);
+        switch (name) {
+            case "programmablec_hatch", "huge_item_import_bus", "huge_item_export_bus", "huge_dual_hatch":
+                cir.setReturnValue(new MachineDefinition[0]);
+                break;
+        }
     }
 }

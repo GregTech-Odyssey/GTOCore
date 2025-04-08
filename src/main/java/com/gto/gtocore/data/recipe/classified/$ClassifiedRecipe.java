@@ -31,7 +31,6 @@ public interface $ClassifiedRecipe {
         PrecisionLaserEngraver.init();
         DimensionalFocusEngravingArray.init();
         SuperParticleCollider.init();
-        AggregationDevice.init();
         LargeGasCollector.init();
         PCBFactory.init();
         FishingGround.init();

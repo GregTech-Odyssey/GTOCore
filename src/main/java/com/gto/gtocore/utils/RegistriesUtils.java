@@ -4,7 +4,6 @@ import com.gto.gtocore.GTOCore;
 
 import com.gregtechceu.gtceu.utils.memoization.GTMemoizer;
 
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.TagParser;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
@@ -44,14 +43,6 @@ public final class RegistriesUtils {
 
     public static ItemStack getItemStack(String s, int a) {
         return new ItemStack(getItem(s), a);
-    }
-
-    public static ResourceLocation getItemId(Item item) {
-        return BuiltInRegistries.ITEM.getKey(item);
-    }
-
-    public static ResourceLocation getFluidId(Fluid fluid) {
-        return BuiltInRegistries.FLUID.getKey(fluid);
     }
 
     public static ItemStack getItemStack(String s, int a, String nbt) {

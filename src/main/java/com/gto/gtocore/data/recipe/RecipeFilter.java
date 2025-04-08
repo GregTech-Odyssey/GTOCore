@@ -97,6 +97,7 @@ public interface RecipeFilter {
         ASSEMBLER_RECIPES.addFilter("coil_naquadah");
         ASSEMBLER_RECIPES.addFilter("coil_trinium");
         ASSEMBLER_RECIPES.addFilter("coil_tritanium");
+        ASSEMBLER_RECIPES.addFilter("cover_advanced_item_detector");
 
         ASSEMBLY_LINE_RECIPES.addFilter("dynamo_hatch_uhv");
         ASSEMBLY_LINE_RECIPES.addFilter("energy_hatch_uhv");

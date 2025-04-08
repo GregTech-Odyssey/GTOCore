@@ -2,13 +2,11 @@ package com.gto.gtocore.data.recipe;
 
 import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.common.data.GTOItems;
-import com.gto.gtocore.common.data.GTOMachines;
 import com.gto.gtocore.common.data.GTOMaterials;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.chemical.material.stack.MaterialEntry;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
-import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.machine.multiblock.CleanroomType;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMachines;
@@ -32,7 +30,6 @@ import com.hepdd.gtmthings.data.WirelessMachines;
 
 import java.util.function.Consumer;
 
-import static com.gregtechceu.gtceu.api.GTValues.VN;
 import static com.gto.gtocore.common.data.GTORecipeTypes.*;
 
 public interface GTMTRecipe {
@@ -605,73 +602,6 @@ public interface GTMTRecipe {
                 .duration(400)
                 .EUt(GTValues.VA[GTValues.EV])
                 .save();
-
-        LASER_WELDER_RECIPES.recipeBuilder(GTOCore.id("huge_item_import_bus_ulv"))
-                .inputItems(GTMachines.ITEM_IMPORT_BUS[0].getItem())
-                .inputItems(GTMachines.STEEL_CRATE.getItem())
-                .inputItems(GTOItems.ULV_CONVEYOR_MODULE)
-                .outputItems(CustomMachines.HUGE_ITEM_IMPORT_BUS[0].getItem())
-                .duration(200)
-                .EUt(GTValues.VA[1])
-                .save();
-
-        LASER_WELDER_RECIPES.recipeBuilder(GTOCore.id("huge_item_export_bus_ulv"))
-                .inputItems(GTMachines.ITEM_EXPORT_BUS[0].getItem())
-                .inputItems(GTMachines.STEEL_CRATE.getItem())
-                .inputItems(GTOItems.ULV_CONVEYOR_MODULE)
-                .outputItems(CustomMachines.HUGE_ITEM_EXPORT_BUS[0].getItem())
-                .duration(200)
-                .EUt(GTValues.VA[1])
-                .save();
-
-        for (int tier : GTValues.tiersBetween(GTValues.LV, GTValues.OpV)) {
-            String tierName = VN[tier].toLowerCase();
-            LASER_WELDER_RECIPES.recipeBuilder(GTOCore.id("huge_item_import_bus_" + tierName))
-                    .inputItems(GTMachines.ITEM_IMPORT_BUS[tier].getItem())
-                    .inputItems(tier > GTValues.EV ? GTMachines.QUANTUM_CHEST[tier] : GTMachines.SUPER_CHEST[tier])
-                    .outputItems(CustomMachines.HUGE_ITEM_IMPORT_BUS[tier].getItem())
-                    .duration(200)
-                    .EUt(GTValues.VA[tier + 1])
-                    .save();
-
-            LASER_WELDER_RECIPES.recipeBuilder(GTOCore.id("huge_item_export_bus_" + tierName))
-                    .inputItems(GTMachines.ITEM_EXPORT_BUS[tier].getItem())
-                    .inputItems(tier > GTValues.EV ? GTMachines.QUANTUM_CHEST[tier] : GTMachines.SUPER_CHEST[tier])
-                    .outputItems(CustomMachines.HUGE_ITEM_EXPORT_BUS[tier].getItem())
-                    .duration(200)
-                    .EUt(GTValues.VA[tier + 1])
-                    .save();
-
-            LASER_WELDER_RECIPES.recipeBuilder(GTOCore.id("huge_fluid_import_bus_" + tierName))
-                    .inputItems(GTMachines.FLUID_IMPORT_HATCH[tier].getItem())
-                    .inputItems(tier > GTValues.EV ? GTMachines.QUANTUM_TANK[tier] : GTMachines.SUPER_TANK[tier])
-                    .outputItems(GTOMachines.HUGE_FLUID_IMPORT_HATCH[tier].getItem())
-                    .duration(200)
-                    .EUt(GTValues.VA[tier + 1])
-                    .save();
-
-            LASER_WELDER_RECIPES.recipeBuilder(GTOCore.id("huge_fluid_export_bus_" + tierName))
-                    .inputItems(GTMachines.FLUID_EXPORT_HATCH[tier].getItem())
-                    .inputItems(tier > GTValues.EV ? GTMachines.QUANTUM_TANK[tier] : GTMachines.SUPER_TANK[tier])
-                    .outputItems(GTOMachines.HUGE_FLUID_EXPORT_HATCH[tier].getItem())
-                    .duration(200)
-                    .EUt(GTValues.VA[tier + 1])
-                    .save();
-        }
-
-        for (int tier = GTValues.ULV; tier < GTValues.MAX; tier++) {
-            String tierName = VN[tier].toLowerCase();
-            MachineDefinition item_input = CustomMachines.HUGE_ITEM_IMPORT_BUS[tier];
-            MachineDefinition item_output = CustomMachines.HUGE_ITEM_EXPORT_BUS[tier];
-            VanillaRecipeHelper.addShapedRecipe(provider, GTOCore.id("huge_item_output_to_input_" + tierName), item_input.asStack(), "d", "B", 'B', item_output.getItem());
-            VanillaRecipeHelper.addShapedRecipe(provider, GTOCore.id("huge_item_input_to_output_" + tierName), item_output.asStack(), "d", "B", 'B', item_input.getItem());
-
-            if (tier == GTValues.ULV) continue;
-            MachineDefinition fluid_input = GTOMachines.HUGE_FLUID_IMPORT_HATCH[tier];
-            MachineDefinition fluid_output = GTOMachines.HUGE_FLUID_EXPORT_HATCH[tier];
-            VanillaRecipeHelper.addShapedRecipe(provider, GTOCore.id("huge_fluid_output_to_input_" + tierName), fluid_input.asStack(), "d", "B", 'B', fluid_output.getItem());
-            VanillaRecipeHelper.addShapedRecipe(provider, GTOCore.id("huge_fluid_input_to_output_" + tierName), fluid_output.asStack(), "d", "B", 'B', fluid_input.getItem());
-        }
 
         ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("me_export_buffer"))
                 .inputItems(GTMachines.BUFFER[GTValues.LuV].getItem())

@@ -90,6 +90,7 @@ interface Crystallization {
         CRYSTALLIZATION_RECIPES.recipeBuilder(GTOCore.id("silicon_boule"))
                 .inputItems(GTOTagPrefix.CRYSTAL_SEED, GTMaterials.Silicon)
                 .inputItems(dustSmall, GalliumArsenide)
+                .circuitMeta(1)
                 .inputFluids(GTOMaterials.ElectronicGradeSilicon.getFluid(4608))
                 .outputItems(SILICON_BOULE)
                 .blastFurnaceTemp(1784)

@@ -555,6 +555,16 @@ public interface MiscRecipe {
                 .inputItems(wireGtDouble, AnnealedCopper, 4)
                 .inputFluids(PolyvinylChloride, L << 1)
                 .outputItems(GTOBlocks.STAINLESS_EVAPORATION_CASING.asStack())
-                .duration(30).EUt(VA[HV]).save(provider);
+                .duration(30).EUt(VA[HV]).save();
+
+        ASSEMBLER_RECIPES.builder("cover_advanced_item_detector")
+                .circuitMeta(3)
+                .inputItems(COVER_ITEM_DETECTOR)
+                .inputItems(SENSOR_HV)
+                .inputFluids(SolderingAlloy, L / 2)
+                .outputItems(COVER_ITEM_DETECTOR_ADVANCED)
+                .EUt(16).duration(100)
+                .addMaterialInfo(true, true)
+                .save();
     }
 }

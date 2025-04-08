@@ -3,8 +3,9 @@ package com.gto.gtocore.integration.jade.provider;
 import com.gto.gtocore.api.machine.multiblock.CrossRecipeMultiblockMachine;
 import com.gto.gtocore.api.machine.multiblock.ElectricMultiblockMachine;
 import com.gto.gtocore.common.data.GTORecipeTypes;
+import com.gto.gtocore.utils.FluidUtils;
 import com.gto.gtocore.utils.GTOUtils;
-import com.gto.gtocore.utils.RegistriesUtils;
+import com.gto.gtocore.utils.ItemUtils;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.capability.GTCapabilityHelper;
@@ -72,7 +73,7 @@ public final class RecipeOutputProvider extends CapabilityBlockProvider<RecipeLo
                 for (GTRecipe recipe : recipes) {
                     for (ItemStack stack : RecipeHelper.getOutputItems(recipe)) {
                         if (stack != null && !stack.isEmpty()) {
-                            var id = RegistriesUtils.getItemId(stack.getItem()).toString();
+                            var id = ItemUtils.getId(stack.getItem());
                             if (cache.containsKey(id)) {
                                 CompoundTag tag = cache.get(id);
                                 if (tag != null) {
@@ -99,7 +100,7 @@ public final class RecipeOutputProvider extends CapabilityBlockProvider<RecipeLo
                     ListTag fluidTags = new ListTag();
                     for (FluidStack stack : RecipeHelper.getOutputFluids(recipe)) {
                         if (stack != null && !stack.isEmpty()) {
-                            String id = RegistriesUtils.getFluidId(stack.getFluid()).toString();
+                            String id = FluidUtils.getId(stack.getFluid());
                             if (cache.containsKey(id)) {
                                 CompoundTag tag = cache.get(id);
                                 if (tag != null) {
@@ -118,7 +119,6 @@ public final class RecipeOutputProvider extends CapabilityBlockProvider<RecipeLo
                                     cache.put(id, fluidTag);
                                     fluidTags.add(fluidTag);
                                 }
-                                //
                             }
                         }
                     }
@@ -145,15 +145,12 @@ public final class RecipeOutputProvider extends CapabilityBlockProvider<RecipeLo
                     }
                 }
             }
-            List<FluidStack> outputFluids = new ArrayList<>();
+            List<CompoundTag> outputFluids = new ArrayList<>();
             if (capData.contains("OutputFluids", Tag.TAG_LIST)) {
                 ListTag fluidTags = capData.getList("OutputFluids", Tag.TAG_COMPOUND);
                 for (Tag tag : fluidTags) {
                     if (tag instanceof CompoundTag tCompoundTag) {
-                        var stack = FluidStack.loadFluidStackFromNBT(tCompoundTag);
-                        if (!stack.isEmpty()) {
-                            outputFluids.add(stack);
-                        }
+                        outputFluids.add(tCompoundTag);
                     }
                 }
             }
@@ -182,14 +179,15 @@ public final class RecipeOutputProvider extends CapabilityBlockProvider<RecipeLo
         }
     }
 
-    private static void addFluidTooltips(ITooltip iTooltip, List<FluidStack> outputFluids) {
-        for (FluidStack fluidOutput : outputFluids) {
-            if (fluidOutput != null && !fluidOutput.isEmpty()) {
-                iTooltip.add(GTElementHelper.smallFluid(getFluid(fluidOutput)));
+    private static void addFluidTooltips(ITooltip iTooltip, List<CompoundTag> outputFluids) {
+        for (CompoundTag tag : outputFluids) {
+            if (tag != null && !tag.isEmpty()) {
+                FluidStack stack = GTOUtils.loadFluidStack(tag);
+                iTooltip.add(GTElementHelper.smallFluid(getFluid(stack)));
                 Component text = Component.literal(" ")
-                        .append(FluidTextHelper.getUnicodeMillibuckets(fluidOutput.getAmount(), true))
+                        .append(FluidTextHelper.getUnicodeMillibuckets(tag.getLong("Amount"), true))
                         .append(" ")
-                        .append(getFluidName(fluidOutput))
+                        .append(getFluidName(stack))
                         .withStyle(ChatFormatting.WHITE);
                 iTooltip.append(text);
 

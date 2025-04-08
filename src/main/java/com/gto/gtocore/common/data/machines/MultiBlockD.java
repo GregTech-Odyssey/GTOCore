@@ -61,8 +61,6 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.DirectionalBlock;
 import net.minecraft.world.phys.AABB;
 
-import com.hepdd.gtmthings.data.CustomMachines;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -308,7 +306,7 @@ public interface MultiBlockD {
                             .or(abilities(INPUT_ENERGY).setMaxGlobalLimited(2))
                             .or(abilities(MAINTENANCE).setExactLimit(1)))
                     .where('c', blocks(GTBlocks.CASING_LAMINATED_GLASS.get()))
-                    .where('d', blocks(GTMachines.ITEM_IMPORT_BUS[0].get()).or(blocks(CustomMachines.HUGE_ITEM_IMPORT_BUS[0].get())))
+                    .where('d', abilities(GTOPartAbility.ITEMS_INPUT))
                     .where('e', blocks(GTOBlocks.MACHINE_CASING_CIRCUIT_ASSEMBLY_LINE.get()))
                     .where('f', abilities(EXPORT_ITEMS))
                     .where('g', abilities(IMPORT_FLUIDS_4X))

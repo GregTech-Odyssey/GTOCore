@@ -7,54 +7,69 @@ import com.gto.gtocore.api.recipe.FastSizedIngredient;
 import com.gto.gtocore.utils.ItemUtils;
 
 import com.gregtechceu.gtceu.api.GTValues;
-import com.gregtechceu.gtceu.api.capability.recipe.IO;
-import com.gregtechceu.gtceu.api.capability.recipe.IRecipeCapabilityHolder;
-import com.gregtechceu.gtceu.api.capability.recipe.IRecipeHandler;
-import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
+import com.gregtechceu.gtceu.api.capability.recipe.*;
 import com.gregtechceu.gtceu.api.gui.widget.SlotWidget;
 import com.gregtechceu.gtceu.api.item.TagPrefixItem;
 import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
+import com.gregtechceu.gtceu.api.recipe.ResearchData;
 import com.gregtechceu.gtceu.api.recipe.content.Content;
 import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
+import com.gregtechceu.gtceu.api.recipe.content.IContentSerializer;
 import com.gregtechceu.gtceu.api.recipe.ingredient.IntCircuitIngredient;
 import com.gregtechceu.gtceu.api.recipe.ingredient.IntProviderIngredient;
 import com.gregtechceu.gtceu.api.recipe.lookup.*;
+import com.gregtechceu.gtceu.api.recipe.ui.GTRecipeTypeUI;
+import com.gregtechceu.gtceu.common.recipe.condition.ResearchCondition;
 import com.gregtechceu.gtceu.common.valueprovider.AddedFloat;
 import com.gregtechceu.gtceu.common.valueprovider.CastedFloat;
 import com.gregtechceu.gtceu.common.valueprovider.FlooredInt;
 import com.gregtechceu.gtceu.common.valueprovider.MultipliedFloat;
+import com.gregtechceu.gtceu.config.ConfigHolder;
 import com.gregtechceu.gtceu.core.mixins.IngredientAccessor;
 import com.gregtechceu.gtceu.core.mixins.TagValueAccessor;
 import com.gregtechceu.gtceu.integration.xei.entry.item.ItemEntryList;
 import com.gregtechceu.gtceu.integration.xei.entry.item.ItemStackList;
 import com.gregtechceu.gtceu.integration.xei.entry.item.ItemTagList;
+import com.gregtechceu.gtceu.integration.xei.handlers.item.CycleItemStackHandler;
+import com.gregtechceu.gtceu.integration.xei.widgets.GTRecipeWidget;
 import com.gregtechceu.gtceu.utils.IngredientEquality;
+import com.gregtechceu.gtceu.utils.ResearchManager;
 
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
 import net.minecraft.util.valueproviders.ConstantFloat;
+import net.minecraft.util.valueproviders.IntProvider;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraftforge.common.crafting.IntersectionIngredient;
 import net.minecraftforge.common.crafting.PartialNBTIngredient;
 import net.minecraftforge.common.crafting.StrictNBTIngredient;
+import net.minecraftforge.items.IItemHandlerModifiable;
 
-import com.llamalad7.mixinextras.sugar.Local;
+import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.jei.IngredientIO;
 import it.unimi.dsi.fastutil.objects.*;
 import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.UnknownNullability;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Redirect;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 @Slf4j
 @Mixin(ItemRecipeCapability.class)
-public abstract class ItemRecipeCapabilityMixin {
+public abstract class ItemRecipeCapabilityMixin extends RecipeCapability<Ingredient> {
+
+    protected ItemRecipeCapabilityMixin(String name, int color, boolean doRenderSlot, int sortIndex, IContentSerializer<Ingredient> serializer) {
+        super(name, color, doRenderSlot, sortIndex, serializer);
+    }
 
     @Shadow(remap = false)
     @Nullable
@@ -382,15 +397,84 @@ public abstract class ItemRecipeCapabilityMixin {
         return stackList;
     }
 
-    @Redirect(method = "applyWidgetInfo", at = @At(value = "INVOKE", target = "Lcom/gregtechceu/gtceu/api/gui/widget/SlotWidget;setXEIChance(F)Lcom/gregtechceu/gtceu/api/gui/widget/SlotWidget;"), remap = false)
-    private SlotWidget setXEIChance(SlotWidget instance, float XEIChance, @Local(argsOnly = true) IO io, @Local(argsOnly = true) Content content) {
-        if (io == IO.IN) {
-            Ingredient ingredient = ItemRecipeCapability.CAP.of(content.getContent());
-            if (ingredient instanceof FastSizedIngredient sizedIngredient && ItemUtils.getFirstSized(sizedIngredient).getItem() instanceof TagPrefixItem item && item.tagPrefix == GTOTagPrefix.CATALYST) {
-                instance.setIngredientIO(IngredientIO.CATALYST);
-                return instance.setXEIChance(0);
+    /**
+     * @author .
+     * @reason 换成FastSizedIngredient
+     */
+    @Overwrite(remap = false)
+    public void applyWidgetInfo(@NotNull Widget widget, int index, boolean isXEI, IO io, GTRecipeTypeUI.@UnknownNullability("null when storage == null") RecipeHolder recipeHolder, @NotNull GTRecipeType recipeType, @UnknownNullability("null when content == null") GTRecipe recipe, @Nullable Content content, @Nullable Object storage, int recipeTier, int chanceTier) {
+        if (widget instanceof SlotWidget slot) {
+            if (storage instanceof IItemHandlerModifiable items) {
+                if (index >= 0 && index < items.getSlots()) {
+                    slot.setHandlerSlot(items, index);
+                    slot.setIngredientIO(io == IO.IN ? IngredientIO.INPUT : IngredientIO.OUTPUT);
+                    slot.setCanTakeItems(!isXEI);
+                    slot.setCanPutItems(!isXEI && io.support(IO.IN));
+                }
+                // 1 over container size.
+                // If in a recipe viewer and a research slot can be added, add it.
+                if (isXEI && recipeType.isHasResearchSlot() && index == items.getSlots()) {
+                    if (ConfigHolder.INSTANCE.machines.enableResearch) {
+                        ResearchCondition condition = recipeHolder.conditions().stream()
+                                .filter(ResearchCondition.class::isInstance).findAny()
+                                .map(ResearchCondition.class::cast).orElse(null);
+                        if (condition != null) {
+                            List<ItemStack> dataItems = new ArrayList<>();
+                            for (ResearchData.ResearchEntry entry : condition.data) {
+                                ItemStack dataStick = entry.getDataItem().copy();
+                                ResearchManager.writeResearchToNBT(dataStick.getOrCreateTag(), entry.getResearchId(),
+                                        recipeType);
+                                dataItems.add(dataStick);
+                            }
+                            CycleItemStackHandler handler = new CycleItemStackHandler(List.of(dataItems));
+                            slot.setHandlerSlot(handler, 0);
+                            slot.setIngredientIO(IngredientIO.CATALYST);
+                            slot.setCanTakeItems(false);
+                            slot.setCanPutItems(false);
+                        }
+                    }
+                }
+            }
+            if (content != null) {
+                float chance = (float) recipeType.getChanceFunction().getBoostedChance(content, recipeTier, chanceTier) / content.maxChance;
+                if (io == IO.IN && ItemRecipeCapability.CAP.of(content.getContent()) instanceof FastSizedIngredient sizedIngredient && ItemUtils.getFirstSized(sizedIngredient).getItem() instanceof TagPrefixItem item && item.tagPrefix == GTOTagPrefix.CATALYST) {
+                    slot.setIngredientIO(IngredientIO.CATALYST);
+                    slot.setXEIChance(0);
+                } else {
+                    slot.setXEIChance(chance);
+                }
+                slot.setOnAddedTooltips((w, tooltips) -> {
+                    GTRecipeWidget.setConsumedChance(content,
+                            recipe.getChanceLogicForCapability(this, io, isTickSlot(index, io, recipe)),
+                            tooltips, recipeTier, chanceTier, recipeType.getChanceFunction());
+                    //@formatter:off
+                    if (this.of(content.content) instanceof IntProviderIngredient ingredient) {
+                        IntProvider countProvider = ingredient.getCountProvider();
+                        tooltips.add(Component.translatable("gtceu.gui.content.count_range",
+                                        countProvider.getMinValue(), countProvider.getMaxValue())
+                                .withStyle(ChatFormatting.GOLD));
+                    } else if (this.of(content.content) instanceof FastSizedIngredient sizedIngredient &&
+                            sizedIngredient.getInner() instanceof IntProviderIngredient ingredient) {
+                        IntProvider countProvider = ingredient.getCountProvider();
+                        tooltips.add(Component.translatable("gtceu.gui.content.count_range",
+                                        countProvider.getMinValue(), countProvider.getMaxValue())
+                                .withStyle(ChatFormatting.GOLD));
+                    }
+                    if (isTickSlot(index, io, recipe)) {
+                        tooltips.add(Component.translatable("gtceu.gui.content.per_tick"));
+                    }
+                    int amount;
+                    if (this.of(content.content) instanceof FastSizedIngredient sizedIngredient) {
+                        amount = sizedIngredient.getAmount();
+                    } else {
+                        amount= this.of(content.content).getItems()[0].getCount();
+                    }
+                    tooltips.add(Component.translatable("gui.tooltips.ae2.Amount", amount).withStyle(ChatFormatting.GRAY));
+                });
+                if (io == IO.IN && (content.chance == 0 || this.of(content.content) instanceof IntCircuitIngredient)) {
+                    slot.setIngredientIO(IngredientIO.CATALYST);
+                }
             }
         }
-        return instance.setXEIChance(XEIChance);
     }
 }

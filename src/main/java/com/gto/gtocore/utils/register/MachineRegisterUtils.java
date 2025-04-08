@@ -13,7 +13,6 @@ import com.gto.gtocore.common.machine.mana.SimpleWorkManaMachine;
 import com.gto.gtocore.common.machine.multiblock.generator.CombustionEngineMachine;
 import com.gto.gtocore.common.machine.multiblock.generator.GeneratorArrayMachine;
 import com.gto.gtocore.common.machine.multiblock.generator.TurbineMachine;
-import com.gto.gtocore.common.machine.multiblock.part.HugeFluidHatchPartMachine;
 import com.gto.gtocore.common.machine.multiblock.part.WirelessEnergyHatchPartMachine;
 
 import com.gregtechceu.gtceu.GTCEu;
@@ -85,23 +84,6 @@ public final class MachineRegisterUtils {
     public static MultiblockBuilder multiblock(String name, String cn, Function<IMachineBlockEntity, ? extends MultiblockControllerMachine> metaMachine) {
         addLang(name, cn);
         return REGISTRATE.multiblock(name, metaMachine);
-    }
-
-    public static MachineDefinition[] registerHugeFluidHatches(String name, String displayname, String cn, String model,
-                                                               String tooltip, IO io, PartAbility... abilities) {
-        return registerTieredMachines(name, tier -> GTOValues.VNFR[tier] + cn,
-                (holder, tier) -> new HugeFluidHatchPartMachine(holder, tier, io),
-                (tier, builder) -> {
-                    builder.langValue(VNF[tier] + ' ' + displayname)
-                            .allRotation()
-                            .renderer(() -> new OverlayTieredMachineRenderer(tier, GTCEu.id("block/machine/part/" + model)))
-                            .abilities(abilities)
-                            .tooltips(Component.translatable("gtceu.machine." + tooltip + ".tooltip"));
-                    builder.tooltips(Component.translatable("gtceu.universal.tooltip.fluid_storage_capacity_mult",
-                            tier, FormattingUtil.formatNumbers(Integer.MAX_VALUE)));
-                    return builder.register();
-                },
-                tiersBetween(LV, OpV));
     }
 
     public static MachineDefinition[] registerWirelessEnergyHatch(IO io, int amperage, PartAbility ability) {
