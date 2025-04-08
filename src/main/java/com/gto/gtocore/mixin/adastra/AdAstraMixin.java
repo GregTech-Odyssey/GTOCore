@@ -26,7 +26,7 @@ public class AdAstraMixin {
      */
     @Overwrite(remap = false)
     public static void onServerTick(MinecraftServer server) {
-        if (server.getTickCount() % 80 == 0) {
+        if (server.getTickCount() % 40 == 0) {
             server.getPlayerList().getPlayers().forEach((player) -> NetworkHandler.CHANNEL.sendToPlayer(new ClientboundSyncLocalPlanetDataPacket(new PlanetData(OxygenApi.API.hasOxygen(player), TemperatureApi.API.getTemperature(player), GravityApi.API.getGravity(player))), player));
         }
     }

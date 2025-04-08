@@ -264,7 +264,7 @@ public abstract class ItemRecipeCapabilityMixin {
 
                 if (container.isDistinct()) {
                     for (var entry : itemMap.object2LongEntrySet()) {
-                        ingredientStacks.computeLong(entry.getKey(), (k, v) -> v == null ? entry.getLongValue() : Math.min(v, entry.getLongValue()));
+                        ingredientStacks.computeLong(entry.getKey(), (k, v) -> v == null ? entry.getLongValue() : Math.max(v, entry.getLongValue()));
                     }
                 } else {
                     for (Object2LongMap.Entry<ItemStack> obj : itemMap.object2LongEntrySet()) {

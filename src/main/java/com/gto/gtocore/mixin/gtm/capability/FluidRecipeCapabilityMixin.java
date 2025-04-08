@@ -77,7 +77,7 @@ public class FluidRecipeCapabilityMixin {
 
                 if (container.isDistinct()) {
                     for (var entry : fluidMap.object2LongEntrySet()) {
-                        ingredientStacks.computeLong(entry.getKey(), (k, v) -> v == null ? entry.getLongValue() : Math.min(v, entry.getLongValue()));
+                        ingredientStacks.computeLong(entry.getKey(), (k, v) -> v == null ? entry.getLongValue() : Math.max(v, entry.getLongValue()));
                     }
                 } else {
                     for (Object2LongMap.Entry<FluidStack> obj : fluidMap.object2LongEntrySet()) {

@@ -1333,13 +1333,7 @@ public interface MultiBlockD {
             GTValues.UHV, GTValues.UEV);
 
     MultiblockMachineDefinition[] KUANGBIAO_ONE_GIANT_NUCLEAR_FUSION_REACTOR = registerTieredMultis("kuangbiao_one_giant_nuclear_fusion_reactor", tier -> "狂飙" + StringUtils.numberToChinese(tier - 5) + "号巨型聚变反应堆控制电脑",
-            (holder, tier) -> new FusionReactorMachine(holder, tier) {
-
-                @Override
-                public long getMaxVoltage() {
-                    return getOverclockVoltage();
-                }
-            }, (tier, builder) -> builder
+            AdvancedFusionReactorMachine::new, (tier, builder) -> builder
                     .allRotation()
                     .langValue("Fusion Reactor Computer MK %s".formatted(FormattingUtil.toRomanNumeral(tier - 5)))
                     .recipe(GTRecipeTypes.FUSION_RECIPES)
@@ -1347,7 +1341,7 @@ public interface MultiBlockD {
                     .tooltipsKey("gtceu.machine.fusion_reactor.capacity", FusionReactorMachine.calculateEnergyStorageFactor(tier, 16) / 1000000L)
                     .tooltipsKey("gtceu.machine.fusion_reactor.overclocking")
                     .parallelizableTooltips()
-                    .customTooltipsBuilder(false, true, false)
+                    .customTooltipsBuilder(false, true, true)
                     .recipeModifiers(GTORecipeModifiers.HATCH_PARALLEL, FusionReactorMachine::recipeModifier)
                     .block(() -> FusionCasings.getCasingState(tier))
                     .pattern((definition) -> {
@@ -1395,7 +1389,7 @@ public interface MultiBlockD {
                                 .where('A', blocks(GCYMBlocks.CASING_NONCONDUCTING.get()))
                                 .where('B', blocks(GTOBlocks.HIGH_STRENGTH_CONCRETE.get()))
                                 .where('C', frames(GTMaterials.Tungsten))
-                                .where('D', casing.or(abilities(IMPORT_FLUIDS).setPreviewCount(16)).or(abilities(EXPORT_FLUIDS).setPreviewCount(16)).or(abilities(PARALLEL_HATCH).setMaxGlobalLimited(1)).or(abilities(INPUT_LASER).setMaxGlobalLimited(16, 16)))
+                                .where('D', casing.or(abilities(IMPORT_FLUIDS).setPreviewCount(16)).or(abilities(EXPORT_FLUIDS).setPreviewCount(16)).or(abilities(PARALLEL_HATCH).setMaxGlobalLimited(1)).or(abilities(GTOPartAbility.THREAD_HATCH).setMaxGlobalLimited(1)).or(abilities(INPUT_LASER).setMaxGlobalLimited(16, 16)))
                                 .where('E', casing)
                                 .where('F', blocks(FusionCasings.getFrameState(tier)))
                                 .where('G', blocks(GTOBlocks.STRENGTHEN_THE_BASE_BLOCK.get()))

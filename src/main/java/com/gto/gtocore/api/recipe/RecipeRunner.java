@@ -121,10 +121,15 @@ public final class RecipeRunner {
             var res = handleRecipe(handler, io, recipe, searchRecipeContents, true);
             if (res.isEmpty()) {
                 if (!simulated) {
-                    handleRecipe(handler, io, recipe, recipeContents, false);
+                    res = handleRecipe(handler, io, recipe, recipeContents, false);
+                    if (res.isEmpty()) {
+                        recipeContents.clear();
+                        return RecipeHandlingResult.SUCCESS;
+                    }
+                } else {
+                    recipeContents.clear();
+                    return RecipeHandlingResult.SUCCESS;
                 }
-                recipeContents.clear();
-                return RecipeHandlingResult.SUCCESS;
             }
         }
 

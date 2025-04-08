@@ -103,7 +103,7 @@ interface PrecisionAssembler {
                 .save();
 
         PRECISION_ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("uv_kuangbiao_one_giant_nuclear_fusion_reactor"))
-                .inputItems(GTMultiMachines.FUSION_REACTOR[GTValues.UV].getItem())
+                .inputItems(GTMultiMachines.FUSION_REACTOR[GTValues.UV].getItem(), 16)
                 .inputItems(GTOBlocks.ADVANCED_COMPRESSED_FUSION_COIL.asItem())
                 .inputItems(GTOItems.HUI_CIRCUIT_3.asStack(16))
                 .inputItems(TagPrefix.plateDouble, GTMaterials.Americium, 16)
@@ -148,7 +148,7 @@ interface PrecisionAssembler {
                 .save();
 
         PRECISION_ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("luv_kuangbiao_one_giant_nuclear_fusion_reactor"))
-                .inputItems(GTMultiMachines.FUSION_REACTOR[GTValues.LuV].getItem())
+                .inputItems(GTMultiMachines.FUSION_REACTOR[GTValues.LuV].getItem(), 16)
                 .inputItems(GTOBlocks.IMPROVED_SUPERCONDUCTOR_COIL.asItem())
                 .inputItems(GTOItems.HUI_CIRCUIT_1.asStack(16))
                 .inputItems(TagPrefix.plateDouble, GTMaterials.Osmiridium, 16)
@@ -267,7 +267,7 @@ interface PrecisionAssembler {
                 .save();
 
         PRECISION_ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("uev_kuangbiao_one_giant_nuclear_fusion_reactor"))
-                .inputItems(MultiBlockD.FUSION_REACTOR[GTValues.UEV].getItem())
+                .inputItems(MultiBlockD.FUSION_REACTOR[GTValues.UEV].getItem(), 16)
                 .inputItems(GTOBlocks.COMPRESSED_FUSION_COIL_MK2.asItem())
                 .inputItems(GTOItems.HUI_CIRCUIT_5.asStack(16))
                 .inputItems(TagPrefix.plateDouble, GTMaterials.Seaborgium, 16)
@@ -297,7 +297,7 @@ interface PrecisionAssembler {
                 .save();
 
         PRECISION_ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("uhv_kuangbiao_one_giant_nuclear_fusion_reactor"))
-                .inputItems(MultiBlockD.FUSION_REACTOR[GTValues.UHV].getItem())
+                .inputItems(MultiBlockD.FUSION_REACTOR[GTValues.UHV].getItem(), 16)
                 .inputItems(GTOBlocks.COMPRESSED_FUSION_COIL_MK2_PROTOTYPE.asItem())
                 .inputItems(GTOItems.HUI_CIRCUIT_4.asStack(16))
                 .inputItems(TagPrefix.plateDouble, GTOMaterials.Orichalcum, 16)
@@ -434,7 +434,7 @@ interface PrecisionAssembler {
                 .save();
 
         PRECISION_ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("zpm_kuangbiao_one_giant_nuclear_fusion_reactor"))
-                .inputItems(GTMultiMachines.FUSION_REACTOR[GTValues.ZPM].getItem())
+                .inputItems(GTMultiMachines.FUSION_REACTOR[GTValues.ZPM].getItem(), 16)
                 .inputItems(GTOBlocks.COMPRESSED_FUSION_COIL.asItem())
                 .inputItems(GTOItems.HUI_CIRCUIT_2.asStack(16))
                 .inputItems(TagPrefix.plateDouble, GTMaterials.Europium, 16)

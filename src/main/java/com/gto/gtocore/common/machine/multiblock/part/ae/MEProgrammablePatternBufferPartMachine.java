@@ -1,13 +1,14 @@
 package com.gto.gtocore.common.machine.multiblock.part.ae;
 
+import com.gto.gtocore.api.machine.trait.NotifiableNotConsumableItemHandler;
+import com.gto.gtocore.api.machine.trait.NotifiableProgrammableCircuitHandler;
+
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
-import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 
 import net.minecraft.world.item.ItemStack;
 
 import appeng.api.crafting.IPatternDetails;
 import appeng.api.stacks.KeyCounter;
-import com.hepdd.gtmthings.api.machine.trait.ProgrammableCircuitHandler;
 import com.hepdd.gtmthings.common.item.VirtualItemProviderBehavior;
 import com.hepdd.gtmthings.data.CustomItems;
 import org.jetbrains.annotations.NotNull;
@@ -20,8 +21,8 @@ public final class MEProgrammablePatternBufferPartMachine extends MEPatternBuffe
 
     @Override
     @NotNull
-    NotifiableItemStackHandler createCircuitInventory() {
-        return new ProgrammableCircuitHandler(this);
+    NotifiableNotConsumableItemHandler createCircuitInventory() {
+        return new NotifiableProgrammableCircuitHandler(this);
     }
 
     @Override

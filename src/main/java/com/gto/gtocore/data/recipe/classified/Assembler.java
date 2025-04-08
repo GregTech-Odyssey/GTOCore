@@ -3969,7 +3969,7 @@ interface Assembler {
                 .inputItems(TagPrefix.cableGtOctal, GTMaterials.AnnealedCopper)
                 .inputItems(CustomTags.MV_CIRCUITS, 2)
                 .outputItems(GTOBlocks.INTEGRAL_FRAMEWORK_MV.asStack())
-                .inputFluids(GTMaterials.DamascusSteel, 288)
+                .inputFluids(StainlessSteel, 288)
                 .EUt(120)
                 .duration(100)
                 .save();

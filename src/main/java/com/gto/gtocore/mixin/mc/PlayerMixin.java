@@ -122,7 +122,7 @@ public abstract class PlayerMixin extends LivingEntity implements IEnhancedPlaye
 
     @Inject(method = "tick", at = @At("TAIL"))
     private void tick(CallbackInfo ci) {
-        if (tickCount % 40 == 0) {
+        if (tickCount % 20 == 0) {
             Level level = level();
             MinecraftServer server = level.getServer();
             if (server == null) return;
