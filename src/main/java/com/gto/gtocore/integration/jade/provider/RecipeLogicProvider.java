@@ -113,6 +113,8 @@ public final class RecipeLogicProvider extends CapabilityBlockProvider<RecipeLog
                         text = Component.literal(FormattingUtil.formatNumbers(EUt)).withStyle(ChatFormatting.RED)
                                 .append(Component.literal(" EU/t").withStyle(ChatFormatting.RESET)
                                         .append(Component.literal(" (").withStyle(ChatFormatting.GREEN)));
+                        text = text.append(Component.literal(String.format("%sA",
+                                FormattingUtil.formatNumber2Places(EUt / (float) GTValues.VEX[tier]))));
                         if (tier < GTValues.TIER_COUNT) {
                             text = text.append(Component.literal(GTValues.VNF[tier])
                                     .withStyle(style -> style.withColor(GTValues.VC[tier])));

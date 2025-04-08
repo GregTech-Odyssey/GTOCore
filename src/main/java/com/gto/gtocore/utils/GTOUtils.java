@@ -3,6 +3,7 @@ package com.gto.gtocore.utils;
 import com.gto.gtocore.api.capability.recipe.ManaRecipeCapability;
 import com.gto.gtocore.api.data.GTODimensions;
 
+import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
@@ -11,8 +12,13 @@ import com.gregtechceu.gtceu.api.recipe.content.Content;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BiomeTags;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
@@ -156,5 +162,26 @@ public final class GTOUtils {
                 .filter(entry -> value.equals(entry.getValue()))
                 .map(Map.Entry::getKey)
                 .findFirst().orElse(null);
+    }
+
+    public static ItemStack loadItemStack(CompoundTag tag) {
+        try {
+            Item item = BuiltInRegistries.ITEM.get(new ResourceLocation(tag.getString("id")));
+            ItemStack stack = new ItemStack(item, 1);
+            if (tag.contains("tag", Tag.TAG_COMPOUND)) {
+                stack.setTag(tag.getCompound("tag"));
+                if (stack.getTag() != null) {
+                    stack.getItem().verifyTagAfterLoad(stack.getTag());
+                }
+            }
+
+            if (stack.getItem().canBeDepleted()) {
+                stack.setDamageValue(stack.getDamageValue());
+            }
+            return stack;
+        } catch (RuntimeException var2) {
+            GTCEu.LOGGER.debug("Tried to load invalid item: {}", tag, var2);
+            return ItemStack.EMPTY;
+        }
     }
 }

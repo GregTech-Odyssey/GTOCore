@@ -3,6 +3,8 @@ package com.gto.gtocore.integration.jade.provider;
 import com.gto.gtocore.api.machine.multiblock.CrossRecipeMultiblockMachine;
 import com.gto.gtocore.api.machine.multiblock.ElectricMultiblockMachine;
 import com.gto.gtocore.common.data.GTORecipeTypes;
+import com.gto.gtocore.utils.GTOUtils;
+import com.gto.gtocore.utils.RegistriesUtils;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.capability.GTCapabilityHelper;
@@ -11,7 +13,6 @@ import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
 import com.gregtechceu.gtceu.integration.jade.GTElementHelper;
 import com.gregtechceu.gtceu.integration.jade.provider.CapabilityBlockProvider;
-import com.gregtechceu.gtceu.utils.GTUtil;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
@@ -35,8 +36,7 @@ import snownee.jade.api.fluid.JadeFluidObject;
 import snownee.jade.api.ui.IElementHelper;
 import snownee.jade.util.FluidTextHelper;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public final class RecipeOutputProvider extends CapabilityBlockProvider<RecipeLogic> {
 
@@ -55,56 +55,76 @@ public final class RecipeOutputProvider extends CapabilityBlockProvider<RecipeLo
             data.putBoolean("Working", recipeLogic.isWorking());
             if (recipeLogic.getMachine() instanceof ElectricMultiblockMachine machine) {
                 if (machine.getRecipeType() == GTORecipeTypes.RANDOM_ORE_RECIPES) return;
+                Set<GTRecipe> recipes;
                 if (machine instanceof CrossRecipeMultiblockMachine crossRecipeMultiblockMachine) {
                     if (crossRecipeMultiblockMachine.isJadeInfo()) {
-                        ListTag itemTags = new ListTag();
-                        ListTag fluidTags = new ListTag();
-                        for (GTRecipe recipe : crossRecipeMultiblockMachine.getLastRecipes()) {
-                            for (ItemStack stack : RecipeHelper.getOutputItems(recipe)) {
-                                if (stack != null && !stack.isEmpty()) {
-                                    itemTags.add(GTUtil.saveItemStack(stack, new CompoundTag()));
-                                }
-                            }
-                            for (FluidStack stack : RecipeHelper.getOutputFluids(recipe)) {
-                                if (stack != null && !stack.isEmpty()) {
-                                    fluidTags.add(stack.writeToNBT(new CompoundTag()));
-                                }
-                            }
-                        }
-                        if (!itemTags.isEmpty()) {
-                            data.put("OutputItems", itemTags);
-                        }
-                        if (!fluidTags.isEmpty()) {
-                            data.put("OutputFluids", fluidTags);
-                        }
+                        recipes = crossRecipeMultiblockMachine.getLastRecipes();
+                    } else {
+                        return;
                     }
-                    return;
+                } else {
+                    var last = recipeLogic.getLastRecipe();
+                    if (last == null) return;
+                    recipes = Collections.singleton(last);
                 }
-            }
-            var recipe = recipeLogic.getLastRecipe();
-            if (recipe != null) {
+                Map<String, CompoundTag> cache = new HashMap<>();
                 ListTag itemTags = new ListTag();
-                for (var stack : RecipeHelper.getOutputItems(recipe)) {
-                    if (stack != null && !stack.isEmpty()) {
-                        var itemTag = new CompoundTag();
+                for (GTRecipe recipe : recipes) {
+                    for (ItemStack stack : RecipeHelper.getOutputItems(recipe)) {
+                        if (stack != null && !stack.isEmpty()) {
+                            var id = RegistriesUtils.getItemId(stack.getItem()).toString();
+                            if (cache.containsKey(id)) {
+                                CompoundTag tag = cache.get(id);
+                                if (tag != null) {
+                                    long amount = tag.getLong("Count");
+                                    if (amount > 0) {
+                                        tag.putLong("Count", amount + stack.getCount());
+                                    }
+                                }
+                            } else {
+                                var itemTag = new CompoundTag();
+                                itemTag.putString("id", id);
+                                itemTag.putLong("Count", stack.getCount());
+                                if (stack.getTag() != null) {
+                                    itemTag.put("tag", stack.getTag().copy());
+                                }
+                                cache.put(id, itemTag);
+                                itemTags.add(itemTag);
+                            }
+                        }
+                    }
+                    if (!itemTags.isEmpty()) {
+                        data.put("OutputItems", itemTags);
+                    }
+                    ListTag fluidTags = new ListTag();
+                    for (FluidStack stack : RecipeHelper.getOutputFluids(recipe)) {
+                        if (stack != null && !stack.isEmpty()) {
+                            String id = RegistriesUtils.getFluidId(stack.getFluid()).toString();
+                            if (cache.containsKey(id)) {
+                                CompoundTag tag = cache.get(id);
+                                if (tag != null) {
+                                    long amount = tag.getLong("Amount");
+                                    if (amount > 0) {
+                                        tag.putLong("Amount", amount + stack.getAmount());
+                                    }
+                                } else {
+                                    var fluidTag = new CompoundTag();
+                                    fluidTag.putString("FluidName", id);
+                                    fluidTag.putLong("Amount", stack.getAmount());
 
-                        GTUtil.saveItemStack(stack, itemTag);
-                        itemTags.add(itemTag);
+                                    if (stack.getTag() != null) {
+                                        fluidTag.put("Tag", stack.getTag().copy());
+                                    }
+                                    cache.put(id, fluidTag);
+                                    fluidTags.add(fluidTag);
+                                }
+                                //
+                            }
+                        }
                     }
-                }
-                if (!itemTags.isEmpty()) {
-                    data.put("OutputItems", itemTags);
-                }
-                ListTag fluidTags = new ListTag();
-                for (var stack : RecipeHelper.getOutputFluids(recipe)) {
-                    if (stack != null && !stack.isEmpty()) {
-                        var fluidTag = new CompoundTag();
-                        stack.writeToNBT(fluidTag);
-                        fluidTags.add(fluidTag);
+                    if (!fluidTags.isEmpty()) {
+                        data.put("OutputFluids", fluidTags);
                     }
-                }
-                if (!fluidTags.isEmpty()) {
-                    data.put("OutputFluids", fluidTags);
                 }
             }
         }
@@ -114,16 +134,13 @@ public final class RecipeOutputProvider extends CapabilityBlockProvider<RecipeLo
     protected void addTooltip(CompoundTag capData, ITooltip tooltip, Player player, BlockAccessor block,
                               BlockEntity blockEntity, IPluginConfig config) {
         if (capData.getBoolean("Working")) {
-            List<ItemStack> outputItems = new ArrayList<>();
+            List<CompoundTag> outputItems = new ArrayList<>();
             if (capData.contains("OutputItems", Tag.TAG_LIST)) {
                 ListTag itemTags = capData.getList("OutputItems", Tag.TAG_COMPOUND);
                 if (!itemTags.isEmpty()) {
                     for (Tag tag : itemTags) {
                         if (tag instanceof CompoundTag tCompoundTag) {
-                            var stack = GTUtil.loadItemStack(tCompoundTag);
-                            if (!stack.isEmpty()) {
-                                outputItems.add(stack);
-                            }
+                            outputItems.add(tCompoundTag);
                         }
                     }
                 }
@@ -148,17 +165,17 @@ public final class RecipeOutputProvider extends CapabilityBlockProvider<RecipeLo
         }
     }
 
-    private static void addItemTooltips(ITooltip iTooltip, List<ItemStack> outputItems) {
+    private static void addItemTooltips(ITooltip iTooltip, List<CompoundTag> outputItems) {
         IElementHelper helper = iTooltip.getElementHelper();
-        for (ItemStack itemOutput : outputItems) {
-            if (itemOutput != null && !itemOutput.isEmpty()) {
-                int count = itemOutput.getCount();
-                itemOutput.setCount(1);
-                iTooltip.add(helper.smallItem(itemOutput));
+        for (CompoundTag tag : outputItems) {
+            if (tag != null && !tag.isEmpty()) {
+                ItemStack stack = GTOUtils.loadItemStack(tag);
+                long count = tag.getLong("Count");
+                iTooltip.add(helper.smallItem(stack));
                 Component text = Component.literal(" ")
                         .append(String.valueOf(count))
                         .append("× ")
-                        .append(getItemName(itemOutput))
+                        .append(getItemName(stack))
                         .withStyle(ChatFormatting.WHITE);
                 iTooltip.append(text);
             }
