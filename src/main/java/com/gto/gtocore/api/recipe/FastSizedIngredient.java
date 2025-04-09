@@ -47,7 +47,7 @@ public final class FastSizedIngredient extends Ingredient {
     }
 
     private FastSizedIngredient(ItemStack itemStack) {
-        this((itemStack.hasTag() || itemStack.getDamageValue() > 0) ? NBTIngredient.createNBTIngredient(itemStack) : Ingredient.of(itemStack), itemStack.getCount());
+        this(itemStack.hasTag() ? NBTIngredient.createNBTIngredient(itemStack) : Ingredient.of(itemStack), itemStack.getCount());
     }
 
     public static FastSizedIngredient create(ItemStack inner) {
@@ -70,7 +70,7 @@ public final class FastSizedIngredient extends Ingredient {
         if (ingredient instanceof FastSizedIngredient fastSizedIngredient) {
             Ingredient innerIngredient = ItemUtils.getSizedInner(fastSizedIngredient);
             if (innerIngredient instanceof IntProviderIngredient) {
-                return SizedIngredient.copy(ingredient);
+                return SizedIngredient.copy(innerIngredient);
             }
             return FastSizedIngredient.create(innerIngredient, fastSizedIngredient.amount);
         } else if (ingredient instanceof IntCircuitIngredient circuit) {

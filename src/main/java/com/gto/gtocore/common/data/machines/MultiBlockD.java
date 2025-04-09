@@ -1407,7 +1407,7 @@ public interface MultiBlockD {
     MultiblockMachineDefinition CREATE_COMPUTATION = multiblock("create_computation", "创造计算机", (holder) -> new ComputationProviderMachine(holder, true))
             .allRotation()
             .recipe(GTRecipeTypes.DUMMY_RECIPES)
-            .tooltipsText("Input Voltage: %4§lMAX%r", "输入电压：§4§lMAX§r")
+            .tooltipsKey("gtceu.universal.tooltip.voltage_in", Integer.MAX_VALUE, GTValues.VNF[GTValues.MAX])
             .overclock()
             .block(GTBlocks.ADVANCED_COMPUTER_CASING)
             .pattern((definition) -> FactoryBlockPattern.start()

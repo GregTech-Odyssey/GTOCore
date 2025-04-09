@@ -154,7 +154,6 @@ public final class LangHandler {
         addENCN("gtocore.tier.advanced", "Advanced", "高级");
         addENCN("gtocore.tier.base", "Basic", "基础");
         addENCN("gtocore.tier.ultimate", "Ultimate", "终极");
-        addENCN("gtocore.universal.tooltip.ampere_out", "§bOutput Current: §r%sA", "§b输出电流：§r%sA");
 
         addENCN("config.jade.plugin_gtocore.accelerate_provider", "[GTOCore] Accelerated Bar", "[GTOCore] 加速条");
         addENCN("config.jade.plugin_gtocore.wireless_data_hatch_provider", "[GTOCore] Wireless Data", "[GTOCore] 无线数据");

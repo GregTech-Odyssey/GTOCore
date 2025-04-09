@@ -132,7 +132,7 @@ public interface GTOMachines {
                     .tooltips(Component.translatable("gtocore.machine.lightning_rod.tooltip.0"))
                     .tooltips(Component.translatable("gtocore.machine.lightning_rod.tooltip.1"))
                     .tooltips(Component.translatable("gtocore.machine.lightning_rod.tooltip.2"))
-                    .tooltips(Component.translatable("gtocore.universal.tooltip.ampere_out", 512))
+                    .tooltips(Component.translatable("gtceu.universal.tooltip.amperage_out", 512))
                     .tooltips(Component.translatable("gtceu.universal.tooltip.voltage_out",
                             FormattingUtil.formatNumbers(V[tier - 1]), VNF[tier - 1]))
                     .tooltips(Component.translatable("gtceu.universal.tooltip.energy_storage_capacity",
@@ -149,7 +149,7 @@ public interface GTOMachines {
                     .renderer(() -> new SimpleGeneratorMachineRenderer(tier,
                             GTOCore.id("block/generators/primitive_magic_energy")))
                     .tooltips(Component.translatable("gtocore.machine.primitive_magic_energy.tooltip.0"))
-                    .tooltips(Component.translatable("gtocore.universal.tooltip.ampere_out", 16))
+                    .tooltips(Component.translatable("gtceu.universal.tooltip.amperage_out", 16))
                     .tooltips(Component.translatable("gtceu.universal.tooltip.voltage_out",
                             FormattingUtil.formatNumbers(V[tier]), VNF[tier]))
                     .tooltips(Component.translatable("gtceu.universal.tooltip.energy_storage_capacity",
@@ -167,7 +167,7 @@ public interface GTOMachines {
                     .hasTESR(true)
                     .tooltips(Component.translatable("gtocore.machine.wind_mill_turbine.tooltip.0"))
                     .tooltips(Component.translatable("gtocore.machine.wind_mill_turbine.tooltip.1"))
-                    .tooltips(Component.translatable("gtocore.universal.tooltip.ampere_out", 2))
+                    .tooltips(Component.translatable("gtceu.universal.tooltip.amperage_out", 2))
                     .tooltips(Component.translatable("gtceu.universal.tooltip.voltage_out",
                             FormattingUtil.formatNumbers(V[tier]), VNF[tier]))
                     .tooltips(Component.translatable("gtceu.universal.tooltip.energy_storage_capacity",

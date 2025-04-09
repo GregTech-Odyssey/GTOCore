@@ -1,16 +1,15 @@
 package com.gto.gtocore.common.machine.multiblock.electric;
 
 import com.gto.gtocore.api.machine.multiblock.CrossRecipeMultiblockMachine;
+import com.gto.gtocore.api.machine.trait.EnergyContainerTrait;
 import com.gto.gtocore.utils.MachineUtils;
 
 import com.gregtechceu.gtceu.api.capability.IEnergyContainer;
 import com.gregtechceu.gtceu.api.capability.recipe.EURecipeCapability;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
+import com.gregtechceu.gtceu.api.capability.recipe.IRecipeHandler;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
-import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
-import com.gregtechceu.gtceu.api.machine.trait.NotifiableEnergyContainer;
-import com.gregtechceu.gtceu.api.misc.EnergyContainerList;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
@@ -18,14 +17,11 @@ import net.minecraft.network.chat.Component;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
-import it.unimi.dsi.fastutil.longs.Long2ObjectMaps;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -41,12 +37,10 @@ public final class AdvancedFusionReactorMachine extends CrossRecipeMultiblockMac
 
     @Getter
     private final int tier;
-    @Nullable
-    private EnergyContainerList inputEnergyContainers;
     @Persisted
     private long heat = 0;
     @Persisted
-    private final NotifiableEnergyContainer energyContainer;
+    private final EnergyContainerTrait energyContainer;
     @Nullable
     private TickableSubscription preHeatSubs;
 
@@ -61,52 +55,36 @@ public final class AdvancedFusionReactorMachine extends CrossRecipeMultiblockMac
         return MANAGED_FIELD_HOLDER;
     }
 
-    private NotifiableEnergyContainer createEnergyContainer() {
-        var container = new NotifiableEnergyContainer(this, 0, 0, 0, 0, 0);
+    private EnergyContainerTrait createEnergyContainer() {
+        var container = new EnergyContainerTrait(this, 0);
         container.setCapabilityValidator(Objects::isNull);
         return container;
     }
 
     @Override
-    public void onLoad() {
-        super.onLoad();
-        if (!isRemote()) {
-            updatePreHeatSubscription();
-        }
-    }
-
-    @Override
     public void onStructureFormed() {
         super.onStructureFormed();
-        List<IEnergyContainer> energyContainers = new ArrayList<>();
-        Map<Long, IO> ioMap = getMultiblockState().getMatchContext().getOrCreate("ioMap", Long2ObjectMaps::emptyMap);
-        for (IMultiPart part : getParts()) {
-            IO io = ioMap.getOrDefault(part.self().getPos().asLong(), IO.BOTH);
-            if (io == IO.NONE || io == IO.OUT) continue;
-            var handlerLists = part.getRecipeHandlers();
-            for (var handlerList : handlerLists) {
-                if (!handlerList.isValid(io)) continue;
-                handlerList.getCapability(EURecipeCapability.CAP).stream().filter(IEnergyContainer.class::isInstance).map(IEnergyContainer.class::cast).forEach(energyContainers::add);
-                traitSubscriptions.add(handlerList.subscribe(this::updatePreHeatSubscription, EURecipeCapability.CAP));
+        int size = 0;
+        for (IRecipeHandler<?> handler : getCapabilitiesFlat(IO.IN, EURecipeCapability.CAP)) {
+            if (handler instanceof IEnergyContainer) {
+                size++;
             }
         }
-        this.inputEnergyContainers = new EnergyContainerList(energyContainers);
-        energyContainer.resetBasicInfo(calculateEnergyStorageFactor(tier, energyContainers.size()), 0, 0, 0, 0);
+        energyContainer.resetBasicInfo(calculateEnergyStorageFactor(tier, size));
         updatePreHeatSubscription();
     }
 
     @Override
     public void onStructureInvalid() {
         super.onStructureInvalid();
-        this.inputEnergyContainers = null;
         heat = 0;
-        energyContainer.resetBasicInfo(0, 0, 0, 0, 0);
+        energyContainer.resetBasicInfo(0);
         energyContainer.setEnergyStored(0);
         updatePreHeatSubscription();
     }
 
     private void updatePreHeatSubscription() {
-        if (heat > 0 || (inputEnergyContainers != null && inputEnergyContainers.getEnergyStored() > 0 && energyContainer.getEnergyStored() < energyContainer.getEnergyCapacity())) {
+        if (heat > 0 || (isFormed() && getEnergyContainer().getEnergyStored() > 0)) {
             preHeatSubs = subscribeServerTick(preHeatSubs, this::updateHeat);
         } else if (preHeatSubs != null) {
             preHeatSubs.unsubscribe();
@@ -126,32 +104,15 @@ public final class AdvancedFusionReactorMachine extends CrossRecipeMultiblockMac
         return super.getRealRecipe(recipe);
     }
 
-    @Override
-    public boolean onWorking() {
-        if (getOffsetTimer() % 5 == 0) {
-            GTRecipe recipe = recipeLogic.getLastRecipe();
-            assert recipe != null;
-            if (recipe.data.contains("eu_to_start")) {
-                long heatDiff = recipe.data.getLong("eu_to_start") - this.heat;
-                if (heatDiff > 0) {
-                    recipeLogic.setWaiting(Component.translatable("gtceu.recipe_logic.insufficient_fuel"));
-                    if (this.energyContainer.getEnergyStored() < heatDiff) return super.onWorking();
-                    this.energyContainer.removeEnergy(heatDiff);
-                    this.heat += heatDiff;
-                    this.updatePreHeatSubscription();
-                }
-            }
-        }
-        return super.onWorking();
-    }
-
-    public void updateHeat() {
+    private void updateHeat() {
         if ((getRecipeLogic().isIdle() || !isWorkingEnabled() || (getRecipeLogic().isWaiting() && getRecipeLogic().getProgress() == 0)) && heat > 0) {
             heat = heat <= 10000 ? 0 : (heat - 10000);
         }
-        var leftStorage = energyContainer.getEnergyCapacity() - energyContainer.getEnergyStored();
-        if (inputEnergyContainers != null && leftStorage > 0) {
-            energyContainer.addEnergy(inputEnergyContainers.removeEnergy(leftStorage));
+        if (isFormed()) {
+            var leftStorage = energyContainer.getEnergyCapacity() - energyContainer.getEnergyStored();
+            if (leftStorage > 0) {
+                energyContainer.addEnergy(getEnergyContainer().removeEnergy(leftStorage));
+            }
         }
         updatePreHeatSubscription();
     }

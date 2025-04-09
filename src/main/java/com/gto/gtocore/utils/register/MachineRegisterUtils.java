@@ -88,6 +88,7 @@ public final class MachineRegisterUtils {
 
     public static MachineDefinition[] registerWirelessEnergyHatch(IO io, int amperage, PartAbility ability) {
         String id = io == IO.IN ? "input" : "output";
+        String iao = io == IO.IN ? "in" : "out";
         String render = "wireless_energy_hatch";
         render = switch (amperage) {
             case 2 -> render;
@@ -100,12 +101,15 @@ public final class MachineRegisterUtils {
         int t = LV;
         if (amperage == 64) t = EV;
         else if (amperage > 64) t = IV;
-        return registerTieredMachines(amperage + "a_wireless_" + id + "_hatch", tier -> amperage + (amperage > 64 ? "§e安§r" : "安") + GTOValues.VNFR[tier] + "无线" + (io == IO.IN ? "能源" : "动力") + "仓",
+        return registerTieredMachines("wireless_" + id + "_hatch" + (amperage > 2 ? "_" + amperage + "a" : ""), tier -> (amperage > 2 ? amperage + (amperage > 64 ? "§e安§r" : "安") : "") + GTOValues.VNFR[tier] + "无线" + (io == IO.IN ? "能源" : "动力") + "仓",
                 (holder, tier) -> new WirelessEnergyHatchPartMachine(holder, tier, io, amperage), (tier, builder) -> builder
-                        .langValue(VNF[tier] + " " + FormattingUtil.formatNumbers(amperage) + "A Wireless" + (io == IO.IN ? "Energy" : "Dynamo") + " Hatch")
+                        .langValue(VNF[tier] + " " + (amperage > 2 ? FormattingUtil.formatNumbers(amperage) + "A " : "") + "Wireless" + (io == IO.IN ? "Energy" : "Dynamo") + " Hatch")
                         .allRotation()
                         .abilities(ability)
-                        .tooltips(Component.translatable("gtmthings.machine.energy_hatch." + id + ".tooltip"), (Component.translatable("gtmthings.machine.wireless_energy_hatch." + id + ".tooltip")))
+                        .tooltips(Component.translatable("gtceu.universal.tooltip.voltage_" + iao, FormattingUtil.formatNumbers(V[tier]), VNF[tier]),
+                                Component.translatable("gtceu.universal.tooltip.amperage_" + iao, amperage),
+                                Component.translatable("gtceu.universal.tooltip.energy_storage_capacity", FormattingUtil.formatNumbers(WirelessEnergyHatchPartMachine.getHatchEnergyCapacity(io, tier, amperage))),
+                                Component.translatable("gtmthings.machine.wireless_energy_hatch." + id + ".tooltip"))
                         .renderer(() -> new OverlayTieredMachineRenderer(tier, GTMThings.id("block/machine/part/" + finalRender)))
                         .register(),
                 tiersBetween(t, MAX));
@@ -139,7 +143,7 @@ public final class MachineRegisterUtils {
                         .addOutputLimit(FluidRecipeCapability.CAP, 0)
                         .renderer(() -> new SimpleGeneratorMachineRenderer(tier, GTOCore.id("block/generators/" + name)))
                         .tooltips(Component.translatable("gtocore.machine.efficiency.tooltip", GeneratorArrayMachine.getEfficiency(recipeType, tier)).append("%"))
-                        .tooltips(Component.translatable("gtocore.universal.tooltip.ampere_out", GeneratorArrayMachine.getAmperage(tier)))
+                        .tooltips(Component.translatable("gtceu.universal.tooltip.amperage_out", GeneratorArrayMachine.getAmperage(tier)))
                         .tooltips(GTMachineUtils.workableTiered(tier, V[tier], V[tier] << 6, recipeType, tankScalingFunction.apply(tier), false))
                         .register(),
                 tiers);

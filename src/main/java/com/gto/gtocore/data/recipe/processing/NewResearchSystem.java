@@ -2,7 +2,6 @@ package com.gto.gtocore.data.recipe.processing;
 
 import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.api.item.MultiStepItemHelper;
-import com.gto.gtocore.common.data.machines.ExResearchMachines;
 import com.gto.gtocore.common.recipe.condition.VacuumCondition;
 
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
@@ -528,25 +527,25 @@ public interface NewResearchSystem {
             LARGE_CHEMICAL_RECIPES.recipeBuilder("make_mfpc_1")
                     .inputItems(dust, Polystyrene, 1)
                     .inputFluids(SilicicAcid.getFluid(500))
-                    .outputItems(MultiStepItemHelper.locateStep(stack2, 1,"中空陶瓷微珠粗胚"), 16)
+                    .outputItems(MultiStepItemHelper.locateStep(stack2, 1, "中空陶瓷微珠粗胚"), 16)
                     .outputFluids(Water.getFluid(500))
                     .duration(100)
                     .EUt(VA[IV])
                     .save();
 
             SINTERING_FURNACE_RECIPES.recipeBuilder(GTOCore.id("make_mfpc_2"))
-                    .inputItems(MultiStepItemHelper.locateStep(stack2, 1,"中空陶瓷微珠粗胚"))
-                    .outputItems(MultiStepItemHelper.locateStep(stack2, 2,"中空陶瓷微珠"))
+                    .inputItems(MultiStepItemHelper.locateStep(stack2, 1, "中空陶瓷微珠粗胚"))
+                    .outputItems(MultiStepItemHelper.locateStep(stack2, 2, "中空陶瓷微珠"))
                     .duration(20)
                     .EUt(VA[HV])
                     .blastFurnaceTemp(800)
                     .save();
 
             CHEMICAL_VAPOR_DEPOSITION_RECIPES.recipeBuilder(GTOCore.id("make_mfpc_3"))
-                    .inputItems(MultiStepItemHelper.locateStep(stack2, 2,"中空陶瓷微珠"), 8)
+                    .inputItems(MultiStepItemHelper.locateStep(stack2, 2, "中空陶瓷微珠"), 8)
                     .inputFluids(SilverNitrateSolution.getFluid(500))
                     .inputFluids(Hydrazine.getFluid(500))
-                    .outputItems(MultiStepItemHelper.locateStep(stack2, 3,"镀银的中空陶瓷微珠"), 8)
+                    .outputItems(MultiStepItemHelper.locateStep(stack2, 3, "镀银的中空陶瓷微珠"), 8)
                     .outputFluids(Ammonia.getFluid(1000))
                     .duration(12000)
                     .EUt(VA[UV])
@@ -554,54 +553,54 @@ public interface NewResearchSystem {
                     .save();
 
             CANNER_RECIPES.recipeBuilder(GTOCore.id("make_mfpc_4"))
-                    .inputItems(MultiStepItemHelper.locateStep(stack2, 3,"镀银的中空陶瓷微珠"), 10)
+                    .inputItems(MultiStepItemHelper.locateStep(stack2, 3, "镀银的中空陶瓷微珠"), 10)
                     .inputFluids(Octane.getFluid(800))
-                    .outputItems(MultiStepItemHelper.locateStep(stack2, 4,"镀银的辛烷陶瓷微珠"), 10)
+                    .outputItems(MultiStepItemHelper.locateStep(stack2, 4, "镀银的辛烷陶瓷微珠"), 10)
                     .duration(2000)
                     .EUt(VA[MV])
                     .save();
 
             LASER_ENGRAVER_RECIPES.recipeBuilder(GTOCore.id("make_mfpc_5"))
-                    .inputItems(MultiStepItemHelper.locateStep(stack2, 4,"镀银的辛烷陶瓷微珠"), 4)
+                    .inputItems(MultiStepItemHelper.locateStep(stack2, 4, "镀银的辛烷陶瓷微珠"), 4)
                     .notConsumable(lens, NetherStar)
                     .inputFluids(Hexamethyldisiloxane.getFluid(50))
                     .inputFluids(Argon.getFluid(PLASMA, 1))
-                    .outputItems(MultiStepItemHelper.locateStep(stack2, 5,"密封相变微珠"), 4)
+                    .outputItems(MultiStepItemHelper.locateStep(stack2, 5, "密封相变微珠"), 4)
                     .duration(300)
                     .EUt(VA[ZPM])
                     .save();
 
             CHEMICAL_VAPOR_DEPOSITION_RECIPES.recipeBuilder(GTOCore.id("make_mfpc_6"))
                     .notConsumable(dust, Cobalt)
-                    .inputItems(MultiStepItemHelper.locateStep(stack2, 5,"密封相变微珠"), 16)
+                    .inputItems(MultiStepItemHelper.locateStep(stack2, 5, "密封相变微珠"), 16)
                     .inputFluids(Methane.getFluid(1000))
                     .inputFluids(Hydrogen.getFluid(4000))
                     .inputFluids(Argon.getFluid(PLASMA, 100))
-                    .outputItems(MultiStepItemHelper.locateStep(stack2, 6,"碳纳米管包覆的相变微珠"), 16)
+                    .outputItems(MultiStepItemHelper.locateStep(stack2, 6, "碳纳米管包覆的相变微珠"), 16)
                     .duration(800)
                     .EUt(VA[IV])
                     .save();
 
             PHYSICAL_VAPOR_DEPOSITION_RECIPES.recipeBuilder(GTOCore.id("make_mfpc_7"))
-                    .inputItems(MultiStepItemHelper.locateStep(stack2, 6,"碳纳米管包覆的相变微珠"), 32)
+                    .inputItems(MultiStepItemHelper.locateStep(stack2, 6, "碳纳米管包覆的相变微珠"), 32)
                     .inputItems(plate, SiliconCarbide, 1)
                     .inputItems(dust, FerriteMixture, 1)
                     .inputFluids(Argon.getFluid(PLASMA, 100))
-                    .outputItems(MultiStepItemHelper.locateStep(stack2, 7,"微波衰减涂覆的相变微珠"), 32)
+                    .outputItems(MultiStepItemHelper.locateStep(stack2, 7, "微波衰减涂覆的相变微珠"), 32)
                     .duration(4000)
                     .EUt(VA[UV])
                     .save();
 
             CHEMICAL_BATH_RECIPES.recipeBuilder(GTOCore.id("make_mfpc_8"))
-                    .inputItems(MultiStepItemHelper.locateStep(stack2, 7,"微波衰减涂覆的相变微珠"))
+                    .inputItems(MultiStepItemHelper.locateStep(stack2, 7, "微波衰减涂覆的相变微珠"))
                     .inputFluids(KH550SilaneCouplingAgent.getFluid(5))
-                    .outputItems(MultiStepItemHelper.locateStep(stack2, 8,"表面功能化的相变微珠"))
+                    .outputItems(MultiStepItemHelper.locateStep(stack2, 8, "表面功能化的相变微珠"))
                     .duration(100)
                     .EUt(VA[MV])
                     .save();
 
             ISOSTATIC_PRESSING_RECIPES.recipeBuilder(GTOCore.id("make_mfpc_9"))
-                    .inputItems(MultiStepItemHelper.locateStep(stack2, 8,"表面功能化的相变微珠"))
+                    .inputItems(MultiStepItemHelper.locateStep(stack2, 8, "表面功能化的相变微珠"))
                     .inputFluids(MutatedLivingSolder.getFluid(10))
                     .outputItems(dust, BasicMFPC)
                     .duration(600)
@@ -610,29 +609,29 @@ public interface NewResearchSystem {
 
             CENTRIFUGE_RECIPES.recipeBuilder(GTOCore.id("recycle_mfpc_1"))
                     .inputItems(dust, InvalidationBasicMFPC)
-                    .outputItems(MultiStepItemHelper.locateStep(stack3, 1,"回收的多功能相变(MFPC)末"))
+                    .outputItems(MultiStepItemHelper.locateStep(stack3, 1, "回收的多功能相变(MFPC)末"))
                     .duration(20)
                     .EUt(VA[LV])
                     .save();
 
             CANNER_RECIPES.recipeBuilder(GTOCore.id("recycle_mfpc_2"))
-                    .inputItems(MultiStepItemHelper.locateStep(stack3, 1,"回收的多功能相变(MFPC)末"), 10)
+                    .inputItems(MultiStepItemHelper.locateStep(stack3, 1, "回收的多功能相变(MFPC)末"), 10)
                     .inputFluids(Octane.getFluid(800))
-                    .outputItems(MultiStepItemHelper.locateStep(stack3, 2,"重载辛烷的相变微珠"), 10)
+                    .outputItems(MultiStepItemHelper.locateStep(stack3, 2, "重载辛烷的相变微珠"), 10)
                     .duration(2000)
                     .EUt(VA[MV])
                     .save();
 
             CHEMICAL_BATH_RECIPES.recipeBuilder(GTOCore.id("recycle_mfpc_3"))
-                    .inputItems(MultiStepItemHelper.locateStep(stack3, 2,"重载辛烷的相变微珠"))
+                    .inputItems(MultiStepItemHelper.locateStep(stack3, 2, "重载辛烷的相变微珠"))
                     .inputFluids(KH550SilaneCouplingAgent.getFluid(5))
-                    .outputItems(MultiStepItemHelper.locateStep(stack3, 3,"重新活化的相变微珠"))
+                    .outputItems(MultiStepItemHelper.locateStep(stack3, 3, "重新活化的相变微珠"))
                     .duration(100)
                     .EUt(VA[MV])
                     .save();
 
             ISOSTATIC_PRESSING_RECIPES.recipeBuilder(GTOCore.id("recycle_mfpc_4"))
-                    .inputItems(MultiStepItemHelper.locateStep(stack3, 3,"重新活化的相变微珠"))
+                    .inputItems(MultiStepItemHelper.locateStep(stack3, 3, "重新活化的相变微珠"))
                     .inputFluids(MutatedLivingSolder.getFluid(10))
                     .outputItems(dust, BasicMFPC)
                     .duration(600)
@@ -657,8 +656,8 @@ public interface NewResearchSystem {
             ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("make_biocomputer_casing"))
                     .inputItems(ADVANCED_COMPUTER_CASING)
                     .inputItems(CustomTags.UHV_CIRCUITS, 2)
-                    .inputItems(wireFine,Titanium,64)
-                    .inputItems(wireFine,AbyssalAlloy,64)
+                    .inputItems(wireFine, Titanium, 64)
+                    .inputItems(wireFine, AbyssalAlloy, 64)
                     .inputItems(wireGtSingle, RutheniumTriniumAmericiumNeutronate, 16)
                     .outputItems(BIOCOMPUTER_CASING)
                     .duration(400)
@@ -668,7 +667,7 @@ public interface NewResearchSystem {
             ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("make_phase_change_biocomputer_cooling_vents"))
                     .inputItems(BIOCOMPUTER_CASING)
                     .inputItems(ELECTRIC_MOTOR_UHV, 2)
-                    .inputItems(ingot,BasicMFPC,64)
+                    .inputItems(ingot, BasicMFPC, 64)
                     .inputItems(pipeTinyFluid, Neutronium, 16)
                     .inputItems(plate, Orichalcum, 16)
                     .inputItems(wireGtSingle, RutheniumTriniumAmericiumNeutronate, 16)
@@ -681,7 +680,7 @@ public interface NewResearchSystem {
                     .inputItems(BIOCOMPUTER_CASING)
                     .inputItems(CustomTags.UV_CIRCUITS, 2)
                     .inputItems(NEURAL_MATRIX)
-                    .inputFluids(Helium.getFluid(LIQUID,8000))
+                    .inputFluids(Helium.getFluid(LIQUID, 8000))
                     .outputItems(NICH_EMPTY_COMPONENT)
                     .cleanroom(CleanroomType.CLEANROOM)
                     .duration(200)
@@ -692,7 +691,7 @@ public interface NewResearchSystem {
                     .inputItems(NICH_EMPTY_COMPONENT)
                     .inputItems(CustomTags.UEV_CIRCUITS, 8)
                     .inputItems(FIELD_GENERATOR_UHV)
-                    .inputFluids(Helium.getFluid(LIQUID,8000))
+                    .inputFluids(Helium.getFluid(LIQUID, 8000))
                     .outputItems(NICH_COMPUTING_COMPONENTS)
                     .cleanroom(CleanroomType.CLEANROOM)
                     .duration(200)
@@ -701,7 +700,7 @@ public interface NewResearchSystem {
 
             ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id("make_nich_cooling_components"))
                     .inputItems(NICH_EMPTY_COMPONENT)
-                    .inputItems(block,BasicMFPC,64)
+                    .inputItems(block, BasicMFPC, 64)
                     .inputItems(pipeTinyFluid, Neutronium, 8)
                     .inputItems(plate, Orichalcum, 32)
                     .outputItems(NICH_COOLING_COMPONENTS)
@@ -715,7 +714,7 @@ public interface NewResearchSystem {
                     .inputItems(CustomTags.UEV_CIRCUITS, 2)
                     .inputItems(EMITTER_UHV)
                     .inputItems(OPTICAL_PIPES[0].asStack(32))
-                    .inputFluids(Helium.getFluid(LIQUID,8000))
+                    .inputFluids(Helium.getFluid(LIQUID, 8000))
                     .outputItems(NICH_BRIDGE_COMPONENT)
                     .cleanroom(CleanroomType.CLEANROOM)
                     .duration(200)

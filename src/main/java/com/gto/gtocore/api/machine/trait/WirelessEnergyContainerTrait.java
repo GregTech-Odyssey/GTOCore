@@ -69,9 +69,19 @@ public final class WirelessEnergyContainerTrait extends NotifiableEnergyContaine
                 long energyStored = getEnergyStored();
                 if (handlerIO == IO.IN) {
                     long canInput = getEnergyCapacity() - energyStored;
-                    setEnergyStored(energyStored + container.unrestrictedRemoveEnergy(canInput));
+                    if (canInput > 0) {
+                        long change = container.unrestrictedRemoveEnergy(canInput);
+                        if (change > 0) {
+                            setEnergyStored(energyStored + change);
+                        }
+                    }
                 } else {
-                    setEnergyStored(energyStored - container.unrestrictedAddEnergy(energyStored));
+                    if (energyStored > 0) {
+                        long change = -container.unrestrictedAddEnergy(energyStored);
+                        if (change > 0) {
+                            setEnergyStored(energyStored - change);
+                        }
+                    }
                 }
             }
         }

@@ -4,6 +4,7 @@ import com.gto.gtocore.api.data.GTODimensions;
 import com.gto.gtocore.api.machine.feature.multiblock.ICheckPatternMachine;
 import com.gto.gtocore.api.machine.multiblock.ElectricMultiblockMachine;
 import com.gto.gtocore.api.machine.trait.CustomRecipeLogic;
+import com.gto.gtocore.api.machine.trait.EnergyContainerTrait;
 import com.gto.gtocore.api.recipe.GTORecipeBuilder;
 import com.gto.gtocore.api.recipe.RecipeRunnerHelper;
 import com.gto.gtocore.utils.ServerUtils;
@@ -11,7 +12,6 @@ import com.gto.gtocore.utils.register.BlockRegisterUtils;
 
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
-import com.gregtechceu.gtceu.api.machine.trait.NotifiableEnergyContainer;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 
@@ -75,7 +75,7 @@ public class VoidTransporterMachine extends ElectricMultiblockMachine {
     private boolean check = true;
 
     @Persisted
-    private final NotifiableEnergyContainer energyContainer;
+    private final EnergyContainerTrait energyContainer;
 
     private final BiConsumer<VoidTransporterMachine, Player> consumer;
 
@@ -87,8 +87,8 @@ public class VoidTransporterMachine extends ElectricMultiblockMachine {
         this.energyContainer = createEnergyContainer();
     }
 
-    private NotifiableEnergyContainer createEnergyContainer() {
-        var container = eu == 0 ? new NotifiableEnergyContainer(this, 0, 0, 0, 0, 0) : new NotifiableEnergyContainer(this, 409600, 2048, 2, 409600, 1);
+    private EnergyContainerTrait createEnergyContainer() {
+        var container = eu == 0 ? new EnergyContainerTrait(this, 0) : new EnergyContainerTrait(this, 409600);
         container.setCapabilityValidator(Objects::isNull);
         return container;
     }

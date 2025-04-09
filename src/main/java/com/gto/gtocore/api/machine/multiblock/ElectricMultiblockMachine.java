@@ -25,7 +25,10 @@ import java.util.List;
 
 public class ElectricMultiblockMachine extends WorkableElectricMultiblockMachine implements IEnhancedMultiblockMachine, IMultiblockTraitHolder {
 
+    private static final EnergyContainerList EMPTY_ENERGY_CONTAINER_LIST = new EnergyContainerList(List.of());
+
     private long overclockVoltage = -1;
+    private long maxVoltage = -1;
 
     @Getter
     private final List<MultiblockTrait> multiblockTraits = new ArrayList<>(2);
@@ -101,6 +104,7 @@ public class ElectricMultiblockMachine extends WorkableElectricMultiblockMachine
         super.onStructureInvalid();
         multiblockTraits.forEach(MultiblockTrait::onStructureInvalid);
         overclockVoltage = -1;
+        maxVoltage = -1;
     }
 
     @Override
@@ -120,6 +124,7 @@ public class ElectricMultiblockMachine extends WorkableElectricMultiblockMachine
 
     @Override
     public @NotNull EnergyContainerList getEnergyContainer() {
+        if (!isFormed) return EMPTY_ENERGY_CONTAINER_LIST;
         if (energyContainer == null) {
             energyContainer = super.getEnergyContainer();
         }
@@ -128,9 +133,19 @@ public class ElectricMultiblockMachine extends WorkableElectricMultiblockMachine
 
     @Override
     public long getOverclockVoltage() {
+        if (!isFormed) return 0;
         if (overclockVoltage < 0) {
             overclockVoltage = super.getOverclockVoltage();
         }
         return overclockVoltage;
+    }
+
+    @Override
+    public long getMaxVoltage() {
+        if (!isFormed) return 0;
+        if (maxVoltage < 0) {
+            maxVoltage = super.getMaxVoltage();
+        }
+        return maxVoltage;
     }
 }
