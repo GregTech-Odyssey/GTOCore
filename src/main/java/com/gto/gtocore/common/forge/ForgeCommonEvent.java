@@ -24,6 +24,7 @@ import com.gregtechceu.gtceu.common.data.GTItems;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.Component;
@@ -40,6 +41,8 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.animal.*;
 import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.monster.Zombie;
+import net.minecraft.world.entity.monster.ZombieVillager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -103,12 +106,14 @@ public final class ForgeCommonEvent {
 
                 foodEntityMapping.put("pork", Pig.class);
                 foodEntityMapping.put("beef", Cow.class);
+                foodEntityMapping.put("steak", Cow.class);
                 foodEntityMapping.put("chicken", Chicken.class);
                 foodEntityMapping.put("mutton", Sheep.class);
                 foodEntityMapping.put("rabbit", Rabbit.class);
                 foodEntityMapping.put("cod", Cod.class);
                 foodEntityMapping.put("salmon", Salmon.class);
                 foodEntityMapping.put("fish", TropicalFish.class);
+                foodEntityMapping.put("rotten_flesh", Zombie.class);
 
                 // 遍历所有注册的物品而不是实体
                 for (Map.Entry<ResourceKey<Item>, Item> entry : ForgeRegistries.ITEMS.getEntries()) {
@@ -155,7 +160,22 @@ public final class ForgeCommonEvent {
         private static <T extends LivingEntity> void hurtAnimalsNearPlayer(Player player, Class<?> entityClass, float distance) {
             Level level = player.level();
             List<? extends LivingEntity> entitiesOfClass = level.getEntitiesOfClass((Class<? extends LivingEntity>) entityClass, player.getBoundingBox().inflate(distance));
-            entitiesOfClass.forEach(entity -> {entity.hurt(player.damageSources().playerAttack(player), Math.max(entity.getMaxHealth() / 40, 0.25F));});
+            entitiesOfClass.forEach(entity -> {
+                entity.hurt(player.damageSources().playerAttack(player), Math.max(entity.getMaxHealth() / 40, 0.25F));
+                if (level instanceof ServerLevel serverLevel) {
+                    serverLevel.sendParticles(
+                            ParticleTypes.ANGRY_VILLAGER,
+                            entity.getX(),
+                            entity.getY() + entity.getBbHeight() * 0.75, // 在实体头部上方
+                            entity.getZ(),
+                            5,  // 粒子数量
+                            0.3, // X方向扩散
+                            0.2, // Y方向扩散
+                            0.3, // Z方向扩散
+                            0.02 // 粒子速度
+                    );
+                }
+            });
         }
     }
 
