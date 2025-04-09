@@ -1,5 +1,6 @@
 package com.gto.gtocore.common.forge;
 
+import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.api.data.GTODimensions;
 import com.gto.gtocore.api.entity.IEnhancedPlayer;
 import com.gto.gtocore.api.machine.feature.IVacuumMachine;
@@ -27,18 +28,21 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.animal.*;
 import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -52,45 +56,116 @@ import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.level.BlockEvent;
 import net.minecraftforge.event.level.LevelEvent;
+import net.minecraftforge.event.server.ServerStartedEvent;
 import net.minecraftforge.event.server.ServerStoppingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 import com.hepdd.gtmthings.data.WirelessEnergySavaedData;
+import net.minecraftforge.registries.ForgeRegistries;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 public final class ForgeCommonEvent {
 
-    @SubscribeEvent
-    public static void onFoodConsume(LivingEntityUseItemEvent event) {
-        if (GTOConfig.INSTANCE.enableAnimalsAreAfraidToEatTheirMeat) {
-            if (event.getEntity() instanceof Player player && Objects.equals(20, event.getDuration()) && !player.level().isClientSide()) {
-                int distacne = GTOConfig.INSTANCE.enableAnimalsAreAfraidToEatTheirMeatRange;
-                hurtAnimalsNearPlayer(player, Items.BEEF, Cow.class, event, distacne);
-                hurtAnimalsNearPlayer(player, Items.COOKED_BEEF, Cow.class, event, distacne);
+    public static class FoodHurtLogic{
+        public static final Map<Item, Class<?>> foodToEntityClass = new HashMap<>();
+        public static boolean initialized = false;
 
-                hurtAnimalsNearPlayer(player, Items.CHICKEN, Chicken.class, event, distacne);
-                hurtAnimalsNearPlayer(player, Items.COOKED_CHICKEN, Chicken.class, event, distacne);
+        @SubscribeEvent
+        public static void onServerStarted(ServerStartedEvent event) throws IllegalAccessException {
+            FoodHurtLogic.initialize(event.getServer());
+        }
 
-                hurtAnimalsNearPlayer(player, Items.PORKCHOP, Pig.class, event, distacne);
-                hurtAnimalsNearPlayer(player, Items.COOKED_PORKCHOP, Pig.class, event, distacne);
+        public static void initialize(MinecraftServer server) throws IllegalAccessException {
+            if(initialized)return;;
+            mapFoodToEntity_SoftCode(server);
+            GTOCore.LOGGER.info("Hurt | ");
+            GTOCore.LOGGER.info("Hurt | foodToEntity " + foodToEntityClass);
+            GTOCore.LOGGER.info("Hurt | ");
 
-                hurtAnimalsNearPlayer(player, Items.MUTTON, Sheep.class, event, distacne);
-                hurtAnimalsNearPlayer(player, Items.COOKED_MUTTON, Sheep.class, event, distacne);
+            initialized = true;
+        }
+
+        private static void mapFoodToEntity_SoftCode(MinecraftServer server) {
+            GTOCore.LOGGER.info("开始映射食物到实体关系...");
+
+            if (server == null) {
+                GTOCore.LOGGER.error("服务器实例为空，无法获取战利品表数据");
+                return;
+            }
+
+            // 清空现有映射，确保不受之前的影响
+            foodToEntityClass.clear();
+
+            int mappedCount = 0;
+            int entityCount = 0;
+            int processedEntities = 0;
+
+            try {
+
+                Map<String, Class<?>>  foodEntityMapping = new HashMap<>();
+
+                foodEntityMapping.put("pork", Pig.class);
+                foodEntityMapping.put("beef", Cow.class);
+                foodEntityMapping.put("chicken", Chicken.class);
+                foodEntityMapping.put("mutton", Sheep.class);
+                foodEntityMapping.put("rabbit", Rabbit.class);
+                foodEntityMapping.put("cod", Cod.class);
+                foodEntityMapping.put("salmon", Salmon.class);
+                foodEntityMapping.put("fish", TropicalFish.class);
+
+                // 遍历所有注册的物品而不是实体
+                for (Map.Entry<ResourceKey<Item>, Item> entry : ForgeRegistries.ITEMS.getEntries()) {
+                    Item item = entry.getValue();
+                    entityCount++;
+
+                    if (!item.isEdible()) continue;
+
+                    String itemId = entry.getKey().location().toString();
+
+                    for (Map.Entry<String, Class<?>> mapping : foodEntityMapping.entrySet()) {
+                        if (itemId.contains(mapping.getKey())) {
+                            Class<?> entityType = mapping.getValue();
+                            foodToEntityClass.put(item, entityType);
+                            mappedCount++;
+                            GTOCore.LOGGER.info("映射: " + itemId + " -> " + entityType.getName());
+                            break;
+                        }
+                    }
+
+                    processedEntities++;
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
-    }
 
-    private static <T extends Animal> void hurtAnimalsNearPlayer(Player player, Item foodItem, Class<T> animalClass, LivingEntityUseItemEvent event, float distance) {
-        if (event.getItem().is(foodItem)) {
+        @SubscribeEvent
+        public static void onFoodConsume(LivingEntityUseItemEvent event) {
+            if (GTOConfig.INSTANCE.enableAnimalsAreAfraidToEatTheirMeat) {
+                if (event.getEntity() instanceof Player player && Objects.equals(10, event.getDuration()) && !player.level().isClientSide()) {
+                    int distance = GTOConfig.INSTANCE.enableAnimalsAreAfraidToEatTheirMeatRange;
+
+                    foodToEntityClass.forEach((item, entityClass) -> {
+                        if(event.getItem().is(item)){
+                            hurtAnimalsNearPlayer(player,  entityClass, distance);
+                        }
+                    });
+                }
+            }
+        }
+
+        private static <T extends LivingEntity> void hurtAnimalsNearPlayer(Player player, Class<?> entityClass, float distance) {
             Level level = player.level();
-            List<T> animalEntities = level.getEntitiesOfClass(animalClass, player.getBoundingBox().inflate(distance));
-            for (T animal : animalEntities) {
-                animal.hurt(player.damageSources().playerAttack(player), Math.max(animal.getMaxHealth() / 20, 0.5F));
-            }
+            List<? extends LivingEntity> entitiesOfClass = level.getEntitiesOfClass((Class<? extends LivingEntity>) entityClass, player.getBoundingBox().inflate(distance));
+            entitiesOfClass.forEach(entity -> {entity.hurt(player.damageSources().playerAttack(player), Math.max(entity.getMaxHealth() / 40, 0.25F));});
         }
     }
+
 
     @SubscribeEvent
     public static void onDropsEvent(LivingDropsEvent e) {
