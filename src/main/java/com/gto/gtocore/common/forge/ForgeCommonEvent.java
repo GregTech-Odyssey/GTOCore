@@ -80,7 +80,7 @@ public final class ForgeCommonEvent {
         }
 
         public static void initialize(MinecraftServer server) throws IllegalAccessException {
-            if(initialized)return;
+            if(initialized)return;;
             mapFoodToEntity_SoftCode(server);
             initialized = true;
         }
@@ -89,13 +89,20 @@ public final class ForgeCommonEvent {
             if (server == null) {
                 return;
             }
+
+            // 清空现有映射，确保不受之前的影响
             foodToEntityClass.clear();
+
+            int mappedCount = 0;
+            int entityCount = 0;
+            int processedEntities = 0;
 
             try {
 
                 Map<String, Class<?>>  foodEntityMapping = new HashMap<>();
 
                 foodEntityMapping.put("pork", Pig.class);
+                foodEntityMapping.put("ham", Pig.class);
                 foodEntityMapping.put("beef", Cow.class);
                 foodEntityMapping.put("steak", Cow.class);
                 foodEntityMapping.put("chicken", Chicken.class);
@@ -106,8 +113,11 @@ public final class ForgeCommonEvent {
                 foodEntityMapping.put("fish", TropicalFish.class);
                 foodEntityMapping.put("rotten_flesh", Zombie.class);
 
+                // 遍历所有注册的物品而不是实体
                 for (Map.Entry<ResourceKey<Item>, Item> entry : ForgeRegistries.ITEMS.getEntries()) {
                     Item item = entry.getValue();
+                    entityCount++;
+
                     if (!item.isEdible()) continue;
 
                     String itemId = entry.getKey().location().toString();
@@ -116,60 +126,51 @@ public final class ForgeCommonEvent {
                         if (itemId.contains(mapping.getKey())) {
                             Class<?> entityType = mapping.getValue();
                             foodToEntityClass.put(item, entityType);
-//                            GTOCore.LOGGER.info("映射: " + itemId + " -> " + entityType.getName());
+                            mappedCount++;
+                            GTOCore.LOGGER.info("映射: " + itemId + " -> " + entityType.getName());
                             break;
                         }
                     }
+
+                    processedEntities++;
                 }
 
             } catch (Exception e) {
-                GTOCore.LOGGER.error(e.getMessage());
+                e.printStackTrace();
             }
         }
 
         @SubscribeEvent
         public static void onFoodConsume(LivingEntityUseItemEvent event) {
-            if (!GTOConfig.INSTANCE.enableAnimalsAreAfraidToEatTheirMeat || foodToEntityClass.isEmpty()) {
-                return;
-            }
-            if (event.getEntity() instanceof Player player && event.getDuration() == 10 && !player.level().isClientSide()) {
-                int distance = GTOConfig.INSTANCE.enableAnimalsAreAfraidToEatTheirMeatRange;
-                ItemStack itemStack = event.getItem();
-                Item currentItem = itemStack.getItem();
+            if (GTOConfig.INSTANCE.enableAnimalsAreAfraidToEatTheirMeat) {
+                if (event.getEntity() instanceof Player player && Objects.equals(10, event.getDuration()) && !player.level().isClientSide()) {
+                    int distance = GTOConfig.INSTANCE.enableAnimalsAreAfraidToEatTheirMeatRange;
 
-                foodToEntityClass.forEach((item, entityClass) -> {
-                    if (Objects.equals(currentItem, item)) {
-                        hurtAnimalsNearPlayer(player, entityClass, distance);
-                    }
-                });
+                    foodToEntityClass.forEach((item, entityClass) -> {
+                        if(event.getItem().is(item)){
+                            hurtAnimalsNearPlayer(player,  entityClass, distance);
+                        }
+                    });
+                }
             }
         }
 
         private static <T extends LivingEntity> void hurtAnimalsNearPlayer(Player player, Class<?> entityClass, float distance) {
             Level level = player.level();
-            float damageAmount = Math.max(((LivingEntity) entityClass.cast(null)).getMaxHealth() / 40, 0.25F);
-
-            // 定义粒子效果常量
-            final double PARTICLE_X_SPREAD = 0.3;
-            final double PARTICLE_Y_SPREAD = 0.2;
-            final double PARTICLE_Z_SPREAD = 0.3;
-            final double PARTICLE_SPEED = 0.02;
-            final int PARTICLE_COUNT = 5;
-
             List<? extends LivingEntity> entitiesOfClass = level.getEntitiesOfClass((Class<? extends LivingEntity>) entityClass, player.getBoundingBox().inflate(distance));
             entitiesOfClass.forEach(entity -> {
-                entity.hurt(player.damageSources().playerAttack(player), damageAmount);
+                entity.hurt(player.damageSources().playerAttack(player), Math.max(entity.getMaxHealth() / 40, 0.25F));
                 if (level instanceof ServerLevel serverLevel) {
                     serverLevel.sendParticles(
                             ParticleTypes.ANGRY_VILLAGER,
                             entity.getX(),
                             entity.getY() + entity.getBbHeight() * 0.75, // 在实体头部上方
                             entity.getZ(),
-                            PARTICLE_COUNT,  // 粒子数量
-                            PARTICLE_X_SPREAD, // X方向扩散
-                            PARTICLE_Y_SPREAD, // Y方向扩散
-                            PARTICLE_Z_SPREAD, // Z方向扩散
-                            PARTICLE_SPEED // 粒子速度
+                            5,  // 粒子数量
+                            0.3, // X方向扩散
+                            0.2, // Y方向扩散
+                            0.3, // Z方向扩散
+                            0.02 // 粒子速度
                     );
                 }
             });
