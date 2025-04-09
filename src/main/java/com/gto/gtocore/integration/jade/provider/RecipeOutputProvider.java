@@ -14,6 +14,8 @@ import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
 import com.gregtechceu.gtceu.integration.jade.GTElementHelper;
 import com.gregtechceu.gtceu.integration.jade.provider.CapabilityBlockProvider;
+import com.gregtechceu.gtceu.utils.FluidStackHashStrategy;
+import com.gregtechceu.gtceu.utils.ItemStackHashStrategy;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
@@ -29,6 +31,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.fluids.FluidStack;
 
+import it.unimi.dsi.fastutil.objects.Object2LongOpenCustomHashMap;
 import org.jetbrains.annotations.Nullable;
 import snownee.jade.api.BlockAccessor;
 import snownee.jade.api.ITooltip;
@@ -68,61 +71,50 @@ public final class RecipeOutputProvider extends CapabilityBlockProvider<RecipeLo
                     if (last == null) return;
                     recipes = Collections.singleton(last);
                 }
-                Map<String, CompoundTag> cache = new HashMap<>();
-                ListTag itemTags = new ListTag();
+                Map<ItemStack, Long> items = new Object2LongOpenCustomHashMap<>(ItemStackHashStrategy.comparingAllButCount());
+                Map<FluidStack, Long> fluids = new Object2LongOpenCustomHashMap<>(FluidStackHashStrategy.comparingAllButAmount());
                 for (GTRecipe recipe : recipes) {
                     for (ItemStack stack : RecipeHelper.getOutputItems(recipe)) {
                         if (stack != null && !stack.isEmpty()) {
-                            var id = ItemUtils.getId(stack.getItem());
-                            if (cache.containsKey(id)) {
-                                CompoundTag tag = cache.get(id);
-                                if (tag != null) {
-                                    long amount = tag.getLong("Count");
-                                    if (amount > 0) {
-                                        tag.putLong("Count", amount + stack.getCount());
-                                    }
-                                }
-                            } else {
-                                var itemTag = new CompoundTag();
-                                itemTag.putString("id", id);
-                                itemTag.putLong("Count", stack.getCount());
-                                if (stack.getTag() != null) {
-                                    itemTag.put("tag", stack.getTag().copy());
-                                }
-                                cache.put(id, itemTag);
-                                itemTags.add(itemTag);
-                            }
+                            items.compute(stack, (key, value) -> {
+                                if (value == null) return (long) key.getCount();
+                                return value + key.getCount();
+                            });
                         }
                     }
-                    if (!itemTags.isEmpty()) {
+                    if (!items.isEmpty()) {
+                        ListTag itemTags = new ListTag();
+                        items.forEach((stack, value) -> {
+                            var nbt = new CompoundTag();
+                            nbt.putString("id", ItemUtils.getId(stack));
+                            nbt.putLong("Count", value);
+                            if (stack.getTag() != null) {
+                                nbt.put("tag", stack.getTag().copy());
+                            }
+                            itemTags.add(nbt);
+                        });
                         data.put("OutputItems", itemTags);
                     }
-                    ListTag fluidTags = new ListTag();
+
                     for (FluidStack stack : RecipeHelper.getOutputFluids(recipe)) {
                         if (stack != null && !stack.isEmpty()) {
-                            String id = FluidUtils.getId(stack.getFluid());
-                            if (cache.containsKey(id)) {
-                                CompoundTag tag = cache.get(id);
-                                if (tag != null) {
-                                    long amount = tag.getLong("Amount");
-                                    if (amount > 0) {
-                                        tag.putLong("Amount", amount + stack.getAmount());
-                                    }
-                                } else {
-                                    var fluidTag = new CompoundTag();
-                                    fluidTag.putString("FluidName", id);
-                                    fluidTag.putLong("Amount", stack.getAmount());
-
-                                    if (stack.getTag() != null) {
-                                        fluidTag.put("Tag", stack.getTag().copy());
-                                    }
-                                    cache.put(id, fluidTag);
-                                    fluidTags.add(fluidTag);
-                                }
-                            }
+                            fluids.compute(stack, (key, value) -> {
+                                if (value == null) return (long) key.getAmount();
+                                return value + key.getAmount();
+                            });
                         }
                     }
-                    if (!fluidTags.isEmpty()) {
+                    if (!fluids.isEmpty()) {
+                        ListTag fluidTags = new ListTag();
+                        fluids.forEach((stack, value) -> {
+                            var nbt = new CompoundTag();
+                            nbt.putString("FluidName", FluidUtils.getId(stack.getFluid()));
+                            nbt.putLong("Amount", value);
+                            if (stack.getTag() != null) {
+                                nbt.put("tag", stack.getTag().copy());
+                            }
+                            fluidTags.add(nbt);
+                        });
                         data.put("OutputFluids", fluidTags);
                     }
                 }
