@@ -9,7 +9,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.saveddata.SavedData;
 
-import com.mojang.datafixers.util.Pair;
+import it.unimi.dsi.fastutil.ints.IntIntImmutablePair;
 import it.unimi.dsi.fastutil.objects.Object2BooleanOpenHashMap;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import lombok.Getter;
@@ -30,10 +30,10 @@ public final class DysonSphereSavaedData extends SavedData {
         return INSTANCE.DysonUse.getOrDefault(galaxy, false);
     }
 
-    public static Pair<Integer, Integer> getDimensionData(ResourceKey<Level> dim) {
+    public static IntIntImmutablePair getDimensionData(ResourceKey<Level> dim) {
         String galaxy = GTODimensions.getGalaxy(dim.location());
-        if (galaxy == null) return Pair.of(0, 0);
-        return Pair.of(INSTANCE.DysonLaunchData.getOrDefault(galaxy, 0), INSTANCE.DysonDamageData.getOrDefault(galaxy, 0));
+        if (galaxy == null) return IntIntImmutablePair.of(0, 0);
+        return IntIntImmutablePair.of(INSTANCE.DysonLaunchData.getOrDefault(galaxy, 0), INSTANCE.DysonDamageData.getOrDefault(galaxy, 0));
     }
 
     public static int getDimensionLaunchData(ResourceKey<Level> dim) {

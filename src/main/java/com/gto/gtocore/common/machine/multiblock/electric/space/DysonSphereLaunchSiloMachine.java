@@ -11,7 +11,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.Level;
 
-import com.mojang.datafixers.util.Pair;
+import it.unimi.dsi.fastutil.ints.IntIntImmutablePair;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -46,12 +46,12 @@ public final class DysonSphereLaunchSiloMachine extends ElectricMultiblockMachin
     @Override
     public void onRecipeFinish() {
         super.onRecipeFinish();
-        Pair<Integer, Integer> pair = DysonSphereSavaedData.getDimensionData(getDimension());
-        if (pair.getFirst() < 10000) {
-            if (pair.getSecond() > 60) {
-                DysonSphereSavaedData.setDysonData(getDimension(), pair.getFirst(), 0);
+        IntIntImmutablePair pair = DysonSphereSavaedData.getDimensionData(getDimension());
+        if (pair.leftInt() < 10000) {
+            if (pair.rightInt() > 60) {
+                DysonSphereSavaedData.setDysonData(getDimension(), pair.leftInt(), 0);
             } else {
-                DysonSphereSavaedData.setDysonData(getDimension(), pair.getFirst() + 1, pair.getSecond());
+                DysonSphereSavaedData.setDysonData(getDimension(), pair.leftInt() + 1, pair.rightInt());
             }
         }
     }

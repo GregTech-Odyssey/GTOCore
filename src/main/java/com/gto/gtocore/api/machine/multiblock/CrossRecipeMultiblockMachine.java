@@ -11,7 +11,6 @@ import com.gto.gtocore.api.machine.trait.CustomRecipeLogic;
 import com.gto.gtocore.api.machine.trait.MultiblockTrait;
 import com.gto.gtocore.api.recipe.AsyncRecipeOutputTask;
 import com.gto.gtocore.api.recipe.GTORecipeBuilder;
-import com.gto.gtocore.api.recipe.GTORecipeType;
 import com.gto.gtocore.api.recipe.RecipeRunnerHelper;
 import com.gto.gtocore.common.data.GTORecipeModifiers;
 import com.gto.gtocore.common.machine.multiblock.part.ThreadHatchPartMachine;
@@ -51,6 +50,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.function.Supplier;
+import java.util.function.ToIntFunction;
 
 public class CrossRecipeMultiblockMachine extends ElectricMultiblockMachine implements IParallelMachine, IOverclockConfigMachine {
 
@@ -60,7 +60,7 @@ public class CrossRecipeMultiblockMachine extends ElectricMultiblockMachine impl
         return new CrossRecipeMultiblockMachine(holder, false, true, MachineUtils::getHatchParallel);
     }
 
-    public static Function<IMachineBlockEntity, CrossRecipeMultiblockMachine> createParallel(boolean infinite, boolean isHatchParallel, Function<CrossRecipeMultiblockMachine, Integer> parallel) {
+    public static Function<IMachineBlockEntity, CrossRecipeMultiblockMachine> createParallel(boolean infinite, boolean isHatchParallel, ToIntFunction<CrossRecipeMultiblockMachine> parallel) {
         return holder -> new CrossRecipeMultiblockMachine(holder, infinite, isHatchParallel, parallel);
     }
 
@@ -101,11 +101,11 @@ public class CrossRecipeMultiblockMachine extends ElectricMultiblockMachine impl
     private final boolean infinite;
     private final boolean isHatchParallel;
 
-    protected CrossRecipeMultiblockMachine(IMachineBlockEntity holder, boolean infinite, boolean isHatchParallel, @NotNull Function<CrossRecipeMultiblockMachine, Integer> parallel) {
+    protected CrossRecipeMultiblockMachine(IMachineBlockEntity holder, boolean infinite, boolean isHatchParallel, @NotNull ToIntFunction<CrossRecipeMultiblockMachine> parallel) {
         super(holder);
         this.infinite = infinite;
         this.isHatchParallel = isHatchParallel;
-        customParallelTrait = new CustomParallelTrait(this, false, machine -> parallel.apply((CrossRecipeMultiblockMachine) machine));
+        customParallelTrait = new CustomParallelTrait(this, false, machine -> parallel.applyAsInt((CrossRecipeMultiblockMachine) machine));
     }
 
     public int getThread() {
@@ -177,15 +177,13 @@ public class CrossRecipeMultiblockMachine extends ElectricMultiblockMachine impl
                     return match;
                 }
             }
-            Iterator<GTRecipe> iterator = ((GTORecipeType) getRecipeType()).searchRecipe(this, false);
-            if (iterator != null) {
-                while (iterator.hasNext()) {
-                    GTRecipe recipe = iterator.next();
-                    match = checkRecipe(recipe);
-                    if (match != null) {
-                        if (lastParallel == getRealParallel()) lastMatchRecipe = recipe;
-                        return match;
-                    }
+            Iterator<GTRecipe> iterator = getRecipeType().searchRecipe(this, recipe -> RecipeRunnerHelper.matchRecipe(this, recipe));
+            while (iterator.hasNext()) {
+                GTRecipe recipe = iterator.next();
+                match = checkRecipe(recipe);
+                if (match != null) {
+                    if (lastParallel == getRealParallel()) lastMatchRecipe = recipe;
+                    return match;
                 }
             }
         }

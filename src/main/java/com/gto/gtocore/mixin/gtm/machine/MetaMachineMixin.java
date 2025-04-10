@@ -92,29 +92,9 @@ public abstract class MetaMachineMixin implements IPerformanceDisplayMachine {
     }
 
     @Override
-    public void gtocore$tick() {
-        if (gtocore$cancel()) return;
-        long currentTime = System.currentTimeMillis();
-        if (currentTime - gTOCore$lastExecutionTime < 40) {
-            return;
-        }
-        gTOCore$lastExecutionTime = currentTime;
-        boolean observe = PerformanceMonitorMachine.observe || gtocore$observe;
-        if (observe) currentTime = System.nanoTime();
+    @SuppressWarnings("all")
+    public void runTick() {
         executeTick();
-        if (observe) {
-            gTOCore$totaTtickCount += System.nanoTime() - currentTime;
-            if (getOffsetTimer() % 40 == 0) {
-                gtocore$observe = false;
-                gTOCore$averageTickTime = (int) (gTOCore$totaTtickCount / 40000);
-                gTOCore$totaTtickCount = 0;
-            }
-            if (PerformanceMonitorMachine.observe) PerformanceMonitorMachine.PERFORMANCE_MAP.put((MetaMachine) (Object) this, gTOCore$averageTickTime);
-        } else if (serverTicks.isEmpty() && waitingToAdd.isEmpty() && !isInValid()) {
-            gTOCore$averageTickTime = 0;
-            gTOCore$totaTtickCount = 0;
-            getLevel().setBlockAndUpdate(getPos(), getBlockState().setValue(BlockProperties.SERVER_TICK, false));
-        }
     }
 
     /**
@@ -123,7 +103,28 @@ public abstract class MetaMachineMixin implements IPerformanceDisplayMachine {
      */
     @Overwrite(remap = false)
     public final void serverTick() {
-        gtocore$tick();
+        if (cancelTick()) return;
+        long currentTime = System.currentTimeMillis();
+        if (currentTime - gTOCore$lastExecutionTime < 40) {
+            return;
+        }
+        gTOCore$lastExecutionTime = currentTime;
+        boolean observe = PerformanceMonitorMachine.observe || gtocore$observe;
+        if (observe) currentTime = System.nanoTime();
+        runTick();
+        if (observe) {
+            gTOCore$totaTtickCount += System.nanoTime() - currentTime;
+            if (getOffsetTimer() % 40 == 0) {
+                gtocore$observe = false;
+                gTOCore$averageTickTime = (int) (gTOCore$totaTtickCount / 40000);
+                gTOCore$totaTtickCount = 0;
+            }
+            if (PerformanceMonitorMachine.observe) PerformanceMonitorMachine.PERFORMANCE_MAP.put((MetaMachine) (Object) this, gTOCore$averageTickTime);
+        } else if (!keepTick() && serverTicks.isEmpty() && waitingToAdd.isEmpty() && !isInValid()) {
+            gTOCore$averageTickTime = 0;
+            gTOCore$totaTtickCount = 0;
+            getLevel().setBlockAndUpdate(getPos(), getBlockState().setValue(BlockProperties.SERVER_TICK, false));
+        }
     }
 
     @Inject(method = "onToolClick", at = @At("RETURN"), remap = false, cancellable = true)

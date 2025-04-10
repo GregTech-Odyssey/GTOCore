@@ -1,14 +1,12 @@
 package com.gto.gtocore.mixin.gtm.capability;
 
+import com.gto.gtocore.api.machine.feature.multiblock.IDistinctRecipeHolder;
 import com.gto.gtocore.api.machine.trait.IEnhancedRecipeLogic;
 import com.gto.gtocore.api.machine.trait.IPatternBufferRecipeHandler;
 import com.gto.gtocore.api.recipe.MapFluid;
 import com.gto.gtocore.mixin.gtm.api.recipe.FluidIngredientFluidValueAccessor;
 
-import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
-import com.gregtechceu.gtceu.api.capability.recipe.IO;
-import com.gregtechceu.gtceu.api.capability.recipe.IRecipeCapabilityHolder;
-import com.gregtechceu.gtceu.api.capability.recipe.IRecipeHandler;
+import com.gregtechceu.gtceu.api.capability.recipe.*;
 import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.content.Content;
@@ -23,7 +21,6 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 
 import java.util.List;
-import java.util.Map;
 
 @Mixin(FluidRecipeCapability.class)
 public class FluidRecipeCapabilityMixin {
@@ -56,38 +53,55 @@ public class FluidRecipeCapabilityMixin {
     @Overwrite(remap = false)
     public int getMaxParallelRatio(IRecipeCapabilityHolder holder, GTRecipe recipe, int parallelAmount) {
         if (holder instanceof IRecipeLogicMachine machine && machine.getRecipeLogic() instanceof IEnhancedRecipeLogic recipeLogic) {
-            Object2LongOpenHashMap<FluidStack> map = recipeLogic.gtocore$getParallelFluidMap();
+
             Object2LongOpenHashMap<FluidStack> ingredientStacks = recipeLogic.gtocore$getFluidIngredientStacks();
-
-            var recipeHandlerList = holder.getCapabilitiesFlat(IO.IN, FluidRecipeCapability.CAP);
-
-            for (IRecipeHandler<?> container : recipeHandlerList) {
-                boolean patternBuffer = container instanceof IPatternBufferRecipeHandler;
-                Object2LongOpenHashMap<FluidStack> fluidMap;
-                if (patternBuffer) {
-                    fluidMap = ((IPatternBufferRecipeHandler) container).getFluidMap();
-                } else {
-                    fluidMap = recipeLogic.gtocore$getFluidMap();
-                    for (Object object : container.getContents()) {
-                        if (object instanceof FluidStack fluidStack) {
-                            fluidMap.computeLong(fluidStack, (k, v) -> v == null ? fluidStack.getAmount() : v + fluidStack.getAmount());
+            if (machine instanceof IDistinctRecipeHolder distinctRecipeHolder && distinctRecipeHolder.getCurrentDistinct() != null) {
+                var recipeHandlerList = distinctRecipeHolder.getCurrentDistinct().getCapability(FluidRecipeCapability.CAP);
+                for (IRecipeHandler<?> container : recipeHandlerList) {
+                    if (container instanceof IPatternBufferRecipeHandler handler) {
+                        for (var entry : handler.getFluidMap().object2LongEntrySet()) {
+                            ingredientStacks.computeLong(entry.getKey(), (k, v) -> v == null ? entry.getLongValue() : v + entry.getLongValue());
+                        }
+                    } else {
+                        for (Object object : container.getContents()) {
+                            if (object instanceof FluidStack fluidStack) {
+                                ingredientStacks.computeLong(fluidStack, (k, v) -> v == null ? fluidStack.getAmount() : v + fluidStack.getAmount());
+                            }
                         }
                     }
                 }
+            } else {
+                Object2LongOpenHashMap<FluidStack> map = recipeLogic.gtocore$getParallelFluidMap();
+                var recipeHandlerList = holder.getCapabilitiesFlat(IO.IN, FluidRecipeCapability.CAP);
 
-                if (container.isDistinct()) {
-                    for (var entry : fluidMap.object2LongEntrySet()) {
-                        ingredientStacks.computeLong(entry.getKey(), (k, v) -> v == null ? entry.getLongValue() : Math.max(v, entry.getLongValue()));
+                for (IRecipeHandler<?> container : recipeHandlerList) {
+                    boolean patternBuffer = container instanceof IPatternBufferRecipeHandler;
+                    Object2LongOpenHashMap<FluidStack> fluidMap;
+                    if (patternBuffer) {
+                        fluidMap = ((IPatternBufferRecipeHandler) container).getFluidMap();
+                    } else {
+                        fluidMap = recipeLogic.gtocore$getFluidMap();
+                        for (Object object : container.getContents()) {
+                            if (object instanceof FluidStack fluidStack) {
+                                fluidMap.computeLong(fluidStack, (k, v) -> v == null ? fluidStack.getAmount() : v + fluidStack.getAmount());
+                            }
+                        }
                     }
-                } else {
-                    for (Object2LongMap.Entry<FluidStack> obj : fluidMap.object2LongEntrySet()) {
-                        map.computeLong(obj.getKey(), (k, v) -> v == null ? obj.getLongValue() : v + obj.getLongValue());
+
+                    if (container.isDistinct()) {
+                        for (var entry : fluidMap.object2LongEntrySet()) {
+                            ingredientStacks.computeLong(entry.getKey(), (k, v) -> v == null ? entry.getLongValue() : Math.max(v, entry.getLongValue()));
+                        }
+                    } else {
+                        for (Object2LongMap.Entry<FluidStack> obj : fluidMap.object2LongEntrySet()) {
+                            map.computeLong(obj.getKey(), (k, v) -> v == null ? obj.getLongValue() : v + obj.getLongValue());
+                        }
                     }
+                    if (!patternBuffer) fluidMap.clear();
                 }
-                if (!patternBuffer) fluidMap.clear();
-            }
-            for (var entry : map.object2LongEntrySet()) {
-                ingredientStacks.computeLong(entry.getKey(), (k, v) -> v == null ? entry.getLongValue() : Math.max(v, entry.getLongValue()));
+                for (var entry : map.object2LongEntrySet()) {
+                    ingredientStacks.computeLong(entry.getKey(), (k, v) -> v == null ? entry.getLongValue() : Math.max(v, entry.getLongValue()));
+                }
             }
 
             long minMultiplier = Integer.MAX_VALUE - 1;
@@ -108,9 +122,9 @@ public class FluidRecipeCapabilityMixin {
             for (Object2IntMap.Entry<FluidIngredient> notConsumableFluid : notConsumableMap.object2IntEntrySet()) {
                 long needed = notConsumableFluid.getIntValue();
                 long available = 0;
-                for (Map.Entry<FluidStack, Long> inputFluid : ingredientStacks.object2LongEntrySet()) {
+                for (Object2LongMap.Entry<FluidStack> inputFluid : ingredientStacks.object2LongEntrySet()) {
                     if (notConsumableFluid.getKey().test(inputFluid.getKey())) {
-                        available = inputFluid.getValue();
+                        available = inputFluid.getLongValue();
                         if (available > needed) {
                             inputFluid.setValue(available - needed);
                             needed -= available;
@@ -134,9 +148,9 @@ public class FluidRecipeCapabilityMixin {
             for (Object2IntMap.Entry<FluidIngredient> fs : fluidCountMap.object2IntEntrySet()) {
                 long needed = fs.getIntValue();
                 long available = 0;
-                for (Map.Entry<FluidStack, Long> inputFluid : ingredientStacks.object2LongEntrySet()) {
+                for (Object2LongMap.Entry<FluidStack> inputFluid : ingredientStacks.object2LongEntrySet()) {
                     if (fs.getKey().test(inputFluid.getKey())) {
-                        available += inputFluid.getValue();
+                        available += inputFluid.getLongValue();
                     }
                 }
                 if (available >= needed) {

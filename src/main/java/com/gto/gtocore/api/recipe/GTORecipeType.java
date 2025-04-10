@@ -58,17 +58,10 @@ public class GTORecipeType extends GTRecipeType {
         setRecipeBuilder(new GTORecipeBuilder(registryName, this));
     }
 
-    @Nullable
-    public Iterator<GTRecipe> searchRecipe(IRecipeCapabilityHolder holder, boolean tick) {
-        if (!holder.hasCapabilityProxies()) return null;
-        return new SearchRecipeIterator(holder, this, tick);
-    }
-
     @Override
     public @NotNull Iterator<GTRecipe> searchRecipe(IRecipeCapabilityHolder holder, Predicate<GTRecipe> canHandle) {
-        Iterator<GTRecipe> iterator = searchRecipe(holder, true);
-        if (iterator == null) return Collections.emptyIterator();
-        return iterator;
+        if (!holder.hasCapabilityProxies()) return Collections.emptyIterator();
+        return new SearchRecipeIterator(holder, this, canHandle);
     }
 
     @Override

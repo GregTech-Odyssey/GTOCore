@@ -15,17 +15,17 @@ import net.minecraft.world.item.Items;
 import appeng.core.definitions.AEItems;
 import com.google.common.collect.ImmutableSet;
 import com.tterrag.registrate.util.entry.RegistryEntry;
+import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 
 import java.util.Arrays;
-import java.util.Map;
 import java.util.Objects;
 
 public final class ItemMap {
 
     static final ImmutableSet<Item> UNIVERSAL_CIRCUITS = ImmutableSet.copyOf(Arrays.stream(GTOItems.UNIVERSAL_CIRCUIT).filter(Objects::nonNull).map(RegistryEntry::get).toList());
 
-    private static final Map<Item, Integer> SCRAP_MAP = new Object2IntOpenHashMap<>();
+    private static final Object2IntMap<Item> SCRAP_MAP = new Object2IntOpenHashMap<>();
     private static final int TOTAL_PROBABILITY;
 
     static {
@@ -88,9 +88,9 @@ public final class ItemMap {
     static {
         int index = 0;
         int cumulativeProbability = 0;
-        for (Map.Entry<Item, Integer> entry : SCRAP_MAP.entrySet()) {
+        for (Object2IntMap.Entry<Item> entry : SCRAP_MAP.object2IntEntrySet()) {
             SCRAP_ITEMS[index] = entry.getKey();
-            cumulativeProbability += entry.getValue();
+            cumulativeProbability += entry.getIntValue();
             CUMULATIVE_PROBABILITIES[index] = cumulativeProbability;
             index++;
         }

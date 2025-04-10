@@ -1,7 +1,7 @@
 package com.gto.gtocore.mixin.gtm;
 
 import com.gto.gtocore.api.machine.multiblock.ElectricMultiblockMachine;
-import com.gto.gtocore.utils.RegistriesUtils;
+import com.gto.gtocore.utils.FluidUtils;
 
 import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
@@ -34,8 +34,8 @@ public abstract class RockBreakerConditionMixin extends RecipeCondition {
     @Override
     @Overwrite(remap = false)
     public boolean testCondition(@NotNull GTRecipe recipe, @NotNull RecipeLogic recipeLogic) {
-        Fluid fluidA = RegistriesUtils.getFluid(recipe.data.getString("fluidA"));
-        Fluid fluidB = RegistriesUtils.getFluid(recipe.data.getString("fluidB"));
+        Fluid fluidA = FluidUtils.getFluid(recipe.data.getString("fluidA"));
+        Fluid fluidB = FluidUtils.getFluid(recipe.data.getString("fluidB"));
         boolean hasFluidA = false, hasFluidB = false;
         if (recipeLogic.machine instanceof ElectricMultiblockMachine MMachine) {
             List<IRecipeHandler<?>> handlers = MMachine.getCapabilitiesFlat(IO.IN, FluidRecipeCapability.CAP);

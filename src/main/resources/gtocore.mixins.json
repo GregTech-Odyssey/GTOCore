@@ -176,6 +176,7 @@
         "mc.ItemStackMixin",
         "mc.LootDataManagerMixin",
         "mc.MobMixin",
+        "mc.MthMixin",
         "mc.OreConfigurationMixin",
         "mc.PlayerMixin",
         "mc.RecipeBookMixin",

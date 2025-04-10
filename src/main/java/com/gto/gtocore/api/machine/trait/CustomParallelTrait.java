@@ -12,7 +12,7 @@ import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.function.Function;
+import java.util.function.ToIntFunction;
 
 public class CustomParallelTrait extends MultiblockTrait {
 
@@ -22,9 +22,9 @@ public class CustomParallelTrait extends MultiblockTrait {
     @Persisted
     private int parallelNumber;
     private final boolean defaultParallel;
-    private final Function<IParallelMachine, Integer> parallel;
+    private final ToIntFunction<IParallelMachine> parallel;
 
-    public CustomParallelTrait(IParallelMachine machine, boolean defaultParallel, @NotNull Function<IParallelMachine, Integer> parallel) {
+    public CustomParallelTrait(IParallelMachine machine, boolean defaultParallel, @NotNull ToIntFunction<IParallelMachine> parallel) {
         super((IMultiblockTraitHolder) machine);
         this.defaultParallel = defaultParallel;
         this.parallel = parallel;
@@ -55,7 +55,7 @@ public class CustomParallelTrait extends MultiblockTrait {
 
     public int getMaxParallel() {
         if (getMachine().isFormed()) {
-            return parallel.apply((IParallelMachine) getMachine());
+            return parallel.applyAsInt((IParallelMachine) getMachine());
         }
         return 0;
     }
