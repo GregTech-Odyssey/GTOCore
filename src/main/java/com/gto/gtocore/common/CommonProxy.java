@@ -50,6 +50,7 @@ public class CommonProxy {
         eventBus.addGenericListener(DimensionMarker.class, CommonProxy::registerDimensionMarkers);
         MinecraftForge.EVENT_BUS.register(ForgeCommonEvent.class);
         MinecraftForge.EVENT_BUS.register(ForgeCommonEvent.FoodHurtAnimalLogic.class);
+        MinecraftForge.EVENT_BUS.register(ForgeCommonEvent.ExperienceEventHandler.class);
     }
 
     private static void init() {
