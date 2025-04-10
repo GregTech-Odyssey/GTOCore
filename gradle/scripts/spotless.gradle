@@ -1,0 +1,11 @@
+spotless {
+    encoding 'UTF-8'
+    java {
+        target 'src/main/java/**/*.java'
+        toggleOffOn()
+        importOrderFile(file("$rootDir/gradle/spotless/spotless.importorder"))
+        removeUnusedImports('cleanthat-javaparser-unnecessaryimport')
+        endWithNewline()
+        eclipse('4.31').configFile(file("$rootDir/gradle/spotless/spotless.eclipseformat.xml"))
+    }
+}
