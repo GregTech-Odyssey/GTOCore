@@ -1,6 +1,6 @@
 package com.gto.gtocore.mixin.emi;
 
-import com.gto.gtocore.utils.RegistriesUtils;
+import com.gto.gtocore.utils.FluidUtils;
 
 import com.gregtechceu.gtceu.api.item.ComponentItem;
 
@@ -53,7 +53,7 @@ public abstract class EmiApiMixin {
                 if (nbt.contains("Fluid", Tag.TAG_COMPOUND)) {
                     var fluidTag = nbt.getCompound("Fluid");
                     var fluidName = fluidTag.getString("FluidName");
-                    fluid = RegistriesUtils.getFluid(fluidName);
+                    fluid = FluidUtils.getFluid(fluidName);
                 }
             }
             return fluid == Fluids.EMPTY ? stack : EmiStack.of(fluid);

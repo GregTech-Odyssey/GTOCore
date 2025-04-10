@@ -7,6 +7,8 @@ import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.material.Fluids;
+import net.minecraftforge.registries.ForgeRegistries;
 
 public final class FluidUtils {
 
@@ -30,5 +32,10 @@ public final class FluidUtils {
             }
         }
         return null;
+    }
+
+    public static Fluid getFluid(String fluidName) {
+        Fluid fluid = ForgeRegistries.FLUIDS.getValue(new ResourceLocation(fluidName));
+        return fluid == null ? Fluids.EMPTY : fluid;
     }
 }

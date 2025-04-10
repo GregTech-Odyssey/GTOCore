@@ -24,6 +24,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 
+import committee.nova.mods.avaritia.api.utils.ItemUtils;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 
@@ -165,7 +166,7 @@ public final class GTOUtils {
     }
 
     public static ItemStack loadItemStack(CompoundTag tag) {
-        Item item = RegistriesUtils.getItem(tag.getString("id"));
+        Item item = ItemUtils.getItem(tag.getString("id"));
         ItemStack stack = item.getDefaultInstance();
         if (tag.contains("tag", Tag.TAG_COMPOUND)) {
             stack.setTag(tag.getCompound("tag"));
@@ -181,7 +182,7 @@ public final class GTOUtils {
     }
 
     public static FluidStack loadFluidStack(CompoundTag tag) {
-        Fluid fluid = RegistriesUtils.getFluid(tag.getString("FluidName"));
+        Fluid fluid = FluidUtils.getFluid(tag.getString("FluidName"));
         FluidStack stack = new FluidStack(fluid, 1);
         if (tag.contains("Tag", Tag.TAG_COMPOUND)) {
             stack.setTag(tag.getCompound("Tag"));
