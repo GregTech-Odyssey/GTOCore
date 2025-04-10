@@ -209,7 +209,7 @@ public final class ForgeCommonEvent {
                     ExperienceSystemManager.INSTANCE.addPlayer(player.getUUID());
                     PlayerData playerData = ExperienceSystemManager.INSTANCE.getPlayerData(player.getUUID());
                     if (playerData != null) {
-                        utilsData.addExperienceAndSendMessage(player, playerData.getHealthExperienceLevel(), 10, "你获得了10点攻击力经验！", ChatFormatting.RED);
+                        utilsData.addExperienceAndSendMessage(player, playerData.getAttackExperienceLevel(), 10, "你获得了10点攻击力经验！", ChatFormatting.RED);
                     }
                 }
             }
