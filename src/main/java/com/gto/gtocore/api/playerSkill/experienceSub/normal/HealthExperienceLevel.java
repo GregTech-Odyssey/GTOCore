@@ -1,10 +1,15 @@
-package com.gto.gtocore.api.playerSkill.ExperienceSub.normal;
+package com.gto.gtocore.api.playerSkill.experienceSub.normal;
 
 import com.google.gson.JsonObject;
-import com.gto.gtocore.api.playerSkill.ExperienceSub.ExperienceLevel;
+import com.gto.gtocore.api.playerSkill.experienceSub.BodyExperienceLevel;
+import com.gto.gtocore.api.playerSkill.experienceSub.NormalExperienceLevel;
 
-public class AttackExperienceLevel extends ExperienceLevel {
-    private static final int BASE_ATTACK_POWER = 4; // 基础攻击力
+public class HealthExperienceLevel extends NormalExperienceLevel {
+    private static final int BASE_HEALTH = 20; // 基础生命值
+
+    public HealthExperienceLevel(BodyExperienceLevel _bodyExperienceLevela) {
+        super(_bodyExperienceLevela);
+    }
 
     @Override
     public void addExperience(int amount) {
@@ -21,12 +26,17 @@ public class AttackExperienceLevel extends ExperienceLevel {
     }
 
     @Override
+    public String getName() {
+        return "身体强度";
+    }
+
+    @Override
     public int getExperience() {
         return experience;
     }
 
-    public int getAttackPower() {
-        return BASE_ATTACK_POWER + level; // 每级增加1点攻击力
+    public int getMaxHealth() {
+        return BASE_HEALTH + level * 2; // 每级增加2点生命值
     }
 
     public int getExperienceForNextLevel() {

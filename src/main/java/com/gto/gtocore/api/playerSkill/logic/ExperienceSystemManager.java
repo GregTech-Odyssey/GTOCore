@@ -1,8 +1,11 @@
-package com.gto.gtocore.api.playerSkill;
+package com.gto.gtocore.api.playerSkill.logic;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.gto.gtocore.GTOCore;
+import lombok.Getter;
+
 import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
@@ -10,14 +13,16 @@ import java.util.UUID;
 
 public class ExperienceSystemManager {
     public static final ExperienceSystemManager INSTANCE = new ExperienceSystemManager();
-
-    private Map<UUID, PlayerData> playerDataMap;
+    @Getter
+    private Map<UUID, Long> LastTimeRecordTable;
+    private final Map<UUID, PlayerData> playerDataMap;
     private boolean isEnabled;
     private static final String DATA_FILE = "experience_data.json"; // 数据文件路径
 
     private ExperienceSystemManager() {
         this.playerDataMap = new HashMap<>();
         this.isEnabled = false; // 默认关闭
+        this.LastTimeRecordTable = new HashMap<>();
     }
 
 
@@ -109,7 +114,7 @@ public class ExperienceSystemManager {
             Gson gson = new Gson();
             return gson.fromJson(reader, JsonObject.class);
         } catch (IOException e) {
-            e.printStackTrace();
+            GTOCore.LOGGER.error("Failed to read experience data file: {}", e.getMessage());
             return new JsonObject();
         }
     }

@@ -5,8 +5,9 @@ import com.gto.gtocore.api.data.GTODimensions;
 import com.gto.gtocore.api.entity.IEnhancedPlayer;
 import com.gto.gtocore.api.machine.feature.IVacuumMachine;
 import com.gto.gtocore.api.playerSkill.command.Administration;
-import com.gto.gtocore.api.playerSkill.ExperienceSystemManager;
-import com.gto.gtocore.api.playerSkill.PlayerData;
+import com.gto.gtocore.api.playerSkill.logic.ExperienceSystemManager;
+import com.gto.gtocore.api.playerSkill.logic.PlayerData;
+import com.gto.gtocore.api.playerSkill.utils.utilsData;
 import com.gto.gtocore.api.recipe.AsyncRecipeOutputTask;
 import com.gto.gtocore.api.recipe.AsyncRecipeSearchTask;
 import com.gto.gtocore.common.data.GTOBlocks;
@@ -179,57 +180,41 @@ public final class ForgeCommonEvent {
     }
 
     public static class ExperienceEventHandler {
-        private static final Map<UUID, Long> LAST_MESSAGE_TIME = new HashMap<>();
-        private static final long MESSAGE_COOLDOWN = 10; // 0.01秒冷却时间
-        private static final int TICK_INTERVAL = 6000; // 5分钟 (6000 ticks)
         @SubscribeEvent
         public static void onRegisterCommands(RegisterCommandsEvent event) {
             // 注册命令
             Administration.register(event.getDispatcher());
             System.out.println("Experience commands registered!");
         }
+
         @SubscribeEvent
         public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
             if (event.phase == TickEvent.Phase.END &&
-                    event.player.level().getGameTime() % TICK_INTERVAL == 0 &&
+                    event.player.level().getGameTime() % (20*300) == 0 &&
                     ExperienceSystemManager.INSTANCE.isEnabled()) {
                 ExperienceSystemManager.INSTANCE.addPlayer(event.player.getUUID());
                 PlayerData playerData = ExperienceSystemManager.INSTANCE.getPlayerData(event.player.getUUID());
                 if (playerData != null) {
-                    playerData.addHealthExperience(10);
-                    playerData.addAttackExperience(10);
-                    event.player.sendSystemMessage(
-                            Component.literal("你获得了10点生命值经验和10点攻击力经验！").withStyle(ChatFormatting.AQUA));
-                    event.setCanceled(true);
+                    utilsData.addExperienceAndSendMessage(event.player, playerData.getHealthExperienceLevel(), 10, "你获得了10点攻击力经验！", ChatFormatting.RED);
                 }
             }
         }
 
         @SubscribeEvent
         public static void onPlayerEatFood(LivingEntityUseItemEvent.Finish event) {
-            if (event.getEntity() instanceof Player player) {
+            if (ExperienceSystemManager.INSTANCE.isEnabled() && event.getEntity() instanceof Player player) {
                 ItemStack item = event.getItem();
                 // 检查是否是食物且是肉类
                 if (item.isEdible() && isMeat(item)) {
                     ExperienceSystemManager.INSTANCE.addPlayer(player.getUUID());
                     PlayerData playerData = ExperienceSystemManager.INSTANCE.getPlayerData(player.getUUID());
-                    if (playerData != null && ExperienceSystemManager.INSTANCE.isEnabled()) {
-                        UUID playerId = player.getUUID();
-                        long currentTime = System.currentTimeMillis();
-                        if (!LAST_MESSAGE_TIME.containsKey(playerId) ||
-                                currentTime - LAST_MESSAGE_TIME.get(playerId) > MESSAGE_COOLDOWN) {
-
-                            // 更新上次消息时间
-                            LAST_MESSAGE_TIME.put(playerId, currentTime);
-
-                            playerData.addAttackExperience(20);
-                            player.sendSystemMessage(
-                                    Component.literal("你吃了肉食，获得了20点攻击力经验！").withStyle(ChatFormatting.GREEN));
-                        }
+                    if (playerData != null) {
+                        utilsData.addExperienceAndSendMessage(player, playerData.getHealthExperienceLevel(), 10, "你获得了10点攻击力经验！", ChatFormatting.RED);
                     }
                 }
             }
         }
+
 
         private static boolean isMeat(ItemStack item) {
             // 简单判断是否是肉类食物，你可以根据实际需求修改判断逻辑
