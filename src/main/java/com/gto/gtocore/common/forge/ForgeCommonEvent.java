@@ -192,6 +192,7 @@ public final class ForgeCommonEvent {
             if (event.phase == TickEvent.Phase.END &&
                     event.player.level().getGameTime() % (20*300) == 0 &&
                     ExperienceSystemManager.INSTANCE.isEnabled()) {
+                ExperienceSystemManager.INSTANCE.saveAllData();
                 ExperienceSystemManager.INSTANCE.addPlayer(event.player.getUUID());
                 PlayerData playerData = ExperienceSystemManager.INSTANCE.getPlayerData(event.player.getUUID());
                 if (playerData != null) {

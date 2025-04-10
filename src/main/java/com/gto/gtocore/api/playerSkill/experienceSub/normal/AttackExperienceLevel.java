@@ -3,6 +3,7 @@ package com.gto.gtocore.api.playerSkill.experienceSub.normal;
 import com.google.gson.JsonObject;
 import com.gto.gtocore.api.playerSkill.experienceSub.BodyExperienceLevel;
 import com.gto.gtocore.api.playerSkill.experienceSub.NormalExperienceLevel;
+import net.minecraft.network.chat.Component;
 
 public class AttackExperienceLevel extends NormalExperienceLevel {
     private static final int BASE_ATTACK_POWER = 4; // 基础攻击力
@@ -11,14 +12,7 @@ public class AttackExperienceLevel extends NormalExperienceLevel {
         super(_bodyExperienceLevel);
     }
 
-    @Override
-    public void addExperience(int amount) {
-        experience += amount;
-        while (experience >= getExperienceForNextLevel()) {
-            experience -= getExperienceForNextLevel();
-            level++;
-        }
-    }
+
 
     @Override
     public int getLevel() {
@@ -27,7 +21,7 @@ public class AttackExperienceLevel extends NormalExperienceLevel {
 
     @Override
     public String getName() {
-        return "攻击等级";
+        return Component.translatable("gtocore.player_exp_status.attack_name").getString();
     }
 
     @Override

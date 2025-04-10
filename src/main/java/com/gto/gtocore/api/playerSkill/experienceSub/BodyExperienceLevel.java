@@ -2,6 +2,7 @@ package com.gto.gtocore.api.playerSkill.experienceSub;
 
 import com.google.gson.JsonObject;
 import lombok.Getter;
+import net.minecraft.network.chat.Component;
 
 public class BodyExperienceLevel extends BasicExperienceLevel {
 
@@ -27,7 +28,7 @@ public class BodyExperienceLevel extends BasicExperienceLevel {
     }
 
     @Override
-    public String getName() {return "生命等级";}
+    public String getName() {return Component.translatable("gtocore.player_exp_status.body_name").getString();}
 
     @Override
     public int getExperience() {

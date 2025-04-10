@@ -3,6 +3,7 @@ package com.gto.gtocore.api.playerSkill.experienceSub.normal;
 import com.google.gson.JsonObject;
 import com.gto.gtocore.api.playerSkill.experienceSub.BodyExperienceLevel;
 import com.gto.gtocore.api.playerSkill.experienceSub.NormalExperienceLevel;
+import net.minecraft.network.chat.Component;
 
 public class HealthExperienceLevel extends NormalExperienceLevel {
     private static final int BASE_HEALTH = 20; // 基础生命值
@@ -12,22 +13,13 @@ public class HealthExperienceLevel extends NormalExperienceLevel {
     }
 
     @Override
-    public void addExperience(int amount) {
-        experience += amount;
-        while (experience >= getExperienceForNextLevel()) {
-            experience -= getExperienceForNextLevel();
-            level++;
-        }
-    }
-
-    @Override
     public int getLevel() {
         return level;
     }
 
     @Override
     public String getName() {
-        return "身体强度";
+        return Component.translatable("gtocore.player_exp_status.health_name").getString();
     }
 
     @Override
