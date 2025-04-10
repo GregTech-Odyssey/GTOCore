@@ -8,7 +8,6 @@ import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
 import com.gregtechceu.gtceu.api.machine.multiblock.CleanroomType;
-import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
 
 import net.minecraft.world.item.ItemStack;
@@ -73,7 +72,7 @@ public interface NewResearchSystem {
                     .save();
 
             AUTOCLAVE_RECIPES.recipeBuilder(GTOCore.id("make_ethyl_silicate_2"))
-                    .inputItems(CATALYST, GTMaterials.Brass)
+                    .inputItems(CATALYST, Brass)
                     .inputItems(dust, ElectronicGradeSilicon, 1)
                     .inputFluids(AbsoluteEthanol.getFluid(4000))
                     .outputFluids(EthylSilicate.getFluid(1000))
@@ -146,7 +145,7 @@ public interface NewResearchSystem {
                     .save();
 
             LARGE_CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("chemical_triethoxysilane"))
-                    .notConsumable(CATALYST, Brass)
+                    .inputItems(CATALYST, Brass)
                     .inputItems(dust, UltraHighPuritySilicon)
                     .inputFluids(AbsoluteEthanol.getFluid(3000))
                     .outputFluids(Triethoxysilane.getFluid(1000))
@@ -157,7 +156,7 @@ public interface NewResearchSystem {
                     .save();
 
             CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("chemical_chloropropyltriethoxysilane"))
-                    .notConsumable(CATALYST, PlatinumFront)
+                    .inputItems(CATALYST, Platinum)
                     .inputFluids(Triethoxysilane.getFluid(1000))
                     .inputFluids(AllylChloride.getFluid(1000))
                     .outputFluids(Chloropropyltriethoxysilane.getFluid(1000))
@@ -511,9 +510,6 @@ public interface NewResearchSystem {
 
         // MFPC相变微粒产线
         {
-            ItemStack stack2 = MultiStepItemHelper.toMultiStepItem(ChemicalHelper.get(dust, PrecursorMFPC), 1, 8);
-            ItemStack stack3 = MultiStepItemHelper.toMultiStepItem(ChemicalHelper.get(dust, RecycleBasicMFPC), 1, 3);
-
             LARGE_CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("make_silicic_acid"))
                     .inputFluids(EthylSilicate.getFluid(1000))
                     .inputFluids(ClearAmmoniaSolution.getFluid(4000))
@@ -527,25 +523,25 @@ public interface NewResearchSystem {
             LARGE_CHEMICAL_RECIPES.recipeBuilder("make_mfpc_1")
                     .inputItems(dust, Polystyrene, 1)
                     .inputFluids(SilicicAcid.getFluid(500))
-                    .outputItems(MultiStepItemHelper.locateStep(stack2, 1, "中空陶瓷微珠粗胚"), 16)
+                    .outputItems(dust, HollowCeramicMicrosphereRoughEmbryo, 16)
                     .outputFluids(Water.getFluid(500))
                     .duration(100)
                     .EUt(VA[IV])
                     .save();
 
             SINTERING_FURNACE_RECIPES.recipeBuilder(GTOCore.id("make_mfpc_2"))
-                    .inputItems(MultiStepItemHelper.locateStep(stack2, 1, "中空陶瓷微珠粗胚"))
-                    .outputItems(MultiStepItemHelper.locateStep(stack2, 2, "中空陶瓷微珠"))
+                    .inputItems(dust, HollowCeramicMicrosphereRoughEmbryo)
+                    .outputItems(dust, HollowCeramicMicrospheres)
                     .duration(20)
                     .EUt(VA[HV])
                     .blastFurnaceTemp(800)
                     .save();
 
             CHEMICAL_VAPOR_DEPOSITION_RECIPES.recipeBuilder(GTOCore.id("make_mfpc_3"))
-                    .inputItems(MultiStepItemHelper.locateStep(stack2, 2, "中空陶瓷微珠"), 8)
+                    .inputItems(dust, HollowCeramicMicrospheres, 8)
                     .inputFluids(SilverNitrateSolution.getFluid(500))
                     .inputFluids(Hydrazine.getFluid(500))
-                    .outputItems(MultiStepItemHelper.locateStep(stack2, 3, "镀银的中空陶瓷微珠"), 8)
+                    .outputItems(dust, SilverCoatedHollowCeramicMicrospheres, 8)
                     .outputFluids(Ammonia.getFluid(1000))
                     .duration(12000)
                     .EUt(VA[UV])
@@ -553,54 +549,54 @@ public interface NewResearchSystem {
                     .save();
 
             CANNER_RECIPES.recipeBuilder(GTOCore.id("make_mfpc_4"))
-                    .inputItems(MultiStepItemHelper.locateStep(stack2, 3, "镀银的中空陶瓷微珠"), 10)
+                    .inputItems(dust, SilverCoatedHollowCeramicMicrospheres, 10)
                     .inputFluids(Octane.getFluid(800))
-                    .outputItems(MultiStepItemHelper.locateStep(stack2, 4, "镀银的辛烷陶瓷微珠"), 10)
+                    .outputItems(dust, SilverCoatedOctaneCeramicBeads, 10)
                     .duration(2000)
                     .EUt(VA[MV])
                     .save();
 
             LASER_ENGRAVER_RECIPES.recipeBuilder(GTOCore.id("make_mfpc_5"))
-                    .inputItems(MultiStepItemHelper.locateStep(stack2, 4, "镀银的辛烷陶瓷微珠"), 4)
+                    .inputItems(dust, SilverCoatedOctaneCeramicBeads, 4)
                     .notConsumable(lens, NetherStar)
                     .inputFluids(Hexamethyldisiloxane.getFluid(50))
                     .inputFluids(Argon.getFluid(PLASMA, 1))
-                    .outputItems(MultiStepItemHelper.locateStep(stack2, 5, "密封相变微珠"), 4)
+                    .outputItems(dust, SealedPhaseChangeBeads, 4)
                     .duration(300)
                     .EUt(VA[ZPM])
                     .save();
 
             CHEMICAL_VAPOR_DEPOSITION_RECIPES.recipeBuilder(GTOCore.id("make_mfpc_6"))
                     .notConsumable(dust, Cobalt)
-                    .inputItems(MultiStepItemHelper.locateStep(stack2, 5, "密封相变微珠"), 16)
+                    .inputItems(dust, SealedPhaseChangeBeads, 16)
                     .inputFluids(Methane.getFluid(1000))
                     .inputFluids(Hydrogen.getFluid(4000))
                     .inputFluids(Argon.getFluid(PLASMA, 100))
-                    .outputItems(MultiStepItemHelper.locateStep(stack2, 6, "碳纳米管包覆的相变微珠"), 16)
+                    .outputItems(dust, CarbonNanotubeCoatedPhaseChangeMicrobeads, 16)
                     .duration(800)
                     .EUt(VA[IV])
                     .save();
 
             PHYSICAL_VAPOR_DEPOSITION_RECIPES.recipeBuilder(GTOCore.id("make_mfpc_7"))
-                    .inputItems(MultiStepItemHelper.locateStep(stack2, 6, "碳纳米管包覆的相变微珠"), 32)
+                    .inputItems(dust, CarbonNanotubeCoatedPhaseChangeMicrobeads, 32)
                     .inputItems(plate, SiliconCarbide, 1)
                     .inputItems(dust, FerriteMixture, 1)
                     .inputFluids(Argon.getFluid(PLASMA, 100))
-                    .outputItems(MultiStepItemHelper.locateStep(stack2, 7, "微波衰减涂覆的相变微珠"), 32)
+                    .outputItems(dust, MicrowaveAttenuatingCoatedPhaseChangeMicrobeads, 32)
                     .duration(4000)
                     .EUt(VA[UV])
                     .save();
 
             CHEMICAL_BATH_RECIPES.recipeBuilder(GTOCore.id("make_mfpc_8"))
-                    .inputItems(MultiStepItemHelper.locateStep(stack2, 7, "微波衰减涂覆的相变微珠"))
+                    .inputItems(dust, MicrowaveAttenuatingCoatedPhaseChangeMicrobeads)
                     .inputFluids(KH550SilaneCouplingAgent.getFluid(5))
-                    .outputItems(MultiStepItemHelper.locateStep(stack2, 8, "表面功能化的相变微珠"))
+                    .outputItems(dust, SurfaceFunctionalizedPhaseChangeMicrobeads)
                     .duration(100)
                     .EUt(VA[MV])
                     .save();
 
             ISOSTATIC_PRESSING_RECIPES.recipeBuilder(GTOCore.id("make_mfpc_9"))
-                    .inputItems(MultiStepItemHelper.locateStep(stack2, 8, "表面功能化的相变微珠"))
+                    .inputItems(dust, SurfaceFunctionalizedPhaseChangeMicrobeads)
                     .inputFluids(MutatedLivingSolder.getFluid(10))
                     .outputItems(dust, BasicMFPC)
                     .duration(600)
@@ -609,29 +605,29 @@ public interface NewResearchSystem {
 
             CENTRIFUGE_RECIPES.recipeBuilder(GTOCore.id("recycle_mfpc_1"))
                     .inputItems(dust, InvalidationBasicMFPC)
-                    .outputItems(MultiStepItemHelper.locateStep(stack3, 1, "回收的多功能相变(MFPC)末"))
+                    .outputItems(dust, RecycledPhaseChangeMicrobeads)
                     .duration(20)
                     .EUt(VA[LV])
                     .save();
 
             CANNER_RECIPES.recipeBuilder(GTOCore.id("recycle_mfpc_2"))
-                    .inputItems(MultiStepItemHelper.locateStep(stack3, 1, "回收的多功能相变(MFPC)末"), 10)
+                    .inputItems(dust, RecycledPhaseChangeMicrobeads, 10)
                     .inputFluids(Octane.getFluid(800))
-                    .outputItems(MultiStepItemHelper.locateStep(stack3, 2, "重载辛烷的相变微珠"), 10)
+                    .outputItems(dust, OctaneLoadedPhaseChangeMicrobeads, 10)
                     .duration(2000)
                     .EUt(VA[MV])
                     .save();
 
             CHEMICAL_BATH_RECIPES.recipeBuilder(GTOCore.id("recycle_mfpc_3"))
-                    .inputItems(MultiStepItemHelper.locateStep(stack3, 2, "重载辛烷的相变微珠"))
+                    .inputItems(dust, OctaneLoadedPhaseChangeMicrobeads)
                     .inputFluids(KH550SilaneCouplingAgent.getFluid(5))
-                    .outputItems(MultiStepItemHelper.locateStep(stack3, 3, "重新活化的相变微珠"))
+                    .outputItems(dust, ReactivatedPhaseChangeMicrobeads)
                     .duration(100)
                     .EUt(VA[MV])
                     .save();
 
             ISOSTATIC_PRESSING_RECIPES.recipeBuilder(GTOCore.id("recycle_mfpc_4"))
-                    .inputItems(MultiStepItemHelper.locateStep(stack3, 3, "重新活化的相变微珠"))
+                    .inputItems(dust, ReactivatedPhaseChangeMicrobeads)
                     .inputFluids(MutatedLivingSolder.getFluid(10))
                     .outputItems(dust, BasicMFPC)
                     .duration(600)

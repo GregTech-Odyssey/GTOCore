@@ -1,6 +1,8 @@
 package com.gto.gtocore.api.item;
 
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Style;
 import net.minecraft.world.item.ItemStack;
 
 public final class MultiStepItemHelper {
@@ -23,25 +25,17 @@ public final class MultiStepItemHelper {
 
     public static ItemStack locateStep(ItemStack stack0, int step) {
         ItemStack stack = stack0.copy();
-        if (stack.getTag() != null) {
-            stack.getTag().putInt("current_craft_step", step);
-        }
+        stack.getTag().putInt("current_craft_step", step);
         return stack;
     }
 
     public static ItemStack locateStep(ItemStack stack0, int step, String name) {
         ItemStack stack = stack0.copy();
-        CompoundTag nbt = stack.getOrCreateTag();
-        if (stack.getTag() != null) {
-            stack.getTag().putInt("current_craft_step", step);
-        }
+        stack.getTag().putInt("current_craft_step", step);
         if (name != null && !name.isEmpty()) {
-            CompoundTag display = nbt.getCompound("display");
-            String jsonName = "{\"text\":\"" + name + "\",\"italic\":false}";
-            display.putString("Name", jsonName);
-            nbt.put("display", display);
+            stack.setHoverName(Component.literal(name)
+                    .withStyle(Style.EMPTY.withItalic(false)));
         }
-        stack.setTag(nbt);
         return stack;
     }
 
