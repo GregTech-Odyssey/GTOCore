@@ -11,7 +11,6 @@ import com.gto.gtocore.api.machine.trait.CustomRecipeLogic;
 import com.gto.gtocore.api.machine.trait.MultiblockTrait;
 import com.gto.gtocore.api.recipe.AsyncRecipeOutputTask;
 import com.gto.gtocore.api.recipe.GTORecipeBuilder;
-import com.gto.gtocore.api.recipe.GTORecipeType;
 import com.gto.gtocore.api.recipe.RecipeRunnerHelper;
 import com.gto.gtocore.common.data.GTORecipeModifiers;
 import com.gto.gtocore.common.machine.multiblock.part.ThreadHatchPartMachine;
@@ -178,15 +177,13 @@ public class CrossRecipeMultiblockMachine extends ElectricMultiblockMachine impl
                     return match;
                 }
             }
-            Iterator<GTRecipe> iterator = ((GTORecipeType) getRecipeType()).searchRecipe(this, false);
-            if (iterator != null) {
-                while (iterator.hasNext()) {
-                    GTRecipe recipe = iterator.next();
-                    match = checkRecipe(recipe);
-                    if (match != null) {
-                        if (lastParallel == getRealParallel()) lastMatchRecipe = recipe;
-                        return match;
-                    }
+            Iterator<GTRecipe> iterator = getRecipeType().searchRecipe(this, recipe -> RecipeRunnerHelper.matchRecipe(this, recipe));
+            while (iterator.hasNext()) {
+                GTRecipe recipe = iterator.next();
+                match = checkRecipe(recipe);
+                if (match != null) {
+                    if (lastParallel == getRealParallel()) lastMatchRecipe = recipe;
+                    return match;
                 }
             }
         }

@@ -10,10 +10,12 @@ import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import lombok.Getter;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.Set;
+import java.util.function.Predicate;
 
 @Getter
 public final class JointRecipeType extends GTORecipeType {
@@ -35,9 +37,9 @@ public final class JointRecipeType extends GTORecipeType {
     }
 
     @Override
-    public Iterator<GTRecipe> searchRecipe(IRecipeCapabilityHolder holder, boolean tick) {
-        if (!holder.hasCapabilityProxies()) return null;
-        return new JointSearchRecipeIterator(holder, this, tick);
+    public @NotNull Iterator<GTRecipe> searchRecipe(IRecipeCapabilityHolder holder, Predicate<GTRecipe> canHandle) {
+        if (!holder.hasCapabilityProxies()) return Collections.emptyIterator();
+        return new JointSearchRecipeIterator(holder, this, canHandle);
     }
 
     @Override
@@ -53,8 +55,8 @@ public final class JointRecipeType extends GTORecipeType {
 
         private final RecipeIterator[] recipeIterators;
 
-        private JointSearchRecipeIterator(IRecipeCapabilityHolder holder, JointRecipeType recipeType, boolean tick) {
-            super(holder, recipeType, tick);
+        private JointSearchRecipeIterator(IRecipeCapabilityHolder holder, JointRecipeType recipeType, Predicate<GTRecipe> canHandle) {
+            super(holder, recipeType, canHandle);
             recipeIterators = new RecipeIterator[recipeType.types.length];
             for (int i = 0; i < recipeType.types.length; i++) {
                 recipeIterators[i] = new RecipeIterator(recipeType.types[i], ingredients, canHandle);

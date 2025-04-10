@@ -38,18 +38,14 @@ public interface RecipeRunnerHelper {
         if (holder instanceof IRecipeSearchMachine searchMachine) {
             return searchMachine.matchRecipe(recipe);
         }
-        if (holder instanceof IMEOutputMachine machine && machine.gTOCore$DualMEOutput(recipe)) {
-            return matchRecipeInput(holder, recipe);
-        }
-        return RecipeHelper.matchRecipe(holder, recipe).isSuccess();
+        return matchRecipeInput(holder, recipe) && matchRecipeOutput(holder, recipe);
     }
 
     static boolean matchTickRecipe(IRecipeCapabilityHolder holder, GTRecipe recipe) {
         if (holder instanceof IRecipeSearchMachine searchMachine) {
             return searchMachine.matchTickRecipe(recipe);
         }
-        if (!matchRecipeTickInput(holder, recipe)) return false;
-        return matchRecipeTickOutput(holder, recipe);
+        return matchRecipeTickInput(holder, recipe) && matchRecipeTickOutput(holder, recipe);
     }
 
     static boolean matchRecipeInput(IRecipeCapabilityHolder holder, GTRecipe recipe) {
@@ -59,6 +55,9 @@ public interface RecipeRunnerHelper {
 
     static boolean matchRecipeOutput(IRecipeCapabilityHolder holder, GTRecipe recipe) {
         if (recipe.outputs.isEmpty()) return true;
+        if (holder instanceof IMEOutputMachine machine && machine.gTOCore$DualMEOutput(recipe)) {
+            return true;
+        }
         return RecipeHelper.handleRecipe(holder, recipe, IO.OUT, recipe.outputs, Collections.emptyMap(), false, true).isSuccess();
     }
 

@@ -1,6 +1,7 @@
 package com.gto.gtocore.mixin.gtm.capability;
 
 import com.gto.gtocore.api.data.tag.GTOTagPrefix;
+import com.gto.gtocore.api.machine.feature.multiblock.IDistinctRecipeHolder;
 import com.gto.gtocore.api.machine.trait.IEnhancedRecipeLogic;
 import com.gto.gtocore.api.machine.trait.IPatternBufferRecipeHandler;
 import com.gto.gtocore.api.recipe.FastSizedIngredient;
@@ -258,38 +259,55 @@ public abstract class ItemRecipeCapabilityMixin extends RecipeCapability<Ingredi
     public int getMaxParallelRatio(IRecipeCapabilityHolder holder, GTRecipe recipe, int parallelAmount) {
         if (holder instanceof IRecipeLogicMachine machine && machine.getRecipeLogic() instanceof IEnhancedRecipeLogic recipeLogic) {
 
-            Object2LongOpenCustomHashMap<ItemStack> map = recipeLogic.gtocore$getParallelItemMap();
             Object2LongOpenCustomHashMap<ItemStack> ingredientStacks = recipeLogic.gtocore$getItemIngredientStacks();
-
-            var recipeHandlerList = holder.getCapabilitiesFlat(IO.IN, ItemRecipeCapability.CAP);
-
-            for (IRecipeHandler<?> container : recipeHandlerList) {
-                boolean patternBuffer = container instanceof IPatternBufferRecipeHandler;
-                Object2LongOpenCustomHashMap<ItemStack> itemMap;
-                if (patternBuffer) {
-                    itemMap = ((IPatternBufferRecipeHandler) container).getItemMap();
-                } else {
-                    itemMap = recipeLogic.gtocore$getItemMap();
-                    for (Object object : container.getContents()) {
-                        if (object instanceof ItemStack itemStack) {
-                            itemMap.computeLong(itemStack, (k, v) -> v == null ? itemStack.getCount() : v + itemStack.getCount());
+            if (machine instanceof IDistinctRecipeHolder distinctRecipeHolder && distinctRecipeHolder.getCurrentDistinct() != null) {
+                var recipeHandlerList = distinctRecipeHolder.getCurrentDistinct().getCapability(ItemRecipeCapability.CAP);
+                for (IRecipeHandler<?> container : recipeHandlerList) {
+                    if (container instanceof IPatternBufferRecipeHandler handler) {
+                        for (var entry : handler.getItemMap().object2LongEntrySet()) {
+                            ingredientStacks.computeLong(entry.getKey(), (k, v) -> v == null ? entry.getLongValue() : v + entry.getLongValue());
+                        }
+                    } else {
+                        for (Object object : container.getContents()) {
+                            if (object instanceof ItemStack itemStack) {
+                                ingredientStacks.computeLong(itemStack, (k, v) -> v == null ? itemStack.getCount() : v + itemStack.getCount());
+                            }
                         }
                     }
                 }
+            } else {
+                Object2LongOpenCustomHashMap<ItemStack> map = recipeLogic.gtocore$getParallelItemMap();
 
-                if (container.isDistinct()) {
-                    for (var entry : itemMap.object2LongEntrySet()) {
-                        ingredientStacks.computeLong(entry.getKey(), (k, v) -> v == null ? entry.getLongValue() : Math.max(v, entry.getLongValue()));
+                var recipeHandlerList = holder.getCapabilitiesFlat(IO.IN, ItemRecipeCapability.CAP);
+
+                for (IRecipeHandler<?> container : recipeHandlerList) {
+                    boolean patternBuffer = container instanceof IPatternBufferRecipeHandler;
+                    Object2LongOpenCustomHashMap<ItemStack> itemMap;
+                    if (patternBuffer) {
+                        itemMap = ((IPatternBufferRecipeHandler) container).getItemMap();
+                    } else {
+                        itemMap = recipeLogic.gtocore$getItemMap();
+                        for (Object object : container.getContents()) {
+                            if (object instanceof ItemStack itemStack) {
+                                itemMap.computeLong(itemStack, (k, v) -> v == null ? itemStack.getCount() : v + itemStack.getCount());
+                            }
+                        }
                     }
-                } else {
-                    for (Object2LongMap.Entry<ItemStack> obj : itemMap.object2LongEntrySet()) {
-                        map.computeLong(obj.getKey(), (k, v) -> v == null ? obj.getLongValue() : v + obj.getLongValue());
+
+                    if (container.isDistinct()) {
+                        for (var entry : itemMap.object2LongEntrySet()) {
+                            ingredientStacks.computeLong(entry.getKey(), (k, v) -> v == null ? entry.getLongValue() : Math.max(v, entry.getLongValue()));
+                        }
+                    } else {
+                        for (Object2LongMap.Entry<ItemStack> obj : itemMap.object2LongEntrySet()) {
+                            map.computeLong(obj.getKey(), (k, v) -> v == null ? obj.getLongValue() : v + obj.getLongValue());
+                        }
                     }
+                    if (!patternBuffer) itemMap.clear();
                 }
-                if (!patternBuffer) itemMap.clear();
-            }
-            for (var entry : map.object2LongEntrySet()) {
-                ingredientStacks.computeLong(entry.getKey(), (k, v) -> v == null ? entry.getLongValue() : Math.max(v, entry.getLongValue()));
+                for (var entry : map.object2LongEntrySet()) {
+                    ingredientStacks.computeLong(entry.getKey(), (k, v) -> v == null ? entry.getLongValue() : Math.max(v, entry.getLongValue()));
+                }
             }
 
             long minMultiplier = Integer.MAX_VALUE - 1;

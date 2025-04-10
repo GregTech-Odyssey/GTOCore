@@ -207,7 +207,7 @@ public interface GTORecipeModifiers {
     private static GTRecipe matchParallel(IRecipeCapabilityHolder holder, GTRecipe recipe, int parallel) {
         if (parallel > 1) {
             GTRecipe copied = recipe.copy(ContentModifier.multiplier(parallel), false);
-            if (RecipeRunnerHelper.matchRecipeInput(holder, copied)) {
+            if (RecipeRunnerHelper.matchRecipe(holder, copied)) {
                 copied.parallels *= parallel;
                 return copied;
             } else {

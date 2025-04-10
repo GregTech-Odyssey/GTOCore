@@ -5,6 +5,7 @@ import com.gto.gtocore.api.entity.IEnhancedPlayer;
 import com.gto.gtocore.api.machine.feature.IVacuumMachine;
 import com.gto.gtocore.api.recipe.AsyncRecipeOutputTask;
 import com.gto.gtocore.api.recipe.AsyncRecipeSearchTask;
+import com.gto.gtocore.common.CommonCache;
 import com.gto.gtocore.common.data.GTOBlocks;
 import com.gto.gtocore.common.data.GTOCommands;
 import com.gto.gtocore.common.data.GTOItems;
@@ -239,10 +240,7 @@ public final class ForgeCommonEvent {
     @SubscribeEvent
     public static void onPlayerLoggedInEvent(PlayerEvent.PlayerLoggedInEvent event) {
         if (event.getEntity() instanceof ServerPlayer player) {
-            if (!GTOConfig.INSTANCE.dev) player.displayClientMessage(Component.translatable("gtocore.dev", Component.literal("GitHub")
-                    .withStyle(Style.EMPTY.withColor(ChatFormatting.GREEN)
-                            .withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://github.com/GregTech-Odyssey/GregTech-Odyssey/issues")))),
-                    false);
+            if (!GTOConfig.INSTANCE.dev) player.displayClientMessage(Component.translatable("gtocore.dev", Component.literal("GitHub").withStyle(Style.EMPTY.withColor(ChatFormatting.GREEN).withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://github.com/GregTech-Odyssey/GregTech-Odyssey/issues")))), false);
             if (player instanceof IEnhancedPlayer enhancedPlayer) {
                 ServerMessage.sendData(player.getServer(), player, "loggedIn", null);
                 enhancedPlayer.gtocore$setDrift(enhancedPlayer.gTOCore$isDisableDrift());
@@ -252,7 +250,7 @@ public final class ForgeCommonEvent {
 
     @SubscribeEvent
     public static void onLevelLoad(LevelEvent.Load event) {
-        if (event.getLevel() instanceof ServerLevel level) {
+        if (event.getLevel() instanceof ServerLevel level && !CommonCache.initialized) {
             ServerLevel serverLevel = level.getServer().getLevel(Level.OVERWORLD);
             if (serverLevel == null) return;
             InfinityCellSavaedData.INSTANCE = serverLevel.getDataStorage().computeIfAbsent(InfinityCellSavaedData::readNbt, InfinityCellSavaedData::new, "infinite_storage_cell_data");
@@ -261,6 +259,7 @@ public final class ForgeCommonEvent {
             CommonSavaedData.INSTANCE = serverLevel.getDataStorage().computeIfAbsent(CommonSavaedData::new, CommonSavaedData::new, "common_data");
             RecipeRunLimitSavaedData.INSTANCE = serverLevel.getDataStorage().computeIfAbsent(RecipeRunLimitSavaedData::new, RecipeRunLimitSavaedData::new, " recipe_run_limit_data");
             if (GTOConfig.INSTANCE.selfRestraint) ServerUtils.getPersistentData().putBoolean("srm", true);
+            CommonCache.initialized = true;
         }
     }
 
@@ -275,6 +274,7 @@ public final class ForgeCommonEvent {
     public static void onServerStoppingEvent(ServerStoppingEvent event) {
         AsyncRecipeSearchTask.releaseExecutorService();
         AsyncRecipeOutputTask.releaseExecutorService();
+        CommonCache.initialized = false;
     }
 
     @SubscribeEvent

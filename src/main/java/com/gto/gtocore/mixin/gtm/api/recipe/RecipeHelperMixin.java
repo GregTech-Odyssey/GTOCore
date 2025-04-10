@@ -10,8 +10,6 @@ import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
 import com.gregtechceu.gtceu.api.recipe.content.Content;
 
-import net.minecraft.network.chat.Component;
-
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
@@ -29,9 +27,6 @@ public class RecipeHelperMixin {
     @Overwrite(remap = false)
     public static ActionResult handleRecipe(IRecipeCapabilityHolder holder, GTRecipe recipe, IO io, Map<RecipeCapability<?>, List<Content>> contents, Map<RecipeCapability<?>, Object2IntMap<?>> chanceCaches, boolean isTick, boolean simulated) {
         RecipeRunner runner = new RecipeRunner(recipe, io, isTick, holder, chanceCaches, simulated);
-        var result = runner.handle(contents);
-        if (result.isSuccess() || result.capability() == null) return result.result();
-        String key = "gtceu.recipe_logic.insufficient_" + (io == IO.IN ? "in" : "out");
-        return ActionResult.fail(Component.translatable(key).append(": ").append(result.capability().getName()));
+        return runner.handle(contents);
     }
 }
