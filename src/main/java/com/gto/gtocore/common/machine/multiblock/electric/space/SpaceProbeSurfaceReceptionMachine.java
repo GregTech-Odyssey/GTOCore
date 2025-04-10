@@ -73,7 +73,7 @@ public final class SpaceProbeSurfaceReceptionMachine extends ElectricMultiblockM
         if (!PlanetApi.API.isSpace(getLevel())) return null;
         recipe = GTORecipeModifiers.perfectOverclocking(this, recipe);
         if (!DysonSphereSavaedData.getDimensionUse(getDimension())) {
-            double number = (double) DysonSphereSavaedData.getDimensionData(getDimension()).getFirst() / 100;
+            double number = (double) DysonSphereSavaedData.getDimensionData(getDimension()).leftInt() / 100;
             if (number > 1) {
                 use = true;
                 Content content = recipe.outputs.get(FluidRecipeCapability.CAP).get(0);
@@ -108,7 +108,7 @@ public final class SpaceProbeSurfaceReceptionMachine extends ElectricMultiblockM
     @Override
     public void customText(@NotNull List<Component> textList) {
         super.customText(textList);
-        textList.add(Component.translatable("gtocore.machine.dyson_sphere.number", DysonSphereSavaedData.getDimensionData(getDimension()).getFirst()));
+        textList.add(Component.translatable("gtocore.machine.dyson_sphere.number", DysonSphereSavaedData.getDimensionData(getDimension()).leftInt()));
     }
 
     @Override

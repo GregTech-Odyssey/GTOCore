@@ -51,6 +51,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.function.Supplier;
+import java.util.function.ToIntFunction;
 
 public class CrossRecipeMultiblockMachine extends ElectricMultiblockMachine implements IParallelMachine, IOverclockConfigMachine {
 
@@ -60,7 +61,7 @@ public class CrossRecipeMultiblockMachine extends ElectricMultiblockMachine impl
         return new CrossRecipeMultiblockMachine(holder, false, true, MachineUtils::getHatchParallel);
     }
 
-    public static Function<IMachineBlockEntity, CrossRecipeMultiblockMachine> createParallel(boolean infinite, boolean isHatchParallel, Function<CrossRecipeMultiblockMachine, Integer> parallel) {
+    public static Function<IMachineBlockEntity, CrossRecipeMultiblockMachine> createParallel(boolean infinite, boolean isHatchParallel, ToIntFunction<CrossRecipeMultiblockMachine> parallel) {
         return holder -> new CrossRecipeMultiblockMachine(holder, infinite, isHatchParallel, parallel);
     }
 
@@ -101,11 +102,11 @@ public class CrossRecipeMultiblockMachine extends ElectricMultiblockMachine impl
     private final boolean infinite;
     private final boolean isHatchParallel;
 
-    protected CrossRecipeMultiblockMachine(IMachineBlockEntity holder, boolean infinite, boolean isHatchParallel, @NotNull Function<CrossRecipeMultiblockMachine, Integer> parallel) {
+    protected CrossRecipeMultiblockMachine(IMachineBlockEntity holder, boolean infinite, boolean isHatchParallel, @NotNull ToIntFunction<CrossRecipeMultiblockMachine> parallel) {
         super(holder);
         this.infinite = infinite;
         this.isHatchParallel = isHatchParallel;
-        customParallelTrait = new CustomParallelTrait(this, false, machine -> parallel.apply((CrossRecipeMultiblockMachine) machine));
+        customParallelTrait = new CustomParallelTrait(this, false, machine -> parallel.applyAsInt((CrossRecipeMultiblockMachine) machine));
     }
 
     public int getThread() {

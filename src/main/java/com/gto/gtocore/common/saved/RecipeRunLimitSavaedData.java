@@ -5,6 +5,7 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.saveddata.SavedData;
 
+import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import lombok.NoArgsConstructor;
@@ -18,7 +19,7 @@ public class RecipeRunLimitSavaedData extends SavedData {
 
     public static RecipeRunLimitSavaedData INSTANCE = new RecipeRunLimitSavaedData();
 
-    private final Map<UUID, Map<ResourceLocation, Integer>> recipeRunLimit = new Object2ObjectOpenHashMap<>();
+    private final Map<UUID, Object2IntOpenHashMap<ResourceLocation>> recipeRunLimit = new Object2ObjectOpenHashMap<>();
 
     public static void set(UUID uuid, ResourceLocation recipe, int count) {
         INSTANCE.recipeRunLimit.computeIfAbsent(uuid, k -> new Object2IntOpenHashMap<>()).put(recipe, count);
@@ -26,7 +27,9 @@ public class RecipeRunLimitSavaedData extends SavedData {
     }
 
     public static int get(UUID uuid, ResourceLocation recipe) {
-        return INSTANCE.recipeRunLimit.getOrDefault(uuid, Map.of()).getOrDefault(recipe, 0);
+        var map = INSTANCE.recipeRunLimit.get(uuid);
+        if (map == null) return 0;
+        return map.getOrDefault(recipe, 0);
     }
 
     public RecipeRunLimitSavaedData(CompoundTag compoundTag) {
@@ -35,7 +38,7 @@ public class RecipeRunLimitSavaedData extends SavedData {
             CompoundTag uuidTag = uuid.getCompound(i);
             UUID uuid1 = uuidTag.getUUID("u");
             ListTag list = uuidTag.getList("r", 10);
-            Map<ResourceLocation, Integer> map = new Object2IntOpenHashMap<>();
+            Object2IntOpenHashMap<ResourceLocation> map = new Object2IntOpenHashMap<>();
             for (int j = 0; j < list.size(); j++) {
                 CompoundTag id = list.getCompound(j);
                 map.put(new ResourceLocation(id.getString("i")), id.getInt("c"));
@@ -47,12 +50,12 @@ public class RecipeRunLimitSavaedData extends SavedData {
     @Override
     public @NotNull CompoundTag save(@NotNull CompoundTag compoundTag) {
         ListTag uuid = new ListTag();
-        for (Map.Entry<UUID, Map<ResourceLocation, Integer>> uuidEntry : recipeRunLimit.entrySet()) {
+        for (Map.Entry<UUID, Object2IntOpenHashMap<ResourceLocation>> uuidEntry : recipeRunLimit.entrySet()) {
             ListTag list = new ListTag();
-            for (Map.Entry<ResourceLocation, Integer> recipeEntry : uuidEntry.getValue().entrySet()) {
+            for (Object2IntMap.Entry<ResourceLocation> recipeEntry : uuidEntry.getValue().object2IntEntrySet()) {
                 CompoundTag id = new CompoundTag();
                 id.putString("i", recipeEntry.getKey().toString());
-                id.putInt("c", recipeEntry.getValue());
+                id.putInt("c", recipeEntry.getIntValue());
                 list.add(id);
             }
             CompoundTag uuidTag = new CompoundTag();

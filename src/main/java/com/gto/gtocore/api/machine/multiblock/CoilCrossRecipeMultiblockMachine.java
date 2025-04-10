@@ -10,6 +10,7 @@ import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import net.minecraft.MethodsReturnNonnullByDefault;
 
 import java.util.function.Function;
+import java.util.function.ToIntFunction;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -35,8 +36,8 @@ public final class CoilCrossRecipeMultiblockMachine extends CrossRecipeMultibloc
 
     private final CoilTrait coilTrait;
 
-    private CoilCrossRecipeMultiblockMachine(IMachineBlockEntity holder, boolean infinite, boolean isHatchParallel, boolean ebf, boolean check, Function<CoilCrossRecipeMultiblockMachine, Integer> parallel) {
-        super(holder, infinite, isHatchParallel, machine -> parallel.apply((CoilCrossRecipeMultiblockMachine) machine));
+    private CoilCrossRecipeMultiblockMachine(IMachineBlockEntity holder, boolean infinite, boolean isHatchParallel, boolean ebf, boolean check, ToIntFunction<CoilCrossRecipeMultiblockMachine> parallel) {
+        super(holder, infinite, isHatchParallel, machine -> parallel.applyAsInt((CoilCrossRecipeMultiblockMachine) machine));
         coilTrait = new CoilTrait(this, ebf, check);
     }
 

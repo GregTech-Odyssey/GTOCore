@@ -23,7 +23,6 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 
 import java.util.List;
-import java.util.Map;
 
 @Mixin(FluidRecipeCapability.class)
 public class FluidRecipeCapabilityMixin {
@@ -108,9 +107,9 @@ public class FluidRecipeCapabilityMixin {
             for (Object2IntMap.Entry<FluidIngredient> notConsumableFluid : notConsumableMap.object2IntEntrySet()) {
                 long needed = notConsumableFluid.getIntValue();
                 long available = 0;
-                for (Map.Entry<FluidStack, Long> inputFluid : ingredientStacks.object2LongEntrySet()) {
+                for (Object2LongMap.Entry<FluidStack> inputFluid : ingredientStacks.object2LongEntrySet()) {
                     if (notConsumableFluid.getKey().test(inputFluid.getKey())) {
-                        available = inputFluid.getValue();
+                        available = inputFluid.getLongValue();
                         if (available > needed) {
                             inputFluid.setValue(available - needed);
                             needed -= available;
@@ -134,9 +133,9 @@ public class FluidRecipeCapabilityMixin {
             for (Object2IntMap.Entry<FluidIngredient> fs : fluidCountMap.object2IntEntrySet()) {
                 long needed = fs.getIntValue();
                 long available = 0;
-                for (Map.Entry<FluidStack, Long> inputFluid : ingredientStacks.object2LongEntrySet()) {
+                for (Object2LongMap.Entry<FluidStack> inputFluid : ingredientStacks.object2LongEntrySet()) {
                     if (fs.getKey().test(inputFluid.getKey())) {
-                        available += inputFluid.getValue();
+                        available += inputFluid.getLongValue();
                     }
                 }
                 if (available >= needed) {
