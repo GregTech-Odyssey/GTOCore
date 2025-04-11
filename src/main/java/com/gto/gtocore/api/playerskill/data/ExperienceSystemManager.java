@@ -1,7 +1,6 @@
-package com.gto.gtocore.api.playerskill.logic;
+package com.gto.gtocore.api.playerskill.data;
 
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.saveddata.SavedData;
 
 import it.unimi.dsi.fastutil.objects.Object2LongMap;
@@ -14,6 +13,7 @@ import java.util.Map;
 import java.util.UUID;
 
 public class ExperienceSystemManager extends SavedData {
+
     public static volatile ExperienceSystemManager INSTANCE;
 
     @Getter
@@ -85,15 +85,6 @@ public class ExperienceSystemManager extends SavedData {
         return new ExperienceSystemManager(nbt, playerDataMap, lastTimeRecordTable);
     }
 
-    // 获取或创建数据
-    public static ExperienceSystemManager getOrCreate(ServerLevel level) {
-        INSTANCE = level.getDataStorage().computeIfAbsent(
-                ExperienceSystemManager::load,
-                ExperienceSystemManager::new,
-                "gto_experience_data");
-        return INSTANCE;
-    }
-
     public void enableSystem() {
         isEnabled = true;
         setDirty();
@@ -108,39 +99,34 @@ public class ExperienceSystemManager extends SavedData {
         return isEnabled;
     }
 
-    public void addPlayer(UUID playerId) {
-        if (isEnabled) {
-            playerDataMap.putIfAbsent(playerId, new PlayerData(playerId));
-            setDirty();
-        }
-    }
-
     public void removePlayer(UUID playerId) {
-        playerDataMap.remove(playerId);
-        setDirty();
+        if (playerDataMap.remove(playerId) != null) setDirty();
     }
 
-    public PlayerData getPlayerData(UUID playerId) {
-        return playerDataMap.get(playerId);
+    public @NotNull PlayerData getPlayerData(UUID playerId) {
+        return playerDataMap.computeIfAbsent(playerId, k -> {
+            setDirty();
+            return new PlayerData(playerId);
+        });
     }
 
     public void addHealthExperience(UUID playerId, int amount) {
-        if (isEnabled && playerDataMap.containsKey(playerId)) {
-            playerDataMap.get(playerId).addHealthExperience(amount);
+        if (isEnabled) {
+            getPlayerData(playerId).addHealthExperience(amount);
             setDirty();
         }
     }
 
     public void addAttackExperience(UUID playerId, int amount) {
-        if (isEnabled && playerDataMap.containsKey(playerId)) {
-            playerDataMap.get(playerId).addAttackExperience(amount);
+        if (isEnabled) {
+            getPlayerData(playerId).addAttackExperience(amount);
             setDirty();
         }
     }
 
     public void addBodyExperience(UUID playerId, int amount) {
-        if (isEnabled && playerDataMap.containsKey(playerId)) {
-            playerDataMap.get(playerId).addBodyExperience(amount);
+        if (isEnabled) {
+            getPlayerData(playerId).addBodyExperience(amount);
             setDirty();
         }
     }

@@ -1,9 +1,9 @@
-package com.gto.gtocore.api.playerskill.logic;
+package com.gto.gtocore.api.playerskill.data;
 
 import com.gto.gtocore.api.playerskill.experiencelevel.BasicExperienceLevel;
-import com.gto.gtocore.api.playerskill.experiencelevel.special.BodyExperienceLevel;
 import com.gto.gtocore.api.playerskill.experiencelevel.normal.AttackExperienceLevel;
 import com.gto.gtocore.api.playerskill.experiencelevel.normal.HealthExperienceLevel;
+import com.gto.gtocore.api.playerskill.experiencelevel.special.BodyExperienceLevel;
 import com.gto.gtocore.api.playerskill.utils.UtilsData;
 
 import net.minecraft.nbt.CompoundTag;
@@ -12,7 +12,6 @@ import lombok.Getter;
 
 import java.util.List;
 import java.util.UUID;
-import java.util.function.Supplier;
 
 @Getter
 public class PlayerData {
@@ -52,16 +51,14 @@ public class PlayerData {
     }
 
     public void loadData(CompoundTag nbt) {
-        loadExperience(nbt, "bodyExperience", bodyExperienceLevel, BodyExperienceLevel::new);
-        loadExperience(nbt, "healthExperienceLevel", healthExperienceLevel, () -> new HealthExperienceLevel(bodyExperienceLevel));
-        loadExperience(nbt, "attackExperienceLevel", attackExperienceLevel, () -> new AttackExperienceLevel(bodyExperienceLevel));
+        loadExperience(nbt, "bodyExperience", bodyExperienceLevel);
+        loadExperience(nbt, "healthExperienceLevel", healthExperienceLevel);
+        loadExperience(nbt, "attackExperienceLevel", attackExperienceLevel);
     }
 
-    private static void loadExperience(CompoundTag nbt, String nbtKey, BasicExperienceLevel experienceLevel, Supplier<BasicExperienceLevel> initializer) {
+    private static void loadExperience(CompoundTag nbt, String nbtKey, BasicExperienceLevel experienceLevel) {
         if (nbt.contains(nbtKey)) {
             experienceLevel.loadData(nbt.getCompound(nbtKey));
-        } else {
-            experienceLevel = initializer.get();
         }
     }
 }

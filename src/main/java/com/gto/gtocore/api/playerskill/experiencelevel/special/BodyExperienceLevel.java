@@ -1,11 +1,11 @@
 package com.gto.gtocore.api.playerskill.experiencelevel.special;
 
 import com.gto.gtocore.api.playerskill.experiencelevel.BasicExperienceLevel;
+
 import net.minecraft.network.chat.Component;
 
 public class BodyExperienceLevel extends BasicExperienceLevel {
 
-    private static final int BASE_ATTACK_POWER = 1; // 基础攻击力
     private static final int maxBodyLevel = 20;
 
     @Override

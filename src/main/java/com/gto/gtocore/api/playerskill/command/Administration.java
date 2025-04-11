@@ -1,8 +1,8 @@
 package com.gto.gtocore.api.playerskill.command;
 
 import com.gto.gtocore.GTOCore;
-import com.gto.gtocore.api.playerskill.logic.ExperienceSystemManager;
-import com.gto.gtocore.api.playerskill.logic.PlayerData;
+import com.gto.gtocore.api.playerskill.data.ExperienceSystemManager;
+import com.gto.gtocore.api.playerskill.data.PlayerData;
 import com.gto.gtocore.api.playerskill.utils.UtilsMessage;
 
 import net.minecraft.ChatFormatting;
@@ -36,16 +36,10 @@ public class Administration {
                         GTOCore.LOGGER.info("Experience system status: {}", ExperienceSystemManager.INSTANCE.isEnabled());
                         for (ServerPlayer player : context.getSource().getServer().getPlayerList().getPlayers()) {
                             PlayerData playerData = ExperienceSystemManager.INSTANCE.getPlayerData(player.getUUID());
-                            if (playerData != null) {
-                                GTOCore.LOGGER.info("Sending status to player: {}", player.getName().getString());
-                                UtilsMessage.sendPlayerExpStatusMessage(
-                                        player,
-                                        playerData.getExperienceLevelLists());
-                            } else {
-                                GTOCore.LOGGER.warn("No player data found for: {}", player.getName().getString());
-                                // 尝试添加玩家数据
-                                ExperienceSystemManager.INSTANCE.addPlayer(player.getUUID());
-                            }
+                            GTOCore.LOGGER.info("Sending status to player: {}", player.getName().getString());
+                            UtilsMessage.sendPlayerExpStatusMessage(
+                                    player,
+                                    playerData.getExperienceLevelLists());
                         }
                     } else {
                         GTOCore.LOGGER.error("ExperienceSystemManager is still null after initialization attempt!");

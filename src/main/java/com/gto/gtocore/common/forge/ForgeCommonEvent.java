@@ -1,16 +1,9 @@
 package com.gto.gtocore.common.forge;
 
-import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.api.data.GTODimensions;
 import com.gto.gtocore.api.entity.IEnhancedPlayer;
 import com.gto.gtocore.api.machine.feature.IVacuumMachine;
-import com.gto.gtocore.api.playerskill.SkillData;
-import com.gto.gtocore.api.playerskill.command.Administration;
-import com.gto.gtocore.api.playerskill.experiencelevel.BasicExperienceLevel;
-import com.gto.gtocore.api.playerskill.logic.ExperienceSystemManager;
-import com.gto.gtocore.api.playerskill.logic.PlayerData;
-import com.gto.gtocore.api.playerskill.utils.UtilsData;
-import com.gto.gtocore.api.playerskill.utils.UtilsMessage;
+import com.gto.gtocore.api.playerskill.data.ExperienceSystemManager;
 import com.gto.gtocore.api.recipe.AsyncRecipeOutputTask;
 import com.gto.gtocore.api.recipe.AsyncRecipeSearchTask;
 import com.gto.gtocore.common.CommonCache;
@@ -32,22 +25,17 @@ import com.gregtechceu.gtceu.common.data.GTItems;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.animal.*;
 import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraft.world.entity.item.ItemEntity;
-import net.minecraft.world.entity.monster.Zombie;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -59,190 +47,18 @@ import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.EntityTravelToDimensionEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
-import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.level.BlockEvent;
 import net.minecraftforge.event.level.LevelEvent;
-import net.minecraftforge.event.server.ServerStartedEvent;
 import net.minecraftforge.event.server.ServerStoppingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.registries.ForgeRegistries;
 
 import com.hepdd.gtmthings.data.WirelessEnergySavaedData;
 
-import java.util.*;
-
-import static com.gregtechceu.gtceu.integration.map.cache.server.ServerCacheSavedData.DATA_NAME;
+import java.util.Objects;
 
 public final class ForgeCommonEvent {
-
-    public static class FoodHurtAnimalLogic {
-
-        public static final Map<Item, Class<?>> foodToEntityClass = new HashMap<>();
-        public static boolean initialized = false;
-
-        @SubscribeEvent
-        public static void onServerStarted(ServerStartedEvent event) throws IllegalAccessException {
-            FoodHurtAnimalLogic.initialize(event.getServer());
-        }
-
-        public static void initialize(MinecraftServer server) throws IllegalAccessException {
-            if (initialized) return;;
-            mapFoodToEntity_SoftCode(server);
-            initialized = true;
-        }
-
-        private static void mapFoodToEntity_SoftCode(MinecraftServer server) {
-            if (server == null) {
-                return;
-            }
-
-            // 清空现有映射，确保不受之前的影响
-            foodToEntityClass.clear();
-
-            int mappedCount = 0;
-            int entityCount = 0;
-            int processedEntities = 0;
-
-            try {
-
-                Map<String, Class<?>> foodEntityMapping = new HashMap<>();
-
-                foodEntityMapping.put("pork", Pig.class);
-                foodEntityMapping.put("ham", Pig.class);
-                foodEntityMapping.put("beef", Cow.class);
-                foodEntityMapping.put("steak", Cow.class);
-                foodEntityMapping.put("chicken", Chicken.class);
-                foodEntityMapping.put("mutton", Sheep.class);
-                foodEntityMapping.put("rabbit", Rabbit.class);
-                foodEntityMapping.put("cod", Cod.class);
-                foodEntityMapping.put("salmon", Salmon.class);
-                foodEntityMapping.put("fish", TropicalFish.class);
-                foodEntityMapping.put("rotten_flesh", Zombie.class);
-
-                // 遍历所有注册的物品而不是实体
-                for (Map.Entry<ResourceKey<Item>, Item> entry : ForgeRegistries.ITEMS.getEntries()) {
-                    Item item = entry.getValue();
-                    entityCount++;
-
-                    if (!item.isEdible()) continue;
-
-                    String itemId = entry.getKey().location().toString();
-
-                    for (Map.Entry<String, Class<?>> mapping : foodEntityMapping.entrySet()) {
-                        if (itemId.contains(mapping.getKey())) {
-                            Class<?> entityType = mapping.getValue();
-                            foodToEntityClass.put(item, entityType);
-                            mappedCount++;
-                            GTOCore.LOGGER.info("映射: " + itemId + " -> " + entityType.getName());
-                            break;
-                        }
-                    }
-
-                    processedEntities++;
-                }
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
-        @SubscribeEvent
-        public static void onFoodConsume(LivingEntityUseItemEvent event) {
-            if (GTOConfig.INSTANCE.enableAnimalsAreAfraidToEatTheirMeat) {
-                if (event.getEntity() instanceof Player player && Objects.equals(10, event.getDuration()) && !player.level().isClientSide()) {
-                    int distance = GTOConfig.INSTANCE.enableAnimalsAreAfraidToEatTheirMeatRange;
-
-                    foodToEntityClass.forEach((item, entityClass) -> {
-                        if (event.getItem().is(item)) {
-                            hurtAnimalsNearPlayer(player, entityClass, distance);
-                        }
-                    });
-                }
-            }
-        }
-
-        private static <T extends LivingEntity> void hurtAnimalsNearPlayer(Player player, Class<?> entityClass, float distance) {
-            Level level = player.level();
-            List<? extends LivingEntity> entitiesOfClass = level.getEntitiesOfClass((Class<? extends LivingEntity>) entityClass, player.getBoundingBox().inflate(distance));
-            entitiesOfClass.forEach(entity -> {
-                entity.hurt(player.damageSources().playerAttack(player), Math.max(entity.getMaxHealth() / 40, 0.25F));
-                if (level instanceof ServerLevel serverLevel) {
-                    serverLevel.sendParticles(
-                            ParticleTypes.ANGRY_VILLAGER,
-                            entity.getX(),
-                            entity.getY() + entity.getBbHeight() * 0.75, // 在实体头部上方
-                            entity.getZ(),
-                            5,  // 粒子数量
-                            0.3, // X方向扩散
-                            0.2, // Y方向扩散
-                            0.3, // Z方向扩散
-                            0.02 // 粒子速度
-                    );
-                }
-            });
-        }
-    }
-
-    public static class ExperienceEventHandler {
-        @SubscribeEvent
-        public static void onRegisterCommands(RegisterCommandsEvent event) {
-            Administration.register(event.getDispatcher());
-//            System.out.println("Experience commands registered!");
-        }
-
-        @SubscribeEvent
-        public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
-            Player player = event.player;
-            if (event.phase == TickEvent.Phase.END && player.level().getGameTime() % (SkillData.GainExperience.GAP_TICK) == 0) {
-                if (ExperienceSystemManager.INSTANCE != null
-                        && ExperienceSystemManager.INSTANCE.isEnabled()
-                        && player.level() instanceof ServerLevel) {
-                    UUID playerId = player.getUUID();
-                    ExperienceSystemManager.INSTANCE.addPlayer(playerId);
-                    PlayerData playerData = ExperienceSystemManager.INSTANCE.getPlayerData(playerId);
-                    if (playerData != null) {
-                        for (SkillData.SkillType type : SkillData.SkillType.values()) {
-                            BasicExperienceLevel level = type.getExperienceLevel(playerData);
-                            Integer point = SkillData.GainExperience.EXPERIENCE_RATES.get(type);
-                            UtilsData.addExperienceAndSendMessage(player, level, point);
-                        }
-                    } else {
-                        GTOCore.LOGGER.warn("PlayerData is null for player: {}", player.getName().getString());
-                    }
-                }
-            }
-        }
-
-        @SubscribeEvent
-        public static void onPlayerEatFood(LivingEntityUseItemEvent.Finish event) {
-            if (ExperienceSystemManager.INSTANCE.isEnabled()
-                    && event.getEntity() instanceof Player player
-                    && player.level() instanceof ServerLevel) {
-                ItemStack item = event.getItem();
-                if (item.isEdible() && isMeat(item)) {
-                    ExperienceSystemManager.INSTANCE.addPlayer(player.getUUID());
-                    PlayerData playerData = ExperienceSystemManager.INSTANCE.getPlayerData(player.getUUID());
-                    if (playerData != null) {
-                        UtilsData.addExperienceAndSendMessage(player, playerData.getAttackExperienceLevel(), SkillData.ExperienceIncome.EAT_MEAT);
-                    }
-                }
-            }
-        }
-
-        public static boolean isMeat(ItemStack item) {
-            Set<String> MEAT_KEYWORDS = SkillData.MEAT_KEYWORDS;
-            if (!item.isEdible()) return false;
-            String itemName = item.getDescriptionId().toLowerCase();
-            for (String keyword : MEAT_KEYWORDS) {
-                if (itemName.contains(keyword)) {
-                    return true;
-                }
-            }
-            return false;
-        }
-    }
 
     @SubscribeEvent
     public static void onDropsEvent(LivingDropsEvent e) {

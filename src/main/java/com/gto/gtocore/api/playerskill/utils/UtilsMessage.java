@@ -9,7 +9,9 @@ import net.minecraft.world.entity.player.Player;
 
 import java.util.List;
 
-public class UtilsMessage {
+public final class UtilsMessage {
+
+    private UtilsMessage() {}
 
     // 通用框框QaQ
     public static Component buildPlayerExpStatusMessage(Player player, List<BasicExperienceLevel> basicExperienceLevel) {

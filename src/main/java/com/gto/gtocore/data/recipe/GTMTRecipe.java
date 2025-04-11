@@ -30,7 +30,8 @@ import com.hepdd.gtmthings.data.WirelessMachines;
 
 import java.util.function.Consumer;
 
-import static com.gto.gtocore.common.data.GTORecipeTypes.*;
+import static com.gto.gtocore.common.data.GTORecipeTypes.ASSEMBLER_RECIPES;
+import static com.gto.gtocore.common.data.GTORecipeTypes.SCANNER_RECIPES;
 
 public interface GTMTRecipe {
 

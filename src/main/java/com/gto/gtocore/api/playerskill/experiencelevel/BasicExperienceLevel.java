@@ -3,6 +3,9 @@ package com.gto.gtocore.api.playerskill.experiencelevel;
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 
+import lombok.Getter;
+
+@Getter
 public abstract class BasicExperienceLevel {
 
     protected int level;
@@ -19,14 +22,6 @@ public abstract class BasicExperienceLevel {
 
     public int getMaxLevel() {
         return 20;
-    }
-
-    public int getLevel() {
-        return level;
-    }
-
-    public int getExperience() {
-        return experience;
     }
 
     public void saveData(CompoundTag nbt) {

@@ -6,7 +6,10 @@ import com.gto.gtocore.api.machine.trait.IPatternBufferRecipeHandler;
 import com.gto.gtocore.api.recipe.MapFluid;
 import com.gto.gtocore.mixin.gtm.api.recipe.FluidIngredientFluidValueAccessor;
 
-import com.gregtechceu.gtceu.api.capability.recipe.*;
+import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
+import com.gregtechceu.gtceu.api.capability.recipe.IO;
+import com.gregtechceu.gtceu.api.capability.recipe.IRecipeCapabilityHolder;
+import com.gregtechceu.gtceu.api.capability.recipe.IRecipeHandler;
 import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.content.Content;

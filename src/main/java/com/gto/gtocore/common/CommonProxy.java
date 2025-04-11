@@ -3,6 +3,8 @@ package com.gto.gtocore.common;
 import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.api.entity.IEnhancedPlayer;
 import com.gto.gtocore.common.data.*;
+import com.gto.gtocore.common.forge.ExperienceEventHandler;
+import com.gto.gtocore.common.forge.FoodHurtAnimalEventHandler;
 import com.gto.gtocore.common.forge.ForgeCommonEvent;
 import com.gto.gtocore.config.GTOConfig;
 import com.gto.gtocore.data.Data;
@@ -49,8 +51,8 @@ public class CommonProxy {
         eventBus.addGenericListener(RecipeConditionType.class, CommonProxy::registerRecipeConditions);
         eventBus.addGenericListener(DimensionMarker.class, CommonProxy::registerDimensionMarkers);
         MinecraftForge.EVENT_BUS.register(ForgeCommonEvent.class);
-        MinecraftForge.EVENT_BUS.register(ForgeCommonEvent.FoodHurtAnimalLogic.class);
-        MinecraftForge.EVENT_BUS.register(ForgeCommonEvent.ExperienceEventHandler.class);
+        MinecraftForge.EVENT_BUS.register(FoodHurtAnimalEventHandler.class);
+        MinecraftForge.EVENT_BUS.register(ExperienceEventHandler.class);
     }
 
     private static void init() {
