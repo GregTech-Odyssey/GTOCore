@@ -16,9 +16,7 @@ public class AttackExperienceLevel extends NormalExperienceLevel {
     @Override
     public String getName() {
         return Component.translatable("gtocore.player_exp_status.attack_name").getString();
-  }
-
-
+    }
 
     public int getAttackPower() {
         return BASE_ATTACK_POWER + level; // 每级增加1点攻击力
