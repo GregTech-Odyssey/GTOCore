@@ -1,8 +1,8 @@
-package com.gto.gtocore.api.playerSkill.utils;
+package com.gto.gtocore.api.playerskill.utils;
 
-import com.google.gson.JsonObject;
-import com.gto.gtocore.api.playerSkill.experienceSub.BasicExperienceLevel;
-import com.gto.gtocore.api.playerSkill.logic.ExperienceSystemManager;
+import com.gto.gtocore.api.playerskill.experienceSub.BasicExperienceLevel;
+import com.gto.gtocore.api.playerskill.logic.ExperienceSystemManager;
+
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -11,9 +11,10 @@ import net.minecraft.world.entity.player.Player;
 import java.util.Map;
 import java.util.UUID;
 
+public class UtilsData {
 
-public class utilsData {
     private static final long MESSAGE_COOLDOWN = 20;
+
     public static void saveExperienceToNbt(String key, BasicExperienceLevel experience, CompoundTag nbt) {
         try {
             CompoundTag data = new CompoundTag();
@@ -23,7 +24,8 @@ public class utilsData {
             System.err.println("Error saving " + key + " data: " + e.getMessage());
         }
     }
-    public static void addExperienceAndSendMessage(Player player , BasicExperienceLevel experienceLevel, int amount, String message, ChatFormatting color) {
+
+    public static void addExperienceAndSendMessage(Player player, BasicExperienceLevel experienceLevel, int amount, String message, ChatFormatting color) {
         if (!ExperienceSystemManager.INSTANCE.isEnabled()) return;
         UUID playerId = player.getUUID();
         Map<UUID, Long> lastTimeRecordTable = ExperienceSystemManager.INSTANCE.getLastTimeRecordTable();

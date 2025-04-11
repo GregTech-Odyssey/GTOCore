@@ -1,4 +1,4 @@
-package com.gto.gtocore.api.playerSkill.experienceSub;
+package com.gto.gtocore.api.playerskill.experienceSub;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -27,7 +27,9 @@ public class BodyExperienceLevel extends BasicExperienceLevel {
     }
 
     @Override
-    public String getName() {return Component.translatable("gtocore.player_exp_status.body_name").getString();}
+    public String getName() {
+        return Component.translatable("gtocore.player_exp_status.body_name").getString();
+    }
 
     @Override
     public int getExperience() {

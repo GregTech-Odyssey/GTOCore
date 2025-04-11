@@ -1,15 +1,17 @@
-package com.gto.gtocore.api.playerSkill.experienceSub.normal;
+package com.gto.gtocore.api.playerskill.experienceSub.normal;
+
+import com.gto.gtocore.api.playerskill.experienceSub.BodyExperienceLevel;
+import com.gto.gtocore.api.playerskill.experienceSub.NormalExperienceLevel;
 
 import net.minecraft.nbt.CompoundTag;
-import com.gto.gtocore.api.playerSkill.experienceSub.BodyExperienceLevel;
-import com.gto.gtocore.api.playerSkill.experienceSub.NormalExperienceLevel;
 import net.minecraft.network.chat.Component;
 
-public class AttackExperienceLevel extends NormalExperienceLevel {
-    private static final int BASE_ATTACK_POWER = 4; // 基础攻击力
+public class HealthExperienceLevel extends NormalExperienceLevel {
 
-    public AttackExperienceLevel(BodyExperienceLevel _bodyExperienceLevel) {
-        super(_bodyExperienceLevel);
+    private static final int BASE_HEALTH = 20; // 基础生命值
+
+    public HealthExperienceLevel(BodyExperienceLevel _bodyExperienceLevela) {
+        super(_bodyExperienceLevela);
     }
 
     @Override
@@ -19,7 +21,7 @@ public class AttackExperienceLevel extends NormalExperienceLevel {
 
     @Override
     public String getName() {
-        return Component.translatable("gtocore.player_exp_status.attack_name").getString();
+        return Component.translatable("gtocore.player_exp_status.health_name").getString();
     }
 
     @Override
@@ -27,8 +29,8 @@ public class AttackExperienceLevel extends NormalExperienceLevel {
         return experience;
     }
 
-    public int getAttackPower() {
-        return BASE_ATTACK_POWER + level; // 每级增加1点攻击力
+    public int getMaxHealth() {
+        return BASE_HEALTH + (level << 1); // 每级增加2点生命值
     }
 
     public int getExperienceForNextLevel() {

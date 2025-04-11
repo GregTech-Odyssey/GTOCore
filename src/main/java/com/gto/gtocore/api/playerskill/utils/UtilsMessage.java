@@ -1,21 +1,16 @@
-package com.gto.gtocore.api.playerSkill.utils;
+package com.gto.gtocore.api.playerskill.utils;
 
-import com.gto.gtocore.api.playerSkill.experienceSub.BasicExperienceLevel;
-import com.gto.gtocore.api.playerSkill.logic.ExperienceSystemManager;
-import com.gto.gtocore.api.playerSkill.logic.PlayerData;
-import com.mojang.brigadier.Command;
-import com.mojang.brigadier.CommandDispatcher;
-import net.minecraft.commands.CommandSourceStack;
-import net.minecraft.commands.Commands;
+import com.gto.gtocore.api.playerskill.experienceSub.BasicExperienceLevel;
+
+import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.ChatFormatting;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 
 import java.util.List;
 
-public class utilsMessage {
+public class UtilsMessage {
+
     // 通用框框QaQ
     public static Component buildPlayerExpStatusMessage(Player player, List<BasicExperienceLevel> basicExperienceLevel) {
         MutableComponent message = Component.translatable("gtocore.player_exp_status.header")
@@ -43,22 +38,22 @@ public class utilsMessage {
     private static MutableComponent formatSkillInfo(BasicExperienceLevel basicExperienceLevel) {
         MutableComponent skillInfo = Component.literal("\n\n")
                 .append(Component.literal(basicExperienceLevel.getName() + ":")
-                        .withStyle(basicExperienceLevel.getNameColor()));
+                        .withStyle(BasicExperienceLevel.getNameColor()));
 
         // 添加等级信息
         skillInfo = skillInfo.append(Component.translatable("gtocore.player_exp_status.level")
                 .withStyle(ChatFormatting.WHITE)
-                .append(Component.literal(String.valueOf(basicExperienceLevel.getLevel()) + " / " +
-                                basicExperienceLevel.getMaxLevel() + " " +
-                                Component.translatable("gtocore.player_exp_status.level_max").getString())
+                .append(Component.literal(basicExperienceLevel.getLevel() + " / " +
+                        basicExperienceLevel.getMaxLevel() + " " +
+                        Component.translatable("gtocore.player_exp_status.level_max").getString())
                         .withStyle(ChatFormatting.YELLOW)));
 
         // 添加经验信息
         skillInfo = skillInfo.append(Component.translatable("gtocore.player_exp_status.experience")
                 .withStyle(ChatFormatting.WHITE)
                 .append(Component.literal(basicExperienceLevel.getExperience() + " / " +
-                                basicExperienceLevel.getExperienceForNextLevel() +
-                                Component.translatable("gtocore.player_exp_status.experience_next").getString())
+                        basicExperienceLevel.getExperienceForNextLevel() +
+                        Component.translatable("gtocore.player_exp_status.experience_next").getString())
                         .withStyle(ChatFormatting.YELLOW)));
 
         // 添加进度信息
@@ -66,7 +61,7 @@ public class utilsMessage {
                 .withStyle(ChatFormatting.WHITE)
                 .append(Component.literal(calculateProgressPercentage(basicExperienceLevel) + " % ")
                         .withStyle(ChatFormatting.YELLOW)));
-        if (calculateProgressPercentage(basicExperienceLevel)>=100) skillInfo.append(
+        if (calculateProgressPercentage(basicExperienceLevel) >= 100) skillInfo.append(
                 Component.translatable("gtocore.player_exp_status.upgrade_institution")
                         .withStyle(ChatFormatting.RED));
         return skillInfo;

@@ -1,44 +1,37 @@
-package com.gto.gtocore.api.playerSkill.logic;
+package com.gto.gtocore.api.playerskill.logic;
 
-import com.gto.gtocore.GTOCore;
-import lombok.Getter;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.saveddata.SavedData;
 import net.minecraft.world.level.storage.DimensionDataStorage;
+
+import it.unimi.dsi.fastutil.objects.Object2LongMap;
+import it.unimi.dsi.fastutil.objects.Object2LongOpenHashMap;
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
+import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
 public class ExperienceSystemManager extends SavedData {
+
     private static final String DATA_NAME = "gto_experience_data";
-    public static volatile  ExperienceSystemManager INSTANCE;
+    public static volatile ExperienceSystemManager INSTANCE;
 
     @Getter
-    private Map<UUID, Long> LastTimeRecordTable;
+    private final Object2LongMap<UUID> LastTimeRecordTable;
     private final Map<UUID, PlayerData> playerDataMap;
     private boolean isEnabled;
 
     private ExperienceSystemManager() {
-        this.playerDataMap = new HashMap<>();
+        this.playerDataMap = new Object2ObjectOpenHashMap<>();
         this.isEnabled = false; // 默认关闭
-        this.LastTimeRecordTable = new HashMap<>();
-    }
-
-    // 确保初始化，调试检查
-    public static void ensureInitialized(ServerLevel level) {
-        if (INSTANCE == null) {
-            INSTANCE = getOrCreate(level);
-            GTOCore.LOGGER.info("ExperienceSystemManager initialized from level: {}", level.dimension().location());
-        }
+        this.LastTimeRecordTable = new Object2LongOpenHashMap<>();
     }
 
     // 从 NBT 构造
-    private ExperienceSystemManager(CompoundTag nbt, Map<UUID, PlayerData> playerDataMap, Map<UUID, Long> lastTimeRecordTable) {
+    private ExperienceSystemManager(CompoundTag nbt, Map<UUID, PlayerData> playerDataMap, Object2LongMap<UUID> lastTimeRecordTable) {
         this.playerDataMap = playerDataMap;
         this.isEnabled = nbt.getBoolean("isEnabled");
         this.LastTimeRecordTable = lastTimeRecordTable;
@@ -50,8 +43,8 @@ public class ExperienceSystemManager extends SavedData {
 
         // 保存 LastTimeRecordTable
         CompoundTag timeRecordTag = new CompoundTag();
-        for (Map.Entry<UUID, Long> entry : LastTimeRecordTable.entrySet()) {
-            timeRecordTag.putLong(entry.getKey().toString(), entry.getValue());
+        for (Object2LongMap.Entry<UUID> entry : LastTimeRecordTable.object2LongEntrySet()) {
+            timeRecordTag.putLong(entry.getKey().toString(), entry.getLongValue());
         }
         nbt.put("timeRecords", timeRecordTag);
 
@@ -69,8 +62,8 @@ public class ExperienceSystemManager extends SavedData {
 
     // 从 NBT 加载
     public static ExperienceSystemManager load(CompoundTag nbt) {
-        Map<UUID, PlayerData> playerDataMap = new HashMap<>();
-        Map<UUID, Long> lastTimeRecordTable = new HashMap<>();
+        Map<UUID, PlayerData> playerDataMap = new Object2ObjectOpenHashMap<>();
+        Object2LongMap<UUID> lastTimeRecordTable = new Object2LongOpenHashMap<>();
 
         // 加载 LastTimeRecordTable
         if (nbt.contains("timeRecords")) {
@@ -101,8 +94,7 @@ public class ExperienceSystemManager extends SavedData {
         ExperienceSystemManager data = storage.computeIfAbsent(
                 ExperienceSystemManager::load,
                 ExperienceSystemManager::new,
-                DATA_NAME
-        );
+                DATA_NAME);
         INSTANCE = data;
         return data;
     }
@@ -163,5 +155,4 @@ public class ExperienceSystemManager extends SavedData {
         LastTimeRecordTable.put(playerId, time);
         setDirty();
     }
-
 }

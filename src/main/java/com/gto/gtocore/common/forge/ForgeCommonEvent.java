@@ -4,10 +4,10 @@ import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.api.data.GTODimensions;
 import com.gto.gtocore.api.entity.IEnhancedPlayer;
 import com.gto.gtocore.api.machine.feature.IVacuumMachine;
-import com.gto.gtocore.api.playerSkill.command.Administration;
-import com.gto.gtocore.api.playerSkill.logic.ExperienceSystemManager;
-import com.gto.gtocore.api.playerSkill.logic.PlayerData;
-import com.gto.gtocore.api.playerSkill.utils.utilsData;
+import com.gto.gtocore.api.playerskill.command.Administration;
+import com.gto.gtocore.api.playerskill.logic.ExperienceSystemManager;
+import com.gto.gtocore.api.playerskill.logic.PlayerData;
+import com.gto.gtocore.api.playerskill.utils.UtilsData;
 import com.gto.gtocore.api.recipe.AsyncRecipeOutputTask;
 import com.gto.gtocore.api.recipe.AsyncRecipeSearchTask;
 import com.gto.gtocore.common.CommonCache;
@@ -62,19 +62,18 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.level.BlockEvent;
 import net.minecraftforge.event.level.LevelEvent;
 import net.minecraftforge.event.server.ServerStartedEvent;
-import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.event.server.ServerStoppingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-
-import com.hepdd.gtmthings.data.WirelessEnergySavaedData;
 import net.minecraftforge.registries.ForgeRegistries;
 
-import java.util.*;
+import com.hepdd.gtmthings.data.WirelessEnergySavaedData;
 
+import java.util.*;
 
 public final class ForgeCommonEvent {
 
     public static class FoodHurtAnimalLogic {
+
         public static final Map<Item, Class<?>> foodToEntityClass = new HashMap<>();
         public static boolean initialized = false;
 
@@ -84,7 +83,7 @@ public final class ForgeCommonEvent {
         }
 
         public static void initialize(MinecraftServer server) throws IllegalAccessException {
-            if(initialized)return;;
+            if (initialized) return;;
             mapFoodToEntity_SoftCode(server);
             initialized = true;
         }
@@ -103,7 +102,7 @@ public final class ForgeCommonEvent {
 
             try {
 
-                Map<String, Class<?>>  foodEntityMapping = new HashMap<>();
+                Map<String, Class<?>> foodEntityMapping = new HashMap<>();
 
                 foodEntityMapping.put("pork", Pig.class);
                 foodEntityMapping.put("ham", Pig.class);
@@ -151,8 +150,8 @@ public final class ForgeCommonEvent {
                     int distance = GTOConfig.INSTANCE.enableAnimalsAreAfraidToEatTheirMeatRange;
 
                     foodToEntityClass.forEach((item, entityClass) -> {
-                        if(event.getItem().is(item)){
-                            hurtAnimalsNearPlayer(player,  entityClass, distance);
+                        if (event.getItem().is(item)) {
+                            hurtAnimalsNearPlayer(player, entityClass, distance);
                         }
                     });
                 }
@@ -182,26 +181,6 @@ public final class ForgeCommonEvent {
     }
 
     public static class ExperienceEventHandler {
-        @SubscribeEvent
-        public static void onServerStarting(ServerStartingEvent event) {
-            // 启动服务器时初始化和启用经验系统
-            ServerLevel overworld = event.getServer().getLevel(Level.OVERWORLD);
-            if (overworld != null) {
-                GTOCore.LOGGER.info("Initializing ExperienceSystemManager on server start");
-                ExperienceSystemManager.ensureInitialized(overworld);
-                ExperienceSystemManager.INSTANCE.enableSystem();
-                GTOCore.LOGGER.info("ExperienceSystemManager enabled: {}", ExperienceSystemManager.INSTANCE.isEnabled());
-            }
-        }
-
-        @SubscribeEvent
-        public static void onWorldLoad(LevelEvent.Load event) {
-            if (event.getLevel() instanceof ServerLevel serverLevel) {
-                ExperienceSystemManager.ensureInitialized(serverLevel);
-                GTOCore.LOGGER.info("ExperienceSystemManager checked on world load: {}",
-                        serverLevel.dimension().location());
-            }
-        }
 
         @SubscribeEvent
         public static void onRegisterCommands(RegisterCommandsEvent event) {
@@ -211,28 +190,18 @@ public final class ForgeCommonEvent {
 
         @SubscribeEvent
         public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
-            if (event.phase == TickEvent.Phase.END &&
-                    event.player.level().getGameTime() % (20*15) == 0) {
-
-                if (ExperienceSystemManager.INSTANCE == null) {
-                    if (event.player.level() instanceof ServerLevel serverLevel) {
-                        ExperienceSystemManager.ensureInitialized(serverLevel);
-                        GTOCore.LOGGER.info("Initialized ExperienceSystemManager during player tick");
-                    }
-                }
-
+            if (event.phase == TickEvent.Phase.END && event.player.level().getGameTime() % (20 * 15) == 0) {
                 if (ExperienceSystemManager.INSTANCE != null && ExperienceSystemManager.INSTANCE.isEnabled()) {
                     UUID playerId = event.player.getUUID();
                     ExperienceSystemManager.INSTANCE.addPlayer(playerId);
                     PlayerData playerData = ExperienceSystemManager.INSTANCE.getPlayerData(playerId);
                     if (playerData != null) {
-                        utilsData.addExperienceAndSendMessage(
+                        UtilsData.addExperienceAndSendMessage(
                                 event.player,
                                 playerData.getHealthExperienceLevel(),
                                 10,
                                 "你获得了10点生命力经验！",
-                                ChatFormatting.RED
-                        );
+                                ChatFormatting.RED);
                     } else {
                         GTOCore.LOGGER.warn("PlayerData is null for player: {}", event.player.getName().getString());
                     }
@@ -248,17 +217,15 @@ public final class ForgeCommonEvent {
                     ExperienceSystemManager.INSTANCE.addPlayer(player.getUUID());
                     PlayerData playerData = ExperienceSystemManager.INSTANCE.getPlayerData(player.getUUID());
                     if (playerData != null) {
-                        utilsData.addExperienceAndSendMessage(player, playerData.getAttackExperienceLevel(), 10, "你获得了10点"+playerData.getHealthExperienceLevel().getName()+"经验！", ChatFormatting.RED);
+                        UtilsData.addExperienceAndSendMessage(player, playerData.getAttackExperienceLevel(), 10, "你获得了10点" + playerData.getHealthExperienceLevel().getName() + "经验！", ChatFormatting.RED);
                     }
                 }
             }
         }
 
-
         public static boolean isMeat(ItemStack item) {
             Set<String> MEAT_KEYWORDS = Set.of(
-                    "porkchop", "beef", "chicken", "mutton", "rabbit", "cod", "salmon","ham"
-            );
+                    "porkchop", "beef", "chicken", "mutton", "rabbit", "cod", "salmon", "ham");
             if (!item.isEdible()) return false;
             String itemName = item.getDescriptionId().toLowerCase();
             for (String keyword : MEAT_KEYWORDS) {

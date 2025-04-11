@@ -1,9 +1,14 @@
-package com.gto.gtocore.api.playerSkill.experienceSub;
+package com.gto.gtocore.api.playerskill.experienceSub;
 
 public abstract class NormalExperienceLevel extends BasicExperienceLevel {
+
     protected BodyExperienceLevel bodyExperienceLevel;
+
     @Override
-    public int getMaxLevel(){return (this.bodyExperienceLevel.level)*2 ;}
+    public int getMaxLevel() {
+        return (this.bodyExperienceLevel.level) << 1;
+    }
+
     public void addExperience(int amount) {
         experience += amount;
         while (experience >= getExperienceForNextLevel() && level < getMaxLevel()) {
@@ -12,9 +17,8 @@ public abstract class NormalExperienceLevel extends BasicExperienceLevel {
         }
     }
 
-    public NormalExperienceLevel(BodyExperienceLevel _bodyExperienceLevel) {
+    protected NormalExperienceLevel(BodyExperienceLevel _bodyExperienceLevel) {
         super();
         this.bodyExperienceLevel = _bodyExperienceLevel;
-
     }
 }

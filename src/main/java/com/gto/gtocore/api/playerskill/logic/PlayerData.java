@@ -1,11 +1,13 @@
-package com.gto.gtocore.api.playerSkill.logic;
+package com.gto.gtocore.api.playerskill.logic;
+
+import com.gto.gtocore.api.playerskill.experienceSub.BasicExperienceLevel;
+import com.gto.gtocore.api.playerskill.experienceSub.BodyExperienceLevel;
+import com.gto.gtocore.api.playerskill.experienceSub.normal.AttackExperienceLevel;
+import com.gto.gtocore.api.playerskill.experienceSub.normal.HealthExperienceLevel;
+import com.gto.gtocore.api.playerskill.utils.UtilsData;
 
 import net.minecraft.nbt.CompoundTag;
-import com.gto.gtocore.api.playerSkill.experienceSub.BasicExperienceLevel;
-import com.gto.gtocore.api.playerSkill.experienceSub.normal.AttackExperienceLevel;
-import com.gto.gtocore.api.playerSkill.experienceSub.BodyExperienceLevel;
-import com.gto.gtocore.api.playerSkill.experienceSub.normal.HealthExperienceLevel;
-import com.gto.gtocore.api.playerSkill.utils.utilsData;
+
 import lombok.Getter;
 
 import java.util.List;
@@ -14,6 +16,7 @@ import java.util.function.Supplier;
 
 @Getter
 public class PlayerData {
+
     private final UUID playerId;
     private final HealthExperienceLevel healthExperienceLevel;
     private final AttackExperienceLevel attackExperienceLevel;
@@ -34,16 +37,18 @@ public class PlayerData {
         attackExperienceLevel.addExperience(amount);
     }
 
-    public void addBodyExperience(int amount) { bodyExperienceLevel.addExperience(amount);}
+    public void addBodyExperience(int amount) {
+        bodyExperienceLevel.addExperience(amount);
+    }
 
     public List<BasicExperienceLevel> getExperienceLevelLists() {
         return List.of(bodyExperienceLevel, healthExperienceLevel, attackExperienceLevel);
     }
 
     public void saveData(CompoundTag nbt) {
-        utilsData.saveExperienceToNbt("bodyExperience", bodyExperienceLevel, nbt);
-        utilsData.saveExperienceToNbt("healthExperienceLevel", healthExperienceLevel, nbt);
-        utilsData.saveExperienceToNbt("attackExperienceLevel", attackExperienceLevel, nbt);
+        UtilsData.saveExperienceToNbt("bodyExperience", bodyExperienceLevel, nbt);
+        UtilsData.saveExperienceToNbt("healthExperienceLevel", healthExperienceLevel, nbt);
+        UtilsData.saveExperienceToNbt("attackExperienceLevel", attackExperienceLevel, nbt);
     }
 
     public void loadData(CompoundTag nbt) {
@@ -52,7 +57,7 @@ public class PlayerData {
         loadExperience(nbt, "attackExperienceLevel", attackExperienceLevel, () -> new AttackExperienceLevel(bodyExperienceLevel));
     }
 
-    private void loadExperience(CompoundTag nbt, String nbtKey, BasicExperienceLevel experienceLevel, Supplier<BasicExperienceLevel> initializer) {
+    private static void loadExperience(CompoundTag nbt, String nbtKey, BasicExperienceLevel experienceLevel, Supplier<BasicExperienceLevel> initializer) {
         if (nbt.contains(nbtKey)) {
             experienceLevel.loadData(nbt.getCompound(nbtKey));
         } else {

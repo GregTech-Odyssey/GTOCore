@@ -205,7 +205,6 @@ public final class LangHandler {
         addENCN("gtocore.player_exp_status.attack_name", "Strength", "肌肉");
         addENCN("gtocore.player_exp_status.open", "ExperienceSystemOpened", "经验系统已开启");
         addENCN("gtocore.player_exp_status.close", "ExperienceSystemClosed", "经验系统已关闭");
-
     }
 
     public static void enInitialize(LanguageProvider provider) {
