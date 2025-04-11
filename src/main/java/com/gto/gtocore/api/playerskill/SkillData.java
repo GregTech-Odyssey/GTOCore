@@ -4,9 +4,11 @@ import com.gto.gtocore.api.playerskill.experiencelevel.BasicExperienceLevel;
 import com.gto.gtocore.api.playerskill.logic.PlayerData;
 
 import java.util.Map;
+import java.util.Set;
 
 public final class SkillData {
     private SkillData() {}
+    public static final Set<String> MEAT_KEYWORDS = Set.of("porkchop", "beef", "chicken", "mutton", "rabbit", "cod", "salmon", "ham");
     public enum SkillType {
         HEALTH, ATTACK, BODY;
         public BasicExperienceLevel getExperienceLevel(PlayerData playerData) {
@@ -18,7 +20,9 @@ public final class SkillData {
             };
         }
     }
-
+    public static class ExperienceIncome {
+        public static final int EAT_MEAT = 10;
+    }
 
     public static class GainExperience {
         public static final int GAP_TICK = 20*60*60;

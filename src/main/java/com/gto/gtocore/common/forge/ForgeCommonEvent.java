@@ -225,15 +225,14 @@ public final class ForgeCommonEvent {
                     ExperienceSystemManager.INSTANCE.addPlayer(player.getUUID());
                     PlayerData playerData = ExperienceSystemManager.INSTANCE.getPlayerData(player.getUUID());
                     if (playerData != null) {
-                        UtilsData.addExperienceAndSendMessage(player, playerData.getAttackExperienceLevel(), 10);
+                        UtilsData.addExperienceAndSendMessage(player, playerData.getAttackExperienceLevel(), SkillData.ExperienceIncome.EAT_MEAT);
                     }
                 }
             }
         }
 
         public static boolean isMeat(ItemStack item) {
-            Set<String> MEAT_KEYWORDS = Set.of(
-                    "porkchop", "beef", "chicken", "mutton", "rabbit", "cod", "salmon", "ham");
+            Set<String> MEAT_KEYWORDS = SkillData.MEAT_KEYWORDS;
             if (!item.isEdible()) return false;
             String itemName = item.getDescriptionId().toLowerCase();
             for (String keyword : MEAT_KEYWORDS) {
