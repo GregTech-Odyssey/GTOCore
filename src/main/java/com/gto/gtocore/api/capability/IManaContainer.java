@@ -1,6 +1,6 @@
 package com.gto.gtocore.api.capability;
 
-import com.gto.gtocore.api.machine.INetMachineInteractor;
+import com.gto.gtocore.api.machine.IIWirelessInteractorMachine;
 import com.gto.gtocore.common.machine.mana.multiblock.ManaDistributorMachine;
 
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
@@ -13,7 +13,7 @@ import net.minecraft.world.level.Level;
 import java.util.Map;
 import java.util.Set;
 
-public interface IManaContainer extends INetMachineInteractor<ManaDistributorMachine> {
+public interface IManaContainer extends IIWirelessInteractorMachine<ManaDistributorMachine> {
 
     @Override
     default Level getLevel() {
