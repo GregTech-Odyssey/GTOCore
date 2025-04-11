@@ -46,6 +46,11 @@ public interface IDistinctRecipeHolder extends IRecipeLogicMachine {
         setCurrentDistinct(null);
         setRecipeId(null);
         var handlers = getCapabilitiesProxy().get(IO.IN);
+        if (handlers == null) {
+            setDistinct(List.of());
+            setIndistinct(List.of());
+            return;
+        }
         List<RecipeHandlerList> distinct = new ObjectArrayList<>();
         List<RecipeHandlerList> indistinct = new ObjectArrayList<>();
         for (var handler : handlers) {

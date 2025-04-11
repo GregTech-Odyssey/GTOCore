@@ -3,7 +3,6 @@ package com.gto.gtocore.integration.jade.provider;
 import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.api.capability.IManaContainer;
 import com.gto.gtocore.api.machine.mana.feature.IManaMachine;
-import com.gto.gtocore.common.machine.mana.multiblock.ManaDistributorMachine;
 
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.integration.jade.provider.CapabilityBlockProvider;
@@ -45,18 +44,10 @@ public final class ManaContainerBlockProvider extends CapabilityBlockProvider<IM
     protected void write(CompoundTag data, IManaContainer capability) {
         data.putLong("Mana", capability.getCurrentMana());
         data.putLong("MaxMana", capability.getMaxMana());
-        ManaDistributorMachine distributor = capability.getNetMachine();
-        if (distributor == null) return;
-        data.putString("pos", Component.translatable(distributor.getDefinition().getDescriptionId()).append("[").append(distributor.getPos().toShortString()).append("]").getString());
     }
 
     @Override
-    protected void addTooltip(CompoundTag capData, ITooltip tooltip, Player player, BlockAccessor block,
-                              BlockEntity blockEntity, IPluginConfig config) {
-        String pos = capData.getString("pos");
-        if (!pos.isEmpty()) {
-            tooltip.add(Component.translatable("gtmthings.machine.wireless_energy_hatch.tooltip.bind", pos));
-        }
+    protected void addTooltip(CompoundTag capData, ITooltip tooltip, Player player, BlockAccessor block, BlockEntity blockEntity, IPluginConfig config) {
         long maxStorage = capData.getLong("MaxMana");
         if (maxStorage == 0) return;
         long stored = capData.getLong("Mana");

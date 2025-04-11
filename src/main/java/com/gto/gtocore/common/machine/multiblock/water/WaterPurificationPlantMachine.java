@@ -1,6 +1,6 @@
 package com.gto.gtocore.common.machine.multiblock.water;
 
-import com.gto.gtocore.api.machine.INetMachineInteractor;
+import com.gto.gtocore.api.machine.IIWirelessInteractorMachine;
 import com.gto.gtocore.api.machine.multiblock.ElectricMultiblockMachine;
 import com.gto.gtocore.api.machine.trait.CustomRecipeLogic;
 import com.gto.gtocore.api.recipe.GTORecipeBuilder;
@@ -60,18 +60,18 @@ public final class WaterPurificationPlantMachine extends ElectricMultiblockMachi
     @Override
     public void onStructureFormed() {
         super.onStructureFormed();
-        INetMachineInteractor.addToNet(NETWORK, this);
+        IIWirelessInteractorMachine.addToNet(NETWORK, this);
     }
 
     @Override
     public void onUnload() {
         super.onUnload();
-        INetMachineInteractor.removeFromNet(NETWORK, this);
+        IIWirelessInteractorMachine.removeFromNet(NETWORK, this);
     }
 
     @Override
     public void onStructureInvalid() {
-        INetMachineInteractor.removeFromNet(NETWORK, this);
+        IIWirelessInteractorMachine.removeFromNet(NETWORK, this);
         for (Map.Entry<WaterPurificationUnitMachine, Boolean> entry : waterPurificationUnitMachineMap.entrySet()) {
             if (entry.getValue()) {
                 entry.getKey().getRecipeLogic().resetRecipeLogic();
