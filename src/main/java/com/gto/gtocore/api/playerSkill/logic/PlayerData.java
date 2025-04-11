@@ -1,6 +1,6 @@
 package com.gto.gtocore.api.playerSkill.logic;
 
-import com.google.gson.JsonObject;
+import net.minecraft.nbt.CompoundTag;
 import com.gto.gtocore.api.playerSkill.experienceSub.BasicExperienceLevel;
 import com.gto.gtocore.api.playerSkill.experienceSub.normal.AttackExperienceLevel;
 import com.gto.gtocore.api.playerSkill.experienceSub.BodyExperienceLevel;
@@ -40,21 +40,21 @@ public class PlayerData {
         return List.of(bodyExperienceLevel, healthExperienceLevel, attackExperienceLevel);
     }
 
-    public void saveData(JsonObject jsonObject) {
-        utilsData.saveExperienceToJson("bodyExperience", bodyExperienceLevel, jsonObject);
-        utilsData.saveExperienceToJson("healthExperienceLevel", healthExperienceLevel, jsonObject);
-        utilsData.saveExperienceToJson("attackExperienceLevel", attackExperienceLevel, jsonObject);
+    public void saveData(CompoundTag nbt) {
+        utilsData.saveExperienceToNbt("bodyExperience", bodyExperienceLevel, nbt);
+        utilsData.saveExperienceToNbt("healthExperienceLevel", healthExperienceLevel, nbt);
+        utilsData.saveExperienceToNbt("attackExperienceLevel", attackExperienceLevel, nbt);
     }
 
-    public void loadData(JsonObject jsonObject) {
-        loadExperience(jsonObject, "bodyExperience", bodyExperienceLevel, BodyExperienceLevel::new);
-        loadExperience(jsonObject, "healthExperienceLevel", healthExperienceLevel, () -> new HealthExperienceLevel(bodyExperienceLevel));
-        loadExperience(jsonObject, "attackExperienceLevel", attackExperienceLevel, () -> new AttackExperienceLevel(bodyExperienceLevel));
+    public void loadData(CompoundTag nbt) {
+        loadExperience(nbt, "bodyExperience", bodyExperienceLevel, BodyExperienceLevel::new);
+        loadExperience(nbt, "healthExperienceLevel", healthExperienceLevel, () -> new HealthExperienceLevel(bodyExperienceLevel));
+        loadExperience(nbt, "attackExperienceLevel", attackExperienceLevel, () -> new AttackExperienceLevel(bodyExperienceLevel));
     }
 
-    private void loadExperience(JsonObject jsonObject, String jsonExperienceKey, BasicExperienceLevel experienceLevel, Supplier<BasicExperienceLevel> initializer) {
-        if (jsonObject.has(jsonExperienceKey)) {
-            experienceLevel.loadData(jsonObject.getAsJsonObject(jsonExperienceKey));
+    private void loadExperience(CompoundTag nbt, String nbtKey, BasicExperienceLevel experienceLevel, Supplier<BasicExperienceLevel> initializer) {
+        if (nbt.contains(nbtKey)) {
+            experienceLevel.loadData(nbt.getCompound(nbtKey));
         } else {
             experienceLevel = initializer.get();
         }

@@ -62,6 +62,7 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.level.BlockEvent;
 import net.minecraftforge.event.level.LevelEvent;
 import net.minecraftforge.event.server.ServerStartedEvent;
+import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.event.server.ServerStoppingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
@@ -182,8 +183,28 @@ public final class ForgeCommonEvent {
 
     public static class ExperienceEventHandler {
         @SubscribeEvent
+        public static void onServerStarting(ServerStartingEvent event) {
+            // 启动服务器时初始化和启用经验系统
+            ServerLevel overworld = event.getServer().getLevel(Level.OVERWORLD);
+            if (overworld != null) {
+                GTOCore.LOGGER.info("Initializing ExperienceSystemManager on server start");
+                ExperienceSystemManager.ensureInitialized(overworld);
+                ExperienceSystemManager.INSTANCE.enableSystem();
+                GTOCore.LOGGER.info("ExperienceSystemManager enabled: {}", ExperienceSystemManager.INSTANCE.isEnabled());
+            }
+        }
+
+        @SubscribeEvent
+        public static void onWorldLoad(LevelEvent.Load event) {
+            if (event.getLevel() instanceof ServerLevel serverLevel) {
+                ExperienceSystemManager.ensureInitialized(serverLevel);
+                GTOCore.LOGGER.info("ExperienceSystemManager checked on world load: {}",
+                        serverLevel.dimension().location());
+            }
+        }
+
+        @SubscribeEvent
         public static void onRegisterCommands(RegisterCommandsEvent event) {
-            // 注册命令
             Administration.register(event.getDispatcher());
             System.out.println("Experience commands registered!");
         }
@@ -191,13 +212,30 @@ public final class ForgeCommonEvent {
         @SubscribeEvent
         public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
             if (event.phase == TickEvent.Phase.END &&
-                    event.player.level().getGameTime() % (20*300) == 0 &&
-                    ExperienceSystemManager.INSTANCE.isEnabled()) {
-                ExperienceSystemManager.INSTANCE.saveAllData();
-                ExperienceSystemManager.INSTANCE.addPlayer(event.player.getUUID());
-                PlayerData playerData = ExperienceSystemManager.INSTANCE.getPlayerData(event.player.getUUID());
-                if (playerData != null) {
-                    utilsData.addExperienceAndSendMessage(event.player, playerData.getHealthExperienceLevel(), 10, "你获得了10点攻击力经验！", ChatFormatting.RED);
+                    event.player.level().getGameTime() % (20*15) == 0) {
+
+                if (ExperienceSystemManager.INSTANCE == null) {
+                    if (event.player.level() instanceof ServerLevel serverLevel) {
+                        ExperienceSystemManager.ensureInitialized(serverLevel);
+                        GTOCore.LOGGER.info("Initialized ExperienceSystemManager during player tick");
+                    }
+                }
+
+                if (ExperienceSystemManager.INSTANCE != null && ExperienceSystemManager.INSTANCE.isEnabled()) {
+                    UUID playerId = event.player.getUUID();
+                    ExperienceSystemManager.INSTANCE.addPlayer(playerId);
+                    PlayerData playerData = ExperienceSystemManager.INSTANCE.getPlayerData(playerId);
+                    if (playerData != null) {
+                        utilsData.addExperienceAndSendMessage(
+                                event.player,
+                                playerData.getHealthExperienceLevel(),
+                                10,
+                                "你获得了10点生命力经验！",
+                                ChatFormatting.RED
+                        );
+                    } else {
+                        GTOCore.LOGGER.warn("PlayerData is null for player: {}", event.player.getName().getString());
+                    }
                 }
             }
         }
@@ -206,28 +244,29 @@ public final class ForgeCommonEvent {
         public static void onPlayerEatFood(LivingEntityUseItemEvent.Finish event) {
             if (ExperienceSystemManager.INSTANCE.isEnabled() && event.getEntity() instanceof Player player) {
                 ItemStack item = event.getItem();
-                // 检查是否是食物且是肉类
                 if (item.isEdible() && isMeat(item)) {
                     ExperienceSystemManager.INSTANCE.addPlayer(player.getUUID());
                     PlayerData playerData = ExperienceSystemManager.INSTANCE.getPlayerData(player.getUUID());
                     if (playerData != null) {
-                        utilsData.addExperienceAndSendMessage(player, playerData.getAttackExperienceLevel(), 10, "你获得了10点攻击力经验！", ChatFormatting.RED);
+                        utilsData.addExperienceAndSendMessage(player, playerData.getAttackExperienceLevel(), 10, "你获得了10点"+playerData.getHealthExperienceLevel().getName()+"经验！", ChatFormatting.RED);
                     }
                 }
             }
         }
 
 
-        private static boolean isMeat(ItemStack item) {
-            // 简单判断是否是肉类食物，你可以根据实际需求修改判断逻辑
+        public static boolean isMeat(ItemStack item) {
+            Set<String> MEAT_KEYWORDS = Set.of(
+                    "porkchop", "beef", "chicken", "mutton", "rabbit", "cod", "salmon","ham"
+            );
+            if (!item.isEdible()) return false;
             String itemName = item.getDescriptionId().toLowerCase();
-            return itemName.contains("porkchop") ||
-                    itemName.contains("beef") ||
-                    itemName.contains("chicken") ||
-                    itemName.contains("mutton") ||
-                    itemName.contains("rabbit") ||
-                    itemName.contains("cod") ||
-                    itemName.contains("salmon");
+            for (String keyword : MEAT_KEYWORDS) {
+                if (itemName.contains(keyword)) {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 

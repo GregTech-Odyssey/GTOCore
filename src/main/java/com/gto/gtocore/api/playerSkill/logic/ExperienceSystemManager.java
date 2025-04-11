@@ -1,23 +1,27 @@
 package com.gto.gtocore.api.playerSkill.logic;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import com.gto.gtocore.GTOCore;
 import lombok.Getter;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.saveddata.SavedData;
+import net.minecraft.world.level.storage.DimensionDataStorage;
+import org.jetbrains.annotations.NotNull;
 
-import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public class ExperienceSystemManager {
-    public static final ExperienceSystemManager INSTANCE = new ExperienceSystemManager();
+public class ExperienceSystemManager extends SavedData {
+    private static final String DATA_NAME = "gto_experience_data";
+    public static volatile  ExperienceSystemManager INSTANCE;
+
     @Getter
     private Map<UUID, Long> LastTimeRecordTable;
     private final Map<UUID, PlayerData> playerDataMap;
     private boolean isEnabled;
-    private static final String DATA_FILE = "experience_data.json"; // 数据文件路径
 
     private ExperienceSystemManager() {
         this.playerDataMap = new HashMap<>();
@@ -25,16 +29,92 @@ public class ExperienceSystemManager {
         this.LastTimeRecordTable = new HashMap<>();
     }
 
+    // 确保初始化，调试检查
+    public static void ensureInitialized(ServerLevel level) {
+        if (INSTANCE == null) {
+            INSTANCE = getOrCreate(level);
+            GTOCore.LOGGER.info("ExperienceSystemManager initialized from level: {}", level.dimension().location());
+        }
+    }
 
+    // 从 NBT 构造
+    private ExperienceSystemManager(CompoundTag nbt, Map<UUID, PlayerData> playerDataMap, Map<UUID, Long> lastTimeRecordTable) {
+        this.playerDataMap = playerDataMap;
+        this.isEnabled = nbt.getBoolean("isEnabled");
+        this.LastTimeRecordTable = lastTimeRecordTable;
+    }
+
+    @Override
+    public @NotNull CompoundTag save(@NotNull CompoundTag nbt) {
+        nbt.putBoolean("isEnabled", isEnabled);
+
+        // 保存 LastTimeRecordTable
+        CompoundTag timeRecordTag = new CompoundTag();
+        for (Map.Entry<UUID, Long> entry : LastTimeRecordTable.entrySet()) {
+            timeRecordTag.putLong(entry.getKey().toString(), entry.getValue());
+        }
+        nbt.put("timeRecords", timeRecordTag);
+
+        // 保存 playerDataMap
+        CompoundTag playersTag = new CompoundTag();
+        for (Map.Entry<UUID, PlayerData> entry : playerDataMap.entrySet()) {
+            CompoundTag playerTag = new CompoundTag();
+            entry.getValue().saveData(playerTag);
+            playersTag.put(entry.getKey().toString(), playerTag);
+        }
+        nbt.put("players", playersTag);
+
+        return nbt;
+    }
+
+    // 从 NBT 加载
+    public static ExperienceSystemManager load(CompoundTag nbt) {
+        Map<UUID, PlayerData> playerDataMap = new HashMap<>();
+        Map<UUID, Long> lastTimeRecordTable = new HashMap<>();
+
+        // 加载 LastTimeRecordTable
+        if (nbt.contains("timeRecords")) {
+            CompoundTag timeRecordTag = nbt.getCompound("timeRecords");
+            for (String key : timeRecordTag.getAllKeys()) {
+                UUID uuid = UUID.fromString(key);
+                lastTimeRecordTable.put(uuid, timeRecordTag.getLong(key));
+            }
+        }
+
+        // 加载 playerDataMap
+        if (nbt.contains("players")) {
+            CompoundTag playersTag = nbt.getCompound("players");
+            for (String key : playersTag.getAllKeys()) {
+                UUID playerId = UUID.fromString(key);
+                PlayerData playerData = new PlayerData(playerId);
+                playerData.loadData(playersTag.getCompound(key));
+                playerDataMap.put(playerId, playerData);
+            }
+        }
+
+        return new ExperienceSystemManager(nbt, playerDataMap, lastTimeRecordTable);
+    }
+
+    // 获取或创建数据
+    public static ExperienceSystemManager getOrCreate(ServerLevel level) {
+        DimensionDataStorage storage = level.getDataStorage();
+        ExperienceSystemManager data = storage.computeIfAbsent(
+                ExperienceSystemManager::load,
+                ExperienceSystemManager::new,
+                DATA_NAME
+        );
+        INSTANCE = data;
+        return data;
+    }
 
     public void enableSystem() {
         isEnabled = true;
-        loadAllData(); // 启用时加载数据
+        setDirty();
     }
 
     public void disableSystem() {
-        saveAllData(); // 关闭时保存数据
         isEnabled = false;
+        setDirty();
     }
 
     public boolean isEnabled() {
@@ -44,11 +124,13 @@ public class ExperienceSystemManager {
     public void addPlayer(UUID playerId) {
         if (isEnabled) {
             playerDataMap.putIfAbsent(playerId, new PlayerData(playerId));
+            setDirty();
         }
     }
 
     public void removePlayer(UUID playerId) {
         playerDataMap.remove(playerId);
+        setDirty();
     }
 
     public PlayerData getPlayerData(UUID playerId) {
@@ -58,64 +140,28 @@ public class ExperienceSystemManager {
     public void addHealthExperience(UUID playerId, int amount) {
         if (isEnabled && playerDataMap.containsKey(playerId)) {
             playerDataMap.get(playerId).addHealthExperience(amount);
+            setDirty();
         }
     }
 
     public void addAttackExperience(UUID playerId, int amount) {
         if (isEnabled && playerDataMap.containsKey(playerId)) {
             playerDataMap.get(playerId).addAttackExperience(amount);
+            setDirty();
         }
     }
 
     public void addBodyExperience(UUID playerId, int amount) {
         if (isEnabled && playerDataMap.containsKey(playerId)) {
             playerDataMap.get(playerId).addBodyExperience(amount);
+            setDirty();
         }
     }
 
-    public void saveAllData() {
-        JsonObject jsonObject = new JsonObject();
-        for (Map.Entry<UUID, PlayerData> entry : playerDataMap.entrySet()) {
-            JsonObject playerDataJson = new JsonObject();
-            entry.getValue().saveData(playerDataJson);
-            jsonObject.add(entry.getKey().toString(), playerDataJson);
-        }
-        writeToFile(jsonObject);
+    // 记录时间数据
+    public void recordTime(UUID playerId, long time) {
+        LastTimeRecordTable.put(playerId, time);
+        setDirty();
     }
 
-    public void loadAllData() {
-        JsonObject jsonObject = readFromFile();
-        if (jsonObject != null) {
-            for (Map.Entry<String, JsonElement> entry : jsonObject.entrySet()) {
-                UUID playerId = UUID.fromString(entry.getKey());
-                PlayerData playerData = new PlayerData(playerId);
-                playerData.loadData(entry.getValue().getAsJsonObject());
-                playerDataMap.put(playerId, playerData);
-            }
-        }
-    }
-
-    private void writeToFile(JsonObject jsonObject) {
-        try (FileWriter writer = new FileWriter(DATA_FILE)) {
-            Gson gson = new Gson();
-            gson.toJson(jsonObject, writer);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private JsonObject readFromFile() {
-        File file = new File(DATA_FILE);
-        if (!file.exists()) {
-            return new JsonObject();
-        }
-
-        try (FileReader reader = new FileReader(file)) {
-            Gson gson = new Gson();
-            return gson.fromJson(reader, JsonObject.class);
-        } catch (IOException e) {
-            GTOCore.LOGGER.error("Failed to read experience data file: {}", e.getMessage());
-            return new JsonObject();
-        }
-    }
 }

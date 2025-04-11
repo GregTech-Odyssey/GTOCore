@@ -3,6 +3,7 @@ package com.gto.gtocore.api.playerSkill.experienceSub.normal;
 import com.google.gson.JsonObject;
 import com.gto.gtocore.api.playerSkill.experienceSub.BodyExperienceLevel;
 import com.gto.gtocore.api.playerSkill.experienceSub.NormalExperienceLevel;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 
 public class HealthExperienceLevel extends NormalExperienceLevel {
@@ -36,14 +37,14 @@ public class HealthExperienceLevel extends NormalExperienceLevel {
     }
 
     @Override
-    public void saveData(JsonObject jsonObject) {
-        jsonObject.addProperty("level", level);
-        jsonObject.addProperty("experience", experience);
+    public void saveData(CompoundTag nbt) {
+        nbt.putInt("level", level);
+        nbt.putInt("experience", experience);
     }
 
     @Override
-    public void loadData(JsonObject jsonObject) {
-        this.level = jsonObject.get("level").getAsInt();
-        this.experience = jsonObject.get("experience").getAsInt();
+    public void loadData(CompoundTag nbt) {
+        this.level = nbt.getInt("level");
+        this.experience = nbt.getInt("experience");
     }
 }

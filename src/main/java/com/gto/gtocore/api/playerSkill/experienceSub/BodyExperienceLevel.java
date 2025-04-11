@@ -1,7 +1,6 @@
 package com.gto.gtocore.api.playerSkill.experienceSub;
 
-import com.google.gson.JsonObject;
-import lombok.Getter;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 
 public class BodyExperienceLevel extends BasicExperienceLevel {
@@ -38,13 +37,16 @@ public class BodyExperienceLevel extends BasicExperienceLevel {
     public int getExperienceForNextLevel() {
         return (int) (100 * Math.pow(1.5, level)); // 示例经验计算
     }
-    public void saveData(JsonObject jsonObject) {
-        jsonObject.addProperty("level", level);
-        jsonObject.addProperty("experience", experience);
+
+    @Override
+    public void saveData(CompoundTag nbt) {
+        nbt.putInt("level", level);
+        nbt.putInt("experience", experience);
     }
 
-    public void loadData(JsonObject jsonObject) {
-        this.level = jsonObject.get("level").getAsInt();
-        this.experience = jsonObject.get("experience").getAsInt();
+    @Override
+    public void loadData(CompoundTag nbt) {
+        this.level = nbt.getInt("level");
+        this.experience = nbt.getInt("experience");
     }
 }

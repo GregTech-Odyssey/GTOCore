@@ -1,12 +1,11 @@
 package com.gto.gtocore.api.playerSkill.experienceSub;
 
-import com.google.gson.JsonObject;
 import net.minecraft.ChatFormatting;
+import net.minecraft.nbt.CompoundTag;
 
 public abstract class BasicExperienceLevel {
     protected int level;
     protected int experience;
-
 
     public BasicExperienceLevel() {
         this.level = 0;
@@ -26,6 +25,6 @@ public abstract class BasicExperienceLevel {
     public abstract String getName();
     public abstract int getExperienceForNextLevel();
     public abstract int getExperience();
-    public abstract void saveData(JsonObject jsonObject);
-    public abstract void loadData(JsonObject jsonObject);
+    public abstract void saveData(CompoundTag nbt);
+    public abstract void loadData(CompoundTag nbt);
 }

@@ -16,7 +16,7 @@ import net.minecraft.world.entity.player.Player;
 import java.util.List;
 
 public class utilsMessage {
-    // 通用框框
+    // 通用框框QaQ
     public static Component buildPlayerExpStatusMessage(Player player, List<BasicExperienceLevel> basicExperienceLevel) {
         MutableComponent message = Component.translatable("gtocore.player_exp_status.header")
                 .withStyle(ChatFormatting.GOLD);
@@ -27,7 +27,7 @@ public class utilsMessage {
                 .append(Component.literal(player.getName().getString())
                         .withStyle(ChatFormatting.AQUA)));
 
-        // 添加每个技能的信息
+        // 添加每个技能的信息List
         for (BasicExperienceLevel skill : basicExperienceLevel) {
             message = message.append(formatSkillInfo(skill));
         }
@@ -66,7 +66,7 @@ public class utilsMessage {
                 .withStyle(ChatFormatting.WHITE)
                 .append(Component.literal(calculateProgressPercentage(basicExperienceLevel) + " % ")
                         .withStyle(ChatFormatting.YELLOW)));
-        if (calculateProgressPercentage(basicExperienceLevel)>=1) skillInfo.append(
+        if (calculateProgressPercentage(basicExperienceLevel)>=100) skillInfo.append(
                 Component.translatable("gtocore.player_exp_status.upgrade_institution")
                         .withStyle(ChatFormatting.RED));
         return skillInfo;
