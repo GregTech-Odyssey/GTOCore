@@ -63,7 +63,7 @@ public interface RecipeRunnerHelper {
 
     static boolean matchRecipeTickInput(IRecipeCapabilityHolder holder, GTRecipe recipe) {
         for (Map.Entry<RecipeCapability<?>, List<Content>> entry : recipe.tickInputs.entrySet()) {
-            if (handleTickRecipe(holder, IO.IN, entry.getValue(), entry.getKey(), true)) {
+            if (handleTickRecipe(holder, IO.IN, recipe, entry.getValue(), entry.getKey(), true)) {
                 return false;
             }
         }
@@ -72,7 +72,7 @@ public interface RecipeRunnerHelper {
 
     static boolean matchRecipeTickOutput(IRecipeCapabilityHolder holder, GTRecipe recipe) {
         for (Map.Entry<RecipeCapability<?>, List<Content>> entry : recipe.tickOutputs.entrySet()) {
-            if (handleTickRecipe(holder, IO.OUT, entry.getValue(), entry.getKey(), true)) {
+            if (handleTickRecipe(holder, IO.OUT, recipe, entry.getValue(), entry.getKey(), true)) {
                 return false;
             }
         }
@@ -98,17 +98,17 @@ public interface RecipeRunnerHelper {
     /**
      * @return 是否失败
      */
-    static boolean handleTickRecipe(IRecipeCapabilityHolder holder, IO io, @Nullable List<Content> contents, RecipeCapability<?> capability) {
-        return handleTickRecipe(holder, io, contents, capability, false);
+    static boolean handleTickRecipe(IRecipeCapabilityHolder holder, IO io, @Nullable GTRecipe recipe, @Nullable List<Content> contents, RecipeCapability<?> capability) {
+        return handleTickRecipe(holder, io, recipe, contents, capability, false);
     }
 
-    private static boolean handleTickRecipe(IRecipeCapabilityHolder holder, IO io, @Nullable List<Content> contents, RecipeCapability<?> capability, boolean simulate) {
+    private static boolean handleTickRecipe(IRecipeCapabilityHolder holder, IO io, @Nullable GTRecipe recipe, @Nullable List<Content> contents, RecipeCapability<?> capability, boolean simulate) {
         if (contents == null || contents.isEmpty()) return false;
         List<IRecipeHandler<?>> handlers = holder.getCapabilitiesFlat(io, capability);
         if (handlers.isEmpty()) return true;
         List<?> contentList = contents.stream().map(Content::getContent).toList();
         for (IRecipeHandler<?> handler : handlers) {
-            contentList = handler.handleRecipeInner(io, null, (List) contentList, simulate);
+            contentList = handler.handleRecipeInner(io, recipe, (List) contentList, simulate);
             if (contentList == null || contentList.isEmpty()) return false;
         }
         return !contentList.isEmpty();

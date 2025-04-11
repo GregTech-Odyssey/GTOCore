@@ -576,12 +576,12 @@ public abstract class RecipeLogicMixin extends MachineTrait implements IEnhanced
     @Unique
     private boolean gtocore$handleTickRecipe(GTRecipe recipe) {
         for (Map.Entry<RecipeCapability<?>, List<Content>> entry : recipe.tickInputs.entrySet()) {
-            if (RecipeRunnerHelper.handleTickRecipe(machine, IO.IN, entry.getValue(), entry.getKey())) {
+            if (RecipeRunnerHelper.handleTickRecipe(machine, IO.IN, recipe, entry.getValue(), entry.getKey())) {
                 return false;
             }
         }
         for (Map.Entry<RecipeCapability<?>, List<Content>> entry : recipe.tickOutputs.entrySet()) {
-            if (RecipeRunnerHelper.handleTickRecipe(machine, IO.OUT, entry.getValue(), entry.getKey())) {
+            if (RecipeRunnerHelper.handleTickRecipe(machine, IO.OUT, recipe, entry.getValue(), entry.getKey())) {
                 return false;
             }
         }
