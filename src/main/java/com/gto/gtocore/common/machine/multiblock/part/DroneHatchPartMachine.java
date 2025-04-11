@@ -126,6 +126,11 @@ public final class DroneHatchPartMachine extends TieredIOPartMachine implements 
         return group;
     }
 
+    @Override
+    public boolean canShared() {
+        return false;
+    }
+
     private static final class DroneItemStackHandler extends CustomItemStackHandler {
 
         private final Drone[] drones;

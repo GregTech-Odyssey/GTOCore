@@ -212,6 +212,11 @@ public class MEPatternBufferPartMachine extends MEBusPartMachine implements ICra
     }
 
     @Override
+    public boolean canShared() {
+        return false;
+    }
+
+    @Override
     public boolean isWorkingEnabled() {
         return true;
     }

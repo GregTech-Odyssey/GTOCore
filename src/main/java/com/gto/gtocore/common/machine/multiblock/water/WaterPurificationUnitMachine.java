@@ -1,6 +1,6 @@
 package com.gto.gtocore.common.machine.multiblock.water;
 
-import com.gto.gtocore.api.machine.INetMachineInteractor;
+import com.gto.gtocore.api.machine.IIWirelessInteractorMachine;
 import com.gto.gtocore.api.machine.multiblock.NoEnergyCustomParallelMultiblockMachine;
 import com.gto.gtocore.api.machine.trait.CustomRecipeLogic;
 import com.gto.gtocore.utils.GTOUtils;
@@ -26,7 +26,7 @@ import java.util.Map;
 import java.util.Set;
 
 @MethodsReturnNonnullByDefault
-abstract class WaterPurificationUnitMachine extends NoEnergyCustomParallelMultiblockMachine implements INetMachineInteractor<WaterPurificationPlantMachine> {
+abstract class WaterPurificationUnitMachine extends NoEnergyCustomParallelMultiblockMachine implements IIWirelessInteractorMachine<WaterPurificationPlantMachine> {
 
     static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
             WaterPurificationUnitMachine.class, NoEnergyCustomParallelMultiblockMachine.MANAGED_FIELD_HOLDER);

@@ -1,6 +1,6 @@
 package com.gto.gtocore.common.machine.multiblock.noenergy;
 
-import com.gto.gtocore.api.machine.INetMachineInteractor;
+import com.gto.gtocore.api.machine.IIWirelessInteractorMachine;
 import com.gto.gtocore.api.machine.multiblock.NoEnergyMultiblockMachine;
 import com.gto.gtocore.api.machine.trait.CustomRecipeLogic;
 import com.gto.gtocore.api.misc.Drone;
@@ -53,20 +53,20 @@ public final class DroneControlCenterMachine extends NoEnergyMultiblockMachine {
     @Override
     public void onStructureFormed() {
         super.onStructureFormed();
-        INetMachineInteractor.addToNet(NETWORK, this);
+        IIWirelessInteractorMachine.addToNet(NETWORK, this);
     }
 
     @Override
     public void onStructureInvalid() {
         super.onStructureInvalid();
         droneHatchPartMachine = null;
-        INetMachineInteractor.removeFromNet(NETWORK, this);
+        IIWirelessInteractorMachine.removeFromNet(NETWORK, this);
     }
 
     @Override
     public void onUnload() {
         super.onUnload();
-        INetMachineInteractor.removeFromNet(NETWORK, this);
+        IIWirelessInteractorMachine.removeFromNet(NETWORK, this);
     }
 
     @Override

@@ -1,6 +1,6 @@
 package com.gto.gtocore.mixin.gtm.machine;
 
-import com.gto.gtocore.api.machine.INetMachineInteractor;
+import com.gto.gtocore.api.machine.IIWirelessInteractorMachine;
 import com.gto.gtocore.api.machine.feature.IAirScrubberInteractor;
 
 import com.gregtechceu.gtceu.api.data.medicalcondition.MedicalCondition;
@@ -23,19 +23,19 @@ public class AirScrubberMachineMixin extends SimpleTieredMachine {
     @Override
     public void afterWorking() {
         super.afterWorking();
-        INetMachineInteractor.removeFromNet(IAirScrubberInteractor.NETWORK, (AirScrubberMachine) (Object) this);
+        IIWirelessInteractorMachine.removeFromNet(IAirScrubberInteractor.NETWORK, (AirScrubberMachine) (Object) this);
     }
 
     @Override
     public void onWaiting() {
         super.onWaiting();
-        INetMachineInteractor.removeFromNet(IAirScrubberInteractor.NETWORK, (AirScrubberMachine) (Object) this);
+        IIWirelessInteractorMachine.removeFromNet(IAirScrubberInteractor.NETWORK, (AirScrubberMachine) (Object) this);
     }
 
     @Override
     public void onUnload() {
         super.onUnload();
-        INetMachineInteractor.removeFromNet(IAirScrubberInteractor.NETWORK, (AirScrubberMachine) (Object) this);
+        IIWirelessInteractorMachine.removeFromNet(IAirScrubberInteractor.NETWORK, (AirScrubberMachine) (Object) this);
     }
 
     @Override
@@ -53,7 +53,7 @@ public class AirScrubberMachineMixin extends SimpleTieredMachine {
     @Overwrite(remap = false)
     public boolean beforeWorking(GTRecipe recipe) {
         if (super.beforeWorking(recipe)) {
-            INetMachineInteractor.addToNet(IAirScrubberInteractor.NETWORK, (AirScrubberMachine) (Object) this);
+            IIWirelessInteractorMachine.addToNet(IAirScrubberInteractor.NETWORK, (AirScrubberMachine) (Object) this);
             return true;
         }
         return false;

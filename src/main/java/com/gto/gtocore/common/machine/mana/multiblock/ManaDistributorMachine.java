@@ -1,7 +1,7 @@
 package com.gto.gtocore.common.machine.mana.multiblock;
 
 import com.gto.gtocore.api.capability.ManaContainerList;
-import com.gto.gtocore.api.machine.INetMachineInteractor;
+import com.gto.gtocore.api.machine.IIWirelessInteractorMachine;
 import com.gto.gtocore.api.machine.mana.feature.IManaMultiblock;
 import com.gto.gtocore.api.machine.mana.trait.ManaTrait;
 import com.gto.gtocore.api.machine.multiblock.NoRecipeLogicMultiblockMachine;
@@ -79,20 +79,20 @@ public final class ManaDistributorMachine extends NoRecipeLogicMultiblockMachine
         super.onStructureFormed();
         if (isRemote()) return;
         centrepos = MachineUtils.getOffsetPos(2, 2, getFrontFacing(), getPos());
-        INetMachineInteractor.addToNet(NETWORK, this);
+        IIWirelessInteractorMachine.addToNet(NETWORK, this);
     }
 
     @Override
     public void onStructureInvalid() {
         centrepos = null;
-        INetMachineInteractor.removeFromNet(NETWORK, this);
+        IIWirelessInteractorMachine.removeFromNet(NETWORK, this);
         super.onStructureInvalid();
     }
 
     @Override
     public void onUnload() {
         super.onUnload();
-        INetMachineInteractor.removeFromNet(NETWORK, this);
+        IIWirelessInteractorMachine.removeFromNet(NETWORK, this);
     }
 
     @Override
