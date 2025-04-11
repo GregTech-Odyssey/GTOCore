@@ -13,7 +13,7 @@ import java.util.UUID;
 
 public class UtilsData {
 
-    private static final long MESSAGE_COOLDOWN = 20;
+    private static final long MESSAGE_COOLDOWN = 0;
 
     public static void saveExperienceToNbt(String key, BasicExperienceLevel experience, CompoundTag nbt) {
         try {
@@ -30,7 +30,7 @@ public class UtilsData {
         UUID playerId = player.getUUID();
         Map<UUID, Long> lastTimeRecordTable = ExperienceSystemManager.INSTANCE.getLastTimeRecordTable();
         long currentTime = System.currentTimeMillis();
-        if (!lastTimeRecordTable.containsKey(playerId) || currentTime - lastTimeRecordTable.get(playerId) > MESSAGE_COOLDOWN) {
+        if (!lastTimeRecordTable.containsKey(playerId) || currentTime - lastTimeRecordTable.get(playerId) >= MESSAGE_COOLDOWN) {
             lastTimeRecordTable.put(playerId, currentTime);
             experienceLevel.addExperience(amount);
             runnable.run();

@@ -4,10 +4,13 @@ import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.api.data.GTODimensions;
 import com.gto.gtocore.api.entity.IEnhancedPlayer;
 import com.gto.gtocore.api.machine.feature.IVacuumMachine;
+import com.gto.gtocore.api.playerskill.SkillData;
 import com.gto.gtocore.api.playerskill.command.Administration;
+import com.gto.gtocore.api.playerskill.experiencelevel.BasicExperienceLevel;
 import com.gto.gtocore.api.playerskill.logic.ExperienceSystemManager;
 import com.gto.gtocore.api.playerskill.logic.PlayerData;
 import com.gto.gtocore.api.playerskill.utils.UtilsData;
+import com.gto.gtocore.api.playerskill.utils.UtilsMessage;
 import com.gto.gtocore.api.recipe.AsyncRecipeOutputTask;
 import com.gto.gtocore.api.recipe.AsyncRecipeSearchTask;
 import com.gto.gtocore.common.CommonCache;
@@ -191,20 +194,22 @@ public final class ForgeCommonEvent {
 
         @SubscribeEvent
         public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
-            if (event.phase == TickEvent.Phase.END && event.player.level().getGameTime() % (20 * 3600) == 0) {
+            Player player = event.player;
+            if (event.phase == TickEvent.Phase.END && player.level().getGameTime() % (SkillData.GainExperience.GAP_TICK) == 0) {
                 if (ExperienceSystemManager.INSTANCE != null
                         && ExperienceSystemManager.INSTANCE.isEnabled()
-                        && event.player.level() instanceof ServerLevel) {
-                    UUID playerId = event.player.getUUID();
+                        && player.level() instanceof ServerLevel) {
+                    UUID playerId = player.getUUID();
                     ExperienceSystemManager.INSTANCE.addPlayer(playerId);
                     PlayerData playerData = ExperienceSystemManager.INSTANCE.getPlayerData(playerId);
                     if (playerData != null) {
-                        UtilsData.addExperienceAndSendMessage(
-                                event.player,
-                                playerData.getHealthExperienceLevel(),
-                                10);
+                        for (SkillData.SkillType type : SkillData.SkillType.values()) {
+                            BasicExperienceLevel level = type.getExperienceLevel(playerData);
+                            Integer point = SkillData.GainExperience.EXPERIENCE_RATES.get(type);
+                            UtilsData.addExperienceAndSendMessage(player, level, point);
+                        }
                     } else {
-                        GTOCore.LOGGER.warn("PlayerData is null for player: {}", event.player.getName().getString());
+                        GTOCore.LOGGER.warn("PlayerData is null for player: {}", player.getName().getString());
                     }
                 }
             }
