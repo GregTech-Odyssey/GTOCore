@@ -12,6 +12,10 @@ import java.util.List;
 
 public interface IDistinctRecipeHolder extends IRecipeLogicMachine {
 
+    default boolean isDistinctState() {
+        return false;
+    }
+
     default ResourceLocation getRecipeId() {
         return null;
     }
@@ -35,6 +39,8 @@ public interface IDistinctRecipeHolder extends IRecipeLogicMachine {
     default void setDistinct(List<RecipeHandlerList> list) {}
 
     default void setIndistinct(List<RecipeHandlerList> list) {}
+
+    default void setDistinctState(boolean distinctState) {}
 
     default void arrangeDistinct() {
         setCurrentDistinct(null);

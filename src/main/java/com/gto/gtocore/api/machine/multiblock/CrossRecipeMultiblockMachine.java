@@ -4,6 +4,7 @@ import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.api.gui.GTOGuiTextures;
 import com.gto.gtocore.api.gui.ParallelConfigurator;
 import com.gto.gtocore.api.machine.feature.IOverclockConfigMachine;
+import com.gto.gtocore.api.machine.feature.multiblock.IDistinctRecipeHolder;
 import com.gto.gtocore.api.machine.feature.multiblock.IMEOutputMachine;
 import com.gto.gtocore.api.machine.feature.multiblock.IParallelMachine;
 import com.gto.gtocore.api.machine.trait.CustomParallelTrait;
@@ -52,7 +53,7 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.function.ToIntFunction;
 
-public class CrossRecipeMultiblockMachine extends ElectricMultiblockMachine implements IParallelMachine, IOverclockConfigMachine {
+public class CrossRecipeMultiblockMachine extends ElectricMultiblockMachine implements IParallelMachine, IOverclockConfigMachine, IDistinctRecipeHolder {
 
     private static final CompoundTag EMPTY_TAG = new CompoundTag();
 
@@ -157,46 +158,40 @@ public class CrossRecipeMultiblockMachine extends ElectricMultiblockMachine impl
     }
 
     private GTRecipe LookupRecipe() {
+        if (lastMatchRecipe != null) {
+            lastparallel = lastParallel;
+            GTRecipe recipe = modifyRecipe(lastMatchRecipe.copy());
+            if (recipe == null) {
+                lastMatchRecipe = null;
+            } else {
+                if (lastParallel != getRealParallel()) {
+                    lastparallel = 1;
+                    lastMatchRecipe = null;
+                }
+                return recipe;
+            }
+        }
         if (getRecipeLogic().gTOCore$isLockRecipe() && originRecipes.size() >= getThread()) {
             for (GTRecipe recipe : originRecipes) {
-                recipe = modifyRecipe(recipe.copy());
-                if (recipe != null) return recipe;
-            }
-        } else {
-            GTRecipe match;
-            if (lastMatchRecipe != null) {
-                lastparallel = lastParallel;
-                match = checkRecipe(lastMatchRecipe);
-                if (match == null) {
-                    lastMatchRecipe = null;
-                } else {
-                    if (lastParallel != getRealParallel()) {
-                        lastparallel = 1;
-                        lastMatchRecipe = null;
-                    }
-                    return match;
+                GTRecipe modify = modifyRecipe(recipe.copy());
+                if (modify != null) {
+                    if (lastParallel == getRealParallel()) lastMatchRecipe = recipe;
+                    return modify;
                 }
             }
+        } else {
             Iterator<GTRecipe> iterator = getRecipeType().searchRecipe(this, recipe -> RecipeRunnerHelper.matchRecipe(this, recipe));
             while (iterator.hasNext()) {
                 GTRecipe recipe = iterator.next();
-                match = checkRecipe(recipe);
-                if (match != null) {
-                    if (lastParallel == getRealParallel()) lastMatchRecipe = recipe;
-                    return match;
-                }
-            }
-        }
-        return null;
-    }
-
-    private GTRecipe checkRecipe(GTRecipe recipe) {
-        if (recipe != null) {
-            if (isRepeatedRecipes() || !lastRecipes.contains(recipe)) {
-                GTRecipe modify = modifyRecipe(recipe.copy());
-                if (modify != null) {
-                    if (getRecipeLogic().gTOCore$isLockRecipe()) originRecipes.add(recipe);
-                    return modify;
+                if (recipe != null) {
+                    if (isRepeatedRecipes() || !lastRecipes.contains(recipe)) {
+                        GTRecipe modify = modifyRecipe(recipe.copy());
+                        if (modify != null) {
+                            if (getRecipeLogic().gTOCore$isLockRecipe()) originRecipes.add(recipe);
+                            if (lastParallel == getRealParallel()) lastMatchRecipe = recipe;
+                            return modify;
+                        }
+                    }
                 }
             }
         }
@@ -206,14 +201,17 @@ public class CrossRecipeMultiblockMachine extends ElectricMultiblockMachine impl
     private GTRecipe modifyRecipe(GTRecipe recipe) {
         int rt = RecipeHelper.getRecipeEUtTier(recipe);
         if (rt <= getMaxOverclockTier() && RecipeRunnerHelper.checkConditions(this, recipe)) {
+            setDistinctState(true);
             recipe.conditions.clear();
             recipe = fullModifyRecipe(recipe);
             if (recipe != null && (recipe.parallels > 1 || RecipeRunnerHelper.matchRecipeInput(this, recipe)) && RecipeRunnerHelper.handleRecipeInput(this, recipe)) {
                 recipe.ocLevel = getTier() - rt;
                 recipe.inputs.clear();
                 lastParallel = recipe.parallels;
+                setDistinctState(false);
                 return recipe;
             }
+            setDistinctState(false);
         }
         return null;
     }

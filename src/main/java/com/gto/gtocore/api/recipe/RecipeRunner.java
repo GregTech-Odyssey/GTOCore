@@ -34,14 +34,13 @@ public final class RecipeRunner {
     private final Map<IO, List<RecipeHandlerList>> capabilityProxies;
     private final boolean simulated;
     private Reference2ObjectOpenHashMap<RecipeCapability<?>, List<Object>> recipeContents;
-    private final Reference2ObjectOpenHashMap<RecipeCapability<?>, List<Object>> searchRecipeContents;
 
     public RecipeRunner(GTRecipe recipe, IO io, boolean isTick, IRecipeCapabilityHolder holder, Map<RecipeCapability<?>, Object2IntMap<?>> chanceCaches, boolean simulated) {
         RecipeHandlerList list = null;
         if (io == IO.IN && holder instanceof IDistinctRecipeHolder recipeHolder && ((IEnhancedRecipeLogic) recipeHolder.getRecipeLogic()).canLockRecipe()) {
             distinctRecipeHolder = recipeHolder;
             if (recipe.id.equals(recipeHolder.getRecipeId())) {
-                if (!simulated) list = recipeHolder.getCurrentDistinct();
+                if (recipeHolder.isDistinctState() || !simulated) list = recipeHolder.getCurrentDistinct();
             } else {
                 recipeHolder.setCurrentDistinct(null);
                 recipeHolder.setRecipeId(recipe.id);
@@ -57,7 +56,6 @@ public final class RecipeRunner {
         this.chanceCaches = chanceCaches;
         this.capabilityProxies = holder.getCapabilitiesProxy();
         this.recipeContents = new Reference2ObjectOpenHashMap<>();
-        this.searchRecipeContents = (simulated || currentDistinc != null) ? recipeContents : new Reference2ObjectOpenHashMap<>();
         this.simulated = simulated;
     }
 
@@ -65,7 +63,7 @@ public final class RecipeRunner {
     public ActionResult handle(Map<RecipeCapability<?>, List<Content>> entries) {
         fillContentMatchList(entries);
 
-        if (searchRecipeContents.isEmpty()) {
+        if (recipeContents.isEmpty()) {
             return ActionResult.PASS_NO_CONTENTS;
         }
 
@@ -82,14 +80,15 @@ public final class RecipeRunner {
             if (entry.getValue().isEmpty()) continue;
             List<Content> chancedContents = new ObjectArrayList<>();
             var contentList = this.recipeContents.computeIfAbsent(cap, c -> new ObjectArrayList<>());
-            var searchContentList = this.searchRecipeContents.computeIfAbsent(cap, c -> new ObjectArrayList<>());
             for (Content cont : entry.getValue()) {
-                if (currentDistinc == null) searchContentList.add(cont.content);
-                if (simulated) continue;
-                if (cont.chance >= cont.maxChance) {
+                if (simulated) {
                     contentList.add(cont.content);
                 } else {
-                    chancedContents.add(cont);
+                    if (cont.chance >= cont.maxChance) {
+                        contentList.add(cont.content);
+                    } else {
+                        chancedContents.add(cont);
+                    }
                 }
             }
             if (!chancedContents.isEmpty()) {
@@ -119,8 +118,10 @@ public final class RecipeRunner {
         if (currentDistinc != null) {
             recipeContents = handleRecipe(currentDistinc, io, recipe, recipeContents, false, false);
             if (recipeContents.isEmpty()) {
+                if (!distinctRecipeHolder.isDistinctState()) distinctRecipeHolder.setCurrentDistinct(null);
                 return ActionResult.SUCCESS;
             } else {
+                distinctRecipeHolder.setCurrentDistinct(null);
                 return ActionResult.FAIL_NO_REASON;
             }
         }
@@ -149,7 +150,7 @@ public final class RecipeRunner {
         }
 
         for (var handler : distinct) {
-            var res = handleRecipe(handler, io, recipe, searchRecipeContents, true, true);
+            var res = handleRecipe(handler, io, recipe, recipeContents, true, true);
             if (res.isEmpty()) {
                 if (!simulated) {
                     recipeContents = handleRecipe(handler, io, recipe, recipeContents, false, false);

@@ -46,6 +46,12 @@ public abstract class WorkableMultiblockMachineMixin extends MultiblockControlle
     @Setter
     @Unique
     @SuppressWarnings("all")
+    private boolean distinctState;
+
+    @Getter
+    @Setter
+    @Unique
+    @SuppressWarnings("all")
     private ResourceLocation recipeId;
 
     @Getter
