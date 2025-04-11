@@ -8,7 +8,7 @@ import static com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlag
 import static com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlags.GENERATE_FOIL;
 import static com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialIconSet.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
-import static com.gto.gtocore.api.data.chemical.material.info.GTOMaterialIconSet.*;
+import static com.gto.gtocore.api.data.chemical.material.info.GTOMaterialIconSet.LIMPID;
 import static com.gto.gtocore.common.data.GTOMaterials.*;
 import static com.gto.gtocore.utils.register.MaterialsRegisterUtils.material;
 

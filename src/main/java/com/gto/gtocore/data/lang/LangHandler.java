@@ -191,6 +191,22 @@ public final class LangHandler {
         addENCN("planet.gtocore.titan", "Titan", "土卫六");
         addENCN("planet.gtocore.titan_orbit", "Titan Orbit", "土卫六轨道");
         addENCN("gui.ad_astra.text.barnarda", "Barnarda", "巴纳德");
+
+        addENCN("gtocore.player_exp_status.header", "========== Player Experience Status ==========", "=========== 玩家经验状态 ===========");
+        addENCN("gtocore.player_exp_status.footer", "\n===========================================", "\n================================");
+        addENCN("gtocore.player_exp_status.player", "\nPlayer: ", "\n玩家: ");
+        addENCN("gtocore.player_exp_status.level", "\n  Level: ", "\n  等级: ");
+        addENCN("gtocore.player_exp_status.level_max", "max", "上限");
+        addENCN("gtocore.player_exp_status.experience", "\n  Experience: ", "\n  经验: ");
+        addENCN("gtocore.player_exp_status.experience_next", " for next level", " 升级");
+        addENCN("gtocore.player_exp_status.progress", "\n  Progress: ", "\n  升级进度: ");
+        addENCN("gtocore.player_exp_status.upgrade_institution", "\n  Enhance Iife Intensity to upgrade", "\n  提升生命强度以升级");
+        addENCN("gtocore.player_exp_status.body_name", "Life Intensity", "生命强度");
+        addENCN("gtocore.player_exp_status.health_name", "Physique", "体格");
+        addENCN("gtocore.player_exp_status.attack_name", "Strength", "肌肉");
+        addENCN("gtocore.player_exp_status.open", "ExperienceSystemOpened", "经验系统已开启");
+        addENCN("gtocore.player_exp_status.close", "ExperienceSystemClosed", "经验系统已关闭");
+        addENCN("gtocore.player_exp_status.get_experience", "you got %s point of %s experience", "你获得了%s点%s经验");
     }
 
     public static void enInitialize(LanguageProvider provider) {
