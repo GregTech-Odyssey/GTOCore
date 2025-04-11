@@ -21,17 +21,27 @@ public abstract class BasicExperienceLevel {
         return 20;
     }
 
-    public abstract void addExperience(int amount);
+    public int getLevel() {
+        return level;
+    }
 
-    public abstract int getLevel();
+    public int getExperience() {
+        return experience;
+    }
+
+    public void saveData(CompoundTag nbt) {
+        nbt.putInt("level", level);
+        nbt.putInt("experience", experience);
+    }
+
+    public void loadData(CompoundTag nbt) {
+        this.level = nbt.getInt("level");
+        this.experience = nbt.getInt("experience");
+    }
+
+    public abstract void addExperience(int amount);
 
     public abstract String getName();
 
     public abstract int getExperienceForNextLevel();
-
-    public abstract int getExperience();
-
-    public abstract void saveData(CompoundTag nbt);
-
-    public abstract void loadData(CompoundTag nbt);
 }

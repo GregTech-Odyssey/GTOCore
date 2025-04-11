@@ -3,7 +3,6 @@ package com.gto.gtocore.api.playerskill.experiencelevel.normal;
 import com.gto.gtocore.api.playerskill.experiencelevel.special.BodyExperienceLevel;
 import com.gto.gtocore.api.playerskill.experiencelevel.NormalExperienceLevel;
 
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 
 public class AttackExperienceLevel extends NormalExperienceLevel {
@@ -15,37 +14,18 @@ public class AttackExperienceLevel extends NormalExperienceLevel {
     }
 
     @Override
-    public int getLevel() {
-        return level;
-    }
-
-    @Override
     public String getName() {
         return Component.translatable("gtocore.player_exp_status.attack_name").getString();
-    }
+  }
 
-    @Override
-    public int getExperience() {
-        return experience;
-    }
+
 
     public int getAttackPower() {
         return BASE_ATTACK_POWER + level; // 每级增加1点攻击力
     }
 
+    @Override
     public int getExperienceForNextLevel() {
         return (int) (100 * Math.pow(1.5, level)); // 示例经验计算
-    }
-
-    @Override
-    public void saveData(CompoundTag nbt) {
-        nbt.putInt("level", level);
-        nbt.putInt("experience", experience);
-    }
-
-    @Override
-    public void loadData(CompoundTag nbt) {
-        this.level = nbt.getInt("level");
-        this.experience = nbt.getInt("experience");
     }
 }

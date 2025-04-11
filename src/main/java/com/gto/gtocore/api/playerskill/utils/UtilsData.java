@@ -3,7 +3,6 @@ package com.gto.gtocore.api.playerskill.utils;
 import com.gto.gtocore.api.playerskill.experiencelevel.BasicExperienceLevel;
 import com.gto.gtocore.api.playerskill.logic.ExperienceSystemManager;
 
-import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
@@ -41,7 +40,6 @@ public class UtilsData {
     }
 
     public static void addExperienceAndSendMessage(Player player, BasicExperienceLevel experienceLevel, int amount) {
-        ChatFormatting nameColor = experienceLevel.getNameColor();
         Component message = Component.translatable("gtocore.player_exp_status.get_experience", amount,experienceLevel.getName()).withStyle(experienceLevel.getNameColor());
         addExperienceAndSendMessage(
                 player,
