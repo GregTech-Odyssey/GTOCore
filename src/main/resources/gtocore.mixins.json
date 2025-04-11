@@ -45,6 +45,7 @@
         "apotheosis.AdventureModuleMixin",
         "apotheosis.ApotheosisMixin",
         "apotheosis.CapturingEnchantMixin",
+        "apotheosis.EarthsBoonEnchantMixin",
         "apotheosis.LootCategoryMixin",
         "avaritia.AbilityHandlerMixin",
         "avaritia.InternalRecipeHandlerMixin",

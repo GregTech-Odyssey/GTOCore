@@ -4,7 +4,10 @@ import com.gto.gtocore.api.data.tag.GTOTagPrefix;
 import com.gto.gtocore.common.data.GTOMaterials;
 
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
+import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
+
+import net.minecraft.world.item.Items;
 
 import static com.gto.gtocore.common.data.GTORecipeTypes.MANA_CONDENSER_RECIPES;
 
@@ -204,6 +207,94 @@ interface ManaCondenser {
                 .inputFluids(GTOMaterials.Elementium, 288)
                 .duration(200)
                 .MANAt(256)
+                .save();
+
+        MANA_CONDENSER_RECIPES.builder("black_eye")
+                .inputItems(GTItems.QUANTUM_EYE.asStack())
+                .inputItems(Items.SCULK_CATALYST.asItem())
+                .outputItems("endrem:black_eye")
+                .duration(200)
+                .MANAt(128)
+                .save();
+
+        MANA_CONDENSER_RECIPES.builder("cold_eye")
+                .inputItems(GTItems.QUANTUM_EYE.asStack())
+                .inputItems("ad_astra:ice_shard")
+                .outputItems("endrem:cold_eye")
+                .duration(200)
+                .MANAt(128)
+                .save();
+
+        MANA_CONDENSER_RECIPES.builder("corrupted_eye")
+                .inputItems(GTItems.QUANTUM_EYE.asStack())
+                .inputItems("enderio:plant_matter_brown")
+                .outputItems("endrem:corrupted_eye")
+                .duration(200)
+                .MANAt(128)
+                .save();
+
+        MANA_CONDENSER_RECIPES.builder("lost_eye")
+                .inputItems(GTItems.QUANTUM_EYE.asStack())
+                .inputItems("enderio:redstone_alloy_grinding_ball")
+                .outputItems("endrem:lost_eye")
+                .duration(200)
+                .MANAt(128)
+                .save();
+
+        MANA_CONDENSER_RECIPES.builder("nether_eye")
+                .inputItems(GTItems.QUANTUM_EYE.asStack())
+                .inputItems("botania:quartz_blaze")
+                .outputItems("endrem:nether_eye")
+                .duration(200)
+                .MANAt(128)
+                .save();
+
+        MANA_CONDENSER_RECIPES.builder("old_eye")
+                .inputItems(GTItems.QUANTUM_EYE.asStack())
+                .inputItems("botania:forest_eye")
+                .outputItems("endrem:old_eye")
+                .duration(200)
+                .MANAt(128)
+                .save();
+
+        MANA_CONDENSER_RECIPES.builder("rogue_eye")
+                .inputItems(GTItems.QUANTUM_EYE.asStack())
+                .inputItems("botania:redstone_root")
+                .outputItems("endrem:rogue_eye")
+                .duration(200)
+                .MANAt(128)
+                .save();
+
+        MANA_CONDENSER_RECIPES.builder("cursed_eye")
+                .inputItems(GTItems.QUANTUM_EYE.asStack())
+                .inputItems("botania:life_essence")
+                .outputItems("endrem:cursed_eye")
+                .duration(200)
+                .MANAt(128)
+                .save();
+
+        MANA_CONDENSER_RECIPES.builder("guardian_eye")
+                .inputItems(GTItems.QUANTUM_EYE.asStack())
+                .inputItems(Items.PRISMARINE_CRYSTALS.asItem())
+                .outputItems("endrem:guardian_eye")
+                .duration(200)
+                .MANAt(128)
+                .save();
+
+        MANA_CONDENSER_RECIPES.builder("magical_eye")
+                .inputItems(GTItems.QUANTUM_EYE.asStack())
+                .inputItems("botania:mana_bottle")
+                .outputItems("endrem:magical_eye")
+                .duration(200)
+                .MANAt(128)
+                .save();
+
+        MANA_CONDENSER_RECIPES.builder("wither_eye")
+                .inputItems(GTItems.QUANTUM_EYE.asStack())
+                .inputItems("enderio:withering_powder")
+                .outputItems("endrem:wither_eye")
+                .duration(200)
+                .MANAt(128)
                 .save();
     }
 }

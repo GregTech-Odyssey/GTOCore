@@ -37,7 +37,7 @@ import static com.gto.gtocore.api.data.GTOWorldGenLayers.ALL_LAYER;
 public interface GTOOres {
 
     Map<ResourceLocation, MaterialSelector> RANDOM_ORES = new Object2ObjectOpenHashMap<>();
-    Map<ResourceKey<Level>, Map<Material, Integer>> ALL_ORES = new Object2ObjectOpenHashMap<>();
+    Map<ResourceKey<Level>, Object2IntOpenHashMap<Material>> ALL_ORES = new Object2ObjectOpenHashMap<>();
     Map<ResourceLocation, BedrockOre> BEDROCK_ORES = new Object2ObjectOpenHashMap<>();
     Map<ResourceLocation, BedrockOreDefinition> BEDROCK_ORES_DEFINITION = new Object2ObjectOpenHashMap<>();
 
@@ -781,8 +781,8 @@ public interface GTOOres {
             }
         }
         for (ResourceKey<Level> dimension : definition.dimensionFilter()) {
-            Map<Material, Integer> materialIntegerMap = ALL_ORES.computeIfAbsent(dimension, k -> new Object2IntOpenHashMap<>());
-            materialMap.forEach((material, amount) -> materialIntegerMap.merge(material, amount, Math::max));
+            Object2IntOpenHashMap<Material> materialIntegerMap = ALL_ORES.computeIfAbsent(dimension, k -> new Object2IntOpenHashMap<>());
+            materialMap.forEach((material, amount) -> materialIntegerMap.mergeInt(material, amount, Math::max));
             ALL_ORES.put(dimension, materialIntegerMap);
         }
         BEDROCK_ORES.put(id, new BedrockOre(definition.dimensionFilter(), definition.weight(), materials));
@@ -791,9 +791,9 @@ public interface GTOOres {
 
     record BedrockOre(Set<ResourceKey<Level>> dimensions, int weight, List<Pair<Material, Integer>> materials) {}
 
-    static Material selectMaterial(ResourceLocation level) {
-        MaterialSelector selector = RANDOM_ORES.computeIfAbsent(level, k -> {
-            Map<Material, Integer> ores = ALL_ORES.get(GTODimensions.getDimensionKey(k));
+    static Material selectMaterial(ResourceLocation dimension) {
+        MaterialSelector selector = RANDOM_ORES.computeIfAbsent(dimension, k -> {
+            Object2IntOpenHashMap<Material> ores = ALL_ORES.get(GTODimensions.getDimensionKey(k));
             if (ores == null) return null;
             return new MaterialSelector(ores);
         });
@@ -807,7 +807,7 @@ public interface GTOOres {
         private final List<Integer> cumulativeWeights;
         private int totalWeight;
 
-        private MaterialSelector(Map<Material, Integer> materials) {
+        private MaterialSelector(Object2IntOpenHashMap<Material> materials) {
             this.materialList = new ArrayList<>(materials.keySet());
             this.cumulativeWeights = new ArrayList<>();
             this.totalWeight = 0;
