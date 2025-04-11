@@ -1,4 +1,4 @@
-package com.gto.gtocore.api.playerskill.experienceSub;
+package com.gto.gtocore.api.playerskill.experiencelevel;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
@@ -13,7 +13,7 @@ public abstract class BasicExperienceLevel {
         this.experience = 0;
     }
 
-    public static ChatFormatting getNameColor() {
+    public ChatFormatting getNameColor() {
         return ChatFormatting.GOLD;
     }
 

@@ -1,9 +1,9 @@
 package com.gto.gtocore.api.playerskill.logic;
 
-import com.gto.gtocore.api.playerskill.experienceSub.BasicExperienceLevel;
-import com.gto.gtocore.api.playerskill.experienceSub.BodyExperienceLevel;
-import com.gto.gtocore.api.playerskill.experienceSub.normal.AttackExperienceLevel;
-import com.gto.gtocore.api.playerskill.experienceSub.normal.HealthExperienceLevel;
+import com.gto.gtocore.api.playerskill.experiencelevel.BasicExperienceLevel;
+import com.gto.gtocore.api.playerskill.experiencelevel.special.BodyExperienceLevel;
+import com.gto.gtocore.api.playerskill.experiencelevel.normal.AttackExperienceLevel;
+import com.gto.gtocore.api.playerskill.experiencelevel.normal.HealthExperienceLevel;
 import com.gto.gtocore.api.playerskill.utils.UtilsData;
 
 import net.minecraft.nbt.CompoundTag;

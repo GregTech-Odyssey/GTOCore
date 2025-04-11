@@ -1,7 +1,7 @@
-package com.gto.gtocore.api.playerskill.experienceSub.normal;
+package com.gto.gtocore.api.playerskill.experiencelevel.normal;
 
-import com.gto.gtocore.api.playerskill.experienceSub.BodyExperienceLevel;
-import com.gto.gtocore.api.playerskill.experienceSub.NormalExperienceLevel;
+import com.gto.gtocore.api.playerskill.experiencelevel.special.BodyExperienceLevel;
+import com.gto.gtocore.api.playerskill.experiencelevel.NormalExperienceLevel;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;

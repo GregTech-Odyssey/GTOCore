@@ -15,8 +15,6 @@ import java.util.Map;
 import java.util.UUID;
 
 public class ExperienceSystemManager extends SavedData {
-
-    private static final String DATA_NAME = "gto_experience_data";
     public static volatile ExperienceSystemManager INSTANCE;
 
     @Getter
@@ -24,7 +22,7 @@ public class ExperienceSystemManager extends SavedData {
     private final Map<UUID, PlayerData> playerDataMap;
     private boolean isEnabled;
 
-    private ExperienceSystemManager() {
+    public ExperienceSystemManager() {
         this.playerDataMap = new Object2ObjectOpenHashMap<>();
         this.isEnabled = false; // 默认关闭
         this.LastTimeRecordTable = new Object2LongOpenHashMap<>();
@@ -90,13 +88,11 @@ public class ExperienceSystemManager extends SavedData {
 
     // 获取或创建数据
     public static ExperienceSystemManager getOrCreate(ServerLevel level) {
-        DimensionDataStorage storage = level.getDataStorage();
-        ExperienceSystemManager data = storage.computeIfAbsent(
+        INSTANCE = level.getDataStorage().computeIfAbsent(
                 ExperienceSystemManager::load,
                 ExperienceSystemManager::new,
-                DATA_NAME);
-        INSTANCE = data;
-        return data;
+                "gto_experience_data");
+        return INSTANCE;
     }
 
     public void enableSystem() {

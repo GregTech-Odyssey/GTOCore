@@ -1,6 +1,6 @@
 package com.gto.gtocore.api.playerskill.utils;
 
-import com.gto.gtocore.api.playerskill.experienceSub.BasicExperienceLevel;
+import com.gto.gtocore.api.playerskill.experiencelevel.BasicExperienceLevel;
 import com.gto.gtocore.api.playerskill.logic.ExperienceSystemManager;
 
 import net.minecraft.ChatFormatting;
@@ -25,7 +25,7 @@ public class UtilsData {
         }
     }
 
-    public static void addExperienceAndSendMessage(Player player, BasicExperienceLevel experienceLevel, int amount, String message, ChatFormatting color) {
+    public static void addExperience(Player player, BasicExperienceLevel experienceLevel, int amount, Runnable runnable) {
         if (!ExperienceSystemManager.INSTANCE.isEnabled()) return;
         UUID playerId = player.getUUID();
         Map<UUID, Long> lastTimeRecordTable = ExperienceSystemManager.INSTANCE.getLastTimeRecordTable();
@@ -33,7 +33,20 @@ public class UtilsData {
         if (!lastTimeRecordTable.containsKey(playerId) || currentTime - lastTimeRecordTable.get(playerId) > MESSAGE_COOLDOWN) {
             lastTimeRecordTable.put(playerId, currentTime);
             experienceLevel.addExperience(amount);
-            player.sendSystemMessage(Component.literal(message).withStyle(color));
+            runnable.run();
         }
+    }
+    public static void addExperienceAndSendMessage(Player player, BasicExperienceLevel experienceLevel, int amount, Component message) {
+        addExperience(player, experienceLevel, amount, () -> {player.sendSystemMessage(message);});
+    }
+
+    public static void addExperienceAndSendMessage(Player player, BasicExperienceLevel experienceLevel, int amount) {
+        ChatFormatting nameColor = experienceLevel.getNameColor();
+        Component message = Component.translatable("gtocore.player_exp_status.get_experience", amount,experienceLevel.getName()).withStyle(experienceLevel.getNameColor());
+        addExperienceAndSendMessage(
+                player,
+                experienceLevel,
+                amount,
+                message);
     }
 }

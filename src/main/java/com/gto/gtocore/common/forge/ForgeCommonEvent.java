@@ -70,6 +70,8 @@ import com.hepdd.gtmthings.data.WirelessEnergySavaedData;
 
 import java.util.*;
 
+import static com.gregtechceu.gtceu.integration.map.cache.server.ServerCacheSavedData.DATA_NAME;
+
 public final class ForgeCommonEvent {
 
     public static class FoodHurtAnimalLogic {
@@ -181,17 +183,18 @@ public final class ForgeCommonEvent {
     }
 
     public static class ExperienceEventHandler {
-
         @SubscribeEvent
         public static void onRegisterCommands(RegisterCommandsEvent event) {
             Administration.register(event.getDispatcher());
-            System.out.println("Experience commands registered!");
+//            System.out.println("Experience commands registered!");
         }
 
         @SubscribeEvent
         public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
-            if (event.phase == TickEvent.Phase.END && event.player.level().getGameTime() % (20 * 15) == 0) {
-                if (ExperienceSystemManager.INSTANCE != null && ExperienceSystemManager.INSTANCE.isEnabled()) {
+            if (event.phase == TickEvent.Phase.END && event.player.level().getGameTime() % (20 * 3600) == 0) {
+                if (ExperienceSystemManager.INSTANCE != null
+                        && ExperienceSystemManager.INSTANCE.isEnabled()
+                        && event.player.level() instanceof ServerLevel) {
                     UUID playerId = event.player.getUUID();
                     ExperienceSystemManager.INSTANCE.addPlayer(playerId);
                     PlayerData playerData = ExperienceSystemManager.INSTANCE.getPlayerData(playerId);
@@ -199,9 +202,7 @@ public final class ForgeCommonEvent {
                         UtilsData.addExperienceAndSendMessage(
                                 event.player,
                                 playerData.getHealthExperienceLevel(),
-                                10,
-                                "你获得了10点生命力经验！",
-                                ChatFormatting.RED);
+                                10);
                     } else {
                         GTOCore.LOGGER.warn("PlayerData is null for player: {}", event.player.getName().getString());
                     }
@@ -211,13 +212,15 @@ public final class ForgeCommonEvent {
 
         @SubscribeEvent
         public static void onPlayerEatFood(LivingEntityUseItemEvent.Finish event) {
-            if (ExperienceSystemManager.INSTANCE.isEnabled() && event.getEntity() instanceof Player player) {
+            if (ExperienceSystemManager.INSTANCE.isEnabled()
+                    && event.getEntity() instanceof Player player
+                    && player.level() instanceof ServerLevel) {
                 ItemStack item = event.getItem();
                 if (item.isEdible() && isMeat(item)) {
                     ExperienceSystemManager.INSTANCE.addPlayer(player.getUUID());
                     PlayerData playerData = ExperienceSystemManager.INSTANCE.getPlayerData(player.getUUID());
                     if (playerData != null) {
-                        UtilsData.addExperienceAndSendMessage(player, playerData.getAttackExperienceLevel(), 10, "你获得了10点" + playerData.getHealthExperienceLevel().getName() + "经验！", ChatFormatting.RED);
+                        UtilsData.addExperienceAndSendMessage(player, playerData.getAttackExperienceLevel(), 10);
                     }
                 }
             }
@@ -402,6 +405,7 @@ public final class ForgeCommonEvent {
             WirelessEnergySavaedData.INSTANCE = serverLevel.getDataStorage().computeIfAbsent(ExtendWirelessEnergySavaedData::new, ExtendWirelessEnergySavaedData::new, "wireless_energy_data");
             CommonSavaedData.INSTANCE = serverLevel.getDataStorage().computeIfAbsent(CommonSavaedData::new, CommonSavaedData::new, "common_data");
             RecipeRunLimitSavaedData.INSTANCE = serverLevel.getDataStorage().computeIfAbsent(RecipeRunLimitSavaedData::new, RecipeRunLimitSavaedData::new, " recipe_run_limit_data");
+            ExperienceSystemManager.INSTANCE = level.getDataStorage().computeIfAbsent(ExperienceSystemManager::load, ExperienceSystemManager::new, "gto_experience_data");
             if (GTOConfig.INSTANCE.selfRestraint) ServerUtils.getPersistentData().putBoolean("srm", true);
             CommonCache.initialized = true;
         }

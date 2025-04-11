@@ -1,5 +1,6 @@
-package com.gto.gtocore.api.playerskill.experienceSub;
+package com.gto.gtocore.api.playerskill.experiencelevel.special;
 
+import com.gto.gtocore.api.playerskill.experiencelevel.BasicExperienceLevel;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 

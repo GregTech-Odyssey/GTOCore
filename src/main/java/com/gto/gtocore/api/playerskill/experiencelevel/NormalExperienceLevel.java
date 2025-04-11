@@ -1,4 +1,6 @@
-package com.gto.gtocore.api.playerskill.experienceSub;
+package com.gto.gtocore.api.playerskill.experiencelevel;
+
+import com.gto.gtocore.api.playerskill.experiencelevel.special.BodyExperienceLevel;
 
 public abstract class NormalExperienceLevel extends BasicExperienceLevel {
 

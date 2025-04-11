@@ -1,6 +1,6 @@
 package com.gto.gtocore.api.playerskill.utils;
 
-import com.gto.gtocore.api.playerskill.experienceSub.BasicExperienceLevel;
+import com.gto.gtocore.api.playerskill.experiencelevel.BasicExperienceLevel;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -38,7 +38,7 @@ public class UtilsMessage {
     private static MutableComponent formatSkillInfo(BasicExperienceLevel basicExperienceLevel) {
         MutableComponent skillInfo = Component.literal("\n\n")
                 .append(Component.literal(basicExperienceLevel.getName() + ":")
-                        .withStyle(BasicExperienceLevel.getNameColor()));
+                        .withStyle(basicExperienceLevel.getNameColor()));
 
         // 添加等级信息
         skillInfo = skillInfo.append(Component.translatable("gtocore.player_exp_status.level")
