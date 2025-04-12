@@ -1920,6 +1920,8 @@
   "gtocore.recipe.grindball": "研磨球材質：%s",
   "gtocore.recipe.heat.temperature": "需要外部熱源：%s K",
   "gtocore.recipe.law_cleanroom.display_name": "絕對超淨間",
+  "gtocore.recipe.mana_consumption": "魔力消耗",
+  "gtocore.recipe.mana_production": "魔力產齣",
   "gtocore.recipe.nano_forge_tier": "納米鍛爐等級：%s",
   "gtocore.recipe.radioactivity": "輻射劑量：%s Sv",
   "gtocore.recipe.restricted_machine": "只能運行在：%s",
