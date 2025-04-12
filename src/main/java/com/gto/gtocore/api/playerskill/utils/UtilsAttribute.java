@@ -26,13 +26,11 @@ public class UtilsAttribute {
     }
 
     public static void removeAllGTOCoreModifiers(Player player) {
-        player.getAttributes().getSyncableAttributes().forEach(attribute ->
-            attribute.getModifiers().stream()
-                    .filter(modifier -> modifier.getName().contains("gtocore.exp"))
-                    .map(AttributeModifier::getId)
-                    .toList()
-                    .forEach(attribute::removeModifier)
-        );
+        player.getAttributes().getSyncableAttributes().forEach(attribute -> attribute.getModifiers().stream()
+                .filter(modifier -> modifier.getName().contains("gtocore.exp"))
+                .map(AttributeModifier::getId)
+                .toList()
+                .forEach(attribute::removeModifier));
     }
 
     public static void freshApplyModifiers(Player player) {
@@ -43,8 +41,6 @@ public class UtilsAttribute {
 
         UUID playerId = player.getUUID();
         PlayerData playerData = ExperienceSystemManager.INSTANCE.getPlayerData(playerId);
-        playerData.getExperienceLevelLists().forEach(level ->
-            UtilsAttribute.applyModifiers(player, level)
-        );
+        playerData.getExperienceLevelLists().forEach(level -> UtilsAttribute.applyModifiers(player, level));
     }
 }
