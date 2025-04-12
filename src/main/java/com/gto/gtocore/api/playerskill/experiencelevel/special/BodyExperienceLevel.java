@@ -18,6 +18,11 @@ public class BodyExperienceLevel extends BasicExperienceLevel {
         this.level = 1;
     }
 
+    @Override
+    public ATTRIBUTE_RECORD[] getAttributeModifiers() {
+        return new ATTRIBUTE_RECORD[] {};
+    }
+
     public void addExperience(int amount) {
         experience += amount;
         while (experience >= getExperienceForNextLevel()) {

@@ -5,6 +5,7 @@ import com.gto.gtocore.api.playerskill.command.Administration;
 import com.gto.gtocore.api.playerskill.data.ExperienceSystemManager;
 import com.gto.gtocore.api.playerskill.data.PlayerData;
 import com.gto.gtocore.api.playerskill.experiencelevel.BasicExperienceLevel;
+import com.gto.gtocore.api.playerskill.utils.UtilsAttribute;
 import com.gto.gtocore.api.playerskill.utils.UtilsData;
 import com.gto.gtocore.utils.ItemUtils;
 
@@ -13,8 +14,12 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+
+import java.util.Objects;
 
 public class ExperienceEventHandler {
 
@@ -46,6 +51,61 @@ public class ExperienceEventHandler {
                 PlayerData playerData = ExperienceSystemManager.INSTANCE.getPlayerData(player.getUUID());
                 UtilsData.addExperienceAndSendMessage(player, playerData.getAttackExperienceLevel(), SkillData.ExperienceIncome.EAT_MEAT);
             }
+        }
+    }
+
+    /**
+     * 当玩家加入世界时应用属性
+     */
+    @SubscribeEvent
+    public static void onPlayerJoin(EntityJoinLevelEvent event) {
+        if (event.getEntity() instanceof Player player && !player.level().isClientSide) {
+            // 延迟一tick应用属性，确保玩家数据已加载
+            Objects.requireNonNull(player.level().getServer()).tell(new net.minecraft.server.TickTask(0, () -> {
+                UtilsAttribute.freshApplyModifiers(player);
+            }));
+        }
+    }
+
+    /**
+     * 当玩家从复制品加载时应用属性
+     */
+    @SubscribeEvent
+    public static void onPlayerClone(PlayerEvent.Clone event) {
+        Player player = event.getEntity();
+        if (!player.level().isClientSide) {
+            // 延迟一tick应用属性，确保玩家数据已加载
+            Objects.requireNonNull(player.level().getServer()).tell(new net.minecraft.server.TickTask(0, () -> {
+                UtilsAttribute.freshApplyModifiers(player);
+            }));
+        }
+    }
+
+    /**
+     * 当玩家重生时应用属性
+     */
+    @SubscribeEvent
+    public static void onPlayerRespawn(PlayerEvent.PlayerRespawnEvent event) {
+        Player player = event.getEntity();
+        if (!player.level().isClientSide) {
+            // 延迟一tick应用属性，确保玩家数据已加载
+            Objects.requireNonNull(player.level().getServer()).tell(new net.minecraft.server.TickTask(0, () -> {
+                UtilsAttribute.freshApplyModifiers(player);
+            }));
+        }
+    }
+
+    /**
+     * 当玩家从另一个维度切换时应用属性
+     */
+    @SubscribeEvent
+    public static void onPlayerChangeDimension(PlayerEvent.PlayerChangedDimensionEvent event) {
+        Player player = event.getEntity();
+        if (!player.level().isClientSide) {
+            // 延迟一tick应用属性，确保玩家数据已加载
+            Objects.requireNonNull(player.level().getServer()).tell(new net.minecraft.server.TickTask(0, () -> {
+                UtilsAttribute.freshApplyModifiers(player);
+            }));
         }
     }
 

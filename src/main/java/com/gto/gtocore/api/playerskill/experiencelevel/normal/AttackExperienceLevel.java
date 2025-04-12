@@ -4,22 +4,29 @@ import com.gto.gtocore.api.playerskill.experiencelevel.NormalExperienceLevel;
 import com.gto.gtocore.api.playerskill.experiencelevel.special.BodyExperienceLevel;
 
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+
+import java.util.UUID;
 
 public class AttackExperienceLevel extends NormalExperienceLevel {
-
-    private static final int BASE_ATTACK_POWER = 4; // 基础攻击力
 
     public AttackExperienceLevel(BodyExperienceLevel _bodyExperienceLevel) {
         super(_bodyExperienceLevel);
     }
 
     @Override
-    public String getName() {
-        return Component.translatable("gtocore.player_exp_status.attack_name").getString();
+    public ATTRIBUTE_RECORD[] getAttributeModifiers() {
+        return new ATTRIBUTE_RECORD[] {
+                new ATTRIBUTE_RECORD(Attributes.ATTACK_DAMAGE,
+                        "gtocore.attack_attack_bonus", // level_attribute_bonus
+                        UUID.fromString("d9c9b8f0-5a9e-11ee-8c99-0242ac120002"),
+                        (expLevel) -> expLevel.getLevel() << 1)
+        };
     }
 
-    public int getAttackPower() {
-        return BASE_ATTACK_POWER + level; // 每级增加1点攻击力
+    @Override
+    public String getName() {
+        return Component.translatable("gtocore.player_exp_status.attack_name").getString();
     }
 
     @Override
