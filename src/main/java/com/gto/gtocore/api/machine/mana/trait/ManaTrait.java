@@ -80,6 +80,7 @@ public class ManaTrait extends MultiblockTrait {
     public void customText(@NotNull List<Component> textList) {
         super.customText(textList);
         textList.add(Component.translatable("gtocore.machine.mana_stored", manaContainers.getCurrentMana() + " / " + manaContainers.getMaxMana()));
-        textList.add(Component.translatable("gtocore.machine.mana_consumption", manaContainers.getMaxConsumption() + " /t"));
+        String transKey = ((IManaMultiblock) machine).isGeneratorMana() ? "gtocore.machine.mana_production" : "gtocore.machine.mana_consumption";
+        textList.add(Component.translatable(transKey, manaContainers.getMaxIORate() + " /t"));
     }
 }

@@ -99,7 +99,8 @@ final class MachineLang {
         addENCN("gtocore.machine.steam.tooltip.1", "default can process &s-Tier recipes and below, processing time is 1.5 times", "默认支持%s等级及以下的配方处理，耗时为基础的1.5倍");
         addENCN("gtocore.machine.steam.tooltip.2", "After installing a large steam input hatch, upgrade one recipe tier and unlock the overclocking function", "安装大型蒸汽输入仓后提升一个配方等级，并解锁超频功能");
         addENCN("gtocore.machine.mana_stored", "Total Mana: %s", "魔力总量：%s");
-        addENCN("gtocore.machine.mana_consumption", "Max Mana IO Rate: %s", "最大魔力IO速率：%s");
+        addENCN("gtocore.machine.mana_consumption", "Max Mana Consumption Rate: %s", "最大魔力消耗：%s");
+        addENCN("gtocore.machine.mana_production", "Max Mana Production Rate: %s", "最大魔力产出：%s");
         addENCN("gtocore.machine.mana_input", "Mana input: %s", "魔力输入：%s");
         addENCN("gtocore.machine.mana_output", "Mana output: %s", "魔力输出：%s");
         addENCN("gtocore.machine.mana_eu", "Supports EU recipes, conversion ratio 1:1", "支持电力配方，转换比1:1");

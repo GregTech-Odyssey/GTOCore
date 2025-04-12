@@ -54,13 +54,13 @@ public class NotifiableManaContainer extends NotifiableRecipeHandlerTrait<Intege
 
     private final long max;
     @Getter
-    private final int maxConsumption;
+    private final int maxIORate;
 
-    public NotifiableManaContainer(MetaMachine machine, IO io, long max, int maxConsumption) {
+    public NotifiableManaContainer(MetaMachine machine, IO io, long max, int maxIORate) {
         super(machine);
         handlerIO = io;
         this.max = max;
-        this.maxConsumption = maxConsumption;
+        this.maxIORate = maxIORate;
     }
 
     @Override
@@ -96,7 +96,7 @@ public class NotifiableManaContainer extends NotifiableRecipeHandlerTrait<Intege
     @Override
     public List<Integer> handleRecipeInner(IO io, GTRecipe recipe, List<Integer> left, boolean simulate) {
         int sum = left.stream().reduce(0, Integer::sum);
-        if (sum > maxConsumption) return Collections.singletonList(sum);
+        if (sum > maxIORate) return Collections.singletonList(sum);
         if (io == IO.IN) {
             int canOutput = getSaturatedCurrentMana();
             if (!simulate) {
