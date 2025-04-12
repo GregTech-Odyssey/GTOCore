@@ -37,6 +37,7 @@ public final class UtilsData {
             lastTimeRecordTable.put(playerId, currentTime);
             experienceLevel.addExperience(amount);
             runnable.run();
+            ExperienceSystemManager.INSTANCE.saveAll();
         }
     }
 
