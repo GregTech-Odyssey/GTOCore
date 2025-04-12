@@ -53,7 +53,7 @@ public final class ManaRecipeCapability extends RecipeCapability<Integer> {
         int maxMana = 0;
         for (IRecipeHandler<?> container : holder.getCapabilitiesFlat(IO.IN, CAP)) {
             if (container instanceof IManaContainer manaContainer) {
-                maxMana += manaContainer.getMaxConsumption();
+                maxMana += manaContainer.getMaxIORate();
             }
         }
         int recipeMana = CAP.of(recipe.tickInputs.get(CAP).get(0).getContent());
