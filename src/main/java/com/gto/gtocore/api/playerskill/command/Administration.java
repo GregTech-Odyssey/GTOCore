@@ -53,17 +53,14 @@ public class Administration {
                         .then(Commands.literal("add")
                                 .then(Commands.argument("player", EntityArgument.player())
                                         .then(Commands.argument("experienceType", StringArgumentType.word())
-                                                .suggests((context, builder) -> {
-                                                    // 提供经验类型的建议，使用SkillType枚举值
-                                                    return SharedSuggestionProvider.suggest(
+                                                .suggests((context, builder) -> SharedSuggestionProvider.suggest(
                                                             Arrays.stream(SkillData.SkillType.values())
                                                                     .map(Enum::name)
                                                                     .map(String::toLowerCase),
-                                                            builder);
-                                                })
+                                                            builder)
+                                                )
                                                 .then(Commands.argument("amount", IntegerArgumentType.integer(1))
                                                         .executes(context -> {
-                                                            // 获取命令参数
                                                             ServerPlayer player = EntityArgument.getPlayer(context, "player");
                                                             String expTypeStr = StringArgumentType.getString(context, "experienceType").toUpperCase();
                                                             int amount = IntegerArgumentType.getInteger(context, "amount");
@@ -88,8 +85,7 @@ public class Administration {
                                                             return Command.SINGLE_SUCCESS;
                                                         })))))));
 
-        // ... 其他命令 ...
-
+        // 普通权限
         dispatcher.register(Commands.literal("skill")
                 .then(Commands.literal("status").executes(context -> {
                     if (ExperienceSystemManager.INSTANCE != null) {
