@@ -9,15 +9,16 @@ import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.machine.multiblock.steam.LargeBoilerMachine;
 
 import net.minecraft.util.Mth;
+import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
 
-import org.spongepowered.asm.mixin.Final;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Overwrite;
-import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.*;
 
 @Mixin(LargeBoilerMachine.class)
 public abstract class LargeBoilerMachineMixin extends WorkableMultiblockMachine implements IExplosionMachine {
+
+    @Unique
+    private static final Fluid gtocore$STEAM = GTMaterials.Steam.getFluid();
 
     @Shadow(remap = false)
     private int currentTemperature;
@@ -56,9 +57,9 @@ public abstract class LargeBoilerMachineMixin extends WorkableMultiblockMachine 
             currentTemperature -= 1;
         }
         if (isFormed() && getOffsetTimer() % 5 == 0 && currentTemperature > 100) {
-            int setam = currentTemperature * throttle * 5 / 100;
-            if (setam > 0) {
-                MachineUtils.outputFluid(this, GTMaterials.Steam.getFluid(setam));
+            int steam = currentTemperature * throttle * 5 / 100;
+            if (steam > 0) {
+                MachineUtils.outputFluid(this, gtocore$STEAM, steam);
             }
             int water = currentTemperature * throttle * 5 / 16000;
             if (water > 0) {
