@@ -13,7 +13,7 @@ import java.util.*;
 public class UtilsAttribute {
 
     public static void applyModifiers(Player player, BasicExperienceLevel expLevel) {
-        removeAllGTOCoreModifiers(player);
+        removeAllGTOCoreExpModifiers(player);
         Arrays.stream(expLevel.getAttributeModifiers())
                 .forEach(attribute -> Optional.ofNullable(player.getAttribute(attribute.attribute()))
                         .ifPresent(attr -> {
@@ -25,7 +25,7 @@ public class UtilsAttribute {
                         }));
     }
 
-    public static void removeAllGTOCoreModifiers(Player player) {
+    public static void removeAllGTOCoreExpModifiers(Player player) {
         player.getAttributes().getSyncableAttributes().forEach(attribute -> attribute.getModifiers().stream()
                 .filter(modifier -> modifier.getName().contains("gtocore.exp"))
                 .map(AttributeModifier::getId)
@@ -37,8 +37,7 @@ public class UtilsAttribute {
         if (ExperienceSystemManager.INSTANCE == null || !ExperienceSystemManager.INSTANCE.isEnabled()) {
             return;
         }
-        GTOCore.LOGGER.info("Fresh apply modifiers for player: " + player.getName().getString());
-
+        GTOCore.LOGGER.info("Fresh apply modifiers for player: {}", player.getName().getString());
         UUID playerId = player.getUUID();
         PlayerData playerData = ExperienceSystemManager.INSTANCE.getPlayerData(playerId);
         playerData.getExperienceLevelLists().forEach(level -> UtilsAttribute.applyModifiers(player, level));
