@@ -116,13 +116,14 @@ public final class RecipeRunner {
         }
 
         if (currentDistinc != null) {
-            recipeContents = handleRecipe(currentDistinc, io, recipe, recipeContents, false, false);
-            if (recipeContents.isEmpty()) {
+            var res = handleRecipe(currentDistinc, io, recipe, recipeContents, simulated, simulated);
+            if (res.isEmpty()) {
+                recipeContents.clear();
                 if (!distinctRecipeHolder.isDistinctState()) distinctRecipeHolder.setCurrentDistinct(null);
                 return ActionResult.SUCCESS;
             } else {
                 distinctRecipeHolder.setCurrentDistinct(null);
-                return ActionResult.FAIL_NO_REASON;
+                if (!simulated && distinctRecipeHolder.isDistinctState()) return ActionResult.FAIL_NO_REASON;
             }
         }
 
@@ -193,6 +194,7 @@ public final class RecipeRunner {
                     break;
                 }
             }
+            if (!distinct) entry.setValue(left);
         }
         return copy;
     }

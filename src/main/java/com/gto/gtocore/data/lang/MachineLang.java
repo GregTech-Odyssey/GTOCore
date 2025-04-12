@@ -96,7 +96,7 @@ final class MachineLang {
         addENCN("gtocore.machine.advanced_infinite_driller.drilled_fluid", "Fluid: %s Output: %s", "流体: %s 产量: %s");
         addENCN("gtocore.machine.kuangbiao_one_giant_nuclear_fusion_reactor.tooltip.0", "What it simulates is an eternal light", "它所模拟的，是亘古不变的光芒");
         addENCN("gtocore.machine.steam.tooltip.0", "Default has 8 parallel, large one is 32", "默认拥有8并行，大型为32");
-        addENCN("gtocore.machine.steam.tooltip.1", "Unless otherwise specified, default can process LV-Tier recipes and below, processing time is 1.5 times", "无特殊说明时，默认支持LV等级及以下的配方处理，耗时为基础的1.5倍");
+        addENCN("gtocore.machine.steam.tooltip.1", "default can process &s-Tier recipes and below, processing time is 1.5 times", "默认支持%s等级及以下的配方处理，耗时为基础的1.5倍");
         addENCN("gtocore.machine.steam.tooltip.2", "After installing a large steam input hatch, upgrade one recipe tier and unlock the overclocking function", "安装大型蒸汽输入仓后提升一个配方等级，并解锁超频功能");
         addENCN("gtocore.machine.mana_stored", "Total Mana: %s", "魔力总量：%s");
         addENCN("gtocore.machine.mana_consumption", "Max Mana IO Rate: %s", "最大魔力IO速率：%s");

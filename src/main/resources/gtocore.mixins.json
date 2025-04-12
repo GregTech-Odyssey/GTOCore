@@ -123,6 +123,7 @@
         "gtm.machine.DualHatchPartMachineMixin",
         "gtm.machine.FluidHatchPartMachineMixin",
         "gtm.machine.ItemBusPartMachineMixin",
+        "gtm.machine.LargeBoilerMachineMixin",
         "gtm.machine.MaintenanceHatchPartMachineMixin",
         "gtm.machine.MetaMachineMixin",
         "gtm.machine.MufflerPartMachineMixin",
