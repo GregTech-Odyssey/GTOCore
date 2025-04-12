@@ -189,7 +189,7 @@ public final class GTOConfig {
     public boolean enableAnimalsAreAfraidToEatTheirMeat = true;
     @Configurable
     @Configurable.Range(min = 1, max = 64)
-    public int enableAnimalsAreAfraidToEatTheirMeatRange = 12;
+    public int enableAnimalsAreAfraidToEatTheirMeatRange = 24;
 
     @Configurable
     @Configurable.Comment("Check for conflicts between recipes")
