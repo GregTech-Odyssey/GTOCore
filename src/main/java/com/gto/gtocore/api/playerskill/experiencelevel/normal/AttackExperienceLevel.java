@@ -24,11 +24,6 @@ public class AttackExperienceLevel extends NormalExperienceLevel {
         };
     }
 
-    // @Override
-    // public ATTRIBUTE_RECORD[] getAttributeModifiers() {
-    // return new ATTRIBUTE_RECORD[0];
-    // }
-
     @Override
     public String getName() {
         return Component.translatable("gtocore.player_exp_status.attack_name").getString();
@@ -36,6 +31,6 @@ public class AttackExperienceLevel extends NormalExperienceLevel {
 
     @Override
     public int getExperienceForNextLevel() {
-        return (int) (100 * Math.pow(1.5, level)); // 示例经验计算
+        return (int) (100 * Math.pow(1.5, level));
     }
 }

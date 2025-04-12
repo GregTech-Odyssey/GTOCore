@@ -54,11 +54,10 @@ public class Administration {
                                 .then(Commands.argument("player", EntityArgument.player())
                                         .then(Commands.argument("experienceType", StringArgumentType.word())
                                                 .suggests((context, builder) -> SharedSuggestionProvider.suggest(
-                                                            Arrays.stream(SkillData.SkillType.values())
-                                                                    .map(Enum::name)
-                                                                    .map(String::toLowerCase),
-                                                            builder)
-                                                )
+                                                        Arrays.stream(SkillData.SkillType.values())
+                                                                .map(Enum::name)
+                                                                .map(String::toLowerCase),
+                                                        builder))
                                                 .then(Commands.argument("amount", IntegerArgumentType.integer(1))
                                                         .executes(context -> {
                                                             ServerPlayer player = EntityArgument.getPlayer(context, "player");

@@ -20,14 +20,9 @@ public class HealthExperienceLevel extends NormalExperienceLevel {
                 new ATTRIBUTE_RECORD(Attributes.MAX_HEALTH,
                         "gtocore.exp.health_health_bonus", // level_attribute_bonus
                         UUID.randomUUID(),
-                        (expLevel) -> expLevel.getLevel() << 1)
+                        (expLevel) -> expLevel.getLevel() << 2)
         };
     }
-
-    // @Override
-    // public ATTRIBUTE_RECORD[] getAttributeModifiers() {
-    // return new ATTRIBUTE_RECORD[0];
-    // }
 
     @Override
     public String getName() {
@@ -36,6 +31,6 @@ public class HealthExperienceLevel extends NormalExperienceLevel {
 
     @Override
     public int getExperienceForNextLevel() {
-        return (int) (100 * Math.pow(1.5, level)); // 示例经验计算
+        return (int) (100 * Math.pow(1.5, level));
     }
 }

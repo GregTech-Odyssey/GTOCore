@@ -5,6 +5,7 @@ import com.gto.gtocore.api.playerskill.data.ExperienceSystemManager;
 import com.gto.gtocore.api.playerskill.data.PlayerData;
 import com.gto.gtocore.api.playerskill.experiencelevel.BasicExperienceLevel;
 
+import net.minecraft.server.TickTask;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.player.Player;
 
@@ -41,5 +42,11 @@ public class UtilsAttribute {
         UUID playerId = player.getUUID();
         PlayerData playerData = ExperienceSystemManager.INSTANCE.getPlayerData(playerId);
         playerData.getExperienceLevelLists().forEach(level -> UtilsAttribute.applyModifiers(player, level));
+    }
+
+    public static void freshDelayApplyModifier(Player player) {
+        Objects.requireNonNull(player.level().getServer()).tell(new TickTask(1, () ->
+            UtilsAttribute.freshApplyModifiers(player)
+        ));
     }
 }

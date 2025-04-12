@@ -106,5 +106,7 @@ public class ExperienceSystemManager extends SavedData {
         });
     }
 
-    public void saveAll(){setDirty();}
+    public void saveAll() {
+        setDirty();
+    }
 }

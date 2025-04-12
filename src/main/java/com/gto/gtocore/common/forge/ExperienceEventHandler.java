@@ -56,7 +56,7 @@ public class ExperienceEventHandler {
     @SubscribeEvent
     public static void onPlayerJoin(EntityJoinLevelEvent event) {
         if (event.getEntity() instanceof Player player && !player.level().isClientSide) {
-            UtilsAttribute.freshApplyModifiers(player);
+            UtilsAttribute.freshDelayApplyModifier(player);
         }
     }
 
@@ -65,7 +65,7 @@ public class ExperienceEventHandler {
     public static void onPlayerClone(PlayerEvent.Clone event) {
         Player player = event.getEntity();
         if (!player.level().isClientSide) {
-            UtilsAttribute.freshApplyModifiers(player);
+            UtilsAttribute.freshDelayApplyModifier(player);
         }
     }
 
@@ -74,7 +74,7 @@ public class ExperienceEventHandler {
     public static void onPlayerRespawn(PlayerEvent.PlayerRespawnEvent event) {
         Player player = event.getEntity();
         if (!player.level().isClientSide) {
-            UtilsAttribute.freshApplyModifiers(player);
+            UtilsAttribute.freshDelayApplyModifier(player);
         }
     }
 
@@ -83,7 +83,7 @@ public class ExperienceEventHandler {
     public static void onPlayerChangeDimension(PlayerEvent.PlayerChangedDimensionEvent event) {
         Player player = event.getEntity();
         if (!player.level().isClientSide) {
-            UtilsAttribute.freshApplyModifiers(player);
+            UtilsAttribute.freshDelayApplyModifier(player);
         }
     }
 

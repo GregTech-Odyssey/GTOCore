@@ -29,14 +29,8 @@ public abstract class BasicExperienceLevel {
         this.experience = 0;
     }
 
-    public abstract ATTRIBUTE_RECORD[] getAttributeModifiers();
-
     public ChatFormatting getNameColor() {
         return ChatFormatting.GOLD;
-    }
-
-    public int getMaxLevel() {
-        return 20;
     }
 
     public void saveData(CompoundTag nbt) {
@@ -47,6 +41,12 @@ public abstract class BasicExperienceLevel {
     public void loadData(CompoundTag nbt) {
         this.level = nbt.getInt("level");
         this.experience = nbt.getInt("experience");
+    }
+
+    public abstract ATTRIBUTE_RECORD[] getAttributeModifiers();
+
+    public int getMaxLevel() {
+        return 20;
     }
 
     public abstract void addExperience(int amount);
