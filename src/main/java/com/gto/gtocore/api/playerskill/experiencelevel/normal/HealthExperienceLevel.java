@@ -6,17 +6,9 @@ import com.gto.gtocore.api.playerskill.experiencelevel.special.BodyExperienceLev
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 public class HealthExperienceLevel extends NormalExperienceLevel {
-
-    List<ATTRIBUTE_RECORD> MODIFIERS_LIST = new ArrayList<>(List.of(
-            new ATTRIBUTE_RECORD(Attributes.MAX_HEALTH,
-                    "gtocore.health_health_bonus", // level_attribute_bonus
-                    UUID.fromString("d9c9b8f0-5a9e-51ee-1v99-2452ac120002"),
-                    (expLevel) -> expLevel.getLevel() << 1)));
 
     public HealthExperienceLevel(BodyExperienceLevel _bodyExperienceLevel) {
         super(_bodyExperienceLevel);
@@ -26,11 +18,16 @@ public class HealthExperienceLevel extends NormalExperienceLevel {
     public ATTRIBUTE_RECORD[] getAttributeModifiers() {
         return new ATTRIBUTE_RECORD[] {
                 new ATTRIBUTE_RECORD(Attributes.MAX_HEALTH,
-                        "gtocore.health_health_bonus", // level_attribute_bonus
-                        UUID.fromString("d9c9b8f0-5a9e-51ee-1299-2452ac120002"),
+                        "gtocore.exp.health_health_bonus", // level_attribute_bonus
+                        UUID.randomUUID(),
                         (expLevel) -> expLevel.getLevel() << 1)
         };
     }
+
+    // @Override
+    // public ATTRIBUTE_RECORD[] getAttributeModifiers() {
+    // return new ATTRIBUTE_RECORD[0];
+    // }
 
     @Override
     public String getName() {

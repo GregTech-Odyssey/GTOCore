@@ -18,11 +18,16 @@ public class AttackExperienceLevel extends NormalExperienceLevel {
     public ATTRIBUTE_RECORD[] getAttributeModifiers() {
         return new ATTRIBUTE_RECORD[] {
                 new ATTRIBUTE_RECORD(Attributes.ATTACK_DAMAGE,
-                        "gtocore.attack_attack_bonus", // level_attribute_bonus
-                        UUID.fromString("d9c9b8f0-5a9e-11ee-8c99-0242ac120002"),
+                        "gtocore.exp.attack_attack_bonus", // level_attribute_bonus
+                        UUID.randomUUID(),
                         (expLevel) -> expLevel.getLevel() << 1)
         };
     }
+
+    // @Override
+    // public ATTRIBUTE_RECORD[] getAttributeModifiers() {
+    // return new ATTRIBUTE_RECORD[0];
+    // }
 
     @Override
     public String getName() {

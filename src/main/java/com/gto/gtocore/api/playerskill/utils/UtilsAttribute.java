@@ -1,5 +1,6 @@
 package com.gto.gtocore.api.playerskill.utils;
 
+import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.api.playerskill.data.ExperienceSystemManager;
 import com.gto.gtocore.api.playerskill.data.PlayerData;
 import com.gto.gtocore.api.playerskill.experiencelevel.BasicExperienceLevel;
@@ -7,29 +8,43 @@ import com.gto.gtocore.api.playerskill.experiencelevel.BasicExperienceLevel;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.player.Player;
 
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 public class UtilsAttribute {
 
     public static void applyModifiers(Player player, BasicExperienceLevel expLevel) {
-        for (BasicExperienceLevel.ATTRIBUTE_RECORD attributeRecord : expLevel.getAttributeModifiers()) {
-            AttributeModifier modifier = attributeRecord.getModifier(expLevel);
-            Objects.requireNonNull(player.getAttribute(attributeRecord.attribute())).removeModifier(modifier); // Prevent
-                                                                                                               // duplicates
-            Objects.requireNonNull(player.getAttribute(attributeRecord.attribute())).addPermanentModifier(modifier);
-        }
+        removeAllGTOCoreModifiers(player);
+        Arrays.stream(expLevel.getAttributeModifiers())
+                .forEach(attribute -> Optional.ofNullable(player.getAttribute(attribute.attribute()))
+                        .ifPresent(attr -> {
+                            try {
+                                attr.addPermanentModifier(attribute.getModifier(expLevel));
+                            } catch (Exception e) {
+                                System.err.println("Error applying modifier: " + e.getMessage());
+                            }
+                        }));
+    }
+
+    public static void removeAllGTOCoreModifiers(Player player) {
+        player.getAttributes().getSyncableAttributes().forEach(attribute ->
+            attribute.getModifiers().stream()
+                    .filter(modifier -> modifier.getName().contains("gtocore.exp"))
+                    .map(AttributeModifier::getId)
+                    .toList()
+                    .forEach(attribute::removeModifier)
+        );
     }
 
     public static void freshApplyModifiers(Player player) {
         if (ExperienceSystemManager.INSTANCE == null || !ExperienceSystemManager.INSTANCE.isEnabled()) {
             return;
         }
+        GTOCore.LOGGER.info("Fresh apply modifiers for player: " + player.getName().getString());
 
         UUID playerId = player.getUUID();
         PlayerData playerData = ExperienceSystemManager.INSTANCE.getPlayerData(playerId);
-        playerData.getExperienceLevelLists().forEach(level -> {
-            UtilsAttribute.applyModifiers(player, level);
-        });
+        playerData.getExperienceLevelLists().forEach(level ->
+            UtilsAttribute.applyModifiers(player, level)
+        );
     }
 }
