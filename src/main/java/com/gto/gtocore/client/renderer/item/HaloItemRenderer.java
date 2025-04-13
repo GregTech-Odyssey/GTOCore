@@ -28,12 +28,12 @@ import com.mojang.blaze3d.vertex.*;
 import committee.nova.mods.avaritia.api.client.render.buffer.AlphaOverrideVertexConsumer;
 import org.joml.Matrix4f;
 
-import java.util.function.Supplier;
+import java.util.function.IntSupplier;
 
 public final class HaloItemRenderer implements IRenderer {
 
     public static final HaloItemRenderer WHITE_HALO = HaloItemRenderer.create(0, 0xFFFFFFFF, 4, RLUtils.avaritia("misc/halo"));
-    public static final HaloItemRenderer QUANTUM_CHROMO_DYNAMICALLY_HALO = HaloItemRenderer.create(0, () -> com.gto.gtocore.utils.ColorUtils.createARGBColor(MaterialsColorMap.quantumColor.get(), 150), () -> GTValues.RNG.nextInt(4) + 2, RLUtils.avaritia("misc/halo"));
+    public static final HaloItemRenderer QUANTUM_CHROMO_DYNAMICALLY_HALO = HaloItemRenderer.create(0, () -> com.gto.gtocore.utils.ColorUtils.createARGBColor(MaterialsColorMap.quantumColor.getAsInt(), 150), () -> GTValues.RNG.nextInt(4) + 2, RLUtils.avaritia("misc/halo"));
     public static final HaloItemRenderer COSMIC_HALO = create(0, 0xB2001539, 6, RLUtils.avaritia("misc/halo"));
     public static final HaloItemRenderer NEUTRONIUM_HALO = HaloItemRenderer.create(0, 0x99FFFFFF, 8, RLUtils.avaritia("misc/halo_noise"));
     public static final HaloItemRenderer COSMIC_NEUTRONIUM_HALO = HaloItemRenderer.create(0.05F, 0x992F1909, 10, RLUtils.avaritia("misc/halo_noise"));
@@ -48,16 +48,16 @@ public final class HaloItemRenderer implements IRenderer {
         return create(pulse, () -> colour, () -> size, textures);
     }
 
-    private static HaloItemRenderer create(float pulse, Supplier<Integer> colour, Supplier<Integer> size, ResourceLocation textures) {
+    private static HaloItemRenderer create(float pulse, IntSupplier colour, IntSupplier size, ResourceLocation textures) {
         return GTCEu.isClientSide() ? new HaloItemRenderer(pulse, colour, size, textures) : null;
     }
 
     private final float pulse;
-    private final Supplier<Integer> colour;
-    private final Supplier<Integer> size;
+    private final IntSupplier colour;
+    private final IntSupplier size;
     private final ResourceLocation texture;
 
-    private HaloItemRenderer(float pulse, Supplier<Integer> colour, Supplier<Integer> size, ResourceLocation texture) {
+    private HaloItemRenderer(float pulse, IntSupplier colour, IntSupplier size, ResourceLocation texture) {
         this.pulse = pulse;
         this.colour = colour;
         this.size = size;
@@ -78,7 +78,7 @@ public final class HaloItemRenderer implements IRenderer {
                 RenderSystem.enableBlend();
                 RenderSystem.disableDepthTest();
                 RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
-                int colour = this.colour.get();
+                int colour = this.colour.getAsInt();
                 RenderSystem.setShaderColor(ColorUtils.red(colour), ColorUtils.green(colour), ColorUtils.blue(colour), ColorUtils.alpha(colour));
                 RenderSystem.setShader(GameRenderer::getPositionTexShader);
                 RenderSystem.setShaderTexture(0, InventoryMenu.BLOCK_ATLAS);
@@ -87,7 +87,7 @@ public final class HaloItemRenderer implements IRenderer {
                 float maxU = sprite.getU1();
                 float minV = sprite.getV0();
                 float maxV = sprite.getV1();
-                float spread = size.get() / 16.0F;
+                float spread = size.getAsInt() / 16.0F;
                 float min = 0.0F - spread;
                 float max = 1.0F + spread;
                 Matrix4f pos = poseStack.last().pose();

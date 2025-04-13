@@ -5,6 +5,7 @@ import com.gto.gtocore.client.renderer.item.HaloItemRenderer;
 import com.gto.gtocore.client.renderer.item.OrderItemProviderRenderer;
 import com.gto.gtocore.common.cover.PowerAmplifierCover;
 import com.gto.gtocore.common.item.*;
+import com.gto.gtocore.common.item.armor.*;
 import com.gto.gtocore.config.GTOConfig;
 import com.gto.gtocore.integration.ae2.InfinityCellItem;
 import com.gto.gtocore.utils.StringUtils;
@@ -20,16 +21,15 @@ import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.item.CoverPlaceBehavior;
 import com.gregtechceu.gtceu.common.item.DataItemBehavior;
 import com.gregtechceu.gtceu.common.item.TooltipBehavior;
+import com.gregtechceu.gtceu.common.item.armor.*;
+import com.gregtechceu.gtceu.config.ConfigHolder;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.item.BucketItem;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.item.Rarity;
+import net.minecraft.world.item.*;
 
 import appeng.api.stacks.AEKeyType;
 import appeng.items.materials.StorageComponentItem;
@@ -786,6 +786,8 @@ public interface GTOItems {
     ItemEntry<Item> MICA_INSULATOR_SHEET = register("mica_insulator_sheet", "云母绝缘板");
     ItemEntry<Item> MICA_INSULATOR_FOIL = register("mica_insulator_foil", "云母绝缘薄片");
 
+    ItemEntry<Item> RAW_ALUMINUM = register("raw_aluminum", "生铝");
+
     ItemEntry<Item> HIGH_PURITY_SILICON_BOULE = register("high_purity_silicon_boule", "高纯多晶硅");
     ItemEntry<Item> REGIONAL_SMELTING_SILICON_BOULE = register("regional_smelting_silicon_boule", "区域熔炼的多晶硅");
     ItemEntry<Item> ETCHED_SILICON_BOULE = register("etched_silicon_boule", "电子束蚀刻的多晶硅");
@@ -803,4 +805,28 @@ public interface GTOItems {
     ItemEntry<Item> SPOOLS_MEDIUM = register("spools_medium", "中型线轴");
     ItemEntry<Item> SPOOLS_LARGE = register("spools_large", "大型线轴");
     ItemEntry<Item> SPOOLS_JUMBO = register("spools_jumbo", "巨型线轴");
+
+    ItemEntry<SpaceArmorComponentItem> SPACE_NANO_CHESTPLATE = item("space_nanomuscle_chestplate", "太空纳米胸甲",
+            (p) -> new SpaceArmorComponentItem(GTArmorMaterials.ARMOR, ArmorItem.Type.CHESTPLATE, 5000, p).setArmorLogic(new NanoMuscleSuite(ArmorItem.Type.CHESTPLATE, 512, 6_400_000L * (long) Math.max(1, Math.pow(4, ConfigHolder.INSTANCE.tools.voltageTierNanoSuit - 3)), ConfigHolder.INSTANCE.tools.voltageTierNanoSuit)))
+            .lang("NanoMuscle™ Space Suite Chestplate")
+            .properties(p -> p.rarity(Rarity.RARE))
+            .register();
+
+    ItemEntry<SpaceArmorComponentItem> ADVANCED_SPACE_NANO_CHESTPLATE = item("space_advanced_nanomuscle_chestplate", "太空进阶纳米胸甲",
+            (p) -> new SpaceArmorComponentItem(GTArmorMaterials.ARMOR, ArmorItem.Type.CHESTPLATE, 10000, p).setArmorLogic(new AdvancedNanoMuscleSuite(512, 12_800_000L * (long) Math.max(1, Math.pow(4, ConfigHolder.INSTANCE.tools.voltageTierAdvNanoSuit - 3)), ConfigHolder.INSTANCE.tools.voltageTierAdvNanoSuit)))
+            .lang("Advanced NanoMuscle™ Space Suite Chestplate")
+            .properties(p -> p.rarity(Rarity.EPIC))
+            .register();
+
+    ItemEntry<SpaceArmorComponentItem> SPACE_QUARK_CHESTPLATE = item("space_quarktech_chestplate", "太空夸克胸甲",
+            (p) -> new SpaceArmorComponentItem(GTArmorMaterials.ARMOR, ArmorItem.Type.CHESTPLATE, 20000, p).setArmorLogic(new QuarkTechSuite(ArmorItem.Type.CHESTPLATE, 8192, 100_000_000L * (long) Math.max(1, Math.pow(4, ConfigHolder.INSTANCE.tools.voltageTierQuarkTech - 5)), ConfigHolder.INSTANCE.tools.voltageTierQuarkTech)))
+            .lang("QuarkTech™ Space Suite Chestplate")
+            .properties(p -> p.rarity(Rarity.RARE))
+            .register();
+
+    ItemEntry<SpaceArmorComponentItem> ADVANCED_SPACE_QUARK_CHESTPLATE = item("space_advanced_quarktech_chestplate", "太空进阶夸克胸甲",
+            (p) -> new SpaceArmorComponentItem(GTArmorMaterials.ARMOR, ArmorItem.Type.CHESTPLATE, 50000, p).setArmorLogic(new AdvancedQuarkTechSuite(8192, 1_000_000_000L * (long) Math.max(1, Math.pow(4, ConfigHolder.INSTANCE.tools.voltageTierAdvQuarkTech - 6)), ConfigHolder.INSTANCE.tools.voltageTierAdvQuarkTech)))
+            .lang("Advanced QuarkTech™ Space Suite Chestplate")
+            .properties(p -> p.rarity(Rarity.EPIC))
+            .register();
 }

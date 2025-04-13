@@ -4,7 +4,7 @@ import com.gto.gtocore.api.data.GTODimensions;
 import com.gto.gtocore.api.data.chemical.GTOChemicalHelper;
 import com.gto.gtocore.api.machine.multiblock.StorageMultiblockMachine;
 import com.gto.gtocore.api.machine.trait.CustomRecipeLogic;
-import com.gto.gtocore.api.recipe.FastSizedIngredient;
+import com.gto.gtocore.api.recipe.ContentBuilder;
 import com.gto.gtocore.api.recipe.GTORecipeBuilder;
 import com.gto.gtocore.api.recipe.RecipeRunnerHelper;
 import com.gto.gtocore.common.data.GTOItems;
@@ -19,8 +19,6 @@ import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
-import com.gregtechceu.gtceu.api.recipe.chance.logic.ChanceLogic;
-import com.gregtechceu.gtceu.api.recipe.content.Content;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -60,16 +58,20 @@ public final class VoidMinerMachine extends StorageMultiblockMachine {
         if (!isEmpty()) {
             if (RecipeRunnerHelper.matchRecipeInput(this, RECIPE)) {
                 GTRecipe recipe = RECIPE.copy();
-                recipe.tickInputs.put(EURecipeCapability.CAP, List.of(new Content((long) GTValues.VA[getTier()], ChanceLogic.getMaxChancedValue(), ChanceLogic.getMaxChancedValue(), 0)));
-                recipe.outputs.put(ItemRecipeCapability.CAP, List.of(content(), content(), content(), content()));
+                recipe.tickInputs.put(EURecipeCapability.CAP, List.of(ContentBuilder.builderEU(GTValues.VA[getTier()])));
+                recipe.outputs.put(ItemRecipeCapability.CAP, ContentBuilder.createList().items(getItems()).buildList());
                 return GTORecipeModifiers.accurateParallel(this, recipe, 64);
             }
         }
         return null;
     }
 
-    private Content content() {
-        return new Content(FastSizedIngredient.create(new ItemStack(GTOChemicalHelper.getItem(TagPrefix.rawOre, GTOOres.selectMaterial(dim)), (int) Math.pow(getTier() - 3, Math.random() + 1))), ChanceLogic.getMaxChancedValue(), ChanceLogic.getMaxChancedValue(), 0);
+    private ItemStack[] getItems() {
+        ItemStack[] stacks = new ItemStack[4];
+        for (int i = 0; i < 4; i++) {
+            stacks[i] = new ItemStack(GTOChemicalHelper.getItem(TagPrefix.rawOre, GTOOres.selectMaterial(dim)), (int) Math.pow(getTier() - 3, Math.random() + 1));
+        }
+        return stacks;
     }
 
     @Override

@@ -8,7 +8,6 @@ import com.gto.gtocore.api.recipe.RecipeRunnerHelper;
 import com.gto.gtocore.common.data.GTOItems;
 import com.gto.gtocore.common.data.GTOMaterials;
 import com.gto.gtocore.utils.GTOUtils;
-import com.gto.gtocore.utils.MachineUtils;
 import com.gto.gtocore.utils.RegistriesUtils;
 
 import com.gregtechceu.gtceu.GTCEu;
@@ -87,13 +86,13 @@ public final class SatelliteControlCenterMachine extends ElectricMultiblockMachi
     public void onRecipeFinish() {
         super.onRecipeFinish();
         Item item = GTOUtils.getKeyByValue(ROCKET, tier);
-        if (item != null) MachineUtils.outputItem(this, item.getDefaultInstance());
+        if (item != null) outputItem(item.getDefaultInstance());
         GTODimensions.ALL_PLANET.forEach((k, v) -> {
             if (v == tier) {
                 if (resourceLocation == null || GTValues.RNG.nextBoolean()) resourceLocation = k;
             }
         });
-        if (uuid != null && resourceLocation != null) MachineUtils.outputItem(this, GTOItems.PLANET_DATA_CHIP.get().getPlanetDataChip(uuid, resourceLocation));
+        if (uuid != null && resourceLocation != null) outputItem(GTOItems.PLANET_DATA_CHIP.get().getPlanetDataChip(uuid, resourceLocation));
     }
 
     @Override
@@ -115,7 +114,7 @@ public final class SatelliteControlCenterMachine extends ElectricMultiblockMachi
             launch = true;
         } else {
             AtomicInteger max = new AtomicInteger(1);
-            MachineUtils.forEachInputItems(this, stack -> {
+            forEachInputItems(stack -> {
                 Integer tier = ROCKET.get(stack.getItem());
                 if (tier != null) {
                     max.set(Math.max(max.get(), tier));

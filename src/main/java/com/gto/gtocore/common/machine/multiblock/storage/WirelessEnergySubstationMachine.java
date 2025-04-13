@@ -47,25 +47,8 @@ public final class WirelessEnergySubstationMachine extends NoRecipeLogicMultiblo
         tierCasingTrait = new TierCasingTrait(this, GTOValues.GLASS_TIER);
     }
 
-    @Override
-    public void onMachinePlaced(@Nullable LivingEntity player, ItemStack stack) {
-        if (player != null) {
-            setOwnerUUID(player.getUUID());
-        }
-    }
-
-    @Override
-    public void onStructureInvalid() {
-        ExtendWirelessEnergyContainer container = getWirelessEnergyContainer();
-        if (container == null) return;
-        container.setCapacity(BigInteger.ZERO);
-        container.setLoss(0);
-        super.onStructureInvalid();
-    }
-
-    @Override
-    public void onStructureFormed() {
-        super.onStructureFormed();
+    private void loadContainer() {
+        if (isRemote()) return;
         ExtendWirelessEnergyContainer container = getWirelessEnergyContainer();
         if (container == null) return;
         int tier = getCasingTier(GTOValues.GLASS_TIER);
@@ -86,6 +69,43 @@ public final class WirelessEnergySubstationMachine extends NoRecipeLogicMultiblo
         }
         container.setLoss(i == 0 ? 0 : loss / i);
         container.setCapacity(capacity.multiply(BigInteger.valueOf(Math.max(1, i / 2))));
+    }
+
+    private void unloadContainer() {
+        if (isRemote()) return;
+        ExtendWirelessEnergyContainer container = getWirelessEnergyContainer();
+        if (container == null) return;
+        container.setCapacity(BigInteger.ZERO);
+        container.setLoss(0);
+    }
+
+    @Override
+    public void setWorkingEnabled(boolean isWorkingAllowed) {
+        if (isWorkingAllowed && isFormed()) {
+            loadContainer();
+        } else {
+            unloadContainer();
+        }
+        super.setWorkingEnabled(isWorkingAllowed);
+    }
+
+    @Override
+    public void onMachinePlaced(@Nullable LivingEntity player, ItemStack stack) {
+        if (player != null) {
+            setOwnerUUID(player.getUUID());
+        }
+    }
+
+    @Override
+    public void onStructureInvalid() {
+        unloadContainer();
+        super.onStructureInvalid();
+    }
+
+    @Override
+    public void onStructureFormed() {
+        super.onStructureFormed();
+        loadContainer();
     }
 
     @Override

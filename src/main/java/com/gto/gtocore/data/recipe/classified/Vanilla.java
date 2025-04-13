@@ -74,6 +74,7 @@ interface Vanilla {
                     "EFE",
                     'B', RegistriesUtils.getItemStack("chisel:chisel"), 'F', new MaterialEntry(TagPrefix.plateDouble, GTMaterials.SteelMagnetic), 'D', GTItems.ROBOT_ARM_LV.asStack(), 'C', GTItems.CONVEYOR_MODULE_LV.asStack(), 'E', new MaterialEntry(TagPrefix.plate, GTMaterials.Steel), 'A', CustomTags.LV_CIRCUITS);
         }
+        VanillaRecipeHelper.addSmeltingRecipe(provider, GTOCore.id("raw_aluminum"), GTOItems.RAW_ALUMINUM.asStack(), ChemicalHelper.get(TagPrefix.ingot, GTMaterials.Aluminium), 0);
         VanillaRecipeHelper.addShapelessRecipe(provider, GTOCore.id("pattern_modifier_pro"), GTOItems.PATTERN_MODIFIER_PRO.asStack(), RegistriesUtils.getItemStack("expatternprovider:pattern_modifier"));
         VanillaRecipeHelper.addShapelessRecipe(provider, GTOCore.id("item_storage_cell_64m_2"), GTOItems.ITEM_STORAGE_CELL_64M.asStack(), new ItemStack(AEItems.ITEM_CELL_HOUSING.asItem()), GTOItems.CELL_COMPONENT_64M.asItem());
         VanillaRecipeHelper.addShapelessRecipe(provider, GTOCore.id("suprachronal_assembly_line_module"), MultiBlockD.SUPRACHRONAL_ASSEMBLY_LINE_MODULE.asStack(), MultiBlockD.SUPRACHRONAL_ASSEMBLY_LINE.getItem());
@@ -839,16 +840,16 @@ interface Vanilla {
                 "CDC",
                 "ABA",
                 'A', GTOItems.ULV_ELECTRIC_MOTOR.asStack(), 'B', new MaterialEntry(TagPrefix.cableGtSingle, GTMaterials.RedAlloy), 'C', CustomTags.ULV_CIRCUITS, 'D', GTMachines.HULL[GTValues.ULV].getItem());
-        VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("ulv_primitive_magic_energy"), GTOMachines.PRIMITIVE_MAGIC_ENERGY[GTValues.ULV].asStack(),
+        VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("lv_primitive_magic_energy"), ManaMachine.PRIMITIVE_MAGIC_ENERGY[GTValues.LV].asStack(),
                 "ABA",
                 "BCB",
                 "DBD",
-                'A', new MaterialEntry(TagPrefix.lens, GTOMaterials.ManaGlass), 'B', RegistriesUtils.getItemStack("botania:rune_mana"), 'C', GTOMachines.THERMAL_GENERATOR[GTValues.ULV].asStack(), 'D', RegistriesUtils.getItemStack("botania:lens_bounce"));
-        VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("lv_primitive_magic_energy"), GTOMachines.PRIMITIVE_MAGIC_ENERGY[GTValues.LV].asStack(),
+                'A', new MaterialEntry(TagPrefix.lens, GTOMaterials.ManaGlass), 'B', RegistriesUtils.getItemStack("botania:rune_mana"), 'C', GTOMachines.THERMAL_GENERATOR[GTValues.LV].asStack(), 'D', RegistriesUtils.getItemStack("botania:lens_bounce"));
+        VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("mv_primitive_magic_energy"), ManaMachine.PRIMITIVE_MAGIC_ENERGY[GTValues.MV].asStack(),
                 "ABA",
                 "CDC",
                 "EFE",
-                'A', new MaterialEntry(TagPrefix.plate, GTMaterials.Steel), 'B', RegistriesUtils.getItemStack("botania:mana_bomb"), 'C', GTMachines.ENERGY_CONVERTER_8A[GTValues.ULV].asStack(), 'D', GTOMachines.PRIMITIVE_MAGIC_ENERGY[GTValues.LV].asStack(), 'E', RegistriesUtils.getItemStack("botania:lens_piston"), 'F', new MaterialEntry(TagPrefix.plateDouble, GTMaterials.Steel));
+                'A', new MaterialEntry(TagPrefix.plate, GTMaterials.Aluminium), 'B', RegistriesUtils.getItemStack("botania:mana_bomb"), 'C', GTMachines.ENERGY_CONVERTER_8A[GTValues.LV].asStack(), 'D', ManaMachine.PRIMITIVE_MAGIC_ENERGY[GTValues.LV].asStack(), 'E', RegistriesUtils.getItemStack("botania:lens_piston"), 'F', new MaterialEntry(TagPrefix.plateDense, GTMaterials.SteelMagnetic));
         VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("chemical_vapor_deposition"), MultiBlockC.CHEMICAL_VAPOR_DEPOSITION.asStack(),
                 "ABA",
                 "CDC",

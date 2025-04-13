@@ -86,5 +86,19 @@ interface Vacuum {
                 .inputFluids(GTOMaterials.HighPressureNitrogen.getFluid(1000))
                 .outputFluids(GTOMaterials.LiquidNitrogen.getFluid(1000))
                 .duration(320).EUt(VA[EV]).save();
+
+        VACUUM_RECIPES.builder("stainless_steel_ingot")
+                .outputItems(TagPrefix.ingot, GTMaterials.StainlessSteel)
+                .inputFluids(GTMaterials.StainlessSteel.getFluid(FluidStorageKeys.MOLTEN, 144))
+                .EUt(120)
+                .duration(120)
+                .save();
+
+        VACUUM_RECIPES.builder("manganese_phosphide_ingot")
+                .outputItems(TagPrefix.ingot, GTMaterials.ManganesePhosphide)
+                .inputFluids(GTMaterials.ManganesePhosphide.getFluid(FluidStorageKeys.MOLTEN, 144))
+                .EUt(120)
+                .duration(80)
+                .save();
     }
 }

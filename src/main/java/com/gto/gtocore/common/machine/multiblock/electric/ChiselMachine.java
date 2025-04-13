@@ -5,7 +5,6 @@ import com.gto.gtocore.api.machine.trait.CustomRecipeLogic;
 import com.gto.gtocore.api.recipe.GTORecipeBuilder;
 import com.gto.gtocore.api.recipe.RecipeRunnerHelper;
 import com.gto.gtocore.common.data.GTORecipeModifiers;
-import com.gto.gtocore.utils.MachineUtils;
 
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
@@ -33,7 +32,7 @@ public final class ChiselMachine extends CustomParallelMultiblockMachine {
     private GTRecipe getRecipe() {
         AtomicInteger c = new AtomicInteger();
         AtomicReference<Item> item = new AtomicReference<>();
-        MachineUtils.forEachInputItems(this, itemStack -> {
+        forEachInputItems(itemStack -> {
             if (itemStack.is(GTItems.PROGRAMMED_CIRCUIT.get())) {
                 c.addAndGet(IntCircuitBehaviour.getCircuitConfiguration(itemStack));
             } else {

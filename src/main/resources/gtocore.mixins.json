@@ -27,6 +27,7 @@
     ],
     "mixins": [
         "adastra.AdAstraMixin",
+        "adastra.AdAstraOverlayScreenMixin",
         "adastra.ModUtilsMixin",
         "adastra.PlanetsMenuMixin",
         "adastra.RocketMixin",

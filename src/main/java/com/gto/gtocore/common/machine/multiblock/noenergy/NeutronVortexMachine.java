@@ -2,6 +2,7 @@ package com.gto.gtocore.common.machine.multiblock.noenergy;
 
 import com.gto.gtocore.api.machine.feature.multiblock.IMultiStructureMachine;
 import com.gto.gtocore.api.machine.part.GTOPartAbility;
+import com.gto.gtocore.api.recipe.ContentBuilder;
 import com.gto.gtocore.common.data.GTOBlocks;
 import com.gto.gtocore.common.data.GTOMachines;
 import com.gto.gtocore.common.data.GTOMaterials;
@@ -19,8 +20,6 @@ import com.gregtechceu.gtceu.api.pattern.BlockPattern;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
-import com.gregtechceu.gtceu.api.recipe.chance.logic.ChanceLogic;
-import com.gregtechceu.gtceu.api.recipe.content.Content;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
 
 import net.minecraft.network.chat.Component;
@@ -64,7 +63,7 @@ public final class NeutronVortexMachine extends NeutronActivatorMachine implemen
             int ev = (recipe.data.getInt("ev_max") + recipe.data.getInt("ev_min")) * 5;
             eV = ev * 100000;
             recipe.duration = recipe.duration / 5;
-            recipe.tickInputs.put(EURecipeCapability.CAP, List.of(new Content((long) ev * ev, ChanceLogic.getMaxChancedValue(), ChanceLogic.getMaxChancedValue(), 0)));
+            recipe.tickInputs.put(EURecipeCapability.CAP, List.of(ContentBuilder.builderEU((long) ev * ev)));
             return recipe;
         }
         return super.getRealRecipe(recipe);

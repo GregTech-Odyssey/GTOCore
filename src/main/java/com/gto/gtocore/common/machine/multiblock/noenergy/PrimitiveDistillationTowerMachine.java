@@ -3,7 +3,6 @@ package com.gto.gtocore.common.machine.multiblock.noenergy;
 import com.gto.gtocore.api.machine.feature.IInfinityEnergyMachine;
 import com.gto.gtocore.api.machine.multiblock.NoEnergyMultiblockMachine;
 import com.gto.gtocore.common.machine.multiblock.part.SensorPartMachine;
-import com.gto.gtocore.utils.MachineUtils;
 
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
@@ -136,7 +135,7 @@ public final class PrimitiveDistillationTowerMachine extends NoEnergyMultiblockM
     private void handleHeatAndWater() {
         if (time % 20 == 0) {
             if (heat > HEAT_THRESHOLD) {
-                int water = Math.min(MAX_WATER_USAGE, MachineUtils.getFluidAmount(this, Fluids.WATER)[0]);
+                int water = Math.min(MAX_WATER_USAGE, getFluidAmount(Fluids.WATER)[0]);
                 adjustHeatWithWater(water);
             }
             heat += tier;
@@ -158,7 +157,7 @@ public final class PrimitiveDistillationTowerMachine extends NoEnergyMultiblockM
                 time -= water;
             }
             playCoolingSound();
-            MachineUtils.inputFluid(this, Fluids.WATER, water);
+            inputFluid(Fluids.WATER, water);
         }
     }
 
@@ -190,13 +189,13 @@ public final class PrimitiveDistillationTowerMachine extends NoEnergyMultiblockM
      */
     private void checkAndRefuel(long offsetTimer) {
         if (isWorkingEnabled() && offsetTimer % 10 == 0) {
-            if (MachineUtils.inputItem(this, COAL)) {
+            if (inputItem(COAL)) {
                 tier = TIER_INCREASE;
                 time += 1200;
-            } else if (MachineUtils.inputItem(this, COAL_BLOCK)) {
+            } else if (inputItem(COAL_BLOCK)) {
                 tier = TIER_DECREASE;
                 time += 21600;
-            } else if (MachineUtils.inputItem(this, COAL_DUST)) {
+            } else if (inputItem(COAL_DUST)) {
                 tier = 4;
                 time += 500;
             }
