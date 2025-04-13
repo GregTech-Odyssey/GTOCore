@@ -918,13 +918,22 @@ public interface GTORecipeTypes {
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.ARC);
 
-    GTORecipeType MANA_SIMULATOR_RECIPES = register("mana_simulator", "魔力模拟室", MULTIBLOCK)
+    GTORecipeType MANA_SIMULATOR_RECIPES = register("mana_simulator", "魔力模拟室", GENERATOR)
             .setEUIO(IO.IN)
             .setMANAIO(IO.OUT)
             .setMaxIOSize(2, 2, 2, 2)
+            .setMaxTooltips(5)
             .setProgressBar(GuiTextures.PROGRESS_BAR_BATH, LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.ARC);
 
+    GTORecipeType MANA_SIMULATOR_FUEL = register("mana_simulator_fuel", "魔力模拟室：燃料", GENERATOR)
+            .setEUIO(IO.IN)
+            .setMANAIO(IO.OUT)
+            .setMaxIOSize(1, 0, 1, 0)
+            .setSlotOverlay(false, true, true, GuiTextures.FURNACE_OVERLAY_2)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW_MULTIPLE, LEFT_TO_RIGHT)
+            .setMaxTooltips(5)
+            .setSound(GTSoundEntries.FIRE);
     //////////////////////////////////////
     // ********** Joint **********//
     //////////////////////////////////////
