@@ -214,18 +214,16 @@ public final class TurbineMachine extends ElectricMultiblockMachine {
     @Override
     public void attachConfigurators(ConfiguratorPanel configuratorPanel) {
         super.attachConfigurators(configuratorPanel);
-        if (mega) {
-            configuratorPanel.attachConfigurators(new IFancyConfiguratorButton.Toggle(
-                    GTOGuiTextures.HIGH_SPEED_MODE.getSubTexture(0, 0.5, 1, 0.5),
-                    GTOGuiTextures.HIGH_SPEED_MODE.getSubTexture(0, 0, 1, 0.5),
-                    () -> highSpeedMode, (clickData, pressed) -> {
-                        for (RotorHolderPartMachine part : rotorHolderMachines) {
-                            part.setRotorSpeed(0);
-                        }
-                        highSpeedMode = pressed;
-                    })
-                    .setTooltipsSupplier(pressed -> List.of(Component.translatable("gtocore.machine.mega_turbine.high_speed_mode").append("[").append(Component.translatable(pressed ? "gtocore.machine.on" : "gtocore.machine.off")).append("]"))));
-        }
+        configuratorPanel.attachConfigurators(new IFancyConfiguratorButton.Toggle(
+                GTOGuiTextures.HIGH_SPEED_MODE.getSubTexture(0, 0.5, 1, 0.5),
+                GTOGuiTextures.HIGH_SPEED_MODE.getSubTexture(0, 0, 1, 0.5),
+                () -> highSpeedMode, (clickData, pressed) -> {
+                    for (RotorHolderPartMachine part : rotorHolderMachines) {
+                        part.setRotorSpeed(0);
+                    }
+                    highSpeedMode = pressed;
+                })
+                .setTooltipsSupplier(pressed -> List.of(Component.translatable("gtocore.machine.mega_turbine.high_speed_mode").append("[").append(Component.translatable(pressed ? "gtocore.machine.on" : "gtocore.machine.off")).append("]"))));
     }
 
     @Override
