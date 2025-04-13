@@ -19,6 +19,11 @@ public class ElectricManaMultiblockMachine extends ElectricMultiblockMachine imp
     }
 
     @Override
+    public boolean regressWhenWaiting() {
+        return false;
+    }
+
+    @Override
     public @NotNull ManaContainerList getManaContainer() {
         return manaTrait.getManaContainers();
     }
