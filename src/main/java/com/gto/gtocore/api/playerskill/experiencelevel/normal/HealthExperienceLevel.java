@@ -1,5 +1,6 @@
 package com.gto.gtocore.api.playerskill.experiencelevel.normal;
 
+import com.gto.gtocore.api.playerskill.SkillData;
 import com.gto.gtocore.api.playerskill.experiencelevel.NormalExperienceLevel;
 import com.gto.gtocore.api.playerskill.experiencelevel.special.BodyExperienceLevel;
 
@@ -11,7 +12,7 @@ import java.util.UUID;
 public class HealthExperienceLevel extends NormalExperienceLevel {
 
     public HealthExperienceLevel(BodyExperienceLevel _bodyExperienceLevel) {
-        super(_bodyExperienceLevel);
+        super(_bodyExperienceLevel, SkillData.SkillType.HEALTH);
     }
 
     @Override

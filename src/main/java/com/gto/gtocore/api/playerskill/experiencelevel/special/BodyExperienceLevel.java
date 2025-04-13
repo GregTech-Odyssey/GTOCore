@@ -1,21 +1,31 @@
 package com.gto.gtocore.api.playerskill.experiencelevel.special;
 
+import com.gto.gtocore.api.playerskill.SkillData;
 import com.gto.gtocore.api.playerskill.experiencelevel.BasicExperienceLevel;
+
+import com.gregtechceu.gtceu.api.GTValues;
 
 import net.minecraft.network.chat.Component;
 
 public class BodyExperienceLevel extends BasicExperienceLevel {
-
-    private static final int maxBodyLevel = 20;
+    @Override
+    public int getMaxVoltage() { // 0 - GTValues.TIER_COUNT-1
+        return (GTValues.TIER_COUNT - 1);
+    }
 
     @Override
     public int getMaxLevel() {
-        return maxBodyLevel;
+        return getMaxVoltage() * skillType.LevelStepPerVoltage;
+    }
+
+    @Override
+    public int getVoltage() {
+        return (level - 1) / skillType.LevelStepPerVoltage;
     }
 
     public BodyExperienceLevel() {
-        super();
-        this.level = 1;
+        super(SkillData.SkillType.BODY);
+        this.level = 0;
     }
 
     @Override

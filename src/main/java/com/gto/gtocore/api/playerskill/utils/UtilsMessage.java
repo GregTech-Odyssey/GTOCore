@@ -2,6 +2,8 @@ package com.gto.gtocore.api.playerskill.utils;
 
 import com.gto.gtocore.api.playerskill.experiencelevel.BasicExperienceLevel;
 
+import com.gregtechceu.gtceu.api.GTValues;
+
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -45,8 +47,8 @@ public final class UtilsMessage {
         // 添加等级信息
         skillInfo = skillInfo.append(Component.translatable("gtocore.player_exp_status.level")
                 .withStyle(ChatFormatting.WHITE)
-                .append(Component.literal(basicExperienceLevel.getLevel() + " / " +
-                        basicExperienceLevel.getMaxLevel() + " " +
+                .append(Component.literal(basicExperienceLevel.getLevel() + " (" + GTValues.VN[basicExperienceLevel.getVoltage()] + ")" + " / " +
+                        basicExperienceLevel.getMaxLevel() + " (" + GTValues.VN[basicExperienceLevel.getMaxVoltage()] + ")" +
                         Component.translatable("gtocore.player_exp_status.level_max").getString())
                         .withStyle(ChatFormatting.YELLOW)));
 

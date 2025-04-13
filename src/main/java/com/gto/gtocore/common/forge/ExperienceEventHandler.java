@@ -1,6 +1,7 @@
 package com.gto.gtocore.common.forge;
 
 import com.gto.gtocore.api.playerskill.SkillData;
+import com.gto.gtocore.api.playerskill.SkillValues;
 import com.gto.gtocore.api.playerskill.command.Administration;
 import com.gto.gtocore.api.playerskill.data.ExperienceSystemManager;
 import com.gto.gtocore.api.playerskill.data.PlayerData;
@@ -47,7 +48,7 @@ public class ExperienceEventHandler {
             ItemStack item = event.getItem();
             if (isMeat(item)) {
                 PlayerData playerData = ExperienceSystemManager.INSTANCE.getPlayerData(player.getUUID());
-                UtilsData.addExperienceAndSendMessage(player, playerData.getAttackExperienceLevel(), SkillData.ExperienceIncome.EAT_MEAT);
+                UtilsData.addExperienceAndSendMessage(player, playerData.getAttackExperienceLevel(), SkillValues.ExperienceIncome.EAT_MEAT);
             }
         }
     }
@@ -90,7 +91,7 @@ public class ExperienceEventHandler {
     private static boolean isMeat(ItemStack item) {
         if (!item.isEdible()) return false;
         String id = ItemUtils.getId(item);
-        for (String keyword : SkillData.MEAT_KEYWORDS) {
+        for (String keyword : SkillValues.MEAT_KEYWORDS) {
             if (id.contains(keyword)) {
                 return true;
             }

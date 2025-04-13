@@ -5,6 +5,7 @@ import com.gto.gtocore.api.GTOValues;
 import com.gto.gtocore.api.data.chemical.material.GTOMaterial;
 import com.gto.gtocore.api.data.tag.GTOTagPrefix;
 import com.gto.gtocore.api.item.ToolTipsItem;
+import com.gto.gtocore.api.playerskill.SkillData;
 import com.gto.gtocore.common.data.GTOCovers;
 import com.gto.gtocore.common.item.KineticRotorItem;
 
@@ -48,10 +49,7 @@ import com.tterrag.registrate.util.nullness.NonNullConsumer;
 import com.tterrag.registrate.util.nullness.NonNullFunction;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -192,6 +190,19 @@ public final class ItemRegisterUtils {
                     .tag(CustomTags.CIRCUITS_ARRAY[tier])
                     .register();
             entries[tier] = register;
+        }
+        return entries;
+    }
+
+    public static ItemEntry<ComponentItem>[] registerSkillUpgradePackage(SkillData.SkillType skillType) {
+        ItemEntry[] entries = new ItemEntry[GTValues.TIER_COUNT];
+        for (int tier : GTValues.ALL_TIERS) {
+            entries[tier] = item(skillType.toString().toLowerCase() + "_skill_upgrade_package_" + GTValues.VN[tier].toLowerCase(),
+                    GTOValues.VOLTAGE_NAMESCN[tier] + skillType.getName() + "能力提升包", ComponentItem::create)
+                    .model((ctx, prov) -> prov.generated(ctx, GTOCore.id("item/skill/upgrade/package/" + skillType.toString().toLowerCase() + "/" + GTValues.VN[tier].toLowerCase())))
+                    .tag(TagUtil.optionalTag(BuiltInRegistries.ITEM, GTOCore.id("skill_upgrade_package")))
+                    // .onRegister(attach(new SkillUpgradePackageBehavior(tier, skillType)))
+                    .register();
         }
         return entries;
     }

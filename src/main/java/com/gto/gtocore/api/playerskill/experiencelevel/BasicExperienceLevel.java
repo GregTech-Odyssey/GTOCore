@@ -1,5 +1,7 @@
 package com.gto.gtocore.api.playerskill.experiencelevel;
 
+import com.gto.gtocore.api.playerskill.SkillData;
+
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.ai.attributes.Attribute;
@@ -15,6 +17,7 @@ public abstract class BasicExperienceLevel {
 
     protected int level;
     protected int experience;
+    protected SkillData.SkillType skillType;
 
     public record ATTRIBUTE_RECORD(Attribute attribute, String modifierName, UUID modifierUUID,
                                    Function<BasicExperienceLevel, Integer> valueCalculator) {
@@ -24,14 +27,19 @@ public abstract class BasicExperienceLevel {
         }
     }
 
-    protected BasicExperienceLevel() {
+    protected BasicExperienceLevel(SkillData.SkillType skillType) {
         this.level = 0;
         this.experience = 0;
+        this.skillType = skillType;
     }
 
     public ChatFormatting getNameColor() {
         return ChatFormatting.GOLD;
     }
+
+    public abstract int getVoltage();
+
+    public abstract int getMaxVoltage();
 
     public void saveData(CompoundTag nbt) {
         nbt.putInt("level", level);
@@ -45,9 +53,7 @@ public abstract class BasicExperienceLevel {
 
     public abstract ATTRIBUTE_RECORD[] getAttributeModifiers();
 
-    public int getMaxLevel() {
-        return 20;
-    }
+    public abstract int getMaxLevel();
 
     public abstract void addExperience(int amount);
 
