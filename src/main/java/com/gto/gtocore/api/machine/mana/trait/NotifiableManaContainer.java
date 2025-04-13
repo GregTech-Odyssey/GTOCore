@@ -73,18 +73,29 @@ public class NotifiableManaContainer extends NotifiableRecipeHandlerTrait<Intege
         super(machine);
         handlerIO = io;
         this.max = max;
-        this.maxConsumptionRate = io == IO.IN || io == IO.BOTH ? maxIORate : 0;
-        this.maxProductionRate = io == IO.OUT || io == IO.BOTH ? maxIORate : 0;
+        int tmpMaxRate = GTMath.saturatedCast(GTMath.clamp(maxIORate,0, max));
+        if (io == IO.IN) {
+            this.maxConsumptionRate = (int) max;
+            this.maxProductionRate = tmpMaxRate;
+        } else if (io == IO.OUT) {
+            this.maxConsumptionRate = tmpMaxRate;
+            this.maxProductionRate = (int) max;
+        } else if (io == IO.BOTH) {
+            this.maxConsumptionRate = tmpMaxRate;
+            this.maxProductionRate = tmpMaxRate;
+        } else {
+            this.maxConsumptionRate = 0;
+            this.maxProductionRate = 0;
+        }
     }
 
     public NotifiableManaContainer(MetaMachine machine, IO io, long max, int maxConsumptionRate, int maxProductionRate) {
         super(machine);
         handlerIO = io;
         this.max = max;
-        this.maxConsumptionRate = maxConsumptionRate;
-        this.maxProductionRate = maxProductionRate;
+        this.maxConsumptionRate = GTMath.saturatedCast(GTMath.clamp(maxConsumptionRate,0, max));
+        this.maxProductionRate = GTMath.saturatedCast(GTMath.clamp(maxProductionRate,0, max));
     }
-
 
     @Override
     public void onMachineLoad() {
