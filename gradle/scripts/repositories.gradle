@@ -1,0 +1,73 @@
+repositories {
+    mavenLocal()
+    flatDir {
+        dir "gradle/libs"
+    }
+    mavenCentral()
+    maven {
+        url "https://maven.gtceu.com"
+        content {
+            includeGroup "com.gregtechceu.gtceu"
+        }
+    }
+    maven {
+        url "https://modmaven.dev"
+    }
+    maven {
+        url "https://maven.firstdarkdev.xyz/snapshots/"
+    }
+    maven {
+        url "https://maven.quiltmc.org/repository/release/"
+    }
+    maven {
+        url "https://maven.parchmentmc.org"
+    }
+    maven {
+        url "https://cursemaven.com/"
+        content {
+            includeGroup "curse.maven"
+        }
+    }
+    maven {
+        url "https://maven.architectury.dev/"
+    }
+    maven {
+        url "https://maven.saps.dev/releases/"
+        content {
+            includeGroup "dev.latvian.mods"
+            includeGroup "dev.ftb.mods"
+        }
+    }
+    maven {
+        url "https://maven.tterrag.com/"
+        content {
+            includeGroup("com.tterrag.registrate")
+        }
+    }
+    maven {
+        url "https://maven.blamejared.com/"
+    }
+    maven {
+        url "https://maven.terraformersmc.com/releases/"
+    }
+    maven {
+        url "https://maven.teamresourceful.com/repository/maven-public/"
+    }
+    maven {
+        url "https://maven.shadowsoffire.dev/releases"
+        content {
+            includeGroup "dev.shadowsoffire"
+        }
+    }
+    maven {
+        name = 'GeckoLib'
+        url 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/'
+        content {
+            includeGroupByRegex("software\\.bernie.*")
+            includeGroup("com.eliotlash.mclib")
+        }
+    }
+    maven {
+        url "https://maven.jt-dev.tech/releases/"
+    }
+}

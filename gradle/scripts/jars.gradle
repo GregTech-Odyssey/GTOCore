@@ -1,0 +1,15 @@
+base {
+    archivesName = mod_id
+}
+
+afterEvaluate {
+    tasks.withType(org.gradle.jvm.tasks.Jar).configureEach {
+        manifest.attributes([
+                'MixinConfigs': "${mod_id}.mixins.json",
+                'Specification-Title': project.name,
+                'Specification-Version': mod_version,
+                'Implementation-Title': base.archivesName,
+                'Implementation-Version': version,
+        ])
+    }
+}

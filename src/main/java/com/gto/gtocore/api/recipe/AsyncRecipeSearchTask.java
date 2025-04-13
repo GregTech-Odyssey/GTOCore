@@ -90,6 +90,7 @@ public final class AsyncRecipeSearchTask {
                         task.hasRequest = false;
                         task.result = searchRecipe(task.logic);
                     } catch (Throwable e) {
+                        task.clean();
                         GTOCore.LOGGER.error("Error while searching recipe");
                         e.printStackTrace();
                     }
@@ -108,7 +109,7 @@ public final class AsyncRecipeSearchTask {
 
     private static Result searchRecipe(RecipeLogic logic) {
         if (logic.machine.hasCapabilityProxies()) {
-            Iterator<GTRecipe> iterator = logic.machine.getRecipeType().searchRecipe(logic.machine, null);
+            Iterator<GTRecipe> iterator = logic.machine.getRecipeType().searchRecipe(logic.machine, recipe -> RecipeRunnerHelper.matchRecipe(logic.machine, recipe) && RecipeRunnerHelper.matchTickRecipe(logic.machine, recipe));
             while (iterator.hasNext()) {
                 GTRecipe recipe = iterator.next();
                 if (recipe == null) continue;

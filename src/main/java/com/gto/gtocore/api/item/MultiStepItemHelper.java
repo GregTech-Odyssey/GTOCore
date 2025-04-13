@@ -23,25 +23,7 @@ public final class MultiStepItemHelper {
 
     public static ItemStack locateStep(ItemStack stack0, int step) {
         ItemStack stack = stack0.copy();
-        if (stack.getTag() != null) {
-            stack.getTag().putInt("current_craft_step", step);
-        }
-        return stack;
-    }
-
-    public static ItemStack locateStep(ItemStack stack0, int step, String name) {
-        ItemStack stack = stack0.copy();
-        CompoundTag nbt = stack.getOrCreateTag();
-        if (stack.getTag() != null) {
-            stack.getTag().putInt("current_craft_step", step);
-        }
-        if (name != null && !name.isEmpty()) {
-            CompoundTag display = nbt.getCompound("display");
-            String jsonName = "{\"text\":\"" + name + "\",\"italic\":false}";
-            display.putString("Name", jsonName);
-            nbt.put("display", display);
-        }
-        stack.setTag(nbt);
+        stack.getTag().putInt("current_craft_step", step);
         return stack;
     }
 

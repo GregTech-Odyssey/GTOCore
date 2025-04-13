@@ -8,7 +8,7 @@ import static com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlag
 import static com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlags.GENERATE_FOIL;
 import static com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialIconSet.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
-import static com.gto.gtocore.api.data.chemical.material.info.GTOMaterialIconSet.*;
+import static com.gto.gtocore.api.data.chemical.material.info.GTOMaterialIconSet.LIMPID;
 import static com.gto.gtocore.common.data.GTOMaterials.*;
 import static com.gto.gtocore.utils.register.MaterialsRegisterUtils.material;
 
@@ -406,13 +406,67 @@ public interface MaterialC {
                 .iconSet(DULL)
                 .buildAndRegister();
 
-        RecycleCascadeMFPC = material("recycle_cascade_mfpc", "回收的串级相变MFPC(Cascade-MFPC)")
+        HollowCeramicMicrosphereRoughEmbryo = material("hollow_ceramic_microsphere_rough_embryo", "中空陶瓷微珠粗胚")
                 .dust()
-                .color(0x303030)
-                .iconSet(DULL)
+                .color(0x2b2d30)
+                .iconSet(SAND)
                 .buildAndRegister();
 
-        PrecursorMFPC = material("precursor_mfpc", "多功能相变(MFPC)前体")
+        HollowCeramicMicrospheres = material("hollow_ceramic_microspheres", "中空陶瓷微珠")
+                .dust()
+                .color(0x2b2d30)
+                .iconSet(SAND)
+                .buildAndRegister();
+
+        SilverCoatedHollowCeramicMicrospheres = material("silver_coated_hollow_ceramic_microspheres", "镀银的中空陶瓷微珠")
+                .dust()
+                .color(0x2b2d30)
+                .iconSet(SAND)
+                .buildAndRegister();
+
+        SilverCoatedOctaneCeramicBeads = material("silver_coated_octane_ceramic_beads", "镀银的辛烷陶瓷微珠")
+                .dust()
+                .color(0x2b2d30)
+                .iconSet(SAND)
+                .buildAndRegister();
+
+        SealedPhaseChangeBeads = material("sealed_phase_change_beads", "密封相变微珠")
+                .dust()
+                .color(0x2b2d30)
+                .iconSet(SAND)
+                .buildAndRegister();
+
+        CarbonNanotubeCoatedPhaseChangeMicrobeads = material("carbon_nanotube_coated_phase_change_microbeads", "碳纳米管包覆的相变微珠")
+                .dust()
+                .color(0x2b2d30)
+                .iconSet(SAND)
+                .buildAndRegister();
+
+        MicrowaveAttenuatingCoatedPhaseChangeMicrobeads = material("microwave_attenuating_coated_phase_change_microbeads", "微波衰减涂覆的相变微珠")
+                .dust()
+                .color(0x2b2d30)
+                .iconSet(SAND)
+                .buildAndRegister();
+
+        SurfaceFunctionalizedPhaseChangeMicrobeads = material("surface_functionalized_phase_change_microbeads", "表面功能化的相变微珠")
+                .dust()
+                .color(0x2b2d30)
+                .iconSet(SAND)
+                .buildAndRegister();
+
+        RecycledPhaseChangeMicrobeads = material("recycled_phase_change_microbeads", "回收的相变微珠")
+                .dust()
+                .color(0x2b2d30)
+                .iconSet(SAND)
+                .buildAndRegister();
+
+        OctaneLoadedPhaseChangeMicrobeads = material("octane_loaded_phase_change_microbeads", "重载辛烷的相变微珠")
+                .dust()
+                .color(0x2b2d30)
+                .iconSet(SAND)
+                .buildAndRegister();
+
+        ReactivatedPhaseChangeMicrobeads = material("reactivated_phase_change_microbeads", "重新活化的相变微珠")
                 .dust()
                 .color(0x2b2d30)
                 .iconSet(SAND)

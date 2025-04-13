@@ -8,6 +8,7 @@ import com.gto.gtocore.api.recipe.GTORecipeBuilder;
 import com.gto.gtocore.api.recipe.RecipeRunnerHelper;
 import com.gto.gtocore.common.data.GTOItems;
 import com.gto.gtocore.utils.MachineUtils;
+import com.gto.gtocore.utils.MathUtil;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.gui.fancy.ConfiguratorPanel;
@@ -134,7 +135,7 @@ public class SpaceElevatorMachine extends TierCasingMultiblockMachine implements
     public boolean onWorking() {
         if (!super.onWorking()) return false;
         update(false);
-        high = 12 * getBaseHigh() + 100 + ((100 + getBaseHigh()) * Math.sin(getOffsetTimer() / 160.0D));
+        high = 12 * getBaseHigh() + 100 + ((100 + getBaseHigh()) * MathUtil.sin(getOffsetTimer() / 160.0F));
         return true;
     }
 

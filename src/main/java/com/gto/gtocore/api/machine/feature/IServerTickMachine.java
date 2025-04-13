@@ -2,9 +2,13 @@ package com.gto.gtocore.api.machine.feature;
 
 public interface IServerTickMachine {
 
-    default void gtocore$tick() {}
+    default void runTick() {}
 
-    default boolean gtocore$cancel() {
+    default boolean keepTick() {
+        return false;
+    }
+
+    default boolean cancelTick() {
         return false;
     }
 }

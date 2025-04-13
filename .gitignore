@@ -8,9 +8,6 @@ classes/
 bin/
 run/
 src/generated/
-spotless/
-libs/
-gradle/
 *.launch
 *.iml
 *.ipr

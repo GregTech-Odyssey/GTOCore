@@ -190,6 +190,12 @@ public abstract class MufflerPartMachineMixin extends TieredPartMachine implemen
 
     @Inject(method = "<init>", at = @At("TAIL"), remap = false)
     private void init(IMachineBlockEntity holder, int tier, CallbackInfo ci) {
-        inventory.setOnContentsChanged(() -> { if (getControllers().first() instanceof IRecipeLogicMachine recipeLogicMachine) recipeLogicMachine.getRecipeLogic().updateTickSubscription(); });
+        inventory.setOnContentsChanged(() -> {
+            for (var c : getControllers()) {
+                if (c instanceof IRecipeLogicMachine recipeLogicMachine) {
+                    recipeLogicMachine.getRecipeLogic().updateTickSubscription();
+                }
+            }
+        });
     }
 }

@@ -12,10 +12,11 @@ import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Function;
+import java.util.function.ToIntFunction;
 
 public class CustomParallelMultiblockMachine extends ElectricMultiblockMachine implements IParallelMachine {
 
-    public static Function<IMachineBlockEntity, CustomParallelMultiblockMachine> createParallel(Function<CustomParallelMultiblockMachine, Integer> parallel, boolean defaultParallel) {
+    public static Function<IMachineBlockEntity, CustomParallelMultiblockMachine> createParallel(ToIntFunction<CustomParallelMultiblockMachine> parallel, boolean defaultParallel) {
         return holder -> new CustomParallelMultiblockMachine(holder, defaultParallel, parallel);
     }
 
@@ -30,9 +31,9 @@ public class CustomParallelMultiblockMachine extends ElectricMultiblockMachine i
     @Persisted
     private final CustomParallelTrait customParallelTrait;
 
-    protected CustomParallelMultiblockMachine(IMachineBlockEntity holder, boolean defaultParallel, @NotNull Function<CustomParallelMultiblockMachine, Integer> parallel) {
+    protected CustomParallelMultiblockMachine(IMachineBlockEntity holder, boolean defaultParallel, @NotNull ToIntFunction<CustomParallelMultiblockMachine> parallel) {
         super(holder);
-        customParallelTrait = new CustomParallelTrait(this, defaultParallel, machine -> parallel.apply((CustomParallelMultiblockMachine) machine));
+        customParallelTrait = new CustomParallelTrait(this, defaultParallel, machine -> parallel.applyAsInt((CustomParallelMultiblockMachine) machine));
     }
 
     @Override

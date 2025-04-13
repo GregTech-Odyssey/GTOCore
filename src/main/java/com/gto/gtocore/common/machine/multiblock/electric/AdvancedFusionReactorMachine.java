@@ -8,8 +8,8 @@ import com.gregtechceu.gtceu.api.capability.IEnergyContainer;
 import com.gregtechceu.gtceu.api.capability.recipe.EURecipeCapability;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.capability.recipe.IRecipeHandler;
+import com.gregtechceu.gtceu.api.machine.ConditionalSubscriptionHandler;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
-import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
@@ -41,13 +41,13 @@ public final class AdvancedFusionReactorMachine extends CrossRecipeMultiblockMac
     private long heat = 0;
     @Persisted
     private final EnergyContainerTrait energyContainer;
-    @Nullable
-    private TickableSubscription preHeatSubs;
+    private final ConditionalSubscriptionHandler preHeatSubs;
 
     public AdvancedFusionReactorMachine(IMachineBlockEntity holder, int tier) {
         super(holder, false, true, MachineUtils::getHatchParallel);
         this.tier = tier;
         this.energyContainer = createEnergyContainer();
+        preHeatSubs = new ConditionalSubscriptionHandler(this, this::updateHeat, () -> isFormed || heat > 0);
     }
 
     @Override
@@ -71,7 +71,7 @@ public final class AdvancedFusionReactorMachine extends CrossRecipeMultiblockMac
             }
         }
         energyContainer.resetBasicInfo(calculateEnergyStorageFactor(tier, size));
-        updatePreHeatSubscription();
+        preHeatSubs.initialize(getLevel());
     }
 
     @Override
@@ -80,16 +80,6 @@ public final class AdvancedFusionReactorMachine extends CrossRecipeMultiblockMac
         heat = 0;
         energyContainer.resetBasicInfo(0);
         energyContainer.setEnergyStored(0);
-        updatePreHeatSubscription();
-    }
-
-    private void updatePreHeatSubscription() {
-        if (heat > 0 || (isFormed() && getEnergyContainer().getEnergyStored() > 0)) {
-            preHeatSubs = subscribeServerTick(preHeatSubs, this::updateHeat);
-        } else if (preHeatSubs != null) {
-            preHeatSubs.unsubscribe();
-            preHeatSubs = null;
-        }
     }
 
     @Override
@@ -100,21 +90,20 @@ public final class AdvancedFusionReactorMachine extends CrossRecipeMultiblockMac
         if (energyContainer.getEnergyStored() < heatDiff) return null;
         energyContainer.removeEnergy(heatDiff);
         heat += heatDiff;
-        updatePreHeatSubscription();
         return super.getRealRecipe(recipe);
     }
 
     private void updateHeat() {
-        if ((getRecipeLogic().isIdle() || !isWorkingEnabled() || (getRecipeLogic().isWaiting() && getRecipeLogic().getProgress() == 0)) && heat > 0) {
+        if (heat > 0 && (getRecipeLogic().isIdle() || !isWorkingEnabled() || (getRecipeLogic().isWaiting() && getRecipeLogic().getProgress() == 0))) {
             heat = heat <= 10000 ? 0 : (heat - 10000);
         }
-        if (isFormed()) {
+        if (isFormed() && getEnergyContainer().getEnergyStored() > 0) {
             var leftStorage = energyContainer.getEnergyCapacity() - energyContainer.getEnergyStored();
             if (leftStorage > 0) {
                 energyContainer.addEnergy(getEnergyContainer().removeEnergy(leftStorage));
             }
         }
-        updatePreHeatSubscription();
+        preHeatSubs.updateSubscription();
     }
 
     @Override

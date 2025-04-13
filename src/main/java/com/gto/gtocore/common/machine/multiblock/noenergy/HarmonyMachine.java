@@ -108,7 +108,7 @@ public final class HarmonyMachine extends NoEnergyMultiblockMachine implements I
             helium -= 1024000000;
             ExtendWirelessEnergyContainer container = getWirelessEnergyContainer();
             long energy = getStartupEnergy() * Math.max(1, (recipe.data.getInt("tier") - 1) << 2);
-            if (container != null && container.unrestrictedRemoveEnergy(energy) == -energy) {
+            if (container != null && container.unrestrictedRemoveEnergy(energy) == energy) {
                 if (tier == recipe.data.getInt("tier")) {
                     count++;
                     if (count > 16 + (tier << 2)) {

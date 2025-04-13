@@ -1,6 +1,6 @@
 package com.gto.gtocore.api.machine.feature;
 
-import com.gto.gtocore.api.machine.INetMachineInteractor;
+import com.gto.gtocore.api.machine.IIWirelessInteractorMachine;
 import com.gto.gtocore.api.misc.Drone;
 import com.gto.gtocore.common.machine.multiblock.noenergy.DroneControlCenterMachine;
 import com.gto.gtocore.utils.GTOUtils;
@@ -15,7 +15,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Map;
 import java.util.Set;
 
-public interface IDroneInteractionMachine extends INetMachineInteractor<DroneControlCenterMachine>, IMachineFeature {
+public interface IDroneInteractionMachine extends IIWirelessInteractorMachine<DroneControlCenterMachine>, IMachineFeature {
 
     @Override
     default Map<ResourceLocation, Set<DroneControlCenterMachine>> getMachineNet() {

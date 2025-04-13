@@ -170,8 +170,12 @@ public final class MultiblockBuilder extends MultiblockMachineBuilder {
     }
 
     public MultiblockBuilder steamOverclock() {
+        return steamOverclock("LV");
+    }
+
+    public MultiblockBuilder steamOverclock(String v) {
         tooltipsKey("gtocore.machine.steam.tooltip.0");
-        tooltipsKey("gtocore.machine.steam.tooltip.1");
+        tooltipsKey("gtocore.machine.steam.tooltip.1", v);
         tooltipsKey("gtocore.machine.steam.tooltip.2");
         return recipeModifier(LargeSteamParallelMultiblockMachine.recipeModifier(1.5));
     }

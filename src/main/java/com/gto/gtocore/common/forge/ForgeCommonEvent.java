@@ -3,8 +3,10 @@ package com.gto.gtocore.common.forge;
 import com.gto.gtocore.api.data.GTODimensions;
 import com.gto.gtocore.api.entity.IEnhancedPlayer;
 import com.gto.gtocore.api.machine.feature.IVacuumMachine;
+import com.gto.gtocore.api.playerskill.data.ExperienceSystemManager;
 import com.gto.gtocore.api.recipe.AsyncRecipeOutputTask;
 import com.gto.gtocore.api.recipe.AsyncRecipeSearchTask;
+import com.gto.gtocore.common.CommonCache;
 import com.gto.gtocore.common.data.GTOBlocks;
 import com.gto.gtocore.common.data.GTOCommands;
 import com.gto.gtocore.common.data.GTOItems;
@@ -32,13 +34,11 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.entity.animal.*;
 import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -47,7 +47,6 @@ import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.EntityTravelToDimensionEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
-import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.level.BlockEvent;
@@ -57,40 +56,9 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 import com.hepdd.gtmthings.data.WirelessEnergySavaedData;
 
-import java.util.List;
 import java.util.Objects;
 
 public final class ForgeCommonEvent {
-
-    @SubscribeEvent
-    public static void onFoodConsume(LivingEntityUseItemEvent event) {
-        if (GTOConfig.INSTANCE.enableAnimalsAreAfraidToEatTheirMeat) {
-            if (event.getEntity() instanceof Player player && Objects.equals(20, event.getDuration()) && !player.level().isClientSide()) {
-                int distacne = GTOConfig.INSTANCE.enableAnimalsAreAfraidToEatTheirMeatRange;
-                hurtAnimalsNearPlayer(player, Items.BEEF, Cow.class, event, distacne);
-                hurtAnimalsNearPlayer(player, Items.COOKED_BEEF, Cow.class, event, distacne);
-
-                hurtAnimalsNearPlayer(player, Items.CHICKEN, Chicken.class, event, distacne);
-                hurtAnimalsNearPlayer(player, Items.COOKED_CHICKEN, Chicken.class, event, distacne);
-
-                hurtAnimalsNearPlayer(player, Items.PORKCHOP, Pig.class, event, distacne);
-                hurtAnimalsNearPlayer(player, Items.COOKED_PORKCHOP, Pig.class, event, distacne);
-
-                hurtAnimalsNearPlayer(player, Items.MUTTON, Sheep.class, event, distacne);
-                hurtAnimalsNearPlayer(player, Items.COOKED_MUTTON, Sheep.class, event, distacne);
-            }
-        }
-    }
-
-    private static <T extends Animal> void hurtAnimalsNearPlayer(Player player, Item foodItem, Class<T> animalClass, LivingEntityUseItemEvent event, float distance) {
-        if (event.getItem().is(foodItem)) {
-            Level level = player.level();
-            List<T> animalEntities = level.getEntitiesOfClass(animalClass, player.getBoundingBox().inflate(distance));
-            for (T animal : animalEntities) {
-                animal.hurt(player.damageSources().playerAttack(player), Math.max(animal.getMaxHealth() / 20, 0.5F));
-            }
-        }
-    }
 
     @SubscribeEvent
     public static void onDropsEvent(LivingDropsEvent e) {
@@ -239,10 +207,7 @@ public final class ForgeCommonEvent {
     @SubscribeEvent
     public static void onPlayerLoggedInEvent(PlayerEvent.PlayerLoggedInEvent event) {
         if (event.getEntity() instanceof ServerPlayer player) {
-            if (!GTOConfig.INSTANCE.dev) player.displayClientMessage(Component.translatable("gtocore.dev", Component.literal("GitHub")
-                    .withStyle(Style.EMPTY.withColor(ChatFormatting.GREEN)
-                            .withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://github.com/GregTech-Odyssey/GregTech-Odyssey/issues")))),
-                    false);
+            if (!GTOConfig.INSTANCE.dev) player.displayClientMessage(Component.translatable("gtocore.dev", Component.literal("GitHub").withStyle(Style.EMPTY.withColor(ChatFormatting.GREEN).withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://github.com/GregTech-Odyssey/GregTech-Odyssey/issues")))), false);
             if (player instanceof IEnhancedPlayer enhancedPlayer) {
                 ServerMessage.sendData(player.getServer(), player, "loggedIn", null);
                 enhancedPlayer.gtocore$setDrift(enhancedPlayer.gTOCore$isDisableDrift());
@@ -252,7 +217,7 @@ public final class ForgeCommonEvent {
 
     @SubscribeEvent
     public static void onLevelLoad(LevelEvent.Load event) {
-        if (event.getLevel() instanceof ServerLevel level) {
+        if (event.getLevel() instanceof ServerLevel level && !CommonCache.initialized) {
             ServerLevel serverLevel = level.getServer().getLevel(Level.OVERWORLD);
             if (serverLevel == null) return;
             InfinityCellSavaedData.INSTANCE = serverLevel.getDataStorage().computeIfAbsent(InfinityCellSavaedData::readNbt, InfinityCellSavaedData::new, "infinite_storage_cell_data");
@@ -260,7 +225,9 @@ public final class ForgeCommonEvent {
             WirelessEnergySavaedData.INSTANCE = serverLevel.getDataStorage().computeIfAbsent(ExtendWirelessEnergySavaedData::new, ExtendWirelessEnergySavaedData::new, "wireless_energy_data");
             CommonSavaedData.INSTANCE = serverLevel.getDataStorage().computeIfAbsent(CommonSavaedData::new, CommonSavaedData::new, "common_data");
             RecipeRunLimitSavaedData.INSTANCE = serverLevel.getDataStorage().computeIfAbsent(RecipeRunLimitSavaedData::new, RecipeRunLimitSavaedData::new, " recipe_run_limit_data");
+            ExperienceSystemManager.INSTANCE = level.getDataStorage().computeIfAbsent(ExperienceSystemManager::load, ExperienceSystemManager::new, "gto_experience_data");
             if (GTOConfig.INSTANCE.selfRestraint) ServerUtils.getPersistentData().putBoolean("srm", true);
+            CommonCache.initialized = true;
         }
     }
 
@@ -275,6 +242,7 @@ public final class ForgeCommonEvent {
     public static void onServerStoppingEvent(ServerStoppingEvent event) {
         AsyncRecipeSearchTask.releaseExecutorService();
         AsyncRecipeOutputTask.releaseExecutorService();
+        CommonCache.initialized = false;
     }
 
     @SubscribeEvent

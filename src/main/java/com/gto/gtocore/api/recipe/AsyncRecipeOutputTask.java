@@ -74,11 +74,11 @@ public final class AsyncRecipeOutputTask {
                         for (Runnable runnable : task.runnables) {
                             runnable.run();
                         }
-                        task.runnables.clear();
                     } catch (Throwable e) {
                         GTOCore.LOGGER.error("Error while output recipe");
                         e.printStackTrace();
                     }
+                    task.runnables.clear();
                 }
             }
         } catch (Throwable ignored) {}

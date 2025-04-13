@@ -1,7 +1,6 @@
 package com.gto.gtocore.integration.jade.provider;
 
 import com.gto.gtocore.api.machine.multiblock.CrossRecipeMultiblockMachine;
-import com.gto.gtocore.api.machine.multiblock.ElectricMultiblockMachine;
 import com.gto.gtocore.common.data.GTORecipeTypes;
 import com.gto.gtocore.utils.FluidUtils;
 import com.gto.gtocore.utils.GTOUtils;
@@ -14,7 +13,6 @@ import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
 import com.gregtechceu.gtceu.integration.jade.GTElementHelper;
 import com.gregtechceu.gtceu.integration.jade.provider.CapabilityBlockProvider;
-import com.gregtechceu.gtceu.utils.FluidStackHashStrategy;
 import com.gregtechceu.gtceu.utils.ItemStackHashStrategy;
 
 import net.minecraft.ChatFormatting;
@@ -31,7 +29,9 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.fluids.FluidStack;
 
+import it.unimi.dsi.fastutil.objects.Object2LongMap;
 import it.unimi.dsi.fastutil.objects.Object2LongOpenCustomHashMap;
+import it.unimi.dsi.fastutil.objects.Object2LongOpenHashMap;
 import org.jetbrains.annotations.Nullable;
 import snownee.jade.api.BlockAccessor;
 import snownee.jade.api.ITooltip;
@@ -40,7 +40,10 @@ import snownee.jade.api.fluid.JadeFluidObject;
 import snownee.jade.api.ui.IElementHelper;
 import snownee.jade.util.FluidTextHelper;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
 
 public final class RecipeOutputProvider extends CapabilityBlockProvider<RecipeLogic> {
 
@@ -57,67 +60,65 @@ public final class RecipeOutputProvider extends CapabilityBlockProvider<RecipeLo
     protected void write(CompoundTag data, RecipeLogic recipeLogic) {
         if (recipeLogic.isWorking()) {
             data.putBoolean("Working", recipeLogic.isWorking());
-            if (recipeLogic.getMachine() instanceof ElectricMultiblockMachine machine) {
-                if (machine.getRecipeType() == GTORecipeTypes.RANDOM_ORE_RECIPES) return;
-                Set<GTRecipe> recipes;
-                if (machine instanceof CrossRecipeMultiblockMachine crossRecipeMultiblockMachine) {
-                    if (crossRecipeMultiblockMachine.isJadeInfo()) {
-                        recipes = crossRecipeMultiblockMachine.getLastRecipes();
-                    } else {
-                        return;
-                    }
+            if (recipeLogic.machine.getRecipeType() == GTORecipeTypes.RANDOM_ORE_RECIPES) return;
+            Set<GTRecipe> recipes;
+            if (recipeLogic.machine instanceof CrossRecipeMultiblockMachine crossRecipeMultiblockMachine) {
+                if (crossRecipeMultiblockMachine.isJadeInfo()) {
+                    recipes = crossRecipeMultiblockMachine.getLastRecipes();
                 } else {
-                    var last = recipeLogic.getLastRecipe();
-                    if (last == null) return;
-                    recipes = Collections.singleton(last);
+                    return;
                 }
-                Map<ItemStack, Long> items = new Object2LongOpenCustomHashMap<>(ItemStackHashStrategy.comparingAllButCount());
-                Map<FluidStack, Long> fluids = new Object2LongOpenCustomHashMap<>(FluidStackHashStrategy.comparingAllButAmount());
-                for (GTRecipe recipe : recipes) {
-                    for (ItemStack stack : RecipeHelper.getOutputItems(recipe)) {
-                        if (stack != null && !stack.isEmpty()) {
-                            items.compute(stack, (key, value) -> {
-                                if (value == null) return (long) key.getCount();
-                                return value + key.getCount();
-                            });
-                        }
-                    }
-                    if (!items.isEmpty()) {
-                        ListTag itemTags = new ListTag();
-                        items.forEach((stack, value) -> {
-                            var nbt = new CompoundTag();
-                            nbt.putString("id", ItemUtils.getId(stack));
-                            nbt.putLong("Count", value);
-                            if (stack.getTag() != null) {
-                                nbt.put("tag", stack.getTag().copy());
-                            }
-                            itemTags.add(nbt);
+            } else {
+                var last = recipeLogic.getLastRecipe();
+                if (last == null) return;
+                recipes = Collections.singleton(last);
+            }
+            Object2LongMap<ItemStack> items = new Object2LongOpenCustomHashMap<>(ItemStackHashStrategy.comparingAllButCount());
+            Object2LongMap<FluidStack> fluids = new Object2LongOpenHashMap<>();
+            for (GTRecipe recipe : recipes) {
+                for (ItemStack stack : RecipeHelper.getOutputItems(recipe)) {
+                    if (stack != null && !stack.isEmpty()) {
+                        items.computeLong(stack, (key, value) -> {
+                            if (value == null) return (long) key.getCount();
+                            return value + key.getCount();
                         });
-                        data.put("OutputItems", itemTags);
                     }
+                }
 
-                    for (FluidStack stack : RecipeHelper.getOutputFluids(recipe)) {
-                        if (stack != null && !stack.isEmpty()) {
-                            fluids.compute(stack, (key, value) -> {
-                                if (value == null) return (long) key.getAmount();
-                                return value + key.getAmount();
-                            });
-                        }
-                    }
-                    if (!fluids.isEmpty()) {
-                        ListTag fluidTags = new ListTag();
-                        fluids.forEach((stack, value) -> {
-                            var nbt = new CompoundTag();
-                            nbt.putString("FluidName", FluidUtils.getId(stack.getFluid()));
-                            nbt.putLong("Amount", value);
-                            if (stack.getTag() != null) {
-                                nbt.put("tag", stack.getTag().copy());
-                            }
-                            fluidTags.add(nbt);
+                for (FluidStack stack : RecipeHelper.getOutputFluids(recipe)) {
+                    if (stack != null && !stack.isEmpty()) {
+                        fluids.computeLong(stack, (key, value) -> {
+                            if (value == null) return (long) key.getAmount();
+                            return value + key.getAmount();
                         });
-                        data.put("OutputFluids", fluidTags);
                     }
                 }
+            }
+            if (!items.isEmpty()) {
+                ListTag itemTags = new ListTag();
+                items.object2LongEntrySet().forEach(entry -> {
+                    var nbt = new CompoundTag();
+                    nbt.putString("id", ItemUtils.getId(entry.getKey()));
+                    nbt.putLong("Count", entry.getLongValue());
+                    if (entry.getKey().getTag() != null) {
+                        nbt.put("tag", entry.getKey().getTag().copy());
+                    }
+                    itemTags.add(nbt);
+                });
+                data.put("OutputItems", itemTags);
+            }
+            if (!fluids.isEmpty()) {
+                ListTag fluidTags = new ListTag();
+                fluids.object2LongEntrySet().forEach(entry -> {
+                    var nbt = new CompoundTag();
+                    nbt.putString("FluidName", FluidUtils.getId(entry.getKey().getFluid()));
+                    nbt.putLong("Amount", entry.getLongValue());
+                    if (entry.getKey().getTag() != null) {
+                        nbt.put("tag", entry.getKey().getTag().copy());
+                    }
+                    fluidTags.add(nbt);
+                });
+                data.put("OutputFluids", fluidTags);
             }
         }
     }

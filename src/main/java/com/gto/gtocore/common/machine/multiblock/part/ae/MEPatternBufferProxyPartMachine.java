@@ -128,4 +128,9 @@ public final class MEPatternBufferProxyPartMachine extends TieredIOPartMachine i
         }
         return InteractionResult.PASS;
     }
+
+    @Override
+    public boolean canShared() {
+        return false;
+    }
 }

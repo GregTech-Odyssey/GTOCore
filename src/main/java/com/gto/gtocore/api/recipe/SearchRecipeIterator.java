@@ -19,19 +19,15 @@ class SearchRecipeIterator implements Iterator<GTRecipe> {
     boolean hasNext = true;
 
     final List<List<AbstractMapIngredient>> ingredients;
-    final Predicate<GTRecipe> canHandle;
     final IRecipeCapabilityHolder holder;
     final GTRecipeType recipeType;
     private final RecipeIterator recipeIterator;
+    private final Predicate<GTRecipe> canHandle;
 
-    SearchRecipeIterator(IRecipeCapabilityHolder holder, GTRecipeType recipeType, boolean tick) {
+    SearchRecipeIterator(IRecipeCapabilityHolder holder, GTRecipeType recipeType, Predicate<GTRecipe> canHandle) {
         this.holder = holder;
         this.recipeType = recipeType;
-        if (tick) {
-            canHandle = recipe -> RecipeRunnerHelper.matchRecipe(holder, recipe) && RecipeRunnerHelper.matchTickRecipe(holder, recipe);
-        } else {
-            canHandle = recipe -> RecipeRunnerHelper.matchRecipe(holder, recipe);
-        }
+        this.canHandle = canHandle;
         ingredients = fromHolder(holder);
         recipeIterator = createRecipeIterator();
     }

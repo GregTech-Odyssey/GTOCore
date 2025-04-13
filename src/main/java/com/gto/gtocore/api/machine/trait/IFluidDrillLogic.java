@@ -1,6 +1,6 @@
 package com.gto.gtocore.api.machine.trait;
 
-import com.gto.gtocore.api.machine.INetMachineInteractor;
+import com.gto.gtocore.api.machine.IIWirelessInteractorMachine;
 import com.gto.gtocore.common.machine.multiblock.electric.voidseries.DrillingControlCenterMachine;
 import com.gto.gtocore.utils.GTOUtils;
 
@@ -12,7 +12,7 @@ import net.minecraft.world.level.Level;
 import java.util.Map;
 import java.util.Set;
 
-public interface IFluidDrillLogic extends INetMachineInteractor<DrillingControlCenterMachine> {
+public interface IFluidDrillLogic extends IIWirelessInteractorMachine<DrillingControlCenterMachine> {
 
     MetaMachine getMachine();
 

@@ -84,6 +84,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import java.util.concurrent.locks.ReentrantLock;
 import java.util.function.Predicate;
 
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -209,6 +210,11 @@ public class MEPatternBufferPartMachine extends MEBusPartMachine implements ICra
     @Override
     public NotifiableItemStackHandler getCircuitInventory() {
         return circuitInventorySimulated;
+    }
+
+    @Override
+    public boolean canShared() {
+        return false;
     }
 
     @Override
@@ -467,6 +473,7 @@ public class MEPatternBufferPartMachine extends MEBusPartMachine implements ICra
         private final Object2LongOpenCustomHashMap<ItemStack> itemInventory = new Object2LongOpenCustomHashMap<>(ItemStackHashStrategy.comparingAllButCount());
         @Getter
         private final Object2LongOpenHashMap<FluidStack> fluidInventory = new Object2LongOpenHashMap<>();
+        private final ReentrantLock lock = new ReentrantLock();
         private List<ItemStack> itemStacks = null;
         private List<FluidStack> fluidStacks = null;
 
@@ -483,8 +490,13 @@ public class MEPatternBufferPartMachine extends MEBusPartMachine implements ICra
         }
 
         private void onContentsChanged() {
-            itemStacks = null;
-            fluidStacks = null;
+            lock.lock();
+            try {
+                itemStacks = null;
+                fluidStacks = null;
+            } finally {
+                lock.unlock();
+            }
             onContentsChanged.run();
         }
 
@@ -505,31 +517,41 @@ public class MEPatternBufferPartMachine extends MEBusPartMachine implements ICra
         }
 
         public List<ItemStack> getItems() {
-            if (itemStacks == null) {
-                synchronized (itemInventory) {
-                    List<ItemStack> stacks = new ObjectArrayList<>(itemInventory.size());
-                    for (Object2LongMap.Entry<ItemStack> e : itemInventory.object2LongEntrySet()) {
-                        e.getKey().setCount(GTMath.saturatedCast(e.getLongValue()));
-                        stacks.add(e.getKey());
+            lock.lock();
+            try {
+                if (itemStacks == null) {
+                    synchronized (itemInventory) {
+                        List<ItemStack> stacks = new ObjectArrayList<>(itemInventory.size());
+                        for (Object2LongMap.Entry<ItemStack> e : itemInventory.object2LongEntrySet()) {
+                            e.getKey().setCount(GTMath.saturatedCast(e.getLongValue()));
+                            stacks.add(e.getKey());
+                        }
+                        itemStacks = stacks;
                     }
-                    itemStacks = stacks;
                 }
+                return itemStacks;
+            } finally {
+                lock.unlock();
             }
-            return itemStacks;
         }
 
         public List<FluidStack> getFluids() {
-            if (fluidStacks == null) {
-                synchronized (fluidInventory) {
-                    List<FluidStack> stacks = new ObjectArrayList<>(fluidInventory.size());
-                    for (Object2LongMap.Entry<FluidStack> e : fluidInventory.object2LongEntrySet()) {
-                        e.getKey().setAmount(GTMath.saturatedCast(e.getLongValue()));
-                        stacks.add(e.getKey());
+            lock.lock();
+            try {
+                if (fluidStacks == null) {
+                    synchronized (fluidInventory) {
+                        List<FluidStack> stacks = new ObjectArrayList<>(fluidInventory.size());
+                        for (Object2LongMap.Entry<FluidStack> e : fluidInventory.object2LongEntrySet()) {
+                            e.getKey().setAmount(GTMath.saturatedCast(e.getLongValue()));
+                            stacks.add(e.getKey());
+                        }
+                        fluidStacks = stacks;
                     }
-                    fluidStacks = stacks;
                 }
+                return fluidStacks;
+            } finally {
+                lock.unlock();
             }
-            return fluidStacks;
         }
 
         private void refund() {
