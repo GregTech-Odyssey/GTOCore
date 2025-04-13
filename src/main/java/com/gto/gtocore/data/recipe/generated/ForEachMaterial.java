@@ -16,12 +16,13 @@ public interface ForEachMaterial {
 
     static void init(Consumer<FinishedRecipe> consumer) {
         for (Material material : GTCEuAPI.materialManager.getRegisteredMaterials()) {
-            if (material.hasFlag(MaterialFlags.NO_UNIFICATION) || !material.hasProperty(PropertyKey.DUST)) {
+            if (material.hasFlag(MaterialFlags.NO_UNIFICATION)) {
                 continue;
             }
 
-            ToolRecipeHandler.run(consumer, material);
             DecompositionRecipeHandler.run(consumer, material);
+            if (material.hasProperty(PropertyKey.DUST)) continue;
+            ToolRecipeHandler.run(consumer, material);
             PolarizingRecipeHandler.run(consumer, material);
             GTOMaterialRecipeHandler.run(consumer, material);
             GTOOreRecipeHandler.run(consumer, material);

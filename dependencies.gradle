@@ -50,7 +50,7 @@ dependencies {
 
     modImplementation("curse.maven:modernfix-790626:6025611")
 
-    modImplementation("curse.maven:re-avaritia-623969:6264467")
+    modImplementation("curse.maven:re-avaritia-623969:6418092")
 
     modImplementation("curse.maven:EnderIO-64578:5780352")
 
