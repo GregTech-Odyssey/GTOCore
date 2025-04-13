@@ -7,6 +7,7 @@ import com.gto.gtocore.common.data.GTOItems;
 import com.gto.gtocore.common.data.GTOMaterials;
 
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
+import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
@@ -15,6 +16,22 @@ import static com.gto.gtocore.common.data.GTORecipeTypes.BLAST_RECIPES;
 interface Blast {
 
     static void init() {
+        BLAST_RECIPES.builder("molten_stainless_steel")
+                .inputItems(TagPrefix.dust, GTMaterials.StainlessSteel, 4)
+                .inputFluids(GTMaterials.StainlessSteel, 1152)
+                .outputFluids(GTMaterials.StainlessSteel.getFluid(FluidStorageKeys.MOLTEN, 2304))
+                .EUt(120)
+                .duration(240)
+                .save();
+
+        BLAST_RECIPES.builder("molten_manganese_phosphide")
+                .inputItems(TagPrefix.dust, GTMaterials.ManganesePhosphide, 4)
+                .inputFluids(GTMaterials.ManganesePhosphide, 1152)
+                .outputFluids(GTMaterials.ManganesePhosphide.getFluid(FluidStorageKeys.MOLTEN, 2304))
+                .EUt(120)
+                .duration(200)
+                .save();
+
         BLAST_RECIPES.recipeBuilder(GTOCore.id("alumina_ceramic"))
                 .inputItems(GTOTagPrefix.ROUGH_BLANK, GTOMaterials.AluminaCeramic)
                 .outputItems(TagPrefix.block, GTOMaterials.AluminaCeramic)

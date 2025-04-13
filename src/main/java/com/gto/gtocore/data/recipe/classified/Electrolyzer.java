@@ -1,6 +1,7 @@
 package com.gto.gtocore.data.recipe.classified;
 
 import com.gto.gtocore.GTOCore;
+import com.gto.gtocore.common.data.GTOItems;
 import com.gto.gtocore.common.data.GTOMaterials;
 
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
@@ -86,12 +87,12 @@ interface Electrolyzer {
         ELECTROLYZER_RECIPES.recipeBuilder(GTOCore.id("sodium_hexafluoroaluminate"))
                 .inputItems(TagPrefix.dust, GTOMaterials.Alumina, 10)
                 .inputFluids(GTOMaterials.SodiumHexafluoroaluminate.getFluid(1000))
-                .outputItems(TagPrefix.dust, GTMaterials.Aluminium, 4)
+                .outputItems(GTOItems.RAW_ALUMINUM, 4)
                 .outputItems(TagPrefix.dust, GTOMaterials.SodiumFluoride, 6)
                 .outputItems(TagPrefix.dust, GTOMaterials.AluminiumTrifluoride, 4)
                 .outputFluids(GTMaterials.Oxygen.getFluid(6000))
                 .EUt(120)
-                .duration(200)
+                .duration(160)
                 .save();
 
         ELECTROLYZER_RECIPES.recipeBuilder(GTOCore.id("trimethylamine"))

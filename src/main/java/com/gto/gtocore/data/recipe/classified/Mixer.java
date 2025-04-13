@@ -661,7 +661,7 @@ interface Mixer {
                 .inputFluids(GTMaterials.Water.getFluid(3000))
                 .outputItems(TagPrefix.dust, GTOMaterials.AluminiumHydroxide, 7)
                 .outputFluids(SodiumHydroxideSolution.getFluid(1000))
-                .EUt(120)
+                .EUt(30)
                 .duration(120)
                 .save();
 

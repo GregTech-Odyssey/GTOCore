@@ -74,6 +74,7 @@ interface Vanilla {
                     "EFE",
                     'B', RegistriesUtils.getItemStack("chisel:chisel"), 'F', new MaterialEntry(TagPrefix.plateDouble, GTMaterials.SteelMagnetic), 'D', GTItems.ROBOT_ARM_LV.asStack(), 'C', GTItems.CONVEYOR_MODULE_LV.asStack(), 'E', new MaterialEntry(TagPrefix.plate, GTMaterials.Steel), 'A', CustomTags.LV_CIRCUITS);
         }
+        VanillaRecipeHelper.addSmeltingRecipe(provider, GTOCore.id("raw_aluminum"), GTOItems.RAW_ALUMINUM.asStack(), ChemicalHelper.get(TagPrefix.ingot, GTMaterials.Aluminium), 0);
         VanillaRecipeHelper.addShapelessRecipe(provider, GTOCore.id("pattern_modifier_pro"), GTOItems.PATTERN_MODIFIER_PRO.asStack(), RegistriesUtils.getItemStack("expatternprovider:pattern_modifier"));
         VanillaRecipeHelper.addShapelessRecipe(provider, GTOCore.id("item_storage_cell_64m_2"), GTOItems.ITEM_STORAGE_CELL_64M.asStack(), new ItemStack(AEItems.ITEM_CELL_HOUSING.asItem()), GTOItems.CELL_COMPONENT_64M.asItem());
         VanillaRecipeHelper.addShapelessRecipe(provider, GTOCore.id("suprachronal_assembly_line_module"), MultiBlockD.SUPRACHRONAL_ASSEMBLY_LINE_MODULE.asStack(), MultiBlockD.SUPRACHRONAL_ASSEMBLY_LINE.getItem());
