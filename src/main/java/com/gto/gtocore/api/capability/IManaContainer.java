@@ -69,17 +69,37 @@ public interface IManaContainer extends IIWirelessInteractorMachine<ManaDistribu
         return GTMath.saturatedCast(getCurrentMana());
     }
 
-    int getMaxIORate();
+    default int getMaxProductionRate() {
+        return GTMath.saturatedCast(getMaxMana());
+    }
 
+    default int getMaxConsumptionRate() {
+        return GTMath.saturatedCast(getMaxMana());
+    }
+
+    /**
+     * 尝试增加魔力，结果不超过最大魔力总量
+     * @param amount 欲输入量
+     * @param limit 速率限制 0-1
+     * @param simulate 是否模拟
+     * @return 变化量
+     */
     default long addMana(long amount, int limit, boolean simulate) {
-        long change = Math.min(getMaxMana() - getCurrentMana(), Math.min((long) limit * getMaxIORate(), amount));
+        long change = Math.min(getMaxMana() - getCurrentMana(), Math.min((long) limit * getMaxProductionRate(), amount));
         if (change <= 0) return 0;
         if (!simulate) setCurrentMana(getCurrentMana() + change);
         return change;
     }
 
+    /**
+     * 尝试减少魔力，结果不低于0
+     * @param amount 欲输出量
+     * @param limit 速率限制 0-1
+     * @param simulate 是否模拟
+     * @return 变化量
+     */
     default long removeMana(long amount, int limit, boolean simulate) {
-        long change = Math.min(getCurrentMana(), Math.min((long) limit * getMaxIORate(), amount));
+        long change = Math.min(getCurrentMana(), Math.min((long) limit * getMaxConsumptionRate(), amount));
         if (change <= 0) return 0;
         if (!simulate) setCurrentMana(getCurrentMana() - change);
         return change;

@@ -1,9 +1,9 @@
 package com.gto.gtocore.api.machine.mana.feature;
 
-import com.gregtechceu.gtceu.utils.GTMath;
 import com.gto.gtocore.api.capability.IManaContainer;
 
 import com.gregtechceu.gtceu.api.machine.feature.IMachineFeature;
+import com.gregtechceu.gtceu.utils.GTMath;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;

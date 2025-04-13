@@ -44,12 +44,21 @@ public final class ManaContainerList implements IManaContainer {
     }
 
     @Override
-    public int getMaxIORate() {
-        long maxIORate = 0;
+    public int getMaxProductionRate() {
+        long getMaxProductionRate = 0;
         for (IManaContainer container : containers) {
-            maxIORate += container.getMaxIORate();
+            getMaxProductionRate += container.getMaxProductionRate();
         }
-        return GTMath.saturatedCast(maxIORate);
+        return GTMath.saturatedCast(getMaxProductionRate);
+    }
+
+    @Override
+    public int getMaxConsumptionRate() {
+        long getMaxProductionRate = 0;
+        for (IManaContainer container : containers) {
+            getMaxProductionRate += container.getMaxProductionRate();
+        }
+        return GTMath.saturatedCast(getMaxProductionRate);
     }
 
     @Override

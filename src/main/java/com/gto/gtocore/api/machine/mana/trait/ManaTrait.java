@@ -18,6 +18,7 @@ import net.minecraft.network.chat.Component;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -79,7 +80,10 @@ public class ManaTrait extends MultiblockTrait {
     public void customText(@NotNull List<Component> textList) {
         super.customText(textList);
         textList.add(Component.translatable("gtocore.machine.mana_stored", manaContainers.getCurrentMana() + " / " + manaContainers.getMaxMana()));
-        String transKey = ((IManaMultiblock) machine).isGeneratorMana() ? "gtocore.machine.mana_production" : "gtocore.machine.mana_consumption";
-        textList.add(Component.translatable(transKey, manaContainers.getMaxIORate() + " /t"));
+        if (((IManaMultiblock) machine).isGeneratorMana()) {
+            textList.add(Component.translatable("gtocore.machine.mana_production", manaContainers.getMaxProductionRate() + " /t"));
+        } else {
+            textList.add(Component.translatable("gtocore.machine.mana_consumption", manaContainers.getMaxConsumptionRate() + " /t"));
+        }
     }
 }

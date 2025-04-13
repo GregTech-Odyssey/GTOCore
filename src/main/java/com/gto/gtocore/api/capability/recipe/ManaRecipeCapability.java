@@ -50,16 +50,16 @@ public final class ManaRecipeCapability extends RecipeCapability<Integer> {
 
     @Override
     public int getMaxParallelRatio(IRecipeCapabilityHolder holder, GTRecipe recipe, int parallelAmount) {
-        int maxMana = 0;
+        int maxManaConsumptionRate = 0;
         for (IRecipeHandler<?> container : holder.getCapabilitiesFlat(IO.IN, CAP)) {
             if (container instanceof IManaContainer manaContainer) {
-                maxMana += manaContainer.getMaxIORate();
+                maxManaConsumptionRate += manaContainer.getMaxConsumptionRate();
             }
         }
         int recipeMana = CAP.of(recipe.tickInputs.get(CAP).get(0).getContent());
         if (recipeMana == 0) {
             return Integer.MAX_VALUE;
         }
-        return Math.abs(Ints.saturatedCast(maxMana / recipeMana));
+        return Math.abs(Ints.saturatedCast(maxManaConsumptionRate / recipeMana));
     }
 }

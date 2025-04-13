@@ -53,15 +53,38 @@ public class NotifiableManaContainer extends NotifiableRecipeHandlerTrait<Intege
     private final IO handlerIO;
 
     private final long max;
+
     @Getter
-    private final int maxIORate;
+    private final int maxConsumptionRate;
+
+    @Getter
+    private final int maxProductionRate;
+
+    public NotifiableManaContainer(MetaMachine machine, IO io, long max) {
+        super(machine);
+        int maxIORate = GTMath.saturatedCast(max);
+        handlerIO = io;
+        this.max = max;
+        this.maxConsumptionRate = io != IO.NONE ? maxIORate : 0;
+        this.maxProductionRate = io != IO.NONE ? maxIORate : 0;
+    }
 
     public NotifiableManaContainer(MetaMachine machine, IO io, long max, int maxIORate) {
         super(machine);
         handlerIO = io;
         this.max = max;
-        this.maxIORate = maxIORate;
+        this.maxConsumptionRate = io == IO.IN || io == IO.BOTH ? maxIORate : 0;
+        this.maxProductionRate = io == IO.OUT || io == IO.BOTH ? maxIORate : 0;
     }
+
+    public NotifiableManaContainer(MetaMachine machine, IO io, long max, int maxConsumptionRate, int maxProductionRate) {
+        super(machine);
+        handlerIO = io;
+        this.max = max;
+        this.maxConsumptionRate = maxConsumptionRate;
+        this.maxProductionRate = maxProductionRate;
+    }
+
 
     @Override
     public void onMachineLoad() {
@@ -95,21 +118,17 @@ public class NotifiableManaContainer extends NotifiableRecipeHandlerTrait<Intege
 
     @Override
     public List<Integer> handleRecipeInner(IO io, GTRecipe recipe, List<Integer> left, boolean simulate) {
-        int sum = left.stream().reduce(0, Integer::sum);
+        long sum = Math.abs(left.stream().reduce(0, Integer::sum));
         if (io == IO.IN) {
-            int canOutput = Math.min(maxIORate, getSaturatedCurrentMana());
-            if (!simulate) {
-                manaStored -= Math.min(canOutput, sum);
-            }
-            sum = sum - canOutput;
+            int canOutput = Math.min(getMaxConsumptionRate(), getSaturatedCurrentMana());
+            long change = removeMana(Math.min(canOutput, sum), 1, simulate);
+            sum = sum - change;
         } else if (io == IO.OUT) {
-            int canInput = Math.min(maxIORate, GTMath.saturatedCast(max - manaStored));
-            if (!simulate) {
-                manaStored += Math.min(canInput, sum);
-            }
-            sum = sum - canInput;
+            int canInput = (int) Math.max(getMaxProductionRate(), getMaxMana() - getSaturatedCurrentMana());
+            long change = addMana(Math.min(canInput, sum), 1, simulate);
+            sum = sum - change;
         }
-        return sum <= 0 ? null : Collections.singletonList(sum);
+        return sum <= 0 ? null : Collections.singletonList(GTMath.saturatedCast(sum));
     }
 
     @Override
