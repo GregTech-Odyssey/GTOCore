@@ -133,7 +133,7 @@ public interface RecipeTypeModify {
         });
     }
 
-    static void addCuttingFluid(GTRecipeBuilder recipeBuilder) {
+    private static void addCuttingFluid(GTRecipeBuilder recipeBuilder) {
         int euTier = GTUtil.getFloorTierByVoltage(recipeBuilder.EUt());
         int duration = recipeBuilder.duration;
         long euPerTick = recipeBuilder.EUt();
@@ -172,7 +172,7 @@ public interface RecipeTypeModify {
         recipeBuilder.inputFluids(fluid);
     }
 
-    static void addUpgradedCuttingFluid(GTRecipeBuilder recipeBuilder, int targetTier, int originalDuration, long originalEUt, double reductionFactor) {
+    private static void addUpgradedCuttingFluid(GTRecipeBuilder recipeBuilder, int targetTier, int originalDuration, long originalEUt, double reductionFactor) {
         record CuttingFluid(FluidIngredient fluid, int divisor) {}
 
         CuttingFluid[] fluidTiers = new CuttingFluid[] {

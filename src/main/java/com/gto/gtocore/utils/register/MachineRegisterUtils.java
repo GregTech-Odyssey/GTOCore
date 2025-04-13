@@ -294,6 +294,7 @@ public final class MachineRegisterUtils {
                 .recipeType(recipeType)
                 .generator(true)
                 .alwaysTryModifyRecipe(true)
+                .tooltips(Component.translatable("gtocore.machine.mega_steam_turbine.tooltip.2"))
                 .appearanceBlock(casing)
                 .pattern(definition -> FactoryBlockPattern.start()
                         .aisle("CCCC", "CHHC", "CCCC")
