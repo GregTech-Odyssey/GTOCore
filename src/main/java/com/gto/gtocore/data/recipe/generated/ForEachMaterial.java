@@ -21,7 +21,7 @@ public interface ForEachMaterial {
             }
 
             DecompositionRecipeHandler.run(consumer, material);
-            if (material.hasProperty(PropertyKey.DUST)) continue;
+            if (!material.hasProperty(PropertyKey.DUST)) continue;
             ToolRecipeHandler.run(consumer, material);
             PolarizingRecipeHandler.run(consumer, material);
             GTOMaterialRecipeHandler.run(consumer, material);
