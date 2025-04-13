@@ -8,6 +8,7 @@ import com.gregtechceu.gtceu.api.GTValues;
 import net.minecraft.network.chat.Component;
 
 public class BodyExperienceLevel extends BasicExperienceLevel {
+
     @Override
     public int getMaxVoltage() { // 0 - GTValues.TIER_COUNT-1
         return (GTValues.TIER_COUNT - 1);

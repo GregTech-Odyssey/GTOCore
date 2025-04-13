@@ -25,7 +25,6 @@ import com.gregtechceu.gtceu.data.recipe.CustomTags;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.color.item.ItemColor;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.tags.TagKey;
@@ -203,7 +202,7 @@ public final class ItemRegisterUtils {
                     .model((ctx, prov) -> prov.generated(ctx, GTOCore.id("item/skill/upgrade/package/" + skillType.toString().toLowerCase() + "/" + GTValues.VN[tier].toLowerCase())))
                     .tag(TagUtil.optionalTag(BuiltInRegistries.ITEM, GTOCore.id("skill_upgrade_package")))
                     // .onRegister(attach(new SkillUpgradePackageBehavior(tier, skillType)))
-                    .color(() -> (Supplier<ItemColor>) () -> 颜色)
+                    // .color(() -> (Supplier<ItemColor>) () -> 颜色)
                     .register();
         }
         return entries;
