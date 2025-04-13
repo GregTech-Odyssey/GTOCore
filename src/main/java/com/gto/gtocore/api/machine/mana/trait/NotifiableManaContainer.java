@@ -97,13 +97,13 @@ public class NotifiableManaContainer extends NotifiableRecipeHandlerTrait<Intege
     public List<Integer> handleRecipeInner(IO io, GTRecipe recipe, List<Integer> left, boolean simulate) {
         int sum = left.stream().reduce(0, Integer::sum);
         if (io == IO.IN) {
-            int canOutput = Math.min(maxConsumption, getSaturatedCurrentMana());
+            int canOutput = Math.min(maxIORate, getSaturatedCurrentMana());
             if (!simulate) {
                 manaStored -= Math.min(canOutput, sum);
             }
             sum = sum - canOutput;
         } else if (io == IO.OUT) {
-            int canInput = Math.min(maxConsumption, GTMath.saturatedCast(max - manaStored));
+            int canInput = Math.min(maxIORate, GTMath.saturatedCast(max - manaStored));
             if (!simulate) {
                 manaStored += Math.min(canInput, sum);
             }
