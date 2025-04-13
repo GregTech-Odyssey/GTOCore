@@ -79,8 +79,9 @@ public interface IManaContainer extends IIWirelessInteractorMachine<ManaDistribu
 
     /**
      * 尝试增加魔力，结果不超过最大魔力总量
-     * @param amount 欲输入量
-     * @param limit 速率限制 0-1
+     * 
+     * @param amount   欲输入量
+     * @param limit    速率限制 0-1
      * @param simulate 是否模拟
      * @return 变化量
      */
@@ -93,8 +94,9 @@ public interface IManaContainer extends IIWirelessInteractorMachine<ManaDistribu
 
     /**
      * 尝试减少魔力，结果不低于0
-     * @param amount 欲输出量
-     * @param limit 速率限制 0-1
+     * 
+     * @param amount   欲输出量
+     * @param limit    速率限制 0-1
      * @param simulate 是否模拟
      * @return 变化量
      */
