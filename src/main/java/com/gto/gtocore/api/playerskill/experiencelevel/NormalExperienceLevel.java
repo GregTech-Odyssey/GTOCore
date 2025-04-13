@@ -23,7 +23,7 @@ public abstract class NormalExperienceLevel extends BasicExperienceLevel {
 
     @Override
     public int getVoltage() {
-        return level - 1 / skillType.LevelStepPerVoltage;
+        return (level - 1) / skillType.LevelStepPerVoltage;
     }
 
     public int getMaxVoltage() {

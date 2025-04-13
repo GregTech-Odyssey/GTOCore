@@ -8,6 +8,7 @@ import com.gto.gtocore.api.item.ToolTipsItem;
 import com.gto.gtocore.api.playerskill.SkillData;
 import com.gto.gtocore.common.data.GTOCovers;
 import com.gto.gtocore.common.item.KineticRotorItem;
+import com.gto.gtocore.common.item.playerskill.SkillUpgradePackageBehavior;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTValues;
@@ -199,10 +200,22 @@ public final class ItemRegisterUtils {
         for (int tier : GTValues.ALL_TIERS) {
             entries[tier] = item(skillType.toString().toLowerCase() + "_skill_upgrade_package_" + GTValues.VN[tier].toLowerCase(),
                     GTOValues.VOLTAGE_NAMESCN[tier] + skillType.getName() + "能力提升包", ComponentItem::create)
-                    .model((ctx, prov) -> prov.generated(ctx, GTOCore.id("item/skill/upgrade/package/" + skillType.toString().toLowerCase() + "/" + GTValues.VN[tier].toLowerCase())))
+                    .model((ctx, prov) -> prov.generated(ctx, GTOCore.id("item/skill/upgrade/package/" + skillType.toString().toLowerCase())))
                     .tag(TagUtil.optionalTag(BuiltInRegistries.ITEM, GTOCore.id("skill_upgrade_package")))
-                    // .onRegister(attach(new SkillUpgradePackageBehavior(tier, skillType)))
-                    // .color(() -> (Supplier<ItemColor>) () -> 颜色)
+                    .onRegister(attach(new SkillUpgradePackageBehavior(tier, skillType)))
+                    .color(() -> () -> (stack, tintIndex) -> {
+                        // 根据不同的技能类型返回不同的基础颜色
+                        int baseColor = switch (skillType) {
+                            case ATTACK -> 0xFF0000; // 红色
+                            case HEALTH -> 0x0000FF; // 蓝色
+                            case BODY -> 0x00FF00; // 绿色
+                        };
+                        float light_factor = 0.5f + (tier * 0.1f);
+                        int r = Math.min(255, (int) ((baseColor >> 16 & 0xFF) * light_factor));
+                        int g = Math.min(255, (int) ((baseColor >> 8 & 0xFF) * light_factor));
+                        int b = Math.min(255, (int) ((baseColor & 0xFF) * light_factor));
+                        return (r << 16) | (g << 8) | b;
+                    })
                     .register();
         }
         return entries;
