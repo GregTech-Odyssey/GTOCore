@@ -15,14 +15,15 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
 public class SkillUpgradePackageBehavior implements IInteractionItem {
-
-    int tier;
-    SkillType skillType;
-
-    public SkillUpgradePackageBehavior(int tier, SkillType skillType) {
+    public SkillUpgradePackageBehavior(int tier, SkillType skillType){
         this.tier = tier;
         this.skillType = skillType;
     }
+
+    private final int tier;
+    private final SkillType skillType;
+
+
 
     @Override
     public InteractionResultHolder<ItemStack> use(Item item, Level level, Player player, InteractionHand usedHand) {
@@ -30,7 +31,9 @@ public class SkillUpgradePackageBehavior implements IInteractionItem {
             ItemStack itemInHand = player.getItemInHand(usedHand);
             PlayerData playerData = ExperienceSystemManager.INSTANCE.getPlayerData(player.getUUID());
             BasicExperienceLevel expLevel = skillType.getExperienceLevel(playerData);
+    /*
 
+    */
         }
 
         return IInteractionItem.super.use(item, level, player, usedHand);
