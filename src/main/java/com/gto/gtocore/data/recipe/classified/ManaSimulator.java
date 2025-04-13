@@ -8,7 +8,9 @@ import net.minecraftforge.fluids.FluidStack;
 import static com.gto.gtocore.common.data.GTORecipeTypes.MANA_SIMULATOR_RECIPES;
 
 interface ManaSimulator {
+
     int BUFF_FACTOR = 8;
+
     static void init() {
         MANA_SIMULATOR_RECIPES.builder("thermalily")
                 .inputFluids(new FluidStack(Fluids.LAVA, 1000))

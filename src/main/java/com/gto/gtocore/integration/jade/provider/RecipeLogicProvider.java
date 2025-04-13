@@ -1,6 +1,7 @@
 package com.gto.gtocore.integration.jade.provider;
 
 import com.gto.gtocore.api.machine.feature.IInfinityEnergyMachine;
+import com.gto.gtocore.api.machine.mana.feature.IManaEnergyMachine;
 import com.gto.gtocore.utils.GTOUtils;
 
 import com.gregtechceu.gtceu.GTCEu;
@@ -79,6 +80,9 @@ public final class RecipeLogicProvider extends CapabilityBlockProvider<RecipeLog
                     } else if (machine instanceof SteamParallelMultiblockMachine smb) {
                         EUt = (long) (EUt * smb.getConversionRate());
                         isSteam = true;
+                    } else if (EUt > 0 && machine instanceof IManaEnergyMachine) {
+                        Manat += EUt;
+                        EUt = 0;
                     }
                 }
 

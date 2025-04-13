@@ -298,13 +298,6 @@ public interface GTORecipeTypes {
             .setProgressBar(GuiTextures.PROGRESS_BAR_BATH, LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.COOLING);
 
-    GTORecipeType MANA_SIMULATOR_RECIPES = register("mana_simulator", "魔力模拟室", MULTIBLOCK)
-            .setEUIO(IO.IN)
-            .setMANAIO(IO.OUT)
-            .setMaxIOSize(2, 2, 2, 2)
-            .setProgressBar(GuiTextures.PROGRESS_BAR_BATH, LEFT_TO_RIGHT)
-            .setSound(GTSoundEntries.ARC);
-
     GTORecipeType DIMENSIONALLY_TRANSCENDENT_PLASMA_FORGE_RECIPES = register("dimensionally_transcendent_plasma_forge", "超维度熔炼", MULTIBLOCK)
             .setMaxIOSize(2, 2, 2, 2)
             .setEUIO(IO.IN)
@@ -923,6 +916,13 @@ public interface GTORecipeTypes {
             .setMANAIO(IO.IN)
             .setMaxIOSize(12, 1, 3, 0)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
+            .setSound(GTSoundEntries.ARC);
+
+    GTORecipeType MANA_SIMULATOR_RECIPES = register("mana_simulator", "魔力模拟室", MULTIBLOCK)
+            .setEUIO(IO.IN)
+            .setMANAIO(IO.OUT)
+            .setMaxIOSize(2, 2, 2, 2)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_BATH, LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.ARC);
 
     //////////////////////////////////////
