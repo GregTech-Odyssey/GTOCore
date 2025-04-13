@@ -596,7 +596,7 @@ public interface GeneratorMultiblock {
                     .aisle("XSX", "CCC", "XXX")
                     .where('S', controller(blocks(definition.getBlock())))
                     .where('X', blocks(GTBlocks.CASING_STEEL_SOLID.get())
-                            .or(abilities(IMPORT_FLUIDS).setMaxGlobalLimited(1))
+                            .or(abilities(IMPORT_FLUIDS).setMaxGlobalLimited(4))
                             .or(abilities(OUTPUT_ENERGY).setMaxGlobalLimited(1))
                             .or(abilities(MAINTENANCE).setExactLimit(1)))
                     .where('C', blocks(GTBlocks.CASING_TEMPERED_GLASS.get()))

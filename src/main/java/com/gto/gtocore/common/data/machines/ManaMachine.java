@@ -5,6 +5,7 @@ import com.gto.gtocore.api.GTOValues;
 import com.gto.gtocore.api.machine.SimpleNoEnergyMachine;
 import com.gto.gtocore.api.machine.part.GTOPartAbility;
 import com.gto.gtocore.common.data.GTORecipeTypes;
+import com.gto.gtocore.common.machine.generator.MagicEnergyMachine;
 import com.gto.gtocore.common.machine.mana.AlchemyCauldron;
 import com.gto.gtocore.common.machine.mana.ManaHeaterMachine;
 import com.gto.gtocore.common.machine.mana.part.ManaAmplifierPartMachine;
@@ -15,14 +16,16 @@ import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.client.renderer.machine.OverlayTieredMachineRenderer;
+import com.gregtechceu.gtceu.client.renderer.machine.SimpleGeneratorMachineRenderer;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.common.data.machines.GTMachineUtils;
+import com.gregtechceu.gtceu.utils.FormattingUtil;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 
-import static com.gregtechceu.gtceu.api.GTValues.LV;
-import static com.gregtechceu.gtceu.api.GTValues.MV;
+import static com.gregtechceu.gtceu.api.GTValues.*;
+import static com.gregtechceu.gtceu.api.GTValues.V;
 import static com.gto.gtocore.api.GTOValues.MANACN;
 import static com.gto.gtocore.api.GTOValues.MANAN;
 import static com.gto.gtocore.utils.register.MachineRegisterUtils.*;
@@ -34,6 +37,24 @@ public interface ManaMachine {
     }
 
     MachineDefinition[] MANA_ASSEMBLER = registerSimpleManaMachines("mana_assembler", "魔力组装机", GTRecipeTypes.ASSEMBLER_RECIPES, GTMachineUtils.defaultTankSizeFunction, GTCEu.id("block/machines/assembler"), MANA_TIERS);
+
+    MachineDefinition[] PRIMITIVE_MAGIC_ENERGY = registerTieredManaMachines(
+            "primitive_magic_energy", tier -> "%s原始魔法能源吸收器 %s".formatted(GTOValues.VLVHCN[tier], VLVT[tier]),
+            MagicEnergyMachine::new,
+            (tier, builder) -> builder
+                    .langValue("%s Primitive Magic Energy %s".formatted(VLVH[tier], VLVT[tier]))
+                    .nonYAxisRotation()
+                    .renderer(() -> new SimpleGeneratorMachineRenderer(tier,
+                            GTOCore.id("block/generators/primitive_magic_energy")))
+                    .tooltips(Component.translatable("gtocore.machine.primitive_magic_energy.tooltip.0"))
+                    .tooltips(Component.translatable("gtocore.machine.primitive_magic_energy.tooltip.1"))
+                    .tooltips(Component.translatable("gtceu.universal.tooltip.amperage_out", 4))
+                    .tooltips(Component.translatable("gtceu.universal.tooltip.voltage_out",
+                            FormattingUtil.formatNumbers(V[tier]), VNF[tier]))
+                    .tooltips(Component.translatable("gtceu.universal.tooltip.energy_storage_capacity",
+                            FormattingUtil.formatNumbers(V[tier] << 8)))
+                    .register(),
+            LV, MV);
 
     MachineDefinition[] MANA_EXTRACT_HATCH = registerTieredManaMachines("mana_extract_hatch", tier -> "%s%s".formatted(MANACN[tier], "魔力抽取仓"),
             ManaExtractHatchPartMachine::new,

@@ -125,7 +125,7 @@ public final class SlaughterhouseMachine extends StorageMultiblockMachine {
     public void onContentChanges(RecipeHandlerList handlerList) {
         if (handlerList.getHandlerIO() == IO.IN) {
             attackDamage = 1;
-            MachineUtils.forEachInputItems(this, itemStack -> {
+            forEachInputItems(itemStack -> {
                 if (itemStack.getItem() instanceof SwordItem swordItem) {
                     attackDamage += (int) swordItem.getDamage();
                 }
@@ -153,7 +153,7 @@ public final class SlaughterhouseMachine extends StorageMultiblockMachine {
     @Nullable
     private GTRecipe getRecipe() {
         if (getLevel() instanceof ServerLevel serverLevel && getTier() > 1) {
-            int c = MachineUtils.checkingCircuit(this, false);
+            int c = checkingCircuit(false);
             if (c == 0) return null;
             ItemStackSet itemStacks = new ItemStackSet();
             BlockPos blockPos = MachineUtils.getOffsetPos(3, 1, getFrontFacing(), getPos());

@@ -2,6 +2,7 @@ package com.gto.gtocore.mixin.gtm.api.recipe;
 
 import com.gto.gtocore.api.recipe.RecipeRunner;
 
+import com.gregtechceu.gtceu.api.capability.recipe.EURecipeCapability;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.capability.recipe.IRecipeCapabilityHolder;
 import com.gregtechceu.gtceu.api.capability.recipe.RecipeCapability;
@@ -19,6 +20,36 @@ import java.util.Map;
 
 @Mixin(RecipeHelper.class)
 public class RecipeHelperMixin {
+
+    /**
+     * @author .
+     * @reason .
+     */
+    @Overwrite(remap = false)
+    public static long getInputEUt(GTRecipe recipe) {
+        var contents = recipe.tickInputs.get(EURecipeCapability.CAP);
+        if (contents == null) return 0;
+        long sum = 0;
+        for (Content content : contents) {
+            sum += EURecipeCapability.CAP.of(content.getContent());
+        }
+        return sum;
+    }
+
+    /**
+     * @author .
+     * @reason .
+     */
+    @Overwrite(remap = false)
+    public static long getOutputEUt(GTRecipe recipe) {
+        var contents = recipe.tickOutputs.get(EURecipeCapability.CAP);
+        if (contents == null) return 0;
+        long sum = 0;
+        for (Content content : contents) {
+            sum += EURecipeCapability.CAP.of(content.getContent());
+        }
+        return sum;
+    }
 
     /**
      * @author .

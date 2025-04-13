@@ -3,7 +3,6 @@ package com.gto.gtocore.common.machine.multiblock.noenergy;
 import com.gto.gtocore.api.machine.feature.IExtendWirelessEnergyContainerHolder;
 import com.gto.gtocore.api.machine.multiblock.NoEnergyMultiblockMachine;
 import com.gto.gtocore.common.wireless.ExtendWirelessEnergyContainer;
-import com.gto.gtocore.utils.MachineUtils;
 
 import com.gregtechceu.gtceu.api.machine.ConditionalSubscriptionHandler;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
@@ -70,20 +69,20 @@ public final class HarmonyMachine extends NoEnergyMultiblockMachine implements I
     private void StartupUpdate() {
         if (getOffsetTimer() % 20 == 0) {
             oc = 0;
-            int[] a = MachineUtils.getFluidAmount(this, HYDROGEN, HELIUM);
-            if (MachineUtils.inputFluid(this, HYDROGEN, a[0])) {
+            int[] a = getFluidAmount(HYDROGEN, HELIUM);
+            if (inputFluid(HYDROGEN, a[0])) {
                 hydrogen += a[0];
             }
-            if (MachineUtils.inputFluid(this, HELIUM, a[1])) {
+            if (inputFluid(HELIUM, a[1])) {
                 helium += a[1];
             }
-            if (MachineUtils.notConsumableCircuit(this, 4)) {
+            if (notConsumableCircuit(4)) {
                 oc = 4;
-            } else if (MachineUtils.notConsumableCircuit(this, 3)) {
+            } else if (notConsumableCircuit(3)) {
                 oc = 3;
-            } else if (MachineUtils.notConsumableCircuit(this, 2)) {
+            } else if (notConsumableCircuit(2)) {
                 oc = 2;
-            } else if (MachineUtils.notConsumableCircuit(this, 1)) {
+            } else if (notConsumableCircuit(1)) {
                 oc = 1;
             }
             StartupSubs.updateSubscription();

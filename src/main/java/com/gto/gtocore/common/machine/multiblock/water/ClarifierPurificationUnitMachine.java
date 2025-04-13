@@ -54,7 +54,7 @@ public final class ClarifierPurificationUnitMachine extends WaterPurificationUni
     @RequireRerender
     private final Set<BlockPos> fluidBlockOffsets = new ObjectOpenHashSet<>();
 
-    public ClarifierPurificationUnitMachine(IMachineBlockEntity holder, Object... args) {
+    public ClarifierPurificationUnitMachine(IMachineBlockEntity holder) {
         super(holder);
     }
 
@@ -93,13 +93,13 @@ public final class ClarifierPurificationUnitMachine extends WaterPurificationUni
     long before() {
         eut = 0;
         if (count > 100) {
-            if (MachineUtils.inputFluid(this, AIR, count * 10000) && MachineUtils.inputFluid(this, Fluids.WATER, (200 + GTValues.RNG.nextInt(100)) * 1000) && MachineUtils.outputItem(this, GTOItems.SCRAP.asStack(count / 20))) {
+            if (inputFluid(AIR, count * 10000) && inputFluid(Fluids.WATER, (200 + GTValues.RNG.nextInt(100)) * 1000) && outputItem(GTOItems.SCRAP.asStack(count / 20))) {
                 count = 0;
             } else {
                 return 0;
             }
         }
-        int inputCount = Math.min(getParallel(), MachineUtils.getFluidAmount(this, Fluids.WATER)[0]);
+        int inputCount = Math.min(getParallel(), getFluidAmount(Fluids.WATER)[0]);
         int outputCount = inputCount * 9 / 10;
         GTORecipeBuilder builder = GTORecipeBuilder.ofRaw();
         builder.duration(WaterPurificationPlantMachine.DURATION).inputFluids(new FluidStack(Fluids.WATER, inputCount));
@@ -117,13 +117,13 @@ public final class ClarifierPurificationUnitMachine extends WaterPurificationUni
     }
 
     private int getChance(int count) {
-        if (MachineUtils.inputFluid(this, WaterPurificationPlantMachine.GradePurifiedWater4, count / 16)) {
+        if (inputFluid(WaterPurificationPlantMachine.GradePurifiedWater4, count / 16)) {
             return 100;
-        } else if (MachineUtils.inputFluid(this, WaterPurificationPlantMachine.GradePurifiedWater3, count / 4)) {
+        } else if (inputFluid(WaterPurificationPlantMachine.GradePurifiedWater3, count / 4)) {
             return 95;
-        } else if (MachineUtils.inputFluid(this, WaterPurificationPlantMachine.GradePurifiedWater2, count / 2)) {
+        } else if (inputFluid(WaterPurificationPlantMachine.GradePurifiedWater2, count / 2)) {
             return 90;
-        } else if (MachineUtils.inputFluid(this, WaterPurificationPlantMachine.GradePurifiedWater1, count)) {
+        } else if (inputFluid(WaterPurificationPlantMachine.GradePurifiedWater1, count)) {
             return 85;
         }
         return 70;

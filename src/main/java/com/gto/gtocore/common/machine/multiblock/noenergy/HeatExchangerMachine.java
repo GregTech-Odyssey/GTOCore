@@ -4,7 +4,6 @@ import com.gto.gtocore.api.machine.multiblock.NoEnergyMultiblockMachine;
 import com.gto.gtocore.api.recipe.GTORecipeBuilder;
 import com.gto.gtocore.common.data.GTOMaterials;
 import com.gto.gtocore.common.data.GTORecipeModifiers;
-import com.gto.gtocore.utils.MachineUtils;
 
 import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
@@ -64,7 +63,7 @@ public final class HeatExchangerMachine extends NoEnergyMultiblockMachine implem
                 .duration(200)
                 .buildRawRecipe(), Integer.MAX_VALUE);
         long count = result.parallels * recipe.data.getLong("eu");
-        if (MachineUtils.inputFluid(this, DistilledWater, (int) (count / 160))) {
+        if (inputFluid(DistilledWater, (int) (count / 160))) {
             this.count = (int) (count / 4);
             return result;
         } else {
@@ -79,15 +78,15 @@ public final class HeatExchangerMachine extends NoEnergyMultiblockMachine implem
         if (count != 0) {
             if (getRecipeLogic().getConsecutiveRecipes() > 4) {
                 if (water) {
-                    MachineUtils.outputFluid(this, HighPressureSteam, count);
+                    outputFluid(HighPressureSteam, count);
                 } else {
-                    MachineUtils.outputFluid(this, SupercriticalSteam, count / 4);
+                    outputFluid(SupercriticalSteam, count / 4);
                 }
             } else {
                 if (water) {
-                    MachineUtils.outputFluid(this, Steam, count << 2);
+                    outputFluid(Steam, count << 2);
                 } else {
-                    MachineUtils.outputFluid(this, HighPressureSteam, count);
+                    outputFluid(HighPressureSteam, count);
                 }
             }
         }

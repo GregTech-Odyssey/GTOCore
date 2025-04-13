@@ -54,7 +54,7 @@ public final class BiologicalExtractionMachine extends CrossRecipeMultiblockMach
                 }
             }
             if (getRecipeLogic().getProgress() % 20 == 0) {
-                if (MachineUtils.inputFluid(this, NUTRIENT_DISTILLATION)) {
+                if (inputFluid(NUTRIENT_DISTILLATION)) {
                     redstoneSignalOutput = 15;
                     updateSignal();
                 } else {
@@ -74,11 +74,11 @@ public final class BiologicalExtractionMachine extends CrossRecipeMultiblockMach
     private boolean input(FluidStack stack) {
         AtomicBoolean success = new AtomicBoolean(false);
         AtomicBoolean failed = new AtomicBoolean(false);
-        MachineUtils.forEachInputFluids(this, fluidStack -> {
+        forEachInputFluids(fluidStack -> {
             if (fluidStack.getFluid() != NUTRIENT_DISTILLATION.getFluid()) {
                 if (fluidStack.getFluid() == stack.getFluid()) {
                     if (fluidStack.getAmount() >= stack.getAmount()) {
-                        MachineUtils.inputFluid(this, stack);
+                        inputFluid(stack);
                         success.set(true);
                     }
                 } else {

@@ -4,6 +4,7 @@ import com.gto.gtocore.api.capability.recipe.ManaRecipeCapability;
 import com.gto.gtocore.api.machine.feature.IOverclockConfigMachine;
 import com.gto.gtocore.api.machine.feature.multiblock.ICoilMachine;
 import com.gto.gtocore.api.machine.trait.IEnhancedRecipeLogic;
+import com.gto.gtocore.api.recipe.ContentBuilder;
 import com.gto.gtocore.api.recipe.IGTRecipe;
 import com.gto.gtocore.api.recipe.RecipeRunnerHelper;
 import com.gto.gtocore.common.machine.multiblock.generator.GeneratorArrayMachine;
@@ -22,7 +23,6 @@ import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMa
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.OverclockingLogic;
 import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
-import com.gregtechceu.gtceu.api.recipe.chance.logic.ChanceLogic;
 import com.gregtechceu.gtceu.api.recipe.content.Content;
 import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
 import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
@@ -178,7 +178,7 @@ public interface GTORecipeModifiers {
                 }
                 recipe.ocLevel = ocLevel / 2;
                 recipe.duration = duration;
-                recipe.tickInputs.put(EURecipeCapability.CAP, List.of(new Content(recipeVoltage, ChanceLogic.getMaxChancedValue(), ChanceLogic.getMaxChancedValue(), 0)));
+                recipe.tickInputs.put(EURecipeCapability.CAP, List.of(ContentBuilder.builderEU(recipeVoltage)));
             }
             return recipe;
         };
@@ -219,7 +219,7 @@ public interface GTORecipeModifiers {
 
     static GTRecipe recipeReduction(MetaMachine machine, GTRecipe recipe, double reductionEUt, double reductionDuration) {
         if (reductionEUt != 1) {
-            recipe.tickInputs.put(EURecipeCapability.CAP, List.of(new Content((long) Math.max(1, RecipeHelper.getInputEUt(recipe) * reductionEUt), ChanceLogic.getMaxChancedValue(), ChanceLogic.getMaxChancedValue(), 0)));
+            recipe.tickInputs.put(EURecipeCapability.CAP, List.of(ContentBuilder.builderEU((long) Math.max(1, RecipeHelper.getInputEUt(recipe) * reductionEUt))));
         }
         if (reductionDuration != 1) {
             recipe.duration = (int) Math.max(1, recipe.duration * reductionDuration);
@@ -275,7 +275,7 @@ public interface GTORecipeModifiers {
             }
             recipe.ocLevel = ocLevel / 2;
             recipe.duration = duration;
-            List<Content> content = List.of(new Content(recipeVoltage, ChanceLogic.getMaxChancedValue(), ChanceLogic.getMaxChancedValue(), 0));
+            List<Content> content = List.of(ContentBuilder.builderEU(recipeVoltage));
             if (generator) {
                 recipe.tickOutputs.put(EURecipeCapability.CAP, content);
             } else {
@@ -310,7 +310,7 @@ public interface GTORecipeModifiers {
             }
             recipe.ocLevel = ocLevel / 2;
             recipe.duration = duration;
-            List<Content> content = List.of(new Content(recipeMana, ChanceLogic.getMaxChancedValue(), ChanceLogic.getMaxChancedValue(), 0));
+            List<Content> content = List.of(ContentBuilder.builderEU(recipeMana));
             recipe.tickInputs.put(ManaRecipeCapability.CAP, content);
         }
         return recipe;

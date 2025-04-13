@@ -104,4 +104,14 @@ public final class ManaDistributorMachine extends NoRecipeLogicMultiblockMachine
     public boolean isGeneratorMana() {
         return false;
     }
+
+    @Override
+    public void setWorkingEnabled(boolean isWorkingAllowed) {
+        if (isWorkingAllowed && isFormed()) {
+            IIWirelessInteractorMachine.addToNet(NETWORK, this);
+        } else {
+            IIWirelessInteractorMachine.removeFromNet(NETWORK, this);
+        }
+        super.setWorkingEnabled(isWorkingAllowed);
+    }
 }

@@ -3,6 +3,7 @@ package com.gto.gtocore.common.machine.multiblock.generator;
 import com.gto.gtocore.api.gui.GTOGuiTextures;
 import com.gto.gtocore.api.machine.multiblock.ElectricMultiblockMachine;
 import com.gto.gtocore.api.machine.part.ItemHatchPartMachine;
+import com.gto.gtocore.api.recipe.ContentBuilder;
 import com.gto.gtocore.common.data.GTORecipeModifiers;
 
 import com.gregtechceu.gtceu.api.GTValues;
@@ -17,8 +18,6 @@ import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMaintenanceMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
-import com.gregtechceu.gtceu.api.recipe.chance.logic.ChanceLogic;
-import com.gregtechceu.gtceu.api.recipe.content.Content;
 import com.gregtechceu.gtceu.common.item.TurbineRotorBehaviour;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.RotorHolderPartMachine;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
@@ -198,7 +197,7 @@ public final class TurbineMachine extends ElectricMultiblockMachine {
         long eut = Math.min(turbineMaxVoltage, recipe.parallels * EUt);
         energyPerTick = eut;
         recipe.duration = recipe.duration * rotorHolder.getTotalEfficiency() / 100;
-        recipe.tickOutputs.put(EURecipeCapability.CAP, List.of(new Content(eut, ChanceLogic.getMaxChancedValue(), ChanceLogic.getMaxChancedValue(), 0)));
+        recipe.tickOutputs.put(EURecipeCapability.CAP, List.of(ContentBuilder.builderEU(eut)));
         return recipe;
     }
 
