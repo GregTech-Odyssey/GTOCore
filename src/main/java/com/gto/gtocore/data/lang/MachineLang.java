@@ -60,7 +60,8 @@ final class MachineLang {
         addENCN("gtocore.machine.off", "Off", "关闭");
         addENCN("gtocore.machine.on", "On", "打开");
         addENCN("gtocore.machine.pattern.error.tier", "§cMust use blocks of the same tier§r", "§c必须使用同种等级方块§r");
-        addENCN("gtocore.machine.primitive_magic_energy.tooltip.0", "Endlessly absorbs the energy from ender crystals above the machine", "无尽地吸收机器上方末地水晶的能量");
+        addENCN("gtocore.machine.primitive_magic_energy.tooltip.0", "Endlessly absorbs the energy from ender crystals above the machine, if the energy capacity is full, the machine will explode.", "无尽地吸收机器上方末地水晶的能量，如果能量已满，机器将会爆炸");
+        addENCN("gtocore.machine.primitive_magic_energy.tooltip.1", "Requires a constant mana input of [X] EU/s (Voltage × Current). Failure cause an explosion.", "每秒需输入同电压x电流的魔力，否则爆炸");
         addENCN("gtocore.machine.processing_plant.mismatched", "Recipe tier does not match small machine tier", "配方等级与小机器等级不匹配");
         addENCN("gtocore.machine.radiation_hatch.inhibition_dose", "Inhibition Amount: %s Sv", "抑制量: %s Sv");
         addENCN("gtocore.machine.radiation_hatch.time", "Time: %s / %s Tick", "时间: %s / %s Tick");

@@ -46,7 +46,7 @@ public interface IManaMachine extends ManaCollector, IMachineFeature {
 
     @Override
     default boolean isFull() {
-        return getMaxMana() <= getCurrentMana();
+        return getManaContainer().getMaxMana() <= getManaContainer().getCurrentMana();
     }
 
     @Override

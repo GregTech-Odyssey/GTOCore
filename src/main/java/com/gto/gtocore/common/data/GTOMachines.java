@@ -10,7 +10,6 @@ import com.gto.gtocore.client.renderer.machine.WindMillTurbineRenderer;
 import com.gto.gtocore.common.machine.electric.ElectricHeaterMachine;
 import com.gto.gtocore.common.machine.electric.VacuumPumpMachine;
 import com.gto.gtocore.common.machine.generator.LightningRodMachine;
-import com.gto.gtocore.common.machine.generator.MagicEnergyMachine;
 import com.gto.gtocore.common.machine.generator.WindMillTurbineMachine;
 import com.gto.gtocore.common.machine.multiblock.part.*;
 import com.gto.gtocore.common.machine.multiblock.part.ae.MECatalystPatternBufferPartMachine;
@@ -139,23 +138,6 @@ public interface GTOMachines {
                             FormattingUtil.formatNumbers(48828 * (1L << (2 * tier)))))
                     .register(),
             EV, IV, LuV);
-
-    MachineDefinition[] PRIMITIVE_MAGIC_ENERGY = registerTieredMachines(
-            "primitive_magic_energy", tier -> "%s原始魔法能源吸收器 %s".formatted(GTOValues.VLVHCN[tier], VLVT[tier]),
-            MagicEnergyMachine::new,
-            (tier, builder) -> builder
-                    .langValue("%s Primitive Magic Energy %s".formatted(VLVH[tier], VLVT[tier]))
-                    .nonYAxisRotation()
-                    .renderer(() -> new SimpleGeneratorMachineRenderer(tier,
-                            GTOCore.id("block/generators/primitive_magic_energy")))
-                    .tooltips(Component.translatable("gtocore.machine.primitive_magic_energy.tooltip.0"))
-                    .tooltips(Component.translatable("gtceu.universal.tooltip.amperage_out", 16))
-                    .tooltips(Component.translatable("gtceu.universal.tooltip.voltage_out",
-                            FormattingUtil.formatNumbers(V[tier]), VNF[tier]))
-                    .tooltips(Component.translatable("gtceu.universal.tooltip.energy_storage_capacity",
-                            FormattingUtil.formatNumbers(V[tier] << 9)))
-                    .register(),
-            ULV, LV);
 
     MachineDefinition[] WIND_MILL_TURBINE = registerTieredMachines(
             "wind_mill_turbine", tier -> "%s风力发电机 %s".formatted(GTOValues.VLVHCN[tier], VLVT[tier]),

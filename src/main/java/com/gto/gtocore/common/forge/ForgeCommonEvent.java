@@ -98,12 +98,12 @@ public final class ForgeCommonEvent {
         }
 
         if (item == GTItems.GRAVI_STAR.get() && level.getBlockState(pos).getBlock() == GTOBlocks.LEPTONIC_CHARGE.get()) {
-            SphereExplosion.explosion(pos, level, 200, true, true);
+            SphereExplosion.explosion(pos, level, 800, true, true);
             return;
         }
 
         if (item == GTOItems.UNSTABLE_STAR.get() && level.getBlockState(pos).getBlock() == GTOBlocks.QUANTUM_CHROMODYNAMIC_CHARGE.get()) {
-            SphereExplosion.explosion(pos, level, 200, true, true);
+            SphereExplosion.explosion(pos, level, 2000, true, true);
             return;
         }
 

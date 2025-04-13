@@ -22,6 +22,8 @@ interface Blast {
                 .outputFluids(GTMaterials.StainlessSteel.getFluid(FluidStorageKeys.MOLTEN, 2304))
                 .EUt(120)
                 .duration(240)
+                .blastFurnaceTemp(2428)
+                .circuitMeta(3)
                 .save();
 
         BLAST_RECIPES.builder("molten_manganese_phosphide")
@@ -30,6 +32,8 @@ interface Blast {
                 .outputFluids(GTMaterials.ManganesePhosphide.getFluid(FluidStorageKeys.MOLTEN, 2304))
                 .EUt(120)
                 .duration(200)
+                .blastFurnaceTemp(1200)
+                .circuitMeta(3)
                 .save();
 
         BLAST_RECIPES.recipeBuilder(GTOCore.id("alumina_ceramic"))
