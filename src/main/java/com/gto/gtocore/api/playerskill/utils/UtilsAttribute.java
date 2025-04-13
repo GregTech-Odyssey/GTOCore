@@ -45,8 +45,6 @@ public class UtilsAttribute {
     }
 
     public static void freshDelayApplyModifier(Player player) {
-        Objects.requireNonNull(player.level().getServer()).tell(new TickTask(1, () ->
-            UtilsAttribute.freshApplyModifiers(player)
-        ));
+        Objects.requireNonNull(player.level().getServer()).tell(new TickTask(1, () -> UtilsAttribute.freshApplyModifiers(player)));
     }
 }
