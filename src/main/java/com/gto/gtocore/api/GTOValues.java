@@ -48,7 +48,7 @@ public final class GTOValues {
     public static final String REMOVING_ASH = "gtocore.drone.removing_ash";
     public static final String MAINTAINING = "gtocore.drone.maintaining";
 
-    public static final int[] MANA = new int[] { 1, 4, 16, 64, 256, 1024, 4096, 16384, 65536, 262144, 1048576, 4194304, 16777216, 67108864 };
+    public static final int[] MANA = new int[] { 4, 16, 64, 256, 1024, 4096, 16384, 65536, 262144, 1048576, 4194304, 16777216, 67108864, 268435456 };
 
     public static final String[] MANAN = new String[] {
             "Primitive",
