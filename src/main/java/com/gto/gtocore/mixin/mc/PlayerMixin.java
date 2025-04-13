@@ -165,7 +165,7 @@ public abstract class PlayerMixin extends LivingEntity implements IEnhancedPlaye
                 onUpdateAbilities();
             }
             gTOCore$canFly = canFly;
-            gTOCore$spaceState = inf || Objects.equals(armorSlots, "[1 quarktech_boots, 1 quarktech_leggings, 1 advanced_quarktech_chestplate, 1 quarktech_helmet]") || Objects.equals(armorSlots, "[1 quarktech_boots, 1 quarktech_leggings, 1 quarktech_chestplate, 1 quarktech_helmet]");
+            gTOCore$spaceState = inf;
             if (gTOCore$wardenState) {
                 addEffect(new MobEffectInstance(MobEffects.SATURATION, 200, 0, false, false));
                 if (data.getBoolean("night_vision")) {

@@ -11,13 +11,13 @@ import com.google.common.collect.ImmutableMap;
 import committee.nova.mods.avaritia.client.AvaritiaModClient;
 import vazkii.botania.client.core.handler.ClientTickHandler;
 
-import java.util.function.Supplier;
+import java.util.function.IntSupplier;
 
 public final class MaterialsColorMap {
 
-    public static final ImmutableMap<Material, Supplier<Integer>> MaterialColors;
+    public static final ImmutableMap<Material, IntSupplier> MaterialColors;
 
-    static final Supplier<Integer> quantumColor = () -> {
+    static final IntSupplier quantumColor = () -> {
         float spot = (float) ((System.currentTimeMillis() / 500) % 10) / 10;
         if (spot > 0.5) {
             spot = 1 - spot;
@@ -25,13 +25,13 @@ public final class MaterialsColorMap {
         return ColorUtils.getInterpolatedColor(0x00FF84, 0xFF7E00, spot * 2); // * 2 以确保spot在0到1之间平滑过渡
     };
 
-    private static final Supplier<Integer> shimmer = () -> {
+    private static final IntSupplier shimmer = () -> {
         float time = ClientTickHandler.ticksInGame + ClientTickHandler.partialTicks;
         return Mth.hsvToRgb(time % 200 / 200, 0.4F, 0.9F);
     };
 
     static {
-        ImmutableMap.Builder<Material, Supplier<Integer>> MaterialBuilder = ImmutableMap.builder();
+        ImmutableMap.Builder<Material, IntSupplier> MaterialBuilder = ImmutableMap.builder();
         MaterialBuilder.put(GTOMaterials.Gaia, () -> Mth.hsvToRgb((ClientTickHandler.ticksInGame << 1) % 360 / 360F, 0.25F, 1F));
         MaterialBuilder.put(GTOMaterials.Shimmerwood, shimmer);
         MaterialBuilder.put(GTOMaterials.Shimmerrock, shimmer);
