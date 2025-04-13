@@ -4,7 +4,6 @@ import com.gto.gtocore.api.machine.multiblock.NoEnergyMultiblockMachine;
 import com.gto.gtocore.api.recipe.GTORecipeBuilder;
 import com.gto.gtocore.api.recipe.RecipeRunnerHelper;
 import com.gto.gtocore.common.machine.multiblock.part.IndicatorHatchPartMachine;
-import com.gto.gtocore.utils.MachineUtils;
 
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
@@ -64,7 +63,7 @@ public final class ResidualDecontaminantDegasserPurificationUnitMachine extends 
 
     private IndicatorHatchPartMachine indicatorHatchPartMachine;
 
-    public ResidualDecontaminantDegasserPurificationUnitMachine(IMachineBlockEntity holder, Object... args) {
+    public ResidualDecontaminantDegasserPurificationUnitMachine(IMachineBlockEntity holder) {
         super(holder);
     }
 
@@ -95,14 +94,14 @@ public final class ResidualDecontaminantDegasserPurificationUnitMachine extends 
     public boolean onWorking() {
         if (!super.onWorking()) return false;
         if (getOffsetTimer() % 20 == 0) {
-            MachineUtils.forEachInputFluids(this, stack -> {
+            forEachInputFluids(stack -> {
                 if (stack.getAmount() > 0) {
                     if (!fluidStack.isEmpty() && fluidStack.getFluid() == stack.getFluid() && fluidStack.getAmount() <= stack.getAmount()) {
                         successful = true;
                     } else {
                         failed = true;
                     }
-                    MachineUtils.inputFluid(this, stack);
+                    inputFluid(stack);
                 }
                 return false;
             });
@@ -119,7 +118,7 @@ public final class ResidualDecontaminantDegasserPurificationUnitMachine extends 
     @Override
     public void onRecipeFinish() {
         super.onRecipeFinish();
-        if (successful && !failed) MachineUtils.outputFluid(this, WaterPurificationPlantMachine.GradePurifiedWater7, inputCount * 9 / 10);
+        if (successful && !failed) outputFluid(WaterPurificationPlantMachine.GradePurifiedWater7, inputCount * 9 / 10);
     }
 
     @Override
@@ -127,7 +126,7 @@ public final class ResidualDecontaminantDegasserPurificationUnitMachine extends 
         eut = 0;
         successful = false;
         failed = false;
-        inputCount = Math.min(getParallel(), MachineUtils.getFluidAmount(this, WaterPurificationPlantMachine.GradePurifiedWater6)[0]);
+        inputCount = Math.min(getParallel(), getFluidAmount(WaterPurificationPlantMachine.GradePurifiedWater6)[0]);
         recipe = GTORecipeBuilder.ofRaw().duration(WaterPurificationPlantMachine.DURATION).inputFluids(new FluidStack(WaterPurificationPlantMachine.GradePurifiedWater6, inputCount)).buildRawRecipe();
         if (RecipeRunnerHelper.matchRecipe(this, recipe)) {
             indicatorHatchPartMachine.setRedstoneSignalOutput((int) (Math.random() * 15));

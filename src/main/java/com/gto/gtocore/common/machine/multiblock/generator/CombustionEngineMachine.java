@@ -1,6 +1,7 @@
 package com.gto.gtocore.common.machine.multiblock.generator;
 
 import com.gto.gtocore.api.machine.multiblock.ElectricMultiblockMachine;
+import com.gto.gtocore.api.recipe.ContentBuilder;
 import com.gto.gtocore.api.recipe.GTORecipeBuilder;
 import com.gto.gtocore.api.recipe.RecipeRunnerHelper;
 import com.gto.gtocore.common.data.GTORecipeModifiers;
@@ -13,8 +14,6 @@ import com.gregtechceu.gtceu.api.gui.fancy.TooltipsPanel;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
-import com.gregtechceu.gtceu.api.recipe.chance.logic.ChanceLogic;
-import com.gregtechceu.gtceu.api.recipe.content.Content;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
 import net.minecraft.ChatFormatting;
@@ -98,7 +97,7 @@ public final class CombustionEngineMachine extends ElectricMultiblockMachine {
         if (EUt > 0 && RecipeRunnerHelper.matchRecipe(this, getLubricantRecipe()) && !isIntakesObstructed()) {
             recipe = GTORecipeModifiers.accurateParallel(this, recipe, (int) (getOverclockVoltage() / EUt));
             if (isOxygenBoosted) {
-                recipe.tickOutputs.put(EURecipeCapability.CAP, List.of(new Content((long) (RecipeHelper.getOutputEUt(recipe) * (isExtreme() ? 2 : 1.5)), ChanceLogic.getMaxChancedValue(), ChanceLogic.getMaxChancedValue(), 0)));
+                recipe.tickOutputs.put(EURecipeCapability.CAP, List.of(ContentBuilder.builderEU((long) (RecipeHelper.getOutputEUt(recipe) * (isExtreme() ? 2 : 1.5)))));
             }
             return recipe;
         }

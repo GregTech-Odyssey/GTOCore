@@ -1,18 +1,22 @@
 package com.gto.gtocore.api.machine.feature.multiblock;
 
 import com.gto.gtocore.config.GTOConfig;
+import com.gto.gtocore.utils.MachineUtils;
 
-import com.gregtechceu.gtceu.api.machine.feature.IMachineFeature;
 import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.sound.SoundEntry;
 
-/**
- * 该接口提供了一系列默认方法，用于处理多方块机器的常见操作，如配方完成、内容变化、声音获取、部件扫描以及阻尼处理等。
- */
-public interface IEnhancedMultiblockMachine extends IMachineFeature {
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraftforge.fluids.FluidStack;
+
+import java.util.function.Predicate;
+
+public interface IEnhancedMultiblockMachine extends IRecipeLogicMachine {
 
     /**
      * 当配方真正完成时调用，不同于afterWorking()。
@@ -45,5 +49,53 @@ public interface IEnhancedMultiblockMachine extends IMachineFeature {
         } else if (((IRecipeLogicMachine) self()).regressWhenWaiting()) {
             if (recipeLogic.getProgress() > 1) recipeLogic.setProgress(1);
         }
+    }
+
+    default int checkingCircuit(boolean sum) {
+        return MachineUtils.checkingCircuit(this, sum);
+    }
+
+    default int[] getItemAmount(Item... items) {
+        return MachineUtils.getItemAmount(this, items);
+    }
+
+    default int[] getFluidAmount(Fluid... fluids) {
+        return MachineUtils.getFluidAmount(this, fluids);
+    }
+
+    default void forEachInputItems(Predicate<ItemStack> function) {
+        MachineUtils.forEachInputItems(this, function);
+    }
+
+    default void forEachInputFluids(Predicate<FluidStack> function) {
+        MachineUtils.forEachInputFluids(this, function);
+    }
+
+    default boolean inputItem(ItemStack... item) {
+        return MachineUtils.inputItem(this, item);
+    }
+
+    default boolean outputItem(ItemStack... item) {
+        return MachineUtils.outputItem(this, item);
+    }
+
+    default boolean notConsumableCircuit(int configuration) {
+        return MachineUtils.notConsumableCircuit(this, configuration);
+    }
+
+    default boolean inputFluid(Fluid fluid, int amount) {
+        return MachineUtils.inputFluid(this, fluid, amount);
+    }
+
+    default boolean inputFluid(FluidStack... fluid) {
+        return MachineUtils.inputFluid(this, fluid);
+    }
+
+    default boolean outputFluid(Fluid fluid, int amount) {
+        return MachineUtils.outputFluid(this, fluid, amount);
+    }
+
+    default boolean outputFluid(FluidStack... fluid) {
+        return MachineUtils.outputFluid(this, fluid);
     }
 }

@@ -51,7 +51,7 @@ public final class PhotovoltaicPowerStationMachine extends ElectricMultiblockMac
             int eut;
             int basic = (int) (basic_rate * PlanetApi.API.getSolarPower(level));
             if (PlanetApi.API.isSpace(level)) {
-                eut = MachineUtils.inputFluid(this, GTMaterials.DistilledWater.getFluid(basic / 4)) ? basic << 4 : 0;
+                eut = inputFluid(GTMaterials.DistilledWater.getFluid(basic / 4)) ? basic << 4 : 0;
             } else {
                 int minuteInTicks = 20 * 60;
                 int dayTime = (int) (level.getDayTime() % (minuteInTicks * 20));

@@ -79,7 +79,7 @@ public class SpaceElevatorMachine extends TierCasingMultiblockMachine implements
         if (promptly || getOffsetTimer() % 40 == 0) {
             moduleCount = 0;
             if (spoolCount < getMaxSpoolCount()) {
-                MachineUtils.forEachInputItems(this, stack -> {
+                forEachInputItems(stack -> {
                     if (stack.getItem() == GTOItems.NANOTUBE_SPOOL.get()) {
                         int count = Math.min(stack.getCount(), getMaxSpoolCount() - spoolCount);
                         if (count < 1) return true;
