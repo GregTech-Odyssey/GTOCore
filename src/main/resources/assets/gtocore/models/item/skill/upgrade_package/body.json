@@ -1,7 +1,0 @@
-{
-  "parent": "item/generated",
-  "textures": {
-    "layer0": "gtocore:item/skill/upgrade_package/body",
-    "layer1": "gtocore:item/skill/upgrade_package/overlay"
-  }
-}

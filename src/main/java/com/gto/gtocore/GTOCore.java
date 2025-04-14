@@ -26,7 +26,4 @@ public final class GTOCore {
     public GTOCore() {
         DistExecutor.unsafeRunForDist(() -> ClientProxy::new, () -> CommonProxy::new);
     }
-    private void gatherData(GatherDataEvent event) {
-        DataGeneration.gatherData(event);
-    }
 }

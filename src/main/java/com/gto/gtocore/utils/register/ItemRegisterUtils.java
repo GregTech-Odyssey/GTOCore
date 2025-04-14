@@ -222,17 +222,18 @@ public final class ItemRegisterUtils {
                     .tag(TagUtil.optionalTag(BuiltInRegistries.ITEM, GTOCore.id("skill_upgrade_package_"+skillType.toString().toLowerCase())))
                     .onRegister(attach(new SkillUpgradePackageBehavior(tier, skillType)))
                     .color(() -> () -> (stack, tintIndex) -> {
-                        if (true) {
+                        if (tintIndex==1) {
                             int baseColor = switch (skillType) {
                                 case ATTACK -> 0xFF0000; // 红色
                                 case HEALTH -> 0x0000FF; // 蓝色
                                 case BODY -> 0x00FF00; // 绿色
                             };
                             float light_factor = 0.5f + (tier * 0.1f);
+                            int a = 0xFF; // 完全不透明
                             int r = Math.min(255, (int) ((baseColor >> 16 & 0xFF) * light_factor));
                             int g = Math.min(255, (int) ((baseColor >> 8 & 0xFF) * light_factor));
                             int b = Math.min(255, (int) ((baseColor & 0xFF) * light_factor));
-                            return (r << 16) | (g << 8) | b;
+                            return (a << 24) | (r << 16) | (g << 8) | b;
                         }
                         return -1;
                     })
