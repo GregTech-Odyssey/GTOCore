@@ -111,6 +111,13 @@ public abstract class MufflerPartMachineMixin extends TieredPartMachine implemen
                     }
                 }
             }
+            if (!isFrontFaceFree()) {
+                for (var c : getControllers()) {
+                    if (c instanceof IRecipeLogicMachine machine) {
+                        machine.getRecipeLogic().markLastRecipeDirty();
+                    }
+                }
+            }
         }
     }
 

@@ -1342,7 +1342,7 @@ public final class GTORecipeBuilder extends GTRecipeBuilder {
         return addCondition(new HeatCondition(temperature));
     }
 
-    public GTORecipeBuilder MANAt(int mana) {
+    public GTORecipeBuilder MANAt(long mana) {
         var lastPerTick = perTick;
         perTick = true;
         if (mana > 0) {

@@ -89,14 +89,6 @@ public class NotifiableManaContainer extends NotifiableRecipeHandlerTrait<Long> 
         }
     }
 
-    public NotifiableManaContainer(MetaMachine machine, IO io, long maxMana, int maxConsumptionRate, int maxProductionRate) {
-        super(machine);
-        handlerIO = io;
-        this.maxMana = maxMana;
-        this.maxConsumptionRate = GTMath.clamp(maxConsumptionRate, 0, maxMana);
-        this.maxProductionRate = GTMath.clamp(maxProductionRate, 0, maxMana);
-    }
-
     @Override
     public void onMachineLoad() {
         super.onMachineLoad();
@@ -113,7 +105,7 @@ public class NotifiableManaContainer extends NotifiableRecipeHandlerTrait<Long> 
         }
     }
 
-    private void updateTick() {
+    protected void updateTick() {
         if (getMachine().getOffsetTimer() % 20 == 0) {
             ManaDistributorMachine distributor = getNetMachine();
             if (distributor == null) return;

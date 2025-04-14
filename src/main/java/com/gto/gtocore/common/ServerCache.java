@@ -1,6 +1,8 @@
 package com.gto.gtocore.common;
 
-public class CommonCache {
+public final class ServerCache {
+
+    private ServerCache() {}
 
     public static boolean initialized;
 }

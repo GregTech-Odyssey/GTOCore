@@ -7,6 +7,7 @@ import com.gto.gtocore.common.machine.multiblock.noenergy.DroneControlCenterMach
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMaintenanceMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.TieredPartMachine;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.MaintenanceHatchPartMachine;
@@ -62,6 +63,13 @@ public abstract class MaintenanceHatchPartMachineMixin extends TieredPartMachine
             if (drone != null && drone.start(10, getNumMaintenanceProblems() << 6, GTOValues.MAINTAINING)) {
                 fixAllMaintenanceProblems();
                 ci.cancel();
+            }
+        }
+        if (hasMaintenanceProblems()) {
+            for (var c : getControllers()) {
+                if (c instanceof IRecipeLogicMachine machine) {
+                    machine.getRecipeLogic().markLastRecipeDirty();
+                }
             }
         }
     }

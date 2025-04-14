@@ -1,9 +1,11 @@
 package com.gto.gtocore.common.machine.multiblock.electric.space;
 
+import com.gto.gtocore.api.data.GTODimensions;
 import com.gto.gtocore.api.gui.GTOGuiTextures;
 import com.gto.gtocore.api.machine.feature.multiblock.IHighlightMachine;
 import com.gto.gtocore.api.machine.multiblock.TierCasingMultiblockMachine;
 import com.gto.gtocore.api.machine.trait.CustomRecipeLogic;
+import com.gto.gtocore.api.misc.PlanetManagement;
 import com.gto.gtocore.api.recipe.GTORecipeBuilder;
 import com.gto.gtocore.api.recipe.RecipeRunnerHelper;
 import com.gto.gtocore.common.data.GTOItems;
@@ -164,7 +166,8 @@ public class SpaceElevatorMachine extends TierCasingMultiblockMachine implements
                 GTOGuiTextures.PLANET_TELEPORT.getSubTexture(0, 0.5, 1, 0.5),
                 GTOGuiTextures.PLANET_TELEPORT.getSubTexture(0, 0, 1, 0.5),
                 getRecipeLogic()::isWorking, (clickData, pressed) -> {
-                    if (getRecipeLogic().isWorking() && player != null) {
+                    if (!clickData.isRemote && getRecipeLogic().isWorking() && player != null) {
+                        PlanetManagement.unlock(player.getUUID(), GTODimensions.BARNARDA_C);
                         player.addTag("spaceelevatorst");
                         MenuHooks.openMenu(player, new PlanetsMenuProvider());
                     }
