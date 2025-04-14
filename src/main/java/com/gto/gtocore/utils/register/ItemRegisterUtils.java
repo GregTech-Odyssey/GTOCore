@@ -211,8 +211,8 @@ public final class ItemRegisterUtils {
                         if (tintIndex == 1) {
                             int baseColor = switch (skillType) {
                                 case ATTACK -> 0xFF0000; // 红色
-                                case HEALTH -> 0x0000FF; // 蓝色
                                 case BODY -> 0x00FF00; // 绿色
+                                case HEALTH -> 0x0000FF; // 蓝色
                             };
                             float light_factor = 0.1f + ((tier + 1) * (0.9f / GTValues.TIER_COUNT));
                             int a = 0xFF;

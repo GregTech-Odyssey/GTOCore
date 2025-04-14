@@ -33,7 +33,6 @@ public class Administration {
                                 .executes(context -> {
                                     ExperienceSystemManager.INSTANCE.enableSystem();
                                     GTOCore.LOGGER.info("Experience system enabled via command");
-
                                     context.getSource().sendSuccess(
                                             () -> Component.translatable("gtocore.player_exp_status.open")
                                                     .withStyle(ChatFormatting.GREEN),

@@ -5,8 +5,6 @@ import com.gto.gtocore.api.playerskill.experiencelevel.BasicExperienceLevel;
 
 import com.gregtechceu.gtceu.api.GTValues;
 
-import net.minecraft.network.chat.Component;
-
 public class BodyExperienceLevel extends BasicExperienceLevel {
 
     @Override
@@ -42,10 +40,10 @@ public class BodyExperienceLevel extends BasicExperienceLevel {
         }
     }
 
-//    @Override
-//    public String getName() {
-//        return Component.translatable("gtocore.player_exp_status.body_name").getString();
-//    }
+    // @Override
+    // public String getName() {
+    // return Component.translatable("gtocore.player_exp_status.body_name").getString();
+    // }
 
     public int getExperienceForNextLevel() {
         return (int) (100 * Math.pow(1.5, level)); // 示例经验计算

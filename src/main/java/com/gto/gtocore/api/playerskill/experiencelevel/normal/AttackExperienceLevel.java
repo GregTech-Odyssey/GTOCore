@@ -4,7 +4,6 @@ import com.gto.gtocore.api.playerskill.SkillData;
 import com.gto.gtocore.api.playerskill.experiencelevel.NormalExperienceLevel;
 import com.gto.gtocore.api.playerskill.experiencelevel.special.BodyExperienceLevel;
 
-import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 
 import java.util.UUID;
@@ -25,10 +24,10 @@ public class AttackExperienceLevel extends NormalExperienceLevel {
         };
     }
 
-//    @Override
-//    public String getName() {
-//        return Component.translatable("gtocore.player_exp_status.attack_name").getString();
-//    }
+    // @Override
+    // public String getName() {
+    // return Component.translatable("gtocore.player_exp_status.attack_name").getString();
+    // }
 
     @Override
     public int getExperienceForNextLevel() {
