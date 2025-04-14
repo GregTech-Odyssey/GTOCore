@@ -46,12 +46,12 @@ public interface IManaMachine extends ManaCollector, IMachineFeature, SparkAttac
 
     @Override
     default int getMaxMana() {
-        return getManaContainer().getSaturatedMaxMana();
+        return GTMath.saturatedCast(getManaContainer().getMaxMana());
     }
 
     @Override
     default int getCurrentMana() {
-        return getManaContainer().getSaturatedCurrentMana();
+        return GTMath.saturatedCast(getManaContainer().getCurrentMana());
     }
 
     @Override

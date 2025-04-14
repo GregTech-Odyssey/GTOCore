@@ -3,7 +3,6 @@ package com.gto.gtocore.api.capability;
 import com.gto.gtocore.common.machine.mana.multiblock.ManaDistributorMachine;
 
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
-import com.gregtechceu.gtceu.utils.GTMath;
 
 public final class ManaContainerList implements IManaContainer {
 
@@ -44,21 +43,21 @@ public final class ManaContainerList implements IManaContainer {
     }
 
     @Override
-    public int getMaxProductionRate() {
+    public long getMaxProductionRate() {
         long getMaxProductionRate = 0;
         for (IManaContainer container : containers) {
             getMaxProductionRate += container.getMaxProductionRate();
         }
-        return GTMath.saturatedCast(getMaxProductionRate);
+        return getMaxProductionRate;
     }
 
     @Override
-    public int getMaxConsumptionRate() {
+    public long getMaxConsumptionRate() {
         long getMaxProductionRate = 0;
         for (IManaContainer container : containers) {
             getMaxProductionRate += container.getMaxProductionRate();
         }
-        return GTMath.saturatedCast(getMaxProductionRate);
+        return getMaxProductionRate;
     }
 
     @Override
@@ -73,11 +72,11 @@ public final class ManaContainerList implements IManaContainer {
     public void setNetMachineCache(ManaDistributorMachine cache) {}
 
     @Override
-    public long addMana(long amount, int limit, boolean simulate) {
+    public long addMana(long amount, int rateMultiplier, boolean simulate) {
         long change = 0;
         for (IManaContainer container : containers) {
             if (amount <= 0) return change;
-            long mana = container.addMana(amount, limit, simulate);
+            long mana = container.addMana(amount, rateMultiplier, simulate);
             change += mana;
             amount -= mana;
         }
@@ -85,11 +84,11 @@ public final class ManaContainerList implements IManaContainer {
     }
 
     @Override
-    public long removeMana(long amount, int limit, boolean simulate) {
+    public long removeMana(long amount, int rateMultiplier, boolean simulate) {
         long change = 0;
         for (IManaContainer container : containers) {
             if (amount <= 0) return change;
-            long mana = container.removeMana(amount, limit, simulate);
+            long mana = container.removeMana(amount, rateMultiplier, simulate);
             change += mana;
             amount -= mana;
         }

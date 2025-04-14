@@ -9,7 +9,7 @@ import com.gregtechceu.gtceu.api.capability.recipe.RecipeCapability;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.content.Content;
 import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
-import com.gregtechceu.gtceu.api.recipe.content.SerializerInteger;
+import com.gregtechceu.gtceu.api.recipe.content.SerializerLong;
 
 import com.google.common.primitives.Ints;
 import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
@@ -19,27 +19,27 @@ import org.apache.commons.lang3.mutable.MutableInt;
 
 import java.util.List;
 
-public final class ManaRecipeCapability extends RecipeCapability<Integer> {
+public final class ManaRecipeCapability extends RecipeCapability<Long> {
 
     public final static ManaRecipeCapability CAP = new ManaRecipeCapability();
 
     private ManaRecipeCapability() {
-        super("mana", 0xFF00B1FF, false, 3, SerializerInteger.INSTANCE);
+        super("mana", 0xFF00B1FF, false, 3, SerializerLong.INSTANCE);
     }
 
     @Override
-    public Integer copyInner(Integer content) {
+    public Long copyInner(Long content) {
         return content;
     }
 
     @Override
-    public Integer copyWithModifier(Integer content, ContentModifier modifier) {
+    public Long copyWithModifier(Long content, ContentModifier modifier) {
         return modifier.apply(content);
     }
 
     @Override
     public void addXEIInfo(WidgetGroup group, int xOffset, GTRecipe recipe, List<Content> contents, boolean perTick, boolean isInput, MutableInt yOffset) {
-        int mana = contents.stream().map(Content::getContent).mapToInt(CAP::of).sum();
+        long mana = contents.stream().map(Content::getContent).mapToLong(CAP::of).sum();
         group.addWidget(new LabelWidget(3 - xOffset, yOffset.addAndGet(10),
                 LocalizationUtils.format(isInput ? "gtocore.machine.mana_input" : "gtocore.machine.mana_output", mana) + (perTick ? " /t" : "")));
         if (perTick) {
@@ -50,13 +50,13 @@ public final class ManaRecipeCapability extends RecipeCapability<Integer> {
 
     @Override
     public int getMaxParallelRatio(IRecipeCapabilityHolder holder, GTRecipe recipe, int parallelAmount) {
-        int maxManaConsumptionRate = 0;
+        long maxManaConsumptionRate = 0;
         for (IRecipeHandler<?> container : holder.getCapabilitiesFlat(IO.IN, CAP)) {
             if (container instanceof IManaContainer manaContainer) {
                 maxManaConsumptionRate += manaContainer.getMaxConsumptionRate();
             }
         }
-        int recipeMana = CAP.of(recipe.tickInputs.get(CAP).get(0).getContent());
+        long recipeMana = CAP.of(recipe.tickInputs.get(CAP).get(0).getContent());
         if (recipeMana == 0) {
             return Integer.MAX_VALUE;
         }

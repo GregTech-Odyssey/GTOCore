@@ -132,16 +132,18 @@ public final class RecipeTypeModify {
             }
         });
 
-        STEAM_BOILER_RECIPES.onRecipeBuild((builder, provider) -> GTORecipeTypes.THERMAL_GENERATOR_FUELS.copyFrom(builder)
-                .EUt(-8)
-                .duration((int) Math.sqrt(builder.duration))
-                .save(provider));
+        STEAM_BOILER_RECIPES.onRecipeBuild((builder, provider) -> {
+            GTORecipeTypes.THERMAL_GENERATOR_FUELS.copyFrom(builder)
+                    .EUt(-8)
+                    .duration((int) Math.sqrt(builder.duration))
+                    .save(provider);
 
-        STEAM_BOILER_RECIPES.onRecipeBuild((builder, provider) -> GTORecipeTypes.MANA_SIMULATOR_FUEL.copyFrom(builder)
-                .MANAt(-(int) (1.5 * ManaSimulator.BUFF_FACTOR))
-                .EUt(VA[MV])
-                .duration(builder.duration / 2)
-                .save(provider));
+            GTORecipeTypes.MANA_SIMULATOR_FUEL.copyFrom(builder)
+                    .MANAt(-(int) (1.5 * ManaSimulator.BUFF_FACTOR))
+                    .EUt(VA[MV])
+                    .duration(builder.duration / 2)
+                    .save(provider);
+        });
 
         LARGE_BOILER_RECIPES.addDataInfo(data -> {
             int temperature = data.getInt("temperature");

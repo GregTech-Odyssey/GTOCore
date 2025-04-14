@@ -43,12 +43,12 @@ public final class GTOUtils {
         return condition.test(material);
     }
 
-    public static int getInputMANAt(GTRecipe recipe) {
-        return recipe.getTickInputContents(ManaRecipeCapability.CAP).stream().map(Content::getContent).mapToInt(ManaRecipeCapability.CAP::of).sum();
+    public static long getInputMANAt(GTRecipe recipe) {
+        return recipe.getTickInputContents(ManaRecipeCapability.CAP).stream().map(Content::getContent).mapToLong(ManaRecipeCapability.CAP::of).sum();
     }
 
-    public static int getOutputMANAt(GTRecipe recipe) {
-        return recipe.getTickOutputContents(ManaRecipeCapability.CAP).stream().map(Content::getContent).mapToInt(ManaRecipeCapability.CAP::of).sum();
+    public static long getOutputMANAt(GTRecipe recipe) {
+        return recipe.getTickOutputContents(ManaRecipeCapability.CAP).stream().map(Content::getContent).mapToLong(ManaRecipeCapability.CAP::of).sum();
     }
 
     public static int adjacentBlock(Level level, BlockPos pos, Block block) {

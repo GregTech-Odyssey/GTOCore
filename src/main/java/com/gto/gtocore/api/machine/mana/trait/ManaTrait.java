@@ -18,7 +18,6 @@ import net.minecraft.network.chat.Component;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 

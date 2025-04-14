@@ -1,11 +1,8 @@
 package com.gto.gtocore.data.recipe.classified;
 
-import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
-import com.gregtechceu.gtceu.api.data.tag.TagUtil;
 import com.gto.gtocore.GTOCore;
-import com.gto.gtocore.data.tag.Tags;
 import com.gto.gtocore.utils.RegistriesUtils;
-import com.gto.gtocore.api.data.tag.GTOTagPrefix;
+
 import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.fluids.FluidStack;
 

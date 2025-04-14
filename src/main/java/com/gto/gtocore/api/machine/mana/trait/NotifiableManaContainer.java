@@ -17,15 +17,13 @@ import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collections;
 import java.util.List;
 
-@Slf4j
-public class NotifiableManaContainer extends NotifiableRecipeHandlerTrait<Integer> implements IManaContainer {
+public class NotifiableManaContainer extends NotifiableRecipeHandlerTrait<Long> implements IManaContainer {
 
     private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
             NotifiableManaContainer.class, NotifiableRecipeHandlerTrait.MANAGED_FIELD_HOLDER);
@@ -42,9 +40,11 @@ public class NotifiableManaContainer extends NotifiableRecipeHandlerTrait<Intege
     @Nullable
     private TickableSubscription updateSubs;
 
+    @Getter
+    @Setter
     @Persisted
     @DescSynced
-    private long manaStored;
+    private long currentMana;
 
     @Setter
     private boolean acceptDistributor;
@@ -52,34 +52,34 @@ public class NotifiableManaContainer extends NotifiableRecipeHandlerTrait<Intege
     @Getter
     private final IO handlerIO;
 
-    private final long max;
+    @Getter
+    private final long maxMana;
 
     @Getter
-    private final int maxConsumptionRate;
+    private final long maxConsumptionRate;
 
     @Getter
-    private final int maxProductionRate;
+    private final long maxProductionRate;
 
-    public NotifiableManaContainer(MetaMachine machine, IO io, long max) {
+    public NotifiableManaContainer(MetaMachine machine, IO io, long maxMana) {
         super(machine);
-        int maxIORate = GTMath.saturatedCast(max);
         handlerIO = io;
-        this.max = max;
-        this.maxConsumptionRate = io != IO.NONE ? maxIORate : 0;
-        this.maxProductionRate = io != IO.NONE ? maxIORate : 0;
+        this.maxMana = maxMana;
+        this.maxConsumptionRate = io != IO.NONE ? maxMana : 0;
+        this.maxProductionRate = io != IO.NONE ? maxMana : 0;
     }
 
-    public NotifiableManaContainer(MetaMachine machine, IO io, long max, int maxIORate) {
+    public NotifiableManaContainer(MetaMachine machine, IO io, long maxMana, long maxIORate) {
         super(machine);
         handlerIO = io;
-        this.max = max;
-        int tmpMaxRate = GTMath.saturatedCast(GTMath.clamp(maxIORate,0, max));
+        this.maxMana = maxMana;
+        long tmpMaxRate = GTMath.clamp(maxIORate, 0, maxMana);
         if (io == IO.IN) {
-            this.maxConsumptionRate = (int) max;
+            this.maxConsumptionRate = maxMana;
             this.maxProductionRate = tmpMaxRate;
         } else if (io == IO.OUT) {
             this.maxConsumptionRate = tmpMaxRate;
-            this.maxProductionRate = (int) max;
+            this.maxProductionRate = maxMana;
         } else if (io == IO.BOTH) {
             this.maxConsumptionRate = tmpMaxRate;
             this.maxProductionRate = tmpMaxRate;
@@ -89,12 +89,12 @@ public class NotifiableManaContainer extends NotifiableRecipeHandlerTrait<Intege
         }
     }
 
-    public NotifiableManaContainer(MetaMachine machine, IO io, long max, int maxConsumptionRate, int maxProductionRate) {
+    public NotifiableManaContainer(MetaMachine machine, IO io, long maxMana, int maxConsumptionRate, int maxProductionRate) {
         super(machine);
         handlerIO = io;
-        this.max = max;
-        this.maxConsumptionRate = GTMath.saturatedCast(GTMath.clamp(maxConsumptionRate,0, max));
-        this.maxProductionRate = GTMath.saturatedCast(GTMath.clamp(maxProductionRate,0, max));
+        this.maxMana = maxMana;
+        this.maxConsumptionRate = GTMath.clamp(maxConsumptionRate, 0, maxMana);
+        this.maxProductionRate = GTMath.clamp(maxProductionRate, 0, maxMana);
     }
 
     @Override
@@ -119,61 +119,46 @@ public class NotifiableManaContainer extends NotifiableRecipeHandlerTrait<Intege
             if (distributor == null) return;
             long mana = extractionRate();
             if (mana <= 0) return;
-            manaStored = manaStored + distributor.removeMana(mana, 20, false);
+            currentMana = currentMana + distributor.removeMana(mana, 20, false);
         }
     }
 
     protected long extractionRate() {
-        return max - manaStored;
+        return maxMana - currentMana;
     }
 
     @Override
-    public List<Integer> handleRecipeInner(IO io, GTRecipe recipe, List<Integer> left, boolean simulate) {
-        long sum = Math.abs(left.stream().reduce(0, Integer::sum));
+    public List<Long> handleRecipeInner(IO io, GTRecipe recipe, List<Long> left, boolean simulate) {
+        long sum = Math.abs(left.stream().reduce(0L, Long::sum));
         if (io == IO.IN) {
-            int canOutput = Math.min(getMaxConsumptionRate(), getSaturatedCurrentMana());
+            long canOutput = Math.min(maxConsumptionRate, currentMana);
             long change = removeMana(Math.min(canOutput, sum), 1, simulate);
             sum = sum - change;
         } else if (io == IO.OUT) {
-            int canInput = (int) Math.max(getMaxProductionRate(), getMaxMana() - getSaturatedCurrentMana());
+            long canInput = Math.min(maxProductionRate, extractionRate());
             long change = addMana(Math.min(canInput, sum), 1, simulate);
             sum = sum - change;
         }
-        return sum <= 0 ? null : Collections.singletonList(GTMath.saturatedCast(sum));
+        return sum <= 0 ? null : Collections.singletonList(sum);
     }
 
     @Override
     public @NotNull List<Object> getContents() {
-        return List.of(manaStored);
+        return List.of(currentMana);
     }
 
     @Override
     public double getTotalContentAmount() {
-        return manaStored;
+        return currentMana;
     }
 
     @Override
-    public RecipeCapability<Integer> getCapability() {
+    public RecipeCapability<Long> getCapability() {
         return ManaRecipeCapability.CAP;
     }
 
     @Override
     public boolean acceptDistributor() {
         return acceptDistributor;
-    }
-
-    @Override
-    public long getMaxMana() {
-        return max;
-    }
-
-    @Override
-    public void setCurrentMana(long mana) {
-        manaStored = mana;
-    }
-
-    @Override
-    public long getCurrentMana() {
-        return manaStored;
     }
 }

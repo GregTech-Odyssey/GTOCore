@@ -4,7 +4,6 @@ import com.gto.gtocore.api.machine.IIWirelessInteractorMachine;
 import com.gto.gtocore.common.machine.mana.multiblock.ManaDistributorMachine;
 
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
-import com.gregtechceu.gtceu.utils.GTMath;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
@@ -61,32 +60,24 @@ public interface IManaContainer extends IIWirelessInteractorMachine<ManaDistribu
      */
     void setCurrentMana(long mana);
 
-    default int getSaturatedMaxMana() {
-        return GTMath.saturatedCast(getMaxMana());
+    default long getMaxProductionRate() {
+        return getMaxMana();
     }
 
-    default int getSaturatedCurrentMana() {
-        return GTMath.saturatedCast(getCurrentMana());
-    }
-
-    default int getMaxProductionRate() {
-        return GTMath.saturatedCast(getMaxMana());
-    }
-
-    default int getMaxConsumptionRate() {
-        return GTMath.saturatedCast(getMaxMana());
+    default long getMaxConsumptionRate() {
+        return getMaxMana();
     }
 
     /**
      * 尝试增加魔力，结果不超过最大魔力总量
      * 
-     * @param amount   欲输入量
-     * @param limit    速率限制 0-1
-     * @param simulate 是否模拟
+     * @param amount         欲输入量
+     * @param rateMultiplier 速率乘数
+     * @param simulate       是否模拟
      * @return 变化量
      */
-    default long addMana(long amount, int limit, boolean simulate) {
-        long change = Math.min(getMaxMana() - getCurrentMana(), Math.min((long) limit * getMaxProductionRate(), amount));
+    default long addMana(long amount, int rateMultiplier, boolean simulate) {
+        long change = Math.min(getMaxMana() - getCurrentMana(), Math.min((long) rateMultiplier * getMaxProductionRate(), amount));
         if (change <= 0) return 0;
         if (!simulate) setCurrentMana(getCurrentMana() + change);
         return change;
@@ -95,13 +86,13 @@ public interface IManaContainer extends IIWirelessInteractorMachine<ManaDistribu
     /**
      * 尝试减少魔力，结果不低于0
      * 
-     * @param amount   欲输出量
-     * @param limit    速率限制 0-1
-     * @param simulate 是否模拟
+     * @param amount         欲输出量
+     * @param rateMultiplier 速率乘数
+     * @param simulate       是否模拟
      * @return 变化量
      */
-    default long removeMana(long amount, int limit, boolean simulate) {
-        long change = Math.min(getCurrentMana(), Math.min((long) limit * getMaxConsumptionRate(), amount));
+    default long removeMana(long amount, int rateMultiplier, boolean simulate) {
+        long change = Math.min(getCurrentMana(), Math.min((long) rateMultiplier * getMaxConsumptionRate(), amount));
         if (change <= 0) return 0;
         if (!simulate) setCurrentMana(getCurrentMana() - change);
         return change;
