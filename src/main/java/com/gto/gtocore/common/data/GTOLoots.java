@@ -36,7 +36,7 @@ public final class GTOLoots {
 
     public static Pair<ImmutableMap<LootDataId<?>, ?>, ImmutableMultimap<LootDataType<?>, ResourceLocation>> apply(Map<LootDataType<?>, Map<ResourceLocation, ?>> collectedElements) {
         Map<ResourceLocation, LootTable> lootTables = (Map<ResourceLocation, LootTable>) collectedElements.get(LootDataType.TABLE);
-        MixinHelpers.generateGTDynamicLoot(lootTables);
+        GTOLootHelper.generateGTDynamicLoot(lootTables);
         ImmutableMap.Builder<LootDataId<?>, Object> builder = ImmutableMap.builder();
         ImmutableMultimap.Builder<LootDataType<?>, ResourceLocation> builder1 = ImmutableMultimap.builder();
         collectedElements.forEach((p_279449_, p_279262_) -> p_279262_.forEach((p_279130_, p_279313_) -> {
