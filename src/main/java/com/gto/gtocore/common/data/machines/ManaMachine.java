@@ -25,7 +25,6 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 
 import static com.gregtechceu.gtceu.api.GTValues.*;
-import static com.gregtechceu.gtceu.api.GTValues.V;
 import static com.gto.gtocore.api.GTOValues.MANACN;
 import static com.gto.gtocore.api.GTOValues.MANAN;
 import static com.gto.gtocore.utils.register.MachineRegisterUtils.*;

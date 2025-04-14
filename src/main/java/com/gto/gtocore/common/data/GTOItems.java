@@ -5,7 +5,7 @@ import com.gto.gtocore.client.renderer.item.HaloItemRenderer;
 import com.gto.gtocore.client.renderer.item.OrderItemProviderRenderer;
 import com.gto.gtocore.common.cover.PowerAmplifierCover;
 import com.gto.gtocore.common.item.*;
-import com.gto.gtocore.common.item.armor.*;
+import com.gto.gtocore.common.item.armor.SpaceArmorComponentItem;
 import com.gto.gtocore.config.GTOConfig;
 import com.gto.gtocore.integration.ae2.InfinityCellItem;
 import com.gto.gtocore.utils.StringUtils;

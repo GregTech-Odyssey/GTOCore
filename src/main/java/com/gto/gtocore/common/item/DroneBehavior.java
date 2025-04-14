@@ -31,9 +31,9 @@ public final class DroneBehavior extends ElectricStats {
 
     private static int getRange(int t) {
         return switch (t) {
-            case 1 -> 32;
-            case 2 -> 96;
-            case 3 -> 288;
+            case 3 -> 32;
+            case 4 -> 96;
+            case 5 -> 288;
             default -> 0;
         };
     }
