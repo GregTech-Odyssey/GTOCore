@@ -3,7 +3,6 @@ package com.gto.gtocore.common.machine.multiblock.water;
 import com.gto.gtocore.api.recipe.GTORecipeBuilder;
 import com.gto.gtocore.api.recipe.RecipeRunnerHelper;
 import com.gto.gtocore.common.machine.multiblock.part.SensorPartMachine;
-import com.gto.gtocore.utils.MachineUtils;
 
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
@@ -49,7 +48,7 @@ public final class PHNeutralizationPurificationUnitMachine extends WaterPurifica
 
     private final Set<SensorPartMachine> sensorPartMachines = new ObjectOpenHashSet<>(3);
 
-    public PHNeutralizationPurificationUnitMachine(IMachineBlockEntity holder, Object... args) {
+    public PHNeutralizationPurificationUnitMachine(IMachineBlockEntity holder) {
         super(holder);
     }
 
@@ -79,12 +78,12 @@ public final class PHNeutralizationPurificationUnitMachine extends WaterPurifica
     public boolean onWorking() {
         if (!super.onWorking()) return false;
         if (getOffsetTimer() % 20 == 0) {
-            int sh = MachineUtils.getItemAmount(this, SodiumHydroxide.getItem())[0];
-            if (MachineUtils.inputItem(this, SodiumHydroxide.copyWithCount(sh))) {
+            int sh = getItemAmount(SodiumHydroxide.getItem())[0];
+            if (inputItem(SodiumHydroxide.copyWithCount(sh))) {
                 ph = Math.min(14, ph + sh * 0.01F);
             }
-            int hc = MachineUtils.getFluidAmount(this, HydrochloricAcid)[0];
-            if (MachineUtils.inputFluid(this, HydrochloricAcid, hc)) {
+            int hc = getFluidAmount(HydrochloricAcid)[0];
+            if (inputFluid(HydrochloricAcid, hc)) {
                 ph = Math.max(0.01F, ph - hc * 0.001F);
             }
             sensorPartMachines.forEach(s -> s.update(ph));
@@ -95,14 +94,14 @@ public final class PHNeutralizationPurificationUnitMachine extends WaterPurifica
     @Override
     public void onRecipeFinish() {
         super.onRecipeFinish();
-        if (ph >= 6.95 && ph <= 7.05) MachineUtils.outputFluid(this, WaterPurificationPlantMachine.GradePurifiedWater4, inputCount * 9 / 10);
+        if (ph >= 6.95 && ph <= 7.05) outputFluid(WaterPurificationPlantMachine.GradePurifiedWater4, inputCount * 9 / 10);
     }
 
     @Override
     long before() {
         eut = 0;
         ph = ((float) Math.random() * 5) + 4.5F;
-        inputCount = Math.min(getParallel(), MachineUtils.getFluidAmount(this, WaterPurificationPlantMachine.GradePurifiedWater3)[0]);
+        inputCount = Math.min(getParallel(), getFluidAmount(WaterPurificationPlantMachine.GradePurifiedWater3)[0]);
         recipe = GTORecipeBuilder.ofRaw().duration(WaterPurificationPlantMachine.DURATION).inputFluids(new FluidStack(WaterPurificationPlantMachine.GradePurifiedWater3, inputCount)).buildRawRecipe();
         if (RecipeRunnerHelper.matchRecipe(this, recipe)) {
             eut = (long) inputCount << 2;

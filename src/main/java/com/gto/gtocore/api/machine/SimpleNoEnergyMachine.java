@@ -1,6 +1,5 @@
 package com.gto.gtocore.api.machine;
 
-import com.gto.gtocore.api.machine.feature.multiblock.IEnhancedMultiblockMachine;
 import com.gto.gtocore.api.machine.trait.IEnhancedRecipeLogic;
 
 import com.gregtechceu.gtceu.api.capability.recipe.*;
@@ -54,7 +53,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class SimpleNoEnergyMachine extends TieredMachine implements IRecipeLogicMachine, IMachineLife, IMufflableMachine, IAutoOutputBoth, IFancyUIMachine, IEnhancedMultiblockMachine {
+public class SimpleNoEnergyMachine extends TieredMachine implements IRecipeLogicMachine, IMachineLife, IMufflableMachine, IAutoOutputBoth, IFancyUIMachine {
 
     protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
             SimpleNoEnergyMachine.class, TieredMachine.MANAGED_FIELD_HOLDER);

@@ -116,8 +116,8 @@ interface ReactionFurnace {
 
         REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("sodium_aluminate"))
                 .inputItems(TagPrefix.dust, GTMaterials.Bauxite, 5)
-                .inputItems(TagPrefix.dust, GTMaterials.SodiumHydroxide, 3)
-                .outputItems(TagPrefix.dust, GTOMaterials.SodiumAluminate, 5)
+                .inputItems(TagPrefix.dust, GTMaterials.SodiumHydroxide, 6)
+                .outputItems(TagPrefix.dust, GTOMaterials.SodiumAluminate, 8)
                 .EUt(120)
                 .duration(120)
                 .blastFurnaceTemp(700)
@@ -626,9 +626,9 @@ interface ReactionFurnace {
 
         REACTION_FURNACE_RECIPES.recipeBuilder(GTOCore.id("alumina_ceramic_dust"))
                 .circuitMeta(2)
-                .inputItems(TagPrefix.dust, GTOMaterials.AluminiumHydroxide, 7)
-                .outputItems(TagPrefix.dust, GTOMaterials.AluminaCeramic)
-                .outputFluids(GTMaterials.Water.getFluid(1000))
+                .inputItems(TagPrefix.dust, GTOMaterials.AluminiumHydroxide, 14)
+                .outputItems(TagPrefix.dust, GTOMaterials.Alumina, 5)
+                .outputFluids(Steam.getFluid(10000))
                 .EUt(120)
                 .duration(100)
                 .blastFurnaceTemp(2600)
@@ -716,6 +716,7 @@ interface ReactionFurnace {
                 .outputFluids(GTOMaterials.PolyAluminiumChloride.getFluid(1000))
                 .EUt(480)
                 .duration(360)
+                .blastFurnaceTemp(2145)
                 .save();
     }
 }

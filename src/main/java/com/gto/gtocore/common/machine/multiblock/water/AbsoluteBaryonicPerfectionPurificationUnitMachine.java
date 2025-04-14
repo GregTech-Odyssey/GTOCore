@@ -4,7 +4,6 @@ import com.gto.gtocore.api.recipe.GTORecipeBuilder;
 import com.gto.gtocore.api.recipe.RecipeRunnerHelper;
 import com.gto.gtocore.common.data.GTOItems;
 import com.gto.gtocore.common.data.GTOMaterials;
-import com.gto.gtocore.utils.MachineUtils;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
@@ -72,7 +71,7 @@ public final class AbsoluteBaryonicPerfectionPurificationUnitMachine extends Wat
 
     private final Set<ItemBusPartMachine> busMachines = new ObjectOpenHashSet<>();
 
-    public AbsoluteBaryonicPerfectionPurificationUnitMachine(IMachineBlockEntity holder, Object... args) {
+    public AbsoluteBaryonicPerfectionPurificationUnitMachine(IMachineBlockEntity holder) {
         super(holder);
     }
 
@@ -112,12 +111,12 @@ public final class AbsoluteBaryonicPerfectionPurificationUnitMachine extends Wat
                 int slots = inv.getSlots();
                 for (int i = 0; i < slots; i++) {
                     ItemStack stack = inv.getStackInSlot(i);
-                    if (CATALYST.contains(stack.getItem()) && MachineUtils.inputFluid(this, QUARK_GLUON, stack.getCount() * 144)) {
+                    if (CATALYST.contains(stack.getItem()) && inputFluid(QUARK_GLUON, stack.getCount() * 144)) {
                         if (i < slots - 1 && stack.getItem() == catalyst1) {
                             ItemStack stack1 = inv.getStackInSlot(i + 1);
-                            if (!stack1.isEmpty() && MachineUtils.inputFluid(this, QUARK_GLUON, stack1.getCount() * 144)) {
+                            if (!stack1.isEmpty() && inputFluid(QUARK_GLUON, stack1.getCount() * 144)) {
                                 if (stack1.getItem() == catalyst2) {
-                                    MachineUtils.outputFluid(this, STABLE_BARYONIC_MATTER, 1000);
+                                    outputFluid(STABLE_BARYONIC_MATTER, 1000);
                                     successful = true;
                                     this.successful = true;
                                 }
@@ -137,16 +136,16 @@ public final class AbsoluteBaryonicPerfectionPurificationUnitMachine extends Wat
     @Override
     public void onRecipeFinish() {
         super.onRecipeFinish();
-        outputs.forEach(i -> MachineUtils.outputItem(this, i));
+        outputs.forEach(this::outputItem);
         outputs.clear();
-        if (successful) MachineUtils.outputFluid(this, WaterPurificationPlantMachine.GradePurifiedWater8, inputCount * 9 / 10);
+        if (successful) outputFluid(WaterPurificationPlantMachine.GradePurifiedWater8, inputCount * 9 / 10);
     }
 
     @Override
     long before() {
         eut = 0;
         successful = false;
-        inputCount = Math.min(getParallel(), MachineUtils.getFluidAmount(this, WaterPurificationPlantMachine.GradePurifiedWater7)[0]);
+        inputCount = Math.min(getParallel(), getFluidAmount(WaterPurificationPlantMachine.GradePurifiedWater7)[0]);
         recipe = GTORecipeBuilder.ofRaw().duration(WaterPurificationPlantMachine.DURATION).inputFluids(new FluidStack(WaterPurificationPlantMachine.GradePurifiedWater7, inputCount)).buildRawRecipe();
         if (RecipeRunnerHelper.matchRecipe(this, recipe)) {
             int a = GTValues.RNG.nextInt(5);

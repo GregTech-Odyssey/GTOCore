@@ -1,5 +1,6 @@
 package com.gto.gtocore.common.machine.multiblock.steam;
 
+import com.gto.gtocore.api.recipe.ContentBuilder;
 import com.gto.gtocore.common.data.GTORecipeModifiers;
 import com.gto.gtocore.common.machine.multiblock.part.LargeSteamHatchPartMachine;
 
@@ -7,8 +8,6 @@ import com.gregtechceu.gtceu.api.capability.recipe.EURecipeCapability;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.ICleanroomProvider;
 import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
-import com.gregtechceu.gtceu.api.recipe.chance.logic.ChanceLogic;
-import com.gregtechceu.gtceu.api.recipe.content.Content;
 import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
 import com.gregtechceu.gtceu.common.machine.multiblock.electric.CleanroomMachine;
 import com.gregtechceu.gtceu.common.machine.multiblock.steam.SteamParallelMultiblockMachine;
@@ -70,7 +69,7 @@ public class LargeSteamParallelMultiblockMachine extends SteamParallelMultiblock
                 recipe = GTORecipeModifiers.accurateParallel(machine, recipe, steamMachine.getMaxParallels());
                 recipe.duration = (int) (recipe.duration * reductionDuration);
                 if (steamMachine.isOC) {
-                    recipe.tickInputs.put(EURecipeCapability.CAP, List.of(new Content(Math.max(1, eut << (2 * steamMachine.amountOC)), ChanceLogic.getMaxChancedValue(), ChanceLogic.getMaxChancedValue(), 0)));
+                    recipe.tickInputs.put(EURecipeCapability.CAP, List.of(ContentBuilder.builderEU(Math.max(1, eut << (2 * steamMachine.amountOC)))));
                     recipe.duration = Math.max(1, recipe.duration / (1 << (steamMachine.amountOC)));
                 }
                 return recipe;

@@ -48,22 +48,22 @@ public abstract class LargeBoilerMachineMixin extends WorkableMultiblockMachine 
     @Overwrite(remap = false)
     protected void updateCurrentTemperature() {
         if (recipeLogic.isWorking()) {
-            if (getOffsetTimer() % 10 == 0) {
+            if (getOffsetTimer() % 5 == 0) {
                 if (currentTemperature < maxTemperature) {
-                    currentTemperature = Mth.clamp(currentTemperature + heatSpeed * 10, 0, maxTemperature);
+                    currentTemperature = Mth.clamp(currentTemperature + heatSpeed, 0, maxTemperature);
                 }
             }
         } else if (currentTemperature > 0) {
             currentTemperature -= 1;
         }
         if (isFormed() && getOffsetTimer() % 5 == 0 && currentTemperature > 100) {
-            int steam = currentTemperature * throttle * 5 / 100;
-            if (steam > 0) {
-                MachineUtils.outputFluid(this, gtocore$STEAM, steam);
-            }
             int water = currentTemperature * throttle * 5 / 16000;
             if (water > 0) {
                 if (MachineUtils.inputFluid(this, Fluids.WATER, water)) {
+                    int steam = currentTemperature * throttle * 5 / 100;
+                    if (steam > 0) {
+                        MachineUtils.outputFluid(this, gtocore$STEAM, steam);
+                    }
                     if (hasNoWater) {
                         doExplosion(2.0F);
                     }

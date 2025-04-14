@@ -4,7 +4,6 @@ import com.gto.gtocore.api.capability.ManaContainerList;
 import com.gto.gtocore.api.machine.mana.feature.IManaMultiblock;
 import com.gto.gtocore.api.machine.mana.trait.ManaTrait;
 import com.gto.gtocore.api.machine.multiblock.CoilCustomParallelMultiblockMachine;
-import com.gto.gtocore.utils.MachineUtils;
 import com.gto.gtocore.utils.RegistriesUtils;
 
 import com.gregtechceu.gtceu.api.GTValues;
@@ -75,8 +74,8 @@ public final class ManaAlloyBlastSmelterMachine extends CoilCustomParallelMultib
                 if (signal > 0) {
                     Item item = RUNES.get(signal);
                     AtomicBoolean success = new AtomicBoolean(false);
-                    MachineUtils.forEachInputItems(this, stack -> {
-                        if (RUNES.containsValue(stack.getItem()) && MachineUtils.inputItem(this, item.getDefaultInstance()) && stack.is(item)) {
+                    forEachInputItems(stack -> {
+                        if (RUNES.containsValue(stack.getItem()) && inputItem(item.getDefaultInstance()) && stack.is(item)) {
                             success.set(true);
                             return true;
                         }

@@ -22,14 +22,14 @@ import static com.gto.gtocore.common.data.GTORecipeTypes.LARGE_CHEMICAL_RECIPES;
 interface ChemicaRreactor {
 
     static void init() {
-        LARGE_CHEMICAL_RECIPES.builder("ethylenedioxythiophene")
-                .notConsumable(GTItems.GELLED_TOLUENE.asStack())
-                .inputFluids(GTOMaterials.Dietoxythiophene, 1000)
-                .inputFluids(GTOMaterials.EthyleneGlycol, 1000)
-                .outputFluids(GTOMaterials.Ethylenedioxythiophene, 1000)
-                .outputFluids(GTMaterials.Ethanol, 1000)
-                .EUt(120)
-                .duration(140)
+        CHEMICAL_RECIPES.builder("sodium_fluoride_dust")
+                .inputItems(TagPrefix.dust, GTMaterials.Sodium)
+                .outputItems(TagPrefix.dust, GTOMaterials.SodiumFluoride, 2)
+                .inputFluids(GTMaterials.HydrofluoricAcid, 1000)
+                .outputFluids(GTMaterials.Hydrogen, 1000)
+                .circuitMeta(2)
+                .EUt(30)
+                .duration(60)
                 .save();
 
         CHEMICAL_RECIPES.builder("iron_sulfate")
@@ -184,8 +184,8 @@ interface ChemicaRreactor {
                 .outputItems(TagPrefix.dust, GTOMaterials.AluminiumTrifluoride, 4)
                 .inputFluids(GTMaterials.Fluorine.getFluid(3000))
                 .circuitMeta(6)
-                .EUt(480)
-                .duration(15)
+                .EUt(120)
+                .duration(400)
                 .save();
 
         CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("gold_cyanide"))
@@ -1239,21 +1239,12 @@ interface ChemicaRreactor {
                 .duration(60)
                 .save();
 
-        CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("aluminium_trifluoride_dust_b"))
-                .inputItems(TagPrefix.dust, GTOMaterials.AluminiumTrifluoride, 8)
-                .inputFluids(GTMaterials.Water.getFluid(3000))
-                .outputItems(TagPrefix.dust, GTOMaterials.Alumina, 5)
-                .outputFluids(GTMaterials.HydrofluoricAcid.getFluid(6000))
-                .EUt(120)
-                .duration(140)
-                .save();
-
         CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("aluminium_trifluoride_dust_a"))
                 .inputItems(TagPrefix.dust, GTOMaterials.SodiumFluoride, 6)
                 .inputItems(TagPrefix.dust, GTOMaterials.AluminiumTrifluoride, 4)
                 .outputFluids(GTOMaterials.SodiumHexafluoroaluminate.getFluid(1000))
                 .EUt(120)
-                .duration(200)
+                .duration(120)
                 .save();
 
         CHEMICAL_RECIPES.recipeBuilder(GTOCore.id("oxydianiline"))
@@ -2333,13 +2324,13 @@ interface ChemicaRreactor {
                 .inputItems(TagPrefix.dust, GTMaterials.Carbon, 8)
                 .inputItems(TagPrefix.dust, GTOMaterials.Diiodobiphenyl, 4)
                 .inputFluids(GTOMaterials.TrimethylTinChloride.getFluid(4000))
-                .inputFluids(GTOMaterials.SilverTetrafluoroborate.getFluid(4000))
+                .inputFluids(GTOMaterials.SilverTetrafluoroborate.getFluid(6000))
                 .outputItems(TagPrefix.dust, GTMaterials.PlatinumRaw, 3)
-                .outputItems(TagPrefix.dust, GTMaterials.Silver, 4)
+                .outputItems(TagPrefix.dust, GTMaterials.Silver, 6)
                 .outputFluids(GTOMaterials.Cycloparaphenylene.getFluid(10000))
-                .outputFluids(GTOMaterials.BoronFluoride.getFluid(4000))
+                .outputFluids(GTOMaterials.BoronFluoride.getFluid(2000))
                 .outputFluids(GTOMaterials.OneOctene.getFluid(3000))
-                .outputFluids(GTMaterials.HydrofluoricAcid.getFluid(4000))
+                .outputFluids(GTMaterials.HydrofluoricAcid.getFluid(6000))
                 .EUt(1966080)
                 .duration(200)
                 .cleanroom(CleanroomType.CLEANROOM)
@@ -2864,6 +2855,16 @@ interface ChemicaRreactor {
                 .outputFluids(GTOMaterials.Perbromothiophene, 1000)
                 .outputFluids(GTMaterials.Water, 4000)
                 .EUt(1920)
+                .duration(140)
+                .save();
+
+        LARGE_CHEMICAL_RECIPES.builder("ethylenedioxythiophene")
+                .notConsumable(GTItems.GELLED_TOLUENE.asStack())
+                .inputFluids(GTOMaterials.Dietoxythiophene, 1000)
+                .inputFluids(GTOMaterials.EthyleneGlycol, 1000)
+                .outputFluids(GTOMaterials.Ethylenedioxythiophene, 1000)
+                .outputFluids(GTMaterials.Ethanol, 1000)
+                .EUt(120)
                 .duration(140)
                 .save();
     }

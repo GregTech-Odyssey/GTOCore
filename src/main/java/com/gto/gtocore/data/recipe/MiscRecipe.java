@@ -218,6 +218,22 @@ public interface MiscRecipe {
                 .dimension(GTODimensions.OVERWORLD)
                 .save(provider);
 
+        AIR_SCRUBBER_RECIPES.recipeBuilder("void_scrubber")
+                .circuitMeta(11)
+                .inputFluids(new FluidStack(Fluids.WATER, 1000))
+                .duration(200)
+                .EUt(VHA[LV])
+                .dimension(GTODimensions.VOID)
+                .save(provider);
+
+        AIR_SCRUBBER_RECIPES.recipeBuilder("flat_scrubber")
+                .circuitMeta(12)
+                .inputFluids(new FluidStack(Fluids.WATER, 1000))
+                .duration(200)
+                .EUt(VHA[LV])
+                .dimension(GTODimensions.FLAT)
+                .save(provider);
+
         AIR_SCRUBBER_RECIPES.recipeBuilder("end_scrubber")
                 .circuitMeta(3)
                 .inputFluids(new FluidStack(Fluids.WATER, 1000))

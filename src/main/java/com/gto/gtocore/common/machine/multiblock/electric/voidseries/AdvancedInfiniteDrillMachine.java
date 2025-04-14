@@ -2,7 +2,6 @@ package com.gto.gtocore.common.machine.multiblock.electric.voidseries;
 
 import com.gto.gtocore.api.machine.multiblock.StorageMultiblockMachine;
 import com.gto.gtocore.common.machine.trait.AdvancedInfiniteDrillLogic;
-import com.gto.gtocore.utils.MachineUtils;
 
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
@@ -88,11 +87,11 @@ public final class AdvancedInfiniteDrillMachine extends StorageMultiblockMachine
             if (process <= 0) {
                 heat += (int) Math.floor(Math.abs(currentHeat - RUNNING_HEAT) / 2000.0D);
             }
-            if (MachineUtils.inputFluid(this, DISTILLED_WATER)) {
+            if (inputFluid(DISTILLED_WATER)) {
                 heat--;
-            } else if (MachineUtils.inputFluid(this, OXYGEN)) {
+            } else if (inputFluid(OXYGEN)) {
                 heat -= 2;
-            } else if (MachineUtils.inputFluid(this, HELIUM)) {
+            } else if (inputFluid(HELIUM)) {
                 heat -= 4;
             }
         }
@@ -170,7 +169,7 @@ public final class AdvancedInfiniteDrillMachine extends StorageMultiblockMachine
     }
 
     private boolean inputBlast() {
-        return MachineUtils.inputFluid(this, GTMaterials.Blaze.getFluid(getFluidConsume()));
+        return inputFluid(GTMaterials.Blaze.getFluid(getFluidConsume()));
     }
 
     private int getFluidConsume() {

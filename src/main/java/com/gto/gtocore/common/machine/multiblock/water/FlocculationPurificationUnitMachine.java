@@ -3,7 +3,6 @@ package com.gto.gtocore.common.machine.multiblock.water;
 import com.gto.gtocore.api.recipe.GTORecipeBuilder;
 import com.gto.gtocore.api.recipe.RecipeRunnerHelper;
 import com.gto.gtocore.common.data.GTOMaterials;
-import com.gto.gtocore.utils.MachineUtils;
 
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 
@@ -43,7 +42,7 @@ public final class FlocculationPurificationUnitMachine extends WaterPurification
     @Persisted
     private int outputCount;
 
-    public FlocculationPurificationUnitMachine(IMachineBlockEntity holder, Object... args) {
+    public FlocculationPurificationUnitMachine(IMachineBlockEntity holder) {
         super(holder);
     }
 
@@ -59,8 +58,8 @@ public final class FlocculationPurificationUnitMachine extends WaterPurification
     public boolean onWorking() {
         if (!super.onWorking()) return false;
         if (getOffsetTimer() % 20 == 0) {
-            int amount = MachineUtils.getFluidAmount(this, PolyAluminiumChloride)[0];
-            if (MachineUtils.inputFluid(this, PolyAluminiumChloride, amount)) {
+            int amount = getFluidAmount(PolyAluminiumChloride)[0];
+            if (inputFluid(PolyAluminiumChloride, amount)) {
                 outputCount += amount;
                 if (amount % 100000 == 0) {
                     if (chance < 100) chance += amount / 10000;
@@ -75,8 +74,8 @@ public final class FlocculationPurificationUnitMachine extends WaterPurification
     @Override
     public void onRecipeFinish() {
         super.onRecipeFinish();
-        MachineUtils.outputFluid(this, FlocculationWasteSolution, outputCount);
-        if (Math.random() * 100 <= chance) MachineUtils.outputFluid(this, WaterPurificationPlantMachine.GradePurifiedWater3, inputCount * 9 / 10);
+        outputFluid(FlocculationWasteSolution, outputCount);
+        if (Math.random() * 100 <= chance) outputFluid(WaterPurificationPlantMachine.GradePurifiedWater3, inputCount * 9 / 10);
     }
 
     @Override
@@ -84,7 +83,7 @@ public final class FlocculationPurificationUnitMachine extends WaterPurification
         eut = 0;
         chance = 0;
         outputCount = 0;
-        inputCount = Math.min(getParallel(), MachineUtils.getFluidAmount(this, WaterPurificationPlantMachine.GradePurifiedWater2)[0]);
+        inputCount = Math.min(getParallel(), getFluidAmount(WaterPurificationPlantMachine.GradePurifiedWater2)[0]);
         recipe = GTORecipeBuilder.ofRaw().duration(WaterPurificationPlantMachine.DURATION).inputFluids(new FluidStack(WaterPurificationPlantMachine.GradePurifiedWater2, inputCount)).buildRawRecipe();
         if (RecipeRunnerHelper.matchRecipe(this, recipe)) {
             eut = (long) inputCount << 1;

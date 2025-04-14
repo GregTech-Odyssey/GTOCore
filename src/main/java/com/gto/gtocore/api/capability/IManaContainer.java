@@ -36,7 +36,7 @@ public interface IManaContainer extends IIWirelessInteractorMachine<ManaDistribu
 
     @Override
     default boolean testMachine(ManaDistributorMachine machine) {
-        return machine.isFormed();
+        return machine.isFormed() && machine.isWorkingEnabled();
     }
 
     @Override

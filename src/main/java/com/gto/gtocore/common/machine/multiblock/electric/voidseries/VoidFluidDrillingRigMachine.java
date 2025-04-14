@@ -3,12 +3,12 @@ package com.gto.gtocore.common.machine.multiblock.electric.voidseries;
 import com.gto.gtocore.api.data.GTODimensions;
 import com.gto.gtocore.api.machine.multiblock.StorageMultiblockMachine;
 import com.gto.gtocore.api.machine.trait.CustomRecipeLogic;
+import com.gto.gtocore.api.recipe.ContentBuilder;
 import com.gto.gtocore.api.recipe.GTORecipeBuilder;
 import com.gto.gtocore.api.recipe.RecipeRunnerHelper;
 import com.gto.gtocore.common.data.GTOBedrockFluids;
 import com.gto.gtocore.common.data.GTOItems;
 import com.gto.gtocore.common.item.DimensionDataItem;
-import com.gto.gtocore.utils.MachineUtils;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.recipe.EURecipeCapability;
@@ -16,9 +16,6 @@ import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
-import com.gregtechceu.gtceu.api.recipe.chance.logic.ChanceLogic;
-import com.gregtechceu.gtceu.api.recipe.content.Content;
-import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
 
 import net.minecraft.network.chat.Component;
 import net.minecraftforge.fluids.FluidStack;
@@ -49,7 +46,7 @@ public final class VoidFluidDrillingRigMachine extends StorageMultiblockMachine 
     @Override
     protected void onMachineChanged() {
         fluidStacks = GTOBedrockFluids.ALL_BEDROCK_FLUID.get(GTODimensions.getDimensionKey(DimensionDataItem.getDimension(getStorageStack())));
-        c = MachineUtils.checkingCircuit(this, false);
+        c = checkingCircuit(false);
     }
 
     private GTRecipe getRecipe() {
@@ -57,10 +54,10 @@ public final class VoidFluidDrillingRigMachine extends StorageMultiblockMachine 
         if (!isEmpty()) {
             if (RecipeRunnerHelper.matchRecipeInput(this, RECIPE)) {
                 GTRecipe recipe = RECIPE.copy();
-                recipe.tickInputs.put(EURecipeCapability.CAP, List.of(new Content(getOverclockVoltage(), ChanceLogic.getMaxChancedValue(), ChanceLogic.getMaxChancedValue(), 0)));
+                recipe.tickInputs.put(EURecipeCapability.CAP, List.of(ContentBuilder.builderEU(getOverclockVoltage())));
                 FluidStack fluidStack = fluidStacks.get(c).copy();
                 fluidStack.setAmount(fluidStack.getAmount() * (1 << Math.max(0, getTier() - 6)));
-                recipe.outputs.put(FluidRecipeCapability.CAP, List.of(new Content(FluidIngredient.of(fluidStack), ChanceLogic.getMaxChancedValue(), ChanceLogic.getMaxChancedValue(), 0)));
+                recipe.outputs.put(FluidRecipeCapability.CAP, List.of(ContentBuilder.create().fluid(fluidStack).builder()));
                 return recipe;
             }
         }
