@@ -131,12 +131,10 @@ public class NotifiableManaContainer extends NotifiableRecipeHandlerTrait<Long> 
     public List<Long> handleRecipeInner(IO io, GTRecipe recipe, List<Long> left, boolean simulate) {
         long sum = Math.abs(left.stream().reduce(0L, Long::sum));
         if (io == IO.IN) {
-            long canOutput = Math.min(maxConsumptionRate, currentMana);
-            long change = removeMana(Math.min(canOutput, sum), 1, simulate);
+            long change = removeMana(sum, 1, simulate);
             sum = sum - change;
         } else if (io == IO.OUT) {
-            long canInput = Math.min(maxProductionRate, extractionRate());
-            long change = addMana(Math.min(canInput, sum), 1, simulate);
+            long change = addMana(sum, 1, simulate);
             sum = sum - change;
         }
         return sum <= 0 ? null : Collections.singletonList(sum);

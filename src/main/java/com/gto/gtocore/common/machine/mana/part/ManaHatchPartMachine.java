@@ -91,7 +91,7 @@ public class ManaHatchPartMachine extends TieredIOPartMachine implements IManaMa
             } else if (receiver instanceof ManaPool pool) {
                 mana = Math.min(mana, pool.getMaxMana() - pool.getCurrentMana());
             }
-            int change = GTMath.saturatedCast(manaContainer.removeMana(mana, 1, false));
+            int change = GTMath.saturatedCast(manaContainer.removeMana(mana, 20, false));
             if (change > 0) {
                 receiver.receiveMana(change);
             }
