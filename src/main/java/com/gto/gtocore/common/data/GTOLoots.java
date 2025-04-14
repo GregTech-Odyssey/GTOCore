@@ -1,7 +1,5 @@
 package com.gto.gtocore.common.data;
 
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.ImmutableMultimap;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.data.chemical.material.properties.PropertyKey;
@@ -11,10 +9,7 @@ import com.gregtechceu.gtceu.api.registry.GTRegistries;
 import com.gregtechceu.gtceu.common.data.GTMaterialBlocks;
 import com.gregtechceu.gtceu.config.ConfigHolder;
 import com.gregtechceu.gtceu.core.mixins.BlockBehaviourAccessor;
-import com.mojang.datafixers.util.Pair;
-import com.tterrag.registrate.util.entry.BlockEntry;
-import dev.shadowsoffire.placebo.loot.LootSystem;
-import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
+
 import net.minecraft.data.loot.BlockLootSubProvider;
 import net.minecraft.data.loot.packs.VanillaBlockLoot;
 import net.minecraft.resources.ResourceLocation;
@@ -31,14 +26,19 @@ import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableMultimap;
+import com.mojang.datafixers.util.Pair;
+import com.tterrag.registrate.util.entry.BlockEntry;
+import dev.shadowsoffire.placebo.loot.LootSystem;
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
+
 import java.util.Map;
 import java.util.Set;
-import java.util.function.Supplier;
 
 public final class GTOLoots {
 
-    private GTOLoots() {
-    }
+    private GTOLoots() {}
 
     public static Set<Object> BLOCKS = new ObjectOpenHashSet<>();
 
@@ -99,7 +99,6 @@ public final class GTOLoots {
                                                     .setCount(ConstantValue.exactly(oreMultiplier)))
                                             .apply(ApplyBonusCount.addOreBonusCount(Enchantments.BLOCK_FORTUNE))));
 
-                    Supplier<Material> outputDustMat = type.material();
                     LootPool.Builder pool = LootPool.lootPool();
                     boolean isEmpty = true;
                     for (MaterialStack secondaryMaterial : prefix.secondaryMaterials()) {
@@ -121,18 +120,12 @@ public final class GTOLoots {
                     ((BlockBehaviourAccessor) blockEntry.get()).setDrops(lootTableId);
                 });
             } else {
-                addMaterialBlockLootTables(lootTables, prefix, map);
+                addMaterialBlockLootTables(lootTables, map);
             }
         });
-        GTMaterialBlocks.CABLE_BLOCKS.rowMap().forEach((prefix, map) -> {
-            addMaterialBlockLootTables(lootTables, prefix, map);
-        });
-        GTMaterialBlocks.FLUID_PIPE_BLOCKS.rowMap().forEach((prefix, map) -> {
-            addMaterialBlockLootTables(lootTables, prefix, map);
-        });
-        GTMaterialBlocks.ITEM_PIPE_BLOCKS.rowMap().forEach((prefix, map) -> {
-            addMaterialBlockLootTables(lootTables, prefix, map);
-        });
+        GTMaterialBlocks.CABLE_BLOCKS.rowMap().forEach((prefix, map) -> addMaterialBlockLootTables(lootTables, map));
+        GTMaterialBlocks.FLUID_PIPE_BLOCKS.rowMap().forEach((prefix, map) -> addMaterialBlockLootTables(lootTables, map));
+        GTMaterialBlocks.ITEM_PIPE_BLOCKS.rowMap().forEach((prefix, map) -> addMaterialBlockLootTables(lootTables, map));
         GTMaterialBlocks.SURFACE_ROCK_BLOCKS.forEach((material, blockEntry) -> {
             ResourceLocation lootTableId = new ResourceLocation(blockEntry.getId().getNamespace(),
                     "blocks/" + blockEntry.getId().getPath());
@@ -153,14 +146,11 @@ public final class GTOLoots {
         });
     }
 
-    private static void addMaterialBlockLootTables(Map<ResourceLocation, LootTable> lootTables, TagPrefix prefix,
-                                                   Map<Material, ? extends BlockEntry<? extends Block>> map) {
+    private static void addMaterialBlockLootTables(Map<ResourceLocation, LootTable> lootTables, Map<Material, ? extends BlockEntry<? extends Block>> map) {
         map.forEach((material, blockEntry) -> {
-            ResourceLocation lootTableId = new ResourceLocation(blockEntry.getId().getNamespace(),
-                    "blocks/" + blockEntry.getId().getPath());
+            ResourceLocation lootTableId = new ResourceLocation(blockEntry.getId().getNamespace(), "blocks/" + blockEntry.getId().getPath());
             ((BlockBehaviourAccessor) blockEntry.get()).setDrops(lootTableId);
-            lootTables.put(lootTableId,
-                    BLOCK_LOOT.createSingleItemTable(blockEntry.get()).setParamSet(LootContextParamSets.BLOCK).build());
+            lootTables.put(lootTableId, BLOCK_LOOT.createSingleItemTable(blockEntry.get()).setParamSet(LootContextParamSets.BLOCK).build());
         });
     }
 }

@@ -55,7 +55,7 @@ public final class MachineUtils {
 
     private MachineUtils() {}
 
-    private static GTRecipe[] CIRCUIT_RECIPE = new GTRecipe[32];
+    private static final GTRecipe[] CIRCUIT_RECIPE = new GTRecipe[32];
 
     public static final Function<MultiblockMachineDefinition, BlockPattern> EMPTY_PATTERN = (d) -> new BlockPattern(new TraceabilityPredicate[0][0][0], new RelativeDirection[0], new int[0][0], new int[0]);
 

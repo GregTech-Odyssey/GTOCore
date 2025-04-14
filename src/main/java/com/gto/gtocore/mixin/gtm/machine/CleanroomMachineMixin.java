@@ -22,11 +22,11 @@ public abstract class CleanroomMachineMixin extends WorkableElectricMultiblockMa
     @NotNull
     public abstract CleanroomLogic getRecipeLogic();
 
-    public CleanroomMachineMixin(IMachineBlockEntity holder, Object... args) {
+    protected CleanroomMachineMixin(IMachineBlockEntity holder, Object... args) {
         super(holder, args);
     }
 
-    @Inject(method = "onStructureFormed", at = @At("TAIL"))
+    @Inject(method = "onStructureFormed", at = @At("TAIL"), remap = false)
     public void onStructureFormedHook(CallbackInfo ci) {
         if (!this.getRecipeLogic().isWorkingEnabled() && this.cleanAmount > 0) {
             this.cleanAmount = 0;

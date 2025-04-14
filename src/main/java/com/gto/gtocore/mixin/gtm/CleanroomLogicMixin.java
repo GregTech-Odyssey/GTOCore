@@ -33,7 +33,7 @@ public abstract class CleanroomLogicMixin extends RecipeLogic {
     @Shadow(remap = false)
     private @Nullable IEnergyContainer energyContainer;
 
-    public CleanroomLogicMixin(IRecipeLogicMachine machine) {
+    protected CleanroomLogicMixin(IRecipeLogicMachine machine) {
         super(machine);
     }
 
