@@ -25,10 +25,10 @@ public class HealthExperienceLevel extends NormalExperienceLevel {
         };
     }
 
-    @Override
-    public String getName() {
-        return Component.translatable("gtocore.player_exp_status.health_name").getString();
-    }
+//    @Override
+//    public String getName() {
+//        return Component.translatable("gtocore.player_exp_status.health_name").getString();
+//    }
 
     @Override
     public int getExperienceForNextLevel() {

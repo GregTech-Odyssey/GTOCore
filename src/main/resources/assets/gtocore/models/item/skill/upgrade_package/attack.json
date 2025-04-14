@@ -1,0 +1,7 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "gtocore:item/skill/upgrade_package/attack",
+    "layer1": "gtocore:item/skill/upgrade_package/overlay"
+  }
+}

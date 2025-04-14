@@ -25,10 +25,10 @@ public class AttackExperienceLevel extends NormalExperienceLevel {
         };
     }
 
-    @Override
-    public String getName() {
-        return Component.translatable("gtocore.player_exp_status.attack_name").getString();
-    }
+//    @Override
+//    public String getName() {
+//        return Component.translatable("gtocore.player_exp_status.attack_name").getString();
+//    }
 
     @Override
     public int getExperienceForNextLevel() {

@@ -57,7 +57,7 @@ public abstract class BasicExperienceLevel {
 
     public abstract void addExperience(int amount);
 
-    public abstract String getName();
+    public String getName(){return skillType.getName();};
 
     public abstract int getExperienceForNextLevel();
 }
