@@ -4057,5 +4057,55 @@ interface Assembler {
                 .EUt(2097152)
                 .duration(100)
                 .save();
+
+        ASSEMBLER_RECIPES.builder("space_nanomuscle_chestplate")
+                .inputItems(GTItems.NANO_CHESTPLATE.asStack())
+                .inputItems("ad_astra:oxygen_gear")
+                .inputItems("ad_astra:large_gas_tank", 4)
+                .inputItems(GTItems.SENSOR_HV.asStack())
+                .inputItems(TagPrefix.plate, GTMaterials.SterlingSilver, 4)
+                .outputItems(GTOItems.SPACE_NANOMUSCLE_CHESTPLATE.asItem())
+                .inputFluids(GTMaterials.StainlessSteel, 288)
+                .EUt(480)
+                .duration(800)
+                .save();
+
+        ASSEMBLER_RECIPES.builder("space_advanced_nanomuscle_chestplate")
+                .inputItems(GTItems.NANO_CHESTPLATE_ADVANCED.asStack())
+                .inputItems("ad_astra:oxygen_distributor")
+                .inputItems("ad_astra:large_gas_tank", 8)
+                .inputItems(GTItems.SENSOR_EV.asStack())
+                .inputItems(TagPrefix.plate, GTMaterials.Chromium, 4)
+                .outputItems(GTOItems.SPACE_ADVANCED_NANOMUSCLE_CHESTPLATE.asItem())
+                .inputFluids(GTMaterials.Titanium, 288)
+                .EUt(1920)
+                .duration(800)
+                .save();
+
+        ASSEMBLER_RECIPES.builder("space_quarktech_chestplate")
+                .inputItems(GTItems.QUANTUM_CHESTPLATE.asStack())
+                .inputItems("ad_astra:oxygen_distributor", 2)
+                .inputItems("ad_astra:large_gas_tank", 16)
+                .inputItems(GTItems.SENSOR_IV.asStack(2))
+                .inputItems(GTItems.FIELD_GENERATOR_IV.asStack())
+                .inputItems(TagPrefix.plate, GTMaterials.Ruthenium, 4)
+                .outputItems(GTOItems.SPACE_QUARKTECH_CHESTPLATE.asItem())
+                .inputFluids(GTMaterials.TungstenSteel, 576)
+                .EUt(7680)
+                .duration(800)
+                .save();
+
+        ASSEMBLER_RECIPES.builder("space_advanced_quarktech_chestplate")
+                .inputItems(GTItems.QUANTUM_CHESTPLATE_ADVANCED.asStack())
+                .inputItems("ad_astra:oxygen_distributor", 4)
+                .inputItems("ad_astra:large_gas_tank", 32)
+                .inputItems(GTItems.SENSOR_LuV.asStack(4))
+                .inputItems(GTItems.FIELD_GENERATOR_ZPM.asStack())
+                .inputItems(TagPrefix.plate, GTMaterials.Trinium, 4)
+                .outputItems(GTOItems.SPACE_ADVANCED_QUARKTECH_CHESTPLATE.asItem())
+                .inputFluids(GTMaterials.RhodiumPlatedPalladium, 2304)
+                .EUt(122880)
+                .duration(800)
+                .save();
     }
 }

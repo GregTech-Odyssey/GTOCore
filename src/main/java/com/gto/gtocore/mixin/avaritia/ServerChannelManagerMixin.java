@@ -6,7 +6,7 @@ import net.minecraftforge.event.level.LevelEvent;
 import net.minecraftforge.event.server.ServerAboutToStartEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
-import committee.nova.mods.avaritia.common.sync.ServerChannelManager;
+import committee.nova.mods.avaritia.addons.channel.ServerChannelManager;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 

@@ -17,21 +17,21 @@ interface Blast {
 
     static void init() {
         BLAST_RECIPES.builder("molten_stainless_steel")
-                .inputItems(TagPrefix.dust, GTMaterials.StainlessSteel, 4)
+                .inputItems(TagPrefix.dust, GTMaterials.StainlessSteel, 8)
                 .inputFluids(GTMaterials.StainlessSteel, 1152)
                 .outputFluids(GTMaterials.StainlessSteel.getFluid(FluidStorageKeys.MOLTEN, 2304))
                 .EUt(120)
-                .duration(240)
+                .duration(480)
                 .blastFurnaceTemp(2428)
                 .circuitMeta(3)
                 .save();
 
         BLAST_RECIPES.builder("molten_manganese_phosphide")
-                .inputItems(TagPrefix.dust, GTMaterials.ManganesePhosphide, 4)
+                .inputItems(TagPrefix.dust, GTMaterials.ManganesePhosphide, 8)
                 .inputFluids(GTMaterials.ManganesePhosphide, 1152)
                 .outputFluids(GTMaterials.ManganesePhosphide.getFluid(FluidStorageKeys.MOLTEN, 2304))
                 .EUt(120)
-                .duration(200)
+                .duration(400)
                 .blastFurnaceTemp(1200)
                 .circuitMeta(3)
                 .save();

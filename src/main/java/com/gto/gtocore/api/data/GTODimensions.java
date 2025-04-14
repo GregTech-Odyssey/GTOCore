@@ -99,7 +99,7 @@ public final class GTODimensions {
 
     static {
         ImmutableMap.Builder<ResourceLocation, Integer> SOLARBuilder = ImmutableMap.builder();
-        SOLARBuilder.put(OVERWORLD, 1);
+        SOLARBuilder.put(OVERWORLD, 0);
         SOLARBuilder.put(MOON, 1);
         SOLARBuilder.put(MARS, 2);
         SOLARBuilder.put(VENUS, 3);
