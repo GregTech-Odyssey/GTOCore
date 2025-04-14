@@ -5,7 +5,6 @@ import com.gto.gtocore.api.machine.part.ItemHatchPartMachine;
 import com.gto.gtocore.api.recipe.GTORecipeBuilder;
 import com.gto.gtocore.api.recipe.RecipeRunnerHelper;
 import com.gto.gtocore.common.machine.multiblock.part.IndicatorHatchPartMachine;
-import com.gto.gtocore.utils.MachineUtils;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.chemical.material.MarkerMaterials;
@@ -70,7 +69,7 @@ public final class HighEnergyLaserPurificationUnitMachine extends WaterPurificat
     private IndicatorHatchPartMachine indicatorHatchPartMachine;
     private ItemHatchPartMachine itemHatchPartMachine;
 
-    public HighEnergyLaserPurificationUnitMachine(IMachineBlockEntity holder, Object... args) {
+    public HighEnergyLaserPurificationUnitMachine(IMachineBlockEntity holder) {
         super(holder);
     }
 
@@ -140,7 +139,7 @@ public final class HighEnergyLaserPurificationUnitMachine extends WaterPurificat
     @Override
     public void onRecipeFinish() {
         super.onRecipeFinish();
-        if (GTValues.RNG.nextInt(100) <= chance) MachineUtils.outputFluid(this, WaterPurificationPlantMachine.GradePurifiedWater6, inputCount * 9 / 10);
+        if (GTValues.RNG.nextInt(100) <= chance) outputFluid(WaterPurificationPlantMachine.GradePurifiedWater6, inputCount * 9 / 10);
     }
 
     @Override
@@ -149,7 +148,7 @@ public final class HighEnergyLaserPurificationUnitMachine extends WaterPurificat
         index = 0;
         chance = 0;
         time = GTValues.RNG.nextInt(4) + 4;
-        inputCount = Math.min(getParallel(), MachineUtils.getFluidAmount(this, WaterPurificationPlantMachine.GradePurifiedWater5)[0]);
+        inputCount = Math.min(getParallel(), getFluidAmount(WaterPurificationPlantMachine.GradePurifiedWater5)[0]);
         recipe = GTORecipeBuilder.ofRaw().duration(WaterPurificationPlantMachine.DURATION).inputFluids(new FluidStack(WaterPurificationPlantMachine.GradePurifiedWater5, inputCount)).buildRawRecipe();
         if (RecipeRunnerHelper.matchRecipe(this, recipe)) {
             eut = (long) inputCount << 4;

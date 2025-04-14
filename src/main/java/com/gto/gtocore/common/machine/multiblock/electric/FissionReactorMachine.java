@@ -122,15 +122,15 @@ public final class FissionReactorMachine extends ElectricMultiblockMachine imple
             if (getRecipeLogic().isWorking()) {
                 boolean isCooler = false;
                 int required = recipeHeat * parallel * heat / 1500;
-                int[] a = MachineUtils.getFluidAmount(this, DistilledWater, SodiumPotassium);
+                int[] a = getFluidAmount(DistilledWater, SodiumPotassium);
                 int capacity = (int) Math.min(Math.max(a[0] / 800, a[1] / 20), (cooler - (coolerAdjacent / 3L)) << 3);
                 if (capacity - required >= 0) {
-                    if (MachineUtils.inputFluid(this, DistilledWater, capacity)) {
-                        isCooler = MachineUtils.outputFluid(this, Steam, (int) (capacity * 800 * (heat > 373 ? 160 : 160 / Math.pow(1.4, 373 - heat))));
-                    } else if (MachineUtils.inputFluid(this, SodiumPotassium, capacity)) {
+                    if (inputFluid(DistilledWater, capacity)) {
+                        isCooler = outputFluid(Steam, (int) (capacity * 800 * (heat > 373 ? 160 : 160 / Math.pow(1.4, 373 - heat))));
+                    } else if (inputFluid(SodiumPotassium, capacity)) {
                         if (heat > 825) {
-                            isCooler = MachineUtils.outputFluid(this, SupercriticalSodiumPotassium, capacity * 20);
-                        } else isCooler = MachineUtils.outputFluid(this, HotSodiumPotassium, capacity * 20);
+                            isCooler = outputFluid(SupercriticalSodiumPotassium, capacity * 20);
+                        } else isCooler = outputFluid(HotSodiumPotassium, capacity * 20);
                     }
                 }
                 if (isCooler) {

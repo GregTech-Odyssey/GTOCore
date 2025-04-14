@@ -79,5 +79,12 @@ interface Compressor {
                 .EUt(1920)
                 .duration(400)
                 .save();
+
+        COMPRESSOR_RECIPES.builder("dense_steel_plate")
+                .inputItems(TagPrefix.plate, GTMaterials.Steel, 9)
+                .outputItems(TagPrefix.plateDense, GTMaterials.Steel)
+                .EUt(30)
+                .duration(800)
+                .save();
     }
 }

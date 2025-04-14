@@ -305,7 +305,7 @@ public interface MultiBlockF {
                     .where('L', blocks(GTOBlocks.MOLECULAR_COIL.get()))
                     .where('M', blocks(GTOBlocks.CONTAINMENT_FIELD_GENERATOR.get()))
                     .where('N', blocks(GCYMBlocks.CASING_NONCONDUCTING.get()))
-                    .where('O', blocks(GTBlocks.COIL_CUPRONICKEL.get()))
+                    .where('O', heatingCoils())
                     .where('P', blocks(GTBlocks.CASING_GRATE.get()))
                     .where('Q', blocks(GTOBlocks.MOLECULAR_CASING.get())
                             .or(GTOPredicates.autoThreadLaserAbilities(definition.getRecipeTypes()))

@@ -44,4 +44,6 @@ legacyForge {
             sourceSet(sourceSets.main)
         }
     }
+
+    accessTransformers = project.files('src/main/resources/META-INF/accesstransformer.cfg')
 }

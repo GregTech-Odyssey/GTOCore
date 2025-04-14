@@ -14,14 +14,30 @@ import com.gregtechceu.gtceu.utils.GTUtil;
 import com.gregtechceu.gtceu.utils.ResearchManager;
 
 import net.minecraft.client.resources.language.I18n;
+import net.minecraft.world.level.material.Fluid;
 
 import java.util.Collections;
 
 import static com.gto.gtocore.common.data.GTORecipeTypes.*;
 
-public interface RecipeTypeModify {
+public final class RecipeTypeModify {
 
-    static void init() {
+    private RecipeTypeModify() {}
+
+    private static final CuttingFluid[] FLUID_TIERS = new CuttingFluid[] {
+            new CuttingFluid(GTMaterials.Water.getFluid(), 60),
+            new CuttingFluid(GTMaterials.Lubricant.getFluid(), 2880),
+            new CuttingFluid(GTOMaterials.FilteredSater.getFluid(), 3840),
+            new CuttingFluid(GTOMaterials.OzoneWater.getFluid(), 15360),
+            new CuttingFluid(GTOMaterials.FlocculentWater.getFluid(), 61440),
+            new CuttingFluid(GTOMaterials.PHNeutralWater.getFluid(), 245760),
+            new CuttingFluid(GTOMaterials.ExtremeTemperatureWater.getFluid(), 983040),
+            new CuttingFluid(GTOMaterials.ElectricEquilibriumWater.getFluid(), 3932160),
+            new CuttingFluid(GTOMaterials.DegassedWater.getFluid(), 15728640),
+            new CuttingFluid(GTOMaterials.BaryonicPerfectionWater.getFluid(), 62914560)
+    };
+
+    public static void init() {
         COMBUSTION_GENERATOR_FUELS.setMaxIOSize(0, 0, 2, 0);
         GAS_TURBINE_FUELS.setMaxIOSize(0, 0, 2, 0);
         DUMMY_RECIPES.setMaxIOSize(1, 1, 1, 1);
@@ -76,36 +92,23 @@ public interface RecipeTypeModify {
         CUTTER_RECIPES.onRecipeBuild((recipeBuilder, provider) -> {
             if (recipeBuilder.input.getOrDefault(FluidRecipeCapability.CAP, Collections.emptyList()).isEmpty() &&
                     recipeBuilder.tickInput.getOrDefault(FluidRecipeCapability.CAP, Collections.emptyList()).isEmpty()) {
-                if (recipeBuilder.EUt() < GTValues.VA[GTValues.MV]) {
-                    recipeBuilder.inputFluids(GTMaterials.Water.getFluid((int) Math.max(4,
-                            recipeBuilder.duration * recipeBuilder.EUt() / 60)));
-                } else if (recipeBuilder.EUt() < GTValues.VA[GTValues.EV]) {
-                    recipeBuilder.inputFluids(GTMaterials.Lubricant.getFluid((int) Math.max(1,
-                            recipeBuilder.duration * recipeBuilder.EUt() / 2880)));
-                } else if (recipeBuilder.EUt() < GTValues.VA[GTValues.IV]) {
-                    recipeBuilder.inputFluids(GTOMaterials.FilteredSater.getFluid((int) Math.max(1,
-                            recipeBuilder.duration * recipeBuilder.EUt() / 3840)));
-                } else if (recipeBuilder.EUt() < GTValues.VA[GTValues.LuV]) {
-                    recipeBuilder.inputFluids(GTOMaterials.OzoneWater.getFluid((int) Math.max(1,
-                            recipeBuilder.duration * recipeBuilder.EUt() / 15360)));
-                } else if (recipeBuilder.EUt() < GTValues.VA[GTValues.ZPM]) {
-                    recipeBuilder.inputFluids(GTOMaterials.FlocculentWater.getFluid((int) Math.max(1,
-                            recipeBuilder.duration * recipeBuilder.EUt() / 61440)));
-                } else if (recipeBuilder.EUt() < GTValues.VA[GTValues.UV]) {
-                    recipeBuilder.inputFluids(GTOMaterials.PHNeutralWater.getFluid((int) Math.max(1,
-                            recipeBuilder.duration * recipeBuilder.EUt() / 245760)));
-                } else if (recipeBuilder.EUt() < GTValues.VA[GTValues.UHV]) {
-                    recipeBuilder.inputFluids(GTOMaterials.ExtremeTemperatureWater.getFluid((int) Math.max(1,
-                            recipeBuilder.duration * recipeBuilder.EUt() / 983040)));
-                } else if (recipeBuilder.EUt() < GTValues.VA[GTValues.UEV]) {
-                    recipeBuilder.inputFluids(GTOMaterials.ElectricEquilibriumWater.getFluid((int) Math.max(1,
-                            recipeBuilder.duration * recipeBuilder.EUt() / 3932160)));
-                } else if (recipeBuilder.EUt() < GTValues.VA[GTValues.UIV]) {
-                    recipeBuilder.inputFluids(GTOMaterials.DegassedWater.getFluid((int) Math.max(1,
-                            recipeBuilder.duration * recipeBuilder.EUt() / 15728640)));
-                } else {
-                    recipeBuilder.inputFluids(GTOMaterials.BaryonicPerfectionWater.getFluid((int) Math.max(1,
-                            recipeBuilder.duration * recipeBuilder.EUt() / 62914560)));
+
+                int originalDuration = recipeBuilder.duration;
+                int index = getEUTierIndex(GTUtil.getTierByVoltage(recipeBuilder.EUt()));
+
+                GTRecipeBuilder builder = recipeBuilder.copy(recipeBuilder.id);
+                addCuttingFluid(recipeBuilder, index);
+                if (index > 1 && index < FLUID_TIERS.length - 1) {
+                    int maxUpgradeTiers = FLUID_TIERS.length - index;
+
+                    for (int upgradeTier = 1; upgradeTier < maxUpgradeTiers; upgradeTier++) {
+                        double reductionFactor = Math.pow(0.8, upgradeTier);
+
+                        GTRecipeBuilder upgradedRecipe = builder.copy(builder.id.getPath() + "_upgraded_t" + (index + upgradeTier))
+                                .duration((int) Math.max(1, originalDuration * reductionFactor));
+
+                        addUpgradedCuttingFluid(upgradedRecipe, index, index + upgradeTier, originalDuration, builder.EUt(), reductionFactor);
+                    }
                 }
             }
         });
@@ -139,4 +142,36 @@ public interface RecipeTypeModify {
             return "";
         });
     }
+
+    private static int getEUTierIndex(int euTier) {
+        return switch (euTier) {
+            case 0, 1 -> 0;
+            case 2, 3 -> 1;
+            case 4 -> 2;
+            case 5 -> 3;
+            case 6 -> 4;
+            case 7 -> 5;
+            case 8 -> 6;
+            case 9 -> 7;
+            case 10 -> 8;
+            default -> 9;
+        };
+    }
+
+    private static void addCuttingFluid(GTRecipeBuilder recipeBuilder, int index) {
+        CuttingFluid selected = FLUID_TIERS[index];
+        int fluidAmount = (int) Math.max(1, recipeBuilder.duration * recipeBuilder.EUt() / selected.divisor());
+        recipeBuilder.inputFluids(FluidIngredient.of(fluidAmount, selected.fluid()));
+    }
+
+    private static void addUpgradedCuttingFluid(GTRecipeBuilder recipeBuilder, int originalIndex, int index, int originalDuration, long originalEUt, double reductionFactor) {
+        CuttingFluid selected = FLUID_TIERS[index];
+
+        int fluidAmount = (int) Math.max(1, originalDuration * originalEUt * reductionFactor / FLUID_TIERS[originalIndex].divisor());
+
+        recipeBuilder.inputFluids(FluidIngredient.of(fluidAmount, selected.fluid()));
+        recipeBuilder.save(a -> {});
+    }
+
+    private record CuttingFluid(Fluid fluid, int divisor) {}
 }

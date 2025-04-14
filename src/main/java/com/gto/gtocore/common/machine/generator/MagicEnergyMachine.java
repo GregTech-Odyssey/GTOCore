@@ -1,6 +1,12 @@
 package com.gto.gtocore.common.machine.generator;
 
+import com.gto.gtocore.api.capability.IManaContainer;
+import com.gto.gtocore.api.machine.mana.feature.IManaMachine;
+import com.gto.gtocore.api.machine.mana.trait.NotifiableManaContainer;
+
 import com.gregtechceu.gtceu.api.GTValues;
+import com.gregtechceu.gtceu.api.capability.IControllable;
+import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.TieredEnergyMachine;
@@ -10,20 +16,50 @@ import net.minecraft.world.entity.boss.enderdragon.EndCrystal;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
+import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import com.mojang.blaze3d.MethodsReturnNonnullByDefault;
-
-import java.util.Objects;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public final class MagicEnergyMachine extends TieredEnergyMachine {
+public final class MagicEnergyMachine extends TieredEnergyMachine implements IManaMachine, IControllable {
+
+    private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
+            MagicEnergyMachine.class, TieredEnergyMachine.MANAGED_FIELD_HOLDER);
+
+    @Override
+    public @NotNull ManagedFieldHolder getFieldHolder() {
+        return MANAGED_FIELD_HOLDER;
+    }
 
     private TickableSubscription energySubs;
 
-    public MagicEnergyMachine(IMachineBlockEntity holder, int tier, Object... args) {
-        super(holder, tier, args);
+    @Persisted
+    private final NotifiableManaContainer manaContainer;
+
+    @Persisted
+    private boolean enabled;
+
+    private final long tierMana;
+
+    public MagicEnergyMachine(IMachineBlockEntity holder, int tier) {
+        super(holder, tier);
+        tierMana = GTValues.V[tier] << 1;
+        manaContainer = new NotifiableManaContainer(this, IO.IN, 64L * tierMana, (int) tierMana);
+        manaContainer.setAcceptDistributor(true);
+    }
+
+    @Override
+    public @NotNull IManaContainer getManaContainer() {
+        return manaContainer;
+    }
+
+    @Override
+    public boolean canReceiveManaFromBursts() {
+        return true;
     }
 
     @Override
@@ -44,16 +80,22 @@ public final class MagicEnergyMachine extends TieredEnergyMachine {
     }
 
     private void checkEnergy() {
-        if (getOffsetTimer() % 20 == 0 && !Objects.requireNonNull(getLevel()).getEntitiesOfClass(EndCrystal.class, AABB.ofSize(new Vec3(getPos().getX(), getPos().getY() + 1, getPos().getZ()), 1, 1, 1), e -> true).isEmpty()) {
-            energyContainer.addEnergy(GTValues.V[getTier() + 4]);
+        if (enabled && getOffsetTimer() % 20 == 0 && getLevel() != null && !getLevel().getEntitiesOfClass(EndCrystal.class, AABB.ofSize(new Vec3(getPos().getX(), getPos().getY() + 1, getPos().getZ()), 1, 1, 1), e -> true).isEmpty()) {
+            if (manaContainer.removeMana(tierMana, 20, false) == tierMana) {
+                energyContainer.addEnergy(tierMana * 20);
+                if (energyContainer.getEnergyStored() == energyContainer.getEnergyCapacity()) {
+                    doExplosion(tier);
+                }
+            } else {
+                doExplosion(tier << 1);
+            }
         }
     }
 
     @Override
     protected NotifiableEnergyContainer createEnergyContainer(Object... args) {
-        long tierVoltage = GTValues.V[getTier()];
-        NotifiableEnergyContainer energyContainer = NotifiableEnergyContainer.emitterContainer(this,
-                tierVoltage << 9, tierVoltage, getMaxInputOutputAmperage());
+        long tierVoltage = GTValues.V[tier];
+        NotifiableEnergyContainer energyContainer = NotifiableEnergyContainer.emitterContainer(this, tierVoltage << 8, tierVoltage, getMaxInputOutputAmperage());
         energyContainer.setSideOutputCondition(side -> !hasFrontFacing() || side == getFrontFacing());
         return energyContainer;
     }
@@ -65,6 +107,16 @@ public final class MagicEnergyMachine extends TieredEnergyMachine {
 
     @Override
     protected long getMaxInputOutputAmperage() {
-        return 16L;
+        return 4;
+    }
+
+    @Override
+    public boolean isWorkingEnabled() {
+        return enabled;
+    }
+
+    @Override
+    public void setWorkingEnabled(boolean isWorkingAllowed) {
+        enabled = isWorkingAllowed;
     }
 }

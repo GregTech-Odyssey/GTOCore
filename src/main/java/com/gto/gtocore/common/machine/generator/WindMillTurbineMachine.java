@@ -52,8 +52,6 @@ public final class WindMillTurbineMachine extends TieredEnergyMachine implements
     private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
             WindMillTurbineMachine.class, TieredEnergyMachine.MANAGED_FIELD_HOLDER);
 
-    private static long time;
-
     @Getter
     @Persisted
     @DescSynced
@@ -129,7 +127,8 @@ public final class WindMillTurbineMachine extends TieredEnergyMachine implements
                 if (planet == null || !planet.oxygen()) return;
             }
             BlockPos pos = getPos();
-            wind = (float) ((level.isThundering() ? 2 : level.isRaining() ? 1.5 : 1) * Math.sqrt(pos.getY()));
+            float multiplier = level.isThundering() ? 2 : level.isRaining() ? 1.5F : 1;
+            wind = (float) (multiplier * (Math.sqrt(pos.getY()) + (multiplier * GTValues.RNG.nextFloat())));
 
             ItemStack stack = inventory.storage.getStackInSlot(0);
             int damage = stack.getDamageValue();

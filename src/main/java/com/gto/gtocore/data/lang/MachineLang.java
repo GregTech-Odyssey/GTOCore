@@ -60,7 +60,8 @@ final class MachineLang {
         addENCN("gtocore.machine.off", "Off", "关闭");
         addENCN("gtocore.machine.on", "On", "打开");
         addENCN("gtocore.machine.pattern.error.tier", "§cMust use blocks of the same tier§r", "§c必须使用同种等级方块§r");
-        addENCN("gtocore.machine.primitive_magic_energy.tooltip.0", "Endlessly absorbs the energy from ender crystals above the machine", "无尽地吸收机器上方末地水晶的能量");
+        addENCN("gtocore.machine.primitive_magic_energy.tooltip.0", "Endlessly absorbs the energy from ender crystals above the machine, if the energy capacity is full, the machine will explode.", "无尽地吸收机器上方末地水晶的能量，如果能量已满，机器将会爆炸");
+        addENCN("gtocore.machine.primitive_magic_energy.tooltip.1", "Requires a constant mana input of [X] EU/s (Voltage × Current). Failure cause an explosion.", "每秒需输入同电压x电流的魔力，否则爆炸");
         addENCN("gtocore.machine.processing_plant.mismatched", "Recipe tier does not match small machine tier", "配方等级与小机器等级不匹配");
         addENCN("gtocore.machine.radiation_hatch.inhibition_dose", "Inhibition Amount: %s Sv", "抑制量: %s Sv");
         addENCN("gtocore.machine.radiation_hatch.time", "Time: %s / %s Tick", "时间: %s / %s Tick");
@@ -96,7 +97,7 @@ final class MachineLang {
         addENCN("gtocore.machine.advanced_infinite_driller.drilled_fluid", "Fluid: %s Output: %s", "流体: %s 产量: %s");
         addENCN("gtocore.machine.kuangbiao_one_giant_nuclear_fusion_reactor.tooltip.0", "What it simulates is an eternal light", "它所模拟的，是亘古不变的光芒");
         addENCN("gtocore.machine.steam.tooltip.0", "Default has 8 parallel, large one is 32", "默认拥有8并行，大型为32");
-        addENCN("gtocore.machine.steam.tooltip.1", "Unless otherwise specified, default can process LV-Tier recipes and below, processing time is 1.5 times", "无特殊说明时，默认支持LV等级及以下的配方处理，耗时为基础的1.5倍");
+        addENCN("gtocore.machine.steam.tooltip.1", "default can process &s-Tier recipes and below, processing time is 1.5 times", "默认支持%s等级及以下的配方处理，耗时为基础的1.5倍");
         addENCN("gtocore.machine.steam.tooltip.2", "After installing a large steam input hatch, upgrade one recipe tier and unlock the overclocking function", "安装大型蒸汽输入仓后提升一个配方等级，并解锁超频功能");
         addENCN("gtocore.machine.mana_stored", "Total Mana: %s", "魔力总量：%s");
         addENCN("gtocore.machine.mana_consumption", "Max Mana IO Rate: %s", "最大魔力IO速率：%s");
@@ -124,5 +125,9 @@ final class MachineLang {
         addENCN("gtocore.machine.me_dual_hatch_stock.turns.3", "Auto-Pull Fluid", "仅拉取流体");
         addENCN("gtocore.machine.me_dual_hatch_stock.tooltip.0", "Keeps 64 fluid or item types in stock", "可标记64种流体或物品");
         addENCN("gtocore.machine.me_dual_hatch_stock.tooltip.1", "Retrieves fluids or item directly from the ME network", "直接从ME网络抽取流体或物品");
+        addENCN("gtocore.machine.me_dual_hatch_stock.data_stick.name", "§oME库存输入总成配置数据", "§oME Stock Input Dual Hatch Config Data");
+        addENCN("gtocore.machine.mega_steam_turbine.tooltip.0", "Operating efficiency is equivalent to 16 large turbines of the same type, can use more power chambers", "运行效率相当于16台同类大型涡轮，可使用更多动力仓");
+        addENCN("gtocore.machine.mega_steam_turbine.tooltip.1", "Rotors can be installed in the rotor chamber, automatically extracting rotor for installation onto empty rotor brackets", "可安装转子仓，从中自动取出转子安装到空转子支架");
+        addENCN("gtocore.machine.mega_steam_turbine.tooltip.2", "High speed mode can be enabled to further increase operating speed; in high speed mode, operating speed x3, at the cost of increasing maintenance issue probability and turbine durability loss being 12 times", "可启用高速模式，进一步提升运行速度，高速模式下，运行速度提升为3倍，代价是维护问题出现几率与涡轮耐久损耗均变为12倍");
     }
 }

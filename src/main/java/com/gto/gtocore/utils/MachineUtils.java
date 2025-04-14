@@ -20,7 +20,7 @@ import com.gregtechceu.gtceu.api.pattern.TraceabilityPredicate;
 import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
-import com.gregtechceu.gtceu.api.recipe.content.Content;
+import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
 import com.gregtechceu.gtceu.api.recipe.ingredient.IntCircuitIngredient;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
@@ -34,10 +34,12 @@ import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -52,6 +54,8 @@ import javax.annotation.ParametersAreNonnullByDefault;
 public final class MachineUtils {
 
     private MachineUtils() {}
+
+    private static final GTRecipe[] CIRCUIT_RECIPE = new GTRecipe[32];
 
     public static final Function<MultiblockMachineDefinition, BlockPattern> EMPTY_PATTERN = (d) -> new BlockPattern(new TraceabilityPredicate[0][0][0], new RelativeDirection[0], new int[0][0], new int[0]);
 
@@ -197,7 +201,7 @@ public final class MachineUtils {
      * @param sum     是否将所有电路配置值相加。如果为true，则返回所有电路配置值的总和；如果为false，则返回第一个找到的电路配置值。
      * @return 电路配置值。如果sum为true，则返回所有电路配置值的总和；如果sum为false，则返回第一个找到的电路配置值。如果没有找到电路配置，则返回0。
      */
-    public static int checkingCircuit(IRecipeLogicMachine machine, boolean sum) {
+    public static int checkingCircuit(IRecipeCapabilityHolder machine, boolean sum) {
         AtomicInteger circuit = new AtomicInteger();
         forEachInputItems(machine, itemStack -> {
             if (itemStack.is(GTItems.PROGRAMMED_CIRCUIT.get())) {
@@ -216,7 +220,7 @@ public final class MachineUtils {
      * @param fluids  需要查询的流体数组。
      * @return 一个整数数组，每个元素表示对应流体的总量。
      */
-    public static int[] getFluidAmount(IRecipeLogicMachine machine, Fluid... fluids) {
+    public static int[] getFluidAmount(IRecipeCapabilityHolder machine, Fluid... fluids) {
         int[] amounts = new int[fluids.length];
         Map<Fluid, Integer> fluidIndexMap = new Object2IntOpenHashMap<>();
         for (int i = 0; i < fluids.length; i++) {
@@ -239,7 +243,7 @@ public final class MachineUtils {
      * @param items   需要查询的物品数组。
      * @return 一个整数数组，每个元素表示对应物品的总量。
      */
-    public static int[] getItemAmount(IRecipeLogicMachine machine, Item... items) {
+    public static int[] getItemAmount(IRecipeCapabilityHolder machine, Item... items) {
         int[] amounts = new int[items.length];
         Map<Item, Integer> itemIndexMap = new Object2IntOpenHashMap<>();
         for (int i = 0; i < items.length; i++) {
@@ -263,7 +267,7 @@ public final class MachineUtils {
      * @param machine  要遍历的机器实例
      * @param function 应用于每个物品的函数，函数接收一个 ItemStack 参数并返回一个 Boolean 值
      */
-    public static void forEachInputItems(IRecipeLogicMachine machine, Predicate<ItemStack> function) {
+    public static void forEachInputItems(IRecipeCapabilityHolder machine, Predicate<ItemStack> function) {
         for (IRecipeHandler<?> handler : machine.getCapabilitiesFlat(IO.IN, ItemRecipeCapability.CAP)) {
             for (Object contents : handler.getContents()) {
                 if (contents instanceof ItemStack itemStack) {
@@ -281,7 +285,7 @@ public final class MachineUtils {
      * @param machine  要遍历的机器实例
      * @param function 要应用于每个流体栈的函数
      */
-    public static void forEachInputFluids(IRecipeLogicMachine machine, Predicate<FluidStack> function) {
+    public static void forEachInputFluids(IRecipeCapabilityHolder machine, Predicate<FluidStack> function) {
         for (IRecipeHandler<?> handler : machine.getCapabilitiesFlat(IO.IN, FluidRecipeCapability.CAP)) {
             for (Object contents : handler.getContents()) {
                 if (contents instanceof FluidStack fluidStack) {
@@ -291,66 +295,63 @@ public final class MachineUtils {
         }
     }
 
-    public static boolean inputItem(IRecipeLogicMachine machine, ItemStack item) {
-        if (!item.isEmpty()) {
-            GTRecipe recipe = GTORecipeBuilder.ofRaw().inputItems(item).buildRawRecipe();
-            if (RecipeRunnerHelper.matchRecipe(machine, recipe)) {
-                return RecipeRunnerHelper.handleRecipeInput(machine, recipe);
-            }
+    private static List<Ingredient> toIngredient(ItemStack... item) {
+        List<Ingredient> contentList = new ObjectArrayList<>(item.length);
+        for (ItemStack content : item) {
+            if (content.isEmpty()) continue;
+            contentList.add(Ingredient.of(content));
         }
-        return false;
+        return contentList;
     }
 
-    public static boolean outputItem(IRecipeLogicMachine machine, ItemStack item) {
-        if (!item.isEmpty()) {
-            GTRecipe recipe = GTORecipeBuilder.ofRaw().outputItems(item).buildRawRecipe();
-            if (RecipeRunnerHelper.matchRecipe(machine, recipe)) {
-                return RecipeRunnerHelper.handleRecipeOutput(machine, recipe);
-            }
+    private static List<FluidIngredient> toFluidIngredient(FluidStack... fluid) {
+        List<FluidIngredient> contentList = new ObjectArrayList<>(fluid.length);
+        for (FluidStack content : fluid) {
+            if (content.isEmpty()) continue;
+            contentList.add(FluidIngredient.of(content));
         }
-        return false;
+        return contentList;
     }
 
-    public static boolean notConsumableItem(IRecipeLogicMachine machine, ItemStack item) {
-        return RecipeRunnerHelper.matchRecipe(machine, GTORecipeBuilder.ofRaw().inputItems(item).buildRawRecipe());
+    public static boolean inputItem(IRecipeCapabilityHolder machine, ItemStack... item) {
+        List<?> contentList = toIngredient(item);
+        return RecipeRunnerHelper.handleRecipe(machine, IO.IN, new ObjectArrayList<>(contentList), ItemRecipeCapability.CAP, true) && RecipeRunnerHelper.handleRecipe(machine, IO.IN, contentList, ItemRecipeCapability.CAP, false);
     }
 
-    public static boolean notConsumableCircuit(IRecipeLogicMachine machine, int configuration) {
-        return RecipeRunnerHelper.matchRecipe(machine, GTORecipeBuilder.ofRaw().inputItems(IntCircuitIngredient.circuitInput(configuration)).buildRawRecipe());
+    public static boolean outputItem(IRecipeCapabilityHolder machine, ItemStack... item) {
+        List<?> contentList = toIngredient(item);
+        return RecipeRunnerHelper.handleRecipe(machine, IO.OUT, contentList, ItemRecipeCapability.CAP, false);
     }
 
-    public static boolean inputFluid(IRecipeLogicMachine machine, Fluid fluid, int amount) {
+    public static boolean notConsumableItem(IRecipeCapabilityHolder machine, ItemStack... item) {
+        List<?> contentList = toIngredient(item);
+        return RecipeRunnerHelper.handleRecipe(machine, IO.IN, contentList, ItemRecipeCapability.CAP, true);
+    }
+
+    public static boolean notConsumableCircuit(IRecipeCapabilityHolder machine, int configuration) {
+        GTRecipe recipe = CIRCUIT_RECIPE[configuration];
+        if (recipe == null) {
+            recipe = GTORecipeBuilder.ofRaw().inputItems(IntCircuitIngredient.circuitInput(configuration)).buildRawRecipe();
+            CIRCUIT_RECIPE[configuration] = recipe;
+        }
+        return RecipeRunnerHelper.matchRecipe(machine, recipe);
+    }
+
+    public static boolean inputFluid(IRecipeCapabilityHolder machine, Fluid fluid, int amount) {
         return inputFluid(machine, new FluidStack(fluid, amount));
     }
 
-    public static boolean inputFluid(IRecipeLogicMachine machine, FluidStack fluid) {
-        if (!fluid.isEmpty()) {
-            GTRecipe recipe = GTORecipeBuilder.ofRaw().inputFluids(fluid).buildRawRecipe();
-            if (RecipeRunnerHelper.matchRecipe(machine, recipe)) {
-                return RecipeRunnerHelper.handleRecipeInput(machine, recipe);
-            }
-        }
-        return false;
+    public static boolean inputFluid(IRecipeCapabilityHolder machine, FluidStack... fluid) {
+        List<?> contentList = toFluidIngredient(fluid);
+        return RecipeRunnerHelper.handleRecipe(machine, IO.IN, new ObjectArrayList<>(contentList), FluidRecipeCapability.CAP, true) && RecipeRunnerHelper.handleRecipe(machine, IO.IN, contentList, FluidRecipeCapability.CAP, false);
     }
 
-    public static boolean outputFluid(IRecipeLogicMachine machine, Fluid fluid, int amount) {
+    public static boolean outputFluid(IRecipeCapabilityHolder machine, Fluid fluid, int amount) {
         return outputFluid(machine, new FluidStack(fluid, amount));
     }
 
-    public static boolean outputFluid(IRecipeLogicMachine machine, FluidStack fluid) {
-        if (!fluid.isEmpty()) {
-            GTRecipe recipe = GTORecipeBuilder.ofRaw().outputFluids(fluid).buildRawRecipe();
-            if (RecipeRunnerHelper.matchRecipe(machine, recipe)) {
-                return RecipeRunnerHelper.handleRecipeOutput(machine, recipe);
-            }
-        }
-        return false;
-    }
-
-    public static boolean inputEU(IRecipeLogicMachine machine, long eu) {
-        if (eu != 0) {
-            return !RecipeRunnerHelper.handleTickRecipe(machine, IO.IN, List.of(new Content(eu, 0, 0, 0)), EURecipeCapability.CAP);
-        }
-        return false;
+    public static boolean outputFluid(IRecipeCapabilityHolder machine, FluidStack... fluid) {
+        List<?> contentList = toFluidIngredient(fluid);
+        return RecipeRunnerHelper.handleRecipe(machine, IO.OUT, contentList, FluidRecipeCapability.CAP, false);
     }
 }

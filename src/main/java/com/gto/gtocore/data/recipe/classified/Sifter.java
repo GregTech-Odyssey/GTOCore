@@ -22,21 +22,21 @@ interface Sifter {
                 .inputItems(TagPrefix.dust, GTMaterials.CobaltOxide, 2)
                 .outputItems(TagPrefix.dust, GTOMaterials.CobaltOxideCeramic)
                 .EUt(240)
-                .duration(100)
+                .duration(120)
                 .save();
 
         SIFTER_RECIPES.recipeBuilder(GTOCore.id("alumina_ceramic_dust"))
                 .inputItems(TagPrefix.dust, GTOMaterials.Alumina, 2)
                 .outputItems(TagPrefix.dust, GTOMaterials.AluminaCeramic)
-                .EUt(240)
-                .duration(100)
+                .EUt(120)
+                .duration(150)
                 .save();
 
         SIFTER_RECIPES.recipeBuilder(GTOCore.id("magnesium_oxide_ceramic_dust"))
                 .inputItems(TagPrefix.dust, GTMaterials.Magnesia, 2)
                 .outputItems(TagPrefix.dust, GTOMaterials.MagnesiumOxideCeramic)
                 .EUt(240)
-                .duration(100)
+                .duration(140)
                 .save();
 
         SIFTER_RECIPES.recipeBuilder(GTOCore.id("boron_carbide_ceramics_dust"))
@@ -49,8 +49,8 @@ interface Sifter {
         SIFTER_RECIPES.recipeBuilder(GTOCore.id("zirconia_ceramic_dust"))
                 .inputItems(TagPrefix.dust, GTOMaterials.ZirconiumOxide, 2)
                 .outputItems(TagPrefix.dust, GTOMaterials.ZirconiaCeramic)
-                .EUt(240)
-                .duration(100)
+                .EUt(480)
+                .duration(120)
                 .save();
     }
 }

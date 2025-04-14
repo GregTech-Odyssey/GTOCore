@@ -1,5 +1,6 @@
 package com.gto.gtocore.mixin.gtm.api.machine;
 
+import com.gto.gtocore.api.machine.feature.multiblock.IDistinctRecipeHolder;
 import com.gto.gtocore.api.machine.feature.multiblock.IEnhancedMultiblockMachine;
 import com.gto.gtocore.api.machine.feature.multiblock.IMEOutputMachine;
 import com.gto.gtocore.api.machine.trait.IEnhancedRecipeLogic;
@@ -497,6 +498,7 @@ public abstract class RecipeLogicMixin extends MachineTrait implements IEnhanced
         if (lastRecipe != null) {
             consecutiveRecipes++;
             handleRecipeIO(lastRecipe, IO.OUT);
+            if (machine instanceof IDistinctRecipeHolder recipeHolder) recipeHolder.setDistinctState(true);
             if (machine.alwaysTryModifyRecipe() || gtocore$modifyRecipe) {
                 if (lastOriginRecipe != null) {
                     if (gtocore$modifyRecipe || !(GTORecipeModifiers.TRY_AGAIN.contains(getMachine().getDefinition().getRecipeModifier()) && lastRecipe.parallels == MachineUtils.getHatchParallel(getMachine()) && RecipeRunnerHelper.checkConditions(machine, lastRecipe) && RecipeRunnerHelper.matchRecipe(machine, lastRecipe) && RecipeRunnerHelper.matchTickRecipe(machine, lastRecipe))) {
@@ -527,6 +529,7 @@ public abstract class RecipeLogicMixin extends MachineTrait implements IEnhanced
                 duration = 0;
                 isActive = false;
             }
+            if (machine instanceof IDistinctRecipeHolder recipeHolder) recipeHolder.setDistinctState(false);
         }
     }
 
@@ -576,12 +579,12 @@ public abstract class RecipeLogicMixin extends MachineTrait implements IEnhanced
     @Unique
     private boolean gtocore$handleTickRecipe(GTRecipe recipe) {
         for (Map.Entry<RecipeCapability<?>, List<Content>> entry : recipe.tickInputs.entrySet()) {
-            if (RecipeRunnerHelper.handleTickRecipe(machine, IO.IN, entry.getValue(), entry.getKey())) {
+            if (RecipeRunnerHelper.handleTickRecipe(machine, IO.IN, recipe, entry.getValue(), entry.getKey())) {
                 return false;
             }
         }
         for (Map.Entry<RecipeCapability<?>, List<Content>> entry : recipe.tickOutputs.entrySet()) {
-            if (RecipeRunnerHelper.handleTickRecipe(machine, IO.OUT, entry.getValue(), entry.getKey())) {
+            if (RecipeRunnerHelper.handleTickRecipe(machine, IO.OUT, recipe, entry.getValue(), entry.getKey())) {
                 return false;
             }
         }

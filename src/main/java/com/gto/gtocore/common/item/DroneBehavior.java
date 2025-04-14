@@ -26,7 +26,16 @@ public final class DroneBehavior extends ElectricStats {
 
     public DroneBehavior(int tier) {
         super(100000L * (1L << (tier << 1)), tier, true, false);
-        range = 1 << ((tier - 1) << 1);
+        range = getRange(tier);
+    }
+
+    private static int getRange(int t) {
+        return switch (t) {
+            case 3 -> 32;
+            case 4 -> 96;
+            case 5 -> 288;
+            default -> 0;
+        };
     }
 
     @Override

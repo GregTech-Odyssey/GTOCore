@@ -77,7 +77,7 @@ public final class WirelessEnergyContainerTrait extends NotifiableEnergyContaine
                     }
                 } else {
                     if (energyStored > 0) {
-                        long change = -container.unrestrictedAddEnergy(energyStored);
+                        long change = container.unrestrictedAddEnergy(energyStored);
                         if (change > 0) {
                             setEnergyStored(energyStored - change);
                         }
