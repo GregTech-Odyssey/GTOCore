@@ -124,5 +124,6 @@ public interface $ClassifiedRecipe {
         GasCompressor.init();
         ManaInfuser.init();
         ManaCondenser.init();
+        ManaSimulator.init();
     }
 }

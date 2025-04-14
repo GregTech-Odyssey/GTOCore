@@ -46,10 +46,10 @@ public class ManaEnergyMultiblockMachine extends ManaMultiblockMachine implement
         recipe = super.getRealRecipe(recipe);
         long eu = RecipeHelper.getInputEUt(recipe);
         if (eu > 0) {
-            recipe = GTORecipeModifiers.externalEnergyOverclocking(this, recipe, eu, getManaContainer().getMaxConsumption(), true, 1, 1);
+            recipe = GTORecipeModifiers.externalEnergyOverclocking(this, recipe, eu, getManaContainer().getMaxConsumptionRate(), true, 1, 1);
             return recipe;
         } else {
-            return GTORecipeModifiers.manaOverclocking(this, recipe, getManaContainer().getMaxConsumption(), true, 1, 1);
+            return GTORecipeModifiers.manaOverclocking(this, recipe, getManaContainer().getMaxProductionRate(), true, 1, 1);
         }
     }
 

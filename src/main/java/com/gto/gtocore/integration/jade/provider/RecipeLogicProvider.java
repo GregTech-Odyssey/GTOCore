@@ -50,26 +50,14 @@ public final class RecipeLogicProvider extends CapabilityBlockProvider<RecipeLog
         var recipeInfo = new CompoundTag();
         var recipe = capability.getLastRecipe();
         if (recipe != null) {
-            var EUt = RecipeHelper.getInputEUt(recipe);
-            var isInput = true;
-            var isMana = false;
-            if (EUt == 0) {
-                isInput = false;
-                EUt = RecipeHelper.getOutputEUt(recipe);
-            }
-            if (EUt == 0) {
-                EUt = GTOUtils.getInputMANAt(recipe);
-                isInput = true;
-                isMana = true;
-            }
-            if (EUt == 0) {
-                EUt = GTOUtils.getOutputMANAt(recipe);
-                isInput = false;
-            }
-            if (EUt == 0) return;
-            recipeInfo.putLong("EUt", EUt);
-            recipeInfo.putBoolean("isInput", isInput);
-            recipeInfo.putBoolean("isMana", isMana);
+            var inputEUt = RecipeHelper.getInputEUt(recipe);
+            var outputEUt = RecipeHelper.getOutputEUt(recipe);
+            var inputManat = GTOUtils.getInputMANAt(recipe);
+            var outputManat = GTOUtils.getOutputMANAt(recipe);
+
+            recipeInfo.putLong("EUt", inputEUt - outputEUt);
+            recipeInfo.putLong("Manat", inputManat - outputManat);
+
         }
         data.put("Recipe", recipeInfo);
     }
@@ -80,8 +68,7 @@ public final class RecipeLogicProvider extends CapabilityBlockProvider<RecipeLog
             var recipeInfo = capData.getCompound("Recipe");
             if (!recipeInfo.isEmpty()) {
                 var EUt = recipeInfo.getLong("EUt");
-                var isInput = recipeInfo.getBoolean("isInput");
-                var isMana = recipeInfo.getBoolean("isMana");
+                var Manat = recipeInfo.getLong("Manat");
                 boolean isSteam = false;
                 if (blockEntity instanceof MetaMachineBlockEntity mbe) {
                     var machine = mbe.getMetaMachine();
@@ -93,18 +80,17 @@ public final class RecipeLogicProvider extends CapabilityBlockProvider<RecipeLog
                     } else if (machine instanceof SteamParallelMultiblockMachine smb) {
                         EUt = (long) (EUt * smb.getConversionRate());
                         isSteam = true;
-                    } else if (machine instanceof IManaEnergyMachine) {
-                        isMana = true;
+                    } else if (EUt > 0 && machine instanceof IManaEnergyMachine) {
+                        Manat += EUt;
+                        EUt = 0;
                     }
                 }
 
-                if (EUt > 0) {
+                if (EUt != 0) {
                     MutableComponent text;
-
-                    if (isMana) {
-                        text = Component.literal(FormattingUtil.formatNumbers(EUt)).withStyle(ChatFormatting.AQUA)
-                                .append(Component.literal(" mana/t").withStyle(ChatFormatting.RESET));
-                    } else if (isSteam) {
+                    boolean isInput = EUt > 0;
+                    EUt = Math.abs(EUt);
+                    if (isSteam) {
                         text = Component.literal(FormattingUtil.formatNumbers(EUt)).withStyle(ChatFormatting.GREEN)
                                 .append(Component.literal(" mB/t").withStyle(ChatFormatting.RESET));
                     } else {
@@ -138,6 +124,19 @@ public final class RecipeLogicProvider extends CapabilityBlockProvider<RecipeLog
                         tooltip.add(Component.translatable("gtceu.top.energy_production").append(" ").append(text));
                     }
                 }
+                if (Manat != 0) {
+                    boolean isInput = Manat > 0;
+                    Manat = Math.abs(Manat);
+                    MutableComponent text = Component.literal(FormattingUtil.formatNumbers(Manat)).withStyle(ChatFormatting.AQUA)
+                            .append(Component.literal(" Mana/t").withStyle(ChatFormatting.RESET));
+
+                    if (isInput) {
+                        tooltip.add(Component.translatable("gtocore.recipe.mana_consumption").append(" ").append(text));
+                    } else {
+                        tooltip.add(Component.translatable("gtocore.recipe.mana_production").append(" ").append(text));
+                    }
+                }
+
             }
         }
     }

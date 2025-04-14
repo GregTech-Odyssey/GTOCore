@@ -2,6 +2,7 @@ package com.gto.gtocore.common.recipe;
 
 import com.gto.gtocore.common.data.GTOMaterials;
 import com.gto.gtocore.common.data.GTORecipeTypes;
+import com.gto.gtocore.data.recipe.classified.ManaSimulator;
 import com.gto.gtocore.data.recipe.generated.GenerateDisassembly;
 
 import com.gregtechceu.gtceu.api.GTValues;
@@ -18,6 +19,8 @@ import net.minecraft.world.level.material.Fluid;
 
 import java.util.Collections;
 
+import static com.gregtechceu.gtceu.api.GTValues.MV;
+import static com.gregtechceu.gtceu.api.GTValues.VA;
 import static com.gto.gtocore.common.data.GTORecipeTypes.*;
 
 public final class RecipeTypeModify {
@@ -129,10 +132,18 @@ public final class RecipeTypeModify {
             }
         });
 
-        STEAM_BOILER_RECIPES.onRecipeBuild((builder, provider) -> GTORecipeTypes.THERMAL_GENERATOR_FUELS.copyFrom(builder)
-                .EUt(-8)
-                .duration((int) Math.sqrt(builder.duration))
-                .save(provider));
+        STEAM_BOILER_RECIPES.onRecipeBuild((builder, provider) -> {
+            GTORecipeTypes.THERMAL_GENERATOR_FUELS.copyFrom(builder)
+                    .EUt(-8)
+                    .duration((int) Math.sqrt(builder.duration))
+                    .save(provider);
+
+            GTORecipeTypes.MANA_SIMULATOR_FUEL.copyFrom(builder)
+                    .MANAt(-(int) (1.5 * ManaSimulator.BUFF_FACTOR))
+                    .EUt(VA[MV])
+                    .duration(builder.duration / 2)
+                    .save(provider);
+        });
 
         LARGE_BOILER_RECIPES.addDataInfo(data -> {
             int temperature = data.getInt("temperature");

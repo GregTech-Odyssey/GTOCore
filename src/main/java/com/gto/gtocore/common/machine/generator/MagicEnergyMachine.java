@@ -48,7 +48,7 @@ public final class MagicEnergyMachine extends TieredEnergyMachine implements IMa
     public MagicEnergyMachine(IMachineBlockEntity holder, int tier) {
         super(holder, tier);
         tierMana = GTValues.V[tier] << 1;
-        manaContainer = new NotifiableManaContainer(this, IO.IN, 64L * tierMana, (int) tierMana);
+        manaContainer = new NotifiableManaContainer(this, IO.IN, 64L * tierMana);
         manaContainer.setAcceptDistributor(true);
     }
 

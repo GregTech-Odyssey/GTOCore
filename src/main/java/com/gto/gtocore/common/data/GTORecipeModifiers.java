@@ -289,9 +289,9 @@ public interface GTORecipeModifiers {
         return overclocking(machine, recipe, recipeVoltage, (long) (maxVoltage * reductionEUt), perfect, false, false, reductionDuration);
     }
 
-    static GTRecipe manaOverclocking(MetaMachine machine, @Nullable GTRecipe recipe, int maxMana, boolean perfect, double reductionManat, double reductionDuration) {
+    static GTRecipe manaOverclocking(MetaMachine machine, @Nullable GTRecipe recipe, long maxMana, boolean perfect, double reductionManat, double reductionDuration) {
         if (recipe != null) {
-            int recipeMana = GTOUtils.getInputMANAt(recipe);
+            long recipeMana = GTOUtils.getInputMANAt(recipe);
             int duration = (int) (recipe.duration * reductionDuration);
             int factor = perfect ? 1 : 2;
             int limit;
@@ -302,7 +302,7 @@ public interface GTORecipeModifiers {
             }
             int ocLevel = 0;
             while (duration > limit) {
-                int overclockVoltage = recipeMana << factor;
+                long overclockVoltage = recipeMana << factor;
                 if (overclockVoltage > maxMana) break;
                 recipeMana = overclockVoltage;
                 duration >>= 1;

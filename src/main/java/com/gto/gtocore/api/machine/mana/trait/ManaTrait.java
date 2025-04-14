@@ -11,7 +11,6 @@ import com.gto.gtocore.common.machine.mana.part.ManaHatchPartMachine;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.capability.recipe.IRecipeHandler;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
-import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockControllerMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableMultiblockMachine;
 
 import net.minecraft.network.chat.Component;
@@ -28,7 +27,7 @@ public class ManaTrait extends MultiblockTrait {
     @NotNull
     private ManaContainerList manaContainers = ManaContainerList.EMPTY;
 
-    public ManaTrait(MultiblockControllerMachine machine) {
+    public ManaTrait(IManaMultiblock machine) {
         super((IMultiblockTraitHolder) machine);
     }
 
@@ -80,6 +79,10 @@ public class ManaTrait extends MultiblockTrait {
     public void customText(@NotNull List<Component> textList) {
         super.customText(textList);
         textList.add(Component.translatable("gtocore.machine.mana_stored", manaContainers.getCurrentMana() + " / " + manaContainers.getMaxMana()));
-        textList.add(Component.translatable("gtocore.machine.mana_consumption", manaContainers.getMaxConsumption() + " /t"));
+        if (((IManaMultiblock) machine).isGeneratorMana()) {
+            textList.add(Component.translatable("gtocore.machine.mana_production", manaContainers.getMaxProductionRate() + " /t"));
+        } else {
+            textList.add(Component.translatable("gtocore.machine.mana_consumption", manaContainers.getMaxConsumptionRate() + " /t"));
+        }
     }
 }

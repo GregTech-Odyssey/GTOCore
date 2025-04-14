@@ -52,8 +52,8 @@ public class ManaHatchPartMachine extends TieredIOPartMachine implements IManaMa
     private NotifiableManaContainer createManaContainer(int rate) {
         int tierMana = GTOValues.MANA[tier] * rate;
         if (io == IO.OUT) {
-            return new NotifiableManaContainer(this, IO.OUT, 256L * tierMana, tierMana);
-        } else return new NotifiableManaContainer(this, IO.IN, 64L * tierMana, tierMana);
+            return new NotifiableManaContainer(this, IO.OUT, 256L * tierMana, 4L * tierMana);
+        } else return new NotifiableManaContainer(this, IO.IN, 64L * tierMana, 4L * tierMana);
     }
 
     @Override
@@ -85,7 +85,7 @@ public class ManaHatchPartMachine extends TieredIOPartMachine implements IManaMa
         if (getOffsetTimer() % 20 != 0) return;
         ManaReceiver receiver = XplatAbstractions.INSTANCE.findManaReceiver(getLevel(), getPos().relative(getFrontFacing()), null);
         if (receiver != null && !receiver.isFull()) {
-            int mana = manaContainer.getSaturatedCurrentMana();
+            int mana = GTMath.saturatedCast(manaContainer.getCurrentMana());
             if (receiver instanceof ManaCollector collector) {
                 mana = Math.min(mana, collector.getMaxMana() - collector.getCurrentMana());
             } else if (receiver instanceof ManaPool pool) {
