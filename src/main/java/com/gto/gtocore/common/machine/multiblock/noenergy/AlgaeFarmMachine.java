@@ -5,7 +5,6 @@ import com.gto.gtocore.api.machine.trait.CustomRecipeLogic;
 import com.gto.gtocore.api.recipe.GTORecipeBuilder;
 import com.gto.gtocore.api.recipe.RecipeRunnerHelper;
 import com.gto.gtocore.common.data.GTOItems;
-import com.gto.gtocore.utils.MachineUtils;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
@@ -52,12 +51,12 @@ public final class AlgaeFarmMachine extends NoEnergyMultiblockMachine {
 
     @Nullable
     private GTRecipe getRecipe() {
-        boolean raise = MachineUtils.inputFluid(this, FERMENTEDBIOMASS, 10000);
+        boolean raise = inputFluid(FERMENTEDBIOMASS, 10000);
         int amount = raise ? 10 : 1;
         amount = amount + GTValues.RNG.nextInt(9 * amount);
         AtomicReference<GTRecipe> recipe = new AtomicReference<>();
         int finalAmount = amount;
-        MachineUtils.forEachInputItems(this, stack -> {
+        forEachInputItems(stack -> {
             if (ALGAES.contains(stack.getItem())) {
                 recipe.set(getRecipe(stack.copyWithCount(finalAmount * Math.max(1, stack.getCount() / 4))));
                 return true;

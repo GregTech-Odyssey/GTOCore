@@ -4,6 +4,7 @@ import com.gto.gtocore.api.machine.feature.multiblock.ICheckPatternMachine;
 import com.gto.gtocore.api.machine.feature.multiblock.IMultiblockTraitHolder;
 import com.gto.gtocore.api.machine.trait.MultiblockTrait;
 
+import com.gregtechceu.gtceu.api.capability.IControllable;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.fancy.ConfiguratorPanel;
 import com.gregtechceu.gtceu.api.gui.fancy.FancyMachineUIWidget;
@@ -23,6 +24,8 @@ import net.minecraft.world.entity.player.Player;
 
 import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
 import com.lowdragmc.lowdraglib.gui.widget.*;
+import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import lombok.Getter;
 
 import java.util.ArrayList;
@@ -30,11 +33,17 @@ import java.util.List;
 import java.util.Objects;
 
 @Getter
-public class NoRecipeLogicMultiblockMachine extends MultiblockControllerMachine implements IFancyUIMachine, IDisplayUIMachine, IMultiblockTraitHolder, ICheckPatternMachine {
+public class NoRecipeLogicMultiblockMachine extends MultiblockControllerMachine implements IFancyUIMachine, IDisplayUIMachine, IMultiblockTraitHolder, ICheckPatternMachine, IControllable {
+
+    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
+            NoRecipeLogicMultiblockMachine.class, MultiblockControllerMachine.MANAGED_FIELD_HOLDER);
 
     private int checkTime;
 
     private final List<MultiblockTrait> multiblockTraits = new ArrayList<>(2);
+
+    @Persisted
+    private boolean enabled = true;
 
     public NoRecipeLogicMultiblockMachine(IMachineBlockEntity holder) {
         super(holder);
@@ -113,5 +122,15 @@ public class NoRecipeLogicMultiblockMachine extends MultiblockControllerMachine 
     @Override
     public int gTOCore$getTime() {
         return checkTime;
+    }
+
+    @Override
+    public boolean isWorkingEnabled() {
+        return enabled;
+    }
+
+    @Override
+    public void setWorkingEnabled(boolean isWorkingAllowed) {
+        enabled = isWorkingAllowed;
     }
 }

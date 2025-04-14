@@ -175,7 +175,7 @@ public interface MultiBlockG {
                             .or(abilities(PARALLEL_HATCH).setMaxGlobalLimited(1))
                             .or(abilities(MAINTENANCE).setExactLimit(1)))
                     .where('D', blocks(GTBlocks.CASING_TEMPERED_GLASS.get()))
-                    .where('E', blocks(GTBlocks.COIL_CUPRONICKEL.get()))
+                    .where('E', heatingCoils())
                     .where(' ', any())
                     .build())
             .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_clean_stainless_steel"), GTCEu.id("block/multiblock/large_chemical_reactor"))

@@ -1,22 +1,25 @@
 package com.gto.gtocore.common.machine.multiblock.electric.smelter;
 
 import com.gto.gtocore.api.machine.multiblock.CoilCustomParallelMultiblockMachine;
-import com.gto.gtocore.utils.MachineUtils;
 
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
+import net.minecraft.world.level.material.Fluid;
+
 import org.jetbrains.annotations.Nullable;
 
 public final class BlazeBlastFurnaceMachine extends CoilCustomParallelMultiblockMachine {
+
+    private static final Fluid BLAZE = GTMaterials.Blaze.getFluid();
 
     public BlazeBlastFurnaceMachine(IMachineBlockEntity holder) {
         super(holder, true, true, true, m -> 64);
     }
 
     private boolean inputFluid() {
-        return MachineUtils.inputFluid(this, GTMaterials.Blaze.getFluid((1 << Math.max(0, getTier() - 2)) * 10));
+        return inputFluid(BLAZE, (1 << Math.max(0, getTier() - 2)) * 10);
     }
 
     @Override

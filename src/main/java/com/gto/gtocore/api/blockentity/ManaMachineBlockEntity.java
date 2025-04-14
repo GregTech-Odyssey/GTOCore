@@ -30,6 +30,8 @@ public final class ManaMachineBlockEntity extends MetaMachineBlockEntity {
     public <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
         if (cap == BotaniaForgeCapabilities.MANA_RECEIVER) {
             return BotaniaForgeCapabilities.MANA_RECEIVER.orEmpty(cap, LazyOptional.of(() -> ((IManaMachine) getMetaMachine())));
+        } else if (cap == BotaniaForgeCapabilities.SPARK_ATTACHABLE) {
+            return BotaniaForgeCapabilities.SPARK_ATTACHABLE.orEmpty(cap, LazyOptional.of(() -> ((IManaMachine) getMetaMachine())));
         }
         return super.getCapability(cap, side);
     }

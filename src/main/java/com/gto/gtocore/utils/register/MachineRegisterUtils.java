@@ -338,7 +338,7 @@ public final class MachineRegisterUtils {
                 tiers);
     }
 
-    public static MachineDefinition[] registerTieredManaMachines(String name, Function<Integer, String> cn, BiFunction<IMachineBlockEntity, Integer, MetaMachine> factory, BiFunction<Integer, GTOMachineBuilder, MachineDefinition> builder, int[] tiers) {
+    public static MachineDefinition[] registerTieredManaMachines(String name, Function<Integer, String> cn, BiFunction<IMachineBlockEntity, Integer, MetaMachine> factory, BiFunction<Integer, GTOMachineBuilder, MachineDefinition> builder, int... tiers) {
         MachineDefinition[] definitions = new MachineDefinition[TIER_COUNT];
         for (int tier : tiers) {
             GTOMachineBuilder register = manaMachine(VN[tier].toLowerCase(Locale.ROOT) + "_" + name, cn.apply(tier), holder -> factory.apply(holder, tier)).tier(tier);

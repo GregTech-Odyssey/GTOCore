@@ -42,7 +42,7 @@ public class FishingGroundMachine extends ElectricMultiblockMachine {
     @Nullable
     private GTRecipe getRecipe() {
         GTRecipe recipe = null;
-        int mode = MachineUtils.checkingCircuit(this, false);
+        int mode = checkingCircuit(false);
         if (mode > 0) {
             GTORecipeBuilder builder = GTORecipeBuilder.ofRaw().duration(20).EUt(480);
             if (getLevel() instanceof ServerLevel level) {
