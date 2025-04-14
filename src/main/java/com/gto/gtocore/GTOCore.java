@@ -1,11 +1,9 @@
 package com.gto.gtocore;
 
-import com.gto.gtocore.api.playerskill.api.dataGeneration.DataGeneration;
 import com.gto.gtocore.client.ClientProxy;
 import com.gto.gtocore.common.CommonProxy;
 
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 

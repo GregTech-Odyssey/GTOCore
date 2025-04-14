@@ -56,7 +56,6 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 
 import static com.gregtechceu.gtceu.common.data.GTItems.attach;
-import static com.gto.gtocore.api.playerskill.api.UtilsModels.createMultiLayerModel;
 import static com.gto.gtocore.api.registries.GTORegistration.REGISTRATE;
 import static com.gto.gtocore.common.data.GTOItems.*;
 
@@ -195,41 +194,28 @@ public final class ItemRegisterUtils {
             entries[tier] = register;
         }
         return entries;
-
-
-
     }
-
-
 
     public static ItemEntry<ComponentItem>[] registerSkillUpgradePackage(SkillData.SkillType skillType) {
         ItemEntry[] entries = new ItemEntry[GTValues.TIER_COUNT];
         for (int tier : GTValues.ALL_TIERS) {
             entries[tier] = item(skillType.toString().toLowerCase() + "_skill_upgrade_package_" + GTValues.VN[tier].toLowerCase(),
-                    "("+GTOValues.VNFR[tier] + skillType.chineseName+ ")能力提升包", ComponentItem::create)
-//                    .model(NonNullBiConsumer.noop())
-//                    .model((ctx, prov) ->
-//                        createMultiLayerModel(ctx, prov,
-//                                "gtocore:item/skill/upgrade_package/"+skillType.toString().toLowerCase(),
-//                                "gtocore:item/skill/upgrade_package/overlay"
-//                        )
-//                    )
+                    "(" + GTOValues.VNFR[tier] + skillType.chineseName + ")能力提升包", ComponentItem::create)
                     .model((ctx, prov) -> TintableModelUtils.createTintableModel(ctx, prov,
-                                "item/skill/upgrade_package/"+skillType.toString().toLowerCase(),
-                                "item/skill/upgrade_package/overlay"
-                    ))
+                            "item/skill/upgrade_package/" + skillType.toString().toLowerCase(),
+                            "item/skill/upgrade_package/overlay"))
                     .tag(TagUtil.optionalTag(BuiltInRegistries.ITEM, GTOCore.id("skill_upgrade_package")))
-                    .tag(TagUtil.optionalTag(BuiltInRegistries.ITEM, GTOCore.id("skill_upgrade_package_"+skillType.toString().toLowerCase())))
+                    .tag(TagUtil.optionalTag(BuiltInRegistries.ITEM, GTOCore.id("skill_upgrade_package_" + skillType.toString().toLowerCase())))
                     .onRegister(attach(new SkillUpgradePackageBehavior(tier, skillType)))
                     .color(() -> () -> (stack, tintIndex) -> {
-                        if (tintIndex==1) {
+                        if (tintIndex == 1) {
                             int baseColor = switch (skillType) {
                                 case ATTACK -> 0xFF0000; // 红色
                                 case HEALTH -> 0x0000FF; // 蓝色
                                 case BODY -> 0x00FF00; // 绿色
                             };
-                            float light_factor = 0.5f + (tier * 0.1f);
-                            int a = 0xFF; // 完全不透明
+                            float light_factor = 0.1f + ((tier + 1) * (0.9f / GTValues.TIER_COUNT));
+                            int a = 0xFF;
                             int r = Math.min(255, (int) ((baseColor >> 16 & 0xFF) * light_factor));
                             int g = Math.min(255, (int) ((baseColor >> 8 & 0xFF) * light_factor));
                             int b = Math.min(255, (int) ((baseColor & 0xFF) * light_factor));
