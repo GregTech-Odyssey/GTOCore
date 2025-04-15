@@ -3,6 +3,7 @@ package com.gto.gtocore.common.machine.generator;
 import com.gto.gtocore.api.capability.IManaContainer;
 import com.gto.gtocore.api.machine.mana.feature.IManaMachine;
 import com.gto.gtocore.api.machine.mana.trait.NotifiableManaContainer;
+import com.gto.gtocore.config.GTOConfig;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.IControllable;
@@ -107,7 +108,7 @@ public final class MagicEnergyMachine extends TieredEnergyMachine implements IMa
 
     @Override
     protected long getMaxInputOutputAmperage() {
-        return 4;
+        return 16 >> GTOConfig.getDifficulty();
     }
 
     @Override

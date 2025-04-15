@@ -168,7 +168,7 @@ public final class ProcessingPlantMachine extends StorageMultiblockMachine imple
     }
 
     @Override
-    protected void onMachineChanged() {
+    public void onMachineChanged() {
         customParallelTrait.onStructureInvalid();
         if (isFormed) {
             if (getRecipeLogic().getLastRecipe() != null) {

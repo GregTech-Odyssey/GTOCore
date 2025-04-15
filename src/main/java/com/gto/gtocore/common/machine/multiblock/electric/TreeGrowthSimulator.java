@@ -83,7 +83,7 @@ public final class TreeGrowthSimulator extends StorageMultiblockMachine {
     }
 
     @Override
-    protected void onMachineChanged() {
+    public void onMachineChanged() {
         output = 1;
         speed = 1;
         if (getStorageStack().getItem() instanceof GTToolItem item) {

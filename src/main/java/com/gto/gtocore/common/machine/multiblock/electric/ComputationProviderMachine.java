@@ -57,7 +57,7 @@ public final class ComputationProviderMachine extends StorageMultiblockMachine i
     }
 
     @Override
-    protected void onMachineChanged() {
+    public void onMachineChanged() {
         maxCWUt = 0;
         if (inf) {
             if (getTier() == 14 && getStorageStack().is(MAINFRAME.get(4))) {

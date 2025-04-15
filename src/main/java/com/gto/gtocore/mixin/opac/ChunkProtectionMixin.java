@@ -13,7 +13,6 @@ import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ChunkPos;
-import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
@@ -111,13 +110,6 @@ public class ChunkProtectionMixin {
      */
     @Overwrite(remap = false)
     public void onEntityEnterChunk(IServerData<?, ?> serverData, Entity entity, double goodX, double goodZ, SectionPos newSection, SectionPos oldSection) {}
-
-    /**
-     * @author .
-     * @reason .
-     */
-    @Overwrite(remap = false)
-    public void onExplosionDetonate(IServerData<?, ?> serverData, ServerLevel world, Explosion explosion, List<Entity> affectedEntities, List<BlockPos> affectedBlocks) {}
 
     /**
      * @author .

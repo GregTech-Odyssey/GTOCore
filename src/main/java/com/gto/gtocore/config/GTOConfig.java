@@ -37,8 +37,8 @@ public final class GTOConfig {
         int difficulty = getDifficulty();
         ConfigHolder.INSTANCE.recipes.generateLowQualityGems = false;
         ConfigHolder.INSTANCE.recipes.disableManualCompression = difficulty > 1;
-        ConfigHolder.INSTANCE.recipes.harderRods = difficulty > 2;
-        ConfigHolder.INSTANCE.recipes.harderBrickRecipes = difficulty > 2;
+        ConfigHolder.INSTANCE.recipes.harderRods = difficulty == 3;
+        ConfigHolder.INSTANCE.recipes.harderBrickRecipes = difficulty == 3;
         ConfigHolder.INSTANCE.recipes.nerfWoodCrafting = difficulty > 1;
         ConfigHolder.INSTANCE.recipes.hardWoodRecipes = difficulty > 1;
         ConfigHolder.INSTANCE.recipes.hardIronRecipes = difficulty > 1;
@@ -55,8 +55,8 @@ public final class GTOConfig {
         ConfigHolder.INSTANCE.recipes.removeVanillaTNTRecipe = difficulty > 1;
         ConfigHolder.INSTANCE.recipes.casingsPerCraft = Math.max(1, 3 - difficulty);
         ConfigHolder.INSTANCE.recipes.harderCircuitRecipes = difficulty > 1;
-        ConfigHolder.INSTANCE.recipes.hardMultiRecipes = difficulty > 2;
-        ConfigHolder.INSTANCE.recipes.enchantedTools = difficulty < 2;
+        ConfigHolder.INSTANCE.recipes.hardMultiRecipes = difficulty == 3;
+        ConfigHolder.INSTANCE.recipes.enchantedTools = difficulty == 1;
 
         ConfigHolder.INSTANCE.compat.energy.nativeEUToFE = true;
         ConfigHolder.INSTANCE.compat.energy.enableFEConverters = true;
@@ -77,21 +77,21 @@ public final class GTOConfig {
         ConfigHolder.INSTANCE.worldgen.oreVeins.removeVanillaOreGen = false;
         ConfigHolder.INSTANCE.worldgen.oreVeins.removeVanillaLargeOreVeins = true;
         ConfigHolder.INSTANCE.worldgen.oreVeins.bedrockOreDistance = difficulty;
-        ConfigHolder.INSTANCE.worldgen.oreVeins.infiniteBedrockOresFluids = difficulty < 2;
+        ConfigHolder.INSTANCE.worldgen.oreVeins.infiniteBedrockOresFluids = difficulty == 1;
         ConfigHolder.INSTANCE.worldgen.oreVeins.oreIndicators = true;
         ConfigHolder.INSTANCE.worldgen.oreVeins.oreGenerationChunkCacheSize = 512;
         ConfigHolder.INSTANCE.worldgen.oreVeins.oreIndicatorChunkCacheSize = 2048;
 
-        ConfigHolder.INSTANCE.machines.recipeProgressLowEnergy = difficulty > 2;
+        ConfigHolder.INSTANCE.machines.recipeProgressLowEnergy = difficulty == 3;
         ConfigHolder.INSTANCE.machines.requireGTToolsForBlocks = difficulty > 1;
-        ConfigHolder.INSTANCE.machines.shouldWeatherOrTerrainExplosion = difficulty > 2;
-        ConfigHolder.INSTANCE.machines.energyUsageMultiplier = 100;
-        ConfigHolder.INSTANCE.machines.prospectorEnergyUseMultiplier = 100;
+        ConfigHolder.INSTANCE.machines.shouldWeatherOrTerrainExplosion = difficulty == 3;
+        ConfigHolder.INSTANCE.machines.energyUsageMultiplier = 100 * difficulty;
+        ConfigHolder.INSTANCE.machines.prospectorEnergyUseMultiplier = 100 * difficulty;
         ConfigHolder.INSTANCE.machines.doesExplosionDamagesTerrain = difficulty > 1;
-        ConfigHolder.INSTANCE.machines.harmlessActiveTransformers = difficulty < 2;
+        ConfigHolder.INSTANCE.machines.harmlessActiveTransformers = difficulty == 1;
         ConfigHolder.INSTANCE.machines.steelSteamMultiblocks = false;
         ConfigHolder.INSTANCE.machines.enableCleanroom = difficulty > 1;
-        ConfigHolder.INSTANCE.machines.cleanMultiblocks = difficulty < 2;
+        ConfigHolder.INSTANCE.machines.cleanMultiblocks = difficulty == 1;
         ConfigHolder.INSTANCE.machines.replaceMinedBlocksWith = "minecraft:cobblestone";
         ConfigHolder.INSTANCE.machines.enableResearch = true;
         ConfigHolder.INSTANCE.machines.enableMaintenance = difficulty > 1;
@@ -109,25 +109,28 @@ public final class GTOConfig {
         ConfigHolder.INSTANCE.machines.ownerOPBypass = 2;
         ConfigHolder.INSTANCE.machines.highTierContent = true;
         ConfigHolder.INSTANCE.machines.orderedAssemblyLineItems = difficulty > 1;
-        ConfigHolder.INSTANCE.machines.orderedAssemblyLineFluids = difficulty > 2;
+        ConfigHolder.INSTANCE.machines.orderedAssemblyLineFluids = difficulty == 3;
         ConfigHolder.INSTANCE.machines.steamMultiParallelAmount = 8;
-        ConfigHolder.INSTANCE.machines.smallBoilers.solidBoilerBaseOutput = 240;
-        ConfigHolder.INSTANCE.machines.smallBoilers.hpSolidBoilerBaseOutput = 600;
-        ConfigHolder.INSTANCE.machines.smallBoilers.liquidBoilerBaseOutput = 480;
-        ConfigHolder.INSTANCE.machines.smallBoilers.hpLiquidBoilerBaseOutput = 1200;
-        ConfigHolder.INSTANCE.machines.smallBoilers.solarBoilerBaseOutput = 240;
-        ConfigHolder.INSTANCE.machines.smallBoilers.hpSolarBoilerBaseOutput = 720;
-        ConfigHolder.INSTANCE.machines.largeBoilers.steamPerWater = 320;
-        ConfigHolder.INSTANCE.machines.largeBoilers.bronzeBoilerMaxTemperature = 1600;
-        ConfigHolder.INSTANCE.machines.largeBoilers.bronzeBoilerHeatSpeed = 1;
-        ConfigHolder.INSTANCE.machines.largeBoilers.steelBoilerMaxTemperature = 3600;
-        ConfigHolder.INSTANCE.machines.largeBoilers.steelBoilerHeatSpeed = 1;
-        ConfigHolder.INSTANCE.machines.largeBoilers.titaniumBoilerMaxTemperature = 6400;
-        ConfigHolder.INSTANCE.machines.largeBoilers.titaniumBoilerHeatSpeed = 1;
-        ConfigHolder.INSTANCE.machines.largeBoilers.tungstensteelBoilerMaxTemperature = 12800;
-        ConfigHolder.INSTANCE.machines.largeBoilers.tungstensteelBoilerHeatSpeed = 2;
 
-        ConfigHolder.INSTANCE.tools.rngDamageElectricTools = 10;
+        int boilerFactor = 8 >> difficulty;
+
+        ConfigHolder.INSTANCE.machines.smallBoilers.solidBoilerBaseOutput = 120 * boilerFactor;
+        ConfigHolder.INSTANCE.machines.smallBoilers.hpSolidBoilerBaseOutput = 300 * boilerFactor;
+        ConfigHolder.INSTANCE.machines.smallBoilers.liquidBoilerBaseOutput = 240 * boilerFactor;
+        ConfigHolder.INSTANCE.machines.smallBoilers.hpLiquidBoilerBaseOutput = 600 * boilerFactor;
+        ConfigHolder.INSTANCE.machines.smallBoilers.solarBoilerBaseOutput = 120 * boilerFactor;
+        ConfigHolder.INSTANCE.machines.smallBoilers.hpSolarBoilerBaseOutput = 360 * boilerFactor;
+        ConfigHolder.INSTANCE.machines.largeBoilers.steamPerWater = 160 * boilerFactor;
+        ConfigHolder.INSTANCE.machines.largeBoilers.bronzeBoilerMaxTemperature = 800 * boilerFactor;
+        ConfigHolder.INSTANCE.machines.largeBoilers.bronzeBoilerHeatSpeed = boilerFactor;
+        ConfigHolder.INSTANCE.machines.largeBoilers.steelBoilerMaxTemperature = 1800 * boilerFactor;
+        ConfigHolder.INSTANCE.machines.largeBoilers.steelBoilerHeatSpeed = boilerFactor;
+        ConfigHolder.INSTANCE.machines.largeBoilers.titaniumBoilerMaxTemperature = 3200 * boilerFactor;
+        ConfigHolder.INSTANCE.machines.largeBoilers.titaniumBoilerHeatSpeed = boilerFactor;
+        ConfigHolder.INSTANCE.machines.largeBoilers.tungstensteelBoilerMaxTemperature = 6400 * boilerFactor;
+        ConfigHolder.INSTANCE.machines.largeBoilers.tungstensteelBoilerHeatSpeed = boilerFactor;
+
+        ConfigHolder.INSTANCE.tools.rngDamageElectricTools = 5 << difficulty;
         ConfigHolder.INSTANCE.tools.sprayCanChainLength = 16;
         ConfigHolder.INSTANCE.tools.treeFellingDelay = 2;
         ConfigHolder.INSTANCE.tools.voltageTierNightVision = 1;
@@ -137,7 +140,7 @@ public final class GTOConfig {
         ConfigHolder.INSTANCE.tools.voltageTierAdvQuarkTech = 6;
         ConfigHolder.INSTANCE.tools.voltageTierImpeller = 2;
         ConfigHolder.INSTANCE.tools.voltageTierAdvImpeller = 3;
-        ConfigHolder.INSTANCE.tools.nanoSaber.nanoSaberDamageBoost = 100;
+        ConfigHolder.INSTANCE.tools.nanoSaber.nanoSaberDamageBoost = 256 >> difficulty;
         ConfigHolder.INSTANCE.tools.nanoSaber.nanoSaberBaseDamage = 1;
         ConfigHolder.INSTANCE.tools.nanoSaber.zombieSpawnWithSabers = true;
         ConfigHolder.INSTANCE.tools.nanoSaber.energyConsumption = 64;

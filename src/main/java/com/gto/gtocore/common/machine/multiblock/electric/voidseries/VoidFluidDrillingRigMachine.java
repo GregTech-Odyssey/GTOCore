@@ -44,7 +44,7 @@ public final class VoidFluidDrillingRigMachine extends StorageMultiblockMachine 
     }
 
     @Override
-    protected void onMachineChanged() {
+    public void onMachineChanged() {
         fluidStacks = GTOBedrockFluids.ALL_BEDROCK_FLUID.get(GTODimensions.getDimensionKey(DimensionDataItem.getDimension(getStorageStack())));
         c = checkingCircuit(false);
     }
