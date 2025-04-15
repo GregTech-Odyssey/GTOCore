@@ -1,8 +1,12 @@
 package com.gto.gtocore.common.network;
 
+import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.api.misc.PlanetManagement;
 import com.gto.gtocore.client.ClientCache;
 import com.gto.gtocore.mixin.patchouli.BookContentResourceListenerLoaderAccessor;
+import com.gto.gtocore.config.GTOConfig;
+import com.gto.gtocore.integration.emi.EmiPersist;
+import com.gto.gtocore.utils.ServerUtils;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
@@ -11,6 +15,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 
+import dev.emi.emi.runtime.EmiPersistentData;
 import org.jetbrains.annotations.Nullable;
 import vazkii.patchouli.client.book.BookContentResourceListenerLoader;
 import vazkii.patchouli.client.book.ClientBookRegistry;
@@ -59,6 +64,13 @@ public interface ServerMessage {
                     });
                     thread.setDaemon(true);
                     thread.start();
+                }
+                ClientCache.SERVER_IDENTIFIER = data.getUUID(ServerUtils.IDENTIFIER_KEY);
+                if (!GTOConfig.INSTANCE.emiGlobalFavorites && EmiPersist.needsRefresh) {
+                    // emi has loaded before we receive SERVER_IDENTIFIER, reload it.
+                    EmiPersistentData.load();
+                    GTOCore.LOGGER.warn("emi reloaded");
+                    EmiPersist.needsRefresh = false;
                 }
                 break;
             }
