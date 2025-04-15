@@ -11,6 +11,7 @@ import com.gto.gtocore.common.machine.mana.ManaHeaterMachine;
 import com.gto.gtocore.common.machine.mana.part.ManaAmplifierPartMachine;
 import com.gto.gtocore.common.machine.mana.part.ManaExtractHatchPartMachine;
 import com.gto.gtocore.common.machine.mana.part.ManaHatchPartMachine;
+import com.gto.gtocore.config.GTOConfig;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
@@ -47,7 +48,7 @@ public interface ManaMachine {
                             GTOCore.id("block/generators/primitive_magic_energy")))
                     .tooltips(Component.translatable("gtocore.machine.primitive_magic_energy.tooltip.0"))
                     .tooltips(Component.translatable("gtocore.machine.primitive_magic_energy.tooltip.1"))
-                    .tooltips(Component.translatable("gtceu.universal.tooltip.amperage_out", 4))
+                    .tooltips(Component.translatable("gtceu.universal.tooltip.amperage_out", 16 >> GTOConfig.getDifficulty()))
                     .tooltips(Component.translatable("gtceu.universal.tooltip.voltage_out",
                             FormattingUtil.formatNumbers(V[tier]), VNF[tier]))
                     .tooltips(Component.translatable("gtceu.universal.tooltip.energy_storage_capacity",

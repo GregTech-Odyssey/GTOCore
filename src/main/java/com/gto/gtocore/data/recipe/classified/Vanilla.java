@@ -497,7 +497,7 @@ interface Vanilla {
                 "ABA",
                 "CDC",
                 "EFE",
-                'A', GTOItems.ULV_ELECTRIC_PISTON.asStack(), 'B', CustomTags.ULV_CIRCUITS, 'C', GTOItems.ULV_ELECTRIC_MOTOR.asStack(), 'D', GTMachines.HULL[GTValues.ULV].asStack(), 'E', new MaterialEntry(TagPrefix.gear, GTMaterials.Bronze), 'F', new MaterialEntry(TagPrefix.cableGtDouble, GTMaterials.Lead));
+                'A', GTOItems.ULV_ELECTRIC_PISTON.asStack(), 'B', CustomTags.ULV_CIRCUITS, 'C', GTOItems.ULV_ELECTRIC_MOTOR.asStack(), 'D', GTMachines.HULL[GTValues.ULV].asStack(), 'E', new MaterialEntry(TagPrefix.gear, GTMaterials.Stone), 'F', new MaterialEntry(TagPrefix.cableGtDouble, GTMaterials.Lead));
         VanillaRecipeHelper.addShapedRecipe(provider, GTOCore.id("fluid_storage_cell_256m"), GTOItems.FLUID_STORAGE_CELL_256M.asStack(),
                 "ABA",
                 "BCB",

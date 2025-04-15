@@ -2,7 +2,9 @@ package com.gto.gtocore.common.network;
 
 import com.gto.gtocore.api.misc.PlanetManagement;
 import com.gto.gtocore.client.ClientCache;
+import com.gto.gtocore.mixin.patchouli.BookContentResourceListenerLoaderAccessor;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
@@ -10,6 +12,8 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 
 import org.jetbrains.annotations.Nullable;
+import vazkii.patchouli.client.book.BookContentResourceListenerLoader;
+import vazkii.patchouli.client.book.ClientBookRegistry;
 
 public interface ServerMessage {
 
@@ -47,6 +51,15 @@ public interface ServerMessage {
             }
             case "loggedIn": {
                 ClientCache.UNLOCKED_PLANET.clear();
+                if (Minecraft.getInstance().level != null && !ClientCache.initializedBook) {
+                    ClientCache.initializedBook = true;
+                    Thread thread = new Thread(() -> {
+                        ClientBookRegistry.INSTANCE.reload();
+                        ((BookContentResourceListenerLoaderAccessor) BookContentResourceListenerLoader.INSTANCE).getData().clear();
+                    });
+                    thread.setDaemon(true);
+                    thread.start();
+                }
                 break;
             }
         }
