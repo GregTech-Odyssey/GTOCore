@@ -47,7 +47,7 @@ public final class VoidMinerMachine extends StorageMultiblockMachine {
     }
 
     @Override
-    protected void onMachineChanged() {
+    public void onMachineChanged() {
         dim = null;
         if (isEmpty()) return;
         dim = DimensionDataItem.getDimension(getStorageStack());

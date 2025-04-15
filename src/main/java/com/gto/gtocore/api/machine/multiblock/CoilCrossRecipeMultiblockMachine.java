@@ -16,7 +16,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public final class CoilCrossRecipeMultiblockMachine extends CrossRecipeMultiblockMachine implements ICoilMachine {
+public class CoilCrossRecipeMultiblockMachine extends CrossRecipeMultiblockMachine implements ICoilMachine {
 
     public static CrossRecipeMultiblockMachine createCoilParallel(IMachineBlockEntity holder) {
         return createCoilParallel(holder, false);
@@ -36,7 +36,7 @@ public final class CoilCrossRecipeMultiblockMachine extends CrossRecipeMultibloc
 
     private final CoilTrait coilTrait;
 
-    private CoilCrossRecipeMultiblockMachine(IMachineBlockEntity holder, boolean infinite, boolean isHatchParallel, boolean ebf, boolean check, ToIntFunction<CoilCrossRecipeMultiblockMachine> parallel) {
+    protected CoilCrossRecipeMultiblockMachine(IMachineBlockEntity holder, boolean infinite, boolean isHatchParallel, boolean ebf, boolean check, ToIntFunction<CoilCrossRecipeMultiblockMachine> parallel) {
         super(holder, infinite, isHatchParallel, machine -> parallel.applyAsInt((CoilCrossRecipeMultiblockMachine) machine));
         coilTrait = new CoilTrait(this, ebf, check);
     }

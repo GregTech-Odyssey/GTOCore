@@ -34,7 +34,7 @@ public final class CircuitAssemblyLineMachine extends StorageMultiblockMachine {
     }
 
     @Override
-    protected @NotNull NotifiableItemStackHandler createMachineStorage(Predicate<ItemStack> filter) {
+    public @NotNull NotifiableItemStackHandler createMachineStorage(Predicate<ItemStack> filter) {
         NotifiableItemStackHandler storage = new NotifiableItemStackHandler(
                 this, 1, IO.IN, IO.BOTH, slots -> new CustomItemStackHandler(1) {
 
@@ -59,7 +59,7 @@ public final class CircuitAssemblyLineMachine extends StorageMultiblockMachine {
     }
 
     @Override
-    protected void onMachineChanged() {
+    public void onMachineChanged() {
         inputEUt = 0;
         ItemStack item = getStorageStack();
         if (item.getItem() == GTOItems.PRECISION_CIRCUIT_ASSEMBLY_ROBOT_MK1.get()) {

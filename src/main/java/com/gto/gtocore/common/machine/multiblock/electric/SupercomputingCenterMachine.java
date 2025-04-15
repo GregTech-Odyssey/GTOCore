@@ -201,7 +201,7 @@ public final class SupercomputingCenterMachine extends StorageMultiblockMachine 
     }
 
     @Override
-    protected void onMachineChanged() {
+    public void onMachineChanged() {
         machineTier = 1;
         Integer integer = MAINFRAME.get(getStorageStack().getItem());
         if (integer != null) {

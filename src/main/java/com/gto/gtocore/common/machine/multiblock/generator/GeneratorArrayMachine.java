@@ -126,7 +126,7 @@ public final class GeneratorArrayMachine extends StorageMultiblockMachine implem
     }
 
     @Override
-    protected void onMachineChanged() {
+    public void onMachineChanged() {
         onStorageChanged();
     }
 
@@ -175,16 +175,17 @@ public final class GeneratorArrayMachine extends StorageMultiblockMachine implem
     }
 
     public static int getEfficiency(GTRecipeType recipeType, int tier) {
+        int base = 105 - 5 * tier;
         if (recipeType == GTRecipeTypes.STEAM_TURBINE_FUELS) {
-            return (135 - 35 * tier);
+            base = 135 - 35 * tier;
         }
         if (recipeType == GTORecipeTypes.NAQUADAH_REACTOR) {
-            return (100 + 50 * (tier - GTValues.IV));
+            base = 100 + 50 * (tier - GTValues.IV);
         }
         if (recipeType == GTORecipeTypes.THERMAL_GENERATOR_FUELS) {
-            return (100 - 25 * tier);
+            base = 100 - 25 * tier;
         }
-        return (105 - 5 * tier);
+        return base + 30 - 15 * GTOConfig.getDifficulty();
     }
 
     @Override

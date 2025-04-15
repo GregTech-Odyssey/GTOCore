@@ -183,7 +183,7 @@ public interface MachineRecipe {
                 GTOItems.ULV_ELECTRIC_MOTOR.asStack(), 'C', CustomTags.ULV_CIRCUITS, 'W', new MaterialEntry(wireGtSingle, Lead), 'B', GTMachines.STEAM_SOLID_BOILER.first().getItem());
 
         VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("ulv_wind_mill_turbine"), GTOMachines.WIND_MILL_TURBINE[0].asStack(),
-                "RGR", "MHM", "WCW", 'H', GTOMachines.THERMAL_GENERATOR[0].asStack(), 'G', new MaterialEntry(gear, Stone), 'R', new MaterialEntry(rod, WroughtIron),
+                "RGR", "MHM", "WCW", 'H', GTOMachines.THERMAL_GENERATOR[0].asStack(), 'G', new MaterialEntry(gear, Bronze), 'R', new MaterialEntry(rod, WroughtIron),
                 'C', CustomTags.ULV_CIRCUITS, 'W', new MaterialEntry(cableGtSingle, RedAlloy), 'M', new MaterialEntry(rod, IronMagnetic));
 
         VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("lv_wind_mill_turbine"), GTOMachines.WIND_MILL_TURBINE[1].asStack(),
