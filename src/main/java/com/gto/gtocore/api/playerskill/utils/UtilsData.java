@@ -27,7 +27,7 @@ public final class UtilsData {
         }
     }
 
-    public static void addExperience(Player player, BasicExperienceLevel experienceLevel, int amount, Runnable runnable) {
+    public static void addExperience(Player player, BasicExperienceLevel experienceLevel, long amount, Runnable runnable) {
         if (!ExperienceSystemManager.INSTANCE.isEnabled()) return;
         UUID playerId = player.getUUID();
         Object2LongMap<UUID> lastTimeRecordTable = ExperienceSystemManager.INSTANCE.getLastTimeRecordTable();
@@ -41,11 +41,11 @@ public final class UtilsData {
         }
     }
 
-    public static void addExperienceAndSendMessage(Player player, BasicExperienceLevel experienceLevel, int amount, Component message) {
+    public static void addExperienceAndSendMessage(Player player, BasicExperienceLevel experienceLevel, long amount, Component message) {
         addExperience(player, experienceLevel, amount, () -> player.sendSystemMessage(message));
     }
 
-    public static void addExperienceAndSendMessage(Player player, BasicExperienceLevel experienceLevel, int amount) {
+    public static void addExperienceAndSendMessage(Player player, BasicExperienceLevel experienceLevel, long amount) {
         Component message = Component.translatable("gtocore.player_exp_status.get_experience", amount, experienceLevel.getName()).withStyle(experienceLevel.getNameColor());
         addExperienceAndSendMessage(player, experienceLevel, amount, message);
     }

@@ -1,7 +1,6 @@
 package com.gto.gtocore.common.item.playerskill;
 
 import com.gto.gtocore.api.GTOValues;
-import com.gto.gtocore.api.playerskill.SkillData;
 import com.gto.gtocore.api.playerskill.SkillData.SkillType;
 import com.gto.gtocore.api.playerskill.data.ExperienceSystemManager;
 import com.gto.gtocore.api.playerskill.data.PlayerData;
@@ -44,18 +43,18 @@ public class SkillUpgradePackageBehavior implements IInteractionItem {
                 player.sendSystemMessage(Component.translatable("gtocore.player_exp_status.upgrade_institution"));
                 return IInteractionItem.super.use(item, level, player, usedHand);
             } // 防止套用实时经验包计算机制来非法保留经验
-            int targetSkillVoltage = targetExpLevel.getVoltage();
-            int tierGap = tier - targetSkillVoltage;
+            long targetSkillVoltage = targetExpLevel.getVoltage();
+            long tierGap = tier - targetSkillVoltage;
             if (tierGap < 0) {
                 player.sendSystemMessage(Component.translatable("gtocore.player_exp_status.sup.error",
-                        GTOValues.VNFR[targetSkillVoltage],
+                        GTOValues.VNFR[(int) targetSkillVoltage],
                         targetExpLevel.getName(),
-                        GTOValues.VNFR[targetSkillVoltage],
+                        GTOValues.VNFR[(int) targetSkillVoltage],
                         targetExpLevel.getName()));
                 return IInteractionItem.super.use(item, level, player, usedHand);
             } // 只能使用同等级和以上的经验包
-            int experienceForNextLevel = targetExpLevel.getExperienceForNextLevel();
-            UtilsData.addExperienceAndSendMessage(player, targetExpLevel, SkillData.Formula.upgradePackageBonus.apply(tierGap, experienceForNextLevel));
+            long experienceForNextLevel = targetExpLevel.getExperienceForNextLevel();
+            UtilsData.addExperienceAndSendMessage(player, targetExpLevel, skillType.upgradePackageBonusFormula.apply(tierGap, experienceForNextLevel));
             itemInHand.grow(-1);
             level.playSound(null, player.getX(), player.getY(), player.getZ(),
                     SoundEvents.EXPERIENCE_ORB_PICKUP, SoundSource.PLAYERS,

@@ -8,6 +8,6 @@ public class SkillValues {
 
     public static class ExperienceIncome {
 
-        public static final int EAT_MEAT = 10;
+        public static final long EAT_MEAT = 10;
     }
 }

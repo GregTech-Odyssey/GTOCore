@@ -15,13 +15,12 @@ import java.util.function.Function;
 @Getter
 public abstract class BasicExperienceLevel {
 
-    protected int level;
-    protected int experience;
+    protected long level;
+    protected long experience;
     protected SkillData.SkillType skillType;
 
     public record ATTRIBUTE_RECORD(Attribute attribute, String modifierName, UUID modifierUUID,
-                                   Function<BasicExperienceLevel, Integer> valueCalculator) {
-
+                                   Function<BasicExperienceLevel, Long> valueCalculator) {
         public AttributeModifier getModifier(BasicExperienceLevel expLevel) {
             return new AttributeModifier(modifierUUID, modifierName, valueCalculator.apply(expLevel), AttributeModifier.Operation.ADDITION);
         }
@@ -37,33 +36,33 @@ public abstract class BasicExperienceLevel {
         return ChatFormatting.GOLD;
     }
 
-    public int getVoltage() {
+    public long getVoltage() {
         return (level - 1) / skillType.LevelStepPerVoltage;
     }
 
-    public abstract int getMaxVoltage();
+    public abstract long getMaxVoltage();
 
     public void saveData(CompoundTag nbt) {
-        nbt.putInt("level", level);
-        nbt.putInt("experience", experience);
+        nbt.putLong("level", level);
+        nbt.putLong("experience", experience);
     }
 
     public void loadData(CompoundTag nbt) {
-        this.level = nbt.getInt("level");
-        this.experience = nbt.getInt("experience");
+        this.level = nbt.getLong("level");
+        this.experience = nbt.getLong("experience");
     }
 
     public abstract ATTRIBUTE_RECORD[] getAttributeModifiers();
 
-    public abstract int getMaxLevel();
+    public abstract long getMaxLevel();
 
-    public abstract void addExperience(int amount);
+    public abstract void addExperience(long amount);
 
     public String getName() {
         return skillType.getName();
     }
 
-    public int getExperienceForNextLevel() {
+    public long getExperienceForNextLevel() {
         return skillType.nextLevelExperienceFormula.apply(this);
     }
 }

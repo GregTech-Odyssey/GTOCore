@@ -28,15 +28,15 @@ public class PlayerData {
         this.attackExperienceLevel = new AttackExperienceLevel(bodyExperienceLevel);
     }
 
-    public void addHealthExperience(int amount) {
+    public void addHealthExperience(long amount) {
         healthExperienceLevel.addExperience(amount);
     }
 
-    public void addAttackExperience(int amount) {
+    public void addAttackExperience(long amount) {
         attackExperienceLevel.addExperience(amount);
     }
 
-    public void addBodyExperience(int amount) {
+    public void addBodyExperience(long amount) {
         bodyExperienceLevel.addExperience(amount);
     }
 

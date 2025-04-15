@@ -8,12 +8,12 @@ import com.gregtechceu.gtceu.api.GTValues;
 public class BodyExperienceLevel extends BasicExperienceLevel {
 
     @Override
-    public int getMaxVoltage() { // 0 - GTValues.TIER_COUNT-1
+    public long getMaxVoltage() { // 0 - GTValues.TIER_COUNT-1
         return (GTValues.TIER_COUNT - 1);
     }
 
     @Override
-    public int getMaxLevel() {
+    public long getMaxLevel() {
         return getMaxVoltage() * skillType.LevelStepPerVoltage;
     }
 
@@ -27,7 +27,7 @@ public class BodyExperienceLevel extends BasicExperienceLevel {
         return new ATTRIBUTE_RECORD[] {};
     }
 
-    public void addExperience(int amount) {
+    public void addExperience(long amount) {
         experience += amount;
         while (experience >= getExperienceForNextLevel()) {
             experience -= getExperienceForNextLevel();

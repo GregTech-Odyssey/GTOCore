@@ -8,7 +8,7 @@ public abstract class NormalExperienceLevel extends BasicExperienceLevel {
     protected BodyExperienceLevel bodyExperienceLevel;
 
     @Override
-    public void addExperience(int amount) {
+    public void addExperience(long amount) {
         experience += amount;
         while (experience >= getExperienceForNextLevel() && level < getMaxLevel()) {
             experience -= getExperienceForNextLevel();
@@ -21,12 +21,12 @@ public abstract class NormalExperienceLevel extends BasicExperienceLevel {
         this.bodyExperienceLevel = _bodyExperienceLevel;
     }
 
-    public int getMaxVoltage() {
+    public long getMaxVoltage() {
         return bodyExperienceLevel.getVoltage();
     }
 
     @Override
-    public int getMaxLevel() {
+    public long getMaxLevel() {
         return (bodyExperienceLevel.getVoltage() + 1) * skillType.LevelStepPerVoltage;
     }
 }

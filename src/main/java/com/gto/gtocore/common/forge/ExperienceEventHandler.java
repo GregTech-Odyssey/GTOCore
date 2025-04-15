@@ -35,7 +35,7 @@ public class ExperienceEventHandler {
                 PlayerData playerData = ExperienceSystemManager.INSTANCE.getPlayerData(player.getUUID());
                 for (SkillData.SkillType type : SkillData.SkillType.values()) {
                     BasicExperienceLevel level = type.getExperienceLevel(playerData);
-                    Integer point = SkillData.GainExperience.EXPERIENCE_RATES.get(type);
+                    long point = SkillData.GainExperience.EXPERIENCE_RATES.get(type);
                     UtilsData.addExperienceAndSendMessage(player, level, point);
                 }
             }

@@ -22,9 +22,9 @@ public final class SkillData {
                 .LevelStepPerVoltage(3)
                 .chineseName("生命强度")
                 .englishName("Life Intensity")
-                .nextLevelExperienceFormula(level -> (int) (100 * Math.pow(1.5, level.getLevel())))
+                .nextLevelExperienceFormula(level -> (long) (100 * Math.pow(1.5, level.getLevel())))
                 .experienceLevelGetter(PlayerData::getBodyExperienceLevel)
-                .upgradePackageBonusFormula((tierGap, experienceForNextLevel) -> (int) (experienceForNextLevel * Math.pow(2, tierGap) * ((double) 1 / 16)))
+                .upgradePackageBonusFormula((tierGap, experienceForNextLevel) -> (long) (experienceForNextLevel * Math.pow(2, tierGap) * ((double) 1 / 16)))
                 .build()),
 
         PHYSIQUE(SkillTypeBuilder.builder()
@@ -32,9 +32,9 @@ public final class SkillData {
                 .LevelStepPerVoltage(2)
                 .chineseName("体格")
                 .englishName("Physique")
-                .nextLevelExperienceFormula(level -> (int) (100 * Math.pow(1.5, level.getLevel())))
+                .nextLevelExperienceFormula(level -> (long) (100 * Math.pow(1.5, level.getLevel())))
                 .experienceLevelGetter(PlayerData::getHealthExperienceLevel)
-                .upgradePackageBonusFormula((tierGap, experienceForNextLevel) -> (int) (experienceForNextLevel * Math.pow(2, tierGap) * ((double) 1 / 16)))
+                .upgradePackageBonusFormula((tierGap, experienceForNextLevel) -> (long) (experienceForNextLevel * Math.pow(2, tierGap) * ((double) 1 / 16)))
                 .build()),
 
         STRENGTH(SkillTypeBuilder.builder()
@@ -42,18 +42,18 @@ public final class SkillData {
                 .LevelStepPerVoltage(3)
                 .chineseName("力量")
                 .englishName("Strength")
-                .nextLevelExperienceFormula(level -> (int) (100 * Math.pow(1.5, level.getLevel())))
+                .nextLevelExperienceFormula(level -> (long) (100 * Math.pow(1.5, level.getLevel())))
                 .experienceLevelGetter(PlayerData::getAttackExperienceLevel)
-                .upgradePackageBonusFormula((tierGap, experienceForNextLevel) -> (int) (experienceForNextLevel * Math.pow(2, tierGap) * ((double) 1 / 16)))
+                .upgradePackageBonusFormula((tierGap, experienceForNextLevel) -> (long) (experienceForNextLevel * Math.pow(2, tierGap) * ((double) 1 / 16)))
                 .build());
 
         public final String NameTranslateKey;
-        public final int LevelStepPerVoltage;
+        public final long LevelStepPerVoltage;
         public final String chineseName;
         public final String englishName;
-        public final Function<BasicExperienceLevel, Integer> nextLevelExperienceFormula;
+        public final Function<BasicExperienceLevel, Long> nextLevelExperienceFormula;
         public final Function<PlayerData, BasicExperienceLevel> experienceLevelGetter;
-        public final BiFunction<Integer, Integer, Integer> upgradePackageBonusFormula;
+        public final BiFunction<Long, Long, Long> upgradePackageBonusFormula;
 
         SkillType(SkillTypeBuilder builder) {
             this.NameTranslateKey = builder.NameTranslateKey;
@@ -75,29 +75,23 @@ public final class SkillData {
 
         @Builder
         private static class SkillTypeBuilder {
-
             private String NameTranslateKey;
-            private int LevelStepPerVoltage;
+            private long LevelStepPerVoltage;
             private String chineseName;
             private String englishName;
-            private Function<BasicExperienceLevel, Integer> nextLevelExperienceFormula;
+            private Function<BasicExperienceLevel, Long> nextLevelExperienceFormula;
             private Function<PlayerData, BasicExperienceLevel> experienceLevelGetter;
-            public BiFunction<Integer, Integer, Integer> upgradePackageBonusFormula;
+            public BiFunction<Long, Long, Long> upgradePackageBonusFormula;
         }
     }
 
-    public static class Formula {
-
-        public static final BiFunction<Integer, Integer, Integer> upgradePackageBonus = (tierGap, experienceForNextLevel) -> (int) (experienceForNextLevel * Math.pow(2, tierGap) * ((double) 1 / 16));
-        // 每个升级包，都可以获得 到下一级的经验* 2^电压差 * (1/16) 的经验
-    }
 
     public static class GainExperience {
 
-        public static final int GAP_TICK = 20 * 60 * 60 * 2; // 2hour
-        public static final Map<SkillType, Integer> EXPERIENCE_RATES = Map.of(
-                SkillType.PHYSIQUE, 15,
-                SkillType.STRENGTH, 15,
-                SkillType.LIFE_INTENSITY, 5);
+        public static final long GAP_TICK = 20 * 60 * 60 * 2; // 2hour
+        public static final Map<SkillType, Long> EXPERIENCE_RATES = Map.of(
+                SkillType.PHYSIQUE, 15L,
+                SkillType.STRENGTH, 15L,
+                SkillType.LIFE_INTENSITY, 5L);
     } // 定时免费的升级，配置每多少tick给各个技能加多少经验
 }

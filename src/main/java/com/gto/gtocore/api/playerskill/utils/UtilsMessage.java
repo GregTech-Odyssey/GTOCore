@@ -47,8 +47,8 @@ public final class UtilsMessage {
         // 添加等级信息
         skillInfo = skillInfo.append(Component.translatable("gtocore.player_exp_status.level")
                 .withStyle(ChatFormatting.WHITE)
-                .append(Component.literal(basicExperienceLevel.getLevel() + " (" + GTValues.VN[basicExperienceLevel.getVoltage()] + ")" + " / " +
-                        basicExperienceLevel.getMaxLevel() + " (" + GTValues.VN[basicExperienceLevel.getMaxVoltage()] + ")" +
+                .append(Component.literal(basicExperienceLevel.getLevel() + " (" + GTValues.VN[(int) basicExperienceLevel.getVoltage()] + ")" + " / " +
+                        basicExperienceLevel.getMaxLevel() + " (" + GTValues.VN[(int) basicExperienceLevel.getMaxVoltage()] + ")" +
                         Component.translatable("gtocore.player_exp_status.level_max").getString())
                         .withStyle(ChatFormatting.YELLOW)));
 
