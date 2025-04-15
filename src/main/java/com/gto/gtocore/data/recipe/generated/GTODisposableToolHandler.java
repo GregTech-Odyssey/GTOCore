@@ -11,7 +11,7 @@ import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gto.gtocore.common.data.GTOItems.*;
 import static com.gto.gtocore.common.data.GTORecipeTypes.FLUID_SOLIDFICATION_RECIPES;
 
-public class GTODisposableToolHandler {
+interface GTODisposableToolHandler {
 
     static void run(Material material) {
         if (!material.hasProperty(PropertyKey.TOOL)) {
