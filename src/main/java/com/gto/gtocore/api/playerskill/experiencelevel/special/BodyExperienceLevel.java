@@ -17,13 +17,8 @@ public class BodyExperienceLevel extends BasicExperienceLevel {
         return getMaxVoltage() * skillType.LevelStepPerVoltage;
     }
 
-    @Override
-    public int getVoltage() {
-        return (level - 1) / skillType.LevelStepPerVoltage;
-    }
-
     public BodyExperienceLevel() {
-        super(SkillData.SkillType.BODY);
+        super(SkillData.SkillType.LIFE_INTENSITY);
         this.level = 0;
     }
 
@@ -38,14 +33,5 @@ public class BodyExperienceLevel extends BasicExperienceLevel {
             experience -= getExperienceForNextLevel();
             level++;
         }
-    }
-
-    // @Override
-    // public String getName() {
-    // return Component.translatable("gtocore.player_exp_status.body_name").getString();
-    // }
-
-    public int getExperienceForNextLevel() {
-        return (int) (100 * Math.pow(1.5, level)); // 示例经验计算
     }
 }

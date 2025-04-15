@@ -11,7 +11,7 @@ import java.util.UUID;
 public class AttackExperienceLevel extends NormalExperienceLevel {
 
     public AttackExperienceLevel(BodyExperienceLevel _bodyExperienceLevel) {
-        super(_bodyExperienceLevel, SkillData.SkillType.ATTACK);
+        super(_bodyExperienceLevel, SkillData.SkillType.STRENGTH);
     }
 
     @Override
@@ -22,15 +22,5 @@ public class AttackExperienceLevel extends NormalExperienceLevel {
                         UUID.randomUUID(),
                         (expLevel) -> expLevel.getLevel() << 1)
         };
-    }
-
-    // @Override
-    // public String getName() {
-    // return Component.translatable("gtocore.player_exp_status.attack_name").getString();
-    // }
-
-    @Override
-    public int getExperienceForNextLevel() {
-        return (int) (100 * Math.pow(1.5, level));
     }
 }

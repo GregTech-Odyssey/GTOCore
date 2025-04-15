@@ -21,11 +21,6 @@ public abstract class NormalExperienceLevel extends BasicExperienceLevel {
         this.bodyExperienceLevel = _bodyExperienceLevel;
     }
 
-    @Override
-    public int getVoltage() {
-        return (level - 1) / skillType.LevelStepPerVoltage;
-    }
-
     public int getMaxVoltage() {
         return bodyExperienceLevel.getVoltage();
     }

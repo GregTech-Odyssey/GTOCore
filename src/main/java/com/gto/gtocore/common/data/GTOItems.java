@@ -375,9 +375,9 @@ public interface GTOItems {
 
     ItemEntry<ToolTipsItem>[] UNIVERSAL_CIRCUIT = registerCircuits("universal_circuit", "通用电路", GTValues.tiersBetween(GTValues.ULV, GTValues.MAX), tier -> Component.translatable("gtocore.tooltip.item.tier_circuit", GTValues.VN[tier]).withStyle(ChatFormatting.AQUA));
 
-    ItemEntry<ComponentItem>[] HEALTH_SKILL_UPGRADE_PACK = registerSkillUpgradePackage(SkillData.SkillType.HEALTH);
-    ItemEntry<ComponentItem>[] BODY_SKILL_UPGRADE_PACK = registerSkillUpgradePackage(SkillData.SkillType.BODY);
-    ItemEntry<ComponentItem>[] ATTACK_SKILL_UPGRADE_PACK = registerSkillUpgradePackage(SkillData.SkillType.ATTACK);
+    ItemEntry<ComponentItem>[] HEALTH_SKILL_UPGRADE_PACK = registerSkillUpgradePackage(SkillData.SkillType.PHYSIQUE);
+    ItemEntry<ComponentItem>[] BODY_SKILL_UPGRADE_PACK = registerSkillUpgradePackage(SkillData.SkillType.LIFE_INTENSITY);
+    ItemEntry<ComponentItem>[] ATTACK_SKILL_UPGRADE_PACK = registerSkillUpgradePackage(SkillData.SkillType.STRENGTH);
 
     ItemEntry<Item> WETWARE_SOC = registerLang("wetware_soc", "Wetware SoC", "湿件SoC");
 

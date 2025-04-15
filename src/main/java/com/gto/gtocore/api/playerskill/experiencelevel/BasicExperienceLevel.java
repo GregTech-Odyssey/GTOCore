@@ -37,7 +37,9 @@ public abstract class BasicExperienceLevel {
         return ChatFormatting.GOLD;
     }
 
-    public abstract int getVoltage();
+    public int getVoltage() {
+        return (level - 1) / skillType.LevelStepPerVoltage;
+    }
 
     public abstract int getMaxVoltage();
 
@@ -59,7 +61,9 @@ public abstract class BasicExperienceLevel {
 
     public String getName() {
         return skillType.getName();
-    };
+    }
 
-    public abstract int getExperienceForNextLevel();
+    public int getExperienceForNextLevel() {
+        return skillType.nextLevelExperienceFormula.apply(this);
+    }
 }

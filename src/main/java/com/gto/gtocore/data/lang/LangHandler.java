@@ -202,10 +202,10 @@ public final class LangHandler {
         addENCN("gtocore.player_exp_status.experience", "\n  Experience: ", "\n  经验: ");
         addENCN("gtocore.player_exp_status.experience_next", " for next level", " 升级");
         addENCN("gtocore.player_exp_status.progress", "\n  Progress: ", "\n  升级进度: ");
-        addENCN("gtocore.player_exp_status.upgrade_institution", "\n  Enhance Iife Intensity to upgrade", "\n  提升生命强度以升级");
-        addENCN(SkillData.SkillType.BODY.NameTranslateKey, SkillData.SkillType.BODY.englishName, SkillData.SkillType.BODY.chineseName);
-        addENCN(SkillData.SkillType.HEALTH.NameTranslateKey, SkillData.SkillType.HEALTH.englishName, SkillData.SkillType.HEALTH.chineseName);
-        addENCN(SkillData.SkillType.ATTACK.NameTranslateKey, SkillData.SkillType.ATTACK.englishName, SkillData.SkillType.ATTACK.chineseName);
+        addENCN("gtocore.player_exp_status.upgrade_institution", "  Enhance Iife Intensity to upgrade", "  提升生命强度以升级");
+        addENCN(SkillData.SkillType.LIFE_INTENSITY.NameTranslateKey, SkillData.SkillType.LIFE_INTENSITY.englishName, SkillData.SkillType.LIFE_INTENSITY.chineseName);
+        addENCN(SkillData.SkillType.PHYSIQUE.NameTranslateKey, SkillData.SkillType.PHYSIQUE.englishName, SkillData.SkillType.PHYSIQUE.chineseName);
+        addENCN(SkillData.SkillType.STRENGTH.NameTranslateKey, SkillData.SkillType.STRENGTH.englishName, SkillData.SkillType.STRENGTH.chineseName);
         addENCN("gtocore.player_exp_status.open", "ExperienceSystemOpened", "经验系统已开启");
         addENCN("gtocore.player_exp_status.close", "ExperienceSystemClosed", "经验系统已关闭");
         addENCN("gtocore.player_exp_status.get_experience", "you got %s point of %s experience", "你获得了%s点%s经验");

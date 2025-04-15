@@ -200,9 +200,9 @@ public final class ItemRegisterUtils {
     public static ItemEntry<ComponentItem>[] registerSkillUpgradePackage(SkillData.SkillType skillType) {
         ItemEntry[] entries = new ItemEntry[GTValues.TIER_COUNT];
         int[] baseColor = switch (skillType) {
-            case ATTACK -> new int[] { 0Xff0000, 0xff6b6b }; // 红色
-            case BODY -> new int[] { 0x4fe82c, 0x9cfa87 }; // 绿色
-            case HEALTH -> new int[] { 0x6149fc, 0xa091ff }; // 蓝色
+            case STRENGTH -> new int[] { 0Xff0000, 0xff6b6b }; // 红色
+            case LIFE_INTENSITY -> new int[] { 0x4fe82c, 0x9cfa87 }; // 绿色
+            case PHYSIQUE -> new int[] { 0x6149fc, 0xa091ff }; // 蓝色
         };
         int[] stepGradient = ColorUtils.generateStepGradient(baseColor[0], baseColor[1], 70, 4);
         for (int tier : GTValues.ALL_TIERS) {

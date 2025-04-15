@@ -11,7 +11,7 @@ import java.util.UUID;
 public class HealthExperienceLevel extends NormalExperienceLevel {
 
     public HealthExperienceLevel(BodyExperienceLevel _bodyExperienceLevel) {
-        super(_bodyExperienceLevel, SkillData.SkillType.HEALTH);
+        super(_bodyExperienceLevel, SkillData.SkillType.PHYSIQUE);
     }
 
     @Override
@@ -22,15 +22,5 @@ public class HealthExperienceLevel extends NormalExperienceLevel {
                         UUID.randomUUID(),
                         (expLevel) -> expLevel.getLevel() << 2)
         };
-    }
-
-    // @Override
-    // public String getName() {
-    // return Component.translatable("gtocore.player_exp_status.health_name").getString();
-    // }
-
-    @Override
-    public int getExperienceForNextLevel() {
-        return (int) (100 * Math.pow(1.5, level));
     }
 }

@@ -65,9 +65,12 @@ public final class UtilsMessage {
                 .withStyle(ChatFormatting.WHITE)
                 .append(Component.literal(calculateProgressPercentage(basicExperienceLevel) + " % ")
                         .withStyle(ChatFormatting.YELLOW)));
-        if (calculateProgressPercentage(basicExperienceLevel) >= 100) skillInfo.append(
-                Component.translatable("gtocore.player_exp_status.upgrade_institution")
-                        .withStyle(ChatFormatting.RED));
+        if (calculateProgressPercentage(basicExperienceLevel) >= 100) {
+            skillInfo.append(Component.literal("\n"));
+            skillInfo.append(
+                    Component.translatable("gtocore.player_exp_status.upgrade_institution")
+                            .withStyle(ChatFormatting.RED));
+        }
         return skillInfo;
     }
 
