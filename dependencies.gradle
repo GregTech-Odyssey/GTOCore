@@ -33,7 +33,7 @@ dependencies {
 
     modImplementation("vazkii.botania:Botania:${project.minecraft_version}-447-FORGE")
 
-    modRuntimeOnly("vazkii.patchouli:Patchouli:${project.minecraft_version}-84-FORGE")
+    modImplementation("vazkii.patchouli:Patchouli:${project.minecraft_version}-84-FORGE")
 
     modRuntimeOnly("dev.shadowsoffire:ApothicAttributes:${project.minecraft_version}-1.3.7")
     modImplementation("dev.shadowsoffire:Placebo:${project.minecraft_version}-8.6.2")
