@@ -14,7 +14,6 @@ import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
-import com.gregtechceu.gtceu.config.ConfigHolder;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
@@ -166,7 +165,7 @@ public final class PrimitiveDistillationTowerMachine extends NoEnergyMultiblockM
      * 该方法主要在机器执行某些操作时调用，以模拟冷却过程中的音效，使其更具沉浸感。
      */
     private void playCoolingSound() {
-        if (ConfigHolder.INSTANCE.machines.machineSounds && getLevel() != null) {
+        if (shouldWorkingPlaySound() && getLevel() != null) {
             getLevel().playSound(null, getPos(), SoundEvents.LAVA_EXTINGUISH, SoundSource.BLOCKS, 1.0F, 1.0F);
         }
     }

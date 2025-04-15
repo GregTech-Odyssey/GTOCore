@@ -1,5 +1,7 @@
 package com.gto.gtocore.mixin.ftbu;
 
+import com.gto.gtocore.config.GTOConfig;
+
 import com.gregtechceu.gtceu.api.block.OreBlock;
 import com.gregtechceu.gtceu.api.item.IGTTool;
 
@@ -46,13 +48,13 @@ public class ShapeContextMixin {
         Item item = stack.getItem();
         if (item instanceof IGTTool gtTool) {
             String type = gtTool.getToolType().name;
-            int base = 32;
+            int base = 128 >> GTOConfig.getDifficulty();
             if (type.contains("_vajra") || (original.getBlock() instanceof OreBlock && ("mining_hammer".equals(type) || type.contains("_drill"))) || (original.getSoundType() == SoundType.WOOD && "lv_chainsaw".equals(type)))
                 base <<= 2;
             if (gtTool.isElectric()) base *= 1 << (gtTool.getElectricTier());
             ret = Math.min(base, maxBlocks);
         } else if (item instanceof DiggerItem) {
-            ret = Math.min(16, maxBlocks);
+            ret = Math.min(64 >> GTOConfig.getDifficulty(), maxBlocks);
         } else {
             ret = 1;
         }

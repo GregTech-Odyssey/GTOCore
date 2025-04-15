@@ -34,6 +34,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.Objects;
@@ -126,7 +127,7 @@ public abstract class PlayerMixin extends LivingEntity implements IEnhancedPlaye
             Level level = level();
             MinecraftServer server = level.getServer();
             if (server == null) return;
-            if (getFoodData().getFoodLevel() > 15 && tickCount % 80 == 0 && getRandom().nextBoolean()) {
+            if (getFoodData().getFoodLevel() > 15 && getHealth() < getMaxHealth() - 4 && tickCount % 80 == 0 && getRandom().nextBoolean()) {
                 heal(Math.max(1, (int) Math.log(getMaxHealth() * Math.max(1, 4 - GTOConfig.getDifficulty()) / 4)));
             }
             gTOCore$amprosium = false;
@@ -174,6 +175,9 @@ public abstract class PlayerMixin extends LivingEntity implements IEnhancedPlaye
             }
         }
     }
+
+    @Redirect(method = "aiStep", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/food/FoodData;setFoodLevel(I)V"))
+    private void gTOCore$setFoodLevel(FoodData foodData, int foodLevel) {}
 
     @Unique
     private void gTOCore$discard(MinecraftServer server) {

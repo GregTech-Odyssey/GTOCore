@@ -3,6 +3,7 @@ package com.gto.gtocore.common.machine.generator;
 import com.gto.gtocore.api.data.GTODimensions;
 import com.gto.gtocore.common.item.KineticRotorItem;
 import com.gto.gtocore.common.machine.multiblock.part.BallHatchPartMachine;
+import com.gto.gtocore.config.GTOConfig;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
@@ -117,6 +118,10 @@ public final class WindMillTurbineMachine extends TieredEnergyMachine implements
         bladeAngle += spinSpeed;
     }
 
+    public static int getMaxWind(int tier) {
+        return 10 + 10 * tier;
+    }
+
     private void checkEnergy() {
         if (getOffsetTimer() % 20 == 0) {
             Level level = getLevel();
@@ -128,7 +133,12 @@ public final class WindMillTurbineMachine extends TieredEnergyMachine implements
             }
             BlockPos pos = getPos();
             float multiplier = level.isThundering() ? 2 : level.isRaining() ? 1.5F : 1;
-            wind = (float) (multiplier * (Math.sqrt(pos.getY()) + (multiplier * GTValues.RNG.nextFloat())));
+            wind = (float) (multiplier * (Math.sqrt(pos.getY() + (4 * multiplier * GTValues.RNG.nextFloat()))));
+
+            if (wind > getMaxWind(tier) && GTValues.RNG.nextBoolean()) {
+                doExplosion(wind / 10);
+                return;
+            }
 
             ItemStack stack = inventory.storage.getStackInSlot(0);
             int damage = stack.getDamageValue();
@@ -175,7 +185,7 @@ public final class WindMillTurbineMachine extends TieredEnergyMachine implements
                 } else if (wind > rotorItem.getMinWind()) {
                     stack.setDamageValue(damage + (int) Math.pow(Math.ceil(wind / rotorItem.getMaxWind()), 8));
                     spinSpeed = Math.min(0.05F * wind, spinSpeed + 0.04F);
-                    actualPower = (int) (GTValues.V[tier] * spinSpeed);
+                    actualPower = (int) (GTValues.V[tier] * spinSpeed * 20 * getMaxInputOutputAmperage() / getMaxWind(tier));
                     energyContainer.addEnergy(20L * actualPower);
                 }
             } else {
@@ -221,7 +231,7 @@ public final class WindMillTurbineMachine extends TieredEnergyMachine implements
 
     @Override
     protected long getMaxInputOutputAmperage() {
-        return 2;
+        return GTOConfig.getDifficulty() == 1 ? 2 : 1;
     }
 
     @Override

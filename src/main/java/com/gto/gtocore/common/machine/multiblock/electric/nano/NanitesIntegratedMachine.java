@@ -1,15 +1,13 @@
 package com.gto.gtocore.common.machine.multiblock.electric.nano;
 
 import com.gto.gtocore.api.data.tag.GTOTagPrefix;
-import com.gto.gtocore.api.machine.feature.multiblock.ICoilMachine;
 import com.gto.gtocore.api.machine.feature.multiblock.IHighlightMachine;
-import com.gto.gtocore.api.machine.multiblock.StorageMultiblockMachine;
-import com.gto.gtocore.api.machine.trait.CoilTrait;
+import com.gto.gtocore.api.machine.feature.multiblock.IStorageMultiblock;
+import com.gto.gtocore.api.machine.multiblock.CoilCrossRecipeMultiblockMachine;
 import com.gto.gtocore.common.data.machines.MultiBlockC;
 import com.gto.gtocore.utils.MachineUtils;
 
 import com.gregtechceu.gtceu.api.GTValues;
-import com.gregtechceu.gtceu.api.block.ICoilType;
 import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.chemical.material.stack.MaterialEntry;
@@ -17,6 +15,7 @@ import com.gregtechceu.gtceu.api.gui.fancy.ConfiguratorPanel;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
+import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
@@ -26,20 +25,24 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.Level;
 
 import com.google.common.collect.HashBiMap;
+import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
+import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
+import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Set;
 
-public final class NanitesIntegratedMachine extends StorageMultiblockMachine implements ICoilMachine, IHighlightMachine {
+public final class NanitesIntegratedMachine extends CoilCrossRecipeMultiblockMachine implements IHighlightMachine, IStorageMultiblock {
 
     private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
-            NanitesIntegratedMachine.class, StorageMultiblockMachine.MANAGED_FIELD_HOLDER);
+            NanitesIntegratedMachine.class, CoilCrossRecipeMultiblockMachine.MANAGED_FIELD_HOLDER);
 
     @Override
     @NotNull
@@ -56,28 +59,37 @@ public final class NanitesIntegratedMachine extends StorageMultiblockMachine imp
     }
 
     int chance;
-    private final CoilTrait coilTrait;
+
     @DescSynced
-    private final Set<BlockPos> poss = new ObjectOpenHashSet<>(3, 0.9F);
-    private final Set<Integer> module = new IntOpenHashSet(3, 0.9F);
+    private final Set<BlockPos> poss = new ObjectOpenHashSet<>(4, 0.9F);
+    private final IntOpenHashSet module = new IntOpenHashSet(4, 0.9F);
+
+    @DescSynced
+    @Persisted
+    @Getter
+    private final NotifiableItemStackHandler machineStorage;
 
     public NanitesIntegratedMachine(IMachineBlockEntity holder) {
-        super(holder, 64, i -> {
+        super(holder, false, true, false, true, MachineUtils::getHatchParallel);
+        machineStorage = createMachineStorage(i -> {
             MaterialEntry entry = ChemicalHelper.getMaterialEntry(i.getItem());
-            return entry.tagPrefix() == GTOTagPrefix.NANITES && entry.material() != GTMaterials.Carbon;
+            return entry.tagPrefix() == GTOTagPrefix.NANITES && (entry.material() != GTMaterials.Carbon && entry.material() != GTMaterials.Glowstone);
         });
-        coilTrait = new CoilTrait(this, false, true);
     }
 
     @Override
-    protected void onMachineChanged() {
+    public void onMachineChanged() {
         chance = getStorageStack().getCount();
     }
 
     static void trimRecipe(GTRecipe recipe, int chance) {
         if (GTValues.RNG.nextInt(100) < chance) {
-            recipe.inputs.get(ItemRecipeCapability.CAP).remove(0);
-            recipe.outputs.get(ItemRecipeCapability.CAP).remove(0);
+            var input = new ObjectArrayList<>(recipe.inputs.get(ItemRecipeCapability.CAP));
+            input.remove(0);
+            var output = new ObjectArrayList<>(recipe.outputs.get(ItemRecipeCapability.CAP));
+            output.remove(0);
+            recipe.inputs.put(ItemRecipeCapability.CAP, input);
+            recipe.outputs.put(ItemRecipeCapability.CAP, output);
         }
     }
 
@@ -149,18 +161,8 @@ public final class NanitesIntegratedMachine extends StorageMultiblockMachine imp
     }
 
     @Override
-    public int gto$getTemperature() {
-        return coilTrait.getTemperature();
-    }
-
-    @Override
-    public int getCoilTier() {
-        return coilTrait.getCoilTier();
-    }
-
-    @Override
-    public ICoilType getCoilType() {
-        return coilTrait.getCoilType();
+    public @NotNull Widget createUIWidget() {
+        return createUIWidget(super.createUIWidget());
     }
 
     @Override
