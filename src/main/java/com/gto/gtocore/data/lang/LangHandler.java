@@ -24,6 +24,7 @@ import java.util.Arrays;
 import java.util.Map;
 
 import static com.gto.gtocore.api.GTOValues.*;
+import static net.minecraft.ChatFormatting.*;
 
 public final class LangHandler {
 
@@ -208,6 +209,9 @@ public final class LangHandler {
         addENCN("gtocore.player_exp_status.open", "ExperienceSystemOpened", "经验系统已开启");
         addENCN("gtocore.player_exp_status.close", "ExperienceSystemClosed", "经验系统已关闭");
         addENCN("gtocore.player_exp_status.get_experience", "you got %s point of %s experience", "你获得了%s点%s经验");
+        addENCN("gtocore.player_exp_status.sup.error",
+                "The %s level of %s can only use the %s skill upgrade package of %s and " + GOLD + BOLD + "above",
+                "%s级别的%s等级只能使用%s及" + GOLD + BOLD + "以上" + RESET + "等级的%s能力提升包");
     }
 
     public static void enInitialize(LanguageProvider provider) {

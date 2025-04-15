@@ -192,6 +192,7 @@
         "mc.SharedConstantsMixin",
         "mc.SimpleJsonResourceReloadListenerMixin",
         "mc.WaterFluidMixin",
+        "mc.ItemLayerModelMixin",
         "modernfix.ClassInfoManagerMixin",
         "opac.ChunkProtectionMixin",
         "placebo.PatreonPreviewMixin",
