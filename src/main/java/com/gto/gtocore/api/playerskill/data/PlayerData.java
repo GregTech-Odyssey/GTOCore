@@ -1,9 +1,9 @@
 package com.gto.gtocore.api.playerskill.data;
 
 import com.gto.gtocore.api.playerskill.experiencelevel.BasicExperienceLevel;
-import com.gto.gtocore.api.playerskill.experiencelevel.normal.AttackExperienceLevel;
-import com.gto.gtocore.api.playerskill.experiencelevel.normal.HealthExperienceLevel;
-import com.gto.gtocore.api.playerskill.experiencelevel.special.BodyExperienceLevel;
+import com.gto.gtocore.api.playerskill.experiencelevel.normal.PhysiqueExperienceLevel;
+import com.gto.gtocore.api.playerskill.experiencelevel.normal.StrengthExperienceLevel;
+import com.gto.gtocore.api.playerskill.experiencelevel.special.LifeIntensityExperienceLevel;
 import com.gto.gtocore.api.playerskill.utils.UtilsData;
 
 import net.minecraft.nbt.CompoundTag;
@@ -17,43 +17,31 @@ import java.util.UUID;
 public class PlayerData {
 
     private final UUID playerId;
-    private final HealthExperienceLevel healthExperienceLevel;
-    private final AttackExperienceLevel attackExperienceLevel;
-    private final BodyExperienceLevel bodyExperienceLevel;
+    private final PhysiqueExperienceLevel physiqueExperienceLevel;
+    private final StrengthExperienceLevel strengthExperienceLevel;
+    private final LifeIntensityExperienceLevel lifeIntensityExperienceLevel;
 
     public PlayerData(UUID playerId) {
         this.playerId = playerId;
-        this.bodyExperienceLevel = new BodyExperienceLevel();
-        this.healthExperienceLevel = new HealthExperienceLevel(bodyExperienceLevel);
-        this.attackExperienceLevel = new AttackExperienceLevel(bodyExperienceLevel);
-    }
-
-    public void addHealthExperience(long amount) {
-        healthExperienceLevel.addExperience(amount);
-    }
-
-    public void addAttackExperience(long amount) {
-        attackExperienceLevel.addExperience(amount);
-    }
-
-    public void addBodyExperience(long amount) {
-        bodyExperienceLevel.addExperience(amount);
+        this.lifeIntensityExperienceLevel = new LifeIntensityExperienceLevel();
+        this.physiqueExperienceLevel = new PhysiqueExperienceLevel(lifeIntensityExperienceLevel);
+        this.strengthExperienceLevel = new StrengthExperienceLevel(lifeIntensityExperienceLevel);
     }
 
     public List<BasicExperienceLevel> getExperienceLevelLists() {
-        return List.of(bodyExperienceLevel, healthExperienceLevel, attackExperienceLevel);
+        return List.of(lifeIntensityExperienceLevel, physiqueExperienceLevel, strengthExperienceLevel);
     }
 
     public void saveData(CompoundTag nbt) {
-        UtilsData.saveExperienceToNbt("bodyExperience", bodyExperienceLevel, nbt);
-        UtilsData.saveExperienceToNbt("healthExperienceLevel", healthExperienceLevel, nbt);
-        UtilsData.saveExperienceToNbt("attackExperienceLevel", attackExperienceLevel, nbt);
+        UtilsData.saveExperienceToNbt(lifeIntensityExperienceLevel.skillType.nbtKey, lifeIntensityExperienceLevel, nbt);
+        UtilsData.saveExperienceToNbt(physiqueExperienceLevel.skillType.nbtKey, physiqueExperienceLevel, nbt);
+        UtilsData.saveExperienceToNbt(strengthExperienceLevel.skillType.nbtKey, strengthExperienceLevel, nbt);
     }
 
     public void loadData(CompoundTag nbt) {
-        loadExperience(nbt, "bodyExperience", bodyExperienceLevel);
-        loadExperience(nbt, "healthExperienceLevel", healthExperienceLevel);
-        loadExperience(nbt, "attackExperienceLevel", attackExperienceLevel);
+        loadExperience(nbt, lifeIntensityExperienceLevel.skillType.nbtKey, lifeIntensityExperienceLevel);
+        loadExperience(nbt, physiqueExperienceLevel.skillType.nbtKey, physiqueExperienceLevel);
+        loadExperience(nbt, strengthExperienceLevel.skillType.nbtKey, strengthExperienceLevel);
     }
 
     private static void loadExperience(CompoundTag nbt, String nbtKey, BasicExperienceLevel experienceLevel) {

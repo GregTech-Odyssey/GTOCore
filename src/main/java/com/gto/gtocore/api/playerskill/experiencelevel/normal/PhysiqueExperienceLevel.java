@@ -2,16 +2,16 @@ package com.gto.gtocore.api.playerskill.experiencelevel.normal;
 
 import com.gto.gtocore.api.playerskill.SkillData;
 import com.gto.gtocore.api.playerskill.experiencelevel.NormalExperienceLevel;
-import com.gto.gtocore.api.playerskill.experiencelevel.special.BodyExperienceLevel;
+import com.gto.gtocore.api.playerskill.experiencelevel.special.LifeIntensityExperienceLevel;
 
 import net.minecraft.world.entity.ai.attributes.Attributes;
 
 import java.util.UUID;
 
-public class HealthExperienceLevel extends NormalExperienceLevel {
+public class PhysiqueExperienceLevel extends NormalExperienceLevel {
 
-    public HealthExperienceLevel(BodyExperienceLevel _bodyExperienceLevel) {
-        super(_bodyExperienceLevel, SkillData.SkillType.PHYSIQUE);
+    public PhysiqueExperienceLevel(LifeIntensityExperienceLevel _lifeIntensityExperienceLevel) {
+        super(_lifeIntensityExperienceLevel, SkillData.SkillType.PHYSIQUE);
     }
 
     @Override

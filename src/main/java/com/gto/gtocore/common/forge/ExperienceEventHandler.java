@@ -48,7 +48,8 @@ public class ExperienceEventHandler {
             ItemStack item = event.getItem();
             if (isMeat(item)) {
                 PlayerData playerData = ExperienceSystemManager.INSTANCE.getPlayerData(player.getUUID());
-                UtilsData.addExperienceAndSendMessage(player, playerData.getAttackExperienceLevel(), SkillValues.ExperienceIncome.EAT_MEAT);
+                UtilsData.addExperienceAndSendMessage(player, playerData.getStrengthExperienceLevel(), SkillValues.ExperienceIncome.EAT_MEAT);
+                UtilsData.addExperienceAndSendMessage(player, playerData.getLifeIntensityExperienceLevel(), SkillValues.ExperienceIncome.EAT_MEAT);
             }
         }
     }

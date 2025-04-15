@@ -1,11 +1,11 @@
 package com.gto.gtocore.api.playerskill.experiencelevel;
 
 import com.gto.gtocore.api.playerskill.SkillData;
-import com.gto.gtocore.api.playerskill.experiencelevel.special.BodyExperienceLevel;
+import com.gto.gtocore.api.playerskill.experiencelevel.special.LifeIntensityExperienceLevel;
 
 public abstract class NormalExperienceLevel extends BasicExperienceLevel {
 
-    protected BodyExperienceLevel bodyExperienceLevel;
+    protected LifeIntensityExperienceLevel lifeIntensityExperienceLevel;
 
     @Override
     public void addExperience(long amount) {
@@ -16,17 +16,17 @@ public abstract class NormalExperienceLevel extends BasicExperienceLevel {
         }
     }
 
-    protected NormalExperienceLevel(BodyExperienceLevel _bodyExperienceLevel, SkillData.SkillType skillType) {
+    protected NormalExperienceLevel(LifeIntensityExperienceLevel _lifeIntensityExperienceLevel, SkillData.SkillType skillType) {
         super(skillType);
-        this.bodyExperienceLevel = _bodyExperienceLevel;
+        this.lifeIntensityExperienceLevel = _lifeIntensityExperienceLevel;
     }
 
     public long getMaxVoltage() {
-        return bodyExperienceLevel.getVoltage();
+        return lifeIntensityExperienceLevel.getVoltage();
     }
 
     @Override
     public long getMaxLevel() {
-        return (bodyExperienceLevel.getVoltage() + 1) * skillType.LevelStepPerVoltage;
+        return (lifeIntensityExperienceLevel.getVoltage() + 1) * skillType.LevelStepPerVoltage;
     }
 }

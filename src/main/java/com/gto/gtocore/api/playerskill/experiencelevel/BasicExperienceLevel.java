@@ -1,6 +1,7 @@
 package com.gto.gtocore.api.playerskill.experiencelevel;
 
 import com.gto.gtocore.api.playerskill.SkillData;
+import com.gto.gtocore.api.playerskill.data.ExperienceSystemManager;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
@@ -17,10 +18,11 @@ public abstract class BasicExperienceLevel {
 
     protected long level;
     protected long experience;
-    protected SkillData.SkillType skillType;
+    public SkillData.SkillType skillType;
 
     public record ATTRIBUTE_RECORD(Attribute attribute, String modifierName, UUID modifierUUID,
                                    Function<BasicExperienceLevel, Long> valueCalculator) {
+
         public AttributeModifier getModifier(BasicExperienceLevel expLevel) {
             return new AttributeModifier(modifierUUID, modifierName, valueCalculator.apply(expLevel), AttributeModifier.Operation.ADDITION);
         }
@@ -57,6 +59,16 @@ public abstract class BasicExperienceLevel {
     public abstract long getMaxLevel();
 
     public abstract void addExperience(long amount);
+
+    public void setLevel(long amount) {
+        this.level = amount;
+        ExperienceSystemManager.INSTANCE.saveAll();
+    }
+
+    public void setExperience(long amount) {
+        this.experience = amount;
+        ExperienceSystemManager.INSTANCE.saveAll();
+    }
 
     public String getName() {
         return skillType.getName();

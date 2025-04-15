@@ -5,7 +5,7 @@ import com.gto.gtocore.api.playerskill.experiencelevel.BasicExperienceLevel;
 
 import com.gregtechceu.gtceu.api.GTValues;
 
-public class BodyExperienceLevel extends BasicExperienceLevel {
+public class LifeIntensityExperienceLevel extends BasicExperienceLevel {
 
     @Override
     public long getMaxVoltage() { // 0 - GTValues.TIER_COUNT-1
@@ -17,7 +17,7 @@ public class BodyExperienceLevel extends BasicExperienceLevel {
         return getMaxVoltage() * skillType.LevelStepPerVoltage;
     }
 
-    public BodyExperienceLevel() {
+    public LifeIntensityExperienceLevel() {
         super(SkillData.SkillType.LIFE_INTENSITY);
         this.level = 0;
     }

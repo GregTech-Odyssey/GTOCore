@@ -22,35 +22,39 @@ public final class SkillData {
                 .LevelStepPerVoltage(3)
                 .chineseName("生命强度")
                 .englishName("Life Intensity")
-                .nextLevelExperienceFormula(level -> (long) (100 * Math.pow(1.5, level.getLevel())))
-                .experienceLevelGetter(PlayerData::getBodyExperienceLevel)
+                .nextLevelExperienceFormula(level -> (long) (100 * Math.pow(3, level.getLevel())))
+                .experienceLevelGetter(PlayerData::getLifeIntensityExperienceLevel)
                 .upgradePackageBonusFormula((tierGap, experienceForNextLevel) -> (long) (experienceForNextLevel * Math.pow(2, tierGap) * ((double) 1 / 16)))
+                .nbtKey("bodyExperience")
                 .build()),
 
         PHYSIQUE(SkillTypeBuilder.builder()
                 .NameTranslateKey("gtocore.player_exp_status.health_name")
-                .LevelStepPerVoltage(2)
+                .LevelStepPerVoltage(5)
                 .chineseName("体格")
                 .englishName("Physique")
-                .nextLevelExperienceFormula(level -> (long) (100 * Math.pow(1.5, level.getLevel())))
-                .experienceLevelGetter(PlayerData::getHealthExperienceLevel)
-                .upgradePackageBonusFormula((tierGap, experienceForNextLevel) -> (long) (experienceForNextLevel * Math.pow(2, tierGap) * ((double) 1 / 16)))
+                .nextLevelExperienceFormula(level -> (long) (100 * Math.pow(1.6, level.getLevel())))
+                .experienceLevelGetter(PlayerData::getPhysiqueExperienceLevel)
+                .upgradePackageBonusFormula((tierGap, experienceForNextLevel) -> (long) (experienceForNextLevel * Math.pow(2, tierGap) * ((double) 1 / 4)))
+                .nbtKey("healthExperienceLevel")
                 .build()),
 
         STRENGTH(SkillTypeBuilder.builder()
                 .NameTranslateKey("gtocore.player_exp_status.attack_name")
-                .LevelStepPerVoltage(3)
+                .LevelStepPerVoltage(5)
                 .chineseName("力量")
                 .englishName("Strength")
-                .nextLevelExperienceFormula(level -> (long) (100 * Math.pow(1.5, level.getLevel())))
-                .experienceLevelGetter(PlayerData::getAttackExperienceLevel)
-                .upgradePackageBonusFormula((tierGap, experienceForNextLevel) -> (long) (experienceForNextLevel * Math.pow(2, tierGap) * ((double) 1 / 16)))
+                .nextLevelExperienceFormula(level -> (long) (100 * Math.pow(1.6, level.getLevel())))
+                .experienceLevelGetter(PlayerData::getStrengthExperienceLevel)
+                .upgradePackageBonusFormula((tierGap, experienceForNextLevel) -> (long) (experienceForNextLevel * Math.pow(2, tierGap) * ((double) 1 / 4)))
+                .nbtKey("attackExperienceLevel")
                 .build());
 
         public final String NameTranslateKey;
         public final long LevelStepPerVoltage;
         public final String chineseName;
         public final String englishName;
+        public final String nbtKey; // 存储数据，不能改
         public final Function<BasicExperienceLevel, Long> nextLevelExperienceFormula;
         public final Function<PlayerData, BasicExperienceLevel> experienceLevelGetter;
         public final BiFunction<Long, Long, Long> upgradePackageBonusFormula;
@@ -63,6 +67,7 @@ public final class SkillData {
             this.nextLevelExperienceFormula = builder.nextLevelExperienceFormula;
             this.experienceLevelGetter = builder.experienceLevelGetter;
             this.upgradePackageBonusFormula = builder.upgradePackageBonusFormula;
+            this.nbtKey = builder.nbtKey;
         }
 
         public String getName() {
@@ -75,16 +80,17 @@ public final class SkillData {
 
         @Builder
         private static class SkillTypeBuilder {
+
             private String NameTranslateKey;
             private long LevelStepPerVoltage;
             private String chineseName;
             private String englishName;
+            public final String nbtKey;
             private Function<BasicExperienceLevel, Long> nextLevelExperienceFormula;
             private Function<PlayerData, BasicExperienceLevel> experienceLevelGetter;
             public BiFunction<Long, Long, Long> upgradePackageBonusFormula;
         }
     }
-
 
     public static class GainExperience {
 

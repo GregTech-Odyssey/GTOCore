@@ -18,8 +18,9 @@ import net.minecraft.server.level.ServerPlayer;
 
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
-import com.mojang.brigadier.arguments.IntegerArgumentType;
+import com.mojang.brigadier.arguments.LongArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
+import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 
 import java.util.Arrays;
 
@@ -49,39 +50,18 @@ public class Administration {
                                             true);
                                     return Command.SINGLE_SUCCESS;
                                 }))
-                        .then(Commands.literal("add")
-                                .then(Commands.argument("player", EntityArgument.player())
-                                        .then(Commands.argument("experienceType", StringArgumentType.word())
-                                                .suggests((context, builder) -> SharedSuggestionProvider.suggest(
-                                                        Arrays.stream(SkillData.SkillType.values())
-                                                                .map(Enum::name)
-                                                                .map(String::toLowerCase),
-                                                        builder))
-                                                .then(Commands.argument("amount", IntegerArgumentType.integer(1))
-                                                        .executes(context -> {
-                                                            ServerPlayer player = EntityArgument.getPlayer(context, "player");
-                                                            String expTypeStr = StringArgumentType.getString(context, "experienceType").toUpperCase();
-                                                            int amount = IntegerArgumentType.getInteger(context, "amount");
-
-                                                            try {
-                                                                SkillData.SkillType skillType = SkillData.SkillType.valueOf(expTypeStr);
-                                                                PlayerData playerData = ExperienceSystemManager.INSTANCE.getPlayerData(player.getUUID());
-                                                                BasicExperienceLevel expLevel = skillType.getExperienceLevel(playerData);
-                                                                UtilsData.addExperienceAndSendMessage(player, expLevel, amount);
-
-                                                                context.getSource().sendSuccess(
-                                                                        () -> Component.literal("success")
-                                                                                .withStyle(ChatFormatting.GREEN),
-                                                                        true);
-                                                            } catch (IllegalArgumentException e) {
-                                                                // 无效的技能类型
-                                                                context.getSource().sendFailure(
-                                                                        Component.literal("failure")
-                                                                                .withStyle(ChatFormatting.RED));
-                                                            }
-
-                                                            return Command.SINGLE_SUCCESS;
-                                                        })))))));
+                        .then(createSkillCommand("addExp", (player, skillType, amount, playerData) -> {
+                            BasicExperienceLevel expLevel = skillType.getExperienceLevel(playerData);
+                            UtilsData.addExperienceAndSendMessage(player, expLevel, amount);
+                        }))
+                        .then(createSkillCommand("setExp", (player, skillType, amount, playerData) -> {
+                            BasicExperienceLevel expLevel = skillType.getExperienceLevel(playerData);
+                            expLevel.setExperience(amount);
+                        }))
+                        .then(createSkillCommand("setLevel", (player, skillType, amount, playerData) -> {
+                            BasicExperienceLevel expLevel = skillType.getExperienceLevel(playerData);
+                            expLevel.setLevel(amount);
+                        }))));
 
         // 普通权限
         dispatcher.register(Commands.literal("skill")
@@ -100,5 +80,43 @@ public class Administration {
                     }
                     return Command.SINGLE_SUCCESS;
                 })));
+    }
+
+    private static LiteralArgumentBuilder<CommandSourceStack> createSkillCommand(
+                                                                                 String commandName, SkillCommandAction executor) {
+        return Commands.literal(commandName)
+                .then(Commands.argument("player", EntityArgument.player())
+                        .then(Commands.argument("experienceType", StringArgumentType.word())
+                                .suggests((context, builder) -> SharedSuggestionProvider.suggest(
+                                        Arrays.stream(SkillData.SkillType.values())
+                                                .map(Enum::name)
+                                                .map(String::toLowerCase),
+                                        builder))
+                                .then(Commands.argument("amount", LongArgumentType.longArg())
+                                        .executes(context -> {
+                                            try {
+                                                ServerPlayer player = EntityArgument.getPlayer(context, "player");
+                                                String expTypeStr = StringArgumentType.getString(context, "experienceType").toUpperCase();
+                                                long amount = LongArgumentType.getLong(context, "amount");
+                                                SkillData.SkillType skillType = SkillData.SkillType.valueOf(expTypeStr);
+                                                PlayerData playerData = ExperienceSystemManager.INSTANCE.getPlayerData(player.getUUID());
+
+                                                executor.execute(player, skillType, amount, playerData);
+
+                                                context.getSource().sendSuccess(
+                                                        () -> Component.literal("success").withStyle(ChatFormatting.GREEN),
+                                                        true);
+                                            } catch (IllegalArgumentException e) {
+                                                context.getSource().sendFailure(
+                                                        Component.literal("failure").withStyle(ChatFormatting.RED));
+                                            }
+                                            return Command.SINGLE_SUCCESS;
+                                        }))));
+    }
+
+    @FunctionalInterface
+    private interface SkillCommandAction {
+
+        void execute(ServerPlayer player, SkillData.SkillType skillType, long amount, PlayerData playerData);
     }
 }
