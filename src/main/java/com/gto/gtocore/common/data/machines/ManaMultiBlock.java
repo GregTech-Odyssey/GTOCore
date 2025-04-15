@@ -6,6 +6,7 @@ import com.gto.gtocore.common.data.GTOBlocks;
 import com.gto.gtocore.common.data.GTOMaterials;
 import com.gto.gtocore.common.data.GTORecipeModifiers;
 import com.gto.gtocore.common.data.GTORecipeTypes;
+import com.gto.gtocore.common.machine.mana.multiblock.ElectricManaMultiblockMachine;
 import com.gto.gtocore.common.machine.mana.multiblock.ManaAlloyBlastSmelterMachine;
 import com.gto.gtocore.common.machine.mana.multiblock.ManaDistributorMachine;
 import com.gto.gtocore.common.machine.mana.multiblock.ManaEnergyMultiblockMachine;
@@ -19,12 +20,14 @@ import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
+import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 
 import net.minecraft.world.level.block.Blocks;
 
 import static com.gregtechceu.gtceu.api.machine.multiblock.PartAbility.*;
 import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
+import static com.gto.gtocore.api.machine.part.GTOPartAbility.OUTPUT_MANA;
 import static com.gto.gtocore.utils.register.MachineRegisterUtils.multiblock;
 
 public interface ManaMultiBlock {
@@ -309,5 +312,34 @@ public interface ManaMultiBlock {
                     .where(' ', any())
                     .build())
             .workableCasingRenderer(GTOCore.id("block/casings/manasteel_casing"), GTCEu.id("block/multiblock/gcym/large_centrifuge"))
+            .register();
+
+    MultiblockMachineDefinition MANA_SIMULATOR = multiblock("mana_simulator", "魔力模拟室", ElectricManaMultiblockMachine::new)
+            .nonYAxisRotation()
+            .parallelizableTooltips()
+            .recipeTypes(GTORecipeTypes.MANA_SIMULATOR_RECIPES, GTORecipeTypes.MANA_SIMULATOR_FUEL)
+            .appearanceBlock(GTBlocks.CASING_ALUMINIUM_FROSTPROOF)
+            .recipeModifier(GTORecipeModifiers.HATCH_PARALLEL)
+            .pattern(definition -> FactoryBlockPattern.start()
+                    .aisle("##B##", "##G##", "##G##", "##G##", "##G##", "##G##", "##B##")
+                    .aisle("#BBB#", "#G#G#", "#G#G#", "#G#G#", "#G#G#", "#G#G#", "#BBB#")
+                    .aisle("BBBBB", "G###G", "G###G", "G###G", "G###G", "G###G", "BBBBB")
+                    .aisle("#BBB#", "#G#G#", "#G#G#", "#G#G#", "#G#G#", "#G#G#", "#BBB#")
+                    .aisle("##C##", "##G##", "##G##", "##G##", "##G##", "##G##", "##B##")
+
+                    .where('C', controller(blocks(definition.get())))
+                    .where('B', blocks(GTBlocks.CASING_ALUMINIUM_FROSTPROOF.get())
+                            // .or(abilities(GTOPartAbility.INPUT_MANA).setMaxGlobalLimited(2, 1))
+                            .or(abilities(PARALLEL_HATCH).setMaxGlobalLimited(1))
+                            .or(abilities(IMPORT_FLUIDS).setMaxGlobalLimited(2, 1)
+                                    .or(abilities(IMPORT_ITEMS)).setMaxGlobalLimited(2, 1)
+                                    .or(abilities(INPUT_ENERGY))
+                                    .or(abilities(OUTPUT_MANA)).setMaxGlobalLimited(1)
+                                    .or(abilities(MAINTENANCE))
+                                    .or(abilities(EXPORT_FLUIDS)).setMaxGlobalLimited(2, 1)))
+                    .where('G', blocks(RegistriesUtils.getBlock("botania:mana_glass")))
+                    .where('#', any())
+                    .build())
+            .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_frost_proof"), GTCEu.id("block/multiblock/gcym/large_centrifuge"))
             .register();
 }

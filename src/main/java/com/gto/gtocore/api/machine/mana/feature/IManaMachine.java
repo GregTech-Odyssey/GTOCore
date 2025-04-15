@@ -3,6 +3,7 @@ package com.gto.gtocore.api.machine.mana.feature;
 import com.gto.gtocore.api.capability.IManaContainer;
 
 import com.gregtechceu.gtceu.api.machine.feature.IMachineFeature;
+import com.gregtechceu.gtceu.utils.GTMath;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
@@ -45,12 +46,12 @@ public interface IManaMachine extends ManaCollector, IMachineFeature, SparkAttac
 
     @Override
     default int getMaxMana() {
-        return getManaContainer().getSaturatedMaxMana();
+        return GTMath.saturatedCast(getManaContainer().getMaxMana());
     }
 
     @Override
     default int getCurrentMana() {
-        return getManaContainer().getSaturatedCurrentMana();
+        return GTMath.saturatedCast(getManaContainer().getCurrentMana());
     }
 
     @Override
@@ -76,7 +77,7 @@ public interface IManaMachine extends ManaCollector, IMachineFeature, SparkAttac
     default int getAvailableSpaceForMana() {
         Level level = self().getLevel();
         if (level == null) return 0;
-        int space = Math.max(0, getMaxMana() - getCurrentMana());
+        int space = Math.max(0, GTMath.saturatedCast(getManaContainer().getMaxMana() - getManaContainer().getCurrentMana()));
         if (space > 0) {
             return space;
         } else if (level.getBlockState(self().getPos().below()).is(BotaniaBlocks.manaVoid)) {

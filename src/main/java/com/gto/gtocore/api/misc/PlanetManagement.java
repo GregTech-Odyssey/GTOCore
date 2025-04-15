@@ -54,6 +54,7 @@ public interface PlanetManagement {
 
     static int calculateTier(Planet targetPlanet, ResourceLocation current) {
         if (targetPlanet.tier() < 10) {
+            if (targetPlanet.dimension().location().equals(GTODimensions.BARNARDA_C)) return 8;
             Planet currentPlanet = PlanetApi.API.getPlanet(GTODimensions.getDimensionKey(current));
             if (currentPlanet == null) return 7;
             ResourceLocation target = targetPlanet.dimension().location();
