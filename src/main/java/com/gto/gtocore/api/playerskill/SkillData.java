@@ -8,8 +8,7 @@ import net.minecraft.network.chat.Component;
 import lombok.Builder;
 
 import java.util.Map;
-import java.util.function.BiFunction;
-import java.util.function.Function;
+import java.util.function.*;
 
 public final class SkillData {
 
@@ -55,9 +54,9 @@ public final class SkillData {
         public final String chineseName;
         public final String englishName;
         public final String nbtKey; // 存储数据，不能改
-        public final Function<BasicExperienceLevel, Long> nextLevelExperienceFormula;
+        public final ToLongFunction<BasicExperienceLevel> nextLevelExperienceFormula;
         public final Function<PlayerData, BasicExperienceLevel> experienceLevelGetter;
-        public final BiFunction<Long, Long, Long> upgradePackageBonusFormula;
+        public final ToLongBiFunction<Long, Long> upgradePackageBonusFormula;
 
         SkillType(SkillTypeBuilder builder) {
             this.NameTranslateKey = builder.NameTranslateKey;
@@ -86,9 +85,9 @@ public final class SkillData {
             private String chineseName;
             private String englishName;
             public final String nbtKey;
-            private Function<BasicExperienceLevel, Long> nextLevelExperienceFormula;
+            private ToLongFunction<BasicExperienceLevel> nextLevelExperienceFormula;
             private Function<PlayerData, BasicExperienceLevel> experienceLevelGetter;
-            public BiFunction<Long, Long, Long> upgradePackageBonusFormula;
+            public ToLongBiFunction<Long, Long> upgradePackageBonusFormula;
         }
     }
 

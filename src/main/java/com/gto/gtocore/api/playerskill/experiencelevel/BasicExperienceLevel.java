@@ -75,6 +75,6 @@ public abstract class BasicExperienceLevel {
     }
 
     public long getExperienceForNextLevel() {
-        return skillType.nextLevelExperienceFormula.apply(this);
+        return skillType.nextLevelExperienceFormula.applyAsLong(this);
     }
 }
