@@ -934,6 +934,12 @@ public interface GTORecipeTypes {
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW_MULTIPLE, LEFT_TO_RIGHT)
             .setMaxTooltips(5)
             .setSound(GTSoundEntries.FIRE);
+
+    GTORecipeType CRAFT_PROCESS_RECIPE = register("craft_recipe", "合成器动态配方", MULTIBLOCK)
+            .setMaxIOSize(9, 1, 9, 1)
+            .setEUIO(IO.IN)
+            .setXEIVisible(false);
+
     //////////////////////////////////////
     // ********** Joint **********//
     //////////////////////////////////////

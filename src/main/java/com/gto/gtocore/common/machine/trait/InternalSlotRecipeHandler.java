@@ -2,6 +2,7 @@ package com.gto.gtocore.common.machine.trait;
 
 import com.gto.gtocore.api.machine.trait.IPatternBufferRecipeHandler;
 import com.gto.gtocore.common.machine.multiblock.part.ae.MEPatternBufferPartMachine;
+import com.gto.gtocore.common.machine.multiblock.part.ae.MEPatternPartMachine;
 
 import com.gregtechceu.gtceu.api.capability.recipe.*;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableRecipeHandlerTrait;
@@ -27,7 +28,7 @@ public final class InternalSlotRecipeHandler {
 
     private final List<RecipeHandlerList> slotHandlers;
 
-    public InternalSlotRecipeHandler(MEPatternBufferPartMachine buffer, MEPatternBufferPartMachine.InternalSlot[] slots) {
+    public InternalSlotRecipeHandler(MEPatternPartMachine buffer, MEPatternPartMachine.InternalSlot[] slots) {
         this.slotHandlers = new ArrayList<>(slots.length);
         for (int i = 0; i < slots.length; i++) {
             var rhl = new SlotRHL(buffer, slots[i], i);
@@ -41,12 +42,16 @@ public final class InternalSlotRecipeHandler {
         private final SlotItemRecipeHandler itemRecipeHandler;
         private final SlotFluidRecipeHandler fluidRecipeHandler;
 
-        private SlotRHL(MEPatternBufferPartMachine buffer, MEPatternBufferPartMachine.InternalSlot slot, int idx) {
+        private SlotRHL(MEPatternPartMachine buffer, MEPatternPartMachine.InternalSlot slot, int idx) {
             super(IO.IN);
             itemRecipeHandler = new SlotItemRecipeHandler(buffer, slot, idx);
             fluidRecipeHandler = new SlotFluidRecipeHandler(buffer, slot, idx);
-            addHandlers(buffer.getCircuitInventory(), buffer.getShareInventory(), buffer.getShareTank(),
-                    itemRecipeHandler, fluidRecipeHandler);
+            if (buffer instanceof MEPatternBufferPartMachine machine) {
+                addHandlers(buffer.getCircuitInventory(), machine.getShareInventory(), machine.getShareTank(),
+                        itemRecipeHandler, fluidRecipeHandler);
+            } else {
+                addHandlers(itemRecipeHandler, fluidRecipeHandler);
+            }
         }
 
         @Override
@@ -61,10 +66,10 @@ public final class InternalSlotRecipeHandler {
     @Getter
     private static class SlotItemRecipeHandler extends NotifiableRecipeHandlerTrait<Ingredient> implements IPatternBufferRecipeHandler {
 
-        private final MEPatternBufferPartMachine.InternalSlot slot;
+        private final MEPatternPartMachine.InternalSlot slot;
         private final int priority;
 
-        private SlotItemRecipeHandler(MEPatternBufferPartMachine buffer, MEPatternBufferPartMachine.InternalSlot slot, int index) {
+        private SlotItemRecipeHandler(MEPatternPartMachine buffer, MEPatternPartMachine.InternalSlot slot, int index) {
             super(buffer);
             this.slot = slot;
             this.priority = IFilteredHandler.HIGH + index + 1;
@@ -127,10 +132,10 @@ public final class InternalSlotRecipeHandler {
     @Getter
     private static class SlotFluidRecipeHandler extends NotifiableRecipeHandlerTrait<FluidIngredient> implements IPatternBufferRecipeHandler {
 
-        private final MEPatternBufferPartMachine.InternalSlot slot;
+        private final MEPatternPartMachine.InternalSlot slot;
         private final int priority;
 
-        private SlotFluidRecipeHandler(MEPatternBufferPartMachine buffer, MEPatternBufferPartMachine.InternalSlot slot, int index) {
+        private SlotFluidRecipeHandler(MEPatternPartMachine buffer, MEPatternPartMachine.InternalSlot slot, int index) {
             super(buffer);
             this.slot = slot;
             this.priority = IFilteredHandler.HIGH + index + 1;
