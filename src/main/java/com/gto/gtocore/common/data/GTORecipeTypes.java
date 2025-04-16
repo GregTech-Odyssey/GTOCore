@@ -750,7 +750,7 @@ public interface GTORecipeTypes {
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.ARC);
 
-    GTORecipeType THREE_DIMENSIONAL_PRINTER_RECIPES = register("three_dimensional_printer", "3D部件打印", MULTIBLOCK)
+    GTORecipeType THREE_DIMENSIONAL_PRINTER_RECIPES = register("three_dimensional_printer", "3D Printer", "3D打印", MULTIBLOCK)
             .setMaxIOSize(1, 1, 1, 0)
             .setEUIO(IO.IN)
             .setMaxTooltips(4)

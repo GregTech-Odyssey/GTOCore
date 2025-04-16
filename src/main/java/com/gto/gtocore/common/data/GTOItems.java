@@ -834,4 +834,37 @@ public interface GTOItems {
             .lang("Advanced QuarkTech™ Space Suite Chestplate")
             .properties(p -> p.rarity(Rarity.EPIC))
             .register();
+
+    ItemEntry<Item> DISPOSABLE_FILE = item("disposable_file", "一次性锉刀", Item::new)
+            .tag(CustomTags.CRAFTING_FILES).register();
+
+    ItemEntry<Item> DISPOSABLE_WRENCH = item("disposable_wrench", "一次性扳手", Item::new)
+            .tag(CustomTags.CRAFTING_WRENCHES).register();
+
+    ItemEntry<Item> DISPOSABLE_CROWBAR = item("disposable_crowbar", "一次性撬棍", Item::new)
+            .tag(CustomTags.CRAFTING_CROWBARS).register();
+
+    ItemEntry<Item> DISPOSABLE_WIRE_CUTTER = item("disposable_wire_cutter", "一次性剪线钳", Item::new)
+            .tag(CustomTags.CRAFTING_WIRE_CUTTERS).register();
+
+    ItemEntry<Item> DISPOSABLE_HAMMER = item("disposable_hammer", "一次性锤子", Item::new)
+            .tag(CustomTags.CRAFTING_HAMMERS).register();
+
+    ItemEntry<Item> DISPOSABLE_MALLET = item("disposable_mallet", "一次性软锤", Item::new)
+            .tag(CustomTags.CRAFTING_MALLETS).register();
+
+    ItemEntry<Item> DISPOSABLE_SCREWDRIVER = item("disposable_screwdriver", "一次性螺丝刀", Item::new)
+            .tag(CustomTags.CRAFTING_SCREWDRIVERS).register();
+
+    ItemEntry<Item> DISPOSABLE_SAW = item("disposable_saw", "一次性锯子", Item::new)
+            .tag(CustomTags.CRAFTING_SAWS).register();
+
+    ItemEntry<Item> DISPOSABLE_FILE_MOLD = register("disposable_file_mold", "一次性锉刀模具");
+    ItemEntry<Item> DISPOSABLE_WRENCH_MOLD = register("disposable_wrench_mold", "一次性扳手模具");
+    ItemEntry<Item> DISPOSABLE_CROWBAR_MOLD = register("disposable_crowbar_mold", "一次性撬棍模具");
+    ItemEntry<Item> DISPOSABLE_WIRE_CUTTER_MOLD = register("disposable_wire_cutter_mold", "一次性剪线钳模具");
+    ItemEntry<Item> DISPOSABLE_HAMMER_MOLD = register("disposable_hammer_mold", "一次性锤模具");
+    ItemEntry<Item> DISPOSABLE_MALLET_MOLD = register("disposable_mallet_mold", "一次性软锤模具");
+    ItemEntry<Item> DISPOSABLE_SCREWDRIVER_MOLD = register("disposable_screwdriver_mold", "一次性螺丝刀模具");
+    ItemEntry<Item> DISPOSABLE_SAW_MOLD = register("disposable_saw_mold", "一次性锯模具");
 }
