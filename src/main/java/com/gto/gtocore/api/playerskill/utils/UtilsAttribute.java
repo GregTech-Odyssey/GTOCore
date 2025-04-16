@@ -15,15 +15,14 @@ public class UtilsAttribute {
 
     public static void applyModifiers(Player player, BasicExperienceLevel expLevel) {
         removeAllGTOCoreExpModifiers(player);
-        Arrays.stream(expLevel.getAttributeModifiers())
-                .forEach(attribute -> Optional.ofNullable(player.getAttribute(attribute.attribute()))
-                        .ifPresent(attr -> {
-                            try {
-                                attr.addPermanentModifier(attribute.getModifier(expLevel));
-                            } catch (Exception e) {
-                                System.err.println("Error applying modifier: " + e.getMessage());
-                            }
-                        }));
+        expLevel.getAttributeModifiers().forEach(attribute -> Optional.ofNullable(player.getAttribute(attribute.attribute()))
+                .ifPresent(attr -> {
+                    try {
+                        attr.addPermanentModifier(attribute.getModifier(expLevel));
+                    } catch (Exception e) {
+                        System.err.println("Error applying modifier: " + e.getMessage());
+                    }
+                }));
     }
 
     public static void removeAllGTOCoreExpModifiers(Player player) {

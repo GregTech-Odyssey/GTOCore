@@ -1,6 +1,9 @@
 package com.gto.gtocore.api.playerskill;
 
 import com.gto.gtocore.api.playerskill.data.PlayerData;
+import com.gto.gtocore.api.playerskill.experiencelevel.BasicExperienceLevel;
+
+import net.minecraft.world.entity.ai.attributes.Attributes;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -15,6 +18,7 @@ public class SkillRegistry {
     public static final SkillType LIFE_INTENSITY;
     public static final SkillType PHYSIQUE;
     public static final SkillType STRENGTH;
+    public static final SkillType BONUS;
 
     static {
         // 初始化预定义技能类型
@@ -42,6 +46,7 @@ public class SkillRegistry {
                         .experienceLevelGetter(PlayerData::getPhysiqueExperienceLevel)
                         .upgradePackageBonus((tierGap, experienceForNextLevel) -> (long) (experienceForNextLevel * Math.pow(2, tierGap) * ((double) 1 / 4)))
                         .nbtKey("healthExperienceLevel")
+                        .attributeRecord(new BasicExperienceLevel.ATTRIBUTE_RECORD(Attributes.ARMOR, BasicExperienceLevel::getLevel))
                         .build());
 
         STRENGTH = register(
@@ -55,6 +60,21 @@ public class SkillRegistry {
                         .experienceLevelGetter(PlayerData::getStrengthExperienceLevel)
                         .upgradePackageBonus((tierGap, experienceForNextLevel) -> (long) (experienceForNextLevel * Math.pow(2, tierGap) * ((double) 1 / 4)))
                         .nbtKey("attackExperienceLevel")
+                        .attributeRecord(new BasicExperienceLevel.ATTRIBUTE_RECORD(Attributes.ATTACK_DAMAGE, (expLevel) -> expLevel.getLevel() << 1))
+                        .build());
+
+        BONUS = register(
+                SkillType.builder()
+                        .id("bonus")
+                        .nameTranslateKey("gtocore.player_exp_status.bonus_name")
+                        .levelStepPerVoltage(0) // 不可升级
+                        .chineseName("平衡难度")
+                        .englishName("Bonus")
+                        .nextLevelExperienceFormula(level -> 1L)
+                        .experienceLevelGetter(PlayerData::getBonusExperienceLevel)
+                        .nbtKey("bonusExperienceLevel")
+                        .attributeRecord(new BasicExperienceLevel.ATTRIBUTE_RECORD(Attributes.MAX_HEALTH, (expLevel) -> 20L))
+                        .attributeRecord(new BasicExperienceLevel.ATTRIBUTE_RECORD(Attributes.ATTACK_DAMAGE, (expLevel) -> 3L))
                         .build());
     }
 

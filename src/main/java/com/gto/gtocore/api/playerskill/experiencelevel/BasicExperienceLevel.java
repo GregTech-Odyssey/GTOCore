@@ -10,6 +10,7 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 
 import lombok.Getter;
 
+import java.util.List;
 import java.util.UUID;
 import java.util.function.Function;
 
@@ -20,11 +21,11 @@ public abstract class BasicExperienceLevel {
     protected long experience;
     public SkillType skillType;
 
-    public record ATTRIBUTE_RECORD(Attribute attribute, String modifierName, UUID modifierUUID,
+    public record ATTRIBUTE_RECORD(Attribute attribute,
                                    Function<BasicExperienceLevel, Long> valueCalculator) {
 
         public AttributeModifier getModifier(BasicExperienceLevel expLevel) {
-            return new AttributeModifier(modifierUUID, modifierName, valueCalculator.apply(expLevel), AttributeModifier.Operation.ADDITION);
+            return new AttributeModifier(UUID.randomUUID(), "gtocore.exp." + expLevel.skillType.getEnglishName().toLowerCase() + "_" + attribute.getDescriptionId().toLowerCase() + "_bonus", valueCalculator.apply(expLevel), AttributeModifier.Operation.ADDITION);
         }
     }
 
@@ -39,7 +40,7 @@ public abstract class BasicExperienceLevel {
     }
 
     public long getVoltage() {
-        return (level - 1) / skillType.getLevelStepPerVoltage();
+        return skillType.getLevelStepPerVoltage() == 0 ? 0 : (level - 1) / skillType.getLevelStepPerVoltage();
     }
 
     public abstract long getMaxVoltage();
@@ -54,7 +55,9 @@ public abstract class BasicExperienceLevel {
         this.experience = nbt.getLong("experience");
     }
 
-    public abstract ATTRIBUTE_RECORD[] getAttributeModifiers();
+    public List<ATTRIBUTE_RECORD> getAttributeModifiers() {
+        return this.skillType.getAttributeRecords();
+    }
 
     public abstract long getMaxLevel();
 

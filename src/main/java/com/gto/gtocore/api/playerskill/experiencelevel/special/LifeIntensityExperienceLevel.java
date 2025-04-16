@@ -22,11 +22,6 @@ public class LifeIntensityExperienceLevel extends BasicExperienceLevel {
         this.level = 0;
     }
 
-    @Override
-    public ATTRIBUTE_RECORD[] getAttributeModifiers() {
-        return new ATTRIBUTE_RECORD[] {};
-    }
-
     public void addExperience(long amount) {
         experience += amount;
         while (experience >= getExperienceForNextLevel()) {

@@ -9,6 +9,9 @@ public abstract class NormalExperienceLevel extends BasicExperienceLevel {
 
     @Override
     public void addExperience(long amount) {
+        if (this.skillType.getLevelStepPerVoltage() == 0) {
+            return;
+        } // 不可升级
         experience += amount;
         while (experience >= getExperienceForNextLevel() && level < getMaxLevel()) {
             experience -= getExperienceForNextLevel();

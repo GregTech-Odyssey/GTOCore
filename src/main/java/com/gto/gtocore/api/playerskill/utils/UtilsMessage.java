@@ -27,6 +27,7 @@ public final class UtilsMessage {
 
         // 添加每个技能的信息List
         for (BasicExperienceLevel skill : basicExperienceLevel) {
+            if (!skill.skillType.isVisible) continue;
             message = message.append(formatSkillInfo(skill));
         }
 
@@ -67,7 +68,7 @@ public final class UtilsMessage {
         if (calculateProgressPercentage(basicExperienceLevel) >= 100) {
             skillInfo.append(Component.literal("\n"));
             skillInfo.append(
-                    Component.translatable("gtocore.player_exp_status.upgrade_institution")
+                    Component.literal("  ").append(Component.translatable("gtocore.player_exp_status.upgrade_institution"))
                             .withStyle(ChatFormatting.RED));
         }
         return skillInfo;

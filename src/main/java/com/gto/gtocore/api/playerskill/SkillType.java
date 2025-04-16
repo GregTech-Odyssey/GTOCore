@@ -5,14 +5,17 @@ import com.gto.gtocore.api.playerskill.experiencelevel.BasicExperienceLevel;
 
 import net.minecraft.network.chat.Component;
 
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Singular;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
 import java.util.function.*;
 
 @Builder
-@Getter
+@Getter(AccessLevel.PUBLIC)
 public class SkillType {
 
     @NotNull
@@ -31,9 +34,23 @@ public class SkillType {
     private final ToLongFunction<BasicExperienceLevel> nextLevelExperienceFormula;
     @NotNull
     private final Function<PlayerData, BasicExperienceLevel> experienceLevelGetter;
-    @NotNull
-    public Boolean generateUpgradePackage = false; // 是否生成升级包
+
+    @Builder.ObtainVia(method = "originGenerateUpgradePackage")
+    public Boolean generateUpgradePackage; // 是否生成升级包
     private ToLongBiFunction<Long, Long> upgradePackageBonusFormula;
+
+    @Getter
+    @NotNull
+    @Singular
+    private List<BasicExperienceLevel.ATTRIBUTE_RECORD> attributeRecords; // 属性加成
+
+    @NotNull
+    @Builder.Default
+    public final Boolean isVisible = true; // 是否可见
+
+    public static boolean originGenerateUpgradePackage() {
+        return false;
+    }
 
     public static class SkillTypeBuilder {
 
