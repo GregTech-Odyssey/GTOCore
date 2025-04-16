@@ -43,12 +43,13 @@ interface GTODisposableToolHandler {
                 DISPOSABLE_MALLET, 6,
                 DISPOSABLE_SCREWDRIVER, 4,
                 DISPOSABLE_SAW, 4);
-
+//        TODO: 配方有问题
         for (ItemEntry disposableTool : toolToMoldMap.keySet()) {
             FLUID_SOLIDFICATION_RECIPES.recipeBuilder(material.getName() + "_to_${disposableTool.getName()}")
-                    .notConsumable(toolToMoldMap.get(disposableTool))
+                    .notConsumable(toolToMoldMap.get(disposableTool).asItem())
                     .inputFluids(material.getFluid(L / 2))
-                    .outputItems(disposableTool, durability / toolToConsumeMap.get(disposableTool))
+                    .outputItems(disposableTool.asItem(), durability / toolToConsumeMap.get(disposableTool))
+                    .EUt(30)
                     .duration((int) material.getMass()).EUt(VA[ULV])
                     .save();
         }
