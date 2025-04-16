@@ -10,7 +10,7 @@ import com.gregtechceu.gtceu.common.data.GTMaterialItems;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.fluids.FluidStack;
 
-import java.util.Map;
+import java.util.List;
 
 import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gto.gtocore.common.data.GTOItems.*;
@@ -18,17 +18,17 @@ import static com.gto.gtocore.common.data.GTORecipeTypes.THREE_DIMENSIONAL_PRINT
 
 class GTODisposableToolHandler {
 
-    private record DisposableTool(GTToolType tool, Item item, int consume) {}
+    private record DisposableTool(GTToolType tool, Item mold, Item item, int consume) {}
 
-    private final static Map<Item, DisposableTool> toolToMoldMap = Map.of(
-            DISPOSABLE_FILE.get(), new DisposableTool(GTToolType.FILE, DISPOSABLE_FILE_MOLD.get(), 4),
-            DISPOSABLE_WRENCH.get(), new DisposableTool(GTToolType.WRENCH, DISPOSABLE_WRENCH_MOLD.get(), 8),
-            DISPOSABLE_CROWBAR.get(), new DisposableTool(GTToolType.CROWBAR, DISPOSABLE_CROWBAR_MOLD.get(), 3),
-            DISPOSABLE_WIRE_CUTTER.get(), new DisposableTool(GTToolType.WIRE_CUTTER, DISPOSABLE_WIRE_CUTTER_MOLD.get(), 9),
-            DISPOSABLE_HAMMER.get(), new DisposableTool(GTToolType.HARD_HAMMER, DISPOSABLE_HAMMER_MOLD.get(), 6),
-            DISPOSABLE_MALLET.get(), new DisposableTool(GTToolType.SOFT_MALLET, DISPOSABLE_MALLET_MOLD.get(), 6),
-            DISPOSABLE_SCREWDRIVER.get(), new DisposableTool(GTToolType.SCREWDRIVER, DISPOSABLE_SCREWDRIVER_MOLD.get(), 4),
-            DISPOSABLE_SAW.get(), new DisposableTool(GTToolType.SAW, DISPOSABLE_SAW_MOLD.get(), 4));
+    private final static List<DisposableTool> toolToMoldMap = List.of(
+            new DisposableTool(GTToolType.FILE, DISPOSABLE_FILE_MOLD.get(), DISPOSABLE_FILE.get(), 4),
+            new DisposableTool(GTToolType.WRENCH, DISPOSABLE_WRENCH_MOLD.get(), DISPOSABLE_WRENCH.get(), 8),
+            new DisposableTool(GTToolType.CROWBAR, DISPOSABLE_CROWBAR_MOLD.get(), DISPOSABLE_CROWBAR.get(), 3),
+            new DisposableTool(GTToolType.WIRE_CUTTER, DISPOSABLE_WIRE_CUTTER_MOLD.get(), DISPOSABLE_WIRE_CUTTER.get(), 9),
+            new DisposableTool(GTToolType.HARD_HAMMER, DISPOSABLE_HAMMER_MOLD.get(), DISPOSABLE_HAMMER.get(), 6),
+            new DisposableTool(GTToolType.SOFT_MALLET, DISPOSABLE_MALLET_MOLD.get(), DISPOSABLE_MALLET.get(), 6),
+            new DisposableTool(GTToolType.SCREWDRIVER, DISPOSABLE_SCREWDRIVER_MOLD.get(), DISPOSABLE_SCREWDRIVER.get(), 4),
+            new DisposableTool(GTToolType.SAW, DISPOSABLE_SAW_MOLD.get(), DISPOSABLE_SAW.get(), 4));
 
     static void run(Material material) {
         if (!material.hasProperty(PropertyKey.TOOL)) {
@@ -42,12 +42,12 @@ class GTODisposableToolHandler {
         int durability = material.getProperty(PropertyKey.TOOL).getDurability();
         FluidStack fluidStack = material.getFluid(L / 2);
 
-        for (Map.Entry<Item, DisposableTool> entry : toolToMoldMap.entrySet()) {
-            if (GTMaterialItems.TOOL_ITEMS.get(material, entry.getValue().tool) == null) continue;
-            THREE_DIMENSIONAL_PRINTER_RECIPES.builder(material.getName() + "_to_" + ItemUtils.getIdLocation(entry.getKey()).getPath())
-                    .notConsumable(entry.getKey())
+        for (DisposableTool tool : toolToMoldMap) {
+            if (GTMaterialItems.TOOL_ITEMS.get(material, tool.tool) == null) continue;
+            THREE_DIMENSIONAL_PRINTER_RECIPES.builder(material.getName() + "_to_" + ItemUtils.getIdLocation(tool.item).getPath())
+                    .notConsumable(tool.mold)
                     .inputFluids(fluidStack)
-                    .outputItems(entry.getKey(), durability / entry.getValue().consume)
+                    .outputItems(tool.item, durability / tool.consume)
                     .EUt(30)
                     .duration((int) material.getMass()).EUt(VA[ULV])
                     .save();

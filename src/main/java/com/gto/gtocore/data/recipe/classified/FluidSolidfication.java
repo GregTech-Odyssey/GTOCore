@@ -90,14 +90,14 @@ interface FluidSolidfication {
                 .save();
 
         Map<Item, TagKey<Item>> toolToMoldMap = Map.of(
-                DISPOSABLE_FILE_MOLD.get(), CustomTags.FILES,
-                DISPOSABLE_WRENCH_MOLD.get(), CustomTags.WRENCHES,
-                DISPOSABLE_CROWBAR_MOLD.get(), CustomTags.CROWBARS,
-                DISPOSABLE_WIRE_CUTTER_MOLD.get(), CustomTags.WIRE_CUTTERS,
-                DISPOSABLE_HAMMER_MOLD.get(), CustomTags.HAMMERS,
-                DISPOSABLE_MALLET_MOLD.get(), CustomTags.MALLETS,
-                DISPOSABLE_SCREWDRIVER_MOLD.get(), CustomTags.SCREWDRIVERS,
-                DISPOSABLE_SAW_MOLD.get(), CustomTags.SAWS);
+                DISPOSABLE_FILE_MOLD.get(), CustomTags.CRAFTING_FILES,
+                DISPOSABLE_WRENCH_MOLD.get(), CustomTags.CRAFTING_WRENCHES,
+                DISPOSABLE_CROWBAR_MOLD.get(), CustomTags.CRAFTING_CROWBARS,
+                DISPOSABLE_WIRE_CUTTER_MOLD.get(), CustomTags.CRAFTING_WIRE_CUTTERS,
+                DISPOSABLE_HAMMER_MOLD.get(), CustomTags.CRAFTING_HAMMERS,
+                DISPOSABLE_MALLET_MOLD.get(), CustomTags.CRAFTING_MALLETS,
+                DISPOSABLE_SCREWDRIVER_MOLD.get(), CustomTags.CRAFTING_SCREWDRIVERS,
+                DISPOSABLE_SAW_MOLD.get(), CustomTags.CRAFTING_SAWS);
 
         for (Map.Entry<Item, TagKey<Item>> disposableMold : toolToMoldMap.entrySet()) {
             TagKey<Item> tagKey = disposableMold.getValue();

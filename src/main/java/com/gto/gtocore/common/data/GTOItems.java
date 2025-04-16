@@ -831,28 +831,28 @@ public interface GTOItems {
             .register();
 
     ItemEntry<Item> DISPOSABLE_FILE = item("disposable_file", "一次性锉刀", Item::new)
-            .tag(CustomTags.FILES).register();
+            .tag(CustomTags.CRAFTING_FILES).register();
 
     ItemEntry<Item> DISPOSABLE_WRENCH = item("disposable_wrench", "一次性扳手", Item::new)
-            .tag(CustomTags.WRENCHES).register();
+            .tag(CustomTags.CRAFTING_WRENCHES).register();
 
     ItemEntry<Item> DISPOSABLE_CROWBAR = item("disposable_crowbar", "一次性撬棍", Item::new)
-            .tag(CustomTags.CROWBARS).register();
+            .tag(CustomTags.CRAFTING_CROWBARS).register();
 
     ItemEntry<Item> DISPOSABLE_WIRE_CUTTER = item("disposable_wire_cutter", "一次性剪线钳", Item::new)
-            .tag(CustomTags.WIRE_CUTTERS).register();
+            .tag(CustomTags.CRAFTING_WIRE_CUTTERS).register();
 
     ItemEntry<Item> DISPOSABLE_HAMMER = item("disposable_hammer", "一次性锤子", Item::new)
-            .tag(CustomTags.HAMMERS).register();
+            .tag(CustomTags.CRAFTING_HAMMERS).register();
 
     ItemEntry<Item> DISPOSABLE_MALLET = item("disposable_mallet", "一次性软锤", Item::new)
-            .tag(CustomTags.MALLETS).register();
+            .tag(CustomTags.CRAFTING_MALLETS).register();
 
     ItemEntry<Item> DISPOSABLE_SCREWDRIVER = item("disposable_screwdriver", "一次性螺丝刀", Item::new)
-            .tag(CustomTags.SCREWDRIVERS).register();
+            .tag(CustomTags.CRAFTING_SCREWDRIVERS).register();
 
     ItemEntry<Item> DISPOSABLE_SAW = item("disposable_saw", "一次性锯子", Item::new)
-            .tag(CustomTags.SAWS).register();
+            .tag(CustomTags.CRAFTING_SAWS).register();
 
     ItemEntry<Item> DISPOSABLE_FILE_MOLD = register("disposable_file_mold", "一次性锉刀模具");
     ItemEntry<Item> DISPOSABLE_WRENCH_MOLD = register("disposable_wrench_mold", "一次性扳手模具");
