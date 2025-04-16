@@ -18,10 +18,9 @@ import net.minecraftforge.fluids.FluidStack;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
-import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 
 import java.util.List;
-import java.util.Set;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -46,7 +45,7 @@ public final class PHNeutralizationPurificationUnitMachine extends WaterPurifica
     @Persisted
     private int inputCount;
 
-    private final Set<SensorPartMachine> sensorPartMachines = new ObjectOpenHashSet<>(3);
+    private final List<SensorPartMachine> sensorPartMachines = new ObjectArrayList<>(2);
 
     public PHNeutralizationPurificationUnitMachine(IMachineBlockEntity holder) {
         super(holder);

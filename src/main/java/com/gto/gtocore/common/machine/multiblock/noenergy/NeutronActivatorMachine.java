@@ -26,12 +26,11 @@ import net.minecraft.world.item.Item;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
-import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import lombok.Getter;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
-import java.util.Set;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -60,9 +59,9 @@ public class NeutronActivatorMachine extends NoEnergyMultiblockMachine implement
 
     private SensorPartMachine sensorMachine;
 
-    private final Set<ItemBusPartMachine> busMachines = new ObjectOpenHashSet<>();
+    private final List<ItemBusPartMachine> busMachines = new ObjectArrayList<>(2);
 
-    private final Set<NeutronAcceleratorPartMachine> acceleratorMachines = new ObjectOpenHashSet<>();
+    private final List<NeutronAcceleratorPartMachine> acceleratorMachines = new ObjectArrayList<>(2);
 
     public NeutronActivatorMachine(IMachineBlockEntity holder) {
         super(holder);

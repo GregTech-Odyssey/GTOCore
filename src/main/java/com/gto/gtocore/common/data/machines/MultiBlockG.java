@@ -13,6 +13,7 @@ import com.gto.gtocore.common.data.GTOMachines;
 import com.gto.gtocore.common.data.GTORecipeModifiers;
 import com.gto.gtocore.common.data.GTORecipeTypes;
 import com.gto.gtocore.common.machine.multiblock.electric.ChiselMachine;
+import com.gto.gtocore.common.machine.multiblock.electric.CraftProcessMachine;
 import com.gto.gtocore.common.machine.multiblock.electric.DrawingTowerMachine;
 import com.gto.gtocore.common.machine.multiblock.electric.TreeGrowthSimulator;
 import com.gto.gtocore.common.machine.multiblock.electric.adventure.BossSummonerMachine;
@@ -664,6 +665,24 @@ public interface MultiBlockG {
                     .where('F', blocks(GTBlocks.HERMETIC_CASING_LV.get()))
                     .where('G', blocks(GTBlocks.STEEL_HULL.get()))
                     .where(' ', any())
+                    .build())
+            .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_solid_steel"), GTCEu.id("block/multiblock/gcym/large_material_press"))
+            .register();
+
+    MultiblockMachineDefinition CRAFT_PROCESS = multiblock("craft_process", "合成加工", CraftProcessMachine::new)
+            .nonYAxisRotation()
+            .recipe(GTORecipeTypes.DUMMY_RECIPES)
+            .block(() -> Blocks.GLASS)
+            .pattern(definition -> FactoryBlockPattern.start()
+                    .aisle("AAA", "AAA", "AAA")
+                    .aisle("AAA", "AAA", "AAA")
+                    .aisle("AAA", "A#A", "AAA")
+                    .where('#', controller(blocks(definition.get())))
+                    .where('A', blocks(Blocks.STONE)
+                            .or(blocks(GTOMachines.ME_CRAFT_PATTERN_PART_MACHINE.get()))
+                            .or(abilities(INPUT_ENERGY))
+                            .or(abilities(EXPORT_ITEMS))
+                            .or(abilities(EXPORT_FLUIDS)))
                     .build())
             .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_solid_steel"), GTCEu.id("block/multiblock/gcym/large_material_press"))
             .register();
