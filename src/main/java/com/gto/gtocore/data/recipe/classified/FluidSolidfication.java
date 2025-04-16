@@ -3,7 +3,9 @@ package com.gto.gtocore.data.recipe.classified;
 import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.common.data.GTOItems;
 import com.gto.gtocore.common.data.GTOMaterials;
+import com.gto.gtocore.utils.ItemUtils;
 
+import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
 import com.gregtechceu.gtceu.api.machine.multiblock.CleanroomType;
@@ -12,14 +14,10 @@ import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
 
 import net.minecraft.tags.TagKey;
-
-import com.tterrag.registrate.util.entry.ItemEntry;
-import net.minecraftforge.fluids.FluidStack;
+import net.minecraft.world.item.Item;
 
 import java.util.Map;
 
-import static com.gregtechceu.gtceu.api.GTValues.L;
-import static com.gregtechceu.gtceu.common.data.GTMaterials.Steel;
 import static com.gto.gtocore.common.data.GTOItems.*;
 import static com.gto.gtocore.common.data.GTOItems.DISPOSABLE_SAW_MOLD;
 import static com.gto.gtocore.common.data.GTORecipeTypes.FLUID_SOLIDFICATION_RECIPES;
@@ -91,22 +89,22 @@ interface FluidSolidfication {
                 .duration(800)
                 .save();
 
-        Map<ItemEntry, TagKey> toolToMoldMap = Map.of(
-                DISPOSABLE_FILE_MOLD, CustomTags.FILES,
-                DISPOSABLE_WRENCH_MOLD, CustomTags.WRENCHES,
-                DISPOSABLE_CROWBAR_MOLD, CustomTags.CROWBARS,
-                DISPOSABLE_WIRE_CUTTER_MOLD, CustomTags.WIRE_CUTTERS,
-                DISPOSABLE_HAMMER_MOLD, CustomTags.HAMMERS,
-                DISPOSABLE_MALLET_MOLD, CustomTags.MALLETS,
-                DISPOSABLE_SCREWDRIVER_MOLD, CustomTags.SCREWDRIVERS,
-                DISPOSABLE_SAW_MOLD, CustomTags.SAWS);
-//        TODO: 配方有问题
-        for (Map.Entry<ItemEntry, TagKey> disposableMold : toolToMoldMap.entrySet()) {
-            TagKey tagKey = disposableMold.getValue();
-            FLUID_SOLIDFICATION_RECIPES.recipeBuilder(GTOCore.id("disposable_mold_" + disposableMold.getKey()))
+        Map<Item, TagKey<Item>> toolToMoldMap = Map.of(
+                DISPOSABLE_FILE_MOLD.get(), CustomTags.FILES,
+                DISPOSABLE_WRENCH_MOLD.get(), CustomTags.WRENCHES,
+                DISPOSABLE_CROWBAR_MOLD.get(), CustomTags.CROWBARS,
+                DISPOSABLE_WIRE_CUTTER_MOLD.get(), CustomTags.WIRE_CUTTERS,
+                DISPOSABLE_HAMMER_MOLD.get(), CustomTags.HAMMERS,
+                DISPOSABLE_MALLET_MOLD.get(), CustomTags.MALLETS,
+                DISPOSABLE_SCREWDRIVER_MOLD.get(), CustomTags.SCREWDRIVERS,
+                DISPOSABLE_SAW_MOLD.get(), CustomTags.SAWS);
+
+        for (Map.Entry<Item, TagKey<Item>> disposableMold : toolToMoldMap.entrySet()) {
+            TagKey<Item> tagKey = disposableMold.getValue();
+            FLUID_SOLIDFICATION_RECIPES.builder("disposable_" + ItemUtils.getIdLocation(disposableMold.getKey()).getPath())
                     .inputItems(tagKey)
-                    .inputFluids(GTOMaterials.SuperheavyMix.getFluid(144))
-                    .outputItems(disposableMold.getKey().asItem())
+                    .inputFluids(GTMaterials.Steel.getFluid(4 * GTValues.L))
+                    .outputItems(disposableMold.getKey())
                     .EUt(30)
                     .duration(800)
                     .save();

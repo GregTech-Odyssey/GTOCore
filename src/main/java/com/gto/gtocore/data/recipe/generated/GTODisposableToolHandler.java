@@ -1,17 +1,34 @@
 package com.gto.gtocore.data.recipe.generated;
 
+import com.gto.gtocore.utils.ItemUtils;
+
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.data.chemical.material.properties.PropertyKey;
+import com.gregtechceu.gtceu.api.item.tool.GTToolType;
+import com.gregtechceu.gtceu.common.data.GTMaterialItems;
 
-import com.tterrag.registrate.util.entry.ItemEntry;
+import net.minecraft.world.item.Item;
+import net.minecraftforge.fluids.FluidStack;
 
 import java.util.Map;
 
 import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gto.gtocore.common.data.GTOItems.*;
-import static com.gto.gtocore.common.data.GTORecipeTypes.FLUID_SOLIDFICATION_RECIPES;
+import static com.gto.gtocore.common.data.GTORecipeTypes.THREE_DIMENSIONAL_PRINTER_RECIPES;
 
-interface GTODisposableToolHandler {
+class GTODisposableToolHandler {
+
+    private record DisposableTool(GTToolType tool, Item item, int consume) {}
+
+    private final static Map<Item, DisposableTool> toolToMoldMap = Map.of(
+            DISPOSABLE_FILE.get(), new DisposableTool(GTToolType.FILE, DISPOSABLE_FILE_MOLD.get(), 4),
+            DISPOSABLE_WRENCH.get(), new DisposableTool(GTToolType.WRENCH, DISPOSABLE_WRENCH_MOLD.get(), 8),
+            DISPOSABLE_CROWBAR.get(), new DisposableTool(GTToolType.CROWBAR, DISPOSABLE_CROWBAR_MOLD.get(), 3),
+            DISPOSABLE_WIRE_CUTTER.get(), new DisposableTool(GTToolType.WIRE_CUTTER, DISPOSABLE_WIRE_CUTTER_MOLD.get(), 9),
+            DISPOSABLE_HAMMER.get(), new DisposableTool(GTToolType.HARD_HAMMER, DISPOSABLE_HAMMER_MOLD.get(), 6),
+            DISPOSABLE_MALLET.get(), new DisposableTool(GTToolType.SOFT_MALLET, DISPOSABLE_MALLET_MOLD.get(), 6),
+            DISPOSABLE_SCREWDRIVER.get(), new DisposableTool(GTToolType.SCREWDRIVER, DISPOSABLE_SCREWDRIVER_MOLD.get(), 4),
+            DISPOSABLE_SAW.get(), new DisposableTool(GTToolType.SAW, DISPOSABLE_SAW_MOLD.get(), 4));
 
     static void run(Material material) {
         if (!material.hasProperty(PropertyKey.TOOL)) {
@@ -23,32 +40,14 @@ interface GTODisposableToolHandler {
         }
 
         int durability = material.getProperty(PropertyKey.TOOL).getDurability();
+        FluidStack fluidStack = material.getFluid(L / 2);
 
-        Map<ItemEntry, ItemEntry> toolToMoldMap = Map.of(
-                DISPOSABLE_FILE, DISPOSABLE_FILE_MOLD,
-                DISPOSABLE_WRENCH, DISPOSABLE_WRENCH_MOLD,
-                DISPOSABLE_CROWBAR, DISPOSABLE_CROWBAR_MOLD,
-                DISPOSABLE_WIRE_CUTTER, DISPOSABLE_WIRE_CUTTER_MOLD,
-                DISPOSABLE_HAMMER, DISPOSABLE_HAMMER_MOLD,
-                DISPOSABLE_MALLET, DISPOSABLE_MALLET_MOLD,
-                DISPOSABLE_SCREWDRIVER, DISPOSABLE_SCREWDRIVER_MOLD,
-                DISPOSABLE_SAW, DISPOSABLE_SAW_MOLD);
-
-        Map<ItemEntry, Integer> toolToConsumeMap = Map.of(
-                DISPOSABLE_FILE, 4,
-                DISPOSABLE_WRENCH, 8,
-                DISPOSABLE_CROWBAR, 3,
-                DISPOSABLE_WIRE_CUTTER, 9,
-                DISPOSABLE_HAMMER, 6,
-                DISPOSABLE_MALLET, 6,
-                DISPOSABLE_SCREWDRIVER, 4,
-                DISPOSABLE_SAW, 4);
-//        TODO: 配方有问题
-        for (ItemEntry disposableTool : toolToMoldMap.keySet()) {
-            FLUID_SOLIDFICATION_RECIPES.recipeBuilder(material.getName() + "_to_${disposableTool.getName()}")
-                    .notConsumable(toolToMoldMap.get(disposableTool).asItem())
-                    .inputFluids(material.getFluid(L / 2))
-                    .outputItems(disposableTool.asItem(), durability / toolToConsumeMap.get(disposableTool))
+        for (Map.Entry<Item, DisposableTool> entry : toolToMoldMap.entrySet()) {
+            if (GTMaterialItems.TOOL_ITEMS.get(material, entry.getValue().tool) == null) continue;
+            THREE_DIMENSIONAL_PRINTER_RECIPES.builder(material.getName() + "_to_" + ItemUtils.getIdLocation(entry.getKey()).getPath())
+                    .notConsumable(entry.getKey())
+                    .inputFluids(fluidStack)
+                    .outputItems(entry.getKey(), durability / entry.getValue().consume)
                     .EUt(30)
                     .duration((int) material.getMass()).EUt(VA[ULV])
                     .save();
