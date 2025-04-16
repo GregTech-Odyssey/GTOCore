@@ -3,9 +3,9 @@ package com.gto.gtocore.common.network;
 import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.api.misc.PlanetManagement;
 import com.gto.gtocore.client.ClientCache;
-import com.gto.gtocore.mixin.patchouli.BookContentResourceListenerLoaderAccessor;
 import com.gto.gtocore.config.GTOConfig;
 import com.gto.gtocore.integration.emi.EmiPersist;
+import com.gto.gtocore.mixin.patchouli.BookContentResourceListenerLoaderAccessor;
 import com.gto.gtocore.utils.ServerUtils;
 
 import net.minecraft.client.Minecraft;
