@@ -3,13 +3,23 @@ package com.gto.gtocore.data.recipe.classified;
 import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.common.data.GTOItems;
 import com.gto.gtocore.common.data.GTOMaterials;
+import com.gto.gtocore.utils.ItemUtils;
 
+import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
 import com.gregtechceu.gtceu.api.machine.multiblock.CleanroomType;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
+import com.gregtechceu.gtceu.data.recipe.CustomTags;
 
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.Item;
+
+import java.util.Map;
+
+import static com.gto.gtocore.common.data.GTOItems.*;
+import static com.gto.gtocore.common.data.GTOItems.DISPOSABLE_SAW_MOLD;
 import static com.gto.gtocore.common.data.GTORecipeTypes.FLUID_SOLIDFICATION_RECIPES;
 
 interface FluidSolidfication {
@@ -78,5 +88,26 @@ interface FluidSolidfication {
                 .EUt(122880)
                 .duration(800)
                 .save();
+
+        Map<Item, TagKey<Item>> toolToMoldMap = Map.of(
+                DISPOSABLE_FILE_MOLD.get(), CustomTags.CRAFTING_FILES,
+                DISPOSABLE_WRENCH_MOLD.get(), CustomTags.CRAFTING_WRENCHES,
+                DISPOSABLE_CROWBAR_MOLD.get(), CustomTags.CRAFTING_CROWBARS,
+                DISPOSABLE_WIRE_CUTTER_MOLD.get(), CustomTags.CRAFTING_WIRE_CUTTERS,
+                DISPOSABLE_HAMMER_MOLD.get(), CustomTags.CRAFTING_HAMMERS,
+                DISPOSABLE_MALLET_MOLD.get(), CustomTags.CRAFTING_MALLETS,
+                DISPOSABLE_SCREWDRIVER_MOLD.get(), CustomTags.CRAFTING_SCREWDRIVERS,
+                DISPOSABLE_SAW_MOLD.get(), CustomTags.CRAFTING_SAWS);
+
+        for (Map.Entry<Item, TagKey<Item>> disposableMold : toolToMoldMap.entrySet()) {
+            TagKey<Item> tagKey = disposableMold.getValue();
+            FLUID_SOLIDFICATION_RECIPES.builder("disposable_" + ItemUtils.getIdLocation(disposableMold.getKey()).getPath())
+                    .inputItems(tagKey)
+                    .inputFluids(GTMaterials.Steel.getFluid(4 * GTValues.L))
+                    .outputItems(disposableMold.getKey())
+                    .EUt(30)
+                    .duration(800)
+                    .save();
+        }
     }
 }

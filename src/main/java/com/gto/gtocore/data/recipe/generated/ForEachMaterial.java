@@ -31,6 +31,7 @@ public interface ForEachMaterial {
             GTORecyclingRecipeHandler.run(consumer, material);
             GTOWireCombiningHandler.run(material);
             GTOWireRecipeHandler.run(consumer, material);
+            GTODisposableToolHandler.run(material);
         }
     }
 }
