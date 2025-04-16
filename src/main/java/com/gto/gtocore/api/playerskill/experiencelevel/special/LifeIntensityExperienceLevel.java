@@ -1,6 +1,6 @@
 package com.gto.gtocore.api.playerskill.experiencelevel.special;
 
-import com.gto.gtocore.api.playerskill.SkillData;
+import com.gto.gtocore.api.playerskill.SkillRegistry;
 import com.gto.gtocore.api.playerskill.experiencelevel.BasicExperienceLevel;
 
 import com.gregtechceu.gtceu.api.GTValues;
@@ -14,11 +14,11 @@ public class LifeIntensityExperienceLevel extends BasicExperienceLevel {
 
     @Override
     public long getMaxLevel() {
-        return getMaxVoltage() * skillType.LevelStepPerVoltage;
+        return getMaxVoltage() * skillType.getLevelStepPerVoltage();
     }
 
     public LifeIntensityExperienceLevel() {
-        super(SkillData.SkillType.LIFE_INTENSITY);
+        super(SkillRegistry.LIFE_INTENSITY);
         this.level = 0;
     }
 

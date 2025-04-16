@@ -1,5 +1,6 @@
 package com.gto.gtocore.api.playerskill;
 
+import java.util.Map;
 import java.util.Set;
 
 public class SkillValues {
@@ -10,4 +11,13 @@ public class SkillValues {
 
         public static final long EAT_MEAT = 10;
     }
+
+    public static class GainExperience {
+
+        public static final long GAP_TICK = 20 * 60 * 60 * 2; // 2hour
+        public static final Map<SkillType, Long> EXPERIENCE_RATES = Map.of(
+                SkillRegistry.PHYSIQUE, 15L,
+                SkillRegistry.STRENGTH, 15L,
+                SkillRegistry.LIFE_INTENSITY, 5L);
+    } // 定时免费的升级，配置每多少tick给各个技能加多少经验
 }

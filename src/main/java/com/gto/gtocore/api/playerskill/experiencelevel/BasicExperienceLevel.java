@@ -1,6 +1,6 @@
 package com.gto.gtocore.api.playerskill.experiencelevel;
 
-import com.gto.gtocore.api.playerskill.SkillData;
+import com.gto.gtocore.api.playerskill.SkillType;
 import com.gto.gtocore.api.playerskill.data.ExperienceSystemManager;
 
 import net.minecraft.ChatFormatting;
@@ -18,7 +18,7 @@ public abstract class BasicExperienceLevel {
 
     protected long level;
     protected long experience;
-    public SkillData.SkillType skillType;
+    public SkillType skillType;
 
     public record ATTRIBUTE_RECORD(Attribute attribute, String modifierName, UUID modifierUUID,
                                    Function<BasicExperienceLevel, Long> valueCalculator) {
@@ -28,7 +28,7 @@ public abstract class BasicExperienceLevel {
         }
     }
 
-    protected BasicExperienceLevel(SkillData.SkillType skillType) {
+    protected BasicExperienceLevel(SkillType skillType) {
         this.level = 0;
         this.experience = 0;
         this.skillType = skillType;
@@ -39,7 +39,7 @@ public abstract class BasicExperienceLevel {
     }
 
     public long getVoltage() {
-        return (level - 1) / skillType.LevelStepPerVoltage;
+        return (level - 1) / skillType.getLevelStepPerVoltage();
     }
 
     public abstract long getMaxVoltage();
@@ -75,6 +75,6 @@ public abstract class BasicExperienceLevel {
     }
 
     public long getExperienceForNextLevel() {
-        return skillType.nextLevelExperienceFormula.applyAsLong(this);
+        return skillType.getNextLevelExperienceFormula().applyAsLong(this);
     }
 }

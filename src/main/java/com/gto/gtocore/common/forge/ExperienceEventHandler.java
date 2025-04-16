@@ -1,6 +1,6 @@
 package com.gto.gtocore.common.forge;
 
-import com.gto.gtocore.api.playerskill.SkillData;
+import com.gto.gtocore.api.playerskill.SkillRegistry;
 import com.gto.gtocore.api.playerskill.SkillValues;
 import com.gto.gtocore.api.playerskill.command.Administration;
 import com.gto.gtocore.api.playerskill.data.ExperienceSystemManager;
@@ -30,14 +30,19 @@ public class ExperienceEventHandler {
     @SubscribeEvent
     public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
         Player player = event.player;
-        if (event.phase == TickEvent.Phase.END && player.tickCount % SkillData.GainExperience.GAP_TICK == 0) {
+        if (event.phase == TickEvent.Phase.END && player.tickCount % SkillValues.GainExperience.GAP_TICK == 0) {
             if (ExperienceSystemManager.INSTANCE != null && ExperienceSystemManager.INSTANCE.isEnabled() && player.level() instanceof ServerLevel) {
                 PlayerData playerData = ExperienceSystemManager.INSTANCE.getPlayerData(player.getUUID());
-                for (SkillData.SkillType type : SkillData.SkillType.values()) {
-                    BasicExperienceLevel level = type.getExperienceLevel(playerData);
-                    long point = SkillData.GainExperience.EXPERIENCE_RATES.get(type);
+                // for (SkillData.SkillType type : SkillData.SkillType.values()) {
+                // BasicExperienceLevel level = type.getExperienceLevel(playerData);
+                // long point = SkillData.GainExperience.EXPERIENCE_RATES.get(type);
+                // UtilsData.addExperienceAndSendMessage(player, level, point);
+                // }
+                SkillRegistry.getAll().forEach(skill -> {
+                    BasicExperienceLevel level = skill.getExperienceLevel(playerData);
+                    long point = SkillValues.GainExperience.EXPERIENCE_RATES.get(skill);
                     UtilsData.addExperienceAndSendMessage(player, level, point);
-                }
+                });
             }
         }
     }

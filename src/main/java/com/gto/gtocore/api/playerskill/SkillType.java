@@ -1,0 +1,58 @@
+package com.gto.gtocore.api.playerskill;
+
+import com.gto.gtocore.api.playerskill.data.PlayerData;
+import com.gto.gtocore.api.playerskill.experiencelevel.BasicExperienceLevel;
+
+import net.minecraft.network.chat.Component;
+
+import lombok.Builder;
+import lombok.Getter;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.function.*;
+
+@Builder
+@Getter
+public class SkillType {
+
+    @NotNull
+    private final String id; // 唯一标识符
+    @NotNull
+    private final String nameTranslateKey;
+    @NotNull
+    private final Integer levelStepPerVoltage;
+    @NotNull
+    private final String chineseName;
+    @NotNull
+    private final String englishName;
+    @NotNull
+    private final String nbtKey; // 存储数据，不能改
+    @NotNull
+    private final ToLongFunction<BasicExperienceLevel> nextLevelExperienceFormula;
+    @NotNull
+    private final Function<PlayerData, BasicExperienceLevel> experienceLevelGetter;
+    @NotNull
+    public Boolean generateUpgradePackage = false; // 是否生成升级包
+    private ToLongBiFunction<Long, Long> upgradePackageBonusFormula;
+
+    public static class SkillTypeBuilder {
+
+        public SkillTypeBuilder upgradePackageBonus(ToLongBiFunction<Long, Long> upgradePackageBonusFormula) {
+            this.upgradePackageBonusFormula = upgradePackageBonusFormula;
+            this.generateUpgradePackage = true;
+            return this;
+        }
+    }
+
+    public boolean equals(SkillType other) {
+        return this.id.equals(other.id);
+    }
+
+    public String getName() {
+        return Component.translatable(this.nameTranslateKey).getString();
+    }
+
+    public BasicExperienceLevel getExperienceLevel(PlayerData playerData) {
+        return experienceLevelGetter.apply(playerData);
+    }
+}

@@ -1,7 +1,7 @@
 package com.gto.gtocore.data.lang;
 
 import com.gto.gtocore.api.machine.trait.TierCasingTrait;
-import com.gto.gtocore.api.playerskill.SkillData;
+import com.gto.gtocore.api.playerskill.SkillRegistry;
 import com.gto.gtocore.api.registries.GTOMachineBuilder;
 import com.gto.gtocore.api.registries.MultiblockBuilder;
 import com.gto.gtocore.client.Tooltips;
@@ -204,9 +204,9 @@ public final class LangHandler {
         addENCN("gtocore.player_exp_status.experience_next", " for next level", " 升级");
         addENCN("gtocore.player_exp_status.progress", "\n  Progress: ", "\n  升级进度: ");
         addENCN("gtocore.player_exp_status.upgrade_institution", "  Enhance Iife Intensity to upgrade", "  提升生命强度以升级");
-        addENCN(SkillData.SkillType.LIFE_INTENSITY.NameTranslateKey, SkillData.SkillType.LIFE_INTENSITY.englishName, SkillData.SkillType.LIFE_INTENSITY.chineseName);
-        addENCN(SkillData.SkillType.PHYSIQUE.NameTranslateKey, SkillData.SkillType.PHYSIQUE.englishName, SkillData.SkillType.PHYSIQUE.chineseName);
-        addENCN(SkillData.SkillType.STRENGTH.NameTranslateKey, SkillData.SkillType.STRENGTH.englishName, SkillData.SkillType.STRENGTH.chineseName);
+        addENCN(SkillRegistry.LIFE_INTENSITY.getNameTranslateKey(), SkillRegistry.LIFE_INTENSITY.getEnglishName(), SkillRegistry.LIFE_INTENSITY.getChineseName());
+        addENCN(SkillRegistry.PHYSIQUE.getNameTranslateKey(), SkillRegistry.PHYSIQUE.getEnglishName(), SkillRegistry.PHYSIQUE.getChineseName());
+        addENCN(SkillRegistry.STRENGTH.getNameTranslateKey(), SkillRegistry.STRENGTH.getEnglishName(), SkillRegistry.STRENGTH.getChineseName());
         addENCN("gtocore.player_exp_status.open", "ExperienceSystemOpened", "经验系统已开启");
         addENCN("gtocore.player_exp_status.close", "ExperienceSystemClosed", "经验系统已关闭");
         addENCN("gtocore.player_exp_status.get_experience", "you got %s point of %s experience", "你获得了%s点%s经验");

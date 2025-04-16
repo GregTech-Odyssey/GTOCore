@@ -33,15 +33,15 @@ public class PlayerData {
     }
 
     public void saveData(CompoundTag nbt) {
-        UtilsData.saveExperienceToNbt(lifeIntensityExperienceLevel.skillType.nbtKey, lifeIntensityExperienceLevel, nbt);
-        UtilsData.saveExperienceToNbt(physiqueExperienceLevel.skillType.nbtKey, physiqueExperienceLevel, nbt);
-        UtilsData.saveExperienceToNbt(strengthExperienceLevel.skillType.nbtKey, strengthExperienceLevel, nbt);
+        UtilsData.saveExperienceToNbt(lifeIntensityExperienceLevel.skillType.getNbtKey(), lifeIntensityExperienceLevel, nbt);
+        UtilsData.saveExperienceToNbt(physiqueExperienceLevel.skillType.getNbtKey(), physiqueExperienceLevel, nbt);
+        UtilsData.saveExperienceToNbt(strengthExperienceLevel.skillType.getNbtKey(), strengthExperienceLevel, nbt);
     }
 
     public void loadData(CompoundTag nbt) {
-        loadExperience(nbt, lifeIntensityExperienceLevel.skillType.nbtKey, lifeIntensityExperienceLevel);
-        loadExperience(nbt, physiqueExperienceLevel.skillType.nbtKey, physiqueExperienceLevel);
-        loadExperience(nbt, strengthExperienceLevel.skillType.nbtKey, strengthExperienceLevel);
+        loadExperience(nbt, lifeIntensityExperienceLevel.skillType.getNbtKey(), lifeIntensityExperienceLevel);
+        loadExperience(nbt, physiqueExperienceLevel.skillType.getNbtKey(), physiqueExperienceLevel);
+        loadExperience(nbt, strengthExperienceLevel.skillType.getNbtKey(), strengthExperienceLevel);
     }
 
     private static void loadExperience(CompoundTag nbt, String nbtKey, BasicExperienceLevel experienceLevel) {

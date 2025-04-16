@@ -1,6 +1,6 @@
 package com.gto.gtocore.api.playerskill.experiencelevel.normal;
 
-import com.gto.gtocore.api.playerskill.SkillData;
+import com.gto.gtocore.api.playerskill.SkillRegistry;
 import com.gto.gtocore.api.playerskill.experiencelevel.NormalExperienceLevel;
 import com.gto.gtocore.api.playerskill.experiencelevel.special.LifeIntensityExperienceLevel;
 
@@ -11,7 +11,7 @@ import java.util.UUID;
 public class PhysiqueExperienceLevel extends NormalExperienceLevel {
 
     public PhysiqueExperienceLevel(LifeIntensityExperienceLevel _lifeIntensityExperienceLevel) {
-        super(_lifeIntensityExperienceLevel, SkillData.SkillType.PHYSIQUE);
+        super(_lifeIntensityExperienceLevel, SkillRegistry.PHYSIQUE);
     }
 
     @Override
