@@ -55,7 +55,7 @@ public final class InaccessibleInfiniteTank extends NotifiableFluidTank {
 
     private void updateTick() {
         if (machine instanceof IControllable controllable && !controllable.isWorkingEnabled()) return;
-        if (machine instanceof IGridConnectedMachine connectedMachine && connectedMachine.isOnline() && connectedMachine.shouldSyncME() && connectedMachine.updateMEStatus()) {
+        if (machine instanceof IGridConnectedMachine connectedMachine && connectedMachine.isOnline() && getMachine().getOffsetTimer() % 20 == 0 && connectedMachine.updateMEStatus()) {
             IGrid grid = connectedMachine.getMainNode().getGrid();
             synchronized (delegate.internalBuffer.storage) {
                 if (grid != null && !delegate.internalBuffer.isEmpty()) {

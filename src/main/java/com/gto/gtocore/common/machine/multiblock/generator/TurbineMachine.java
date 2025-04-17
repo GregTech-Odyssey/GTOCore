@@ -31,6 +31,7 @@ import net.minecraft.world.item.ItemStack;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import lombok.Getter;
 import org.jetbrains.annotations.Nullable;
@@ -63,7 +64,7 @@ public final class TurbineMachine extends ElectricMultiblockMachine {
     @Persisted
     private boolean highSpeedMode;
 
-    private final Set<RotorHolderPartMachine> rotorHolderMachines = new ObjectOpenHashSet<>();
+    private final List<RotorHolderPartMachine> rotorHolderMachines = new ObjectArrayList<>();
 
     private ItemHatchPartMachine rotorHatchPartMachine;
 

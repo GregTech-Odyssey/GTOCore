@@ -23,10 +23,9 @@ import net.minecraftforge.fluids.FluidStack;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
-import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 
 import java.util.List;
-import java.util.Set;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -67,9 +66,9 @@ public final class AbsoluteBaryonicPerfectionPurificationUnitMachine extends Wat
     private boolean successful;
 
     @Persisted
-    private final Set<ItemStack> outputs = new ObjectOpenHashSet<>();
+    private final List<ItemStack> outputs = new ObjectArrayList<>();
 
-    private final Set<ItemBusPartMachine> busMachines = new ObjectOpenHashSet<>();
+    private final List<ItemBusPartMachine> busMachines = new ObjectArrayList<>();
 
     public AbsoluteBaryonicPerfectionPurificationUnitMachine(IMachineBlockEntity holder) {
         super(holder);
