@@ -20,11 +20,11 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public class CraftProcessMachine extends ElectricMultiblockMachine {
+public class SuperMolecularAssemblerMachine extends ElectricMultiblockMachine {
 
     private final List<MECraftPatternPartMachine> partMachines = new ObjectArrayList<>();
 
-    public CraftProcessMachine(IMachineBlockEntity holder) {
+    public SuperMolecularAssemblerMachine(IMachineBlockEntity holder) {
         super(holder);
     }
 
