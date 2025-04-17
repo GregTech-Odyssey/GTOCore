@@ -6,36 +6,25 @@ import com.gto.gtocore.common.machine.multiblock.noenergy.HarmonyMachine;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
-import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
-import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
-import com.gregtechceu.gtceu.client.renderer.machine.IControllerRenderer;
-import com.gregtechceu.gtceu.client.renderer.machine.WorkableCasingMachineRenderer;
 
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.client.resources.model.ModelState;
-import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.model.data.ModelData;
 
-import com.lowdragmc.lowdraglib.client.bakedpipeline.FaceQuad;
-import com.lowdragmc.lowdraglib.client.model.ModelFactory;
 import com.lowdragmc.lowdraglib.utils.TrackedDummyWorld;
 import com.mojang.blaze3d.vertex.PoseStack;
-import org.jetbrains.annotations.Nullable;
 import org.joml.Quaternionf;
 
 import java.util.List;
 import java.util.function.Consumer;
 
-public final class EyeOfHarmonyRenderer extends WorkableCasingMachineRenderer implements IControllerRenderer {
+public final class EyeOfHarmonyRenderer extends CustomPartRenderer {
 
     private static final ResourceLocation SPACE_MODEL = GTOCore.id("obj/space");
     static final ResourceLocation STAR_MODEL = GTOCore.id("obj/star");
@@ -45,7 +34,7 @@ public final class EyeOfHarmonyRenderer extends WorkableCasingMachineRenderer im
             GTOCore.id("obj/the_end"));
 
     public EyeOfHarmonyRenderer() {
-        super(GTOCore.id("block/casings/dimensionally_transcendent_casing"), GTOCore.id("block/multiblock/cosmos_simulation"));
+        super(GTOCore.id("block/casings/dimensionally_transcendent_casing"), GTOCore.id("block/multiblock/cosmos_simulation"), GTCEu.id("block/casings/hpca/high_power_casing"));
     }
 
     @Override
@@ -106,14 +95,6 @@ public final class EyeOfHarmonyRenderer extends WorkableCasingMachineRenderer im
         registry.accept(ORBIT_OBJECTS.get(0));
         registry.accept(ORBIT_OBJECTS.get(1));
         registry.accept(ORBIT_OBJECTS.get(2));
-    }
-
-    @Override
-    @OnlyIn(Dist.CLIENT)
-    public void renderPartModel(List<BakedQuad> list, IMultiController iMultiController, IMultiPart iMultiPart, Direction direction, @Nullable Direction direction1, RandomSource randomSource, Direction direction2, ModelState modelState) {
-        if (direction1 != null && direction2 != null) {
-            list.add(FaceQuad.bakeFace(direction2, ModelFactory.getBlockSprite(GTCEu.id("block/casings/hpca/high_power_casing")), modelState));
-        }
     }
 
     @Override

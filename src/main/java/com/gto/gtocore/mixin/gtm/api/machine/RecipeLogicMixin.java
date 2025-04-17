@@ -160,9 +160,6 @@ public abstract class RecipeLogicMixin extends MachineTrait implements IEnhanced
     protected boolean recipeDirty;
 
     @Shadow
-    public abstract void updateTickSubscription();
-
-    @Shadow
     protected abstract void regressRecipe();
 
     @Shadow
@@ -186,6 +183,12 @@ public abstract class RecipeLogicMixin extends MachineTrait implements IEnhanced
 
     @Shadow
     protected boolean isActive;
+
+    @Shadow
+    public abstract boolean isActive();
+
+    @Shadow
+    public abstract void updateTickSubscription();
 
     @Unique
     private void gTOCore$unsubscribe() {

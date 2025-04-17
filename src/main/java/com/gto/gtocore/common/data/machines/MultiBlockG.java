@@ -8,12 +8,11 @@ import com.gto.gtocore.api.machine.multiblock.ElectricMultiblockMachine;
 import com.gto.gtocore.api.machine.part.GTOPartAbility;
 import com.gto.gtocore.api.pattern.GTOPredicates;
 import com.gto.gtocore.client.renderer.machine.ArrayMachineRenderer;
-import com.gto.gtocore.common.data.GTOBlocks;
-import com.gto.gtocore.common.data.GTOMachines;
-import com.gto.gtocore.common.data.GTORecipeModifiers;
-import com.gto.gtocore.common.data.GTORecipeTypes;
+import com.gto.gtocore.client.renderer.machine.CustomPartRenderer;
+import com.gto.gtocore.common.data.*;
 import com.gto.gtocore.common.machine.multiblock.electric.ChiselMachine;
 import com.gto.gtocore.common.machine.multiblock.electric.DrawingTowerMachine;
+import com.gto.gtocore.common.machine.multiblock.electric.SuperMolecularAssemblerMachine;
 import com.gto.gtocore.common.machine.multiblock.electric.TreeGrowthSimulator;
 import com.gto.gtocore.common.machine.multiblock.electric.adventure.BossSummonerMachine;
 import com.gto.gtocore.common.machine.multiblock.electric.processing.ProcessingArrayMachine;
@@ -666,5 +665,57 @@ public interface MultiBlockG {
                     .where(' ', any())
                     .build())
             .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_solid_steel"), GTCEu.id("block/multiblock/gcym/large_material_press"))
+            .register();
+
+    MultiblockMachineDefinition SUPER_MOLECULAR_ASSEMBLER = multiblock("super_molecular_assembler", "超级分子装配室", SuperMolecularAssemblerMachine::new)
+            .nonYAxisRotation()
+            .recipe(GTORecipeTypes.DUMMY_RECIPES)
+            .block(GTOBlocks.OXIDATION_RESISTANT_HASTELLOY_N_MECHANICAL_CASING)
+            .pattern(definition -> FactoryBlockPattern.start(RelativeDirection.RIGHT, RelativeDirection.UP, RelativeDirection.BACK)
+                    .aisle("         ", "    A    ", "    A    ", "    A    ", "    B    ", "  BBLBB  ", "    B    ", "    A    ", "    A    ", "    A    ", "         ")
+                    .aisle("    A    ", "   CBC   ", "  CCBCC  ", "  DCBCD  ", "  DCECD  ", " BDCECDB ", "  DCECD  ", "  DCBCD  ", "  CCBCC  ", "   CBC   ", "    A    ")
+                    .aisle("    A    ", "  CFGFC  ", " CHHHHHC ", " D  E  D ", " D     D ", "BD     DB", " D     D ", " D  E  D ", " CHHHHHC ", "  CFGFC  ", "    A    ")
+                    .aisle("    A    ", " CFFGFFC ", " CHIIIHC ", " C  J  C ", " C     C ", "BC     CB", " C     C ", " C  J  C ", " CHIIIHC ", " CFFGFFC ", "    A    ")
+                    .aisle(" AAAAAAA ", "ABGGGGGBA", "ABHIIIHBA", "ABEJKJEBA", "BE  K  EB", "BE  K  EB", "BE  K  EB", "ABEJKJEBA", "ABHIIIHBA", "ABGGGGGBA", " AAAAAAA ")
+                    .aisle("    A    ", " CFFGFFC ", " CHIIIHC ", " C  J  C ", " C     C ", "BC     CB", " C     C ", " C  J  C ", " CHIIIHC ", " CFFGFFC ", "    A    ")
+                    .aisle("    A    ", "  CFGFC  ", " CHHHHHC ", " D  E  D ", " D     D ", "BD     DB", " D     D ", " D  E  D ", " CHHHHHC ", "  CFGFC  ", "    A    ")
+                    .aisle("    A    ", "   CBC   ", "  CCBCC  ", "  DCBCD  ", "  DCECD  ", " BDCECDB ", "  DCECD  ", "  DCBCD  ", "  CCBCC  ", "   CBC   ", "    A    ")
+                    .aisle("         ", "    A    ", "    A    ", "    A    ", "    B    ", "  BBBBB  ", "    B    ", "    A    ", "    A    ", "    A    ", "         ")
+                    .where('A', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTOMaterials.HastelloyN)))
+                    .where('B', blocks(GTOBlocks.OXIDATION_RESISTANT_HASTELLOY_N_MECHANICAL_CASING.get()))
+                    .where('C', blocks(GTOBlocks.ZIRCONIA_CERAMIC_HIGH_STRENGTH_BENDING_RESISTANCE_MECHANICAL_BLOCK.get()).setMinGlobalLimited(20)
+                            .or(blocks(GTOMachines.ME_CRAFT_PATTERN_PART_MACHINE.get()))
+                            .or(abilities(INPUT_ENERGY).setMaxGlobalLimited(2))
+                            .or(abilities(EXPORT_ITEMS)))
+                    .where('D', blocks(GTOBlocks.NAQUADAH_BOROSILICATE_GLASS.get()))
+                    .where('E', blocks(GTOBlocks.MAGTECH_CASING.get()))
+                    .where('F', blocks(GTOBlocks.PROCESS_MACHINE_CASING.get()))
+                    .where('G', blocks(GTBlocks.CASING_ASSEMBLY_LINE.get()))
+                    .where('H', blocks(GTBlocks.HIGH_POWER_CASING.get()))
+                    .where('I', blocks(GTOBlocks.COMPRESSOR_CONTROLLER_CASING.get()))
+                    .where('J', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.Europium)))
+                    .where('K', blocks(GTOBlocks.EXTREME_DENSITY_CASING.get()))
+                    .where('L', controller(blocks(definition.get())))
+                    .where(' ', any())
+                    .build())
+            .renderer(() -> new CustomPartRenderer(GTOCore.id("block/casings/oxidation_resistant_hastelloy_n_mechanical_casing"), GTCEu.id("block/multiblock/fusion_reactor"), GTOCore.id("block/zirconia_ceramic_high_strength_bending_resistance_mechanical_block")))
+            .register();
+
+    MultiblockMachineDefinition RARITY_FORGE = multiblock("rarity_forge", "珍宝锻炉", ElectricMultiblockMachine::new)
+            .allRotation()
+            .recipe(GTORecipeTypes.RARITY_FORGE_RECIPES)
+            .block(GTBlocks.MACHINE_CASING_ULV)
+            .pattern(definition -> FactoryBlockPattern.start()
+                    .aisle("aaa", "aaa", "aaa")
+                    .aisle("aaa", "aca", "aaa")
+                    .aisle("aaa", "aia", "aaa")
+                    .where('a', blocks(GTBlocks.MACHINE_CASING_ULV.get())
+                            .or(abilities(IMPORT_ITEMS).setMaxGlobalLimited(3))
+                            .or(abilities(EXPORT_ITEMS).setMaxGlobalLimited(1))
+                            .or(abilities(INPUT_ENERGY).setMaxGlobalLimited(2)))
+                    .where('i', controller(blocks(definition.get())))
+                    .where('c', air())
+                    .build())
+            .workableCasingRenderer(GTCEu.id("block/casings/voltage/ulv/side"), GTCEu.id("block/multiblock/fusion_reactor"))
             .register();
 }

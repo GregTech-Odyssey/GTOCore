@@ -31,13 +31,13 @@ dependencies {
 
     modImplementation("top.theillusivec4.curios:curios-forge:${project.curiosVersion}+${project.minecraft_version}")
 
-    modImplementation("vazkii.botania:Botania:${project.minecraft_version}-447-FORGE")
+    modImplementation("vazkii.botania:Botania:${project.minecraft_version}-448-FORGE")
 
     modImplementation("vazkii.patchouli:Patchouli:${project.minecraft_version}-84-FORGE")
 
     modRuntimeOnly("dev.shadowsoffire:ApothicAttributes:${project.minecraft_version}-1.3.7")
     modImplementation("dev.shadowsoffire:Placebo:${project.minecraft_version}-8.6.2")
-    modImplementation("dev.shadowsoffire:Apotheosis:${project.minecraft_version}-7.4.6")
+    modImplementation("dev.shadowsoffire:Apotheosis:${project.minecraft_version}-7.4.7")
 
     modImplementation("curse.maven:jade-324717:6106101")
 

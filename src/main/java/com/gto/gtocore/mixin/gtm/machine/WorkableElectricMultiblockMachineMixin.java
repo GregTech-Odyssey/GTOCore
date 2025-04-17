@@ -2,6 +2,7 @@ package com.gto.gtocore.mixin.gtm.machine;
 
 import com.gto.gtocore.api.gui.OverclockConfigurator;
 import com.gto.gtocore.api.machine.feature.IOverclockConfigMachine;
+import com.gto.gtocore.api.machine.feature.IUpgradeMachine;
 import com.gto.gtocore.api.machine.feature.multiblock.ICheckPatternMachine;
 import com.gto.gtocore.api.machine.trait.IEnhancedRecipeLogic;
 
@@ -16,8 +17,7 @@ import com.gregtechceu.gtceu.api.machine.feature.IFancyUIMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableMultiblockMachine;
 import com.gregtechceu.gtceu.api.misc.EnergyContainerList;
-import com.gregtechceu.gtceu.api.recipe.GTRecipe;
-import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
+import com.gregtechceu.gtceu.common.data.machines.GTMultiMachines;
 import com.gregtechceu.gtceu.utils.GTUtil;
 
 import net.minecraft.core.Direction;
@@ -35,7 +35,13 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import java.util.List;
 
 @Mixin(WorkableElectricMultiblockMachine.class)
-public abstract class WorkableElectricMultiblockMachineMixin extends WorkableMultiblockMachine implements IFancyUIMachine, IOverclockConfigMachine, ICheckPatternMachine {
+public abstract class WorkableElectricMultiblockMachineMixin extends WorkableMultiblockMachine implements IFancyUIMachine, IOverclockConfigMachine, ICheckPatternMachine, IUpgradeMachine {
+
+    @Unique
+    private double gtocore$speed = 1;
+
+    @Unique
+    private double gtocore$energy = 1;
 
     @Unique
     private int gTOCore$time;
@@ -48,9 +54,6 @@ public abstract class WorkableElectricMultiblockMachineMixin extends WorkableMul
 
     @Shadow(remap = false)
     public abstract boolean isGenerator();
-
-    @Shadow(remap = false)
-    public abstract int getMaxOverclockTier();
 
     protected WorkableElectricMultiblockMachineMixin(IMachineBlockEntity holder, Object... args) {
         super(holder, args);
@@ -84,6 +87,10 @@ public abstract class WorkableElectricMultiblockMachineMixin extends WorkableMul
     @Override
     public void saveCustomPersistedData(@NotNull CompoundTag tag, boolean forDrop) {
         super.saveCustomPersistedData(tag, forDrop);
+        if (gtocore$canUpgraded()) {
+            tag.putDouble("speed", gtocore$speed);
+            tag.putDouble("energy", gtocore$energy);
+        }
         if (isGenerator()) return;
         tag.putInt("ocLimit", gTOCore$ocLimit);
     }
@@ -91,6 +98,16 @@ public abstract class WorkableElectricMultiblockMachineMixin extends WorkableMul
     @Override
     public void loadCustomPersistedData(@NotNull CompoundTag tag) {
         super.loadCustomPersistedData(tag);
+        if (gtocore$canUpgraded()) {
+            double speed = tag.getDouble("speed");
+            if (speed != 0) {
+                gtocore$speed = speed;
+            }
+            double energy = tag.getDouble("energy");
+            if (energy != 0) {
+                gtocore$energy = energy;
+            }
+        }
         if (isGenerator()) return;
         gTOCore$ocLimit = tag.getInt("ocLimit");
     }
@@ -118,12 +135,6 @@ public abstract class WorkableElectricMultiblockMachineMixin extends WorkableMul
         ICheckPatternMachine.attachConfigurators(configuratorPanel, self());
     }
 
-    @Override
-    public GTRecipe fullModifyRecipe(GTRecipe recipe) {
-        if (!isGenerator() && GTUtil.getTierByVoltage(RecipeHelper.getInputEUt(recipe)) > getMaxOverclockTier()) return null;
-        return super.fullModifyRecipe(recipe);
-    }
-
     @Inject(method = "getMaxVoltage", at = @At(value = "INVOKE", target = "Lcom/gregtechceu/gtceu/api/misc/EnergyContainerList;getOutputVoltage()J"), remap = false, cancellable = true)
     private void getMaxVoltage(CallbackInfoReturnable<Long> cir) {
         long voltage = energyContainer.getOutputVoltage();
@@ -134,5 +145,32 @@ public abstract class WorkableElectricMultiblockMachineMixin extends WorkableMul
             maxVoltage = voltage;
         }
         cir.setReturnValue(maxVoltage);
+    }
+
+    @Override
+    public void gtocore$setSpeed(double speed) {
+        this.gtocore$speed = speed;
+        getRecipeLogic().markLastRecipeDirty();
+    }
+
+    @Override
+    public void gtocore$setEnergy(double energy) {
+        this.gtocore$energy = energy;
+        getRecipeLogic().markLastRecipeDirty();
+    }
+
+    @Override
+    public double gtocore$getSpeed() {
+        return gtocore$speed;
+    }
+
+    @Override
+    public double gtocore$getEnergy() {
+        return gtocore$energy;
+    }
+
+    @Override
+    public boolean gtocore$canUpgraded() {
+        return getDefinition() == GTMultiMachines.ELECTRIC_BLAST_FURNACE;
     }
 }

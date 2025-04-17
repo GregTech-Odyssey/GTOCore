@@ -1,5 +1,6 @@
 package com.gto.gtocore.mixin.gtm.api.recipe;
 
+import com.gto.gtocore.api.recipe.IGTRecipe;
 import com.gto.gtocore.api.recipe.RecipeRunner;
 
 import com.gregtechceu.gtceu.api.capability.recipe.EURecipeCapability;
@@ -20,6 +21,24 @@ import java.util.Map;
 
 @Mixin(RecipeHelper.class)
 public class RecipeHelperMixin {
+
+    /**
+     * @author .
+     * @reason .
+     */
+    @Overwrite(remap = false)
+    public static int getRecipeEUtTier(GTRecipe recipe) {
+        return ((IGTRecipe) recipe).gtocore$getTier();
+    }
+
+    /**
+     * @author .
+     * @reason .
+     */
+    @Overwrite(remap = false)
+    public static int getPreOCRecipeEuTier(GTRecipe recipe) {
+        return ((IGTRecipe) recipe).gtocore$getTier();
+    }
 
     /**
      * @author .

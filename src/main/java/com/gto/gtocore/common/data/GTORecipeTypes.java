@@ -861,6 +861,12 @@ public interface GTORecipeTypes {
             .setProgressBar(GuiTextures.COMPRESSOR_OVERLAY, LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.COMPRESSOR);
 
+    GTORecipeType RARITY_FORGE_RECIPES = register("rarity_forge", "珍宝锻炉", MULTIBLOCK)
+            .setEUIO(IO.IN)
+            .setMaxIOSize(3, 1, 0, 0)
+            .setProgressBar(GuiTextures.COMPRESSOR_OVERLAY, LEFT_TO_RIGHT)
+            .setSound(GTSoundEntries.ARC);
+
     // TODO 添加用途
     GTORecipeType PLASMA_CENTRIFUGE_RECIPES = register("plasma_centrifuge", "等离子体离心", MULTIBLOCK)
             .setEUIO(IO.IN)

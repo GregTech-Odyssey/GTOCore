@@ -132,8 +132,6 @@ public interface RecipeFilter {
         CHEMICAL_RECIPES.addFilter("polyphenylene_sulfide_from_oxygen");
         CHEMICAL_RECIPES.addFilter("pva_from_air");
         CHEMICAL_RECIPES.addFilter("pva_from_oxygen");
-        CHEMICAL_RECIPES.addFilter("pva_from_tetrachloride_air");
-        CHEMICAL_RECIPES.addFilter("pva_from_tetrachloride_oxygen");
         CHEMICAL_RECIPES.addFilter("epoxy_from_bisphenol_a");
         CHEMICAL_RECIPES.addFilter("advanced_circuit_board_persulfate");
         CHEMICAL_RECIPES.addFilter("advanced_circuit_board_iron3");
@@ -179,6 +177,8 @@ public interface RecipeFilter {
         LARGE_CHEMICAL_RECIPES.addFilter("ptfe_from_tetrachloride_air");
         LARGE_CHEMICAL_RECIPES.addFilter("ptfe_from_tetrachloride_oxygen");
         LARGE_CHEMICAL_RECIPES.addFilter("iron_2_chloride");
+        LARGE_CHEMICAL_RECIPES.addFilter("pva_from_tetrachloride_air");
+        LARGE_CHEMICAL_RECIPES.addFilter("pva_from_tetrachloride_oxygen");
 
         CHEMICAL_BATH_RECIPES.addFilter("silicon_cool_down_distilled_water");
         CHEMICAL_BATH_RECIPES.addFilter("kanthal_cool_down_distilled_water");

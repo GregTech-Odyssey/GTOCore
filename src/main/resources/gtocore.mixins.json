@@ -17,7 +17,6 @@
         "gtm.api.recipe.ContentMixin",
         "gtm.renderer.TagPrefixItemRendererMixin",
         "gtmt.ForgeClientEventHandlerMixin",
-        "lowdraglib.CustomBakedModelMixin",
         "mc.ClientLevelMixin",
         "mc.ClientRecipeBookMixin",
         "mc.MinecraftMixin",
@@ -205,6 +204,7 @@
         "placebo.RecipeHelperMixin",
         "placebo.TrailsManagerMixin",
         "placebo.WingsManagerMixin",
+        "registrate.AbstractRegistrateMixin",
         "registrate.BlockBuilderMixin"
     ],
     "injectors": {

@@ -4107,5 +4107,20 @@ interface Assembler {
                 .EUt(122880)
                 .duration(800)
                 .save();
+
+        ASSEMBLER_RECIPES.builder("rarity_forge")
+                .inputItems("apotheosis:gem_cutting_table")
+                .inputItems("apotheosis:sigil_of_rebirth", 6)
+                .inputItems("apotheosis:sigil_of_enhancement", 4)
+                .inputItems("gtocore:pulsating_alloy_quadruple_wire", 16)
+                .inputItems(GTItems.VOLTAGE_COIL_ULV.asStack(8))
+                .inputItems(GTOItems.ULV_CONVEYOR_MODULE.asStack(4))
+                .inputItems(GTOItems.ULV_ROBOT_ARM.asStack(4))
+                .inputItems(CustomTags.ULV_CIRCUITS, 4)
+                .inputItems("gtceu:double_steel_plate", 8)
+                .outputItems(MultiBlockG.RARITY_FORGE.asStack())
+                .EUt(7)
+                .duration(400)
+                .save();
     }
 }

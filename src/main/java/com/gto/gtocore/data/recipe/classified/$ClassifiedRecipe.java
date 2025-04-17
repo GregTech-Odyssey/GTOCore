@@ -125,5 +125,6 @@ public interface $ClassifiedRecipe {
         ManaInfuser.init();
         ManaCondenser.init();
         ManaSimulator.init();
+        RarityForge.init();
     }
 }

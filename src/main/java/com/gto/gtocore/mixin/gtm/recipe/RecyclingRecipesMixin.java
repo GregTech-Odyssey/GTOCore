@@ -34,7 +34,6 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import static com.gregtechceu.gtceu.api.GTValues.L;
 import static com.gregtechceu.gtceu.api.GTValues.M;
 import static com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlags.IS_MAGNETIC;
 
@@ -107,9 +106,6 @@ public abstract class RecyclingRecipesMixin {
         if (prefix != TagPrefix.dust) {
             registerMaceratorRecycling(provider, input, components, voltageMultiplier);
         }
-        if (prefix != null) {
-            registerExtractorRecycling(provider, input, components, voltageMultiplier, prefix);
-        }
         if (ignoreArcSmelting) return;
 
         if (components.size() == 1) {
@@ -149,80 +145,6 @@ public abstract class RecyclingRecipesMixin {
             builder.category(GTRecipeCategories.MACERATOR_RECYCLING);
             builder.save();
         }
-    }
-
-    /**
-     * @author .
-     * @reason .
-     */
-    @Overwrite(remap = false)
-    private static void registerExtractorRecycling(Consumer<FinishedRecipe> provider, ItemStack input, List<MaterialStack> materials, int multiplier, @NotNull TagPrefix prefix) {
-        if (prefix.secondaryMaterials().isEmpty()) {
-            MaterialStack ms = ChemicalHelper.getMaterialStack(input);
-            if (ms.isEmpty()) {
-                return;
-            }
-            Material m = ms.material();
-            if (m.hasProperty(PropertyKey.INGOT) && m.getProperty(PropertyKey.INGOT).getMacerateInto() != m) {
-                m = m.getProperty(PropertyKey.INGOT).getMacerateInto();
-            }
-            if (!m.hasProperty(PropertyKey.FLUID) || m.getFluid() == null ||
-                    (prefix == TagPrefix.dust && m.hasProperty(PropertyKey.BLAST))) {
-                return;
-            }
-
-            ResourceLocation itemPath = ItemUtils.getIdLocation(input.getItem());
-            GTORecipeTypes.LIQUEFACTION_FURNACE_RECIPES.recipeBuilder("extract_" + itemPath.getPath())
-                    .outputFluids(m.getFluid((int) (ms.amount() * L / M)))
-                    .duration((int) Math.max(1, ms.amount() * ms.material().getMass() / M))
-                    .blastFurnaceTemp(Math.max(800, (int) (ms.material().getBlastTemperature() * 0.6)))
-                    .EUt((long) GTValues.VA[GTValues.ULV] * multiplier)
-                    .inputItems(input)
-                    .save();
-            return;
-        }
-
-        // Find MaterialStacks for fluid and item outputs simultaneously
-        MaterialStack fluidMs = null;
-        MaterialStack itemMs = null;
-        for (MaterialStack ms : materials) {
-            if (fluidMs == null && ms.material().hasProperty(PropertyKey.FLUID) && ms.material().getFluid() != null) {
-                fluidMs = ms;
-            } else if (fluidMs != null && !ms.material().equals(fluidMs.material())) {
-                itemMs = ms;
-            }
-            if (itemMs != null) {
-                break;
-            }
-        }
-
-        if (fluidMs == null) return;
-
-        // Calculate the duration based off of those two possible outputs.
-        long duration = fluidMs.amount() * fluidMs.material().getMass();
-        if (itemMs != null) duration += (itemMs.amount() * itemMs.material().getMass());
-        duration = Math.max(1L, duration / M);
-
-        // Build the final Recipe.
-        ResourceLocation itemPath = ItemUtils.getIdLocation(input.getItem());
-        GTORecipeBuilder extractorBuilder = GTORecipeTypes.LIQUEFACTION_FURNACE_RECIPES
-                .recipeBuilder("extract_" + itemPath.getPath())
-                .outputFluids(fluidMs.material().getFluid((int) (fluidMs.amount() * L / M)))
-                .duration((int) duration)
-                .blastFurnaceTemp(Math.max(800, (int) (fluidMs.material().getBlastTemperature() * 0.6)))
-                .EUt((long) GTValues.VA[GTValues.ULV] * multiplier);
-
-        extractorBuilder.inputItems(input);
-
-        // Null check the Item before adding it to the Builder.
-        if (itemMs != null) {
-            ItemStack outputStack = ChemicalHelper.getIngotOrDust(itemMs);
-            if (!outputStack.isEmpty()) {
-                extractorBuilder.outputItems(outputStack);
-            }
-        }
-
-        extractorBuilder.save();
     }
 
     /**

@@ -229,7 +229,10 @@ public final class ForgeCommonEvent {
             RecipeRunLimitSavaedData.INSTANCE = serverLevel.getDataStorage().computeIfAbsent(RecipeRunLimitSavaedData::new, RecipeRunLimitSavaedData::new, " recipe_run_limit_data");
             WirelessManaSavaedData.INSTANCE = level.getDataStorage().computeIfAbsent(WirelessManaSavaedData::new, WirelessManaSavaedData::new, "wireless_mana_data");
             ExperienceSystemManager.INSTANCE = level.getDataStorage().computeIfAbsent(ExperienceSystemManager::load, ExperienceSystemManager::new, "gto_experience_data");
-            if (GTOConfig.INSTANCE.selfRestraint) ServerUtils.getPersistentData().putBoolean("srm", true);
+            if (GTOConfig.INSTANCE.selfRestraint && !ServerUtils.getPersistentData().getBoolean("srm")) {
+                ServerUtils.getPersistentData().putBoolean("srm", true);
+                CommonSavaedData.INSTANCE.setDirty();
+            }
             ServerCache.initialized = true;
         }
     }
