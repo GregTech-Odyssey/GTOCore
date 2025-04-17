@@ -22,10 +22,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class SimpleTieredMachineMixin extends WorkableTieredMachine implements IUpgradeMachine {
 
     @Unique
-    private double gtocore$speed;
+    private double gtocore$speed = 1;
 
     @Unique
-    private double gtocore$energy;
+    private double gtocore$energy = 1;
 
     public SimpleTieredMachineMixin(IMachineBlockEntity holder, int tier, Int2IntFunction tankScalingFunction, Object... args) {
         super(holder, tier, tankScalingFunction, args);
@@ -51,8 +51,14 @@ public class SimpleTieredMachineMixin extends WorkableTieredMachine implements I
     @Override
     public void loadCustomPersistedData(@NotNull CompoundTag tag) {
         super.loadCustomPersistedData(tag);
-        gtocore$speed = tag.getDouble("speed");
-        gtocore$energy = tag.getDouble("energy");
+        double speed = tag.getDouble("speed");
+        if (speed != 0) {
+            gtocore$speed = speed;
+        }
+        double energy = tag.getDouble("energy");
+        if (energy != 0) {
+            gtocore$energy = energy;
+        }
     }
 
     @Override

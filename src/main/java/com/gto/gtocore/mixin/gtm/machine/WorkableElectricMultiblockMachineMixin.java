@@ -38,10 +38,10 @@ import java.util.List;
 public abstract class WorkableElectricMultiblockMachineMixin extends WorkableMultiblockMachine implements IFancyUIMachine, IOverclockConfigMachine, ICheckPatternMachine, IUpgradeMachine {
 
     @Unique
-    private double gtocore$speed;
+    private double gtocore$speed = 1;
 
     @Unique
-    private double gtocore$energy;
+    private double gtocore$energy = 1;
 
     @Unique
     private int gTOCore$time;
@@ -99,8 +99,14 @@ public abstract class WorkableElectricMultiblockMachineMixin extends WorkableMul
     public void loadCustomPersistedData(@NotNull CompoundTag tag) {
         super.loadCustomPersistedData(tag);
         if (gtocore$canUpgraded()) {
-            gtocore$speed = tag.getDouble("speed");
-            gtocore$energy = tag.getDouble("energy");
+            double speed = tag.getDouble("speed");
+            if (speed != 0) {
+                gtocore$speed = speed;
+            }
+            double energy = tag.getDouble("energy");
+            if (energy != 0) {
+                gtocore$energy = energy;
+            }
         }
         if (isGenerator()) return;
         gTOCore$ocLimit = tag.getInt("ocLimit");
