@@ -8,6 +8,7 @@ import com.gto.gtocore.api.machine.multiblock.ElectricMultiblockMachine;
 import com.gto.gtocore.api.machine.part.GTOPartAbility;
 import com.gto.gtocore.api.pattern.GTOPredicates;
 import com.gto.gtocore.client.renderer.machine.ArrayMachineRenderer;
+import com.gto.gtocore.client.renderer.machine.CustomPartRenderer;
 import com.gto.gtocore.common.data.*;
 import com.gto.gtocore.common.machine.multiblock.electric.ChiselMachine;
 import com.gto.gtocore.common.machine.multiblock.electric.DrawingTowerMachine;
@@ -666,10 +667,10 @@ public interface MultiBlockG {
             .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_solid_steel"), GTCEu.id("block/multiblock/gcym/large_material_press"))
             .register();
 
-    MultiblockMachineDefinition SUPER_MOLECULAR_ASSEMBLER = multiblock("super_molecular_assembler", "超分子装配室", SuperMolecularAssemblerMachine::new)
+    MultiblockMachineDefinition SUPER_MOLECULAR_ASSEMBLER = multiblock("super_molecular_assembler", "超级分子装配室", SuperMolecularAssemblerMachine::new)
             .nonYAxisRotation()
             .recipe(GTORecipeTypes.DUMMY_RECIPES)
-            .block(GTOBlocks.ZIRCONIA_CERAMIC_HIGH_STRENGTH_BENDING_RESISTANCE_MECHANICAL_BLOCK)
+            .block(GTOBlocks.OXIDATION_RESISTANT_HASTELLOY_N_MECHANICAL_CASING)
             .pattern(definition -> FactoryBlockPattern.start(RelativeDirection.RIGHT, RelativeDirection.UP, RelativeDirection.BACK)
                     .aisle("         ", "    A    ", "    A    ", "    A    ", "    B    ", "  BBLBB  ", "    B    ", "    A    ", "    A    ", "    A    ", "         ")
                     .aisle("    A    ", "   CBC   ", "  CCBCC  ", "  DCBCD  ", "  DCECD  ", " BDCECDB ", "  DCECD  ", "  DCBCD  ", "  CCBCC  ", "   CBC   ", "    A    ")
@@ -697,6 +698,6 @@ public interface MultiBlockG {
                     .where('L', controller(blocks(definition.get())))
                     .where(' ', any())
                     .build())
-            .workableCasingRenderer(GTOCore.id("block/zirconia_ceramic_high_strength_bending_resistance_mechanical_block"), GTCEu.id("block/multiblock/fusion_reactor"))
+            .renderer(() -> new CustomPartRenderer(GTOCore.id("block/casings/oxidation_resistant_hastelloy_n_mechanical_casing"), GTCEu.id("block/multiblock/fusion_reactor"), GTOCore.id("block/zirconia_ceramic_high_strength_bending_resistance_mechanical_block")))
             .register();
 }

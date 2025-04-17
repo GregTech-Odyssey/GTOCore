@@ -20,6 +20,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
+import com.lowdragmc.lowdraglib.client.model.ModelFactory;
 import com.lowdragmc.lowdraglib.client.renderer.IRenderer;
 import com.lowdragmc.lowdraglib.utils.ColorUtils;
 import com.mojang.blaze3d.platform.GlStateManager;
@@ -82,7 +83,7 @@ public final class HaloItemRenderer implements IRenderer {
                 RenderSystem.setShaderColor(ColorUtils.red(colour), ColorUtils.green(colour), ColorUtils.blue(colour), ColorUtils.alpha(colour));
                 RenderSystem.setShader(GameRenderer::getPositionTexShader);
                 RenderSystem.setShaderTexture(0, InventoryMenu.BLOCK_ATLAS);
-                TextureAtlasSprite sprite = ClientUtil.getBlockSprite(texture);
+                TextureAtlasSprite sprite = ModelFactory.getBlockSprite(texture);
                 float minU = sprite.getU0();
                 float maxU = sprite.getU1();
                 float minV = sprite.getV0();
