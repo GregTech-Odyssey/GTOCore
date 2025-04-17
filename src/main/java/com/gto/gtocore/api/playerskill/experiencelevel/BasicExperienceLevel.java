@@ -1,18 +1,15 @@
 package com.gto.gtocore.api.playerskill.experiencelevel;
 
 import com.gto.gtocore.api.playerskill.SkillType;
+import com.gto.gtocore.api.playerskill.data.AttributeRecord;
 import com.gto.gtocore.api.playerskill.data.ExperienceSystemManager;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.entity.ai.attributes.Attribute;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 
 import lombok.Getter;
 
 import java.util.List;
-import java.util.UUID;
-import java.util.function.Function;
 
 @Getter
 public abstract class BasicExperienceLevel {
@@ -20,14 +17,6 @@ public abstract class BasicExperienceLevel {
     protected long level;
     protected long experience;
     public SkillType skillType;
-
-    public record ATTRIBUTE_RECORD(Attribute attribute,
-                                   Function<BasicExperienceLevel, Long> valueCalculator) {
-
-        public AttributeModifier getModifier(BasicExperienceLevel expLevel) {
-            return new AttributeModifier(UUID.randomUUID(), "gtocore.exp." + expLevel.skillType.getEnglishName().toLowerCase() + "_" + attribute.getDescriptionId().toLowerCase() + "_bonus", valueCalculator.apply(expLevel), AttributeModifier.Operation.ADDITION);
-        }
-    }
 
     protected BasicExperienceLevel(SkillType skillType) {
         this.level = 0;
@@ -55,7 +44,7 @@ public abstract class BasicExperienceLevel {
         this.experience = nbt.getLong("experience");
     }
 
-    public List<ATTRIBUTE_RECORD> getAttributeModifiers() {
+    public List<AttributeRecord> getAttributeModifiers() {
         return this.skillType.getAttributeRecords();
     }
 

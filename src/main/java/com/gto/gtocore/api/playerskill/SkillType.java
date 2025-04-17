@@ -1,5 +1,6 @@
 package com.gto.gtocore.api.playerskill;
 
+import com.gto.gtocore.api.playerskill.data.AttributeRecord;
 import com.gto.gtocore.api.playerskill.data.PlayerData;
 import com.gto.gtocore.api.playerskill.experiencelevel.BasicExperienceLevel;
 
@@ -42,7 +43,7 @@ public class SkillType {
     @Getter
     @NotNull
     @Singular
-    private List<BasicExperienceLevel.ATTRIBUTE_RECORD> attributeRecords; // 属性加成
+    private List<AttributeRecord> attributeRecords; // 属性加成
 
     @NotNull
     @Builder.Default

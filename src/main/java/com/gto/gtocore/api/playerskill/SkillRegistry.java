@@ -1,8 +1,10 @@
 package com.gto.gtocore.api.playerskill;
 
+import com.gto.gtocore.api.playerskill.data.AttributeRecord;
 import com.gto.gtocore.api.playerskill.data.PlayerData;
 import com.gto.gtocore.api.playerskill.experiencelevel.BasicExperienceLevel;
 
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 
 import java.util.Collection;
@@ -20,15 +22,8 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class SkillRegistry {
 
-    /**
-     * 存储所有注册的技能类型的线程安全哈希表
-     * 键为技能类型ID（小写），值为对应的技能类型对象
-     */
     private static final ConcurrentHashMap<String, SkillType> SKILL_TYPES = new ConcurrentHashMap<>();
 
-    /**
-     * 预定义技能类型常量，方便引用
-     */
     public static final SkillType LIFE_INTENSITY; // 生命强度技能
     public static final SkillType PHYSIQUE;       // 体格技能
     public static final SkillType STRENGTH;       // 力量技能
@@ -74,7 +69,7 @@ public class SkillRegistry {
                         .experienceLevelGetter(PlayerData::getPhysiqueExperienceLevel)
                         .upgradePackageBonus((tierGap, experienceForNextLevel) -> (long) (experienceForNextLevel * Math.pow(2, tierGap) * ((double) 1 / 4)))
                         .nbtKey("healthExperienceLevel")
-                        .attributeRecord(new BasicExperienceLevel.ATTRIBUTE_RECORD(Attributes.ARMOR, BasicExperienceLevel::getLevel))
+                        .attributeRecord(new AttributeRecord(Attributes.ARMOR, AttributeModifier.Operation.ADDITION, (expLevel) -> (double) expLevel.getLevel()))
                         .build());
 
         /**
@@ -95,14 +90,14 @@ public class SkillRegistry {
                         .experienceLevelGetter(PlayerData::getStrengthExperienceLevel)
                         .upgradePackageBonus((tierGap, experienceForNextLevel) -> (long) (experienceForNextLevel * Math.pow(2, tierGap) * ((double) 1 / 4)))
                         .nbtKey("attackExperienceLevel")
-                        .attributeRecord(new BasicExperienceLevel.ATTRIBUTE_RECORD(Attributes.ATTACK_DAMAGE, (expLevel) -> expLevel.getLevel() << 1))
+                        .attributeRecord(new AttributeRecord(Attributes.ATTACK_DAMAGE, AttributeModifier.Operation.ADDITION, (expLevel) -> (double) (expLevel.getLevel() << 1)))
                         .build());
 
         /**
          * 平衡难度技能
          * - 该技能用于游戏平衡
          * - 不可升级(levelStepPerVoltage = 0)
-         * - 提供基础生命值(20)和攻击伤害(3)
+         * - 提供攻击伤害(3)
          * - 不可见(isVisible = false)
          */
         BONUS = register(
@@ -116,8 +111,8 @@ public class SkillRegistry {
                         .experienceLevelGetter(PlayerData::getBonusExperienceLevel)
                         .isVisible(false) // 不可见
                         .nbtKey("bonusExperienceLevel")
-                        .attributeRecord(new BasicExperienceLevel.ATTRIBUTE_RECORD(Attributes.MAX_HEALTH, (expLevel) -> 20L))
-                        .attributeRecord(new BasicExperienceLevel.ATTRIBUTE_RECORD(Attributes.ATTACK_DAMAGE, (expLevel) -> 3L))
+                        .attributeRecord(new AttributeRecord(Attributes.ATTACK_DAMAGE, AttributeModifier.Operation.ADDITION, (expLevel) -> 3D)) // 基础攻击加3
+                        .attributeRecord(new AttributeRecord(Attributes.ATTACK_DAMAGE, AttributeModifier.Operation.MULTIPLY_BASE, (expLevel) -> 0.5D)) // 攻击力1.5倍
                         .build());
     }
 

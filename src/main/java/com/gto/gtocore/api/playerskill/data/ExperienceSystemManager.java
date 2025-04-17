@@ -23,7 +23,7 @@ public class ExperienceSystemManager extends SavedData {
 
     public ExperienceSystemManager() {
         this.playerDataMap = new Object2ObjectOpenHashMap<>();
-        this.isEnabled = false; // 默认关闭
+        this.isEnabled = true; // 默认开启
         this.LastTimeRecordTable = new Object2LongOpenHashMap<>();
     }
 

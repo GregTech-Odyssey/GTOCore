@@ -6,7 +6,7 @@ import com.gto.gtocore.api.data.chemical.material.GTOMaterial;
 import com.gto.gtocore.api.data.tag.GTOTagPrefix;
 import com.gto.gtocore.api.item.ToolTipsItem;
 import com.gto.gtocore.api.playerskill.SkillType;
-import com.gto.gtocore.api.playerskill.api.TintableModelUtils;
+import com.gto.gtocore.api.playerskill.utils.UtilsTintableModel;
 import com.gto.gtocore.common.data.GTOCovers;
 import com.gto.gtocore.common.item.KineticRotorItem;
 import com.gto.gtocore.common.item.playerskill.SkillUpgradePackageBehavior;
@@ -214,7 +214,7 @@ public final class ItemRegisterUtils {
         for (int tier : GTValues.ALL_TIERS) {
             entries[tier] = item(skillType.getId().toLowerCase() + "_skill_upgrade_package_" + GTValues.VN[tier].toLowerCase(),
                     "(" + GTOValues.VNFR[tier] + skillType.getChineseName() + ")能力提升包", ComponentItem::create)
-                    .model((ctx, prov) -> TintableModelUtils.createTintableModel(ctx, prov,
+                    .model((ctx, prov) -> UtilsTintableModel.createTintableModel(ctx, prov,
                             "item/skill/normal/normal_border",
                             "item/skill/normal/tier_border",
                             "item/skill/liquid_bottle/bottle",

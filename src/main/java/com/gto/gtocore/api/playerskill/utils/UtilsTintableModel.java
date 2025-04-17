@@ -1,4 +1,4 @@
-package com.gto.gtocore.api.playerskill.api;
+package com.gto.gtocore.api.playerskill.utils;
 
 import net.minecraft.world.item.Item;
 import net.minecraftforge.client.model.generators.ItemModelBuilder;
@@ -13,7 +13,7 @@ import com.tterrag.registrate.providers.RegistrateItemModelProvider;
  * 可着色物品模型工具类
  * 提供创建支持颜色染色的物品模型的实用方法
  */
-public class TintableModelUtils {
+public class UtilsTintableModel {
 
     /**
      * 创建一个可着色的物品模型，使用默认的"item/generated"父模型
@@ -49,7 +49,7 @@ public class TintableModelUtils {
         for (int i = 0; i < texturePaths.length; i++) {
             builder.texture("layer" + i, prov.modLoc(texturePaths[i]));
             tints.add(i);
-        } ;
+        }
 
         // 将染色索引添加到JSON模型中
         json.add("tintindexes", tints);
