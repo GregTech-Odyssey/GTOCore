@@ -2,6 +2,7 @@ package com.gto.gtocore.mixin.gtm.machine;
 
 import com.gto.gtocore.api.gui.OverclockConfigurator;
 import com.gto.gtocore.api.machine.feature.IOverclockConfigMachine;
+import com.gto.gtocore.api.machine.feature.IUpgradeMachine;
 import com.gto.gtocore.api.machine.feature.multiblock.ICheckPatternMachine;
 import com.gto.gtocore.api.machine.trait.IEnhancedRecipeLogic;
 
@@ -16,6 +17,7 @@ import com.gregtechceu.gtceu.api.machine.feature.IFancyUIMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableMultiblockMachine;
 import com.gregtechceu.gtceu.api.misc.EnergyContainerList;
+import com.gregtechceu.gtceu.common.data.machines.GTMultiMachines;
 import com.gregtechceu.gtceu.utils.GTUtil;
 
 import net.minecraft.core.Direction;
@@ -33,7 +35,13 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import java.util.List;
 
 @Mixin(WorkableElectricMultiblockMachine.class)
-public abstract class WorkableElectricMultiblockMachineMixin extends WorkableMultiblockMachine implements IFancyUIMachine, IOverclockConfigMachine, ICheckPatternMachine {
+public abstract class WorkableElectricMultiblockMachineMixin extends WorkableMultiblockMachine implements IFancyUIMachine, IOverclockConfigMachine, ICheckPatternMachine, IUpgradeMachine {
+
+    @Unique
+    private double gtocore$speed;
+
+    @Unique
+    private double gtocore$energy;
 
     @Unique
     private int gTOCore$time;
@@ -79,6 +87,10 @@ public abstract class WorkableElectricMultiblockMachineMixin extends WorkableMul
     @Override
     public void saveCustomPersistedData(@NotNull CompoundTag tag, boolean forDrop) {
         super.saveCustomPersistedData(tag, forDrop);
+        if (gtocore$canUpgraded()) {
+            tag.putDouble("speed", gtocore$speed);
+            tag.putDouble("energy", gtocore$energy);
+        }
         if (isGenerator()) return;
         tag.putInt("ocLimit", gTOCore$ocLimit);
     }
@@ -86,6 +98,10 @@ public abstract class WorkableElectricMultiblockMachineMixin extends WorkableMul
     @Override
     public void loadCustomPersistedData(@NotNull CompoundTag tag) {
         super.loadCustomPersistedData(tag);
+        if (gtocore$canUpgraded()) {
+            gtocore$speed = tag.getDouble("speed");
+            gtocore$energy = tag.getDouble("energy");
+        }
         if (isGenerator()) return;
         gTOCore$ocLimit = tag.getInt("ocLimit");
     }
@@ -123,5 +139,32 @@ public abstract class WorkableElectricMultiblockMachineMixin extends WorkableMul
             maxVoltage = voltage;
         }
         cir.setReturnValue(maxVoltage);
+    }
+
+    @Override
+    public void gtocore$setSpeed(double speed) {
+        this.gtocore$speed = speed;
+        getRecipeLogic().markLastRecipeDirty();
+    }
+
+    @Override
+    public void gtocore$setEnergy(double energy) {
+        this.gtocore$energy = energy;
+        getRecipeLogic().markLastRecipeDirty();
+    }
+
+    @Override
+    public double gtocore$getSpeed() {
+        return gtocore$speed;
+    }
+
+    @Override
+    public double gtocore$getEnergy() {
+        return gtocore$energy;
+    }
+
+    @Override
+    public boolean gtocore$canUpgraded() {
+        return getDefinition() == GTMultiMachines.ELECTRIC_BLAST_FURNACE;
     }
 }

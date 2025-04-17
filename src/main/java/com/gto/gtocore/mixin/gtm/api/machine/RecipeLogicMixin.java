@@ -187,6 +187,9 @@ public abstract class RecipeLogicMixin extends MachineTrait implements IEnhanced
     @Shadow
     public abstract boolean isActive();
 
+    @Shadow
+    public abstract void updateTickSubscription();
+
     @Unique
     private void gTOCore$unsubscribe() {
         if (subscription != null) {
@@ -381,23 +384,6 @@ public abstract class RecipeLogicMixin extends MachineTrait implements IEnhanced
         }
         if (sound == null) sound = instance.getSound();
         return sound;
-    }
-
-    /**
-     * @author .
-     * @reason .
-     */
-    @Overwrite
-    public void updateTickSubscription() {
-        if (isActive()) return;
-        if (isSuspend() || !machine.isRecipeLogicAvailable()) {
-            if (subscription != null) {
-                subscription.unsubscribe();
-                subscription = null;
-            }
-        } else {
-            subscription = getMachine().subscribeServerTick(subscription, this::serverTick);
-        }
     }
 
     /**

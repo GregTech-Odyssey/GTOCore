@@ -164,6 +164,7 @@ public final class LangHandler {
         addENCN("config.jade.plugin_gtocore.temperature_provider", "[GTOCore] Machine Temperature", "[GTOCore] 机器温度");
         addENCN("config.jade.plugin_gtocore.tick_time_provider", "[GTOCore] Tick Time", "[GTOCore] Tick时间");
         addENCN("config.jade.plugin_gtocore.wireless_interactor_provider", "[GTOCore] Wireless Interactive Machine Info", "[GTOCore] 无线交互机器信息");
+        addENCN("config.jade.plugin_gtocore.upgrade_module_provider", "[GTOCore] Upgrade Module Info", "[GTOCore] 升级模块信息");
 
         addENCN("fluid.gtocore.gelid_cryotheum", "Gelid Cryotheum", "极寒之凛冰");
 

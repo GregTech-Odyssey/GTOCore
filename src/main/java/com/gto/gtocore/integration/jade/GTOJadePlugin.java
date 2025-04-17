@@ -34,6 +34,7 @@ public final class GTOJadePlugin implements IWailaPlugin {
 
     @Override
     public void register(IWailaCommonRegistration registration) {
+        registration.registerBlockDataProvider(new UpgradeModuleProvider(), MetaMachineBlockEntity.class);
         registration.registerBlockDataProvider(new WirelessInteractorMachineProvider(), MetaMachineBlockEntity.class);
         registration.registerBlockDataProvider(new ElectricContainerBlockProvider(), MetaMachineBlockEntity.class);
         registration.registerBlockDataProvider(new WorkableBlockProvider(), MetaMachineBlockEntity.class);
@@ -70,6 +71,7 @@ public final class GTOJadePlugin implements IWailaPlugin {
 
     @Override
     public void registerClient(IWailaClientRegistration registration) {
+        registration.registerBlockComponent(new UpgradeModuleProvider(), MetaMachineBlock.class);
         registration.registerBlockComponent(new WirelessInteractorMachineProvider(), MetaMachineBlock.class);
         registration.registerBlockComponent(new ElectricContainerBlockProvider(), MetaMachineBlock.class);
         registration.registerBlockComponent(new WorkableBlockProvider(), MetaMachineBlock.class);

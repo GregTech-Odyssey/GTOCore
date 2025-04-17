@@ -700,4 +700,22 @@ public interface MultiBlockG {
                     .build())
             .renderer(() -> new CustomPartRenderer(GTOCore.id("block/casings/oxidation_resistant_hastelloy_n_mechanical_casing"), GTCEu.id("block/multiblock/fusion_reactor"), GTOCore.id("block/zirconia_ceramic_high_strength_bending_resistance_mechanical_block")))
             .register();
+
+    MultiblockMachineDefinition RARITY_FORGE = multiblock("rarity_forge", "珍宝锻炉", ElectricMultiblockMachine::new)
+            .allRotation()
+            .recipe(GTORecipeTypes.RARITY_FORGE_RECIPES)
+            .block(GTBlocks.MACHINE_CASING_ULV)
+            .pattern(definition -> FactoryBlockPattern.start()
+                    .aisle("aaa", "aaa", "aaa")
+                    .aisle("aaa", "aca", "aaa")
+                    .aisle("aaa", "aia", "aaa")
+                    .where('a', blocks(GTBlocks.MACHINE_CASING_ULV.get())
+                            .or(abilities(IMPORT_ITEMS).setMaxGlobalLimited(3))
+                            .or(abilities(EXPORT_ITEMS).setMaxGlobalLimited(1))
+                            .or(abilities(INPUT_ENERGY).setMaxGlobalLimited(2)))
+                    .where('i', controller(blocks(definition.get())))
+                    .where('c', air())
+                    .build())
+            .workableCasingRenderer(GTCEu.id("block/casings/voltage/ulv/side"), GTCEu.id("block/multiblock/fusion_reactor"))
+            .register();
 }
