@@ -11,7 +11,6 @@ import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMa
 import com.gregtechceu.gtceu.api.misc.EnergyContainerList;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
-import com.gregtechceu.gtceu.utils.GTUtil;
 
 import net.minecraft.network.chat.Component;
 
@@ -50,7 +49,6 @@ public class ElectricMultiblockMachine extends WorkableElectricMultiblockMachine
     @Nullable
     public GTRecipe fullModifyRecipe(@NotNull GTRecipe recipe) {
         recipe = RecipeHelper.trimRecipeOutputs(recipe, getOutputLimits());
-        if (!isGenerator() && GTUtil.getTierByVoltage(RecipeHelper.getInputEUt(recipe)) > getMaxOverclockTier()) return null;
         for (MultiblockTrait trait : multiblockTraits) {
             recipe = trait.modifyRecipe(recipe);
             if (recipe == null) return null;

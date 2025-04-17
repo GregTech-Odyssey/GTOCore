@@ -6,13 +6,8 @@ import com.gregtechceu.gtceu.api.gui.fancy.ConfiguratorPanel;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.SimpleTieredMachine;
 import com.gregtechceu.gtceu.api.machine.WorkableTieredMachine;
-import com.gregtechceu.gtceu.api.recipe.GTRecipe;
-import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
-import com.gregtechceu.gtceu.utils.GTUtil;
 
 import it.unimi.dsi.fastutil.ints.Int2IntFunction;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -28,14 +23,6 @@ public class SimpleTieredMachineMixin extends WorkableTieredMachine {
     @Override
     public boolean alwaysTryModifyRecipe() {
         return false;
-    }
-
-    @Override
-    @Nullable
-    public GTRecipe fullModifyRecipe(@NotNull GTRecipe recipe) {
-        recipe = RecipeHelper.trimRecipeOutputs(recipe, getOutputLimits());
-        if (GTUtil.getTierByVoltage(RecipeHelper.getInputEUt(recipe)) > getMaxOverclockTier()) return null;
-        return doModifyRecipe(recipe);
     }
 
     @Inject(method = "attachConfigurators", at = @At(value = "TAIL"), remap = false)

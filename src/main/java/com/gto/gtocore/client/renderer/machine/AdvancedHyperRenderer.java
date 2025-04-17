@@ -49,7 +49,8 @@ public final class AdvancedHyperRenderer extends WorkableCasingMachineRenderer {
             poseStack.pushPose();
             poseStack.translate(x, y, z);
             if (GTCEu.Mods.isShimmerLoaded() && !(blockEntity.getLevel() instanceof TrackedDummyWorld)) {
-                BloomUtils.entityBloom(source -> renderStar(tick, RenderUtils.copyPoseStack(poseStack), source));
+                PoseStack finalStack = RenderUtils.copyPoseStack(poseStack);
+                BloomUtils.entityBloom(source -> renderStar(tick, finalStack, source));
             } else {
                 renderStar(tick, poseStack, buffer);
             }

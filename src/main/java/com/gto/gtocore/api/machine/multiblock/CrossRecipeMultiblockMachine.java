@@ -180,7 +180,7 @@ public class CrossRecipeMultiblockMachine extends ElectricMultiblockMachine impl
                 }
             }
         } else {
-            Iterator<GTRecipe> iterator = getRecipeType().searchRecipe(this, recipe -> RecipeRunnerHelper.matchRecipe(this, recipe));
+            Iterator<GTRecipe> iterator = getRecipeType().searchRecipe(this, recipe -> RecipeHelper.getRecipeEUtTier(recipe) <= getOverclockTier() && RecipeRunnerHelper.matchRecipe(this, recipe) && RecipeRunnerHelper.checkConditions(this, recipe));
             while (iterator.hasNext()) {
                 GTRecipe recipe = iterator.next();
                 if (recipe != null) {
@@ -199,20 +199,17 @@ public class CrossRecipeMultiblockMachine extends ElectricMultiblockMachine impl
     }
 
     private GTRecipe modifyRecipe(GTRecipe recipe) {
-        int rt = RecipeHelper.getRecipeEUtTier(recipe);
-        if (rt <= getMaxOverclockTier() && RecipeRunnerHelper.checkConditions(this, recipe)) {
-            setDistinctState(true);
-            recipe.conditions.clear();
-            recipe = fullModifyRecipe(recipe);
-            if (recipe != null && (recipe.parallels > 1 || RecipeRunnerHelper.matchRecipeInput(this, recipe)) && RecipeRunnerHelper.handleRecipeInput(this, recipe)) {
-                recipe.ocLevel = getTier() - rt;
-                recipe.inputs.clear();
-                lastParallel = recipe.parallels;
-                setDistinctState(false);
-                return recipe;
-            }
+        setDistinctState(true);
+        recipe.conditions.clear();
+        recipe = fullModifyRecipe(recipe);
+        if (recipe != null && (recipe.parallels > 1 || RecipeRunnerHelper.matchRecipeInput(this, recipe)) && RecipeRunnerHelper.handleRecipeInput(this, recipe)) {
+            recipe.ocLevel = getTier() - RecipeHelper.getRecipeEUtTier(recipe);
+            recipe.inputs.clear();
+            lastParallel = recipe.parallels;
             setDistinctState(false);
+            return recipe;
         }
+        setDistinctState(false);
         return null;
     }
 

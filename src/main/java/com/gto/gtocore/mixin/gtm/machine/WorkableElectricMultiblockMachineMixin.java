@@ -16,8 +16,6 @@ import com.gregtechceu.gtceu.api.machine.feature.IFancyUIMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableMultiblockMachine;
 import com.gregtechceu.gtceu.api.misc.EnergyContainerList;
-import com.gregtechceu.gtceu.api.recipe.GTRecipe;
-import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
 import com.gregtechceu.gtceu.utils.GTUtil;
 
 import net.minecraft.core.Direction;
@@ -48,9 +46,6 @@ public abstract class WorkableElectricMultiblockMachineMixin extends WorkableMul
 
     @Shadow(remap = false)
     public abstract boolean isGenerator();
-
-    @Shadow(remap = false)
-    public abstract int getMaxOverclockTier();
 
     protected WorkableElectricMultiblockMachineMixin(IMachineBlockEntity holder, Object... args) {
         super(holder, args);
@@ -116,12 +111,6 @@ public abstract class WorkableElectricMultiblockMachineMixin extends WorkableMul
         }
         IEnhancedRecipeLogic.attachRecipeLockable(configuratorPanel, getRecipeLogic());
         ICheckPatternMachine.attachConfigurators(configuratorPanel, self());
-    }
-
-    @Override
-    public GTRecipe fullModifyRecipe(GTRecipe recipe) {
-        if (!isGenerator() && GTUtil.getTierByVoltage(RecipeHelper.getInputEUt(recipe)) > getMaxOverclockTier()) return null;
-        return super.fullModifyRecipe(recipe);
     }
 
     @Inject(method = "getMaxVoltage", at = @At(value = "INVOKE", target = "Lcom/gregtechceu/gtceu/api/misc/EnergyContainerList;getOutputVoltage()J"), remap = false, cancellable = true)

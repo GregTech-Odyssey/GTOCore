@@ -203,6 +203,7 @@
         "placebo.RecipeHelperMixin",
         "placebo.TrailsManagerMixin",
         "placebo.WingsManagerMixin",
+        "registrate.AbstractRegistrateMixin",
         "registrate.BlockBuilderMixin"
     ],
     "injectors": {
