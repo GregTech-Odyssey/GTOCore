@@ -27,9 +27,8 @@ public class LifeIntensityExperienceLevel extends BasicExperienceLevel {
     public void addExperience(long amount, Player player) {
         whenExperienceAdded(experience, experience + amount, player);
         experience += amount;
-        while (true) {
+        while (experience >= getExperienceForNextLevel()) {
             long experienceForNextLevel = getExperienceForNextLevel();
-            if (!(experience >= experienceForNextLevel)) break;
             experience -= experienceForNextLevel;
             whenLevelAdded(level, level + 1, experienceForNextLevel, player);
             level++;

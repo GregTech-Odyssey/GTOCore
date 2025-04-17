@@ -16,9 +16,8 @@ public abstract class NormalExperienceLevel extends BasicExperienceLevel {
         } // 不可升级
         whenExperienceAdded(experience, experience + amount, player);
         experience += amount;
-        while (true) {
+        while (experience >= getExperienceForNextLevel() && level < getMaxLevel()) {
             long experienceForNextLevel = getExperienceForNextLevel();
-            if (!(experience >= experienceForNextLevel && level < getMaxLevel())) break;
             experience -= experienceForNextLevel;
             whenLevelAdded(level, level + 1, experienceForNextLevel, player);
             level++;
