@@ -121,7 +121,7 @@ public interface RecipeRunnerHelper {
             contentList = handler.handleRecipeInner(io, recipe, contentList, simulate);
             if (contentList == null || contentList.isEmpty()) return false;
         }
-        return true;
+        return io != IO.OUT;
     }
 
     static boolean handleRecipe(IRecipeCapabilityHolder holder, IO io, @Nullable List<?> contents, RecipeCapability<?> capability, boolean simulate) {
