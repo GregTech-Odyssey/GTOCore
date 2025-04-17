@@ -104,7 +104,7 @@ abstract class MEPatternPartMachine<T extends MEPatternPartMachine.AbstractInter
     @Setter
     private String customName = "";
 
-    private boolean needPatternSync;
+    boolean needPatternSync;
 
     @Nullable
     private TickableSubscription updateSubs;
@@ -141,8 +141,14 @@ abstract class MEPatternPartMachine<T extends MEPatternPartMachine.AbstractInter
         return handle;
     }
 
-    private void updatePatterns() {
+    @Nullable
+    IPatternDetails decodePattern(ItemStack stack) {
+        return PatternDetailsHelper.decodePattern(stack, getLevel());
+    }
+
+    void updatePatterns() {
         patterns = detailsSlotMap.keySet().stream().filter(Objects::nonNull).toList();
+        needPatternSync = true;
     }
 
     @Override
@@ -152,7 +158,7 @@ abstract class MEPatternPartMachine<T extends MEPatternPartMachine.AbstractInter
             serverLevel.getServer().tell(new TickTask(1, () -> {
                 for (int i = 0; i < patternInventory.getSlots(); i++) {
                     var pattern = patternInventory.getStackInSlot(i);
-                    var patternDetails = PatternDetailsHelper.decodePattern(pattern, getLevel());
+                    var patternDetails = decodePattern(pattern);
                     if (patternDetails != null) {
                         detailsSlotMap.put(patternDetails, getInternalInventory()[i]);
                     }
@@ -225,14 +231,13 @@ abstract class MEPatternPartMachine<T extends MEPatternPartMachine.AbstractInter
 
         T internalInv = getInternalInventory()[index];
         var newPattern = patternInventory.getStackInSlot(index);
-        var newPatternDetails = PatternDetailsHelper.decodePattern(newPattern, getLevel());
+        var newPatternDetails = decodePattern(newPattern);
         var oldPatternDetails = detailsSlotMap.inverse().get(internalInv);
         detailsSlotMap.forcePut(newPatternDetails, internalInv);
         if (oldPatternDetails != null && !oldPatternDetails.equals(newPatternDetails)) {
             internalInv.refund();
         }
         updatePatterns();
-        needPatternSync = true;
     }
 
     //////////////////////////////////////

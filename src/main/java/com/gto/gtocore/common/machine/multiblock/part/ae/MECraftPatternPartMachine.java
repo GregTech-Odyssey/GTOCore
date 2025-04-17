@@ -2,6 +2,9 @@ package com.gto.gtocore.common.machine.multiblock.part.ae;
 
 import com.gto.gtocore.api.gui.ParallelConfigurator;
 import com.gto.gtocore.api.machine.feature.multiblock.IParallelMachine;
+import com.gto.gtocore.integration.ae2.pattern.ParallelAECraftingPattern;
+import com.gto.gtocore.integration.ae2.pattern.ParallelAESmithingTablePattern;
+import com.gto.gtocore.integration.ae2.pattern.ParallelAEStonecuttingPattern;
 
 import com.gregtechceu.gtceu.api.gui.fancy.ConfiguratorPanel;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
@@ -15,13 +18,14 @@ import appeng.api.crafting.IPatternDetails;
 import appeng.api.stacks.AEItemKey;
 import appeng.api.stacks.KeyCounter;
 import appeng.blockentity.crafting.IMolecularAssemblerSupportedPattern;
-import appeng.crafting.pattern.EncodedPatternItem;
-import appeng.crafting.pattern.ProcessingPatternItem;
+import appeng.crafting.pattern.*;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import lombok.Getter;
 import lombok.Setter;
+import org.jetbrains.annotations.Nullable;
 
+import java.util.Objects;
 import java.util.function.Predicate;
 
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -63,6 +67,27 @@ public class MECraftPatternPartMachine extends MEPatternPartMachine<MECraftPatte
         return new InternalSlot(this);
     }
 
+    @Nullable
+    IPatternDetails decodePattern(ItemStack stack) {
+        return toParallelPattern(super.decodePattern(stack), 1);
+    }
+
+    void updatePatterns() {
+        patterns = detailsSlotMap.keySet().stream().map(p -> toParallelPattern(p, getParallel())).filter(Objects::nonNull).toList();
+        needPatternSync = true;
+    }
+
+    private @Nullable IPatternDetails toParallelPattern(@Nullable IPatternDetails pattern, int parallel) {
+        if (pattern instanceof AECraftingPattern craftingPattern) {
+            return new ParallelAECraftingPattern(craftingPattern.getDefinition(), getLevel(), parallel);
+        } else if (pattern instanceof AEStonecuttingPattern stonecuttingPattern) {
+            return new ParallelAEStonecuttingPattern(stonecuttingPattern.getDefinition(), getLevel(), parallel);
+        } else if (pattern instanceof AESmithingTablePattern smithingTablePattern) {
+            return new ParallelAESmithingTablePattern(smithingTablePattern.getDefinition(), getLevel(), parallel);
+        }
+        return null;
+    }
+
     @Override
     public int getMaxParallel() {
         return 1000000;
@@ -76,7 +101,11 @@ public class MECraftPatternPartMachine extends MEPatternPartMachine<MECraftPatte
 
     @Override
     public void setParallel(int number) {
-        parallelNumber = Mth.clamp(number, 1, getMaxParallel());
+        int parallel = Mth.clamp(number, 1, getMaxParallel());
+        if (parallel != parallelNumber) {
+            parallelNumber = parallel;
+            updatePatterns();
+        }
     }
 
     @Override
