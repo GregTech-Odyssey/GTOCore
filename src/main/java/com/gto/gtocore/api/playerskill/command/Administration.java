@@ -51,7 +51,7 @@ public class Administration {
                                 }))
                         .then(createSkillCommand("addExp", (player, skillType, amount, playerData) -> {
                             BasicExperienceLevel expLevel = skillType.getExperienceLevel(playerData);
-                            UtilsData.addExperienceAndSendMessage(player, expLevel, amount);
+                            UtilsData.addExperience(player, expLevel, amount);
                         }))
                         .then(createSkillCommand("setExp", (player, skillType, amount, playerData) -> {
                             BasicExperienceLevel expLevel = skillType.getExperienceLevel(playerData);

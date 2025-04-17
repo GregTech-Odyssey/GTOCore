@@ -2,6 +2,8 @@ package com.gto.gtocore.api.playerskill;
 
 import com.gto.gtocore.api.playerskill.data.AttributeRecord;
 import com.gto.gtocore.api.playerskill.data.PlayerData;
+import com.gto.gtocore.api.playerskill.event.SkillEvent;
+import com.gto.gtocore.api.playerskill.eventhandler.SkillEventHandler;
 import com.gto.gtocore.api.playerskill.experiencelevel.BasicExperienceLevel;
 
 import net.minecraft.network.chat.Component;
@@ -45,6 +47,11 @@ public class SkillType {
     @Singular
     private List<AttributeRecord> attributeRecords; // 属性加成
 
+    @Getter
+    @NotNull
+    @Singular
+    private List<SkillEventHandler> SkillEventHandlers; // 属性加成
+
     @NotNull
     @Builder.Default
     public final Boolean isVisible = true; // 是否可见
@@ -54,7 +61,6 @@ public class SkillType {
     }
 
     public static class SkillTypeBuilder {
-
         public SkillTypeBuilder upgradePackageBonus(ToLongBiFunction<Long, Long> upgradePackageBonusFormula) {
             this.upgradePackageBonusFormula = upgradePackageBonusFormula;
             this.generateUpgradePackage = true;
@@ -72,5 +78,9 @@ public class SkillType {
 
     public BasicExperienceLevel getExperienceLevel(PlayerData playerData) {
         return experienceLevelGetter.apply(playerData);
+    }
+
+    public void pushSkillEvent(SkillEvent skillEvent) {
+        SkillEventHandlers.forEach(handler -> handler.handleEvent(skillEvent));
     }
 }

@@ -2,7 +2,8 @@ package com.gto.gtocore.api.playerskill;
 
 import com.gto.gtocore.api.playerskill.data.AttributeRecord;
 import com.gto.gtocore.api.playerskill.data.PlayerData;
-import com.gto.gtocore.api.playerskill.experiencelevel.BasicExperienceLevel;
+import com.gto.gtocore.api.playerskill.eventhandler.normal.ExperienceAddedSendMessageHandler;
+import com.gto.gtocore.api.playerskill.eventhandler.normal.LevelAddedSendMessageHandler;
 
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -40,15 +41,18 @@ public class SkillRegistry {
          */
         LIFE_INTENSITY = register(
                 SkillType.builder()
-                        .id("life_intensity")
-                        .nameTranslateKey("gtocore.player_exp_status.body_name")
-                        .levelStepPerVoltage(3)
-                        .chineseName("生命强度")
-                        .englishName("Life Intensity")
-                        .nextLevelExperienceFormula(level -> (long) (100 * Math.pow(2, level.getLevel())))
-                        .experienceLevelGetter(PlayerData::getLifeIntensityExperienceLevel)
-                        .upgradePackageBonus((tierGap, experienceForNextLevel) -> (long) (experienceForNextLevel * Math.pow(2, tierGap) * ((double) 1 / 4)))
-                        .nbtKey("bodyExperience")
+                        .id("life_intensity") // 必须 id
+                        .nameTranslateKey("gtocore.player_exp_status.body_name") // 必须
+                        .levelStepPerVoltage(3) // 必须,若为0则无法升级
+                        .chineseName("生命强度") // 必须
+                        .englishName("Life Intensity") // 必须
+                        .nextLevelExperienceFormula(level -> (long) (100 * Math.pow(2, level.getLevel()))) // 必须,如果无法升级，则返回任意数字都行
+                        .isVisible(true) // 选择，默认true
+                        .experienceLevelGetter(PlayerData::getLifeIntensityExperienceLevel) // 必须
+                        .upgradePackageBonus((tierGap, experienceForNextLevel) -> (long) (experienceForNextLevel * Math.pow(2, tierGap) * ((double) 1 / 4))) // 选择，如果不填则不生成经验包，若生成，返回值为每个经验包的经验，tier为(经验包电压-玩家等级所处电压)
+                        .nbtKey("bodyExperience") // 必须
+                        .SkillEventHandler(new ExperienceAddedSendMessageHandler())
+                        .SkillEventHandler(new LevelAddedSendMessageHandler())
                         .build());
 
         /**
@@ -70,6 +74,8 @@ public class SkillRegistry {
                         .upgradePackageBonus((tierGap, experienceForNextLevel) -> (long) (experienceForNextLevel * Math.pow(2, tierGap) * ((double) 1 / 4)))
                         .nbtKey("healthExperienceLevel")
                         .attributeRecord(new AttributeRecord(Attributes.ARMOR, AttributeModifier.Operation.ADDITION, (expLevel) -> (double) expLevel.getLevel()))
+                        .SkillEventHandler(new ExperienceAddedSendMessageHandler())
+                        .SkillEventHandler(new LevelAddedSendMessageHandler())
                         .build());
 
         /**
@@ -91,6 +97,8 @@ public class SkillRegistry {
                         .upgradePackageBonus((tierGap, experienceForNextLevel) -> (long) (experienceForNextLevel * Math.pow(2, tierGap) * ((double) 1 / 4)))
                         .nbtKey("attackExperienceLevel")
                         .attributeRecord(new AttributeRecord(Attributes.ATTACK_DAMAGE, AttributeModifier.Operation.ADDITION, (expLevel) -> (double) (expLevel.getLevel() << 1)))
+                        .SkillEventHandler(new ExperienceAddedSendMessageHandler())
+                        .SkillEventHandler(new LevelAddedSendMessageHandler())
                         .build());
 
         /**
@@ -113,6 +121,8 @@ public class SkillRegistry {
                         .nbtKey("bonusExperienceLevel")
                         .attributeRecord(new AttributeRecord(Attributes.ATTACK_DAMAGE, AttributeModifier.Operation.ADDITION, (expLevel) -> 3D)) // 基础攻击加3
                         .attributeRecord(new AttributeRecord(Attributes.ATTACK_DAMAGE, AttributeModifier.Operation.MULTIPLY_BASE, (expLevel) -> 0.5D)) // 攻击力1.5倍
+                        .SkillEventHandler(new ExperienceAddedSendMessageHandler())
+                        .SkillEventHandler(new LevelAddedSendMessageHandler())
                         .build());
     }
 

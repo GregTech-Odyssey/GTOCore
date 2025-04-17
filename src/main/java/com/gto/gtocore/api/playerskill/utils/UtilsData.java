@@ -4,7 +4,6 @@ import com.gto.gtocore.api.playerskill.data.ExperienceSystemManager;
 import com.gto.gtocore.api.playerskill.experiencelevel.BasicExperienceLevel;
 
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 
 import it.unimi.dsi.fastutil.objects.Object2LongMap;
@@ -35,18 +34,13 @@ public final class UtilsData {
         long lastTime = lastTimeRecordTable.getLong(playerId);
         if (lastTime == 0 || currentTime - lastTime >= MESSAGE_COOLDOWN) {
             lastTimeRecordTable.put(playerId, currentTime);
-            experienceLevel.addExperience(amount);
+            experienceLevel.addExperience(amount, player);
             runnable.run();
             ExperienceSystemManager.INSTANCE.saveAll();
         }
     }
 
-    public static void addExperienceAndSendMessage(Player player, BasicExperienceLevel experienceLevel, long amount, Component message) {
-        addExperience(player, experienceLevel, amount, () -> player.sendSystemMessage(message));
-    }
-
-    public static void addExperienceAndSendMessage(Player player, BasicExperienceLevel experienceLevel, long amount) {
-        Component message = Component.translatable("gtocore.player_exp_status.get_experience", amount, experienceLevel.getName()).withStyle(experienceLevel.getNameColor());
-        addExperienceAndSendMessage(player, experienceLevel, amount, message);
+    public static void addExperience(Player player, BasicExperienceLevel experienceLevel, long amount) {
+        addExperience(player, experienceLevel, amount, () -> {});
     }
 }

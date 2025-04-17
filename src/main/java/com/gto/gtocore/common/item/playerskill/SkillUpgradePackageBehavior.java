@@ -55,7 +55,7 @@ public class SkillUpgradePackageBehavior implements IInteractionItem {
                 return IInteractionItem.super.use(item, level, player, usedHand);
             } // 只能使用同等级和以上的经验包
             long experienceForNextLevel = targetExpLevel.getExperienceForNextLevel();
-            UtilsData.addExperienceAndSendMessage(player, targetExpLevel, skillType.getUpgradePackageBonusFormula().applyAsLong(tierGap, experienceForNextLevel));
+            UtilsData.addExperience(player, targetExpLevel, skillType.getUpgradePackageBonusFormula().applyAsLong(tierGap, experienceForNextLevel));
             itemInHand.grow(-1);
             level.playSound(null, player.getX(), player.getY(), player.getZ(),
                     SoundEvents.EXPERIENCE_ORB_PICKUP, SoundSource.PLAYERS,

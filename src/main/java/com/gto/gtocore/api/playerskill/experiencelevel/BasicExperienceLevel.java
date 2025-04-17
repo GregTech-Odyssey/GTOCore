@@ -3,9 +3,12 @@ package com.gto.gtocore.api.playerskill.experiencelevel;
 import com.gto.gtocore.api.playerskill.SkillType;
 import com.gto.gtocore.api.playerskill.data.AttributeRecord;
 import com.gto.gtocore.api.playerskill.data.ExperienceSystemManager;
+import com.gto.gtocore.api.playerskill.event.normal.ExperienceAddedEvent;
+import com.gto.gtocore.api.playerskill.event.normal.LevelAddedEvent;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.entity.player.Player;
 
 import lombok.Getter;
 
@@ -50,7 +53,7 @@ public abstract class BasicExperienceLevel {
 
     public abstract long getMaxLevel();
 
-    public abstract void addExperience(long amount);
+    public abstract void addExperience(long amount, Player player);
 
     public void setLevel(long amount) {
         this.level = amount;
@@ -68,5 +71,13 @@ public abstract class BasicExperienceLevel {
 
     public long getExperienceForNextLevel() {
         return skillType.getNextLevelExperienceFormula().applyAsLong(this);
+    }
+
+    protected void whenExperienceAdded(long pre, long post, Player player) {
+        skillType.pushSkillEvent(new ExperienceAddedEvent(this, pre, post, player));
+    }
+
+    protected void whenLevelAdded(long pre, long post, long consumeExperience, Player player) {
+        skillType.pushSkillEvent(new LevelAddedEvent(this, pre, post, consumeExperience, player));
     }
 }

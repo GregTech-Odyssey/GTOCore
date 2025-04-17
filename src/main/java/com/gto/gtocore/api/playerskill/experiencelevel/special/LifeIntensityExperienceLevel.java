@@ -5,6 +5,8 @@ import com.gto.gtocore.api.playerskill.experiencelevel.BasicExperienceLevel;
 
 import com.gregtechceu.gtceu.api.GTValues;
 
+import net.minecraft.world.entity.player.Player;
+
 public class LifeIntensityExperienceLevel extends BasicExperienceLevel {
 
     @Override
@@ -22,10 +24,14 @@ public class LifeIntensityExperienceLevel extends BasicExperienceLevel {
         this.level = 0;
     }
 
-    public void addExperience(long amount) {
+    public void addExperience(long amount, Player player) {
+        whenExperienceAdded(experience, experience + amount, player);
         experience += amount;
-        while (experience >= getExperienceForNextLevel()) {
-            experience -= getExperienceForNextLevel();
+        while (true) {
+            long experienceForNextLevel = getExperienceForNextLevel();
+            if (!(experience >= experienceForNextLevel)) break;
+            experience -= experienceForNextLevel;
+            whenLevelAdded(level, level + 1, experienceForNextLevel, player);
             level++;
         }
     }
