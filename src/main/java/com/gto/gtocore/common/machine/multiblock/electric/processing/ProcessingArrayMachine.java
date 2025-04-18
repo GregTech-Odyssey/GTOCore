@@ -69,8 +69,9 @@ public final class ProcessingArrayMachine extends TierCasingMultiblockMachine im
     }
 
     private NotifiableItemStackHandler createMachineStorage() {
-        NotifiableItemStackHandler storage = new NotifiableItemStackHandler(this, 1, IO.NONE, IO.BOTH, slots -> new MachineItemStackHandler(() -> getMachineLimit(arrayTier), this::onStorageChanged));
+        NotifiableItemStackHandler storage = new NotifiableItemStackHandler(this, 1, IO.NONE, IO.BOTH, slots -> new MachineItemStackHandler(() -> getMachineLimit(arrayTier)));
         storage.setFilter(i -> storageFilter(i, this));
+        storage.addChangedListener(this::onStorageChanged);
         return storage;
     }
 
