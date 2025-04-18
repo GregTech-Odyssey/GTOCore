@@ -8,10 +8,9 @@ public class MachineItemStackHandler extends CustomItemStackHandler {
 
     private final IntSupplier supplier;
 
-    public MachineItemStackHandler(IntSupplier slotLimit, Runnable onContentsChanged) {
+    public MachineItemStackHandler(IntSupplier slotLimit) {
         super(1);
         this.supplier = slotLimit;
-        setOnContentsChanged(onContentsChanged);
     }
 
     @Override

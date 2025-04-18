@@ -158,6 +158,10 @@ public interface GTORecipeModifiers {
                 if (recipeTemp > temperature) return null;
                 long recipeVoltage = (long) (RecipeHelper.getInputEUt(recipe) * OverclockingLogic.getCoilEUtDiscount(recipeTemp, temperature));
                 int duration = recipe.duration;
+                if (machine instanceof IUpgradeMachine upgradeMachine) {
+                    recipeVoltage = (long) (recipeVoltage * upgradeMachine.gtocore$getEnergy());
+                    duration = (int) (duration * upgradeMachine.gtocore$getSpeed());
+                }
                 long maxVoltage = overclockMachine.getOverclockVoltage();
                 int amountPerfectOC = Math.max(0, (temperature - recipeTemp) / 900);
                 long overclockVoltage;

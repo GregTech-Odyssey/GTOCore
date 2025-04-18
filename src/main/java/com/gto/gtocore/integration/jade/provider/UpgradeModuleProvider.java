@@ -36,8 +36,12 @@ public final class UpgradeModuleProvider extends CapabilityBlockProvider<IUpgrad
     @Override
     protected void write(CompoundTag data, IUpgradeMachine capability) {
         if (capability != null) {
-            data.putDouble("speed", capability.gtocore$getSpeed());
-            data.putDouble("energy", capability.gtocore$getEnergy());
+            if (capability.gtocore$getSpeed() != 1) {
+                data.putDouble("speed", capability.gtocore$getSpeed());
+            }
+            if (capability.gtocore$getEnergy() != 1) {
+                data.putDouble("energy", capability.gtocore$getEnergy());
+            }
         }
     }
 
