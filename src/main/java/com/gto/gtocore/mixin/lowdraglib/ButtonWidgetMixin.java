@@ -13,16 +13,17 @@ import java.util.function.Consumer;
 @Mixin(ButtonWidget.class)
 public abstract class ButtonWidgetMixin extends Widget {
 
-    @Shadow
+    @Shadow(remap = false)
     protected boolean isClicked;
 
-    @Shadow
+    @Shadow(remap = false)
     protected Consumer<ClickData> onPressCallback;
 
-    public ButtonWidgetMixin(Position selfPosition, Size size) {
+    protected ButtonWidgetMixin(Position selfPosition, Size size) {
         super(selfPosition, size);
     }
 
+    @Override
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
         if (isMouseOverElement(mouseX, mouseY)) {
             isClicked = true;

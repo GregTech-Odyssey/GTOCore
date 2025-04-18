@@ -34,6 +34,8 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
@@ -207,6 +209,10 @@ public final class ForgeCommonEvent {
     @SubscribeEvent
     public static void onPlayerLoggedInEvent(PlayerEvent.PlayerLoggedInEvent event) {
         if (event.getEntity() instanceof ServerPlayer player) {
+            if (GTOConfig.getDifficulty() < 3 && !player.getPersistentData().getBoolean("initialization")) {
+                player.getPersistentData().putBoolean("initialization", true);
+                player.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 72000, 2, false, false, true));
+            }
             if (!GTOConfig.INSTANCE.dev) player.displayClientMessage(Component.translatable("gtocore.dev", Component.literal("GitHub").withStyle(Style.EMPTY.withColor(ChatFormatting.GREEN).withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://github.com/GregTech-Odyssey/GregTech-Odyssey/issues")))), false);
             if (player instanceof IEnhancedPlayer enhancedPlayer) {
                 final var data = new CompoundTag();
@@ -232,6 +238,13 @@ public final class ForgeCommonEvent {
             if (GTOConfig.INSTANCE.selfRestraint && !ServerUtils.getPersistentData().getBoolean("srm")) {
                 ServerUtils.getPersistentData().putBoolean("srm", true);
                 CommonSavaedData.INSTANCE.setDirty();
+            }
+            int difficulty = ServerUtils.getPersistentData().getInt("difficulty");
+            if (difficulty == 0) {
+                ServerUtils.getPersistentData().putInt("difficulty", GTOConfig.getDifficulty());
+                CommonSavaedData.INSTANCE.setDirty();
+            } else if (difficulty != GTOConfig.getDifficulty()) {
+                serverLevel.getServer().halt(true);
             }
             ServerCache.initialized = true;
         }

@@ -44,7 +44,7 @@ public abstract class WorkableElectricMultiblockMachineMixin extends WorkableMul
     private double gtocore$energy = 1;
 
     @Unique
-    private int gTOCore$time;
+    private int gTOCore$time = 1;
 
     @Unique
     private int gTOCore$ocLimit = 20;

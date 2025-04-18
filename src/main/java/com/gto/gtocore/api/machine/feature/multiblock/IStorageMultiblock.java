@@ -24,13 +24,14 @@ public interface IStorageMultiblock extends IMachineModifyDrops {
     NotifiableItemStackHandler getMachineStorage();
 
     default NotifiableItemStackHandler createMachineStorage(@Nullable Predicate<ItemStack> filter) {
-        NotifiableItemStackHandler storage = new NotifiableItemStackHandler((MetaMachine) this, 1, IO.NONE, IO.BOTH, slots -> new MachineItemStackHandler(this::getSlotLimit, this::onMachineChanged));
+        NotifiableItemStackHandler storage = new NotifiableItemStackHandler((MetaMachine) this, 1, IO.NONE, IO.BOTH, slots -> new MachineItemStackHandler(this::getSlotLimit));
         storage.setFilter(i -> {
             if (filter != null) {
                 if (!filter.test(i)) return false;
             }
             return storageFilter(i);
         });
+        storage.addChangedListener(this::onMachineChanged);
         return storage;
     }
 
