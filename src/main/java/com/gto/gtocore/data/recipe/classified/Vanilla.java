@@ -922,5 +922,10 @@ interface Vanilla {
                 "CDC",
                 "ABA",
                 'A', new MaterialEntry(TagPrefix.pipeHugeFluid, GTMaterials.Steel), 'B', new MaterialEntry(TagPrefix.plateDense, GTMaterials.Steel), 'C', GTItems.FLUID_REGULATOR_LV.asStack(), 'D', GTMachines.COMPRESSOR[GTValues.LV].asStack());
+        VanillaRecipeHelper.addShapedRecipe(provider, GTOCore.id("grass_harvester"), GTOItems.GRASS_HARVESTER.asStack(),
+                "AA ",
+                "B A",
+                "B  ",
+                'A', new ItemStack(Items.FLINT.asItem()), 'B', new ItemStack(Items.STICK.asItem()));
     }
 }
