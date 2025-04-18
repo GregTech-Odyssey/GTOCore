@@ -6,7 +6,7 @@ public abstract class SkillEvent {
 
     public final BasicExperienceLevel experienceLevel;
 
-    public SkillEvent(BasicExperienceLevel experienceLevel) {
+    protected SkillEvent(BasicExperienceLevel experienceLevel) {
         this.experienceLevel = experienceLevel;
     }
 }

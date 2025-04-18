@@ -1,23 +1,16 @@
 package com.gto.gtocore.common.forge;
 
 import com.gto.gtocore.api.playerskill.SkillValues;
-import com.gto.gtocore.api.playerskill.command.Administration;
 import com.gto.gtocore.api.playerskill.utils.UtilsAttribute;
 import com.gto.gtocore.utils.ItemUtils;
 
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 public class ExperienceEventHandler {
-
-    @SubscribeEvent
-    public static void onRegisterCommands(RegisterCommandsEvent event) {
-        Administration.register(event.getDispatcher());
-    }
 
     // @SubscribeEvent
     // public static void onPlayerTick(TickEvent.PlayerTickEvent event) {

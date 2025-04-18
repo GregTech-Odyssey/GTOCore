@@ -26,7 +26,7 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 public class Administration {
 
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
-        dispatcher.register(Commands.literal("skill")
+        dispatcher.register(Commands.literal(GTOCore.MOD_ID).then(Commands.literal("skill")
                 .then(Commands.literal("admin")
                         .requires(source -> source.hasPermission(2)) // 仅OP可用
                         .then(Commands.literal("start")
@@ -60,10 +60,10 @@ public class Administration {
                         .then(createSkillCommand("setLevel", (player, skillType, amount, playerData) -> {
                             BasicExperienceLevel expLevel = skillType.getExperienceLevel(playerData);
                             expLevel.setLevel(amount);
-                        }))));
+                        })))));
 
         // 普通权限
-        dispatcher.register(Commands.literal("skill")
+        dispatcher.register(Commands.literal(GTOCore.MOD_ID).then(Commands.literal("skill")
                 .then(Commands.literal("status").executes(context -> {
                     if (ExperienceSystemManager.INSTANCE != null) {
                         GTOCore.LOGGER.info("Experience system status: {}", ExperienceSystemManager.INSTANCE.isEnabled());
@@ -78,7 +78,7 @@ public class Administration {
                         GTOCore.LOGGER.error("ExperienceSystemManager is still null after initialization attempt!");
                     }
                     return Command.SINGLE_SUCCESS;
-                })));
+                }))));
     }
 
     private static LiteralArgumentBuilder<CommandSourceStack> createSkillCommand(
