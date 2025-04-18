@@ -1,6 +1,7 @@
 package com.gto.gtocore.data.lang;
 
 import com.gto.gtocore.api.machine.trait.TierCasingTrait;
+import com.gto.gtocore.api.playerskill.SkillRegistry;
 import com.gto.gtocore.api.registries.GTOMachineBuilder;
 import com.gto.gtocore.api.registries.MultiblockBuilder;
 import com.gto.gtocore.client.Tooltips;
@@ -23,8 +24,8 @@ import java.util.Arrays;
 import java.util.Map;
 
 import static com.gto.gtocore.api.GTOValues.*;
-import static net.minecraft.ChatFormatting.GOLD;
-import static net.minecraft.ChatFormatting.RESET;
+import static net.minecraft.ChatFormatting.*;
+import static net.minecraft.ChatFormatting.BOLD;
 
 public final class LangHandler {
 
@@ -205,16 +206,17 @@ public final class LangHandler {
         addENCN("gtocore.player_exp_status.experience", "\n  Experience: ", "\n  经验: ");
         addENCN("gtocore.player_exp_status.experience_next", " for next level", " 升级");
         addENCN("gtocore.player_exp_status.progress", "\n  Progress: ", "\n  升级进度: ");
-        addENCN("gtocore.player_exp_status.upgrade_institution", "\n  Enhance Iife Intensity to upgrade", "\n  提升生命强度以升级");
-        addENCN("gtocore.player_exp_status.body_name", "Life Intensity", "生命强度");
-        addENCN("gtocore.player_exp_status.health_name", "Physique", "体格");
-        addENCN("gtocore.player_exp_status.attack_name", "Strength", "肌肉");
+        addENCN("gtocore.player_exp_status.upgrade_institution", "Enhance Iife Intensity to upgrade", "提升生命强度以升级");
+
+        SkillRegistry.getAll().forEach(skill -> addENCN(skill.getNameTranslateKey(), skill.getEnglishName(), skill.getChineseName()));
+
         addENCN("gtocore.player_exp_status.open", "ExperienceSystemOpened", "经验系统已开启");
         addENCN("gtocore.player_exp_status.close", "ExperienceSystemClosed", "经验系统已关闭");
-        addENCN("gtocore.player_exp_status.get_experience", "you got %s point of %s experience", "你获得了%s点%s经验");
-
-        addENCN("gtocore.behaviour.grass_harvest.description", GOLD + "Greatly" + RESET + " increase the probability of wheat seed dropping", GOLD + "极大" + RESET + "地提升小麦种子掉落概率");
-        addENCN("gtocore.behaviour.grass_harvest.description2", "Right click to harvest", "右键以收割");
+        addENCN("gtocore.player_exp_status.get_experience", "You got %s point of %s experience", "你获得了%s点%s经验");
+        addENCN("gtocore.player_exp_status.add_level", "Your %s skill has been upgraded to level %s", "你的%s技能升到了%s级");
+        addENCN("gtocore.player_exp_status.sup.error",
+                "The %s level of %s can only use the %s skill upgrade package of %s and " + GOLD + BOLD + "above",
+                "%s级别的%s等级只能使用%s及" + GOLD + BOLD + "以上" + RESET + "等级的%s能力提升包");
     }
 
     public static void enInitialize(LanguageProvider provider) {

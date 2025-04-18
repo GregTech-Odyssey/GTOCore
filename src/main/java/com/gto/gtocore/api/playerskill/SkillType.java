@@ -61,6 +61,7 @@ public class SkillType {
     }
 
     public static class SkillTypeBuilder {
+
         public SkillTypeBuilder upgradePackageBonus(ToLongBiFunction<Long, Long> upgradePackageBonusFormula) {
             this.upgradePackageBonusFormula = upgradePackageBonusFormula;
             this.generateUpgradePackage = true;
