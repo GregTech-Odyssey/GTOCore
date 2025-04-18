@@ -18,10 +18,12 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Reader;
+import java.nio.file.Files;
 import java.util.HashMap;
 
 @Mixin(EmiPersistentData.class)
@@ -29,9 +31,17 @@ public class EmiPersistentDataMixin {
 
     private static final String FAVORITES_KEY = "favorites";
 
+    private static FileReader openFileReader(File f) throws IOException {
+        if (!f.exists()) {
+            Files.createFile(f.toPath());
+        }
+
+        return new FileReader(f);
+    }
+
     @Inject(method = "save", at = @At(value = "INVOKE", target = "Ldev/emi/emi/runtime/EmiSidebars;save(Lcom/google/gson/JsonObject;)V"), remap = false, cancellable = true)
     private static void save(CallbackInfo ci, @Local JsonObject json) throws IOException {
-        var persist = EmiPersistentData.GSON.fromJson(new FileReader(EmiPersistentData.FILE), EmiPersist.class);
+        var persist = EmiPersistentData.GSON.fromJson(openFileReader(EmiPersistentData.FILE), EmiPersist.class);
         if (persist == null) {
             persist = new EmiPersist();
         }
