@@ -38,7 +38,7 @@ public class NoRecipeLogicMultiblockMachine extends MultiblockControllerMachine 
     protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
             NoRecipeLogicMultiblockMachine.class, MultiblockControllerMachine.MANAGED_FIELD_HOLDER);
 
-    private int checkTime;
+    private int checkTime = 1;
 
     private final List<MultiblockTrait> multiblockTraits = new ArrayList<>(2);
 

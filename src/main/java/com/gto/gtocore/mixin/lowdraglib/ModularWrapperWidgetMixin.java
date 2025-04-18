@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 @Mixin(ModularWrapperWidget.class)
 public abstract class ModularWrapperWidgetMixin extends Widget implements ContainerEventHandler {
 
-    @Shadow
+    @Shadow(remap = false)
     @Final
     public ModularWrapper<?> modular;
 

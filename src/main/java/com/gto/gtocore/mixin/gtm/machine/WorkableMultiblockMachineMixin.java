@@ -111,6 +111,7 @@ public abstract class WorkableMultiblockMachineMixin extends MultiblockControlle
         if (getLevel() instanceof ServerLevel level) {
             level.getServer().tell(new TickTask(1, this::arrangeDistinct));
         }
+        getRecipeLogic().markLastRecipeDirty();
         for (IMultiPart part : getParts()) {
             if (this instanceof IEnhancedMultiblockMachine enhancedRecipeLogicMachine) {
                 enhancedRecipeLogicMachine.onPartScan(part);

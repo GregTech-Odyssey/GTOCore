@@ -14,7 +14,7 @@ public abstract class SlotWidgetMixin {
      * @author .
      * @reason fix bug
      */
-    @Overwrite
+    @Overwrite(remap = false)
     public static boolean keyPressed(Object ingredient, int keyCode, int scanCode, int modifiers) {
         if (ingredient instanceof EmiStack emiStack) {
             return EmiScreenManager.stackInteraction(new EmiStackInteraction(emiStack), (bind) -> bind.matchesKey(keyCode, scanCode));
