@@ -1,6 +1,8 @@
 package com.gto.gtocore.common.item.tools;
 
+import com.gregtechceu.gtceu.api.item.IComponentItem;
 import com.gregtechceu.gtceu.api.item.component.IInteractionItem;
+import com.gregtechceu.gtceu.api.item.component.IItemComponent;
 import com.gregtechceu.gtceu.common.item.TooltipBehavior;
 
 import net.minecraft.core.BlockPos;
@@ -18,6 +20,7 @@ import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +28,7 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class GrassHarvesterBehaviour extends TooltipBehavior implements IInteractionItem {
-
+    public static final GrassHarvesterBehaviour INSTANCE = new  GrassHarvesterBehaviour();
     private static final Map<Block, Map<Item, Float>> HARVESTABLE_BLOCKS = Map.of(
             Blocks.GRASS, Map.of(
                     Items.WHEAT_SEEDS, 0.9F,
@@ -59,7 +62,7 @@ public class GrassHarvesterBehaviour extends TooltipBehavior implements IInterac
                     isMatch.set(true);
                     items.forEach((item, chance) -> {
                         if (random.nextFloat() < chance) {
-                            bonus.add(new ItemStack(item, (int) Math.max(1, chance * (random.nextInt(1, 2)))));
+                            bonus.add(new ItemStack(item, (int) Math.max(1, chance * (random.nextInt(1, 3)))));
                         }
                     });
                 }
