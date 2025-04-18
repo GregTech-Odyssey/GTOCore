@@ -233,6 +233,13 @@ public final class ForgeCommonEvent {
                 ServerUtils.getPersistentData().putBoolean("srm", true);
                 CommonSavaedData.INSTANCE.setDirty();
             }
+            int difficulty = ServerUtils.getPersistentData().getInt("difficulty");
+            if (difficulty == 0) {
+                ServerUtils.getPersistentData().putInt("difficulty", GTOConfig.getDifficulty());
+                CommonSavaedData.INSTANCE.setDirty();
+            } else if (difficulty != GTOConfig.getDifficulty()) {
+                serverLevel.getServer().halt(true);
+            }
             ServerCache.initialized = true;
         }
     }

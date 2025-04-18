@@ -18,6 +18,8 @@ import com.gregtechceu.gtceu.integration.ae2.machine.MEOutputBusPartMachine;
 import com.gregtechceu.gtceu.integration.ae2.machine.MEOutputHatchPartMachine;
 
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.TickTask;
+import net.minecraft.server.level.ServerLevel;
 
 import com.hepdd.gtmthings.common.block.machine.multiblock.part.appeng.MEOutputPartMachine;
 import com.llamalad7.mixinextras.sugar.Local;
@@ -106,7 +108,9 @@ public abstract class WorkableMultiblockMachineMixin extends MultiblockControlle
 
     @Inject(method = "onStructureFormed", at = @At(value = "TAIL"), remap = false)
     private void onStructureFormed(CallbackInfo ci) {
-        arrangeDistinct();
+        if (getLevel() instanceof ServerLevel level) {
+            level.getServer().tell(new TickTask(1, this::arrangeDistinct));
+        }
         for (IMultiPart part : getParts()) {
             if (this instanceof IEnhancedMultiblockMachine enhancedRecipeLogicMachine) {
                 enhancedRecipeLogicMachine.onPartScan(part);

@@ -93,6 +93,7 @@
         "gtm.api.machine.MultiblockMachineDefinitionMixin",
         "gtm.api.machine.NotifiableItemStackHandlerMiixn",
         "gtm.api.machine.RecipeLogicMixin",
+        "gtm.api.machine.SteamEnergyRecipeHandlerMixin",
         "gtm.api.recipe.FluidIngredientFluidValueAccessor",
         "gtm.api.recipe.FluidIngredientMixin",
         "gtm.api.recipe.GTRecipeLookupMixin",
@@ -203,7 +204,6 @@
         "placebo.RecipeHelperMixin",
         "placebo.TrailsManagerMixin",
         "placebo.WingsManagerMixin",
-        "registrate.AbstractRegistrateMixin",
         "registrate.BlockBuilderMixin"
     ],
     "injectors": {
