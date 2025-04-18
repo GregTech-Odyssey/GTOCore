@@ -6,6 +6,7 @@ import com.gto.gtocore.client.renderer.item.OrderItemProviderRenderer;
 import com.gto.gtocore.common.cover.PowerAmplifierCover;
 import com.gto.gtocore.common.item.*;
 import com.gto.gtocore.common.item.armor.SpaceArmorComponentItem;
+import com.gto.gtocore.common.item.tools.GrassHarvesterBehaviour;
 import com.gto.gtocore.config.GTOConfig;
 import com.gto.gtocore.integration.ae2.InfinityCellItem;
 import com.gto.gtocore.utils.StringUtils;
@@ -865,4 +866,5 @@ public interface GTOItems {
     ItemEntry<Item> DISPOSABLE_MALLET_MOLD = register("disposable_mallet_mold", "一次性软锤模具");
     ItemEntry<Item> DISPOSABLE_SCREWDRIVER_MOLD = register("disposable_screwdriver_mold", "一次性螺丝刀模具");
     ItemEntry<Item> DISPOSABLE_SAW_MOLD = register("disposable_saw_mold", "一次性锯模具");
+    ItemEntry<ComponentItem> GRASS_HARVESTER = item("grass_harvester", "割草镰刀", ComponentItem::create).properties(p -> p.stacksTo(1).durability(128).setNoRepair()).onRegister(attach(GrassHarvesterBehaviour.INSTANCE)).register();
 }
