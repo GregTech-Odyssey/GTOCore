@@ -23,6 +23,8 @@ import java.util.Arrays;
 import java.util.Map;
 
 import static com.gto.gtocore.api.GTOValues.*;
+import static net.minecraft.ChatFormatting.GOLD;
+import static net.minecraft.ChatFormatting.RESET;
 
 public final class LangHandler {
 
@@ -210,6 +212,9 @@ public final class LangHandler {
         addENCN("gtocore.player_exp_status.open", "ExperienceSystemOpened", "经验系统已开启");
         addENCN("gtocore.player_exp_status.close", "ExperienceSystemClosed", "经验系统已关闭");
         addENCN("gtocore.player_exp_status.get_experience", "you got %s point of %s experience", "你获得了%s点%s经验");
+
+        addENCN("gtocore.behaviour.grass_harvest.description", GOLD + "Greatly" + RESET + " increase the probability of wheat seed dropping", GOLD + "极大" + RESET + "地提升小麦种子掉落概率");
+        addENCN("gtocore.behaviour.grass_harvest.description2", "Right click to harvest", "右键以收割");
     }
 
     public static void enInitialize(LanguageProvider provider) {
