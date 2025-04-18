@@ -189,6 +189,7 @@
         "mc.PlayerMixin",
         "mc.RecipeBookMixin",
         "mc.RecipeManagerMixin",
+        "mc.RepairItemRecipeMixin",
         "mc.ServerAdvancementManagerMixin",
         "mc.ServerPlayerMixin",
         "mc.ServerRecipeBookMixin",
