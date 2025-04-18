@@ -1,6 +1,7 @@
 package com.gto.gtocore.common.data;
 
 import com.gto.gtocore.GTOCore;
+import com.gto.gtocore.api.playerskill.command.Administration;
 import com.gto.gtocore.common.saved.DysonSphereSavaedData;
 import com.gto.gtocore.utils.ItemUtils;
 import com.gto.gtocore.utils.StringConverter;
@@ -28,6 +29,7 @@ import com.mojang.brigadier.CommandDispatcher;
 public interface GTOCommands {
 
     static void init(CommandDispatcher<CommandSourceStack> dispatcher) {
+        Administration.register(dispatcher);
         dispatcher.register(Commands.literal(GTOCore.MOD_ID)
                 .then(Commands.literal("dyson")
                         .then(Commands.literal("info")

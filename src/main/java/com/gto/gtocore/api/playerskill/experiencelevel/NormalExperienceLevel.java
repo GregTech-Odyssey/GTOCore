@@ -1,27 +1,40 @@
 package com.gto.gtocore.api.playerskill.experiencelevel;
 
-import com.gto.gtocore.api.playerskill.experiencelevel.special.BodyExperienceLevel;
+import com.gto.gtocore.api.playerskill.SkillType;
+import com.gto.gtocore.api.playerskill.experiencelevel.special.LifeIntensityExperienceLevel;
+
+import net.minecraft.world.entity.player.Player;
 
 public abstract class NormalExperienceLevel extends BasicExperienceLevel {
 
-    protected BodyExperienceLevel bodyExperienceLevel;
+    protected LifeIntensityExperienceLevel lifeIntensityExperienceLevel;
 
     @Override
-    public int getMaxLevel() {
-        return (this.bodyExperienceLevel.level) << 1;
-    }
-
-    @Override
-    public void addExperience(int amount) {
+    public void addExperience(long amount, Player player) {
+        if (this.skillType.getLevelStepPerVoltage() == 0) {
+            return;
+        } // 不可升级
+        whenExperienceAdded(experience, experience + amount, player);
         experience += amount;
         while (experience >= getExperienceForNextLevel() && level < getMaxLevel()) {
-            experience -= getExperienceForNextLevel();
+            long experienceForNextLevel = getExperienceForNextLevel();
+            experience -= experienceForNextLevel;
+            whenLevelAdded(level, level + 1, experienceForNextLevel, player);
             level++;
         }
     }
 
-    protected NormalExperienceLevel(BodyExperienceLevel _bodyExperienceLevel) {
-        super();
-        this.bodyExperienceLevel = _bodyExperienceLevel;
+    protected NormalExperienceLevel(LifeIntensityExperienceLevel _lifeIntensityExperienceLevel, SkillType skillType) {
+        super(skillType);
+        this.lifeIntensityExperienceLevel = _lifeIntensityExperienceLevel;
+    }
+
+    public long getMaxVoltage() {
+        return lifeIntensityExperienceLevel.getVoltage();
+    }
+
+    @Override
+    public long getMaxLevel() {
+        return (lifeIntensityExperienceLevel.getVoltage() + 1) * skillType.getLevelStepPerVoltage();
     }
 }
