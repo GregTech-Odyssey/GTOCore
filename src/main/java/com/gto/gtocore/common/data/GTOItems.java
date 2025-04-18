@@ -6,7 +6,6 @@ import com.gto.gtocore.client.renderer.item.OrderItemProviderRenderer;
 import com.gto.gtocore.common.cover.PowerAmplifierCover;
 import com.gto.gtocore.common.item.*;
 import com.gto.gtocore.common.item.armor.SpaceArmorComponentItem;
-import com.gto.gtocore.common.item.tools.CannotBreakBlockItem;
 import com.gto.gtocore.common.item.tools.GrassHarvesterBehaviour;
 import com.gto.gtocore.config.GTOConfig;
 import com.gto.gtocore.integration.ae2.InfinityCellItem;
