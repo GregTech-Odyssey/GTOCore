@@ -32,6 +32,9 @@ import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.gregtechceu.gtceu.utils.GTUtil;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
@@ -102,6 +105,96 @@ public final class ProcessingEncapsulatorMachine extends StorageMultiblockMachin
     }
 
     @Override
+    public void saveCustomPersistedData(@NotNull CompoundTag tag, boolean forDrop) {
+        super.saveCustomPersistedData(tag, forDrop);
+        if (!inputItemStackMap.isEmpty()) {
+            var map = new ListTag();
+            for (var entry : inputItemStackMap.object2IntEntrySet()) {
+                var pairs = new CompoundTag();
+                pairs.put("K", entry.getKey().serializeNBT());
+                pairs.putInt("V", entry.getIntValue());
+                map.add(pairs);
+            }
+            tag.put("inputItemStackMap", map);
+        }
+        if (!inputFluidStackMap.isEmpty()) {
+            var map = new ListTag();
+            for (var entry : inputFluidStackMap.object2IntEntrySet()) {
+                var pairs = new CompoundTag();
+                pairs.put("K", entry.getKey().writeToNBT(new CompoundTag()));
+                pairs.putInt("V", entry.getIntValue());
+                map.add(pairs);
+            }
+            tag.put("inputFluidStackMap", map);
+        }
+        if (!outputItemStackMap.isEmpty()) {
+            var map = new ListTag();
+            for (var entry : outputItemStackMap.object2IntEntrySet()) {
+                var pairs = new CompoundTag();
+                pairs.put("K", entry.getKey().serializeNBT());
+                pairs.putInt("V", entry.getIntValue());
+                map.add(pairs);
+            }
+            tag.put("outputItemStackMap", map);
+        }
+        if (!outputFluidStackMap.isEmpty()) {
+            var map = new ListTag();
+            for (var entry : outputFluidStackMap.object2IntEntrySet()) {
+                var pairs = new CompoundTag();
+                pairs.put("K", entry.getKey().writeToNBT(new CompoundTag()));
+                pairs.putInt("V", entry.getIntValue());
+                map.add(pairs);
+            }
+            tag.put("outputFluidStackMap", map);
+        }
+    }
+
+    @Override
+    public void loadCustomPersistedData(@NotNull CompoundTag tag) {
+        super.loadCustomPersistedData(tag);
+        if (tag.contains("inputItemStackMap")) {
+            inputItemStackMap.clear();
+            var map = tag.getList("inputItemStackMap", Tag.TAG_COMPOUND);
+            for (var c : map) {
+                CompoundTag pairs = (CompoundTag) c;
+                var key = NBTItem.of(pairs.getCompound("K"));
+                var value = pairs.getInt("V");
+                inputItemStackMap.put(key, value);
+            }
+        }
+        if (tag.contains("inputFluidStackMap")) {
+            inputFluidStackMap.clear();
+            var map = tag.getList("inputFluidStackMap", Tag.TAG_COMPOUND);
+            for (var c : map) {
+                CompoundTag pairs = (CompoundTag) c;
+                var key = FluidStack.loadFluidStackFromNBT(pairs.getCompound("K"));
+                var value = pairs.getInt("V");
+                inputFluidStackMap.put(key, value);
+            }
+        }
+        if (tag.contains("outputItemStackMap")) {
+            outputItemStackMap.clear();
+            var map = tag.getList("outputItemStackMap", Tag.TAG_COMPOUND);
+            for (var c : map) {
+                CompoundTag pairs = (CompoundTag) c;
+                var key = NBTItem.of(pairs.getCompound("K"));
+                var value = pairs.getInt("V");
+                outputItemStackMap.put(key, value);
+            }
+        }
+        if (tag.contains("outputFluidStackMap")) {
+            outputFluidStackMap.clear();
+            var map = tag.getList("outputFluidStackMap", Tag.TAG_COMPOUND);
+            for (var c : map) {
+                CompoundTag pairs = (CompoundTag) c;
+                var key = FluidStack.loadFluidStackFromNBT(pairs.getCompound("K"));
+                var value = pairs.getInt("V");
+                outputFluidStackMap.put(key, value);
+            }
+        }
+    }
+
+    @Override
     public void onMachineChanged() {
         if (isFormed) {
             if (getRecipeLogic().getLastRecipe() != null) {
@@ -137,9 +230,7 @@ public final class ProcessingEncapsulatorMachine extends StorageMultiblockMachin
     public void onStructureFormed() {
         super.onStructureFormed();
         update();
-        for (int i = 0; i < packageRecipe.size(); i++) {
-            var recipe = packageRecipe.get(i);
-            int parallel = parallels.get(i);
+        for (GTRecipe recipe : packageRecipe) {
             boolean invalid = true;
             var mapReicpe = GTORecipeBuilder.RECIPE_MAP.get(recipe.id);
             if (mapReicpe != null) {
@@ -152,7 +243,6 @@ public final class ProcessingEncapsulatorMachine extends StorageMultiblockMachin
                             itemMatch = false;
                             break;
                         }
-                        inputItemStackMap.addTo(NBTItem.of(inputItem.get(j)), parallel * inputItem.get(j).getCount());
                     }
                     if (itemMatch) {
                         var inputFluid = GTOUtils.getInputFluids(recipe);
@@ -164,7 +254,6 @@ public final class ProcessingEncapsulatorMachine extends StorageMultiblockMachin
                                     fluidMatch = false;
                                     break;
                                 }
-                                inputFluidStackMap.addTo(inputFluid.get(j), parallel * inputFluid.get(j).getAmount());
                             }
                             if (fluidMatch) {
                                 invalid = false;
@@ -175,21 +264,7 @@ public final class ProcessingEncapsulatorMachine extends StorageMultiblockMachin
             }
             if (invalid) invalidRecipe.add(recipe);
         }
-        if (invalidRecipe.isEmpty()) {
-            for (int i = 0; i < packageRecipe.size(); i++) {
-                var recipe = packageRecipe.get(i);
-                int parallel = parallels.get(i);
-                var outputItem = GTOUtils.getOutputItems(recipe);
-                for (var item : outputItem) {
-                    outputItemStackMap.addTo(NBTItem.of(item), parallel * item.getCount());
-                }
-                var outputFluid = GTOUtils.getOutputFluids(recipe);
-                for (var fluid : outputFluid) {
-                    outputFluidStackMap.addTo(fluid, parallel * fluid.getAmount());
-                }
-            }
-            return;
-        }
+        if (invalidRecipe.isEmpty()) return;
         clean();
     }
 

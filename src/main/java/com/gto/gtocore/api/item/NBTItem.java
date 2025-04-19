@@ -1,5 +1,8 @@
 package com.gto.gtocore.api.item;
 
+import com.gto.gtocore.utils.ItemUtils;
+import com.gto.gtocore.utils.RegistriesUtils;
+
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -10,12 +13,25 @@ public record NBTItem(Item item, CompoundTag nbt) {
         return new NBTItem(stack.getItem(), stack.hasTag() ? stack.getTag() : null);
     }
 
+    public static NBTItem of(CompoundTag tag) {
+        return new NBTItem(RegistriesUtils.getItem(tag.getString("id")), tag.getCompound("tag"));
+    }
+
     public ItemStack toStack() {
         return toStack(1);
     }
 
     public ItemStack toStack(int count) {
         return new ItemStack(item, count, nbt);
+    }
+
+    public CompoundTag serializeNBT() {
+        var tag = new CompoundTag();
+        tag.putString("id", ItemUtils.getId(item));
+        if (nbt != null) {
+            tag.put("tag", nbt);
+        }
+        return tag;
     }
 
     @Override
