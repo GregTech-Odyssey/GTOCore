@@ -18,6 +18,7 @@ import com.gto.gtocore.common.machine.noenergy.BoilWaterMachine;
 import com.gto.gtocore.common.machine.noenergy.HeaterMachine;
 import com.gto.gtocore.common.machine.noenergy.PerformanceMonitorMachine;
 import com.gto.gtocore.common.machine.steam.SteamVacuumPumpMachine;
+import com.gto.gtocore.config.GTOConfig;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
@@ -146,7 +147,7 @@ public interface GTOMachines {
                     .hasTESR(true)
                     .tooltips(Component.translatable("gtocore.machine.wind_mill_turbine.tooltip.0"))
                     .tooltips(Component.translatable("gtocore.machine.wind_mill_turbine.tooltip.1"))
-                    .tooltips(Component.translatable("gtceu.universal.tooltip.amperage_out", 2))
+                    .tooltips(Component.translatable("gtceu.universal.tooltip.amperage_out", GTOConfig.getDifficulty() == 1 ? 2 : 1))
                     .tooltips(Component.translatable("gtceu.universal.tooltip.voltage_out",
                             FormattingUtil.formatNumbers(V[tier]), VNF[tier]))
                     .tooltips(Component.translatable("gtceu.universal.tooltip.energy_storage_capacity",

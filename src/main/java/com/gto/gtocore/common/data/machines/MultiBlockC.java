@@ -949,6 +949,7 @@ public interface MultiBlockC {
             .tooltipsText("Our advanced nanites colony production technology has completely surpassed the old-fashioned chemical production line", "我们先进的纳米蜂群生产技术已经完全超越了老式的化工产线")
             .tooltipsText("Install the corresponding module to unlock the corresponding recipe", "安装对应模块解锁对应配方")
             .tooltipsText("Installing a nanites into the host can reduce the probability of pollution.", "主机中放入纳米蜂群可减少污染概率")
+            .tooltipsText("Base chance, iron: 1, iridium: 1.1, orichalcum: 1.2, infuscolium: 1.3, draconium: 1.4, cosmic neutronium: 1.5, eternity: 1.6", "基础概率，铁：1，铱：1.1，山铜：1.2，魔金：1.3，龙", "基础概率，铁：1，铱：1.1，山铜：1.2，魔金：1.3，龙：1.4，宇宙中子素：1.5，永恒：1.6")
             .recipe(GTORecipeTypes.NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES)
             .customTooltipsBuilder(false, true, true)
             .parallelizableTooltips()
