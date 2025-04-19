@@ -92,6 +92,8 @@ public class ElectricMultiblockMachine extends WorkableElectricMultiblockMachine
     @Override
     @MustBeInvokedByOverriders
     public void onStructureFormed() {
+        clean();
+        energyContainer = null;
         super.onStructureFormed();
         multiblockTraits.forEach(MultiblockTrait::onStructureFormed);
     }
@@ -101,15 +103,19 @@ public class ElectricMultiblockMachine extends WorkableElectricMultiblockMachine
     public void onStructureInvalid() {
         super.onStructureInvalid();
         multiblockTraits.forEach(MultiblockTrait::onStructureInvalid);
-        overclockVoltage = -1;
-        maxVoltage = -1;
+        clean();
     }
 
     @Override
     @MustBeInvokedByOverriders
     public void onPartUnload() {
         super.onPartUnload();
+        clean();
+    }
+
+    private void clean() {
         overclockVoltage = -1;
+        maxVoltage = -1;
     }
 
     @Override
