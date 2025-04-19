@@ -780,6 +780,13 @@ public interface GTOItems {
     ItemEntry<Item> EMERALD_CRYSTAL_CIRCUIT = register("emerald_crystal_circuit", "绿宝石晶体电路");
     ItemEntry<Item> SAPPHIRE_CRYSTAL_CIRCUIT = register("sapphire_crystal_circuit", "蓝宝石晶体电路");
 
+    ItemEntry<Item> COOLANT_CELL_10K = registerLang("coolant_cell_10k", "10K Coolant Cell", "10K冷却单元");
+    ItemEntry<Item> COOLANT_CELL_30K = registerLang("coolant_cell_30k", "30K Coolant Cell", "30K冷却单元");
+    ItemEntry<Item> COOLANT_CELL_60K = registerLang("coolant_cell_60k", "60K Coolant Cell", "60K冷却单元");
+    ItemEntry<Item> SPACE_COOLANT_CELL_10K = registerLang("space_coolant_cell_10k", "10K Space Coolant Cell", "10K空间冷却单元");
+    ItemEntry<Item> SPACE_COOLANT_CELL_30K = registerLang("space_coolant_cell_30k", "30K Space Coolant Cell", "30K空间冷却单元");
+    ItemEntry<Item> SPACE_COOLANT_CELL_60K = registerLang("space_coolant_cell_60k", "60K Space Coolant Cell", "60K空间冷却单元");
+
     ItemEntry<Item> NANOTUBE_SPOOL = register("nanotube_spool", "纳米管线轴");
 
     ItemEntry<Item> MICA_BASED_PULP = register("mica_based_pulp", "云母浆");
@@ -831,6 +838,9 @@ public interface GTOItems {
             .properties(p -> p.rarity(Rarity.EPIC))
             .register();
 
+    ItemEntry<UpgradeModuleItem> SPEED_UPGRADE_MODULE = item("speed_upgrade_module", "速度升级模块", UpgradeModuleItem::new).register();
+    ItemEntry<UpgradeModuleItem> ENERGY_UPGRADE_MODULE = item("energy_upgrade_module", "能量升级模块", UpgradeModuleItem::new).register();
+
     ItemEntry<Item> DISPOSABLE_FILE = item("disposable_file", "一次性锉刀", Item::new)
             .tag(CustomTags.CRAFTING_FILES).register();
 
@@ -854,9 +864,6 @@ public interface GTOItems {
 
     ItemEntry<Item> DISPOSABLE_SAW = item("disposable_saw", "一次性锯子", Item::new)
             .tag(CustomTags.CRAFTING_SAWS).register();
-
-    ItemEntry<UpgradeModuleItem> SPEED_UPGRADE_MODULE = item("speed_upgrade_module", "速度升级模块", UpgradeModuleItem::new).register();
-    ItemEntry<UpgradeModuleItem> ENERGY_UPGRADE_MODULE = item("energy_upgrade_module", "能量升级模块", UpgradeModuleItem::new).register();
 
     ItemEntry<Item> DISPOSABLE_FILE_MOLD = register("disposable_file_mold", "一次性锉刀模具");
     ItemEntry<Item> DISPOSABLE_WRENCH_MOLD = register("disposable_wrench_mold", "一次性扳手模具");

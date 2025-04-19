@@ -10,6 +10,7 @@ import net.minecraft.util.Mth;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
+import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.function.ToIntFunction;
@@ -21,6 +22,8 @@ public class CustomParallelTrait extends MultiblockTrait {
 
     @Persisted
     private int parallelNumber;
+    @Setter
+    private boolean defaultMax = true;
     private final boolean defaultParallel;
     private final ToIntFunction<IParallelMachine> parallel;
 
@@ -61,7 +64,7 @@ public class CustomParallelTrait extends MultiblockTrait {
     }
 
     public int getParallel() {
-        if (parallelNumber == 0) parallelNumber = getMaxParallel();
+        if (defaultMax && parallelNumber == 0) parallelNumber = getMaxParallel();
         return Math.max(1, parallelNumber);
     }
 

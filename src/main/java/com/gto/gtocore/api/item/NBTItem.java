@@ -10,6 +10,14 @@ public record NBTItem(Item item, CompoundTag nbt) {
         return new NBTItem(stack.getItem(), stack.hasTag() ? stack.getTag() : null);
     }
 
+    public ItemStack toStack() {
+        return toStack(1);
+    }
+
+    public ItemStack toStack(int count) {
+        return new ItemStack(item, count, nbt);
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof NBTItem content && item == content.item) {

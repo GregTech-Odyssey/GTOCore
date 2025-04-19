@@ -16,6 +16,7 @@ import com.gto.gtocore.common.machine.multiblock.electric.SuperMolecularAssemble
 import com.gto.gtocore.common.machine.multiblock.electric.TreeGrowthSimulator;
 import com.gto.gtocore.common.machine.multiblock.electric.adventure.BossSummonerMachine;
 import com.gto.gtocore.common.machine.multiblock.electric.processing.ProcessingArrayMachine;
+import com.gto.gtocore.common.machine.multiblock.electric.processing.ProcessingEncapsulatorMachine;
 import com.gto.gtocore.common.machine.multiblock.electric.space.SatelliteControlCenterMachine;
 import com.gto.gtocore.common.machine.multiblock.electric.voidseries.DrillingControlCenterMachine;
 import com.gto.gtocore.common.machine.multiblock.electric.voidseries.VoidTransporterMachine;
@@ -30,6 +31,7 @@ import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
+import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTMachines;
@@ -717,5 +719,29 @@ public interface MultiBlockG {
                     .where('c', air())
                     .build())
             .workableCasingRenderer(GTCEu.id("block/casings/voltage/ulv/side"), GTCEu.id("block/multiblock/fusion_reactor"))
+            .register();
+
+    MultiblockMachineDefinition PROCESSING_ENCAPSULATOR = multiblock("processing_encapsulator", "产线封装者", ProcessingEncapsulatorMachine::new)
+            .nonYAxisRotation()
+            .recipe(GTRecipeTypes.DUMMY_RECIPES)
+            .block(GTOBlocks.MULTI_FUNCTIONAL_CASING)
+            .pattern((definition) -> FactoryBlockPattern.start()
+                    .aisle("bbb", "bbb", "bbb")
+                    .aisle("bbb", "bcb", "bbb")
+                    .aisle("bbb", "bab", "bbb")
+                    .where('a', controller(blocks(definition.get())))
+                    .where('b', blocks(GTOBlocks.MULTI_FUNCTIONAL_CASING.get())
+                            .setMinGlobalLimited(14)
+                            .or(abilities(GTOPartAbility.ACCELERATE_HATCH).setMaxGlobalLimited(1))
+                            .or(Predicates.blocks(ManaMachine.MANA_AMPLIFIER_HATCH.getBlock()).setMaxGlobalLimited(1))
+                            .or(abilities(IMPORT_ITEMS))
+                            .or(abilities(EXPORT_ITEMS))
+                            .or(abilities(IMPORT_FLUIDS))
+                            .or(abilities(EXPORT_FLUIDS))
+                            .or(abilities(INPUT_ENERGY).setMaxGlobalLimited(2).setPreviewCount(1))
+                            .or(abilities(MAINTENANCE).setExactLimit(1)))
+                    .where('c', GTOPredicates.integralFramework())
+                    .build())
+            .workableCasingRenderer(GTOCore.id("block/casings/multi_functional_casing"), GTCEu.id("block/multiblock/gcym/large_assembler"))
             .register();
 }
