@@ -46,7 +46,7 @@ public class CustomRecipeLogic extends RecipeLogic implements IEnhancedRecipeLog
             setStatus(Status.SUSPEND);
             suspendAfterFinish = false;
         } else {
-            if (tryLast && RecipeRunnerHelper.check(machine, lastRecipe)) {
+            if (!recipeDirty && tryLast && RecipeRunnerHelper.check(machine, lastRecipe)) {
                 setupRecipe(lastRecipe);
                 return;
             } else {

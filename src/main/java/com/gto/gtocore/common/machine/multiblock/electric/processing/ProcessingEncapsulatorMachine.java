@@ -22,7 +22,6 @@ import com.gregtechceu.gtceu.api.gui.fancy.ConfiguratorPanel;
 import com.gregtechceu.gtceu.api.item.MetaMachineItem;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
-import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
@@ -49,6 +48,7 @@ import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -88,7 +88,7 @@ public final class ProcessingEncapsulatorMachine extends StorageMultiblockMachin
 
     public ProcessingEncapsulatorMachine(IMachineBlockEntity holder) {
         super(holder, 1, i -> true);
-        customParallelTrait = new CustomParallelTrait(this, false, machine -> Integer.MAX_VALUE);
+        customParallelTrait = new CustomParallelTrait(this, true, machine -> Integer.MAX_VALUE);
         tierCasingTrait = new TierCasingTrait(this, GTOValues.INTEGRAL_FRAMEWORK_TIER);
         customParallelTrait.setDefaultMax(false);
     }
@@ -127,7 +127,7 @@ public final class ProcessingEncapsulatorMachine extends StorageMultiblockMachin
         if (getStorageStack().getItem() instanceof MetaMachineItem metaMachineItem) {
             MachineDefinition definition = metaMachineItem.getDefinition();
             if (definition.getTier() >= RecipeHelper.getRecipeEUtTier(recipe)) {
-                return RecipeRunnerHelper.matchRecipeInput(this, recipe);
+                return getOverclockTier() >= RecipeHelper.getRecipeEUtTier(recipe) && RecipeRunnerHelper.matchRecipeInput(this, recipe);
             }
         }
         return false;
@@ -201,6 +201,7 @@ public final class ProcessingEncapsulatorMachine extends StorageMultiblockMachin
         inputFluidStackMap.clear();
         outputItemStackMap.clear();
         outputFluidStackMap.clear();
+        getRecipeLogic().markLastRecipeDirty();
     }
 
     @Override
@@ -353,7 +354,7 @@ public final class ProcessingEncapsulatorMachine extends StorageMultiblockMachin
                     finalRecipe = recipeBuilder.buildRawRecipe();
                 }
                 case "search" -> {
-                    if (recipeTypeCache == GTRecipeTypes.DUMMY_RECIPES) return;
+                    if (recipeTypeCache == GTRecipeTypes.DUMMY_RECIPES || finalRecipe != null) return;
                     Iterator<GTRecipe> iterator = recipeTypeCache.searchRecipe(this, this::matchRecipe);
                     while (iterator.hasNext()) {
                         GTRecipe recipe = iterator.next();
@@ -424,9 +425,19 @@ public final class ProcessingEncapsulatorMachine extends StorageMultiblockMachin
         }
     }
 
+    private @Nullable GTRecipe getRecipe() {
+        if (finalRecipe != null) {
+            var recipe = fullModifyRecipe(finalRecipe);
+            if (RecipeRunnerHelper.check(this, recipe)) {
+                return recipe;
+            }
+        }
+        return null;
+    }
+
     @Override
     protected @NotNull RecipeLogic createRecipeLogic(Object @NotNull... args) {
-        return new EncapsulatorRecipeLogic(this);
+        return new CustomRecipeLogic(this, this::getRecipe);
     }
 
     @Override
@@ -447,12 +458,5 @@ public final class ProcessingEncapsulatorMachine extends StorageMultiblockMachin
     @Override
     public Object2IntMap<String> getCasingTiers() {
         return tierCasingTrait.getCasingTiers();
-    }
-
-    private static class EncapsulatorRecipeLogic extends CustomRecipeLogic {
-
-        private EncapsulatorRecipeLogic(IRecipeLogicMachine machine) {
-            super(machine, () -> null, true);
-        }
     }
 }
