@@ -74,9 +74,6 @@ public final class ProcessingEncapsulatorMachine extends StorageMultiblockMachin
     @Persisted
     private final List<GTRecipe> packageRecipe = new ArrayList<>();
 
-    @Persisted
-    private final List<Integer> parallels = new ArrayList<>();
-
     private final List<GTRecipe> invalidRecipe = new ArrayList<>();
 
     private final Object2IntOpenHashMap<NBTItem> inputItemStackMap = new Object2IntOpenHashMap<>();
@@ -230,7 +227,7 @@ public final class ProcessingEncapsulatorMachine extends StorageMultiblockMachin
     public void onStructureFormed() {
         super.onStructureFormed();
         update();
-        for (GTRecipe recipe : packageRecipe) {
+        for (var recipe : packageRecipe) {
             boolean invalid = true;
             var mapReicpe = GTORecipeBuilder.RECIPE_MAP.get(recipe.id);
             if (mapReicpe != null) {
@@ -271,7 +268,6 @@ public final class ProcessingEncapsulatorMachine extends StorageMultiblockMachin
     private void clean() {
         finalRecipe = null;
         packageRecipe.clear();
-        parallels.clear();
         inputItemStackMap.clear();
         inputFluidStackMap.clear();
         outputItemStackMap.clear();
@@ -355,10 +351,8 @@ public final class ProcessingEncapsulatorMachine extends StorageMultiblockMachin
                     if (finalRecipe != null || packageRecipe.isEmpty()) return;
                     var recipeBuilder = GTORecipeBuilder.ofRaw();
                     long totalEU = 0;
-                    for (int i = 0; i < packageRecipe.size(); i++) {
-                        var recipe = packageRecipe.get(i);
-                        int parallel = parallels.get(i);
-                        totalEU += (RecipeHelper.getInputEUt(recipe) * parallel);
+                    for (var recipe : packageRecipe) {
+                        totalEU += (RecipeHelper.getInputEUt(recipe) * recipe.parallels);
                     }
                     long maxEUt = getOverclockVoltage();
                     double d = (double) totalEU / maxEUt;
@@ -435,9 +429,9 @@ public final class ProcessingEncapsulatorMachine extends StorageMultiblockMachin
                         GTRecipe recipe = iterator.next();
                         if (recipe == null) continue;
                         if (RecipeRunnerHelper.checkConditions(this, recipe)) {
-                            packageRecipe.add(recipe);
                             int parallel = getParallel();
-                            parallels.add(parallel);
+                            recipe.parallels = parallel;
+                            packageRecipe.add(recipe);
                             var inputItem = recipe.inputs.get(ItemRecipeCapability.CAP);
                             if (inputItem != null) {
                                 for (var content : inputItem) {
