@@ -2,6 +2,7 @@ package com.gto.gtocore.mixin.gtm.machine;
 
 import com.gto.gtocore.api.gui.OverclockConfigurator;
 import com.gto.gtocore.api.machine.feature.IOverclockConfigMachine;
+import com.gto.gtocore.api.machine.feature.IPowerAmplifierMachine;
 import com.gto.gtocore.api.machine.feature.IUpgradeMachine;
 import com.gto.gtocore.api.machine.feature.multiblock.ICheckPatternMachine;
 import com.gto.gtocore.api.machine.trait.IEnhancedRecipeLogic;
@@ -35,7 +36,13 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import java.util.List;
 
 @Mixin(WorkableElectricMultiblockMachine.class)
-public abstract class WorkableElectricMultiblockMachineMixin extends WorkableMultiblockMachine implements IFancyUIMachine, IOverclockConfigMachine, ICheckPatternMachine, IUpgradeMachine {
+public abstract class WorkableElectricMultiblockMachineMixin extends WorkableMultiblockMachine implements IFancyUIMachine, IOverclockConfigMachine, ICheckPatternMachine, IUpgradeMachine, IPowerAmplifierMachine {
+
+    @Unique
+    private double gtocore$powerAmplifier = 1;
+
+    @Unique
+    private boolean gtocore$hasPowerAmplifier;
 
     @Unique
     private double gtocore$speed = 1;
@@ -172,5 +179,25 @@ public abstract class WorkableElectricMultiblockMachineMixin extends WorkableMul
     @Override
     public boolean gtocore$canUpgraded() {
         return getDefinition() == GTMultiMachines.ELECTRIC_BLAST_FURNACE;
+    }
+
+    @Override
+    public double gtocore$getPowerAmplifier() {
+        return gtocore$powerAmplifier;
+    }
+
+    @Override
+    public void gtocore$setPowerAmplifier(double powerAmplifier) {
+        this.gtocore$powerAmplifier = powerAmplifier;
+    }
+
+    @Override
+    public boolean gtocore$noPowerAmplifier() {
+        return !gtocore$hasPowerAmplifier;
+    }
+
+    @Override
+    public void gtocore$setHasPowerAmplifier(boolean hasPowerAmplifier) {
+        this.gtocore$hasPowerAmplifier = hasPowerAmplifier;
     }
 }

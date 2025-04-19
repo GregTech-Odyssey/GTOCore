@@ -241,19 +241,31 @@ public interface GTOItems {
     ItemEntry<Item> ULV_ELECTRIC_PISTON = registerLang("ulv_electric_piston", "ULV Electric Piston", "ULV电力活塞");
 
     ItemEntry<ComponentItem> LV_POWER_AMPLIFIERS = item("lv_power_amplifiers", "LV功率增幅器", ComponentItem::create)
-            .onRegister(attach(new TooltipBehavior(lines -> lines.add(Component.translatable("gtocore.machine.duration_multiplier.tooltip", FormattingUtil.formatNumbers(PowerAmplifierCover.getReduction(1))))), new CoverPlaceBehavior(GTOCovers.POWER_AMPLIFIERS[0])))
+            .onRegister(attach(new TooltipBehavior(lines -> {
+                lines.add(Component.translatable("gtocore.machine.duration_multiplier.tooltip", FormattingUtil.formatNumbers(1D / PowerAmplifierCover.getMultiplier(1))));
+                lines.add(Component.translatable("gtocore.machine.eut_multiplier.tooltip", FormattingUtil.formatNumbers(PowerAmplifierCover.getMultiplier(1))));
+            }), new CoverPlaceBehavior(GTOCovers.POWER_AMPLIFIERS[0])))
             .register();
 
     ItemEntry<ComponentItem> MV_POWER_AMPLIFIERS = item("mv_power_amplifiers", "MV功率增幅器", ComponentItem::create)
-            .onRegister(attach(new TooltipBehavior(lines -> lines.add(Component.translatable("gtocore.machine.duration_multiplier.tooltip", FormattingUtil.formatNumbers(PowerAmplifierCover.getReduction(2))))), new CoverPlaceBehavior(GTOCovers.POWER_AMPLIFIERS[1])))
+            .onRegister(attach(new TooltipBehavior(lines -> {
+                lines.add(Component.translatable("gtocore.machine.duration_multiplier.tooltip", FormattingUtil.formatNumbers(1D / PowerAmplifierCover.getMultiplier(2))));
+                lines.add(Component.translatable("gtocore.machine.eut_multiplier.tooltip", FormattingUtil.formatNumbers(PowerAmplifierCover.getMultiplier(2))));
+            }), new CoverPlaceBehavior(GTOCovers.POWER_AMPLIFIERS[1])))
             .register();
 
     ItemEntry<ComponentItem> HV_POWER_AMPLIFIERS = item("hv_power_amplifiers", "HV功率增幅器", ComponentItem::create)
-            .onRegister(attach(new TooltipBehavior(lines -> lines.add(Component.translatable("gtocore.machine.duration_multiplier.tooltip", FormattingUtil.formatNumbers(PowerAmplifierCover.getReduction(3))))), new CoverPlaceBehavior(GTOCovers.POWER_AMPLIFIERS[2])))
+            .onRegister(attach(new TooltipBehavior(lines -> {
+                lines.add(Component.translatable("gtocore.machine.duration_multiplier.tooltip", FormattingUtil.formatNumbers(1D / PowerAmplifierCover.getMultiplier(3))));
+                lines.add(Component.translatable("gtocore.machine.eut_multiplier.tooltip", FormattingUtil.formatNumbers(PowerAmplifierCover.getMultiplier(3))));
+            }), new CoverPlaceBehavior(GTOCovers.POWER_AMPLIFIERS[2])))
             .register();
 
     ItemEntry<ComponentItem> EV_POWER_AMPLIFIERS = item("ev_power_amplifiers", "EV功率增幅器", ComponentItem::create)
-            .onRegister(attach(new TooltipBehavior(lines -> lines.add(Component.translatable("gtocore.machine.duration_multiplier.tooltip", FormattingUtil.formatNumbers(PowerAmplifierCover.getReduction(4))))), new CoverPlaceBehavior(GTOCovers.POWER_AMPLIFIERS[3])))
+            .onRegister(attach(new TooltipBehavior(lines -> {
+                lines.add(Component.translatable("gtocore.machine.duration_multiplier.tooltip", FormattingUtil.formatNumbers(1D / PowerAmplifierCover.getMultiplier(4))));
+                lines.add(Component.translatable("gtocore.machine.eut_multiplier.tooltip", FormattingUtil.formatNumbers(PowerAmplifierCover.getMultiplier(4))));
+            }), new CoverPlaceBehavior(GTOCovers.POWER_AMPLIFIERS[3])))
             .register();
 
     ItemEntry<ComponentItem> AIR_VENT = item("air_vent", "通风口", ComponentItem::create)

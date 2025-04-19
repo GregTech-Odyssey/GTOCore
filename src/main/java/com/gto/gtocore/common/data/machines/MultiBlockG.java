@@ -15,8 +15,8 @@ import com.gto.gtocore.common.machine.multiblock.electric.DrawingTowerMachine;
 import com.gto.gtocore.common.machine.multiblock.electric.SuperMolecularAssemblerMachine;
 import com.gto.gtocore.common.machine.multiblock.electric.TreeGrowthSimulator;
 import com.gto.gtocore.common.machine.multiblock.electric.adventure.BossSummonerMachine;
+import com.gto.gtocore.common.machine.multiblock.electric.processing.EncapsulatorExecutionModuleMachine;
 import com.gto.gtocore.common.machine.multiblock.electric.processing.ProcessingArrayMachine;
-import com.gto.gtocore.common.machine.multiblock.electric.processing.ProcessingEncapsulatorMachine;
 import com.gto.gtocore.common.machine.multiblock.electric.space.SatelliteControlCenterMachine;
 import com.gto.gtocore.common.machine.multiblock.electric.voidseries.DrillingControlCenterMachine;
 import com.gto.gtocore.common.machine.multiblock.electric.voidseries.VoidTransporterMachine;
@@ -158,7 +158,7 @@ public interface MultiBlockG {
     MultiblockMachineDefinition POLYMERIZATION_REACTOR = multiblock("polymerization_reactor", "聚合反应器", CoilMultiblockMachine.createCoilMachine(false, false))
             .nonYAxisRotation()
             .recipe(GTORecipeTypes.POLYMERIZATION_REACTOR_RECIPES)
-            .recipeModifier(GTORecipeModifiers::polymerizationOverclock)
+            .recipeModifier(GTORecipeModifiers.coilReductionOverclock(false))
             .existingTooltips("chemical_plant", 0)
             .parallelizableTooltips()
             .block(GTBlocks.CASING_STAINLESS_CLEAN)
@@ -721,7 +721,7 @@ public interface MultiBlockG {
             .workableCasingRenderer(GTCEu.id("block/casings/voltage/ulv/side"), GTCEu.id("block/multiblock/fusion_reactor"))
             .register();
 
-    MultiblockMachineDefinition PROCESSING_ENCAPSULATOR = multiblock("processing_encapsulator", "产线封装者", ProcessingEncapsulatorMachine::new)
+    MultiblockMachineDefinition PROCESSING_ENCAPSULATOR = multiblock("processing_encapsulator", "产线封装者", EncapsulatorExecutionModuleMachine::new)
             .nonYAxisRotation()
             .recipe(GTRecipeTypes.DUMMY_RECIPES)
             .block(GTOBlocks.MULTI_FUNCTIONAL_CASING)

@@ -1247,7 +1247,7 @@ public interface MultiBlockD {
                     .allRotation()
                     .langValue("Fusion Reactor Computer MK %s".formatted(FormattingUtil.toRomanNumeral(tier - 5)))
                     .recipe(GTRecipeTypes.FUSION_RECIPES)
-                    .recipeModifier(FusionReactorMachine::recipeModifier)
+                    .recipeModifier((m, r) -> FusionReactorMachine.recipeModifier(m, r).apply(r))
                     .tooltipsKey("gtceu.machine.fusion_reactor.capacity", FusionReactorMachine.calculateEnergyStorageFactor(tier, 16) / 1000000L)
                     .tooltipsKey("gtceu.machine.fusion_reactor.overclocking")
                     .tooltipsKey("gtocore.machine.%s_fusion_reactor.description".formatted(GTValues.VN[tier].toLowerCase(Locale.ROOT)))
@@ -1340,7 +1340,7 @@ public interface MultiBlockD {
                     .tooltipsKey("gtceu.machine.fusion_reactor.overclocking")
                     .parallelizableTooltips()
                     .customTooltipsBuilder(false, true, true)
-                    .recipeModifiers(GTORecipeModifiers.HATCH_PARALLEL, FusionReactorMachine::recipeModifier)
+                    .recipeModifiers(GTORecipeModifiers.HATCH_PARALLEL, (m, r) -> FusionReactorMachine.recipeModifier(m, r).apply(r))
                     .block(() -> FusionCasings.getCasingState(tier))
                     .pattern((definition) -> {
                         TraceabilityPredicate casing = blocks(FusionCasings.getCasingState(tier));

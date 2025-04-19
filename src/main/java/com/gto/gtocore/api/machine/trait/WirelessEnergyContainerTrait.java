@@ -48,7 +48,7 @@ public final class WirelessEnergyContainerTrait extends NotifiableEnergyContaine
         if (io == IO.IN) {
             var canOutput = Math.min(sum, Math.min(container.getRate(), getEnergyStored()));
             if (!simulate) {
-                if (canOutput < 0 && WirelessEnergyContainer.observed && getMachine() != null) {
+                if (canOutput > 0 && WirelessEnergyContainer.observed && getMachine() != null) {
                     WirelessEnergyContainer.TRANSFER_DATA.put(getMachine(), new BasicTransferData(getUUID(), canOutput, getMachine()));
                 }
                 setEnergyStored(getEnergyStored() - canOutput);

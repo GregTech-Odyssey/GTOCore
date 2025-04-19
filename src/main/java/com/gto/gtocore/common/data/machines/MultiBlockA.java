@@ -26,7 +26,6 @@ import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.MultiblockShapeInfo;
 import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
-import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
 import com.gregtechceu.gtceu.common.data.*;
 
 import net.minecraft.core.Direction;
@@ -388,7 +387,7 @@ public interface MultiBlockA {
             .recipe(GTORecipeTypes.RANDOM_ORE_RECIPES)
             .tooltipsText("Precision mode consumes resources to collect specified veins", "精准模式消耗精华采集指定矿脉")
             .tooltipsText("Random mode consumes 10KB of drilling fluid and has a longer Duration to randomly collect all ores; ensure enough output space in random mode", "随机模式消耗10KB的钻井液和更长的耗时随机采集所有矿石，随机模式注意输出空间要足够")
-            .recipeModifier((machine, r) -> recipe -> {
+            .recipeModifier((machine, recipe) -> {
                 if (((ElectricMultiblockMachine) machine).getRecipeType() == GTORecipeTypes.RANDOM_ORE_RECIPES) {
                     return GTORecipeModifiers.overclocking(machine, GTORecipeModifiers.accurateParallel(machine, recipe, 1 << ((((ElectricMultiblockMachine) machine).getTier() - GTValues.ZPM) << 1)));
                 }
@@ -423,7 +422,7 @@ public interface MultiBlockA {
             .tooltipsText("Coil tier above Bronze reduction energy consumption and duration by 5%", "线圈等级每高出白铜一级能耗与时间减少5%")
             .parallelizableTooltips()
             .customTooltipsBuilder(true, false, false)
-            .recipeModifier(GTORecipeModifiers::chemicalPlantOverclock)
+            .recipeModifier(GTORecipeModifiers.coilReductionOverclock(true))
             .block(GTBlocks.CASING_PTFE_INERT)
             .pattern((definition) -> FactoryBlockPattern.start()
                     .aisle("b   b", "bbbbb", "b   b", "bbbbb", "b   b")
@@ -691,7 +690,7 @@ public interface MultiBlockA {
             .tooltipsText("Precision laser mode does not support parallelism, Running the Laser Welder formula at speed x5.", "精密激光模式不支持并行，运行激光焊接配方时速度x5")
             .parallelizableTooltips()
             .customTooltipsBuilder(true, false, false)
-            .recipeModifiers((machine, r) -> recipe -> {
+            .recipeModifiers((machine, recipe) -> {
                 if (machine instanceof ElectricMultiblockMachine workableElectricMultiblockMachine) {
                     if (workableElectricMultiblockMachine.getRecipeType() == GTRecipeTypes.LASER_ENGRAVER_RECIPES) return GTORecipeModifiers.hatchParallel(workableElectricMultiblockMachine, recipe);
                     if (workableElectricMultiblockMachine.getRecipeType() == GTORecipeTypes.LASER_WELDER_RECIPES) {
@@ -799,7 +798,7 @@ public interface MultiBlockA {
             .tooltipsText("Time multiplication factor for running the mixer recipe is 0.1", "运行搅拌机配方时耗时倍数为0.1")
             .parallelizableTooltips()
             .customTooltipsBuilder(true, true, false)
-            .recipeModifiers((machine, r) -> recipe -> {
+            .recipeModifiers((machine, recipe) -> {
                 if (machine instanceof ElectricMultiblockMachine workableElectricMultiblockMachine && workableElectricMultiblockMachine.getRecipeType() == GTRecipeTypes.MIXER_RECIPES) {
                     recipe.duration = recipe.duration / 10;
                     return recipe;
@@ -2162,12 +2161,12 @@ public interface MultiBlockA {
             .recipeModifier((m, r) -> {
                 if (m instanceof CoilCustomParallelMultiblockMachine machine) {
                     if (machine.getRecipeType() == GTORecipeTypes.DEHYDRATOR_RECIPES) {
-                        return recipe -> GTORecipeModifiers.overclocking(m, recipe);
+                        return GTORecipeModifiers.overclocking(m, r);
                     } else {
                         return GTORecipeModifiers.ebfOverclock(m, r);
                     }
                 }
-                return ModifierFunction.NULL;
+                return null;
             })
             .block(GTOBlocks.RED_STEEL_CASING)
             .pattern((definition) -> FactoryBlockPattern.start()
