@@ -270,7 +270,7 @@ public final class MachineUtils {
     public static void forEachInputItems(IRecipeCapabilityHolder machine, Predicate<ItemStack> function) {
         for (IRecipeHandler<?> handler : machine.getCapabilitiesFlat(IO.IN, ItemRecipeCapability.CAP)) {
             for (Object contents : handler.getContents()) {
-                if (contents instanceof ItemStack itemStack) {
+                if (contents instanceof ItemStack itemStack && !itemStack.isEmpty()) {
                     if (function.test(itemStack)) return;
                 }
             }
@@ -288,7 +288,7 @@ public final class MachineUtils {
     public static void forEachInputFluids(IRecipeCapabilityHolder machine, Predicate<FluidStack> function) {
         for (IRecipeHandler<?> handler : machine.getCapabilitiesFlat(IO.IN, FluidRecipeCapability.CAP)) {
             for (Object contents : handler.getContents()) {
-                if (contents instanceof FluidStack fluidStack) {
+                if (contents instanceof FluidStack fluidStack && !fluidStack.isEmpty()) {
                     if (function.test(fluidStack)) return;
                 }
             }

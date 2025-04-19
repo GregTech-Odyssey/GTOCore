@@ -5,11 +5,7 @@ import com.gto.gtocore.client.ClientCache;
 import com.gto.gtocore.config.GTOConfig;
 import com.gto.gtocore.integration.emi.EmiPersist;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonIOException;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonSyntaxException;
+import com.google.gson.*;
 import com.llamalad7.mixinextras.sugar.Local;
 import dev.emi.emi.runtime.EmiPersistentData;
 import org.spongepowered.asm.mixin.Mixin;
@@ -18,11 +14,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.Reader;
+import java.io.*;
 import java.nio.file.Files;
 import java.util.HashMap;
 

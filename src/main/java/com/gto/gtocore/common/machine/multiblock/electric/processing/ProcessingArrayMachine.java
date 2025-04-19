@@ -70,16 +70,16 @@ public final class ProcessingArrayMachine extends TierCasingMultiblockMachine im
 
     private NotifiableItemStackHandler createMachineStorage() {
         NotifiableItemStackHandler storage = new NotifiableItemStackHandler(this, 1, IO.NONE, IO.BOTH, slots -> new MachineItemStackHandler(() -> getMachineLimit(arrayTier)));
-        storage.setFilter(i -> storageFilter(i, this));
+        storage.setFilter(i -> storageFilter(i, getCasingTier(GTOValues.GLASS_TIER)));
         storage.addChangedListener(this::onStorageChanged);
         return storage;
     }
 
-    private static boolean storageFilter(ItemStack itemStack, ProcessingArrayMachine machine) {
+    static boolean storageFilter(ItemStack itemStack, int tier) {
         if (itemStack.getItem() instanceof MetaMachineItem metaMachineItem) {
             MachineDefinition definition = metaMachineItem.getDefinition();
             if (definition instanceof MultiblockMachineDefinition) return false;
-            if (definition.getTier() > machine.getCasingTier(GTOValues.GLASS_TIER)) return false;
+            if (definition.getTier() > tier) return false;
             GTRecipeType[] recipeTypes = definition.getRecipeTypes();
             if (recipeTypes != null && recipeTypes.length == 1) {
                 return GTRecipeTypes.ELECTRIC.equals(recipeTypes[0].group);

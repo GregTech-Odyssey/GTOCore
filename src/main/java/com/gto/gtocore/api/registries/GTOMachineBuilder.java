@@ -1,5 +1,6 @@
 package com.gto.gtocore.api.registries;
 
+import com.gto.gtocore.api.recipe.GTORecipeModifier;
 import com.gto.gtocore.common.data.GTORecipeModifiers;
 import com.gto.gtocore.data.lang.LangHandler;
 
@@ -13,7 +14,6 @@ import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
-import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
 import com.gregtechceu.gtceu.api.registry.registrate.MachineBuilder;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
@@ -79,18 +79,6 @@ public final class GTOMachineBuilder extends MachineBuilder<MachineDefinition> {
     }
 
     @Override
-    public GTOMachineBuilder recipeModifier(RecipeModifier recipeModifier) {
-        alwaysTryModifyRecipe(true);
-        return (GTOMachineBuilder) super.recipeModifier(recipeModifier);
-    }
-
-    @Override
-    public GTOMachineBuilder recipeModifiers(RecipeModifier... recipeModifiers) {
-        alwaysTryModifyRecipe(true);
-        return (GTOMachineBuilder) super.recipeModifiers(recipeModifiers);
-    }
-
-    @Override
     public GTOMachineBuilder recipeType(GTRecipeType type) {
         return (GTOMachineBuilder) super.recipeType(type);
     }
@@ -128,6 +116,16 @@ public final class GTOMachineBuilder extends MachineBuilder<MachineDefinition> {
     @Override
     public GTOMachineBuilder tooltipBuilder(BiConsumer<ItemStack, List<Component>> tooltipBuilder) {
         return (GTOMachineBuilder) super.tooltipBuilder(tooltipBuilder);
+    }
+
+    public GTOMachineBuilder recipeModifier(GTORecipeModifier recipeModifier) {
+        alwaysTryModifyRecipe(true);
+        return (GTOMachineBuilder) super.recipeModifier(recipeModifier);
+    }
+
+    public GTOMachineBuilder recipeModifiers(GTORecipeModifier... recipeModifiers) {
+        alwaysTryModifyRecipe(true);
+        return (GTOMachineBuilder) super.recipeModifiers(recipeModifiers);
     }
 
     public GTOMachineBuilder nonYAxisRotation() {

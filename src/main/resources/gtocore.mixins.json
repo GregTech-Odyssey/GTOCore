@@ -161,6 +161,7 @@
         "gtm.registry.GTOresMixin",
         "gtm.registry.GTRecipeTypesMixin",
         "gtm.registry.GTRegistryRlMixin",
+        "gtm.registry.MachineBuilderMixin",
         "gtmt.CustomMachinesMixin",
         "gtmt.ForgeCommonEventListenerMixin",
         "gtmt.GTMTRecipeTypesMixin",

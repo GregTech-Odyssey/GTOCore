@@ -10,7 +10,7 @@ import com.enderio.base.common.init.EIOFluids;
 
 import static com.gregtechceu.gtceu.api.GTValues.MV;
 import static com.gregtechceu.gtceu.api.GTValues.VA;
-import static com.gto.gtocore.common.data.GTORecipeTypes.*;
+import static com.gto.gtocore.common.data.GTORecipeTypes.MANA_SIMULATOR_RECIPES;
 import static net.minecraft.tags.ItemTags.LEAVES;
 
 public interface ManaSimulator {

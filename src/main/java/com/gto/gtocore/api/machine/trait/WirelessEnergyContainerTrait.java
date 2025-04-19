@@ -7,6 +7,7 @@ import com.gto.gtocore.common.wireless.ExtendWirelessEnergyContainer;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableEnergyContainer;
+import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 
 import net.minecraft.core.Direction;
 
@@ -16,6 +17,8 @@ import lombok.Getter;
 import lombok.Setter;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.UUID;
 
 @Setter
@@ -34,6 +37,35 @@ public final class WirelessEnergyContainerTrait extends NotifiableEnergyContaine
 
     public static WirelessEnergyContainerTrait receiverContainer(MetaMachine machine, long maxCapacity, long maxInputVoltage, long maxInputAmperage) {
         return new WirelessEnergyContainerTrait(machine, maxCapacity, maxInputVoltage, maxInputAmperage, 0L, 0L);
+    }
+
+    @Override
+    public List<Long> handleRecipeInner(IO io, GTRecipe recipe, List<Long> left, boolean simulate) {
+        ExtendWirelessEnergyContainer container = getWirelessEnergyContainer();
+        if (container == null) return left;
+        long sum = left.stream().reduce(0L, Long::sum);
+        if (sum <= 0) return null;
+        if (io == IO.IN) {
+            var canOutput = Math.min(sum, Math.min(container.getRate(), getEnergyStored()));
+            if (!simulate) {
+                if (canOutput > 0 && WirelessEnergyContainer.observed && getMachine() != null) {
+                    WirelessEnergyContainer.TRANSFER_DATA.put(getMachine(), new BasicTransferData(getUUID(), canOutput, getMachine()));
+                }
+                setEnergyStored(getEnergyStored() - canOutput);
+            }
+            sum = sum - canOutput;
+        } else if (io == IO.OUT) {
+            long canInput = Math.min(sum, Math.min(container.getRate(), getEnergyCapacity() - getEnergyStored()));
+            if (!simulate) {
+                if (canInput > 0 && WirelessEnergyContainer.observed && getMachine() != null) {
+                    long loss = (canInput / 1000) * container.getLoss();
+                    WirelessEnergyContainer.TRANSFER_DATA.put(getMachine(), new ExtendTransferData(getUUID(), canInput - loss, loss, getMachine()));
+                }
+                setEnergyStored(getEnergyStored() + canInput);
+            }
+            sum = sum - canInput;
+        }
+        return sum <= 0 ? null : Collections.singletonList(sum);
     }
 
     @Override
@@ -63,7 +95,7 @@ public final class WirelessEnergyContainerTrait extends NotifiableEnergyContaine
     @Override
     public void updateTick() {
         super.updateTick();
-        if (!getMachine().isRemote() && getMachine().getOffsetTimer() % 10 == 0) {
+        if (!getMachine().isRemote() && getMachine().getOffsetTimer() % 20 == 0) {
             ExtendWirelessEnergyContainer container = getWirelessEnergyContainer();
             if (container != null) {
                 long energyStored = getEnergyStored();

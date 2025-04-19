@@ -55,9 +55,13 @@ public final class InaccessibleInfiniteHandler extends NotifiableItemStackHandle
         if (machine instanceof IControllable controllable && !controllable.isWorkingEnabled()) return;
         if (machine instanceof IGridConnectedMachine connectedMachine && connectedMachine.isOnline() && connectedMachine.shouldSyncME() && connectedMachine.updateMEStatus()) {
             IGrid grid = connectedMachine.getMainNode().getGrid();
-            synchronized (delegate.internalBuffer.storage) {
-                if (grid != null && !delegate.internalBuffer.isEmpty()) {
-                    delegate.internalBuffer.insertInventory(grid.getStorageService().getInventory(), ((IMEHatchPart) machine).gtocore$getActionSource());
+            if (delegate.internalBuffer.getLock().tryLock()) {
+                try {
+                    if (grid != null && !delegate.internalBuffer.isEmpty()) {
+                        delegate.internalBuffer.insertInventory(grid.getStorageService().getInventory(), ((IMEHatchPart) machine).gtocore$getActionSource());
+                    }
+                } finally {
+                    delegate.internalBuffer.getLock().unlock();
                 }
             }
         }
@@ -116,10 +120,13 @@ public final class InaccessibleInfiniteHandler extends NotifiableItemStackHandle
 
         private void insertItem(ItemStack stack, int count) {
             var key = AEItemKey.of(stack);
-            synchronized (internalBuffer.storage) {
+            internalBuffer.getLock().lock();
+            try {
                 long oldValue = internalBuffer.storage.getOrDefault(key, 0);
                 long changeValue = Math.min(Long.MAX_VALUE - oldValue, count);
                 internalBuffer.storage.put(key, oldValue + changeValue);
+            } finally {
+                internalBuffer.getLock().unlock();
             }
         }
 
@@ -143,7 +150,24 @@ public final class InaccessibleInfiniteHandler extends NotifiableItemStackHandle
 
         @Override
         public @NotNull ItemStack insertItem(int slot, @NotNull ItemStack stack, boolean simulate) {
-            return stack;
+            var key = AEItemKey.of(stack);
+            int count = stack.getCount();
+            internalBuffer.getLock().lock();
+            try {
+                long oldValue = internalBuffer.storage.getOrDefault(key, 0);
+                long changeValue = Math.min(Long.MAX_VALUE - oldValue, count);
+                if (changeValue > 0) {
+                    if (!simulate) {
+                        internalBuffer.storage.put(key, oldValue + changeValue);
+                        internalBuffer.onChanged();
+                    }
+                    return stack.copyWithCount((int) (count - changeValue));
+                } else {
+                    return ItemStack.EMPTY;
+                }
+            } finally {
+                internalBuffer.getLock().unlock();
+            }
         }
     }
 

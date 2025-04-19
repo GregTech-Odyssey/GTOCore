@@ -1,19 +1,15 @@
 package com.gto.gtocore.common.cover;
 
-import com.gto.gtocore.common.data.GTORecipeModifiers;
+import com.gto.gtocore.api.machine.feature.IPowerAmplifierMachine;
 
 import com.gregtechceu.gtceu.api.capability.ICoverable;
 import com.gregtechceu.gtceu.api.cover.CoverBehavior;
 import com.gregtechceu.gtceu.api.cover.CoverDefinition;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
-import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
-import com.gregtechceu.gtceu.api.machine.SimpleGeneratorMachine;
-import com.gregtechceu.gtceu.api.machine.feature.IOverclockMachine;
-import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
-import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
-import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifierList;
 
 import net.minecraft.core.Direction;
+import net.minecraft.server.TickTask;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 
@@ -23,38 +19,22 @@ import javax.annotation.Nullable;
 
 public final class PowerAmplifierCover extends CoverBehavior {
 
-    private final double durationReduction;
+    private final double multiplier;
 
     public PowerAmplifierCover(CoverDefinition definition, ICoverable coverHolder, Direction attachedSide, int tier) {
         super(definition, coverHolder, attachedSide);
-        this.durationReduction = getReduction(tier);
+        this.multiplier = getMultiplier(tier);
     }
 
-    public static double getReduction(int tier) {
-        return 1D / (1 + tier * 0.25);
+    public static double getMultiplier(int tier) {
+        return 1 + tier * 0.25;
     }
 
     private MetaMachine machine;
 
-    private RecipeModifier recipeModifier;
-
     @Override
     public boolean canAttach() {
-        if (super.canAttach()) {
-            var machine = getMachine();
-            if (machine instanceof IRecipeLogicMachine && machine instanceof IOverclockMachine) {
-                if (machine instanceof SimpleGeneratorMachine) return false;
-                if (!(machine.getDefinition() instanceof MultiblockMachineDefinition)) {
-                    for (CoverBehavior cover : machine.getCoverContainer().getCovers()) {
-                        if (cover instanceof PowerAmplifierCover) {
-                            return false;
-                        }
-                    }
-                    return true;
-                }
-            }
-        }
-        return false;
+        return super.canAttach() && getMachine() instanceof IPowerAmplifierMachine powerAmplifierMachine && powerAmplifierMachine.gtocore$noPowerAmplifier();
     }
 
     @Override
@@ -73,20 +53,24 @@ public final class PowerAmplifierCover extends CoverBehavior {
     public void onRemoved() {
         super.onRemoved();
         MetaMachine machine = getMachine();
-        if (machine instanceof IRecipeLogicMachine recipeLogicMachine && recipeModifier != null) {
-            machine.getDefinition().setRecipeModifier(recipeModifier);
-            recipeLogicMachine.getRecipeLogic().markLastRecipeDirty();
+        if (machine instanceof IPowerAmplifierMachine amplifierMachine) {
+            amplifierMachine.gtocore$setHasPowerAmplifier(false);
+            amplifierMachine.gtocore$setPowerAmplifier(1);
+            amplifierMachine.getRecipeLogic().markLastRecipeDirty();
         }
         this.machine = null;
-        recipeModifier = null;
     }
 
     private void updateCoverSub() {
-        MetaMachine machine = getMachine();
-        if (recipeModifier == null && machine instanceof IRecipeLogicMachine recipeLogicMachine) {
-            recipeLogicMachine.getRecipeLogic().markLastRecipeDirty();
-            recipeModifier = machine.getDefinition().getRecipeModifier();
-            machine.getDefinition().setRecipeModifier(new RecipeModifierList(recipeModifier, GTORecipeModifiers.recipeReduction(1, durationReduction)));
+        if (coverHolder.getLevel() instanceof ServerLevel level) {
+            level.getServer().tell(new TickTask(1, () -> {
+                MetaMachine machine = getMachine();
+                if (machine instanceof IPowerAmplifierMachine amplifierMachine && amplifierMachine.gtocore$noPowerAmplifier()) {
+                    amplifierMachine.gtocore$setHasPowerAmplifier(true);
+                    amplifierMachine.gtocore$setPowerAmplifier(multiplier);
+                    amplifierMachine.getRecipeLogic().markLastRecipeDirty();
+                }
+            }));
         }
     }
 

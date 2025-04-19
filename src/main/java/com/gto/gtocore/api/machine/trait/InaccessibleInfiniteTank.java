@@ -56,10 +56,14 @@ public final class InaccessibleInfiniteTank extends NotifiableFluidTank {
     private void updateTick() {
         if (machine instanceof IControllable controllable && !controllable.isWorkingEnabled()) return;
         if (machine instanceof IGridConnectedMachine connectedMachine && connectedMachine.isOnline() && connectedMachine.shouldSyncME() && connectedMachine.updateMEStatus()) {
-            IGrid grid = connectedMachine.getMainNode().getGrid();
-            synchronized (delegate.internalBuffer.storage) {
-                if (grid != null && !delegate.internalBuffer.isEmpty()) {
-                    delegate.internalBuffer.insertInventory(grid.getStorageService().getInventory(), ((IMEHatchPart) machine).gtocore$getActionSource());
+            if (delegate.internalBuffer.getLock().tryLock()) {
+                try {
+                    IGrid grid = connectedMachine.getMainNode().getGrid();
+                    if (grid != null && !delegate.internalBuffer.isEmpty()) {
+                        delegate.internalBuffer.insertInventory(grid.getStorageService().getInventory(), ((IMEHatchPart) machine).gtocore$getActionSource());
+                    }
+                } finally {
+                    delegate.internalBuffer.getLock().unlock();
                 }
             }
         }
@@ -134,12 +138,15 @@ public final class InaccessibleInfiniteTank extends NotifiableFluidTank {
 
         private void fill(Fluid fluid, int amount, CompoundTag tag) {
             var key = AEFluidKey.of(fluid, tag);
-            synchronized (internalBuffer.storage) {
+            internalBuffer.getLock().lock();
+            try {
                 long oldValue = internalBuffer.storage.getOrDefault(key, 0);
                 long changeValue = Math.min(Long.MAX_VALUE - oldValue, amount);
                 if (changeValue > 0) {
                     internalBuffer.storage.put(key, oldValue + changeValue);
                 }
+            } finally {
+                internalBuffer.getLock().unlock();
             }
         }
 
@@ -153,7 +160,19 @@ public final class InaccessibleInfiniteTank extends NotifiableFluidTank {
 
         @Override
         public int fill(FluidStack resource, FluidAction action) {
-            return 0;
+            AEFluidKey key = AEFluidKey.of(resource.getFluid(), resource.getTag());
+            int amount = resource.getAmount();
+            internalBuffer.getLock().lock();
+            try {
+                long oldValue = this.internalBuffer.storage.getOrDefault(key, 0L);
+                long changeValue = Math.min(Long.MAX_VALUE - oldValue, amount);
+                if (changeValue > 0L && action.execute()) {
+                    this.internalBuffer.storage.put(key, oldValue + changeValue);
+                }
+                return (int) changeValue;
+            } finally {
+                internalBuffer.getLock().unlock();
+            }
         }
 
         @Override

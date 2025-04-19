@@ -4,6 +4,7 @@ import com.gto.gtocore.api.machine.multiblock.CoilCustomParallelMultiblockMachin
 import com.gto.gtocore.api.machine.multiblock.CoilMultiblockMachine;
 import com.gto.gtocore.api.machine.part.GTOPartAbility;
 import com.gto.gtocore.api.pattern.GTOPredicates;
+import com.gto.gtocore.api.recipe.GTORecipeModifierList;
 import com.gto.gtocore.client.renderer.machine.FluidRenderer;
 import com.gto.gtocore.common.data.GTORecipeModifiers;
 import com.gto.gtocore.common.data.GTORecipeTypes;
@@ -23,7 +24,6 @@ import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.MultiblockShapeInfo;
 import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.api.pattern.TraceabilityPredicate;
-import com.gregtechceu.gtceu.api.recipe.modifier.ModifierFunction;
 import com.gregtechceu.gtceu.common.data.GTMachines;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.data.machines.GTAEMachines;
@@ -443,16 +443,16 @@ public interface GCYMMachines {
             .rotationState(RotationState.ALL)
             .recipeType(ALLOY_BLAST_RECIPES)
             .recipeType(ALLOY_SMELTER_RECIPES)
-            .recipeModifier((m, r) -> {
+            .recipeModifier(new GTORecipeModifierList((m, r) -> {
                 if (m instanceof CoilCustomParallelMultiblockMachine machine) {
                     if (machine.getRecipeType() == ALLOY_SMELTER_RECIPES) {
-                        return recipe -> GTORecipeModifiers.overclocking(m, recipe);
+                        return GTORecipeModifiers.overclocking(m, r);
                     } else {
                         return GTORecipeModifiers.ebfOverclock(m, r);
                     }
                 }
-                return ModifierFunction.NULL;
-            }, true)
+                return null;
+            }), true)
             .appearanceBlock(CASING_HIGH_TEMPERATURE_SMELTING)
             .pattern(definition -> FactoryBlockPattern.start()
                     .aisle("#XXX#", "#CCC#", "#GGG#", "#CCC#", "#XXX#")

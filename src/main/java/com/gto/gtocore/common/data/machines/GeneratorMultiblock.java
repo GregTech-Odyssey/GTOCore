@@ -427,7 +427,7 @@ public interface GeneratorMultiblock {
             .tooltipsText("Starmetal: 8, Dense Neutrons: 16", "星辉：8，致密中子：16")
             .recipe(GTORecipeTypes.ADVANCED_HYPER_REACTOR_RECIPES)
             .generator()
-            .recipeModifier((machine, r) -> recipe -> {
+            .recipeModifier((machine, recipe) -> {
                 if (machine instanceof ElectricMultiblockMachine workableElectricMultiblockMachine) {
                     int p = 1;
                     if (MachineUtils.inputFluid(workableElectricMultiblockMachine, GTOMaterials.Starmetal.getFluid(FluidStorageKeys.PLASMA, 1))) {
@@ -505,7 +505,7 @@ public interface GeneratorMultiblock {
             .tooltipsText("Different fuels required different plasmas", "不同燃料所需的等离子体不同")
             .tooltipsText("The order from 1-4 is: Orichalcum, Enderium, Infuscolium, Metastable Hassium", "从1-4顺序为: 山铜, 末影素, 魔金, 亚稳态𬭶")
             .generator()
-            .recipeModifier((machine, r) -> recipe -> {
+            .recipeModifier((machine, recipe) -> {
                 if (machine instanceof ElectricMultiblockMachine workableElectricMultiblockMachine) {
                     int p = 1;
                     long outputEUt = RecipeHelper.getOutputEUt(recipe);

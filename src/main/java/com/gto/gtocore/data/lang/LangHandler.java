@@ -93,6 +93,7 @@ public final class LangHandler {
         addENCN("gtocore.me_front", "ME hatch only allows connection from the front side.", "ME仓只允许正面连接");
         addENCN("gtocore.unlocked", "Unlocked", "解锁的");
         addENCN("gtocore.ununlocked", "Ununlocked", "未解锁");
+        addENCN("gtocore.build", "Build", "构建");
 
         addENCN("config.gtocore.option.enableAnimalsAreAfraidToEatTheirMeat", "Enable Animals Are Afraid To Eat Their Meat", "启用动物害怕他们的肉被吃");
         addENCN("config.gtocore.option.enableAnimalsAreAfraidToEatTheirMeatRange", "Enable Animals Are Afraid To Eat Their Meat's Range", "启用动物害怕他们的肉被吃的范围");

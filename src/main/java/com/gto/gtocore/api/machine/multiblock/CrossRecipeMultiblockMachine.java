@@ -154,7 +154,7 @@ public class CrossRecipeMultiblockMachine extends ElectricMultiblockMachine impl
         long maxEUt = getOverclockVoltage();
         double d = (double) totalEu / maxEUt;
         int limit = gTOCore$getOCLimit();
-        return GTORecipeBuilder.ofRaw().EUt(d >= limit ? maxEUt : (long) (maxEUt * d / limit)).duration((int) Math.max(d, limit)).buildRawRecipe();
+        return GTORecipeBuilder.ofRaw().EUt(d >= limit ? maxEUt : Math.max(1, (long) (maxEUt * d / limit))).duration((int) Math.max(d, limit)).buildRawRecipe();
     }
 
     private GTRecipe LookupRecipe() {

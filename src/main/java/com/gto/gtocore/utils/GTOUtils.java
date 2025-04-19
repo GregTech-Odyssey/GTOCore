@@ -3,9 +3,12 @@ package com.gto.gtocore.utils;
 import com.gto.gtocore.api.capability.recipe.ManaRecipeCapability;
 import com.gto.gtocore.api.data.GTODimensions;
 
+import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
+import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.chance.logic.ChanceLogic;
 import com.gregtechceu.gtceu.api.recipe.content.Content;
 
 import net.minecraft.core.BlockPos;
@@ -30,6 +33,7 @@ import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 
 import java.util.*;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import static com.gregtechceu.gtceu.api.GTValues.*;
 
@@ -41,6 +45,38 @@ public final class GTOUtils {
         Predicate<Material> condition = tagPrefix.generationCondition();
         if (condition == null) return true;
         return condition.test(material);
+    }
+
+    public static List<ItemStack> getInputItems(GTRecipe recipe) {
+        return recipe.getInputContents(ItemRecipeCapability.CAP).stream()
+                .filter(content -> content.chance > 0)
+                .map(content -> ItemRecipeCapability.CAP.of(content.getContent()))
+                .map(ingredient -> ingredient.getItems()[0])
+                .collect(Collectors.toList());
+    }
+
+    public static List<FluidStack> getInputFluids(GTRecipe recipe) {
+        return recipe.getInputContents(FluidRecipeCapability.CAP).stream()
+                .filter(content -> content.chance > 0)
+                .map(content -> FluidRecipeCapability.CAP.of(content.getContent()))
+                .map(ingredient -> ingredient.getStacks()[0])
+                .collect(Collectors.toList());
+    }
+
+    public static List<ItemStack> getOutputItems(GTRecipe recipe) {
+        return recipe.getOutputContents(ItemRecipeCapability.CAP).stream()
+                .filter(content -> content.chance == ChanceLogic.getMaxChancedValue())
+                .map(content -> ItemRecipeCapability.CAP.of(content.getContent()))
+                .map(ingredient -> ingredient.getItems()[0])
+                .collect(Collectors.toList());
+    }
+
+    public static List<FluidStack> getOutputFluids(GTRecipe recipe) {
+        return recipe.getOutputContents(FluidRecipeCapability.CAP).stream()
+                .filter(content -> content.chance == ChanceLogic.getMaxChancedValue())
+                .map(content -> FluidRecipeCapability.CAP.of(content.getContent()))
+                .map(ingredient -> ingredient.getStacks()[0])
+                .collect(Collectors.toList());
     }
 
     public static long getInputMANAt(GTRecipe recipe) {

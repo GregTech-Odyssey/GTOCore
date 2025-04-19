@@ -56,7 +56,7 @@ public final class largeSteamCircuitAssemblerMachine extends LargeSteamParallelM
         Content content = recipe.outputs.get(ItemRecipeCapability.CAP).get(0);
         if (ItemRecipeCapability.CAP.of(content.getContent()).getItems()[0].getItem() == item) {
             recipe.outputs.put(ItemRecipeCapability.CAP, List.of(content.copy(ItemRecipeCapability.CAP, ContentModifier.multiplier(4))));
-            return recipeModifier(1.5).getModifier(this, recipe).apply(recipe);
+            return recipeModifier(1.5).applyModifier(this, recipe);
         }
         return null;
     }

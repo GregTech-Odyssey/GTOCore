@@ -108,7 +108,7 @@ public final class MachineRegisterUtils {
                         .abilities(ability)
                         .tooltips(Component.translatable("gtceu.universal.tooltip.voltage_" + iao, FormattingUtil.formatNumbers(V[tier]), VNF[tier]),
                                 Component.translatable("gtceu.universal.tooltip.amperage_" + iao, amperage),
-                                Component.translatable("gtceu.universal.tooltip.energy_storage_capacity", FormattingUtil.formatNumbers(WirelessEnergyHatchPartMachine.getHatchEnergyCapacity(io, tier, amperage))),
+                                Component.translatable("gtceu.universal.tooltip.energy_storage_capacity", FormattingUtil.formatNumbers(WirelessEnergyHatchPartMachine.getHatchEnergyCapacity(tier, amperage))),
                                 Component.translatable("gtmthings.machine.wireless_energy_hatch." + id + ".tooltip"))
                         .renderer(() -> new OverlayTieredMachineRenderer(tier, GTMThings.id("block/machine/part/" + finalRender)))
                         .register(),
@@ -138,7 +138,7 @@ public final class MachineRegisterUtils {
                         .editableUI(SimpleGeneratorMachine.EDITABLE_UI_CREATOR.apply(GTCEu.id(name), recipeType))
                         .allRotation()
                         .recipeType(recipeType)
-                        .recipeModifier(GTORecipeModifiers::simpleGeneratorMachineModifier)
+                        .recipeModifier(GTORecipeModifiers.SIMPLE_GENERATOR_MACHINEMODIFIER)
                         .addOutputLimit(ItemRecipeCapability.CAP, 0)
                         .addOutputLimit(FluidRecipeCapability.CAP, 0)
                         .renderer(() -> new SimpleGeneratorMachineRenderer(tier, GTOCore.id("block/generators/" + name)))

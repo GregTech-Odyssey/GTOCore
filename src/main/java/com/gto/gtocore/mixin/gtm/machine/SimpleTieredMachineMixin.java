@@ -1,5 +1,6 @@
 package com.gto.gtocore.mixin.gtm.machine;
 
+import com.gto.gtocore.api.machine.feature.IPowerAmplifierMachine;
 import com.gto.gtocore.api.machine.feature.IUpgradeMachine;
 import com.gto.gtocore.api.machine.trait.IEnhancedRecipeLogic;
 
@@ -19,13 +20,19 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(SimpleTieredMachine.class)
-public class SimpleTieredMachineMixin extends WorkableTieredMachine implements IUpgradeMachine {
+public class SimpleTieredMachineMixin extends WorkableTieredMachine implements IUpgradeMachine, IPowerAmplifierMachine {
 
     @Unique
     private double gtocore$speed = 1;
 
     @Unique
     private double gtocore$energy = 1;
+
+    @Unique
+    private double gtocore$powerAmplifier = 1;
+
+    @Unique
+    private boolean gtocore$hasPowerAmplifier;
 
     public SimpleTieredMachineMixin(IMachineBlockEntity holder, int tier, Int2IntFunction tankScalingFunction, Object... args) {
         super(holder, tier, tankScalingFunction, args);
@@ -81,5 +88,25 @@ public class SimpleTieredMachineMixin extends WorkableTieredMachine implements I
     @Override
     public double gtocore$getEnergy() {
         return gtocore$energy;
+    }
+
+    @Override
+    public double gtocore$getPowerAmplifier() {
+        return gtocore$powerAmplifier;
+    }
+
+    @Override
+    public void gtocore$setPowerAmplifier(double powerAmplifier) {
+        this.gtocore$powerAmplifier = powerAmplifier;
+    }
+
+    @Override
+    public boolean gtocore$noPowerAmplifier() {
+        return !gtocore$hasPowerAmplifier;
+    }
+
+    @Override
+    public void gtocore$setHasPowerAmplifier(boolean hasPowerAmplifier) {
+        this.gtocore$hasPowerAmplifier = hasPowerAmplifier;
     }
 }

@@ -66,7 +66,6 @@ public final class GTORecipes {
                 }
             });
             recipes.forEach((k, v) -> GTRecipeTypes.FURNACE_RECIPES.getLookup().addRecipe(GTRecipeTypes.FURNACE_RECIPES.toGTrecipe(k, v)));
-            GTORecipeBuilder.RECIPE_MAP = null;
             GTOCore.LOGGER.info("InitLookup took {}ms", System.currentTimeMillis() - time);
         });
         thread.setDaemon(true);
