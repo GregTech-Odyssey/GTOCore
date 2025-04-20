@@ -53,10 +53,10 @@ public final class WirelessEnergyHatchPartMachine extends TieredIOPartMachine im
     private WirelessEnergyContainerTrait createEnergyContainer() {
         WirelessEnergyContainerTrait container;
         if (this.io == IO.OUT) {
-            container = WirelessEnergyContainerTrait.emitterContainer(this, getHatchEnergyCapacity(io, tier, amperage), GTValues.V[tier], amperage);
+            container = WirelessEnergyContainerTrait.emitterContainer(this, getHatchEnergyCapacity(tier, amperage), GTValues.V[tier], amperage);
             container.setCapabilityValidator(s -> s == null || s == this.getFrontFacing());
         } else {
-            container = WirelessEnergyContainerTrait.receiverContainer(this, getHatchEnergyCapacity(io, tier, amperage), GTValues.V[tier], amperage);
+            container = WirelessEnergyContainerTrait.receiverContainer(this, getHatchEnergyCapacity(tier, amperage), GTValues.V[tier], amperage);
             container.setCapabilityValidator(s -> s == null || s == this.getFrontFacing());
         }
         return container;
@@ -116,7 +116,7 @@ public final class WirelessEnergyHatchPartMachine extends TieredIOPartMachine im
         return energyContainer.getUUID();
     }
 
-    public static long getHatchEnergyCapacity(IO io, int tier, int amperage) {
-        return GTValues.V[tier] * (io == IO.IN ? 16L : 64L) * amperage;
+    public static long getHatchEnergyCapacity(int tier, int amperage) {
+        return GTValues.V[tier] * 128L * amperage;
     }
 }

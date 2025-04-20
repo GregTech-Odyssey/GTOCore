@@ -19,7 +19,6 @@ import net.minecraft.world.item.Item;
 import java.util.Map;
 
 import static com.gto.gtocore.common.data.GTOItems.*;
-import static com.gto.gtocore.common.data.GTOItems.DISPOSABLE_SAW_MOLD;
 import static com.gto.gtocore.common.data.GTORecipeTypes.FLUID_SOLIDFICATION_RECIPES;
 
 interface FluidSolidfication {

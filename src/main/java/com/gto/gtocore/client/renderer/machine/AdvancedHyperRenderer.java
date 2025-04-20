@@ -39,27 +39,26 @@ public final class AdvancedHyperRenderer extends WorkableCasingMachineRenderer {
     public void render(BlockEntity blockEntity, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int combinedLight, int combinedOverlay) {
         if (blockEntity instanceof IMachineBlockEntity machineBlockEntity && machineBlockEntity.getMetaMachine() instanceof ElectricMultiblockMachine machine && machine.isFormed() && (machine.isActive() || blockEntity.getLevel() instanceof TrackedDummyWorld)) {
             float tick = machine.getOffsetTimer() + partialTicks;
-            double x = 0.5, y = 8.25, z = 0.5;
-            switch (machine.getFrontFacing()) {
-                case NORTH -> z = 18.5;
-                case SOUTH -> z = -17.5;
-                case WEST -> x = 18.5;
-                case EAST -> x = -17.5;
-            }
-            poseStack.pushPose();
-            poseStack.translate(x, y, z);
             if (GTCEu.Mods.isShimmerLoaded() && !(blockEntity.getLevel() instanceof TrackedDummyWorld)) {
                 PoseStack finalStack = RenderUtils.copyPoseStack(poseStack);
-                BloomUtils.entityBloom(source -> renderStar(tick, finalStack, source));
+                BloomUtils.entityBloom(source -> renderStar(machine, tick, finalStack, source));
             } else {
-                renderStar(tick, poseStack, buffer);
+                renderStar(machine, tick, poseStack, buffer);
             }
         }
     }
 
     @OnlyIn(Dist.CLIENT)
-    private static void renderStar(float tick, PoseStack poseStack, MultiBufferSource buffer) {
+    private static void renderStar(ElectricMultiblockMachine machine, float tick, PoseStack poseStack, MultiBufferSource buffer) {
+        double x = 0.5, y = 8.25, z = 0.5;
+        switch (machine.getFrontFacing()) {
+            case NORTH -> z = 18.5;
+            case SOUTH -> z = -17.5;
+            case WEST -> x = 18.5;
+            case EAST -> x = -17.5;
+        }
         poseStack.pushPose();
+        poseStack.translate(x, y, z);
         poseStack.scale(0.10F, 0.10F, 0.10F);
         poseStack.mulPose(new Quaternionf().fromAxisAngleDeg(1.0F, 1.0F, 0.0F, (tick % 36.0F) * 4));
         ClientUtil.modelRenderer().renderModel(poseStack.last(), buffer.getBuffer(RenderType.translucent()), null, ClientUtil.getBakedModel(BLUE_STAR_MODEL), 1.0F, 1.0F, 1.0F, LightTexture.FULL_BRIGHT, OverlayTexture.NO_OVERLAY, ModelData.EMPTY, RenderType.translucent());

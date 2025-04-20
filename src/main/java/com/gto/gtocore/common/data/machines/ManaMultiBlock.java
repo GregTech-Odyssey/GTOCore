@@ -6,11 +6,7 @@ import com.gto.gtocore.common.data.GTOBlocks;
 import com.gto.gtocore.common.data.GTOMaterials;
 import com.gto.gtocore.common.data.GTORecipeModifiers;
 import com.gto.gtocore.common.data.GTORecipeTypes;
-import com.gto.gtocore.common.machine.mana.multiblock.ElectricManaMultiblockMachine;
-import com.gto.gtocore.common.machine.mana.multiblock.ManaAlloyBlastSmelterMachine;
-import com.gto.gtocore.common.machine.mana.multiblock.ManaDistributorMachine;
-import com.gto.gtocore.common.machine.mana.multiblock.ManaEnergyMultiblockMachine;
-import com.gto.gtocore.common.machine.mana.multiblock.ManaMultiblockMachine;
+import com.gto.gtocore.common.machine.mana.multiblock.*;
 import com.gto.gtocore.utils.RLUtils;
 import com.gto.gtocore.utils.RegistriesUtils;
 

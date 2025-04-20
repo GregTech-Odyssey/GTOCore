@@ -109,6 +109,7 @@ public final class TurbineMachine extends ElectricMultiblockMachine {
 
     @Override
     public void onStructureFormed() {
+        rotorHolderMachines.clear();
         super.onStructureFormed();
         if (mega) rotorSubs.initialize(getLevel());
     }

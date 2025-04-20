@@ -12,11 +12,10 @@ import net.minecraft.network.chat.Component;
 import com.glodblock.github.extendedae.client.render.EAEHighlightHandler;
 
 import java.util.List;
-import java.util.Set;
 
 public interface IHighlightMachine {
 
-    Set<BlockPos> getHighlightPos();
+    List<BlockPos> getHighlightPos();
 
     default void attachHighlightConfigurators(ConfiguratorPanel configuratorPanel) {
         configuratorPanel.attachConfigurators(new IFancyConfiguratorButton.Toggle(
