@@ -44,6 +44,8 @@ public interface RecipeFilter {
         SHAPED_FILTER_RECIPES.add(GTCEu.id("resistor_wire_carbon"));
         SHAPED_FILTER_RECIPES.add(GTCEu.id("resistor_wire_fine_carbon"));
         SHAPED_FILTER_RECIPES.add(GTCEu.id("resistor_wire_charcoal"));
+        SHAPED_FILTER_RECIPES.add(GTCEu.id("bucket_of_concrete"));
+        SHAPED_FILTER_RECIPES.add(GTCEu.id("flour_to_dough"));
 
         PACKER_RECIPES.addFilter("unpackage_iv_lapotronic_battery");
         PACKER_RECIPES.addFilter("unpackage_luv_lapotronic_battery");

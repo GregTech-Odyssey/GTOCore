@@ -1,6 +1,6 @@
 package com.gto.gtocore.api.machine.feature;
 
-public interface IPerformanceDisplayMachine extends IServerTickMachine {
+public interface IPerformanceDisplayMachine {
 
     int gtocore$getTickTime();
 

@@ -927,5 +927,15 @@ interface Vanilla {
                 "B A",
                 "B  ",
                 'A', new ItemStack(Items.FLINT.asItem()), 'B', new ItemStack(Items.STICK.asItem()));
+        VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("infinite_intake_hatch"), GTOMachines.INFINITE_INTAKE_HATCH.asStack(),
+                "ABA",
+                "BCB",
+                "ABA",
+                'A', new MaterialEntry(TagPrefix.pipeTinyFluid, GTMaterials.Potin), 'B', GTOItems.AIR_VENT.asItem(), 'C', GTMachines.FLUID_IMPORT_HATCH[GTValues.ULV].asStack());
+        VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("infinite_water_hatch"), GTOMachines.INFINITE_WATER_HATCH.asStack(),
+                "ABA",
+                "CDC",
+                "ABA",
+                'A', GTItems.COVER_INFINITE_WATER.asStack(), 'B', RegistriesUtils.getItemStack("gtceu:tungsten_steel_drum"), 'C', GTItems.ELECTRIC_PUMP_IV.asStack(), 'D', RegistriesUtils.getItemStack("gtceu:reservoir_hatch"));
     }
 }
