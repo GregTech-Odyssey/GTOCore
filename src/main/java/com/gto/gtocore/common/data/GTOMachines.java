@@ -7,6 +7,7 @@ import com.gto.gtocore.api.machine.part.GTOPartAbility;
 import com.gto.gtocore.api.machine.part.ItemHatchPartMachine;
 import com.gto.gtocore.client.renderer.machine.BallHatchRenderer;
 import com.gto.gtocore.client.renderer.machine.WindMillTurbineRenderer;
+import com.gto.gtocore.common.data.machines.*;
 import com.gto.gtocore.common.machine.electric.ElectricHeaterMachine;
 import com.gto.gtocore.common.machine.electric.VacuumPumpMachine;
 import com.gto.gtocore.common.machine.generator.LightningRodMachine;
@@ -51,7 +52,19 @@ import static com.gto.gtocore.utils.register.MachineRegisterUtils.*;
 
 public interface GTOMachines {
 
-    static void init() {}
+    static void init() {
+        ManaMachine.init();
+        GeneratorMultiblock.init();
+        ExResearchMachines.init();
+        MultiBlockA.init();
+        MultiBlockB.init();
+        MultiBlockC.init();
+        MultiBlockD.init();
+        MultiBlockE.init();
+        MultiBlockF.init();
+        MultiBlockG.init();
+        MultiBlockH.init();
+    }
 
     //////////////////////////////////////
     // *** Simple Machine ***//

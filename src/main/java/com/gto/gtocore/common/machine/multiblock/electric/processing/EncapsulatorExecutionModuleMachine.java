@@ -6,14 +6,13 @@ import com.gto.gtocore.api.item.NBTItem;
 import com.gto.gtocore.api.machine.feature.IOverclockConfigMachine;
 import com.gto.gtocore.api.machine.feature.IRecipeSearchMachine;
 import com.gto.gtocore.api.machine.feature.multiblock.IParallelMachine;
-import com.gto.gtocore.api.machine.feature.multiblock.ITierCasingMachine;
 import com.gto.gtocore.api.machine.multiblock.StorageMultiblockMachine;
 import com.gto.gtocore.api.machine.trait.CustomParallelTrait;
 import com.gto.gtocore.api.machine.trait.CustomRecipeLogic;
-import com.gto.gtocore.api.machine.trait.TierCasingTrait;
 import com.gto.gtocore.api.recipe.GTORecipeBuilder;
 import com.gto.gtocore.api.recipe.RecipeRunnerHelper;
 import com.gto.gtocore.utils.GTOUtils;
+import com.gto.gtocore.utils.MachineUtils;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
@@ -48,7 +47,6 @@ import com.lowdragmc.lowdraglib.gui.util.ClickData;
 import com.lowdragmc.lowdraglib.gui.widget.ComponentPanelWidget;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
-import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -61,12 +59,14 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public final class EncapsulatorExecutionModuleMachine extends StorageMultiblockMachine implements ITierCasingMachine, IParallelMachine, IRecipeSearchMachine, IOverclockConfigMachine {
+public final class EncapsulatorExecutionModuleMachine extends StorageMultiblockMachine implements IParallelMachine, IRecipeSearchMachine, IOverclockConfigMachine {
 
     private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
             EncapsulatorExecutionModuleMachine.class, StorageMultiblockMachine.MANAGED_FIELD_HOLDER);
 
     private GTRecipeType recipeTypeCache = GTRecipeTypes.DUMMY_RECIPES;
+
+    ProcessingEncapsulatorMachine encapsulatorMachine;
 
     @Persisted
     private GTRecipe finalRecipe;
@@ -84,12 +84,9 @@ public final class EncapsulatorExecutionModuleMachine extends StorageMultiblockM
     @Persisted
     private final CustomParallelTrait customParallelTrait;
 
-    private final TierCasingTrait tierCasingTrait;
-
     public EncapsulatorExecutionModuleMachine(IMachineBlockEntity holder) {
         super(holder, 1, i -> true);
-        customParallelTrait = new CustomParallelTrait(this, true, machine -> Integer.MAX_VALUE);
-        tierCasingTrait = new TierCasingTrait(this, GTOValues.INTEGRAL_FRAMEWORK_TIER);
+        customParallelTrait = new CustomParallelTrait(this, true, machine -> MachineUtils.getHatchParallel(((EncapsulatorExecutionModuleMachine) machine).encapsulatorMachine));
         customParallelTrait.setDefaultMax(false);
     }
 
@@ -204,7 +201,8 @@ public final class EncapsulatorExecutionModuleMachine extends StorageMultiblockM
 
     @Override
     public boolean storageFilter(ItemStack stack) {
-        return ProcessingArrayMachine.storageFilter(stack, getCasingTier(GTOValues.INTEGRAL_FRAMEWORK_TIER));
+        if (encapsulatorMachine == null) return false;
+        return ProcessingArrayMachine.storageFilter(stack, encapsulatorMachine.getCasingTier(GTOValues.INTEGRAL_FRAMEWORK_TIER));
     }
 
     @Override
@@ -214,6 +212,7 @@ public final class EncapsulatorExecutionModuleMachine extends StorageMultiblockM
 
     @Override
     public boolean matchRecipe(GTRecipe recipe) {
+        if (finalRecipe != null) return IRecipeSearchMachine.super.matchRecipe(recipe);
         if (getStorageStack().getItem() instanceof MetaMachineItem metaMachineItem) {
             MachineDefinition definition = metaMachineItem.getDefinition();
             if (definition.getTier() >= RecipeHelper.getRecipeEUtTier(recipe)) {
@@ -284,16 +283,17 @@ public final class EncapsulatorExecutionModuleMachine extends StorageMultiblockM
     @Override
     public void customText(List<Component> textList) {
         super.customText(textList);
+        if (encapsulatorMachine == null) return;
         textList.add(ComponentPanelWidget.withButton(Component.literal("[").append(Component.translatable("gui.ae2.Clean")).append(Component.literal("]")), "clean"));
-        textList.add(ComponentPanelWidget.withButton(Component.literal("[").append(Component.translatable("gui.jade.search")).append(Component.literal("]")), "search"));
-        textList.add(ComponentPanelWidget.withButton(Component.literal("[").append(Component.translatable("gtocore.build")).append(Component.literal("]")), "build"));
-        textList.add(ComponentPanelWidget.withButton(Component.literal("[").append(Component.translatable("gui.ae2.Patterns")).append(Component.literal("]")), "pattern"));
+        if (finalRecipe == null) textList.add(ComponentPanelWidget.withButton(Component.literal("[").append(Component.translatable("gui.jade.search")).append(Component.literal("]")), "search"));
+        if (finalRecipe == null) textList.add(ComponentPanelWidget.withButton(Component.literal("[").append(Component.translatable("gtocore.build")).append(Component.literal("]")), "build"));
+        if (finalRecipe != null) textList.add(ComponentPanelWidget.withButton(Component.literal("[").append(Component.translatable("gui.ae2.Patterns")).append(Component.literal("]")), "pattern"));
     }
 
     @Override
     public void addDisplayText(List<Component> textList) {
         super.addDisplayText(textList);
-        if (isRemote()) return;
+        if (isRemote() || encapsulatorMachine == null) return;
         if (finalRecipe != null) {
             long eut = RecipeHelper.getInputEUt(finalRecipe);
             textList.add(Component.literal(FormattingUtil.formatNumbers(eut)).append(" EU/t (").append(GTValues.VNF[GTUtil.getFloorTierByVoltage(eut)]).append(") "));
@@ -495,8 +495,8 @@ public final class EncapsulatorExecutionModuleMachine extends StorageMultiblockM
     }
 
     private @Nullable GTRecipe getRecipe() {
-        if (finalRecipe != null) {
-            var recipe = fullModifyRecipe(finalRecipe);
+        if (finalRecipe != null && encapsulatorMachine != null && encapsulatorMachine.isFormed() && encapsulatorMachine.getRecipeLogic().isWorking()) {
+            var recipe = fullModifyRecipe(finalRecipe.copy());
             if (RecipeRunnerHelper.check(this, recipe)) {
                 return recipe;
             }
@@ -522,10 +522,5 @@ public final class EncapsulatorExecutionModuleMachine extends StorageMultiblockM
     @Override
     public void setParallel(int number) {
         customParallelTrait.setParallel(number);
-    }
-
-    @Override
-    public Object2IntMap<String> getCasingTiers() {
-        return tierCasingTrait.getCasingTiers();
     }
 }

@@ -33,14 +33,13 @@ import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
-import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 public final class NanitesIntegratedMachine extends CoilCrossRecipeMultiblockMachine implements IHighlightMachine, IStorageMultiblock {
 
@@ -73,7 +72,7 @@ public final class NanitesIntegratedMachine extends CoilCrossRecipeMultiblockMac
     int chance;
 
     @DescSynced
-    private final Set<BlockPos> poss = new ObjectOpenHashSet<>(4, 0.9F);
+    private final List<BlockPos> poss = new ArrayList<>(2);
     private final IntOpenHashSet module = new IntOpenHashSet(4, 0.9F);
 
     @DescSynced
@@ -91,6 +90,7 @@ public final class NanitesIntegratedMachine extends CoilCrossRecipeMultiblockMac
 
     @Override
     public void onMachineChanged() {
+        if (isEmpty()) return;
         Material material = ChemicalHelper.getMaterialEntry(getStorageStack().getItem()).material();
         chance = (int) (getStorageStack().getCount() * MATERIAL_MAP.get(material));
     }
@@ -179,7 +179,7 @@ public final class NanitesIntegratedMachine extends CoilCrossRecipeMultiblockMac
     }
 
     @Override
-    public Set<BlockPos> getHighlightPos() {
+    public List<BlockPos> getHighlightPos() {
         return poss;
     }
 }

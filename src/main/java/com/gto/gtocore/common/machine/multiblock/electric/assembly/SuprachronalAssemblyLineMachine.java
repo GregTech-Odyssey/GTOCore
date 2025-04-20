@@ -18,9 +18,8 @@ import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -38,12 +37,12 @@ public final class SuprachronalAssemblyLineMachine extends CrossRecipeMultiblock
     }
 
     @DescSynced
-    private final Set<BlockPos> poss;
+    private final List<BlockPos> poss;
     private int module;
 
     public SuprachronalAssemblyLineMachine(IMachineBlockEntity holder) {
         super(holder, false, true, MachineUtils::getHatchParallel);
-        poss = new HashSet<>(2);
+        poss = new ArrayList<>(2);
     }
 
     @Override
@@ -102,7 +101,7 @@ public final class SuprachronalAssemblyLineMachine extends CrossRecipeMultiblock
     }
 
     @Override
-    public Set<BlockPos> getHighlightPos() {
+    public List<BlockPos> getHighlightPos() {
         return poss;
     }
 }

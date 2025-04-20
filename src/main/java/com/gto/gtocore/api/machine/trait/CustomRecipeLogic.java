@@ -50,6 +50,7 @@ public class CustomRecipeLogic extends RecipeLogic implements IEnhancedRecipeLog
                 setupRecipe(lastRecipe);
                 return;
             } else {
+                recipeDirty = false;
                 GTRecipe match = recipeSupplier.get();
                 if (match != null) {
                     setupRecipe(match);

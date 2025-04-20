@@ -51,9 +51,6 @@ public abstract class WorkableElectricMultiblockMachineMixin extends WorkableMul
     private double gtocore$energy = 1;
 
     @Unique
-    private int gTOCore$time = 1;
-
-    @Unique
     private int gTOCore$ocLimit = 20;
 
     @Shadow(remap = false)
@@ -67,13 +64,8 @@ public abstract class WorkableElectricMultiblockMachineMixin extends WorkableMul
     }
 
     @Override
-    public void gTOCore$setTime(int time) {
-        gTOCore$time = time;
-    }
-
-    @Override
-    public int gTOCore$getTime() {
-        return gTOCore$time;
+    public boolean gtocore$hasButton() {
+        return true;
     }
 
     @Override

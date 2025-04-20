@@ -41,16 +41,6 @@ public final class GTMachinesMixin {
         WirelessMachines.init();
         CustomMachines.init();
         GTOMachines.init();
-        ManaMachine.init();
-        GeneratorMultiblock.init();
-        ExResearchMachines.init();
-        MultiBlockA.init();
-        MultiBlockB.init();
-        MultiBlockC.init();
-        MultiBlockD.init();
-        MultiBlockE.init();
-        MultiBlockF.init();
-        MultiBlockG.init();
         GTRegistries.MACHINES.freeze();
     }
 }
