@@ -4,12 +4,14 @@ import com.gto.gtocore.api.data.tag.GTOTagPrefix;
 import com.gto.gtocore.api.machine.feature.multiblock.IHighlightMachine;
 import com.gto.gtocore.api.machine.feature.multiblock.IStorageMultiblock;
 import com.gto.gtocore.api.machine.multiblock.CoilCrossRecipeMultiblockMachine;
+import com.gto.gtocore.common.data.GTOMaterials;
 import com.gto.gtocore.common.data.machines.MultiBlockC;
 import com.gto.gtocore.utils.MachineUtils;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
+import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.data.chemical.material.stack.MaterialEntry;
 import com.gregtechceu.gtceu.api.gui.fancy.ConfiguratorPanel;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
@@ -31,13 +33,13 @@ import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
-import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
 
 public final class NanitesIntegratedMachine extends CoilCrossRecipeMultiblockMachine implements IHighlightMachine, IStorageMultiblock {
 
@@ -58,10 +60,19 @@ public final class NanitesIntegratedMachine extends CoilCrossRecipeMultiblockMac
         MODULE_MAP.put(MultiBlockC.POLYMER_TWISTING_MODULE, 3);
     }
 
+    private static final Map<Material, Float> MATERIAL_MAP = Map.of(
+            GTMaterials.Iron, 1F,
+            GTMaterials.Iridium, 1.1F,
+            GTOMaterials.Orichalcum, 1.2F,
+            GTOMaterials.Infuscolium, 1.3F,
+            GTOMaterials.Draconium, 1.4F,
+            GTOMaterials.CosmicNeutronium, 1.5F,
+            GTOMaterials.Eternity, 1.6F);
+
     int chance;
 
     @DescSynced
-    private final Set<BlockPos> poss = new ObjectOpenHashSet<>(4, 0.9F);
+    private final List<BlockPos> poss = new ArrayList<>(2);
     private final IntOpenHashSet module = new IntOpenHashSet(4, 0.9F);
 
     @DescSynced
@@ -73,13 +84,15 @@ public final class NanitesIntegratedMachine extends CoilCrossRecipeMultiblockMac
         super(holder, false, true, false, true, MachineUtils::getHatchParallel);
         machineStorage = createMachineStorage(i -> {
             MaterialEntry entry = ChemicalHelper.getMaterialEntry(i.getItem());
-            return entry.tagPrefix() == GTOTagPrefix.NANITES && (entry.material() != GTMaterials.Carbon && entry.material() != GTMaterials.Glowstone);
+            return entry.tagPrefix() == GTOTagPrefix.NANITES && MATERIAL_MAP.containsKey(entry.material());
         });
     }
 
     @Override
     public void onMachineChanged() {
-        chance = getStorageStack().getCount();
+        if (isEmpty()) return;
+        Material material = ChemicalHelper.getMaterialEntry(getStorageStack().getItem()).material();
+        chance = (int) (getStorageStack().getCount() * MATERIAL_MAP.get(material));
     }
 
     static void trimRecipe(GTRecipe recipe, int chance) {
@@ -166,7 +179,7 @@ public final class NanitesIntegratedMachine extends CoilCrossRecipeMultiblockMac
     }
 
     @Override
-    public Set<BlockPos> getHighlightPos() {
+    public List<BlockPos> getHighlightPos() {
         return poss;
     }
 }

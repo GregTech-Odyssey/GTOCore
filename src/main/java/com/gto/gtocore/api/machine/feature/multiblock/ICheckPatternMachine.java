@@ -18,6 +18,10 @@ public interface ICheckPatternMachine {
         return 0;
     }
 
+    default boolean gtocore$hasButton() {
+        return false;
+    }
+
     static void attachConfigurators(ConfiguratorPanel configuratorPanel, MetaMachine machine) {
         if (machine instanceof ICheckPatternMachine checkPatternMachine) {
             configuratorPanel.attachConfigurators(new IFancyConfiguratorButton.Toggle(

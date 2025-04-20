@@ -35,13 +35,12 @@ import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import earth.terrarium.adastra.common.menus.base.PlanetsMenuProvider;
 import earth.terrarium.botarium.common.menu.MenuHooks;
-import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import static com.gto.gtocore.api.GTOValues.POWER_MODULE_TIER;
 
@@ -73,7 +72,7 @@ public class SpaceElevatorMachine extends TierCasingMultiblockMachine implements
     private int moduleCount;
 
     @DescSynced
-    final Set<BlockPos> poss = new ObjectOpenHashSet<>();
+    final List<BlockPos> poss = new ArrayList<>();
 
     private ServerPlayer player;
 
@@ -177,8 +176,10 @@ public class SpaceElevatorMachine extends TierCasingMultiblockMachine implements
 
     @Nullable
     private GTRecipe getRecipe() {
-        GTRecipe recipe = GTORecipeBuilder.ofRaw().duration(400).CWUt(128 * (getTier() - GTValues.ZPM)).EUt(GTValues.VA[getTier()]).buildRawRecipe();
-        if (RecipeRunnerHelper.matchRecipeTickInput(this, recipe)) return recipe;
+        if (getTier() > GTValues.ZPM) {
+            GTRecipe recipe = GTORecipeBuilder.ofRaw().duration(400).CWUt(128 * (getTier() - GTValues.ZPM)).EUt(GTValues.VA[getTier()]).buildRawRecipe();
+            if (RecipeRunnerHelper.matchRecipeTickInput(this, recipe)) return recipe;
+        }
         return null;
     }
 
@@ -188,7 +189,7 @@ public class SpaceElevatorMachine extends TierCasingMultiblockMachine implements
     }
 
     @Override
-    public Set<BlockPos> getHighlightPos() {
+    public List<BlockPos> getHighlightPos() {
         return poss;
     }
 }

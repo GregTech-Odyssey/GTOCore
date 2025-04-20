@@ -20,7 +20,7 @@ interface RarityForge {
                 .inputItems(TagUtils.createTGTag("flawless_gems"))
                 .inputItems("apotheosis:gem_fused_slate", 1)
                 .outputItems("apotheosis:gem_dust", 2)
-                .EUt(8)
+                .EUt(32)
                 .duration(400)
                 .save();
 
@@ -29,7 +29,7 @@ interface RarityForge {
                 .inputItems("gtceu:small_wrought_iron_dust")
                 .inputItems("gtceu:small_steel_dust")
                 .outputItems("apotheosis:common_material")
-                .EUt(32)
+                .EUt(128)
                 .duration(200)
                 .save();
 
@@ -38,7 +38,7 @@ interface RarityForge {
                 .inputItems(Items.LEATHER.asItem())
                 .inputItems("apotheosis:gem_dust")
                 .outputItems("apotheosis:uncommon_material")
-                .EUt(8)
+                .EUt(32)
                 .duration(200)
                 .save();
 
@@ -47,7 +47,7 @@ interface RarityForge {
                 .inputItems(TagPrefix.gem, GTMaterials.Amethyst)
                 .inputItems("apotheosis:gem_dust")
                 .outputItems("apotheosis:rare_material")
-                .EUt(16)
+                .EUt(128)
                 .duration(200)
                 .save();
 
@@ -56,7 +56,7 @@ interface RarityForge {
                 .inputItems(Items.PRISMARINE_CRYSTALS.asItem())
                 .inputItems("apotheosis:gem_dust")
                 .outputItems("apotheosis:epic_material")
-                .EUt(32)
+                .EUt(512)
                 .duration(200)
                 .save();
 
@@ -65,7 +65,7 @@ interface RarityForge {
                 .inputItems(AEItems.FLUIX_PEARL.asItem())
                 .inputItems("apotheosis:gem_dust")
                 .outputItems("apotheosis:mythic_material")
-                .EUt(64)
+                .EUt(2048)
                 .duration(200)
                 .save();
 
@@ -73,7 +73,7 @@ interface RarityForge {
                 .inputItems(GTOItems.LV_POWER_AMPLIFIERS.asItem())
                 .inputItems(TagPrefix.gem, GTOMaterials.Fluix)
                 .outputItems(GTOItems.SPEED_UPGRADE_MODULE.asItem())
-                .EUt(8)
+                .EUt(32)
                 .duration(400)
                 .save();
 
@@ -81,7 +81,7 @@ interface RarityForge {
                 .inputItems(GTOItems.LV_POWER_AMPLIFIERS.asItem())
                 .inputItems(AEItems.CERTUS_QUARTZ_CRYSTAL_CHARGED.asItem())
                 .outputItems(GTOItems.ENERGY_UPGRADE_MODULE.asItem())
-                .EUt(8)
+                .EUt(32)
                 .duration(400)
                 .save();
     }

@@ -1,5 +1,6 @@
 package com.gto.gtocore.api.registries;
 
+import com.gto.gtocore.api.recipe.GTORecipeModifier;
 import com.gto.gtocore.api.recipe.JointRecipeType;
 import com.gto.gtocore.common.data.GTORecipeModifiers;
 import com.gto.gtocore.common.machine.multiblock.steam.LargeSteamParallelMultiblockMachine;
@@ -13,7 +14,6 @@ import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockControllerMachine;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
-import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
 import com.gregtechceu.gtceu.api.registry.registrate.MultiblockMachineBuilder;
 import com.gregtechceu.gtceu.client.util.TooltipHelper;
 
@@ -69,14 +69,12 @@ public final class MultiblockBuilder extends MultiblockMachineBuilder {
         return (MultiblockBuilder) super.alwaysTryModifyRecipe(alwaysTryModifyRecipe);
     }
 
-    @Override
-    public MultiblockBuilder recipeModifier(RecipeModifier recipeModifier) {
+    public MultiblockBuilder recipeModifier(GTORecipeModifier recipeModifier) {
         alwaysTryModifyRecipe(true);
         return (MultiblockBuilder) super.recipeModifier(recipeModifier);
     }
 
-    @Override
-    public MultiblockBuilder recipeModifiers(RecipeModifier... recipeModifiers) {
+    public MultiblockBuilder recipeModifiers(GTORecipeModifier... recipeModifiers) {
         if (recipeModifiers.length == 1) return recipeModifier(recipeModifiers[0]);
         alwaysTryModifyRecipe(true);
         return (MultiblockBuilder) super.recipeModifiers(recipeModifiers);

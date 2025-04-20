@@ -156,7 +156,7 @@ public interface MultiBlockG {
     MultiblockMachineDefinition POLYMERIZATION_REACTOR = multiblock("polymerization_reactor", "聚合反应器", CoilMultiblockMachine.createCoilMachine(false, false))
             .nonYAxisRotation()
             .recipe(GTORecipeTypes.POLYMERIZATION_REACTOR_RECIPES)
-            .recipeModifier(GTORecipeModifiers::polymerizationOverclock)
+            .recipeModifier(GTORecipeModifiers.coilReductionOverclock(false))
             .existingTooltips("chemical_plant", 0)
             .parallelizableTooltips()
             .block(GTBlocks.CASING_STAINLESS_CLEAN)

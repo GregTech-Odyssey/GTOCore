@@ -88,6 +88,9 @@ dependencies {
     modCompileOnly("curse.maven:sophisticated-backpacks-422301:6376978")
     modCompileOnly("curse.maven:sophisticated-core-618298:6379145")
 
+    modCompileOnly("curse.maven:xaeros-world-map-317780:6212637")
+    modCompileOnly("curse.maven:xaeros-minimap-263420:6306155")
+
     modRuntimeOnly("curse.maven:cloth-config-348521:5729105")
 
     modRuntimeOnly("curse.maven:FerriteCore-429235:4810975")

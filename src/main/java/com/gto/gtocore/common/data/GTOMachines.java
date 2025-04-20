@@ -7,6 +7,7 @@ import com.gto.gtocore.api.machine.part.GTOPartAbility;
 import com.gto.gtocore.api.machine.part.ItemHatchPartMachine;
 import com.gto.gtocore.client.renderer.machine.BallHatchRenderer;
 import com.gto.gtocore.client.renderer.machine.WindMillTurbineRenderer;
+import com.gto.gtocore.common.data.machines.*;
 import com.gto.gtocore.common.machine.electric.ElectricHeaterMachine;
 import com.gto.gtocore.common.machine.electric.VacuumPumpMachine;
 import com.gto.gtocore.common.machine.generator.LightningRodMachine;
@@ -18,6 +19,7 @@ import com.gto.gtocore.common.machine.noenergy.BoilWaterMachine;
 import com.gto.gtocore.common.machine.noenergy.HeaterMachine;
 import com.gto.gtocore.common.machine.noenergy.PerformanceMonitorMachine;
 import com.gto.gtocore.common.machine.steam.SteamVacuumPumpMachine;
+import com.gto.gtocore.config.GTOConfig;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
@@ -50,7 +52,19 @@ import static com.gto.gtocore.utils.register.MachineRegisterUtils.*;
 
 public interface GTOMachines {
 
-    static void init() {}
+    static void init() {
+        ManaMachine.init();
+        GeneratorMultiblock.init();
+        ExResearchMachines.init();
+        MultiBlockA.init();
+        MultiBlockB.init();
+        MultiBlockC.init();
+        MultiBlockD.init();
+        MultiBlockE.init();
+        MultiBlockF.init();
+        MultiBlockG.init();
+        MultiBlockH.init();
+    }
 
     //////////////////////////////////////
     // *** Simple Machine ***//
@@ -146,7 +160,7 @@ public interface GTOMachines {
                     .hasTESR(true)
                     .tooltips(Component.translatable("gtocore.machine.wind_mill_turbine.tooltip.0"))
                     .tooltips(Component.translatable("gtocore.machine.wind_mill_turbine.tooltip.1"))
-                    .tooltips(Component.translatable("gtceu.universal.tooltip.amperage_out", 2))
+                    .tooltips(Component.translatable("gtceu.universal.tooltip.amperage_out", GTOConfig.getDifficulty() == 1 ? 2 : 1))
                     .tooltips(Component.translatable("gtceu.universal.tooltip.voltage_out",
                             FormattingUtil.formatNumbers(V[tier]), VNF[tier]))
                     .tooltips(Component.translatable("gtceu.universal.tooltip.energy_storage_capacity",
@@ -590,6 +604,12 @@ public interface GTOMachines {
             .tier(IV)
             .allRotation()
             .renderer(() -> new OverlayTieredMachineRenderer(IV, GTCEu.id("block/machine/part/data_access_hatch")))
+            .register();
+
+    MachineDefinition MACHINE_ACCESS_TERMINAL = machine("machine_access_terminal", "机器访问终端", MachineAccessTerminalPartMachine::new)
+            .tier(UEV)
+            .allRotation()
+            .renderer(() -> new OverlayTieredMachineRenderer(UEV, GTCEu.id("block/machine/part/data_access_hatch")))
             .register();
 
     MachineDefinition THERMAL_CONDUCTOR_HATCH = machine("thermal_conductor_hatch", "导热剂仓", ThermalConductorHatchPartMachine::new)

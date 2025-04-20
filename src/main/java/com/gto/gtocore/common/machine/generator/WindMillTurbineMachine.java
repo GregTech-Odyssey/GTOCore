@@ -127,6 +127,8 @@ public final class WindMillTurbineMachine extends TieredEnergyMachine implements
             Level level = getLevel();
             if (level == null) return;
             actualPower = 0;
+            ItemStack stack = inventory.storage.getStackInSlot(0);
+            if (stack.isEmpty()) return;
             if (!GTODimensions.isOverworld(level.dimension().location())) {
                 Planet planet = PlanetApi.API.getPlanet(level);
                 if (planet == null || !planet.oxygen()) return;
@@ -140,7 +142,6 @@ public final class WindMillTurbineMachine extends TieredEnergyMachine implements
                 return;
             }
 
-            ItemStack stack = inventory.storage.getStackInSlot(0);
             int damage = stack.getDamageValue();
             int maxDamage = stack.getMaxDamage();
 

@@ -95,6 +95,12 @@ public final class AbsoluteBaryonicPerfectionPurificationUnitMachine extends Wat
     }
 
     @Override
+    public void onStructureFormed() {
+        busMachines.clear();
+        super.onStructureFormed();
+    }
+
+    @Override
     public void onStructureInvalid() {
         super.onStructureInvalid();
         busMachines.clear();

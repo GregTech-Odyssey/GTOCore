@@ -37,6 +37,13 @@ public class SuperMolecularAssemblerMachine extends ElectricMultiblockMachine {
         }
     }
 
+    @Override
+    public void onStructureFormed() {
+        partMachines.clear();
+        super.onStructureFormed();
+    }
+
+    @Override
     public void onStructureInvalid() {
         super.onStructureInvalid();
         partMachines.clear();
@@ -56,7 +63,7 @@ public class SuperMolecularAssemblerMachine extends ElectricMultiblockMachine {
         long totalEu = map.values().longStream().sum();
         long maxEUt = getOverclockVoltage();
         double d = (double) totalEu / maxEUt;
-        GTORecipeBuilder builder = GTORecipeBuilder.ofRaw().EUt(d >= 5 ? maxEUt : (long) (maxEUt * d / 5)).duration((int) Math.max(d, 5));
+        GTORecipeBuilder builder = GTORecipeBuilder.ofRaw().EUt(d >= 5 ? maxEUt : Math.max(1, (long) (maxEUt * d / 5))).duration((int) Math.max(d, 5));
         for (var entry : map.object2LongEntrySet()) {
             var item = entry.getKey();
             item.setCount(GTMath.saturatedCast(entry.getLongValue()));

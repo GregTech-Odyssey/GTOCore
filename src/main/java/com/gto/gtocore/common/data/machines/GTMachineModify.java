@@ -1,6 +1,7 @@
 package com.gto.gtocore.common.data.machines;
 
 import com.gto.gtocore.api.misc.PlanetManagement;
+import com.gto.gtocore.api.recipe.GTORecipeModifierList;
 import com.gto.gtocore.common.data.GTORecipeModifiers;
 import com.gto.gtocore.common.data.GTORecipeTypes;
 import com.gto.gtocore.utils.MachineUtils;
@@ -35,14 +36,14 @@ public interface GTMachineModify {
         GTMultiMachines.MULTI_SMELTER.setTooltipBuilder((itemStack, components) -> components.add(Component.translatable("gtceu.machine.available_recipe_map_1.tooltip", Component.translatable("gtceu.electric_furnace"))));
         GTMultiMachines.LARGE_CHEMICAL_REACTOR.setRecipeTypes(new GTRecipeType[] { GTORecipeTypes.CHEMICAL });
         GTMultiMachines.LARGE_CHEMICAL_REACTOR.setTooltipBuilder((a, b) -> b.add(Component.translatable("gtceu.machine.perfect_oc").withStyle(style -> style.withColor(TooltipHelper.BLINKING_RED.getCurrent()))));
-        GTMultiMachines.LARGE_BOILER_BRONZE.setRecipeModifier(GTORecipeModifiers::largeBoilerModifier);
-        GTMultiMachines.LARGE_BOILER_STEEL.setRecipeModifier(GTORecipeModifiers::largeBoilerModifier);
-        GTMultiMachines.LARGE_BOILER_TITANIUM.setRecipeModifier(GTORecipeModifiers::largeBoilerModifier);
-        GTMultiMachines.LARGE_BOILER_TUNGSTENSTEEL.setRecipeModifier(GTORecipeModifiers::largeBoilerModifier);
-        GTMultiMachines.ELECTRIC_BLAST_FURNACE.setRecipeModifier(GTORecipeModifiers::ebfOverclock);
-        GTMultiMachines.PYROLYSE_OVEN.setRecipeModifier(GTORecipeModifiers::pyrolyseOvenOverclock);
-        GTMultiMachines.CRACKER.setRecipeModifier(GTORecipeModifiers::crackerOverclock);
-        GTMultiMachines.LARGE_CHEMICAL_REACTOR.setRecipeModifier(GTORecipeModifiers::largeChemicaloroverclock);
+        GTMultiMachines.LARGE_BOILER_BRONZE.setRecipeModifier(GTORecipeModifiers.LARGE_BOILER_MODIFIER);
+        GTMultiMachines.LARGE_BOILER_STEEL.setRecipeModifier(GTORecipeModifiers.LARGE_BOILER_MODIFIER);
+        GTMultiMachines.LARGE_BOILER_TITANIUM.setRecipeModifier(GTORecipeModifiers.LARGE_BOILER_MODIFIER);
+        GTMultiMachines.LARGE_BOILER_TUNGSTENSTEEL.setRecipeModifier(GTORecipeModifiers.LARGE_BOILER_MODIFIER);
+        GTMultiMachines.ELECTRIC_BLAST_FURNACE.setRecipeModifier(new GTORecipeModifierList(GTORecipeModifiers::ebfOverclock));
+        GTMultiMachines.PYROLYSE_OVEN.setRecipeModifier(new GTORecipeModifierList(GTORecipeModifiers::pyrolyseOvenOverclock));
+        GTMultiMachines.CRACKER.setRecipeModifier(new GTORecipeModifierList(GTORecipeModifiers::crackerOverclock));
+        GTMultiMachines.LARGE_CHEMICAL_REACTOR.setRecipeModifier(GTORecipeModifiers.LARGE_CHEMICAL_OROVERCLOCK);
         GTMultiMachines.IMPLOSION_COMPRESSOR.setRecipeModifier(GTORecipeModifiers.OVERCLOCKING);
         GTMultiMachines.DISTILLATION_TOWER.setRecipeModifier(GTORecipeModifiers.OVERCLOCKING);
         GTMultiMachines.VACUUM_FREEZER.setRecipeModifier(GTORecipeModifiers.OVERCLOCKING);

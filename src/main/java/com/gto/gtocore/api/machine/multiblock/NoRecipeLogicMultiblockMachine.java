@@ -38,8 +38,6 @@ public class NoRecipeLogicMultiblockMachine extends MultiblockControllerMachine 
     protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
             NoRecipeLogicMultiblockMachine.class, MultiblockControllerMachine.MANAGED_FIELD_HOLDER);
 
-    private int checkTime = 1;
-
     private final List<MultiblockTrait> multiblockTraits = new ArrayList<>(2);
 
     @Persisted
@@ -50,7 +48,13 @@ public class NoRecipeLogicMultiblockMachine extends MultiblockControllerMachine 
     }
 
     @Override
+    public boolean gtocore$hasButton() {
+        return true;
+    }
+
+    @Override
     public void onStructureFormed() {
+        multiblockTraits.forEach(MultiblockTrait::onStructureFormedBefore);
         super.onStructureFormed();
         multiblockTraits.forEach(MultiblockTrait::onStructureFormed);
     }
@@ -112,16 +116,6 @@ public class NoRecipeLogicMultiblockMachine extends MultiblockControllerMachine 
         for (IMultiPart part : getParts()) {
             part.attachFancyTooltipsToController(this, tooltipsPanel);
         }
-    }
-
-    @Override
-    public void gTOCore$setTime(int time) {
-        checkTime = time;
-    }
-
-    @Override
-    public int gTOCore$getTime() {
-        return checkTime;
     }
 
     @Override

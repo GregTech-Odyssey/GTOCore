@@ -52,6 +52,8 @@ public abstract class MultiblockTrait extends MachineTrait {
 
     public void onPartScan(IMultiPart part) {}
 
+    public void onStructureFormedBefore() {}
+
     public void onStructureFormed() {}
 
     public void onStructureInvalid() {}

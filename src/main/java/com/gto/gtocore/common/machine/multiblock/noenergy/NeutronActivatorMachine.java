@@ -88,6 +88,8 @@ public class NeutronActivatorMachine extends NoEnergyMultiblockMachine implement
 
     @Override
     public void onStructureFormed() {
+        acceleratorMachines.clear();
+        busMachines.clear();
         super.onStructureFormed();
         FunctionContainer<Integer, ?> container = getMultiblockState().getMatchContext().get("SpeedPipe");
         if (container != null) {

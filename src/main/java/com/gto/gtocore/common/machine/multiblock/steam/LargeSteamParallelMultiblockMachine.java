@@ -1,6 +1,7 @@
 package com.gto.gtocore.common.machine.multiblock.steam;
 
 import com.gto.gtocore.api.recipe.ContentBuilder;
+import com.gto.gtocore.api.recipe.GTORecipeModifier;
 import com.gto.gtocore.common.data.GTORecipeModifiers;
 import com.gto.gtocore.common.machine.multiblock.part.LargeSteamHatchPartMachine;
 
@@ -8,7 +9,6 @@ import com.gregtechceu.gtceu.api.capability.recipe.EURecipeCapability;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.ICleanroomProvider;
 import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
-import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
 import com.gregtechceu.gtceu.common.machine.multiblock.electric.CleanroomMachine;
 import com.gregtechceu.gtceu.common.machine.multiblock.steam.SteamParallelMultiblockMachine;
 
@@ -62,8 +62,8 @@ public class LargeSteamParallelMultiblockMachine extends SteamParallelMultiblock
         isOC = getParts().stream().anyMatch(LargeSteamHatchPartMachine.class::isInstance);
     }
 
-    public static RecipeModifier recipeModifier(double reductionDuration) {
-        return (machine, r) -> recipe -> {
+    public static GTORecipeModifier recipeModifier(double reductionDuration) {
+        return (machine, recipe) -> {
             long eut = RecipeHelper.getInputEUt(recipe);
             if (machine instanceof LargeSteamParallelMultiblockMachine steamMachine && eut < (steamMachine.isOC ? (long) steamMachine.eut << 2 : steamMachine.eut)) {
                 recipe = GTORecipeModifiers.accurateParallel(machine, recipe, steamMachine.getMaxParallels());
