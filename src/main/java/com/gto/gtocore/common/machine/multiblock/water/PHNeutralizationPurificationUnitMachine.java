@@ -60,6 +60,12 @@ public final class PHNeutralizationPurificationUnitMachine extends WaterPurifica
     }
 
     @Override
+    public void onStructureFormed() {
+        sensorPartMachines.clear();
+        super.onStructureFormed();
+    }
+
+    @Override
     public void onStructureInvalid() {
         super.onStructureInvalid();
         sensorPartMachines.clear();

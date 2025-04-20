@@ -37,6 +37,13 @@ public class SuperMolecularAssemblerMachine extends ElectricMultiblockMachine {
         }
     }
 
+    @Override
+    public void onStructureFormed() {
+        partMachines.clear();
+        super.onStructureFormed();
+    }
+
+    @Override
     public void onStructureInvalid() {
         super.onStructureInvalid();
         partMachines.clear();

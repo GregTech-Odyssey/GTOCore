@@ -3,6 +3,7 @@ package com.gto.gtocore.common.machine.multiblock.part;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.widget.SlotWidget;
+import com.gregtechceu.gtceu.api.item.MetaMachineItem;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.TieredIOPartMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
@@ -13,8 +14,10 @@ import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import com.lowdragmc.lowdraglib.jei.IngredientIO;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
+import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 
+@Getter
 public final class MachineAccessTerminalPartMachine extends TieredIOPartMachine {
 
     private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
@@ -26,6 +29,7 @@ public final class MachineAccessTerminalPartMachine extends TieredIOPartMachine 
     public MachineAccessTerminalPartMachine(IMachineBlockEntity holder) {
         super(holder, 10, IO.IN);
         this.inventory = new NotifiableItemStackHandler(this, 64, IO.NONE, IO.NONE, CustomItemStackHandler::new);
+        inventory.setFilter(i -> i.getItem() instanceof MetaMachineItem);
     }
 
     @Override

@@ -215,7 +215,7 @@ public final class EncapsulatorExecutionModuleMachine extends StorageMultiblockM
         if (finalRecipe != null) return IRecipeSearchMachine.super.matchRecipe(recipe);
         if (getStorageStack().getItem() instanceof MetaMachineItem metaMachineItem) {
             MachineDefinition definition = metaMachineItem.getDefinition();
-            if (definition.getTier() >= RecipeHelper.getRecipeEUtTier(recipe)) {
+            if (definition.getTier() >= RecipeHelper.getRecipeEUtTier(recipe) && encapsulatorMachine != null && encapsulatorMachine.isFormed() && encapsulatorMachine.typeMap.getInt(recipe.recipeType) >= RecipeHelper.getRecipeEUtTier(recipe)) {
                 return getOverclockTier() >= RecipeHelper.getRecipeEUtTier(recipe) && RecipeRunnerHelper.matchRecipeInput(this, recipe);
             }
         }
@@ -284,9 +284,10 @@ public final class EncapsulatorExecutionModuleMachine extends StorageMultiblockM
     public void customText(List<Component> textList) {
         super.customText(textList);
         if (encapsulatorMachine == null) return;
+        textList.add(Component.translatable("gtocore.tooltip.item.craft_step", packageRecipe.size() + " / " + encapsulatorMachine.processingAmount));
         textList.add(ComponentPanelWidget.withButton(Component.literal("[").append(Component.translatable("gui.ae2.Clean")).append(Component.literal("]")), "clean"));
-        if (finalRecipe == null) textList.add(ComponentPanelWidget.withButton(Component.literal("[").append(Component.translatable("gui.jade.search")).append(Component.literal("]")), "search"));
-        if (finalRecipe == null) textList.add(ComponentPanelWidget.withButton(Component.literal("[").append(Component.translatable("gtocore.build")).append(Component.literal("]")), "build"));
+        if (finalRecipe == null && packageRecipe.size() < encapsulatorMachine.processingAmount) textList.add(ComponentPanelWidget.withButton(Component.literal("[").append(Component.translatable("gui.jade.search")).append(Component.literal("]")), "search"));
+        if (finalRecipe == null && !packageRecipe.isEmpty()) textList.add(ComponentPanelWidget.withButton(Component.literal("[").append(Component.translatable("gtocore.build")).append(Component.literal("]")), "build"));
         if (finalRecipe != null) textList.add(ComponentPanelWidget.withButton(Component.literal("[").append(Component.translatable("gui.ae2.Patterns")).append(Component.literal("]")), "pattern"));
     }
 
@@ -304,6 +305,7 @@ public final class EncapsulatorExecutionModuleMachine extends StorageMultiblockM
                 textList.add(Component.literal("Recipe: ").append(Component.translatable(recipe.id.toString())));
             }
         }
+        if (packageRecipe.isEmpty()) return;
         textList.add(Component.translatable("gtceu.io.import"));
         for (var inputItem : inputItemStackMap.object2IntEntrySet()) {
             if (inputItem.getIntValue() > 0) textList.add(inputItem.getKey().toStack().getDisplayName().copy().append(" x").append(String.valueOf(inputItem.getIntValue())));
@@ -423,7 +425,7 @@ public final class EncapsulatorExecutionModuleMachine extends StorageMultiblockM
                     finalRecipe = recipeBuilder.buildRawRecipe();
                 }
                 case "search" -> {
-                    if (recipeTypeCache == GTRecipeTypes.DUMMY_RECIPES || finalRecipe != null) return;
+                    if (recipeTypeCache == GTRecipeTypes.DUMMY_RECIPES || finalRecipe != null || packageRecipe.size() >= encapsulatorMachine.processingAmount) return;
                     Iterator<GTRecipe> iterator = recipeTypeCache.searchRecipe(this, this::matchRecipe);
                     while (iterator.hasNext()) {
                         GTRecipe recipe = iterator.next();

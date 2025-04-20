@@ -109,6 +109,7 @@ public class NoEnergyMultiblockMachine extends WorkableMultiblockMachine impleme
     @Override
     @MustBeInvokedByOverriders
     public void onStructureFormed() {
+        multiblockTraits.forEach(MultiblockTrait::onStructureFormedBefore);
         super.onStructureFormed();
         multiblockTraits.forEach(MultiblockTrait::onStructureFormed);
     }

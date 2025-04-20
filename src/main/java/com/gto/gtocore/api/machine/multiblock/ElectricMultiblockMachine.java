@@ -92,6 +92,7 @@ public class ElectricMultiblockMachine extends WorkableElectricMultiblockMachine
     @Override
     @MustBeInvokedByOverriders
     public void onStructureFormed() {
+        multiblockTraits.forEach(MultiblockTrait::onStructureFormedBefore);
         clean();
         energyContainer = null;
         super.onStructureFormed();

@@ -6,13 +6,19 @@ import com.gto.gtocore.api.machine.multiblock.TierCasingMultiblockMachine;
 import com.gto.gtocore.api.machine.trait.CustomRecipeLogic;
 import com.gto.gtocore.api.recipe.GTORecipeBuilder;
 import com.gto.gtocore.api.recipe.RecipeRunnerHelper;
+import com.gto.gtocore.common.data.GTORecipeTypes;
+import com.gto.gtocore.common.machine.multiblock.part.MachineAccessTerminalPartMachine;
 import com.gto.gtocore.utils.MachineUtils;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.gui.fancy.ConfiguratorPanel;
+import com.gregtechceu.gtceu.api.item.MetaMachineItem;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.machine.MachineDefinition;
+import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
@@ -21,6 +27,7 @@ import net.minecraft.world.level.Level;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
+import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -42,6 +49,10 @@ public final class ProcessingEncapsulatorMachine extends TierCasingMultiblockMac
     private final List<BlockPos> highlightPos = new ArrayList<>();
 
     private int moduleCount;
+    int processingAmount;
+
+    private final List<MachineAccessTerminalPartMachine> terminalPartMachine = new ArrayList<>(4);
+    final Object2IntOpenHashMap<GTRecipeType> typeMap = new Object2IntOpenHashMap<>();
 
     public ProcessingEncapsulatorMachine(IMachineBlockEntity holder) {
         super(holder, GTOValues.INTEGRAL_FRAMEWORK_TIER, GTOValues.GLASS_TIER);
@@ -60,7 +71,17 @@ public final class ProcessingEncapsulatorMachine extends TierCasingMultiblockMac
     }
 
     @Override
+    public void onPartScan(IMultiPart part) {
+        super.onPartScan(part);
+        if (part instanceof MachineAccessTerminalPartMachine accessTerminalPartMachine) {
+            terminalPartMachine.add(accessTerminalPartMachine);
+            accessTerminalPartMachine.getInventory().addChangedListener(this::updateMap);
+        }
+    }
+
+    @Override
     public void onStructureFormed() {
+        terminalPartMachine.clear();
         super.onStructureFormed();
         highlightPos.clear();
         var centerPosition = MachineUtils.getOffsetPos(26, 0, getFrontFacing(), getPos());
@@ -81,6 +102,21 @@ public final class ProcessingEncapsulatorMachine extends TierCasingMultiblockMac
             highlightPos.add(centerPosition.offset(-34, y, -5));
         }
         update(true);
+        int glassTier = getCasingTier(GTOValues.GLASS_TIER);
+        if (glassTier < GTValues.UIV) {
+            processingAmount = 0;
+        } else {
+            processingAmount = 32 * (1 << (getCasingTier(GTOValues.GLASS_TIER) - GTValues.UIV));
+        }
+        updateMap();
+    }
+
+    @Override
+    public void onStructureInvalid() {
+        super.onStructureInvalid();
+        processingAmount = 0;
+        highlightPos.clear();
+        terminalPartMachine.clear();
     }
 
     @Override
@@ -88,6 +124,24 @@ public final class ProcessingEncapsulatorMachine extends TierCasingMultiblockMac
         if (!super.onWorking()) return false;
         update(false);
         return true;
+    }
+
+    private void updateMap() {
+        typeMap.clear();
+        int ifTier = getCasingTier(GTOValues.INTEGRAL_FRAMEWORK_TIER);
+        for (var part : terminalPartMachine) {
+            var inv = part.getInventory();
+            for (int i = 0; i < inv.getSlots(); i++) {
+                if (inv.getStackInSlot(i).getItem() instanceof MetaMachineItem metaMachineItem) {
+                    MachineDefinition definition = metaMachineItem.getDefinition();
+                    if (definition.getTier() <= ifTier && definition.getRecipeTypes().length > 0 && definition.getRecipeTypes()[0] != GTORecipeTypes.DUMMY_RECIPES) {
+                        for (var type : definition.getRecipeTypes()) {
+                            typeMap.put(type, definition.getTier());
+                        }
+                    }
+                }
+            }
+        }
     }
 
     private void update(boolean promptly) {
@@ -108,6 +162,7 @@ public final class ProcessingEncapsulatorMachine extends TierCasingMultiblockMac
     public void customText(@NotNull List<Component> textList) {
         super.customText(textList);
         update(false);
+        textList.add(Component.translatable("cover.advanced_energy_detector.max").append(Component.translatable("gtocore.tooltip.item.craft_step", processingAmount)));
         textList.add(Component.translatable("gtocore.machine.module", moduleCount));
     }
 

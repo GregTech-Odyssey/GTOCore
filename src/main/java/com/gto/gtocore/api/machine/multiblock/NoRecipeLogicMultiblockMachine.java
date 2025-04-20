@@ -54,6 +54,7 @@ public class NoRecipeLogicMultiblockMachine extends MultiblockControllerMachine 
 
     @Override
     public void onStructureFormed() {
+        multiblockTraits.forEach(MultiblockTrait::onStructureFormedBefore);
         super.onStructureFormed();
         multiblockTraits.forEach(MultiblockTrait::onStructureFormed);
     }

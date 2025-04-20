@@ -45,6 +45,11 @@ public final class RadioactivityTrait extends MultiblockTrait {
     }
 
     @Override
+    public void onStructureFormedBefore() {
+        radiationHatchPartMachines.clear();
+    }
+
+    @Override
     public void onStructureInvalid() {
         radiationHatchPartMachines.clear();
     }
