@@ -63,6 +63,7 @@ public interface GCYMMachines {
                     .abilities(PARALLEL_HATCH)
                     .workableTieredHullRenderer(GTCEu.id("block/machines/parallel_hatch_mk" + (tier - 4)))
                     .tooltips(Component.translatable("gtceu.machine.parallel_hatch_mk" + (tier + 1) + ".tooltip"))
+                    .tooltips(Component.translatable("gtceu.universal.disabled"))
                     .register(),
             IV, LuV, ZPM, UV, UHV, UEV, UIV, UXV, OpV, MAX);
 

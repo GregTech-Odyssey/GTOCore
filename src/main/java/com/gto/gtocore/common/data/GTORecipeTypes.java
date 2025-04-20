@@ -4,6 +4,7 @@ import com.gto.gtocore.api.gui.GTOGuiTextures;
 import com.gto.gtocore.api.machine.trait.TierCasingTrait;
 import com.gto.gtocore.api.recipe.GTORecipeType;
 import com.gto.gtocore.api.recipe.JointRecipeType;
+import com.gto.gtocore.common.machine.multiblock.part.InfiniteIntakeHatchPartMachine;
 import com.gto.gtocore.common.machine.trait.RecyclerLogic;
 import com.gto.gtocore.common.recipe.RecipeTypeModify;
 import com.gto.gtocore.config.GTOConfig;
@@ -84,7 +85,7 @@ public interface GTORecipeTypes {
     GTORecipeType THERMAL_CENTRIFUGE_RECIPES = (GTORecipeType) GTRecipeTypes.THERMAL_CENTRIFUGE_RECIPES;
     GTORecipeType WIREMILL_RECIPES = (GTORecipeType) GTRecipeTypes.WIREMILL_RECIPES;
     GTORecipeType CIRCUIT_ASSEMBLER_RECIPES = (GTORecipeType) GTRecipeTypes.CIRCUIT_ASSEMBLER_RECIPES;
-    GTORecipeType GAS_COLLECTOR_RECIPES = (GTORecipeType) GTRecipeTypes.GAS_COLLECTOR_RECIPES;
+    GTORecipeType GAS_COLLECTOR_RECIPES = (GTORecipeType) GTRecipeTypes.GAS_COLLECTOR_RECIPES.onRecipeBuild(InfiniteIntakeHatchPartMachine::init);
     GTORecipeType AIR_SCRUBBER_RECIPES = (GTORecipeType) GTRecipeTypes.AIR_SCRUBBER_RECIPES;
     GTORecipeType RESEARCH_STATION_RECIPES = (GTORecipeType) GTRecipeTypes.RESEARCH_STATION_RECIPES;
     GTORecipeType ROCK_BREAKER_RECIPES = (GTORecipeType) GTRecipeTypes.ROCK_BREAKER_RECIPES;
