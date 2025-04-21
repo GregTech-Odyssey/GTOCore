@@ -3,7 +3,9 @@ package com.gto.gtocore.mixin.gtm.machine;
 import com.gto.gtocore.api.GTOValues;
 import com.gto.gtocore.api.machine.feature.IAirScrubberInteractor;
 import com.gto.gtocore.api.machine.feature.IDroneInteractionMachine;
+import com.gto.gtocore.api.machine.trait.IEnhancedRecipeLogic;
 import com.gto.gtocore.api.misc.Drone;
+import com.gto.gtocore.api.recipe.IdleReason;
 import com.gto.gtocore.common.machine.multiblock.noenergy.DroneControlCenterMachine;
 import com.gto.gtocore.utils.MachineUtils;
 
@@ -16,6 +18,7 @@ import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMufflerMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IWorkableMultiController;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.TieredPartMachine;
+import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.machine.electric.AirScrubberMachine;
@@ -155,6 +158,19 @@ public abstract class MufflerPartMachineMixin extends TieredPartMachine implemen
     }
 
     @Override
+    public GTRecipe modifyRecipe(GTRecipe recipe) {
+        if (!isFrontFaceFree()) {
+            for (var c : getControllers()) {
+                if (c instanceof IRecipeLogicMachine recipeLogicMachine && recipeLogicMachine.getRecipeLogic() instanceof IEnhancedRecipeLogic enhancedRecipeLogic) {
+                    enhancedRecipeLogic.gTOCore$setIdleReason(IdleReason.MUFFLER_OBSTRUCTED.reason());
+                }
+            }
+            return null;
+        }
+        return recipe;
+    }
+
+    @Override
     public boolean afterWorking(IWorkableMultiController controller) {
         if (!gtocore$isAshFull && !calculateChance()) gtocore$insertAsh();
         return true;
@@ -180,6 +196,11 @@ public abstract class MufflerPartMachineMixin extends TieredPartMachine implemen
         gtocore$isAshFull = false;
         if (inventory.getStackInSlot(inventory.getSlots() - 1).getCount() > 63) {
             gtocore$isAshFull = true;
+            for (var c : getControllers()) {
+                if (c instanceof IRecipeLogicMachine recipeLogicMachine && recipeLogicMachine.getRecipeLogic() instanceof IEnhancedRecipeLogic enhancedRecipeLogic) {
+                    enhancedRecipeLogic.gTOCore$setIdleReason(IdleReason.MUFFLER_OBSTRUCTED.reason());
+                }
+            }
             return false;
         }
         return true;

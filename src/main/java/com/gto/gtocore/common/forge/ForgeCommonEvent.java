@@ -1,5 +1,6 @@
 package com.gto.gtocore.common.forge;
 
+import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.api.data.GTODimensions;
 import com.gto.gtocore.api.entity.IEnhancedPlayer;
 import com.gto.gtocore.api.machine.feature.IVacuumMachine;
@@ -244,6 +245,7 @@ public final class ForgeCommonEvent {
                 ServerUtils.getPersistentData().putInt("difficulty", GTOConfig.getDifficulty());
                 CommonSavaedData.INSTANCE.setDirty();
             } else if (difficulty != GTOConfig.getDifficulty()) {
+                GTOCore.LOGGER.error("Current difficulty: {} | World difficulty: {} — Unable to enter the world.", GTOConfig.getDifficulty(), difficulty);
                 serverLevel.getServer().halt(true);
             }
             ServerCache.initialized = true;

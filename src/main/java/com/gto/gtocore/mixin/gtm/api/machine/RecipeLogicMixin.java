@@ -26,6 +26,7 @@ import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
 import com.gregtechceu.gtceu.api.sound.SoundEntry;
 
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraftforge.api.distmarker.Dist;
@@ -102,6 +103,9 @@ public abstract class RecipeLogicMixin extends MachineTrait implements IEnhanced
     @Unique
     private int gtocore$interval = 5;
 
+    @Unique
+    private MutableComponent gtocore$reason;
+
     @Shadow
     @Nullable
     protected GTRecipe lastRecipe;
@@ -143,8 +147,6 @@ public abstract class RecipeLogicMixin extends MachineTrait implements IEnhanced
 
     @Shadow
     protected int duration;
-    @Shadow
-    public List<GTRecipe> lastFailedMatches;
 
     @Shadow
     protected TickableSubscription subscription;
@@ -152,9 +154,6 @@ public abstract class RecipeLogicMixin extends MachineTrait implements IEnhanced
     @Shadow
     @Nullable
     protected GTRecipe lastOriginRecipe;
-
-    @Shadow
-    public abstract void setupRecipe(GTRecipe recipe);
 
     @Shadow
     protected boolean recipeDirty;
@@ -202,7 +201,6 @@ public abstract class RecipeLogicMixin extends MachineTrait implements IEnhanced
     private boolean gTOCore$successfullyRecipe(GTRecipe originrecipe) {
         if (lastRecipe != null && getStatus() == RecipeLogic.Status.WORKING) {
             lastOriginRecipe = originrecipe;
-            lastFailedMatches = null;
             gtocore$interval = 5;
             if (gTOCore$lockRecipe) gTOCore$originRecipe = originrecipe;
             return true;
@@ -375,6 +373,16 @@ public abstract class RecipeLogicMixin extends MachineTrait implements IEnhanced
         return gTOCore$lockRecipe;
     }
 
+    @Override
+    public void gTOCore$setIdleReason(MutableComponent reason) {
+        this.gtocore$reason = reason;
+    }
+
+    @Override
+    public MutableComponent gTOCore$getIdleReason() {
+        return gtocore$reason;
+    }
+
     @OnlyIn(Dist.CLIENT)
     @Redirect(method = "updateSound", at = @At(value = "INVOKE", target = "Lcom/gregtechceu/gtceu/api/recipe/GTRecipeType;getSound()Lcom/gregtechceu/gtceu/api/sound/SoundEntry;"), remap = false)
     private SoundEntry updateSound(GTRecipeType instance) {
@@ -421,22 +429,42 @@ public abstract class RecipeLogicMixin extends MachineTrait implements IEnhanced
                     hasResult = true;
                     gtocore$asyncRecipeSearchTask.clean();
                 }
-                if (lastFailedMatches != null) {
-                    for (GTRecipe match : lastFailedMatches) {
-                        if (checkMatchedRecipeAvailable(match)) {
-                            recipeDirty = false;
-                            return;
-                        }
-                    }
-                }
                 if (!hasResult) findAndHandleRecipe();
-                if (!gtocore$hasAsyncTask() && lastRecipe == null && isIdle() && !machine.keepSubscribing() && !recipeDirty && lastFailedMatches == null) {
+                if (!gtocore$hasAsyncTask() && lastRecipe == null && isIdle() && !machine.keepSubscribing() && !recipeDirty) {
                     if (gtocore$interval < GTOConfig.INSTANCE.recipeMaxCheckInterval) {
                         gtocore$interval <<= 1;
                     }
                     gTOCore$unsubscribe();
                 }
             }
+        }
+    }
+
+    /**
+     * @author .
+     * @reason .
+     */
+    @Overwrite
+    public void setupRecipe(GTRecipe recipe) {
+        if (!machine.beforeWorking(recipe)) {
+            setStatus(RecipeLogic.Status.IDLE);
+            consecutiveRecipes = 0;
+            progress = 0;
+            duration = 0;
+            isActive = false;
+            return;
+        }
+        if (handleRecipeIO(recipe, IO.IN).isSuccess()) {
+            gTOCore$setIdleReason(null);
+            if (lastRecipe != null && !recipe.equals(lastRecipe)) {
+                chanceCaches.clear();
+            }
+            recipeDirty = false;
+            lastRecipe = recipe;
+            setStatus(RecipeLogic.Status.WORKING);
+            progress = 0;
+            duration = recipe.duration;
+            isActive = true;
         }
     }
 
@@ -462,7 +490,6 @@ public abstract class RecipeLogicMixin extends MachineTrait implements IEnhanced
      */
     @Overwrite
     public void findAndHandleRecipe() {
-        lastFailedMatches = null;
         if (!recipeDirty && RecipeRunnerHelper.check(machine, lastRecipe)) {
             GTRecipe recipe = lastRecipe;
             lastRecipe = null;

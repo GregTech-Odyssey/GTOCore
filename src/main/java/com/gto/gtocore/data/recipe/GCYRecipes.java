@@ -103,7 +103,7 @@ public interface GCYRecipes {
         VanillaRecipeHelper.addShapedRecipe(provider, true, "large_cutter", LARGE_CUTTER.asStack(), "SMS", "CZL", "EKE",
                 'Z', IV_CIRCUITS, 'L', LATHE[IV].asStack(), 'E', ELECTRIC_MOTOR_IV.asStack(), 'C',
                 CUTTER[IV].asStack(), 'M', CONVEYOR_MODULE_IV.asStack(), 'S',
-                new MaterialEntry(toolHeadBuzzSaw, TungstenCarbide), 'K',
+                new MaterialEntry(toolHeadBuzzSaw, HSSE), 'K',
                 new MaterialEntry(cableGtSingle, Platinum));
         VanillaRecipeHelper.addShapedRecipe(provider, true, "large_distillery", LARGE_DISTILLERY.asStack(), "PZP",
                 "EDE", "PZP", 'Z', IV_CIRCUITS, 'D', GTMultiMachines.DISTILLATION_TOWER.asStack(), 'E',

@@ -6,6 +6,7 @@ import com.gto.gtocore.utils.FunctionContainer;
 import com.gto.gtocore.utils.MachineUtils;
 
 import com.gregtechceu.gtceu.api.GTValues;
+import com.gregtechceu.gtceu.api.machine.ConditionalSubscriptionHandler;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.config.ConfigHolder;
@@ -50,8 +51,14 @@ public final class AdvancedPrimitiveBlastFurnaceMachine extends NoEnergyCustomPa
     @Persisted
     private double duration = 1;
 
+    @Persisted
+    private int temperature = 298;
+
+    private final ConditionalSubscriptionHandler tickSubs;
+
     public AdvancedPrimitiveBlastFurnaceMachine(IMachineBlockEntity holder) {
         super(holder, false, m -> ((AdvancedPrimitiveBlastFurnaceMachine) m).height << 1);
+        tickSubs = new ConditionalSubscriptionHandler(this, this::tickUpdate, () -> isFormed || temperature > 298);
     }
 
     @Override
@@ -63,6 +70,16 @@ public final class AdvancedPrimitiveBlastFurnaceMachine extends NoEnergyCustomPa
             height = container.getValue();
         }
         pos = MachineUtils.getOffsetPos(7, getFrontFacing(), getPos());
+        tickSubs.initialize(getLevel());
+    }
+
+    private void tickUpdate() {
+        if (getRecipeLogic().isWorking()) {
+            if (temperature < 2000) temperature++;
+        } else if (temperature > 298) {
+            temperature -= 2;
+        }
+        tickSubs.updateSubscription();
     }
 
     @Override
@@ -84,7 +101,7 @@ public final class AdvancedPrimitiveBlastFurnaceMachine extends NoEnergyCustomPa
 
     @Override
     protected GTRecipe getRealRecipe(GTRecipe recipe) {
-        double dm = Math.max(0.01, Math.min(1, 20 / Math.sqrt(getRecipeLogic().getTotalContinuousRunningTime())));
+        double dm = Math.min(1, 400D / temperature);
         duration = dm;
         recipe = GTORecipeModifiers.accurateParallel(this, recipe, getParallel());
         recipe.duration = (int) (recipe.duration * dm);
@@ -101,7 +118,7 @@ public final class AdvancedPrimitiveBlastFurnaceMachine extends NoEnergyCustomPa
     public void customText(List<Component> textList) {
         super.customText(textList);
         textList.add(Component.translatable("gtocore.machine.height", height));
-        textList.add(Component.translatable("gtocore.machine.total_time", getRecipeLogic().getTotalContinuousRunningTime()));
+        textList.add(Component.translatable("gtceu.multiblock.hpca.temperature", temperature));
         textList.add(Component.translatable("gtocore.machine.total_time.duration", FormattingUtil.formatNumbers(duration)));
     }
 
@@ -125,5 +142,10 @@ public final class AdvancedPrimitiveBlastFurnaceMachine extends NoEnergyCustomPa
         if (getRecipeLogic().isWorking() && pos != null && getLevel() != null && ConfigHolder.INSTANCE.machines.machineSounds && GTValues.RNG.nextDouble() < 0.1) {
             getLevel().playLocalSound(pos.getX(), pos.getY() + 2, pos.getZ(), SoundEvents.FURNACE_FIRE_CRACKLE, SoundSource.BLOCKS, 1.0F, 1.0F, false);
         }
+    }
+
+    @Override
+    public int getParallel() {
+        return super.getParallel() * Math.max(1, temperature / 500);
     }
 }
