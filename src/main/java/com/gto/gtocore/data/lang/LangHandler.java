@@ -1,6 +1,7 @@
 package com.gto.gtocore.data.lang;
 
 import com.gto.gtocore.api.machine.trait.TierCasingTrait;
+import com.gto.gtocore.api.recipe.IdleReason;
 import com.gto.gtocore.api.registries.GTOMachineBuilder;
 import com.gto.gtocore.api.registries.MultiblockBuilder;
 import com.gto.gtocore.client.Tooltips;
@@ -51,6 +52,9 @@ public final class LangHandler {
         GTOMachineBuilder.TOOLTIPS_MAP.forEach(LangHandler::addENCN);
         MultiblockBuilder.TOOLTIPS_MAP.forEach(LangHandler::addENCN);
         Tooltips.LANG.forEach(LangHandler::addENCN);
+        for (var reasons : IdleReason.values()) {
+            addENCN(reasons.getKey(), reasons.getEn(), reasons.getCn());
+        }
 
         addCN("entity.gtocore.task_entity", "任务执行实体");
         addCN("itemGroup.gtocore.block", "GTO | 方块");
@@ -216,6 +220,7 @@ public final class LangHandler {
 
         addENCN("gtocore.behaviour.grass_harvest.description", GOLD + "Greatly" + RESET + " increase the probability of wheat seed dropping", GOLD + "极大" + RESET + "地提升小麦种子掉落概率");
         addENCN("gtocore.behaviour.grass_harvest.description2", "Right click to harvest", "右键以收割");
+        addENCN("gtocore.xaero_waypoint_set", "Ore Vein", "矿脉");
     }
 
     public static void enInitialize(LanguageProvider provider) {

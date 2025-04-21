@@ -28,7 +28,7 @@ final class ItemLang {
         addENCN("tagprefix.gloomslate", "Gloomslate %s Ore", "幽暗%s矿石");
         addENCN("tagprefix.sculk_stone", "Sculk %s Ore", "幽匿%s矿石");
         addENCN("tagprefix.ceres_stone", "Ceres %s Ore", "谷神星%s矿石");
-        addENCN("tagprefix.contaminable_nanites", "Contaminable Nano Swarm", "污染的纳米蜂群");
+        addENCN("tagprefix.contaminable_nanites", "Contaminable %s Nano Swarm", "污染的%s纳米蜂群");
         addENCN("tagprefix.enceladus_stone", "Enceladus %s Ore", "土卫二%s矿石");
         addENCN("tagprefix.ganymede_stone", "Ganymede %s Ore", "木卫三%s矿石");
         addENCN("tagprefix.glacio_stone", "Glacio %s Ore", "霜原石%s矿石");

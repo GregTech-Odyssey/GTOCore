@@ -3,6 +3,7 @@ package com.gto.gtocore.api.machine.trait;
 import com.gto.gtocore.api.machine.feature.multiblock.ICoilMachine;
 import com.gto.gtocore.api.machine.feature.multiblock.IMultiblockTraitHolder;
 import com.gto.gtocore.api.machine.multiblock.ElectricMultiblockMachine;
+import com.gto.gtocore.api.recipe.IdleReason;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.block.ICoilType;
@@ -36,12 +37,23 @@ public class CoilTrait extends MultiblockTrait {
 
     @Override
     public boolean beforeWorking(@NotNull GTRecipe recipe) {
-        return check && temperature < recipe.data.getInt("ebf_temp");
+        if (check && temperature < recipe.data.getInt("ebf_temp")) {
+            if (getMachine().getRecipeLogic() instanceof IEnhancedRecipeLogic enhancedRecipeLogic) {
+                enhancedRecipeLogic.gTOCore$setIdleReason(IdleReason.TEMPERATURE_NOT_ENOUGH.reason());
+            }
+            return true;
+        }
+        return false;
     }
 
     @Override
     public GTRecipe modifyRecipe(@NotNull GTRecipe recipe) {
-        if (check && temperature < recipe.data.getInt("ebf_temp")) return null;
+        if (check && temperature < recipe.data.getInt("ebf_temp")) {
+            if (getMachine().getRecipeLogic() instanceof IEnhancedRecipeLogic enhancedRecipeLogic) {
+                enhancedRecipeLogic.gTOCore$setIdleReason(IdleReason.TEMPERATURE_NOT_ENOUGH.reason());
+            }
+            return null;
+        }
         return super.modifyRecipe(recipe);
     }
 

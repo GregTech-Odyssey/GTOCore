@@ -26,6 +26,7 @@ import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
 import com.gregtechceu.gtceu.api.recipe.content.Content;
 import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
 import com.gregtechceu.gtceu.api.recipe.modifier.ParallelLogic;
+import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
 import com.gregtechceu.gtceu.common.machine.multiblock.steam.LargeBoilerMachine;
 
 import org.jetbrains.annotations.Nullable;
@@ -44,7 +45,7 @@ public interface GTORecipeModifiers {
 
     GTORecipeModifier GCYM_OVERCLOCKING = new GTORecipeModifierList((machine, recipe) -> overclocking(machine, hatchParallel(machine, recipe), false, false, 0.8, 0.6));
 
-    Set<GTORecipeModifier> TRY_AGAIN = Set.of(PARALLELIZABLE_OVERCLOCK, PARALLELIZABLE_PERFECT_OVERCLOCK, GCYM_OVERCLOCKING);
+    Set<RecipeModifier> TRY_AGAIN = Set.of(PARALLELIZABLE_OVERCLOCK, PARALLELIZABLE_PERFECT_OVERCLOCK, GCYM_OVERCLOCKING);
 
     GTORecipeModifier GENERATOR_OVERCLOCKING = GTORecipeModifiers::generatorOverclocking;
     GTORecipeModifier PERFECT_OVERCLOCKING = GTORecipeModifiers::perfectOverclocking;
@@ -132,7 +133,12 @@ public interface GTORecipeModifiers {
         if (machine instanceof ICoilMachine coilMachine && machine instanceof IOverclockMachine overclockMachine) {
             int temperature = coilMachine.getCoilType().getCoilTemperature() + (100 * Math.max(0, ((WorkableElectricMultiblockMachine) coilMachine).getTier() - GTValues.MV));
             int recipeTemp = recipe.data.getInt("ebf_temp");
-            if (recipeTemp > temperature) return null;
+            if (recipeTemp > temperature) {
+                if (((WorkableElectricMultiblockMachine) coilMachine).getRecipeLogic() instanceof IEnhancedRecipeLogic enhancedRecipeLogic) {
+                    enhancedRecipeLogic.gTOCore$setIdleReason(IdleReason.TEMPERATURE_NOT_ENOUGH.reason());
+                }
+                return null;
+            }
             long recipeVoltage = (long) (RecipeHelper.getInputEUt(recipe) * OverclockingLogic.getCoilEUtDiscount(recipeTemp, temperature));
             int duration = recipe.duration;
             if (machine instanceof IUpgradeMachine upgradeMachine) {

@@ -2,6 +2,7 @@ package com.gto.gtocore.api.recipe;
 
 import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.api.capability.recipe.ManaRecipeCapability;
+import com.gto.gtocore.api.machine.trait.IEnhancedRecipeLogic;
 import com.gto.gtocore.mixin.gtm.api.recipe.GTRecipeTypeAccessor;
 
 import com.gregtechceu.gtceu.GTCEu;
@@ -9,6 +10,7 @@ import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.recipe.*;
 import com.gregtechceu.gtceu.api.data.chemical.material.stack.MaterialEntry;
 import com.gregtechceu.gtceu.api.gui.SteamTexture;
+import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.recipe.chance.boost.ChanceBoostFunction;
@@ -60,6 +62,9 @@ public class GTORecipeType extends GTRecipeType {
 
     @Override
     public @NotNull Iterator<GTRecipe> searchRecipe(IRecipeCapabilityHolder holder, Predicate<GTRecipe> canHandle) {
+        if (holder instanceof IRecipeLogicMachine recipeLogicMachine && recipeLogicMachine.getRecipeLogic() instanceof IEnhancedRecipeLogic enhancedRecipeLogic) {
+            enhancedRecipeLogic.gTOCore$setIdleReason(IdleReason.NO_MATCH.reason());
+        }
         if (!holder.hasCapabilityProxies()) return Collections.emptyIterator();
         return new SearchRecipeIterator(holder, this, canHandle);
     }

@@ -6,19 +6,23 @@ import com.gregtechceu.gtceu.integration.map.xaeros.XaeroWaypointHandler;
 
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.common.util.Lazy;
 
 import org.spongepowered.asm.mixin.*;
-import xaero.hud.minimap.BuiltInHudModules;
+import xaero.hud.minimap.module.MinimapSession;
 import xaero.hud.minimap.waypoint.WaypointColor;
-import xaero.hud.minimap.world.MinimapWorldManager;
+import xaero.hud.minimap.world.MinimapWorld;
+import xaero.hud.minimap.world.io.MinimapWorldManagerIO;
+
+import java.io.IOException;
+
+import static com.gto.gtocore.GTOCore.LOGGER;
+import static xaero.hud.minimap.BuiltInHudModules.MINIMAP;
 
 @Mixin(XaeroWaypointHandler.class)
 public abstract class XaeroWaypointHandlerMixin implements IWaypointHandler {
 
     @Unique
-    private final Lazy<MinimapWorldManager> gtocore$worldManager = Lazy.of(() -> BuiltInHudModules.MINIMAP.getCurrentSession()
-            .getWorldManager());
+    private static final String XAERO_WAYPOINT_SET = ("gtocore.xaero_waypoint_set");
 
     /**
      * @author .
@@ -26,7 +30,23 @@ public abstract class XaeroWaypointHandlerMixin implements IWaypointHandler {
      */
     @Overwrite(remap = false)
     public void setWaypoint(String key, String name, int color, ResourceKey<Level> dim, int x, int y, int z) {
-        gtocore$worldManager.get().getCurrentWorld().getCurrentWaypointSet().add(new WaypointWithDimension(dim, x, y, z, name, name.substring(0, 1), WaypointColor.WHITE));
+        MinimapSession session = MINIMAP.getCurrentSession();
+        MinimapWorldManagerIO worldMangerIO = session.getWorldManagerIO();
+        MinimapWorld world = session.getWorldManager().getCurrentWorld();
+
+        var waypointSet = world.getWaypointSet(XAERO_WAYPOINT_SET);
+        if (waypointSet == null) {
+            LOGGER.info("Waypoint Set created:{}", XAERO_WAYPOINT_SET);
+            world.addWaypointSet(XAERO_WAYPOINT_SET);
+            waypointSet = world.getWaypointSet(XAERO_WAYPOINT_SET);
+        }
+        waypointSet.add(new WaypointWithDimension(dim, x, y, z, name, name.substring(0, 1), WaypointColor.getRandom()));
+
+        try {
+            worldMangerIO.saveWorld(world);
+        } catch (IOException e) {
+            LOGGER.error("save prospector waypoint failed when setting Waypoint [{}] {}", key, name);
+        }
     }
 
     /**

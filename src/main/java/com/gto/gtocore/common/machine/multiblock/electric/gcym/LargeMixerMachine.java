@@ -3,7 +3,6 @@ package com.gto.gtocore.common.machine.multiblock.electric.gcym;
 import com.gto.gtocore.api.machine.feature.multiblock.IFluidRendererMachine;
 
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
-import com.gregtechceu.gtceu.api.machine.multiblock.WorkableMultiblockMachine;
 import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
 
 import net.minecraft.core.BlockPos;
@@ -21,7 +20,8 @@ import java.util.Set;
 @Getter
 public final class LargeMixerMachine extends GCYMMultiblockMachine implements IFluidRendererMachine {
 
-    private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(com.gregtechceu.gtceu.common.machine.multiblock.electric.gcym.LargeMixerMachine.class, WorkableMultiblockMachine.MANAGED_FIELD_HOLDER);
+    private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
+            LargeMixerMachine.class, GCYMMultiblockMachine.MANAGED_FIELD_HOLDER);
     @DescSynced
     @RequireRerender
     private final Set<BlockPos> fluidBlockOffsets = new HashSet<>();
