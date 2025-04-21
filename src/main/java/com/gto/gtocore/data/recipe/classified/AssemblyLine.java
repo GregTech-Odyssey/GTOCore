@@ -11,6 +11,7 @@ import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
 import com.gregtechceu.gtceu.common.data.*;
+import com.gregtechceu.gtceu.common.data.machines.GTAEMachines;
 import com.gregtechceu.gtceu.common.data.machines.GTMultiMachines;
 import com.gregtechceu.gtceu.common.data.machines.GTResearchMachines;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
@@ -20,14 +21,428 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.fluids.FluidStack;
 
 import appeng.core.definitions.AEBlocks;
+import appeng.core.definitions.AEItems;
 import com.kyanite.deeperdarker.content.DDItems;
 import committee.nova.mods.avaritia.init.registry.ModItems;
 
+import static com.gregtechceu.gtceu.api.GTValues.*;
+import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
+import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.cableGtSingle;
+import static com.gregtechceu.gtceu.common.data.GTBlocks.FUSION_COIL;
+import static com.gregtechceu.gtceu.common.data.GTBlocks.SUPERCONDUCTING_COIL;
+import static com.gregtechceu.gtceu.common.data.GTItems.*;
+import static com.gregtechceu.gtceu.common.data.GTItems.VOLTAGE_COIL_UV;
+import static com.gregtechceu.gtceu.common.data.GTMachines.*;
+import static com.gregtechceu.gtceu.common.data.GTMachines.ENERGY_OUTPUT_HATCH;
+import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
+import static com.gregtechceu.gtceu.common.data.GTMaterials.Lubricant;
+import static com.gregtechceu.gtceu.common.data.machines.GTMultiMachines.FUSION_REACTOR;
 import static com.gto.gtocore.common.data.GTORecipeTypes.ASSEMBLY_LINE_RECIPES;
 
 interface AssemblyLine {
 
     static void init() {
+        ASSEMBLY_LINE_RECIPES.builder("lapotronic_energy_orb_cluster")
+                .inputItems(GTItems.EXTREME_CIRCUIT_BOARD)
+                .inputItems(TagPrefix.plate, GTMaterials.Europium, 8)
+                .inputItems(CustomTags.LuV_CIRCUITS, 4)
+                .inputItems(GTItems.ENERGY_LAPOTRONIC_ORB)
+                .inputItems(GTItems.FIELD_GENERATOR_IV)
+                .inputItems(GTItems.HIGH_POWER_INTEGRATED_CIRCUIT, 16)
+                .inputItems(GTItems.ADVANCED_SMD_DIODE, 8)
+                .inputItems(GTItems.ADVANCED_SMD_CAPACITOR, 8)
+                .inputItems(GTItems.ADVANCED_SMD_RESISTOR, 8)
+                .inputItems(GTItems.ADVANCED_SMD_TRANSISTOR, 8)
+                .inputItems(GTItems.ADVANCED_SMD_INDUCTOR, 8)
+                .inputItems(TagPrefix.wireFine, GTMaterials.Platinum, 64)
+                .inputItems(TagPrefix.bolt, GTMaterials.Naquadah, 16)
+                .inputFluids(GTMaterials.SolderingAlloy.getFluid(L * 5))
+                .outputItems(GTItems.ENERGY_LAPOTRONIC_ORB_CLUSTER)
+                .scannerResearch(GTItems.ENERGY_LAPOTRONIC_ORB.asStack())
+                .EUt(80000)
+                .duration(1000)
+                .save();
+
+        ASSEMBLY_LINE_RECIPES.builder("energy_module")
+                .inputItems(GTItems.ELITE_CIRCUIT_BOARD)
+                .inputItems(TagPrefix.plateDouble, GTMaterials.Europium, 8)
+                .inputItems(CustomTags.ZPM_CIRCUITS, 4)
+                .inputItems(GTItems.ENERGY_LAPOTRONIC_ORB_CLUSTER)
+                .inputItems(GTItems.FIELD_GENERATOR_LuV)
+                .inputItems(GTItems.HIGH_POWER_INTEGRATED_CIRCUIT, 32)
+                .inputItems(GTItems.ADVANCED_SMD_DIODE, 12)
+                .inputItems(GTItems.ADVANCED_SMD_CAPACITOR, 12)
+                .inputItems(GTItems.ADVANCED_SMD_RESISTOR, 12)
+                .inputItems(GTItems.ADVANCED_SMD_TRANSISTOR, 12)
+                .inputItems(GTItems.ADVANCED_SMD_INDUCTOR, 12)
+                .inputItems(TagPrefix.wireFine, GTMaterials.Ruridit, 64)
+                .inputItems(TagPrefix.bolt, GTMaterials.Trinium, 16)
+                .inputFluids(GTMaterials.SolderingAlloy.getFluid(L * 10))
+                .outputItems(GTItems.ENERGY_MODULE)
+                .stationResearch(b -> b
+                        .researchStack(GTItems.ENERGY_LAPOTRONIC_ORB_CLUSTER.asStack())
+                        .CWUt(16))
+                .EUt(100000)
+                .duration(1200)
+                .save();
+
+        ASSEMBLY_LINE_RECIPES.builder("ultimate_battery")
+                .inputItems(TagPrefix.plateDouble, GTMaterials.Darmstadtium, 16)
+                .inputItems(CustomTags.UHV_CIRCUITS, 4)
+                .inputItems(GTItems.ENERGY_CLUSTER, 16)
+                .inputItems(GTItems.FIELD_GENERATOR_UV, 4)
+                .inputItems(GTItems.ULTRA_HIGH_POWER_INTEGRATED_CIRCUIT_WAFER, 64)
+                .inputItems(GTItems.ULTRA_HIGH_POWER_INTEGRATED_CIRCUIT_WAFER, 64)
+                .inputItems(GTItems.ADVANCED_SMD_DIODE, 64)
+                .inputItems(GTItems.ADVANCED_SMD_CAPACITOR, 64)
+                .inputItems(GTItems.ADVANCED_SMD_RESISTOR, 64)
+                .inputItems(GTItems.ADVANCED_SMD_TRANSISTOR, 64)
+                .inputItems(GTItems.ADVANCED_SMD_INDUCTOR, 64)
+                .inputItems(TagPrefix.wireGtSingle, GTMaterials.EnrichedNaquadahTriniumEuropiumDuranide, 64)
+                .inputItems(TagPrefix.bolt, GTMaterials.Neutronium, 64)
+                .inputFluids(GTMaterials.SolderingAlloy.getFluid(L * 40))
+                .inputFluids(GTMaterials.Polybenzimidazole.getFluid(2304))
+                .inputFluids(GTMaterials.Naquadria.getFluid(L * 18))
+                .outputItems(GTItems.ULTIMATE_BATTERY)
+                .stationResearch(b -> b
+                        .researchStack(GTItems.ENERGY_CLUSTER.asStack())
+                        .CWUt(144)
+                        .EUt(VA[UHV]))
+                .EUt(300000)
+                .duration(2000)
+                .save();
+
+        ASSEMBLY_LINE_RECIPES.builder("advanced_data_access_hatch")
+                .inputItems(GTMachines.ITEM_IMPORT_BUS[GTValues.LuV])
+                .inputItems(GTItems.TOOL_DATA_ORB, 4)
+                .inputItems(CustomTags.ZPM_CIRCUITS, 4)
+                .outputItems(GTResearchMachines.ADVANCED_DATA_ACCESS_HATCH)
+                .inputFluids(GTMaterials.SolderingAlloy, L * 4)
+                .inputFluids(GTMaterials.Polybenzimidazole, L * 4)
+                .stationResearch(b -> b.researchStack(GTResearchMachines.DATA_BANK.asStack()).CWUt(4))
+                .duration(400).EUt(6000)
+                .addMaterialInfo(true, true)
+                .save();
+
+        ASSEMBLY_LINE_RECIPES.builder("professional_scanner")
+                .inputItems(GTResearchMachines.DATA_BANK)
+                .inputItems(GTItems.SENSOR_LuV, 8)
+                .inputItems(CustomTags.ZPM_CIRCUITS, 8)
+                .inputItems(GTItems.FIELD_GENERATOR_LuV, 2)
+                .inputItems(GTItems.ELECTRIC_MOTOR_ZPM, 2)
+                .inputItems(TagPrefix.wireGtDouble, GTMaterials.UraniumRhodiumDinaquadide, 32)
+                .inputItems(TagPrefix.foil, GTMaterials.Trinium, 32)
+                .inputItems(GTBlocks.OPTICAL_PIPES[0].asStack(16))
+                .inputFluids(GTMaterials.SolderingAlloy, 1152)
+                .inputFluids(GTMaterials.VanadiumGallium, 1152)
+                .outputItems(ExResearchMachines.PROFESSIONAL_SCANNER)
+                .duration(1200)
+                .EUt(100000)
+                .scannerResearch(b -> b
+                        .researchStack(GTMachines.SCANNER[GTValues.LuV].asStack())
+                        .duration(2400)
+                        .EUt(GTValues.VA[GTValues.IV]))
+                .save();
+
+        ASSEMBLY_LINE_RECIPES.builder("object_holder")
+                .inputItems(GTMachines.ITEM_IMPORT_BUS[GTValues.ZPM])
+                .inputItems(GTItems.EMITTER_LuV, 8)
+                .inputItems(CustomTags.ZPM_CIRCUITS)
+                .inputItems(GTItems.ROBOT_ARM_ZPM, 2)
+                .inputItems(GTItems.ELECTRIC_MOTOR_ZPM, 2)
+                .inputItems(TagPrefix.wireGtDouble, GTMaterials.UraniumRhodiumDinaquadide, 16)
+                .inputItems(GTBlocks.OPTICAL_PIPES[0].asStack(2))
+                .inputFluids(GTMaterials.SolderingAlloy, L * 4)
+                .inputFluids(GTMaterials.Polybenzimidazole, L * 2)
+                .outputItems(GTResearchMachines.OBJECT_HOLDER)
+                .scannerResearch(b -> b
+                        .researchStack(GTMachines.ITEM_IMPORT_BUS[GTValues.ZPM].asStack())
+                        .duration(2400)
+                        .EUt(GTValues.VA[GTValues.IV]))
+                .duration(1200).EUt(100000)
+                .addMaterialInfo(true, true)
+                .save();
+
+        ASSEMBLY_LINE_RECIPES.builder("network_switch")
+                .inputItems(GTBlocks.COMPUTER_CASING.asStack())
+                .inputItems(GTItems.EMITTER_ZPM, 4)
+                .inputItems(GTItems.SENSOR_ZPM, 4)
+                .inputItems(CustomTags.UV_CIRCUITS, 4)
+                .inputItems(TagPrefix.wireGtDouble, GTMaterials.EnrichedNaquadahTriniumEuropiumDuranide, 32)
+                .inputItems(TagPrefix.foil, GTMaterials.Tritanium, 64)
+                .inputItems(TagPrefix.foil, GTMaterials.Tritanium, 64)
+                .inputItems(GTBlocks.OPTICAL_PIPES[0].asStack(8))
+                .inputFluids(GTMaterials.SolderingAlloy, L * 4)
+                .inputFluids(GTMaterials.Polybenzimidazole, L * 4)
+                .outputItems(GTResearchMachines.NETWORK_SWITCH)
+                .stationResearch(b -> b
+                        .researchStack(new ItemStack(GTBlocks.OPTICAL_PIPES[0]))
+                        .CWUt(32)
+                        .EUt(GTValues.VA[GTValues.ZPM]))
+                .duration(1200).EUt(100000)
+                .addMaterialInfo(true, true)
+                .save();
+
+        ASSEMBLY_LINE_RECIPES.builder("high_performance_computing_array")
+                .inputItems(GTResearchMachines.DATA_BANK)
+                .inputItems(CustomTags.ZPM_CIRCUITS, 4)
+                .inputItems(GTItems.FIELD_GENERATOR_LuV, 8)
+                .inputItems(GTItems.TOOL_DATA_ORB)
+                .inputItems(GTItems.COVER_SCREEN)
+                .inputItems(TagPrefix.wireGtDouble, GTMaterials.UraniumRhodiumDinaquadide, 64)
+                .inputItems(GTBlocks.OPTICAL_PIPES[0].asStack(16))
+                .inputFluids(GTMaterials.SolderingAlloy, L * 8)
+                .inputFluids(GTMaterials.VanadiumGallium, L * 8)
+                .inputFluids(GTMaterials.PCBCoolant, 4000)
+                .outputItems(GTResearchMachines.HIGH_PERFORMANCE_COMPUTING_ARRAY)
+                .scannerResearch(b -> b
+                        .researchStack(GTItems.COVER_SCREEN.asStack())
+                        .duration(2400)
+                        .EUt(GTValues.VA[GTValues.IV]))
+                .duration(1200).EUt(100000)
+                .addMaterialInfo(true, true)
+                .save();
+
+        ASSEMBLY_LINE_RECIPES.builder("crystal_mainframe_uv")
+                .EUt(VA[LuV])
+                .duration(800)
+                .inputItems(TagPrefix.frameGt, GTMaterials.HSSE, 2)
+                .inputItems(GTItems.CRYSTAL_COMPUTER_ZPM, 2)
+                .inputItems(GTItems.RANDOM_ACCESS_MEMORY, 32)
+                .inputItems(GTItems.HIGH_POWER_INTEGRATED_CIRCUIT, 2)
+                .inputItems(TagPrefix.wireGtSingle, GTMaterials.NiobiumTitanium, 8)
+                .inputItems(GTItems.ADVANCED_SMD_INDUCTOR, 8)
+                .inputItems(GTItems.ADVANCED_SMD_CAPACITOR, 16)
+                .inputItems(GTItems.ADVANCED_SMD_DIODE, 8)
+                .inputFluids(GTMaterials.SolderingAlloy.getFluid(L * 10))
+                .outputItems(GTItems.CRYSTAL_MAINFRAME_UV)
+                .stationResearch(b -> b
+                        .researchStack(GTItems.CRYSTAL_COMPUTER_ZPM.asStack())
+                        .CWUt(16))
+                .save();
+
+        ASSEMBLY_LINE_RECIPES.builder("wetware_super_computer_uv")
+                .EUt(38400)
+                .duration(400)
+                .inputItems(GTItems.WETWARE_CIRCUIT_BOARD)
+                .inputItems(GTItems.WETWARE_PROCESSOR_ASSEMBLY_ZPM, 2)
+                .inputItems(GTItems.ADVANCED_SMD_DIODE, 8)
+                .inputItems(GTItems.NOR_MEMORY_CHIP, 16)
+                .inputItems(GTItems.RANDOM_ACCESS_MEMORY, 32)
+                .inputItems(TagPrefix.wireFine, GTMaterials.YttriumBariumCuprate, 24)
+                .inputItems(TagPrefix.foil, GTMaterials.Polybenzimidazole, 32)
+                .inputItems(TagPrefix.plate, GTMaterials.Europium, 4)
+                .inputFluids(GTMaterials.SolderingAlloy.getFluid(1152))
+                .outputItems(GTItems.WETWARE_SUPER_COMPUTER_UV)
+                .stationResearch(b -> b
+                        .researchStack(GTItems.WETWARE_PROCESSOR_ASSEMBLY_ZPM.asStack())
+                        .CWUt(16))
+                .save();
+
+        ASSEMBLY_LINE_RECIPES.builder("wetware_mainframe_uhv")
+                .inputItems(TagPrefix.frameGt, GTMaterials.Tritanium, 2)
+                .inputItems(GTItems.WETWARE_SUPER_COMPUTER_UV, 2)
+                .inputItems(GTItems.ADVANCED_SMD_DIODE, 32)
+                .inputItems(GTItems.ADVANCED_SMD_CAPACITOR, 32)
+                .inputItems(GTItems.ADVANCED_SMD_TRANSISTOR, 32)
+                .inputItems(GTItems.ADVANCED_SMD_RESISTOR, 32)
+                .inputItems(GTItems.ADVANCED_SMD_INDUCTOR, 32)
+                .inputItems(TagPrefix.foil, GTMaterials.Polybenzimidazole, 64)
+                .inputItems(GTItems.RANDOM_ACCESS_MEMORY, 32)
+                .inputItems(TagPrefix.wireGtDouble, GTMaterials.EnrichedNaquadahTriniumEuropiumDuranide, 16)
+                .inputItems(TagPrefix.plate, GTMaterials.Europium, 8)
+                .inputFluids(GTMaterials.SolderingAlloy.getFluid(L * 20))
+                .inputFluids(GTMaterials.Polybenzimidazole.getFluid(L * 8))
+                .outputItems(GTItems.WETWARE_MAINFRAME_UHV)
+                .stationResearch(b -> b
+                        .researchStack(GTItems.WETWARE_SUPER_COMPUTER_UV.asStack())
+                        .CWUt(96)
+                        .EUt(VA[UV]))
+                .EUt(300000).duration(2000)
+                .save();
+
+        ASSEMBLY_LINE_RECIPES.builder("me_pattern_buffer")
+                .inputItems(DUAL_IMPORT_HATCH[LuV], 1)
+                .inputItems(EMITTER_LuV, 1)
+                .inputItems(CustomTags.LuV_CIRCUITS, 4)
+                .inputItems(AEBlocks.PATTERN_PROVIDER.asItem(), 3)
+                .inputItems(AEBlocks.INTERFACE.asItem(), 3)
+                .inputItems(AEItems.SPEED_CARD.asItem(), 4)
+                .inputItems(AEItems.CAPACITY_CARD.asItem(), 2)
+                .inputItems(wireFine, Europium, 32)
+                .inputItems(wireFine, Europium, 32)
+                .inputItems(wireFine, Europium, 32)
+                .inputFluids(SolderingAlloy, L * 4)
+                .inputFluids(Lubricant, 500)
+                .outputItems(GTAEMachines.ME_PATTERN_BUFFER)
+                .scannerResearch(b -> b.researchStack(DUAL_IMPORT_HATCH[LuV].asStack())
+                        .duration(1200)
+                        .EUt(VA[LuV]))
+                .duration(600).EUt(VA[LuV])
+                .save();
+
+        ASSEMBLY_LINE_RECIPES.builder("me_pattern_buffer_proxy")
+                .inputItems(HULL[LuV], 1)
+                .inputItems(SENSOR_LuV, 2)
+                .inputItems(CustomTags.LuV_CIRCUITS, 1)
+                .inputItems(AEBlocks.QUANTUM_LINK.asItem(), 1)
+                .inputItems(AEBlocks.QUANTUM_RING.asItem(), 2)
+                .inputItems(wireFine, Europium, 32)
+                .inputItems(wireFine, Europium, 32)
+                .inputFluids(SolderingAlloy, L * 4)
+                .inputFluids(Lubricant, 500)
+                .outputItems(GTAEMachines.ME_PATTERN_BUFFER_PROXY)
+                .stationResearch(b -> b.researchStack(GTAEMachines.ME_PATTERN_BUFFER.asStack())
+                        .CWUt(32))
+                .duration(600).EUt(VA[ZPM])
+                .save();
+
+        ASSEMBLY_LINE_RECIPES.builder("dynamo_hatch_luv")
+                .inputItems(HULL[LuV])
+                .inputItems(spring, NiobiumTitanium, 4)
+                .inputItems(HIGH_POWER_INTEGRATED_CIRCUIT, 2)
+                .inputItems(CustomTags.LuV_CIRCUITS)
+                .inputItems(VOLTAGE_COIL_LuV, 2)
+                .inputFluids(SodiumPotassium, 6000)
+                .inputFluids(SolderingAlloy, 5 * L)
+                .outputItems(ENERGY_OUTPUT_HATCH[LuV])
+                .duration(400).EUt(VA[LuV])
+                .addMaterialInfo(true, true)
+                .save();
+
+        ASSEMBLY_LINE_RECIPES.builder("dynamo_hatch_zpm")
+                .inputItems(HULL[ZPM])
+                .inputItems(spring, VanadiumGallium, 4)
+                .inputItems(ULTRA_HIGH_POWER_INTEGRATED_CIRCUIT, 2)
+                .inputItems(CustomTags.ZPM_CIRCUITS)
+                .inputItems(VOLTAGE_COIL_ZPM, 2)
+                .inputFluids(SodiumPotassium, 8000)
+                .inputFluids(SolderingAlloy, 10 * L)
+                .outputItems(ENERGY_OUTPUT_HATCH[ZPM])
+                .stationResearch(b -> b
+                        .researchStack(ENERGY_OUTPUT_HATCH[LuV].asStack())
+                        .CWUt(8))
+                .duration(600).EUt(VA[ZPM])
+                .save();
+
+        ASSEMBLY_LINE_RECIPES.builder("dynamo_hatch_uv")
+                .inputItems(HULL[UV])
+                .inputItems(spring, YttriumBariumCuprate, 4)
+                .inputItems(ULTRA_HIGH_POWER_INTEGRATED_CIRCUIT, 2)
+                .inputItems(CustomTags.UV_CIRCUITS)
+                .inputItems(VOLTAGE_COIL_UV, 2)
+                .inputFluids(SodiumPotassium, 10000)
+                .inputFluids(SolderingAlloy, 20 * L)
+                .outputItems(ENERGY_OUTPUT_HATCH[UV])
+                .stationResearch(b -> b
+                        .researchStack(ENERGY_OUTPUT_HATCH[ZPM].asStack())
+                        .CWUt(64)
+                        .EUt(VA[ZPM]))
+                .duration(800).EUt(VA[UV])
+                .save();
+
+        ASSEMBLY_LINE_RECIPES.builder("energy_hatch_luv")
+                .inputItems(HULL[LuV])
+                .inputItems(cableGtSingle, NiobiumTitanium, 4)
+                .inputItems(HIGH_POWER_INTEGRATED_CIRCUIT, 2)
+                .inputItems(CustomTags.LuV_CIRCUITS)
+                .inputItems(VOLTAGE_COIL_LuV, 2)
+                .inputFluids(SodiumPotassium, 6000)
+                .inputFluids(SolderingAlloy, 5 * L)
+                .outputItems(ENERGY_INPUT_HATCH[LuV])
+                .scannerResearch(b -> b
+                        .researchStack(ENERGY_INPUT_HATCH[IV].asStack())
+                        .EUt(VA[EV]))
+                .duration(400).EUt(VA[LuV])
+                .save();
+
+        ASSEMBLY_LINE_RECIPES.builder("energy_hatch_zpm")
+                .inputItems(HULL[ZPM])
+                .inputItems(cableGtSingle, VanadiumGallium, 4)
+                .inputItems(ULTRA_HIGH_POWER_INTEGRATED_CIRCUIT, 2)
+                .inputItems(CustomTags.ZPM_CIRCUITS)
+                .inputItems(VOLTAGE_COIL_ZPM, 2)
+                .inputFluids(SodiumPotassium, 8000)
+                .inputFluids(SolderingAlloy, 10 * L)
+                .outputItems(ENERGY_INPUT_HATCH[ZPM])
+                .stationResearch(b -> b
+                        .researchStack(ENERGY_INPUT_HATCH[LuV].asStack())
+                        .CWUt(8))
+                .duration(600).EUt(VA[ZPM])
+                .save();
+
+        ASSEMBLY_LINE_RECIPES.builder("energy_hatch_uv")
+                .inputItems(HULL[UV])
+                .inputItems(cableGtSingle, YttriumBariumCuprate, 4)
+                .inputItems(ULTRA_HIGH_POWER_INTEGRATED_CIRCUIT, 2)
+                .inputItems(CustomTags.UV_CIRCUITS)
+                .inputItems(VOLTAGE_COIL_UV, 2)
+                .inputFluids(SodiumPotassium, 10000)
+                .inputFluids(SolderingAlloy, 20 * L)
+                .outputItems(ENERGY_INPUT_HATCH[UV])
+                .stationResearch(b -> b
+                        .researchStack(ENERGY_INPUT_HATCH[ZPM].asStack())
+                        .CWUt(64)
+                        .EUt(VA[ZPM]))
+                .duration(800).EUt(VA[UV])
+                .save();
+
+        ASSEMBLY_LINE_RECIPES.builder("fusion_reactor_mk1")
+                .inputItems(SUPERCONDUCTING_COIL.asStack())
+                .inputItems(CustomTags.ZPM_CIRCUITS, 4)
+                .inputItems(plateDouble, Plutonium241)
+                .inputItems(plateDouble, Osmiridium)
+                .inputItems(FIELD_GENERATOR_IV, 2)
+                .inputItems(ULTRA_HIGH_POWER_INTEGRATED_CIRCUIT, 64)
+                .inputItems(wireGtSingle, IndiumTinBariumTitaniumCuprate, 32)
+                .inputFluids(SolderingAlloy.getFluid(L * 8))
+                .inputFluids(NiobiumTitanium.getFluid(L * 8))
+                .outputItems(FUSION_REACTOR[LuV].asStack())
+                .scannerResearch(b -> b
+                        .researchStack(ChemicalHelper.get(wireGtSingle, IndiumTinBariumTitaniumCuprate))
+                        .duration(1200)
+                        .EUt(VA[IV]))
+                .duration(800).EUt(VA[LuV])
+                .save();
+
+        ASSEMBLY_LINE_RECIPES.builder("fusion_reactor_mk2")
+                .inputItems(FUSION_COIL.asStack())
+                .inputItems(CustomTags.UV_CIRCUITS, 4)
+                .inputItems(plateDouble, Naquadria)
+                .inputItems(plateDouble, Europium)
+                .inputItems(FIELD_GENERATOR_LuV, 2)
+                .inputItems(ULTRA_HIGH_POWER_INTEGRATED_CIRCUIT, 64)
+                .inputItems(ULTRA_HIGH_POWER_INTEGRATED_CIRCUIT, 32)
+                .inputItems(wireGtSingle, UraniumRhodiumDinaquadide, 32)
+                .inputFluids(SolderingAlloy.getFluid(L * 8))
+                .inputFluids(VanadiumGallium.getFluid(L * 8))
+                .outputItems(FUSION_REACTOR[ZPM].asStack())
+                .stationResearch(b -> b
+                        .researchStack(FUSION_REACTOR[LuV].asStack())
+                        .CWUt(16)
+                        .EUt(VA[ZPM]))
+                .duration(1000).EUt(61440)
+                .save();
+
+        ASSEMBLY_LINE_RECIPES.builder("fusion_reactor_mk3")
+                .inputItems(FUSION_COIL.asStack())
+                .inputItems(CustomTags.UHV_CIRCUITS, 4)
+                .inputItems(QUANTUM_STAR)
+                .inputItems(plateDouble, Americium)
+                .inputItems(FIELD_GENERATOR_ZPM, 2)
+                .inputItems(ULTRA_HIGH_POWER_INTEGRATED_CIRCUIT, 64)
+                .inputItems(ULTRA_HIGH_POWER_INTEGRATED_CIRCUIT, 64)
+                .inputItems(wireGtSingle, EnrichedNaquadahTriniumEuropiumDuranide, 32)
+                .inputFluids(SolderingAlloy.getFluid(L * 8))
+                .inputFluids(YttriumBariumCuprate.getFluid(L * 8))
+                .outputItems(FUSION_REACTOR[UV].asStack())
+                .stationResearch(b -> b
+                        .researchStack(FUSION_REACTOR[ZPM].asStack())
+                        .CWUt(96)
+                        .EUt(VA[UV]))
+                .duration(1000).EUt(VA[ZPM])
+                .save();
+
         ASSEMBLY_LINE_RECIPES.builder("nanites_integrated_processing_center")
                 .inputItems(MultiBlockD.PROCESSING_PLANT.asStack(4))
                 .inputItems(GTOTagPrefix.NANITES, GTMaterials.Carbon, 64)
@@ -3115,11 +3530,12 @@ interface AssemblyLine {
                 .inputFluids(GTMaterials.Polybenzimidazole.getFluid(576))
                 .inputFluids(GTOMaterials.MarM200Steel.getFluid(288))
                 .outputItems(GTItems.ENERGY_CLUSTER)
-                .stationResearch(b -> b
-                        .researchStack(GTItems.ENERGY_MODULE.asStack())
+                .EUt(200000)
+                .duration(1400)
+                .stationResearch(b -> b.researchStack(GTItems.ENERGY_MODULE.asStack())
                         .CWUt(96)
                         .EUt(122880))
-                .EUt(200000).duration(1400).save();
+                .save();
 
         ASSEMBLY_LINE_RECIPES.builder("luv_wireless_energy_unit")
                 .inputItems(GTOBlocks.IV_WIRELESS_ENERGY_UNIT.asStack())
@@ -3140,8 +3556,7 @@ interface AssemblyLine {
                 .inputFluids(GTMaterials.Naquadah, 1296)
                 .EUt(30720)
                 .duration(400)
-                .stationResearch(b -> b
-                        .researchStack(GTOBlocks.IV_WIRELESS_ENERGY_UNIT.asStack())
+                .stationResearch(b -> b.researchStack(GTOBlocks.IV_WIRELESS_ENERGY_UNIT.asStack())
                         .CWUt(16)
                         .EUt(122880))
                 .save();

@@ -101,9 +101,31 @@ public interface RecipeFilter {
         ASSEMBLER_RECIPES.addFilter("coil_tritanium");
         ASSEMBLER_RECIPES.addFilter("cover_advanced_item_detector");
 
+        ASSEMBLY_LINE_RECIPES.addFilter("dynamo_hatch_luv");
+        ASSEMBLY_LINE_RECIPES.addFilter("dynamo_hatch_zpm");
+        ASSEMBLY_LINE_RECIPES.addFilter("dynamo_hatch_uv");
         ASSEMBLY_LINE_RECIPES.addFilter("dynamo_hatch_uhv");
+        ASSEMBLY_LINE_RECIPES.addFilter("energy_hatch_luv");
+        ASSEMBLY_LINE_RECIPES.addFilter("energy_hatch_zpm");
+        ASSEMBLY_LINE_RECIPES.addFilter("energy_hatch_uv");
         ASSEMBLY_LINE_RECIPES.addFilter("energy_hatch_uhv");
         ASSEMBLY_LINE_RECIPES.addFilter("energy_cluster");
+        ASSEMBLY_LINE_RECIPES.addFilter("lapotronic_energy_orb_cluster");
+        ASSEMBLY_LINE_RECIPES.addFilter("energy_module");
+        ASSEMBLY_LINE_RECIPES.addFilter("ultimate_battery");
+        ASSEMBLY_LINE_RECIPES.addFilter("research_station");
+        ASSEMBLY_LINE_RECIPES.addFilter("object_holder");
+        ASSEMBLY_LINE_RECIPES.addFilter("network_switch");
+        ASSEMBLY_LINE_RECIPES.addFilter("high_performance_computing_array");
+        ASSEMBLY_LINE_RECIPES.addFilter("advanced_data_access_hatch");
+        ASSEMBLY_LINE_RECIPES.addFilter("crystal_mainframe_uv");
+        ASSEMBLY_LINE_RECIPES.addFilter("wetware_super_computer_uv");
+        ASSEMBLY_LINE_RECIPES.addFilter("wetware_mainframe_uhv");
+        ASSEMBLY_LINE_RECIPES.addFilter("me_pattern_buffer");
+        ASSEMBLY_LINE_RECIPES.addFilter("me_pattern_buffer_proxy");
+        ASSEMBLY_LINE_RECIPES.addFilter("fusion_reactor_mk1");
+        ASSEMBLY_LINE_RECIPES.addFilter("fusion_reactor_mk2");
+        ASSEMBLY_LINE_RECIPES.addFilter("fusion_reactor_mk3");
 
         CIRCUIT_ASSEMBLER_RECIPES.addFilter("integrated_circuit_hv");
         CIRCUIT_ASSEMBLER_RECIPES.addFilter("electronic_circuit_lv");

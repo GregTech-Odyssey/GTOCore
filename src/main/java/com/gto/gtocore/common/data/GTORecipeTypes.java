@@ -9,6 +9,7 @@ import com.gto.gtocore.common.machine.trait.RecyclerLogic;
 import com.gto.gtocore.common.recipe.RecipeTypeModify;
 import com.gto.gtocore.config.GTOConfig;
 import com.gto.gtocore.data.recipe.generated.GenerateDisassembly;
+import com.gto.gtocore.utils.GTOResearchManager;
 
 import com.gregtechceu.gtceu.api.GTCEuAPI;
 import com.gregtechceu.gtceu.api.GTValues;
@@ -21,7 +22,6 @@ import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.common.data.GTSoundEntries;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.gregtechceu.gtceu.utils.GTUtil;
-import com.gregtechceu.gtceu.utils.ResearchManager;
 
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.sounds.SoundEvents;
@@ -435,7 +435,7 @@ public interface GTORecipeTypes {
             .setSound(GTSoundEntries.ASSEMBLER)
             .setHasResearchSlot(true)
             .onRecipeBuild((recipeBuilder, provider) -> {
-                ResearchManager.createDefaultResearchRecipe(recipeBuilder, provider);
+                GTOResearchManager.createDefaultResearchRecipe(recipeBuilder, provider);
                 GenerateDisassembly.generateDisassembly(recipeBuilder, provider);
             });
 
@@ -537,7 +537,7 @@ public interface GTORecipeTypes {
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.ARC)
             .setHasResearchSlot(true)
-            .onRecipeBuild(ResearchManager::createDefaultResearchRecipe);
+            .onRecipeBuild(GTOResearchManager::createDefaultResearchRecipe);
 
     GTORecipeType PRECISION_LASER_ENGRAVER_RECIPES = register("precision_laser_engraver", "精密激光蚀刻", MULTIBLOCK)
             .setEUIO(IO.IN)
@@ -595,7 +595,7 @@ public interface GTORecipeTypes {
             .setMaxIOSize(2, 1, 0, 0)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.MACERATOR)
-            .onRecipeBuild(ResearchManager::createDefaultResearchRecipe);
+            .onRecipeBuild(GTOResearchManager::createDefaultResearchRecipe);
 
     GTORecipeType ULTIMATE_MATERIAL_FORGE_RECIPES = register("ultimate_material_forge", "终极物质锻造", MULTIBLOCK)
             .setEUIO(IO.IN)
@@ -867,6 +867,36 @@ public interface GTORecipeTypes {
             .setMaxIOSize(3, 1, 0, 0)
             .setProgressBar(GuiTextures.COMPRESSOR_OVERLAY, LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.ARC);
+
+    GTORecipeType PROFESSIONAL_SCANNER_RECIPES = register("professional_scanner", "专业扫描", ELECTRIC)
+            .setMaxIOSize(2, 1, 0, 0)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
+            .setSlotOverlay(true, false, GuiTextures.RESEARCH_STATION_OVERLAY)
+            .setSlotOverlay(false, false, GuiTextures.SCANNER_OVERLAY)
+            .setScanner(true)
+            .setMaxTooltips(4)
+            .setSound(GTSoundEntries.SCIENCE);
+
+    GTORecipeType DIRECTIONAL_ANALYSIS_RECIPES = register("directional_analysis", "定向分析", ELECTRIC)
+            .setMaxIOSize(5, 1, 1, 0)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
+            .setScanner(true)
+            .setMaxTooltips(4)
+            .setSound(GTSoundEntries.SCIENCE);
+
+    GTORecipeType FURTHER_RESEARCH_RECIPES = register("further_research", "深入研究", ELECTRIC)
+            .setMaxIOSize(12, 1, 1, 0)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
+            .setScanner(true)
+            .setMaxTooltips(4)
+            .setSound(GTSoundEntries.SCIENCE);
+
+    GTORecipeType PRODUCTION_DEVELOPMENT_RECIPES = register("production_development", "生产开发", ELECTRIC)
+            .setMaxIOSize(12, 1, 1, 0)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
+            .setScanner(true)
+            .setMaxTooltips(4)
+            .setSound(GTSoundEntries.SCIENCE);
 
     // TODO 添加用途
     GTORecipeType PLASMA_CENTRIFUGE_RECIPES = register("plasma_centrifuge", "等离子体离心", MULTIBLOCK)

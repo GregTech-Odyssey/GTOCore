@@ -9,6 +9,7 @@ import com.gto.gtocore.common.recipe.condition.GravityCondition;
 import com.gto.gtocore.common.recipe.condition.HeatCondition;
 import com.gto.gtocore.common.recipe.condition.RunLimitCondition;
 import com.gto.gtocore.common.recipe.condition.VacuumCondition;
+import com.gto.gtocore.utils.GTOResearchManager;
 import com.gto.gtocore.utils.RegistriesUtils;
 
 import com.gregtechceu.gtceu.GTCEu;
@@ -32,7 +33,6 @@ import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.common.item.IntCircuitBehaviour;
 import com.gregtechceu.gtceu.common.recipe.condition.*;
 import com.gregtechceu.gtceu.data.recipe.builder.GTRecipeBuilder;
-import com.gregtechceu.gtceu.utils.ResearchManager;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.data.recipes.FinishedRecipe;
@@ -1157,7 +1157,7 @@ public final class GTORecipeBuilder extends GTRecipeBuilder {
     @Override
     public GTORecipeBuilder researchWithoutRecipe(@NotNull String researchId) {
         if (deleted) return this;
-        return researchWithoutRecipe(researchId, ResearchManager.getDefaultScannerItem());
+        return researchWithoutRecipe(researchId, GTOResearchManager.getDefaultScannerItem());
     }
 
     /**
