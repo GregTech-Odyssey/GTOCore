@@ -22,23 +22,34 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
+import com.lowdragmc.lowdraglib.client.scene.WorldSceneRenderer;
+import com.lowdragmc.lowdraglib.client.utils.RenderUtils;
 import com.lowdragmc.lowdraglib.gui.editor.ColorPattern;
 import com.lowdragmc.lowdraglib.gui.texture.ColorRectTexture;
 import com.lowdragmc.lowdraglib.gui.texture.GuiTextureGroup;
 import com.lowdragmc.lowdraglib.gui.texture.TextTexture;
 import com.lowdragmc.lowdraglib.gui.widget.*;
 import com.lowdragmc.lowdraglib.utils.BlockInfo;
+import com.lowdragmc.lowdraglib.utils.BlockPosFace;
 import com.lowdragmc.lowdraglib.utils.TrackedDummyWorld;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 import dev.emi.emi.screen.RecipeScreen;
 import it.unimi.dsi.fastutil.longs.LongSet;
 import it.unimi.dsi.fastutil.longs.LongSets;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
+import org.joml.Vector3f;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -65,7 +76,7 @@ public final class PatternPreview extends WidgetGroup {
         setClientSideWidget();
         layer = -1;
 
-        addWidget(sceneWidget = new SceneWidget(3, 3, 150, 150, LEVEL)
+        addWidget(sceneWidget = new MySceneWidget()
                 .setOnSelected(this::onPosSelected)
                 .setRenderFacing(false)
                 .setRenderFacing(false));
@@ -319,6 +330,70 @@ public final class PatternPreview extends WidgetGroup {
             }
             minY = min;
             maxY = max;
+        }
+    }
+
+    private static class MySceneWidget extends SceneWidget {
+
+        private MySceneWidget() {
+            super(3, 3, 150, 150, LEVEL);
+        }
+
+        @Override
+        public void renderBlockOverLay(WorldSceneRenderer renderer) {
+            PoseStack poseStack = new PoseStack();
+            hoverPosFace = null;
+            hoverItem = null;
+            if (isMouseOverElement(currentMouseX, currentMouseY)) {
+                BlockHitResult hit = renderer.getLastTraceResult();
+                if (hit != null) {
+                    if (core.contains(hit.getBlockPos())) {
+                        hoverPosFace = new BlockPosFace(hit.getBlockPos(), hit.getDirection());
+                    } else if (!useOrtho) {
+                        Vector3f hitPos = hit.getLocation().toVector3f();
+                        Level world = renderer.world;
+                        Vec3 eyePos = new Vec3(renderer.getEyePos());
+                        hitPos.mul(2);
+                        Vec3 endPos = new Vec3((hitPos.x - eyePos.x), (hitPos.y - eyePos.y), (hitPos.z - eyePos.z));
+                        double min = Float.MAX_VALUE;
+                        for (BlockPos pos : core) {
+                            BlockState blockState = world.getBlockState(pos);
+                            if (blockState.getBlock() == Blocks.AIR) {
+                                continue;
+                            }
+                            hit = world.clipWithInteractionOverride(eyePos, endPos, pos,
+                                    blockState.getShape(world, pos), blockState);
+                            if (hit != null && hit.getType() != HitResult.Type.MISS) {
+                                double dist = eyePos.distanceToSqr(hit.getLocation());
+                                if (dist < min) {
+                                    min = dist;
+                                    hoverPosFace = new BlockPosFace(hit.getBlockPos(), hit.getDirection());
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            if (hoverPosFace != null) {
+                var state = getDummyWorld().getBlockState(hoverPosFace.pos);
+                hoverItem = state.getBlock().getCloneItemStack(getDummyWorld(), hoverPosFace.pos, state);
+            }
+            BlockPosFace tmp = dragging ? clickPosFace : hoverPosFace;
+            if (selectedPosFace != null || tmp != null) {
+                if (selectedPosFace != null && renderFacing) {
+                    drawFacingBorder(poseStack, selectedPosFace, 0xff00ff00);
+                }
+                if (tmp != null && !tmp.equals(selectedPosFace) && renderFacing) {
+                    drawFacingBorder(poseStack, tmp, 0xffffffff);
+                }
+            }
+            if (selectedPosFace != null && renderSelect) {
+                RenderUtils.renderBlockOverLay(poseStack, selectedPosFace.pos, 0.6f, 0, 0, 1.03f);
+            }
+
+            if (this.afterWorldRender != null) {
+                this.afterWorldRender.accept(this);
+            }
         }
     }
 }

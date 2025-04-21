@@ -41,7 +41,7 @@ public final class InfiniteIntakeHatchPartMachine extends TieredIOPartMachine {
     private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
             InfiniteIntakeHatchPartMachine.class, TieredIOPartMachine.MANAGED_FIELD_HOLDER);
 
-    private static final Map<ResourceLocation, Fluid> AIR_MAP = new HashMap<>();
+    public static final Map<ResourceLocation, Fluid> AIR_MAP = new HashMap<>();
 
     private TickableSubscription intakeSubs;
 
