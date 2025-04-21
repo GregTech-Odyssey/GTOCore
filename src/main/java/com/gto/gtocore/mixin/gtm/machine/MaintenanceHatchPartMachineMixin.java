@@ -2,7 +2,9 @@ package com.gto.gtocore.mixin.gtm.machine;
 
 import com.gto.gtocore.api.GTOValues;
 import com.gto.gtocore.api.machine.feature.IDroneInteractionMachine;
+import com.gto.gtocore.api.machine.trait.IEnhancedRecipeLogic;
 import com.gto.gtocore.api.misc.Drone;
+import com.gto.gtocore.api.recipe.IdleReason;
 import com.gto.gtocore.common.machine.multiblock.noenergy.DroneControlCenterMachine;
 
 import com.gregtechceu.gtceu.api.GTValues;
@@ -10,6 +12,7 @@ import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMaintenanceMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.TieredPartMachine;
+import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.MaintenanceHatchPartMachine;
 
 import org.spongepowered.asm.mixin.Mixin;
@@ -53,6 +56,23 @@ public abstract class MaintenanceHatchPartMachineMixin extends TieredPartMachine
                 maintenanceMachine.setTaped(false);
             }
         }
+    }
+
+    @Override
+    public GTRecipe modifyRecipe(GTRecipe recipe) {
+        if (hasMaintenanceProblems()) {
+            for (var c : getControllers()) {
+                if (c instanceof IRecipeLogicMachine recipeLogicMachine && recipeLogicMachine.getRecipeLogic() instanceof IEnhancedRecipeLogic enhancedRecipeLogic) {
+                    enhancedRecipeLogic.gTOCore$setIdleReason(IdleReason.MAINTENANCE_BROKEN.reason());
+                }
+            }
+            return null;
+        }
+        var durationMultiplier = getDurationMultiplier();
+        if (durationMultiplier != 1) {
+            recipe.duration = Math.max(1, (int) (recipe.duration * durationMultiplier));
+        }
+        return recipe;
     }
 
     @Inject(method = "update", at = @At(value = "INVOKE", target = "Lcom/gregtechceu/gtceu/common/machine/multiblock/part/MaintenanceHatchPartMachine;consumeDuctTape(Lnet/minecraftforge/items/IItemHandler;I)Z"), remap = false, cancellable = true)

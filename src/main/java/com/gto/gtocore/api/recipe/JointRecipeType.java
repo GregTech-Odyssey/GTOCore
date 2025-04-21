@@ -1,7 +1,10 @@
 package com.gto.gtocore.api.recipe;
 
+import com.gto.gtocore.api.machine.trait.IEnhancedRecipeLogic;
+
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.capability.recipe.IRecipeCapabilityHolder;
+import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.recipe.category.GTRecipeCategory;
@@ -38,6 +41,9 @@ public final class JointRecipeType extends GTORecipeType {
 
     @Override
     public @NotNull Iterator<GTRecipe> searchRecipe(IRecipeCapabilityHolder holder, Predicate<GTRecipe> canHandle) {
+        if (holder instanceof IRecipeLogicMachine recipeLogicMachine && recipeLogicMachine.getRecipeLogic() instanceof IEnhancedRecipeLogic enhancedRecipeLogic) {
+            enhancedRecipeLogic.gTOCore$setIdleReason(IdleReason.NO_MATCH.reason());
+        }
         if (!holder.hasCapabilityProxies()) return Collections.emptyIterator();
         return new JointSearchRecipeIterator(holder, this, canHandle);
     }

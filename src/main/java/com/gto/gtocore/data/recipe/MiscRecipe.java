@@ -20,6 +20,7 @@ import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.chemical.material.stack.MaterialEntry;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.machine.multiblock.CleanroomType;
+import com.gregtechceu.gtceu.api.recipe.ingredient.FluidContainerIngredient;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTMaterialItems;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
@@ -105,6 +106,18 @@ public interface MiscRecipe {
         VanillaRecipeHelper.addShapedEnergyTransferRecipe(provider, true, true, true, GTOCore.id("hv_vajra"), Ingredient.of(POWER_UNIT_HV.asItem()), GTMaterialItems.TOOL_ITEMS.get(GTOMaterials.DarkSteel, GTOToolType.VAJRA_HV).get().get(0, GTCapabilityHelper.getElectricItem(POWER_UNIT_HV.asStack()).getMaxCharge()), "PEP", "CFC", "RUR", 'E', EMITTER_HV.asStack(), 'F', FIELD_GENERATOR_HV.asStack(), 'P', new MaterialEntry(plateDouble, GTOMaterials.DarkSteel), 'R', new MaterialEntry(plateDense, Steel), 'C', CARBON_FIBER_PLATE.asStack(), 'U', POWER_UNIT_HV.asItem());
         VanillaRecipeHelper.addShapedEnergyTransferRecipe(provider, true, true, true, GTOCore.id("ev_vajra"), Ingredient.of(POWER_UNIT_EV.asItem()), GTMaterialItems.TOOL_ITEMS.get(GTOMaterials.Ostrum, GTOToolType.VAJRA_EV).get().get(0, GTCapabilityHelper.getElectricItem(POWER_UNIT_EV.asStack()).getMaxCharge()), "PEP", "CFC", "RUR", 'E', EMITTER_HV.asStack(), 'F', FIELD_GENERATOR_EV.asStack(), 'P', new MaterialEntry(plateDouble, GTOMaterials.Ostrum), 'R', new MaterialEntry(plateDense, TungstenSteel), 'C', CARBON_FIBER_PLATE.asStack(), 'U', POWER_UNIT_EV.asItem());
         VanillaRecipeHelper.addShapedEnergyTransferRecipe(provider, true, true, true, GTOCore.id("iv_vajra"), Ingredient.of(POWER_UNIT_IV.asItem()), GTMaterialItems.TOOL_ITEMS.get(GTOMaterials.Enderium, GTOToolType.VAJRA_IV).get().get(0, GTCapabilityHelper.getElectricItem(POWER_UNIT_IV.asStack()).getMaxCharge()), "PEP", "CFC", "RUR", 'E', EMITTER_HV.asStack(), 'F', FIELD_GENERATOR_IV.asStack(), 'P', new MaterialEntry(plateDouble, GTOMaterials.Enderium), 'R', new MaterialEntry(plateDense, NaquadahAlloy), 'C', CARBON_FIBER_PLATE.asStack(), 'U', POWER_UNIT_IV.asItem());
+        VanillaRecipeHelper.addShapedFluidContainerRecipe(provider, "bucket_of_concrete", new ItemStack(Concrete.getBucket()),
+                "CBS", "CWQ", " L ",
+                'C', new MaterialEntry(dust, Calcite),
+                'S', new MaterialEntry(dust, Stone),
+                'W', new FluidContainerIngredient(Water.getFluidTag(), 1000),
+                'Q', new MaterialEntry(dust, QuartzSand),
+                'L', new MaterialEntry(dust, Clay),
+                'B', new ItemStack(Items.BUCKET));
+        VanillaRecipeHelper.addShapedFluidContainerRecipe(provider, "flour_to_dough", new ItemStack(DOUGH, 8),
+                "FFF", "FWF", "FFF",
+                'F', ChemicalHelper.get(dust, Wheat),
+                'W', new FluidContainerIngredient(Water.getFluidTag(), 1000));
 
         VACUUM_PUMP_RECIPES.recipeBuilder(GTOCore.id("a"))
                 .notConsumable(pipeHugeFluid, Bronze)

@@ -2,7 +2,9 @@ package com.gto.gtocore.api.machine.trait;
 
 import com.gto.gtocore.api.machine.feature.multiblock.IMultiblockTraitHolder;
 import com.gto.gtocore.api.machine.feature.multiblock.ITierCasingMachine;
+import com.gto.gtocore.api.recipe.IdleReason;
 
+import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 
 import net.minecraft.network.chat.Component;
@@ -42,6 +44,9 @@ public class TierCasingTrait extends MultiblockTrait {
             String type = entry.getKey();
             if (recipe.data.contains(type)) {
                 if (recipe.data.getInt(type) > entry.getIntValue()) {
+                    if (getMachine() instanceof IRecipeLogicMachine recipeLogicMachine && recipeLogicMachine.getRecipeLogic() instanceof IEnhancedRecipeLogic enhancedRecipeLogic) {
+                        enhancedRecipeLogic.gTOCore$setIdleReason(IdleReason.BLOCK_TIER_NOT_SATISFIES.reason());
+                    }
                     return true;
                 }
             }

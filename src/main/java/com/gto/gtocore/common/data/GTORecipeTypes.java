@@ -4,6 +4,7 @@ import com.gto.gtocore.api.gui.GTOGuiTextures;
 import com.gto.gtocore.api.machine.trait.TierCasingTrait;
 import com.gto.gtocore.api.recipe.GTORecipeType;
 import com.gto.gtocore.api.recipe.JointRecipeType;
+import com.gto.gtocore.common.machine.multiblock.part.InfiniteIntakeHatchPartMachine;
 import com.gto.gtocore.common.machine.trait.RecyclerLogic;
 import com.gto.gtocore.common.recipe.RecipeTypeModify;
 import com.gto.gtocore.config.GTOConfig;
@@ -84,7 +85,7 @@ public interface GTORecipeTypes {
     GTORecipeType THERMAL_CENTRIFUGE_RECIPES = (GTORecipeType) GTRecipeTypes.THERMAL_CENTRIFUGE_RECIPES;
     GTORecipeType WIREMILL_RECIPES = (GTORecipeType) GTRecipeTypes.WIREMILL_RECIPES;
     GTORecipeType CIRCUIT_ASSEMBLER_RECIPES = (GTORecipeType) GTRecipeTypes.CIRCUIT_ASSEMBLER_RECIPES;
-    GTORecipeType GAS_COLLECTOR_RECIPES = (GTORecipeType) GTRecipeTypes.GAS_COLLECTOR_RECIPES;
+    GTORecipeType GAS_COLLECTOR_RECIPES = (GTORecipeType) GTRecipeTypes.GAS_COLLECTOR_RECIPES.onRecipeBuild(InfiniteIntakeHatchPartMachine::init);
     GTORecipeType AIR_SCRUBBER_RECIPES = (GTORecipeType) GTRecipeTypes.AIR_SCRUBBER_RECIPES;
     GTORecipeType RESEARCH_STATION_RECIPES = (GTORecipeType) GTRecipeTypes.RESEARCH_STATION_RECIPES;
     GTORecipeType ROCK_BREAKER_RECIPES = (GTORecipeType) GTRecipeTypes.ROCK_BREAKER_RECIPES;
@@ -866,6 +867,36 @@ public interface GTORecipeTypes {
             .setMaxIOSize(3, 1, 0, 0)
             .setProgressBar(GuiTextures.COMPRESSOR_OVERLAY, LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.ARC);
+
+    GTORecipeType PROFESSIONAL_SCANNER_RECIPES = register("professional_scanner", "专业扫描", ELECTRIC)
+            .setMaxIOSize(2, 1, 0, 0)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
+            .setSlotOverlay(true, false, GuiTextures.RESEARCH_STATION_OVERLAY)
+            .setSlotOverlay(false, false, GuiTextures.SCANNER_OVERLAY)
+            .setScanner(true)
+            .setMaxTooltips(4)
+            .setSound(GTSoundEntries.SCIENCE);
+
+    GTORecipeType DIRECTIONAL_ANALYSIS_RECIPES = register("directional_analysis", "定向分析", ELECTRIC)
+            .setMaxIOSize(5, 1, 1, 0)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
+            .setScanner(true)
+            .setMaxTooltips(4)
+            .setSound(GTSoundEntries.SCIENCE);
+
+    GTORecipeType FURTHER_RESEARCH_RECIPES = register("further_research", "深入研究", ELECTRIC)
+            .setMaxIOSize(12, 1, 1, 0)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
+            .setScanner(true)
+            .setMaxTooltips(4)
+            .setSound(GTSoundEntries.SCIENCE);
+
+    GTORecipeType PRODUCTION_DEVELOPMENT_RECIPES = register("production_development", "生产开发", ELECTRIC)
+            .setMaxIOSize(12, 1, 1, 0)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
+            .setScanner(true)
+            .setMaxTooltips(4)
+            .setSound(GTSoundEntries.SCIENCE);
 
     // TODO 添加用途
     GTORecipeType PLASMA_CENTRIFUGE_RECIPES = register("plasma_centrifuge", "等离子体离心", MULTIBLOCK)

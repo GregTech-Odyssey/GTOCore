@@ -2,8 +2,8 @@ package com.gto.gtocore.utils;
 
 import com.gto.gtocore.api.machine.feature.multiblock.IParallelMachine;
 import com.gto.gtocore.api.machine.multiblock.CrossRecipeMultiblockMachine;
-import com.gto.gtocore.api.machine.multiblock.ElectricMultiblockMachine;
 import com.gto.gtocore.api.recipe.GTORecipeBuilder;
+import com.gto.gtocore.api.recipe.IdleReason;
 import com.gto.gtocore.api.recipe.RecipeRunnerHelper;
 
 import com.gregtechceu.gtceu.api.capability.IParallelHatch;
@@ -13,6 +13,7 @@ import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
 import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockDisplayText;
+import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableMultiblockMachine;
 import com.gregtechceu.gtceu.api.pattern.BlockPattern;
 import com.gregtechceu.gtceu.api.pattern.MultiblockShapeInfo;
@@ -151,7 +152,7 @@ public final class MachineUtils {
         } else {
             numParallels = getHatchParallel(machine);
         }
-        if (machine instanceof ElectricMultiblockMachine electricMultiblockMachine) {
+        if (machine instanceof WorkableElectricMultiblockMachine electricMultiblockMachine) {
             builder.addEnergyUsageLine(electricMultiblockMachine.getEnergyContainer()).addEnergyTierLine(electricMultiblockMachine.getTier());
             if (electricMultiblockMachine instanceof CrossRecipeMultiblockMachine crossRecipeMultiblockMachine) {
                 numThread = crossRecipeMultiblockMachine.getThread();
@@ -167,6 +168,7 @@ public final class MachineUtils {
         }
         builder.addCustom(customConsumer)
                 .addCustom(text -> machine.getDefinition().getAdditionalDisplay().accept(machine, text))
+                .addCustom(text -> IdleReason.addMachineText(text, machine))
                 .addWorkingStatusLine()
                 .addProgressLine(machine.recipeLogic.getProgress(), machine.recipeLogic.getMaxProgress(), machine.recipeLogic.getProgressPercent())
                 .addOutputLines(machine.recipeLogic.getLastRecipe());

@@ -1,5 +1,6 @@
 package com.gto.gtocore.api.machine.trait;
 
+import com.gto.gtocore.api.recipe.IdleReason;
 import com.gto.gtocore.api.recipe.RecipeRunnerHelper;
 
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
@@ -27,6 +28,7 @@ public class CustomRecipeLogic extends RecipeLogic implements IEnhancedRecipeLog
 
     @Override
     public void findAndHandleRecipe() {
+        gTOCore$setIdleReason(IdleReason.NO_MATCH.reason());
         lastRecipe = null;
         if (machine.hasCapabilityProxies()) {
             GTRecipe match = recipeSupplier.get();

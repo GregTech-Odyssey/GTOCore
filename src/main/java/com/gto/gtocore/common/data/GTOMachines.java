@@ -213,6 +213,7 @@ public interface GTOMachines {
                     .abilities(GTOPartAbility.THREAD_HATCH)
                     .workableTieredHullRenderer(GTOCore.id("block/machines/thread_hatch/thread_hatch_mk" + (tier - 8)))
                     .tooltips(Component.translatable("gtocore.machine.thread_hatch.tooltip.0", 1 << (tier - ZPM)))
+                    .tooltipsKey("gtceu.universal.disabled")
                     .register(),
             UHV, UEV, UIV, UXV, OpV, MAX);
 
@@ -223,6 +224,7 @@ public interface GTOMachines {
                     .abilities(GTOPartAbility.ACCELERATE_HATCH)
                     .tooltips(Component.translatable("gtocore.machine.accelerate_hatch.tooltip.0"))
                     .tooltips(Component.translatable("gtocore.machine.accelerate_hatch.tooltip.1"))
+                    .tooltipsKey("gtceu.universal.disabled")
                     .workableTieredHullRenderer(GTOCore.id("block/machines/accelerate_hatch/accelerate_hatch_mk" + tier))
                     .register(),
             tiersBetween(LV, MAX));
@@ -290,6 +292,7 @@ public interface GTOMachines {
                     .langValue(VNF[tier] + " Drone Hatch")
                     .allRotation()
                     .abilities(GTOPartAbility.DRONE_HATCH)
+                    .tooltipsKey("gtceu.universal.disabled")
                     .renderer(() -> new OverlayTieredMachineRenderer(tier, GTCEu.id("block/machine/part/item_bus.import")))
                     .register(),
             HV, EV, IV);
@@ -374,6 +377,7 @@ public interface GTOMachines {
                             Component.translatable("gtocore.machine.neutron_accelerator.tooltip.0", (V[tier] << 3) / 10),
                             Component.translatable("gtocore.machine.neutron_accelerator.tooltip.1"),
                             Component.translatable("gtceu.universal.tooltip.energy_storage_capacity", 2 * V[tier]))
+                    .tooltipsKey("gtceu.universal.disabled")
                     .overlayTieredHullRenderer("neutron_accelerator")
                     .register(),
             GTMachineUtils.ALL_TIERS);
@@ -383,6 +387,7 @@ public interface GTOMachines {
             .abilities(PartAbility.OPTICAL_DATA_TRANSMISSION)
             .renderer(() -> new OverlayTieredMachineRenderer(UV, GTCEu.id("block/machine/part/optical_data_hatch")))
             .tooltips(Component.translatable("gtceu.machine.data_transmitter_hatch.tooltip"), Component.translatable("gtocore.machine.wireless_data_transmitter_hatch.tooltip.0"))
+            .tooltipsKey("gtceu.universal.disabled")
             .tier(UV)
             .register();
 
@@ -391,6 +396,7 @@ public interface GTOMachines {
             .abilities(PartAbility.OPTICAL_DATA_RECEPTION)
             .renderer(() -> new OverlayTieredMachineRenderer(UV, GTCEu.id("block/machine/part/optical_data_hatch")))
             .tooltips(Component.translatable("gtceu.machine.data_receiver_hatch.tooltip"), Component.translatable("gtocore.machine.wireless_data_receiver_hatch.tooltip.0"))
+            .tooltipsKey("gtceu.universal.disabled")
             .tier(UV)
             .register();
 
@@ -524,6 +530,7 @@ public interface GTOMachines {
             .tier(IV)
             .allRotation()
             .tooltips(Component.translatable("gtocore.machine.neutron_sensor.tooltip.0"))
+            .tooltipsKey("gtceu.universal.disabled")
             .overlayTieredHullRenderer("neutron_sensor")
             .register();
 
@@ -531,18 +538,21 @@ public interface GTOMachines {
             .langValue("pH Sensor")
             .tier(EV)
             .allRotation()
+            .tooltipsKey("gtceu.universal.disabled")
             .overlayTieredHullRenderer("neutron_sensor")
             .register();
 
     MachineDefinition HEAT_SENSOR = machine("heat_sensor", "热传感器", SensorPartMachine::new)
             .tier(LV)
             .allRotation()
+            .tooltipsKey("gtceu.universal.disabled")
             .overlayTieredHullRenderer("neutron_sensor")
             .register();
 
     MachineDefinition GRIND_BALL_HATCH = machine("grind_ball_hatch", "研磨球仓", BallHatchPartMachine::new)
             .tier(IV)
             .allRotation()
+            .tooltipsKey("gtceu.universal.disabled")
             .renderer(BallHatchRenderer::new)
             .register();
 
@@ -550,71 +560,83 @@ public interface GTOMachines {
             .tier(ZPM)
             .recipeType(GTORecipeTypes.RADIATION_HATCH_RECIPES)
             .allRotation()
+            .tooltipsKey("gtceu.universal.disabled")
             .overlayTieredHullRenderer("radiation_hatch")
             .register();
 
     MachineDefinition SPOOL_HATCH = machine("spool_hatch", "线轴仓", SpoolHatchPartMachine::new)
             .tier(IV)
             .allRotation()
+            .tooltipsKey("gtceu.universal.disabled")
             .overlayTieredHullRenderer("radiation_hatch")
             .register();
 
     MachineDefinition ROTOR_HATCH = machine("rotor_hatch", "转子仓", h -> new ItemHatchPartMachine(h, 1, i -> TurbineRotorBehaviour.getBehaviour(i) != null))
             .tier(EV)
             .allRotation()
+            .tooltipsKey("gtceu.universal.disabled")
             .overlayTieredHullRenderer("rotor_hatch")
             .register();
 
     MachineDefinition PRIMITIVE_BLAST_FURNACE_HATCH = machine("primitive_blast_furnace_hatch", "土高炉仓", PrimitiveBlastFurnaceHatch::new)
             .allRotation()
+            .tooltipsKey("gtceu.universal.disabled")
             .modelRenderer(() -> GTCEu.id("block/machine/part/primitive_blast_furnace_hatch"))
             .register();
 
     MachineDefinition BLOCK_BUS = machine("block_bus", "方块总线", BlockBusPartMachine::new)
             .tier(LuV)
             .allRotation()
+            .tooltipsKey("gtceu.universal.disabled")
             .renderer(() -> new OverlayTieredMachineRenderer(LuV, GTCEu.id("block/machine/part/item_bus.import")))
             .register();
 
     MachineDefinition LENS_HOUSING = machine("lens_housing", "透镜仓", h -> new ItemHatchPartMachine(h, 1, i -> ChemicalHelper.getPrefix(i.getItem()) == TagPrefix.lens))
             .tier(EV)
             .allRotation()
+            .tooltipsKey("gtceu.universal.disabled")
             .renderer(() -> new OverlayTieredMachineRenderer(EV, GTCEu.id("block/machine/part/item_bus.import")))
             .register();
 
     MachineDefinition LENS_INDICATOR_HATCH = machine("lens_indicator_hatch", "透镜指示仓", IndicatorHatchPartMachine::new)
             .tier(HV)
             .allRotation()
+            .tooltipsKey("gtceu.universal.disabled")
             .overlayTieredHullRenderer("neutron_sensor")
             .register();
 
     MachineDefinition DEGASSING_CONTROL_HATCH = machine("degassing_control_hatch", "脱气控制仓", IndicatorHatchPartMachine::new)
             .tier(LuV)
             .allRotation()
+            .tooltipsKey("gtceu.universal.disabled")
             .overlayTieredHullRenderer("neutron_sensor")
             .register();
 
     MachineDefinition CATALYST_HATCH = machine("catalyst_hatch", "催化剂仓", CatalystHatchPartMachine::new)
             .tier(IV)
             .allRotation()
+            .tooltipsKey("gtceu.universal.disabled")
             .overlayTieredHullRenderer("catalyst_hatch")
             .register();
 
     MachineDefinition MACHINE_ACCESS_INTERFACE = machine("machine_access_interface", "机器访问接口", MachineAccessInterfacePartMachine::new)
             .tier(IV)
             .allRotation()
+            .tooltipsKey("gtceu.universal.disabled")
             .renderer(() -> new OverlayTieredMachineRenderer(IV, GTCEu.id("block/machine/part/data_access_hatch")))
             .register();
 
     MachineDefinition MACHINE_ACCESS_TERMINAL = machine("machine_access_terminal", "机器访问终端", MachineAccessTerminalPartMachine::new)
             .tier(UEV)
             .allRotation()
+            .tooltipsKey("gtceu.universal.disabled")
             .renderer(() -> new OverlayTieredMachineRenderer(UEV, GTCEu.id("block/machine/part/data_access_hatch")))
             .register();
 
     MachineDefinition THERMAL_CONDUCTOR_HATCH = machine("thermal_conductor_hatch", "导热剂仓", ThermalConductorHatchPartMachine::new)
             .tier(LuV)
             .allRotation()
+            .tooltipsKey("gtceu.universal.disabled")
             .overlayTieredHullRenderer("neutron_sensor")
             .register();
 
@@ -645,6 +667,7 @@ public interface GTOMachines {
             .tier(UV)
             .allRotation()
             .abilities(PartAbility.IMPORT_ITEMS, PartAbility.IMPORT_FLUIDS)
+            .tooltipsKey("gtceu.universal.disabled")
             .renderer(() -> new OverlayTieredMachineRenderer(UV, GTCEu.id("block/machine/part/me_pattern_buffer")))
             .register();
 
@@ -653,6 +676,7 @@ public interface GTOMachines {
             .tier(UV)
             .allRotation()
             .abilities(PartAbility.IMPORT_ITEMS, PartAbility.IMPORT_FLUIDS)
+            .tooltipsKey("gtceu.universal.disabled")
             .renderer(() -> new OverlayTieredMachineRenderer(UV, GTCEu.id("block/machine/part/me_pattern_buffer")))
             .register();
 
@@ -661,6 +685,7 @@ public interface GTOMachines {
             .tier(ZPM)
             .allRotation()
             .abilities(PartAbility.IMPORT_ITEMS, PartAbility.IMPORT_FLUIDS)
+            .tooltipsKey("gtceu.universal.disabled")
             .renderer(() -> new OverlayTieredMachineRenderer(ZPM, GTCEu.id("block/machine/part/me_pattern_buffer")))
             .register();
 
@@ -669,6 +694,23 @@ public interface GTOMachines {
             .allRotation()
             .abilities(PARALLEL_HATCH)
             .tooltips(Component.translatable("gtceu.universal.tooltip.parallel", Integer.MAX_VALUE - 1))
+            .tooltipsKey("gtceu.universal.disabled")
             .workableTieredHullRenderer(GTCEu.id("block/machines/parallel_hatch"))
+            .register();
+
+    MachineDefinition INFINITE_WATER_HATCH = machine("infinite_water_hatch", "无限水仓", InfiniteWaterHatchPartMachine::new)
+            .tier(IV)
+            .allRotation()
+            .abilities(PartAbility.IMPORT_FLUIDS)
+            .tooltipsKey("gtceu.universal.enabled")
+            .renderer(() -> new OverlayTieredMachineRenderer(IV, GTCEu.id("block/machine/part/reservoir_hatch")))
+            .register();
+
+    MachineDefinition INFINITE_INTAKE_HATCH = machine("infinite_intake_hatch", "无限进气仓", InfiniteIntakeHatchPartMachine::new)
+            .tier(ULV)
+            .allRotation()
+            .abilities(PartAbility.IMPORT_FLUIDS)
+            .tooltipsKey("gtceu.universal.enabled")
+            .overlayTieredHullRenderer("intake_hatch")
             .register();
 }

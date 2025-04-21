@@ -500,6 +500,10 @@ public final class EncapsulatorExecutionModuleMachine extends StorageMultiblockM
         if (finalRecipe != null && encapsulatorMachine != null && encapsulatorMachine.isFormed() && encapsulatorMachine.getRecipeLogic().isWorking()) {
             var recipe = fullModifyRecipe(finalRecipe.copy());
             if (RecipeRunnerHelper.check(this, recipe)) {
+                for (var pr : packageRecipe) {
+                    if (encapsulatorMachine.typeMap.containsKey(pr.recipeType)) continue;
+                    return null;
+                }
                 return recipe;
             }
         }

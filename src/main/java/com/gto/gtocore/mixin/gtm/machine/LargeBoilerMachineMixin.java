@@ -37,6 +37,9 @@ public abstract class LargeBoilerMachineMixin extends WorkableMultiblockMachine 
     @Shadow(remap = false)
     private boolean hasNoWater;
 
+    @Shadow(remap = false)
+    private int steamGenerated;
+
     protected LargeBoilerMachineMixin(IMachineBlockEntity holder, Object... args) {
         super(holder, args);
     }
@@ -60,9 +63,9 @@ public abstract class LargeBoilerMachineMixin extends WorkableMultiblockMachine 
             int water = currentTemperature * throttle * 5 / 16000;
             if (water > 0) {
                 if (MachineUtils.inputFluid(this, Fluids.WATER, water)) {
-                    int steam = currentTemperature * throttle * 5 / 100;
-                    if (steam > 0) {
-                        MachineUtils.outputFluid(this, gtocore$STEAM, steam);
+                    steamGenerated = currentTemperature * throttle * 5 / 100;
+                    if (steamGenerated > 0) {
+                        MachineUtils.outputFluid(this, gtocore$STEAM, steamGenerated);
                     }
                     if (hasNoWater) {
                         doExplosion(2.0F);

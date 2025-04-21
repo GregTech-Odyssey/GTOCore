@@ -6,6 +6,7 @@ import com.gto.gtocore.api.machine.feature.IPowerAmplifierMachine;
 import com.gto.gtocore.api.machine.feature.IUpgradeMachine;
 import com.gto.gtocore.api.machine.feature.multiblock.ICheckPatternMachine;
 import com.gto.gtocore.api.machine.trait.IEnhancedRecipeLogic;
+import com.gto.gtocore.utils.MachineUtils;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.IControllable;
@@ -15,6 +16,7 @@ import com.gregtechceu.gtceu.api.gui.fancy.IFancyConfigurator;
 import com.gregtechceu.gtceu.api.gui.fancy.IFancyConfiguratorButton;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.IFancyUIMachine;
+import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableMultiblockMachine;
 import com.gregtechceu.gtceu.api.misc.EnergyContainerList;
@@ -27,6 +29,7 @@ import net.minecraft.network.chat.Component;
 
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -132,6 +135,18 @@ public abstract class WorkableElectricMultiblockMachineMixin extends WorkableMul
         }
         IEnhancedRecipeLogic.attachRecipeLockable(configuratorPanel, getRecipeLogic());
         ICheckPatternMachine.attachConfigurators(configuratorPanel, self());
+    }
+
+    /**
+     * @author .
+     * @reason .
+     */
+    @Overwrite(remap = false)
+    public void addDisplayText(List<Component> textList) {
+        MachineUtils.addMachineText(textList, this, t -> {});
+        for (IMultiPart part : getParts()) {
+            part.addMultiText(textList);
+        }
     }
 
     @Inject(method = "getMaxVoltage", at = @At(value = "INVOKE", target = "Lcom/gregtechceu/gtceu/api/misc/EnergyContainerList;getOutputVoltage()J"), remap = false, cancellable = true)
