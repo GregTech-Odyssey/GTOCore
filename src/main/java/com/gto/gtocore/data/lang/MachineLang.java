@@ -130,5 +130,6 @@ final class MachineLang {
         addENCN("gtocore.machine.mega_steam_turbine.tooltip.0", "Operating efficiency is equivalent to 16 large turbines of the same type, can use more power chambers", "运行效率相当于16台同类大型涡轮，可使用更多动力仓");
         addENCN("gtocore.machine.mega_steam_turbine.tooltip.1", "Rotors can be installed in the rotor chamber, automatically extracting rotor for installation onto empty rotor brackets", "可安装转子仓，从中自动取出转子安装到空转子支架");
         addENCN("gtocore.machine.mega_steam_turbine.tooltip.2", "High speed mode can be enabled to further increase operating speed; in high speed mode, operating speed x3, at the cost of increasing maintenance issue probability and turbine durability loss being 12 times", "可启用高速模式，进一步提升运行速度，高速模式下，运行速度提升为3倍，代价是维护问题出现几率与涡轮耐久损耗均变为12倍");
+        addENCN("gtocore.machine.scanning", "Scanning...", "扫描中...");
     }
 }

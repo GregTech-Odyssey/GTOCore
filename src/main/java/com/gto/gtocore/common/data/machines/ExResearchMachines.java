@@ -9,6 +9,7 @@ import com.gto.gtocore.client.renderer.machine.ExResearchPartRenderer;
 import com.gto.gtocore.common.block.BlockMap;
 import com.gto.gtocore.common.data.GTOBlocks;
 import com.gto.gtocore.common.data.GTOMachines;
+import com.gto.gtocore.common.data.GTORecipeTypes;
 import com.gto.gtocore.common.machine.multiblock.electric.DataCenterMachine;
 import com.gto.gtocore.common.machine.multiblock.electric.SupercomputingCenterMachine;
 import com.gto.gtocore.common.machine.multiblock.part.research.ExResearchBridgePartMachine;
@@ -23,20 +24,29 @@ import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
+import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
+import com.gregtechceu.gtceu.api.pattern.MultiblockShapeInfo;
 import com.gregtechceu.gtceu.client.renderer.machine.OverlayTieredMachineRenderer;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
+import com.gregtechceu.gtceu.common.data.GTMachines;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
+import com.gregtechceu.gtceu.common.data.machines.GTResearchMachines;
+import com.gregtechceu.gtceu.common.machine.multiblock.electric.research.ResearchStationMachine;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.DataAccessHatchMachine;
+import com.gregtechceu.gtceu.config.ConfigHolder;
 
+import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.level.block.Blocks;
 
 import java.util.function.Function;
 
 import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.api.machine.multiblock.PartAbility.*;
 import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
+import static com.gregtechceu.gtceu.common.data.GTBlocks.*;
 import static com.gregtechceu.gtceu.common.data.machines.GTResearchMachines.OVERHEAT_TOOLTIPS;
 import static com.gto.gtocore.api.registries.GTORegistration.REGISTRATE;
 import static com.gto.gtocore.utils.register.BlockRegisterUtils.addLang;
@@ -46,6 +56,60 @@ import static com.gto.gtocore.utils.register.MachineRegisterUtils.multiblock;
 public interface ExResearchMachines {
 
     static void init() {}
+
+    MultiblockMachineDefinition PROFESSIONAL_SCANNER = multiblock("professional_scanner", "专业扫描仪", ResearchStationMachine::new)
+            .tooltipsText("Just a Multiblock Scanner", "一个多方块扫描仪")
+            .tooltipsText("Used to scan onto Data Orbs and Data Modules et cetera", "用于扫描数据球和数据模块等")
+            .tooltipsText("Requires Computation to work", "需算力来进行工作")
+            .tooltipsText("Providing more Computation allows the recipe to run faster", "提供更多的算力可以使扫描进展的更快")
+            .rotationState(RotationState.NON_Y_AXIS)
+            .recipeType(GTORecipeTypes.PROFESSIONAL_SCANNER_RECIPES)
+            .appearanceBlock(ADVANCED_COMPUTER_CASING)
+            .pattern(definition -> FactoryBlockPattern.start()
+                    .aisle("XXX", "VVV", "PPP", "PPP", "PPP", "VVV", "XXX")
+                    .aisle("XXX", "VAV", "AAA", "AAA", "AAA", "VAV", "XXX")
+                    .aisle("XXX", "VAV", "XAX", "XSX", "XAX", "VAV", "XXX")
+                    .aisle("XXX", "XAX", "---", "---", "---", "XAX", "XXX")
+                    .aisle(" X ", "XAX", "---", "---", "---", "XAX", " X ")
+                    .aisle(" X ", "XAX", "-A-", "-H-", "-A-", "XAX", " X ")
+                    .aisle("   ", "XXX", "---", "---", "---", "XXX", "   ")
+                    .where('S', controller(blocks(definition.getBlock())))
+                    .where('X', blocks(COMPUTER_CASING.get()))
+                    .where(' ', any())
+                    .where('-', any())
+                    .where('V', blocks(COMPUTER_HEAT_VENT.get()))
+                    .where('A', blocks(ADVANCED_COMPUTER_CASING.get()))
+                    .where('P', blocks(COMPUTER_CASING.get())
+                            .or(abilities(PartAbility.INPUT_ENERGY).setMinGlobalLimited(1).setMaxGlobalLimited(2, 1))
+                            .or(abilities(PartAbility.COMPUTATION_DATA_RECEPTION).setExactLimit(1))
+                            .or(autoAbilities(true, false, false)))
+                    .where('H', abilities(PartAbility.OBJECT_HOLDER))
+                    .build())
+            .shapeInfo(definition -> MultiblockShapeInfo.builder()
+                    .aisle("---", "XXX", "---", "---", "---", "XXX", "---")
+                    .aisle("-X-", "XAX", "-A-", "-H-", "-A-", "XAX", "-X-")
+                    .aisle("-X-", "XAX", "---", "---", "---", "XAX", "-X-")
+                    .aisle("XXX", "XAX", "---", "---", "---", "XAX", "XXX")
+                    .aisle("XXX", "VAV", "XAX", "XSX", "XAX", "VAV", "XXX")
+                    .aisle("XXX", "VAV", "AAA", "AAA", "AAA", "VAV", "XXX")
+                    .aisle("XXX", "VVV", "POP", "PEP", "PMP", "VVV", "XXX")
+                    .where('S', ExResearchMachines.PROFESSIONAL_SCANNER, Direction.NORTH)
+                    .where('X', COMPUTER_CASING.get())
+                    .where('-', Blocks.AIR)
+                    .where('V', COMPUTER_HEAT_VENT.get())
+                    .where('A', ADVANCED_COMPUTER_CASING.get())
+                    .where('P', COMPUTER_CASING.get())
+                    .where('O', GTResearchMachines.COMPUTATION_HATCH_RECEIVER, Direction.SOUTH)
+                    .where('E', GTMachines.ENERGY_INPUT_HATCH[GTValues.LuV], Direction.SOUTH)
+                    .where('M', ConfigHolder.INSTANCE.machines.enableMaintenance ?
+                            GTMachines.MAINTENANCE_HATCH.getBlock().defaultBlockState().setValue(
+                                    GTMachines.MAINTENANCE_HATCH.get().getRotationState().property, Direction.SOUTH) :
+                            COMPUTER_CASING.getDefaultState())
+                    .where('H', GTResearchMachines.OBJECT_HOLDER, Direction.SOUTH)
+                    .build())
+            .sidedWorkableCasingRenderer("block/casings/hpca/advanced_computer_casing",
+                    GTCEu.id("block/multiblock/research_station"))
+            .register();
 
     MultiblockMachineDefinition SUPERCOMPUTING_CENTER = multiblock("supercomputing_center", "运算中心", SupercomputingCenterMachine::new)
             .tooltipsText("Putting computers together to provide lots of computing power", "将计算机放置在一起提供大量算力")
@@ -109,17 +173,17 @@ public interface ExResearchMachines {
     MultiblockMachineDefinition DATA_CENTER = multiblock("data_center", "数据中心", DataCenterMachine::new)
             .tooltipsText("Your home network storage", "你的家庭网络存储器")
             .tooltipsText("Ultra-large data storage, using optical cable transmission", "超大容量数据存储，使用光缆传输")
-            .nonYAxisRotation()
+            .noneRotation()
             .recipe(GTRecipeTypes.DUMMY_RECIPES)
             .appearanceBlock(GTBlocks.COMPUTER_CASING)
             .pattern(definition -> FactoryBlockPattern.start()
                     .aisle(" AAAAAAA ", "AA     AA", "A       A", "A       A", "A       A", "A       A", "A       A", "AA     AA", " AAAAAAA ")
                     .aisle("AA     AA", "AAAAAAAAA", " ABBBBBA ", " ABBBBBA ", " ABBBBBA ", " ABBBBBA ", " ABBBBBA ", "AAAAAAAAA", "AA     AA")
-                    .aisle("A       A", " ABBBBBA ", " B     B ", " B     B ", " B     B ", " B     B ", " B     B ", " ACCCCCA ", "A       A")
-                    .aisle("A       A", " ABBBBBA ", " B     B ", " B DDD B ", " B DDD B ", " B DDD B ", " B     B ", " ACCCCCA ", "A       A")
-                    .aisle("A       A", " ABBBBBA ", " B     B ", " B DDD B ", " B D D B ", " B DDD B ", " B     B ", " ACC~CCA ", "A       A")
-                    .aisle("A       A", " ABBBBBA ", " B     B ", " B DDD B ", " B DDD B ", " B DDD B ", " B     B ", " ACCCCCA ", "A       A")
-                    .aisle("A       A", " ABBBBBA ", " B     B ", " B     B ", " B     B ", " B     B ", " B     B ", " ACCCCCA ", "A       A")
+                    .aisle("A       A", " ACCCCCA ", " B     B ", " B     B ", " B     B ", " B     B ", " B     B ", " ACCCCCA ", "A       A")
+                    .aisle("A       A", " ACCCCCA ", " B     B ", " B DDD B ", " B DDD B ", " B DDD B ", " B     B ", " ACCCCCA ", "A       A")
+                    .aisle("A       A", " ACCCCCA ", " B     B ", " B DDD B ", " B D D B ", " B DDD B ", " B     B ", " ACC~CCA ", "A       A")
+                    .aisle("A       A", " ACCCCCA ", " B     B ", " B DDD B ", " B DDD B ", " B DDD B ", " B     B ", " ACCCCCA ", "A       A")
+                    .aisle("A       A", " ACCCCCA ", " B     B ", " B     B ", " B     B ", " B     B ", " B     B ", " ACCCCCA ", "A       A")
                     .aisle("AA     AA", "AAAAAAAAA", " ABBBBBA ", " ABBBBBA ", " ABBBBBA ", " ABBBBBA ", " ABBBBBA ", "AAAAAAAAA", "AA     AA")
                     .aisle(" AAAAAAA ", "AA     AA", "A       A", "A       A", "A       A", "A       A", "A       A", "AA     AA", " AAAAAAA ")
                     .where('~', controller(blocks(definition.get())))
