@@ -9,7 +9,6 @@ import com.gto.gtocore.common.machine.trait.RecyclerLogic;
 import com.gto.gtocore.common.recipe.RecipeTypeModify;
 import com.gto.gtocore.config.GTOConfig;
 import com.gto.gtocore.data.recipe.generated.GenerateDisassembly;
-import com.gto.gtocore.utils.GTOResearchManager;
 
 import com.gregtechceu.gtceu.api.GTCEuAPI;
 import com.gregtechceu.gtceu.api.GTValues;
@@ -22,6 +21,7 @@ import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.common.data.GTSoundEntries;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.gregtechceu.gtceu.utils.GTUtil;
+import com.gregtechceu.gtceu.utils.ResearchManager;
 
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.sounds.SoundEvents;
@@ -435,7 +435,7 @@ public interface GTORecipeTypes {
             .setSound(GTSoundEntries.ASSEMBLER)
             .setHasResearchSlot(true)
             .onRecipeBuild((recipeBuilder, provider) -> {
-                GTOResearchManager.createDefaultResearchRecipe(recipeBuilder, provider);
+                ResearchManager.createDefaultResearchRecipe(recipeBuilder, provider);
                 GenerateDisassembly.generateDisassembly(recipeBuilder, provider);
             });
 
@@ -537,7 +537,7 @@ public interface GTORecipeTypes {
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.ARC)
             .setHasResearchSlot(true)
-            .onRecipeBuild(GTOResearchManager::createDefaultResearchRecipe);
+            .onRecipeBuild(ResearchManager::createDefaultResearchRecipe);
 
     GTORecipeType PRECISION_LASER_ENGRAVER_RECIPES = register("precision_laser_engraver", "精密激光蚀刻", MULTIBLOCK)
             .setEUIO(IO.IN)
@@ -595,7 +595,7 @@ public interface GTORecipeTypes {
             .setMaxIOSize(2, 1, 0, 0)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.MACERATOR)
-            .onRecipeBuild(GTOResearchManager::createDefaultResearchRecipe);
+            .onRecipeBuild(ResearchManager::createDefaultResearchRecipe);
 
     GTORecipeType ULTIMATE_MATERIAL_FORGE_RECIPES = register("ultimate_material_forge", "终极物质锻造", MULTIBLOCK)
             .setEUIO(IO.IN)

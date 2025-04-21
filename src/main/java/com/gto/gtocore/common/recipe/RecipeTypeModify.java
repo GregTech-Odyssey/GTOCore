@@ -4,7 +4,6 @@ import com.gto.gtocore.common.data.GTOMaterials;
 import com.gto.gtocore.common.data.GTORecipeTypes;
 import com.gto.gtocore.data.recipe.classified.ManaSimulator;
 import com.gto.gtocore.data.recipe.generated.GenerateDisassembly;
-import com.gto.gtocore.utils.GTOResearchManager;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
@@ -13,6 +12,7 @@ import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.data.recipe.builder.GTRecipeBuilder;
 import com.gregtechceu.gtceu.utils.GTUtil;
+import com.gregtechceu.gtceu.utils.ResearchManager;
 
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.world.level.material.Fluid;
@@ -51,7 +51,7 @@ public final class RecipeTypeModify {
         CHEMICAL_RECIPES.onRecipeBuild((r, p) -> {});
 
         ASSEMBLY_LINE_RECIPES.onRecipeBuild((recipeBuilder, provider) -> {
-            GTOResearchManager.createDefaultResearchRecipe(recipeBuilder, provider);
+            ResearchManager.createDefaultResearchRecipe(recipeBuilder, provider);
             GenerateDisassembly.generateDisassembly(recipeBuilder, provider);
         });
 
