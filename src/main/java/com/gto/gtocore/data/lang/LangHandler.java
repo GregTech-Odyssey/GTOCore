@@ -216,6 +216,7 @@ public final class LangHandler {
 
         addENCN("gtocore.behaviour.grass_harvest.description", GOLD + "Greatly" + RESET + " increase the probability of wheat seed dropping", GOLD + "极大" + RESET + "地提升小麦种子掉落概率");
         addENCN("gtocore.behaviour.grass_harvest.description2", "Right click to harvest", "右键以收割");
+        addENCN("gtocore.xaero_waypoint_set", "Ore Vein", "矿脉");
     }
 
     public static void enInitialize(LanguageProvider provider) {
