@@ -39,7 +39,7 @@ public class CoilTrait extends MultiblockTrait {
     public boolean beforeWorking(@NotNull GTRecipe recipe) {
         if (check && temperature < recipe.data.getInt("ebf_temp")) {
             if (getMachine().getRecipeLogic() instanceof IEnhancedRecipeLogic enhancedRecipeLogic) {
-                enhancedRecipeLogic.gTOCore$setIdleReason(IdleReason.TEMPERATURE_NOT_ENOUGH.reason());
+                enhancedRecipeLogic.gTOCore$setIdleReason(IdleReason.INSUFFICIENT_TEMPERATURE.reason());
             }
             return true;
         }
@@ -50,7 +50,7 @@ public class CoilTrait extends MultiblockTrait {
     public GTRecipe modifyRecipe(@NotNull GTRecipe recipe) {
         if (check && temperature < recipe.data.getInt("ebf_temp")) {
             if (getMachine().getRecipeLogic() instanceof IEnhancedRecipeLogic enhancedRecipeLogic) {
-                enhancedRecipeLogic.gTOCore$setIdleReason(IdleReason.TEMPERATURE_NOT_ENOUGH.reason());
+                enhancedRecipeLogic.gTOCore$setIdleReason(IdleReason.INSUFFICIENT_TEMPERATURE.reason());
             }
             return null;
         }

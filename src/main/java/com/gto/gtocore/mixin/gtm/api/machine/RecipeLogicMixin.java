@@ -455,7 +455,6 @@ public abstract class RecipeLogicMixin extends MachineTrait implements IEnhanced
             return;
         }
         if (handleRecipeIO(recipe, IO.IN).isSuccess()) {
-            gTOCore$setIdleReason(null);
             if (lastRecipe != null && !recipe.equals(lastRecipe)) {
                 chanceCaches.clear();
             }

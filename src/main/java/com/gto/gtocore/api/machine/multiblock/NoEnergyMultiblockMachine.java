@@ -42,7 +42,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @MethodsReturnNonnullByDefault
 public class NoEnergyMultiblockMachine extends WorkableMultiblockMachine implements IFancyUIMachine, IDisplayUIMachine, IEnhancedMultiblockMachine, IMultiblockTraitHolder, ICheckPatternMachine {
 
-    private final List<MultiblockTrait> multiblockTraits = new ArrayList<>(2);
+    private final List<MultiblockTrait> multiblockTraits = new ArrayList<>();
 
     public NoEnergyMultiblockMachine(IMachineBlockEntity holder) {
         super(holder);

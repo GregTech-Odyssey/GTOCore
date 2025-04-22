@@ -3,6 +3,8 @@ package com.gto.gtocore.config;
 import com.gregtechceu.gtceu.GTCEu;
 
 import com.lowdragmc.lowdraglib.core.mixins.MixinPluginShared;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.core.config.Configurator;
 import org.embeddedt.embeddium_integrity.MixinTaintDetector;
 import org.objectweb.asm.tree.ClassNode;
 import org.spongepowered.asm.mixin.MixinEnvironment;
@@ -24,25 +26,28 @@ public final class MixinConfigPlugin implements IMixinConfigPlugin {
 
     private static MethodHandle MIXINS_ON_CLASS_INFO;
 
+    private static List<IExtension> EXTENSIONS;
+
     @Override
     public void onLoad(String mixinPackage) {
-        if (GTCEu.isClientSide() && MixinEnvironment.getDefaultEnvironment().getActiveTransformer() instanceof IMixinTransformer transformer) {
-            if (transformer.getExtensions() instanceof Extensions internalExtensions) {
-                var instance = new MyIExtension();
-                try {
-                    Field extensionsField = internalExtensions.getClass().getDeclaredField("extensions");
-                    extensionsField.setAccessible(true);
-                    ((List<IExtension>) extensionsField.get(internalExtensions)).add(instance);
-                    Field activeExtensionsField = internalExtensions.getClass().getDeclaredField("activeExtensions");
-                    activeExtensionsField.setAccessible(true);
-                    List<IExtension> newActiveExtensions = new ArrayList<>((List<IExtension>) activeExtensionsField.get(internalExtensions));
-                    newActiveExtensions.add(instance);
-                    activeExtensionsField.set(internalExtensions, Collections.unmodifiableList(newActiveExtensions));
-                } catch (ReflectiveOperationException | RuntimeException e) {
-                    throw new RuntimeException(e);
-                }
+        if (GTCEu.isClientSide() && MixinEnvironment.getDefaultEnvironment().getActiveTransformer() instanceof IMixinTransformer transformer && transformer.getExtensions() instanceof Extensions internalExtensions) {
+            var instance = new MyIExtension();
+            try {
+                Field extensionsField = internalExtensions.getClass().getDeclaredField("extensions");
+                extensionsField.setAccessible(true);
+                EXTENSIONS = ((List<IExtension>) extensionsField.get(internalExtensions));
+                EXTENSIONS.add(instance);
+                Field activeExtensionsField = internalExtensions.getClass().getDeclaredField("activeExtensions");
+                activeExtensionsField.setAccessible(true);
+                List<IExtension> newActiveExtensions = new ArrayList<>((List<IExtension>) activeExtensionsField.get(internalExtensions));
+                newActiveExtensions.removeIf(extension -> extension instanceof MixinTaintDetector);
+                newActiveExtensions.add(instance);
+                activeExtensionsField.set(internalExtensions, Collections.unmodifiableList(newActiveExtensions));
+            } catch (ReflectiveOperationException | RuntimeException e) {
+                throw new RuntimeException(e);
             }
         }
+        Configurator.setRootLevel(Level.ERROR);
     }
 
     @Override
@@ -85,27 +90,37 @@ public final class MixinConfigPlugin implements IMixinConfigPlugin {
 
         @Override
         public void preApply(ITargetClassContext context) {
-            var classInfo = context.getClassInfo();
-            var name = classInfo.getClassName();
-            if (name.startsWith("com.gregtechceu") && !name.equals("com.gregtechceu.gtceu.api.machine.SimpleTieredMachine")) {
-                if (MIXINS_ON_CLASS_INFO == null) {
+            if (MIXINS_ON_CLASS_INFO == null) {
+                if (MixinEnvironment.getDefaultEnvironment().getActiveTransformer() instanceof IMixinTransformer transformer && transformer.getExtensions() instanceof Extensions internalExtensions) {
+                    EXTENSIONS.removeIf(extension -> extension instanceof MixinTaintDetector);
                     try {
-                        Field field = MixinTaintDetector.class.getDeclaredField("GET_MIXINS_ON_CLASS_INFO");
-                        field.setAccessible(true);
-                        MIXINS_ON_CLASS_INFO = (MethodHandle) field.get(null);
+                        Field activeExtensionsField = internalExtensions.getClass().getDeclaredField("activeExtensions");
+                        activeExtensionsField.setAccessible(true);
+                        List<IExtension> newActiveExtensions = new ArrayList<>((List<IExtension>) activeExtensionsField.get(internalExtensions));
+                        newActiveExtensions.removeIf(extension -> extension instanceof MixinTaintDetector);
+                        activeExtensionsField.set(internalExtensions, Collections.unmodifiableList(newActiveExtensions));
                     } catch (NoSuchFieldException | IllegalAccessException e) {
                         throw new RuntimeException(e);
                     }
                 }
-                if (MIXINS_ON_CLASS_INFO != null) {
-                    try {
-                        for (IMixinInfo iMixinInfo : (Set<IMixinInfo>) MIXINS_ON_CLASS_INFO.invokeExact(classInfo)) {
-                            if (iMixinInfo.getConfig().getMixinPackage().equals("com.gto.gtocore.mixin.")) continue;
-                            throw new RuntimeException();
-                        }
-                    } catch (Throwable e) {
-                        throw new RuntimeException("Mixin usage in this location is prohibited due to potential severe consequences.");
+                try {
+                    Field field = MixinTaintDetector.class.getDeclaredField("GET_MIXINS_ON_CLASS_INFO");
+                    field.setAccessible(true);
+                    MIXINS_ON_CLASS_INFO = (MethodHandle) field.get(null);
+                } catch (NoSuchFieldException | IllegalAccessException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            var classInfo = context.getClassInfo();
+            var name = classInfo.getClassName();
+            if (name.startsWith("com.gregtechceu") && !name.equals("com.gregtechceu.gtceu.api.machine.SimpleTieredMachine")) {
+                try {
+                    for (IMixinInfo iMixinInfo : (Set<IMixinInfo>) MIXINS_ON_CLASS_INFO.invokeExact(classInfo)) {
+                        if (iMixinInfo.getConfig().getMixinPackage().equals("com.gto.gtocore.mixin.")) continue;
+                        throw new RuntimeException();
                     }
+                } catch (Throwable e) {
+                    throw new RuntimeException("Mixin usage in this location is prohibited due to potential severe consequences.");
                 }
             } else if (name.startsWith("com.gto.gtocore")) throw new RuntimeException("Do not use mixins on core - submit a pull request instead if modifications are needed.");
         }
