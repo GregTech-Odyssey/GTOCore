@@ -4,6 +4,7 @@ import com.gto.gtocore.api.data.GTODimensions;
 import com.gto.gtocore.api.entity.IEnhancedPlayer;
 import com.gto.gtocore.api.misc.PlanetManagement;
 import com.gto.gtocore.client.ClientCache;
+import com.gto.gtocore.common.data.GTOItems;
 import com.gto.gtocore.common.network.ServerMessage;
 import com.gto.gtocore.config.GTOConfig;
 import com.gto.gtocore.utils.ServerUtils;
@@ -11,6 +12,8 @@ import com.gto.gtocore.utils.ServerUtils;
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.chemical.material.stack.MaterialStack;
+import com.gregtechceu.gtceu.api.item.armor.ArmorComponentItem;
+import com.gregtechceu.gtceu.common.data.GTDamageTypes;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
 import net.minecraft.nbt.CompoundTag;
@@ -21,10 +24,13 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Abilities;
+import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.food.FoodData;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 
@@ -52,6 +58,9 @@ public abstract class PlayerMixin extends LivingEntity implements IEnhancedPlaye
     @Shadow
     public abstract FoodData getFoodData();
 
+    @Shadow
+    @Final
+    private Inventory inventory;
     @Unique
     private boolean gTOCore$amprosium;
     @Unique
@@ -137,6 +146,23 @@ public abstract class PlayerMixin extends LivingEntity implements IEnhancedPlaye
             }
             if (materialStack.material() == GTMaterials.Neutronium) {
                 gTOCore$amprosium = true;
+            }
+            boolean hasHotIronIngot = false;
+            for (ItemStack stack : inventory.items) {
+                if (!stack.isEmpty() && stack.getItem() == GTOItems.HOT_IRON_INGOT.asItem()) {
+                    hasHotIronIngot = true;
+                    break;
+                }
+            }
+            if (hasHotIronIngot) {
+                float heatDamage = ((850 + 273 - 1750) / 1000.0F) + 2;
+                ItemStack armor = getItemBySlot(EquipmentSlot.CHEST);
+                if (!armor.isEmpty() && armor.getItem() instanceof ArmorComponentItem armorItem) {
+                    heatDamage *= armorItem.getArmorLogic().getHeatResistance();
+                }
+                if (heatDamage > 0.0) {
+                    hurt(GTDamageTypes.HEAT.source(level), heatDamage);
+                }
             }
             String name = getName().getString();
             String armorSlots = getArmorSlots().toString();
