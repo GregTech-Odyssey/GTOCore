@@ -118,7 +118,7 @@ public interface FuelRecipe {
                 .inputFluids(GTOMaterials.CoalSlurry.getFluid(1000))
                 .outputFluids(GTOMaterials.WaterGas.getFluid(1000))
                 .duration(80)
-                .temperature(1300)
+                .temperature(1000)
                 .save();
 
         // diesel generator fuels
