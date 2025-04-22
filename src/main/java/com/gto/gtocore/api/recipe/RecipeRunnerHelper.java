@@ -41,10 +41,14 @@ public interface RecipeRunnerHelper {
     static boolean checkTier(IRecipeLogicMachine machine, GTRecipe recipe) {
         int tier = RecipeHelper.getRecipeEUtTier(recipe);
         if (tier > 0) {
+            boolean success = false;
             if (machine instanceof WorkableElectricMultiblockMachine electricMultiblockMachine) {
-                return tier <= electricMultiblockMachine.getOverclockTier();
+                success = tier <= electricMultiblockMachine.getOverclockTier();
             } else if (machine instanceof SimpleTieredMachine tieredMachine) {
-                return tier <= tieredMachine.getOverclockTier();
+                success = tier <= tieredMachine.getOverclockTier();
+            }
+            if (!success) {
+                setIdleReason(machine, IdleReason.VOLTAGE_TIER_NOT_SATISFIES);
             }
         }
         return true;
@@ -81,7 +85,13 @@ public interface RecipeRunnerHelper {
 
     static boolean matchRecipeInput(IRecipeCapabilityHolder holder, GTRecipe recipe) {
         if (recipe.inputs.isEmpty()) return true;
-        return RecipeHelper.handleRecipe(holder, recipe, IO.IN, recipe.inputs, Collections.emptyMap(), false, true).isSuccess();
+        if (RecipeHelper.handleRecipe(holder, recipe, IO.IN, recipe.inputs, Collections.emptyMap(), false, true).isSuccess()) {
+            return true;
+        }
+        if (holder instanceof IRecipeLogicMachine machine) {
+            setIdleReason(machine, IdleReason.NO_MATCH);
+        }
+        return false;
     }
 
     static boolean matchRecipeOutput(IRecipeCapabilityHolder holder, GTRecipe recipe) {
@@ -140,8 +150,8 @@ public interface RecipeRunnerHelper {
         if (RecipeHelper.handleRecipe(holder, recipe, io, io == IO.IN ? recipe.inputs : recipe.outputs, chanceCaches, false, false).isSuccess()) {
             return true;
         }
-        if (io == IO.IN && holder instanceof IRecipeLogicMachine machine && machine.getRecipeLogic() instanceof IEnhancedRecipeLogic enhancedRecipeLogic) {
-            enhancedRecipeLogic.gTOCore$setIdleReason(IdleReason.INVALID_INPUT.reason());
+        if (io == IO.IN && holder instanceof IRecipeLogicMachine machine) {
+            setIdleReason(machine, IdleReason.INVALID_INPUT);
         }
         return false;
     }

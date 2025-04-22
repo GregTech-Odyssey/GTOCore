@@ -9,8 +9,10 @@ import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockControllerMachine;
 import com.gregtechceu.gtceu.api.pattern.BlockPattern;
 import com.gregtechceu.gtceu.api.pattern.MultiblockWorldSavedData;
 
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 
+import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
@@ -38,16 +40,22 @@ public abstract class MultiblockControllerMachineMixin extends MetaMachine imple
     }
 
     @Override
+    public void loadCustomPersistedData(@NotNull CompoundTag tag) {
+        super.loadCustomPersistedData(tag);
+        isFormed = false;
+    }
+
+    @Override
     public boolean checkPattern() {
         if (gTOCore$time < 1) {
             BlockPattern pattern = getPattern();
             if (pattern != null && pattern.checkPatternAt(getMultiblockState(), false)) {
                 return true;
             } else if (gtocore$hasButton()) {
-                gTOCore$setTime(10);
+                gTOCore$time = 10;
             }
         } else {
-            gTOCore$setTime(gTOCore$time - 1);
+            gTOCore$time--;
         }
         return false;
     }

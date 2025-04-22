@@ -26,6 +26,7 @@ import com.gregtechceu.gtceu.common.unification.material.MaterialRegistryManager
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
@@ -34,6 +35,8 @@ import appeng.api.storage.StorageCells;
 import appeng.core.AEConfig;
 import com.hepdd.gtmthings.common.item.AdvancedTerminalBehavior;
 import earth.terrarium.adastra.api.events.AdAstraEvents;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.core.config.Configurator;
 
 import static com.gto.gtocore.api.registries.GTORegistration.REGISTRATE;
 
@@ -110,5 +113,14 @@ public class CommonProxy {
 
     private static void registerDimensionMarkers(GTCEuAPI.RegisterEvent<ResourceLocation, DimensionMarker> event) {
         GTODimensionMarkers.init();
+    }
+
+    public static void afterStartup() {
+        ModList.get().getAllScanData().clear();
+        if (GTCEu.isProd()) {
+            Configurator.setRootLevel(Level.INFO);
+        } else {
+            Configurator.setRootLevel(Level.DEBUG);
+        }
     }
 }

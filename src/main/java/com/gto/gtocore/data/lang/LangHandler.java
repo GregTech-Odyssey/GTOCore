@@ -54,6 +54,7 @@ public final class LangHandler {
         MultiblockBuilder.TOOLTIPS_MAP.forEach(LangHandler::addENCN);
         Tooltips.LANG.forEach(LangHandler::addENCN);
         for (var reasons : IdleReason.values()) {
+            if (reasons.getEn() == null) continue;
             addENCN(reasons.getKey(), reasons.getEn(), reasons.getCn());
         }
 
