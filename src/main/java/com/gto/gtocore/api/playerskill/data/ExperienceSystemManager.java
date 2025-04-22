@@ -19,6 +19,7 @@ public class ExperienceSystemManager extends SavedData {
     @Getter
     private final Object2LongMap<UUID> LastTimeRecordTable;
     private final Map<UUID, PlayerData> playerDataMap;
+    @Getter
     private boolean isEnabled;
 
     public ExperienceSystemManager() {
@@ -93,10 +94,6 @@ public class ExperienceSystemManager extends SavedData {
     public void disableSystem() {
         isEnabled = false;
         setDirty();
-    }
-
-    public boolean isEnabled() {
-        return isEnabled;
     }
 
     public @NotNull PlayerData getPlayerData(UUID playerId) {

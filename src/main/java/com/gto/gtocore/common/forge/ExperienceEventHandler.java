@@ -1,47 +1,13 @@
 package com.gto.gtocore.common.forge;
 
-import com.gto.gtocore.api.playerskill.SkillValues;
 import com.gto.gtocore.api.playerskill.utils.UtilsAttribute;
-import com.gto.gtocore.utils.ItemUtils;
 
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 public class ExperienceEventHandler {
-
-    // @SubscribeEvent
-    // public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
-    // Player player = event.player;
-    // if (event.phase == TickEvent.Phase.END && player.tickCount % SkillValues.GainExperience.GAP_TICK == 0) {
-    // if (ExperienceSystemManager.INSTANCE != null && ExperienceSystemManager.INSTANCE.isEnabled() && player.level()
-    // instanceof ServerLevel) {
-    // PlayerData playerData = ExperienceSystemManager.INSTANCE.getPlayerData(player.getUUID());
-    // SkillRegistry.getAll().forEach(skill -> {
-    // BasicExperienceLevel level = skill.getExperienceLevel(playerData);
-    // long point = SkillValues.GainExperience.EXPERIENCE_RATES.get(skill);
-    // UtilsData.addExperienceAndSendMessage(player, level, point);
-    // });
-    // }
-    // }
-    // }
-
-    // @SubscribeEvent
-    // public static void onPlayerEatFood(LivingEntityUseItemEvent.Finish event) {
-    // if (ExperienceSystemManager.INSTANCE.isEnabled() && event.getEntity() instanceof Player player && player.level()
-    // instanceof ServerLevel) {
-    // ItemStack item = event.getItem();
-    // if (isMeat(item)) {
-    // PlayerData playerData = ExperienceSystemManager.INSTANCE.getPlayerData(player.getUUID());
-    // UtilsData.addExperienceAndSendMessage(player, playerData.getStrengthExperienceLevel(),
-    // SkillValues.ExperienceIncome.EAT_MEAT);
-    // UtilsData.addExperienceAndSendMessage(player, playerData.getLifeIntensityExperienceLevel(),
-    // SkillValues.ExperienceIncome.EAT_MEAT);
-    // }
-    // }
-    // }
 
     // 加入世界
     @SubscribeEvent
@@ -76,16 +42,5 @@ public class ExperienceEventHandler {
         if (!player.level().isClientSide) {
             UtilsAttribute.freshDelayApplyModifier(player);
         }
-    }
-
-    private static boolean isMeat(ItemStack item) {
-        if (!item.isEdible()) return false;
-        String id = ItemUtils.getId(item);
-        for (String keyword : SkillValues.MEAT_KEYWORDS) {
-            if (id.contains(keyword)) {
-                return true;
-            }
-        }
-        return false;
     }
 }

@@ -33,7 +33,7 @@ public class SkillRegistry {
     static {
         // 初始化预定义技能类型
 
-        /**
+        /*
          * 生命强度技能
          * - 该技能影响玩家的生命值相关属性
          * - 每3级提升一次电压等级
@@ -55,7 +55,7 @@ public class SkillRegistry {
                         .SkillEventHandler(new LevelAddedSendMessageHandler())
                         .build());
 
-        /**
+        /*
          * 体格技能
          * - 该技能提升玩家的护甲值
          * - 每5级提升一次电压等级
@@ -78,7 +78,7 @@ public class SkillRegistry {
                         .SkillEventHandler(new LevelAddedSendMessageHandler())
                         .build());
 
-        /**
+        /*
          * 力量技能
          * - 该技能提升玩家的攻击伤害
          * - 每5级提升一次电压等级
@@ -101,7 +101,7 @@ public class SkillRegistry {
                         .SkillEventHandler(new LevelAddedSendMessageHandler())
                         .build());
 
-        /**
+        /*
          * 平衡难度技能
          * - 该技能用于游戏平衡
          * - 不可升级(levelStepPerVoltage = 0)

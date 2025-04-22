@@ -26,13 +26,13 @@ import java.util.Map;
 
 import static com.gto.gtocore.api.GTOValues.*;
 import static net.minecraft.ChatFormatting.*;
-import static net.minecraft.ChatFormatting.BOLD;
 
 public final class LangHandler {
 
     private static final Map<String, ENCN> LANGS = new Object2ObjectOpenHashMap<>();
 
     private static void addENCN(String key, ENCN encn) {
+        if (LANGS.containsKey(key)) throw new IllegalArgumentException("Duplicate key: " + key);
         LANGS.put(key, encn);
     }
 
@@ -101,8 +101,6 @@ public final class LangHandler {
         addENCN("gtocore.ununlocked", "Ununlocked", "未解锁");
         addENCN("gtocore.build", "Build", "构建");
 
-        addENCN("config.gtocore.option.enableAnimalsAreAfraidToEatTheirMeat", "Enable Animals Are Afraid To Eat Their Meat", "启用动物害怕他们的肉被吃");
-        addENCN("config.gtocore.option.enableAnimalsAreAfraidToEatTheirMeatRange", "Enable Animals Are Afraid To Eat Their Meat's Range", "启用动物害怕他们的肉被吃的范围");
         addENCN("gtocore.patternModifierPro.0", "After setup,shift + right-click template provider to apply", "设置完成后，潜行右击样板供应器以应用");
         addENCN("gtocore.patternModifierPro.1", "Set Item and Fluid Multiplier", "模板乘数：所有物品和流体乘以指定倍数");
         addENCN("gtocore.patternModifierPro.2", "Set Item and Fluid Divider", "模板乘数：所有物品和流体除以指定倍数");
@@ -125,6 +123,8 @@ public final class LangHandler {
         addENCN("config.gtocore.option.dev", "Dev mode", "开发模式");
         addENCN("config.gtocore.option.gameDifficulty", "Game difficulty", "游戏难度");
         addENCN("config.gtocore.option.emiGlobalFavorites", "EMI Global Favorites", "全局 EMI 书签");
+        addENCN("config.gtocore.option.enableAnimalsAreAfraidToEatTheirMeat", "Enable Animals Are Afraid To Eat Their Meat", "启用动物害怕他们的肉被吃");
+        addENCN("config.gtocore.option.animalsAreAfraidToEatTheirMeatRange", "Animals Are Afraid To Eat Their Meat's Range", "动物害怕他们的肉被吃的范围");
 
         addENCN("gtceu.jei.ore_vein.bauxite_vein", "Bauxite Vein", "铝土矿脉");
         addENCN("gtceu.jei.ore_vein.chromite_vein", "Chromite Vein", "铬铁矿脉");
@@ -221,13 +221,8 @@ public final class LangHandler {
 
         addENCN("gtocore.player_exp_status.get_experience", "You got %s point of %s experience", "你获得了%s点%s经验");
         addENCN("gtocore.player_exp_status.add_level", "Your %s skill has been upgraded to level %s", "你的%s技能升到了%s级");
-        addENCN("gtocore.player_exp_status.sup.error",
-                "The %s level of %s can only use the %s skill upgrade package of %s and " + GOLD + BOLD + "above",
-                "%s级别的%s等级只能使用%s及" + GOLD + BOLD + "以上" + RESET + "等级的%s能力提升包");
+        addENCN("gtocore.player_exp_status.sup.error", "The %s level of %s can only use the %s skill upgrade package of %s and " + GOLD + BOLD + "above", "%s级别的%s等级只能使用%s及" + GOLD + BOLD + "以上" + RESET + "等级的%s能力提升包");
 
-
-        addENCN("gtocore.behaviour.grass_harvest.description", GOLD + "Greatly" + RESET + " increase the probability of wheat seed dropping", GOLD + "极大" + RESET + "地提升小麦种子掉落概率");
-        addENCN("gtocore.behaviour.grass_harvest.description2", "Right click to harvest", "右键以收割");
         addENCN("gtocore.xaero_waypoint_set", "Ore Vein", "矿脉");
     }
 

@@ -73,7 +73,7 @@ public class FoodHurtAnimalEventHandler {
     public static void onFoodConsume(LivingEntityUseItemEvent event) {
         if (GTOConfig.INSTANCE.enableAnimalsAreAfraidToEatTheirMeat && foodToEntityClass != null) {
             if (event.getEntity() instanceof Player player && Objects.equals(10, event.getDuration()) && !player.level().isClientSide()) {
-                int distance = GTOConfig.INSTANCE.enableAnimalsAreAfraidToEatTheirMeatRange;
+                int distance = GTOConfig.INSTANCE.animalsAreAfraidToEatTheirMeatRange;
                 for (var classe : foodToEntityClass.getOrDefault(event.getItem().getItem(), Set.of())) {
                     hurtAnimalsNearPlayer(player, classe, distance);
                 }
