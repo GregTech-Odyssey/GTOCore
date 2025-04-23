@@ -20,9 +20,9 @@ public class LevelAddedSendMessageHandler extends SkillEventHandler {
                     event.experienceLevel.getName(),
                     levelAddedEvent.postLevel).withStyle(event.experienceLevel.getNameColor());
             levelAddedEvent.player.sendSystemMessage(message);
-            if (Objects.equals(levelAddedEvent.experienceLevel.getSkillType(), SkillRegistry.LIFE_INTENSITY)){
+            if (Objects.equals(levelAddedEvent.experienceLevel.getSkillType(), SkillRegistry.LIFE_INTENSITY)) {
                 PlayerData playerData = ExperienceSystemManager.INSTANCE.getPlayerData(levelAddedEvent.player.getUUID());
-                playerData.getExperienceLevelLists().forEach(experienceLevel -> {experienceLevel.freshLevel(levelAddedEvent.player);});
+                playerData.getExperienceLevelLists().forEach(experienceLevel -> { experienceLevel.freshLevel(levelAddedEvent.player); });
             }
         }
     }

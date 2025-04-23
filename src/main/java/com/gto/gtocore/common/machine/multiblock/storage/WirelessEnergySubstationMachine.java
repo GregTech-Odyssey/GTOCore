@@ -20,6 +20,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 
 import com.hepdd.gtmthings.api.misc.WirelessEnergyContainer;
 import com.hepdd.gtmthings.utils.TeamUtil;
@@ -49,6 +50,8 @@ public final class WirelessEnergySubstationMachine extends NoRecipeLogicMultiblo
 
     private void loadContainer() {
         if (isRemote()) return;
+        Level level = getLevel();
+        if (level == null) return;
         ExtendWirelessEnergyContainer container = getWirelessEnergyContainer();
         if (container == null) return;
         int tier = getCasingTier(GTOValues.GLASS_TIER);
@@ -69,14 +72,18 @@ public final class WirelessEnergySubstationMachine extends NoRecipeLogicMultiblo
         }
         container.setLoss(i == 0 ? 0 : loss / i);
         container.setCapacity(capacity.multiply(BigInteger.valueOf(Math.max(1, i / 2))));
+        container.getDimension().put(level.dimension().location(), 15);
     }
 
     private void unloadContainer() {
         if (isRemote()) return;
+        Level level = getLevel();
+        if (level == null) return;
         ExtendWirelessEnergyContainer container = getWirelessEnergyContainer();
         if (container == null) return;
         container.setCapacity(BigInteger.ZERO);
         container.setLoss(0);
+        container.getDimension().put(level.dimension().location(), 0);
     }
 
     @Override
@@ -106,6 +113,12 @@ public final class WirelessEnergySubstationMachine extends NoRecipeLogicMultiblo
     public void onStructureFormed() {
         super.onStructureFormed();
         loadContainer();
+    }
+
+    @Override
+    public void onUnload() {
+        unloadContainer();
+        super.onUnload();
     }
 
     @Override

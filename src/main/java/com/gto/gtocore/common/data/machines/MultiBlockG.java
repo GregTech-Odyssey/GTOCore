@@ -21,6 +21,7 @@ import com.gto.gtocore.common.machine.multiblock.electric.voidseries.DrillingCon
 import com.gto.gtocore.common.machine.multiblock.electric.voidseries.VoidTransporterMachine;
 import com.gto.gtocore.common.machine.multiblock.noenergy.AlgaeFarmMachine;
 import com.gto.gtocore.common.machine.multiblock.noenergy.DroneControlCenterMachine;
+import com.gto.gtocore.common.machine.multiblock.storage.WirelessDimensionRepeaterMachine;
 import com.gto.gtocore.common.machine.multiblock.storage.WirelessEnergySubstationMachine;
 import com.gto.gtocore.config.GTOConfig;
 import com.gto.gtocore.utils.RegistriesUtils;
@@ -464,6 +465,39 @@ public interface MultiBlockG {
                     .where('D', air().or(GTOPredicates.wirelessEnergyUnit()))
                     .build())
             .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_solid_steel"), GTCEu.id("block/multiblock/power_substation"))
+            .register();
+
+    MultiblockMachineDefinition WIRELESS_DIMENSION_REPEATER = multiblock("wireless_dimension_repeater", "无线电网维度中继器", WirelessDimensionRepeaterMachine::new)
+            .nonYAxisRotation()
+            .recipe(DUMMY_RECIPES)
+            .block(GTBlocks.CASING_PALLADIUM_SUBSTATION)
+            .pattern(definition -> FactoryBlockPattern.start(RelativeDirection.BACK, RelativeDirection.UP, RelativeDirection.LEFT)
+                    .aisle("               ", "               ", "               ", "               ", "               ", "               ", "      AAA      ", "     BBBB      ", "      AAA      ", "               ", "               ", "               ", "               ", "               ", "               ")
+                    .aisle("               ", "               ", "               ", "               ", "               ", "               ", "       C AA    ", "      DCDBB    ", "       C AA    ", "               ", "               ", "               ", "               ", "               ", "               ")
+                    .aisle("               ", "               ", "               ", "               ", "               ", "               ", "       C   A   ", "       E DDB   ", "       C   A   ", "               ", "               ", "               ", "               ", "               ", "               ")
+                    .aisle("               ", "               ", "               ", "               ", "               ", "               ", "            A  ", "           DB  ", "            A  ", "               ", "               ", "               ", "               ", "               ", "               ")
+                    .aisle("               ", "               ", "               ", "               ", "               ", "               ", "             A ", "            DB ", "             A ", "               ", "               ", "               ", "               ", "               ", "               ")
+                    .aisle("               ", "               ", "               ", "               ", "               ", "               ", "             A ", "       F    DB ", "             A ", "               ", "               ", "               ", "               ", "               ", "               ")
+                    .aisle("      AAA      ", "    AA C       ", "   A   C       ", "  A            ", " A             ", " A             ", "A             A", "ACC          DB", "A             A", " A             ", " A             ", "  A            ", "   A   C       ", "    AA C       ", "      AAA      ")
+                    .aisle("      BBBB     ", "    BGECE      ", "   BEE         ", "  BE           ", " BE            ", " BE    F       ", "BE          CCA", "HCD  F   F  ECB", "BE          CCA", " BE    F       ", " BE            ", "  BE           ", "   BEE D       ", "    BBECE      ", "      BBBB     ")
+                    .aisle("      AAA      ", "    AA C       ", "   A   C       ", "  A            ", " A             ", " A             ", "A             A", "ACC          DB", "A             A", " A             ", " A             ", "  A            ", "   A   C       ", "    AA C       ", "      AAA      ")
+                    .aisle("               ", "               ", "               ", "               ", "               ", "               ", "             A ", "       F    DB ", "             A ", "               ", "               ", "               ", "               ", "               ", "               ")
+                    .aisle("               ", "               ", "               ", "               ", "               ", "               ", "             A ", "            DB ", "             A ", "               ", "               ", "               ", "               ", "               ", "               ")
+                    .aisle("               ", "               ", "               ", "               ", "               ", "               ", "            A  ", "           DB  ", "            A  ", "               ", "               ", "               ", "               ", "               ", "               ")
+                    .aisle("               ", "               ", "               ", "               ", "               ", "               ", "       C   A   ", "       E DDB   ", "       C   A   ", "               ", "               ", "               ", "               ", "               ", "               ")
+                    .aisle("               ", "               ", "               ", "               ", "               ", "               ", "       C AA    ", "      DCDBB    ", "       C AA    ", "               ", "               ", "               ", "               ", "               ", "               ")
+                    .aisle("               ", "               ", "               ", "               ", "               ", "               ", "      AAA      ", "     BBBB      ", "      AAA      ", "               ", "               ", "               ", "               ", "               ", "               ")
+                    .where('A', blocks(GTBlocks.CASING_PALLADIUM_SUBSTATION.get()))
+                    .where('B', GTOPredicates.integralFramework())
+                    .where('C', blocks(GTBlocks.HIGH_POWER_CASING.get()))
+                    .where('D', blocks(Blocks.SEA_LANTERN))
+                    .where('E', blocks(Blocks.CRYING_OBSIDIAN))
+                    .where('F', blocks(RegistriesUtils.getBlock("ae2:quantum_ring")))
+                    .where('G', blocks(GTBlocks.CASING_STAINLESS_CLEAN.get()))
+                    .where('H', controller(blocks(definition.get())))
+                    .where(' ', any())
+                    .build())
+            .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_palladium_substation"), GTCEu.id("block/multiblock/power_substation"))
             .register();
 
     MultiblockMachineDefinition[] PROCESSING_ARRAY = registerTieredMultis("processing_array", t -> GTOValues.VNFR[t] + "处理阵列",

@@ -3,6 +3,7 @@ package com.gto.gtocore.data.recipe;
 import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.api.data.GTODimensions;
 import com.gto.gtocore.api.data.tag.GTOTagPrefix;
+import com.gto.gtocore.api.item.MultiStepItemHelper;
 import com.gto.gtocore.api.item.tool.GTOToolType;
 import com.gto.gtocore.common.data.GTOBlocks;
 import com.gto.gtocore.common.data.GTOItems;
@@ -88,9 +89,10 @@ public interface MiscRecipe {
         VanillaRecipeHelper.addShapedRecipe(provider, GTOCore.id("iron_bucket"), new ItemStack(Items.BUCKET), "ChC", " X ", 'X',
                 new MaterialEntry(plate, Iron), 'C', new MaterialEntry(GTOTagPrefix.CURVED_PLATE, Iron));
 
-        VanillaRecipeHelper.addBlastingRecipe(provider, GTOCore.id("hot_iron_ingot"), ChemicalHelper.getTag(ingot, Iron), GTOItems.HOT_IRON_INGOT.asStack(), 0);
+        VanillaRecipeHelper.addBlastingRecipe(provider, GTOCore.id("hot_iron_ingot"), ChemicalHelper.getTag(ingot, Iron), MultiStepItemHelper.toMultiStepItem(GTOItems.HOT_IRON_INGOT.asStack(), 1, 2), 0);
 
-        VanillaRecipeHelper.addShapedRecipe(provider, GTOCore.id("wrought_iron_ingot"), ChemicalHelper.get(ingot, WroughtIron), "h", "H", 'H', GTOItems.HOT_IRON_INGOT.asItem());
+        VanillaRecipeHelper.addShapedRecipe(provider, GTOCore.id("hot_iron_ingot"), MultiStepItemHelper.toMultiStepItem(GTOItems.HOT_IRON_INGOT.asStack(), 2, 2), "h", "H", 'H', MultiStepItemHelper.toMultiStepItem(GTOItems.HOT_IRON_INGOT.asStack(), 1, 2));
+        VanillaRecipeHelper.addShapedRecipe(provider, GTOCore.id("wrought_iron_ingot"), ChemicalHelper.get(ingot, WroughtIron), "h", "H", 'H', MultiStepItemHelper.toMultiStepItem(GTOItems.HOT_IRON_INGOT.asStack(), 2, 2));
 
         VanillaRecipeHelper.addShapedRecipe(provider, GTOCore.id("raw_vacuum_tube"), GTOItems.RAW_VACUUM_TUBE.asStack(),
                 "PTP", "WWW",

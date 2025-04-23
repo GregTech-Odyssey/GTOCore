@@ -4122,5 +4122,53 @@ interface Assembler {
                 .EUt(7)
                 .duration(400)
                 .save();
+
+        ASSEMBLER_RECIPES.builder("wireless_dimension_repeater")
+                .inputItems(MultiBlockG.WIRELESS_ENERGY_SUBSTATION.asStack())
+                .inputItems(GTItems.QUANTUM_STAR.asStack(4))
+                .inputItems(AEItems.QUANTUM_ENTANGLED_SINGULARITY.asItem(), 2)
+                .inputItems(TagPrefix.plateDouble, GTOMaterials.NitinolA, 16)
+                .inputItems(TagPrefix.plateDouble, GTMaterials.Ruthenium, 8)
+                .outputItems(MultiBlockG.WIRELESS_DIMENSION_REPEATER.asStack())
+                .inputFluids(GTMaterials.Boron, 2304)
+                .EUt(480)
+                .duration(400)
+                .save();
+
+        ASSEMBLER_RECIPES.builder("coolant_cell_30k")
+                .inputItems(GTOItems.COOLANT_CELL_10K.asStack(3))
+                .inputItems(TagPrefix.rod, GTMaterials.Molybdenum, 2)
+                .inputItems(GTItems.FLUID_CELL_LARGE_ALUMINIUM.asStack())
+                .outputItems(GTOItems.COOLANT_CELL_30K.asItem())
+                .EUt(120)
+                .duration(300)
+                .save();
+
+        ASSEMBLER_RECIPES.builder("coolant_cell_60k")
+                .inputItems(GTOItems.COOLANT_CELL_60K.asStack(2))
+                .inputItems(TagPrefix.rod, GTMaterials.Platinum, 2)
+                .inputItems(GTItems.FLUID_CELL_LARGE_TITANIUM.asStack())
+                .outputItems(GTOItems.COOLANT_CELL_60K.asItem())
+                .EUt(480)
+                .duration(400)
+                .save();
+
+        ASSEMBLER_RECIPES.builder("space_coolant_cell_30k")
+                .inputItems(GTOItems.SPACE_COOLANT_CELL_10K.asStack(3))
+                .inputItems(TagPrefix.rod, GTMaterials.Osmium, 2)
+                .inputItems(GTOItems.COOLANT_CELL_10K.asItem())
+                .outputItems(GTOItems.SPACE_COOLANT_CELL_30K.asItem())
+                .EUt(1920)
+                .duration(300)
+                .save();
+
+        ASSEMBLER_RECIPES.builder("space_coolant_cell_60k")
+                .inputItems(GTOItems.SPACE_COOLANT_CELL_30K.asStack(2))
+                .inputItems(TagPrefix.rod, GTMaterials.Darmstadtium, 2)
+                .inputItems(GTOItems.SPACE_COOLANT_CELL_10K.asItem())
+                .outputItems(GTOItems.SPACE_COOLANT_CELL_60K.asItem())
+                .EUt(7680)
+                .duration(400)
+                .save();
     }
 }

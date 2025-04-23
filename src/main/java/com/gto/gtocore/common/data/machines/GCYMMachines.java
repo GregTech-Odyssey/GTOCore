@@ -10,6 +10,7 @@ import com.gto.gtocore.common.data.GTORecipeModifiers;
 import com.gto.gtocore.common.data.GTORecipeTypes;
 import com.gto.gtocore.common.machine.multiblock.electric.gcym.GCYMMultiblockMachine;
 import com.gto.gtocore.common.machine.multiblock.electric.gcym.LargeChemicalBathMachine;
+import com.gto.gtocore.common.machine.multiblock.electric.gcym.LargeMacerationTowerMachine;
 import com.gto.gtocore.common.machine.multiblock.electric.gcym.LargeMixerMachine;
 import com.gto.gtocore.common.machine.multiblock.part.ParallelHatchPartMachine;
 
@@ -68,7 +69,7 @@ public interface GCYMMachines {
             IV, LuV, ZPM, UV, UHV, UEV, UIV, UXV, OpV, MAX);
 
     MultiblockMachineDefinition LARGE_MACERATION_TOWER = REGISTRATE
-            .multiblock("large_maceration_tower", GCYMMultiblockMachine::new)
+            .multiblock("large_maceration_tower", LargeMacerationTowerMachine::new)
             .tooltips(Component.translatable("gtocore.machine.eut_multiplier.tooltip", 0.8))
             .tooltips(Component.translatable("gtocore.machine.duration_multiplier.tooltip", 0.6))
             .tooltips(Component.translatable("gtceu.multiblock.parallelizable.tooltip"))

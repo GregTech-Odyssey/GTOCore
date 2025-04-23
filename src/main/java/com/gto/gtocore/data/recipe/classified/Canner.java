@@ -9,6 +9,7 @@ import com.gto.gtocore.common.data.GTOMaterials;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
 import com.gregtechceu.gtceu.api.machine.multiblock.CleanroomType;
+import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
 import net.minecraft.world.item.ItemStack;
@@ -172,6 +173,14 @@ interface Canner {
                 .outputItems(GTOItems.COSMIC_MESH_CONTAINMENT_UNIT.asItem())
                 .EUt(503316480)
                 .duration(20)
+                .save();
+
+        CANNER_RECIPES.builder("coolant_cell_10k")
+                .inputItems(GTItems.FLUID_CELL.asStack())
+                .outputItems(GTOItems.COOLANT_CELL_10K.asItem())
+                .inputFluids(GTOMaterials.CoolantLiquid, 1000)
+                .EUt(30)
+                .duration(200)
                 .save();
     }
 }

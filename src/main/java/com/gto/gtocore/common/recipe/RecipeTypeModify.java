@@ -138,7 +138,8 @@ public final class RecipeTypeModify {
                     .duration((int) Math.sqrt(builder.duration))
                     .save(provider);
 
-            GTORecipeTypes.MANA_SIMULATOR_FUEL.copyFrom(builder)
+            GTORecipeTypes.MANA_GARDEN_FUEL.copyFrom(builder)
+                    .notConsumable("botania:endoflame")
                     .MANAt(-(int) (1.5 * ManaSimulator.BUFF_FACTOR))
                     .EUt(VA[MV])
                     .duration(builder.duration / 2)

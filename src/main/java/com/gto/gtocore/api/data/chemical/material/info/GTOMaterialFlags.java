@@ -24,7 +24,7 @@ public final class GTOMaterialFlags {
             .build();
 
     public static final MaterialFlag GENERATE_COMPONENT = new MaterialFlag.Builder("generate_component")
-            .requireFlags(GENERATE_CURVED_PLATE, MaterialFlags.GENERATE_RING)
+            .requireFlags(GENERATE_CURVED_PLATE, MaterialFlags.GENERATE_RING, MaterialFlags.GENERATE_ROUND)
             .build();
 
     public static final MaterialFlag GENERATE_CERAMIC = new MaterialFlag.Builder("generate_ceramic")

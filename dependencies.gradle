@@ -67,6 +67,8 @@ dependencies {
 
     modCompileOnly("curse.maven:ftb-ultimine-forge-386134:5363345")
 
+    modCompileOnly("curse.maven:ftb-essentials-410811:4896152")
+
     modCompileOnly("software.bernie.geckolib:geckolib-forge-${minecraft_version}:4.7.1.2")
 
     modCompileOnly("corgitaco.corgilib:Corgilib-Forge:$minecraft_version-4.0.3.3")

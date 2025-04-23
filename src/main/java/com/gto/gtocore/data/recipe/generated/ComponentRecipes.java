@@ -235,6 +235,7 @@ public interface ComponentRecipes {
                 .inputItems(GTOTagPrefix.MOTOR_ENCLOSURE, material[0])
                 .inputItems(rod, material[0], 2)
                 .inputItems(rod, material[2])
+                .inputItems(round, material[0], 4)
                 .inputItems(wireGtDouble, material[3], 4)
                 .inputItems(cableGtSingle, material[1], 2)
                 .outputItems(motor)
@@ -245,14 +246,15 @@ public interface ComponentRecipes {
                 .inputItems(rod, material[2], 12)
                 .inputItems(wireGtDouble, material[3], 48)
                 .inputItems(cableGtSingle, material[1], 24)
-                .inputFluids(material[0].getFluid(L * 36))
+                .inputFluids(material[0].getFluid(L * 40))
                 .outputItems(motor.copyWithCount(16))
                 .addData(COMPONENT_ASSEMBLY_CASING_TIER, tier)
                 .duration(400).EUt(VA[tier]).save();
 
         ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id(String.format("conveyor_%s", VN[tier].toLowerCase())))
                 .inputItems(motor.copyWithCount(2))
-                .inputItems(ring, material[0], 2)
+                .inputItems(rod, material[0], 2)
+                .inputItems(ring, material[0], 4)
                 .inputItems(cableGtSingle, material[1], 2)
                 .inputFluids(material[4].getFluid(L * 6))
                 .outputItems(conveyor)
@@ -262,7 +264,7 @@ public interface ComponentRecipes {
                 .circuitMeta(2)
                 .inputItems(motor.copyWithCount(24))
                 .inputItems(cableGtSingle, material[1], 24)
-                .inputFluids(material[0].getFluid(L * 6))
+                .inputFluids(material[0].getFluid(L * 24))
                 .inputFluids(material[4].getFluid(L * 72))
                 .outputItems(conveyor.copyWithCount(16))
                 .addData(COMPONENT_ASSEMBLY_CASING_TIER, tier)
@@ -274,8 +276,8 @@ public interface ComponentRecipes {
                 .inputItems(motor.copyWithCount(1))
                 .inputItems(screw, material[6], 2)
                 .inputItems(rotor, material[6])
+                .inputItems(ring, material[4], 2)
                 .inputItems(cableGtSingle, material[1], 2)
-                .inputFluids(material[4].getFluid(L / 2))
                 .outputItems(pump)
                 .duration(100).EUt(VA[tier - 1]).save();
 
@@ -294,6 +296,7 @@ public interface ComponentRecipes {
         ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id(String.format("fluid_regulator_%s", VN[tier].toLowerCase())))
                 .inputItems(pump)
                 .inputItems(circuit, 2)
+                .inputItems(GTOTagPrefix.CURVED_PLATE, material[0], 2)
                 .circuitMeta(1)
                 .outputItems((ItemStack) CraftingComponents.FLUID_REGULATOR.get(tier))
                 .EUt(VA[tier])
@@ -401,7 +404,13 @@ public interface ComponentRecipes {
     }
 
     private static void assembly_line(int tier, ItemStack pipe, ItemStack emitter_gem, ItemStack magnetic, Material... material) {
-        int multiplier = tier > UV ? 8 : tier > ZPM ? 4 : tier > LuV ? 2 : 1;
+        int fluidMultiplier = switch (tier) {
+            case 12, 13, 14, 15, 16 -> 16;
+            case 9, 10, 11 -> 8;
+            case 8, 7 -> 4;
+            case 6 -> 2;
+            default -> 1;
+        };
         ItemStack motor = (ItemStack) MOTOR.get(tier);
         ItemStack conveyor = (ItemStack) CONVEYOR.get(tier);
         ItemStack pump = (ItemStack) PUMP.get(tier);
@@ -418,9 +427,9 @@ public interface ComponentRecipes {
                 .inputItems(rodLong, material[0], 4)
                 .inputItems(ring, material[0], 4)
                 .inputItems(round, material[0], 8)
-                .inputFluids(material[3].getFluid(L * multiplier))
-                .inputFluids(material[4].getFluid(250 * multiplier))
-                .inputFluids(material[5].getFluid(L * multiplier))
+                .inputFluids(material[3].getFluid(L * fluidMultiplier))
+                .inputFluids(material[4].getFluid(250 * fluidMultiplier))
+                .inputFluids(material[5].getFluid(L * fluidMultiplier))
                 .outputItems(motor)
                 .duration(600).EUt(VA[tier]);
 
@@ -451,10 +460,10 @@ public interface ComponentRecipes {
                 .inputItems(magnetic.copyWithCount(12))
                 .inputItems(cableGtSingle, material[2], 24)
                 .inputFluids(material[0].getFluid(L * 95))
-                .inputFluids(material[1].getFluid(L * 48 * multiplier))
-                .inputFluids(material[3].getFluid(L * 12 * multiplier))
-                .inputFluids(material[4].getFluid(3000 * multiplier))
-                .inputFluids(material[5].getFluid(L * 12 * multiplier))
+                .inputFluids(material[1].getFluid(L * 48 * fluidMultiplier))
+                .inputFluids(material[3].getFluid(L * 12 * fluidMultiplier))
+                .inputFluids(material[4].getFluid(3000 * fluidMultiplier))
+                .inputFluids(material[5].getFluid(L * 12 * fluidMultiplier))
                 .outputItems(motor.copyWithCount(16))
                 .addData(COMPONENT_ASSEMBLY_CASING_TIER, tier)
                 .duration(2400).EUt(VA[tier]).save();
@@ -466,10 +475,10 @@ public interface ComponentRecipes {
                 .inputItems(round, material[0], 16)
                 .inputItems(screw, material[0], 4)
                 .inputItems(cableGtSingle, material[2], 2)
-                .inputFluids(material[3].getFluid(L * multiplier))
-                .inputFluids(material[4].getFluid(250 * multiplier))
-                .inputFluids(material[6].getFluid(L * 8 * multiplier))
-                .inputFluids(material[5].getFluid(L * multiplier))
+                .inputFluids(material[3].getFluid(L * fluidMultiplier))
+                .inputFluids(material[4].getFluid(250 * fluidMultiplier))
+                .inputFluids(material[6].getFluid(L * 8 * fluidMultiplier))
+                .inputFluids(material[5].getFluid(L * fluidMultiplier))
                 .outputItems(conveyor)
                 .duration(600).EUt(VA[tier]);
 
@@ -496,10 +505,10 @@ public interface ComponentRecipes {
                 .inputItems(motor.copyWithCount(24))
                 .inputItems(cableGtSingle, material[2], 24)
                 .inputFluids(material[0].getFluid(L * 63))
-                .inputFluids(material[3].getFluid(L * 12 * multiplier))
-                .inputFluids(material[4].getFluid(3000 * multiplier))
-                .inputFluids(material[5].getFluid(L * 12 * multiplier))
-                .inputFluids(material[6].getFluid(L * 96 * multiplier))
+                .inputFluids(material[3].getFluid(L * 12 * fluidMultiplier))
+                .inputFluids(material[4].getFluid(3000 * fluidMultiplier))
+                .inputFluids(material[5].getFluid(L * 12 * fluidMultiplier))
+                .inputFluids(material[6].getFluid(L * 96 * fluidMultiplier))
                 .outputItems(conveyor.copyWithCount(16))
                 .addData(COMPONENT_ASSEMBLY_CASING_TIER, tier)
                 .duration(2400).EUt(VA[tier]).save();
@@ -511,10 +520,10 @@ public interface ComponentRecipes {
                 .inputItems(screw, material[0], 8)
                 .inputItems(rotor, material[0])
                 .inputItems(cableGtSingle, material[2], 2)
-                .inputFluids(material[3].getFluid(L * multiplier))
-                .inputFluids(material[4].getFluid(250 * multiplier))
-                .inputFluids(material[6].getFluid(L * multiplier))
-                .inputFluids(material[5].getFluid(L * multiplier))
+                .inputFluids(material[3].getFluid(L * fluidMultiplier))
+                .inputFluids(material[4].getFluid(250 * fluidMultiplier))
+                .inputFluids(material[6].getFluid(L * fluidMultiplier))
+                .inputFluids(material[5].getFluid(L * fluidMultiplier))
                 .outputItems(pump)
                 .duration(600).EUt(VA[tier]);
 
@@ -542,10 +551,10 @@ public interface ComponentRecipes {
                 .inputItems(pipe.copyWithCount(12))
                 .inputItems(cableGtSingle, material[2], 24)
                 .inputFluids(material[0].getFluid(L * 90))
-                .inputFluids(material[3].getFluid(L * 12 * multiplier))
-                .inputFluids(material[4].getFluid(3000 * multiplier))
-                .inputFluids(material[5].getFluid(L * 12 * multiplier))
-                .inputFluids(material[6].getFluid(L * 12 * multiplier))
+                .inputFluids(material[3].getFluid(L * 12 * fluidMultiplier))
+                .inputFluids(material[4].getFluid(3000 * fluidMultiplier))
+                .inputFluids(material[5].getFluid(L * 12 * fluidMultiplier))
+                .inputFluids(material[6].getFluid(L * 12 * fluidMultiplier))
                 .outputItems(pump.copyWithCount(16))
                 .addData(COMPONENT_ASSEMBLY_CASING_TIER, tier)
                 .duration(2400).EUt(VA[tier]).save();
@@ -553,6 +562,7 @@ public interface ComponentRecipes {
         ASSEMBLER_RECIPES.recipeBuilder(GTOCore.id(String.format("fluid_regulator_%s", VN[tier].toLowerCase())))
                 .inputItems(pump)
                 .inputItems(circuit, 2)
+                .inputItems(GTOTagPrefix.CURVED_PLATE, material[0], 2)
                 .circuitMeta(1)
                 .outputItems((ItemStack) CraftingComponents.FLUID_REGULATOR.get(tier))
                 .EUt(VA[tier])
@@ -569,9 +579,9 @@ public interface ComponentRecipes {
                 .inputItems(gear, material[0])
                 .inputItems(gearSmall, material[0], 2)
                 .inputItems(cableGtSingle, material[2], 2)
-                .inputFluids(material[3].getFluid(L * multiplier))
-                .inputFluids(material[4].getFluid(250 * multiplier))
-                .inputFluids(material[5].getFluid(L * multiplier))
+                .inputFluids(material[3].getFluid(L * fluidMultiplier))
+                .inputFluids(material[4].getFluid(250 * fluidMultiplier))
+                .inputFluids(material[5].getFluid(L * fluidMultiplier))
                 .outputItems(piston)
                 .duration(600).EUt(VA[tier]);
 
@@ -598,9 +608,9 @@ public interface ComponentRecipes {
                 .inputItems(motor.copyWithCount(12))
                 .inputItems(cableGtSingle, material[2], 24)
                 .inputFluids(material[0].getFluid(L * 192))
-                .inputFluids(material[3].getFluid(L * 12 * multiplier))
-                .inputFluids(material[4].getFluid(3000 * multiplier))
-                .inputFluids(material[5].getFluid(L * 12 * multiplier))
+                .inputFluids(material[3].getFluid(L * 12 * fluidMultiplier))
+                .inputFluids(material[4].getFluid(3000 * fluidMultiplier))
+                .inputFluids(material[5].getFluid(L * 12 * fluidMultiplier))
                 .outputItems(piston.copyWithCount(16))
                 .addData(COMPONENT_ASSEMBLY_CASING_TIER, tier)
                 .duration(2400).EUt(VA[tier]).save();
@@ -615,9 +625,9 @@ public interface ComponentRecipes {
                 .inputItems((TagKey<Item>) CIRCUIT.get(tier - 1), 2)
                 .inputItems((TagKey<Item>) CIRCUIT.get(tier - 2), 4)
                 .inputItems(cableGtSingle, material[2], 4)
-                .inputFluids(material[3].getFluid(L * 2 * multiplier))
-                .inputFluids(material[4].getFluid(250 * multiplier))
-                .inputFluids(material[5].getFluid(L * multiplier))
+                .inputFluids(material[3].getFluid(L * 2 * fluidMultiplier))
+                .inputFluids(material[4].getFluid(250 * fluidMultiplier))
+                .inputFluids(material[5].getFluid(L * fluidMultiplier))
                 .outputItems(robot_arm)
                 .duration(600).EUt(VA[tier]);
 
@@ -648,9 +658,9 @@ public interface ComponentRecipes {
                 .inputItems(GTOItems.UNIVERSAL_CIRCUIT[tier - 3].asStack(36))
                 .inputItems(cableGtSingle, material[2], 48)
                 .inputFluids(material[0].getFluid(L * 132))
-                .inputFluids(material[3].getFluid(L * 24 * multiplier))
-                .inputFluids(material[4].getFluid(3000 * multiplier))
-                .inputFluids(material[5].getFluid(L * 12 * multiplier))
+                .inputFluids(material[3].getFluid(L * 24 * fluidMultiplier))
+                .inputFluids(material[4].getFluid(3000 * fluidMultiplier))
+                .inputFluids(material[5].getFluid(L * 12 * fluidMultiplier))
                 .outputItems(robot_arm.copyWithCount(16))
                 .addData(COMPONENT_ASSEMBLY_CASING_TIER, tier)
                 .duration(2400).EUt(VA[tier]).save();
@@ -665,8 +675,8 @@ public interface ComponentRecipes {
                 .inputItems(foil, material[8], 64)
                 .inputItems(foil, material[9], 64)
                 .inputItems(cableGtSingle, material[2], 4)
-                .inputFluids(material[3].getFluid(L * 2 * multiplier))
-                .inputFluids(material[5].getFluid(L * multiplier))
+                .inputFluids(material[3].getFluid(L * 2 * fluidMultiplier))
+                .inputFluids(material[5].getFluid(L * fluidMultiplier))
                 .outputItems(emitter)
                 .duration(600).EUt(VA[tier]);
 
@@ -695,8 +705,8 @@ public interface ComponentRecipes {
                 .inputItems(GTOItems.UNIVERSAL_CIRCUIT[tier].asStack(24))
                 .inputItems(cableGtSingle, material[2], 48)
                 .inputFluids(material[0].getFluid(L * 72))
-                .inputFluids(material[3].getFluid(L * 24 * multiplier))
-                .inputFluids(material[5].getFluid(L * 12 * multiplier))
+                .inputFluids(material[3].getFluid(L * 24 * fluidMultiplier))
+                .inputFluids(material[5].getFluid(L * 12 * fluidMultiplier))
                 .inputFluids(material[7].getFluid(L * 24))
                 .inputFluids(material[8].getFluid(L * 192))
                 .inputFluids(material[9].getFluid(L * 192))
@@ -714,8 +724,8 @@ public interface ComponentRecipes {
                 .inputItems(foil, material[8], 64)
                 .inputItems(foil, material[9], 64)
                 .inputItems(cableGtSingle, material[2], 4)
-                .inputFluids(material[3].getFluid(L * 2 * multiplier))
-                .inputFluids(material[5].getFluid(L * multiplier))
+                .inputFluids(material[3].getFluid(L * 2 * fluidMultiplier))
+                .inputFluids(material[5].getFluid(L * fluidMultiplier))
                 .outputItems(sensor)
                 .duration(600).EUt(VA[tier]);
 
@@ -744,8 +754,8 @@ public interface ComponentRecipes {
                 .inputItems(GTOItems.UNIVERSAL_CIRCUIT[tier].asStack(24))
                 .inputItems(cableGtSingle, material[2], 48)
                 .inputFluids(material[0].getFluid(L * 78))
-                .inputFluids(material[3].getFluid(L * 24 * multiplier))
-                .inputFluids(material[5].getFluid(L * 12 * multiplier))
+                .inputFluids(material[3].getFluid(L * 24 * fluidMultiplier))
+                .inputFluids(material[5].getFluid(L * 12 * fluidMultiplier))
                 .inputFluids(material[7].getFluid(L * 24))
                 .inputFluids(material[8].getFluid(L * 192))
                 .inputFluids(material[9].getFluid(L * 192))
@@ -762,8 +772,8 @@ public interface ComponentRecipes {
                 .inputItems(wireFine, material[10], 64)
                 .inputItems(wireFine, material[10], 64)
                 .inputItems(cableGtSingle, material[2], 4)
-                .inputFluids(material[3].getFluid(L * 2 * multiplier))
-                .inputFluids(material[5].getFluid(L * multiplier))
+                .inputFluids(material[3].getFluid(L * 2 * fluidMultiplier))
+                .inputFluids(material[5].getFluid(L * fluidMultiplier))
                 .outputItems(field_generator)
                 .duration(600).EUt(VA[tier]);
 
@@ -792,8 +802,8 @@ public interface ComponentRecipes {
                 .inputItems(GTOItems.UNIVERSAL_CIRCUIT[tier].asStack(24))
                 .inputItems(cableGtSingle, material[2], 48)
                 .inputFluids(material[0].getFluid(L * 96))
-                .inputFluids(material[3].getFluid(L * 24 * multiplier))
-                .inputFluids(material[5].getFluid(L * 12 * multiplier))
+                .inputFluids(material[3].getFluid(L * 24 * fluidMultiplier))
+                .inputFluids(material[5].getFluid(L * 12 * fluidMultiplier))
                 .inputFluids(material[7].getFluid(L * 24))
                 .inputFluids(material[10].getFluid(L * 384))
                 .outputItems(field_generator.copyWithCount(16))

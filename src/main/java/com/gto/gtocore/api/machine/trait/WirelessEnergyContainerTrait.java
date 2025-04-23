@@ -6,10 +6,12 @@ import com.gto.gtocore.common.wireless.ExtendWirelessEnergyContainer;
 
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
+import com.gregtechceu.gtceu.api.machine.feature.ITieredMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableEnergyContainer;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 
 import net.minecraft.core.Direction;
+import net.minecraft.world.level.Level;
 
 import com.hepdd.gtmthings.api.misc.BasicTransferData;
 import com.hepdd.gtmthings.api.misc.WirelessEnergyContainer;
@@ -96,8 +98,11 @@ public final class WirelessEnergyContainerTrait extends NotifiableEnergyContaine
     public void updateTick() {
         super.updateTick();
         if (!getMachine().isRemote() && getMachine().getOffsetTimer() % 20 == 0) {
+            Level level = machine.getLevel();
             ExtendWirelessEnergyContainer container = getWirelessEnergyContainer();
-            if (container != null) {
+            if (container != null && level != null) {
+                int tier = container.getDimension().getInt(level.dimension().location());
+                if (tier < ((ITieredMachine) machine).getTier()) return;
                 long energyStored = getEnergyStored();
                 if (handlerIO == IO.IN) {
                     long canInput = getEnergyCapacity() - energyStored;

@@ -9,6 +9,7 @@ import com.gto.gtocore.common.data.GTOMaterials;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
+import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
 import net.minecraftforge.fluids.FluidStack;
@@ -99,6 +100,14 @@ interface Vacuum {
                 .inputFluids(GTMaterials.ManganesePhosphide.getFluid(FluidStorageKeys.MOLTEN, 144))
                 .EUt(120)
                 .duration(80)
+                .save();
+
+        VACUUM_RECIPES.builder("space_coolant_cell_10k")
+                .inputItems(GTItems.FLUID_CELL_LARGE_TUNGSTEN_STEEL.asStack())
+                .outputItems(GTOItems.SPACE_COOLANT_CELL_10K.asItem())
+                .inputFluids(GTOMaterials.CoolantLiquid, 1000)
+                .EUt(7680)
+                .duration(400)
                 .save();
     }
 }

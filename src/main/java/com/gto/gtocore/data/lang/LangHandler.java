@@ -224,6 +224,8 @@ public final class LangHandler {
         addENCN("gtocore.player_exp_status.sup.error", "The %s level of %s can only use the %s skill upgrade package of %s and " + GOLD + BOLD + "above", "%s级别的%s等级只能使用%s及" + GOLD + BOLD + "以上" + RESET + "等级的%s能力提升包");
 
         addENCN("gtocore.xaero_waypoint_set", "Ore Vein", "矿脉");
+
+        addENCN("gtocore.teleport.not_safe", "It's not safe now, we can't teleport", "现在不安全，不能传送");
     }
 
     public static void enInitialize(LanguageProvider provider) {
