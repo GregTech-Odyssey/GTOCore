@@ -1,16 +1,8 @@
 package com.gto.gtocore.api.recipe;
 
-import com.gto.gtocore.api.machine.trait.IEnhancedRecipeLogic;
-
-import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
-
-import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
 
 import lombok.Getter;
-
-import java.util.List;
 
 public enum IdleReason {
 
@@ -25,7 +17,7 @@ public enum IdleReason {
     BLOCK_TIER_NOT_SATISFIES(null, "Block Tier Not Satisfies", "方块等级未达到要求"),
     VOLTAGE_TIER_NOT_SATISFIES(null, "Voltage Tier Not Satisfies", "电压等级未达到要求");
 
-    private MutableComponent reason;
+    private Component reason;
     @Getter
     private final String key;
     @Getter
@@ -39,14 +31,8 @@ public enum IdleReason {
         this.cn = cn;
     }
 
-    public MutableComponent reason() {
+    public Component reason() {
         if (reason == null) reason = Component.translatable(key);
         return reason;
-    }
-
-    public static void addMachineText(List<Component> textList, IRecipeLogicMachine machine) {
-        if (machine.getRecipeLogic().isIdle() && machine.getRecipeLogic() instanceof IEnhancedRecipeLogic enhancedRecipeLogic && enhancedRecipeLogic.gTOCore$getIdleReason() != null) {
-            textList.add(enhancedRecipeLogic.gTOCore$getIdleReason().withStyle(ChatFormatting.GRAY));
-        }
     }
 }

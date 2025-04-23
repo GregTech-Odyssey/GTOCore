@@ -19,11 +19,12 @@ public class ExperienceSystemManager extends SavedData {
     @Getter
     private final Object2LongMap<UUID> LastTimeRecordTable;
     private final Map<UUID, PlayerData> playerDataMap;
+    @Getter
     private boolean isEnabled;
 
     public ExperienceSystemManager() {
         this.playerDataMap = new Object2ObjectOpenHashMap<>();
-        this.isEnabled = false; // 默认关闭
+        this.isEnabled = true; // 默认开启
         this.LastTimeRecordTable = new Object2LongOpenHashMap<>();
     }
 
@@ -95,14 +96,6 @@ public class ExperienceSystemManager extends SavedData {
         setDirty();
     }
 
-    public boolean isEnabled() {
-        return isEnabled;
-    }
-
-    public void removePlayer(UUID playerId) {
-        if (playerDataMap.remove(playerId) != null) setDirty();
-    }
-
     public @NotNull PlayerData getPlayerData(UUID playerId) {
         return playerDataMap.computeIfAbsent(playerId, k -> {
             setDirty();
@@ -110,30 +103,7 @@ public class ExperienceSystemManager extends SavedData {
         });
     }
 
-    public void addHealthExperience(UUID playerId, int amount) {
-        if (isEnabled) {
-            getPlayerData(playerId).addHealthExperience(amount);
-            setDirty();
-        }
-    }
-
-    public void addAttackExperience(UUID playerId, int amount) {
-        if (isEnabled) {
-            getPlayerData(playerId).addAttackExperience(amount);
-            setDirty();
-        }
-    }
-
-    public void addBodyExperience(UUID playerId, int amount) {
-        if (isEnabled) {
-            getPlayerData(playerId).addBodyExperience(amount);
-            setDirty();
-        }
-    }
-
-    // 记录时间数据
-    public void recordTime(UUID playerId, long time) {
-        LastTimeRecordTable.put(playerId, time);
+    public void saveAll() {
         setDirty();
     }
 }

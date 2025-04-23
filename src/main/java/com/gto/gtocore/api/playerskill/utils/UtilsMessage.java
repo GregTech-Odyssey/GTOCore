@@ -1,5 +1,6 @@
 package com.gto.gtocore.api.playerskill.utils;
 
+import com.gto.gtocore.api.GTOValues;
 import com.gto.gtocore.api.playerskill.experiencelevel.BasicExperienceLevel;
 
 import net.minecraft.ChatFormatting;
@@ -26,6 +27,7 @@ public final class UtilsMessage {
 
         // 添加每个技能的信息List
         for (BasicExperienceLevel skill : basicExperienceLevel) {
+            if (!skill.skillType.isVisible) continue;
             message = message.append(formatSkillInfo(skill));
         }
 
@@ -45,8 +47,8 @@ public final class UtilsMessage {
         // 添加等级信息
         skillInfo = skillInfo.append(Component.translatable("gtocore.player_exp_status.level")
                 .withStyle(ChatFormatting.WHITE)
-                .append(Component.literal(basicExperienceLevel.getLevel() + " / " +
-                        basicExperienceLevel.getMaxLevel() + " " +
+                .append(Component.literal(basicExperienceLevel.getLevel() + " (" + GTOValues.VNFR[(int) basicExperienceLevel.getVoltage()] + ")" + " / " +
+                        basicExperienceLevel.getMaxLevel() + " (" + GTOValues.VNFR[(int) basicExperienceLevel.getMaxVoltage()] + ")" +
                         Component.translatable("gtocore.player_exp_status.level_max").getString())
                         .withStyle(ChatFormatting.YELLOW)));
 
@@ -63,9 +65,12 @@ public final class UtilsMessage {
                 .withStyle(ChatFormatting.WHITE)
                 .append(Component.literal(calculateProgressPercentage(basicExperienceLevel) + " % ")
                         .withStyle(ChatFormatting.YELLOW)));
-        if (calculateProgressPercentage(basicExperienceLevel) >= 100) skillInfo.append(
-                Component.translatable("gtocore.player_exp_status.upgrade_institution")
-                        .withStyle(ChatFormatting.RED));
+        if (calculateProgressPercentage(basicExperienceLevel) >= 100) {
+            skillInfo.append(Component.literal("\n"));
+            skillInfo.append(
+                    Component.literal("  ").append(Component.translatable("gtocore.player_exp_status.upgrade_institution"))
+                            .withStyle(ChatFormatting.RED));
+        }
         return skillInfo;
     }
 

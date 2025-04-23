@@ -5,8 +5,12 @@ import com.gto.gtocore.api.GTOValues;
 import com.gto.gtocore.api.data.chemical.material.GTOMaterial;
 import com.gto.gtocore.api.data.tag.GTOTagPrefix;
 import com.gto.gtocore.api.item.ToolTipsItem;
+import com.gto.gtocore.api.playerskill.SkillType;
+import com.gto.gtocore.api.playerskill.utils.UtilsTintableModel;
 import com.gto.gtocore.common.data.GTOCovers;
 import com.gto.gtocore.common.item.KineticRotorItem;
+import com.gto.gtocore.common.item.playerskill.SkillUpgradePackageBehavior;
+import com.gto.gtocore.utils.ColorUtils;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTValues;
@@ -48,14 +52,12 @@ import com.tterrag.registrate.util.nullness.NonNullConsumer;
 import com.tterrag.registrate.util.nullness.NonNullFunction;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
 import static com.gregtechceu.gtceu.common.data.GTItems.attach;
+import static com.gto.gtocore.api.playerskill.SkillRegistry.*;
 import static com.gto.gtocore.api.registries.GTORegistration.REGISTRATE;
 import static com.gto.gtocore.common.data.GTOItems.*;
 
@@ -192,6 +194,56 @@ public final class ItemRegisterUtils {
                     .tag(CustomTags.CIRCUITS_ARRAY[tier])
                     .register();
             entries[tier] = register;
+        }
+        return entries;
+    }
+
+    public static ItemEntry<ComponentItem>[] registerSkillUpgradePackage(SkillType skillType) {
+        ItemEntry[] entries = new ItemEntry[GTValues.TIER_COUNT];
+        if (!skillType.generateUpgradePackage) {
+            GTOCore.LOGGER.error("SkillType {} does not generate upgrade package , but it was registered incorrectly, please use upgradePackageBonus", skillType.getId());
+            return entries;
+        }
+        Map<SkillType, int[]> baseColorMap = Map.of(
+                STRENGTH, new int[] { 0Xff0000, 0xff6b6b }, // 红色
+                LIFE_INTENSITY, new int[] { 0x4fe82c, 0x9cfa87 }, // 绿色
+                PHYSIQUE, new int[] { 0x6149fc, 0xa091ff } // 蓝色
+        );
+        int[] baseColor = baseColorMap.get(skillType);
+        int[] stepGradient = ColorUtils.generateStepGradient(baseColor[0], baseColor[1], 70, 4);
+        for (int tier : GTValues.ALL_TIERS) {
+            entries[tier] = item(skillType.getId().toLowerCase() + "_skill_upgrade_package_" + GTValues.VN[tier].toLowerCase(),
+                    "(" + GTOValues.VNFR[tier] + skillType.getChineseName() + ")能力提升包", ComponentItem::create)
+                    .model((ctx, prov) -> UtilsTintableModel.createTintableModel(ctx, prov,
+                            "item/skill/normal/normal_border",
+                            "item/skill/normal/tier_border",
+                            "item/skill/liquid_bottle/bottle",
+                            "item/skill/liquid_bottle/liquid1",
+                            "item/skill/liquid_bottle/liquid2",
+                            "item/skill/liquid_bottle/liquid3",
+                            "item/skill/liquid_bottle/liquid4"))
+                    .tag(TagUtil.optionalTag(BuiltInRegistries.ITEM, GTOCore.id("skill_upgrade_package")))
+                    .tag(TagUtil.optionalTag(BuiltInRegistries.ITEM, GTOCore.id("skill_upgrade_package_" + skillType.getId().toLowerCase())))
+                    .onRegister(attach(new SkillUpgradePackageBehavior(tier, skillType)))
+                    .color(() -> () -> (stack, tintIndex) -> {
+                        if (tintIndex == 1) { // tier_border
+                            float light_factor = 0.3f + ((tier + 1) * (0.7f / GTValues.TIER_COUNT));
+                            int a = 0xFF;
+                            int r = Math.min(255, (int) ((baseColor[0] >> 16 & 0xFF) * light_factor));
+                            int g = Math.min(255, (int) ((baseColor[0] & 0xFF) * light_factor));
+                            int b = Math.min(255, (int) ((baseColor[0]) * light_factor));
+                            return (a << 24) | (r << 16) | (g << 8) | b;
+                        } else {
+                            return switch (tintIndex) {
+                                case 3 -> stepGradient[0];
+                                case 4 -> stepGradient[1];
+                                case 5 -> stepGradient[2];
+                                case 6 -> stepGradient[3];
+                                default -> -1;
+                            };
+                        }
+                    })
+                    .register();
         }
         return entries;
     }

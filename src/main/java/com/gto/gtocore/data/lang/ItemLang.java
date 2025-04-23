@@ -7,6 +7,8 @@ import com.gto.gtocore.utils.ItemUtils;
 import com.gregtechceu.gtceu.api.GTValues;
 
 import static com.gto.gtocore.data.lang.LangHandler.addENCN;
+import static net.minecraft.ChatFormatting.GOLD;
+import static net.minecraft.ChatFormatting.RESET;
 
 final class ItemLang {
 
@@ -87,5 +89,8 @@ final class ItemLang {
         addENCN("item.gtocore.disc.data", "Disc data: %s", "光盘数据：%s");
 
         addENCN("item.gtocore.order.config", "Order Config", "订单配置");
+
+        addENCN("gtocore.behaviour.grass_harvest.description", GOLD + "Greatly" + RESET + " increase the probability of wheat seed dropping", GOLD + "极大" + RESET + "地提升小麦种子掉落概率");
+        addENCN("gtocore.behaviour.grass_harvest.description2", "Right click to harvest", "右键以收割");
     }
 }

@@ -1,6 +1,7 @@
 package com.gto.gtocore.common.data;
 
 import com.gto.gtocore.api.item.ToolTipsItem;
+import com.gto.gtocore.api.playerskill.SkillRegistry;
 import com.gto.gtocore.client.renderer.item.HaloItemRenderer;
 import com.gto.gtocore.client.renderer.item.OrderItemProviderRenderer;
 import com.gto.gtocore.common.cover.PowerAmplifierCover;
@@ -386,6 +387,10 @@ public interface GTOItems {
     ItemEntry<ToolTipsItem>[] MAGNETO_RESONATIC_CIRCUIT = registerCircuits("magneto_resonatic_circuit", "磁共振电路", GTValues.tiersBetween(GTValues.ULV, GTValues.UIV), tier -> Component.translatable("gtocore.tooltip.item.tier_circuit", GTValues.VN[tier]).withStyle(ChatFormatting.LIGHT_PURPLE));
 
     ItemEntry<ToolTipsItem>[] UNIVERSAL_CIRCUIT = registerCircuits("universal_circuit", "通用电路", GTValues.tiersBetween(GTValues.ULV, GTValues.MAX), tier -> Component.translatable("gtocore.tooltip.item.tier_circuit", GTValues.VN[tier]).withStyle(ChatFormatting.AQUA));
+
+    ItemEntry<ComponentItem>[] HEALTH_SKILL_UPGRADE_PACK = registerSkillUpgradePackage(SkillRegistry.PHYSIQUE);
+    ItemEntry<ComponentItem>[] BODY_SKILL_UPGRADE_PACK = registerSkillUpgradePackage(SkillRegistry.LIFE_INTENSITY);
+    ItemEntry<ComponentItem>[] ATTACK_SKILL_UPGRADE_PACK = registerSkillUpgradePackage(SkillRegistry.STRENGTH);
 
     ItemEntry<Item> WETWARE_SOC = registerLang("wetware_soc", "Wetware SoC", "湿件SoC");
 
