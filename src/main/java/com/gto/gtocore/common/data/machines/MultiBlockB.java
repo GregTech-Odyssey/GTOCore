@@ -8,6 +8,7 @@ import com.gto.gtocore.api.machine.multiblock.ElectricMultiblockMachine;
 import com.gto.gtocore.api.machine.part.GTOPartAbility;
 import com.gto.gtocore.api.pattern.GTOPredicates;
 import com.gto.gtocore.client.renderer.machine.FluidRenderer;
+import com.gto.gtocore.client.renderer.machine.NanoPhagocytosisPlantRenderer;
 import com.gto.gtocore.client.renderer.machine.SpaceElevatorRenderer;
 import com.gto.gtocore.common.data.*;
 import com.gto.gtocore.common.machine.multiblock.electric.gcym.GCYMMultiblockMachine;
@@ -844,7 +845,8 @@ public interface MultiBlockB {
                             .or(abilities(MAINTENANCE).setExactLimit(1)))
                     .where(' ', any())
                     .build())
-            .workableCasingRenderer(GTOCore.id("block/casings/naquadah_reinforced_plant_casing"), GTCEu.id("block/multiblock/fusion_reactor"))
+            .renderer(NanoPhagocytosisPlantRenderer::new)
+            .hasTESR(true)
             .register();
 
     MultiblockMachineDefinition SUPER_SPACE_ELEVATOR = multiblock("super_space_elevator", "超级太空电梯", SuperSpaceElevatorMachine::new)
