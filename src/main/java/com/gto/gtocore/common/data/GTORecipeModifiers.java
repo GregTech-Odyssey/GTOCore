@@ -135,7 +135,7 @@ public interface GTORecipeModifiers {
             int recipeTemp = recipe.data.getInt("ebf_temp");
             if (recipeTemp > temperature) {
                 if (((WorkableElectricMultiblockMachine) coilMachine).getRecipeLogic() instanceof IEnhancedRecipeLogic enhancedRecipeLogic) {
-                    enhancedRecipeLogic.gTOCore$setIdleReason(IdleReason.TEMPERATURE_NOT_ENOUGH.reason());
+                    enhancedRecipeLogic.gTOCore$setIdleReason(IdleReason.INSUFFICIENT_TEMPERATURE.reason());
                 }
                 return null;
             }

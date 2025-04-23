@@ -15,13 +15,13 @@ import java.util.List;
 @Mixin(ResearchStationMachine.class)
 public abstract class ResearchStationMachineMixin extends WorkableElectricMultiblockMachine {
 
-    public ResearchStationMachineMixin(IMachineBlockEntity holder, Object... args) {
+    protected ResearchStationMachineMixin(IMachineBlockEntity holder, Object... args) {
         super(holder, args);
     }
 
     /**
-     * @author
-     * @reason
+     * @author .
+     * @reason .
      */
     @Overwrite(remap = false)
     public void addDisplayText(List<Component> textList) {

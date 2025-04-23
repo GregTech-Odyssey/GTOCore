@@ -3,7 +3,8 @@ package com.gto.gtocore.mixin.gtm.registry;
 import com.gto.gtocore.common.block.BlockMap;
 import com.gto.gtocore.common.data.GTOCreativeModeTabs;
 import com.gto.gtocore.common.data.GTOMachines;
-import com.gto.gtocore.common.data.machines.*;
+import com.gto.gtocore.common.data.machines.GCYMMachines;
+import com.gto.gtocore.common.data.machines.GTMachineModify;
 
 import com.gregtechceu.gtceu.api.registry.GTRegistries;
 import com.gregtechceu.gtceu.common.data.GTMachines;

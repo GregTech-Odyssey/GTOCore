@@ -7,7 +7,9 @@ import com.gregtechceu.gtceu.integration.map.xaeros.XaeroWaypointHandler;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.Level;
 
-import org.spongepowered.asm.mixin.*;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Overwrite;
+import org.spongepowered.asm.mixin.Unique;
 import xaero.hud.minimap.module.MinimapSession;
 import xaero.hud.minimap.waypoint.WaypointColor;
 import xaero.hud.minimap.world.MinimapWorld;

@@ -30,7 +30,7 @@ public class ElectricMultiblockMachine extends WorkableElectricMultiblockMachine
     private long maxVoltage = -1;
 
     @Getter
-    private final List<MultiblockTrait> multiblockTraits = new ArrayList<>(2);
+    private final List<MultiblockTrait> multiblockTraits = new ArrayList<>();
 
     public ElectricMultiblockMachine(IMachineBlockEntity holder) {
         super(holder);

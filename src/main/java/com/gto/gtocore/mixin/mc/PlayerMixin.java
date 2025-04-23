@@ -11,7 +11,6 @@ import com.gto.gtocore.utils.ServerUtils;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
-import com.gregtechceu.gtceu.api.data.chemical.material.stack.MaterialStack;
 import com.gregtechceu.gtceu.api.item.armor.ArmorComponentItem;
 import com.gregtechceu.gtceu.common.data.GTDamageTypes;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
@@ -20,7 +19,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EntityType;
@@ -134,24 +132,21 @@ public abstract class PlayerMixin extends LivingEntity implements IEnhancedPlaye
     private void tick(CallbackInfo ci) {
         if (tickCount % 20 == 0) {
             Level level = level();
+            if (level.isClientSide) return;
             MinecraftServer server = level.getServer();
             if (server == null) return;
             if (getFoodData().getFoodLevel() > (GTOConfig.getDifficulty() == 1 ? 5 : 15) && getHealth() < getMaxHealth() - 4 && tickCount % 80 == 0 && getRandom().nextBoolean()) {
                 heal(Math.max(1, (int) Math.log(getMaxHealth() * Math.max(1, 4 - GTOConfig.getDifficulty()) / 4)));
             }
             gTOCore$amprosium = false;
-            MaterialStack materialStack = ChemicalHelper.getMaterialStack(getItemInHand(InteractionHand.MAIN_HAND));
-            if (materialStack.isEmpty()) {
-                materialStack = ChemicalHelper.getMaterialStack(getItemInHand(InteractionHand.OFF_HAND));
-            }
-            if (materialStack.material() == GTMaterials.Neutronium) {
-                gTOCore$amprosium = true;
-            }
             boolean hasHotIronIngot = false;
             for (ItemStack stack : inventory.items) {
-                if (!stack.isEmpty() && stack.getItem() == GTOItems.HOT_IRON_INGOT.asItem()) {
+                if (stack.isEmpty()) continue;
+                if (stack.getItem() == GTOItems.HOT_IRON_INGOT.asItem()) {
                     hasHotIronIngot = true;
                     break;
+                } else if (!gTOCore$amprosium && ChemicalHelper.getMaterialStack(stack).material() == GTMaterials.Neutronium) {
+                    gTOCore$amprosium = true;
                 }
             }
             if (hasHotIronIngot) {

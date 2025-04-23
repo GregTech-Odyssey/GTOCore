@@ -1,8 +1,8 @@
 package com.gto.gtocore.mixin.modernfix;
 
-import com.gregtechceu.gtceu.GTCEu;
+import com.gto.gtocore.common.CommonProxy;
 
-import net.minecraftforge.fml.ModList;
+import com.gregtechceu.gtceu.GTCEu;
 
 import org.embeddedt.modernfix.util.ClassInfoManager;
 import org.spongepowered.asm.mixin.Mixin;
@@ -20,7 +20,7 @@ public class ClassInfoManagerMixin {
     @Inject(method = "clear", at = @At("HEAD"), remap = false, cancellable = true)
     private static void clear(CallbackInfo ci) {
         if (hasRun) return;
-        ModList.get().getAllScanData().clear();
+        CommonProxy.afterStartup();
         if (GTCEu.isClientSide()) return;
         ci.cancel();
     }
