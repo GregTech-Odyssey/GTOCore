@@ -80,4 +80,6 @@ public abstract class BasicExperienceLevel {
     protected void whenLevelAdded(long pre, long post, long consumeExperience, Player player) {
         skillType.pushSkillEvent(new LevelAddedEvent(this, pre, post, consumeExperience, player));
     }
+
+    public abstract void freshLevel(Player player);
 }
