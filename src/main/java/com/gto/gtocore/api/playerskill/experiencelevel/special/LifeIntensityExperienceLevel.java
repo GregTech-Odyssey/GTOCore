@@ -24,14 +24,19 @@ public class LifeIntensityExperienceLevel extends BasicExperienceLevel {
         this.level = 0;
     }
 
-    public void addExperience(long amount, Player player) {
-        whenExperienceAdded(experience, experience + amount, player);
-        experience += amount;
+    @Override
+    public void freshLevel(Player player) {
         while (experience >= getExperienceForNextLevel()) {
             long experienceForNextLevel = getExperienceForNextLevel();
             experience -= experienceForNextLevel;
             whenLevelAdded(level, level + 1, experienceForNextLevel, player);
             level++;
         }
+    }
+
+    public void addExperience(long amount, Player player) {
+        whenExperienceAdded(experience, experience + amount, player);
+        experience += amount;
+        freshLevel(player);
     }
 }

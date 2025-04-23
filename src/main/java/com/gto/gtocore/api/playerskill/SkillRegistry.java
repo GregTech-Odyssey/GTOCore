@@ -5,6 +5,7 @@ import com.gto.gtocore.api.playerskill.data.PlayerData;
 import com.gto.gtocore.api.playerskill.eventhandler.normal.ExperienceAddedSendMessageHandler;
 import com.gto.gtocore.api.playerskill.eventhandler.normal.LevelAddedSendMessageHandler;
 
+import com.gto.gtocore.api.playerskill.experiencelevel.NormalExperienceLevel;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 
