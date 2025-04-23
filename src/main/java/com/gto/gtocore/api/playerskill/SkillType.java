@@ -8,7 +8,6 @@ import com.gto.gtocore.api.playerskill.experiencelevel.BasicExperienceLevel;
 
 import net.minecraft.network.chat.Component;
 
-import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Singular;
@@ -18,15 +17,14 @@ import java.util.List;
 import java.util.function.*;
 
 @Builder
-@Getter(AccessLevel.PUBLIC)
+@Getter
 public class SkillType {
 
     @NotNull
     private final String id; // 唯一标识符
     @NotNull
     private final String nameTranslateKey;
-    @NotNull
-    private final Integer levelStepPerVoltage;
+    private final int levelStepPerVoltage;
     @NotNull
     private final String chineseName;
     @NotNull
@@ -55,10 +53,6 @@ public class SkillType {
     @NotNull
     @Builder.Default
     public final Boolean isVisible = true; // 是否可见
-
-    public static boolean originGenerateUpgradePackage() {
-        return false;
-    }
 
     public static class SkillTypeBuilder {
 

@@ -6,15 +6,11 @@ import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 
 import java.util.UUID;
-import java.util.function.Function;
+import java.util.function.ToDoubleFunction;
 
-public record AttributeRecord(Attribute attribute,
-                              AttributeModifier.Operation operation,
-                              Function<BasicExperienceLevel, Double> valueCalculator) {
+public record AttributeRecord(UUID uuid, Attribute attribute, AttributeModifier.Operation operation, ToDoubleFunction<BasicExperienceLevel> valueCalculator) {
 
     public AttributeModifier getModifier(BasicExperienceLevel expLevel) {
-        return new AttributeModifier(UUID.randomUUID(),
-                "gtocore.exp." + expLevel.skillType.getEnglishName().toLowerCase() + "_" + attribute.getDescriptionId().toLowerCase() + "_" + operation.name().toLowerCase() + "_bonus",
-                valueCalculator.apply(expLevel), operation);
+        return new AttributeModifier(uuid, "gtocore.exp." + expLevel.skillType.getEnglishName().toLowerCase() + "_" + attribute.getDescriptionId().toLowerCase() + "_" + operation.name().toLowerCase() + "_bonus", valueCalculator.applyAsDouble(expLevel), operation);
     }
 }

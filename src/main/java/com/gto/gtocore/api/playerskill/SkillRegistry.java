@@ -9,8 +9,9 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Optional;
+import java.util.Set;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -21,109 +22,85 @@ import java.util.concurrent.ConcurrentHashMap;
  * <p>
  * 技能系统是游戏中角色成长和进步的核心机制，通过这些技能玩家可以提升其游戏中的各种属性。
  */
-public class SkillRegistry {
+public final class SkillRegistry {
+
+    private SkillRegistry() {}
 
     private static final ConcurrentHashMap<String, SkillType> SKILL_TYPES = new ConcurrentHashMap<>();
 
     public static final SkillType LIFE_INTENSITY; // 生命强度技能
     public static final SkillType PHYSIQUE;       // 体格技能
     public static final SkillType STRENGTH;       // 力量技能
-    public static final SkillType BONUS;          // 平衡难度技能
+
+    public static final UUID PHYSIQUE_UUID = UUID.fromString("8d5764a7-223a-475d-aa3d-5a952a46435a");
+    public static final UUID STRENGTH_UUID = UUID.fromString("30dbe619-d089-4f4d-b804-69823395d8ba");
+
+    public static final Set<UUID> SKILL_UUID = Set.of(PHYSIQUE_UUID, STRENGTH_UUID);
 
     static {
-        // 初始化预定义技能类型
-
         /*
          * 生命强度技能
          * - 该技能影响玩家的生命值相关属性
          * - 每3级提升一次电压等级
          * - 经验需求随级别呈指数增长(100 * 2^level)
          */
-        LIFE_INTENSITY = register(
-                SkillType.builder()
-                        .id("life_intensity") // 必须 id
-                        .nameTranslateKey("gtocore.player_exp_status.body_name") // 必须
-                        .levelStepPerVoltage(3) // 必须,若为0则无法升级
-                        .chineseName("生命强度") // 必须
-                        .englishName("Life Intensity") // 必须
-                        .nextLevelExperienceFormula(level -> (long) (100 * Math.pow(2, level.getLevel()))) // 必须,如果无法升级，则返回任意数字都行
-                        .isVisible(true) // 选择，默认true
-                        .experienceLevelGetter(PlayerData::getLifeIntensityExperienceLevel) // 必须
-                        .upgradePackageBonus((tierGap, experienceForNextLevel) -> (long) (experienceForNextLevel * Math.pow(2, tierGap) * ((double) 1 / 4))) // 选择，如果不填则不生成经验包，若生成，返回值为每个经验包的经验，tier为(经验包电压-玩家等级所处电压)
-                        .nbtKey("bodyExperience") // 必须
-                        .SkillEventHandler(new ExperienceAddedSendMessageHandler())
-                        .SkillEventHandler(new LevelAddedSendMessageHandler())
-                        .build());
+        LIFE_INTENSITY = register(SkillType.builder()
+                .id("life_intensity") // 必须 id
+                .nameTranslateKey("gtocore.player_exp_status.body_name") // 必须
+                .levelStepPerVoltage(3) // 必须,若为0则无法升级
+                .chineseName("生命强度") // 必须
+                .englishName("Life Intensity") // 必须
+                .nextLevelExperienceFormula(level -> (long) (100 * Math.pow(2, level.getLevel()))) // 必须,如果无法升级，则返回任意数字都行
+                .experienceLevelGetter(PlayerData::getLifeIntensityExperienceLevel) // 必须
+                .upgradePackageBonus((tierGap, experienceForNextLevel) -> (long) (experienceForNextLevel * Math.pow(2, tierGap) * ((double) 1 / 4))) // 选择，如果不填则不生成经验包，若生成，返回值为每个经验包的经验，tier为(经验包电压-玩家等级所处电压)
+                .nbtKey("bodyExperience") // 必须
+                .SkillEventHandler(new ExperienceAddedSendMessageHandler())
+                .SkillEventHandler(new LevelAddedSendMessageHandler())
+                .build());
 
         /*
          * 体格技能
          * - 该技能提升玩家的护甲值
          * - 每5级提升一次电压等级
          * - 经验需求随级别呈1.5次方增长(100 * 1.5^level)
-         * - 每级提供1点护甲值加成
+         * - 每级提供0.5点护甲值加成
          */
-        PHYSIQUE = register(
-                SkillType.builder()
-                        .id("physique")
-                        .nameTranslateKey("gtocore.player_exp_status.health_name")
-                        .levelStepPerVoltage(5)
-                        .chineseName("体格")
-                        .englishName("Physique")
-                        .nextLevelExperienceFormula(level -> (long) (100 * Math.pow(1.5, level.getLevel())))
-                        .experienceLevelGetter(PlayerData::getPhysiqueExperienceLevel)
-                        .upgradePackageBonus((tierGap, experienceForNextLevel) -> (long) (experienceForNextLevel * Math.pow(2, tierGap) * ((double) 1 / 4)))
-                        .nbtKey("healthExperienceLevel")
-                        .attributeRecord(new AttributeRecord(Attributes.ARMOR, AttributeModifier.Operation.ADDITION, (expLevel) -> (double) expLevel.getLevel()))
-                        .SkillEventHandler(new ExperienceAddedSendMessageHandler())
-                        .SkillEventHandler(new LevelAddedSendMessageHandler())
-                        .build());
+        PHYSIQUE = register(SkillType.builder()
+                .id("physique")
+                .nameTranslateKey("gtocore.player_exp_status.health_name")
+                .levelStepPerVoltage(5)
+                .chineseName("体格")
+                .englishName("Physique")
+                .nextLevelExperienceFormula(level -> (long) (100 * Math.pow(1.5, level.getLevel())))
+                .experienceLevelGetter(PlayerData::getPhysiqueExperienceLevel)
+                .upgradePackageBonus((tierGap, experienceForNextLevel) -> (long) (experienceForNextLevel * Math.pow(2, tierGap) * ((double) 1 / 4)))
+                .nbtKey("healthExperienceLevel")
+                .attributeRecord(new AttributeRecord(PHYSIQUE_UUID, Attributes.ARMOR, AttributeModifier.Operation.ADDITION, (expLevel) -> (double) expLevel.getLevel() / 2))
+                .SkillEventHandler(new ExperienceAddedSendMessageHandler())
+                .SkillEventHandler(new LevelAddedSendMessageHandler())
+                .build());
 
         /*
          * 力量技能
          * - 该技能提升玩家的攻击伤害
          * - 每5级提升一次电压等级
          * - 经验需求随级别呈1.5次方增长(100 * 1.5^level)
-         * - 每级提供2点攻击伤害加成
+         * - 每级提供0.5点攻击伤害加成
          */
-        STRENGTH = register(
-                SkillType.builder()
-                        .id("strength")
-                        .nameTranslateKey("gtocore.player_exp_status.attack_name")
-                        .levelStepPerVoltage(5)
-                        .chineseName("力量")
-                        .englishName("Strength")
-                        .nextLevelExperienceFormula(level -> (long) (100 * Math.pow(1.5, level.getLevel())))
-                        .experienceLevelGetter(PlayerData::getStrengthExperienceLevel)
-                        .upgradePackageBonus((tierGap, experienceForNextLevel) -> (long) (experienceForNextLevel * Math.pow(2, tierGap) * ((double) 1 / 4)))
-                        .nbtKey("attackExperienceLevel")
-                        .attributeRecord(new AttributeRecord(Attributes.ATTACK_DAMAGE, AttributeModifier.Operation.ADDITION, (expLevel) -> (double) (expLevel.getLevel() << 1)))
-                        .SkillEventHandler(new ExperienceAddedSendMessageHandler())
-                        .SkillEventHandler(new LevelAddedSendMessageHandler())
-                        .build());
-
-        /*
-         * 平衡难度技能
-         * - 该技能用于游戏平衡
-         * - 不可升级(levelStepPerVoltage = 0)
-         * - 提供攻击伤害(3)
-         * - 不可见(isVisible = false)
-         */
-        BONUS = register(
-                SkillType.builder()
-                        .id("bonus")
-                        .nameTranslateKey("gtocore.player_exp_status.bonus_name")
-                        .levelStepPerVoltage(0) // 不可升级
-                        .chineseName("平衡难度")
-                        .englishName("Bonus")
-                        .nextLevelExperienceFormula(level -> 1L)
-                        .experienceLevelGetter(PlayerData::getBonusExperienceLevel)
-                        .isVisible(false) // 不可见
-                        .nbtKey("bonusExperienceLevel")
-                        .attributeRecord(new AttributeRecord(Attributes.ATTACK_DAMAGE, AttributeModifier.Operation.ADDITION, (expLevel) -> 3D)) // 基础攻击加3
-                        .attributeRecord(new AttributeRecord(Attributes.ATTACK_DAMAGE, AttributeModifier.Operation.MULTIPLY_BASE, (expLevel) -> 0.5D)) // 攻击力1.5倍
-                        .SkillEventHandler(new ExperienceAddedSendMessageHandler())
-                        .SkillEventHandler(new LevelAddedSendMessageHandler())
-                        .build());
+        STRENGTH = register(SkillType.builder()
+                .id("strength")
+                .nameTranslateKey("gtocore.player_exp_status.attack_name")
+                .levelStepPerVoltage(5)
+                .chineseName("力量")
+                .englishName("Strength")
+                .nextLevelExperienceFormula(level -> (long) (100 * Math.pow(1.5, level.getLevel())))
+                .experienceLevelGetter(PlayerData::getStrengthExperienceLevel)
+                .upgradePackageBonus((tierGap, experienceForNextLevel) -> (long) (experienceForNextLevel * Math.pow(2, tierGap) * ((double) 1 / 4)))
+                .nbtKey("attackExperienceLevel")
+                .attributeRecord(new AttributeRecord(STRENGTH_UUID, Attributes.ATTACK_DAMAGE, AttributeModifier.Operation.ADDITION, (expLevel) -> (double) (expLevel.getLevel() / 2)))
+                .SkillEventHandler(new ExperienceAddedSendMessageHandler())
+                .SkillEventHandler(new LevelAddedSendMessageHandler())
+                .build());
     }
 
     /**
@@ -134,7 +111,7 @@ public class SkillRegistry {
      * @param skillType 要注册的技能类型
      * @return 已注册的技能类型
      */
-    public static SkillType register(SkillType skillType) {
+    private static SkillType register(SkillType skillType) {
         SKILL_TYPES.put(skillType.getId(), skillType);
         return skillType;
     }
@@ -159,6 +136,6 @@ public class SkillRegistry {
      * @return 不可修改的技能类型集合
      */
     public static Collection<SkillType> getAll() {
-        return Collections.unmodifiableCollection(SKILL_TYPES.values());
+        return SKILL_TYPES.values();
     }
 }

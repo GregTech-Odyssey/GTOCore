@@ -1,12 +1,12 @@
 package com.gto.gtocore.api.playerskill.utils;
 
 import com.gto.gtocore.GTOCore;
+import com.gto.gtocore.api.playerskill.SkillRegistry;
 import com.gto.gtocore.api.playerskill.data.ExperienceSystemManager;
 import com.gto.gtocore.api.playerskill.data.PlayerData;
 import com.gto.gtocore.api.playerskill.experiencelevel.BasicExperienceLevel;
 
 import net.minecraft.server.TickTask;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.player.Player;
 
 import java.util.*;
@@ -26,11 +26,9 @@ public class UtilsAttribute {
     }
 
     public static void removeAllGTOCoreExpModifiers(Player player) {
-        player.getAttributes().getSyncableAttributes().forEach(attribute -> attribute.getModifiers().stream()
-                .filter(modifier -> modifier.getName().contains("gtocore.exp"))
-                .map(AttributeModifier::getId)
-                .toList()
-                .forEach(attribute::removeModifier));
+        for (var instance : player.getAttributes().getSyncableAttributes()) {
+            SkillRegistry.SKILL_UUID.forEach(instance::removeModifier);
+        }
     }
 
     public static void freshApplyModifiers(Player player) {

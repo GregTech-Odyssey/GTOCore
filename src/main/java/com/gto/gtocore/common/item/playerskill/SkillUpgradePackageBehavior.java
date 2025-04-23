@@ -6,6 +6,7 @@ import com.gto.gtocore.api.playerskill.SkillType;
 import com.gto.gtocore.api.playerskill.data.ExperienceSystemManager;
 import com.gto.gtocore.api.playerskill.data.PlayerData;
 import com.gto.gtocore.api.playerskill.experiencelevel.BasicExperienceLevel;
+import com.gto.gtocore.api.playerskill.utils.UtilsAttribute;
 import com.gto.gtocore.api.playerskill.utils.UtilsData;
 
 import com.gregtechceu.gtceu.api.item.component.IInteractionItem;
@@ -61,6 +62,7 @@ public class SkillUpgradePackageBehavior implements IInteractionItem {
                     SoundEvents.EXPERIENCE_ORB_PICKUP, SoundSource.PLAYERS,
                     0.5F, 0.4F / (level.getRandom().nextFloat() * 0.4F + 0.8F));
             player.getCooldowns().addCooldown(item, 1); // 1tick冷却防止bug
+            UtilsAttribute.freshDelayApplyModifier(player);
         }
         return IInteractionItem.super.use(item, level, player, usedHand);
     }
