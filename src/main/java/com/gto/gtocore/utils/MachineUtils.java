@@ -2,8 +2,8 @@ package com.gto.gtocore.utils;
 
 import com.gto.gtocore.api.machine.feature.multiblock.IParallelMachine;
 import com.gto.gtocore.api.machine.multiblock.CrossRecipeMultiblockMachine;
+import com.gto.gtocore.api.machine.trait.IEnhancedRecipeLogic;
 import com.gto.gtocore.api.recipe.GTORecipeBuilder;
-import com.gto.gtocore.api.recipe.IdleReason;
 import com.gto.gtocore.api.recipe.RecipeRunnerHelper;
 
 import com.gregtechceu.gtceu.api.capability.IParallelHatch;
@@ -168,7 +168,11 @@ public final class MachineUtils {
         }
         builder.addCustom(customConsumer)
                 .addCustom(text -> machine.getDefinition().getAdditionalDisplay().accept(machine, text))
-                .addCustom(text -> IdleReason.addMachineText(text, machine))
+                .addCustom(text -> {
+                    if (machine.getRecipeLogic().isIdle() && machine.getRecipeLogic() instanceof IEnhancedRecipeLogic enhancedRecipeLogic && enhancedRecipeLogic.gTOCore$getIdleReason() != null) {
+                        textList.add(enhancedRecipeLogic.gTOCore$getIdleReason().copy().withStyle(ChatFormatting.GRAY));
+                    }
+                })
                 .addWorkingStatusLine()
                 .addProgressLine(machine.recipeLogic.getProgress(), machine.recipeLogic.getMaxProgress(), machine.recipeLogic.getProgressPercent())
                 .addOutputLines(machine.recipeLogic.getLastRecipe());

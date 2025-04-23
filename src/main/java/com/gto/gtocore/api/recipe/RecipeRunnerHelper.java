@@ -49,6 +49,7 @@ public interface RecipeRunnerHelper {
             }
             if (!success) {
                 setIdleReason(machine, IdleReason.VOLTAGE_TIER_NOT_SATISFIES);
+                return false;
             }
         }
         return true;
@@ -64,7 +65,7 @@ public interface RecipeRunnerHelper {
         var conditionResult = RecipeHelper.checkConditions(recipe, holder.getRecipeLogic());
         if (conditionResult.isSuccess()) return true;
         if (holder.getRecipeLogic() instanceof IEnhancedRecipeLogic enhancedRecipeLogic) {
-            enhancedRecipeLogic.gTOCore$setIdleReason(conditionResult.reason().copy());
+            enhancedRecipeLogic.gTOCore$setIdleReason(conditionResult.reason());
         }
         return false;
     }

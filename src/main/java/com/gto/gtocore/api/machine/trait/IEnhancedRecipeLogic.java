@@ -11,7 +11,6 @@ import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
 import com.gregtechceu.gtceu.utils.ItemStackHashStrategy;
 
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraftforge.fluids.FluidStack;
@@ -106,9 +105,9 @@ public interface IEnhancedRecipeLogic {
 
     default void gTOCore$setLockRecipe(boolean lockRecipe) {}
 
-    default void gTOCore$setIdleReason(MutableComponent reason) {}
+    default void gTOCore$setIdleReason(Component reason) {}
 
-    default MutableComponent gTOCore$getIdleReason() {
+    default Component gTOCore$getIdleReason() {
         return null;
     }
 

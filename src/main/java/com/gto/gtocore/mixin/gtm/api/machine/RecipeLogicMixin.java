@@ -26,13 +26,13 @@ import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
 import com.gregtechceu.gtceu.api.sound.SoundEntry;
 
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fluids.FluidStack;
 
+import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
@@ -104,7 +104,8 @@ public abstract class RecipeLogicMixin extends MachineTrait implements IEnhanced
     private int gtocore$interval = 5;
 
     @Unique
-    private MutableComponent gtocore$reason;
+    @DescSynced
+    private Component gtocore$reason;
 
     @Shadow
     @Nullable
@@ -189,6 +190,9 @@ public abstract class RecipeLogicMixin extends MachineTrait implements IEnhanced
     @Shadow
     public abstract void updateTickSubscription();
 
+    @Shadow
+    public List<GTRecipe> lastFailedMatches;
+
     @Unique
     private void gTOCore$unsubscribe() {
         if (subscription != null) {
@@ -201,6 +205,7 @@ public abstract class RecipeLogicMixin extends MachineTrait implements IEnhanced
     private boolean gTOCore$successfullyRecipe(GTRecipe originrecipe) {
         if (lastRecipe != null && getStatus() == RecipeLogic.Status.WORKING) {
             lastOriginRecipe = originrecipe;
+            lastFailedMatches = null;
             gtocore$interval = 5;
             if (gTOCore$lockRecipe) gTOCore$originRecipe = originrecipe;
             return true;
@@ -374,12 +379,12 @@ public abstract class RecipeLogicMixin extends MachineTrait implements IEnhanced
     }
 
     @Override
-    public void gTOCore$setIdleReason(MutableComponent reason) {
+    public void gTOCore$setIdleReason(Component reason) {
         this.gtocore$reason = reason;
     }
 
     @Override
-    public MutableComponent gTOCore$getIdleReason() {
+    public Component gTOCore$getIdleReason() {
         return gtocore$reason;
     }
 
@@ -418,16 +423,22 @@ public abstract class RecipeLogicMixin extends MachineTrait implements IEnhanced
                 boolean hasResult = false;
                 if (gtocore$hasAsyncTask() && gtocore$asyncRecipeSearchTask.getResult() != null) {
                     AsyncRecipeSearchTask.Result result = gtocore$asyncRecipeSearchTask.getResult();
-                    if (result.recipe() != null) {
+                    if (result.recipe() != null && RecipeRunnerHelper.checkConditions(machine, result.modified())) {
                         setupRecipe(result.modified());
                         if (gTOCore$successfullyRecipe(result.recipe())) {
                             recipeDirty = false;
-                            gtocore$asyncRecipeSearchTask.clean();
-                            return;
                         }
                     }
                     hasResult = true;
                     gtocore$asyncRecipeSearchTask.clean();
+                }
+                if (lastFailedMatches != null) {
+                    for (GTRecipe match : lastFailedMatches) {
+                        if (checkMatchedRecipeAvailable(match)) {
+                            recipeDirty = false;
+                            return;
+                        }
+                    }
                 }
                 if (!hasResult) findAndHandleRecipe();
                 if (!gtocore$hasAsyncTask() && lastRecipe == null && isIdle() && !machine.keepSubscribing() && !recipeDirty) {
