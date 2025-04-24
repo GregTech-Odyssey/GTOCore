@@ -10,6 +10,7 @@ import com.gto.gtocore.api.recipe.AsyncRecipeSearchTask;
 import com.gto.gtocore.common.ServerCache;
 import com.gto.gtocore.common.data.GTOBlocks;
 import com.gto.gtocore.common.data.GTOCommands;
+import com.gto.gtocore.common.data.GTOEffects;
 import com.gto.gtocore.common.data.GTOItems;
 import com.gto.gtocore.common.item.ItemMap;
 import com.gto.gtocore.common.machine.multiblock.electric.voidseries.VoidTransporterMachine;
@@ -22,10 +23,14 @@ import com.gto.gtocore.utils.SphereExplosion;
 import com.gto.gtocore.utils.register.BlockRegisterUtils;
 
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
+import com.gregtechceu.gtceu.api.machine.WorkableTieredMachine;
+import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
+import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
 import com.gregtechceu.gtceu.common.data.GTItems;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.Component;
@@ -50,6 +55,7 @@ import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.EntityTravelToDimensionEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
+import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.level.BlockEvent;
@@ -60,6 +66,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import com.hepdd.gtmthings.data.WirelessEnergySavaedData;
 
 import java.util.Objects;
+import java.util.Optional;
 
 public final class ForgeCommonEvent {
 
@@ -77,6 +84,36 @@ public final class ForgeCommonEvent {
     public static void onEntityTravelToDimension(EntityTravelToDimensionEvent event) {
         if (event.getEntity() instanceof FallingBlockEntity fallingBlock) {
             fallingBlock.discard();
+        }
+    }
+
+    @SubscribeEvent
+    public static void onLivingJumpEvent(LivingEvent.LivingJumpEvent event) {
+        if (event.getEntity() instanceof ServerPlayer player && player.level() instanceof ServerLevel serverLevel) {
+            Optional.ofNullable(player.getEffect(GTOEffects.MYSTERIOUS_BOOST.get())).ifPresent(effect -> {
+                if (MetaMachine.getMachine(serverLevel, player.getOnPos()) instanceof WorkableTieredMachine machine && machine.getRecipeLogic().isWorking()) {
+                    RecipeLogic recipeLogic = machine.getRecipeLogic();
+                    int progress = recipeLogic.getProgress();
+                    int maxProgress = recipeLogic.getMaxProgress();
+                    Optional.ofNullable(recipeLogic.getLastRecipe()).ifPresent(recipe -> {
+                        int recipeEUtTier = RecipeHelper.getRecipeEUtTier(recipe);
+                        if (effect.getAmplifier() >= recipeEUtTier) {
+                            recipeLogic.setProgress(Math.min(progress + Math.min((int) (((double) 1 / 3) * maxProgress), 20 * 30), maxProgress - 1)); // 最多减1/3或者30秒，取低者
+                            serverLevel.sendParticles(
+                                    ParticleTypes.FIREWORK,
+                                    machine.getPos().getX(),
+                                    machine.getPos().getY() + 6,
+                                    machine.getPos().getZ(),
+                                    3,  // 粒子数量
+                                    0.3, // X方向扩散
+                                    0.2, // Y方向扩散
+                                    0.3, // Z方向扩散
+                                    0.02 // 粒子速度
+                            );
+                        }
+                    });
+                }
+            });
         }
     }
 
