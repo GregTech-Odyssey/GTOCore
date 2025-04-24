@@ -1,17 +1,5 @@
 package com.gto.gtocore.mixin.mc;
 
-import com.enderio.machines.common.block.MachineBlock;
-import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
-import com.gregtechceu.gtceu.api.capability.recipe.EURecipeCapability;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
-import com.gregtechceu.gtceu.api.machine.MetaMachine;
-import com.gregtechceu.gtceu.api.machine.WorkableTieredMachine;
-import com.gregtechceu.gtceu.api.machine.multiblock.WorkableMultiblockMachine;
-import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
-import com.gregtechceu.gtceu.api.recipe.GTRecipe;
-import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
-import com.gregtechceu.gtceu.api.registry.registrate.MachineBuilder;
-import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.api.data.GTODimensions;
 import com.gto.gtocore.api.entity.IEnhancedPlayer;
 import com.gto.gtocore.api.misc.PlanetManagement;
@@ -23,12 +11,16 @@ import com.gto.gtocore.config.GTOConfig;
 import com.gto.gtocore.utils.ServerUtils;
 
 import com.gregtechceu.gtceu.GTCEu;
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.item.armor.ArmorComponentItem;
+import com.gregtechceu.gtceu.api.machine.MetaMachine;
+import com.gregtechceu.gtceu.api.machine.WorkableTieredMachine;
+import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
+import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
 import com.gregtechceu.gtceu.common.data.GTDamageTypes;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
-import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -47,7 +39,6 @@ import net.minecraft.world.food.FoodData;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 
 import org.spongepowered.asm.mixin.Final;
@@ -227,19 +218,19 @@ public abstract class PlayerMixin extends LivingEntity implements IEnhancedPlaye
 
     @Inject(method = "jumpFromGround", at = @At("HEAD"))
     private void jumpFromGround(CallbackInfo ci) {
-        if(this.level() instanceof ServerLevel serverLevel){
-            Optional.ofNullable(this.getEffect(GTOEffects.MYSTERIOUS_BOOST_EFFECT.get())).ifPresent(effect->{
+        if (this.level() instanceof ServerLevel serverLevel) {
+            Optional.ofNullable(this.getEffect(GTOEffects.MYSTERIOUS_BOOST_EFFECT.get())).ifPresent(effect -> {
                 BlockEntity blockEntity = this.level().getBlockEntity(this.getOnPos());
-                if (blockEntity instanceof MetaMachineBlockEntity machineEntity){
+                if (blockEntity instanceof MetaMachineBlockEntity machineEntity) {
                     MetaMachine metaMachine = machineEntity.getMetaMachine();
-                    if(metaMachine instanceof WorkableTieredMachine machine && machine.isActive()){
+                    if (metaMachine instanceof WorkableTieredMachine machine && machine.isActive()) {
                         RecipeLogic recipeLogic = machine.getRecipeLogic();
                         int progress = recipeLogic.getProgress();
                         int maxProgress = recipeLogic.getMaxProgress();
                         Optional.ofNullable(recipeLogic.getLastRecipe()).ifPresent(recipe -> {
                             int recipeEUtTier = RecipeHelper.getRecipeEUtTier(recipe);
-                            if(effect.getAmplifier() >= recipeEUtTier){
-                                recipeLogic.setProgress(Math.min(progress + Math.min((int) (((double) 1 /3)*maxProgress),20*30), maxProgress-1)); // 最多减1/3或者30秒，取低者
+                            if (effect.getAmplifier() >= recipeEUtTier) {
+                                recipeLogic.setProgress(Math.min(progress + Math.min((int) (((double) 1 / 3) * maxProgress), 20 * 30), maxProgress - 1)); // 最多减1/3或者30秒，取低者
                                 serverLevel.sendParticles(
                                         ParticleTypes.FIREWORK,
                                         blockEntity.getBlockPos().getX(),

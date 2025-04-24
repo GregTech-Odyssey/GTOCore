@@ -1,9 +1,10 @@
 package com.gto.gtocore.common.item.playerskill;
 
-import com.gregtechceu.gtceu.api.item.component.IInteractionItem;
 import com.gto.gtocore.common.data.GTOEffects;
-import com.gto.gtocore.utils.ColorUtils;
 import com.gto.gtocore.utils.StringUtils;
+
+import com.gregtechceu.gtceu.api.item.component.IInteractionItem;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
@@ -20,6 +21,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 
 public class MysteriousBoostPotionBehaviour implements IInteractionItem {
+
     public final int tier;
 
     public MysteriousBoostPotionBehaviour(int tier) {
@@ -40,7 +42,7 @@ public class MysteriousBoostPotionBehaviour implements IInteractionItem {
     public InteractionResultHolder<ItemStack> use(Item item, Level level, Player player, InteractionHand usedHand) {
         if (!level.isClientSide()) {
             ItemStack itemInHand = player.getItemInHand(usedHand);
-            player.addEffect(new MobEffectInstance(GTOEffects.MYSTERIOUS_BOOST_EFFECT.get(), 20 * 60 * (5+tier) , tier));
+            player.addEffect(new MobEffectInstance(GTOEffects.MYSTERIOUS_BOOST_EFFECT.get(), 20 * 60 * (5 + tier), tier));
             itemInHand.shrink(1);
             player.sendSystemMessage(Component.literal(StringUtils.full_color(Component.translatable("gtocore.player_exp_status.mysterious_boost_potion.success").getString())));
         }
