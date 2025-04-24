@@ -1,5 +1,6 @@
 package com.gto.gtocore.mixin.mc;
 
+import com.gregtechceu.gtceu.api.GTValues;
 import com.gto.gtocore.api.data.GTODimensions;
 import com.gto.gtocore.api.entity.IEnhancedPlayer;
 import com.gto.gtocore.api.misc.PlanetManagement;
@@ -230,7 +231,7 @@ public abstract class PlayerMixin extends LivingEntity implements IEnhancedPlaye
                         Optional.ofNullable(recipeLogic.getLastRecipe()).ifPresent(recipe -> {
                             int recipeEUtTier = RecipeHelper.getRecipeEUtTier(recipe);
                             if (effect.getAmplifier() >= recipeEUtTier) {
-                                recipeLogic.setProgress(Math.min(progress + Math.min((int) (((double) 1 / 3) * maxProgress), 20 * 30), maxProgress - 1)); // 最多减1/3或者30秒，取低者
+                                recipeLogic.setProgress(Math.min(progress + Math.min((int) (((double) 1 / GTValues.RNG.nextInt(6,10)) * maxProgress), 20 * 30), maxProgress - 1)); // 最多减1/3或者30秒，取低者
                                 serverLevel.sendParticles(
                                         ParticleTypes.FIREWORK,
                                         blockEntity.getBlockPos().getX(),
