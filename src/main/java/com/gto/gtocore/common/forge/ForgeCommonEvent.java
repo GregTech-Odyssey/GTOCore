@@ -22,6 +22,7 @@ import com.gto.gtocore.utils.ServerUtils;
 import com.gto.gtocore.utils.SphereExplosion;
 import com.gto.gtocore.utils.register.BlockRegisterUtils;
 
+import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.WorkableTieredMachine;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
@@ -93,17 +94,15 @@ public final class ForgeCommonEvent {
             Optional.ofNullable(player.getEffect(GTOEffects.MYSTERIOUS_BOOST.get())).ifPresent(effect -> {
                 if (MetaMachine.getMachine(serverLevel, player.getOnPos()) instanceof WorkableTieredMachine machine && machine.getRecipeLogic().isWorking()) {
                     RecipeLogic recipeLogic = machine.getRecipeLogic();
-                    int progress = recipeLogic.getProgress();
+                    int currentProgress = recipeLogic.getProgress();
                     int maxProgress = recipeLogic.getMaxProgress();
                     Optional.ofNullable(recipeLogic.getLastRecipe()).ifPresent(recipe -> {
                         int recipeEUtTier = RecipeHelper.getRecipeEUtTier(recipe);
                         if (effect.getAmplifier() >= recipeEUtTier) {
-                            recipeLogic.setProgress(Math.min(progress + Math.min((int) (((double) 1 / 3) * maxProgress), 20 * 30), maxProgress - 1)); // 最多减1/3或者30秒，取低者
-                            serverLevel.sendParticles(
-                                    ParticleTypes.FIREWORK,
-                                    machine.getPos().getX(),
-                                    machine.getPos().getY() + 6,
-                                    machine.getPos().getZ(),
+                            int progress = Math.min(currentProgress + Math.min((int) (((double) 1 / GTValues.RNG.nextInt(6, 10)) * maxProgress), 20 * 30), maxProgress - 1);
+                            effect.duration -= progress - currentProgress;
+                            recipeLogic.setProgress(progress);
+                            serverLevel.sendParticles(ParticleTypes.FIREWORK, machine.getPos().getX(), machine.getPos().getY() + 6, machine.getPos().getZ(),
                                     3,  // 粒子数量
                                     0.3, // X方向扩散
                                     0.2, // Y方向扩散
