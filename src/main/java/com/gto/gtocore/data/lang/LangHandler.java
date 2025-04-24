@@ -222,8 +222,10 @@ public final class LangHandler {
         addENCN("gtocore.player_exp_status.get_experience", "You got %s point of %s experience", "你获得了%s点%s经验");
         addENCN("gtocore.player_exp_status.add_level", "Your %s skill has been upgraded to level %s", "你的%s技能升到了%s级");
         addENCN("gtocore.player_exp_status.sup.error", "The %s level of %s can only use the %s skill upgrade package of %s and " + GOLD + BOLD + "above", "%s级别的%s等级只能使用%s及" + GOLD + BOLD + "以上" + RESET + "等级的%s能力提升包");
+        addENCN("gtocore.player_exp_status.mysterious_boost_potion.success", "You seem to be granted with some mysterious ability ......","你似乎被赋予了某种神秘能力...");
 
         addENCN("gtocore.xaero_waypoint_set", "Ore Vein", "矿脉");
+        addENCN("effect.gtocore.mysterious_boost", "Possession of the Machine God", "机械之神附身");
 
         addENCN("gtocore.teleport.not_safe", "It's not safe now, we can't teleport", "现在不安全，不能传送");
     }

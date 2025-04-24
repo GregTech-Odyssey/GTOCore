@@ -8,7 +8,9 @@ import com.gto.gtocore.api.item.ToolTipsItem;
 import com.gto.gtocore.api.playerskill.SkillType;
 import com.gto.gtocore.api.playerskill.utils.UtilsTintableModel;
 import com.gto.gtocore.common.data.GTOCovers;
+import com.gto.gtocore.common.data.GTOEffects;
 import com.gto.gtocore.common.item.KineticRotorItem;
+import com.gto.gtocore.common.item.playerskill.MysteriousBoostPotionBehaviour;
 import com.gto.gtocore.common.item.playerskill.SkillUpgradePackageBehavior;
 import com.gto.gtocore.utils.ColorUtils;
 
@@ -28,9 +30,14 @@ import com.gregtechceu.gtceu.data.recipe.CustomTags;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.renderer.EffectInstance;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.tags.TagKey;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
 
@@ -213,7 +220,7 @@ public final class ItemRegisterUtils {
         int[] stepGradient = ColorUtils.generateStepGradient(baseColor[0], baseColor[1], 70, 4);
         for (int tier : GTValues.ALL_TIERS) {
             entries[tier] = item(skillType.getId().toLowerCase() + "_skill_upgrade_package_" + GTValues.VN[tier].toLowerCase(),
-                    "(" + GTOValues.VNFR[tier] + skillType.getChineseName() + ")能力提升包", ComponentItem::create)
+                    GTOValues.VNFR[tier] + skillType.getChineseName() + " 能力提升包", ComponentItem::create)
                     .model((ctx, prov) -> UtilsTintableModel.createTintableModel(ctx, prov,
                             "item/skill/normal/normal_border",
                             "item/skill/normal/tier_border",
@@ -243,6 +250,48 @@ public final class ItemRegisterUtils {
                             };
                         }
                     })
+                    .register();
+        }
+        return entries;
+    }
+    public static ItemEntry<ComponentItem>[] registerMysteriousBoostDrink(){
+        ItemEntry[] entries = new ItemEntry[GTValues.TIER_COUNT];
+        for(int tier : GTValues.ALL_TIERS){
+            entries[tier] = item("gto_mysterious_boost_drink_" + GTValues.VN[tier].toLowerCase(),
+                    "GTO牌 "+GTOValues.VNFR[tier] + " 神秘饮料", ComponentItem::create)
+                    .model((ctx, prov) -> UtilsTintableModel.createTintableModel(ctx, prov,
+                            "item/skill/normal/normal_border",
+                            "item/skill/normal/tier_border",
+                            "item/skill/mysterious_boost_medicine/0_bottle",
+                            "item/skill/mysterious_boost_medicine/1_face",
+                            "item/skill/mysterious_boost_medicine/2_liquid1",
+                            "item/skill/mysterious_boost_medicine/3_liquid2",
+                            "item/skill/mysterious_boost_medicine/4_liquid3",
+                            "item/skill/mysterious_boost_medicine/5_gtologo",
+                            "item/skill/mysterious_boost_medicine/6_gtologobase",
+                            "item/skill/mysterious_boost_medicine/7_straw"
+                    ))
+                    .tag(TagUtil.optionalTag(BuiltInRegistries.ITEM, GTOCore.id("mysterious_boost_potion")))
+                    .color(() -> () -> (stack, tintIndex) -> {
+                        if (tintIndex == 1) { // tier_border
+                            float light_factor = 0.3f + ((tier + 1) * (0.7f / GTValues.TIER_COUNT));
+                            int a = 0xFF;
+                            int r = Math.min(255, (int) ((0x6149fc >> 16 & 0xFF) * light_factor));
+                            int g = Math.min(255, (int) ((0x6149fc & 0xFF) * light_factor));
+                            int b = Math.min(255, (int) ((0x6149fc) * light_factor));
+                            return (a << 24) | (r << 16) | (g << 8) | b;
+                        } else {
+                            RandomSource rng = GTValues.RNG;
+                            int[] stepGradient = ColorUtils.generateStepGradient(rng.nextInt(0x1000000), rng.nextInt(0x1000000), 70, 3);
+                            return switch (tintIndex) {
+                                case 4 -> stepGradient[0];
+                                case 5 -> stepGradient[1];
+                                case 6 -> stepGradient[2];
+                                default -> -1;
+                            };
+                        }
+                    })
+                    .onRegister(attach(new MysteriousBoostPotionBehaviour(tier)))
                     .register();
         }
         return entries;

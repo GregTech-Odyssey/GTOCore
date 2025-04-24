@@ -11,6 +11,7 @@ import com.gto.gtocore.data.Data;
 import com.gto.gtocore.integration.ae2.InfinityCellGuiHandler;
 import com.gto.gtocore.integration.ae2.storage.InfinityCellHandler;
 import com.gto.gtocore.integration.ftbquests.EMIRecipeModHelper;
+import com.gto.gtocore.utils.register.EffectRegisterUtils;
 import com.gto.gtocore.utils.register.ItemRegisterUtils;
 
 import com.gregtechceu.gtceu.GTCEu;
@@ -48,6 +49,7 @@ public class CommonProxy {
         REGISTRATE.registerEventListeners(eventBus);
         GTOFluids.FLUID_TYPE.register(eventBus);
         GTOFluids.FLUID.register(eventBus);
+        EffectRegisterUtils.init(eventBus);
         eventBus.addListener(CommonProxy::commonSetup);
         eventBus.addListener(CommonProxy::addMaterials);
         eventBus.addListener(CommonProxy::registerMaterialRegistry);

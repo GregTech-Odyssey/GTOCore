@@ -391,6 +391,7 @@ public interface GTOItems {
     ItemEntry<ComponentItem>[] HEALTH_SKILL_UPGRADE_PACK = registerSkillUpgradePackage(SkillRegistry.PHYSIQUE);
     ItemEntry<ComponentItem>[] BODY_SKILL_UPGRADE_PACK = registerSkillUpgradePackage(SkillRegistry.LIFE_INTENSITY);
     ItemEntry<ComponentItem>[] ATTACK_SKILL_UPGRADE_PACK = registerSkillUpgradePackage(SkillRegistry.STRENGTH);
+    ItemEntry<ComponentItem>[] MYSTERIOUS_BOOST_DRINK = registerMysteriousBoostDrink();
 
     ItemEntry<Item> WETWARE_SOC = registerLang("wetware_soc", "Wetware SoC", "湿件SoC");
 
