@@ -253,8 +253,8 @@ public final class ItemRegisterUtils {
     public static ItemEntry<ComponentItem>[] registerMysteriousBoostDrink() {
         ItemEntry[] entries = new ItemEntry[GTValues.TIER_COUNT];
         for (int tier : GTValues.ALL_TIERS) {
-            entries[tier] = item("gto_mysterious_boost_drink_" + GTValues.VN[tier].toLowerCase(),
-                    "GTO牌 " + GTOValues.VNFR[tier] + " 神秘饮料", ComponentItem::create)
+            entries[tier] = item("gto_overseer_coke_" + GTValues.VN[tier].toLowerCase(),
+                    "GTO牌 " + GTOValues.VNFR[tier] + " 监工可乐", ComponentItem::create)
                     .model((ctx, prov) -> UtilsTintableModel.createTintableModel(ctx, prov,
                             "item/skill/normal/normal_border",
                             "item/skill/normal/tier_border",
@@ -266,7 +266,6 @@ public final class ItemRegisterUtils {
                             "item/skill/mysterious_boost_medicine/5_gtologo",
                             "item/skill/mysterious_boost_medicine/6_gtologobase",
                             "item/skill/mysterious_boost_medicine/7_straw"))
-                    .tag(TagUtil.optionalTag(BuiltInRegistries.ITEM, GTOCore.id("mysterious_boost_potion")))
                     .color(() -> () -> (stack, tintIndex) -> {
                         if (tintIndex == 1) { // tier_border
                             float light_factor = 0.3f + ((tier + 1) * (0.7f / GTValues.TIER_COUNT));
