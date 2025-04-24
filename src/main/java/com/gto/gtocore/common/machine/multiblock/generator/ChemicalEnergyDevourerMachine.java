@@ -98,9 +98,9 @@ public final class ChemicalEnergyDevourerMachine extends ElectricMultiblockMachi
         if (EUt > 0 && RecipeRunnerHelper.matchRecipe(this, getLubricantRecipe()) && !isIntakesObstructed()) {
             recipe = GTORecipeModifiers.accurateParallel(this, recipe, (int) (getOverclockVoltage() / EUt));
             if (isOxygenBoosted && isDinitrogenTetroxideBoosted) {
-                recipe.tickOutputs.put(EURecipeCapability.CAP, List.of(ContentBuilder.builderEU(EUt * recipe.parallels * 4)));
+                recipe.tickOutputs.put(EURecipeCapability.CAP, List.of(ContentBuilder.builderLong(EUt * recipe.parallels * 4)));
             } else if (isOxygenBoosted) {
-                recipe.tickOutputs.put(EURecipeCapability.CAP, List.of(ContentBuilder.builderEU(EUt * recipe.parallels * 2)));
+                recipe.tickOutputs.put(EURecipeCapability.CAP, List.of(ContentBuilder.builderLong(EUt * recipe.parallels * 2)));
             }
             return recipe;
         }

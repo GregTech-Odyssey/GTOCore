@@ -69,7 +69,8 @@ public final class InaccessibleInfiniteHandler extends NotifiableItemStackHandle
 
     @Override
     public List<Ingredient> handleRecipeInner(IO io, GTRecipe recipe, List<Ingredient> left, boolean simulate) {
-        if (!simulate && io == IO.OUT) {
+        if (io == IO.OUT) {
+            if (simulate) return null;
             for (Object ingredient : left) {
                 if (((Ingredient) ingredient).isEmpty()) continue;
                 ItemStack item;
@@ -86,7 +87,7 @@ public final class InaccessibleInfiniteHandler extends NotifiableItemStackHandle
             }
             return null;
         }
-        return null;
+        return left;
     }
 
     @Override

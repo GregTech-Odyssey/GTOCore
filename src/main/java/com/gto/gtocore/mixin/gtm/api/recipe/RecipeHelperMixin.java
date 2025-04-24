@@ -1,7 +1,7 @@
 package com.gto.gtocore.mixin.gtm.api.recipe;
 
 import com.gto.gtocore.api.recipe.IGTRecipe;
-import com.gto.gtocore.api.recipe.RecipeRunner;
+import com.gto.gtocore.api.recipe.RecipeRunnerHelper;
 
 import com.gregtechceu.gtceu.api.capability.recipe.EURecipeCapability;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
@@ -76,7 +76,9 @@ public class RecipeHelperMixin {
      */
     @Overwrite(remap = false)
     public static ActionResult handleRecipe(IRecipeCapabilityHolder holder, GTRecipe recipe, IO io, Map<RecipeCapability<?>, List<Content>> contents, Map<RecipeCapability<?>, Object2IntMap<?>> chanceCaches, boolean isTick, boolean simulated) {
-        RecipeRunner runner = new RecipeRunner(recipe, io, isTick, holder, chanceCaches, simulated);
-        return runner.handle(contents);
+        if (RecipeRunnerHelper.handleRecipe(holder, recipe, io, contents, chanceCaches, isTick, simulated)) {
+            return ActionResult.SUCCESS;
+        }
+        return ActionResult.FAIL_NO_REASON;
     }
 }

@@ -2,6 +2,7 @@ package com.gto.gtocore.api.recipe;
 
 import com.gto.gtocore.GTOCore;
 import com.gto.gtocore.api.machine.feature.IRecipeSearchMachine;
+import com.gto.gtocore.api.machine.feature.multiblock.IDistinctRecipeHolder;
 import com.gto.gtocore.api.machine.feature.multiblock.IMEOutputMachine;
 import com.gto.gtocore.api.machine.trait.IEnhancedRecipeLogic;
 import com.gto.gtocore.common.data.GTORecipeTypes;
@@ -11,14 +12,18 @@ import com.gregtechceu.gtceu.api.capability.recipe.*;
 import com.gregtechceu.gtceu.api.machine.SimpleTieredMachine;
 import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
+import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
+import com.gregtechceu.gtceu.api.recipe.chance.boost.ChanceBoostFunction;
+import com.gregtechceu.gtceu.api.recipe.chance.logic.ChanceLogic;
 import com.gregtechceu.gtceu.api.recipe.content.Content;
 
 import net.minecraft.nbt.CompoundTag;
 
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import it.unimi.dsi.fastutil.objects.Reference2ObjectOpenHashMap;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collections;
@@ -41,7 +46,7 @@ public interface RecipeRunnerHelper {
     static boolean checkTier(IRecipeLogicMachine machine, GTRecipe recipe) {
         int tier = RecipeHelper.getRecipeEUtTier(recipe);
         if (tier > 0) {
-            boolean success = false;
+            boolean success = true;
             if (machine instanceof WorkableElectricMultiblockMachine electricMultiblockMachine) {
                 success = tier <= electricMultiblockMachine.getOverclockTier();
             } else if (machine instanceof SimpleTieredMachine tieredMachine) {
@@ -86,7 +91,7 @@ public interface RecipeRunnerHelper {
 
     static boolean matchRecipeInput(IRecipeCapabilityHolder holder, GTRecipe recipe) {
         if (recipe.inputs.isEmpty()) return true;
-        if (RecipeHelper.handleRecipe(holder, recipe, IO.IN, recipe.inputs, Collections.emptyMap(), false, true).isSuccess()) {
+        if (handleRecipe(holder, recipe, IO.IN, recipe.inputs, Collections.emptyMap(), false, true)) {
             return true;
         }
         if (holder instanceof IRecipeLogicMachine machine) {
@@ -100,7 +105,7 @@ public interface RecipeRunnerHelper {
         if (holder instanceof IMEOutputMachine machine && machine.gTOCore$DualMEOutput(recipe)) {
             return true;
         }
-        if (RecipeHelper.handleRecipe(holder, recipe, IO.OUT, recipe.outputs, Collections.emptyMap(), false, true).isSuccess()) {
+        if (handleRecipe(holder, recipe, IO.OUT, recipe.outputs, Collections.emptyMap(), false, true)) {
             return true;
         }
         if (holder instanceof IRecipeLogicMachine machine) {
@@ -148,7 +153,7 @@ public interface RecipeRunnerHelper {
     }
 
     static boolean handleRecipeIO(IRecipeCapabilityHolder holder, GTRecipe recipe, IO io, Map<RecipeCapability<?>, Object2IntMap<?>> chanceCaches) {
-        if (RecipeHelper.handleRecipe(holder, recipe, io, io == IO.IN ? recipe.inputs : recipe.outputs, chanceCaches, false, false).isSuccess()) {
+        if (handleRecipe(holder, recipe, io, io == IO.IN ? recipe.inputs : recipe.outputs, chanceCaches, false, false)) {
             return true;
         }
         if (io == IO.IN && holder instanceof IRecipeLogicMachine machine) {
@@ -191,7 +196,7 @@ public interface RecipeRunnerHelper {
         return true;
     }
 
-    static boolean handleRecipe(IRecipeCapabilityHolder holder, IO io, @Nullable List<?> contents, RecipeCapability<?> capability, boolean simulate) {
+    static boolean handleContent(IRecipeCapabilityHolder holder, IO io, @Nullable List<?> contents, RecipeCapability<?> capability, boolean simulate) {
         if (contents == null || contents.isEmpty()) return true;
         List<IRecipeHandler<?>> handlers = holder.getCapabilitiesFlat(io, capability);
         if (handlers.isEmpty()) return false;
@@ -200,5 +205,134 @@ public interface RecipeRunnerHelper {
             if (contents == null || contents.isEmpty()) return true;
         }
         return false;
+    }
+
+    static boolean handleRecipe(IRecipeCapabilityHolder holder, GTRecipe recipe, IO io, Map<RecipeCapability<?>, List<Content>> contents, Map<RecipeCapability<?>, Object2IntMap<?>> chanceCaches, boolean isTick, boolean simulated) {
+        RecipeHandlerList currentDistinc = null;
+        IDistinctRecipeHolder distinctRecipeHolder = null;
+        if (io == IO.IN && holder instanceof IDistinctRecipeHolder recipeHolder && ((IEnhancedRecipeLogic) recipeHolder.getRecipeLogic()).canLockRecipe()) {
+            distinctRecipeHolder = recipeHolder;
+            if (recipe.id.equals(recipeHolder.getRecipeId())) {
+                if (recipeHolder.isDistinctState() || !simulated) currentDistinc = recipeHolder.getCurrentDistinct();
+            } else {
+                recipeHolder.setCurrentDistinct(null);
+                recipeHolder.setRecipeId(recipe.id);
+            }
+        }
+
+        Reference2ObjectOpenHashMap<RecipeCapability<?>, List<Object>> recipeContents = new Reference2ObjectOpenHashMap<>();
+        ChanceBoostFunction function = recipe.getType().getChanceFunction();
+        int recipeTier = RecipeHelper.getPreOCRecipeEuTier(recipe);
+        int chanceTier = recipeTier + recipe.ocLevel;
+        for (var entry : contents.entrySet()) {
+            RecipeCapability<?> cap = entry.getKey();
+            if (!cap.doMatchInRecipe()) continue;
+            var list = entry.getValue();
+            if (list.isEmpty()) continue;
+            List<Content> chancedContents = new ObjectArrayList<>();
+            var contentList = new ObjectArrayList<>(list.size());
+            for (Content cont : list) {
+                if (simulated) {
+                    contentList.add(cont.content);
+                } else {
+                    if (cont.chance >= cont.maxChance) {
+                        contentList.add(cont.content);
+                    } else {
+                        chancedContents.add(cont);
+                    }
+                }
+            }
+            if (!chancedContents.isEmpty()) {
+                var cache = chanceCaches.get(cap);
+                chancedContents = ChanceLogic.OR.roll(chancedContents, function, recipeTier, chanceTier, cache, recipe.parallels);
+                for (Content cont : chancedContents) {
+                    contentList.add(cont.content);
+                }
+            }
+
+            if (!contentList.isEmpty()) {
+                recipeContents.put(cap, contentList);
+            }
+        }
+        if (recipeContents.isEmpty()) return true;
+        if (handleContentsInternal(io, io, holder, recipeContents, currentDistinc, recipe, distinctRecipeHolder, isTick, simulated)) return true;
+        return handleContentsInternal(IO.BOTH, io, holder, recipeContents, currentDistinc, recipe, distinctRecipeHolder, isTick, simulated);
+    }
+
+    private static boolean handleContentsInternal(IO capIO, IO io, IRecipeCapabilityHolder holder, Reference2ObjectOpenHashMap<RecipeCapability<?>, List<Object>> recipeContents, @Nullable RecipeHandlerList currentDistinc, GTRecipe recipe, @Nullable IDistinctRecipeHolder distinctRecipeHolder, boolean isTick, boolean simulated) {
+        if (currentDistinc != null && distinctRecipeHolder != null) {
+            var contents = handleRecipeContent(currentDistinc, io, recipe, recipeContents, simulated, simulated);
+            if (contents.isEmpty()) {
+                if (!distinctRecipeHolder.isDistinctState()) distinctRecipeHolder.setCurrentDistinct(null);
+                return true;
+            } else {
+                if (!simulated) return false;
+            }
+        }
+
+        List<RecipeHandlerList> distinct;
+        List<RecipeHandlerList> indistinct;
+        if (capIO == IO.IN && holder instanceof IDistinctRecipeHolder recipeHolder) {
+            distinct = recipeHolder.getDistinct();
+            indistinct = recipeHolder.getIndistinct();
+        } else {
+            var handlers = holder.getCapabilitiesProxy().get(capIO);
+            if (handlers == null) return false;
+            if (!isTick && capIO == IO.OUT) {
+                handlers.sort(RecipeHandlerList.COMPARATOR.reversed());
+            }
+            if (capIO == IO.OUT) {
+                distinct = List.of();
+                indistinct = handlers;
+            } else {
+                distinct = new ObjectArrayList<>();
+                indistinct = new ObjectArrayList<>();
+                for (var handler : handlers) {
+                    if (handler.isDistinct()) distinct.add(handler);
+                    else indistinct.add(handler);
+                }
+            }
+        }
+
+        for (var handler : distinct) {
+            var contents = handleRecipeContent(handler, io, recipe, recipeContents, true, true);
+            if (contents.isEmpty()) {
+                if (!simulated) {
+                    return handleRecipeContent(handler, io, recipe, recipeContents, false, false).isEmpty();
+                } else {
+                    if (distinctRecipeHolder != null) {
+                        distinctRecipeHolder.setCurrentDistinct(handler);
+                    }
+                    return true;
+                }
+            }
+        }
+
+        for (var handler : indistinct) {
+            if (handleRecipeContent(handler, io, recipe, recipeContents, simulated, false).isEmpty()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private static Reference2ObjectOpenHashMap<RecipeCapability<?>, List<Object>> handleRecipeContent(RecipeHandlerList list, IO io, GTRecipe recipe, Reference2ObjectOpenHashMap<RecipeCapability<?>, List<Object>> contents, boolean simulate, boolean distinct) {
+        if (list.getHandlerMap().isEmpty()) return contents;
+        var copy = distinct ? new Reference2ObjectOpenHashMap<>(contents) : contents;
+        for (var it = copy.reference2ObjectEntrySet().fastIterator(); it.hasNext();) {
+            var entry = it.next();
+            List left = entry.getValue();
+            var handlerList = list.getCapability(entry.getKey());
+            for (var handler : handlerList) {
+                left = handler.handleRecipe(io, recipe, left, simulate);
+                if (left == null || left.isEmpty()) {
+                    it.remove();
+                    break;
+                }
+            }
+            if (!distinct) entry.setValue(left);
+        }
+        return copy;
     }
 }

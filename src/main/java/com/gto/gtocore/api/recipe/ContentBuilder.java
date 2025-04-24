@@ -25,8 +25,8 @@ public final class ContentBuilder {
         }
     }
 
-    public static Content builderEU(long eu) {
-        return new Content(eu, ChanceLogic.getMaxChancedValue(), ChanceLogic.getMaxChancedValue(), 0);
+    public static Content builderLong(long number) {
+        return new Content(number, ChanceLogic.getMaxChancedValue(), ChanceLogic.getMaxChancedValue(), 0);
     }
 
     public static ContentBuilder create() {

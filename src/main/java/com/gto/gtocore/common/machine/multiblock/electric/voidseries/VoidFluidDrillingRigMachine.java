@@ -54,7 +54,7 @@ public final class VoidFluidDrillingRigMachine extends StorageMultiblockMachine 
         if (!isEmpty()) {
             if (RecipeRunnerHelper.matchRecipeInput(this, RECIPE)) {
                 GTRecipe recipe = RECIPE.copy();
-                recipe.tickInputs.put(EURecipeCapability.CAP, List.of(ContentBuilder.builderEU(getOverclockVoltage())));
+                recipe.tickInputs.put(EURecipeCapability.CAP, List.of(ContentBuilder.builderLong(getOverclockVoltage())));
                 FluidStack fluidStack = fluidStacks.get(c).copy();
                 fluidStack.setAmount(fluidStack.getAmount() * (1 << Math.max(0, getTier() - 6)));
                 recipe.outputs.put(FluidRecipeCapability.CAP, List.of(ContentBuilder.create().fluid(fluidStack).builder()));

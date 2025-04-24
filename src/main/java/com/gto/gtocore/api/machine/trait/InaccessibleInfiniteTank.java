@@ -71,7 +71,8 @@ public final class InaccessibleInfiniteTank extends NotifiableFluidTank {
 
     @Override
     public List<FluidIngredient> handleRecipeInner(IO io, GTRecipe recipe, List<FluidIngredient> left, boolean simulate) {
-        if (!simulate && io == IO.OUT) {
+        if (io == IO.OUT) {
+            if (simulate) return null;
             for (FluidIngredient ingredient : left) {
                 if (ingredient.isEmpty()) continue;
                 Fluid fluid = FluidUtils.getFirst(ingredient);
@@ -81,7 +82,7 @@ public final class InaccessibleInfiniteTank extends NotifiableFluidTank {
             }
             return null;
         }
-        return null;
+        return left;
     }
 
     @Override

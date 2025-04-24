@@ -475,6 +475,12 @@ public abstract class RecipeLogicMixin extends MachineTrait implements IEnhanced
             progress = 0;
             duration = recipe.duration;
             isActive = true;
+        } else {
+            setStatus(RecipeLogic.Status.IDLE);
+            consecutiveRecipes = 0;
+            progress = 0;
+            duration = 0;
+            isActive = false;
         }
     }
 
@@ -586,7 +592,7 @@ public abstract class RecipeLogicMixin extends MachineTrait implements IEnhanced
         if (RecipeRunnerHelper.handleRecipeIO(machine, recipe, io, chanceCaches)) {
             return ActionResult.SUCCESS;
         }
-        return ActionResult.PASS_NO_CONTENTS;
+        return ActionResult.FAIL_NO_REASON;
     }
 
     /**

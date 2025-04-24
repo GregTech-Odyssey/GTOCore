@@ -608,7 +608,7 @@ interface GTOPartsRecipeHandler {
         }
 
         LATHE_RECIPES.recipeBuilder("lathe_" + material.getName() + "_nugget_to_round")
-                .EUt(GTOUtils.getVoltageMultiplier(material)).duration(Math.min(1, (int) material.getMass() / 9))
+                .EUt(GTOUtils.getVoltageMultiplier(material)).duration(Math.max(1, (int) material.getMass() / 9))
                 .inputItems(stack)
                 .outputItems(stack1)
                 .save();

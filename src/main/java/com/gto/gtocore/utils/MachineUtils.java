@@ -321,17 +321,17 @@ public final class MachineUtils {
 
     public static boolean inputItem(IRecipeCapabilityHolder machine, ItemStack... item) {
         List<?> contentList = toIngredient(item);
-        return RecipeRunnerHelper.handleRecipe(machine, IO.IN, new ObjectArrayList<>(contentList), ItemRecipeCapability.CAP, true) && RecipeRunnerHelper.handleRecipe(machine, IO.IN, contentList, ItemRecipeCapability.CAP, false);
+        return RecipeRunnerHelper.handleContent(machine, IO.IN, new ObjectArrayList<>(contentList), ItemRecipeCapability.CAP, true) && RecipeRunnerHelper.handleContent(machine, IO.IN, contentList, ItemRecipeCapability.CAP, false);
     }
 
     public static boolean outputItem(IRecipeCapabilityHolder machine, ItemStack... item) {
         List<?> contentList = toIngredient(item);
-        return RecipeRunnerHelper.handleRecipe(machine, IO.OUT, contentList, ItemRecipeCapability.CAP, false);
+        return RecipeRunnerHelper.handleContent(machine, IO.OUT, contentList, ItemRecipeCapability.CAP, false);
     }
 
     public static boolean notConsumableItem(IRecipeCapabilityHolder machine, ItemStack... item) {
         List<?> contentList = toIngredient(item);
-        return RecipeRunnerHelper.handleRecipe(machine, IO.IN, contentList, ItemRecipeCapability.CAP, true);
+        return RecipeRunnerHelper.handleContent(machine, IO.IN, contentList, ItemRecipeCapability.CAP, true);
     }
 
     public static boolean notConsumableCircuit(IRecipeCapabilityHolder machine, int configuration) {
@@ -349,7 +349,7 @@ public final class MachineUtils {
 
     public static boolean inputFluid(IRecipeCapabilityHolder machine, FluidStack... fluid) {
         List<?> contentList = toFluidIngredient(fluid);
-        return RecipeRunnerHelper.handleRecipe(machine, IO.IN, new ObjectArrayList<>(contentList), FluidRecipeCapability.CAP, true) && RecipeRunnerHelper.handleRecipe(machine, IO.IN, contentList, FluidRecipeCapability.CAP, false);
+        return RecipeRunnerHelper.handleContent(machine, IO.IN, new ObjectArrayList<>(contentList), FluidRecipeCapability.CAP, true) && RecipeRunnerHelper.handleContent(machine, IO.IN, contentList, FluidRecipeCapability.CAP, false);
     }
 
     public static boolean outputFluid(IRecipeCapabilityHolder machine, Fluid fluid, int amount) {
@@ -358,6 +358,6 @@ public final class MachineUtils {
 
     public static boolean outputFluid(IRecipeCapabilityHolder machine, FluidStack... fluid) {
         List<?> contentList = toFluidIngredient(fluid);
-        return RecipeRunnerHelper.handleRecipe(machine, IO.OUT, contentList, FluidRecipeCapability.CAP, false);
+        return RecipeRunnerHelper.handleContent(machine, IO.OUT, contentList, FluidRecipeCapability.CAP, false);
     }
 }

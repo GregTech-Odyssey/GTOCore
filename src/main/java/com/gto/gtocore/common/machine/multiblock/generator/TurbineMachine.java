@@ -199,7 +199,7 @@ public final class TurbineMachine extends ElectricMultiblockMachine {
         long eut = Math.min(turbineMaxVoltage, recipe.parallels * EUt);
         energyPerTick = eut;
         recipe.duration = recipe.duration * rotorHolder.getTotalEfficiency() / 100;
-        recipe.tickOutputs.put(EURecipeCapability.CAP, List.of(ContentBuilder.builderEU(eut)));
+        recipe.tickOutputs.put(EURecipeCapability.CAP, List.of(ContentBuilder.builderLong(eut)));
         return recipe;
     }
 

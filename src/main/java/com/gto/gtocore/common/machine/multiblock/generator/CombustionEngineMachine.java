@@ -97,7 +97,7 @@ public final class CombustionEngineMachine extends ElectricMultiblockMachine {
         if (EUt > 0 && RecipeRunnerHelper.matchRecipe(this, getLubricantRecipe()) && !isIntakesObstructed()) {
             recipe = GTORecipeModifiers.accurateParallel(this, recipe, (int) (getOverclockVoltage() / EUt));
             if (isOxygenBoosted) {
-                recipe.tickOutputs.put(EURecipeCapability.CAP, List.of(ContentBuilder.builderEU((long) (RecipeHelper.getOutputEUt(recipe) * (isExtreme() ? 2 : 1.5)))));
+                recipe.tickOutputs.put(EURecipeCapability.CAP, List.of(ContentBuilder.builderLong((long) (RecipeHelper.getOutputEUt(recipe) * (isExtreme() ? 2 : 1.5)))));
             }
             return recipe;
         }
