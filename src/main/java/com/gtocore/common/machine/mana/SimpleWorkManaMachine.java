@@ -3,7 +3,6 @@ package com.gtocore.common.machine.mana;
 import com.gtolib.api.gui.OverclockConfigurator;
 import com.gtolib.api.machine.feature.IOverclockConfigMachine;
 import com.gtolib.api.machine.mana.feature.IManaEnergyMachine;
-import com.gtolib.api.machine.mana.feature.IManaEnergyMachine$ManaEnergyContainer;
 import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
 
@@ -34,7 +33,7 @@ public class SimpleWorkManaMachine extends SimpleManaMachine implements IManaEne
 
     public SimpleWorkManaMachine(IMachineBlockEntity holder, int tier, Int2IntFunction tankScalingFunction, Object... args) {
         super(holder, tier, tankScalingFunction, args);
-        container = new IManaEnergyMachine$ManaEnergyContainer(getManaContainer().getMaxIORate(), getManaContainer());
+        container = new ManaEnergyContainer(getManaContainer().getMaxIORate(), getManaContainer());
     }
 
     @Nullable

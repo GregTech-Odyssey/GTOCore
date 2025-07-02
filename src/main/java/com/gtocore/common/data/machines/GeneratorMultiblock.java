@@ -93,7 +93,7 @@ public final class GeneratorMultiblock {
             .recipeTypes(GTRecipeTypes.PLASMA_GENERATOR_FUELS)
             .tooltipsText("实际产出由等离子热值决定", "Actual output is determined by plasma heat value")
             .tooltipsText("玻璃等级限制了能量输出仓等级", "The glass tier limits the energy output hatch tier")
-            .tooltipsText("如果使用激光仓，则提升发电量x1.3^等级", "If a laser hatch is used, power generation is increased by x1.3^tier")
+            .tooltipsText("如果使用激光仓，则提升发电量x1.2^等级", "If a laser hatch is used, power generation is increased by x1.2^tier")
             .tooltipsText("等离子体洪流带着磅礴的能量奔涌", "A torrent of plasma rushes forward with majestic energy")
             .laserTooltips()
             .generator()

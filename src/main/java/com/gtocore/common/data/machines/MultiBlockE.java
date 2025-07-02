@@ -7,7 +7,6 @@ import com.gtocore.common.data.GTORecipeTypes;
 
 import com.gtolib.GTOCore;
 import com.gtolib.api.machine.multiblock.CoilCrossRecipeMultiblockMachine;
-import com.gtolib.api.machine.multiblock.CustomParallelMultiblockMachine;
 import com.gtolib.utils.MultiBlockFileReader;
 
 import com.gregtechceu.gtceu.GTCEu;
@@ -53,12 +52,11 @@ public final class MultiBlockE {
             .hasTESR(true)
             .register();
 
-    public static final MultiblockMachineDefinition STAR_ULTIMATE_MATERIAL_FORGE_FACTORY = multiblock("star_ultimate_material_forge_factory", "恒星终极物质锻造工厂", CustomParallelMultiblockMachine.createParallel(m -> 100000, true))
+    public static final MultiblockMachineDefinition STAR_ULTIMATE_MATERIAL_FORGE_FACTORY = multiblock("star_ultimate_material_forge_factory", "恒星终极物质锻造工厂", CoilCrossRecipeMultiblockMachine.createParallel(false, false, m -> Integer.MAX_VALUE))
             .allRotation()
             .recipeTypes(GTORecipeTypes.ULTIMATE_MATERIAL_FORGE_RECIPES)
-            .perfectOCTooltips()
             .laserTooltips()
-            .perfectOverclock()
+            .multipleRecipesTooltips()
             .block(GTOBlocks.MOLECULAR_CASING)
             .pattern(definition -> FactoryBlockPattern.start()
                     .aisle("                                                             ", "                                                             ", "                                                             ", "                                                             ", "                                                             ", "                                                             ", "                           AAAAAAA                           ", "                          AAAAAAAAA                          ", "                          AAAAAAAAA                          ", "                          AAAAAAAAA                          ", "                           AAAAAAA                           ", "                                                             ", "                                                             ", "                                                             ", "                                                             ", "                                                             ", "                                                             ")
@@ -123,7 +121,7 @@ public final class MultiBlockE {
                     .aisle("                                                             ", "                                                             ", "                                                             ", "                                                             ", "                                                             ", "                            AAAAA                            ", "                          AAAAAAAAA                          ", "                       AAAAAAAAAAAAAAA                       ", "                       AAABBBBBBBBBAAA                       ", "                       AAAAAAAAAAAAAAA                       ", "                       AAAAAAAAAAAAAAA                       ", "                            AAAAA                            ", "                                                             ", "                                                             ", "                                                             ", "                                                             ", "                                                             ")
                     .aisle("                                                             ", "                                                             ", "                                                             ", "                                                             ", "                                                             ", "                                                             ", "                           IIIIIII                           ", "                          IIIIIIIII                          ", "                          IIII~IIII                          ", "                          IIIIIIIII                          ", "                           IIIIIII                           ", "                                                             ", "                                                             ", "                                                             ", "                                                             ", "                                                             ", "                                                             ").where('~', controller(blocks(definition.get())))
                     .where('A', blocks(GTOBlocks.MOLECULAR_CASING.get()))
-                    .where('I', blocks(GTOBlocks.MOLECULAR_CASING.get()).or(GTOPredicates.autoLaserAbilities(definition.getRecipeTypes())))
+                    .where('I', blocks(GTOBlocks.MOLECULAR_CASING.get()).or(GTOPredicates.autoThreadLaserAbilities(definition.getRecipeTypes())))
                     .where('B', blocks(GTOBlocks.MOLECULAR_COIL.get()))
                     .where('C', blocks(GTOBlocks.CONTAINMENT_FIELD_GENERATOR.get()))
                     .where('D', blocks(GTBlocks.HIGH_POWER_CASING.get()))

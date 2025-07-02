@@ -37,6 +37,6 @@ public final class SteamMultiblockMachine extends BaseSteamMultiblockMachine {
     }
 
     public SteamMultiblockMachine(IMachineBlockEntity holder, int eut) {
-        super(holder, STEAM_MULTIBLOCK_MAX_PARALLELS, eut, STEAM_MULTIBLOCK_MAX_PARALLELS);
+        super(holder, STEAM_MULTIBLOCK_MAX_PARALLELS, eut, STEAM_MULTIBLOCK_DURATION_MULTIPLIER);
     }
 }

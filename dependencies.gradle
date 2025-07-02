@@ -66,7 +66,7 @@ dependencies {
 
     modImplementation("curse.maven:deeperdarker-659011:5906086")
 
-    modImplementation("curse.maven:modernfix-790626:6609555")
+    modImplementation("curse.maven:modernfix-790626:6719008")
 
     modImplementation("curse.maven:re-avaritia-623969:6418092")
 
@@ -124,7 +124,7 @@ dependencies {
 
     jarJar(modImplementation("dev:gtceu-$project.minecraft_version:$project.gtceu_version"))
 
-    modImplementation("dev:gtmthings-1.4.8")
+    modImplementation("dev:gtmthings-1.4.9")
 
     modImplementation("dev:Jade-1.20.1-Forge-11.13.1")
 

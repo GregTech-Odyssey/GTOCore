@@ -4,7 +4,6 @@ import com.gtocore.common.data.GTOBlocks;
 
 import com.gtolib.api.annotation.Scanned;
 import com.gtolib.api.annotation.language.RegisterLanguage;
-import com.gtolib.api.machine.feature.IRecipeSearchMachine;
 import com.gtolib.api.machine.multiblock.TierCasingMultiblockMachine;
 import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
@@ -28,7 +27,7 @@ import java.util.Map;
 import static com.gtolib.api.GTOValues.STELLAR_CONTAINMENT_TIER;
 
 @Scanned
-public final class StellarForgeMachine extends TierCasingMultiblockMachine implements IExplosionMachine, IRecipeSearchMachine {
+public final class StellarForgeMachine extends TierCasingMultiblockMachine implements IExplosionMachine {
 
     private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
             StellarForgeMachine.class, TierCasingMultiblockMachine.MANAGED_FIELD_HOLDER);

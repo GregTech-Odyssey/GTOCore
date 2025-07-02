@@ -546,7 +546,7 @@ public final class GTORecipeTypes {
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.ARC);
 
-    public static final RecipeType DIMENSIONALLY_TRANSCENDENT_MIXER_RECIPES = register("dimensionally_transcendent_mixer", "超维度搅拌", MULTIBLOCK)
+    public static final RecipeType DIMENSIONALLY_TRANSCENDENT_SHOCK_RECIPES = register("dimensionally_transcendent_shock", "超维度震荡", MULTIBLOCK)
             .setEUIO(IO.IN)
             .setMaxIOSize(9, 1, 6, 1)
             .setProgressBar(GuiTextures.PROGRESS_BAR_BATH, LEFT_TO_RIGHT)
@@ -971,4 +971,12 @@ public final class GTORecipeTypes {
     public static final RecipeType CHEMICAL_ENERGY_DEVOURER_FUELS = CombinedRecipeType.register("chemical_energy_devourer", COMBUSTION_GENERATOR_FUELS, GAS_TURBINE_FUELS, ROCKET_ENGINE_FUELS).setSound(GTSoundEntries.COMBUSTION);
 
     public static final RecipeType VAPOR_DEPOSITION = CombinedRecipeType.register("vapor_deposition", CHEMICAL_VAPOR_DEPOSITION_RECIPES, PHYSICAL_VAPOR_DEPOSITION_RECIPES).setMaxIOSize(3, 1, 3, 1).setEUIO(IO.IN).setSound(GTSoundEntries.ARC);
+
+    public static final RecipeType SUPRACHRONAL_ASSEMBLY_LINE = CombinedRecipeType.register("suprachronal_assembly", SUPRACHRONAL_ASSEMBLY_LINE_RECIPES, ASSEMBLY_LINE_RECIPES, CIRCUIT_ASSEMBLY_LINE_RECIPES).setMaxIOSize(16, 1, 4, 0).setEUIO(IO.IN).setSound(GTSoundEntries.ASSEMBLER);
+
+    public static final RecipeType INTEGRATED_ASSEMBLER = CombinedRecipeType.register("integrated_assembler", ASSEMBLER_RECIPES, LAMINATOR_RECIPES).setMaxIOSize(9, 1, 1, 0).setEUIO(IO.IN).setSound(GTSoundEntries.ASSEMBLER);
+
+    public static final RecipeType HEAVY_ROLLING = CombinedRecipeType.register("heavy_rolling", ROLLING_RECIPES, CLUSTER_RECIPES).setMaxIOSize(2, 1, 0, 0).setEUIO(IO.IN).setSound(GTSoundEntries.MOTOR);
+
+    public static final RecipeType LARGE_CHEMICAL_PLANT = CombinedRecipeType.register("large_chemical_plant", LARGE_CHEMICAL_RECIPES, CHEMICAL_RECIPES, POLYMERIZATION_REACTOR_RECIPES).setMaxIOSize(3, 3, 5, 4).setEUIO(IO.IN).setSound(GTSoundEntries.CHEMICAL);
 }

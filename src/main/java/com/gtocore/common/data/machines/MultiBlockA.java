@@ -220,13 +220,12 @@ public final class MultiBlockA {
             .workableCasingRenderer(GTCEu.id("block/casings/fusion/fusion_casing_mk2"), GTCEu.id("block/multiblock/assembly_line"))
             .register();
 
-    public static final MultiblockMachineDefinition ADVANCED_SPS_CRAFTING = multiblock("advanced_sps_crafting", "进阶超临界合成机", ElectricMultiblockMachine::new)
+    public static final MultiblockMachineDefinition ADVANCED_SPS_CRAFTING = multiblock("advanced_sps_crafting", "进阶超临界合成机", CrossRecipeMultiblockMachine::createHatchParallel)
             .nonYAxisRotation()
             .recipeTypes(GTORecipeTypes.TRANSCENDING_CRAFTING_RECIPES)
             .parallelizableTooltips()
-            .perfectOCTooltips()
+            .multipleRecipesTooltips()
             .laserTooltips()
-            .parallelizablePerfectOverclock()
             .block(GTBlocks.FUSION_CASING_MK2)
             .pattern(definition -> FactoryBlockPattern.start(RelativeDirection.FRONT, RelativeDirection.UP, RelativeDirection.RIGHT)
                     .aisle("            AAAA AAAA           ", "            ABBA ABBA           ", "            ABBA ABBA           ", "                                ", "                                ", "                                ", "                                ", "                                ", "                                ", "                                ", "                                ", "                                ", "                                ", "                                ", "                                ", "                                ", "                                ")
@@ -273,7 +272,7 @@ public final class MultiBlockA {
                     .where('~', controller(blocks(definition.get())))
                     .where('A', blocks(GTOBlocks.SPS_CASING.get())
                             .setMinGlobalLimited(800)
-                            .or(GTOPredicates.autoLaserAbilities(definition.getRecipeTypes()))
+                            .or(GTOPredicates.autoThreadLaserAbilities(definition.getRecipeTypes()))
                             .or(abilities(PARALLEL_HATCH).setMaxGlobalLimited(1))
                             .or(abilities(MAINTENANCE).setExactLimit(1)))
                     .where('B', blocks(GTOBlocks.FUSION_CASING_MK4.get()))
@@ -462,6 +461,7 @@ public final class MultiBlockA {
                                     x -> x.addLines("能耗与时间减少5%", "Reduces energy consumption and duration by 5%", StyleBuilder::setGreen),
                                     p -> p,
                                     StyleBuilder::setOneTab))))
+            .combinedRecipeTooltips()
             .parallelizableTooltips()
             .perfectOCTooltips()
             .recipeModifier(RecipeModifierFunction.coilReductionOverclock(0.25))
@@ -584,15 +584,12 @@ public final class MultiBlockA {
             .workableCasingRenderer(GTCEu.id("block/casings/voltage/uhv/side"), GTCEu.id("block/multiblock/gcym/large_electrolyzer"))
             .register();
 
-    public static final MultiblockMachineDefinition ADVANCED_MASS_FABRICATOR = multiblock("advanced_mass_fabricator", "进阶质量发生器", ElectricMultiblockMachine::new)
+    public static final MultiblockMachineDefinition ADVANCED_MASS_FABRICATOR = multiblock("advanced_mass_fabricator", "进阶质量发生器", CrossRecipeMultiblockMachine::createHatchParallel)
             .allRotation()
             .recipeTypes(GTORecipeTypes.MASS_FABRICATOR_RECIPES)
-            .eutMultiplierTooltips(0.8)
-            .durationMultiplierTooltips(0.5)
             .parallelizableTooltips()
-            .perfectOCTooltips()
+            .multipleRecipesTooltips()
             .laserTooltips()
-            .recipeModifiers(RecipeModifierFunction.HATCH_PARALLEL, RecipeModifierFunction.overclocking(0.25, 0.8, 0.5))
             .block(GTBlocks.MACHINE_CASING_UXV)
             .pattern(definition -> FactoryBlockPattern.start(RelativeDirection.BACK, RelativeDirection.UP, RelativeDirection.LEFT)
                     .aisle("AAAAAAAAAA AAAAAAAAAA", "AAFFFFFFAA AAFFFFFFAA", "AAAAAAAAAA AAAAAAAAAA", "AAAAAAAAAA AAAAAAAAAA", "AAFFFFFFAA AAFFFFFFAA", "AAAAAAAAAA AAAAAAAAAA", "                     ", "AAAAAAAAAA AAAAAAAAAA", "AAFFFFFFAA AAFFFFFFAA", "AAAAAAAAAA AAAAAAAAAA", "AAAAAAAAAA AAAAAAAAAA", "AAFFFFFFAA AAFFFFFFAA", "AAAAAAAAAA AAAAAAAAAA")
@@ -611,7 +608,8 @@ public final class MultiBlockA {
                     .where('A', blocks(GTBlocks.MACHINE_CASING_UXV.get()))
                     .where('B', blocks(GTOBlocks.RHENIUM_REINFORCED_ENERGY_GLASS.get()))
                     .where('C', blocks(GTBlocks.MACHINE_CASING_UXV.get())
-                            .or(GTOPredicates.autoLaserAbilities(definition.getRecipeTypes()))
+                            .or(GTOPredicates.autoThreadLaserAbilities(definition.getRecipeTypes()))
+                            .or(abilities(PARALLEL_HATCH).setExactLimit(1))
                             .or(abilities(MAINTENANCE).setExactLimit(1)))
                     .where('D', blocks(GTOBlocks.TITANSTEEL_COIL_BLOCK.get()))
                     .where('E', blocks(GTOBlocks.HOLLOW_CASING.get()))
@@ -814,21 +812,12 @@ public final class MultiBlockA {
             .workableCasingRenderer(GTOCore.id("block/casings/iridium_casing"), GTCEu.id("block/multiblock/gcym/large_engraving_laser"))
             .register();
 
-    public static final MultiblockMachineDefinition MAGNETIC_CONFINEMENT_DIMENSIONALITY_SHOCK_DEVICE = multiblock("magnetic_confinement_dimensionality_shock_device", "磁约束维度震荡装置", ElectricMultiblockMachine::new)
+    public static final MultiblockMachineDefinition MAGNETIC_CONFINEMENT_DIMENSIONALITY_SHOCK_DEVICE = multiblock("magnetic_confinement_dimensionality_shock_device", "磁约束维度震荡装置", CrossRecipeMultiblockMachine::createHatchParallel)
             .allRotation()
-            .recipeTypes(GTORecipeTypes.DIMENSIONALLY_TRANSCENDENT_MIXER_RECIPES)
-            .recipeTypes(GTRecipeTypes.MIXER_RECIPES)
-            .tooltipsText("运行搅拌机配方时耗时倍数为0.1", "Time multiplication factor for running the mixer recipe is 0.1")
+            .recipeTypes(GTORecipeTypes.DIMENSIONALLY_TRANSCENDENT_SHOCK_RECIPES)
             .parallelizableTooltips()
-            .perfectOCTooltips()
+            .multipleRecipesTooltips()
             .laserTooltips()
-            .recipeModifiers((machine, recipe) -> {
-                if (machine instanceof ElectricMultiblockMachine workableElectricMultiblockMachine && workableElectricMultiblockMachine.getRecipeType() == GTRecipeTypes.MIXER_RECIPES) {
-                    recipe.duration = recipe.duration / 10;
-                    return recipe;
-                }
-                return recipe;
-            }, RecipeModifierFunction.HATCH_PARALLEL, RecipeModifierFunction.PERFECT_OVERCLOCKING)
             .block(GTOBlocks.MOLECULAR_CASING)
             .pattern(definition -> MultiBlockFileReader.start(definition, RelativeDirection.FRONT, RelativeDirection.UP, RelativeDirection.RIGHT)
                     .where('~', controller(blocks(definition.get())))
@@ -847,7 +836,7 @@ public final class MultiBlockA {
                     .where('N', blocks(GTOBlocks.AMPROSIUM_CASING.get()))
                     .where('O', blocks(GTOBlocks.AMPROSIUM_PIPE_CASING.get()))
                     .where('a', blocks(GTOBlocks.MOLECULAR_CASING.get())
-                            .or(GTOPredicates.autoLaserAbilities(definition.getRecipeTypes()))
+                            .or(GTOPredicates.autoThreadLaserAbilities(definition.getRecipeTypes()))
                             .or(abilities(PARALLEL_HATCH).setMaxGlobalLimited(1))
                             .or(abilities(MAINTENANCE).setExactLimit(1)))
                     .where(' ', any())
@@ -917,7 +906,8 @@ public final class MultiBlockA {
 
     public static final MultiblockMachineDefinition LARGE_CHEMICAL_PLANT = multiblock("large_chemical_plant", "大型化工厂", CoilCrossRecipeMultiblockMachine::createCoilParallel)
             .allRotation()
-            .recipeTypes(GTORecipeTypes.CHEMICAL)
+            .recipeTypes(GTORecipeTypes.LARGE_CHEMICAL_PLANT)
+            .combinedRecipeTooltips()
             .coilParallelTooltips()
             .laserTooltips()
             .multipleRecipesTooltips()
@@ -1825,8 +1815,8 @@ public final class MultiBlockA {
 
     public static final MultiblockMachineDefinition HEAVY_ROLLING = multiblock("heavy_rolling", "重型辊轧机", CoilCrossRecipeMultiblockMachine::createCoilParallel)
             .nonYAxisRotation()
-            .recipeTypes(GTORecipeTypes.CLUSTER_RECIPES)
-            .recipeTypes(GTORecipeTypes.ROLLING_RECIPES)
+            .recipeTypes(GTORecipeTypes.HEAVY_ROLLING)
+            .combinedRecipeTooltips()
             .coilParallelTooltips()
             .laserTooltips()
             .multipleRecipesTooltips()
@@ -2373,7 +2363,7 @@ public final class MultiBlockA {
             .nonYAxisRotation()
             .recipeTypes(GTORecipeTypes.INTEGRATED_ORE_PROCESSOR)
             .tooltips(NewDataAttributes.MAIN_FUNCTION.create(s -> s.addLines("一步完成矿石处理", "Process ores in one step", StyleBuilder::setRainbow)))
-            .tooltips(NewDataAttributes.ALLOW_PARALLEL_NUMBER.create(Integer.MAX_VALUE - 1))
+            .tooltips(NewDataAttributes.ALLOW_PARALLEL_NUMBER.create(Long.MAX_VALUE))
             .laserTooltips()
             .multipleRecipesTooltips()
             .block(GTOBlocks.DIMENSION_INJECTION_CASING)
@@ -2435,9 +2425,10 @@ public final class MultiBlockA {
             .workableCasingRenderer(GTOCore.id("block/casings/dimension_injection_casing"), GTCEu.id("block/multiblock/gcym/large_maceration_tower"))
             .register();
 
-    public static final MultiblockMachineDefinition MAGE_ASSEMBLER = multiblock("mage_assembler", "综合组装车间", CrossRecipeMultiblockMachine::createHatchParallel)
+    public static final MultiblockMachineDefinition INTEGRATED_ASSEMBLER = multiblock("integrated_assembler", "综合组装车间", CrossRecipeMultiblockMachine::createHatchParallel)
             .nonYAxisRotation()
-            .recipeTypes(GTRecipeTypes.ASSEMBLER_RECIPES)
+            .recipeTypes(GTORecipeTypes.INTEGRATED_ASSEMBLER)
+            .combinedRecipeTooltips()
             .parallelizableTooltips()
             .laserTooltips()
             .multipleRecipesTooltips()

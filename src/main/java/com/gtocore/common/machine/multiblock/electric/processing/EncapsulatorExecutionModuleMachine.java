@@ -3,7 +3,6 @@ package com.gtocore.common.machine.multiblock.electric.processing;
 import com.gtolib.api.GTOValues;
 import com.gtolib.api.gui.ParallelConfigurator;
 import com.gtolib.api.item.NBTItem;
-import com.gtolib.api.machine.feature.IRecipeSearchMachine;
 import com.gtolib.api.machine.feature.multiblock.IParallelMachine;
 import com.gtolib.api.machine.multiblock.StorageMultiblockMachine;
 import com.gtolib.api.machine.trait.CustomParallelTrait;
@@ -60,7 +59,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public final class EncapsulatorExecutionModuleMachine extends StorageMultiblockMachine implements IParallelMachine, IRecipeSearchMachine {
+public final class EncapsulatorExecutionModuleMachine extends StorageMultiblockMachine implements IParallelMachine {
 
     private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(EncapsulatorExecutionModuleMachine.class, StorageMultiblockMachine.MANAGED_FIELD_HOLDER);
     private GTRecipeType recipeTypeCache = GTRecipeTypes.DUMMY_RECIPES;
@@ -205,7 +204,7 @@ public final class EncapsulatorExecutionModuleMachine extends StorageMultiblockM
 
     @Override
     public boolean matchRecipe(Recipe recipe) {
-        if (finalRecipe != null) return IRecipeSearchMachine.super.matchRecipe(recipe);
+        if (finalRecipe != null) return super.matchRecipe(recipe);
         if (getStorageStack().getItem() instanceof MetaMachineItem metaMachineItem) {
             MachineDefinition definition = metaMachineItem.getDefinition();
             if (definition.getTier() >= recipe.tier && encapsulatorMachine != null && encapsulatorMachine.isFormed() && encapsulatorMachine.typeMap.getInt(recipe.recipeType) >= recipe.tier) {

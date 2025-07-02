@@ -3,18 +3,17 @@ package com.gtocore.common.machine.multiblock.generator;
 import com.gtocore.common.data.GTORecipeTypes;
 import com.gtocore.common.wireless.ExtendWirelessEnergyContainer;
 
-import com.gtolib.GTOCore;
 import com.gtolib.api.annotation.Scanned;
 import com.gtolib.api.annotation.dynamic.DynamicInitialValue;
 import com.gtolib.api.annotation.dynamic.DynamicInitialValueTypes;
 import com.gtolib.api.capability.IExtendWirelessEnergyContainerHolder;
-import com.gtolib.api.machine.feature.IRecipeSearchMachine;
 import com.gtolib.api.machine.feature.multiblock.IArrayMachine;
 import com.gtolib.api.machine.multiblock.StorageMultiblockMachine;
 import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.RecipeRunner;
 import com.gtolib.api.recipe.RecipeType;
 import com.gtolib.api.recipe.modifier.ParallelLogic;
+import com.gtolib.utils.GTOUtils;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.recipe.EURecipeCapability;
@@ -56,7 +55,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @Scanned
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public final class GeneratorArrayMachine extends StorageMultiblockMachine implements IArrayMachine, IExtendWirelessEnergyContainerHolder, IRecipeSearchMachine {
+public final class GeneratorArrayMachine extends StorageMultiblockMachine implements IArrayMachine, IExtendWirelessEnergyContainerHolder {
 
     private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(GeneratorArrayMachine.class, StorageMultiblockMachine.MANAGED_FIELD_HOLDER);
     @DynamicInitialValue(key = "generator_array.multiply", simpleValue = "2", normalValue = "1.3", expertValue = "1.3", typeKey = DynamicInitialValueTypes.KEY_MULTIPLY, cn = "发电阵列乘数", cnComment = """
@@ -174,27 +173,6 @@ public final class GeneratorArrayMachine extends StorageMultiblockMachine implem
         return true;
     }
 
-    public static int getAmperage(int tier) {
-        if (tier > 0 && tier < 4) {
-            return 2;
-        }
-        return 1;
-    }
-
-    public static int getEfficiency(GTRecipeType recipeType, int tier) {
-        int base = 105 - 5 * tier;
-        if (recipeType == GTRecipeTypes.STEAM_TURBINE_FUELS) {
-            base = 135 - 35 * tier;
-        }
-        if (recipeType == GTORecipeTypes.NAQUADAH_REACTOR) {
-            base = 100 + 50 * (tier - GTValues.IV);
-        }
-        if (recipeType == GTORecipeTypes.THERMAL_GENERATOR_FUELS) {
-            base = 100 - 25 * tier;
-        }
-        return base + 30 - 15 * GTOCore.difficulty;
-    }
-
     @Override
     public boolean canVoidRecipeOutputs(RecipeCapability<?> capability) {
         return capability != EURecipeCapability.CAP;
@@ -214,9 +192,9 @@ public final class GeneratorArrayMachine extends StorageMultiblockMachine implem
             long EUt = recipe.getOutputEUt();
             if (EUt > 0) {
                 recipe.outputs.clear();
-                long paralle = ParallelLogic.getInputFluidParallel(this, recipe.getInputContents(FluidRecipeCapability.CAP), (int) (multiply * GTValues.V[getOverclockTier()] * a * getAmperage(getTier()) / EUt));
+                long paralle = ParallelLogic.getInputFluidParallel(this, recipe.getInputContents(FluidRecipeCapability.CAP), (int) (multiply * GTValues.V[getOverclockTier()] * a * GTOUtils.getGeneratorAmperage(getTier()) / EUt));
                 recipe.modifier(ContentModifier.multiplier(paralle), true);
-                recipe.duration = recipe.duration * getEfficiency(getRecipeType(), getTier()) / 100;
+                recipe.duration = recipe.duration * GTOUtils.getGeneratorEfficiency(getRecipeType(), getTier()) / 100;
                 if (isw) {
                     recipe.setOutputEUt(0);
                     eut = EUt * paralle;
@@ -268,7 +246,7 @@ public final class GeneratorArrayMachine extends StorageMultiblockMachine implem
 
     @Override
     public boolean matchTickRecipe(Recipe recipe) {
-        return isw || IRecipeSearchMachine.super.matchTickRecipe(recipe);
+        return isw || super.matchTickRecipe(recipe);
     }
 
     private static class Wrapper {

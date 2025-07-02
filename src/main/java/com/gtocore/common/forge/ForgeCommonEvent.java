@@ -355,11 +355,8 @@ public final class ForgeCommonEvent {
                 CommonSavaedData.INSTANCE.setDirty();
             } else if (difficulty != GTOCore.difficulty) {
                 String error = "Current difficulty: " + GTOCore.difficulty + " | World difficulty: " + difficulty;
-                if (GTCEu.isClientSide()) {
-                    GTOCore.LOGGER.error(error);
-                } else {
-                    throw new IllegalStateException(error);
-                }
+                GTOCore.difficulty = difficulty;
+                GTOCore.LOGGER.error(error);
             }
         }
     }

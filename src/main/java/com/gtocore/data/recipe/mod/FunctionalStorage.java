@@ -85,7 +85,7 @@ public final class FunctionalStorage {
             filters.add(RLUtils.functionalstorage("gold_upgrade"));
             filters.add(RLUtils.functionalstorage("diamond_upgrade"));
             filters.add(RLUtils.functionalstorage("netherite_upgrade"));
-
+            filters.add(RLUtils.functionalstorage("oak_drawer_alternate_x1"));
         }
     }
 }

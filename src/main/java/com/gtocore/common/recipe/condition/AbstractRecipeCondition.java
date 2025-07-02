@@ -11,17 +11,17 @@ import org.jetbrains.annotations.NotNull;
 
 abstract class AbstractRecipeCondition extends RecipeCondition {
 
-    final RecipeConditionType<ResearchCondition> RESEARCH = new RecipeConditionType<>(null, null);
+    static final RecipeConditionType<ResearchCondition> RESEARCH = new RecipeConditionType<>(null, null);
 
-    final RecipeConditionType<GravityCondition> GRAVITY = new RecipeConditionType<>(null, null);
+    static final RecipeConditionType<GravityCondition> GRAVITY = new RecipeConditionType<>(null, null);
 
-    final RecipeConditionType<VacuumCondition> VACUUM = new RecipeConditionType<>(null, null);
+    static final RecipeConditionType<VacuumCondition> VACUUM = new RecipeConditionType<>(null, null);
 
-    final RecipeConditionType<RestrictedMachineCondition> RESTRICTED_MACHINE = new RecipeConditionType<>(null, null);
+    static final RecipeConditionType<RestrictedMachineCondition> RESTRICTED_MACHINE = new RecipeConditionType<>(null, null);
 
-    final RecipeConditionType<HeatCondition> HEAT = new RecipeConditionType<>(null, null);
+    static final RecipeConditionType<HeatCondition> HEAT = new RecipeConditionType<>(null, null);
 
-    final RecipeConditionType<RunLimitCondition> RUN_LIMIT = new RecipeConditionType<>(null, null);
+    static final RecipeConditionType<RunLimitCondition> RUN_LIMIT = new RecipeConditionType<>(null, null);
 
     @Override
     public final RecipeCondition createTemplate() {

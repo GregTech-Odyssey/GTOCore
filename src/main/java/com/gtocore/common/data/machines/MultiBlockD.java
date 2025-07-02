@@ -9,8 +9,6 @@ import com.gtocore.common.machine.multiblock.electric.*;
 import com.gtocore.common.machine.multiblock.electric.adventure.SlaughterhouseMachine;
 import com.gtocore.common.machine.multiblock.electric.assembly.AdvancedAssemblyLineMachine;
 import com.gtocore.common.machine.multiblock.electric.assembly.CircuitAssemblyLineMachine;
-import com.gtocore.common.machine.multiblock.electric.assembly.SuprachronalAssemblyLineMachine;
-import com.gtocore.common.machine.multiblock.electric.assembly.SuprachronalAssemblyLineModuleMachine;
 import com.gtocore.common.machine.multiblock.electric.bioengineering.IncubatorMachine;
 import com.gtocore.common.machine.multiblock.electric.nano.NanoForgeMachine;
 import com.gtocore.common.machine.multiblock.electric.processing.ColdIceFreezerMachine;
@@ -31,6 +29,7 @@ import com.gtolib.GTOCore;
 import com.gtolib.api.annotation.NewDataAttributes;
 import com.gtolib.api.annotation.component_builder.ComponentBuilder;
 import com.gtolib.api.annotation.component_builder.StyleBuilder;
+import com.gtolib.api.machine.multiblock.CrossRecipeMultiblockMachine;
 import com.gtolib.api.machine.multiblock.ElectricMultiblockMachine;
 import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
 import com.gtolib.utils.*;
@@ -129,8 +128,9 @@ public final class MultiBlockD {
             .tooltips(NewDataAttributes.EMPTY_WITH_BAR.create(
                     h -> h.addLines("启动需求", "Startup Requirements", StyleBuilder::setGold),
                     c -> c.addLines(
-                            NewDataAttributes.EMPTY_WITH_POINT.createBuilder(x -> x.addLines("1024B宇宙素", "1024B cosmic matter", StyleBuilder::setWhite), p -> p, StyleBuilder::setOneTab),
-                            NewDataAttributes.EMPTY_WITH_POINT.createBuilder(x -> x.addLines("1024KB氢和氦", "1024KB hydrogen and helium", StyleBuilder::setWhite), p -> p, StyleBuilder::setOneTab),
+                            NewDataAttributes.EMPTY_WITH_POINT.createBuilder(x -> x.addLines("1024B宇宙素", "1024B Cosmic Element", StyleBuilder::setWhite), p -> p, StyleBuilder::setOneTab),
+                            NewDataAttributes.EMPTY_WITH_POINT.createBuilder(x -> x.addLines("1024KB氢", "1024KB Hydrogen", StyleBuilder::setWhite), p -> p, StyleBuilder::setOneTab),
+                            NewDataAttributes.EMPTY_WITH_POINT.createBuilder(x -> x.addLines("1024KB氦", "1024KB Helium", StyleBuilder::setWhite), p -> p, StyleBuilder::setOneTab),
                             NewDataAttributes.EMPTY_WITH_POINT.createBuilder(x -> x.addLines("氢氦存储在机器内部并持续消耗", "Hydrogen and helium stored inside and continuously consumed", StyleBuilder::setRed), p -> p, StyleBuilder::setOneTab))))
             .alwaysTryModifyRecipe(true)
             .fromSourceTooltips("GTNH")
@@ -795,11 +795,9 @@ public final class MultiBlockD {
             .workableCasingRenderer(GTOCore.id("block/casings/dimension_connection_casing"), GTOCore.id("block/multiblock/create_aggregation"))
             .register();
 
-    public static final MultiblockMachineDefinition SUPRACHRONAL_ASSEMBLY_LINE = multiblock("suprachronal_assembly_line", "超时空装配线", SuprachronalAssemblyLineMachine::new)
+    public static final MultiblockMachineDefinition SUPRACHRONAL_ASSEMBLY_LINE = multiblock("suprachronal_assembly_line", "超时空装配线", CrossRecipeMultiblockMachine::createHatchParallel)
             .allRotation()
-            .recipeTypes(GTORecipeTypes.SUPRACHRONAL_ASSEMBLY_LINE_RECIPES)
-            .recipeTypes(GTRecipeTypes.ASSEMBLY_LINE_RECIPES)
-            .recipeTypes(GTORecipeTypes.CIRCUIT_ASSEMBLY_LINE_RECIPES)
+            .recipeTypes(GTORecipeTypes.SUPRACHRONAL_ASSEMBLY_LINE)
             .tooltips(ComponentBuilder.create().addStoryLine(
                     """
                             GTO寰宇格雷科技有限公司的顶级工程师们耗时十年，终于完成了
@@ -815,11 +813,7 @@ public final class MultiBlockD {
                             molecular coils. This machine can operate multiple parallel spaces
                             simultaneously, assembling materials from different dimensions precisely.
                             """).build())
-            .tooltips(NewDataAttributes.EMPTY_WITH_BAR.create(
-                    h -> h.addLines("§8§l不可视之触§r", "§8§lInvisibly Touch§r", StyleBuilder::setGold),
-                    c -> c.addLines(
-                            NewDataAttributes.EMPTY_WITH_POINT.createBuilder(x -> x.addLines("可在两侧拓展模块", "Modules can be expanded on both sides", StyleBuilder::setWhite), p -> p, StyleBuilder::setOneTab),
-                            NewDataAttributes.EMPTY_WITH_POINT.createBuilder(x -> x.addLines("模块与主机共享并行数", "Modules share parallelism with the mainframe", StyleBuilder::setGreen), p -> p, StyleBuilder::setOneTab))))
+            .combinedRecipeTooltips()
             .parallelizableTooltips()
             .laserTooltips()
             .multipleRecipesTooltips()
@@ -844,53 +838,6 @@ public final class MultiBlockD {
                             .or(abilities(PARALLEL_HATCH).setMaxGlobalLimited(1))
                             .or(abilities(OPTICAL_DATA_RECEPTION).setExactLimit(1)))
                     .where(' ', any())
-                    .build())
-            .workableCasingRenderer(GTOCore.id("block/casings/molecular_casing"), GTCEu.id("block/multiblock/fusion_reactor"))
-            .register();
-
-    public static final MultiblockMachineDefinition SUPRACHRONAL_ASSEMBLY_LINE_MODULE = multiblock("suprachronal_assembly_line_module", "超时空装配线拓展模块", SuprachronalAssemblyLineModuleMachine::new)
-            .allRotation()
-            .recipeTypes(GTRecipeTypes.ASSEMBLY_LINE_RECIPES)
-            .recipeTypes(GTORecipeTypes.CIRCUIT_ASSEMBLY_LINE_RECIPES)
-            .tooltips(ComponentBuilder.create().addStoryLine("""
-                    GTO寰宇格雷科技有限公司的科学家们突破了时空壁垒的限制。
-                    在量子实验室的深处，他们构建了第一个超时空装配线拓展模块，
-                    利用分子线圈扭曲现实，在多维度间同时进行精密组装作业。
-                    董事长凝视着聚变玻璃中闪烁的时空裂隙，意识到这将改变一切，
-                    从此，格雷科技的生产线延伸至无数平行宇宙的可能性之中。
-                    """,
-                    """
-                            GTO Universal GregTech scientists broke through spacetime barriers.
-                            Deep in the quantum lab, they built the first Suprachronal Assembly module,
-                            using molecular coils to warp reality for precise multidimensional assembly.
-                            The CEO gazed at spacetime rifts flickering in fusion glass, realizing change,
-                            extending GregTech's production lines across infinite parallel possibilities.
-                            """).build())
-            .tooltips(NewDataAttributes.EMPTY_WITH_BAR.create(
-                    h -> h.addLines("安装位置", "Installation Position", StyleBuilder::setGold),
-                    c -> c.addLines(
-                            NewDataAttributes.EMPTY_WITH_POINT.createBuilder(x -> x.addLines("安装在超时空装配线两侧", "Installed on both sides of the Supra-Temporal Assembly Line", StyleBuilder::setWhite), p -> p, StyleBuilder::setOneTab))))
-            .laserTooltips()
-            .multipleRecipesTooltips()
-            .block(GTOBlocks.MOLECULAR_CASING)
-            .pattern(definition -> FactoryBlockPattern.start()
-                    .aisle(" D ", " E ", " D ")
-                    .aisle(" D ", " D ", " D ")
-                    .aisle(" D ", " D ", " D ")
-                    .aisle(" C ", " C ", " C ")
-                    .aisle(" B ", " B ", " B ")
-                    .aisle("AAA", "A~A", "AAA")
-                    .aisle("   ", " - ", "   ")
-                    .where('~', controller(blocks(definition.get())))
-                    .where('B', blocks(GTOBlocks.DIMENSIONALLY_TRANSCENDENT_CASING.get()))
-                    .where('C', blocks(GTOBlocks.MOLECULAR_COIL.get()))
-                    .where('D', blocks(GTBlocks.FUSION_GLASS.get()))
-                    .where('E', blocks(GTBlocks.HIGH_POWER_CASING.get()))
-                    .where('A', blocks(GTOBlocks.MOLECULAR_CASING.get())
-                            .or(GTOPredicates.autoLaserAbilities(definition.getRecipeTypes()))
-                            .or(abilities(OPTICAL_DATA_RECEPTION).setExactLimit(1)))
-                    .where(' ', any())
-                    .where('-', air())
                     .build())
             .workableCasingRenderer(GTOCore.id("block/casings/molecular_casing"), GTCEu.id("block/multiblock/fusion_reactor"))
             .register();

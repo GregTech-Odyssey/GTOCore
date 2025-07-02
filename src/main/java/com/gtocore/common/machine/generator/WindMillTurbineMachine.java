@@ -164,9 +164,11 @@ public final class WindMillTurbineMachine extends TieredEnergyMachine implements
                 }
                 if (obstructed) {
                     stack.setDamageValue(damage + (int) (40 * spinSpeed));
+                    inventory.storage.setStackInSlot(0, stack);
                     spinSpeed = 0;
                 } else if (wind > rotorItem.getMinWind()) {
                     stack.setDamageValue(damage + (int) Math.pow(Math.ceil(wind / rotorItem.getMaxWind()), 16));
+                    inventory.storage.setStackInSlot(0, stack);
                     spinSpeed = Math.min(0.05F * wind, spinSpeed + 0.04F);
                     actualPower = (int) (GTValues.V[tier] * spinSpeed * 20 * getMaxInputOutputAmperage() / getMaxWind(tier));
                     energyContainer.addEnergy(20L * actualPower);

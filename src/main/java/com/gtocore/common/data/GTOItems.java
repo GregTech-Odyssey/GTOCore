@@ -290,8 +290,8 @@ public final class GTOItems {
 
     private static final ComponentSupplier TIME_TWISTER_TOOLTIPS = ComponentBuilder.create()
             .addLines(NewDataAttributes.MIRACULOUS_TOOLS.create(LangHandler.CNEN.create("时间扭曲者", "Time Twister")), a -> a)
-            .addLines(NewDataAttributes.EMPTY_WITH_BAR.create(LangHandler.CNEN.create("对普通方块实体的加速：", "Acceleration for normal block entities")), StyleBuilder::setRainbowSlow)
-            .addLines(NewDataAttributes.EMPTY_WITH_TAB.create(LangHandler.CNEN.create("普通点击：消耗8192 EU能量，使方块实体额外执行200个游戏刻(tick)", "Consume 8192 EU energy, make the block entity execute 200 ticks extra")), StyleBuilder::setGold)
+            .addLines(NewDataAttributes.EMPTY_WITH_BAR.create(LangHandler.CNEN.create("对普通方块实体的加速：", "Acceleration for normal block entities")), StyleBuilder::setGold)
+            .addLines(NewDataAttributes.EMPTY_WITH_TAB.create(LangHandler.CNEN.create("普通点击：消耗8192 EU能量，使方块实体额外执行200个游戏刻(tick)", "Consume 8192 EU energy, make the block entity execute 200 ticks extra")), StyleBuilder::setAqua)
             .addLines(NewDataAttributes.EMPTY_WITH_TAB.create(LangHandler.CNEN.create("Shift点击：消耗819200 EU能量，持续100刻内加速目标方块", "Consume 819200 EU energy, accelerate the target block for 100 ticks")), StyleBuilder::setAqua)
             .addLines(NewDataAttributes.EMPTY_WITH_BAR.create(LangHandler.CNEN.create("对GT机器的加速：", "Acceleration for GT machines")), StyleBuilder::setGold)
             .addLines(NewDataAttributes.EMPTY_WITH_TAB.create(LangHandler.CNEN.create("普通点击：消耗相应EU能量，使当前正在工作的机器进度立即增加50%", "Consume corresponding EU energy, make the current working machine progress increase by 50% immediately")), StyleBuilder::setAqua)

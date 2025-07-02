@@ -107,7 +107,7 @@ final class AssemblyLine {
                 .EUt(8388608)
                 .duration(1600)
                 .researchStation(b -> b
-                        .researchStack(MultiBlockA.MAGE_ASSEMBLER.asStack())
+                        .researchStack(MultiBlockA.INTEGRATED_ASSEMBLER.asStack())
                         .CWUt(512))
                 .save();
 
@@ -3814,7 +3814,7 @@ final class AssemblyLine {
                 .inputFluids(GTMaterials.Kanthal.getFluid(5760))
                 .inputFluids(GTMaterials.Nobelium.getFluid(2880))
                 .inputFluids(GTMaterials.Lawrencium.getFluid(2880))
-                .outputItems(MultiBlockA.MAGE_ASSEMBLER.asStack())
+                .outputItems(MultiBlockA.INTEGRATED_ASSEMBLER.asStack())
                 .EUt(1966080)
                 .duration(800)
                 .researchStation(b -> b.researchStack(MultiBlockA.PRECISION_ASSEMBLER.asStack())

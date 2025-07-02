@@ -2,6 +2,7 @@ package com.gtocore.common.machine.multiblock.part.ae;
 
 import com.gtocore.common.data.machines.GTAEMachines;
 
+import com.gtolib.ae2.MyPatternDetailsHelper;
 import com.gtolib.ae2.pattern.IParallelPatternDetails;
 
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
@@ -24,7 +25,6 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
 
 import appeng.api.crafting.IPatternDetails;
-import appeng.api.crafting.PatternDetailsHelper;
 import appeng.api.implementations.blockentities.PatternContainerGroup;
 import appeng.api.inventories.InternalInventory;
 import appeng.api.networking.IGrid;
@@ -58,7 +58,7 @@ abstract class MEPatternPartMachine<T extends MEPatternPartMachine.AbstractInter
 
     static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(MEPatternPartMachine.class, MEBusPartMachine.MANAGED_FIELD_HOLDER);
     public final int maxPatternCount;
-    private final InternalInventory internalPatternInventory = new InternalInventory() {
+    final InternalInventory internalPatternInventory = new InternalInventory() {
 
         @Override
         public int size() {
@@ -122,7 +122,7 @@ abstract class MEPatternPartMachine<T extends MEPatternPartMachine.AbstractInter
 
     @Nullable
     private IPatternDetails decodePattern(ItemStack stack) {
-        return IParallelPatternDetails.of(PatternDetailsHelper.decodePattern(stack, getLevel()), getLevel(), 1);
+        return IParallelPatternDetails.of(MyPatternDetailsHelper.decodePattern(stack, holder.getSelf(), getGrid()), getLevel(), 1);
     }
 
     @Override
@@ -191,7 +191,7 @@ abstract class MEPatternPartMachine<T extends MEPatternPartMachine.AbstractInter
         }
     }
 
-    private void onPatternChange(int index) {
+    void onPatternChange(int index) {
         if (isRemote()) return;
         T internalInv = getInternalInventory()[index];
         var newPattern = patternInventory.getStackInSlot(index);

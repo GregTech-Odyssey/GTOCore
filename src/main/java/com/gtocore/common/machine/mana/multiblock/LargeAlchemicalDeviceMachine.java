@@ -61,8 +61,7 @@ public final class LargeAlchemicalDeviceMachine extends ManaMultiblockMachine im
     protected @Nullable Recipe getRealRecipe(@NotNull Recipe recipe) {
         boolean param = false;
         int parallels = getHatchParallel(this);
-        Recipe newrecipe = recipe.copy();
-        newrecipe.duration = Math.max(1, (int) (recipe.duration * timeReduction));
+        recipe.duration = Math.max(1, (int) (recipe.duration * timeReduction));
         for (int i = 0; i < 3; i++) {
             String key = "param" + (i + 1);
             param = param || recipe.data.contains(key);
@@ -70,9 +69,9 @@ public final class LargeAlchemicalDeviceMachine extends ManaMultiblockMachine im
         }
         if (param) {
             adjustParameters(currentRecipeParams);
-            return ParallelLogic.accurateParallel(this, enhanceRecipe(newrecipe, currentRecipeParams), parallels);
+            return ParallelLogic.accurateParallel(this, enhanceRecipe(recipe, currentRecipeParams), parallels);
         }
-        return ParallelLogic.accurateParallel(this, newrecipe, parallels);
+        return ParallelLogic.accurateParallel(this, recipe, parallels);
     }
 
     /**

@@ -5,7 +5,6 @@ import com.gtocore.common.machine.multiblock.part.SensorPartMachine;
 
 import com.gtolib.api.gui.MagicProgressBarProWidget;
 import com.gtolib.api.machine.feature.DummyEnergyMachine;
-import com.gtolib.api.machine.feature.DummyEnergyMachine$DummyContainer;
 import com.gtolib.api.machine.multiblock.NoEnergyMultiblockMachine;
 import com.gtolib.api.recipe.IdleReason;
 import com.gtolib.api.recipe.Recipe;
@@ -63,7 +62,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @MethodsReturnNonnullByDefault
 public final class PrimitiveDistillationTowerMachine extends NoEnergyMultiblockMachine implements IExplosionMachine, DummyEnergyMachine {
 
-    private static final DummyEnergyMachine$DummyContainer CONTAINER = new DummyEnergyMachine$DummyContainer(120);
+    private static final DummyContainer CONTAINER = new DummyContainer(120);
     private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(PrimitiveDistillationTowerMachine.class, NoEnergyMultiblockMachine.MANAGED_FIELD_HOLDER);
     @NotNull
     private List<IFluidHandler> fluidOutputs = Collections.emptyList();

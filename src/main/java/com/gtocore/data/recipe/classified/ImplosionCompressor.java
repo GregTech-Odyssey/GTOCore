@@ -13,7 +13,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
 
-import appeng.core.definitions.AEBlocks;
 import appeng.core.definitions.AEItems;
 import committee.nova.mods.avaritia.init.registry.ModBlocks;
 import committee.nova.mods.avaritia.init.registry.ModItems;
@@ -39,16 +38,6 @@ final class ImplosionCompressor {
                 .inputItems(GTOItems.TWO_WAY_FOIL.asItem())
                 .inputItems(new ItemStack(Blocks.TNT.asItem(), 4))
                 .outputItems(GTOItems.COMMAND_BLOCK_CORE.asItem())
-                .chancedOutput(TagPrefix.dust, GTMaterials.DarkAsh, 2500, 0)
-                .EUt(30)
-                .duration(20)
-                .save();
-
-        IMPLOSION_RECIPES.recipeBuilder("compressed_chest_tnt")
-                .inputItems(new ItemStack(Blocks.CHEST.asItem(), 2))
-                .inputItems(new ItemStack(AEBlocks.SMOOTH_SKY_STONE_CHEST.block().asItem(), 2))
-                .inputItems(new ItemStack(Blocks.TNT.asItem(), 4))
-                .outputItems(ModBlocks.compressed_chest.get().asItem())
                 .chancedOutput(TagPrefix.dust, GTMaterials.DarkAsh, 2500, 0)
                 .EUt(30)
                 .duration(20)
@@ -154,16 +143,6 @@ final class ImplosionCompressor {
                 .duration(20)
                 .save();
 
-        IMPLOSION_RECIPES.recipeBuilder("compressed_chest_powderbarrel")
-                .inputItems(new ItemStack(Blocks.CHEST.asItem(), 2))
-                .inputItems(new ItemStack(AEBlocks.SMOOTH_SKY_STONE_CHEST.block().asItem(), 2))
-                .inputItems(GTBlocks.POWDERBARREL.asStack(8))
-                .outputItems(ModBlocks.compressed_chest.get().asItem())
-                .chancedOutput(TagPrefix.dust, GTMaterials.DarkAsh, 2500, 0)
-                .EUt(30)
-                .duration(20)
-                .save();
-
         IMPLOSION_RECIPES.recipeBuilder("heavy_duty_plate_3_dynamite")
                 .inputItems(GTOItems.HEAVY_DUTY_PLATE_2.asStack(4))
                 .inputItems(TagPrefix.plateDense, GTMaterials.TungstenSteel, 2)
@@ -179,16 +158,6 @@ final class ImplosionCompressor {
                 .inputItems(TagPrefix.plateDense, GTMaterials.Steel, 2)
                 .inputItems(GTBlocks.INDUSTRIAL_TNT.asItem())
                 .outputItems(GTOItems.HEAVY_DUTY_PLATE_1.asItem())
-                .chancedOutput(TagPrefix.dust, GTMaterials.DarkAsh, 2500, 0)
-                .EUt(30)
-                .duration(20)
-                .save();
-
-        IMPLOSION_RECIPES.recipeBuilder("compressed_chest_dynamite")
-                .inputItems(new ItemStack(Blocks.CHEST.asItem(), 2))
-                .inputItems(new ItemStack(AEBlocks.SMOOTH_SKY_STONE_CHEST.block().asItem(), 2))
-                .inputItems(GTItems.DYNAMITE.asStack(2))
-                .outputItems(ModBlocks.compressed_chest.get().asItem())
                 .chancedOutput(TagPrefix.dust, GTMaterials.DarkAsh, 2500, 0)
                 .EUt(30)
                 .duration(20)
@@ -374,26 +343,10 @@ final class ImplosionCompressor {
                 .duration(20)
                 .save();
 
-        IMPLOSION_RECIPES.recipeBuilder("compressed_chest_itnt")
-                .inputItems(new ItemStack(Blocks.CHEST.asItem(), 2))
-                .inputItems(new ItemStack(AEBlocks.SMOOTH_SKY_STONE_CHEST.block().asItem(), 2))
-                .inputItems(GTBlocks.INDUSTRIAL_TNT.asItem())
-                .outputItems(ModBlocks.compressed_chest.get().asItem())
-                .chancedOutput(TagPrefix.dust, GTMaterials.DarkAsh, 2500, 0)
-                .EUt(30)
-                .duration(20)
-                .save();
-
         ELECTRIC_IMPLOSION_COMPRESSOR_RECIPES.recipeBuilder("double_compressed_crafting_table")
                 .inputItems(new ItemStack(ModBlocks.compressed_crafting_table.get().asItem(), 64))
                 .inputItems(new ItemStack(ModBlocks.compressed_crafting_table.get().asItem(), 64))
                 .outputItems(ModBlocks.double_compressed_crafting_table.get().asItem())
-                .save();
-
-        ELECTRIC_IMPLOSION_COMPRESSOR_RECIPES.recipeBuilder("compressed_chest")
-                .inputItems(new ItemStack(Blocks.CHEST.asItem(), 2))
-                .inputItems(new ItemStack(AEBlocks.SMOOTH_SKY_STONE_CHEST.block().asItem(), 2))
-                .outputItems(ModBlocks.compressed_chest.get().asItem())
                 .save();
 
         ELECTRIC_IMPLOSION_COMPRESSOR_RECIPES.recipeBuilder("eternal_singularity")

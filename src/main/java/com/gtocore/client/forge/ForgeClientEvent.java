@@ -8,7 +8,6 @@ import com.gtocore.config.GTOConfig;
 import com.gtocore.data.lang.LangHandler;
 
 import com.gtolib.GTOCore;
-import com.gtolib.api.annotation.TooltipsSortedWrapper;
 import com.gtolib.api.item.MultiStepItemHelper;
 import com.gtolib.api.player.IEnhancedPlayer;
 import com.gtolib.utils.ItemUtils;
@@ -57,7 +56,6 @@ public final class ForgeClientEvent {
     public static void onTooltipEvent(ItemTooltipEvent event) {
         Player player = event.getEntity();
         if (player == null) return;
-        TooltipsSortedWrapper.onItemTooltips(event);
         ItemStack stack = event.getItemStack();
         String translationKey = stack.getDescriptionId();
         if (translationKey.startsWith(ITEM_PREFIX) || translationKey.startsWith(BLOCK_PREFIX)) {

@@ -3,7 +3,6 @@ package com.gtocore.client.gui;
 import com.gtolib.api.gui.PatternSlotWidget;
 import com.gtolib.api.item.ItemHandlerModifiable;
 import com.gtolib.api.machine.MultiblockDefinition;
-import com.gtolib.api.machine.MultiblockDefinition$Pattern;
 import com.gtolib.api.machine.feature.multiblock.IMultiStructureMachine;
 
 import com.gregtechceu.gtceu.GTCEu;
@@ -89,7 +88,7 @@ public final class PatternPreview extends WidgetGroup {
         if (CACHE.containsKey(controllerDefinition)) {
             patterns = CACHE.get(controllerDefinition);
         } else {
-            MultiblockDefinition$Pattern[] pattern = (MultiblockDefinition$Pattern[]) (Object) MultiblockDefinition.of(controllerDefinition).getPatterns();
+            MultiblockDefinition.Pattern[] pattern = MultiblockDefinition.of(controllerDefinition).getPatterns();
             patterns = new MBPattern[pattern.length];
             for (int i = 0; i < pattern.length; i++) {
                 patterns[i] = initializePattern(pattern[i], i);
@@ -237,7 +236,7 @@ public final class PatternPreview extends WidgetGroup {
         }
     }
 
-    private MBPattern initializePattern(MultiblockDefinition$Pattern pattern, int index) {
+    private MBPattern initializePattern(MultiblockDefinition.Pattern pattern, int index) {
         Map<BlockPos, BlockInfo> blockMap = pattern.blockMap();
         IMultiController controllerBase = pattern.multiController();
         LEVEL.addBlocks(blockMap);
