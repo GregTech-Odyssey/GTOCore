@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "gtocore:item/universal_circuit/circuit",
+    "layer1": "gtocore:item/universal_circuit/zpm"
+  }
+}
