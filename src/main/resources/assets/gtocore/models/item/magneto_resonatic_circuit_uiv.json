@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "gtocore:item/circuit/magneto_resonatic_circuit_uiv_base",
+    "layer1": "gtocore:item/circuit/magneto_resonatic_electron_flow"
+  }
+}
