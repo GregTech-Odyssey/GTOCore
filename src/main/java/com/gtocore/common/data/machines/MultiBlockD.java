@@ -129,8 +129,9 @@ public final class MultiBlockD {
             .tooltips(NewDataAttributes.EMPTY_WITH_BAR.create(
                     h -> h.addLines("启动需求", "Startup Requirements", StyleBuilder::setGold),
                     c -> c.addLines(
-                            NewDataAttributes.EMPTY_WITH_POINT.createBuilder(x -> x.addLines("1024B宇宙素", "1024B cosmic matter", StyleBuilder::setWhite), p -> p, StyleBuilder::setOneTab),
-                            NewDataAttributes.EMPTY_WITH_POINT.createBuilder(x -> x.addLines("1024KB氢和氦", "1024KB hydrogen and helium", StyleBuilder::setWhite), p -> p, StyleBuilder::setOneTab),
+                            NewDataAttributes.EMPTY_WITH_POINT.createBuilder(x -> x.addLines("1024B宇宙素", "1024B Cosmic Element", StyleBuilder::setWhite), p -> p, StyleBuilder::setOneTab),
+                            NewDataAttributes.EMPTY_WITH_POINT.createBuilder(x -> x.addLines("1024KB氢", "1024KB Hydrogen", StyleBuilder::setWhite), p -> p, StyleBuilder::setOneTab),
+                            NewDataAttributes.EMPTY_WITH_POINT.createBuilder(x -> x.addLines("1024KB氦", "1024KB Helium", StyleBuilder::setWhite), p -> p, StyleBuilder::setOneTab),
                             NewDataAttributes.EMPTY_WITH_POINT.createBuilder(x -> x.addLines("氢氦存储在机器内部并持续消耗", "Hydrogen and helium stored inside and continuously consumed", StyleBuilder::setRed), p -> p, StyleBuilder::setOneTab))))
             .alwaysTryModifyRecipe(true)
             .fromSourceTooltips("GTNH")
