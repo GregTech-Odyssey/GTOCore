@@ -187,7 +187,6 @@ public final class MultiBlockG {
             .nonYAxisRotation()
             .recipeTypes(GTORecipeTypes.POLYMERIZATION_REACTOR_RECIPES)
             .recipeModifier(RecipeModifierFunction.coilReductionOverclock(0.5))
-            .existingTooltips("chemical_plant", 0)
             .parallelizableTooltips()
             .block(GTBlocks.CASING_STAINLESS_CLEAN)
             .pattern(definition -> FactoryBlockPattern.start()
