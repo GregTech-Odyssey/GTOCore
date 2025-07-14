@@ -91,6 +91,8 @@ final class ItemLang {
         addCNEN("item.gtocore.order.config", "订单配置", "Order Config");
 
         addCNEN("item.gtocore.data_item.type.title", "§n%s配方数据：", "§n%s Recipes Data:");
+        addCNEN("gtocore.tooltip.item.empty_data", "§n空数据：", "§nEmpty Data:");
+        addCNEN("gtocore.tooltip.item.empty_serial", "- §a编号：%s", "- §aNumber: %s");
         addCNEN("gtocore.tooltip.item.scanning_data", "§n扫描数据：", "§nScan Data:");
         addCNEN("gtocore.tooltip.item.scanned_things", "- %d× %s", "- %d× %s");
         addCNEN("gtocore.tooltip.item.scanning_serial", "- §a扫描编号：%s", "- §aScan number: %s");

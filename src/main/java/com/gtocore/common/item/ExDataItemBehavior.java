@@ -5,6 +5,7 @@ import com.gtolib.api.item.tool.IExDataItem;
 import com.gregtechceu.gtceu.api.item.component.IAddInformation;
 
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.resources.language.I18n;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -37,6 +38,13 @@ public class ExDataItemBehavior implements IAddInformation, IExDataItem {
         CompoundTag tag = stack.getTag();
         if (tag == null) return;
 
+        if (tag.contains(EMPTY_NBT_TAG)) {
+            tooltip.add(Component.translatable("gtocore.tooltip.item.empty_data")
+                    .withStyle(ChatFormatting.GRAY));
+            tooltip.add(Component.translatable("gtocore.tooltip.item.empty_serial",
+                    Component.literal(String.format("%08X", 0)).withStyle(ChatFormatting.YELLOW)));
+        }
+
         // 处理扫描数据
         if (tag.contains(SCANNING_NBT_TAG)) {
             CompoundTag scanningTag = tag.getCompound(SCANNING_NBT_TAG);
@@ -67,9 +75,9 @@ public class ExDataItemBehavior implements IAddInformation, IExDataItem {
             tooltip.add(Component.translatable("gtocore.tooltip.item.analyze_data")
                     .withStyle(ChatFormatting.LIGHT_PURPLE));
 
-            // 解析并显示物品/流体信息
-            Optional<Component> info = parseItemOrFluidInfo(analyzeId);
-            info.ifPresent(tooltip::add);
+            // 显示研究信息
+            tooltip.add(Component.translatable("gtocore.tooltip.item.analyze_things",
+                    Component.literal(I18n.get("data." + analyzeId)).withStyle(ChatFormatting.GOLD)));
 
             tooltip.add(Component.translatable("gtocore.tooltip.item.analyze_serial",
                     Component.literal(String.format("%08X", serial)).withStyle(ChatFormatting.YELLOW)));

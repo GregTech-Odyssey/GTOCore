@@ -2,6 +2,7 @@ package com.gtocore.data.lang;
 
 import com.gtocore.client.Tooltips;
 import com.gtocore.common.data.GTOBedrockFluids;
+import com.gtocore.data.recipe.processing.AnalyzeData;
 
 import com.gtolib.api.annotation.component_builder.TranslationKeyProvider;
 import com.gtolib.api.annotation.dynamic.DynamicInitialData;
@@ -255,6 +256,7 @@ public final class LangHandler {
         MachineLang.init();
         BlockLang.init();
         ItemLang.init();
+        AnalyzeData.init();
         LANGS.forEach((k, v) -> {
             if (v.en() == null) return;
             provider.add(k, v.en());

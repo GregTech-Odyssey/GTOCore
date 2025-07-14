@@ -128,6 +128,7 @@ final class MachineLang {
         addCNEN("gtocore.machine.mega_steam_turbine.tooltip.1", "可安装转子仓，从中自动取出转子安装到空转子支架", "Rotors can be installed in the rotor chamber, automatically extracting rotor for installation onto empty rotor brackets");
         addCNEN("gtocore.machine.mega_steam_turbine.tooltip.2", "可启用高速模式，进一步提升运行速度，高速模式下，运行速度提升为3倍，代价是维护问题出现几率与涡轮耐久损耗均变为12倍", "High speed mode can be enabled to further increase operating speed; in high speed mode, operating speed x3, at the cost of increasing maintenance issue probability and turbine durability loss being 12 times");
         addCNEN("gtocore.machine.scanning", "扫描中...", "Scanning...");
+        addCNEN("gtocore.machine.analysis", "分析中...", "Analysing...");
         addCNEN("gtocore.machine.wireless_mode", "无线模式", "Wireless Mode");
         addCNEN("gtocore.machine.alchemical_device.1", "嬗变中", "Transmutation");
         addCNEN("gtocore.machine.alchemical_device.2", "完美嬗变中", "Perfect Transmutation");

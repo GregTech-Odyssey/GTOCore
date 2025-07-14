@@ -873,20 +873,20 @@ public final class GTORecipeTypes {
             .setProgressBar(GuiTextures.PROGRESS_BAR_EXTRACT, LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.ARC);
 
-    public static final RecipeType PRIMORDIAL_SCAN_RECIPES = register("primordial_scan", "基元扫描", ELECTRIC)
+    public static final RecipeType CRYSTAL_SCAN_RECIPES = register("crystal_scan", "晶片扫描", ELECTRIC)
             .setMaxIOSize(3, 1, 0, 0)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
             .setMaxTooltips(4)
             .setSound(GTSoundEntries.COMPUTATION);
 
-    public static final RecipeType PRIMORDIAL_LOGIC_RECIPES = register("primordial_logic", "基元推演", ELECTRIC)
-            .setMaxIOSize(3, 6, 3, 0)
+    public static final RecipeType DATA_ANALYSIS_RECIPES = register("data_analysis", "数据分析", ELECTRIC)
+            .setMaxIOSize(3, 6, 0, 0)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
             .setMaxTooltips(4)
             .setSound(GTSoundEntries.COMPUTATION);
 
-    public static final RecipeType TOPO_SYNTHESIS_RECIPES = register("topo_synthesis", "拓扑统合", ELECTRIC)
-            .setMaxIOSize(12, 1, 3, 0)
+    public static final RecipeType DATA_INTEGRATION_RECIPES = register("data_integration", "数据统合", ELECTRIC)
+            .setMaxIOSize(13, 2, 0, 0)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
             .setMaxTooltips(4)
             .setSound(GTSoundEntries.COMPUTATION);
