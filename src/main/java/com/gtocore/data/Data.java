@@ -18,7 +18,7 @@ import com.gtocore.integration.emi.GTEMIRecipe;
 import com.gtocore.integration.emi.multipage.MultiblockInfoEmiRecipe;
 
 import com.gtolib.GTOCore;
-import com.gtolib.api.machine.MultiblockDefinition;
+import com.gtolib.api.machine.IMultiblockDefinition;
 import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.RecipeBuilder;
 import com.gtolib.api.recipe.ingredient.FastFluidIngredient;
@@ -154,7 +154,7 @@ public final class Data {
             init();
             RecipeBuilder.RECIPE_MAP.values().forEach(recipe -> recipe.recipeCategory.addRecipe(recipe));
             if (GTCEu.Mods.isEMILoaded()) {
-                MultiblockDefinition.init();
+                IMultiblockDefinition.init();
                 long time = System.currentTimeMillis();
                 EmiConfig.logUntranslatedTags = false;
                 EmiConfig.workstationLocation = SidebarSide.LEFT;

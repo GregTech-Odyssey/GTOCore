@@ -2,11 +2,10 @@ package com.gtocore.integration.emi.multipage;
 
 import com.gtocore.client.gui.PatternPreview;
 
-import com.gtolib.api.machine.MultiblockDefinition;
-
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.integration.emi.multipage.MultiblockInfoEmiCategory;
 
+import com.gtolib.api.machine.IMultiblockDefinition;
 import net.minecraft.resources.ResourceLocation;
 
 import com.lowdragmc.lowdraglib.emi.ModularEmiRecipe;
@@ -31,7 +30,7 @@ public final class MultiblockInfoEmiRecipe extends ModularEmiRecipe<Widget> {
         super(() -> MULTIBLOCK);
         this.definition = definition;
         widget = () -> PatternPreview.getPatternWidget(definition);
-        MultiblockDefinition.of(definition).getPatterns()[0].parts().forEach(i -> inputs.add(EmiStack.of(i)));
+        ((IMultiblockDefinition)definition).getPatterns()[0].parts().forEach(i -> inputs.add(EmiStack.of(i)));
     }
 
     @Override

@@ -2,7 +2,7 @@ package com.gtocore.client.gui;
 
 import com.gtolib.api.gui.PatternSlotWidget;
 import com.gtolib.api.item.ItemHandlerModifiable;
-import com.gtolib.api.machine.MultiblockDefinition;
+import com.gtolib.api.machine.IMultiblockDefinition;
 import com.gtolib.api.machine.feature.multiblock.IMultiStructureMachine;
 
 import com.gregtechceu.gtceu.GTCEu;
@@ -88,13 +88,13 @@ public final class PatternPreview extends WidgetGroup {
         if (CACHE.containsKey(controllerDefinition)) {
             patterns = CACHE.get(controllerDefinition);
         } else {
-            MultiblockDefinition.Pattern[] pattern = MultiblockDefinition.of(controllerDefinition).getPatterns();
+            IMultiblockDefinition.Pattern[] pattern = ((IMultiblockDefinition)controllerDefinition).getPatterns();
             patterns = new MBPattern[pattern.length];
             for (int i = 0; i < pattern.length; i++) {
                 patterns[i] = initializePattern(pattern[i], i);
             }
             CACHE.put(controllerDefinition, patterns);
-            MultiblockDefinition.of(controllerDefinition).clear();
+            ((IMultiblockDefinition)controllerDefinition).clear();
         }
         addWidget(new ButtonWidget(138, 30, 18, 18, new GuiTextureGroup(ColorPattern.T_GRAY.rectTexture(), new TextTexture("1").setSupplier(() -> "P:" + index)), x -> {
             index = (index + 1 >= patterns.length) ? 0 : index + 1;
@@ -236,7 +236,7 @@ public final class PatternPreview extends WidgetGroup {
         }
     }
 
-    private MBPattern initializePattern(MultiblockDefinition.Pattern pattern, int index) {
+    private MBPattern initializePattern(IMultiblockDefinition.Pattern pattern, int index) {
         Map<BlockPos, BlockInfo> blockMap = pattern.blockMap();
         IMultiController controllerBase = pattern.multiController();
         LEVEL.addBlocks(blockMap);
