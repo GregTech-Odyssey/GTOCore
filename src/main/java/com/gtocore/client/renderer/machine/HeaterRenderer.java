@@ -1,10 +1,10 @@
 package com.gtocore.client.renderer.machine;
 
 import com.gtolib.GTOCore;
+import com.gtolib.api.renderer.machine.WorkableTieredHullMachineRenderer;
 
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
-import com.gregtechceu.gtceu.client.renderer.machine.WorkableTieredHullMachineRenderer;
 
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.resources.model.ModelState;

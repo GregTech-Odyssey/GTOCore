@@ -14,7 +14,6 @@ import com.gregtechceu.gtceu.api.recipe.chance.logic.ChanceLogic;
 import com.gregtechceu.gtceu.api.recipe.content.Content;
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
 import com.gregtechceu.gtceu.core.mixins.TagValueAccessor;
-import com.gregtechceu.gtceu.data.recipe.builder.GTRecipeBuilder;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -48,8 +47,8 @@ public final class GenerateDisassembly {
         return false;
     }
 
-    public static void generateDisassembly(GTRecipeBuilder recipeBuilder) {
-        long eut = recipeBuilder.EUt();
+    public static void generateDisassembly(RecipeBuilder recipeBuilder) {
+        long eut = recipeBuilder.Eut();
         if (eut < 1) return;
         List<Content> c = recipeBuilder.output.getOrDefault(ItemRecipeCapability.CAP, null);
         if (c == null) {

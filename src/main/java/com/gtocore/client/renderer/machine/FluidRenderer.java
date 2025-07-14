@@ -1,10 +1,10 @@
 package com.gtocore.client.renderer.machine;
 
 import com.gtolib.api.machine.feature.multiblock.IFluidRendererMachine;
+import com.gtolib.api.renderer.machine.WorkableCasingMachineRenderer;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.client.renderer.block.FluidBlockRenderer;
-import com.gregtechceu.gtceu.client.renderer.machine.WorkableCasingMachineRenderer;
 import com.gregtechceu.gtceu.client.util.RenderUtil;
 import com.gregtechceu.gtceu.config.ConfigHolder;
 

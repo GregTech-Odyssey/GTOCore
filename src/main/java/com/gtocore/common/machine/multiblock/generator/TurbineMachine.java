@@ -197,7 +197,7 @@ public final class TurbineMachine extends ElectricMultiblockMachine {
     @Override
     protected Recipe getRealRecipe(Recipe recipe) {
         RotorHolderPartMachine rotorHolder = getRotorHolder();
-        long EUt = recipe.getOutputEUt();
+        long EUt = recipe.getOutputEut();
         if (rotorHolder == null || EUt <= 0) return null;
         int rotorSpeed = getRotorSpeed();
         if (rotorSpeed < 0) return null;
@@ -208,7 +208,7 @@ public final class TurbineMachine extends ElectricMultiblockMachine {
         long eut = Math.min(turbineMaxVoltage, recipe.getParallels() * EUt);
         energyPerTick = eut;
         recipe.duration = recipe.duration * rotorHolder.getTotalEfficiency() / 100;
-        recipe.setOutputEUt(eut);
+        recipe.setEut(-eut);
         return recipe;
     }
 
@@ -251,18 +251,6 @@ public final class TurbineMachine extends ElectricMultiblockMachine {
                 }
             }
         }
-    }
-
-    public static float getHighSpeedModeOutputMultiplier() {
-        return TurbineMachine.highSpeedModeOutputMultiplier;
-    }
-
-    public static int getHighSpeedModeRotorDamageMultiplier() {
-        return TurbineMachine.highSpeedModeRotorDamageMultiplier;
-    }
-
-    public static float getHighSpeedModeMachineFault() {
-        return TurbineMachine.highSpeedModeMachineFault;
     }
 
     @Override

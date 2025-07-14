@@ -447,6 +447,7 @@ public final class MultiBlockB {
                             .or(abilities(MAINTENANCE).setExactLimit(1)))
                     .where(' ', any())
                     .build())
+            .workableCasingRenderer(GTCEu.id("block/casings/gcym/nonconducting_casing"), GTCEu.id("block/multiblock/fusion_reactor"))
             .onWorking(machine -> {
                 if (machine.self().getOffsetTimer() % 20 == 0 && machine.self().getLevel() instanceof ServerLevel serverLevel) {
                     LightningBolt entityToSpawn = EntityType.LIGHTNING_BOLT.create(serverLevel);
@@ -458,7 +459,6 @@ public final class MultiBlockB {
                 }
                 return true;
             })
-            .workableCasingRenderer(GTCEu.id("block/casings/gcym/nonconducting_casing"), GTCEu.id("block/multiblock/fusion_reactor"))
             .register();
 
     public static final MultiblockMachineDefinition MAGNETIC_ENERGY_REACTION_FURNACE = multiblock("magnetic_energy_reaction_furnace", "磁能反应炉", CoilCrossRecipeMultiblockMachine::createCoilParallel)
@@ -799,7 +799,7 @@ public final class MultiBlockB {
                     .where(' ', any())
                     .build())
             .renderer(SpaceElevatorRenderer::new)
-            .hasTESR(true)
+            .hasTESR()
             .register();
 
     public static final MultiblockMachineDefinition MEGA_BATH_TANK = multiblock("mega_bath_tank", "巨型浸洗池", CrossRecipeMultiblockMachine::createHatchParallel)
@@ -1148,7 +1148,7 @@ public final class MultiBlockB {
                     .where(' ', any())
                     .build())
             .renderer(FluidRenderer.create(GTOCore.id("block/reinforced_sterile_water_plant_casing"), GTCEu.id("block/multiblock/large_chemical_reactor")))
-            .hasTESR(true)
+            .hasTESR()
             .register();
 
     public static final MultiblockMachineDefinition OZONATION_PURIFICATION_UNIT = multiblock("ozonation_purification_unit", "臭氧净化装置", OzonationPurificationUnitMachine::new)

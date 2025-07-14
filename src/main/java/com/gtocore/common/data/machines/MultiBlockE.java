@@ -49,7 +49,7 @@ public final class MultiBlockE {
                     .where(' ', any())
                     .build())
             .renderer(DimensionalFocusEngravingArrayRenderer::new)
-            .hasTESR(true)
+            .hasTESR()
             .register();
 
     public static final MultiblockMachineDefinition STAR_ULTIMATE_MATERIAL_FORGE_FACTORY = multiblock("star_ultimate_material_forge_factory", "恒星终极物质锻造工厂", CoilCrossRecipeMultiblockMachine.createParallel(false, false, m -> Integer.MAX_VALUE))

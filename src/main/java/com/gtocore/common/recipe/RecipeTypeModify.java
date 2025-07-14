@@ -7,6 +7,7 @@ import com.gtocore.data.recipe.classified.ManaSimulator;
 import com.gtocore.data.recipe.generated.GenerateDisassembly;
 
 import com.gtolib.api.capability.recipe.ManaRecipeCapability;
+import com.gtolib.api.recipe.RecipeBuilder;
 import com.gtolib.api.recipe.ingredient.FastFluidIngredient;
 
 import com.gregtechceu.gtceu.api.GTValues;
@@ -15,7 +16,6 @@ import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
-import com.gregtechceu.gtceu.data.recipe.builder.GTRecipeBuilder;
 import com.gregtechceu.gtceu.utils.GTUtil;
 
 import net.minecraft.client.resources.language.I18n;
@@ -54,10 +54,10 @@ public final class RecipeTypeModify {
 
         CHEMICAL_RECIPES.onRecipeBuild((r, p) -> {});
 
-        ASSEMBLY_LINE_RECIPES.onRecipeBuild((recipeBuilder1, consumer) -> GenerateDisassembly.generateDisassembly(recipeBuilder1));
+        ASSEMBLY_LINE_RECIPES.onBuild(GenerateDisassembly::generateDisassembly);
 
         ASSEMBLER_RECIPES.setMANAIO(IO.IN);
-        ASSEMBLER_RECIPES.onRecipeBuild((b, c) -> {
+        ASSEMBLER_RECIPES.onBuild(b -> {
             var mana = b.tickInput.get(ManaRecipeCapability.CAP);
             if (mana != null && !mana.isEmpty()) {
                 b.category(GTORecipeCategories.MANA_ASSEMBLER);
@@ -85,28 +85,28 @@ public final class RecipeTypeModify {
         });
 
         LASER_ENGRAVER_RECIPES.setMaxIOSize(2, 1, 2, 1)
-                .onRecipeBuild((recipeBuilder, provider) -> {
+                .onBuild((recipeBuilder) -> {
                     if (recipeBuilder.data.contains("special")) return;
-                    GTRecipeBuilder recipe = DIMENSIONAL_FOCUS_ENGRAVING_ARRAY_RECIPES.copyFrom(recipeBuilder)
+                    var recipe = DIMENSIONAL_FOCUS_ENGRAVING_ARRAY_RECIPES.copyFrom(recipeBuilder)
                             .duration((int) (recipeBuilder.duration * 0.2))
-                            .EUt(recipeBuilder.EUt() << 2);
-                    double value = Math.log10(recipeBuilder.EUt()) / Math.log10(4);
+                            .EUt(recipeBuilder.Eut() << 2);
+                    double value = Math.log10(recipeBuilder.Eut()) / Math.log10(4);
                     if (value > 10) {
                         recipe.inputFluids(GTOMaterials.EuvPhotoresist.getFluid((int) (value / 2)));
                     } else {
                         recipe.inputFluids(GTOMaterials.Photoresist.getFluid((int) value));
                     }
-                    recipe.save(provider);
+                    recipe.save();
                 });
 
-        CUTTER_RECIPES.onRecipeBuild((recipeBuilder, provider) -> {
+        CUTTER_RECIPES.onBuild((recipeBuilder) -> {
             if (recipeBuilder.input.getOrDefault(FluidRecipeCapability.CAP, Collections.emptyList()).isEmpty() &&
                     recipeBuilder.tickInput.getOrDefault(FluidRecipeCapability.CAP, Collections.emptyList()).isEmpty()) {
 
                 int originalDuration = recipeBuilder.duration;
-                int index = getEUTierIndex(GTUtil.getTierByVoltage(recipeBuilder.EUt()));
+                int index = getEUTierIndex(GTUtil.getTierByVoltage(recipeBuilder.Eut()));
 
-                GTRecipeBuilder builder = recipeBuilder.copy(recipeBuilder.id);
+                var builder = recipeBuilder.copy(recipeBuilder.id);
                 addCuttingFluid(recipeBuilder, index);
                 if (index > 1 && index < FLUID_TIERS.length - 1) {
                     int maxUpgradeTiers = FLUID_TIERS.length - index;
@@ -114,27 +114,27 @@ public final class RecipeTypeModify {
                     for (int upgradeTier = 1; upgradeTier < maxUpgradeTiers; upgradeTier++) {
                         double reductionFactor = Math.pow(0.8, upgradeTier);
 
-                        GTRecipeBuilder upgradedRecipe = builder.copy(builder.id.getPath() + "_upgraded_t" + (index + upgradeTier))
+                        var upgradedRecipe = builder.copy(builder.id.getPath() + "_upgraded_t" + (index + upgradeTier))
                                 .duration((int) Math.max(1, originalDuration * reductionFactor));
 
-                        addUpgradedCuttingFluid(upgradedRecipe, index, index + upgradeTier, originalDuration, builder.EUt(), reductionFactor);
+                        addUpgradedCuttingFluid(upgradedRecipe, index, index + upgradeTier, originalDuration, builder.Eut(), reductionFactor);
                     }
                 }
             }
         });
 
-        CIRCUIT_ASSEMBLER_RECIPES.onRecipeBuild((recipeBuilder, provider) -> {
+        CIRCUIT_ASSEMBLER_RECIPES.onBuild(recipeBuilder -> {
             if (recipeBuilder.input.getOrDefault(FluidRecipeCapability.CAP, Collections.emptyList()).isEmpty() &&
                     recipeBuilder.tickInput.getOrDefault(FluidRecipeCapability.CAP, Collections.emptyList())
                             .isEmpty()) {
-                if (recipeBuilder.EUt() < GTValues.VA[GTValues.HV]) {
+                if (recipeBuilder.Eut() < GTValues.VA[GTValues.HV]) {
                     recipeBuilder.inputFluids(GTMaterials.Tin.getFluid(Math.max(1, 144 * recipeBuilder.getSolderMultiplier())));
-                } else if (recipeBuilder.EUt() < GTValues.VA[GTValues.UV]) {
+                } else if (recipeBuilder.Eut() < GTValues.VA[GTValues.UV]) {
                     recipeBuilder.inputFluids(GTMaterials.SolderingAlloy.getFluid(Math.max(1, 144 * recipeBuilder.getSolderMultiplier())));
-                } else if (recipeBuilder.EUt() < GTValues.VA[GTValues.UIV]) {
-                    recipeBuilder.inputFluids(GTOMaterials.MutatedLivingSolder.getFluid(Math.max(1, 144 * (GTUtil.getFloorTierByVoltage(recipeBuilder.EUt()) - 6))));
+                } else if (recipeBuilder.Eut() < GTValues.VA[GTValues.UIV]) {
+                    recipeBuilder.inputFluids(GTOMaterials.MutatedLivingSolder.getFluid(Math.max(1, 144 * (GTUtil.getFloorTierByVoltage(recipeBuilder.Eut()) - 6))));
                 } else {
-                    recipeBuilder.inputFluids(GTOMaterials.SuperMutatedLivingSolder.getFluid(Math.max(1, 144 * (GTUtil.getFloorTierByVoltage(recipeBuilder.EUt()) - 8))));
+                    recipeBuilder.inputFluids(GTOMaterials.SuperMutatedLivingSolder.getFluid(Math.max(1, 144 * (GTUtil.getFloorTierByVoltage(recipeBuilder.Eut()) - 8))));
                 }
             }
         });
@@ -180,13 +180,13 @@ public final class RecipeTypeModify {
         };
     }
 
-    private static void addCuttingFluid(GTRecipeBuilder recipeBuilder, int index) {
+    private static void addCuttingFluid(RecipeBuilder recipeBuilder, int index) {
         CuttingFluid selected = FLUID_TIERS[index];
-        long fluidAmount = Math.max(1, recipeBuilder.duration * recipeBuilder.EUt() / selected.divisor());
+        long fluidAmount = Math.max(1, recipeBuilder.duration * recipeBuilder.Eut() / selected.divisor());
         recipeBuilder.inputFluids(FastFluidIngredient.of(fluidAmount, selected.fluid()));
     }
 
-    private static void addUpgradedCuttingFluid(GTRecipeBuilder recipeBuilder, int originalIndex, int index, int originalDuration, long originalEUt, double reductionFactor) {
+    private static void addUpgradedCuttingFluid(RecipeBuilder recipeBuilder, int originalIndex, int index, int originalDuration, long originalEUt, double reductionFactor) {
         CuttingFluid selected = FLUID_TIERS[index];
 
         long fluidAmount = (long) Math.max(1, originalDuration * originalEUt * reductionFactor / FLUID_TIERS[originalIndex].divisor());

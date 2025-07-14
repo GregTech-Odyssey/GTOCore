@@ -424,7 +424,7 @@ public final class GTORecipeTypes {
             .setMaxIOSize(16, 1, 4, 0)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.ASSEMBLER)
-            .onRecipeBuild((recipeBuilder, consumer) -> GenerateDisassembly.generateDisassembly(recipeBuilder));
+            .onBuild(GenerateDisassembly::generateDisassembly);
 
     public static final RecipeType SUPRACHRONAL_ASSEMBLY_LINE_RECIPES = register("suprachronal_assembly_line", "超时空装配线", MULTIBLOCK)
             .setEUIO(IO.IN)
@@ -433,7 +433,7 @@ public final class GTORecipeTypes {
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.ASSEMBLER)
             .setHasResearchSlot(true)
-            .onRecipeBuild((recipeBuilder, consumer) -> GenerateDisassembly.generateDisassembly(recipeBuilder));
+            .onBuild(GenerateDisassembly::generateDisassembly);
 
     public static final RecipeType PRECISION_ASSEMBLER_RECIPES = register("precision_assembler", "精密组装", MULTIBLOCK)
             .setEUIO(IO.IN)
@@ -447,7 +447,7 @@ public final class GTORecipeTypes {
             .setMaxIOSize(16, 1, 4, 0)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.ASSEMBLER)
-            .onRecipeBuild((recipeBuilder, consumer) -> GenerateDisassembly.generateDisassembly(recipeBuilder))
+            .onBuild(GenerateDisassembly::generateDisassembly)
             .addDataInfo(data -> LocalizationUtils.format(TierCasingTrait.getTierTranslationKey(POWER_MODULE_TIER), FormattingUtil.formatNumbers(data.getInt(POWER_MODULE_TIER))));
 
     public static final RecipeType MINER_MODULE_RECIPES = register("miner_module", "Space Miner", "太空采矿", MULTIBLOCK)
@@ -489,18 +489,18 @@ public final class GTORecipeTypes {
                 return LocalizationUtils.format("gtceu.recipe.cleanroom", filterCasing);
             })
             .addDataInfo(data -> data.contains("radioactivity") ? LocalizationUtils.format("gtocore.recipe.radioactivity", data.getInt("radioactivity")) : "")
-            .onRecipeBuild((b, p) -> b.addData(GLASS_TIER, GTUtil.getFloorTierByVoltage(b.EUt())));
+            .onRecipeBuild((b, p) -> b.addData(GLASS_TIER, GTUtil.getFloorTierByVoltage(b.EUt().voltage())));
 
     public static final RecipeType PCB_FACTORY_RECIPES = register("pcb_factory", "PCB工厂", MULTIBLOCK)
             .setEUIO(IO.IN)
             .setMaxIOSize(2, 1, 2, 0)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.CHEMICAL)
-            .onRecipeBuild((b, c) -> {
+            .onBuild(b -> {
                 int tier = 1;
-                if (b.EUt() > 491519) {
+                if (b.Eut() > 491519) {
                     tier = 3;
-                } else if (b.EUt() > 30719) {
+                } else if (b.Eut() > 30719) {
                     tier = 2;
                 }
                 b.addData("tier", tier);
@@ -879,7 +879,7 @@ public final class GTORecipeTypes {
             .setMaxTooltips(4)
             .setSound(GTSoundEntries.COMPUTATION);
 
-    public static final RecipeType PRIMORDIAL_LOGIC_RECIPES = register("primordial_logic ", "基元推演", ELECTRIC)
+    public static final RecipeType PRIMORDIAL_LOGIC_RECIPES = register("primordial_logic", "基元推演", ELECTRIC)
             .setMaxIOSize(3, 6, 3, 0)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
             .setMaxTooltips(4)

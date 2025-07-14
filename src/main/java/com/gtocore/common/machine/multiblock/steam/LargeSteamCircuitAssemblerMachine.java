@@ -7,6 +7,7 @@ import com.gtolib.api.annotation.dynamic.DynamicInitialValue;
 import com.gtolib.api.annotation.dynamic.DynamicInitialValueTypes;
 import com.gtolib.api.annotation.language.RegisterLanguage;
 import com.gtolib.api.recipe.Recipe;
+import com.gtolib.api.recipe.RecipeHelper;
 import com.gtolib.api.recipe.ingredient.FastSizedIngredient;
 
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
@@ -137,7 +138,7 @@ public final class LargeSteamCircuitAssemblerMachine extends BaseSteamMultiblock
                 recipe = super.getRealRecipe(recipe);
                 if (recipe != null) {
                     recipe.duration = recipe.duration * RECIPE_DURATION_MULTIPLY;
-                    ((Recipe) recipe).setEut(recipe.getInputEUt() * COST_STEAM_MULTIPLY);
+                    ((Recipe) recipe).setEut(RecipeHelper.getInputEUt(recipe) * COST_STEAM_MULTIPLY);
                 }
                 return recipe;
             } else {

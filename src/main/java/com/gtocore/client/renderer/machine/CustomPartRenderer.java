@@ -1,9 +1,10 @@
 package com.gtocore.client.renderer.machine;
 
+import com.gtolib.api.renderer.machine.IControllerRenderer;
+import com.gtolib.api.renderer.machine.WorkableCasingMachineRenderer;
+
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
-import com.gregtechceu.gtceu.client.renderer.machine.IControllerRenderer;
-import com.gregtechceu.gtceu.client.renderer.machine.WorkableCasingMachineRenderer;
 import com.gregtechceu.gtceu.client.util.StaticFaceBakery;
 
 import net.minecraft.client.renderer.block.model.BakedQuad;

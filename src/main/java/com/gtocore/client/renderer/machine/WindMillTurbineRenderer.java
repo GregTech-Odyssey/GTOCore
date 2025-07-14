@@ -4,9 +4,9 @@ import com.gtocore.client.renderer.TurbineModel;
 import com.gtocore.common.machine.generator.WindMillTurbineMachine;
 
 import com.gtolib.GTOCore;
+import com.gtolib.api.renderer.machine.WorkableTieredHullMachineRenderer;
 
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
-import com.gregtechceu.gtceu.client.renderer.machine.SimpleGeneratorMachineRenderer;
 
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -25,7 +25,7 @@ import com.mojang.math.Axis;
 
 import java.util.List;
 
-public final class WindMillTurbineRenderer extends SimpleGeneratorMachineRenderer {
+public final class WindMillTurbineRenderer extends WorkableTieredHullMachineRenderer {
 
     private static final TurbineModel MODEL = new TurbineModel();
     private static final List<ResourceLocation> TEXTURES = List.of(

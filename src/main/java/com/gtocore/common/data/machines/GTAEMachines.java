@@ -2,10 +2,11 @@ package com.gtocore.common.data.machines;
 
 import com.gtocore.common.machine.multiblock.part.ae.*;
 
+import com.gtolib.api.renderer.machine.OverlayTieredMachineRenderer;
+
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
-import com.gregtechceu.gtceu.client.renderer.machine.OverlayTieredMachineRenderer;
 
 import net.minecraft.network.chat.Component;
 

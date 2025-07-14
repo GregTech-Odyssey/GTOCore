@@ -26,7 +26,7 @@ public class ManaEnergyMultiblockMachine extends ManaMultiblockMachine implement
     protected Recipe getRealRecipe(@NotNull Recipe recipe) {
         recipe = super.getRealRecipe(recipe);
         if (recipe == null) return null;
-        long eu = recipe.getInputEUt();
+        long eu = recipe.getInputEut();
         if (eu > 0) {
             recipe = RecipeModifierFunction.externalEnergyOverclocking(this, recipe, eu, getManaContainer().getMaxIORate(), true, 1, 1);
             return recipe;

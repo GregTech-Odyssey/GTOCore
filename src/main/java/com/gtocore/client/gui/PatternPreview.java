@@ -88,13 +88,13 @@ public final class PatternPreview extends WidgetGroup {
         if (CACHE.containsKey(controllerDefinition)) {
             patterns = CACHE.get(controllerDefinition);
         } else {
-            IMultiblockDefinition.Pattern[] pattern = ((IMultiblockDefinition)controllerDefinition).getPatterns();
+            IMultiblockDefinition.Pattern[] pattern = ((IMultiblockDefinition) controllerDefinition).getPatterns();
             patterns = new MBPattern[pattern.length];
             for (int i = 0; i < pattern.length; i++) {
                 patterns[i] = initializePattern(pattern[i], i);
             }
             CACHE.put(controllerDefinition, patterns);
-            ((IMultiblockDefinition)controllerDefinition).clear();
+            ((IMultiblockDefinition) controllerDefinition).clear();
         }
         addWidget(new ButtonWidget(138, 30, 18, 18, new GuiTextureGroup(ColorPattern.T_GRAY.rectTexture(), new TextTexture("1").setSupplier(() -> "P:" + index)), x -> {
             index = (index + 1 >= patterns.length) ? 0 : index + 1;

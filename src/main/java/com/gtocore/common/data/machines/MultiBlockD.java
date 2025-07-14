@@ -44,7 +44,6 @@ import com.gregtechceu.gtceu.api.pattern.MultiblockShapeInfo;
 import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.api.pattern.TraceabilityPredicate;
 import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
-import com.gregtechceu.gtceu.client.renderer.machine.FusionReactorRenderer;
 import com.gregtechceu.gtceu.common.data.*;
 import com.gregtechceu.gtceu.common.machine.multiblock.electric.AssemblyLineMachine;
 import com.gregtechceu.gtceu.common.machine.multiblock.electric.FusionReactorMachine;
@@ -183,7 +182,7 @@ public final class MultiBlockD {
                     .where(' ', any())
                     .build())
             .renderer(EyeOfHarmonyRenderer::new)
-            .hasTESR(true)
+            .hasTESR()
             .register();
 
     public static final MultiblockMachineDefinition SPACE_PROBE_SURFACE_RECEPTION = multiblock("space_probe_surface_reception", "宇宙探测器地面接收单元", SpaceProbeSurfaceReceptionMachine::new)
@@ -628,6 +627,7 @@ public final class MultiBlockD {
                     .where('c', blocks(GTOBlocks.DIMENSION_CREATION_CASING.get()))
                     .where(' ', any())
                     .build())
+            .workableCasingRenderer(GTOCore.id("block/casings/dimension_connection_casing"), GTOCore.id("block/multiblock/door_of_create"))
             .onWorking(machine -> {
                 if (machine.getRecipeLogic().getProgress() == 5) {
                     BlockPos pos = machine.self().getPos().offset(0, -13, 0);
@@ -665,7 +665,6 @@ public final class MultiBlockD {
                 }
                 return true;
             })
-            .workableCasingRenderer(GTOCore.id("block/casings/dimension_connection_casing"), GTOCore.id("block/multiblock/door_of_create"))
             .register();
 
     public static final MultiblockMachineDefinition BEDROCK_DRILLING_RIG = multiblock("bedrock_drilling_rig", "基岩钻机", BedrockDrillingRigMachine::new)
@@ -776,6 +775,7 @@ public final class MultiBlockD {
                     .where('~', controller(blocks(definition.get())))
                     .where(' ', any())
                     .build())
+            .workableCasingRenderer(GTOCore.id("block/casings/dimension_connection_casing"), GTOCore.id("block/multiblock/create_aggregation"))
             .onWorking(machine -> {
                 if (machine.getRecipeLogic().getProgress() == 19) {
                     Level level = machine.self().getLevel();
@@ -792,7 +792,6 @@ public final class MultiBlockD {
                 }
                 return true;
             })
-            .workableCasingRenderer(GTOCore.id("block/casings/dimension_connection_casing"), GTOCore.id("block/multiblock/create_aggregation"))
             .register();
 
     public static final MultiblockMachineDefinition SUPRACHRONAL_ASSEMBLY_LINE = multiblock("suprachronal_assembly_line", "超时空装配线", CrossRecipeMultiblockMachine::createHatchParallel)
@@ -1301,7 +1300,7 @@ public final class MultiBlockD {
                     .where(' ', any())
                     .build())
             .renderer(SpaceElevatorRenderer::new)
-            .hasTESR(true)
+            .hasTESR()
             .register();
 
     public static final MultiblockMachineDefinition SLAUGHTERHOUSE = multiblock("slaughterhouse", "工业屠宰场", SlaughterhouseMachine::new)
@@ -1381,7 +1380,6 @@ public final class MultiBlockD {
                     })
                     .shapeInfos((controller) -> {
                         List<MultiblockShapeInfo> shapeInfos = new ArrayList<>();
-
                         MultiblockShapeInfo.ShapeInfoBuilder baseBuilder = MultiblockShapeInfo.builder()
                                 .aisle("###############", "######NMN######", "###############")
                                 .aisle("######DCD######", "####GG###GG####", "######UCU######")
@@ -1422,7 +1420,7 @@ public final class MultiBlockD {
                     })
                     .renderer(() -> new FusionReactorRenderer(FusionCasings.getCasingType(tier).getTexture(),
                             GTCEu.id("block/multiblock/fusion_reactor")))
-                    .hasTESR(true)
+                    .hasTESR()
                     .register(),
             GTValues.UHV, GTValues.UEV);
 
@@ -1497,7 +1495,7 @@ public final class MultiBlockD {
                                 .build();
                     })
                     .renderer(() -> new AdvancedFusionReactorRenderer(FusionCasings.getCasingType(tier).getTexture(), GTCEu.id("block/multiblock/fusion_reactor")))
-                    .hasTESR(true)
+                    .hasTESR()
                     .register(),
             GTValues.LuV, GTValues.ZPM, GTValues.UV, GTValues.UHV, GTValues.UEV);
 
@@ -1607,7 +1605,7 @@ public final class MultiBlockD {
                     .where('#', any())
                     .build())
             .renderer(FluidRenderer.create(GTCEu.id("block/casings/solid/machine_casing_clean_stainless_steel"), GTCEu.id("block/multiblock/generator/large_gas_turbine")))
-            .hasTESR(true)
+            .hasTESR()
             .register();
 
     public static final MultiblockMachineDefinition GOD_FORGE = multiblock("god_forge", "诸神之锻炉", GodForgeMachine::new)
@@ -1617,6 +1615,6 @@ public final class MultiBlockD {
             .block(GTOBlocks.TRANSCENDENTALLY_AMPLIFIED_MAGNETIC_CONFINEMENT_CASING)
             .pattern(GodForgeMachine::getBlockPattern)
             .renderer(GodforgeRenderer::new)
-            .hasTESR(true)
+            .hasTESR()
             .register();
 }

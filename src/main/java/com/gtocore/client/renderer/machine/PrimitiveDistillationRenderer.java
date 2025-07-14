@@ -3,12 +3,12 @@ package com.gtocore.client.renderer.machine;
 import com.gtocore.common.machine.multiblock.noenergy.PrimitiveDistillationTowerMachine;
 
 import com.gtolib.GTOCore;
+import com.gtolib.api.renderer.machine.WorkableCasingMachineRenderer;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
-import com.gregtechceu.gtceu.client.renderer.machine.WorkableCasingMachineRenderer;
 
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.resources.model.ModelState;

@@ -25,6 +25,7 @@ import com.gtolib.api.machine.SimpleNoEnergyMachine;
 import com.gtolib.api.machine.feature.multiblock.IParallelMachine;
 import com.gtolib.api.machine.part.DroneHatchPartMachine;
 import com.gtolib.api.machine.part.ItemHatchPartMachine;
+import com.gtolib.api.renderer.machine.*;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
@@ -81,9 +82,9 @@ public final class GTOMachines {
     public static final Pair<MachineDefinition, MachineDefinition> STEAM_VACUUM_PUMP = registerSteamMachines("steam_vacuum_pump", "真空泵", SteamVacuumPumpMachine::new, (pressure, builder) -> builder
             .allRotation()
             .recipeType(GTORecipeTypes.VACUUM_PUMP_RECIPES)
+            .renderer(() -> new WorkableSteamMachineRenderer(pressure, GTOCore.id("block/machines/vacuum_pump")))
             .recipeModifier(SimpleSteamMachine::recipeModifier)
             .tooltips(Component.translatable("gtocore.recipe.vacuum.tier", pressure ? 2 : 1))
-            .renderer(() -> new WorkableSteamMachineRenderer(pressure, GTOCore.id("block/machines/vacuum_pump")))
             .register());
 
     public static final MachineDefinition[] SEMI_FLUID_GENERATOR = registerSimpleGenerator("semi_fluid", "半流质发电机",
@@ -168,7 +169,7 @@ public final class GTOMachines {
                     .nonYAxisRotation()
                     .renderer(() -> new WindMillTurbineRenderer(tier))
                     .addTooltipsFromClass(WindMillTurbineMachine.class)
-                    .hasTESR(true)
+                    .hasTESR()
                     .tooltips(Component.translatable("gtocore.machine.wind_mill_turbine.tooltip.0"))
                     .tooltips(Component.translatable("gtocore.machine.wind_mill_turbine.tooltip.1"))
                     .tooltips(Component.translatable("gtceu.universal.tooltip.voltage_out",

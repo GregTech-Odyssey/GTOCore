@@ -483,8 +483,8 @@ public final class MultiBlockA {
                     .where('d', blocks(GTBlocks.CASING_POLYTETRAFLUOROETHYLENE_PIPE.get()))
                     .where(' ', any())
                     .build())
-            .additionalDisplay(CHEMICAL_PLANT_DISPLAY)
             .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_inert_ptfe"), GTCEu.id("block/machines/chemical_reactor"))
+            .additionalDisplay(CHEMICAL_PLANT_DISPLAY)
             .register();
 
     public static final MultiblockMachineDefinition DECAY_HASTENER = multiblock("decay_hastener", "衰变加速器", ElectricMultiblockMachine::new)
@@ -935,8 +935,8 @@ public final class MultiBlockA {
                     .where('b', blocks(GTBlocks.CASING_POLYTETRAFLUOROETHYLENE_PIPE.get()))
                     .where(' ', any())
                     .build())
-            .additionalDisplay(CHEMICAL_PLANT_DISPLAY)
             .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_inert_ptfe"), GTCEu.id("block/machines/chemical_reactor"))
+            .additionalDisplay(CHEMICAL_PLANT_DISPLAY)
             .register();
 
     public static final MultiblockMachineDefinition INTEGRATED_ORE_PROCESSOR = multiblock("integrated_ore_processor", "集成矿石处理厂", ElectricMultiblockMachine::new)
@@ -1056,8 +1056,8 @@ public final class MultiBlockA {
                     .where('b', blocks(GTBlocks.CASING_TEMPERED_GLASS.get()))
                     .where('c', heatingCoils())
                     .build())
-            .additionalDisplay((controller, components) -> components.add(Component.translatable("gtceu.multiblock.cracking_unit.energy", 100 - 10 * ((ICoilMachine) controller).getCoilTier())))
             .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_clean_stainless_steel"), GTCEu.id("block/multiblock/cracking_unit"))
+            .additionalDisplay((controller, components) -> components.add(Component.translatable("gtceu.multiblock.cracking_unit.energy", 100 - 10 * ((ICoilMachine) controller).getCoilTier())))
             .register();
 
     public static final MultiblockMachineDefinition STEAM_PISTON_HAMMER = multiblock("steam_piston_hammer", "蒸汽活塞锤", SteamMultiblockMachine::new)
@@ -1652,12 +1652,12 @@ public final class MultiBlockA {
                     .where('H', controller(blocks(definition.get())))
                     .where(' ', any())
                     .build())
+            .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_clean_stainless_steel"), GTCEu.id("block/multiblock/pyrolyse_oven"))
             .additionalDisplay((controller, components) -> {
                 if (controller instanceof ICoilMachine machine) {
                     components.add(Component.translatable("gtceu.multiblock.pyrolyse_oven.speed", machine.getCoilTier() == 0 ? 75 : 50 * (machine.getCoilTier() + 15)));
                 }
             })
-            .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_clean_stainless_steel"), GTCEu.id("block/multiblock/pyrolyse_oven"))
             .register();
 
     public static final MultiblockMachineDefinition MEGA_WIREMILL = multiblock("mega_wiremill", "特大线材轧机", CoilCrossRecipeMultiblockMachine::createCoilParallel)

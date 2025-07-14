@@ -1,7 +1,5 @@
 package com.gtocore.client.renderer.machine;
 
-import com.gtocore.common.machine.multiblock.electric.AdvancedFusionReactorMachine;
-
 import com.gtolib.api.renderer.machine.WorkableCasingMachineRenderer;
 
 import com.gregtechceu.gtceu.GTCEu;
@@ -10,6 +8,7 @@ import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
 import com.gregtechceu.gtceu.client.renderer.GTRenderTypes;
 import com.gregtechceu.gtceu.client.util.BloomUtils;
 import com.gregtechceu.gtceu.client.util.RenderBufferHelper;
+import com.gregtechceu.gtceu.common.machine.multiblock.electric.FusionReactorMachine;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -24,12 +23,14 @@ import com.mojang.blaze3d.vertex.PoseStack;
 
 import static net.minecraft.util.FastColor.ARGB32.*;
 
-public final class AdvancedFusionReactorRenderer extends WorkableCasingMachineRenderer {
+public class FusionReactorRenderer extends WorkableCasingMachineRenderer {
 
-    private float delta = 0;
-    private int lastColor = -1;
+    public static final float FADEOUT = 60;
 
-    public AdvancedFusionReactorRenderer(ResourceLocation baseCasing, ResourceLocation workableModel) {
+    protected float delta = 0;
+    protected int lastColor = -1;
+
+    public FusionReactorRenderer(ResourceLocation baseCasing, ResourceLocation workableModel) {
         super(baseCasing, workableModel);
     }
 
@@ -37,8 +38,9 @@ public final class AdvancedFusionReactorRenderer extends WorkableCasingMachineRe
     @OnlyIn(Dist.CLIENT)
     public void render(BlockEntity blockEntity, float partialTicks, PoseStack stack, MultiBufferSource buffer,
                        int combinedLight, int combinedOverlay) {
-        if (blockEntity instanceof IMachineBlockEntity machineBlockEntity && machineBlockEntity.getMetaMachine() instanceof AdvancedFusionReactorMachine machine) {
-            if (!machine.recipeLogic.isWorking() && delta <= 0) {
+        if (blockEntity instanceof IMachineBlockEntity machineBlockEntity &&
+                machineBlockEntity.getMetaMachine() instanceof FusionReactorMachine machine) {
+            if (!machine.recipeLogic.isWorking() || delta <= 0) {
                 return;
             }
             if (GTCEu.Mods.isShimmerLoaded()) {
@@ -51,37 +53,34 @@ public final class AdvancedFusionReactorRenderer extends WorkableCasingMachineRe
     }
 
     @OnlyIn(Dist.CLIENT)
-    private void renderLightRing(AdvancedFusionReactorMachine machine, float partialTicks, PoseStack poseStack, MultiBufferSource buffer) {
-        double x = 0.5, y = 6.75, z = 0.5;
-        switch (machine.getFrontFacing()) {
-            case NORTH -> z = 19.5;
-            case SOUTH -> z = -18.5;
-            case WEST -> x = 19.5;
-            case EAST -> x = -18.5;
-        }
-        poseStack.pushPose();
-        poseStack.translate(x, y, z);
+    private void renderLightRing(FusionReactorMachine machine, float partialTicks, PoseStack stack,
+                                 MultiBufferSource buffer) {
         var color = machine.getColor();
         var alpha = 1f;
         if (machine.recipeLogic.isWorking()) {
             lastColor = color;
-            delta = 60;
+            delta = FADEOUT;
         } else {
-            alpha = delta / 60;
+            alpha = delta / FADEOUT;
             lastColor = color(Mth.floor(alpha * 255), red(lastColor), green(lastColor), blue(lastColor));
             delta -= Minecraft.getInstance().getDeltaFrameTime();
         }
 
-        var lerpFactor = Math.abs((Math.abs(machine.getOffsetTimer() % 50) + partialTicks) - 25) / 25;
+        final var lerpFactor = Math.abs((Math.abs(machine.getOffsetTimer() % 50) + partialTicks) - 25) / 25;
         var front = machine.getFrontFacing();
         var upwards = machine.getUpwardsFacing();
         var flipped = machine.isFlipped();
+        var back = RelativeDirection.BACK.getRelative(front, upwards, flipped);
         var axis = RelativeDirection.UP.getRelative(front, upwards, flipped).getAxis();
         var r = Mth.lerp(lerpFactor, red(lastColor), 255) / 255f;
         var g = Mth.lerp(lerpFactor, green(lastColor), 255) / 255f;
         var b = Mth.lerp(lerpFactor, blue(lastColor), 255) / 255f;
-        RenderBufferHelper.renderRing(poseStack, buffer.getBuffer(GTRenderTypes.getLightRing()), 0, 0, 0, 8, 1.2F, 10, 20, r, g, b, alpha, axis);
-        poseStack.popPose();
+        RenderBufferHelper.renderRing(stack, buffer.getBuffer(GTRenderTypes.getLightRing()),
+                back.getStepX() * 7 + 0.5F,
+                back.getStepY() * 7 + 0.5F,
+                back.getStepZ() * 7 + 0.5F,
+                6, 0.2F, 10, 20,
+                r, g, b, alpha, axis);
     }
 
     @Override

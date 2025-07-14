@@ -288,7 +288,7 @@ public final class EncapsulatorExecutionModuleMachine extends StorageMultiblockM
         super.addDisplayText(textList);
         if (isRemote() || encapsulatorMachine == null) return;
         if (finalRecipe != null) {
-            long eut = finalRecipe.getInputEUt();
+            long eut = finalRecipe.getInputEut();
             textList.add(Component.literal(FormattingUtil.formatNumbers(eut)).append(" EU/t (").append(GTValues.VNF[GTUtil.getFloorTierByVoltage(eut)]).append(") "));
             textList.add(Component.literal("Duration: ").append(String.valueOf(finalRecipe.duration)));
         } else if (!invalidRecipe.isEmpty()) {
@@ -346,7 +346,7 @@ public final class EncapsulatorExecutionModuleMachine extends StorageMultiblockM
                     var recipeBuilder = getRecipeBuilder();
                     long totalEU = 0;
                     for (var recipe : packageRecipe) {
-                        totalEU += recipe.recipe.getInputEUt() * recipe.recipe.duration * recipe.parallel;
+                        totalEU += recipe.recipe.getInputEut() * recipe.recipe.duration * recipe.parallel;
                     }
                     long maxEUt = getOverclockVoltage();
                     double d = (double) totalEU / maxEUt;

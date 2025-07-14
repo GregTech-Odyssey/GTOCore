@@ -3,11 +3,11 @@ package com.gtocore.client.renderer.machine;
 import com.gtocore.client.renderer.RenderBufferHelper;
 
 import com.gtolib.api.machine.multiblock.CoilCrossRecipeMultiblockMachine;
+import com.gtolib.api.renderer.machine.WorkableCasingMachineRenderer;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.client.renderer.GTRenderTypes;
-import com.gregtechceu.gtceu.client.renderer.machine.WorkableCasingMachineRenderer;
 import com.gregtechceu.gtceu.client.util.BloomUtils;
 
 import net.minecraft.client.renderer.MultiBufferSource;

@@ -124,7 +124,7 @@ dependencies {
 
     modImplementation("com.gregtechceu.gtceu:gtceu-${project.minecraft_version}:${project.gtceu_version}")
 
-    modImplementation("dev:gtmthings-1.4.9")
+    modImplementation("dev:gtmthings-1.5.3")
 
     modImplementation("dev:Jade-1.20.1-Forge-11.13.1")
 

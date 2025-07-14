@@ -115,7 +115,7 @@ public final class GCYMMachines {
                     .where('a', GTOPredicates.integralFramework())
                     .build())
             .renderer(FluidRenderer.create(GTCEu.id("block/casings/gcym/watertight_casing"), GTCEu.id("block/multiblock/gcym/large_chemical_bath")))
-            .hasTESR(true)
+            .hasTESR()
             .register();
 
     public static final MultiblockMachineDefinition LARGE_CENTRIFUGE = GTM
@@ -173,7 +173,7 @@ public final class GCYMMachines {
                     .where('a', GTOPredicates.integralFramework())
                     .build())
             .renderer(FluidRenderer.create(GTCEu.id("block/casings/gcym/reaction_safe_mixing_casing"), GTCEu.id("block/multiblock/gcym/large_mixer")))
-            .hasTESR(true)
+            .hasTESR()
             .register();
 
     public static final MultiblockMachineDefinition LARGE_ELECTROLYZER = GTM
@@ -636,9 +636,9 @@ public final class GCYMMachines {
                 }
                 return shapeInfos;
             })
-            .partSorter(Comparator.comparingInt(a -> a.self().getPos().getY()))
             .workableCasingRenderer(GTCEu.id("block/casings/gcym/watertight_casing"),
                     GTCEu.id("block/multiblock/gcym/large_distillery"))
+            .partSorter(Comparator.comparingInt(a -> a.self().getPos().getY()))
             .register();
 
     public static final MultiblockMachineDefinition LARGE_EXTRACTOR = GTM

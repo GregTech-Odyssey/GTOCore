@@ -12,12 +12,12 @@ import com.gtolib.utils.TagUtils;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.item.ComponentItem;
+import com.gregtechceu.gtceu.api.registry.registrate.GTRegistrate;
 import com.gregtechceu.gtceu.common.item.TooltipBehavior;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 
-import com.tterrag.registrate.Registrate;
 import com.tterrag.registrate.builders.ItemBuilder;
 import com.tterrag.registrate.util.entry.ItemEntry;
 import com.tterrag.registrate.util.nullness.NonNullFunction;
@@ -93,8 +93,8 @@ public final class OrganItems {
 
         private static final int NUMBER_TIER = 5;
 
-        private static @NotNull <T extends OrganItem> ItemEntry<T> registerOrganItem(String name, String cn, OrganType organType, String eUrl, NonNullFunction<Item.Properties, T> itemFactory, Consumer<ItemBuilder<T, Registrate>> builderConsumer) {
-            ItemBuilder<T, Registrate> part = item("organ_part_" + name.toLowerCase(), "器官部件 " + cn, itemFactory)
+        private static @NotNull <T extends OrganItem> ItemEntry<T> registerOrganItem(String name, String cn, OrganType organType, String eUrl, NonNullFunction<Item.Properties, T> itemFactory, Consumer<ItemBuilder<T, GTRegistrate>> builderConsumer) {
+            ItemBuilder<T, GTRegistrate> part = item("organ_part_" + name.toLowerCase(), "器官部件 " + cn, itemFactory)
                     .model((ctx, prov) -> prov.generated(ctx, GTOCore.id(eUrl)))
                     .tag(TagUtils.createTag(GTOCore.id("organ_part")));
             builderConsumer.accept(part);

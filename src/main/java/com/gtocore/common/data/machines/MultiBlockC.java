@@ -420,8 +420,8 @@ public final class MultiBlockC {
                     .where('J', blocks(GTBlocks.CASING_STEEL_GEARBOX.get()))
                     .where(' ', any())
                     .build())
-            .beforeWorking((m, r) -> ((ITierCasingMachine) m).getCasingTier(COMPONENT_ASSEMBLY_CASING_TIER) < GTValues.LuV)
             .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_solid_steel"), GTCEu.id("block/multiblock/gcym/large_assembler"))
+            .beforeWorking((m, r) -> ((ITierCasingMachine) m).getCasingTier(COMPONENT_ASSEMBLY_CASING_TIER) < GTValues.LuV)
             .register();
 
     public static final MultiblockMachineDefinition THREE_DIMENSIONAL_PRINTER = multiblock("three_dimensional_printer", "3D打印机", ElectricMultiblockMachine::new)
@@ -614,8 +614,8 @@ public final class MultiBlockC {
                     .where('H', controller(blocks(definition.get())))
                     .where(' ', any())
                     .build())
-            .additionalDisplay((controller, components) -> components.add(Component.translatable("gtocore.machine.duration_multiplier.tooltip", Component.literal(FormattingUtil.formatNumbers(Math.log(900) / Math.log(((ICoilMachine) controller).gto$getTemperature()))))))
             .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_inert_ptfe"), GTCEu.id("block/multiblock/gcym/large_chemical_bath"))
+            .additionalDisplay((controller, components) -> components.add(Component.translatable("gtocore.machine.duration_multiplier.tooltip", Component.literal(FormattingUtil.formatNumbers(Math.log(900) / Math.log(((ICoilMachine) controller).gto$getTemperature()))))))
             .register();
 
     public static final MultiblockMachineDefinition PHYSICAL_VAPOR_DEPOSITION = multiblock("physical_vapor_deposition", "物理气相沉积系统", TierCasingParallelMultiblockMachine.createParallel(m -> 1 << (2 * (m.getTier() - 1)), true, GLASS_TIER))
@@ -646,8 +646,8 @@ public final class MultiBlockC {
                     .where('I', blocks(GTBlocks.FILTER_CASING.get()))
                     .where(' ', any())
                     .build())
-            .additionalDisplay((controller, components) -> components.add(Component.translatable("gtocore.machine.duration_multiplier.tooltip", Component.literal(FormattingUtil.formatNumbers(Math.sqrt(1.0D / ((ITierCasingMachine) controller).getCasingTier(GLASS_TIER)))))))
             .workableCasingRenderer(GTCEu.id("block/casings/cleanroom/plascrete"), GTCEu.id("block/multiblock/gcym/large_chemical_bath"))
+            .additionalDisplay((controller, components) -> components.add(Component.translatable("gtocore.machine.duration_multiplier.tooltip", Component.literal(FormattingUtil.formatNumbers(Math.sqrt(1.0D / ((ITierCasingMachine) controller).getCasingTier(GLASS_TIER)))))))
             .register();
 
     public static final MultiblockMachineDefinition PLASMA_CENTRIFUGE = multiblock("plasma_centrifuge", "等离子离心机", ElectricMultiblockMachine::new)

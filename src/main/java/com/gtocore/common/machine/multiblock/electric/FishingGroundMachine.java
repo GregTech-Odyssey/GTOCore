@@ -60,7 +60,7 @@ public class FishingGroundMachine extends ElectricMultiblockMachine {
                 ItemStackSet itemStacks = new ItemStackSet();
                 recipe = ParallelLogic.accurateParallel(this, builder.copy(GTOCore.id("test")).outputItems(Items.STICK).buildRawRecipe(), MachineUtils.getHatchParallel(this));
                 if (recipe == null) return null;
-                builder.EUt(recipe.getInputEUt());
+                builder.EUt(recipe.getInputEut());
                 for (int i = 0; i < recipe.getParallels(); i++) {
                     itemStacks.addAll(lootTable.getRandomItems(lootContext));
                 }

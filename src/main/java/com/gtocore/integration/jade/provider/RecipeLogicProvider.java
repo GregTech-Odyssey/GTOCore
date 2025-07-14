@@ -55,8 +55,8 @@ public final class RecipeLogicProvider extends CapabilityBlockProvider<RecipeLog
         var recipeInfo = new CompoundTag();
         var recipe = capability.getLastRecipe();
         if (recipe != null) {
-            var inputEUt = recipe.getInputEUt();
-            var outputEUt = recipe.getOutputEUt();
+            var inputEUt = RecipeHelper.getInputEUt(recipe);
+            var outputEUt = RecipeHelper.getOutputEUt(recipe);
             var inputManat = RecipeHelper.getInputMANAt(recipe);
             var outputManat = RecipeHelper.getOutputMANAt(recipe);
 

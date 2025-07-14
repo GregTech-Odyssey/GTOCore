@@ -2,7 +2,6 @@ package com.gtocore.common.data.machines;
 
 import com.gtocore.api.machine.part.GTOPartAbility;
 import com.gtocore.client.renderer.machine.ManaHeaterRenderer;
-import com.gtocore.client.renderer.machine.OverlayManaTieredMachineRenderer;
 import com.gtocore.common.data.GTORecipeTypes;
 import com.gtocore.common.machine.generator.MagicEnergyMachine;
 import com.gtocore.common.machine.mana.AlchemyCauldron;
@@ -15,12 +14,13 @@ import com.gtocore.common.machine.mana.part.WirelessManaHatchPartMachine;
 import com.gtolib.GTOCore;
 import com.gtolib.api.GTOValues;
 import com.gtolib.api.machine.SimpleNoEnergyMachine;
+import com.gtolib.api.renderer.machine.OverlayManaTieredMachineRenderer;
+import com.gtolib.api.renderer.machine.SimpleGeneratorMachineRenderer;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
-import com.gregtechceu.gtceu.client.renderer.machine.SimpleGeneratorMachineRenderer;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.common.data.machines.GTMachineUtils;
 import com.gregtechceu.gtceu.common.machine.electric.HullMachine;

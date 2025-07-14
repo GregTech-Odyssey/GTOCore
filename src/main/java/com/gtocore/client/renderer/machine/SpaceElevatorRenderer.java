@@ -6,12 +6,12 @@ import com.gtocore.common.machine.multiblock.electric.space.SpaceElevatorMachine
 import com.gtocore.common.machine.multiblock.electric.space.SuperSpaceElevatorMachine;
 
 import com.gtolib.GTOCore;
+import com.gtolib.api.renderer.machine.WorkableCasingMachineRenderer;
 import com.gtolib.utils.ClientUtil;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
-import com.gregtechceu.gtceu.client.renderer.machine.WorkableCasingMachineRenderer;
 
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;

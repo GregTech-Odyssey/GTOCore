@@ -73,7 +73,7 @@ public final class CircuitAssemblyLineMachine extends StorageMultiblockMachine {
     @Nullable
     @Override
     protected Recipe getRealRecipe(@NotNull Recipe recipe) {
-        if (inputEUt == recipe.getInputEUt()) {
+        if (inputEUt == recipe.getInputEut()) {
             recipe = ParallelLogic.accurateParallel(this, recipe, parallel);
         }
         return RecipeModifierFunction.overclocking(this, recipe);

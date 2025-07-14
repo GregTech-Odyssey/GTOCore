@@ -267,9 +267,9 @@ public final class PCBFactoryMachine extends StorageMultiblockMachine implements
     @Override
     protected Recipe getRealRecipe(@NotNull Recipe recipe) {
         if (machineTier < 2) {
-            if (recipe.getInputEUt() > 30719) return null;
+            if (recipe.getInputEut() > 30719) return null;
         } else if (machineTier < 3) {
-            if (recipe.getInputEUt() > 491519) return null;
+            if (recipe.getInputEut() > 491519) return null;
         }
         return RecipeModifierFunction.overclocking(this, RecipeModifierFunction.hatchParallel(this, recipe));
     }

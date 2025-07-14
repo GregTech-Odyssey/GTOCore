@@ -3,12 +3,12 @@ package com.gtocore.client.renderer.machine;
 import com.gtocore.common.machine.multiblock.part.BallHatchPartMachine;
 
 import com.gtolib.GTOCore;
+import com.gtolib.api.renderer.machine.TieredHullMachineRenderer;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
-import com.gregtechceu.gtceu.client.renderer.machine.TieredHullMachineRenderer;
 
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.resources.model.ModelState;

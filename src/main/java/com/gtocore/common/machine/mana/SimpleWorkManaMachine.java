@@ -39,7 +39,7 @@ public class SimpleWorkManaMachine extends SimpleManaMachine implements IManaEne
     @Nullable
     @Override
     public Recipe doModifyRecipe(@NotNull Recipe recipe) {
-        long eu = recipe.getInputEUt();
+        long eu = recipe.getInputEut();
         if (eu > 0) {
             recipe = RecipeModifierFunction.externalEnergyOverclocking(this, recipe, eu, getTierMana(), true, 1, 1);
             return recipe;

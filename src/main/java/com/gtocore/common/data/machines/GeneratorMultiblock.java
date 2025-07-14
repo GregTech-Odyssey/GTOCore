@@ -438,7 +438,7 @@ public final class GeneratorMultiblock {
             .recipeTypes(GTORecipeTypes.LARGE_NAQUADAH_REACTOR_RECIPES)
             .generator()
             .block(GTOBlocks.HYPER_MECHANICAL_CASING)
-            .recipeModifier(RecipeModifierFunction.GENERATOR_OVERCLOCKING, false)
+            .recipeModifier(RecipeModifierFunction.GENERATOR_OVERCLOCKING)
             .pattern(definition -> FactoryBlockPattern.start(RelativeDirection.RIGHT, RelativeDirection.UP, RelativeDirection.BACK)
                     .aisle("                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "           a~a           ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ")
                     .aisle("                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "           AAA           ", "          aBBBa          ", "           AAA           ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ")
@@ -540,7 +540,7 @@ public final class GeneratorMultiblock {
                     .where(' ', any())
                     .build())
             .renderer(AdvancedHyperRenderer::new)
-            .hasTESR(true)
+            .hasTESR()
             .register();
 
     public static final MultiblockMachineDefinition HYPER_REACTOR = multiblock("hyper_reactor", "超能反应堆", ElectricMultiblockMachine::new)
@@ -553,7 +553,7 @@ public final class GeneratorMultiblock {
             .recipeModifier((machine, recipe) -> {
                 if (machine instanceof ElectricMultiblockMachine workableElectricMultiblockMachine) {
                     int p = 1;
-                    long outputEUt = recipe.getOutputEUt();
+                    long outputEUt = recipe.getOutputEut();
                     if (outputEUt == V[UEV]) {
                         if (MachineUtils.inputFluid(workableElectricMultiblockMachine, GTOMaterials.Orichalcum.getFluid(FluidStorageKeys.PLASMA, 1))) {
                             p = 16;
@@ -655,7 +655,7 @@ public final class GeneratorMultiblock {
             .recipeTypes(GTORecipeTypes.ANNIHILATE_GENERATOR_RECIPES)
             .generator()
             .block(GTBlocks.HIGH_POWER_CASING)
-            .recipeModifier(RecipeModifierFunction.GENERATOR_OVERCLOCKING, false)
+            .recipeModifier(RecipeModifierFunction.GENERATOR_OVERCLOCKING)
             .pattern(definition -> FactoryBlockPattern.start()
                     .aisle(AnnihilateGeneratorB.A_1)
                     .aisle(AnnihilateGeneratorB.A_2)
@@ -785,6 +785,6 @@ public final class GeneratorMultiblock {
                     .where(' ', any())
                     .build())
             .renderer(AnnihilateGeneratorRenderer::new)
-            .hasTESR(true)
+            .hasTESR()
             .register();
 }

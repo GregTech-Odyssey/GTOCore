@@ -8,12 +8,12 @@ import com.gtocore.common.data.GTOBlocks;
 import com.gtocore.common.machine.multiblock.noenergy.GodForgeMachine;
 
 import com.gtolib.GTOCore;
+import com.gtolib.api.renderer.machine.WorkableCasingMachineRenderer;
 import com.gtolib.utils.ClientUtil;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.client.renderer.GTRenderTypes;
-import com.gregtechceu.gtceu.client.renderer.machine.WorkableCasingMachineRenderer;
 import com.gregtechceu.gtceu.client.util.BloomUtils;
 
 import net.minecraft.client.renderer.GameRenderer;

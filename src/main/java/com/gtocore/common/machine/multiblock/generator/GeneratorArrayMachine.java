@@ -188,14 +188,14 @@ public final class GeneratorArrayMachine extends StorageMultiblockMachine implem
     protected Recipe getRealRecipe(Recipe recipe) {
         int a = machineStorage.storage.getStackInSlot(0).getCount();
         if (a > 0) {
-            long EUt = recipe.getOutputEUt();
+            long EUt = recipe.getOutputEut();
             if (EUt > 0) {
                 recipe.outputs.clear();
                 long paralle = ParallelLogic.getInputFluidParallel(this, recipe.getInputContents(FluidRecipeCapability.CAP), (int) (multiply * GTValues.V[getOverclockTier()] * a * GTOUtils.getGeneratorAmperage(getTier()) / EUt));
                 recipe.modifier(ContentModifier.multiplier(paralle), true);
                 recipe.duration = recipe.duration * GTOUtils.getGeneratorEfficiency(getRecipeType(), getTier()) / 100;
                 if (isw) {
-                    recipe.setOutputEUt(0);
+                    recipe.setEut(0);
                     eut = EUt * paralle;
                 }
                 return recipe;
