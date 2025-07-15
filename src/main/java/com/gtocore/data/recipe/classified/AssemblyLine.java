@@ -676,7 +676,7 @@ final class AssemblyLine {
                 .save();
 
         ASSEMBLY_LINE_RECIPES.builder("me_extend_pattern_buffer")
-                .inputItems(GTMachines.DUAL_IMPORT_HATCH[UHV], 1)
+                .inputItems(GTMachines.DUAL_IMPORT_HATCH[UV], 1)
                 .inputItems(GTAEMachines.ME_PATTERN_BUFFER, 1)
                 .inputItems(GTOItems.CELL_COMPONENT_16M.asItem())
                 .inputItems("expatternprovider:ex_pattern_provider", 4)
@@ -688,8 +688,25 @@ final class AssemblyLine {
                 .outputItems(GTAEMachines.ME_EXTEND_PATTERN_BUFFER)
                 .scanner(b -> b.researchStack(GTAEMachines.ME_PATTERN_BUFFER_PROXY.asStack())
                         .duration(1200)
+                        .EUt(VA[UV]))
+                .duration(600).EUt(VA[UV])
+                .save();
+
+        ASSEMBLY_LINE_RECIPES.builder("me_extend_pattern_buffer_ultra")
+                .inputItems(GTMachines.DUAL_IMPORT_HATCH[UV], 1)
+                .inputItems(GTAEMachines.ME_EXTEND_PATTERN_BUFFER, 4)
+                .inputItems(GTOItems.CELL_COMPONENT_16M.asItem())
+                .inputItems("expatternprovider:ex_pattern_provider", 16)
+                .inputItems("expatternprovider:ex_interface", 16)
+                .inputItems(AEItems.SPEED_CARD.asItem(), 6)
+                .inputItems(AEItems.CAPACITY_CARD.asItem(), 4)
+                .inputItems(TagPrefix.wireFine, GTMaterials.Europium, 64)
+                .inputFluids(GTMaterials.SolderingAlloy, L << 2)
+                .outputItems(GTAEMachines.ME_EXTEND_PATTERN_BUFFER_ULTRA)
+                .scanner(b -> b.researchStack(GTAEMachines.ME_EXTEND_PATTERN_BUFFER.asStack())
+                        .duration(1200)
                         .EUt(VA[UHV]))
-                .duration(600).EUt(VA[UHV])
+                .duration(2400).EUt(VA[UHV])
                 .save();
 
         ASSEMBLY_LINE_RECIPES.builder("dynamo_hatch_luv")

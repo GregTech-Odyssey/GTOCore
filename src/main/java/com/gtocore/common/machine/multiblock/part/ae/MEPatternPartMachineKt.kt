@@ -72,9 +72,6 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
 
         @RegisterLanguage(cn = "AE显示名称:", en = "AE Name:")
         val AE_NAME: String = "gtceu.ae.pattern_part_machine.ae_name"
-
-        @RegisterLanguage(cn = "    对一个样板按下鼠标中键，可以打开此样板专属的槽位，此槽位可以放入不消耗物品，为此样板独享。左下角的槽位为所有样板共享", en = "    Middle-click on a pattern to open its dedicated slot, which can hold items without consuming them. The bottom-left slot is shared by all patterns.")
-        val USE: String = "gtceu.ae.pattern_part_machine.use"
     }
 
     // ==================== 持久化属性 ====================
@@ -158,6 +155,7 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
     open fun getApplyIndex(): IntSupplier = IntSupplier { -1 }
     open fun onPageNext() {}
     open fun onPagePrev() {}
+    open fun runOnUpdate() {}
     open fun addWidget(group: WidgetGroup) {}
 
     // ==================== 生命周期方法 ====================
@@ -263,7 +261,7 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
                 }
                 val height1 = this@rootFresh.availableHeight - 24 - 16
                 val pageWidget =
-                    multiPage(width = this@vBox.availableWidth, height = height1, pageSelector = { page }) {
+                    multiPage(width = this@vBox.availableWidth, runOnUpdate = ::runOnUpdate, height = height1, pageSelector = { page }) {
                         chunked.forEach { pageIndices ->
                             page {
                                 vScroll(width = this@vBox.availableWidth, height = height1) {

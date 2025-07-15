@@ -11,6 +11,8 @@ import com.gregtechceu.gtceu.api.gui.widget.TankWidget
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity
 import com.gregtechceu.gtceu.api.transfer.fluid.CustomFluidTank
 import com.gregtechceu.gtceu.common.item.IntCircuitBehaviour
+import com.gtolib.api.annotation.Scanned
+import com.gtolib.api.annotation.language.RegisterLanguage
 import com.gtolib.api.gui.ktflexible.VBoxBuilder
 import com.gtolib.api.gui.ktflexible.blank
 import com.gtolib.api.gui.ktflexible.field
@@ -20,23 +22,27 @@ import com.lowdragmc.lowdraglib.jei.IngredientIO
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder
 
 import java.util.function.IntSupplier
-
-class MEPatternBufferPartMachineKt(holder: IMachineBlockEntity, maxPatternCount: Int) : MEPatternBufferPartMachine(holder, maxPatternCount) {
+@Scanned
+open class MEPatternBufferPartMachineKt(holder: IMachineBlockEntity, maxPatternCount: Int) : MEPatternBufferPartMachine(holder, maxPatternCount) {
+    @Scanned
     companion object {
         @JvmStatic
         val MANAGED_FIELD_HOLDER = ManagedFieldHolder(MEPatternBufferPartMachineKt::class.java, MEPatternBufferPartMachine.MANAGED_FIELD_HOLDER)
+
+        @RegisterLanguage(cn = "此样板物品输入槽", en = "This Pattern Special Item Input Slot")
+        val item_special: String = "gtceu.ae.pattern_part_machine.item_special"
+
+        @RegisterLanguage(cn = "此样板流体输入槽", en = "This Pattern Special Fluid Input Slot")
+        val fluid_special: String = "gtceu.ae.pattern_part_machine.fluid_special"
+
+        @RegisterLanguage(cn = "此样板电路输入槽", en = "This Pattern Special Circuit Input Slot")
+        val circuit_special: String = "gtceu.ae.pattern_part_machine.circuit_special"
     }
 
     override fun getFieldHolder(): ManagedFieldHolder = MANAGED_FIELD_HOLDER
 
     override fun getApplyIndex() = IntSupplier { configurator }
-    override fun onPageNext() {
-        super.onPageNext()
-    }
-
-    override fun onPagePrev() {
-        super.onPagePrev()
-    }
+    override fun runOnUpdate() = run { configurator = -1 }
 
     override fun VBoxBuilder.buildToolBoxContent() {
         when {
@@ -46,7 +52,7 @@ class MEPatternBufferPartMachineKt(holder: IMachineBlockEntity, maxPatternCount:
                 vBox(width = availableWidth, alwaysHorizonCenter = true, style = { spacing = 2 }) {
                     val width = this@vBox.availableWidth
                     val itemHandler = shareInventorys[configurator].storage
-                    textBlock(maxWidth = width, textSupplier = { Component.literal("样板专用物品输入槽") })
+                    textBlock(maxWidth = width, textSupplier = { Component.translatable(item_special) })
                     (0 until itemHandler.slots).chunked(9).forEach { indices ->
                         hBox(height = 18) {
                             indices.forEach { index ->
@@ -59,7 +65,7 @@ class MEPatternBufferPartMachineKt(holder: IMachineBlockEntity, maxPatternCount:
                         }
                     }
                     val fluidHandler: Array<CustomFluidTank> = shareTanks[configurator].storages
-                    textBlock(maxWidth = width, textSupplier = { Component.literal("样板专用流体输入槽") })
+                    textBlock(maxWidth = width, textSupplier = { Component.translatable(fluid_special) })
                     (0 until fluidHandler.size).chunked(9).forEach { indices ->
                         hBox(height = 18) {
                             indices.forEach { index ->
@@ -78,7 +84,7 @@ class MEPatternBufferPartMachineKt(holder: IMachineBlockEntity, maxPatternCount:
                         }
                     }
                     val circuitHandler = circuitInventorys[configurator].storage
-                    textBlock(maxWidth = width, textSupplier = { Component.literal("样板专用电路输入槽") })
+                    textBlock(maxWidth = width, textSupplier = { Component.translatable(circuit_special) })
                     hBox(height = 18, style = { spacing = 4 }) {
                         run { if (circuitInventorys[configurator].storage.getStackInSlot(0).isEmpty) circuitInventorys[configurator].storage.setStackInSlot(0, IntCircuitBehaviour.stack(0)) }
                         widget(

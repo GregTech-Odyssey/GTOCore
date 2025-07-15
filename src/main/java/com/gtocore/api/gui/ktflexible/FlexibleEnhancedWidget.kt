@@ -45,6 +45,10 @@ class SyncField<T>(private val supplier: () -> T, private val operations: DataSy
         init?.invoke(lastValue)
     }
 
+    fun triggerServerInitialCallback() {
+        init?.invoke(lastValue)
+    }
+
     fun getLatestValue(): T = supplier()
 
     fun writeToBuffer(buffer: FriendlyByteBuf) {
@@ -73,6 +77,7 @@ class DataSyncDelegate(private val widget: Widget) {
             buffer?.writeBoolean(true)
             syncFields.forEach { field ->
                 updateFieldValueUnsafe(field, field.getLatestValue())
+                triggerServerInitialCallbackUnsafe(field)
                 field.writeToBuffer(buffer!!)
             }
         } else {
@@ -144,6 +149,11 @@ class DataSyncDelegate(private val widget: Widget) {
     @Suppress("UNCHECKED_CAST")
     private fun triggerClientInitialCallbackUnsafe(field: SyncField<*>) {
         (field as SyncField<Any?>).triggerClientInitialCallback()
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    private fun triggerServerInitialCallbackUnsafe(field: SyncField<*>) {
+        (field as SyncField<Any?>).triggerServerInitialCallback()
     }
 }
 

@@ -15,7 +15,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Predicate;
 
-public final class MEProgrammablePatternBufferPartMachine extends MEPatternBufferPartMachine {
+public final class MEProgrammablePatternBufferPartMachine extends MEPatternBufferPartMachineKt {
 
     public MEProgrammablePatternBufferPartMachine(IMachineBlockEntity holder) {
         super(holder, 27);
