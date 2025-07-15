@@ -119,9 +119,9 @@ interface MultiPageVScroll {
 fun LayoutBuilder<*>.multiPage(width: Int, height: Int, style: (Style.() -> Unit)? = null, pageSelector: IntSupplier, builder: MultiPageDSLBuilder.() -> Unit): MultiPageVScroll {
     val widget = object : SyncWidget(0, 0, width, height), MultiPageVScroll {
         val currentPage = syncInt({ pageSelector.asInt }, -1, pageSelector.asInt).apply {
-            init = { if(!isRemote)refresh() }
+            init = { if (!isRemote)refresh() }
             update = { old, new ->
-                if(!isRemote)refresh()
+                if (!isRemote)refresh()
             }
         }
         val pageSuppliers: MutableList<Supplier<VBoxBuilder.() -> Unit>> = mutableListOf()

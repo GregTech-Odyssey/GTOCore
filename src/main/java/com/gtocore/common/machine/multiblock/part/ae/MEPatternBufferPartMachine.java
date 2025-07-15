@@ -32,8 +32,6 @@ import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList;
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
 import com.gregtechceu.gtceu.common.item.IntCircuitBehaviour;
 
-import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
-import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -114,7 +112,6 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
     @Persisted
     @DescSynced
     protected int configurator = -1;
-
 
     protected ConfiguratorPanel configuratorPanel;
 
@@ -218,9 +215,10 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
         } else {
             configurator = index;
         }
-//        if (getFancyMachineUIWidget()!=null) getFancyMachineUIWidget().initWidget();
+        // if (getFancyMachineUIWidget()!=null) getFancyMachineUIWidget().initWidget();
         freshWidgetGroup.fresh();
     }
+
     @Override
     public void addWidget(WidgetGroup group) {
         group.addWidget(new LabelWidget(81, 2, () -> configurator < 0 ? SHARE : INDEPENDENT).setHoverTooltips(Component.translatable("monitor.gui.title.slot").append(String.valueOf(configurator))));

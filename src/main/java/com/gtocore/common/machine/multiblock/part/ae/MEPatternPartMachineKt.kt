@@ -1,5 +1,18 @@
 package com.gtocore.common.machine.multiblock.part.ae
 
+import com.gtocore.api.gui.ktflexible.multiPage
+import com.gtocore.api.gui.ktflexible.textBlock
+import com.gtocore.common.data.machines.GTAEMachines
+import com.gtocore.common.machine.multiblock.part.ae.widget.slot.AEPatternViewSlotWidgetKt
+
+import net.minecraft.MethodsReturnNonnullByDefault
+import net.minecraft.nbt.CompoundTag
+import net.minecraft.network.chat.Component
+import net.minecraft.server.TickTask
+import net.minecraft.server.level.ServerLevel
+import net.minecraft.world.entity.player.Player
+import net.minecraft.world.item.ItemStack
+
 import appeng.api.crafting.IPatternDetails
 import appeng.api.implementations.blockentities.PatternContainerGroup
 import appeng.api.inventories.InternalInventory
@@ -21,11 +34,6 @@ import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity
 import com.gregtechceu.gtceu.api.machine.TickableSubscription
 import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler
-import com.gtocore.api.gui.ktflexible.multiPage
-import com.gtocore.api.gui.ktflexible.textBlock
-import com.gtocore.common.data.machines.GTAEMachines
-import com.gtocore.common.machine.multiblock.part.ae.widget.slot.AEPatternViewSlotWidgetInnerKt
-import com.gtocore.common.machine.multiblock.part.ae.widget.slot.AEPatternViewSlotWidgetKt
 import com.gtolib.ae2.MyPatternDetailsHelper
 import com.gtolib.ae2.pattern.IParallelPatternDetails
 import com.gtolib.api.annotation.Scanned
@@ -41,13 +49,7 @@ import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder
 import kotlinx.coroutines.Runnable
-import net.minecraft.MethodsReturnNonnullByDefault
-import net.minecraft.nbt.CompoundTag
-import net.minecraft.network.chat.Component
-import net.minecraft.server.TickTask
-import net.minecraft.server.level.ServerLevel
-import net.minecraft.world.entity.player.Player
-import net.minecraft.world.item.ItemStack
+
 import java.util.function.IntSupplier
 import javax.annotation.ParametersAreNonnullByDefault
 
@@ -67,11 +69,12 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
             MEPatternPartMachineKt::class.java,
             MEPartMachine.MANAGED_FIELD_HOLDER,
         )
+
         @RegisterLanguage(cn = "AE显示名称:", en = "AE Name:")
-        val AE_NAME : String = "gtceu.ae.pattern_part_machine.ae_name"
+        val AE_NAME: String = "gtceu.ae.pattern_part_machine.ae_name"
 
         @RegisterLanguage(cn = "    对一个样板按下鼠标中键，可以打开此样板专属的槽位，此槽位可以放入不消耗物品，为此样板独享。左下角的槽位为所有样板共享", en = "    Middle-click on a pattern to open its dedicated slot, which can hold items without consuming them. The bottom-left slot is shared by all patterns.")
-        val USE : String = "gtceu.ae.pattern_part_machine.use"
+        val USE: String = "gtceu.ae.pattern_part_machine.use"
     }
 
     // ==================== 持久化属性 ====================
@@ -90,7 +93,7 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
     @Persisted
     private var currentSlotPage = 0
 
-    var freshRootWidgetGroup : Runnable? = null
+    var freshRootWidgetGroup: Runnable? = null
 
     // ==================== 运行时属性 ====================
     val detailsSlotMap: BiMap<IPatternDetails, T> = HashBiMap.create(maxPatternCount)
@@ -239,38 +242,37 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
     // ==================== UI 相关方法 ====================
     @Persisted
     var page = 0
-    lateinit var freshWidgetGroup :FreshWidgetGroupAbstract
+    lateinit var freshWidgetGroup: FreshWidgetGroupAbstract
     override fun createUIWidget(): Widget {
         freshWidgetGroup = rootFresh(176, 166) {
             val chunked: List<List<List<Int>>> = (0 until maxPatternCount).chunked(9).chunked(7)
-                vBox(width = availableWidth, style = { spacing = 3 }) {
-                    hBox(height = 12, alwaysVerticalCenter = true) {
-                        blank(width=4)
-                        textBlock(maxWidth = this@vBox.availableWidth,textSupplier = {
-                            when (isOnline) {
-                                true -> Component.translatable("gtceu.gui.me_network.online")
-                                false -> Component.translatable("gtceu.gui.me_network.offline")
-                            }
-                        })
-                        blank(width=4)
-                        textBlock(maxWidth = this@vBox.availableWidth,textSupplier = {
-                            Component.translatable(AE_NAME)
-                        })
-                        field(height = 12, getter = { customName }, setter = { customName = it })
-                    }
-                    val height1 = this@rootFresh.availableHeight - 24 - 16
-                    val pageWidget =
-                        multiPage(width = this@vBox.availableWidth, height = height1, pageSelector = { page }) {
-                            chunked.forEach { pageIndices ->
-                                page {
-                                    vScroll(width=this@vBox.availableWidth,height=height1){
-                                        vBox(width = this@vBox.availableWidth, alwaysHorizonCenter = true) {
-                                            buildToolBoxContent()
-                                            pageIndices.forEach { lineIndices ->
-                                                hBox(height = 18) {
-                                                    lineIndices.forEach { index ->
-                                                        widget(createPatternSlot(index))
-                                                    }
+            vBox(width = availableWidth, style = { spacing = 3 }) {
+                hBox(height = 12, alwaysVerticalCenter = true) {
+                    blank(width = 4)
+                    textBlock(maxWidth = this@vBox.availableWidth, textSupplier = {
+                        when (isOnline) {
+                            true -> Component.translatable("gtceu.gui.me_network.online")
+                            false -> Component.translatable("gtceu.gui.me_network.offline")
+                        }
+                    })
+                    blank(width = 4)
+                    textBlock(maxWidth = this@vBox.availableWidth, textSupplier = {
+                        Component.translatable(AE_NAME)
+                    })
+                    field(height = 12, getter = { customName }, setter = { customName = it })
+                }
+                val height1 = this@rootFresh.availableHeight - 24 - 16
+                val pageWidget =
+                    multiPage(width = this@vBox.availableWidth, height = height1, pageSelector = { page }) {
+                        chunked.forEach { pageIndices ->
+                            page {
+                                vScroll(width = this@vBox.availableWidth, height = height1) {
+                                    vBox(width = this@vBox.availableWidth, alwaysHorizonCenter = true) {
+                                        buildToolBoxContent()
+                                        pageIndices.forEach { lineIndices ->
+                                            hBox(height = 18) {
+                                                lineIndices.forEach { index ->
+                                                    widget(createPatternSlot(index))
                                                 }
                                             }
                                         }
@@ -278,24 +280,31 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
                                 }
                             }
                         }
-                    hBox(height = 13, style = { spacing = 2 }) {
-                        val wid = this@vBox.availableWidth-2*2
-                        button(
-                            width = 30,
-                            height=13,
-                            onClick = { ck -> onPagePrev();page = (page - 1).coerceAtLeast(0) },
-                            text = { "<<" },
-                        )
-                        text (height=13,width=wid-60,text= { Component.literal("${page+1} / ${pageWidget.getMaxPage()+1}") } )
-                        button(
-                            height=13,
-                            width = 30,
-                            onClick = { ck -> onPageNext();page = (page + 1).coerceAtMost(pageWidget.getMaxPage()) },
-                            text = { ">>" },
-                        )
                     }
-                    pageWidget.refresh()
+                hBox(height = 13, style = { spacing = 2 }) {
+                    val wid = this@vBox.availableWidth - 2 * 2
+                    button(
+                        width = 30,
+                        height = 13,
+                        onClick = { ck ->
+                            onPagePrev()
+                            page = (page - 1).coerceAtLeast(0)
+                        },
+                        text = { "<<" },
+                    )
+                    text(height = 13, width = wid - 60, text = { Component.literal("${page + 1} / ${pageWidget.getMaxPage() + 1}") })
+                    button(
+                        height = 13,
+                        width = 30,
+                        onClick = { ck ->
+                            onPageNext()
+                            page = (page + 1).coerceAtMost(pageWidget.getMaxPage())
+                        },
+                        text = { ">>" },
+                    )
                 }
+                pageWidget.refresh()
+            }
         }
         return freshWidgetGroup
     }
@@ -337,7 +346,7 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
             0,
             index,
             getApplyIndex(),
-            patternInventory
+            patternInventory,
         ) { onMouseClicked(index) }
 
         slot.inner.setOccupiedTexture(GuiTextures.SLOT)
@@ -358,24 +367,21 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
 
         return slot
     }
-    open fun VBoxBuilder.buildToolBoxContent(){}
-    class MyFancyMachineUIWidget(mainPage: IFancyUIProvider, width: Int, height: Int) :
-        FancyMachineUIWidget(mainPage, width, height) {
-        fun setup(provider: IFancyUIProvider){
+    open fun VBoxBuilder.buildToolBoxContent() {}
+    class MyFancyMachineUIWidget(mainPage: IFancyUIProvider, width: Int, height: Int) : FancyMachineUIWidget(mainPage, width, height) {
+        fun setup(provider: IFancyUIProvider) {
             setupFancyUI(provider)
         }
     }
-    var modularUI : ModularUI? = null
+    var modularUI: ModularUI? = null
     var fancyMachineUIWidget: FancyMachineUIWidget? = null
     override fun createUI(entityPlayer: Player?): ModularUI? {
         fancyMachineUIWidget = FancyMachineUIWidget(this, 176, 166)
         modularUI = (ModularUI(176, 166, this, entityPlayer)).widget(fancyMachineUIWidget)
-        return modularUI;
+        return modularUI
     }
 
-    override fun createMainPage(widget: FancyMachineUIWidget?): Widget? {
-        return super.createMainPage(widget)
-    }
+    override fun createMainPage(widget: FancyMachineUIWidget?): Widget? = super.createMainPage(widget)
 
     // ==================== 内部类 ====================
     abstract class AbstractInternalSlot :
@@ -386,4 +392,3 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
         override fun serializeNBT(): CompoundTag = CompoundTag()
     }
 }
-
