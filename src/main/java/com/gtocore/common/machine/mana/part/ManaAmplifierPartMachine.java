@@ -67,6 +67,7 @@ public final class ManaAmplifierPartMachine extends AmountConfigurationHatchPart
         }
     }
 
+    @Override
     public @NotNull NotifiableManaContainer getManaContainer() {
         return this.manaContainer;
     }

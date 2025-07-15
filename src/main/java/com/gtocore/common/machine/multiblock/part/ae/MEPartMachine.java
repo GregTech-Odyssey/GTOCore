@@ -115,14 +115,17 @@ abstract class MEPartMachine extends TieredIOPartMachine implements IMEPartMachi
         }
     }
 
+    @Override
     public void setOnline(final boolean isOnline) {
         this.isOnline = isOnline;
     }
 
+    @Override
     public boolean isOnline() {
         return this.isOnline;
     }
 
+    @Override
     public IActionSource getActionSource() {
         return this.actionSource;
     }

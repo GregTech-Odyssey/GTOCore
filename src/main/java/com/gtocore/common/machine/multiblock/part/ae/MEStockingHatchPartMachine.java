@@ -249,9 +249,11 @@ public class MEStockingHatchPartMachine extends MEInputHatchPartMachine implemen
         super.readConfigFromTag(tag);
     }
 
+    @Override
     public boolean isAutoPull() {
         return this.autoPull;
     }
 
+    @Override
     public void setAutoPullTest(final Predicate<GenericStack> autoPullTest) {}
 }

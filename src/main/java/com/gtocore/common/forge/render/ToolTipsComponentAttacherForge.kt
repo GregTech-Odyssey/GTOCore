@@ -36,7 +36,7 @@ object ToolTipsComponentAttacherForge {
             if (componentWidth > tooltipWidth) {
                 tooltipWidth = componentWidth
             }
-            tooltipHeight += component.getHeight()
+            tooltipHeight += component.height
         }
         tooltipWidth += 8
         tooltipHeight += 8

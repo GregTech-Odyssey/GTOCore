@@ -167,10 +167,12 @@ abstract class WaterPurificationUnitMachine extends NoEnergyCustomParallelMultib
         }
     }
 
+    @Override
     public void setNetMachineCache(final WaterPurificationPlantMachine netMachineCache) {
         this.netMachineCache = netMachineCache;
     }
 
+    @Override
     public WaterPurificationPlantMachine getNetMachineCache() {
         return this.netMachineCache;
     }

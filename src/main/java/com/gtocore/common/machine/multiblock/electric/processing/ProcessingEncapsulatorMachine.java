@@ -175,6 +175,7 @@ public final class ProcessingEncapsulatorMachine extends TierCasingMultiblockMac
         return new CustomRecipeLogic(this, this::getRecipe, true);
     }
 
+    @Override
     public List<BlockPos> getHighlightPos() {
         return this.highlightPos;
     }

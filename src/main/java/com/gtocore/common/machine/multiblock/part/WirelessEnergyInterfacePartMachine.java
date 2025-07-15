@@ -24,10 +24,12 @@ public final class WirelessEnergyInterfacePartMachine extends MultiblockPartMach
         return getOwnerUUID();
     }
 
+    @Override
     public void setWirelessEnergyContainerCache(final WirelessEnergyContainer WirelessEnergyContainerCache) {
         this.WirelessEnergyContainerCache = WirelessEnergyContainerCache;
     }
 
+    @Override
     public WirelessEnergyContainer getWirelessEnergyContainerCache() {
         return this.WirelessEnergyContainerCache;
     }

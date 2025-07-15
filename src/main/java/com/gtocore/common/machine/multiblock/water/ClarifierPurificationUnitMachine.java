@@ -137,10 +137,12 @@ public final class ClarifierPurificationUnitMachine extends WaterPurificationUni
         return 70;
     }
 
+    @Override
     public Set<BlockPos> getFluidBlockOffsets() {
         return this.fluidBlockOffsets;
     }
 
+    @Override
     public Fluid getCachedFluid() {
         return this.cachedFluid;
     }

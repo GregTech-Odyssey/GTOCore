@@ -261,26 +261,32 @@ public final class GeneratorArrayMachine extends StorageMultiblockMachine implem
         return GeneratorArrayMachine.f_loss;
     }
 
+    @Override
     public void setWirelessEnergyContainerCache(final WirelessEnergyContainer WirelessEnergyContainerCache) {
         this.WirelessEnergyContainerCache = WirelessEnergyContainerCache;
     }
 
+    @Override
     public WirelessEnergyContainer getWirelessEnergyContainerCache() {
         return this.WirelessEnergyContainerCache;
     }
 
+    @Override
     public void setMachineDefinitionCache(final MachineDefinition machineDefinitionCache) {
         this.machineDefinitionCache = machineDefinitionCache;
     }
 
+    @Override
     public MachineDefinition getMachineDefinitionCache() {
         return this.machineDefinitionCache;
     }
 
+    @Override
     public void setRecipeTypeCache(final GTRecipeType[] RecipeTypeCache) {
         this.RecipeTypeCache = RecipeTypeCache;
     }
 
+    @Override
     public GTRecipeType[] getRecipeTypeCache() {
         return this.RecipeTypeCache;
     }

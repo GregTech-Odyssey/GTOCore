@@ -157,7 +157,7 @@ public class SpaceElevatorMachine extends TierCasingMultiblockMachine implements
     }
 
     @Override
-    public void attachConfigurators(ConfiguratorPanel configuratorPanel) {
+    public void attachConfigurators(@NotNull ConfiguratorPanel configuratorPanel) {
         super.attachConfigurators(configuratorPanel);
         attachHighlightConfigurators(configuratorPanel);
         configuratorPanel.attachConfigurators(new IFancyConfiguratorButton.Toggle(GTOGuiTextures.PLANET_TELEPORT.getSubTexture(0, 0.5, 1, 0.5), GTOGuiTextures.PLANET_TELEPORT.getSubTexture(0, 0, 1, 0.5), getRecipeLogic()::isWorking, (clickData, pressed) -> {

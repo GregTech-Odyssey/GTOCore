@@ -27,15 +27,6 @@ import java.util.List;
 
 public interface IHeaterRenderer {
 
-    float DEFLATE_Y = 1 / 16f;
-    AABB layer0 = StaticFaceBakery.SLIGHTLY_OVER_BLOCK.deflate(0, DEFLATE_Y, 0).inflate(1e-5f);
-    AABB layer1 = layer0.inflate(0.0005f);
-    AABB layer2 = layer0.inflate(0.001f);
-
-    ResourceLocation TEMP_OVERLAY = GTOCore.id("block/machines/heater/temp");
-    ResourceLocation METER_OVERLAY = GTOCore.id("block/machines/heater/meter");
-    ResourceLocation BG_OVERLAY = GTOCore.id("block/machines/heater/bg");
-
     @Contract("_, _, _, _, _, _, _, _ -> new")
     static @NotNull BakedQuad bakeQuad(
                                        AABB layer,
@@ -85,30 +76,30 @@ public interface IHeaterRenderer {
             boolean mirror = direction == rightFacing;
             quads.add(
                     bakeQuad(
-                            layer0,
+                            Wrapper.layer0,
                             1F,
                             direction,
-                            BG_OVERLAY,
+                            Wrapper.BG_OVERLAY,
                             modelState,
                             false,
                             HeaterRenderer.TemperatureLevel.getTintByTemperature(heatLevel),
                             mirror));
             quads.add(
                     bakeQuad(
-                            layer1,
+                            Wrapper.layer1,
                             tempRatio,
                             direction,
-                            TEMP_OVERLAY,
+                            Wrapper.TEMP_OVERLAY,
                             modelState,
                             true,
                             -1,
                             mirror));
             quads.add(
                     bakeQuad(
-                            layer2,
+                            Wrapper.layer2,
                             1F,
                             direction,
-                            METER_OVERLAY,
+                            Wrapper.METER_OVERLAY,
                             modelState,
                             false,
                             -1,
@@ -133,7 +124,7 @@ public interface IHeaterRenderer {
             this.tint = tint;
         }
 
-        public static int getTintByTemperature(int temperature) {
+        static int getTintByTemperature(int temperature) {
             for (TemperatureLevel level : values()) {
                 if (temperature >= level.minLevel && temperature <= level.maxLevel) {
                     return level.tint;
@@ -141,5 +132,17 @@ public interface IHeaterRenderer {
             }
             return COLD.tint; // Default to COLD if no match found
         }
+    }
+
+    final class Wrapper {
+
+        private static final float DEFLATE_Y = 1 / 16f;
+
+        static final ResourceLocation TEMP_OVERLAY = GTOCore.id("block/machines/heater/temp");
+        static final ResourceLocation METER_OVERLAY = GTOCore.id("block/machines/heater/meter");
+        static final ResourceLocation BG_OVERLAY = GTOCore.id("block/machines/heater/bg");
+        static final AABB layer0 = StaticFaceBakery.SLIGHTLY_OVER_BLOCK.deflate(0, DEFLATE_Y, 0).inflate(1e-5f);
+        static final AABB layer1 = layer0.inflate(0.0005f);
+        static final AABB layer2 = layer0.inflate(0.001f);
     }
 }

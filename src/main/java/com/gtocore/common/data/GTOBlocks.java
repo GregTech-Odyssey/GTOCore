@@ -267,6 +267,7 @@ public final class GTOBlocks {
     public static final BlockEntry<Block> CHEMICAL_GRADE_GLASS = createGlassCasingBlock("chemical_grade_glass", "化学级玻璃", GTOCore.id("block/casings/chemical_grade_glass"));
     public static final BlockEntry<Block> ANTIMATTER_CONTAINMENT_CASING = createGlassCasingBlock("antimatter_containment_casing", "反物质隔离机械方块", GTOCore.id("block/casings/antimatter_containment_casing"));
     public static final BlockEntry<Block> QUANTUM_GLASS = createGlassCasingBlock("quantum_glass", "量子玻璃", GTOCore.id("block/casings/quantum_glass"));
+    public static final BlockEntry<Block> FERMI_ENERGY_GAP_TRANSITION_GLASS = createGlassCasingBlock("fermi_energy_gap_transition_glass", "费米能隙跃迁玻璃", GTOCore.id("block/casings/fermi_energy_gap_transition_glass"));
 
     public static final BlockEntry<Block> FORCE_FIELD_GLASS = createGlassCasingBlock("force_field_glass", "力场玻璃", GTOCore.id("block/force_field_glass"));
     public static final BlockEntry<Block> SPATIALLY_TRANSCENDENT_GRAVITATIONAL_LENS_BLOCK = createGlassCasingBlock("spatially_transcendent_gravitational_lens_block", "超空间引力透镜块", GTOCore.id("block/spatially_transcendent_gravitational_lens_block"));

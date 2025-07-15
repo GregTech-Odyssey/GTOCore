@@ -8,7 +8,6 @@ import com.gregtechceu.gtceu.api.gui.widget.BlockableSlotWidget;
 import com.gregtechceu.gtceu.api.item.IComponentItem;
 import com.gregtechceu.gtceu.api.item.component.IItemComponent;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
-import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.feature.IMachineLife;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.MultiblockPartMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
@@ -133,20 +132,13 @@ public class ScanningHolderMachine extends MultiblockPartMachine implements IMac
         return MANAGED_FIELD_HOLDER;
     }
 
-    private class ScanningHolder extends NotifiableItemStackHandler {
+    private static final class ScanningHolder extends NotifiableItemStackHandler {
 
-        public ScanningHolder(MetaMachine metaTileEntity) {
-            super(metaTileEntity, 3, IO.IN, IO.BOTH, size -> new CustomItemStackHandler(size) {
+        private final ScanningHolderMachine machine;
 
-                @Override
-                public int getSlotLimit(int slot) {
-                    return switch (slot) {
-                        case SCAN_SLOT -> 64;
-                        case CATALYST_SLOT, DATA_SLOT -> 1;
-                        default -> super.getSlotLimit(slot);
-                    };
-                }
-            });
+        private ScanningHolder(ScanningHolderMachine machine) {
+            super(machine, 3, IO.IN, IO.BOTH, MyCustomItemStackHandler::new);
+            this.machine = machine;
         }
 
         // 各槽位容量限制
@@ -163,7 +155,7 @@ public class ScanningHolderMachine extends MultiblockPartMachine implements IMac
         @NotNull
         @Override
         public ItemStack extractItem(int slot, int amount, boolean simulate) {
-            if (!isLocked()) {
+            if (!machine.isLocked()) {
                 return super.extractItem(slot, amount, simulate);
             }
             return ItemStack.EMPTY;
@@ -192,6 +184,22 @@ public class ScanningHolderMachine extends MultiblockPartMachine implements IMac
                 case DATA_SLOT -> isDataItem;
                 default -> super.isItemValid(slot, stack);
             };
+        }
+
+        private static final class MyCustomItemStackHandler extends CustomItemStackHandler {
+
+            private MyCustomItemStackHandler(int size) {
+                super(size);
+            }
+
+            @Override
+            public int getSlotLimit(int slot) {
+                return switch (slot) {
+                    case SCAN_SLOT -> 64;
+                    case CATALYST_SLOT, DATA_SLOT -> 1;
+                    default -> super.getSlotLimit(slot);
+                };
+            }
         }
     }
 }

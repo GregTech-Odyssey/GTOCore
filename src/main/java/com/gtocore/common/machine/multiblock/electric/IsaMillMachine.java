@@ -5,6 +5,7 @@ import com.gtocore.data.IdleReason;
 
 import com.gtolib.api.machine.multiblock.ElectricMultiblockMachine;
 import com.gtolib.api.recipe.Recipe;
+import com.gtolib.utils.MathUtil;
 
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
@@ -47,7 +48,7 @@ public final class IsaMillMachine extends ElectricMultiblockMachine {
         ItemStack item = storage.getStackInSlot(0);
         int tier = BallHatchPartMachine.GRINDBALL.getOrDefault(item.getItem(), 0);
         if (recipe != null && tier == recipe.data.getInt("grindball")) {
-            int damage = item.getDamageValue() + recipe.parallels;
+            int damage = item.getDamageValue() + MathUtil.saturatedCast(recipe.parallels);
             if (damage < item.getMaxDamage()) {
                 item.setDamageValue(damage);
             } else {

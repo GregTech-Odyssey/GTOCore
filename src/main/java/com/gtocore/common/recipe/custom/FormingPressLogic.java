@@ -24,7 +24,7 @@ import java.util.List;
 
 public final class FormingPressLogic implements GTRecipeType.ICustomRecipeLogic {
 
-    private static class RecipeData {
+    private static final class RecipeData {
 
         private final RecipeBuilder recipeBuilder;
 

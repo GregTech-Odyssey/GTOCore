@@ -174,10 +174,12 @@ public class AlchemyCauldron extends SimpleManaMachine implements IReceiveHeatMa
         }
     }
 
+    @Override
     public void setTemperature(final int temperature) {
         this.temperature = temperature;
     }
 
+    @Override
     public int getTemperature() {
         return this.temperature;
     }

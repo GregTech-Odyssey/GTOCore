@@ -111,10 +111,12 @@ public final class BoilWaterMachine extends SimpleNoEnergyMachine implements IRe
         return MANAGED_FIELD_HOLDER;
     }
 
+    @Override
     public void setTemperature(final int temperature) {
         this.temperature = temperature;
     }
 
+    @Override
     public int getTemperature() {
         return this.temperature;
     }

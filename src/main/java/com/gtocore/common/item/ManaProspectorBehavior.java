@@ -30,7 +30,7 @@ import vazkii.botania.common.handler.BotaniaSounds;
 
 import java.util.List;
 
-public class ManaProspectorBehavior extends ProspectorScannerBehavior implements IComponentCapability, IItemLifeCycle, IDurabilityBar {
+public final class ManaProspectorBehavior extends ProspectorScannerBehavior implements IComponentCapability, IItemLifeCycle, IDurabilityBar {
 
     private static final String MANA_KEY = "mana";
     private static final int CONSUMPTION_PER_TICK = 40;
@@ -62,7 +62,7 @@ public class ManaProspectorBehavior extends ProspectorScannerBehavior implements
         stack.getOrCreateTag().putInt(MANA_KEY, Math.max(0, getMana(stack) + mana));
     }
 
-    private boolean checkAndConsumeMana(ItemStack stack, int consumption) {
+    private static boolean checkAndConsumeMana(ItemStack stack, int consumption) {
         if (getMana(stack) < consumption) {
             return false;
         }
@@ -71,7 +71,7 @@ public class ManaProspectorBehavior extends ProspectorScannerBehavior implements
     }
 
     @SuppressWarnings("resource")
-    private void preCancelScan(Player player, ItemStack stack) {
+    private static void preCancelScan(Player player, ItemStack stack) {
         player.playSound(BotaniaSounds.gaiaTeleport, 0.8F, 0.8F + player.level().getRandom().nextFloat() * 0.4F);
         player.sendSystemMessage(Component.translatable("behavior.prospector.not_enough_energy"));
         player.closeContainer();

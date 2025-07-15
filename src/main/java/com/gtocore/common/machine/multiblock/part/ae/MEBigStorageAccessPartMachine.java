@@ -40,7 +40,6 @@ import it.unimi.dsi.fastutil.objects.ObjectIterator;
 import org.jetbrains.annotations.NotNull;
 
 import java.math.BigInteger;
-import java.util.List;
 import java.util.UUID;
 
 public final class MEBigStorageAccessPartMachine extends MultiblockPartMachine implements IMachineLife, MEStorage, IGridConnectedMachine, IDataStickInteractable, IStorageAccess {
@@ -74,6 +73,7 @@ public final class MEBigStorageAccessPartMachine extends MultiblockPartMachine i
         return MANAGED_FIELD_HOLDER;
     }
 
+    @Override
     public void setUUID(UUID uuid) {
         this.uuid = uuid;
         unmount();
@@ -129,7 +129,7 @@ public final class MEBigStorageAccessPartMachine extends MultiblockPartMachine i
         if (grid == null) return;
         var inv = ((NetworkStorage) grid.getStorageService().getInventory());
         var inventory = ((NetworkStorageAccessor) inv).getPriorityInventory().get(0);
-        if (inventory == null || !((List) inventory).contains(this)) {
+        if (inventory == null || !inventory.contains(this)) {
             inv.mount(0, this);
         }
     }
@@ -323,34 +323,42 @@ public final class MEBigStorageAccessPartMachine extends MultiblockPartMachine i
         return nodeHolder.getMainNode();
     }
 
+    @Override
     public void setObserve(final boolean observe) {
         this.observe = observe;
     }
 
+    @Override
     public void setCheck(final boolean check) {
         this.check = check;
     }
 
+    @Override
     public void setCapacity(final double capacity) {
         this.capacity = capacity;
     }
 
+    @Override
     public double getCapacity() {
         return this.capacity;
     }
 
+    @Override
     public void setInfinite(final boolean isInfinite) {
         this.isInfinite = isInfinite;
     }
 
+    @Override
     public boolean isInfinite() {
         return this.isInfinite;
     }
 
+    @Override
     public void setOnline(final boolean isOnline) {
         this.isOnline = isOnline;
     }
 
+    @Override
     public boolean isOnline() {
         return this.isOnline;
     }

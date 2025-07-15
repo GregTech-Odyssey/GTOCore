@@ -21,6 +21,7 @@ public class ManaEnergyMultiblockMachine extends ManaMultiblockMachine implement
         container = new ManaEnergyContainer(getManaContainer().getMaxIORate(), getManaContainer());
     }
 
+    @Override
     @Nullable
     protected Recipe getRealRecipe(@NotNull Recipe recipe) {
         recipe = super.getRealRecipe(recipe);

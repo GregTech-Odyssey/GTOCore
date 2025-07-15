@@ -91,6 +91,7 @@ public final class VacuumPumpMachine extends SimpleTieredMachine implements IVac
         tooltipsPanel.attachTooltips(new IFancyTooltip.Basic(() -> GuiTextures.INFO_ICON, () -> List.of(Component.translatable("gtocore.recipe.vacuum.tier", vacuumTier)), () -> true, () -> null));
     }
 
+    @Override
     public int getVacuumTier() {
         return this.vacuumTier;
     }

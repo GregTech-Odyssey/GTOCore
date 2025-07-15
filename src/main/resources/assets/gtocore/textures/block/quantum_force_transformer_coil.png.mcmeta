@@ -1,0 +1,8 @@
+{
+    "ldlib": {
+        "connection": "gtocore:block/quantum_force_transformer_coil_ctm"
+    },
+    "animation": {
+        "frametime": 3
+    }
+}

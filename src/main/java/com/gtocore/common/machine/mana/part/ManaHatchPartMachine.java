@@ -113,6 +113,7 @@ public class ManaHatchPartMachine extends TieredIOPartMachine implements IManaMa
         return io == IO.IN;
     }
 
+    @Override
     public @NotNull NotifiableManaContainer getManaContainer() {
         return this.manaContainer;
     }

@@ -101,6 +101,7 @@ public final class WindMillTurbineMachine extends TieredEnergyMachine implements
         unsubscribe();
     }
 
+    @Override
     @OnlyIn(Dist.CLIENT)
     public void clientTick() {
         super.clientTick();

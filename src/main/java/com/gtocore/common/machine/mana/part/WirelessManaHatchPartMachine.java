@@ -35,6 +35,7 @@ public final class WirelessManaHatchPartMachine extends ManaHatchPartMachine imp
         super(holder, tier, io, rate);
     }
 
+    @Override
     NotifiableManaContainer createManaContainer(int rate) {
         int tierMana = GTOValues.MANA[tier] * rate;
         if (io == IO.OUT) {

@@ -207,6 +207,7 @@ public final class MEStorageMachine extends NoRecipeLogicMultiblockMachine imple
         return MANAGED_FIELD_HOLDER;
     }
 
+    @Override
     public NotifiableItemStackHandler getMachineStorage() {
         return this.machineStorage;
     }

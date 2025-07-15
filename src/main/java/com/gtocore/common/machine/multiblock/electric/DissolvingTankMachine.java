@@ -89,10 +89,12 @@ public final class DissolvingTankMachine extends ElectricMultiblockMachine imple
         return null;
     }
 
+    @Override
     public Set<BlockPos> getFluidBlockOffsets() {
         return this.fluidBlockOffsets;
     }
 
+    @Override
     public Fluid getCachedFluid() {
         return this.cachedFluid;
     }

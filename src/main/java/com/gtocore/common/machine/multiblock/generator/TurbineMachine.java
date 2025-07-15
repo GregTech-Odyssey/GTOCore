@@ -108,6 +108,14 @@ public final class TurbineMachine extends ElectricMultiblockMachine {
     }
 
     @Override
+    public boolean matchRecipe(Recipe recipe) {
+        for (RotorHolderPartMachine part : rotorHolderMachines) {
+            if (part.getRotorStack().isEmpty()) return false;
+        }
+        return super.matchRecipe(recipe);
+    }
+
+    @Override
     public void onPartScan(IMultiPart part) {
         super.onPartScan(part);
         if (part instanceof RotorHolderPartMachine rotorHolderMachine) {
@@ -253,18 +261,7 @@ public final class TurbineMachine extends ElectricMultiblockMachine {
         }
     }
 
-    public static float getHighSpeedModeOutputMultiplier() {
-        return TurbineMachine.highSpeedModeOutputMultiplier;
-    }
-
-    public static int getHighSpeedModeRotorDamageMultiplier() {
-        return TurbineMachine.highSpeedModeRotorDamageMultiplier;
-    }
-
-    public static float getHighSpeedModeMachineFault() {
-        return TurbineMachine.highSpeedModeMachineFault;
-    }
-
+    @Override
     public int getTier() {
         return this.tier;
     }

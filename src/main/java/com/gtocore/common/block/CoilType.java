@@ -59,6 +59,7 @@ public enum CoilType implements StringRepresentable, ICoilType {
         return name;
     }
 
+    @Override
     @NotNull
     public String getName() {
         return this.name;
@@ -68,22 +69,27 @@ public enum CoilType implements StringRepresentable, ICoilType {
         return this.cnLang;
     }
 
+    @Override
     public int getCoilTemperature() {
         return this.coilTemperature;
     }
 
+    @Override
     public int getLevel() {
         return this.level;
     }
 
+    @Override
     public int getEnergyDiscount() {
         return this.energyDiscount;
     }
 
+    @Override
     public Material getMaterial() {
         return this.material;
     }
 
+    @Override
     public ResourceLocation getTexture() {
         return this.texture;
     }

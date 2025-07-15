@@ -2,7 +2,7 @@
   "credit": "Made with Blockbench",
   "parent": "block/block",
   "textures": {
-    "overlay_hatch": "gtocore:item/air_vent"
+    "overlay_hatch": "gtocore:block/machines/vacuum_pump/overlay_bottom_active"
   },
   "elements": [
     {

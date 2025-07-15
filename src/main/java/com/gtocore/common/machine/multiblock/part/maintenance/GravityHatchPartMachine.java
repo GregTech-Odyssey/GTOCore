@@ -55,6 +55,7 @@ public final class GravityHatchPartMachine extends AutoMaintenanceHatchPartMachi
         return MANAGED_FIELD_HOLDER;
     }
 
+    @Override
     public int getCurrentGravity() {
         return this.currentGravity;
     }

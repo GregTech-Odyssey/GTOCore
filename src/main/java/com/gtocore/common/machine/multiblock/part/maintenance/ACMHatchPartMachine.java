@@ -171,6 +171,7 @@ public class ACMHatchPartMachine extends TieredPartMachine implements IMaintenan
         return ACMHatchPartMachine.MIN_DURATION_MULTIPLIER;
     }
 
+    @Override
     public float getDurationMultiplier() {
         return this.durationMultiplier;
     }

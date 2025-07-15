@@ -19,6 +19,8 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 
+import org.jetbrains.annotations.NotNull;
+
 @Scanned
 public final class GTODamageTypes {
 
@@ -53,14 +55,14 @@ public final class GTODamageTypes {
     @RegisterLanguage(cn = "员工 %s 尝试在高炉里蒸桑拿", en = "Player %s tired to have a sauna in a blast furnace.")
     private static final String BLAST_FURNACE_MSG_ID_2 = "gtocore.death.attack.blast_furnace.2";
 
-    private static class BlastFurnaceDamageSource extends DamageSource {
+    private static final class BlastFurnaceDamageSource extends DamageSource {
 
         private BlastFurnaceDamageSource(Holder<DamageType> type, Entity entity) {
             super(type, entity);
         }
 
         @Override
-        public net.minecraft.network.chat.Component getLocalizedDeathMessage(LivingEntity livingEntity) {
+        public @NotNull Component getLocalizedDeathMessage(@NotNull LivingEntity livingEntity) {
             if (livingEntity instanceof Player player) {
                 return Component.translatable(GTValues.RNG.nextBoolean() ? BLAST_FURNACE_MSG_ID_1 : BLAST_FURNACE_MSG_ID_2, player.getDisplayName());
             }
@@ -71,7 +73,7 @@ public final class GTODamageTypes {
     @RegisterLanguage(cn = "悲，员工 %s 死于%s %sK的热浪", en = "Sad, employee %s died from a heat wave of %s %sK")
     private static final String MACHINE_HEAT_WAVE_MSG_ID = "gtocore.death.attack.machine_heat_wave";
 
-    private static class MachineHeatWaveDamageSource extends DamageSource {
+    private static final class MachineHeatWaveDamageSource extends DamageSource {
 
         private final ITemperatureMachine machine;
 
@@ -81,7 +83,7 @@ public final class GTODamageTypes {
         }
 
         @Override
-        public net.minecraft.network.chat.Component getLocalizedDeathMessage(LivingEntity livingEntity) {
+        public @NotNull Component getLocalizedDeathMessage(@NotNull LivingEntity livingEntity) {
             if (livingEntity instanceof Player player && machine instanceof MetaMachine metaMachine) {
                 return Component.translatable(MACHINE_HEAT_WAVE_MSG_ID, player.getDisplayName(), metaMachine.getBlockState().getBlock().getName(), machine.getTemperature());
             }
@@ -89,7 +91,7 @@ public final class GTODamageTypes {
         }
     }
 
-    private static class GenericDamageSource extends DamageSource {
+    private static final class GenericDamageSource extends DamageSource {
 
         private final Component customComponent;
         private final Runnable onDeath;
@@ -101,7 +103,7 @@ public final class GTODamageTypes {
         }
 
         @Override
-        public net.minecraft.network.chat.Component getLocalizedDeathMessage(LivingEntity livingEntity) {
+        public net.minecraft.network.chat.@NotNull Component getLocalizedDeathMessage(@NotNull LivingEntity livingEntity) {
             this.onDeath.run();
             return this.customComponent;
         }

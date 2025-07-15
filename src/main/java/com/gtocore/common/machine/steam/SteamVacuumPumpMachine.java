@@ -62,6 +62,7 @@ public final class SteamVacuumPumpMachine extends SimpleSteamMachine implements 
         }
     }
 
+    @Override
     public int getVacuumTier() {
         return this.vacuumTier;
     }

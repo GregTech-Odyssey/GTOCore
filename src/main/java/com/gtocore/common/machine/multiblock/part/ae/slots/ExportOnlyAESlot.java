@@ -104,28 +104,34 @@ public abstract class ExportOnlyAESlot implements IConfigurableSlot, ITagSeriali
         return new GenericStack(stack.what(), amount);
     }
 
+    @Override
     @Nullable
     public GenericStack getConfig() {
         return this.config;
     }
 
+    @Override
     public void setConfig(@Nullable final GenericStack config) {
         this.config = config;
     }
 
+    @Override
     @Nullable
     public GenericStack getStock() {
         return this.stock;
     }
 
+    @Override
     public void setStock(@Nullable final GenericStack stock) {
         this.stock = stock;
     }
 
+    @Override
     public void setOnContentsChanged(final Runnable onContentsChanged) {
         this.onContentsChanged = onContentsChanged;
     }
 
+    @Override
     public Runnable getOnContentsChanged() {
         return this.onContentsChanged;
     }

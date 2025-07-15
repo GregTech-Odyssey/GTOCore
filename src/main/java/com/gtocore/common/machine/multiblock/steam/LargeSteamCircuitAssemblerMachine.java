@@ -137,7 +137,7 @@ public final class LargeSteamCircuitAssemblerMachine extends BaseSteamMultiblock
                 recipe = super.getRealRecipe(recipe);
                 if (recipe != null) {
                     recipe.duration = recipe.duration * RECIPE_DURATION_MULTIPLY;
-                    ((Recipe) recipe).setEut(((Recipe) recipe).getInputEUt() * COST_STEAM_MULTIPLY);
+                    ((Recipe) recipe).setEut(recipe.getInputEUt() * COST_STEAM_MULTIPLY);
                 }
                 return recipe;
             } else {

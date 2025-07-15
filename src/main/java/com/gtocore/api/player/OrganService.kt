@@ -77,7 +77,13 @@ object OrganService : IOrganService {
                     when {
                         durability > 0 -> run {
                             if (player.abilities.flying && player.level().getBlockState(player.onPos.below(1)).block == Blocks.AIR) {
-                                it.hurtAndBreak(1, player, { player1: Player -> player1.sendSystemMessage(Component.translatable("gtocore.player.organ.you_wing_is_broken")) })
+                                it.hurtAndBreak(1, player) { player1: Player ->
+                                    player1.sendSystemMessage(
+                                        Component.translatable(
+                                            "gtocore.player.organ.you_wing_is_broken",
+                                        ),
+                                    )
+                                }
                             }
                             playerData.wingState = true
                             return@root
@@ -91,7 +97,13 @@ object OrganService : IOrganService {
                     when {
                         durability > 0 -> run {
                             if (player.abilities.flying && player.level().getBlockState(player.onPos.below(1)).block == Blocks.AIR) {
-                                it.hurtAndBreak(1, player, { player1: Player -> player1.sendSystemMessage(Component.translatable("gtocore.player.organ.you_wing_is_broken")) })
+                                it.hurtAndBreak(1, player) { player1: Player ->
+                                    player1.sendSystemMessage(
+                                        Component.translatable(
+                                            "gtocore.player.organ.you_wing_is_broken",
+                                        ),
+                                    )
+                                }
                             }
                             playerData.wingState = true
                             return@root
@@ -126,7 +138,7 @@ object OrganService : IOrganService {
         run {
             val planet: Planet? = PlanetApi.API.getPlanet(player.level())
             if (planet == null) return
-            if (!player.gameMode.isSurvival()) return
+            if (!player.gameMode.isSurvival) return
             if (GTODimensions.OVERWORLD.equals(planet.dimension().location())) return
             if (!GTODimensions.isPlanet(planet.dimension().location())) return
 
@@ -137,7 +149,7 @@ object OrganService : IOrganService {
             if (!cap.ktMatchLowTierOrganSet(lowerTierTag)) {
                 val customComponent: Component = Component.translatable(
                     "gtocore.death.attack.turbulence_of_another_star",
-                    player.getName(),
+                    player.name,
                     tier,
                     "最低Tier $lowerTierTag",
                 )
@@ -154,7 +166,7 @@ object OrganService : IOrganService {
 
                 if (currentCount > 40.0f) {
                     player.server.tell(TickTask(1, player::kill))
-                    player.server.getPlayerList().broadcastSystemMessage(customComponent, true)
+                    player.server.playerList.broadcastSystemMessage(customComponent, true)
                     cache.floatCache?.remove("try_attack_count")
                 } else {
                     cache.floatCache["try_attack_count"] = currentCount

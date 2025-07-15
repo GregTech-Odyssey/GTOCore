@@ -22,7 +22,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import static com.gregtechceu.gtceu.api.GTValues.*;
-import static com.gregtechceu.gtceu.api.GTValues.IV;
 import static com.gtolib.api.recipe.research.ExResearchManager.ScanningMap;
 import static com.gtolib.utils.RegistriesUtils.getItem;
 

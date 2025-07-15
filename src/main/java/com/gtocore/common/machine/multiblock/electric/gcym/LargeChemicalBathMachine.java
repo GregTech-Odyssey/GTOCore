@@ -78,10 +78,12 @@ public final class LargeChemicalBathMachine extends GCYMMultiblockMachine implem
         }
     }
 
+    @Override
     public Set<BlockPos> getFluidBlockOffsets() {
         return this.fluidBlockOffsets;
     }
 
+    @Override
     public Fluid getCachedFluid() {
         return this.cachedFluid;
     }

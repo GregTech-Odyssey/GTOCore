@@ -9,6 +9,7 @@ import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.modifier.ParallelLogic;
 import com.gtolib.utils.FunctionContainer;
 import com.gtolib.utils.MachineUtils;
+import com.gtolib.utils.MathUtil;
 import com.gtolib.utils.SphereExplosion;
 
 import com.gregtechceu.gtceu.api.machine.ConditionalSubscriptionHandler;
@@ -170,7 +171,7 @@ public final class FissionReactorMachine extends ElectricMultiblockMachine imple
     protected @Nullable Recipe getRealRecipe(Recipe recipe) {
         recipe = ParallelLogic.accurateParallel(this, recipe, fuel);
         if (recipe == null) return null;
-        parallel = recipe.parallels;
+        parallel = MathUtil.saturatedCast(recipe.parallels);
         recipeHeat = recipe.data.getInt("FRheat");
         return recipe;
     }

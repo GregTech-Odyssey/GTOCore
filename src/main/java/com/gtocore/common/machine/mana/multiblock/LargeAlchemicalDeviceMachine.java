@@ -169,6 +169,7 @@ public final class LargeAlchemicalDeviceMachine extends ManaMultiblockMachine im
         return MANAGED_FIELD_HOLDER;
     }
 
+    @Override
     public NotifiableItemStackHandler getMachineStorage() {
         return this.machineStorage;
     }

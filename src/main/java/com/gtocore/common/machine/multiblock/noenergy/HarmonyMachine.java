@@ -143,10 +143,12 @@ public final class HarmonyMachine extends NoEnergyMultiblockMachine implements I
         return getOwnerUUID();
     }
 
+    @Override
     public void setWirelessEnergyContainerCache(final WirelessEnergyContainer WirelessEnergyContainerCache) {
         this.WirelessEnergyContainerCache = WirelessEnergyContainerCache;
     }
 
+    @Override
     public WirelessEnergyContainer getWirelessEnergyContainerCache() {
         return this.WirelessEnergyContainerCache;
     }

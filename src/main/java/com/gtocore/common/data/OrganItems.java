@@ -29,7 +29,7 @@ import java.util.function.Consumer;
 import static com.gregtechceu.gtceu.common.data.GTItems.attach;
 import static com.gtolib.utils.register.ItemRegisterUtils.item;
 
-public class OrganItems {
+public final class OrganItems {
 
     static void init() {}
 

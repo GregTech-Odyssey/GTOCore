@@ -44,12 +44,12 @@ public abstract class MobMixin extends LivingEntity {
         AttributeInstance maxHealthInstance = getAttribute(Attributes.MAX_HEALTH);
         if (maxHealthInstance != null) {
             double value = maxHealthInstance.getValue();
-            maxHealthInstance.addPermanentModifier(new AttributeModifier(RANDOM_HEALTH_UUID, "addRandomHealth", getRandom().nextInt((int) ((value / (isBoss ? 2 : 10)) * difficultyValue), (int) (value * difficultyValue)), AttributeModifier.Operation.ADDITION));
+            maxHealthInstance.addPermanentModifier(new AttributeModifier(RANDOM_HEALTH_UUID, "addRandomHealth", getRandom().nextInt((int) ((value / (isBoss ? 2 : 10)) * difficultyValue), (int) (value * difficultyValue + 0.5)), AttributeModifier.Operation.ADDITION));
         }
         AttributeInstance attackDamageInstance = getAttribute(Attributes.ATTACK_DAMAGE);
         if (attackDamageInstance != null) {
             double value = attackDamageInstance.getValue();
-            attackDamageInstance.addPermanentModifier(new AttributeModifier(RANDOM_DAMAGE_UUID, "addRandomDamage", getRandom().nextInt((int) ((value / (isBoss ? 2 : 10)) * difficultyValue), (int) (value * difficultyValue)), AttributeModifier.Operation.ADDITION));
+            attackDamageInstance.addPermanentModifier(new AttributeModifier(RANDOM_DAMAGE_UUID, "addRandomDamage", getRandom().nextInt((int) ((value / (isBoss ? 2 : 10)) * difficultyValue), (int) (value * difficultyValue + 0.5)), AttributeModifier.Operation.ADDITION));
         }
     }
 

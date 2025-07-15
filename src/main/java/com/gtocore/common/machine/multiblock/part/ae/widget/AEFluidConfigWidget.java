@@ -30,10 +30,12 @@ public class AEFluidConfigWidget extends ConfigWidget {
         }
     }
 
+    @Override
     public boolean hasStackInConfig(GenericStack stack) {
         return fluidList.hasStackInConfig(stack, true);
     }
 
+    @Override
     public boolean isAutoPull() {
         return fluidList.isAutoPull();
     }

@@ -61,30 +61,30 @@ public class PrimitiveDistillationRenderer extends WorkableCasingMachineRenderer
 
         quads.add(
                 shiftQuad(IHeaterRenderer.bakeQuad(
-                        layer0,
+                        Wrapper.layer0,
                         1F,
                         direction,
-                        BG_OVERLAY,
+                        Wrapper.BG_OVERLAY,
                         modelState,
                         false,
                         -1,
                         false)));
         quads.add(
                 shiftQuad(IHeaterRenderer.bakeQuad(
-                        layer1,
+                        Wrapper.layer1,
                         tempRatio,
                         direction,
-                        TEMP_OVERLAY,
+                        Wrapper.TEMP_OVERLAY,
                         modelState,
                         true,
                         -1,
                         false)));
         quads.add(
                 shiftQuad(IHeaterRenderer.bakeQuad(
-                        layer2,
+                        Wrapper.layer2,
                         1f,
                         direction,
-                        METER_OVERLAY,
+                        Wrapper.METER_OVERLAY,
                         modelState,
                         false,
                         -1,
@@ -95,7 +95,7 @@ public class PrimitiveDistillationRenderer extends WorkableCasingMachineRenderer
         var waterLayer = waterState.overlay;
         quads.add(
                 shiftQuad(IHeaterRenderer.bakeQuad(
-                        layer0,
+                        Wrapper.layer0,
                         1f,
                         direction,
                         TANK_BG_OVERLAY,
@@ -106,7 +106,7 @@ public class PrimitiveDistillationRenderer extends WorkableCasingMachineRenderer
         if (waterLayer != null) {
             quads.add(
                     shiftQuad(IHeaterRenderer.bakeQuad(
-                            layer1,
+                            Wrapper.layer1,
                             waterState == PrimitiveDistillationTowerMachine.WaterState.IS_COOLING ? 1f : waterLevel,
                             direction,
                             waterLayer,
@@ -117,7 +117,7 @@ public class PrimitiveDistillationRenderer extends WorkableCasingMachineRenderer
         }
         quads.add(
                 shiftQuad(IHeaterRenderer.bakeQuad(
-                        layer2,
+                        Wrapper.layer2,
                         1f,
                         direction,
                         TANK_OVERLAY,
@@ -127,7 +127,7 @@ public class PrimitiveDistillationRenderer extends WorkableCasingMachineRenderer
                         false)));
     }
 
-    private BakedQuad shiftQuad(BakedQuad quad) {
+    private static BakedQuad shiftQuad(BakedQuad quad) {
         Quad shiftedQuad = Quad.from(quad);
         for (int i = 0; i < 4; i++) {
             var pos = shiftedQuad.getVert(i);

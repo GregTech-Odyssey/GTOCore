@@ -94,10 +94,12 @@ public final class WirelessDimensionRepeaterMachine extends NoRecipeLogicMultibl
         return getOwnerUUID();
     }
 
+    @Override
     public void setWirelessEnergyContainerCache(final WirelessEnergyContainer WirelessEnergyContainerCache) {
         this.WirelessEnergyContainerCache = WirelessEnergyContainerCache;
     }
 
+    @Override
     public WirelessEnergyContainer getWirelessEnergyContainerCache() {
         return this.WirelessEnergyContainerCache;
     }

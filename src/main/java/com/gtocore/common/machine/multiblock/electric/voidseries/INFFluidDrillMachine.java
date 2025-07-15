@@ -80,6 +80,7 @@ public final class INFFluidDrillMachine extends ElectricMultiblockMachine {
         }
     }
 
+    @Override
     public int getTier() {
         return this.tier;
     }

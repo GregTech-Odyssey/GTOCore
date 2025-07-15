@@ -151,7 +151,7 @@ public final class NanitesIntegratedMachine extends CoilCrossRecipeMultiblockMac
     }
 
     @Override
-    public void attachConfigurators(ConfiguratorPanel configuratorPanel) {
+    public void attachConfigurators(@NotNull ConfiguratorPanel configuratorPanel) {
         super.attachConfigurators(configuratorPanel);
         attachHighlightConfigurators(configuratorPanel);
     }
@@ -167,6 +167,7 @@ public final class NanitesIntegratedMachine extends CoilCrossRecipeMultiblockMac
         return poss;
     }
 
+    @Override
     public NotifiableItemStackHandler getMachineStorage() {
         return this.machineStorage;
     }

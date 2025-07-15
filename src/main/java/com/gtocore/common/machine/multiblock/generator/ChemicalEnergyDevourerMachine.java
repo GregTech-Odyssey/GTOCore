@@ -42,7 +42,7 @@ public final class ChemicalEnergyDevourerMachine extends ElectricMultiblockMachi
     private static final FluidStack DINITROGEN_TETROXIDE_STACK = GTMaterials.DinitrogenTetroxide.getFluid(480);
     private static final FluidStack LIQUID_OXYGEN_STACK = GTMaterials.Oxygen.getFluid(FluidStorageKeys.LIQUID, 320);
     private static final FluidStack LUBRICANT_STACK = GTMaterials.Lubricant.getFluid(10);
-    private final int tier = 5;
+    private static final int tier = 5;
     private boolean isOxygenBoosted;
     private boolean isDinitrogenTetroxideBoosted;
     @Persisted
@@ -182,7 +182,8 @@ public final class ChemicalEnergyDevourerMachine extends ElectricMultiblockMachi
         tooltipsPanel.attachTooltips(new Basic(() -> GuiTextures.INDICATOR_NO_STEAM.get(false), () -> List.of(Component.translatable("gtceu.multiblock.large_combustion_engine.obstructed").setStyle(Style.EMPTY.withColor(ChatFormatting.RED))), this::isIntakesObstructed, () -> null));
     }
 
+    @Override
     public int getTier() {
-        return this.tier;
+        return tier;
     }
 }

@@ -151,14 +151,17 @@ public final class WirelessEnergySubstationMachine extends NoRecipeLogicMultiblo
         return getOwnerUUID();
     }
 
+    @Override
     public void setWirelessEnergyContainerCache(final WirelessEnergyContainer WirelessEnergyContainerCache) {
         this.WirelessEnergyContainerCache = WirelessEnergyContainerCache;
     }
 
+    @Override
     public WirelessEnergyContainer getWirelessEnergyContainerCache() {
         return this.WirelessEnergyContainerCache;
     }
 
+    @Override
     public long getInputPerSec() {
         var container = getWirelessEnergyContainer();
         if (container == null) {
@@ -168,6 +171,7 @@ public final class WirelessEnergySubstationMachine extends NoRecipeLogicMultiblo
         return input > 0 ? input : 0;
     }
 
+    @Override
     public long getOutputPerSec() {
         var container = getWirelessEnergyContainer();
         if (container == null) {

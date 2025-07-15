@@ -70,20 +70,24 @@ public class METagFilterStockBusPartMachine extends MEStockingBusPartMachine imp
         return MANAGED_FIELD_HOLDER;
     }
 
+    @Override
     public void setTagWhite(final String tagWhite) {
         this.tagWhite = tagWhite;
         filter = new TagPriorityList(this.tagWhite, this.tagBlack);
     }
 
+    @Override
     public void setTagBlack(final String tagBlack) {
         this.tagBlack = tagBlack;
         filter = new TagPriorityList(this.tagWhite, this.tagBlack);
     }
 
+    @Override
     public String getTagWhite() {
         return this.tagWhite;
     }
 
+    @Override
     public String getTagBlack() {
         return this.tagBlack;
     }

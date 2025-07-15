@@ -30,10 +30,12 @@ public class AEItemConfigWidget extends ConfigWidget {
         }
     }
 
+    @Override
     public boolean hasStackInConfig(GenericStack stack) {
         return itemList.hasStackInConfig(stack, true);
     }
 
+    @Override
     public boolean isAutoPull() {
         return itemList.isAutoPull();
     }

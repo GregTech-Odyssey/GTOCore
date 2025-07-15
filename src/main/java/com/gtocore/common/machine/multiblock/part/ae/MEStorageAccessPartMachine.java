@@ -75,6 +75,7 @@ public class MEStorageAccessPartMachine extends MultiblockPartMachine implements
         return MANAGED_FIELD_HOLDER;
     }
 
+    @Override
     public void setCapacity(double capacity) {
         this.capacity = capacity;
         for (var machine : proxyMachines) {
@@ -82,6 +83,7 @@ public class MEStorageAccessPartMachine extends MultiblockPartMachine implements
         }
     }
 
+    @Override
     public void setInfinite(boolean isInfinite) {
         this.isInfinite = isInfinite;
         for (var machine : proxyMachines) {
@@ -89,6 +91,7 @@ public class MEStorageAccessPartMachine extends MultiblockPartMachine implements
         }
     }
 
+    @Override
     public void setUUID(UUID uuid) {
         this.uuid = uuid;
         for (var machine : proxyMachines) {
@@ -341,26 +344,32 @@ public class MEStorageAccessPartMachine extends MultiblockPartMachine implements
         return nodeHolder.getMainNode();
     }
 
+    @Override
     public void setObserve(final boolean observe) {
         this.observe = observe;
     }
 
+    @Override
     public void setCheck(final boolean check) {
         this.check = check;
     }
 
+    @Override
     public double getCapacity() {
         return this.capacity;
     }
 
+    @Override
     public boolean isInfinite() {
         return this.isInfinite;
     }
 
+    @Override
     public void setOnline(final boolean isOnline) {
         this.isOnline = isOnline;
     }
 
+    @Override
     public boolean isOnline() {
         return this.isOnline;
     }

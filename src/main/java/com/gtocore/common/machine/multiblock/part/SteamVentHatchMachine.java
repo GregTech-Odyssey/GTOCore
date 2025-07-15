@@ -107,6 +107,7 @@ public class SteamVentHatchMachine extends MultiblockPartMachine implements IExh
         return false;
     }
 
+    @Override
     public void setNeedsVenting(final boolean needsVenting) {
         this.needsVenting = needsVenting;
     }

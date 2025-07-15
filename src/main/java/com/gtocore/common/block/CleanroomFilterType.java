@@ -30,6 +30,7 @@ public final class CleanroomFilterType implements IFilterType {
         return name;
     }
 
+    @Override
     public @NotNull CleanroomType getCleanroomType() {
         return this.cleanroomType;
     }

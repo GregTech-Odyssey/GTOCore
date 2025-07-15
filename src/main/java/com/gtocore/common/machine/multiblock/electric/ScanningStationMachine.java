@@ -5,6 +5,7 @@ import com.gtocore.common.machine.multiblock.part.ScanningHolderMachine;
 import com.gtolib.api.machine.multiblock.ElectricMultiblockMachine;
 import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.RecipeRunner;
+import com.gtolib.utils.ItemUtils;
 
 import com.gregtechceu.gtceu.api.capability.IOpticalComputationProvider;
 import com.gregtechceu.gtceu.api.capability.IOpticalComputationReceiver;
@@ -12,7 +13,6 @@ import com.gregtechceu.gtceu.api.capability.forge.GTCapability;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
-import com.gregtechceu.gtceu.api.machine.feature.multiblock.IDisplayUIMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockDisplayText;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList;
@@ -20,6 +20,7 @@ import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
 
 import java.util.List;
 
@@ -27,7 +28,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
-public class ScanningStationMachine extends ElectricMultiblockMachine implements IOpticalComputationReceiver, IDisplayUIMachine {
+public class ScanningStationMachine extends ElectricMultiblockMachine implements IOpticalComputationReceiver {
 
     @Override
     public IOpticalComputationProvider getComputationProvider() {
@@ -134,7 +135,7 @@ public class ScanningStationMachine extends ElectricMultiblockMachine implements
         ItemStack outputItem = ItemStack.EMPTY;
         var contents = getRecipeLogic().getLastRecipe().getOutputContents(ItemRecipeCapability.CAP);
         if (!contents.isEmpty()) {
-            outputItem = ItemRecipeCapability.CAP.of(contents.get(0).content).getItems()[0];
+            outputItem = ItemUtils.getFirstSized((Ingredient) contents.get(0).content).copy();
         }
         if (!outputItem.isEmpty()) {
             objectHolder.setDataItem(outputItem);

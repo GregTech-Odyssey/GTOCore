@@ -188,6 +188,7 @@ public final class CombustionEngineMachine extends ElectricMultiblockMachine {
         tooltipsPanel.attachTooltips(new Basic(() -> GuiTextures.INDICATOR_NO_STEAM.get(false), () -> List.of(Component.translatable("gtceu.multiblock.large_combustion_engine.obstructed").setStyle(Style.EMPTY.withColor(ChatFormatting.RED))), this::isIntakesObstructed, () -> null));
     }
 
+    @Override
     public int getTier() {
         return this.tier;
     }

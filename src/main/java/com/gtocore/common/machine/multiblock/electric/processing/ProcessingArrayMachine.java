@@ -136,18 +136,22 @@ public final class ProcessingArrayMachine extends TierCasingMultiblockMachine im
         return inventory.getStackInSlot(0).getItem();
     }
 
+    @Override
     public void setMachineDefinitionCache(final MachineDefinition machineDefinitionCache) {
         this.machineDefinitionCache = machineDefinitionCache;
     }
 
+    @Override
     public MachineDefinition getMachineDefinitionCache() {
         return this.machineDefinitionCache;
     }
 
+    @Override
     public void setRecipeTypeCache(final GTRecipeType[] RecipeTypeCache) {
         this.RecipeTypeCache = RecipeTypeCache;
     }
 
+    @Override
     public GTRecipeType[] getRecipeTypeCache() {
         return this.RecipeTypeCache;
     }

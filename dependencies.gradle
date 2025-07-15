@@ -116,8 +116,6 @@ dependencies {
 
     modRuntimeOnly("curse.maven:cloth-config-348521:5729105")
 
-    modRuntimeOnly("curse.maven:FerriteCore-429235:4810975")
-
     modImplementation("curse.maven:embeddium-908741:5681725")
 
     // modRuntimeOnly("curse.maven:modern-ui-352491:5977000")

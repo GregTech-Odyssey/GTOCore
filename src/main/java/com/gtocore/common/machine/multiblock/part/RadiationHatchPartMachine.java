@@ -125,10 +125,12 @@ public final class RadiationHatchPartMachine extends MultiblockPartMachine imple
         return this.radioactivity;
     }
 
+    @Override
     public Map<IO, List<RecipeHandlerList>> getCapabilitiesProxy() {
         return this.capabilitiesProxy;
     }
 
+    @Override
     public Map<IO, Map<RecipeCapability<?>, List<IRecipeHandler<?>>>> getCapabilitiesFlat() {
         return this.capabilitiesFlat;
     }

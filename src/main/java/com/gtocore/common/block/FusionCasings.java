@@ -92,6 +92,7 @@ public final class FusionCasings extends FusionCasingBlock {
             return GTOCore.id("block/casings/fusion/%s".formatted(name));
         }
 
+        @Override
         public int getHarvestLevel() {
             return this.harvestLevel;
         }
