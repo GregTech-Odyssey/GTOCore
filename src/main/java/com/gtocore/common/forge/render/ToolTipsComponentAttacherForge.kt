@@ -20,6 +20,11 @@ import kotlin.math.max
 
 @OnlyIn(Dist.CLIENT)
 object ToolTipsComponentAttacherForge {
+
+    fun onGatherTooltipComponents(event: RenderTooltipEvent.GatherComponents) {
+        event.tooltipElements
+    }
+
     @SubscribeEvent
     @JvmStatic
     fun onItemTooltips(event: RenderTooltipEvent.Pre) {

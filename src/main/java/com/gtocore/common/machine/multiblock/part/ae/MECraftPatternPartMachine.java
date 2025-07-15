@@ -18,9 +18,9 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class MECraftPatternPartMachine extends MEPatternPartMachine<MECraftPatternPartMachine.InternalSlot> {
+public class MECraftPatternPartMachine extends MEPatternPartMachineKt<MECraftPatternPartMachine.InternalSlot> {
 
-    private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(MECraftPatternPartMachine.class, MEPatternPartMachine.MANAGED_FIELD_HOLDER);
+    private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(MECraftPatternPartMachine.class, MEPatternPartMachineKt.Companion.getMANAGED_FIELD_HOLDER());
     private Runnable onContentsChanged = () -> {};
 
     public MECraftPatternPartMachine(IMachineBlockEntity holder) {
@@ -33,17 +33,17 @@ public class MECraftPatternPartMachine extends MEPatternPartMachine<MECraftPatte
     }
 
     @Override
-    InternalSlot[] createInternalSlotArray() {
+    public InternalSlot[] createInternalSlotArray() {
         return new InternalSlot[72];
     }
 
     @Override
-    boolean patternFilter(ItemStack stack) {
+    public boolean patternFilter(ItemStack stack) {
         return stack.getItem() instanceof EncodedPatternItem && !(stack.getItem() instanceof ProcessingPatternItem);
     }
 
     @Override
-    InternalSlot createInternalSlot(int i) {
+    public InternalSlot createInternalSlot(int i) {
         return new InternalSlot(this);
     }
 
@@ -74,7 +74,7 @@ public class MECraftPatternPartMachine extends MEPatternPartMachine<MECraftPatte
         }
 
         @Override
-        void onPatternChange() {
+        public void onPatternChange() {
             output = null;
             amount = 0;
         }

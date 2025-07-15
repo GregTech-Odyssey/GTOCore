@@ -10,6 +10,8 @@ import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.api.distmarker.OnlyIn
 
 import com.gtolib.api.gui.ktflexible.LayoutBuilder
+import com.gtolib.api.gui.ktflexible.Style
+import com.gtolib.api.gui.ktflexible.VBoxBuilder
 
 import java.util.function.IntSupplier
 import java.util.function.Supplier
@@ -60,9 +62,6 @@ fun LayoutBuilder<*>.textBlock(textSupplier: Supplier<Component>, tab: Int = 0, 
             updateSize()
         }
 
-        // //////////////////////////////
-        // ****** 变宽变高，�����宽后高 ******//
-        // //////////////////////////////
         private fun updateSize() {
             val text = textField.lastValue.string
             val availableWidth = maxWidth - tab
@@ -105,4 +104,44 @@ fun LayoutBuilder<*>.textBlock(textSupplier: Supplier<Component>, tab: Int = 0, 
         }
     }
     widget(widget)
+}
+class MultiPageDSLBuilder {
+    private val pageSuppliers: MutableList<Supplier<VBoxBuilder.() -> Unit>> = mutableListOf()
+    fun page(box: VBoxBuilder.() -> Unit) {
+        pageSuppliers.add({ box })
+    }
+    fun build(): List<Supplier<VBoxBuilder.() -> Unit>> = pageSuppliers
+}
+interface MultiPageVScroll {
+    fun refresh()
+    fun getMaxPage(): Int
+}
+fun LayoutBuilder<*>.multiPage(width: Int, height: Int, style: (Style.() -> Unit)? = null, pageSelector: IntSupplier, builder: MultiPageDSLBuilder.() -> Unit): MultiPageVScroll {
+    val widget = object : SyncWidget(0, 0, width, height), MultiPageVScroll {
+        val currentPage = syncInt({ pageSelector.asInt }, -1, pageSelector.asInt).apply {
+            init = { if(!isRemote)refresh() }
+            update = { old, new ->
+                if(!isRemote)refresh()
+            }
+        }
+        val pageSuppliers: MutableList<Supplier<VBoxBuilder.() -> Unit>> = mutableListOf()
+        init {
+            with(MultiPageDSLBuilder()) {
+                builder()
+                pageSuppliers.addAll(build())
+            }
+        }
+        override fun refresh() {
+            clearAllWidgets()
+            val receiver = pageSuppliers[currentPage.lastValue].get()
+            val vBoxBuilder = VBoxBuilder(width = width, style = style?.run { Style().apply { style() } } ?: Style { spacing = 0 })
+            vBoxBuilder.buildAndInit(receiver)
+            addWidget(vBoxBuilder.getBuiltWidget())
+            this.initWidget()
+        }
+
+        override fun getMaxPage(): Int = pageSuppliers.size - 1
+    }
+    widget(widget)
+    return widget as MultiPageVScroll
 }

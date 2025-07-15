@@ -40,9 +40,9 @@ public final class MEProgrammablePatternBufferPartMachine extends MEPatternBuffe
     @Override
     public boolean pushPattern(@NotNull IPatternDetails patternDetails, KeyCounter @NotNull [] inputHolder) {
         if (!getMainNode().isActive()) return false;
-        var slot = detailsSlotMap.get(patternDetails);
+        var slot = getDetailsSlotMap().get(patternDetails);
         if (slot != null) {
-            for (var s : detailsSlotMap.values()) {
+            for (var s : getDetailsSlotMap().values()) {
                 if (s.equals(slot)) continue;
                 if (!s.isEmpty()) return false;
             }

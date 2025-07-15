@@ -19,7 +19,7 @@ public final class ProxySlotRecipeHandler {
     private final List<RecipeHandlerList> proxySlotHandlers;
 
     public ProxySlotRecipeHandler(MEPatternBufferProxyPartMachine machine, MEPatternBufferPartMachine patternBuffer) {
-        int slots = patternBuffer == null ? 0 : patternBuffer.maxPatternCount;
+        int slots = patternBuffer == null ? 0 : patternBuffer.getMaxPatternCount();
         proxySlotHandlers = new ArrayList<>(slots);
         for (int i = 0; i < slots; ++i) {
             proxySlotHandlers.add(new ProxyRHL(machine, patternBuffer.getInternalInventory()[i]));

@@ -114,11 +114,11 @@ class MEPatternContentSortMachine(holder: IMachineBlockEntity) :
                 runnable.add { it.logic.updatePatterns() }
             }
             if (grid is Grid && grid is GridAccessor) {
-                val machinesPart = mutableListOf<MEPatternPartMachine<*>>()
+                val machinesPart = mutableListOf<MEPatternPartMachineKt<*>>()
                 grid.machines.forEach { _, node ->
                     if (node.isActive) {
                         val logicHost = node.owner
-                        if (logicHost is MEPatternPartMachine<*>) {
+                        if (logicHost is MEPatternPartMachineKt<*>) {
                             machinesPart.plusAssign(logicHost)
                         }
                     }

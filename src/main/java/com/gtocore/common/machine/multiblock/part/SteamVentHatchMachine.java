@@ -10,10 +10,16 @@ import com.gregtechceu.gtceu.api.machine.multiblock.part.MultiblockPartMachine;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.CarpetBlock;
+import net.minecraft.world.level.block.WoolCarpetBlock;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
@@ -33,6 +39,18 @@ public class SteamVentHatchMachine extends MultiblockPartMachine implements IExh
 
     public SteamVentHatchMachine(IMachineBlockEntity holder) {
         super(holder);
+    }
+
+    @Override
+    public boolean isVentingBlocked() {
+        Level level = this.self().getLevel();
+        Direction ventingSide = this.getVentingDirection();
+        BlockPos ventingBlockPos = this.self().getPos().relative(ventingSide);
+        if (level != null) {
+            BlockState state = level.getBlockState(ventingBlockPos);
+            if (state.getBlock() instanceof CarpetBlock) return false; // 地毯不挡排气
+        }
+        return IExhaustVentMachine.super.isVentingBlocked();
     }
 
     @Override

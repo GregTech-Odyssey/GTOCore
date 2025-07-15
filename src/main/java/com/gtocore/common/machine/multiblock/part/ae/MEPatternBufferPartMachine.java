@@ -32,6 +32,8 @@ import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList;
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
 import com.gregtechceu.gtceu.common.item.IntCircuitBehaviour;
 
+import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
+import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -64,6 +66,7 @@ import it.unimi.dsi.fastutil.objects.*;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.UnmodifiableView;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
@@ -74,10 +77,10 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @Scanned
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class MEPatternBufferPartMachine extends MEPatternPartMachine<MEPatternBufferPartMachine.InternalSlot> implements IDataStickInteractable {
+public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPatternBufferPartMachine.InternalSlot> implements IDataStickInteractable {
 
-    private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
-            MEPatternBufferPartMachine.class, MEPatternPartMachine.MANAGED_FIELD_HOLDER);
+    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
+            MEPatternBufferPartMachine.class, MEPatternPartMachineKt.Companion.getMANAGED_FIELD_HOLDER());
     @RegisterLanguage(cn = "配方已缓存", en = "Recipe cached")
     private static final String CACHE = "gtocore.pattern_buffer.cache";
     @RegisterLanguage(cn = "样板独立配置", en = "Pattern independent configuration")
@@ -100,6 +103,8 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachine<MEPatternBu
     public final NotifiableNotConsumableFluidHandler[] shareTanks;
     @Persisted
     public final NotifiableNotConsumableItemHandler[] circuitInventorys;
+    @Persisted
+    public final List<Integer> circuitConfigurations;
 
     @Persisted
     private final Set<BlockPos> proxies = new ObjectOpenHashSet<>();
@@ -108,9 +113,10 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachine<MEPatternBu
 
     @Persisted
     @DescSynced
-    private int configurator = -1;
+    protected int configurator = -1;
 
-    private ConfiguratorPanel configuratorPanel;
+
+    protected ConfiguratorPanel configuratorPanel;
 
     public MEPatternBufferPartMachine(IMachineBlockEntity holder, int maxPatternCount) {
         super(holder, maxPatternCount);
@@ -121,6 +127,7 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachine<MEPatternBu
         this.shareInventorys = new NotifiableNotConsumableItemHandler[maxPatternCount];
         this.shareTanks = new NotifiableNotConsumableFluidHandler[maxPatternCount];
         this.circuitInventorys = new NotifiableNotConsumableItemHandler[maxPatternCount];
+        this.circuitConfigurations = new ArrayList<>(Collections.nCopies(maxPatternCount, 0));
         for (int i = 0; i < maxPatternCount; i++) {
             this.shareInventorys[i] = createShareInventory();
             this.shareTanks[i] = new NotifiableNotConsumableFluidHandler(this, 9, 64000);
@@ -142,17 +149,17 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachine<MEPatternBu
     }
 
     @Override
-    InternalSlot[] createInternalSlotArray() {
-        return new InternalSlot[maxPatternCount];
+    public InternalSlot[] createInternalSlotArray() {
+        return new InternalSlot[getMaxPatternCount()];
     }
 
     @Override
-    boolean patternFilter(ItemStack stack) {
+    public boolean patternFilter(ItemStack stack) {
         return stack.getItem() instanceof ProcessingPatternItem;
     }
 
     @Override
-    InternalSlot createInternalSlot(int i) {
+    public InternalSlot createInternalSlot(int i) {
         return new InternalSlot(this, i);
     }
 
@@ -194,7 +201,7 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachine<MEPatternBu
 
     @Override
     @Nullable
-    Component appendHoverTooltips(int index) {
+    public Component appendHoverTooltips(int index) {
         if (caches[index]) {
             return Component.translatable(CACHE);
         }
@@ -211,11 +218,11 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachine<MEPatternBu
         } else {
             configurator = index;
         }
-        configuratorPanel.getParent().initWidget();
+//        if (getFancyMachineUIWidget()!=null) getFancyMachineUIWidget().initWidget();
+        freshWidgetGroup.fresh();
     }
-
     @Override
-    void addWidget(WidgetGroup group) {
+    public void addWidget(WidgetGroup group) {
         group.addWidget(new LabelWidget(81, 2, () -> configurator < 0 ? SHARE : INDEPENDENT).setHoverTooltips(Component.translatable("monitor.gui.title.slot").append(String.valueOf(configurator))));
     }
 
@@ -224,8 +231,8 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachine<MEPatternBu
         if (isFormed()) {
             IMultiController controller = getControllers().first();
             MultiblockMachineDefinition controllerDefinition = controller.self().getDefinition();
-            if (!customName.isEmpty()) {
-                return new PatternContainerGroup(AEItemKey.of(controllerDefinition.asStack()), Component.literal(customName), Collections.emptyList());
+            if (!getCustomName().isEmpty()) {
+                return new PatternContainerGroup(AEItemKey.of(controllerDefinition.asStack()), Component.literal(getCustomName()), Collections.emptyList());
             } else {
                 ItemStack circuitStack = circuitInventorySimulated.storage.getStackInSlot(0);
                 int circuitConfiguration = circuitStack.isEmpty() ? -1 : IntCircuitBehaviour.getCircuitConfiguration(circuitStack);
@@ -233,8 +240,8 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachine<MEPatternBu
                 return new PatternContainerGroup(AEItemKey.of(controllerDefinition.asStack()), groupName, Collections.emptyList());
             }
         } else {
-            if (!customName.isEmpty()) {
-                return new PatternContainerGroup(AEItemKey.of(GTAEMachines.ME_PATTERN_BUFFER.getItem()), Component.literal(customName), Collections.emptyList());
+            if (!getCustomName().isEmpty()) {
+                return new PatternContainerGroup(AEItemKey.of(GTAEMachines.ME_PATTERN_BUFFER.getItem()), Component.literal(getCustomName()), Collections.emptyList());
             } else {
                 return new PatternContainerGroup(AEItemKey.of(GTAEMachines.ME_PATTERN_BUFFER.getItem()), GTAEMachines.ME_PATTERN_BUFFER.get().getDefinition().getItem().getDescription(), Collections.emptyList());
             }
@@ -245,15 +252,9 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachine<MEPatternBu
     public void attachConfigurators(ConfiguratorPanel configuratorPanel) {
         this.configuratorPanel = configuratorPanel;
         configuratorPanel.attachConfigurators(new ButtonConfigurator(new GuiTextureGroup(GuiTextures.BUTTON, GuiTextures.REFUND_OVERLAY), this::refundAll).setTooltips(List.of(Component.translatable("gui.gtceu.refund_all.desc"))));
-        if (configurator < 0) {
-            configuratorPanel.attachConfigurators(new CircuitFancyConfigurator(circuitInventorySimulated.storage));
-            configuratorPanel.attachConfigurators(new FancyInvConfigurator(shareInventory.storage, Component.translatable("gui.gtceu.share_inventory.title")).setTooltips(List.of(Component.translatable("gui.gtceu.share_inventory.desc.0"), Component.translatable("gui.gtceu.share_inventory.desc.1"))));
-            configuratorPanel.attachConfigurators(new FancyTankConfigurator(shareTank.getStorages(), Component.translatable("gui.gtceu.share_tank.title")).setTooltips(List.of(Component.translatable("gui.gtceu.share_tank.desc.0"), Component.translatable("gui.gtceu.share_inventory.desc.1"))));
-        } else {
-            configuratorPanel.attachConfigurators(new CircuitFancyConfigurator(circuitInventorys[configurator].storage));
-            configuratorPanel.attachConfigurators(new FancyInvConfigurator(shareInventorys[configurator].storage, Component.translatable("gui.gtceu.share_inventory.title")).setTooltips(List.of(Component.translatable("gui.gtceu.share_inventory.desc.0"), Component.translatable("gui.gtceu.share_inventory.desc.1"))));
-            configuratorPanel.attachConfigurators(new FancyTankConfigurator(shareTanks[configurator].getStorages(), Component.translatable("gui.gtceu.share_tank.title")).setTooltips(List.of(Component.translatable("gui.gtceu.share_tank.desc.0"), Component.translatable("gui.gtceu.share_inventory.desc.1"))));
-        }
+        configuratorPanel.attachConfigurators(new CircuitFancyConfigurator(circuitInventorySimulated.storage));
+        configuratorPanel.attachConfigurators(new FancyInvConfigurator(shareInventory.storage, Component.translatable("gui.gtceu.share_inventory.title")).setTooltips(List.of(Component.translatable("gui.gtceu.share_inventory.desc.0"), Component.translatable("gui.gtceu.share_inventory.desc.1"))));
+        configuratorPanel.attachConfigurators(new FancyTankConfigurator(shareTank.getStorages(), Component.translatable("gui.gtceu.share_tank.title")).setTooltips(List.of(Component.translatable("gui.gtceu.share_tank.desc.0"), Component.translatable("gui.gtceu.share_inventory.desc.1"))));
     }
 
     @Override
@@ -396,13 +397,13 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachine<MEPatternBu
         }
 
         @Override
-        void onPatternChange() {
+        public void onPatternChange() {
             setRecipe(null);
             refund();
         }
 
         @Override
-        boolean pushPattern(IPatternDetails patternDetails, KeyCounter[] inputHolder) {
+        public boolean pushPattern(IPatternDetails patternDetails, KeyCounter[] inputHolder) {
             patternDetails.pushInputsToExternalInventory(inputHolder, inputSink);
             if (recipe != null) {
                 for (var controller : machine.getControllers()) {

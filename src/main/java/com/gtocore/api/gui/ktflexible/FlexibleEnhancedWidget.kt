@@ -6,6 +6,7 @@ import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.api.distmarker.OnlyIn
 
 import com.lowdragmc.lowdraglib.gui.widget.Widget
+import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup
 
 interface DataSyncOperations<T> {
     fun writeToBuffer(buffer: FriendlyByteBuf, value: T)
@@ -17,8 +18,31 @@ class SyncField<T>(private val supplier: () -> T, private val operations: DataSy
     var lastValue: T = initialValue
         private set
 
+    var init: ((initialValue: T) -> Unit)? = null
+    var update: ((oldValue: T, newValue: T) -> Unit)? = null
+
     fun updateValue(newValue: T) {
         lastValue = newValue
+    }
+
+    fun updateValueWithClientCallback(newValue: T) {
+        val oldValue = lastValue
+        lastValue = newValue
+        if (oldValue != newValue) {
+            update?.invoke(oldValue, newValue)
+        }
+    }
+
+    fun updateValueWithServerCallback(newValue: T) {
+        val oldValue = lastValue
+        lastValue = newValue
+        if (oldValue != newValue) {
+            update?.invoke(oldValue, newValue)
+        }
+    }
+
+    fun triggerClientInitialCallback() {
+        init?.invoke(lastValue)
     }
 
     fun getLatestValue(): T = supplier()
@@ -61,6 +85,7 @@ class DataSyncDelegate(private val widget: Widget) {
             syncFields.forEach { field ->
                 val newValue = field.readFromBuffer(buffer)
                 updateFieldValueUnsafe(field, newValue)
+                triggerClientInitialCallbackUnsafe(field)
             }
         }
     }
@@ -71,7 +96,7 @@ class DataSyncDelegate(private val widget: Widget) {
             syncFields.forEach { field ->
                 if (field.hasChanged()) {
                     val newValue = field.getLatestValue()
-                    updateFieldValueUnsafe(field, newValue)
+                    updateFieldValueWithServerCallbackUnsafe(field, newValue)
                     pendingUpdates[field.getUpdateId()] = { field.writeToBuffer(it) }
                 }
             }
@@ -81,7 +106,11 @@ class DataSyncDelegate(private val widget: Widget) {
     fun readUpdateInfo(id: Int, buffer: FriendlyByteBuf) {
         syncFields.find { it.getUpdateId() == id }?.let { field ->
             val newValue = field.readFromBuffer(buffer)
-            updateFieldValueUnsafe(field, newValue)
+            if (widget.isClientSideWidget) {
+                updateFieldValueWithCallbackUnsafe(field, newValue)
+            } else {
+                updateFieldValueWithServerCallbackUnsafe(field, newValue)
+            }
         }
     }
 
@@ -101,6 +130,21 @@ class DataSyncDelegate(private val widget: Widget) {
     private fun updateFieldValueUnsafe(field: SyncField<*>, newValue: Any?) {
         (field as SyncField<Any?>).updateValue(newValue)
     }
+
+    @Suppress("UNCHECKED_CAST")
+    private fun updateFieldValueWithCallbackUnsafe(field: SyncField<*>, newValue: Any?) {
+        (field as SyncField<Any?>).updateValueWithClientCallback(newValue)
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    private fun updateFieldValueWithServerCallbackUnsafe(field: SyncField<*>, newValue: Any?) {
+        (field as SyncField<Any?>).updateValueWithServerCallback(newValue)
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    private fun triggerClientInitialCallbackUnsafe(field: SyncField<*>) {
+        (field as SyncField<Any?>).triggerClientInitialCallback()
+    }
 }
 
 object DataOperations {
@@ -119,10 +163,9 @@ object DataOperations {
     }
 }
 
-abstract class SyncWidget(x: Int, y: Int, width: Int, height: Int) : Widget(x, y, width, height) {
+abstract class SyncWidget(x: Int, y: Int, width: Int, height: Int) : WidgetGroup(x, y, width, height) {
     private val syncDelegate = DataSyncDelegate(this)
 
-    // 添加同步字段的便捷方法
     protected fun <T> syncField(supplier: () -> T, operations: DataSyncOperations<T>, updateId: Int, initialValue: T): SyncField<T> = syncDelegate.addSyncField(supplier, operations, updateId, initialValue)
 
     protected fun syncInt(supplier: () -> Int, updateId: Int, initialValue: Int = 0): SyncField<Int> = syncField(supplier, DataOperations.INT, updateId, initialValue)
