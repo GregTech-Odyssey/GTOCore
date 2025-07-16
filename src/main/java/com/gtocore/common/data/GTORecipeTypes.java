@@ -892,7 +892,7 @@ public final class GTORecipeTypes {
             .setSound(GTSoundEntries.COMPUTATION);
 
     public static final RecipeType RECIPES_DATA_GENERATE_RECIPES = register("recipes_data_generate", "配方数据生成", ELECTRIC)
-            .setMaxIOSize(12, 1, 3, 0)
+            .setMaxIOSize(11, 1, 0, 0)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
             .setMaxTooltips(4)
             .setSound(GTSoundEntries.COMPUTATION);

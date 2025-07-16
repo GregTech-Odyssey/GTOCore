@@ -55,7 +55,7 @@ public class AnalyzeHolderMachine extends MultiblockPartMachine implements IMach
 
     public AnalyzeHolderMachine(IMachineBlockEntity holder) {
         super(holder);
-        this.io = IO.BOTH;
+        this.io = IO.IN;
         heldItems = new AnalyzeHolder(this);
     }
 

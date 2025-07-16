@@ -10,7 +10,7 @@ import com.gregtechceu.gtceu.common.data.GTMaterials;
 import static com.gregtechceu.gtceu.api.GTValues.LuV;
 import static com.gregtechceu.gtceu.api.GTValues.VA;
 
-public class AnalyzeRecipes {
+public final class AnalyzeRecipes {
 
     public static void init() {
         DataAnalysisRecipeBuilder.buildRecipe()

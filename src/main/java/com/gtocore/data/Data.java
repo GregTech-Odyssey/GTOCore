@@ -135,6 +135,7 @@ public final class Data {
             ScanningRecipes.init();
             AnalyzeData.init();
             AnalyzeRecipes.init();
+            DataGenerateRecipe.init();
         }
         if (GTCEu.isDev() || GTOCore.isSimple()) {
             SimpleModeRecipe.init();

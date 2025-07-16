@@ -10,7 +10,9 @@ import com.gtocore.common.data.GTOMaterials;
 import com.gtocore.common.machine.multiblock.electric.AnalysisAndResearchCenterMachine;
 import com.gtocore.common.machine.multiblock.electric.ScanningStationMachine;
 import com.gtocore.common.machine.multiblock.electric.SupercomputingCenterMachine;
+import com.gtocore.common.machine.multiblock.electric.SyntheticDataAssemblyPlantMachine;
 import com.gtocore.common.machine.multiblock.part.AnalyzeHolderMachine;
+import com.gtocore.common.machine.multiblock.part.DataGenerateHolderMachine;
 import com.gtocore.common.machine.multiblock.part.ResearchHolderMachine;
 import com.gtocore.common.machine.multiblock.part.ScanningHolderMachine;
 import com.gtocore.common.machine.multiblock.part.research.ExResearchBridgePartMachine;
@@ -65,6 +67,10 @@ import static com.gtolib.utils.register.MachineRegisterUtils.multiblock;
 public final class ExResearchMachines {
 
     public static void init() {}
+
+    /////////////////////////////////////
+    // *********** 算力机器 *********** //
+    /////////////////////////////////////
 
     public static final MultiblockMachineDefinition SUPERCOMPUTING_CENTER = multiblock("supercomputing_center", "运算中心", SupercomputingCenterMachine::new)
             // 基本功能描述 - 使用更保守的样式
@@ -236,6 +242,28 @@ public final class ExResearchMachines {
                     Component.translatable("gtceu.machine.hpca.component_type.cooler_cooling", 64))
             .register();
 
+    private static GTOMachineBuilder registerHPCAPart(String name, String cn,
+                                                      Function<IMachineBlockEntity, MetaMachine> constructor,
+                                                      boolean activeTexture,
+                                                      boolean damagedTexture,
+                                                      int tire) {
+        addLang(name, cn);
+        return GTO.machine(name, constructor)
+                .allRotation()
+                .abilities(GTOPartAbility.COMPUTING_COMPONENT)
+                .renderer(() -> new ExResearchPartRenderer(
+                        tire, GTOCore.id("block/casings/about_computer/" + name),
+                        !activeTexture ? null : GTOCore.id("block/casings/about_computer/" + name + "_active"),
+                        !activeTexture ? null : GTOCore.id("block/casings/about_computer/" + name + "_active_emissive"),
+                        !damagedTexture ? null : GTOCore.id("block/casings/about_computer/" + "damaged_" + name),
+                        !damagedTexture ? null : GTOCore.id("block/casings/about_computer/" + "damaged_" + name + "_active"),
+                        !damagedTexture ? null : GTOCore.id("block/casings/about_computer/" + "damaged_" + name + "_active_emissive")));
+    }
+
+    /////////////////////////////////////
+    // *********** 数据机器 *********** //
+    /////////////////////////////////////
+
     public static final MachineDefinition BIO_DATA_ACCESS_HATCH = machine("bio_data_access_hatch", "生物数据访问仓", (holder) -> new DataAccessHatchMachine(holder, UHV, false))
             .tier(UHV)
             .allRotation()
@@ -269,28 +297,14 @@ public final class ExResearchMachines {
             .renderer(() -> new OverlayTieredMachineRenderer(OpV, GTCEu.id("block/machine/part/data_access_hatch")))
             .register();
 
-    private static GTOMachineBuilder registerHPCAPart(String name, String cn,
-                                                      Function<IMachineBlockEntity, MetaMachine> constructor,
-                                                      boolean activeTexture,
-                                                      boolean damagedTexture,
-                                                      int tire) {
-        addLang(name, cn);
-        return GTO.machine(name, constructor)
-                .allRotation()
-                .abilities(GTOPartAbility.COMPUTING_COMPONENT)
-                .renderer(() -> new ExResearchPartRenderer(
-                        tire, GTOCore.id("block/casings/about_computer/" + name),
-                        !activeTexture ? null : GTOCore.id("block/casings/about_computer/" + name + "_active"),
-                        !activeTexture ? null : GTOCore.id("block/casings/about_computer/" + name + "_active_emissive"),
-                        !damagedTexture ? null : GTOCore.id("block/casings/about_computer/" + "damaged_" + name),
-                        !damagedTexture ? null : GTOCore.id("block/casings/about_computer/" + "damaged_" + name + "_active"),
-                        !damagedTexture ? null : GTOCore.id("block/casings/about_computer/" + "damaged_" + name + "_active_emissive")));
-    }
+    /////////////////////////////////////
+    // *********** 研究机器 *********** //
+    /////////////////////////////////////
 
     public static final MachineDefinition SCANNING_HOLDER = machine("scanning_holder", "扫描支架", ScanningHolderMachine::new)
-            .tier(ZPM)
+            .tier(IV)
             .allRotation()
-            .renderer(() -> new OverlayTieredActiveMachineRenderer(ZPM, GTCEu.id("block/machine/part/object_holder"),
+            .renderer(() -> new OverlayTieredActiveMachineRenderer(IV, GTCEu.id("block/machine/part/object_holder"),
                     GTCEu.id("block/machine/part/object_holder_active")))
             .notAllowSharedTooltips()
             .register();
@@ -304,6 +318,14 @@ public final class ExResearchMachines {
             .register();
 
     public static final MachineDefinition RESEARCH_HOLDER = machine("research_holder", "研究支架", ResearchHolderMachine::new)
+            .tier(IV)
+            .allRotation()
+            .renderer(() -> new OverlayTieredActiveMachineRenderer(IV, GTCEu.id("block/machine/part/object_holder"),
+                    GTCEu.id("block/machine/part/object_holder_active")))
+            .notAllowSharedTooltips()
+            .register();
+
+    public static final MachineDefinition DATA_GENERATE_HOLDER = machine("data_generate_holder", "数据构建支架", DataGenerateHolderMachine::new)
             .tier(IV)
             .allRotation()
             .renderer(() -> new OverlayTieredActiveMachineRenderer(IV, GTCEu.id("block/machine/part/object_holder"),
@@ -363,8 +385,8 @@ public final class ExResearchMachines {
             .register();
 
     public static final MultiblockMachineDefinition ANALYSIS_AND_RESEARCH_CENTER = multiblock("analysis_and_research_center", "分析推演中心", AnalysisAndResearchCenterMachine::new)
-            .tooltipsText("分析/推演的一体化机器。", "Precision multi-block scanner.")
-            .tooltipsText("根据§b扫描数据§r得到§b研究数据§r。", "Precision multi-block scanner.")
+            .tooltipsText("分析/推演的一体化机器。", "An all-in-one analysis/deduction machine.")
+            .tooltipsText("根据§b扫描数据§r得到§b研究数据§r。", "§bResearch data§r is obtained based on §bscanning data§r.")
             .tooltipsText("需要§b算力§r来进行工作。", "Requires §fComputation§7 to work.")
             .tooltipsText("提供更多的算力可以使研究进展的更快。", "Providing more Computation allows the recipe to run faster.")
             .nonYAxisRotation()
@@ -417,6 +439,45 @@ public final class ExResearchMachines {
                         .build());
                 return shapeInfo;
             })
+            .sidedWorkableCasingRenderer("block/casings/hpca/advanced_computer_casing", GTCEu.id("block/multiblock/research_station"))
+            .register();
+
+    public static final MultiblockMachineDefinition SYNTHETIC_DATA_ASSEMBLY_PLANT = multiblock("synthetic_data_assembly_plant", "合成数据组装厂", SyntheticDataAssemblyPlantMachine::new)
+            .tooltipsText("分析/推演的一体化机器。", "Precision multi-block scanner.")
+            .tooltipsText("根据§b扫描数据§r得到§b研究数据§r。", "Precision multi-block scanner.")
+            .tooltipsText("需要§b算力§r来进行工作。", "Requires §fComputation§7 to work.")
+            .tooltipsText("提供更多的算力可以使研究进展的更快。", "Providing more Computation allows the recipe to run faster.")
+            .nonYAxisRotation()
+            .recipeTypes(RECIPES_DATA_GENERATE_RECIPES)
+            .block(ADVANCED_COMPUTER_CASING)
+            .pattern(definition -> FactoryBlockPattern.start()
+                    .aisle("  AABAA   ", " AACCCAA  ", "CCCCECCCC ", " AACCCAA  ", "  AABAA   ")
+                    .aisle(" AABBBAA  ", "AAACCCAAA ", "CACCCCCAC ", "AAACCCAAA ", " AABBBAA  ")
+                    .aisle("  AABAA   ", " AACCCAA  ", "CCCCDCCCC ", " AACCCAA  ", "  AABAA   ")
+                    .where('A', blocks(GTBlocks.HIGH_POWER_CASING.get()))
+                    .where('B', blocks(GTBlocks.COMPUTER_HEAT_VENT.get()))
+                    .where('C', blocks(GTBlocks.ADVANCED_COMPUTER_CASING.get())
+                            .or(abilities(PartAbility.INPUT_ENERGY).setMinGlobalLimited(1).setMaxGlobalLimited(2, 1))
+                            .or(abilities(PartAbility.COMPUTATION_DATA_RECEPTION).setExactLimit(1))
+                            .or(abilities(MAINTENANCE).setExactLimit(1)))
+                    .where('D', controller(blocks(definition.getBlock())))
+                    .where('E', blocks(DATA_GENERATE_HOLDER.get()))
+                    .where(' ', any())
+                    .build())
+            .shapeInfo(definition -> MultiblockShapeInfo.builder()
+                    .aisle("  AABAA   ", " AACCCAA  ", "CCCCECCCC ", " AACCCAA  ", "  AABAA   ")
+                    .aisle(" AABBBAA  ", "AAACCCAAA ", "CACCCCCAC ", "AAACCCAAA ", " AABBBAA  ")
+                    .aisle("  AABAA   ", " AAHIJAA  ", "CCCCDCCCC ", " AACCCAA  ", "  AABAA   ")
+                    .where('A', GTBlocks.HIGH_POWER_CASING.get())
+                    .where('B', COMPUTER_HEAT_VENT.get())
+                    .where('C', ADVANCED_COMPUTER_CASING.get())
+                    .where('E', ExResearchMachines.SYNTHETIC_DATA_ASSEMBLY_PLANT, Direction.NORTH)
+                    .where('D', DATA_GENERATE_HOLDER, Direction.SOUTH)
+                    .where(' ', Blocks.AIR)
+                    .where('H', GTResearchMachines.COMPUTATION_HATCH_RECEIVER, Direction.SOUTH)
+                    .where('I', GTMachines.ENERGY_INPUT_HATCH[GTValues.LuV], Direction.SOUTH)
+                    .where('J', GTMachines.MAINTENANCE_HATCH.get(), Direction.SOUTH)
+                    .build())
             .sidedWorkableCasingRenderer("block/casings/hpca/advanced_computer_casing", GTCEu.id("block/multiblock/research_station"))
             .register();
 }

@@ -5,7 +5,7 @@ import com.gregtechceu.gtceu.GTCEu;
 import static com.gtocore.data.lang.LangHandler.addCNEN;
 import static com.gtolib.api.recipe.research.ExResearchManager.writeAnalyzeResearchToMap;
 
-public class AnalyzeData {
+public final class AnalyzeData {
 
     public static void init() {
         addAnalyzeData("error1", "§k1§r错误§k1§r", "§k1§rError§k1§r", 0, 1);
