@@ -6,6 +6,7 @@ import com.gtocore.common.machine.multiblock.part.ResearchHolderMachine;
 import com.gtolib.api.machine.multiblock.ElectricMultiblockMachine;
 import com.gtolib.api.recipe.Recipe;
 
+import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.IOpticalComputationProvider;
 import com.gregtechceu.gtceu.api.capability.IOpticalComputationReceiver;
 import com.gregtechceu.gtceu.api.capability.forge.GTCapability;
@@ -25,7 +26,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
 
 public class AnalysisAndResearchCenterMachine extends ElectricMultiblockMachine implements IOpticalComputationReceiver {
 
@@ -134,7 +134,7 @@ public class AnalysisAndResearchCenterMachine extends ElectricMultiblockMachine 
         }
 
         // 3. 加权随机选择一个输出
-        int random = (int) (ThreadLocalRandom.current().nextDouble() * totalWeight);
+        int random = GTValues.RNG.nextInt(totalWeight);
         int cumulative = 0;
         Content selectedContent = null;
 
