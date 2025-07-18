@@ -3,9 +3,9 @@ package com.gtocore.data.recipe.misc;
 import com.gtocore.api.data.tag.GTOTagPrefix;
 import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.data.GTOMaterials;
+import com.gtocore.data.recipe.builder.ars.MeteoriteRegistryHelper;
 
 import com.gtolib.api.data.chemical.GTOChemicalHelper;
-import com.gtolib.api.recipe.builder.MeteoriteRegistryHelper;
 import com.gtolib.utils.RegistriesUtils;
 
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;

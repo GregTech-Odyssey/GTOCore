@@ -1144,7 +1144,7 @@ final class AssemblyLine {
                 .inputFluids(GTOMaterials.Orichalcum.getFluid(FluidStorageKeys.PLASMA, 2304))
                 .inputFluids(GTOMaterials.Mithril.getFluid(FluidStorageKeys.PLASMA, 2304))
                 .inputFluids(GTMaterials.Darmstadtium.getFluid(4608))
-                .outputItems(MultiBlockA.MEGA_CANNER.asStack())
+                .outputItems(MultiBlockA.PARTICLE_STREAM_MATRIX_FILLING_MACHINE.asStack())
                 .EUt(7864320)
                 .duration(800)
                 .researchStation(b -> b.researchStack(GTMachines.CANNER[GTValues.UEV].asStack())

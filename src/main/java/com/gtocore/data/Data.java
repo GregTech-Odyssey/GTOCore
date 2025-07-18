@@ -13,6 +13,7 @@ import com.gtocore.data.recipe.misc.*;
 import com.gtocore.data.recipe.mod.FunctionalStorage;
 import com.gtocore.data.recipe.mod.ImmersiveAircraft;
 import com.gtocore.data.recipe.processing.*;
+import com.gtocore.data.recipe.research.*;
 import com.gtocore.integration.emi.GTEMIRecipe;
 import com.gtocore.integration.emi.multipage.MultiblockInfoEmiRecipe;
 

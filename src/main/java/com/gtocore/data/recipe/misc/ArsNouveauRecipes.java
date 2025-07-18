@@ -2,11 +2,11 @@ package com.gtocore.data.recipe.misc;
 
 import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.data.GTOMaterials;
+import com.gtocore.data.recipe.builder.ars.EnchantingApparatusRecipeBuilder;
+import com.gtocore.data.recipe.builder.ars.ImbuementRecipeBuilder;
 
 import com.gtolib.GTOCore;
 import com.gtolib.api.data.chemical.GTOChemicalHelper;
-import com.gtolib.api.recipe.builder.EnchantingApparatusRecipeBuilder;
-import com.gtolib.api.recipe.builder.ImbuementRecipeBuilder;
 import com.gtolib.utils.RegistriesUtils;
 
 import com.gregtechceu.gtceu.api.data.chemical.material.stack.MaterialEntry;

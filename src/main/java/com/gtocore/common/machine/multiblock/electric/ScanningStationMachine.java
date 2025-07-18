@@ -24,7 +24,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -37,7 +36,7 @@ import java.util.List;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
-import static com.gtolib.api.recipe.research.ExResearchManager.*;
+import static com.gtocore.data.recipe.builder.research.ExResearchManager.*;
 import static com.gtolib.utils.RegistriesUtils.getItem;
 
 @MethodsReturnNonnullByDefault
@@ -126,7 +125,7 @@ public class ScanningStationMachine extends ElectricMultiblockMachine implements
 
     @Override
     public boolean handleRecipeIO(Recipe originalRecipe, IO io) {
-        // report();
+        report();
 
         if (io == IO.IN) {
             objectHolder.setLocked(true);
@@ -172,25 +171,26 @@ public class ScanningStationMachine extends ElectricMultiblockMachine implements
             String[] parts = scanningId.split("-", 3);
             String countPart = parts[0];
             int count = Integer.parseInt(countPart.substring(0, countPart.length() - 1));
+            String state = countPart.substring(countPart.length() - 1);
 
-            Item item = getItem(parts[1], parts[2]);
-            if (item != Items.BARRIER) {
+            if (state.equals("i")) {
+                Item item = getItem(parts[1], parts[2]);
                 ItemStack stack = new ItemStack(item, 1);
                 String scanningThing = "item  - " + stack.getHoverName().getString();
-                scanning_report.append(String.format("|%08X|%d|%d|%s|%d|\n  ", serial, ExtractDataTier(serial), ExtractDataCrystal(serial), scanningThing, count));
+                scanning_report.append(String.format("|0x%08X|%d|%d|%s|%d|\n  ", serial, ExtractDataTier(serial), ExtractDataCrystal(serial), scanningThing, count));
                 continue;
             }
 
-            Fluid fluid = ForgeRegistries.FLUIDS.getValue(new ResourceLocation(parts[1], parts[2]));
-            if (fluid != null) {
-                String state;
-                if (parts[2].contains("gas")) state = "气态 ";
-                else if (parts[2].contains("liquid")) state = "液态 ";
-                else if (parts[2].contains("molten")) state = "熔融 ";
-                else if (parts[2].contains("plasma")) state = "等离子态 ";
-                else state = "";
-                String scanningThing = "fluid - " + state + I18n.get(fluid.getFluidType().getDescriptionId());
-                scanning_report.append(String.format("|%08X|%d|%d|%s|%d|\n  ", serial, ExtractDataTier(serial), ExtractDataCrystal(serial), scanningThing, count));
+            if (state.equals("f")) {
+                Fluid fluid = ForgeRegistries.FLUIDS.getValue(new ResourceLocation(parts[1], parts[2]));
+                String fluidState;
+                if (parts[2].contains("gas")) fluidState = "气态 ";
+                else if (parts[2].contains("liquid")) fluidState = "液态 ";
+                else if (parts[2].contains("molten")) fluidState = "熔融 ";
+                else if (parts[2].contains("plasma")) fluidState = "等离子态 ";
+                else fluidState = "";
+                String scanningThing = "fluid - " + fluidState + I18n.get(fluid.getFluidType().getDescriptionId());
+                scanning_report.append(String.format("|0x%08X|%d|%d|%s|%d|\n  ", serial, ExtractDataTier(serial), ExtractDataCrystal(serial), scanningThing, count));
             }
         }
 

@@ -11,7 +11,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.Fluid;
@@ -23,7 +22,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 import java.util.Optional;
 
-import static com.gtolib.api.recipe.research.ExResearchManager.*;
+import static com.gtocore.data.recipe.builder.research.ExResearchManager.*;
 import static com.gtolib.utils.RegistriesUtils.getItem;
 
 public class ExDataItemBehavior implements IAddInformation, IExDataItem {
@@ -88,23 +87,23 @@ public class ExDataItemBehavior implements IAddInformation, IExDataItem {
     /**
      * 解析物品或流体信息
      *
-     * @param idString 格式为 "数量x-命名空间-路径" 的字符串
+     * @param idString 格式为 "数量i/f-命名空间-路径" 的字符串
      * @return 包含解析结果的文本组件（如果成功）
      */
     public static Optional<Component> parseItemOrFluidInfo(String idString) {
-        // 分割字符串为三部分: [数量x, 命名空间, 路径]
+        // 分割字符串为三部分: [数量i/f, 命名空间, 路径]
         String[] parts = idString.split("-", 3);
         if (parts.length != 3) return Optional.empty();
 
-        // 提取数量 (移除末尾的 'x')
         String countPart = parts[0];
         int count = Integer.parseInt(countPart.substring(0, countPart.length() - 1));
+        String state = countPart.substring(countPart.length() - 1);
         String namespace = parts[1];
         String path = parts[2];
 
         // 尝试作为物品解析
-        Item item = getItem(namespace, path);
-        if (item != Items.BARRIER) {
+        if (state.equals("i")) {
+            Item item = getItem(namespace, path);
             ItemStack stack = new ItemStack(item, 1);
             return Optional.of(Component.translatable("gtocore.tooltip.item.scanned_things",
                     Component.literal(String.valueOf(count)).withStyle(ChatFormatting.GREEN),
@@ -112,8 +111,8 @@ public class ExDataItemBehavior implements IAddInformation, IExDataItem {
         }
 
         // 尝试作为流体解析
-        Fluid fluid = ForgeRegistries.FLUIDS.getValue(new ResourceLocation(namespace, path));
-        if (fluid != null) {
+        if (state.equals("f")) {
+            Fluid fluid = ForgeRegistries.FLUIDS.getValue(new ResourceLocation(namespace, path));
             FluidStack stack = new FluidStack(fluid, 1);
             return Optional.of(Component.translatable("gtocore.tooltip.item.scanned_things",
                     Component.literal(String.valueOf(count)).withStyle(ChatFormatting.GREEN),

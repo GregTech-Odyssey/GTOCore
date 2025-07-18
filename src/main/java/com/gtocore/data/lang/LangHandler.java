@@ -2,7 +2,7 @@ package com.gtocore.data.lang;
 
 import com.gtocore.client.Tooltips;
 import com.gtocore.common.data.GTOBedrockFluids;
-import com.gtocore.data.recipe.processing.AnalyzeData;
+import com.gtocore.data.recipe.research.AnalyzeData;
 
 import com.gtolib.api.annotation.component_builder.TranslationKeyProvider;
 import com.gtolib.api.annotation.dynamic.DynamicInitialData;

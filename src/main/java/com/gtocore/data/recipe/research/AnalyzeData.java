@@ -1,13 +1,15 @@
-package com.gtocore.data.recipe.processing;
+package com.gtocore.data.recipe.research;
 
 import com.gregtechceu.gtceu.GTCEu;
 
 import static com.gtocore.data.lang.LangHandler.addCNEN;
-import static com.gtolib.api.recipe.research.ExResearchManager.writeAnalyzeResearchToMap;
+import static com.gtocore.data.recipe.builder.research.ExResearchManager.writeAnalyzeResearchToMap;
 
 public final class AnalyzeData {
 
     public static void init() {
+        addCNEN("data.empty", "空", "empty");
+
         addAnalyzeData("error1", "§k1§r错误§k1§r", "§k1§rError§k1§r", 0, 1);
         addAnalyzeData("error2", "§k22§r错误§k22§r", "§k22§rError§k22§r", 0, 2);
         addAnalyzeData("error3", "§k333§r错误§k333§r", "§k333§rError§k333§r", 0, 3);

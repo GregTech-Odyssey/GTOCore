@@ -4,10 +4,10 @@ import com.gtocore.api.data.tag.GTOTagPrefix;
 import com.gtocore.common.data.GTOBlocks;
 import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.data.GTOMaterials;
+import com.gtocore.data.recipe.builder.botania.*;
 import com.gtocore.data.tag.Tags;
 
 import com.gtolib.api.data.chemical.GTOChemicalHelper;
-import com.gtolib.api.recipe.builder.*;
 import com.gtolib.utils.RegistriesUtils;
 
 import com.gregtechceu.gtceu.GTCEu;
