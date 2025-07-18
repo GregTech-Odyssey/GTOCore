@@ -794,20 +794,20 @@ public final class MultiBlockD {
             .workableCasingRenderer(GTOCore.id("block/casings/dimension_connection_casing"), GTOCore.id("block/multiblock/create_aggregation"))
             .register();
 
-    public static final MultiblockMachineDefinition SUPRACHRONAL_ASSEMBLY_LINE = multiblock("suprachronal_assembly_line", "超时空装配线", CrossRecipeMultiblockMachine::createHatchParallel)
+    public static final MultiblockMachineDefinition NYARLATHOTEPS_TENTACLE = multiblock("nyarlathoteps_tentacle", "奈亚拉托提普之触", CrossRecipeMultiblockMachine::createHatchParallel)
             .allRotation()
             .recipeTypes(GTORecipeTypes.SUPRACHRONAL_ASSEMBLY_LINE)
             .tooltips(ComponentBuilder.create().addStoryLine(
                     """
                             GTO寰宇格雷科技有限公司的顶级工程师们耗时十年，终于完成了
-                            这台跨越维度的超级装配线。当董事长第一次见到它时，惊叹于
-                            其庞大的结构和复杂的分子级线圈。这台机器能够同时操作多个
-                            平行空间，将不同维度的材料精确组装。自此，公司的生产力
+                            这台跨越维度的奈亚拉托提普之触。当董事长第一次见到它时，惊
+                            叹于其庞大的结构和复杂的分子级线圈。这台机器能够同时操作多
+                            个平行空间，将不同维度的材料精确组装。自此，公司的生产力
                             突破了物理法则的限制，员工们见证了工业史上最伟大的奇迹。
                             """,
                     """
                             GTO Universal GregTech's top engineers spent ten years to finally
-                            complete this interdimensional super assembly line. When the CEO
+                            complete this nyarlathotep's tentacle. When the CEO
                             first saw it, he marveled at its massive structure and complex
                             molecular coils. This machine can operate multiple parallel spaces
                             simultaneously, assembling materials from different dimensions precisely.
@@ -816,26 +816,44 @@ public final class MultiBlockD {
             .parallelizableTooltips()
             .laserTooltips()
             .multipleRecipesTooltips()
-            .fromSourceTooltips("Twist Space Technology")
             .block(GTOBlocks.MOLECULAR_CASING)
-            .pattern(definition -> MultiBlockFileReader.start(definition, RelativeDirection.UP, RelativeDirection.BACK, RelativeDirection.LEFT)
-                    .where('~', controller(blocks(definition.get())))
-                    .where('A', blocks(GTBlocks.FUSION_GLASS.get()))
-                    .where('B', blocks(GTOBlocks.SPACETIME_ASSEMBLY_LINE_UNIT.get()))
-                    .where('C', blocks(GTOBlocks.SPACETIME_ASSEMBLY_LINE_CASING.get()))
-                    .where('D', cleanroomFilters())
-                    .where('E', blocks(GTOBlocks.DIMENSION_INJECTION_CASING.get()))
-                    .where('F', blocks(GTOBlocks.MOLECULAR_COIL.get()))
-                    .where('G', blocks(GTOBlocks.DIMENSIONAL_BRIDGE_CASING.get()))
-                    .where('H', blocks(GTBlocks.HIGH_POWER_CASING.get()))
-                    .where('I', blocks(GTOBlocks.MOLECULAR_CASING.get()))
-                    .where('J', blocks(GTOBlocks.DIMENSIONALLY_TRANSCENDENT_CASING.get()))
-                    .where('M', blocks(GTOBlocks.HOLLOW_CASING.get()))
-                    .where('K', blocks(GTOBlocks.MOLECULAR_CASING.get()))
-                    .where('L', blocks(GTOBlocks.MOLECULAR_CASING.get())
+            .pattern(definition -> MultiBlockFileReader.start(definition, RelativeDirection.LEFT, RelativeDirection.UP, RelativeDirection.FRONT)
+                    .where('A', blocks(GTOBlocks.MOLECULAR_CASING.get())
                             .or(GTOPredicates.autoLaserAbilities(definition.getRecipeTypes()))
                             .or(abilities(PARALLEL_HATCH).setMaxGlobalLimited(1))
                             .or(abilities(OPTICAL_DATA_RECEPTION).setExactLimit(1)))
+                    .where('B', blocks(GTOBlocks.ADVANCED_FUSION_COIL.get()))
+                    .where('C', blocks(GTOBlocks.LASER_CASING.get()))
+                    .where('D', blocks(GTOBlocks.URUIUM_COIL_BLOCK.get()))
+                    .where('E', blocks(GTOBlocks.HYPER_CORE.get()))
+                    .where('F', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTOMaterials.Amprosium)))
+                    .where('G', blocks(GTOBlocks.SPACETIME_ASSEMBLY_LINE_CASING.get()))
+                    .where('H', blocks(GTOBlocks.EXTREME_DENSITY_CASING.get()))
+                    .where('I', blocks(GTBlocks.FUSION_GLASS.get()))
+                    .where('J', blocks(GTOBlocks.LASER_COOLING_CASING.get()))
+                    .where('K', blocks(GTOBlocks.QUANTUM_GLASS.get()))
+                    .where('L', blocks(GTOBlocks.NAQUADAH_ALLOY_CASING.get()))
+                    .where('M', blocks(GTOBlocks.SPS_CASING.get()))
+                    .where('N', blocks(GTOBlocks.SPACETIME_ASSEMBLY_LINE_UNIT.get()))
+                    .where('O', blocks(GTOBlocks.MOLECULAR_CASING.get()))
+                    .where('P', blocks(GTOBlocks.CONTAINMENT_FIELD_GENERATOR.get()))
+                    .where('Q', heatingCoils())
+                    .where('R', blocks(GTBlocks.FILTER_CASING_STERILE.get()))
+                    .where('S', blocks(GTOBlocks.ELECTRON_PERMEABLE_AMPROSIUM_COATED_GLASS.get()))
+                    .where('T', blocks(GTOBlocks.HOLLOW_CASING.get()))
+                    .where('U', blocks(GTOBlocks.AMPROSIUM_ACTIVE_CASING.get()))
+                    .where('V', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTOMaterials.Mithril)))
+                    .where('W', blocks(RegistriesUtils.getBlock("gtceu:ruby_block")))
+                    .where('X', blocks(GCYMBlocks.ELECTROLYTIC_CELL.get()))
+                    .where('Y', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.Trinium)))
+                    .where('Z', blocks(GTBlocks.HIGH_POWER_CASING.get()))
+                    .where('[', blocks(GTOBlocks.DIMENSIONAL_BRIDGE_CASING.get()))
+                    .where('+', blocks(GTOBlocks.RESTRAINT_DEVICE.get()))
+                    .where(']', blocks(GTOBlocks.QUARK_PIPE.get()))
+                    .where('^', blocks(GTOBlocks.MOLECULAR_COIL.get()))
+                    .where('_', blocks(GTOBlocks.DEGENERATE_RHENIUM_CONSTRAINED_CASING.get()))
+                    .where('`', blocks(GTOBlocks.DIMENSIONALLY_TRANSCENDENT_CASING.get()))
+                    .where('a', controller(blocks(definition.get())))
                     .where(' ', any())
                     .build())
             .workableCasingRenderer(GTOCore.id("block/casings/molecular_casing"), GTCEu.id("block/multiblock/fusion_reactor"))

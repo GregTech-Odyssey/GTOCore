@@ -69,7 +69,7 @@ final class Vanilla {
                     "BCB",
                     "DBD",
                     'A', new MaterialEntry(TagPrefix.screw, GTMaterials.WroughtIron), 'B', new ItemStack(Items.LEATHER.asItem()), 'C', RegistriesUtils.getItemStack("gtceu:wood_crate"), 'D', new ItemStack(Items.STRING.asItem()));
-            VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("automatic_chisel"), MultiBlockG.AUTOMATIC_CHISEL.asStack(),
+            VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("automatic_chisel"), MultiBlockG.CARVING_CENTER.asStack(),
                     "ABA",
                     "CDC",
                     "EFE",

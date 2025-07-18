@@ -28,7 +28,7 @@ public final class ChiselRecipe {
     public static void register(EmiRegistry registry) {
         registry.addCategory(CHISEL_CATEGORY);
         registry.addWorkstation(CHISEL_CATEGORY, EmiStack.of(Chisel.chiselSupplier.get()));
-        registry.addWorkstation(CHISEL_CATEGORY, EmiStack.of(MultiBlockG.AUTOMATIC_CHISEL.asStack()));
+        registry.addWorkstation(CHISEL_CATEGORY, EmiStack.of(MultiBlockG.CARVING_CENTER.asStack()));
         Iterator<String> chiselGroupNames = ChiselGroupLookup.getGroupNameIterator();
 
         while (chiselGroupNames.hasNext()) {
