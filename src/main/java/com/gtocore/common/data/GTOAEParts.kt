@@ -11,6 +11,7 @@ import appeng.api.parts.PartModels
 import appeng.core.definitions.ItemDefinition
 import appeng.items.parts.PartItem
 import appeng.items.parts.PartModelsHelper
+import com.gtocore.integration.ae.SimpleCraftingTerminal
 import com.gtolib.GTOCore
 import com.gtolib.api.annotation.component_builder.ComponentBuilder
 import com.gtolib.utils.register.ItemRegisterUtils.*
@@ -34,6 +35,17 @@ object GTOAEParts {
             ComponentBuilder.create("此物品可以监控物品的交换速率", "This item can monitor the exchange rate of items", { p -> p }).buildSingle(),
             ComponentBuilder.create("锁定状态下右击可切换监控间隔", "In locked state, right click to switch monitoring interval", { p -> p }).buildSingle(),
         ),
+    )
+
+    val SIMPLE_CRAFTING_TERMINAL: Supplier<ItemDefinition<PartItem<SimpleCraftingTerminal>>> = createPart(
+        id = "simple_crafting_terminal",
+        en = "Simple Crafting Terminal",
+        cn = "简易合成终端",
+        partClass = SimpleCraftingTerminal::class.java,
+        factory = ::SimpleCraftingTerminal,
+        tooltips = listOf(
+            ComponentBuilder.create("测试","test",{ p -> p }).buildSingle()
+        )
     )
 
     private fun <T : IPart> createPart(id: String, en: String, cn: String, partClass: Class<T>, factory: Function<IPartItem<T>, T>, tooltips: List<Component> = listOf()): Supplier<ItemDefinition<PartItem<T>>> {

@@ -1,5 +1,6 @@
 package com.gtocore.integration.emi;
 
+import appeng.menu.me.items.CraftingTermMenu;
 import com.gtocore.integration.chisel.ChiselRecipe;
 import com.gtocore.integration.emi.oreprocessing.OreProcessingEmiCategory;
 
@@ -83,6 +84,7 @@ public final class GTEMIPlugin implements EmiPlugin {
         registry.addRecipeHandler(ModularUIContainer.MENUTYPE, new GTEmiRecipeHandler());
         registry.addRecipeHandler(PatternEncodingTermMenu.TYPE, new Ae2PatternTerminalHandler<>());
         registry.addRecipeHandler(WETMenu.TYPE, new Ae2PatternTerminalHandler<>());
+        registry.addRecipeHandler(CraftingTermMenu.TYPE,new CraftingTerminalRecipeHandler<>());
         registry.addCategory(GTProgrammedCircuitCategory.CATEGORY);
 
         GTRecipeEMICategory.registerDisplays(registry);
