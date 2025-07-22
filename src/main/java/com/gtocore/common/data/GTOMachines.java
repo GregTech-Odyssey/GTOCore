@@ -20,6 +20,7 @@ import com.gtocore.common.machine.noenergy.PerformanceMonitorMachine;
 import com.gtocore.common.machine.steam.SteamVacuumPumpMachine;
 
 import com.gtocore.integration.ae.MEWirelessConnectionMachine;
+import com.gtocore.integration.ae.SyncTesterMachine;
 import com.gtolib.GTOCore;
 import com.gtolib.api.GTOValues;
 import com.gtolib.api.annotation.NewDataAttributes;
@@ -455,6 +456,12 @@ public final class GTOMachines {
                             and you can communicate with the ME network through this machine.
                             Note: This machine can only connect to one ME network.""")))
             .allRotation()
+            .register();
+
+    public static final MachineDefinition SYNC_TESTER_MACHINE = machine("sync_tester_machine", "同步测试机", SyncTesterMachine::new)
+            .allRotation()
+            .tooltipsText("用于测试机器同步的工具。", "A tool for testing machine synchronization.")
+            .tooltipsText("请勿在生产环境中使用。", "Do not use in production environment.")
             .register();
 
     public static final MachineDefinition[] NEUTRON_ACCELERATOR = registerTieredMachines("neutron_accelerator", tier -> VNF[tier] + "中子加速器",

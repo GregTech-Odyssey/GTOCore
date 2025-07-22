@@ -57,6 +57,9 @@ public final class ClientMessage {
                     }
                 }
             }
+            case "sync_field" ->{
+                SyncFieldManager.INSTANCE.handleFromClient(data);
+            }
         }
     }
 }
