@@ -8,6 +8,7 @@ import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.item.ItemMap;
 import com.gtocore.common.machine.multiblock.electric.voidseries.VoidTransporterMachine;
 import com.gtocore.common.network.ServerMessage;
+import com.gtocore.common.network.SyncFieldManager;
 import com.gtocore.common.saved.*;
 import com.gtocore.utils.OrganUtilsKt;
 
@@ -285,8 +286,10 @@ public final class ForgeCommonEvent {
         }
     }
 
+
     @SubscribeEvent
     public static void onServerStoppingEvent(ServerStoppingEvent event) {
+        SyncFieldManager.INSTANCE.clear();
         ServerCache.observe = false;
     }
 

@@ -41,17 +41,17 @@ open class MEPatternBufferPartMachineKt(holder: IMachineBlockEntity, maxPatternC
 
     override fun getFieldHolder(): ManagedFieldHolder = MANAGED_FIELD_HOLDER
 
-    override fun getApplyIndex() = IntSupplier { configurator }
-    override fun runOnUpdate() = run { configurator = -1 }
+    override fun getApplyIndex() = IntSupplier { configuratorField.value }
+    override fun runOnUpdate() = run { if (isRemote)configuratorField.updateInClient(-1)else configuratorField.updateInServer(-1) }
 
     override fun VBoxBuilder.buildToolBoxContent() {
         when {
-            configurator < 0 -> {
+            configuratorField.value < 0 -> {
             }
-            configurator >= 0 && configurator < maxPatternCount -> {
+            configuratorField.value >= 0 && configuratorField.value < maxPatternCount -> {
                 vBox(width = availableWidth, alwaysHorizonCenter = true, style = { spacing = 2 }) {
                     val width = this@vBox.availableWidth
-                    val itemHandler = getInternalInventory()[configurator].shareInventory.storage
+                    val itemHandler = getInternalInventory()[configuratorField.value].shareInventory.storage
                     textBlock(maxWidth = width, textSupplier = { Component.translatable(item_special) })
                     (0 until itemHandler.slots).chunked(9).forEach { indices ->
                         hBox(height = 18) {
@@ -64,7 +64,7 @@ open class MEPatternBufferPartMachineKt(holder: IMachineBlockEntity, maxPatternC
                             }
                         }
                     }
-                    val fluidHandler: Array<CustomFluidTank> = getInternalInventory()[configurator].shareTank.storages
+                    val fluidHandler: Array<CustomFluidTank> = getInternalInventory()[configuratorField.value].shareTank.storages
                     textBlock(maxWidth = width, textSupplier = { Component.translatable(fluid_special) })
                     (0 until fluidHandler.size).chunked(9).forEach { indices ->
                         hBox(height = 18) {
@@ -83,10 +83,10 @@ open class MEPatternBufferPartMachineKt(holder: IMachineBlockEntity, maxPatternC
                             }
                         }
                     }
-                    val circuitHandler = getInternalInventory()[configurator].circuitInventory.storage
+                    val circuitHandler = getInternalInventory()[configuratorField.value].circuitInventory.storage
                     textBlock(maxWidth = width, textSupplier = { Component.translatable(circuit_special) })
                     hBox(height = 18, style = { spacing = 4 }) {
-                        run { if (getInternalInventory()[configurator].circuitInventory.storage.getStackInSlot(0).isEmpty) getInternalInventory()[configurator].circuitInventory.storage.setStackInSlot(0, IntCircuitBehaviour.stack(0)) }
+                        run { if (getInternalInventory()[configuratorField.value].circuitInventory.storage.getStackInSlot(0).isEmpty) getInternalInventory()[configuratorField.value].circuitInventory.storage.setStackInSlot(0, IntCircuitBehaviour.stack(0)) }
                         widget(
                             SlotWidget(circuitHandler, 0, 0, 0, false, false).apply {
                                 setBackgroundTexture(GuiTextures.SLOT)
@@ -95,13 +95,13 @@ open class MEPatternBufferPartMachineKt(holder: IMachineBlockEntity, maxPatternC
                         )
                         field(
                             height = 18,
-                            getter = { IntCircuitBehaviour.getCircuitConfiguration(getInternalInventory()[configurator].circuitInventory.storage.getStackInSlot(0)).toString() },
+                            getter = { IntCircuitBehaviour.getCircuitConfiguration(getInternalInventory()[configuratorField.value].circuitInventory.storage.getStackInSlot(0)).toString() },
                             setter = {
                                 val circuit = when {
                                     it.toIntOrNull() == null -> 0
                                     else -> it.toInt().coerceAtMost(32).coerceAtLeast(0)
                                 }
-                                getInternalInventory()[configurator].circuitInventory.storage.setStackInSlot(0, IntCircuitBehaviour.stack(circuit))
+                                getInternalInventory()[configuratorField.value].circuitInventory.storage.setStackInSlot(0, IntCircuitBehaviour.stack(circuit))
                             },
                         )
                     }

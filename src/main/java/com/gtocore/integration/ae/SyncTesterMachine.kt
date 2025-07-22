@@ -1,5 +1,6 @@
 package com.gtocore.integration.ae
 
+import com.gregtechceu.gtceu.api.GTValues
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity
 import com.gregtechceu.gtceu.api.machine.MetaMachine
 import com.gregtechceu.gtceu.api.machine.feature.IFancyUIMachine
@@ -21,14 +22,20 @@ class SyncTesterMachine(holder: IMachineBlockEntity) : MetaMachine(holder), IFan
 
     override fun isRemote()=super<MetaMachine>.isRemote
     @Persisted
-    var testInt = IntSyncField(createLogicalSide(isRemote),"SyncTesterMachine-testInt",0)
+    var testInt = IntSyncField(createLogicalSide(isRemote),"${pos}-SyncTesterMachine-testInt",0)
     @Persisted
-    var testBoolean = BooleanSyncField(createLogicalSide(isRemote),"SyncTesterMachine-testBoolean",false)
+    var testBoolean = BooleanSyncField(createLogicalSide(isRemote),"${pos}-SyncTesterMachine-testBoolean",false)
+    override fun onUnload() {
+        testInt.unregister()
+        testBoolean.unregister()
+        super.onUnload()
+    }
+
     override fun createUIWidget(): Widget? = root(176,166){
         vBox(width=availableWidth){
             hBox(height=20){
                 button(text = { "客户端Int+=1" }, onClick = {ck->if (isRemote) testInt.updateInClient(testInt.value+1)})
-                button(text = { "服务端Int+=1" }, onClick = {ck->if (!isRemote) testInt.updateInServer(testInt.value+1)})
+                button(text = { "服务端Int-=1" }, onClick = {ck->if (!isRemote) testInt.updateInServer(testInt.value-1)})
             }
             hBox(height=20) {
                 button(text = { "客户端Boolean取反" }, onClick = {ck->if (isRemote) testBoolean.updateInClient(!testBoolean.value)})

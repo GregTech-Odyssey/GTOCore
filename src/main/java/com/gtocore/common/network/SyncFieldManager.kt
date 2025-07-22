@@ -12,16 +12,19 @@ import net.minecraftforge.fml.LogicalSide
 import net.minecraftforge.server.ServerLifecycleHooks
 
 object SyncFieldManager {
-    val syncFieldMap = mutableMapOf<String, SyncField<*>>()
+    val syncFieldMap = mutableMapOf<Pair<String, LogicalSide>, SyncField<*>>()
+    fun clear() {
+        syncFieldMap.clear()
+    }
     fun <T> registerSyncField(syncField: SyncField<T>) {
-        require(syncFieldMap.keys.find { it == syncField.uniqueName }==null){ "SyncField name is already registered" }
-        syncFieldMap[syncField.uniqueName] = syncField
+        require(syncFieldMap.filter { it.value.uniqueName == syncField.uniqueName&& it.value.side == syncField.side }.isEmpty()){ "SyncField name is already registered" }
+        syncFieldMap[syncField.uniqueName to syncField.side] = syncField
     }
     //////////////////////////////////
     // ****** 服务器修改，客户端更新 ******//
     ////////////////////////////////
     fun syncToAllClients(uniqueName: String){
-        val syncField = syncFieldMap[uniqueName]
+        val syncField = syncFieldMap[uniqueName to LogicalSide.SERVER]
         require(syncField != null) { "SyncField with name $uniqueName is not registered" }
         require(syncField.side == LogicalSide.SERVER) { "${syncField.errorPrefix} This method can only be called in server side" }
         val server = ServerLifecycleHooks.getCurrentServer()
@@ -34,7 +37,7 @@ object SyncFieldManager {
     }
     fun handleFromServer(buffer: FriendlyByteBuf) {
         val uniqueName = buffer.readUtf()
-        val syncField = syncFieldMap[uniqueName]
+        val syncField = syncFieldMap[uniqueName to LogicalSide.CLIENT]
         require(syncField != null) { "SyncField with name $uniqueName is not registered" }
         require(syncField.side == LogicalSide.CLIENT) { "${syncField.errorPrefix} This method can only be called in client side" }
         syncField.handleFromServer(buffer)
@@ -43,7 +46,7 @@ object SyncFieldManager {
     // ****** 客户端修改，服务器更新 ******//
     //////////////////////////////////
     fun syncToAllServer(uniqueName: String) {
-        val syncField = syncFieldMap[uniqueName]
+        val syncField = syncFieldMap[uniqueName to LogicalSide.CLIENT]
         require(syncField != null) { "SyncField with name $uniqueName is not registered" }
         require(syncField.side == LogicalSide.CLIENT) { "${syncField.errorPrefix} This method can only be called in client side" }
         ClientMessage.send("sync_field",{buf ->
@@ -53,11 +56,11 @@ object SyncFieldManager {
     }
     fun handleFromClient(buffer: FriendlyByteBuf) {
         val uniqueName = buffer.readUtf()
-        val syncField = syncFieldMap[uniqueName]
+        val syncField = syncFieldMap[uniqueName to LogicalSide.SERVER]
         require(syncField != null) { "SyncField with name $uniqueName is not registered" }
         require(syncField.side == LogicalSide.SERVER) { "${syncField.errorPrefix} This method can only be called in server side" }
         syncField.handleFromClient(buffer)
-        syncToAllClients(uniqueName)
+//        syncToAllClients(uniqueName)
     }
 }
 abstract class SyncField<T> (
@@ -83,6 +86,9 @@ abstract class SyncField<T> (
         onInitCallBack(this,value)
         //register
         SyncFieldManager.registerSyncField(this)
+    }
+    fun unregister() {
+        SyncFieldManager.syncFieldMap.remove(uniqueName to side)
     }
     //////////////////////////////////
     // ****** 服务器修改，客户端更新 ******//
@@ -138,7 +144,7 @@ class IntSyncField(
     }
 
     override fun deserializeNBT(nbt: CompoundTag) {
-        value = nbt.getInt("value")
+        updateInServer(nbt.getInt("value"))
     }
 }
 
@@ -155,6 +161,6 @@ class BooleanSyncField(
         return CompoundTag().apply { putBoolean("value",value) }
     }
     override fun deserializeNBT(nbt: CompoundTag) {
-        value = nbt.getBoolean("value")
+        updateInServer(nbt.getBoolean("value"))
     }
 }
