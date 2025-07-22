@@ -15,6 +15,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 
 import static com.gtocore.common.data.GTORecipeTypes.PACKER_RECIPES;
+import static com.gtocore.common.data.GTORecipeTypes.UNPACKER_RECIPES;
 
 final class Packer {
 
@@ -33,7 +34,7 @@ final class Packer {
                 .duration(200)
                 .save();
 
-        PACKER_RECIPES.recipeBuilder("tiny_degenerate_rhenium_dust")
+        UNPACKER_RECIPES.recipeBuilder("tiny_degenerate_rhenium_dust")
                 .inputItems(TagPrefix.dust, GTOMaterials.DegenerateRhenium)
                 .outputItems(TagPrefix.dustTiny, GTOMaterials.DegenerateRhenium, 9)
                 .EUt(1920)

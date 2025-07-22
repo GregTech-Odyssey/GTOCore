@@ -38,6 +38,8 @@ import dev.emi.emi.api.EmiRegistry;
 import dev.emi.emi.api.stack.*;
 import dev.emi.emi.registry.EmiPluginContainer;
 import io.github.prismwork.emitrades.EMITradesPlugin;
+import tfar.craftingstation.CraftingStation;
+import tfar.craftingstation.recipeviewers.emi.EmiViewerPlugin;
 import vazkii.botania.api.BotaniaAPI;
 import vazkii.botania.client.integration.emi.BotaniaEmiPlugin;
 
@@ -50,6 +52,7 @@ public final class GTEMIPlugin implements EmiPlugin {
         if (GTCEu.isProd()) {
             list.add(new EmiPluginContainer(new EMITradesPlugin(), "emitrades"));
             list.add(new EmiPluginContainer(new BackpackEmiPlugin(), "backpack"));
+            list.add(new EmiPluginContainer(new EmiViewerPlugin(), CraftingStation.MODID));
         }
         list.add(new EmiPluginContainer(new AvaritiaEmiPlugin(), Static.MOD_ID));
         list.add(new EmiPluginContainer(new BotaniaEmiPlugin(), BotaniaAPI.MODID));

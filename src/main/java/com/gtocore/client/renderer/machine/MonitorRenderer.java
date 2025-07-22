@@ -228,7 +228,8 @@ public class MonitorRenderer extends MachineRenderer {
         }
     }
 
-    @Mod.EventBusSubscriber
+    @Mod.EventBusSubscriber(Dist.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     public static class RenderedCacheClearer {
 
         @SubscribeEvent()

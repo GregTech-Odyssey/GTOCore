@@ -8,10 +8,8 @@ import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.recipe.condition.RecipeConditionType;
 import com.gregtechceu.gtceu.utils.GTUtil;
 
-import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.level.Level;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -36,20 +34,16 @@ public final class HeatCondition extends AbstractRecipeCondition {
     @Override
     public boolean test(@NotNull Recipe recipe, @NotNull RecipeLogic recipeLogic) {
         MetaMachine machine = recipeLogic.getMachine();
-        Level level = machine.getLevel();
-        BlockPos pos = machine.getPos();
-        if (level != null) {
-            for (Direction side : GTUtil.DIRECTIONS) {
-                if (checkNeighborHeat(level, pos.relative(side))) {
-                    return true;
-                }
+        for (Direction side : GTUtil.DIRECTIONS) {
+            if (checkNeighborHeat(machine, side)) {
+                return true;
             }
         }
         return false;
     }
 
-    private boolean checkNeighborHeat(Level level, BlockPos neighborPos) {
-        if (MetaMachine.getMachine(level, neighborPos) instanceof IHeaterMachine heaterMachine) {
+    private boolean checkNeighborHeat(MetaMachine machine, Direction side) {
+        if (machine.getNeighborMachine(side) instanceof IHeaterMachine heaterMachine) {
             return heaterMachine.getTemperature() >= temperature && heaterMachine.reduceTemperature(4) == 4;
         }
         return false;
