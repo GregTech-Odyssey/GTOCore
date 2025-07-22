@@ -71,14 +71,14 @@ public final class GeneratorArrayMachine extends StorageMultiblockMachine implem
             The loss of the generator array in wireless mode, which affects the loss of energy transferred to the wireless network.
             The larger the value, the greater the connection loss to the wireless network.""")
     private static int f_loss;
-    @DynamicInitialValue(key = "generator_array.limit", simpleValue = "64", normalValue = "4", expertValue = "4", cn = "发电阵列内部发电机限制", cnComment = """
+    @DynamicInitialValue(key = "generator_array.limit", simpleValue = "16", normalValue = "4", expertValue = "4", cn = "发电阵列内部发电机限制", cnComment = """
             发电阵列发电量和消耗量取决于内部发电机种类和个数
             内部发电机个数越多，其发电量和消耗量越高。
             例如：放4个蒸汽发电机，发电量为(4*发电阵列乘数*蒸汽发电机的发电量)，""", en = "Generator Array Internal Generator Limit", enComment = """
             The power generation and consumption of the generator array depend on the types and number of internal generators.
             The more internal generators, the higher the power generation and consumption.
             For example: placing 4 steam generators will result in a power generation of (4 * generator array multiplier * steam generator's power generation).""")
-    private static int generatorLimit = 64;
+    private static int generatorLimit = 16;
     private WirelessEnergyContainer WirelessEnergyContainerCache;
     private MachineDefinition machineDefinitionCache;
     private GTRecipeType[] RecipeTypeCache;
