@@ -19,6 +19,7 @@ import com.gtocore.common.machine.noenergy.HeaterMachine;
 import com.gtocore.common.machine.noenergy.PerformanceMonitorMachine;
 import com.gtocore.common.machine.steam.SteamVacuumPumpMachine;
 
+import com.gtocore.integration.ae.MEWirelessConnectionMachine;
 import com.gtolib.GTOCore;
 import com.gtolib.api.GTOValues;
 import com.gtolib.api.annotation.NewDataAttributes;
@@ -438,6 +439,22 @@ public final class GTOMachines {
                             Just connect this machine to the ME network, and when the pattern is called,
                             its content will be replaced by the same line according to your priority.
                             The more items in a row, the higher its priority.""")))
+            .register();
+
+    public static final MachineDefinition ME_WIRELESS_CONNECTION_MACHINE = machine("me_wireless_connection_machine", "ME无线连接机", MEWirelessConnectionMachine::new)
+            .overlayTieredHullRenderer("neutron_sensor")
+            .tooltips(NewDataAttributes.MIRACULOUS_TOOLS.create(new CNEN("ME无线连接机", "ME Wireless Connection Machine"), p -> p.addCommentLines(
+                    """
+                            通过此机器，你可以将ME网络无线连接到其他机器。
+                            只需要将此机器连入ME网络，然后在其他机器上放置无线连接器，
+                            就可以通过此机器与ME网络进行通信。
+                            注意：此机器只能连接到一个ME网络。""",
+                    """
+                            With this machine, you can wirelessly connect the ME network to other machines.
+                            Just connect this machine to the ME network, and place a wireless connector on other machines,
+                            and you can communicate with the ME network through this machine.
+                            Note: This machine can only connect to one ME network.""")))
+            .allRotation()
             .register();
 
     public static final MachineDefinition[] NEUTRON_ACCELERATOR = registerTieredMachines("neutron_accelerator", tier -> VNF[tier] + "中子加速器",
