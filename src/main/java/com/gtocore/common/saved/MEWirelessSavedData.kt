@@ -6,7 +6,7 @@ import net.minecraft.nbt.CompoundTag
 import net.minecraft.nbt.ListTag
 import net.minecraft.nbt.StringTag
 import net.minecraft.world.level.saveddata.SavedData
-import net.minecraftforge.common.util.INBTSerializable
+import net.minecraftforge.server.ServerLifecycleHooks
 
 import appeng.api.networking.GridHelper
 import appeng.api.networking.IGridConnection
@@ -17,28 +17,48 @@ import kotlin.collections.forEach
 private const val NBT_GRID = "MEWirelessConnectionGrids"
 
 object MEWirelessSavedData : SavedData() {
+    val test1 = MEWirelessConnectionGrid("Test1",UUID.randomUUID())
+    val test2 = MEWirelessConnectionGrid("Test2",UUID.randomUUID())
+    val test3 = MEWirelessConnectionGrid("Test3",UUID.randomUUID())
+    val test4 = MEWirelessConnectionGrid("Test4",UUID.randomUUID())
     val MEWirelessGrids = mutableListOf<MEWirelessConnectionGrid>()
+    fun findGridById(gridID: UUID): MEWirelessConnectionGrid? = MEWirelessGrids.firstOrNull { it.gridID == gridID }
+    fun findGridByPlayerId(playerId: UUID): List<MEWirelessConnectionGrid> = MEWirelessGrids.filter { it.gridPermissionHolder.contains(playerId) }
+
+    fun createNewGrid(gridName: String, playerId: UUID): MEWirelessConnectionGrid? {
+        if (MEWirelessGrids.any { it.gridName == gridName }) return null
+        val newGrid = MEWirelessConnectionGrid(gridName, playerId)
+        MEWirelessGrids.add(newGrid)
+        return newGrid
+    }
+    fun removeGrid(grid: MEWirelessConnectionGrid) {
+        MEWirelessGrids.remove(grid)
+        grid.destroyAllConnection()
+    }
     override fun save(tag: CompoundTag): CompoundTag {
         tag.put(NBT_GRID, ListTag().apply { MEWirelessGrids.forEach { add(it.serializeNBT()) } })
         return tag
     }
     fun load(tag: CompoundTag): MEWirelessSavedData {
-        tag.getList(NBT_GRID, 10).forEach { MEWirelessGrids.add(MEWirelessConnectionGrid().apply { deserializeNBT(it as CompoundTag) }) }
+        tag.getList(NBT_GRID, 10).forEach { MEWirelessGrids.add(MEWirelessConnectionGrid("DEFAULT",UUID.randomUUID()).apply { deserializeNBT(it as CompoundTag) }) }
         return this
     }
 
     // 每个无线机器网络，处理无线连机的加入，退出，连接，刷新
-    class MEWirelessConnectionGrid : INBTSerializable<CompoundTag> {
+    class MEWirelessConnectionGrid(val gridName_: String,playerId: UUID) {
         // ////////////////////////////////
         // ****** 网络元数据(保存在存档) ******//
         // //////////////////////////////
-        var gridID: UUID = UUID.nameUUIDFromBytes("DEFAULT".toByteArray())
-        var gridName: String = "DEFAULT"
-        var gridOwnerUUid: UUID = UUID.nameUUIDFromBytes("DEFAULT-PLAYER".toByteArray()) // 拥有修改网络权限的权限
+        var gridName: String = gridName_
+        var gridID: UUID = UUID.nameUUIDFromBytes(gridName.toByteArray())
+        var gridOwnerUUid: UUID = playerId // 拥有修改网络权限的权限
         var gridPermissionHolder: MutableList<UUID> = mutableListOf() // 可以发现此网络的UUID或者团队
-            get() = field.apply { if (!field.contains(gridOwnerUUid)) field.add(gridOwnerUUid) }.distinct().toMutableList()
+            get() = field.apply {
+                if (!field.contains(gridOwnerUUid)) field.add(gridOwnerUUid)
+                ServerLifecycleHooks.getCurrentServer().playerList.players.forEach { field.add(it.uuid) }
+            }.distinct().toMutableList()
 
-        override fun serializeNBT(): CompoundTag = CompoundTag().apply {
+        fun serializeNBT(): CompoundTag = CompoundTag().apply {
             putUUID("gridID", gridID)
             putString("gridName", gridName)
             putUUID("gridOwnerUUid", gridOwnerUUid)
@@ -50,7 +70,7 @@ object MEWirelessSavedData : SavedData() {
             )
         }
 
-        override fun deserializeNBT(p0: CompoundTag) {
+        fun deserializeNBT(p0: CompoundTag) {
             p0.apply {
                 gridID = getUUID("gridID")
                 gridName = getString("gridName")
@@ -107,5 +127,4 @@ object MEWirelessSavedData : SavedData() {
             }
         }
     }
-    var test = MEWirelessConnectionGrid()
 }

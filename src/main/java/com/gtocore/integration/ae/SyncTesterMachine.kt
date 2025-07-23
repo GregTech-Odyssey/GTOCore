@@ -10,7 +10,6 @@ import com.gregtechceu.gtceu.api.machine.feature.IFancyUIMachine
 import com.gtolib.api.gui.ktflexible.button
 import com.gtolib.api.gui.ktflexible.root
 import com.lowdragmc.lowdraglib.gui.widget.Widget
-import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder
 
 class SyncTesterMachine(holder: IMachineBlockEntity) :
@@ -24,10 +23,8 @@ class SyncTesterMachine(holder: IMachineBlockEntity) :
 
     override fun isRemote() = super<MetaMachine>.isRemote
 
-    @Persisted
     var testInt = IntSyncField(createLogicalSide(isRemote), { "$pos-SyncTesterMachine-testInt" }, 0)
 
-    @Persisted
     var testBoolean = BooleanSyncField(createLogicalSide(isRemote), { "$pos-SyncTesterMachine-testBoolean" }, false)
     override fun onUnload() {
         testInt.unregister()
