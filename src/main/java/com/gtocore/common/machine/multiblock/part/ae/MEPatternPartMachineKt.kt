@@ -34,6 +34,9 @@ import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity
 import com.gregtechceu.gtceu.api.machine.TickableSubscription
 import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler
+import com.gtocore.api.gui.ktflexible.multiPageAdvanced
+import com.gtocore.common.network.IntSyncField
+import com.gtocore.common.network.createLogicalSide
 import com.gtolib.ae2.MyPatternDetailsHelper
 import com.gtolib.ae2.pattern.IParallelPatternDetails
 import com.gtolib.api.annotation.Scanned
@@ -159,6 +162,8 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
     open fun addWidget(group: WidgetGroup) {}
 
     // ==================== 生命周期方法 ====================
+    @Persisted
+    var pageField = IntSyncField(createLogicalSide(isRemote),"${pos}-page",0) // 前面必须用var 刷新UI必须在客户端刷新，服务端依同步刷新
     override fun onLoad() {
         super.onLoad()
         when (val level = getLevel()) {
@@ -176,6 +181,11 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
                 )
             }
         }
+    }
+
+    override fun onUnload() {
+        pageField.unregister()
+        super.onUnload()
     }
 
     override fun onMachineRemoved() {
@@ -238,8 +248,6 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
     override fun attachConfigurators(configuratorPanel: ConfiguratorPanel) {}
 
     // ==================== UI 相关方法 ====================
-    @Persisted
-    var page = 0
     lateinit var freshWidgetGroup: FreshWidgetGroupAbstract
     override fun createUIWidget(): Widget {
         freshWidgetGroup = rootFresh(176, 148) {
@@ -261,7 +269,7 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
                 }
                 val height1 = this@rootFresh.availableHeight - 24 - 16
                 val pageWidget =
-                    multiPage(width = this@vBox.availableWidth, runOnUpdate = ::runOnUpdate, height = height1, pageSelector = { page }) {
+                    multiPageAdvanced(width = this@vBox.availableWidth, runOnUpdate = ::runOnUpdate, height = height1, pageSelector = pageField) {
                         chunked.forEach { pageIndices ->
                             page {
                                 vScroll(width = this@vBox.availableWidth, height = height1) {
@@ -286,17 +294,17 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
                         height = 13,
                         onClick = { ck ->
                             onPagePrev()
-                            page = (page - 1).coerceAtLeast(0)
+                            if (isRemote)pageField.updateInClient((pageField.value - 1).coerceAtLeast(0))
                         },
                         text = { "<<" },
                     )
-                    text(height = 13, width = wid - 60, text = { Component.literal("${page + 1} / ${pageWidget.getMaxPage() + 1}") })
+                    text(height = 13, width = wid - 60, text = { Component.literal("${pageField.value + 1} / ${pageWidget.getMaxPage() + 1}") })
                     button(
                         height = 13,
                         width = 30,
                         onClick = { ck ->
                             onPageNext()
-                            page = (page + 1).coerceAtMost(pageWidget.getMaxPage())
+                            if (isRemote)pageField.updateInClient((pageField.value + 1).coerceAtLeast(pageWidget.getMaxPage()))
                         },
                         text = { ">>" },
                     )

@@ -3,6 +3,9 @@ package com.gtocore.api.gui.ktflexible
 import com.gtocore.api.gui.helper.ProgressBarColorStyle
 import com.gtocore.api.gui.helper.ProgressBarHelper
 import com.gtocore.api.gui.helper.TextBlockHelper
+import com.gtocore.common.network.BooleanSyncField
+import com.gtocore.common.network.IntSyncField
+import com.gtocore.common.network.SyncField
 
 import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.network.chat.Component
@@ -139,6 +142,41 @@ fun LayoutBuilder<*>.multiPage(width: Int, height: Int, style: (Style.() -> Unit
         override fun refresh() {
             clearAllWidgets()
             val receiver = pageSuppliers[currentPage.lastValue].get()
+            val vBoxBuilder = VBoxBuilder(width = width, style = style?.run { Style().apply { style() } } ?: Style { spacing = 0 })
+            vBoxBuilder.buildAndInit(receiver)
+            addWidget(vBoxBuilder.getBuiltWidget())
+            this.initWidget()
+        }
+
+        override fun getMaxPage(): Int = pageSuppliers.size - 1
+    }
+    widget(widget)
+    return widget as MultiPageVScroll
+}
+
+fun LayoutBuilder<*>.multiPageAdvanced(width: Int, height: Int, style: (Style.() -> Unit)? = null, pageSelector: IntSyncField, runOnUpdate: Runnable = Runnable {}, builder: MultiPageDSLBuilder.() -> Unit): MultiPageVScroll {
+    val widget = object : SyncWidget(0, 0, width, height), MultiPageVScroll {
+        var currentPage: IntSyncField = pageSelector
+        val pageSuppliers: MutableList<Supplier<VBoxBuilder.() -> Unit>> = mutableListOf()
+        init {
+            currentPage.apply {
+                onInitCallBack = { field, newValue ->
+                    runOnUpdate
+                    refresh()
+                }
+                onSyncCallBack = { field, oldValue, newValue ->
+                    runOnUpdate
+                    refresh()
+                }
+            }
+            with(MultiPageDSLBuilder()) {
+                builder()
+                pageSuppliers.addAll(build())
+            }
+        }
+        override fun refresh() {
+            clearAllWidgets()
+            val receiver = pageSuppliers[currentPage.value].get()
             val vBoxBuilder = VBoxBuilder(width = width, style = style?.run { Style().apply { style() } } ?: Style { spacing = 0 })
             vBoxBuilder.buildAndInit(receiver)
             addWidget(vBoxBuilder.getBuiltWidget())

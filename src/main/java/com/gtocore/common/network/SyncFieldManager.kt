@@ -17,7 +17,7 @@ object SyncFieldManager {
         syncFieldMap.clear()
     }
     fun <T> registerSyncField(syncField: SyncField<T>) {
-        require(syncFieldMap.filter { it.value.uniqueName == syncField.uniqueName&& it.value.side == syncField.side }.isEmpty()){ "SyncField name is already registered" }
+        require(syncFieldMap.filter { it.value.uniqueName == syncField.uniqueName&& it.value.side == syncField.side }.isEmpty()){ "${syncField.errorPrefix} SyncField name is already registered" }
         syncFieldMap[syncField.uniqueName to syncField.side] = syncField
     }
     //////////////////////////////////
