@@ -1,18 +1,24 @@
 package com.gtocore.integration.ae;
 
+import com.gtolib.GTOCore;
+
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.ComponentContents;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.MenuType;
+import net.minecraft.world.level.BlockGetter;
+
 import appeng.api.behaviors.ExternalStorageStrategy;
 import appeng.api.config.AccessRestriction;
 import appeng.api.config.Actionable;
 import appeng.api.config.PowerMultiplier;
 import appeng.api.features.IPlayerRegistry;
-import appeng.api.implementations.menuobjects.IPortableTerminal;
 import appeng.api.inventories.InternalInventory;
-import appeng.api.networking.IGridNode;
 import appeng.api.networking.energy.IAEPowerStorage;
-import appeng.api.networking.ticking.IGridTickable;
-import appeng.api.networking.ticking.TickRateModulation;
-import appeng.api.networking.ticking.TickingRequest;
-import appeng.api.parts.IPart;
+import appeng.api.parts.BusSupport;
 import appeng.api.parts.IPartHost;
 import appeng.api.parts.IPartItem;
 import appeng.api.parts.IPartModel;
@@ -22,7 +28,6 @@ import appeng.api.storage.IStorageProvider;
 import appeng.api.storage.MEStorage;
 import appeng.capabilities.Capabilities;
 import appeng.core.AppEng;
-import appeng.core.settings.TickRates;
 import appeng.core.stats.AdvancementTriggers;
 import appeng.helpers.InterfaceLogicHost;
 import appeng.items.parts.PartModels;
@@ -38,26 +43,14 @@ import appeng.parts.PartModel;
 import appeng.parts.automation.StackWorldBehaviors;
 import appeng.parts.reporting.AbstractTerminalPart;
 import appeng.util.inv.AppEngInternalInventory;
-import com.gtolib.GTOCore;
-import kotlin.reflect.jvm.internal.impl.util.ModuleVisibilityHelper;
-import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.ComponentContents;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.MenuType;
-import net.minecraft.world.level.BlockGetter;
 import org.jetbrains.annotations.Nullable;
 
-import java.lang.reflect.Field;
 import java.util.Collections;
 import java.util.IdentityHashMap;
 import java.util.Map;
 
-
 public class SimpleCraftingTerminal extends AbstractTerminalPart
-    implements IAEPowerStorage, IStorageProvider {
+                                    implements IAEPowerStorage, IStorageProvider {
 
     public static final ResourceLocation INV_CRAFTING = AppEng.makeId("crafting_terminal_crafting");
 
@@ -123,8 +116,7 @@ public class SimpleCraftingTerminal extends AbstractTerminalPart
 
     @Override
     public MEStorage getInventory() {
-
-        if(!isClientSide()){
+        if (!isClientSide()) {
             if (this.tick % 10 == 0) {
                 if (this.handler.getDelegate() == null || this.handler.getDelegate() == ComponentContents.EMPTY) {
                     updateTarget();
@@ -137,11 +129,30 @@ public class SimpleCraftingTerminal extends AbstractTerminalPart
         return this.handler.getDelegate();
     }
 
-    /*StorageProvider*/
+    /* StorageProvider */
     @Override
     public void addToWorld() {
         super.addToWorld();
+        this.updateNode();
         this.updateTarget();
+    }
+
+    @Override
+    public boolean canBePlacedOn(BusSupport what) {
+        return false;
+    }
+
+    private void updateNode() {
+        GridNode node = (GridNode) this.getMainNode().getNode();
+        if (node != null) {
+            node.addService(IAEPowerStorage.class, this);
+            node.addService(IStorageProvider.class, this);
+            node.setIdlePowerUsage(0);
+            EnergyService energyService = (EnergyService) node.getGrid().getEnergyService();
+            StorageService storageService = (StorageService) node.getGrid().getStorageService();
+            storageService.addNode(node, null);
+            energyService.addNode(node, null);
+        }
     }
 
     @Override
@@ -155,7 +166,6 @@ public class SimpleCraftingTerminal extends AbstractTerminalPart
             }
         }
     }
-
 
     private void updateTarget() {
         if (isClientSide()) {
@@ -189,9 +199,7 @@ public class SimpleCraftingTerminal extends AbstractTerminalPart
             newInventory = NullInventory.of();
         }
         this.handler.setDelegate(newInventory);
-
     }
-
 
     private Map<AEKeyType, ExternalStorageStrategy> getExternalStorageStrategies() {
         if (externalStorageStrategies == null) {
@@ -205,7 +213,6 @@ public class SimpleCraftingTerminal extends AbstractTerminalPart
     }
 
     private void findExternalStorages(Map<AEKeyType, MEStorage> storages) {
-
         for (var entry : getExternalStorageStrategies().entrySet()) {
             var wrapper = entry.getValue().createWrapper(
                     false,
@@ -247,6 +254,7 @@ public class SimpleCraftingTerminal extends AbstractTerminalPart
     }
 
     private static class StorageBusInventory extends MEInventoryHandler {
+
         public StorageBusInventory(MEStorage inventory) {
             super(inventory);
         }
@@ -291,20 +299,5 @@ public class SimpleCraftingTerminal extends AbstractTerminalPart
     @Override
     public double extractAEPower(double amt, Actionable mode, PowerMultiplier pm) {
         return amt;
-    }
-
-    @Override
-    public IGridNode getActionableNode() {
-        GridNode node = (GridNode)super.getActionableNode();
-        if (node != null) {
-            node.addService(IAEPowerStorage.class,this);
-            node.addService(IStorageProvider.class,this);
-            node.setIdlePowerUsage(0);
-            EnergyService energyService = (EnergyService) node.getGrid().getEnergyService();
-            StorageService storageService = (StorageService) node.getGrid().getStorageService();
-            storageService.addNode(node,null);
-            energyService.addNode(node,null);
-        }
-        return node;
     }
 }

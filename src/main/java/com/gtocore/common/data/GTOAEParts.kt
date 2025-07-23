@@ -1,6 +1,7 @@
 package com.gtocore.common.data
 
 import com.gtocore.integration.ae.ExchangeStorageMonitorPart
+import com.gtocore.integration.ae.SimpleCraftingTerminal
 
 import net.minecraft.network.chat.Component
 import net.minecraft.world.item.Item
@@ -11,7 +12,6 @@ import appeng.api.parts.PartModels
 import appeng.core.definitions.ItemDefinition
 import appeng.items.parts.PartItem
 import appeng.items.parts.PartModelsHelper
-import com.gtocore.integration.ae.SimpleCraftingTerminal
 import com.gtolib.GTOCore
 import com.gtolib.api.annotation.component_builder.ComponentBuilder
 import com.gtolib.utils.register.ItemRegisterUtils.*
@@ -44,8 +44,8 @@ object GTOAEParts {
         partClass = SimpleCraftingTerminal::class.java,
         factory = ::SimpleCraftingTerminal,
         tooltips = listOf(
-            ComponentBuilder.create("测试","test",{ p -> p }).buildSingle()
-        )
+            ComponentBuilder.create("将终端贴在箱子、存储器的某一面，打开合成面板就可以使用箱子内的物品进行合成。", "Attach the Terminal to any side of a chest or storage device, then open the crafting interface to use items from the container for crafting.", { p -> p }).buildSingle(),
+        ),
     )
 
     private fun <T : IPart> createPart(id: String, en: String, cn: String, partClass: Class<T>, factory: Function<IPartItem<T>, T>, tooltips: List<Component> = listOf()): Supplier<ItemDefinition<PartItem<T>>> {
