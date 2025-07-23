@@ -1,6 +1,5 @@
 package com.gtocore.common.machine.multiblock.part.ae
 
-import com.gtocore.api.gui.ktflexible.multiPage
 import com.gtocore.api.gui.ktflexible.textBlock
 import com.gtocore.common.data.machines.GTAEMachines
 import com.gtocore.common.machine.multiblock.part.ae.widget.slot.AEPatternViewSlotWidgetKt
@@ -162,7 +161,6 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
     open fun addWidget(group: WidgetGroup) {}
 
     // ==================== 生命周期方法 ====================
-    @Persisted
     var pageField = IntSyncField(createLogicalSide(isRemote), { "${pos}-page" },0) // 前面必须用var 刷新UI必须在客户端刷新，服务端依同步刷新
     override fun onLoad() {
         super.onLoad()

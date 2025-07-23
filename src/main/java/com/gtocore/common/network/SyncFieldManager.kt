@@ -71,20 +71,16 @@ object SyncFieldManager {
 abstract class SyncField<T> (
     val side: LogicalSide,
     val uniqueName : Supplier<String>,
-    var value: T,
+    value: T,
     var onInitCallBack : (SyncField<T>,new:T)-> Unit = { _, _ -> },
     var onSyncCallBack : (SyncField<T>,old:T,new:T)-> Unit = { _, _, _ -> },
-): ITagSerializable<CompoundTag>, IContentChangeAware
-{
+){
+    var value = value
+        set(value) {
+            field = value
+            onContentChanged?.run()
+        }
     var onContentChanged : Runnable? = null
-    override fun setOnContentsChanged(onContentChanged: Runnable?) {
-        this.onContentChanged = onContentChanged
-    }
-
-    override fun getOnContentsChanged(): Runnable? {
-        return onContentChanged
-    }
-
     val errorPrefix = "[SyncField ${uniqueName} in side ${side}] :"
     init {
         //init
@@ -144,13 +140,6 @@ class IntSyncField(
 ) : SyncField<Int>(side, uniqueName, value, onInitCallBack, onSyncCallBack) {
     override fun readFromBuffer(buffer: FriendlyByteBuf): Int =buffer.readInt()
     override fun writeToBuffer(buffer: FriendlyByteBuf): FriendlyByteBuf = let { buffer.writeInt(value);buffer }
-    override fun serializeNBT(): CompoundTag {
-        return CompoundTag().apply { putInt("value",value) }
-    }
-
-    override fun deserializeNBT(nbt: CompoundTag) {
-        updateInServer(nbt.getInt("value"))
-    }
 }
 
 class BooleanSyncField(
@@ -162,10 +151,4 @@ class BooleanSyncField(
 ) : SyncField<Boolean>(side, uniqueName, value, onInitCallBack, onSyncCallBack) {
     override fun readFromBuffer(buffer: FriendlyByteBuf): Boolean =buffer.readBoolean()
     override fun writeToBuffer(buffer: FriendlyByteBuf): FriendlyByteBuf = let { buffer.writeBoolean(value);buffer }
-    override fun serializeNBT(): CompoundTag {
-        return CompoundTag().apply { putBoolean("value",value) }
-    }
-    override fun deserializeNBT(nbt: CompoundTag) {
-        updateInServer(nbt.getBoolean("value"))
-    }
 }

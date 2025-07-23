@@ -104,7 +104,6 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
     private final Set<MEPatternBufferProxyPartMachine> proxyMachines = new ReferenceOpenHashSet<>();
     public final InternalSlotRecipeHandler internalRecipeHandler;
 
-    @Persisted
     protected IntSyncField configuratorField = new IntSyncField(createLogicalSide(isRemote()), ()->getPos()+" configurator",-1,(integerSyncField, integer) -> Unit.INSTANCE,(integerSyncField, integer, integer2) -> Unit.INSTANCE);
 
     @Override

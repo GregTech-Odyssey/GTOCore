@@ -42,7 +42,7 @@ open class MEPatternBufferPartMachineKt(holder: IMachineBlockEntity, maxPatternC
     override fun getFieldHolder(): ManagedFieldHolder = MANAGED_FIELD_HOLDER
 
     override fun getApplyIndex() = IntSupplier { configuratorField.value }
-    override fun runOnUpdate() = run { if (isRemote)configuratorField.updateInClient(-1)else configuratorField.updateInServer(-1) }
+    override fun runOnUpdate() = run { if (isRemote)configuratorField.updateInClient(-1) }
 
     override fun VBoxBuilder.buildToolBoxContent() {
         when {
