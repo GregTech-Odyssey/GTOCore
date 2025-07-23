@@ -1,8 +1,11 @@
 package com.gtocore.common.machine.multiblock.part.ae
 
+import com.gtocore.api.gui.ktflexible.multiPageAdvanced
 import com.gtocore.api.gui.ktflexible.textBlock
 import com.gtocore.common.data.machines.GTAEMachines
 import com.gtocore.common.machine.multiblock.part.ae.widget.slot.AEPatternViewSlotWidgetKt
+import com.gtocore.common.network.IntSyncField
+import com.gtocore.common.network.createLogicalSide
 
 import net.minecraft.MethodsReturnNonnullByDefault
 import net.minecraft.nbt.CompoundTag
@@ -33,9 +36,6 @@ import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity
 import com.gregtechceu.gtceu.api.machine.TickableSubscription
 import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler
-import com.gtocore.api.gui.ktflexible.multiPageAdvanced
-import com.gtocore.common.network.IntSyncField
-import com.gtocore.common.network.createLogicalSide
 import com.gtolib.ae2.MyPatternDetailsHelper
 import com.gtolib.ae2.pattern.IParallelPatternDetails
 import com.gtolib.api.annotation.Scanned
@@ -161,7 +161,7 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
     open fun addWidget(group: WidgetGroup) {}
 
     // ==================== 生命周期方法 ====================
-    var pageField = IntSyncField(createLogicalSide(isRemote), { "${pos}-page" },0) // 前面必须用var 刷新UI必须在客户端刷新，服务端依同步刷新
+    var pageField = IntSyncField(createLogicalSide(isRemote), { "$pos-page" }, 0) // 前面必须用var 刷新UI必须在客户端刷新，服务端依同步刷新
     override fun onLoad() {
         super.onLoad()
         when (val level = getLevel()) {

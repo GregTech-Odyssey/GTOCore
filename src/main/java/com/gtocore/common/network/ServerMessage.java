@@ -47,6 +47,7 @@ public final class ServerMessage {
     public static void planetUnlock(ServerPlayer serverPlayer, ResourceLocation planet) {
         send(serverPlayer.server, serverPlayer, "planetUnlock", buf -> buf.writeResourceLocation(planet));
     }
+
     static void handle(String channel, @Nullable Player player, FriendlyByteBuf data) {
         if (player == null) return;
         switch (channel) {

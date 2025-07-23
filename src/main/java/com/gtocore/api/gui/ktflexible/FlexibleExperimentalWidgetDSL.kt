@@ -3,9 +3,7 @@ package com.gtocore.api.gui.ktflexible
 import com.gtocore.api.gui.helper.ProgressBarColorStyle
 import com.gtocore.api.gui.helper.ProgressBarHelper
 import com.gtocore.api.gui.helper.TextBlockHelper
-import com.gtocore.common.network.BooleanSyncField
 import com.gtocore.common.network.IntSyncField
-import com.gtocore.common.network.SyncField
 
 import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.network.chat.Component

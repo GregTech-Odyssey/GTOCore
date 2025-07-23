@@ -2,9 +2,8 @@ package com.gtocore.common.machine.multiblock.part.ae;
 
 import com.gtocore.common.data.machines.GTAEMachines;
 import com.gtocore.common.machine.trait.InternalSlotRecipeHandler;
-import com.gtocore.common.network.ClientMessage;
-
 import com.gtocore.common.network.IntSyncField;
+
 import com.gtolib.api.annotation.Scanned;
 import com.gtolib.api.annotation.language.RegisterLanguage;
 import com.gtolib.api.machine.feature.multiblock.IExtendedRecipeCapabilityHolder;
@@ -33,7 +32,6 @@ import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList;
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
 import com.gregtechceu.gtceu.common.item.IntCircuitBehaviour;
 
-import kotlin.Unit;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -63,6 +61,7 @@ import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import it.unimi.dsi.fastutil.objects.*;
+import kotlin.Unit;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.UnmodifiableView;
 
@@ -70,7 +69,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Predicate;
-import java.util.function.Supplier;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -104,7 +102,7 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
     private final Set<MEPatternBufferProxyPartMachine> proxyMachines = new ReferenceOpenHashSet<>();
     public final InternalSlotRecipeHandler internalRecipeHandler;
 
-    protected IntSyncField configuratorField = new IntSyncField(createLogicalSide(isRemote()), ()->getPos()+" configurator",-1,(integerSyncField, integer) -> Unit.INSTANCE,(integerSyncField, integer, integer2) -> Unit.INSTANCE);
+    protected IntSyncField configuratorField = new IntSyncField(createLogicalSide(isRemote()), () -> getPos() + " configurator", -1, (integerSyncField, integer) -> Unit.INSTANCE, (integerSyncField, integer, integer2) -> Unit.INSTANCE);
 
     @Override
     public void onLoad() {
@@ -136,7 +134,6 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
         this.shareTank = new NotifiableNotConsumableFluidHandler(this, 9, 64000);
         this.circuitInventorySimulated = createCircuitInventory();
         this.internalRecipeHandler = new InternalSlotRecipeHandler(this, getInternalInventory());
-
     }
 
     NotifiableNotConsumableItemHandler createShareInventory() {
