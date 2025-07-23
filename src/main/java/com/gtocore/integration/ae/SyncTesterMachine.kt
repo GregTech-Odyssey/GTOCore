@@ -22,9 +22,9 @@ class SyncTesterMachine(holder: IMachineBlockEntity) : MetaMachine(holder), IFan
 
     override fun isRemote()=super<MetaMachine>.isRemote
     @Persisted
-    var testInt = IntSyncField(createLogicalSide(isRemote),"${pos}-SyncTesterMachine-testInt",0)
+    var testInt = IntSyncField(createLogicalSide(isRemote), { "${pos}-SyncTesterMachine-testInt" },0)
     @Persisted
-    var testBoolean = BooleanSyncField(createLogicalSide(isRemote),"${pos}-SyncTesterMachine-testBoolean",false)
+    var testBoolean = BooleanSyncField(createLogicalSide(isRemote), { "${pos}-SyncTesterMachine-testBoolean" },false)
     override fun onUnload() {
         testInt.unregister()
         testBoolean.unregister()

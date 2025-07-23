@@ -8,6 +8,7 @@ import net.minecraft.nbt.ListTag
 import net.minecraft.nbt.StringTag
 import net.minecraft.world.level.saveddata.SavedData
 import net.minecraftforge.common.util.INBTSerializable
+import org.openjdk.nashorn.internal.ir.annotations.Ignore
 import java.util.UUID
 import kotlin.collections.forEach
 
@@ -94,9 +95,12 @@ object MEWirelessSavedData : SavedData() {
         }
         fun createAllConnection() {
             getConnectionPair().forEach {
-                val gridConnection = GridHelper.createConnection(it.first.mainNode.node, it.second.mainNode.node)
-                println("create connection between ${it.first.pos} and ${it.second.pos}")
-                connectionHolderPool.add(gridConnection)
+                try {
+                    val gridConnection = GridHelper.createConnection(it.first.mainNode.node, it.second.mainNode.node)
+                    println("create connection between ${it.first.pos} and ${it.second.pos}")
+                    connectionHolderPool.add(gridConnection)
+                } catch (ignore: Exception) {
+                }
             }
         }
     }

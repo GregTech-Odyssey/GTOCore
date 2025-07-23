@@ -70,6 +70,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -104,7 +105,7 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
     public final InternalSlotRecipeHandler internalRecipeHandler;
 
     @Persisted
-    protected IntSyncField configuratorField = new IntSyncField(createLogicalSide(isRemote()),getPos()+" configurator",-1,(integerSyncField, integer) -> Unit.INSTANCE,(integerSyncField, integer, integer2) -> Unit.INSTANCE);
+    protected IntSyncField configuratorField = new IntSyncField(createLogicalSide(isRemote()), ()->getPos()+" configurator",-1,(integerSyncField, integer) -> Unit.INSTANCE,(integerSyncField, integer, integer2) -> Unit.INSTANCE);
 
     @Override
     public void onLoad() {

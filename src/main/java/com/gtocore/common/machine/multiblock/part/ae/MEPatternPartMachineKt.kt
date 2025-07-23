@@ -163,7 +163,7 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
 
     // ==================== 生命周期方法 ====================
     @Persisted
-    var pageField = IntSyncField(createLogicalSide(isRemote),"${pos}-page",0) // 前面必须用var 刷新UI必须在客户端刷新，服务端依同步刷新
+    var pageField = IntSyncField(createLogicalSide(isRemote), { "${pos}-page" },0) // 前面必须用var 刷新UI必须在客户端刷新，服务端依同步刷新
     override fun onLoad() {
         super.onLoad()
         when (val level = getLevel()) {
