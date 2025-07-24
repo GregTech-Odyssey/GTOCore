@@ -12,15 +12,19 @@ import com.gtolib.api.recipe.ingredient.FastFluidIngredient;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
+import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
+import com.gregtechceu.gtceu.common.machine.steam.SteamLiquidBoilerMachine;
+import com.gregtechceu.gtceu.common.machine.steam.SteamSolidBoilerMachine;
 import com.gregtechceu.gtceu.data.recipe.builder.GTRecipeBuilder;
 import com.gregtechceu.gtceu.utils.GTUtil;
 
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.world.level.material.Fluid;
 
+import java.util.Arrays;
 import java.util.Collections;
 
 import static com.gregtechceu.gtceu.api.GTValues.MV;
@@ -151,6 +155,15 @@ public final class RecipeTypeModify {
                     .EUt(VA[MV])
                     .duration(builder.duration / 2)
                     .save(provider);
+
+            var list = builder.input.getOrDefault(FluidRecipeCapability.CAP, Collections.emptyList());
+            if (!list.isEmpty()) {
+                Arrays.stream(FluidRecipeCapability.CAP.of(list.get(0).content).getStacks()).forEach(stack -> SteamLiquidBoilerMachine.FUEL_CACHE.add(stack.getFluid()));
+            }
+            list = builder.input.getOrDefault(ItemRecipeCapability.CAP, Collections.emptyList());
+            if (!list.isEmpty()) {
+                Arrays.stream(ItemRecipeCapability.CAP.of(list.get(0).content).getItems()).forEach(stack -> SteamSolidBoilerMachine.FUEL_CACHE.add(stack.getItem()));
+            }
         });
 
         LARGE_BOILER_RECIPES.addDataInfo(data -> {

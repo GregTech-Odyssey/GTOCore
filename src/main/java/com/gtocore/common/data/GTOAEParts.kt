@@ -1,6 +1,7 @@
 package com.gtocore.common.data
 
 import com.gtocore.integration.ae.ExchangeStorageMonitorPart
+import com.gtocore.integration.ae.SimpleCraftingTerminal
 
 import net.minecraft.network.chat.Component
 import net.minecraft.world.item.Item
@@ -33,6 +34,17 @@ object GTOAEParts {
         tooltips = listOf(
             ComponentBuilder.create("此物品可以监控物品的交换速率", "This item can monitor the exchange rate of items", { p -> p }).buildSingle(),
             ComponentBuilder.create("锁定状态下右击可切换监控间隔", "In locked state, right click to switch monitoring interval", { p -> p }).buildSingle(),
+        ),
+    )
+
+    val SIMPLE_CRAFTING_TERMINAL: Supplier<ItemDefinition<PartItem<SimpleCraftingTerminal>>> = createPart(
+        id = "simple_crafting_terminal",
+        en = "Simple Crafting Terminal",
+        cn = "简易合成终端",
+        partClass = SimpleCraftingTerminal::class.java,
+        factory = ::SimpleCraftingTerminal,
+        tooltips = listOf(
+            ComponentBuilder.create("将终端贴在箱子、存储器的某一面，打开合成面板就可以使用箱子内的物品进行合成。", "Attach the Terminal to any side of a chest or storage device, then open the crafting interface to use items from the container for crafting.", { p -> p }).buildSingle(),
         ),
     )
 

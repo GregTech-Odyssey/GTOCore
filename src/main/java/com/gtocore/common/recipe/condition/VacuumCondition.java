@@ -10,7 +10,6 @@ import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.recipe.condition.RecipeConditionType;
 import com.gregtechceu.gtceu.utils.GTUtil;
 
-import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.Level;
@@ -47,16 +46,13 @@ public final class VacuumCondition extends AbstractRecipeCondition {
             }
         }
 
-        Level level = machine.getLevel();
-        BlockPos pos = machine.getPos();
-        if (level != null) {
-            for (Direction side : GTUtil.DIRECTIONS) {
-                if (side.getAxis() != Direction.Axis.Y && checkNeighborVacuumTier(level, pos.relative(side))) {
-                    return true;
-                }
+        for (Direction side : GTUtil.DIRECTIONS) {
+            if (side.getAxis() != Direction.Axis.Y && checkNeighborVacuumTier(machine, side)) {
+                return true;
             }
         }
-        return !OxygenApi.API.hasOxygen(level, pos) && PlanetApi.API.isSpace(level);
+        Level level = machine.getLevel();
+        return !OxygenApi.API.hasOxygen(level, machine.getPos()) && PlanetApi.API.isSpace(level);
     }
 
     private boolean checkVacuumTier(Iterable<IMultiPart> parts) {
@@ -68,8 +64,8 @@ public final class VacuumCondition extends AbstractRecipeCondition {
         return false;
     }
 
-    private boolean checkNeighborVacuumTier(Level level, BlockPos neighborPos) {
-        if (MetaMachine.getMachine(level, neighborPos) instanceof IVacuumMachine vacuumMachine) {
+    private boolean checkNeighborVacuumTier(MetaMachine machine, Direction side) {
+        if (machine.getNeighborMachine(side) instanceof IVacuumMachine vacuumMachine) {
             return vacuumMachine.getVacuumTier() >= tier;
         }
         return false;

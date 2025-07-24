@@ -120,6 +120,13 @@ final class Vanilla {
                 "   ",
                 'A', CustomTags.MV_CIRCUITS, 'B', RegistriesUtils.getItemStack("ae2:storage_monitor"));
 
+        VanillaRecipeHelper.addShapedRecipe(provider, GTOCore.id("simple_crafting_terminal"), GTOAEParts.INSTANCE.getSIMPLE_CRAFTING_TERMINAL().get().stack(1),
+                "   ",
+                "ABC",
+                "DED",
+                'A', CustomTags.CRAFTING_SAWS, 'B', Items.CRAFTING_TABLE, 'C', CustomTags.CRAFTING_SCREWDRIVERS,
+                'D', new MaterialEntry(TagPrefix.screw, GTMaterials.WroughtIron), 'E', Items.CHEST);
+
         VanillaRecipeHelper.addShapedRecipe(provider, GTOCore.id("paper_dust"), ChemicalHelper.get(TagPrefix.dust, GTMaterials.Paper), "S", "m", 'S', RegistriesUtils.getItemStack("farmersdelight:tree_bark"));
         VanillaRecipeHelper.addShapedRecipe(provider, GTOCore.id("cooking_pot"), RegistriesUtils.getItemStack("farmersdelight:cooking_pot"),
                 "ABA",

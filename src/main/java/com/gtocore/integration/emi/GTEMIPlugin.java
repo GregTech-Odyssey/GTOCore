@@ -22,6 +22,7 @@ import appeng.api.stacks.AEFluidKey;
 import appeng.api.stacks.AEItemKey;
 import appeng.api.stacks.AEKey;
 import appeng.api.stacks.GenericStack;
+import appeng.menu.me.items.CraftingTermMenu;
 import appeng.menu.me.items.PatternEncodingTermMenu;
 import com.arsmeteorites.arsmeteorites.ArsMeteorites;
 import com.arsmeteorites.arsmeteorites.emi.MeteoritesEmiPlugin;
@@ -86,6 +87,7 @@ public final class GTEMIPlugin implements EmiPlugin {
         registry.addRecipeHandler(ModularUIContainer.MENUTYPE, new GTEmiRecipeHandler());
         registry.addRecipeHandler(PatternEncodingTermMenu.TYPE, new Ae2PatternTerminalHandler<>());
         registry.addRecipeHandler(WETMenu.TYPE, new Ae2PatternTerminalHandler<>());
+        registry.addRecipeHandler(CraftingTermMenu.TYPE, new CraftingTerminalRecipeHandler<>());
         registry.addCategory(GTProgrammedCircuitCategory.CATEGORY);
 
         GTRecipeEMICategory.registerDisplays(registry);

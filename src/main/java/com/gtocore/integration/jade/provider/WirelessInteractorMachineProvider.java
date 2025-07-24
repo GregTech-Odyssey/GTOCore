@@ -42,17 +42,17 @@ public final class WirelessInteractorMachineProvider extends CapabilityBlockProv
         if (capability instanceof IManaMachine manaMachine) {
             MetaMachine machine = manaMachine.getManaContainer().getNetMachine();
             if (machine != null) {
-                data.putString("pos", Component.translatable(machine.getDefinition().getDescriptionId()).append("[").append(machine.getPos().toShortString()).append("]").getString());
+                data.putString("pos", Component.Serializer.toJson(Component.translatable(machine.getDefinition().getDescriptionId()).append("[").append(machine.getPos().toShortString()).append("]")));
             }
         } else if (capability instanceof IIWirelessInteractor<?> interactorMachine) {
             MetaMachine machine = interactorMachine.getNetMachine();
             if (machine != null) {
-                data.putString("pos", Component.translatable(machine.getDefinition().getDescriptionId()).append("[").append(machine.getPos().toShortString()).append("]").getString());
+                data.putString("pos", Component.Serializer.toJson(Component.translatable(machine.getDefinition().getDescriptionId()).append("[").append(machine.getPos().toShortString()).append("]")));
             }
             if (interactorMachine instanceof IAirScrubberInteractor airScrubberInteractor) {
                 MetaMachine airScrubber = airScrubberInteractor.getAirScrubberMachine();
                 if (airScrubber != null) {
-                    data.putString("pos_a", Component.translatable(airScrubber.getDefinition().getDescriptionId()).append("[").append(airScrubber.getPos().toShortString()).append("]").getString());
+                    data.putString("pos_a", Component.Serializer.toJson(Component.translatable(airScrubber.getDefinition().getDescriptionId()).append("[").append(airScrubber.getPos().toShortString()).append("]")));
                 }
             }
         }
@@ -62,11 +62,11 @@ public final class WirelessInteractorMachineProvider extends CapabilityBlockProv
     protected void addTooltip(CompoundTag capData, ITooltip tooltip, Player player, BlockAccessor block, BlockEntity blockEntity, IPluginConfig config) {
         String pos = capData.getString("pos");
         if (!pos.isEmpty()) {
-            tooltip.add(Component.translatable("gtmthings.machine.wireless_energy_hatch.tooltip.bind", pos));
+            tooltip.add(Component.translatable("gtmthings.machine.wireless_energy_hatch.tooltip.bind", Component.Serializer.fromJson(pos)));
         }
         pos = capData.getString("pos_a");
         if (!pos.isEmpty()) {
-            tooltip.add(Component.translatable("gtmthings.machine.wireless_energy_hatch.tooltip.bind", pos));
+            tooltip.add(Component.translatable("gtmthings.machine.wireless_energy_hatch.tooltip.bind", Component.Serializer.fromJson(pos)));
         }
     }
 }
