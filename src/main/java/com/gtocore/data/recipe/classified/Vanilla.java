@@ -114,6 +114,11 @@ final class Vanilla {
                         'A', new MaterialEntry(TagPrefix.pipeNormalFluid, GTMaterials.Bronze), 'B', GTOItems.PRECISION_STEAM_MECHANISM.asStack(), 'C', new MaterialEntry(TagPrefix.frameGt, GTMaterials.Bronze));
             }
         }
+        VanillaRecipeHelper.addShapedRecipe(provider, GTOCore.id("me_wireless_connection_machine"), GTOMachines.ME_WIRELESS_CONNECTION_MACHINE.asStack(),
+                "ABA",
+                "B B",
+                "ABA",
+                'A', CustomTags.EV_CIRCUITS, 'B', RegistriesUtils.getItemStack("expatternprovider:wireless_connect"));
         VanillaRecipeHelper.addShapedRecipe(provider, GTOCore.id("exchange_storage_monitor"), GTOAEParts.INSTANCE.getEXCHANGE_STORAGE_MONITOR().get().stack(1),
                 "   ",
                 "ABA",

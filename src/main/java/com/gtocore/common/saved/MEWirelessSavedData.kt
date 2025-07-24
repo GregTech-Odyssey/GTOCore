@@ -111,6 +111,8 @@ object MEWirelessSavedData : SavedData() {
         fun createAllConnection() {
             getConnectionPair().forEach {
                 try {
+                    if (!(it.first.mainNode.node?.level?.hasChunkAt(it.first.pos) ?: false)) return@forEach
+                    if (!(it.second.mainNode.node?.level?.hasChunkAt(it.second.pos) ?: false)) return@forEach
                     val gridConnection = GridHelper.createConnection(it.first.mainNode.node, it.second.mainNode.node)
                     println("create connection between ${it.first.pos} and ${it.second.pos}")
                     connectionHolderPool.add(gridConnection)

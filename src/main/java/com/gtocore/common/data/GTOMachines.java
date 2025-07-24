@@ -446,15 +446,11 @@ public final class GTOMachines {
             .overlayTieredHullRenderer("neutron_sensor")
             .tooltips(NewDataAttributes.MIRACULOUS_TOOLS.create(new CNEN("ME无线连接机", "ME Wireless Connection Machine"), p -> p.addCommentLines(
                     """
-                            通过此机器，你可以将ME网络无线连接到其他机器。
-                            只需要将此机器连入ME网络，然后在其他机器上放置无线连接器，
-                            就可以通过此机器与ME网络进行通信。
-                            注意：此机器只能连接到一个ME网络。""",
+                            多对多的ME无线网络节点
+                            可以在不同世界传输""",
                     """
-                            With this machine, you can wirelessly connect the ME network to other machines.
-                            Just connect this machine to the ME network, and place a wireless connector on other machines,
-                            and you can communicate with the ME network through this machine.
-                            Note: This machine can only connect to one ME network.""")))
+                            A many-to-many ME wireless network node
+                            Can transmit across different worlds""")))
             .allRotation()
             .register();
 
