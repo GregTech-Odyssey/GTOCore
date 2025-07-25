@@ -86,6 +86,13 @@ public final class GTOMachines {
         if (GTCEu.isDev() || GTCEu.isDataGen() || GTOCore.isSimple()) {
             SimpleModeMachine.init();
         }
+        if (GTCEu.isDev() || GTCEu.isDataGen()) {
+            final MachineDefinition SYNC_TESTER_MACHINE = machine("sync_tester_machine", "同步测试机", SyncTesterMachine::new)
+                    .allRotation()
+                    .tooltipsText("用于测试机器同步的工具。", "A tool for testing machine synchronization.")
+                    .tooltipsText("请勿在生产环境中使用。", "Do not use in production environment.")
+                    .register();
+        }
     }
 
     //////////////////////////////////////
@@ -454,11 +461,6 @@ public final class GTOMachines {
             .allRotation()
             .register();
 
-    public static final MachineDefinition SYNC_TESTER_MACHINE = machine("sync_tester_machine", "同步测试机", SyncTesterMachine::new)
-            .allRotation()
-            .tooltipsText("用于测试机器同步的工具。", "A tool for testing machine synchronization.")
-            .tooltipsText("请勿在生产环境中使用。", "Do not use in production environment.")
-            .register();
 
     public static final MachineDefinition[] NEUTRON_ACCELERATOR = registerTieredMachines("neutron_accelerator", tier -> VNF[tier] + "中子加速器",
             NeutronAcceleratorPartMachine::new,

@@ -17,17 +17,17 @@ import com.tterrag.registrate.util.entry.ItemEntry
 import com.tterrag.registrate.util.nullness.NonNullConsumer
 
 enum class OrganType(val key: String, val cn: String, val slotCount: Int = 1) {
+    Wing("wing", "翅膀", slotCount = 8), // 支持顺序使用,
     Eye("eye", "眼睛"),
     Spine("spine", "脊椎"),
     Lung("lung", "肺"),
     Liver("liver", "肝脏"),
     Heart("heart", "心脏"),
-    Wing("wing", "翅膀", slotCount = 8), // 支持顺序使用
     LeftArm("left_arm", "左臂"),
     RightArm("right_arm", "右臂"),
     LeftLeg("left_leg", "左腿"),
-    RightLeg("right_leg", "右腿"),
-    Other("other", "其他"),
+    RightLeg("right_leg", "右腿")
+//    Other("other", "其他"),
 }
 
 sealed class OrganItemBase(properties: Properties, val organType: OrganType) :
