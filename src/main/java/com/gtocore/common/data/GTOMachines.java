@@ -461,7 +461,6 @@ public final class GTOMachines {
             .allRotation()
             .register();
 
-
     public static final MachineDefinition[] NEUTRON_ACCELERATOR = registerTieredMachines("neutron_accelerator", tier -> VNF[tier] + "中子加速器",
             NeutronAcceleratorPartMachine::new,
             (tier, builder) -> builder

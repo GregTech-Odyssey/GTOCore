@@ -35,11 +35,11 @@ class SyncTesterMachine(holder: IMachineBlockEntity) :
 
     override fun createUIWidget(): Widget? = root(176, 166) {
         vBox(width = availableWidth) {
-            hBox(height = 20,{spacing=4}) {
+            hBox(height = 20, { spacing = 4 }) {
                 button(text = { "客户端Int+=1" }, onClick = { ck -> if (isRemote) testInt.updateInClient(testInt.value + 1) })
                 button(text = { "服务端Int-=1" }, onClick = { ck -> if (!isRemote) testInt.updateInServer(testInt.value - 1) })
             }
-            hBox(height = 20,{spacing=4}) {
+            hBox(height = 20, { spacing = 4 }) {
                 button(text = { "客户端Boolean取反" }, onClick = { ck -> if (isRemote) testBoolean.updateInClient(!testBoolean.value) })
                 button(text = { "服务端Boolean取反" }, onClick = { ck -> if (!isRemote) testBoolean.updateInServer(!testBoolean.value) })
             }

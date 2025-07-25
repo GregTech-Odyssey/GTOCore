@@ -26,7 +26,7 @@ enum class OrganType(val key: String, val cn: String, val slotCount: Int = 1) {
     LeftArm("left_arm", "左臂"),
     RightArm("right_arm", "右臂"),
     LeftLeg("left_leg", "左腿"),
-    RightLeg("right_leg", "右腿")
+    RightLeg("right_leg", "右腿"),
 //    Other("other", "其他"),
 }
 

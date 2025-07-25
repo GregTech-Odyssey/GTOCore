@@ -27,6 +27,8 @@ import appeng.api.networking.IManagedGridNode;
 import appeng.api.networking.security.IActionSource;
 import appeng.api.stacks.AEKey;
 import appeng.api.stacks.KeyCounter;
+import appeng.api.storage.IStorageMounts;
+import appeng.api.storage.IStorageProvider;
 import appeng.api.storage.MEStorage;
 import appeng.me.storage.NetworkStorage;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
@@ -43,7 +45,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
-public class MEStorageAccessPartMachine extends MultiblockPartMachine implements IMachineLife, MEStorage, IGridConnectedMachine, IDataStickInteractable, IStorageAccess {
+public class MEStorageAccessPartMachine extends MultiblockPartMachine implements IMachineLife, MEStorage, IGridConnectedMachine, IDataStickInteractable, IStorageAccess, IStorageProvider {
 
     static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(MEStorageAccessPartMachine.class, MultiblockPartMachine.MANAGED_FIELD_HOLDER);
     private boolean observe;
@@ -66,6 +68,7 @@ public class MEStorageAccessPartMachine extends MultiblockPartMachine implements
     public MEStorageAccessPartMachine(IMachineBlockEntity holder) {
         super(holder);
         this.nodeHolder = new GridNodeHolder(this);
+        getMainNode().addService(IStorageProvider.class, this);
         tickSubs = new ConditionalSubscriptionHandler(this, this::tickUpdate, () -> true);
     }
 
@@ -168,6 +171,7 @@ public class MEStorageAccessPartMachine extends MultiblockPartMachine implements
         if (inventory == null || !contains(inventory)) {
             inv.mount(0, this);
         }
+        if (getMainNode().getNode() != null && getMainNode().getNode().isActive()) IStorageProvider.requestUpdate(getMainNode());
     }
 
     private CellDataStorage getCellStorage() {
@@ -372,5 +376,10 @@ public class MEStorageAccessPartMachine extends MultiblockPartMachine implements
     @Override
     public boolean isOnline() {
         return this.isOnline;
+    }
+
+    @Override
+    public void mountInventories(IStorageMounts storageMounts) {
+        storageMounts.mount(this, 0);
     }
 }

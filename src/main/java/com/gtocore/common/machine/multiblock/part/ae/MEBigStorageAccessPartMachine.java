@@ -29,6 +29,8 @@ import appeng.api.networking.IManagedGridNode;
 import appeng.api.networking.security.IActionSource;
 import appeng.api.stacks.AEKey;
 import appeng.api.stacks.KeyCounter;
+import appeng.api.storage.IStorageMounts;
+import appeng.api.storage.IStorageProvider;
 import appeng.api.storage.MEStorage;
 import appeng.me.storage.NetworkStorage;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
@@ -42,7 +44,7 @@ import org.jetbrains.annotations.NotNull;
 import java.math.BigInteger;
 import java.util.UUID;
 
-public final class MEBigStorageAccessPartMachine extends MultiblockPartMachine implements IMachineLife, MEStorage, IGridConnectedMachine, IDataStickInteractable, IStorageAccess {
+public final class MEBigStorageAccessPartMachine extends MultiblockPartMachine implements IMachineLife, MEStorage, IGridConnectedMachine, IDataStickInteractable, IStorageAccess, IStorageProvider {
 
     private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(MEBigStorageAccessPartMachine.class, MultiblockPartMachine.MANAGED_FIELD_HOLDER);
     private boolean observe;
@@ -64,6 +66,7 @@ public final class MEBigStorageAccessPartMachine extends MultiblockPartMachine i
     public MEBigStorageAccessPartMachine(IMachineBlockEntity holder) {
         super(holder);
         this.nodeHolder = new GridNodeHolder(this);
+        getMainNode().addService(IStorageProvider.class, this);
         tickSubs = new ConditionalSubscriptionHandler(this, this::tickUpdate, () -> true);
     }
 
@@ -132,6 +135,7 @@ public final class MEBigStorageAccessPartMachine extends MultiblockPartMachine i
         if (inventory == null || !inventory.contains(this)) {
             inv.mount(0, this);
         }
+        if (getMainNode().getNode() != null && getMainNode().getNode().isActive()) IStorageProvider.requestUpdate(getMainNode());
     }
 
     public BigCellDataStorage getCellStorage() {
@@ -361,5 +365,10 @@ public final class MEBigStorageAccessPartMachine extends MultiblockPartMachine i
     @Override
     public boolean isOnline() {
         return this.isOnline;
+    }
+
+    @Override
+    public void mountInventories(IStorageMounts storageMounts) {
+        storageMounts.mount(this, 0);
     }
 }
