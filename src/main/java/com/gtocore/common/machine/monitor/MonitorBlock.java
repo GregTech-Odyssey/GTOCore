@@ -2,6 +2,7 @@ package com.gtocore.common.machine.monitor;
 
 import com.gregtechceu.gtceu.api.block.MetaMachineBlock;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
+import com.gregtechceu.gtceu.api.machine.MetaMachine;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
@@ -41,9 +42,11 @@ public class MonitorBlock extends MetaMachineBlock {
     @Override
     public BlockState rotate(BlockState state, LevelAccessor level, BlockPos pos, Rotation direction) {
         var newState = super.rotate(state, level, pos, direction);
+        MetaMachine machine = MetaMachine.getMachine(level, pos);
+        int color = machine == null ? -1 : machine.getPaintingColor();
         if (!level.isClientSide()) {
             Manager.removeBlock(state, pos, (Level) level);
-            Manager.addBlock(newState, pos, (Level) level);
+            Manager.addBlock(newState, pos, (Level) level, color);
         }
         return newState;
     }

@@ -80,7 +80,7 @@ public final class Manager {
         }
     }
 
-    public static void addBlock(BlockState blockState, BlockPos pos, @Nullable Level level) {
+    public static void addBlock(BlockState blockState, BlockPos pos, @Nullable Level level, int color) {
         if (level == null || level.isClientSide() || !level.isLoaded(pos)) {
             return;
         }
@@ -88,10 +88,15 @@ public final class Manager {
             var network = GridNetwork.fromBlock(
                     getFrontFacing(blockState),
                     pos,
-                    level.dimension());
+                    level.dimension(),
+                    color);
             network.merge();
             broadcast(level.getServer());
         });
+    }
+
+    public static void addBlock(BlockState blockState, BlockPos pos, @Nullable Level level) {
+        addBlock(blockState, pos, level, -1);
     }
 
     public static void removeBlock(BlockState pState, BlockPos pPos, @Nullable Level pLevel) {
@@ -252,6 +257,7 @@ public final class Manager {
         int toX;
         int fromY;
         int toY;
+        int color = -1;
         // final Set<GridFacedPoint> points = new HashSet<>();
         final GridFacing facing;
         @Nullable
@@ -261,13 +267,13 @@ public final class Manager {
             this.facing = facing;
         }
 
-        public static GridNetwork fromBlock(Direction facing, BlockPos pos, ResourceKey<Level> level) {
+        public static GridNetwork fromBlock(Direction facing, BlockPos pos, ResourceKey<Level> level, int color) {
             GridFacing axis = GridFacing.of(facing, level, GridFacing.getThirdValue(facing, pos));
             var point = axis.getPoint(pos);
             if (gridToNetwork.containsKey(point)) {
                 return gridToNetwork.get(point); // 如果该点已经存在于网格中，则返回已存在的网格
             }
-            return createSingleBlockNetwork(facing, pos, level);
+            return createSingleBlockNetwork(facing, pos, level, color);
         }
 
         Set<GridFacedPoint> points() {
@@ -280,7 +286,7 @@ public final class Manager {
             return points;
         }
 
-        public static GridNetwork createSingleBlockNetwork(Direction facing, BlockPos pos, ResourceKey<Level> level) {
+        public static GridNetwork createSingleBlockNetwork(Direction facing, BlockPos pos, ResourceKey<Level> level, int color) {
             GridFacing axis = GridFacing.of(facing, level, GridFacing.getThirdValue(facing, pos));
             var point = axis.getPoint(pos);
             if (gridToNetwork.containsKey(point)) {
@@ -291,6 +297,7 @@ public final class Manager {
             network.toX = point.x;
             network.fromY = point.y;
             network.toY = point.y;
+            network.color = color;
             // network.points.add(point);
             put(point, network);
             return network;
@@ -365,7 +372,7 @@ public final class Manager {
         }
 
         private boolean canMerge(GridNetwork other, Direction2D facing2D) {
-            return other != null && other.facing == facing &&
+            return other != null && other.facing == facing && other.color == color &&
                     (facing2D.isHorizontal ? other.height() == this.height() && other.width() + this.width() <= MAX_GRID_SIZE :
                             other.width() == this.width() && other.height() + this.height() <= MAX_GRID_SIZE);
         }
