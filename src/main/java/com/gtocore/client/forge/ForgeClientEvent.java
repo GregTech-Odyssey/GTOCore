@@ -2,10 +2,8 @@ package com.gtocore.client.forge;
 
 import com.gtocore.client.ClientCache;
 import com.gtocore.client.Tooltips;
-import com.gtocore.client.renderer.item.MonitorItemDecorations;
 import com.gtocore.common.item.StructureDetectBehavior;
 import com.gtocore.common.item.StructureWriteBehavior;
-import com.gtocore.common.machine.monitor.MonitorBlockItem;
 import com.gtocore.common.network.ClientMessage;
 
 import com.gtolib.GTOCore;
@@ -24,7 +22,6 @@ import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -32,12 +29,10 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.event.RegisterItemDecorationsEvent;
 import net.minecraftforge.client.event.RenderLevelStageEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
 
 import com.hepdd.gtmthings.common.block.machine.electric.WirelessEnergyMonitor;
 import com.lowdragmc.lowdraglib.client.utils.RenderBufferUtils;
@@ -204,18 +199,5 @@ public final class ForgeClientEvent {
         RenderSystem.disableBlend();
         RenderSystem.enableDepthTest();
         poseStack.popPose();
-    }
-
-    @Mod.EventBusSubscriber(value = Dist.CLIENT, modid = GTOCore.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
-    public static class MOD {
-
-        @SubscribeEvent
-        public static void onRegisterItemDeco(RegisterItemDecorationsEvent event) {
-            MonitorBlockItem.getItemList().forEach(item -> {
-                if (item != null) {
-                    event.register(BuiltInRegistries.BLOCK.get(item), MonitorItemDecorations.DECORATOR);
-                }
-            });
-        }
     }
 }

@@ -36,6 +36,12 @@ public class MonitorAECPU extends AbstractAEInfoMonitor {
 
     private static final CraftingStatusMenu.CraftingCpuList EMPTY_CPU_LIST = new CraftingStatusMenu.CraftingCpuList(Collections.emptyList());
     private static final Comparator<CraftingStatusMenu.CraftingCpuListEntry> CPU_COMPARATOR = CraftingStatusMenuAccessor.getCPU_COMPARATOR();
+    private static final Comparator<ICraftingCPU> RAW_CPU_COMPARATOR = Comparator
+            .comparing((ICraftingCPU cpu) -> cpu.getName() == null)
+            .thenComparing(cpu -> cpu.getName() == null ? "" : cpu.getName().getString())
+            .thenComparing(Comparator.comparingLong(ICraftingCPU::getAvailableStorage).reversed())
+            .thenComparing(Comparator.comparingInt(ICraftingCPU::getCoProcessors).reversed());
+
     /// 仅服务端
     @Nullable
     private ICraftingCPU selectedCpu = null;
@@ -209,19 +215,20 @@ public class MonitorAECPU extends AbstractAEInfoMonitor {
         var cpuListGui = new CPUListGui(198, 16, 50, 108);
         var panel = new ComponentPanelWidget(
                 cpuListGui.getPositionX() + cpuListGui.getSizeWidth() / 2,
-                cpuListGui.getPositionY() + 15 + cpuListGui.getSizeHeight(),
+                cpuListGui.getPositionY() + 5 + cpuListGui.getSizeHeight(),
                 List.of(Component.translatable("gtocore.machine.monitor.ae.cpu.list").withStyle(ChatFormatting.BLACK)))
                 .setCenter(true)
                 .setClientSideWidget();
         return new WidgetGroup(0, 0, superWidget.getSizeWidth() + 60, superWidget.getSizeHeight())
                 .addWidget(superWidget)
-                .addWidget(cpuListGui);
+                .addWidget(cpuListGui)
+                .addWidget(panel);
     }
 
     /// @see CraftingStatusMenu#createCpuList()
     private CraftingStatusMenu.CraftingCpuList createCpuList() {
         var entries = new ArrayList<CraftingStatusMenu.CraftingCpuListEntry>(lastCpuSet.size());
-        for (var cpu : lastCpuSet) {
+        for (var cpu : lastCpuSet.stream().sorted(RAW_CPU_COMPARATOR).toList()) {
             var serial = getOrAssignCpuSerial(cpu);
             var status = cpu.getJobStatus();
             var progress = 0f;

@@ -5,8 +5,10 @@ import com.gtolib.api.machine.trait.IEnhancedRecipeLogic;
 import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.RecipeBuilder;
 
+import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.capability.recipe.IRecipeCapabilityHolder;
 import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
+import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
@@ -60,11 +62,13 @@ public final class FormingPressLogic implements GTRecipeType.ICustomRecipeLogic 
 
     @Override
     public @Nullable GTRecipe createCustomRecipe(IRecipeCapabilityHolder h) {
-        if (h instanceof IExtendedRecipeCapabilityHolder holder) {
-            RecipeData data = new RecipeData(IEnhancedRecipeLogic.of(holder.getRecipeLogic()).gtolib$getRecipeBuilder());
-            Recipe recipe = collect(data, holder.gtolib$getDistinct());
-            if (recipe != null) return recipe;
-            return collect(data, holder.gtolib$getIndistinct());
+        if (h instanceof IRecipeLogicMachine recipeLogicMachine) {
+            RecipeData data = new RecipeData(IEnhancedRecipeLogic.of(recipeLogicMachine.getRecipeLogic()).gtolib$getRecipeBuilder());
+            if (h instanceof IExtendedRecipeCapabilityHolder holder) {
+                return collect(data, holder.gtolib$getInput());
+            } else {
+                return collect(data, recipeLogicMachine.getCapabilitiesForIO(IO.IN));
+            }
         }
         return null;
     }

@@ -1,9 +1,8 @@
 package com.gtocore.common.machine.monitor;
 
-import com.gtolib.api.machine.feature.IMEPartMachine;
-
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
+import com.gregtechceu.gtceu.integration.ae2.machine.feature.IGridConnectedMachine;
 import com.gregtechceu.gtceu.integration.ae2.machine.trait.GridNodeHolder;
 
 import net.minecraft.ChatFormatting;
@@ -12,7 +11,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
 import appeng.api.networking.IManagedGridNode;
-import appeng.api.networking.security.IActionSource;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
@@ -21,11 +19,10 @@ import org.jetbrains.annotations.NotNull;
 import java.util.EnumSet;
 import java.util.List;
 
-public abstract class AbstractAEInfoMonitor extends AbstractInfoProviderMonitor implements IMEPartMachine {
+public abstract class AbstractAEInfoMonitor extends AbstractInfoProviderMonitor implements IGridConnectedMachine {
 
     private static final ManagedFieldHolder MONITOR_HOLDER = new ManagedFieldHolder(AbstractAEInfoMonitor.class, MetaMachine.MANAGED_FIELD_HOLDER);
 
-    protected final IActionSource actionSource;
     @DescSynced
     @NotNull
     protected State state = State.NO_GRID;
@@ -41,7 +38,6 @@ public abstract class AbstractAEInfoMonitor extends AbstractInfoProviderMonitor 
     public AbstractAEInfoMonitor(IMachineBlockEntity holder) {
         super(holder);
         this.nodeHolder = new GridNodeHolder(this);
-        this.actionSource = IActionSource.ofMachine(nodeHolder.getMainNode()::getNode);
     }
 
     protected ManagedFieldHolder getManagedFieldHolder(Class<? extends BasicMonitor> clazz) {
@@ -67,11 +63,6 @@ public abstract class AbstractAEInfoMonitor extends AbstractInfoProviderMonitor 
     @Override
     public boolean isOnline() {
         return this.isOnline;
-    }
-
-    @Override
-    public IActionSource getActionSource() {
-        return this.actionSource;
     }
 
     @Override
