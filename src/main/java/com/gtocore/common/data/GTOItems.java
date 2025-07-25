@@ -49,6 +49,7 @@ import earth.terrarium.adastra.common.registry.ModFluids;
 import java.util.List;
 
 import static com.gregtechceu.gtceu.common.data.GTItems.*;
+import static com.gregtechceu.gtceu.common.data.GTItems.attach;
 import static com.gtolib.api.registries.GTORegistration.GTM;
 import static com.gtolib.utils.register.ItemRegisterUtils.*;
 
@@ -1000,5 +1001,10 @@ public final class GTOItems {
     public static ItemEntry<ComponentItem> PROSPECTOR_MANA_HV = item("prospector.mana_hv", "精灵钢探矿仪", ComponentItem::create)
             .properties(p -> p.stacksTo(1))
             .onRegister(attach(ManaProspectorBehavior.create(ManaProspectorBehavior.HV)))
+            .register();
+
+    public static final ItemEntry<ComponentItem> MACHINE_COORDINATE_CARD = item("machine_coordinate_card", "机器坐标信息卡", ComponentItem::create)
+            .properties(p -> p.stacksTo(1))
+            .onRegister(attach(new MachineCoordinateCardBehavior()))
             .register();
 }

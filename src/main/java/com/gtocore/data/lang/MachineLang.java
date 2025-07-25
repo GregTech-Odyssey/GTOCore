@@ -176,7 +176,7 @@ final class MachineLang {
         addCNEN("gtocore.machine.monitor.ae.cpu.list", "CPU列表", "CPU List");
         addCNEN("gtocore.machine.monitor.ae.cpu.set.1", "设置监视的CPU", "Set Monitored CPU");
         addCNEN("gtocore.machine.monitor.ae.cpu.set.2", "§c警告§r：网络中CPU变动时，需要重新选择！", "Warning: When the CPU changes in the network, you need to reselect!");
-
+        addCNEN("gtocore.machine.machine_monitor.slot", "请放入机器坐标信息卡", "Insert Machine Coordinate Card");
         DisplayRegistry.registerLanguage();
     }
 }

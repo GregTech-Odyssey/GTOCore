@@ -56,7 +56,19 @@ public enum DisplayRegistry {
 
     CUSTOM_DISPLAY("custom_display", "自定义显示", "Custom Display"),
 
-    ;
+    MACHINE_NAME("machine_name", "机器名", "Machine Name"),
+    MACHINE_ENERGY("machine_energy", "能量", "Energy"),
+    MACHINE_PROGRESS("machine_progress", "工作进度", "Progress"),
+    MACHINE_RECIPE_LOGIC_EU("machine_recipe_logic_eu", "能耗·产能(EU)", "EU Consumption/Production"),
+    MACHINE_RECIPE_LOGIC_MANA("machine_recipe_logic_mana", "能耗·产能(Mana)", "Mana Consumption/Production"),
+    MACHINE_RECIPE_OUTPUT("machine_recipe_output", "配方产物", "Recipe Output"),
+    MACHINE_RECIPE_OUTPUT_ITEM_1("machine_recipe_output_item1", "配方产物1(物品)", "Recipe Output #1 (Item)"),
+    MACHINE_RECIPE_OUTPUT_ITEM_2("machine_recipe_output_item2", "配方产物2(物品)", "Recipe Output #2 (Item)"),
+    MACHINE_RECIPE_OUTPUT_ITEM_3("machine_recipe_output_item3", "配方产物3(物品)", "Recipe Output #3 (Item)"),
+    MACHINE_RECIPE_OUTPUT_FLUID_1("machine_recipe_output_fluid1", "配方产物1(流体)", "Recipe Output #1 (Fluid)"),
+    MACHINE_RECIPE_OUTPUT_FLUID_2("machine_recipe_output_fluid2", "配方产物2(流体)", "Recipe Output #2 (Fluid)"),
+    MACHINE_RECIPE_OUTPUT_FLUID_3("machine_recipe_output_fluid3", "配方产物3(流体)", "Recipe Output #3 (Fluid)"),
+    MACHINE_MANTENANCE("machine_mantenance", "维护状态", "Mantenance Status");
 
     private final ResourceLocation id;
     private final String langCN;

@@ -4362,5 +4362,13 @@ final class Assembler {
                 .EUt(15)
                 .duration(100)
                 .save();
+
+        ASSEMBLER_RECIPES.builder("monitor_machine")
+                .inputItems(GTOMachines.BASIC_MONITOR)
+                .inputItems(GTBlocks.MACHINE_CASING_LV.asItem())
+                .outputItems(GTOMachines.MONITOR_MACHINE)
+                .EUt(15)
+                .duration(100)
+                .save();
     }
 }
