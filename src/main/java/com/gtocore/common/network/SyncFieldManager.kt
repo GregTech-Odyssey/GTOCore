@@ -82,12 +82,7 @@ object SyncFieldManager {
     }
 }
 abstract class SyncField<T>(var side: LogicalSide, val uniqueName: Supplier<String>, value: T, var onInitCallBack: (SyncField<T>, new: T) -> Unit = { _, _ -> }, var onSyncCallBack: (SyncField<T>, old: T, new: T) -> Unit = { _, _, _ -> }) {
-    var needForceSetSide = false
-    private var hasForceSetSide = false
-    fun forceSetSide(side: LogicalSide) {
-        this.side = side
-        this.hasForceSetSide = true
-    }
+
     var value = value
         set(value) {
             field = value
@@ -147,7 +142,6 @@ abstract class SyncField<T>(var side: LogicalSide, val uniqueName: Supplier<Stri
     // ****** 操作 ******//
     // //////////////////////////////
     fun askForSyncInClient() {
-        require(!hasForceSetSide || (needForceSetSide && hasForceSetSide)) { "$errorPrefix This field has been forced set side, you can't change it" }
         require(side == LogicalSide.CLIENT) { "$errorPrefix This method can only be called in client side" }
         SyncFieldManager.askForSyncInClient(uniqueName.get())
     }

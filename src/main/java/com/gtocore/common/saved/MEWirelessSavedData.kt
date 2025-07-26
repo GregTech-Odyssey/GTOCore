@@ -31,9 +31,7 @@ object MEWirelessSavedData : SavedData() {
         createLogicalSide(GTCEu.isClientSide()),
         { "MEWirelessSavedData" },
         value = mutableListOf(),
-    ).apply {
-        needForceSetSide = true
-    }
+    )
     fun findGridById(gridID: UUID): MEWirelessConnectionGrid? = SyncMEWirelessGrids.value.firstOrNull { it.gridID == gridID }
     fun findGridByPlayerId(playerId: UUID): List<MEWirelessConnectionGrid> = SyncMEWirelessGrids.value.filter {
         TeamUtil.getTeamUUID(playerId) == TeamUtil.getTeamUUID(it.gridOwnerUUid)
@@ -66,6 +64,7 @@ object MEWirelessSavedData : SavedData() {
         return tag
     }
     fun load(tag: CompoundTag): MEWirelessSavedData {
+        if (SyncMEWirelessGrids.side.isClient) return this
         val rawMEWirelessGrids = mutableListOf<MEWirelessConnectionGrid>()
         tag.getList(NBT_GRID, 10).forEach { compoundTag ->
             val element = MEWirelessConnectionGrid.deserializeNBT(compoundTag as CompoundTag) ?: return@forEach

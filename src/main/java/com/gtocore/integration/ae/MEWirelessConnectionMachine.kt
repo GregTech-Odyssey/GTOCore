@@ -1,7 +1,6 @@
 package com.gtocore.integration.ae
 
 import com.gtocore.api.gui.ktflexible.textBlock
-import com.gtocore.common.network.createLogicalSide
 import com.gtocore.common.saved.MEWirelessSavedData
 import com.gtocore.common.saved.MEWirelessSavedData.SyncMEWirelessGrids
 
@@ -35,13 +34,6 @@ class MEWirelessConnectionMachine(holder: IMachineBlockEntity) :
         val holder = ManagedFieldHolder(MEWirelessConnectionMachine::class.java, MANAGED_FIELD_HOLDER)
     }
     override fun getFieldHolder() = Companion.holder
-    init {
-        SyncMEWirelessGrids.forceSetSide(createLogicalSide(isRemote))
-        if (isRemote) {
-            SyncMEWirelessGrids.askForSyncInClient()
-            triggerClientFresh()
-        }
-    }
 
     // ////////////////////////////////
     // ****** Grid Initialization ******//
@@ -129,6 +121,7 @@ class MEWirelessConnectionMachine(holder: IMachineBlockEntity) :
     var freshTick = 0L
     fun triggerClientFresh() {
         if (!isRemote)return
+        SyncMEWirelessGrids.askForSyncInClient()
         freshShould = true
         freshTick = offsetTimer + 20
     }
@@ -144,12 +137,10 @@ class MEWirelessConnectionMachine(holder: IMachineBlockEntity) :
                     button(text = { "创建新的无线网络" }, width = this@vBox.availableWidth - 60 - 8) {
                         if (!isRemote) {
                             MEWirelessSavedData.createNewGrid(nameWillAdd, playerUUID)?.let {
-                                changeToGrid(it)
                                 freshRun.run()
                             }
                         }
                         if (isRemote) {
-                            SyncMEWirelessGrids.askForSyncInClient()
                             triggerClientFresh()
                         }
                     }
@@ -169,7 +160,6 @@ class MEWirelessConnectionMachine(holder: IMachineBlockEntity) :
                                         freshRun.run()
                                     }
                                     if (isRemote) {
-                                        SyncMEWirelessGrids.askForSyncInClient()
                                         triggerClientFresh()
                                     }
                                 }
