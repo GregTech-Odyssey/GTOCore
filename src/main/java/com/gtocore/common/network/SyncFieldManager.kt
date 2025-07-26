@@ -63,14 +63,37 @@ object SyncFieldManager {
         syncField.handleFromClient(buffer)
 //        syncToAllClients(uniqueName)
     }
+
+    // ////////////////////////////////
+    // ****** 操作 ******//
+    // //////////////////////////////
+    fun askForSyncInClient(uniqueName: String) {
+        val syncField = syncFieldMap.match(uniqueName to LogicalSide.CLIENT)
+        require(syncField != null) { "SyncField with name $uniqueName is not registered" }
+        ClientMessage.send("sync_field_asking", { buf ->
+            buf.writeUtf(uniqueName)
+        })
+    }
+    fun handleAskFromClient(buffer: FriendlyByteBuf) {
+        val uniqueName = buffer.readUtf()
+        val syncField = syncFieldMap.match(uniqueName to LogicalSide.SERVER)
+        require(syncField != null) { "SyncField with name $uniqueName is not registered" }
+        syncToAllClients(uniqueName)
+    }
 }
-abstract class SyncField<T>(val side: LogicalSide, val uniqueName: Supplier<String>, value: T, var onInitCallBack: (SyncField<T>, new: T) -> Unit = { _, _ -> }, var onSyncCallBack: (SyncField<T>, old: T, new: T) -> Unit = { _, _, _ -> }) {
+abstract class SyncField<T>(var side: LogicalSide, val uniqueName: Supplier<String>, value: T, var onInitCallBack: (SyncField<T>, new: T) -> Unit = { _, _ -> }, var onSyncCallBack: (SyncField<T>, old: T, new: T) -> Unit = { _, _, _ -> }) {
+    var needForceSetSide = false
+    private var hasForceSetSide = false
+    fun forceSetSide(side: LogicalSide) {
+        this.side = side
+        this.hasForceSetSide = true
+    }
     var value = value
         set(value) {
             field = value
             onContentChanged?.run()
         }
-    var onContentChanged: Runnable? = null
+    private var onContentChanged: Runnable? = null
     val errorPrefix = "[SyncField $uniqueName in side $side] :"
     init {
         // init
@@ -118,6 +141,15 @@ abstract class SyncField<T>(val side: LogicalSide, val uniqueName: Supplier<Stri
         val oldValue = value
         value = readFromBuffer(buffer)
         onSyncCallBack(this, oldValue, value)
+    }
+
+    // ////////////////////////////////
+    // ****** 操作 ******//
+    // //////////////////////////////
+    fun askForSyncInClient() {
+        require(!hasForceSetSide || (needForceSetSide && hasForceSetSide)) { "$errorPrefix This field has been forced set side, you can't change it" }
+        require(side == LogicalSide.CLIENT) { "$errorPrefix This method can only be called in client side" }
+        SyncFieldManager.askForSyncInClient(uniqueName.get())
     }
     abstract fun readFromBuffer(buffer: FriendlyByteBuf): T
     abstract fun writeToBuffer(buffer: FriendlyByteBuf): FriendlyByteBuf

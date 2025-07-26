@@ -1,58 +1,79 @@
 package com.gtocore.common.saved
 
+import com.gtocore.common.network.SyncField
+import com.gtocore.common.network.createLogicalSide
 import com.gtocore.integration.ae.MEWirelessConnectionMachine
 
 import net.minecraft.core.UUIDUtil
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.nbt.ListTag
 import net.minecraft.nbt.NbtOps
+import net.minecraft.network.FriendlyByteBuf
 import net.minecraft.world.level.saveddata.SavedData
+import net.minecraftforge.fml.LogicalSide
 
 import appeng.api.networking.GridHelper
 import appeng.api.networking.IGridConnection
+import com.gregtechceu.gtceu.GTCEu
 import com.gtolib.GTOCore
 import com.hepdd.gtmthings.utils.TeamUtil
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 
 import java.util.UUID
+import java.util.function.Supplier
 import kotlin.collections.forEach
 
 private const val NBT_GRID = "MEWirelessConnectionGrids"
 
 object MEWirelessSavedData : SavedData() {
-    val MEWirelessGrids = mutableListOf<MEWirelessConnectionGrid>()
-    fun findGridById(gridID: UUID): MEWirelessConnectionGrid? = MEWirelessGrids.firstOrNull { it.gridID == gridID }
-    fun findGridByPlayerId(playerId: UUID): List<MEWirelessConnectionGrid> = MEWirelessGrids.filter {
+    val SyncMEWirelessGrids = GridSyncField(
+        createLogicalSide(GTCEu.isClientSide()),
+        { "MEWirelessSavedData" },
+        value = mutableListOf(),
+    ).apply {
+        needForceSetSide = true
+    }
+    fun findGridById(gridID: UUID): MEWirelessConnectionGrid? = SyncMEWirelessGrids.value.firstOrNull { it.gridID == gridID }
+    fun findGridByPlayerId(playerId: UUID): List<MEWirelessConnectionGrid> = SyncMEWirelessGrids.value.filter {
         TeamUtil.getTeamUUID(playerId) == TeamUtil.getTeamUUID(it.gridOwnerUUid)
     }
-    fun getGridCount(): Int = MEWirelessGrids.size
+    fun getGridCount(): Int = SyncMEWirelessGrids.value.size
 
     fun createNewGrid(gridName: String, playerId: UUID): MEWirelessConnectionGrid? {
         if (gridName.isEmpty()) return null
-        if (MEWirelessGrids.any { it.gridName == gridName }) return null
+        if (SyncMEWirelessGrids.value.any { it.gridName == gridName }) return null
         val newGrid = MEWirelessConnectionGrid(gridName, playerId)
-        MEWirelessGrids.add(newGrid)
+        SyncMEWirelessGrids.updateInServer(SyncMEWirelessGrids.value.also { it.add(newGrid) })
         setDirty()
         return newGrid
     }
     fun removeGrid(grid: MEWirelessConnectionGrid) {
         grid.connectionPool.forEach { it.clearSavedGridData() }
         grid.destroyAllConnection()
-        MEWirelessGrids.remove(grid)
+        SyncMEWirelessGrids.updateInServer(SyncMEWirelessGrids.value.also { it.remove(grid) })
         setDirty()
     }
     override fun save(tag: CompoundTag): CompoundTag {
-        tag.put(NBT_GRID, ListTag().apply { MEWirelessGrids.forEach { add(it.serializeNBT()) } })
+        tag.put(
+            NBT_GRID,
+            ListTag().apply {
+                SyncMEWirelessGrids.value.forEach {
+                    add(it.serializeNBT())
+                }
+            },
+        )
         return tag
     }
     fun load(tag: CompoundTag): MEWirelessSavedData {
+        val rawMEWirelessGrids = mutableListOf<MEWirelessConnectionGrid>()
         tag.getList(NBT_GRID, 10).forEach { compoundTag ->
             val element = MEWirelessConnectionGrid.deserializeNBT(compoundTag as CompoundTag) ?: return@forEach
-            if (MEWirelessGrids.none { it.gridID == element.gridID }) {
-                MEWirelessGrids.add(element)
+            if (rawMEWirelessGrids.none { it.gridID == element.gridID }) {
+                rawMEWirelessGrids.add(element)
             }
         }
+        SyncMEWirelessGrids.updateInServer(rawMEWirelessGrids)
         return this
     }
 
@@ -120,5 +141,32 @@ object MEWirelessSavedData : SavedData() {
                 }
             }
         }
+    }
+}
+
+class GridSyncField(side: LogicalSide, uniqueName: Supplier<String>, value: MutableList<MEWirelessSavedData.MEWirelessConnectionGrid>, onInitCallBack: (SyncField<MutableList<MEWirelessSavedData.MEWirelessConnectionGrid>>, MutableList<MEWirelessSavedData.MEWirelessConnectionGrid>) -> Unit = { _, _ -> }, onSyncCallBack: (SyncField<MutableList<MEWirelessSavedData.MEWirelessConnectionGrid>>, MutableList<MEWirelessSavedData.MEWirelessConnectionGrid>, MutableList<MEWirelessSavedData.MEWirelessConnectionGrid>) -> Unit = { _, _, _ -> }) :
+    SyncField<MutableList<MEWirelessSavedData.MEWirelessConnectionGrid>>(
+        side,
+        uniqueName,
+        value,
+        onInitCallBack,
+        onSyncCallBack,
+    ) {
+    override fun readFromBuffer(buffer: FriendlyByteBuf): MutableList<MEWirelessSavedData.MEWirelessConnectionGrid> {
+        val size = buffer.readInt()
+        val list = mutableListOf<MEWirelessSavedData.MEWirelessConnectionGrid>()
+        for (i in 0 until size) {
+            val element = MEWirelessSavedData.MEWirelessConnectionGrid.deserializeNBT(buffer.readNbt() ?: continue)
+            list.add(element ?: continue)
+        }
+        return list
+    }
+
+    override fun writeToBuffer(buffer: FriendlyByteBuf): FriendlyByteBuf {
+        buffer.writeInt(value.size)
+        for (element in value) {
+            buffer.writeNbt(element.serializeNBT())
+        }
+        return buffer
     }
 }

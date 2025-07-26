@@ -1,7 +1,9 @@
 package com.gtocore.integration.ae
 
 import com.gtocore.api.gui.ktflexible.textBlock
+import com.gtocore.common.network.createLogicalSide
 import com.gtocore.common.saved.MEWirelessSavedData
+import com.gtocore.common.saved.MEWirelessSavedData.SyncMEWirelessGrids
 
 import net.minecraft.core.Direction
 import net.minecraft.network.chat.Component
@@ -33,6 +35,13 @@ class MEWirelessConnectionMachine(holder: IMachineBlockEntity) :
         val holder = ManagedFieldHolder(MEWirelessConnectionMachine::class.java, MANAGED_FIELD_HOLDER)
     }
     override fun getFieldHolder() = Companion.holder
+    init {
+        SyncMEWirelessGrids.forceSetSide(createLogicalSide(isRemote))
+        if (isRemote) {
+            SyncMEWirelessGrids.askForSyncInClient()
+            triggerClientFresh()
+        }
+    }
 
     // ////////////////////////////////
     // ****** Grid Initialization ******//
@@ -139,7 +148,10 @@ class MEWirelessConnectionMachine(holder: IMachineBlockEntity) :
                                 freshRun.run()
                             }
                         }
-                        triggerClientFresh()
+                        if (isRemote) {
+                            SyncMEWirelessGrids.askForSyncInClient()
+                            triggerClientFresh()
+                        }
                     }
                 }
                 textBlock(maxWidth = availableWidth - 4, textSupplier = { Component.literal("全球可用无线网络 : ${MEWirelessSavedData.findGridByPlayerId(playerUUID).size} / ${MEWirelessSavedData.getGridCount()}") })
@@ -156,7 +168,10 @@ class MEWirelessConnectionMachine(holder: IMachineBlockEntity) :
                                         MEWirelessSavedData.removeGrid(grid)
                                         freshRun.run()
                                     }
-                                    triggerClientFresh()
+                                    if (isRemote) {
+                                        SyncMEWirelessGrids.askForSyncInClient()
+                                        triggerClientFresh()
+                                    }
                                 }
                             } else {
                                 hBox(height = 14, alwaysVerticalCenter = true) {
