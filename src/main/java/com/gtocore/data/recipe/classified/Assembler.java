@@ -4373,7 +4373,7 @@ final class Assembler {
 
         ASSEMBLER_RECIPES.builder("wood_frame_fix")
                 .inputItems(Items.STICK, 4)
-                .circuitMeta(6)
+                .circuitMeta(8)
                 .outputItems(frameGt, Wood, 1)
                 .EUt(7)
                 .duration(64)

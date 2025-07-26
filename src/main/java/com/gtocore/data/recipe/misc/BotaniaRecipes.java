@@ -50,6 +50,7 @@ import static com.gtocore.api.data.tag.GTOTagPrefix.SUPERCONDUCTOR_BASE;
 import static com.gtocore.common.data.GTOItems.COLORFUL_MYSTICAL_FLOWER;
 import static com.gtocore.common.data.GTOMaterials.*;
 import static com.gtocore.common.data.GTORecipeTypes.*;
+import static vazkii.botania.common.block.BotaniaBlocks.motifDaybloom;
 
 public final class BotaniaRecipes {
 
@@ -139,6 +140,14 @@ public final class BotaniaRecipes {
                     .addIngredient(recipe.input13).addIngredient(recipe.input14).addIngredient(recipe.input15).addIngredient(recipe.input16)
                     .save(provider);
         }
+        PetalApothecaryRecipeBuilder.builder("motif_daybloom")
+                .reagent(Ingredient.of(ForgeTags.SEEDS))
+                .output(motifDaybloom)
+                .addIngredient(Ingredient.of(BotaniaItems.orangePetal))
+                .addIngredient(Ingredient.of(BotaniaItems.orangePetal))
+                .addIngredient(Ingredient.of(BotaniaItems.lightBluePetal))
+                .addIngredient(Ingredient.of(BotaniaItems.yellowPetal))
+                .save(provider);
 
         // 符文祭坛
         record RunicAltarRecipe(
@@ -764,7 +773,7 @@ public final class BotaniaRecipes {
                 new IndustrialAltarRecipe(2, "solegnolia_flower", 1, Items.WHEAT_SEEDS, new ItemStack(BotaniaFlowerBlocks.solegnolia), new Item[] { BotaniaItems.brownPetal, BotaniaItems.brownPetal, BotaniaItems.redPetal, BotaniaItems.bluePetal, BotaniaItems.redstoneRoot }),
                 new IndustrialAltarRecipe(2, "bergamute_flower", 1, Items.WHEAT_SEEDS, new ItemStack(BotaniaFlowerBlocks.bergamute), new Item[] { BotaniaItems.orangePetal, BotaniaItems.greenPetal, BotaniaItems.greenPetal, BotaniaItems.redstoneRoot }),
                 new IndustrialAltarRecipe(3, "labellia_flower", 1, Items.WHEAT_SEEDS, new ItemStack(BotaniaFlowerBlocks.labellia), new Item[] { BotaniaItems.yellowPetal, BotaniaItems.yellowPetal, BotaniaItems.bluePetal, BotaniaItems.whitePetal, BotaniaItems.blackPetal, BotaniaItems.runeAutumn, BotaniaItems.redstoneRoot, BotaniaItems.pixieDust }),
-                new IndustrialAltarRecipe(2, "motif_daybloom_flower", 1, Items.WHEAT_SEEDS, new ItemStack(BotaniaBlocks.motifDaybloom), new Item[] { BotaniaItems.yellowPetal, BotaniaItems.yellowPetal, BotaniaItems.orangePetal, BotaniaItems.lightBluePetal }),
+                new IndustrialAltarRecipe(2, "motif_daybloom_flower", 1, Items.WHEAT_SEEDS, new ItemStack(motifDaybloom), new Item[] { BotaniaItems.yellowPetal, BotaniaItems.yellowPetal, BotaniaItems.orangePetal, BotaniaItems.lightBluePetal }),
                 new IndustrialAltarRecipe(2, "motif_nightshade_flower", 1, Items.WHEAT_SEEDS, new ItemStack(BotaniaBlocks.motifNightshade), new Item[] { BotaniaItems.blackPetal, BotaniaItems.blackPetal, BotaniaItems.purplePetal, BotaniaItems.grayPetal }));
 
         for (IndustrialAltarRecipe recipe : IndustrialAltar2) {
