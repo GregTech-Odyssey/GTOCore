@@ -1,11 +1,17 @@
 package com.gtocore.common.item;
 
+import com.gregtechceu.gtceu.api.gui.fancy.FancyMachineUIWidget;
+import com.gregtechceu.gtceu.api.gui.fancy.IFancyUIProvider;
+import com.gregtechceu.gtceu.api.gui.fancy.TabsWidget;
 import com.gtolib.api.item.tool.ae2.patternTool.Ae2BaseProcessingPattern;
 
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.item.component.IItemUIFactory;
 import com.gregtechceu.gtceu.integration.ae2.gui.widget.AETextInputButtonWidget;
 
+import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture;
+import com.lowdragmc.lowdraglib.gui.texture.ItemStackTexture;
+import com.lowdragmc.lowdraglib.gui.widget.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
@@ -27,12 +33,11 @@ import appeng.blockentity.networking.CableBusBlockEntity;
 import appeng.parts.crafting.PatternProviderPart;
 import com.lowdragmc.lowdraglib.gui.factory.HeldItemUIFactory;
 import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
-import com.lowdragmc.lowdraglib.gui.widget.ImageWidget;
-import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
-import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 
-public final class PatternModifierProBehavior implements IItemUIFactory {
+import static com.gtocore.common.data.GTOItems.PATTERN_MODIFIER_PRO;
+
+public final class PatternModifierProBehavior implements IItemUIFactory, IFancyUIProvider {
 
     public static final PatternModifierProBehavior INSTANCE = new PatternModifierProBehavior();
     private int Ae2PatternGeneratorScale = 1;
@@ -43,33 +48,7 @@ public final class PatternModifierProBehavior implements IItemUIFactory {
 
     @Override
     public ModularUI createUI(HeldItemUIFactory.HeldItemHolder heldItemHolder, Player player) {
-        ModularUI modularUI = new ModularUI(206, 124, heldItemHolder, player);
-        modularUI.widget(new WidgetGroup(0, 0, 206, 124)
-                .addWidget(new ImageWidget(8, 8, 190, 108, GuiTextures.DISPLAY))
-                .addWidget(new LabelWidget(12, 12, Component.translatable("item.gtocore.pattern_modifier_pro.name")))
-                .addWidget(new LabelWidget(12, 22, Component.translatable("gtocore.patternModifierPro.0")))
-                .addWidget(new AETextInputButtonWidget(-60, 40 + 2, 60, 12)
-                        .setText(String.valueOf(Ae2PatternGeneratorScale))
-                        .setOnConfirm(this::setAe2PatternGeneratorScale))
-                .addWidget(new LabelWidget(12, 40 + 4, Component.translatable("gtocore.patternModifierPro.1")))
-                .addWidget(new AETextInputButtonWidget(-60, 54 + 2, 60, 12)
-                        .setText(String.valueOf(Ae2PatternGeneratorDivScale))
-                        .setOnConfirm(this::setAe2PatternGeneratorDivScale))
-                .addWidget(new LabelWidget(12, 54 + 4, Component.translatable("gtocore.patternModifierPro.2")))
-                .addWidget(new AETextInputButtonWidget(-60, 68 + 2, 60, 12)
-                        .setText(String.valueOf(Ae2PatternGeneratorMaxItemStack))
-                        .setOnConfirm(this::setAe2PatternGeneratorMaxItemStack))
-                .addWidget(new LabelWidget(12, 68 + 4, Component.translatable("gtocore.patternModifierPro.3")))
-                .addWidget(new AETextInputButtonWidget(-60, 82 + 2, 60, 12)
-                        .setText(String.valueOf(Ae2PatternGeneratorMaxFluidStack))
-                        .setOnConfirm(this::setAe2PatternGeneratorMaxFluidStack))
-                .addWidget(new LabelWidget(12, 82 + 4, Component.translatable("gtocore.patternModifierPro.4")))
-                .addWidget(new AETextInputButtonWidget(-60, 96 + 2, 60, 12)
-                        .setText(String.valueOf(Ae2PatternGeneratorAppliedNumber))
-                        .setOnConfirm(this::setAe2PatternGeneratorAppliedNumber))
-                .addWidget(new LabelWidget(12, 96 + 4, Component.translatable("gtocore.patternModifierPro.5"))));
-        modularUI.background(GuiTextures.BACKGROUND);
-        return modularUI;
+        return new ModularUI(206, 124, heldItemHolder, player).widget(new FancyMachineUIWidget(this, 206, 124)).background(GuiTextures.BACKGROUND);
     }
 
     private void setAe2PatternGeneratorAppliedNumber(String s) {
@@ -154,5 +133,39 @@ public final class PatternModifierProBehavior implements IItemUIFactory {
         ae2BaseProcessingPattern.setScale(Ae2PatternGeneratorScale, false, Ae2PatternGeneratorMaxItemStack, Ae2PatternGeneratorMaxFluidStack);
         ae2BaseProcessingPattern.setScale(Ae2PatternGeneratorDivScale, true);
         return ae2BaseProcessingPattern.getPatternItemStack();
+    }
+
+    @Override
+    public Widget createMainPage(FancyMachineUIWidget fancyMachineUIWidget) {
+        WidgetGroup a = new WidgetGroup(0, 0, 206, 124);
+        a.addWidget(new ImageWidget(8, 8, 190, 108, GuiTextures.DISPLAY))
+                .addWidget(new LabelWidget(12, 12, "item.gtocore.pattern_modifier_pro.name"))
+                .addWidget(new LabelWidget(12, 22, "gtocore.patternModifierPro.0"))
+                .addWidget(new TextFieldWidget(-60, 40 + 2, 60, 12,()->String.valueOf(Ae2PatternGeneratorScale), this::setAe2PatternGeneratorScale))
+                .addWidget(new LabelWidget(12, 40 + 4, "gtocore.patternModifierPro.1"))
+                .addWidget(new TextFieldWidget(-60, 54 + 2, 60, 12,()->String.valueOf(Ae2PatternGeneratorDivScale), this::setAe2PatternGeneratorDivScale))
+                .addWidget(new LabelWidget(12, 54 + 4, "gtocore.patternModifierPro.2"))
+                .addWidget(new TextFieldWidget(-60, 68 + 2, 60, 12,()->String.valueOf(Ae2PatternGeneratorMaxItemStack), this::setAe2PatternGeneratorMaxItemStack))
+                .addWidget(new LabelWidget(12, 68 + 4, "gtocore.patternModifierPro.3"))
+                .addWidget(new TextFieldWidget(-60, 82 + 2, 60, 12,()->String.valueOf(Ae2PatternGeneratorMaxFluidStack), this::setAe2PatternGeneratorMaxFluidStack))
+                .addWidget(new LabelWidget(12, 82 + 4, "gtocore.patternModifierPro.4"))
+                .addWidget(new TextFieldWidget(-60, 96 + 2, 60, 12,()->String.valueOf(Ae2PatternGeneratorAppliedNumber), this::setAe2PatternGeneratorAppliedNumber))
+                .addWidget(new LabelWidget(12, 96 + 4, "gtocore.patternModifierPro.5"));
+        return a;
+    }
+
+    @Override
+    public void attachSideTabs(TabsWidget configuratorPanel) {
+        configuratorPanel.setMainTab(this);
+    }
+
+    @Override
+    public IGuiTexture getTabIcon() {
+        return new ItemStackTexture(PATTERN_MODIFIER_PRO.asStack());
+    }
+
+    @Override
+    public Component getTitle() {
+        return Component.literal("样板修改器Pro");
     }
 }
