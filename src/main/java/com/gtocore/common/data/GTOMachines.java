@@ -220,8 +220,8 @@ public final class GTOMachines {
             .recipeType(GTRecipeTypes.DUMMY_RECIPES)
             .noRecipeModifier()
             .nonYAxisRotation()
-            .tooltipsText("Need an external heat source to work.",
-                    "需要外部热源才能工作。")
+            .tooltipsText("Need an external heat source to work.", "需要外部热源才能工作。")
+            .tooltipsText("When the temperature is greater than %s and it stops working, if machine will still have water, and it will explode.", "当温度大于%sK且停止工作时，机器仍然存有水，会爆炸。", BoilWaterMachine.DrawWaterExplosionLine)
             .tooltips(Component.translatable("gtocore.machine.boiler.tooltip.warning"))
             .tooltipsKey("gtceu.universal.tooltip.produces_fluid", 48)
             .tooltipsKey("gtceu.fluid_pipe.max_temperature", 600)

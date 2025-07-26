@@ -25,12 +25,13 @@ import org.jetbrains.annotations.Nullable;
 public final class BoilWaterMachine extends SimpleNoEnergyMachine implements IReceiveHeatMachine {
 
     private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(BoilWaterMachine.class, SimpleNoEnergyMachine.MANAGED_FIELD_HOLDER);
+    public static final int DrawWaterExplosionLine = 400;
     @Persisted
     private int temperature = 293;
     private TickableSubscription tickSubs;
 
     public BoilWaterMachine(IMachineBlockEntity holder) {
-        super(holder, 0, i -> 8000);
+        super(holder, 0, i -> 16000);
     }
 
     @Override
@@ -55,7 +56,7 @@ public final class BoilWaterMachine extends SimpleNoEnergyMachine implements IRe
         Recipe recipe = getRecipeBuilder().duration(20).inputFluids(new FluidStack(Fluids.WATER, 6)).outputFluids(GTMaterials.Steam.getFluid(960 * temperature / 600)).buildRawRecipe();
         if (RecipeRunner.matchRecipe(this, recipe)) {
             return recipe;
-        } else if (temperature > 400) {
+        } else if (temperature > DrawWaterExplosionLine) {
             if (inputFluid(Fluids.WATER, 1)) {
                 doExplosion(6);
             }
