@@ -94,12 +94,12 @@ public class MonitorMana extends AbstractInfoProviderMonitor implements ITeamInf
                                 .getVisualOrderText());
             }
             informationList.addIfAbsent(
-                    DisplayRegistry.MANA_PROGRESS_BAR.id(),
+                    DisplayRegistry.EU_STATUS_BAR.id(),
                     new IDisplayComponent() {
 
                         @Override
                         public ResourceLocation getId() {
-                            return DisplayRegistry.MANA_PROGRESS_BAR.id();
+                            return DisplayRegistry.EU_STATUS_BAR.id();
                         }
 
                         @Override
@@ -134,8 +134,7 @@ public class MonitorMana extends AbstractInfoProviderMonitor implements ITeamInf
                 DisplayRegistry.MANA_CURRENT_AS_POOL.id(),
                 DisplayRegistry.MANA_CHANGE.id(),
                 DisplayRegistry.MANA_CHANGE_AS_POOL.id(),
-                DisplayRegistry.MANA_REMAINING_TIME.id(),
-                DisplayRegistry.MANA_PROGRESS_BAR.id()));
+                DisplayRegistry.MANA_REMAINING_TIME.id()));
         return rls;
     }
 }

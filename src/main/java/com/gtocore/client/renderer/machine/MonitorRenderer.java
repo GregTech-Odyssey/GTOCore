@@ -15,10 +15,7 @@ import com.gregtechceu.gtceu.client.util.StaticFaceBakery;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.renderer.LevelRenderer;
-import net.minecraft.client.renderer.LightTexture;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.*;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.block.model.BlockElementFace;
 import net.minecraft.client.renderer.block.model.BlockFaceUV;
@@ -30,6 +27,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -38,7 +36,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 import com.lowdragmc.lowdraglib.client.model.ModelFactory;
-import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.*;
 import com.mojang.math.Axis;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3f;
@@ -56,6 +54,7 @@ public class MonitorRenderer extends MachineRenderer {
     // Minimum width for text rendering, measured in pixels.
     // This ensures that text elements are not rendered too small to be legible.
     private static final int MIN_WIDTH_TEXT = 100;
+    private static final float MARGIN = 0.15f;
 
     public MonitorRenderer() {
         super(GTCEu.id("block/cube/tinted/all"));
@@ -66,6 +65,9 @@ public class MonitorRenderer extends MachineRenderer {
     public void renderMachine(List<BakedQuad> quads, MachineDefinition definition, @Nullable MetaMachine machine, Direction frontFacing, @Nullable Direction side, RandomSource rand, Direction modelFacing, ModelState modelState) {
         super.renderMachine(quads, definition, machine, frontFacing, side, rand, modelFacing, modelState);
         if (!(machine instanceof IMonitor monitor)) {
+            // machine is null when rendering is at GUI context
+            // use the default monitor overlay
+            quads.add(StaticFaceBakery.bakeFace(frontFacing, ModelFactory.getBlockSprite(MONITOR_OVERLAY)));
             return;
         }
         Manager.MonitorCTM ctm = Manager.MonitorCTM.getConnection(
@@ -95,10 +97,6 @@ public class MonitorRenderer extends MachineRenderer {
                         true,
                         0));
     }
-    // @Override
-    // public boolean reBakeCustomQuads() {
-    // return true;
-    // }
 
     @Override
     @OnlyIn(Dist.CLIENT)
@@ -109,6 +107,11 @@ public class MonitorRenderer extends MachineRenderer {
 
     @Override
     public boolean isGlobalRenderer(BlockEntity blockEntity) {
+        return true;
+    }
+
+    @Override
+    public boolean shouldRender(BlockEntity blockEntity, Vec3 cameraPos) {
         return true;
     }
 
@@ -169,13 +172,13 @@ public class MonitorRenderer extends MachineRenderer {
                         stack.pushPose();
                         stack.translate(
                                 switch (front) {
-                                    case WEST, SOUTH -> 0.9f;
-                                    case EAST, NORTH -> network.width3D() - 1.1f;
+                                    case WEST, SOUTH -> 1 - MARGIN;
+                                    case EAST, NORTH -> network.width3D() - 1 - MARGIN;
                                     default -> 0f;
                                 },
-                                network.height3D() - 1 - 0.1f,
+                                network.height3D() - 1 - MARGIN,
                                 -0f);
-                        var factor = getGlobalScaleFactor(info, MIN_WIDTH_TEXT, network.width3D() - 0.2f, network.height3D() - 0.2f);
+                        var factor = getGlobalScaleFactor(info, MIN_WIDTH_TEXT, network.width3D() - MARGIN * 2f, network.height3D() - MARGIN * 2f);
                         stack.scale(-factor, -factor, -factor);
                         int cumulatedHeight = 0;
                         for (IDisplayComponent iDisplayComponent : info) {

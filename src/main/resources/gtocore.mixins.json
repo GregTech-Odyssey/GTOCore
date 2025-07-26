@@ -10,9 +10,18 @@
     "mc.GuiGraphicsAccessor"
   ],
   "mixins": [
+    "ae.CraftingStatusMenuAccessor",
+    "ftbq.FTBQuestsCommandsMixin",
+    "ftbq.ToggleEditingModeMessageMixin",
+    "ftbu.FTBUltimineMixin",
+    "ftbu.FTBUltiminePlayerDataMixin",
+    "ftbu.ShapeContextMixin",
+    "ftbxmodcompat.FTBXModCompatMixin",
     "gtm.AssemblyLineMachineMixin",
+    "gtmt.TimeWheelMixin",
     "mae2.EUP2PTunnelPartMixin",
     "mc.BlockBehaviourMixin",
+    "mc.SharedConstantsMixin",
     "mc.mob.AbstractSkeletonMixin",
     "mc.mob.MobMixin"
   ],

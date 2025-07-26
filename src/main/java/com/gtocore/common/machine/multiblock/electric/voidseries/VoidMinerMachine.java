@@ -55,7 +55,7 @@ public final class VoidMinerMachine extends StorageMultiblockMachine {
     private Recipe getRecipe() {
         if (dim == null) return null;
         if (!isEmpty()) {
-            if (RecipeRunner.matchRecipeInput(this, RECIPE)) {
+            if (RecipeRunner.matchRecipeInput(this, RECIPE) && GTOOres.ALL_ORES.containsKey(dim)) {
                 Recipe recipe = RECIPE.copy();
                 recipe.setEut(GTValues.VA[getTier()]);
                 recipe.outputs.put(ItemRecipeCapability.CAP, ContentBuilder.createList().items(getItems()).buildList());

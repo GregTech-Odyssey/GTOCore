@@ -29,7 +29,7 @@ public class LargeMacerationTowerMachine extends GCYMMultiblockMachine {
     public void onStructureFormed() {
         super.onStructureFormed();
         updateBounds();
-        var items = gtolib$getInput().get(ItemRecipeCapability.CAP);
+        var items = gtolib$getInputFlat().get(ItemRecipeCapability.CAP);
         if (items != null) {
             for (var holder : items) {
                 if (holder instanceof IItemHandler ih) {

@@ -327,7 +327,6 @@ public final class MultiBlockA {
             .tooltipsText("需要最低30720EU/t的功率", "Requires a minimum power of 30,720EU/t")
             .tooltipsText("按维度和电路值输出流体", "Outputs fluids based on the dimension and circuit value")
             .recipeTypes(GTORecipeTypes.DUMMY_RECIPES)
-            .alwaysTryModifyRecipe(true)
             .block(GTBlocks.CASING_HSSE_STURDY)
             .pattern(definition -> FactoryBlockPattern.start(definition, RelativeDirection.BACK, RelativeDirection.UP, RelativeDirection.LEFT)
                     .aisle("ABBBBA ", "AAAAAA ", " C C   ", " C C   ", " C C   ", " C C   ", "       ", "       ")
@@ -358,7 +357,6 @@ public final class MultiBlockA {
             .tooltipsText("需要输入1B钻井液和最低1920EU/t的功率", "Requires 1B drilling fluid and a minimum power of 1920EU/t")
             .tooltipsText("按维度随机选取4分矿石输出，电压等级决定最大输出数量，电流决定并行数", "Randomly selects 4 types of ores output based on the dimension, with the voltage level determining the maximum output quantity and the current determining the parallels")
             .recipeTypes(GTORecipeTypes.DUMMY_RECIPES)
-            .alwaysTryModifyRecipe(true)
             .block(GTBlocks.CASING_TUNGSTENSTEEL_ROBUST)
             .pattern(definition -> FactoryBlockPattern.start(definition, RelativeDirection.FRONT, RelativeDirection.UP, RelativeDirection.RIGHT)
                     .aisle(" AAAAA ", " BBBBB ", "  C C  ", "  C C  ", "  CCC  ", "       ")
@@ -1190,7 +1188,6 @@ public final class MultiBlockA {
                             built such a terrifying, magical circuit-assembly machine with such simple tools and strong will.
                             Maybe magic? But there is no other explanation.""").build())
             .recipeTypes(GTRecipeTypes.CIRCUIT_ASSEMBLER_RECIPES)
-            .alwaysTryModifyRecipe(true)
             .block(GTBlocks.CASING_BRONZE_BRICKS)
             .pattern(definition -> FactoryBlockPattern.start(definition)
                     .aisle("AAA", "AAA", "DDD", " D ")
@@ -1549,7 +1546,6 @@ public final class MultiBlockA {
             .specialParallelizableTooltips()
             .tooltips(NewDataAttributes.ALLOW_PARALLEL_NUMBER.create(h -> h.addLines("层数 x 炉温 x 2 / 500", "Layers x Furnace Temperature x 2 / 500")))
             .recipeTypes(GTRecipeTypes.PRIMITIVE_BLAST_FURNACE_RECIPES)
-            .alwaysTryModifyRecipe(true)
             .block(GTBlocks.CASING_PRIMITIVE_BRICKS)
             .pattern(definition -> FactoryBlockPattern.start(definition, RelativeDirection.BACK, RelativeDirection.RIGHT, RelativeDirection.UP)
                     .aisle("     AAAAA     ", "  DDDDDDDDDDD  ", " DDDDDDDDDDDDD ", " DDDDDDDDDDDDD ", " DDDDDDDDDDDDD ", "ADDDDDDDDDDDDDA", "ADDDDDDDDDDDDDA", "ADDDDDDDDDDDDDA", "ADDDDDDDDDDDDDA", "ADDDDDDDDDDDDDA", " DDDDDDDDDDDDD ", " DDDDDDDDDDDDD ", " DDDDDDDDDDDDD ", "  DDDDDDDDDDD  ", "     AAAAA     ")
@@ -2277,7 +2273,6 @@ public final class MultiBlockA {
                             """
                                     Continue running the recipe after the first run, and the subsequent recipe duration will be reduced by 50%
                                     If there is a power shortage during the operation of the recipe, a huge explosion will occur""")))
-            .alwaysTryModifyRecipe(true)
             .laserTooltips()
             .block(GCYMBlocks.CASING_ATOMIC)
             .pattern(definition -> FactoryBlockPattern.start(definition)

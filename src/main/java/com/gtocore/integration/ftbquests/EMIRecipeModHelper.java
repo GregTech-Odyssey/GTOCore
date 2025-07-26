@@ -7,8 +7,24 @@ import dev.emi.emi.api.stack.EmiStack;
 import dev.ftb.mods.ftbquests.FTBQuests;
 import dev.ftb.mods.ftbquests.integration.RecipeModHelper;
 import dev.ftb.mods.ftbquests.quest.QuestObjectBase;
+import dev.ftb.mods.ftbquests.quest.ServerQuestFile;
 
 public final class EMIRecipeModHelper implements RecipeModHelper {
+
+    private static Boolean prohibit;
+
+    public static boolean canEdit() {
+        if (prohibit == null && ServerQuestFile.INSTANCE != null) {
+            prohibit = false;
+            for (var c : ServerQuestFile.INSTANCE.getAllChapters()) {
+                if (c.getRawTitle().contains("gto")) {
+                    prohibit = true;
+                    break;
+                }
+            }
+        }
+        return prohibit != null && !prohibit;
+    }
 
     public static void setRecipeModHelper() {
         FTBQuests.setRecipeModHelper(new EMIRecipeModHelper());

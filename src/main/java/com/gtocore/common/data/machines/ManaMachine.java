@@ -138,10 +138,10 @@ public final class ManaMachine {
             .tier(LV)
             .editableUI(SimpleNoEnergyMachine.EDITABLE_UI_CREATOR.apply(GTCEu.id("alchemy_cauldron"), GTORecipeTypes.ALCHEMY_CAULDRON_RECIPES))
             .recipeType(GTORecipeTypes.ALCHEMY_CAULDRON_RECIPES)
-            .alwaysTryModifyRecipe(true)
             .tooltipsText("§7Do not use it for cooking food", "§7不要用它来做饭")
             .tooltipsText("§7Alchemy is a mysterious process", "§7炼金是一个神秘的过程")
             .tooltipsText("§7The probability of partial recipe output increases with the number of runs", "§7部分配方产出概率随运行次数增长")
+            .tooltipsKey("gtceu.fluid_pipe.max_temperature", 1600)
             .nonYAxisRotation()
             .modelRenderer(() -> GTOCore.id("block/machine/alchemy_cauldron"))
             .blockProp(p -> p.noOcclusion().isViewBlocking((state, level, pos) -> false))
@@ -155,6 +155,7 @@ public final class ManaMachine {
             .noRecipeModifier()
             .nonYAxisRotation()
             .tooltipsText("Input mana to heat, if fire element is input, the heating speed will be 5 times faster.", "输入魔力加热，如果输入火元素，则加热速度翻5倍")
+            .tooltipsKey("gtceu.fluid_pipe.max_temperature", 2400)
             .renderer(() -> new ManaHeaterRenderer(MV))
             .register();
 }

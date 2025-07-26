@@ -39,8 +39,6 @@ public final class GTMachineModify {
         GTMultiMachines.MULTI_SMELTER.setRecipeTypes(new GTRecipeType[] { GTRecipeTypes.FURNACE_RECIPES });
         GTMultiMachines.MULTI_SMELTER.setTooltipBuilder((itemStack, components) -> components.add(Component.translatable("gtceu.machine.available_recipe_map_1.tooltip", Component.translatable("gtceu.electric_furnace"))));
         GTMultiMachines.MULTI_SMELTER.setRecipeModifier(new RecipeModifierFunctionList(RecipeModifierFunction::multiSmelterParallel));
-        GTMultiMachines.MULTI_SMELTER.setAlwaysTryModifyRecipe(true);
-        GTMultiMachines.MULTI_SMELTER.setAllowExtendedFacing(false);
         GTMultiMachines.LARGE_CHEMICAL_REACTOR.setRecipeTypes(new GTRecipeType[] { GTORecipeTypes.CHEMICAL });
         GTMultiMachines.LARGE_CHEMICAL_REACTOR.setRecipeModifier(RecipeModifier.NO_MODIFIER);
         GTMultiMachines.LARGE_BOILER_BRONZE.setRecipeModifier(RecipeModifierFunction.LARGE_BOILER_MODIFIER);
@@ -48,12 +46,10 @@ public final class GTMachineModify {
         GTMultiMachines.LARGE_BOILER_TITANIUM.setRecipeModifier(RecipeModifierFunction.LARGE_BOILER_MODIFIER);
         GTMultiMachines.LARGE_BOILER_TUNGSTENSTEEL.setRecipeModifier(RecipeModifierFunction.LARGE_BOILER_MODIFIER);
         GTMultiMachines.ELECTRIC_BLAST_FURNACE.setRecipeModifier(new RecipeModifierFunctionList(RecipeModifierFunction::ebfOverclock));
-        GTMultiMachines.ELECTRIC_BLAST_FURNACE.setAllowExtendedFacing(false);
         GTMultiMachines.PYROLYSE_OVEN.setRecipeModifier(new RecipeModifierFunctionList(RecipeModifierFunction::pyrolyseOvenOverclock));
         GTMultiMachines.CRACKER.setRecipeModifier(new RecipeModifierFunctionList(RecipeModifierFunction::crackerOverclock));
         GTMultiMachines.IMPLOSION_COMPRESSOR.setRecipeModifier(RecipeModifierFunction.OVERCLOCKING);
         GTMultiMachines.DISTILLATION_TOWER.setRecipeModifier(RecipeModifierFunction.OVERCLOCKING);
-        GTMultiMachines.DISTILLATION_TOWER.setAllowExtendedFacing(false);
         GTMultiMachines.VACUUM_FREEZER.setRecipeModifier(RecipeModifierFunction.OVERCLOCKING);
         GTMultiMachines.ASSEMBLY_LINE.setRecipeModifier(RecipeModifierFunction.OVERCLOCKING);
         GTMultiMachines.STEAM_GRINDER.setPatternFactory(GTMemoizer.memoize(() -> FactoryBlockPattern.start(GTMultiMachines.STEAM_GRINDER)

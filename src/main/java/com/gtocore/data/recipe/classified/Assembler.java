@@ -1,10 +1,7 @@
 package com.gtocore.data.recipe.classified;
 
 import com.gtocore.api.data.tag.GTOTagPrefix;
-import com.gtocore.common.data.GTOBlocks;
-import com.gtocore.common.data.GTOItems;
-import com.gtocore.common.data.GTOMachines;
-import com.gtocore.common.data.GTOMaterials;
+import com.gtocore.common.data.*;
 import com.gtocore.common.data.machines.*;
 
 import com.gtolib.api.machine.GTOCleanroomType;
@@ -4339,6 +4336,37 @@ final class Assembler {
                 .inputItems(GTOMachines.BASIC_MONITOR)
                 .inputItems(GTResearchMachines.HPCA_BRIDGE_COMPONENT)
                 .outputItems(GTOMachines.MONITOR_MACHINE_CWU)
+                .EUt(15)
+                .duration(100)
+                .save();
+
+        ASSEMBLER_RECIPES.builder("monitor_custom")
+                .inputItems(GTOMachines.BASIC_MONITOR)
+                .inputItems(Items.NAME_TAG)
+                .outputItems(GTOMachines.MONITOR_MACHINE_CUSTOM)
+                .EUt(15)
+                .duration(100)
+                .save();
+
+        ASSEMBLER_RECIPES.builder("monitor_ae_throughput")
+                .inputItems(GTOMachines.BASIC_MONITOR)
+                .inputItems(GTOAEParts.INSTANCE.getEXCHANGE_STORAGE_MONITOR().get().asItem())
+                .outputItems(GTOMachines.MONITOR_AE_THROUGHPUT)
+                .EUt(15)
+                .duration(100)
+                .save();
+        ASSEMBLER_RECIPES.builder("monitor_ae_cpu")
+                .inputItems(GTOMachines.BASIC_MONITOR)
+                .inputItems(AEBlocks.CRAFTING_MONITOR.asItem())
+                .outputItems(GTOMachines.MONITOR_AE_CPU)
+                .EUt(15)
+                .duration(100)
+                .save();
+
+        ASSEMBLER_RECIPES.builder("monitor_machine")
+                .inputItems(GTOMachines.BASIC_MONITOR)
+                .inputItems(GTBlocks.MACHINE_CASING_LV.asItem())
+                .outputItems(GTOMachines.MONITOR_MACHINE)
                 .EUt(15)
                 .duration(100)
                 .save();

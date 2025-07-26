@@ -123,6 +123,7 @@ public final class TurbineMachine extends ElectricMultiblockMachine {
             rotorHolderMachine.inventory.addChangedListener(rotorSubs::updateSubscription);
         } else if (rotorHatchPartMachine == null && part instanceof ItemHatchPartMachine rotorHatchPart) {
             rotorHatchPartMachine = rotorHatchPart;
+            rotorHatchPartMachine.getInventory().addChangedListener(rotorSubs::updateSubscription);
         }
     }
 

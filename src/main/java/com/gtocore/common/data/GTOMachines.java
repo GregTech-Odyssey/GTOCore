@@ -35,10 +35,8 @@ import com.gtolib.utils.register.BlockRegisterUtils;
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
-import com.gregtechceu.gtceu.api.data.RotationState;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
-import com.gregtechceu.gtceu.api.item.MetaMachineItem;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
@@ -154,7 +152,6 @@ public final class GTOMachines {
                     .langValue("%s Vacuum Pump %s".formatted(VLVH[tier], VLVT[tier]))
                     .nonYAxisRotation()
                     .editableUI(SimpleTieredMachine.EDITABLE_UI_CREATOR.apply(GTCEu.id("vacuum_pump"), GTORecipeTypes.VACUUM_PUMP_RECIPES))
-                    .alwaysTryModifyRecipe(true)
                     .recipeType(GTORecipeTypes.VACUUM_PUMP_RECIPES)
                     .workableTieredHullRenderer(GTOCore.id("block/machines/vacuum_pump"))
                     .tooltips(Component.translatable("gtocore.recipe.vacuum.tier", tier + 1))
@@ -212,16 +209,21 @@ public final class GTOMachines {
                     "根据温度发出红石信号。")
             .tooltipsText("Stop heating after front side is blocked.",
                     "前方被阻挡后停止加热。")
+            .tooltipsKey("gtceu.fluid_pipe.max_temperature", 800)
             .renderer(() -> new HeaterRenderer(ULV))
             .register();
 
-    public static final MachineDefinition BOILER = machine("boiler", "锅炉", BoilWaterMachine::new)
+    public static final MachineDefinition BOILER = machine("boiler", "外置热源锅炉", BoilWaterMachine::new)
             .tier(ULV)
             .editableUI(SimpleNoEnergyMachine.EDITABLE_UI_CREATOR.apply(GTCEu.id("boiler"), GTRecipeTypes.STEAM_TURBINE_FUELS))
             .recipeType(GTRecipeTypes.DUMMY_RECIPES)
             .noRecipeModifier()
             .nonYAxisRotation()
+            .tooltipsText("Need an external heat source to work.",
+                    "需要外部热源才能工作。")
+            .tooltips(Component.translatable("gtocore.machine.boiler.tooltip.warning"))
             .tooltipsKey("gtceu.universal.tooltip.produces_fluid", 48)
+            .tooltipsKey("gtceu.fluid_pipe.max_temperature", 600)
             .workableTieredHullRenderer(GTCEu.id("block/generators/boiler/lava"))
             .register();
 
@@ -240,6 +242,7 @@ public final class GTOMachines {
             .nonYAxisRotation()
             .tooltipsText("Start heating after power on. This machine will not explode.",
                     "通电后开始加热。不会爆炸。")
+            .tooltipsKey("gtceu.fluid_pipe.max_temperature", 1200)
             .renderer(() -> new HeaterRenderer(LV))
             .register();
 
@@ -810,6 +813,8 @@ public final class GTOMachines {
             .register();
 
     public static final MachineDefinition BASIC_MONITOR = registerMonitor("basic_monitor", "基础监控器", BasicMonitor::new)
+            .tooltips(Component.translatable("gtocore.machine.basic_monitor.tooltip.1"),
+                    Component.translatable("gtocore.machine.basic_monitor.tooltip.2"))
             .register();
     public static final MachineDefinition MONITOR_MACHINE_ELECTRICITY = registerMonitor("monitor_electricity", "监控器电网组件", MonitorEU::new)
             .register();
@@ -817,18 +822,28 @@ public final class GTOMachines {
             .register();
     public static final MachineDefinition MONITOR_MACHINE_CWU = registerMonitor("monitor_cwu", "监控器算力网络组件", MonitorCWU::new)
             .register();
+    public static final MachineDefinition MONITOR_MACHINE_CUSTOM = registerMonitor("monitor_custom", "监控器自定义文本组件", MonitorCustomInfo::new)
+            .register();
+    public static final MachineDefinition MONITOR_AE_THROUGHPUT = registerMonitor("monitor_ae_throughput", "监控器ME网络吞吐量组件", MonitorAEThroughput::new)
+            .register();
+    public static final MachineDefinition MONITOR_AE_CPU = registerMonitor("monitor_ae_cpu", "监控器ME合成处理单元组件", MonitorAECPU::new)
+            .register();
+
+    public static final MachineDefinition MONITOR_MACHINE = registerMonitor("monitor_machine", "监控器通用机器组件", MonitorMachine::new)
+            .register();
 
     private static MachineBuilder<MachineDefinition> registerMonitor(String id, String cn, Function<IMachineBlockEntity, MetaMachine> monitorConstructor) {
         BlockRegisterUtils.addLang(id, cn);
+        MonitorBlockItem.addItem(GTOCore.id(id));
         return MachineBuilder.create(
                 GTORegistration.GTO,
                 id,
                 MachineDefinition::createDefinition,
                 monitorConstructor,
                 MonitorBlock::new,
-                MetaMachineItem::new,
+                MonitorBlockItem::new,
                 MetaMachineBlockEntity::createBlockEntity)
-                .rotationState(RotationState.NON_Y_AXIS)// 也许会支持面朝上下？
+                .nonYAxisRotation()// 也许会支持面朝上下？
                 .renderer(MonitorRenderer::new)
                 .hasTESR(true);
     }

@@ -438,4 +438,13 @@ public final class GTOBlocks {
     public static final BlockEntry<Block> ACCELERATOR_ELECTROMAGNETIC_COIL_CONSTRAINT_CASING_ZPM = createCasingBlock("accelerator_electromagnetic_coil_constraint_casing_zpm", "ZPM加速器磁约束线圈机械方块", GTOCore.id("block/casings/accelerator/accelerator_electromagnetic_coil_constraint_casing_zpm"));
     public static final BlockEntry<Block> ACCELERATOR_ELECTROMAGNETIC_COIL_CONSTRAINT_CASING_UV = createCasingBlock("accelerator_electromagnetic_coil_constraint_casing_uv", "UV加速器磁约束线圈机械方块", GTOCore.id("block/casings/accelerator/accelerator_electromagnetic_coil_constraint_casing_uv"));
     public static final BlockEntry<Block> ACCELERATOR_ELECTROMAGNETIC_COIL_CONSTRAINT_CASING_UHV = createCasingBlock("accelerator_electromagnetic_coil_constraint_casing_uhv", "UHV加速器磁约束线圈机械方块", GTOCore.id("block/casings/accelerator/accelerator_electromagnetic_coil_constraint_casing_uhv"));
+
+    // 耐高压管道机械方块
+    public static final BlockEntry<Block> HIGH_PRESSURE_PIPE_CASING = createCasingBlock("high_pressure_pipe_casing", "耐高压管道机械方块", GTOCore.id("block/casings/high_pressure_pipe_casing"));
+    // 耐化学腐蚀管道机械方块
+    public static final BlockEntry<Block> CHEMICAL_CORROSION_RESISTANT_PIPE_CASING = createCasingBlock("chemical_corrosion_resistant_pipe_casing", "耐化学腐蚀管道机械方块", GTOCore.id("block/casings/chemical_corrosion_resistant_pipe_casing"));
+    // 油气输送密封管道机械方块
+    public static final BlockEntry<Block> OIL_GAS_TRANSPORTATION_PIPE_CASING = createCasingBlock("oil_gas_transportation_pipe_casing", "油气输送密封管道机械方块", GTOCore.id("block/casings/oil_gas_transportation_pipe_casing"));
+    // 生物活性机械方块
+    public static final BlockEntry<Block> BIOACTIVE_MECHANICAL_CASING = createCasingBlock("bioactive_mechanical_casing", "生物活性机械方块", GTOCore.id("block/casings/bioactive_mechanical_casing"));
 }

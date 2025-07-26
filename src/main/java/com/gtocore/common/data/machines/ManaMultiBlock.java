@@ -381,7 +381,6 @@ public final class ManaMultiBlock {
     public static final MultiblockMachineDefinition LARGE_ALCHEMICAL_DEVICE = multiblock("large_alchemical_device", "大型炼金装置", LargeAlchemicalDeviceMachine::new)
             .nonYAxisRotation()
             .parallelizableTooltips()
-            .alwaysTryModifyRecipe(true)
             .tooltipsText("§7炼金是一个神秘的过程", "§7Alchemy is a mysterious process")
             .tooltipsText("§7部分配方产出概率随运行次数增长", "§7The probability of partial recipe output increases with the number of runs")
             .tooltipsText("§7放入七个嬗变催化器激活完美嬗变模式", "§7Place seven Transmutation Catalysts to activate Perfect Transmutation Mode")

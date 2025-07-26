@@ -107,5 +107,10 @@ final class ItemLang {
                 "Mana: §b%s§r / §a%s§r ");
         addCNEN("gtocore.tooltip.item.prospector.mana.2", "（§b%s§r / §a%s§r 个魔力池）",
                 "（§b%s§r / §a%s§r Mana Pools）");
+
+        addCNEN("gtocore.tooltip.item.machine_coordinate_card.tooltip.1", "右键机器记录其坐标，右键空气清空记录。",
+                "Right-click a machine to record its coordinates, right-click air to clear the record");
+        addCNEN("gtocore.tooltip.item.machine_coordinate_card.tooltip.2", "§6记录信息：§r%s§b(%s§b, %s§b, %s§b)",
+                "§6Coordinate Info: §r%s§b(%s§b, %s§b, %s§b)");
     }
 }

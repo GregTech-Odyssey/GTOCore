@@ -74,7 +74,6 @@ public final class MultiBlockC {
             .tooltips(NewDataAttributes.RUNTIME_REQUIREMENT.create(CNEN.create("配方中每种产物都需要一层蒸馏塔节",
                     "Each product in the recipe requires a layer of distillation tower.")))
             .recipeTypes(GTRecipeTypes.DISTILLATION_RECIPES)
-            .alwaysTryModifyRecipe(true)
             .block(GTBlocks.STEEL_HULL)
             .pattern(definition -> FactoryBlockPattern.start(definition, RelativeDirection.RIGHT, RelativeDirection.BACK, RelativeDirection.UP)
                     .aisle("I~O", "AAA", "FHF")
@@ -1298,7 +1297,6 @@ public final class MultiBlockC {
             .tooltipsText("运行时不消耗中子动能", "Does not consume neutron kinetic energy while running.")
             .tooltipsText("安装附属结构后可开启能源转换模式，消耗电力自动适应配方的中子动能", "After installing auxiliary structures, you can enable energy conversion mode, which automatically adapts the neutron kinetic energy consumption based on the recipe.")
             .recipeTypes(GTORecipeTypes.NEUTRON_ACTIVATOR_RECIPES)
-            .alwaysTryModifyRecipe(true)
             .block(GTOBlocks.NAQUADAH_REINFORCED_PLANT_CASING)
             .pattern(MachineUtils.EMPTY_PATTERN)
             .shapeInfos(definition -> {

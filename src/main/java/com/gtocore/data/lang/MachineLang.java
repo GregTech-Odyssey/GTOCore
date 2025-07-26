@@ -145,8 +145,38 @@ final class MachineLang {
         addCNEN("gtocore.machine.monitor.cwu.capacity", "当前网络算力: %s/%s CWU", "Current Network Hashrate: %s/%s CWU");
         addCNEN("gtocore.machine.monitor.cwu.used", "（已使用: %s CWU）", "(Used: %s CWU)");
         addCNEN("gtocore.machine.monitor.cwu.no_container", "警告：算力信息缺失！", "Warning: Hashrate information is missing!");
+        addCNEN("gtocore.machine.monitor.eu.no_container", "警告：无限能源塔绑定信息缺失！", "Warning: Infinite Energy Tower binding information is missing!");
         addCNEN("gtocore.machine.monitor.priority", "调整显示的优先级", "Adjust the display priority");
-
+        addCNEN("gtocore.machine.monitor.adjust_component.move_up", "上移", "Move Up");
+        addCNEN("gtocore.machine.monitor.adjust_component.move_down", "下移", "Move Down");
+        addCNEN("gtocore.machine.monitor.adjust_component.switch", "切换显示", "Toggle Display");
+        addCNEN("gtocore.machine.monitor.adjust_component.reset", "清除显示顺序配置", "Clear Display Order Configuration");
+        addCNEN("gtocore.machine.monitor.custom_info.tooltip", "自定义信息", "Custom Information");
+        addCNEN("gtocore.machine.monitor.custom_info.code_input_tooltip.1", "复制§a格式化代码§r到剪贴板", "Copy §aformatting code§r to clipboard");
+        addCNEN("gtocore.machine.monitor.custom_info.code_input_tooltip.2", "§l格式化代码（Formatting code）§r，又称§l颜色代码（Color code）§r，能使在游戏中加入含颜色和格式信息。",
+                "§lFormatting code§r, also known as §lcolor code§r, allows adding color and formatting information in the game.");
+        addCNEN("gtocore.machine.monitor.custom_info.code_input_tooltip.3", "请前往§dMinecraft Wiki§r了解更多关于格式化代码的信息。",
+                "Please visit the §dMinecraft Wiki§r for more information about formatting codes.");
+        addCNEN("gtocore.machine.monitor.ae.status.no_grid", "警告：无法连接到AE网络！", "Warning: Unable to connect to AE network!");
+        addCNEN("gtocore.machine.monitor.ae.status.no_config", "无配置信息", "No configuration information");
+        addCNEN("gtocore.machine.monitor.ae.status.0", "正在监视的物品：%s", "Monitored Items: %s");
+        addCNEN("gtocore.machine.monitor.ae.status.1", "正在监视的流体：%s", "Monitored Fluids: %s");
+        addCNEN("gtocore.machine.monitor.ae.amount", "总量统计：%s", "Total Amount: %s");
+        addCNEN("gtocore.machine.monitor.ae.stat.title", "平均吞吐量统计", "Average Throughput Statistics");
+        addCNEN("gtocore.machine.monitor.ae.stat.minute", "近一分钟：%s", "Last Minute: %s");
+        addCNEN("gtocore.machine.monitor.ae.stat.hour", "近一小时：%s", "Last Hour: %s");
+        addCNEN("gtocore.machine.monitor.ae.stat.day", "近一天：%s", "Last Day: %s");
+        addCNEN("gtocore.machine.monitor.ae.stat.remaining_time", "预计耗尽时间：%s", "Estimated Depletion Time: %s");
+        addCNEN("gtocore.machine.monitor.ae.set_filter", "设置过滤器", "Set Filter");
+        addCNEN("gtocore.machine.basic_monitor.tooltip.1", "将多个监控器连接在一起，形成一个多功能监控器", "Connect multiple monitors together to form a multifunctional monitor");
+        addCNEN("gtocore.machine.basic_monitor.tooltip.2", "在连接的监控器中添加§b组件§r来显示不同的信息", "Add §bcomponents§r in connected monitors to display different information");
+        addCNEN("gtocore.machine.boiler.tooltip.warning", "§c警告§r：请勿在锅炉内积攒过多的蒸汽！", "§cWarning: §rDo not accumulate too much steam in the boiler!");
+        addCNEN("gtocore.machine.monitor.ae.cpu.usage", "正在工作的CPU: %s 个（总数： %s 个）", "Working CPUs: %s (Total: %s)");
+        addCNEN("gtocore.machine.monitor.ae.cpu.monitored", "正在监视的CPU: #%s - %s", "Monitored CPU: #%s - %s");
+        addCNEN("gtocore.machine.monitor.ae.cpu.list", "CPU列表", "CPU List");
+        addCNEN("gtocore.machine.monitor.ae.cpu.set.1", "设置监视的CPU", "Set Monitored CPU");
+        addCNEN("gtocore.machine.monitor.ae.cpu.set.2", "§c警告§r：网络中CPU变动时，需要重新选择！", "Warning: When the CPU changes in the network, you need to reselect!");
+        addCNEN("gtocore.machine.machine_monitor.slot", "请放入机器坐标信息卡", "Insert Machine Coordinate Card");
         DisplayRegistry.registerLanguage();
     }
 }

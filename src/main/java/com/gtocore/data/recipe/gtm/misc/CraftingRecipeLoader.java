@@ -182,6 +182,12 @@ public final class CraftingRecipeLoader {
                 'C', BotaniaItems.manaTablet, 'D', BotaniaBlocks.bifrostPerm,
                 'E', CustomTags.HV_CIRCUITS, 'S', new MaterialEntry(plate, GTOMaterials.Alfsteel));
 
+        VanillaRecipeHelper.addShapedRecipe(provider, "machine_coordinate_card", MACHINE_COORDINATE_CARD.asStack(),
+                " A ",
+                "ABA",
+                " A ",
+                'A', new MaterialEntry(plate, Steel), 'B', new MaterialEntry(plate, Glass));
+
         ///////////////////////////////////////////////////
         // Shapes and Molds //
         ///////////////////////////////////////////////////

@@ -9,7 +9,6 @@ import org.jetbrains.annotations.NotNull;
 import java.io.Serial;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.Iterator;
 import java.util.List;
 
 public class DisplayComponentList extends ArrayList<IDisplayComponent> {
@@ -44,11 +43,10 @@ public class DisplayComponentList extends ArrayList<IDisplayComponent> {
         addIfAbsent(id, DisplayComponent.text(id, text));
     }
 
-    public @NotNull Iterator<IDisplayComponent> iterator() {
-        // 返回一个按照availableOrderedIds顺序排序的迭代器
-        return this.stream()
-                .sorted(idSorter())
-                .iterator();
+    public @NotNull DisplayComponentList sortInner() {
+        // 将自己的内容按照availableOrderedIds中的顺序进行排序
+        this.sort(idSorter());
+        return this;
     }
 
     private Comparator<IDisplayComponent> idSorter() {

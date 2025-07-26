@@ -22,7 +22,6 @@ import com.gtolib.utils.register.RecipeTypeRegisterUtils;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.pattern.MultiblockState;
-import com.gregtechceu.gtceu.api.pattern.error.PatternStringError;
 
 import net.minecraftforge.common.data.LanguageProvider;
 
@@ -100,6 +99,7 @@ public final class LangHandler {
         addCNEN("gtocore.pattern.divide", "样板配方 ÷ %s", "Pattern Recipe ÷ %s");
         addCNEN("gtocore.pattern.tooltip.divide", "将样板材料数量 ÷ %s", "Divide Pattern materials amount by %s");
 
+        addCNEN("gtocore.gtm", "整合包使用的GregTech-Modern模组为非官方版本，如果您遇到任何问题或有任何建议，请前往%s提供反馈，而不是模组官方渠道", "The GregTech-Modern mod used in the modpack is an unofficial version. If you encounter any issues or have any suggestions, please go to %s to provide feedback instead of the official mod channel.");
         addCNEN("gtocore.dev", "当前版本是开发测试版本，不能保证内容的稳定性和完整性。如果您遇到任何问题或有任何建议，请前往%s提供反馈。", "The current version is a development test version and cannot guarantee the stability and completeness of the content. If you encounter any issues or have any suggestions, please go to %s to provide feedback.");
         addCNEN("gtocore.fly_speed_reset", "飞行速度已重置", "fly Speed Reset");
         addCNEN("gtocore.fly_speed", "飞行速度 x%s", "fly Speed x%s");
@@ -250,8 +250,10 @@ public final class LangHandler {
 
         addCNEN("gtocore.source", "结构来源：%s", "Structure From: %s");
 
-        addCNEN(((PatternStringError) MultiblockState.UNLOAD_ERROR).translateKey, "区块未加载", "Chunk not loaded");
-        addCNEN(((PatternStringError) MultiblockState.UNINIT_ERROR).translateKey, "机器未初始化", "Machine not initialized");
+        addCNEN(MultiblockState.UNLOAD_ERROR.translateKey, "有区块未加载", "There are chunk not loaded");
+        addCNEN(MultiblockState.UNINIT_ERROR.translateKey, "机器未初始化", "Machine not initialized");
+        addCNEN(MultiblockState.SHARE_ERROR.translateKey, "该方块不能共享", "This block cannot be shared");
+        addCNEN(MultiblockState.BANNED_ERROR.translateKey, "该方块被禁止", "This block is banned");
     }
 
     public static void enInitialize(LanguageProvider provider) {

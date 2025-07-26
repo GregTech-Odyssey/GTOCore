@@ -34,7 +34,8 @@ public class MonitorEU extends AbstractInfoProviderMonitor implements IWirelessM
             .put(4, DisplayRegistry.ENERGY_STAT_HOUR)
             .put(5, DisplayRegistry.ENERGY_STAT_DAY)
             .put(6, DisplayRegistry.ENERGY_STAT_NOW)
-            .put(7, DisplayRegistry.ENERGY_STAT_BOUND_INFO)
+            .put(7, DisplayRegistry.ENERGY_STAT_REMAINING_TIME)
+            .put(8, DisplayRegistry.ENERGY_STAT_BOUND_INFO)
             .build();
     @DescSynced
     private Component[] bufferCache = new Component[0];
@@ -130,7 +131,7 @@ public class MonitorEU extends AbstractInfoProviderMonitor implements IWirelessM
                     Component.translatable("gtceu.multiblock.power_substation.time_forever").withStyle(ChatFormatting.GRAY));
 
             if (container.getBindPos() == null) {
-                textListCache[8] = Component.translatable("gtmthings.machine.wireless_energy_hatch.tooltip.unbind")
+                textListCache[8] = Component.translatable("gtocore.machine.monitor.eu.no_container")
                         .withStyle(ChatFormatting.RED);
             } else {
                 String pos = container.getBindPos().pos().toShortString();
@@ -149,7 +150,7 @@ public class MonitorEU extends AbstractInfoProviderMonitor implements IWirelessM
     @SuppressWarnings("all")
     public DisplayComponentList provideInformation() {
         var informationList = ITeamInformationProvider.super.provideInformation();
-        if (bufferCache.length == 9) {
+        if (bufferCache.length == DISPLAY_REGISTRY.size()) {
             for (int i = 0; i < bufferCache.length; i++) {
                 if (DISPLAY_REGISTRY.containsKey(i) && bufferCache[i] != null) {
                     informationList.addIfAbsent(
