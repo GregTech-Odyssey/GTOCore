@@ -302,7 +302,7 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
                         width = 30,
                         onClick = { ck ->
                             onPageNext()
-                            if (isRemote)pageField.updateInClient((pageField.value + 1).coerceAtMost(pageWidget.getMaxPageSize()-1))
+                            if (isRemote)pageField.updateInClient((pageField.value + 1).coerceAtMost(pageWidget.getMaxPageSize() - 1))
                         },
                         text = { ">>" },
                     )
