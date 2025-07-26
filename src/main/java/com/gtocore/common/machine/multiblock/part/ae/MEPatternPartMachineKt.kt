@@ -296,13 +296,13 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
                         },
                         text = { "<<" },
                     )
-                    text(height = 13, width = wid - 60, text = { Component.literal("${pageField.value + 1} / ${pageWidget.getMaxPage() + 1}") })
+                    text(height = 13, width = wid - 60, text = { Component.literal("${pageField.value + 1} / ${pageWidget.getMaxPageSize()}") })
                     button(
                         height = 13,
                         width = 30,
                         onClick = { ck ->
                             onPageNext()
-                            if (isRemote)pageField.updateInClient((pageField.value + 1).coerceAtLeast(pageWidget.getMaxPage()))
+                            if (isRemote)pageField.updateInClient((pageField.value + 1).coerceAtMost(pageWidget.getMaxPageSize()-1))
                         },
                         text = { ">>" },
                     )

@@ -115,7 +115,7 @@ class MultiPageDSLBuilder {
 }
 interface MultiPageVScroll {
     fun refresh()
-    fun getMaxPage(): Int
+    fun getMaxPageSize(): Int
 }
 fun LayoutBuilder<*>.multiPageAdvanced(width: Int, height: Int, style: (Style.() -> Unit)? = null, pageSelector: IntSyncField, runOnUpdate: Runnable = Runnable {}, builder: MultiPageDSLBuilder.() -> Unit): MultiPageVScroll {
     val widget = object : SyncWidget(0, 0, width, height), MultiPageVScroll {
@@ -146,7 +146,7 @@ fun LayoutBuilder<*>.multiPageAdvanced(width: Int, height: Int, style: (Style.()
             this.initWidget()
         }
 
-        override fun getMaxPage(): Int = pageSuppliers.size - 1
+        override fun getMaxPageSize(): Int = pageSuppliers.size
     }
     widget(widget)
     return widget as MultiPageVScroll
