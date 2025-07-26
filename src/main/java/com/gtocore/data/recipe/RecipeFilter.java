@@ -30,6 +30,7 @@ public final class RecipeFilter {
         MACERATOR_RECIPES.addFilter("macerate_basalt");
         CUTTER_RECIPES.addFilter("cut_glass_block_to_plate");
         ARC_FURNACE_RECIPES.addFilter("arc_carbon_dust");
+        ASSEMBLER_RECIPES.addFilter("wood_frame"); // 与告示牌重复
     }
 
     public static void initJsonFilter(Set<ResourceLocation> filters) {

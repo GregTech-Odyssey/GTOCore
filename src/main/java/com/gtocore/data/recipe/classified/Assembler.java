@@ -4370,5 +4370,13 @@ final class Assembler {
                 .EUt(15)
                 .duration(100)
                 .save();
+
+        ASSEMBLER_RECIPES.builder("wood_frame_fix")
+                .inputItems(Items.STICK, 4)
+                .circuitMeta(6)
+                .outputItems(frameGt, Wood, 1)
+                .EUt(7)
+                .duration(64)
+                .save();
     }
 }
