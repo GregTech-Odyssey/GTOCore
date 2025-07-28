@@ -199,6 +199,22 @@ public final class RecipeFilter {
         filters.add(RLUtils.bot("natura_pylon"));
         filters.add(RLUtils.bot("gaia_pylon"));
         filters.add(RLUtils.bot("gaia_ingot"));
+        filters.add(RLUtils.exbot("conversions/orichalcos_block_deconstruct"));
+        filters.add(RLUtils.exbot("orichalcos_block"));
+        filters.add(RLUtils.exbot("conversions/orichalcos_to_nuggets"));
+        filters.add(RLUtils.exbot("conversions/orichalcos_from_nuggets"));
+        filters.add(RLUtils.exbot("conversions/photonium_block_deconstruct"));
+        filters.add(RLUtils.exbot("photonium_block"));
+        filters.add(RLUtils.exbot("conversions/photonium_to_nuggets"));
+        filters.add(RLUtils.exbot("conversions/photonium_from_nuggets"));
+        filters.add(RLUtils.exbot("conversions/shadowium_block_deconstruct"));
+        filters.add(RLUtils.exbot("shadowium_block"));
+        filters.add(RLUtils.exbot("conversions/shadowium_to_nuggets"));
+        filters.add(RLUtils.exbot("conversions/shadowium_from_nuggets"));
+        filters.add(RLUtils.exbot("conversions/aerialite_block_deconstruct"));
+        filters.add(RLUtils.exbot("aerialite_block"));
+        filters.add(RLUtils.exbot("conversions/aerialite_to_nuggets"));
+        filters.add(RLUtils.exbot("conversions/aerialite_from_nuggets"));
 
         filters.add(RLUtils.ars("imbuement_amethyst"));
         filters.add(RLUtils.ars("imbuement_lapis"));
