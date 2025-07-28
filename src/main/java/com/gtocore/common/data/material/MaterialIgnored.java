@@ -110,6 +110,16 @@ public final class MaterialIgnored {
         TagPrefix.block.setIgnored(Dragonstone, () -> BotaniaBlocks.dragonstoneBlock);
         TagPrefix.gem.setIgnored(SourceGem, () -> ItemsRegistry.SOURCE_GEM);
         TagPrefix.block.setIgnored(SourceGem, () -> BlockRegistry.SOURCE_GEM_BLOCK);
+
+        TagPrefix.nugget.setIgnored(Orichalcos, () -> ExtraBotanyItems.orichalcosNugget);
+        TagPrefix.ingot.setIgnored(Orichalcos, () -> ExtraBotanyItems.orichalcos);
+        TagPrefix.block.setIgnored(Orichalcos, () -> ExtraBotanyBlocks.orichalcosBlock);
+        TagPrefix.nugget.setIgnored(Photonium, () -> ExtraBotanyItems.photoniumNugget);
+        TagPrefix.ingot.setIgnored(Photonium, () -> ExtraBotanyItems.photonium);
+        TagPrefix.block.setIgnored(Photonium, () -> ExtraBotanyBlocks.photoniumBlock);
+        TagPrefix.nugget.setIgnored(Shadowium, () -> ExtraBotanyItems.shadowiumNugget);
+        TagPrefix.ingot.setIgnored(Shadowium, () -> ExtraBotanyItems.shadowium);
+        TagPrefix.block.setIgnored(Shadowium, () -> ExtraBotanyBlocks.shadowiumBlock);
         TagPrefix.nugget.setIgnored(Aerialite, () -> ExtraBotanyItems.aerialiteNugget);
         TagPrefix.ingot.setIgnored(Aerialite, () -> ExtraBotanyItems.aerialite);
         TagPrefix.block.setIgnored(Aerialite, () -> ExtraBotanyBlocks.aerialiteBlock);

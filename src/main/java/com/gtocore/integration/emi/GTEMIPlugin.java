@@ -36,6 +36,8 @@ import dev.emi.emi.api.EmiPlugin;
 import dev.emi.emi.api.EmiRegistry;
 import dev.emi.emi.api.stack.*;
 import dev.emi.emi.registry.EmiPluginContainer;
+import io.github.lounode.extrabotany.api.ExtraBotanyAPI;
+import io.github.lounode.extrabotany.client.integration.emi.EmiExtrabotanyPlugin;
 import io.github.prismwork.emitrades.EMITradesPlugin;
 import vazkii.botania.api.BotaniaAPI;
 import vazkii.botania.client.integration.emi.BotaniaEmiPlugin;
@@ -52,6 +54,7 @@ public final class GTEMIPlugin implements EmiPlugin {
         }
         list.add(new EmiPluginContainer(new AvaritiaEmiPlugin(), Static.MOD_ID));
         list.add(new EmiPluginContainer(new BotaniaEmiPlugin(), BotaniaAPI.MODID));
+        list.add(new EmiPluginContainer(new EmiExtrabotanyPlugin(), ExtraBotanyAPI.MODID));
         list.add(new EmiPluginContainer(new EMIPlugin(), LDLib.MOD_ID));
         list.add(new EmiPluginContainer(new GTEMIPlugin(), GTCEu.MOD_ID));
         list.add(new EmiPluginContainer(new MeteoritesEmiPlugin(), ArsMeteorites.MOD_ID));

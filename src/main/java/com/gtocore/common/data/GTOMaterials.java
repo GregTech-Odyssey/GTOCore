@@ -988,6 +988,9 @@ public final class GTOMaterials {
     public static Material CycleofBlossomsSolvent;
     public static Material OmniFloraElixir;
     public static Material GaiaSolvent;
+    public static Material Photonium;
+    public static Material Orichalcos;
+    public static Material Shadowium;
     public static Material Aerialite;
 
     public static void init() {

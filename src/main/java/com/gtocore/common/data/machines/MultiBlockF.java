@@ -297,8 +297,6 @@ public final class MultiBlockF {
                     .where('Q', blocks(GTOBlocks.DIMENSIONAL_BRIDGE_CASING.get()))
                     .where('R', blocks(GTOBlocks.NAQUADRIATICTARANIUM_COIL_BLOCK.get()))
                     .where('S', blocks(GTOBlocks.NAQUADAH_ALLOY_CASING.get())
-                            .or(autoAbilities(definition.getRecipeTypes()))
-                            .or(abilities(MAINTENANCE).setExactLimit(1))
                             .or(abilities(IMPORT_ITEMS))
                             .or(abilities(EXPORT_ITEMS))
                             .or(abilities(IMPORT_FLUIDS))

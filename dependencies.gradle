@@ -38,8 +38,8 @@ dependencies {
 
     modImplementation("vazkii.patchouli:Patchouli:${project.minecraft_version}-84.1-FORGE")
 
-    modImplementation("curse.maven:extrabotany-reburn-1271869:6735932")
-    modImplementation("curse.maven:event-wrapper-1256971:6705170")
+    modImplementation("curse.maven:extrabotany-reburn-1271869:6818025")
+    modImplementation("curse.maven:event-wrapper-1256971:6788387")
 
     modRuntimeOnly("dev.shadowsoffire:ApothicAttributes:${project.minecraft_version}-1.3.7")
     modImplementation("dev.shadowsoffire:Placebo:${project.minecraft_version}-8.6.2")

@@ -1,6 +1,7 @@
 package com.gtocore.data.recipe.misc;
 
 import com.gtocore.api.data.tag.GTOTagPrefix;
+import com.gtocore.common.data.GTOBlocks;
 import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.data.GTOMaterials;
 import com.gtocore.data.recipe.builder.ars.MeteoriteRegistryHelper;
@@ -10,6 +11,7 @@ import com.gtolib.utils.RegistriesUtils;
 
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
+import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
@@ -511,5 +513,28 @@ public final class MeteoriteRecipe {
                 },
                 new int[] { 1, 50, 60, 70, 80, 90, 20, 10, 5, 150, 50 },
                 new int[] { 1, 6, 4, 10, 50, 100 });
+
+        MeteoriteRegistryHelper.registerMeteoriteType(
+                GTItems.TOOL_MATCHES.asItem(),
+                50, 0, GTItems.TOOL_MATCHBOX.asItem(),
+                new Block[] {
+                        Blocks.TNT,
+                        GTBlocks.INDUSTRIAL_TNT.get(),
+                        GTBlocks.POWDERBARREL.get(),
+                        Blocks.REDSTONE_BLOCK,
+                },
+                new int[] { 50, 30, 30, 5 });
+
+        MeteoriteRegistryHelper.registerMeteoriteType(
+                GTItems.TOOL_LIGHTER_INVAR.asItem(),
+                250, 0, GTItems.TOOL_LIGHTER_PLATINUM.asItem(),
+                new Block[] {
+                        Blocks.TNT,
+                        GTBlocks.INDUSTRIAL_TNT.get(),
+                        GTBlocks.POWDERBARREL.get(),
+                        GTOBlocks.NUKE_BOMB.get(),
+                        Blocks.REDSTONE_BLOCK,
+                },
+                new int[] { 100, 80, 80, 1, 5 });
     }
 }

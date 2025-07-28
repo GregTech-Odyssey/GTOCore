@@ -2022,7 +2022,7 @@ public final class MultiBlockA {
                     .where('A', blocks(GTBlocks.HIGH_POWER_CASING.get()))
                     .where('B', blocks(GCYMBlocks.CASING_ATOMIC.get()))
                     .where('C', blocks(GCYMBlocks.CASING_ATOMIC.get())
-                            .or(autoAbilities(definition.getRecipeTypes()))
+                            .or(GTOPredicates.autoLaserAbilities(definition.getRecipeTypes()))
                             .or(abilities(MAINTENANCE).setExactLimit(1)))
                     .where('D', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.Trinium)))
                     .where('E', blocks(GTOBlocks.ADVANCED_FUSION_COIL.get()))

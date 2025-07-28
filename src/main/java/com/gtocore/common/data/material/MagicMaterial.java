@@ -381,12 +381,42 @@ public final class MagicMaterial {
                 .iconSet(BRIGHT)
                 .buildAndRegister();
 
+        Orichalcos = material("orichalcos", "奥利哈刚")
+                .ingot()
+                .fluid()
+                .blastTemp(6700, LOW)
+                .element(GTOElements.AERIALITE)
+                .color(0x590aa9)
+                .iconSet(METALLIC)
+                .flags(GTOMaterialFlags.GENERATE_CURVED_PLATE, GENERATE_FRAME, GENERATE_LONG_ROD, GENERATE_FOIL, GENERATE_GEAR, GENERATE_BOLT_SCREW)
+                .buildAndRegister();
+
+        Photonium = material("photonium", "光子")
+                .ingot()
+                .fluid()
+                .blastTemp(2800, LOW)
+                .element(GTOElements.AERIALITE)
+                .color(0xb8b8b8)
+                .iconSet(METALLIC)
+                .flags(GTOMaterialFlags.GENERATE_CURVED_PLATE, GENERATE_FRAME, GENERATE_LONG_ROD, GENERATE_FOIL, GENERATE_GEAR, GENERATE_BOLT_SCREW)
+                .buildAndRegister();
+
+        Shadowium = material("shadowium", "暗影")
+                .ingot()
+                .fluid()
+                .blastTemp(2800, LOW)
+                .element(GTOElements.AERIALITE)
+                .color(0x636363)
+                .iconSet(METALLIC)
+                .flags(GTOMaterialFlags.GENERATE_CURVED_PLATE, GENERATE_FRAME, GENERATE_LONG_ROD, GENERATE_FOIL, GENERATE_GEAR, GENERATE_BOLT_SCREW)
+                .buildAndRegister();
+
         Aerialite = material("aerialite", "天空")
                 .ingot()
                 .fluid()
-                .blastTemp(1300, LOW)
+                .blastTemp(3400, LOW)
                 .element(GTOElements.AERIALITE)
-                .color(0x8b8bff)
+                .color(0x045b82)
                 .iconSet(METALLIC)
                 .flags(GTOMaterialFlags.GENERATE_CURVED_PLATE, GENERATE_FRAME, GENERATE_LONG_ROD, GENERATE_FOIL, GENERATE_GEAR, GENERATE_BOLT_SCREW)
                 .buildAndRegister();

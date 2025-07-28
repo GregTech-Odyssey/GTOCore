@@ -120,25 +120,21 @@ public final class BotaniaRecipes {
                                 String id,
                                 Ingredient catalyst,
                                 ItemStack output,
-                                Ingredient input1, Ingredient input2, Ingredient input3, Ingredient input4,
-                                Ingredient input5, Ingredient input6, Ingredient input7, Ingredient input8,
-                                Ingredient input9, Ingredient input10, Ingredient input11, Ingredient input12,
-                                Ingredient input13, Ingredient input14, Ingredient input15, Ingredient input16) {}
+                                Ingredient[] input) {}
         List<ApothecaryRecipe> Apothecary = List.of(
                 new ApothecaryRecipe("colorful_mystical_flower", Ingredient.of(ForgeTags.SEEDS), new ItemStack(COLORFUL_MYSTICAL_FLOWER),
-                        Ingredient.of(BotaniaItems.whitePetal), Ingredient.of(BotaniaItems.lightGrayPetal), Ingredient.of(BotaniaItems.grayPetal), Ingredient.of(BotaniaItems.blackPetal),
-                        Ingredient.of(BotaniaItems.brownPetal), Ingredient.of(BotaniaItems.redPetal), Ingredient.of(BotaniaItems.orangePetal), Ingredient.of(BotaniaItems.yellowPetal),
-                        Ingredient.of(BotaniaItems.limePetal), Ingredient.of(BotaniaItems.greenPetal), Ingredient.of(BotaniaItems.cyanPetal), Ingredient.of(BotaniaItems.lightBluePetal),
-                        Ingredient.of(BotaniaItems.bluePetal), Ingredient.of(BotaniaItems.purplePetal), Ingredient.of(BotaniaItems.magentaPetal), Ingredient.of(BotaniaItems.pinkPetal)));
+                        new Ingredient[] { Ingredient.of(BotaniaItems.whitePetal), Ingredient.of(BotaniaItems.lightGrayPetal), Ingredient.of(BotaniaItems.grayPetal), Ingredient.of(BotaniaItems.blackPetal),
+                                Ingredient.of(BotaniaItems.brownPetal), Ingredient.of(BotaniaItems.redPetal), Ingredient.of(BotaniaItems.orangePetal), Ingredient.of(BotaniaItems.yellowPetal),
+                                Ingredient.of(BotaniaItems.limePetal), Ingredient.of(BotaniaItems.greenPetal), Ingredient.of(BotaniaItems.cyanPetal), Ingredient.of(BotaniaItems.lightBluePetal),
+                                Ingredient.of(BotaniaItems.bluePetal), Ingredient.of(BotaniaItems.purplePetal), Ingredient.of(BotaniaItems.magentaPetal), Ingredient.of(BotaniaItems.pinkPetal) }));
         for (ApothecaryRecipe recipe : Apothecary) {
-            PetalApothecaryRecipeBuilder.builder(recipe.id)
+
+            var build = PetalApothecaryRecipeBuilder.builder(recipe.id);
+            build
                     .reagent(recipe.catalyst)
-                    .output(recipe.output)
-                    .addIngredient(recipe.input1).addIngredient(recipe.input2).addIngredient(recipe.input3).addIngredient(recipe.input4)
-                    .addIngredient(recipe.input5).addIngredient(recipe.input6).addIngredient(recipe.input7).addIngredient(recipe.input8)
-                    .addIngredient(recipe.input9).addIngredient(recipe.input10).addIngredient(recipe.input11).addIngredient(recipe.input12)
-                    .addIngredient(recipe.input13).addIngredient(recipe.input14).addIngredient(recipe.input15).addIngredient(recipe.input16)
-                    .save(provider);
+                    .output(recipe.output);
+            for (int i = 0; i < recipe.input.length; i++) build.addIngredient(recipe.input[i]);
+            build.save(provider);
         }
 
         // 符文祭坛
@@ -147,33 +143,28 @@ public final class BotaniaRecipes {
                                 int mana,
                                 ItemStack output,
                                 Boolean setHeadRecipe,
-                                Ingredient input1, Ingredient input2, Ingredient input3, Ingredient input4,
-                                Ingredient input5, Ingredient input6, Ingredient input7, Ingredient input8,
-                                Ingredient input9, Ingredient input10, Ingredient input11, Ingredient input12,
-                                Ingredient input13, Ingredient input14, Ingredient input15, Ingredient input16) {}
+                                Ingredient[] input) {}
         List<RunicAltarRecipe> RunicAltar = List.of(
-                new RunicAltarRecipe("runerock_block", 1000000, new ItemStack(GTOChemicalHelper.getItem(block, Runerock), 4), false,
-                        Ingredient.of(BotaniaItems.runeEarth), Ingredient.of(BotaniaItems.runeAir), Ingredient.of(BotaniaItems.runeFire), Ingredient.of(BotaniaItems.runeWater),
-                        Ingredient.of(BotaniaItems.runeSpring), Ingredient.of(BotaniaItems.runeSummer), Ingredient.of(BotaniaItems.runeAutumn), Ingredient.of(BotaniaItems.runeWinter),
-                        Ingredient.of(BotaniaItems.runeMana), Ingredient.of(BotaniaItems.runeLust), Ingredient.of(BotaniaItems.runeGluttony), Ingredient.of(BotaniaItems.runeGreed),
-                        Ingredient.of(BotaniaItems.runeSloth), Ingredient.of(BotaniaItems.runeWrath), Ingredient.of(BotaniaItems.runeEnvy), Ingredient.of(BotaniaItems.runePride)),
-                new RunicAltarRecipe("runerock_block_plas", 1000000, new ItemStack(GTOChemicalHelper.getItem(block, Runerock), 8), false,
-                        Ingredient.of(RegistriesUtils.getItemStack("mythicbotany:asgard_rune")), Ingredient.of(RegistriesUtils.getItemStack("mythicbotany:vanaheim_rune")),
-                        Ingredient.of(RegistriesUtils.getItemStack("mythicbotany:alfheim_rune")), Ingredient.of(RegistriesUtils.getItemStack("mythicbotany:midgard_rune")),
-                        Ingredient.of(RegistriesUtils.getItemStack("mythicbotany:joetunheim_rune")), Ingredient.of(RegistriesUtils.getItemStack("mythicbotany:muspelheim_rune")),
-                        Ingredient.of(RegistriesUtils.getItemStack("mythicbotany:niflheim_rune")), Ingredient.of(RegistriesUtils.getItemStack("mythicbotany:nidavellir_rune")),
-                        Ingredient.of(RegistriesUtils.getItemStack("mythicbotany:helheim_rune")), null, null, null, null, null, null, null));
+                new RunicAltarRecipe("runerock_block", 1000000, new ItemStack(GTOChemicalHelper.getItem(block, Runerock), 8), false,
+                        new Ingredient[] { Ingredient.of(BotaniaItems.runeEarth), Ingredient.of(BotaniaItems.runeAir), Ingredient.of(BotaniaItems.runeFire), Ingredient.of(BotaniaItems.runeWater),
+                                Ingredient.of(BotaniaItems.runeSpring), Ingredient.of(BotaniaItems.runeSummer), Ingredient.of(BotaniaItems.runeAutumn), Ingredient.of(BotaniaItems.runeWinter),
+                                Ingredient.of(BotaniaItems.runeMana), Ingredient.of(BotaniaItems.runeLust), Ingredient.of(BotaniaItems.runeGluttony), Ingredient.of(BotaniaItems.runeGreed),
+                                Ingredient.of(BotaniaItems.runeSloth), Ingredient.of(BotaniaItems.runeWrath), Ingredient.of(BotaniaItems.runeEnvy), Ingredient.of(BotaniaItems.runePride) }),
+                new RunicAltarRecipe("runerock_block_plas", 1000000, new ItemStack(GTOChemicalHelper.getItem(block, Runerock), 16), false,
+                        new Ingredient[] { Ingredient.of(RegistriesUtils.getItemStack("mythicbotany:asgard_rune")), Ingredient.of(RegistriesUtils.getItemStack("mythicbotany:vanaheim_rune")),
+                                Ingredient.of(RegistriesUtils.getItemStack("mythicbotany:alfheim_rune")), Ingredient.of(RegistriesUtils.getItemStack("mythicbotany:midgard_rune")),
+                                Ingredient.of(RegistriesUtils.getItemStack("mythicbotany:joetunheim_rune")), Ingredient.of(RegistriesUtils.getItemStack("mythicbotany:muspelheim_rune")),
+                                Ingredient.of(RegistriesUtils.getItemStack("mythicbotany:niflheim_rune")), Ingredient.of(RegistriesUtils.getItemStack("mythicbotany:nidavellir_rune")),
+                                Ingredient.of(RegistriesUtils.getItemStack("mythicbotany:helheim_rune")) }));
 
         for (RunicAltarRecipe recipe : RunicAltar) {
-            RunicAltarRecipeBuilder.builder(recipe.id)
+            var build = RunicAltarRecipeBuilder.builder(recipe.id);
+            build
                     .output(recipe.output)
                     .mana(recipe.mana)
-                    .setHeadRecipe(recipe.setHeadRecipe)
-                    .addIngredient(recipe.input1).addIngredient(recipe.input2).addIngredient(recipe.input3).addIngredient(recipe.input4)
-                    .addIngredient(recipe.input5).addIngredient(recipe.input6).addIngredient(recipe.input7).addIngredient(recipe.input8)
-                    .addIngredient(recipe.input9).addIngredient(recipe.input10).addIngredient(recipe.input11).addIngredient(recipe.input12)
-                    .addIngredient(recipe.input13).addIngredient(recipe.input14).addIngredient(recipe.input15).addIngredient(recipe.input16)
-                    .save(provider);
+                    .setHeadRecipe(recipe.setHeadRecipe);
+            for (int i = 0; i < recipe.input.length; i++) build.addIngredient(recipe.input[i]);
+            build.save(provider);
         }
 
         // 泰拉凝聚板
@@ -181,37 +172,30 @@ public final class BotaniaRecipes {
                                     String id,
                                     int mana,
                                     ItemStack output,
-                                    Ingredient input1, Ingredient input2, Ingredient input3, Ingredient input4,
-                                    Ingredient input5, Ingredient input6, Ingredient input7, Ingredient input8,
-                                    Ingredient input9, Ingredient input10, Ingredient input11, Ingredient input12,
-                                    Ingredient input13, Ingredient input14, Ingredient input15, Ingredient input16) {}
+                                    Ingredient[] input) {}
 
         List<TAgglomerationRecipe> TAgglomeration = List.of(
                 new TAgglomerationRecipe("thaumium_ingot", 500000, new ItemStack(GTOChemicalHelper.getItem(ingot, Thaumium)),
-                        Ingredient.of(GTOChemicalHelper.getItem(ingot, Livingsteel)), Ingredient.of(ItemsRegistry.SOURCE_GEM), Ingredient.of(GTOChemicalHelper.getItem(ingot, OriginalBronze)), Ingredient.of(ItemsRegistry.MANIPULATION_ESSENCE),
-                        null, null, null, null, null, null, null, null, null, null, null, null),
+                        new Ingredient[] { Ingredient.of(GTOChemicalHelper.getItem(ingot, Livingsteel)), Ingredient.of(ItemsRegistry.SOURCE_GEM), Ingredient.of(GTOChemicalHelper.getItem(ingot, OriginalBronze)), Ingredient.of(ItemsRegistry.MANIPULATION_ESSENCE) }),
                 new TAgglomerationRecipe("gaiasteel_ingot", 2500000, new ItemStack(GTOChemicalHelper.getItem(ingot, Gaiasteel), 3),
-                        Ingredient.of(RegistriesUtils.getItemStack("mythicbotany:asgard_rune")), Ingredient.of(RegistriesUtils.getItemStack("mythicbotany:vanaheim_rune")),
-                        Ingredient.of(RegistriesUtils.getItemStack("mythicbotany:alfheim_rune")), Ingredient.of(GTOChemicalHelper.getItem(ingot, Alfsteel)),
-                        Ingredient.of(GTOChemicalHelper.getItem(ingot, Runerock)), Ingredient.of(RegistriesUtils.getItemStack("mythicbotany:midgard_rune")),
-                        Ingredient.of(RegistriesUtils.getItemStack("mythicbotany:joetunheim_rune")), Ingredient.of(RegistriesUtils.getItemStack("mythicbotany:muspelheim_rune")),
-                        Ingredient.of(GTOChemicalHelper.getItem(ingot, Alfsteel)), Ingredient.of(GTOChemicalHelper.getItem(ingot, Runerock)),
-                        Ingredient.of(RegistriesUtils.getItemStack("mythicbotany:niflheim_rune")), Ingredient.of(RegistriesUtils.getItemStack("mythicbotany:nidavellir_rune")),
-                        Ingredient.of(RegistriesUtils.getItemStack("mythicbotany:helheim_rune")), Ingredient.of(GTOChemicalHelper.getItem(ingot, Alfsteel)),
-                        Ingredient.of(GTOChemicalHelper.getItem(ingot, Runerock)), null),
+                        new Ingredient[] { Ingredient.of(RegistriesUtils.getItemStack("mythicbotany:asgard_rune")), Ingredient.of(RegistriesUtils.getItemStack("mythicbotany:vanaheim_rune")),
+                                Ingredient.of(RegistriesUtils.getItemStack("mythicbotany:alfheim_rune")), Ingredient.of(GTOChemicalHelper.getItem(ingot, Alfsteel)),
+                                Ingredient.of(GTOChemicalHelper.getItem(ingot, Runerock)), Ingredient.of(RegistriesUtils.getItemStack("mythicbotany:midgard_rune")),
+                                Ingredient.of(RegistriesUtils.getItemStack("mythicbotany:joetunheim_rune")), Ingredient.of(RegistriesUtils.getItemStack("mythicbotany:muspelheim_rune")),
+                                Ingredient.of(GTOChemicalHelper.getItem(ingot, Alfsteel)), Ingredient.of(GTOChemicalHelper.getItem(ingot, Runerock)),
+                                Ingredient.of(RegistriesUtils.getItemStack("mythicbotany:niflheim_rune")), Ingredient.of(RegistriesUtils.getItemStack("mythicbotany:nidavellir_rune")),
+                                Ingredient.of(RegistriesUtils.getItemStack("mythicbotany:helheim_rune")), Ingredient.of(GTOChemicalHelper.getItem(ingot, Alfsteel)),
+                                Ingredient.of(GTOChemicalHelper.getItem(ingot, Runerock)) }),
                 new TAgglomerationRecipe("gaia_ingot", 5000000, new ItemStack(GTOChemicalHelper.getItem(ingot, Gaia), 2),
-                        Ingredient.of(GTOChemicalHelper.getItem(ingot, Gaiasteel)), Ingredient.of(BotaniaItems.lifeEssence), Ingredient.of(GTOChemicalHelper.getItem(ingot, Gaiasteel)), Ingredient.of(BotaniaItems.lifeEssence),
-                        null, null, null, null, null, null, null, null, null, null, null, null));
+                        new Ingredient[] { Ingredient.of(GTOChemicalHelper.getItem(ingot, Gaiasteel)), Ingredient.of(BotaniaItems.lifeEssence), Ingredient.of(GTOChemicalHelper.getItem(ingot, Gaiasteel)), Ingredient.of(BotaniaItems.lifeEssence) }));
 
         for (TAgglomerationRecipe recipe : TAgglomeration) {
-            TerrestrialAgglomerationRecipeBuilder.builder(recipe.id)
+            var build = TerrestrialAgglomerationRecipeBuilder.builder(recipe.id);
+            build
                     .output(recipe.output)
-                    .mana(recipe.mana)
-                    .addIngredient(recipe.input1).addIngredient(recipe.input2).addIngredient(recipe.input3).addIngredient(recipe.input4)
-                    .addIngredient(recipe.input5).addIngredient(recipe.input6).addIngredient(recipe.input7).addIngredient(recipe.input8)
-                    .addIngredient(recipe.input9).addIngredient(recipe.input10).addIngredient(recipe.input11).addIngredient(recipe.input12)
-                    .addIngredient(recipe.input13).addIngredient(recipe.input14).addIngredient(recipe.input15).addIngredient(recipe.input16)
-                    .save(provider);
+                    .mana(recipe.mana);
+            for (int i = 0; i < recipe.input.length; i++) build.addIngredient(recipe.input[i]);
+            build.save(provider);
         }
 
         // 精灵门
@@ -683,8 +667,8 @@ public final class BotaniaRecipes {
         }
 
         INDUSTRIAL_ALTAR_RECIPES.builder("runerock_block")
-                .inputItems(BotaniaBlocks.livingrock.asItem(), 16)
-                .outputItems(block, Runerock, 16)
+                .inputItems(BotaniaBlocks.livingrock.asItem(), 32)
+                .outputItems(block, Runerock, 32)
                 .duration(1200)
                 .MANAt(4000)
                 .inputItems(BotaniaItems.runeEarth, 4)
@@ -706,8 +690,8 @@ public final class BotaniaRecipes {
                 .save();
 
         INDUSTRIAL_ALTAR_RECIPES.builder("runerock_block_plas")
-                .inputItems(BotaniaBlocks.livingrock.asItem(), 16)
-                .outputItems(block, Runerock, 32)
+                .inputItems(BotaniaBlocks.livingrock.asItem(), 64)
+                .outputItems(block, Runerock, 64)
                 .duration(1200)
                 .MANAt(4000)
                 .inputItems("mythicbotany:asgard_rune", 4)
