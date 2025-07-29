@@ -1,0 +1,3 @@
+files:
+  - source: /src/generated/resources/assets/gtocore/lang/en_us.json
+    translation: '%file_name%'
