@@ -2,24 +2,26 @@ package com.gtocore.integration.emi.multipage;
 
 import com.gtocore.client.gui.PatternPreview;
 
-import com.gtolib.api.machine.MultiblockDefinition;
-
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
+import com.gregtechceu.gtceu.api.pattern.BlockPattern;
+import com.gregtechceu.gtceu.api.pattern.TraceabilityPredicate;
+import com.gregtechceu.gtceu.api.pattern.predicates.SimplePredicate;
 import com.gregtechceu.gtceu.integration.emi.multipage.MultiblockInfoEmiCategory;
 
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
 
 import com.lowdragmc.lowdraglib.emi.ModularEmiRecipe;
 import com.lowdragmc.lowdraglib.emi.ModularForegroundRenderWidget;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.jei.ModularWrapper;
 import dev.emi.emi.api.recipe.EmiRecipeCategory;
-import dev.emi.emi.api.stack.EmiStack;
+import dev.emi.emi.api.stack.EmiIngredient;
 import dev.emi.emi.api.widget.WidgetHolder;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public final class MultiblockInfoEmiRecipe extends ModularEmiRecipe<Widget> {
 
@@ -31,7 +33,34 @@ public final class MultiblockInfoEmiRecipe extends ModularEmiRecipe<Widget> {
         super(() -> MULTIBLOCK);
         this.definition = definition;
         widget = () -> PatternPreview.getPatternWidget(definition);
-        MultiblockDefinition.of(definition).getPatterns()[0].parts().forEach(i -> inputs.add(EmiStack.of(i)));
+        this.inputs = getParts(definition.getPatternFactory().get());
+    }
+
+    private List<EmiIngredient> getParts(BlockPattern pattern) {
+        HashSet<TraceabilityPredicate> predicateMap = new HashSet<>();
+
+        for (var layer : pattern.blockMatches) {
+            for (var aisle : layer) {
+                predicateMap.addAll(Arrays.asList(aisle));
+            }
+        }
+
+        List<List<ItemStack>> parts = new ArrayList<>();
+        for (var predicate : predicateMap) {
+            if (predicate == null) continue;
+            List<SimplePredicate> predicates = new ArrayList<>();
+            predicates.addAll(predicate.common);
+            predicates.addAll(predicate.limited);
+            predicates.removeIf(p -> p == null || p.candidates == null);
+            for (SimplePredicate simplePredicate : predicates) {
+                List<ItemStack> itemStacks = simplePredicate.getCandidates();
+                if (!itemStacks.isEmpty()) {
+                    parts.add(simplePredicate.getCandidates());
+                }
+            }
+        }
+
+        return parts.stream().map(p -> EmiIngredient.of(Ingredient.of(p.stream()))).toList();
     }
 
     @Override
