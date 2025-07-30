@@ -6,6 +6,8 @@ import com.gtocore.common.data.machines.GTAEMachines
 import com.gtocore.common.machine.multiblock.part.ae.widget.slot.AEPatternViewSlotWidgetKt
 import com.gtocore.common.network.IntSyncField
 import com.gtocore.common.network.createLogicalSide
+import com.gtocore.integration.ae.GridInfoInMachine
+import com.gtocore.integration.ae.WirelessMachine
 
 import net.minecraft.MethodsReturnNonnullByDefault
 import net.minecraft.nbt.CompoundTag
@@ -32,6 +34,7 @@ import com.gregtechceu.gtceu.api.gui.GuiTextures
 import com.gregtechceu.gtceu.api.gui.fancy.ConfiguratorPanel
 import com.gregtechceu.gtceu.api.gui.fancy.FancyMachineUIWidget
 import com.gregtechceu.gtceu.api.gui.fancy.IFancyUIProvider
+import com.gregtechceu.gtceu.api.gui.fancy.TabsWidget
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity
 import com.gregtechceu.gtceu.api.machine.TickableSubscription
 import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList
@@ -52,6 +55,7 @@ import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder
 import kotlinx.coroutines.Runnable
 
+import java.util.UUID
 import java.util.function.IntSupplier
 import javax.annotation.ParametersAreNonnullByDefault
 
@@ -61,6 +65,7 @@ import javax.annotation.ParametersAreNonnullByDefault
 internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.AbstractInternalSlot>(holder: IMachineBlockEntity, val maxPatternCount: Int) :
     MEPartMachine(holder, IO.IN),
     ICraftingProvider,
+    WirelessMachine,
     PatternContainer {
 
     // ==================== 常量和静态成员 ====================
@@ -179,11 +184,18 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
                 )
             }
         }
+        onWirelessMachineLoad()
     }
 
     override fun onUnload() {
         pageField.unregister()
+        onWirelessMachineUnLoad()
         super.onUnload()
+    }
+
+    override fun clientTick() {
+        onWirelessMachineClientTick()
+        super.clientTick()
     }
 
     override fun onMachineRemoved() {
@@ -191,7 +203,7 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
     }
 
     override fun onMainNodeStateChanged(reason: IGridNodeListener.State) {
-        super.onMainNodeStateChanged(reason)
+        super<MEPartMachine>.onMainNodeStateChanged(reason)
         updateSubscription()
     }
 
@@ -379,7 +391,9 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
     }
     var modularUI: ModularUI? = null
     var fancyMachineUIWidget: FancyMachineUIWidget? = null
+    var playerUUID: UUID = UUID.randomUUID()
     override fun createUI(entityPlayer: Player?): ModularUI? {
+        playerUUID = entityPlayer?.uuid ?: UUID.randomUUID()
         fancyMachineUIWidget = FancyMachineUIWidget(this, 176, 166)
         modularUI = (ModularUI(176, 166, this, entityPlayer)).widget(fancyMachineUIWidget)
         return modularUI
@@ -394,5 +408,17 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
         abstract fun pushPattern(patternDetails: IPatternDetails, inputHolder: Array<KeyCounter>): Boolean
         abstract fun onPatternChange()
         override fun serializeNBT(): CompoundTag = CompoundTag()
+    }
+
+    // ////////////////////////////////
+    // ****** 无线连接设置 ******//
+    // //////////////////////////////
+    @Persisted
+    @DescSynced
+    override var getGridInfoInMachine: GridInfoInMachine = createGridInfoInMachine()
+    override fun getUIRequesterUUID() = playerUUID
+    override fun attachSideTabs(sideTabs: TabsWidget) {
+        super.attachSideTabs(sideTabs)
+        sideTabs.attachSubTab(getFancyUIProvider())
     }
 }

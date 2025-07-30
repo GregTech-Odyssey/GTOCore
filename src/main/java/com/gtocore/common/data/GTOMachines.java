@@ -18,8 +18,8 @@ import com.gtocore.common.machine.noenergy.BoilWaterMachine;
 import com.gtocore.common.machine.noenergy.HeaterMachine;
 import com.gtocore.common.machine.noenergy.PerformanceMonitorMachine;
 import com.gtocore.common.machine.steam.SteamVacuumPumpMachine;
-import com.gtocore.integration.ae.MEWirelessConnectionMachine;
 import com.gtocore.integration.ae.SyncTesterMachine;
+import com.gtocore.integration.ae.WirelessTester;
 
 import com.gtolib.GTOCore;
 import com.gtolib.api.GTOValues;
@@ -453,7 +453,7 @@ public final class GTOMachines {
                             The more items in a row, the higher its priority.""")))
             .register();
 
-    public static final MachineDefinition ME_WIRELESS_CONNECTION_MACHINE = machine("me_wireless_connection_machine", "ME无线连接机", MEWirelessConnectionMachine::new)
+    public static final MachineDefinition ME_WIRELESS_CONNECTION_MACHINE = machine("me_wireless_connection_machine", "ME无线连接机", WirelessTester::new)
             .overlayTieredHullRenderer("neutron_sensor")
             .tooltips(NewDataAttributes.MIRACULOUS_TOOLS.create(new CNEN("ME无线连接机", "ME Wireless Connection Machine"), p -> p.addCommentLines(
                     """
