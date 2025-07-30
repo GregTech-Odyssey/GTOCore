@@ -61,6 +61,7 @@ import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.level.BlockEvent;
 import net.minecraftforge.event.level.LevelEvent;
+import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.event.server.ServerStoppingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
@@ -284,8 +285,14 @@ public final class ForgeCommonEvent {
             if (serverLevel == null) return;
             DysonSphereSavaedData.INSTANCE = serverLevel.getDataStorage().computeIfAbsent(DysonSphereSavaedData::new, DysonSphereSavaedData::new, "dyson_sphere_data");
             RecipeRunLimitSavaedData.INSTANCE = serverLevel.getDataStorage().computeIfAbsent(RecipeRunLimitSavaedData::new, RecipeRunLimitSavaedData::new, " recipe_run_limit_data");
-            serverLevel.getDataStorage().computeIfAbsent(MEWirelessSavedData.INSTANCE::load, (() -> MEWirelessSavedData.INSTANCE), "me_wireless_connection_manager");
+            // serverLevel.getDataStorage().computeIfAbsent(WirelessSavedData.INSTANCE::load, (() ->
+            // WirelessSavedData.INSTANCE), "wireless");
         }
+    }
+
+    @SubscribeEvent
+    public static void onServerStartingEvent(ServerStartingEvent event) {
+        WirelessSavedData.INSTANCE.initialize(event.getServer());
     }
 
     @SubscribeEvent

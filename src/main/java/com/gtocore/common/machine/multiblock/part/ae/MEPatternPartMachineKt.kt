@@ -1,17 +1,23 @@
 package com.gtocore.common.machine.multiblock.part.ae
 
+import com.gtocore.api.gui.ktflexible.InitFancyMachineUIWidget
 import com.gtocore.api.gui.ktflexible.multiPageAdvanced
 import com.gtocore.api.gui.ktflexible.textBlock
 import com.gtocore.common.data.machines.GTAEMachines
 import com.gtocore.common.machine.multiblock.part.ae.widget.slot.AEPatternViewSlotWidgetKt
 import com.gtocore.common.network.IntSyncField
 import com.gtocore.common.network.createLogicalSide
+import com.gtocore.integration.ae.WirelessMachine
+import com.gtocore.integration.ae.WirelessMachinePersisted
+import com.gtocore.integration.ae.WirelessMachineRunTime
 
 import net.minecraft.MethodsReturnNonnullByDefault
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.chat.Component
 import net.minecraft.server.TickTask
 import net.minecraft.server.level.ServerLevel
+import net.minecraft.server.level.ServerPlayer
+import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
 
@@ -31,7 +37,7 @@ import com.gregtechceu.gtceu.api.capability.recipe.IO
 import com.gregtechceu.gtceu.api.gui.GuiTextures
 import com.gregtechceu.gtceu.api.gui.fancy.ConfiguratorPanel
 import com.gregtechceu.gtceu.api.gui.fancy.FancyMachineUIWidget
-import com.gregtechceu.gtceu.api.gui.fancy.IFancyUIProvider
+import com.gregtechceu.gtceu.api.gui.fancy.TabsWidget
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity
 import com.gregtechceu.gtceu.api.machine.TickableSubscription
 import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList
@@ -42,6 +48,7 @@ import com.gtolib.api.annotation.Scanned
 import com.gtolib.api.annotation.language.RegisterLanguage
 import com.gtolib.api.gui.ktflexible.*
 import com.gtolib.api.gui.ktflexible.FreshWidgetGroupAbstract
+import com.hepdd.gtmthings.utils.TeamUtil
 import com.lowdragmc.lowdraglib.gui.modular.ModularUI
 import com.lowdragmc.lowdraglib.gui.widget.Widget
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup
@@ -52,6 +59,7 @@ import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder
 import kotlinx.coroutines.Runnable
 
+import java.util.UUID
 import java.util.function.IntSupplier
 import javax.annotation.ParametersAreNonnullByDefault
 
@@ -61,6 +69,7 @@ import javax.annotation.ParametersAreNonnullByDefault
 internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.AbstractInternalSlot>(holder: IMachineBlockEntity, val maxPatternCount: Int) :
     MEPartMachine(holder, IO.IN),
     ICraftingProvider,
+    WirelessMachine,
     PatternContainer {
 
     // ==================== 常量和静态成员 ====================
@@ -122,7 +131,7 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
         internalInventory.indices.forEach { i ->
             internalInventory[i] = createInternalSlot(i)
         }
-        getMainNode().addService(ICraftingProvider::class.java, this)
+        mainNode.addService(ICraftingProvider::class.java, this)
     }
 
     // ==================== 抽象方法 ====================
@@ -179,11 +188,23 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
                 )
             }
         }
+        onWirelessMachineLoad()
+    }
+
+    override fun onMachinePlaced(player: LivingEntity?, stack: ItemStack?) {
+        super<MEPartMachine>.onMachinePlaced(player, stack)
+        onWirelessMachinePlaced(player, stack)
     }
 
     override fun onUnload() {
         pageField.unregister()
+        onWirelessMachineUnLoad()
         super.onUnload()
+    }
+
+    override fun clientTick() {
+        onWirelessMachineClientTick()
+        super.clientTick()
     }
 
     override fun onMachineRemoved() {
@@ -191,7 +212,7 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
     }
 
     override fun onMainNodeStateChanged(reason: IGridNodeListener.State) {
-        super.onMainNodeStateChanged(reason)
+        super<MEPartMachine>.onMainNodeStateChanged(reason)
         updateSubscription()
     }
 
@@ -372,15 +393,12 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
         return slot
     }
     open fun VBoxBuilder.buildToolBoxContent() {}
-    class MyFancyMachineUIWidget(mainPage: IFancyUIProvider, width: Int, height: Int) : FancyMachineUIWidget(mainPage, width, height) {
-        fun setup(provider: IFancyUIProvider) {
-            setupFancyUI(provider)
-        }
-    }
     var modularUI: ModularUI? = null
     var fancyMachineUIWidget: FancyMachineUIWidget? = null
+    var playerUUID: UUID = UUID.randomUUID()
     override fun createUI(entityPlayer: Player?): ModularUI? {
-        fancyMachineUIWidget = FancyMachineUIWidget(this, 176, 166)
+        playerUUID = entityPlayer?.uuid ?: UUID.randomUUID()
+        fancyMachineUIWidget = InitFancyMachineUIWidget(this, 176, 166) { if (entityPlayer is ServerPlayer)syncDataToClientInServer() }
         modularUI = (ModularUI(176, 166, this, entityPlayer)).widget(fancyMachineUIWidget)
         return modularUI
     }
@@ -395,4 +413,18 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
         abstract fun onPatternChange()
         override fun serializeNBT(): CompoundTag = CompoundTag()
     }
+
+    // ////////////////////////////////
+    // ****** 无线连接设置 ******//
+    // //////////////////////////////
+    @Persisted
+    @DescSynced
+    override var wirelessMachinePersisted: WirelessMachinePersisted = createWirelessMachinePersisted()
+    override var wirelessMachineRunTime: WirelessMachineRunTime = createWirelessMachineRunTime()
+    override fun attachSideTabs(sideTabs: TabsWidget) {
+        super.attachSideTabs(sideTabs)
+        sideTabs.attachSubTab(getSetupFancyUIProvider())
+        sideTabs.attachSubTab(getDetailFancyUIProvider())
+    }
+    override fun getUIRequesterUUID(): UUID = TeamUtil.getTeamUUID(playerUUID)
 }
