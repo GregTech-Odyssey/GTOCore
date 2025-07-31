@@ -66,7 +66,7 @@ object WirelessSavedData : SavedData() {
         val defaultList = p0.getList("defaultMap", 10)
         for (tag in defaultList) {
             val nbt = tag as CompoundTag
-            defaultMap[UUID.fromString(nbt.getString("key"))] = nbt.getString("value")
+            defaultMap[nbt.getUUID("key")] = nbt.getString("value")
         }
         return this
     }

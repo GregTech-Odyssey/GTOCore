@@ -11,16 +11,23 @@ import net.minecraft.network.chat.Component
 import appeng.core.definitions.AEItems
 import com.gregtechceu.gtceu.api.gui.fancy.FancyMachineUIWidget
 import com.gregtechceu.gtceu.api.gui.fancy.IFancyUIProvider
+import com.gregtechceu.gtceu.api.machine.feature.IMachineLife
 import com.gregtechceu.gtceu.integration.ae2.machine.feature.IGridConnectedMachine
+import com.gtolib.api.annotation.Scanned
+import com.gtolib.api.annotation.language.RegisterLanguage
 import com.gtolib.api.gui.ktflexible.blank
 import com.gtolib.api.gui.ktflexible.button
 import com.gtolib.api.gui.ktflexible.field
 import com.gtolib.api.gui.ktflexible.rootFresh
+import com.hepdd.gtmthings.api.capability.IBindable
 import com.hepdd.gtmthings.utils.TeamUtil
 import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture
 import com.lowdragmc.lowdraglib.gui.texture.ItemStackTexture
+import com.lowdragmc.lowdraglib.gui.widget.Widget
 import com.lowdragmc.lowdraglib.syncdata.IContentChangeAware
 import com.lowdragmc.lowdraglib.syncdata.ITagSerializable
+import net.minecraft.world.entity.LivingEntity
+import net.minecraft.world.item.ItemStack
 
 import java.util.UUID
 
@@ -33,12 +40,13 @@ class GridInfoInMachine(var machine: WirelessMachine) :
     var gridConnectedName: String = ""
         set(value) {
             field = value
+            onContentChanged?.run()
             machine.self().requestSync()
         }
     var beSet = false // 是否已经设置过网格连接
 
     // cache
-    var gridConnected: WirelessGrid? = null
+    var gridConnected: WirelessGrid? = null // ONLY SERVER
     var gridWillAdded: String = ""
     var freshRun: Runnable = Runnable {}
     var shouldFresh = false
@@ -61,8 +69,25 @@ class GridInfoInMachine(var machine: WirelessMachine) :
 
     override fun getOnContentsChanged(): Runnable? = onContentChanged
 }
-
+@Scanned
 interface WirelessMachine : IGridConnectedMachine {
+    @Scanned
+    companion object {
+        @RegisterLanguage(cn = "连接ME网络", en = "Connect to ME Grid")
+        val connectToGrid = "gtocore.integration.ae.WirelessMachine.connectToGrid"
+        @RegisterLanguage(cn = "网络节点列表", en = "Grid Node List")
+        val gridNodeList = "gtocore.integration.ae.WirelessMachine.gridNodeList"
+        @RegisterLanguage(cn = "当前连接到 %s", en = "Currently connected to %s")
+        val currentlyConnectedTo = "gtocore.integration.ae.WirelessMachine.currentlyConnectedTo"
+        @RegisterLanguage(cn = "创建网络", en = "Create Grid")
+        val  createGrid = "gtocore.integration.ae.WirelessMachine.createGrid"
+        @RegisterLanguage(cn = "全球可用无线网络 : %s / %s", en = "Global available wireless grids: %s / %s")
+        val globalWirelessGrid = "gtocore.integration.ae.WirelessMachine.globalWirelessGrid"
+        @RegisterLanguage(cn = "删除", en = "Remove")
+        val removeGrid = "gtocore.integration.ae.WirelessMachine.removeGrid"
+        @RegisterLanguage(cn = "你的无线网络 : ", en = "Your wireless grids: ")
+        val yourWirelessGrid = "gtocore.integration.ae.WirelessMachine.yourWirelessGrid"
+    }
     // ////////////////////////////////
     // ****** 机器必须实现此字段 ******//
     // //////////////////////////////
@@ -95,7 +120,7 @@ interface WirelessMachine : IGridConnectedMachine {
             syncNetworkData()
         }
         self().subscribeServerTick {
-            if (self().offsetTimer > nowTick + 10) {
+            if (self().offsetTimer > nowTick + 20) {
                 init
             }
         }
@@ -112,7 +137,9 @@ interface WirelessMachine : IGridConnectedMachine {
             }
         }
     }
-
+    fun onWirelessMachinePlaced(player: LivingEntity?, stack: ItemStack?) {
+        player?.let { self().ownerUUID = it.uuid }
+    }
     // ////////////////////////////////
     // ****** 工具集 ******//
     // //////////////////////////////
@@ -126,7 +153,7 @@ interface WirelessMachine : IGridConnectedMachine {
         if (this.self().isRemote) {
             WirelessSavedData.grid.askForSyncInClient()
             getGridInfoInMachine.shouldFresh = true
-            getGridInfoInMachine.freshTick = self().offsetTimer + 10
+            getGridInfoInMachine.freshTick = self().offsetTimer + 20
         } else {
             getGridInfoInMachine.freshRun.run()
         }
@@ -138,7 +165,9 @@ interface WirelessMachine : IGridConnectedMachine {
             STATUS.SUCCESS -> {
                 getGridInfoInMachine.gridConnected = WirelessSavedData.getGirdList().first { it.name == gridName }
             }
-            STATUS.ALREADY_JOINT -> null
+            STATUS.ALREADY_JOINT -> {
+                getGridInfoInMachine.gridConnected = WirelessSavedData.getGirdList().first { it.name == gridName }
+            }
             STATUS.NOT_FOUND_GRID -> {
                 getGridInfoInMachine.gridConnected = null
                 getGridInfoInMachine.gridConnectedName = ""
@@ -160,12 +189,13 @@ interface WirelessMachine : IGridConnectedMachine {
         unLinkGrid()
         getGridInfoInMachine.gridConnectedName = ""
     }
-    fun getGridPermissionUUID(): UUID = TeamUtil.getTeamUUID(this.self().ownerUUID)
-    fun getUIRequesterUUID(): UUID = TeamUtil.getTeamUUID(this.self().ownerUUID)
-    fun getFancyUIProvider(): IFancyUIProvider = object : IFancyUIProvider {
+    fun getGridPermissionUUID(): UUID = TeamUtil.getTeamUUID(self().ownerUUID ?: UUID.randomUUID())
+    fun getUIRequesterUUID(): UUID = TeamUtil.getTeamUUID(self().ownerUUID ?: UUID.randomUUID())
+    fun getSetupFancyUIProvider(): IFancyUIProvider = object : IFancyUIProvider {
         override fun getTabIcon(): IGuiTexture? = ItemStackTexture(AEItems.WIRELESS_RECEIVER.stack())
 
-        override fun getTitle(): Component? = Component.literal("连接网络")
+        override fun getTitle(): Component? = Component.translatable(connectToGrid)
+
 
         override fun createMainPage(p0: FancyMachineUIWidget?) = rootFresh(176, 166) {
             hBox(height = availableHeight, { spacing = 4 }) {
@@ -174,7 +204,7 @@ interface WirelessMachine : IGridConnectedMachine {
                     blank()
                     textBlock(
                         maxWidth = availableWidth - 4,
-                        textSupplier = { Component.literal("当前连接的无线网络: ${getGridInfoInMachine.gridConnectedName.ifEmpty { "无" }}") },
+                        textSupplier = { Component.translatable(currentlyConnectedTo,getGridInfoInMachine.gridConnectedName.ifEmpty { "无" }) },
                     )
                     hBox(height = 16, { spacing = 4 }) {
                         field(
@@ -182,7 +212,7 @@ interface WirelessMachine : IGridConnectedMachine {
                             getter = { getGridInfoInMachine.gridWillAdded },
                             setter = { getGridInfoInMachine.gridWillAdded = it },
                         )
-                        button(text = { "创建新的无线网络" }, width = this@vBox.availableWidth - 60 - 8) {
+                        button(transKet = createGrid, width = this@vBox.availableWidth - 60 - 8) {
                             if (!self().isRemote &&
                                 getGridInfoInMachine.gridWillAdded.isNotEmpty() &&
                                 WirelessSavedData.getGirdList()
@@ -199,16 +229,12 @@ interface WirelessMachine : IGridConnectedMachine {
                     textBlock(
                         maxWidth = availableWidth - 4,
                         textSupplier = {
-                            Component.literal(
-                                "全球可用无线网络 : ${
-                                    WirelessSavedData.getGirdList().count { it.owner == getUIRequesterUUID() }
-                                } / ${WirelessSavedData.getGirdList().count()}",
-                            )
+                            Component.translatable(globalWirelessGrid,WirelessSavedData.getGirdList().count { it.owner == getUIRequesterUUID() },WirelessSavedData.getGirdList().count())
                         },
                     )
                     textBlock(
                         maxWidth = availableWidth - 4,
-                        textSupplier = { Component.literal("你的无线网络 : ") },
+                        textSupplier = { Component.translatable(yourWirelessGrid) },
                     )
                     vScroll(width = availableWidth, height = 176 - 4 - 20 - 36 - 16, { spacing = 2 }) a@{
                         WirelessSavedData.getGirdList().filter { it.owner == getUIRequesterUUID() }
@@ -242,7 +268,7 @@ interface WirelessMachine : IGridConnectedMachine {
                                             triggerFresh()
                                         }
                                     }
-                                    button(height = 14, text = { "删除" }, width = 36) {
+                                    button(height = 14, transKet = removeGrid, width = 36) {
                                         if (!self().isRemote) {
                                             WirelessSavedData.removeGrid(grid.name, getUIRequesterUUID())
                                         }
@@ -254,5 +280,30 @@ interface WirelessMachine : IGridConnectedMachine {
                 }
             }
         }.also { getGridInfoInMachine.freshRun = Runnable { it.fresh() } }
+    }
+    fun getDetailFancyUIProvider(): IFancyUIProvider {
+        return object : IFancyUIProvider {
+            override fun getTabIcon(): IGuiTexture? = ItemStackTexture(AEItems.WIRELESS_RECEIVER.stack())
+
+            override fun getTitle(): Component? = Component.translatable(gridNodeList)
+
+            override fun createMainPage(p0: FancyMachineUIWidget?): Widget? = rootFresh(256,166){
+                hBox(height = availableHeight, { spacing = 4 }) {
+                    blank()
+                    vBox(width = this@rootFresh.availableWidth - 4, { spacing = 4 }) {
+                        blank()
+                        textBlock(
+                            maxWidth = availableWidth - 4,
+                            textSupplier = { Component.translatable(currentlyConnectedTo,getGridInfoInMachine.gridConnectedName.ifEmpty { "无" }) },
+                        )
+                        vScroll(width = availableWidth, height = 176 - 4 -10 - 16, { spacing = 2 }){
+                            WirelessSavedData.getGirdList().firstOrNull { it.name ==getGridInfoInMachine.gridConnectedName }?.connectionPool?.forEach { machine1 ->
+                                textBlock(maxWidth = availableWidth, textSupplier = { Component.literal("${machine1.self().playerOwner?.name} : ${machine1.self().pos}") })
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 }

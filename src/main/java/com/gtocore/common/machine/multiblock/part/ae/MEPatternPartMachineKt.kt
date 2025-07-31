@@ -37,6 +37,7 @@ import com.gregtechceu.gtceu.api.gui.fancy.IFancyUIProvider
 import com.gregtechceu.gtceu.api.gui.fancy.TabsWidget
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity
 import com.gregtechceu.gtceu.api.machine.TickableSubscription
+import com.gregtechceu.gtceu.api.machine.feature.IMachineLife
 import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler
 import com.gtolib.ae2.MyPatternDetailsHelper
@@ -54,6 +55,7 @@ import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder
 import kotlinx.coroutines.Runnable
+import net.minecraft.world.entity.LivingEntity
 
 import java.util.UUID
 import java.util.function.IntSupplier
@@ -185,6 +187,11 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
             }
         }
         onWirelessMachineLoad()
+    }
+
+    override fun onMachinePlaced(player: LivingEntity?, stack: ItemStack?) {
+        super<MEPartMachine>.onMachinePlaced(player, stack)
+        onWirelessMachinePlaced(player, stack)
     }
 
     override fun onUnload() {
@@ -419,6 +426,7 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
     override fun getUIRequesterUUID() = playerUUID
     override fun attachSideTabs(sideTabs: TabsWidget) {
         super.attachSideTabs(sideTabs)
-        sideTabs.attachSubTab(getFancyUIProvider())
+        sideTabs.attachSubTab(getSetupFancyUIProvider())
+        sideTabs.attachSubTab(getDetailFancyUIProvider())
     }
 }

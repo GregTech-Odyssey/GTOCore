@@ -8,12 +8,15 @@ import com.gregtechceu.gtceu.api.gui.fancy.TabsWidget
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity
 import com.gregtechceu.gtceu.api.machine.MetaMachine
 import com.gregtechceu.gtceu.api.machine.feature.IFancyUIMachine
+import com.gregtechceu.gtceu.api.machine.feature.IMachineLife
 import com.gregtechceu.gtceu.integration.ae2.machine.trait.GridNodeHolder
 import com.hepdd.gtmthings.utils.TeamUtil
 import com.lowdragmc.lowdraglib.gui.modular.ModularUI
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder
+import net.minecraft.world.entity.LivingEntity
+import net.minecraft.world.item.ItemStack
 
 import java.util.EnumSet
 import java.util.UUID
@@ -21,6 +24,7 @@ import java.util.UUID
 class WirelessTester(holder: IMachineBlockEntity) :
     MetaMachine(holder),
     WirelessMachine,
+    IMachineLife,
     IFancyUIMachine {
     companion object {
         @JvmStatic
@@ -44,12 +48,18 @@ class WirelessTester(holder: IMachineBlockEntity) :
 
     override fun isRemote() = super<MetaMachine>.isRemote
     override fun attachSideTabs(sideTabs: TabsWidget) {
-        sideTabs.mainTab = getFancyUIProvider()
+        sideTabs.mainTab = getSetupFancyUIProvider()
+        sideTabs.attachSubTab(getDetailFancyUIProvider())
     }
 
     override fun onLoad() {
         super.onLoad()
         onWirelessMachineLoad()
+    }
+
+    override fun onMachinePlaced(player: LivingEntity?, stack: ItemStack?) {
+        super.onMachinePlaced(player, stack)
+        onWirelessMachinePlaced(player, stack)
     }
 
     override fun onUnload() {
