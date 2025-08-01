@@ -2194,6 +2194,7 @@
   "gtocore.machine.alchemy_cauldron.tooltip.0": "§7不要用它来做饭",
   "gtocore.machine.alchemy_cauldron.tooltip.1": "§7炼金是一个神秘的过程",
   "gtocore.machine.alchemy_cauldron.tooltip.2": "§7部分配方产出概率随运行次数增长",
+  "gtocore.machine.alchemy_cauldron.tooltip.3": "§7所有配方都需要加热",
   "gtocore.machine.algae_farm.tooltip.0": "每10秒随机消耗5-10B水，随机输出1-10个藻类",
   "gtocore.machine.algae_farm.tooltip.1": "如果输入10B发酵生物质，则输出量提升10倍",
   "gtocore.machine.algae_farm.tooltip.2": "如果在输入总线放入n个特定藻类，则指定输出内容，且输出量提升n/4倍",

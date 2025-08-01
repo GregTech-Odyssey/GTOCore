@@ -33,6 +33,10 @@ import com.hollingsworth.arsnouveau.setup.registry.BlockRegistry;
 import com.hollingsworth.arsnouveau.setup.registry.ItemsRegistry;
 import com.kyanite.deeperdarker.content.DDBlocks;
 import earth.terrarium.adastra.common.registry.ModBlocks;
+import io.github.lounode.extrabotany.common.block.ExtraBotanyBlocks;
+import io.github.lounode.extrabotany.common.block.flower.ExtrabotanyFlowerBlocks;
+import io.github.lounode.extrabotany.common.item.ExtraBotanyItems;
+import io.github.lounode.extrabotany.common.lib.ExtraBotanyTags;
 import vazkii.botania.api.recipe.StateIngredient;
 import vazkii.botania.common.block.BotaniaBlocks;
 import vazkii.botania.common.block.BotaniaFlowerBlocks;
@@ -326,6 +330,11 @@ public final class BotaniaRecipes {
                 new ElfExchangeRecipe("pixie_dust", new ItemStack(BotaniaItems.manaPearl, 4), new ItemStack(BotaniaItems.pixieDust, 4)),
                 new ElfExchangeRecipe("dragonstone", new ItemStack(ItemsRegistry.SOURCE_GEM, 4), new ItemStack(BotaniaItems.dragonstone, 4)),
                 new ElfExchangeRecipe("dragonstone_block", new ItemStack(BlockRegistry.SOURCE_GEM_BLOCK, 4), new ItemStack(BotaniaBlocks.dragonstoneBlock, 4)),
+
+                // 额外植物学
+                new ElfExchangeRecipe("elementium_quartz", new ItemStack(BotaniaItems.manaQuartz, 8), new ItemStack(ExtraBotanyItems.elementiumQuartz, 4)),
+
+                // GTO
                 new ElfExchangeRecipe("colorful_mystical_flower", new ItemStack(BotaniaItems.fertilizer, 4), new ItemStack(COLORFUL_MYSTICAL_FLOWER, 4)));
         for (ElfExchangeRecipe recipe : ElfExchange) {
             ELF_EXCHANGE_RECIPES.builder(recipe.id)
@@ -519,6 +528,24 @@ public final class BotaniaRecipes {
                 new InfusionManaPoolRecipe("mangrove_leaves_dupe", Items.MANGROVE_LEAVES, new ItemStack(Blocks.MANGROVE_LEAVES, 2), 2000, BotaniaBlocks.conjurationCatalyst, null),
                 new InfusionManaPoolRecipe("cherry_leaves_dupe", Items.CHERRY_LEAVES, new ItemStack(Blocks.CHERRY_LEAVES, 2), 2000, BotaniaBlocks.conjurationCatalyst, null),
 
+                // 神话植物学
+                new InfusionManaPoolRecipe("gjallar_horn_empty", BotaniaItems.grassHorn, RegistriesUtils.getItemStack("mythicbotany:gjallar_horn_empty"), 20000, null, null),
+
+                // 额外植物学
+                new InfusionManaPoolRecipe("nightmare_fuel", Items.COAL, new ItemStack(ExtraBotanyItems.nightmareFuel), 2000, null, null),
+                new InfusionManaPoolRecipe("fried_chicken", Items.COOKED_CHICKEN, new ItemStack(ExtraBotanyItems.friedChicken), 600, null, null),
+                new InfusionManaPoolRecipe("snowball_to_ender_pearl", Items.SNOWBALL, new ItemStack(Items.ENDER_PEARL), 2000, ExtraBotanyBlocks.dimensionCatalyst, null),
+                new InfusionManaPoolRecipe("diamond_horse_armor_to_shulker_shell", Items.DIAMOND_HORSE_ARMOR, new ItemStack(Items.SHULKER_SHELL), 20000, ExtraBotanyBlocks.dimensionCatalyst, null),
+                new InfusionManaPoolRecipe("apple_to_chorus_fruit", Items.APPLE, new ItemStack(Items.CHORUS_FRUIT), 500, ExtraBotanyBlocks.dimensionCatalyst, null),
+                new InfusionManaPoolRecipe("stone_to_end_stone", Items.STONE, new ItemStack(Items.END_STONE), 500, ExtraBotanyBlocks.dimensionCatalyst, null),
+                new InfusionManaPoolRecipe("cobblestone_to_nether_rack", Items.COBBLESTONE, new ItemStack(Items.NETHERRACK), 500, ExtraBotanyBlocks.dimensionCatalyst, null),
+                new InfusionManaPoolRecipe("sand_to_soul_sand", Items.SAND, new ItemStack(Items.SOUL_SAND), 500, ExtraBotanyBlocks.dimensionCatalyst, null),
+                new InfusionManaPoolRecipe("iron_ore_to_quartz_ore", Items.IRON_ORE, new ItemStack(Items.NETHER_QUARTZ_ORE), 2000, ExtraBotanyBlocks.dimensionCatalyst, null),
+                new InfusionManaPoolRecipe("blaze_rod_dupe", Items.BLAZE_ROD, new ItemStack(Items.BLAZE_ROD, 2), 2000, ExtraBotanyBlocks.dimensionCatalyst, null),
+                new InfusionManaPoolRecipe("nether_star_to_totem_of_undying", Items.NETHER_STAR, new ItemStack(Items.TOTEM_OF_UNDYING), 50000, ExtraBotanyBlocks.dimensionCatalyst, null),
+                new InfusionManaPoolRecipe("the_origin_to_elytra", ExtraBotanyItems.theOrigin, new ItemStack(Items.ELYTRA), 50000, ExtraBotanyBlocks.dimensionCatalyst, null),
+                new InfusionManaPoolRecipe("necrofleur_chibi", ExtrabotanyFlowerBlocks.necrofleur.asItem(), new ItemStack(ExtrabotanyFlowerBlocks.necrofleurChibi), 2500, BotaniaBlocks.alchemyCatalyst, "botania:flower_shrinking"),
+
                 // GTO配方
                 new InfusionManaPoolRecipe("pulsating", GTOChemicalHelper.getItem(SUPERCONDUCTOR_BASE, PulsatingAlloy), new ItemStack(GTOChemicalHelper.getItem(wireGtSingle, PulsatingAlloy)), 400, null, null),
                 new InfusionManaPoolRecipe("conductivee", GTOChemicalHelper.getItem(SUPERCONDUCTOR_BASE, ConductiveAlloy), new ItemStack(GTOChemicalHelper.getItem(wireGtSingle, ConductiveAlloy)), 1600, null, null),
@@ -626,6 +653,7 @@ public final class BotaniaRecipes {
                 new IndustrialAltarRecipe(1, "envy_rune", 12000, BotaniaBlocks.livingrock.asItem(), new ItemStack(BotaniaItems.runeEnvy), new Item[] { BotaniaItems.runeWinter, BotaniaItems.runeWater, BotaniaItems.manaDiamond, BotaniaItems.manaDiamond }),
                 new IndustrialAltarRecipe(1, "pride_rune", 12000, BotaniaBlocks.livingrock.asItem(), new ItemStack(BotaniaItems.runePride), new Item[] { BotaniaItems.runeSummer, BotaniaItems.runeFire, BotaniaItems.manaDiamond, BotaniaItems.manaDiamond }),
 
+                // 神话植物学
                 new IndustrialAltarRecipe(1, "midgar_runed", 16000, BotaniaBlocks.livingrock.asItem(), new ItemStack(RegistriesUtils.getItem("mythicbotany:midgard_rune")), new Item[] { BotaniaItems.runeEarth, BotaniaItems.runeSpring, BotaniaItems.runeGreed, Items.GRASS_BLOCK, BotaniaItems.manaSteel }),
                 new IndustrialAltarRecipe(1, "alfheim_rune", 16000, BotaniaBlocks.livingrock.asItem(), new ItemStack(RegistriesUtils.getItem("mythicbotany:alfheim_rune")), new Item[] { BotaniaItems.runeAir, BotaniaItems.runeSummer, BotaniaItems.runeLust, Items.OAK_LEAVES, BotaniaItems.elementium }),
                 new IndustrialAltarRecipe(1, "muspelheim_rune", 16000, BotaniaBlocks.livingrock.asItem(), new ItemStack(RegistriesUtils.getItem("mythicbotany:muspelheim_rune")), new Item[] { BotaniaItems.runeFire, BotaniaItems.runeSummer, BotaniaItems.runeWrath, Items.MAGMA_BLOCK, Items.NETHER_BRICK }),
@@ -644,26 +672,27 @@ public final class BotaniaRecipes {
                     .duration(300)
                     .circuitMeta(recipe.circuitMeta)
                     .MANAt(recipe.mana / 50);
-            switch (recipe.inputs.length) {
-                case 4 -> build
-                        .inputItems(recipe.inputs[0])
-                        .inputItems(recipe.inputs[1])
-                        .inputItems(recipe.inputs[2])
-                        .inputItems(recipe.inputs[3]);
-                case 5 -> build
-                        .inputItems(recipe.inputs[0])
-                        .inputItems(recipe.inputs[1])
-                        .inputItems(recipe.inputs[2])
-                        .inputItems(recipe.inputs[3])
-                        .inputItems(recipe.inputs[4]);
-                case 6 -> build
-                        .inputItems(recipe.inputs[0])
-                        .inputItems(recipe.inputs[1])
-                        .inputItems(recipe.inputs[2])
-                        .inputItems(recipe.inputs[3])
-                        .inputItems(recipe.inputs[4])
-                        .inputItems(recipe.inputs[5]);
-            }
+            for (int i = 0; i < recipe.inputs.length; i++) build.inputItems(recipe.inputs[i]);
+            build.save(provider);
+        }
+
+        List<IndustrialAltarRecipe> IndustrialAltar3 = List.of(
+                // 额外植物学
+                new IndustrialAltarRecipe(1, "zadkiel", 500000, BotaniaBlocks.livingrock.asItem(), new ItemStack(ExtraBotanyItems.zadkiel, 4), new Item[] { Items.ICE, Items.BLUE_ICE, Items.PACKED_ICE, Items.SNOW_BLOCK, Items.POWDER_SNOW_BUCKET, Items.TOTEM_OF_UNDYING }),
+                new IndustrialAltarRecipe(1, "orichalcos_ingot", 150000, BotaniaBlocks.livingrock.asItem(), new ItemStack(ExtraBotanyItems.orichalcos, 8), new Item[] { ExtraBotanyItems.heroMedal, ExtraBotanyItems.gildedPotatoMashed, BotaniaItems.gaiaIngot, BotaniaItems.gaiaIngot, BotaniaItems.lifeEssence, BotaniaItems.lifeEssence, BotaniaItems.lifeEssence, BotaniaItems.lifeEssence }),
+                new IndustrialAltarRecipe(1, "shadowium_ingot", 4200, BotaniaBlocks.livingrock.asItem(), new ItemStack(ExtraBotanyItems.shadowium, 8), new Item[] { BotaniaItems.elementium, ExtraBotanyItems.gildedPotatoMashed, ExtraBotanyItems.nightmareFuel, ExtraBotanyItems.nightmareFuel, ExtraBotanyItems.nightmareFuel }),
+                new IndustrialAltarRecipe(1, "photonium_ingot", 4200, BotaniaBlocks.livingrock.asItem(), new ItemStack(ExtraBotanyItems.photonium, 8), new Item[] { BotaniaItems.elementium, ExtraBotanyItems.gildedPotatoMashed, ExtraBotanyItems.spiritFragment, ExtraBotanyItems.spiritFragment, ExtraBotanyItems.spiritFragment }),
+                new IndustrialAltarRecipe(1, "gilded_potato", 800, BotaniaBlocks.livingrock.asItem(), new ItemStack(ExtraBotanyItems.gildedPotato, 4), new Item[] { Items.POTATO, Items.GOLD_NUGGET }),
+                new IndustrialAltarRecipe(1, "orichalcos_hammer", 1000000, BotaniaBlocks.livingrock.asItem(), new ItemStack(ExtraBotanyItems.orichalcosHammer, 4), new Item[] { ExtraBotanyItems.orichalcos, ExtraBotanyItems.gildedPotatoMashed, ExtraBotanyItems.theChaos, ExtraBotanyItems.theOrigin, ExtraBotanyItems.theEnd }));
+        for (IndustrialAltarRecipe recipe : IndustrialAltar3) {
+            var build = INDUSTRIAL_ALTAR_RECIPES.builder(recipe.id);
+            build
+                    .inputItems(recipe.input, 4)
+                    .outputItems(recipe.output)
+                    .duration(300)
+                    .circuitMeta(recipe.circuitMeta)
+                    .MANAt(recipe.mana / 50);
+            for (int i = 0; i < recipe.inputs.length; i++) build.inputItems(recipe.inputs[i], 4);
             build.save(provider);
         }
 
@@ -751,8 +780,36 @@ public final class BotaniaRecipes {
                 new IndustrialAltarRecipe(2, "bergamute_flower", 1, Items.WHEAT_SEEDS, new ItemStack(BotaniaFlowerBlocks.bergamute), new Item[] { BotaniaItems.orangePetal, BotaniaItems.greenPetal, BotaniaItems.greenPetal, BotaniaItems.redstoneRoot }),
                 new IndustrialAltarRecipe(3, "labellia_flower", 1, Items.WHEAT_SEEDS, new ItemStack(BotaniaFlowerBlocks.labellia), new Item[] { BotaniaItems.yellowPetal, BotaniaItems.yellowPetal, BotaniaItems.bluePetal, BotaniaItems.whitePetal, BotaniaItems.blackPetal, BotaniaItems.runeAutumn, BotaniaItems.redstoneRoot, BotaniaItems.pixieDust }),
                 new IndustrialAltarRecipe(2, "motif_daybloom_flower", 1, Items.WHEAT_SEEDS, new ItemStack(motifDaybloom), new Item[] { BotaniaItems.yellowPetal, BotaniaItems.yellowPetal, BotaniaItems.orangePetal, BotaniaItems.lightBluePetal }),
-                new IndustrialAltarRecipe(2, "motif_nightshade_flower", 1, Items.WHEAT_SEEDS, new ItemStack(BotaniaBlocks.motifNightshade), new Item[] { BotaniaItems.blackPetal, BotaniaItems.blackPetal, BotaniaItems.purplePetal, BotaniaItems.grayPetal }));
+                new IndustrialAltarRecipe(2, "motif_nightshade_flower", 1, Items.WHEAT_SEEDS, new ItemStack(BotaniaBlocks.motifNightshade), new Item[] { BotaniaItems.blackPetal, BotaniaItems.blackPetal, BotaniaItems.purplePetal, BotaniaItems.grayPetal }),
 
+                // 神话植物学
+                new IndustrialAltarRecipe(2, "exoblaze_flower", 1, Items.WHEAT_SEEDS, RegistriesUtils.getItemStack("mythicbotany:exoblaze"), new Item[] { BotaniaItems.yellowPetal, BotaniaItems.yellowPetal, BotaniaItems.grayPetal, BotaniaItems.lightGrayPetal, BotaniaItems.runeFire, Items.BLAZE_POWDER }),
+                new IndustrialAltarRecipe(2, "wither_aconite_flower", 1, Items.WHEAT_SEEDS, RegistriesUtils.getItemStack("mythicbotany:wither_aconite"), new Item[] { BotaniaItems.blackPetal, BotaniaItems.blackPetal, BotaniaItems.runePride, Blocks.WITHER_ROSE.asItem() }),
+                new IndustrialAltarRecipe(3, "aquapanthus_flower", 1, Items.WHEAT_SEEDS, RegistriesUtils.getItemStack("mythicbotany:aquapanthus"), new Item[] { BotaniaItems.bluePetal, BotaniaItems.bluePetal, BotaniaItems.lightBluePetal, BotaniaItems.greenPetal, BotaniaItems.cyanPetal }),
+                new IndustrialAltarRecipe(2, "hellebore_flower", 1, Items.WHEAT_SEEDS, RegistriesUtils.getItemStack("mythicbotany:hellebore"), new Item[] { BotaniaItems.redPetal, BotaniaItems.redPetal, BotaniaItems.purplePetal, BotaniaItems.cyanPetal, BotaniaItems.runeFire }),
+                new IndustrialAltarRecipe(3, "raindeletia_flower", 1, Items.WHEAT_SEEDS, RegistriesUtils.getItemStack("mythicbotany:raindeletia"), new Item[] { BotaniaItems.lightBluePetal, BotaniaItems.bluePetal, BotaniaItems.magentaPetal, BotaniaItems.whitePetal, BotaniaItems.runeWater }),
+                new IndustrialAltarRecipe(2, "petrunia_flower", 1, Items.WHEAT_SEEDS, RegistriesUtils.getItemStack("mythicbotany:petrunia"), new Item[] { BotaniaItems.redPetal, BotaniaItems.redPetal, BotaniaItems.orangePetal, BotaniaItems.brownPetal, RegistriesUtils.getItem("mythicbotany:gjallar_horn_full"), BotaniaItems.phantomInk }),
+
+                // 额外植物学
+                new IndustrialAltarRecipe(2, "trade_orchid", 1, Items.WHEAT_SEEDS, new ItemStack(ExtrabotanyFlowerBlocks.tradeOrchid), new Item[] { BotaniaItems.limePetal, BotaniaItems.limePetal, BotaniaItems.greenPetal, BotaniaItems.brownPetal, BotaniaItems.runeGreed, BotaniaItems.runeLust, BotaniaItems.redstoneRoot }),
+                new IndustrialAltarRecipe(2, "woodienia", 1, Items.WHEAT_SEEDS, new ItemStack(ExtrabotanyFlowerBlocks.woodienia), new Item[] { BotaniaItems.brownPetal, BotaniaItems.brownPetal, BotaniaItems.brownPetal, BotaniaItems.grayPetal, ExtraBotanyItems.elementiumQuartz, BotaniaItems.runeGluttony, BotaniaItems.redstoneRoot }),
+                new IndustrialAltarRecipe(3, "reikarlily", 1, Items.WHEAT_SEEDS, new ItemStack(ExtrabotanyFlowerBlocks.reikarlily), new Item[] { BotaniaItems.lightBluePetal, BotaniaItems.lightBluePetal, BotaniaItems.cyanPetal, BotaniaItems.cyanPetal, BotaniaItems.bluePetal, BotaniaItems.runePride, BotaniaItems.runeEnvy, BotaniaItems.runeSloth, BotaniaItems.lifeEssence }),
+                new IndustrialAltarRecipe(2, "bellflower", 1, Items.WHEAT_SEEDS, new ItemStack(ExtrabotanyFlowerBlocks.bellflower), new Item[] { BotaniaItems.yellowPetal, BotaniaItems.yellowPetal, BotaniaItems.limePetal, BotaniaItems.limePetal, ExtraBotanyItems.spiritFragment }),
+                new IndustrialAltarRecipe(3, "annoyingflower", 1, Items.WHEAT_SEEDS, new ItemStack(ExtrabotanyFlowerBlocks.annoyingflower), new Item[] { BotaniaItems.whitePetal, BotaniaItems.whitePetal, BotaniaItems.pinkPetal, BotaniaItems.pinkPetal, BotaniaItems.greenPetal, BotaniaItems.runeMana, ExtraBotanyItems.spiritFragment }),
+                new IndustrialAltarRecipe(2, "stonesia", 1, Items.WHEAT_SEEDS, new ItemStack(ExtrabotanyFlowerBlocks.stonesia), new Item[] { BotaniaItems.grayPetal, BotaniaItems.grayPetal, BotaniaItems.blackPetal, BotaniaItems.lifeEssence, BotaniaItems.runeAutumn, BotaniaItems.runeGluttony }),
+                new IndustrialAltarRecipe(3, "edelweiss", 1, Items.WHEAT_SEEDS, new ItemStack(ExtrabotanyFlowerBlocks.edelweiss), new Item[] { BotaniaItems.whitePetal, BotaniaItems.whitePetal, BotaniaItems.whitePetal, BotaniaItems.lightBluePetal, BotaniaItems.lightBluePetal, BotaniaItems.manaPowder, BotaniaItems.runeMana, BotaniaItems.runeWinter }),
+                new IndustrialAltarRecipe(2, "resoncund", 1, Items.WHEAT_SEEDS, new ItemStack(ExtrabotanyFlowerBlocks.resoncund), new Item[] { BotaniaItems.magentaPetal, BotaniaItems.magentaPetal, BotaniaItems.orangePetal, BotaniaItems.orangePetal, BotaniaItems.runeLust, BotaniaItems.runeGluttony }),
+                new IndustrialAltarRecipe(4, "sunshine_lily", 1, Items.WHEAT_SEEDS, new ItemStack(ExtrabotanyFlowerBlocks.sunshineLily), new Item[] { BotaniaItems.yellowPetal, BotaniaItems.yellowPetal, BotaniaItems.yellowPetal, BotaniaItems.orangePetal }),
+                new IndustrialAltarRecipe(3, "moonlight_lily", 1, Items.WHEAT_SEEDS, new ItemStack(ExtrabotanyFlowerBlocks.moonlightLily), new Item[] { BotaniaItems.blackPetal, BotaniaItems.blackPetal, BotaniaItems.purplePetal, BotaniaItems.grayPetal }),
+                new IndustrialAltarRecipe(2, "serenitian", 1, Items.WHEAT_SEEDS, new ItemStack(ExtrabotanyFlowerBlocks.serenitian), new Item[] { BotaniaItems.purplePetal, BotaniaItems.purplePetal, BotaniaItems.bluePetal, BotaniaItems.bluePetal, BotaniaItems.runeMana, BotaniaItems.runeSloth, BotaniaItems.runeGreed, BotaniaItems.lifeEssence, Items.WITHER_ROSE }),
+                new IndustrialAltarRecipe(2, "twinstar", 1, Items.WHEAT_SEEDS, new ItemStack(ExtrabotanyFlowerBlocks.twinstar), new Item[] { BotaniaItems.yellowPetal, BotaniaItems.yellowPetal, BotaniaItems.yellowPetal, BotaniaItems.orangePetal, BotaniaItems.orangePetal, BotaniaItems.orangePetal, BotaniaItems.manaPowder, BotaniaItems.manaPowder }),
+                new IndustrialAltarRecipe(2, "omniviolet", 1, Items.WHEAT_SEEDS, new ItemStack(ExtrabotanyFlowerBlocks.omniviolet), new Item[] { BotaniaItems.purplePetal, BotaniaItems.purplePetal, BotaniaItems.bluePetal, BotaniaItems.bluePetal, BotaniaItems.runeSpring, BotaniaItems.runeMana, BotaniaItems.runeLust }),
+                new IndustrialAltarRecipe(3, "tinkle", 1, Items.WHEAT_SEEDS, new ItemStack(ExtrabotanyFlowerBlocks.tinkle), new Item[] { BotaniaItems.yellowPetal, BotaniaItems.yellowPetal, BotaniaItems.greenPetal, BotaniaItems.limePetal, BotaniaItems.runeWater, BotaniaItems.runeEarth, BotaniaItems.manaPowder, ExtraBotanyItems.spiritFragment, ExtraBotanyItems.spiritFragment }),
+                new IndustrialAltarRecipe(2, "blood_enchantress", 1, Items.WHEAT_SEEDS, new ItemStack(ExtrabotanyFlowerBlocks.bloodEnchantress), new Item[] { BotaniaItems.redPetal, BotaniaItems.redPetal, BotaniaItems.redPetal, BotaniaItems.redPetal, BotaniaItems.runeFire, BotaniaItems.runeSummer, BotaniaItems.runeWrath }),
+                new IndustrialAltarRecipe(3, "mirrowtunia", 1, Items.WHEAT_SEEDS, new ItemStack(ExtrabotanyFlowerBlocks.mirrowtunia), new Item[] { BotaniaItems.cyanPetal, BotaniaItems.cyanPetal, BotaniaItems.lightBluePetal, BotaniaItems.bluePetal, BotaniaItems.runeWrath, BotaniaItems.runePride, BotaniaItems.runeAir, BotaniaItems.manaPowder }),
+                new IndustrialAltarRecipe(2, "manalink", 1, Items.WHEAT_SEEDS, new ItemStack(ExtrabotanyFlowerBlocks.manalink), new Item[] { BotaniaItems.cyanPetal, BotaniaItems.cyanPetal, BotaniaItems.cyanPetal, BotaniaItems.lightBluePetal, BotaniaItems.lightBluePetal, BotaniaItems.runeSloth, BotaniaItems.runeLust, BotaniaItems.lifeEssence }),
+                new IndustrialAltarRecipe(2, "necrofleur", 1, Items.WHEAT_SEEDS, new ItemStack(ExtrabotanyFlowerBlocks.necrofleur), new Item[] { BotaniaItems.grayPetal, BotaniaItems.grayPetal, BotaniaItems.pinkPetal, BotaniaItems.pinkPetal, BotaniaItems.redPetal, BotaniaItems.runeWrath, BotaniaItems.manaPowder }),
+                new IndustrialAltarRecipe(2, "enchanter", 1, Items.WHEAT_SEEDS, new ItemStack(ExtrabotanyFlowerBlocks.enchanter), new Item[] { BotaniaItems.purplePetal, BotaniaItems.purplePetal, BotaniaItems.magentaPetal, BotaniaItems.limePetal, BotaniaItems.limePetal, BotaniaItems.runePride, BotaniaItems.runeGreed, BotaniaItems.runeGluttony, BotaniaItems.lifeEssence }));
         for (IndustrialAltarRecipe recipe : IndustrialAltar2) {
             var build = INDUSTRIAL_ALTAR_RECIPES.builder(recipe.id);
             build
@@ -789,6 +846,28 @@ public final class BotaniaRecipes {
                 .inputItems(BotaniaItems.magentaPetal, 8)
                 .inputItems(BotaniaItems.pinkPetal, 8)
                 .save();
+
+        // 工业祭坛 - 额外植物学 祭坛锻造
+        record PedestalSmashRecipe(
+                                   int circuitMeta,
+                                   String id,
+                                   int mana,
+                                   Ingredient hammer,
+                                   ItemStack input,
+                                   ItemStack output) {}
+        List<PedestalSmashRecipe> PedestalSmash = List.of(
+                new PedestalSmashRecipe(5, "gilded_potato_mashed", 20, Ingredient.of(ExtraBotanyTags.Items.HAMMERS), new ItemStack(ExtraBotanyItems.gildedPotato, 16), new ItemStack(ExtraBotanyItems.gildedPotatoMashed, 16)),
+                new PedestalSmashRecipe(5, "spirit_fragment", 20, Ingredient.of(ExtraBotanyTags.Items.HAMMERS), new ItemStack(ExtraBotanyItems.spiritFuel, 16), new ItemStack(ExtraBotanyItems.spiritFragment, 16)));
+        for (PedestalSmashRecipe recipe : PedestalSmash) {
+            INDUSTRIAL_ALTAR_RECIPES.builder(recipe.id)
+                    .notConsumable(recipe.hammer)
+                    .circuitMeta(recipe.circuitMeta)
+                    .inputItems(recipe.input)
+                    .outputItems(recipe.output)
+                    .duration(40)
+                    .MANAt(180)
+                    .save();
+        }
 
         // 魔力凝聚
 
@@ -898,12 +977,21 @@ public final class BotaniaRecipes {
                 .save();
 
         MANA_CONDENSER_RECIPES.builder("aerialite_ingot")
-                .inputItems(Items.PHANTOM_MEMBRANE.asItem())
-                .inputItems("botania:ender_air_bottle")
-                .inputItems(gem, Dragonstone)
-                .outputItems(ingot, Aerialite, 1)
+                .inputItems(BotaniaItems.enderAirBottle, 2)
+                .inputItems(gem, Dragonstone, 2)
+                .inputItems(Items.PHANTOM_MEMBRANE.asItem(), 2)
+                .outputItems(ingot, Aerialite, 3)
                 .MANAt(256)
-                .duration(100)
+                .duration(200)
+                .save();
+
+        MANA_CONDENSER_RECIPES.builder("the_universe")
+                .inputItems(ExtraBotanyItems.theChaos, 2)
+                .inputItems(ExtraBotanyItems.theOrigin, 2)
+                .inputItems(ExtraBotanyItems.theEnd, 2)
+                .outputItems(ExtraBotanyItems.theUniverse, 3)
+                .MANAt(512)
+                .duration(200)
                 .save();
     }
 }

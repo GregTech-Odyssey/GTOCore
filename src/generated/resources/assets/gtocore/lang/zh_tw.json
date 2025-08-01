@@ -822,6 +822,7 @@
   "gtocore.machine.alchemy_cauldron.tooltip.0": "§7不要用它來做飯",
   "gtocore.machine.alchemy_cauldron.tooltip.1": "§7鍊金是一個神秘的過程",
   "gtocore.machine.alchemy_cauldron.tooltip.2": "§7部分配方產齣概率隨運行次數增長",
+  "gtocore.machine.alchemy_cauldron.tooltip.3": "§7所有配方都需要加熱",
   "gtocore.machine.algae_farm.tooltip.0": "每10秒隨機消耗5-10B水，隨機輸齣1-10個藻類",
   "gtocore.machine.algae_farm.tooltip.1": "如果輸入10B髮酵生物質，則輸齣量提升10倍",
   "gtocore.machine.algae_farm.tooltip.2": "如果在輸入總線放入n個特定藻類，則指定輸齣內容，且輸齣量提升n/4倍",
