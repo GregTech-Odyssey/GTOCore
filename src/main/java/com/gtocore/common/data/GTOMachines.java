@@ -5,8 +5,11 @@ import com.gtocore.client.renderer.machine.BallHatchRenderer;
 import com.gtocore.client.renderer.machine.HeaterRenderer;
 import com.gtocore.client.renderer.machine.MonitorRenderer;
 import com.gtocore.client.renderer.machine.WindMillTurbineRenderer;
+import com.gtocore.common.blockentity.TesseractBlockEntity;
 import com.gtocore.common.data.machines.*;
+import com.gtocore.common.machine.electric.AdvancedTesseractMachine;
 import com.gtocore.common.machine.electric.ElectricHeaterMachine;
+import com.gtocore.common.machine.electric.TesseractMachine;
 import com.gtocore.common.machine.electric.VacuumPumpMachine;
 import com.gtocore.common.machine.generator.LightningRodMachine;
 import com.gtocore.common.machine.generator.WindMillTurbineMachine;
@@ -646,6 +649,9 @@ public final class GTOMachines {
             .recipeType(GTORecipeTypes.RADIATION_HATCH_RECIPES)
             .allRotation()
             .notAllowSharedTooltips()
+            .tooltipsText("The radiation in the hatch follows the following rules:", "仓中的辐射遵循以下规则:")
+            .tooltipsText("Initial radiation = (Recipe radiation - inhibition) * (1 + count of radiation materials / 64)", "初始辐射=(配方辐射-抑制量)x(1+放射材料数量/64)")
+            .tooltipsText("When there are no radiation materials in the barn, the radioactivity gradually decreases over time", "当仓中没有放射性材料时辐射随时间逐渐衰减")
             .overlayTieredHullRenderer("radiation_hatch")
             .register();
 
@@ -811,6 +817,18 @@ public final class GTOMachines {
             .allRotation()
             .renderer(() -> new OverlayTieredMachineRenderer(MAX, GTMThings.id("block/machine/part/energy_hatch.input")))
             .tier(MAX)
+            .register();
+
+    public static final MachineDefinition TESSERACT_GENERATOR = blockEntityMachine("tesseract_generator", "超立方体发生器", TesseractMachine::new, TesseractBlockEntity::new)
+            .allRotation()
+            .modelRenderer(() -> GTOCore.id("block/machine/tesseract_generator"))
+            .tier(HV)
+            .register();
+
+    public static final MachineDefinition ADVANCED_TESSERACT_GENERATOR = blockEntityMachine("advanced_tesseract_generator", "进阶超立方体发生器", AdvancedTesseractMachine::new, TesseractBlockEntity::new)
+            .allRotation()
+            .modelRenderer(() -> GTOCore.id("block/machine/tesseract_generator"))
+            .tier(IV)
             .register();
 
     public static final MachineDefinition BASIC_MONITOR = registerMonitor("basic_monitor", "基础监控器", BasicMonitor::new)

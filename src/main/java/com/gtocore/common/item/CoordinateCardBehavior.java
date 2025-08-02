@@ -18,14 +18,13 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class MachineCoordinateCardBehavior implements IInteractionItem, IAddInformation {
-
-    public MachineCoordinateCardBehavior() {}
+public class CoordinateCardBehavior implements IInteractionItem, IAddInformation {
 
     @Override
     public InteractionResult useOn(UseOnContext context) {
@@ -33,15 +32,20 @@ public class MachineCoordinateCardBehavior implements IInteractionItem, IAddInfo
         if (context.getPlayer() != null) {
             BlockPos blockPos = context.getClickedPos();
             ItemStack card = context.getPlayer().getMainHandItem();
-            MetaMachine machine = MetaMachine.getMachine(level, blockPos);
-            if (machine instanceof WorkableTieredMachine || machine instanceof IMultiController) {
+            BlockState blockState = level.getBlockState(blockPos);
+            if (blockState.hasBlockEntity()) {
+                card.setTag(new CompoundTag());
                 CompoundTag tag = card.getOrCreateTag();
                 tag.putInt("posX", blockPos.getX());
                 tag.putInt("posY", blockPos.getY());
                 tag.putInt("posZ", blockPos.getZ());
-                tag.putString("name", machine.getDefinition().getBlock().getName().getString());
+                tag.putString("name", Component.Serializer.toJson(blockState.getBlock().getName()));
+                MetaMachine machine = MetaMachine.getMachine(level, blockPos);
+                if (machine instanceof WorkableTieredMachine || machine instanceof IMultiController) {
+                    tag.putBoolean("machine", true);
+                }
+                return InteractionResult.SUCCESS;
             }
-            return InteractionResult.SUCCESS;
         }
 
         return InteractionResult.PASS;
@@ -61,8 +65,7 @@ public class MachineCoordinateCardBehavior implements IInteractionItem, IAddInfo
         list.add(Component.translatable("gtocore.tooltip.item.machine_coordinate_card.tooltip.1"));
         CompoundTag tag = itemStack.getTag();
         if (tag != null) {
-            list.add(Component.translatable("gtocore.tooltip.item.machine_coordinate_card.tooltip.2",
-                    tag.getString("name"), "§5" + tag.getInt("posX"), "§d" + tag.getInt("posY"), "§e" + tag.getInt("posZ")));
+            list.add(Component.translatable("gtocore.tooltip.item.machine_coordinate_card.tooltip.2", Component.Serializer.fromJson(tag.getString("name")), "§5" + tag.getInt("posX"), "§d" + tag.getInt("posY"), "§e" + tag.getInt("posZ")));
         }
     }
 }

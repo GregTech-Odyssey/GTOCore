@@ -1,0 +1,8 @@
+{
+  "animation": {
+    "frametime": 1
+  },
+    "ldlib": {
+        "connection": "gtocore:block/casings/vacuum_chamber/vacuum_chamber_beam_block_ctm"
+    }
+}

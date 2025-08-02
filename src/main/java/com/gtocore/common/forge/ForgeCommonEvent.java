@@ -10,6 +10,7 @@ import com.gtocore.common.machine.multiblock.electric.voidseries.VoidTransporter
 import com.gtocore.common.network.ServerMessage;
 import com.gtocore.common.network.SyncFieldManager;
 import com.gtocore.common.saved.*;
+import com.gtocore.config.GTOConfig;
 import com.gtocore.utils.OrganUtilsKt;
 
 import com.gtolib.GTOCore;
@@ -148,19 +149,21 @@ public final class ForgeCommonEvent {
             return;
         }
 
-        if (item == GTItems.QUANTUM_STAR.get() && level.getBlockState(pos).getBlock() == GTOBlocks.NAQUADRIA_CHARGE.get()) {
-            SphereExplosion.explosion(pos, level, 200, true, true);
-            return;
-        }
+        if (!GTOConfig.INSTANCE.disableChargeBomb) {
+            if (item == GTItems.QUANTUM_STAR.get() && level.getBlockState(pos).getBlock() == GTOBlocks.NAQUADRIA_CHARGE.get()) {
+                SphereExplosion.explosion(pos, level, 200, true, true);
+                return;
+            }
 
-        if (item == GTItems.GRAVI_STAR.get() && level.getBlockState(pos).getBlock() == GTOBlocks.LEPTONIC_CHARGE.get()) {
-            SphereExplosion.explosion(pos, level, 800, true, true);
-            return;
-        }
+            if (item == GTItems.GRAVI_STAR.get() && level.getBlockState(pos).getBlock() == GTOBlocks.LEPTONIC_CHARGE.get()) {
+                SphereExplosion.explosion(pos, level, 800, true, true);
+                return;
+            }
 
-        if (item == GTOItems.UNSTABLE_STAR.get() && level.getBlockState(pos).getBlock() == GTOBlocks.QUANTUM_CHROMODYNAMIC_CHARGE.get()) {
-            SphereExplosion.explosion(pos, level, 2000, true, true);
-            return;
+            if (item == GTOItems.UNSTABLE_STAR.get() && level.getBlockState(pos).getBlock() == GTOBlocks.QUANTUM_CHROMODYNAMIC_CHARGE.get()) {
+                SphereExplosion.explosion(pos, level, 2000, true, true);
+                return;
+            }
         }
 
         if (player.isShiftKeyDown()) {

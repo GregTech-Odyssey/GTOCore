@@ -3,6 +3,7 @@ package com.gtocore.mixin.mc;
 import com.gtocore.common.data.GTOItems;
 
 import com.gtolib.api.item.tool.GTOToolType;
+import com.gtolib.mixin.ReferenceAccessor;
 
 import com.gregtechceu.gtceu.api.item.IGTTool;
 
@@ -36,7 +37,9 @@ public class BlockBehaviourMixin {
             cir.setReturnValue(p);
             return;
         }
-        float i = stack.isCorrectToolForDrops(state) ? 1 : (state.getBlock().defaultDestroyTime() > 1 && state.getBlock() != Blocks.BEACON) ? 0.001F : 0.5F;
+        var block = state.getBlock();
+        if (((ReferenceAccessor) block.builtInRegistryHolder()).getTags().isEmpty()) return;
+        float i = stack.isCorrectToolForDrops(state) ? 1 : (block.defaultDestroyTime() > 1 && block != Blocks.BEACON) ? 0.001F : 0.5F;
         cir.setReturnValue(i * player.getDigSpeed(state, pos) / f / 30);
     }
 }

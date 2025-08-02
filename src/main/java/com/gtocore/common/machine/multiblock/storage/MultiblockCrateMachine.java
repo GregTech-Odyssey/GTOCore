@@ -20,7 +20,9 @@ import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.wrapper.EmptyHandler;
 
 import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
+import com.lowdragmc.lowdraglib.gui.widget.DraggableScrollableWidgetGroup;
 import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
+import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import org.jetbrains.annotations.NotNull;
@@ -64,20 +66,28 @@ public class MultiblockCrateMachine extends MultiblockControllerMachine implemen
     @Override
     public ModularUI createUI(Player entityPlayer) {
         int xOffset = 162;
-        int yOverflow = 18;
-        int yOffset = (576 - 3 * yOverflow) / yOverflow * 18;
-        var modularUI = new ModularUI(176 + xOffset, 166 + yOffset, this, entityPlayer).background(GuiTextures.BACKGROUND).widget(new LabelWidget(5, 5, getBlockState().getBlock().getDescriptionId())).widget(UITemplate.bindPlayerInventory(entityPlayer.getInventory(), GuiTextures.SLOT, 7 + xOffset / 2, 82 + yOffset, true));
+        int yOverflow = 9;
+        // int yOffset = (576 - 3 * yOverflow) / yOverflow * 18;
+        var modularUI = new ModularUI(xOffset + 19, 244, this, entityPlayer)
+                .background(GuiTextures.BACKGROUND)
+                .widget(new LabelWidget(5, 5, getBlockState().getBlock().getDescriptionId()))
+                .widget(UITemplate.bindPlayerInventory(entityPlayer.getInventory(), GuiTextures.SLOT, 7, 162, true));
+
+        var innerContainer = new DraggableScrollableWidgetGroup(4, 4, xOffset + 6, 130)
+                .setYBarStyle(GuiTextures.BACKGROUND_INVERSE, GuiTextures.BUTTON).setYScrollBarWidth(4);
         int x = 0;
         int y = 0;
         for (int slot = 0; slot < 576; slot++) {
-            modularUI.widget(new SlotWidget(inventory, slot, x * 18 + 7, y * 18 + 17).setBackgroundTexture(GuiTextures.SLOT));
+            innerContainer.addWidget(new SlotWidget(inventory, slot, x * 18, y * 18).setBackgroundTexture(GuiTextures.SLOT));
             x++;
             if (x == yOverflow) {
                 x = 0;
                 y++;
             }
         }
-        return modularUI;
+        var container = new WidgetGroup(
+                3, 17, xOffset + 20, 140).addWidget(innerContainer);
+        return modularUI.widget(container);
     }
 
     @Override

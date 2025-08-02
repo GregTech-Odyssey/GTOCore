@@ -7,11 +7,10 @@
   "client": [
     "adastra.AdAstraOverlayScreenMixin",
     "adastra.PlanetsScreenMixin",
-    "ldlib.ClientProxyImplMixin",
     "mc.GuiGraphicsAccessor"
   ],
   "mixins": [
-    "ae.CraftingStatusMenuAccessor",
+    "ftblibrary.FTBLibraryCommandsMixin",
     "ftbq.FTBQuestsCommandsMixin",
     "ftbq.ToggleEditingModeMessageMixin",
     "ftbu.FTBUltimineMixin",
@@ -20,7 +19,6 @@
     "ftbxmodcompat.FTBXModCompatMixin",
     "gtm.AssemblyLineMachineMixin",
     "gtmt.TimeWheelMixin",
-    "mae2.EUP2PTunnelPartMixin",
     "mc.BlockBehaviourMixin",
     "mc.SharedConstantsMixin",
     "mc.mob.AbstractSkeletonMixin",

@@ -151,10 +151,6 @@ public final class GTOConfig {
     @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Self Restraint Mode", cn = "自我约束模式")
     public boolean selfRestraint;
     @Configurable
-    @Configurable.Comment("Boost FPS on low-end devices")
-    @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Disable Connection Texture", cn = "禁用连接纹理")
-    public boolean disableCTM = false;
-    @Configurable
     @Configurable.Comment("Remove unnecessary loading")
     @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Fast MultiBlock Page", cn = "快速多方块页面")
     public boolean fastMultiBlockPage = true;
@@ -187,12 +183,15 @@ public final class GTOConfig {
     @RegisterLanguage(namePrefix = "config.gtocore.option", en = "[Debug]AE2 Log", cn = "[调试]AE2日志")
     public boolean aeLog = false;
     @Configurable
-    @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Spark Start Phase", cn = "火花启动阶段")
-    public SparkRange startSpark = SparkRange.NONE;
-    @Configurable
     @Configurable.Comment("When disabled, the emi favorites in different saves will be independent from each other")
     @RegisterLanguage(namePrefix = "config.gtocore.option", en = "EMI Global Favorites", cn = "全局 EMI 书签")
     public boolean emiGlobalFavorites = true;
+    @Configurable
+    @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Disable Charge Bomb", cn = "禁用爆弹")
+    public boolean disableChargeBomb = true;
+    @Configurable
+    @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Spark Start Phase", cn = "火花启动阶段")
+    public SparkRange startSpark = SparkRange.NONE;
 
     private enum Difficulty {
         Simple,

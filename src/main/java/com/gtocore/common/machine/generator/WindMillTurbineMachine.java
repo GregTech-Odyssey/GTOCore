@@ -1,11 +1,11 @@
 package com.gtocore.common.machine.generator;
 
 import com.gtocore.common.item.KineticRotorItem;
-import com.gtocore.common.machine.multiblock.part.BallHatchPartMachine;
 
 import com.gtolib.api.annotation.Scanned;
 import com.gtolib.api.annotation.dynamic.DynamicInitialValue;
 import com.gtolib.api.data.GTODimensions;
+import com.gtolib.api.machine.part.ItemHatchPartMachine;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
@@ -191,7 +191,7 @@ public final class WindMillTurbineMachine extends TieredEnergyMachine implements
 
     @Override
     public Widget createUIWidget() {
-        return BallHatchPartMachine.createSLOTWidget(inventory);
+        return ItemHatchPartMachine.createSLOTWidget(inventory);
     }
 
     @Override

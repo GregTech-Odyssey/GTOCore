@@ -80,9 +80,7 @@ final class ItemLang {
         addCNEN("gtocore.tooltip.item.universal_circuit", "一个通用的电路", "A universal circuit");
         addCNEN("gtocore.tooltip.item.craft_step", "合成步骤：%s", "Craft Step: %s");
 
-        addCNEN("item.gtocore.structure_detect.error.0", "需要在 %s:", "Required at %s:");
-        addCNEN("item.gtocore.structure_detect.error.1", "在 %s:", "At %s:");
-        addCNEN("item.gtocore.structure_detect.error.2", "[%s, %s, %s]", "[%s, %s, %s]");
+        addCNEN("item.gtocore.structure_detect.error.1", "在 [%s, %s, %s]:", "At [%s, %s, %s]:");
         addCNEN("item.gtocore.structure_detect.tooltip.0", "潜行右键主方块以检测多方块结构", "Sneak right-click the main block to detect multiblock structure.");
         addCNEN("item.gtocore.structure_detect.tooltip.1", "检测大型结构时可能会有延迟", "There may be lag when detecting large structures.");
         addCNEN("item.gtocore.disc.data", "光盘数据：%s", "Disc data: %s");
@@ -111,5 +109,9 @@ final class ItemLang {
                 "Right-click a machine to record its coordinates, right-click air to clear the record");
         addCNEN("gtocore.tooltip.item.machine_coordinate_card.tooltip.2", "§6记录信息：§r%s§b(%s§b, %s§b, %s§b)",
                 "§6Coordinate Info: §r%s§b(%s§b, %s§b, %s§b)");
+
+        addCNEN("tooltip.ad_astra.unknown_tag", "§c未知标签§r: %s", "§cUnknown tag§r: %s");
+        addCNEN("tooltip.ad_astra.unknown_ingredient", "§c未知物品§r", "§cUnknown item§r");
+        addCNEN("tag.item.forge.ingots.steel", "钢锭", "Steel Ingot");
     }
 }

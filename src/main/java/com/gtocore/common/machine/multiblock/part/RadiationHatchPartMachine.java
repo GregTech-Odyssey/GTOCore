@@ -53,6 +53,8 @@ public final class RadiationHatchPartMachine extends MultiblockPartMachine imple
     @Persisted
     private int initialRadioactivity;
     @Persisted
+    private int count;
+    @Persisted
     private int time;
     @Persisted
     private int inhibitionDose;
@@ -73,17 +75,22 @@ public final class RadiationHatchPartMachine extends MultiblockPartMachine imple
 
     private void checkRadiation() {
         if (time > 0) {
-            radioactivity = initialRadioactivity * (initialTime + time) / (initialTime << 1);
+            if (count < 1) {
+                radioactivity = initialRadioactivity * (initialTime + time) / (initialTime << 1);
+            }
             time--;
         } else if (getOffsetTimer() % 20 == 0) {
+            radioactivity = 0;
             GTRecipeType[] recipeTypes = getDefinition().getRecipeTypes();
             if (recipeTypes != null) {
                 RecipeType recipeType = (RecipeType) recipeTypes[0];
                 Recipe recipe = recipeType.lookup().findRecipe(this);
                 if (recipe != null && RecipeRunner.handleRecipeIO(this, recipe, IO.IN, Collections.emptyMap())) {
-                    initialRadioactivity = recipe.data.getInt("radioactivity") - inhibitionDose;
+                    count = inventory.storage.getStackInSlot(0).getCount();
+                    initialRadioactivity = (int) ((recipe.data.getInt("radioactivity") - inhibitionDose) * (1 + ((double) count / 64)));
                     initialTime = recipe.duration * (inhibitionDose + 200) / 200;
                     time = initialTime;
+                    radioactivity = initialRadioactivity;
                 }
             }
         }

@@ -1,7 +1,6 @@
 package com.gtocore.integration.jade.provider;
 
 import com.gtolib.GTOCore;
-import com.gtolib.api.machine.feature.IMetaMachine;
 
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.integration.jade.provider.CapabilityBlockProvider;
@@ -19,7 +18,7 @@ import snownee.jade.api.BlockAccessor;
 import snownee.jade.api.ITooltip;
 import snownee.jade.api.config.IPluginConfig;
 
-public class TickTimeProvider extends CapabilityBlockProvider<IMetaMachine> {
+public class TickTimeProvider extends CapabilityBlockProvider<MetaMachine> {
 
     public TickTimeProvider() {
         super(GTOCore.id("tick_time_provider"));
@@ -27,17 +26,18 @@ public class TickTimeProvider extends CapabilityBlockProvider<IMetaMachine> {
 
     @Nullable
     @Override
-    protected IMetaMachine getCapability(Level level, BlockPos pos, @Nullable Direction side) {
-        if (MetaMachine.getMachine(level, pos) instanceof IMetaMachine machine) {
-            machine.gtolib$observe();
+    protected MetaMachine getCapability(Level level, BlockPos pos, @Nullable Direction side) {
+        var machine = MetaMachine.getMachine(level, pos);
+        if (machine != null) {
+            machine.observe();
             return machine;
         }
         return null;
     }
 
     @Override
-    protected void write(CompoundTag data, IMetaMachine capability) {
-        if (capability != null) data.putInt("tick_time", capability.gtolib$getTickTime());
+    protected void write(CompoundTag data, MetaMachine capability) {
+        if (capability != null) data.putInt("tick_time", capability.getTickTime());
     }
 
     @Override

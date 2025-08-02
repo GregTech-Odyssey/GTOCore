@@ -118,6 +118,7 @@ public final class GTOPredicates {
             if (machine instanceof IRotorHolderMachine holder && machine.getDefinition().getTier() >= tier) {
                 return level.getBlockState(pos.relative(holder.self().getFrontFacing())).isAir();
             }
+            state.setError(new PatternStringError("gtceu.multiblock.pattern.clear_amount_3"));
             return false;
         }, () -> PartAbility.ROTOR_HOLDER.getAllBlocks().stream().filter(b -> b instanceof MetaMachineBlock metaMachineBlock && metaMachineBlock.getDefinition().getTier() >= tier).map(BlockInfo::fromBlock).toArray(BlockInfo[]::new))).addTooltips(Component.translatable("gtceu.multiblock.pattern.clear_amount_3"));
     }
@@ -145,10 +146,19 @@ public final class GTOPredicates {
             Block block = state.getBlockState().getBlock();
             if (block == GTOBlocks.FISSION_FUEL_COMPONENT.get()) {
                 integer[0]++;
-                integer[2] += GTOUtils.adjacentBlock(state.world, state.getPos(), GTOBlocks.FISSION_FUEL_COMPONENT.get());
-            } else if (block == GTOBlocks.FISSION_COOLER_COMPONENT.get() && GTOUtils.adjacentBlock(state.world, state.getPos(), GTOBlocks.FISSION_FUEL_COMPONENT.get()) > 1) {
+                integer[2] += GTOUtils.adjacentBlock(side -> {
+                    var pos = state.pos.relative(side);
+                    return state.blockStateCache.computeIfAbsent(pos.asLong(), k -> state.world.getBlockState(pos)).getBlock();
+                }, GTOBlocks.FISSION_FUEL_COMPONENT.get());
+            } else if (block == GTOBlocks.FISSION_COOLER_COMPONENT.get() && GTOUtils.adjacentBlock(side -> {
+                var pos = state.pos.relative(side);
+                return state.blockStateCache.computeIfAbsent(pos.asLong(), k -> state.world.getBlockState(pos)).getBlock();
+            }, GTOBlocks.FISSION_FUEL_COMPONENT.get()) > 1) {
                 integer[1]++;
-                integer[3] += GTOUtils.adjacentBlock(state.world, state.getPos(), GTOBlocks.FISSION_COOLER_COMPONENT.get());
+                integer[3] += GTOUtils.adjacentBlock(side -> {
+                    var pos = state.pos.relative(side);
+                    return state.blockStateCache.computeIfAbsent(pos.asLong(), k -> state.world.getBlockState(pos)).getBlock();
+                }, GTOBlocks.FISSION_COOLER_COMPONENT.get());
             }
             return integer;
         }), "fissionComponent", GTOBlocks.FISSION_FUEL_COMPONENT.get(), GTOBlocks.FISSION_COOLER_COMPONENT.get()).setPreviewCount(1);

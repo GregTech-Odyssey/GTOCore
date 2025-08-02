@@ -15,7 +15,7 @@ final class GasCollector {
                 .circuitMeta(6)
                 .outputFluids(GTOMaterials.BarnardaAir.getFluid(10000))
                 .EUt(1024)
-                .duration(200)
+                .duration(20)
                 .dimension(GTODimensions.BARNARDA_C)
                 .save();
 
@@ -23,7 +23,7 @@ final class GasCollector {
                 .circuitMeta(5)
                 .outputFluids(GTMaterials.Air.getFluid(10000))
                 .EUt(16)
-                .duration(200)
+                .duration(20)
                 .dimension(GTODimensions.FLAT)
                 .save();
 
@@ -31,7 +31,7 @@ final class GasCollector {
                 .circuitMeta(4)
                 .outputFluids(GTMaterials.Air.getFluid(10000))
                 .EUt(16)
-                .duration(200)
+                .duration(20)
                 .dimension(GTODimensions.VOID)
                 .save();
     }

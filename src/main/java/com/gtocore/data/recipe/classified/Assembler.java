@@ -4378,5 +4378,14 @@ final class Assembler {
                 .EUt(7)
                 .duration(64)
                 .save();
+
+        ASSEMBLER_RECIPES.builder("advanced_tesseract_generator")
+                .inputItems(GTOMachines.TESSERACT_GENERATOR.asStack(8))
+                .inputItems(GTItems.FIELD_GENERATOR_HV.asStack(8))
+                .inputItems(GTItems.QUANTUM_STAR.asStack(16))
+                .outputItems(GTOMachines.ADVANCED_TESSERACT_GENERATOR.asStack())
+                .EUt(1920)
+                .duration(400)
+                .save();
     }
 }

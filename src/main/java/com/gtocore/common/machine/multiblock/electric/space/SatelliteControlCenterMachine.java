@@ -138,7 +138,12 @@ public final class SatelliteControlCenterMachine extends ElectricMultiblockMachi
                 ModItems.TIER_4_ROCKET.get(), 5,
                 RegistriesUtils.getItem("ad_astra_rocketed:tier_5_rocket"), 6,
                 RegistriesUtils.getItem("ad_astra_rocketed:tier_6_rocket"), 7,
-                RegistriesUtils.getItem("ad_astra_rocketed:tier_7_rocket")) : Map.of();
+                RegistriesUtils.getItem("ad_astra_rocketed:tier_7_rocket")) :
+                Map.of(1,
+                        ModItems.TIER_1_ROCKET.get(), 2,
+                        ModItems.TIER_2_ROCKET.get(), 3,
+                        ModItems.TIER_3_ROCKET.get(), 4,
+                        ModItems.TIER_4_ROCKET.get());
 
         private static final Map<Integer, FluidStack> FUEL = Map.of(
                 1, GTMaterials.RocketFuel.getFluid(16000),

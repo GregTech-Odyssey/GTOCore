@@ -801,7 +801,7 @@ final class Vanilla {
                 "ABA",
                 "CDC",
                 "EFE",
-                'A', RegistriesUtils.getItemStack("gtceu:huge_duct_pipe"), 'B', GTItems.ELECTRIC_PUMP_HV.asStack(), 'C', new MaterialEntry(TagPrefix.pipeHugeFluid, GTMaterials.StainlessSteel), 'D', GTBlocks.COIL_KANTHAL.asStack(), 'E', CustomTags.EV_CIRCUITS, 'F', GTMachines.HULL[GTValues.HV].getItem());
+                'A', new MaterialEntry(TagPrefix.pipeHugeFluid, GTMaterials.VanadiumSteel), 'B', GTItems.ELECTRIC_PUMP_HV.asStack(), 'C', new MaterialEntry(TagPrefix.pipeHugeFluid, GTMaterials.StainlessSteel), 'D', GTBlocks.COIL_KANTHAL.asStack(), 'E', CustomTags.EV_CIRCUITS, 'F', GTMachines.HULL[GTValues.HV].getItem());
         VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("electric_heater"), GTOMachines.ELECTRIC_HEATER.asStack(),
                 "ABA",
                 "BCB",
@@ -917,5 +917,10 @@ final class Vanilla {
                 "ABA",
                 " A ",
                 'A', new ItemStack(Items.REDSTONE_TORCH.asItem()), 'B', RegistriesUtils.getItemStack("gtmthings:advanced_terminal"));
+        VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("tesseract_generator"), GTOMachines.TESSERACT_GENERATOR.asStack(),
+                "ABA",
+                "CDC",
+                "EBE",
+                'A', RegistriesUtils.getItemStack("botania:ender_hand"), 'B', RegistriesUtils.getItemStack("gtmthings:advanced_wireless_item_transfer_cover"), 'C', RegistriesUtils.getItemStack("gtmthings:advanced_wireless_fluid_transfer_cover"), 'D', GTOItems.ENTANGLED_SINGULARITY.asItem(), 'E', GTItems.FIELD_GENERATOR_MV.asStack());
     }
 }
