@@ -288,8 +288,6 @@ public final class ForgeCommonEvent {
             if (serverLevel == null) return;
             DysonSphereSavaedData.INSTANCE = serverLevel.getDataStorage().computeIfAbsent(DysonSphereSavaedData::new, DysonSphereSavaedData::new, "dyson_sphere_data");
             RecipeRunLimitSavaedData.INSTANCE = serverLevel.getDataStorage().computeIfAbsent(RecipeRunLimitSavaedData::new, RecipeRunLimitSavaedData::new, " recipe_run_limit_data");
-            // serverLevel.getDataStorage().computeIfAbsent(WirelessSavedData.INSTANCE::load, (() ->
-            // WirelessSavedData.INSTANCE), "wireless");
         }
     }
 
