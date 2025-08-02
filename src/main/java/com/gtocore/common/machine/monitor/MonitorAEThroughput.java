@@ -141,13 +141,6 @@ public class MonitorAEThroughput extends AbstractAEInfoMonitor {
                     var itemId = ID_MAP.get(atomI.getAndIncrement()).id();
                     var itemKey = AEKey.fromTagGeneric(displayingEntry.getCompound(String.valueOf(i)));
                     if (itemKey != null) {
-                        // infoList.addIfAbsent(
-                        // itemId,
-                        // DisplayComponent.textWithStack(itemId,
-                        // Component.translatable("gtocore.machine.monitor.ae.status." + i,
-                        // itemKey.getDisplayName().copy().withStyle(ChatFormatting.AQUA)).getVisualOrderText(),
-                        // new GenericStack(itemKey, 0))
-                        // );
                         infoList.addIfAbsent(
                                 itemId,
                                 Component.translatable("gtocore.machine.monitor.ae.status." + i,
@@ -158,7 +151,7 @@ public class MonitorAEThroughput extends AbstractAEInfoMonitor {
                     infoList.addIfAbsent(
                             ID_MAP.get(atomI.getAndIncrement()).id(),
                             Component.translatable("gtocore.machine.monitor.ae.amount",
-                                    Component.literal(FormatUtil.formatNumber(currentAmount[i] / unit))
+                                    Component.literal(FormatUtil.formatNumber(currentAmount[i] / unit * 80))
                                             .withStyle(ChatFormatting.GOLD)
                                             .append(Component.literal(i == 0 ? "" : "B").withStyle(ChatFormatting.GRAY))
                                             .append(Component.literal("(").withStyle(ChatFormatting.WHITE)
