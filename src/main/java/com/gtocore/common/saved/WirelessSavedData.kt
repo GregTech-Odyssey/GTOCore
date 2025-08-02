@@ -98,6 +98,7 @@ object WirelessSavedData : SavedData() {
 
         grid.connectionPoolTable.add(
             WirelessGrid.MachineInfo().apply {
+                level = machine.self().level?.dimension() ?: UNKNOWN
                 pos = machine.self().pos
                 owner = machine.self().playerOwner?.name ?: "unknown"
                 descriptionId = machine.self().blockState.block.descriptionId
