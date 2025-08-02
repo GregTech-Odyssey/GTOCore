@@ -8,6 +8,7 @@ import com.gregtechceu.gtceu.api.item.component.forge.IComponentCapability;
 import com.gregtechceu.gtceu.common.item.ProspectorScannerBehavior;
 
 import net.minecraft.network.chat.Component;
+import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
@@ -182,7 +183,7 @@ public final class ManaProspectorBehavior extends ProspectorScannerBehavior impl
 
     @Override
     public float getDurabilityForDisplay(ItemStack stack) {
-        return getMana(stack) / (float) maxMana;
+        return Mth.clamp(getMana(stack) / (float) maxMana, 0.0F, 1.0F);
     }
 
     @Override
