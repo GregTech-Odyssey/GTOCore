@@ -2241,6 +2241,8 @@
   "gtocore.machine.disassembly.tooltip.0": "可拆解: %s, %s, %s, %s, %s, %s",
   "gtocore.machine.disassembly.tooltip.1": "同对应配方时间与耗能，可由多个配方获取的物品无法拆解",
   "gtocore.machine.dissolving_tank.tooltip.0": "必须保证输入的流体与配方流体比例相同，否则无产物输出",
+  "gtocore.machine.drawing_tower.tooltip.0": "时间倍率 : 2 / 1.2^[(高度/8)×(温度-5000)/900] 不小于 0.00001",
+  "gtocore.machine.drawing_tower.tooltip.1": "并行数 : (log₁.₀₈(温度-9600) - 84) 不小于 1",
   "gtocore.machine.drilling_control_center.tooltip.0": "电压等级每高出IV一级，可使16M范围内的流体钻机产量x1.5",
   "gtocore.machine.duration_multiplier.tooltip": "耗时倍数: %s",
   "gtocore.machine.dyson_sphere.number": "该星系发射次数: %s / 10000",

@@ -2241,6 +2241,8 @@
   "gtocore.machine.disassembly.tooltip.0": "Disassembleable: %s, %s, %s, %s, %s, %s",
   "gtocore.machine.disassembly.tooltip.1": "Corresponding to the recipe time and energy consumption, items obtained from multiple recipes cannot be disassembled",
   "gtocore.machine.dissolving_tank.tooltip.0": "Must ensure the ratio of input fluid to recipe fluid is the same, otherwise no product output",
+  "gtocore.machine.drawing_tower.tooltip.0": "Time Cost Multiply : 1.2^[(height/8)×(temperature-5000)/900] not less than 0.00001",
+  "gtocore.machine.drawing_tower.tooltip.1": "Parallel number : (log₁.₀₈(temperature-9600) - 84) not less than 1",
   "gtocore.machine.drilling_control_center.tooltip.0": "Voltage tier is increased by one level above IV, it can increase the fluid drill's output within a 16 M range by x1.5",
   "gtocore.machine.duration_multiplier.tooltip": "Duration Multiplication: %s",
   "gtocore.machine.dyson_sphere.number": "Launch Times: %s / 10000",

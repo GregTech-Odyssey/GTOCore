@@ -869,6 +869,8 @@
   "gtocore.machine.disassembly.tooltip.0": "可拆解: %s, %s, %s, %s, %s, %s",
   "gtocore.machine.disassembly.tooltip.1": "同對應配方時間與耗能，可由多個配方獲取的物品無法拆解",
   "gtocore.machine.dissolving_tank.tooltip.0": "必鬚保證輸入的流體與配方流體比例相同，否則無產物輸齣",
+  "gtocore.machine.drawing_tower.tooltip.0": "時間倍率 : 2 / 1.2^[(高度/8)×(溫度-5000)/900] 不小於 0.00001",
+  "gtocore.machine.drawing_tower.tooltip.1": "併行數 : (log₁.₀₈(溫度-9600) - 84) 不小於 1",
   "gtocore.machine.drilling_control_center.tooltip.0": "電壓等級每高齣IV一級，可使16M范圍內的流體鑽機產量x1.5",
   "gtocore.machine.duration_multiplier.tooltip": "耗時倍數: %s",
   "gtocore.machine.dyson_sphere.number": "該星繫髮射次數: %s / 10000",
