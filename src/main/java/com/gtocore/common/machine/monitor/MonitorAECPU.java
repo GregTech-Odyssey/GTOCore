@@ -1,7 +1,8 @@
 package com.gtocore.common.machine.monitor;
 
 import com.gtocore.api.gui.helper.ProgressBarColorStyle;
-import com.gtocore.mixin.ae.CraftingStatusMenuAccessor;
+
+import com.gtolib.mixin.ae2.gui.CraftingStatusMenuAccessor;
 
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
@@ -74,6 +75,10 @@ public class MonitorAECPU extends AbstractAEInfoMonitor {
     public void syncInfoFromServer() {
         var time = (int) Objects.requireNonNull(getLevel(), "Not on the server side").getGameTime();
         if (time - lastUpdateTime < 20) return; // Update every second
+        if (!isOnline || getGridNode() == null) {
+            state = State.NO_GRID;
+            return;
+        }
         updateCpus();
         lastUpdateTime = time;
         CompoundTag tag = new CompoundTag();

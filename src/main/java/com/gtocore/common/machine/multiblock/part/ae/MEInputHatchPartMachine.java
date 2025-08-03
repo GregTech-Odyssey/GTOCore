@@ -42,7 +42,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 public class MEInputHatchPartMachine extends MEPartMachine implements IDataStickInteractable {
 
     static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
-            MEInputHatchPartMachine.class, MEPartMachine.MANAGED_FIELD_HOLDER);
+            MEInputHatchPartMachine.class, MEPartMachine.Companion.getMANAGED_FIELD_HOLDER());
 
     @Nullable
     private TickableSubscription autoIOSubs;
@@ -107,7 +107,7 @@ public class MEInputHatchPartMachine extends MEPartMachine implements IDataStick
             GenericStack exceedFluid = aeTank.exceedStack();
             if (exceedFluid != null) {
                 long total = exceedFluid.amount();
-                long inserted = networkInv.insert(exceedFluid.what(), exceedFluid.amount(), Actionable.MODULATE, this.actionSource);
+                long inserted = networkInv.insert(exceedFluid.what(), exceedFluid.amount(), Actionable.MODULATE, this.getActionSourceField());
                 if (inserted > 0) {
                     aeTank.drain(inserted, false, true);
                     continue;
@@ -117,7 +117,7 @@ public class MEInputHatchPartMachine extends MEPartMachine implements IDataStick
             }
             GenericStack reqFluid = aeTank.requestStack();
             if (reqFluid != null) {
-                long extracted = networkInv.extract(reqFluid.what(), reqFluid.amount(), Actionable.MODULATE, this.actionSource);
+                long extracted = networkInv.extract(reqFluid.what(), reqFluid.amount(), Actionable.MODULATE, this.getActionSourceField());
                 if (extracted > 0) {
                     aeTank.addStack(new GenericStack(reqFluid.what(), extracted));
                 }
@@ -126,7 +126,7 @@ public class MEInputHatchPartMachine extends MEPartMachine implements IDataStick
     }
 
     void updateTankSubscription() {
-        if (isWorkingEnabled() && isOnline) {
+        if (isWorkingEnabled() && getOnlineField()) {
             autoIOSubs = subscribeServerTick(autoIOSubs, this::autoIO);
         } else if (autoIOSubs != null) {
             autoIOSubs.unsubscribe();
@@ -141,7 +141,7 @@ public class MEInputHatchPartMachine extends MEPartMachine implements IDataStick
                 GenericStack stock = aeSlot.getStock();
                 if (stock != null) {
                     grid.getStorageService().getInventory().insert(stock.what(), stock.amount(), Actionable.MODULATE,
-                            actionSource);
+                            getActionSourceField());
                 }
             }
         }
@@ -157,7 +157,7 @@ public class MEInputHatchPartMachine extends MEPartMachine implements IDataStick
     public Widget createUIWidget() {
         WidgetGroup group = new WidgetGroup(new Position(0, 0));
         // ME Network status
-        group.addWidget(new LabelWidget(3, 0, () -> this.isOnline ?
+        group.addWidget(new LabelWidget(3, 0, () -> this.getOnlineField() ?
                 "gtceu.gui.me_network.online" :
                 "gtceu.gui.me_network.offline"));
 

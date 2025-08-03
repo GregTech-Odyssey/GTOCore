@@ -1003,8 +1003,8 @@ public final class GTOItems {
             .onRegister(attach(ManaProspectorBehavior.create(ManaProspectorBehavior.HV)))
             .register();
 
-    public static final ItemEntry<ComponentItem> MACHINE_COORDINATE_CARD = item("machine_coordinate_card", "机器坐标信息卡", ComponentItem::create)
+    public static final ItemEntry<ComponentItem> COORDINATE_CARD = item("coordinate_card", "坐标信息卡", ComponentItem::create)
             .properties(p -> p.stacksTo(1))
-            .onRegister(attach(new MachineCoordinateCardBehavior()))
+            .onRegister(attach(new CoordinateCardBehavior()))
             .register();
 }

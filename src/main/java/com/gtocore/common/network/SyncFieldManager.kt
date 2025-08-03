@@ -4,11 +4,12 @@ import net.minecraft.network.FriendlyByteBuf
 import net.minecraftforge.fml.LogicalSide
 import net.minecraftforge.server.ServerLifecycleHooks
 
+import java.util.concurrent.ConcurrentHashMap
 import java.util.function.Supplier
 
 object SyncFieldManager {
     val syncFieldMap = FieldMap()
-    class FieldMap : LinkedHashMap<Pair<Supplier<String>, LogicalSide>, SyncField<*>>() {
+    class FieldMap : ConcurrentHashMap<Pair<Supplier<String>, LogicalSide>, SyncField<*>>() {
         override fun put(key: Pair<Supplier<String>, LogicalSide>, value: SyncField<*>): SyncField<*>? {
             require(syncFieldMap.filter { it.value.uniqueName === value.uniqueName && it.value.side == value.side }.isEmpty()) { "${value.errorPrefix} SyncField name is already registered" }
             return super.put(key, value)
@@ -78,17 +79,10 @@ object SyncFieldManager {
         val uniqueName = buffer.readUtf()
         val syncField = syncFieldMap.match(uniqueName to LogicalSide.SERVER)
         require(syncField != null) { "SyncField with name $uniqueName is not registered" }
-        syncToAllClients(uniqueName)
+        syncField.handleAskFromClient()
     }
 }
-abstract class SyncField<T>(var side: LogicalSide, val uniqueName: Supplier<String>, value: T, var onInitCallBack: (SyncField<T>, new: T) -> Unit = { _, _ -> }, var onSyncCallBack: (SyncField<T>, old: T, new: T) -> Unit = { _, _, _ -> }) {
-
-    var value = value
-        set(value) {
-            field = value
-            onContentChanged?.run()
-        }
-    private var onContentChanged: Runnable? = null
+abstract class SyncField<T>(var side: LogicalSide, val uniqueName: Supplier<String>, var value: T, var onInitCallBack: (SyncField<T>, new: T) -> Unit = { _, _ -> }, var onSyncCallBack: (SyncField<T>, old: T, new: T) -> Unit = { _, _, _ -> }) {
     val errorPrefix = "[SyncField $uniqueName in side $side] :"
     init {
         // init
@@ -105,12 +99,10 @@ abstract class SyncField<T>(var side: LogicalSide, val uniqueName: Supplier<Stri
     // //////////////////////////////
     fun updateInServer(newValue: T) {
         require(side == LogicalSide.SERVER) { "$errorPrefix This method can only be called in server side" }
-        if (value != newValue) {
-            val oldValue = value
-            value = newValue
-            onSyncCallBack(this, oldValue, newValue)
-            SyncFieldManager.syncToAllClients(uniqueName.get())
-        }
+        val oldValue = value
+        value = newValue
+        onSyncCallBack(this, oldValue, value)
+        SyncFieldManager.syncToAllClients(uniqueName.get())
     }
     fun handleFromServer(buffer: FriendlyByteBuf) {
         require(side == LogicalSide.CLIENT) { "$errorPrefix This method can only be called in client side" }
@@ -124,12 +116,12 @@ abstract class SyncField<T>(var side: LogicalSide, val uniqueName: Supplier<Stri
     // //////////////////////////////
     fun updateInClient(newValue: T) {
         require(side == LogicalSide.CLIENT) { "$errorPrefix This method can only be called in client side" }
-        if (value != newValue) {
-            val oldValue = value
-            value = newValue
-            onSyncCallBack(this, oldValue, value)
-            SyncFieldManager.syncToAllServer(uniqueName.get())
-        }
+
+        val oldValue = value
+        value = newValue
+        onSyncCallBack(this, oldValue, value)
+
+        SyncFieldManager.syncToAllServer(uniqueName.get())
     }
     fun handleFromClient(buffer: FriendlyByteBuf) {
         require(side == LogicalSide.SERVER) { "$errorPrefix This method can only be called in server side" }
@@ -144,6 +136,10 @@ abstract class SyncField<T>(var side: LogicalSide, val uniqueName: Supplier<Stri
     fun askForSyncInClient() {
         require(side == LogicalSide.CLIENT) { "$errorPrefix This method can only be called in client side" }
         SyncFieldManager.askForSyncInClient(uniqueName.get())
+    }
+    fun handleAskFromClient() {
+        require(side == LogicalSide.SERVER) { "$errorPrefix This method can only be called in server side" }
+        this.updateInServer(value)
     }
     abstract fun readFromBuffer(buffer: FriendlyByteBuf): T
     abstract fun writeToBuffer(buffer: FriendlyByteBuf): FriendlyByteBuf

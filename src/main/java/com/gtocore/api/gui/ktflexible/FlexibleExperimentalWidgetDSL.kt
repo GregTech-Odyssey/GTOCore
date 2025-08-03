@@ -13,6 +13,7 @@ import net.minecraftforge.api.distmarker.OnlyIn
 import com.gtolib.api.gui.ktflexible.LayoutBuilder
 import com.gtolib.api.gui.ktflexible.Style
 import com.gtolib.api.gui.ktflexible.VBoxBuilder
+import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup
 
 import java.util.function.IntSupplier
 import java.util.function.Supplier
@@ -118,17 +119,18 @@ interface MultiPageVScroll {
     fun getMaxPageSize(): Int
 }
 fun LayoutBuilder<*>.multiPageAdvanced(width: Int, height: Int, style: (Style.() -> Unit)? = null, pageSelector: IntSyncField, runOnUpdate: Runnable = Runnable {}, builder: MultiPageDSLBuilder.() -> Unit): MultiPageVScroll {
-    val widget = object : SyncWidget(0, 0, width, height), MultiPageVScroll {
+    val widget = object : WidgetGroup(0, 0, width, height), MultiPageVScroll {
         var currentPage: IntSyncField = pageSelector
         val pageSuppliers: MutableList<Supplier<VBoxBuilder.() -> Unit>> = mutableListOf()
         init {
             currentPage.apply {
                 onInitCallBack = { field, newValue ->
-                    runOnUpdate
+                    runOnUpdate.run()
+
                     refresh()
                 }
                 onSyncCallBack = { field, oldValue, newValue ->
-                    runOnUpdate
+                    runOnUpdate.run()
                     refresh()
                 }
             }

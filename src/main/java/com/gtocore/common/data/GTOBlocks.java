@@ -451,4 +451,33 @@ public final class GTOBlocks {
     public static final BlockEntry<Block> INDUSTRIAL_FRAMELESS_GLASS = createGlassCasingBlock("industrial_frameless_glass", "工业无框玻璃", GTOCore.id("block/industrial_frameless_glass"));
     // 工程机械方块
     public static final BlockEntry<Block> ENGINEERING_MECHANICAL_CASING = createCasingBlock("engineering_mechanical_casing", "工程机械方块", GTOCore.id("block/casings/engineering_mechanical_casing"));
+    // 高强度支撑主轴
+    public static final BlockEntry<Block> HIGH_STRENGTH_SUPPORT_SPINDLE = createCasingBlock("high_strength_support_spindle", "高强度支撑主轴", GTOCore.id("block/casings/high_strength_support_spindle"));
+    // 高强度支撑机械方块
+    public static final BlockEntry<Block> HIGH_STRENGTH_SUPPORT_MECHANICAL_CASING = createCasingBlock("high_strength_support_mechanical_casing", "高强度支撑机械方块", GTOCore.id("block/casings/high_strength_support_mechanical_casing"));
+    // 邪术机械方块
+    public static final BlockEntry<Block> HERETICAL_MECHANICAL_CASING = createCasingBlock("heretical_mechanical_casing", "邪术机械方块", GTOCore.id("block/casings/heretical_mechanical_casing"));
+    // 精密加工机械方块
+    public static final BlockEntry<Block> PRECISION_PROCESSING_MECHANICAL_CASING = createCasingBlock("precision_processing_mechanical_casing", "精密加工机械方块", GTOCore.id("block/casings/precision_processing_mechanical_casing"));
+    // 宇宙探测接收器物质射线吸收阵面
+    public static final BlockEntry<Block> COSMIC_DETECTION_RECEIVER_MATERIAL_RAY_ABSORBING_ARRAY = createCasingBlock("cosmic_detection_receiver_material_ray_absorbing_array", "宇宙探测接收器物质射线吸收阵面", GTOCore.id("block/casings/cosmic_detection_receiver_material_ray_absorbing_array"));
+    // 光学谐振仓
+    public static final BlockEntry<Block> OPTICAL_RESONANCE_CHAMBER = createCasingBlock("optical_resonance_chamber", "光学谐振仓", GTOCore.id("block/casings/optical_resonance_chamber"));
+    // 魔源纤维机械方块
+    public static final BlockEntry<Block> SOURCE_FIBER_MECHANICAL_CASING = createCasingBlock("source_fiber_mechanical_casing", "魔源纤维机械方块", GTOCore.id("block/casings/source_fiber_mechanical_casing"));
+    // 真空室防护外壳
+    public static final BlockEntry<Block> VACUUM_CHAMBER_PROTECTION_CASING = createCasingBlock("vacuum_chamber_protection_casing", "真空室防护外壳", GTOCore.id("block/casings/vacuum_chamber/vacuum_chamber_protection_casing"));
+    // 真空室观察玻璃
+    public static final BlockEntry<Block> VACUUM_CHAMBER_OBSERVATION_GLASS = createGlassCasingBlock("vacuum_chamber_observation_glass", "真空室观察玻璃", GTOCore.id("block/casings/vacuum_chamber/vacuum_chamber_observation_glass"));
+    // 真空室束流方块
+    public static final BlockEntry<Block> VACUUM_CHAMBER_BEAM_BLOCK = createCasingBlock("vacuum_chamber_beam_block", "真空室束流方块", GTOCore.id("block/casings/vacuum_chamber/vacuum_chamber_beam_block"));
+    // 云室探测器方块
+    public static final BlockEntry<Block> CLOUD_CHAMBER_DETECTOR_BLOCK = createCasingBlock("cloud_chamber_detector_block", "云室探测器方块", GTOCore.id("block/casings/vacuum_chamber/cloud_chamber_detector_block"));
+    // 气泡室探测器方块
+    public static final BlockEntry<Block> BUBBLE_CHAMBER_DETECTOR_BLOCK = createCasingBlock("bubble_chamber_detector_block", "气泡室探测器方块", GTOCore.id("block/casings/vacuum_chamber/bubble_chamber_detector_block"));
+    // 闪烁计数器探测器方块
+    public static final BlockEntry<Block> SCINTILLATION_COUNTER_DETECTOR_BLOCK = createCasingBlock("scintillation_counter_detector_block", "闪烁计数器探测器方块", GTOCore.id("block/casings/vacuum_chamber/scintillation_counter_detector_block"));
+    // 多丝正比室探测器方块
+    public static final BlockEntry<Block> MULTI_WIRE_PROPORTIONAL_CHAMBER_DETECTOR_BLOCK = createCasingBlock("multi_wire_proportional_chamber_detector_block", "多丝正比室探测器方块", GTOCore.id("block/casings/vacuum_chamber/multi_wire_proportional_chamber_detector_block"));
+    // 真空
 }

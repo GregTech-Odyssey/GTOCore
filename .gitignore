@@ -8,7 +8,10 @@ classes/
 .kotlin/
 bin/
 run/
-src/generated/
+src/generated/resources/.cache/
+src/generated/resources/assets/gtocore/blockstates/
+src/generated/resources/assets/gtocore/models/
+src/generated/resources/data/
 libs/*-sources.jar
 *.launch
 *.iml

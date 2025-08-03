@@ -2004,7 +2004,7 @@ public final class MultiBlockA {
             .register();
 
     public static final MultiblockMachineDefinition STELLAR_FORGE = multiblock("stellar_forge", "恒星炎炀锻炉", StellarForgeMachine::new)
-            .nonYAxisRotation()
+            .allRotation()
             .recipeTypes(GTORecipeTypes.STELLAR_FORGE_RECIPES)
             .tooltips(NewDataAttributes.MAIN_FUNCTION.create(
                     v -> v.addLines("配方等级不受能源仓限制，连续运行优化", "The recipe tier is not limited by the energy hatch, Continuous Operation Optimization"),

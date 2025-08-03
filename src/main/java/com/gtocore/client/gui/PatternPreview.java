@@ -69,7 +69,7 @@ public final class PatternPreview extends WidgetGroup {
     private final List<SimplePredicate> predicates = new ArrayList<>();
     private int index;
     private int layer;
-    private SlotWidget[] slotWidgets;
+    private PatternSlotWidget[] slotWidgets;
     private SlotWidget[] candidates;
 
     private PatternPreview(MultiblockMachineDefinition controllerDefinition) {
@@ -164,7 +164,7 @@ public final class PatternPreview extends WidgetGroup {
                 scrollableWidgetGroup.removeWidget(slotWidget);
             }
         }
-        slotWidgets = new SlotWidget[itemList.size()];
+        slotWidgets = new PatternSlotWidget[itemList.size()];
         for (int i = 0; i < slotWidgets.length; i++) {
             slotWidgets[i] = new PatternSlotWidget(new ItemHandlerModifiable(itemList.get(i)), i, 4 + i * 18, 0);
             scrollableWidgetGroup.addWidget(slotWidgets[i]);

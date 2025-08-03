@@ -1,7 +1,5 @@
 package com.gtocore.common.machine.monitor;
 
-import com.gtocore.common.data.GTOItems;
-
 import com.gtolib.GTOCore;
 import com.gtolib.api.machine.mana.feature.IManaEnergyMachine;
 import com.gtolib.api.recipe.ContentBuilder;
@@ -103,8 +101,11 @@ public class MonitorMachine extends AbstractInfoProviderMonitor {
     }
 
     private NotifiableItemStackHandler createInventoryItemHandler() {
-        NotifiableItemStackHandler storage = new NotifiableItemStackHandler(this, 1, IO.BOTH, IO.BOTH);
-        storage.setFilter(i -> ItemStack.isSameItem(i, GTOItems.MACHINE_COORDINATE_CARD.asStack()));
+        NotifiableItemStackHandler storage = new NotifiableItemStackHandler(this, 1, IO.NONE, IO.NONE);
+        storage.setFilter(i -> {
+            var tag = i.getTag();
+            return tag != null && tag.getBoolean("machine");
+        });
         return storage;
     }
 

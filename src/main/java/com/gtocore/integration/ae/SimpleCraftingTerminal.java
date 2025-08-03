@@ -1,15 +1,16 @@
 package com.gtocore.integration.ae;
 
 import com.gtolib.GTOCore;
+import com.gtolib.utils.BlockCapabilityCache;
 
-import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.ComponentContents;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.MenuType;
-import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.phys.Vec3;
 
 import appeng.api.behaviors.ExternalStorageStrategy;
 import appeng.api.config.AccessRestriction;
@@ -38,11 +39,11 @@ import appeng.me.storage.CompositeStorage;
 import appeng.me.storage.MEInventoryHandler;
 import appeng.me.storage.NullInventory;
 import appeng.menu.me.items.CraftingTermMenu;
-import appeng.parts.PartAdjacentApi;
 import appeng.parts.PartModel;
 import appeng.parts.automation.StackWorldBehaviors;
 import appeng.parts.reporting.AbstractTerminalPart;
 import appeng.util.inv.AppEngInternalInventory;
+import com.hollingsworth.arsnouveau.common.items.SpellBook;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collections;
@@ -62,19 +63,30 @@ public class SimpleCraftingTerminal extends AbstractTerminalPart
     private final AppEngInternalInventory craftingGrid = new AppEngInternalInventory(this, 9);
 
     private final StorageBusInventory handler = new StorageBusInventory(NullInventory.of());
-    private final PartAdjacentApi<MEStorage> adjacentStorageAccessor;
+    private BlockCapabilityCache<MEStorage> adjacentStorageAccessor;
     @Nullable
     private Map<AEKeyType, ExternalStorageStrategy> externalStorageStrategies;
     private int tick;
 
     public SimpleCraftingTerminal(IPartItem<?> partItem) {
         super(partItem);
-        this.adjacentStorageAccessor = new PartAdjacentApi<>(this, Capabilities.STORAGE);
     }
 
     @Override
     public boolean isActive() {
         return true;
+    }
+
+    @Override
+    public boolean onPartActivate(Player player, InteractionHand hand, Vec3 pos) {
+        if (isArsSpellBook(player.getMainHandItem()) || isArsSpellBook(player.getOffhandItem())) return false;
+        updateTarget();
+        return super.onPartActivate(player, hand, pos);
+    }
+
+    private boolean isArsSpellBook(ItemStack itemStack) {
+        if (itemStack == null) return false;
+        return itemStack.getItem() instanceof SpellBook;
     }
 
     @Override
@@ -118,9 +130,7 @@ public class SimpleCraftingTerminal extends AbstractTerminalPart
     public MEStorage getInventory() {
         if (!isClientSide()) {
             if (this.tick % 10 == 0) {
-                if (this.handler.getDelegate() == null || this.handler.getDelegate() == ComponentContents.EMPTY) {
-                    updateTarget();
-                } else if (this.handler.getDelegate() instanceof CompositeStorage compositeStorage) {
+                if (this.handler.getDelegate() instanceof CompositeStorage compositeStorage) {
                     compositeStorage.onTick();
                 }
             }
@@ -134,7 +144,6 @@ public class SimpleCraftingTerminal extends AbstractTerminalPart
     public void addToWorld() {
         super.addToWorld();
         this.updateNode();
-        this.updateTarget();
     }
 
     @Override
@@ -155,22 +164,16 @@ public class SimpleCraftingTerminal extends AbstractTerminalPart
         }
     }
 
-    @Override
-    public final void onNeighborChanged(BlockGetter level, BlockPos pos, BlockPos neighbor) {
-        if (pos.relative(getSide()).equals(neighbor)) {
-            this.updateTarget();
-        }
-    }
-
     private void updateTarget() {
         if (isClientSide()) {
             return; // Part is not part of level yet or its client-side
         }
-
-        MEStorage foundMonitor = null;
+        var side = getSide();
+        if (side == null) return;
+        MEStorage foundMonitor;
         Map<AEKeyType, MEStorage> foundExternalApi = Collections.emptyMap();
-
-        foundMonitor = adjacentStorageAccessor.find();
+        if (adjacentStorageAccessor == null) adjacentStorageAccessor = BlockCapabilityCache.create(Capabilities.STORAGE, getHost().getBlockEntity());
+        foundMonitor = adjacentStorageAccessor.find(getHost().getBlockEntity().getBlockPos().relative(side), side, side.getOpposite());
 
         if (foundMonitor == null) {
 

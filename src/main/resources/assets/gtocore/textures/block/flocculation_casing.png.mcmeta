@@ -1,0 +1,5 @@
+{
+    "ldlib": {
+        "connection": "gtocore:block/flocculation_casing_ctm"
+    }
+}

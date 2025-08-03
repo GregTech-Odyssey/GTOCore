@@ -655,6 +655,8 @@ public final class MultiBlockG {
 
     public static final MultiblockMachineDefinition DRAWING_TOWER = multiblock("drawing_tower", "拉丝塔", DrawingTowerMachine::new)
             .nonYAxisRotation()
+            .tooltipsText("时间倍率 : 2 / 1.2^[(高度/8)×(温度-5000)/900] 不小于 0.00001", "Time Cost Multiply : 1.2^[(height/8)×(temperature-5000)/900] not less than 0.00001")
+            .tooltipsText("并行数 : (log₁.₀₈(温度-9600) - 84) 不小于 1", "Parallel number : (log₁.₀₈(temperature-9600) - 84) not less than 1")
             .recipeTypes(GTORecipeTypes.DRAWING_RECIPES)
             .block(GTBlocks.CASING_TUNGSTENSTEEL_ROBUST)
             .pattern(definition -> FactoryBlockPattern.start(definition, RelativeDirection.BACK, RelativeDirection.RIGHT, RelativeDirection.UP)

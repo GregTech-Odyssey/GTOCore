@@ -10,6 +10,7 @@ import com.gtocore.common.machine.multiblock.electric.voidseries.VoidTransporter
 import com.gtocore.common.network.ServerMessage;
 import com.gtocore.common.network.SyncFieldManager;
 import com.gtocore.common.saved.*;
+import com.gtocore.config.GTOConfig;
 import com.gtocore.utils.OrganUtilsKt;
 
 import com.gtolib.GTOCore;
@@ -64,7 +65,6 @@ import net.minecraftforge.event.level.LevelEvent;
 import net.minecraftforge.event.server.ServerStoppingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
-import com.hollingsworth.arsnouveau.common.items.SpellBook;
 import earth.terrarium.adastra.common.entities.mob.GlacianRam;
 import org.apache.logging.log4j.core.config.Configurator;
 
@@ -141,10 +141,6 @@ public final class ForgeCommonEvent {
         InteractionHand hand = event.getHand();
         ItemStack itemStack = player.getItemInHand(hand);
         Item item = itemStack.getItem();
-        if (item instanceof SpellBook spellBook) {
-            event.setCanceled(true);
-            return;
-        }
 
         if (item == GTOItems.RAW_VACUUM_TUBE.get() && player.isShiftKeyDown() && MetaMachine.getMachine(level, pos) instanceof IVacuumMachine vacuumMachine && vacuumMachine.getVacuumTier() > 0) {
             player.setItemInHand(hand, itemStack.copyWithCount(itemStack.getCount() - 1));
@@ -152,19 +148,21 @@ public final class ForgeCommonEvent {
             return;
         }
 
-        if (item == GTItems.QUANTUM_STAR.get() && level.getBlockState(pos).getBlock() == GTOBlocks.NAQUADRIA_CHARGE.get()) {
-            SphereExplosion.explosion(pos, level, 200, true, true);
-            return;
-        }
+        if (!GTOConfig.INSTANCE.disableChargeBomb) {
+            if (item == GTItems.QUANTUM_STAR.get() && level.getBlockState(pos).getBlock() == GTOBlocks.NAQUADRIA_CHARGE.get()) {
+                SphereExplosion.explosion(pos, level, 200, true, true);
+                return;
+            }
 
-        if (item == GTItems.GRAVI_STAR.get() && level.getBlockState(pos).getBlock() == GTOBlocks.LEPTONIC_CHARGE.get()) {
-            SphereExplosion.explosion(pos, level, 800, true, true);
-            return;
-        }
+            if (item == GTItems.GRAVI_STAR.get() && level.getBlockState(pos).getBlock() == GTOBlocks.LEPTONIC_CHARGE.get()) {
+                SphereExplosion.explosion(pos, level, 800, true, true);
+                return;
+            }
 
-        if (item == GTOItems.UNSTABLE_STAR.get() && level.getBlockState(pos).getBlock() == GTOBlocks.QUANTUM_CHROMODYNAMIC_CHARGE.get()) {
-            SphereExplosion.explosion(pos, level, 2000, true, true);
-            return;
+            if (item == GTOItems.UNSTABLE_STAR.get() && level.getBlockState(pos).getBlock() == GTOBlocks.QUANTUM_CHROMODYNAMIC_CHARGE.get()) {
+                SphereExplosion.explosion(pos, level, 2000, true, true);
+                return;
+            }
         }
 
         if (player.isShiftKeyDown()) {
@@ -261,9 +259,6 @@ public final class ForgeCommonEvent {
                 level.addFreshEntity(new ItemEntity(level, player.getX(), player.getY(), player.getZ(), ItemMap.getScrapItem()));
                 player.setItemInHand(event.getHand(), itemStack.copyWithCount(count - 1));
             }
-        } else if (item instanceof SpellBook spellBook) {
-            event.setCancellationResult(spellBook.use(level, player, event.getHand()).getResult());
-            event.setCanceled(true);
         }
     }
 
@@ -291,8 +286,8 @@ public final class ForgeCommonEvent {
             ServerLevel serverLevel = level.getServer().getLevel(Level.OVERWORLD);
             if (serverLevel == null) return;
             DysonSphereSavaedData.INSTANCE = serverLevel.getDataStorage().computeIfAbsent(DysonSphereSavaedData::new, DysonSphereSavaedData::new, "dyson_sphere_data");
-            RecipeRunLimitSavaedData.INSTANCE = serverLevel.getDataStorage().computeIfAbsent(RecipeRunLimitSavaedData::new, RecipeRunLimitSavaedData::new, " recipe_run_limit_data");
-            serverLevel.getDataStorage().computeIfAbsent(MEWirelessSavedData.INSTANCE::load, (() -> MEWirelessSavedData.INSTANCE), "me_wireless_connection_manager");
+            RecipeRunLimitSavaedData.INSTANCE = serverLevel.getDataStorage().computeIfAbsent(RecipeRunLimitSavaedData::new, RecipeRunLimitSavaedData::new, "recipe_run_limit_data");
+            WirelessSavedData.Companion.setINSTANCE(serverLevel.getDataStorage().computeIfAbsent(WirelessSavedData::initialize, WirelessSavedData::new, "wireless_saved_data"));
         }
     }
 

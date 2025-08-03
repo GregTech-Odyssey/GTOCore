@@ -56,7 +56,7 @@ public class MonitorCustomInfo extends AbstractInfoProviderMonitor {
 
         LongInputWidget input = new LongInputWidget(Position.of(50, 70),
                 this::getPriority, this::setPriority);
-        input.setMax((long) Integer.MAX_VALUE).setMin((long) Integer.MIN_VALUE);
+        input.setMax((long) Integer.MAX_VALUE).setMin(0L);
         input.setHoverTooltips(Component.translatable("gtocore.machine.monitor.priority"));
 
         var panel = new ComponentPanelWidget(

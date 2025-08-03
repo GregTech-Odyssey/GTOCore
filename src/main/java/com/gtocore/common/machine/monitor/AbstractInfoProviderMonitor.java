@@ -87,7 +87,7 @@ public abstract class AbstractInfoProviderMonitor extends BasicMonitor implement
     public Widget createUIWidget() {
         LongInputWidget input = new LongInputWidget(Position.of(50, 144),
                 this::getPriority, this::setPriority);
-        input.setMax((long) Integer.MAX_VALUE).setMin((long) Integer.MIN_VALUE);
+        input.setMax((long) Integer.MAX_VALUE).setMin(0L);
         input.setHoverTooltips(Component.translatable("gtocore.machine.monitor.priority"));
         var panel = new ComponentPanelWidget(
                 input.getPositionX() + input.getSizeWidth() / 2,

@@ -1,0 +1,13 @@
+{
+  "parent": "block/cube",
+  "textures": {
+    "down": "gtocore:block/machines/tesseract_generator/top",
+    "up": "gtocore:block/machines/tesseract_generator/top",
+    "north": "gtocore:block/machines/tesseract_generator/side",
+    "east": "gtocore:block/machines/tesseract_generator/side",
+    "south": "gtocore:block/machines/tesseract_generator/side",
+    "west": "gtocore:block/machines/tesseract_generator/side",
+    "particle": "gtocore:block/machines/tesseract_generator/top"
+  },
+  "render_type": "solid"
+}

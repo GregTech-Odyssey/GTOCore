@@ -4,6 +4,8 @@ import com.gtocore.common.data.GTODamageTypes
 import com.gtocore.common.data.GTOOrganItems.FAIRY_WING
 import com.gtocore.common.data.GTOOrganItems.MANA_STEEL_WING
 import com.gtocore.common.data.GTOOrganItems.MECHANICAL_WING
+import com.gtocore.common.item.misc.TierData.Companion.BlockReachFunction
+import com.gtocore.common.item.misc.TierData.Companion.MovementSpeedFunction
 import com.gtocore.utils.ktGetOrganStack
 
 import net.minecraft.network.chat.Component
@@ -52,7 +54,7 @@ class OrganService : IOrganService {
             val modifierUUID = UUID.nameUUIDFromBytes(modifierNAME.toByteArray())
             when (playerData.organTierCache.contains(tier)) {
                 true -> run {
-                    val modifierAmplify = 0.1f * 0.1f * tier * 1.5f // 1.5倍
+                    val modifierAmplify = MovementSpeedFunction(tier)
                     val shouldAdd = player.getAttribute(Attributes.MOVEMENT_SPEED)?.modifiers?.all { it.name != modifierNAME } ?: true
                     if (!shouldAdd)return@run
                     player.getAttribute(Attributes.MOVEMENT_SPEED)?.addPermanentModifier(
@@ -70,7 +72,7 @@ class OrganService : IOrganService {
             val modifierUUID = UUID.nameUUIDFromBytes(modifierNAME.toByteArray())
             when (playerData.organTierCache.contains(2)) {
                 true -> run {
-                    val modifierAmplify = 2 // 加两格
+                    val modifierAmplify = BlockReachFunction
                     val shouldAdd = player.getAttribute(BLOCK_REACH.get())?.modifiers?.all { it.name != modifierNAME } ?: true
                     if (!shouldAdd)return@run
                     player.getAttribute(BLOCK_REACH.get())?.addPermanentModifier(

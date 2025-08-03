@@ -9,7 +9,6 @@ import com.gregtechceu.gtceu.api.pattern.BlockPattern;
 import com.gregtechceu.gtceu.api.pattern.MultiblockState;
 import com.gregtechceu.gtceu.api.pattern.error.PatternError;
 import com.gregtechceu.gtceu.api.pattern.error.PatternStringError;
-import com.gregtechceu.gtceu.api.pattern.error.SinglePredicateError;
 import com.gregtechceu.gtceu.common.item.TooltipBehavior;
 
 import net.minecraft.ChatFormatting;
@@ -162,19 +161,10 @@ public final class StructureDetectBehavior extends TooltipBehavior implements IT
             show.add(pe.getErrorInfo());
         } else {
             var pos = error.getPos();
-            var posComponent = Component.translatable("item.gtocore.structure_detect.error.2", pos.getX(), pos.getY(), pos.getZ());
-            if (error instanceof SinglePredicateError) {
-                List<List<ItemStack>> candidates = error.getCandidates();
-                var root = candidates.get(0).get(0).getHoverName();
-                show.add(Component.translatable("item.gtocore.structure_detect.error.1", posComponent));
-                show.add(Component.literal(" - ").append(root).append(error.getErrorInfo()));
-            } else {
-                show.add(Component.translatable("item.gtocore.structure_detect.error.0", posComponent));
-                List<List<ItemStack>> candidates = error.getCandidates();
-                for (List<ItemStack> candidate : candidates) {
-                    if (!candidate.isEmpty()) {
-                        show.add(Component.literal(" - ").append(candidate.get(0).getDisplayName()));
-                    }
+            show.add(Component.translatable("item.gtocore.structure_detect.error.1", pos.getX(), pos.getY(), pos.getZ()));
+            for (List<ItemStack> candidate : error.getCandidates()) {
+                if (!candidate.isEmpty()) {
+                    show.add(Component.literal(" - ").append(candidate.get(0).getDisplayName()));
                 }
             }
         }

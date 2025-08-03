@@ -26,8 +26,7 @@ import com.gtolib.api.annotation.NewDataAttributes;
 import com.gtolib.api.annotation.component_builder.ComponentBuilder;
 import com.gtolib.api.annotation.component_builder.StyleBuilder;
 import com.gtolib.api.lang.CNEN;
-import com.gtolib.api.machine.multiblock.CrossRecipeMultiblockMachine;
-import com.gtolib.api.machine.multiblock.ElectricMultiblockMachine;
+import com.gtolib.api.machine.multiblock.*;
 import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
 import com.gtolib.utils.*;
 
@@ -678,7 +677,7 @@ public final class MultiBlockD {
             .workableCasingRenderer(GTOCore.id("block/casings/dimension_connection_casing"), GTOCore.id("block/multiblock/create_aggregation"))
             .register();
 
-    public static final MultiblockMachineDefinition NYARLATHOTEPS_TENTACLE = multiblock("nyarlathoteps_tentacle", "奈亚拉托提普之触", CrossRecipeMultiblockMachine::createHatchParallel)
+    public static final MultiblockMachineDefinition NYARLATHOTEPS_TENTACLE = multiblock("nyarlathoteps_tentacle", "奈亚拉托提普之触", CoilCrossRecipeMultiblockMachine::createCoilParallel)
             .allRotation()
             .recipeTypes(GTORecipeTypes.SUPRACHRONAL_ASSEMBLY_LINE)
             .tooltips(ComponentBuilder.create().addStoryLine(
@@ -697,14 +696,13 @@ public final class MultiBlockD {
                             simultaneously, assembling materials from different dimensions precisely.
                             """).build())
             .combinedRecipeTooltips()
-            .parallelizableTooltips()
+            .coilParallelTooltips()
             .laserTooltips()
             .multipleRecipesTooltips()
             .block(GTOBlocks.MOLECULAR_CASING)
             .pattern(definition -> MultiBlockFileReader.start(definition, RelativeDirection.LEFT, RelativeDirection.UP, RelativeDirection.FRONT)
                     .where('A', blocks(GTOBlocks.MOLECULAR_CASING.get())
-                            .or(GTOPredicates.autoLaserAbilities(definition.getRecipeTypes()))
-                            .or(abilities(PARALLEL_HATCH).setMaxGlobalLimited(1))
+                            .or(GTOPredicates.autoThreadLaserAbilities(definition.getRecipeTypes()))
                             .or(abilities(OPTICAL_DATA_RECEPTION).setExactLimit(1)))
                     .where('B', blocks(GTOBlocks.ADVANCED_FUSION_COIL.get()))
                     .where('C', blocks(GTOBlocks.LASER_CASING.get()))

@@ -41,7 +41,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 public class MEInputBusPartMachine extends MEPartMachine implements IDataStickInteractable {
 
     static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
-            MEInputBusPartMachine.class, MEPartMachine.MANAGED_FIELD_HOLDER);
+            MEInputBusPartMachine.class, MEPartMachine.Companion.getMANAGED_FIELD_HOLDER());
 
     private TickableSubscription autoIOSubs;
 
@@ -105,7 +105,7 @@ public class MEInputBusPartMachine extends MEPartMachine implements IDataStickIn
             GenericStack exceedItem = aeSlot.exceedStack();
             if (exceedItem != null) {
                 long total = exceedItem.amount();
-                long inserted = networkInv.insert(exceedItem.what(), exceedItem.amount(), Actionable.MODULATE, this.actionSource);
+                long inserted = networkInv.insert(exceedItem.what(), exceedItem.amount(), Actionable.MODULATE, this.getActionSourceField());
                 if (inserted > 0) {
                     aeSlot.extractItem(inserted, false, true);
                     continue;
@@ -115,7 +115,7 @@ public class MEInputBusPartMachine extends MEPartMachine implements IDataStickIn
             }
             GenericStack reqItem = aeSlot.requestStack();
             if (reqItem != null) {
-                long extracted = networkInv.extract(reqItem.what(), reqItem.amount(), Actionable.MODULATE, this.actionSource);
+                long extracted = networkInv.extract(reqItem.what(), reqItem.amount(), Actionable.MODULATE, this.getActionSourceField());
                 if (extracted != 0) {
                     aeSlot.addStack(new GenericStack(reqItem.what(), extracted));
                 }
@@ -124,7 +124,7 @@ public class MEInputBusPartMachine extends MEPartMachine implements IDataStickIn
     }
 
     void updateInventorySubscription() {
-        if (isWorkingEnabled() && isOnline) {
+        if (isWorkingEnabled() && getOnlineField()) {
             autoIOSubs = subscribeServerTick(autoIOSubs, this::autoIO);
         } else if (autoIOSubs != null) {
             autoIOSubs.unsubscribe();
@@ -138,7 +138,7 @@ public class MEInputBusPartMachine extends MEPartMachine implements IDataStickIn
             for (var aeSlot : aeItemHandler.getInventory()) {
                 GenericStack stock = aeSlot.getStock();
                 if (stock != null) {
-                    grid.getStorageService().getInventory().insert(stock.what(), stock.amount(), Actionable.MODULATE, actionSource);
+                    grid.getStorageService().getInventory().insert(stock.what(), stock.amount(), Actionable.MODULATE, getActionSourceField());
                 }
             }
         }
@@ -154,7 +154,7 @@ public class MEInputBusPartMachine extends MEPartMachine implements IDataStickIn
     public Widget createUIWidget() {
         WidgetGroup group = new WidgetGroup(new Position(0, 0));
         // ME Network status
-        group.addWidget(new LabelWidget(3, 0, () -> this.isOnline ?
+        group.addWidget(new LabelWidget(3, 0, () -> this.getOnlineField() ?
                 "gtceu.gui.me_network.online" :
                 "gtceu.gui.me_network.offline"));
 

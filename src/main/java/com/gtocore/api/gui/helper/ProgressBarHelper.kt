@@ -56,7 +56,6 @@ object ProgressBarHelper {
                 is ProgressBarColorStyle.Gradient -> interpolateColor(progressColorStyle.startColor, progressColorStyle.endColor, progressFloat)
                 is ProgressBarColorStyle.MultiGradient -> getMultiGradientColor(progressFloat, progressColorStyle.colors)
             }
-//            DrawerHelper.drawSolidRect(graphics, innerX, innerY, progressWidth, innerHeight, color)
             renderAndAddZOrder(
                 graphics,
                 {
@@ -170,6 +169,16 @@ sealed class ProgressBarColorStyle {
         )
         val EXPERIENCE_GRADIENT = Gradient(0xFF7FFF00.toInt(), 0xFFFFD700.toInt())
         val DEFAULT_GREEN = Solid(0xFF2ecc71.toInt())
+        val DEFAULT_YELLOW = Solid(0xFFfdda0d.toInt())
         val DEFAULT_RED = Solid(0xFFe74c3c.toInt())
+        val DURATION = MultiGradient(
+            listOf(
+                0f to DEFAULT_RED.color,
+                0.1f to DEFAULT_RED.color,
+                0.2f to DEFAULT_YELLOW.color,
+                0.3f to DEFAULT_GREEN.color,
+                1f to DEFAULT_GREEN.color,
+            ),
+        )
     }
 }

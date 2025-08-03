@@ -71,4 +71,8 @@ public final class GTOElements {
     public static final Element GAIASTEEL = new Element(76, 86, -1, null, "gaiasteel", "*Ga*", false);
     public static final Element GAIA = new Element(76, 88, -1, null, "gaia", "*TR*Gs*", false);
     public static final Element AERIALITE = new Element(66, 76, -1, null, "aerialite", "*Ae*", false); // Extra Botany
+    public static final Element SHADOWIUM = new Element(76, 86, -1, null, "shadowium", "*Sh*", false); // Extra Botany
+    public static final Element PHOTONIUM = new Element(86, 96, -1, null, "photonium", "*Ph*", false); // Extra Botany
+    public static final Element OHRICHALOS = new Element(96, 106, -1, null, "ohrichalos", "*Oh*", false); // Extra
+                                                                                                          // Botany
 }

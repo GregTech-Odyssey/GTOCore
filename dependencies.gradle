@@ -8,7 +8,7 @@ dependencies {
     api(annotationProcessor("io.github.llamalad7:mixinextras-common:$project.mixinextras_version"))
     annotationProcessor 'org.spongepowered:mixin:0.8.7:processor'
 
-    modImplementation("com.lowdragmc.ldlib:ldlib-forge-$project.minecraft_version:$project.ldlib_version") { transitive false }
+    modImplementation("curse.maven:ldlib-626676:6792104")
 
     modImplementation("com.tterrag.registrate:Registrate:$project.registrate_version")
 
@@ -56,7 +56,6 @@ dependencies {
     modImplementation("curse.maven:functional-storage-556861:5650296")
     modImplementation("curse.maven:titanium-287342:5468426")
 
-    modImplementation("curse.maven:modern-ae2-additions-1028068:6785486")
     modImplementation("curse.maven:ae2wtlib-459929:5217955")
 
     modImplementation("curse.maven:deeperdarker-659011:5906086")
@@ -76,6 +75,8 @@ dependencies {
     modCompileOnly("curse.maven:libx-412525:5207625")
 
     modCompileOnly("curse.maven:mythicbotany-400058:5101899")
+
+    modCompileOnly("curse.maven:ftb-library-forge-404465:6807424")
 
     modCompileOnly("curse.maven:ftb-quests-forge-289412:6259628")
 
@@ -108,6 +109,8 @@ dependencies {
 
     modCompileOnly("curse.maven:xaeros-world-map-317780:6212637")
     modCompileOnly("curse.maven:xaeros-minimap-263420:6306155")
+
+    modCompileOnly("curse.maven:athena-841890:5176879")
 
     modRuntimeOnly("curse.maven:cloth-config-348521:5729105")
 

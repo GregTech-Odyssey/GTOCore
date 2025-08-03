@@ -1,0 +1,5 @@
+{
+    "ldlib": {
+        "connection": "gtocore:block/casings/vacuum_chamber/vacuum_chamber_protection_casing_ctm"
+    }
+}

@@ -22,7 +22,7 @@ public final class GTOCovers {
 
     static final CoverDefinition WIRELESS_CHARGER_COVER = GTCovers.register("wireless_charger_cover", WirelessChargerCover::new, new SimpleCoverRenderer(GTOCore.id("item/wireless_charger_cover")));
 
-    private static final ICoverRenderer POWER_AMPLIFIER = new SimpleCoverRenderer(GTOCore.id("gui/overclock_config"));
+    private static final ICoverRenderer POWER_AMPLIFIER = new SimpleCoverRenderer(GTOCore.id("block/overlay/machine/overclock_config"));
 
     static final CoverDefinition[] POWER_AMPLIFIERS = GTCovers.registerTiered("power_amplifier", PowerAmplifierCover::new, tier -> POWER_AMPLIFIER, GTValues.tiersBetween(GTValues.LV, GTValues.LuV));
 
