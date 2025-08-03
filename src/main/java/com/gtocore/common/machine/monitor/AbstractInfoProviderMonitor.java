@@ -46,7 +46,7 @@ public abstract class AbstractInfoProviderMonitor extends BasicMonitor implement
             if (this.getOffsetTimer() % 10 == 0) {
                 this.syncInfoFromServer();
                 this.getSyncStorage().markAllDirty();
-                this.getHolder().syncNow(false);
+                this.requestSync();
             }
         });
     }
@@ -71,7 +71,7 @@ public abstract class AbstractInfoProviderMonitor extends BasicMonitor implement
     public void setPriority(long priority) {
         this.priority = priority;
         if (getLevel() != null && !getLevel().isClientSide()) {
-            this.getHolder().syncNow(false);
+            this.requestSync();
         }
     }
 
@@ -85,9 +85,10 @@ public abstract class AbstractInfoProviderMonitor extends BasicMonitor implement
 
     @Override
     public Widget createUIWidget() {
+        final var initialPriority = this.getPriority();
         LongInputWidget input = new LongInputWidget(Position.of(50, 144),
                 this::getPriority, this::setPriority);
-        input.setMax((long) Integer.MAX_VALUE).setMin(0L);
+        input.setMax((long) Integer.MAX_VALUE).setMin((long) Integer.MIN_VALUE).setValue(initialPriority);
         input.setHoverTooltips(Component.translatable("gtocore.machine.monitor.priority"));
         var panel = new ComponentPanelWidget(
                 input.getPositionX() + input.getSizeWidth() / 2,

@@ -87,6 +87,7 @@ public final class LangHandler {
         addCNEN("key.gtocore.nightvision", "夜视开关", "Night Vision Toggle");
         addCNEN("key.gtocore.vajra", "金刚杵按键", "Vajra Key");
         addCNEN("key.gtocore.drift", "飞行惯性", "Flight Inertia");
+        addCNEN("key.gtocore.debug_inspect", "调试检查GUI槽位", "Debug Inspect GUI Slot");
         addCNEN("key.keybinding.gtocore", "GTO按键绑定", "GTO Key Bindings");
 
         addCNEN("structure_writer.export_order", "导出顺序： C:%s  S:%s  A:%s", "Export Order: C:%s  S:%s  A:%s");

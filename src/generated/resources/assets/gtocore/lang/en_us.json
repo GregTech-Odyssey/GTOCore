@@ -3474,6 +3474,7 @@
   "itemGroup.gtocore.material_fluid": "GTO Core | Material Fluid",
   "itemGroup.gtocore.material_item": "GTO Core | Material Item",
   "itemGroup.gtocore.material_pipe": "GTO Core | Material Pipe",
+  "key.gtocore.debug_inspect": "Debug Inspect GUI Slot",
   "key.gtocore.drift": "Flight Inertia",
   "key.gtocore.flyingspeed": "Flight Speed Adjustment",
   "key.gtocore.nightvision": "Night Vision Toggle",

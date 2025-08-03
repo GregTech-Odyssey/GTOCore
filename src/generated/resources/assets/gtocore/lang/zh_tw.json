@@ -1450,6 +1450,7 @@
   "item.gtocore.supracausal_printed_circuit_board.tooltip": "§7最終的電路基板",
   "item.gtocore.supracausal_processor.tooltip": "§7黑洞之力",
   "item.gtocore.suprachronal_mainframe_complex.tooltip": "§7能憑空產生算力",
+  "key.gtocore.debug_inspect": "調試檢查GUI槽位",
   "key.gtocore.drift": "飛行慣性",
   "key.gtocore.flyingspeed": "飛行速度調節",
   "key.gtocore.nightvision": "夜視開關",

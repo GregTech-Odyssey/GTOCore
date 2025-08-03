@@ -3474,6 +3474,7 @@
   "itemGroup.gtocore.material_fluid": "GTO | 材料流体",
   "itemGroup.gtocore.material_item": "GTO | 材料物品",
   "itemGroup.gtocore.material_pipe": "GTO | 材料管道",
+  "key.gtocore.debug_inspect": "调试检查GUI槽位",
   "key.gtocore.drift": "飞行惯性",
   "key.gtocore.flyingspeed": "飞行速度调节",
   "key.gtocore.nightvision": "夜视开关",
