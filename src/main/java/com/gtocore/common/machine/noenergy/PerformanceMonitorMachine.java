@@ -26,10 +26,6 @@ public final class PerformanceMonitorMachine extends MetaMachine implements IFan
 
     private static final Pattern PATTERN = Pattern.compile(", ");
 
-    public static boolean observe;
-
-    public static final Map<MetaMachine, Integer> PERFORMANCE_MAP = new WeakHashMap<>();
-
     private List<Component> textListCache;
 
     public PerformanceMonitorMachine(IMachineBlockEntity holder) {
@@ -56,7 +52,7 @@ public final class PerformanceMonitorMachine extends MetaMachine implements IFan
 
     private void addDisplayText(@NotNull List<Component> textList) {
         if (isRemote()) return;
-        observe = true;
+        OBSERVE = true;
         if (textListCache == null || getOffsetTimer() % 40 == 0) {
             textListCache = new ArrayList<>();
             Map<MetaMachine, Integer> sortedMap = new TreeMap<>((mm1, mm2) -> PERFORMANCE_MAP.get(mm2).compareTo(PERFORMANCE_MAP.get(mm1)));

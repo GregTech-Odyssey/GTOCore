@@ -41,7 +41,7 @@ class OrganModifierBehaviour :
     @Scanned
     companion object {
         @RegisterLanguage(cn = "器官修改器", en = "Organ Modifier")
-        val name: String = "gtocore.item.organ_modifier.name"
+        const val name: String = "gtocore.item.organ_modifier.name"
     }
     lateinit var player: Player
     override fun use(item: Item?, level: Level?, player: Player, usedHand: InteractionHand?): InteractionResultHolder<ItemStack?>? {

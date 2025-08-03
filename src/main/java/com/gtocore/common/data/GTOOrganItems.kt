@@ -6,6 +6,7 @@ import com.gtocore.common.item.misc.OrganItemBase
 import com.gtocore.common.item.misc.OrganItemBase.OrganItem
 import com.gtocore.common.item.misc.OrganItemBase.TierOrganItem
 import com.gtocore.common.item.misc.OrganType
+import com.gtocore.common.item.misc.TierData.Companion.tier_names
 import com.gtocore.utils.toSeconds
 
 import com.gregtechceu.gtceu.api.GTValues
@@ -27,8 +28,8 @@ object GTOOrganItems {
     // ////////////////////////////////
     // ****** 翅膀 ******//
     // //////////////////////////////
-    val FAIRY_WING = OrganItemBase.registerOrganItem(id = "fairy_wing", organType = OrganType.Wing, resourceName = "fairy_wing", en = "Fairy Wing", cn = "翅膀 妖精之翼", itemFactory = { properties, organType -> OrganItem(properties.durability(15.minutes.toSeconds()), organType) })
-    val MANA_STEEL_WING = OrganItemBase.registerOrganItem(id = "mana_steel_wing", organType = OrganType.Wing, resourceName = "mana_steel_wing", en = "Mana Steel Wing", cn = "翅膀 魔力钢之翼", itemFactory = { properties, organType -> OrganItem(properties.durability(4.hours.toSeconds()), organType) })
+    val FAIRY_WING = OrganItemBase.registerOrganItem(id = "fairy_wing", organType = OrganType.Wing, resourceName = "fairy_wing", en = "Fairy Wing", cn = "翅膀 妖精之翼", itemFactory = { properties, organType -> OrganItem(properties.durability(4.hours.toSeconds()), organType) })
+    val MANA_STEEL_WING = OrganItemBase.registerOrganItem(id = "mana_steel_wing", organType = OrganType.Wing, resourceName = "mana_steel_wing", en = "Mana Steel Wing", cn = "翅膀 魔力钢之翼", itemFactory = { properties, organType -> OrganItem(properties.durability(15.minutes.toSeconds()), organType) })
     val MECHANICAL_WING = OrganItemBase.registerOrganItem(
         id = "mechanical_wing",
         organType = OrganType.Wing,
@@ -64,8 +65,8 @@ private fun registerTierOrganItem() {
                 id = "tier_${tier}_${organType.key}", // e.g. "tier_1_eye"
                 organType = organType,
                 resourceName = "tier$tier", // e.g. "tier1"
-                en = "Standard Organ ${organType.key.replaceFirstChar { it.uppercase() }} Tier $tier", // e.g. "Organ Eye Tier 1"
-                cn = "标准器官 ${organType.cn} Tier $tier", // e.g. "器官 眼睛 Tier 1"
+                en = "Standard Organ ${organType.key.replaceFirstChar { it.uppercase() }} ${tier_names[tier].second}", // e.g. "Organ Eye Tier 1"
+                cn = "标准器官 ${organType.cn} ${tier_names[tier].first}", // e.g. "器官 眼睛 Tier 1"
                 itemFactory = { properties, organType -> TierOrganItem(tier, properties, organType) },
             )
             itemEntries.add(itemEntry)

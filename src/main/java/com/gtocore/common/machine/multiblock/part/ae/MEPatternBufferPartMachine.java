@@ -373,7 +373,7 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
                     }
                     var key = AEItemKey.of(stack);
                     if (key == null) continue;
-                    long inserted = StorageHelper.poweredInsert(energy, networkInv, key, count, machine.actionSource);
+                    long inserted = StorageHelper.poweredInsert(energy, networkInv, key, count, machine.getActionSourceField());
                     if (inserted > 0) {
                         count -= inserted;
                         if (count == 0) it.remove();
@@ -390,7 +390,7 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
                     }
                     var key = AEFluidKey.of(stack);
                     if (key == null) continue;
-                    long inserted = StorageHelper.poweredInsert(energy, networkInv, key, amount, machine.actionSource);
+                    long inserted = StorageHelper.poweredInsert(energy, networkInv, key, amount, machine.getActionSourceField());
                     if (inserted > 0) {
                         amount -= inserted;
                         if (amount == 0) it.remove();

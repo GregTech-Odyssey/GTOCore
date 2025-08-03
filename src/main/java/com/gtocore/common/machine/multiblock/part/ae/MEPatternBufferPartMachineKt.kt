@@ -30,13 +30,13 @@ open class MEPatternBufferPartMachineKt(holder: IMachineBlockEntity, maxPatternC
         val MANAGED_FIELD_HOLDER = ManagedFieldHolder(MEPatternBufferPartMachineKt::class.java, MEPatternBufferPartMachine.MANAGED_FIELD_HOLDER)
 
         @RegisterLanguage(cn = "此样板物品输入槽", en = "This Pattern Special Item Input Slot")
-        val item_special: String = "gtceu.ae.pattern_part_machine.item_special"
+        const val item_special: String = "gtceu.ae.pattern_part_machine.item_special"
 
         @RegisterLanguage(cn = "此样板流体输入槽", en = "This Pattern Special Fluid Input Slot")
-        val fluid_special: String = "gtceu.ae.pattern_part_machine.fluid_special"
+        const val fluid_special: String = "gtceu.ae.pattern_part_machine.fluid_special"
 
         @RegisterLanguage(cn = "此样板电路输入槽", en = "This Pattern Special Circuit Input Slot")
-        val circuit_special: String = "gtceu.ae.pattern_part_machine.circuit_special"
+        const val circuit_special: String = "gtceu.ae.pattern_part_machine.circuit_special"
     }
 
     override fun getFieldHolder(): ManagedFieldHolder = MANAGED_FIELD_HOLDER

@@ -45,8 +45,8 @@ object OrganRecipes {
         )
         VanillaRecipeHelper.addShapedRecipe(
             provider,
-            GTOCore.id("fairy_wing"),
-            GTOOrganItems.FAIRY_WING.asStack(),
+            GTOCore.id("mana_steel_wing"),
+            GTOOrganItems.MANA_STEEL_WING.asStack(),
             "ABA",
             "CDC",
             "ABA",
@@ -57,8 +57,8 @@ object OrganRecipes {
         )
         VanillaRecipeHelper.addShapedRecipe(
             provider,
-            GTOCore.id("mana_steel_wing"),
-            GTOOrganItems.MANA_STEEL_WING.asStack(),
+            GTOCore.id("fairy_wing"),
+            GTOOrganItems.FAIRY_WING.asStack(),
             "ABA",
             "ACA",
             "DDD",

@@ -6,13 +6,14 @@ import com.gtocore.common.data.machines.GTAEMachines
 import com.gtocore.common.machine.multiblock.part.ae.widget.slot.AEPatternViewSlotWidgetKt
 import com.gtocore.common.network.IntSyncField
 import com.gtocore.common.network.createLogicalSide
+import com.gtocore.integration.ae.WirelessMachine
 
 import net.minecraft.MethodsReturnNonnullByDefault
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.chat.Component
 import net.minecraft.server.TickTask
 import net.minecraft.server.level.ServerLevel
-import net.minecraft.world.entity.player.Player
+import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.item.ItemStack
 
 import appeng.api.crafting.IPatternDetails
@@ -31,7 +32,6 @@ import com.gregtechceu.gtceu.api.capability.recipe.IO
 import com.gregtechceu.gtceu.api.gui.GuiTextures
 import com.gregtechceu.gtceu.api.gui.fancy.ConfiguratorPanel
 import com.gregtechceu.gtceu.api.gui.fancy.FancyMachineUIWidget
-import com.gregtechceu.gtceu.api.gui.fancy.IFancyUIProvider
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity
 import com.gregtechceu.gtceu.api.machine.TickableSubscription
 import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList
@@ -42,7 +42,6 @@ import com.gtolib.api.annotation.Scanned
 import com.gtolib.api.annotation.language.RegisterLanguage
 import com.gtolib.api.gui.ktflexible.*
 import com.gtolib.api.gui.ktflexible.FreshWidgetGroupAbstract
-import com.lowdragmc.lowdraglib.gui.modular.ModularUI
 import com.lowdragmc.lowdraglib.gui.widget.Widget
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup
 import com.lowdragmc.lowdraglib.syncdata.IContentChangeAware
@@ -61,19 +60,23 @@ import javax.annotation.ParametersAreNonnullByDefault
 internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.AbstractInternalSlot>(holder: IMachineBlockEntity, val maxPatternCount: Int) :
     MEPartMachine(holder, IO.IN),
     ICraftingProvider,
+    WirelessMachine,
     PatternContainer {
 
     // ==================== 常量和静态成员 ====================
     @Scanned
     companion object {
         @JvmStatic
-        var MANAGED_FIELD_HOLDER = ManagedFieldHolder(
+        val MANAGED_FIELD_HOLDER = ManagedFieldHolder(
             MEPatternPartMachineKt::class.java,
             MEPartMachine.MANAGED_FIELD_HOLDER,
         )
 
         @RegisterLanguage(cn = "AE显示名称:", en = "AE Name:")
-        val AE_NAME: String = "gtceu.ae.pattern_part_machine.ae_name"
+        const val AE_NAME: String = "gtceu.ae.pattern_part_machine.ae_name"
+
+        @RegisterLanguage(cn = "仅在简单游戏难度下启用", en = "Enable only in Easy Game Mode")
+        const val NOT_simple: String = "gtceu.ae.pattern_part_machine.not_simple"
     }
 
     // ==================== 持久化属性 ====================
@@ -122,7 +125,7 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
         internalInventory.indices.forEach { i ->
             internalInventory[i] = createInternalSlot(i)
         }
-        getMainNode().addService(ICraftingProvider::class.java, this)
+        mainNode.addService(ICraftingProvider::class.java, this)
     }
 
     // ==================== 抽象方法 ====================
@@ -135,7 +138,7 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
     fun getInternalInventory(): Array<T> = internalInventory as Array<T>
 
     fun onPatternChange(index: Int) {
-        if (isRemote()) return
+        if (isRemote) return
 
         val internalInv = getInternalInventory()[index]
         val newPattern = patternInventory.getStackInSlot(index)
@@ -181,9 +184,17 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
         }
     }
 
+    override fun onMachinePlaced(player: LivingEntity?, stack: ItemStack?) {
+        super<MEPartMachine>.onMachinePlaced(player, stack)
+    }
+
     override fun onUnload() {
         pageField.unregister()
         super.onUnload()
+    }
+
+    override fun clientTick() {
+        super.clientTick()
     }
 
     override fun onMachineRemoved() {
@@ -191,7 +202,7 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
     }
 
     override fun onMainNodeStateChanged(reason: IGridNodeListener.State) {
-        super.onMainNodeStateChanged(reason)
+        super<MEPartMachine>.onMainNodeStateChanged(reason)
         updateSubscription()
     }
 
@@ -242,7 +253,7 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
     override fun isWorkingEnabled(): Boolean = true
     override fun setWorkingEnabled(ignored: Boolean) {}
     override fun isDistinct(): Boolean = true
-    override fun setDistinct(ignored: Boolean) {}
+    override fun setDistinct(isDistinct: Boolean) {}
     override fun attachConfigurators(configuratorPanel: ConfiguratorPanel) {}
 
     // ==================== UI 相关方法 ====================
@@ -254,7 +265,7 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
                 hBox(height = 12, alwaysVerticalCenter = true) {
                     blank(width = 4)
                     textBlock(maxWidth = this@vBox.availableWidth, textSupplier = {
-                        when (isOnline) {
+                        when (onlineField) {
                             true -> Component.translatable("gtceu.gui.me_network.online")
                             false -> Component.translatable("gtceu.gui.me_network.offline")
                         }
@@ -282,6 +293,13 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
                                         }
                                     }
                                 }
+                            }
+                        }
+                        if (chunked.isEmpty()) {
+                            page {
+                                textBlock(maxWidth = this.availableWidth, textSupplier = {
+                                    Component.translatable(NOT_simple)
+                                })
                             }
                         }
                     }
@@ -372,18 +390,6 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
         return slot
     }
     open fun VBoxBuilder.buildToolBoxContent() {}
-    class MyFancyMachineUIWidget(mainPage: IFancyUIProvider, width: Int, height: Int) : FancyMachineUIWidget(mainPage, width, height) {
-        fun setup(provider: IFancyUIProvider) {
-            setupFancyUI(provider)
-        }
-    }
-    var modularUI: ModularUI? = null
-    var fancyMachineUIWidget: FancyMachineUIWidget? = null
-    override fun createUI(entityPlayer: Player?): ModularUI? {
-        fancyMachineUIWidget = FancyMachineUIWidget(this, 176, 166)
-        modularUI = (ModularUI(176, 166, this, entityPlayer)).widget(fancyMachineUIWidget)
-        return modularUI
-    }
 
     override fun createMainPage(widget: FancyMachineUIWidget?): Widget? = super.createMainPage(widget)
 

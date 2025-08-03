@@ -752,7 +752,7 @@ public final class RecipeAddition {
                     "OOO",
                     'G', new ItemStack(Blocks.GLASS),
                     'L', new MaterialEntry(TagPrefix.lens, GTMaterials.NetherStar),
-                    'S', new ItemStack(Items.NETHER_STAR),
+                    'S', new MaterialEntry(TagPrefix.gem, GTMaterials.NetherStar),
                     'O', new MaterialEntry(TagPrefix.plate, GTMaterials.Obsidian));
 
             VanillaRecipeHelper.addShapedRecipe(provider, "jack_o_lantern", new ItemStack(Blocks.JACK_O_LANTERN), "PT",

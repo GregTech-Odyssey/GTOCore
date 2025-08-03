@@ -141,6 +141,7 @@ public final class ManaMachine {
             .tooltipsText("§7Do not use it for cooking food", "§7不要用它来做饭")
             .tooltipsText("§7Alchemy is a mysterious process", "§7炼金是一个神秘的过程")
             .tooltipsText("§7The probability of partial recipe output increases with the number of runs", "§7部分配方产出概率随运行次数增长")
+            .tooltipsText("§7All recipes require heating", "§7所有配方都需要加热")
             .tooltipsKey("gtceu.fluid_pipe.max_temperature", 1600)
             .nonYAxisRotation()
             .modelRenderer(() -> GTOCore.id("block/machine/alchemy_cauldron"))

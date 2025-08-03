@@ -90,7 +90,7 @@ final class Ae2PatternTerminalHandler<T extends PatternEncodingTermMenu> impleme
         if (ingredient instanceof EmiStack stack) {
             return !(stack.getKey() instanceof MetaMachineItem meta) || !Hatch.Set.contains(meta.getBlock());
         }
-        return true;
+        return false;
     }
 
     private static List<GenericStack> ofOutputs(EmiRecipe emiRecipe) {

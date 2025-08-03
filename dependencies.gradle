@@ -8,7 +8,7 @@ dependencies {
     api(annotationProcessor("io.github.llamalad7:mixinextras-common:$project.mixinextras_version"))
     annotationProcessor 'org.spongepowered:mixin:0.8.7:processor'
 
-    modImplementation("com.lowdragmc.ldlib:ldlib-forge-$project.minecraft_version:$project.ldlib_version") { transitive false }
+    modImplementation("curse.maven:ldlib-626676:6792104")
 
     modImplementation("com.tterrag.registrate:Registrate:$project.registrate_version")
 

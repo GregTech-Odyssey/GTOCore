@@ -23,7 +23,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 public class MEOutputHatchPartMachine extends MEPartMachine {
 
     private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
-            MEOutputHatchPartMachine.class, MEPartMachine.MANAGED_FIELD_HOLDER);
+            MEOutputHatchPartMachine.class, MEPartMachine.Companion.getMANAGED_FIELD_HOLDER());
 
     @Persisted
     private final KeyMap internalBuffer;
@@ -40,7 +40,7 @@ public class MEOutputHatchPartMachine extends MEPartMachine {
         if (grid != null && !internalBuffer.isEmpty()) {
             for (var entry : internalBuffer) {
                 grid.getStorageService().getInventory().insert(entry.getKey(), entry.getLongValue(),
-                        Actionable.MODULATE, actionSource);
+                        Actionable.MODULATE, getActionSourceField());
             }
         }
     }
@@ -53,7 +53,7 @@ public class MEOutputHatchPartMachine extends MEPartMachine {
     @Override
     public Widget createUIWidget() {
         WidgetGroup group = new WidgetGroup(0, 0, 170, 65);
-        group.addWidget(new LabelWidget(5, 0, () -> this.isOnline ? "gtceu.gui.me_network.online" : "gtceu.gui.me_network.offline"));
+        group.addWidget(new LabelWidget(5, 0, () -> this.getOnlineField() ? "gtceu.gui.me_network.online" : "gtceu.gui.me_network.offline"));
         group.addWidget(new LabelWidget(5, 10, "gtceu.gui.waiting_list"));
         group.addWidget(new AEListGridWidget.Fluid(5, 20, 3, this.internalBuffer));
         return group;

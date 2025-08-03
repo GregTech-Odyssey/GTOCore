@@ -92,7 +92,7 @@ public class MEStockingHatchPartMachine extends MEInputHatchPartMachine implemen
                 var config = slot.getConfig();
                 if (config != null) {
                     var key = config.what();
-                    long extracted = networkInv.extract(key, Long.MAX_VALUE, Actionable.SIMULATE, actionSource);
+                    long extracted = networkInv.extract(key, Long.MAX_VALUE, Actionable.SIMULATE, getActionSourceField());
                     if (extracted > 0) {
                         slot.setStock(new GenericStack(key, extracted));
                         continue;
@@ -184,7 +184,7 @@ public class MEStockingHatchPartMachine extends MEInputHatchPartMachine implemen
             var what = stack.what();
             long amount = stack.amount();
 
-            long request = networkStorage.extract(what, amount, Actionable.SIMULATE, actionSource);
+            long request = networkStorage.extract(what, amount, Actionable.SIMULATE, getActionSourceField());
 
             var slot = this.aeFluidHandler.getInventory()[size - index - 1];
             slot.setConfig(new GenericStack(what, 1));
