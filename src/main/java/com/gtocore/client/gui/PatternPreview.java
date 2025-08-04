@@ -276,6 +276,22 @@ public final class PatternPreview extends WidgetGroup {
     }
 
     @Override
+    @OnlyIn(Dist.CLIENT)
+    public boolean mouseWheelMove(double mouseX, double mouseY, double wheelDelta) {
+        if (sceneWidget.isMouseOverElement(mouseX, mouseY)) {
+            double rotationPitch = Math.toRadians(sceneWidget.getRotationPitch());
+            double rotationYaw = Math.toRadians(sceneWidget.getRotationYaw());
+            float moveX = -(float) (wheelDelta * Math.cos(rotationYaw) * Math.cos(rotationPitch));
+            float moveY = (float) (wheelDelta * Math.sin(rotationYaw));
+            float moveZ = (float) (-wheelDelta * Math.cos(rotationYaw) * Math.sin(rotationPitch));
+            sceneWidget.setCenter(sceneWidget.getCenter().add(moveX, moveY, moveZ));
+            return true;
+        }
+
+        return super.mouseWheelMove(mouseX, mouseY, wheelDelta);
+    }
+
+    @Override
     public void updateScreen() {
         super.updateScreen();
         if (!isLoaded && Minecraft.getInstance().screen instanceof RecipeScreen) {

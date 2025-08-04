@@ -1,8 +1,10 @@
 package com.gtocore.common.data;
 
+import com.gtocore.api.misc.AutoInitializeImpl;
 import com.gtocore.client.renderer.item.HaloItemRenderer;
 import com.gtocore.client.renderer.item.OrderItemProviderRenderer;
 import com.gtocore.common.cover.PowerAmplifierCover;
+import com.gtocore.common.data.translation.GTOItemTooltips;
 import com.gtocore.common.item.*;
 import com.gtocore.common.item.armor.SpaceArmorComponentItem;
 import com.gtocore.common.item.misc.GrassHarvesterBehaviour;
@@ -58,6 +60,7 @@ public final class GTOItems {
     public static void init() {
         GTOOrganItems.INSTANCE.init();
         GTOAEParts.INSTANCE.init();
+        AutoInitializeImpl.INSTANCE.originInit();
         GTMaterials.Oxygen.getProperty(PropertyKey.FLUID).getStorage().store(FluidStorageKeys.GAS, ModFluids.OXYGEN, null);
         GTMaterials.Hydrogen.getProperty(PropertyKey.FLUID).getStorage().store(FluidStorageKeys.GAS, ModFluids.HYDROGEN, null);
         GTFluids.handleNonMaterialFluids(GTMaterials.Oil, ModFluids.OIL);
@@ -335,6 +338,7 @@ public final class GTOItems {
     public static final ItemEntry<ComponentItem> PATTERN_MODIFIER_PRO = item("pattern_modifier_pro", "样板修改器pro", ComponentItem::create)
             .properties(p -> p.stacksTo(1))
             .onRegister(attach(PatternModifierProBehavior.INSTANCE))
+            .onRegister(attach(new TooltipBehavior(GTOItemTooltips.INSTANCE.getPatternModifierTooltips()::apply)))
             .model(NonNullBiConsumer.noop())
             .register();
 

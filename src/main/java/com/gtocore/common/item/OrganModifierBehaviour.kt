@@ -2,6 +2,7 @@ package com.gtocore.common.item
 
 import com.gtocore.api.gui.ktflexible.textBlock
 import com.gtocore.common.data.GTOOrganItems.ORGAN_MODIFIER
+import com.gtocore.common.data.translation.OrganTranslation.organModifierName
 import com.gtocore.common.item.misc.OrganItemBase
 import com.gtocore.common.item.misc.OrganType
 import com.gtocore.utils.isNotEmpty
@@ -23,8 +24,6 @@ import com.gregtechceu.gtceu.api.gui.fancy.TabsWidget
 import com.gregtechceu.gtceu.api.gui.widget.SlotWidget
 import com.gregtechceu.gtceu.api.item.component.IItemUIFactory
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler
-import com.gtolib.api.annotation.Scanned
-import com.gtolib.api.annotation.language.RegisterLanguage
 import com.gtolib.api.gui.ktflexible.HBoxBuilder
 import com.gtolib.api.gui.ktflexible.blank
 import com.gtolib.api.gui.ktflexible.root
@@ -34,15 +33,9 @@ import com.lowdragmc.lowdraglib.gui.modular.ModularUI
 import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture
 import com.lowdragmc.lowdraglib.gui.texture.ItemStackTexture
 
-@Scanned
 class OrganModifierBehaviour :
     IItemUIFactory,
     IFancyUIProvider {
-    @Scanned
-    companion object {
-        @RegisterLanguage(cn = "器官修改器", en = "Organ Modifier")
-        const val name: String = "gtocore.item.organ_modifier.name"
-    }
     lateinit var player: Player
     override fun use(item: Item?, level: Level?, player: Player, usedHand: InteractionHand?): InteractionResultHolder<ItemStack?>? {
         this.player = player
@@ -119,5 +112,5 @@ class OrganModifierBehaviour :
     }
     override fun getTabIcon(): IGuiTexture? = ItemStackTexture(ORGAN_MODIFIER.get())
 
-    override fun getTitle(): Component? = Component.translatable(name)
+    override fun getTitle(): Component? = organModifierName.get()
 }

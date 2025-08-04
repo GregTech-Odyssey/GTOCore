@@ -6,11 +6,17 @@ import com.gtocore.integration.ae.WirelessMachinePersisted
 import com.gtocore.integration.ae.WirelessMachineRunTime
 
 import net.minecraft.MethodsReturnNonnullByDefault
+import net.minecraft.core.BlockPos
 import net.minecraft.core.Direction
+import net.minecraft.network.chat.Component
 import net.minecraft.server.level.ServerPlayer
+import net.minecraft.world.InteractionHand
+import net.minecraft.world.InteractionResult
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
+import net.minecraft.world.item.context.UseOnContext
+import net.minecraft.world.level.block.state.BlockState
 import net.minecraftforge.items.IItemHandlerModifiable
 
 import appeng.api.networking.IManagedGridNode
@@ -18,6 +24,7 @@ import appeng.api.networking.security.IActionSource
 import com.gregtechceu.gtceu.api.GTValues
 import com.gregtechceu.gtceu.api.capability.recipe.IO
 import com.gregtechceu.gtceu.api.gui.fancy.TabsWidget
+import com.gregtechceu.gtceu.api.item.tool.GTToolType
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity
 import com.gregtechceu.gtceu.api.machine.feature.IMachineLife
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IDistinctPart
@@ -31,6 +38,7 @@ import com.lowdragmc.lowdraglib.gui.modular.ModularUI
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder
+import com.mojang.datafixers.util.Pair
 
 import java.util.*
 import javax.annotation.ParametersAreNonnullByDefault
@@ -54,23 +62,59 @@ internal abstract class MEPartMachine(holder: IMachineBlockEntity, io: IO) :
     @Persisted
     protected var distinctField: Boolean = false
 
+    @Persisted
+    var isAllFacing: Boolean = false
+
     override fun getItemHandlerCap(side: Direction?, useCoverCapability: Boolean): IItemHandlerModifiable? = null
 
     override fun getFluidHandlerCap(side: Direction?, useCoverCapability: Boolean): IFluidHandlerModifiable? = null
 
+    override fun onToolClick(toolType: MutableSet<GTToolType>, itemStack: ItemStack, context: UseOnContext): Pair<GTToolType?, InteractionResult?> {
+        val result = super.onToolClick(toolType, itemStack, context)
+        if (result.second == InteractionResult.PASS && toolType.contains(GTToolType.WIRE_CUTTER)) {
+            val player = context.player
+            if (player == null) return result
+            return Pair.of<GTToolType?, InteractionResult?>(GTToolType.WIRE_CUTTER, onWireCutterClick(player, context.hand))
+        }
+        return result
+    }
+
+    override fun shouldRenderGrid(player: Player, pos: BlockPos, state: BlockState, held: ItemStack, toolTypes: MutableSet<GTToolType?>): Boolean = super.shouldRenderGrid(player, pos, state, held, toolTypes) || toolTypes.contains(GTToolType.WIRE_CUTTER)
+
+    private fun onWireCutterClick(playerIn: Player, hand: InteractionHand): InteractionResult {
+        playerIn.swing(hand)
+        if (isAllFacing) {
+            getMainNode().setExposedOnSides(EnumSet.of(this.getFrontFacing()))
+            if (isRemote) {
+                playerIn.displayClientMessage(Component.translatable("gtocore.me_front"), true)
+            }
+            isAllFacing = false
+        } else {
+            getMainNode().setExposedOnSides(EnumSet.allOf(Direction::class.java))
+            if (isRemote) {
+                playerIn.displayClientMessage(Component.translatable("gtocore.me_any"), true)
+            }
+            isAllFacing = true
+        }
+        return InteractionResult.CONSUME
+    }
+
     override fun onLoad() {
         super.onLoad()
-        if (holder.self().persistentData.getBoolean("isAllFacing")) {
+        if (isAllFacing) {
             mainNode.setExposedOnSides(EnumSet.allOf(Direction::class.java))
         }
+        if (isRemote) return
         onWirelessMachineLoad()
+        handlerList.isDistinct = distinctField
+        handlerList.setColor(paintingColor)
     }
 
     override fun getMainNode(): IManagedGridNode = nodeHolder.getMainNode()
 
     override fun onRotated(oldFacing: Direction, newFacing: Direction) {
         super.onRotated(oldFacing, newFacing)
-        mainNode.setExposedOnSides(EnumSet.of<Direction?>(newFacing))
+        mainNode.setExposedOnSides(EnumSet.of(newFacing))
     }
 
     override fun getFieldHolder(): ManagedFieldHolder = MANAGED_FIELD_HOLDER

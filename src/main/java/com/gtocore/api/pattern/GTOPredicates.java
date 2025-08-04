@@ -132,6 +132,16 @@ public final class GTOPredicates {
         }), "MEStorageCore", GTOBlocks.T1_ME_STORAGE_CORE.get(), GTOBlocks.T2_ME_STORAGE_CORE.get(), GTOBlocks.T3_ME_STORAGE_CORE.get(), GTOBlocks.T4_ME_STORAGE_CORE.get(), GTOBlocks.T5_ME_STORAGE_CORE.get());
     }
 
+    public static TraceabilityPredicate craftingStorageCore() {
+        return containerBlock(() -> new FunctionContainer<>(new double[2], (data, state) -> {
+            if (state.getBlockState().getBlock() instanceof MEStorageCoreBlock block) {
+                data[0] += block.getCapacity();
+                data[1]++;
+            }
+            return data;
+        }), "CraftingStorageCore", GTOBlocks.T1_CRAFTING_STORAGE_CORE.get(), GTOBlocks.T2_CRAFTING_STORAGE_CORE.get(), GTOBlocks.T3_CRAFTING_STORAGE_CORE.get(), GTOBlocks.T4_CRAFTING_STORAGE_CORE.get(), GTOBlocks.T5_CRAFTING_STORAGE_CORE.get());
+    }
+
     public static TraceabilityPredicate wirelessEnergyUnit() {
         return containerBlock(() -> new FunctionContainer<>(new ArrayList<WirelessEnergyUnitBlock>(), (data, state) -> {
             if (state.getBlockState().getBlock() instanceof WirelessEnergyUnitBlock block) {
@@ -168,7 +178,7 @@ public final class GTOPredicates {
         return containerBlock(() -> new FunctionContainer<>(0, (integer, state) -> ++integer), name, blocks);
     }
 
-    private static <T> TraceabilityPredicate containerBlock(Supplier<FunctionContainer<T, MultiblockState>> containerSupplier, String name, Block... blocks) {
+    public static <T> TraceabilityPredicate containerBlock(Supplier<FunctionContainer<T, MultiblockState>> containerSupplier, String name, Block... blocks) {
         TraceabilityPredicate predicate = Predicates.blocks(blocks);
         return new TraceabilityPredicate(new SimplePredicate(state -> {
             if (predicate.test(state)) {

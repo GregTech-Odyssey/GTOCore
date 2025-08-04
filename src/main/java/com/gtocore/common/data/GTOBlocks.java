@@ -19,9 +19,6 @@ import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.material.MapColor;
 
-import appeng.block.crafting.CraftingUnitBlock;
-import appeng.blockentity.AEBaseBlockEntity;
-import appeng.blockentity.crafting.CraftingBlockEntity;
 import com.tterrag.registrate.util.entry.BlockEntry;
 import com.tterrag.registrate.util.nullness.NonNullBiConsumer;
 
@@ -33,35 +30,7 @@ public final class GTOBlocks {
     public static void init() {
         GTORegistration.GTO.creativeModeTab(() -> null);
         REACTOR_CORE = createStoneBlock("reactor_core", "远古反应核", GTOCore.id("block/multiblock/ancient_reactor_core/overlay_front"));
-        GTORegistration.GTO.blockEntity("crafting_storage", CraftingBlockEntity::new)
-                .validBlocks(
-                        CRAFTING_STORAGE_1M,
-                        CRAFTING_STORAGE_4M,
-                        CRAFTING_STORAGE_16M,
-                        CRAFTING_STORAGE_64M,
-                        CRAFTING_STORAGE_256M,
-                        CRAFTING_STORAGE_MAX)
-                .onRegister(type -> {
-                    for (CraftingUnitType craftingUnitType : CraftingUnitType.values()) {
-                        AEBaseBlockEntity.registerBlockEntityItem(type, craftingUnitType.getItemFromType());
-                        craftingUnitType.getDefinition().get().setBlockEntity(CraftingBlockEntity.class, type, null, null);
-                    }
-                })
-                .register();
     }
-
-    public static final BlockEntry<CraftingUnitBlock> CRAFTING_STORAGE_1M = registerCraftingUnitBlock(1,
-            CraftingUnitType.STORAGE_1M);
-    public static final BlockEntry<CraftingUnitBlock> CRAFTING_STORAGE_4M = registerCraftingUnitBlock(4,
-            CraftingUnitType.STORAGE_4M);
-    public static final BlockEntry<CraftingUnitBlock> CRAFTING_STORAGE_16M = registerCraftingUnitBlock(16,
-            CraftingUnitType.STORAGE_16M);
-    public static final BlockEntry<CraftingUnitBlock> CRAFTING_STORAGE_64M = registerCraftingUnitBlock(64,
-            CraftingUnitType.STORAGE_64M);
-    public static final BlockEntry<CraftingUnitBlock> CRAFTING_STORAGE_256M = registerCraftingUnitBlock(256,
-            CraftingUnitType.STORAGE_256M);
-    public static final BlockEntry<CraftingUnitBlock> CRAFTING_STORAGE_MAX = registerCraftingUnitBlock(-1,
-            CraftingUnitType.STORAGE_MAX);
 
     public static final BlockEntry<GelidCryotheumBlock> GELID_CRYOTHEUM = block("gelid_cryotheum", "极寒之凛冰", GelidCryotheumBlock::new)
             .blockstate(NonNullBiConsumer.noop())
@@ -174,6 +143,12 @@ public final class GTOBlocks {
     public static final BlockEntry<MEStorageCoreBlock> T3_ME_STORAGE_CORE = createMEStorageCore(3);
     public static final BlockEntry<MEStorageCoreBlock> T4_ME_STORAGE_CORE = createMEStorageCore(4);
     public static final BlockEntry<MEStorageCoreBlock> T5_ME_STORAGE_CORE = createMEStorageCore(5);
+
+    public static final BlockEntry<MEStorageCoreBlock> T1_CRAFTING_STORAGE_CORE = createCraftingStorageCore(1);
+    public static final BlockEntry<MEStorageCoreBlock> T2_CRAFTING_STORAGE_CORE = createCraftingStorageCore(2);
+    public static final BlockEntry<MEStorageCoreBlock> T3_CRAFTING_STORAGE_CORE = createCraftingStorageCore(3);
+    public static final BlockEntry<MEStorageCoreBlock> T4_CRAFTING_STORAGE_CORE = createCraftingStorageCore(4);
+    public static final BlockEntry<MEStorageCoreBlock> T5_CRAFTING_STORAGE_CORE = createCraftingStorageCore(5);
 
     public static final BlockEntry<Block> FUSION_CASING_MK4 = createCasingBlock("fusion_casing_mk4", "聚变机械方块 MK-IV", GTOCore.id("block/casings/fusion/fusion_casing_mk4"));
     public static final BlockEntry<Block> FUSION_CASING_MK5 = createCasingBlock("fusion_casing_mk5", "聚变机械方块 MK-V", GTOCore.id("block/casings/fusion/fusion_casing_mk5"));

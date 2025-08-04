@@ -6,6 +6,7 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.world.level.EmptyBlockGetter;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 
@@ -15,7 +16,7 @@ import it.unimi.dsi.fastutil.chars.Char2ObjectOpenHashMap;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.mojang.blaze3d.vertex.DefaultVertexFormat.POSITION_TEX;
+import static com.mojang.blaze3d.vertex.DefaultVertexFormat.BLOCK;
 
 public class StructureVBO {
 
@@ -44,10 +45,10 @@ public class StructureVBO {
     private boolean isOpaqueAt(int x, int y, int z) {
         char letter = structure[x][y].charAt(z);
         if (letter == ' ') return false;
-        Block info = mapper.get(letter);
-        if (info == null) return false;
-        if (info == Blocks.AIR) return false;
-        return info.defaultBlockState().isSolidRender(Minecraft.getInstance().level, BlockPos.ZERO);
+        Block block = mapper.get(letter);
+        if (block == null) return false;
+        if (block == Blocks.AIR) return false;
+        return block.defaultBlockState().isSolidRender(Minecraft.getInstance().level, BlockPos.ZERO);
     }
 
     private List<Direction> getVisibleFaces(int x, int y, int z) {
@@ -67,7 +68,7 @@ public class StructureVBO {
     public VertexBuffer build() {
         VertexBuffer buffer = new VertexBuffer(VertexBuffer.Usage.STATIC);
         BufferBuilder bufferBuilder = Tesselator.getInstance().getBuilder();
-        bufferBuilder.begin(VertexFormat.Mode.QUADS, POSITION_TEX);
+        bufferBuilder.begin(VertexFormat.Mode.QUADS, BLOCK);
         Minecraft mc = Minecraft.getInstance();
         FaceCulledRenderBlocks renderer = new FaceCulledRenderBlocks(mc, mc.getTextureManager(), mc.getModelManager(), mc.getItemColors(), mc.getItemRenderer().getBlockEntityRenderer());
         PoseStack poseStack = new PoseStack();
@@ -79,17 +80,17 @@ public class StructureVBO {
                 for (int z = 0; z < row.length(); z++) {
                     char letter = row.charAt(z);
                     if (letter == ' ') continue;
-                    Block info = mapper.get(letter);
-                    if (info == null) {
+                    Block block = mapper.get(letter);
+                    if (block == null) {
                         continue;
                     }
-                    if (info == Blocks.AIR) continue;
+                    if (block == Blocks.AIR) continue;
 
                     List<Direction> faceInfo = getVisibleFaces(x, y, z);
 
                     if (faceInfo.isEmpty()) continue;
 
-                    BakedModel model = Minecraft.getInstance().getBlockRenderer().getBlockModel(info.defaultBlockState());
+                    BakedModel model = Minecraft.getInstance().getBlockRenderer().getBlockModel(block.defaultBlockState());
                     renderer.setDirections(faceInfo);
 
                     poseStack.pushPose();
@@ -98,7 +99,8 @@ public class StructureVBO {
                             -plane.length / 2f + y,
                             -row.length() / 2f + z);
 
-                    renderer.renderModelLists(model, info.asItem().getDefaultInstance(), LightTexture.FULL_BLOCK, OverlayTexture.NO_OVERLAY, poseStack, bufferBuilder);
+                    int light = block.getLightEmission(block.defaultBlockState(), EmptyBlockGetter.INSTANCE, BlockPos.ZERO);
+                    renderer.renderModelLists(model, block.asItem().getDefaultInstance(), LightTexture.pack(light, 13), OverlayTexture.NO_OVERLAY, poseStack, bufferBuilder);
                     poseStack.popPose();
                 }
             }

@@ -1,6 +1,8 @@
 package com.gtocore.common.data
 
 import com.gtocore.common.data.GTOOrganItems.TierOrganTypes
+import com.gtocore.common.data.translation.OrganTranslation
+import com.gtocore.common.data.translation.OrganTranslation.organModifierDescriptions
 import com.gtocore.common.item.OrganModifierBehaviour
 import com.gtocore.common.item.misc.OrganItemBase
 import com.gtocore.common.item.misc.OrganItemBase.OrganItem
@@ -13,6 +15,7 @@ import com.gregtechceu.gtceu.api.GTValues
 import com.gregtechceu.gtceu.api.item.ComponentItem
 import com.gregtechceu.gtceu.api.item.component.ElectricStats
 import com.gregtechceu.gtceu.common.data.GTItems.attach
+import com.gregtechceu.gtceu.common.item.TooltipBehavior
 import com.gtolib.GTOCore
 import com.gtolib.utils.register.ItemRegisterUtils.item
 import com.tterrag.registrate.util.entry.ItemEntry
@@ -28,8 +31,28 @@ object GTOOrganItems {
     // ////////////////////////////////
     // ****** 翅膀 ******//
     // //////////////////////////////
-    val FAIRY_WING = OrganItemBase.registerOrganItem(id = "fairy_wing", organType = OrganType.Wing, resourceName = "fairy_wing", en = "Fairy Wing", cn = "翅膀 妖精之翼", itemFactory = { properties, organType -> OrganItem(properties.durability(4.hours.toSeconds()), organType) })
-    val MANA_STEEL_WING = OrganItemBase.registerOrganItem(id = "mana_steel_wing", organType = OrganType.Wing, resourceName = "mana_steel_wing", en = "Mana Steel Wing", cn = "翅膀 魔力钢之翼", itemFactory = { properties, organType -> OrganItem(properties.durability(15.minutes.toSeconds()), organType) })
+    val FAIRY_WING = OrganItemBase.registerOrganItem(
+        id = "fairy_wing",
+        organType = OrganType.Wing,
+        resourceName = "fairy_wing",
+        en = "Fairy Wing",
+        cn = "翅膀 妖精之翼",
+        itemFactory = { properties, organType -> OrganItem(properties.durability(4.hours.toSeconds()), organType) },
+        onRegister = attach(
+            TooltipBehavior(OrganTranslation.flightInfo2::apply),
+        ),
+    )
+    val MANA_STEEL_WING = OrganItemBase.registerOrganItem(
+        id = "mana_steel_wing",
+        organType = OrganType.Wing,
+        resourceName = "mana_steel_wing",
+        en = "Mana Steel Wing",
+        cn = "翅膀 魔力钢之翼",
+        itemFactory = { properties, organType -> OrganItem(properties.durability(15.minutes.toSeconds()), organType) },
+        onRegister = attach(
+            TooltipBehavior(OrganTranslation.flightInfo2::apply),
+        ),
+    )
     val MECHANICAL_WING = OrganItemBase.registerOrganItem(
         id = "mechanical_wing",
         organType = OrganType.Wing,
@@ -52,6 +75,7 @@ object GTOOrganItems {
         .lang("Organ Modifier")
         .model { ctx, prov -> prov.generated(ctx, GTOCore.id("item/organ/item/visceral_editor")) }
         .onRegister(attach(OrganModifierBehaviour()))
+        .onRegister(attach(TooltipBehavior(organModifierDescriptions::apply)))
         .register()
     val TierOrganTypes = listOf(OrganType.Eye, OrganType.Spine, OrganType.Lung, OrganType.Liver, OrganType.Heart, OrganType.LeftArm, OrganType.RightArm, OrganType.LeftLeg, OrganType.RightLeg)
     val TierOrganMap = mutableMapOf<OrganType, MutableList<ItemEntry<TierOrganItem>>>()

@@ -661,8 +661,7 @@ final class Assembler {
                 .save();
 
         ASSEMBLER_RECIPES.recipeBuilder("module_connector")
-                .inputItems(GTMachines.ITEM_PASSTHROUGH_HATCH[GTValues.HV].asStack(64))
-                .inputItems(GTMachines.FLUID_PASSTHROUGH_HATCH[GTValues.HV].asStack(64))
+                .inputItems(GTMachines.BUFFER[UV].asStack(64))
                 .inputItems(CustomTags.ZPM_CIRCUITS, 2)
                 .inputItems(TagPrefix.cableGtSingle, GTMaterials.Trinium, 4)
                 .inputItems(TagPrefix.plateDouble, GTMaterials.Manganese, 16)
@@ -4386,6 +4385,90 @@ final class Assembler {
                 .outputItems(GTOMachines.ADVANCED_TESSERACT_GENERATOR.asStack())
                 .EUt(1920)
                 .duration(400)
+                .save();
+
+        ASSEMBLER_RECIPES.builder("me_big_storage_access_hatch")
+                .inputItems(GTAEMachines.ME_STORAGE_ACCESS_HATCH.asStack())
+                .inputItems("expatternprovider:oversize_interface", 16)
+                .inputItems(new ItemStack(AEItems.CAPACITY_CARD.asItem(), 32))
+                .inputItems(new ItemStack(AEItems.SPEED_CARD.asItem(), 32))
+                .inputItems(GTItems.FIELD_GENERATOR_IV.asStack())
+                .outputItems(GTAEMachines.ME_BIG_STORAGE_ACCESS_HATCH.asStack())
+                .EUt(7680)
+                .duration(400)
+                .save();
+
+        ASSEMBLER_RECIPES.builder("crafting_cpu_interface")
+                .inputItems(GTMachines.HULL[GTValues.HV].asStack())
+                .inputItems("expatternprovider:oversize_interface")
+                .inputItems("ae2:storage_bus", 4)
+                .inputItems(GTItems.SENSOR_HV.asStack(4))
+                .outputItems(GTAEMachines.CRAFTING_CPU_INTERFACE.asStack())
+                .EUt(480)
+                .duration(400)
+                .save();
+
+        ASSEMBLER_RECIPES.builder("me_cpu")
+                .inputItems(new ItemStack(AEBlocks.CRAFTING_MONITOR.block().asItem()))
+                .inputItems(GTItems.QUBIT_CENTRAL_PROCESSING_UNIT.asStack(32))
+                .inputItems(GTItems.TOOL_DATA_STICK.asStack(16))
+                .inputItems(GTItems.EMITTER_EV.asStack(8))
+                .inputItems(GTItems.SENSOR_EV.asStack(8))
+                .inputItems(CustomTags.IV_CIRCUITS, 16)
+                .inputItems(TagPrefix.plateDouble, GTMaterials.Titanium, 32)
+                .outputItems(MultiBlockG.ME_CPU.asStack())
+                .EUt(1920)
+                .duration(800)
+                .save();
+
+        ASSEMBLER_RECIPES.builder("t1_crafting_storage_core")
+                .inputItems(new ItemStack(AEBlocks.CRAFTING_UNIT.block().asItem()))
+                .inputItems(GTOBlocks.T1_ME_STORAGE_CORE.asStack())
+                .inputItems(new ItemStack(AEBlocks.CRAFTING_ACCELERATOR.block().asItem()))
+                .inputItems(new ItemStack(AEItems.ADVANCED_CARD.asItem(), 4))
+                .outputItems(GTOBlocks.T1_CRAFTING_STORAGE_CORE.asStack())
+                .EUt(1920)
+                .duration(200)
+                .save();
+
+        ASSEMBLER_RECIPES.builder("t2_crafting_storage_core")
+                .inputItems(new ItemStack(AEBlocks.CRAFTING_UNIT.block().asItem()))
+                .inputItems(GTOBlocks.T2_ME_STORAGE_CORE.asStack())
+                .inputItems(new ItemStack(AEBlocks.CRAFTING_ACCELERATOR.block().asItem()))
+                .inputItems(new ItemStack(AEItems.ADVANCED_CARD.asItem(), 4))
+                .outputItems(GTOBlocks.T2_CRAFTING_STORAGE_CORE.asStack())
+                .EUt(7680)
+                .duration(200)
+                .save();
+
+        ASSEMBLER_RECIPES.builder("t3_crafting_storage_core")
+                .inputItems(new ItemStack(AEBlocks.CRAFTING_UNIT.block().asItem()))
+                .inputItems(GTOBlocks.T3_ME_STORAGE_CORE.asStack())
+                .inputItems(new ItemStack(AEBlocks.CRAFTING_ACCELERATOR.block().asItem()))
+                .inputItems(new ItemStack(AEItems.ADVANCED_CARD.asItem(), 4))
+                .outputItems(GTOBlocks.T3_CRAFTING_STORAGE_CORE.asStack())
+                .EUt(30720)
+                .duration(200)
+                .save();
+
+        ASSEMBLER_RECIPES.builder("t4_crafting_storage_core")
+                .inputItems(new ItemStack(AEBlocks.CRAFTING_UNIT.block().asItem()))
+                .inputItems(GTOBlocks.T4_ME_STORAGE_CORE.asStack())
+                .inputItems(new ItemStack(AEBlocks.CRAFTING_ACCELERATOR.block().asItem()))
+                .inputItems(new ItemStack(AEItems.ADVANCED_CARD.asItem(), 4))
+                .outputItems(GTOBlocks.T4_CRAFTING_STORAGE_CORE.asStack())
+                .EUt(122880)
+                .duration(200)
+                .save();
+
+        ASSEMBLER_RECIPES.builder("t5_crafting_storage_core")
+                .inputItems(new ItemStack(AEBlocks.CRAFTING_UNIT.block().asItem()))
+                .inputItems(GTOBlocks.T5_ME_STORAGE_CORE.asStack())
+                .inputItems(new ItemStack(AEBlocks.CRAFTING_ACCELERATOR.block().asItem()))
+                .inputItems(new ItemStack(AEItems.ADVANCED_CARD.asItem(), 4))
+                .outputItems(GTOBlocks.T5_CRAFTING_STORAGE_CORE.asStack())
+                .EUt(491520)
+                .duration(200)
                 .save();
     }
 }

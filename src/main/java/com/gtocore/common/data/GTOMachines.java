@@ -7,6 +7,7 @@ import com.gtocore.client.renderer.machine.MonitorRenderer;
 import com.gtocore.client.renderer.machine.WindMillTurbineRenderer;
 import com.gtocore.common.blockentity.TesseractBlockEntity;
 import com.gtocore.common.data.machines.*;
+import com.gtocore.common.data.translation.GTOMachineTranslation;
 import com.gtocore.common.machine.electric.AdvancedTesseractMachine;
 import com.gtocore.common.machine.electric.ElectricHeaterMachine;
 import com.gtocore.common.machine.electric.TesseractMachine;
@@ -21,8 +22,8 @@ import com.gtocore.common.machine.noenergy.BoilWaterMachine;
 import com.gtocore.common.machine.noenergy.HeaterMachine;
 import com.gtocore.common.machine.noenergy.PerformanceMonitorMachine;
 import com.gtocore.common.machine.steam.SteamVacuumPumpMachine;
+import com.gtocore.integration.ae.MeWirelessConnectMachine;
 import com.gtocore.integration.ae.SyncTesterMachine;
-import com.gtocore.integration.ae.WirelessTester;
 
 import com.gtolib.GTOCore;
 import com.gtolib.api.GTOValues;
@@ -205,15 +206,7 @@ public final class GTOMachines {
             .recipeType(GTRecipeTypes.DUMMY_RECIPES)
             .noRecipeModifier()
             .nonYAxisRotation()
-            .tooltipsText("Warning: Do not let the machine overheat, or it will explode.",
-                    "警告：不要让机器过热，否则会爆炸。")
-            .tooltipsText("Warning: Do not touch the machine when it is working, or you will be burned.",
-                    "警告：机器工作时不要触摸，否则会被烧伤。")
-            .tooltipsText("Emits redstone signal according to the temperature.",
-                    "根据温度发出红石信号。")
-            .tooltipsText("Stop heating after front side is blocked.",
-                    "前方被阻挡后停止加热。")
-            .tooltipsKey("gtceu.fluid_pipe.max_temperature", 800)
+            .tooltips(GTOMachineTranslation.INSTANCE.getHeaterMachineTooltips().getArray())
             .renderer(() -> new HeaterRenderer(ULV))
             .register();
 
@@ -223,8 +216,7 @@ public final class GTOMachines {
             .recipeType(GTRecipeTypes.DUMMY_RECIPES)
             .noRecipeModifier()
             .nonYAxisRotation()
-            .tooltipsText("Need an external heat source to work.", "需要外部热源才能工作。")
-            .tooltipsText("When the temperature is greater than %s and it stops working, if machine will still have water, and it will explode.", "当温度大于%sK且停止工作时，机器仍然存有水，会爆炸。", BoilWaterMachine.DrawWaterExplosionLine)
+            .tooltips(GTOMachineTranslation.INSTANCE.getBoilWaterMachineTooltips().getArray())
             .tooltips(Component.translatable("gtocore.machine.boiler.tooltip.warning"))
             .tooltipsKey("gtceu.universal.tooltip.produces_fluid", 48)
             .tooltipsKey("gtceu.fluid_pipe.max_temperature", 600)
@@ -233,7 +225,7 @@ public final class GTOMachines {
 
     public static final MachineDefinition PERFORMANCE_MONITOR = machine("performance_monitor", "性能监控器", PerformanceMonitorMachine::new)
             .nonYAxisRotation()
-            .tooltipsText("Can monitor the average latency of all machines within 2 seconds and support highlighting.", "能监测全部机器2秒内的平均延迟，并支持高亮显示。")
+            .tooltips(GTOMachineTranslation.INSTANCE.getPerformanceMonitorMachineTooltips().getArray())
             .workableTieredHullRenderer(GTMThings.id("block/machines/wireless_energy_monitor"))
             .tier(LV)
             .register();
@@ -244,9 +236,7 @@ public final class GTOMachines {
             .recipeType(GTORecipeTypes.MANA_HEATER_RECIPES)
             .noRecipeModifier()
             .nonYAxisRotation()
-            .tooltipsText("Start heating after power on. This machine will not explode.",
-                    "通电后开始加热。不会爆炸。")
-            .tooltipsKey("gtceu.fluid_pipe.max_temperature", 1200)
+            .tooltips(GTOMachineTranslation.INSTANCE.getElectricHeaterMachineTooltips().getArray())
             .renderer(() -> new HeaterRenderer(LV))
             .register();
 
@@ -457,7 +447,7 @@ public final class GTOMachines {
                             The more items in a row, the higher its priority.""")))
             .register();
 
-    public static final MachineDefinition ME_WIRELESS_CONNECTION_MACHINE = machine("me_wireless_connection_machine", "ME无线连接机", WirelessTester::new)
+    public static final MachineDefinition ME_WIRELESS_CONNECTION_MACHINE = machine("me_wireless_connection_machine", "ME无线连接机", MeWirelessConnectMachine::new)
             .overlayTieredHullRenderer("neutron_sensor")
             .tooltips(NewDataAttributes.MIRACULOUS_TOOLS.create(new CNEN("ME无线连接机", "ME Wireless Connection Machine"), p -> p.addCommentLines(
                     """

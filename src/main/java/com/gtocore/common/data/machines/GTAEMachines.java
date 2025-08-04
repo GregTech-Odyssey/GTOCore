@@ -2,6 +2,8 @@ package com.gtocore.common.data.machines;
 
 import com.gtocore.common.machine.multiblock.part.ae.*;
 
+import com.gtolib.ae2.machine.MECPUMachine;
+
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
@@ -16,6 +18,14 @@ import static com.gtolib.utils.register.MachineRegisterUtils.machine;
 public final class GTAEMachines {
 
     public static void init() {}
+
+    public static final MachineDefinition CRAFTING_CPU_INTERFACE = machine("crafting_cpu_interface", "合成CPU接口", MECPUMachine::createPart)
+            .langValue("Crafting CPU Interface")
+            .tier(HV)
+            .allRotation()
+            .notAllowSharedTooltips()
+            .renderer(() -> new OverlayTieredMachineRenderer(HV, GTCEu.id("block/machine/part/me_pattern_buffer")))
+            .register();
 
     public static final MachineDefinition ME_BIG_STORAGE_ACCESS_HATCH = machine("me_big_storage_access_hatch", "ME大存储访问仓", MEBigStorageAccessPartMachine::new)
             .langValue("ME Big Storage Access Hatch")

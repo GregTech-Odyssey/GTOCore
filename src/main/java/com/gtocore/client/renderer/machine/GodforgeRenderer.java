@@ -16,6 +16,7 @@ import com.gregtechceu.gtceu.client.renderer.GTRenderTypes;
 import com.gregtechceu.gtceu.client.renderer.machine.WorkableCasingMachineRenderer;
 import com.gregtechceu.gtceu.client.util.BloomUtils;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -111,8 +112,9 @@ public final class GodforgeRenderer extends WorkableCasingMachineRenderer {
         RenderSystem.blendFunc(
                 GlStateManager.SourceFactor.SRC_ALPHA,
                 GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
-        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        RenderSystem.setShader(GameRenderer::getRendertypeSolidShader);
         RenderSystem.setShaderTexture(0, InventoryMenu.BLOCK_ATLAS);
+        Minecraft.getInstance().gameRenderer.lightTexture().turnOnLightLayer();
         textureUpdateRequester.requestUpdate();
         poseStack.pushPose();
         // move the model to correct pos and rotate model to face machine

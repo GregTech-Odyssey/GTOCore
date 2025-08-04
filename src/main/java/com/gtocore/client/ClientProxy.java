@@ -4,7 +4,6 @@ import com.gtocore.client.forge.ForgeClientEvent;
 import com.gtocore.client.forge.GTOComponentHandler;
 import com.gtocore.client.renderer.item.MonitorItemDecorations;
 import com.gtocore.common.CommonProxy;
-import com.gtocore.common.data.GTOBlocks;
 import com.gtocore.common.data.GTOFluids;
 import com.gtocore.common.forge.render.GTOComponentRegistry;
 import com.gtocore.common.machine.monitor.MonitorBlockItem;
@@ -35,18 +34,11 @@ public final class ClientProxy extends CommonProxy {
     }
 
     private static void init() {
-        CraftingUnitModelProvider.initCraftingUnitModels();
         KeyBind.init();
     }
 
     @SuppressWarnings("all")
     private static void clientSetup(FMLClientSetupEvent event) {
-        ItemBlockRenderTypes.setRenderLayer(GTOBlocks.CRAFTING_STORAGE_1M.get(), RenderType.cutout());
-        ItemBlockRenderTypes.setRenderLayer(GTOBlocks.CRAFTING_STORAGE_4M.get(), RenderType.cutout());
-        ItemBlockRenderTypes.setRenderLayer(GTOBlocks.CRAFTING_STORAGE_16M.get(), RenderType.cutout());
-        ItemBlockRenderTypes.setRenderLayer(GTOBlocks.CRAFTING_STORAGE_64M.get(), RenderType.cutout());
-        ItemBlockRenderTypes.setRenderLayer(GTOBlocks.CRAFTING_STORAGE_256M.get(), RenderType.cutout());
-        ItemBlockRenderTypes.setRenderLayer(GTOBlocks.CRAFTING_STORAGE_MAX.get(), RenderType.cutout());
         ItemBlockRenderTypes.setRenderLayer(GTOFluids.GELID_CRYOTHEUM.get(), RenderType.translucent());
         ItemBlockRenderTypes.setRenderLayer(GTOFluids.FLOWING_GELID_CRYOTHEUM.get(), RenderType.translucent());
     }

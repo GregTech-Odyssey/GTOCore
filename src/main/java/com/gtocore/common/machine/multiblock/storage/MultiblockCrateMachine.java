@@ -39,6 +39,7 @@ public class MultiblockCrateMachine extends MultiblockControllerMachine implemen
 
     public static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
             MultiblockCrateMachine.class, MultiblockControllerMachine.MANAGED_FIELD_HOLDER);
+    public static final int Capacity = 576;
 
     @Override
     public @NotNull ManagedFieldHolder getFieldHolder() {
@@ -50,7 +51,7 @@ public class MultiblockCrateMachine extends MultiblockControllerMachine implemen
 
     public MultiblockCrateMachine(IMachineBlockEntity holder) {
         super(holder);
-        this.inventory = new NotifiableItemStackHandler(this, 576, IO.BOTH);
+        this.inventory = new NotifiableItemStackHandler(this, Capacity, IO.BOTH);
     }
 
     @Override
@@ -74,7 +75,7 @@ public class MultiblockCrateMachine extends MultiblockControllerMachine implemen
     public ModularUI createUI(Player entityPlayer) {
         int xOffset = 162;
         int yOverflow = 9;
-        // int yOffset = (576 - 3 * yOverflow) / yOverflow * 18;
+        // int yOffset = (Capacity - 3 * yOverflow) / yOverflow * 18;
         var modularUI = new ModularUI(xOffset + 19, 244, this, entityPlayer)
                 .background(GuiTextures.BACKGROUND)
                 .widget(new LabelWidget(5, 5, getBlockState().getBlock().getDescriptionId()))
@@ -88,7 +89,7 @@ public class MultiblockCrateMachine extends MultiblockControllerMachine implemen
                 (press) -> ClientMessage.send("sortInventory", GTOUtils.noopConsumer())));
         int x = 0;
         int y = 0;
-        for (int slot = 0; slot < 576; slot++) {
+        for (int slot = 0; slot < Capacity; slot++) {
             innerContainer.addWidget(new SlotWidget(inventory, slot, x * 18, y * 18).setBackgroundTexture(GuiTextures.SLOT));
             x++;
             if (x == yOverflow) {

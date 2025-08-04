@@ -107,6 +107,14 @@ public class MEStockingHatchPartMachine extends MEInputHatchPartMachine implemen
     protected void flushInventory() {}
 
     @Override
+    public void setDistinct(boolean isDistinct) {
+        super.setDistinct(isDistinct);
+        if (!isRemote() && !isDistinct) {
+            validateConfig();
+        }
+    }
+
+    @Override
     public IConfigurableSlotList getSlotList() {
         return aeFluidHandler;
     }

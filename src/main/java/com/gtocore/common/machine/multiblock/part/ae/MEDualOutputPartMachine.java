@@ -1,0 +1,75 @@
+package com.gtocore.common.machine.multiblock.part.ae;
+
+import com.gtolib.api.machine.trait.InaccessibleInfiniteHandler;
+import com.gtolib.api.machine.trait.InaccessibleInfiniteTank;
+import com.gtolib.utils.KeyMap;
+
+import com.gregtechceu.gtceu.api.capability.recipe.IO;
+import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.integration.ae2.gui.widget.list.AEListGridWidget;
+
+import net.minecraft.MethodsReturnNonnullByDefault;
+
+import appeng.api.config.Actionable;
+import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
+import com.lowdragmc.lowdraglib.gui.widget.Widget;
+import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
+import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
+import com.lowdragmc.lowdraglib.utils.Position;
+
+import javax.annotation.ParametersAreNonnullByDefault;
+
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
+public class MEDualOutputPartMachine extends MEPartMachine {
+
+    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
+            MEDualOutputPartMachine.class, MEPartMachine.Companion.getMANAGED_FIELD_HOLDER());
+
+    @Override
+    public ManagedFieldHolder getFieldHolder() {
+        return MANAGED_FIELD_HOLDER;
+    }
+
+    @Persisted
+    private final KeyMap internalBuffer;
+    @Persisted
+    private final KeyMap internalTankBuffer;
+
+    public MEDualOutputPartMachine(IMachineBlockEntity holder) {
+        super(holder, IO.OUT);
+        internalBuffer = new KeyMap();
+        new InaccessibleInfiniteHandler(this, internalBuffer);
+        internalTankBuffer = new KeyMap();
+        new InaccessibleInfiniteTank(this, internalTankBuffer);
+    }
+
+    @Override
+    public void onMachineRemoved() {
+        var grid = getMainNode().getGrid();
+        if (grid != null) {
+            if (!internalBuffer.isEmpty()) {
+                for (var entry : internalBuffer) {
+                    grid.getStorageService().getInventory().insert(entry.getKey(), entry.getLongValue(),
+                            Actionable.MODULATE, getActionSource());
+                }
+            }
+            if (!internalTankBuffer.isEmpty()) {
+                for (var entry : internalTankBuffer) {
+                    grid.getStorageService().getInventory().insert(entry.getKey(), entry.getLongValue(),
+                            Actionable.MODULATE, getActionSource());
+                }
+            }
+        }
+    }
+
+    @Override
+    public Widget createUIWidget() {
+        WidgetGroup group = new WidgetGroup(new Position(0, 0));
+        group.addWidget(new LabelWidget(0, 0, () -> this.isOnline() ? "gtceu.gui.me_network.online" : "gtceu.gui.me_network.offline"));
+        group.addWidget(new AEListGridWidget.Item(5, 20, 3, this.internalBuffer));
+        group.addWidget(new AEListGridWidget.Fluid(5, 80, 3, this.internalTankBuffer));
+        return group;
+    }
+}

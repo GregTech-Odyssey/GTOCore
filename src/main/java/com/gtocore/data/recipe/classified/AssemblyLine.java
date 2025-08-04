@@ -2935,21 +2935,6 @@ final class AssemblyLine {
                         .EUt(125829120))
                 .save();
 
-        ASSEMBLY_LINE_RECIPES.recipeBuilder("max_storage")
-                .inputItems(new ItemStack(AEBlocks.CRAFTING_UNIT.block().asItem()))
-                .inputItems(GTResearchMachines.DATA_BANK.asStack())
-                .inputItems(GTOItems.CELL_COMPONENT_256M.asStack(64))
-                .inputItems(GTItems.TOOL_DATA_ORB.asStack(64))
-                .inputItems(GTItems.TOOL_DATA_ORB.asStack(64))
-                .inputItems(TagPrefix.plateDouble, GTMaterials.RedSteel, 4)
-                .inputFluids(GTMaterials.SolderingAlloy.getFluid(576))
-                .inputFluids(GTMaterials.PCBCoolant.getFluid(2000))
-                .outputItems(GTOBlocks.CRAFTING_STORAGE_MAX.asStack())
-                .EUt(491520)
-                .duration(400)
-                .scanner(b -> b.researchStack(GTOBlocks.CRAFTING_STORAGE_256M.asStack()).duration(2400).EUt(491520))
-                .save();
-
         ASSEMBLY_LINE_RECIPES.recipeBuilder("quantum_chromodynamic_charge")
                 .inputItems(TagPrefix.plateDouble, GTOMaterials.Infuscolium, 2)
                 .inputItems(TagPrefix.plate, GTOMaterials.HeavyQuarkDegenerateMatter, 2)
@@ -3255,7 +3240,7 @@ final class AssemblyLine {
                 .save();
 
         ASSEMBLY_LINE_RECIPES.recipeBuilder("infinite_cell_component")
-                .inputItems(GTOBlocks.CRAFTING_STORAGE_MAX.asStack(16))
+                .inputItems(GTOItems.CELL_COMPONENT_256M.asStack(64))
                 .inputItems(GTResearchMachines.DATA_BANK.asStack(16))
                 .inputItems(GTOItems.NEURAL_MATRIX.asStack(16))
                 .inputItems(new ItemStack(AEBlocks.CREATIVE_ENERGY_CELL.block().asItem(), 64))

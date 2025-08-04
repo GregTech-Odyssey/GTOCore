@@ -75,11 +75,6 @@ final class Vanilla {
 
         VanillaRecipeHelper.addSmeltingRecipe(provider, GTOCore.id("raw_aluminum"), GTOItems.RAW_ALUMINUM.asStack(), ChemicalHelper.get(TagPrefix.ingot, GTMaterials.Aluminium), 0);
         VanillaRecipeHelper.addShapelessRecipe(provider, GTOCore.id("pattern_modifier_pro"), GTOItems.PATTERN_MODIFIER_PRO.asStack(), RegistriesUtils.getItemStack("expatternprovider:pattern_modifier"));
-        VanillaRecipeHelper.addShapelessRecipe(provider, GTOCore.id("crafting_storage_4m"), GTOBlocks.CRAFTING_STORAGE_4M.asStack(), new ItemStack(AEBlocks.CRAFTING_UNIT.block().asItem()), GTOItems.CELL_COMPONENT_4M.asItem());
-        VanillaRecipeHelper.addShapelessRecipe(provider, GTOCore.id("crafting_storage_16m"), GTOBlocks.CRAFTING_STORAGE_16M.asStack(), new ItemStack(AEBlocks.CRAFTING_UNIT.block().asItem()), GTOItems.CELL_COMPONENT_16M.asItem());
-        VanillaRecipeHelper.addShapelessRecipe(provider, GTOCore.id("crafting_storage_256m"), GTOBlocks.CRAFTING_STORAGE_256M.asStack(), new ItemStack(AEBlocks.CRAFTING_UNIT.block().asItem()), GTOItems.CELL_COMPONENT_256M.asItem());
-        VanillaRecipeHelper.addShapelessRecipe(provider, GTOCore.id("crafting_storage_64m"), GTOBlocks.CRAFTING_STORAGE_64M.asStack(), new ItemStack(AEBlocks.CRAFTING_UNIT.block().asItem()), GTOItems.CELL_COMPONENT_64M.asItem());
-        VanillaRecipeHelper.addShapelessRecipe(provider, GTOCore.id("crafting_storage_1m"), GTOBlocks.CRAFTING_STORAGE_1M.asStack(), new ItemStack(AEBlocks.CRAFTING_UNIT.block().asItem()), GTOItems.CELL_COMPONENT_1M.asItem());
 
         switch (GTOCore.difficulty) {
             case 1 -> {

@@ -5,6 +5,7 @@ import com.gtocore.api.gui.graphic.GTOTooltipComponentItem
 import com.gtocore.api.gui.graphic.impl.GTOProgressToolTipComponent
 import com.gtocore.api.gui.graphic.impl.toPercentageWith
 import com.gtocore.api.gui.helper.ProgressBarColorStyle
+import com.gtocore.common.data.translation.OrganTranslation
 
 import net.minecraft.network.chat.Component
 import net.minecraft.world.item.ItemStack
@@ -28,7 +29,7 @@ class TierData {
             "原型级" to "Prototype",
         )
         val MovementSpeedFunction: (Int) -> Double = { tier -> 0.1 * 0.1 * tier * 1.5 }
-        val BlockReachFunction = 2
+        const val BlockReachFunction = 2
     }
 }
 enum class OrganType(val key: String, val cn: String, val slotCount: Int = 1) {
@@ -58,7 +59,7 @@ sealed class OrganItemBase(properties: Properties, val organType: OrganType) :
                 GTOProgressToolTipComponent(
                     percentage = 1 - (damage toPercentageWith maxDamage),
                     progressColorStyle = ProgressBarColorStyle.DURATION,
-                    text = "${Component.translatable(OrganTranslation.durability).string} : ${maxDamage - damage}/${maxDamage}s",
+                    text = "${OrganTranslation.durability.get().string} : ${maxDamage - damage}/${maxDamage}s",
                 ),
             )
         }
@@ -79,11 +80,13 @@ sealed class OrganItemBase(properties: Properties, val organType: OrganType) :
     class OrganItem(properties: Properties, organType: OrganType) : OrganItemBase(properties, organType)
     class TierOrganItem(val tier: Int, properties: Properties, organType: OrganType) : OrganItemBase(properties, organType) {
         override fun appendHoverText(stack: ItemStack, level: Level?, tooltipComponents: MutableList<Component?>, isAdvanced: TooltipFlag) {
-            tooltipComponents.add(Component.translatable(OrganTranslation.level, "Tier $tier"))
-            if (tier >= 1)tooltipComponents.add(Component.translatable(OrganTranslation.speedBoost, ((1..tier).sumOf { TierData.MovementSpeedFunction(it) * 10 }).toString()))
-            if (tier >= 1)tooltipComponents.add(Component.translatable(OrganTranslation.nightVision))
-            if (tier >= 2)tooltipComponents.add(Component.translatable(OrganTranslation.blockReach, 2))
-            if (tier >= 4)tooltipComponents.add(Component.translatable(OrganTranslation.flight))
+            tooltipComponents.add(OrganTranslation.level(tier).get())
+            if (tier >= 1) {
+                tooltipComponents.add(OrganTranslation.speedBoostInfo((1..tier).sumOf { TierData.MovementSpeedFunction(it) * 10 }.toFloat()).get())
+                tooltipComponents.add(OrganTranslation.nightVisionInfo.get())
+            }
+            if (tier >= 2) tooltipComponents.add(OrganTranslation.blockReachInfo(2).get())
+            if (tier >= 4) tooltipComponents.add(OrganTranslation.flightInfo.get())
 
             super.appendHoverText(stack, level, tooltipComponents, isAdvanced)
         }

@@ -21,6 +21,8 @@ import org.jetbrains.annotations.Nullable;
 public final class HeaterMachine extends SimpleNoEnergyMachine implements IHeaterMachine {
 
     private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(HeaterMachine.class, SimpleNoEnergyMachine.MANAGED_FIELD_HOLDER);
+    public static final int MaxTemperature = 800;
+
     @Persisted
     @DescSynced
     @RequireRerender
@@ -95,7 +97,7 @@ public final class HeaterMachine extends SimpleNoEnergyMachine implements IHeate
 
     @Override
     public int getMaxTemperature() {
-        return 800;
+        return MaxTemperature;
     }
 
     @Override
