@@ -30,5 +30,6 @@ public class InfinityToemNerf extends ResourceItem {
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, @NotNull List<Component> components, @NotNull TooltipFlag p_41424_) {
         super.appendHoverText(pStack, pLevel, components, p_41424_);
         components.add(Component.translatable("tooltip.gtocore.infinity_totem_nerf"));
+        components.add(Component.translatable("tooltip.gtocore.infinity_totem_nerf.1"));
     }
 }
