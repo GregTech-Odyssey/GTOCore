@@ -113,5 +113,9 @@ final class ItemLang {
         addCNEN("tooltip.ad_astra.unknown_tag", "§c未知标签§r: %s", "§cUnknown tag§r: %s");
         addCNEN("tooltip.ad_astra.unknown_ingredient", "§c未知物品§r", "§cUnknown item§r");
         addCNEN("tag.item.forge.ingots.steel", "钢锭", "Steel Ingot");
+        addCNEN("tooltip.gtocore.infinity_totem_nerf", "§c无尽图腾已被削弱，耐久度不再以任何方式恢复。§r",
+                "§cThe Infinity Totem has been nerfed, its durability will no longer be restored in any way. §r");
+        addCNEN("tooltip.gtocore.infinity_totem_nerf.1", "§c且耐久附魔的应用方式与原版盔甲相同。§r",
+                "§cAnd the application of the Unbreaking enchantment is the same as that of vanilla armor. §r");
     }
 }

@@ -4561,5 +4561,7 @@
   "tagprefix.titan_stone": "土卫六%s矿石",
   "tagprefix.venus_stone": "金星%s矿石",
   "tooltip.ad_astra.unknown_ingredient": "§c未知物品§r",
-  "tooltip.ad_astra.unknown_tag": "§c未知标签§r: %s"
+  "tooltip.ad_astra.unknown_tag": "§c未知标签§r: %s",
+  "tooltip.gtocore.infinity_totem_nerf": "§c无尽图腾已被削弱，耐久度不再以任何方式恢复。§r",
+  "tooltip.gtocore.infinity_totem_nerf.1": "§c且耐久附魔的应用方式与原版盔甲相同。§r"
 }

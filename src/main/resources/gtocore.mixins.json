@@ -10,6 +10,7 @@
     "mc.GuiGraphicsAccessor"
   ],
   "mixins": [
+    "avaritia.InfinityToemNerf",
     "ftblibrary.FTBLibraryCommandsMixin",
     "ftbq.FTBQuestsCommandsMixin",
     "ftbq.ToggleEditingModeMessageMixin",
@@ -21,6 +22,7 @@
     "gtmt.TimeWheelMixin",
     "mc.BlockBehaviourMixin",
     "mc.SharedConstantsMixin",
+    "mc.UnbreakingMixin",
     "mc.mob.AbstractSkeletonMixin",
     "mc.mob.MobMixin"
   ],

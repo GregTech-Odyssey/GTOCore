@@ -4561,5 +4561,7 @@
   "tagprefix.titan_stone": "Titan %s Ore",
   "tagprefix.venus_stone": "Venus %s Ore",
   "tooltip.ad_astra.unknown_ingredient": "§cUnknown item§r",
-  "tooltip.ad_astra.unknown_tag": "§cUnknown tag§r: %s"
+  "tooltip.ad_astra.unknown_tag": "§cUnknown tag§r: %s",
+  "tooltip.gtocore.infinity_totem_nerf": "§cThe Infinity Totem has been nerfed, its durability will no longer be restored in any way. §r",
+  "tooltip.gtocore.infinity_totem_nerf.1": "§cAnd the application of the Unbreaking enchantment is the same as that of vanilla armor. §r"
 }
