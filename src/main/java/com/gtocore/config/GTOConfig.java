@@ -144,55 +144,82 @@ public final class GTOConfig {
         ConfigHolder.INSTANCE.dev.debug = GTCEu.isDev();
     }
 
+    // 游戏核心设置
     @Configurable
-    @Configurable.Comment("Optional: Simple, Normal, Expert")
+    @Configurable.Comment("游戏难度等级：简单、普通、专家")
     @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Game Difficulty", cn = "游戏难度")
     public Difficulty gameDifficulty = Difficulty.Normal;
+
     @Configurable
-    @Configurable.Comment("Prevent cheating")
+    @Configurable.Comment("启用自我约束模式以防止作弊行为")
     @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Self Restraint Mode", cn = "自我约束模式")
-    public boolean selfRestraint;
+    public boolean selfRestraint = false;
+
+    // 性能优化设置
     @Configurable
-    @Configurable.Comment("Remove unnecessary loading")
-    @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Fast MultiBlock Page", cn = "快速多方块页面")
+    @Configurable.Comment("快速加载多方块结构页面，减少不必要的加载时间")
+    @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Fast Multiblock Page Loading", cn = "快速多方块页面加载")
     public boolean fastMultiBlockPage = true;
+
     @Configurable
-    @Configurable.Comment("The interval increases gradually when the machine cannot find a recipe; this is the maximum interval.")
+    @Configurable.Comment("机器查找配方最大间隔（tick）")
     @Configurable.Range(min = 5, max = 200)
     @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Recipe Search Max Interval", cn = "配方搜索最大间隔")
     public int recipeSearchMaxInterval = 20;
+
     @Configurable
+    @Configurable.Comment("批处理模式的最大持续时间（tick）")
     @Configurable.Range(min = 600, max = 144000)
-    @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Batch Processing Mode Max Duration", cn = "批处理模式最大时间")
+    @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Batch Processing Max Duration", cn = "批处理模式最大持续时间")
     public int batchProcessingMaxDuration = 72000;
+
+    // 挖掘系统设置
     @Configurable
+    @Configurable.Comment("连锁挖掘时检查相邻方块的范围")
     @Configurable.Range(min = 1, max = 20)
-    @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Chain Mining Adjacent Block Check Range", cn = "连锁挖掘相邻方块检查范围")
+    @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Chain Mining Range", cn = "连锁挖掘检查范围")
     public int ftbUltimineRange = 3;
+
     @Configurable
-    @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Black List Of Chain Blocks", cn = "连锁挖掘黑名单")
+    @Configurable.Comment("连锁挖掘功能的方块黑名单")
+    @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Chain Mining Blacklist", cn = "连锁挖掘黑名单")
     public String[] breakBlocksBlackList = { "ae2:cable_bus" };
+
+    // 界面和显示设置
     @Configurable
-    @Configurable.Comment("Check for conflicts between recipes")
-    @RegisterLanguage(namePrefix = "config.gtocore.option", en = "[Debug]Recipe Abnormal Check", cn = "[调试]配方异常检查")
-    public boolean recipeCheck;
-    @Configurable
-    @Configurable.Comment("Dev Mode")
-    @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Dev mode", cn = "开发模式")
-    public boolean dev;
-    @Configurable
-    @Configurable.Comment("Gto Ae Log")
-    @RegisterLanguage(namePrefix = "config.gtocore.option", en = "[Debug]AE2 And Sync Log", cn = "[调试]AE2和同步组件日志")
-    public boolean aeLog = false;
-    @Configurable
-    @Configurable.Comment("When disabled, the emi favorites in different saves will be independent from each other")
-    @RegisterLanguage(namePrefix = "config.gtocore.option", en = "EMI Global Favorites", cn = "全局 EMI 书签")
+    @Configurable.Comment("禁用后，不同存档的 EMI 收藏夹将相互独立")
+    @RegisterLanguage(namePrefix = "config.gtocore.option", en = "EMI Global Favorites", cn = "EMI 全局收藏夹")
     public boolean emiGlobalFavorites = true;
+
     @Configurable
+    @Configurable.Comment("禁用爆弹物品的使用")
     @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Disable Charge Bomb", cn = "禁用爆弹")
     public boolean disableChargeBomb = true;
+
     @Configurable
-    @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Spark Start Phase", cn = "火花启动阶段")
+    @Configurable.Comment("在物品下方显示英文名称")
+    @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Show Item English Name", cn = "显示物品英文名称")
+    public boolean showEnglishName = true;
+
+    // 开发和调试设置
+    @Configurable
+    @Configurable.Comment("开启开发者模式")
+    @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Developer Mode", cn = "开发者模式")
+    public boolean dev = false;
+
+    @Configurable
+    @Configurable.Comment("检查配方之间的冲突问题")
+    @RegisterLanguage(namePrefix = "config.gtocore.option", en = "[Debug] Recipe Conflict Check", cn = "[调试] 配方冲突检查")
+    public boolean recipeCheck = false;
+
+    @Configurable
+    @Configurable.Comment("启用 AE2 和同步组件的详细日志")
+    @RegisterLanguage(namePrefix = "config.gtocore.option", en = "[Debug] AE2 & Sync Logging", cn = "[调试] AE2 和同步日志")
+    public boolean aeLog = false;
+
+    @Configurable
+    @Configurable.Comment("Spark 性能分析器的启动阶段")
+    @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Spark Profiler Start Phase", cn = "Spark 分析器启动阶段")
     public SparkRange startSpark = SparkRange.NONE;
 
     private enum Difficulty {

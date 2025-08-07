@@ -7,9 +7,9 @@ import com.gtocore.api.gui.helper.ProgressBarHelper
 
 import net.minecraft.client.gui.Font
 import net.minecraft.client.gui.GuiGraphics
+import net.minecraft.network.chat.Component
 
-class GTOProgressToolTipComponent(val percentage: Float, val text: String = "", val progressColorStyle: ProgressBarColorStyle = ProgressBarColorStyle.DEFAULT_GREEN) : GTOToolTipComponent(height = 10, width = 150)
-
+class GTOProgressToolTipComponent(val percentage: Float, val text: String = "", val progressColorStyle: ProgressBarColorStyle = ProgressBarColorStyle.DEFAULT_GREEN) : GTOToolTipComponent()
 class GTOProgressClientComponent(data: GTOProgressToolTipComponent) : GTOClientTooltipComponent<GTOProgressToolTipComponent>(data) {
     override fun renderImage(font: Font, x: Int, y: Int, guiGraphics: GuiGraphics) {
         guiGraphics.pose().pushPose()
@@ -28,5 +28,7 @@ class GTOProgressClientComponent(data: GTOProgressToolTipComponent) : GTOClientT
         guiGraphics.pose().popPose()
     }
 }
+
+class GTOComponentTooltipComponent(val component: Component) : GTOToolTipComponent(priority = 0)
 infix fun Int.toPercentageWith(other: Int): Float = (this.toDouble() / other.toDouble()).toFloat()
 infix fun Long.toPercentageWith(other: Long): Float = (this.toDouble() / other.toDouble()).toFloat()

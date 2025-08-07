@@ -160,6 +160,9 @@ interface WirelessMachine :
 
         @RegisterLanguage(cn = "查找机器，机器将会高亮", en = "Find Machine, machine will be highlighted")
         const val findMachine = "gtocore.integration.ae.WirelessMachine.findMachine"
+
+        @RegisterLanguage(cn = "此机器被禁止连接ME无线网络", en = "This machine is banned from connecting to ME wireless network")
+        const val banned = "gtocore.integration.ae.WirelessMachine.banned"
     }
 
     override fun getUUID(): UUID = getGridPermissionUUID()
@@ -177,6 +180,7 @@ interface WirelessMachine :
     }
     fun removedFromGrid(gridName: String) {
     }
+    fun allowThisMachineConnectToWirelessGrid() = true
 
     // ////////////////////////////////
     // ****** 机器必须在相应时机调用 ******//
@@ -227,6 +231,7 @@ interface WirelessMachine :
     fun createWirelessMachineRunTime() = WirelessMachineRunTime(this)
     fun createWirelessMachinePersisted() = WirelessMachinePersisted(this)
     fun linkGrid(gridName: String) { // 连接网格，例如机器加载
+        if (!allowThisMachineConnectToWirelessGrid()) return
         if (self().isRemote) return
         val status = WirelessSavedData.joinToGrid(gridName, this, getGridPermissionUUID())
         when (status) {
@@ -246,6 +251,7 @@ interface WirelessMachine :
         }
     }
     fun joinGrid(gridName: String) {
+        if (!allowThisMachineConnectToWirelessGrid()) return
         if (self().isRemote) return
         wirelessMachinePersisted.gridConnectedName = gridName
         wirelessMachinePersisted.beSet = true
@@ -272,6 +278,13 @@ interface WirelessMachine :
                 blank()
                 vBox(width = this@rootFresh.availableWidth - 4, style = { spacing = 4 }) {
                     blank()
+                    if (!allowThisMachineConnectToWirelessGrid()) {
+                        textBlock(
+                            maxWidth = availableWidth - 4,
+                            textSupplier = { Component.translatable(banned) },
+                        )
+                        return@vBox
+                    }
                     textBlock(
                         maxWidth = availableWidth - 4,
                         textSupplier = { Component.translatable(currentlyConnectedTo, wirelessMachinePersisted.gridConnectedName.ifEmpty { "无" }) },
@@ -367,6 +380,13 @@ interface WirelessMachine :
                 blank()
                 vBox(width = this@rootFresh.availableWidth - 4, { spacing = 4 }) {
                     blank()
+                    if (!allowThisMachineConnectToWirelessGrid()) {
+                        textBlock(
+                            maxWidth = availableWidth - 4,
+                            textSupplier = { Component.translatable(banned) },
+                        )
+                        return@vBox
+                    }
                     textBlock(
                         maxWidth = availableWidth - 4,
                         textSupplier = { Component.translatable(currentlyConnectedTo, wirelessMachinePersisted.gridConnectedName.ifEmpty { "无" }) },

@@ -22,4 +22,9 @@ public class MESimplePatternBufferPartMachine extends MEPatternBufferPartMachine
     public MESimplePatternBufferPartMachine(IMachineBlockEntity holder) {
         super(holder, slotCount);
     }
+
+    @Override
+    public boolean allowThisMachineConnectToWirelessGrid() {
+        return false;
+    }
 }
