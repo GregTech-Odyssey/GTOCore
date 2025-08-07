@@ -36,12 +36,15 @@ import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity
 import com.gregtechceu.gtceu.api.machine.TickableSubscription
 import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler
+import com.gtocore.common.network.SyncFieldManager
 import com.gtolib.ae2.MyPatternDetailsHelper
 import com.gtolib.ae2.pattern.IParallelPatternDetails
 import com.gtolib.api.annotation.Scanned
 import com.gtolib.api.annotation.language.RegisterLanguage
+import com.gtolib.api.capability.ISync
 import com.gtolib.api.gui.ktflexible.*
 import com.gtolib.api.gui.ktflexible.FreshWidgetGroupAbstract
+import com.gtolib.syncdata.SyncManagedFieldHolder
 import com.lowdragmc.lowdraglib.gui.widget.Widget
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup
 import com.lowdragmc.lowdraglib.syncdata.IContentChangeAware
@@ -61,16 +64,16 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
     MEPartMachine(holder, IO.IN),
     ICraftingProvider,
     WirelessMachine,
+    ISync,
     PatternContainer {
 
     // ==================== 常量和静态成员 ====================
     @Scanned
     companion object {
         @JvmStatic
-        val MANAGED_FIELD_HOLDER = ManagedFieldHolder(
-            MEPatternPartMachineKt::class.java,
-            MEPartMachine.MANAGED_FIELD_HOLDER,
-        )
+        val MANAGED_FIELD_HOLDER = ManagedFieldHolder(MEPatternPartMachineKt::class.java, MEPartMachine.MANAGED_FIELD_HOLDER,)
+        @JvmStatic
+        val SYNC_MANAGED_FIELD_HOLDER = SyncManagedFieldHolder(MEPatternPartMachineKt::class.java)
 
         @RegisterLanguage(cn = "AE显示名称:", en = "AE Name:")
         const val AE_NAME: String = "gtceu.ae.pattern_part_machine.ae_name"
@@ -164,9 +167,10 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
     open fun addWidget(group: WidgetGroup) {}
 
     // ==================== 生命周期方法 ====================
-    var pageField = IntSyncField(createLogicalSide(isRemote), { "$pos-page" }, 0) // 前面必须用var 刷新UI必须在客户端刷新，服务端依同步刷新
+    val newPageField = ISync.createIntField(this,{_,_,_->})
     override fun onLoad() {
         super.onLoad()
+        registerSync()
         when (val level = getLevel()) {
             is ServerLevel -> {
                 level.server.tell(
@@ -178,6 +182,7 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
                             }
                         }
                         updatePatterns()
+                        newPageField.setAndSyncToClient(0)
                     },
                 )
             }
@@ -189,7 +194,7 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
     }
 
     override fun onUnload() {
-        pageField.unregister()
+        unregisterSync()
         super.onUnload()
     }
 
@@ -207,6 +212,7 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
     }
 
     override fun getFieldHolder(): ManagedFieldHolder = MANAGED_FIELD_HOLDER
+    override fun getSyncHolder(): SyncManagedFieldHolder = SYNC_MANAGED_FIELD_HOLDER
 
     // ==================== ICraftingProvider 接口实现 ====================
     override fun getAvailablePatterns(): List<IPatternDetails> = patterns
@@ -278,7 +284,7 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
                 }
                 val height1 = this@rootFresh.availableHeight - 24 - 16
                 val pageWidget =
-                    multiPageAdvanced(width = this@vBox.availableWidth, runOnUpdate = ::runOnUpdate, height = height1, pageSelector = pageField) {
+                    multiPageAdvanced(width = this@vBox.availableWidth, runOnUpdate = ::runOnUpdate, height = height1, pageSelector = newPageField) {
                         chunked.forEach { pageIndices ->
                             page {
                                 vScroll(width = this@vBox.availableWidth, height = height1) {
@@ -310,17 +316,17 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
                         height = 13,
                         onClick = { ck ->
                             onPagePrev()
-                            if (isRemote)pageField.updateInClient((pageField.value - 1).coerceAtLeast(0))
+                            if (!isRemote)newPageField.setAndSyncToClient((newPageField.get() - 1).coerceAtLeast(0))
                         },
                         text = { "<<" },
                     )
-                    text(height = 13, width = wid - 60, text = { Component.literal("${pageField.value + 1} / ${pageWidget.getMaxPageSize()}") })
+                    text(height = 13, width = wid - 60, text = { Component.literal("${newPageField.get() + 1} / ${pageWidget.getMaxPageSize()}") })
                     button(
                         height = 13,
                         width = 30,
                         onClick = { ck ->
                             onPageNext()
-                            if (isRemote)pageField.updateInClient((pageField.value + 1).coerceAtMost(pageWidget.getMaxPageSize() - 1))
+                            if (!isRemote)newPageField.setAndSyncToClient((newPageField.get() + 1).coerceAtMost(pageWidget.getMaxPageSize() - 1))
                         },
                         text = { ">>" },
                     )

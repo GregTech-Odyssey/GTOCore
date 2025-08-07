@@ -19,10 +19,13 @@ import net.minecraftforge.fml.LogicalSide
 import appeng.api.networking.GridHelper
 import appeng.api.networking.IGridConnection
 import com.gregtechceu.gtceu.GTCEu
+import com.gtolib.api.capability.ISync
 import com.mojang.serialization.Codec
 import com.mojang.serialization.codecs.RecordCodecBuilder
 
 import java.util.UUID
+import java.util.function.BiConsumer
+import java.util.function.Function
 import java.util.function.Supplier
 
 class WirelessSavedData : SavedData() {
@@ -298,4 +301,25 @@ class WirelessSyncField(side: LogicalSide, uniqueName: Supplier<String>, value: 
 
         return buffer
     }
+}
+
+fun createWirelessSyncedField(sync: ISync) : ISync.ObjectSyncedField<MutableList<WirelessGrid>>{
+    return ISync.createObjectField(
+        sync,
+        {
+            val size = it.readInt()
+            val list = mutableListOf<WirelessGrid>()
+            for (i in 0 until size) {
+                list.add(WirelessGrid.deserializer(it.readNbt() as CompoundTag)!!)
+            }
+            list
+        },
+        { buffer, value ->
+            buffer.writeInt(value.size)
+            for (grid in value) {
+                buffer.writeNbt(grid.serializer())
+            }
+        },
+        { _ , _, _ -> },
+    )
 }

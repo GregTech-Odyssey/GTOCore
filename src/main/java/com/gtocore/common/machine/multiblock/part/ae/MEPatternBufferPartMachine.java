@@ -6,6 +6,7 @@ import com.gtocore.common.network.IntSyncField;
 
 import com.gtolib.api.annotation.Scanned;
 import com.gtolib.api.annotation.language.RegisterLanguage;
+import com.gtolib.api.capability.ISync;
 import com.gtolib.api.machine.feature.multiblock.IExtendedRecipeCapabilityHolder;
 import com.gtolib.api.machine.trait.IEnhancedRecipeLogic;
 import com.gtolib.api.machine.trait.NotifiableNotConsumableFluidHandler;
@@ -13,6 +14,7 @@ import com.gtolib.api.machine.trait.NotifiableNotConsumableItemHandler;
 import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.ingredient.FastFluidIngredient;
 import com.gtolib.api.recipe.ingredient.FastSizedIngredient;
+import com.gtolib.syncdata.SyncManagedFieldHolder;
 import com.gtolib.utils.ItemUtils;
 import com.gtolib.utils.MathUtil;
 
@@ -62,6 +64,7 @@ import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import it.unimi.dsi.fastutil.objects.*;
 import kotlin.Unit;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.UnmodifiableView;
 
@@ -77,10 +80,12 @@ import static com.gtocore.common.network.SyncFieldManagerKt.createLogicalSide;
 @Scanned
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPatternBufferPartMachine.InternalSlot> implements IDataStickInteractable {
+public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPatternBufferPartMachine.InternalSlot> implements IDataStickInteractable,ISync {
 
     protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
             MEPatternBufferPartMachine.class, MEPatternPartMachineKt.Companion.getMANAGED_FIELD_HOLDER());
+    public static final SyncManagedFieldHolder SYNC_MANAGED_FIELD_HOLDER = new SyncManagedFieldHolder(MEPatternBufferPartMachine.class,
+            MEPatternPartMachineKt.getSYNC_MANAGED_FIELD_HOLDER());
     @RegisterLanguage(cn = "配方已缓存", en = "Recipe cached")
     private static final String CACHE = "gtocore.pattern_buffer.cache";
     @RegisterLanguage(cn = "样板独立配置", en = "Pattern independent configuration")
@@ -102,26 +107,24 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
     private final Set<MEPatternBufferProxyPartMachine> proxyMachines = new ReferenceOpenHashSet<>();
     public final InternalSlotRecipeHandler internalRecipeHandler;
 
-    protected IntSyncField configuratorField = new IntSyncField(createLogicalSide(isRemote()), () -> getPos() + " configurator", -1, (integerSyncField, integer) -> Unit.INSTANCE, (integerSyncField, integer, integer2) -> Unit.INSTANCE);
+    protected IntSyncedField configuratorField = ISync.createIntField(this,((side, old, newV) -> {
+        freshWidgetGroup.fresh();
+    })).set(-1).setSenderListener(((side, value) -> {
+        freshWidgetGroup.fresh();
+    }));
+
+    @Override
+    public @NotNull SyncManagedFieldHolder getSyncHolder() {
+        return SYNC_MANAGED_FIELD_HOLDER;
+    }
 
     @Override
     public void onLoad() {
-        configuratorField.setOnInitCallBack((integerSyncField, integer) -> {
-            System.out.println(integerSyncField.getSide());
-            freshWidgetGroup.fresh();
-            return Unit.INSTANCE;
-        });
-        configuratorField.setOnSyncCallBack((integerSyncField, integer, integer2) -> {
-            System.out.println(integerSyncField.getSide());
-            freshWidgetGroup.fresh();
-            return Unit.INSTANCE;
-        });
         super.onLoad();
     }
 
     @Override
     public void onUnload() {
-        configuratorField.unregister();
         super.onUnload();
     }
 
@@ -210,16 +213,16 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
     @Override
     public void onMouseClicked(int index) {
         if (!isRemote()) return;
-        if (configuratorField.getValue() == index) {
-            configuratorField.updateInClient(-1);
+        if (configuratorField.get() == index) {
+            configuratorField.setAndSyncToServer(-1);
         } else {
-            configuratorField.updateInClient(index);
+            configuratorField.setAndSyncToServer(index);
         }
     }
 
     @Override
     public void addWidget(WidgetGroup group) {
-        group.addWidget(new LabelWidget(81, 2, () -> configuratorField.getValue() < 0 ? SHARE : INDEPENDENT).setHoverTooltips(Component.translatable("monitor.gui.title.slot").append(String.valueOf(configuratorField.getValue()))));
+        group.addWidget(new LabelWidget(81, 2, () -> configuratorField.get() < 0 ? SHARE : INDEPENDENT).setHoverTooltips(Component.translatable("monitor.gui.title.slot").append(String.valueOf(configuratorField.get()))));
     }
 
     @Override

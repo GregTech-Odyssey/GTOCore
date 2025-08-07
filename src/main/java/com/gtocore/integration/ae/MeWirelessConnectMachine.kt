@@ -14,6 +14,8 @@ import com.gregtechceu.gtceu.api.machine.MetaMachine
 import com.gregtechceu.gtceu.api.machine.feature.IFancyUIMachine
 import com.gregtechceu.gtceu.api.machine.feature.IMachineLife
 import com.gregtechceu.gtceu.integration.ae2.machine.trait.GridNodeHolder
+import com.gtolib.api.capability.ISync
+import com.gtolib.syncdata.SyncManagedFieldHolder
 import com.lowdragmc.lowdraglib.gui.modular.ModularUI
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted
@@ -25,10 +27,13 @@ class MeWirelessConnectMachine(holder: IMachineBlockEntity) :
     MetaMachine(holder),
     WirelessMachine,
     IMachineLife,
+    ISync,
     IFancyUIMachine {
     companion object {
         @JvmStatic
         val manager = ManagedFieldHolder(MeWirelessConnectMachine::class.java, MANAGED_FIELD_HOLDER)
+        @JvmStatic
+        val syncManager = SyncManagedFieldHolder(MeWirelessConnectMachine::class.java)
     }
     val gridHolder = GridNodeHolder(this)
     var isGridOnline: Boolean = false
@@ -55,6 +60,7 @@ class MeWirelessConnectMachine(holder: IMachineBlockEntity) :
 
     override fun onLoad() {
         super.onLoad()
+        registerSync()
         onWirelessMachineLoad()
     }
 
@@ -65,6 +71,7 @@ class MeWirelessConnectMachine(holder: IMachineBlockEntity) :
 
     override fun onUnload() {
         onWirelessMachineUnLoad()
+        unregisterSync()
         super.onUnload()
     }
 
@@ -80,4 +87,6 @@ class MeWirelessConnectMachine(holder: IMachineBlockEntity) :
             166,
         ) { if (!isRemote)syncDataToClientInServer() },
     )
+
+    override fun getSyncHolder(): SyncManagedFieldHolder=syncManager
 }
