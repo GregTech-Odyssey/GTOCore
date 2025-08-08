@@ -391,12 +391,14 @@ public final class GTOBlocks {
     public static final BlockEntry<Block> TRANSMUTATION_CATALYST = createCasingBlock("transmutation_catalyst", "嬗变催化器", GTOCore.id("block/casings/transmutation_catalyst"));
     public static final BlockEntry<Block> INFUSED_GOLD_REINFORCED_WOODEN_CASING = createCasingBlock("infused_gold_reinforced_wooden_casing", "注魔金加固木制机械方块", GTOCore.id("block/casings/infused_gold_reinforced_wooden_casing"));
     public static final BlockEntry<Block> SOURCE_STONE_CASING = createCasingBlock("source_stone_casing", "魔源机械方块", GTOCore.id("block/casings/source_stone_casing"));
+    public static final BlockEntry<Block> SOURCE_FIBER_MECHANICAL_CASING = createCasingBlock("source_fiber_mechanical_casing", "魔源纤维机械方块", GTOCore.id("block/casings/source_fiber_mechanical_casing"));
     public static final BlockEntry<Block> SPELL_PRISM_CASING = createCasingBlock("spell_prism_casing", "法术机械方块", GTOCore.id("block/casings/spell_prism_casing"));
     public static final BlockEntry<Block> ORIGINAL_BRONZE_CASING = createCasingBlock("original_bronze_casing", "原始青铜外壳", GTOCore.id("block/casings/original_bronze_casing"));
     public static final BlockEntry<Block> MANASTEEL_CASING = createCasingBlock("manasteel_casing", "魔力钢外壳", GTOCore.id("block/casings/manasteel_casing"));
     public static final BlockEntry<Block> TERRASTEEL_CASING = createCasingBlock("terrasteel_casing", "泰拉钢外壳", GTOCore.id("block/casings/terrasteel_casing"));
     public static final BlockEntry<Block> ELEMENTIUM_CASING = createCasingBlock("elementium_casing", "源质钢外壳", GTOCore.id("block/casings/elementium_casing"));
     public static final BlockEntry<Block> GAIASTEEL_CASING = createCasingBlock("gaiasteel_casing", "盖亚钢外壳", GTOCore.id("block/casings/gaiasteel_casing"));
+    public static final BlockEntry<Block> HERETICAL_MECHANICAL_CASING = createCasingBlock("heretical_mechanical_casing", "邪术机械方块", GTOCore.id("block/casings/heretical_mechanical_casing"));
 
     public static final BlockEntry<Block> ACCELERATOR_PARTICLE_CONSTRAINED_CASING = createCasingBlock("accelerator_particle_constrained_casing", "加速器粒子约束机械方块", GTOCore.id("block/casings/accelerator/accelerator_particle_constrained_casing"));
     public static final BlockEntry<Block> ACCELERATOR_PROTECTION_CASING = createCasingBlock("accelerator_protection_casing", "加速器防护机械方块", GTOCore.id("block/casings/accelerator/accelerator_protection_casing"));
@@ -430,16 +432,12 @@ public final class GTOBlocks {
     public static final BlockEntry<Block> HIGH_STRENGTH_SUPPORT_SPINDLE = createCasingBlock("high_strength_support_spindle", "高强度支撑主轴", GTOCore.id("block/casings/high_strength_support_spindle"));
     // 高强度支撑机械方块
     public static final BlockEntry<Block> HIGH_STRENGTH_SUPPORT_MECHANICAL_CASING = createCasingBlock("high_strength_support_mechanical_casing", "高强度支撑机械方块", GTOCore.id("block/casings/high_strength_support_mechanical_casing"));
-    // 邪术机械方块
-    public static final BlockEntry<Block> HERETICAL_MECHANICAL_CASING = createCasingBlock("heretical_mechanical_casing", "邪术机械方块", GTOCore.id("block/casings/heretical_mechanical_casing"));
     // 精密加工机械方块
     public static final BlockEntry<Block> PRECISION_PROCESSING_MECHANICAL_CASING = createCasingBlock("precision_processing_mechanical_casing", "精密加工机械方块", GTOCore.id("block/casings/precision_processing_mechanical_casing"));
     // 宇宙探测接收器物质射线吸收阵面
     public static final BlockEntry<Block> COSMIC_DETECTION_RECEIVER_MATERIAL_RAY_ABSORBING_ARRAY = createCasingBlock("cosmic_detection_receiver_material_ray_absorbing_array", "宇宙探测接收器物质射线吸收阵面", GTOCore.id("block/casings/cosmic_detection_receiver_material_ray_absorbing_array"));
     // 光学谐振仓
     public static final BlockEntry<Block> OPTICAL_RESONANCE_CHAMBER = createCasingBlock("optical_resonance_chamber", "光学谐振仓", GTOCore.id("block/casings/optical_resonance_chamber"));
-    // 魔源纤维机械方块
-    public static final BlockEntry<Block> SOURCE_FIBER_MECHANICAL_CASING = createCasingBlock("source_fiber_mechanical_casing", "魔源纤维机械方块", GTOCore.id("block/casings/source_fiber_mechanical_casing"));
     // 真空室防护外壳
     public static final BlockEntry<Block> VACUUM_CHAMBER_PROTECTION_CASING = createCasingBlock("vacuum_chamber_protection_casing", "真空室防护外壳", GTOCore.id("block/casings/vacuum_chamber/vacuum_chamber_protection_casing"));
     // 真空室观察玻璃
