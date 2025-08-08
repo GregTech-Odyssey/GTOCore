@@ -73,6 +73,20 @@ final class BiochemicalExtraction {
                 .duration(200)
                 .save();
 
+        BIOCHEMICAL_EXTRACTION_RECIPES.builder("wilden_spike")
+                .notConsumable("ars_nouveau:wilden_guardian_se")
+                .outputItems("ars_nouveau:wilden_spike")
+                .EUt(120)
+                .duration(200)
+                .save();
+
+        BIOCHEMICAL_EXTRACTION_RECIPES.builder("wilden_wing")
+                .notConsumable("ars_nouveau:wilden_stalker_se")
+                .outputItems("ars_nouveau:wilden_wing")
+                .EUt(120)
+                .duration(200)
+                .save();
+
         BIOCHEMICAL_EXTRACTION_RECIPES.builder("egg")
                 .notConsumable(Items.CHICKEN_SPAWN_EGG.asItem())
                 .outputItems(Items.EGG.asItem(), 4)

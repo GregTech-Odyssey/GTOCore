@@ -40,30 +40,30 @@ public final class EnchantingApparatusRecipeBuilder {
         this.id = id;
     }
 
-    public EnchantingApparatusRecipeBuilder reagent(Ingredient reagent) {
+    public EnchantingApparatusRecipeBuilder input(Ingredient reagent) {
         this.reagent = reagent;
         return this;
     }
 
-    public EnchantingApparatusRecipeBuilder reagent(ItemLike item) {
-        return reagent(Ingredient.of(item));
+    public EnchantingApparatusRecipeBuilder input(ItemLike item) {
+        return input(Ingredient.of(item));
     }
 
-    public EnchantingApparatusRecipeBuilder reagent(TagKey<Item> tag) {
-        return reagent(Ingredient.of(tag));
+    public EnchantingApparatusRecipeBuilder input(TagKey<Item> tag) {
+        return input(Ingredient.of(tag));
     }
 
-    public EnchantingApparatusRecipeBuilder result(ItemStack result) {
+    public EnchantingApparatusRecipeBuilder output(ItemStack result) {
         this.result = result;
         return this;
     }
 
-    public EnchantingApparatusRecipeBuilder result(ItemLike item) {
-        return result(new ItemStack(item));
+    public EnchantingApparatusRecipeBuilder output(ItemLike item) {
+        return output(new ItemStack(item));
     }
 
-    public EnchantingApparatusRecipeBuilder result(ItemLike item, int count) {
-        return result(new ItemStack(item, count));
+    public EnchantingApparatusRecipeBuilder output(ItemLike item, int count) {
+        return output(new ItemStack(item, count));
     }
 
     public EnchantingApparatusRecipeBuilder addPedestalItem(Ingredient ingredient) {
@@ -93,10 +93,10 @@ public final class EnchantingApparatusRecipeBuilder {
 
     public void save(Consumer<FinishedRecipe> consumer) {
         if (reagent == null) {
-            throw new IllegalStateException("No reagent specified for enchanting apparatus recipe");
+            throw new IllegalStateException("No input specified for enchanting apparatus recipe");
         }
         if (result == null) {
-            throw new IllegalStateException("No result specified for enchanting apparatus recipe");
+            throw new IllegalStateException("No output specified for enchanting apparatus recipe");
         }
         if (pedestalItems.isEmpty()) {
             throw new IllegalStateException("No pedestal items added to enchanting apparatus recipe");

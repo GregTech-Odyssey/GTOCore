@@ -893,8 +893,9 @@ public final class GTOItems {
     public static final ItemEntry<Item> SPOOLS_JUMBO = register("spools_jumbo", "巨型线轴");
 
     public static final ItemEntry<Item> COLORFUL_MYSTICAL_FLOWER = register("colorful_mystical_flower", "多彩神秘花瓣");
-    public static final ItemEntry<Item> GAIA_CORE = register("gaia_core", "盖亚之核");
-    public static final ItemEntry<Item> UNSTABLE_GAIA_SOUL = register("unstable_gaia_soul", "不稳定的盖亚之魂");
+    public static final ItemEntry<Item> GAIA_CORE = register("gaia_core", "§e盖亚之核");
+    public static final ItemEntry<Item> UNSTABLE_GAIA_SOUL = register("unstable_gaia_soul", "§e不稳定的盖亚之魂");
+    public static final ItemEntry<Item> WILDEN_SLATE = register("wilden_slate", "§d荒野石板");
 
     public static final ItemEntry<SpaceArmorComponentItem> SPACE_NANOMUSCLE_CHESTPLATE = item("space_nanomuscle_chestplate", "太空纳米胸甲",
             (p) -> new SpaceArmorComponentItem(GTArmorMaterials.ARMOR,

@@ -141,6 +141,12 @@ public final class MagicMaterial {
                 .iconSet(LIMPID)
                 .buildAndRegister();
 
+        WildenEssence = material("wilden_essence", "荒野精华")
+                .liquid(new FluidBuilder().temperature(275))
+                .color(0x6f3aa4)
+                .iconSet(LIMPID)
+                .buildAndRegister();
+
         ManaDiamond = material("mana_diamond", "魔力钻石")
                 .gem()
                 .components(GTMaterials.Diamond, 1)

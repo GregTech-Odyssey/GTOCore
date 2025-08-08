@@ -955,6 +955,12 @@ public final class GTORecipeTypes {
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW_MULTIPLE, LEFT_TO_RIGHT)
             .setMaxTooltips(5)
             .setSound(GTSoundEntries.FIRE);
+
+    public static final RecipeType INFUSER_CORE_RECIPES = register("infuser_core", "灌注核心", MAGIC)
+            .setMANAIO(IO.IN)
+            .setMaxIOSize(18, 1, 3, 0)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_BATH, LEFT_TO_RIGHT)
+            .setSound(GTSoundEntries.BATH);
     //////////////////////////////////////
     // ********** Combined **********//
     //////////////////////////////////////

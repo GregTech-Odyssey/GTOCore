@@ -1,6 +1,7 @@
 package com.gtocore.data.recipe.misc;
 
 import com.gtocore.common.data.GTOBlocks;
+import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.data.GTOMachines;
 import com.gtocore.common.data.GTOMaterials;
 import com.gtocore.common.data.machines.GCYMMachines;
@@ -26,6 +27,7 @@ import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 
+import com.hollingsworth.arsnouveau.setup.registry.BlockRegistry;
 import com.hollingsworth.arsnouveau.setup.registry.ItemsRegistry;
 import vazkii.botania.common.block.BotaniaBlocks;
 import vazkii.botania.common.item.BotaniaItems;
@@ -106,6 +108,36 @@ public final class ManaRecipes {
                     .addData("param3", 60)
                     .save();
 
+            ALCHEMY_CAULDRON_RECIPES.recipeBuilder("wilden_essence_1")
+                    .inputItems(dust, GTOMaterials.SourceGem, 8)
+                    .inputItems(BlockRegistry.SOURCEBERRY_BUSH, 2)
+                    .inputItems(ItemsRegistry.WILDEN_HORN)
+                    .inputItems(ItemsRegistry.WILDEN_SPIKE)
+                    .inputItems(ItemsRegistry.WILDEN_WING)
+                    .inputFluids(FractalPetalSolvent.getFluid(250))
+                    .inputFluids(Ethanol.getFluid(750))
+                    .chancedOutput(WildenEssence.getFluid(1000), 10, 0)
+                    .duration(240)
+                    .temperature(1200)
+                    .addData("param1", 60)
+                    .addData("param2", 140)
+                    .addData("param3", 60)
+                    .save();
+
+            ALCHEMY_CAULDRON_RECIPES.recipeBuilder("wilden_essence_2")
+                    .inputItems(dust, GTOMaterials.SourceGem, 8)
+                    .inputItems(BlockRegistry.SOURCEBERRY_BUSH, 2)
+                    .chancedInput(new ItemStack(ItemsRegistry.WILDEN_TRIBUTE), 10, 0)
+                    .inputFluids(FractalPetalSolvent.getFluid(250))
+                    .inputFluids(Ethanol.getFluid(750))
+                    .chancedOutput(WildenEssence.getFluid(1000), 10, 0)
+                    .duration(240)
+                    .temperature(1500)
+                    .addData("param1", 60)
+                    .addData("param2", 140)
+                    .addData("param3", 60)
+                    .save();
+
             String[] names = { "gnome", "sylph", "undine", "salamander" };
             Material[] Elements = { Gnome, Sylph, Undine, Salamander };
             Material[] Crystals = { GnomeCrystal, SylphCrystal, UndineCrystal, SalamanderCrystal };
@@ -113,7 +145,7 @@ public final class ManaRecipes {
             for (int i = 0; i < 4; i++) {
                 ALCHEMY_CAULDRON_RECIPES.recipeBuilder("alchemy_" + names[i] + "_gas")
                         .circuitMeta(i + 1)
-                        .inputItems(dust, Crystals[i], 16)
+                        .inputItems(dust, Crystals[i], 8)
                         .inputFluids(FractalPetalSolvent.getFluid(1000))
                         .chancedOutput(Elements[i].getFluid(GAS, 4 * L), 10, 0)
                         .chancedOutput(FractalPetalSolvent.getFluid(800), 8000, 0)
@@ -126,7 +158,7 @@ public final class ManaRecipes {
 
                 ALCHEMY_CAULDRON_RECIPES.recipeBuilder("alchemy_" + names[i] + 4 + "_gas")
                         .circuitMeta(i + 5)
-                        .inputItems(dust, Crystals[i], 16)
+                        .inputItems(dust, Crystals[i], 8)
                         .inputFluids(CycleofBlossomsSolvent.getFluid(1000))
                         .chancedOutput(Elements[i].getFluid(GAS, 8 * L), 10, 0)
                         .chancedOutput(CycleofBlossomsSolvent.getFluid(900), 9500, 0)
@@ -140,9 +172,9 @@ public final class ManaRecipes {
 
             ALCHEMY_CAULDRON_RECIPES.recipeBuilder("alchemy_aether_1_gas")
                     .circuitMeta(1)
-                    .inputItems(dust, PerditioCrystal, 16)
+                    .inputItems(dust, PerditioCrystal, 8)
                     .inputFluids(FractalPetalSolvent.getFluid(1000))
-                    .chancedOutput(Aether.getFluid(GAS, L), 1, 0)
+                    .chancedOutput(Aether.getFluid(GAS, 2 * L), 1, 0)
                     .chancedOutput(FractalPetalSolvent.getFluid(600), 6000, 0)
                     .duration(80)
                     .temperature(240)
@@ -153,9 +185,9 @@ public final class ManaRecipes {
 
             ALCHEMY_CAULDRON_RECIPES.recipeBuilder("alchemy_aether_2_gas")
                     .circuitMeta(1)
-                    .inputItems(dust, PerditioCrystal, 16)
+                    .inputItems(dust, PerditioCrystal, 8)
                     .inputFluids(CycleofBlossomsSolvent.getFluid(1000))
-                    .chancedOutput(Aether.getFluid(GAS, 2 * L), 1, 0)
+                    .chancedOutput(Aether.getFluid(GAS, 4 * L), 1, 0)
                     .chancedOutput(CycleofBlossomsSolvent.getFluid(800), 8000, 0)
                     .duration(240)
                     .MANAt(2)
@@ -199,6 +231,51 @@ public final class ManaRecipes {
                     .duration(240)
                     .temperature(1600)
                     .save();
+
+            ALCHEMY_CAULDRON_RECIPES.builder("wilden_horn")
+                    .notConsumable(BotaniaBlocks.spawnerClaw.asItem())
+                    .notConsumable(ItemsRegistry.WILDEN_HORN)
+                    .chancedInput(new ItemStack(GTOItems.WILDEN_SLATE), 5, 0)
+                    .inputItems(dust, Meat, 16)
+                    .inputFluids(WildenEssence.getFluid(1000))
+                    .outputItems(ItemsRegistry.WILDEN_HORN, 16)
+                    .MANAt(4)
+                    .duration(200)
+                    .save();
+
+            ALCHEMY_CAULDRON_RECIPES.builder("wilden_spike")
+                    .notConsumable(BotaniaBlocks.spawnerClaw.asItem())
+                    .notConsumable(ItemsRegistry.WILDEN_SPIKE)
+                    .chancedInput(new ItemStack(GTOItems.WILDEN_SLATE), 5, 0)
+                    .inputItems(dust, Meat, 16)
+                    .inputFluids(WildenEssence.getFluid(1000))
+                    .outputItems(ItemsRegistry.WILDEN_SPIKE, 16)
+                    .MANAt(4)
+                    .duration(200)
+                    .save();
+
+            ALCHEMY_CAULDRON_RECIPES.builder("wilden_wing")
+                    .notConsumable(BotaniaBlocks.spawnerClaw.asItem())
+                    .notConsumable(ItemsRegistry.WILDEN_WING)
+                    .chancedInput(new ItemStack(GTOItems.WILDEN_SLATE), 5, 0)
+                    .inputItems(dust, Meat, 16)
+                    .inputFluids(WildenEssence.getFluid(1000))
+                    .outputItems(ItemsRegistry.WILDEN_WING, 16)
+                    .MANAt(4)
+                    .duration(200)
+                    .save();
+
+            ALCHEMY_CAULDRON_RECIPES.recipeBuilder("wilden_tribute")
+                    .notConsumable(BotaniaItems.spawnerMover)
+                    .inputItems(GTOItems.WILDEN_SLATE)
+                    .inputItems(ItemsRegistry.MANIPULATION_ESSENCE)
+                    .inputItems("apotheosis:epic_material")
+                    .inputFluids(WildenEssence.getFluid(4000))
+                    .outputItems(ItemsRegistry.WILDEN_TRIBUTE)
+                    .duration(240)
+                    .MANAt(8)
+                    .temperature(1600)
+                    .save();
         }
 
         // 机械方块
@@ -221,6 +298,17 @@ public final class ManaRecipes {
                     .inputItems(TagPrefix.plate, InfusedGold, 2)
                     .circuitMeta(6)
                     .outputItems(GTOBlocks.SOURCE_STONE_CASING.asStack())
+                    .EUt(16)
+                    .duration(50)
+                    .save();
+
+            ASSEMBLER_RECIPES.recipeBuilder("source_fiber_mechanical_casing")
+                    .inputItems(gem, GTOMaterials.SourceGem)
+                    .inputItems(RegistriesUtils.getItemStack("ars_nouveau:sourcestone"), 2)
+                    .inputItems(RegistriesUtils.getItemStack("ars_nouveau:magebloom_block"), 2)
+                    .inputItems(ItemsRegistry.MAGE_FIBER, 4)
+                    .circuitMeta(6)
+                    .outputItems(GTOBlocks.SOURCE_FIBER_MECHANICAL_CASING.asStack())
                     .EUt(16)
                     .duration(50)
                     .save();
@@ -386,6 +474,21 @@ public final class ManaRecipes {
                     .outputItems(ManaMultiBlock.MANA_ALLOY_BLAST_SMELTER.asStack())
                     .duration(1200)
                     .MANAt(512)
+                    .save();
+
+            ASSEMBLER_RECIPES.builder("large_perfusion_device")
+                    .inputItems(GTOBlocks.SOURCE_FIBER_MECHANICAL_CASING.asStack())
+                    .inputItems(TagPrefix.block, GTOMaterials.SourceGem, 16)
+                    .inputItems("ars_nouveau:summon_focus")
+                    .inputItems("ars_nouveau:imbuement_chamber", 8)
+                    .inputItems("ars_nouveau:arcane_core", 8)
+                    .inputItems("ars_nouveau:enchanting_apparatus", 8)
+                    .inputItems(GTItems.FIELD_GENERATOR_HV, 4)
+                    .inputItems(CustomTags.IV_CIRCUITS, 4)
+                    .inputItems("ars_nouveau:shapers_focus")
+                    .outputItems(ManaMultiBlock.LARGE_PERFUSION_DEVICE.asStack())
+                    .duration(800)
+                    .MANAt(64)
                     .save();
 
             ASSEMBLER_RECIPES.builder("base_mana_distributor")
