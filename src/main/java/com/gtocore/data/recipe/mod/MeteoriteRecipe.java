@@ -1,4 +1,4 @@
-package com.gtocore.data.recipe.misc;
+package com.gtocore.data.recipe.mod;
 
 import com.gtocore.api.data.tag.GTOTagPrefix;
 import com.gtocore.common.data.GTOBlocks;
@@ -351,7 +351,7 @@ public final class MeteoriteRecipe {
                 });
 
         MeteoriteRegistryHelper.registerMeteoriteType(
-                Items.NETHERITE_SCRAP, 200, 0, GTOItems.COLORFUL_MYSTICAL_FLOWER.asItem(),
+                Items.NETHER_STAR, 200, 0, Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE,
                 new Block[] {
                         Blocks.ANCIENT_DEBRIS, Blocks.NETHERITE_BLOCK,
                         Blocks.BASALT, Blocks.BLACKSTONE,
@@ -359,10 +359,10 @@ public final class MeteoriteRecipe {
                         Blocks.CRYING_OBSIDIAN, Blocks.LODESTONE
                 },
                 new int[] {
-                        35, 5,
-                        30, 25,
-                        15, 10,
-                        3, 2
+                        40, 2,
+                        180, 150,
+                        90, 60,
+                        10, 5
                 });
 
         MeteoriteRegistryHelper.registerMeteoriteType(
