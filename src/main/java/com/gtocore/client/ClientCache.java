@@ -1,5 +1,7 @@
 package com.gtocore.client;
 
+import com.gtocore.config.GTOConfig;
+
 import net.minecraft.resources.ResourceLocation;
 
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
@@ -21,4 +23,6 @@ public final class ClientCache {
     public static UUID SERVER_IDENTIFIER;
 
     public static int highlightTime;
+
+    public static String autoRenameName = GTOConfig.INSTANCE.renamePatternDefaultString;
 }

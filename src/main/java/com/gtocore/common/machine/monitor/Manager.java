@@ -672,6 +672,14 @@ public final class Manager {
                 broadcast(sp.getServer());
             }
         }
+
+        @SubscribeEvent
+        public static void onPlayerChangeDimension(PlayerEvent.PlayerChangedDimensionEvent event) {
+            // 玩家切换维度时触发
+            if (event.getEntity() instanceof ServerPlayer sp) {
+                broadcast(sp.getServer());
+            }
+        }
     }
 
     public static void broadcast(MinecraftServer server) {

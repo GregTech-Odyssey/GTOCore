@@ -24,7 +24,7 @@ import java.util.Objects;
 
 public final class ItemMap {
 
-    static final ImmutableSet<Item> UNIVERSAL_CIRCUITS = ImmutableSet.copyOf(Arrays.stream(GTOItems.UNIVERSAL_CIRCUIT).filter(Objects::nonNull).map(RegistryEntry::get).toList());
+    public static final ImmutableSet<Item> UNIVERSAL_CIRCUITS = ImmutableSet.copyOf(Arrays.stream(GTOItems.UNIVERSAL_CIRCUIT).filter(Objects::nonNull).map(RegistryEntry::get).toList());
 
     private static final Object2IntMap<Item> SCRAP_MAP = new Object2IntOpenHashMap<>();
     private static final int TOTAL_PROBABILITY;

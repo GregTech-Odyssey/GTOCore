@@ -61,7 +61,7 @@ public class BaseSteamMultiblockMachine extends SteamParallelMultiblockMachine {
         Recipe recipe = (Recipe) r;
         long eut = recipe.getInputEUt();
         if (eut < (isOC ? (long) this.eut << 2 : this.eut)) {
-            recipe = ParallelLogic.accurateStrictParallel(this, recipe, getMaxParallels());
+            recipe = ParallelLogic.accurateParallel(this, recipe, getMaxParallels());
             if (recipe == null) return null;
             recipe.duration = (int) (recipe.duration * durationMultiplier);
             if (isOC) {

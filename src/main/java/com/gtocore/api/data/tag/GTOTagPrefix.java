@@ -1,6 +1,7 @@
 package com.gtocore.api.data.tag;
 
 import com.gtocore.api.data.material.GTOMaterialFlags;
+import com.gtocore.client.renderer.item.HaloItemRenderer;
 import com.gtocore.common.data.GTOBlocks;
 
 import com.gtolib.GTOCore;
@@ -14,6 +15,7 @@ import com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlags;
 import com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialIconType;
 import com.gregtechceu.gtceu.api.data.chemical.material.properties.PropertyKey;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
+import com.gregtechceu.gtceu.api.item.component.ICustomRenderer;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -24,6 +26,7 @@ import net.minecraft.world.level.material.MapColor;
 import com.kyanite.deeperdarker.DeeperDarker;
 import com.kyanite.deeperdarker.content.DDBlocks;
 import earth.terrarium.adastra.common.registry.ModBlocks;
+import org.jetbrains.annotations.Nullable;
 import vazkii.botania.common.block.BotaniaBlocks;
 
 import static com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlags.NO_SMASHING;
@@ -33,6 +36,8 @@ import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.Conditions.hasOreProp
 public final class GTOTagPrefix extends TagPrefix {
 
     private int maxDamage;
+
+    private ICustomRenderer customRenderer;
 
     private GTOTagPrefix(String name) {
         super(name);
@@ -93,6 +98,23 @@ public final class GTOTagPrefix extends TagPrefix {
         var property = mat.getProperty(PropertyKey.WIRE);
         return property != null && property.isSuperconductor() && property.getVoltage() < GTValues.VA[GTValues.MAX];
     });
+    public static final TagPrefix PARTICLE_SOURCE = new GTOTagPrefix("particle_source").useRenderer(() -> HaloItemRenderer.RADIOACTIVE).idPattern("%s_particle_source").defaultTagPath("particle_source/%s").unformattedTagPath("particle_source").materialAmount(GTValues.M * 2).materialIconType(new MaterialIconType("particle_source")).unificationEnabled(true).generateItem(true).generationCondition(mat -> mat.hasFlag(GTOMaterialFlags.GENERATE_PARTICLE_SOURCE));
+    public static final TagPrefix TARGET_BASE = new GTOTagPrefix("target_base").idPattern("%s_target_base").defaultTagPath("target_base/%s").unformattedTagPath("target_base").materialAmount(GTValues.M * 2).materialIconType(new MaterialIconType("target_base")).unificationEnabled(true).generateItem(true).generationCondition(mat -> mat.hasFlag(GTOMaterialFlags.GENERATE_TARGET_BASE));
+
+    private static final MaterialIconType BeIcon = new MaterialIconType("beryllium_target");
+    private static final MaterialIconType StainlessSteelIcon = new MaterialIconType("stainless_steel_target");
+    private static final MaterialIconType ZirconiumCarbideIcon = new MaterialIconType("zirconium_carbide_target");
+    private static final MaterialIconType BreederRodIcon = new MaterialIconType("breeder_rod");
+
+    public static final TagPrefix BERYLLIUM_TARGET = new GTOTagPrefix("beryllium_target").idPattern("%s_beryllium_target").defaultTagPath("beryllium_target/%s").unformattedTagPath("beryllium_target").materialAmount(GTValues.M * 2).materialIconType(BeIcon).unificationEnabled(true).generateItem(true).generationCondition(mat -> mat.hasFlag(GTOMaterialFlags.GENERATE_BERYLLIUM_TARGET));
+    public static final TagPrefix STAINLESS_STEEL_TARGET = new GTOTagPrefix("stainless_steel_target").idPattern("%s_stainless_steel_target").defaultTagPath("stainless_steel_target/%s").unformattedTagPath("stainless_steel_target").materialAmount(GTValues.M * 2).materialIconType(StainlessSteelIcon).unificationEnabled(true).generateItem(true).generationCondition(mat -> mat.hasFlag(GTOMaterialFlags.GENERATE_STAINLESS_STEEL_TARGET));
+    public static final TagPrefix ZIRCONIUM_CARBIDE_TARGET = new GTOTagPrefix("zirconium_carbide_target").idPattern("%s_zirconium_carbide_target").defaultTagPath("zirconium_carbide_target/%s").unformattedTagPath("zirconium_carbide_target").materialAmount(GTValues.M * 2).materialIconType(ZirconiumCarbideIcon).unificationEnabled(true).generateItem(true).generationCondition(mat -> mat.hasFlag(GTOMaterialFlags.GENERATE_ZIRCONIUM_CARBIDE_TARGET));
+
+    public static final TagPrefix EXCITED_BERYLLIUM_TARGET = new GTOTagPrefix("excited_beryllium_target").useRenderer(() -> HaloItemRenderer.RADIOACTIVE).idPattern("%s_excited_beryllium_target").defaultTagPath("excited_beryllium_target/%s").unformattedTagPath("excited_beryllium_target").materialAmount(GTValues.M * 2).materialIconType(BeIcon).unificationEnabled(true).generateItem(true).generationCondition(mat -> mat.hasFlag(GTOMaterialFlags.GENERATE_BERYLLIUM_TARGET));
+    public static final TagPrefix EXCITED_STAINLESS_STEEL_TARGET = new GTOTagPrefix("excited_stainless_steel_target").useRenderer(() -> HaloItemRenderer.RADIOACTIVE).idPattern("%s_excited_stainless_steel_target").defaultTagPath("excited_stainless_steel_target/%s").unformattedTagPath("excited_stainless_steel_target").materialAmount(GTValues.M * 2).materialIconType(StainlessSteelIcon).unificationEnabled(true).generateItem(true).generationCondition(mat -> mat.hasFlag(GTOMaterialFlags.GENERATE_STAINLESS_STEEL_TARGET));
+    public static final TagPrefix EXCITED_ZIRCONIUM_CARBIDE_TARGET = new GTOTagPrefix("excited_zirconium_carbide_target").useRenderer(() -> HaloItemRenderer.RADIOACTIVE).idPattern("%s_excited_zirconium_carbide_target").defaultTagPath("excited_zirconium_carbide_target/%s").unformattedTagPath("excited_zirconium_carbide_target").materialAmount(GTValues.M * 2).materialIconType(ZirconiumCarbideIcon).unificationEnabled(true).generateItem(true).generationCondition(mat -> mat.hasFlag(GTOMaterialFlags.GENERATE_ZIRCONIUM_CARBIDE_TARGET));
+    public static final TagPrefix BREEDER_ROD = new GTOTagPrefix("breeder_rod").useRenderer(() -> HaloItemRenderer.RADIOACTIVE).idPattern("%s_breeder_rod").defaultTagPath("breeder_rod/%s").unformattedTagPath("breeder_rod").materialAmount(GTValues.M * 2).materialIconType(BreederRodIcon).unificationEnabled(true).generateItem(true).generationCondition(mat -> mat.hasFlag(GTOMaterialFlags.GENERATE_BREEDER_ROD));
+    public static final TagPrefix DEPLETED_BREEDER_ROD = new GTOTagPrefix("depleted_breeder_rod").idPattern("%s_depleted_breeder_rod").defaultTagPath("depleted_breeder_rod/%s").unformattedTagPath("depleted_breeder_rod").materialAmount(GTValues.M * 2).materialIconType(BreederRodIcon).unificationEnabled(true).generateItem(true).generationCondition(mat -> mat.hasFlag(GTOMaterialFlags.GENERATE_BREEDER_ROD));
 
     public int maxDamage() {
         return this.maxDamage;
@@ -104,5 +126,15 @@ public final class GTOTagPrefix extends TagPrefix {
     private GTOTagPrefix maxDamage(final int maxDamage) {
         this.maxDamage = maxDamage;
         return this;
+    }
+
+    private GTOTagPrefix useRenderer(final ICustomRenderer renderer) {
+        this.customRenderer = renderer;
+        return this;
+    }
+
+    @Nullable
+    public ICustomRenderer customRenderer() {
+        return this.customRenderer;
     }
 }

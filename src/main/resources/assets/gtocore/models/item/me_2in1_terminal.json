@@ -1,0 +1,9 @@
+{
+  "parent": "ae2:item/display_base",
+  "textures": {
+    "front": "ae2:part/pattern_access_terminal",
+    "front_bright": "gtocore:part/me2in1_terminal_bright",
+    "front_medium": "gtocore:part/me2in1_terminal_medium",
+    "front_dark": "gtocore:part/me2in1_terminal_dark"
+  }
+}

@@ -1320,7 +1320,6 @@ public final class MultiBlockD {
                     .tooltipsKey("gtceu.machine.fusion_reactor.capacity", FusionReactorMachine.calculateEnergyStorageFactor(tier, 16) / 1000000L)
                     .tooltipsKey("gtceu.machine.fusion_reactor.overclocking")
                     .parallelizableTooltips()
-                    .onlyLaserTooltips()
                     .laserTooltips()
                     .multipleRecipesTooltips()
                     .block(() -> FusionCasings.getCasingState(tier))

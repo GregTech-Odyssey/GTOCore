@@ -1,13 +1,16 @@
 package com.gtocore.data.recipe.classified;
 
+import com.gtocore.common.data.GTOBlocks;
 import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.data.GTOMaterials;
 import com.gtocore.common.recipe.condition.RestrictedMachineCondition;
 
 import com.gtolib.GTOCore;
 
+import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
+import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
 import net.minecraft.world.level.material.Fluids;
@@ -62,6 +65,14 @@ final class ArcFurnace {
                 .inputFluids(GTMaterials.Oxygen.getFluid(1000))
                 .EUt(1920)
                 .duration(2580)
+                .save();
+
+        ARC_FURNACE_RECIPES.recipeBuilder("INDUSTRIAL_FRAMELESS_GLASS".toLowerCase())
+                .inputItems(GTBlocks.CASING_TEMPERED_GLASS.asItem(), 4)
+                .outputItems(GTOBlocks.INDUSTRIAL_FRAMELESS_GLASS.asItem(), 4)
+                .inputFluids(GTMaterials.Silicon.getFluid(144))
+                .EUt(GTValues.VA[GTValues.MV])
+                .duration(200)
                 .save();
     }
 }

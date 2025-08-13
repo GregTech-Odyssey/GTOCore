@@ -117,12 +117,12 @@ public abstract class PlanetsScreenMixin extends AbstractContainerScreen<Planets
         tooltip.add(Component.translatable("tooltip.ad_astra.construct_space_station_at", this.menu.getPlanetName(planet), pos.getX(), pos.getZ()).withStyle(ChatFormatting.AQUA));
         if (!this.menu.isInSpaceStation(planet) && !this.menu.isClaimed(planet)) {
             tooltip.add(ConstantComponents.CONSTRUCTION_COST.copy().withStyle(ChatFormatting.AQUA));
-            List<IAdDisplayTagName.a> ingredients = ((IAdDisplayTagName) this.menu).gtocore$getAdastraDisplayTagNames().get(planet);
+            List<IAdDisplayTagName.CountIngredient> ingredients = ((IAdDisplayTagName) this.menu).gtocore$getAdastraDisplayTagNames().get(planet);
             if (ingredients != null) {
                 var gameTime = this.menu.player().level().getGameTime();
-                for (IAdDisplayTagName.a ingredient : ingredients) {
+                for (IAdDisplayTagName.CountIngredient ingredient : ingredients) {
                     MutableComponent need = Component.empty();
-                    Ingredient.Value[] values = ingredient.a().values;
+                    Ingredient.Value[] values = ingredient.ingredient().values;
                     int displayWhich = Math.toIntExact((gameTime / 100) % values.length);
                     if (values[displayWhich] instanceof Ingredient.TagValue tagValue) {
                         String tagTranslationKey = gtocore$getTagTranslationKey(ResourceLocation.parse(tagValue.serialize().get("tag").getAsString()));
@@ -136,8 +136,8 @@ public abstract class PlanetsScreenMixin extends AbstractContainerScreen<Planets
                     } else {
                         need.append(Component.translatable("tooltip.ad_astra.unknown_ingredient").withStyle(ChatFormatting.RED));
                     }
-                    int howMuch = ingredient.b();
-                    int amountOwned = ingredient.c();
+                    int howMuch = ingredient.holderCount();
+                    int amountOwned = ingredient.count();
                     boolean hasEnough = this.menu.player().isCreative() || this.menu.player().isSpectator() || amountOwned >= howMuch;
                     tooltip.add(Component.translatable("tooltip.ad_astra.requirement", amountOwned, howMuch, need.withStyle(ChatFormatting.DARK_AQUA)).copy().withStyle(hasEnough ? ChatFormatting.GREEN : ChatFormatting.RED));
                 }

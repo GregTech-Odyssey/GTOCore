@@ -44,6 +44,7 @@ public final class HaloItemRenderer implements IRenderer {
     public static final HaloItemRenderer INFINITY_HALO = HaloItemRenderer.create(0.1F, 0xFF000000, 10, RLUtils.avaritia("misc/halo"));
     public static final HaloItemRenderer ETERNITY_HALO = HaloItemRenderer.create(0.1F, 0xFF000000, 10, RLUtils.avaritia("misc/halo"));
     public static final HaloItemRenderer MAGMATTER_HALO = HaloItemRenderer.create(0.15F, 0xFF212121, 10, RLUtils.avaritia("misc/halo"));
+    public static final HaloItemRenderer RADIOACTIVE = HaloItemRenderer.create(0F, 0xFF218121, 9, RLUtils.avaritia("misc/halo_noise"));
 
     private static HaloItemRenderer create(float pulse, int colour, int size, ResourceLocation textures) {
         return create(pulse, () -> colour, () -> size, textures);

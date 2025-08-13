@@ -40,4 +40,22 @@ public final class GTOMaterialFlags {
 
     public static final MaterialFlag GENERATE_COIN = new MaterialFlag.Builder("generate_coin")
             .build();
+
+    public static final MaterialFlag GENERATE_PARTICLE_SOURCE = new MaterialFlag.Builder("generate_particle_source")
+            .build();
+
+    public static final MaterialFlag GENERATE_TARGET_BASE = new MaterialFlag.Builder("generate_target_base")
+            .build();
+
+    public static final MaterialFlag GENERATE_BERYLLIUM_TARGET = new MaterialFlag.Builder("generate_beryllium_target")
+            .build();
+
+    public static final MaterialFlag GENERATE_STAINLESS_STEEL_TARGET = new MaterialFlag.Builder("generate_stainless_steel_target")
+            .build();
+
+    public static final MaterialFlag GENERATE_ZIRCONIUM_CARBIDE_TARGET = new MaterialFlag.Builder("generate_zirconium_carbide_target")
+            .build();
+
+    public static final MaterialFlag GENERATE_BREEDER_ROD = new MaterialFlag.Builder("generate_breeder_rod")
+            .build();
 }

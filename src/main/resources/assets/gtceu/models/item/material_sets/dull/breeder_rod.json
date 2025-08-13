@@ -1,0 +1,8 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "gtocore:item/material_sets/dull/breeder_rod",
+    "layer1": "gtocore:item/material_sets/dull/breeder_rod_secondary",
+    "layer2": "gtocore:item/material_sets/dull/breeder_rod_overlay"
+  }
+}

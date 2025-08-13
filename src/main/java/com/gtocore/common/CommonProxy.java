@@ -11,6 +11,8 @@ import com.gtocore.integration.ftbu.AreaShape;
 import com.gtocore.integration.gtmt.AdvancedTerminalBehavior;
 
 import com.gtolib.GTOCore;
+import com.gtolib.ae2.me2in1.Me2in1Menu;
+import com.gtolib.ae2.me2in1.Wireless;
 import com.gtolib.api.data.Dimension;
 import com.gtolib.api.player.IEnhancedPlayer;
 import com.gtolib.api.registries.ScanningClass;
@@ -25,16 +27,29 @@ import com.gregtechceu.gtceu.api.recipe.category.GTRecipeCategory;
 import com.gregtechceu.gtceu.common.machine.multiblock.electric.FusionReactorMachine;
 import com.gregtechceu.gtceu.common.unification.material.MaterialRegistryManager;
 
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.inventory.MenuType;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.registries.RegisterEvent;
 
+import appeng.api.features.GridLinkables;
 import appeng.api.networking.pathing.ChannelMode;
 import appeng.core.AEConfig;
+import appeng.items.tools.powered.WirelessTerminalItem;
 import com.hepdd.gtmthings.data.CustomItems;
+import de.mari_023.ae2wtlib.AE2wtlib;
+import de.mari_023.ae2wtlib.TextConstants;
+import de.mari_023.ae2wtlib.terminal.IUniversalWirelessTerminalItem;
+import de.mari_023.ae2wtlib.wut.WTDefinition;
 import earth.terrarium.adastra.api.events.AdAstraEvents;
 import org.embeddedt.modernfix.spark.SparkLaunchProfiler;
 
@@ -42,6 +57,8 @@ import java.util.Arrays;
 
 import static com.gregtechceu.gtceu.common.data.GTDimensionMarkers.createAndRegister;
 import static com.gtolib.api.registries.GTORegistration.GTO;
+import static de.mari_023.ae2wtlib.wut.WUTHandler.terminalNames;
+import static de.mari_023.ae2wtlib.wut.WUTHandler.wirelessTerminals;
 
 public class CommonProxy {
 
@@ -58,6 +75,7 @@ public class CommonProxy {
         eventBus.addListener(CommonProxy::commonSetup);
         eventBus.addListener(CommonProxy::addMaterials);
         eventBus.addListener(CommonProxy::registerMaterialRegistry);
+        eventBus.addListener(CommonProxy::initMenu);
         eventBus.addListener(Datagen::onGatherData);
         eventBus.addGenericListener(DimensionMarker.class, CommonProxy::registerDimensionMarkers);
         eventBus.addGenericListener(GTRecipeCategory.class, CommonProxy::registerRecipeCategory);
@@ -85,6 +103,8 @@ public class CommonProxy {
         AdAstraEvents.AcidRainTickEvent.register(IEnhancedPlayer::spaceTick);
         AdAstraEvents.TemperatureTickEvent.register(IEnhancedPlayer::spaceTick);
         AdAstraEvents.EntityGravityEvent.register(IEnhancedPlayer::gravity);
+
+        initWTLib();
 
         if (GTCEu.isProd()) {
             AreaShape.register();
@@ -125,6 +145,26 @@ public class CommonProxy {
         ModList.get().getAllScanData().clear();
         if (GTOConfig.INSTANCE.startSpark == SparkRange.MAIN_MENU) {
             SparkLaunchProfiler.stop("all");
+        }
+    }
+
+    private static void initWTLib() {
+        GridLinkables.register(GTOItems.WIRELESS_ME2IN1, WirelessTerminalItem.LINKABLE_HANDLER);
+        ItemStack wut = new ItemStack(AE2wtlib.UNIVERSAL_TERMINAL);
+        CompoundTag tag = new CompoundTag();
+        tag.putBoolean(Wireless.ID, true);
+        wut.setTag(tag);
+        wirelessTerminals.put(Wireless.ID, new WTDefinition(
+                ((IUniversalWirelessTerminalItem) GTOItems.WIRELESS_ME2IN1.get())::tryOpen, Wireless.Host::new, Wireless.TYPE, GTOItems.WIRELESS_ME2IN1.get(), wut,
+                TextConstants.formatTerminalName("gtocore.ae.appeng.me2in1.wireless")));
+        terminalNames.add(Wireless.ID);
+    }
+
+    private static void initMenu(RegisterEvent event) {
+        // Initialize the menu registry
+        if (event.getRegistryKey() == Registries.MENU) {
+            Registry.<MenuType<?>>register(BuiltInRegistries.MENU, GTOCore.id("me2in1").toString(), Me2in1Menu.TYPE);
+            Registry.<MenuType<?>>register(BuiltInRegistries.MENU, GTOCore.id("me2in1wireless").toString(), Wireless.TYPE);
         }
     }
 

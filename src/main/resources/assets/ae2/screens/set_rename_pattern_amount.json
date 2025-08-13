@@ -1,0 +1,72 @@
+{
+  "$schema": "schema.json",
+  "includes": ["common/common.json"],
+  "background": {
+    "texture": "guis/craft_rename_amt.png",
+    "srcRect": [0, 0, 176, 176]
+  },
+  "slots": {
+    "MACHINE_OUTPUT": {
+      "left": 23,
+      "top": 53
+    }
+  },
+  "text": {
+    "dialog_title": {
+      "text": {
+        "translate": "gui.ae2.SelectAmount"
+      },
+      "position": {
+        "left": 8,
+        "top": 6
+      }
+    }
+  },
+  "widgets": {
+    "save": {
+      "left": 120,
+      "top": 142,
+      "width": 38,
+      "height": 20
+    },
+    "back": {
+      "left": 154,
+      "top": 0
+    },
+    "amountToStock": {
+      "left": 20,
+      "top": 30,
+      "width": 138,
+      "height": 62
+    },
+    "amountToStockInput": {
+      "left": 48,
+      "top": 55,
+      "width": 66,
+      "height": 12
+    },
+    "rename": {
+      "left": 23,
+      "top": 98,
+      "width": 93,
+      "height": 12
+    },
+    "renameInput": {
+      "left": 23,
+      "top": 98,
+      "width": 93,
+      "height": 12
+    },
+    "autoEncodeRenamePatternCheckbox": {
+      "left": 23,
+      "top": 118,
+      "width": 170
+    },
+    "defaultRename": {
+      "left": 23,
+      "top": 138,
+      "width": 93,
+      "height": 12
+    }
+  }
+}

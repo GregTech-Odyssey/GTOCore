@@ -3,6 +3,10 @@ package com.gtocore.integration.emi;
 import com.gtocore.integration.chisel.ChiselRecipe;
 import com.gtocore.integration.emi.oreprocessing.OreProcessingEmiCategory;
 
+import com.gtolib.ae2.me2in1.Me2in1Menu;
+import com.gtolib.ae2.me2in1.UtilsMiscs;
+import com.gtolib.ae2.me2in1.Wireless;
+
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.recipe.category.GTRecipeCategory;
 import com.gregtechceu.gtceu.api.registry.GTRegistries;
@@ -25,6 +29,8 @@ import appeng.api.stacks.GenericStack;
 import appeng.menu.me.items.PatternEncodingTermMenu;
 import com.arsmeteorites.arsmeteorites.ArsMeteorites;
 import com.arsmeteorites.arsmeteorites.emi.MeteoritesEmiPlugin;
+import com.hepdd.ae2emicraftingforge.Ae2EmiCraftingMod;
+import com.hepdd.ae2emicraftingforge.client.Ae2EmiPlugin;
 import com.lowdragmc.lowdraglib.LDLib;
 import com.lowdragmc.lowdraglib.emi.EMIPlugin;
 import com.lowdragmc.lowdraglib.gui.modular.ModularUIContainer;
@@ -58,6 +64,7 @@ public final class GTEMIPlugin implements EmiPlugin {
         list.add(new EmiPluginContainer(new EMIPlugin(), LDLib.MOD_ID));
         list.add(new EmiPluginContainer(new GTEMIPlugin(), GTCEu.MOD_ID));
         list.add(new EmiPluginContainer(new MeteoritesEmiPlugin(), ArsMeteorites.MOD_ID));
+        list.add(new EmiPluginContainer(new Ae2EmiPlugin(), Ae2EmiCraftingMod.MOD_ID));
     }
 
     public static EmiIngredient genericStackToEmiIngredient(GenericStack stack) {
@@ -84,6 +91,8 @@ public final class GTEMIPlugin implements EmiPlugin {
             }
         }
         registry.addRecipeHandler(ModularUIContainer.MENUTYPE, new GTEmiRecipeHandler());
+        registry.addRecipeHandler(Me2in1Menu.TYPE, UtilsMiscs.createEMI2in1());
+        registry.addRecipeHandler(Wireless.TYPE, UtilsMiscs.createEMIWireless());
         registry.addRecipeHandler(PatternEncodingTermMenu.TYPE, new Ae2PatternTerminalHandler<>());
         registry.addRecipeHandler(WETMenu.TYPE, new Ae2PatternTerminalHandler<>());
         registry.addCategory(GTProgrammedCircuitCategory.CATEGORY);

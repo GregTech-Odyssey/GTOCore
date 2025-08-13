@@ -520,5 +520,50 @@ public final class MaterialC {
                 .iconSet(DULL)
                 .color(0xf5f5f5)
                 .buildAndRegister().setFormula("(CH₅O)₃(C₃H₆NH₂)Si", false);
+
+        AlphaParticleSource = material("alpha_particle", "α").dust()
+                .flags(GTOMaterialFlags.GENERATE_PARTICLE_SOURCE)
+                .color(0x378D94).iconSet(METALLIC).radioactiveHazard(75)
+                .buildAndRegister().setFormula("[α]", false);
+
+        Calcium48Source = material("calcium_48", "钙-48").dust()
+                .flags(GTOMaterialFlags.GENERATE_PARTICLE_SOURCE)
+                .color(0xFFF5DE).secondaryColor(0xa4a4a4).iconSet(METALLIC).radioactiveHazard(75)
+                .buildAndRegister().setFormula("Ca⁴⁸", false);
+
+        Chromium54Source = material("chromium_54", "铬-54").dust()
+                .flags(GTOMaterialFlags.GENERATE_PARTICLE_SOURCE)
+                .color(0xf3e0ea).secondaryColor(0x441f2e).iconSet(SHINY).radioactiveHazard(75)
+                .buildAndRegister().setFormula("Cr⁵⁴", false);
+
+        Iron58Source = material("iron_58", "铁-58").dust()
+                .flags(GTOMaterialFlags.GENERATE_PARTICLE_SOURCE)
+                .color(0xeeeeee).secondaryColor(0x979797).iconSet(METALLIC).radioactiveHazard(75)
+                .buildAndRegister().setFormula("Fe⁵⁸", false);
+
+        Nickel64Source = material("nickel_64", "镍-64").dust()
+                .flags(GTOMaterialFlags.GENERATE_PARTICLE_SOURCE)
+                .color(0xccdff5).secondaryColor(0x59563a).iconSet(METALLIC).radioactiveHazard(75)
+                .buildAndRegister().setFormula("Ni⁶⁴", false);
+
+        Zinc70Source = material("zinc_70", "锌-70").dust()
+                .flags(GTOMaterialFlags.GENERATE_PARTICLE_SOURCE)
+                .color(0xEBEBFA).secondaryColor(0x232c30).iconSet(METALLIC).radioactiveHazard(75)
+                .buildAndRegister().setFormula("Zn⁷⁰", false);
+
+        PlutoniumBerylliumSource = material("plutonium_beryllium", "钚-铍").dust()
+                .flags(GTOMaterialFlags.GENERATE_PARTICLE_SOURCE)
+                .color(0xff4c4c).secondaryColor(0x222730).iconSet(RADIOACTIVE).radioactiveHazard(75)
+                .buildAndRegister().setFormula("Pu-Be", false);
+
+        AntinomyBerylliumSource = material("antimony_beryllium", "锑-铍").dust()
+                .flags(GTOMaterialFlags.GENERATE_PARTICLE_SOURCE)
+                .color(0xeaeaff).secondaryColor(0x8181bd).iconSet(SHINY).radioactiveHazard(75)
+                .buildAndRegister().setFormula("Sb-Be", false);
+
+        Californium252Source = material("californium_252", "镎-252").dust()
+                .flags(GTOMaterialFlags.GENERATE_PARTICLE_SOURCE)
+                .color(0xA85A12).iconSet(RADIOACTIVE).radioactiveHazard(75)
+                .buildAndRegister().setFormula("Np²⁵²", false);
     }
 }

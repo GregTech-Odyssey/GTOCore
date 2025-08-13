@@ -955,6 +955,16 @@ public final class GTOMaterials {
     public static Material Chloropropyltriethoxysilane;
     public static Material KH550SilaneCouplingAgent;
 
+    public static Material AlphaParticleSource;
+    public static Material Calcium48Source;
+    public static Material Chromium54Source;
+    public static Material Iron58Source;
+    public static Material Nickel64Source;
+    public static Material Zinc70Source;
+    public static Material PlutoniumBerylliumSource;
+    public static Material AntinomyBerylliumSource;
+    public static Material Californium252Source;
+
     public static Material Manasteel;
     public static Material Terrasteel;
     public static Material Elementium;

@@ -564,5 +564,17 @@ final class PrecisionAssembler {
                 .duration(200)
                 .cleanroom(CleanroomType.STERILE_CLEANROOM)
                 .save();
+
+        PRECISION_ASSEMBLER_RECIPES.recipeBuilder("bioactive_mechanical_casing")
+                .inputItems(GTOBlocks.FLOCCULATION_CASING.asItem())
+                .inputItems(GTOItems.BIOLOGICAL_CELLS, 2)
+                .outputItems(GTOBlocks.BIOACTIVE_MECHANICAL_CASING.asItem())
+                .inputFluids(GTMaterials.Glass.getFluid(576))
+                .inputFluids(GTOMaterials.BacterialGrowthMedium.getFluid(100))
+                .inputFluids(GTMaterials.Bacteria.getFluid(50))
+                .EUt(480)
+                .duration(200)
+                .cleanroom(CleanroomType.STERILE_CLEANROOM)
+                .save();
     }
 }

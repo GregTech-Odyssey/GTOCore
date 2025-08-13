@@ -1131,7 +1131,7 @@ public final class MaterialA {
                 .components(Zirconium, 1, Carbon, 1)
                 .color(0xd2bfaa)
                 .iconSet(METALLIC)
-                .flags(GENERATE_PLATE, DISABLE_DECOMPOSITION)
+                .flags(GENERATE_PLATE, DISABLE_DECOMPOSITION, GTOMaterialFlags.GENERATE_TARGET_BASE)
                 .buildAndRegister();
 
         MarM200Steel = material("mar_m_200_steel", "MAR-M200特种钢")
@@ -1200,6 +1200,7 @@ public final class MaterialA {
                 .blastTemp(1942)
                 .color(0xd58eed)
                 .iconSet(METALLIC)
+                .flags(GTOMaterialFlags.GENERATE_PARTICLE_SOURCE)
                 .buildAndRegister();
 
         Laurenium = material("laurenium", "劳伦姆合金")

@@ -1,0 +1,8 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "gtocore:item/material_sets/dull/particle_source",
+    "layer1": "gtocore:item/material_sets/dull/particle_source_secondary",
+    "layer2": "gtocore:item/material_sets/dull/particle_source_overlay"
+  }
+}

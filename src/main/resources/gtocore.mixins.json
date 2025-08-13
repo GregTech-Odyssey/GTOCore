@@ -10,6 +10,7 @@
     "mc.GuiGraphicsAccessor"
   ],
   "mixins": [
+    "mc.AbstractContainerScreenAccessor",
     "ftblibrary.FTBLibraryCommandsMixin",
     "ftbq.FTBQuestsCommandsMixin",
     "ftbq.ToggleEditingModeMessageMixin",

@@ -155,6 +155,11 @@ public final class GTOConfig {
     @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Self Restraint Mode", cn = "自我约束模式")
     public boolean selfRestraint = false;
 
+    @Configurable
+    @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Default Value for Rename Pattern", cn = "重命名样板的默认值")
+    @Configurable.Comment("在装配线模式编码带有重命名物品的样板时使用的默认名字")
+    public String renamePatternDefaultString = "";
+
     // 性能优化设置
     @Configurable
     @Configurable.Comment("快速加载多方块结构页面，减少不必要的加载时间")
@@ -226,6 +231,12 @@ public final class GTOConfig {
     @Configurable.Comment("Spark 性能分析器的启动阶段")
     @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Spark Profiler Start Phase", cn = "Spark 分析器启动阶段")
     public SparkRange startSpark = SparkRange.NONE;
+
+    @Configurable
+    @Configurable.Range(min = 36, max = 144000)
+    @Configurable.Comment("扩展样板供应器容量(用于暴力性能测试，仅开发模式下生效)")
+    @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Extended Pattern Provider Size (Currently used for performance test, only effective in dev mode)", cn = "扩展样板供应器容量（目前用于性能测试，仅在开发模式下生效）")
+    public int exPatternSize = 36;
 
     private enum Difficulty {
         Simple,

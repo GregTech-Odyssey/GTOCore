@@ -2,6 +2,7 @@ package com.gtocore.client.forge;
 
 import com.gtocore.client.KeyBind;
 import com.gtocore.config.GTOConfig;
+import com.gtocore.mixin.mc.AbstractContainerScreenAccessor;
 
 import com.gtolib.GTOCore;
 
@@ -19,6 +20,8 @@ import net.minecraftforge.client.event.ScreenEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
+import appeng.client.gui.AEBaseScreen;
+import appeng.menu.SlotSemantic;
 import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.teamresourceful.resourcefullib.common.utils.modinfo.ModInfoUtils;
@@ -84,28 +87,54 @@ public class DebugScreenInspector {
                     false);
             poseStack.popPose();
 
-            var mouseAbsX = event.getMouseX() + screen.getGuiLeft();
-            var mouseAbsY = event.getMouseY() + screen.getGuiTop();
-            var mouseRelX = event.getMouseX();
-            var mouseRelY = event.getMouseY();
+            var mouseAbsX = event.getMouseX();
+            var mouseAbsY = event.getMouseY();
+            var mouseRelX = event.getMouseX() - screen.getGuiLeft();
+            var mouseRelY = event.getMouseY() - screen.getGuiTop();
             // draw mouse position
             graphics.drawString(
                     font,
                     Component.literal(String.format("Mouse Abs: %d, %d", mouseAbsX, mouseAbsY))
                             .withStyle(ChatFormatting.GREEN),
-                    mouseRelX + 5,
-                    mouseRelY + 5,
+                    mouseAbsX + 5,
+                    mouseAbsY + 5,
                     0xFFFFFF,
                     false);
             graphics.drawString(
                     font,
                     Component.literal(String.format("Mouse Rel: %d, %d", mouseRelX, mouseRelY))
                             .withStyle(ChatFormatting.YELLOW),
-                    mouseRelX + 5,
-                    mouseRelY + 20,
+                    mouseAbsX + 5,
+                    mouseAbsY + 20,
                     0xFFFFFF,
                     false);
 
+            var slot = ((AbstractContainerScreenAccessor) screen).callFindSlot(mouseAbsX, mouseAbsY);
+            if (slot != null) {
+                // draw slot class name
+                graphics.drawString(
+                        font,
+                        Component.literal(slot.getClass().getSimpleName())
+                                .withStyle(ChatFormatting.GOLD),
+                        mouseAbsX + 5,
+                        mouseAbsY - 30,
+                        0xFFFFFF,
+                        false);
+                if (screen instanceof AEBaseScreen<?> aeScreen) {
+                    // draw slot semantics
+                    SlotSemantic semantics = aeScreen.getMenu().getSlotSemantic(slot);
+                    if (semantics != null) {
+                        graphics.drawString(
+                                font,
+                                Component.literal(semantics.id())
+                                        .withStyle(ChatFormatting.AQUA),
+                                mouseAbsX + 5,
+                                mouseAbsY - 45,
+                                0xFFFFFF,
+                                false);
+                    }
+                }
+            }
         }
     }
 

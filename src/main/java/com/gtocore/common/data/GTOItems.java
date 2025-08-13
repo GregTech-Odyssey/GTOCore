@@ -10,6 +10,7 @@ import com.gtocore.common.item.armor.SpaceArmorComponentItem;
 import com.gtocore.common.item.misc.GrassHarvesterBehaviour;
 
 import com.gtolib.GTOCore;
+import com.gtolib.ae2.me2in1.Wireless;
 import com.gtolib.api.annotation.NewDataAttributes;
 import com.gtolib.api.annotation.component_builder.ComponentBuilder;
 import com.gtolib.api.annotation.component_builder.ComponentSupplier;
@@ -893,6 +894,7 @@ public final class GTOItems {
     public static final ItemEntry<Item> SPOOLS_JUMBO = register("spools_jumbo", "巨型线轴");
 
     public static final ItemEntry<Item> COLORFUL_MYSTICAL_FLOWER = register("colorful_mystical_flower", "多彩神秘花瓣");
+    public static final ItemEntry<Wireless.Item> WIRELESS_ME2IN1 = item("wireless_me2in1_terminal", "无线ME2合1终端", Wireless.Item::new).register();
     public static final ItemEntry<Item> GAIA_CORE = register("gaia_core", "§e盖亚之核");
     public static final ItemEntry<Item> UNSTABLE_GAIA_SOUL = register("unstable_gaia_soul", "§e不稳定的盖亚之魂");
     public static final ItemEntry<Item> WILDEN_SLATE = register("wilden_slate", "§d荒野石板");

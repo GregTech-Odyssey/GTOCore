@@ -58,6 +58,16 @@ final class ItemLang {
         addCNEN("tagprefix.crystal_seed", "%s晶种", "%s Crystal Seed");
         addCNEN("tagprefix.superconductor_base", "%s超导粗胚", "%s Superconductor Base");
         addCNEN("tagprefix.coin", "%s币", "%s Coin");
+        addCNEN("tagprefix.particle_source", "%s粒子源", "%s Particle Source");
+        addCNEN("tagprefix.target_base", "%s靶基底", "%s Target Base");
+        addCNEN("tagprefix.beryllium_target", "%s-铍靶", "%s Beryllium Target");
+        addCNEN("tagprefix.stainless_steel_target", "%s-不锈钢靶", "%s Stainless Steel Target");
+        addCNEN("tagprefix.zirconium_carbide_target", "%s-碳化锆靶", "%s Zirconium Carbide Target");
+        addCNEN("tagprefix.breeder_rod", "%s增殖棒", "%s Breeder Rod");
+        addCNEN("tagprefix.excited_beryllium_target", "活化%s-铍靶", "Excited %s Beryllium Target");
+        addCNEN("tagprefix.excited_stainless_steel_target", "活化%s-不锈钢靶", "Excited %s Stainless Steel Target");
+        addCNEN("tagprefix.excited_zirconium_carbide_target", "活化%s-碳化锆靶", "Excited %s Zirconium Carbide Target");
+        addCNEN("tagprefix.depleted_breeder_rod", "枯竭%s增殖棒", "%s Depleted Breeder Rod");
 
         addCNEN("gtocore.tooltip.artificial_gem", "比自然的更好", "Better than nature");
         addCNEN("gtocore.tooltip.unknown", "未知", "Unknown");

@@ -13,6 +13,7 @@ import appeng.core.definitions.ItemDefinition
 import appeng.items.parts.PartItem
 import appeng.items.parts.PartModelsHelper
 import com.gtolib.GTOCore
+import com.gtolib.ae2.me2in1.Me2in1TerminalPart
 import com.gtolib.api.annotation.component_builder.ComponentBuilder
 import com.gtolib.utils.register.ItemRegisterUtils.*
 import com.tterrag.registrate.util.entry.ItemEntry
@@ -45,6 +46,18 @@ object GTOAEParts {
         factory = ::SimpleCraftingTerminal,
         tooltips = listOf(
             ComponentBuilder.create("将终端贴在箱子、存储器的某一面，打开合成面板就可以使用箱子内的物品进行合成。", "Attach the Terminal to any side of a chest or storage device, then open the crafting interface to use items from the container for crafting.", { p -> p }).buildSingle(),
+        ),
+    )
+
+    val ME_2IN1_TERMINAL: Supplier<ItemDefinition<PartItem<Me2in1TerminalPart>>> = createPart(
+        id = "me_2in1_terminal",
+        en = "ME 2-in-1 Terminal",
+        cn = "ME 2合1终端",
+        partClass = Me2in1TerminalPart::class.java,
+        factory = ::Me2in1TerminalPart,
+        tooltips = listOf(
+            ComponentBuilder.create("整合了ME样板编码终端与样板管理终端的功能，", "Integrates the functions of ME Pattern Encoding Terminal and Pattern Access Terminal, ", { p -> p }).buildSingle(),
+            ComponentBuilder.create("支持编码、管理样板，并支持批量编码、自动填充配方等功能。", "supports encoding and managing patterns, batch encoding, auto-filling recipes, and more.", { p -> p }).buildSingle(),
         ),
     )
 

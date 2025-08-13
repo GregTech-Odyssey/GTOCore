@@ -33,6 +33,7 @@ public final class GTOMaterialIconSet extends MaterialIconSet {
     public static final GTOMaterialIconSet INFINITY = new GTOMaterialIconSet("infinity", null, true, HaloItemRenderer.INFINITY_HALO);
     public static final GTOMaterialIconSet ETERNITY = new GTOMaterialIconSet("eternity", null, true, HaloItemRenderer.ETERNITY_HALO);
     public static final GTOMaterialIconSet MAGMATTER = new GTOMaterialIconSet("magmatter", null, true, HaloItemRenderer.MAGMATTER_HALO);
+    public static final GTOMaterialIconSet PARTICLE_EMITTER = new GTOMaterialIconSet("particle_emitter", null, true, HaloItemRenderer.RADIOACTIVE);
     public static final MaterialIconSet LIMPID = new MaterialIconSet("limpid", DULL);
 
     public ICustomRenderer getCustomRenderer() {

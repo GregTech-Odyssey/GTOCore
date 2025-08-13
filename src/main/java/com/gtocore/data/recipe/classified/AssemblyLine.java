@@ -218,7 +218,7 @@ final class AssemblyLine {
                         .CWUt(256))
                 .save();
 
-        ASSEMBLY_LINE_RECIPES.builder("advanced_rare_earth_centrifugal")
+        ASSEMBLY_LINE_RECIPES.builder("comprehensive_tombarthite_processing_facility")
                 .inputItems(MultiBlockA.RARE_EARTH_CENTRIFUGAL.asStack(16))
                 .inputItems(GTItems.FIELD_GENERATOR_UEV.asStack(16))
                 .inputItems(GTItems.ELECTRIC_MOTOR_UIV.asStack(64))

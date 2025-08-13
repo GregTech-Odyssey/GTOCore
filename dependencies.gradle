@@ -4,6 +4,7 @@ dependencies {
     implementation("curse.maven:kotlin-for-forge-351264:5402061")
 
     modImplementation(jarJar("dev:gtolib:1.0"))
+    modImplementation(jarJar("com.hepdd:ae2emicraftingforge:1.0.0"))
 
     api(annotationProcessor("io.github.llamalad7:mixinextras-common:$project.mixinextras_version"))
     annotationProcessor 'org.spongepowered:mixin:0.8.7:processor'
@@ -70,7 +71,7 @@ dependencies {
 
     modImplementation("curse.maven:farmers-respite-551453:5543547")
 
-    // modImplementation("curse.maven:spark-361579:4738952")
+     modImplementation("curse.maven:spark-361579:4738952")
 
     modCompileOnly("curse.maven:libx-412525:5207625")
 

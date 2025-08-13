@@ -246,6 +246,27 @@ public final class LangHandler {
         addCNEN("gtocore.ae.appeng.crafting.show_molecular_assembler_only", "只显示合成样板", "Show crafting pattern only");
         addCNEN("gtocore.ae.appeng.crafting.show_molecular_assembler_expect", "不显示合成样板", "Expect crafting pattern");
         addCNEN("gtocore.ae.appeng.crafting.show_molecular_assembler_all", "默认", "Default");
+        addCNEN("gtocore.ae.appeng.me2in1.shift_transfer_to", "Shift + 左键将样板转移到", "Shift + Left Click to transfer pattern to");
+        addCNEN("gtocore.ae.appeng.me2in1.shift_transfer_to.inventory_or_buffer", "背包或缓冲区", "Inventory or buffer");
+        addCNEN("gtocore.ae.appeng.me2in1.shift_transfer_to.accessor", "当前页面中空白的样板管理终端", "Blank slots on the current page of the Pattern Terminal");
+        addCNEN("gtocore.ae.appeng.me2in1.encode_to.accessor", "直接编码到当前页面中的空白部分", "Encode directly to the blank slots on the current page of terminal");
+        addCNEN("gtocore.ae.appeng.me2in1.draggable_mark.tooltip", "按住并拖动以调整该面板位置", "Hold and drag to adjust the position of this panel");
+        addCNEN("gtocore.ae.appeng.me2in1.material_slot", "材料槽", "Material Slot");
+        addCNEN("gtocore.ae.appeng.me2in1.material_slot.1", "将带有材料类型的物品（如xx板，xx杆等）放入此槽位", "Place items with materials (such as xx plate, xx rod, etc.) in this slot");
+        addCNEN("gtocore.ae.appeng.me2in1.material_slot.2", "编码时将自动应用材料类型到可替换的物品上", "The material type will be automatically applied to replaceable items when encoding");
+        addCNEN("gtocore.ae.appeng.me2in1.auto_encode_rename_pattern", "自动编码重命名样板", "Auto Encode Renaming Pattern");
+        addCNEN("gtocore.ae.appeng.me2in1.auto_encode_rename_pattern.1", "启用后，所有重命名后的物品将额外编码一份样板，数量与原样板中设置的一致。", "When enabled, all renamed items will encode an additional pattern, with the same quantity as set in the original pattern.");
+        addCNEN("gtocore.ae.appeng.me2in1.emi.gt_batch_encode", "按shift可批量编码，试图替换的材料用黄色标记", "Batch encoding is available while holding Shift, materials to be replaced are marked in yellow");
+        addCNEN("gtocore.ae.appeng.me2in1.emi.gt_batch_encode.1", "替换失败的材料（如该材料不存在这种物品）将在编码时保持原样板的状态", "Materials that fail to replace (e.g., the material does not exist for this item) will retain the original state of the pattern during encoding");
+        addCNEN("gtocore.ae.appeng.me2in1.save_default_rename_pattern", "保存默认重命名样板，将可以在自动填充时使用！", "Save the default renaming pattern, which can be used for auto-filling!");
+        addCNEN("gtocore.ae.appeng.me2in1.auto_search", "使用EMI填充配方时，", "When using EMI to fill recipes,");
+        addCNEN("gtocore.ae.appeng.me2in1.auto_search.on", "自动填充配方的目录名称到样板搜索栏中", "automatically fills the directory name of the recipe into the pattern search bar");
+        addCNEN("gtocore.ae.appeng.me2in1.auto_search.off", "不自动在样板终端中搜索", "does not automatically search in the pattern terminal");
+        addCNEN("gtocore.ae.appeng.me2in1.vanilla_craft_station", "装配矩阵", "Assembler Matrix");
+        addCNEN("gtocore.ae.appeng.me2in1.wireless", "无线2合1终端", "Wireless 2-in-1 Terminal");
+        addCNEN("gtocore.ae.appeng.me2in1", "ME2合1终端", "ME 2-in-1 Terminal");
+        addCNEN("gtocore.ae.appeng.me2in1.reset_panel_position", "重置面板位置", "Reset Panel Position");
+        addCNEN("gtocore.ae.appeng.me2in1.reset_panel_position.1", "重置所有面板位置到默认位置", "Reset all panel positions to default");
 
         addCNEN("ftbultimine.shape.area", "不定形 (不连续)", "Shapeless (Area)");
 

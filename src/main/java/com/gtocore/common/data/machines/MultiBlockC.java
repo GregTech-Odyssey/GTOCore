@@ -40,15 +40,14 @@ import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.MultiblockShapeInfo;
 import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
-import com.gregtechceu.gtceu.common.data.GCYMBlocks;
-import com.gregtechceu.gtceu.common.data.GTBlocks;
-import com.gregtechceu.gtceu.common.data.GTMaterials;
-import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
+import com.gregtechceu.gtceu.common.data.*;
 import com.gregtechceu.gtceu.common.data.machines.GTMultiMachines;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.Blocks;
+
+import com.hepdd.gtmthings.data.CustomMachines;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -121,29 +120,36 @@ public final class MultiBlockC {
             .recipeTypes(GTORecipeTypes.CRUSHER_RECIPES)
             .steamOverclock()
             .block(GTBlocks.CASING_BRONZE_BRICKS)
-            .pattern(definition -> FactoryBlockPattern.start(definition, RelativeDirection.FRONT, RelativeDirection.UP, RelativeDirection.RIGHT)
-                    .aisle("AAAAAAAAAAA", "bbbbbbbbbbb", "BBBBCBCBCBB", "D  BBBBBBBB", "D   BBBCBBB", "D    BBBBCC", "D     BBBC ", "DDDDDDDBBC ")
-                    .aisle("AAAAAAAAAAA", "D         b", "BBBBEDEDEDB", "   B  D D B", "   BBB E EB", "    BB D DC", "     BBB   ", "D     BBCC ")
-                    .aisle("AAAAAAAAAAA", "D         b", "BBBBEDEDEDB", " CCC  D D B", " CCCBB E EB", " CCCBB D DC", "     BBB   ", "D     BBC  ")
-                    .aisle("AAAAAAAAAAA", "D         ~", "BBBBEDEDEDB", " C C  D D B", " C CBB E EB", " CCCBB D DC", "     BBB   ", "D     BBC  ")
-                    .aisle("AAAAAAAAAAA", "D         B", "BBBBEDEDEDB", " CCC  D D B", " CCCBB E EB", " CCCBB D DC", "     BBB   ", "D     BBC  ")
-                    .aisle("AAAAAAAAAAA", "D         B", "BBBBEDEDEDB", "   B  D D B", "   BBB E EB", "    BB D DC", "     BBB   ", "D     BBCC ")
-                    .aisle("AAAAAAAAAAA", "bbbbbbbbbbb", "BBBBCBCBCBB", "D  BBBBBBBB", "D   BBBCBBB", "D    BBBBCC", "D     BBBC ", "DDDDDDDBBC ")
-                    .where('~', controller(blocks(definition.get())))
+            .pattern(definition -> FactoryBlockPattern.start(definition) // , RelativeDirection.FRONT,
+                                                                         // RelativeDirection.UP,
+                                                                         // RelativeDirection.RIGHT
+                    .aisle("AAAAAAA", "BEEEEEB", "CCCCCCC", "E     E", "E     E", "E     E", "E     E", "EEEEEEE")
+                    .aisle("AAAAAAA", "B     B", "CCCCCCC", "  DDD  ", "  DDD  ", "  DDD  ", "       ", "E     E")
+                    .aisle("AAAAAAA", "B     B", "CCCCCCC", "  D D  ", "  D D  ", "  DDD  ", "       ", "E     E")
+                    .aisle("AAAAAAA", "B     B", "CCCCCCC", "CCDDDCC", " CDDDC ", "  DDD  ", "       ", "E     E")
+                    .aisle("AAAAAAA", "B     B", "DFFFFFD", "C     C", "CCCCCCC", " CCCCC ", "       ", "E     E")
+                    .aisle("AAAAAAA", "B     B", "CEEEEEC", "C     C", "CCCCCCC", "CCCCCCC", " CCCCC ", "E     E")
+                    .aisle("AAAAAAA", "B     B", "DFFFFFD", "CEEEEEC", "C     C", "C     C", "CCCCCCC", "ECCCCCE")
+                    .aisle("AAAAAAA", "B     B", "CEEEEEC", "C     C", "DFFFFFD", "CEEEEEC", "CCCCCCC", "CCCCCCC")
+                    .aisle("AAAAAAA", "B     B", "DFFFFFD", "CEEEEEC", "C     C", "C     C", "C     C", "CDDDDDC")
+                    .aisle("AAAAAAA", "B     B", "CEEEEEC", "C     C", "CFFFFFC", "DEEEEED", "D     D", "DD   DD")
+                    .aisle("AAAAAAA", "BBBGBBB", "BBBBBBB", "BBBBBBB", "BBBBBBB", "DDDDDDD", "       ", "       ")
                     .where('A', blocks(GTBlocks.BRONZE_BRICKS_HULL.get()))
-                    .where('B', blocks(GTBlocks.CASING_BRONZE_BRICKS.get()))
-                    .where('C', blocks(GTBlocks.BRONZE_HULL.get()))
-                    .where('D', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.Bronze)))
-                    .where('E', blocks(GTBlocks.CASING_BRONZE_GEARBOX.get()))
-                    .where('b', blocks(GTBlocks.CASING_BRONZE_BRICKS.get())
+                    .where('B', blocks(GTBlocks.CASING_BRONZE_BRICKS.get())
                             .or(abilities(STEAM).setExactLimit(1))
                             .or(blocks(GTOMachines.STEAM_VENT_HATCH.getBlock()).setExactLimit(1))
                             .or(abilities(STEAM_IMPORT_ITEMS).setMaxGlobalLimited(1).setPreviewCount(1))
                             .or(abilities(STEAM_EXPORT_ITEMS).setMaxGlobalLimited(2).setPreviewCount(1))
                             .or(abilities(IMPORT_ITEMS).setMaxGlobalLimited(1))
                             .or(abilities(EXPORT_ITEMS).setMaxGlobalLimited(3)))
+                    .where('C', blocks(GTBlocks.CASING_BRONZE_BRICKS.get()))
+                    .where('D', blocks(GTBlocks.BRONZE_HULL.get()))
+                    .where('E', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.Bronze)))
+                    .where('F', blocks(GTBlocks.CASING_BRONZE_GEARBOX.get()))
+                    .where('G', controller(blocks(definition.get())))
                     .where(' ', any())
                     .build())
+
             .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_bronze_plated_bricks"), GTCEu.id("block/multiblock/steam_grinder"))
             .register();
 
@@ -925,31 +931,32 @@ public final class MultiBlockC {
             .tooltipsText("钻机在不同的工作温度下会产生热量,产热公式为(温度/2000)", "The drill generates heat at different operating temperatures, the heat generation formula is (temperature/2000)")
             .tooltipsText("随着温度提升,效率也会提升.当温度超过临界值,钻头将会融毁", "As the temperature increases, efficiency will also increase. When the temperature exceeds the critical value, the drill head will melt")
             .tooltipsText("可以通入不同的流体来降温, 可用冷却液如下.冷却固定消耗为200B/5t", "Different fluids can be introduced for cooling, cooling liquid consumption is as follows. The fixed consumption for cooling is 200B/5t")
-            .tooltipsText("蒸馏水 1K", "Distilled Water 1K")
-            .tooltipsText("液态氧 2K", "Liquid Oxygen 2K")
-            .tooltipsText("液态氦 4K", "Liquid Helium 4K")
+            .tooltipsText("蒸馏水 1K/mB", "Distilled Water 1K/mB")
+            .tooltipsText("液态氧 2K/mB", "Liquid Oxygen 2K/mB")
+            .tooltipsText("液态氦 4K/mB", "Liquid Helium 4K/mB")
             .tooltipsText("液态烈焰消耗公式为(当前温度^1.3)", "Liquid Flame consumption formula is (current temperature^1.3)")
             .laserTooltips()
             .block(GTOBlocks.IRIDIUM_CASING)
             .pattern(definition -> MultiBlockFileReader.start(definition)
-                    .where('#', controller(blocks(definition.get())))
-                    .where('I', blocks(GTBlocks.FILTER_CASING.get()))
-                    .where('G', blocks(GTOBlocks.DIMENSIONAL_BRIDGE_CASING.get()))
-                    .where('N', blocks(GTOBlocks.NAQUADRIATICTARANIUM_COIL_BLOCK.get()))
-                    .where('M', blocks(GTOBlocks.AMPROSIUM_GEARBOX.get()))
-                    .where('L', blocks(ChemicalHelper.getBlock(TagPrefix.block, GTMaterials.Vanadium)))
+                    .where('A', blocks(GTOBlocks.IRIDIUM_CASING.get()))
                     .where('B', blocks(GTOBlocks.HYPER_CORE.get()))
-                    .where('F', blocks(GTOBlocks.RESTRAINT_DEVICE.get()))
-                    .where('H', blocks(GCYMBlocks.HEAT_VENT.get()))
-                    .where('K', blocks(GTOBlocks.MACHINE_CASING_GRINDING_HEAD.get()))
-                    .where('E', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.Neutronium)))
-                    .where('J', blocks(GTBlocks.CASING_POLYTETRAFLUOROETHYLENE_PIPE.get()))
-                    .where('C', blocks(GTOBlocks.HYPER_MECHANICAL_CASING.get()))
-                    .where('A', blocks(GTOBlocks.IRIDIUM_CASING.get())
+                    .where('C', blocks(GTOBlocks.HYPER_MECHANICAL_CASING.get())
                             .or(abilities(IMPORT_FLUIDS).setMaxGlobalLimited(2))
-                            .or(abilities(EXPORT_FLUIDS).setMaxGlobalLimited(16))
                             .or(abilities(INPUT_ENERGY).setMaxGlobalLimited(2))
                             .or(abilities(INPUT_LASER).setMaxGlobalLimited(1)))
+                    .where('D', blocks(GTOBlocks.HYPER_MECHANICAL_CASING.get()))
+                    .where('E', blocks(GCYMBlocks.HEAT_VENT.get()))
+                    .where('F', blocks(GTBlocks.CASING_POLYTETRAFLUOROETHYLENE_PIPE.get()))
+                    .where('G', abilities(EXPORT_FLUIDS).or(blocks(CustomMachines.ME_EXPORT_BUFFER.get(), GTAEMachines.FLUID_EXPORT_HATCH_ME.get())))
+                    .where('H', blocks(GTOBlocks.RESTRAINT_DEVICE.get()))
+                    .where('I', blocks(GTOBlocks.AMPROSIUM_GEARBOX.get()))
+                    .where('J', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTOMaterials.Amprosium)))
+                    .where('K', blocks(GTOBlocks.DIMENSIONAL_BRIDGE_CASING.get()))
+                    .where('L', blocks(GTOBlocks.MACHINE_CASING_GRINDING_HEAD.get()))
+                    .where('M', blocks(ChemicalHelper.getBlock(TagPrefix.block, GTMaterials.Vanadium)))
+                    .where('N', blocks(GTBlocks.FILTER_CASING.get()))
+                    .where('O', controller(blocks(definition.get())))
+                    .where('P', blocks(GTOBlocks.NAQUADRIATICTARANIUM_COIL_BLOCK.get()))
                     .where(' ', any())
                     .build())
             .workableCasingRenderer(GTOCore.id("block/casings/iridium_casing"), GTCEu.id("block/multiblock/fluid_drilling_rig"))

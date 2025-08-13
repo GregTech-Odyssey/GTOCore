@@ -102,6 +102,20 @@ public final class GTMaterialExtend {
         Iron.setProperty(PropertyKey.TOOL, ToolProperty.Builder.of(2.0F, 2.0F, 256, 2, GTToolType.MINING_HAMMER, GTToolType.SPADE, GTToolType.SAW, GTToolType.HARD_HAMMER, GTToolType.WRENCH, GTToolType.FILE, GTToolType.CROWBAR, GTToolType.SCREWDRIVER, GTToolType.WIRE_CUTTER, GTToolType.SCYTHE, GTToolType.BUTCHERY_KNIFE, GTToolType.DRILL_LV, GTToolType.DRILL_MV, GTToolType.DRILL_HV, GTToolType.DRILL_EV, GTToolType.DRILL_IV, GTToolType.CHAINSAW_LV, GTToolType.WRENCH_LV, GTToolType.WRENCH_HV, GTToolType.WRENCH_IV, GTToolType.BUZZSAW, GTToolType.SCREWDRIVER_LV, GTToolType.WIRE_CUTTER_LV, GTToolType.WIRE_CUTTER_HV, GTToolType.WIRE_CUTTER_IV).enchantability(14).addTypes(GTToolType.MORTAR).build());
         Platinum.setProperty(BLAST, new BlastProperty(1810, BlastProperty.GasTier.MID, 480, 820, 120, 110));
         RedAlloy.addFlags(GENERATE_SPRING_SMALL);
+        Lead.addFlags(GTOMaterialFlags.GENERATE_ZIRCONIUM_CARBIDE_TARGET);
+        Bismuth.addFlags(GTOMaterialFlags.GENERATE_ZIRCONIUM_CARBIDE_TARGET);
+        Thorium.addFlags(GTOMaterialFlags.GENERATE_BREEDER_ROD);
+        Protactinium.addFlags(GTOMaterialFlags.GENERATE_BERYLLIUM_TARGET, GTOMaterialFlags.GENERATE_BREEDER_ROD);
+        Uranium238.addFlags(GTOMaterialFlags.GENERATE_STAINLESS_STEEL_TARGET, GTOMaterialFlags.GENERATE_BERYLLIUM_TARGET, GTOMaterialFlags.GENERATE_ZIRCONIUM_CARBIDE_TARGET, GTOMaterialFlags.GENERATE_BREEDER_ROD);
+        Uranium235.addFlags(GTOMaterialFlags.GENERATE_STAINLESS_STEEL_TARGET, GTOMaterialFlags.GENERATE_BERYLLIUM_TARGET, GTOMaterialFlags.GENERATE_ZIRCONIUM_CARBIDE_TARGET, GTOMaterialFlags.GENERATE_BREEDER_ROD);
+        Neptunium.addFlags(GTOMaterialFlags.GENERATE_STAINLESS_STEEL_TARGET, GTOMaterialFlags.GENERATE_BERYLLIUM_TARGET, GTOMaterialFlags.GENERATE_ZIRCONIUM_CARBIDE_TARGET, GTOMaterialFlags.GENERATE_BREEDER_ROD);
+        Plutonium239.addFlags(GTOMaterialFlags.GENERATE_STAINLESS_STEEL_TARGET, GTOMaterialFlags.GENERATE_BERYLLIUM_TARGET, GTOMaterialFlags.GENERATE_ZIRCONIUM_CARBIDE_TARGET, GTOMaterialFlags.GENERATE_BREEDER_ROD);
+        Plutonium241.addFlags(GTOMaterialFlags.GENERATE_STAINLESS_STEEL_TARGET, GTOMaterialFlags.GENERATE_BERYLLIUM_TARGET, GTOMaterialFlags.GENERATE_ZIRCONIUM_CARBIDE_TARGET, GTOMaterialFlags.GENERATE_BREEDER_ROD);
+        Americium.addFlags(GTOMaterialFlags.GENERATE_STAINLESS_STEEL_TARGET, GTOMaterialFlags.GENERATE_BERYLLIUM_TARGET, GTOMaterialFlags.GENERATE_ZIRCONIUM_CARBIDE_TARGET, GTOMaterialFlags.GENERATE_BREEDER_ROD);
+        Curium.addFlags(GTOMaterialFlags.GENERATE_STAINLESS_STEEL_TARGET, GTOMaterialFlags.GENERATE_BERYLLIUM_TARGET, GTOMaterialFlags.GENERATE_ZIRCONIUM_CARBIDE_TARGET, GTOMaterialFlags.GENERATE_BREEDER_ROD);
+        Berkelium.addFlags(GTOMaterialFlags.GENERATE_STAINLESS_STEEL_TARGET, GTOMaterialFlags.GENERATE_BERYLLIUM_TARGET, GTOMaterialFlags.GENERATE_ZIRCONIUM_CARBIDE_TARGET, GTOMaterialFlags.GENERATE_BREEDER_ROD);
+        Californium.addFlags(GTOMaterialFlags.GENERATE_BERYLLIUM_TARGET);
+        Einsteinium.addFlags(GTOMaterialFlags.GENERATE_BERYLLIUM_TARGET);
         PhosphorusPentoxide.addFlags(GTOMaterialFlags.GENERATE_CATALYST);
         Iodine.addFlags(GTOMaterialFlags.GENERATE_CATALYST);
         Magnesium.addFlags(GTOMaterialFlags.GENERATE_CATALYST);
@@ -122,7 +136,7 @@ public final class GTMaterialExtend {
         HastelloyC276.addFlags(GENERATE_ROTOR);
         Steel.addFlags(GTOMaterialFlags.GENERATE_COMPONENT);
         Aluminium.addFlags(GTOMaterialFlags.GENERATE_COMPONENT);
-        StainlessSteel.addFlags(GTOMaterialFlags.GENERATE_COMPONENT);
+        StainlessSteel.addFlags(GTOMaterialFlags.GENERATE_COMPONENT, GTOMaterialFlags.GENERATE_TARGET_BASE);
         Titanium.addFlags(GTOMaterialFlags.GENERATE_COMPONENT);
         TungstenSteel.addFlags(GTOMaterialFlags.GENERATE_COMPONENT);
         HSSS.addFlags(GTOMaterialFlags.GENERATE_COMPONENT);
@@ -130,6 +144,7 @@ public final class GTMaterialExtend {
         Tritanium.addFlags(GTOMaterialFlags.GENERATE_COMPONENT, GENERATE_ROTOR);
         Monazite.addFlags(DISABLE_DECOMPOSITION);
         Bastnasite.addFlags(DISABLE_DECOMPOSITION);
+        Beryllium.addFlags(GTOMaterialFlags.GENERATE_TARGET_BASE);
         PotassiumSulfate.setComponents(new MaterialStack(Potassium, 2), new MaterialStack(Sulfur, 1), new MaterialStack(Oxygen, 4));
         AmmoniumChloride.setComponents(new MaterialStack(Nitrogen, 1), new MaterialStack(Hydrogen, 4), new MaterialStack(Chlorine, 1));
         Duranium.addFlags(GENERATE_FRAME);
