@@ -1,8 +1,5 @@
 package com.gtocore.data.recipe.classified;
 
-import appeng.core.definitions.AEParts;
-import com.glodblock.github.extendedae.ExtendedAE;
-import com.glodblock.github.extendedae.common.EAERegistryHandler;
 import com.glodblock.github.extendedae.common.EPPItemAndBlock;
 import com.gtocore.api.data.tag.GTOTagPrefix;
 import com.gtocore.common.data.*;
