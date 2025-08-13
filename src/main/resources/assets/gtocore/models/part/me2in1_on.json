@@ -1,0 +1,42 @@
+{
+  "textures": {
+    "lightsBright": "gtocore:part/me2in1_terminal_bright",
+    "lightsMedium": "gtocore:part/me2in1_terminal_medium",
+    "lightsDark": "gtocore:part/me2in1_terminal_dark"
+  },
+  "elements": [
+    {
+      "from": [2, 2, 0],
+      "to": [14, 14, 2],
+      "faces": {
+        "north": {
+          "texture": "#lightsBright",
+          "tintindex": 3,
+          "neoforge_data": { "block_light": 15, "sky_light": 15 }
+        }
+      }
+    },
+    {
+      "from": [2, 2, 0],
+      "to": [14, 14, 2],
+      "faces": {
+        "north": {
+          "texture": "#lightsMedium",
+          "tintindex": 2,
+          "neoforge_data": { "block_light": 15, "sky_light": 15 }
+        }
+      }
+    },
+    {
+      "from": [2, 2, 0],
+      "to": [14, 14, 2],
+      "faces": {
+        "north": {
+          "texture": "#lightsDark",
+          "tintindex": 1,
+          "neoforge_data": { "block_light": 15, "sky_light": 15 }
+        }
+      }
+    }
+  ]
+}

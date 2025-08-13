@@ -1,0 +1,8 @@
+{
+  "parent": "ae2:part/display_off",
+  "textures": {
+    "lightsBright": "gtocore:part/me2in1_terminal_bright",
+    "lightsMedium": "gtocore:part/me2in1_terminal_medium",
+    "lightsDark": "gtocore:part/me2in1_terminal_dark"
+  }
+}

@@ -1,5 +1,9 @@
 package com.gtocore.data.recipe.classified;
 
+import appeng.core.definitions.AEParts;
+import com.glodblock.github.extendedae.ExtendedAE;
+import com.glodblock.github.extendedae.common.EAERegistryHandler;
+import com.glodblock.github.extendedae.common.EPPItemAndBlock;
 import com.gtocore.api.data.tag.GTOTagPrefix;
 import com.gtocore.common.data.*;
 import com.gtocore.common.data.machines.*;
@@ -139,6 +143,20 @@ final class Vanilla {
                 "DED",
                 'A', CustomTags.CRAFTING_SAWS, 'B', Items.CRAFTING_TABLE, 'C', CustomTags.CRAFTING_SCREWDRIVERS,
                 'D', new MaterialEntry(TagPrefix.screw, GTMaterials.WroughtIron), 'E', Items.CHEST);
+
+        VanillaRecipeHelper.addShapedRecipe(provider, GTOCore.id("me_2in1_terminal"), GTOAEParts.INSTANCE.getME_2IN1_TERMINAL().get().stack(1),
+                "   ",
+                "ABA",
+                "DDD",
+                'A', CustomTags.LuV_CIRCUITS, 'B', EPPItemAndBlock.EX_PATTERN_TERMINAL,
+                'D', new MaterialEntry(TagPrefix.plate, GTMaterials.HastelloyX));
+
+        VanillaRecipeHelper.addShapedRecipe(provider, GTOCore.id("me_2in1_terminal_wireless"), GTOItems.WIRELESS_ME2IN1.asStack(),
+                "A",
+                "B",
+                "D",
+                'A', AEItems.WIRELESS_RECEIVER.asItem(), 'B', GTOAEParts.INSTANCE.getME_2IN1_TERMINAL().get().asItem(),
+                'D', AEBlocks.DENSE_ENERGY_CELL.asItem());
 
         VanillaRecipeHelper.addShapedRecipe(provider, GTOCore.id("paper_dust"), ChemicalHelper.get(TagPrefix.dust, GTMaterials.Paper), "S", "m", 'S', RegistriesUtils.getItemStack("farmersdelight:tree_bark"));
         VanillaRecipeHelper.addShapedRecipe(provider, GTOCore.id("cooking_pot"), RegistriesUtils.getItemStack("farmersdelight:cooking_pot"),
