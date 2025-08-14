@@ -33,12 +33,14 @@ import com.enderio.base.common.integrations.jei.EnderIOJEI;
 import com.enderio.machines.common.integrations.jei.MachinesJEI;
 import com.hepdd.ae2emicraftingforge.Ae2EmiCraftingMod;
 import com.hepdd.ae2emicraftingforge.client.Ae2EmiPlugin;
+import com.hepdd.ae2emicraftingforge.client.handler.Ae2CraftingHandler;
 import com.hollingsworth.arsnouveau.client.jei.JEIArsNouveauPlugin;
 import com.lowdragmc.lowdraglib.LDLib;
 import com.lowdragmc.lowdraglib.emi.EMIPlugin;
 import com.lowdragmc.lowdraglib.gui.modular.ModularUIContainer;
 import committee.nova.mods.avaritia.Static;
 import committee.nova.mods.avaritia.init.compat.emi.AvaritiaEmiPlugin;
+import de.mari_023.ae2wtlib.wct.WCTMenu;
 import de.mari_023.ae2wtlib.wet.WETMenu;
 import dev.emi.emi.VanillaPlugin;
 import dev.emi.emi.api.EmiPlugin;
@@ -123,6 +125,8 @@ public final class GTEMIPlugin implements EmiPlugin {
         registry.addRecipeHandler(Wireless.TYPE, UtilsMiscs.createEMIWireless());
         registry.addRecipeHandler(PatternEncodingTermMenu.TYPE, new Ae2PatternTerminalHandler<>());
         registry.addRecipeHandler(WETMenu.TYPE, new Ae2PatternTerminalHandler<>());
+        registry.addRecipeHandler(WCTMenu.TYPE, new Ae2CraftingHandler<>(WCTMenu.class));
+        registry.addRecipeHandler(WETMenu.TYPE, new com.hepdd.ae2emicraftingforge.client.handler.Ae2PatternTerminalHandler<>(WETMenu.class));
         registry.addCategory(GTProgrammedCircuitCategory.CATEGORY);
 
         GTRecipeEMICategory.registerDisplays(registry);
