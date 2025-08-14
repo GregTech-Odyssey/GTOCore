@@ -4,8 +4,8 @@ import com.gtolib.api.GTOValues;
 import com.gtolib.api.machine.mana.trait.NotifiableManaContainer;
 import com.gtolib.api.machine.mana.trait.NotifiableWirelessManaContainer;
 
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.IInteractedMachine;
 import com.gregtechceu.gtceu.api.machine.feature.IMachineLife;
 import com.gregtechceu.gtceu.common.data.GTItems;
@@ -31,7 +31,7 @@ import static com.hepdd.gtmthings.utils.TeamUtil.GetName;
 
 public final class WirelessManaHatchPartMachine extends ManaHatchPartMachine implements IMachineLife, IInteractedMachine, IBindable {
 
-    public WirelessManaHatchPartMachine(IMachineBlockEntity holder, int tier, IO io, int rate) {
+    public WirelessManaHatchPartMachine(MetaMachineBlockEntity holder, int tier, IO io, int rate) {
         super(holder, tier, io, rate);
     }
 

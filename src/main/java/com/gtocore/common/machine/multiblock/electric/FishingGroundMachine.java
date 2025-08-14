@@ -10,7 +10,7 @@ import com.gtolib.api.recipe.RecipeRunner;
 import com.gtolib.api.recipe.modifier.ParallelLogic;
 import com.gtolib.utils.MachineUtils;
 
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 
 import net.minecraft.server.level.ServerLevel;
@@ -34,7 +34,7 @@ public class FishingGroundMachine extends ElectricMultiblockMachine {
 
     private FishingHook fishingHook;
 
-    public FishingGroundMachine(IMachineBlockEntity holder) {
+    public FishingGroundMachine(MetaMachineBlockEntity holder) {
         super(holder);
     }
 

@@ -4,7 +4,7 @@ import com.gtocore.common.machine.trait.RadioactivityTrait;
 
 import com.gtolib.api.machine.multiblock.ElectricMultiblockMachine;
 
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
@@ -23,7 +23,7 @@ public final class BiochemicalReactionRoomMachine extends ElectricMultiblockMach
     @Persisted
     private final RadioactivityTrait radioactivityTrait;
 
-    public BiochemicalReactionRoomMachine(IMachineBlockEntity holder) {
+    public BiochemicalReactionRoomMachine(MetaMachineBlockEntity holder) {
         super(holder);
         radioactivityTrait = new RadioactivityTrait(this);
     }

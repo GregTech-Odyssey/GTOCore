@@ -27,9 +27,9 @@ import com.gtolib.api.registries.GTOMachineBuilder;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTValues;
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
@@ -197,7 +197,7 @@ public final class ExResearchMachines {
             .register();
 
     private static GTOMachineBuilder registerHPCAPart(String name, String cn,
-                                                      Function<IMachineBlockEntity, MetaMachine> constructor,
+                                                      Function<MetaMachineBlockEntity, MetaMachine> constructor,
                                                       boolean activeTexture,
                                                       boolean damagedTexture,
                                                       int tire) {

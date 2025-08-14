@@ -7,10 +7,10 @@ import com.gtolib.utils.MathUtil;
 import com.gtolib.utils.NumberUtils;
 
 import com.gregtechceu.gtceu.api.GTValues;
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.fancy.ConfiguratorPanel;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.feature.IMachineLife;
@@ -66,7 +66,7 @@ public final class HugeBusPartMachine extends TieredIOPartMachine implements IDi
     @Nullable
     private ISubscription inventorySubs;
 
-    public HugeBusPartMachine(IMachineBlockEntity holder) {
+    public HugeBusPartMachine(MetaMachineBlockEntity holder) {
         super(holder, GTValues.IV, IO.IN);
         this.inventory = new HugeNotifiableItemStackHandler(this);
         workingEnabled = false;

@@ -14,9 +14,9 @@ import com.gtolib.api.recipe.RecipeRunner;
 import com.gtolib.api.recipe.modifier.ParallelLogic;
 
 import com.gregtechceu.gtceu.api.GTValues;
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 
 import net.minecraft.network.chat.Component;
@@ -41,7 +41,7 @@ public final class VoidMinerMachine extends StorageMultiblockMachine {
 
     private ResourceLocation dim;
 
-    public VoidMinerMachine(IMachineBlockEntity holder) {
+    public VoidMinerMachine(MetaMachineBlockEntity holder) {
         super(holder, 1, i -> i.is(GTOItems.DIMENSION_DATA.get()) && i.hasTag());
     }
 

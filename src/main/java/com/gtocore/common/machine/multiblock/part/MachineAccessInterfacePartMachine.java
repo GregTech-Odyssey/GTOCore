@@ -4,7 +4,7 @@ import com.gtocore.common.machine.multiblock.electric.processing.ProcessingArray
 
 import com.gtolib.api.machine.part.ItemHatchPartMachine;
 
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 
 import net.minecraft.world.item.ItemStack;
@@ -13,7 +13,7 @@ import org.jetbrains.annotations.NotNull;
 
 public final class MachineAccessInterfacePartMachine extends ItemHatchPartMachine {
 
-    public MachineAccessInterfacePartMachine(IMachineBlockEntity holder) {
+    public MachineAccessInterfacePartMachine(MetaMachineBlockEntity holder) {
         super(holder, 64, null);
     }
 

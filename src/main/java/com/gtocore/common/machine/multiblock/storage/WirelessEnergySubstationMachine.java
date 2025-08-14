@@ -10,8 +10,8 @@ import com.gtolib.api.machine.trait.TierCasingTrait;
 import com.gtolib.utils.FunctionContainer;
 
 import com.gregtechceu.gtceu.api.GTValues;
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.IEnergyInfoProvider;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.IMachineLife;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.gregtechceu.gtceu.utils.GTUtil;
@@ -39,7 +39,7 @@ public final class WirelessEnergySubstationMachine extends NoRecipeLogicMultiblo
     private WirelessEnergyContainer WirelessEnergyContainerCache;
     private final TierCasingTrait tierCasingTrait;
 
-    public WirelessEnergySubstationMachine(IMachineBlockEntity holder) {
+    public WirelessEnergySubstationMachine(MetaMachineBlockEntity holder) {
         super(holder);
         tierCasingTrait = new TierCasingTrait(this, GTOValues.GLASS_TIER);
     }

@@ -15,11 +15,11 @@ import com.gtolib.api.recipe.modifier.ParallelLogic;
 import com.gtolib.utils.GTOUtils;
 
 import com.gregtechceu.gtceu.api.GTValues;
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.EURecipeCapability;
 import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
 import com.gregtechceu.gtceu.api.capability.recipe.RecipeCapability;
 import com.gregtechceu.gtceu.api.item.MetaMachineItem;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
@@ -92,7 +92,7 @@ public final class GeneratorArrayMachine extends StorageMultiblockMachine implem
         return Wrapper.ELIGIBLE_RECIPE_TYPES.contains(type);
     }
 
-    public GeneratorArrayMachine(IMachineBlockEntity holder) {
+    public GeneratorArrayMachine(MetaMachineBlockEntity holder) {
         super(holder, generatorLimit, GeneratorArrayMachine::filter);
     }
 

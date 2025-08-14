@@ -6,7 +6,7 @@ import com.gtolib.api.GTOValues;
 import com.gtolib.api.machine.feature.multiblock.ITierCasingMachine;
 import com.gtolib.api.machine.trait.TierCasingTrait;
 
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 
@@ -14,7 +14,7 @@ public final class largeLDistillationTowerMachine extends DistillationTowerMachi
 
     private final TierCasingTrait tierCasingTrait;
 
-    public largeLDistillationTowerMachine(IMachineBlockEntity holder) {
+    public largeLDistillationTowerMachine(MetaMachineBlockEntity holder) {
         super(holder);
         tierCasingTrait = new TierCasingTrait(this, GTOValues.INTEGRAL_FRAMEWORK_TIER);
     }

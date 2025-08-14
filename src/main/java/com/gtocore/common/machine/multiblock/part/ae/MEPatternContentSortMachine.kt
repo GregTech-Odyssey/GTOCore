@@ -3,7 +3,8 @@ package com.gtocore.common.machine.multiblock.part.ae
 import com.gtocore.api.gui.helper.ProgressBarColorStyle
 import com.gtocore.api.gui.ktflexible.progressBar
 import com.gtocore.api.gui.ktflexible.textBlock
-import com.gtocore.common.machine.multiblock.part.ae.MEPatternContentSortMachine.MODE.*
+import com.gtocore.common.machine.multiblock.part.ae.MEPatternContentSortMachine.MODE.FLUID
+import com.gtocore.common.machine.multiblock.part.ae.MEPatternContentSortMachine.MODE.ITEM
 
 import net.minecraft.network.chat.Component
 import net.minecraft.server.TickTask
@@ -17,9 +18,9 @@ import appeng.api.stacks.AEItemKey
 import appeng.api.stacks.AEKey
 import appeng.blockentity.crafting.PatternProviderBlockEntity
 import appeng.me.Grid
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity
 import com.gregtechceu.gtceu.api.gui.fancy.FancyMachineUIWidget
 import com.gregtechceu.gtceu.api.gui.fancy.IFancyUIProvider
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity
 import com.gregtechceu.gtceu.api.machine.MetaMachine
 import com.gregtechceu.gtceu.api.machine.feature.IFancyUIMachine
 import com.gregtechceu.gtceu.integration.ae2.machine.feature.IGridConnectedMachine
@@ -42,17 +43,13 @@ import it.unimi.dsi.fastutil.objects.Object2LongOpenHashMap
 import it.unimi.dsi.fastutil.objects.Object2ObjectMap
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap
 import it.unimi.dsi.fastutil.objects.ObjectArrayList
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Runnable
-import kotlinx.coroutines.cancel
-import kotlinx.coroutines.delay
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
 
 import java.util.concurrent.ConcurrentHashMap
 
 @Scanned
-class MEPatternContentSortMachine(holder: IMachineBlockEntity) :
+class MEPatternContentSortMachine(holder: MetaMachineBlockEntity) :
     MetaMachine(holder),
     IFancyUIMachine,
     IGridConnectedMachine {

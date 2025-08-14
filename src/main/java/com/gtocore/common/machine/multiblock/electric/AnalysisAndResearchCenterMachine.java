@@ -7,9 +7,9 @@ import com.gtolib.api.machine.multiblock.ElectricMultiblockMachine;
 import com.gtolib.api.recipe.Recipe;
 
 import com.gregtechceu.gtceu.api.GTValues;
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockDisplayText;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList;
@@ -29,7 +29,7 @@ public class AnalysisAndResearchCenterMachine extends ElectricMultiblockMachine 
     private AnalyzeHolderMachine AnalyzeHolder;
     private ResearchHolderMachine ResearchHolder;
 
-    public AnalysisAndResearchCenterMachine(IMachineBlockEntity holder) {
+    public AnalysisAndResearchCenterMachine(MetaMachineBlockEntity holder) {
         super(holder);
     }
 

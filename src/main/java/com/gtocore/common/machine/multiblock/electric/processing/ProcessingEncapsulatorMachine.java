@@ -12,9 +12,9 @@ import com.gtolib.api.recipe.RecipeRunner;
 import com.gtolib.utils.MachineUtils;
 
 import com.gregtechceu.gtceu.api.GTValues;
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.gui.fancy.ConfiguratorPanel;
 import com.gregtechceu.gtceu.api.item.MetaMachineItem;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
@@ -48,7 +48,7 @@ public final class ProcessingEncapsulatorMachine extends TierCasingMultiblockMac
     private final List<MachineAccessTerminalPartMachine> terminalPartMachine = new ArrayList<>(4);
     final Object2IntOpenHashMap<GTRecipeType> typeMap = new Object2IntOpenHashMap<>();
 
-    public ProcessingEncapsulatorMachine(IMachineBlockEntity holder) {
+    public ProcessingEncapsulatorMachine(MetaMachineBlockEntity holder) {
         super(holder, GTOValues.INTEGRAL_FRAMEWORK_TIER, GTOValues.GLASS_TIER);
     }
 

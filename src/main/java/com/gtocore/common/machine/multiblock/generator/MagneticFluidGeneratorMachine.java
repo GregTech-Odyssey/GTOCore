@@ -8,7 +8,7 @@ import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.modifier.ParallelLogic;
 import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
 
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.TieredIOPartMachine;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.EnergyHatchPartMachine;
@@ -22,7 +22,7 @@ public final class MagneticFluidGeneratorMachine extends TierCasingMultiblockMac
     private int outputTier = 0;
     private boolean laser;
 
-    public MagneticFluidGeneratorMachine(IMachineBlockEntity holder) {
+    public MagneticFluidGeneratorMachine(MetaMachineBlockEntity holder) {
         super(holder, GTOValues.GLASS_TIER);
     }
 

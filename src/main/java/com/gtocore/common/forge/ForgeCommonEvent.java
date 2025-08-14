@@ -13,7 +13,7 @@ import com.gtocore.config.GTOConfig;
 import com.gtocore.utils.OrganUtilsKt;
 
 import com.gtolib.GTOCore;
-import com.gtolib.api.annotation.Scanned;
+import com.gtolib.api.annotation.DataGeneratorScanned;
 import com.gtolib.api.annotation.language.RegisterLanguage;
 import com.gtolib.api.data.GTODimensions;
 import com.gtolib.api.machine.feature.IVacuumMachine;
@@ -70,7 +70,7 @@ import org.apache.logging.log4j.core.config.Configurator;
 import java.util.Objects;
 import java.util.Optional;
 
-@Scanned
+@DataGeneratorScanned
 public final class ForgeCommonEvent {
 
     @SubscribeEvent

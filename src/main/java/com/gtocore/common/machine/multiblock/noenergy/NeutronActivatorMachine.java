@@ -13,10 +13,10 @@ import com.gtolib.utils.FunctionContainer;
 import com.gtolib.utils.MachineUtils;
 import com.gtolib.utils.NumberUtils;
 
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.machine.ConditionalSubscriptionHandler;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.IExplosionMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
@@ -59,7 +59,7 @@ public class NeutronActivatorMachine extends NoEnergyMultiblockMachine implement
     private final List<ItemBusPartMachine> busMachines = new ObjectArrayList<>(2);
     private final List<NeutronAcceleratorPartMachine> acceleratorMachines = new ObjectArrayList<>(2);
 
-    public NeutronActivatorMachine(IMachineBlockEntity holder) {
+    public NeutronActivatorMachine(MetaMachineBlockEntity holder) {
         super(holder);
         neutronEnergySubs = new ConditionalSubscriptionHandler(this, this::neutronEnergyUpdate, () -> isFormed || eV > 0);
     }

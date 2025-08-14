@@ -2,8 +2,8 @@ package com.gtocore.common.machine.multiblock.part.maintenance;
 
 import com.gtolib.api.machine.GTOCleanroomType;
 
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.ICleanroomReceiver;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.ICleanroomProvider;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IWorkableMultiController;
@@ -43,7 +43,7 @@ public final class CMHatchPartMachine extends AutoMaintenanceHatchPartMachine {
 
     private final ICleanroomProvider cleanroomTypes;
 
-    public CMHatchPartMachine(IMachineBlockEntity metaTileEntityId,
+    public CMHatchPartMachine(MetaMachineBlockEntity metaTileEntityId,
                               ICleanroomProvider cleanroomTypes) {
         super(metaTileEntityId);
         this.cleanroomTypes = cleanroomTypes;

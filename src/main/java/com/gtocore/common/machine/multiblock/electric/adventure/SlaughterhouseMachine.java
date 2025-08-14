@@ -12,8 +12,8 @@ import com.gtolib.utils.MachineUtils;
 import com.gtolib.utils.StringUtils;
 
 import com.gregtechceu.gtceu.api.GTValues;
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 
@@ -102,7 +102,7 @@ public final class SlaughterhouseMachine extends StorageMultiblockMachine {
             "minecraft:enderman"
     };
 
-    public SlaughterhouseMachine(IMachineBlockEntity holder) {
+    public SlaughterhouseMachine(MetaMachineBlockEntity holder) {
         super(holder, 1, i -> i.is(MachineBlocks.POWERED_SPAWNER.asItem()));
     }
 

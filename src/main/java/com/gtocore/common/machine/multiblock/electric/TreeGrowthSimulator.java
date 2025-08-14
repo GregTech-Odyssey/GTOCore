@@ -7,13 +7,13 @@ import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
 
 import com.gregtechceu.gtceu.api.GTValues;
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.GTCapabilityHelper;
 import com.gregtechceu.gtceu.api.capability.IElectricItem;
 import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
 import com.gregtechceu.gtceu.api.data.chemical.material.properties.PropertyKey;
 import com.gregtechceu.gtceu.api.item.IGTTool;
 import com.gregtechceu.gtceu.api.item.tool.GTToolType;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.recipe.content.Content;
 import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
@@ -31,7 +31,7 @@ public final class TreeGrowthSimulator extends StorageMultiblockMachine {
     private int output = 1;
     private float speed = 1;
 
-    public TreeGrowthSimulator(IMachineBlockEntity holder) {
+    public TreeGrowthSimulator(MetaMachineBlockEntity holder) {
         super(holder, 1, i -> {
             if (i.getItem() instanceof IGTTool item) {
                 return item.getToolType() == GTToolType.CHAINSAW_LV || item.getToolType() == GTToolType.AXE;

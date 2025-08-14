@@ -13,8 +13,8 @@ import com.gtolib.api.recipe.RecipeBuilder;
 import com.gtolib.api.recipe.RecipeRunner;
 
 import com.gregtechceu.gtceu.api.GTValues;
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 
 import net.minecraft.network.chat.Component;
@@ -39,7 +39,7 @@ public final class VoidFluidDrillingRigMachine extends StorageMultiblockMachine 
     private int c;
     private List<FluidStack> fluidStacks;
 
-    public VoidFluidDrillingRigMachine(IMachineBlockEntity holder) {
+    public VoidFluidDrillingRigMachine(MetaMachineBlockEntity holder) {
         super(holder, 1, i -> i.is(GTOItems.DIMENSION_DATA.get()) && i.hasTag());
     }
 

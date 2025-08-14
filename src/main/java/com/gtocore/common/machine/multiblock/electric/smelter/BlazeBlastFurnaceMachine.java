@@ -3,7 +3,7 @@ package com.gtocore.common.machine.multiblock.electric.smelter;
 import com.gtolib.api.machine.multiblock.CoilCustomParallelMultiblockMachine;
 import com.gtolib.api.recipe.Recipe;
 
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
 import net.minecraft.network.chat.Component;
@@ -15,7 +15,7 @@ public final class BlazeBlastFurnaceMachine extends CoilCustomParallelMultiblock
 
     private static final FluidStack BLAZE = GTMaterials.Blaze.getFluid(1);
 
-    public BlazeBlastFurnaceMachine(IMachineBlockEntity holder) {
+    public BlazeBlastFurnaceMachine(MetaMachineBlockEntity holder) {
         super(holder, true, true, true, m -> 64);
     }
 

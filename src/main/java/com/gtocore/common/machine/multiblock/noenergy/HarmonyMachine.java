@@ -4,8 +4,8 @@ import com.gtolib.api.capability.IExtendWirelessEnergyContainerHolder;
 import com.gtolib.api.machine.multiblock.NoEnergyMultiblockMachine;
 import com.gtolib.api.recipe.Recipe;
 
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.ConditionalSubscriptionHandler;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableMultiblockMachine;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
@@ -48,7 +48,7 @@ public final class HarmonyMachine extends NoEnergyMultiblockMachine implements I
     private long helium;
     private final ConditionalSubscriptionHandler tickSubs;
 
-    public HarmonyMachine(IMachineBlockEntity holder) {
+    public HarmonyMachine(MetaMachineBlockEntity holder) {
         super(holder);
         tickSubs = new ConditionalSubscriptionHandler(this, this::StartupUpdate, this::isFormed);
     }

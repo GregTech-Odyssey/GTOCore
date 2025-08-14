@@ -6,9 +6,9 @@ import com.gtolib.api.machine.mana.feature.IManaMachine;
 import com.gtolib.api.machine.mana.trait.NotifiableManaContainer;
 
 import com.gregtechceu.gtceu.api.GTValues;
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.IControllable;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.TieredEnergyMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableEnergyContainer;
@@ -46,7 +46,7 @@ public final class MagicEnergyMachine extends TieredEnergyMachine implements IMa
 
     private final long tierMana;
 
-    public MagicEnergyMachine(IMachineBlockEntity holder, int tier) {
+    public MagicEnergyMachine(MetaMachineBlockEntity holder, int tier) {
         super(holder, tier);
         tierMana = GTValues.V[tier] << 1;
         manaContainer = new NotifiableManaContainer(this, IO.IN, 64L * tierMana);

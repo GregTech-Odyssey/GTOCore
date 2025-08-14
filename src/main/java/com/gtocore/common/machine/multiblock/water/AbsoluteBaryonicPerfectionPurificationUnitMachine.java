@@ -6,9 +6,9 @@ import com.gtocore.common.data.GTOMaterials;
 import com.gtolib.api.recipe.RecipeRunner;
 
 import com.gregtechceu.gtceu.api.GTValues;
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.ItemBusPartMachine;
@@ -69,7 +69,7 @@ public final class AbsoluteBaryonicPerfectionPurificationUnitMachine extends Wat
 
     private final List<ItemBusPartMachine> busMachines = new ObjectArrayList<>();
 
-    public AbsoluteBaryonicPerfectionPurificationUnitMachine(IMachineBlockEntity holder) {
+    public AbsoluteBaryonicPerfectionPurificationUnitMachine(MetaMachineBlockEntity holder) {
         super(holder, 128);
     }
 

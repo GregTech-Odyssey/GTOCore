@@ -2,8 +2,8 @@ package com.gtocore.common.machine.multiblock.part.maintenance;
 
 import com.gtolib.api.machine.feature.IGravityPartMachine;
 
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.gui.widget.IntInputWidget;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IWorkableMultiController;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.MultiblockPartMachine;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
@@ -21,7 +21,7 @@ public final class GravityHatchPartMachine extends AutoMaintenanceHatchPartMachi
 
     private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(GravityHatchPartMachine.class, MultiblockPartMachine.MANAGED_FIELD_HOLDER);
 
-    public GravityHatchPartMachine(IMachineBlockEntity blockEntity) {
+    public GravityHatchPartMachine(MetaMachineBlockEntity blockEntity) {
         super(blockEntity);
     }
 

@@ -4,7 +4,7 @@ import com.gtolib.api.machine.multiblock.ElectricMultiblockMachine;
 import com.gtolib.utils.ClientUtil;
 
 import com.gregtechceu.gtceu.GTCEu;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.client.renderer.machine.WorkableCasingMachineRenderer;
 
 import net.minecraft.client.renderer.LightTexture;
@@ -34,7 +34,7 @@ public final class AnnihilateGeneratorRenderer extends WorkableCasingMachineRend
     @Override
     @OnlyIn(Dist.CLIENT)
     public void render(BlockEntity blockEntity, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int combinedLight, int combinedOverlay) {
-        if (blockEntity instanceof IMachineBlockEntity machineBlockEntity && machineBlockEntity.getMetaMachine() instanceof ElectricMultiblockMachine machine && machine.isFormed() && (machine.isActive() || blockEntity.getLevel() instanceof TrackedDummyWorld)) {
+        if (blockEntity instanceof MetaMachineBlockEntity machineBlockEntity && machineBlockEntity.getMetaMachine() instanceof ElectricMultiblockMachine machine && machine.isFormed() && (machine.isActive() || blockEntity.getLevel() instanceof TrackedDummyWorld)) {
             float tick = machine.getOffsetTimer() + partialTicks;
             double x = 0.5, y = 36.5, z = 0.5;
             switch (machine.getFrontFacing()) {

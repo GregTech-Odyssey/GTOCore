@@ -9,7 +9,7 @@ import com.gtolib.api.recipe.RecipeBuilder;
 import com.gtolib.api.recipe.RecipeRunner;
 
 import com.gregtechceu.gtceu.api.GTValues;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
@@ -36,7 +36,7 @@ public final class AlgaeFarmMachine extends NoEnergyMultiblockMachine {
             GTOItems.GREEN_ALGAE.get(),
             GTOItems.RED_ALGAE.get());
 
-    public AlgaeFarmMachine(IMachineBlockEntity holder) {
+    public AlgaeFarmMachine(MetaMachineBlockEntity holder) {
         super(holder);
     }
 

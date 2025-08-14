@@ -2,7 +2,7 @@ package com.gtocore.integration.ae
 
 import net.minecraftforge.fml.LogicalSide
 
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity
 import com.gregtechceu.gtceu.api.machine.MetaMachine
 import com.gregtechceu.gtceu.api.machine.feature.IFancyUIMachine
 import com.gtolib.GTOCore
@@ -14,7 +14,7 @@ import com.gtolib.api.gui.ktflexible.root
 import com.gtolib.syncdata.SyncManagedFieldHolder
 import com.lowdragmc.lowdraglib.gui.widget.Widget
 
-import java.util.UUID
+import java.util.*
 
 /**
  * 默认情况下，机器只能从服务器同步到客户端。使用方法：
@@ -50,7 +50,7 @@ import java.util.UUID
  *
  * 该机器演示ISync方法
  */
-class SyncTesterMachine(holder: IMachineBlockEntity) :
+class SyncTesterMachine(holder: MetaMachineBlockEntity) :
     MetaMachine(holder),
     IFancyUIMachine,
     ISync {

@@ -10,7 +10,7 @@ import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
 import com.gtolib.utils.SphereExplosion;
 
 import com.gregtechceu.gtceu.api.GTValues;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.IExplosionMachine;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 
@@ -40,7 +40,7 @@ public final class StellarForgeMachine extends TierCasingMultiblockMachine imple
 
     private int consecutiveRecipes;
 
-    public StellarForgeMachine(IMachineBlockEntity holder) {
+    public StellarForgeMachine(MetaMachineBlockEntity holder) {
         super(holder, STELLAR_CONTAINMENT_TIER);
     }
 

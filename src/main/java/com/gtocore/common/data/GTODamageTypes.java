@@ -1,7 +1,7 @@
 package com.gtocore.common.data;
 
 import com.gtolib.GTOCore;
-import com.gtolib.api.annotation.Scanned;
+import com.gtolib.api.annotation.DataGeneratorScanned;
 import com.gtolib.api.annotation.language.RegisterLanguage;
 import com.gtolib.api.machine.feature.ITemperatureMachine;
 
@@ -21,7 +21,7 @@ import net.minecraft.world.entity.player.Player;
 
 import org.jetbrains.annotations.NotNull;
 
-@Scanned
+@DataGeneratorScanned
 public final class GTODamageTypes {
 
     // keys

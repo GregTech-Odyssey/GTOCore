@@ -4,13 +4,13 @@ import com.gtocore.common.machine.trait.AdvancedInfiniteDrillLogic;
 
 import com.gtolib.api.machine.multiblock.StorageMultiblockMachine;
 
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.data.chemical.material.stack.MaterialStack;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
 import com.gregtechceu.gtceu.api.machine.ConditionalSubscriptionHandler;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
@@ -54,7 +54,7 @@ public final class AdvancedInfiniteDrillMachine extends StorageMultiblockMachine
     private int process;
     private final ConditionalSubscriptionHandler heatSubs;
 
-    public AdvancedInfiniteDrillMachine(IMachineBlockEntity holder) {
+    public AdvancedInfiniteDrillMachine(MetaMachineBlockEntity holder) {
         super(holder, 1, i -> ChemicalHelper.getPrefix(i.getItem()) == TagPrefix.toolHeadDrill);
         heatSubs = new ConditionalSubscriptionHandler(this, this::heatUpdate, this::isFormed);
     }

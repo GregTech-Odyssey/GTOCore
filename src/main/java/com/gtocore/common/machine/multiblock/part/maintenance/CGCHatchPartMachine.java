@@ -2,8 +2,8 @@ package com.gtocore.common.machine.multiblock.part.maintenance;
 
 import com.gtolib.api.machine.feature.IGravityPartMachine;
 
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.gui.widget.IntInputWidget;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.util.Mth;
@@ -30,7 +30,7 @@ public final class CGCHatchPartMachine extends ACMHatchPartMachine implements IG
         return MANAGED_FIELD_HOLDER;
     }
 
-    public CGCHatchPartMachine(IMachineBlockEntity metaTileEntityId) {
+    public CGCHatchPartMachine(MetaMachineBlockEntity metaTileEntityId) {
         super(metaTileEntityId);
     }
 

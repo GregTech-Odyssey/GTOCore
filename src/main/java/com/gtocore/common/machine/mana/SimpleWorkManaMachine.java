@@ -6,9 +6,9 @@ import com.gtolib.api.machine.mana.feature.IManaEnergyMachine;
 import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
 
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.IEnergyContainer;
 import com.gregtechceu.gtceu.api.gui.fancy.ConfiguratorPanel;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
@@ -31,7 +31,7 @@ public class SimpleWorkManaMachine extends SimpleManaMachine implements IManaEne
 
     private final IEnergyContainer container;
 
-    public SimpleWorkManaMachine(IMachineBlockEntity holder, int tier, Int2IntFunction tankScalingFunction, Object... args) {
+    public SimpleWorkManaMachine(MetaMachineBlockEntity holder, int tier, Int2IntFunction tankScalingFunction, Object... args) {
         super(holder, tier, tankScalingFunction, args);
         container = new ManaEnergyContainer(getManaContainer().getMaxIORate(), getManaContainer());
     }

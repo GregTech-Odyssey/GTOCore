@@ -3,7 +3,7 @@ package com.gtocore.common.machine.multiblock.part.ae;
 import com.gtolib.api.machine.trait.NotifiableNotConsumableItemHandler;
 import com.gtolib.api.machine.trait.NotifiableProgrammableCircuitHandler;
 
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 
 import net.minecraft.world.item.ItemStack;
 
@@ -17,7 +17,7 @@ import java.util.function.Predicate;
 
 public final class MEProgrammablePatternBufferPartMachine extends MEPatternBufferPartMachineKt {
 
-    public MEProgrammablePatternBufferPartMachine(IMachineBlockEntity holder) {
+    public MEProgrammablePatternBufferPartMachine(MetaMachineBlockEntity holder) {
         super(holder, 27);
         Predicate<ItemStack> itemCallback = stack -> {
             if (stack.is(CustomItems.VIRTUAL_ITEM_PROVIDER.get())) {

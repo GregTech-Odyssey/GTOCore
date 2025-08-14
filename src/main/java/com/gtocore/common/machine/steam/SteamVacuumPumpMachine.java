@@ -2,7 +2,7 @@ package com.gtocore.common.machine.steam;
 
 import com.gtolib.api.machine.feature.IVacuumMachine;
 
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.steam.SimpleSteamMachine;
 
@@ -24,7 +24,7 @@ public final class SteamVacuumPumpMachine extends SimpleSteamMachine implements 
     private int vacuumTier;
     private TickableSubscription tickSubs;
 
-    public SteamVacuumPumpMachine(IMachineBlockEntity holder, boolean isHighPressure, Object... args) {
+    public SteamVacuumPumpMachine(MetaMachineBlockEntity holder, boolean isHighPressure, Object... args) {
         super(holder, isHighPressure, args);
     }
 

@@ -8,7 +8,7 @@ import com.gtolib.api.recipe.Recipe;
 import com.gtolib.utils.RegistriesUtils;
 
 import com.gregtechceu.gtceu.api.GTValues;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.Item;
@@ -49,7 +49,7 @@ public final class ManaAlloyBlastSmelterMachine extends CoilCustomParallelMultib
 
     private final ManaTrait manaTrait;
 
-    public ManaAlloyBlastSmelterMachine(IMachineBlockEntity holder) {
+    public ManaAlloyBlastSmelterMachine(MetaMachineBlockEntity holder) {
         super(holder, true, true, true, m -> 8);
         this.manaTrait = new ManaTrait(this);
     }

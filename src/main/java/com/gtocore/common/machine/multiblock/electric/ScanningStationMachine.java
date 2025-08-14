@@ -8,9 +8,9 @@ import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.RecipeRunner;
 import com.gtolib.utils.ItemUtils;
 
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockDisplayText;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList;
@@ -42,7 +42,7 @@ public class ScanningStationMachine extends ElectricMultiblockMachine {
 
     private ScanningHolderMachine objectHolder;
 
-    public ScanningStationMachine(IMachineBlockEntity holder) {
+    public ScanningStationMachine(MetaMachineBlockEntity holder) {
         super(holder);
     }
 

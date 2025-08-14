@@ -1,8 +1,8 @@
 package com.gtocore.common.machine.multiblock.part;
 
 import com.gregtechceu.gtceu.api.GTValues;
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableEnergyContainer;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.EnergyHatchPartMachine;
 
@@ -21,7 +21,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @MethodsReturnNonnullByDefault
 public final class NeutronAcceleratorPartMachine extends EnergyHatchPartMachine implements WirelessEnergyReceiveCoverHolder {
 
-    public NeutronAcceleratorPartMachine(IMachineBlockEntity holder, int tier, Object... args) {
+    public NeutronAcceleratorPartMachine(MetaMachineBlockEntity holder, int tier, Object... args) {
         super(holder, tier, IO.IN, 1, args);
     }
 

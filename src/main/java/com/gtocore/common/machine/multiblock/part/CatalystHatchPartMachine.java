@@ -2,10 +2,10 @@ package com.gtocore.common.machine.multiblock.part;
 
 import com.gtolib.api.machine.trait.NotifiableCatalystHandler;
 
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.widget.SlotWidget;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.TieredIOPartMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 
@@ -29,7 +29,7 @@ public final class CatalystHatchPartMachine extends TieredIOPartMachine {
     @Persisted
     private final NotifiableItemStackHandler inventory;
 
-    public CatalystHatchPartMachine(IMachineBlockEntity holder, int tier) {
+    public CatalystHatchPartMachine(MetaMachineBlockEntity holder, int tier) {
         super(holder, tier, IO.IN);
         this.inventory = new NotifiableCatalystHandler(this, tier == 2 ? 4 : 36, true);
     }

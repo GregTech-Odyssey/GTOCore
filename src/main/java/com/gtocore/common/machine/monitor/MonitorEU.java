@@ -3,7 +3,7 @@ package com.gtocore.common.machine.monitor;
 import com.gtocore.api.gui.helper.ProgressBarColorStyle;
 
 import com.gregtechceu.gtceu.api.GTValues;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.common.machine.multiblock.electric.PowerSubstationMachine;
 import com.gregtechceu.gtceu.utils.GTUtil;
 
@@ -47,10 +47,10 @@ public class MonitorEU extends AbstractInfoProviderMonitor implements IWirelessM
     private float energyFullness = 0.0f;
 
     public MonitorEU(Object o) {
-        this((IMachineBlockEntity) o);
+        this((MetaMachineBlockEntity) o);
     }
 
-    public MonitorEU(IMachineBlockEntity holder) {
+    public MonitorEU(MetaMachineBlockEntity holder) {
         super(holder);
     }
 

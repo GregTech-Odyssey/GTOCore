@@ -4,7 +4,7 @@ import com.gtocore.common.data.GTOMaterials;
 
 import com.gtolib.api.recipe.RecipeRunner;
 
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.network.chat.Component;
@@ -41,7 +41,7 @@ public final class FlocculationPurificationUnitMachine extends WaterPurification
     @Persisted
     private long outputCount;
 
-    public FlocculationPurificationUnitMachine(IMachineBlockEntity holder) {
+    public FlocculationPurificationUnitMachine(MetaMachineBlockEntity holder) {
         super(holder, 4);
     }
 

@@ -3,7 +3,7 @@ package com.gtocore.common.machine.multiblock.electric.gcym;
 import com.gtolib.api.machine.feature.multiblock.IFluidRendererMachine;
 import com.gtolib.api.recipe.Recipe;
 
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
 
 import net.minecraft.core.BlockPos;
@@ -28,7 +28,7 @@ public final class LargeMixerMachine extends GCYMMultiblockMachine implements IF
     @DescSynced
     private Fluid cachedFluid;
 
-    public LargeMixerMachine(IMachineBlockEntity holder) {
+    public LargeMixerMachine(MetaMachineBlockEntity holder) {
         super(holder);
     }
 

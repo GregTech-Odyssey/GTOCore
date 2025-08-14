@@ -3,14 +3,14 @@ package com.gtocore.common.machine.multiblock.electric.gcym;
 import com.gtolib.api.machine.trait.CoilTrait;
 
 import com.gregtechceu.gtceu.api.block.ICoilType;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.ICoilMachine;
 
 public final class MegaBlastFurnaceMachine extends GCYMMultiblockMachine implements ICoilMachine {
 
     private final CoilTrait coilTrait;
 
-    public MegaBlastFurnaceMachine(IMachineBlockEntity holder) {
+    public MegaBlastFurnaceMachine(MetaMachineBlockEntity holder) {
         super(holder);
         coilTrait = new CoilTrait(this, true, true);
     }

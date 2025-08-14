@@ -1,7 +1,7 @@
 package com.gtocore.common.machine.multiblock.part;
 
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.IDataAccessHatch;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.feature.IInteractedMachine;
 import com.gregtechceu.gtceu.common.data.GTItems;
@@ -46,7 +46,7 @@ public final class WirelessOpticalDataHatchMachine extends OpticalDataHatchMachi
 
     private final CleanableReferenceSupplier<MetaMachine> transmitterMachine = new CleanableReferenceSupplier<>(() -> MetaMachine.getMachine(getLevel(), transmitterPos), MetaMachine::isInValid);
 
-    public WirelessOpticalDataHatchMachine(IMachineBlockEntity holder, boolean transmitter) {
+    public WirelessOpticalDataHatchMachine(MetaMachineBlockEntity holder, boolean transmitter) {
         super(holder, transmitter);
     }
 

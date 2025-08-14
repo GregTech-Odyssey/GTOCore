@@ -4,8 +4,8 @@ import com.gtolib.api.annotation.Scanned;
 import com.gtolib.api.annotation.dynamic.DynamicInitialValue;
 import com.gtolib.api.annotation.dynamic.DynamicInitialValueTypes;
 
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.fluids.PropertyFluidFilter;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.machine.multiblock.electric.MultiblockTankMachine;
 
@@ -28,7 +28,7 @@ public class LargeSteamStorageTank extends MultiblockTankMachine {
                          expertValue = "162000000") // 45分钟青铜锅炉x2x3
     private static int capacity = 120000000;
 
-    public LargeSteamStorageTank(IMachineBlockEntity holder, Object... args) {
+    public LargeSteamStorageTank(MetaMachineBlockEntity holder, Object... args) {
         super(holder, capacity, new MyPropertyFluidFilter(), args);
     }
 

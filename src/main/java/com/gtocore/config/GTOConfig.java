@@ -1,7 +1,7 @@
 package com.gtocore.config;
 
 import com.gtolib.GTOCore;
-import com.gtolib.api.annotation.Scanned;
+import com.gtolib.api.annotation.DataGeneratorScanned;
 import com.gtolib.api.annotation.language.RegisterLanguage;
 
 import com.gregtechceu.gtceu.GTCEu;
@@ -16,7 +16,7 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.core.config.Configurator;
 import org.embeddedt.modernfix.spark.SparkLaunchProfiler;
 
-@Scanned
+@DataGeneratorScanned
 @Config(id = GTOCore.MOD_ID)
 public final class GTOConfig {
 

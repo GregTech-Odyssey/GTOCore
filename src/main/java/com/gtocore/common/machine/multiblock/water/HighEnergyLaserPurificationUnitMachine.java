@@ -7,9 +7,9 @@ import com.gtolib.api.machine.part.ItemHatchPartMachine;
 import com.gtolib.api.recipe.RecipeRunner;
 
 import com.gregtechceu.gtceu.api.GTValues;
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.data.chemical.material.MarkerMaterials;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
@@ -68,7 +68,7 @@ public final class HighEnergyLaserPurificationUnitMachine extends WaterPurificat
     private IndicatorHatchPartMachine indicatorHatchPartMachine;
     private ItemHatchPartMachine itemHatchPartMachine;
 
-    public HighEnergyLaserPurificationUnitMachine(IMachineBlockEntity holder) {
+    public HighEnergyLaserPurificationUnitMachine(MetaMachineBlockEntity holder) {
         super(holder, 32);
     }
 

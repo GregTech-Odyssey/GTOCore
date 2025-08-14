@@ -5,7 +5,7 @@ import com.gtocore.client.renderer.RenderBufferHelper;
 import com.gtolib.api.machine.multiblock.CoilCrossRecipeMultiblockMachine;
 
 import com.gregtechceu.gtceu.GTCEu;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.client.renderer.GTRenderTypes;
 import com.gregtechceu.gtceu.client.renderer.machine.WorkableCasingMachineRenderer;
 import com.gregtechceu.gtceu.client.util.BloomUtils;
@@ -33,7 +33,7 @@ public final class DimensionalFocusEngravingArrayRenderer extends WorkableCasing
     @Override
     @OnlyIn(Dist.CLIENT)
     public void render(BlockEntity blockEntity, float partialTicks, PoseStack stack, MultiBufferSource buffer, int combinedLight, int combinedOverlay) {
-        if (blockEntity instanceof IMachineBlockEntity machineBlockEntity && machineBlockEntity.getMetaMachine() instanceof CoilCrossRecipeMultiblockMachine machine && machine.isFormed() && (machine.getRecipeLogic().isWorking() || blockEntity.getLevel() instanceof TrackedDummyWorld)) {
+        if (blockEntity instanceof MetaMachineBlockEntity machineBlockEntity && machineBlockEntity.getMetaMachine() instanceof CoilCrossRecipeMultiblockMachine machine && machine.isFormed() && (machine.getRecipeLogic().isWorking() || blockEntity.getLevel() instanceof TrackedDummyWorld)) {
             if (GTCEu.Mods.isShimmerLoaded() && !(blockEntity.getLevel() instanceof TrackedDummyWorld)) {
                 PoseStack finalStack = RenderUtils.copyPoseStack(stack);
                 BloomUtils.entityBloom(source -> renderLightRing(machine, partialTicks, finalStack, source));

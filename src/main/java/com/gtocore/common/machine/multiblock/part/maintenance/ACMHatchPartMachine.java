@@ -3,8 +3,8 @@ package com.gtocore.common.machine.multiblock.part.maintenance;
 import com.gtolib.api.annotation.Scanned;
 import com.gtolib.api.annotation.dynamic.DynamicInitialValue;
 
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMaintenanceMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IWorkableMultiController;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.MultiblockPartMachine;
@@ -46,7 +46,7 @@ public class ACMHatchPartMachine extends TieredPartMachine implements IMaintenan
     @Persisted
     private float durationMultiplier = 1.0F;
 
-    public ACMHatchPartMachine(IMachineBlockEntity metaTileEntityId) {
+    public ACMHatchPartMachine(MetaMachineBlockEntity metaTileEntityId) {
         super(metaTileEntityId, 5);
     }
 

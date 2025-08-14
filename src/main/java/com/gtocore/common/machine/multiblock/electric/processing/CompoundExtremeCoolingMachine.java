@@ -8,9 +8,9 @@ import com.gtolib.api.machine.feature.multiblock.IMultiStructureMachine;
 import com.gtolib.api.machine.multiblock.CrossRecipeMultiblockMachine;
 import com.gtolib.utils.MachineUtils;
 
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.pattern.BlockPattern;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
@@ -31,7 +31,7 @@ public final class CompoundExtremeCoolingMachine extends CrossRecipeMultiblockMa
 
     private static final Int2ObjectOpenHashMap<BlockPattern> PATTERNS = new Int2ObjectOpenHashMap<>(3, 0.9F);
 
-    public CompoundExtremeCoolingMachine(IMachineBlockEntity holder) {
+    public CompoundExtremeCoolingMachine(MetaMachineBlockEntity holder) {
         super(holder, false, true, MachineUtils::getHatchParallel);
     }
 

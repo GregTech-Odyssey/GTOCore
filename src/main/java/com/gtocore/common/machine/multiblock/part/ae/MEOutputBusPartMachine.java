@@ -2,8 +2,8 @@ package com.gtocore.common.machine.multiblock.part.ae;
 
 import com.gtolib.api.machine.trait.InaccessibleInfiniteHandler;
 
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.IInteractedMachine;
 import com.gregtechceu.gtceu.integration.ae2.gui.widget.list.AEListGridWidget;
 import com.gregtechceu.gtceu.integration.ae2.utils.KeyStorage;
@@ -29,7 +29,7 @@ public final class MEOutputBusPartMachine extends MEPartMachine implements IInte
     @Persisted
     private final KeyStorage internalBuffer;
 
-    public MEOutputBusPartMachine(IMachineBlockEntity holder) {
+    public MEOutputBusPartMachine(MetaMachineBlockEntity holder) {
         super(holder, IO.OUT);
         internalBuffer = new KeyStorage();
         new InaccessibleInfiniteHandler(this, internalBuffer);

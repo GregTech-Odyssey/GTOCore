@@ -4,7 +4,7 @@ import com.gtolib.api.machine.multiblock.ElectricMultiblockMachine;
 import com.gtolib.api.recipe.Recipe;
 import com.gtolib.utils.MachineUtils;
 
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
@@ -22,7 +22,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @MethodsReturnNonnullByDefault
 public final class GreenhouseMachine extends ElectricMultiblockMachine {
 
-    public GreenhouseMachine(IMachineBlockEntity holder) {
+    public GreenhouseMachine(MetaMachineBlockEntity holder) {
         super(holder);
     }
 

@@ -6,7 +6,7 @@ import com.gtolib.api.data.GTODimensions;
 import com.gtolib.api.machine.multiblock.ElectricMultiblockMachine;
 import com.gtolib.api.recipe.Recipe;
 
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
@@ -23,7 +23,7 @@ public final class DysonSphereLaunchSiloMachine extends ElectricMultiblockMachin
 
     private ResourceKey<Level> dimension;
 
-    public DysonSphereLaunchSiloMachine(IMachineBlockEntity holder) {
+    public DysonSphereLaunchSiloMachine(MetaMachineBlockEntity holder) {
         super(holder);
     }
 

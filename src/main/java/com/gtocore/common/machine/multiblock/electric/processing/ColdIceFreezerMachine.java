@@ -3,7 +3,7 @@ package com.gtocore.common.machine.multiblock.electric.processing;
 import com.gtolib.api.machine.multiblock.CustomParallelMultiblockMachine;
 import com.gtolib.api.recipe.Recipe;
 
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
 import net.minecraft.network.chat.Component;
@@ -15,7 +15,7 @@ public final class ColdIceFreezerMachine extends CustomParallelMultiblockMachine
 
     private static final FluidStack ICE = GTMaterials.Ice.getFluid(1);
 
-    public ColdIceFreezerMachine(IMachineBlockEntity holder) {
+    public ColdIceFreezerMachine(MetaMachineBlockEntity holder) {
         super(holder, true, m -> 64);
     }
 

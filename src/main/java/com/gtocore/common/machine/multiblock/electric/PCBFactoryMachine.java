@@ -12,11 +12,11 @@ import com.gtolib.api.machine.multiblock.StorageMultiblockMachine;
 import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
 
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.data.chemical.material.stack.MaterialStack;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.pattern.BlockPattern;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
@@ -56,7 +56,7 @@ public final class PCBFactoryMachine extends StorageMultiblockMachine implements
     @Persisted
     private int machineTier = 1;
 
-    public PCBFactoryMachine(IMachineBlockEntity holder) {
+    public PCBFactoryMachine(MetaMachineBlockEntity holder) {
         super(holder, 1, i -> ChemicalHelper.getPrefix(i.getItem()) == GTOTagPrefix.NANITES);
     }
 

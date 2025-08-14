@@ -2,13 +2,13 @@ package com.gtocore.common.machine.multiblock.electric.space;
 
 import com.gtolib.utils.MachineUtils;
 
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 
 import net.minecraft.core.BlockPos;
 
 public final class SuperSpaceElevatorMachine extends SpaceElevatorMachine {
 
-    public SuperSpaceElevatorMachine(IMachineBlockEntity holder) {
+    public SuperSpaceElevatorMachine(MetaMachineBlockEntity holder) {
         super(holder);
     }
 

@@ -26,11 +26,11 @@ import appeng.crafting.pattern.EncodedPatternItem
 import appeng.helpers.patternprovider.PatternContainer
 import com.google.common.collect.BiMap
 import com.google.common.collect.HashBiMap
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity
 import com.gregtechceu.gtceu.api.capability.recipe.IO
 import com.gregtechceu.gtceu.api.gui.GuiTextures
 import com.gregtechceu.gtceu.api.gui.fancy.ConfiguratorPanel
 import com.gregtechceu.gtceu.api.gui.fancy.FancyMachineUIWidget
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity
 import com.gregtechceu.gtceu.api.machine.TickableSubscription
 import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler
@@ -40,7 +40,6 @@ import com.gtolib.api.annotation.Scanned
 import com.gtolib.api.annotation.language.RegisterLanguage
 import com.gtolib.api.capability.ISync
 import com.gtolib.api.gui.ktflexible.*
-import com.gtolib.api.gui.ktflexible.FreshWidgetGroupAbstract
 import com.gtolib.syncdata.SyncManagedFieldHolder
 import com.lowdragmc.lowdraglib.gui.widget.Widget
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup
@@ -57,7 +56,7 @@ import javax.annotation.ParametersAreNonnullByDefault
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 @Scanned
-internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.AbstractInternalSlot>(holder: IMachineBlockEntity, val maxPatternCount: Int) :
+internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.AbstractInternalSlot>(holder: MetaMachineBlockEntity, val maxPatternCount: Int) :
     MEPartMachine(holder, IO.IN),
     ICraftingProvider,
     WirelessMachine,

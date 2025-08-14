@@ -6,7 +6,7 @@ import com.gtolib.api.machine.feature.multiblock.ITierCasingMachine;
 import com.gtolib.api.machine.multiblock.NoRecipeLogicMultiblockMachine;
 import com.gtolib.api.machine.trait.TierCasingTrait;
 
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.IMachineLife;
 
 import net.minecraft.world.entity.LivingEntity;
@@ -24,7 +24,7 @@ public final class WirelessDimensionRepeaterMachine extends NoRecipeLogicMultibl
     private WirelessEnergyContainer WirelessEnergyContainerCache;
     private final TierCasingTrait tierCasingTrait;
 
-    public WirelessDimensionRepeaterMachine(IMachineBlockEntity holder) {
+    public WirelessDimensionRepeaterMachine(MetaMachineBlockEntity holder) {
         super(holder);
         tierCasingTrait = new TierCasingTrait(this, GTOValues.INTEGRAL_FRAMEWORK_TIER);
         setWorkingEnabled(false);

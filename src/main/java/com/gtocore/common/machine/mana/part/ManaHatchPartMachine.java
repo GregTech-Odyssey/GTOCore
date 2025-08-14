@@ -7,8 +7,8 @@ import com.gtolib.api.machine.mana.trait.NotifiableManaContainer;
 import com.gtolib.utils.MathUtil;
 
 import com.gregtechceu.gtceu.api.GTValues;
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.TieredIOPartMachine;
@@ -33,7 +33,7 @@ public class ManaHatchPartMachine extends TieredIOPartMachine implements IManaMa
     @Persisted
     private final NotifiableManaContainer manaContainer;
 
-    public ManaHatchPartMachine(IMachineBlockEntity holder, int tier, IO io, int rate) {
+    public ManaHatchPartMachine(MetaMachineBlockEntity holder, int tier, IO io, int rate) {
         super(holder, tier, io);
         manaContainer = createManaContainer(rate);
         manaContainer.setAcceptDistributor(io == IO.IN);

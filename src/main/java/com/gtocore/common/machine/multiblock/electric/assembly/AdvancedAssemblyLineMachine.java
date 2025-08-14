@@ -10,10 +10,10 @@ import com.gtolib.api.recipe.ingredient.FastSizedIngredient;
 import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
 import com.gtolib.utils.ItemUtils;
 
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
@@ -33,7 +33,7 @@ import java.util.*;
 
 public final class AdvancedAssemblyLineMachine extends ElectricMultiblockMachine {
 
-    public AdvancedAssemblyLineMachine(IMachineBlockEntity holder) {
+    public AdvancedAssemblyLineMachine(MetaMachineBlockEntity holder) {
         super(holder);
     }
 

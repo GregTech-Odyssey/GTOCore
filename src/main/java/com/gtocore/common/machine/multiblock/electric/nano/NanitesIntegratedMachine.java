@@ -11,12 +11,12 @@ import com.gtolib.api.recipe.Recipe;
 import com.gtolib.utils.MachineUtils;
 
 import com.gregtechceu.gtceu.api.GTValues;
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.data.chemical.material.stack.MaterialEntry;
 import com.gregtechceu.gtceu.api.gui.fancy.ConfiguratorPanel;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
@@ -67,7 +67,7 @@ public final class NanitesIntegratedMachine extends CoilCrossRecipeMultiblockMac
     @Persisted
     private final NotifiableItemStackHandler machineStorage;
 
-    public NanitesIntegratedMachine(IMachineBlockEntity holder) {
+    public NanitesIntegratedMachine(MetaMachineBlockEntity holder) {
         super(holder, false, true, false, true, MachineUtils::getHatchParallel);
         machineStorage = createMachineStorage(i -> {
             MaterialEntry entry = ChemicalHelper.getMaterialEntry(i.getItem());

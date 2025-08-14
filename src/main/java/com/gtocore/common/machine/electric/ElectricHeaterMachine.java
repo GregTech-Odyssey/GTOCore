@@ -2,7 +2,6 @@ package com.gtocore.common.machine.electric;
 
 import com.gtocore.common.data.GTORecipeTypes;
 
-import com.gtolib.api.annotation.Scanned;
 import com.gtolib.api.machine.feature.IHeaterMachine;
 import com.gtolib.api.machine.trait.CustomRecipeLogic;
 import com.gtolib.api.machine.trait.IEnhancedRecipeLogic;
@@ -11,8 +10,8 @@ import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.RecipeRunner;
 
 import com.gregtechceu.gtceu.api.GTValues;
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.WorkableTieredMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableEnergyContainer;
@@ -31,7 +30,6 @@ import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-@Scanned
 public final class ElectricHeaterMachine extends WorkableTieredMachine implements IHeaterMachine {
 
     private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(ElectricHeaterMachine.class, WorkableTieredMachine.MANAGED_FIELD_HOLDER);
@@ -42,7 +40,7 @@ public final class ElectricHeaterMachine extends WorkableTieredMachine implement
     private int temperature = 273;
     private TickableSubscription tickSubs;
 
-    public ElectricHeaterMachine(IMachineBlockEntity holder) {
+    public ElectricHeaterMachine(MetaMachineBlockEntity holder) {
         super(holder, 1, t -> 8000);
     }
 

@@ -7,7 +7,7 @@ import com.gtolib.api.recipe.RecipeBuilder;
 import com.gtolib.api.recipe.RecipeRunner;
 import com.gtolib.api.recipe.modifier.ParallelLogic;
 
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.item.IntCircuitBehaviour;
@@ -24,7 +24,7 @@ import java.util.concurrent.atomic.AtomicReference;
 
 public final class ChiselMachine extends CustomParallelMultiblockMachine {
 
-    public ChiselMachine(IMachineBlockEntity holder) {
+    public ChiselMachine(MetaMachineBlockEntity holder) {
         super(holder, false, m -> 1L << (2 * (m.getTier() - 1)));
     }
 

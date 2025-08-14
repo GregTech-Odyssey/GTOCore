@@ -5,7 +5,7 @@ import com.gtolib.api.machine.trait.CustomRecipeLogic;
 import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.RecipeRunner;
 
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.utils.GTUtil;
@@ -26,7 +26,7 @@ public final class ThermalPowerPumpMachine extends NoEnergyMultiblockMachine {
 
     private int biomeModifier;
 
-    public ThermalPowerPumpMachine(IMachineBlockEntity holder) {
+    public ThermalPowerPumpMachine(MetaMachineBlockEntity holder) {
         super(holder);
     }
 

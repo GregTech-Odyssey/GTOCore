@@ -5,10 +5,10 @@ import com.gtocore.common.machine.trait.INFFluidDrillLogic;
 import com.gtolib.api.machine.multiblock.ElectricMultiblockMachine;
 
 import com.gregtechceu.gtceu.api.GTValues;
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.IEnergyContainer;
 import com.gregtechceu.gtceu.api.capability.recipe.EURecipeCapability;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.misc.EnergyContainerList;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
@@ -32,7 +32,7 @@ public final class INFFluidDrillMachine extends ElectricMultiblockMachine {
     private final int tier;
     private final int basis;
 
-    public INFFluidDrillMachine(IMachineBlockEntity holder, int tier, int basis) {
+    public INFFluidDrillMachine(MetaMachineBlockEntity holder, int tier, int basis) {
         super(holder);
         this.tier = tier;
         this.basis = basis;

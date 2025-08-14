@@ -12,8 +12,8 @@ import com.gtolib.utils.MachineUtils;
 import com.gtolib.utils.MathUtil;
 import com.gtolib.utils.SphereExplosion;
 
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.ConditionalSubscriptionHandler;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.IExplosionMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableMultiblockMachine;
@@ -59,7 +59,7 @@ public final class FissionReactorMachine extends ElectricMultiblockMachine imple
 
     private SensorPartMachine sensorMachine;
 
-    public FissionReactorMachine(IMachineBlockEntity holder) {
+    public FissionReactorMachine(MetaMachineBlockEntity holder) {
         super(holder);
         HeatSubs = new ConditionalSubscriptionHandler(this, this::HeatUpdate, () -> isFormed() || heat > 298);
     }

@@ -2,7 +2,7 @@ package com.gtocore.common.machine.multiblock.part;
 
 import com.gtolib.api.capability.IExtendWirelessEnergyContainerHolder;
 
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.MultiblockPartMachine;
 
 import com.hepdd.gtmthings.api.misc.WirelessEnergyContainer;
@@ -14,7 +14,7 @@ public final class WirelessEnergyInterfacePartMachine extends MultiblockPartMach
 
     private WirelessEnergyContainer WirelessEnergyContainerCache;
 
-    public WirelessEnergyInterfacePartMachine(IMachineBlockEntity holder) {
+    public WirelessEnergyInterfacePartMachine(MetaMachineBlockEntity holder) {
         super(holder);
     }
 

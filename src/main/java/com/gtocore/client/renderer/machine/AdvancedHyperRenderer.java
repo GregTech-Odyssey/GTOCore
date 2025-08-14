@@ -5,7 +5,7 @@ import com.gtolib.api.machine.multiblock.ElectricMultiblockMachine;
 import com.gtolib.utils.ClientUtil;
 
 import com.gregtechceu.gtceu.GTCEu;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.client.renderer.machine.WorkableCasingMachineRenderer;
 import com.gregtechceu.gtceu.client.util.BloomUtils;
 
@@ -37,7 +37,7 @@ public final class AdvancedHyperRenderer extends WorkableCasingMachineRenderer {
     @Override
     @OnlyIn(Dist.CLIENT)
     public void render(BlockEntity blockEntity, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int combinedLight, int combinedOverlay) {
-        if (blockEntity instanceof IMachineBlockEntity machineBlockEntity && machineBlockEntity.getMetaMachine() instanceof ElectricMultiblockMachine machine && machine.isFormed() && (machine.isActive() || blockEntity.getLevel() instanceof TrackedDummyWorld)) {
+        if (blockEntity instanceof MetaMachineBlockEntity machineBlockEntity && machineBlockEntity.getMetaMachine() instanceof ElectricMultiblockMachine machine && machine.isFormed() && (machine.isActive() || blockEntity.getLevel() instanceof TrackedDummyWorld)) {
             float tick = machine.getOffsetTimer() + partialTicks;
             if (GTCEu.Mods.isShimmerLoaded() && !(blockEntity.getLevel() instanceof TrackedDummyWorld)) {
                 PoseStack finalStack = RenderUtils.copyPoseStack(poseStack);

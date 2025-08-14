@@ -15,9 +15,9 @@ import com.gtolib.utils.MachineUtils;
 import com.gtolib.utils.MathUtil;
 
 import com.gregtechceu.gtceu.api.GTValues;
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.gui.fancy.ConfiguratorPanel;
 import com.gregtechceu.gtceu.api.gui.fancy.IFancyConfiguratorButton;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 
@@ -48,7 +48,7 @@ public class SpaceElevatorMachine extends TierCasingMultiblockMachine implements
 
     private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(SpaceElevatorMachine.class, TierCasingMultiblockMachine.MANAGED_FIELD_HOLDER);
 
-    public SpaceElevatorMachine(IMachineBlockEntity holder) {
+    public SpaceElevatorMachine(MetaMachineBlockEntity holder) {
         super(holder, POWER_MODULE_TIER);
     }
 

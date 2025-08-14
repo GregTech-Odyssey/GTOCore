@@ -13,6 +13,7 @@ import com.gtolib.api.recipe.RecipeBuilder;
 import com.gtolib.api.recipe.RecipeRunner;
 
 import com.gregtechceu.gtceu.GTCEu;
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.IEnergyContainer;
 import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
@@ -22,7 +23,6 @@ import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.machine.ConditionalSubscriptionHandler;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.IExplosionMachine;
 import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
@@ -104,7 +104,7 @@ public final class PrimitiveDistillationTowerMachine extends NoEnergyMultiblockM
     private final ConditionalSubscriptionHandler tickSubs;
     private SensorPartMachine sensorMachine;
 
-    public PrimitiveDistillationTowerMachine(IMachineBlockEntity holder) {
+    public PrimitiveDistillationTowerMachine(MetaMachineBlockEntity holder) {
         super(holder);
         tickSubs = new ConditionalSubscriptionHandler(this, this::tickUpdate, this::shouldTick);
     }

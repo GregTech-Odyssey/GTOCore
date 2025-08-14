@@ -14,9 +14,9 @@ import com.gtolib.api.recipe.RecipeType;
 import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
 import com.gtolib.utils.MachineUtils;
 
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.gui.fancy.ConfiguratorPanel;
 import com.gregtechceu.gtceu.api.item.MetaMachineItem;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.machine.feature.ICleanroomProvider;
@@ -99,7 +99,7 @@ public final class ProcessingPlantMachine extends StorageMultiblockMachine imple
 
     private final TierCasingTrait tierCasingTrait;
 
-    public ProcessingPlantMachine(IMachineBlockEntity holder) {
+    public ProcessingPlantMachine(MetaMachineBlockEntity holder) {
         super(holder, 1, ProcessingPlantMachine::filter);
         customParallelTrait = new CustomParallelTrait(this, true, machine -> ((ProcessingPlantMachine) machine).getTier() > 0 ? (long) ((ProcessingPlantMachine) machine).getTier() << 1 : 0);
         tierCasingTrait = new TierCasingTrait(this, GTOValues.INTEGRAL_FRAMEWORK_TIER);

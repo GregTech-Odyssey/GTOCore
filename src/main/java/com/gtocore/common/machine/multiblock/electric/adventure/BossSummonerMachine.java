@@ -6,7 +6,7 @@ import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.RecipeRunner;
 import com.gtolib.utils.MachineUtils;
 
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 
 import net.minecraft.core.BlockPos;
@@ -22,7 +22,7 @@ import org.jetbrains.annotations.Nullable;
 
 public final class BossSummonerMachine extends ElectricMultiblockMachine {
 
-    public BossSummonerMachine(IMachineBlockEntity holder) {
+    public BossSummonerMachine(MetaMachineBlockEntity holder) {
         super(holder);
     }
 

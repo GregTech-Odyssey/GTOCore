@@ -2,7 +2,7 @@ package com.gtocore.common.machine.multiblock.part.research;
 
 import com.gtocore.common.data.GTOBlocks;
 
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.hpca.HPCAComponentPartMachine;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
@@ -18,7 +18,7 @@ public abstract class ExResearchBasePartMachine extends HPCAComponentPartMachine
 
     final int tier;
 
-    ExResearchBasePartMachine(IMachineBlockEntity holder, int tier) {
+    ExResearchBasePartMachine(MetaMachineBlockEntity holder, int tier) {
         super(holder);
         this.tier = tier;
     }

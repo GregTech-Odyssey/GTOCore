@@ -7,10 +7,10 @@ import com.gtolib.api.machine.mana.trait.ManaTrait;
 import com.gtolib.api.machine.multiblock.NoEnergyMultiblockMachine;
 import com.gtolib.api.misc.ManaContainerList;
 
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.fancy.ConfiguratorPanel;
 import com.gregtechceu.gtceu.api.gui.fancy.IFancyConfiguratorButton;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 
 import net.minecraft.network.chat.Component;
 
@@ -36,7 +36,7 @@ public class ManaMultiblockMachine extends NoEnergyMultiblockMachine implements 
     private int ocLimit = 20;
     private final ManaTrait manaTrait;
 
-    public ManaMultiblockMachine(IMachineBlockEntity holder) {
+    public ManaMultiblockMachine(MetaMachineBlockEntity holder) {
         super(holder);
         this.manaTrait = new ManaTrait(this);
     }

@@ -3,8 +3,8 @@ package com.gtocore.common.machine.multiblock.part.ae;
 import com.gtolib.api.machine.trait.InaccessibleInfiniteHandler;
 import com.gtolib.api.machine.trait.InaccessibleInfiniteTank;
 
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.integration.ae2.gui.widget.list.AEListGridWidget;
 import com.gregtechceu.gtceu.integration.ae2.utils.KeyStorage;
 
@@ -37,7 +37,7 @@ public class MEDualOutputPartMachine extends MEPartMachine {
     @Persisted
     private final KeyStorage internalTankBuffer;
 
-    public MEDualOutputPartMachine(IMachineBlockEntity holder) {
+    public MEDualOutputPartMachine(MetaMachineBlockEntity holder) {
         super(holder, IO.OUT);
         internalBuffer = new KeyStorage();
         new InaccessibleInfiniteHandler(this, internalBuffer);

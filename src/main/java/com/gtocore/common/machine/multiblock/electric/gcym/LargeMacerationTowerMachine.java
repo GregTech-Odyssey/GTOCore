@@ -1,7 +1,7 @@
 package com.gtocore.common.machine.multiblock.electric.gcym;
 
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
 
@@ -21,7 +21,7 @@ public class LargeMacerationTowerMachine extends GCYMMultiblockMachine {
 
     private TickableSubscription hurtSub;
 
-    public LargeMacerationTowerMachine(IMachineBlockEntity holder) {
+    public LargeMacerationTowerMachine(MetaMachineBlockEntity holder) {
         super(holder);
     }
 

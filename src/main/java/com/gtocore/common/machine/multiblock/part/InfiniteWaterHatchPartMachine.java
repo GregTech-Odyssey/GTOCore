@@ -4,10 +4,10 @@ import com.gtolib.api.machine.trait.IExtendRecipeHandler;
 import com.gtolib.api.recipe.ingredient.FastFluidIngredient;
 
 import com.gregtechceu.gtceu.api.GTValues;
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.capability.recipe.RecipeCapability;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.TieredIOPartMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableRecipeHandlerTrait;
@@ -28,7 +28,7 @@ import java.util.List;
 
 public final class InfiniteWaterHatchPartMachine extends TieredIOPartMachine {
 
-    public InfiniteWaterHatchPartMachine(IMachineBlockEntity holder) {
+    public InfiniteWaterHatchPartMachine(MetaMachineBlockEntity holder) {
         super(holder, GTValues.IV, IO.IN);
         new FluidTank(this);
     }

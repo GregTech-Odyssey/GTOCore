@@ -10,8 +10,8 @@ import com.gtolib.api.recipe.ingredient.FastSizedIngredient;
 import com.gtolib.utils.ItemUtils;
 import com.gtolib.utils.MathUtil;
 
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 
@@ -27,7 +27,7 @@ public class SuperMolecularAssemblerMachine extends ElectricMultiblockMachine {
 
     private final List<MECraftPatternPartMachine> partMachines = new ObjectArrayList<>();
 
-    public SuperMolecularAssemblerMachine(IMachineBlockEntity holder) {
+    public SuperMolecularAssemblerMachine(MetaMachineBlockEntity holder) {
         super(holder);
     }
 

@@ -7,7 +7,7 @@ import com.gtolib.api.machine.multiblock.ElectricMultiblockMachine;
 import com.gtolib.api.recipe.Recipe;
 import com.gtolib.utils.MathUtil;
 
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
 
@@ -24,7 +24,7 @@ public final class IsaMillMachine extends ElectricMultiblockMachine {
 
     private BallHatchPartMachine ballHatchPartMachine;
 
-    public IsaMillMachine(IMachineBlockEntity holder) {
+    public IsaMillMachine(MetaMachineBlockEntity holder) {
         super(holder);
     }
 

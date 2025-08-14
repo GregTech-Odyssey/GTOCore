@@ -3,10 +3,10 @@ package com.gtocore.common.machine.electric;
 import com.gtocore.api.capability.FluidHandlerList;
 import com.gtocore.api.capability.ItemHandlerList;
 
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.widget.SlotWidget;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.feature.IFancyUIMachine;
 import com.gregtechceu.gtceu.api.machine.feature.IMachineModifyDrops;
@@ -53,7 +53,7 @@ public class AdvancedTesseractMachine extends MetaMachine implements IFancyUIMac
 
     private boolean call;
 
-    public AdvancedTesseractMachine(IMachineBlockEntity holder) {
+    public AdvancedTesseractMachine(MetaMachineBlockEntity holder) {
         super(holder);
         inventory = new NotifiableItemStackHandler(this, 20, IO.NONE, IO.NONE);
         inventory.storage.setOnContentsChanged(() -> {

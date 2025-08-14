@@ -3,11 +3,11 @@ package com.gtocore.common.machine.multiblock.electric.gcym;
 import com.gtolib.api.GTOValues;
 import com.gtolib.api.machine.multiblock.TierCasingMultiblockMachine;
 
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 
 public class GCYMMultiblockMachine extends TierCasingMultiblockMachine {
 
-    public GCYMMultiblockMachine(IMachineBlockEntity holder) {
+    public GCYMMultiblockMachine(MetaMachineBlockEntity holder) {
         super(holder, GTOValues.INTEGRAL_FRAMEWORK_TIER);
     }
 

@@ -3,7 +3,7 @@ package com.gtocore.client.renderer.machine;
 import com.gtocore.common.machine.multiblock.electric.AdvancedFusionReactorMachine;
 
 import com.gregtechceu.gtceu.GTCEu;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
 import com.gregtechceu.gtceu.client.renderer.GTRenderTypes;
 import com.gregtechceu.gtceu.client.renderer.machine.WorkableCasingMachineRenderer;
@@ -36,7 +36,7 @@ public final class AdvancedFusionReactorRenderer extends WorkableCasingMachineRe
     @OnlyIn(Dist.CLIENT)
     public void render(BlockEntity blockEntity, float partialTicks, PoseStack stack, MultiBufferSource buffer,
                        int combinedLight, int combinedOverlay) {
-        if (blockEntity instanceof IMachineBlockEntity machineBlockEntity && machineBlockEntity.getMetaMachine() instanceof AdvancedFusionReactorMachine machine) {
+        if (blockEntity instanceof MetaMachineBlockEntity machineBlockEntity && machineBlockEntity.getMetaMachine() instanceof AdvancedFusionReactorMachine machine) {
             if (!machine.recipeLogic.isWorking() && delta <= 0) {
                 return;
             }

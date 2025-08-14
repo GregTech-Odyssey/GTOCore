@@ -11,7 +11,7 @@ import com.gtolib.api.recipe.RecipeRunner;
 import com.gtolib.utils.GTOUtils;
 import com.gtolib.utils.MachineUtils;
 
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
@@ -29,7 +29,7 @@ public final class PhotovoltaicPowerStationMachine extends StorageMultiblockMach
 
     private final ManaTrait manaTrait;
 
-    public PhotovoltaicPowerStationMachine(IMachineBlockEntity holder, int basicRate) {
+    public PhotovoltaicPowerStationMachine(MetaMachineBlockEntity holder, int basicRate) {
         super(holder, 64, i -> i.getItem() == BotaniaBlocks.motifDaybloom.asItem());
         basic_rate = basicRate;
         this.manaTrait = new ManaTrait(this);

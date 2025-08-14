@@ -6,13 +6,13 @@ import com.gtolib.api.recipe.IdleReason;
 import com.gtolib.api.recipe.Recipe;
 import com.gtolib.utils.MachineUtils;
 
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.IEnergyContainer;
 import com.gregtechceu.gtceu.api.capability.recipe.EURecipeCapability;
 import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.capability.recipe.IRecipeHandler;
 import com.gregtechceu.gtceu.api.machine.ConditionalSubscriptionHandler;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.utils.GTUtil;
 
@@ -46,7 +46,7 @@ public final class AdvancedFusionReactorMachine extends CrossRecipeMultiblockMac
     private final EnergyContainerTrait energyContainer;
     private final ConditionalSubscriptionHandler preHeatSubs;
 
-    public AdvancedFusionReactorMachine(IMachineBlockEntity holder, int tier) {
+    public AdvancedFusionReactorMachine(MetaMachineBlockEntity holder, int tier) {
         super(holder, false, true, MachineUtils::getHatchParallel);
         this.tier = tier;
         this.energyContainer = createEnergyContainer();

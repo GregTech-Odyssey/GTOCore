@@ -11,13 +11,13 @@ import com.gtolib.api.machine.trait.ElectricTrait;
 import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
 
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.IEnergyContainer;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.fancy.ConfiguratorPanel;
 import com.gregtechceu.gtceu.api.gui.fancy.IFancyConfiguratorButton;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.pattern.BlockPattern;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
@@ -54,7 +54,7 @@ public final class NeutronVortexMachine extends NeutronActivatorMachine implemen
 
     private final ElectricTrait electricTrait;
 
-    public NeutronVortexMachine(IMachineBlockEntity holder) {
+    public NeutronVortexMachine(MetaMachineBlockEntity holder) {
         super(holder);
         electricTrait = new ElectricTrait(this);
     }

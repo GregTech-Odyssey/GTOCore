@@ -4,13 +4,13 @@ import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.RecipeRunner;
 import com.gtolib.api.recipe.RecipeType;
 
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.capability.recipe.IRecipeCapabilityHolder;
 import com.gregtechceu.gtceu.api.capability.recipe.IRecipeHandler;
 import com.gregtechceu.gtceu.api.capability.recipe.RecipeCapability;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.widget.SlotWidget;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.feature.IMachineModifyDrops;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.MultiblockPartMachine;
@@ -64,7 +64,7 @@ public final class RadiationHatchPartMachine extends MultiblockPartMachine imple
     private final Map<IO, Map<RecipeCapability<?>, List<IRecipeHandler<?>>>> capabilitiesFlat;
     private TickableSubscription radiationSubs;
 
-    public RadiationHatchPartMachine(IMachineBlockEntity holder) {
+    public RadiationHatchPartMachine(MetaMachineBlockEntity holder) {
         super(holder);
         inventory = new NotifiableItemStackHandler(this, 1, IO.IN, IO.BOTH);
         this.capabilitiesProxy = new EnumMap<>(IO.class);

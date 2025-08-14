@@ -1,7 +1,7 @@
 package com.gtocore.common.machine.multiblock.part;
 
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.MultiblockPartMachine;
@@ -40,7 +40,7 @@ public final class PrimitiveBlastFurnaceHatch extends MultiblockPartMachine {
     @Nullable
     private ISubscription outputInventorySubs;
 
-    public PrimitiveBlastFurnaceHatch(IMachineBlockEntity holder) {
+    public PrimitiveBlastFurnaceHatch(MetaMachineBlockEntity holder) {
         super(holder);
         this.inputInventory = new ItemHandlerProxyTrait(this, IO.IN);
         this.outputInventory = new ItemHandlerProxyTrait(this, IO.OUT);

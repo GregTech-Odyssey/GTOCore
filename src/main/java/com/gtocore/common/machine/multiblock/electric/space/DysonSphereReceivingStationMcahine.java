@@ -10,7 +10,7 @@ import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.RecipeRunner;
 
 import com.gregtechceu.gtceu.api.GTValues;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 
 import net.minecraft.network.chat.Component;
@@ -29,7 +29,7 @@ public final class DysonSphereReceivingStationMcahine extends ElectricMultiblock
 
     private ResourceKey<Level> dimension;
 
-    public DysonSphereReceivingStationMcahine(IMachineBlockEntity holder) {
+    public DysonSphereReceivingStationMcahine(MetaMachineBlockEntity holder) {
         super(holder);
     }
 

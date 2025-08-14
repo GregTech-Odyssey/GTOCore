@@ -9,9 +9,9 @@ import com.gtolib.api.annotation.language.RegisterLanguage;
 import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.ingredient.FastSizedIngredient;
 
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
@@ -122,7 +122,7 @@ public final class LargeSteamCircuitAssemblerMachine extends BaseSteamMultiblock
     @Persisted
     private int count;
 
-    public LargeSteamCircuitAssemblerMachine(IMachineBlockEntity holder) {
+    public LargeSteamCircuitAssemblerMachine(MetaMachineBlockEntity holder) {
         super(holder, MAX_PARALLELS, 128, 1);
     }
 

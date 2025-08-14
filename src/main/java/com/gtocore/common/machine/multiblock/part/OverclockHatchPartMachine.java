@@ -2,11 +2,11 @@ package com.gtocore.common.machine.multiblock.part;
 
 import com.gtolib.api.machine.part.AmountConfigurationHatchPartMachine;
 
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 
 public final class OverclockHatchPartMachine extends AmountConfigurationHatchPartMachine {
 
-    public OverclockHatchPartMachine(IMachineBlockEntity holder, int tier) {
+    public OverclockHatchPartMachine(MetaMachineBlockEntity holder, int tier) {
         super(holder, tier, 2, tier - 6);
     }
 

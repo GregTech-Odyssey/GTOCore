@@ -4,8 +4,8 @@ import com.gtolib.ae2.stacks.IKeyCounter;
 import com.gtolib.ae2.storage.CellDataStorage;
 import com.gtolib.mixin.NetworkStorageAccessor;
 
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.ConditionalSubscriptionHandler;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.IDataStickInteractable;
 import com.gregtechceu.gtceu.api.machine.feature.IMachineLife;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.MultiblockPartMachine;
@@ -64,7 +64,7 @@ public class MEStorageAccessPartMachine extends MultiblockPartMachine implements
 
     private boolean dirty = false;
 
-    public MEStorageAccessPartMachine(IMachineBlockEntity holder) {
+    public MEStorageAccessPartMachine(MetaMachineBlockEntity holder) {
         super(holder);
         this.nodeHolder = new GridNodeHolder(this);
         getMainNode().addService(IStorageProvider.class, this);

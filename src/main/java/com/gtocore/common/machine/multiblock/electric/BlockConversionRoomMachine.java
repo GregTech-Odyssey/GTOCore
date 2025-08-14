@@ -9,9 +9,9 @@ import com.gtolib.api.machine.trait.CustomRecipeLogic;
 import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.RecipeRunner;
 
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
@@ -73,7 +73,7 @@ public final class BlockConversionRoomMachine extends StorageMultiblockMachine {
 
     private BlockBusPartMachine blockBusPartMachine;
 
-    public BlockConversionRoomMachine(IMachineBlockEntity holder, boolean isLarge) {
+    public BlockConversionRoomMachine(MetaMachineBlockEntity holder, boolean isLarge) {
         super(holder, 1, i -> i.getItem() == GTOItems.CONVERSION_SIMULATE_CARD.get());
         am = isLarge ? 64 : 4;
         poses = isLarge ? poses2 : poses1;

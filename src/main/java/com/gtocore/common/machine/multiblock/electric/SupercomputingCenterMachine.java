@@ -15,9 +15,9 @@ import com.gtolib.api.recipe.RecipeBuilder;
 import com.gtolib.api.recipe.RecipeRunner;
 
 import com.gregtechceu.gtceu.api.GTValues;
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.IOpticalComputationProvider;
 import com.gregtechceu.gtceu.api.machine.ConditionalSubscriptionHandler;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.hpca.HPCABridgePartMachine;
@@ -88,7 +88,7 @@ public final class SupercomputingCenterMachine extends StorageMultiblockMachine 
     private long maxEUt;
     private Recipe runRecipe;
 
-    public SupercomputingCenterMachine(IMachineBlockEntity holder) {
+    public SupercomputingCenterMachine(MetaMachineBlockEntity holder) {
         super(holder, 1, stack -> MAINFRAME.containsKey(stack.getItem()));
         maxCWUtModificationSubs = new ConditionalSubscriptionHandler(this, this::maxCWUtModificationUpdate, () -> isFormed);
     }

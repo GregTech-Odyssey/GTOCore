@@ -5,8 +5,8 @@ import com.gtocore.common.machine.multiblock.part.SensorPartMachine;
 
 import com.gtolib.api.recipe.RecipeRunner;
 
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
@@ -52,7 +52,7 @@ public final class ExtremeTemperatureFluctuationPurificationUnitMachine extends 
 
     private SensorPartMachine sensorMachine;
 
-    public ExtremeTemperatureFluctuationPurificationUnitMachine(IMachineBlockEntity holder) {
+    public ExtremeTemperatureFluctuationPurificationUnitMachine(MetaMachineBlockEntity holder) {
         super(holder, 16);
     }
 

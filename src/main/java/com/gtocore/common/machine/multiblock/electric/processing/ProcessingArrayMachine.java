@@ -12,9 +12,9 @@ import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
 import com.gtolib.utils.MachineUtils;
 
 import com.gregtechceu.gtceu.api.GTValues;
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.item.MetaMachineItem;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
@@ -55,7 +55,7 @@ public final class ProcessingArrayMachine extends TierCasingMultiblockMachine im
     private final NotifiableItemStackHandler inventory;
     private final int arrayTier;
 
-    public ProcessingArrayMachine(IMachineBlockEntity holder, int tier) {
+    public ProcessingArrayMachine(MetaMachineBlockEntity holder, int tier) {
         super(holder, GTOValues.GLASS_TIER);
         this.arrayTier = tier;
         inventory = createMachineStorage();

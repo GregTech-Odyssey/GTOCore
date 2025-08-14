@@ -4,7 +4,7 @@ import com.gtocore.common.data.GTOItems;
 
 import com.gtolib.api.machine.part.ItemHatchPartMachine;
 
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.IInteractedMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IWorkableMultiController;
 import com.gregtechceu.gtceu.common.data.GTDamageTypes;
@@ -50,7 +50,7 @@ public final class BallHatchPartMachine extends ItemHatchPartMachine implements 
     @RequireRerender
     private boolean isWorking;
 
-    public BallHatchPartMachine(IMachineBlockEntity holder) {
+    public BallHatchPartMachine(MetaMachineBlockEntity holder) {
         super(holder, 1, i -> GRINDBALL.containsKey(i.getItem()));
     }
 

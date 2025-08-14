@@ -3,7 +3,7 @@ package com.gtocore.common.machine.multiblock.steam;
 import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.modifier.ParallelLogic;
 
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.ICleanroomProvider;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.common.machine.multiblock.electric.CleanroomMachine;
@@ -40,13 +40,13 @@ public class BaseSteamMultiblockMachine extends SteamParallelMultiblockMachine {
     private final int eut;
     private final double durationMultiplier;
 
-    public BaseSteamMultiblockMachine(IMachineBlockEntity holder, int maxParallels, int eut, double durationMultiplier) {
+    public BaseSteamMultiblockMachine(MetaMachineBlockEntity holder, int maxParallels, int eut, double durationMultiplier) {
         super(holder, maxParallels);
         this.eut = eut;
         this.durationMultiplier = durationMultiplier;
     }
 
-    BaseSteamMultiblockMachine(IMachineBlockEntity holder, int maxParallels, double durationMultiplier) {
+    BaseSteamMultiblockMachine(MetaMachineBlockEntity holder, int maxParallels, double durationMultiplier) {
         this(holder, maxParallels, 32, durationMultiplier);
     }
 

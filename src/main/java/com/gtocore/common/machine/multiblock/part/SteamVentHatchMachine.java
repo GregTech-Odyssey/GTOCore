@@ -2,7 +2,7 @@ package com.gtocore.common.machine.multiblock.part;
 
 import com.gtolib.api.machine.trait.IEnhancedRecipeLogic;
 
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.IExhaustVentMachine;
 import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IWorkableMultiController;
@@ -35,15 +35,15 @@ public class SteamVentHatchMachine extends MultiblockPartMachine implements IExh
     @Persisted
     private boolean needsVenting;
 
-    public SteamVentHatchMachine(IMachineBlockEntity holder) {
+    public SteamVentHatchMachine(MetaMachineBlockEntity holder) {
         super(holder);
     }
 
     @Override
     public boolean isVentingBlocked() {
-        Level level = this.self().getLevel();
+        Level level = getLevel();
         Direction ventingSide = this.getVentingDirection();
-        BlockPos ventingBlockPos = this.self().getPos().relative(ventingSide);
+        BlockPos ventingBlockPos = getPos().relative(ventingSide);
         if (level != null) {
             BlockState state = level.getBlockState(ventingBlockPos);
             if (state.getBlock() instanceof CarpetBlock) return false; // 地毯不挡排气

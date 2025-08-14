@@ -8,8 +8,8 @@ import com.gtolib.api.machine.trait.CustomRecipeLogic;
 import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.RecipeRunner;
 
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
@@ -42,7 +42,7 @@ public class ManaHeaterMachine extends SimpleManaMachine implements IHeaterMachi
     private boolean salamanderInput = false;
     private TickableSubscription tickSubs;
 
-    public ManaHeaterMachine(IMachineBlockEntity holder) {
+    public ManaHeaterMachine(MetaMachineBlockEntity holder) {
         super(holder, 2, t -> 8000);
     }
 

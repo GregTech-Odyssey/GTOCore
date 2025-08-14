@@ -1,6 +1,6 @@
 package com.gtocore.common.machine.monitor;
 
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.integration.ae2.machine.feature.IGridConnectedMachine;
 import com.gregtechceu.gtceu.integration.ae2.machine.trait.GridNodeHolder;
@@ -35,7 +35,7 @@ public abstract class AbstractAEInfoMonitor extends AbstractInfoProviderMonitor 
     @DescSynced
     protected boolean isOnline;
 
-    public AbstractAEInfoMonitor(IMachineBlockEntity holder) {
+    public AbstractAEInfoMonitor(MetaMachineBlockEntity holder) {
         super(holder);
         this.nodeHolder = new GridNodeHolder(this);
     }

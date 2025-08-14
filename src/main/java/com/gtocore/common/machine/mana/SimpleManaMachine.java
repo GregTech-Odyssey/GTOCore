@@ -6,8 +6,8 @@ import com.gtolib.api.machine.SimpleNoEnergyMachine;
 import com.gtolib.api.machine.mana.feature.IManaMachine;
 import com.gtolib.api.machine.mana.trait.NotifiableManaContainer;
 
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
@@ -30,7 +30,7 @@ abstract class SimpleManaMachine extends SimpleNoEnergyMachine implements IManaM
     private final NotifiableManaContainer manaContainer;
     private final int tierMana;
 
-    SimpleManaMachine(IMachineBlockEntity holder, int tier, Int2IntFunction tankScalingFunction, Object... args) {
+    SimpleManaMachine(MetaMachineBlockEntity holder, int tier, Int2IntFunction tankScalingFunction, Object... args) {
         super(holder, tier, tankScalingFunction, args);
         tierMana = GTOValues.MANA[tier];
         manaContainer = new NotifiableManaContainer(this, IO.IN, 256L * tierMana, GTOValues.MANA[tier]);

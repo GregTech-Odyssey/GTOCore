@@ -3,10 +3,10 @@ package com.gtocore.common.machine.multiblock.part;
 import com.gtolib.api.machine.part.AmountConfigurationHatchPartMachine;
 
 import com.gregtechceu.gtceu.api.GTValues;
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.fancy.ConfiguratorPanel;
 import com.gregtechceu.gtceu.api.gui.fancy.IFancyConfiguratorButton;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 
 import net.minecraft.network.chat.Component;
 
@@ -29,7 +29,7 @@ public final class ThreadHatchPartMachine extends AmountConfigurationHatchPartMa
     @Persisted
     private boolean repeatedRecipes = true;
 
-    public ThreadHatchPartMachine(IMachineBlockEntity holder, int tier) {
+    public ThreadHatchPartMachine(MetaMachineBlockEntity holder, int tier) {
         super(holder, tier, 1, 1L << (tier - GTValues.LuV));
     }
 

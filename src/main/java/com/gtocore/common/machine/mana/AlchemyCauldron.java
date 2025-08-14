@@ -4,9 +4,9 @@ import com.gtolib.api.machine.feature.IReceiveHeatMachine;
 import com.gtolib.api.recipe.IdleReason;
 import com.gtolib.api.recipe.Recipe;
 
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
 import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.recipe.chance.logic.ChanceLogic;
 import com.gregtechceu.gtceu.api.recipe.content.Content;
@@ -30,7 +30,7 @@ public class AlchemyCauldron extends SimpleManaMachine implements IReceiveHeatMa
     private final int[] probabilityParams = { 10000, 10000, 10000 };
     private final int[] currentRecipeParams = new int[3];
 
-    public AlchemyCauldron(IMachineBlockEntity holder) {
+    public AlchemyCauldron(MetaMachineBlockEntity holder) {
         super(holder, 1, t -> 16000);
     }
 

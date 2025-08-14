@@ -9,8 +9,8 @@ import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
 import com.gtolib.utils.ItemUtils;
 
 import com.gregtechceu.gtceu.api.GTValues;
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
 
@@ -27,7 +27,7 @@ public final class CircuitAssemblyLineMachine extends StorageMultiblockMachine {
 
     private int parallel;
 
-    public CircuitAssemblyLineMachine(IMachineBlockEntity holder) {
+    public CircuitAssemblyLineMachine(MetaMachineBlockEntity holder) {
         super(holder, 64, i -> ItemUtils.getId(i).contains("precision_circuit_assembly_robot_mk"));
     }
 

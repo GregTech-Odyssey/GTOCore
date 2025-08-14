@@ -5,10 +5,10 @@ import com.gtocore.api.gui.ktflexible.textBlock
 import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.network.chat.Component
 
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity
 import com.gregtechceu.gtceu.api.gui.GuiTextures
 import com.gregtechceu.gtceu.api.gui.widget.SlotWidget
 import com.gregtechceu.gtceu.api.gui.widget.TankWidget
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity
 import com.gregtechceu.gtceu.api.transfer.fluid.CustomFluidTank
 import com.gregtechceu.gtceu.common.item.IntCircuitBehaviour
 import com.gtolib.api.annotation.Scanned
@@ -22,8 +22,9 @@ import com.lowdragmc.lowdraglib.jei.IngredientIO
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder
 
 import java.util.function.IntSupplier
+
 @Scanned
-open class MEPatternBufferPartMachineKt(holder: IMachineBlockEntity, maxPatternCount: Int) : MEPatternBufferPartMachine(holder, maxPatternCount) {
+open class MEPatternBufferPartMachineKt(holder: MetaMachineBlockEntity, maxPatternCount: Int) : MEPatternBufferPartMachine(holder, maxPatternCount) {
     @Scanned
     companion object {
         @JvmStatic

@@ -10,7 +10,7 @@ import com.gtolib.utils.MachineUtils;
 import com.gtolib.utils.NumberUtils;
 
 import com.gregtechceu.gtceu.api.GTValues;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
 import net.minecraft.ChatFormatting;
@@ -54,7 +54,7 @@ public final class ClarifierPurificationUnitMachine extends WaterPurificationUni
     @DescSynced
     private Fluid cachedFluid;
 
-    public ClarifierPurificationUnitMachine(IMachineBlockEntity holder) {
+    public ClarifierPurificationUnitMachine(MetaMachineBlockEntity holder) {
         super(holder, 1);
     }
 

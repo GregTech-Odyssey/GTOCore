@@ -9,7 +9,7 @@ import com.gtolib.api.recipe.RecipeRunner;
 import com.gtolib.utils.ServerUtils;
 import com.gtolib.utils.register.BlockRegisterUtils;
 
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 
@@ -41,11 +41,11 @@ public final class VoidTransporterMachine extends ElectricMultiblockMachine {
         return !(MetaMachine.getMachine(level, pos.offset(0, -1, 0)) instanceof VoidTransporterMachine machine) || !machine.isFormed() || machine.id != id || !machine.check();
     }
 
-    public static Function<IMachineBlockEntity, VoidTransporterMachine> create(int id, int eu, @Nullable BiConsumer<VoidTransporterMachine, Player> consumer) {
+    public static Function<MetaMachineBlockEntity, VoidTransporterMachine> create(int id, int eu, @Nullable BiConsumer<VoidTransporterMachine, Player> consumer) {
         return holder -> new VoidTransporterMachine(holder, id, eu, consumer);
     }
 
-    public static Function<IMachineBlockEntity, VoidTransporterMachine> create(int id, int eu) {
+    public static Function<MetaMachineBlockEntity, VoidTransporterMachine> create(int id, int eu) {
         return create(id, eu, null);
     }
 
@@ -75,7 +75,7 @@ public final class VoidTransporterMachine extends ElectricMultiblockMachine {
 
     private final BiConsumer<VoidTransporterMachine, Player> consumer;
 
-    private VoidTransporterMachine(IMachineBlockEntity holder, int id, int eu, @Nullable BiConsumer<VoidTransporterMachine, Player> consumer) {
+    private VoidTransporterMachine(MetaMachineBlockEntity holder, int id, int eu, @Nullable BiConsumer<VoidTransporterMachine, Player> consumer) {
         super(holder);
         this.id = id;
         this.eu = eu;

@@ -11,11 +11,13 @@ import com.gregtechceu.gtceu.api.data.chemical.material.MarkerMaterials;
 import com.gregtechceu.gtceu.api.data.chemical.material.properties.PropertyKey;
 import com.gregtechceu.gtceu.api.data.chemical.material.stack.MaterialEntry;
 import com.gregtechceu.gtceu.api.data.chemical.material.stack.MaterialStack;
+import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.machine.multiblock.CleanroomType;
 import com.gregtechceu.gtceu.common.block.LampBlock;
 import com.gregtechceu.gtceu.common.block.StoneBlockType;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTItems;
+import com.gregtechceu.gtceu.common.data.GTMachines;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.data.machines.GTMachineUtils;
 import com.gregtechceu.gtceu.config.ConfigHolder;
@@ -1124,6 +1126,70 @@ public final class MachineRecipeLoader {
     }
 
     private static void registerNBTRemoval(Consumer<FinishedRecipe> provider) {
+        for (MachineDefinition chest : GTMachines.SUPER_CHEST) {
+            if (chest != null) {
+                VanillaRecipeHelper.addShapelessNBTClearingRecipe(provider, "super_chest_nbt_" + chest.getTier(),
+                        chest.asStack(), chest.asStack());
+            }
+        }
+
+        for (MachineDefinition tank : GTMachines.SUPER_TANK) {
+            if (tank != null) {
+                VanillaRecipeHelper.addShapelessNBTClearingRecipe(provider, "super_tank_nbt_" + tank.getTier(),
+                        tank.asStack(), tank.asStack());
+            }
+        }
+
+        for (MachineDefinition chest : GTMachines.QUANTUM_CHEST) {
+            if (chest != null) {
+                VanillaRecipeHelper.addShapelessNBTClearingRecipe(provider, "quantum_chest_nbt_" + chest.getTier(),
+                        chest.asStack(), chest.asStack());
+            }
+        }
+
+        for (MachineDefinition tank : GTMachines.QUANTUM_TANK) {
+            if (tank != null) {
+                VanillaRecipeHelper.addShapelessNBTClearingRecipe(provider, "quantum_tank_nbt_" + tank.getTier(),
+                        tank.asStack(), tank.asStack());
+            }
+        }
+
+        // Drums
+        VanillaRecipeHelper.addShapelessNBTClearingRecipe(provider, "drum_nbt_wood", GTMachines.WOODEN_DRUM.asStack(),
+                GTMachines.WOODEN_DRUM.asStack());
+        VanillaRecipeHelper.addShapelessNBTClearingRecipe(provider, "drum_nbt_bronze", GTMachines.BRONZE_DRUM.asStack(),
+                GTMachines.BRONZE_DRUM.asStack());
+        VanillaRecipeHelper.addShapelessNBTClearingRecipe(provider, "drum_nbt_steel", GTMachines.STEEL_DRUM.asStack(),
+                GTMachines.STEEL_DRUM.asStack());
+        VanillaRecipeHelper.addShapelessNBTClearingRecipe(provider, "drum_nbt_aluminium",
+                GTMachines.ALUMINIUM_DRUM.asStack(), GTMachines.ALUMINIUM_DRUM.asStack());
+        VanillaRecipeHelper.addShapelessNBTClearingRecipe(provider, "drum_nbt_stainless_steel",
+                GTMachines.STAINLESS_STEEL_DRUM.asStack(), GTMachines.STAINLESS_STEEL_DRUM.asStack());
+        VanillaRecipeHelper.addShapelessNBTClearingRecipe(provider, "drum_nbt_gold", GTMachines.GOLD_DRUM.asStack(),
+                GTMachines.GOLD_DRUM.asStack());
+        VanillaRecipeHelper.addShapelessNBTClearingRecipe(provider, "drum_nbt_titanium",
+                GTMachines.TITANIUM_DRUM.asStack(), GTMachines.TITANIUM_DRUM.asStack());
+        VanillaRecipeHelper.addShapelessNBTClearingRecipe(provider, "drum_nbt_tungstensteel",
+                GTMachines.TUNGSTENSTEEL_DRUM.asStack(), GTMachines.TUNGSTENSTEEL_DRUM.asStack());
+
+        // Cells
+        VanillaRecipeHelper.addShapedNBTClearingRecipe(provider, "cell_nbt_regular", FLUID_CELL.asStack(), " C", "  ",
+                'C', FLUID_CELL.asStack());
+        VanillaRecipeHelper.addShapedNBTClearingRecipe(provider, "cell_nbt_universal", FLUID_CELL_UNIVERSAL.asStack(),
+                " C", "  ", 'C', FLUID_CELL_UNIVERSAL.asStack());
+        VanillaRecipeHelper.addShapelessNBTClearingRecipe(provider, "cell_nbt_steel", FLUID_CELL_LARGE_STEEL.asStack(),
+                FLUID_CELL_LARGE_STEEL.asStack());
+        VanillaRecipeHelper.addShapelessNBTClearingRecipe(provider, "cell_nbt_aluminium",
+                FLUID_CELL_LARGE_ALUMINIUM.asStack(), FLUID_CELL_LARGE_ALUMINIUM.asStack());
+        VanillaRecipeHelper.addShapelessNBTClearingRecipe(provider, "cell_nbt_stainless_steel",
+                FLUID_CELL_LARGE_STAINLESS_STEEL.asStack(), FLUID_CELL_LARGE_STAINLESS_STEEL.asStack());
+        VanillaRecipeHelper.addShapelessNBTClearingRecipe(provider, "cell_nbt_titanium",
+                FLUID_CELL_LARGE_TITANIUM.asStack(), FLUID_CELL_LARGE_TITANIUM.asStack());
+        VanillaRecipeHelper.addShapelessNBTClearingRecipe(provider, "cell_nbt_tungstensteel",
+                FLUID_CELL_LARGE_TUNGSTEN_STEEL.asStack(), FLUID_CELL_LARGE_TUNGSTEN_STEEL.asStack());
+        VanillaRecipeHelper.addShapelessNBTClearingRecipe(provider, "cell_vial_nbt", FLUID_CELL_GLASS_VIAL.asStack(),
+                FLUID_CELL_GLASS_VIAL.asStack());
+
         // Data Items
         VanillaRecipeHelper.addShapelessNBTClearingRecipe(provider, "data_stick_nbt", TOOL_DATA_STICK.asStack(),
                 TOOL_DATA_STICK.asStack());
@@ -1131,6 +1197,10 @@ public final class MachineRecipeLoader {
                 TOOL_DATA_ORB.asStack());
         VanillaRecipeHelper.addShapelessNBTClearingRecipe(provider, "data_module_nbt", TOOL_DATA_MODULE.asStack(),
                 TOOL_DATA_MODULE.asStack());
+
+        // Jetpacks
+        VanillaRecipeHelper.addShapelessRecipe(provider, "fluid_jetpack_clear", LIQUID_FUEL_JETPACK.asStack(),
+                LIQUID_FUEL_JETPACK.asStack());
 
         VanillaRecipeHelper.addShapelessRecipe(provider, "item_filter_nbt", ITEM_FILTER.asStack(),
                 ITEM_FILTER.asStack());

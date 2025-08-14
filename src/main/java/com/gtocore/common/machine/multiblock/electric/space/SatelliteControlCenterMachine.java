@@ -15,7 +15,7 @@ import com.gtolib.utils.RegistriesUtils;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTValues;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
@@ -65,7 +65,7 @@ public final class SatelliteControlCenterMachine extends ElectricMultiblockMachi
     @Persisted
     private int index;
 
-    public SatelliteControlCenterMachine(IMachineBlockEntity holder) {
+    public SatelliteControlCenterMachine(MetaMachineBlockEntity holder) {
         super(holder);
     }
 

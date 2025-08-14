@@ -6,7 +6,7 @@ import com.gtolib.api.machine.trait.CustomRecipeLogic;
 import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.RecipeRunner;
 
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
@@ -30,7 +30,7 @@ public final class BoilWaterMachine extends SimpleNoEnergyMachine implements IRe
     private int temperature = 293;
     private TickableSubscription tickSubs;
 
-    public BoilWaterMachine(IMachineBlockEntity holder) {
+    public BoilWaterMachine(MetaMachineBlockEntity holder) {
         super(holder, 0, i -> 16000);
     }
 

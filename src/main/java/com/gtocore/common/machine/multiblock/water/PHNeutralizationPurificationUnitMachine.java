@@ -5,9 +5,9 @@ import com.gtocore.common.machine.multiblock.part.SensorPartMachine;
 import com.gtolib.api.recipe.RecipeRunner;
 import com.gtolib.utils.MathUtil;
 
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
@@ -47,7 +47,7 @@ public final class PHNeutralizationPurificationUnitMachine extends WaterPurifica
 
     private final List<SensorPartMachine> sensorPartMachines = new ObjectArrayList<>(2);
 
-    public PHNeutralizationPurificationUnitMachine(IMachineBlockEntity holder) {
+    public PHNeutralizationPurificationUnitMachine(MetaMachineBlockEntity holder) {
         super(holder, 8);
     }
 

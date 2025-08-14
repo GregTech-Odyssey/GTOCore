@@ -10,13 +10,13 @@ import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.modifier.ParallelLogic;
 
 import com.gregtechceu.gtceu.api.GTValues;
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.EURecipeCapability;
 import com.gregtechceu.gtceu.api.capability.recipe.RecipeCapability;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.gui.fancy.ConfiguratorPanel;
 import com.gregtechceu.gtceu.api.gui.fancy.IFancyConfiguratorButton;
 import com.gregtechceu.gtceu.api.machine.ConditionalSubscriptionHandler;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMaintenanceMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.common.item.TurbineRotorBehaviour;
@@ -81,7 +81,7 @@ public final class TurbineMachine extends ElectricMultiblockMachine {
     private ItemHatchPartMachine rotorHatchPartMachine;
     private final ConditionalSubscriptionHandler rotorSubs;
 
-    public TurbineMachine(IMachineBlockEntity holder, int tier, boolean special, boolean mega) {
+    public TurbineMachine(MetaMachineBlockEntity holder, int tier, boolean special, boolean mega) {
         super(holder);
         this.mega = mega;
         this.tier = tier;

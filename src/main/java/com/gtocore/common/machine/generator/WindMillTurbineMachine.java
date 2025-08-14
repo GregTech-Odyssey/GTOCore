@@ -8,11 +8,11 @@ import com.gtolib.api.data.GTODimensions;
 import com.gtolib.api.machine.part.ItemHatchPartMachine;
 
 import com.gregtechceu.gtceu.api.GTValues;
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.fancy.IFancyTooltip;
 import com.gregtechceu.gtceu.api.gui.fancy.TooltipsPanel;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.TieredEnergyMachine;
 import com.gregtechceu.gtceu.api.machine.feature.IFancyUIMachine;
@@ -75,7 +75,7 @@ public final class WindMillTurbineMachine extends TieredEnergyMachine implements
     private final NotifiableItemStackHandler inventory;
     private TickableSubscription energySubs;
 
-    public WindMillTurbineMachine(IMachineBlockEntity holder, int tier, Object... args) {
+    public WindMillTurbineMachine(MetaMachineBlockEntity holder, int tier, Object... args) {
         super(holder, tier, args);
         inventory = createMachineStorage();
     }

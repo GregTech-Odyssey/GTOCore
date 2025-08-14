@@ -1,10 +1,10 @@
 package com.gtocore.common.machine.multiblock.part;
 
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.widget.SlotWidget;
 import com.gregtechceu.gtceu.api.item.MetaMachineItem;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.TieredIOPartMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
@@ -22,7 +22,7 @@ public final class MachineAccessTerminalPartMachine extends TieredIOPartMachine 
     @Persisted
     private final NotifiableItemStackHandler inventory;
 
-    public MachineAccessTerminalPartMachine(IMachineBlockEntity holder) {
+    public MachineAccessTerminalPartMachine(MetaMachineBlockEntity holder) {
         super(holder, 10, IO.IN);
         this.inventory = new NotifiableItemStackHandler(this, 64, IO.NONE, IO.NONE, CustomItemStackHandler::new);
         inventory.setFilter(i -> i.getItem() instanceof MetaMachineItem);

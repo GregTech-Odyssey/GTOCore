@@ -3,13 +3,13 @@ package com.gtocore.common.machine.multiblock.part;
 import com.gtolib.api.gui.GTOGuiTextures;
 import com.gtolib.api.item.tool.IExDataItem;
 
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.IControllable;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.widget.BlockableSlotWidget;
 import com.gregtechceu.gtceu.api.item.IComponentItem;
 import com.gregtechceu.gtceu.api.item.component.IItemComponent;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.IMachineLife;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.MultiblockPartMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
@@ -54,7 +54,7 @@ public class ResearchHolderMachine extends MultiblockPartMachine implements IMac
     @DescSynced
     private boolean isLocked;
 
-    public ResearchHolderMachine(IMachineBlockEntity holder) {
+    public ResearchHolderMachine(MetaMachineBlockEntity holder) {
         super(holder);
         this.io = IO.IN;
         heldItems = new ResearchHolder(this);

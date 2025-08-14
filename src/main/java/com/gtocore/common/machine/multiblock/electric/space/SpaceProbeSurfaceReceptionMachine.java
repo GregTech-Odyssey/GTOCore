@@ -7,8 +7,8 @@ import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
 import com.gtolib.utils.MachineUtils;
 
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.recipe.content.Content;
 import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
 
@@ -36,7 +36,7 @@ public final class SpaceProbeSurfaceReceptionMachine extends ElectricMultiblockM
     @Persisted
     private boolean use;
 
-    public SpaceProbeSurfaceReceptionMachine(IMachineBlockEntity holder) {
+    public SpaceProbeSurfaceReceptionMachine(MetaMachineBlockEntity holder) {
         super(holder);
     }
 

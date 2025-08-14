@@ -2,8 +2,8 @@ package com.gtocore.common.machine.noenergy;
 
 import com.gtolib.api.data.GTODimensions;
 
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.feature.IFancyUIMachine;
 
@@ -28,7 +28,7 @@ public final class PerformanceMonitorMachine extends MetaMachine implements IFan
 
     private List<Component> textListCache;
 
-    public PerformanceMonitorMachine(IMachineBlockEntity holder) {
+    public PerformanceMonitorMachine(MetaMachineBlockEntity holder) {
         super(holder);
     }
 

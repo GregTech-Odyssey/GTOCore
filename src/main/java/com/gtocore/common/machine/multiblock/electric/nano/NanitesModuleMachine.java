@@ -3,7 +3,7 @@ package com.gtocore.common.machine.multiblock.electric.nano;
 import com.gtolib.api.machine.multiblock.ElectricMultiblockMachine;
 import com.gtolib.api.recipe.Recipe;
 
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 
 import net.minecraft.ChatFormatting;
@@ -20,7 +20,7 @@ public final class NanitesModuleMachine extends ElectricMultiblockMachine {
 
     final int type;
 
-    public NanitesModuleMachine(IMachineBlockEntity holder, int type) {
+    public NanitesModuleMachine(MetaMachineBlockEntity holder, int type) {
         super(holder);
         this.type = type;
     }

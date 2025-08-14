@@ -3,7 +3,7 @@ package com.gtocore.common.machine.monitor;
 import com.gtolib.api.machine.trait.WirelessComputationContainerTrait;
 import com.gtolib.utils.MathUtil;
 
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -26,10 +26,10 @@ public class MonitorCWU extends AbstractInfoProviderMonitor implements ITeamInfo
     boolean hasContainer = false;
 
     public MonitorCWU(Object o) {
-        this((IMachineBlockEntity) o);
+        this((MetaMachineBlockEntity) o);
     }
 
-    public MonitorCWU(IMachineBlockEntity holder) {
+    public MonitorCWU(MetaMachineBlockEntity holder) {
         super(holder);
         trait = new WirelessComputationContainerTrait(this, false); // 我是靶仓
     }

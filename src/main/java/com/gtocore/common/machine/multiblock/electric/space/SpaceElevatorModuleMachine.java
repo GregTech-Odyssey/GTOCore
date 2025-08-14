@@ -6,7 +6,7 @@ import com.gtolib.api.recipe.modifier.ParallelLogic;
 import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
 
 import com.gregtechceu.gtceu.api.GTValues;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
@@ -29,7 +29,7 @@ public final class SpaceElevatorModuleMachine extends CustomParallelMultiblockMa
 
     private final boolean power_module_tier;
 
-    public SpaceElevatorModuleMachine(IMachineBlockEntity holder, boolean power_module_tier) {
+    public SpaceElevatorModuleMachine(MetaMachineBlockEntity holder, boolean power_module_tier) {
         super(holder, false, m -> ((SpaceElevatorModuleMachine) m).getSpaceElevatorTier() > 7 ? (int) Math.pow(((SpaceElevatorModuleMachine) m).isSuper() ? 8 : 4, ((SpaceElevatorModuleMachine) m).spaceElevatorMachine.getCasingTier(POWER_MODULE_TIER) - 1) : 0);
         this.power_module_tier = power_module_tier;
     }

@@ -4,7 +4,7 @@ import com.gtocore.common.data.GTOItems;
 
 import com.gtolib.api.machine.part.ItemHatchPartMachine;
 
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.IInteractedMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IWorkableMultiController;
 
@@ -43,7 +43,7 @@ public final class SpoolHatchPartMachine extends ItemHatchPartMachine implements
     @Persisted
     private boolean isWorking;
 
-    public SpoolHatchPartMachine(IMachineBlockEntity holder) {
+    public SpoolHatchPartMachine(MetaMachineBlockEntity holder) {
         super(holder, 64, i -> SPOOL.containsKey(i.getItem()));
     }
 

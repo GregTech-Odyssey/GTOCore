@@ -1,7 +1,7 @@
 package com.gtocore.common.machine.multiblock.part.research;
 
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 
@@ -13,7 +13,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @ParametersAreNonnullByDefault
 public class ExResearchEmptyPartMachine extends ExResearchBasePartMachine {
 
-    public ExResearchEmptyPartMachine(IMachineBlockEntity holder) {
+    public ExResearchEmptyPartMachine(MetaMachineBlockEntity holder) {
         super(holder, 3);
     }
 

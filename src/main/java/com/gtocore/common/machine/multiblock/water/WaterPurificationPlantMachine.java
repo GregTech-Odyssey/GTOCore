@@ -10,7 +10,7 @@ import com.gtolib.api.recipe.RecipeRunner;
 import com.gtolib.utils.ClientUtil;
 
 import com.gregtechceu.gtceu.api.GTValues;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.gregtechceu.gtceu.utils.GTUtil;
@@ -58,7 +58,7 @@ public final class WaterPurificationPlantMachine extends ElectricMultiblockMachi
 
     final Object2BooleanOpenHashMap<WaterPurificationUnitMachine> waterPurificationUnitMachineMap = new Object2BooleanOpenHashMap<>();
 
-    public WaterPurificationPlantMachine(IMachineBlockEntity holder) {
+    public WaterPurificationPlantMachine(MetaMachineBlockEntity holder) {
         super(holder);
     }
 

@@ -4,8 +4,8 @@ import com.gtocore.common.machine.multiblock.part.IndicatorHatchPartMachine;
 
 import com.gtolib.api.recipe.RecipeRunner;
 
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
@@ -60,7 +60,7 @@ public final class ResidualDecontaminantDegasserPurificationUnitMachine extends 
 
     private IndicatorHatchPartMachine indicatorHatchPartMachine;
 
-    public ResidualDecontaminantDegasserPurificationUnitMachine(IMachineBlockEntity holder) {
+    public ResidualDecontaminantDegasserPurificationUnitMachine(MetaMachineBlockEntity holder) {
         super(holder, 64);
     }
 

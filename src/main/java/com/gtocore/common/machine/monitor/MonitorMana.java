@@ -2,7 +2,7 @@ package com.gtocore.common.machine.monitor;
 
 import com.gtolib.api.wireless.WirelessManaContainer;
 
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.common.machine.multiblock.electric.PowerSubstationMachine;
 
 import net.minecraft.ChatFormatting;
@@ -23,7 +23,7 @@ public class MonitorMana extends AbstractInfoProviderMonitor implements ITeamInf
     @DescSynced
     private long manaBufferCache1s = 0L;
 
-    public MonitorMana(IMachineBlockEntity holder) {
+    public MonitorMana(MetaMachineBlockEntity holder) {
         super(holder);
     }
 
@@ -37,7 +37,7 @@ public class MonitorMana extends AbstractInfoProviderMonitor implements ITeamInf
     }
 
     public MonitorMana(Object o) {
-        this((IMachineBlockEntity) o);
+        this((MetaMachineBlockEntity) o);
     }
 
     @Override

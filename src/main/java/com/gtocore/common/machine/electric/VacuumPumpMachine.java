@@ -3,10 +3,10 @@ package com.gtocore.common.machine.electric;
 import com.gtolib.api.machine.feature.IVacuumMachine;
 
 import com.gregtechceu.gtceu.api.GTValues;
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.fancy.IFancyTooltip;
 import com.gregtechceu.gtceu.api.gui.fancy.TooltipsPanel;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.SimpleTieredMachine;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
@@ -39,7 +39,7 @@ public final class VacuumPumpMachine extends SimpleTieredMachine implements IVac
     private int totalEU;
     private TickableSubscription tickSubs;
 
-    public VacuumPumpMachine(IMachineBlockEntity holder, int tier, Object... args) {
+    public VacuumPumpMachine(MetaMachineBlockEntity holder, int tier, Object... args) {
         super(holder, tier, GTMachineUtils.defaultTankSizeFunction, args);
     }
 

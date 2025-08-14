@@ -3,7 +3,7 @@ package com.gtocore.integration.jade.provider;
 import com.gtocore.client.ClientCache;
 import com.gtocore.common.item.StructureDetectBehavior;
 
-import com.gtolib.api.annotation.Scanned;
+import com.gtolib.api.annotation.DataGeneratorScanned;
 import com.gtolib.api.annotation.language.RegisterLanguage;
 
 import com.gregtechceu.gtceu.GTCEu;
@@ -30,7 +30,7 @@ import snownee.jade.api.IServerDataProvider;
 import snownee.jade.api.ITooltip;
 import snownee.jade.api.config.IPluginConfig;
 
-@Scanned
+@DataGeneratorScanned
 public final class MultiblockStructureProvider implements IBlockComponentProvider, IServerDataProvider<BlockAccessor> {
 
     @RegisterLanguage(cn = "正在检查结构", en = "Checking structure")

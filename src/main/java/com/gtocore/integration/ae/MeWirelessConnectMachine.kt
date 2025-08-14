@@ -8,8 +8,8 @@ import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
 
 import appeng.api.networking.IManagedGridNode
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity
 import com.gregtechceu.gtceu.api.gui.fancy.TabsWidget
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity
 import com.gregtechceu.gtceu.api.machine.MetaMachine
 import com.gregtechceu.gtceu.api.machine.feature.IFancyUIMachine
 import com.gregtechceu.gtceu.api.machine.feature.IMachineLife
@@ -24,7 +24,7 @@ import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder
 
 import java.util.*
 
-class MeWirelessConnectMachine(holder: IMachineBlockEntity) :
+class MeWirelessConnectMachine(holder: MetaMachineBlockEntity) :
     MetaMachine(holder),
     WirelessMachine,
     IMachineLife,

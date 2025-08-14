@@ -2,7 +2,7 @@ package com.gtocore.common.machine.multiblock.part;
 
 import com.gtolib.api.machine.trait.WirelessComputationContainerTrait;
 
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.IInteractedMachine;
 import com.gregtechceu.gtceu.api.machine.feature.IMachineLife;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.MultiblockPartMachine;
@@ -31,7 +31,7 @@ public final class WirelessNetworkComputationHatchMachine extends MultiblockPart
 
     private final WirelessComputationContainerTrait trait;
 
-    public WirelessNetworkComputationHatchMachine(IMachineBlockEntity holder, boolean transmitter) {
+    public WirelessNetworkComputationHatchMachine(MetaMachineBlockEntity holder, boolean transmitter) {
         super(holder);
         trait = new WirelessComputationContainerTrait(this, transmitter);
     }

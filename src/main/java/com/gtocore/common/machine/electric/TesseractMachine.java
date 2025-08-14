@@ -2,8 +2,8 @@ package com.gtocore.common.machine.electric;
 
 import com.gtolib.api.machine.part.ItemHatchPartMachine;
 
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.feature.IFancyUIMachine;
 import com.gregtechceu.gtceu.api.machine.feature.IMachineModifyDrops;
@@ -50,7 +50,7 @@ public class TesseractMachine extends MetaMachine implements IFancyUIMachine, IM
 
     private boolean call;
 
-    public TesseractMachine(IMachineBlockEntity holder) {
+    public TesseractMachine(MetaMachineBlockEntity holder) {
         super(holder);
         inventory = new NotifiableItemStackHandler(this, 1, IO.NONE, IO.NONE);
         inventory.storage.setOnContentsChanged(() -> {

@@ -13,7 +13,6 @@ import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.widget.SlotWidget;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.steam.SimpleSteamMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.client.util.TooltipHelper;
@@ -90,14 +89,14 @@ public class MonitorMachine extends AbstractInfoProviderMonitor {
     private final NotifiableItemStackHandler inventory;
     private boolean isCardChange;
 
-    public MonitorMachine(IMachineBlockEntity holder) {
+    public MonitorMachine(MetaMachineBlockEntity holder) {
         super(holder);
         inventory = createInventoryItemHandler();
         isCardChange = true;
     }
 
     public MonitorMachine(Object o) {
-        this((IMachineBlockEntity) o);
+        this((MetaMachineBlockEntity) o);
     }
 
     private NotifiableItemStackHandler createInventoryItemHandler() {

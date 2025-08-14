@@ -2,13 +2,13 @@ package com.gtocore.common.machine.multiblock.part;
 
 import com.gtolib.api.machine.part.AmountConfigurationHatchPartMachine;
 
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 
 public final class AccelerateHatchPartMachine extends AmountConfigurationHatchPartMachine {
 
-    public AccelerateHatchPartMachine(IMachineBlockEntity holder, int tier) {
+    public AccelerateHatchPartMachine(MetaMachineBlockEntity holder, int tier) {
         super(holder, tier, 52 - 2L * tier, 100);
     }
 

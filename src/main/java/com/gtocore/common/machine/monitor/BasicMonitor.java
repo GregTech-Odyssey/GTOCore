@@ -1,6 +1,6 @@
 package com.gtocore.common.machine.monitor;
 
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.feature.IMachineLife;
 
@@ -11,12 +11,12 @@ import java.util.UUID;
 
 public class BasicMonitor extends MetaMachine implements IBindable, IMachineLife, IMonitor {
 
-    public BasicMonitor(IMachineBlockEntity holder) {
+    public BasicMonitor(MetaMachineBlockEntity holder) {
         super(holder);
     }
 
     public BasicMonitor(Object o) {
-        this((IMachineBlockEntity) o);
+        this((MetaMachineBlockEntity) o);
     }
 
     @Override

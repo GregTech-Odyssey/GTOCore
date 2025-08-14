@@ -3,8 +3,8 @@ package com.gtocore.common.machine.mana.part;
 import com.gtolib.api.machine.mana.feature.IManaMachine;
 import com.gtolib.utils.MathUtil;
 
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
@@ -17,7 +17,7 @@ import vazkii.botania.xplat.XplatAbstractions;
 
 public final class ManaExtractHatchPartMachine extends ManaHatchPartMachine {
 
-    public ManaExtractHatchPartMachine(IMachineBlockEntity holder, int tier) {
+    public ManaExtractHatchPartMachine(MetaMachineBlockEntity holder, int tier) {
         super(holder, tier, IO.IN, 4);
     }
 

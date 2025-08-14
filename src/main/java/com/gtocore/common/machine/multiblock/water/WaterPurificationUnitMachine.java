@@ -7,8 +7,8 @@ import com.gtolib.api.machine.trait.CustomRecipeLogic;
 import com.gtolib.api.recipe.Recipe;
 import com.gtolib.utils.GTOUtils;
 
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.ConditionalSubscriptionHandler;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.sound.SoundEntry;
@@ -39,7 +39,7 @@ abstract class WaterPurificationUnitMachine extends NoEnergyCustomParallelMultib
     private final long multiple;
     private final ConditionalSubscriptionHandler tickSubs;
 
-    WaterPurificationUnitMachine(IMachineBlockEntity holder, long multiple) {
+    WaterPurificationUnitMachine(MetaMachineBlockEntity holder, long multiple) {
         super(holder, false, m -> IParallelMachine.MAX_PARALLEL);
         this.multiple = multiple;
         tickSubs = new ConditionalSubscriptionHandler(this, this::tickUpdate, this::isFormed);

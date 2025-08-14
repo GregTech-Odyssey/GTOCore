@@ -1,8 +1,8 @@
 package com.gtocore.common.machine.monitor;
 
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.widget.LongInputWidget;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
@@ -24,12 +24,12 @@ public class MonitorCustomInfo extends AbstractInfoProviderMonitor {
     @Persisted
     private String content = "";
 
-    public MonitorCustomInfo(IMachineBlockEntity holder) {
+    public MonitorCustomInfo(MetaMachineBlockEntity holder) {
         super(holder);
     }
 
     public MonitorCustomInfo(Object o) {
-        this((IMachineBlockEntity) o);
+        this((MetaMachineBlockEntity) o);
     }
 
     @Override

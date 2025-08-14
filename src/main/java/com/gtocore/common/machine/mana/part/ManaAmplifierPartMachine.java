@@ -5,8 +5,8 @@ import com.gtolib.api.machine.mana.trait.NotifiableManaContainer;
 import com.gtolib.api.machine.part.AmountConfigurationHatchPartMachine;
 import com.gtolib.api.recipe.Recipe;
 
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.IOverclockMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
@@ -21,7 +21,7 @@ public final class ManaAmplifierPartMachine extends AmountConfigurationHatchPart
     @Persisted
     private final NotifiableManaContainer manaContainer;
 
-    public ManaAmplifierPartMachine(IMachineBlockEntity holder) {
+    public ManaAmplifierPartMachine(MetaMachineBlockEntity holder) {
         super(holder, 2, 1, Integer.MAX_VALUE);
         manaContainer = new ManaContainer(this);
         manaContainer.setAcceptDistributor(true);

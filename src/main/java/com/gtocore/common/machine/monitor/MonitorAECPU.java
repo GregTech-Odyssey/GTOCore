@@ -4,8 +4,8 @@ import com.gtocore.api.gui.helper.ProgressBarColorStyle;
 
 import com.gtolib.mixin.ae2.gui.CraftingStatusMenuAccessor;
 
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
@@ -53,12 +53,12 @@ public class MonitorAECPU extends AbstractAEInfoMonitor {
     @Persisted
     private int selectedCpuSerial = -1;
 
-    public MonitorAECPU(IMachineBlockEntity holder) {
+    public MonitorAECPU(MetaMachineBlockEntity holder) {
         super(holder);
     }
 
     public MonitorAECPU(Object o) {
-        this((IMachineBlockEntity) o);
+        this((MetaMachineBlockEntity) o);
     }
 
     @DescSynced

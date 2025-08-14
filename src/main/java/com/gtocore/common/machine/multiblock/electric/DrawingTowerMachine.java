@@ -7,7 +7,7 @@ import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.modifier.ParallelLogic;
 import com.gtolib.utils.FunctionContainer;
 
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
 
@@ -32,7 +32,7 @@ public final class DrawingTowerMachine extends CoilMultiblockMachine {
 
     private int parallels = 1;
 
-    public DrawingTowerMachine(IMachineBlockEntity holder) {
+    public DrawingTowerMachine(MetaMachineBlockEntity holder) {
         super(holder, false, false);
     }
 

@@ -2,7 +2,7 @@ package com.gtocore.integration.gtmt;
 
 import com.gtocore.common.block.BlockMap;
 
-import com.gtolib.api.annotation.Scanned;
+import com.gtolib.api.annotation.DataGeneratorScanned;
 import com.gtolib.api.annotation.language.RegisterLanguage;
 
 import com.gregtechceu.gtceu.api.block.MetaMachineBlock;
@@ -39,7 +39,7 @@ import it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet;
 
 import java.util.*;
 
-@Scanned
+@DataGeneratorScanned
 public class AdvancedTerminalBehavior implements IItemUIFactory {
 
     @RegisterLanguage(cn = "镜像搭建", en = "Mirror Build")

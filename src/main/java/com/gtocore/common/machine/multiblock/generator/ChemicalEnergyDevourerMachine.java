@@ -7,12 +7,12 @@ import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.modifier.ParallelLogic;
 
 import com.gregtechceu.gtceu.api.GTValues;
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.fancy.TooltipsPanel;
 import com.gregtechceu.gtceu.api.machine.ConditionalSubscriptionHandler;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableFluidTank;
 import com.gregtechceu.gtceu.api.transfer.fluid.IFluidHandlerModifiable;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
@@ -49,7 +49,7 @@ public final class ChemicalEnergyDevourerMachine extends ElectricMultiblockMachi
     private final NotifiableFluidTank tank;
     private final ConditionalSubscriptionHandler tankSubs;
 
-    public ChemicalEnergyDevourerMachine(IMachineBlockEntity holder) {
+    public ChemicalEnergyDevourerMachine(MetaMachineBlockEntity holder) {
         super(holder);
         this.tank = new NotifiableFluidTank(this, 1, 512000, IO.IN, IO.NONE);
         tankSubs = new ConditionalSubscriptionHandler(this, this::intake, () -> isFormed && !isIntakesObstructed());

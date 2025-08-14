@@ -5,7 +5,7 @@ import com.gtocore.common.machine.generator.WindMillTurbineMachine;
 
 import com.gtolib.GTOCore;
 
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.client.renderer.machine.SimpleGeneratorMachineRenderer;
 
 import net.minecraft.client.renderer.LevelRenderer;
@@ -40,7 +40,7 @@ public final class WindMillTurbineRenderer extends SimpleGeneratorMachineRendere
     @Override
     @OnlyIn(Dist.CLIENT)
     public void render(BlockEntity blockEntity, float partialTicks, PoseStack stack, MultiBufferSource buffer, int combinedLight, int combinedOverlay) {
-        if (blockEntity instanceof IMachineBlockEntity machineBlockEntity && machineBlockEntity.getMetaMachine() instanceof WindMillTurbineMachine windMillTurbineMachine && windMillTurbineMachine.isHasRotor()) {
+        if (blockEntity instanceof MetaMachineBlockEntity machineBlockEntity && machineBlockEntity.getMetaMachine() instanceof WindMillTurbineMachine windMillTurbineMachine && windMillTurbineMachine.isHasRotor()) {
             Level level = blockEntity.getLevel();
             if (level == null) return;
             BlockPos pos = blockEntity.getBlockPos();

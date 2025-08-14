@@ -2,14 +2,14 @@ package com.gtocore.common.machine.multiblock.part.maintenance;
 
 import com.gtolib.api.machine.feature.IVacuumMachine;
 
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IWorkableMultiController;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.AutoMaintenanceHatchPartMachine;
 
 public final class VacuumHatchPartMachine extends AutoMaintenanceHatchPartMachine implements IVacuumMachine {
 
-    public VacuumHatchPartMachine(IMachineBlockEntity blockEntity) {
+    public VacuumHatchPartMachine(MetaMachineBlockEntity blockEntity) {
         super(blockEntity);
     }
 

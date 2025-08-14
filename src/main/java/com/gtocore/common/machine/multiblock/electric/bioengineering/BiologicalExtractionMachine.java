@@ -4,9 +4,9 @@ import com.gtolib.api.machine.multiblock.CrossRecipeMultiblockMachine;
 import com.gtolib.api.recipe.Recipe;
 import com.gtolib.utils.MachineUtils;
 
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
 import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
@@ -32,7 +32,7 @@ public final class BiologicalExtractionMachine extends CrossRecipeMultiblockMach
 
     private int redstoneSignalOutput;
 
-    public BiologicalExtractionMachine(IMachineBlockEntity holder) {
+    public BiologicalExtractionMachine(MetaMachineBlockEntity holder) {
         super(holder, false, true, MachineUtils::getHatchParallel);
     }
 

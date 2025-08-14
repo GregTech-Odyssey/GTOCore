@@ -5,7 +5,7 @@ import com.gtocore.common.data.GTOMaterials;
 import com.gtolib.api.recipe.RecipeBuilder;
 import com.gtolib.api.recipe.RecipeRunner;
 
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.IExplosionMachine;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
@@ -19,7 +19,7 @@ public final class OzonationPurificationUnitMachine extends WaterPurificationUni
 
     private static final Fluid Ozone = GTOMaterials.Ozone.getFluid();
 
-    public OzonationPurificationUnitMachine(IMachineBlockEntity holder) {
+    public OzonationPurificationUnitMachine(MetaMachineBlockEntity holder) {
         super(holder, 2);
     }
 

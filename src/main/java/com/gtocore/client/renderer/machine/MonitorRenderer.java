@@ -6,7 +6,7 @@ import com.gtocore.config.GTOConfig;
 import com.gtolib.GTOCore;
 
 import com.gregtechceu.gtceu.GTCEu;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
@@ -118,7 +118,7 @@ public class MonitorRenderer extends MachineRenderer {
     @Override
     @OnlyIn(Dist.CLIENT)
     public void render(BlockEntity blockEntity, float partialTicks, PoseStack stack, MultiBufferSource buffer, int combinedLight, int combinedOverlay) {
-        if (blockEntity instanceof IMachineBlockEntity holder && holder.getMetaMachine() instanceof IMonitor monitor && monitor.getLevel() != null) {
+        if (blockEntity instanceof MetaMachineBlockEntity holder && holder.getMetaMachine() instanceof IMonitor monitor && monitor.getLevel() != null) {
             Manager.GridNetwork network = Manager.GridNetwork.fromClientBlock(
                     monitor.getFrontFacing(),
                     monitor.getPos(),

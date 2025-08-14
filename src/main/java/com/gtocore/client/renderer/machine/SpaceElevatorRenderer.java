@@ -9,7 +9,7 @@ import com.gtolib.GTOCore;
 import com.gtolib.utils.ClientUtil;
 
 import com.gregtechceu.gtceu.GTCEu;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.client.renderer.machine.WorkableCasingMachineRenderer;
 
@@ -39,7 +39,7 @@ public final class SpaceElevatorRenderer extends WorkableCasingMachineRenderer {
     @Override
     @OnlyIn(Dist.CLIENT)
     public void render(BlockEntity blockEntity, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int combinedLight, int combinedOverlay) {
-        if (blockEntity instanceof IMachineBlockEntity machineBlockEntity) {
+        if (blockEntity instanceof MetaMachineBlockEntity machineBlockEntity) {
             MetaMachine metaMachine = machineBlockEntity.getMetaMachine();
             if (metaMachine instanceof SpaceElevatorMachine machine && machine.isFormed() && (machine.getSpoolCount() >= machine.getMaxSpoolCount() || blockEntity.getLevel() instanceof TrackedDummyWorld)) {
                 boolean Super = machine instanceof SuperSpaceElevatorMachine;

@@ -11,11 +11,11 @@ import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.modifier.ParallelLogic;
 import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
 
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.data.chemical.material.stack.MaterialStack;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.pattern.BlockPattern;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
@@ -53,7 +53,7 @@ public final class NanoForgeMachine extends StorageMultiblockMachine implements 
     @Persisted
     private int machineTier;
 
-    public NanoForgeMachine(IMachineBlockEntity holder) {
+    public NanoForgeMachine(MetaMachineBlockEntity holder) {
         super(holder, 64, i -> ChemicalHelper.getPrefix(i.getItem()) == GTOTagPrefix.NANITES);
     }
 

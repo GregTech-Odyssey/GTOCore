@@ -11,7 +11,7 @@ import com.gtolib.GTOCore;
 import com.gtolib.utils.ClientUtil;
 
 import com.gregtechceu.gtceu.GTCEu;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.client.renderer.GTRenderTypes;
 import com.gregtechceu.gtceu.client.renderer.machine.WorkableCasingMachineRenderer;
 import com.gregtechceu.gtceu.client.util.BloomUtils;
@@ -58,7 +58,7 @@ public final class GodforgeRenderer extends WorkableCasingMachineRenderer {
             initRings();
             initialized = true;
         }
-        if (blockEntity instanceof IMachineBlockEntity machineBlockEntity && machineBlockEntity.getMetaMachine() instanceof GodForgeMachine machine && machine.isFormed() && (machine.isActive() || blockEntity.getLevel() instanceof TrackedDummyWorld)) {
+        if (blockEntity instanceof MetaMachineBlockEntity machineBlockEntity && machineBlockEntity.getMetaMachine() instanceof GodForgeMachine machine && machine.isFormed() && (machine.isActive() || blockEntity.getLevel() instanceof TrackedDummyWorld)) {
             float tick = machine.getOffsetTimer() + partialTicks;
             if (GTCEu.Mods.isShimmerLoaded() && !(blockEntity.getLevel() instanceof TrackedDummyWorld)) {
                 PoseStack finalStack = RenderUtils.copyPoseStack(poseStack);
@@ -67,7 +67,7 @@ public final class GodforgeRenderer extends WorkableCasingMachineRenderer {
                 renderAll(machine, tick, poseStack, buffer);
             }
         }
-        if (blockEntity instanceof IMachineBlockEntity machineBlockEntity && machineBlockEntity.getMetaMachine() instanceof GodForgeMachine machine && machine.rotation > 0 && !(blockEntity.getLevel() instanceof TrackedDummyWorld)) {
+        if (blockEntity instanceof MetaMachineBlockEntity machineBlockEntity && machineBlockEntity.getMetaMachine() instanceof GodForgeMachine machine && machine.rotation > 0 && !(blockEntity.getLevel() instanceof TrackedDummyWorld)) {
             if (machine.isActive() || machine.timer > machine.rotation) {
                 RenderRing(machine, poseStack, partialTicks);
             } else {

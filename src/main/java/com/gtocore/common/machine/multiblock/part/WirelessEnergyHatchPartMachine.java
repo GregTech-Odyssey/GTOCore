@@ -3,8 +3,8 @@ package com.gtocore.common.machine.multiblock.part;
 import com.gtolib.api.machine.trait.WirelessEnergyContainerTrait;
 
 import com.gregtechceu.gtceu.api.GTValues;
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.IInteractedMachine;
 import com.gregtechceu.gtceu.api.machine.feature.IMachineLife;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.TieredIOPartMachine;
@@ -44,7 +44,7 @@ public final class WirelessEnergyHatchPartMachine extends TieredIOPartMachine im
 
     private final int amperage;
 
-    public WirelessEnergyHatchPartMachine(IMachineBlockEntity holder, int tier, IO io, int amperage) {
+    public WirelessEnergyHatchPartMachine(MetaMachineBlockEntity holder, int tier, IO io, int amperage) {
         super(holder, tier, io);
         this.amperage = amperage;
         this.energyContainer = createEnergyContainer();

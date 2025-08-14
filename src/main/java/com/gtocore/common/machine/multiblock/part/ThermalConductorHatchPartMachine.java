@@ -1,9 +1,9 @@
 package com.gtocore.common.machine.multiblock.part;
 
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.widget.SlotWidget;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.IMachineLife;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.TieredIOPartMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
@@ -27,7 +27,7 @@ public class ThermalConductorHatchPartMachine extends TieredIOPartMachine implem
     @Persisted
     private final NotifiableItemStackHandler inventory;
 
-    public ThermalConductorHatchPartMachine(IMachineBlockEntity holder) {
+    public ThermalConductorHatchPartMachine(MetaMachineBlockEntity holder) {
         super(holder, 6, IO.BOTH);
         inventory = createInventoryItemHandler();
     }

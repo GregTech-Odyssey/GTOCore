@@ -4,7 +4,7 @@ import com.gtocore.common.network.ServerMessage;
 import com.gtocore.config.GTOConfig;
 
 import com.gregtechceu.gtceu.api.block.MetaMachineBlock;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 
 import net.minecraft.core.BlockPos;
@@ -579,7 +579,7 @@ public final class Manager {
                 informationProviders.clear();
                 for (GridFacedPoint point : points()) {
                     var blockEntity = level.getBlockEntity(point.toBlockPos());
-                    if (blockEntity instanceof IMachineBlockEntity be &&
+                    if (blockEntity instanceof MetaMachineBlockEntity be &&
                             be.getMetaMachine() instanceof IInformationProvider provider) {
                         informationProviders.add(provider);
                     }

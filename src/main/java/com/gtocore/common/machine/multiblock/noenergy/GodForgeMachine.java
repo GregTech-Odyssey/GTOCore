@@ -12,7 +12,7 @@ import com.gtolib.api.machine.trait.TierCasingTrait;
 import com.gtolib.api.recipe.Recipe;
 import com.gtolib.utils.MultiBlockFileReader;
 
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
@@ -60,7 +60,7 @@ public final class GodForgeMachine extends NoEnergyMultiblockMachine implements 
 
     private final TierCasingTrait tierCasingTrait;
 
-    public GodForgeMachine(IMachineBlockEntity holder) {
+    public GodForgeMachine(MetaMachineBlockEntity holder) {
         super(holder);
         tierCasingTrait = new TierCasingTrait(this, GRAVITON_FLOW_TIER);
     }

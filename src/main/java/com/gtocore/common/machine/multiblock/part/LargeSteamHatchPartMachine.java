@@ -1,6 +1,6 @@
 package com.gtocore.common.machine.multiblock.part;
 
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableFluidTank;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.SteamHatchPartMachine;
 
@@ -8,7 +8,7 @@ import org.jetbrains.annotations.NotNull;
 
 public final class LargeSteamHatchPartMachine extends SteamHatchPartMachine {
 
-    public LargeSteamHatchPartMachine(IMachineBlockEntity holder, Object... args) {
+    public LargeSteamHatchPartMachine(MetaMachineBlockEntity holder, Object... args) {
         super(holder, args);
     }
 

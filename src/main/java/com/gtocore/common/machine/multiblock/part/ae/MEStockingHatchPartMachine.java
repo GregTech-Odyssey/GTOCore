@@ -6,8 +6,8 @@ import com.gtocore.common.machine.multiblock.part.ae.slots.ExportOnlyAEStockingF
 
 import com.gtolib.ae2.stacks.IKeyCounter;
 
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.gui.fancy.ConfiguratorPanel;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.common.item.IntCircuitBehaviour;
@@ -48,7 +48,7 @@ public class MEStockingHatchPartMachine extends MEInputHatchPartMachine implemen
     @Persisted
     private boolean autoPull;
 
-    public MEStockingHatchPartMachine(IMachineBlockEntity holder) {
+    public MEStockingHatchPartMachine(MetaMachineBlockEntity holder) {
         super(holder);
     }
 

@@ -6,8 +6,8 @@ import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
 import com.gtolib.utils.MachineUtils;
 
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.recipe.content.Content;
 
 import net.minecraft.core.BlockPos;
@@ -40,7 +40,7 @@ public final class DissolvingTankMachine extends ElectricMultiblockMachine imple
     @DescSynced
     private Fluid cachedFluid;
 
-    public DissolvingTankMachine(IMachineBlockEntity holder) {
+    public DissolvingTankMachine(MetaMachineBlockEntity holder) {
         super(holder);
     }
 

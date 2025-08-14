@@ -1,7 +1,7 @@
 package com.gtocore.common.machine.multiblock.part.ae;
 
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.gui.fancy.ConfiguratorPanel;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.common.item.IntCircuitBehaviour;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
@@ -27,7 +27,7 @@ public class METagFilterStockHatchPartMachine extends MEStockingHatchPartMachine
 
     private IPartitionList filter;
 
-    public METagFilterStockHatchPartMachine(IMachineBlockEntity holder) {
+    public METagFilterStockHatchPartMachine(MetaMachineBlockEntity holder) {
         super(holder);
     }
 

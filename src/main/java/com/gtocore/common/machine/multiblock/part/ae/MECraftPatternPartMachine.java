@@ -1,6 +1,6 @@
 package com.gtocore.common.machine.multiblock.part.ae;
 
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.nbt.CompoundTag;
@@ -23,7 +23,7 @@ public class MECraftPatternPartMachine extends MEPatternPartMachineKt<MECraftPat
     private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(MECraftPatternPartMachine.class, MEPatternPartMachineKt.Companion.getMANAGED_FIELD_HOLDER());
     private Runnable onContentsChanged = () -> {};
 
-    public MECraftPatternPartMachine(IMachineBlockEntity holder) {
+    public MECraftPatternPartMachine(MetaMachineBlockEntity holder) {
         super(holder, 72);
     }
 

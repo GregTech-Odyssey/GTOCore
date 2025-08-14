@@ -7,9 +7,9 @@ import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.modifier.ParallelLogic;
 import com.gtolib.utils.FunctionContainer;
 
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
 import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.api.recipe.chance.logic.ChanceLogic;
 import com.gregtechceu.gtceu.api.recipe.content.Content;
@@ -44,7 +44,7 @@ public final class LargeAlchemicalDeviceMachine extends ManaMultiblockMachine im
 
     private double timeReduction = 0.4;
 
-    public LargeAlchemicalDeviceMachine(IMachineBlockEntity holder) {
+    public LargeAlchemicalDeviceMachine(MetaMachineBlockEntity holder) {
         super(holder);
         machineStorage = createMachineStorage(stack -> stack.getItem() == GTOItems.BIOWARE_MAINFRAME.asItem());
     }

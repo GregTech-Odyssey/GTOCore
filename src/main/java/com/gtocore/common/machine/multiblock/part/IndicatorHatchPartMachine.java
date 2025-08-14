@@ -1,6 +1,6 @@
 package com.gtocore.common.machine.multiblock.part;
 
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.MultiblockPartMachine;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
@@ -16,7 +16,7 @@ public final class IndicatorHatchPartMachine extends MultiblockPartMachine {
 
     private int redstoneSignalOutput;
 
-    public IndicatorHatchPartMachine(IMachineBlockEntity holder) {
+    public IndicatorHatchPartMachine(MetaMachineBlockEntity holder) {
         super(holder);
     }
 

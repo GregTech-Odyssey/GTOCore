@@ -72,7 +72,6 @@ public class CommonProxy {
         GTOFluids.FLUID_TYPE.register(eventBus);
         GTOFluids.FLUID.register(eventBus);
         GTOEffects.init(eventBus);
-        GTORecipeSerializers.init(eventBus);
         eventBus.addListener(CommonProxy::commonSetup);
         eventBus.addListener(CommonProxy::addMaterials);
         eventBus.addListener(CommonProxy::registerMaterialRegistry);

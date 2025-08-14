@@ -6,7 +6,7 @@ import com.gtocore.common.data.GTORecipeTypes;
 import com.gtolib.api.machine.multiblock.CoilMultiblockMachine;
 import com.gtolib.api.recipe.Recipe;
 
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 
 import net.minecraft.ChatFormatting;
@@ -19,7 +19,7 @@ import java.util.List;
 
 public final class DimensionallyTranscendentPlasmaForgeMachine extends CoilMultiblockMachine {
 
-    public DimensionallyTranscendentPlasmaForgeMachine(IMachineBlockEntity holder) {
+    public DimensionallyTranscendentPlasmaForgeMachine(MetaMachineBlockEntity holder) {
         super(holder, false, false);
     }
 

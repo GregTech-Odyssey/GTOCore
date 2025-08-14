@@ -1,6 +1,6 @@
 package com.gtocore.integration.jade.provider;
 
-import com.gtolib.api.annotation.Scanned;
+import com.gtolib.api.annotation.DataGeneratorScanned;
 import com.gtolib.api.annotation.language.RegisterLanguage;
 import com.gtolib.api.machine.feature.DummyEnergyMachine;
 import com.gtolib.api.machine.mana.feature.IManaEnergyMachine;
@@ -33,7 +33,7 @@ import snownee.jade.api.IServerDataProvider;
 import snownee.jade.api.ITooltip;
 import snownee.jade.api.config.IPluginConfig;
 
-@Scanned
+@DataGeneratorScanned
 public final class RecipeLogicProvider implements IBlockComponentProvider, IServerDataProvider<BlockAccessor> {
 
     @RegisterLanguage(cn = "该机器所在区块未强制加载", en = "The chunk the machine is in is not forced loaded")

@@ -4,7 +4,7 @@ import com.gtocore.common.machine.multiblock.part.ae.MEPatternBufferPartMachine;
 import com.gtocore.common.machine.multiblock.part.ae.MEPatternBufferProxyPartMachine;
 
 import com.gregtechceu.gtceu.GTCEu;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.client.util.TooltipHelper;
 import com.gregtechceu.gtceu.integration.jade.GTElementHelper;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
@@ -30,7 +30,7 @@ public class MEPatternBufferProxyProvider implements IBlockComponentProvider, IS
 
     @Override
     public void appendTooltip(ITooltip iTooltip, BlockAccessor blockAccessor, IPluginConfig iPluginConfig) {
-        if (blockAccessor.getBlockEntity() instanceof IMachineBlockEntity blockEntity) {
+        if (blockAccessor.getBlockEntity() instanceof MetaMachineBlockEntity blockEntity) {
             if (blockEntity.getMetaMachine() instanceof MEPatternBufferProxyPartMachine) {
                 CompoundTag serverData = blockAccessor.getServerData();
                 if (!serverData.getBoolean("formed")) return;
@@ -50,7 +50,7 @@ public class MEPatternBufferProxyProvider implements IBlockComponentProvider, IS
 
     @Override
     public void appendServerData(CompoundTag compoundTag, BlockAccessor blockAccessor) {
-        if (blockAccessor.getBlockEntity() instanceof IMachineBlockEntity blockEntity) {
+        if (blockAccessor.getBlockEntity() instanceof MetaMachineBlockEntity blockEntity) {
             if (blockEntity.getMetaMachine() instanceof MEPatternBufferProxyPartMachine proxy) {
                 if (!proxy.isFormed()) {
                     compoundTag.putBoolean("formed", false);

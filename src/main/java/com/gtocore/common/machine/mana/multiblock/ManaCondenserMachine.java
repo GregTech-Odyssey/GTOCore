@@ -7,7 +7,7 @@ import com.gtolib.api.data.GTODimensions;
 import com.gtolib.api.machine.feature.multiblock.IMultiStructureMachine;
 import com.gtolib.utils.RegistriesUtils;
 
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.pattern.BlockPattern;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
@@ -29,7 +29,7 @@ public final class ManaCondenserMachine extends ManaMultiblockMachine implements
 
     private int tier;
 
-    public ManaCondenserMachine(IMachineBlockEntity holder) {
+    public ManaCondenserMachine(MetaMachineBlockEntity holder) {
         super(holder);
     }
 

@@ -3,7 +3,7 @@ package com.gtocore.common.machine.noenergy;
 import com.gtolib.api.machine.SimpleNoEnergyMachine;
 import com.gtolib.api.machine.feature.IHeaterMachine;
 
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
@@ -29,7 +29,7 @@ public final class HeaterMachine extends SimpleNoEnergyMachine implements IHeate
     private int temperature = 293;
     private TickableSubscription tickSubs;
 
-    public HeaterMachine(IMachineBlockEntity holder) {
+    public HeaterMachine(MetaMachineBlockEntity holder) {
         super(holder, 0, i -> 8000);
     }
 

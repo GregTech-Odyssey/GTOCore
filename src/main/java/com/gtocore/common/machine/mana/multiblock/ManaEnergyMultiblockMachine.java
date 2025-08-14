@@ -5,9 +5,9 @@ import com.gtolib.api.machine.mana.feature.IManaEnergyMachine;
 import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
 
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.IEnergyContainer;
 import com.gregtechceu.gtceu.api.gui.fancy.ConfiguratorPanel;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -16,7 +16,7 @@ public class ManaEnergyMultiblockMachine extends ManaMultiblockMachine implement
 
     private final IEnergyContainer container;
 
-    public ManaEnergyMultiblockMachine(IMachineBlockEntity holder) {
+    public ManaEnergyMultiblockMachine(MetaMachineBlockEntity holder) {
         super(holder);
         container = new ManaEnergyContainer(getManaContainer().getMaxIORate(), getManaContainer());
     }

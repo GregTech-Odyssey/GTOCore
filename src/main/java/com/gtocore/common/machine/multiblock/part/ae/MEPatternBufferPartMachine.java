@@ -17,10 +17,10 @@ import com.gtolib.syncdata.SyncManagedFieldHolder;
 import com.gtolib.utils.ItemUtils;
 import com.gtolib.utils.MathUtil;
 
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.fancy.ConfiguratorPanel;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.machine.fancyconfigurator.ButtonConfigurator;
@@ -133,7 +133,7 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
 
     protected ConfiguratorPanel configuratorPanel;
 
-    public MEPatternBufferPartMachine(IMachineBlockEntity holder, int maxPatternCount) {
+    public MEPatternBufferPartMachine(MetaMachineBlockEntity holder, int maxPatternCount) {
         super(holder, maxPatternCount);
         this.caches = new boolean[maxPatternCount];
         this.shareInventory = createShareInventory();

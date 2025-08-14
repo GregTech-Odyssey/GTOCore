@@ -2,8 +2,8 @@ package com.gtocore.common.machine.monitor;
 
 import com.gtocore.api.gui.DisplayComponentGroup;
 
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.gui.widget.LongInputWidget;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 
 import net.minecraft.ChatFormatting;
@@ -38,7 +38,7 @@ public abstract class AbstractInfoProviderMonitor extends BasicMonitor implement
         return new ManagedFieldHolder(clazz, BASIC_MONITOR_HOLDER);
     }
 
-    public AbstractInfoProviderMonitor(IMachineBlockEntity holder) {
+    public AbstractInfoProviderMonitor(MetaMachineBlockEntity holder) {
         super(holder);
         Class<? extends BasicMonitor> clazz = this.getClass();
         MANAGED_FIELD_HOLDER_MAP.computeIfAbsent(clazz, this::getManagedFieldHolder);

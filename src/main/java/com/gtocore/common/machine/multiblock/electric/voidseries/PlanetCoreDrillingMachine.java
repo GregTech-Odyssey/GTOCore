@@ -9,9 +9,9 @@ import com.gtolib.api.recipe.RecipeBuilder;
 import com.gtolib.api.recipe.RecipeRunner;
 
 import com.gregtechceu.gtceu.api.GTValues;
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 
 import org.jetbrains.annotations.NotNull;
@@ -24,7 +24,7 @@ public final class PlanetCoreDrillingMachine extends ElectricMultiblockMachine {
 
     private Set<Material> materials;
 
-    public PlanetCoreDrillingMachine(IMachineBlockEntity holder) {
+    public PlanetCoreDrillingMachine(MetaMachineBlockEntity holder) {
         super(holder);
     }
 

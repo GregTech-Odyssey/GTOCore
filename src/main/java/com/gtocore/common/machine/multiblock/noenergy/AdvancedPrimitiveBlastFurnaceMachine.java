@@ -9,8 +9,8 @@ import com.gtolib.utils.FunctionContainer;
 import com.gtolib.utils.MachineUtils;
 
 import com.gregtechceu.gtceu.api.GTValues;
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.ConditionalSubscriptionHandler;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.config.ConfigHolder;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 
@@ -59,7 +59,7 @@ public final class AdvancedPrimitiveBlastFurnaceMachine extends NoEnergyCustomPa
 
     private final ConditionalSubscriptionHandler tickSubs;
 
-    public AdvancedPrimitiveBlastFurnaceMachine(IMachineBlockEntity holder) {
+    public AdvancedPrimitiveBlastFurnaceMachine(MetaMachineBlockEntity holder) {
         super(holder, false, m -> (long) ((AdvancedPrimitiveBlastFurnaceMachine) m).height << 1);
         tickSubs = new ConditionalSubscriptionHandler(this, this::tickUpdate, () -> isFormed || temperature > 298);
     }

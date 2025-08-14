@@ -14,11 +14,11 @@ import com.gtolib.api.recipe.RecipeRunner;
 import com.gtolib.utils.MachineUtils;
 
 import com.gregtechceu.gtceu.api.GTValues;
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
 import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
 import com.gregtechceu.gtceu.api.gui.fancy.ConfiguratorPanel;
 import com.gregtechceu.gtceu.api.item.MetaMachineItem;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
@@ -76,7 +76,7 @@ public final class EncapsulatorExecutionModuleMachine extends StorageMultiblockM
     @Persisted
     private final CustomParallelTrait customParallelTrait;
 
-    public EncapsulatorExecutionModuleMachine(IMachineBlockEntity holder) {
+    public EncapsulatorExecutionModuleMachine(MetaMachineBlockEntity holder) {
         super(holder, 1, i -> true);
         customParallelTrait = new CustomParallelTrait(this, true, machine -> MachineUtils.getHatchParallel(((EncapsulatorExecutionModuleMachine) machine).encapsulatorMachine));
         customParallelTrait.setDefaultMax(false);

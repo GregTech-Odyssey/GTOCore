@@ -43,7 +43,6 @@ import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.data.RotationState;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.SimpleTieredMachine;
@@ -854,7 +853,7 @@ public final class GTOMachines {
             .tooltips(GTOMachineTranslation.INSTANCE.getMonitorMachineComponentTooltips().getSupplier())
             .register();
 
-    private static GTOMachineBuilder registerMonitor(String id, String cn, Function<IMachineBlockEntity, MetaMachine> monitorConstructor) {
+    private static GTOMachineBuilder registerMonitor(String id, String cn, Function<MetaMachineBlockEntity, MetaMachine> monitorConstructor) {
         BlockRegisterUtils.addLang(id, cn);
         MonitorBlockItem.addItem(GTOCore.id(id));
         return (GTOMachineBuilder) new GTOMachineBuilder(

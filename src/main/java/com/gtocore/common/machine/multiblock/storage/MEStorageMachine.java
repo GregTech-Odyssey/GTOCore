@@ -13,7 +13,7 @@ import com.gtolib.utils.FunctionContainer;
 import com.gtolib.utils.NumberUtils;
 import com.gtolib.utils.StringUtils;
 
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.IDropSaveMachine;
 import com.gregtechceu.gtceu.api.machine.feature.IMachineLife;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
@@ -58,7 +58,7 @@ public final class MEStorageMachine extends NoRecipeLogicMultiblockMachine imple
     private boolean player = true;
     private IStorageAccess accessPartMachine;
 
-    public MEStorageMachine(IMachineBlockEntity holder) {
+    public MEStorageMachine(MetaMachineBlockEntity holder) {
         super(holder);
         machineStorage = createMachineStorage(i -> i.getItem() == GTOItems.INFINITE_CELL_COMPONENT.asItem());
     }

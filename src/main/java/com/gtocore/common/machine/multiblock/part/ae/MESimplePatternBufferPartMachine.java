@@ -3,7 +3,7 @@ package com.gtocore.common.machine.multiblock.part.ae;
 import com.gtolib.api.annotation.Scanned;
 import com.gtolib.api.annotation.dynamic.DynamicInitialValue;
 
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 
 @Scanned
 public class MESimplePatternBufferPartMachine extends MEPatternBufferPartMachineKt {
@@ -19,7 +19,7 @@ public class MESimplePatternBufferPartMachine extends MEPatternBufferPartMachine
                          expertValue = "0")
     private static int slotCount = 9;
 
-    public MESimplePatternBufferPartMachine(IMachineBlockEntity holder) {
+    public MESimplePatternBufferPartMachine(MetaMachineBlockEntity holder) {
         super(holder, slotCount);
     }
 

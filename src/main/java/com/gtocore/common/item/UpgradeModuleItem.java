@@ -6,7 +6,7 @@ import com.gtocore.api.gui.graphic.impl.GTOComponentTooltipComponent;
 import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.data.translation.GTOItemTooltips;
 
-import com.gtolib.api.annotation.Scanned;
+import com.gtolib.api.annotation.DataGeneratorScanned;
 import com.gtolib.api.annotation.language.RegisterLanguage;
 import com.gtolib.api.machine.feature.IUpgradeMachine;
 
@@ -26,7 +26,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-@Scanned
+@DataGeneratorScanned
 public final class UpgradeModuleItem extends Item implements GTOTooltipComponentItem {
 
     @RegisterLanguage(cn = "需要10级经验", en = "Requires 10 levels of experience")

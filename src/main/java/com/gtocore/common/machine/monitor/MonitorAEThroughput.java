@@ -5,7 +5,7 @@ import com.gtocore.common.machine.multiblock.part.ae.slots.ExportOnlyAEItemList;
 import com.gtocore.common.machine.multiblock.part.ae.widget.AEFluidConfigWidget;
 import com.gtocore.common.machine.multiblock.part.ae.widget.AEItemConfigWidget;
 
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.common.machine.multiblock.electric.PowerSubstationMachine;
 
 import net.minecraft.ChatFormatting;
@@ -55,12 +55,12 @@ public class MonitorAEThroughput extends AbstractAEInfoMonitor {
     private long[] nowStat = new long[] { 0, 0 };
     private final CurrentGettable[] aeItemFluidGettables = new CurrentGettable[] { aeItem, aeFluid };
 
-    public MonitorAEThroughput(IMachineBlockEntity holder) {
+    public MonitorAEThroughput(MetaMachineBlockEntity holder) {
         super(holder);
     }
 
     public MonitorAEThroughput(Object o) {
-        this((IMachineBlockEntity) o);
+        this((MetaMachineBlockEntity) o);
     }
 
     @Override

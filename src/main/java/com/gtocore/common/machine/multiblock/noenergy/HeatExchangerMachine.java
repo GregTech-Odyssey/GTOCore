@@ -6,8 +6,8 @@ import com.gtolib.api.machine.multiblock.NoEnergyMultiblockMachine;
 import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.modifier.ParallelLogic;
 
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.IExplosionMachine;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
@@ -34,7 +34,7 @@ public final class HeatExchangerMachine extends NoEnergyMultiblockMachine implem
     private static final Fluid SupercriticalSteam = GTOMaterials.SupercriticalSteam.getFluid();
     private static final Fluid DistilledWater = GTMaterials.DistilledWater.getFluid();
 
-    public HeatExchangerMachine(IMachineBlockEntity holder) {
+    public HeatExchangerMachine(MetaMachineBlockEntity holder) {
         super(holder);
     }
 

@@ -6,7 +6,7 @@ import com.gtolib.api.machine.multiblock.TierCasingMultiblockMachine;
 import com.gtolib.api.recipe.Recipe;
 
 import com.gregtechceu.gtceu.api.block.IFilterType;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.network.chat.Component;
@@ -38,7 +38,7 @@ public final class IncubatorMachine extends TierCasingMultiblockMachine {
 
     private int cleanroomTier = 1;
 
-    public IncubatorMachine(IMachineBlockEntity holder) {
+    public IncubatorMachine(MetaMachineBlockEntity holder) {
         super(holder, GLASS_TIER);
         radioactivityTrait = new RadioactivityTrait(this);
     }

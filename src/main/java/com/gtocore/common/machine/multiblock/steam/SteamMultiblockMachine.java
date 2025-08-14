@@ -4,7 +4,7 @@ import com.gtolib.api.annotation.Scanned;
 import com.gtolib.api.annotation.dynamic.DynamicInitialValue;
 import com.gtolib.api.annotation.dynamic.DynamicInitialValueTypes;
 
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 
 @Scanned
 public final class SteamMultiblockMachine extends BaseSteamMultiblockMachine {
@@ -32,11 +32,11 @@ public final class SteamMultiblockMachine extends BaseSteamMultiblockMachine {
                          expertValue = "8")
     public static int STEAM_MULTIBLOCK_MAX_PARALLELS = 8;
 
-    public SteamMultiblockMachine(IMachineBlockEntity holder) {
+    public SteamMultiblockMachine(MetaMachineBlockEntity holder) {
         super(holder, STEAM_MULTIBLOCK_MAX_PARALLELS, STEAM_MULTIBLOCK_DURATION_MULTIPLIER);
     }
 
-    public SteamMultiblockMachine(IMachineBlockEntity holder, int eut) {
+    public SteamMultiblockMachine(MetaMachineBlockEntity holder, int eut) {
         super(holder, STEAM_MULTIBLOCK_MAX_PARALLELS, eut, STEAM_MULTIBLOCK_DURATION_MULTIPLIER);
     }
 }

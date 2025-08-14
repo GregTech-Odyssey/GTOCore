@@ -2,7 +2,7 @@ package com.gtocore.common.machine.multiblock.part.maintenance;
 
 import com.gtolib.api.machine.feature.IVacuumMachine;
 
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 
@@ -12,7 +12,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @MethodsReturnNonnullByDefault
 public final class CVCHatchPartMachine extends ACMHatchPartMachine implements IVacuumMachine {
 
-    public CVCHatchPartMachine(IMachineBlockEntity metaTileEntityId) {
+    public CVCHatchPartMachine(MetaMachineBlockEntity metaTileEntityId) {
         super(metaTileEntityId);
     }
 

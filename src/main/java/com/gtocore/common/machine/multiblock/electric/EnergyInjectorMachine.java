@@ -6,10 +6,10 @@ import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.RecipeBuilder;
 import com.gtolib.api.recipe.RecipeRunner;
 
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.GTCapabilityHelper;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.item.capability.ElectricItem;
-import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
@@ -28,7 +28,7 @@ public final class EnergyInjectorMachine extends ElectricMultiblockMachine {
 
     private ItemBusPartMachine busPartMachine;
 
-    public EnergyInjectorMachine(IMachineBlockEntity holder) {
+    public EnergyInjectorMachine(MetaMachineBlockEntity holder) {
         super(holder);
     }
 
