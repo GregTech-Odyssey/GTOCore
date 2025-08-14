@@ -155,7 +155,7 @@ public final class GeneratorMultiblock {
             .block(GTBlocks.CASING_TUNGSTENSTEEL_ROBUST)
             .pattern(definition -> MultiBlockFileReader.start(definition)
                     .where('A', blocks(GTBlocks.CASING_TUNGSTENSTEEL_ROBUST.get()))
-                    .where('B', blocks(GTOBlocks.SUPERCRITICAL_TURBINE_CASING.get()))
+                    .where('B', blocks(GTBlocks.CASING_TUNGSTENSTEEL_TURBINE.get()))
                     .where('C', blocks(GTBlocks.MACHINE_CASING_LuV.get()))
                     .where('D', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.TungstenSteel)))
                     .where('E', blocks(GTBlocks.CASING_STAINLESS_TURBINE.get()))
