@@ -21,7 +21,6 @@ import com.gregtechceu.gtceu.api.pattern.TraceabilityPredicate;
 import com.gregtechceu.gtceu.api.pattern.error.PatternStringError;
 import com.gregtechceu.gtceu.api.pattern.predicates.SimplePredicate;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
-import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTMachines;
 
 import net.minecraft.network.chat.Component;
@@ -29,7 +28,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 
 import com.lowdragmc.lowdraglib.utils.BlockInfo;
-import com.tterrag.registrate.util.entry.RegistryEntry;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 
 import java.util.ArrayList;
@@ -56,7 +54,11 @@ public final class GTOPredicates {
     }
 
     public static TraceabilityPredicate absBlocks() {
-        return Predicates.blocks(GTOBlocks.ABS_BLACK_CASING.get(), GTOBlocks.ABS_BLUE_CASING.get(), GTOBlocks.ABS_BROWN_CASING.get(), GTOBlocks.ABS_GREEN_CASING.get(), GTOBlocks.ABS_GREY_CASING.get(), GTOBlocks.ABS_LIME_CASING.get(), GTOBlocks.ABS_ORANGE_CASING.get(), GTOBlocks.ABS_RAD_CASING.get(), GTOBlocks.ABS_WHITE_CASING.get(), GTOBlocks.ABS_YELLOW_CASING.get(), GTOBlocks.ABS_CYAN_CASING.get(), GTOBlocks.ABS_MAGENTA_CASING.get(), GTOBlocks.ABS_PINK_CASING.get(), GTOBlocks.ABS_PURPLE_CASING.get(), GTOBlocks.ABS_LIGHT_BULL_CASING.get(), GTOBlocks.ABS_LIGHT_GREY_CASING.get());
+        return Predicates.blocks(ABS_CASING);
+    }
+
+    public static TraceabilityPredicate light() {
+        return Predicates.blocks(LIGHT);
     }
 
     public static TraceabilityPredicate autoLaserAbilities(GTRecipeType... recipeType) {
@@ -187,9 +189,5 @@ public final class GTOPredicates {
             }
             return false;
         }, () -> BlockInfo.fromBlock(blocks[0]), () -> predicate.common.stream().map(p -> p.candidates).filter(Objects::nonNull).map(Supplier::get).flatMap(Arrays::stream).toArray(Block[]::new)));
-    }
-
-    public static TraceabilityPredicate light() {
-        return Predicates.blocks(GTBlocks.LAMPS.values().stream().map(RegistryEntry::get).toArray(Block[]::new));
     }
 }

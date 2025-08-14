@@ -8,7 +8,6 @@ import com.gregtechceu.gtceu.api.pattern.BlockPattern;
 import com.gregtechceu.gtceu.api.pattern.MultiblockState;
 import com.gregtechceu.gtceu.api.pattern.TraceabilityPredicate;
 import com.gregtechceu.gtceu.api.pattern.predicates.SimplePredicate;
-import com.gregtechceu.gtceu.common.block.CoilBlock;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -97,8 +96,8 @@ class AdvancedBlockPattern extends BlockPattern {
                         BlockState blockState = world.getBlockState(pos);
                         Block block = blockState.getBlock();
                         if (block != Blocks.AIR) {
-                            if (block instanceof CoilBlock coilBlock && autoBuildSetting.isReplaceCoilMode()) {
-                                coilItemStack = coilBlock.asItem().getDefaultInstance();
+                            if (autoBuildSetting.isReplaceMode() && autoBuildSetting.blocks.contains(block)) {
+                                coilItemStack = block.asItem().getDefaultInstance();
                             } else {
                                 blocks.put(posLong, block);
                                 for (SimplePredicate limit : predicate.limited) {
@@ -176,7 +175,7 @@ class AdvancedBlockPattern extends BlockPattern {
 
                         List<ItemStack> candidates = autoBuildSetting.apply(infos);
 
-                        if (autoBuildSetting.isReplaceCoilMode() && coilItemStack != null && ItemStack.isSameItem(candidates.get(0), coilItemStack)) continue;
+                        if (autoBuildSetting.isReplaceMode() && coilItemStack != null && ItemStack.isSameItem(candidates.get(0), coilItemStack)) continue;
 
                         // check inventory
                         Triplet<ItemStack, IItemHandler, Integer> result = foundItem(player, candidates, autoBuildSetting.isUseAE);
@@ -189,7 +188,7 @@ class AdvancedBlockPattern extends BlockPattern {
                         // check can get old coilBlock
                         IItemHandler holderHandler = null;
                         int holderSlot = -1;
-                        if (autoBuildSetting.isReplaceCoilMode() && coilItemStack != null) {
+                        if (autoBuildSetting.isReplaceMode() && coilItemStack != null) {
                             var holderResult = foundHolderSlot(player, coilItemStack);
                             holderHandler = holderResult.first();
                             holderSlot = holderResult.secondInt();
@@ -199,7 +198,7 @@ class AdvancedBlockPattern extends BlockPattern {
                             }
                         }
 
-                        if (autoBuildSetting.isReplaceCoilMode() && coilItemStack != null) {
+                        if (autoBuildSetting.isReplaceMode() && coilItemStack != null) {
                             world.removeBlock(pos, true);
                             if (holderHandler != null) holderHandler.insertItem(holderSlot, coilItemStack, false);
                         }

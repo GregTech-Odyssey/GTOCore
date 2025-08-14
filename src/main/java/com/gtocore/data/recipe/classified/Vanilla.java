@@ -1,6 +1,5 @@
 package com.gtocore.data.recipe.classified;
 
-import com.glodblock.github.extendedae.common.EPPItemAndBlock;
 import com.gtocore.api.data.tag.GTOTagPrefix;
 import com.gtocore.common.data.*;
 import com.gtocore.common.data.machines.*;
@@ -34,6 +33,7 @@ import net.minecraft.world.level.block.Blocks;
 
 import appeng.core.definitions.AEBlocks;
 import appeng.core.definitions.AEItems;
+import com.glodblock.github.extendedae.common.EPPItemAndBlock;
 import com.google.gson.JsonObject;
 import de.mari_023.ae2wtlib.wut.recipe.Upgrade;
 import org.jetbrains.annotations.NotNull;

@@ -1678,6 +1678,9 @@
   "gtocore.ae.appeng.me2in1.vanilla_craft_station": "Assembler Matrix",
   "gtocore.ae.appeng.me2in1.wireless": "Wireless 2-in-1 Terminal",
   "gtocore.auto_build.flip": "Mirror Build",
+  "gtocore.auto_build.replace": "Replace Mode",
+  "gtocore.auto_build.replace.a": "Replace Tier Block with the set block",
+  "gtocore.auto_build.tier": "Mirror Build",
   "gtocore.bar.distillation.1": "Output , Consumption water",
   "gtocore.bar.exploration": "Explosion",
   "gtocore.bar.heat": "Heat",
@@ -2544,9 +2547,9 @@
   "gtocore.machine.advanced_infinite_driller.tooltip.4": "The drill generates heat at different operating temperatures, the heat generation formula is (temperature/2000)",
   "gtocore.machine.advanced_infinite_driller.tooltip.5": "As the temperature increases, efficiency will also increase. When the temperature exceeds the critical value, the drill head will melt",
   "gtocore.machine.advanced_infinite_driller.tooltip.6": "Different fluids can be introduced for cooling, cooling liquid consumption is as follows. The fixed consumption for cooling is 200B/5t",
-  "gtocore.machine.advanced_infinite_driller.tooltip.7": "Distilled Water 1K",
-  "gtocore.machine.advanced_infinite_driller.tooltip.8": "Liquid Oxygen 2K",
-  "gtocore.machine.advanced_infinite_driller.tooltip.9": "Liquid Helium 4K",
+  "gtocore.machine.advanced_infinite_driller.tooltip.7": "Distilled Water 1K/mB",
+  "gtocore.machine.advanced_infinite_driller.tooltip.8": "Liquid Oxygen 2K/mB",
+  "gtocore.machine.advanced_infinite_driller.tooltip.9": "Liquid Helium 4K/mB",
   "gtocore.machine.alchemical_device.1": "Transmutation",
   "gtocore.machine.alchemical_device.2": "Perfect Transmutation",
   "gtocore.machine.alchemy_cauldron.tooltip.0": "§7Do not use it for cooking food",
@@ -4854,7 +4857,5 @@
   "tagprefix.venus_stone": "Venus %s Ore",
   "tagprefix.zirconium_carbide_target": "%s Zirconium Carbide Target",
   "tooltip.ad_astra.unknown_ingredient": "§cUnknown item§r",
-  "tooltip.ad_astra.unknown_tag": "§cUnknown tag§r: %s",
-  "tooltip.gtocore.infinity_totem_nerf": "§cThe Infinity Totem has been nerfed, its durability will no longer be restored in any way. §r",
-  "tooltip.gtocore.infinity_totem_nerf.1": "§cAnd the application of the Unbreaking enchantment is the same as that of vanilla armor. §r"
+  "tooltip.ad_astra.unknown_tag": "§cUnknown tag§r: %s"
 }

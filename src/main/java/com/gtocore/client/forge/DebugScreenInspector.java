@@ -2,7 +2,6 @@ package com.gtocore.client.forge;
 
 import com.gtocore.client.KeyBind;
 import com.gtocore.config.GTOConfig;
-import com.gtocore.mixin.mc.AbstractContainerScreenAccessor;
 
 import com.gtolib.GTOCore;
 
@@ -109,7 +108,7 @@ public class DebugScreenInspector {
                     0xFFFFFF,
                     false);
 
-            var slot = ((AbstractContainerScreenAccessor) screen).callFindSlot(mouseAbsX, mouseAbsY);
+            var slot = screen.findSlot(mouseAbsX, mouseAbsY);
             if (slot != null) {
                 // draw slot class name
                 graphics.drawString(

@@ -296,6 +296,9 @@
   "gtocore.ae.appeng.me2in1.vanilla_craft_station": "裝配矩陣",
   "gtocore.ae.appeng.me2in1.wireless": "無線2合1終端",
   "gtocore.auto_build.flip": "鏡像搭建",
+  "gtocore.auto_build.replace": "替換模式",
+  "gtocore.auto_build.replace.a": "替換等級方塊為設置的等級方塊",
+  "gtocore.auto_build.tier": "等級方塊",
   "gtocore.bar.distillation.1": "產齣，消耗水",
   "gtocore.bar.exploration": "爆炸",
   "gtocore.bar.heat": "溫度",
@@ -1162,9 +1165,9 @@
   "gtocore.machine.advanced_infinite_driller.tooltip.4": "鑽機在不同的工作溫度下會產生熱量,產熱公式為(溫度/2000)",
   "gtocore.machine.advanced_infinite_driller.tooltip.5": "隨著溫度提升,效率也會提升.當溫度超過臨界值,鑽頭將會融毀",
   "gtocore.machine.advanced_infinite_driller.tooltip.6": "可以通入不同的流體來降溫, 可用冷卻液如下.冷卻固定消耗為200B/5t",
-  "gtocore.machine.advanced_infinite_driller.tooltip.7": "蒸餾水 1K",
-  "gtocore.machine.advanced_infinite_driller.tooltip.8": "液態氧 2K",
-  "gtocore.machine.advanced_infinite_driller.tooltip.9": "液態氦 4K",
+  "gtocore.machine.advanced_infinite_driller.tooltip.7": "蒸餾水 1K/mB",
+  "gtocore.machine.advanced_infinite_driller.tooltip.8": "液態氧 2K/mB",
+  "gtocore.machine.advanced_infinite_driller.tooltip.9": "液態氦 4K/mB",
   "gtocore.machine.alchemical_device.1": "嬗變中",
   "gtocore.machine.alchemical_device.2": "完美嬗變中",
   "gtocore.machine.alchemy_cauldron.tooltip.0": "§7不要用它來做飯",
@@ -2827,7 +2830,5 @@
   "tagprefix.venus_stone": "金星%s礦石",
   "tagprefix.zirconium_carbide_target": "%s-碳化鋯靶",
   "tooltip.ad_astra.unknown_ingredient": "§c未知物品§r",
-  "tooltip.ad_astra.unknown_tag": "§c未知標簽§r: %s",
-  "tooltip.gtocore.infinity_totem_nerf": "§c無儘圖騰已被削弱，耐久度不再以任何方式恢複。§r",
-  "tooltip.gtocore.infinity_totem_nerf.1": "§c且耐久附魔的應用方式與原版盔甲相同。§r"
+  "tooltip.ad_astra.unknown_tag": "§c未知標簽§r: %s"
 }
