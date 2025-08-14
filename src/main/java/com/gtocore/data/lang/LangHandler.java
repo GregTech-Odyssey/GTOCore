@@ -268,6 +268,10 @@ public final class LangHandler {
         addCNEN("gtocore.ae.appeng.me2in1.reset_panel_position", "重置面板位置", "Reset Panel Position");
         addCNEN("gtocore.ae.appeng.me2in1.reset_panel_position.1", "重置所有面板位置到默认位置", "Reset all panel positions to default");
 
+        addCNEN("gtocore.adv_terminal.block.confirm", "确认", "Confirm");
+        addCNEN("gtocore.adv_terminal.block.select", "选择方块", "Select Block");
+        addCNEN("gtocore.adv_terminal.category.select", "选择类别", "Select Category");
+
         addCNEN("ftbultimine.shape.area", "不定形 (不连续)", "Shapeless (Area)");
 
         addCNEN("gtocore.source", "结构来源：%s", "Structure From: %s");

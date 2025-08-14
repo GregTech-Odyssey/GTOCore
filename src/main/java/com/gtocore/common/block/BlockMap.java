@@ -2,6 +2,9 @@ package com.gtocore.common.block;
 
 import com.gtocore.common.data.GTOBlocks;
 
+import com.gtolib.api.annotation.Scanned;
+import com.gtolib.api.annotation.language.RegisterLanguage;
+
 import com.gregtechceu.gtceu.api.GTCEuAPI;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
 
@@ -17,6 +20,7 @@ import java.util.Comparator;
 import java.util.Map;
 import java.util.function.Supplier;
 
+@Scanned
 public final class BlockMap {
 
     public static Block[] ABS_CASING;
@@ -52,59 +56,103 @@ public final class BlockMap {
         COMPUTER_HEAT_MAP.put(3, GTOBlocks.ANTI_ENTROPY_COMPUTER_CONDENSATION_MATRIX);
     }
 
+    public static final String namePrefix = "gtocore.adv_terminal.block_map";
+
+    @RegisterLanguage(namePrefix = namePrefix, cn = "恒星热力容器", en = "Stellar Containment Casing")
+    public static final String stellar_containment_casing = "stellar_containment_casing";
+
+    @RegisterLanguage(namePrefix = namePrefix, cn = "线圈", en = "Heating Coils")
+    public static final String heating_coils = "heating_coils";
+
+    @RegisterLanguage(namePrefix = namePrefix, cn = "过滤方块", en = "Cleanroom Filters")
+    public static final String cleanroom_filters = "cleanroom_filters";
+
+    @RegisterLanguage(namePrefix = namePrefix, cn = "电容", en = "Batteries")
+    public static final String batteries = "batteries";
+
+    @RegisterLanguage(namePrefix = namePrefix, cn = "电梯模块", en = "Space Elevator Power Module")
+    public static final String space_elevator_power_module = "space_elevator_power_module";
+
+    @RegisterLanguage(namePrefix = namePrefix, cn = "部装外壳", en = "Component Assembly Line Casing")
+    public static final String component_assembly_line_casing = "component_assembly_line_casing";
+
+    @RegisterLanguage(namePrefix = namePrefix, cn = "玻璃", en = "Glass")
+    public static final String glass = "glass";
+
+    @RegisterLanguage(namePrefix = namePrefix, cn = "机器外壳", en = "Machine Casing")
+    public static final String machine_casing = "machine_casing";
+
+    @RegisterLanguage(namePrefix = namePrefix, cn = "整体框架", en = "Integral Framework")
+    public static final String integral_framework = "integral_framework";
+
+    @RegisterLanguage(namePrefix = namePrefix, cn = "引力流调节器", en = "Graviton Flow Modulator")
+    public static final String graviton_flow_modulator = "graviton_flow_modulator";
+
+    @RegisterLanguage(namePrefix = namePrefix, cn = "计算机外壳", en = "Computer Casing")
+    public static final String computer_casing = "computer_casing";
+
+    @RegisterLanguage(namePrefix = namePrefix, cn = "计算机散热", en = "Computer Heat")
+    public static final String computer_heat = "computer_heat";
+
+    @RegisterLanguage(namePrefix = namePrefix, cn = "ABS方块", en = "ABS Casing")
+    public static final String abs_casing = "abs_casing";
+
+    @RegisterLanguage(namePrefix = namePrefix, cn = "灯", en = "Light")
+    public static final String light = "light";
+
     public static void build() {
         var coils = new ArrayList<>(GTCEuAPI.HEATING_COILS.entrySet());
         coils.sort(Comparator.comparingInt(entry -> entry.getKey().getTier()));
         // 线圈
-        MAP.put("heating_coils", coils.stream().map(Map.Entry::getValue).map(Supplier::get).toArray(Block[]::new));
+        MAP.put(heating_coils, coils.stream().map(Map.Entry::getValue).map(Supplier::get).toArray(Block[]::new));
         // 过滤方块
-        MAP.put("cleanroom_filters", new Block[] { GTBlocks.FILTER_CASING.get(), GTBlocks.FILTER_CASING_STERILE.get(), GTOBlocks.LAW_FILTER_CASING.get() });
-        var batteries = new ArrayList<>(GTCEuAPI.PSS_BATTERIES.entrySet());
-        batteries.sort(Comparator.comparingInt(entry -> entry.getKey().getTier()));
+        MAP.put(cleanroom_filters, new Block[] { GTBlocks.FILTER_CASING.get(), GTBlocks.FILTER_CASING_STERILE.get(), GTOBlocks.LAW_FILTER_CASING.get() });
+        var batteries0 = new ArrayList<>(GTCEuAPI.PSS_BATTERIES.entrySet());
+        batteries0.sort(Comparator.comparingInt(entry -> entry.getKey().getTier()));
         // 电容
-        MAP.put("batteries", batteries.stream().map(Map.Entry::getValue).map(Supplier::get).toArray(Block[]::new));
+        MAP.put(batteries, batteries0.stream().map(Map.Entry::getValue).map(Supplier::get).toArray(Block[]::new));
         var tiers = new ArrayList<>(SCMAP.int2ObjectEntrySet());
         tiers.sort(Comparator.comparingInt(Int2ObjectMap.Entry::getIntKey));
         // 恒星热力容器
-        MAP.put("stellar_containment_casing", tiers.stream().map(Map.Entry::getValue).map(Supplier::get).toArray(Block[]::new));
+        MAP.put(stellar_containment_casing, tiers.stream().map(Map.Entry::getValue).map(Supplier::get).toArray(Block[]::new));
         tiers = new ArrayList<>(SEPMMAP.int2ObjectEntrySet());
         tiers.sort(Comparator.comparingInt(Int2ObjectMap.Entry::getIntKey));
         // 电梯模块
-        MAP.put("space_elevator_power_module", tiers.stream().map(Map.Entry::getValue).map(Supplier::get).toArray(Block[]::new));
+        MAP.put(space_elevator_power_module, tiers.stream().map(Map.Entry::getValue).map(Supplier::get).toArray(Block[]::new));
         tiers = new ArrayList<>(CALMAP.int2ObjectEntrySet());
         tiers.sort(Comparator.comparingInt(Int2ObjectMap.Entry::getIntKey));
         // 部装外壳
-        MAP.put("component_assembly_line_casing", tiers.stream().map(Map.Entry::getValue).map(Supplier::get).toArray(Block[]::new));
+        MAP.put(component_assembly_line_casing, tiers.stream().map(Map.Entry::getValue).map(Supplier::get).toArray(Block[]::new));
         tiers = new ArrayList<>(GLASSMAP.int2ObjectEntrySet());
         tiers.sort(Comparator.comparingInt(Int2ObjectMap.Entry::getIntKey));
         // 玻璃
-        MAP.put("glass", tiers.stream().map(Map.Entry::getValue).map(Supplier::get).toArray(Block[]::new));
+        MAP.put(glass, tiers.stream().map(Map.Entry::getValue).map(Supplier::get).toArray(Block[]::new));
         tiers = new ArrayList<>(MACHINECASINGMAP.int2ObjectEntrySet());
         tiers.sort(Comparator.comparingInt(Int2ObjectMap.Entry::getIntKey));
         // 机器外壳
-        MAP.put("machine_casing", tiers.stream().map(Map.Entry::getValue).map(Supplier::get).toArray(Block[]::new));
+        MAP.put(machine_casing, tiers.stream().map(Map.Entry::getValue).map(Supplier::get).toArray(Block[]::new));
         tiers = new ArrayList<>(INTEGRALFRAMEWORKMAP.int2ObjectEntrySet());
         tiers.sort(Comparator.comparingInt(Int2ObjectMap.Entry::getIntKey));
         // 整体框架
-        MAP.put("integral_framework", tiers.stream().map(Map.Entry::getValue).map(Supplier::get).toArray(Block[]::new));
+        MAP.put(integral_framework, tiers.stream().map(Map.Entry::getValue).map(Supplier::get).toArray(Block[]::new));
         tiers = new ArrayList<>(GRAVITONFLOWMAP.int2ObjectEntrySet());
         tiers.sort(Comparator.comparingInt(Int2ObjectMap.Entry::getIntKey));
         // 引力流调节器
-        MAP.put("graviton_flow_modulator", tiers.stream().map(Map.Entry::getValue).map(Supplier::get).toArray(Block[]::new));
+        MAP.put(graviton_flow_modulator, tiers.stream().map(Map.Entry::getValue).map(Supplier::get).toArray(Block[]::new));
         tiers = new ArrayList<>(COMPUTER_CASING_MAP.int2ObjectEntrySet());
         tiers.sort(Comparator.comparingInt(Int2ObjectMap.Entry::getIntKey));
         // 计算机外壳
-        MAP.put("computer_casing", tiers.stream().map(Map.Entry::getValue).map(Supplier::get).toArray(Block[]::new));
+        MAP.put(computer_casing, tiers.stream().map(Map.Entry::getValue).map(Supplier::get).toArray(Block[]::new));
         tiers = new ArrayList<>(COMPUTER_HEAT_MAP.int2ObjectEntrySet());
         tiers.sort(Comparator.comparingInt(Int2ObjectMap.Entry::getIntKey));
         // 计算机散热
-        MAP.put("computer_heat", tiers.stream().map(Map.Entry::getValue).map(Supplier::get).toArray(Block[]::new));
+        MAP.put(computer_heat, tiers.stream().map(Map.Entry::getValue).map(Supplier::get).toArray(Block[]::new));
         ABS_CASING = arr(GTOBlocks.ABS_BLACK_CASING.get(), GTOBlocks.ABS_BLUE_CASING.get(), GTOBlocks.ABS_BROWN_CASING.get(), GTOBlocks.ABS_GREEN_CASING.get(), GTOBlocks.ABS_GREY_CASING.get(), GTOBlocks.ABS_LIME_CASING.get(), GTOBlocks.ABS_ORANGE_CASING.get(), GTOBlocks.ABS_RAD_CASING.get(), GTOBlocks.ABS_WHITE_CASING.get(), GTOBlocks.ABS_YELLOW_CASING.get(), GTOBlocks.ABS_CYAN_CASING.get(), GTOBlocks.ABS_MAGENTA_CASING.get(), GTOBlocks.ABS_PINK_CASING.get(), GTOBlocks.ABS_PURPLE_CASING.get(), GTOBlocks.ABS_LIGHT_BULL_CASING.get(), GTOBlocks.ABS_LIGHT_GREY_CASING.get());
         // ABS方块
-        MAP.put("abs_casing", ABS_CASING);
+        MAP.put(abs_casing, ABS_CASING);
         LIGHT = GTBlocks.LAMPS.values().stream().map(RegistryEntry::get).toArray(Block[]::new);
         // 灯
-        MAP.put("light", LIGHT);
+        MAP.put(light, LIGHT);
     }
 
     public static Block[] arr(Block... blocks) {

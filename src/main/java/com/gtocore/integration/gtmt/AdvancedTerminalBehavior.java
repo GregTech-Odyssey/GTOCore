@@ -11,7 +11,6 @@ import com.gregtechceu.gtceu.api.item.component.IItemUIFactory;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
 import com.gregtechceu.gtceu.api.pattern.predicates.SimplePredicate;
-import com.gregtechceu.gtceu.integration.ae2.gui.widget.AETextInputButtonWidget;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -31,13 +30,11 @@ import com.hepdd.gtmthings.api.misc.Hatch;
 import com.lowdragmc.lowdraglib.gui.editor.ColorPattern;
 import com.lowdragmc.lowdraglib.gui.factory.HeldItemUIFactory;
 import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
-import com.lowdragmc.lowdraglib.gui.widget.DraggableScrollableWidgetGroup;
-import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
-import com.lowdragmc.lowdraglib.gui.widget.Widget;
-import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
+import com.lowdragmc.lowdraglib.gui.widget.*;
 import it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet;
 
 import java.util.*;
+import java.util.stream.Stream;
 
 @DataGeneratorScanned
 public class AdvancedTerminalBehavior implements IItemUIFactory {
@@ -88,16 +85,21 @@ public class AdvancedTerminalBehavior implements IItemUIFactory {
         var group = new WidgetGroup(0, 0, 182 + 8, 117 + 8);
         int rowIndex = 1;
         group.addWidget(
-                new DraggableScrollableWidgetGroup(4, 4, 182, 117)
+                new DraggableScrollableWidgetGroup(4, 4, 182, 117).setUseScissor(false)
                         .setBackground(GuiTextures.DISPLAY)
                         .setYScrollBarWidth(2)
                         .setYBarStyle(null, ColorPattern.T_WHITE.rectTexture().setRadius(1))
-                        .addWidget(new AETextInputButtonWidget(96, 4, 76, 12)
-                                .setText(handItem.getOrCreateTag().getString("block"))
-                                .setOnConfirm(s -> handItem.getOrCreateTag().putString("block", s.toLowerCase(Locale.ROOT)))
-                                .setButtonTooltips(Component.literal("ID")))
                         .addWidget(new LabelWidget(40, 5, "item.gtmthings.advanced_terminal.setting.title"))
-                        .addWidget(new LabelWidget(4, 5 + 16 * rowIndex, TIER) {
+                        .addWidget(new LabelWidget(4, 5 + 16 * rowIndex, () -> {
+                            var category = BlockMap.MAP.getOrDefault(handItem.getOrCreateTag().getString("block"), new Block[0]);
+                            var tier0 = handItem.getOrCreateTag().getInt("tier");
+                            if (category.length == 0 || tier0 <= 0 || tier0 > category.length) return Component.translatable(TIER).getString();
+                            return Component.translatable(TIER)
+                                    .append("(")
+                                    .append(Stream.of(category).map(Block::getName).toList().get(tier0 - 1))
+                                    .append(")")
+                                    .getString();
+                        }) {
 
                             @OnlyIn(Dist.CLIENT)
                             protected void drawTooltipTexts(int mouseX, int mouseY) {
@@ -112,6 +114,14 @@ public class AdvancedTerminalBehavior implements IItemUIFactory {
                                 }
                             }
                         })
+                        .addWidget(new BlockMapSelector(96, 4, 76, 12, (category, tier0) -> {
+                            if (category != null && tier0 != null) {
+                                var tag = handItem.getOrCreateTag();
+                                tag.putString("block", category);
+                                tag.putInt("tier", tier0);
+                                handItem.setTag(tag);
+                            }
+                        }))
                         .addWidget(new TerminalInputWidget(140, 5 + 16 * rowIndex++, 20, 16, () -> getTier(handItem),
                                 (v) -> setTier(v, handItem))
                                 .setMin(0).setMax(100))
