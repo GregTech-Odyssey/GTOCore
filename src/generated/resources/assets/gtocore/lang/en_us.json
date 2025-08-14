@@ -1655,6 +1655,9 @@
   "gtocore.ae.appeng.crafting.show_molecular_assembler_expect": "Expect crafting pattern",
   "gtocore.ae.appeng.crafting.show_molecular_assembler_only": "Show crafting pattern only",
   "gtocore.auto_build.flip": "Mirror Build",
+  "gtocore.auto_build.replace": "Replace Mode",
+  "gtocore.auto_build.replace.a": "Replace Tier Block with the set block",
+  "gtocore.auto_build.tier": "Mirror Build",
   "gtocore.bar.distillation.1": "Output , Consumption water",
   "gtocore.bar.exploration": "Explosion",
   "gtocore.bar.heat": "Heat",
@@ -4807,7 +4810,5 @@
   "tagprefix.titan_stone": "Titan %s Ore",
   "tagprefix.venus_stone": "Venus %s Ore",
   "tooltip.ad_astra.unknown_ingredient": "§cUnknown item§r",
-  "tooltip.ad_astra.unknown_tag": "§cUnknown tag§r: %s",
-  "tooltip.gtocore.infinity_totem_nerf": "§cThe Infinity Totem has been nerfed, its durability will no longer be restored in any way. §r",
-  "tooltip.gtocore.infinity_totem_nerf.1": "§cAnd the application of the Unbreaking enchantment is the same as that of vanilla armor. §r"
+  "tooltip.ad_astra.unknown_tag": "§cUnknown tag§r: %s"
 }

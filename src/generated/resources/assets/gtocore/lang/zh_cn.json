@@ -1655,6 +1655,9 @@
   "gtocore.ae.appeng.crafting.show_molecular_assembler_expect": "不显示合成样板",
   "gtocore.ae.appeng.crafting.show_molecular_assembler_only": "只显示合成样板",
   "gtocore.auto_build.flip": "镜像搭建",
+  "gtocore.auto_build.replace": "替换模式",
+  "gtocore.auto_build.replace.a": "替换等级方块为设置的等级方块",
+  "gtocore.auto_build.tier": "等级方块",
   "gtocore.bar.distillation.1": "产出，消耗水",
   "gtocore.bar.exploration": "爆炸",
   "gtocore.bar.heat": "温度",
@@ -4807,7 +4810,5 @@
   "tagprefix.titan_stone": "土卫六%s矿石",
   "tagprefix.venus_stone": "金星%s矿石",
   "tooltip.ad_astra.unknown_ingredient": "§c未知物品§r",
-  "tooltip.ad_astra.unknown_tag": "§c未知标签§r: %s",
-  "tooltip.gtocore.infinity_totem_nerf": "§c无尽图腾已被削弱，耐久度不再以任何方式恢复。§r",
-  "tooltip.gtocore.infinity_totem_nerf.1": "§c且耐久附魔的应用方式与原版盔甲相同。§r"
+  "tooltip.ad_astra.unknown_tag": "§c未知标签§r: %s"
 }

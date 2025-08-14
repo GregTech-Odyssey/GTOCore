@@ -1655,6 +1655,9 @@
   "gtocore.ae.appeng.crafting.show_molecular_assembler_expect": "uɹǝʇʇɐd buıʇɟɐɹɔ ʇɔǝdxƎ",
   "gtocore.ae.appeng.crafting.show_molecular_assembler_only": "ʎןuo uɹǝʇʇɐd buıʇɟɐɹɔ ʍoɥS",
   "gtocore.auto_build.flip": "pןınᗺ ɹoɹɹıW",
+  "gtocore.auto_build.replace": "ǝpoW ǝɔɐןdǝᴚ",
+  "gtocore.auto_build.replace.a": "ʞɔoןq ʇǝs ǝɥʇ ɥʇıʍ ʞɔoןᗺ ɹǝı⟘ ǝɔɐןdǝᴚ",
+  "gtocore.auto_build.tier": "pןınᗺ ɹoɹɹıW",
   "gtocore.bar.distillation.1": "ɹǝʇɐʍ uoıʇdɯnsuoƆ ' ʇndʇnO",
   "gtocore.bar.exploration": "uoısoןdxƎ",
   "gtocore.bar.heat": "ʇɐǝH",
@@ -4807,7 +4810,5 @@
   "tagprefix.titan_stone": "ǝɹO %s uɐʇı⟘",
   "tagprefix.venus_stone": "ǝɹO %s snuǝΛ",
   "tooltip.ad_astra.unknown_ingredient": "ɹ§ɯǝʇı uʍouʞu∩ɔ§",
-  "tooltip.ad_astra.unknown_tag": "%s :ɹ§bɐʇ uʍouʞu∩ɔ§",
-  "tooltip.gtocore.infinity_totem_nerf": "ɹ§ ˙ʎɐʍ ʎuɐ uı pǝɹoʇsǝɹ ǝq ɹǝbuoן ou ןןıʍ ʎʇıןıqɐɹnp sʇı 'pǝɟɹǝu uǝǝq sɐɥ ɯǝʇo⟘ ʎʇıuıɟuI ǝɥ⟘ɔ§",
-  "tooltip.gtocore.infinity_totem_nerf.1": "ɹ§ ˙ɹoɯɹɐ ɐןןıuɐʌ ɟo ʇɐɥʇ sɐ ǝɯɐs ǝɥʇ sı ʇuǝɯʇuɐɥɔuǝ buıʞɐǝɹqu∩ ǝɥʇ ɟo uoıʇɐɔıןddɐ ǝɥʇ puⱯɔ§"
+  "tooltip.ad_astra.unknown_tag": "%s :ɹ§bɐʇ uʍouʞu∩ɔ§"
 }

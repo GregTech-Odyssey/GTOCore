@@ -125,7 +125,9 @@ final class Ae2PatternTerminalHandler<T extends PatternEncodingTermMenu> impleme
     private static GenericStack fromEmiStack(EmiStack stack, long amount, boolean virtual) {
         if (stack.getKey() instanceof Item) {
             if (virtual) {
-                return new GenericStack(AEItemKey.of(VirtualItemProviderBehavior.setVirtualItem(CustomItems.VIRTUAL_ITEM_PROVIDER.asStack(), stack.getItemStack())), amount);
+                var itemKey = AEItemKey.of(VirtualItemProviderBehavior.setVirtualItem(CustomItems.VIRTUAL_ITEM_PROVIDER.asStack(), stack.getItemStack()));
+                itemKey.getTag().putBoolean("marked", true);
+                return new GenericStack(itemKey, amount);
             }
             return new GenericStack(AEItemKey.of(stack.getItemStack()), amount);
         } else if (stack.getKey() instanceof Fluid fluid) {
