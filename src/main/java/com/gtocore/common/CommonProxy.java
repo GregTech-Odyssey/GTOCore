@@ -27,6 +27,9 @@ import com.gregtechceu.gtceu.api.recipe.category.GTRecipeCategory;
 import com.gregtechceu.gtceu.common.machine.multiblock.electric.FusionReactorMachine;
 import com.gregtechceu.gtceu.common.unification.material.MaterialRegistryManager;
 
+import com.gtolib.syncdata.PickBlockPacket;
+import de.mari_023.ae2wtlib.networking.ClientNetworkManager;
+import de.mari_023.ae2wtlib.networking.ServerNetworkManager;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
@@ -158,6 +161,7 @@ public class CommonProxy {
                 ((IUniversalWirelessTerminalItem) GTOItems.WIRELESS_ME2IN1.get())::tryOpen, Wireless.Host::new, Wireless.TYPE, GTOItems.WIRELESS_ME2IN1.get(), wut,
                 TextConstants.formatTerminalName("gtocore.ae.appeng.me2in1.wireless")));
         terminalNames.add(Wireless.ID);
+        ServerNetworkManager.registerServerBoundPacket(PickBlockPacket.ID, PickBlockPacket::new);
     }
 
     private static void initMenu(RegisterEvent event) {
