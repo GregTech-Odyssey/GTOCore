@@ -125,7 +125,7 @@ object GTOMachineTranslation : AutoInitialize<GTOMachineTranslation>() {
     val MeCraftPatternHatchTooltips = ComponentListSupplier {
         setTranslationPrefix("me_craft_pattern_part_machine")
         add(Star(1) + ("合成样板仓用于存储合成样板" translatedTo "Synthesis template hatch is used to store synthesis templates")) { aqua() }
-        add(Star(1) + ("配合超级分子装配室使用" translatedTo "use it Combined with Super Molecular Assembly")) { aqua() }
+        add(Star(1) + ("配合超级分子装配室使用" translatedTo "use it Combined with Super Molecular Assembler")) { aqua() }
         add(ComponentSlang.Capacity(72.toString())) { aqua() }
     }
 
