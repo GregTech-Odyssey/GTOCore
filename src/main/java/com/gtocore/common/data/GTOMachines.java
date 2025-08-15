@@ -1,10 +1,7 @@
 package com.gtocore.common.data;
 
 import com.gtocore.api.machine.part.GTOPartAbility;
-import com.gtocore.client.renderer.machine.BallHatchRenderer;
-import com.gtocore.client.renderer.machine.HeaterRenderer;
-import com.gtocore.client.renderer.machine.MonitorRenderer;
-import com.gtocore.client.renderer.machine.WindMillTurbineRenderer;
+import com.gtocore.client.renderer.machine.*;
 import com.gtocore.common.blockentity.TesseractBlockEntity;
 import com.gtocore.common.data.machines.*;
 import com.gtocore.common.data.translation.GTOMachineTranslation;
@@ -446,7 +443,7 @@ public final class GTOMachines {
             .register();
 
     public static final MachineDefinition ME_WIRELESS_CONNECTION_MACHINE = machine("me_wireless_connection_machine", "ME无线连接机", MeWirelessConnectMachine::new)
-            .overlayTieredHullRenderer("neutron_sensor")
+            .renderer(MeWirelessConnectMachineRenderer::new)
             .tooltips(GTOMachineTranslation.INSTANCE.getAutoConnectMETooltips().getSupplier())
             .tooltips(NewDataAttributes.MIRACULOUS_TOOLS.create(new CNEN("ME无线连接机", "ME Wireless Connection Machine"), p -> p.addCommentLines(
                     """

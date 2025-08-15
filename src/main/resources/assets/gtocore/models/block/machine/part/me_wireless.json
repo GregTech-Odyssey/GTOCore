@@ -1,0 +1,23 @@
+{
+	"credit": "Made with Blockbench",
+	"parent": "block/block",
+	"textures": {
+		"side": "gtocore:block/machines/me_wireless/side",
+        "top": "gtocore:block/machines/me_wireless/top",
+        "bottom": "gtocore:block/machines/me_wireless/bottom"
+	},
+	"elements": [
+		{
+			"from": [0, 0, 0],
+			"to": [16, 16, 0],
+			"faces": {
+				"north": {"uv": [0, 0, 16, 16], "texture": "#side", "cullface": "north", "tintindex": 2 },
+                "south": {"uv": [0, 0, 16, 16], "texture": "#side", "cullface": "south", "tintindex": 2 },
+                "east": {"uv": [0, 0, 16, 16], "texture": "#side", "cullface": "east", "tintindex": 2 },
+                "west": {"uv": [0, 0, 16, 16], "texture": "#side", "cullface": "west", "tintindex": 2 },
+                "up": {"uv": [0, 0, 16, 16], "texture": "#top", "cullface": "up", "tintindex": 2 },
+                "down": {"uv": [0, 0, 16, 16], "texture": "#bottom", "cullface": "down", "tintindex": 2 }
+			}
+		}
+	]
+}
