@@ -38,6 +38,7 @@ class MeWirelessConnectMachine(holder: MetaMachineBlockEntity) :
         val syncManager = SyncManagedFieldHolder(MeWirelessConnectMachine::class.java)
     }
     val gridHolder = GridNodeHolder(this)
+
     @DescSynced
     var isGridOnline: Boolean = false
     var isClientInit = false
