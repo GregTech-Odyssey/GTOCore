@@ -5,6 +5,7 @@ import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.data.GTOMaterials;
 
 import com.gtolib.GTOCore;
+import com.gtolib.utils.RLUtils;
 import com.gtolib.utils.RegistriesUtils;
 
 import com.gregtechceu.gtceu.GTCEu;
@@ -123,19 +124,19 @@ public final class ImmersiveAircraft {
 
     public static void initJsonFilter(Set<ResourceLocation> filters) {
         if (GTCEu.isModLoaded("immersive_aircraft")) {
-            filters.add(new ResourceLocation("immersive_aircraft", "boiler"));
-            filters.add(new ResourceLocation("immersive_aircraft", "steel_boiler"));
-            filters.add(new ResourceLocation("immersive_aircraft", "engine"));
-            filters.add(new ResourceLocation("immersive_aircraft", "propeller"));
-            filters.add(new ResourceLocation("immersive_aircraft", "hull"));
-            filters.add(new ResourceLocation("immersive_aircraft", "enhanced_propeller"));
-            filters.add(new ResourceLocation("immersive_aircraft", "industrial_gears"));
-            filters.add(new ResourceLocation("immersive_aircraft", "sturdy_pipes"));
-            filters.add(new ResourceLocation("immersive_aircraft", "improved_landing_gear"));
-            filters.add(new ResourceLocation("immersive_aircraft", "rotary_cannon"));
-            filters.add(new ResourceLocation("immersive_aircraft", "bomb_bay"));
-            filters.add(new ResourceLocation("immersive_aircraft", "nether_engine"));
-            filters.add(new ResourceLocation("immersive_aircraft", "eco_engine"));
+            filters.add(RLUtils.fromNamespaceAndPath("immersive_aircraft", "boiler"));
+            filters.add(RLUtils.fromNamespaceAndPath("immersive_aircraft", "steel_boiler"));
+            filters.add(RLUtils.fromNamespaceAndPath("immersive_aircraft", "engine"));
+            filters.add(RLUtils.fromNamespaceAndPath("immersive_aircraft", "propeller"));
+            filters.add(RLUtils.fromNamespaceAndPath("immersive_aircraft", "hull"));
+            filters.add(RLUtils.fromNamespaceAndPath("immersive_aircraft", "enhanced_propeller"));
+            filters.add(RLUtils.fromNamespaceAndPath("immersive_aircraft", "industrial_gears"));
+            filters.add(RLUtils.fromNamespaceAndPath("immersive_aircraft", "sturdy_pipes"));
+            filters.add(RLUtils.fromNamespaceAndPath("immersive_aircraft", "improved_landing_gear"));
+            filters.add(RLUtils.fromNamespaceAndPath("immersive_aircraft", "rotary_cannon"));
+            filters.add(RLUtils.fromNamespaceAndPath("immersive_aircraft", "bomb_bay"));
+            filters.add(RLUtils.fromNamespaceAndPath("immersive_aircraft", "nether_engine"));
+            filters.add(RLUtils.fromNamespaceAndPath("immersive_aircraft", "eco_engine"));
         }
     }
 }

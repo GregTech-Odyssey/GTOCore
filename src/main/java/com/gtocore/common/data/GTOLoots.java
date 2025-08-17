@@ -1,5 +1,7 @@
 package com.gtocore.common.data;
 
+import com.gtolib.utils.RLUtils;
+
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.data.chemical.material.properties.PropertyKey;
@@ -49,8 +51,8 @@ public final class GTOLoots {
     public static ImmutableMultimap<LootDataType<?>, ResourceLocation> TYPEKEYS_CACHE;
 
     public static void removal(Set<ResourceLocation> filters) {
-        filters.add(new ResourceLocation("expatternprovider", "blocks/ex_emc_interface"));
-        filters.add(new ResourceLocation("farmersrespite", "blocks/kettle"));
+        filters.add(RLUtils.fromNamespaceAndPath("expatternprovider", "blocks/ex_emc_interface"));
+        filters.add(RLUtils.fromNamespaceAndPath("farmersrespite", "blocks/kettle"));
     }
 
     public static Pair<ImmutableMap<LootDataId<?>, ?>, ImmutableMultimap<LootDataType<?>, ResourceLocation>> apply(Map<LootDataType<?>, Map<ResourceLocation, ?>> collectedElements) {
@@ -78,7 +80,7 @@ public final class GTOLoots {
             if (TagPrefix.ORES.containsKey(prefix)) {
                 final TagPrefix.OreType type = TagPrefix.ORES.get(prefix);
                 map.forEach((material, blockEntry) -> {
-                    ResourceLocation lootTableId = new ResourceLocation(blockEntry.getId().getNamespace(),
+                    ResourceLocation lootTableId = RLUtils.fromNamespaceAndPath(blockEntry.getId().getNamespace(),
                             "blocks/" + blockEntry.getId().getPath());
                     Block block = blockEntry.get();
 
@@ -127,7 +129,7 @@ public final class GTOLoots {
         GTMaterialBlocks.FLUID_PIPE_BLOCKS.rowMap().forEach((prefix, map) -> addMaterialBlockLootTables(lootTables, map));
         GTMaterialBlocks.ITEM_PIPE_BLOCKS.rowMap().forEach((prefix, map) -> addMaterialBlockLootTables(lootTables, map));
         GTMaterialBlocks.SURFACE_ROCK_BLOCKS.forEach((material, blockEntry) -> {
-            ResourceLocation lootTableId = new ResourceLocation(blockEntry.getId().getNamespace(),
+            ResourceLocation lootTableId = RLUtils.fromNamespaceAndPath(blockEntry.getId().getNamespace(),
                     "blocks/" + blockEntry.getId().getPath());
             LootTable.Builder builder = BLOCK_LOOT
                     .createSingleItemTable(ChemicalHelper.get(TagPrefix.dustTiny, material).getItem(),
@@ -139,7 +141,7 @@ public final class GTOLoots {
         GTRegistries.MACHINES.forEach(machine -> {
             Block block = machine.getBlock();
             ResourceLocation id = machine.getId();
-            ResourceLocation lootTableId = new ResourceLocation(id.getNamespace(), "blocks/" + id.getPath());
+            ResourceLocation lootTableId = RLUtils.fromNamespaceAndPath(id.getNamespace(), "blocks/" + id.getPath());
             ((BlockBehaviourAccessor) block).setDrops(lootTableId);
             lootTables.put(lootTableId,
                     BLOCK_LOOT.createSingleItemTable(block).setParamSet(LootContextParamSets.BLOCK).build());
@@ -148,7 +150,7 @@ public final class GTOLoots {
 
     private static void addMaterialBlockLootTables(Map<ResourceLocation, LootTable> lootTables, Map<Material, ? extends BlockEntry<? extends Block>> map) {
         map.forEach((material, blockEntry) -> {
-            ResourceLocation lootTableId = new ResourceLocation(blockEntry.getId().getNamespace(), "blocks/" + blockEntry.getId().getPath());
+            ResourceLocation lootTableId = RLUtils.fromNamespaceAndPath(blockEntry.getId().getNamespace(), "blocks/" + blockEntry.getId().getPath());
             ((BlockBehaviourAccessor) blockEntry.get()).setDrops(lootTableId);
             lootTables.put(lootTableId, BLOCK_LOOT.createSingleItemTable(blockEntry.get()).setParamSet(LootContextParamSets.BLOCK).build());
         });

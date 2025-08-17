@@ -1,5 +1,6 @@
 package com.gtocore.data.recipe.gtm.misc;
 
+import com.gtolib.utils.RLUtils;
 import com.gtolib.utils.RegistriesUtils;
 
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
@@ -13,7 +14,6 @@ import com.gregtechceu.gtceu.data.recipe.CustomTags;
 import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
 
 import net.minecraft.data.recipes.FinishedRecipe;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
@@ -504,14 +504,14 @@ public final class VanillaStandardRecipes {
                     .inputItems(Tags.Items.GRAVEL, 4)
                     .inputFluids(CHEMICAL_DYES[color.ordinal()].getFluid(L))
                     .outputItems(new ItemStack(
-                            RegistriesUtils.getItem(new ResourceLocation(dyeName + "_concrete_powder")), 8))
+                            RegistriesUtils.getItem(RLUtils.mc(dyeName + "_concrete_powder")), 8))
                     .save();
 
             CHEMICAL_BATH_RECIPES.recipeBuilder(dyeName + "_concrete").duration(20).EUt(VA[ULV])
                     .inputItems(new ItemStack(
-                            RegistriesUtils.getItem(new ResourceLocation(dyeName + "_concrete_powder"))))
+                            RegistriesUtils.getItem(RLUtils.mc(dyeName + "_concrete_powder"))))
                     .inputFluids(Water.getFluid(1000))
-                    .outputItems(new ItemStack(RegistriesUtils.getItem(new ResourceLocation(dyeName + "_concrete"))))
+                    .outputItems(new ItemStack(RegistriesUtils.getItem(RLUtils.mc(dyeName + "_concrete"))))
                     .category(GTRecipeCategories.CHEM_DYES)
                     .save();
 
@@ -520,7 +520,7 @@ public final class VanillaStandardRecipes {
                         .inputItems(CustomTags.CONCRETE_ITEM)
                         .inputFluids(CHEMICAL_DYES[color.ordinal()].getFluid(L / 8))
                         .outputItems(
-                                new ItemStack(RegistriesUtils.getItem(new ResourceLocation(dyeName + "_concrete"))))
+                                new ItemStack(RegistriesUtils.getItem(RLUtils.mc(dyeName + "_concrete"))))
                         .category(GTRecipeCategories.CHEM_DYES)
                         .save();
             }
@@ -529,7 +529,7 @@ public final class VanillaStandardRecipes {
                     .inputItems(new ItemStack(Blocks.TERRACOTTA))
                     .inputFluids(CHEMICAL_DYES[color.ordinal()].getFluid(L / 8))
                     .outputItems(
-                            new ItemStack(RegistriesUtils.getItem(new ResourceLocation(dyeName + "_terracotta"))))
+                            new ItemStack(RegistriesUtils.getItem(RLUtils.mc(dyeName + "_terracotta"))))
                     .category(GTRecipeCategories.CHEM_DYES)
                     .save();
 
@@ -537,7 +537,7 @@ public final class VanillaStandardRecipes {
                     .inputItems(new ItemStack(Blocks.GLASS))
                     .inputFluids(CHEMICAL_DYES[color.ordinal()].getFluid(L / 8))
                     .outputItems(
-                            new ItemStack(RegistriesUtils.getItem(new ResourceLocation(dyeName + "_stained_glass"))))
+                            new ItemStack(RegistriesUtils.getItem(RLUtils.mc(dyeName + "_stained_glass"))))
                     .category(GTRecipeCategories.CHEM_DYES)
                     .save();
 
@@ -545,20 +545,20 @@ public final class VanillaStandardRecipes {
                     .inputItems(new ItemStack(Blocks.GLASS_PANE))
                     .inputFluids(CHEMICAL_DYES[color.ordinal()].getFluid(L / 8))
                     .outputItems(new ItemStack(
-                            RegistriesUtils.getItem(new ResourceLocation(dyeName + "_stained_glass_pane"))))
+                            RegistriesUtils.getItem(RLUtils.mc(dyeName + "_stained_glass_pane"))))
                     .category(GTRecipeCategories.CHEM_DYES)
                     .save();
 
             CUTTER_RECIPES.recipeBuilder("cut_" + dyeName + "_glass_to_pane").duration(20).EUt(VA[ULV])
-                    .inputItems(RegistriesUtils.getItem(new ResourceLocation(dyeName + "_stained_glass")), 3)
-                    .outputItems(RegistriesUtils.getItem(new ResourceLocation(dyeName + "_stained_glass_pane")), 8)
+                    .inputItems(RegistriesUtils.getItem(RLUtils.mc(dyeName + "_stained_glass")), 3)
+                    .outputItems(RegistriesUtils.getItem(RLUtils.mc(dyeName + "_stained_glass_pane")), 8)
                     .save();
 
             CHEMICAL_BATH_RECIPES.recipeBuilder("dye_candle_to_" + dyeName).duration(20).EUt(VA[ULV])
                     .inputItems(new ItemStack(Items.CANDLE))
                     .inputFluids(CHEMICAL_DYES[color.ordinal()].getFluid(L / 8))
                     .outputItems(new ItemStack(
-                            RegistriesUtils.getItem(new ResourceLocation(dyeName + "_candle"))))
+                            RegistriesUtils.getItem(RLUtils.mc(dyeName + "_candle"))))
                     .category(GTRecipeCategories.CHEM_DYES)
                     .save();
 
@@ -566,29 +566,29 @@ public final class VanillaStandardRecipes {
                 CHEMICAL_BATH_RECIPES.recipeBuilder("dye_wool_to_" + dyeName).duration(20).EUt(VA[ULV])
                         .inputItems(new ItemStack(Blocks.WHITE_WOOL))
                         .inputFluids(CHEMICAL_DYES[color.ordinal()].getFluid(L))
-                        .outputItems(new ItemStack(RegistriesUtils.getItem(new ResourceLocation(dyeName + "_wool"))))
+                        .outputItems(new ItemStack(RegistriesUtils.getItem(RLUtils.mc(dyeName + "_wool"))))
                         .category(GTRecipeCategories.CHEM_DYES)
                         .save();
 
                 CHEMICAL_BATH_RECIPES.recipeBuilder("dye_bed_to_" + dyeName).duration(20).EUt(VA[ULV])
                         .inputItems(new ItemStack(Blocks.WHITE_BED))
                         .inputFluids(CHEMICAL_DYES[color.ordinal()].getFluid(L))
-                        .outputItems(new ItemStack(RegistriesUtils.getItem(new ResourceLocation(dyeName + "_bed"))))
+                        .outputItems(new ItemStack(RegistriesUtils.getItem(RLUtils.mc(dyeName + "_bed"))))
                         .category(GTRecipeCategories.CHEM_DYES)
                         .save();
             }
 
             CUTTER_RECIPES.recipeBuilder("cut_" + dyeName + "_wool_to_carpet").duration(20).EUt(VA[ULV])
-                    .inputItems(new ItemStack(RegistriesUtils.getItem(new ResourceLocation(dyeName + "_wool")), 1))
+                    .inputItems(new ItemStack(RegistriesUtils.getItem(RLUtils.mc(dyeName + "_wool")), 1))
                     .outputItems(
-                            new ItemStack(RegistriesUtils.getItem(new ResourceLocation(dyeName + "_carpet")), 2))
+                            new ItemStack(RegistriesUtils.getItem(RLUtils.mc(dyeName + "_carpet")), 2))
                     .save();
 
             ASSEMBLER_RECIPES.recipeBuilder(dyeName + "_banner").duration(20).EUt(VA[ULV])
                     .circuitMeta(6)
                     .inputItems(new ItemStack(Items.STICK))
-                    .inputItems(new ItemStack(RegistriesUtils.getItem(new ResourceLocation(dyeName + "_wool")), 6))
-                    .outputItems(new ItemStack(RegistriesUtils.getItem(new ResourceLocation(dyeName + "_banner"))))
+                    .inputItems(new ItemStack(RegistriesUtils.getItem(RLUtils.mc(dyeName + "_wool")), 6))
+                    .outputItems(new ItemStack(RegistriesUtils.getItem(RLUtils.mc(dyeName + "_banner"))))
                     .save();
         }
 

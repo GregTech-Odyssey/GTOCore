@@ -1,5 +1,7 @@
 package com.gtocore.common.saved;
 
+import com.gtolib.utils.RLUtils;
+
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.resources.ResourceLocation;
@@ -38,7 +40,7 @@ public class RecipeRunLimitSavaedData extends SavedData {
             Object2IntOpenHashMap<ResourceLocation> map = new Object2IntOpenHashMap<>();
             for (int j = 0; j < list.size(); j++) {
                 CompoundTag id = list.getCompound(j);
-                map.put(new ResourceLocation(id.getString("i")), id.getInt("c"));
+                map.put(RLUtils.parse(id.getString("i")), id.getInt("c"));
             }
             recipeRunLimit.put(uuid1, map);
         }

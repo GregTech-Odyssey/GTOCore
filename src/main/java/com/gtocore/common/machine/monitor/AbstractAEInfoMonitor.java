@@ -51,6 +51,12 @@ public abstract class AbstractAEInfoMonitor extends AbstractInfoProviderMonitor 
     }
 
     @Override
+    public void onRotated(@NotNull Direction oldFacing, @NotNull Direction newFacing) {
+        super.onRotated(oldFacing, newFacing);
+        if (oldFacing != newFacing) getMainNode().setExposedOnSides(EnumSet.allOf(Direction.class));
+    }
+
+    @Override
     public IManagedGridNode getMainNode() {
         return nodeHolder.getMainNode();
     }

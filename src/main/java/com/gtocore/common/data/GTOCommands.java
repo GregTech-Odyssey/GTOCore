@@ -7,6 +7,7 @@ import com.gtolib.api.data.Dimension;
 import com.gtolib.api.misc.PlanetManagement;
 import com.gtolib.api.recipe.ingredient.FastFluidIngredient;
 import com.gtolib.utils.ItemUtils;
+import com.gtolib.utils.RLUtils;
 import com.gtolib.utils.StringConverter;
 
 import net.minecraft.ChatFormatting;
@@ -47,7 +48,7 @@ public final class GTOCommands {
                 .then(Commands.literal("space")
                         .then(Commands.literal("planet").then(Commands.literal("unlock").requires(source -> source.hasPermission(2)).then(Commands.argument("player", EntityArgument.player()).then(Commands.argument("id", StringArgumentType.greedyString()).suggests((context, builder) -> SharedSuggestionProvider.suggest(Arrays.stream(Dimension.values()).filter(Dimension::isWithinGalaxy).map(Dimension::getLocation).map(ResourceLocation::toString), builder)).executes(ctx -> {
                             ServerPlayer player = EntityArgument.getPlayer(ctx, "player");
-                            ResourceLocation id = new ResourceLocation(StringArgumentType.getString(ctx, "id"));
+                            ResourceLocation id = RLUtils.parse(StringArgumentType.getString(ctx, "id"));
                             PlanetManagement.unlock(player.getUUID(), id);
                             ctx.getSource().sendSuccess(() -> Component.translatable(PlanetManagement.isUnlocked(player, id) ? "gtocore.unlocked" : "gtocore.ununlocked"), true);
                             return 1;

@@ -9,6 +9,7 @@ import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.RecipeBuilder;
 import com.gtolib.api.recipe.RecipeRunner;
 import com.gtolib.utils.MachineUtils;
+import com.gtolib.utils.RLUtils;
 import com.gtolib.utils.StringUtils;
 
 import com.gregtechceu.gtceu.api.GTValues;
@@ -21,7 +22,6 @@ import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
@@ -209,7 +209,7 @@ public final class SlaughterhouseMachine extends StorageMultiblockMachine {
                     String[] mobParts = StringUtils.decompose(mob);
                     if (mobParts.length < 2) continue;
                     LootTable lootTable = serverLevel.getServer().getLootData()
-                            .getLootTable(new ResourceLocation(mobParts[0], "entities/" + mobParts[1]));
+                            .getLootTable(RLUtils.fromNamespaceAndPath(mobParts[0], "entities/" + mobParts[1]));
                     LootParams lootParams = new LootParams.Builder(serverLevel)
                             .withParameter(LootContextParams.LAST_DAMAGE_PLAYER, getFakePlayer(serverLevel))
                             .withParameter(LootContextParams.THIS_ENTITY, entity)

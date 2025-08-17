@@ -2,7 +2,6 @@ package com.gtocore.integration.ae
 
 import com.gtocore.api.gui.ktflexible.InitFancyMachineUIWidget
 
-import net.minecraft.core.Direction
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
@@ -49,7 +48,7 @@ class MeWirelessConnectMachine(holder: MetaMachineBlockEntity) :
     override fun setOnline(p0: Boolean) {
         isGridOnline = p0
     }
-    override fun getMainNode(): IManagedGridNode? = gridHolder.mainNode.setExposedOnSides(EnumSet.allOf(Direction::class.java))
+    override fun getMainNode(): IManagedGridNode? = gridHolder.mainNode
 
     @DescSynced
     @Persisted

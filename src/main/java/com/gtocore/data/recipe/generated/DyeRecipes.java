@@ -9,7 +9,6 @@ import com.gtolib.utils.TagUtils;
 
 import com.gregtechceu.gtceu.common.data.GTRecipeCategories;
 
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.block.Block;
 
@@ -64,13 +63,13 @@ public final class DyeRecipes {
             BWG.put("black", false);
             DyeRecipes.BWG.forEach((k, v) -> {
                 EXTRACTOR_RECIPES.recipeBuilder(k + "_bwg_dye")
-                        .inputItems(TagUtils.createTag(new ResourceLocation("biomeswevegone", "dye/makes_" + k)))
+                        .inputItems(TagUtils.createTag(RLUtils.fromNamespaceAndPath("biomeswevegone", "dye/makes_" + k)))
                         .outputItems("minecraft:" + k + "_dye")
                         .duration(400)
                         .EUt(2)
                         .save();
                 if (v) EXTRACTOR_RECIPES.recipeBuilder(k + "_bwg_2_dye")
-                        .inputItems(TagUtils.createTag(new ResourceLocation("biomeswevegone", "dye/makes_2_" + k)))
+                        .inputItems(TagUtils.createTag(RLUtils.fromNamespaceAndPath("biomeswevegone", "dye/makes_2_" + k)))
                         .outputItems("minecraft:" + k + "_dye")
                         .duration(400)
                         .EUt(2)

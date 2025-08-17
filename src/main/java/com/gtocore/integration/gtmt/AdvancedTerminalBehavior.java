@@ -315,7 +315,7 @@ public class AdvancedTerminalBehavior implements IItemUIFactory {
             List<ItemStack> candidates = new ArrayList<>();
             if (blocks != null) {
                 for (Block block : blocks) {
-                    if (tierBlock != null && tier > 0 && this.blocks.contains(block)) {
+                    if (tierBlock != null && tier > 0 && blocks.length > 1 && this.blocks.contains(block)) {
                         candidates.add(tierBlock[Math.min(tierBlock.length, tier) - 1].asItem().getDefaultInstance());
                         return candidates;
                     } else if (block != Blocks.AIR) {

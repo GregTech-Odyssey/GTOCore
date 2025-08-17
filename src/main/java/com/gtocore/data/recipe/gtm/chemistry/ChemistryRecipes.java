@@ -1,9 +1,10 @@
 package com.gtocore.data.recipe.gtm.chemistry;
 
+import com.gtolib.utils.RLUtils;
+
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
 
 import net.minecraft.data.recipes.FinishedRecipe;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Items;
 
 import java.util.function.Consumer;
@@ -87,19 +88,19 @@ public final class ChemistryRecipes {
         GAS_COLLECTOR_RECIPES.recipeBuilder("air")
                 .circuitMeta(1)
                 .outputFluids(Air.getFluid(10000))
-                .dimension(new ResourceLocation("overworld"))
+                .dimension(RLUtils.mc("overworld"))
                 .duration(20).EUt(16).save();
 
         GAS_COLLECTOR_RECIPES.recipeBuilder("nether_air")
                 .circuitMeta(2)
                 .outputFluids(NetherAir.getFluid(10000))
-                .dimension(new ResourceLocation("the_nether"))
+                .dimension(RLUtils.mc("the_nether"))
                 .duration(20).EUt(64).save();
 
         GAS_COLLECTOR_RECIPES.recipeBuilder("ender_air")
                 .circuitMeta(3)
                 .outputFluids(EnderAir.getFluid(10000))
-                .dimension(new ResourceLocation("the_end"))
+                .dimension(RLUtils.mc("the_end"))
                 .duration(20).EUt(256).save();
 
         PYROLYSE_RECIPES.recipeBuilder("activated_carbon_from_carbon").circuitMeta(1)

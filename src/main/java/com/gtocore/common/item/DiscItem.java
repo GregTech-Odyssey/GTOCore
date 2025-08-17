@@ -4,6 +4,7 @@ import com.gtolib.IItem;
 import com.gtolib.api.recipe.lookup.MapIngredient;
 import com.gtolib.utils.FluidUtils;
 import com.gtolib.utils.ItemUtils;
+import com.gtolib.utils.RLUtils;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -53,14 +54,14 @@ public final class DiscItem extends Item {
         if (tag != null) {
             String i = tag.getString("i");
             if (!i.isEmpty()) {
-                Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(i, tag.getString("n")));
+                Item item = ForgeRegistries.ITEMS.getValue(RLUtils.fromNamespaceAndPath(i, tag.getString("n")));
                 if (item != null) {
                     list.add(Component.translatable("item.gtocore.disc.data", ((IItem) item).gtolib$getReadOnlyStack().getDisplayName()));
                 }
             } else {
                 String f = tag.getString("f");
                 if (!f.isEmpty()) {
-                    Fluid fluid = ForgeRegistries.FLUIDS.getValue(new ResourceLocation(f, tag.getString("n")));
+                    Fluid fluid = ForgeRegistries.FLUIDS.getValue(RLUtils.fromNamespaceAndPath(f, tag.getString("n")));
                     if (fluid != null) {
                         list.add(Component.translatable("item.gtocore.disc.data", "[" + new FluidStack(fluid, 1).getDisplayName().getString() + "]"));
                     }

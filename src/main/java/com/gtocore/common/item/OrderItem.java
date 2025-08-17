@@ -2,6 +2,7 @@ package com.gtocore.common.item;
 
 import com.gtocore.common.data.GTOItems;
 
+import com.gtolib.utils.RLUtils;
 import com.gtolib.utils.RegistriesUtils;
 
 import com.gregtechceu.gtceu.api.gui.fancy.FancyMachineUIWidget;
@@ -12,7 +13,6 @@ import com.gregtechceu.gtceu.api.item.component.IItemUIFactory;
 
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
@@ -63,7 +63,7 @@ public final class OrderItem implements IItemUIFactory, IFancyUIProvider, ICusto
         if (id.isEmpty()) {
             return ItemStack.EMPTY;
         }
-        return new ItemStack(RegistriesUtils.getItem(new ResourceLocation(id)));
+        return new ItemStack(RegistriesUtils.getItem(RLUtils.parse(id)));
     }
 
     public static ItemStack clearTarget(ItemStack stack) {

@@ -1,6 +1,7 @@
 package com.gtocore.common.item;
 
 import com.gtolib.api.item.tool.IExDataItem;
+import com.gtolib.utils.RLUtils;
 
 import com.gregtechceu.gtceu.api.item.component.IAddInformation;
 
@@ -8,7 +9,6 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -115,7 +115,7 @@ public class ExDataItemBehavior implements IAddInformation, IExDataItem {
 
         // 尝试作为流体解析
         if (state.equals("f")) {
-            Fluid fluid = ForgeRegistries.FLUIDS.getValue(new ResourceLocation(namespace, path));
+            Fluid fluid = ForgeRegistries.FLUIDS.getValue(RLUtils.fromNamespaceAndPath(namespace, path));
             FluidStack stack = new FluidStack(fluid, 1);
             return Optional.of(Component.translatable("gtocore.tooltip.item.scanned_things",
                     Component.literal(String.valueOf(count)).withStyle(ChatFormatting.GREEN),

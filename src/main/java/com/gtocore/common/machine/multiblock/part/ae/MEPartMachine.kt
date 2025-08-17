@@ -115,11 +115,6 @@ internal abstract class MEPartMachine(holder: MetaMachineBlockEntity, io: IO) :
 
     override fun getMainNode(): IManagedGridNode = nodeHolder.getMainNode()
 
-    override fun onRotated(oldFacing: Direction, newFacing: Direction) {
-        super.onRotated(oldFacing, newFacing)
-        mainNode.setExposedOnSides(EnumSet.of(newFacing))
-    }
-
     override fun getFieldHolder(): ManagedFieldHolder = MANAGED_FIELD_HOLDER
 
     override fun onPaintingColorChanged(color: Int) {

@@ -7,6 +7,7 @@ import com.gtolib.api.machine.multiblock.ElectricMultiblockMachine;
 import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.RecipeRunner;
 import com.gtolib.utils.ItemUtils;
+import com.gtolib.utils.RLUtils;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
@@ -18,7 +19,6 @@ import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -166,7 +166,7 @@ public class ScanningStationMachine extends ElectricMultiblockMachine {
             }
 
             if (state.equals("f")) {
-                Fluid fluid = ForgeRegistries.FLUIDS.getValue(new ResourceLocation(parts[1], parts[2]));
+                Fluid fluid = ForgeRegistries.FLUIDS.getValue(RLUtils.fromNamespaceAndPath(parts[1], parts[2]));
                 String fluidState;
                 if (parts[2].contains("gas")) fluidState = "气态 ";
                 else if (parts[2].contains("liquid")) fluidState = "液态 ";

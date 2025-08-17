@@ -18,6 +18,7 @@ import com.gtolib.api.annotation.language.RegisterLanguage;
 import com.gtolib.api.data.GTODimensions;
 import com.gtolib.api.machine.feature.IVacuumMachine;
 import com.gtolib.api.player.IEnhancedPlayer;
+import com.gtolib.utils.RLUtils;
 import com.gtolib.utils.ServerUtils;
 import com.gtolib.utils.SphereExplosion;
 import com.gtolib.utils.register.BlockRegisterUtils;
@@ -37,7 +38,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -206,7 +206,7 @@ public final class ForgeCommonEvent {
                 } else {
                     String dima = data.getString("dim_f");
                     int value = "gtocore:void".equals(dima) ? 1 : 10;
-                    ServerUtils.teleportToDimension(server.getLevel(GTODimensions.getDimensionKey(new ResourceLocation(dima))), player, new Vec3((double) pos.getX() / value, data.getDouble("y_f"), (double) pos.getZ() / value));
+                    ServerUtils.teleportToDimension(server.getLevel(GTODimensions.getDimensionKey(RLUtils.parse(dima))), player, new Vec3((double) pos.getX() / value, data.getDouble("y_f"), (double) pos.getZ() / value));
                 }
                 return;
             }
@@ -226,7 +226,7 @@ public final class ForgeCommonEvent {
                 } else {
                     String dima = data.getString("dim_v");
                     int value = "gtocore:flat".equals(dima) ? 1 : 10;
-                    ServerUtils.teleportToDimension(server.getLevel(GTODimensions.getDimensionKey(new ResourceLocation(dima))), player, new Vec3((double) pos.getX() / value, data.getDouble("y_v"), (double) pos.getZ() / value));
+                    ServerUtils.teleportToDimension(server.getLevel(GTODimensions.getDimensionKey(RLUtils.parse(dima))), player, new Vec3((double) pos.getX() / value, data.getDouble("y_v"), (double) pos.getZ() / value));
                 }
                 return;
             }
@@ -234,7 +234,7 @@ public final class ForgeCommonEvent {
             if (block == BlockRegisterUtils.REACTOR_CORE.get()) {
                 if ("gtocore:ancient_world".equals(dim) || "minecraft:the_nether".equals(dim)) {
                     int dimdata = "gtocore:ancient_world".equals(dim) ? 1 : 2;
-                    ServerUtils.teleportToDimension(server, player, new ResourceLocation(data.getString("dim_" + dimdata)), new Vec3(data.getDouble("pos_x_" + dimdata), data.getDouble("pos_y_" + dimdata), data.getDouble("pos_z_" + dimdata)));
+                    ServerUtils.teleportToDimension(server, player, RLUtils.parse(data.getString("dim_" + dimdata)), new Vec3(data.getDouble("pos_x_" + dimdata), data.getDouble("pos_y_" + dimdata), data.getDouble("pos_z_" + dimdata)));
                 }
             }
         }

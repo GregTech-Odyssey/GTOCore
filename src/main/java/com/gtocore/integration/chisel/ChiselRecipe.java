@@ -2,6 +2,8 @@ package com.gtocore.integration.chisel;
 
 import com.gtocore.common.data.machines.MultiBlockG;
 
+import com.gtolib.utils.RLUtils;
+
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -43,7 +45,7 @@ public final class ChiselRecipe {
     private static final class ChiselCategory extends EmiRecipeCategory {
 
         private ChiselCategory() {
-            super(new ResourceLocation("chisel", "chisel_recipes_category"), EmiStack.of(Chisel.chiselSupplier.get()));
+            super(RLUtils.fromNamespaceAndPath("chisel", "chisel_recipes_category"), EmiStack.of(Chisel.chiselSupplier.get()));
         }
 
         @Override
@@ -54,13 +56,13 @@ public final class ChiselRecipe {
 
     private static final class ChiselEmiRecipe implements EmiRecipe {
 
-        private static final ResourceLocation TEXTURE = new ResourceLocation("chisel", "textures/rei_recipes.png");
+        private static final ResourceLocation TEXTURE = RLUtils.fromNamespaceAndPath("chisel", "textures/rei_recipes.png");
         private final ResourceLocation id;
         private final List<EmiIngredient> input;
         private final List<EmiStack> output;
 
         private ChiselEmiRecipe(String chiselGroup, List<Item> list) {
-            this.id = new ResourceLocation("chisel", chiselGroup);
+            this.id = RLUtils.fromNamespaceAndPath("chisel", chiselGroup);
             this.input = new ArrayList<>();
             this.output = new ArrayList<>();
 

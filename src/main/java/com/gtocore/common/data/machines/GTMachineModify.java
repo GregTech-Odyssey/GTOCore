@@ -9,6 +9,7 @@ import com.gtolib.api.misc.PlanetManagement;
 import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
 import com.gtolib.api.recipe.modifier.RecipeModifierFunctionList;
 import com.gtolib.utils.MachineUtils;
+import com.gtolib.utils.RLUtils;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
@@ -24,7 +25,6 @@ import com.gregtechceu.gtceu.common.data.machines.GTMultiMachines;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 
 import java.util.List;
 import java.util.UUID;
@@ -149,7 +149,7 @@ public final class GTMachineModify {
                                 String planet = tag.getString("planet");
                                 if (!planet.isEmpty()) {
                                     UUID uuid = tag.getUUID("uuid");
-                                    PlanetManagement.unlock(uuid, new ResourceLocation(planet));
+                                    PlanetManagement.unlock(uuid, RLUtils.parse(planet));
                                     itemStack.setCount(0);
                                     return true;
                                 }

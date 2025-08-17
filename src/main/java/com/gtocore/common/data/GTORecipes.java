@@ -1,5 +1,7 @@
 package com.gtocore.common.data;
 
+import com.gtolib.utils.RLUtils;
+
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -31,7 +33,7 @@ public final class GTORecipes {
 
     public static Recipe<?> fromJson(ResourceLocation recipeId, JsonObject json, net.minecraftforge.common.crafting.conditions.ICondition.IContext context) {
         String s = GsonHelper.getAsString(json, "type");
-        RecipeSerializer<?> recipeSerializer = BuiltInRegistries.RECIPE_SERIALIZER.get(new ResourceLocation(s));
+        RecipeSerializer<?> recipeSerializer = BuiltInRegistries.RECIPE_SERIALIZER.get(RLUtils.parse(s));
         if (recipeSerializer == null) return null;
         return recipeSerializer.fromJson(recipeId, json, context);
     }

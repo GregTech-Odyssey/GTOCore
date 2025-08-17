@@ -1,6 +1,7 @@
 package com.gtocore.common.item;
 
 import com.gtolib.api.recipe.lookup.MapIngredient;
+import com.gtolib.utils.RLUtils;
 
 import com.gregtechceu.gtceu.api.data.DimensionMarker;
 import com.gregtechceu.gtceu.api.registry.GTRegistries;
@@ -33,7 +34,7 @@ public final class DimensionDataItem extends Item {
     }
 
     public static ResourceLocation getDimension(ItemStack stack) {
-        return new ResourceLocation(stack.getOrCreateTag().getString("dim"));
+        return RLUtils.parse(stack.getOrCreateTag().getString("dim"));
     }
 
     public static DimensionMarker getDimensionMarker(ItemStack stack) {
