@@ -45,12 +45,6 @@ import static com.gtocore.client.renderer.machine.MonitorRenderer.gridToNetworkC
 public final class Manager {
 
     private static final Queue<Runnable> Loading = new LinkedList<>();
-    /**
-     * The maximum allowed size for a grid in the system. This limit exists to ensure
-     * optimal performance and prevent excessive memory usage. Exceeding this limit
-     * may result in undefined behavior or errors during grid operations.
-     */
-    static final int MAX_GRID_SIZE = 16;
     static final Map<GridFacedPoint, GridNetwork> gridToNetwork = new ConcurrentHashMap<>();
 
     private Manager() {}
@@ -372,9 +366,10 @@ public final class Manager {
         }
 
         private boolean canMerge(GridNetwork other, Direction2D facing2D) {
+            var maxMonitorSize = GTOConfig.INSTANCE.maxMonitorSize;
             return other != null && other.facing == facing && other.color == color &&
-                    (facing2D.isHorizontal ? other.height() == this.height() && other.width() + this.width() <= MAX_GRID_SIZE :
-                            other.width() == this.width() && other.height() + this.height() <= MAX_GRID_SIZE);
+                    (facing2D.isHorizontal ? other.height() == this.height() && other.width() + this.width() <= maxMonitorSize :
+                            other.width() == this.width() && other.height() + this.height() <= maxMonitorSize);
         }
 
         private boolean tryMerge(Direction2D direction) {
@@ -457,9 +452,6 @@ public final class Manager {
          * @param point 要删除的点
          */
         private void split(GridFacedPoint point) {
-            // if (!points.remove(point)) {
-            // return; // 点不在网格中，直接返回
-            // }
             remove(point);
             if (points().size() <= 1) {
                 // 如果网格的宽度和高度都小于等于1，则说明该网格只包含一个点，

@@ -206,6 +206,12 @@ public final class GTOConfig {
     @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Show Item English Name", cn = "显示物品英文名称")
     public boolean showEnglishName = false;
 
+    @Configurable
+    @Configurable.Comment("调整监控器的最大成型尺寸")
+    @Configurable.Range(min = 4, max = 64)
+    @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Maximum Monitor Size", cn = "监控器最大尺寸")
+    public int maxMonitorSize = 16;
+
     // 开发和调试设置
     @Configurable
     @Configurable.Comment("开启开发者模式")

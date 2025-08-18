@@ -226,6 +226,8 @@ public final class LangHandler {
 
         addCNEN("gtocore.player.organ.name.other", "其它", "Other");
 
+        addCNEN("gtocoresatellite_control_center.emi.launch_satellite", "发射卫星", "Launch Satellite");
+
         addCNEN("effect.gtocore.mysterious_boost", "机械之神附身", "Possession of the Machine God");
         addCNEN("gtocore.death.attack.turbulence_of_another_star", "%s死于异星乱流，%s级别的星球需要%s器官改造", "%s died in the turbulence of another star, and a planet of %s level requires %s organ modification");
 

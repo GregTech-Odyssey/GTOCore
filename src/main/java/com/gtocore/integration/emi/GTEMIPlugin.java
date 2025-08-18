@@ -2,6 +2,7 @@ package com.gtocore.integration.emi;
 
 import com.gtocore.integration.chisel.ChiselRecipe;
 import com.gtocore.integration.emi.oreprocessing.OreProcessingEmiCategory;
+import com.gtocore.integration.emi.satellite.SatelliteEmiCategory;
 
 import com.gtolib.ae2.me2in1.Me2in1Menu;
 import com.gtolib.ae2.me2in1.UtilsMiscs;
@@ -109,10 +110,9 @@ public final class GTEMIPlugin implements EmiPlugin {
         registry.addRecipeHandler(ModularUIContainer.MENUTYPE, new GTEmiRecipeHandler());
         registry.addRecipeHandler(Me2in1Menu.TYPE, UtilsMiscs.createEMI2in1());
         registry.addRecipeHandler(Wireless.TYPE, UtilsMiscs.createEMIWireless());
-        registry.addRecipeHandler(PatternEncodingTermMenu.TYPE, new Ae2PatternTerminalHandler<>());
-        registry.addRecipeHandler(WETMenu.TYPE, new Ae2PatternTerminalHandler<>());
         registry.addRecipeHandler(WCTMenu.TYPE, new Ae2CraftingHandler<>(WCTMenu.class));
         registry.addRecipeHandler(WETMenu.TYPE, new com.hepdd.ae2emicraftingforge.client.handler.Ae2PatternTerminalHandler<>(WETMenu.class));
+        registry.addRecipeHandler(PatternEncodingTermMenu.TYPE, new com.hepdd.ae2emicraftingforge.client.handler.Ae2PatternTerminalHandler<>(PatternEncodingTermMenu.class));
         registry.addCategory(GTProgrammedCircuitCategory.CATEGORY);
 
         GTRecipeEMICategory.registerDisplays(registry);
@@ -120,6 +120,9 @@ public final class GTEMIPlugin implements EmiPlugin {
         GTOreVeinEmiCategory.registerDisplays(registry);
         GTBedrockFluidEmiCategory.registerDisplays(registry);
         GTProgrammedCircuitCategory.registerDisplays(registry);
+
+        SatelliteEmiCategory.register(registry);
+
         GTRecipeEMICategory.registerWorkStations(registry);
         GTOreVeinEmiCategory.registerWorkStations(registry);
         GTBedrockFluidEmiCategory.registerWorkStations(registry);

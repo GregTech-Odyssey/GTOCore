@@ -1,5 +1,7 @@
 package com.gtocore.common.machine.monitor;
 
+import com.gtocore.api.gui.helper.ProgressBarColorStyle;
+
 import com.gtolib.GTOCore;
 import com.gtolib.api.machine.mana.feature.IManaEnergyMachine;
 import com.gtolib.api.recipe.ContentBuilder;
@@ -48,6 +50,7 @@ import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import kotlin.Pair;
 import org.jetbrains.annotations.NotNull;
 import snownee.jade.api.BlockAccessor;
 import snownee.jade.api.IServerDataProvider;
@@ -64,6 +67,8 @@ public class MonitorMachine extends AbstractInfoProviderMonitor {
 
     @DescSynced
     private Component[] bufferCache = new Component[0];
+    @DescSynced
+    private float progress = 0.0F;
     private List<FormattedCharSequence> textListCache;
     private BlockPos pos;
     private BlockEntity tile;
@@ -114,9 +119,17 @@ public class MonitorMachine extends AbstractInfoProviderMonitor {
         if (bufferCache.length == DISPLAY_REGISTRY.size()) {
             for (int i = 0; i < bufferCache.length; i++) {
                 if (DISPLAY_REGISTRY.containsKey(i) && bufferCache[i] != null && !bufferCache[i].equals(Component.empty())) {
-                    informationList.addIfAbsent(
-                            DISPLAY_REGISTRY.get(i).id(),
-                            bufferCache[i].getVisualOrderText());
+                    if (DISPLAY_REGISTRY.get(i) == DisplayRegistry.MACHINE_PROGRESS) {
+                        var c = bufferCache[i];
+                        informationList.addIfAbsent(
+                                DISPLAY_REGISTRY.get(i).id(),
+                                DisplayComponent.progressBar(
+                                        DISPLAY_REGISTRY.get(i).id(), progress, 50, 16, c.getString(), ProgressBarColorStyle.Companion.getDURATION()));
+                    } else {
+                        informationList.addIfAbsent(
+                                DISPLAY_REGISTRY.get(i).id(),
+                                bufferCache[i].getVisualOrderText());
+                    }
                 }
             }
         }
@@ -265,9 +278,11 @@ public class MonitorMachine extends AbstractInfoProviderMonitor {
                 // 能量
                 textListCache[IndexOf(DisplayRegistry.MACHINE_ENERGY)] = getEnergyComponent(tags);
                 // 进度
-                textListCache[IndexOf(DisplayRegistry.MACHINE_PROGRESS)] = getProgressComponent(tags);
+                var progressPair = getProgressComponent(tags);
+                textListCache[IndexOf(DisplayRegistry.MACHINE_PROGRESS)] = progressPair.getFirst();
+                progress = progressPair.getSecond();
 
-                var recipeLogic = getRecipeLogicComponents(tags);
+                var recipeLogic = getRecipeLogicComponents(tile, tags);
                 // 能耗/产能(EU)
                 textListCache[IndexOf(DisplayRegistry.MACHINE_RECIPE_LOGIC_EU)] = recipeLogic[0];
                 // 能耗/产能(Mana)
@@ -290,7 +305,7 @@ public class MonitorMachine extends AbstractInfoProviderMonitor {
         return new Component[0];
     }
 
-    private Component getEnergyComponent(CompoundTag tags) {
+    private static Component getEnergyComponent(CompoundTag tags) {
         Component component = Component.empty();
         CompoundTag capData = tags.getCompound(GTCEu.id("electric_container_provider").toString()).getCompound("null");
         if (capData.contains("Energy") || capData.contains("MaxEnergy")) {
@@ -306,12 +321,14 @@ public class MonitorMachine extends AbstractInfoProviderMonitor {
         return component;
     }
 
-    private Component getProgressComponent(CompoundTag tags) {
+    private static Pair<Component, Float> getProgressComponent(CompoundTag tags) {
         Component component = Component.empty();
+        float progress = 0.0F;
         CompoundTag capData = tags.getCompound(GTCEu.id("workable_provider").toString()).getCompound("null");
         if (capData.getBoolean("Active")) {
             int currentProgress = capData.getInt("Progress");
             int maxProgress = capData.getInt("MaxProgress");
+            progress = (float) currentProgress / (float) maxProgress;
             if (capData.getBoolean("Research")) {
                 String current = FormattingUtil.formatNumberReadable(currentProgress);
                 String max = FormattingUtil.formatNumberReadable(maxProgress);
@@ -328,12 +345,11 @@ public class MonitorMachine extends AbstractInfoProviderMonitor {
                 }
             }
         }
-        return component;
+        return new Pair<>(component, progress);
     }
 
-    private Component[] getRecipeLogicComponents(CompoundTag tags) {
+    private static Component[] getRecipeLogicComponents(BlockEntity tile, CompoundTag capData) {
         Component[] components = new Component[] { Component.empty(), Component.empty() };
-        CompoundTag capData = tags.getCompound(GTCEu.id("recipe_logic_provider").toString()).getCompound("null");
         if (capData.getBoolean("Working")) {
             var recipeInfo = capData.getCompound("Recipe");
             if (!recipeInfo.isEmpty()) {
@@ -443,7 +459,7 @@ public class MonitorMachine extends AbstractInfoProviderMonitor {
         return components;
     }
 
-    private Component[] getRecipeOutputComponents(CompoundTag tags) {
+    private static Component[] getRecipeOutputComponents(CompoundTag tags) {
         Component[] components = new Component[] { Component.empty(), Component.empty(), Component.empty(), Component.empty(), Component.empty(), Component.empty(), Component.empty() };
 
         CompoundTag capData = tags.getCompound(GTCEu.id("recipe_output_info").toString()).getCompound("null");
@@ -513,7 +529,7 @@ public class MonitorMachine extends AbstractInfoProviderMonitor {
         return components;
     }
 
-    private Component getMantenanceComponent(CompoundTag tags) {
+    private static Component getMantenanceComponent(CompoundTag tags) {
         Component component = Component.empty();
         CompoundTag capData = tags.getCompound(GTCEu.id("maintenance_info").toString()).getCompound("null");
         if (capData.contains("hasProblems", 1)) {
@@ -537,11 +553,11 @@ public class MonitorMachine extends AbstractInfoProviderMonitor {
         return rls;
     }
 
-    private Component getItemName(ItemStack stack) {
+    private static Component getItemName(ItemStack stack) {
         return ComponentUtils.wrapInSquareBrackets(stack.getItem().getDescription()).withStyle(ChatFormatting.WHITE);
     }
 
-    private Component getFluidName(FluidStack stack) {
+    private static Component getFluidName(FluidStack stack) {
         return ComponentUtils.wrapInSquareBrackets(stack.getDisplayName()).withStyle(ChatFormatting.WHITE);
     }
 

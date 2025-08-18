@@ -79,10 +79,10 @@ public final class SatelliteControlCenterMachine extends ElectricMultiblockMachi
         buttonText.append(ComponentPanelWidget.withButton(Component.literal("[+]"), "add"));
         textList.add(buttonText);
         textList.add(Component.translatable("tooltip.avaritia.tier", Wrapper.LIST[index].getTier()));
-        Item item = Wrapper.ROCKET.get(Wrapper.LIST[index].getTier());
+        Item item = getRocket(Wrapper.LIST[index].getTier());
         if (item != null) {
             textList.add(Component.translatable(ROCKET).append(item.getDescription()));
-            textList.add(Component.translatable(FUEL).append(Wrapper.FUEL.get(Wrapper.LIST[index].getTier()).getDisplayName()));
+            textList.add(Component.translatable(FUEL).append(getFuel(Wrapper.LIST[index].getTier()).getDisplayName()));
             textList.add(ComponentPanelWidget.withButton(Component.translatable("gtocore.machine.space_elevator.set_out"), "set_out"));
         }
     }
@@ -110,9 +110,9 @@ public final class SatelliteControlCenterMachine extends ElectricMultiblockMachi
     private Recipe getRecipe() {
         if (launch && getTier() > GTValues.MV && getOwnerUUID() != null) {
             launch = false;
-            Item item = Wrapper.ROCKET.get(Wrapper.LIST[index].getTier());
+            Item item = getRocket(Wrapper.LIST[index].getTier());
             if (item == null) return null;
-            Recipe recipe = getRecipeBuilder().duration(6000).inputItems(GTOItems.PLANET_SCAN_SATELLITE.asStack()).outputItems(item).inputFluids(Wrapper.FUEL.get(Wrapper.LIST[index].getTier())).inputItems(item).inputItems(GTOItems.PLANET_DATA_CHIP.asStack()).outputItems(GTOItems.PLANET_DATA_CHIP.get().getPlanetDataChip(getOwnerUUID(), Wrapper.LIST[index].getLocation())).EUt(getOverclockVoltage()).buildRawRecipe();
+            Recipe recipe = getRecipeBuilder().duration(6000).inputItems(GTOItems.PLANET_SCAN_SATELLITE.asStack()).outputItems(item).inputFluids(getFuel(Wrapper.LIST[index].getTier())).inputItems(item).inputItems(GTOItems.PLANET_DATA_CHIP.asStack()).outputItems(GTOItems.PLANET_DATA_CHIP.get().getPlanetDataChip(getOwnerUUID(), Wrapper.LIST[index].getLocation())).EUt(getOverclockVoltage()).buildRawRecipe();
             if (RecipeRunner.matchRecipe(this, recipe) && RecipeRunner.matchTickRecipe(this, recipe)) return recipe;
         }
         return null;
@@ -129,21 +129,33 @@ public final class SatelliteControlCenterMachine extends ElectricMultiblockMachi
         return MANAGED_FIELD_HOLDER;
     }
 
+    public static Dimension[] getPlanets() {
+        return Wrapper.LIST;
+    }
+
+    public static Item getRocket(int tier) {
+        return Wrapper.ROCKET.get(tier);
+    }
+
+    public static FluidStack getFuel(int tier) {
+        return Wrapper.FUEL.get(tier);
+    }
+
     private static class Wrapper {
 
-        private static final Map<Integer, Item> ROCKET = GTCEu.isProd() ? Map.of(1,
-                ModItems.TIER_1_ROCKET.get(), 2,
-                ModItems.TIER_2_ROCKET.get(), 3,
-                ModItems.TIER_3_ROCKET.get(), 4,
-                ModItems.TIER_4_ROCKET.get(), 5,
-                RegistriesUtils.getItem("ad_astra_rocketed:tier_5_rocket"), 6,
-                RegistriesUtils.getItem("ad_astra_rocketed:tier_6_rocket"), 7,
-                RegistriesUtils.getItem("ad_astra_rocketed:tier_7_rocket")) :
-                Map.of(1,
-                        ModItems.TIER_1_ROCKET.get(), 2,
-                        ModItems.TIER_2_ROCKET.get(), 3,
-                        ModItems.TIER_3_ROCKET.get(), 4,
-                        ModItems.TIER_4_ROCKET.get());
+        private static final Map<Integer, Item> ROCKET = GTCEu.isProd() ? Map.of(
+                1, ModItems.TIER_1_ROCKET.get(),
+                2, ModItems.TIER_2_ROCKET.get(),
+                3, ModItems.TIER_3_ROCKET.get(),
+                4, ModItems.TIER_4_ROCKET.get(),
+                5, RegistriesUtils.getItem("ad_astra_rocketed:tier_5_rocket"),
+                6, RegistriesUtils.getItem("ad_astra_rocketed:tier_6_rocket"),
+                7, RegistriesUtils.getItem("ad_astra_rocketed:tier_7_rocket")) :
+                Map.of(
+                        1, ModItems.TIER_1_ROCKET.get(),
+                        2, ModItems.TIER_2_ROCKET.get(),
+                        3, ModItems.TIER_3_ROCKET.get(),
+                        4, ModItems.TIER_4_ROCKET.get());
 
         private static final Map<Integer, FluidStack> FUEL = Map.of(
                 1, GTMaterials.RocketFuel.getFluid(16000),
