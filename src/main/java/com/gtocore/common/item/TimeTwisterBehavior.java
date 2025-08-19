@@ -7,7 +7,6 @@ import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.feature.IOverclockMachine;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
-import com.gregtechceu.gtceu.common.data.GTRecipeCapabilities;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.gtocore.common.entity.TaskEntity;
 import com.hepdd.gtmthings.api.misc.WirelessEnergyContainer;
@@ -62,7 +61,7 @@ public final class TimeTwisterBehavior implements IInteractionItem {
             if (machine instanceof IOverclockMachine overclockMachine) {
 
                 GTRecipe recipe = recipeLogic.getLastOriginRecipe();
-                if (recipe == null || recipe.tickOutputs.containsKey(GTRecipeCapabilities.EU)) {
+                if (recipe == null || recipe.getOutputEUt() > 0) {
                     return false;
                 }
 
