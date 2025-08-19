@@ -1,15 +1,16 @@
 package com.gtocore.common.item;
 
-import com.gtocore.common.entity.TaskEntity;
-
 import com.gregtechceu.gtceu.api.block.MetaMachineBlock;
 import com.gregtechceu.gtceu.api.capability.GTCapabilityHelper;
 import com.gregtechceu.gtceu.api.item.component.IInteractionItem;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.feature.IOverclockMachine;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
+import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.common.data.GTRecipeCapabilities;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
-
+import com.gtocore.common.entity.TaskEntity;
+import com.hepdd.gtmthings.api.misc.WirelessEnergyContainer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
@@ -23,8 +24,6 @@ import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.state.BlockState;
-
-import com.hepdd.gtmthings.api.misc.WirelessEnergyContainer;
 
 public final class TimeTwisterBehavior implements IInteractionItem {
 
@@ -61,6 +60,12 @@ public final class TimeTwisterBehavior implements IInteractionItem {
         if (recipeLogic != null && recipeLogic.isWorking()) {
             MetaMachine machine = recipeLogic.getMachine();
             if (machine instanceof IOverclockMachine overclockMachine) {
+
+                GTRecipe recipe = recipeLogic.getLastOriginRecipe();
+                if (recipe == null || recipe.tickOutputs.containsKey(GTRecipeCapabilities.EU)) {
+                    return false;
+                }
+
                 int reducedDuration = (int) ((recipeLogic.getDuration() - recipeLogic.getProgress()) * 0.5);
                 long eu = 8 * reducedDuration * overclockMachine.getOverclockVoltage();
                 if (eu > 0 && container.removeEnergy(eu, null) == eu) {
@@ -99,7 +104,8 @@ public final class TimeTwisterBehavior implements IInteractionItem {
     private static void tickBlock(Level level, BlockPos pos, int tick) {
         BlockState blockState = level.getBlockState(pos);
         Block block = blockState.getBlock();
-        if (level instanceof ServerLevel && block.isRandomlyTicking(blockState)) blockState.randomTick((ServerLevel) level, pos, level.getRandom());
+        if (level instanceof ServerLevel && block.isRandomlyTicking(blockState))
+            blockState.randomTick((ServerLevel) level, pos, level.getRandom());
         if (block instanceof EntityBlock entityBlock) {
             BlockEntity blockEntity = level.getBlockEntity(pos);
             if (blockEntity == null) return;
