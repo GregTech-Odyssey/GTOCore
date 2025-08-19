@@ -111,8 +111,8 @@ public final class GTEMIPlugin implements EmiPlugin {
         registry.addRecipeHandler(Me2in1Menu.TYPE, UtilsMiscs.createEMI2in1());
         registry.addRecipeHandler(Wireless.TYPE, UtilsMiscs.createEMIWireless());
         registry.addRecipeHandler(WCTMenu.TYPE, new Ae2CraftingHandler<>(WCTMenu.class));
-        registry.addRecipeHandler(WETMenu.TYPE, new com.hepdd.ae2emicraftingforge.client.handler.Ae2PatternTerminalHandler<>(WETMenu.class));
-        registry.addRecipeHandler(PatternEncodingTermMenu.TYPE, new com.hepdd.ae2emicraftingforge.client.handler.Ae2PatternTerminalHandler<>(PatternEncodingTermMenu.class));
+        registry.addRecipeHandler(WETMenu.TYPE, new GTAe2PatternTerminalHandler<>());
+        registry.addRecipeHandler(PatternEncodingTermMenu.TYPE, new GTAe2PatternTerminalHandler<>());
         registry.addCategory(GTProgrammedCircuitCategory.CATEGORY);
 
         GTRecipeEMICategory.registerDisplays(registry);
