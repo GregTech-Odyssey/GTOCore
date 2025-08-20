@@ -207,5 +207,95 @@ final class Canner {
                 .EUt(30)
                 .duration(100)
                 .save();
+
+        CANNER_RECIPES.builder("thorium_breeder_rod")
+                .inputItems(GTOItems.TUNGSTEN_CARBIDE_REACTOR_FUEL_ROD.asItem())
+                .inputItems(TagPrefix.dust, GTMaterials.Thorium, 12)
+                .outputItems(GTOTagPrefix.BREEDER_ROD, GTMaterials.Thorium)
+                .inputFluids(GTMaterials.Thorium, 576)
+                .EUt(30720)
+                .duration(160)
+                .save();
+
+        CANNER_RECIPES.builder("protactinium_breeder_rod")
+                .inputItems(GTOItems.TUNGSTEN_CARBIDE_REACTOR_FUEL_ROD.asItem())
+                .inputItems(TagPrefix.dust, GTMaterials.Protactinium, 12)
+                .outputItems(GTOTagPrefix.BREEDER_ROD, GTMaterials.Protactinium)
+                .inputFluids(GTMaterials.Protactinium, 576)
+                .EUt(30720)
+                .duration(160)
+                .save();
+
+        CANNER_RECIPES.builder("uranium_235_breeder_rod")
+                .inputItems(GTOItems.TUNGSTEN_CARBIDE_REACTOR_FUEL_ROD.asItem())
+                .inputItems(TagPrefix.dust, GTMaterials.Uranium235, 12)
+                .outputItems(GTOTagPrefix.BREEDER_ROD, GTMaterials.Uranium235)
+                .inputFluids(GTMaterials.Uranium235, 576)
+                .EUt(30720)
+                .duration(160)
+                .save();
+
+        CANNER_RECIPES.builder("uranium_breeder_rod")
+                .inputItems(GTOItems.TUNGSTEN_CARBIDE_REACTOR_FUEL_ROD.asItem())
+                .inputItems(TagPrefix.dust, GTMaterials.Uranium238, 12)
+                .outputItems(GTOTagPrefix.BREEDER_ROD, GTMaterials.Uranium238)
+                .inputFluids(GTMaterials.Uranium238, 576)
+                .EUt(30720)
+                .duration(160)
+                .save();
+
+        CANNER_RECIPES.builder("neptunium_breeder_rod")
+                .inputItems(GTOItems.TUNGSTEN_CARBIDE_REACTOR_FUEL_ROD.asItem())
+                .inputItems(TagPrefix.dust, GTMaterials.Neptunium, 12)
+                .outputItems(GTOTagPrefix.BREEDER_ROD, GTMaterials.Neptunium)
+                .inputFluids(GTMaterials.Neptunium, 576)
+                .EUt(30720)
+                .duration(160)
+                .save();
+
+        CANNER_RECIPES.builder("plutonium_breeder_rod")
+                .inputItems(GTOItems.TUNGSTEN_CARBIDE_REACTOR_FUEL_ROD.asItem())
+                .inputItems(TagPrefix.dust, GTMaterials.Plutonium239, 12)
+                .outputItems(GTOTagPrefix.BREEDER_ROD, GTMaterials.Plutonium239)
+                .inputFluids(GTMaterials.Plutonium239, 576)
+                .EUt(30720)
+                .duration(160)
+                .save();
+
+        CANNER_RECIPES.builder("plutonium_241_breeder_rod")
+                .inputItems(GTOItems.TUNGSTEN_CARBIDE_REACTOR_FUEL_ROD.asItem())
+                .inputItems(TagPrefix.dust, GTMaterials.Plutonium241, 12)
+                .outputItems(GTOTagPrefix.BREEDER_ROD, GTMaterials.Plutonium241)
+                .inputFluids(GTMaterials.Plutonium241, 576)
+                .EUt(30720)
+                .duration(160)
+                .save();
+
+        CANNER_RECIPES.builder("americium_breeder_rod")
+                .inputItems(GTOItems.TUNGSTEN_CARBIDE_REACTOR_FUEL_ROD.asItem())
+                .inputItems(TagPrefix.dust, GTMaterials.Americium, 12)
+                .outputItems(GTOTagPrefix.BREEDER_ROD, GTMaterials.Americium)
+                .inputFluids(GTMaterials.Americium, 576)
+                .EUt(30720)
+                .duration(160)
+                .save();
+
+        CANNER_RECIPES.builder("berkelium_breeder_rod")
+                .inputItems(GTOItems.TUNGSTEN_CARBIDE_REACTOR_FUEL_ROD.asItem())
+                .inputItems(TagPrefix.dust, GTMaterials.Berkelium, 12)
+                .outputItems(GTOTagPrefix.BREEDER_ROD, GTMaterials.Berkelium)
+                .inputFluids(GTMaterials.Berkelium, 576)
+                .EUt(30720)
+                .duration(160)
+                .save();
+
+        CANNER_RECIPES.builder("curium_breeder_rod")
+                .inputItems(GTOItems.TUNGSTEN_CARBIDE_REACTOR_FUEL_ROD.asItem())
+                .inputItems(TagPrefix.dust, GTMaterials.Curium, 12)
+                .outputItems(GTOTagPrefix.BREEDER_ROD, GTMaterials.Curium)
+                .inputFluids(GTMaterials.Curium, 576)
+                .EUt(30720)
+                .duration(160)
+                .save();
     }
 }

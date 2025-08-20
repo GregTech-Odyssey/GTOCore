@@ -1,5 +1,6 @@
 package com.gtocore.data.recipe.classified;
 
+import com.gtocore.api.data.tag.GTOTagPrefix;
 import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.data.GTOMaterials;
 import com.gtocore.common.recipe.condition.GravityCondition;
@@ -322,6 +323,215 @@ final class Centrifuge {
                 .EUt(480)
                 .duration(50)
                 .cleanroom(CleanroomType.STERILE_CLEANROOM)
+                .save();
+
+        CENTRIFUGE_RECIPES.builder("stainless_steel_target_base")
+                .inputItems(GTOTagPrefix.EXCITED_STAINLESS_STEEL_TARGET, GTMaterials.Uranium235)
+                .outputItems(GTOTagPrefix.TARGET_BASE, GTMaterials.StainlessSteel)
+                .outputItems(TagPrefix.dustSmall, GTMaterials.Uranium235, 6)
+                .outputItems(TagPrefix.dustSmall, GTMaterials.Astatine, 3)
+                .outputItems(TagPrefix.dustSmall, GTMaterials.Protactinium, 3)
+                .outputItems(TagPrefix.dustSmall, GTMaterials.Uranium238, 3)
+                .outputItems(TagPrefix.dustSmall, GTMaterials.Neptunium)
+                .EUt(30720)
+                .duration(640)
+                .save();
+
+        CENTRIFUGE_RECIPES.builder("stainless_steel_target_base")
+                .inputItems(GTOTagPrefix.EXCITED_STAINLESS_STEEL_TARGET, GTMaterials.Uranium238)
+                .outputItems(GTOTagPrefix.TARGET_BASE, GTMaterials.StainlessSteel)
+                .outputItems(TagPrefix.dustSmall, GTMaterials.Uranium238, 6)
+                .outputItems(TagPrefix.dustSmall, GTMaterials.Astatine, 3)
+                .outputItems(TagPrefix.dustSmall, GTMaterials.Protactinium, 3)
+                .outputItems(TagPrefix.dustSmall, GTMaterials.Uranium235, 3)
+                .outputItems(TagPrefix.dustSmall, GTMaterials.Neptunium)
+                .EUt(30720)
+                .duration(640)
+                .save();
+
+        CENTRIFUGE_RECIPES.builder("stainless_steel_target_base")
+                .inputItems(GTOTagPrefix.EXCITED_STAINLESS_STEEL_TARGET, GTMaterials.Neptunium)
+                .outputItems(GTOTagPrefix.TARGET_BASE, GTMaterials.StainlessSteel)
+                .outputItems(TagPrefix.dustSmall, GTMaterials.Neptunium, 6)
+                .outputItems(TagPrefix.dustSmall, GTMaterials.Radium, 3)
+                .outputItems(TagPrefix.dustSmall, GTMaterials.Uranium235, 3)
+                .outputItems(TagPrefix.dustSmall, GTMaterials.Uranium238, 3)
+                .outputItems(TagPrefix.dustSmall, GTMaterials.Plutonium239)
+                .EUt(30720)
+                .duration(640)
+                .save();
+
+        CENTRIFUGE_RECIPES.builder("stainless_steel_target_base")
+                .inputItems(GTOTagPrefix.EXCITED_STAINLESS_STEEL_TARGET, GTMaterials.Plutonium239)
+                .outputItems(GTOTagPrefix.TARGET_BASE, GTMaterials.StainlessSteel)
+                .outputItems(TagPrefix.dustSmall, GTMaterials.Plutonium239, 6)
+                .outputItems(TagPrefix.dustSmall, GTMaterials.Actinium, 3)
+                .outputItems(TagPrefix.dustSmall, GTMaterials.Neptunium, 3)
+                .outputItems(TagPrefix.dustSmall, GTMaterials.Plutonium241, 3)
+                .outputItems(TagPrefix.dustSmall, GTMaterials.Americium)
+                .EUt(122880)
+                .duration(640)
+                .save();
+
+        CENTRIFUGE_RECIPES.builder("stainless_steel_target_base")
+                .inputItems(GTOTagPrefix.EXCITED_STAINLESS_STEEL_TARGET, GTMaterials.Plutonium241)
+                .outputItems(GTOTagPrefix.TARGET_BASE, GTMaterials.StainlessSteel)
+                .outputItems(TagPrefix.dustSmall, GTMaterials.Plutonium241, 6)
+                .outputItems(TagPrefix.dustSmall, GTMaterials.Actinium, 3)
+                .outputItems(TagPrefix.dustSmall, GTMaterials.Neptunium, 3)
+                .outputItems(TagPrefix.dustSmall, GTMaterials.Plutonium239, 3)
+                .outputItems(TagPrefix.dustSmall, GTMaterials.Americium)
+                .EUt(122880)
+                .duration(640)
+                .save();
+
+        CENTRIFUGE_RECIPES.builder("stainless_steel_target_base")
+                .inputItems(GTOTagPrefix.EXCITED_STAINLESS_STEEL_TARGET, GTMaterials.Americium)
+                .outputItems(GTOTagPrefix.TARGET_BASE, GTMaterials.StainlessSteel)
+                .outputItems(TagPrefix.dustSmall, GTMaterials.Americium, 6)
+                .outputItems(TagPrefix.dustSmall, GTMaterials.Thallium, 3)
+                .outputItems(TagPrefix.dustSmall, GTMaterials.Plutonium239, 3)
+                .outputItems(TagPrefix.dustSmall, GTMaterials.Plutonium241, 3)
+                .outputItems(TagPrefix.dustSmall, GTMaterials.Curium)
+                .EUt(122880)
+                .duration(640)
+                .save();
+
+        CENTRIFUGE_RECIPES.builder("stainless_steel_target_base")
+                .inputItems(GTOTagPrefix.EXCITED_STAINLESS_STEEL_TARGET, GTMaterials.Curium)
+                .outputItems(GTOTagPrefix.TARGET_BASE, GTMaterials.StainlessSteel)
+                .outputItems(TagPrefix.dustSmall, GTMaterials.Curium, 6)
+                .outputItems(TagPrefix.dustSmall, GTMaterials.Thallium, 3)
+                .outputItems(TagPrefix.dustSmall, GTMaterials.Plutonium241, 3)
+                .outputItems(TagPrefix.dustSmall, GTMaterials.Americium, 3)
+                .outputItems(TagPrefix.dustSmall, GTMaterials.Berkelium)
+                .EUt(122880)
+                .duration(640)
+                .save();
+
+        CENTRIFUGE_RECIPES.builder("stainless_steel_target_base")
+                .inputItems(GTOTagPrefix.EXCITED_STAINLESS_STEEL_TARGET, GTMaterials.Berkelium)
+                .outputItems(GTOTagPrefix.TARGET_BASE, GTMaterials.StainlessSteel)
+                .outputItems(TagPrefix.dustSmall, GTMaterials.Berkelium, 6)
+                .outputItems(TagPrefix.dustSmall, GTMaterials.Technetium, 3)
+                .outputItems(TagPrefix.dustSmall, GTMaterials.Americium, 3)
+                .outputItems(TagPrefix.dustSmall, GTMaterials.Curium, 3)
+                .outputItems(TagPrefix.dustSmall, GTMaterials.Californium)
+                .EUt(491520)
+                .duration(640)
+                .save();
+
+        CENTRIFUGE_RECIPES.builder("tungsten_carbide_reactor_fuel_rod")
+                .inputItems(GTOTagPrefix.BREEDER_ROD, GTMaterials.Thorium)
+                .outputItems(GTOItems.TUNGSTEN_CARBIDE_REACTOR_FUEL_ROD.asItem())
+                .outputItems(TagPrefix.dust, GTMaterials.Thorium, 3)
+                .outputItems(TagPrefix.dust, GTMaterials.Protactinium, 6)
+                .outputItems(TagPrefix.dust, GTMaterials.Uranium238, 3)
+                .outputItems(TagPrefix.dust, GTMaterials.Uranium235, 3)
+                .outputItems(TagPrefix.dust, GTMaterials.Thallium)
+                .EUt(30720)
+                .duration(320)
+                .save();
+
+        CENTRIFUGE_RECIPES.builder("tungsten_carbide_reactor_fuel_rod")
+                .inputItems(GTOTagPrefix.BREEDER_ROD, GTMaterials.Protactinium)
+                .outputItems(GTOItems.TUNGSTEN_CARBIDE_REACTOR_FUEL_ROD.asItem())
+                .outputItems(TagPrefix.dust, GTMaterials.Protactinium, 3)
+                .outputItems(TagPrefix.dust, GTMaterials.Uranium238, 6)
+                .outputItems(TagPrefix.dust, GTMaterials.Uranium235, 6)
+                .outputItems(TagPrefix.dust, GTMaterials.Thallium)
+                .EUt(30720)
+                .duration(320)
+                .save();
+
+        CENTRIFUGE_RECIPES.builder("tungsten_carbide_reactor_fuel_rod")
+                .inputItems(GTOTagPrefix.BREEDER_ROD, GTMaterials.Uranium235)
+                .outputItems(GTOItems.TUNGSTEN_CARBIDE_REACTOR_FUEL_ROD.asItem())
+                .outputItems(TagPrefix.dust, GTMaterials.Uranium235, 4)
+                .outputItems(TagPrefix.dust, GTMaterials.Uranium238, 2)
+                .outputItems(TagPrefix.dust, GTMaterials.Neptunium, 9)
+                .outputItems(TagPrefix.dust, GTMaterials.Astatine)
+                .EUt(30720)
+                .duration(320)
+                .save();
+
+        CENTRIFUGE_RECIPES.builder("tungsten_carbide_reactor_fuel_rod")
+                .inputItems(GTOTagPrefix.BREEDER_ROD, GTMaterials.Uranium238)
+                .outputItems(GTOItems.TUNGSTEN_CARBIDE_REACTOR_FUEL_ROD.asItem())
+                .outputItems(TagPrefix.dust, GTMaterials.Uranium238, 4)
+                .outputItems(TagPrefix.dust, GTMaterials.Uranium235, 2)
+                .outputItems(TagPrefix.dust, GTMaterials.Neptunium, 9)
+                .outputItems(TagPrefix.dust, GTMaterials.Astatine)
+                .EUt(30720)
+                .duration(320)
+                .save();
+
+        CENTRIFUGE_RECIPES.builder("tungsten_carbide_reactor_fuel_rod")
+                .inputItems(GTOTagPrefix.BREEDER_ROD, GTMaterials.Neptunium)
+                .outputItems(GTOItems.TUNGSTEN_CARBIDE_REACTOR_FUEL_ROD.asItem())
+                .outputItems(TagPrefix.dust, GTMaterials.Neptunium, 3)
+                .outputItems(TagPrefix.dust, GTMaterials.Plutonium239, 6)
+                .outputItems(TagPrefix.dust, GTMaterials.Plutonium241, 6)
+                .outputItems(TagPrefix.dust, GTMaterials.Astatine)
+                .EUt(30720)
+                .duration(320)
+                .save();
+
+        CENTRIFUGE_RECIPES.builder("tungsten_carbide_reactor_fuel_rod")
+                .inputItems(GTOTagPrefix.BREEDER_ROD, GTMaterials.Plutonium239)
+                .outputItems(GTOItems.TUNGSTEN_CARBIDE_REACTOR_FUEL_ROD.asItem())
+                .outputItems(TagPrefix.dust, GTMaterials.Plutonium239, 4)
+                .outputItems(TagPrefix.dust, GTMaterials.Plutonium241, 2)
+                .outputItems(TagPrefix.dust, GTMaterials.Americium, 9)
+                .outputItems(TagPrefix.dust, GTMaterials.Radium)
+                .EUt(122880)
+                .duration(320)
+                .save();
+
+        CENTRIFUGE_RECIPES.builder("tungsten_carbide_reactor_fuel_rod")
+                .inputItems(GTOTagPrefix.BREEDER_ROD, GTMaterials.Plutonium241)
+                .outputItems(GTOItems.TUNGSTEN_CARBIDE_REACTOR_FUEL_ROD.asItem())
+                .outputItems(TagPrefix.dust, GTMaterials.Plutonium241, 4)
+                .outputItems(TagPrefix.dust, GTMaterials.Plutonium239, 2)
+                .outputItems(TagPrefix.dust, GTMaterials.Americium, 9)
+                .outputItems(TagPrefix.dust, GTMaterials.Radium)
+                .EUt(122880)
+                .duration(320)
+                .save();
+
+        CENTRIFUGE_RECIPES.builder("tungsten_carbide_reactor_fuel_rod")
+                .inputItems(GTOTagPrefix.BREEDER_ROD, GTMaterials.Americium)
+                .outputItems(GTOItems.TUNGSTEN_CARBIDE_REACTOR_FUEL_ROD.asItem())
+                .outputItems(TagPrefix.dust, GTMaterials.Americium, 3)
+                .outputItems(TagPrefix.dust, GTMaterials.Plutonium239, 3)
+                .outputItems(TagPrefix.dust, GTMaterials.Plutonium241, 3)
+                .outputItems(TagPrefix.dust, GTMaterials.Curium, 6)
+                .outputItems(TagPrefix.dust, GTMaterials.Radium)
+                .EUt(122880)
+                .duration(320)
+                .save();
+
+        CENTRIFUGE_RECIPES.builder("tungsten_carbide_reactor_fuel_rod")
+                .inputItems(GTOTagPrefix.BREEDER_ROD, GTMaterials.Curium)
+                .outputItems(GTOItems.TUNGSTEN_CARBIDE_REACTOR_FUEL_ROD.asItem())
+                .outputItems(TagPrefix.dust, GTMaterials.Curium, 3)
+                .outputItems(TagPrefix.dust, GTMaterials.Berkelium, 9)
+                .outputItems(TagPrefix.dust, GTMaterials.Astatine, 2)
+                .outputItems(TagPrefix.dust, GTMaterials.Radium)
+                .outputItems(TagPrefix.dust, GTMaterials.Actinium)
+                .EUt(122880)
+                .duration(320)
+                .save();
+
+        CENTRIFUGE_RECIPES.builder("tungsten_carbide_reactor_fuel_rod")
+                .inputItems(GTOTagPrefix.BREEDER_ROD, GTMaterials.Berkelium)
+                .outputItems(GTOItems.TUNGSTEN_CARBIDE_REACTOR_FUEL_ROD.asItem())
+                .outputItems(TagPrefix.dust, GTMaterials.Berkelium, 3)
+                .outputItems(TagPrefix.dust, GTMaterials.Californium, 9)
+                .outputItems(TagPrefix.dust, GTOMaterials.Californium252Source, 3)
+                .outputItems(TagPrefix.dust, GTMaterials.Actinium)
+                .EUt(491520)
+                .duration(320)
                 .save();
     }
 }

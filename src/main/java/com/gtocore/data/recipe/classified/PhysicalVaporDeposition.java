@@ -1,5 +1,6 @@
 package com.gtocore.data.recipe.classified;
 
+import com.gtocore.api.data.tag.GTOTagPrefix;
 import com.gtocore.common.data.GTOBlocks;
 import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.data.GTOMaterials;
@@ -65,6 +66,70 @@ final class PhysicalVaporDeposition {
                 .EUt(491520)
                 .duration(200)
                 .cleanroom(CleanroomType.CLEANROOM)
+                .save();
+
+        PHYSICAL_VAPOR_DEPOSITION_RECIPES.builder("uranium_235_stainless_steel_target")
+                .inputItems(GTOTagPrefix.TARGET_BASE, GTMaterials.StainlessSteel)
+                .outputItems(GTOTagPrefix.STAINLESS_STEEL_TARGET, GTMaterials.Uranium235)
+                .inputFluids(GTMaterials.Uranium235, 576)
+                .EUt(30720)
+                .duration(640)
+                .save();
+
+        PHYSICAL_VAPOR_DEPOSITION_RECIPES.builder("uranium_stainless_steel_target")
+                .inputItems(GTOTagPrefix.TARGET_BASE, GTMaterials.StainlessSteel)
+                .outputItems(GTOTagPrefix.STAINLESS_STEEL_TARGET, GTMaterials.Uranium238)
+                .inputFluids(GTMaterials.Uranium238, 576)
+                .EUt(30720)
+                .duration(640)
+                .save();
+
+        PHYSICAL_VAPOR_DEPOSITION_RECIPES.builder("neptunium_stainless_steel_target")
+                .inputItems(GTOTagPrefix.TARGET_BASE, GTMaterials.StainlessSteel)
+                .outputItems(GTOTagPrefix.STAINLESS_STEEL_TARGET, GTMaterials.Neptunium)
+                .inputFluids(GTMaterials.Neptunium, 576)
+                .EUt(30720)
+                .duration(640)
+                .save();
+
+        PHYSICAL_VAPOR_DEPOSITION_RECIPES.builder("plutonium_stainless_steel_target")
+                .inputItems(GTOTagPrefix.TARGET_BASE, GTMaterials.StainlessSteel)
+                .outputItems(GTOTagPrefix.STAINLESS_STEEL_TARGET, GTMaterials.Plutonium239)
+                .inputFluids(GTMaterials.Plutonium239, 576)
+                .EUt(30720)
+                .duration(640)
+                .save();
+
+        PHYSICAL_VAPOR_DEPOSITION_RECIPES.builder("plutonium_241_stainless_steel_target")
+                .inputItems(GTOTagPrefix.TARGET_BASE, GTMaterials.StainlessSteel)
+                .outputItems(GTOTagPrefix.STAINLESS_STEEL_TARGET, GTMaterials.Plutonium241)
+                .inputFluids(GTMaterials.Plutonium241, 576)
+                .EUt(30720)
+                .duration(640)
+                .save();
+
+        PHYSICAL_VAPOR_DEPOSITION_RECIPES.builder("americium_stainless_steel_target")
+                .inputItems(GTOTagPrefix.TARGET_BASE, GTMaterials.StainlessSteel)
+                .outputItems(GTOTagPrefix.STAINLESS_STEEL_TARGET, GTMaterials.Americium)
+                .inputFluids(GTMaterials.Americium, 576)
+                .EUt(122880)
+                .duration(640)
+                .save();
+
+        PHYSICAL_VAPOR_DEPOSITION_RECIPES.builder("curium_stainless_steel_target")
+                .inputItems(GTOTagPrefix.TARGET_BASE, GTMaterials.StainlessSteel)
+                .outputItems(GTOTagPrefix.STAINLESS_STEEL_TARGET, GTMaterials.Curium)
+                .inputFluids(GTMaterials.Curium, 576)
+                .EUt(122880)
+                .duration(640)
+                .save();
+
+        PHYSICAL_VAPOR_DEPOSITION_RECIPES.builder("berkelium_stainless_steel_target")
+                .inputItems(GTOTagPrefix.TARGET_BASE, GTMaterials.StainlessSteel)
+                .outputItems(GTOTagPrefix.STAINLESS_STEEL_TARGET, GTMaterials.Berkelium)
+                .inputFluids(GTMaterials.Berkelium, 576)
+                .EUt(122880)
+                .duration(640)
                 .save();
     }
 }
