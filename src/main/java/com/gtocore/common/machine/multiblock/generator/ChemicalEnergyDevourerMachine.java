@@ -100,10 +100,13 @@ public final class ChemicalEnergyDevourerMachine extends ElectricMultiblockMachi
         if (getLevel() == null) return false;
         Direction facing = getFrontFacing();
         boolean permuteXZ = facing.getAxis() == Direction.Axis.Z;
-        for (int x = -3; x < 4; x++) {
-            for (int y = -3; y < 4; y++) {
-                if (x == 0 && y == 0) continue;
-                if (!getLevel().getBlockState(getPos().relative(facing).offset(permuteXZ ? x : 0, y, permuteXZ ? 0 : x)).isAir()) return true;
+        int directionStep = facing.getAxisDirection().getStep();
+        int x = isFlipped() ? 22 : -22;
+        x *= directionStep;
+        for (int z = -10; z < 1; z++) {
+            for (int y = -1; y < 10; y++) {
+                if (!getLevel().getBlockState(getPos().relative(facing).offset(permuteXZ ? x : z * directionStep, y, permuteXZ ? z * directionStep : x)).isAir())
+                    return true;
             }
         }
         return false;

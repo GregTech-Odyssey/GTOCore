@@ -561,9 +561,9 @@ public final class MaterialC {
                 .color(0xeaeaff).secondaryColor(0x8181bd).iconSet(SHINY).radioactiveHazard(75)
                 .buildAndRegister().setFormula("Sb-Be", false);
 
-        Californium252Source = material("californium_252", "镎-252").dust()
+        Californium252Source = material("californium_252", "锎-252").dust()
                 .flags(GTOMaterialFlags.GENERATE_PARTICLE_SOURCE)
                 .color(0xA85A12).iconSet(RADIOACTIVE).radioactiveHazard(75)
-                .buildAndRegister().setFormula("Np²⁵²", false);
+                .buildAndRegister().setFormula("Cf²⁵²", false);
     }
 }
