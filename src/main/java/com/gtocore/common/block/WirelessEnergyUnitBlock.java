@@ -27,10 +27,15 @@ public class WirelessEnergyUnitBlock extends Block {
 
     public WirelessEnergyUnitBlock(Properties properties, int tier) {
         super(properties);
-        var sec_base=60<<4-GTOCore.difficulty;
-        this.capacity = BigInteger.valueOf(GTValues.VEX[tier<< 1]).divide(BigInteger.valueOf(GTOCore.difficulty))
-                .add(BigInteger.valueOf(GTValues.VEX[tier] * 20*sec_base)).multiply(BigInteger.valueOf(tier));
-        this.loss =  ((GTValues.MAX - tier) << 2)+(15*(GTOCore.difficulty<<1)/tier);
+        var sec_base = 60 << 4 - GTOCore.difficulty;
+        this.capacity = BigInteger.valueOf(GTValues.VEX[tier << 1]).divide(BigInteger.valueOf(GTOCore.difficulty))
+                .add(BigInteger.valueOf(GTValues.VEX[tier] * 20 * sec_base)).multiply(BigInteger.valueOf(tier));
+        int loss_tmp = GTOCore.isSimple() ? 0 : (GTValues.MAX - tier) << GTOCore.difficulty;
+        if (tier < 6) {
+            loss_tmp += 10 * (GTOCore.difficulty << 2) / tier;
+        }
+
+        this.loss = loss_tmp;
         this.tier = tier;
     }
 
