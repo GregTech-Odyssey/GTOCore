@@ -11,14 +11,15 @@ import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexFormat;
+import it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet;
 
-import java.util.HashSet;
+import java.util.Set;
 
 import static com.mojang.blaze3d.vertex.DefaultVertexFormat.POSITION_TEX;
 
 public class TextureUpdateRequester {
 
-    private final HashSet<Block> blocks = new HashSet<>();
+    private final Set<Block> blocks = new ReferenceOpenHashSet<>();
 
     public void add(Block block) {
         blocks.add(block);

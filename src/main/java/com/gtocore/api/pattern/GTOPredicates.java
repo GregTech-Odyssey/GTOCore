@@ -134,7 +134,7 @@ public final class GTOPredicates {
                 data += block.getCapacity();
             }
             return data;
-        }), "MEStorageCore", GTOBlocks.T1_ME_STORAGE_CORE.get(), GTOBlocks.T2_ME_STORAGE_CORE.get(), GTOBlocks.T3_ME_STORAGE_CORE.get(), GTOBlocks.T4_ME_STORAGE_CORE.get(), GTOBlocks.T5_ME_STORAGE_CORE.get());
+        }), "MEStorageCore", ME_STORAGE_CORE);
     }
 
     public static TraceabilityPredicate craftingStorageCore() {
@@ -144,7 +144,7 @@ public final class GTOPredicates {
                 data[1]++;
             }
             return data;
-        }), "CraftingStorageCore", GTOBlocks.T1_CRAFTING_STORAGE_CORE.get(), GTOBlocks.T2_CRAFTING_STORAGE_CORE.get(), GTOBlocks.T3_CRAFTING_STORAGE_CORE.get(), GTOBlocks.T4_CRAFTING_STORAGE_CORE.get(), GTOBlocks.T5_CRAFTING_STORAGE_CORE.get());
+        }), "CraftingStorageCore", CRAFTING_STORAGE_CORE);
     }
 
     public static TraceabilityPredicate wirelessEnergyUnit() {
@@ -153,7 +153,7 @@ public final class GTOPredicates {
                 data.add(block);
             }
             return data;
-        }), "wirelessEnergyUnit", GTOBlocks.LV_WIRELESS_ENERGY_UNIT.get(), GTOBlocks.MV_WIRELESS_ENERGY_UNIT.get(), GTOBlocks.HV_WIRELESS_ENERGY_UNIT.get(), GTOBlocks.EV_WIRELESS_ENERGY_UNIT.get(), GTOBlocks.IV_WIRELESS_ENERGY_UNIT.get(), GTOBlocks.LUV_WIRELESS_ENERGY_UNIT.get(), GTOBlocks.ZPM_WIRELESS_ENERGY_UNIT.get(), GTOBlocks.UV_WIRELESS_ENERGY_UNIT.get(), GTOBlocks.UHV_WIRELESS_ENERGY_UNIT.get(), GTOBlocks.UEV_WIRELESS_ENERGY_UNIT.get(), GTOBlocks.UIV_WIRELESS_ENERGY_UNIT.get(), GTOBlocks.UXV_WIRELESS_ENERGY_UNIT.get(), GTOBlocks.OPV_WIRELESS_ENERGY_UNIT.get(), GTOBlocks.MAX_WIRELESS_ENERGY_UNIT.get()).setPreviewCount(1);
+        }), "wirelessEnergyUnit", WIRELESS_ENERGY_UNIT).setPreviewCount(1);
     }
 
     public static TraceabilityPredicate fissionComponent() {

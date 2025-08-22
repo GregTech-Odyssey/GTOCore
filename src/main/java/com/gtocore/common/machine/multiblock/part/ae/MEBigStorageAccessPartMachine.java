@@ -3,14 +3,10 @@ package com.gtocore.common.machine.multiblock.part.ae;
 import com.gtolib.ae2.stacks.IKeyCounter;
 import com.gtolib.ae2.storage.BigCellDataStorage;
 import com.gtolib.ae2.storage.CellDataStorage;
-import com.gtolib.mixin.NetworkStorageAccessor;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.ConditionalSubscriptionHandler;
-import com.gregtechceu.gtceu.api.machine.feature.IDataStickInteractable;
-import com.gregtechceu.gtceu.api.machine.feature.IMachineLife;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.MultiblockPartMachine;
-import com.gregtechceu.gtceu.integration.ae2.machine.feature.IGridConnectedMachine;
 import com.gregtechceu.gtceu.integration.ae2.machine.trait.GridNodeHolder;
 
 import net.minecraft.nbt.CompoundTag;
@@ -18,21 +14,16 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.BlockHitResult;
 
 import appeng.api.config.Actionable;
-import appeng.api.networking.IGrid;
 import appeng.api.networking.IManagedGridNode;
 import appeng.api.networking.security.IActionSource;
 import appeng.api.stacks.AEKey;
 import appeng.api.stacks.KeyCounter;
 import appeng.api.storage.IStorageMounts;
 import appeng.api.storage.IStorageProvider;
-import appeng.api.storage.MEStorage;
-import appeng.me.storage.NetworkStorage;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
@@ -44,7 +35,7 @@ import org.jetbrains.annotations.NotNull;
 import java.math.BigInteger;
 import java.util.UUID;
 
-public final class MEBigStorageAccessPartMachine extends MultiblockPartMachine implements IMachineLife, MEStorage, IGridConnectedMachine, IDataStickInteractable, IStorageAccess, IStorageProvider {
+public final class MEBigStorageAccessPartMachine extends MultiblockPartMachine implements IStorageAccess {
 
     private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(MEBigStorageAccessPartMachine.class, MultiblockPartMachine.MANAGED_FIELD_HOLDER);
     private boolean observe;
@@ -79,9 +70,16 @@ public final class MEBigStorageAccessPartMachine extends MultiblockPartMachine i
     }
 
     @Override
+    public void mountInventories(IStorageMounts storageMounts) {
+        if (uuid == null) return;
+        storageMounts.mount(this, 0);
+    }
+
+    @Override
     public void setUUID(UUID uuid) {
         this.uuid = uuid;
-        unmount();
+        dataStorage = null;
+        IStorageProvider.requestUpdate(getMainNode());
     }
 
     @Override
@@ -94,13 +92,6 @@ public final class MEBigStorageAccessPartMachine extends MultiblockPartMachine i
     public double getBytes() {
         if (dataStorage == null) return 0;
         return dataStorage.getBytes();
-    }
-
-    private void unmount() {
-        dataStorage = null;
-        IGrid grid = getMainNode().getGrid();
-        if (grid == null) return;
-        ((NetworkStorage) grid.getStorageService().getInventory()).unmount(this);
     }
 
     private void tickUpdate() {
@@ -134,15 +125,6 @@ public final class MEBigStorageAccessPartMachine extends MultiblockPartMachine i
         } else if (!isInfinite && getOffsetTimer() % 20 == 7) {
             observe = true;
         }
-        if (getOffsetTimer() % 20 != 0) return;
-        IGrid grid = getMainNode().getGrid();
-        if (grid == null) return;
-        var inv = ((NetworkStorage) grid.getStorageService().getInventory());
-        var inventory = ((NetworkStorageAccessor) inv).getPriorityInventory().get(0);
-        if (inventory == null || !inventory.contains(this)) {
-            inv.mount(0, this);
-        }
-        if (getMainNode().getNode() != null && getMainNode().getNode().isActive()) IStorageProvider.requestUpdate(getMainNode());
     }
 
     public BigCellDataStorage getCellStorage() {
@@ -163,12 +145,6 @@ public final class MEBigStorageAccessPartMachine extends MultiblockPartMachine i
     }
 
     @Override
-    public InteractionResult onDataStickShiftUse(Player player, ItemStack dataStick) {
-        dataStick.getOrCreateTag().putIntArray("pos", new int[] { getPos().getX(), getPos().getY(), getPos().getZ() });
-        return InteractionResult.SUCCESS;
-    }
-
-    @Override
     public void onLoad() {
         super.onLoad();
         tickSubs.initialize(getLevel());
@@ -178,12 +154,6 @@ public final class MEBigStorageAccessPartMachine extends MultiblockPartMachine i
     public void onUnload() {
         super.onUnload();
         tickSubs.unsubscribe();
-        unmount();
-    }
-
-    @Override
-    public void onMachineRemoved() {
-        unmount();
     }
 
     @Override
@@ -370,10 +340,5 @@ public final class MEBigStorageAccessPartMachine extends MultiblockPartMachine i
     @Override
     public boolean isOnline() {
         return this.isOnline;
-    }
-
-    @Override
-    public void mountInventories(IStorageMounts storageMounts) {
-        storageMounts.mount(this, 0);
     }
 }

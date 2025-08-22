@@ -17,7 +17,6 @@ import net.minecraftforge.fluids.FluidStack;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
@@ -27,7 +26,7 @@ import static com.gtolib.api.data.GTODimensions.*;
 @SuppressWarnings("unused")
 public final class GTOBedrockFluids {
 
-    public static final Map<String, CNEN> LANG = GTCEu.isDataGen() ? new HashMap<>() : null;
+    public static final Map<String, CNEN> LANG = GTCEu.isDataGen() ? new Object2ObjectOpenHashMap<>() : null;
 
     public static final Map<ResourceKey<Level>, List<FluidStack>> ALL_BEDROCK_FLUID = new Object2ObjectOpenHashMap<>();
 

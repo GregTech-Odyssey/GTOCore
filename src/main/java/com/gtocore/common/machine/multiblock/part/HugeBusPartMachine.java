@@ -168,7 +168,7 @@ public final class HugeBusPartMachine extends TieredIOPartMachine implements IMa
     }
 
     private void addDisplayText(@NotNull List<Component> textList) {
-        var is = inventory.getStackInSlot();
+        var is = inventory.getStackInSlot(0);
         if (inventory.getCount() > 0 && !is.isEmpty()) {
             textList.add(is.getDisplayName().copy().setStyle(Style.EMPTY.withColor(ChatFormatting.YELLOW)).append(NumberUtils.numberText(inventory.getCount()).setStyle(Style.EMPTY.withColor(ChatFormatting.AQUA))));
         }
@@ -187,7 +187,8 @@ public final class HugeBusPartMachine extends TieredIOPartMachine implements IMa
             return ((HugeCustomItemStackHandler) storage).count;
         }
 
-        private ItemStack getStackInSlot() {
+        @Override
+        public ItemStack getStackInSlot(int i) {
             return ((HugeCustomItemStackHandler) storage).stack;
         }
 
@@ -202,7 +203,7 @@ public final class HugeBusPartMachine extends TieredIOPartMachine implements IMa
             if (changed) {
                 changed = false;
                 itemMap.clear();
-                itemMap.put(getStackInSlot(), getCount());
+                itemMap.put(getStackInSlot(0), getCount());
             }
             return itemMap;
         }
@@ -216,7 +217,7 @@ public final class HugeBusPartMachine extends TieredIOPartMachine implements IMa
         @Nullable
         public List<Ingredient> handleRecipeInner(IO io, GTRecipe recipe, List<Ingredient> left, boolean simulate) {
             if (io != IO.IN && ((HugeCustomItemStackHandler) storage).count > 0) return left.isEmpty() ? null : left;
-            for (var it = left.iterator(); it.hasNext();) {
+            for (var it = left.listIterator(0); it.hasNext();) {
                 var ingredient = it.next();
                 if (ingredient.isEmpty()) {
                     it.remove();
@@ -231,10 +232,10 @@ public final class HugeBusPartMachine extends TieredIOPartMachine implements IMa
                 }
                 long count = Math.min(amount, getCount());
                 if (count == 0) continue;
-                if (ingredient.test(getStackInSlot())) {
+                if (ingredient.test(getStackInSlot(0))) {
                     if (!simulate) {
                         ((HugeCustomItemStackHandler) storage).count -= count;
-                        getStackInSlot().setCount(MathUtil.saturatedCast(((HugeCustomItemStackHandler) storage).count));
+                        getStackInSlot(0).setCount(MathUtil.saturatedCast(((HugeCustomItemStackHandler) storage).count));
                         storage.onContentsChanged(0);
                     }
                     amount -= count;

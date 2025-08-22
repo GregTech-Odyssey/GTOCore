@@ -188,8 +188,8 @@ interface WirelessMachine :
         if (self().isRemote) return
         val nowTick = self().offsetTimer
         self().subscribeServerTick {
-            if (self().offsetTimer > nowTick + 40 && self().offsetTimer % 10 == 0L && mainNode.node != null) {
-                if (!wirelessMachineRunTime.isInitialized && !self().isRemote) {
+            if (self().offsetTimer > nowTick + 40 && self().offsetTimer % 40 == 0L && mainNode.node != null) {
+                if (!wirelessMachineRunTime.isInitialized) {
                     if (!wirelessMachinePersisted.beSet && wirelessMachineRunTime.shouldAutoConnect) {
                         WirelessSavedData.INSTANCE.gridPool.firstOrNull { WirelessSavedData.checkPermission(it.owner, uuid) && it.isDefault }?.let {
                             joinGrid(it.name)

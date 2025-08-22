@@ -194,6 +194,9 @@ public final class LangHandler {
         addCNEN("planet.gtocore.titan_orbit", "土卫六轨道", "Titan Orbit");
         addCNEN("gui.ad_astra.text.barnarda", "巴纳德", "Barnarda");
 
+        addCNEN("emi.error.not_creative", "需要处于创造模式的管理员才可使用EMI作弊", "EMI cheats can only be used by administrators in creative mode");
+        addCNEN("key.ae2.me2in1_wireless_locating_service", "打开ME2合1无线终端", "Open ME2in1 Wireless Terminal");
+
         addCNEN("gtocore.player_exp_status.mysterious_boost_potion.success", "你似乎被赋予了某种神秘能力...", "You seem to be granted with some mysterious ability ......");
 
         addCNEN("gtocore.gui.encoding_desc", "§o[Shift 点击] 将样板存入背包", "§o[Shift + Click] insert encoding pattern into player inventory");

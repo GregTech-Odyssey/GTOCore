@@ -33,10 +33,10 @@ import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.annotation.RequireRerender;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
 
@@ -45,7 +45,7 @@ public final class InfiniteIntakeHatchPartMachine extends TieredIOPartMachine {
     private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
             InfiniteIntakeHatchPartMachine.class, TieredIOPartMachine.MANAGED_FIELD_HOLDER);
 
-    public static final Map<ResourceLocation, Fluid> AIR_MAP = new HashMap<>();
+    public static final Map<ResourceLocation, Fluid> AIR_MAP = new Object2ObjectOpenHashMap<>();
 
     private TickableSubscription intakeSubs;
 

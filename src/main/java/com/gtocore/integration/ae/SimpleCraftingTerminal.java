@@ -56,7 +56,7 @@ public class SimpleCraftingTerminal extends AbstractTerminalPart
     public static final ResourceLocation INV_CRAFTING = AppEng.makeId("crafting_terminal_crafting");
 
     @PartModels
-    public static final ResourceLocation MODEL = ResourceLocation.tryBuild(GTOCore.MOD_ID, "block/crafting_terminal");
+    public static final ResourceLocation MODEL = GTOCore.id("block/crafting_terminal");
 
     public static final IPartModel MODELS = new PartModel(MODEL);
 

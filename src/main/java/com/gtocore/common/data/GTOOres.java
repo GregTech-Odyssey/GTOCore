@@ -25,6 +25,8 @@ import net.minecraft.world.level.Level;
 
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
+import it.unimi.dsi.fastutil.objects.Reference2ObjectOpenHashMap;
 
 import java.util.*;
 import java.util.function.Consumer;
@@ -60,7 +62,7 @@ public final class GTOOres {
             StringBuilder stringBuilder = new StringBuilder();
             Map<String, Set<String>> a = new Object2ObjectOpenHashMap<>();
             GTOOres.ALL_ORES.forEach((k, v) -> v.keySet().forEach(m -> {
-                Set<String> b = a.computeIfAbsent(StringIndex.MATERIAL_MAP.get(m), m1 -> new HashSet<>());
+                Set<String> b = a.computeIfAbsent(StringIndex.MATERIAL_MAP.get(m), m1 -> new ObjectOpenHashSet<>());
                 if (ORE_MAP.containsKey(k)) b.addAll(ORE_MAP.get(k));
                 a.put(StringIndex.MATERIAL_MAP.get(m), b);
             }));
@@ -854,7 +856,7 @@ public final class GTOOres {
     }
 
     private static Map<Material, String> getMaterialStringMap() {
-        Map<Material, String> materialFieldMap = new HashMap<>();
+        Map<Material, String> materialFieldMap = new Reference2ObjectOpenHashMap<>();
 
         // 填充GTOMaterials类的静态字段
         for (java.lang.reflect.Field field : GTOMaterials.class.getDeclaredFields()) {
@@ -894,7 +896,7 @@ public final class GTOOres {
 
         final Dimension dimension;
         int totalVeinWeight = 0;
-        Map<Material, OreData> ores = new HashMap<>();
+        Map<Material, OreData> ores = new Reference2ObjectOpenHashMap<>();
 
         DimensionOreInfo(Dimension dimension) {
             this.dimension = dimension;

@@ -55,7 +55,7 @@ import dev.emi.emi.config.EmiConfig;
 import dev.emi.emi.config.SidebarSide;
 import dev.emi.emi.recipe.special.EmiRepairItemRecipe;
 import dev.shadowsoffire.placebo.loot.LootSystem;
-import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
+import it.unimi.dsi.fastutil.objects.Reference2ReferenceOpenHashMap;
 
 import java.util.Collections;
 import java.util.function.Consumer;
@@ -168,7 +168,7 @@ public final class Data {
                 EmiConfig.logUntranslatedTags = false;
                 EmiConfig.workstationLocation = SidebarSide.LEFT;
                 EmiRepairItemRecipe.TOOLS.clear();
-                EMI_RECIPE_WIDGETS = new Object2ObjectOpenHashMap<>();
+                EMI_RECIPE_WIDGETS = new Reference2ReferenceOpenHashMap<>();
                 ImmutableSet.Builder<EmiRecipe> recipes = ImmutableSet.builder();
                 for (GTRecipeCategory category : GTRegistries.RECIPE_CATEGORIES) {
                     if (!category.shouldRegisterDisplays()) continue;

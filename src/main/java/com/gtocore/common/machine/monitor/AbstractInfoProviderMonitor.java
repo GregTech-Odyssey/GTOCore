@@ -38,7 +38,7 @@ public abstract class AbstractInfoProviderMonitor extends BasicMonitor implement
         return new ManagedFieldHolder(clazz, BASIC_MONITOR_HOLDER);
     }
 
-    public AbstractInfoProviderMonitor(MetaMachineBlockEntity holder) {
+    AbstractInfoProviderMonitor(MetaMachineBlockEntity holder) {
         super(holder);
         Class<? extends BasicMonitor> clazz = this.getClass();
         MANAGED_FIELD_HOLDER_MAP.computeIfAbsent(clazz, this::getManagedFieldHolder);

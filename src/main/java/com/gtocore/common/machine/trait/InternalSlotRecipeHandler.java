@@ -126,7 +126,7 @@ public final class InternalSlotRecipeHandler {
         @Override
         public List<Ingredient> handleRecipe(IO io, GTRecipe recipe, List left, boolean simulate) {
             if (slot.itemInventory.isEmpty()) return left;
-            return handleRecipeInner(io, recipe, new ArrayList<>(left), simulate);
+            return handleRecipeInner(io, recipe, new ObjectArrayList(left), simulate);
         }
 
         @Override
@@ -192,7 +192,7 @@ public final class InternalSlotRecipeHandler {
         @Override
         public List<FluidIngredient> handleRecipe(IO io, GTRecipe recipe, List left, boolean simulate) {
             if (slot.fluidInventory.isEmpty()) return left;
-            return handleRecipeInner(io, recipe, new ArrayList<>(left), simulate);
+            return handleRecipeInner(io, recipe, new ObjectArrayList(left), simulate);
         }
 
         @Override

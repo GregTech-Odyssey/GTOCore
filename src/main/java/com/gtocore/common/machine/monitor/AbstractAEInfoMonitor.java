@@ -27,15 +27,15 @@ public abstract class AbstractAEInfoMonitor extends AbstractInfoProviderMonitor 
     @NotNull
     protected State state = State.NO_GRID;
 
-    protected int lastUpdateTime = 0;
+    int lastUpdateTime = 0;
 
     @Persisted
-    protected final GridNodeHolder nodeHolder;
+    final GridNodeHolder nodeHolder;
 
     @DescSynced
     protected boolean isOnline;
 
-    public AbstractAEInfoMonitor(MetaMachineBlockEntity holder) {
+    AbstractAEInfoMonitor(MetaMachineBlockEntity holder) {
         super(holder);
         this.nodeHolder = new GridNodeHolder(this);
     }

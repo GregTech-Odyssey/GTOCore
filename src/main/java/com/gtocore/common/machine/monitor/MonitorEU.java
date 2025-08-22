@@ -148,9 +148,6 @@ public class MonitorEU extends AbstractInfoProviderMonitor implements IWirelessM
             }
             energyFullness = (container.getCapacity() == null || container.getCapacity().equals(BigInteger.ZERO)) ?
                     0f : new BigDecimal(energyTotal).divide(new BigDecimal(container.getCapacity()), 4, RoundingMode.DOWN).floatValue();
-
-            WirelessEnergyContainer.observed = true;
-            WirelessEnergyContainer.TRANSFER_DATA.clear();
             return textListCache;
         }
     }

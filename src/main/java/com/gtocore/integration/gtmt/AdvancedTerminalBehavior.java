@@ -23,15 +23,20 @@ import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
+import appeng.api.stacks.AEFluidKey;
+import appeng.api.stacks.AEItemKey;
+import appeng.api.stacks.AEKey;
 import com.hepdd.gtmthings.api.gui.widget.TerminalInputWidget;
 import com.hepdd.gtmthings.api.misc.Hatch;
 import com.lowdragmc.lowdraglib.gui.editor.ColorPattern;
 import com.lowdragmc.lowdraglib.gui.factory.HeldItemUIFactory;
 import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
 import com.lowdragmc.lowdraglib.gui.widget.*;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet;
 
 import java.util.*;
@@ -74,10 +79,8 @@ public class AdvancedTerminalBehavior implements IItemUIFactory {
                     controller.getMultiblockState().cleanCache();
                     controller.requestCheck();
                 } else {
-                    if (controller.isFormed()) {
-                        controller.onStructureInvalid();
-                        controller.setWaitingTime(10);
-                    }
+                    controller.requestCheck();
+                    controller.setWaitingTime(10);
                     AdvancedBlockPattern.getAdvancedBlockPattern(pattern).autoBuild(context.getPlayer(), controller.getMultiblockState(), autoBuildSetting);
                     controller.getMultiblockState().cleanCache();
                     controller.setWaitingTime(0);
@@ -315,15 +318,18 @@ public class AdvancedTerminalBehavior implements IItemUIFactory {
             this.module = 0;
         }
 
-        public List<ItemStack> apply(Block[] blocks) {
-            List<ItemStack> candidates = new ArrayList<>();
+        public List<AEKey> apply(Block[] blocks) {
+            List<AEKey> candidates = new ObjectArrayList<>();
             if (blocks != null) {
                 for (Block block : blocks) {
                     if (tierBlock != null && tier > 0 && blocks.length > 1 && this.blocks.contains(block)) {
-                        candidates.add(tierBlock[Math.min(tierBlock.length, tier) - 1].asItem().getDefaultInstance());
+                        candidates.add(AEItemKey.of(tierBlock[Math.min(tierBlock.length, tier) - 1].asItem()));
                         return candidates;
+                    } else if (block instanceof LiquidBlock fluid) {
+                        var realFluid = fluid.getFluid().getSource();
+                        candidates.add(AEFluidKey.of(realFluid));
                     } else if (block != Blocks.AIR) {
-                        candidates.add(SimplePredicate.toItem(block).getDefaultInstance());
+                        candidates.add(AEItemKey.of(SimplePredicate.toItem(block)));
                     }
                 }
             }
@@ -332,7 +338,7 @@ public class AdvancedTerminalBehavior implements IItemUIFactory {
 
         boolean isPlaceHatch(Block[] blocks) {
             if (this.noHatchMode == 0) return true;
-            if (blocks != null && blocks.length > 0) {
+            if (blocks != null && blocks.length > 1) {
                 var block = blocks[0];
                 return !(block instanceof MetaMachineBlock machineBlock) || !Hatch.Set.contains(machineBlock);
             }

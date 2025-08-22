@@ -50,8 +50,8 @@ import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.longs.LongSet;
 import it.unimi.dsi.fastutil.longs.LongSets;
-import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectIterator;
+import it.unimi.dsi.fastutil.objects.Reference2ReferenceOpenHashMap;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Vector3f;
 
@@ -65,7 +65,7 @@ public final class PatternPreview extends WidgetGroup {
     private final MultiblockInfoEmiRecipe recipe;
     private boolean isLoaded;
     private static TrackedDummyWorld LEVEL;
-    private static final Map<MultiblockMachineDefinition, MBPattern[]> CACHE = new Object2ObjectOpenHashMap<>();
+    private static final Map<MultiblockMachineDefinition, MBPattern[]> CACHE = new Reference2ReferenceOpenHashMap<>();
     private final SceneWidget sceneWidget;
     private final DraggableScrollableWidgetGroup scrollableWidgetGroup;
     private final MBPattern[] patterns;

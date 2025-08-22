@@ -27,10 +27,13 @@ import com.gregtechceu.gtceu.integration.xei.handlers.fluid.CycleFluidEntryHandl
 import com.gregtechceu.gtceu.integration.xei.handlers.item.CycleItemEntryHandler;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.Blocks;
 
 import com.google.common.collect.ImmutableList;
@@ -77,13 +80,14 @@ final class OreByProductWrapper {
         ObjectIntPair<Material> washedIn = property.getWashedIn();
         List<Material> separatedInto = property.getSeparatedInto();
         ItemStackList oreStacks = new ItemStackList();
-        oreStacks.add(ChemicalHelper.get(TagPrefix.rawOre, material));
+        var rawOre = ChemicalHelper.get(TagPrefix.rawOre, material);
+        oreStacks.add(rawOre);
         itemInputs.add(oreStacks);
         // set up machines as inputs
         List<ItemStack> simpleWashers = new ArrayList<>();
         simpleWashers.add(new ItemStack(Items.CAULDRON));
         simpleWashers.add(GTMachines.ORE_WASHER[GTValues.LV].asStack());
-        if (!material.hasProperty(PropertyKey.BLAST)) {
+        if (!material.hasProperty(PropertyKey.BLAST) && Minecraft.getInstance().level.getRecipeManager().getRecipeFor(RecipeType.SMELTING, new SimpleContainer(rawOre), Minecraft.getInstance().level).isPresent()) {
             addToInputs(new ItemStack(Blocks.FURNACE));
             hasDirectSmelt = true;
         } else {
@@ -127,9 +131,12 @@ final class OreByProductWrapper {
         if (hasDirectSmelt) {
             ItemStack smeltingResult;
             Material smeltingMaterial = property.getDirectSmeltResult().isNull() ? material : property.getDirectSmeltResult();
-            if (smeltingMaterial.hasProperty(PropertyKey.INGOT)) {
-                smeltingResult = ChemicalHelper.get(TagPrefix.ingot, smeltingMaterial);
-            } else if (smeltingMaterial.hasProperty(PropertyKey.GEM)) {
+            /*
+             * if (smeltingMaterial.hasProperty(PropertyKey.INGOT)) {
+             * smeltingResult = ChemicalHelper.get(TagPrefix.ingot, smeltingMaterial);
+             * } else
+             */
+            if (smeltingMaterial.hasProperty(PropertyKey.GEM)) {
                 smeltingResult = ChemicalHelper.get(TagPrefix.gem, smeltingMaterial);
             } else {
                 smeltingResult = ChemicalHelper.get(TagPrefix.dust, smeltingMaterial);

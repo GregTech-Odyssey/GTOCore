@@ -2,35 +2,26 @@ package com.gtocore.common.machine.multiblock.part.ae;
 
 import com.gtolib.ae2.stacks.IKeyCounter;
 import com.gtolib.ae2.storage.CellDataStorage;
-import com.gtolib.mixin.NetworkStorageAccessor;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.ConditionalSubscriptionHandler;
-import com.gregtechceu.gtceu.api.machine.feature.IDataStickInteractable;
-import com.gregtechceu.gtceu.api.machine.feature.IMachineLife;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.MultiblockPartMachine;
-import com.gregtechceu.gtceu.integration.ae2.machine.feature.IGridConnectedMachine;
 import com.gregtechceu.gtceu.integration.ae2.machine.trait.GridNodeHolder;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.BlockHitResult;
 
 import appeng.api.config.Actionable;
-import appeng.api.networking.IGrid;
 import appeng.api.networking.IManagedGridNode;
 import appeng.api.networking.security.IActionSource;
 import appeng.api.stacks.AEKey;
 import appeng.api.stacks.KeyCounter;
 import appeng.api.storage.IStorageMounts;
 import appeng.api.storage.IStorageProvider;
-import appeng.api.storage.MEStorage;
-import appeng.me.storage.NetworkStorage;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
@@ -40,12 +31,11 @@ import it.unimi.dsi.fastutil.objects.Object2LongOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectIterator;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
 import java.util.UUID;
 
-public class MEStorageAccessPartMachine extends MultiblockPartMachine implements IMachineLife, MEStorage, IGridConnectedMachine, IDataStickInteractable, IStorageAccess, IStorageProvider {
+public class MEStorageAccessPartMachine extends MultiblockPartMachine implements IStorageAccess {
 
-    static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(MEStorageAccessPartMachine.class, MultiblockPartMachine.MANAGED_FIELD_HOLDER);
+    private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(MEStorageAccessPartMachine.class, MultiblockPartMachine.MANAGED_FIELD_HOLDER);
     private boolean observe;
     private CellDataStorage dataStorage;
     @Persisted
@@ -59,7 +49,7 @@ public class MEStorageAccessPartMachine extends MultiblockPartMachine implements
     @DescSynced
     private boolean isOnline;
     @Persisted
-    UUID uuid;
+    private UUID uuid;
     private final ConditionalSubscriptionHandler tickSubs;
 
     private boolean dirty = false;
@@ -88,9 +78,16 @@ public class MEStorageAccessPartMachine extends MultiblockPartMachine implements
     }
 
     @Override
+    public void mountInventories(IStorageMounts storageMounts) {
+        if (uuid == null) return;
+        storageMounts.mount(this, 0);
+    }
+
+    @Override
     public void setUUID(UUID uuid) {
         this.uuid = uuid;
-        unmount();
+        dataStorage = null;
+        IStorageProvider.requestUpdate(getMainNode());
     }
 
     @Override
@@ -105,17 +102,6 @@ public class MEStorageAccessPartMachine extends MultiblockPartMachine implements
         return dataStorage.getBytes();
     }
 
-    boolean contains(List<MEStorage> list) {
-        return list.contains(this);
-    }
-
-    private void unmount() {
-        dataStorage = null;
-        IGrid grid = getMainNode().getGrid();
-        if (grid == null) return;
-        ((NetworkStorage) grid.getStorageService().getInventory()).unmount(this);
-    }
-
     private void tickUpdate() {
         if (dirty) {
             dirty = false;
@@ -127,9 +113,9 @@ public class MEStorageAccessPartMachine extends MultiblockPartMachine implements
             counter++;
             if (counter > 600) {
                 counter = 0;
-                setCapacity(0);
+                capacity = 0;
                 setOwnerUUID(null);
-                setInfinite(false);
+                isInfinite = false;
             }
         }
         if (observe) {
@@ -144,15 +130,6 @@ public class MEStorageAccessPartMachine extends MultiblockPartMachine implements
         } else if (!isInfinite && getOffsetTimer() % 20 == 7) {
             observe = true;
         }
-        if (getOffsetTimer() % 20 != 0) return;
-        IGrid grid = getMainNode().getGrid();
-        if (grid == null) return;
-        var inv = ((NetworkStorage) grid.getStorageService().getInventory());
-        var inventory = ((NetworkStorageAccessor) inv).getPriorityInventory().get(0);
-        if (inventory == null || !contains(inventory)) {
-            inv.mount(0, this);
-        }
-        if (getMainNode().getNode() != null && getMainNode().getNode().isActive()) IStorageProvider.requestUpdate(getMainNode());
     }
 
     private CellDataStorage getCellStorage() {
@@ -173,12 +150,6 @@ public class MEStorageAccessPartMachine extends MultiblockPartMachine implements
     }
 
     @Override
-    public InteractionResult onDataStickShiftUse(Player player, ItemStack dataStick) {
-        dataStick.getOrCreateTag().putIntArray("pos", new int[] { getPos().getX(), getPos().getY(), getPos().getZ() });
-        return InteractionResult.SUCCESS;
-    }
-
-    @Override
     public void onLoad() {
         super.onLoad();
         tickSubs.initialize(getLevel());
@@ -188,12 +159,6 @@ public class MEStorageAccessPartMachine extends MultiblockPartMachine implements
     public void onUnload() {
         super.onUnload();
         tickSubs.unsubscribe();
-        unmount();
-    }
-
-    @Override
-    public void onMachineRemoved() {
-        unmount();
     }
 
     @Override
@@ -356,10 +321,5 @@ public class MEStorageAccessPartMachine extends MultiblockPartMachine implements
     @Override
     public boolean isOnline() {
         return this.isOnline;
-    }
-
-    @Override
-    public void mountInventories(IStorageMounts storageMounts) {
-        storageMounts.mount(this, 0);
     }
 }

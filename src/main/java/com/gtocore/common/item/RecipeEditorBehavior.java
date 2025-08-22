@@ -81,6 +81,7 @@ import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import com.lowdragmc.lowdraglib.utils.Position;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
+import it.unimi.dsi.fastutil.objects.Reference2ObjectOpenHashMap;
 
 import java.util.*;
 
@@ -88,7 +89,7 @@ public final class RecipeEditorBehavior implements IItemUIFactory, IFancyUIProvi
 
     public static final RecipeEditorBehavior INSTANCE = new RecipeEditorBehavior();
 
-    private static final Map<MetaMachine, DummyMachine> CACHE = new Object2ObjectOpenHashMap<>();
+    private static final Map<MetaMachine, DummyMachine> CACHE = new Reference2ObjectOpenHashMap<>();
     private static final Map<BlockPos, DummyMachine> POS_CACHE = new Object2ObjectOpenHashMap<>();
 
     private boolean isGT;
@@ -98,7 +99,7 @@ public final class RecipeEditorBehavior implements IItemUIFactory, IFancyUIProvi
     public InteractionResult onItemUseFirst(ItemStack itemStack, UseOnContext context) {
         if (Objects.requireNonNull(context.getPlayer()).isShiftKeyDown()) {
             if (GTOConfig.INSTANCE.recipeCheck) {
-                var recipeMap = new Object2ObjectOpenHashMap<GTRecipeType, Set<Recipe>>();
+                var recipeMap = new Reference2ObjectOpenHashMap<GTRecipeType, Set<Recipe>>();
                 for (var recipe : RecipeBuilder.RECIPE_MAP.values()) {
                     var recipeType = recipe.recipeType;
                     if (recipeType == GTRecipeTypes.BREWING_RECIPES) continue;
