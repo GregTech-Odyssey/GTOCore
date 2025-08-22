@@ -606,6 +606,8 @@ public final class GTOMachines {
             .tier(IV)
             .allRotation()
             .tooltips(Component.translatable("gtocore.machine.neutron_sensor.tooltip.0"))
+            .tooltips(Component.translatable("gtocore.machine.sensor.tooltip"))
+            .tooltips(Component.translatable("gtocore.machine.sensor.tooltip.0"))
             .notAllowSharedTooltips()
             .overlayTieredHullRenderer("neutron_sensor")
             .register();
@@ -614,6 +616,8 @@ public final class GTOMachines {
             .langValue("pH Sensor")
             .tier(EV)
             .allRotation()
+            .tooltips(Component.translatable("gtocore.machine.sensor.tooltip"))
+            .tooltips(Component.translatable("gtocore.machine.sensor.tooltip.0"))
             .notAllowSharedTooltips()
             .overlayTieredHullRenderer("neutron_sensor")
             .register();
@@ -621,6 +625,8 @@ public final class GTOMachines {
     public static final MachineDefinition HEAT_SENSOR = machine("heat_sensor", "热传感器", SensorPartMachine::new)
             .tier(LV)
             .allRotation()
+            .tooltips(Component.translatable("gtocore.machine.sensor.tooltip"))
+            .tooltips(Component.translatable("gtocore.machine.sensor.tooltip.0"))
             .notAllowSharedTooltips()
             .overlayTieredHullRenderer("neutron_sensor")
             .register();

@@ -29,11 +29,12 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 
 import appeng.api.config.Actionable;
-import appeng.api.networking.IGrid;
 import appeng.api.networking.security.IActionSource;
+import appeng.api.stacks.AEFluidKey;
 import appeng.api.stacks.AEItemKey;
+import appeng.api.stacks.AEKey;
 import appeng.api.storage.MEStorage;
-import appeng.items.tools.powered.WirelessTerminalItem;
+import de.mari_023.ae2wtlib.wct.CraftingTerminalHandler;
 import it.unimi.dsi.fastutil.ints.IntObjectPair;
 import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
@@ -78,6 +79,14 @@ class AdvancedBlockPattern extends BlockPattern {
                 repeat[h] = Math.max(minH, Math.min(maxH, autoBuildSetting.repeatCount));
             } else {
                 repeat[h] = minH;
+            }
+        }
+
+        MEStorage ae = null;
+        if (autoBuildSetting.isUseAE != 0) {
+            var cTHandler = CraftingTerminalHandler.getCraftingTerminalHandler(player);
+            if (cTHandler.getLocator() != null && cTHandler.getTargetGrid() != null && cTHandler.getTargetGrid().getStorageService() != null) {
+                ae = cTHandler.getTargetGrid().getStorageService().getInventory();
             }
         }
 
@@ -173,48 +182,77 @@ class AdvancedBlockPattern extends BlockPattern {
                             }
                         }
 
-                        List<ItemStack> candidates = autoBuildSetting.apply(infos);
+                        List<AEKey> candidates = autoBuildSetting.apply(infos);
 
-                        if (autoBuildSetting.isReplaceMode() && coilItemStack != null && ItemStack.isSameItem(candidates.get(0), coilItemStack)) continue;
+                        if (autoBuildSetting.isReplaceMode() &&
+                                coilItemStack != null &&
+                                candidates.get(0) instanceof AEItemKey itemKey &&
+                                ItemStack.isSameItem(itemKey.toStack(), coilItemStack))
+                            continue;
 
-                        // check inventory
-                        Triplet<ItemStack, IItemHandler, Integer> result = foundItem(player, candidates, autoBuildSetting.isUseAE);
-                        ItemStack found = result.getA();
-                        IItemHandler handler = result.getB();
+                        // Check inventory (item)
+                        List<ItemStack> candidatesItem = candidates.stream()
+                                .filter(c0 -> c0 instanceof AEItemKey)
+                                .map(c0 -> ((AEItemKey) c0).toStack())
+                                .toList();
+                        Triplet<ItemStack, IItemHandler, Integer> result = foundItem(player, candidatesItem, ae);
+                        ItemStack foundItem = result.getA();
+                        IItemHandler itemHandler = result.getB();
                         int foundSlot = result.getC();
 
-                        if (found == null) continue;
+                        // Item placement
+                        if (foundItem != null) {
 
-                        // check can get old coilBlock
-                        IItemHandler holderHandler = null;
-                        int holderSlot = -1;
-                        if (autoBuildSetting.isReplaceMode() && coilItemStack != null) {
-                            var holderResult = foundHolderSlot(player, coilItemStack);
-                            holderHandler = holderResult.first();
-                            holderSlot = holderResult.secondInt();
+                            // check can get old coilBlock
+                            IItemHandler holderHandler = null;
+                            int holderSlot = -1;
+                            if (autoBuildSetting.isReplaceMode() && coilItemStack != null) {
+                                var holderResult = foundHolderSlot(player, coilItemStack);
+                                holderHandler = holderResult.first();
+                                holderSlot = holderResult.secondInt();
 
-                            if (holderHandler != null && holderSlot < 0) {
-                                continue;
+                                if (holderHandler != null && holderSlot < 0) {
+                                    continue;
+                                }
                             }
+
+                            if (autoBuildSetting.isReplaceMode() && coilItemStack != null) {
+                                world.removeBlock(pos, true);
+                                if (holderHandler != null) holderHandler.insertItem(holderSlot, coilItemStack, false);
+                            }
+
+                            BlockItem itemBlock = (BlockItem) foundItem.getItem();
+                            BlockPlaceContext context = new BlockPlaceContext(world, player, InteractionHand.MAIN_HAND, foundItem, BlockHitResult.miss(player.getEyePosition(0), Direction.UP, pos));
+                            InteractionResult interactionResult = itemBlock.place(context);
+                            if (interactionResult != InteractionResult.FAIL) {
+                                if (itemHandler != null) {
+                                    itemHandler.extractItem(foundSlot, 1, false);
+                                }
+                                if (itemBlock instanceof MetaMachineItem && world.getBlockEntity(pos) instanceof MetaMachineBlockEntity machineBlockEntity) {
+                                    machines.put(pos, machineBlockEntity.metaMachine);
+                                } else {
+                                    blocks.put(posLong, itemBlock.getBlock());
+                                }
+                            }
+                            continue;
                         }
 
-                        if (autoBuildSetting.isReplaceMode() && coilItemStack != null) {
-                            world.removeBlock(pos, true);
-                            if (holderHandler != null) holderHandler.insertItem(holderSlot, coilItemStack, false);
+                        // Fluid handling
+                        List<AEFluidKey> candidatesFluid = candidates.stream()
+                                .filter(c0 -> c0 instanceof AEFluidKey)
+                                .map(c0 -> (AEFluidKey) c0)
+                                .toList();
+                        if (candidatesFluid.isEmpty()) continue;
+                        if (player.getAbilities().instabuild) {
+                            world.setBlock(pos, candidatesFluid.get(0).getFluid().defaultFluidState().createLegacyBlock(), 11);
+                            continue;
                         }
+                        if (ae == null) continue; // Fluid placement is only supported with AE (for now)
 
-                        BlockItem itemBlock = (BlockItem) found.getItem();
-                        BlockPlaceContext context = new BlockPlaceContext(world, player, InteractionHand.MAIN_HAND, found, BlockHitResult.miss(player.getEyePosition(0), Direction.UP, pos));
-                        InteractionResult interactionResult = itemBlock.place(context);
-                        if (interactionResult != InteractionResult.FAIL) {
-                            if (handler != null) {
-                                handler.extractItem(foundSlot, 1, false);
-                            }
-                            if (itemBlock instanceof MetaMachineItem && world.getBlockEntity(pos) instanceof MetaMachineBlockEntity machineBlockEntity) {
-                                machines.put(pos, machineBlockEntity.metaMachine);
-                            } else {
-                                blocks.put(posLong, itemBlock.getBlock());
-                            }
+                        if (ae.extract(
+                                candidatesFluid.get(0), 1000, Actionable.SIMULATE, IActionSource.ofPlayer(player)) == 1000 && world.setBlock(pos, candidatesFluid.get(0).getFluid().defaultFluidState().createLegacyBlock(), 11)) {
+                            ae.extract(
+                                    candidatesFluid.get(0), 1000, Actionable.MODULATE, IActionSource.ofPlayer(player));
                         }
 
                     }
@@ -236,13 +274,13 @@ class AdvancedBlockPattern extends BlockPattern {
         }
     }
 
-    private static Triplet<ItemStack, IItemHandler, Integer> foundItem(Player player, List<ItemStack> candidates, int isUseAE) {
+    private static Triplet<ItemStack, IItemHandler, Integer> foundItem(Player player, List<ItemStack> candidates, MEStorage ae) {
         ItemStack found = null;
         IItemHandler handler = null;
         int foundSlot = -1;
         if (!player.isCreative()) {
             var foundHandler = getMatchStackWithHandler(candidates,
-                    player.getCapability(ForgeCapabilities.ITEM_HANDLER), player, isUseAE);
+                    player.getCapability(ForgeCapabilities.ITEM_HANDLER), player, ae);
             if (foundHandler != null) {
                 foundSlot = foundHandler.firstInt();
                 handler = foundHandler.second();
@@ -281,7 +319,7 @@ class AdvancedBlockPattern extends BlockPattern {
     }
 
     @Nullable
-    private static IntObjectPair<IItemHandler> getMatchStackWithHandler(List<ItemStack> candidates, LazyOptional<IItemHandler> cap, Player player, int isUseAE) {
+    private static IntObjectPair<IItemHandler> getMatchStackWithHandler(List<ItemStack> candidates, LazyOptional<IItemHandler> cap, Player player, MEStorage ae) {
         IItemHandler handler = cap.resolve().orElse(null);
         if (handler == null) {
             return null;
@@ -294,20 +332,16 @@ class AdvancedBlockPattern extends BlockPattern {
             @NotNull
             LazyOptional<IItemHandler> stackCap = stack.getCapability(ForgeCapabilities.ITEM_HANDLER);
             if (stackCap.isPresent()) {
-                var rt = getMatchStackWithHandler(candidates, stackCap, player, isUseAE);
+                var rt = getMatchStackWithHandler(candidates, stackCap, player, ae);
                 if (rt != null) {
                     return rt;
                 }
-            } else if (isUseAE == 1 && stack.getItem() instanceof WirelessTerminalItem terminalItem && stack.hasTag() && stack.getTag().contains("accessPoint", 10)) {
-                IGrid grid = terminalItem.getLinkedGrid(stack, player.level(), player);
-                if (grid != null) {
-                    MEStorage storage = grid.getStorageService().getInventory();
-                    for (ItemStack candidate : candidates) {
-                        if (storage.extract(AEItemKey.of(candidate), 1, Actionable.MODULATE, IActionSource.ofPlayer(player)) > 0) {
-                            NonNullList<ItemStack> stacks = NonNullList.withSize(1, candidate);
-                            IItemHandler handler1 = new ItemStackHandler(stacks);
-                            return IntObjectPair.of(0, handler1);
-                        }
+            } else if (ae != null) {
+                for (ItemStack candidate : candidates) {
+                    if (ae.extract(AEItemKey.of(candidate), 1, Actionable.MODULATE, IActionSource.ofPlayer(player)) > 0) {
+                        NonNullList<ItemStack> stacks = NonNullList.withSize(1, candidate);
+                        IItemHandler handler1 = new ItemStackHandler(stacks);
+                        return IntObjectPair.of(0, handler1);
                     }
                 }
 

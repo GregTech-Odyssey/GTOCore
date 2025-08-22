@@ -23,9 +23,13 @@ import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
+import appeng.api.stacks.AEFluidKey;
+import appeng.api.stacks.AEItemKey;
+import appeng.api.stacks.AEKey;
 import com.hepdd.gtmthings.api.gui.widget.TerminalInputWidget;
 import com.hepdd.gtmthings.api.misc.Hatch;
 import com.lowdragmc.lowdraglib.gui.editor.ColorPattern;
@@ -313,15 +317,18 @@ public class AdvancedTerminalBehavior implements IItemUIFactory {
             this.module = 0;
         }
 
-        public List<ItemStack> apply(Block[] blocks) {
-            List<ItemStack> candidates = new ArrayList<>();
+        public List<AEKey> apply(Block[] blocks) {
+            List<AEKey> candidates = new ArrayList<>();
             if (blocks != null) {
                 for (Block block : blocks) {
                     if (tierBlock != null && tier > 0 && blocks.length > 1 && this.blocks.contains(block)) {
-                        candidates.add(tierBlock[Math.min(tierBlock.length, tier) - 1].asItem().getDefaultInstance());
+                        candidates.add(AEItemKey.of(tierBlock[Math.min(tierBlock.length, tier) - 1].asItem()));
                         return candidates;
+                    } else if (block instanceof LiquidBlock fluid) {
+                        var realFluid = fluid.getFluid().getSource();
+                        candidates.add(AEFluidKey.of(realFluid));
                     } else if (block != Blocks.AIR) {
-                        candidates.add(SimplePredicate.toItem(block).getDefaultInstance());
+                        candidates.add(AEItemKey.of(SimplePredicate.toItem(block)));
                     }
                 }
             }

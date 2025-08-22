@@ -10,6 +10,7 @@ import com.gtocore.common.data.GTOMaterials;
 import com.gtocore.common.data.GTORecipeTypes;
 import com.gtocore.common.machine.multiblock.electric.space.SuperSpaceElevatorMachine;
 import com.gtocore.common.machine.multiblock.water.*;
+import com.gtocore.config.GTOConfig;
 
 import com.gtolib.GTOCore;
 import com.gtolib.api.annotation.NewDataAttributes;
@@ -418,7 +419,7 @@ public final class MultiBlockB {
                     .where(' ', any())
                     .build())
             .onWorking(machine -> {
-                if (machine.self().getOffsetTimer() % 20 == 0 && machine.self().getLevel() instanceof ServerLevel serverLevel) {
+                if (machine.self().getLevel() instanceof ServerLevel serverLevel && GTOConfig.INSTANCE.lightningRodEffect && machine.self().getOffsetTimer() % serverLevel.random.nextInt(20, 200) == 0) {
                     LightningBolt entityToSpawn = EntityType.LIGHTNING_BOLT.create(serverLevel);
                     if (entityToSpawn != null) {
                         entityToSpawn.setPos(MachineUtils.getOffsetPos(9, 50, machine.self().getFrontFacing(), machine.self().getPos()).getCenter());

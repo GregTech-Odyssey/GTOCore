@@ -84,7 +84,6 @@ public abstract class DisplayComponent implements IDisplayComponent {
 
         private float progress; // 0.0 to 1.0
         private int width;
-        private int height;
         private String text = ""; // Optional text to display on the progress bar
         private ProgressBarColorStyle style = ProgressBarColorStyle.Companion.getDEFAULT_GREEN(); // Default style
 
@@ -97,7 +96,6 @@ public abstract class DisplayComponent implements IDisplayComponent {
             if (information.length >= 3 && information[0] instanceof Float progressValue && information[1] instanceof Integer widthValue && information[2] instanceof Integer heightValue) {
                 this.progress = progressValue;
                 this.width = widthValue;
-                this.height = heightValue;
                 if (information.length >= 5 && information[3] instanceof String text0 &&
                         information[4] instanceof ProgressBarColorStyle style0) {
                     // Optionally handle text if needed, currently unused
@@ -107,7 +105,6 @@ public abstract class DisplayComponent implements IDisplayComponent {
             } else {
                 this.progress = 0.0f; // Default to 0 if no valid values provided
                 this.width = 100; // Default width
-                this.height = 20; // Default height
             }
             return this;
         }
@@ -119,7 +116,7 @@ public abstract class DisplayComponent implements IDisplayComponent {
 
         @Override
         public int getVisualHeight() {
-            return height;
+            return 16;
         }
 
         @Override
