@@ -14,7 +14,7 @@ import com.lowdragmc.lowdraglib.utils.Position;
 import com.lowdragmc.lowdraglib.utils.Size;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
-import kotlin.Pair;
+import it.unimi.dsi.fastutil.objects.ObjectBooleanPair;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -29,7 +29,7 @@ public class DisplayComponentGroup extends WidgetGroup {
     @NotNull
     private final List<ResourceLocation> originList;
     /// Uses both sides
-    private final List<Pair<ResourceLocation, Boolean>> current = new ObjectArrayList<>();
+    private final List<ObjectBooleanPair<ResourceLocation>> current = new ObjectArrayList<>();
     private final Map<ResourceLocation, DisplayComponentWidget> displayWidgets = new Object2ObjectOpenHashMap<>();
     private DraggableScrollableWidgetGroup scrollArea;
 
@@ -40,11 +40,11 @@ public class DisplayComponentGroup extends WidgetGroup {
         this.orderedCallback = orderedCallback;
         this.originList = originList;
         this.current.addAll(current.stream()
-                .map(rl -> new Pair<>(rl, true))
+                .map(rl -> ObjectBooleanPair.of(rl, true))
                 .toList());
         this.current.addAll(originList.stream()
                 .filter(rl -> current.stream().noneMatch(rl::equals))
-                .map(rl -> new Pair<>(rl, false))
+                .map(rl -> ObjectBooleanPair.of(rl, false))
                 .toList());
         this.setBackground(GuiTextures.BACKGROUND_INVERSE);
 
@@ -70,12 +70,12 @@ public class DisplayComponentGroup extends WidgetGroup {
         }
         int y = 2;
         for (var rl : current) {
-            var displayWidget = firstInit ? new DisplayComponentWidget(rl.getFirst(), rl.getSecond()) :
-                    displayWidgets.get(rl.getFirst()).setEnabled(rl.getSecond());
+            var displayWidget = firstInit ? new DisplayComponentWidget(rl.left(), rl.rightBoolean()) :
+                    displayWidgets.get(rl.left()).setEnabled(rl.rightBoolean());
             displayWidget.setSelfPosition(5, y);
             displayWidget.setSize(125, 20);
             scrollArea.acceptWidget(displayWidget);
-            displayWidgets.putIfAbsent(rl.getFirst(), displayWidget);
+            displayWidgets.putIfAbsent(rl.left(), displayWidget);
             y += 10;
         }
     }
@@ -88,7 +88,7 @@ public class DisplayComponentGroup extends WidgetGroup {
             for (int i = 0; i < size; i++) {
                 ResourceLocation rl = buffer.readResourceLocation();
                 boolean enabled = buffer.readBoolean();
-                this.current.add(new Pair<>(rl, enabled));
+                this.current.add(ObjectBooleanPair.of(rl, enabled));
             }
             // Update the corresponding widget
             init();
@@ -101,14 +101,14 @@ public class DisplayComponentGroup extends WidgetGroup {
     private void reset() {
         this.current.clear();
         this.current.addAll(originList.stream()
-                .map(rl -> new Pair<>(rl, true))
+                .map(rl -> ObjectBooleanPair.of(rl, true))
                 .toList());
         init();
         writeUpdateInfo(PACKET_ID, buf -> {
             buf.writeVarInt(current.size());
             for (var rl : current) {
-                buf.writeResourceLocation(rl.getFirst());
-                buf.writeBoolean(rl.getSecond());
+                buf.writeResourceLocation(rl.left());
+                buf.writeBoolean(rl.rightBoolean());
             }
         });
     }
@@ -125,18 +125,18 @@ public class DisplayComponentGroup extends WidgetGroup {
             orderedCallback.accept(orderedList);
             current.clear();
             current.addAll(orderedList.stream()
-                    .map(rl -> new Pair<>(rl, true))
+                    .map(rl -> ObjectBooleanPair.of(rl, true))
                     .toList());
             current.addAll(originList.stream()
                     .filter(rl -> orderedList.stream().noneMatch(rl::equals))
-                    .map(rl -> new Pair<>(rl, false))
+                    .map(rl -> ObjectBooleanPair.of(rl, false))
                     .toList());
             init();
             writeUpdateInfo(PACKET_ID, buf -> {
                 buf.writeVarInt(current.size());
                 for (var rl : current) {
-                    buf.writeResourceLocation(rl.getFirst());
-                    buf.writeBoolean(rl.getSecond());
+                    buf.writeResourceLocation(rl.left());
+                    buf.writeBoolean(rl.rightBoolean());
                 }
             });
         }

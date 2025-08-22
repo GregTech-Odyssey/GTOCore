@@ -46,10 +46,12 @@ import net.minecraftforge.registries.RegisterEvent;
 import appeng.api.features.GridLinkables;
 import appeng.api.networking.pathing.ChannelMode;
 import appeng.core.AEConfig;
+import appeng.hotkeys.HotkeyActions;
 import appeng.items.tools.powered.WirelessTerminalItem;
 import com.hepdd.gtmthings.data.CustomItems;
 import de.mari_023.ae2wtlib.AE2wtlib;
 import de.mari_023.ae2wtlib.TextConstants;
+import de.mari_023.ae2wtlib.hotkeys.Ae2WTLibLocatingService;
 import de.mari_023.ae2wtlib.terminal.IUniversalWirelessTerminalItem;
 import de.mari_023.ae2wtlib.wut.WTDefinition;
 import earth.terrarium.adastra.api.events.AdAstraEvents;
@@ -80,6 +82,7 @@ public class CommonProxy {
         eventBus.addListener(Datagen::onGatherData);
         eventBus.addGenericListener(DimensionMarker.class, CommonProxy::registerDimensionMarkers);
         eventBus.addGenericListener(GTRecipeCategory.class, CommonProxy::registerRecipeCategory);
+        HotkeyActions.register(new Ae2WTLibLocatingService(Wireless.ID), Wireless.ID + "_locating_service");
         MinecraftForge.EVENT_BUS.register(ForgeCommonEvent.class);
     }
 

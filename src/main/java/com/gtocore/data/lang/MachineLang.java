@@ -51,6 +51,8 @@ final class MachineLang {
         addCNEN("gtocore.machine.neutron_activator.efficiency", "动能消耗倍速: %s", "Kinetic Energy Consumption Multiplier: %s");
         addCNEN("gtocore.machine.neutron_activator.ev", "当前中子动能: %seV", "Current Neutron Kinetic Energy: %seV");
         addCNEN("gtocore.machine.height", "高度: %s", "Height: %s");
+        addCNEN("gtocore.machine.sensor.tooltip", "未反转时，数值低于最低值或高于最高值时输出0，介于两者之间时输出递增的1-15的红石信号", "When not inverted, outputs 0 when the value is below the minimum or above the maximum, or an increasing redstone signal between 1-14 when in between.");
+        addCNEN("gtocore.machine.sensor.tooltip.0", "反转时，数值低于最低值或高于最高值时输出15，介于两者之间时输出递减的1-15的红石信号", "When inverted, outputs 15 when the value is above the maximum or below the minimum, or a decreasing redstone signal between 1-14 when in between.");
         addCNEN("gtocore.machine.sensor.invert.disabled.0", "红石输出: 普通", "Redstone Output: Normal");
         addCNEN("gtocore.machine.sensor.invert.disabled.1", "点击为以反转红石逻辑", "Click to toggle inverted redstone logic");
         addCNEN("gtocore.machine.sensor.invert.disabled.2", "介于所设定的最小值和最大值之间时传感器将发出红石信号", "When neutron kinetic energy is between the set minimum and maximum values, the sensor will emit a redstone signal");

@@ -155,7 +155,7 @@ public final class GTOConfig {
     public Difficulty gameDifficulty = Difficulty.Normal;
 
     @Configurable
-    @Configurable.Comment("启用自我约束模式以防止作弊行为")
+    @Configurable.Comment("启用自我约束模式以限制任何形式的作弊指令使用（警告：一旦开启，游玩的存档将永久锁定自我约束模式！）")
     @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Self Restraint Mode", cn = "自我约束模式")
     public boolean selfRestraint = false;
 
@@ -215,6 +215,11 @@ public final class GTOConfig {
     @Configurable.Range(min = 4, max = 64)
     @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Maximum Monitor Size", cn = "监控器最大尺寸")
     public int maxMonitorSize = 16;
+
+    @Configurable
+    @Configurable.Comment("引雷针在工作时是否生成闪电特效")
+    @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Lightning Rod Effect", cn = "引雷针特效")
+    public boolean lightningRodEffect = true;
 
     // 开发和调试设置
     @Configurable
