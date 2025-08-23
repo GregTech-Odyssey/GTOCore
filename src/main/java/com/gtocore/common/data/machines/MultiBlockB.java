@@ -419,7 +419,7 @@ public final class MultiBlockB {
                     .where(' ', any())
                     .build())
             .onWorking(machine -> {
-                if (machine.self().getLevel() instanceof ServerLevel serverLevel && GTOConfig.INSTANCE.lightningRodEffect && machine.self().getOffsetTimer() % serverLevel.random.nextInt(20, 200) == 0) {
+                if (GTOConfig.INSTANCE.lightningRodEffect && machine.self().getLevel() instanceof ServerLevel serverLevel && machine.self().getOffsetTimer() % serverLevel.random.nextInt(20, 200) == 0) {
                     LightningBolt entityToSpawn = EntityType.LIGHTNING_BOLT.create(serverLevel);
                     if (entityToSpawn != null) {
                         entityToSpawn.setPos(MachineUtils.getOffsetPos(9, 50, machine.self().getFrontFacing(), machine.self().getPos()).getCenter());
@@ -1011,7 +1011,7 @@ public final class MultiBlockB {
                     .aisle("         AAAAAAAAAAAAA ", "         A           A ", "         A           A ", "          A         A  ", "          A         A  ", "          A         A  ", "          A         A  ", "           A       A   ", "           A       A   ", "           A       A   ", "           A       A   ", "           A       A   ", "          A         A  ", "         A           A ", "        A             A")
                     .aisle("CDEDC   AAAAAAAAAAAAAAA", "C   C   A             A", "C   C   A             A", "C   C    A           A ", "C   C    A           A ", "C   C    A           A ", "C   C    A           A ", "C   C     A         A  ", "C   C     A         A  ", "CBDBC     A         A  ", "          A         A  ", "          A         A  ", "         A           A ", "         A           A ", "        A             A")
                     .aisle("EFFFD   AAAAAAAAAAAAAAA", " GGGDDDDA             A", " GGG    A             A", " GGG     A           A ", " GGG     A           A ", " GGG     A           A ", " GGG     A           A ", " GGG      A         A  ", " GGG      A         A  ", "DDDDD     A         A  ", " DDD      A         A  ", "          A         A  ", "         A           A ", "         A           A ", "        A             A")
-                    .aisle("IFFFDDDDAAAAAAAAAAAAAAA", " GHG    A             A", " GHGDDDDA             A", " GHG     A           A ", " GHG     A           A ", " GHG     A           A ", " GHG     A           A ", " GHG      A         A  ", " GHG      A         A  ", "BDDDD     A         A  ", " DDD      A         A  ", "          A         A  ", "         A           A ", "         A           A ", "        A             A")
+                    .aisle("IFFFDDDDAAAAAAAAAAAAAAA", " GHG    A             A", " GHGDDDDA             A", " GHG     A           A ", " GHG     A           A ", " GHG     A           A ", " GHG     A           A ", " GHG      A         A  ", " GHG      A         A  ", "JDBDD     A         A  ", " DDD      A         A  ", "          A         A  ", "         A           A ", "         A           A ", "        A             A")
                     .aisle("EFFFD   AAAAAAAAAAAAAAA", " GGGDDDDA             A", " GGG    A             A", " GGG     A           A ", " GGG     A           A ", " GGG     A           A ", " GGG     A           A ", " GGG      A         A  ", " GGG      A         A  ", "DDDDD     A         A  ", " DDD      A         A  ", "          A         A  ", "         A           A ", "         A           A ", "        A             A")
                     .aisle("CD~DC   AAAAAAAAAAAAAAA", "C   C   A             A", "C   C   A             A", "C   C    A           A ", "C   C    A           A ", "C   C    A           A ", "C   C    A           A ", "C   C     A         A  ", "C   C     A         A  ", "CBDBC     A         A  ", "          A         A  ", "          A         A  ", "         A           A ", "         A           A ", "        A             A")
                     .aisle("         AAAAAAAAAAAAA ", "         A           A ", "         A           A ", "          A         A  ", "          A         A  ", "          A         A  ", "          A         A  ", "           A       A   ", "           A       A   ", "           A       A   ", "           A       A   ", "           A       A   ", "          A         A  ", "         A           A ", "        A             A")
@@ -1022,6 +1022,7 @@ public final class MultiBlockB {
                     .where('~', controller(blocks(definition.get())))
                     .where('H', blocks(GTOBlocks.SPEEDING_PIPE.get()))
                     .where('I', blocks(GTOMachines.HEAT_SENSOR.getBlock()))
+                    .where('J', blocks(GTOBlocks.PLASMA_HEATER_CASING.get()).or(blocks(GTOMachines.HEAT_SENSOR.getBlock())))
                     .where('B', blocks(GTOBlocks.PLASMA_HEATER_CASING.get()).or(abilities(IMPORT_FLUIDS).setPreviewCount(2)))
                     .where('E', blocks(GTOBlocks.PLASMA_HEATER_CASING.get()).or(abilities(EXPORT_FLUIDS).setPreviewCount(2)))
                     .where('F', blocks(GTOBlocks.IMPROVED_SUPERCONDUCTOR_COIL.get()))

@@ -14,15 +14,13 @@ import net.minecraft.world.level.block.Block;
 
 import it.unimi.dsi.fastutil.objects.Object2BooleanOpenHashMap;
 
-import java.util.Map;
-
 import static com.gregtechceu.gtceu.common.data.GTMaterials.CHEMICAL_DYES;
 import static com.gtocore.common.data.GTORecipeTypes.CHEMICAL_BATH_RECIPES;
 import static com.gtocore.common.data.GTORecipeTypes.EXTRACTOR_RECIPES;
 
 public final class DyeRecipes {
 
-    public static final Map<String, Boolean> BWG = new Object2BooleanOpenHashMap<>();
+    public static final Object2BooleanOpenHashMap<String> BWG = new Object2BooleanOpenHashMap<>();
 
     public static void init() {
         for (int i = 0; i < CHEMICAL_DYES.length; i++) {

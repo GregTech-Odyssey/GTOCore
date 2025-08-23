@@ -187,7 +187,7 @@ class AdvancedBlockPattern extends BlockPattern {
                         if (autoBuildSetting.isReplaceMode() &&
                                 coilItemStack != null &&
                                 candidates.get(0) instanceof AEItemKey itemKey &&
-                                AEItemKey.matches(itemKey, coilItemStack))
+                                itemKey.matches(coilItemStack))
                             continue;
 
                         // Check inventory (item)

@@ -36,6 +36,7 @@ import com.lowdragmc.lowdraglib.gui.editor.ColorPattern;
 import com.lowdragmc.lowdraglib.gui.factory.HeldItemUIFactory;
 import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
 import com.lowdragmc.lowdraglib.gui.widget.*;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet;
 
 import java.util.*;
@@ -318,7 +319,7 @@ public class AdvancedTerminalBehavior implements IItemUIFactory {
         }
 
         public List<AEKey> apply(Block[] blocks) {
-            List<AEKey> candidates = new ArrayList<>();
+            List<AEKey> candidates = new ObjectArrayList<>();
             if (blocks != null) {
                 for (Block block : blocks) {
                     if (tierBlock != null && tier > 0 && blocks.length > 1 && this.blocks.contains(block)) {

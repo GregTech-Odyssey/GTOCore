@@ -199,7 +199,7 @@ public final class LangHandler {
 
         addCNEN("gtocore.player_exp_status.mysterious_boost_potion.success", "你似乎被赋予了某种神秘能力...", "You seem to be granted with some mysterious ability ......");
 
-        addCNEN("gtocore.gui.encoding_desc", "§o[Shift 点击] 将样板存入背包", "§o[Shift + Click] insert encoding pattern into player inventory");
+        addCNEN("gtocore.gui.encoding_desc", "§o[Shift + 左击] 将样板存入背包/清空所有已编码样板", "§o[Shift + Click] insert encoding pattern into player inventory / clear all encoded patterns");
 
         addCNEN("gtocore.xaero_waypoint_set", "矿脉", "Ore Vein");
 
