@@ -45,6 +45,9 @@ import java.util.stream.Stream;
 @DataGeneratorScanned
 public class AdvancedTerminalBehavior implements IItemUIFactory {
 
+    @RegisterLanguage(cn = "拆除模式", en = "Demolition Mode")
+    private static final String DEMOLITION = "gtocore.auto_build.demolition_mode";
+
     @RegisterLanguage(cn = "模块搭建", en = "Module Build")
     private static final String MODULE = "gtocore.auto_build.module";
 
@@ -74,10 +77,9 @@ public class AdvancedTerminalBehavior implements IItemUIFactory {
                 } else {
                     pattern = controller.getPattern();
                 }
-                if (autoBuildSetting.isReplaceMode()) {
+                if (autoBuildSetting.demolition == 1) {
                     AdvancedBlockPattern.getAdvancedBlockPattern(pattern).autoBuild(context.getPlayer(), controller.getMultiblockState(), autoBuildSetting);
                     controller.getMultiblockState().cleanCache();
-                    controller.requestCheck();
                 } else {
                     controller.requestCheck();
                     controller.setWaitingTime(10);
@@ -98,10 +100,10 @@ public class AdvancedTerminalBehavior implements IItemUIFactory {
 
     private static Widget createWidget(Player entityPlayer) {
         ItemStack handItem = entityPlayer.getMainHandItem();
-        var group = new WidgetGroup(0, 0, 190, 142);
+        var group = new WidgetGroup(0, 0, 190, 162);
         int rowIndex = 1;
         group.addWidget(
-                new DraggableScrollableWidgetGroup(4, 4, 182, 134).setUseScissor(false)
+                new DraggableScrollableWidgetGroup(4, 4, 182, 154).setUseScissor(false)
                         .setBackground(GuiTextures.DISPLAY)
                         .setYScrollBarWidth(2)
                         .setYBarStyle(null, ColorPattern.T_WHITE.rectTexture().setRadius(1))
@@ -163,7 +165,10 @@ public class AdvancedTerminalBehavior implements IItemUIFactory {
                                 (v) -> setIsFlip(v, handItem)).setMin(0).setMax(1))
                         .addWidget(new LabelWidget(4, 5 + 16 * rowIndex, MODULE))
                         .addWidget(new TerminalInputWidget(140, 5 + 16 * rowIndex++, 20, 16, () -> getModule(handItem),
-                                (v) -> setModule(v, handItem)).setMin(0).setMax(100)));
+                                (v) -> setModule(v, handItem)).setMin(0).setMax(100))
+                        .addWidget(new LabelWidget(4, 5 + 16 * rowIndex, DEMOLITION))
+                        .addWidget(new TerminalInputWidget(140, 5 + 16 * rowIndex++, 20, 16, () -> getDemolition(handItem),
+                                (v) -> setDemolition(v, handItem)).setMin(0).setMax(1)));
 
         group.setBackground(GuiTextures.BACKGROUND_INVERSE);
         return group;
@@ -180,6 +185,7 @@ public class AdvancedTerminalBehavior implements IItemUIFactory {
             autoBuildSetting.isUseAE = tag.getInt("isUseAE");
             autoBuildSetting.isFlip = tag.getInt("isFlip");
             autoBuildSetting.module = tag.getInt("module");
+            autoBuildSetting.demolition = tag.getInt("demolition");
             var block = tag.getString("block");
             if (!block.isEmpty()) {
                 autoBuildSetting.tierBlock = BlockMap.MAP.get(block);
@@ -301,21 +307,31 @@ public class AdvancedTerminalBehavior implements IItemUIFactory {
         itemStack.setTag(tag);
     }
 
+    private static int getDemolition(ItemStack itemStack) {
+        var tag = itemStack.getTag();
+        if (tag != null && !tag.isEmpty()) {
+            return tag.getInt("demolition");
+        } else {
+            return 0;
+        }
+    }
+
+    private static void setDemolition(int repeatCount, ItemStack itemStack) {
+        var tag = itemStack.getTag();
+        if (tag == null) tag = new CompoundTag();
+        tag.putInt("demolition", repeatCount);
+        itemStack.setTag(tag);
+    }
+
     static class AutoBuildSetting {
 
         Block[] tierBlock;
         Set<Block> blocks = Collections.emptySet();
 
-        int tier, repeatCount, noHatchMode, replaceMode, isUseAE, isFlip, module;
+        int tier, repeatCount, noHatchMode, replaceMode, isUseAE, isFlip, module, demolition;
 
         private AutoBuildSetting() {
-            this.tier = 0;
-            this.repeatCount = 0;
             this.noHatchMode = 1;
-            this.replaceMode = 0;
-            this.isUseAE = 0;
-            this.isFlip = 0;
-            this.module = 0;
         }
 
         public List<AEKey> apply(Block[] blocks) {

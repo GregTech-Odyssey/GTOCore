@@ -259,7 +259,7 @@ public final class GTORecipeTypes {
             .setMaxIOSize(2, 9, 1, 0)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.MACERATOR)
-            .onBuild(b -> b.duration((int) (Math.sqrt(b.duration) + 0.5)));
+            .onBuild(b -> b.duration((int) (Math.sqrt(b.duration + 100) * 2)));
 
     public static final RecipeType FISSION_REACTOR_RECIPES = register("fission_reactor", "裂变反应堆", MULTIBLOCK)
             .setMaxIOSize(1, 1, 0, 0)

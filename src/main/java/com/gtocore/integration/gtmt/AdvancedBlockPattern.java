@@ -16,6 +16,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
@@ -38,7 +39,6 @@ import de.mari_023.ae2wtlib.wct.CraftingTerminalHandler;
 import it.unimi.dsi.fastutil.ints.IntObjectPair;
 import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
-import it.unimi.dsi.fastutil.objects.ObjectIntPair;
 import org.apache.commons.lang3.ArrayUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -101,12 +101,19 @@ class AdvancedBlockPattern extends BlockPattern {
                         BlockPos pos = setActualRelativeOffset(x, y, z, facing, upwardsFacing, isFlipped).offset(centerPos.getX(), centerPos.getY(), centerPos.getZ());
                         worldState.update(pos, predicate);
                         long posLong = pos.asLong();
-                        ItemStack coilItemStack = null;
+                        Item blockItem = null;
                         BlockState blockState = world.getBlockState(pos);
                         Block block = blockState.getBlock();
                         if (block != Blocks.AIR) {
+                            if (autoBuildSetting.demolition == 1) {
+                                if (ae == null || ae.insert(AEItemKey.of(block.asItem()), 1, Actionable.MODULATE, IActionSource.ofPlayer(player)) == 0) {
+                                    player.addItem(new ItemStack(block, 1));
+                                }
+                                world.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
+                                continue;
+                            }
                             if (autoBuildSetting.isReplaceMode() && autoBuildSetting.blocks.contains(block)) {
-                                coilItemStack = block.asItem().getDefaultInstance();
+                                blockItem = block.asItem();
                             } else {
                                 blocks.put(posLong, block);
                                 for (SimplePredicate limit : predicate.limited) {
@@ -185,9 +192,9 @@ class AdvancedBlockPattern extends BlockPattern {
                         List<AEKey> candidates = autoBuildSetting.apply(infos);
 
                         if (autoBuildSetting.isReplaceMode() &&
-                                coilItemStack != null &&
+                                blockItem != null &&
                                 candidates.get(0) instanceof AEItemKey itemKey &&
-                                itemKey.matches(coilItemStack))
+                                itemKey.getReadOnlyStack().is(blockItem))
                             continue;
 
                         // Check inventory (item)
@@ -202,23 +209,11 @@ class AdvancedBlockPattern extends BlockPattern {
 
                         // Item placement
                         if (foundItem != null) {
-
-                            // check can get old coilBlock
-                            IItemHandler holderHandler = null;
-                            int holderSlot = -1;
-                            if (autoBuildSetting.isReplaceMode() && coilItemStack != null) {
-                                var holderResult = foundHolderSlot(player, coilItemStack);
-                                holderHandler = holderResult.first();
-                                holderSlot = holderResult.secondInt();
-
-                                if (holderHandler != null && holderSlot < 0) {
-                                    continue;
+                            if (autoBuildSetting.isReplaceMode() && blockItem != null) {
+                                if (ae == null || ae.insert(AEItemKey.of(blockItem), 1, Actionable.MODULATE, IActionSource.ofPlayer(player)) == 0) {
+                                    player.addItem(new ItemStack(blockItem, 1));
                                 }
-                            }
-
-                            if (autoBuildSetting.isReplaceMode() && coilItemStack != null) {
-                                world.removeBlock(pos, true);
-                                if (holderHandler != null) holderHandler.insertItem(holderSlot, coilItemStack, false);
+                                world.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
                             }
 
                             BlockItem itemBlock = (BlockItem) foundItem.getItem();
@@ -249,12 +244,9 @@ class AdvancedBlockPattern extends BlockPattern {
                         }
                         if (ae == null) continue; // Fluid placement is only supported with AE (for now)
 
-                        if (ae.extract(
-                                candidatesFluid.get(0), 1000, Actionable.SIMULATE, IActionSource.ofPlayer(player)) == 1000 && world.setBlock(pos, candidatesFluid.get(0).getFluid().defaultFluidState().createLegacyBlock(), 11)) {
-                            ae.extract(
-                                    candidatesFluid.get(0), 1000, Actionable.MODULATE, IActionSource.ofPlayer(player));
+                        if (ae.extract(candidatesFluid.get(0), 1000, Actionable.MODULATE, IActionSource.ofPlayer(player)) == 1000) {
+                            world.setBlock(pos, candidatesFluid.get(0).getFluid().defaultFluidState().createLegacyBlock(), 11);
                         }
-
                     }
                 }
                 z++;
@@ -296,26 +288,6 @@ class AdvancedBlockPattern extends BlockPattern {
             }
         }
         return new Triplet<>(found, handler, foundSlot);
-    }
-
-    private static ObjectIntPair<IItemHandler> foundHolderSlot(Player player, ItemStack coilItemStack) {
-        IItemHandler handler = null;
-        int foundSlot = -1;
-        if (!player.isCreative()) {
-            handler = player.getCapability(ForgeCapabilities.ITEM_HANDLER).orElse(null);
-            for (int i = 0; i < handler.getSlots(); i++) {
-                ItemStack stack = handler.getStackInSlot(i);
-                if (stack.isEmpty()) {
-                    if (foundSlot < 0) {
-                        foundSlot = i;
-                    }
-                } else if (ItemStack.isSameItem(coilItemStack, stack) && (stack.getCount() + 1) <= stack.getMaxStackSize()) {
-                    foundSlot = i;
-                }
-            }
-        }
-
-        return ObjectIntPair.of(handler, foundSlot);
     }
 
     @Nullable

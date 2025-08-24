@@ -24,10 +24,10 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GTEmiEncodingHelper {
+class GTEmiEncodingHelper {
 
     @Nullable
-    public static GenericStack ofVirtual(EmiStack stack, long amount) {
+    private static GenericStack ofVirtual(EmiStack stack, long amount) {
         if (stack.getKey() instanceof Item) {
             var itemKey = AEItemKey.of(VirtualItemProviderBehavior.setVirtualItem(CustomItems.VIRTUAL_ITEM_PROVIDER.asStack(), stack.getItemStack()));
             itemKey.getTag().putBoolean("marked", true);
@@ -36,14 +36,14 @@ public class GTEmiEncodingHelper {
         return null;
     }
 
-    public static List<GenericStack> intoGenericStack(EmiIngredient ingredient, boolean virtual) {
+    private static List<GenericStack> intoGenericStack(EmiIngredient ingredient, boolean virtual) {
         if (ingredient.isEmpty()) {
             return new ArrayList<>();
         }
         return ingredient.getEmiStacks().stream().map(stack -> fromEmiStackVirtualConvertible(stack, ingredient.getAmount(), virtual)).toList();
     }
 
-    public static GenericStack fromEmiStackVirtualConvertible(EmiStack stack, long amount, boolean virtual) {
+    private static GenericStack fromEmiStackVirtualConvertible(EmiStack stack, long amount, boolean virtual) {
         if (stack.getKey() instanceof Item) {
             if (virtual) {
                 return ofVirtual(stack, amount);
@@ -55,11 +55,11 @@ public class GTEmiEncodingHelper {
         return new GenericStack(AEItemKey.of(Items.STICK), 0);
     }
 
-    public static List<GenericStack> intoGenericStack(EmiIngredient ingredient) {
+    static List<GenericStack> intoGenericStack(EmiIngredient ingredient) {
         return intoGenericStack(ingredient, false);
     }
 
-    public static List<List<GenericStack>> ofInputs(EmiRecipe emiRecipe) {
+    static List<List<GenericStack>> ofInputs(EmiRecipe emiRecipe) {
         if (emiRecipe instanceof MultiblockInfoEmiRecipe) {
             return emiRecipe.getInputs()
                     .stream()
@@ -74,7 +74,9 @@ public class GTEmiEncodingHelper {
                     .map(s -> intoGenericStack(s, GTUtil.isCtrlDown()))
                     .forEach(list::add);
             if (list.isEmpty() && GTUtil.isCtrlDown()) {
-                list.add(List.of(new GenericStack(AEItemKey.of(VirtualItemProviderBehavior.setVirtualItem(CustomItems.VIRTUAL_ITEM_PROVIDER.asStack(), ItemStack.EMPTY)), 1)));
+                var itemKey = AEItemKey.of(VirtualItemProviderBehavior.setVirtualItem(CustomItems.VIRTUAL_ITEM_PROVIDER.asStack(), ItemStack.EMPTY));
+                itemKey.getTag().putBoolean("marked", true);
+                list.add(List.of(new GenericStack(itemKey, 1)));
             }
         }
         emiRecipe.getInputs()

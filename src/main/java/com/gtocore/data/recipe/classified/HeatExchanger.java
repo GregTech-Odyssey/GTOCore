@@ -16,7 +16,7 @@ final class HeatExchanger {
                 .outputFluids(GTMaterials.Steam.getFluid(25600))
                 .outputFluids(GTOMaterials.HighPressureSteam.getFluid(6400))
                 .duration(200)
-                .addData("eu", 2560000)
+                .addData("eu", 12800)
                 .save();
 
         HEAT_EXCHANGER_RECIPES.recipeBuilder("supercritical_sodium_potassium")
@@ -26,7 +26,7 @@ final class HeatExchanger {
                 .outputFluids(GTOMaterials.HighPressureSteam.getFluid(6400))
                 .outputFluids(GTOMaterials.SupercriticalSteam.getFluid(1600))
                 .duration(200)
-                .addData("eu", 2560000)
+                .addData("eu", 12800)
                 .save();
     }
 }

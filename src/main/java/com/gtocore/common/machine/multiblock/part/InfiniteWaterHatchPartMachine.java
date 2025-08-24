@@ -41,7 +41,7 @@ public final class InfiniteWaterHatchPartMachine extends TieredIOPartMachine {
 
     private static final class FluidTank extends NotifiableRecipeHandlerTrait<FluidIngredient> {
 
-        private static final List<FluidStack> WATER = List.of(new FluidStack(Fluids.WATER, Integer.MAX_VALUE));
+        private static final FluidStack WATER = new FluidStack(Fluids.WATER, Integer.MAX_VALUE);
 
         private FluidTank(MetaMachine machine) {
             super(machine);
@@ -99,7 +99,7 @@ public final class InfiniteWaterHatchPartMachine extends TieredIOPartMachine {
         private static final Object2LongOpenHashMap<FluidStack> MAP = new Object2LongOpenHashMap<>(2, 0.99F);
 
         static {
-            MAP.put(WATER.get(0), Long.MAX_VALUE);
+            MAP.put(WATER, Long.MAX_VALUE);
         }
 
         @Override

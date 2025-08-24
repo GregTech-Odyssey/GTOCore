@@ -71,6 +71,7 @@ public final class RecipeTypeModify {
 
         PLASMA_GENERATOR_FUELS.onRecipeBuild((recipeBuilder, provider) -> {
             long eu = recipeBuilder.duration * GTValues.V[GTValues.EV] * 2;
+            int water = (int) (eu / 80);
             FluidIngredient output = FluidRecipeCapability.CAP.of(recipeBuilder.output
                     .get(FluidRecipeCapability.CAP).get(0).getContent()).copy();
             FluidIngredient input = FluidRecipeCapability.CAP.of(recipeBuilder.input
@@ -79,10 +80,10 @@ public final class RecipeTypeModify {
             input.setAmount(10);
             HEAT_EXCHANGER_RECIPES.recipeBuilder(recipeBuilder.id)
                     .inputFluids(input)
-                    .inputFluids(GTMaterials.DistilledWater.getFluid((int) (eu / 160)))
+                    .inputFluids(GTMaterials.DistilledWater.getFluid(water))
                     .outputFluids(output)
-                    .outputFluids(GTOMaterials.HighPressureSteam.getFluid((int) (eu / 4)))
-                    .outputFluids(GTOMaterials.SupercriticalSteam.getFluid((int) (eu / 16)))
+                    .outputFluids(GTOMaterials.HighPressureSteam.getFluid(water * 40))
+                    .outputFluids(GTOMaterials.SupercriticalSteam.getFluid(water * 10))
                     .addData("eu", eu)
                     .duration(200)
                     .save(provider);
