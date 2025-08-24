@@ -1000,6 +1000,9 @@ public final class GTOMaterials {
     public static Material OmniFloraElixir;
     public static Material GaiaSolvent;
     public static Material WildenEssence;
+    public static Material Animium;
+    public static Material TheWaterFromTheWellOfWisdom;
+    public static Material FlowingCiphers;
     public static Material Photonium;
     public static Material Orichalcos;
     public static Material Shadowium;

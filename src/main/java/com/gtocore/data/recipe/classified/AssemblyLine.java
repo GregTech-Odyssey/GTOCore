@@ -4327,7 +4327,7 @@ final class AssemblyLine {
                 .inputFluids(GTOMaterials.Kevlar, 1152)
                 .EUt(125829120)
                 .duration(400)
-                .duration(400).researchStation(b -> b.researchStack(ChemicalHelper.get(GTOTagPrefix.SUPERCONDUCTOR_BASE, GTOMaterials.Legendarium))
+                .researchStation(b -> b.researchStack(ChemicalHelper.get(GTOTagPrefix.SUPERCONDUCTOR_BASE, GTOMaterials.Legendarium))
                         .CWUt(256)
                         .EUt(31457280))
                 .save();
@@ -4343,7 +4343,7 @@ final class AssemblyLine {
                 .inputFluids(GTOMaterials.Kevlar, 1152)
                 .EUt(503316480)
                 .duration(400)
-                .duration(400).researchStation(b -> b.researchStack(ChemicalHelper.get(GTOTagPrefix.SUPERCONDUCTOR_BASE, GTOMaterials.AwakenedDraconium))
+                .researchStation(b -> b.researchStack(ChemicalHelper.get(GTOTagPrefix.SUPERCONDUCTOR_BASE, GTOMaterials.AwakenedDraconium))
                         .CWUt(512)
                         .EUt(125829120))
                 .save();

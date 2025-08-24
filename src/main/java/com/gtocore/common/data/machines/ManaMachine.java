@@ -131,7 +131,7 @@ public final class ManaMachine {
             .allRotation()
             .tooltipsText("If mana equivalent to the machine's maximum power is input prior to operation, the current recipe will switch to perfect overclocking.", "如果运行前输入了等同机器最大功率的魔力，则将本次配方改为无损超频")
             .tooltipsText("Otherwise, the machine will not execute the recipe.", "否则，机器不执行配方")
-            .workableManaTieredHullRenderer(2, GTOCore.id("block/multiblock/mana"))
+            .workableManaTieredHullRenderer(6, GTOCore.id("block/multiblock/mana"))
             .register();
 
     public static final MachineDefinition ALCHEMY_CAULDRON = manaMachine("alchemy_cauldron", "炼金锅", AlchemyCauldron::new)

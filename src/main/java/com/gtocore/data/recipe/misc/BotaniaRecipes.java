@@ -37,6 +37,8 @@ import io.github.lounode.extrabotany.common.block.ExtraBotanyBlocks;
 import io.github.lounode.extrabotany.common.block.flower.ExtrabotanyFlowerBlocks;
 import io.github.lounode.extrabotany.common.item.ExtraBotanyItems;
 import io.github.lounode.extrabotany.common.lib.ExtraBotanyTags;
+import it.unimi.dsi.fastutil.objects.Object2IntMap;
+import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import vazkii.botania.api.recipe.StateIngredient;
 import vazkii.botania.common.block.BotaniaBlocks;
 import vazkii.botania.common.block.BotaniaFlowerBlocks;
@@ -624,6 +626,14 @@ public final class BotaniaRecipes {
                 .MANAt(1)
                 .save();
 
+        MANA_INFUSER_RECIPES.builder("gjallar_horn_full")
+                .notConsumable("mythicbotany:yggdrasil_branch")
+                .inputItems("mythicbotany:gjallar_horn_empty", 16)
+                .outputItems("mythicbotany:gjallar_horn_full", 16)
+                .duration(400)
+                .MANAt(240)
+                .save();
+
         // 工业祭坛 - 符文祭坛
         record IndustrialAltarRecipe(
                                      int circuitMeta,
@@ -665,6 +675,9 @@ public final class BotaniaRecipes {
                 new IndustrialAltarRecipe(1, "joetunheim_rune", 16000, BotaniaBlocks.livingrock.asItem(), new ItemStack(RegistriesUtils.getItem("mythicbotany:joetunheim_rune")), new Item[] { BotaniaItems.runeEarth, BotaniaItems.runeAutumn, BotaniaItems.runeGluttony, Items.BLACKSTONE, Items.BLACKSTONE }));
 
         for (IndustrialAltarRecipe recipe : IndustrialAltar) {
+            Object2IntMap<Item> CountMap = new Object2IntOpenHashMap<>();
+            for (Item item : recipe.inputs) CountMap.mergeInt(item, 1, Integer::sum);
+
             var build = INDUSTRIAL_ALTAR_RECIPES.builder(recipe.id);
             build
                     .inputItems(recipe.input, 16)
@@ -672,7 +685,7 @@ public final class BotaniaRecipes {
                     .duration(300)
                     .circuitMeta(recipe.circuitMeta)
                     .MANAt(recipe.mana / 50);
-            for (int i = 0; i < recipe.inputs.length; i++) build.inputItems(recipe.inputs[i]);
+            for (Object2IntMap.Entry<Item> entry : CountMap.object2IntEntrySet()) build.inputItems(entry.getKey(), entry.getIntValue());
             build.save(provider);
         }
 
@@ -685,6 +698,9 @@ public final class BotaniaRecipes {
                 new IndustrialAltarRecipe(1, "gilded_potato", 800, BotaniaBlocks.livingrock.asItem(), new ItemStack(ExtraBotanyItems.gildedPotato, 4), new Item[] { Items.POTATO, Items.GOLD_NUGGET }),
                 new IndustrialAltarRecipe(1, "orichalcos_hammer", 1000000, BotaniaBlocks.livingrock.asItem(), new ItemStack(ExtraBotanyItems.orichalcosHammer, 4), new Item[] { ExtraBotanyItems.orichalcos, ExtraBotanyItems.gildedPotatoMashed, ExtraBotanyItems.theChaos, ExtraBotanyItems.theOrigin, ExtraBotanyItems.theEnd }));
         for (IndustrialAltarRecipe recipe : IndustrialAltar3) {
+            Object2IntMap<Item> CountMap = new Object2IntOpenHashMap<>();
+            for (Item item : recipe.inputs) CountMap.mergeInt(item, 1, Integer::sum);
+
             var build = INDUSTRIAL_ALTAR_RECIPES.builder(recipe.id);
             build
                     .inputItems(recipe.input, 4)
@@ -692,7 +708,7 @@ public final class BotaniaRecipes {
                     .duration(300)
                     .circuitMeta(recipe.circuitMeta)
                     .MANAt(recipe.mana / 50);
-            for (int i = 0; i < recipe.inputs.length; i++) build.inputItems(recipe.inputs[i], 4);
+            for (Object2IntMap.Entry<Item> entry : CountMap.object2IntEntrySet()) build.inputItems(entry.getKey(), entry.getIntValue() * 4);
             build.save(provider);
         }
 
@@ -811,6 +827,9 @@ public final class BotaniaRecipes {
                 new IndustrialAltarRecipe(2, "necrofleur", 1, Items.WHEAT_SEEDS, new ItemStack(ExtrabotanyFlowerBlocks.necrofleur), new Item[] { BotaniaItems.grayPetal, BotaniaItems.grayPetal, BotaniaItems.pinkPetal, BotaniaItems.pinkPetal, BotaniaItems.redPetal, BotaniaItems.runeWrath, BotaniaItems.manaPowder }),
                 new IndustrialAltarRecipe(2, "enchanter", 1, Items.WHEAT_SEEDS, new ItemStack(ExtrabotanyFlowerBlocks.enchanter), new Item[] { BotaniaItems.purplePetal, BotaniaItems.purplePetal, BotaniaItems.magentaPetal, BotaniaItems.limePetal, BotaniaItems.limePetal, BotaniaItems.runePride, BotaniaItems.runeGreed, BotaniaItems.runeGluttony, BotaniaItems.lifeEssence }));
         for (IndustrialAltarRecipe recipe : IndustrialAltar2) {
+            Object2IntMap<Item> CountMap = new Object2IntOpenHashMap<>();
+            for (Item item : recipe.inputs) CountMap.mergeInt(item, 1, Integer::sum);
+
             var build = INDUSTRIAL_ALTAR_RECIPES.builder(recipe.id);
             build
                     .inputItems(ForgeTags.SEEDS, 8)
@@ -819,7 +838,7 @@ public final class BotaniaRecipes {
                     .duration(20)
                     .circuitMeta(recipe.circuitMeta)
                     .MANAt(32);
-            for (int i = 0; i < recipe.inputs.length; i++) build.inputItems(recipe.inputs[i], 2);
+            for (Object2IntMap.Entry<Item> entry : CountMap.object2IntEntrySet()) build.inputItems(entry.getKey(), entry.getIntValue() * 2);
             build.save(provider);
         }
 

@@ -14,6 +14,7 @@ import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
 
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
@@ -27,20 +28,23 @@ import net.minecraftforge.fluids.FluidStack;
 import com.hollingsworth.arsnouveau.api.registry.PerkRegistry;
 import com.hollingsworth.arsnouveau.common.datagen.RecipeDatagen;
 import com.hollingsworth.arsnouveau.common.items.PerkItem;
-import com.hollingsworth.arsnouveau.common.perk.*;
 import com.hollingsworth.arsnouveau.setup.registry.BlockRegistry;
 import com.hollingsworth.arsnouveau.setup.registry.ItemsRegistry;
+import io.github.lounode.extrabotany.common.item.ExtraBotanyItems;
+import it.unimi.dsi.fastutil.objects.Object2IntMap;
+import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import vazkii.botania.common.block.BotaniaBlocks;
 import vazkii.botania.common.item.BotaniaItems;
 import vectorwing.farmersdelight.common.tag.ForgeTags;
 
-import java.util.List;
+import java.util.*;
 import java.util.function.Consumer;
 
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
 import static com.gtocore.common.data.GTOMaterials.*;
 import static com.gtocore.common.data.GTORecipeTypes.INFUSER_CORE_RECIPES;
+import static com.gtolib.utils.ItemUtils.getFirstSized;
 
 public final class ArsNouveauRecipes {
 
@@ -69,9 +73,10 @@ public final class ArsNouveauRecipes {
                 new ImbuementRecipe("gaia_core", Ingredient.of(RegistriesUtils.getItem("ars_nouveau:mirrorweave")), new ItemStack(GTOItems.GAIA_CORE), 10000,
                         new Ingredient[] { Ingredient.of(BotaniaItems.lifeEssence), Ingredient.of(BotaniaItems.lifeEssence), Ingredient.of(BotaniaItems.lifeEssence), Ingredient.of(BotaniaItems.lifeEssence) }),
                 new ImbuementRecipe("bifrost_perm", Ingredient.of(BotaniaBlocks.elfGlass), new ItemStack(BotaniaBlocks.bifrostPerm), 1000,
-                        new Ingredient[] { Ingredient.of(RegistriesUtils.getItem("botania:rainbow_rod")) })
+                        new Ingredient[] { Ingredient.of(RegistriesUtils.getItem("botania:rainbow_rod")) }),
 
-        );
+                new ImbuementRecipe("spirit_fuel", Ingredient.of(ExtraBotanyItems.nightmareFuel), new ItemStack(ExtraBotanyItems.spiritFuel), 5000,
+                        new Ingredient[] { Ingredient.of(Blocks.PLAYER_HEAD) }));
 
         for (ImbuementRecipe recipe : Imbuement) {
             var build = ImbuementRecipeBuilder.builder(recipe.id);
@@ -205,6 +210,8 @@ public final class ArsNouveauRecipes {
                         new Ingredient[] { Ingredient.of(BotaniaItems.lifeEssence), Ingredient.of(BotaniaItems.lifeEssence), Ingredient.of(BotaniaItems.lifeEssence), Ingredient.of(BotaniaItems.lifeEssence) }, new FluidStack[0]),
                 new MultiblockImbuementRecipe(1, false, "bifrost_perm", Ingredient.of(BotaniaBlocks.elfGlass), new ItemStack(BotaniaBlocks.bifrostPerm), 1000,
                         new Ingredient[] { Ingredient.of(RegistriesUtils.getItem("botania:rainbow_rod")) }, new FluidStack[0]),
+                new MultiblockImbuementRecipe(1, false, "spirit_fuel", Ingredient.of(ExtraBotanyItems.nightmareFuel), new ItemStack(ExtraBotanyItems.spiritFuel), 5000,
+                        new Ingredient[] { Ingredient.of(Blocks.PLAYER_HEAD) }, new FluidStack[0]),
 
                 // 附魔核心
                 new MultiblockImbuementRecipe(5, true, "belt_of_levitation", Ingredient.of(ItemsRegistry.MUNDANE_BELT), new ItemStack(ItemsRegistry.BELT_OF_LEVITATION), 10000,
@@ -243,7 +250,7 @@ public final class ArsNouveauRecipes {
                 new MultiblockImbuementRecipe(5, true, "wixie_charm", Ingredient.of(ItemsRegistry.WIXIE_SHARD), new ItemStack(ItemsRegistry.WIXIE_CHARM), 10000,
                         new Ingredient[] { Ingredient.of(ItemTags.SAPLINGS), Ingredient.of(Tags.Items.GEMS_EMERALD), Ingredient.of(Items.CRAFTING_TABLE), Ingredient.of(Items.BREWING_STAND) },
                         new FluidStack[0]),
-                new MultiblockImbuementRecipe(5, true, "wand", Ingredient.of(RecipeDatagen.ARCHWOOD_LOG.getItems()), new ItemStack(ItemsRegistry.WAND), 10000,
+                new MultiblockImbuementRecipe(5, true, "wand", RecipeDatagen.ARCHWOOD_LOG, new ItemStack(ItemsRegistry.WAND), 10000,
                         new Ingredient[] { RecipeDatagen.SOURCE_GEM, RecipeDatagen.SOURCE_GEM, RecipeDatagen.SOURCE_GEM, RecipeDatagen.SOURCE_GEM, Ingredient.of(Tags.Items.INGOTS_GOLD), Ingredient.of(Tags.Items.INGOTS_GOLD), Ingredient.of(ItemsRegistry.AIR_ESSENCE), Ingredient.of(ItemsRegistry.MANIPULATION_ESSENCE) },
                         new FluidStack[0]),
                 new MultiblockImbuementRecipe(5, true, "potion_flask", Ingredient.of(Items.GLASS_BOTTLE), new ItemStack(ItemsRegistry.POTION_FLASK), 10000,
@@ -402,6 +409,15 @@ public final class ArsNouveauRecipes {
         );
 
         for (MultiblockImbuementRecipe recipe : MultiblockImbuement) {
+            Object2IntMap<String> countMap = new Object2IntOpenHashMap<>();
+            Map<String, Ingredient> ingredientMap = new HashMap<>();
+
+            for (Ingredient ingredient : recipe.pedestal) {
+                String key = generateIngredientKey(ingredient);
+                countMap.mergeInt(key, 1, Integer::sum);
+                if (!ingredientMap.containsKey(key)) ingredientMap.put(key, ingredient);
+            }
+
             var build = INFUSER_CORE_RECIPES.builder(recipe.id);
             if (!recipe.model) {
                 build
@@ -419,7 +435,7 @@ public final class ArsNouveauRecipes {
                         .circuitMeta(recipe.circuitMeta)
                         .duration(100)
                         .MANAt(recipe.source / 25);
-                for (int i = 0; i < recipe.pedestal.length; i++) build.inputItems(recipe.pedestal[i]);
+                for (Object2IntMap.Entry<String> entry : countMap.object2IntEntrySet()) build.inputItems(ingredientMap.get(entry.getKey()), entry.getIntValue());
                 for (int i = 0; i < recipe.inputFluid.length; i++) build.inputFluids(recipe.inputFluid[i]);
             }
             build.save(provider);
@@ -633,5 +649,15 @@ public final class ArsNouveauRecipes {
 
     public static PerkItem getPerkItem(ResourceLocation id) {
         return PerkRegistry.getPerkItemMap().get(id);
+    }
+
+    private static String generateIngredientKey(Ingredient ingredient) {
+        if (ingredient.isEmpty()) return "EMPTY";
+        ItemStack[] items = ingredient.getItems();
+        if (items.length == 1) return BuiltInRegistries.ITEM.getKey(items[0].getItem()).toString();
+        List<String> itemKeys = new ArrayList<>();
+        for (ItemStack stack : items) itemKeys.add(BuiltInRegistries.ITEM.getKey(stack.getItem()).toString());
+        Collections.sort(itemKeys);
+        return String.join(",", itemKeys);
     }
 }

@@ -118,7 +118,7 @@ public final class Data {
         OrganRecipes.INSTANCE.init(consumer);
         BotaniaRecipes.init(consumer);
         ArsNouveauRecipes.init(consumer);
-        ManaRecipes.init(consumer);
+        MagicRecipesA.init(consumer);
         FuelRecipe.init();
         BrineRecipes.init();
         NaquadahProcess.init();
