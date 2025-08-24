@@ -24,7 +24,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-class GTEmiEncodingHelper {
+public class GTEmiEncodingHelper { // also accessed by gtolib
 
     @Nullable
     private static GenericStack ofVirtual(EmiStack stack, long amount) {
@@ -55,11 +55,11 @@ class GTEmiEncodingHelper {
         return new GenericStack(AEItemKey.of(Items.STICK), 0);
     }
 
-    static List<GenericStack> intoGenericStack(EmiIngredient ingredient) {
+    public static List<GenericStack> intoGenericStack(EmiIngredient ingredient) {
         return intoGenericStack(ingredient, false);
     }
 
-    static List<List<GenericStack>> ofInputs(EmiRecipe emiRecipe) {
+    public static List<List<GenericStack>> ofInputs(EmiRecipe emiRecipe) {
         if (emiRecipe instanceof MultiblockInfoEmiRecipe) {
             return emiRecipe.getInputs()
                     .stream()

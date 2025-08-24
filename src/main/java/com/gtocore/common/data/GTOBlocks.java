@@ -107,6 +107,7 @@ public final class GTOBlocks {
     public static final BlockEntry<Block> SPACE_ELEVATOR_MODULE_BASE = createSidedCasingBlock("space_elevator_module_base", "太空电梯模块基座", GTOCore.id("block/casings/space_elevator_module_base"));
     public static final BlockEntry<Block> DYSON_RECEIVER_CASING = createSidedCasingBlock("dyson_receiver_casing", "戴森球能量接收基座机械方块", GTOCore.id("block/casings/dyson_receiver_casing"));
     public static final BlockEntry<Block> DYSON_DEPLOYMENT_MAGNET = createSidedCasingBlock("dyson_deployment_magnet", "戴森球模块部署单元超导磁体", GTOCore.id("block/casings/dyson_deployment_magnet"));
+    public static final BlockEntry<Block> HIGH_STRENGTH_SPACE_ELEVATOR_CABLE = createCasingBlock("high_strength_space_elevator_cable", "高强度太空电梯绳索", GTOCore.id("block/casings/high_strength_space_elevator_cable"));
 
     public static final BlockEntry<Block> HERMETIC_CASING_UEV = createHermeticCasing(GTValues.UEV);
     public static final BlockEntry<Block> HERMETIC_CASING_UIV = createHermeticCasing(GTValues.UIV);
