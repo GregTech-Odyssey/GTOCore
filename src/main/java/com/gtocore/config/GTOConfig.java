@@ -66,16 +66,9 @@ public final class GTOConfig {
             ConfigHolder.INSTANCE.compat.energy.feToEuRatio = 20;
             ConfigHolder.INSTANCE.compat.energy.euToFeRatio = 16;
             ConfigHolder.INSTANCE.compat.ae2.meHatchEnergyUsage = 32 * difficulty;
-            ConfigHolder.INSTANCE.compat.minimap.toggle.ftbChunksIntegration = false;
-            ConfigHolder.INSTANCE.compat.minimap.toggle.journeyMapIntegration = false;
             ConfigHolder.INSTANCE.compat.showDimensionTier = true;
             ConfigHolder.INSTANCE.worldgen.rubberTreeSpawnChance = (float) (2 - 0.5 * difficulty);
             ConfigHolder.INSTANCE.worldgen.allUniqueStoneTypes = true;
-            ConfigHolder.INSTANCE.worldgen.sandOresFall = false;
-            ConfigHolder.INSTANCE.worldgen.increaseDungeonLoot = true;
-            ConfigHolder.INSTANCE.worldgen.addLoot = true;
-            ConfigHolder.INSTANCE.worldgen.oreVeins.oreVeinGridSize = 3;
-            ConfigHolder.INSTANCE.worldgen.oreVeins.oreVeinRandomOffset = 12;
             ConfigHolder.INSTANCE.worldgen.oreVeins.removeVanillaOreGen = false;
             ConfigHolder.INSTANCE.worldgen.oreVeins.removeVanillaLargeOreVeins = true;
             ConfigHolder.INSTANCE.worldgen.oreVeins.bedrockOreDistance = difficulty;

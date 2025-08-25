@@ -40,6 +40,11 @@ public final class CatalystHatchPartMachine extends TieredIOPartMachine {
     }
 
     @Override
+    public void onPaintingColorChanged(int color) {
+        getHandlerList().setColor(color, true);
+    }
+
+    @Override
     public Widget createUIWidget() {
         int rowSize = tier == 2 ? 2 : 6;
         var group = new WidgetGroup(0, 0, 18 * rowSize + 16, 18 * rowSize + 16);

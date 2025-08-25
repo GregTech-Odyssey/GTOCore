@@ -22,7 +22,10 @@ import com.gregtechceu.gtceu.api.pattern.error.PatternStringError;
 import com.gregtechceu.gtceu.api.pattern.predicates.SimplePredicate;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.common.data.GTMachines;
+import com.gregtechceu.gtceu.common.machine.multiblock.part.RotorHolderPartMachine;
 
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
@@ -120,10 +123,25 @@ public final class GTOPredicates {
     public static TraceabilityPredicate RotorBlock(int tier) {
         return new TraceabilityPredicate(new SimplePredicate(state -> {
             MetaMachine machine = MetaMachine.getMachine(state.getTileEntity());
-            if (machine instanceof IRotorHolderMachine holder && machine.getDefinition().getTier() >= tier) {
-                return state.getWorld().getBlockState(state.getPos().relative(holder.self().getFrontFacing())).isAir();
+            if (machine instanceof IRotorHolderMachine && machine.getDefinition().getTier() >= tier) {
+                Direction facing = machine.getFrontFacing();
+                boolean permuteXZ = facing.getAxis() == Direction.Axis.Z;
+                for (int x = -2; x < 3; x++) {
+                    for (int y = -2; y < 3; y++) {
+                        if (x == 0 && y == 0) continue;
+                        var offset = state.pos.offset(permuteXZ ? x : 0, y, permuteXZ ? 0 : x);
+                        if (getBlockState(state, offset).hasBlockEntity() && MetaMachine.getMachine(state.getWorld(), offset) instanceof RotorHolderPartMachine) {
+                            state.setError(new PatternStringError("gtceu.multiblock.pattern.clear_amount_3"));
+                            return false;
+                        }
+                        if (x == -2 || x == 2 || y == -2 || y == 2 || getBlockState(state, offset.relative(facing)).isAir()) continue;
+                        state.setError(new PatternStringError("gtceu.multiblock.pattern.clear_amount_3"));
+                        return false;
+                    }
+                }
+                return true;
             }
-            state.setError(new PatternStringError("gtceu.multiblock.pattern.clear_amount_3"));
+            state.setError(new PatternStringError("gtocore.idle_reason.block_tier_not_satisfies"));
             return false;
         }, () -> BlockInfo.fromBlockState(GTMachines.ROTOR_HOLDER[tier].defaultBlockState()), () -> PartAbility.ROTOR_HOLDER.getAllBlocks().stream().filter(b -> b instanceof MetaMachineBlock metaMachineBlock && metaMachineBlock.getDefinition().getTier() >= tier).toArray(Block[]::new))).addTooltips(Component.translatable("gtceu.multiblock.pattern.clear_amount_3"));
     }
@@ -161,19 +179,10 @@ public final class GTOPredicates {
             Block block = state.getBlockState().getBlock();
             if (block == GTOBlocks.FISSION_FUEL_COMPONENT.get()) {
                 integer[0]++;
-                integer[2] += GTOUtils.adjacentBlock(side -> {
-                    var pos = state.pos.relative(side);
-                    return state.blockStateCache.computeIfAbsent(pos.asLong(), k -> state.world.getBlockState(pos)).getBlock();
-                }, GTOBlocks.FISSION_FUEL_COMPONENT.get());
-            } else if (block == GTOBlocks.FISSION_COOLER_COMPONENT.get() && GTOUtils.adjacentBlock(side -> {
-                var pos = state.pos.relative(side);
-                return state.blockStateCache.computeIfAbsent(pos.asLong(), k -> state.world.getBlockState(pos)).getBlock();
-            }, GTOBlocks.FISSION_FUEL_COMPONENT.get()) > 1) {
+                integer[2] += GTOUtils.adjacentBlock(side -> getBlockState(state, state.pos.relative(side)).getBlock(), GTOBlocks.FISSION_FUEL_COMPONENT.get());
+            } else if (block == GTOBlocks.FISSION_COOLER_COMPONENT.get() && GTOUtils.adjacentBlock(side -> getBlockState(state, state.pos.relative(side)).getBlock(), GTOBlocks.FISSION_FUEL_COMPONENT.get()) > 1) {
                 integer[1]++;
-                integer[3] += GTOUtils.adjacentBlock(side -> {
-                    var pos = state.pos.relative(side);
-                    return state.blockStateCache.computeIfAbsent(pos.asLong(), k -> state.world.getBlockState(pos)).getBlock();
-                }, GTOBlocks.FISSION_COOLER_COMPONENT.get());
+                integer[3] += GTOUtils.adjacentBlock(side -> getBlockState(state, state.pos.relative(side)).getBlock(), GTOBlocks.FISSION_COOLER_COMPONENT.get());
             }
             return integer;
         }), "fissionComponent", GTOBlocks.FISSION_FUEL_COMPONENT.get(), GTOBlocks.FISSION_COOLER_COMPONENT.get()).setPreviewCount(1);
@@ -193,5 +202,9 @@ public final class GTOPredicates {
             }
             return false;
         }, () -> BlockInfo.fromBlock(blocks[0]), () -> predicate.common.stream().map(p -> p.candidates).filter(Objects::nonNull).map(Supplier::get).flatMap(Arrays::stream).toArray(Block[]::new)));
+    }
+
+    private static BlockState getBlockState(MultiblockState state, BlockPos pos) {
+        return state.blockStateCache.computeIfAbsent(pos.asLong(), k -> state.world.getBlockState(pos));
     }
 }

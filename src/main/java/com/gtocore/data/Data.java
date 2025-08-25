@@ -11,6 +11,7 @@ import com.gtocore.data.recipe.gtm.chemistry.ChemistryRecipes;
 import com.gtocore.data.recipe.gtm.configurable.RecipeAddition;
 import com.gtocore.data.recipe.gtm.misc.*;
 import com.gtocore.data.recipe.misc.*;
+import com.gtocore.data.recipe.mod.AE2;
 import com.gtocore.data.recipe.mod.FunctionalStorage;
 import com.gtocore.data.recipe.mod.ImmersiveAircraft;
 import com.gtocore.data.recipe.mod.MeteoriteRecipe;
@@ -131,6 +132,7 @@ public final class Data {
         GlassRecipe.init();
         DyeRecipes.init();
         WoodRecipes.init();
+        AE2.init(consumer);
         ImmersiveAircraft.init(consumer);
         FunctionalStorage.init(consumer);
         $ClassifiedRecipe.init(consumer);

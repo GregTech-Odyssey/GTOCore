@@ -194,7 +194,7 @@ public final class GeneratorMultiblock {
                                                                    ResourceLocation overlayModel) {
         return multiblock(name, "特大" + cn, holder -> new TurbineMachine(holder, tier, special, true))
                 .addTooltipsFromClass(TurbineMachine.class)
-                .allRotation()
+                .nonYAxisRotation()
                 .recipeTypes(recipeType)
                 .generator()
                 .tooltipsKey("gtocore.machine.mega_steam_turbine.tooltip.0")
