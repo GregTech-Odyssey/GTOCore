@@ -25,6 +25,7 @@ import com.gtolib.utils.register.BlockRegisterUtils;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTValues;
+import com.gregtechceu.gtceu.api.item.tool.GTToolItem;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.WorkableTieredMachine;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
@@ -62,6 +63,7 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.level.BlockEvent;
 import net.minecraftforge.event.level.LevelEvent;
 import net.minecraftforge.event.server.ServerStoppingEvent;
+import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 import earth.terrarium.adastra.common.entities.mob.GlacianRam;
@@ -316,5 +318,11 @@ public final class ForgeCommonEvent {
     @SubscribeEvent
     public static void onCommandRegister(RegisterCommandsEvent event) {
         GTOCommands.init(event.getDispatcher());
+    }
+
+    @SubscribeEvent
+    public static void onGTToolRightClickBlock(PlayerInteractEvent.RightClickBlock event) {
+        var item = event.getEntity().getMainHandItem().getItem();
+        if (item instanceof GTToolItem) event.setUseBlock(Event.Result.ALLOW);
     }
 }
