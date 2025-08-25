@@ -288,8 +288,7 @@ public final class AE2 {
 
 
         try {
-            var cell = RegistriesUtils.getItemStack("expatternprovider:infinity_cell");
-            cell.setTag(TagParser.parseTag("{record:{\"#c\":\"ae2:i\",id:\"minecraft:cobblestone\"}}"));
+            var cell = RegistriesUtils.getItemStack("expatternprovider:infinity_cell",1,"{record:{\"#c\":\"ae2:i\",id:\"minecraft:cobblestone\"}}");
             VanillaRecipeHelper.addShapedRecipe(provider, GTOCore.id("infinity_cell"), cell,
                     "ABA",
                     "CDE",
