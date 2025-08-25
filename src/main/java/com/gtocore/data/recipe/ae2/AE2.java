@@ -1,10 +1,16 @@
 package com.gtocore.data.recipe.ae2;
 
-import appeng.core.AppEng;
-import appeng.core.definitions.AEBlocks;
-import appeng.core.definitions.AEItems;
-import com.glodblock.github.extendedae.ExtendedAE;
+import com.gtocore.api.data.tag.GTOTagPrefix;
+import com.gtocore.common.data.GTOBlocks;
+import com.gtocore.common.data.GTOItems;
+import com.gtocore.common.data.GTOMaterials;
+
+import com.gtolib.GTOCore;
+import com.gtolib.utils.RLUtils;
+import com.gtolib.utils.RegistriesUtils;
+
 import com.gregtechceu.gtceu.api.GTValues;
+import com.gregtechceu.gtceu.api.data.chemical.material.stack.MaterialEntry;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTItems;
@@ -12,18 +18,16 @@ import com.gregtechceu.gtceu.common.data.GTMachines;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
 import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
-import com.gtocore.api.data.tag.GTOTagPrefix;
-import com.gtocore.common.data.GTOBlocks;
-import com.gtocore.common.data.GTOItems;
-import com.gtocore.common.data.GTOMaterials;
-import com.gtolib.GTOCore;
-import com.gtolib.utils.RLUtils;
-import com.gtolib.utils.RegistriesUtils;
+
 import net.minecraft.data.recipes.FinishedRecipe;
-import net.minecraft.nbt.TagParser;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+
+import appeng.core.AppEng;
+import appeng.core.definitions.AEBlocks;
+import appeng.core.definitions.AEItems;
+import com.glodblock.github.extendedae.ExtendedAE;
 
 import java.util.Set;
 import java.util.function.Consumer;
@@ -33,6 +37,7 @@ import static com.gtocore.common.data.GTORecipeTypes.ASSEMBLER_RECIPES;
 public final class AE2 {
 
     public static void init(Consumer<FinishedRecipe> provider) {
+        Ae2wtlibRecipes.init(provider);
         if (GTOCore.isSimple()) return;
         VanillaRecipeHelper.addShapedRecipe(provider, GTOCore.id("import_bus"), RegistriesUtils.getItemStack("ae2:import_bus"),
                 "ABC",
@@ -286,22 +291,29 @@ public final class AE2 {
                 .duration(300)
                 .save();
 
+        VanillaRecipeHelper.addShapedRecipe(provider, GTOCore.id("water_infinity_cell"), RegistriesUtils.getItemStack("expatternprovider:infinity_cell"),
+                "ABA",
+                "BCB",
+                "ABA",
+                'A', RegistriesUtils.getItemStack("botania:rune_water"), 'B', GTItems.COVER_INFINITE_WATER.asStack(), 'C', new ItemStack(AEItems.FLUID_CELL_256K.asItem()));
 
-        try {
-            var cell = RegistriesUtils.getItemStack("expatternprovider:infinity_cell",1,"{record:{\"#c\":\"ae2:i\",id:\"minecraft:cobblestone\"}}");
-            VanillaRecipeHelper.addShapedRecipe(provider, GTOCore.id("infinity_cell"), cell,
-                    "ABA",
-                    "CDE",
-                    "ABA",
-                    'A', RegistriesUtils.getItemStack("botania:rune_earth"),
-                    'B', GTMachines.ROCK_CRUSHER[GTValues.EV].asStack(),
-                    'C', new ItemStack(Items.WATER_BUCKET.asItem()),
-                    'D', new ItemStack(GTOItems.CELL_COMPONENT_1M.asItem()),
-                    'E', new ItemStack(Items.LAVA_BUCKET.asItem()));
+        VanillaRecipeHelper.addShapedRecipe(provider, GTOCore.id("me_packing_tape"), RegistriesUtils.getItemStack("expatternprovider:me_packing_tape"),
+                "ABC",
+                "BDB",
+                "CBA",
+                'A', new MaterialEntry(TagPrefix.dust, GTOMaterials.Fluix), 'B', GTItems.DUCT_TAPE.asStack(), 'C', new ItemStack(Items.SLIME_BALL.asItem()), 'D', new MaterialEntry(TagPrefix.dust, GTMaterials.EnderPearl));
 
-        } catch (Exception ignored) {
+        var cell = RegistriesUtils.getItemStack("expatternprovider:infinity_cell", 1, "{record:{\"#c\":\"ae2:i\",id:\"minecraft:cobblestone\"}}");
+        VanillaRecipeHelper.addShapedRecipe(provider, GTOCore.id("infinity_cell"), cell,
+                "ABA",
+                "CDE",
+                "ABA",
+                'A', RegistriesUtils.getItemStack("botania:rune_earth"),
+                'B', GTMachines.ROCK_CRUSHER[GTValues.EV].asStack(),
+                'C', new ItemStack(Items.WATER_BUCKET.asItem()),
+                'D', new ItemStack(GTOItems.CELL_COMPONENT_1M.asItem()),
+                'E', new ItemStack(Items.LAVA_BUCKET.asItem()));
 
-        }
         if (GTOCore.isExpert()) {
             VanillaRecipeHelper.addShapedRecipe(provider, GTOCore.id("ex_pattern_provider"), RegistriesUtils.getItemStack("expatternprovider:ex_pattern_provider"),
                     "ABA",
@@ -488,9 +500,7 @@ public final class AE2 {
                     .duration(100)
                     .save();
 
-
         }
-
     }
 
     public static void initJsonFilter(Set<ResourceLocation> filters) {
@@ -527,7 +537,7 @@ public final class AE2 {
 
         filters.add(RLUtils.fromNamespaceAndPath("merequester", "requester"));
 
-        filters.add(ExtendedAE.id("epp"));//ex_pattern_provider
+        filters.add(ExtendedAE.id("epp"));// ex_pattern_provider
         filters.add(ExtendedAE.id("cobblestone_cell"));
         filters.add(ExtendedAE.id("water_cell"));
         filters.add(ExtendedAE.id("tape"));

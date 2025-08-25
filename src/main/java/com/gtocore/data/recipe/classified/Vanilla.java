@@ -861,16 +861,6 @@ final class Vanilla {
                 "BCB",
                 "DDD",
                 'A', new MaterialEntry(TagPrefix.rod, GTMaterials.Steel), 'B', new MaterialEntry(TagPrefix.springSmall, GTMaterials.Steel), 'C', GTMultiMachines.COKE_OVEN.asStack(), 'D', new MaterialEntry(TagPrefix.plate, GTMaterials.Steel));
-        VanillaRecipeHelper.addShapedRecipe(provider, GTOCore.id("water_infinity_cell"), RegistriesUtils.getItemStack("expatternprovider:infinity_cell"),
-                "ABA",
-                "BCB",
-                "ABA",
-                'A', RegistriesUtils.getItemStack("botania:rune_water"), 'B', GTItems.COVER_INFINITE_WATER.asStack(), 'C', new ItemStack(AEItems.FLUID_CELL_256K.asItem()));
-        VanillaRecipeHelper.addShapedRecipe(provider, GTOCore.id("me_packing_tape"), RegistriesUtils.getItemStack("expatternprovider:me_packing_tape"),
-                "ABC",
-                "BDB",
-                "CBA",
-                'A', new MaterialEntry(TagPrefix.dust, GTOMaterials.Fluix), 'B', GTItems.DUCT_TAPE.asStack(), 'C', new ItemStack(Items.SLIME_BALL.asItem()), 'D', new MaterialEntry(TagPrefix.dust, GTMaterials.EnderPearl));
         VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("gas_compressor"), MultiBlockG.GAS_COMPRESSOR.asStack(),
                 "ABA",
                 "CDC",

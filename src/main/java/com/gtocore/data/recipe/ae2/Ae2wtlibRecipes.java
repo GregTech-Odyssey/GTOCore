@@ -21,18 +21,18 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Consumer;
 
-public final class Ae2wtlibRecipes {
+final class Ae2wtlibRecipes {
 
     private final static ResourceLocation wtId = GTOCore.id("me2in1");
 
-    public static void init(Consumer<FinishedRecipe> provider) {
+    static void init(Consumer<FinishedRecipe> provider) {
         // Upgrade
         provider.accept(new FinishedRecipe() {
 
             private final Upgrade recipe = new Upgrade(Ingredient.of(GTOItems.WIRELESS_ME2IN1), Wireless.ID, wtId);
 
             @Override
-            public void serializeRecipeData(JsonObject jsonObject) {
+            public void serializeRecipeData(@NotNull JsonObject jsonObject) {
                 jsonObject.add("terminal", recipe.getTerminal().toJson());
                 jsonObject.addProperty("terminalName", recipe.getTerminalName());
             }
@@ -71,7 +71,7 @@ public final class Ae2wtlibRecipes {
                     Wireless.ID, "pattern_encoding", wtId.withSuffix("_combined_with_" + terminalName));
 
             @Override
-            public void serializeRecipeData(JsonObject jsonObject) {
+            public void serializeRecipeData(@NotNull JsonObject jsonObject) {
                 jsonObject.add("terminalA", recipe.getTerminalA().toJson());
                 jsonObject.add("terminalB", recipe.getTerminalB().toJson());
                 jsonObject.addProperty("terminalAName", recipe.getTerminalAName());
