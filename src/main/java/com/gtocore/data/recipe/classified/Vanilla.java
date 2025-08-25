@@ -383,9 +383,6 @@ final class Vanilla {
                 "CDC",
                 "EBE",
                 'A', new MaterialEntry(TagPrefix.rod, GTMaterials.Naquadah), 'B', CustomTags.IV_CIRCUITS, 'C', GTItems.FIELD_GENERATOR_IV.asStack(), 'D', GTMachines.HULL[GTValues.IV].asStack(), 'E', new MaterialEntry(TagPrefix.cableGtQuadruple, GTMaterials.Tungsten));
-        VanillaRecipeHelper.addShapedRecipe(provider, GTOCore.id("import_bus"), RegistriesUtils.getItemStack("ae2:import_bus"),
-                "ABC",
-                'A', new ItemStack(AEItems.ANNIHILATION_CORE.asItem()), 'B', GTItems.ROBOT_ARM_LV.asStack(), 'C', RegistriesUtils.getItemStack("ae2:fluix_glass_cable"));
         VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("steam_crusher"), MultiBlockC.STEAM_CRUSHER.asStack(),
                 "ABA",
                 "BCB",
@@ -664,9 +661,6 @@ final class Vanilla {
                 "BCB",
                 "DBD",
                 'A', new MaterialEntry(TagPrefix.screw, GTMaterials.Rubber), 'B', new MaterialEntry(TagPrefix.plate, GTMaterials.Steel), 'C', GTBlocks.CASING_BRONZE_PIPE.asStack(), 'D', new MaterialEntry(TagPrefix.gear, GTMaterials.Potin));
-        VanillaRecipeHelper.addShapedRecipe(provider, GTOCore.id("export_bus"), RegistriesUtils.getItemStack("ae2:export_bus"),
-                "ABC",
-                'A', new ItemStack(AEItems.FORMATION_CORE.asItem()), 'B', GTItems.ROBOT_ARM_LV.asStack(), 'C', RegistriesUtils.getItemStack("ae2:fluix_glass_cable"));
         VanillaRecipeHelper.addShapedRecipe(provider, GTOCore.id("ulv_output_hatch"), GTMachines.FLUID_EXPORT_HATCH[GTValues.ULV].asStack(),
                 " A ",
                 "hBw",
@@ -867,16 +861,6 @@ final class Vanilla {
                 "BCB",
                 "DDD",
                 'A', new MaterialEntry(TagPrefix.rod, GTMaterials.Steel), 'B', new MaterialEntry(TagPrefix.springSmall, GTMaterials.Steel), 'C', GTMultiMachines.COKE_OVEN.asStack(), 'D', new MaterialEntry(TagPrefix.plate, GTMaterials.Steel));
-        VanillaRecipeHelper.addShapedRecipe(provider, GTOCore.id("water_infinity_cell"), RegistriesUtils.getItemStack("expatternprovider:infinity_cell"),
-                "ABA",
-                "BCB",
-                "ABA",
-                'A', RegistriesUtils.getItemStack("botania:rune_water"), 'B', GTItems.COVER_INFINITE_WATER.asStack(), 'C', new ItemStack(AEItems.FLUID_CELL_256K.asItem()));
-        VanillaRecipeHelper.addShapedRecipe(provider, GTOCore.id("me_packing_tape"), RegistriesUtils.getItemStack("expatternprovider:me_packing_tape"),
-                "ABC",
-                "BDB",
-                "CBA",
-                'A', new MaterialEntry(TagPrefix.dust, GTOMaterials.Fluix), 'B', GTItems.DUCT_TAPE.asStack(), 'C', new ItemStack(Items.SLIME_BALL.asItem()), 'D', new MaterialEntry(TagPrefix.dust, GTMaterials.EnderPearl));
         VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("gas_compressor"), MultiBlockG.GAS_COMPRESSOR.asStack(),
                 "ABA",
                 "CDC",

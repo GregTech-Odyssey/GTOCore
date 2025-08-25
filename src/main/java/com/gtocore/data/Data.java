@@ -5,6 +5,7 @@ import com.gtocore.common.data.GTOLoots;
 import com.gtocore.common.data.GTOOres;
 import com.gtocore.common.data.GTORecipeTypes;
 import com.gtocore.data.recipe.*;
+import com.gtocore.data.recipe.ae2.AE2;
 import com.gtocore.data.recipe.classified.$ClassifiedRecipe;
 import com.gtocore.data.recipe.generated.*;
 import com.gtocore.data.recipe.gtm.chemistry.ChemistryRecipes;
@@ -131,6 +132,7 @@ public final class Data {
         GlassRecipe.init();
         DyeRecipes.init();
         WoodRecipes.init();
+        AE2.init(consumer);
         ImmersiveAircraft.init(consumer);
         FunctionalStorage.init(consumer);
         $ClassifiedRecipe.init(consumer);

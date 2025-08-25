@@ -170,7 +170,8 @@ public final class GTORecipeTypes {
             .setMaxIOSize(3, 1, 0, 0)
             .setEUIO(IO.IN)
             .setProgressBar(GuiTextures.PROGRESS_BAR_WIREMILL, LEFT_TO_RIGHT)
-            .setSound(GTSoundEntries.ARC);
+            .setSound(GTSoundEntries.ARC)
+            .onBuild(GenerateDisassembly::generateDisassembly);
 
     public static final RecipeType WORLD_DATA_SCANNER_RECIPES = register("world_data_scanner", "世界信息扫描仪", ELECTRIC)
             .setEUIO(IO.IN)

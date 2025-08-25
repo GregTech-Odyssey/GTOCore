@@ -101,6 +101,11 @@ public final class HugeBusPartMachine extends TieredIOPartMachine implements IMa
     }
 
     @Override
+    public void onPaintingColorChanged(int color) {
+        getHandlerList().setColor(color, true);
+    }
+
+    @Override
     public void onNeighborChanged(Block block, BlockPos fromPos, boolean isMoving) {
         super.onNeighborChanged(block, fromPos, isMoving);
         updateInventorySubscription();

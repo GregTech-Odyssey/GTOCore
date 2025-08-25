@@ -40,6 +40,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLConstructModEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.RegisterEvent;
 
@@ -80,9 +81,9 @@ public class CommonProxy {
         eventBus.addListener(CommonProxy::registerMaterialRegistry);
         eventBus.addListener(CommonProxy::initMenu);
         eventBus.addListener(Datagen::onGatherData);
+        eventBus.addListener(CommonProxy::modConstruct);
         eventBus.addGenericListener(DimensionMarker.class, CommonProxy::registerDimensionMarkers);
         eventBus.addGenericListener(GTRecipeCategory.class, CommonProxy::registerRecipeCategory);
-        HotkeyActions.register(new Ae2WTLibLocatingService(Wireless.ID), Wireless.ID + "_locating_service");
         MinecraftForge.EVENT_BUS.register(ForgeCommonEvent.class);
     }
 
@@ -92,6 +93,10 @@ public class CommonProxy {
         ScanningClass.init();
         GTOEntityTypes.init();
         GTONet.init();
+    }
+
+    private static void modConstruct(FMLConstructModEvent event) {
+        event.enqueueWork(() -> HotkeyActions.register(new Ae2WTLibLocatingService(Wireless.ID), Wireless.ID + "_locating_service"));
     }
 
     private static void commonSetup(FMLCommonSetupEvent event) {

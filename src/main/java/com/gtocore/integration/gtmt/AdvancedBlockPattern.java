@@ -106,10 +106,39 @@ class AdvancedBlockPattern extends BlockPattern {
                         Block block = blockState.getBlock();
                         if (block != Blocks.AIR) {
                             if (autoBuildSetting.demolition == 1) {
-                                if (ae == null || ae.insert(AEItemKey.of(block.asItem()), 1, Actionable.MODULATE, IActionSource.ofPlayer(player)) == 0) {
-                                    player.addItem(new ItemStack(block, 1));
+                                boolean contain = false;
+                                a:
+                                for (SimplePredicate common : predicate.common) {
+                                    var candidates = common.candidates == null ? null : common.candidates.get();
+                                    if (candidates != null) {
+                                        for (var bl : candidates) {
+                                            if (bl == block) {
+                                                contain = true;
+                                                break a;
+                                            }
+                                        }
+                                    }
                                 }
-                                world.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
+                                if (!contain) {
+                                    a:
+                                    for (SimplePredicate limited : predicate.limited) {
+                                        var candidates = limited.candidates == null ? null : limited.candidates.get();
+                                        if (candidates != null) {
+                                            for (var bl : candidates) {
+                                                if (bl == block) {
+                                                    contain = true;
+                                                    break a;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                                if (contain) {
+                                    if (ae == null || ae.insert(AEItemKey.of(block.asItem()), 1, Actionable.MODULATE, IActionSource.ofPlayer(player)) == 0) {
+                                        player.addItem(new ItemStack(block, 1));
+                                    }
+                                    world.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
+                                }
                                 continue;
                             }
                             if (autoBuildSetting.isReplaceMode() && autoBuildSetting.blocks.contains(block)) {
@@ -121,7 +150,7 @@ class AdvancedBlockPattern extends BlockPattern {
                                 }
                                 continue;
                             }
-                        }
+                        } else if (autoBuildSetting.demolition == 1) continue;
 
                         boolean find = false;
                         Block[] infos = new Block[0];

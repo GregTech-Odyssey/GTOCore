@@ -131,6 +131,9 @@ public final class ExtremeTemperatureFluctuationPurificationUnitMachine extends 
                 calculateVoltage(inputCount);
             }
         }
+        if (sensorMachine != null) {
+            sensorMachine.update(heat);
+        }
         return eut;
     }
 }

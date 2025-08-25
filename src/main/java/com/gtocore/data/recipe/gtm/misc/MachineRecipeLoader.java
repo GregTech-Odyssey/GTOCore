@@ -591,39 +591,6 @@ public final class MachineRecipeLoader {
                 .outputItems(GTBlocks.CASING_PTFE_INERT.asStack()).duration(50)
                 .save();
 
-        ASSEMBLER_RECIPES.recipeBuilder("casing_bronze_firebox")
-                .inputItems(rod, Bronze, 3)
-                .inputItems(frameGt, Bronze)
-                .inputItems(plate, Bronze, 3)
-                .outputItems(GTBlocks.FIREBOX_BRONZE, 2)
-                .duration(100)
-                .EUt(VA[LV])
-                .save();
-        ASSEMBLER_RECIPES.recipeBuilder("casing_steel_firebox")
-                .inputItems(rod, Steel, 3)
-                .inputItems(frameGt, Steel)
-                .inputItems(plate, Steel, 3)
-                .outputItems(GTBlocks.FIREBOX_STEEL, 2)
-                .duration(200)
-                .EUt(VA[LV])
-                .save();
-        ASSEMBLER_RECIPES.recipeBuilder("casing_titanium_firebox")
-                .inputItems(rod, Titanium, 3)
-                .inputItems(frameGt, Titanium)
-                .inputItems(plate, Titanium, 3)
-                .outputItems(GTBlocks.FIREBOX_TITANIUM, 2)
-                .duration(300)
-                .EUt(VA[HV])
-                .save();
-        ASSEMBLER_RECIPES.recipeBuilder("casing_tungstensteel_firebox")
-                .inputItems(rod, TungstenSteel, 3)
-                .inputItems(frameGt, TungstenSteel)
-                .inputItems(plate, TungstenSteel, 3)
-                .outputItems(GTBlocks.FIREBOX_TUNGSTENSTEEL, 2)
-                .duration(400)
-                .EUt(VA[EV])
-                .save();
-
         ASSEMBLER_RECIPES.recipeBuilder("superconducting_coil_luv").EUt(VA[LuV])
                 .inputItems(wireGtDouble, IndiumTinBariumTitaniumCuprate, 32).inputItems(foil, NiobiumTitanium, 32)
                 .inputFluids(Trinium, GTValues.L * 24).outputItems(GTBlocks.SUPERCONDUCTING_COIL.asStack())

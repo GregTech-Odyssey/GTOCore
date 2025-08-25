@@ -96,6 +96,11 @@ public final class InfiniteIntakeHatchPartMachine extends TieredIOPartMachine {
     }
 
     @Override
+    public void onPaintingColorChanged(int color) {
+        getHandlerList().setColor(color, true);
+    }
+
+    @Override
     public void onNeighborChanged(@NotNull Block block, @NotNull BlockPos fromPos, boolean isMoving) {
         super.onNeighborChanged(block, fromPos, isMoving);
         if (getPos().relative(getFrontFacing()).equals(fromPos)) {

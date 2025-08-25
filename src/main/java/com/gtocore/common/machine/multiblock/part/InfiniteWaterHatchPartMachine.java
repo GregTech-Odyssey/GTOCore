@@ -35,6 +35,11 @@ public final class InfiniteWaterHatchPartMachine extends TieredIOPartMachine {
     }
 
     @Override
+    public void onPaintingColorChanged(int color) {
+        getHandlerList().setColor(color, true);
+    }
+
+    @Override
     public boolean shouldOpenUI(Player player, InteractionHand hand, BlockHitResult hit) {
         return false;
     }
