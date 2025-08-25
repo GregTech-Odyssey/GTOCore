@@ -170,7 +170,8 @@ public final class GTORecipeTypes {
             .setMaxIOSize(3, 1, 0, 0)
             .setEUIO(IO.IN)
             .setProgressBar(GuiTextures.PROGRESS_BAR_WIREMILL, LEFT_TO_RIGHT)
-            .setSound(GTSoundEntries.ARC);
+            .setSound(GTSoundEntries.ARC)
+            .onBuild(GenerateDisassembly::generateDisassembly);
 
     public static final RecipeType WORLD_DATA_SCANNER_RECIPES = register("world_data_scanner", "世界信息扫描仪", ELECTRIC)
             .setEUIO(IO.IN)
@@ -259,7 +260,7 @@ public final class GTORecipeTypes {
             .setMaxIOSize(2, 9, 1, 0)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.MACERATOR)
-            .onBuild(b -> b.duration((int) (Math.sqrt(b.duration) + 0.5)));
+            .onBuild(b -> b.duration((int) (Math.sqrt(b.duration + 100) * 2)));
 
     public static final RecipeType FISSION_REACTOR_RECIPES = register("fission_reactor", "裂变反应堆", MULTIBLOCK)
             .setMaxIOSize(1, 1, 0, 0)

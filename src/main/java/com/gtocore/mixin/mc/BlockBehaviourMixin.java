@@ -37,8 +37,16 @@ public class BlockBehaviourMixin {
             return;
         }
         var block = state.getBlock();
-        if (block.builtInRegistryHolder().tags.isEmpty()) return;
-        float i = stack.isCorrectToolForDrops(state) ? 1 : (block.defaultDestroyTime() > 1 && block != Blocks.BEACON) ? 0.001F : 0.5F;
-        cir.setReturnValue(i * player.getDigSpeed(state, pos) / f / 30);
+        boolean hasTag = false;
+        for (var tag : block.builtInRegistryHolder().tags) {
+            if (tag.location().getPath().startsWith("mineable")) {
+                hasTag = true;
+                break;
+            }
+        }
+        if (hasTag) {
+            float i = stack.isCorrectToolForDrops(state) ? 1 : (block.defaultDestroyTime() > 1 && block != Blocks.BEACON) ? 0.001F : 0.5F;
+            cir.setReturnValue(i * player.getDigSpeed(state, pos) / f / 30);
+        }
     }
 }

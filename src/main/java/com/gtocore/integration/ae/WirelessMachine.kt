@@ -21,6 +21,7 @@ import net.minecraft.client.Minecraft
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.chat.Component
 import net.minecraft.server.TickTask
+import net.minecraft.server.level.ServerLevel
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
@@ -29,7 +30,9 @@ import net.minecraftforge.fml.LogicalSide
 import appeng.core.definitions.AEItems
 import com.gregtechceu.gtceu.api.gui.fancy.FancyMachineUIWidget
 import com.gregtechceu.gtceu.api.gui.fancy.IFancyUIProvider
+import com.gregtechceu.gtceu.api.machine.TickableSubscription
 import com.gregtechceu.gtceu.integration.ae2.machine.feature.IGridConnectedMachine
+import com.gregtechceu.gtceu.utils.TaskHandler
 import com.gtolib.api.annotation.Scanned
 import com.gtolib.api.annotation.language.RegisterLanguage
 import com.gtolib.api.capability.ISync
@@ -61,7 +64,7 @@ class WirelessMachineRunTime(var machine: WirelessMachine) {
     var gridConnected: WirelessGrid? = null // ONLY SERVER
     var connectPageFreshRun: Runnable = Runnable {}
     var detailsPageFreshRun: Runnable = Runnable {}
-    var isInitialized = false
+    var initTickableSubscription: TickableSubscription? = null
     var shouldAutoConnect = true
     var gridCache = createWirelessSyncedField(machine).set(mutableListOf())
     var FilterInMachineTypeSyncField: ISync.EnumSyncedField<FilterInMachineType> = createEnumField(machine)
@@ -186,24 +189,21 @@ interface WirelessMachine :
     // //////////////////////////////
     fun onWirelessMachineLoad() {
         if (self().isRemote) return
-        val nowTick = self().offsetTimer
-        self().subscribeServerTick {
-            if (self().offsetTimer > nowTick + 40 && self().offsetTimer % 40 == 0L && mainNode.node != null) {
-                if (!wirelessMachineRunTime.isInitialized) {
-                    if (!wirelessMachinePersisted.beSet && wirelessMachineRunTime.shouldAutoConnect) {
-                        WirelessSavedData.INSTANCE.gridPool.firstOrNull { WirelessSavedData.checkPermission(it.owner, uuid) && it.isDefault }?.let {
-                            joinGrid(it.name)
-                        }
-                        wirelessMachinePersisted.beSet = true
-                    } else {
-                        if (wirelessMachinePersisted.gridConnectedName.isNotEmpty()) {
-                            linkGrid(wirelessMachinePersisted.gridConnectedName)
-                        }
+        wirelessMachineRunTime.initTickableSubscription = TaskHandler.enqueueServerTick(level as ServerLevel, {
+            if (mainNode.node != null && self().offsetTimer % 20 == 0L) {
+                if (!wirelessMachinePersisted.beSet && wirelessMachineRunTime.shouldAutoConnect) {
+                    WirelessSavedData.INSTANCE.gridPool.firstOrNull { WirelessSavedData.checkPermission(it.owner, uuid) && it.isDefault }?.let {
+                        joinGrid(it.name)
                     }
-                    wirelessMachineRunTime.isInitialized = true
+                    wirelessMachinePersisted.beSet = true
+                } else {
+                    if (wirelessMachinePersisted.gridConnectedName.isNotEmpty()) {
+                        linkGrid(wirelessMachinePersisted.gridConnectedName)
+                    }
                 }
+                wirelessMachineRunTime.initTickableSubscription?.unsubscribe()
             }
-        }
+        }, 40)
     }
     fun onWirelessMachineUnLoad() {
         if (self().isRemote) return

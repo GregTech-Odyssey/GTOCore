@@ -10,6 +10,7 @@ import com.gtolib.utils.ItemUtils;
 
 import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
 import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
+import com.gregtechceu.gtceu.api.item.MetaMachineItem;
 import com.gregtechceu.gtceu.api.recipe.chance.logic.ChanceLogic;
 import com.gregtechceu.gtceu.api.recipe.content.Content;
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
@@ -25,8 +26,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
-import static com.gtocore.common.data.GTORecipeTypes.CIRCUIT_ASSEMBLY_LINE_RECIPES;
-import static com.gtocore.common.data.GTORecipeTypes.DISASSEMBLY_RECIPES;
+import static com.gtocore.common.data.GTORecipeTypes.*;
 
 public final class GenerateDisassembly {
 
@@ -57,7 +57,11 @@ public final class GenerateDisassembly {
         }
         Ingredient output = ItemRecipeCapability.CAP.of(c.get(0).getContent());
         if (output.isEmpty()) return;
-        ResourceLocation id = ItemUtils.getIdLocation(ItemUtils.getFirstSized(output).getItem());
+        var item = ItemUtils.getFirstSized(output).getItem();
+        if (recipeBuilder.recipeType == LASER_WELDER_RECIPES && !(item instanceof MetaMachineItem)) {
+            return;
+        }
+        ResourceLocation id = ItemUtils.getIdLocation(item);
         if (DISASSEMBLY_BLACKLIST.contains(id)) return;
         boolean cal = recipeBuilder.recipeType == CIRCUIT_ASSEMBLY_LINE_RECIPES;
         ResourceLocation typeid = RecipeBuilder.getTypeID(id, DISASSEMBLY_RECIPES);
@@ -84,8 +88,8 @@ public final class GenerateDisassembly {
                         if (value instanceof Ingredient.ItemValue itemValue) {
                             Collection<ItemStack> stacks = itemValue.getItems();
                             if (stacks.size() == 1) {
-                                for (ItemStack item : stacks) {
-                                    if (!item.isEmpty() && content.chance == ChanceLogic.getMaxChancedValue() && !item.hasTag()) {
+                                for (ItemStack stack : stacks) {
+                                    if (!stack.isEmpty() && content.chance == ChanceLogic.getMaxChancedValue() && !stack.hasTag()) {
                                         builder.output(ItemRecipeCapability.CAP, FastSizedIngredient.copy(input));
                                         hasOutput = true;
                                         break a;

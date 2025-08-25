@@ -361,6 +361,7 @@ public final class MultiBlockB {
             .pattern(definition -> MultiBlockFileReader.start(definition)
                     .where('A', blocks(GTBlocks.CASING_PTFE_INERT.get())
                             .or(GTOPredicates.autoThreadLaserAbilities(definition.getRecipeTypes()))
+                            .or(abilities(PARALLEL_HATCH).setMaxGlobalLimited(1))
                             .or(abilities(MAINTENANCE).setExactLimit(1)))
                     .where('B', controller(blocks(definition.get())))
                     .where('C', blocks(GTOBlocks.IRIDIUM_CASING.get()))

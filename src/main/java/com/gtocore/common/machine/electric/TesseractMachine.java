@@ -53,7 +53,7 @@ public class TesseractMachine extends MetaMachine implements IFancyUIMachine, IM
     public TesseractMachine(MetaMachineBlockEntity holder) {
         super(holder);
         inventory = new NotifiableItemStackHandler(this, 1, IO.NONE, IO.NONE);
-        inventory.storage.setOnContentsChanged(() -> {
+        inventory.storage.setOnContentsChangedAndfreeze(() -> {
             call = false;
             pos = null;
             blockEntityReference = null;

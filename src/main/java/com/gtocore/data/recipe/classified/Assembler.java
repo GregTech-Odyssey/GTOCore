@@ -4512,5 +4512,15 @@ final class Assembler {
                 .EUt(480)
                 .duration(200)
                 .save();
+
+        ASSEMBLER_RECIPES.builder("high_strength_space_elevator_cable")
+                .inputItems(wireGtQuadruple, BlackSteel, 4)
+                .inputItems(wireGtQuadruple, GTOMaterials.Amprosium, 4)
+                .inputItems(foil, NaquadahAlloy, 8)
+                .outputItems(GTOBlocks.HIGH_STRENGTH_SPACE_ELEVATOR_CABLE.asStack())
+                .inputFluids(GTOMaterials.Kevlar, 288)
+                .EUt(480)
+                .duration(200)
+                .save();
     }
 }

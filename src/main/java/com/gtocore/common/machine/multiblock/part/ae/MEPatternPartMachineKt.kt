@@ -7,14 +7,21 @@ import com.gtocore.common.machine.multiblock.part.ae.widget.slot.AEPatternViewSl
 import com.gtocore.integration.ae.WirelessMachine
 
 import net.minecraft.MethodsReturnNonnullByDefault
+import net.minecraft.core.BlockPos
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.nbt.ListTag
 import net.minecraft.nbt.Tag
 import net.minecraft.network.chat.Component
 import net.minecraft.server.TickTask
 import net.minecraft.server.level.ServerLevel
+import net.minecraft.world.InteractionHand
+import net.minecraft.world.InteractionResult
 import net.minecraft.world.entity.LivingEntity
+import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
+import net.minecraft.world.level.Level
+import net.minecraft.world.level.block.state.BlockState
+import net.minecraft.world.phys.BlockHitResult
 
 import appeng.api.crafting.IPatternDetails
 import appeng.api.implementations.blockentities.PatternContainerGroup
@@ -35,6 +42,7 @@ import com.gregtechceu.gtceu.api.gui.fancy.ConfiguratorPanel
 import com.gregtechceu.gtceu.api.gui.fancy.FancyMachineUIWidget
 import com.gregtechceu.gtceu.api.machine.TickableSubscription
 import com.gregtechceu.gtceu.api.machine.feature.IDropSaveMachine
+import com.gregtechceu.gtceu.api.machine.feature.IInteractedMachine
 import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler
 import com.gtolib.ae2.MyPatternDetailsHelper
@@ -62,9 +70,16 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
     MEPartMachine(holder, IO.IN),
     ICraftingProvider,
     WirelessMachine,
+    IInteractedMachine,
     ISync,
     PatternContainer,
     IDropSaveMachine {
+    override fun onUse(state: BlockState?, world: Level?, pos: BlockPos?, player: Player?, hand: InteractionHand?, hit: BlockHitResult?): InteractionResult? {
+        if (!isRemote) {
+            newPageField.setAndSyncToClient(newPageField.get())
+        }
+        return super.onUse(state, world, pos, player, hand, hit)
+    }
 
     // ==================== 常量和静态成员 ====================
     @Scanned

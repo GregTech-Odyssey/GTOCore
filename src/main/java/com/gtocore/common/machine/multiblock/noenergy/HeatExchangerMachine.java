@@ -39,7 +39,7 @@ public final class HeatExchangerMachine extends NoEnergyMultiblockMachine implem
     }
 
     @Persisted
-    private long count;
+    private long hs;
 
     @Persisted
     private boolean water;
@@ -56,12 +56,11 @@ public final class HeatExchangerMachine extends NoEnergyMultiblockMachine implem
                 .duration(200)
                 .buildRawRecipe(), Integer.MAX_VALUE);
         if (result == null) return null;
-        long count = result.parallels * recipe.data.getLong("eu");
-        if (inputFluid(water ? Fluids.WATER : DistilledWater, count / 160)) {
-            this.count = count / 4;
+        hs = result.parallels * recipe.data.getLong("eu") / 2;
+        if (inputFluid(water ? Fluids.WATER : DistilledWater, hs / 40)) {
             return result;
         } else {
-            doExplosion(Math.min(10, count / 1000));
+            doExplosion(Math.min(10, hs / 10000));
         }
         return null;
     }
@@ -69,21 +68,21 @@ public final class HeatExchangerMachine extends NoEnergyMultiblockMachine implem
     @Override
     public void onRecipeFinish() {
         super.onRecipeFinish();
-        if (count != 0) {
+        if (hs != 0) {
             if (getRecipeLogic().getTotalContinuousRunningTime() > 800) {
                 if (water) {
-                    outputFluid(HighPressureSteam, count);
+                    outputFluid(HighPressureSteam, hs);
                 } else {
-                    outputFluid(SupercriticalSteam, count / 4);
+                    outputFluid(SupercriticalSteam, hs >> 2);
                 }
             } else {
                 if (water) {
-                    outputFluid(Steam, count << 2);
+                    outputFluid(Steam, hs << 2);
                 } else {
-                    outputFluid(HighPressureSteam, count);
+                    outputFluid(HighPressureSteam, hs);
                 }
             }
         }
-        count = 0;
+        hs = 0;
     }
 }
