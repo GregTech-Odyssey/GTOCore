@@ -398,157 +398,157 @@ public final class ArsNouveauRecipes {
         // 工作台
         {
 
-            VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("imbuement_chamber"), RegistriesUtils.getItemStack("ars_nouveau:imbuement_chamber"),
+            VanillaRecipeHelper.addShapedRecipe(GTOCore.id("imbuement_chamber"), RegistriesUtils.getItemStack("ars_nouveau:imbuement_chamber"),
                     "ABA",
                     "A A",
                     "ABA",
                     'A', RegistriesUtils.getItemStack("ars_nouveau:archwood_planks"), 'B', new MaterialEntry(TagPrefix.ingot, GTOMaterials.InfusedGold));
 
-            VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("enchanting_apparatus"), RegistriesUtils.getItemStack("ars_nouveau:enchanting_apparatus"),
+            VanillaRecipeHelper.addShapedRecipe(GTOCore.id("enchanting_apparatus"), RegistriesUtils.getItemStack("ars_nouveau:enchanting_apparatus"),
                     "ABA",
                     "CDC",
                     "ABA",
                     'A', new MaterialEntry(TagPrefix.nugget, GTOMaterials.InfusedGold), 'B', RegistriesUtils.getItemStack("ars_nouveau:sourcestone"), 'C', new MaterialEntry(TagPrefix.ingot, GTOMaterials.InfusedGold), 'D', new MaterialEntry(TagPrefix.gem, GTOMaterials.ManaDiamond));
 
-            VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("arcane_core"), RegistriesUtils.getItemStack("ars_nouveau:arcane_core"),
+            VanillaRecipeHelper.addShapedRecipe(GTOCore.id("arcane_core"), RegistriesUtils.getItemStack("ars_nouveau:arcane_core"),
                     "AAA",
                     "BCB",
                     "AAA",
                     'A', RegistriesUtils.getItemStack("ars_nouveau:sourcestone"), 'B', new MaterialEntry(TagPrefix.ingot, GTOMaterials.InfusedGold), 'C', RegistriesUtils.getItemStack("ars_nouveau:source_gem"));
 
-            VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("blank_thread"), RegistriesUtils.getItemStack("ars_nouveau:blank_thread"),
+            VanillaRecipeHelper.addShapedRecipe(GTOCore.id("blank_thread"), RegistriesUtils.getItemStack("ars_nouveau:blank_thread"),
                     "AAA",
                     "BBB",
                     "AAA",
                     'A', RegistriesUtils.getItemStack("ars_nouveau:magebloom_fiber"), 'B', new MaterialEntry(TagPrefix.nugget, GTOMaterials.InfusedGold));
 
-            VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("apprentice_spell_book"), RegistriesUtils.getItemStack("ars_nouveau:apprentice_spell_book"),
+            VanillaRecipeHelper.addShapedRecipe(GTOCore.id("apprentice_spell_book"), RegistriesUtils.getItemStack("ars_nouveau:apprentice_spell_book"),
                     "ABC",
                     "BDB",
                     "EBF",
                     'A', new MaterialEntry(TagPrefix.block, GTOMaterials.Livingrock), 'B', new MaterialEntry(TagPrefix.gem, GTOMaterials.ManaDiamond), 'C', RegistriesUtils.getItemStack("botania:livingwood_log"), 'D', RegistriesUtils.getItemStack("ars_nouveau:novice_spell_book"), 'E', new MaterialEntry(TagPrefix.block, GTOMaterials.Livingsteel), 'F', new MaterialEntry(TagPrefix.block, GTOMaterials.Livingclay));
 
-            VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("archmage_spell_book"), RegistriesUtils.getItemStack("ars_nouveau:archmage_spell_book"),
+            VanillaRecipeHelper.addShapedRecipe(GTOCore.id("archmage_spell_book"), RegistriesUtils.getItemStack("ars_nouveau:archmage_spell_book"),
                     "ABA",
                     "CDC",
                     "ABA",
                     'A', new MaterialEntry(TagPrefix.ingot, GTOMaterials.Terrasteel), 'B', RegistriesUtils.getItemStack("ars_nouveau:wilden_tribute"), 'C', RegistriesUtils.getItemStack("botania:mana_pearl"), 'D', RegistriesUtils.getItemStack("ars_nouveau:apprentice_spell_book"));
 
-            VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("worn_notebook"), RegistriesUtils.getItemStack("ars_nouveau:worn_notebook"),
+            VanillaRecipeHelper.addShapedRecipe(GTOCore.id("worn_notebook"), RegistriesUtils.getItemStack("ars_nouveau:worn_notebook"),
                     "ABA",
                     "BCB",
                     "ABA",
                     'A', new MaterialEntry(TagPrefix.gem, GTMaterials.Olivine), 'B', new MaterialEntry(TagPrefix.gem, GTMaterials.Opal), 'C', new ItemStack(Items.BOOK.asItem()));
 
-            VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("dowsing_rod"), RegistriesUtils.getItemStack("ars_nouveau:dowsing_rod"),
+            VanillaRecipeHelper.addShapedRecipe(GTOCore.id("dowsing_rod"), RegistriesUtils.getItemStack("ars_nouveau:dowsing_rod"),
                     " A ",
                     "B B",
                     "   ",
                     'A', new MaterialEntry(TagPrefix.ingot, GTOMaterials.InfusedGold), 'B', RegistriesUtils.getItemStack("ars_nouveau:archwood_planks"));
 
-            VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("wixie_hat"), RegistriesUtils.getItemStack("ars_nouveau:wixie_hat"),
+            VanillaRecipeHelper.addShapedRecipe(GTOCore.id("wixie_hat"), RegistriesUtils.getItemStack("ars_nouveau:wixie_hat"),
                     "AAA",
                     "ABA",
                     "AAA",
                     'A', RegistriesUtils.getItemStack("ars_nouveau:magebloom_fiber"), 'B', new MaterialEntry(TagPrefix.ingot, GTOMaterials.InfusedGold));
 
-            VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("agronomic_sourcelink"), RegistriesUtils.getItemStack("ars_nouveau:agronomic_sourcelink"),
+            VanillaRecipeHelper.addShapedRecipe(GTOCore.id("agronomic_sourcelink"), RegistriesUtils.getItemStack("ars_nouveau:agronomic_sourcelink"),
                     " A ",
                     "BCB",
                     " A ",
                     'A', RegistriesUtils.getItemStack("ars_nouveau:source_gem"), 'B', new MaterialEntry(TagPrefix.ingot, GTOMaterials.InfusedGold), 'C', new ItemStack(Items.WHEAT.asItem()));
 
-            VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("source_jar"), RegistriesUtils.getItemStack("ars_nouveau:source_jar"),
+            VanillaRecipeHelper.addShapedRecipe(GTOCore.id("source_jar"), RegistriesUtils.getItemStack("ars_nouveau:source_jar"),
                     "AAA",
                     "B B",
                     "AAA",
                     'A', RegistriesUtils.getItemStack("ars_nouveau:archwood_slab"), 'B', new MaterialEntry(TagPrefix.block, GTOMaterials.ManaGlass));
 
-            VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("relay"), RegistriesUtils.getItemStack("ars_nouveau:relay"),
+            VanillaRecipeHelper.addShapedRecipe(GTOCore.id("relay"), RegistriesUtils.getItemStack("ars_nouveau:relay"),
                     "A A",
                     "ABA",
                     "A A",
                     'A', new MaterialEntry(TagPrefix.ingot, GTOMaterials.InfusedGold), 'B', RegistriesUtils.getItemStack("ars_nouveau:source_gem_block"));
 
-            VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("scribes_table"), RegistriesUtils.getItemStack("ars_nouveau:scribes_table"),
+            VanillaRecipeHelper.addShapedRecipe(GTOCore.id("scribes_table"), RegistriesUtils.getItemStack("ars_nouveau:scribes_table"),
                     "AAA",
                     "B B",
                     "C C",
                     'A', RegistriesUtils.getItemStack("ars_nouveau:archwood_slab"), 'B', new MaterialEntry(TagPrefix.nugget, GTOMaterials.InfusedGold), 'C', RegistriesUtils.getItemStack("botania:livingwood_log"));
 
-            VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("volcanic_sourcelink"), RegistriesUtils.getItemStack("ars_nouveau:volcanic_sourcelink"),
+            VanillaRecipeHelper.addShapedRecipe(GTOCore.id("volcanic_sourcelink"), RegistriesUtils.getItemStack("ars_nouveau:volcanic_sourcelink"),
                     " A ",
                     "BCB",
                     " A ",
                     'A', RegistriesUtils.getItemStack("ars_nouveau:source_gem"), 'B', new MaterialEntry(TagPrefix.ingot, GTOMaterials.InfusedGold), 'C', new ItemStack(Items.LAVA_BUCKET.asItem()));
 
-            VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("alchemical_sourcelink"), RegistriesUtils.getItemStack("ars_nouveau:alchemical_sourcelink"),
+            VanillaRecipeHelper.addShapedRecipe(GTOCore.id("alchemical_sourcelink"), RegistriesUtils.getItemStack("ars_nouveau:alchemical_sourcelink"),
                     " A ",
                     "BCB",
                     " A ",
                     'A', RegistriesUtils.getItemStack("ars_nouveau:source_gem"), 'B', new MaterialEntry(TagPrefix.ingot, GTOMaterials.InfusedGold), 'C', new ItemStack(Items.BREWING_STAND.asItem()));
 
-            VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("vitalic_sourcelink"), RegistriesUtils.getItemStack("ars_nouveau:vitalic_sourcelink"),
+            VanillaRecipeHelper.addShapedRecipe(GTOCore.id("vitalic_sourcelink"), RegistriesUtils.getItemStack("ars_nouveau:vitalic_sourcelink"),
                     " A ",
                     "BCB",
                     " A ",
                     'A', RegistriesUtils.getItemStack("ars_nouveau:source_gem"), 'B', new MaterialEntry(TagPrefix.ingot, GTOMaterials.InfusedGold), 'C', new ItemStack(Items.GLISTERING_MELON_SLICE.asItem()));
 
-            VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("mycelial_sourcelink"), RegistriesUtils.getItemStack("ars_nouveau:mycelial_sourcelink"),
+            VanillaRecipeHelper.addShapedRecipe(GTOCore.id("mycelial_sourcelink"), RegistriesUtils.getItemStack("ars_nouveau:mycelial_sourcelink"),
                     " A ",
                     "BCB",
                     " A ",
                     'A', RegistriesUtils.getItemStack("ars_nouveau:source_gem"), 'B', new MaterialEntry(TagPrefix.ingot, GTOMaterials.InfusedGold), 'C', new ItemStack(Items.MUSHROOM_STEW.asItem()));
 
-            VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("basic_spell_turret"), RegistriesUtils.getItemStack("ars_nouveau:basic_spell_turret"),
+            VanillaRecipeHelper.addShapedRecipe(GTOCore.id("basic_spell_turret"), RegistriesUtils.getItemStack("ars_nouveau:basic_spell_turret"),
                     "AAA",
                     "ACB",
                     "BBB",
                     'A', RegistriesUtils.getItemStack("ars_nouveau:source_gem"), 'B', new MaterialEntry(TagPrefix.ingot, GTOMaterials.InfusedGold), 'C', new ItemStack(Items.REDSTONE_BLOCK.asItem()));
 
-            VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("archwood_chest"), RegistriesUtils.getItemStack("ars_nouveau:archwood_chest"),
+            VanillaRecipeHelper.addShapedRecipe(GTOCore.id("archwood_chest"), RegistriesUtils.getItemStack("ars_nouveau:archwood_chest"),
                     "AAA",
                     "ABA",
                     "AAA",
                     'A', RegistriesUtils.getItemStack("ars_nouveau:archwood_planks"), 'B', new MaterialEntry(TagPrefix.nugget, GTOMaterials.InfusedGold));
 
-            VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("spell_prism"), RegistriesUtils.getItemStack("ars_nouveau:spell_prism"),
+            VanillaRecipeHelper.addShapedRecipe(GTOCore.id("spell_prism"), RegistriesUtils.getItemStack("ars_nouveau:spell_prism"),
                     "ABA",
                     "BCB",
                     "ABA",
                     'A', new MaterialEntry(TagPrefix.ingot, GTOMaterials.InfusedGold), 'B', RegistriesUtils.getItemStack("ars_nouveau:archwood_planks"), 'C', new MaterialEntry(TagPrefix.block, GTMaterials.NetherQuartz));
 
-            VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("mob_jar"), RegistriesUtils.getItemStack("ars_nouveau:mob_jar"),
+            VanillaRecipeHelper.addShapedRecipe(GTOCore.id("mob_jar"), RegistriesUtils.getItemStack("ars_nouveau:mob_jar"),
                     "AAA",
                     "B B",
                     "BBB",
                     'A', RegistriesUtils.getItemStack("ars_nouveau:archwood_slab"), 'B', new MaterialEntry(TagPrefix.block, GTOMaterials.ManaGlass));
 
-            VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("repository"), RegistriesUtils.getItemStack("ars_nouveau:repository"),
+            VanillaRecipeHelper.addShapedRecipe(GTOCore.id("repository"), RegistriesUtils.getItemStack("ars_nouveau:repository"),
                     "ABA",
                     "B B",
                     "ABA",
                     'A', new MaterialEntry(TagPrefix.nugget, GTOMaterials.InfusedGold), 'B', RegistriesUtils.getItemStack("botania:livingwood_log"));
 
-            VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("magelight_torch"), RegistriesUtils.getItemStack("ars_nouveau:magelight_torch"),
+            VanillaRecipeHelper.addShapedRecipe(GTOCore.id("magelight_torch"), RegistriesUtils.getItemStack("ars_nouveau:magelight_torch"),
                     "ABA",
                     " A ",
                     "   ",
                     'A', new MaterialEntry(TagPrefix.nugget, GTOMaterials.InfusedGold), 'B', RegistriesUtils.getItemStack("ars_nouveau:source_gem"));
 
-            VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("arcane_pedestal"), RegistriesUtils.getItemStack("ars_nouveau:arcane_pedestal"),
+            VanillaRecipeHelper.addShapedRecipe(GTOCore.id("arcane_pedestal"), RegistriesUtils.getItemStack("ars_nouveau:arcane_pedestal"),
                     "ABA",
                     "CAC",
                     "CAC",
                     'A', RegistriesUtils.getItemStack("ars_nouveau:sourcestone"), 'B', RegistriesUtils.getItemStack("ars_nouveau:source_gem"), 'C', new MaterialEntry(TagPrefix.nugget, GTOMaterials.InfusedGold));
 
-            VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("ritual_brazier"), RegistriesUtils.getItemStack("ars_nouveau:ritual_brazier"),
+            VanillaRecipeHelper.addShapedRecipe(GTOCore.id("ritual_brazier"), RegistriesUtils.getItemStack("ars_nouveau:ritual_brazier"),
                     "ABA",
                     "BCB",
                     "ABA",
                     'A', new MaterialEntry(TagPrefix.block, GTOMaterials.InfusedGold), 'B', RegistriesUtils.getItemStack("ars_nouveau:source_gem_block"), 'C', RegistriesUtils.getItemStack("ars_nouveau:arcane_pedestal"));
 
-            VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("redstone_relay"), RegistriesUtils.getItemStack("ars_nouveau:redstone_relay"),
+            VanillaRecipeHelper.addShapedRecipe(GTOCore.id("redstone_relay"), RegistriesUtils.getItemStack("ars_nouveau:redstone_relay"),
                     "ABA",
                     "ACA",
                     "ABA",
