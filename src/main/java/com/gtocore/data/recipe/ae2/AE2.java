@@ -313,17 +313,6 @@ public final class AE2 {
                     'C', new ItemStack(AEItems.CAPACITY_CARD.asItem()),
                     'D', CustomTags.EV_CIRCUITS);
 
-            ASSEMBLER_RECIPES.builder("blank_pattern_less")
-                    .inputItems(TagPrefix.plate, GTMaterials.StainlessSteel, 8)
-                    .inputItems(TagPrefix.plate, GTMaterials.PolyvinylChloride, 5)
-                    .inputItems(TagPrefix.foil, GTMaterials.Aluminium, 16)
-                    .inputItems(GTItems.NAND_MEMORY_CHIP.asStack(1))
-                    .inputItems(CustomTags.HV_CIRCUITS)
-                    .outputItems(new ItemStack(AEItems.BLANK_PATTERN.asItem()))
-                    .EUt(GTValues.VA[GTValues.HV])
-                    .duration(40)
-                    .save();
-
             ASSEMBLER_RECIPES.builder("assembler_matrix_speed")
                     .inputItems("expatternprovider:assembler_matrix_wall")
                     .inputItems(AEItems.SPEED_CARD.asItem(), 2)
@@ -335,6 +324,17 @@ public final class AE2 {
                     .inputFluids(GTMaterials.SolderingAlloy, 288)
                     .EUt(480)
                     .duration(100)
+                    .save();
+
+            ASSEMBLER_RECIPES.builder("blank_pattern_less")
+                    .inputItems(TagPrefix.plate, GTMaterials.StainlessSteel, 8)
+                    .inputItems(TagPrefix.plate, GTMaterials.PolyvinylChloride, 5)
+                    .inputItems(TagPrefix.foil, GTMaterials.Aluminium, 16)
+                    .inputItems(GTItems.NAND_MEMORY_CHIP.asStack(1))
+                    .inputItems(CustomTags.HV_CIRCUITS)
+                    .outputItems(new ItemStack(AEItems.BLANK_PATTERN.asItem()))
+                    .EUt(GTValues.VA[GTValues.HV])
+                    .duration(40)
                     .save();
 
             ASSEMBLER_RECIPES.builder("blank_pattern")
@@ -352,7 +352,7 @@ public final class AE2 {
                     .inputItems(TagPrefix.plate, GTMaterials.TungstenSteel, 8)
                     .inputItems(TagPrefix.plate, GTMaterials.Polytetrafluoroethylene, 5)
                     .inputItems(TagPrefix.foil, GTMaterials.Aluminium, 32)
-                    .inputItems(GTItems.NAND_MEMORY_CHIP.asStack(4))
+                    .inputItems(GTItems.NAND_MEMORY_CHIP.asStack(8))
                     .inputItems(CustomTags.IV_CIRCUITS)
                     .outputItems(new ItemStack(AEItems.BLANK_PATTERN.asItem(), 8))
                     .EUt(GTValues.VA[GTValues.IV])
@@ -364,7 +364,7 @@ public final class AE2 {
                     .inputItems(TagPrefix.plate, GTMaterials.Polybenzimidazole, 5)
                     .inputItems(TagPrefix.foil, GTMaterials.Aluminium, 64)
                     .inputItems(TagPrefix.foil, GTMaterials.Aluminium, 64)
-                    .inputItems(GTItems.NAND_MEMORY_CHIP.asStack(8))
+                    .inputItems(GTItems.NAND_MEMORY_CHIP.asStack(64))
                     .inputItems(CustomTags.LuV_CIRCUITS)
                     .outputItems(new ItemStack(AEItems.BLANK_PATTERN.asItem(), 64))
                     .EUt(GTValues.VA[GTValues.LuV])
