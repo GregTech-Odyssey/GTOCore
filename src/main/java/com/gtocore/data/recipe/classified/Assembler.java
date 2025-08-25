@@ -295,22 +295,6 @@ final class Assembler {
                 .duration(100)
                 .save();
 
-        ASSEMBLER_RECIPES.builder("pattern_provider")
-                .inputItems(new ItemStack(AEItems.FORMATION_CORE.asItem()))
-                .inputItems(new ItemStack(AEItems.ANNIHILATION_CORE.asItem()))
-                .inputItems(CustomTags.HV_CIRCUITS)
-                .inputItems(GTItems.ROBOT_ARM_MV.asStack(2))
-                .inputItems(TagPrefix.frameGt, GTMaterials.Aluminium)
-                .inputItems(TagPrefix.plate, GTMaterials.StainlessSteel, 4)
-                .inputItems(new ItemStack(AEItems.LOGIC_PROCESSOR.asItem()))
-                .inputItems(new ItemStack(AEItems.CALCULATION_PROCESSOR.asItem()))
-                .inputItems(new ItemStack(AEItems.ENGINEERING_PROCESSOR.asItem()))
-                .outputItems(AEBlocks.PATTERN_PROVIDER.block().asItem())
-                .inputFluids(GTMaterials.PolyvinylChloride, 576)
-                .EUt(480)
-                .duration(100)
-                .save();
-
         ASSEMBLER_RECIPES.builder("requester")
                 .inputItems(GTItems.TOOL_DATA_STICK.asStack(8))
                 .inputItems(TagPrefix.frameGt, GTMaterials.Titanium)
@@ -2465,17 +2449,6 @@ final class Assembler {
                 .cleanroom(CleanroomType.CLEANROOM)
                 .save();
 
-        ASSEMBLER_RECIPES.recipeBuilder("blank_pattern")
-                .inputItems(TagPrefix.plate, GTMaterials.Steel, 3)
-                .inputItems(TagPrefix.plate, GTMaterials.PolyvinylChloride, 2)
-                .inputItems(TagPrefix.plate, GTMaterials.RedAlloy, 4)
-                .inputItems(CustomTags.HV_CIRCUITS)
-                .inputFluids(GTMaterials.Glass.getFluid(288))
-                .outputItems(new ItemStack(AEItems.BLANK_PATTERN.asItem()))
-                .EUt(120)
-                .duration(200)
-                .save();
-
         ASSEMBLER_RECIPES.recipeBuilder("highly_dense_polymer_plate")
                 .inputItems(TagPrefix.plate, GTOMaterials.CarbonNanotubes)
                 .inputItems(TagPrefix.plateDouble, GTOMaterials.CosmicNeutronium)
@@ -2682,17 +2655,6 @@ final class Assembler {
                 .inputItems(GTOItems.REACTOR_URANIUM_SIMPLE.asStack())
                 .inputItems(TagPrefix.plate, GTOMaterials.ReactorSteel)
                 .outputItems(GTOBlocks.NUKE_BOMB.asStack())
-                .EUt(480)
-                .duration(200)
-                .save();
-
-        ASSEMBLER_RECIPES.recipeBuilder("blank_pattern_better")
-                .inputItems(TagPrefix.plate, GTMaterials.Steel, 3)
-                .inputItems(TagPrefix.plate, GTMaterials.Polytetrafluoroethylene, 2)
-                .inputItems(TagPrefix.plate, GTMaterials.RedAlloy, 4)
-                .inputItems(CustomTags.EV_CIRCUITS)
-                .inputFluids(GTMaterials.Glass.getFluid(1152))
-                .outputItems(new ItemStack(AEItems.BLANK_PATTERN.asItem(), 4))
                 .EUt(480)
                 .duration(200)
                 .save();
@@ -3386,17 +3348,6 @@ final class Assembler {
                 .inputFluids(GTOMaterials.RedstoneAlloy.getFluid(2304))
                 .outputItems(GTOItems.BALL_FIELD_SHAPE.asStack())
                 .EUt(30720)
-                .duration(200)
-                .save();
-
-        ASSEMBLER_RECIPES.recipeBuilder("blank_pattern_best")
-                .inputItems(TagPrefix.plate, GTMaterials.Steel, 3)
-                .inputItems(TagPrefix.plate, GTMaterials.Polybenzimidazole, 2)
-                .inputItems(TagPrefix.plate, GTMaterials.RedAlloy, 4)
-                .inputItems(CustomTags.IV_CIRCUITS)
-                .inputFluids(GTMaterials.Glass.getFluid(2304))
-                .outputItems(new ItemStack(AEItems.BLANK_PATTERN.asItem(), 16))
-                .EUt(1920)
                 .duration(200)
                 .save();
 

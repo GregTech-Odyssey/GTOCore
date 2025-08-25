@@ -1,4 +1,4 @@
-package com.gtocore.data.recipe.misc;
+package com.gtocore.data.recipe.ae2;
 
 import com.gtocore.common.data.GTOItems;
 
