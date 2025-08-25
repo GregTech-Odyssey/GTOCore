@@ -18,7 +18,6 @@ import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
-import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.tags.BiomeTags;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
@@ -48,8 +47,6 @@ import vazkii.botania.common.item.BotaniaItems;
 import vazkii.botania.common.lib.BotaniaTags;
 import vectorwing.farmersdelight.common.tag.ForgeTags;
 
-import java.util.function.Consumer;
-
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
 import static com.gtocore.api.data.tag.GTOTagPrefix.SUPERCONDUCTOR_BASE;
@@ -60,7 +57,7 @@ import static vazkii.botania.common.block.BotaniaBlocks.motifDaybloom;
 
 public final class BotaniaRecipes {
 
-    public static void init(Consumer<FinishedRecipe> provider) {
+    public static void init() {
         // 植物魔法系列测试配方
         if (GTCEu.isDev()) {
             // 植物酿造 - 好像只能酿造植物魔法的那些
@@ -69,39 +66,39 @@ public final class BotaniaRecipes {
                     .addIngredient(ItemTags.SMALL_FLOWERS)
                     .addIngredient(Items.DIAMOND_BLOCK)
                     .addIngredient(BotaniaTags.Items.RUNES)
-                    .save(provider);
+                    .save();
         }
 
         // 白雏菊
         {
-            PureDaisyRecipe(provider, "livingclay", StateIngredientHelper.of(BlockTags.DIRT), ChemicalHelper.getBlock(block, Livingclay));
-            PureDaisyRecipe(provider, "livingwood", StateIngredientHelper.of(Tags.ARCHWOOD_LOG), BotaniaBlocks.livingwoodLog);
+            PureDaisyRecipe("livingclay", StateIngredientHelper.of(BlockTags.DIRT), ChemicalHelper.getBlock(block, Livingclay));
+            PureDaisyRecipe("livingwood", StateIngredientHelper.of(Tags.ARCHWOOD_LOG), BotaniaBlocks.livingwoodLog);
 
         }
 
         // 魔力池
         {
-            ManaInfusionRecipe(provider, "pulsating", Ingredient.of(GTOChemicalHelper.getItem(SUPERCONDUCTOR_BASE, PulsatingAlloy)), new ItemStack(GTOChemicalHelper.getItem(wireGtSingle, PulsatingAlloy)), 400, null, null);
-            ManaInfusionRecipe(provider, "conductivee", Ingredient.of(GTOChemicalHelper.getItem(SUPERCONDUCTOR_BASE, ConductiveAlloy)), new ItemStack(GTOChemicalHelper.getItem(wireGtSingle, ConductiveAlloy)), 1600, null, null);
-            ManaInfusionRecipe(provider, "energeticalloy", Ingredient.of(GTOChemicalHelper.getItem(SUPERCONDUCTOR_BASE, EnergeticAlloy)), new ItemStack(GTOChemicalHelper.getItem(wireGtSingle, EnergeticAlloy)), 6000, null, null);
-            ManaInfusionRecipe(provider, "vibrantalloy", Ingredient.of(GTOChemicalHelper.getItem(SUPERCONDUCTOR_BASE, VibrantAlloy)), new ItemStack(GTOChemicalHelper.getItem(wireGtSingle, VibrantAlloy)), 25600, null, null);
-            ManaInfusionRecipe(provider, "endsteel", Ingredient.of(GTOChemicalHelper.getItem(SUPERCONDUCTOR_BASE, EndSteel)), new ItemStack(GTOChemicalHelper.getItem(wireGtSingle, EndSteel)), 102400, null, null);
+            ManaInfusionRecipe("pulsating", Ingredient.of(GTOChemicalHelper.getItem(SUPERCONDUCTOR_BASE, PulsatingAlloy)), new ItemStack(GTOChemicalHelper.getItem(wireGtSingle, PulsatingAlloy)), 400, null, null);
+            ManaInfusionRecipe("conductivee", Ingredient.of(GTOChemicalHelper.getItem(SUPERCONDUCTOR_BASE, ConductiveAlloy)), new ItemStack(GTOChemicalHelper.getItem(wireGtSingle, ConductiveAlloy)), 1600, null, null);
+            ManaInfusionRecipe("energeticalloy", Ingredient.of(GTOChemicalHelper.getItem(SUPERCONDUCTOR_BASE, EnergeticAlloy)), new ItemStack(GTOChemicalHelper.getItem(wireGtSingle, EnergeticAlloy)), 6000, null, null);
+            ManaInfusionRecipe("vibrantalloy", Ingredient.of(GTOChemicalHelper.getItem(SUPERCONDUCTOR_BASE, VibrantAlloy)), new ItemStack(GTOChemicalHelper.getItem(wireGtSingle, VibrantAlloy)), 25600, null, null);
+            ManaInfusionRecipe("endsteel", Ingredient.of(GTOChemicalHelper.getItem(SUPERCONDUCTOR_BASE, EndSteel)), new ItemStack(GTOChemicalHelper.getItem(wireGtSingle, EndSteel)), 102400, null, null);
 
-            ManaInfusionRecipe(provider, "manasteel", Ingredient.of(GTOChemicalHelper.getItem(ingot, Steel)), new ItemStack(GTOChemicalHelper.getItem(ingot, Manasteel)), 3000, null, null);
-            ManaInfusionRecipe(provider, "manasteel_block", Ingredient.of(GTOChemicalHelper.getItem(block, Steel)), new ItemStack(GTOChemicalHelper.getItem(block, Manasteel)), 27000, null, null);
-            ManaInfusionRecipe(provider, "mana_pearl", Ingredient.of(RegistriesUtils.getItem("torchmaster:frozen_pearl")), new ItemStack(BotaniaItems.manaPearl), 6000, null, null);
-            ManaInfusionRecipe(provider, "mana_string", Ingredient.of(ItemsRegistry.MAGE_FIBER.asItem()), new ItemStack(BotaniaItems.manaString), 1250, null, null);
+            ManaInfusionRecipe("manasteel", Ingredient.of(GTOChemicalHelper.getItem(ingot, Steel)), new ItemStack(GTOChemicalHelper.getItem(ingot, Manasteel)), 3000, null, null);
+            ManaInfusionRecipe("manasteel_block", Ingredient.of(GTOChemicalHelper.getItem(block, Steel)), new ItemStack(GTOChemicalHelper.getItem(block, Manasteel)), 27000, null, null);
+            ManaInfusionRecipe("mana_pearl", Ingredient.of(RegistriesUtils.getItem("torchmaster:frozen_pearl")), new ItemStack(BotaniaItems.manaPearl), 6000, null, null);
+            ManaInfusionRecipe("mana_string", Ingredient.of(ItemsRegistry.MAGE_FIBER.asItem()), new ItemStack(BotaniaItems.manaString), 1250, null, null);
 
-            ManaInfusionRecipe(provider, "life_essence", Ingredient.of(GTOItems.UNSTABLE_GAIA_SOUL.asItem()), new ItemStack(BotaniaItems.lifeEssence), 500000, ChemicalHelper.getBlock(block, Gaia), null);
+            ManaInfusionRecipe("life_essence", Ingredient.of(GTOItems.UNSTABLE_GAIA_SOUL.asItem()), new ItemStack(BotaniaItems.lifeEssence), 500000, ChemicalHelper.getBlock(block, Gaia), null);
 
-            ManaInfusionRecipe(provider, "infused_gold", Ingredient.of(Items.GOLD_INGOT), new ItemStack(GTOChemicalHelper.getItem(ingot, InfusedGold)), 8000, null, null);
-            ManaInfusionRecipe(provider, "original_bronze_dust", Ingredient.of(GTOChemicalHelper.getItem(ingot, Bronze)), new ItemStack(GTOChemicalHelper.getItem(ingot, OriginalBronze)), 6000, null, null);
+            ManaInfusionRecipe("infused_gold", Ingredient.of(Items.GOLD_INGOT), new ItemStack(GTOChemicalHelper.getItem(ingot, InfusedGold)), 8000, null, null);
+            ManaInfusionRecipe("original_bronze_dust", Ingredient.of(GTOChemicalHelper.getItem(ingot, Bronze)), new ItemStack(GTOChemicalHelper.getItem(ingot, OriginalBronze)), 6000, null, null);
 
         }
 
         // 花药台
         {
-            ApothecaryRecipe(provider, "colorful_mystical_flower", Ingredient.of(ForgeTags.SEEDS), new ItemStack(COLORFUL_MYSTICAL_FLOWER),
+            ApothecaryRecipe("colorful_mystical_flower", Ingredient.of(ForgeTags.SEEDS), new ItemStack(COLORFUL_MYSTICAL_FLOWER),
                     new Ingredient[] { Ingredient.of(BotaniaItems.whitePetal), Ingredient.of(BotaniaItems.lightGrayPetal), Ingredient.of(BotaniaItems.grayPetal), Ingredient.of(BotaniaItems.blackPetal),
                             Ingredient.of(BotaniaItems.brownPetal), Ingredient.of(BotaniaItems.redPetal), Ingredient.of(BotaniaItems.orangePetal), Ingredient.of(BotaniaItems.yellowPetal),
                             Ingredient.of(BotaniaItems.limePetal), Ingredient.of(BotaniaItems.greenPetal), Ingredient.of(BotaniaItems.cyanPetal), Ingredient.of(BotaniaItems.lightBluePetal),
@@ -111,12 +108,12 @@ public final class BotaniaRecipes {
 
         // 符文祭坛
         {
-            RunicAltarRecipe(provider, "runerock_block", 1000000, new ItemStack(GTOChemicalHelper.getItem(block, Runerock), 8), false,
+            RunicAltarRecipe("runerock_block", 1000000, new ItemStack(GTOChemicalHelper.getItem(block, Runerock), 8), false,
                     new Ingredient[] { Ingredient.of(BotaniaItems.runeEarth), Ingredient.of(BotaniaItems.runeAir), Ingredient.of(BotaniaItems.runeFire), Ingredient.of(BotaniaItems.runeWater),
                             Ingredient.of(BotaniaItems.runeSpring), Ingredient.of(BotaniaItems.runeSummer), Ingredient.of(BotaniaItems.runeAutumn), Ingredient.of(BotaniaItems.runeWinter),
                             Ingredient.of(BotaniaItems.runeMana), Ingredient.of(BotaniaItems.runeLust), Ingredient.of(BotaniaItems.runeGluttony), Ingredient.of(BotaniaItems.runeGreed),
                             Ingredient.of(BotaniaItems.runeSloth), Ingredient.of(BotaniaItems.runeWrath), Ingredient.of(BotaniaItems.runeEnvy), Ingredient.of(BotaniaItems.runePride) });
-            RunicAltarRecipe(provider, "runerock_block_plas", 1000000, new ItemStack(GTOChemicalHelper.getItem(block, Runerock), 16), false,
+            RunicAltarRecipe("runerock_block_plas", 1000000, new ItemStack(GTOChemicalHelper.getItem(block, Runerock), 16), false,
                     new Ingredient[] { Ingredient.of(RegistriesUtils.getItemStack("mythicbotany:asgard_rune")), Ingredient.of(RegistriesUtils.getItemStack("mythicbotany:vanaheim_rune")),
                             Ingredient.of(RegistriesUtils.getItemStack("mythicbotany:alfheim_rune")), Ingredient.of(RegistriesUtils.getItemStack("mythicbotany:midgard_rune")),
                             Ingredient.of(RegistriesUtils.getItemStack("mythicbotany:joetunheim_rune")), Ingredient.of(RegistriesUtils.getItemStack("mythicbotany:muspelheim_rune")),
@@ -127,9 +124,9 @@ public final class BotaniaRecipes {
 
         // 泰拉凝聚板
         {
-            TAgglomerationRecipe(provider, "thaumium_ingot", 500000, new ItemStack(GTOChemicalHelper.getItem(ingot, Thaumium)),
+            TAgglomerationRecipe("thaumium_ingot", 500000, new ItemStack(GTOChemicalHelper.getItem(ingot, Thaumium)),
                     new Ingredient[] { Ingredient.of(GTOChemicalHelper.getItem(ingot, Livingsteel)), Ingredient.of(ItemsRegistry.SOURCE_GEM), Ingredient.of(GTOChemicalHelper.getItem(ingot, OriginalBronze)), Ingredient.of(ItemsRegistry.MANIPULATION_ESSENCE) });
-            TAgglomerationRecipe(provider, "gaiasteel_ingot", 2500000, new ItemStack(GTOChemicalHelper.getItem(ingot, Gaiasteel), 3),
+            TAgglomerationRecipe("gaiasteel_ingot", 2500000, new ItemStack(GTOChemicalHelper.getItem(ingot, Gaiasteel), 3),
                     new Ingredient[] { Ingredient.of(RegistriesUtils.getItemStack("mythicbotany:asgard_rune")), Ingredient.of(RegistriesUtils.getItemStack("mythicbotany:vanaheim_rune")),
                             Ingredient.of(RegistriesUtils.getItemStack("mythicbotany:alfheim_rune")), Ingredient.of(GTOChemicalHelper.getItem(ingot, Alfsteel)),
                             Ingredient.of(GTOChemicalHelper.getItem(ingot, Runerock)), Ingredient.of(RegistriesUtils.getItemStack("mythicbotany:midgard_rune")),
@@ -138,7 +135,7 @@ public final class BotaniaRecipes {
                             Ingredient.of(RegistriesUtils.getItemStack("mythicbotany:niflheim_rune")), Ingredient.of(RegistriesUtils.getItemStack("mythicbotany:nidavellir_rune")),
                             Ingredient.of(RegistriesUtils.getItemStack("mythicbotany:helheim_rune")), Ingredient.of(GTOChemicalHelper.getItem(ingot, Alfsteel)),
                             Ingredient.of(GTOChemicalHelper.getItem(ingot, Runerock)) });
-            TAgglomerationRecipe(provider, "gaia_ingot", 5000000, new ItemStack(GTOChemicalHelper.getItem(ingot, Gaia), 2),
+            TAgglomerationRecipe("gaia_ingot", 5000000, new ItemStack(GTOChemicalHelper.getItem(ingot, Gaia), 2),
                     new Ingredient[] { Ingredient.of(GTOChemicalHelper.getItem(ingot, Gaiasteel)), Ingredient.of(BotaniaItems.lifeEssence), Ingredient.of(GTOChemicalHelper.getItem(ingot, Gaiasteel)), Ingredient.of(BotaniaItems.lifeEssence) });
 
         }
@@ -148,61 +145,61 @@ public final class BotaniaRecipes {
             ElvenTradeRecipeBuilder.builder("dragonstone")
                     .addInput(ItemsRegistry.SOURCE_GEM)
                     .addOutput(BotaniaItems.dragonstone)
-                    .save(provider);
+                    .save();
 
             ElvenTradeRecipeBuilder.builder("dragonstone_block")
                     .addInput(BlockRegistry.SOURCE_GEM_BLOCK)
                     .addOutput(BotaniaBlocks.dragonstoneBlock)
-                    .save(provider);
+                    .save();
 
             ElvenTradeRecipeBuilder.builder("colorful_mystical_flower")
                     .addInput(BotaniaItems.fertilizer)
                     .addOutput(COLORFUL_MYSTICAL_FLOWER)
-                    .save(provider);
+                    .save();
         }
 
         // 凝矿兰
         {
-            OrechidRecipe(provider, 1, "overworld_", Blocks.STONE, TagPrefix.ore,
+            OrechidRecipe(1, "overworld_", Blocks.STONE, TagPrefix.ore,
                     new Material[] { GTMaterials.TricalciumPhosphate, GTMaterials.GarnetYellow, GTMaterials.Coal, GTOMaterials.GnomeCrystal, GTMaterials.Mica, GTMaterials.Cobaltite, GTMaterials.GreenSapphire, GTMaterials.YellowLimonite, GTMaterials.Bentonite, GTMaterials.GarnetRed, GTMaterials.RockSalt, GTMaterials.Pyrochlore, GTMaterials.Talc, GTMaterials.Realgar, GTMaterials.Lepidolite, GTMaterials.Ruby, GTMaterials.BasalticMineralSand, GTMaterials.Malachite, GTMaterials.Salt, GTMaterials.Chalcopyrite, GTMaterials.Goethite, GTMaterials.Gold, GTMaterials.Redstone, GTMaterials.Pyrolusite, GTMaterials.GlauconiteSand, GTMaterials.Nickel, GTMaterials.Iron, GTMaterials.Silver, GTMaterials.Spodumene, GTMaterials.Graphite, GTMaterials.Kyanite, GTMaterials.Opal, GTMaterials.Lapis, GTMaterials.Magnetite, GTMaterials.Spessartine, GTMaterials.Amethyst, GTMaterials.Cinnabar, GTOMaterials.PerditioCrystal, GTMaterials.Galena, GTMaterials.Soapstone, GTMaterials.Pentlandite, GTMaterials.Sapphire, GTMaterials.Grossular, GTMaterials.Asbestos, GTMaterials.GraniticMineralSand, GTOMaterials.UndineCrystal, GTMaterials.Pollucite, GTMaterials.FullersEarth, GTMaterials.Almandine, GTMaterials.Oilsands, GTOMaterials.SylphCrystal, GTMaterials.CassiteriteSand, GTMaterials.Cassiterite, GTMaterials.VanadiumMagnetite, GTMaterials.Copper, GTMaterials.Pyrite, GTMaterials.Calcite, GTMaterials.Hematite, GTMaterials.Pyrope, GTMaterials.Tin, GTMaterials.Zeolite, GTMaterials.Diatomite, GTMaterials.Gypsum, GTMaterials.Olivine, GTMaterials.Apatite, GTMaterials.Diamond, GTMaterials.GarnetSand, GTMaterials.Sodalite, GTMaterials.Tantalite, GTOMaterials.SalamanderCrystal, GTMaterials.Garnierite, GTMaterials.Lead, GTMaterials.Lazurite },
                     new int[] { 80, 80, 280, 20, 40, 80, 60, 240, 60, 120, 150, 40, 80, 50, 50, 120, 240, 120, 100, 650, 600, 80, 180, 40, 100, 80, 160, 80, 50, 280, 60, 40, 80, 280, 40, 80, 60, 80, 120, 120, 80, 60, 60, 160, 160, 20, 20, 160, 180, 240, 20, 240, 260, 160, 160, 160, 40, 240, 120, 320, 100, 80, 80, 40, 120, 120, 160, 80, 20, 20, 120, 40, 120 });
-            OrechidRecipe(provider, 2, "the_nether_", Blocks.NETHERRACK, TagPrefix.oreNetherrack,
+            OrechidRecipe(2, "the_nether_", Blocks.NETHERRACK, TagPrefix.oreNetherrack,
                     new Material[] { GTMaterials.Tantalite, GTMaterials.Alunite, GTMaterials.Barite, GTMaterials.Molybdenite, GTMaterials.YellowLimonite, GTMaterials.Electrotine, GTMaterials.NetherQuartz, GTMaterials.Grossular, GTMaterials.CertusQuartz, GTMaterials.Beryllium, GTMaterials.Pyrite, GTMaterials.Saltpeter, GTMaterials.Ruby, GTMaterials.Sphalerite, GTMaterials.Sulfur, GTMaterials.Wulfenite, GTMaterials.Bornite, GTMaterials.Hematite, GTMaterials.Copper, GTMaterials.Goethite, GTMaterials.Quartzite, GTMaterials.Tetrahedrite, GTMaterials.Emerald, GTMaterials.Gold, GTMaterials.BlueTopaz, GTMaterials.Molybdenum, GTMaterials.Redstone, GTMaterials.Pyrolusite, GTMaterials.Diatomite, GTMaterials.Chalcocite, GTMaterials.Stibnite, GTMaterials.Powellite, GTMaterials.Spessartine, GTMaterials.Cinnabar, GTMaterials.Topaz },
                     new int[] { 20, 40, 40, 10, 60, 80, 240, 60, 80, 90, 200, 120, 120, 100, 300, 15, 70, 60, 140, 90, 200, 280, 120, 30, 210, 5, 180, 40, 80, 140, 70, 5, 40, 60, 140 });
-            OrechidRecipe(provider, 1, "moon_", ModBlocks.MOON_STONE.get(), GTOTagPrefix.MOON_STONE,
+            OrechidRecipe(1, "moon_", ModBlocks.MOON_STONE.get(), GTOTagPrefix.MOON_STONE,
                     new Material[] { GTMaterials.Gold, GTMaterials.Ilmenite, GTMaterials.Soapstone, GTMaterials.Tin, GTMaterials.Pentlandite, GTMaterials.Pitchblende, GTMaterials.Uraninite, GTMaterials.Bauxite, GTMaterials.Neodymium, GTMaterials.Diatomite, GTMaterials.Asbestos, GTMaterials.GlauconiteSand, GTMaterials.Aluminium, GTMaterials.CassiteriteSand, GTMaterials.Talc, GTMaterials.Bastnasite, GTMaterials.Cassiterite, GTMaterials.Monazite, GTMaterials.GarnetSand, GTMaterials.Magnetite, GTMaterials.VanadiumMagnetite },
                     new int[] { 80, 40, 120, 320, 40, 210, 30, 80, 30, 80, 160, 80, 40, 240, 80, 90, 160, 30, 160, 240, 160 });
-            OrechidRecipe(provider, 2, "mars_", ModBlocks.MARS_STONE.get(), GTOTagPrefix.MARS_STONE,
+            OrechidRecipe(2, "mars_", ModBlocks.MARS_STONE.get(), GTOTagPrefix.MARS_STONE,
                     new Material[] { GTMaterials.TricalciumPhosphate, GTMaterials.GarnetYellow, GTMaterials.Alunite, GTMaterials.Mica, GTMaterials.Electrotine, GTMaterials.Palladium, GTMaterials.FullersEarth, GTMaterials.GraniticMineralSand, GTMaterials.YellowLimonite, GTMaterials.Pollucite, GTMaterials.GarnetRed, GTMaterials.Pyrite, GTMaterials.Pyrochlore, GTMaterials.Saltpeter, GTMaterials.Platinum, GTMaterials.BasalticMineralSand, GTMaterials.Malachite, GTMaterials.Bornite, GTMaterials.Goethite, GTMaterials.Chalcopyrite, GTMaterials.Copper, GTMaterials.VanadiumMagnetite, GTMaterials.Hematite, GTMaterials.Gold, GTMaterials.Tetrahedrite, GTMaterials.Tungstate, GTMaterials.Diatomite, GTMaterials.Cooperite, GTMaterials.Iron, GTMaterials.Lithium, GTMaterials.Stibnite, GTMaterials.Gypsum, GTMaterials.Opal, GTMaterials.Kyanite, GTMaterials.Apatite, GTMaterials.Scheelite, GTMaterials.Magnetite, GTMaterials.Amethyst },
                     new int[] { 80, 80, 40, 40, 80, 10, 160, 160, 240, 20, 120, 160, 40, 120, 20, 240, 120, 30, 600, 400, 300, 160, 240, 80, 280, 40, 80, 20, 160, 20, 70, 80, 40, 60, 120, 60, 240, 80 });
-            OrechidRecipe(provider, 2, "venus_", ModBlocks.VENUS_STONE.get(), GTOTagPrefix.VENUS_STONE,
+            OrechidRecipe(2, "venus_", ModBlocks.VENUS_STONE.get(), GTOTagPrefix.VENUS_STONE,
                     new Material[] { GTMaterials.Galena, GTMaterials.Coal, GTMaterials.Molybdenite, GTMaterials.YellowLimonite, GTMaterials.Bentonite, GTMaterials.Sulfur, GTMaterials.Wulfenite, GTMaterials.VanadiumMagnetite, GTMaterials.Goethite, GTMaterials.Pyrite, GTMaterials.Hematite, GTMaterials.Gold, GTMaterials.Sphalerite, GTMaterials.Molybdenum, GTMaterials.Chromite, GTOMaterials.Desh, GTMaterials.Magnesite, GTMaterials.GlauconiteSand, GTMaterials.Silver, GTMaterials.Graphite, GTMaterials.Olivine, GTMaterials.Diamond, GTMaterials.Powellite, GTMaterials.Magnetite, GTMaterials.Lead },
                     new int[] { 120, 40, 10, 60, 60, 300, 15, 30, 90, 200, 60, 30, 100, 5, 120, 20, 40, 20, 80, 280, 40, 120, 5, 130, 40 });
-            OrechidRecipe(provider, 2, "mercury_", ModBlocks.MERCURY_STONE.get(), GTOTagPrefix.MERCURY_STONE,
+            OrechidRecipe(2, "mercury_", ModBlocks.MERCURY_STONE.get(), GTOTagPrefix.MERCURY_STONE,
                     new Material[] { GTMaterials.Tantalite, GTMaterials.Garnierite, GTMaterials.Alunite, GTMaterials.Pentlandite, GTMaterials.Palladium, GTMaterials.Cobaltite, GTMaterials.Electrotine, GTMaterials.Grossular, GTMaterials.Cobalt, GTMaterials.Realgar, GTMaterials.Pyrochlore, GTMaterials.Saltpeter, GTMaterials.Cassiterite, GTMaterials.Bornite, GTMaterials.Platinum, GTMaterials.Chalcopyrite, GTMaterials.BlueTopaz, GTMaterials.Pyrolusite, GTMaterials.Zeolite, GTMaterials.Diatomite, GTMaterials.Nickel, GTMaterials.Cooperite, GTOMaterials.Calorite, GTMaterials.Chalcocite, GTMaterials.Spessartine, GTMaterials.Topaz },
                     new int[] { 20, 120, 40, 40, 10, 80, 80, 60, 80, 50, 40, 120, 100, 100, 20, 250, 210, 40, 100, 80, 80, 20, 40, 140, 40, 140 });
-            OrechidRecipe(provider, 3, "glacio_", ModBlocks.GLACIO_STONE.get(), GTOTagPrefix.GLACIO_STONE,
+            OrechidRecipe(3, "glacio_", ModBlocks.GLACIO_STONE.get(), GTOTagPrefix.GLACIO_STONE,
                     new Material[] { GTMaterials.Tantalite, GTOMaterials.Ostrum, GTMaterials.Coal, GTMaterials.Mica, GTMaterials.Palladium, GTMaterials.Tungsten, GTMaterials.Neodymium, GTMaterials.Pollucite, GTMaterials.Asbestos, GTMaterials.Oilsands, GTMaterials.Bastnasite, GTMaterials.RockSalt, GTMaterials.Lepidolite, GTMaterials.CassiteriteSand, GTMaterials.Platinum, GTMaterials.Bornite, GTMaterials.Salt, GTMaterials.Cassiterite, GTMaterials.Calcite, GTMaterials.Gold, GTMaterials.Tungstate, GTMaterials.Tin, GTMaterials.Pyrolusite, GTMaterials.Diatomite, GTMaterials.Cooperite, GTMaterials.Lithium, GTMaterials.Spodumene, GTMaterials.Sodalite, GTOMaterials.Celestine, GTOMaterials.Zircon, GTMaterials.Lapis, GTMaterials.Kyanite, GTMaterials.Monazite, GTMaterials.GarnetSand, GTMaterials.Scheelite, GTMaterials.Trona, GTMaterials.Lazurite },
                     new int[] { 40, 40, 240, 40, 10, 40, 30, 20, 160, 240, 90, 150, 50, 240, 20, 30, 100, 160, 40, 80, 40, 320, 40, 80, 60, 20, 50, 80, 40, 40, 80, 60, 30, 160, 60, 80, 120 });
-            OrechidRecipe(provider, 1, "titan_", GTOBlocks.TITAN_STONE.get(), GTOTagPrefix.TITAN_STONE,
+            OrechidRecipe(1, "titan_", GTOBlocks.TITAN_STONE.get(), GTOTagPrefix.TITAN_STONE,
                     new Material[] { GTMaterials.TricalciumPhosphate, GTMaterials.Sapphire, GTMaterials.YellowLimonite, GTMaterials.GreenSapphire, GTMaterials.Asbestos, GTMaterials.Almandine, GTMaterials.Pyrochlore, GTMaterials.CassiteriteSand, GTMaterials.Malachite, GTMaterials.VanadiumMagnetite, GTMaterials.Copper, GTMaterials.Goethite, GTMaterials.Hematite, GTMaterials.Tetrahedrite, GTMaterials.Pyrope, GTMaterials.Pitchblende, GTMaterials.Uraninite, GTMaterials.Chromite, GTMaterials.Diatomite, GTOMaterials.Desh, GTMaterials.Magnesite, GTMaterials.Stibnite, GTMaterials.Apatite, GTMaterials.GarnetSand, GTMaterials.Magnetite },
                     new int[] { 80, 60, 240, 60, 160, 180, 40, 240, 120, 30, 140, 600, 240, 280, 120, 210, 30, 120, 80, 20, 40, 70, 120, 160, 90 });
-            OrechidRecipe(provider, 1, "pluto_", GTOBlocks.PLUTO_STONE.get(), GTOTagPrefix.PLUTO_STONE,
+            OrechidRecipe(1, "pluto_", GTOBlocks.PLUTO_STONE.get(), GTOTagPrefix.PLUTO_STONE,
                     new Material[] { GTMaterials.Tantalite, GTMaterials.Galena, GTMaterials.Mica, GTMaterials.Pitchblende, GTMaterials.Uraninite, GTMaterials.Naquadah, GTMaterials.Barite, GTMaterials.Tungsten, GTMaterials.Pyrolusite, GTMaterials.Pollucite, GTMaterials.GarnetRed, GTMaterials.Silver, GTMaterials.CertusQuartz, GTMaterials.Plutonium239, GTMaterials.Pyrochlore, GTOMaterials.Zircon, GTMaterials.Opal, GTMaterials.Kyanite, GTMaterials.Apatite, GTMaterials.Amethyst, GTMaterials.Lead, GTMaterials.GarnetYellow, GTMaterials.Quartzite, GTMaterials.TricalciumPhosphate },
                     new int[] { 40, 120, 40, 210, 30, 210, 40, 40, 40, 20, 120, 80, 80, 30, 40, 40, 40, 60, 120, 80, 40, 80, 120, 80 });
-            OrechidRecipe(provider, 1, "io_", GTOBlocks.IO_STONE.get(), GTOTagPrefix.IO_STONE,
+            OrechidRecipe(1, "io_", GTOBlocks.IO_STONE.get(), GTOTagPrefix.IO_STONE,
                     new Material[] { GTMaterials.Coal, GTMaterials.GraniticMineralSand, GTMaterials.Naquadah, GTMaterials.Molybdenite, GTMaterials.YellowLimonite, GTMaterials.Bentonite, GTMaterials.FullersEarth, GTMaterials.Sulfur, GTMaterials.BasalticMineralSand, GTMaterials.Malachite, GTMaterials.Wulfenite, GTMaterials.Goethite, GTMaterials.Pyrite, GTMaterials.Hematite, GTMaterials.Sphalerite, GTMaterials.Molybdenum, GTMaterials.Cooperite, GTMaterials.GlauconiteSand, GTMaterials.Plutonium239, GTMaterials.Graphite, GTOMaterials.Celestine, GTMaterials.Gypsum, GTMaterials.Olivine, GTMaterials.Diamond, GTMaterials.Magnetite, GTMaterials.Powellite, GTMaterials.Trona },
                     new int[] { 40, 160, 210, 10, 240, 60, 160, 300, 240, 120, 15, 600, 200, 240, 100, 5, 40, 20, 30, 280, 40, 80, 40, 120, 40, 5, 80 });
-            OrechidRecipe(provider, 1, "ganymede_", GTOBlocks.GANYMEDE_STONE.get(), GTOTagPrefix.GANYMEDE_STONE,
+            OrechidRecipe(1, "ganymede_", GTOBlocks.GANYMEDE_STONE.get(), GTOTagPrefix.GANYMEDE_STONE,
                     new Material[] { GTMaterials.Emerald, GTMaterials.Soapstone, GTMaterials.Garnierite, GTMaterials.Tin, GTMaterials.Mica, GTMaterials.Pentlandite, GTMaterials.Bauxite, GTMaterials.Zeolite, GTMaterials.Cobaltite, GTMaterials.Pollucite, GTMaterials.Nickel, GTMaterials.GlauconiteSand, GTMaterials.Beryllium, GTMaterials.Aluminium, GTMaterials.Talc, GTMaterials.Realgar, GTMaterials.Kyanite, GTMaterials.Cassiterite, GTMaterials.Chalcopyrite, GTMaterials.Ilmenite },
                     new int[] { 120, 120, 120, 320, 40, 80, 80, 100, 80, 20, 80, 80, 90, 40, 80, 50, 60, 260, 250, 40 });
-            OrechidRecipe(provider, 1, "enceladus_", GTOBlocks.ENCELADUS_STONE.get(), GTOTagPrefix.ENCELADUS_STONE,
+            OrechidRecipe(1, "enceladus_", GTOBlocks.ENCELADUS_STONE.get(), GTOTagPrefix.ENCELADUS_STONE,
                     new Material[] { GTMaterials.BlueTopaz, GTMaterials.Galena, GTMaterials.Molybdenum, GTMaterials.Redstone, GTMaterials.Palladium, GTMaterials.Molybdenite, GTMaterials.Cooperite, GTMaterials.Iron, GTMaterials.Silver, GTMaterials.Ruby, GTMaterials.Pyrite, GTMaterials.Chalcocite, GTMaterials.Platinum, GTMaterials.Cinnabar, GTMaterials.Bornite, GTMaterials.Wulfenite, GTMaterials.Powellite, GTMaterials.Chalcopyrite, GTMaterials.Ilmenite, GTMaterials.Copper, GTMaterials.Titanium, GTMaterials.Lead, GTMaterials.Topaz },
                     new int[] { 210, 120, 5, 180, 10, 10, 20, 160, 80, 120, 160, 140, 20, 60, 100, 15, 5, 400, 80, 160, 40, 40, 140 });
-            OrechidRecipe(provider, 1, "ceres_", GTOBlocks.CERES_STONE.get(), GTOTagPrefix.CERES_STONE,
+            OrechidRecipe(1, "ceres_", GTOBlocks.CERES_STONE.get(), GTOTagPrefix.CERES_STONE,
                     new Material[] { GTMaterials.Tantalite, GTOMaterials.Ostrum, GTMaterials.Soapstone, GTMaterials.Pentlandite, GTMaterials.Neodymium, GTMaterials.YellowLimonite, GTMaterials.Bentonite, GTMaterials.Grossular, GTMaterials.Realgar, GTMaterials.Bastnasite, GTMaterials.Talc, GTMaterials.Malachite, GTMaterials.Cassiterite, GTMaterials.Chalcopyrite, GTMaterials.Goethite, GTMaterials.Hematite, GTMaterials.Gold, GTMaterials.Tungstate, GTMaterials.Pyrolusite, GTMaterials.Zeolite, GTMaterials.Lithium, GTMaterials.GlauconiteSand, GTMaterials.Olivine, GTMaterials.Monazite, GTMaterials.Scheelite, GTMaterials.Magnetite, GTMaterials.Spessartine },
                     new int[] { 20, 40, 120, 40, 30, 240, 60, 60, 50, 90, 80, 120, 100, 250, 600, 240, 80, 40, 40, 100, 20, 100, 40, 30, 60, 40, 40 });
-            OrechidRecipe(provider, 3, "otherside_", DDBlocks.SCULK_STONE.get(), GTOTagPrefix.SCULK_STONE,
+            OrechidRecipe(3, "otherside_", DDBlocks.SCULK_STONE.get(), GTOTagPrefix.SCULK_STONE,
                     new Material[] { GTMaterials.Ilmenite, GTOMaterials.Ostrum, GTMaterials.Garnierite, GTOMaterials.GnomeCrystal, GTMaterials.Cobaltite, GTMaterials.Mica, GTMaterials.GreenSapphire, GTMaterials.GarnetRed, GTMaterials.YellowLimonite, GTMaterials.Tungsten, GTMaterials.Molybdenite, GTMaterials.Neodymium, GTMaterials.Bentonite, GTMaterials.NetherQuartz, GTMaterials.Lepidolite, GTMaterials.Realgar, GTMaterials.CertusQuartz, GTMaterials.Pyrochlore, GTMaterials.Saltpeter, GTMaterials.Talc, GTMaterials.Bastnasite, GTMaterials.Ruby, GTMaterials.BasalticMineralSand, GTMaterials.Malachite, GTMaterials.Wulfenite, GTMaterials.Platinum, GTMaterials.Chalcopyrite, GTMaterials.Goethite, GTMaterials.Gold, GTMaterials.Emerald, GTMaterials.BlueTopaz, GTMaterials.Uraninite, GTMaterials.Pyrolusite, GTMaterials.Magnesite, GTMaterials.Cooperite, GTMaterials.GlauconiteSand, GTMaterials.Spodumene, GTOMaterials.Celestine, GTMaterials.Lapis, GTMaterials.Opal, GTMaterials.Kyanite, GTMaterials.Amethyst, GTMaterials.Cinnabar, GTMaterials.Topaz, GTOMaterials.PerditioCrystal, GTMaterials.Soapstone, GTMaterials.Palladium, GTMaterials.GraniticMineralSand, GTMaterials.Asbestos, GTMaterials.Pollucite, GTMaterials.Almandine, GTMaterials.Cobalt, GTMaterials.Beryllium, GTOMaterials.SylphCrystal, GTMaterials.Copper, GTMaterials.Cassiterite, GTMaterials.VanadiumMagnetite, GTMaterials.Pyrite, GTMaterials.Calcite, GTMaterials.Tin, GTMaterials.Molybdenum, GTMaterials.Chromite, GTMaterials.Zeolite, GTMaterials.Lithium, GTMaterials.Gypsum, GTMaterials.Apatite, GTMaterials.Sodalite, GTOMaterials.SalamanderCrystal, GTMaterials.Tantalite, GTMaterials.TricalciumPhosphate, GTMaterials.GarnetYellow, GTMaterials.Coal, GTMaterials.Alunite, GTMaterials.Naquadah, GTMaterials.Electrotine, GTMaterials.RockSalt, GTMaterials.Sulfur, GTMaterials.Salt, GTMaterials.Bornite, GTMaterials.Redstone, GTOMaterials.Desh, GTMaterials.Nickel, GTMaterials.Iron, GTMaterials.Silver, GTOMaterials.Calorite, GTMaterials.Aluminium, GTMaterials.Graphite, GTMaterials.Chalcocite, GTMaterials.Scheelite, GTMaterials.Magnetite, GTMaterials.Spessartine, GTMaterials.Titanium, GTMaterials.Galena, GTMaterials.Pentlandite, GTMaterials.Sapphire, GTMaterials.Bauxite, GTMaterials.Barite, GTMaterials.FullersEarth, GTOMaterials.UndineCrystal, GTMaterials.Grossular, GTMaterials.Oilsands, GTMaterials.CassiteriteSand, GTMaterials.Sphalerite, GTMaterials.Quartzite, GTMaterials.Hematite, GTMaterials.Tungstate, GTMaterials.Tetrahedrite, GTMaterials.Pyrope, GTMaterials.Pitchblende, GTMaterials.Diatomite, GTMaterials.Plutonium239, GTOMaterials.Zircon, GTMaterials.Monazite, GTMaterials.Olivine, GTMaterials.Stibnite, GTMaterials.Diamond, GTMaterials.GarnetSand, GTMaterials.Powellite, GTMaterials.Trona, GTMaterials.Lead, GTMaterials.Lazurite },
                     new int[] { 120, 40, 120, 80, 80, 40, 60, 120, 300, 40, 10, 30, 60, 240, 50, 50, 80, 80, 120, 80, 90, 120, 240, 120, 15, 20, 650, 690, 190, 120, 210, 30, 80, 40, 60, 100, 50, 40, 80, 40, 60, 80, 60, 140, 320, 120, 10, 160, 160, 20, 180, 80, 90, 80, 300, 260, 190, 360, 40, 320, 5, 120, 100, 20, 80, 120, 80, 80, 60, 80, 80, 280, 40, 210, 80, 150, 300, 100, 100, 180, 20, 80, 160, 80, 40, 40, 280, 140, 60, 370, 40, 40, 120, 80, 60, 80, 40, 160, 80, 60, 240, 240, 100, 200, 300, 40, 280, 120, 210, 160, 30, 40, 30, 40, 70, 120, 160, 5, 80, 40, 120 });
 
@@ -210,7 +207,7 @@ public final class BotaniaRecipes {
                     .input(Blocks.NETHERRACK)
                     .output(Blocks.ANCIENT_DEBRIS)
                     .weight(10)
-                    .save(provider);
+                    .save();
 
             Material[] ores = { PerditioCrystal, GnomeCrystal, SylphCrystal, UndineCrystal, SalamanderCrystal };
             for (Material material : ores) {
@@ -219,7 +216,7 @@ public final class BotaniaRecipes {
                         .output(ChemicalHelper.getBlock(GTOTagPrefix.LIVING_STONE, material))
                         .weight(10)
                         .biomeTag(BiomeTags.IS_FOREST)
-                        .save(provider);
+                        .save();
             }
 
         }
@@ -821,18 +818,16 @@ public final class BotaniaRecipes {
     }
 
     private static void PureDaisyRecipe(
-                                        Consumer<FinishedRecipe> provider,
                                         String id,
                                         StateIngredient input,
                                         Block output) {
         PureDaisyRecipeBuilder.builder(id)
                 .input(input)
                 .output(output)
-                .save(provider);
+                .save();
     }
 
     private static void ManaInfusionRecipe(
-                                           Consumer<FinishedRecipe> provider,
                                            String id,
                                            Ingredient input,
                                            ItemStack output,
@@ -845,11 +840,10 @@ public final class BotaniaRecipes {
                 .mana(mana)
                 .group(group)
                 .customCatalyst(customCatalyst)
-                .save(provider);
+                .save();
     }
 
     private static void ApothecaryRecipe(
-                                         Consumer<FinishedRecipe> provider,
                                          String id,
                                          Ingredient catalyst,
                                          ItemStack output,
@@ -859,11 +853,10 @@ public final class BotaniaRecipes {
                 .reagent(catalyst)
                 .output(output);
         for (Ingredient ingredient : input) build.addIngredient(ingredient);
-        build.save(provider);
+        build.save();
     }
 
     private static void RunicAltarRecipe(
-                                         Consumer<FinishedRecipe> provider,
                                          String id,
                                          int mana,
                                          ItemStack output,
@@ -875,11 +868,10 @@ public final class BotaniaRecipes {
                 .mana(mana)
                 .setHeadRecipe(setHeadRecipe);
         for (Ingredient ingredient : input) build.addIngredient(ingredient);
-        build.save(provider);
+        build.save();
     }
 
     private static void TAgglomerationRecipe(
-                                             Consumer<FinishedRecipe> provider,
                                              String id,
                                              int mana,
                                              ItemStack output,
@@ -889,11 +881,10 @@ public final class BotaniaRecipes {
                 .output(output)
                 .mana(mana);
         for (Ingredient ingredient : input) build.addIngredient(ingredient);
-        build.save(provider);
+        build.save();
     }
 
     private static void OrechidRecipe(
-                                      Consumer<FinishedRecipe> provider,
                                       int id,
                                       String name,
                                       Block input,
@@ -906,7 +897,7 @@ public final class BotaniaRecipes {
                         .input(input)
                         .output(ChemicalHelper.getBlock(output, material[k]))
                         .weight(weight[k])
-                        .save(provider);
+                        .save();
             }
         } else if (id == 2) {
             for (int k = 0; k < material.length; k++) {
@@ -914,7 +905,7 @@ public final class BotaniaRecipes {
                         .input(input)
                         .output(ChemicalHelper.getBlock(output, material[k]))
                         .weight(weight[k])
-                        .save(provider);
+                        .save();
             }
         } else if (id == 3) {
             for (int k = 0; k < material.length; k++) {
@@ -923,7 +914,7 @@ public final class BotaniaRecipes {
                         .output(ChemicalHelper.getBlock(output, material[k]))
                         .weight(weight[k])
                         .biomeTag(BiomeTags.IS_FOREST)
-                        .save(provider);
+                        .save();
             }
         }
     }
