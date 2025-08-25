@@ -99,8 +99,11 @@ public final class NanitesIntegratedMachine extends CoilCrossRecipeMultiblockMac
     @Override
     protected Recipe fullModifyRecipe(@NotNull Recipe recipe) {
         if (module.contains(recipe.data.getInt("module"))) {
-            trimRecipe(recipe, chance);
-            return super.fullModifyRecipe(recipe);
+            recipe = super.fullModifyRecipe(recipe);
+            if (recipe != null) {
+                trimRecipe(recipe, chance);
+                return recipe;
+            }
         }
         return null;
     }
