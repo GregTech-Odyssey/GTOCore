@@ -1,7 +1,7 @@
 package com.gtocore.data.recipe;
 
+import com.gtocore.data.recipe.ae2.AE2;
 import com.gtocore.data.recipe.generated.DyeRecipes;
-import com.gtocore.data.recipe.mod.AE2;
 import com.gtocore.data.recipe.mod.FunctionalStorage;
 import com.gtocore.data.recipe.mod.ImmersiveAircraft;
 import com.gtocore.integration.Mods;

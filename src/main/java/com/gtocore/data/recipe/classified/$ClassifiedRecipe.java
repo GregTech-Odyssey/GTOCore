@@ -1,6 +1,5 @@
 package com.gtocore.data.recipe.classified;
 
-import com.gtocore.data.recipe.ae2.AE2;
 import com.gtocore.data.recipe.ae2.Ae2wtlibRecipes;
 
 import net.minecraft.data.recipes.FinishedRecipe;
@@ -12,7 +11,6 @@ public final class $ClassifiedRecipe {
     public static void init(Consumer<FinishedRecipe> provider) {
         Vanilla.init(provider);
         Ae2wtlibRecipes.init(provider);
-        AE2.init();
         MolecularTransformer.init();
         ReactionFurnace.init();
         LiquefactionFurnace.init();
