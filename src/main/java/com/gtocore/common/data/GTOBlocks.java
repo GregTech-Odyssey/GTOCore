@@ -248,19 +248,6 @@ public final class GTOBlocks {
     public static final BlockEntry<Block> FORCE_FIELD_GLASS = createGlassCasingBlock("force_field_glass", "力场玻璃", GTOCore.id("block/force_field_glass"));
     public static final BlockEntry<Block> SPATIALLY_TRANSCENDENT_GRAVITATIONAL_LENS_BLOCK = createGlassCasingBlock("spatially_transcendent_gravitational_lens_block", "超空间引力透镜块", GTOCore.id("block/spatially_transcendent_gravitational_lens_block"));
 
-    /*
-     * public static final BlockEntry<Block> CHUNK_DESTROYER_MK_1 = createCasingBlock("chunk_destroyer_mk1",
-     * "区块破坏器 MK-1", GTOCore.id("block/chunk_destroyer_mk1"));
-     * public static final BlockEntry<Block> CHUNK_DESTROYER_MK_2 = createCasingBlock("chunk_destroyer_mk2",
-     * "区块破坏器 MK-2", GTOCore.id("block/chunk_destroyer_mk2"));
-     * public static final BlockEntry<Block> CHUNK_DESTROYER_MK_3 = createCasingBlock("chunk_destroyer_mk3",
-     * "区块破坏器 MK-3", GTOCore.id("block/chunk_destroyer_mk3"));
-     * public static final BlockEntry<Block> CHUNK_DESTROYER_MK_4 = createCasingBlock("chunk_destroyer_mk4",
-     * "区块破坏器 MK-4", GTOCore.id("block/chunk_destroyer_mk4"));
-     * public static final BlockEntry<Block> CHUNK_DESTROYER_MK_5 = createCasingBlock("chunk_destroyer_mk5",
-     * "区块破坏器 MK-5", GTOCore.id("block/chunk_destroyer_mk5"));
-     */
-
     public static final BlockEntry<Block> NAQUADRIA_CHARGE = createCasingBlock("naquadria_charge", "超能硅岩爆弹", GTOCore.id("block/naquadria_charge"));
     public static final BlockEntry<Block> LEPTONIC_CHARGE = createCasingBlock("leptonic_charge", "轻子爆弹", GTOCore.id("block/leptonic_charge"));
     public static final BlockEntry<Block> QUANTUM_CHROMODYNAMIC_CHARGE = createCasingBlock("quantum_chromodynamic_charge", "量子色动力学爆弹", GTOCore.id("block/quantum_chromodynamic_charge"));

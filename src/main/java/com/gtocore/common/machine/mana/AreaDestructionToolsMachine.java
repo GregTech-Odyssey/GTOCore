@@ -13,6 +13,7 @@ import com.gregtechceu.gtceu.api.gui.widget.SlotWidget;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.feature.IFancyUIMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
+import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTItems;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
@@ -57,6 +58,7 @@ public class AreaDestructionToolsMachine extends MetaMachine implements IFancyUI
         itemStatistics.clear();
         model = 0;
         ExplosiveEnergy = 0;
+        ExplosiveYield = 0;
 
         for (int i = 0; i < inventory.getSlots(); i++) {
             ItemStack stack = inventory.getStackInSlot(i);
@@ -64,18 +66,19 @@ public class AreaDestructionToolsMachine extends MetaMachine implements IFancyUI
         }
 
         for (Object2IntMap.Entry<Item> entry : itemStatistics.object2IntEntrySet()) {
-            if (entry.getKey() == GTItems.SHAPE_MOLD_BALL.asStack().getItem()) model = 0;
-            else if (entry.getKey() == GTItems.SHAPE_MOLD_CYLINDER.asStack().getItem()) model = 1;
-            else if (entry.getKey() == GTItems.SHAPE_MOLD_BLOCK.asStack().getItem()) model = 2;
-            else if (entry.getKey() == GTOBlocks.NUKE_BOMB.asStack().getItem()) ExplosiveEnergy += (int) Math.pow(2, 3) * 4 * entry.getIntValue();
-            else if (entry.getKey() == GTOBlocks.NAQUADRIA_CHARGE.asStack().getItem()) ExplosiveEnergy += (int) Math.pow(20, 3) * 4 * entry.getIntValue();
-            else if (entry.getKey() == GTOBlocks.LEPTONIC_CHARGE.asStack().getItem()) ExplosiveEnergy += (int) Math.pow(80, 3) * 4 * entry.getIntValue();
-            else if (entry.getKey() == GTOBlocks.QUANTUM_CHROMODYNAMIC_CHARGE.asStack().getItem()) ExplosiveEnergy += (int) Math.pow(200, 3) * 4 * entry.getIntValue();
+            if (entry.getKey() == GTItems.SHAPE_MOLD_BALL.asItem()) model = 1;
+            else if (entry.getKey() == GTItems.SHAPE_MOLD_CYLINDER.asItem()) model = 2;
+            else if (entry.getKey() == GTItems.SHAPE_MOLD_BLOCK.asItem()) model = 3;
+            else if (entry.getKey() == GTBlocks.INDUSTRIAL_TNT.asItem()) ExplosiveEnergy += 30 * entry.getIntValue();
+            else if (entry.getKey() == GTOBlocks.NUKE_BOMB.asItem()) ExplosiveEnergy += 2048 * entry.getIntValue();
+            else if (entry.getKey() == GTOBlocks.NAQUADRIA_CHARGE.asItem()) ExplosiveEnergy += 3200 * entry.getIntValue();
+            else if (entry.getKey() == GTOBlocks.LEPTONIC_CHARGE.asItem()) ExplosiveEnergy += 2048000 * entry.getIntValue();
+            else if (entry.getKey() == GTOBlocks.QUANTUM_CHROMODYNAMIC_CHARGE.asItem()) ExplosiveEnergy += 32000000 * entry.getIntValue();
         }
 
-        if (model == 0) ExplosiveYield = (int) Math.cbrt((double) ExplosiveEnergy / 4) * 10;
-        else if (model == 1) ExplosiveYield = (int) Math.sqrt((double) ExplosiveEnergy / level.getHeight() / 3);
-        else if (model == 2) ExplosiveYield = (int) Math.sqrt((double) ExplosiveEnergy / level.getHeight()) / 2;
+        if (model == 1) ExplosiveYield = (int) Math.cbrt((double) ExplosiveEnergy / 4) * 10;
+        else if (model == 2) ExplosiveYield = (int) Math.sqrt((double) ExplosiveEnergy / level.getHeight()) * 18;
+        else if (model == 3) ExplosiveYield = (int) Math.sqrt((double) ExplosiveEnergy / level.getHeight()) * 16;
     }
 
     private void triggerExplosion() {
@@ -84,9 +87,10 @@ public class AreaDestructionToolsMachine extends MetaMachine implements IFancyUI
         Level level = getLevel();
         if (level == null) return;
 
-        if (model == 0) SphereExplosion.explosion(pos, level, ExplosiveYield, true, true, false);
-        else if (model == 1) CylinderExplosion.explosion(pos, level, ExplosiveYield, true, true, false);
-        else if (model == 2) ChunkExplosion.explosion(pos, level, ExplosiveYield, true, true, false);
+        if (model == 0) return;
+        else if (model == 1) SphereExplosion.explosion(pos, level, ExplosiveYield, true, true, false);
+        else if (model == 2) CylinderExplosion.explosion(pos, level, ExplosiveYield, true, true, false);
+        else if (model == 3) ChunkExplosion.explosion(pos, level, ExplosiveYield, true, true, false);
 
         for (int i = 0; i < inventory.getSlots(); i++) {
             inventory.setStackInSlot(i, ItemStack.EMPTY);

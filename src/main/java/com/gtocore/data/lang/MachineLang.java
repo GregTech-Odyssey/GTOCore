@@ -186,9 +186,10 @@ final class MachineLang {
         addCNEN("gtocore.machine.area_destruction_tools.update_stats", "更新信息", "Update stats");
         addCNEN("gtocore.machine.area_destruction_tools.detonate_instruction", "起爆", "Detonate instruction");
         addCNEN("gtocore.machine.area_destruction_tools.missing_items", "缺失物品", "Missing items");
-        addCNEN("gtocore.machine.area_destruction_tools.model.0", "模式：球", "Model: sphere");
-        addCNEN("gtocore.machine.area_destruction_tools.model.1", "模式：圆柱", "Model: Cylinder");
-        addCNEN("gtocore.machine.area_destruction_tools.model.2", "模式：区块", "Model: Chunk");
+        addCNEN("gtocore.machine.area_destruction_tools.model.0", "模式：空", "Model: Empty");
+        addCNEN("gtocore.machine.area_destruction_tools.model.1", "模式：球", "Model: Sphere");
+        addCNEN("gtocore.machine.area_destruction_tools.model.2", "模式：圆柱", "Model: Cylinder");
+        addCNEN("gtocore.machine.area_destruction_tools.model.3", "模式：区块", "Model: Chunk");
         addCNEN("gtocore.machine.area_destruction_tools.explosive_yield", "爆炸当量：%s", "Explosive Yield: %s");
         DisplayRegistry.registerLanguage();
     }

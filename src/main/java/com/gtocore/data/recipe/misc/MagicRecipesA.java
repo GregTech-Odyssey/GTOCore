@@ -17,6 +17,7 @@ import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.data.chemical.material.stack.MaterialEntry;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
+import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMachines;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
@@ -1009,6 +1010,10 @@ public final class MagicRecipesA {
                     Items.HONEYCOMB, Items.HONEYCOMB, BotaniaBlocks.whiteBuriedPetals.asItem(), BotaniaBlocks.whiteBuriedPetals.asItem(),
                     new MaterialEntry(dust, Livingrock), new MaterialEntry(dust, Livingrock), new MaterialEntry(dust, Livingrock),
                     new MaterialEntry(dust, Livingrock), new MaterialEntry(dust, Livingrock));
+
+            VanillaRecipeHelper.addShapedRecipe(GTOCore.id("area_destruction_tools"), ManaMachine.AREA_DESTRUCTION_TOOLS.asStack(),
+                    "ABA", "CDC", "ABA",
+                    'A', new ItemStack(Items.REPEATER.asItem()), 'B', GTBlocks.INDUSTRIAL_TNT.asStack(), 'C', GTOBlocks.NUKE_BOMB.asStack(), 'D', ManaMachine.MANA_HULL[GTValues.LuV].asStack());
         }
 
         // 工具配方
@@ -1032,13 +1037,5 @@ public final class MagicRecipesA {
                     " A ", "BAB", "BBB",
                     'A', new MaterialEntry(TagPrefix.block, GTOMaterials.Shimmerrock), 'B', new MaterialEntry(TagPrefix.rock, GTMaterials.Stone));
         }
-
-        MANA_INFUSER_RECIPES.builder("conjuration_essence")
-                .notConsumable(GTOBlocks.ESSENCE_BLOCK.asStack())
-                .inputItems(TagPrefix.ingot, GTMaterials.Clay)
-                .outputItems("ars_nouveau:conjuration_essence")
-                .duration(20)
-                .MANAt(1)
-                .save();
     }
 }

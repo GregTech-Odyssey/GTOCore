@@ -164,6 +164,14 @@ public final class ManaMachine {
     public static final MachineDefinition AREA_DESTRUCTION_TOOLS = manaMachine("area_destruction_tools", "区域破坏器", AreaDestructionToolsMachine::new)
             .tier(LuV)
             .nonYAxisRotation()
+            .tooltipsText("One click to clear the blocks!!!", "一键清空方块！！！")
+            .tooltipsText("Ignore all conditions!!!", "无视一切条件！！！")
+            .tooltipsText("Pay attention to blasting safety!!!", "注意爆破安全！！！")
+            .tooltipsText("- Add items to inventory to switch modes", "- 向库存放入物品以切换模式")
+            .tooltipsText("-- Put into Casting Mold (Ball) for Ball mode", "-- 放入 模具 (球) 为球模式")
+            .tooltipsText("-- Put into Casting Mold (Cylinder) for Casting mode", "-- 放入 模具 (圆柱) 为圆柱模式")
+            .tooltipsText("-- Put into Casting Mold (Block) for Chunk mode", "-- 放入 模具 (块) 为区块模式")
+            .tooltipsText("- Add Industrial TNT/Nuke Bomb/Naquadria Charge/Leptonic Charge/Quantum Chromodynamic Charge to your inventory to increase the explosive yield.", "- 向库存放入 工业TNT/核弹/超能硅岩爆弹/轻子爆弹/量子色动力学爆弹 以提高爆炸当量")
             .workableManaTieredHullRenderer(6, GTOCore.id("block/multiblock/area_destruction_tools"))
             .register();
 }
