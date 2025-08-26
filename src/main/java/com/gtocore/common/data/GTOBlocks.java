@@ -253,9 +253,11 @@ public final class GTOBlocks {
     public static final BlockEntry<Block> QUANTUM_CHROMODYNAMIC_CHARGE = createCasingBlock("quantum_chromodynamic_charge", "量子色动力学爆弹", GTOCore.id("block/quantum_chromodynamic_charge"));
     public static final BlockEntry<Block> ANNIHILATE_CORE = createCasingBlock("annihilate_core", "湮灭核心", GTOCore.id("block/annihilate_core"));
     public static final BlockEntry<Block> AMPROSIUM_PIPE_CASING = createCasingBlock("amprosium_pipe_casing", "安普洛管道方块", GTOCore.id("block/neutronium_pipe_casing"));
+    public static final BlockEntry<Block> IRIDIUM_PIPE_CASING = createCasingBlock("iridium_pipe_casing", "铱管道方块", GTOCore.id("block/machine_casing_pipe_iridium"));
     public static final BlockEntry<Block> INCONEL_625_PIPE = createCasingBlock("inconel_625_pipe", "镍铬基合金-625温和分散管道", GTOCore.id("block/inconel_625_pipe"));
     public static final BlockEntry<Block> HASTELLOY_N_75_PIPE = createCasingBlock("hastelloy_n_75_pipe", "哈斯特洛依合金-N75油膜管道", GTOCore.id("block/hastelloy_n_75_pipe"));
     public static final BlockEntry<Block> AMPROSIUM_GEARBOX = createCasingBlock("amprosium_gearbox", "安普洛齿轮箱机械方块", GTOCore.id("block/neutronium_gearbox"));
+    public static final BlockEntry<Block> IRIDIUM_GEARBOX = createCasingBlock("iridium_gearbox", "铱齿轮箱机械方块", GTOCore.id("block/machine_casing_gearbox_iridium"));
     public static final BlockEntry<Block> INCONEL_625_GEARBOX = createCasingBlock("inconel_625_gearbox", "镍铬基合金-625球磨齿轮箱", GTOCore.id("block/inconel_625_gearbox"));
     public static final BlockEntry<Block> HASTELLOY_N_75_GEARBOX = createCasingBlock("hastelloy_n_75_gearbox", "哈斯特洛依合金-N75齿轮箱", GTOCore.id("block/hastelloy_n_75_gearbox"));
     public static final BlockEntry<Block> LASER_COOLING_CASING = createCasingBlock("laser_cooling_casing", "激光冷却方块", GTOCore.id("block/laser_cooling_casing"));
@@ -456,5 +458,6 @@ public final class GTOBlocks {
     public static final BlockEntry<Block> SCINTILLATION_COUNTER_DETECTOR_BLOCK = createCasingBlock("scintillation_counter_detector_block", "闪烁计数器探测器方块", GTOCore.id("block/casings/vacuum_chamber/scintillation_counter_detector_block"));
     // 多丝正比室探测器方块
     public static final BlockEntry<Block> MULTI_WIRE_PROPORTIONAL_CHAMBER_DETECTOR_BLOCK = createCasingBlock("multi_wire_proportional_chamber_detector_block", "多丝正比室探测器方块", GTOCore.id("block/casings/vacuum_chamber/multi_wire_proportional_chamber_detector_block"));
-    // 真空
+    // 太阳能集热管道机械方块
+    public static final BlockEntry<Block> SOLAR_HEAT_COLLECTOR_PIPE_CASING = createCasingBlock("solar_heat_collector_pipe_casing", "太阳能集热管道机械方块", GTOCore.id("block/casings/solar_heat_collector_pipe_casing"));
 }

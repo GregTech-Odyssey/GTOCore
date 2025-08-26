@@ -1252,6 +1252,7 @@
   "gtocore.machine.component_assembler.tooltip.1": "升級結構後支持到UV",
   "gtocore.machine.current_temperature": "當前溫度: %sK",
   "gtocore.machine.cwut_modification": "算力修正繫數：%s",
+  "gtocore.machine.digital_miner.tooltip.0": "數字化採礦，效率更高",
   "gtocore.machine.dimensionally_transcendent_plasma_forge.coil": "當前配方模式無法使用該線圈",
   "gtocore.machine.disassembly.tooltip.0": "可拆解: %s, %s, %s, %s, %s, %s",
   "gtocore.machine.disassembly.tooltip.1": "同對應配方時間與耗能，可由多個配方獲取的物品無法拆解",

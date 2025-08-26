@@ -434,6 +434,11 @@ final class Vanilla {
                 "BCB",
                 "ABA",
                 'A', new MaterialEntry(TagPrefix.plate, GTMaterials.Neutronium), 'B', new MaterialEntry(TagPrefix.pipeNormalFluid, GTMaterials.Neutronium), 'C', new MaterialEntry(TagPrefix.frameGt, GTMaterials.Neutronium));
+        VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("iridium_pipe_casing"), GTOBlocks.IRIDIUM_PIPE_CASING.asStack(2),
+                "ABA",
+                "BCB",
+                "ABA",
+                'A', new MaterialEntry(TagPrefix.plate, GTMaterials.Iridium), 'B', new MaterialEntry(TagPrefix.pipeNormalFluid, GTMaterials.Iridium), 'C', new MaterialEntry(TagPrefix.frameGt, GTMaterials.Iridium));
         VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("liquefaction_furnace"), MultiBlockB.LIQUEFACTION_FURNACE.asStack(),
                 "ABA",
                 "CDC",
@@ -643,6 +648,11 @@ final class Vanilla {
                 "CDC",
                 "AEA",
                 'A', new MaterialEntry(TagPrefix.plate, GTMaterials.Neutronium), 'B', TagUtils.createTag(RLUtils.forge("tools/hammers")), 'C', new MaterialEntry(TagPrefix.gear, GTMaterials.Neutronium), 'D', new MaterialEntry(TagPrefix.frameGt, GTMaterials.Neutronium), 'E', TagUtils.createTag(RLUtils.forge("tools/wrench")));
+        VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("iridium_gearbox"), GTOBlocks.IRIDIUM_GEARBOX.asStack(2),
+                "ABA",
+                "CDC",
+                "AEA",
+                'A', new MaterialEntry(TagPrefix.plate, GTMaterials.Iridium), 'B', TagUtils.createTag(RLUtils.forge("tools/hammers")), 'C', new MaterialEntry(TagPrefix.gear, GTMaterials.Iridium), 'D', new MaterialEntry(TagPrefix.frameGt, GTMaterials.Iridium), 'E', TagUtils.createTag(RLUtils.forge("tools/wrench")));
         VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("lava_furnace"), MultiBlockA.LAVA_FURNACE.asStack(),
                 "ABA",
                 "CDC",
@@ -918,5 +928,10 @@ final class Vanilla {
                 "CDC",
                 "EBE",
                 'A', RegistriesUtils.getItemStack("botania:ender_hand"), 'B', RegistriesUtils.getItemStack("gtmthings:advanced_wireless_item_transfer_cover"), 'C', RegistriesUtils.getItemStack("gtmthings:advanced_wireless_fluid_transfer_cover"), 'D', GTOItems.ENTANGLED_SINGULARITY.asItem(), 'E', GTItems.FIELD_GENERATOR_MV.asStack());
+        VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("solar_heat_collector"), GTOBlocks.SOLAR_HEAT_COLLECTOR_PIPE_CASING.asStack(),
+                "AAA",
+                "BBB",
+                "CCC",
+                'A', new MaterialEntry(TagPrefix.dust, GTMaterials.Silicon), 'B', new MaterialEntry(TagPrefix.pipeQuadrupleFluid, GTMaterials.Steel), 'C', new MaterialEntry(TagPrefix.plateDouble, GTMaterials.Silver));
     }
 }

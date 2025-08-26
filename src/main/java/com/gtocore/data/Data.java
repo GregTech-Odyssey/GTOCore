@@ -129,6 +129,7 @@ public final class Data {
         DyeRecipes.init();
         WoodRecipes.init();
         AE2.init();
+        Ae2wtlibRecipes.init();
         ImmersiveAircraft.init();
         FunctionalStorage.init();
         $ClassifiedRecipe.init();

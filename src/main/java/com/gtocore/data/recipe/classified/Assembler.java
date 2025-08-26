@@ -2230,6 +2230,16 @@ final class Assembler {
                 .duration(50)
                 .save();
 
+        ASSEMBLER_RECIPES.recipeBuilder("iridium_gearbox")
+                .inputItems(TagPrefix.plate, Iridium, 4)
+                .inputItems(TagPrefix.gear, Iridium, 2)
+                .inputItems(TagPrefix.frameGt, Iridium)
+                .circuitMeta(4)
+                .outputItems(GTOBlocks.IRIDIUM_GEARBOX.asStack())
+                .EUt(16)
+                .duration(50)
+                .save();
+
         ASSEMBLER_RECIPES.recipeBuilder("petrochemical_plant")
                 .inputItems(TagPrefix.frameGt, GTMaterials.WatertightSteel, 16)
                 .inputItems(GCYMMachines.LARGE_DISTILLERY.asStack(8))

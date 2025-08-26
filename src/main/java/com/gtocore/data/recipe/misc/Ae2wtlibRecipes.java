@@ -1,5 +1,6 @@
 package com.gtocore.data.recipe.misc;
 
+import com.gregtechceu.gtceu.data.pack.GTDynamicDataPack;
 import com.gtocore.common.data.GTOItems;
 
 import com.gtolib.GTOCore;
@@ -25,9 +26,9 @@ public final class Ae2wtlibRecipes {
 
     private final static ResourceLocation wtId = GTOCore.id("me2in1");
 
-    public static void init(Consumer<FinishedRecipe> provider) {
+    public static void init() {
         // Upgrade
-        provider.accept(new FinishedRecipe() {
+        GTDynamicDataPack.addRecipe(new FinishedRecipe() {
 
             private final Upgrade recipe = new Upgrade(Ingredient.of(GTOItems.WIRELESS_ME2IN1), Wireless.ID, wtId);
 
@@ -59,12 +60,12 @@ public final class Ae2wtlibRecipes {
         });
 
         // Combine
-        combineMe2in1With(provider, "crafting", AEItems.WIRELESS_CRAFTING_TERMINAL);
-        combineMe2in1With(provider, "pattern_encoding", AE2wtlib.PATTERN_ENCODING_TERMINAL);
+        combineMe2in1With("crafting", AEItems.WIRELESS_CRAFTING_TERMINAL);
+        combineMe2in1With("pattern_encoding", AE2wtlib.PATTERN_ENCODING_TERMINAL);
     }
 
-    private static void combineMe2in1With(Consumer<FinishedRecipe> recipeAdder, String terminalName, ItemLike terminalItem) {
-        recipeAdder.accept(new FinishedRecipe() {
+    private static void combineMe2in1With(String terminalName, ItemLike terminalItem) {
+        GTDynamicDataPack.addRecipe(new FinishedRecipe() {
 
             private final Combine recipe = new Combine(
                     Ingredient.of(GTOItems.WIRELESS_ME2IN1), Ingredient.of(terminalItem),

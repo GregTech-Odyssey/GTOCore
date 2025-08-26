@@ -23,6 +23,7 @@ import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.Blocks;
 
 import static com.gregtechceu.gtceu.api.machine.multiblock.PartAbility.*;
@@ -359,10 +360,7 @@ public final class MultiBlockH {
             .parallelizableTooltips()
             .recipeTypes(GTORecipeTypes.DUMMY_RECIPES)
             .block(GTOBlocks.BORON_CARBIDE_CERAMIC_RADIATION_RESISTANT_MECHANICAL_CUBE)
-            .pattern(definition -> MultiBlockFileReader.start(definition, RelativeDirection.FRONT, RelativeDirection.UP, RelativeDirection.LEFT) // definition,
-                                                                                                                                                 // RelativeDirection.BACK,
-                                                                                                                                                 // RelativeDirection.UP,
-                                                                                                                                                 // RelativeDirection.LEFT
+            .pattern(definition -> MultiBlockFileReader.start(definition, RelativeDirection.FRONT, RelativeDirection.UP, RelativeDirection.LEFT)
                     .where('A', blocks(GTOBlocks.HIGH_PRESSURE_PIPE_CASING.get()))
                     .where('B', blocks(GTOBlocks.FISSION_REACTOR_CASING.get()))
                     .where('C', blocks(GTOBlocks.BORON_CARBIDE_CERAMIC_RADIATION_RESISTANT_MECHANICAL_CUBE.get())
@@ -454,5 +452,32 @@ public final class MultiBlockH {
                     .where(' ', any())
                     .build())
             .workableCasingRenderer(GTOCore.id("block/casings/iridium_casing"), GTCEu.id("block/multiblock/fusion_reactor"))
+            .register();
+
+    public static final MultiblockMachineDefinition DIGITAL_MINER = multiblock("digital_miner", "数字型采矿机", NoRecipeLogicMultiblockMachine::new)//TODO logic not implemented
+            .nonYAxisRotation()
+            .langValue("digital_miner")
+            .tooltipsText("数字化采矿，效率更高", "Digital mining, more efficient")
+            .block(GTBlocks.CASING_STEEL_SOLID)
+            .pattern(definition -> FactoryBlockPattern.start(definition)
+                    .aisle("AAAAA", "CDCDC", "C C C", "  C  ", " CCC ", "     ", "     ", "     ")
+                    .aisle("AEEEA", "D   D", "     ", "     ", "     ", " CDC ", "     ", "     ")
+                    .aisle("AEFEA", "D F D", "  F  ", "  F  ", "  F  ", "  F  ", " CDC ", "  E  ")
+                    .aisle("AEEEA", "D   D", "     ", "     ", "     ", "     ", " CCC ", "     ")
+                    .aisle("AABAA", "CDDDC", "C   C", "     ", "     ", "     ", "     ", "     ")
+                    .where('A', blocks(GTBlocks.CASING_STEEL_SOLID.get())
+                            .or(abilities(INPUT_ENERGY).setMaxGlobalLimited(2).setPreviewCount(1))
+                            .or(abilities(EXPORT_FLUIDS))
+                            .or(abilities(IMPORT_ITEMS))
+                            .or(abilities(EXPORT_ITEMS))
+                            .or(abilities(MAINTENANCE).setExactLimit(1)))
+                    .where('B', controller(blocks(definition.get())))
+                    .where('C', blocks(GTBlocks.CASING_STEEL_SOLID.get()))
+                    .where('D', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.Steel)))
+                    .where('E', blocks(GTBlocks.STEEL_HULL.get()))
+                    .where('F', blocks(GTBlocks.CASING_STEEL_GEARBOX.get()))
+                    .where(' ', any())
+                    .build())
+            .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_solid_steel"), GTCEu.id("block/multiblock/fusion_reactor"))
             .register();
 }
