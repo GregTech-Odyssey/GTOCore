@@ -309,8 +309,8 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
         private Runnable onContentsChanged = () -> {};
         public final Object2LongOpenCustomHashMap<ItemStack> itemInventory = new Object2LongOpenCustomHashMap<>(ItemStackHashStrategy.ITEM);
         public final Object2LongOpenHashMap<FluidStack> fluidInventory = new Object2LongOpenHashMap<>();
-        private List<ItemStack> itemStacks = null;
-        private List<FluidStack> fluidStacks = null;
+        private Object[] itemStacks = null;
+        private Object[] fluidStacks = null;
 
         public final NotifiableNotConsumableItemHandler shareInventory;
         public final NotifiableNotConsumableFluidHandler shareTank;
@@ -340,32 +340,30 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
             onContentsChanged.run();
         }
 
-        public List<ItemStack> getItems() {
+        public Object[] getItems() {
             if (itemStacks == null) {
                 List<ItemStack> stacks = new ObjectArrayList<>(itemInventory.size());
-                for (ObjectIterator<Object2LongMap.Entry<ItemStack>> it = itemInventory.object2LongEntrySet().fastIterator(); it.hasNext();) {
-                    Object2LongMap.Entry<ItemStack> e = it.next();
+                itemInventory.object2LongEntrySet().fastForEach(e -> {
                     long count = e.getLongValue();
-                    if (count < 1) it.remove();
+                    if (count < 1) return;
                     e.getKey().setCount(MathUtil.saturatedCast(count));
                     stacks.add(e.getKey());
-                }
-                itemStacks = stacks;
+                });
+                itemStacks = stacks.toArray();
             }
             return itemStacks;
         }
 
-        public List<FluidStack> getFluids() {
+        public Object[] getFluids() {
             if (fluidStacks == null) {
                 List<FluidStack> stacks = new ObjectArrayList<>(fluidInventory.size());
-                for (ObjectIterator<Object2LongMap.Entry<FluidStack>> it = fluidInventory.object2LongEntrySet().fastIterator(); it.hasNext();) {
-                    Object2LongMap.Entry<FluidStack> e = it.next();
+                fluidInventory.object2LongEntrySet().fastForEach(e -> {
                     long count = e.getLongValue();
-                    if (count < 1) it.remove();
+                    if (count < 1) return;
                     e.getKey().setAmount(MathUtil.saturatedCast(count));
                     stacks.add(e.getKey());
-                }
-                fluidStacks = stacks;
+                });
+                fluidStacks = stacks.toArray();
             }
             return fluidStacks;
         }
@@ -455,19 +453,14 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
                 else amount = 1;
                 for (var it2 = itemInventory.object2LongEntrySet().fastIterator(); it2.hasNext();) {
                     var entry = it2.next();
-                    var stack = entry.getKey();
                     var count = entry.getLongValue();
-                    if (stack.isEmpty() || count == 0) {
-                        it2.remove();
-                        continue;
-                    }
-                    if (!ingredient.test(stack)) continue;
+                    if (count == 0) continue;
+                    if (!ingredient.test(entry.getKey())) continue;
                     long extracted = Math.min(count, amount);
                     if (!simulate && extracted > 0) {
                         changed = true;
                         count -= extracted;
-                        if (count == 0) it2.remove();
-                        else entry.setValue(count);
+                        entry.setValue(count);
                     }
                     amount -= extracted;
                     if (amount < 1) {
@@ -495,19 +488,14 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
                 long amount = FastFluidIngredient.getAmount(ingredient);
                 for (var it2 = fluidInventory.object2LongEntrySet().fastIterator(); it2.hasNext();) {
                     var entry = it2.next();
-                    var stack = entry.getKey();
                     var count = entry.getLongValue();
-                    if (stack.isEmpty() || count == 0) {
-                        it2.remove();
-                        continue;
-                    }
-                    if (!ingredient.test(stack)) continue;
+                    if (count == 0) continue;
+                    if (!ingredient.test(entry.getKey())) continue;
                     long extracted = Math.min(count, amount);
                     if (!simulate && extracted > 0) {
                         changed = true;
                         count -= extracted;
-                        if (count == 0) it2.remove();
-                        else entry.setValue(count);
+                        entry.setValue(count);
                     }
                     amount -= extracted;
                     if (amount < 1) {

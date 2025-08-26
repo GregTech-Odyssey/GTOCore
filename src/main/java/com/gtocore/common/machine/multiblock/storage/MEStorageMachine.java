@@ -26,7 +26,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
-import appeng.api.stacks.AEKey;
 import com.hepdd.gtmthings.api.capability.IBindable;
 import com.hepdd.gtmthings.utils.BigIntegerUtils;
 import com.lowdragmc.lowdraglib.gui.util.ClickData;
@@ -34,12 +33,9 @@ import com.lowdragmc.lowdraglib.gui.widget.ComponentPanelWidget;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
-import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
-import it.unimi.dsi.fastutil.objects.ObjectIterator;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.math.BigInteger;
 import java.util.List;
 import java.util.UUID;
 
@@ -145,13 +141,12 @@ public final class MEStorageMachine extends NoRecipeLogicMultiblockMachine imple
                 if (data == BigCellDataStorage.EMPTY) return;
                 var map = data.getStoredMap();
                 if (map == null) return;
-                for (ObjectIterator<Object2ObjectMap.Entry<AEKey, BigInteger>> it = map.object2ObjectEntrySet().fastIterator(); it.hasNext();) {
-                    Object2ObjectMap.Entry<AEKey, BigInteger> entry = it.next();
+                map.object2ObjectEntrySet().fastForEach(entry -> {
                     var currentAmount = entry.getValue();
                     if (currentAmount.compareTo(BigIntegerUtils.BIG_INTEGER_MAX_LONG) > 0) {
                         textList.add(entry.getKey().getDisplayName().copy().append(": ").append(NumberUtils.numberText(currentAmount.doubleValue())).withStyle(ChatFormatting.GRAY));
                     }
-                }
+                });
             }
         }
     }

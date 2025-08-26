@@ -5,7 +5,6 @@ import com.gtolib.api.machine.mana.trait.ManaTrait;
 import com.gtolib.api.machine.multiblock.CoilCustomParallelMultiblockMachine;
 import com.gtolib.api.misc.ManaContainerList;
 import com.gtolib.api.recipe.Recipe;
-import com.gtolib.utils.RegistriesUtils;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
@@ -18,22 +17,13 @@ import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import vazkii.botania.common.item.BotaniaItems;
 
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public final class ManaAlloyBlastSmelterMachine extends CoilCustomParallelMultiblockMachine implements IManaMultiblock {
-
-    private static final Map<Integer, Item> RUNES = Map.of(
-            1, RegistriesUtils.getItem("botania:rune_water"),
-            2, RegistriesUtils.getItem("botania:rune_fire"),
-            3, RegistriesUtils.getItem("botania:rune_air"),
-            4, RegistriesUtils.getItem("botania:rune_earth"),
-            5, RegistriesUtils.getItem("botania:rune_spring"),
-            6, RegistriesUtils.getItem("botania:rune_summer"),
-            7, RegistriesUtils.getItem("botania:rune_autumn"),
-            8, RegistriesUtils.getItem("botania:rune_winter"));
 
     public static Component getRunes() {
         var c = Component.empty();
@@ -42,6 +32,16 @@ public final class ManaAlloyBlastSmelterMachine extends CoilCustomParallelMultib
         }
         return c;
     }
+
+    private static final Map<Integer, Item> RUNES = Map.of(
+            1, BotaniaItems.runeWater,
+            2, BotaniaItems.runeFire,
+            3, BotaniaItems.runeAir,
+            4, BotaniaItems.runeEarth,
+            5, BotaniaItems.runeSpring,
+            6, BotaniaItems.runeSummer,
+            7, BotaniaItems.runeAutumn,
+            8, BotaniaItems.runeWinter);
 
     private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
             ManaAlloyBlastSmelterMachine.class, CoilCustomParallelMultiblockMachine.MANAGED_FIELD_HOLDER);

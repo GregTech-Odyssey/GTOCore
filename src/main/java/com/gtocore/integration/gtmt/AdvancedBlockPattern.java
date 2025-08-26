@@ -97,7 +97,7 @@ class AdvancedBlockPattern extends BlockPattern {
                     for (int a = 0, x = -centerOffset[0]; a < this.palmLength; a++, x++) {
                         TraceabilityPredicate predicate = this.blockMatches[c][b][a];
                         if (predicate == null) continue;
-                        if (predicate.isAir()) continue;
+                        if (predicate.isAir() || predicate.isController) continue;
                         BlockPos pos = setActualRelativeOffset(x, y, z, facing, upwardsFacing, isFlipped).offset(centerPos.getX(), centerPos.getY(), centerPos.getZ());
                         worldState.update(pos, predicate);
                         long posLong = pos.asLong();

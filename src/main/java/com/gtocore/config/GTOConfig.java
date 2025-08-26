@@ -153,6 +153,11 @@ public final class GTOConfig {
     public boolean selfRestraint = false;
 
     @Configurable
+    @RegisterLanguage(namePrefix = "config.gtocore.option", en = "disable Muffler Part", cn = "禁用消声仓")
+    @Configurable.Comment("禁用后失去掏灰玩法")
+    public boolean disableMufflerPart = false;
+
+    @Configurable
     @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Default Value for Rename Pattern", cn = "重命名样板的默认值")
     @Configurable.Comment("在装配线模式编码带有重命名物品的样板时使用的默认名字")
     public String renamePatternDefaultString = "";
@@ -162,6 +167,11 @@ public final class GTOConfig {
     @Configurable.Comment("快速加载多方块结构页面，减少不必要的加载时间")
     @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Fast Multiblock Page Loading", cn = "快速多方块页面加载")
     public boolean fastMultiBlockPage = true;
+
+    @Configurable
+    @Configurable.Comment("使用更快的并行算法")
+    @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Fast Parallel Calculate", cn = "快速并行计算")
+    public boolean fastParallelcalculate = true;
 
     @Configurable
     @Configurable.Comment("机器查找配方最大间隔（tick）")
