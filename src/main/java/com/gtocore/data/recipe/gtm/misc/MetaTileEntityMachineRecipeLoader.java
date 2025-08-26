@@ -11,14 +11,12 @@ import com.gregtechceu.gtceu.data.recipe.CustomTags;
 import com.gregtechceu.gtceu.data.recipe.GTCraftingComponents;
 import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
 
-import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.world.item.ItemStack;
 
 import appeng.core.definitions.AEItems;
 import appeng.core.definitions.AEParts;
 
 import java.util.Locale;
-import java.util.function.Consumer;
 
 import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
@@ -31,7 +29,7 @@ import static com.gtocore.common.data.GTORecipeTypes.ASSEMBLER_RECIPES;
 
 public final class MetaTileEntityMachineRecipeLoader {
 
-    public static void init(Consumer<FinishedRecipe> provider) {
+    public static void init() {
         // Reservoir Hatch
         ASSEMBLER_RECIPES.recipeBuilder("reservoir_hatch")
                 .inputItems(COVER_INFINITE_WATER)
@@ -45,7 +43,7 @@ public final class MetaTileEntityMachineRecipeLoader {
 
         // Energy Output Hatches
 
-        VanillaRecipeHelper.addShapedRecipe(provider, true, "dynamo_hatch_ulv", ENERGY_OUTPUT_HATCH[ULV].asStack(),
+        VanillaRecipeHelper.addShapedRecipe(true, "dynamo_hatch_ulv", ENERGY_OUTPUT_HATCH[ULV].asStack(),
                 " V ", "SHS", "   ",
                 'S', new MaterialEntry(spring, Lead),
                 'V', VOLTAGE_COIL_ULV.asStack(),
@@ -59,7 +57,7 @@ public final class MetaTileEntityMachineRecipeLoader {
                 .duration(200).EUt(VA[ULV])
                 .save();
 
-        VanillaRecipeHelper.addShapedRecipe(provider, true, "dynamo_hatch_lv", ENERGY_OUTPUT_HATCH[LV].asStack(),
+        VanillaRecipeHelper.addShapedRecipe(true, "dynamo_hatch_lv", ENERGY_OUTPUT_HATCH[LV].asStack(),
                 " V ", "SHS", "   ",
                 'S', new MaterialEntry(spring, Tin),
                 'V', VOLTAGE_COIL_LV.asStack(),
@@ -73,7 +71,7 @@ public final class MetaTileEntityMachineRecipeLoader {
                 .duration(200).EUt(VA[LV])
                 .save();
 
-        VanillaRecipeHelper.addShapedRecipe(provider, true, "dynamo_hatch_mv", ENERGY_OUTPUT_HATCH[MV].asStack(),
+        VanillaRecipeHelper.addShapedRecipe(true, "dynamo_hatch_mv", ENERGY_OUTPUT_HATCH[MV].asStack(),
                 " V ", "SHS", " P ",
                 'P', ULTRA_LOW_POWER_INTEGRATED_CIRCUIT.asStack(),
                 'S', new MaterialEntry(spring, Copper),
@@ -121,7 +119,7 @@ public final class MetaTileEntityMachineRecipeLoader {
 
         // Energy Input Hatches
 
-        VanillaRecipeHelper.addShapedRecipe(provider, true, "energy_hatch_ulv", ENERGY_INPUT_HATCH[ULV].asStack(),
+        VanillaRecipeHelper.addShapedRecipe(true, "energy_hatch_ulv", ENERGY_INPUT_HATCH[ULV].asStack(),
                 " V ", "CHC", "   ",
                 'C', new MaterialEntry(cableGtSingle, RedAlloy),
                 'V', VOLTAGE_COIL_ULV.asStack(),
@@ -135,7 +133,7 @@ public final class MetaTileEntityMachineRecipeLoader {
                 .duration(200).EUt(VA[ULV])
                 .save();
 
-        VanillaRecipeHelper.addShapedRecipe(provider, true, "energy_hatch_lv", ENERGY_INPUT_HATCH[LV].asStack(),
+        VanillaRecipeHelper.addShapedRecipe(true, "energy_hatch_lv", ENERGY_INPUT_HATCH[LV].asStack(),
                 " V ", "CHC", "   ",
                 'C', new MaterialEntry(cableGtSingle, Tin),
                 'V', VOLTAGE_COIL_LV.asStack(),
@@ -149,7 +147,7 @@ public final class MetaTileEntityMachineRecipeLoader {
                 .duration(200).EUt(VA[LV])
                 .save();
 
-        VanillaRecipeHelper.addShapedRecipe(provider, true, "energy_hatch_mv", ENERGY_INPUT_HATCH[MV].asStack(),
+        VanillaRecipeHelper.addShapedRecipe(true, "energy_hatch_mv", ENERGY_INPUT_HATCH[MV].asStack(),
                 " V ", "CHC", " P ",
                 'C', new MaterialEntry(cableGtSingle, Copper),
                 'P', ULTRA_LOW_POWER_INTEGRATED_CIRCUIT.asStack(),

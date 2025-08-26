@@ -80,6 +80,14 @@ public final class ExtremeTemperatureFluctuationPurificationUnitMachine extends 
     }
 
     @Override
+    public void afterWorking() {
+        if (sensorMachine != null) {
+            sensorMachine.update(heat);
+        }
+        super.afterWorking();
+    }
+
+    @Override
     public boolean onWorking() {
         if (!super.onWorking()) return false;
         if (getOffsetTimer() % 20 == 0) {

@@ -16,7 +16,6 @@ import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
 import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
 
-import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -24,75 +23,74 @@ import net.minecraft.world.item.Items;
 import appeng.core.definitions.AEBlocks;
 
 import java.util.Set;
-import java.util.function.Consumer;
 
 import static com.gtocore.common.data.GTORecipeTypes.ASSEMBLER_RECIPES;
 
 public final class ImmersiveAircraft {
 
-    public static void init(Consumer<FinishedRecipe> provider) {
+    public static void init() {
         if (GTCEu.isModLoaded("immersive_aircraft")) {
-            VanillaRecipeHelper.addShapedRecipe(provider, GTOCore.id("aircraft_boiler"), RegistriesUtils.getItemStack("immersive_aircraft:boiler"),
+            VanillaRecipeHelper.addShapedRecipe(GTOCore.id("aircraft_boiler"), RegistriesUtils.getItemStack("immersive_aircraft:boiler"),
                     "AAA",
                     "A A",
                     "ABA",
                     'A', new MaterialEntry(TagPrefix.plateDouble, GTMaterials.Copper), 'B', new ItemStack(Items.FURNACE.asItem()));
 
-            VanillaRecipeHelper.addShapedRecipe(provider, GTOCore.id("aircraft_steel_boiler"), RegistriesUtils.getItemStack("immersive_aircraft:steel_boiler"),
+            VanillaRecipeHelper.addShapedRecipe(GTOCore.id("aircraft_steel_boiler"), RegistriesUtils.getItemStack("immersive_aircraft:steel_boiler"),
                     "ABA",
                     "ACA",
                     "ADA",
                     'A', new MaterialEntry(TagPrefix.plateDouble, GTMaterials.Steel), 'B', GTOItems.AIR_VENT.asItem(), 'C', RegistriesUtils.getItemStack("immersive_aircraft:boiler"), 'D', new ItemStack(Items.BLAST_FURNACE.asItem()));
 
-            VanillaRecipeHelper.addShapedRecipe(provider, GTOCore.id("aircraft_engine"), RegistriesUtils.getItemStack("immersive_aircraft:engine"),
+            VanillaRecipeHelper.addShapedRecipe(GTOCore.id("aircraft_engine"), RegistriesUtils.getItemStack("immersive_aircraft:engine"),
                     "AAA",
                     "BCB",
                     "DED",
                     'A', new MaterialEntry(TagPrefix.plateDouble, GTMaterials.WroughtIron), 'B', new ItemStack(Items.PISTON.asItem()), 'C', new ItemStack(Items.BLAST_FURNACE.asItem()), 'D', new MaterialEntry(TagPrefix.pipeNormalFluid, GTMaterials.Bronze), 'E', RegistriesUtils.getItemStack("immersive_aircraft:boiler"));
 
-            VanillaRecipeHelper.addShapedRecipe(provider, GTOCore.id("aircraft_propeller"), RegistriesUtils.getItemStack("immersive_aircraft:propeller"),
+            VanillaRecipeHelper.addShapedRecipe(GTOCore.id("aircraft_propeller"), RegistriesUtils.getItemStack("immersive_aircraft:propeller"),
                     "AAB",
                     "rDd",
                     "BAA",
                     'A', new MaterialEntry(TagPrefix.plate, GTMaterials.Iron), 'B', new MaterialEntry(TagPrefix.screw, GTMaterials.Iron), 'D', new MaterialEntry(TagPrefix.ring, GTMaterials.Iron));
 
-            VanillaRecipeHelper.addShapedRecipe(provider, GTOCore.id("aircraft_hull"), RegistriesUtils.getItemStack("immersive_aircraft:hull"),
+            VanillaRecipeHelper.addShapedRecipe(GTOCore.id("aircraft_hull"), RegistriesUtils.getItemStack("immersive_aircraft:hull"),
                     "AAA",
                     "BCB",
                     "AAA",
                     'A', new MaterialEntry(TagPrefix.plate, GTMaterials.TreatedWood), 'B', new MaterialEntry(TagPrefix.screw, GTMaterials.Bronze), 'C', new MaterialEntry(TagPrefix.plate, GTMaterials.WroughtIron));
 
-            VanillaRecipeHelper.addShapedRecipe(provider, GTOCore.id("aircraft_enhanced_propeller"), RegistriesUtils.getItemStack("immersive_aircraft:enhanced_propeller"),
+            VanillaRecipeHelper.addShapedRecipe(GTOCore.id("aircraft_enhanced_propeller"), RegistriesUtils.getItemStack("immersive_aircraft:enhanced_propeller"),
                     "hBf",
                     "BDB",
                     "EBE",
                     'B', new MaterialEntry(GTOTagPrefix.CURVED_PLATE, GTMaterials.Bronze), 'D', RegistriesUtils.getItemStack("immersive_aircraft:propeller"), 'E', new MaterialEntry(TagPrefix.screw, GTMaterials.Bronze));
 
-            VanillaRecipeHelper.addShapedRecipe(provider, GTOCore.id("aircraft_industrial_gears"), RegistriesUtils.getItemStack("immersive_aircraft:industrial_gears"),
+            VanillaRecipeHelper.addShapedRecipe(GTOCore.id("aircraft_industrial_gears"), RegistriesUtils.getItemStack("immersive_aircraft:industrial_gears"),
                     "hBB",
                     "CDB",
                     "CCd",
                     'B', new MaterialEntry(TagPrefix.gear, GTMaterials.Bronze), 'C', new MaterialEntry(TagPrefix.gear, GTMaterials.Steel), 'D', new MaterialEntry(TagPrefix.gearSmall, GTMaterials.Copper));
 
-            VanillaRecipeHelper.addShapedRecipe(provider, GTOCore.id("aircraft_sturdy_pipes"), RegistriesUtils.getItemStack("immersive_aircraft:sturdy_pipes"),
+            VanillaRecipeHelper.addShapedRecipe(GTOCore.id("aircraft_sturdy_pipes"), RegistriesUtils.getItemStack("immersive_aircraft:sturdy_pipes"),
                     "hBC",
                     "CCC",
                     "CBf",
                     'B', new MaterialEntry(TagPrefix.ring, GTMaterials.Steel), 'C', new MaterialEntry(TagPrefix.pipeNormalRestrictive, GTMaterials.PolyvinylChloride));
 
-            VanillaRecipeHelper.addShapedRecipe(provider, GTOCore.id("aircraft_improved_landing_gear"), RegistriesUtils.getItemStack("immersive_aircraft:improved_landing_gear"),
+            VanillaRecipeHelper.addShapedRecipe(GTOCore.id("aircraft_improved_landing_gear"), RegistriesUtils.getItemStack("immersive_aircraft:improved_landing_gear"),
                     "AhA",
                     "A A",
                     "CwC",
                     'A', new MaterialEntry(TagPrefix.rodLong, GTMaterials.Invar), 'C', GTItems.STEEL_MINECART_WHEELS.asStack());
 
-            VanillaRecipeHelper.addShapedRecipe(provider, GTOCore.id("aircraft_rotary_cannon"), RegistriesUtils.getItemStack("immersive_aircraft:rotary_cannon"),
+            VanillaRecipeHelper.addShapedRecipe(GTOCore.id("aircraft_rotary_cannon"), RegistriesUtils.getItemStack("immersive_aircraft:rotary_cannon"),
                     "ABA",
                     "fDd",
                     "hGw",
                     'A', new MaterialEntry(TagPrefix.screw, GTMaterials.Lead), 'B', new ItemStack(Items.DISPENSER.asItem()), 'D', RegistriesUtils.getItemStack("immersive_aircraft:industrial_gears"), 'G', new MaterialEntry(TagPrefix.block, GTMaterials.Copper));
 
-            VanillaRecipeHelper.addShapedRecipe(provider, GTOCore.id("aircraft_bomb_bay"), RegistriesUtils.getItemStack("immersive_aircraft:bomb_bay"),
+            VanillaRecipeHelper.addShapedRecipe(GTOCore.id("aircraft_bomb_bay"), RegistriesUtils.getItemStack("immersive_aircraft:bomb_bay"),
                     "ABA",
                     "ACA",
                     "DhD",

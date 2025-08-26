@@ -2,6 +2,8 @@ package com.gtocore.data.recipe.builder.botania;
 
 import com.gtolib.GTOCore;
 
+import com.gregtechceu.gtceu.data.pack.GTDynamicDataPack;
+
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
@@ -19,7 +21,6 @@ import vazkii.botania.common.helper.ItemNBTHelper;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Consumer;
 
 import javax.annotation.Nullable;
 
@@ -75,8 +76,8 @@ public final class PetalApothecaryRecipeBuilder {
         return addIngredient(Ingredient.of(tag));
     }
 
-    public void save(Consumer<FinishedRecipe> consumer) {
-        consumer.accept(new FinishedRecipe() {
+    public void save() {
+        GTDynamicDataPack.addRecipe(new FinishedRecipe() {
 
             @Override
             public void serializeRecipeData(@NotNull JsonObject json) {

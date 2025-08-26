@@ -11,6 +11,7 @@ import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 
 import net.minecraft.core.Direction;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
@@ -18,6 +19,7 @@ import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -32,6 +34,14 @@ public final class ManaAlloyBlastSmelterMachine extends CoilCustomParallelMultib
             6, RegistriesUtils.getItem("botania:rune_summer"),
             7, RegistriesUtils.getItem("botania:rune_autumn"),
             8, RegistriesUtils.getItem("botania:rune_winter"));
+
+    public static Component getRunes() {
+        var c = Component.empty();
+        for (var i = 1; i <= 8; i++) {
+            c.append(i + ": ").append(RUNES.get(i).getDescription()).append("\n");
+        }
+        return c;
+    }
 
     private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
             ManaAlloyBlastSmelterMachine.class, CoilCustomParallelMultiblockMachine.MANAGED_FIELD_HOLDER);
@@ -50,7 +60,7 @@ public final class ManaAlloyBlastSmelterMachine extends CoilCustomParallelMultib
     private final ManaTrait manaTrait;
 
     public ManaAlloyBlastSmelterMachine(MetaMachineBlockEntity holder) {
-        super(holder, true, true, true, m -> 8);
+        super(holder, true, true, true, m -> 16);
         this.manaTrait = new ManaTrait(this);
     }
 
@@ -75,7 +85,7 @@ public final class ManaAlloyBlastSmelterMachine extends CoilCustomParallelMultib
                     Item item = RUNES.get(signal);
                     AtomicBoolean success = new AtomicBoolean(false);
                     forEachInputItems(stack -> {
-                        if (RUNES.containsValue(stack.getItem()) && inputItem(item.getDefaultInstance()) && stack.is(item)) {
+                        if (stack.is(item) && inputItem(item.getDefaultInstance())) {
                             success.set(true);
                             return true;
                         }
@@ -98,9 +108,7 @@ public final class ManaAlloyBlastSmelterMachine extends CoilCustomParallelMultib
                 time = 200;
                 updateSignal();
             }
-            if (getOffsetTimer() % 20 == 0 && removeMana(mana, 1, true) != mana) return false;
-            removeMana(mana, 1, false);
-            return true;
+            return removeMana(mana, 1, false) == mana;
         }
         return false;
     }
@@ -115,6 +123,12 @@ public final class ManaAlloyBlastSmelterMachine extends CoilCustomParallelMultib
         signal = 0;
         updateSignal();
         super.afterWorking();
+    }
+
+    @Override
+    public void customText(@NotNull List<Component> textList) {
+        super.customText(textList);
+        textList.add(Component.translatable("gtocore.recipe.mana_consumption").append(": ").append(String.valueOf(mana)));
     }
 
     @Override

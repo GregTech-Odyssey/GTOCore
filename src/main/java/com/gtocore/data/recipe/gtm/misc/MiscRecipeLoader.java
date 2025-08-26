@@ -12,7 +12,6 @@ import com.gregtechceu.gtceu.config.ConfigHolder;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
 import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
 
-import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -20,8 +19,6 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.common.Tags;
 
 import com.tterrag.registrate.util.entry.ItemEntry;
-
-import java.util.function.Consumer;
 
 import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
@@ -31,19 +28,19 @@ import static com.gtocore.common.data.GTORecipeTypes.*;
 
 public final class MiscRecipeLoader {
 
-    public static void init(Consumer<FinishedRecipe> provider) {
+    public static void init() {
         // Basic Terminal Recipe
-        VanillaRecipeHelper.addShapedRecipe(provider, true, "basic_terminal", TERMINAL.asStack(),
+        VanillaRecipeHelper.addShapedRecipe(true, "basic_terminal", TERMINAL.asStack(),
                 "SGS", "PBP", "PWP", 'S', new MaterialEntry(screw, WroughtIron), 'G', Tags.Items.GLASS_PANES, 'B',
                 new ItemStack(Items.BOOK),
                 'P', new MaterialEntry(plate, WroughtIron), 'W', new MaterialEntry(wireGtSingle, RedAlloy));
         // Machine Memory Card Recipe
-        VanillaRecipeHelper.addShapedRecipe(provider, true, "machine_memory_card", MACHINE_MEMORY_CARD.asStack(),
+        VanillaRecipeHelper.addShapedRecipe(true, "machine_memory_card", MACHINE_MEMORY_CARD.asStack(),
                 "PWP", "SLS", "PPP", 'P', new MaterialEntry(plate, Steel), 'W',
                 new MaterialEntry(wireGtSingle, Copper), 'S', new MaterialEntry(screw, RedAlloy), 'L',
                 CustomTags.LV_CIRCUITS);
         // Potin Recipe
-        VanillaRecipeHelper.addShapelessRecipe(provider, "potin_dust", ChemicalHelper.get(dust, Potin, 8),
+        VanillaRecipeHelper.addShapelessRecipe("potin_dust", ChemicalHelper.get(dust, Potin, 8),
                 new MaterialEntry(dust, Copper),
                 new MaterialEntry(dust, Copper),
                 new MaterialEntry(dust, Copper),
@@ -375,10 +372,10 @@ public final class MiscRecipeLoader {
                     .duration(200)
                     .save();
 
-            VanillaRecipeHelper.addShapelessRecipe(provider, "pumpkin_pie_from_dough", new ItemStack(Items.PUMPKIN_PIE),
+            VanillaRecipeHelper.addShapelessRecipe("pumpkin_pie_from_dough", new ItemStack(Items.PUMPKIN_PIE),
                     new ItemStack(Blocks.PUMPKIN), new ItemStack(Items.SUGAR), new ItemStack(DOUGH));
 
-            VanillaRecipeHelper.addShapelessRecipe(provider, "cookie_from_dough", new ItemStack(Items.COOKIE, 8),
+            VanillaRecipeHelper.addShapelessRecipe("cookie_from_dough", new ItemStack(Items.COOKIE, 8),
                     new ItemStack(DOUGH), new ItemStack(Items.COCOA_BEANS));
 
             FORMING_PRESS_RECIPES.recipeBuilder("cookie")
@@ -390,14 +387,14 @@ public final class MiscRecipeLoader {
                     .duration(200)
                     .save();
 
-            VanillaRecipeHelper.addShapedRecipe(provider, "cake_from_dough", new ItemStack(Items.CAKE),
+            VanillaRecipeHelper.addShapedRecipe("cake_from_dough", new ItemStack(Items.CAKE),
                     "MMM", "SES", " D ",
                     'E', Items.EGG,
                     'S', Items.SUGAR,
                     'M', new FluidContainerIngredient(Milk.getFluid(1000)),
                     'D', DOUGH);
         } else {
-            VanillaRecipeHelper.addShapedFluidContainerRecipe(provider, "flour_to_dough", new ItemStack(DOUGH, 4),
+            VanillaRecipeHelper.addShapedFluidContainerRecipe("flour_to_dough", new ItemStack(DOUGH, 4),
                     "FFF", "FWF", "FFF",
                     'F', ChemicalHelper.get(dust, Wheat),
                     'W', new FluidContainerIngredient(Water.getFluid(1000)));
@@ -411,10 +408,10 @@ public final class MiscRecipeLoader {
                     .duration(400)
                     .save();
 
-            VanillaRecipeHelper.addShapelessRecipe(provider, "pumpkin_pie_from_dough", new ItemStack(Items.PUMPKIN_PIE),
+            VanillaRecipeHelper.addShapelessRecipe("pumpkin_pie_from_dough", new ItemStack(Items.PUMPKIN_PIE),
                     new ItemStack(Blocks.PUMPKIN), new ItemStack(DOUGH), new ItemStack(Items.SUGAR), 'r', 'k');
 
-            VanillaRecipeHelper.addShapelessRecipe(provider, "cookie", new ItemStack(Items.COOKIE, 4),
+            VanillaRecipeHelper.addShapelessRecipe("cookie", new ItemStack(Items.COOKIE, 4),
                     new ItemStack(Items.COCOA_BEANS), new ItemStack(DOUGH), new ItemStack(Items.SUGAR), 'r');
 
             FORMING_PRESS_RECIPES.recipeBuilder("cookie")
@@ -427,7 +424,7 @@ public final class MiscRecipeLoader {
                     .duration(200)
                     .save();
 
-            VanillaRecipeHelper.addShapedRecipe(provider, "cake", new ItemStack(Items.CAKE),
+            VanillaRecipeHelper.addShapedRecipe("cake", new ItemStack(Items.CAKE),
                     "BBB", "SMS", "DDD",
                     'B', Items.SWEET_BERRIES,
                     'S', Items.SUGAR,
@@ -446,11 +443,11 @@ public final class MiscRecipeLoader {
                 .save();
 
         // XP set to 0.35, similar to vanilla food smelting
-        VanillaRecipeHelper.addSmeltingRecipe(provider, "dough_to_bread", CustomTags.DOUGHS, new ItemStack(Items.BREAD),
+        VanillaRecipeHelper.addSmeltingRecipe("dough_to_bread", CustomTags.DOUGHS, new ItemStack(Items.BREAD),
                 0.35f);
-        VanillaRecipeHelper.addCampfireRecipe(provider, "dough_to_bread", CustomTags.DOUGHS, new ItemStack(Items.BREAD),
+        VanillaRecipeHelper.addCampfireRecipe("dough_to_bread", CustomTags.DOUGHS, new ItemStack(Items.BREAD),
                 0.35f);
-        VanillaRecipeHelper.addSmokingRecipe(provider, "dough_to_bread", CustomTags.DOUGHS, new ItemStack(Items.BREAD),
+        VanillaRecipeHelper.addSmokingRecipe("dough_to_bread", CustomTags.DOUGHS, new ItemStack(Items.BREAD),
                 0.35f);
 
         FORMING_PRESS_RECIPES.recipeBuilder("laminated_glass")

@@ -15,59 +15,57 @@ import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
 import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
 
-import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Items;
 
 import java.util.Set;
-import java.util.function.Consumer;
 
 public final class FunctionalStorage {
 
-    public static void init(Consumer<FinishedRecipe> provider) {
+    public static void init() {
         if (GTCEu.isModLoaded("functionalstorage")) {
-            VanillaRecipeHelper.addShapedRecipe(provider, GTOCore.id("copper_upgrade"), RegistriesUtils.getItemStack("functionalstorage:copper_upgrade"),
+            VanillaRecipeHelper.addShapedRecipe(GTOCore.id("copper_upgrade"), RegistriesUtils.getItemStack("functionalstorage:copper_upgrade"),
                     "AAA",
                     "BCD",
                     "AAA",
                     'A', new MaterialEntry(TagPrefix.block, GTMaterials.Copper), 'B', RegistriesUtils.getItemStack("gtceu:bronze_crate"), 'C', CustomTags.ULV_CIRCUITS, 'D', RegistriesUtils.getItemStack("gtceu:bronze_drum"));
 
-            VanillaRecipeHelper.addShapedRecipe(provider, GTOCore.id("gold_upgrade"), RegistriesUtils.getItemStack("functionalstorage:gold_upgrade"),
+            VanillaRecipeHelper.addShapedRecipe(GTOCore.id("gold_upgrade"), RegistriesUtils.getItemStack("functionalstorage:gold_upgrade"),
                     "AAA",
                     "CBC",
                     "AAA",
                     'A', new MaterialEntry(TagPrefix.block, GTOMaterials.InfusedGold), 'B', RegistriesUtils.getItemStack("functionalstorage:copper_upgrade"), 'C', CustomTags.LV_CIRCUITS);
 
-            VanillaRecipeHelper.addShapedRecipe(provider, GTOCore.id("diamond_upgrade"), RegistriesUtils.getItemStack("functionalstorage:diamond_upgrade"),
+            VanillaRecipeHelper.addShapedRecipe(GTOCore.id("diamond_upgrade"), RegistriesUtils.getItemStack("functionalstorage:diamond_upgrade"),
                     "AAA",
                     "CBC",
                     "AAA",
                     'A', new MaterialEntry(TagPrefix.block, GTOMaterials.ManaDiamond), 'B', RegistriesUtils.getItemStack("functionalstorage:gold_upgrade"), 'C', CustomTags.MV_CIRCUITS);
 
-            VanillaRecipeHelper.addShapedRecipe(provider, GTOCore.id("netherite_upgrade"), RegistriesUtils.getItemStack("functionalstorage:netherite_upgrade"),
+            VanillaRecipeHelper.addShapedRecipe(GTOCore.id("netherite_upgrade"), RegistriesUtils.getItemStack("functionalstorage:netherite_upgrade"),
                     "AAA",
                     "CBC",
                     "AAA",
                     'A', Items.NETHERITE_BLOCK.getDefaultInstance(), 'B', RegistriesUtils.getItemStack("functionalstorage:diamond_upgrade"), 'C', CustomTags.HV_CIRCUITS);
 
-            VanillaRecipeHelper.addShapedRecipe(provider, GTOCore.id("fluid_1"), RegistriesUtils.getItemStack("functionalstorage:fluid_1", 1),
+            VanillaRecipeHelper.addShapedRecipe(GTOCore.id("fluid_1"), RegistriesUtils.getItemStack("functionalstorage:fluid_1", 1),
                     "AAA",
                     "BCB",
                     "AAA",
                     'A', new MaterialEntry(TagPrefix.plate, GTMaterials.Steel), 'B', new MaterialEntry(TagPrefix.pipeLargeFluid, GTMaterials.Steel), 'C', RegistriesUtils.getItemStack("enderio:pressurized_fluid_tank"));
 
-            VanillaRecipeHelper.addShapedRecipe(provider, GTOCore.id("fluid_2"), RegistriesUtils.getItemStack("functionalstorage:fluid_2", 2),
+            VanillaRecipeHelper.addShapedRecipe(GTOCore.id("fluid_2"), RegistriesUtils.getItemStack("functionalstorage:fluid_2", 2),
                     "ABA",
                     "CDC",
                     "ABA",
                     'A', new MaterialEntry(TagPrefix.plate, GTMaterials.Steel), 'B', RegistriesUtils.getItemStack("enderio:pressurized_fluid_tank"), 'C', new MaterialEntry(TagPrefix.pipeLargeFluid, GTMaterials.Steel), 'D', RegistriesUtils.getItemStack("enderio:fluid_tank"));
 
-            VanillaRecipeHelper.addShapedRecipe(provider, GTOCore.id("fluid_4"), RegistriesUtils.getItemStack("functionalstorage:fluid_4", 4),
+            VanillaRecipeHelper.addShapedRecipe(GTOCore.id("fluid_4"), RegistriesUtils.getItemStack("functionalstorage:fluid_4", 4),
                     "ABA",
                     "BCB",
                     "ABA",
                     'A', RegistriesUtils.getItemStack("enderio:pressurized_fluid_tank"), 'B', new MaterialEntry(TagPrefix.pipeLargeFluid, GTMaterials.Steel), 'C', RegistriesUtils.getItemStack("enderio:fluid_tank"));
-            VanillaRecipeHelper.addShapedRecipe(provider, GTOCore.id("storage_controller"), RegistriesUtils.getItemStack("functionalstorage:storage_controller"),
+            VanillaRecipeHelper.addShapedRecipe(GTOCore.id("storage_controller"), RegistriesUtils.getItemStack("functionalstorage:storage_controller"),
                     "ABA",
                     "CDC",
                     "CBC",

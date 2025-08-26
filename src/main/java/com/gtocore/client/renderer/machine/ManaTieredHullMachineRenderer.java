@@ -22,7 +22,7 @@ class ManaTieredHullMachineRenderer extends MachineRenderer {
 
     ManaTieredHullMachineRenderer(int tier, ResourceLocation modelLocation) {
         super(modelLocation);
-        if (tier < 5) {
+        if (tier < 7) {
             setTextureOverride(Map.of("side",
                     GTOCore.id("block/casings/mana_voltage/%s".formatted(GTValues.VN[tier].toLowerCase(Locale.ROOT)))));
         } else {

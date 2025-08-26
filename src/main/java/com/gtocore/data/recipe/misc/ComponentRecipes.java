@@ -17,12 +17,9 @@ import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
 import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
 
-import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-
-import java.util.function.Consumer;
 
 import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
@@ -35,23 +32,23 @@ import static com.gtolib.api.GTOValues.COMPONENT_ASSEMBLY_CASING_TIER;
 
 public final class ComponentRecipes {
 
-    public static void init(Consumer<FinishedRecipe> provider) {
-        VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("ulv_electric_motor"), GTOItems.ULV_ELECTRIC_MOTOR.asStack(),
+    public static void init() {
+        VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("ulv_electric_motor"), GTOItems.ULV_ELECTRIC_MOTOR.asStack(),
                 "CWR", "WMW", "RWC", 'C', new MaterialEntry(GTOTagPrefix.CURVED_PLATE, Copper), 'W', new MaterialEntry(wireGtDouble, Tin),
                 'R', new MaterialEntry(rod, Copper), 'M', new MaterialEntry(rod, IronMagnetic));
-        VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("ulv_electric_piston"), GTOItems.ULV_ELECTRIC_PISTON.asStack(),
+        VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("ulv_electric_piston"), GTOItems.ULV_ELECTRIC_PISTON.asStack(),
                 "PPP", "CRR", "CMG", 'P', new MaterialEntry(plate, Copper), 'C', new MaterialEntry(cableGtSingle, Lead),
                 'R', new MaterialEntry(rod, Copper), 'M', GTOItems.ULV_ELECTRIC_MOTOR.asStack(), 'G', new MaterialEntry(gearSmall, Copper));
-        VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("ulv_electric_conveyor"), GTOItems.ULV_CONVEYOR_MODULE.asStack(),
+        VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("ulv_electric_conveyor"), GTOItems.ULV_CONVEYOR_MODULE.asStack(),
                 "RRR", "MCM", "RRR", 'R', new MaterialEntry(plate, Rubber), 'M', GTOItems.ULV_ELECTRIC_MOTOR.asStack(),
                 'C', new MaterialEntry(cableGtSingle, Lead));
-        VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("ulv_electric_pump"), GTOItems.ULV_ELECTRIC_PUMP.asStack(),
+        VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("ulv_electric_pump"), GTOItems.ULV_ELECTRIC_PUMP.asStack(),
                 "SFR", "sPw", "RMC", 'S', new MaterialEntry(screw, Iron), 'R', new MaterialEntry(ring, Rubber),
                 'F', new MaterialEntry(rotor, Iron), 'P', new MaterialEntry(pipeNormalFluid, Copper), 'M', GTOItems.ULV_ELECTRIC_MOTOR.asStack(), 'C', new MaterialEntry(cableGtSingle, Lead));
-        VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("ulv_robot_arm"), GTOItems.ULV_ROBOT_ARM.asStack(),
+        VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("ulv_robot_arm"), GTOItems.ULV_ROBOT_ARM.asStack(),
                 "CCC", "MRM", "PVR", 'R', new MaterialEntry(rod, Copper), 'C', new MaterialEntry(cableGtSingle, Lead),
                 'M', GTOItems.ULV_ELECTRIC_MOTOR.asStack(), 'P', GTOItems.ULV_ELECTRIC_PISTON.asStack(), 'V', VACUUM_TUBE.asItem());
-        VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("ulv_fluid_regulator"), GTOItems.ULV_FLUID_REGULATOR.asStack(),
+        VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("ulv_fluid_regulator"), GTOItems.ULV_FLUID_REGULATOR.asStack(),
                 "SFR", "sPw", "RMC", 'S', new MaterialEntry(screw, Iron), 'R', VACUUM_TUBE.asStack(),
                 'F', new MaterialEntry(rotor, Iron), 'P', GTOItems.ULV_ELECTRIC_PUMP.asStack(), 'M', GTOItems.ULV_ELECTRIC_MOTOR.asStack(), 'C', new MaterialEntry(cableGtSingle, Lead));
 

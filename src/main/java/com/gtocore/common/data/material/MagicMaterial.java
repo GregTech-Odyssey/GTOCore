@@ -147,6 +147,22 @@ public final class MagicMaterial {
                 .iconSet(LIMPID)
                 .buildAndRegister();
 
+        Animium = material("animium", "灵髓液")
+                .liquid(new FluidBuilder().temperature(237))
+                .color(0xfcd428)
+                .buildAndRegister();
+
+        TheWaterFromTheWellOfWisdom = material("the_water_from_the_well_of_wisdom", "智慧之泉水")
+                .liquid(new FluidBuilder().temperature(272))
+                .color(0x0000FF)
+                .buildAndRegister();
+
+        FlowingCiphers = material("flowing_ciphers", "液态符文")
+                .liquid(new FluidBuilder().temperature(176))
+                .color(0xbcf7e5)
+                .iconSet(FLUID)
+                .buildAndRegister();
+
         ManaDiamond = material("mana_diamond", "魔力钻石")
                 .gem()
                 .components(GTMaterials.Diamond, 1)
@@ -395,6 +411,7 @@ public final class MagicMaterial {
                 .color(0x590aa9)
                 .iconSet(METALLIC)
                 .flags(GTOMaterialFlags.GENERATE_CURVED_PLATE, GENERATE_FRAME, GENERATE_LONG_ROD, GENERATE_FOIL, GENERATE_GEAR, GENERATE_BOLT_SCREW)
+                .toolStats(ToolProperty.Builder.of(24.0F, 16, 128000, 16, GTToolType.SWORD, GTToolType.PICKAXE, GTToolType.SHOVEL, GTToolType.AXE, GTToolType.HOE, GTToolType.MINING_HAMMER, GTToolType.SPADE, GTToolType.SAW, GTToolType.HARD_HAMMER, GTToolType.WRENCH, GTToolType.FILE, GTToolType.CROWBAR, GTToolType.SCREWDRIVER, GTToolType.WIRE_CUTTER, GTToolType.SCYTHE, GTToolType.KNIFE, GTToolType.BUTCHERY_KNIFE, GTToolType.DRILL_LV, GTToolType.DRILL_MV, GTToolType.DRILL_HV, GTToolType.DRILL_EV, GTToolType.DRILL_IV, GTToolType.CHAINSAW_LV, GTToolType.WRENCH_LV, GTToolType.WRENCH_HV, GTToolType.WRENCH_IV, GTToolType.BUZZSAW, GTToolType.SCREWDRIVER_LV, GTToolType.WIRE_CUTTER_LV, GTToolType.WIRE_CUTTER_HV, GTToolType.WIRE_CUTTER_IV).build())
                 .buildAndRegister();
 
         Photonium = material("photonium", "光子")

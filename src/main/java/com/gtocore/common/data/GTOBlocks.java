@@ -391,6 +391,7 @@ public final class GTOBlocks {
 
     public static final BlockEntry<Block> TRANSMUTATION_CATALYST = createCasingBlock("transmutation_catalyst", "嬗变催化器", GTOCore.id("block/casings/transmutation_catalyst"));
     public static final BlockEntry<Block> INFUSED_GOLD_REINFORCED_WOODEN_CASING = createCasingBlock("infused_gold_reinforced_wooden_casing", "注魔金加固木制机械方块", GTOCore.id("block/casings/infused_gold_reinforced_wooden_casing"));
+    public static final BlockEntry<Block> INFUSED_GOLD_CASING = createCasingBlock("infused_gold_casing", "注魔金外壳", GTOCore.id("block/casings/infused_gold_casing"));
     public static final BlockEntry<Block> SOURCE_STONE_CASING = createCasingBlock("source_stone_casing", "魔源机械方块", GTOCore.id("block/casings/source_stone_casing"));
     public static final BlockEntry<Block> SOURCE_FIBER_MECHANICAL_CASING = createCasingBlock("source_fiber_mechanical_casing", "魔源纤维机械方块", GTOCore.id("block/casings/source_fiber_mechanical_casing"));
     public static final BlockEntry<Block> SPELL_PRISM_CASING = createCasingBlock("spell_prism_casing", "法术机械方块", GTOCore.id("block/casings/spell_prism_casing"));
@@ -398,7 +399,9 @@ public final class GTOBlocks {
     public static final BlockEntry<Block> MANASTEEL_CASING = createCasingBlock("manasteel_casing", "魔力钢外壳", GTOCore.id("block/casings/manasteel_casing"));
     public static final BlockEntry<Block> TERRASTEEL_CASING = createCasingBlock("terrasteel_casing", "泰拉钢外壳", GTOCore.id("block/casings/terrasteel_casing"));
     public static final BlockEntry<Block> ELEMENTIUM_CASING = createCasingBlock("elementium_casing", "源质钢外壳", GTOCore.id("block/casings/elementium_casing"));
+    public static final BlockEntry<Block> ALFSTEEL_CASING = createCasingBlock("alfsteel_casing", "精灵钢外壳", GTOCore.id("block/casings/alfsteel_casing"));
     public static final BlockEntry<Block> GAIASTEEL_CASING = createCasingBlock("gaiasteel_casing", "盖亚钢外壳", GTOCore.id("block/casings/gaiasteel_casing"));
+    public static final BlockEntry<Block> ORICHALCOS_CASING = createCasingBlock("orichalcos_casing", "奥利哈钢外壳", GTOCore.id("block/casings/orichalcos_casing"));
     public static final BlockEntry<Block> HERETICAL_MECHANICAL_CASING = createCasingBlock("heretical_mechanical_casing", "邪术机械方块", GTOCore.id("block/casings/heretical_mechanical_casing"));
 
     public static final BlockEntry<Block> ACCELERATOR_PARTICLE_CONSTRAINED_CASING = createCasingBlock("accelerator_particle_constrained_casing", "加速器粒子约束机械方块", GTOCore.id("block/casings/accelerator/accelerator_particle_constrained_casing"));

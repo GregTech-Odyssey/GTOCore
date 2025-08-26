@@ -8,11 +8,7 @@ import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.config.ConfigHolder;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
 
-import net.minecraft.data.recipes.FinishedRecipe;
-
 import org.jetbrains.annotations.NotNull;
-
-import java.util.function.Consumer;
 
 import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
@@ -25,7 +21,7 @@ public final class GCYMRecipes {
 
     private GCYMRecipes() {}
 
-    public static void init(Consumer<FinishedRecipe> provider) {
+    public static void init() {
         registerManualRecipes();
         registerMachineRecipes();
     }

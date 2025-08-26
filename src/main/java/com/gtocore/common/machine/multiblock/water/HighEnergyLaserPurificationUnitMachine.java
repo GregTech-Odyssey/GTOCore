@@ -145,7 +145,7 @@ public final class HighEnergyLaserPurificationUnitMachine extends WaterPurificat
     long before() {
         eut = 0;
         chance = 0;
-        time = -1;
+        time = GTValues.RNG.nextInt(120) + 120;
         inputCount = Math.min(parallel(), getFluidAmount(WaterPurificationPlantMachine.GradePurifiedWater5)[0]);
         if (inputCount > 0) {
             recipe = getRecipeBuilder().duration(WaterPurificationPlantMachine.DURATION).inputFluids(WaterPurificationPlantMachine.GradePurifiedWater5, inputCount).buildRawRecipe();

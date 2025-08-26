@@ -17,14 +17,12 @@ import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
 import com.gregtechceu.gtceu.utils.GTUtil;
 
-import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.world.item.ItemStack;
 
 import com.google.common.collect.ImmutableMap;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
-import java.util.function.Consumer;
 
 import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
@@ -40,21 +38,21 @@ final class GTOWireRecipeHandler {
             cableGtOctal, 3,
             cableGtHex, 5);
 
-    public static void run(@NotNull Consumer<FinishedRecipe> provider, @NotNull Material material) {
+    static void run(@NotNull Material material) {
         WireProperties property = material.getProperty(PropertyKey.WIRE);
         if (property == null) {
             return;
         }
-        processWires(material, property, provider);
+        processWires(material, property);
         if (property.isSuperconductor()) return;
-        generateCableCovering(wireGtSingle, material, property, provider);
-        generateCableCovering(wireGtDouble, material, property, provider);
-        generateCableCovering(wireGtQuadruple, material, property, provider);
-        generateCableCovering(wireGtOctal, material, property, provider);
-        generateCableCovering(wireGtHex, material, property, provider);
+        generateCableCovering(wireGtSingle, material, property);
+        generateCableCovering(wireGtDouble, material, property);
+        generateCableCovering(wireGtQuadruple, material, property);
+        generateCableCovering(wireGtOctal, material, property);
+        generateCableCovering(wireGtHex, material, property);
     }
 
-    private static void processWires(Material material, WireProperties property, Consumer<FinishedRecipe> provider) {
+    private static void processWires(Material material, WireProperties property) {
         ItemStack wireSingle = ChemicalHelper.get((property.isSuperconductor() && property.getVoltage() < VA[MAX]) ? GTOTagPrefix.SUPERCONDUCTOR_BASE : TagPrefix.wireGtSingle, material, 2);
         if (wireSingle.isEmpty()) return;
         TagPrefix prefix = material.hasProperty(PropertyKey.INGOT) ? ingot :
@@ -73,13 +71,13 @@ final class GTOWireRecipeHandler {
                 .save();
 
         if (!material.hasFlag(MaterialFlags.NO_WORKING) && material.hasFlag(MaterialFlags.GENERATE_PLATE) && mass < 240 && material.getBlastTemperature() < 3600) {
-            VanillaRecipeHelper.addShapedRecipe(provider, String.format("%s_wire_single", material.getName()),
+            VanillaRecipeHelper.addShapedRecipe(String.format("%s_wire_single", material.getName()),
                     wireSingle.copyWithCount(1), "Xx",
                     'X', new MaterialEntry(plate, material));
         }
     }
 
-    private static void generateCableCovering(TagPrefix wirePrefix, Material material, WireProperties property, Consumer<FinishedRecipe> provider) {
+    private static void generateCableCovering(TagPrefix wirePrefix, Material material, WireProperties property) {
         ItemStack wire = ChemicalHelper.get(wirePrefix, material);
         if (wire.isEmpty()) return;
 
@@ -88,7 +86,7 @@ final class GTOWireRecipeHandler {
         int insulationAmount = INSULATION_AMOUNT.get(cablePrefix);
 
         if (voltageTier <= LV) {
-            generateManualRecipe(wirePrefix, material, cablePrefix, provider, voltageTier == ULV);
+            generateManualRecipe(wirePrefix, material, cablePrefix, voltageTier == ULV);
         }
 
         if (voltageTier < IV) {
@@ -136,7 +134,7 @@ final class GTOWireRecipeHandler {
                 .save();
     }
 
-    private static void generateManualRecipe(TagPrefix wirePrefix, Material material, TagPrefix cablePrefix, Consumer<FinishedRecipe> provider, boolean manual) {
+    private static void generateManualRecipe(TagPrefix wirePrefix, Material material, TagPrefix cablePrefix, boolean manual) {
         int insulationAmount = INSULATION_AMOUNT.get(cablePrefix);
         if (manual) {
             Object[] ingredients = new Object[insulationAmount + 1];
@@ -144,7 +142,7 @@ final class GTOWireRecipeHandler {
             for (int i = 1; i <= insulationAmount; i++) {
                 ingredients[i] = ChemicalHelper.get(plate, Rubber);
             }
-            VanillaRecipeHelper.addShapelessRecipe(provider, String.format("%s_cable_%d", material.getName(), (int) ((wirePrefix.getMaterialAmount(material) << 1) / M)),
+            VanillaRecipeHelper.addShapelessRecipe(String.format("%s_cable_%d", material.getName(), (int) ((wirePrefix.getMaterialAmount(material) << 1) / M)),
                     ChemicalHelper.get(cablePrefix, material),
                     ingredients);
         }

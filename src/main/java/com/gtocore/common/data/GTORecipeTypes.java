@@ -92,9 +92,7 @@ public final class GTORecipeTypes {
     public static final RecipeType RESEARCH_STATION_RECIPES = (RecipeType) GTRecipeTypes.RESEARCH_STATION_RECIPES;
     public static final RecipeType ROCK_BREAKER_RECIPES = (RecipeType) GTRecipeTypes.ROCK_BREAKER_RECIPES;
     public static final RecipeType SCANNER_RECIPES = (RecipeType) GTRecipeTypes.SCANNER_RECIPES;
-    public static final RecipeType COMBUSTION_GENERATOR_FUELS = (RecipeType) GTRecipeTypes.COMBUSTION_GENERATOR_FUELS.onRecipeBuild((b, c) -> {
-        PowerlessJetpack.FUELS.putIfAbsent(FluidRecipeCapability.CAP.of(b.input.get(FluidRecipeCapability.CAP).get(0).content).copy(), b.duration);
-    });
+    public static final RecipeType COMBUSTION_GENERATOR_FUELS = (RecipeType) GTRecipeTypes.COMBUSTION_GENERATOR_FUELS.onRecipeBuild((b) -> PowerlessJetpack.FUELS.putIfAbsent(FluidRecipeCapability.CAP.of(b.input.get(FluidRecipeCapability.CAP).get(0).content).copy(), b.duration));
     public static final RecipeType GAS_TURBINE_FUELS = (RecipeType) GTRecipeTypes.GAS_TURBINE_FUELS;
     public static final RecipeType STEAM_TURBINE_FUELS = (RecipeType) GTRecipeTypes.STEAM_TURBINE_FUELS;
     public static final RecipeType PLASMA_GENERATOR_FUELS = (RecipeType) GTRecipeTypes.PLASMA_GENERATOR_FUELS;
@@ -171,7 +169,7 @@ public final class GTORecipeTypes {
             .setEUIO(IO.IN)
             .setProgressBar(GuiTextures.PROGRESS_BAR_WIREMILL, LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.ARC)
-            .onBuild(GenerateDisassembly::generateDisassembly);
+            .onRecipeBuild(GenerateDisassembly::generateDisassembly);
 
     public static final RecipeType WORLD_DATA_SCANNER_RECIPES = register("world_data_scanner", "世界信息扫描仪", ELECTRIC)
             .setEUIO(IO.IN)
@@ -260,7 +258,7 @@ public final class GTORecipeTypes {
             .setMaxIOSize(2, 9, 1, 0)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.MACERATOR)
-            .onBuild(b -> b.duration((int) (Math.sqrt(b.duration + 100) * 2)));
+            .onRecipeBuild(b -> b.duration((int) (Math.sqrt(b.duration + 100) * 2)));
 
     public static final RecipeType FISSION_REACTOR_RECIPES = register("fission_reactor", "裂变反应堆", MULTIBLOCK)
             .setMaxIOSize(1, 1, 0, 0)
@@ -282,7 +280,7 @@ public final class GTORecipeTypes {
                 };
                 return LocalizationUtils.format(TierCasingTrait.getTierTranslationKey(STELLAR_CONTAINMENT_TIER), tierString);
             })
-            .onBuild(b -> b.duration(b.duration * GTOCore.difficulty / 3));
+            .onRecipeBuild(b -> b.duration(b.duration * GTOCore.difficulty / 3));
 
     public static final RecipeType COMPONENT_ASSEMBLY_RECIPES = register("component_assembly", "部件装配", MULTIBLOCK)
             .setMaxIOSize(9, 1, 9, 0)
@@ -425,7 +423,7 @@ public final class GTORecipeTypes {
             .setMaxIOSize(16, 1, 4, 0)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.ASSEMBLER)
-            .onRecipeBuild((recipeBuilder, consumer) -> GenerateDisassembly.generateDisassembly(recipeBuilder));
+            .onRecipeBuild(GenerateDisassembly::generateDisassembly);
 
     public static final RecipeType SUPRACHRONAL_ASSEMBLY_LINE_RECIPES = register("suprachronal_assembly_line", "超时空装配线", MULTIBLOCK)
             .setEUIO(IO.IN)
@@ -434,7 +432,7 @@ public final class GTORecipeTypes {
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.ASSEMBLER)
             .setHasResearchSlot(true)
-            .onRecipeBuild((recipeBuilder, consumer) -> GenerateDisassembly.generateDisassembly(recipeBuilder));
+            .onRecipeBuild(GenerateDisassembly::generateDisassembly);
 
     public static final RecipeType PRECISION_ASSEMBLER_RECIPES = register("precision_assembler", "精密组装", MULTIBLOCK)
             .setEUIO(IO.IN)
@@ -448,7 +446,7 @@ public final class GTORecipeTypes {
             .setMaxIOSize(16, 1, 4, 0)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.ASSEMBLER)
-            .onRecipeBuild((recipeBuilder, consumer) -> GenerateDisassembly.generateDisassembly(recipeBuilder))
+            .onRecipeBuild(GenerateDisassembly::generateDisassembly)
             .addDataInfo(data -> LocalizationUtils.format(TierCasingTrait.getTierTranslationKey(POWER_MODULE_TIER), FormattingUtil.formatNumbers(data.getInt(POWER_MODULE_TIER))));
 
     public static final RecipeType MINER_MODULE_RECIPES = register("miner_module", "Space Miner", "太空采矿", MULTIBLOCK)
@@ -496,7 +494,7 @@ public final class GTORecipeTypes {
             .setMaxIOSize(2, 1, 2, 0)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.CHEMICAL)
-            .onRecipeBuild((b, c) -> {
+            .onRecipeBuild((b) -> {
                 int tier = 1;
                 if (b.EUt() > 491519) {
                     tier = 3;

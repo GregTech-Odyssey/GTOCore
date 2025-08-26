@@ -2287,7 +2287,7 @@ public final class MaterialB {
                 .flags(DISABLE_DECOMPOSITION)
                 .buildAndRegister();
 
-        PHNeutralWater = material("ph_neutral_water", "PH中和水")
+        PHNeutralWater = material("ph_neutral_water", "pH中和水")
                 .fluid()
                 .components(Hydrogen, 2, Oxygen, 1)
                 .color(0x0058cd)

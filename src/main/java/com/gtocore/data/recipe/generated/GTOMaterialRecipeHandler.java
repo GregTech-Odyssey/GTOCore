@@ -20,14 +20,12 @@ import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.gregtechceu.gtceu.utils.GTUtil;
 
-import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
-import java.util.function.Consumer;
 
 import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlags.*;
@@ -39,20 +37,20 @@ final class GTOMaterialRecipeHandler {
 
     private static final List<TagPrefix> GEM_ORDER = Arrays.asList(gem, gemFlawless, gemExquisite);
 
-    public static void run(Consumer<FinishedRecipe> provider, Material material) {
+    static void run(Material material) {
         if (GTOUtils.isGeneration(ingot, material)) {
-            processIngot(material, provider);
-            processNugget(material, provider);
+            processIngot(material);
+            processNugget(material);
         }
 
         if (GTOUtils.isGeneration(block, material)) {
-            processBlock(material, provider);
+            processBlock(material);
         }
         if (GTOUtils.isGeneration(frameGt, material)) {
-            processFrame(material, provider);
+            processFrame(material);
         }
 
-        processDust(material, provider);
+        processDust(material);
         if (GTOUtils.isGeneration(dustSmall, material)) {
             processSmallDust(material);
         }
@@ -62,23 +60,23 @@ final class GTOMaterialRecipeHandler {
 
         if (material.shouldGenerateRecipesFor(gemExquisite)) {
             for (TagPrefix orePrefix : Arrays.asList(gem, gemFlawless, gemExquisite)) {
-                processGemConversion(orePrefix, material, provider);
+                processGemConversion(orePrefix, material);
             }
         }
     }
 
-    private static void processIngot(Material material, Consumer<FinishedRecipe> provider) {
+    private static void processIngot(Material material) {
         ItemStack stack = ChemicalHelper.get(ingot, material);
         if (stack.isEmpty()) return;
         int mass = (int) material.getMass();
         if (material.hasFlag(MORTAR_GRINDABLE)) {
-            VanillaRecipeHelper.addShapedRecipe(provider, String.format("mortar_grind_%s", material.getName()),
+            VanillaRecipeHelper.addShapedRecipe(String.format("mortar_grind_%s", material.getName()),
                     ChemicalHelper.get(dust, material), "X", "m", 'X', stack);
         }
 
         if (material.hasFlag(GENERATE_ROD)) {
             if (mass < 240 && material.getBlastTemperature() < 3600)
-                VanillaRecipeHelper.addShapedRecipe(provider, String.format("stick_%s", material.getName()),
+                VanillaRecipeHelper.addShapedRecipe(String.format("stick_%s", material.getName()),
                         ChemicalHelper.get(rod, material),
                         "f ", " X",
                         'X', stack);
@@ -156,7 +154,7 @@ final class GTOMaterialRecipeHandler {
                             .EUt(16).duration(Math.max(1, mass / 2))
                             .save();
                     if (mass < 240 && material.getBlastTemperature() < 3600)
-                        VanillaRecipeHelper.addShapedRecipe(provider, String.format("plate_%s", material.getName()),
+                        VanillaRecipeHelper.addShapedRecipe(String.format("plate_%s", material.getName()),
                                 plateStack, "h", "I", "I", 'I', stack);
                 }
             }
@@ -184,7 +182,7 @@ final class GTOMaterialRecipeHandler {
         }
     }
 
-    private static void processNugget(Material material, Consumer<FinishedRecipe> provider) {
+    private static void processNugget(Material material) {
         ItemStack nuggetStack = ChemicalHelper.get(nugget, material, 9);
         if (nuggetStack.isEmpty()) return;
         if (material.hasProperty(PropertyKey.INGOT)) {
@@ -192,12 +190,12 @@ final class GTOMaterialRecipeHandler {
 
             if (!ConfigHolder.INSTANCE.recipes.disableManualCompression) {
                 if (!ingot.isIgnored(material)) {
-                    VanillaRecipeHelper.addShapelessRecipe(provider,
+                    VanillaRecipeHelper.addShapelessRecipe(
                             String.format("nugget_disassembling_%s", material.getName()),
                             nuggetStack.copyWithCount(9), new MaterialEntry(ingot, material));
                 }
                 if (!nugget.isIgnored(material)) {
-                    VanillaRecipeHelper.addShapedRecipe(provider,
+                    VanillaRecipeHelper.addShapedRecipe(
                             String.format("nugget_assembling_%s", material.getName()),
                             ingotStack, "XXX", "XXX", "XXX", 'X', new MaterialEntry(nugget, material));
                 }
@@ -230,12 +228,12 @@ final class GTOMaterialRecipeHandler {
 
             if (!ConfigHolder.INSTANCE.recipes.disableManualCompression) {
                 if (!gem.isIgnored(material)) {
-                    VanillaRecipeHelper.addShapelessRecipe(provider,
+                    VanillaRecipeHelper.addShapelessRecipe(
                             String.format("nugget_disassembling_%s", material.getName()),
                             nuggetStack.copyWithCount(9), new MaterialEntry(gem, material));
                 }
                 if (!nugget.isIgnored(material)) {
-                    VanillaRecipeHelper.addShapedRecipe(provider,
+                    VanillaRecipeHelper.addShapedRecipe(
                             String.format("nugget_assembling_%s", material.getName()),
                             gemStack, "XXX", "XXX", "XXX", 'X', new MaterialEntry(nugget, material));
                 }
@@ -243,7 +241,7 @@ final class GTOMaterialRecipeHandler {
         }
     }
 
-    private static void processBlock(Material material, Consumer<FinishedRecipe> provider) {
+    private static void processBlock(Material material) {
         ItemStack blockStack = ChemicalHelper.get(TagPrefix.block, material);
         if (blockStack.isEmpty()) return;
         int mass = (int) material.getMass();
@@ -286,10 +284,10 @@ final class GTOMaterialRecipeHandler {
                         blockEntry = new MaterialEntry(dust, material);
                     }
 
-                    VanillaRecipeHelper.addShapedRecipe(provider, String.format("block_compress_%s", material.getName()),
+                    VanillaRecipeHelper.addShapedRecipe(String.format("block_compress_%s", material.getName()),
                             blockStack, pattern, 'B', blockEntry);
 
-                    VanillaRecipeHelper.addShapelessRecipe(provider,
+                    VanillaRecipeHelper.addShapelessRecipe(
                             String.format("block_decompress_%s", material.getName()),
                             ChemicalHelper.get(blockEntry.tagPrefix(), blockEntry.material()).copyWithCount(size),
                             new MaterialEntry(block, material));
@@ -318,12 +316,12 @@ final class GTOMaterialRecipeHandler {
         }
     }
 
-    private static void processFrame(Material material, Consumer<FinishedRecipe> provider) {
+    private static void processFrame(Material material) {
         ItemStack stack = ChemicalHelper.get(frameGt, material);
         if (stack.isEmpty()) return;
         boolean isWoodenFrame = material.hasProperty(PropertyKey.WOOD);
         if (material.getMass() < 240 && material.getBlastTemperature() < 3600)
-            VanillaRecipeHelper.addShapedRecipe(provider, String.format("frame_%s", material.getName()),
+            VanillaRecipeHelper.addShapedRecipe(String.format("frame_%s", material.getName()),
                     stack.copyWithCount(2), "SSS", isWoodenFrame ? "SsS" : "SwS", "SSS",
                     'S', new MaterialEntry(rod, material));
 
@@ -335,9 +333,9 @@ final class GTOMaterialRecipeHandler {
                 .save();
     }
 
-    private static void processGemConversion(TagPrefix gemPrefix, Material material, Consumer<FinishedRecipe> provider) {
+    private static void processGemConversion(TagPrefix gemPrefix, Material material) {
         if (material.hasFlag(MORTAR_GRINDABLE)) {
-            VanillaRecipeHelper.addShapedRecipe(provider, String.format("gem_to_dust_%s_%s", material.getName(), FormattingUtil.toLowerCaseUnderscore(gemPrefix.name)), ChemicalHelper.getDust(material, gemPrefix.getMaterialAmount(material)), "X", "m", 'X', new MaterialEntry(gemPrefix, material));
+            VanillaRecipeHelper.addShapedRecipe(String.format("gem_to_dust_%s_%s", material.getName(), FormattingUtil.toLowerCaseUnderscore(gemPrefix.name)), ChemicalHelper.getDust(material, gemPrefix.getMaterialAmount(material)), "X", "m", 'X', new MaterialEntry(gemPrefix, material));
         }
 
         TagPrefix prevPrefix = GTUtil.getItem(GEM_ORDER, GEM_ORDER.indexOf(gemPrefix) - 1, null);
@@ -361,7 +359,7 @@ final class GTOMaterialRecipeHandler {
         }
     }
 
-    private static void processDust(Material material, Consumer<FinishedRecipe> provider) {
+    private static void processDust(Material material) {
         ItemStack dustStack = ChemicalHelper.get(TagPrefix.dust, material);
         if (dustStack.isEmpty()) return;
         String id = "%s_%s_".formatted(FormattingUtil.toLowerCaseUnderscore(TagPrefix.dust.name),
@@ -426,7 +424,7 @@ final class GTOMaterialRecipeHandler {
             if (oreProperty != null) {
                 Material smeltingResult = oreProperty.getDirectSmeltResult();
                 if (!smeltingResult.isNull()) {
-                    VanillaRecipeHelper.addSmeltingRecipe(provider, id + "_ingot",
+                    VanillaRecipeHelper.addSmeltingRecipe(id + "_ingot",
                             dustStack, ChemicalHelper.get(ingot, smeltingResult));
                 }
             }
@@ -448,17 +446,17 @@ final class GTOMaterialRecipeHandler {
                     // smelting magnetic dusts is handled elsewhere
                     if (!material.hasFlag(IS_MAGNETIC)) {
                         // do not register inputs by ore dict here. Let other mods register their own dust -> ingots
-                        VanillaRecipeHelper.addSmeltingRecipe(provider, id + "_demagnetize_from_dust",
+                        VanillaRecipeHelper.addSmeltingRecipe(id + "_demagnetize_from_dust",
                                 dustStack, ingotStack);
                     }
                 } else {
                     IngotProperty ingotProperty = material.getProperty(PropertyKey.INGOT);
                     BlastProperty blastProperty = material.getProperty(PropertyKey.BLAST);
 
-                    processEBFRecipe(material, blastProperty, ingotStack, provider);
+                    processEBFRecipe(material, blastProperty, ingotStack);
 
                     if (!ingotProperty.getMagneticMaterial().isNull()) {
-                        processEBFRecipe(ingotProperty.getMagneticMaterial(), blastProperty, ingotStack, provider);
+                        processEBFRecipe(ingotProperty.getMagneticMaterial(), blastProperty, ingotStack);
                     }
                 }
             }
@@ -478,7 +476,7 @@ final class GTOMaterialRecipeHandler {
                 if (smeltingResult.isNull()) {
                     ItemStack ingotStack = ChemicalHelper.get(ingot, smeltingResult);
                     if (!ingotStack.isEmpty()) {
-                        VanillaRecipeHelper.addSmeltingRecipe(provider, id + "_dust_to_ingot", dustStack, ingotStack);
+                        VanillaRecipeHelper.addSmeltingRecipe(id + "_dust_to_ingot", dustStack, ingotStack);
                     }
                 }
             }
@@ -517,8 +515,7 @@ final class GTOMaterialRecipeHandler {
                 .save();
     }
 
-    private static void processEBFRecipe(Material material, BlastProperty property, ItemStack output,
-                                         Consumer<FinishedRecipe> provider) {
+    private static void processEBFRecipe(Material material, BlastProperty property, ItemStack output) {
         int blastTemp = property.getBlastTemperature();
         BlastProperty.GasTier gasTier = property.getGasTier();
         int duration = property.getDurationOverride();
@@ -581,7 +578,7 @@ final class GTOMaterialRecipeHandler {
 
         AlloyBlastProperty alloyBlastProperty = material.getProperty(PropertyKey.ALLOY_BLAST);
         if (alloyBlastProperty != null) {
-            alloyBlastProperty.getRecipeProducer().produce(material, property, provider);
+            alloyBlastProperty.getRecipeProducer().produce(material, property);
         }
     }
 }
