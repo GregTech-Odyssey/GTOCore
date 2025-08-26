@@ -2,7 +2,7 @@ package com.gtocore.common.entity;
 
 import com.gtocore.common.data.GTOBlocks;
 
-import com.gtolib.utils.SphereExplosion;
+import com.gtolib.utils.Explosion.SphereExplosion;
 
 import com.gregtechceu.gtceu.common.data.GTEntityTypes;
 import com.gregtechceu.gtceu.common.entity.GTExplosiveEntity;

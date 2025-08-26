@@ -18,9 +18,9 @@ import com.gtolib.api.annotation.language.RegisterLanguage;
 import com.gtolib.api.data.GTODimensions;
 import com.gtolib.api.machine.feature.IVacuumMachine;
 import com.gtolib.api.player.IEnhancedPlayer;
+import com.gtolib.utils.Explosion.SphereExplosion;
 import com.gtolib.utils.RLUtils;
 import com.gtolib.utils.ServerUtils;
-import com.gtolib.utils.SphereExplosion;
 import com.gtolib.utils.register.BlockRegisterUtils;
 
 import com.gregtechceu.gtceu.GTCEu;
