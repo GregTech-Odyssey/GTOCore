@@ -1,10 +1,11 @@
 package com.gtocore.data.recipe.misc;
 
-import com.gregtechceu.gtceu.data.pack.GTDynamicDataPack;
 import com.gtocore.common.data.GTOItems;
 
 import com.gtolib.GTOCore;
 import com.gtolib.ae2.me2in1.Wireless;
+
+import com.gregtechceu.gtceu.data.pack.GTDynamicDataPack;
 
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;
@@ -19,8 +20,6 @@ import de.mari_023.ae2wtlib.wut.recipe.Combine;
 import de.mari_023.ae2wtlib.wut.recipe.Upgrade;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.function.Consumer;
 
 public final class Ae2wtlibRecipes {
 

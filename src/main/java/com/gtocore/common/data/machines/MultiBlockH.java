@@ -23,7 +23,6 @@ import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 
-import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.Blocks;
 
 import static com.gregtechceu.gtceu.api.machine.multiblock.PartAbility.*;
@@ -454,7 +453,10 @@ public final class MultiBlockH {
             .workableCasingRenderer(GTOCore.id("block/casings/iridium_casing"), GTCEu.id("block/multiblock/fusion_reactor"))
             .register();
 
-    public static final MultiblockMachineDefinition DIGITAL_MINER = multiblock("digital_miner", "数字型采矿机", NoRecipeLogicMultiblockMachine::new)//TODO logic not implemented
+    public static final MultiblockMachineDefinition DIGITAL_MINER = multiblock("digital_miner", "数字型采矿机", NoRecipeLogicMultiblockMachine::new)// TODO
+                                                                                                                                              // logic
+                                                                                                                                              // not
+                                                                                                                                              // implemented
             .nonYAxisRotation()
             .langValue("digital_miner")
             .tooltipsText("数字化采矿，效率更高", "Digital mining, more efficient")
