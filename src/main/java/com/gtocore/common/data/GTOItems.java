@@ -901,7 +901,7 @@ public final class GTOItems {
 
     public static final ItemEntry<SpaceArmorComponentItem> SPACE_NANOMUSCLE_CHESTPLATE = item("space_nanomuscle_chestplate", "纳米肌体™套装太空胸甲",
             (p) -> new SpaceArmorComponentItem(GTArmorMaterials.ARMOR,
-                    ArmorItem.Type.CHESTPLATE, 16000, p)
+                    ArmorItem.Type.CHESTPLATE, 8000, p)
                     .setArmorLogic(new NanoMuscleSuite(
                             ArmorItem.Type.CHESTPLATE,
                             512,
@@ -917,7 +917,7 @@ public final class GTOItems {
     public static final ItemEntry<SpaceArmorComponentItem> SPACE_ADVANCED_NANOMUSCLE_CHESTPLATE = item("space_advanced_nanomuscle_chestplate", "纳米肌体™进阶套装太空胸甲",
             (p) -> new SpaceArmorComponentItem(
                     GTArmorMaterials.ARMOR,
-                    ArmorItem.Type.CHESTPLATE, 32000, p)
+                    ArmorItem.Type.CHESTPLATE, 16000, p)
                     .setArmorLogic(new AdvancedNanoMuscleSuite(
                             512,
                             12_800_000L * (long) Math.max(1, Math.pow(4, ConfigHolder.INSTANCE.tools.voltageTierAdvNanoSuit - 3)),
@@ -932,7 +932,7 @@ public final class GTOItems {
     public static final ItemEntry<SpaceArmorComponentItem> SPACE_QUARKTECH_CHESTPLATE = item("space_quarktech_chestplate", "夸克高科™套装太空胸甲",
             (p) -> new SpaceArmorComponentItem(
                     GTArmorMaterials.ARMOR,
-                    ArmorItem.Type.CHESTPLATE, 20000, p)
+                    ArmorItem.Type.CHESTPLATE, 32000, p)
                     .setArmorLogic(new QuarkTechSuite(
                             ArmorItem.Type.CHESTPLATE,
                             8192,
@@ -947,7 +947,7 @@ public final class GTOItems {
 
     public static final ItemEntry<SpaceArmorComponentItem> SPACE_ADVANCED_QUARKTECH_CHESTPLATE = item("space_advanced_quarktech_chestplate", "夸克高科™进阶套装太空胸甲",
             (p) -> new SpaceArmorComponentItem(GTArmorMaterials.ARMOR,
-                    ArmorItem.Type.CHESTPLATE, 50000, p)
+                    ArmorItem.Type.CHESTPLATE, 128000, p)
                     .setArmorLogic(new AdvancedQuarkTechSuite(
                             8192,
                             1_000_000_000L * (long) Math.max(1, Math.pow(4, ConfigHolder.INSTANCE.tools.voltageTierAdvQuarkTech - 6)),
