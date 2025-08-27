@@ -31,6 +31,7 @@ public final class GTMaterialExtend {
         Neutron.setMaterialARGB(0x10102);
         Electrum.setProperty(BLAST, new BlastProperty(740));
         Neutron.setProperty(BLAST, new BlastProperty(17690));
+        Neutron.getMaterialInfo().setIconSet(GTOMaterialIconSet.NEUTRONIUM);
         Neutronium = material("amprosium", "安普洛")
                 .ingot(6)
                 .liquid((new FluidBuilder()).temperature(1000))

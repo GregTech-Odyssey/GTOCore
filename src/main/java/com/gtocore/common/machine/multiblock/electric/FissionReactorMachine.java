@@ -10,7 +10,7 @@ import com.gtolib.api.recipe.modifier.ParallelLogic;
 import com.gtolib.utils.FunctionContainer;
 import com.gtolib.utils.MachineUtils;
 import com.gtolib.utils.MathUtil;
-import com.gtolib.utils.SphereExplosion;
+import com.gtolib.utils.explosion.SphereExplosion;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.ConditionalSubscriptionHandler;

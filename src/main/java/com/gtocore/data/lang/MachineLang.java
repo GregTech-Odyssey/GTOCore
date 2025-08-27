@@ -183,6 +183,13 @@ final class MachineLang {
         addCNEN("gtocore.part.extendae.tag_filter.tooltip", "左键将标签添加到过滤器中，右键复制标签到剪贴板", "Left-click to add tags to the filter, right-click to copy tags to the clipboard");
         addCNEN("gtocore.part.extendae.tag_filter.whitelist.tooltip", "可放入目标，选择白名单的标签过滤器", "Can place target, select whitelist tag filter");
         addCNEN("gtocore.part.extendae.tag_filter.blacklist.tooltip", "可放入目标，选择黑名单的标签过滤器", "Can place target, select blacklist tag filter");
+        addCNEN("gtocore.machine.area_destruction_tools.detonate_instruction", "起爆", "Detonate instruction");
+        addCNEN("gtocore.machine.area_destruction_tools.missing_items", "缺失物品", "Missing items");
+        addCNEN("gtocore.machine.area_destruction_tools.model.0", "模式：空", "Model: Empty");
+        addCNEN("gtocore.machine.area_destruction_tools.model.1", "模式：球", "Model: Sphere");
+        addCNEN("gtocore.machine.area_destruction_tools.model.2", "模式：圆柱", "Model: Cylinder");
+        addCNEN("gtocore.machine.area_destruction_tools.model.3", "模式：区块", "Model: Chunk");
+        addCNEN("gtocore.machine.area_destruction_tools.explosive_yield", "爆炸当量：%s", "Explosive Yield: %s");
         DisplayRegistry.registerLanguage();
     }
 }
