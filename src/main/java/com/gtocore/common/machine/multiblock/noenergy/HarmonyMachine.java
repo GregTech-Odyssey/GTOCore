@@ -107,7 +107,7 @@ public final class HarmonyMachine extends NoEnergyMultiblockMachine implements I
                         tier++;
                     }
                 }
-                recipe.duration = (recipe.duration << 2) / (1 << (oc));
+                recipe.duration = recipe.duration >> (oc - 1);
                 return recipe;
             }
         }
