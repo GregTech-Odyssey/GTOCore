@@ -114,7 +114,7 @@ public class AreaDestructionToolsMachine extends MetaMachine implements IFancyUI
         else if (model == 1) SphereExplosion.explosion(pos, level, explosiveYield, true, true, false);
         else if (model == 2) CylinderExplosion.explosion(pos, level, explosiveYield, true, true, false);
         else if (model == 3) ChunkExplosion.explosion(pos, level, explosiveYield, true, true, false);
-        else if (model == 4) if (explosiveYield > 0) AreaExplosion.explosion(pos1, pos2, level, true, true, false);
+        else if (model == 4) if (explosiveYield > 0) AreaExplosion.explosion(pos, pos1, pos2, level, true, true, false);
 
         for (int i = 0; i < inventory.getSlots(); i++) {
             inventory.setStackInSlot(i, ItemStack.EMPTY);

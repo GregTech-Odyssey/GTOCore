@@ -898,6 +898,7 @@ public final class GTOItems {
     public static final ItemEntry<Item> GAIA_CORE = register("gaia_core", "§e盖亚之核");
     public static final ItemEntry<Item> UNSTABLE_GAIA_SOUL = register("unstable_gaia_soul", "§e不稳定的盖亚之魂");
     public static final ItemEntry<Item> WILDEN_SLATE = register("wilden_slate", "§d荒野石板");
+    public static final ItemEntry<Item> PHILOSOPHERS_STONE = register("philosophers_stone", "贤者之石");
 
     public static final ItemEntry<SpaceArmorComponentItem> SPACE_NANOMUSCLE_CHESTPLATE = item("space_nanomuscle_chestplate", "纳米肌体™套装太空胸甲",
             (p) -> new SpaceArmorComponentItem(GTArmorMaterials.ARMOR,
