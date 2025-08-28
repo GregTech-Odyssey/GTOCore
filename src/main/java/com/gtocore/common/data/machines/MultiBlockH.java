@@ -482,4 +482,11 @@ public final class MultiBlockH {
                     .build())
             .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_solid_steel"), GTCEu.id("block/multiblock/fusion_reactor"))
             .register();
+
+    /*
+     * public static final MultiblockMachineDefinition LARGE_STEAM_SOLAR_BOILER = multiblock("large_steam_solar_boiler",
+     * "大型蒸汽太阳能锅炉", NoRecipeLogicMultiblockMachine::new)
+     * .register();
+     * 
+     */
 }

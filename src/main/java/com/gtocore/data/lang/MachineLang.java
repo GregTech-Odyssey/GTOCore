@@ -189,6 +189,7 @@ final class MachineLang {
         addCNEN("gtocore.machine.area_destruction_tools.model.1", "模式：球", "Model: Sphere");
         addCNEN("gtocore.machine.area_destruction_tools.model.2", "模式：圆柱", "Model: Cylinder");
         addCNEN("gtocore.machine.area_destruction_tools.model.3", "模式：区块", "Model: Chunk");
+        addCNEN("gtocore.machine.area_destruction_tools.model.4", "模式：指定区域", "Model: Designated Area");
         addCNEN("gtocore.machine.area_destruction_tools.explosive_yield", "爆炸当量：%s", "Explosive Yield: %s");
         DisplayRegistry.registerLanguage();
     }

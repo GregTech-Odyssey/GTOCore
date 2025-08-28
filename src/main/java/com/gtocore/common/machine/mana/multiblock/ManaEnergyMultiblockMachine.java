@@ -1,24 +1,33 @@
 package com.gtocore.common.machine.mana.multiblock;
 
-import com.gtolib.api.gui.OverclockConfigurator;
 import com.gtolib.api.machine.mana.feature.IManaEnergyMachine;
 import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.IEnergyContainer;
-import com.gregtechceu.gtceu.api.gui.fancy.ConfiguratorPanel;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class ManaEnergyMultiblockMachine extends ManaMultiblockMachine implements IManaEnergyMachine {
 
-    private final IEnergyContainer container;
+    private IEnergyContainer container = IEnergyContainer.DEFAULT;
 
     public ManaEnergyMultiblockMachine(MetaMachineBlockEntity holder) {
         super(holder);
+    }
+
+    @Override
+    public void onStructureFormed() {
+        super.onStructureFormed();
         container = new ManaEnergyContainer(getManaContainer().getMaxIORate(), getManaContainer());
+    }
+
+    @Override
+    public void onStructureInvalid() {
+        super.onStructureInvalid();
+        container = IEnergyContainer.DEFAULT;
     }
 
     @Override
@@ -33,12 +42,6 @@ public class ManaEnergyMultiblockMachine extends ManaMultiblockMachine implement
         } else {
             return RecipeModifierFunction.manaOverclocking(this, recipe, getManaContainer().getMaxIORate());
         }
-    }
-
-    @Override
-    public void attachConfigurators(@NotNull ConfiguratorPanel configuratorPanel) {
-        super.attachConfigurators(configuratorPanel);
-        configuratorPanel.attachConfigurators(new OverclockConfigurator(this));
     }
 
     @Override

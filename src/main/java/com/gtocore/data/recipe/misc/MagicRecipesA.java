@@ -1019,13 +1019,13 @@ public final class MagicRecipesA {
         // 工具配方
         {
             VanillaRecipeHelper.addShapedRecipe(GTOCore.id("livingwood_mallet"), RegistriesUtils.getItemStack("gtocore:livingwood_mallet"),
-                    " AA", "BAA", " AA",
+                    "AAA", "AAA", " B ",
                     'A', RegistriesUtils.getItemStack("botania:livingwood_planks"), 'B', new MaterialEntry(TagPrefix.rod, GTMaterials.Wood));
             VanillaRecipeHelper.addShapedRecipe(GTOCore.id("dreamwood_mallet"), RegistriesUtils.getItemStack("gtocore:dreamwood_mallet"),
-                    " AA", "BAA", " AA",
+                    "AAA", "AAA", " B ",
                     'A', RegistriesUtils.getItemStack("botania:dreamwood_planks"), 'B', new MaterialEntry(TagPrefix.rod, GTMaterials.Wood));
             VanillaRecipeHelper.addShapedRecipe(GTOCore.id("shimmerwood_mallet"), RegistriesUtils.getItemStack("gtocore:shimmerwood_mallet"),
-                    " AA", "BAA", " AA",
+                    "AAA", "AAA", " B ",
                     'A', new MaterialEntry(TagPrefix.block, GTOMaterials.Shimmerwood), 'B', new MaterialEntry(TagPrefix.rod, GTMaterials.Wood));
             VanillaRecipeHelper.addShapedRecipe(GTOCore.id("livingrock_mortar"), RegistriesUtils.getItemStack("gtocore:livingrock_mortar"),
                     " A ", "BAB", "BBB",

@@ -5,7 +5,6 @@ import com.gregtechceu.gtceu.common.data.GTMaterials;
 
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.RefineryGas;
-import static com.gtocore.common.data.GTORecipeTypes.CHEMICAL_RECIPES;
 import static com.gtocore.common.data.GTORecipeTypes.DESULFURIZER_RECIPES;
 
 final class Desulfurizer {
@@ -43,7 +42,7 @@ final class Desulfurizer {
                 .duration(120)
                 .save();
 
-        CHEMICAL_RECIPES.recipeBuilder("natural_gas")
+        DESULFURIZER_RECIPES.recipeBuilder("natural_gas")
                 .inputFluids(NaturalGas.getFluid(16000))
                 .outputItems(TagPrefix.dust, GTMaterials.Sulfur)
                 .outputFluids(RefineryGas.getFluid(16000))

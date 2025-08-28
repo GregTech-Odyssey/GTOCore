@@ -154,7 +154,7 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
 
         val internalInv = getInternalInventory()[index]
         val newPattern = patternInventory.getStackInSlot(index)
-        val newPatternDetails = decodePattern(newPattern)
+        val newPatternDetails = decodePattern(newPattern, index)
         val oldPatternDetails = detailsSlotMap.inverse()[internalInv]
 
         detailsSlotMap.forcePut(newPatternDetails, internalInv)
@@ -185,7 +185,7 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
                     TickTask(1) {
                         (0 until patternInventory.slots).forEach { i ->
                             val pattern = patternInventory.getStackInSlot(i)
-                            decodePattern(pattern)?.let { patternDetails ->
+                            decodePattern(pattern, i)?.let { patternDetails ->
                                 detailsSlotMap[patternDetails] = getInternalInventory()[i]
                             }
                         }
@@ -230,7 +230,7 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
 
     override fun getTerminalGroup(): PatternContainerGroup {
         val (itemKey, description) = when {
-            isFormed() -> {
+            isFormed -> {
                 val controller = getControllers().first()
                 val controllerDefinition = controller.self().definition
                 AEItemKey.of(controllerDefinition.asStack()) to
@@ -347,11 +347,13 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
         needPatternSync = true
     }
 
-    private fun decodePattern(stack: ItemStack): IPatternDetails? = IParallelPatternDetails.of(
-        MyPatternDetailsHelper.decodePattern(stack, holder.self, getGrid()),
-        getLevel(),
-        1,
-    )
+    open fun convertPattern(pattern: IPatternDetails, index: Int): IPatternDetails = pattern
+
+    private fun decodePattern(stack: ItemStack, index: Int): IPatternDetails? {
+        val pattern = MyPatternDetailsHelper.decodePattern(stack, holder.self, getGrid())
+        if (pattern == null) return null
+        return IParallelPatternDetails.of(convertPattern(pattern, index), level, 1)
+    }
 
     private fun updateSubscription() {
         when {

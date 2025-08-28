@@ -4,29 +4,53 @@ import com.gtocore.common.machine.multiblock.part.ae.MEStockingBusPartMachine;
 
 import com.gtolib.utils.MathUtil;
 
+import com.gregtechceu.gtceu.api.capability.recipe.IO;
+import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
 
 import appeng.api.config.Actionable;
 import appeng.api.stacks.AEItemKey;
 import appeng.api.stacks.GenericStack;
 import appeng.api.storage.MEStorage;
+import it.unimi.dsi.fastutil.objects.Object2LongOpenCustomHashMap;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.List;
+
 public class ExportOnlyAEStockingItemList extends ExportOnlyAEItemList {
+
+    private final MEStockingBusPartMachine machine;
 
     public ExportOnlyAEStockingItemList(MEStockingBusPartMachine holder, int slots) {
         super(holder, slots, () -> new ExportOnlyAEStockingItemSlot(holder));
+        this.machine = holder;
     }
 
     @Override
-    public MEStockingBusPartMachine getMachine() {
-        return (MEStockingBusPartMachine) machine;
+    public Object2LongOpenCustomHashMap<ItemStack> getItemMap() {
+        if (machine.isWorkingEnabled()) return super.getItemMap();
+        return null;
+    }
+
+    @Override
+    @NotNull
+    public Object[] getContents() {
+        if (machine.isWorkingEnabled()) return super.getContents();
+        return new Object[0];
+    }
+
+    @Override
+    public List<Ingredient> handleRecipeInner(IO io, GTRecipe recipe, List<Ingredient> left, boolean simulate) {
+        if (machine.isWorkingEnabled()) return super.handleRecipeInner(io, recipe, left, simulate);
+        return left;
     }
 
     @Override
     public boolean isAutoPull() {
-        return getMachine().isAutoPull();
+        return machine.isAutoPull();
     }
 
     @Override
@@ -39,7 +63,7 @@ public class ExportOnlyAEStockingItemList extends ExportOnlyAEItemList {
         boolean inThisBus = super.hasStackInConfig(stack, false);
         if (inThisBus) return true;
         if (checkExternal) {
-            return getMachine().testConfiguredInOtherPart(stack);
+            return machine.testConfiguredInOtherPart(stack);
         }
         return false;
     }

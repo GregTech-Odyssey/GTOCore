@@ -4,6 +4,9 @@ import com.gtocore.common.machine.multiblock.part.ae.MEStockingHatchPartMachine;
 
 import com.gtolib.utils.MathUtil;
 
+import com.gregtechceu.gtceu.api.capability.recipe.IO;
+import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
 import com.gregtechceu.gtceu.integration.ae2.utils.AEUtil;
 
 import net.minecraftforge.fluids.FluidStack;
@@ -12,23 +15,43 @@ import appeng.api.config.Actionable;
 import appeng.api.stacks.AEFluidKey;
 import appeng.api.stacks.GenericStack;
 import appeng.api.storage.MEStorage;
+import it.unimi.dsi.fastutil.objects.Object2LongOpenHashMap;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.List;
+
 public class ExportOnlyAEStockingFluidList extends ExportOnlyAEFluidList {
+
+    private final MEStockingHatchPartMachine machine;
 
     public ExportOnlyAEStockingFluidList(MEStockingHatchPartMachine holder, int slots) {
         super(holder, slots, () -> new ExportOnlyAEStockingFluidSlot(holder));
+        this.machine = holder;
     }
 
     @Override
-    public MEStockingHatchPartMachine getMachine() {
-        return (MEStockingHatchPartMachine) machine;
+    public Object2LongOpenHashMap<FluidStack> getFluidMap() {
+        if (machine.isWorkingEnabled()) return super.getFluidMap();
+        return null;
+    }
+
+    @Override
+    @NotNull
+    public Object[] getContents() {
+        if (machine.isWorkingEnabled()) return super.getContents();
+        return new Object[0];
+    }
+
+    @Override
+    public List<FluidIngredient> handleRecipeInner(IO io, GTRecipe recipe, List<FluidIngredient> left, boolean simulate) {
+        if (machine.isWorkingEnabled()) return super.handleRecipeInner(io, recipe, left, simulate);
+        return left;
     }
 
     @Override
     public boolean isAutoPull() {
-        return getMachine().isAutoPull();
+        return machine.isAutoPull();
     }
 
     @Override
@@ -41,7 +64,7 @@ public class ExportOnlyAEStockingFluidList extends ExportOnlyAEFluidList {
         boolean inThisHatch = super.hasStackInConfig(stack, false);
         if (inThisHatch) return true;
         if (checkExternal) {
-            return getMachine().testConfiguredInOtherPart(stack);
+            return machine.testConfiguredInOtherPart(stack);
         }
         return false;
     }

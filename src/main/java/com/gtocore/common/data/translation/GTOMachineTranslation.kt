@@ -527,6 +527,23 @@ object GTOMachineTranslation : AutoInitialize<GTOMachineTranslation>() {
         add(ComponentSlang.GTOSignal_Machine_MiracleByGTORemix)
     }
 
-    // （请AI帮我攥写好笑幽默的小故事，诙谐或者幽默的故事，类似SCP风格，但不要出现SCP元素，用语亲切，关键词汇使用较淡的颜色代码）长度：中 科技程度：高
-    // 游戏：我的世界 MOD：应用能源，格雷科技 整合包：GTOdyssey 可以称呼玩家为员工之类的
+    // 区域破坏器
+    val AreaDestructionToolsTooltips = ComponentListSupplier {
+        setTranslationPrefix("area_destruction_tools")
+
+        add("一键清空方块！！！" translatedTo "One click to clear the blocks!!!") { aqua() }
+        add("无视一切条件！！！" translatedTo "Ignore all conditions!!!") { aqua() }
+        add("注意爆破安全！！！" translatedTo "Pay attention to blasting safety!!!") { aqua() }
+        add(Warning(1) + ("爆破时请保持机器加载" translatedTo "Keep the machine loaded while blasting").gold()) { white() }
+        add(Star(1) + ("专业的世界摧毁者" translatedTo "Professional world destroyer").rainbowSlow().bold().italic()) { white() }
+        add("向库存放入物品以切换模式" translatedTo "Add items to inventory to switch modes") { green() }
+        add("- 放入 §e模具 (球)§r 为§6球模式§r" translatedTo "- Put into §eCasting Mold (Ball)§r for §6Ball mode§r") { gray() }
+        add("- 放入 §e模具 (圆柱)§r 为§6圆柱模式§r" translatedTo "- Put into §eCasting Mold (Cylinder)§r for §6Casting mode§r") { gray() }
+        add("- 放入 §e模具 (块)§r 为§6区块模式§r" translatedTo "- Put into §eCasting Mold (Block)§r for §6Chunk mode§r") { gray() }
+        add("- 放入 §e奇点§r 为§6指定区域模式§r" translatedTo "- Put into §eSingularity§r for §6Designated Area mode§r") { gray() }
+        add("-- §6指定区域模式§r中" translatedTo "-- In the §6Designated area mode§r") { gray() }
+        add("-- 用两个§9坐标信息卡§r来确定区域" translatedTo "-- Use two §9Coordinate Card§r to determine the area") { gray() }
+        add(Star(1) + ("向库存添加以下物品以提高爆炸当量：" translatedTo "Add the following items to inventory to increase explosive yield:")) { blue() }
+        add(Star(1) + ("§c工业TNT§r/§c核弹§r/§c超能硅岩爆弹§r/§c轻子爆弹§r/§c量子色动力学爆弹§r" translatedTo "§cIndustrial TNT§r/§cNuke Bomb§r/§cNaquadria Charge§r/§cLeptonic Charge§r/§cQuantum Chromodynamic Charge§r")) { blue() }
+    }
 }
