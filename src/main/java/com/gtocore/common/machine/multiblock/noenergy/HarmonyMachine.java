@@ -82,7 +82,7 @@ public final class HarmonyMachine extends NoEnergyMultiblockMachine implements I
     }
 
     private long getStartupEnergy() {
-        return oc == 0 ? 0 : (5277655810867200L * (1L << (4 * oc - 1)));
+        return oc == 0 ? 0 : (5277655810867200L * (1L << (3 * oc - 1)));
     }
 
     @Override
