@@ -1,19 +1,8 @@
 package com.gtocore.common.forge
 
-import com.gregtechceu.gtceu.api.machine.TickableSubscription
-import com.gregtechceu.gtceu.utils.TaskHandler
 import com.gtocore.api.misc.AnimalsRevengeAttackGoal
 import com.gtocore.config.GTOConfig
-import com.gtolib.api.annotation.DataGeneratorScanned
-import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap
-import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Deferred
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.async
-import kotlinx.coroutines.suspendCancellableCoroutine
+
 import net.minecraft.core.RegistryAccess
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.resources.ResourceLocation
@@ -39,6 +28,20 @@ import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent
 import net.minecraftforge.event.entity.living.LivingEvent
 import net.minecraftforge.event.level.LevelEvent
 import net.minecraftforge.eventbus.api.SubscribeEvent
+
+import com.gregtechceu.gtceu.api.machine.TickableSubscription
+import com.gregtechceu.gtceu.utils.TaskHandler
+import com.gtolib.api.annotation.DataGeneratorScanned
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.async
+import kotlinx.coroutines.suspendCancellableCoroutine
+
 import java.util.UUID
 import kotlin.math.max
 
@@ -46,6 +49,7 @@ import kotlin.math.max
 object AnimalsRevengeEvent {
     // 实体 -> 掉落物
     private val entityLootCache = Object2ObjectOpenHashMap<EntityType<*>, ObjectOpenHashSet<Item>>()
+
     // 实体 -> 派生食物
     private val derivedFoodCache = Object2ObjectOpenHashMap<EntityType<*>, ObjectOpenHashSet<Item>>()
     private val stackCache = Object2ObjectOpenHashMap<Item, ItemStack>()
@@ -162,7 +166,7 @@ object AnimalsRevengeEvent {
             tag.putBoolean("gtocore_temp_aggressive", true)
             pm.goalSelector.addGoal(
                 1,
-                AnimalsRevengeAttackGoal(pm, 1.2, 1.6, 20, max(1.0f, GTOConfig.INSTANCE.cannibalismDamage))
+                AnimalsRevengeAttackGoal(pm, 1.2, 1.6, 20, max(1.0f, GTOConfig.INSTANCE.cannibalismDamage)),
             )
             pm.targetSelector.addGoal(1, NearestAttackableTargetGoal(pm, ServerPlayer::class.java, true))
         }
@@ -273,12 +277,7 @@ object AnimalsRevengeEvent {
         derivedFoodCache[type] = derived
     }
 
-    private fun fillCookedOutputs(
-        manager: RecipeManager,
-        access: RegistryAccess,
-        base: ObjectOpenHashSet<Item>,
-        derived: ObjectOpenHashSet<Item>
-    ) {
+    private fun fillCookedOutputs(manager: RecipeManager, access: RegistryAccess, base: ObjectOpenHashSet<Item>, derived: ObjectOpenHashSet<Item>) {
         val cookingTypes = arrayOf(RecipeType.SMELTING, RecipeType.SMOKING, RecipeType.CAMPFIRE_COOKING)
         for (type in cookingTypes) {
             for (r in manager.getAllRecipesFor(type)) {
@@ -290,13 +289,7 @@ object AnimalsRevengeEvent {
             }
         }
     }
-    private fun fillCraftingOutputs(
-        manager: RecipeManager,
-        access: RegistryAccess,
-        base: ObjectOpenHashSet<Item>,
-        cookedFromBase: ObjectOpenHashSet<Item>,
-        derived: ObjectOpenHashSet<Item>
-    ) {
+    private fun fillCraftingOutputs(manager: RecipeManager, access: RegistryAccess, base: ObjectOpenHashSet<Item>, cookedFromBase: ObjectOpenHashSet<Item>, derived: ObjectOpenHashSet<Item>) {
         for (recipe in manager.getAllRecipesFor(RecipeType.CRAFTING)) {
             val out = recipe.getResultItem(access)
             if (out.isEmpty) continue
@@ -318,6 +311,4 @@ object AnimalsRevengeEvent {
         }
         return false
     }
-
-
 }

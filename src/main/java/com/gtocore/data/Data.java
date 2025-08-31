@@ -115,6 +115,7 @@ public final class Data {
         BotaniaRecipes.init();
         ArsNouveauRecipes.init();
         MagicRecipesA.init();
+        MagicRecipesB.init();
         FuelRecipe.init();
         BrineRecipes.init();
         NaquadahProcess.init();

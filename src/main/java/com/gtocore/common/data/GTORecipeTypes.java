@@ -939,6 +939,12 @@ public final class GTORecipeTypes {
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.ARC);
 
+    public static final RecipeType RUNE_ENGRAVING_RECIPES = register("rune_engraving", "符文铭刻", MAGIC)
+            .setMANAIO(IO.IN)
+            .setMaxIOSize(6, 1, 3, 0)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
+            .setSound(GTSoundEntries.REPLICATOR);
+
     public static final RecipeType MANA_GARDEN_RECIPES = register("mana_garden", "魔力花园", MAGIC)
             .setEUIO(IO.IN)
             .setMANAIO(IO.OUT)

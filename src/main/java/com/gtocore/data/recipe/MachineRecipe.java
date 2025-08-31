@@ -353,5 +353,9 @@ public final class MachineRecipe {
                 .outputItems(MultiBlockB.WOOD_DISTILLATION)
                 .duration(800).EUt(VA[ZPM])
                 .save();
+
+        VanillaRecipeHelper.addShapedRecipe(GTOCore.id("large_steam_solar_boiler"), MultiBlockH.LARGE_STEAM_SOLAR_BOILER.asStack(),
+                "AAA", "BCB", "DDD",
+                'A', new MaterialEntry(TagPrefix.plateDouble, GTMaterials.Silver), 'B', GTOItems.PRECISION_STEAM_MECHANISM.asItem(), 'C', GTBlocks.STEEL_HULL.asStack(), 'D', new MaterialEntry(TagPrefix.pipeQuadrupleFluid, GTMaterials.Steel));
     }
 }

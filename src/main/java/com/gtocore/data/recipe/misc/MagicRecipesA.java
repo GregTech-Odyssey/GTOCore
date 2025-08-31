@@ -538,6 +538,22 @@ public final class MagicRecipesA {
                     .MANAt(512)
                     .save();
 
+            ASSEMBLER_RECIPES.builder("rune_engraving_chamber")
+                    .inputItems("extrabotany:hero_medal", 4)
+                    .inputItems(GTOBlocks.SPELL_PRISM_CASING.asStack(32))
+                    .inputItems(GTOBlocks.ORICHALCOS_CASING.asStack(16))
+                    .inputItems("botania:mana_bomb", 8)
+                    .inputItems(GTItems.FIELD_GENERATOR_LuV.asStack(8))
+                    .inputItems(GTItems.EMITTER_LuV.asStack(8))
+                    .inputItems(TagPrefix.lens, GTOMaterials.BifrostPerm, 32)
+                    .inputItems("ars_nouveau:manipulation_essence", 32)
+                    .inputItems("ars_nouveau:wilden_tribute", 32)
+                    .outputItems(ManaMultiBlock.RUNE_ENGRAVING_CHAMBER.asStack())
+                    .inputFluids(GTOMaterials.TheWaterFromTheWellOfWisdom, 16000)
+                    .duration(200)
+                    .MANAt(4096)
+                    .save();
+
             ASSEMBLER_RECIPES.builder("large_perfusion_device")
                     .inputItems(GTOBlocks.SOURCE_FIBER_MECHANICAL_CASING.asStack())
                     .inputItems(TagPrefix.block, GTOMaterials.SourceGem, 16)

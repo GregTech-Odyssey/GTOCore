@@ -8,6 +8,7 @@ import com.gtocore.common.data.translation.GTOMachineTranslation;
 import com.gtocore.common.machine.multiblock.electric.miner.DigitalMiner;
 import com.gtocore.common.machine.multiblock.electric.processing.EncapsulatorExecutionModuleMachine;
 import com.gtocore.common.machine.multiblock.electric.processing.ProcessingEncapsulatorMachine;
+import com.gtocore.common.machine.multiblock.steam.LargeSteamSolarBoilerMachine;
 
 import com.gtolib.GTOCore;
 import com.gtolib.api.annotation.NewDataAttributes;
@@ -16,20 +17,26 @@ import com.gtolib.utils.MultiBlockFileReader;
 import com.gtolib.utils.RegistriesUtils;
 
 import com.gregtechceu.gtceu.GTCEu;
+import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
+import com.gregtechceu.gtceu.api.pattern.MultiblockShapeInfo;
 import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
-import com.gregtechceu.gtceu.common.data.GCYMBlocks;
-import com.gregtechceu.gtceu.common.data.GTBlocks;
-import com.gregtechceu.gtceu.common.data.GTMaterials;
-import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
+import com.gregtechceu.gtceu.common.data.*;
 
+import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.Blocks;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.gregtechceu.gtceu.api.machine.multiblock.PartAbility.*;
 import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
+import static com.gregtechceu.gtceu.api.pattern.util.RelativeDirection.*;
+import static com.gregtechceu.gtceu.common.data.GTBlocks.PLASTCRETE;
+import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.DUMMY_RECIPES;
 import static com.gtolib.api.GTOValues.GLASS_TIER;
 import static com.gtolib.utils.register.MachineRegisterUtils.multiblock;
 import static com.hepdd.gtmthings.data.GTMTRecipeTypes.DIGITAL_MINER_RECIPE;
@@ -537,10 +544,31 @@ public final class MultiBlockH {
             .workableCasingRenderer(GTOCore.id("block/casings/dimension_injection_casing"), GTCEu.id("block/multiblock/fusion_reactor"))
             .register();
 
-    /*
-     * public static final MultiblockMachineDefinition LARGE_STEAM_SOLAR_BOILER = multiblock("large_steam_solar_boiler",
-     * "大型蒸汽太阳能锅炉", NoRecipeLogicMultiblockMachine::new)
-     * .register();
-     *
-     */
+    public static final MultiblockMachineDefinition LARGE_STEAM_SOLAR_BOILER = multiblock("large_steam_solar_boiler", "大型蒸汽太阳能锅炉", LargeSteamSolarBoilerMachine::new)
+            .nonYAxisRotation()
+            .addTooltipsFromClass(LargeSteamSolarBoilerMachine.class)
+            .recipeTypes(GTRecipeTypes.DUMMY_RECIPES)
+            .block(GTBlocks.STEEL_HULL)
+            .pattern((definition) -> FactoryBlockPattern.start(definition)
+                    .aisle("aaaaa").aisle("abbba").aisle("abbba").aisle("abbba").aisle("ab~ba")
+                    .where('a', blocks(GTBlocks.STEEL_HULL.get())
+                            .or(abilities(EXPORT_FLUIDS_1X))
+                            .or(abilities(IMPORT_FLUIDS_1X)))
+                    .where('b', blocks(GTOBlocks.SOLAR_HEAT_COLLECTOR_PIPE_CASING.get()))
+                    .where('~', controller(blocks(definition.get())))
+                    .build())
+            .shapeInfos((controller) -> {
+                List<MultiblockShapeInfo> shapeInfos = new ArrayList<>();
+                MultiblockShapeInfo.ShapeInfoBuilder builder = MultiblockShapeInfo.builder()
+                        .aisle("aaaaa").aisle("abbba").aisle("abbba").aisle("abbba").aisle("ac~da")
+                        .where('a', GTBlocks.STEEL_HULL)
+                        .where('b', GTOBlocks.SOLAR_HEAT_COLLECTOR_PIPE_CASING)
+                        .where('~', MultiBlockH.LARGE_STEAM_SOLAR_BOILER, Direction.SOUTH)
+                        .where('c', GTMachines.FLUID_IMPORT_HATCH[GTValues.LV], Direction.SOUTH)
+                        .where('d', GTMachines.FLUID_EXPORT_HATCH[GTValues.LV], Direction.SOUTH);
+                shapeInfos.add(builder.build());
+                return shapeInfos;
+            })
+            .workableCasingRenderer(GTCEu.id("block/casings/steam/steel/side"), GTCEu.id("block/multiblock/fusion_reactor"))
+            .register();
 }

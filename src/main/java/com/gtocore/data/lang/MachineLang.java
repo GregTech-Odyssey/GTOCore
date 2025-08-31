@@ -193,6 +193,9 @@ final class MachineLang {
         addCNEN("gtocore.machine.area_destruction_tools.model.3", "模式：区块", "Model: Chunk");
         addCNEN("gtocore.machine.area_destruction_tools.model.4", "模式：指定区域", "Model: Designated Area");
         addCNEN("gtocore.machine.area_destruction_tools.explosive_yield", "爆炸当量：%s", "Explosive Yield: %s");
+        addCNEN("gtocore.machine.large_steam_solar_boiler.size", "尺寸：%s × %s", "Size: %s × %s");
+        addCNEN("gtocore.machine.large_steam_solar_boiler.heat_collector_pipe", "有效集热管数量：%s", "Number of effective Heat collector pipe: %s");
+        addCNEN("gtocore.machine.large_steam_solar_boiler.steam_production", "蒸汽产量：%s / s", "Steam production: %s / s");
         DisplayRegistry.registerLanguage();
     }
 }
