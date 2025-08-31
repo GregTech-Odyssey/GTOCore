@@ -10,7 +10,6 @@ import com.gregtechceu.gtceu.api.cover.filter.Filter;
 import com.gregtechceu.gtceu.api.cover.filter.FluidFilter;
 import com.gregtechceu.gtceu.api.cover.filter.ItemFilter;
 import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
-import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
@@ -32,7 +31,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
-public class DigitalMinerLogic extends CustomRecipeLogic implements IRecipeCapabilityHolder {
+public class DigitalMinerLogic extends CustomRecipeLogic {
 
     public static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(DigitalMinerLogic.class, CustomRecipeLogic.MANAGED_FIELD_HOLDER);
 
@@ -62,15 +61,13 @@ public class DigitalMinerLogic extends CustomRecipeLogic implements IRecipeCapab
     protected final DigitalMiner miner;
     private int silk;
     private final int speed;
-    private LinkedList<BlockPos> oresToMine = new LinkedList<>();
+    private final LinkedList<BlockPos> oresToMine = new LinkedList<>();
     private int minBuildHeight = Integer.MAX_VALUE;
     private boolean isInventoryFull;
-    protected final Map<IO, List<RecipeHandlerList>> capabilitiesProxy;
-    protected final Map<IO, Map<RecipeCapability<?>, List<IRecipeHandler<?>>>> capabilitiesFlat;
     private int oreAmount;
     private Filter<?, ?> filter;
     private DigitalMiner.FluidMode fluidMode;
-    private Map<BlockState, List<ItemStack>> lootCache = new Reference2ReferenceOpenHashMap<>();
+    private final Map<BlockState, List<ItemStack>> lootCache = new Reference2ReferenceOpenHashMap<>();
 
     // ===================== 矿块搜索线程相关 =====================
     private Thread minerSearchThread;
@@ -85,8 +82,6 @@ public class DigitalMinerLogic extends CustomRecipeLogic implements IRecipeCapab
         this.isDone = false;
         this.area = aabb;
         this.filter = filter;
-        this.capabilitiesProxy = new EnumMap<>(IO.class);
-        this.capabilitiesFlat = new EnumMap<>(IO.class);
         this.fluidMode = fluidMode;
     }
 
@@ -181,16 +176,6 @@ public class DigitalMinerLogic extends CustomRecipeLogic implements IRecipeCapab
 
     public Filter<?, ?> getFilter() {
         return filter;
-    }
-
-    @Override
-    public Map<IO, List<RecipeHandlerList>> getCapabilitiesProxy() {
-        return capabilitiesProxy;
-    }
-
-    @Override
-    public Map<IO, Map<RecipeCapability<?>, List<IRecipeHandler<?>>>> getCapabilitiesFlat() {
-        return capabilitiesFlat;
     }
 
     // ===================== 生命周期相关方法 =====================
@@ -307,7 +292,6 @@ public class DigitalMinerLogic extends CustomRecipeLogic implements IRecipeCapab
             synchronized (oresToMine) {
                 isSearchingBlocks = true;
                 minerSearchThread = new SearcherThread();
-                minerSearchThread.setDaemon(true);
                 minerSearchThread.start();
             }
         }
@@ -439,7 +423,7 @@ public class DigitalMinerLogic extends CustomRecipeLogic implements IRecipeCapab
                         blockPos, null).stream().map(ItemStack::copy).toList()));
     }
 
-    protected void getSilkTouchDrops(NonNullList<ItemStack> blockDrops, BlockState blockState) {
+    protected static void getSilkTouchDrops(NonNullList<ItemStack> blockDrops, BlockState blockState) {
         blockDrops.add(new ItemStack(blockState.getBlock()));
     }
 
@@ -460,7 +444,7 @@ public class DigitalMinerLogic extends CustomRecipeLogic implements IRecipeCapab
         if (blockState.getBlock() instanceof LiquidBlock liq && fluidMode != DigitalMiner.FluidMode.Ignore) {
             boolean isSource = liq.getFluidState(blockState).isSource();
             if (isSource && fluidMode == DigitalMiner.FluidMode.Harvest &&
-                    !MachineUtils.outputFluid((IRecipeCapabilityHolder) getMiner(), new FluidStack(liq.getFluidState(blockState).getType(), 1000))) {
+                    !MachineUtils.outputFluid(miner, new FluidStack(liq.getFluidState(blockState).getType(), 1000))) {
                 this.isInventoryFull = true;
                 return true;
             }
