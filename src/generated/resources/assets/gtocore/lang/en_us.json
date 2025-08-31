@@ -2771,7 +2771,7 @@
   "gtocore.machine.magnetic_energy_reaction_furnace.tooltip.0": "Capacitor at full charge.",
   "gtocore.machine.magnetic_fluid_generator.tooltip.0": "Actual output is determined by plasma heat value",
   "gtocore.machine.magnetic_fluid_generator.tooltip.1": "The glass tier limits the energy output hatch tier",
-  "gtocore.machine.magnetic_fluid_generator.tooltip.2": "If a laser hatch is used, power generation is increased by x1.2^tier",
+  "gtocore.machine.magnetic_fluid_generator.tooltip.2": "If a laser hatch is used, power generation is increased by x1.5^tier",
   "gtocore.machine.magnetic_fluid_generator.tooltip.3": "A torrent of plasma rushes forward with majestic energy",
   "gtocore.machine.mana_alloy_blast_smelter.tooltip.0": "Machines need to provide mana to maintain working",
   "gtocore.machine.mana_alloy_blast_smelter.tooltip.1": "The base consumption per tick is 2^(machine tier)",

@@ -3,8 +3,6 @@ package com.gtocore.common.machine.multiblock.part.ae;
 import com.gtocore.common.machine.multiblock.part.ae.slots.ExportOnlyAEItemSlot;
 import com.gtocore.common.machine.multiblock.part.ae.slots.ExportOnlyAEStockingItemList;
 
-import com.gtolib.ae2.stacks.IKeyCounter;
-
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.gui.fancy.ConfiguratorPanel;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
@@ -166,8 +164,8 @@ public class MEStockingBusPartMachine extends MEInputBusPartMachine implements I
             return;
         }
         MEStorage networkStorage = grid.getStorageService().getInventory();
-        var counter = IKeyCounter.of(networkStorage.getAvailableStacks()).gtolib$getVariantCounter();
-        if (counter == null) return;
+        var counter = networkStorage.getAvailableStacks();
+        if (counter.isEmpty()) return;
 
         var queue = new PriorityQueue<>(CONFIG_SIZE, Comparator.comparingLong(GenericStack::amount));
 

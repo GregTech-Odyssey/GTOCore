@@ -10,7 +10,6 @@ import com.gtocore.data.Data;
 import com.gtocore.data.Datagen;
 import com.gtocore.integration.ftbquests.EMIRecipeModHelper;
 import com.gtocore.integration.ftbu.AreaShape;
-import com.gtocore.integration.gtmt.AdvancedTerminalBehavior;
 
 import com.gtolib.GTOCore;
 import com.gtolib.ae2.me2in1.Me2in1Menu;
@@ -49,7 +48,6 @@ import appeng.api.networking.pathing.ChannelMode;
 import appeng.core.AEConfig;
 import appeng.hotkeys.HotkeyActions;
 import appeng.items.tools.powered.WirelessTerminalItem;
-import com.hepdd.gtmthings.data.CustomItems;
 import de.mari_023.ae2wtlib.AE2wtlib;
 import de.mari_023.ae2wtlib.TextConstants;
 import de.mari_023.ae2wtlib.hotkeys.Ae2WTLibLocatingService;
@@ -103,9 +101,6 @@ public class CommonProxy {
         BlockMap.build();
         GTOPartAbility.init();
         if (GTOCore.isExpert()) AEConfig.instance().setChannelModel(ChannelMode.DEFAULT);
-
-        CustomItems.ADVANCED_TERMINAL.get().getComponents().clear();
-        CustomItems.ADVANCED_TERMINAL.get().getComponents().add(new AdvancedTerminalBehavior());
 
         FusionReactorMachine.registerFusionTier(GTValues.UHV, " (MKIV)");
         FusionReactorMachine.registerFusionTier(GTValues.UEV, " (MKV)");

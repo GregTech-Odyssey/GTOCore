@@ -1374,7 +1374,7 @@
   "gtocore.machine.magnetic_energy_reaction_furnace.tooltip.0": "電容器滿負荷運作中",
   "gtocore.machine.magnetic_fluid_generator.tooltip.0": "實際產齣由等離子熱值決定",
   "gtocore.machine.magnetic_fluid_generator.tooltip.1": "玻璃等級限製瞭能量輸齣倉等級",
-  "gtocore.machine.magnetic_fluid_generator.tooltip.2": "如果使用激光倉，則提升髮電量x1.2^等級",
+  "gtocore.machine.magnetic_fluid_generator.tooltip.2": "如果使用激光倉，則提升髮電量x1.5^等級",
   "gtocore.machine.magnetic_fluid_generator.tooltip.3": "等離子體洪流帶著磅礴的能量奔湧",
   "gtocore.machine.mana_alloy_blast_smelter.tooltip.0": "機器需要提供魔力來維持運行",
   "gtocore.machine.mana_alloy_blast_smelter.tooltip.1": "每tick消耗的基礎量為2^機器等級",

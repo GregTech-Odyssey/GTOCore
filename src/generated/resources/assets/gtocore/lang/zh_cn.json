@@ -2771,7 +2771,7 @@
   "gtocore.machine.magnetic_energy_reaction_furnace.tooltip.0": "电容器满负荷运作中",
   "gtocore.machine.magnetic_fluid_generator.tooltip.0": "实际产出由等离子热值决定",
   "gtocore.machine.magnetic_fluid_generator.tooltip.1": "玻璃等级限制了能量输出仓等级",
-  "gtocore.machine.magnetic_fluid_generator.tooltip.2": "如果使用激光仓，则提升发电量x1.2^等级",
+  "gtocore.machine.magnetic_fluid_generator.tooltip.2": "如果使用激光仓，则提升发电量x1.5^等级",
   "gtocore.machine.magnetic_fluid_generator.tooltip.3": "等离子体洪流带着磅礴的能量奔涌",
   "gtocore.machine.mana_alloy_blast_smelter.tooltip.0": "机器需要提供魔力来维持运行",
   "gtocore.machine.mana_alloy_blast_smelter.tooltip.1": "每tick消耗的基础量为2^机器等级",
