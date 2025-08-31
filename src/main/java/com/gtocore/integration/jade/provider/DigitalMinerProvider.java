@@ -2,6 +2,7 @@ package com.gtocore.integration.jade.provider;
 
 import com.gtocore.common.machine.multiblock.electric.miner.DigitalMiner;
 
+import com.gtolib.GTOCore;
 import com.gtolib.api.annotation.DataGeneratorScanned;
 
 import com.gregtechceu.gtceu.GTCEu;
@@ -10,7 +11,6 @@ import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 
-import com.hepdd.gtmthings.GTMThings;
 import snownee.jade.api.BlockAccessor;
 import snownee.jade.api.IBlockComponentProvider;
 import snownee.jade.api.IServerDataProvider;
@@ -41,6 +41,6 @@ public class DigitalMinerProvider implements IBlockComponentProvider, IServerDat
 
     @Override
     public ResourceLocation getUid() {
-        return GTMThings.id(DigitalMinerProvider.class.getSimpleName());
+        return GTOCore.id(DigitalMinerProvider.class.getSimpleName());
     }
 }

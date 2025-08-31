@@ -2,10 +2,10 @@ package com.gtocore.common.data.machines;
 
 import com.gtocore.api.machine.part.GTOPartAbility;
 import com.gtocore.api.pattern.GTOPredicates;
+import com.gtocore.client.renderer.machine.DigitalMinerRenderer;
 import com.gtocore.common.data.*;
 import com.gtocore.common.data.translation.GTOMachineTranslation;
 import com.gtocore.common.machine.multiblock.electric.miner.DigitalMiner;
-import com.gtocore.common.machine.multiblock.electric.miner.DigitalMinerRenderer;
 import com.gtocore.common.machine.multiblock.electric.processing.EncapsulatorExecutionModuleMachine;
 import com.gtocore.common.machine.multiblock.electric.processing.ProcessingEncapsulatorMachine;
 

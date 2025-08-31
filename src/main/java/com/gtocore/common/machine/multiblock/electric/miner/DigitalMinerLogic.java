@@ -11,8 +11,6 @@ import com.gregtechceu.gtceu.api.cover.filter.FluidFilter;
 import com.gregtechceu.gtceu.api.cover.filter.ItemFilter;
 import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList;
-import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
-import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
@@ -27,20 +25,17 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.fluids.FluidStack;
 
-import appeng.api.stacks.AEKey;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
-import it.unimi.dsi.fastutil.objects.Object2LongOpenHashMap;
 import it.unimi.dsi.fastutil.objects.Reference2ReferenceOpenHashMap;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
 public class DigitalMinerLogic extends CustomRecipeLogic implements IRecipeCapabilityHolder {
 
-    public static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(DigitalMinerLogic.class,
-            RecipeLogic.MANAGED_FIELD_HOLDER);
+    public static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(DigitalMinerLogic.class, CustomRecipeLogic.MANAGED_FIELD_HOLDER);
+
     @Persisted
     protected int x = Integer.MAX_VALUE;
     @Persisted
@@ -61,13 +56,12 @@ public class DigitalMinerLogic extends CustomRecipeLogic implements IRecipeCapab
     protected int mineY = Integer.MAX_VALUE;
     @Persisted
     private boolean isDone;
-    @Persisted
-    private AABB area = new AABB(0, 0, 0, 0, 0, 0);
+
+    private AABB area;
 
     protected final DigitalMiner miner;
     private int silk;
     private final int speed;
-    public ItemStack pickaxeTool;
     private LinkedList<BlockPos> oresToMine = new LinkedList<>();
     private int minBuildHeight = Integer.MAX_VALUE;
     private boolean isInventoryFull;
@@ -77,7 +71,6 @@ public class DigitalMinerLogic extends CustomRecipeLogic implements IRecipeCapab
     private Filter<?, ?> filter;
     private DigitalMiner.FluidMode fluidMode;
     private Map<BlockState, List<ItemStack>> lootCache = new Reference2ReferenceOpenHashMap<>();
-    private Object2LongOpenHashMap<AEKey> dropCache = new Object2LongOpenHashMap<>();
 
     // ===================== 矿块搜索线程相关 =====================
     private Thread minerSearchThread;
@@ -451,7 +444,7 @@ public class DigitalMinerLogic extends CustomRecipeLogic implements IRecipeCapab
     }
 
     private void mineAndInsertItems(NonNullList<ItemStack> blockDrops, ServerLevel serverLevel) {
-        if (MachineUtils.outputItem((IRecipeCapabilityHolder) getMiner(), blockDrops.toArray(new ItemStack[0]))) {
+        if (MachineUtils.outputItem(miner, blockDrops.toArray(new ItemStack[0]))) {
             var blockPos = oresToMine.removeFirst();
             GTOUtils.fastRemoveBlock(serverLevel, blockPos, false, false);
             mineX = blockPos.getX();
@@ -479,12 +472,4 @@ public class DigitalMinerLogic extends CustomRecipeLogic implements IRecipeCapab
         }
         return false;
     }
-
-    @Override
-    public @Nullable RecipeHandlerList getCurrentHandlerList() {
-        return null;
-    }
-
-    @Override
-    public void setCurrentHandlerList(RecipeHandlerList list, GTRecipe recipe) {}
 }

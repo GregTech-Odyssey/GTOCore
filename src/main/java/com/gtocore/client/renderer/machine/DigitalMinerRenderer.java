@@ -1,4 +1,6 @@
-package com.gtocore.common.machine.multiblock.electric.miner;
+package com.gtocore.client.renderer.machine;
+
+import com.gtocore.common.machine.multiblock.electric.miner.DigitalMiner;
 
 import com.gtolib.GTOCore;
 

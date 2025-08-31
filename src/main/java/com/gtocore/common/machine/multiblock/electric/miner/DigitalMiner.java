@@ -7,9 +7,8 @@ import com.gtolib.api.annotation.DataGeneratorScanned;
 import com.gtolib.api.annotation.NewDataAttributes;
 import com.gtolib.api.annotation.language.RegisterEnumLang;
 import com.gtolib.api.annotation.language.RegisterLanguage;
-import com.gtolib.api.machine.feature.multiblock.ITierCasingMachine;
 import com.gtolib.api.machine.multiblock.ElectricMultiblockMachine;
-import com.gtolib.api.machine.trait.TierCasingTrait;
+import com.gtolib.api.machine.multiblock.TierCasingMultiblockMachine;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.cover.filter.Filter;
@@ -19,9 +18,6 @@ import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.misc.ProspectorMode;
 import com.gregtechceu.gtceu.api.gui.widget.ProspectingMapWidget;
 import com.gregtechceu.gtceu.api.gui.widget.SlotWidget;
-import com.gregtechceu.gtceu.api.machine.feature.IFancyUIMachine;
-import com.gregtechceu.gtceu.api.machine.feature.IMachineLife;
-import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
 import com.gregtechceu.gtceu.common.data.GTItems;
@@ -48,7 +44,6 @@ import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import com.mojang.blaze3d.MethodsReturnNonnullByDefault;
-import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -58,7 +53,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @DataGeneratorScanned
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class DigitalMiner extends ElectricMultiblockMachine implements IRecipeLogicMachine, IMachineLife, IFancyUIMachine, ITierCasingMachine {
+public class DigitalMiner extends TierCasingMultiblockMachine {
 
     @Persisted
     protected final CustomItemStackHandler filterInventory;
@@ -99,7 +94,6 @@ public class DigitalMiner extends ElectricMultiblockMachine implements IRecipeLo
     private boolean showRange = false;
     @Nullable
     protected ISubscription energySubs;
-    private final TierCasingTrait tierCasingTrait;
 
     protected Filter<?, ?> filter;
     private long energyPerTick;
@@ -117,8 +111,7 @@ public class DigitalMiner extends ElectricMultiblockMachine implements IRecipeLo
             ElectricMultiblockMachine.MANAGED_FIELD_HOLDER);
 
     public DigitalMiner(MetaMachineBlockEntity holder) {
-        super(holder);
-        this.tierCasingTrait = new TierCasingTrait(this, GTOValues.INTEGRAL_FRAMEWORK_TIER);
+        super(holder, GTOValues.INTEGRAL_FRAMEWORK_TIER);;
         this.filterInventory = createFilterItemHandler();
         this.silkLevel = 0;
         this.minHeight = 0;
@@ -516,11 +509,6 @@ public class DigitalMiner extends ElectricMultiblockMachine implements IRecipeLo
         BlockPos pos1 = pos.offset(getXOffset(), 0, getZOffset());
         BlockPos pos2 = pos1.offset((xRadialLength), 0, (zRadialLength));
         return new AABB(pos1, pos2).setMinY(minHeight).setMaxY(maxHeight);
-    }
-
-    @Override
-    public Object2IntMap<String> getCasingTiers() {
-        return tierCasingTrait.getCasingTiers();
     }
 
     private class ProspectorMap extends ProspectingMapWidget {

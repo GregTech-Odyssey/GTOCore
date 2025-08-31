@@ -31,6 +31,7 @@ import static com.gtocore.common.data.GTORecipeTypes.ASSEMBLY_LINE_RECIPES;
 final class AssemblyLine {
 
     public static void init() {
+        AssemblyLineA.init();
         ASSEMBLY_LINE_RECIPES.builder("integrated_vapor_deposition_system")
                 .inputItems(MultiBlockC.CHEMICAL_VAPOR_DEPOSITION.asStack(16))
                 .inputItems(MultiBlockC.PHYSICAL_VAPOR_DEPOSITION.asStack(16))
