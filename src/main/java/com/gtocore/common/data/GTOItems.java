@@ -899,6 +899,12 @@ public final class GTOItems {
     public static final ItemEntry<Item> UNSTABLE_GAIA_SOUL = register("unstable_gaia_soul", "§e不稳定的盖亚之魂");
     public static final ItemEntry<Item> WILDEN_SLATE = register("wilden_slate", "§d荒野石板");
 
+    public static final ItemEntry<Item> RO_MEMBRANE = register("ro_membrane", "ro膜");
+    public static final ItemEntry<Item> NON_WOVEN_FABRIC = register("non_woven_fabric", "无纺布");
+    public static final ItemEntry<Item> ION_EXCHANGE_MEMBRANE = register("ion_exchange_membrane", "离子交换膜");
+    public static final ItemEntry<Item> HOMOGENEOUS_MEMBRANE = register("homogeneous_membrane", "均相膜");
+    public static final ItemEntry<Item> DUAL_UV_LIGHT = register("dual_uv_light", "双波段紫外灯");
+
     public static final ItemEntry<SpaceArmorComponentItem> SPACE_NANOMUSCLE_CHESTPLATE = item("space_nanomuscle_chestplate", "纳米肌体™套装太空胸甲",
             (p) -> new SpaceArmorComponentItem(GTArmorMaterials.ARMOR,
                     ArmorItem.Type.CHESTPLATE, 5000, p)

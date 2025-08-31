@@ -1004,6 +1004,21 @@ public final class GTOMaterials {
     public static Material Orichalcos;
     public static Material Shadowium;
     public static Material Aerialite;
+    /// 新1-4级水
+    public static Material ReverseOsmosisWater;
+    public static Material ElectrodeionizationWater;
+    public static Material UltravioletWater;
+    public static Material MixedBedPolishingWater;
+    /// 1-4级水新增
+    public static Material Polyamide;
+    public static Material Polypropylene;
+    public static Material Divinylbenzene;
+    public static Material DiethylbenzeneFraction;
+    public static Material SodiumPolystyreneSulfonate;
+    public static Material TrimethyLamine;
+    public static Material CathodeResin;
+    public static Material AnodeResin;
+    public static Material PolymerBackbone;
 
     public static void init() {
         GTMaterialExtend.init();
