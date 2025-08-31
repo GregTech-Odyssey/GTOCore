@@ -43,6 +43,7 @@ import com.gregtechceu.gtceu.common.data.*;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.shapes.Shapes;
 
 import com.enderio.EnderIO;
@@ -184,13 +185,13 @@ public final class MultiBlockG {
             .block(GTBlocks.PLASTCRETE)
             .pattern(definition -> FactoryBlockPattern.start(definition)
                     .aisle("AAAGGGAAA", "CCCGGGCCC", "CCCCCCCCC")
-                    .aisle("AEAEAEAEA", "C C C C C", "CFCFCFCFC")
-                    .aisle("AEAEAEAEA", "C C C C C", "CCCCCCCCC")
-                    .aisle("AEAEAEAEA", "C C C C C", "DFDFDFDFD")
-                    .aisle("BBBBBBBBB", "C C C C C", "DFDFDFDFD")
-                    .aisle("AEAEAEAEA", "C C C C C", "DFDFDFDFD")
-                    .aisle("AEAEAEAEA", "C C C C C", "CCCCCCCCC")
-                    .aisle("AEAEAEAEA", "C C C C C", "CFCFCFCFC")
+                    .aisle("AEAEAEAEA", "CWCWCWCWC", "CFCFCFCFC")
+                    .aisle("AEAEAEAEA", "CWCWCWCWC", "CCCCCCCCC")
+                    .aisle("AEAEAEAEA", "CWCWCWCWC", "DFDFDFDFD")
+                    .aisle("BBBBBBBBB", "CWCWCWCWC", "DFDFDFDFD")
+                    .aisle("AEAEAEAEA", "CWCWCWCWC", "DFDFDFDFD")
+                    .aisle("AEAEAEAEA", "CWCWCWCWC", "CCCCCCCCC")
+                    .aisle("AEAEAEAEA", "CWCWCWCWC", "CFCFCFCFC")
                     .aisle("AAAGHGAAA", "CCCGGGCCC", "CCCCCCCCC")
                     .where('A', blocks(GTBlocks.PLASTCRETE.get()))
                     .where('B', blocks(GTBlocks.CASING_STEEL_PIPE.get()))
@@ -203,6 +204,7 @@ public final class MultiBlockG {
                             .or(abilities(IMPORT_FLUIDS).setExactLimit(1))
                             .or(abilities(EXPORT_ITEMS).setExactLimit(1)))
                     .where('H', controller(blocks(definition.get())))
+                    .where('W', fluids(Fluids.WATER))
                     .where(' ', any())
                     .build())
             .workableCasingRenderer(GTCEu.id("block/casings/cleanroom/plascrete"), GTCEu.id("block/multiblock/large_chemical_reactor"))
@@ -495,7 +497,7 @@ public final class MultiBlockG {
                     .where('I', controller(blocks(definition.get())))
                     .where(' ', any())
                     .build())
-            .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_solid_steel"), GTCEu.id("block/multiblock/fusion_reactor"))
+            .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_solid_steel"), GTOCore.id("block/multiblock/general0"))
             .register();
 
     public static final MultiblockMachineDefinition DRONE_CONTROL_CENTER = multiblock("drone_control_center", "无人机控制中心", DroneControlCenterMachine::new)
@@ -515,7 +517,7 @@ public final class MultiBlockG {
                     .where('D', controller(blocks(definition.get())))
                     .where(' ', any())
                     .build())
-            .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_clean_stainless_steel"), GTCEu.id("block/multiblock/fusion_reactor"))
+            .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_clean_stainless_steel"), GTOCore.id("block/multiblock/general0"))
             .register();
 
     public static final MultiblockMachineDefinition WIRELESS_ENERGY_SUBSTATION = multiblock("wireless_energy_substation", "无线能源塔", WirelessEnergySubstationMachine::new)
@@ -839,7 +841,7 @@ public final class MultiBlockG {
                     .where('i', controller(blocks(definition.get())))
                     .where('c', air())
                     .build())
-            .workableCasingRenderer(GTCEu.id("block/casings/voltage/ulv/side"), GTCEu.id("block/multiblock/fusion_reactor"))
+            .workableCasingRenderer(GTCEu.id("block/casings/voltage/ulv/side"), GTOCore.id("block/multiblock/general0"))
             .register();
 
     public static final MultiblockMachineDefinition ME_STORAGE = multiblock("me_storage", "ME存储器", MEStorageMachine::new)

@@ -26,6 +26,8 @@ import com.kyanite.deeperdarker.content.DDItems;
 import earth.terrarium.adastra.common.registry.ModItems;
 import vazkii.botania.common.item.BotaniaItems;
 
+import java.util.Locale;
+
 import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
@@ -2845,15 +2847,18 @@ final class Assembler {
                 .save();
 
         ASSEMBLER_RECIPES.recipeBuilder("graviton_field_constraint_casing")
-                .inputItems(TagPrefix.frameGt, GTOMaterials.Draconium)
-                .inputItems(GTOItems.ANNIHILATION_CONSTRAINER.asStack())
-                .inputItems(GTOTagPrefix.NANITES, GTMaterials.Neutronium)
-                .inputItems(TagPrefix.gear, GTOMaterials.CelestialTungsten)
-                .inputItems(TagPrefix.plateDouble, GTOMaterials.Adamantium, 4)
-                .inputFluids(GTMaterials.Neutronium.getFluid(288))
-                .outputItems(GTOBlocks.GRAVITON_FIELD_CONSTRAINT_CASING.asStack())
+                .inputItems(GTOBlocks.INTEGRAL_FRAMEWORK_UIV.asStack(2))
+                .inputItems(TagPrefix.frameGt, GTOMaterials.Draconium, 2)
+                .inputItems(TagPrefix.gear, GTOMaterials.CelestialTungsten, 2)
+                .inputItems(TagPrefix.plateDouble, GTOMaterials.Adamantium, 2)
+                .inputItems(GTOItems.ANNIHILATION_CONSTRAINER.asItem())
+                .inputItems(GTOTagPrefix.NANITES, Neutronium)
+                .inputItems(GTOTagPrefix.NANITES, Osmium)
+                .inputItems(GTItems.FIELD_GENERATOR_UIV.asStack(2))
+                .outputItems(GTOBlocks.GRAVITON_FIELD_CONSTRAINT_CASING.asStack(2))
+                .inputFluids(GTMaterials.Neutronium.getFluid(576))
                 .EUt(31457280)
-                .duration(100)
+                .duration(200)
                 .save();
 
         ASSEMBLER_RECIPES.recipeBuilder("space_elevator_support")
@@ -3613,6 +3618,18 @@ final class Assembler {
                 .duration(400)
                 .save();
 
+        ASSEMBLER_RECIPES.builder("integral_framework_ulv")
+                .inputItems(GTMachines.HULL[GTValues.ULV].asStack())
+                .inputItems(TagPrefix.gear, Invar, 4)
+                .inputItems(TagPrefix.plate, Invar, 4)
+                .inputItems(TagPrefix.cableGtOctal, RedAlloy)
+                .inputItems(CustomTags.ULV_CIRCUITS, 2)
+                .outputItems(GTOBlocks.INTEGRAL_FRAMEWORK_ULV.asStack())
+                .inputFluids(Polyethylene, 288)
+                .duration(100)
+                .EUt(7)
+                .save();
+
         ASSEMBLER_RECIPES.builder("integral_framework_lv")
                 .inputItems(GTMachines.HULL[GTValues.LV].asStack())
                 .inputItems(TagPrefix.gear, GTMaterials.RoseGold, 4)
@@ -4223,6 +4240,79 @@ final class Assembler {
                 .outputItems(GTOBlocks.HIGH_STRENGTH_SPACE_ELEVATOR_CABLE.asStack())
                 .inputFluids(GTOMaterials.Kevlar, 288)
                 .EUt(480)
+                .duration(200)
+                .save();
+
+        ASSEMBLER_RECIPES.builder("high_energy_laser_emitter")
+                .inputItems(TagPrefix.frameGt, GTMaterials.Trinium)
+                .inputItems(GCYMBlocks.CASING_LASER_SAFE_ENGRAVING.asStack())
+                .inputItems(GTItems.EMITTER_ZPM.asStack(4))
+                .inputItems(TagPrefix.lens, GTMaterials.Ruby)
+                .inputItems(GTOItems.LASER_DIODE.asItem())
+                .inputItems(GTOItems.UHV_VOLTAGE_COIL.asItem())
+                .inputItems(TagPrefix.plate, GTOMaterials.ZirconiumCarbide, 6)
+                .inputItems(TagPrefix.plateDouble, GTOMaterials.FluxedElectrum, 2)
+                .inputItems(TagPrefix.plateDouble, GTMaterials.Zeron100, 4)
+                .outputItems(GTOBlocks.HIGH_ENERGY_LASER_EMITTER.asStack())
+                .inputFluids(GTMaterials.SolderingAlloy, 576)
+                .EUt(480)
+                .duration(2222)
+                .save();
+
+        ASSEMBLER_RECIPES.builder("COSMIC_DETECTION_RECEIVER_MATERIAL_RAY_ABSORBING_ARRAYasStack".toLowerCase(Locale.ROOT))
+                .inputItems(frameGt, GTOMaterials.BabbittAlloy)
+                .inputItems(dust, GalliumArsenide, 8)
+                .inputItems(GTOTagPrefix.FLAKES, GTOMaterials.StrontiumCarbonateCeramic, 16)
+                .outputItems(GTOBlocks.COSMIC_DETECTION_RECEIVER_MATERIAL_RAY_ABSORBING_ARRAY.asStack())
+                .inputFluids(Osmiridium, 2000)
+                .EUt(480)
+                .duration(200)
+                .save();
+
+        ASSEMBLER_RECIPES.builder("OPTICAL_RESONANCE_CHAMBERasStack".toLowerCase(Locale.ROOT))
+                .inputItems(GTBlocks.FUSION_GLASS.asStack())
+                .inputItems(TagPrefix.lens, GTMaterials.Ruby, 2)
+                .inputItems(TagPrefix.plate, GTMaterials.UraniumRhodiumDinaquadide, 6)
+                .inputItems("gtceu:normal_optical_pipe", 6)
+                .inputItems(GTOTagPrefix.FLAKES, GTOMaterials.TungstenTetraborideCeramics, 8)
+                .outputItems(GTOBlocks.OPTICAL_RESONANCE_CHAMBER.asStack())
+                .inputFluids(GTMaterials.HSLASteel, 1000)
+                .EUt(480)
+                .duration(200)
+                .save();
+
+        ASSEMBLER_RECIPES.builder("PRECISION_PROCESSING_MECHANICAL_CASING".toLowerCase(Locale.ROOT))
+                .inputItems(TagPrefix.frameGt, GTOMaterials.HastelloyN)
+                .inputItems(TagPrefix.ingot, GTOMaterials.HastelloyN, 6)
+                .inputItems(TagPrefix.gearSmall, GTMaterials.RhodiumPlatedPalladium, 4)
+                .inputItems(TagPrefix.gearSmall, GTMaterials.HSSS, 4)
+                .inputItems(TagPrefix.gearSmall, GTMaterials.Osmiridium, 4)
+                .inputItems(TagPrefix.rod, GTOMaterials.HastelloyN, 6)
+                .outputItems(GTOBlocks.PRECISION_PROCESSING_MECHANICAL_CASING.asStack())
+                .inputFluids(GTMaterials.Scandium, 1000)
+                .EUt(480)
+                .duration(200)
+                .save();
+
+        ASSEMBLER_RECIPES.builder("ENGINEERING_MECHANICAL_CASING".toLowerCase(Locale.ROOT))
+                .inputItems(TagPrefix.frameGt, GTMaterials.Ruridit)
+                .inputItems(TagPrefix.plateDense, GTMaterials.Steel, 4)
+                .outputItems(GTOBlocks.ENGINEERING_MECHANICAL_CASING.asStack())
+                .inputFluids(GTMaterials.ReinforcedEpoxyResin, 2000)
+                .EUt(480)
+                .duration(200)
+                .save();
+
+        ASSEMBLER_RECIPES.builder("ACCELERATOR_MAGNETIC_CONSTRAINED_RAIL_CASING".toLowerCase(Locale.ROOT))
+                .inputItems(TagPrefix.frameGt, GTMaterials.NaquadahEnriched)
+                .inputItems(GTOBlocks.INTEGRAL_FRAMEWORK_LUV.asStack())
+                .inputItems(GTBlocks.SUPERCONDUCTING_COIL.asStack())
+                .inputItems(TagPrefix.rodLong, GTMaterials.SamariumMagnetic, 8)
+                .inputItems(TagPrefix.rodLong, GTMaterials.AnnealedCopper, 8)
+                .inputItems(GTItems.VOLTAGE_COIL_LuV.asStack(4))
+                .outputItems(GTOBlocks.ACCELERATOR_MAGNETIC_CONSTRAINED_RAIL_CASING.asStack())
+                .inputFluids(GTMaterials.NiobiumTitanium, 3456)
+                .EUt(960)
                 .duration(200)
                 .save();
     }

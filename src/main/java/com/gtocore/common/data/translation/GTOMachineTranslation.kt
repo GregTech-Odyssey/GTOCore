@@ -546,4 +546,16 @@ object GTOMachineTranslation : AutoInitialize<GTOMachineTranslation>() {
         add(Star(1) + ("向库存添加以下物品以提高爆炸当量：" translatedTo "Add the following items to inventory to increase explosive yield:")) { blue() }
         add(Star(1) + ("§c工业TNT§r/§c核弹§r/§c超能硅岩爆弹§r/§c轻子爆弹§r/§c量子色动力学爆弹§r" translatedTo "§cIndustrial TNT§r/§cNuke Bomb§r/§cNaquadria Charge§r/§cLeptonic Charge§r/§cQuantum Chromodynamic Charge§r")) { blue() }
     }
+
+    // 数字矿机
+    val DigitalMinerTooltips = ComponentListSupplier {
+        setTranslationPrefix("digital_miner")
+        add("固定每两秒采掘一次" translatedTo "Mines once every two seconds") { aqua() }
+        add("可通过GUI设置采掘范围和目标方块" translatedTo "Mining range and target blocks can be set via GUI") { aqua() }
+        add("机器电压等级每高出一级：" translatedTo "For each increase in machine voltage level:") { aqua() }
+        add(" - 可采掘最大范围翻倍（最高256）" translatedTo " - Maximum mining range is doubled (up to 256)") { gray() }
+        add(" - 每次采掘的方块数量翻倍（最高4096）" translatedTo " - The number of blocks mined each time is doubled(up to 4096)") { gray() }
+        add(" - 耗电量翻4倍" translatedTo " - Power consumption is quadrupled") { gray() }
+        add("通入红石信号以重新计算采掘区域并执行" translatedTo "Input a redstone signal to recalculate the mining area and execute mining") { aqua() }
+    }
 }

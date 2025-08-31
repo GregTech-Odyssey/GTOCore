@@ -4,6 +4,7 @@ import com.gtocore.client.Tooltips;
 import com.gtocore.common.data.GTOBedrockFluids;
 import com.gtocore.data.recipe.research.AnalyzeData;
 
+import com.gtolib.GTOCore;
 import com.gtolib.api.annotation.component_builder.TranslationKeyProvider;
 import com.gtolib.api.annotation.dynamic.DynamicInitialData;
 import com.gtolib.api.data.Dimension;
@@ -290,6 +291,8 @@ public final class LangHandler {
         addCNEN(MultiblockState.UNINIT_ERROR.translateKey, "机器未初始化", "Machine not initialized");
         addCNEN(MultiblockState.SHARE_ERROR.translateKey, "该方块不能共享", "This block cannot be shared");
         addCNEN(MultiblockState.BANNED_ERROR.translateKey, "该方块被禁止", "This block is banned");
+
+        addCNEN("gtocore.multiblock.invalid.message", "多方块%s位于(%s)未成型！运行 /" + GTOCore.MOD_ID + "c multiblock on 查看详情。", "Multiblock %s at (%s) is not formed! Run /" + GTOCore.MOD_ID + "c multiblock on for details.");
     }
 
     public static void enInitialize(LanguageProvider provider) {

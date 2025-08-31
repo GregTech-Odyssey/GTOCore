@@ -16,10 +16,7 @@ import com.gtolib.GTOCore;
 import com.gtolib.api.annotation.NewDataAttributes;
 import com.gtolib.api.annotation.component_builder.ComponentBuilder;
 import com.gtolib.api.annotation.component_builder.StyleBuilder;
-import com.gtolib.api.machine.multiblock.CoilCrossRecipeMultiblockMachine;
-import com.gtolib.api.machine.multiblock.CoilMultiblockMachine;
-import com.gtolib.api.machine.multiblock.CrossRecipeMultiblockMachine;
-import com.gtolib.api.machine.multiblock.ElectricMultiblockMachine;
+import com.gtolib.api.machine.multiblock.*;
 import com.gtolib.utils.MachineUtils;
 import com.gtolib.utils.MultiBlockFileReader;
 
@@ -44,6 +41,7 @@ import committee.nova.mods.avaritia.init.registry.ModBlocks;
 import static com.gregtechceu.gtceu.api.machine.multiblock.PartAbility.*;
 import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
 import static com.gtocore.common.block.BlockMap.SEPMMAP;
+import static com.gtolib.api.GTOValues.GLASS_TIER;
 import static com.gtolib.api.GTOValues.POWER_MODULE_TIER;
 import static com.gtolib.utils.register.MachineRegisterUtils.multiblock;
 
@@ -135,13 +133,13 @@ public final class MultiBlockB {
                     .where('M', blocks(GCYMBlocks.CASING_CORROSION_PROOF.get()))
                     .where('N', blocks(GTOBlocks.HASTELLOY_N_75_PIPE.get()))
                     .where('O', blocks(GCYMBlocks.ELECTROLYTIC_CELL.get()))
-                    .where('P', blocks(GTBlocks.CASING_STAINLESS_TURBINE.get()))
+                    .where('P', blocks(GTOBlocks.CHEMICAL_CORROSION_RESISTANT_PIPE_CASING.get()))
                     .where('Q', abilities(MUFFLER))
                     .where('R', blocks(GTBlocks.CASING_STEEL_TURBINE.get()))
                     .where('S', blocks(GTBlocks.CASING_TUNGSTENSTEEL_PIPE.get()))
                     .where('T', blocks(GTOBlocks.PROCESS_MACHINE_CASING.get()))
-                    .where('U', blocks(GTBlocks.CASING_TITANIUM_TURBINE.get()))
-                    .where('V', blocks(GTBlocks.CASING_TUNGSTENSTEEL_TURBINE.get()))
+                    .where('U', blocks(GTOBlocks.HIGH_PRESSURE_PIPE_CASING.get()))
+                    .where('V', blocks(GTOBlocks.OIL_GAS_TRANSPORTATION_PIPE_CASING.get()))
                     .where('W', blocks(GTBlocks.CASING_POLYTETRAFLUOROETHYLENE_PIPE.get()))
                     .where('X', blocks(GTBlocks.HIGH_POWER_CASING.get())
                             .or(GTOPredicates.autoLaserAbilities(definition.getRecipeTypes()))
@@ -281,21 +279,22 @@ public final class MultiBlockB {
             .recipeTypes(GTRecipeTypes.BREWING_RECIPES)
             .recipeTypes(GTRecipeTypes.FERMENTING_RECIPES)
             .block(GCYMBlocks.CASING_CORROSION_PROOF)
-            .pattern(definition -> MultiBlockFileReader.start(definition, RelativeDirection.FRONT, RelativeDirection.UP, RelativeDirection.RIGHT)
-                    .where('~', controller(blocks(definition.get())))
-                    .where('A', blocks(GTOBlocks.IRIDIUM_CASING.get()))
-                    .where('B', blocks(GTOBlocks.ANTIFREEZE_HEATPROOF_MACHINE_CASING.get()))
-                    .where('C', blocks(GTOBlocks.DIMENSION_INJECTION_CASING.get()))
-                    .where('D', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTOMaterials.HastelloyN)))
-                    .where('E', blocks(GTOBlocks.HERMETIC_CASING_UEV.get()))
-                    .where('F', heatingCoils())
-                    .where('G', blocks(GTOBlocks.AMPROSIUM_PIPE_CASING.get()))
-                    .where('H', blocks(GTOBlocks.CONTAINMENT_FIELD_GENERATOR.get()))
-                    .where('I', blocks(GTBlocks.CASING_PTFE_INERT.get()))
-                    .where('J', blocks(GCYMBlocks.CASING_CORROSION_PROOF.get())
-                            .setMinGlobalLimited(160)
+            .pattern(definition -> MultiBlockFileReader.start(definition)
+                    .where('A', blocks(GTBlocks.CASING_PTFE_INERT.get()))
+                    .where('B', blocks(GCYMBlocks.CASING_CORROSION_PROOF.get())
                             .or(GTOPredicates.autoThreadLaserAbilities(definition.getRecipeTypes()))
                             .or(abilities(MAINTENANCE).setExactLimit(1)))
+                    .where('C', blocks(GCYMBlocks.CASING_CORROSION_PROOF.get()))
+                    .where('D', blocks(GTOBlocks.AMPROSIUM_PIPE_CASING.get()))
+                    .where('E', blocks(GTOBlocks.HERMETIC_CASING_UEV.get()))
+                    .where('F', blocks(GTOBlocks.DIMENSION_INJECTION_CASING.get()))
+                    .where('G', blocks(GTOBlocks.ANTIFREEZE_HEATPROOF_MACHINE_CASING.get()))
+                    .where('H', controller(blocks(definition.get())))
+                    .where('I', blocks(GTOBlocks.CHEMICAL_CORROSION_RESISTANT_PIPE_CASING.get()))
+                    .where('J', blocks(GTOBlocks.IRIDIUM_CASING.get()))
+                    .where('K', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTOMaterials.HastelloyN)))
+                    .where('L', blocks(GTBlocks.COIL_CUPRONICKEL.get()))
+                    .where('M', blocks(GTOBlocks.CONTAINMENT_FIELD_GENERATOR.get()))
                     .where(' ', any())
                     .build())
             .workableCasingRenderer(GTCEu.id("block/casings/gcym/corrosion_proof_casing"), GTCEu.id("block/multiblock/gcym/large_brewer"))
@@ -309,9 +308,7 @@ public final class MultiBlockB {
             .recipeTypes(GTORecipeTypes.FUEL_REFINING_RECIPES)
             .parallelizableOverclock()
             .block(GTBlocks.HIGH_POWER_CASING)
-            .pattern(definition -> MultiBlockFileReader.start(definition) // , RelativeDirection.RIGHT,
-                                                                          // RelativeDirection.UP,
-                                                                          // RelativeDirection.BACK
+            .pattern(definition -> MultiBlockFileReader.start(definition)
                     .where('A', blocks(GCYMBlocks.CASING_STRESS_PROOF.get()))
                     .where('C', blocks(GTBlocks.CASING_TUNGSTENSTEEL_ROBUST.get()))
                     .where('D', GTOPredicates.light())
@@ -373,12 +370,12 @@ public final class MultiBlockB {
                     .where('I', blocks(GTOBlocks.MOLECULAR_CASING.get()))
                     .where('J', blocks(GTBlocks.CLEANROOM_GLASS.get()))
                     .where('K', blocks(GTOBlocks.CONTAINMENT_FIELD_GENERATOR.get()))
-                    .where('L', blocks(GTBlocks.CASING_STAINLESS_TURBINE.get()))
+                    .where('L', blocks(GTOBlocks.CHEMICAL_CORROSION_RESISTANT_PIPE_CASING.get()))
                     .where('M', blocks(GTOBlocks.DEGENERATE_RHENIUM_CONSTRAINED_CASING.get()))
-                    .where('N', blocks(GTBlocks.PLASTCRETE.get()))
+                    .where('N', blocks(GTOBlocks.BIOACTIVE_MECHANICAL_CASING.get()))
                     .where('O', blocks(Blocks.SPONGE))
                     .where('P', blocks(GTOBlocks.HYPER_CORE.get()))
-                    .where('Q', blocks(GTBlocks.CASING_TUNGSTENSTEEL_TURBINE.get()))
+                    .where('Q', blocks(GTOBlocks.HIGH_PRESSURE_PIPE_CASING.get()))
                     .where('R', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.Naquadria)))
                     .where('S', blocks(GTOBlocks.AMPROSIUM_ACTIVE_CASING.get()))
                     .where(' ', any())
@@ -386,18 +383,18 @@ public final class MultiBlockB {
             .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_inert_ptfe"), GTCEu.id("block/multiblock/gcym/large_maceration_tower"))
             .register();
 
-    public static final MultiblockMachineDefinition LIGHTNING_ROD = multiblock("lightning_rod", "引雷针", CrossRecipeMultiblockMachine::createHatchParallel)
+    public static final MultiblockMachineDefinition LIGHTNING_ROD = multiblock("lightning_rod", "引雷针", TierCasingCrossRecipeMultiblockMachine.createParallel(m -> 1L << (2 * m.getCasingTier(GLASS_TIER)), GLASS_TIER))
             .nonYAxisRotation()
             .recipeTypes(GTORecipeTypes.ARC_GENERATOR_RECIPES)
-            .parallelizableTooltips()
+            .specialParallelizableTooltips()
+            .tooltips(NewDataAttributes.ALLOW_PARALLEL_NUMBER.create(
+                    h -> h.addLines("由玻璃等级决定", "Determined by glass tier"),
+                    c -> c.addCommentLines("公式 : 4^玻璃等级", "Formula: 4^(Glass Tier)")))
             .laserTooltips()
             .multipleRecipesTooltips()
             .block(GTBlocks.CASING_PALLADIUM_SUBSTATION)
-            .pattern(definition -> MultiBlockFileReader.start(definition) // , RelativeDirection.BACK,
-                                                                          // RelativeDirection.UP,
-                                                                          // RelativeDirection.LEFT
+            .pattern(definition -> MultiBlockFileReader.start(definition)
                     .where('A', blocks(GTBlocks.CASING_PALLADIUM_SUBSTATION.get())
-                            .or(abilities(PARALLEL_HATCH).setMaxGlobalLimited(1))
                             .or(GTOPredicates.autoThreadLaserAbilities(definition.getRecipeTypes()))
                             .or(abilities(MAINTENANCE).setExactLimit(1)))
                     .where('B', blocks(GTBlocks.CASING_PALLADIUM_SUBSTATION.get()))
@@ -430,7 +427,7 @@ public final class MultiBlockB {
                 }
                 return true;
             })
-            .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_palladium_substation"), GTCEu.id("block/multiblock/fusion_reactor"))
+            .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_palladium_substation"), GTOCore.id("block/multiblock/general0"))
             .register();
 
     public static final MultiblockMachineDefinition MAGNETIC_ENERGY_REACTION_FURNACE = multiblock("magnetic_energy_reaction_furnace", "磁能反应炉", CoilCrossRecipeMultiblockMachine::createCoilParallel)
@@ -460,10 +457,10 @@ public final class MultiBlockB {
                     .where('O', blocks(GTBlocks.FUSION_GLASS.get()))
                     .where('a', blocks(GCYMBlocks.CASING_NONCONDUCTING.get())
                             .or(GTOPredicates.autoThreadLaserAbilities(definition.getRecipeTypes()))
-                            .or(abilities(MAINTENANCE)))
+                            .or(abilities(MAINTENANCE).setExactLimit(1)))
                     .where(' ', any())
                     .build())
-            .workableCasingRenderer(GTCEu.id("block/casings/gcym/nonconducting_casing"), GTCEu.id("block/multiblock/fusion_reactor"))
+            .workableCasingRenderer(GTCEu.id("block/casings/gcym/nonconducting_casing"), GTOCore.id("block/multiblock/general1"))
             .register();
 
     public static final MultiblockMachineDefinition HIGH_ENERGY_LASER_LATHE = multiblock("high_energy_laser_lathe", "高能激光车床", CrossRecipeMultiblockMachine::createHatchParallel)
@@ -473,9 +470,7 @@ public final class MultiBlockB {
             .laserTooltips()
             .multipleRecipesTooltips()
             .block(GTOBlocks.MOLECULAR_CASING)
-            .pattern(definition -> MultiBlockFileReader.start(definition) // , RelativeDirection.BACK,
-                                                                          // RelativeDirection.UP,
-                                                                          // RelativeDirection.LEFT
+            .pattern(definition -> MultiBlockFileReader.start(definition)
                     .where('A', blocks(GTOBlocks.IRIDIUM_CASING.get()))
                     .where('B', blocks(GTBlocks.FILTER_CASING.get()))
                     .where('C', blocks(GCYMBlocks.ELECTROLYTIC_CELL.get()))
@@ -483,7 +478,7 @@ public final class MultiBlockB {
                     .where('E', blocks(GTBlocks.HIGH_POWER_CASING.get()))
                     .where('F', blocks(GTOBlocks.LASER_COOLING_CASING.get()))
                     .where('G', blocks(GCYMBlocks.CASING_LASER_SAFE_ENGRAVING.get()))
-                    .where('H', blocks(GTOBlocks.AMPROSIUM_CASING.get()))
+                    .where('H', blocks(GTOBlocks.OPTICAL_RESONANCE_CHAMBER.get()))
                     .where('I', blocks(GTBlocks.FUSION_GLASS.get()))
                     .where('J', blocks(GTOBlocks.LASER_CASING.get()))
                     .where('K', blocks(GTOBlocks.ELECTRON_PERMEABLE_AMPROSIUM_COATED_GLASS.get()))
@@ -493,8 +488,8 @@ public final class MultiBlockB {
                             .or(abilities(MAINTENANCE).setExactLimit(1)))
                     .where('M', blocks(GTOBlocks.CONTAINMENT_FIELD_GENERATOR.get()))
                     .where('N', blocks(GTOBlocks.AMPROSIUM_GEARBOX.get()))
-                    .where('O', blocks(GTOBlocks.AMPROSIUM_ACTIVE_CASING.get()))
-                    .where('P', blocks(ChemicalHelper.getBlock(TagPrefix.block, GTMaterials.Ruby)))
+                    .where('O', blocks(GTOBlocks.PRECISION_PROCESSING_MECHANICAL_CASING.get()))
+                    .where('P', blocks(GTOBlocks.HIGH_ENERGY_LASER_EMITTER.get()))
                     .where('Q', controller(blocks(definition.get())))
                     .where(' ', any())
                     .build())
@@ -508,9 +503,7 @@ public final class MultiBlockB {
             .laserTooltips()
             .multipleRecipesTooltips()
             .block(GTBlocks.HIGH_POWER_CASING)
-            .pattern(definition -> MultiBlockFileReader.start(definition) // , RelativeDirection.BACK,
-                                                                          // RelativeDirection.UP,
-                                                                          // RelativeDirection.LEFT
+            .pattern(definition -> MultiBlockFileReader.start(definition)
                     .where('A', blocks(GTOBlocks.HIGH_PRESSURE_RESISTANT_CASING.get()))
                     .where('B', blocks(GTOBlocks.NAQUADAH_REINFORCED_PLANT_CASING.get()))
                     .where('C', blocks(GTOBlocks.IRIDIUM_CASING.get()))
@@ -522,7 +515,7 @@ public final class MultiBlockB {
                     .where('I', blocks(GTOBlocks.PRESSURE_CONTAINMENT_CASING.get()))
                     .where('J', blocks(GTOBlocks.AMPROSIUM_ACTIVE_CASING.get()))
                     .where('K', blocks(GTBlocks.CASING_TEMPERED_GLASS.get()))
-                    .where('L', blocks(GTOBlocks.AMPROSIUM_CASING.get()))
+                    .where('L', blocks(GTOBlocks.PRECISION_PROCESSING_MECHANICAL_CASING.get()))
                     .where('M', blocks(GTOBlocks.EXTREME_DENSITY_CASING.get()))
                     .where('N', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTOMaterials.Amprosium)))
                     .where('O', blocks(GTOBlocks.CONTAINMENT_FIELD_GENERATOR.get()))
@@ -563,14 +556,14 @@ public final class MultiBlockB {
                     .where('M', blocks(GTOBlocks.CONTAINMENT_FIELD_GENERATOR.get()))
                     .where('N', blocks(GTOBlocks.IMPROVED_SUPERCONDUCTOR_COIL.get()))
                     .where('O', blocks(GTOBlocks.ECHO_CASING.get()))
-                    .where('P', blocks(GTBlocks.CASING_TUNGSTENSTEEL_TURBINE.get()))
+                    .where('P', blocks(GTOBlocks.CHEMICAL_CORROSION_RESISTANT_PIPE_CASING.get()))
                     .where('Q', blocks(GTOBlocks.PRESSURE_CONTAINMENT_CASING.get()))
                     .where('R', blocks(ChemicalHelper.getBlock(TagPrefix.block, GTMaterials.NeodymiumMagnetic)))
                     .where('S', blocks(GTOBlocks.HIGH_ENERGY_ULTRAVIOLET_EMITTER_CASING.get()))
                     .where('T', blocks(GTBlocks.SUPERCONDUCTING_COIL.get()))
                     .where('U', blocks(GTOBlocks.HYPER_CORE.get()))
                     .where('V', blocks(GTOBlocks.QUANTUM_GLASS.get()))
-                    .where('W', blocks(GTBlocks.CASING_TITANIUM_TURBINE.get()))
+                    .where('W', blocks(GTOBlocks.HIGH_PRESSURE_PIPE_CASING.get()))
                     .where('X', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.Ultimet)))
                     .where('Y', blocks(GTOBlocks.OXIDATION_RESISTANT_HASTELLOY_N_MECHANICAL_CASING.get()))
                     .where('Z', blocks(GCYMBlocks.HEAT_VENT.get()))
@@ -709,7 +702,7 @@ public final class MultiBlockB {
                     .where('N', blocks(GTBlocks.FILTER_CASING.get()))
                     .where(' ', any())
                     .build())
-            .workableCasingRenderer(GTOCore.id("block/reinforced_sterile_water_plant_casing"), GTCEu.id("block/multiblock/fusion_reactor"))
+            .workableCasingRenderer(GTOCore.id("block/reinforced_sterile_water_plant_casing"), GTOCore.id("block/multiblock/general2"))
             .register();
 
     public static final MultiblockMachineDefinition MEGA_VACUUM_DRYING_FURNACE = multiblock("mega_vacuum_drying_furnace", "巨型真空干燥炉", CoilCrossRecipeMultiblockMachine::createCoilParallel)
@@ -721,7 +714,7 @@ public final class MultiBlockB {
             .block(GTBlocks.HIGH_POWER_CASING)
             .pattern(definition -> MultiBlockFileReader.start(definition, RelativeDirection.RIGHT, RelativeDirection.UP, RelativeDirection.BACK)
                     .where('~', controller(blocks(definition.get())))
-                    .where('A', blocks(GTBlocks.CASING_TUNGSTENSTEEL_TURBINE.get()))
+                    .where('A', blocks(GTOBlocks.HIGH_PRESSURE_PIPE_CASING.get()))
                     .where('B', blocks(GTBlocks.CASING_STAINLESS_CLEAN.get()))
                     .where('C', blocks(GTOBlocks.IRIDIUM_CASING.get()))
                     .where('D', blocks(GTBlocks.CASING_GRATE.get()))
@@ -775,35 +768,39 @@ public final class MultiBlockB {
             .workableCasingRenderer(GTOCore.id("block/casings/iridium_casing"), GTCEu.id("block/multiblock/cleanroom"))
             .register();
 
-    public static final MultiblockMachineDefinition HORIZONTAL_COMPRESSOR = multiblock("horizontal_compressor", "卧式压缩机", CrossRecipeMultiblockMachine::createHatchParallel)
+    public static final MultiblockMachineDefinition HORIZONTAL_COMPRESSOR = multiblock("extreme_compressor", "极限压缩装置", CrossRecipeMultiblockMachine::createHatchParallel)
             .nonYAxisRotation()
             .recipeTypes(GTORecipeTypes.COMPRESSOR_RECIPES)
             .recipeTypes(GTORecipeTypes.GAS_COMPRESSOR_RECIPES)
             .parallelizableTooltips()
             .laserTooltips()
             .multipleRecipesTooltips()
-            .block(GTBlocks.CASING_TUNGSTENSTEEL_ROBUST)
-            .pattern(definition -> MultiBlockFileReader.start(definition, RelativeDirection.RIGHT, RelativeDirection.UP, RelativeDirection.BACK)
-                    .where('~', controller(blocks(definition.get())))
-                    .where('A', blocks(GTBlocks.CASING_TUNGSTENSTEEL_ROBUST.get()))
-                    .where('B', blocks(GCYMBlocks.CASING_VIBRATION_SAFE.get()))
-                    .where('C', blocks(GTBlocks.HIGH_POWER_CASING.get()))
-                    .where('D', blocks(GTOBlocks.HIGH_PRESSURE_RESISTANT_CASING.get()))
-                    .where('E', blocks(GTBlocks.CASING_STAINLESS_TURBINE.get()))
-                    .where('F', blocks(ChemicalHelper.getBlock(TagPrefix.block, GTMaterials.Neutronium)))
-                    .where('G', blocks(GTBlocks.CASING_STEEL_SOLID.get()))
-                    .where('H', blocks(GCYMBlocks.CASING_REACTION_SAFE.get()))
-                    .where('I', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTOMaterials.HastelloyN)))
-                    .where('J', blocks(GTOBlocks.IRIDIUM_CASING.get()))
-                    .where('K', blocks(GTBlocks.HERMETIC_CASING_UV.get()))
-                    .where('L', blocks(GTOBlocks.PRESSURE_CONTAINMENT_CASING.get()))
-                    .where('a', blocks(GTBlocks.CASING_TUNGSTENSTEEL_ROBUST.get())
+            .block(GTOBlocks.IRIDIUM_CASING)
+            .pattern(definition -> MultiBlockFileReader.start(definition)
+                    .where('A', blocks(GCYMBlocks.CASING_STRESS_PROOF.get()))
+                    .where('B', blocks(GTOBlocks.NAQUADAH_ALLOY_CASING.get()))
+                    .where('C', blocks(GTOBlocks.IRIDIUM_CASING.get()))
+                    .where('D', blocks(GTOBlocks.PRESSURE_CONTAINMENT_CASING.get()))
+                    .where('E', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.IncoloyMA956)))
+                    .where('F', blocks(GTOBlocks.IRIDIUM_PIPE_CASING.get()))
+                    .where('G', abilities(MUFFLER))
+                    .where('H', blocks(GTBlocks.CASING_TUNGSTENSTEEL_PIPE.get()))
+                    .where('I', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTOMaterials.DepletedUraniumAlloy)))
+                    .where('J', blocks(GTOBlocks.HIGH_PRESSURE_RESISTANT_CASING.get()))
+                    .where('K', blocks(GTOBlocks.IRIDIUM_GEARBOX.get()))
+                    .where('L', blocks(GTOBlocks.INCONEL_625_PIPE.get()))
+                    .where('M', blocks(GTOBlocks.HIGH_PRESSURE_PIPE_CASING.get()))
+                    .where('N', blocks(GTBlocks.HERMETIC_CASING_UV.get()))
+                    .where('O', blocks(GTOBlocks.CHEMICAL_CORROSION_RESISTANT_PIPE_CASING.get()))
+                    .where('P', blocks(GTOBlocks.HIGH_STRENGTH_SUPPORT_SPINDLE.get()))
+                    .where('Q', blocks(GTOBlocks.IRIDIUM_CASING.get())
                             .or(GTOPredicates.autoThreadLaserAbilities(definition.getRecipeTypes()))
                             .or(abilities(PARALLEL_HATCH).setMaxGlobalLimited(1))
                             .or(abilities(MAINTENANCE).setExactLimit(1)))
+                    .where('R', controller(blocks(definition.get())))
                     .where(' ', any())
                     .build())
-            .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_robust_tungstensteel"), GTCEu.id("block/multiblock/fusion_reactor"))
+            .workableCasingRenderer(GTOCore.id("block/casings/iridium_casing"), GTOCore.id("block/multiblock/general1"))
             .register();
 
     public static final MultiblockMachineDefinition WATER_PURIFICATION_PLANT = multiblock("water_purification_plant", "净化处理厂", WaterPurificationPlantMachine::new)

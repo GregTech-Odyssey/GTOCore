@@ -166,7 +166,7 @@ public final class MultiBlockD {
             .block(GCYMBlocks.CASING_ATOMIC)
             .pattern(definition -> MultiBlockFileReader.start(definition)
                     .where('~', controller(blocks(definition.get())))
-                    .where('A', blocks(ChemicalHelper.getBlock(TagPrefix.block, GTMaterials.Neutronium)))
+                    .where('A', blocks(GTOBlocks.COSMIC_DETECTION_RECEIVER_MATERIAL_RAY_ABSORBING_ARRAY.get()))
                     .where('B', blocks(GTOBlocks.NAQUADAH_REINFORCED_PLANT_CASING.get()))
                     .where('C', blocks(GTOBlocks.HIGH_PRESSURE_RESISTANT_CASING.get()))
                     .where('D', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.Neutronium)))

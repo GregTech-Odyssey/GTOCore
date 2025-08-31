@@ -6,7 +6,8 @@
   "compatibilityLevel": "JAVA_17",
   "client": [
     "adastra.AdAstraOverlayScreenMixin",
-    "adastra.PlanetsScreenMixin"
+    "adastra.PlanetsScreenMixin",
+    "sodium.SodiumWorldRendererMixin"
   ],
   "mixins": [
     "ftblibrary.FTBLibraryCommandsMixin",

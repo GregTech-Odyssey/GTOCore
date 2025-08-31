@@ -1,5 +1,6 @@
 package com.gtocore.common.data;
 
+import com.gtocore.client.ClientCache;
 import com.gtocore.common.saved.DysonSphereSavaedData;
 
 import com.gtolib.GTOCore;
@@ -70,6 +71,19 @@ public final class GTOCommands {
                     }
                     return 1;
                 })));
+    }
+
+    public static void initClient(CommandDispatcher<CommandSourceStack> dispatcher) {
+        dispatcher.register(Commands.literal(GTOCore.MOD_ID + "c")
+                .then(Commands.literal("multiblock").then(
+                        Commands.literal("on").executes((ctx) -> {
+                            ClientCache.machineNotFormedHighlight = true;
+                            return 1;
+                        })).then(
+                                Commands.literal("off").executes((ctx) -> {
+                                    ClientCache.machineNotFormedHighlight = false;
+                                    return 1;
+                                }))));
     }
 
     private static Component copy(Component c) {

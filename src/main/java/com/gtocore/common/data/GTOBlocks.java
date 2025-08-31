@@ -196,6 +196,7 @@ public final class GTOBlocks {
     public static final BlockEntry<Block> COMPONENT_ASSEMBLY_LINE_CASING_OPV = createTierCasings("component_assembly_line_casing_opv", "部件装配线外壳(OPV)", GTOCore.id("block/casings/component_assembly_line/component_assembly_line_casing_opv"), CALMAP, 13);
     public static final BlockEntry<Block> COMPONENT_ASSEMBLY_LINE_CASING_MAX = createTierCasings("component_assembly_line_casing_max", "部件装配线外壳(MAX)", GTOCore.id("block/casings/component_assembly_line/component_assembly_line_casing_max"), CALMAP, 14);
 
+    public static final BlockEntry<Block> INTEGRAL_FRAMEWORK_ULV = createTierCasings("integral_framework_ulv", "整体框架(ULV)", GTOCore.id("block/casings/integral_framework/ulv"), INTEGRALFRAMEWORKMAP, 0);
     public static final BlockEntry<Block> INTEGRAL_FRAMEWORK_LV = createTierCasings("integral_framework_lv", "整体框架(LV)", GTOCore.id("block/casings/integral_framework/lv"), INTEGRALFRAMEWORKMAP, 1);
     public static final BlockEntry<Block> INTEGRAL_FRAMEWORK_MV = createTierCasings("integral_framework_mv", "整体框架(MV)", GTOCore.id("block/casings/integral_framework/mv"), INTEGRALFRAMEWORKMAP, 2);
     public static final BlockEntry<Block> INTEGRAL_FRAMEWORK_HV = createTierCasings("integral_framework_hv", "整体框架(HV)", GTOCore.id("block/casings/integral_framework/hv"), INTEGRALFRAMEWORKMAP, 3);
@@ -261,6 +262,7 @@ public final class GTOBlocks {
     public static final BlockEntry<Block> INCONEL_625_GEARBOX = createCasingBlock("inconel_625_gearbox", "镍铬基合金-625球磨齿轮箱", GTOCore.id("block/inconel_625_gearbox"));
     public static final BlockEntry<Block> HASTELLOY_N_75_GEARBOX = createCasingBlock("hastelloy_n_75_gearbox", "哈斯特洛依合金-N75齿轮箱", GTOCore.id("block/hastelloy_n_75_gearbox"));
     public static final BlockEntry<Block> LASER_COOLING_CASING = createCasingBlock("laser_cooling_casing", "激光冷却方块", GTOCore.id("block/laser_cooling_casing"));
+    public static final BlockEntry<Block> HIGH_ENERGY_LASER_EMITTER = createCasingBlock("high_energy_laser_emitter", "高能激光发射器", GTOCore.id("block/high_energy_laser_emitter"));
     public static final BlockEntry<Block> SPACETIME_COMPRESSION_FIELD_GENERATOR = createCasingBlock("spacetime_compression_field_generator", "压缩时空力场发生器", GTOCore.id("block/spacetime_compression_field_generator"));
     public static final BlockEntry<Block> DIMENSIONAL_BRIDGE_CASING = createCasingBlock("dimensional_bridge_casing", "维度桥接方块", GTOCore.id("block/dimensional_bridge_casing"));
     public static final BlockEntry<Block> DIMENSIONAL_STABILITY_CASING = createCasingBlock("dimensional_stability_casing", "维度稳定方块", GTOCore.id("block/dimensional_stability_casing"));
@@ -430,6 +432,7 @@ public final class GTOBlocks {
     public static final BlockEntry<Block> OIL_GAS_TRANSPORTATION_PIPE_CASING = createCasingBlock("oil_gas_transportation_pipe_casing", "油气输送密封管道机械方块", GTOCore.id("block/casings/oil_gas_transportation_pipe_casing"));
     // 生物活性机械方块
     public static final BlockEntry<Block> BIOACTIVE_MECHANICAL_CASING = createCasingBlock("bioactive_mechanical_casing", "生物活性机械方块", GTOCore.id("block/casings/bioactive_mechanical_casing"));
+    public static final BlockEntry<Block> BIOLOGICAL_MECHANICAL_CASING = createCasingBlock("biological_mechanical_casing", "生物机械方块", GTOCore.id("block/casings/biological_mechanical_casing"));
     // 工业无框玻璃
     public static final BlockEntry<Block> INDUSTRIAL_FRAMELESS_GLASS = createGlassCasingBlock("industrial_frameless_glass", "工业无框玻璃", GTOCore.id("block/industrial_frameless_glass"));
     // 工程机械方块

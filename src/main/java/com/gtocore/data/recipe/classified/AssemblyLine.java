@@ -17,7 +17,6 @@ import com.gregtechceu.gtceu.data.recipe.CustomTags;
 import com.gregtechceu.gtceu.data.recipe.GTCraftingComponents;
 
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.fluids.FluidStack;
 
@@ -62,7 +61,7 @@ final class AssemblyLine {
                 .inputItems(TagPrefix.rodLong, GTMaterials.Osmium, 32)
                 .inputItems(TagPrefix.rodLong, GTMaterials.Europium, 32)
                 .inputItems(GTOTagPrefix.CURVED_PLATE, GTOMaterials.Quantanium, 32)
-                .outputItems(MultiBlockC.MEGA_MIXER.asStack())
+                .outputItems(MultiBlockH.KERR_NEWMAN_HOMOGENIZER.asStack())
                 .inputFluids(GTOMaterials.MutatedLivingSolder, 1000)
                 .inputFluids(GTOMaterials.HighDurabilityCompoundSteel, 1000)
                 .inputFluids(GTOMaterials.Orichalcum, 1000)
@@ -155,7 +154,7 @@ final class AssemblyLine {
                         .CWUt(256))
                 .save();
 
-        ASSEMBLY_LINE_RECIPES.builder("horizontal_compressor")
+        ASSEMBLY_LINE_RECIPES.builder("extreme_compressor")
                 .inputItems(GTMachines.COMPRESSOR[GTValues.UHV].asStack(16))
                 .inputItems(MultiBlockG.GAS_COMPRESSOR.asStack(8))
                 .inputItems(GTItems.ELECTRIC_PUMP_UEV.asStack(8))
@@ -255,25 +254,6 @@ final class AssemblyLine {
                 .duration(800)
                 .researchStation(b -> b
                         .researchStack(GCYMMachines.LARGE_CHEMICAL_BATH.asStack())
-                        .CWUt(256))
-                .save();
-
-        ASSEMBLY_LINE_RECIPES.builder("field_forge_press")
-                .inputItems(GTMachines.FORGE_HAMMER[GTValues.UHV].asStack(16))
-                .inputItems(GTItems.ELECTRIC_PISTON_UEV.asStack(16))
-                .inputItems(TagPrefix.block, GTOMaterials.HighDurabilityCompoundSteel, 16)
-                .inputItems(GTItems.FIELD_GENERATOR_UHV.asStack(16))
-                .inputItems(GTItems.CONVEYOR_MODULE_UEV.asStack(8))
-                .inputItems(TagPrefix.screw, GTOMaterials.DuraniumAlloy, 32)
-                .inputItems(CustomTags.UIV_CIRCUITS, 16)
-                .inputItems(TagPrefix.plateDouble, GTOMaterials.TitanSteel, 32)
-                .outputItems(MultiBlockA.FIELD_FORGE_PRESS.asStack())
-                .inputFluids(GTOMaterials.HighDurabilityCompoundSteel, 5760)
-                .inputFluids(GTOMaterials.MutatedLivingSolder, 2304)
-                .EUt(2097152)
-                .duration(800)
-                .researchStation(b -> b
-                        .researchStack(new ItemStack(Items.SMITHING_TABLE.asItem()))
                         .CWUt(256))
                 .save();
 
@@ -982,7 +962,7 @@ final class AssemblyLine {
                 .outputItems(MultiBlockA.MAGNETIC_CONFINEMENT_DIMENSIONALITY_SHOCK_DEVICE.asStack())
                 .EUt(31457280)
                 .duration(2000)
-                .researchStation(b -> b.researchStack(MultiBlockC.MEGA_MIXER.asStack())
+                .researchStation(b -> b.researchStack(MultiBlockH.KERR_NEWMAN_HOMOGENIZER.asStack())
                         .CWUt(512)
                         .EUt(31457280))
                 .save();

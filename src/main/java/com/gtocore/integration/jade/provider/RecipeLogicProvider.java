@@ -14,6 +14,7 @@ import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
 import com.gregtechceu.gtceu.api.machine.steam.SimpleSteamMachine;
+import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.client.util.TooltipHelper;
 import com.gregtechceu.gtceu.common.machine.multiblock.steam.SteamParallelMultiblockMachine;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
@@ -27,11 +28,14 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 
+import org.jetbrains.annotations.NotNull;
 import snownee.jade.api.BlockAccessor;
 import snownee.jade.api.IBlockComponentProvider;
 import snownee.jade.api.IServerDataProvider;
 import snownee.jade.api.ITooltip;
 import snownee.jade.api.config.IPluginConfig;
+
+import java.util.List;
 
 @DataGeneratorScanned
 public final class RecipeLogicProvider implements IBlockComponentProvider, IServerDataProvider<BlockAccessor> {
@@ -95,45 +99,10 @@ public final class RecipeLogicProvider implements IBlockComponentProvider, IServ
                             EUt = 0;
                         }
                     }
+                    List<Component> list = new java.util.ArrayList<>();
+                    getEUtTooltip(list, EUt, isSteam);
+                    tooltip.addAll(list);
 
-                    if (EUt != 0) {
-                        MutableComponent text;
-                        boolean isInput = EUt > 0;
-                        EUt = Math.abs(EUt);
-                        if (isSteam) {
-                            text = Component.literal(FormattingUtil.formatNumbers(EUt)).withStyle(ChatFormatting.GREEN)
-                                    .append(Component.literal(" mB/t").withStyle(ChatFormatting.RESET));
-                        } else {
-                            var tier = GTUtil.getOCTierByVoltage(EUt);
-
-                            text = Component.literal(FormattingUtil.formatNumbers(EUt)).withStyle(ChatFormatting.RED)
-                                    .append(Component.literal(" EU/t").withStyle(ChatFormatting.RESET)
-                                            .append(Component.literal(" (").withStyle(ChatFormatting.GREEN)));
-                            text = text.append(Component.literal(String.format("%sA",
-                                    FormattingUtil.formatNumber2Places(EUt / (float) GTValues.VEX[tier]))));
-                            if (tier < GTValues.TIER_COUNT) {
-                                text = text.append(Component.literal(GTValues.VNF[tier])
-                                        .withStyle(style -> style.withColor(GTValues.VC[tier])));
-                            } else {
-                                int speed = tier - 14;
-                                text = text.append(Component
-                                        .literal("MAX")
-                                        .withStyle(style -> style.withColor(TooltipHelper.rainbowColor(speed)))
-                                        .append(Component.literal("+")
-                                                .withStyle(style -> style.withColor(GTValues.VC[Math.min(14, speed)]))
-                                                .append(Component.literal(FormattingUtil.formatNumbers(tier - 14)))
-                                                .withStyle(style -> style.withColor(GTValues.VC[Math.min(14, speed)]))));
-
-                            }
-                            text = text.append(Component.literal(")").withStyle(ChatFormatting.GREEN));
-                        }
-
-                        if (isInput) {
-                            tooltip.add(Component.translatable("gtceu.top.energy_consumption").append(" ").append(text));
-                        } else {
-                            tooltip.add(Component.translatable("gtceu.top.energy_production").append(" ").append(text));
-                        }
-                    }
                     if (Manat != 0) {
                         boolean isInput = Manat > 0;
                         Manat = Math.abs(Manat);
@@ -177,25 +146,71 @@ public final class RecipeLogicProvider implements IBlockComponentProvider, IServ
                         }
                     } else {
                         compoundTag.putBoolean("Working", capability.isWorking());
-                        var recipeInfo = new CompoundTag();
-                        var recipe = capability.getLastRecipe();
-                        if (recipe != null) {
-                            var inputEUt = recipe.getInputEUt();
-                            var outputEUt = recipe.getOutputEUt();
-                            var inputManat = RecipeHelper.getInputMANAt(recipe);
-                            var outputManat = RecipeHelper.getOutputMANAt(recipe);
-
-                            recipeInfo.putLong("EUt", inputEUt - outputEUt);
-                            recipeInfo.putLong("Manat", inputManat - outputManat);
-
-                            if (capability.machine instanceof CrossRecipeMultiblockMachine machine && machine.getEnergyInterfacePartMachine() != null) {
-                                recipeInfo.putDouble("totalEu", machine.getTotalEu());
-                            }
-
-                        }
+                        var recipeInfo = getRecipeInfo(capability);
                         compoundTag.put("Recipe", recipeInfo);
                     }
                 }
+            }
+        }
+    }
+
+    private static @NotNull CompoundTag getRecipeInfo(RecipeLogic capability) {
+        var recipeInfo = new CompoundTag();
+        var recipe = capability.getLastRecipe();
+        if (recipe != null) {
+            var inputEUt = recipe.getInputEUt();
+            var outputEUt = recipe.getOutputEUt();
+            var inputManat = RecipeHelper.getInputMANAt(recipe);
+            var outputManat = RecipeHelper.getOutputMANAt(recipe);
+
+            recipeInfo.putLong("EUt", inputEUt - outputEUt);
+            recipeInfo.putLong("Manat", inputManat - outputManat);
+
+            if (capability.machine instanceof CrossRecipeMultiblockMachine machine && machine.getEnergyInterfacePartMachine() != null) {
+                recipeInfo.putDouble("totalEu", machine.getTotalEu());
+            }
+
+        }
+        return recipeInfo;
+    }
+
+    public static void getEUtTooltip(List<Component> tooltip, long EUt, boolean isSteam) {
+        if (EUt != 0) {
+            MutableComponent text;
+            boolean isInput = EUt > 0;
+            EUt = Math.abs(EUt);
+            if (isSteam) {
+                text = Component.literal(FormattingUtil.formatNumbers(EUt)).withStyle(ChatFormatting.GREEN)
+                        .append(Component.literal(" mB/t").withStyle(ChatFormatting.RESET));
+            } else {
+                var tier = GTUtil.getOCTierByVoltage(EUt);
+
+                text = Component.literal(FormattingUtil.formatNumbers(EUt)).withStyle(ChatFormatting.RED)
+                        .append(Component.literal(" EU/t").withStyle(ChatFormatting.RESET)
+                                .append(Component.literal(" (").withStyle(ChatFormatting.GREEN)));
+                text = text.append(Component.literal(String.format("%sA",
+                        FormattingUtil.formatNumber2Places(EUt / (float) GTValues.VEX[tier]))));
+                if (tier < GTValues.TIER_COUNT) {
+                    text = text.append(Component.literal(GTValues.VNF[tier])
+                            .withStyle(style -> style.withColor(GTValues.VC[tier])));
+                } else {
+                    int speed = tier - 14;
+                    text = text.append(Component
+                            .literal("MAX")
+                            .withStyle(style -> style.withColor(TooltipHelper.rainbowColor(speed)))
+                            .append(Component.literal("+")
+                                    .withStyle(style -> style.withColor(GTValues.VC[Math.min(14, speed)]))
+                                    .append(Component.literal(FormattingUtil.formatNumbers(tier - 14)))
+                                    .withStyle(style -> style.withColor(GTValues.VC[Math.min(14, speed)]))));
+
+                }
+                text = text.append(Component.literal(")").withStyle(ChatFormatting.GREEN));
+            }
+
+            if (isInput) {
+                tooltip.add(Component.translatable("gtceu.top.energy_consumption").append(" ").append(text));
+            } else {
+                tooltip.add(Component.translatable("gtceu.top.energy_production").append(" ").append(text));
             }
         }
     }

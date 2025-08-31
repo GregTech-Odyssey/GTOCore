@@ -63,7 +63,7 @@ public final class CompoundExtremeCoolingMachine extends CrossRecipeMultiblockMa
                         .where('C', blocks(GTBlocks.HIGH_POWER_CASING.get()))
                         .where('D', blocks(GTOBlocks.LASER_CASING.get()))
                         .where('E', blocks(GTBlocks.SUPERCONDUCTING_COIL.get()))
-                        .where('F', blocks(ChemicalHelper.getBlock(TagPrefix.block, GTMaterials.Sapphire)))
+                        .where('F', blocks(GTOBlocks.OPTICAL_RESONANCE_CHAMBER.get()))
                         .where('G', blocks(GTOBlocks.LASER_COOLING_CASING.get()))
                         .where('H', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.Neutronium)))
                         .where('I', blocks(GTBlocks.BATTERY_ULTIMATE_UHV.get()))

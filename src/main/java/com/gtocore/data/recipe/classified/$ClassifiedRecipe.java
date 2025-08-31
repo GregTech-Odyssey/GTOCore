@@ -69,6 +69,7 @@ public final class $ClassifiedRecipe {
         AssemblerModule.init();
         Assembler.init();
         AssemblyLine.init();
+        AssemblyLineA.init();
         SuprachronalAssemblyLine.init();
         Incubator.init();
         IsaMill.init();

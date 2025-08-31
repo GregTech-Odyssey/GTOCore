@@ -1,5 +1,6 @@
 package com.gtocore.data.recipe.classified;
 
+import com.gtocore.api.data.tag.GTOTagPrefix;
 import com.gtocore.common.data.GTOBlocks;
 import com.gtocore.common.data.GTOFluids;
 import com.gtocore.common.data.GTOItems;
@@ -565,14 +566,27 @@ final class PrecisionAssembler {
                 .cleanroom(CleanroomType.STERILE_CLEANROOM)
                 .save();
 
-        PRECISION_ASSEMBLER_RECIPES.recipeBuilder("bioactive_mechanical_casing")
+        PRECISION_ASSEMBLER_RECIPES.recipeBuilder("bio_mechanical_casing")
                 .inputItems(GTOBlocks.FLOCCULATION_CASING.asItem())
-                .inputItems(GTOItems.BIOLOGICAL_CELLS, 2)
-                .outputItems(GTOBlocks.BIOACTIVE_MECHANICAL_CASING.asItem())
+                .inputItems(GTOTagPrefix.FLAKES, GTOMaterials.TricalciumPhosphateCeramic, 8)
+                .outputItems(GTOBlocks.BIOLOGICAL_MECHANICAL_CASING.asItem())
                 .inputFluids(GTMaterials.Glass.getFluid(576))
                 .inputFluids(GTOMaterials.BacterialGrowthMedium.getFluid(100))
                 .inputFluids(GTMaterials.Bacteria.getFluid(50))
                 .EUt(480)
+                .duration(200)
+                .cleanroom(CleanroomType.STERILE_CLEANROOM)
+                .save();
+
+        PRECISION_ASSEMBLER_RECIPES.recipeBuilder("bioactive_mechanical_casing")
+                .inputItems(GTOBlocks.BIOLOGICAL_MECHANICAL_CASING.asItem())
+                .inputItems(GTOItems.BIOLOGICAL_CELLS, 16)
+                .inputItems(GTItems.FLUID_REGULATOR_LuV, 4)
+                .outputItems(GTOBlocks.BIOACTIVE_MECHANICAL_CASING.asItem())
+                .inputFluids(GTOMaterials.MutatedLivingSolder.getFluid(576))
+                .inputFluids(GTOMaterials.BiohmediumSterilized.getFluid(576))
+                .inputFluids(GTMaterials.Tritanium.getFluid(288))
+                .EUt(GTValues.VA[GTValues.LuV])
                 .duration(200)
                 .cleanroom(CleanroomType.STERILE_CLEANROOM)
                 .save();

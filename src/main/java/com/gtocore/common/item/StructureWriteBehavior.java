@@ -32,6 +32,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 
 import com.google.common.base.Joiner;
+import com.google.common.collect.ImmutableMap;
 import com.lowdragmc.lowdraglib.gui.factory.HeldItemUIFactory;
 import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
 import com.lowdragmc.lowdraglib.gui.texture.GuiTextureGroup;
@@ -42,11 +43,15 @@ import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import com.lowdragmc.lowdraglib.utils.LocalizationUtils;
 
+import java.util.Map;
 import java.util.Objects;
+import java.util.function.BiConsumer;
 
 public final class StructureWriteBehavior implements IItemUIFactory {
 
     public static final StructureWriteBehavior INSTANCE = new StructureWriteBehavior();
+
+    private static Map<Block, BiConsumer<StringBuilder, Character>> BLOCK_MAP;
 
     @Override
     public ModularUI createUI(HeldItemUIFactory.HeldItemHolder playerInventoryHolder, Player entityPlayer) {
@@ -86,6 +91,17 @@ public final class StructureWriteBehavior implements IItemUIFactory {
 
     private static void exportLog(HeldItemUIFactory.HeldItemHolder playerInventoryHolder) {
         if (getPos(playerInventoryHolder.getHeld()) != null && playerInventoryHolder.getPlayer() instanceof ServerPlayer player) {
+            if (BLOCK_MAP == null) {
+                BLOCK_MAP = ImmutableMap.<Block, BiConsumer<StringBuilder, Character>>builder()
+                        .put(Blocks.OAK_LOG, (b, c) -> b.append("controller(blocks(definition.get()))"))
+                        .put(Blocks.DIRT, (b, c) -> b.append("heatingCoils()"))
+                        .put(Blocks.WHITE_WOOL, (b, c) -> b.append("air()"))
+                        .put(Blocks.GLASS, (b, c) -> b.append("GTOPredicates.glass()"))
+                        .put(Blocks.GLOWSTONE, (b, c) -> b.append("GTOPredicates.light()"))
+                        .put(GTOBlocks.ABS_WHITE_CASING.get(), (b, c) -> b.append("GTOPredicates.absBlocks()"))
+                        .put(Blocks.FURNACE, (b, c) -> b.append("abilities(PartAbility.MUFFLER)"))
+                        .build();
+            }
             ItemStack itemStack = playerInventoryHolder.getHeld();
             String part = itemStack.getOrCreateTag().getString("part");
             if (part.isEmpty()) {
@@ -113,33 +129,14 @@ public final class StructureWriteBehavior implements IItemUIFactory {
             }
             blockPattern.legend.forEach((b, c) -> {
                 if (c.equals(' ')) return;
-                if (b == Blocks.OAK_LOG) {
-                    builder.append(".where('").append(c).append("', controller(blocks(definition.get())))\n");
-                    return;
-                }
-                if (b == Blocks.DIRT) {
-                    builder.append(".where('").append(c).append("', heatingCoils())\n");
-                    return;
-                }
-                if (b == Blocks.WHITE_WOOL) {
-                    builder.append(".where('").append(c).append("', air())\n");
-                    return;
-                }
-                if (b == Blocks.GLASS) {
-                    builder.append(".where('").append(c).append("', GTOPredicates.glass())\n");
-                    return;
-                }
-                if (b == Blocks.GLOWSTONE) {
-                    builder.append(".where('").append(c).append("', GTOPredicates.light())\n");
+                if (BLOCK_MAP.containsKey(b)) {
+                    BLOCK_MAP.get(b).accept(builder, c);
+                    builder.append("\n");
                     return;
                 }
                 if (b == Blocks.COBBLESTONE) {
                     builder.append(".where('").append(c).append("', blocks(").append(convertBlockToString(RegistriesUtils.getBlock(part), part, StringUtils.decompose(part), false))
                             .append(")\n").append(itemStack.getOrCreateTag().getBoolean("laser") ? ".or(GTOPredicates.autoLaserAbilities(definition.getRecipeTypes()))\n.or(abilities(MAINTENANCE).setExactLimit(1)))\n" : ".or(autoAbilities(definition.getRecipeTypes()))\n.or(abilities(MAINTENANCE).setExactLimit(1)))\n");
-                    return;
-                }
-                if (b == GTOBlocks.ABS_WHITE_CASING.get()) {
-                    builder.append(".where('").append(c).append("', GTOPredicates.absBlocks())\n");
                     return;
                 }
                 String id = ItemUtils.getId(b);

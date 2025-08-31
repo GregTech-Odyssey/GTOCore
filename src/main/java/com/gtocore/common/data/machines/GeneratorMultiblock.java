@@ -181,7 +181,7 @@ public final class GeneratorMultiblock {
                     .where('S', blocks(GTBlocks.CASING_TUNGSTENSTEEL_GEARBOX.get()))
                     .where('T', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.StainlessSteel)))
                     .where('U', blocks(GCYMBlocks.ELECTROLYTIC_CELL.get()))
-                    .where('V', blocks(GTBlocks.MACHINE_CASING_HV.get()))
+                    .where('V', blocks(GTOBlocks.MAGNESIUM_OXIDE_CERAMIC_HIGH_TEMPERATURE_INSULATION_MECHANICAL_BLOCK.get()))
                     .where('W', abilities(MUFFLER))
                     .where(' ', any())
                     .build())

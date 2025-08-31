@@ -12,6 +12,7 @@ import com.gtolib.api.annotation.NewDataAttributes;
 import com.gtolib.api.machine.ManaDistributorMachine;
 import com.gtolib.api.machine.MultiblockDefinition;
 import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
+import com.gtolib.utils.MultiBlockFileReader;
 import com.gtolib.utils.RLUtils;
 import com.gtolib.utils.RegistriesUtils;
 
@@ -427,29 +428,20 @@ public final class ManaMultiBlock {
             .recipeModifiers(RecipeModifierFunction.HATCH_PARALLEL)
             .recipeTypes(GTORecipeTypes.INFUSER_CORE_RECIPES)
             .block(GTOBlocks.SOURCE_FIBER_MECHANICAL_CASING)
-            .pattern(definition -> FactoryBlockPattern.start(definition)
-                    .aisle("           ", "    ABA    ", "    ABA    ", "    ABA    ", "    ABA    ", "           ", "    ABA    ", "           ", "           ", "           ", "           ")
-                    .aisle("           ", "    ABA    ", "           ", "           ", "           ", "           ", "    ABA    ", "    ABA    ", "    ABA    ", "    ABA    ", "           ")
-                    .aisle("           ", "  CCABACC  ", "           ", "           ", "           ", "           ", "           ", "           ", "           ", "  CCABACC  ", "           ")
-                    .aisle("           ", "  CCCCCCC  ", "           ", "           ", "           ", "           ", "           ", "           ", "           ", "  CBBBBBC  ", "           ")
-                    .aisle("    BBB    ", "AAACBBBCAAA", "A         A", "A         A", "A   DDD   A", "    DED    ", "AA  DDD  AA", " A       A ", " A       A ", " AABBBBBAA ", "    BBB    ")
-                    .aisle("    BEB    ", "BBBCBEBCBBB", "B         B", "B         B", "B   DED   B", "    EEE    ", "BB  DED  BB", " B       B ", " B       B ", " BBBBEBBBB ", "    BEB    ")
-                    .aisle("    BBB    ", "AAACBBBCAAA", "A         A", "A         A", "A   DDD   A", "    DED    ", "AA  DDD  AA", " A       A ", " A       A ", " AABBBBBAA ", "    BBB    ")
-                    .aisle("           ", "  CCCCCCC  ", "           ", "           ", "           ", "           ", "           ", "           ", "           ", "  CBBBBBC  ", "           ")
-                    .aisle("           ", "  CCABACC  ", "           ", "           ", "           ", "           ", "           ", "           ", "           ", "  CCABACC  ", "           ")
-                    .aisle("           ", "    ABA    ", "           ", "           ", "           ", "           ", "    ABA    ", "    ABA    ", "    ABA    ", "    ABA    ", "           ")
-                    .aisle("           ", "    ABA    ", "    ABA    ", "    AKA    ", "    ABA    ", "           ", "    ABA    ", "           ", "           ", "           ", "           ")
-                    .where('A', blocks(GTOBlocks.SOURCE_STONE_CASING.get()))
+            .pattern(definition -> MultiBlockFileReader.start(definition)
+                    .where('A', blocks(GTOBlocks.SPELL_PRISM_CASING.get()))
                     .where('B', blocks(GTOBlocks.SOURCE_FIBER_MECHANICAL_CASING.get())
                             .or(abilities(GTOPartAbility.INPUT_MANA).setMaxGlobalLimited(16, 1))
                             .or(abilities(PARALLEL_HATCH).setMaxGlobalLimited(1))
                             .or(abilities(EXPORT_ITEMS))
                             .or(abilities(IMPORT_ITEMS))
                             .or(abilities(IMPORT_FLUIDS)))
-                    .where('C', blocks(GTOBlocks.INFUSED_GOLD_REINFORCED_WOODEN_CASING.get()))
-                    .where('D', blocks(GTOBlocks.SPELL_PRISM_CASING.get()))
-                    .where('E', blocks(RegistriesUtils.getBlock("ars_nouveau:sky_block")))
-                    .where('K', controller(blocks(definition.get())))
+                    .where('C', blocks(GTOBlocks.INFUSED_GOLD_CASING.get()))
+                    .where('D', blocks(GTOBlocks.SOURCE_STONE_CASING.get()))
+                    .where('E', blocks(GTOBlocks.SOURCE_FIBER_MECHANICAL_CASING.get()))
+                    .where('F', blocks(GTOBlocks.INFUSED_GOLD_REINFORCED_WOODEN_CASING.get()))
+                    .where('G', blocks(RegistriesUtils.getBlock("ars_nouveau:magebloom_block")))
+                    .where('H', controller(blocks(definition.get())))
                     .where(' ', any())
                     .build())
             .workableCasingRenderer(GTOCore.id("block/casings/source_fiber_mechanical_casing"), GTCEu.id("block/multiblock/gcym/large_centrifuge"))

@@ -20,6 +20,7 @@ import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
+import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
 import com.gregtechceu.gtceu.api.pattern.MultiblockShapeInfo;
 import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
 import com.gregtechceu.gtceu.common.data.*;
@@ -68,7 +69,7 @@ public final class MultiBlockF {
                     .where('R', blocks(GTBlocks.CASING_TUNGSTENSTEEL_PIPE.get()))
                     .where('S', heatingCoils())
                     .where('T', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.Naquadah)))
-                    .where('U', abilities(MUFFLER))
+                    .where('U', abilities(PartAbility.MUFFLER))
                     .where(' ', any())
                     .build())
             .workableCasingRenderer(GTCEu.id("block/casings/gcym/high_temperature_smelting_casing"), GTCEu.id("block/multiblock/gcym/blast_alloy_smelter"))
@@ -171,7 +172,7 @@ public final class MultiBlockF {
                     .where('H', blocks(GTOBlocks.ACCELERATED_PIPELINE.get()))
                     .where(' ', any())
                     .build())
-            .workableCasingRenderer(GTOCore.id("block/casings/lafium_mechanical_casing"), GTCEu.id("block/multiblock/fusion_reactor"))
+            .workableCasingRenderer(GTOCore.id("block/casings/lafium_mechanical_casing"), GTOCore.id("block/multiblock/general0"))
             .register();
 
     public static final MultiblockMachineDefinition CRYSTAL_BUILDER = multiblock("crystal_builder", "晶体构建者", CoilCrossRecipeMultiblockMachine::createCoilParallel)
@@ -205,7 +206,7 @@ public final class MultiBlockF {
                     .where('R', controller(blocks(definition.get())))
                     .where(' ', any())
                     .build())
-            .workableCasingRenderer(GTOCore.id("block/casings/molecular_casing"), GTCEu.id("block/multiblock/fusion_reactor"))
+            .workableCasingRenderer(GTOCore.id("block/casings/molecular_casing"), GTOCore.id("block/multiblock/general1"))
             .register();
 
     public static final MultiblockMachineDefinition HOLY_SEPARATOR = multiblock("holy_separator", "神圣分离者", CrossRecipeMultiblockMachine::createHatchParallel)
@@ -229,7 +230,7 @@ public final class MultiBlockF {
                     .where('H', blocks(GTOBlocks.MOLECULAR_CASING.get()))
                     .where('I', blocks(GTOBlocks.CONTAINMENT_FIELD_GENERATOR.get()))
                     .where('J', blocks(GTBlocks.HIGH_POWER_CASING.get()))
-                    .where('K', blocks(GTBlocks.MACHINE_CASING_UHV.get()))
+                    .where('K', blocks(GTOBlocks.ZIRCONIA_CERAMIC_HIGH_STRENGTH_BENDING_RESISTANCE_MECHANICAL_BLOCK.get()))
                     .where('L', blocks(GTOBlocks.PRESSURE_CONTAINMENT_CASING.get()))
                     .where('M', blocks(GTOBlocks.HOLLOW_CASING.get()))
                     .where('N', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTOMaterials.Mithril)))
@@ -267,7 +268,7 @@ public final class MultiBlockF {
                     .where('M', controller(blocks(definition.get())))
                     .where(' ', any())
                     .build())
-            .workableCasingRenderer(GTCEu.id("block/casings/hpca/high_power_casing"), GTCEu.id("block/multiblock/fusion_reactor"))
+            .workableCasingRenderer(GTCEu.id("block/casings/hpca/high_power_casing"), GTOCore.id("block/multiblock/general1"))
             .register();
 
     public static final MultiblockMachineDefinition SWARM_CORE = multiblock("swarm_core", "蜂群之心", CustomParallelMultiblockMachine.createParallel(m -> 8192, true))

@@ -42,6 +42,7 @@ public final class GTOJadePlugin implements IWailaPlugin {
         registration.registerBlockDataProvider(new WorkableBlockProvider(), MetaMachineBlockEntity.class);
         registration.registerBlockDataProvider(new ControllableBlockProvider(), MetaMachineBlockEntity.class);
         registration.registerBlockDataProvider(new RecipeLogicProvider(), MetaMachineBlockEntity.class);
+        registration.registerBlockDataProvider(new DigitalMinerProvider(), MetaMachineBlockEntity.class);
         registration.registerBlockDataProvider(new ParallelProvider(), MetaMachineBlockEntity.class);
         registration.registerBlockDataProvider(new RecipeOutputProvider(), MetaMachineBlockEntity.class);
         registration.registerBlockDataProvider(new MultiblockStructureProvider(), MetaMachineBlockEntity.class);

@@ -933,5 +933,12 @@ final class Vanilla {
                 "BBB",
                 "CCC",
                 'A', new MaterialEntry(TagPrefix.dust, GTMaterials.Silicon), 'B', new MaterialEntry(TagPrefix.pipeQuadrupleFluid, GTMaterials.Steel), 'C', new MaterialEntry(TagPrefix.plateDouble, GTMaterials.Silver));
+        VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("digital_miner"), MultiBlockH.DIGITAL_MINER.asStack(),
+                "ABA",
+                "CDC",
+                "EFE",
+                'A', GTOItems.ULV_ROBOT_ARM.asStack(), 'C', CustomTags.LV_CIRCUITS,
+                'B', new MaterialEntry(TagPrefix.wireFine, GTMaterials.Zinc), 'D', GTBlocks.CASING_STEEL_SOLID.asStack(),
+                'E', new MaterialEntry(TagPrefix.pipeHugeRestrictive, GTMaterials.CobaltBrass), 'F', new MaterialEntry(TagPrefix.toolHeadDrill, GTMaterials.Steel));
     }
 }

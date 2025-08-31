@@ -2,6 +2,7 @@ package com.gtocore.client.forge;
 
 import com.gtocore.client.ClientCache;
 import com.gtocore.client.Tooltips;
+import com.gtocore.common.data.GTOCommands;
 import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.item.StructureDetectBehavior;
 import com.gtocore.common.item.StructureWriteBehavior;
@@ -14,6 +15,7 @@ import com.gtolib.utils.ItemUtils;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTValues;
+import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockControllerMachine;
 
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
@@ -31,6 +33,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.client.event.RegisterClientCommandsEvent;
 import net.minecraftforge.client.event.RenderLevelStageEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
@@ -140,7 +143,7 @@ public final class ForgeClientEvent {
                 if (pose == null) {
                     return;
                 }
-                highlightBlock(camera, poseStack, pose, pose);
+                highlightBlock(camera, poseStack, 0, 0, 1, pose, pose);
             }
             ItemStack itemStack = player.getMainHandItem();
             Item item = itemStack.getItem();
@@ -148,29 +151,40 @@ public final class ForgeClientEvent {
                 if (GTCEu.isDev() && StructureWriteBehavior.isItem(itemStack)) {
                     poses = StructureWriteBehavior.getPos(itemStack);
                     if (poses != null) {
-                        highlightBlock(camera, poseStack, poses);
+                        highlightBlock(camera, poseStack, 0, 0, 1, poses);
                     }
                 } else if (StructureDetectBehavior.isItem(itemStack)) {
                     poses = StructureDetectBehavior.getPos(itemStack);
                     if (poses != null && poses.length >= 1) {
                         if (poses[0] != null) {
-                            highlightBlock(camera, poseStack, poses[0], poses[0]);
+                            highlightBlock(camera, poseStack, 0, 0, 1, poses[0], poses[0]);
                         }
                         if (poses.length == 2 && poses[1] != null) {
-                            highlightBlock(camera, poseStack, poses[1], poses[1]);
+                            highlightBlock(camera, poseStack, 0, 0, 1, poses[1], poses[1]);
                         }
                     }
                 } else if (Highlighting.HIGHLIGHTING_ITEM.contains(item)) {
                     var tag = itemStack.getTag();
                     BlockPos blockPos = new BlockPos(tag.getInt("x"), tag.getInt("y"), tag.getInt("z"));
-                    highlightBlock(camera, poseStack, blockPos, blockPos);
+                    highlightBlock(camera, poseStack, 0, 0, 1, blockPos, blockPos);
                 }
+            }
+            if (ClientCache.machineNotFormedHighlight) {
+                MultiblockControllerMachine.HIGHLIGHT_CACHE.forEach((pos) -> highlightBlock(camera, poseStack, 1, 0.1f, 0.1f, pos, pos));
             }
         }
     }
 
-    private static void highlightBlock(Camera camera, PoseStack poseStack, BlockPos... poses) {
+    @SubscribeEvent
+    public static void registerCommands(RegisterClientCommandsEvent evt) {
+        GTOCommands.initClient(evt.getDispatcher());
+    }
+
+    private static void highlightBlock(Camera camera, PoseStack poseStack, float r, float g, float b, BlockPos... poses) {
         Vec3 pos = camera.getPosition();
+        float lightR = (1.0f + r * 4f) / 5.0f;
+        float lightG = (1.0f + g * 4f) / 5.0f;
+        float lightB = (1.0f + b * 4f) / 5.0f;
         poseStack.pushPose();
         poseStack.translate(-pos.x, -pos.y, -pos.z);
         RenderSystem.disableDepthTest();
@@ -181,12 +195,12 @@ public final class ForgeClientEvent {
         BufferBuilder buffer = tesselator.getBuilder();
         buffer.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
         RenderSystem.setShader(GameRenderer::getPositionColorShader);
-        RenderBufferUtils.renderCubeFace(poseStack, buffer, poses[0].getX(), poses[0].getY(), poses[0].getZ(), poses[1].getX() + 1, poses[1].getY() + 1, poses[1].getZ() + 1, 0.2f, 0.2f, 1.0f, 0.25f, true);
+        RenderBufferUtils.renderCubeFace(poseStack, buffer, poses[0].getX(), poses[0].getY(), poses[0].getZ(), poses[1].getX() + 1, poses[1].getY() + 1, poses[1].getZ() + 1, lightR, lightG, lightB, 0.25f, true);
         tesselator.end();
         buffer.begin(VertexFormat.Mode.LINES, DefaultVertexFormat.POSITION_COLOR_NORMAL);
         RenderSystem.setShader(GameRenderer::getRendertypeLinesShader);
         RenderSystem.lineWidth(3);
-        RenderBufferUtils.drawCubeFrame(poseStack, buffer, poses[0].getX(), poses[0].getY(), poses[0].getZ(), poses[1].getX() + 1, poses[1].getY() + 1, poses[1].getZ() + 1, 0.0f, 0.0f, 1.0f, 0.5f);
+        RenderBufferUtils.drawCubeFrame(poseStack, buffer, poses[0].getX(), poses[0].getY(), poses[0].getZ(), poses[1].getX() + 1, poses[1].getY() + 1, poses[1].getZ() + 1, r, g, b, 0.5f);
         tesselator.end();
         RenderSystem.enableCull();
         RenderSystem.disableBlend();
