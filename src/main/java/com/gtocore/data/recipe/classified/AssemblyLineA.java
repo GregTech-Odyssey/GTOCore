@@ -423,11 +423,11 @@ final class AssemblyLineA {
                 .inputFluids(GTMaterials.RutheniumTriniumAmericiumNeutronate, 4608)
                 .inputFluids(GTMaterials.Aluminium, 2304)
                 .outputItems(MultiBlockA.MOLTEN_CORE.asStack())
-                .EUt(11457280)
+                .EUt(6457280)
                 .duration(1600)
                 .researchStation(b -> b.researchStack(GTMachines.FLUID_HEATER[GTValues.UEV].asStack())
                         .CWUt(512)
-                        .EUt(11457280))
+                        .EUt(6457280))
                 .save();
     }
 }
