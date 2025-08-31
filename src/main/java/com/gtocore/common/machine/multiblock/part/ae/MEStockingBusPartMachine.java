@@ -122,15 +122,11 @@ public class MEStockingBusPartMachine extends MEInputBusPartMachine implements I
     @Override
     public boolean testConfiguredInOtherPart(@Nullable GenericStack config) {
         if (config == null) return false;
-        // In distinct mode, we don't need to check other buses since only one bus can run a recipe at a time.
-        if (!isFormed() || isDistinct()) return false;
-        // Otherwise, we need to test for if the item is configured
-        // in any stocking bus in the multi (besides ourselves).
+        if (!isFormed()) return false;
         for (IMultiController controller : getControllers()) {
             for (IMultiPart part : controller.getParts()) {
                 if (part instanceof MEStockingBusPartMachine bus) {
-                    // We don't need to check for ourselves, as this case is handled elsewhere.
-                    if (bus == this || bus.isDistinct()) continue;
+                    if (bus == this) continue;
                     if (bus.aeItemHandler.hasStackInConfig(config, false)) {
                         return true;
                     }
@@ -163,9 +159,9 @@ public class MEStockingBusPartMachine extends MEInputBusPartMachine implements I
             aeItemHandler.clearInventory(0);
             return;
         }
-        MEStorage networkStorage = grid.getStorageService().getInventory();
-        var counter = networkStorage.getAvailableStacks();
+        var counter = grid.getStorageService().getCachedInventory();
         if (counter.isEmpty()) return;
+        MEStorage networkStorage = grid.getStorageService().getInventory();
 
         var queue = new PriorityQueue<>(CONFIG_SIZE, Comparator.comparingLong(GenericStack::amount));
 

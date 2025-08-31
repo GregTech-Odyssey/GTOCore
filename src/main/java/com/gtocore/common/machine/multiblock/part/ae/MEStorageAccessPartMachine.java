@@ -106,7 +106,7 @@ public class MEStorageAccessPartMachine extends MultiblockPartMachine implements
         if (dirty) {
             dirty = false;
             getCellStorage().setPersisted(false);
-            markDirty();
+            onChanged();
         }
         if (uuid == null || capacity == 0 || !isOnline) return;
         if (!check) {

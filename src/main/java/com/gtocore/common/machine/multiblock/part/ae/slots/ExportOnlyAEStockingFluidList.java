@@ -14,7 +14,7 @@ import net.minecraftforge.fluids.FluidStack;
 import appeng.api.config.Actionable;
 import appeng.api.stacks.AEFluidKey;
 import appeng.api.stacks.GenericStack;
-import appeng.api.storage.MEStorage;
+import appeng.api.stacks.KeyCounter;
 import it.unimi.dsi.fastutil.objects.Object2LongOpenHashMap;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -32,8 +32,34 @@ public class ExportOnlyAEStockingFluidList extends ExportOnlyAEFluidList {
 
     @Override
     public Object2LongOpenHashMap<FluidStack> getFluidMap() {
-        if (machine.isWorkingEnabled()) return super.getFluidMap();
-        return null;
+        if (!machine.isWorkingEnabled() || !machine.isOnline()) return null;
+        if (fluidMap == null) {
+            fluidMap = new Object2LongOpenHashMap<>();
+        }
+        if (changed) {
+            changed = false;
+            fluidMap.clear();
+            var grid = machine.getMainNode().getGrid();
+            if (grid == null) return null;
+            KeyCounter counter = grid.getStorageService().getCachedInventory();
+            for (var i : inventory) {
+                if (i.config == null) continue;
+                var stock = i.stock;
+                if (stock == null) continue;
+                var amount = counter.get(stock.what());
+                if (amount < 1) {
+                    i.stock = null;
+                    continue;
+                } else {
+                    i.stock = ExportOnlyAESlot.copy(stock, amount);
+                }
+                var stack = i.getFluid();
+                if (stack.isEmpty()) continue;
+                fluidMap.addTo(stack, amount);
+            }
+            isEmpty = fluidMap.isEmpty();
+        }
+        return isEmpty ? null : fluidMap;
     }
 
     @Override
@@ -92,7 +118,9 @@ public class ExportOnlyAEStockingFluidList extends ExportOnlyAEFluidList {
         public long drain(long amount, boolean simulate, boolean notify) {
             if (this.stock != null && this.config != null) {
                 if (!machine.isOnline()) return 0;
-                long extracted = simulate ? stock.amount() : machine.getMainNode().getGrid().getStorageService().getInventory().extract(config.what(), amount, Actionable.MODULATE, machine.getActionSource());
+                var grid = machine.getMainNode().getGrid();
+                if (grid == null) return 0;
+                long extracted = simulate ? Math.min(amount, grid.getStorageService().getCachedInventory().get(stock.what())) : grid.getStorageService().getInventory().extract(stock.what(), amount, Actionable.MODULATE, machine.getActionSource());
                 if (extracted > 0) {
                     if (!simulate) {
                         this.stock = ExportOnlyAESlot.copy(stock, stock.amount() - extracted);
@@ -112,10 +140,10 @@ public class ExportOnlyAEStockingFluidList extends ExportOnlyAEFluidList {
         public @NotNull FluidStack drain(int maxDrain, @NotNull FluidAction action) {
             if (this.stock != null && this.config != null) {
                 if (!machine.isOnline()) return FluidStack.EMPTY;
-                MEStorage aeNetwork = machine.getMainNode().getGrid().getStorageService().getInventory();
-                Actionable actionable = action.simulate() ? Actionable.SIMULATE : Actionable.MODULATE;
-                var key = config.what();
-                long extracted = aeNetwork.extract(key, maxDrain, actionable, machine.getActionSource());
+                var grid = machine.getMainNode().getGrid();
+                if (grid == null) return FluidStack.EMPTY;
+                var key = stock.what();
+                long extracted = action.simulate() ? Math.min(maxDrain, grid.getStorageService().getCachedInventory().get(key)) : grid.getStorageService().getInventory().extract(key, maxDrain, Actionable.MODULATE, machine.getActionSource());
                 if (extracted > 0) {
                     FluidStack resultStack = key instanceof AEFluidKey fluidKey ? AEUtil.toFluidStack(fluidKey, extracted) : FluidStack.EMPTY;
                     if (action.execute()) {

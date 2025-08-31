@@ -6,6 +6,7 @@ import com.gtolib.api.machine.part.ItemHatchPartMachine;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.IInteractedMachine;
+import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IWorkableMultiController;
 import com.gregtechceu.gtceu.common.data.GTDamageTypes;
 
@@ -52,6 +53,15 @@ public final class BallHatchPartMachine extends ItemHatchPartMachine implements 
 
     public BallHatchPartMachine(MetaMachineBlockEntity holder) {
         super(holder, 1, i -> GRINDBALL.containsKey(i.getItem()));
+    }
+
+    @Override
+    protected void onMachineChanged() {
+        for (var controller : getControllers()) {
+            if (controller instanceof IRecipeLogicMachine recipeLogicMachine) {
+                recipeLogicMachine.getRecipeLogic().updateTickSubscription();
+            }
+        }
     }
 
     @Override

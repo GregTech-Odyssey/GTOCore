@@ -157,9 +157,9 @@ public class MEStockingHatchPartMachine extends MEInputHatchPartMachine implemen
             aeFluidHandler.clearInventory(0);
             return;
         }
-        MEStorage networkStorage = grid.getStorageService().getInventory();
-        var counter = networkStorage.getAvailableStacks();
+        var counter = grid.getStorageService().getCachedInventory();
         if (counter.isEmpty()) return;
+        MEStorage networkStorage = grid.getStorageService().getInventory();
 
         var queue = new PriorityQueue<>(CONFIG_SIZE, Comparator.comparingLong(GenericStack::amount));
 
