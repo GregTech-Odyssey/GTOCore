@@ -3729,26 +3729,6 @@ final class AssemblyLine {
                         .EUt(31457280))
                 .save();
 
-        ASSEMBLY_LINE_RECIPES.recipeBuilder("molten_core")
-                .inputItems(GTMachines.FLUID_HEATER[GTValues.UEV].asStack(16))
-                .inputItems(GTMachines.FLUID_HEATER[GTValues.UIV].asStack(16))
-                .inputItems(CustomTags.UXV_CIRCUITS, 32)
-                .inputItems(GTItems.FLUID_REGULATOR_UIV.asStack(16))
-                .inputItems(TagPrefix.wireGtHex, GTOMaterials.TitanSteel, 16)
-                .inputItems(TagPrefix.plateDouble, GTOMaterials.Mithril, 16)
-                .inputItems(TagPrefix.plateDouble, GTOMaterials.QuantumMetal, 16)
-                .inputFluids(GTOMaterials.Taranium.getFluid(2304))
-                .inputFluids(GTOMaterials.Vibranium.getFluid(2304))
-                .inputFluids(GTOMaterials.AstralTitanium.getFluid(FluidStorageKeys.PLASMA, 4608))
-                .inputFluids(GTOMaterials.DegenerateRhenium.getFluid(FluidStorageKeys.PLASMA, 4608))
-                .outputItems(MultiBlockA.MOLTEN_CORE.asStack())
-                .EUt(31457280)
-                .duration(1600)
-                .researchStation(b -> b.researchStack(GTMachines.FLUID_HEATER[GTValues.UIV].asStack())
-                        .CWUt(512)
-                        .EUt(31457280))
-                .save();
-
         ASSEMBLY_LINE_RECIPES.recipeBuilder("extremely_max_battery")
                 .inputItems(TagPrefix.plateDouble, GTOMaterials.Adamantium, 16)
                 .inputItems(CustomTags.UXV_CIRCUITS, 16)

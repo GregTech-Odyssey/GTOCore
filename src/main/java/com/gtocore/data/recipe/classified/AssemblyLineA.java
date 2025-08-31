@@ -408,5 +408,26 @@ final class AssemblyLineA {
                         .CWUt(512)
                         .EUt(31457280))
                 .save();
+
+        ASSEMBLY_LINE_RECIPES.recipeBuilder("molten_core")
+                .inputItems(GTMachines.FLUID_HEATER[GTValues.UEV].asStack(16))
+                .inputItems(GTMachines.FLUID_HEATER[GTValues.UHV].asStack(16))
+                .inputItems(CustomTags.UEV_CIRCUITS, 32)
+                .inputItems(GTItems.FLUID_REGULATOR_UEV.asStack(16))
+                .inputItems(GTItems.SENSOR_UEV.asStack(4))
+                .inputItems(TagPrefix.wireGtHex, GTMaterials.RTMAlloy, 32)
+                .inputItems(TagPrefix.plateDouble, GTMaterials.Zeron100, 4)
+                .inputItems(TagPrefix.pipeHugeFluid, GTMaterials.TungstenSteel, 8)
+                .inputFluids(GTMaterials.Scandium, 36000)
+                .inputFluids(GTMaterials.Lead.getFluid(FluidStorageKeys.PLASMA, 10000))
+                .inputFluids(GTMaterials.RutheniumTriniumAmericiumNeutronate, 4608)
+                .inputFluids(GTMaterials.Aluminium, 2304)
+                .outputItems(MultiBlockA.MOLTEN_CORE.asStack())
+                .EUt(11457280)
+                .duration(1600)
+                .researchStation(b -> b.researchStack(GTMachines.FLUID_HEATER[GTValues.UEV].asStack())
+                        .CWUt(512)
+                        .EUt(11457280))
+                .save();
     }
 }
