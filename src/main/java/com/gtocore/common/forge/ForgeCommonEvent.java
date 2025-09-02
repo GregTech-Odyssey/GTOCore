@@ -1,15 +1,20 @@
 package com.gtocore.common.forge;
 
+import com.gtocore.common.ServerCache;
 import com.gtocore.common.data.GTOBlocks;
+import com.gtocore.common.data.GTOCommands;
 import com.gtocore.common.data.GTOEffects;
 import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.item.ItemMap;
 import com.gtocore.common.machine.multiblock.electric.voidseries.VoidTransporterMachine;
+import com.gtocore.common.network.ServerMessage;
 import com.gtocore.common.saved.*;
 import com.gtocore.config.GTOConfig;
 import com.gtocore.utils.OrganUtilsKt;
 
+import com.gtolib.GTOCore;
 import com.gtolib.api.annotation.DataGeneratorScanned;
+import com.gtolib.api.annotation.language.RegisterLanguage;
 import com.gtolib.api.data.GTODimensions;
 import com.gtolib.api.machine.feature.IVacuumMachine;
 import com.gtolib.api.player.IEnhancedPlayer;
@@ -18,16 +23,22 @@ import com.gtolib.utils.ServerUtils;
 import com.gtolib.utils.explosion.SphereExplosion;
 import com.gtolib.utils.register.BlockRegisterUtils;
 
+import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTValues;
+import com.gregtechceu.gtceu.api.item.tool.GTToolItem;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.WorkableTieredMachine;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
 import com.gregtechceu.gtceu.common.data.GTItems;
 
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.ClickEvent;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Style;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -41,16 +52,22 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.event.CommandEvent;
+import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.entity.EntityTravelToDimensionEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.level.BlockEvent;
 import net.minecraftforge.event.level.LevelEvent;
+import net.minecraftforge.event.server.ServerStoppingEvent;
+import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 import earth.terrarium.adastra.common.entities.mob.GlacianRam;
+import org.apache.logging.log4j.core.config.Configurator;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -242,7 +259,6 @@ public final class ForgeCommonEvent {
                 level.addFreshEntity(new ItemEntity(level, player.getX(), player.getY(), player.getZ(), ItemMap.getScrapItem()));
                 player.setItemInHand(event.getHand(), itemStack.copyWithCount(count - 1));
             }
-            return;
         }
     }
 
@@ -255,5 +271,57 @@ public final class ForgeCommonEvent {
             RecipeRunLimitSavaedData.INSTANCE = serverLevel.getDataStorage().computeIfAbsent(RecipeRunLimitSavaedData::new, RecipeRunLimitSavaedData::new, "recipe_run_limit_data");
             WirelessSavedData.Companion.setINSTANCE(serverLevel.getDataStorage().computeIfAbsent(WirelessSavedData::initialize, WirelessSavedData::new, "wireless_saved_data_" + GTOConfig.INSTANCE.aeGridKey));
         }
+    }
+
+    @SubscribeEvent
+    public static void onPlayerLoggedInEvent(PlayerEvent.PlayerLoggedInEvent event) {
+        if (event.getEntity() instanceof ServerPlayer player) {
+            if (!GTCEu.isDev()) {
+                player.displayClientMessage(Component.translatable("gtocore.gtm", Component.literal("GitHub").withStyle(Style.EMPTY.withColor(ChatFormatting.GREEN).withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://github.com/GregTech-Odyssey/GregTech-Odyssey/issues")))), false);
+                player.displayClientMessage(Component.translatable("gtocore.dev", Component.literal("GitHub").withStyle(Style.EMPTY.withColor(ChatFormatting.GREEN).withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://github.com/GregTech-Odyssey/GregTech-Odyssey/issues")))), false);
+                Configurator.setRootLevel(org.apache.logging.log4j.Level.INFO);
+            } else {
+                Configurator.setRootLevel(org.apache.logging.log4j.Level.DEBUG);
+            }
+            if (player instanceof IEnhancedPlayer enhancedPlayer) {
+                ServerMessage.send(player.getServer(), player, "loggedIn", buf -> buf.writeUUID(ServerUtils.getServerIdentifier()));
+                enhancedPlayer.getPlayerData().setDrift(enhancedPlayer.getPlayerData().disableDrift);
+                OrganUtilsKt.ktFreshOrganState(enhancedPlayer.getPlayerData());
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public static void onServerStoppingEvent(ServerStoppingEvent event) {
+        ServerCache.observe = false;
+    }
+
+    @RegisterLanguage(valuePrefix = "gtocore.lang", en = "Channel mode command banned in expert", cn = "在专家模式下，频道模式命令被禁止")
+    private static final String CHANNEL_MODE_COMMAND_BANNED = "banned";
+
+    @SuppressWarnings("all")
+    @SubscribeEvent
+    public static void onCommandExecution(CommandEvent event) {
+        var command = event.getParseResults().getReader().getString();
+        if (command.contains("ae2") && command.contains("channelmode")) {
+            if (GTOCore.isExpert()) {
+                event.setCanceled(true);
+                if (event.getParseResults().getContext().getSource().isPlayer()) {
+                    Player player = event.getParseResults().getContext().getSource().getPlayer();
+                    player.sendSystemMessage(Component.translatable("gtocore.lang." + CHANNEL_MODE_COMMAND_BANNED));
+                }
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public static void onCommandRegister(RegisterCommandsEvent event) {
+        GTOCommands.init(event.getDispatcher());
+    }
+
+    @SubscribeEvent
+    public static void onGTToolRightClickBlock(PlayerInteractEvent.RightClickBlock event) {
+        var item = event.getEntity().getMainHandItem().getItem();
+        if (item instanceof GTToolItem) event.setUseBlock(Event.Result.ALLOW);
     }
 }
