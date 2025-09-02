@@ -21,6 +21,7 @@ public final class MagneticFluidGeneratorMachine extends TierCasingMultiblockMac
 
     private int outputTier = 0;
     private boolean laser;
+    private int base = 2;
 
     public MagneticFluidGeneratorMachine(MetaMachineBlockEntity holder) {
         super(holder, GTOValues.GLASS_TIER);
@@ -43,6 +44,7 @@ public final class MagneticFluidGeneratorMachine extends TierCasingMultiblockMac
         super.onStructureFormed();
         int tier = getCasingTier(GTOValues.GLASS_TIER);
         if (tier < outputTier) outputTier = 0;
+        if (getSubFormedAmount() > 0) base = 4;
     }
 
     @Override
@@ -50,12 +52,13 @@ public final class MagneticFluidGeneratorMachine extends TierCasingMultiblockMac
         super.onStructureInvalid();
         outputTier = 0;
         laser = false;
+        base = 2;
     }
 
     @Nullable
     @Override
     protected Recipe getRealRecipe(@NotNull Recipe recipe) {
         if (outputTier < 1) return null;
-        return RecipeModifierFunction.generatorOverclocking(this, ParallelLogic.accurateParallel(this, recipe, laser ? (int) Math.pow(2, outputTier - 1) : 1));
+        return RecipeModifierFunction.generatorOverclocking(this, ParallelLogic.accurateParallel(this, recipe, laser ? (int) Math.pow(base, outputTier - 1) : 1));
     }
 }

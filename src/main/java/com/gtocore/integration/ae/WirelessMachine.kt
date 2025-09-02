@@ -31,6 +31,7 @@ import com.gregtechceu.gtceu.api.gui.fancy.FancyMachineUIWidget
 import com.gregtechceu.gtceu.api.gui.fancy.IFancyUIProvider
 import com.gregtechceu.gtceu.api.machine.TickableSubscription
 import com.gregtechceu.gtceu.integration.ae2.machine.feature.IGridConnectedMachine
+import com.gregtechceu.gtceu.utils.GTUtil
 import com.gregtechceu.gtceu.utils.TaskHandler
 import com.gtolib.api.annotation.Scanned
 import com.gtolib.api.annotation.language.RegisterLanguage
@@ -217,10 +218,11 @@ interface WirelessMachine :
                 syncDataToClientInServer()
                 wirelessMachineRunTime.initTickableSubscription?.unsubscribe()
             }
-        }, 40)
+        }, GTUtil.NOOP, 40)
     }
     fun onWirelessMachineUnLoad() {
         if (self().isRemote) return
+        wirelessMachineRunTime.initTickableSubscription?.unsubscribe()
         unLinkGrid()
     }
     fun onWirelessMachineClientTick() {

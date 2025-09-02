@@ -59,7 +59,7 @@ public final class WirelessGridProvider extends CapabilityBlockProvider<Wireless
     protected void addTooltip(CompoundTag capData, ITooltip tooltip, Player player, BlockAccessor block, BlockEntity blockEntity, IPluginConfig config) {
         String nick = capData.getString("grid_nick");
         if (nick.isBlank()) nick = capData.getString("grid");
-        if (nick.isBlank()) nick = "无";
+        if (nick.isBlank()) return;
 
         tooltip.add(Component.translatable("gtocore.integration.ae.WirelessMachine.currentlyConnectedTo", nick));
     }

@@ -983,4 +983,6 @@ public final class GTORecipeTypes {
     public static final RecipeType HEAVY_ROLLING = CombinedRecipeType.register("heavy_rolling", ROLLING_RECIPES, CLUSTER_RECIPES).setMaxIOSize(2, 1, 0, 0).setEUIO(IO.IN).setSound(GTSoundEntries.MOTOR);
 
     public static final RecipeType LARGE_CHEMICAL_PLANT = CombinedRecipeType.register("large_chemical_plant", LARGE_CHEMICAL_RECIPES, CHEMICAL_RECIPES, POLYMERIZATION_REACTOR_RECIPES).setMaxIOSize(3, 3, 5, 4).setEUIO(IO.IN).setSound(GTSoundEntries.CHEMICAL);
+
+    public static final RecipeType EXTREME_COMPRESSOR = CombinedRecipeType.register("extreme_compressor", COMPRESSOR_RECIPES, GAS_COMPRESSOR_RECIPES).setMaxIOSize(1, 1, 1, 1).setEUIO(IO.IN).setSound(GTSoundEntries.COMPRESSOR);
 }

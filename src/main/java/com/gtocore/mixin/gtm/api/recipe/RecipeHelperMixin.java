@@ -44,7 +44,7 @@ public final class RecipeHelperMixin {
      * @reason .
      */
     @Overwrite(remap = false)
-    public static boolean handleRecipe(IRecipeCapabilityHolder holder, GTRecipe recipe, IO io, Map<RecipeCapability<?>, List<Content>> contents, Map<RecipeCapability<?>, Object2IntMap<?>> chanceCaches, boolean isTick, boolean simulated) {
+    public static boolean handleRecipe(IRecipeCapabilityHolder holder, GTRecipe recipe, IO io, Map<RecipeCapability<?>, List<Content>> contents, Map<RecipeCapability<?>, Object2IntMap<?>> chanceCaches, boolean simulated) {
         return RecipeRunner.handleRecipe(holder, (Recipe) recipe, io, contents, chanceCaches, simulated);
     }
 

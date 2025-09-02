@@ -263,6 +263,24 @@ public final class ForgeCommonEvent {
     }
 
     @SubscribeEvent
+    public static void onPlayerLoggedInEvent(PlayerEvent.PlayerLoggedInEvent event) {
+        if (event.getEntity() instanceof ServerPlayer player) {
+            if (!GTCEu.isDev()) {
+                player.displayClientMessage(Component.translatable("gtocore.gtm", Component.literal("GitHub").withStyle(Style.EMPTY.withColor(ChatFormatting.GREEN).withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://github.com/GregTech-Odyssey/GregTech-Odyssey/issues")))), false);
+                player.displayClientMessage(Component.translatable("gtocore.dev", Component.literal("GitHub").withStyle(Style.EMPTY.withColor(ChatFormatting.GREEN).withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://github.com/GregTech-Odyssey/GregTech-Odyssey/issues")))), false);
+                Configurator.setRootLevel(org.apache.logging.log4j.Level.INFO);
+            } else {
+                Configurator.setRootLevel(org.apache.logging.log4j.Level.DEBUG);
+            }
+            if (player instanceof IEnhancedPlayer enhancedPlayer) {
+                ServerMessage.send(player.getServer(), player, "loggedIn", buf -> buf.writeUUID(ServerUtils.getServerIdentifier()));
+                enhancedPlayer.getPlayerData().setDrift(enhancedPlayer.getPlayerData().disableDrift);
+                OrganUtilsKt.ktFreshOrganState(enhancedPlayer.getPlayerData());
+            }
+        }
+    }
+
+    @SubscribeEvent
     public static void onLevelLoad(LevelEvent.Load event) {
         if (event.getLevel() instanceof ServerLevel level) {
             ServerLevel serverLevel = level.getServer().getLevel(Level.OVERWORLD);

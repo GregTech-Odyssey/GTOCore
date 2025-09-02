@@ -7,6 +7,7 @@ import com.gtocore.common.data.translation.GTOMachineTranslation;
 import com.gtocore.common.machine.multiblock.electric.FishingGroundMachine;
 import com.gtocore.common.machine.multiblock.electric.StellarForgeMachine;
 import com.gtocore.common.machine.multiblock.electric.assembly.PrecisionAssemblerMachine;
+import com.gtocore.common.machine.multiblock.electric.processing.IntegratedOreProcessor;
 import com.gtocore.common.machine.multiblock.electric.voidseries.VoidFluidDrillingRigMachine;
 import com.gtocore.common.machine.multiblock.electric.voidseries.VoidMinerMachine;
 import com.gtocore.common.machine.multiblock.noenergy.AdvancedPrimitiveBlastFurnaceMachine;
@@ -864,7 +865,7 @@ public final class MultiBlockA {
             .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_inert_ptfe"), GTCEu.id("block/machines/chemical_reactor"))
             .register();
 
-    public static final MultiblockMachineDefinition INTEGRATED_ORE_PROCESSOR = multiblock("integrated_ore_processor", "集成矿石处理厂", ElectricMultiblockMachine::new)
+    public static final MultiblockMachineDefinition INTEGRATED_ORE_PROCESSOR = multiblock("integrated_ore_processor", "集成矿石处理厂", IntegratedOreProcessor::new)
             .nonYAxisRotation()
             .recipeTypes(GTORecipeTypes.INTEGRATED_ORE_PROCESSOR)
             .tooltips(NewDataAttributes.MAIN_FUNCTION.create(
@@ -901,8 +902,9 @@ public final class MultiBlockA {
                                     x -> x.addLines("7号电路:", "Circuit 7:", StyleBuilder::setWhite)
                                             .addLines(" 破碎-浸洗-筛选-离心", " Crusher-Chemical Bath-Sifter-Centrifuging", StyleBuilder::setGray),
                                     p -> p, StyleBuilder::setOneTab))))
+            .tooltipsText("安装模块后解锁8线程处理", "Unlock 8 threads of processing after installing the module")
             .parallelizableTooltips()
-            .fromSourceTooltips("GTNH")
+            .moduleTooltips()
             .parallelizableOverclock()
             .block(GTBlocks.CASING_STAINLESS_CLEAN)
             .pattern(definition -> FactoryBlockPattern.start(definition)
@@ -924,6 +926,43 @@ public final class MultiBlockA {
                     .where('e', blocks(GTBlocks.CASING_TUNGSTENSTEEL_GEARBOX.get()))
                     .where('f', blocks(GTBlocks.CASING_TUNGSTENSTEEL_PIPE.get()))
                     .where('g', abilities(MUFFLER))
+                    .where(' ', any())
+                    .build())
+            .addSubPattern(definition -> FactoryBlockPattern.start(definition)
+                    .aisle("    AAAAAA     ", "    AGGGGA     ", "    AGGGGA     ", "    AGGGGA     ", "    AGGGGA     ", "    AAAAAA     ", "               ", "               ", "               ", "               ", "               ", "               ")
+                    .aisle("AAAAAAAAAAAAAAA", "ABBAGFFFFFAQQQA", "ABBAG     AQQQA", "ABBAG     AQQQA", "ABBAGFFFFFAQQQA", "ABBAAAAAAAAQQQA", " BB JJJJJJJQQQ ", "    JLLLLJJQQQ ", "    JJJJJJJQQQ ", "           QQQ ", "           QQQ ", "               ")
+                    .aisle("AAAAAAAAAAAAAAA", "BBBBG     QQQQQ", "BDDBIMMMMMIEREQ", "B  BINNNNNIEREQ", "BDDBG     QEREQ", "B  BAAAAAAQEREQ", "BDDBJJJJJJQEREQ", " BB LOOOOOQEREQ", "    JLLLLJQEREQ", "          QEREQ", "          QEREQ", "           QQQ ")
+                    .aisle("AAAAAAAAAAAAAAA", "BBBBG     QQQQQ", "BDDBINNNNNIEREQ", "B  BIMMMMMIEREQ", "BDDBG     QEREQ", "B  BAAAAAAQEREQ", "BDDBJJJJJJQEREQ", " BB LOOOOOQEREQ", "    JLLLLJQEREQ", "          QEREQ", "          QEREQ", "           QQQ ")
+                    .aisle("AAAAAAAAAAAAAAA", "ABBAGFFFFFAQQQA", "ABBAG     AQQQA", "ABBAG     AQQQA", "ABBAGFFFFFAQQQA", "ABBAAAAAAAAQQQA", " BB JJJJJJJQQQ ", "    JLLLLJJQQQ ", "    JJJJJJJQQQ ", "           QQQ ", "           QQQ ", "               ")
+                    .aisle("AAAAAAAAAAAAAAA", " CC AGGGGA CCCT", " CC AGGGGA CCCT", " CC AGGGGA CCCT", " CC AGGGGA CCCT", "AAAAAAAAAAAAAAA", "               ", "               ", "               ", "               ", "               ", "               ")
+                    .aisle("    AHHHHA     ", " CC H    H CCCT", " CC H    H CCCT", " CC H    H CCCT", " CC H    H CCCT", "    AHHHHA     ", "               ", "               ", "               ", "               ", "               ", "               ")
+                    .aisle("AAAA      AAAAA", " CC        CCCT", " CC        CCCT", " CC        CCCT", " CC        CCCT", "AAAA      AAAAA", "               ", "               ", "               ", "               ", "               ", "               ")
+                    .aisle("AAAAA     A    ", "ABBAA     A    ", "ABBAA     A    ", "ABBAA     A    ", "ABBAA     A    ", "ABBAAAAAAAA    ", "BBBBKKKKKKK    ", " BB KPPPPKK    ", "BBBBKKKKKKK    ", " BB            ", "               ", "               ")
+                    .aisle("AAAA           ", "BBBB           ", "BEFB           ", "BF B           ", "B EB           ", "B  B           ", "BEFBKKKKKK     ", "B  BEEEEEE     ", "B  BKKKKKK     ", "BBBB           ", "               ", "               ")
+                    .aisle("AAAA           ", "BBBB           ", "BFEB           ", "B  B           ", "BEFB           ", "B  B           ", "BFEBKKKKKK     ", "B  BEEEEEE     ", "B  BKKKKKK     ", "BBBB           ", "               ", "               ")
+                    .aisle("AAAAA     A    ", "ABBAA     A    ", "ABBAA     A S  ", "ABBAA     A    ", "ABBAA     A    ", "ABBAAAAAAAA    ", "BBBBKKKKKKK    ", " BB KPPPPKK    ", "BBBBKKKKKKK    ", " BB            ", "               ", "               ")
+                    .where('A', blocks(GTBlocks.CASING_HSSE_STURDY.get()))
+                    .where('B', blocks(GCYMBlocks.CASING_VIBRATION_SAFE.get()))
+                    .where('C', blocks(GTBlocks.HIGH_POWER_CASING.get()))
+                    .where('D', blocks(GTBlocks.CASING_GRATE.get()))
+                    .where('E', blocks(GTBlocks.CASING_TUNGSTENSTEEL_PIPE.get()))
+                    .where('F', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.HastelloyX)))
+                    .where('G', blocks(GTBlocks.CASING_LAMINATED_GLASS.get()))
+                    .where('H', blocks(GTBlocks.FILTER_CASING_STERILE.get()))
+                    .where('I', blocks(GTOBlocks.HIGH_STRENGTH_SUPPORT_MECHANICAL_CASING.get()))
+                    .where('J', blocks(GCYMBlocks.CASING_NONCONDUCTING.get()))
+                    .where('K', blocks(GTBlocks.CASING_TUNGSTENSTEEL_ROBUST.get()))
+                    .where('L', blocks(GCYMBlocks.ELECTROLYTIC_CELL.get()))
+                    .where('M', blocks(GTOBlocks.HIGH_STRENGTH_SUPPORT_SPINDLE.get()))
+                    .where('N', blocks(GTOBlocks.AMPROSIUM_GEARBOX.get()))
+                    .where('O', blocks(GTBlocks.CASING_POLYTETRAFLUOROETHYLENE_PIPE.get()))
+                    .where('P', blocks(GTBlocks.CASING_EXTREME_ENGINE_INTAKE.get()))
+                    .where('Q', blocks(GTOBlocks.PRESSURE_CONTAINMENT_CASING.get()))
+                    .where('R', blocks(GTBlocks.HERMETIC_CASING_UV.get()))
+                    .where('S', controller(blocks(definition.get())))
+                    .where('T', blocks(GTBlocks.CASING_STAINLESS_CLEAN.get())
+                            .or(GTOPredicates.autoIOAbilities(definition.getRecipeTypes()))
+                            .or(abilities(INPUT_ENERGY).setMaxGlobalLimited(6)))
                     .where(' ', any())
                     .build())
             .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_clean_stainless_steel"), GTCEu.id("block/multiblock/gcym/large_maceration_tower"))

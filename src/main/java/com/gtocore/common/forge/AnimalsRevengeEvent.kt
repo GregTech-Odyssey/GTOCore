@@ -30,6 +30,7 @@ import net.minecraftforge.event.level.LevelEvent
 import net.minecraftforge.eventbus.api.SubscribeEvent
 
 import com.gregtechceu.gtceu.api.machine.TickableSubscription
+import com.gregtechceu.gtceu.utils.GTUtil
 import com.gregtechceu.gtceu.utils.TaskHandler
 import com.gtolib.api.annotation.DataGeneratorScanned
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap
@@ -144,7 +145,7 @@ object AnimalsRevengeEvent {
                     }
                     holder[0]?.unsubscribe()
                 }
-            }, 1)
+            }, GTUtil.NOOP, 1)
         }
     }
 
@@ -208,7 +209,7 @@ object AnimalsRevengeEvent {
                     lootCacheBuilt = true
                     if (cont.isActive) cont.resume(Unit) {}
                 }
-            }, 1)
+            }, GTUtil.NOOP, 1)
 
             cont.invokeOnCancellation { subHolder[0]?.unsubscribe() }
         }

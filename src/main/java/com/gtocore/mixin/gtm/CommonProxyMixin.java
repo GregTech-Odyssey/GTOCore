@@ -42,7 +42,7 @@ public class CommonProxyMixin {
         return (registry) -> {};
     }
 
-    @Inject(method = "registerPackFinders", at = @At(value = "INVOKE", target = "Lcom/gregtechceu/gtceu/data/pack/GTDynamicDataPack;clearServer()V"), remap = false, cancellable = true)
+    @Inject(method = "registerPackFinders", at = @At(value = "INVOKE", target = "Lcom/gregtechceu/gtceu/common/data/GTRecipes;recipeRemoval()V"), remap = false, cancellable = true)
     private void registerPackFinders(AddPackFindersEvent event, CallbackInfo ci) {
         if (!GTORecipes.cache) {
             if (!GTCEu.isClientSide()) {

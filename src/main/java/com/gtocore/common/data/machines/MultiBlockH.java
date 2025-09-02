@@ -311,6 +311,7 @@ public final class MultiBlockH {
                     .where('M', blocks(GTOBlocks.PLASMA_HEATER_CASING.get()))
                     .where('N', blocks(GTOBlocks.HYPER_MECHANICAL_CASING.get())
                             .or(GTOPredicates.autoThreadLaserAbilities(definition.getRecipeTypes()))
+                            .or(abilities(PARALLEL_HATCH).setMaxGlobalLimited(1))
                             .or(abilities(MAINTENANCE).setExactLimit(1)))
                     .where('O', blocks(GTOBlocks.PPS_CORROSION_RESISTANT_MECHANICAL_HOUSING.get()))
                     .where('P', blocks(GTOBlocks.CALCIUM_OXIDE_CERAMIC_ANTI_METAL_CORROSION_MECHANICAL_BLOCK.get()))
@@ -328,7 +329,6 @@ public final class MultiBlockH {
     public static final MultiblockMachineDefinition FAST_NEUTRON_BREEDER_REACTOR = multiblock("fast_neutron_breeder_reactor", "快中子增殖堆", NoRecipeLogicMultiblockMachine::new)
             .nonYAxisRotation()
             .parallelizableTooltips()
-            .langValue("Fast Neutron Breeder Reactor")
             .recipeTypes(GTORecipeTypes.DUMMY_RECIPES)
             .block(GTOBlocks.BORON_CARBIDE_CERAMIC_RADIATION_RESISTANT_MECHANICAL_CUBE)
             .pattern(definition -> MultiBlockFileReader.start(definition, RelativeDirection.FRONT, RelativeDirection.UP, RelativeDirection.LEFT)
@@ -365,7 +365,6 @@ public final class MultiBlockH {
     // 中子辐照室
     public static final MultiblockMachineDefinition NEUTRON_IRRADIATION_CHAMBER = multiblock("neutron_irradiation_chamber", "中子辐照室", NoRecipeLogicMultiblockMachine::new)
             .nonYAxisRotation()
-            .langValue("Neutron Irradiation Chamber")
             .parallelizableTooltips()
             .recipeTypes(GTORecipeTypes.DUMMY_RECIPES)
             .block(GTOBlocks.BORON_CARBIDE_CERAMIC_RADIATION_RESISTANT_MECHANICAL_CUBE)
@@ -393,7 +392,6 @@ public final class MultiBlockH {
     // 生命熔炉
     public static final MultiblockMachineDefinition LIFE_FORGE = multiblock("life_forge", "生命熔炉", CoilCrossRecipeMultiblockMachine::createCoilParallel)
             .nonYAxisRotation()
-            .langValue("Life Forge")
             .tooltipsText("D/N/A", "D/N/A")
             .coilParallelTooltips()
             .laserTooltips()
@@ -428,7 +426,6 @@ public final class MultiBlockH {
     // 双子星封装系统
     public static final MultiblockMachineDefinition GEMINI_CONTAINMENT_SYSTEM = multiblock("gemini_containment_system", "双子星封装系统", CoilCrossRecipeMultiblockMachine::createCoilParallel)
             .nonYAxisRotation()
-            .langValue("gemini_containment_system")
             .coilParallelTooltips()
             .laserTooltips()
             .multipleRecipesTooltips()
@@ -466,7 +463,6 @@ public final class MultiBlockH {
 
     public static final MultiblockMachineDefinition DIGITAL_MINER = multiblock("digital_miner", "数字型采矿机", DigitalMiner::new)
             .nonYAxisRotation()
-            .langValue("digital_miner")
             .tooltips(GTOMachineTranslation.INSTANCE.getDigitalMinerTooltips().getSupplier())
             .block(GTBlocks.CASING_STEEL_SOLID)
             .recipeTypes(DIGITAL_MINER_RECIPE)
@@ -495,8 +491,7 @@ public final class MultiBlockH {
     // 克尔-纽曼均质仪（Kerr-Newman Homogenizer）
     public static final MultiblockMachineDefinition KERR_NEWMAN_HOMOGENIZER = multiblock("kerr_newman_homogenizer", "克尔-纽曼均质仪", CrossRecipeMultiblockMachine::createHatchParallel)
             .nonYAxisRotation()
-            .langValue("kerr_newman_homogenizer")
-            .coilParallelTooltips()
+            .parallelizableTooltips()
             .laserTooltips()
             .multipleRecipesTooltips()
             .recipeTypes(GTORecipeTypes.MIXER_RECIPES)
