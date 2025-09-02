@@ -1,6 +1,9 @@
 package com.gtocore.data.lang;
 
+import com.gregtechceu.gtceu.GTCEu;
+import com.gregtechceu.gtceu.api.GTValues;
 import com.gtocore.common.machine.monitor.DisplayRegistry;
+import com.gtolib.GTOCore;
 
 import static com.gtocore.data.lang.LangHandler.addCNEN;
 
@@ -196,6 +199,243 @@ final class MachineLang {
         addCNEN("gtocore.machine.large_steam_solar_boiler.size", "尺寸：%s × %s", "Size: %s × %s");
         addCNEN("gtocore.machine.large_steam_solar_boiler.heat_collector_pipe", "有效集热管数量：%s", "Number of effective Heat collector pipe: %s");
         addCNEN("gtocore.machine.large_steam_solar_boiler.steam_production", "蒸汽产量：%s / s", "Steam production: %s / s");
+
+        addSingleMachineTooltips();
+
         DisplayRegistry.registerLanguage();
+    }
+
+    public static void addSingleMachineTooltips() {
+        // machines defined in GTM
+        SingleMachineTooltipBuilder.createGTM("electric_furnace")
+                .epic("§7工业级烤面包机", "§7Industrial-grade Toaster")
+                .legendary("§7太阳核心模拟器", "§7Solar Core Simulator");
+        SingleMachineTooltipBuilder.createGTM("alloy_smelter")
+                .epic("§7合金搅拌大师", "§7Alloy Mixing Master")
+                .legendary("§7纳米级材料融合装置", "§7Nanoscale Material Fusion Device");
+        SingleMachineTooltipBuilder.createGTM("arc_furnace")
+                .epic("§7雷电法王", "§7Lightning Arc Master")
+                .legendary("§7宙斯之怒", "§7Wrath of Zeus");
+        SingleMachineTooltipBuilder.createGTM("assembler")
+                .primitive("§7拼凑小物件", "§7Cobbling small items")
+                .epic("§7自动化工厂核心", "§7Automated Factory Core")
+                .legendary("§7自我复制的纳米机器人集群", "§7Self-replicating Nanobot Swarm");
+        SingleMachineTooltipBuilder.createGTM("autoclave")
+                .epic("§7高压灭菌Pro Max", "§7High-pressure Sterilization Pro Max")
+                .legendary("§7超立方体相变舱", "§7Hypercube Phase Change Chamber");
+        SingleMachineTooltipBuilder.createGTM("bender")
+                .epic("§7金属芭蕾舞者", "§7Metal Ballerina")
+                .legendary("§7黑洞级别的弯折力量", "§7Blackhole-level Bending Force");
+        SingleMachineTooltipBuilder.createGTM("brewery")
+                .epic("§7量子酿酒师", "§7Quantum Brewer")
+                .legendary("§7醉倒泰坦的佳酿", "§7Titan-intoxicating Nectar");
+        SingleMachineTooltipBuilder.createGTM("canner")
+                .epic("§7罐头喷射器", "§7Can Launcher")
+                .legendary("§7时空封装装置", "§7Spacetime Sealing Device");
+        SingleMachineTooltipBuilder.createGTM("centrifuge")
+                .epic("§7超速旋转咖啡杯", "§7Hyperspin Coffee Cup")
+                .legendary("§7人工中子星核心", "§7Artificial Neutron Star Core");
+        SingleMachineTooltipBuilder.createGTM("chemical_bath")
+                .epic("§7元素温泉", "§7Elemental Hot Spring")
+                .legendary("§7地球原始汤", "§7Primordial Soup");
+        SingleMachineTooltipBuilder.createGTM("chemical_reactor")
+                .primitive("§7简单物质化合", "§7Simple substance combination")
+                .epic("§7分子舞池", "§7Molecular Dance Floor")
+                .legendary("§7炼金术师的终极梦想", "§7Ultimate Dream of Alchemists");
+        SingleMachineTooltipBuilder.createGTM("compressor")
+                .epic("§7超级压力机", "§7Super Compressor")
+                .legendary("§7人造白矮星核心", "§7Artificial White Dwarf Core");
+        SingleMachineTooltipBuilder.createGTM("cutter")
+                .epic("§7光子切割大师", "§7Photon Cutting Master")
+                .legendary("§7因果律切割刀", "§7Causality Cutting Blade");
+        SingleMachineTooltipBuilder.createGTM("distillery")
+                .epic("§7精密提纯装置", "§7Precision Distillation Unit")
+                .legendary("§7绝对纯净领域", "§7Absolute Pure Realm");
+        SingleMachineTooltipBuilder.createGTM("electrolyzer")
+                .epic("§7雷霆分解者", "§7Thunder Splitter")
+                .legendary("§7强相互作用力破解器", "§7Strong Force Decryptor");
+        SingleMachineTooltipBuilder.createGTM("electromagnetic_separator")
+                .epic("§7磁暴分离器", "§7Magnetic Storm Separator")
+                .legendary("§7希格斯场操纵仪", "§7Higgs Field Manipulator");
+        SingleMachineTooltipBuilder.createGTM("extractor")
+                .epic("§7终极榨汁机", "§7Ultimate Juicer")
+                .legendary("§7真空零点能提取器", "§7Zero-point Energy Extractor");
+        SingleMachineTooltipBuilder.createGTM("extruder")
+                .epic("§7无限面条机", "§7Infinite Noodle Maker")
+                .legendary("§7时空挤压装置", "§7Spacetime Extrusion Device");
+        SingleMachineTooltipBuilder.createGTM("fermenter")
+                .epic("§7微生物狂欢派对", "§7Microorganism Rave Party")
+                .legendary("§7有机体超进化池", "§7Organism Hyper-evolution Pool");
+        SingleMachineTooltipBuilder.createGTM("fluid_heater")
+                .epic("§7等离子加热器", "§7Plasma Heater")
+                .legendary("§7恒星内核模拟装置", "§7Stellar Core Simulator");
+        SingleMachineTooltipBuilder.createGTM("fluid_solidifier")
+                .primitive("§7静置液体形成固体", "§7Liquid to Solid by Settling")
+                .epic("§7瞬间冷冻大师", "§7Instant Freeze Master")
+                .legendary("§7绝对零度生成器", "§7Absolute Zero Generator");
+        SingleMachineTooltipBuilder.createGTM("forge_hammer")
+                .epic("§7雷神之锤", "§7Thor's Hammer")
+                .legendary("§7行星级锻压装置", "§7Planetary Forging Device");
+        SingleMachineTooltipBuilder.createGTM("forming_press")
+                .epic("§7上帝之手", "§7God's Hand")
+                .legendary("§7现实重塑器", "§7Reality Reshaper");
+        SingleMachineTooltipBuilder.createGTM("lathe")
+                .primitive("§7以稍高的效率生产杆", "§7Produces Rods a little more efficiently")
+                .epic("§7比金刚石更加坚硬", "§7Harder than diamond")
+                .legendary("§7特种钢超级飞轮", "§7Special Steel Super Flywheel");
+        SingleMachineTooltipBuilder.createGTM("scanner")
+                .epic("§7量子扫描仪", "§7Quantum Scanner")
+                .legendary("§7超维信息读取器", "§7Hyperdimensional Information Reader");
+        SingleMachineTooltipBuilder.createGTM("mixer")
+                .epic("§7混沌搅拌机", "§7Chaos Mixer")
+                .legendary("§7大爆炸模拟器", "§7Big Bang Simulator");
+        SingleMachineTooltipBuilder.createGTM("ore_washer")
+                .epic("§7矿物SPA中心", "§7Ore SPA Center")
+                .legendary("§7量子级纯净清洗", "§7Quantum-level Purification");
+        SingleMachineTooltipBuilder.createGTM("packer")
+                .primitive("§7物品封装", "§7Item Packing")
+                .epic("§7空间压缩包装机", "§7Space Compression Packer")
+                .legendary("§7二向箔包装技术", "§7Dimensional Foil Packing");
+        SingleMachineTooltipBuilder.createGTM("polarizer")
+                .epic("§7磁极大师", "§7Polarity Master")
+                .legendary("§7量子自旋操纵仪", "§7Quantum Spin Manipulator");
+        SingleMachineTooltipBuilder.createGTM("laser_engraver")
+                .epic("§7光子雕刻师", "§7Photon Engraver")
+                .legendary("§7时空蚀刻机", "§7Spacetime Etcher");
+        SingleMachineTooltipBuilder.createGTM("sifter")
+                .epic("§7量子筛分仪", "§7Quantum Sifter")
+                .legendary("§7平行宇宙过滤器", "§7Parallel Universe Filter");
+        SingleMachineTooltipBuilder.createGTM("thermal_centrifuge")
+                .epic("§7等离子离心机", "§7Plasma Centrifuge")
+                .legendary("§7超高温物质分离器", "§7Ultra-high Temperature Separator");
+        SingleMachineTooltipBuilder.createGTM("wiremill")
+                .primitive("§7简单地生产导线", "§7Simple Wire Production")
+                .epic("§7拉力约一百万牛", "§7~1MN Tension")
+                .legendary("§7彻底摧毁范德华力", "§7Van der Waals Force Destroyer");
+        SingleMachineTooltipBuilder.createGTM("circuit_assembler")
+                .epic("§7纳米级电路工坊", "§7Nanoscale Circuit Workshop")
+                .legendary("§7量子计算机组装线", "§7Quantum Computer Assembly Line");
+        SingleMachineTooltipBuilder.createGTM("macerator")
+                .epic("§7分子破碎机", "§7Molecular Grinder")
+                .legendary("§7物质解构器", "§7Matter Deconstructor");
+        // tooltips for higher tier of gas collector and rock crusher has written by GTM
+
+        // machines defined in GTO
+        SingleMachineTooltipBuilder.createGTO("arc_generator")
+                .basic("§7摩擦生电", "§7Friction Electricity")
+                .elite("§7特斯拉线圈", "§7Tesla Coil")
+                .ultimate("§7人工闪电风暴", "§7Artificial Lightning Storm")
+                .epic("§7等离子电弧矩阵", "§7Plasma Arc Matrix")
+                .legendary("§7恒星能量提取器", "§7Stellar Energy Extractor");
+        SingleMachineTooltipBuilder.createGTO("dehydrator")
+                .basic("§7脱水，脱水！", "§7Dehydrate, Dehydrate!")
+                .elite("§7沙漠风暴模拟器", "§7Desert Storm Simulator")
+                .ultimate("§7绝对干燥领域", "§7Absolute Dry Zone")
+                .epic("§7真空干燥奇点", "§7Vacuum Drying Singularity")
+                .legendary("§7水分子消除装置", "§7Water Molecule Eliminator");
+        SingleMachineTooltipBuilder.createGTO("unpacker")
+                .primitive("§7粗糙地拆开", "§7Crude Unpacking")
+                .basic("§7标准拆包操作", "§7Standard Unpacking")
+                .elite("§7精准解包大师", "§7Precision Unpacking Master")
+                .ultimate("§7分子级拆解", "§7Molecular Disassembly")
+                .epic("§7空间解压缩装置", "§7Spatial Decompression Unit")
+                .legendary("§7因果律包装破解器", "§7Causality Package Cracker");
+        SingleMachineTooltipBuilder.createGTO("cluster")
+                .basic("§7生产薄片", "§7Produces Foils")
+                .elite("§7精密镀膜机", "§7Precision Coating Machine")
+                .ultimate("§7原子级沉积", "§7Atomic Deposition")
+                .epic("§7量子层积装置", "§7Quantum Lamination Device")
+                .legendary("§7现实编织者", "§7Reality Weaver");
+        SingleMachineTooltipBuilder.createGTO("rolling")
+                .basic("§7压扁成型", "§7Flat Rolling")
+                .elite("§7液压精密轧制", "§7Hydraulic Precision Rolling")
+                .ultimate("§7分子级压延", "§7Molecular Calendering")
+                .epic("§7时空碾压机", "§7Spacetime Roller")
+                .legendary("§7维度碾压装置", "§7Dimensional Compactor");
+        SingleMachineTooltipBuilder.createGTO("laminator")
+                .basic("§7绝缘套皮，安全用电！", "§7Insulation Coating, Safe Electricity!")
+                .elite("§7纳米涂层机", "§7Nano Coating Machine")
+                .ultimate("§7量子层压技术", "§7Quantum Lamination")
+                .epic("§7超导覆膜装置", "§7Superconducting Coating Unit")
+                .legendary("§7绝对绝缘屏障生成器", "§7Absolute Insulation Barrier Generator");
+        SingleMachineTooltipBuilder.createGTO("loom")
+                .primitive("§7只是把导线捆在一起", "§7Just Bundling Wires Together")
+                .basic("§7自动化编织", "§7Automated Weaving")
+                .elite("§7精密纺织大师", "§7Precision Textile Master")
+                .ultimate("§7分子级编织", "§7Molecular Weaving")
+                .epic("§7量子织布机", "§7Quantum Loom")
+                .legendary("§7命运纺纱机", "§7Fate Spinning Wheel");
+        SingleMachineTooltipBuilder.createGTO("laser_welder")
+                .basic("§7古法电焊技术", "§7Ancient Welding Technique")
+                .elite("§7光子焊接大师", "§7Photon Welding Master")
+                .ultimate("§7量子纠缠焊接", "§7Quantum Entanglement Welding")
+                .epic("§7时空缝合装置", "§7Spacetime Stitcher")
+                .legendary("§7因果律焊接器", "§7Causality Welder");
+        SingleMachineTooltipBuilder.createGTO("world_data_scanner")
+                .basic("§7区块信息读取器", "§7Chunk Data Reader")
+                .elite("§7维度特征分析仪", "§7Dimensional Feature Analyzer")
+                .ultimate("§7现实数据采集装置", "§7Reality Data Collection Unit")
+                .epic("§7量子态世界扫描仪", "§7Quantum State World Scanner")
+                .legendary("§7宇宙信息库终端", "§7Cosmic Database Terminal");
+        SingleMachineTooltipBuilder.createGTO("vacuum_pump")
+                .steam("§7简易抽气装置", "§7Simple Air Pump", "§7过热蒸汽真空泵", "§7Superheated Steam Vacuum Pump")
+                .add("§7基础真空发生器", "§7Basic Vacuum Generator", GTValues.LV)
+                .add("§7工业级真空系统", "§7Industrial Vacuum System", GTValues.MV)
+                .add("§7高效真空抽取装置", "§7High-efficiency Vacuum Extraction Unit", GTValues.HV);
+    }
+
+    private record SingleMachineTooltipBuilder(String namespace, String type) {
+
+        public static SingleMachineTooltipBuilder createGTM(String machineType) {
+            return new SingleMachineTooltipBuilder(GTCEu.MOD_ID, machineType);
+        }
+
+        public static SingleMachineTooltipBuilder createGTO(String machineType) {
+            return new SingleMachineTooltipBuilder(GTOCore.MOD_ID, machineType);
+        }
+
+        public SingleMachineTooltipBuilder add(String cn, String en, int tier) {
+            addCNEN(namespace + ".machine." + GTValues.VN[tier].toLowerCase() + "_" + type + ".tooltip", cn, en);
+            return this;
+        }
+
+        public SingleMachineTooltipBuilder add(String cn, String en, int tierMin, int tierMax) {
+            for (int tier = tierMin; tier <= tierMax; tier++) {
+                add(cn, en, tier);
+            }
+            return this;
+        }
+
+        public SingleMachineTooltipBuilder steam(String lpCn, String lpEn, String hpCn, String hpEn) {
+            addCNEN(namespace  + ".machine.lp_steam_" + type + ".tooltip", lpCn, lpEn);
+            addCNEN(namespace  + ".machine.hp_steam_" + type + ".tooltip", hpCn, hpEn);
+            return this;
+        }
+
+        public SingleMachineTooltipBuilder primitive(String cn, String en) {
+            // primitive machines are all from GTO
+            addCNEN(GTOCore.MOD_ID + ".machine." + GTValues.VN[GTValues.ULV].toLowerCase() + "_" + type + ".tooltip", cn, en);
+            return this;
+        }
+
+        public SingleMachineTooltipBuilder basic(String cn, String en) {
+            return add(cn, en, GTValues.LV, GTValues.EV);
+        }
+
+        public SingleMachineTooltipBuilder elite(String cn, String en) {
+            return add(cn, en, GTValues.IV, GTValues.ZPM);
+        }
+
+        public SingleMachineTooltipBuilder ultimate(String cn, String en) {
+            return add(cn, en, GTValues.UV);
+        }
+
+        public SingleMachineTooltipBuilder epic(String cn, String en) {
+            return add(cn, en, GTValues.UHV, GTValues.UXV);
+        }
+
+        public SingleMachineTooltipBuilder legendary(String cn, String en) {
+            return add(cn, en, GTValues.OpV);
+        }
     }
 }
