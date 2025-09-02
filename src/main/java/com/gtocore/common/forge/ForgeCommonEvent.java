@@ -1,6 +1,5 @@
 package com.gtocore.common.forge;
 
-import com.gtocore.common.ServerCache;
 import com.gtocore.common.data.GTOBlocks;
 import com.gtocore.common.data.GTOCommands;
 import com.gtocore.common.data.GTOEffects;
@@ -62,7 +61,6 @@ import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.level.BlockEvent;
 import net.minecraftforge.event.level.LevelEvent;
-import net.minecraftforge.event.server.ServerStoppingEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
@@ -259,6 +257,7 @@ public final class ForgeCommonEvent {
                 level.addFreshEntity(new ItemEntity(level, player.getX(), player.getY(), player.getZ(), ItemMap.getScrapItem()));
                 player.setItemInHand(event.getHand(), itemStack.copyWithCount(count - 1));
             }
+            return;
         }
     }
 
@@ -289,29 +288,6 @@ public final class ForgeCommonEvent {
             RecipeRunLimitSavaedData.INSTANCE = serverLevel.getDataStorage().computeIfAbsent(RecipeRunLimitSavaedData::new, RecipeRunLimitSavaedData::new, "recipe_run_limit_data");
             WirelessSavedData.Companion.setINSTANCE(serverLevel.getDataStorage().computeIfAbsent(WirelessSavedData::initialize, WirelessSavedData::new, "wireless_saved_data_" + GTOConfig.INSTANCE.aeGridKey));
         }
-    }
-
-    @SubscribeEvent
-    public static void onPlayerLoggedInEvent(PlayerEvent.PlayerLoggedInEvent event) {
-        if (event.getEntity() instanceof ServerPlayer player) {
-            if (!GTCEu.isDev()) {
-                player.displayClientMessage(Component.translatable("gtocore.gtm", Component.literal("GitHub").withStyle(Style.EMPTY.withColor(ChatFormatting.GREEN).withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://github.com/GregTech-Odyssey/GregTech-Odyssey/issues")))), false);
-                player.displayClientMessage(Component.translatable("gtocore.dev", Component.literal("GitHub").withStyle(Style.EMPTY.withColor(ChatFormatting.GREEN).withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://github.com/GregTech-Odyssey/GregTech-Odyssey/issues")))), false);
-                Configurator.setRootLevel(org.apache.logging.log4j.Level.INFO);
-            } else {
-                Configurator.setRootLevel(org.apache.logging.log4j.Level.DEBUG);
-            }
-            if (player instanceof IEnhancedPlayer enhancedPlayer) {
-                ServerMessage.send(player.getServer(), player, "loggedIn", buf -> buf.writeUUID(ServerUtils.getServerIdentifier()));
-                enhancedPlayer.getPlayerData().setDrift(enhancedPlayer.getPlayerData().disableDrift);
-                OrganUtilsKt.ktFreshOrganState(enhancedPlayer.getPlayerData());
-            }
-        }
-    }
-
-    @SubscribeEvent
-    public static void onServerStoppingEvent(ServerStoppingEvent event) {
-        ServerCache.observe = false;
     }
 
     @RegisterLanguage(valuePrefix = "gtocore.lang", en = "Channel mode command banned in expert", cn = "在专家模式下，频道模式命令被禁止")
