@@ -3,6 +3,7 @@ package com.gtocore.data.recipe.classified;
 import com.gtocore.api.data.tag.GTOTagPrefix;
 import com.gtocore.common.data.*;
 import com.gtocore.common.data.machines.*;
+import com.gtocore.data.CraftingComponents;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
@@ -428,6 +429,26 @@ final class AssemblyLineA {
                 .researchStation(b -> b.researchStack(GTMachines.FLUID_HEATER[GTValues.UEV].asStack())
                         .CWUt(512)
                         .EUt(6457280))
+                .save();
+
+        ASSEMBLY_LINE_RECIPES.recipeBuilder("modular_maintenance_hatch")
+                .inputItems(GTMachines.HULL[GTValues.LuV].asStack())
+                .inputItems(GTOMachines.AUTO_CONFIGURATION_MAINTENANCE_HATCH, 4)
+                .inputItems(GTItems.CONVEYOR_MODULE_LuV.asStack(8))
+                .inputItems(GTItems.ROBOT_ARM_LuV.asStack(8))
+                .inputItems(CustomTags.LuV_CIRCUITS, 16)
+                .inputItems(GTItems.EMITTER_LuV.asStack(4))
+                .inputItems(GTItems.SENSOR_LuV.asStack(4))
+                .inputItems(CraftingComponents.BUFFER.get(GTValues.LuV), 4)
+                .inputItems(TagPrefix.foil, GTMaterials.StainlessSteel, 16)
+                .inputFluids(GTMaterials.Lubricant.getFluid(1000))
+                .inputFluids(GTMaterials.SolderingAlloy.getFluid(576))
+                .inputFluids(GTMaterials.Cupronickel.getFluid(576))
+                .inputFluids(GTMaterials.Brass.getFluid(576))
+                .outputItems(GTOMachines.MODULAR_CONFIGURATION_MAINTENANCE_HATCH.asStack())
+                .EUt(GTValues.VA[GTValues.ZPM])
+                .duration(800)
+                .scanner(b -> b.researchStack(GTOMachines.TEMP_VACUUM_INTERFACE.asStack()).duration(1200).EUt(GTValues.VA[GTValues.ZPM]))
                 .save();
     }
 }

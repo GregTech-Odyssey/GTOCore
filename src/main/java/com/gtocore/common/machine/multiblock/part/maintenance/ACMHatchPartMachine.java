@@ -43,6 +43,15 @@ public class ACMHatchPartMachine extends TieredPartMachine implements IMaintenan
     @DynamicInitialValue(key = "maintenance.configurable_duration.min", typeKey = KEY_MULTIPLY, simpleValue = "0.7F", normalValue = "0.8F", expertValue = "0.9F", cn = "配方处理速度调节下限 : %s 倍", cnComment = "不计超频，配方处理速度为正常速度的最低倍率", en = "Configurable Recipe Speed Multiplier Minimum : %s Multiplier", enComment = "Ignore overclocking, the recipe processing speed is the lowest multiplier for normal speed")
     private static float MIN_DURATION_MULTIPLIER = 1.0F;
     private static final float DURATION_ACTION_AMOUNT = 0.01F;
+
+    protected void setDurationMultiplierPercent(float durationMultiplierPercent) {
+        this.durationMultiplier = durationMultiplierPercent / 100.0F;
+    }
+
+    protected float getDurationMultiplierPercent() {
+        return this.durationMultiplier * 100.0F;
+    }
+
     @Persisted
     private float durationMultiplier = 1.0F;
 
@@ -109,7 +118,7 @@ public class ACMHatchPartMachine extends TieredPartMachine implements IMaintenan
         return BigDecimal.valueOf(result).setScale(2, RoundingMode.HALF_UP).floatValue();
     }
 
-    private void incInternalMultiplier(int multiplier) {
+    protected void incInternalMultiplier(int multiplier) {
         float newDurationMultiplier = durationMultiplier + DURATION_ACTION_AMOUNT * multiplier;
         if (newDurationMultiplier >= MAX_DURATION_MULTIPLIER) {
             durationMultiplier = MAX_DURATION_MULTIPLIER;
@@ -118,7 +127,7 @@ public class ACMHatchPartMachine extends TieredPartMachine implements IMaintenan
         durationMultiplier = newDurationMultiplier;
     }
 
-    private void decInternalMultiplier(int multiplier) {
+    protected void decInternalMultiplier(int multiplier) {
         float newDurationMultiplier = durationMultiplier - DURATION_ACTION_AMOUNT * multiplier;
         if (newDurationMultiplier <= MIN_DURATION_MULTIPLIER) {
             durationMultiplier = MIN_DURATION_MULTIPLIER;
@@ -153,14 +162,15 @@ public class ACMHatchPartMachine extends TieredPartMachine implements IMaintenan
         return group;
     }
 
-    private static Component getTextWidgetText(Supplier<Float> multiplier) {
+    protected static Component getTextWidgetText(Supplier<Float> multiplier) {
         Component tooltip;
+        String format = String.format("%.2f", multiplier.get());
         if (multiplier.get() == 1.0) {
             tooltip = Component.translatable("gtceu.maintenance.configurable_" + "duration" + ".unchanged_description");
         } else {
-            tooltip = Component.translatable("gtceu.maintenance.configurable_" + "duration" + ".changed_description", multiplier.get());
+            tooltip = Component.translatable("gtceu.maintenance.configurable_" + "duration" + ".changed_description", format);
         }
-        return Component.translatable("gtceu.maintenance.configurable_" + "duration", multiplier.get()).setStyle(Style.EMPTY.withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, tooltip)));
+        return Component.translatable("gtceu.maintenance.configurable_" + "duration", format).setStyle(Style.EMPTY.withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, tooltip)));
     }
 
     public static float getMAX_DURATION_MULTIPLIER() {

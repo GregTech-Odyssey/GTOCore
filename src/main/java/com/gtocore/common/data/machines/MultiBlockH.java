@@ -35,7 +35,6 @@ import java.util.List;
 import static com.gregtechceu.gtceu.api.machine.multiblock.PartAbility.*;
 import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
 import static com.gregtechceu.gtceu.api.pattern.util.RelativeDirection.*;
-import static com.gregtechceu.gtceu.common.data.GTBlocks.PLASTCRETE;
 import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.DUMMY_RECIPES;
 import static com.gtolib.api.GTOValues.GLASS_TIER;
 import static com.gtolib.utils.register.MachineRegisterUtils.multiblock;
@@ -217,7 +216,7 @@ public final class MultiBlockH {
             .multipleRecipesTooltips()
             .recipeTypes(GTORecipeTypes.GREENHOUSE_RECIPES)
             .recipeTypes(GTORecipeTypes.TREE_GROWTH_SIMULATOR_RECIPES)
-            .block(GTBlocks.PLASTCRETE)
+            .block(GTOBlocks.BIOACTIVE_MECHANICAL_CASING)
             .pattern(definition -> MultiBlockFileReader.start(definition, RelativeDirection.LEFT, RelativeDirection.UP, RelativeDirection.BACK)
                     .where('A', blocks(GTOBlocks.STRENGTHEN_THE_BASE_BLOCK.get()))
                     .where('B', blocks(GTBlocks.CASING_STAINLESS_CLEAN.get()))
@@ -242,10 +241,11 @@ public final class MultiBlockH {
                             .or(GTOPredicates.autoThreadLaserAbilities(definition.getRecipeTypes()))
                             .or(abilities(MAINTENANCE).setExactLimit(1)))
                     .where('U', blocks(GTBlocks.HIGH_POWER_CASING.get()))
+                    .where('X', GTOPredicates.light())
                     .where('V', controller(blocks(definition.get())))
                     .where(' ', any())
                     .build())
-            .workableCasingRenderer(GTCEu.id("block/casings/cleanroom/plascrete"), GTCEu.id("block/multiblock/gcym/large_chemical_bath"))
+            .workableCasingRenderer(GTOCore.id("block/casings/bioactive_mechanical_casing"), GTCEu.id("block/multiblock/gcym/large_chemical_bath"))
             .register();
 
     public static final MultiblockMachineDefinition NEUTRON_FORGING_ANVIL = multiblock("neutron_forging_anvil", "中子锻砧", CrossRecipeMultiblockMachine::createHatchParallel)
@@ -392,6 +392,7 @@ public final class MultiBlockH {
     // 生命熔炉
     public static final MultiblockMachineDefinition LIFE_FORGE = multiblock("life_forge", "生命熔炉", CoilCrossRecipeMultiblockMachine::createCoilParallel)
             .nonYAxisRotation()
+            .tooltipsText("运行生化反应配方时，§6无视环境辐射条件§r", "When running biochemical reaction recipes, §6ignore radiation condition§r")
             .tooltipsText("D/N/A", "D/N/A")
             .coilParallelTooltips()
             .laserTooltips()
@@ -401,7 +402,6 @@ public final class MultiBlockH {
             .pattern(definition -> MultiBlockFileReader.start(definition, RelativeDirection.FRONT, RelativeDirection.UP, RelativeDirection.LEFT) // definition
                     .where('A', blocks(GTOBlocks.SPS_CASING.get())
                             .or(GTOPredicates.autoThreadLaserAbilities(definition.getRecipeTypes()))
-                            .or(blocks(GTOMachines.RADIATION_HATCH.getBlock()).setMaxGlobalLimited(8))
                             .or(abilities(MAINTENANCE).setExactLimit(1)))
                     .where('B', blocks(GTOBlocks.HYPER_CORE.get()))
                     .where('C', blocks(GTOBlocks.NAQUADAH_ALLOY_CASING.get()))
@@ -493,7 +493,7 @@ public final class MultiBlockH {
             .nonYAxisRotation()
             .parallelizableTooltips()
             .laserTooltips()
-            .multipleRecipesTooltips()
+            // .multipleRecipesTooltips()
             .recipeTypes(GTORecipeTypes.MIXER_RECIPES)
             .block(GTOBlocks.DIMENSION_INJECTION_CASING)
             .pattern(definition -> MultiBlockFileReader.start(definition)
