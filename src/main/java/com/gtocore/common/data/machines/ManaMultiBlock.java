@@ -494,4 +494,24 @@ public final class ManaMultiBlock {
                     .build())
             .workableCasingRenderer(GTOCore.id("block/casings/source_fiber_mechanical_casing"), GTCEu.id("block/multiblock/gcym/large_centrifuge"))
             .register();
+
+    public static final MultiblockMachineDefinition GEAR_DECONSTRUCTION_CENTER = multiblock("gear_deconstruction_center", "装备解构中心", GearDeconstructionCenter::new)
+            .nonYAxisRotation()
+            .recipeTypes(GTRecipeTypes.DUMMY_RECIPES)
+            .block(GTOBlocks.HERETICAL_MECHANICAL_CASING)
+            .pattern(definition -> FactoryBlockPattern.start(definition)
+                    .aisle("AAA", "AAA", "AAA")
+                    .aisle("AAA", "AAA", "AAA")
+                    .aisle("AAA", "A~A", "AAA")
+                    .where('A', blocks(GTOBlocks.HERETICAL_MECHANICAL_CASING.get())
+                            .or(abilities(INPUT_ENERGY))
+                            .or(abilities(GTOPartAbility.INPUT_MANA))
+                            .or(abilities(IMPORT_FLUIDS))
+                            .or(abilities(IMPORT_ITEMS))
+                            .or(abilities(EXPORT_FLUIDS))
+                            .or(abilities(EXPORT_ITEMS)))
+                    .where('~', controller(blocks(definition.get())))
+                    .build())
+            .workableCasingRenderer(GTOCore.id("block/casings/heretical_mechanical_casing"), GTCEu.id("block/multiblock/fusion_reactor"))
+            .register();
 }
