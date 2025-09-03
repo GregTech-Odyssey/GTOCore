@@ -1,21 +1,5 @@
 package com.gtocore.common.data.machines;
 
-import com.gtocore.api.machine.part.GTOPartAbility;
-import com.gtocore.api.pattern.GTOPredicates;
-import com.gtocore.client.renderer.machine.DigitalMinerRenderer;
-import com.gtocore.common.data.*;
-import com.gtocore.common.data.translation.GTOMachineTranslation;
-import com.gtocore.common.machine.multiblock.electric.miner.DigitalMiner;
-import com.gtocore.common.machine.multiblock.electric.processing.EncapsulatorExecutionModuleMachine;
-import com.gtocore.common.machine.multiblock.electric.processing.ProcessingEncapsulatorMachine;
-import com.gtocore.common.machine.multiblock.steam.LargeSteamSolarBoilerMachine;
-
-import com.gtolib.GTOCore;
-import com.gtolib.api.annotation.NewDataAttributes;
-import com.gtolib.api.machine.multiblock.*;
-import com.gtolib.utils.MultiBlockFileReader;
-import com.gtolib.utils.RegistriesUtils;
-
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
@@ -25,7 +9,26 @@ import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.MultiblockShapeInfo;
 import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
 import com.gregtechceu.gtceu.common.data.*;
-
+import com.gtocore.api.machine.part.GTOPartAbility;
+import com.gtocore.api.pattern.GTOPredicates;
+import com.gtocore.client.renderer.machine.DigitalMinerRenderer;
+import com.gtocore.common.data.GTOBlocks;
+import com.gtocore.common.data.GTOMachines;
+import com.gtocore.common.data.GTOMaterials;
+import com.gtocore.common.data.GTORecipeTypes;
+import com.gtocore.common.data.translation.GTOMachineTranslation;
+import com.gtocore.common.machine.multiblock.electric.miner.DigitalMiner;
+import com.gtocore.common.machine.multiblock.electric.processing.EncapsulatorExecutionModuleMachine;
+import com.gtocore.common.machine.multiblock.electric.processing.ProcessingEncapsulatorMachine;
+import com.gtocore.common.machine.multiblock.steam.LargeSteamSolarBoilerMachine;
+import com.gtolib.GTOCore;
+import com.gtolib.api.annotation.NewDataAttributes;
+import com.gtolib.api.machine.multiblock.CoilCrossRecipeMultiblockMachine;
+import com.gtolib.api.machine.multiblock.CrossRecipeMultiblockMachine;
+import com.gtolib.api.machine.multiblock.NoRecipeLogicMultiblockMachine;
+import com.gtolib.api.machine.multiblock.TierCasingCrossRecipeMultiblockMachine;
+import com.gtolib.utils.MultiBlockFileReader;
+import com.gtolib.utils.RegistriesUtils;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.Blocks;
 
@@ -34,15 +37,14 @@ import java.util.List;
 
 import static com.gregtechceu.gtceu.api.machine.multiblock.PartAbility.*;
 import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
-import static com.gregtechceu.gtceu.api.pattern.util.RelativeDirection.*;
-import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.DUMMY_RECIPES;
 import static com.gtolib.api.GTOValues.GLASS_TIER;
 import static com.gtolib.utils.register.MachineRegisterUtils.multiblock;
 import static com.hepdd.gtmthings.data.GTMTRecipeTypes.DIGITAL_MINER_RECIPE;
 
 public final class MultiBlockH {
 
-    public static void init() {}
+    public static void init() {
+    }
 
     public static final MultiblockMachineDefinition LHC = multiblock("lhc", "大型强子对撞机", NoRecipeLogicMultiblockMachine::new)
             .nonYAxisRotation()
@@ -145,8 +147,7 @@ public final class MultiBlockH {
 
     public static final MultiblockMachineDefinition GIANT_FLOTATION_TANK = multiblock("giant_flotation_tank", "巨型浮游选矿池", CrossRecipeMultiblockMachine::createHatchParallel)
             .nonYAxisRotation()
-            .tooltipsText("工业级巨型浮游选矿池", "Industrial-grade giant flotation pool")
-            .tooltipsText("安全生产 警钟长鸣", "Safety production requires constant vigilance")
+            .tooltips(GTOMachineTranslation.INSTANCE.getGiantFlotationTankTooltips().getSupplier())
             .parallelizableTooltips()
             .laserTooltips()
             .multipleRecipesTooltips()
@@ -178,6 +179,7 @@ public final class MultiBlockH {
 
     public static final MultiblockMachineDefinition ENTROPY_FLUX_ENGINE = multiblock("entropy_flux_engine", "熵流引擎", TierCasingCrossRecipeMultiblockMachine.createParallel(m -> 1L << (2 * m.getCasingTier(GLASS_TIER)), GLASS_TIER))
             .nonYAxisRotation()
+            .tooltips(GTOMachineTranslation.INSTANCE.getEntropyFluxEngineTooltips().getSupplier())
             .tooltips(NewDataAttributes.ALLOW_PARALLEL_NUMBER.create(
                     h -> h.addLines("由玻璃等级决定", "Determined by glass tier"),
                     c -> c.addCommentLines("公式 : 4^玻璃等级", "Formula: 4^(Glass Tier)")))
@@ -209,6 +211,7 @@ public final class MultiBlockH {
 
     public static final MultiblockMachineDefinition TRANSLIMINAL_OASIS = multiblock("transliminal_oasis", "超限绿洲", TierCasingCrossRecipeMultiblockMachine.createParallel(m -> 1L << (2 * m.getCasingTier(GLASS_TIER)), GLASS_TIER))
             .nonYAxisRotation()
+            .tooltips(GTOMachineTranslation.INSTANCE.getTransliminalOasisTooltips().getSupplier())
             .tooltips(NewDataAttributes.ALLOW_PARALLEL_NUMBER.create(
                     h -> h.addLines("由玻璃等级决定", "Determined by glass tier"),
                     c -> c.addCommentLines("公式 : 4^玻璃等级", "Formula: 4^(Glass Tier)")))
@@ -250,6 +253,7 @@ public final class MultiBlockH {
 
     public static final MultiblockMachineDefinition NEUTRON_FORGING_ANVIL = multiblock("neutron_forging_anvil", "中子锻砧", CrossRecipeMultiblockMachine::createHatchParallel)
             .nonYAxisRotation()
+            .tooltips(GTOMachineTranslation.INSTANCE.getNeutronForgingAnvilTooltips().getSupplier())
             .parallelizableTooltips()
             .laserTooltips()
             .multipleRecipesTooltips()
@@ -289,6 +293,7 @@ public final class MultiBlockH {
 
     public static final MultiblockMachineDefinition DISSOLUTION_CORE = multiblock("dissolution_core", "溶解核心", CoilCrossRecipeMultiblockMachine.createHatchParallel(false))
             .nonYAxisRotation()
+            .tooltips(GTOMachineTranslation.INSTANCE.getDissolutionCoreTooltips().getSupplier())
             .parallelizableTooltips()
             .laserTooltips()
             .multipleRecipesTooltips()
@@ -392,8 +397,7 @@ public final class MultiBlockH {
     // 生命熔炉
     public static final MultiblockMachineDefinition LIFE_FORGE = multiblock("life_forge", "生命熔炉", CoilCrossRecipeMultiblockMachine::createCoilParallel)
             .nonYAxisRotation()
-            .tooltipsText("运行生化反应配方时，§6无视环境辐射条件§r", "When running biochemical reaction recipes, §6ignore radiation condition§r")
-            .tooltipsText("D/N/A", "D/N/A")
+            .tooltips(GTOMachineTranslation.INSTANCE.getLifeForgeTooltips().getSupplier())
             .coilParallelTooltips()
             .laserTooltips()
             .multipleRecipesTooltips()
@@ -426,6 +430,7 @@ public final class MultiBlockH {
     // 双子星封装系统
     public static final MultiblockMachineDefinition GEMINI_CONTAINMENT_SYSTEM = multiblock("gemini_containment_system", "双子星封装系统", CoilCrossRecipeMultiblockMachine::createCoilParallel)
             .nonYAxisRotation()
+            .tooltips(GTOMachineTranslation.INSTANCE.getGeminiContainmentSystemTooltips().getSupplier())
             .coilParallelTooltips()
             .laserTooltips()
             .multipleRecipesTooltips()
@@ -488,9 +493,9 @@ public final class MultiBlockH {
             .hasTESR(true)
             .register();
 
-    // 克尔-纽曼均质仪（Kerr-Newman Homogenizer）
     public static final MultiblockMachineDefinition KERR_NEWMAN_HOMOGENIZER = multiblock("kerr_newman_homogenizer", "克尔-纽曼均质仪", CrossRecipeMultiblockMachine::createHatchParallel)
             .nonYAxisRotation()
+            .tooltips(GTOMachineTranslation.INSTANCE.getKerrNewmanHomogenizerTooltips().getSupplier())
             .parallelizableTooltips()
             .laserTooltips()
             // .multipleRecipesTooltips()

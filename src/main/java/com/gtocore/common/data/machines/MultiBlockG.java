@@ -908,6 +908,7 @@ public final class MultiBlockG {
 
     public static final MultiblockMachineDefinition INTEGRATED_VAPOR_DEPOSITION_SYSTEM = multiblock("integrated_vapor_deposition_system", "综合气相沉积系统", TierCasingCrossRecipeMultiblockMachine.createParallel(m -> 1L << (m.getCasingTier(GTOValues.GLASS_TIER) << 1), GTOValues.GLASS_TIER))
             .nonYAxisRotation()
+            .tooltips(GTOMachineTranslation.INSTANCE.getIntegratedVaporDepositionSystemTooltips().getSupplier())
             .specialParallelizableTooltips()
             .tooltips(NewDataAttributes.ALLOW_PARALLEL_NUMBER.create(h -> h.addLines("4^玻璃等级", "4^(Glass Tier)")))
             .laserTooltips()

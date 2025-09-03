@@ -1,9 +1,27 @@
 package com.gtocore.common.data.machines;
 
+import com.gregtechceu.gtceu.GTCEu;
+import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
+import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
+import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
+import com.gregtechceu.gtceu.api.machine.feature.multiblock.ICoilMachine;
+import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
+import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
+import com.gregtechceu.gtceu.api.pattern.MultiblockShapeInfo;
+import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
+import com.gregtechceu.gtceu.common.data.GCYMBlocks;
+import com.gregtechceu.gtceu.common.data.GTBlocks;
+import com.gregtechceu.gtceu.common.data.GTMaterials;
+import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
+import com.gregtechceu.gtceu.common.data.machines.GTMultiMachines;
+import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.gtocore.api.machine.part.GTOPartAbility;
 import com.gtocore.api.pattern.GTOPredicates;
 import com.gtocore.client.renderer.machine.PrimitiveDistillationRenderer;
-import com.gtocore.common.data.*;
+import com.gtocore.common.data.GTOBlocks;
+import com.gtocore.common.data.GTOMachines;
+import com.gtocore.common.data.GTOMaterials;
+import com.gtocore.common.data.GTORecipeTypes;
 import com.gtocore.common.data.translation.GTOMachineTranslation;
 import com.gtocore.common.machine.multiblock.electric.EnergyInjectorMachine;
 import com.gtocore.common.machine.multiblock.electric.assembly.ComponentAssemblerMachine;
@@ -20,7 +38,6 @@ import com.gtocore.common.machine.multiblock.noenergy.ThermalPowerPumpMachine;
 import com.gtocore.common.machine.multiblock.steam.BaseSteamMultiblockMachine;
 import com.gtocore.common.machine.multiblock.steam.LargeSteamMultiblockMachine;
 import com.gtocore.common.machine.multiblock.steam.SteamMultiblockMachine;
-
 import com.gtolib.GTOCore;
 import com.gtolib.api.annotation.NewDataAttributes;
 import com.gtolib.api.annotation.component_builder.ComponentBuilder;
@@ -30,24 +47,9 @@ import com.gtolib.api.machine.feature.multiblock.ITierCasingMachine;
 import com.gtolib.api.machine.multiblock.*;
 import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
 import com.gtolib.utils.MultiBlockFileReader;
-
-import com.gregtechceu.gtceu.GTCEu;
-import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
-import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
-import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
-import com.gregtechceu.gtceu.api.machine.feature.multiblock.ICoilMachine;
-import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
-import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
-import com.gregtechceu.gtceu.api.pattern.MultiblockShapeInfo;
-import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
-import com.gregtechceu.gtceu.common.data.*;
-import com.gregtechceu.gtceu.common.data.machines.GTMultiMachines;
-import com.gregtechceu.gtceu.utils.FormattingUtil;
-
+import com.hepdd.gtmthings.data.CustomMachines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.Blocks;
-
-import com.hepdd.gtmthings.data.CustomMachines;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,7 +63,8 @@ import static com.gtolib.utils.register.MachineRegisterUtils.multiblock;
 
 public final class MultiBlockC {
 
-    public static void init() {}
+    public static void init() {
+    }
 
     public static final MultiblockMachineDefinition PRIMITIVE_DISTILLATION_TOWER = multiblock("primitive_distillation_tower", "原始蒸馏塔", PrimitiveDistillationTowerMachine::new)
             .nonYAxisRotation()
@@ -121,8 +124,8 @@ public final class MultiBlockC {
             .steamOverclock()
             .block(GTBlocks.CASING_BRONZE_BRICKS)
             .pattern(definition -> FactoryBlockPattern.start(definition) // , RelativeDirection.FRONT,
-                                                                         // RelativeDirection.UP,
-                                                                         // RelativeDirection.RIGHT
+                    // RelativeDirection.UP,
+                    // RelativeDirection.RIGHT
                     .aisle("AAAAAAA", "BEEEEEB", "CCCCCCC", "E     E", "E     E", "E     E", "E     E", "EEEEEEE")
                     .aisle("AAAAAAA", "B     B", "CCCCCCC", "  DDD  ", "  DDD  ", "  DDD  ", "       ", "E     E")
                     .aisle("AAAAAAA", "B     B", "CCCCCCC", "  D D  ", "  D D  ", "  DDD  ", "       ", "E     E")
@@ -219,6 +222,7 @@ public final class MultiBlockC {
             .nonYAxisRotation()
             .recipeTypes(GTRecipeTypes.ALLOY_SMELTER_RECIPES)
             .recipeTypes(GTRecipeTypes.FURNACE_RECIPES)
+            .tooltips(GTOMachineTranslation.INSTANCE.getExtremeElectricFurnaceTooltips().getSupplier())
             .coilParallelTooltips()
             .laserTooltips()
             .multipleRecipesTooltips()
@@ -256,6 +260,7 @@ public final class MultiBlockC {
             .nonYAxisRotation()
             .recipeTypes(GTORecipeTypes.LIQUEFACTION_FURNACE_RECIPES)
             .recipeTypes(GTORecipeTypes.REACTION_FURNACE_RECIPES)
+            .tooltips(GTOMachineTranslation.INSTANCE.getHighTemperatureReactionHubTooltips().getSupplier())
             .parallelizableTooltips()
             .laserTooltips()
             .multipleRecipesTooltips()
@@ -294,12 +299,12 @@ public final class MultiBlockC {
     public static final MultiblockMachineDefinition COMPONENT_ASSEMBLER = multiblock("component_assembler", "部件组装机", ComponentAssemblerMachine::new)
             .allRotation()
             .tooltips(ComponentBuilder.create().addStoryLine("""
-                    格雷科技有限公司为了照顾新入职的员工，特别设计了这台
-                    小型部件组装机。虽然只能处理IV及以下等级的配方，再高
-                    就会出现未知错误，但对于刚刚起步的小菜鸡员工来说已经
-                    足够使用。董事长表示，即使是入门级设备，造价仍然不菲，
-                    希望员工们能够珍惜这份来之不易的工作机会。
-                    """,
+                            格雷科技有限公司为了照顾新入职的员工，特别设计了这台
+                            小型部件组装机。虽然只能处理IV及以下等级的配方，再高
+                            就会出现未知错误，但对于刚刚起步的小菜鸡员工来说已经
+                            足够使用。董事长表示，即使是入门级设备，造价仍然不菲，
+                            希望员工们能够珍惜这份来之不易的工作机会。
+                            """,
                     """
                             GregTech Limited specially designed this compact Component Assembler
                             for newly hired employees. Though it can only handle recipes up to IV
@@ -404,6 +409,7 @@ public final class MultiBlockC {
 
     public static final MultiblockMachineDefinition GRAVITY_BENDING_DEVICE = multiblock("gravity_bending_device", "引力弯折装置", CrossRecipeMultiblockMachine::createHatchParallel)
             .nonYAxisRotation()
+            .tooltips(GTOMachineTranslation.INSTANCE.getGravityBendingDeviceTooltips().getSupplier())
             .parallelizableTooltips()
             .laserTooltips()
             .multipleRecipesTooltips()
@@ -445,7 +451,7 @@ public final class MultiBlockC {
 
     public static final MultiblockMachineDefinition HAND_OF_ARACHNE = multiblock("hand_of_arachne", "阿拉克涅之手", CrossRecipeMultiblockMachine::createHatchParallel)
             .nonYAxisRotation()
-            .tooltipsText("古罗马掌管编织的神", "Ancient Rome was the god of weaving")
+            .tooltips(GTOMachineTranslation.INSTANCE.getHandOfArachneTooltips().getSupplier())
             .recipeTypes(GTORecipeTypes.LOOM_RECIPES)
             .parallelizableTooltips()
             .laserTooltips()
@@ -484,6 +490,7 @@ public final class MultiBlockC {
             .nonYAxisRotation()
             .recipeTypes(GTRecipeTypes.CRACKING_RECIPES)
             .recipeTypes(GTRecipeTypes.PYROLYSE_RECIPES)
+            .tooltips(GTOMachineTranslation.INSTANCE.getCrackerHubTooltips().getSupplier())
             .coilParallelTooltips()
             .laserTooltips()
             .multipleRecipesTooltips()
@@ -713,20 +720,7 @@ public final class MultiBlockC {
 
     public static final MultiblockMachineDefinition NANITES_INTEGRATED_PROCESSING_CENTER = multiblock("nanites_integrated_processing_center", "纳米集成加工中心", NanitesIntegratedMachine::new)
             .nonYAxisRotation()
-            .tooltips(ComponentBuilder.create().addStoryLine("""
-                    GTO寰宇格雷科技有限公司的首席科学家们经过数年研发，
-                    终于完成了纳米集成加工中心的设计图纸。这座巨型建筑
-                    集成了所有传统化工产线的功能，纳米蜂群在其中有序工作。
-                    董事长视察时惊叹道："这就是未来工业的模样。"
-                    从此，公司告别了繁琐的化工管道，迎来了纳米时代。
-                    """,
-                    """
-                            GTO Universal GregTech's chief scientists spent years developing
-                            and finally completed the Nanites Integrated Processing Center blueprints.
-                            This massive structure integrates all traditional chemical production lines,
-                            with nanites colonies working in perfect order within.
-                            The CEO marveled: "This is what future industry looks like."
-                            """).build())
+            .tooltips(GTOMachineTranslation.INSTANCE.getNanitesIntegratedProcessingCenterTooltips().getSupplier())
             .tooltips(GTOMachineTranslation.INSTANCE.getNanoswarmDataSheetTooltips().getSupplier())
             .recipeTypes(GTORecipeTypes.NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES)
             .laserTooltips()
@@ -765,12 +759,12 @@ public final class MultiBlockC {
             .recipeTypes(GTORecipeTypes.NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES)
             .parallelizableTooltips()
             .tooltips(ComponentBuilder.create().addStoryLine("""
-                    当第一台矿石萃取模块在GTO工厂内启动时，工程师们
-                    惊讶地发现纳米蜂群能够精确分离出矿石中的每一种元素。
-                    董事长视察时说："这就像有无数个微型矿工在工作。"
-                    从此，传统的粗暴破碎工艺被彻底淘汰，取而代之的是
-                    这种优雅而高效的分子级别萃取技术。
-                    """,
+                            当第一台矿石萃取模块在GTO工厂内启动时，工程师们
+                            惊讶地发现纳米蜂群能够精确分离出矿石中的每一种元素。
+                            董事长视察时说："这就像有无数个微型矿工在工作。"
+                            从此，传统的粗暴破碎工艺被彻底淘汰，取而代之的是
+                            这种优雅而高效的分子级别萃取技术。
+                            """,
                     """
                             When the first Ore Extraction Module started up in the GTO factory,
                             engineers were amazed to see nanites precisely separating every element
@@ -808,12 +802,12 @@ public final class MultiBlockC {
             .recipeTypes(GTORecipeTypes.NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES)
             .parallelizableTooltips()
             .tooltips(ComponentBuilder.create().addStoryLine("""
-                    聚合物扭曲模块的复杂结构让所有参观者都叹为观止。
-                    纳米蜂群在其中按照预设程序重新排列分子链，创造出
-                    前所未见的新型材料。格雷科技的材料科学家们兴奋地说：
-                    "我们终于能在分子层面上自由编辑物质了！"
-                    这标志着材料工程进入了一个全新的时代。
-                    """,
+                            聚合物扭曲模块的复杂结构让所有参观者都叹为观止。
+                            纳米蜂群在其中按照预设程序重新排列分子链，创造出
+                            前所未见的新型材料。格雷科技的材料科学家们兴奋地说：
+                            "我们终于能在分子层面上自由编辑物质了！"
+                            这标志着材料工程进入了一个全新的时代。
+                            """,
                     """
                             The complex structure of the Polymer Twisting Module amazed all visitors.
                             Nanites rearrange molecular chains according to preset programs,
@@ -848,12 +842,12 @@ public final class MultiBlockC {
             .recipeTypes(GTORecipeTypes.NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES)
             .parallelizableTooltips()
             .tooltips(ComponentBuilder.create().addStoryLine("""
-                    生物工程模块是三个模块中最神秘的一个，其内部的
-                    无菌环境和精密控制系统让生物学家们赞叹不已。
-                    纳米蜂群能够操控生物分子，合成复杂的有机化合物。
-                    公司的首席生物工程师激动地宣布："生命的奥秘
-                    正在我们的掌控之中被一一解开。"
-                    """,
+                            生物工程模块是三个模块中最神秘的一个，其内部的
+                            无菌环境和精密控制系统让生物学家们赞叹不已。
+                            纳米蜂群能够操控生物分子，合成复杂的有机化合物。
+                            公司的首席生物工程师激动地宣布："生命的奥秘
+                            正在我们的掌控之中被一一解开。"
+                            """,
                     """
                             The Bioengineering Module was the most mysterious of the three,
                             with its sterile environment and precision control systems
@@ -1106,6 +1100,7 @@ public final class MultiBlockC {
 
     public static final MultiblockMachineDefinition PRECISION_ASSEMBLY_CENTER = multiblock("precision_assembly_center", "精密组装中心", CrossRecipeMultiblockMachine::createHatchParallel)
             .nonYAxisRotation()
+            .tooltips(GTOMachineTranslation.INSTANCE.getPrecisionAssemblerTooltips().getSupplier())
             .parallelizableTooltips()
             .laserTooltips()
             .multipleRecipesTooltips()

@@ -1,5 +1,19 @@
 package com.gtocore.common.data.machines;
 
+import com.gregtechceu.gtceu.GTCEu;
+import com.gregtechceu.gtceu.api.GTValues;
+import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
+import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
+import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
+import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
+import com.gregtechceu.gtceu.api.pattern.MultiblockShapeInfo;
+import com.gregtechceu.gtceu.api.pattern.Predicates;
+import com.gregtechceu.gtceu.api.pattern.TraceabilityPredicate;
+import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
+import com.gregtechceu.gtceu.client.renderer.machine.FusionReactorRenderer;
+import com.gregtechceu.gtceu.common.data.*;
+import com.gregtechceu.gtceu.common.machine.multiblock.electric.FusionReactorMachine;
+import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.gtocore.api.machine.part.GTOPartAbility;
 import com.gtocore.api.pattern.GTOPredicates;
 import com.gtocore.client.renderer.machine.*;
@@ -20,33 +34,20 @@ import com.gtocore.common.machine.multiblock.electric.space.SpaceElevatorMachine
 import com.gtocore.common.machine.multiblock.electric.space.SpaceElevatorModuleMachine;
 import com.gtocore.common.machine.multiblock.electric.space.SpaceProbeSurfaceReceptionMachine;
 import com.gtocore.common.machine.multiblock.electric.voidseries.INFFluidDrillMachine;
-import com.gtocore.common.machine.multiblock.noenergy.*;
-
+import com.gtocore.common.machine.multiblock.noenergy.GodForgeMachine;
+import com.gtocore.common.machine.multiblock.noenergy.HarmonyMachine;
+import com.gtocore.common.machine.multiblock.noenergy.HeatExchangerMachine;
+import com.gtocore.common.machine.multiblock.noenergy.NeutronActivatorMachine;
 import com.gtolib.GTOCore;
 import com.gtolib.api.annotation.NewDataAttributes;
 import com.gtolib.api.annotation.component_builder.ComponentBuilder;
 import com.gtolib.api.annotation.component_builder.StyleBuilder;
 import com.gtolib.api.lang.CNEN;
 import com.gtolib.api.machine.MultiblockDefinition;
-import com.gtolib.api.machine.multiblock.*;
+import com.gtolib.api.machine.multiblock.CoilCrossRecipeMultiblockMachine;
+import com.gtolib.api.machine.multiblock.ElectricMultiblockMachine;
 import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
 import com.gtolib.utils.*;
-
-import com.gregtechceu.gtceu.GTCEu;
-import com.gregtechceu.gtceu.api.GTValues;
-import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
-import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
-import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
-import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
-import com.gregtechceu.gtceu.api.pattern.MultiblockShapeInfo;
-import com.gregtechceu.gtceu.api.pattern.Predicates;
-import com.gregtechceu.gtceu.api.pattern.TraceabilityPredicate;
-import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
-import com.gregtechceu.gtceu.client.renderer.machine.FusionReactorRenderer;
-import com.gregtechceu.gtceu.common.data.*;
-import com.gregtechceu.gtceu.common.machine.multiblock.electric.FusionReactorMachine;
-import com.gregtechceu.gtceu.utils.FormattingUtil;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
@@ -74,7 +75,8 @@ import static com.gtolib.utils.register.MachineRegisterUtils.registerTieredMulti
 
 public final class MultiBlockD {
 
-    public static void init() {}
+    public static void init() {
+    }
 
     public static final MultiblockMachineDefinition GREENHOUSE = multiblock("greenhouse", "温室", GreenhouseMachine::new)
             .nonYAxisRotation()
@@ -229,12 +231,12 @@ public final class MultiBlockD {
             .allRotation()
             .recipeTypes(GTORecipeTypes.CIRCUIT_ASSEMBLY_LINE_RECIPES)
             .tooltips(ComponentBuilder.create().addStoryLine("""
-                    GTO寰宇格雷科技有限公司的顶级工程师们设计了这条电路装配线。
-                    董事长视察时赞叹道："这是我们最优雅的基础设施之一。"
-                    透明的层压玻璃展示着内部精密的装配过程，机器人们有条不紊
-                    地制造着各种复杂电路。当相同配方的机器人协作时，效率翻倍，
-                    这条生产线成为了公司电子工业的核心支柱。
-                    """,
+                            GTO寰宇格雷科技有限公司的顶级工程师们设计了这条电路装配线。
+                            董事长视察时赞叹道："这是我们最优雅的基础设施之一。"
+                            透明的层压玻璃展示着内部精密的装配过程，机器人们有条不紊
+                            地制造着各种复杂电路。当相同配方的机器人协作时，效率翻倍，
+                            这条生产线成为了公司电子工业的核心支柱。
+                            """,
                     """
                             Top engineers of GTO designed this elegant circuit assembly line.
                             The CEO praised it as "one of our most graceful infrastructures."
@@ -387,11 +389,11 @@ public final class MultiBlockD {
             .recipeTypes(GTORecipeTypes.PCB_FACTORY_RECIPES)
             .parallelizableTooltips()
             .tooltips(ComponentBuilder.create().addStoryLine("""
-                    GTO寰宇格雷科技有限公司的研发部门取得了伟大的突破。
-                    他们利用纳米蜂群技术，建造了革命性的PCB工厂。
-                    这座工厂能够精确制造各种电路板，标志着公司进入了
-                    纳米制造的新时代，为未来的科技发展铺平了道路。
-                    """,
+                            GTO寰宇格雷科技有限公司的研发部门取得了伟大的突破。
+                            他们利用纳米蜂群技术，建造了革命性的PCB工厂。
+                            这座工厂能够精确制造各种电路板，标志着公司进入了
+                            纳米制造的新时代，为未来的科技发展铺平了道路。
+                            """,
                     """
                             GTO's R&D department achieved a great breakthrough.
                             They built a revolutionary PCB Factory using nanite swarm technology.
@@ -463,12 +465,12 @@ public final class MultiBlockD {
             .recipeTypes(GTRecipeTypes.VACUUM_RECIPES)
             .durationMultiplierTooltips(0.5)
             .tooltips(ComponentBuilder.create().addStoryLine("""
-                    寒冰冷冻机的诞生源于一次偶然的实验事故。GTO寰宇格雷科技的研究员
-                    在测试极低温材料时，意外发现液态冰与铝合金框架的奇妙组合效果。
-                    经过数月改进，这台庞然大物终于在公司总部亮相，其内部的钨钢管道
-                    和强化玻璃窗让参观者叹为观止。董事长亲自按下启动按钮，机器瞬间
-                    将实验样本冻结，速度是普通真空冷冻机的两倍，且能同时处理64份材料。
-                    """,
+                            寒冰冷冻机的诞生源于一次偶然的实验事故。GTO寰宇格雷科技的研究员
+                            在测试极低温材料时，意外发现液态冰与铝合金框架的奇妙组合效果。
+                            经过数月改进，这台庞然大物终于在公司总部亮相，其内部的钨钢管道
+                            和强化玻璃窗让参观者叹为观止。董事长亲自按下启动按钮，机器瞬间
+                            将实验样本冻结，速度是普通真空冷冻机的两倍，且能同时处理64份材料。
+                            """,
                     """
                             The Cold Ice Freezer was born from an accidental lab mishap. GTO Universal
                             GregTech researchers discovered a remarkable combination of liquid ice and
@@ -510,12 +512,12 @@ public final class MultiBlockD {
             .noneRotation()
             .recipeTypes(GTORecipeTypes.DOOR_OF_CREATE_RECIPES)
             .tooltips(ComponentBuilder.create().addStoryLine("""
-                    格雷科技寰宇公司的秘密实验室深处，矗立着一座巨大的环形结构。
-                    "创造之门"是公司最高机密项目，董事长亲自监督其建造过程。
-                    传说只有身着星物质装甲的员工才能通过这扇门，抵达创造维度。
-                    每当MAX级电压注入，环形门户便开始旋转，龙息粒子在空间中舞动，
-                    连接着两个世界。有幸穿越的员工回来后，都对所见三缄其口。
-                    """,
+                            格雷科技寰宇公司的秘密实验室深处，矗立着一座巨大的环形结构。
+                            "创造之门"是公司最高机密项目，董事长亲自监督其建造过程。
+                            传说只有身着星物质装甲的员工才能通过这扇门，抵达创造维度。
+                            每当MAX级电压注入，环形门户便开始旋转，龙息粒子在空间中舞动，
+                            连接着两个世界。有幸穿越的员工回来后，都对所见三缄其口。
+                            """,
                     """
                             Deep in GTO's secret lab stands a massive ring-like structure.
                             The "Door of Create" is the company's highest classified project.
@@ -583,10 +585,10 @@ public final class MultiBlockD {
             .noneRotation()
             .recipeTypes(GTORecipeTypes.BEDROCK_DRILLING_RIG_RECIPES)
             .tooltips(ComponentBuilder.create().addStoryLine("""
-                    GTO寰宇格雷科技有限公司的员工们建造了史上最强大的钻机。
-                    它能穿透坚不可摧的基岩，获取珍贵的深层资源。
-                    但董事长警告：每次使用都有风险，基岩可能永远消失。
-                    """,
+                            GTO寰宇格雷科技有限公司的员工们建造了史上最强大的钻机。
+                            它能穿透坚不可摧的基岩，获取珍贵的深层资源。
+                            但董事长警告：每次使用都有风险，基岩可能永远消失。
+                            """,
                     """
                             GTO Universal GregTech employees built the most powerful drilling rig ever.
                             It can penetrate indestructible bedrock to obtain precious deep resources.
@@ -632,9 +634,9 @@ public final class MultiBlockD {
             .noneRotation()
             .recipeTypes(GTORecipeTypes.CREATE_AGGREGATION_RECIPES)
             .tooltips(ComponentBuilder.create().addStoryLine("""
-                    GTO寰宇格雷科技有限公司的终极项目，创造聚合仪在创造维度启动。
-                    董事长凝视着这台跨越维度的机器，它将重塑现实本身的规则。
-                    """,
+                            GTO寰宇格雷科技有限公司的终极项目，创造聚合仪在创造维度启动。
+                            董事长凝视着这台跨越维度的机器，它将重塑现实本身的规则。
+                            """,
                     """
                             The ultimate project of GTO Universal GregTech Corporation, Create Aggregation activated in creation dimension.
                             The CEO gazed at this trans-dimensional machine that would reshape the very rules of reality itself.
@@ -682,21 +684,7 @@ public final class MultiBlockD {
     public static final MultiblockMachineDefinition NYARLATHOTEPS_TENTACLE = multiblock("nyarlathoteps_tentacle", "奈亚拉托提普之触", CoilCrossRecipeMultiblockMachine::createCoilParallel)
             .allRotation()
             .recipeTypes(GTORecipeTypes.SUPRACHRONAL_ASSEMBLY_LINE)
-            .tooltips(ComponentBuilder.create().addStoryLine(
-                    """
-                            GTO寰宇格雷科技有限公司的顶级工程师们耗时十年，终于完成了
-                            这台跨越维度的奈亚拉托提普之触。当董事长第一次见到它时，惊
-                            叹于其庞大的结构和复杂的分子级线圈。这台机器能够同时操作多
-                            个平行空间，将不同维度的材料精确组装。自此，公司的生产力
-                            突破了物理法则的限制，员工们见证了工业史上最伟大的奇迹。
-                            """,
-                    """
-                            GTO Universal GregTech's top engineers spent ten years to finally
-                            complete this nyarlathotep's tentacle. When the CEO
-                            first saw it, he marveled at its massive structure and complex
-                            molecular coils. This machine can operate multiple parallel spaces
-                            simultaneously, assembling materials from different dimensions precisely.
-                            """).build())
+            .tooltips(GTOMachineTranslation.INSTANCE.getNyarlathotepsTentacleTooltips().getSupplier())
             .combinedRecipeTooltips()
             .coilParallelTooltips()
             .laserTooltips()
@@ -749,10 +737,10 @@ public final class MultiBlockD {
             .eutMultiplierTooltips(0.9)
             .durationMultiplierTooltips(0.8)
             .tooltips(ComponentBuilder.create().addStoryLine("""
-                    格雷科技董事长视察工厂时，偶然发现员工们在手动切换机器。
-                    他灵机一动，下令建造通用工厂，将所有小机器集成在一起。
-                    从此，一座工厂就能完成三十多种加工，效率提升了数倍。
-                    """,
+                            格雷科技董事长视察工厂时，偶然发现员工们在手动切换机器。
+                            他灵机一动，下令建造通用工厂，将所有小机器集成在一起。
+                            从此，一座工厂就能完成三十多种加工，效率提升了数倍。
+                            """,
                     """
                             The GregTech CEO discovered workers manually switching machines during inspection.
                             He had a brilliant idea to build a processing plant integrating all machines.
@@ -879,12 +867,12 @@ public final class MultiBlockD {
     public static final MultiblockMachineDefinition NEUTRON_ACTIVATOR = multiblock("neutron_activator", "中子活化器", NeutronActivatorMachine::new)
             .nonYAxisRotation()
             .tooltips(ComponentBuilder.create().addStoryLine("""
-                    一位格雷科技员工偶然发现了中子的奥秘。
-                    他在实验室里观察着高速管道中飞驰的中子流，突然意识到
-                    通过精确控制中子动能，可以激活普通材料的原子核。
-                    董事长听闻后立即批准了中子活化器项目的研发。
-                    如今这台设备能以超光速处理各种核反应配方。
-                    """,
+                            一位格雷科技员工偶然发现了中子的奥秘。
+                            他在实验室里观察着高速管道中飞驰的中子流，突然意识到
+                            通过精确控制中子动能，可以激活普通材料的原子核。
+                            董事长听闻后立即批准了中子活化器项目的研发。
+                            如今这台设备能以超光速处理各种核反应配方。
+                            """,
                     """
                             A GregTech employee accidentally discovered neutron secrets.
                             Watching neutron streams racing through high-speed pipes in the lab,
@@ -935,12 +923,12 @@ public final class MultiBlockD {
     public static final MultiblockMachineDefinition HEAT_EXCHANGER = multiblock("heat_exchanger", "热交换机", HeatExchangerMachine::new)
             .allRotation()
             .tooltips(ComponentBuilder.create().addStoryLine("""
-                    寰宇格雷科技的工程师们面临着热能浪费的难题。
-                    一位资深员工提出了热交换的概念，通过钨钢管道
-                    让热流体与冷却液充分接触，实现完美的热量传递。
-                    经过无数次试验，他们终于造出了这台神奇的机器。
-                    连续运行后还能产出珍贵的高级蒸汽，一举两得。
-                    """,
+                            寰宇格雷科技的工程师们面临着热能浪费的难题。
+                            一位资深员工提出了热交换的概念，通过钨钢管道
+                            让热流体与冷却液充分接触，实现完美的热量传递。
+                            经过无数次试验，他们终于造出了这台神奇的机器。
+                            连续运行后还能产出珍贵的高级蒸汽，一举两得。
+                            """,
                     """
                             GTO engineers faced the problem of thermal energy waste.
                             A senior employee proposed heat exchange through tungstensteel pipes,
@@ -981,12 +969,12 @@ public final class MultiBlockD {
             .allRotation()
             .recipeTypes(GTRecipeTypes.DUMMY_RECIPES)
             .tooltips(ComponentBuilder.create().addStoryLine("""
-                    GTO寰宇格雷科技有限公司的探索部门又有新发现了！
-                    员工们在深层地底发现了永不枯竭的流体矿脉，
-                    于是工程师们设计了这台无尽流体钻机。
-                    董事长激动地说："这下再也不用担心资源短缺了！
-                    从此，公司的流体供应变得源源不断。
-                    """,
+                            GTO寰宇格雷科技有限公司的探索部门又有新发现了！
+                            员工们在深层地底发现了永不枯竭的流体矿脉，
+                            于是工程师们设计了这台无尽流体钻机。
+                            董事长激动地说："这下再也不用担心资源短缺了！
+                            从此，公司的流体供应变得源源不断。
+                            """,
                     """
                             GTO Universal GregTech's exploration department made a new discovery!
                             Employees found inexhaustible fluid veins deep underground,
@@ -1018,12 +1006,12 @@ public final class MultiBlockD {
             .allRotation()
             .recipeTypes(GTRecipeTypes.ASSEMBLY_LINE_RECIPES)
             .tooltips(ComponentBuilder.create().addStoryLine("""
-                    格雷科技有限公司的全体员工都参与了进阶装配线的设计。
-                    机械工程师负责结构，电子工程师处理数据传输，
-                    物流专家优化了输入总线的配置。
-                    这台机器能够并行处理多个复杂配方，
-                    大大提升了公司高端产品的生产效率。
-                    """,
+                            格雷科技有限公司的全体员工都参与了进阶装配线的设计。
+                            机械工程师负责结构，电子工程师处理数据传输，
+                            物流专家优化了输入总线的配置。
+                            这台机器能够并行处理多个复杂配方，
+                            大大提升了公司高端产品的生产效率。
+                            """,
                     """
                             All employees of GregTech participated in the Advanced Assembly Line design.
                             Mechanical engineers handled structure, electronic engineers managed data transfer,
@@ -1132,13 +1120,13 @@ public final class MultiBlockD {
             .nonYAxisRotation()
             .recipeTypes(GTRecipeTypes.DUMMY_RECIPES)
             .tooltips(ComponentBuilder.create().addStoryLine("""
-                    GTO寰宇格雷科技有限公司的工程师们仰望星空，梦想着触及宇宙的边界。
-                    经过数十年的研发，他们终于建成了人类历史上第一座太空电梯。
-                    这座高耸入云的巨塔承载着无数人的梦想，连接着地球与深空。
-                    董事长在落成典礼上激动地说道："今天，我们不再被重力束缚。
-                    从此，员工们可以轻松地将物资运送到太空站，开启了星际时代。
-                    人类终于迈出了征服宇宙的第一步，未来的无限可能在此展开。
-                    """,
+                            GTO寰宇格雷科技有限公司的工程师们仰望星空，梦想着触及宇宙的边界。
+                            经过数十年的研发，他们终于建成了人类历史上第一座太空电梯。
+                            这座高耸入云的巨塔承载着无数人的梦想，连接着地球与深空。
+                            董事长在落成典礼上激动地说道："今天，我们不再被重力束缚。
+                            从此，员工们可以轻松地将物资运送到太空站，开启了星际时代。
+                            人类终于迈出了征服宇宙的第一步，未来的无限可能在此展开。
+                            """,
                     """
                             GTO engineers gazed at the stars, dreaming of touching the universe's edge.
                             After decades of development, they built humanity's first space elevator.
