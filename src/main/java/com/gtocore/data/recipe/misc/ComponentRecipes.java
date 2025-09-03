@@ -3,6 +3,7 @@ package com.gtocore.data.recipe.misc;
 import com.gtocore.api.data.tag.GTOTagPrefix;
 import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.data.GTOMaterials;
+import com.gtocore.common.data.machines.ExResearchMachines;
 import com.gtocore.data.CraftingComponents;
 
 import com.gtolib.GTOCore;
@@ -14,6 +15,7 @@ import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.data.chemical.material.stack.MaterialEntry;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
+import com.gregtechceu.gtceu.common.data.machines.GTResearchMachines;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
 import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
 
@@ -66,6 +68,35 @@ public final class ComponentRecipes {
         assembly_line(UIV, ChemicalHelper.get(pipeNormalFluid, FullerenePolymerMatrixPulp), GTOItems.UNSTABLE_STAR.asStack(), ChemicalHelper.get(rodLong, AttunedTengam), Infuscolium, Adamantine, Neutronium, SuperMutatedLivingSolder, Lubricant, Taranium, StyreneButadieneRubber, Adamantium, Adamantine, ArceusAlloy2B, Echoite);
         assembly_line(UXV, ChemicalHelper.get(pipeNormalFluid, HeavyQuarkDegenerateMatter), GTOItems.UNSTABLE_STAR.asStack(), ChemicalHelper.get(rodLong, AttunedTengam), HastelloyK243, NaquadriaticTaranium, Taranium, SuperMutatedLivingSolder, Lubricant, AstralTitanium, StyreneButadieneRubber, Vibranium, NaquadriaticTaranium, TitanPrecisionSteel, Legendarium);
         assembly_line(OpV, ChemicalHelper.get(pipeLargeFluid, HeavyQuarkDegenerateMatter), GTOItems.UNSTABLE_STAR.asStack(), ChemicalHelper.get(rodLong, AttunedTengam), Vibramantium, Starmetal, CrystalMatrix, SuperMutatedLivingSolder, Lubricant, CelestialTungsten, StyreneButadieneRubber, Draconium, Starmetal, Hikarium, AwakenedDraconium);
+
+        integrated_control_core(UV, GTResearchMachines.HPCA_ADVANCED_COMPUTATION_COMPONENT.asStack(), TOOL_DATA_MODULE.asStack(), ChemicalHelper.get(pipeLargeFluid, Naquadah), Tritanium, Americium, EnrichedNaquadahTriniumEuropiumDuranide, SolderingAlloy, Lubricant, StyreneButadieneRubber, Naquadria);
+        integrated_control_core(UHV, GTResearchMachines.HPCA_ADVANCED_COMPUTATION_COMPONENT.asStack(), GTOItems.NEURAL_MATRIX.asStack(), ChemicalHelper.get(pipeNormalFluid, Neutronium), Orichalcum, AbyssalAlloy, Europium, RutheniumTriniumAmericiumNeutronate, MutatedLivingSolder, Lubricant, StyreneButadieneRubber, HighDurabilityCompoundSteel);
+        integrated_control_core(UEV, ExResearchMachines.NICH_COMPUTING_COMPONENTS.asStack(), GTOItems.NEURAL_MATRIX.asStack(), ChemicalHelper.get(pipeNormalFluid, Enderium), HastelloyX78, TitanSteel, Mithril, Dalisenite, MutatedLivingSolder, Lubricant, StyreneButadieneRubber, Bohrium);
+        integrated_control_core(UIV, ExResearchMachines.NICH_COMPUTING_COMPONENTS.asStack(), GTOItems.ATOMIC_ARCHIVES.asStack(), ChemicalHelper.get(pipeNormalFluid, FullerenePolymerMatrixPulp), Infuscolium, Adamantine, Neutronium, Echoite, SuperMutatedLivingSolder, Lubricant, StyreneButadieneRubber, Taranium);
+        integrated_control_core(UXV, ExResearchMachines.GWCA_COMPUTING_COMPONENTS.asStack(), GTOItems.ATOMIC_ARCHIVES.asStack(), ChemicalHelper.get(pipeNormalFluid, HeavyQuarkDegenerateMatter), HastelloyK243, NaquadriaticTaranium, Taranium, Legendarium, SuperMutatedLivingSolder, Lubricant, StyreneButadieneRubber, AstralTitanium);
+        integrated_control_core(OpV, ExResearchMachines.GWCA_COMPUTING_COMPONENTS.asStack(), GTOItems.OBSIDIAN_MATRIX.asStack(), ChemicalHelper.get(pipeLargeFluid, HeavyQuarkDegenerateMatter), Vibramantium, Starmetal, CrystalMatrix, AwakenedDraconium, SuperMutatedLivingSolder, Lubricant, StyreneButadieneRubber, CelestialTungsten);
+
+        COMPONENT_ASSEMBLY_RECIPES.recipeBuilder("max_integrated_control_core")
+                .circuitMeta(9)
+                .inputItems(GTOItems.CLOSED_TIMELIKE_CURVE_GUIDANCE_UNIT.asStack(48))
+                .inputItems(GTOItems.OBSIDIAN_MATRIX.asStack(96))
+                .inputItems(TagPrefix.plateDouble, GTOMaterials.ChaosInfinityAlloy, 288)
+                .inputItems(CustomTags.MAX_CIRCUITS, 96)
+                .inputItems(GTOItems.MAX_EMITTER.asStack(96))
+                .inputItems(GTOItems.NUCLEAR_STAR.asStack(192))
+                .inputItems(TagPrefix.wireFine, GTOMaterials.Cosmic, 3072)
+                .inputItems(TagPrefix.cableGtHex, GTOMaterials.CosmicNeutronium, 96)
+                .inputFluids(GTOMaterials.SuperMutatedLivingSolder, 1769472)
+                .inputFluids(GTOMaterials.SpacetimeContinuum, 3538944)
+                .inputFluids(GTOMaterials.BlackDwarfMatter, 110592)
+                .inputFluids(GTOMaterials.WhiteDwarfMatter, 110592)
+                .inputFluids(GTOMaterials.Shirabon, 110592)
+                .inputFluids(GTOMaterials.Infinity, 27648)
+                .outputItems(GTOItems.INTEGRATED_CONTROL_CORE_MAX.asStack(64))
+                .EUt(2013265920)
+                .duration(12000)
+                .addData(GTOValues.COMPONENT_ASSEMBLY_CASING_TIER, 14)
+                .save();
 
         COMPONENT_ASSEMBLY_RECIPES.recipeBuilder("max_field_generator")
                 .inputItems(TagPrefix.plateDouble, GTOMaterials.ChaosInfinityAlloy, 288)
@@ -402,13 +433,7 @@ public final class ComponentRecipes {
     }
 
     private static void assembly_line(int tier, ItemStack pipe, ItemStack emitter_gem, ItemStack magnetic, Material... material) {
-        int fluidMultiplier = switch (tier) {
-            case 12, 13, 14, 15, 16 -> 16;
-            case 9, 10, 11 -> 8;
-            case 8, 7 -> 4;
-            case 6 -> 2;
-            default -> 1;
-        };
+        int fluidMultiplier = getFluidMultiplier(tier);
         ItemStack motor = (ItemStack) MOTOR.get(tier);
         ItemStack conveyor = (ItemStack) CONVEYOR.get(tier);
         ItemStack pump = (ItemStack) PUMP.get(tier);
@@ -806,6 +831,83 @@ public final class ComponentRecipes {
                 .inputFluids(material[10], L * 384)
                 .outputItems(field_generator.copyWithCount(16))
                 .addData(COMPONENT_ASSEMBLY_CASING_TIER, tier)
+                .duration(2400).EUt(VA[tier]).save();
+    }
+
+    private static int getFluidMultiplier(int tier) {
+        return switch (tier) {
+            case 12, 13, 14, 15, 16 -> 16;
+            case 9, 10, 11 -> 8;
+            case 8, 7 -> 4;
+            case 6 -> 2;
+            default -> 1;
+        };
+    }
+
+    /**
+     *
+     * @param tier                 Tier
+     * @param computationComponent Computation Component
+     * @param computationUnit      Computation Component & Computation Unit
+     * @param pipe                 Fluid Pipe
+     * @param material
+     * 
+     *                             <pre>
+     * <code>
+     *     Material mainMaterial = material[0];
+     *     Material wireMaterial = material[1];
+     *     Material superConductorMaterial = material[2];
+     *     Material solderMaterial = material[3];
+     *     Material insulatorMaterial = material[4];
+     *     Material rubberMaterial = material[5];
+     *     Material enclosureMaterial = material[6];
+     * </code>
+     *                             </pre>
+     */
+    private static void integrated_control_core(int tier, ItemStack computationComponent, ItemStack computationUnit, ItemStack pipe, Material... material) {
+        int fluidMultiplier = getFluidMultiplier(tier);
+        ItemStack field_generator = (ItemStack) FIELD_GENERATOR.get(tier);
+        ItemStack sensor = (ItemStack) SENSOR.get(tier);
+        ItemStack pump = (ItemStack) PUMP.get(tier);
+        TagKey<Item> circuit = (TagKey<Item>) CIRCUIT.get(tier);
+
+        ASSEMBLY_LINE_RECIPES.recipeBuilder(String.format("integrated_control_core_%s", VN[tier].toLowerCase()))
+                .inputItems(ring, material[0], 16)
+                .inputItems(circuit, 2)
+                .inputItems(field_generator)
+                .inputItems(sensor)
+                .inputItems(pump)
+                .inputItems(computationComponent, 2)
+                .inputItems(computationUnit)
+                .inputItems(foil, material[6], 64)
+                .inputItems(wireFine, material[1], 64)
+                .inputItems(wireGtSingle, material[2], 8)
+                .inputItems(pipe.copyWithCount(4))
+                .inputFluids(material[3], L * 2 * fluidMultiplier)
+                .inputFluids(material[4], L * 4 * fluidMultiplier)
+                .inputFluids(material[5], L * fluidMultiplier)
+                .outputItems((ItemStack) CraftingComponents.INTEGRATED_CONTROL_CORE.get(tier))
+                .researchStation(b -> b
+                        .researchStack(tier == UV ? GTOItems.WETWARE_SOC.asStack() : (ItemStack) CraftingComponents.INTEGRATED_CONTROL_CORE.get(tier - 1))
+                        .CWUt((int) ((1 << (tier - 3)) * 1.5))
+                        .EUt(VA[tier - 1]))
+                .duration(1200).EUt(VA[tier]).save();
+
+        COMPONENT_ASSEMBLY_RECIPES.recipeBuilder(String.format("integrated_control_core_%s", VN[tier].toLowerCase()))
+                .circuitMeta(9)
+                .inputItems(field_generator.copyWithCount(12))
+                .inputItems(sensor.copyWithCount(12))
+                .inputItems(pump.copyWithCount(12))
+                .inputItems(computationUnit.copyWithCount(12))
+                .inputItems(computationComponent.copyWithCount(24))
+                .inputItems(GTOItems.UNIVERSAL_CIRCUIT[tier].asStack(48))
+                .inputItems(cableGtSingle, material[2], 96)
+                .inputFluids(material[0], L * 96)
+                .inputFluids(material[3], L * 24 * fluidMultiplier)
+                .inputFluids(material[5], L * 12 * fluidMultiplier)
+                .inputFluids(material[6], L * 24)
+                .addData(COMPONENT_ASSEMBLY_CASING_TIER, tier)
+                .outputItems(((ItemStack) CraftingComponents.INTEGRATED_CONTROL_CORE.get(tier)).copyWithCount(16))
                 .duration(2400).EUt(VA[tier]).save();
     }
 }

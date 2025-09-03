@@ -580,13 +580,13 @@ final class PrecisionAssembler {
 
         PRECISION_ASSEMBLER_RECIPES.recipeBuilder("bioactive_mechanical_casing")
                 .inputItems(GTOBlocks.BIOLOGICAL_MECHANICAL_CASING.asItem())
-                .inputItems(GTOItems.BIOLOGICAL_CELLS, 16)
-                .inputItems(GTItems.FLUID_REGULATOR_LuV, 4)
+                .inputItems(GTOItems.BIOLOGICAL_CELLS, 64)
+                .inputItems(GTItems.FLUID_REGULATOR_UEV, 2)
                 .outputItems(GTOBlocks.BIOACTIVE_MECHANICAL_CASING.asItem())
                 .inputFluids(GTOMaterials.MutatedLivingSolder.getFluid(576))
                 .inputFluids(GTOMaterials.BiohmediumSterilized.getFluid(576))
                 .inputFluids(GTMaterials.Tritanium.getFluid(288))
-                .EUt(GTValues.VA[GTValues.LuV])
+                .EUt(GTValues.VA[GTValues.UHV])
                 .duration(200)
                 .cleanroom(CleanroomType.STERILE_CLEANROOM)
                 .save();

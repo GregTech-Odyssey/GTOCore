@@ -19,6 +19,7 @@ public final class CraftingComponents {
 
     public static CraftingComponent BUFFER;
     public static CraftingComponent FLUID_REGULATOR;
+    public static CraftingComponent INTEGRATED_CONTROL_CORE;
 
     public static void init() {
         PUMP.add(14, GTOItems.MAX_ELECTRIC_PUMP.asStack());
@@ -343,5 +344,14 @@ public final class CraftingComponents {
                 .add(11, GTItems.FLUID_REGULATOR_UIV.asStack())
                 .add(12, GTItems.FLUID_REGULATOR_UXV.asStack())
                 .add(13, GTItems.FLUID_REGULATOR_OpV.asStack());
+
+        INTEGRATED_CONTROL_CORE = CraftingComponent.of("integrated_control_core", GTOItems.INTEGRATED_CONTROL_CORE_UV.asStack())
+                .add(8, GTOItems.INTEGRATED_CONTROL_CORE_UV.asStack())
+                .add(9, GTOItems.INTEGRATED_CONTROL_CORE_UHV.asStack())
+                .add(10, GTOItems.INTEGRATED_CONTROL_CORE_UEV.asStack())
+                .add(11, GTOItems.INTEGRATED_CONTROL_CORE_UIV.asStack())
+                .add(12, GTOItems.INTEGRATED_CONTROL_CORE_UXV.asStack())
+                .add(13, GTOItems.INTEGRATED_CONTROL_CORE_OpV.asStack())
+                .add(14, GTOItems.INTEGRATED_CONTROL_CORE_MAX.asStack());
     }
 }

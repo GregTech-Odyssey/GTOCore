@@ -1020,7 +1020,7 @@ public final class MultiBlockA {
                     .where('b', blocks(GTBlocks.CASING_TEMPERED_GLASS.get()))
                     .where('c', heatingCoils())
                     .build())
-            .additionalDisplay((controller, components) -> components.add(Component.translatable("gtceu.multiblock.cracking_unit.energy", 100 - 10 * ((ICoilMachine) controller).getCoilTier())))
+            .additionalDisplay((controller, components) -> components.add(Component.translatable("gtceu.multiblock.cracking_unit.energy", Math.max(20, 100 - 10 * ((ICoilMachine) controller).getCoilTier()))))
             .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_clean_stainless_steel"), GTCEu.id("block/multiblock/cracking_unit"))
             .register();
 

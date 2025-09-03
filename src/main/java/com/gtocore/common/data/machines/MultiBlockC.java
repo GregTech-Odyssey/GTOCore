@@ -727,10 +727,7 @@ public final class MultiBlockC {
                             with nanites colonies working in perfect order within.
                             The CEO marveled: "This is what future industry looks like."
                             """).build())
-            .tooltipsText("我们先进的纳米蜂群生产技术已经完全超越了老式的化工产线", "Our advanced nanites colony production technology has completely surpassed the old-fashioned chemical production line")
-            .tooltipsText("安装对应模块解锁对应配方", "Install the corresponding module to unlock the corresponding recipe")
-            .tooltipsText("主机中放入纳米蜂群可减少污染概率", "Installing a nanites into the host can reduce the probability of pollution.")
-            .tooltipsText("基础概率，铁：1，铱：1.1，山铜：1.2，魔金：1.3，龙", "Base chance, iron: 1, iridium: 1.1, orichalcum: 1.2, infuscolium: 1.3, draconium: 1.4, cosmic neutronium: 1.5, eternity: 1.6", "基础概率，铁：1，铱：1.1，山铜：1.2，魔金：1.3，龙：1.4，宇宙中子素：1.5，永恒：1.6")
+            .tooltips(GTOMachineTranslation.INSTANCE.getNanoswarmDataSheetTooltips().getSupplier())
             .recipeTypes(GTORecipeTypes.NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES)
             .laserTooltips()
             .multipleRecipesTooltips()

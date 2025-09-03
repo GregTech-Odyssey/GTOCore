@@ -531,6 +531,26 @@ public final class GTOMachines {
             .renderer(() -> new MaintenanceHatchPartRenderer(5, GTCEu.id("block/machine/part/maintenance.full_auto")))
             .register();
 
+    public static final MachineDefinition MODULAR_CONFIGURATION_MAINTENANCE_HATCH = machine("modular_configuration_maintenance_hatch", "模块化可配置维护仓", ModularHatchPartMachine::new)
+            .allRotation()
+            .abilities(PartAbility.MAINTENANCE)
+            .addTooltipsFromClass(ACMHatchPartMachine.class)
+            .tooltipsText("Insert different auto-maintenance hatches to enable different functions.",
+                    "插入不同的自动维护仓以启用不同的功能。")
+            .notAllowSharedTooltips()
+            .renderer(() -> new MaintenanceHatchPartRenderer(6, GTCEu.id("block/machine/part/maintenance.full_auto")))
+            .register();
+
+    public static final MachineDefinition TEMP_VACUUM_INTERFACE = machine("temp_vacuum_interface", "温度/真空接口", TempVacuumInterfacePartMachine::new)
+            .allRotation()
+            .abilities(PartAbility.IMPORT_ITEMS, PartAbility.IMPORT_FLUIDS)
+            .notAllowSharedTooltips()
+            .tooltipsText("Conduct heat and provide vacuum for multiblock machines through connections with this part.",
+                    "通过与此部件的连接，可以为多方块机器传导热量并提供真空。")
+            .tier(1)
+            .overlayTieredHullRenderer("neutron_sensor")
+            .register();
+
     public static final MachineDefinition CLEANING_CONFIGURATION_MAINTENANCE_HATCH = machine("cleaning_configuration_maintenance_hatch", "超净可配置维护仓", holder -> new CCMHatchPartMachine(holder, CMHatchPartMachine.DUMMY_CLEANROOM))
             .allRotation()
             .abilities(PartAbility.MAINTENANCE)

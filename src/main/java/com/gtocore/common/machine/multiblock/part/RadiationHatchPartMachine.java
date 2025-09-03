@@ -73,6 +73,11 @@ public final class RadiationHatchPartMachine extends MultiblockPartMachine imple
         this.capabilitiesFlat = new EnumMap<>(IO.class);
         currentHandlerList = RecipeHandlerList.of(IO.IN, inventory);
         addHandlerList(currentHandlerList);
+    }
+
+    @Override
+    public void onLoad() {
+        super.onLoad();
         radiationSubs = subscribeServerTick(radiationSubs, this::checkRadiation);
     }
 

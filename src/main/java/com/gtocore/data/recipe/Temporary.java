@@ -10,9 +10,13 @@ import com.gtolib.api.GTOValues;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
+import com.gregtechceu.gtceu.common.data.GTBlocks;
+import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMachines;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
+
+import java.util.Locale;
 
 import static com.gtocore.common.data.GTORecipeTypes.*;
 
@@ -130,6 +134,29 @@ public final class Temporary {
                 .EUt(33554432)
                 .runLimit(1)
                 .addData(GTOValues.STELLAR_CONTAINMENT_TIER, 1)
+                .save();
+
+        ASSEMBLER_RECIPES.builder("ACCELERATOR_MAGNETIC_CONSTRAINED_RAIL_CASING".toLowerCase(Locale.ROOT))
+                .inputItems(TagPrefix.frameGt, GTMaterials.NaquadahEnriched)
+                .inputItems(GTOBlocks.INTEGRAL_FRAMEWORK_LUV.asStack())
+                .inputItems(GTBlocks.SUPERCONDUCTING_COIL.asStack())
+                .inputItems(TagPrefix.rodLong, GTMaterials.SamariumMagnetic, 8)
+                .inputItems(TagPrefix.rodLong, GTMaterials.AnnealedCopper, 8)
+                .inputItems(GTItems.VOLTAGE_COIL_LuV.asStack(4))
+                .outputItems(GTOBlocks.ACCELERATOR_MAGNETIC_CONSTRAINED_RAIL_CASING.asStack())
+                .inputFluids(GTMaterials.NiobiumTitanium, 3456)
+                .EUt(960)
+                .duration(200)
+                .save();
+        ASSEMBLER_RECIPES.builder("ACCELERATOR_uhv_coil".toLowerCase(Locale.ROOT))
+                .inputItems(TagPrefix.frameGt, GTMaterials.NaquadahEnriched)
+                .inputItems(GTOBlocks.IMPROVED_SUPERCONDUCTOR_COIL.asStack())
+                .inputItems(TagPrefix.wireGtHex, GTMaterials.RutheniumTriniumAmericiumNeutronate, 8)
+                .inputItems(GTItems.VOLTAGE_COIL_LuV.asStack(4))
+                .outputItems(GTOBlocks.ACCELERATOR_ELECTROMAGNETIC_COIL_CONSTRAINT_CASING_UHV.asStack())
+                .inputFluids(GTMaterials.NiobiumTitanium, 3456 * 4)
+                .EUt(960)
+                .duration(200)
                 .save();
     }
 }

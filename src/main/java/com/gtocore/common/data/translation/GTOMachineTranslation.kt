@@ -2,9 +2,11 @@ package com.gtocore.common.data.translation
 
 import com.gtocore.api.lang.ComponentListSupplier
 import com.gtocore.api.lang.initialize
+import com.gtocore.api.lang.toComponentSupplier
 import com.gtocore.api.lang.toLiteralSupplier
 import com.gtocore.api.lang.translatedTo
 import com.gtocore.api.misc.AutoInitialize
+import com.gtocore.common.data.translation.ComponentSlang.Circle
 import com.gtocore.common.data.translation.ComponentSlang.OutTopic
 import com.gtocore.common.data.translation.ComponentSlang.Star
 import com.gtocore.common.data.translation.ComponentSlang.Tab
@@ -13,6 +15,10 @@ import com.gtocore.common.machine.electric.ElectricHeaterMachine
 import com.gtocore.common.machine.multiblock.storage.MultiblockCrateMachine
 import com.gtocore.common.machine.noenergy.BoilWaterMachine
 import com.gtocore.common.machine.noenergy.HeaterMachine
+
+import net.minecraft.network.chat.Component
+
+import com.google.common.collect.ImmutableMap
 
 object GTOMachineTranslation : AutoInitialize<GTOMachineTranslation>() {
     val pattern = ("样板" translatedTo "Patterns").initialize()
@@ -221,6 +227,7 @@ object GTOMachineTranslation : AutoInitialize<GTOMachineTranslation>() {
         add("技术人员偶然发现它能§a§l高效采集魔力" translatedTo "Technicians accidentally discovered it can §a§lefficiently collect mana") { green() }
         add("§6改进后的PMG-11§r§a以另一种身份被广泛使用" translatedTo "The §6improved PMG-11§r is widely used in another capacity") { green() }
         add(ComponentSlang.RecommendedUseAs(("生产魔力" translatedTo "mana production"))) { aqua() }
+        add(Circle(1) + ("在机器内放置64朵太阳花以使机器不再发电，转而采集魔力" translatedTo "Place 64 dayblooms in the machine to stop power generation and start collecting mana")) { aqua() }
         add(Star(1) + ("§6§l§o魔力采集的高效设备" translatedTo "Efficient equipment for mana collection")) { aqua() }
     }
 
@@ -234,6 +241,7 @@ object GTOMachineTranslation : AutoInitialize<GTOMachineTranslation>() {
         add("技术人员偶然发现它能§a§l高效采集魔力" translatedTo "Technicians accidentally discovered it can §a§lefficiently collect mana") { green() }
         add("§6改进后的PMG-12§r§a以另一种身份被广泛使用" translatedTo "The §6improved PMG-12§r is widely used in another capacity") { green() }
         add(ComponentSlang.RecommendedUseAs(("生产魔力" translatedTo "mana production"))) { aqua() }
+        add(Circle(1) + ("在机器内放置64朵太阳花以使机器不再发电，转而采集魔力" translatedTo "Place 64 dayblooms in the machine to stop power generation and start collecting mana")) { aqua() }
         add(Star(1) + ("§6§l§o中级魔力采集设备" translatedTo "Intermediate mana collection equipment")) { aqua() }
     }
 
@@ -247,6 +255,7 @@ object GTOMachineTranslation : AutoInitialize<GTOMachineTranslation>() {
         add("技术人员偶然发现它能§a§l高效采集魔力" translatedTo "Technicians accidentally discovered it can §a§lefficiently collect mana") { green() }
         add("§6改进后的PMG-13§r§a以另一种身份被广泛使用" translatedTo "The §6improved PMG-13§r is widely used in another capacity") { green() }
         add(ComponentSlang.RecommendedUseAs(("生产魔力" translatedTo "mana production"))) { aqua() }
+        add(Circle(1) + ("在机器内放置64朵太阳花以使机器不再发电，转而采集魔力" translatedTo "Place 64 dayblooms in the machine to stop power generation and start collecting mana")) { aqua() }
         add(Star(1) + ("§6§l§o高级魔力采集设备" translatedTo "Advanced mana collection equipment")) { aqua() }
     }
 
@@ -564,5 +573,26 @@ object GTOMachineTranslation : AutoInitialize<GTOMachineTranslation>() {
         add(" - 每次采掘的方块数量翻倍（最高4096）" translatedTo " - The number of blocks mined each time is doubled(up to 4096)") { gray() }
         add(" - 耗电量翻4倍" translatedTo " - Power consumption is quadrupled") { gray() }
         add("通入红石信号以重新计算采掘区域并执行" translatedTo "Input a redstone signal to recalculate the mining area and execute mining") { aqua() }
+    }
+
+    // 纳米集成加工中心纳米蜂群数据表
+    var MATERIAL_MAP: ImmutableMap<String?, Float?> = ImmutableMap.of<String?, Float?>(
+        "gtceu.iron", 1.0f,
+        "gtceu.iridium", 1.1f,
+        "gtocore.orichalcum", 1.2f,
+        "gtocore.infuscolium", 1.3f,
+        "gtocore.draconium", 1.4f,
+        "gtocore.cosmic_neutronium", 1.5f,
+        "gtocore.eternity", 1.6f,
+    )
+    val NanoswarmDataSheetTooltips = ComponentListSupplier {
+        setTranslationPrefix("nanoswarm_data_sheet")
+        add("我们先进的纳米蜂群生产技术已经完全超越了老式的化工产线" translatedTo "Our advanced nanites colony production technology has completely surpassed the old-fashioned chemical production line") { green() }
+        add(Star(1) + ("安装对应模块解锁对应配方" translatedTo "Install the corresponding module to unlock the corresponding recipe")) { green() }
+        add(Circle(1) + ("主机中放入纳米蜂群可减少污染概率" translatedTo "Placing nanites in the host can reduce pollution probability")) { aqua() }
+        add(Circle(1) + ("每放入一个纳米蜂群，污染概率减少数如下所示" translatedTo "Each nanite placed reduces pollution probability as follows")) { aqua() }
+        MATERIAL_MAP.forEach { (material: String?, reduction: Float?) ->
+            add(Tab(2) + Component.translatable("material.$material").toComponentSupplier().gold() + (": -$reduction%").toLiteralSupplier()) { gray() }
+        }
     }
 }

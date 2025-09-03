@@ -18,6 +18,7 @@ object ComponentSlang : AutoInitialize<ComponentSlang>() {
     val Bar = { tab: Int -> "${"  ".repeat((tab - 1).coerceAtLeast(0))}- ".toLiteralSupplier().gold() }.initialize()
     val Tab = { tab: Int -> "  ".repeat(tab).toLiteralSupplier() }.initialize()
     val Star = { tab: Int -> "${"  ".repeat((tab - 1).coerceAtLeast(0))}⭐ ".toLiteralSupplier().gold() }.initialize()
+    val Circle = { tab: Int -> "${"  ".repeat((tab - 1).coerceAtLeast(0))}○ ".toLiteralSupplier().gold() }.initialize()
     val Warning = { tab: Int -> "${"  ".repeat((tab - 1).coerceAtLeast(0))}⚠ ".toLiteralSupplier().red().bold() }.initialize()
     val OutTopic = { tab: Int -> "${"  ".repeat((tab - 1).coerceAtLeast(0))}# ".toLiteralSupplier().gray() }.initialize()
     val LegendSignalWrapper = { other: ComponentSupplier -> "111".toLiteralSupplier().obfuscated().scrollFullColor().underline() + " ".toLiteralSupplier() + other + " ".toLiteralSupplier() + "111".toLiteralSupplier().obfuscated().scrollFullColor().underline() }

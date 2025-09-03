@@ -1,0 +1,47 @@
+package com.gtocore.common.machine.multiblock.part;
+
+import com.gtocore.api.machine.part.ITempPartMachine;
+import com.gtocore.api.machine.part.IVacuumPartMachine;
+
+import com.gregtechceu.gtceu.api.GTValues;
+import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
+import com.gregtechceu.gtceu.api.machine.multiblock.part.TieredPartMachine;
+
+import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
+import org.jetbrains.annotations.NotNull;
+
+public class TempVacuumInterfacePartMachine extends TieredPartMachine implements ITempPartMachine, IVacuumPartMachine {
+
+    @Persisted
+    private int temperature = 293;
+    protected ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(TempVacuumInterfacePartMachine.class, TieredPartMachine.MANAGED_FIELD_HOLDER);
+
+    @Override
+    public @NotNull ManagedFieldHolder getFieldHolder() {
+        return MANAGED_FIELD_HOLDER;
+    }
+
+    public TempVacuumInterfacePartMachine(MetaMachineBlockEntity holder) {
+        super(holder, GTValues.LV);
+    }
+
+    @Override
+    public void onLoad() {
+        super.onLoad();
+        subscribeServerTick(() -> {
+            this.update();
+            this.tickUpdate();
+        });
+    }
+
+    @Override
+    public int getTemperature() {
+        return temperature;
+    }
+
+    @Override
+    public void setTemperature(int temperature) {
+        this.temperature = temperature;
+    }
+}

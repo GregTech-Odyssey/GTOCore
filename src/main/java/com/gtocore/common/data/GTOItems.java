@@ -203,6 +203,14 @@ public final class GTOItems {
     public static final ItemEntry<Item> MAX_EMITTER = registerLang("max_emitter", "MAX Emitte", "§4§lMAX§r发射器");
     public static final ItemEntry<Item> MAX_SENSOR = registerLang("max_sensor", "MAX Sensor", "§4§lMAX§r传感器");
 
+    public static final ItemEntry<Item> INTEGRATED_CONTROL_CORE_UV = registerLang("uv_integrated_control_core", "§3UV§r Integrated Control Core", "§3UV§r集控核心");
+    public static final ItemEntry<Item> INTEGRATED_CONTROL_CORE_UHV = registerLang("uhv_integrated_control_core", "§4UHV§r Integrated Control Core", "§4UHV§r集控核心");
+    public static final ItemEntry<Item> INTEGRATED_CONTROL_CORE_UEV = registerLang("uev_integrated_control_core", "§aUEV§r Integrated Control Core", "§aUEV§r集控核心");
+    public static final ItemEntry<Item> INTEGRATED_CONTROL_CORE_UIV = registerLang("uiv_integrated_control_core", "§2UIV§r Integrated Control Core", "§2UIV§r集控核心");
+    public static final ItemEntry<Item> INTEGRATED_CONTROL_CORE_UXV = registerLang("uxv_integrated_control_core", "§eUXV§r Integrated Control Core", "§eUXV§r集控核心");
+    public static final ItemEntry<Item> INTEGRATED_CONTROL_CORE_OpV = registerLang("opv_integrated_control_core", "§9§lOpV§r Integrated Control Core", "§9§lOpV§r集控核心");
+    public static final ItemEntry<Item> INTEGRATED_CONTROL_CORE_MAX = registerLang("max_integrated_control_core", "§4§lMAX§r Integrated Control Core", "§4§lMAX§r集控核心");
+
     public static final ItemEntry<ComponentItem> ULV_ELECTRIC_PUMP = item("ulv_electric_pump", "ULV电动泵", ComponentItem::create)
             .lang("ULV Electric Pump")
             .onRegister(attach(new CoverPlaceBehavior(GTOCovers.ELECTRIC_PUMP_ULV)))
