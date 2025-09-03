@@ -4,8 +4,8 @@ import com.gtocore.api.pattern.GTOPredicates;
 import com.gtocore.client.renderer.machine.DimensionalFocusEngravingArrayRenderer;
 import com.gtocore.common.data.GTOBlocks;
 import com.gtocore.common.data.GTORecipeTypes;
-
 import com.gtocore.common.data.translation.GTOMachineTranslation;
+
 import com.gtolib.GTOCore;
 import com.gtolib.api.machine.multiblock.CoilCrossRecipeMultiblockMachine;
 import com.gtolib.utils.MultiBlockFileReader;

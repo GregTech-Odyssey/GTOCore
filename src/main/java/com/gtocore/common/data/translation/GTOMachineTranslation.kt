@@ -29,11 +29,11 @@ object GTOMachineTranslation : AutoInitialize<GTOMachineTranslation>() {
         add("需要外部热源工作" translatedTo "Requires external heat source to operate") { aqua() }
         add(
             ("当蒸汽溢出后继续工作会" translatedTo "When steam overflows, continuing to work will ") + ("爆炸" translatedTo "explode").red()
-                .bold()
+                .bold(),
         ) { aqua() }
         add(
             ("可能发生爆炸的临界温度为" translatedTo "The critical temperature for explosion is ") + (BoilWaterMachine.DrawWaterExplosionLine.toLiteralSupplier()).red()
-                .bold()
+                .bold(),
         ) { aqua() }
     }
 
@@ -66,7 +66,7 @@ object GTOMachineTranslation : AutoInitialize<GTOMachineTranslation>() {
         add("注意爆破安全！！！" translatedTo "Pay attention to blasting safety!!!") { aqua() }
         add(Warning(1) + ("爆破时请保持机器加载" translatedTo "Keep the machine loaded while blasting").gold()) { white() }
         add(
-            Star(1) + ("专业的世界摧毁者" translatedTo "Professional world destroyer").rainbowSlow().bold().italic()
+            Star(1) + ("专业的世界摧毁者" translatedTo "Professional world destroyer").rainbowSlow().bold().italic(),
         ) { white() }
         add("向库存放入物品以切换模式" translatedTo "Add items to inventory to switch modes") { green() }
         add("- 放入 §e模具 (球)§r 为§6球模式§r" translatedTo "- Put into §eCasting Mold (Ball)§r for §6Ball mode§r") { gray() }
@@ -251,7 +251,7 @@ object GTOMachineTranslation : AutoInitialize<GTOMachineTranslation>() {
     val SinteringFurnaceTooltips = ComponentListSupplier {
         setTranslationPrefix("sintering_furnace")
         add(
-            ("作为陶瓷生产中的" translatedTo "As the ") + ("核心设备" translatedTo "core equipment").gold().bold()
+            ("作为陶瓷生产中的" translatedTo "As the ") + ("核心设备" translatedTo "core equipment").gold().bold(),
         ) { aqua() }
         add("格雷科技设计人员为这台烧结炉奋战了无数日夜" translatedTo "GregTech designers fought countless days and nights for this sintering furnace") { aqua() }
         add(("型号HCS-41烧结炉有着完美的成品率" translatedTo "Model HCS-41 sintering furnace has perfect finished product rate")) { gray() }
@@ -339,7 +339,7 @@ object GTOMachineTranslation : AutoInitialize<GTOMachineTranslation>() {
         add("§e玻璃等级决定可用电压上限" translatedTo "§eGlass tier§r determines  upper limit of voltage usable") { aqua() }
         add(
             Star(1) + ("生物材料培养的基础设施" translatedTo "Basic infrastructure for biological material cultivation").gold()
-                .bold().italic()
+                .bold().italic(),
         ) { aqua() }
     }
 
@@ -642,7 +642,7 @@ object GTOMachineTranslation : AutoInitialize<GTOMachineTranslation>() {
         MATERIAL_MAP.forEach { (material: String?, reduction: Float?) ->
             add(
                 Tab(2) + Component.translatable("material.$material").toComponentSupplier()
-                    .gold() + (": -$reduction%").toLiteralSupplier()
+                    .gold() + (": -$reduction%").toLiteralSupplier(),
             ) { gray() }
         }
     }
