@@ -35,7 +35,7 @@ final class RarityForge {
                 .save();
 
         RARITY_FORGE_RECIPES.builder("uncommon_material")
-                .inputItems("apotheosis:common_material", 8)
+                .inputItems("apotheosis:common_material", 4)
                 .inputItems(Items.LEATHER.asItem())
                 .inputItems("apotheosis:gem_dust")
                 .outputItems("apotheosis:uncommon_material")
@@ -44,7 +44,7 @@ final class RarityForge {
                 .save();
 
         RARITY_FORGE_RECIPES.builder("rare_material")
-                .inputItems("apotheosis:uncommon_material", 8)
+                .inputItems("apotheosis:uncommon_material", 4)
                 .inputItems(TagPrefix.gem, GTMaterials.Amethyst)
                 .inputItems("apotheosis:gem_dust")
                 .outputItems("apotheosis:rare_material")
@@ -53,7 +53,7 @@ final class RarityForge {
                 .save();
 
         RARITY_FORGE_RECIPES.builder("epic_material")
-                .inputItems("apotheosis:rare_material", 8)
+                .inputItems("apotheosis:rare_material", 4)
                 .inputItems(Items.PRISMARINE_CRYSTALS.asItem())
                 .inputItems("apotheosis:gem_dust")
                 .outputItems("apotheosis:epic_material")
@@ -62,7 +62,7 @@ final class RarityForge {
                 .save();
 
         RARITY_FORGE_RECIPES.builder("mythic_material")
-                .inputItems("apotheosis:epic_material", 8)
+                .inputItems("apotheosis:epic_material", 4)
                 .inputItems(AEItems.FLUIX_PEARL.asItem())
                 .inputItems("apotheosis:gem_dust")
                 .outputItems("apotheosis:mythic_material")

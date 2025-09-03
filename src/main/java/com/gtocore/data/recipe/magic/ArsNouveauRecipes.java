@@ -1,4 +1,4 @@
-package com.gtocore.data.recipe.misc;
+package com.gtocore.data.recipe.magic;
 
 import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.data.GTOMaterials;

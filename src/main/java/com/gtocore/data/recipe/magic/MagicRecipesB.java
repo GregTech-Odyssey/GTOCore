@@ -1,4 +1,4 @@
-package com.gtocore.data.recipe.misc;
+package com.gtocore.data.recipe.magic;
 
 import net.minecraft.world.item.Item;
 

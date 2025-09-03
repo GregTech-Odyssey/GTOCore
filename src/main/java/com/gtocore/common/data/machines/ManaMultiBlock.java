@@ -5,6 +5,7 @@ import com.gtocore.api.pattern.GTOPredicates;
 import com.gtocore.common.data.GTOBlocks;
 import com.gtocore.common.data.GTOMaterials;
 import com.gtocore.common.data.GTORecipeTypes;
+import com.gtocore.common.data.translation.GTOMachineTranslation;
 import com.gtocore.common.machine.mana.multiblock.*;
 
 import com.gtolib.GTOCore;
@@ -495,8 +496,9 @@ public final class ManaMultiBlock {
             .workableCasingRenderer(GTOCore.id("block/casings/source_fiber_mechanical_casing"), GTCEu.id("block/multiblock/gcym/large_centrifuge"))
             .register();
 
-    public static final MultiblockMachineDefinition GEAR_DECONSTRUCTION_CENTER = multiblock("gear_deconstruction_center", "装备解构中心", GearDeconstructionCenter::new)
+    public static final MultiblockMachineDefinition THE_PRIMORDIAL_RECONSTRUCTOR = multiblock("the_primordial_reconstructor", "源初重构仪", ThePrimordialReconstructor::new)
             .nonYAxisRotation()
+            .tooltips(GTOMachineTranslation.INSTANCE.getThePrimordialReconstructorTooltips().getSupplier())
             .recipeTypes(GTRecipeTypes.DUMMY_RECIPES)
             .block(GTOBlocks.HERETICAL_MECHANICAL_CASING)
             .pattern(definition -> FactoryBlockPattern.start(definition)
@@ -506,8 +508,8 @@ public final class ManaMultiBlock {
                     .where('A', blocks(GTOBlocks.HERETICAL_MECHANICAL_CASING.get())
                             .or(abilities(INPUT_ENERGY))
                             .or(abilities(GTOPartAbility.INPUT_MANA))
-                            .or(abilities(IMPORT_FLUIDS))
-                            .or(abilities(IMPORT_ITEMS))
+                            .or(abilities(IMPORT_FLUIDS).setMaxGlobalLimited(1))
+                            .or(abilities(IMPORT_ITEMS).setMaxGlobalLimited(1))
                             .or(abilities(EXPORT_FLUIDS))
                             .or(abilities(EXPORT_ITEMS)))
                     .where('~', controller(blocks(definition.get())))

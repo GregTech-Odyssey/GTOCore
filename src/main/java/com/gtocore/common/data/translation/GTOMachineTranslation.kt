@@ -501,6 +501,19 @@ object GTOMachineTranslation : AutoInitialize<GTOMachineTranslation>() {
         add("通入红石信号以重新计算采掘区域并执行" translatedTo "Input a redstone signal to recalculate the mining area and execute mining") { aqua() }
     }
 
+    // 源初重构仪
+    val ThePrimordialReconstructorTooltips = ComponentListSupplier {
+        setTranslationPrefix("the_primordial_reconstructor")
+        add("通过电路选择工作模式" translatedTo "Select the operating mode through the circuit") { gold() }
+        add(Star(1) + ("分解模式" translatedTo "Decomposition mode")) { green().bold() }
+        add(Tab(2) + ("电路 1：神话装备分解" translatedTo "Circuit 1: Apotheosis Equipments Decomposition")) { aqua() }
+        add(Tab(2) + ("电路 2：神话装备 + 附魔 分解" translatedTo "Circuit 2: Apotheosis Equipments + Enchantments Decomposition")) { aqua() }
+        add(Tab(2) + ("电路 3：神话装备 + 刻印 分解" translatedTo "Circuit 3: Apotheosis Equipments + Affixes Decomposition")) { aqua() }
+        add(Tab(2) + ("电路 4：神话装备 + 附魔 + 刻印 分解" translatedTo "Circuit 4: Apotheosis Equipments + Enchantments + Affixes Decomposition")) { aqua() }
+        add(Star(1) + ("合成模式" translatedTo "Synthesis Mode")) { green().bold() }
+        add(Tab(2) + ("电路 5：精粹合成附魔书" translatedTo "Circuit 5: Essence synthesis Enchanted Book")) { aqua() }
+    }
+
     /*************************************************
      *              巨构(通常跨并/激光)                *
      **************************************************/
