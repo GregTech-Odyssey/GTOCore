@@ -3,8 +3,6 @@ package com.gtocore.common.machine.multiblock.part.ae;
 import com.gtolib.api.ae2.IKeyCounter;
 import com.gtolib.api.ae2.storage.BigCellDataStorage;
 import com.gtolib.api.ae2.storage.CellDataStorage;
-import com.gtolib.api.annotation.DataGeneratorScanned;
-import com.gtolib.api.annotation.language.RegisterLanguage;
 import com.gtolib.api.machine.part.AmountConfigurationHatchPartMachine;
 
 import com.gregtechceu.gtceu.api.GTValues;

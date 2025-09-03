@@ -49,6 +49,7 @@ public final class AirVentCover extends CoverBehavior {
         super.onRemoved();
         if (subscription != null) {
             subscription.unsubscribe();
+            subscription = null;
         }
     }
 

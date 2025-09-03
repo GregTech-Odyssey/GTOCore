@@ -69,7 +69,7 @@ public final class ProcessingEncapsulatorMachine extends TierCasingMultiblockMac
         super.onPartScan(part);
         if (part instanceof MachineAccessTerminalPartMachine accessTerminalPartMachine) {
             terminalPartMachine.add(accessTerminalPartMachine);
-            accessTerminalPartMachine.getInventory().addChangedListener(this::updateMap);
+            traitSubscriptions.add(accessTerminalPartMachine.getInventory().addChangedListener(this::updateMap));
         }
     }
 

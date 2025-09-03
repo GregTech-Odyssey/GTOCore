@@ -5,6 +5,7 @@ import com.gtocore.api.machine.part.IVacuumPartMachine;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
+import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.multiblock.part.TieredPartMachine;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
@@ -22,6 +23,8 @@ public class TempVacuumInterfacePartMachine extends TieredPartMachine implements
         return MANAGED_FIELD_HOLDER;
     }
 
+    private TickableSubscription tickableSubscription;
+
     public TempVacuumInterfacePartMachine(MetaMachineBlockEntity holder) {
         super(holder, GTValues.LV);
     }
@@ -29,10 +32,19 @@ public class TempVacuumInterfacePartMachine extends TieredPartMachine implements
     @Override
     public void onLoad() {
         super.onLoad();
-        subscribeServerTick(() -> {
+        tickableSubscription = subscribeServerTick(tickableSubscription, () -> {
             this.update();
             this.tickUpdate();
         });
+    }
+
+    @Override
+    public void onUnload() {
+        super.onUnload();
+        if (tickableSubscription != null) {
+            tickableSubscription.unsubscribe();
+            tickableSubscription = null;
+        }
     }
 
     @Override

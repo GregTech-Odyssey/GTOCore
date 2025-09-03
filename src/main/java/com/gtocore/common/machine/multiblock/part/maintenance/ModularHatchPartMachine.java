@@ -99,6 +99,15 @@ public class ModularHatchPartMachine extends ACMHatchPartMachine implements IMod
     }
 
     @Override
+    public void onUnload() {
+        super.onUnload();
+        if (tickSubs != null) {
+            tickSubs.unsubscribe();
+            tickSubs = null;
+        }
+    }
+
+    @Override
     public int getCurrentGravity() {
         return gravityMode ? currentGravity : 1;
     }
@@ -171,7 +180,7 @@ public class ModularHatchPartMachine extends ACMHatchPartMachine implements IMod
                 .addWidget(new SlotWidget(inventory.storage, 1, xslot, ylabel + y * 22, true, true)
                         .setBackground(GuiTextures.SLOT)
                         .setHoverTooltips(Component.translatable(TOOLTIP_KEY, Wrapper.GRAVITY_CHECK.getDefaultInstance().getDisplayName(), Component.translatable(GRAVITY_FUNC).getString())))
-                .addWidget(getConfigPanel(xlabel, ylabel + y++ * 22,
+                .addWidget(getConfigPanel(xlabel, ylabel + y++ * 22 + 11,
                         () -> Component.translatable("forge.entity_gravity").append(": %s".formatted(getCurrentGravity())),
                         () -> gravityMode ?
                                 Component.translatable(GRAVITY_CONFIG) :

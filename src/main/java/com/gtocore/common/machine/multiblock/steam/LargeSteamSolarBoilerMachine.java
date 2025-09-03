@@ -73,6 +73,7 @@ public class LargeSteamSolarBoilerMachine extends WorkableMultiblockMachine impl
     private int lDist, rDist, bDist, sunlit;
     private int steamGenerated;
     private int timing;
+    private boolean formed;
 
     public LargeSteamSolarBoilerMachine(MetaMachineBlockEntity holder) {
         super(holder);
@@ -98,7 +99,7 @@ public class LargeSteamSolarBoilerMachine extends WorkableMultiblockMachine impl
             this.lDist = newLDist;
             this.rDist = newRDist;
             this.bDist = newBDist;
-            this.isFormed = true;
+            this.formed = true;
         } else {
             resetStructure();
         }
@@ -135,7 +136,7 @@ public class LargeSteamSolarBoilerMachine extends WorkableMultiblockMachine impl
 
     private void resetStructure() {
         lDist = rDist = bDist = 0;
-        isFormed = false;
+        formed = false;
     }
 
     private static boolean isBlockSolar(@NotNull Level world, @NotNull BlockPos pos) {
@@ -147,9 +148,9 @@ public class LargeSteamSolarBoilerMachine extends WorkableMultiblockMachine impl
     public BlockPattern getPattern() {
         if (getLevel() != null) updateStructureDimensions();
 
-        int safeLDist = isFormed() ? lDist : MIN_LR_DIST;
-        int safeRDist = isFormed() ? rDist : MIN_LR_DIST;
-        int safeBDist = isFormed() ? bDist : MIN_B_DIST;
+        int safeLDist = formed ? lDist : MIN_LR_DIST;
+        int safeRDist = formed ? rDist : MIN_LR_DIST;
+        int safeBDist = formed ? bDist : MIN_B_DIST;
 
         int totalWidth = safeLDist + safeRDist + 3;
 
@@ -210,8 +211,13 @@ public class LargeSteamSolarBoilerMachine extends WorkableMultiblockMachine impl
         return count;
     }
 
-    private static boolean isAppropriateDimensionAndTime(Level world, BlockPos pos) {
-        return !world.getBiome(pos.above()).is(BiomeTags.IS_END) && world.isDay();
+    private boolean isAppropriateDimensionAndTime(Level world, BlockPos pos) {
+        if (!world.isDay()) {
+            getEnhancedRecipeLogic().gtolib$setIdleReason(Component.translatable("gtceu.recipe_logic.condition_fails")
+                    .append(": ").append(Component.translatable("recipe.condition.daytime.day.tooltip")));
+            return false;
+        }
+        return !world.getBiome(pos.above()).is(BiomeTags.IS_END);
     }
 
     private static boolean hasClearSky(Level world, BlockPos pos) {

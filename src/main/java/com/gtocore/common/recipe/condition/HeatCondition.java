@@ -37,11 +37,13 @@ public final class HeatCondition extends AbstractRecipeCondition {
     @Override
     public boolean test(@NotNull Recipe recipe, @NotNull RecipeLogic recipeLogic) {
         MetaMachine machine = recipeLogic.getMachine();
-        if (machine instanceof ICoilMachine coilMachine && coilMachine.getTemperature() >= temperature) {
-            return true;
-        }
-        if (machine instanceof MultiblockControllerMachine mbc && mbc.getParts().stream().anyMatch(p -> p instanceof ITemperatureMachine t && t.getTemperature() >= temperature)) {
-            return true;
+        if (machine instanceof MultiblockControllerMachine controllerMachine) {
+            if (machine instanceof ICoilMachine coilMachine && coilMachine.getTemperature() >= temperature) {
+                return true;
+            }
+            for (var p : controllerMachine.getParts()) {
+                if (p instanceof ITemperatureMachine t && t.getTemperature() >= temperature) return true;
+            }
         }
         for (Direction side : GTUtil.DIRECTIONS) {
             if (checkNeighborHeat(machine, side)) {

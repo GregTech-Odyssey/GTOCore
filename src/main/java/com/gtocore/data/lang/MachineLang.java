@@ -1,9 +1,11 @@
 package com.gtocore.data.lang;
 
+import com.gtocore.common.machine.monitor.DisplayRegistry;
+
+import com.gtolib.GTOCore;
+
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTValues;
-import com.gtocore.common.machine.monitor.DisplayRegistry;
-import com.gtolib.GTOCore;
 
 import static com.gtocore.data.lang.LangHandler.addCNEN;
 
@@ -205,7 +207,7 @@ final class MachineLang {
         DisplayRegistry.registerLanguage();
     }
 
-    public static void addSingleMachineTooltips() {
+    private static void addSingleMachineTooltips() {
         // machines defined in GTM
         SingleMachineTooltipBuilder.createGTM("electric_furnace")
                 .epic("§7工业级烤面包机", "§7Industrial-grade Toaster")
@@ -386,55 +388,55 @@ final class MachineLang {
 
     private record SingleMachineTooltipBuilder(String namespace, String type) {
 
-        public static SingleMachineTooltipBuilder createGTM(String machineType) {
+        private static SingleMachineTooltipBuilder createGTM(String machineType) {
             return new SingleMachineTooltipBuilder(GTCEu.MOD_ID, machineType);
         }
 
-        public static SingleMachineTooltipBuilder createGTO(String machineType) {
+        private static SingleMachineTooltipBuilder createGTO(String machineType) {
             return new SingleMachineTooltipBuilder(GTOCore.MOD_ID, machineType);
         }
 
-        public SingleMachineTooltipBuilder add(String cn, String en, int tier) {
+        private SingleMachineTooltipBuilder add(String cn, String en, int tier) {
             addCNEN(namespace + ".machine." + GTValues.VN[tier].toLowerCase() + "_" + type + ".tooltip", cn, en);
             return this;
         }
 
-        public SingleMachineTooltipBuilder add(String cn, String en, int tierMin, int tierMax) {
+        private SingleMachineTooltipBuilder add(String cn, String en, int tierMin, int tierMax) {
             for (int tier = tierMin; tier <= tierMax; tier++) {
                 add(cn, en, tier);
             }
             return this;
         }
 
-        public SingleMachineTooltipBuilder steam(String lpCn, String lpEn, String hpCn, String hpEn) {
-            addCNEN(namespace  + ".machine.lp_steam_" + type + ".tooltip", lpCn, lpEn);
-            addCNEN(namespace  + ".machine.hp_steam_" + type + ".tooltip", hpCn, hpEn);
+        private SingleMachineTooltipBuilder steam(String lpCn, String lpEn, String hpCn, String hpEn) {
+            addCNEN(namespace + ".machine.lp_steam_" + type + ".tooltip", lpCn, lpEn);
+            addCNEN(namespace + ".machine.hp_steam_" + type + ".tooltip", hpCn, hpEn);
             return this;
         }
 
-        public SingleMachineTooltipBuilder primitive(String cn, String en) {
+        private SingleMachineTooltipBuilder primitive(String cn, String en) {
             // primitive machines are all from GTO
             addCNEN(GTOCore.MOD_ID + ".machine." + GTValues.VN[GTValues.ULV].toLowerCase() + "_" + type + ".tooltip", cn, en);
             return this;
         }
 
-        public SingleMachineTooltipBuilder basic(String cn, String en) {
+        private SingleMachineTooltipBuilder basic(String cn, String en) {
             return add(cn, en, GTValues.LV, GTValues.EV);
         }
 
-        public SingleMachineTooltipBuilder elite(String cn, String en) {
+        private SingleMachineTooltipBuilder elite(String cn, String en) {
             return add(cn, en, GTValues.IV, GTValues.ZPM);
         }
 
-        public SingleMachineTooltipBuilder ultimate(String cn, String en) {
+        private SingleMachineTooltipBuilder ultimate(String cn, String en) {
             return add(cn, en, GTValues.UV);
         }
 
-        public SingleMachineTooltipBuilder epic(String cn, String en) {
+        private SingleMachineTooltipBuilder epic(String cn, String en) {
             return add(cn, en, GTValues.UHV, GTValues.UXV);
         }
 
-        public SingleMachineTooltipBuilder legendary(String cn, String en) {
+        private SingleMachineTooltipBuilder legendary(String cn, String en) {
             return add(cn, en, GTValues.OpV);
         }
     }

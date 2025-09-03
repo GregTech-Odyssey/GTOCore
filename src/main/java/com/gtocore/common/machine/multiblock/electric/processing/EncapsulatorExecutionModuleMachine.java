@@ -43,7 +43,6 @@ import appeng.api.stacks.GenericStack;
 import appeng.core.definitions.AEItems;
 import com.lowdragmc.lowdraglib.gui.util.ClickData;
 import com.lowdragmc.lowdraglib.gui.widget.ComponentPanelWidget;
-import com.lowdragmc.lowdraglib.syncdata.ITagSerializable;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
@@ -66,9 +65,8 @@ public final class EncapsulatorExecutionModuleMachine extends StorageMultiblockM
     ProcessingEncapsulatorMachine encapsulatorMachine;
     @Persisted
     private Recipe finalRecipe;
-    @Persisted
     private final List<PackageRecipe> packageRecipe = new ArrayList<>();
-    private final List<GTRecipe> invalidRecipe = new ArrayList<>();
+    private final List<Recipe> invalidRecipe = new ArrayList<>();
     private final Object2IntOpenHashMap<NBTItem> inputItemStackMap = new Object2IntOpenHashMap<>();
     private final Object2IntOpenHashMap<FluidStack> inputFluidStackMap = new Object2IntOpenHashMap<>();
     private final Object2IntOpenHashMap<NBTItem> outputItemStackMap = new Object2IntOpenHashMap<>();
@@ -133,6 +131,13 @@ public final class EncapsulatorExecutionModuleMachine extends StorageMultiblockM
             }
             tag.put("outputFluidStackMap", map);
         }
+        if (!packageRecipe.isEmpty()) {
+            var map = new ListTag();
+            for (var entry : packageRecipe) {
+                map.add(entry.serializeNBT());
+            }
+            tag.put("packageRecipe", map);
+        }
     }
 
     @Override
@@ -176,6 +181,13 @@ public final class EncapsulatorExecutionModuleMachine extends StorageMultiblockM
                 var key = FluidStack.loadFluidStackFromNBT(pairs.getCompound("K"));
                 var value = pairs.getInt("V");
                 outputFluidStackMap.put(key, value);
+            }
+        }
+        if (tag.contains("packageRecipe")) {
+            packageRecipe.clear();
+            var map = tag.getList("packageRecipe", Tag.TAG_COMPOUND);
+            for (var c : map) {
+                packageRecipe.add(PackageRecipe.deserializeNBT((CompoundTag) c));
             }
         }
     }
@@ -522,30 +534,17 @@ public final class EncapsulatorExecutionModuleMachine extends StorageMultiblockM
         customParallelTrait.setParallel(number);
     }
 
-    private static class PackageRecipe implements ITagSerializable<CompoundTag> {
+    private record PackageRecipe(Recipe recipe, int parallel) {
 
-        private Recipe recipe;
-        private int parallel;
-
-        private PackageRecipe(Recipe recipe, int parallel) {
-            this.recipe = recipe;
-            this.parallel = parallel;
-        }
-
-        @Override
-        public CompoundTag serializeNBT() {
+        private CompoundTag serializeNBT() {
             var tag = new CompoundTag();
             tag.putInt("parallel", parallel);
             tag.put("recipe", recipe.serializeNBT());
             return tag;
         }
 
-        @Override
-        public void deserializeNBT(CompoundTag nbt) {
-            parallel = nbt.getInt("parallel");
-            recipe = Recipe.deserializeNBT(Objects.requireNonNull(nbt.get("recipe")));
+        private static PackageRecipe deserializeNBT(CompoundTag nbt) {
+            return new PackageRecipe(Objects.requireNonNull(Recipe.deserializeNBT(nbt.get("recipe"))), nbt.getInt("parallel"));
         }
-
-        public PackageRecipe() {}
     }
 }

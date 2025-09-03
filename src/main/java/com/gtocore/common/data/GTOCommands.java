@@ -75,6 +75,13 @@ public final class GTOCommands {
 
     public static void initClient(CommandDispatcher<CommandSourceStack> dispatcher) {
         dispatcher.register(Commands.literal(GTOCore.MOD_ID + "c")
+                .then(Commands.literal("spark").then(Commands.literal("start").executes(ctx -> {
+                    SparkLaunchProfiler.start("all");
+                    return 1;
+                })).then(Commands.literal("stop").executes(ctx -> {
+                    SparkLaunchProfiler.stop("all");
+                    return 1;
+                })))
                 .then(Commands.literal("multiblock").then(
                         Commands.literal("on").executes((ctx) -> {
                             ClientCache.machineNotFormedHighlight = true;

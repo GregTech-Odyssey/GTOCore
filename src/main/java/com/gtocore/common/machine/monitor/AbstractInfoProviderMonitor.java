@@ -5,6 +5,7 @@ import com.gtocore.api.gui.DisplayComponentGroup;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.gui.widget.LongInputWidget;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
+import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -38,11 +39,20 @@ public abstract class AbstractInfoProviderMonitor extends BasicMonitor implement
         return new ManagedFieldHolder(clazz, BASIC_MONITOR_HOLDER);
     }
 
+    private TickableSubscription tickableSubscription;
+
     AbstractInfoProviderMonitor(MetaMachineBlockEntity holder) {
         super(holder);
         Class<? extends BasicMonitor> clazz = this.getClass();
         MANAGED_FIELD_HOLDER_MAP.computeIfAbsent(clazz, this::getManagedFieldHolder);
-        this.subscribeServerTick(() -> {
+    }
+
+    private static final Map<Class<? extends BasicMonitor>, ManagedFieldHolder> MANAGED_FIELD_HOLDER_MAP = new ConcurrentHashMap<>();
+
+    @Override
+    public void onLoad() {
+        super.onLoad();
+        tickableSubscription = this.subscribeServerTick(tickableSubscription, () -> {
             if (this.getOffsetTimer() % 10 == 0) {
                 this.syncInfoFromServer();
                 this.getSyncStorage().markAllDirty();
@@ -51,7 +61,14 @@ public abstract class AbstractInfoProviderMonitor extends BasicMonitor implement
         });
     }
 
-    private static final Map<Class<? extends BasicMonitor>, ManagedFieldHolder> MANAGED_FIELD_HOLDER_MAP = new ConcurrentHashMap<>();
+    @Override
+    public void onUnload() {
+        super.onUnload();
+        if (tickableSubscription != null) {
+            tickableSubscription.unsubscribe();
+            tickableSubscription = null;
+        }
+    }
 
     @Override
     public @NotNull ManagedFieldHolder getFieldHolder() {

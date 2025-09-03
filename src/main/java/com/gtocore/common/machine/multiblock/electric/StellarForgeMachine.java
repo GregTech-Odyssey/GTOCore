@@ -2,6 +2,7 @@ package com.gtocore.common.machine.multiblock.electric;
 
 import com.gtocore.common.data.GTOBlocks;
 
+import com.gtolib.GTOCore;
 import com.gtolib.api.annotation.DataGeneratorScanned;
 import com.gtolib.api.annotation.language.RegisterLanguage;
 import com.gtolib.api.machine.multiblock.TierCasingMultiblockMachine;
@@ -73,7 +74,7 @@ public final class StellarForgeMachine extends TierCasingMultiblockMachine imple
     @Override
     public void regressRecipe(RecipeLogic recipeLogic) {
         recipeLogic.interruptRecipe();
-        doExplosion(1);
+        if (GTOCore.isExpert()) doExplosion(1);
     }
 
     @Override

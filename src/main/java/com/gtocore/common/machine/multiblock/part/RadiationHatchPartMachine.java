@@ -81,6 +81,15 @@ public final class RadiationHatchPartMachine extends MultiblockPartMachine imple
         radiationSubs = subscribeServerTick(radiationSubs, this::checkRadiation);
     }
 
+    @Override
+    public void onUnload() {
+        super.onUnload();
+        if (radiationSubs != null) {
+            radiationSubs.unsubscribe();
+            radiationSubs = null;
+        }
+    }
+
     private void checkRadiation() {
         if (time > 0) {
             if (count < 1) {
