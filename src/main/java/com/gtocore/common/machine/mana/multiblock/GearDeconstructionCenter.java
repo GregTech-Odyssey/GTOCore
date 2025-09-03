@@ -3,26 +3,23 @@ package com.gtocore.common.machine.mana.multiblock;
 import com.gtolib.api.machine.trait.CustomRecipeLogic;
 import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.RecipeBuilder;
-import com.gtolib.utils.RegistriesUtils;
+import com.gtolib.utils.holder.IntHolder;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.Tag;
+import net.minecraft.nbt.StringTag;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.level.Level;
 import net.minecraftforge.common.Tags;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.tags.ITagManager;
 
-import java.util.ArrayList;
+import dev.shadowsoffire.apotheosis.adventure.Adventure;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+
 import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicReference;
 
 public class GearDeconstructionCenter extends ManaMultiblockMachine {
 
@@ -31,60 +28,31 @@ public class GearDeconstructionCenter extends ManaMultiblockMachine {
     }
 
     @Override
-    public boolean keepSubscribing() {
-        return isFormed() && getLevel() != null;
-    }
-
-    @Override
     public RecipeLogic createRecipeLogic(Object... args) {
         return new CustomRecipeLogic(this, this::getRecipe);
     }
 
     private Recipe getRecipe() {
-        Level level = getLevel();
-        if (level == null || !isFormed()) {
-            return null;
-        }
-
-        // 使用原子引用来捕获构建的配方
-        AtomicReference<Recipe> resultRecipe = new AtomicReference<>(null);
-        AtomicBoolean foundValidInput = new AtomicBoolean(false);
-
         // 创建新的配方构建器
         RecipeBuilder recipeBuilder = getRecipeBuilder();
-
+        List<ItemStack> inputs = new ObjectArrayList<>();
+        List<ItemStack> outputs = new ObjectArrayList<>();
+        IntHolder count = new IntHolder(0);
         forEachInputItems(stack -> {
-            if (foundValidInput.get())
-                return false; // 已经找到有效输入并处理，停止迭代
-
-            ITagManager<Item> tagManager = ForgeRegistries.ITEMS.tags();
-            if (tagManager == null)
-                return false;
-
             // 检测标签，工具和 armor 不处理
-            if (!tagManager.getTag(Tags.Items.TOOLS).contains(stack.getItem()) &&
-                    !tagManager.getTag(Tags.Items.ARMORS).contains(stack.getItem()))
-                return false;
-
+            var tags = stack.getItem().builtInRegistryHolder().tags;
+            if (!tags.contains(Tags.Items.TOOLS) && !tags.contains(Tags.Items.ARMORS)) return false;
             // 处理有效的装备分解
-            List<ItemStack> inputs = new ArrayList<>();
-            List<ItemStack> outputs = new ArrayList<>();
-            disassembleEquipment(stack, inputs, outputs);
-
-            // 如果有有效的输出，构建配方
-            if (!outputs.isEmpty()) {
-                for (ItemStack input : inputs) recipeBuilder.inputItems(input);
-                for (ItemStack output : outputs) recipeBuilder.outputItems(output);
-                recipeBuilder.duration(20);
-                resultRecipe.set(recipeBuilder.buildRawRecipe());
-                foundValidInput.set(true);
-                return true;
-            }
-
+            if (disassembleEquipment(stack, inputs, outputs)) count.value++;
             return false;
         });
-
-        return resultRecipe.get();
+        if (!outputs.isEmpty()) {
+            inputs.forEach(recipeBuilder::inputItems);
+            outputs.forEach(recipeBuilder::outputItems);
+            recipeBuilder.duration(20 * count.value);
+            return recipeBuilder.buildRawRecipe();
+        }
+        return null;
     }
 
     /**
@@ -94,36 +62,31 @@ public class GearDeconstructionCenter extends ManaMultiblockMachine {
      * @param inputs    输入列表
      * @param outputs   输出列表
      */
-    private void disassembleEquipment(ItemStack equipment, List<ItemStack> inputs, List<ItemStack> outputs) {
+    private static boolean disassembleEquipment(ItemStack equipment, List<ItemStack> inputs, List<ItemStack> outputs) {
         // 添加装备本身到输入列表
-        inputs.add(equipment.copy());
-
-        // 检查输入是否有效
-        if (equipment.isEmpty()) {
-            return;
-        }
+        inputs.add(equipment);
 
         CompoundTag nbt = equipment.getTag();
         if (nbt == null) {
-            return;
+            return false;
         }
-
+        boolean find = false;
         // 提取宝石并计算数量
         int gemCount = extractGems(nbt, outputs);
         if (gemCount > 0) {
-            ItemStack sigilStack = RegistriesUtils.getItemStack("apotheosis:sigil_of_withdrawal", gemCount);
-            inputs.add(sigilStack);
+            inputs.add(new ItemStack(Adventure.Items.SIGIL_OF_WITHDRAWAL.get(), gemCount));
+            find = true;
         }
 
         // 提取附魔并创建附魔书，计算数量
         int enchantmentCount = extractEnchantments(nbt, outputs);
         if (enchantmentCount > 0) {
-            ItemStack bookStack = new ItemStack(Items.BOOK, enchantmentCount);
-            inputs.add(bookStack);
+            inputs.add(new ItemStack(Items.BOOK, enchantmentCount));
+            find = true;
         }
 
         // 根据稀有度生成材料
-        generateMaterials(nbt, outputs);
+        return generateMaterials(nbt, outputs) || find;
     }
 
     /**
@@ -136,24 +99,21 @@ public class GearDeconstructionCenter extends ManaMultiblockMachine {
     private static int extractGems(CompoundTag nbt, List<ItemStack> outputs) {
         int gemCount = 0;
 
-        if (nbt.contains("affix_data", Tag.TAG_COMPOUND)) {
-            CompoundTag affixData = nbt.getCompound("affix_data");
-            if (affixData.contains("gems", Tag.TAG_LIST)) {
-                ListTag gems = affixData.getList("gems", Tag.TAG_COMPOUND);
-                gemCount = gems.size();
+        if (nbt.tags.get("affix_data") instanceof CompoundTag data && data.tags.get("gems") instanceof ListTag gems) {
+            gemCount = gems.size();
 
-                for (int i = 0; i < gemCount; i++) {
-                    CompoundTag gemData = gems.getCompound(i);
+            for (int i = 0; i < gemCount; i++) {
+                CompoundTag gemData = gems.getCompound(i);
 
-                    // 创建宝石物品堆
-                    ItemStack gemStack = RegistriesUtils.getItemStack("apotheosis:gem");
+                // 创建宝石物品堆
+                ItemStack gemStack = Adventure.Items.GEM.get().getDefaultInstance();
 
-                    // 如果宝石有自定义NBT，则复制
-                    if (gemData.contains("tag", Tag.TAG_COMPOUND))
-                        gemStack.setTag(gemData.getCompound("tag").copy());
-
-                    outputs.add(gemStack);
+                // 如果宝石有自定义NBT，则复制
+                if (gemData.tags.get("tag") instanceof CompoundTag tag) {
+                    gemStack.setTag(tag.copy());
                 }
+
+                outputs.add(gemStack);
             }
         }
 
@@ -171,8 +131,7 @@ public class GearDeconstructionCenter extends ManaMultiblockMachine {
         int enchantmentCount = 0;
 
         // 提取常规附魔
-        if (nbt.contains("Enchantments", Tag.TAG_LIST)) {
-            ListTag enchantments = nbt.getList("Enchantments", Tag.TAG_COMPOUND);
+        if (nbt.tags.get("Enchantments") instanceof ListTag enchantments) {
             enchantmentCount = enchantments.size();
 
             for (int i = 0; i < enchantmentCount; i++) {
@@ -201,27 +160,21 @@ public class GearDeconstructionCenter extends ManaMultiblockMachine {
      * @param nbt     装备的NBT数据
      * @param outputs 输出列表
      */
-    private static void generateMaterials(CompoundTag nbt, List<ItemStack> outputs) {
-        String materialType = "apotheosis:common_material";
-
+    private static boolean generateMaterials(CompoundTag nbt, List<ItemStack> outputs) {
         // 确定材料类型基于装备稀有度
-        if (nbt.contains("affix_data", Tag.TAG_COMPOUND)) {
-            CompoundTag affixData = nbt.getCompound("affix_data");
-            if (affixData.contains("rarity", Tag.TAG_STRING)) {
-                String rarity = affixData.getString("rarity");
-
-                switch (rarity) {
-                    case "apotheosis:ancient" -> materialType = "apotheosis:ancient_material";
-                    case "apotheosis:mythic" -> materialType = "apotheosis:mythic_material";
-                    case "apotheosis:epic" -> materialType = "apotheosis:epic_material";
-                    case "apotheosis:rare" -> materialType = "apotheosis:rare_material";
-                    case "apotheosis:uncommon" -> materialType = "apotheosis:uncommon_material";
-                    case "apotheosis:common" -> materialType = "apotheosis:common_material";
-                }
+        if (nbt.tags.get("affix_data") instanceof CompoundTag data && data.tags.get("rarity") instanceof StringTag tag) {
+            Item materialType;
+            switch (tag.getAsString()) {
+                case "apotheosis:ancient" -> materialType = Adventure.Items.ANCIENT_MATERIAL.get();
+                case "apotheosis:mythic" -> materialType = Adventure.Items.MYTHIC_MATERIAL.get();
+                case "apotheosis:epic" -> materialType = Adventure.Items.EPIC_MATERIAL.get();
+                case "apotheosis:rare" -> materialType = Adventure.Items.RARE_MATERIAL.get();
+                case "apotheosis:uncommon" -> materialType = Adventure.Items.UNCOMMON_MATERIAL.get();
+                default -> materialType = Adventure.Items.COMMON_MATERIAL.get();
             }
+            outputs.add(materialType.getDefaultInstance());
+            return true;
         }
-
-        ItemStack materialStack = RegistriesUtils.getItemStack(materialType, 2);
-        outputs.add(materialStack);
+        return false;
     }
 }
