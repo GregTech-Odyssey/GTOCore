@@ -17,10 +17,13 @@ import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.api.transfer.fluid.IFluidHandlerModifiable;
 import com.gregtechceu.gtceu.api.transfer.item.LockableItemStackHandler;
 
+import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.items.IItemHandlerModifiable;
 
@@ -34,6 +37,8 @@ import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.stream.Stream;
 
 public class MultiblockCrateMachine extends MultiblockControllerMachine implements IUIMachine, IDropSaveMachine {
 
@@ -92,7 +97,8 @@ public class MultiblockCrateMachine extends MultiblockControllerMachine implemen
         // int yOffset = (Capacity - 3 * yOverflow) / yOverflow * 18;
         var modularUI = new ModularUI(xOffset + 19, 244, this, entityPlayer)
                 .background(GuiTextures.BACKGROUND)
-                .widget(new LabelWidget(5, 5, getBlockState().getBlock().getDescriptionId()))
+                .widget(new LabelWidget(5, 5, () -> Component.translatable(getBlockState().getBlock().getDescriptionId()).getString() +
+                        "(" + Stream.of(inventory.getContents()).filter(i -> !((ItemStack) i).isEmpty()).count() + "/" + Capacity + ")"))
                 .widget(UITemplate.bindPlayerInventory(entityPlayer.getInventory(), GuiTextures.SLOT, 7, 162, true));
 
         var innerContainer = new DraggableScrollableWidgetGroup(4, 4, xOffset + 6, 130)
@@ -104,7 +110,12 @@ public class MultiblockCrateMachine extends MultiblockControllerMachine implemen
         int x = 0;
         int y = 0;
         for (int slot = 0; slot < Capacity; slot++) {
-            innerContainer.addWidget(new SlotWidget(inventory.storage, slot, x * 18, y * 18).setBackgroundTexture(GuiTextures.SLOT));
+            innerContainer.addWidget(new SlotWidget(inventory.storage, slot, x * 18, y * 18){
+                @Override
+                public boolean isEnabled() {
+                    return true;
+                }
+            }.setBackgroundTexture(GuiTextures.SLOT));
             x++;
             if (x == yOverflow) {
                 x = 0;
