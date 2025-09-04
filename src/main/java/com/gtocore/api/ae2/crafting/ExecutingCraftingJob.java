@@ -59,24 +59,33 @@ class ExecutingCraftingJob {
         // Fill waiting for and tasks
         this.timeTracker = new ElapsedTimeTracker();
         this.tt = (IElapsedTimeTracker) timeTracker;
+
+        Level level = cpu.cluster.getLevel(); // 缓存 Level
+
         for (var entry : plan.emittedItems()) {
             waitingFor.insert(entry.getKey(), entry.getLongValue(), Actionable.MODULATE);
             tt.gtolib$addMaxItems(entry.getLongValue(), entry.getKey().getType());
         }
-        for (var it = ((Object2LongOpenHashMap<IPatternDetails>) plan.patternTimes()).object2LongEntrySet().fastIterator(); it.hasNext();) {
-            var entry = it.next();
-            var key = entry.getKey();
-            long value = entry.getLongValue();
-            if (value > 1 && key instanceof IParallelPatternDetails parallelPatternDetails) {
-                key = parallelPatternDetails.parallel(value, cpu.cluster.getLevel());
-                value = 1;
-            }
-            tasks.computeIfAbsent(key, p -> new LongHolder(0)).value += value;
-            for (var output : key.getOutputs()) {
-                var amount = output.amount() * value * output.what().getAmountPerUnit();
-                tt.gtolib$addMaxItems(amount, output.what().getType());
+
+        var patternTimes = plan.patternTimes();
+        if (patternTimes instanceof Object2LongOpenHashMap) {
+            var map = (Object2LongOpenHashMap<IPatternDetails>) patternTimes;
+            for (var it = map.object2LongEntrySet().fastIterator(); it.hasNext();) {
+                var entry = it.next();
+                var key = entry.getKey();
+                long value = entry.getLongValue();
+                if (value > 1 && key instanceof IParallelPatternDetails parallelPatternDetails) {
+                    key = parallelPatternDetails.parallel(value, level);
+                    value = 1;
+                }
+                tasks.computeIfAbsent(key, p -> new LongHolder(0)).value += value;
+                for (var output : key.getOutputs()) {
+                    var amount = output.amount() * value * output.what().getAmountPerUnit();
+                    tt.gtolib$addMaxItems(amount, output.what().getType());
+                }
             }
         }
+
         this.link = link;
         this.playerId = playerId;
     }
@@ -101,14 +110,15 @@ class ExecutingCraftingJob {
         }
 
         ListTag tasksTag = data.getList(NBT_TASKS, Tag.TAG_COMPOUND);
+        Level level = cpu.cluster.getLevel(); // 缓存 Level
         for (int i = 0; i < tasksTag.size(); ++i) {
             final CompoundTag item = tasksTag.getCompound(i);
             var pattern = AEItemKey.fromTag(item);
-            var details = PatternDetailsHelper.decodePattern(pattern, cpu.cluster.getLevel());
+            var details = PatternDetailsHelper.decodePattern(pattern, level);
             if (details != null) {
                 long parallel = item.getLong("parallel");
                 if (parallel > 0) {
-                    details = IParallelPatternDetails.of(details, cpu.cluster.getLevel(), parallel);
+                    details = IParallelPatternDetails.of(details, level, parallel);
                 }
                 final LongHolder tp = new LongHolder(item.getLong(NBT_CRAFTING_PROGRESS));
                 this.tasks.put(details, tp);

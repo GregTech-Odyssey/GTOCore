@@ -33,20 +33,24 @@ public class CompositeStorageMixin {
      */
     @Overwrite(remap = false)
     public void setStorages(Map<AEKeyType, MEStorage> storages) {
+        if (storages == null) {
+            this.storages = null;
+            return;
+        }
+
+        Map<AEKeyType, MEStorage> optimized = null;
+
         if (storages.size() == 1) {
-            var e = storages.entrySet().iterator().next();
-            this.storages = Reference2ReferenceMaps.singleton(e.getKey(), e.getValue());
+            var entry = storages.entrySet().iterator().next();
+            optimized = Reference2ReferenceMaps.singleton(entry.getKey(), entry.getValue());
         } else if (storages.size() == 2) {
             var item = storages.get(AEKeyTypeMap.ITEM_TYPE);
-            if (item != null) {
-                var fluid = storages.get(AEKeyTypeMap.FLUID_TYPE);
-                if (fluid != null) {
-                    this.storages = new AEKeyTypeMap<>(item, fluid);
-                }
+            var fluid = storages.get(AEKeyTypeMap.FLUID_TYPE);
+            if (item != null && fluid != null) {
+                optimized = new AEKeyTypeMap<>(item, fluid);
             }
         }
-        if (this.storages == null) {
-            this.storages = storages;
-        }
+
+        this.storages = (optimized != null) ? optimized : storages;
     }
 }

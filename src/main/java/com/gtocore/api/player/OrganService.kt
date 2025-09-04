@@ -34,149 +34,156 @@ import java.util.UUID
 interface IOrganService {
     fun tick(player: ServerPlayer)
 }
+
 class OrganService : IOrganService {
+
+    companion object {
+        private const val TRY_ATTACK_COUNT_KEY = "try_attack_count"
+
+        // 修改为 Pair<String, UUID> 类型
+        private val MOVEMENT_SPEED_MODIFIERS = (0..4).associateWith { tier ->
+            val name = "gtocore:organ_speed_tier_$tier"
+            name to UUID.nameUUIDFromBytes(name.toByteArray())
+        }
+
+        private const val BLOCK_REACH_MODIFIER_NAME = "gtocore:organ_reach"
+        private val BLOCK_REACH_MODIFIER_UUID = UUID.nameUUIDFromBytes(BLOCK_REACH_MODIFIER_NAME.toByteArray())
+    }
+
     override fun tick(player: ServerPlayer) {
         if (player.tickCount % 20 != 0) return
         val playerData = IEnhancedPlayer.of(player).playerData
         playerData.wingState = false
-        // Night Vision
-        when (playerData.organTierCache.contains(1)) {
-            true -> run {
-                val shouldAdd = player.getEffect(MobEffects.NIGHT_VISION)?.let { it.duration < 20 * 45 - 20 * 15 } ?: true
-                if (!shouldAdd)return@run
+
+        handleNightVision(player, playerData)
+        handleMovementSpeed(player, playerData)
+        handleBlockReach(player, playerData)
+        handleFly(playerData)
+        handleWings(player, playerData)
+        handlePlanetDamage(player, playerData)
+    }
+
+    private fun handleNightVision(player: ServerPlayer, playerData: PlayerData) {
+        if (playerData.organTierCache.contains(1)) {
+            val effect = player.getEffect(MobEffects.NIGHT_VISION)
+            val shouldAdd = effect?.duration?.let { it < 20 * 45 - 20 * 15 } ?: true
+            if (shouldAdd) {
                 player.addEffect(MobEffectInstance(MobEffects.NIGHT_VISION, 20 * 45, 0, false, false, true))
-            }
-            false -> {}
-        }
-        // Movement Speed
-        (0..4).forEach { tier ->
-            val modifierNAME = "gtocore:organ_speed_tier_$tier"
-            val modifierUUID = UUID.nameUUIDFromBytes(modifierNAME.toByteArray())
-            when (playerData.organTierCache.contains(tier)) {
-                true -> run {
-                    val modifierAmplify = MovementSpeedFunction(tier)
-                    val shouldAdd = player.getAttribute(Attributes.MOVEMENT_SPEED)?.modifiers?.all { it.name != modifierNAME } ?: true
-                    if (!shouldAdd)return@run
-                    player.getAttribute(Attributes.MOVEMENT_SPEED)?.addPermanentModifier(
-                        AttributeModifier(modifierUUID, modifierNAME, modifierAmplify.toDouble(), AttributeModifier.Operation.ADDITION),
-                    )
-                }
-                false -> run {
-                    player.getAttribute(Attributes.MOVEMENT_SPEED)?.removeModifier(modifierUUID)
-                }
-            }
-        }
-        // Block Reach
-        run {
-            val modifierNAME = "gtocore:organ_reach"
-            val modifierUUID = UUID.nameUUIDFromBytes(modifierNAME.toByteArray())
-            when (playerData.organTierCache.contains(2)) {
-                true -> run {
-                    val modifierAmplify = BlockReachFunction
-                    val shouldAdd = player.getAttribute(BLOCK_REACH.get())?.modifiers?.all { it.name != modifierNAME } ?: true
-                    if (!shouldAdd)return@run
-                    player.getAttribute(BLOCK_REACH.get())?.addPermanentModifier(
-                        AttributeModifier(modifierUUID, modifierNAME, modifierAmplify.toDouble(), AttributeModifier.Operation.ADDITION),
-                    )
-                }
-                false -> run {
-                    player.getAttribute(BLOCK_REACH.get())?.removeModifier(modifierUUID)
-                }
-            }
-        }
-        // Fly
-        when (playerData.organTierCache.contains(4)) { // 四级器官创造飞
-            true -> run {
-                playerData.wingState = true
-            }
-            false -> {}
-        }
-        // Wing
-        playerData.ktGetOrganStack().flatMap { it.value }.let root@{
-            it.firstOrNull { it.item.asItem() == FAIRY_WING.asItem() }.let {
-                it?.let {
-                    if (tryUsingDurabilityWing(it, player, playerData)) return@root
-                }
-            }
-            it.firstOrNull { it.item.asItem() == MANA_STEEL_WING.asItem() }.let {
-                it?.let {
-                    if (tryUsingDurabilityWing(it, player, playerData)) return@root
-                }
-            }
-            it.filter { it.item.asItem() == MECHANICAL_WING.asItem() }.forEach {
-                if (whenUsingElectricWing(it, player, playerData)) return@root
-            }
-        }
-        // 外星球伤害
-        run {
-            val planet: Planet = PlanetApi.API.getPlanet(player.level()) ?: return@run
-            if (!player.gameMode.isSurvival) return@run
-            if (GTODimensions.OVERWORLD.equals(planet.dimension().location())) return@run
-            if (!GTODimensions.isPlanet(planet.dimension().location())) return@run
-
-            val tier: Int = planet.tier()
-            val lowerTierTag = ((tier - 1) / 2) + 1
-            val cache = playerData
-
-            if (!playerData.organTierCache.contains(lowerTierTag)) {
-                val customComponent: Component = Component.translatable(
-                    "gtocore.death.attack.turbulence_of_another_star",
-                    player.name,
-                    tier,
-                    "最低Tier $lowerTierTag",
-                )
-
-                val currentCount = cache.floatCache.getOrPut("try_attack_count") { 0.0f } + 1.0f
-
-                player.hurt(
-                    GTODamageTypes.getGenericDamageSource(
-                        player,
-                        customComponent,
-                    ) { cache.floatCache.put("try_attack_count", 0.0f) },
-                    currentCount,
-                )
-
-                if (currentCount > 40.0f) {
-                    player.server.tell(TickTask(1, player::kill))
-                    player.server.playerList.broadcastSystemMessage(customComponent, true)
-                    cache.floatCache.put("try_attack_count", 0.0f)
-                } else {
-                    cache.floatCache["try_attack_count"] = currentCount
-                }
             }
         }
     }
 
-    private fun whenUsingElectricWing(stack: ItemStack, player: ServerPlayer, playerData: PlayerData?): Boolean {
+    private fun handleMovementSpeed(player: ServerPlayer, playerData: PlayerData) {
+        (0..4).forEach { tier ->
+            val modifierPair = MOVEMENT_SPEED_MODIFIERS[tier] ?: return@forEach
+            val (modifierName, modifierUUID) = modifierPair
+            val attribute = player.getAttribute(Attributes.MOVEMENT_SPEED) ?: return@forEach
+
+            if (playerData.organTierCache.contains(tier)) {
+                val shouldAdd = attribute.modifiers.all { it.name != modifierName }
+                if (shouldAdd) {
+                    val modifierAmplify = MovementSpeedFunction(tier)
+                    attribute.addPermanentModifier(
+                        AttributeModifier(modifierUUID, modifierName, modifierAmplify.toDouble(), AttributeModifier.Operation.ADDITION),
+                    )
+                }
+            } else {
+                attribute.removeModifier(modifierUUID)
+            }
+        }
+    }
+
+    private fun handleBlockReach(player: ServerPlayer, playerData: PlayerData) {
+        val contains = playerData.organTierCache.contains(2)
+        val attribute = player.getAttribute(BLOCK_REACH.get()) ?: return
+
+        if (contains) {
+            val shouldAdd = attribute.modifiers.all { it.name != BLOCK_REACH_MODIFIER_NAME }
+            if (shouldAdd) {
+                val modifierAmplify = BlockReachFunction
+                attribute.addPermanentModifier(
+                    AttributeModifier(BLOCK_REACH_MODIFIER_UUID, BLOCK_REACH_MODIFIER_NAME, modifierAmplify.toDouble(), AttributeModifier.Operation.ADDITION),
+                )
+            }
+        } else {
+            attribute.removeModifier(BLOCK_REACH_MODIFIER_UUID)
+        }
+    }
+
+    private fun handleFly(playerData: PlayerData) {
+        if (playerData.organTierCache.contains(4)) {
+            playerData.wingState = true
+        }
+    }
+
+    private fun handleWings(player: ServerPlayer, playerData: PlayerData) {
+        val stacks = playerData.ktGetOrganStack().flatMap { it.value }
+        stacks.firstOrNull { it.item.asItem() == FAIRY_WING.asItem() }?.let {
+            if (tryUsingDurabilityWing(it, player, playerData)) return
+        }
+        stacks.firstOrNull { it.item.asItem() == MANA_STEEL_WING.asItem() }?.let {
+            if (tryUsingDurabilityWing(it, player, playerData)) return
+        }
+        stacks.filter { it.item.asItem() == MECHANICAL_WING.asItem() }.forEach {
+            if (whenUsingElectricWing(it, player, playerData)) return
+        }
+    }
+
+    private fun handlePlanetDamage(player: ServerPlayer, playerData: PlayerData) {
+        val planet: Planet = PlanetApi.API.getPlanet(player.level()) ?: return
+        if (!player.gameMode.isSurvival) return
+        if (GTODimensions.OVERWORLD.equals(planet.dimension().location())) return
+        if (!GTODimensions.isPlanet(planet.dimension().location())) return
+
+        val tier: Int = planet.tier()
+        val lowerTierTag = ((tier - 1) / 2) + 1
+
+        if (!playerData.organTierCache.contains(lowerTierTag)) {
+            val customComponent: Component = Component.translatable(
+                "gtocore.death.attack.turbulence_of_another_star",
+                player.name,
+                tier,
+                "最低Tier $lowerTierTag",
+            )
+
+            val currentCount = playerData.floatCache.getOrPut(TRY_ATTACK_COUNT_KEY) { 0.0f } + 1.0f
+
+            player.hurt(
+                GTODamageTypes.getGenericDamageSource(player, customComponent) {},
+                currentCount,
+            )
+
+            if (currentCount > 40.0f) {
+                player.server.tell(TickTask(1, player::kill))
+                player.server.playerList.broadcastSystemMessage(customComponent, true)
+                playerData.floatCache[TRY_ATTACK_COUNT_KEY] = 0.0f
+            } else {
+                playerData.floatCache[TRY_ATTACK_COUNT_KEY] = currentCount
+            }
+        }
+    }
+
+    private fun whenUsingElectricWing(stack: ItemStack, player: ServerPlayer, playerData: PlayerData): Boolean {
         val item = GTCapabilityHelper.getElectricItem(stack) ?: return false
         if (item.charge <= 0) return false
-        playerData?.wingState = true
-        IWirelessChargerInteraction.charge(playerData?.getNetMachine(), stack)
+        playerData.wingState = true
+        playerData.getNetMachine()?.let { IWirelessChargerInteraction.charge(it, stack) }
         if (player.abilities.flying && player.level().getBlockState(player.onPos.below(1)).block == Blocks.AIR) {
             item.discharge(GTValues.V[GTValues.EV], item.tier, true, false, false)
         }
         return true
     }
 
-    private fun tryUsingDurabilityWing(stack: ItemStack, player: ServerPlayer, playerData: PlayerData?): Boolean {
+    private fun tryUsingDurabilityWing(stack: ItemStack, player: ServerPlayer, playerData: PlayerData): Boolean {
         val durability = stack.maxDamage - stack.damageValue
-        when {
-            durability > 0 -> run {
-                if (player.abilities.flying &&
-                    player.level()
-                        .getBlockState(player.onPos.below(1)).block == Blocks.AIR
-                ) {
-                    stack.hurtAndBreak(1, player) { player1: Player ->
-                        player1.sendSystemMessage(
-                            Component.translatable(
-                                "gtocore.player.organ.you_wing_is_broken",
-                            ),
-                        )
-                    }
+        if (durability > 0) {
+            if (player.abilities.flying && player.level().getBlockState(player.onPos.below(1)).block == Blocks.AIR) {
+                stack.hurtAndBreak(1, player) { player1: Player ->
+                    player1.sendSystemMessage(Component.translatable("gtocore.player.organ.you_wing_is_broken"))
                 }
-                playerData?.wingState = true
-                return true
             }
+            playerData.wingState = true
+            return true
         }
         return false
     }

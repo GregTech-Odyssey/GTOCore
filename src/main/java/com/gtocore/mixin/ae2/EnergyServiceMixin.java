@@ -48,28 +48,27 @@ public class EnergyServiceMixin {
      * @reason .
      */
     @Overwrite(remap = false)
-    public double injectProviderPower(double amt, Actionable mode) {
-        if (amt <= 0) return amt;
+    public double injectProviderPower(double amountToInject, Actionable mode) {
+        if (amountToInject <= 0) return amountToInject;
 
-        final double originalAmount = amt;
-
-        var it = this.requesters.iterator();
+        final double originalAmount = amountToInject;
+        final Iterator<IAEPowerStorage> requesterIterator = this.requesters.iterator();
 
         ongoingInjectOperation = true;
         try {
-            while (amt > 0 && it.hasNext()) {
-                final IAEPowerStorage node = it.next();
-                amt = node.injectAEPower(amt, mode);
+            while (amountToInject > 0 && requesterIterator.hasNext()) {
+                final IAEPowerStorage requesterNode = requesterIterator.next();
+                amountToInject = requesterNode.injectAEPower(amountToInject, mode);
 
-                if (amt > 0 && mode == Actionable.MODULATE) {
-                    it.remove();
+                if (amountToInject > 0 && mode == Actionable.MODULATE) {
+                    requesterIterator.remove();
                 }
             }
         } finally {
             ongoingInjectOperation = false;
         }
 
-        final double overflow = Math.max(0.0, amt);
+        final double overflow = Math.max(0.0, amountToInject);
 
         if (mode == Actionable.MODULATE) {
             this.tickInjectionPerTick += originalAmount - overflow;
@@ -83,35 +82,34 @@ public class EnergyServiceMixin {
      * @reason .
      */
     @Overwrite(remap = false)
-    public double extractProviderPower(double amt, Actionable mode) {
-        if (amt <= 0) amt = 1;
+    public double extractProviderPower(double amountToExtract, Actionable mode) {
+        if (amountToExtract <= 0) return 0;
 
         double extractedPower = 0;
-
-        final Iterator<IAEPowerStorage> it = this.providers.iterator();
+        final Iterator<IAEPowerStorage> providerIterator = this.providers.iterator();
 
         ongoingExtractOperation = true;
         try {
-            while (extractedPower < amt && it.hasNext()) {
-                final IAEPowerStorage node = it.next();
+            while (extractedPower < amountToExtract && providerIterator.hasNext()) {
+                final IAEPowerStorage providerNode = providerIterator.next();
 
-                final double req = amt - extractedPower;
-                final double newPower = node.extractAEPower(req, mode, PowerMultiplier.ONE);
-                extractedPower += newPower;
+                final double requiredAmount = amountToExtract - extractedPower;
+                final double extractedFromNode = providerNode.extractAEPower(requiredAmount, mode, PowerMultiplier.ONE);
+                extractedPower += extractedFromNode;
 
-                if (newPower < req && mode == Actionable.MODULATE) {
-                    it.remove();
+                if (extractedFromNode < requiredAmount && mode == Actionable.MODULATE) {
+                    providerIterator.remove();
                 }
             }
         } finally {
             ongoingExtractOperation = false;
         }
 
-        final double result = Math.min(extractedPower, amt);
+        final double result = Math.min(extractedPower, amountToExtract);
 
         if (mode == Actionable.MODULATE) {
-            if (extractedPower > amt) {
-                this.localStorage.injectAEPower(extractedPower - amt, Actionable.MODULATE);
+            if (extractedPower > amountToExtract) {
+                this.localStorage.injectAEPower(extractedPower - amountToExtract, Actionable.MODULATE);
             }
 
             this.globalAvailablePower -= result;

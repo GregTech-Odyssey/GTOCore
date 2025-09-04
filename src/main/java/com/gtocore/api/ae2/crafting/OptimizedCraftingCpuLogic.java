@@ -74,11 +74,12 @@ public class OptimizedCraftingCpuLogic extends CraftingCpuLogic {
 
     private boolean cantStoreItems = false;
 
-    private long lastModifiedOnTick = TickHandler.instance().getCurrentTick();
+    private long lastModifiedOnTick;
 
     public OptimizedCraftingCpuLogic(CraftingCPUCluster cluster) {
         super(cluster);
         this.cluster = cluster;
+        this.lastModifiedOnTick = TickHandler.instance().getCurrentTick();
     }
 
     @Override
@@ -87,7 +88,9 @@ public class OptimizedCraftingCpuLogic extends CraftingCpuLogic {
         if (!cluster.isActive()) return CraftingSubmitResult.CPU_OFFLINE;
         if (cluster.getAvailableStorage() < plan.bytes()) return CraftingSubmitResult.CPU_TOO_SMALL;
 
-        if (!inventory.list.isEmpty()) GTOCore.LOGGER.error("Crafting CPU inventory is not empty yet a job was submitted.");
+        if (!inventory.list.isEmpty()) {
+            GTOCore.LOGGER.error("Crafting CPU inventory is not empty yet a job was submitted.");
+        }
 
         var missingIngredient = CraftingCpuHelper.tryExtractInitialItems(plan, grid, inventory, src);
         if (missingIngredient != null) return CraftingSubmitResult.missingIngredient(missingIngredient);
@@ -124,7 +127,7 @@ public class OptimizedCraftingCpuLogic extends CraftingCpuLogic {
             }
             return;
         }
-        if (job.link.isCanceled()) {
+        if (job.link != null && job.link.isCanceled()) {
             cancel();
             return;
         }
@@ -132,12 +135,9 @@ public class OptimizedCraftingCpuLogic extends CraftingCpuLogic {
         if (executeCrafting(cluster.getCoProcessors(), cc, eg, cluster.getLevel()) == 0) {
             GenericStack stack = getFinalJobOutput();
             if (stack != null && stack.what() instanceof AEItemKey itemKey && itemKey.getItem() == GTOItems.ORDER.get()) {
-                // the job is crafting an order and is waiting for an order, which means its dependencies have been
-                // crafted
                 final var waitingFor = getWaitingFor(itemKey);
                 if (waitingFor > 0) {
                     final var remainingAmount = job.remainingAmount - waitingFor;
-                    // Simulate inserting final result with the same logic as CraftingCpuLogic.insert
                     if (remainingAmount <= 0) {
                         finishJob(true);
                         cluster.updateOutput(null);
@@ -273,7 +273,7 @@ public class OptimizedCraftingCpuLogic extends CraftingCpuLogic {
 
         long inserted = amount;
         if (what.matches(job.finalOutput)) {
-            inserted = job.link.insert(what, amount, type);
+            inserted = job.link != null ? job.link.insert(what, amount, type) : 0;
 
             if (type == Actionable.MODULATE) {
                 changeListener.onChange(what);
@@ -450,10 +450,12 @@ public class OptimizedCraftingCpuLogic extends CraftingCpuLogic {
     }
 
     private void finishJob(boolean success) {
+        if (job == null) return;
+
         if (success) {
-            job.link.markDone();
+            if (job.link != null) job.link.markDone();
         } else {
-            job.link.cancel();
+            if (job.link != null) job.link.cancel();
         }
 
         job.waitingFor.clear();
@@ -466,9 +468,8 @@ public class OptimizedCraftingCpuLogic extends CraftingCpuLogic {
         notifyJobOwner(job, success ? CraftingJobStatusPacket.Status.FINISHED : CraftingJobStatusPacket.Status.CANCELLED);
 
         this.job = null;
-
         this.pendingRequests.clear();
-
+        this.cantStoreItems = false;
         this.storeItems();
     }
 
@@ -481,17 +482,22 @@ public class OptimizedCraftingCpuLogic extends CraftingCpuLogic {
         }
 
         var server = cluster.getLevel().getServer();
+        if (server == null) {
+            return;
+        }
         var connectedPlayer = IPlayerRegistry.getConnected(server, playerId);
         if (connectedPlayer != null) {
-            var jobId = job.link.getCraftingID();
-            NetworkHandler.instance().sendTo(
-                    new CraftingJobStatusPacket(
-                            jobId,
-                            job.finalOutput.what(),
-                            job.finalOutput.amount(),
-                            job.remainingAmount,
-                            status),
-                    connectedPlayer);
+            var jobId = job.link != null ? job.link.getCraftingID() : null;
+            if (jobId != null) {
+                NetworkHandler.instance().sendTo(
+                        new CraftingJobStatusPacket(
+                                jobId,
+                                job.finalOutput.what(),
+                                job.finalOutput.amount(),
+                                job.remainingAmount,
+                                status),
+                        connectedPlayer);
+            }
         }
     }
 }

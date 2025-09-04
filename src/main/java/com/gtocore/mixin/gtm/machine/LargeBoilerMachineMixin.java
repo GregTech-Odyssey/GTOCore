@@ -35,10 +35,11 @@ public abstract class LargeBoilerMachineMixin extends WorkableMultiblockMachine 
     private int throttle;
 
     @Unique
-    private boolean gtolib$hasNoWater;
-
-    @Shadow(remap = false)
-    private int steamGenerated;
+    private static final int TEMPERATURE_FACTOR = 5;
+    @Unique
+    private static final int WATER_DIVISOR = 16000;
+    @Unique
+    private static final int STEAM_MULTIPLIER = 100;
 
     protected LargeBoilerMachineMixin(MetaMachineBlockEntity holder, Object... args) {
         super(holder, args);
@@ -65,19 +66,26 @@ public abstract class LargeBoilerMachineMixin extends WorkableMultiblockMachine 
         } else if (currentTemperature > 0) {
             currentTemperature -= 1;
         }
+
         if (currentTemperature > 100 && isFormed() && getOffsetTimer() % 5 == 0) {
-            int water = currentTemperature * throttle * 5 / 16000;
+            long baseAmount = (long) currentTemperature * throttle * TEMPERATURE_FACTOR;
+            int water = (int) (baseAmount / WATER_DIVISOR);
+
             if (water > 0) {
+                boolean gtolib$hasNoWater;
                 if (inputFluid(Fluids.WATER, water)) {
-                    steamGenerated = currentTemperature * throttle * 5 / 100;
+                    gtolib$hasNoWater = false; // 成功供水则清除无水状态
+                    int steamGenerated = (int) (baseAmount / STEAM_MULTIPLIER);
                     if (steamGenerated > 0) {
                         outputFluid(gtolib$STEAM, steamGenerated);
                     }
-                    if (gtolib$hasNoWater) {
-                        doExplosion(2.0F);
-                    }
                 } else {
                     gtolib$hasNoWater = true;
+                }
+
+                // 爆炸判断应在供水失败后立即执行
+                if (gtolib$hasNoWater) {
+                    doExplosion(2.0F);
                 }
             }
         }
