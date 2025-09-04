@@ -47,9 +47,7 @@ public class CompositeStorageMixin {
             }
         }
         if (this.storages == null) {
-            var map=new Reference2ReferenceArrayMap<AEKeyType, MEStorage>();
-            map.putAll(storages);
-            this.storages = Reference2ReferenceMaps.unmodifiable(map);
+            this.storages = new Reference2ReferenceArrayMap<>(storages);
         }
     }
 }
