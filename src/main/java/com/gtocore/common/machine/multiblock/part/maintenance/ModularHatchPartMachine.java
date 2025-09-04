@@ -180,7 +180,7 @@ public class ModularHatchPartMachine extends ACMHatchPartMachine implements IMod
                 .addWidget(new SlotWidget(inventory.storage, 1, xslot, ylabel + y * 22, true, true)
                         .setBackground(GuiTextures.SLOT)
                         .setHoverTooltips(Component.translatable(TOOLTIP_KEY, Wrapper.GRAVITY_CHECK.getDefaultInstance().getDisplayName(), Component.translatable(GRAVITY_FUNC).getString())))
-                .addWidget(getConfigPanel(xlabel, ylabel + y++ * 22 + 11,
+                .addWidget(getConfigPanel(xlabel, ylabel + y++ * 22,
                         () -> Component.translatable("forge.entity_gravity").append(": %s".formatted(getCurrentGravity())),
                         () -> gravityMode ?
                                 Component.translatable(GRAVITY_CONFIG) :
@@ -192,7 +192,7 @@ public class ModularHatchPartMachine extends ACMHatchPartMachine implements IMod
                 .addWidget(new SlotWidget(inventory.storage, 2, xslot, ylabel + y * 22, true, true)
                         .setBackground(GuiTextures.SLOT)
                         .setHoverTooltips(Component.translatable(TOOLTIP_KEY, Wrapper.VACUUM_CHECK.getDefaultInstance().getDisplayName(), Component.translatable(VACUUM_TIER_4).getString())))
-                .addWidget(new LabelWidget(xlabel, ylabel + y++ * 22, () -> Component.translatable("gtocore.recipe.vacuum.tier", getVacuumTier()).getString()))
+                .addWidget(new LabelWidget(xlabel, ylabel + y++ * 22 + 11, () -> Component.translatable("gtocore.recipe.vacuum.tier", getVacuumTier()).getString()))
                 // Cleanroom
                 .addWidget(new SlotWidget(inventory.storage, 3, xslot, ylabel + y * 22, true, true)
                         .setBackground(GuiTextures.SLOT)

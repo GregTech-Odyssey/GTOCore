@@ -40,7 +40,6 @@ final class AssemblyLineA {
                 .inputFluids(GTOMaterials.MutatedLivingSolder, 10000)
                 .inputFluids(GTOMaterials.LiquidCrystalKevlar, 16304)
                 .inputFluids(GTOMaterials.CarbonNanotubes, 16304)
-                .outputItems(MultiBlockH.LIFE_FORGE.asStack())
                 .EUt(2097152)
                 .duration(800)
                 .researchStation(b -> b
