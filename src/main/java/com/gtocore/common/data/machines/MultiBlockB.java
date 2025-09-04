@@ -16,7 +16,6 @@ import com.gtocore.config.GTOConfig;
 
 import com.gtolib.GTOCore;
 import com.gtolib.api.annotation.NewDataAttributes;
-import com.gtolib.api.annotation.component_builder.ComponentBuilder;
 import com.gtolib.api.annotation.component_builder.StyleBuilder;
 import com.gtolib.api.machine.multiblock.*;
 import com.gtolib.utils.MachineUtils;

@@ -1,20 +1,5 @@
 package com.gtocore.common.data.machines;
 
-import com.gregtechceu.gtceu.GTCEu;
-import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
-import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
-import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
-import com.gregtechceu.gtceu.api.machine.feature.multiblock.ICoilMachine;
-import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
-import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
-import com.gregtechceu.gtceu.api.pattern.MultiblockShapeInfo;
-import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
-import com.gregtechceu.gtceu.common.data.GCYMBlocks;
-import com.gregtechceu.gtceu.common.data.GTBlocks;
-import com.gregtechceu.gtceu.common.data.GTMaterials;
-import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
-import com.gregtechceu.gtceu.common.data.machines.GTMultiMachines;
-import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.gtocore.api.machine.part.GTOPartAbility;
 import com.gtocore.api.pattern.GTOPredicates;
 import com.gtocore.client.renderer.machine.PrimitiveDistillationRenderer;
@@ -38,6 +23,7 @@ import com.gtocore.common.machine.multiblock.noenergy.ThermalPowerPumpMachine;
 import com.gtocore.common.machine.multiblock.steam.BaseSteamMultiblockMachine;
 import com.gtocore.common.machine.multiblock.steam.LargeSteamMultiblockMachine;
 import com.gtocore.common.machine.multiblock.steam.SteamMultiblockMachine;
+
 import com.gtolib.GTOCore;
 import com.gtolib.api.annotation.NewDataAttributes;
 import com.gtolib.api.lang.CNEN;
@@ -46,9 +32,27 @@ import com.gtolib.api.machine.feature.multiblock.ITierCasingMachine;
 import com.gtolib.api.machine.multiblock.*;
 import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
 import com.gtolib.utils.MultiBlockFileReader;
-import com.hepdd.gtmthings.data.CustomMachines;
+
+import com.gregtechceu.gtceu.GTCEu;
+import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
+import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
+import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
+import com.gregtechceu.gtceu.api.machine.feature.multiblock.ICoilMachine;
+import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
+import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
+import com.gregtechceu.gtceu.api.pattern.MultiblockShapeInfo;
+import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
+import com.gregtechceu.gtceu.common.data.GCYMBlocks;
+import com.gregtechceu.gtceu.common.data.GTBlocks;
+import com.gregtechceu.gtceu.common.data.GTMaterials;
+import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
+import com.gregtechceu.gtceu.common.data.machines.GTMultiMachines;
+import com.gregtechceu.gtceu.utils.FormattingUtil;
+
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.Blocks;
+
+import com.hepdd.gtmthings.data.CustomMachines;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,8 +66,7 @@ import static com.gtolib.utils.register.MachineRegisterUtils.multiblock;
 
 public final class MultiBlockC {
 
-    public static void init() {
-    }
+    public static void init() {}
 
     public static final MultiblockMachineDefinition PRIMITIVE_DISTILLATION_TOWER = multiblock("primitive_distillation_tower", "原始蒸馏塔", PrimitiveDistillationTowerMachine::new)
             .nonYAxisRotation()

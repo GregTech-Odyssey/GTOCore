@@ -928,8 +928,7 @@ public final class MultiBlockD {
                             """
                                     Can install up to 12 expansion modules
                                     Increasing voltage tier can provide Duration reductions for modules
-                                    Before starting, it is necessary to provide 128 * (tier - 7) computation power.""")
-            ))
+                                    Before starting, it is necessary to provide 128 * (tier - 7) computation power.""")))
             .fromSourceTooltips("GTNH")
             .block(GTOBlocks.SPACE_ELEVATOR_MECHANICAL_CASING)
             .pattern(definition -> MultiBlockFileReader.start(definition, RelativeDirection.RIGHT, RelativeDirection.UP, RelativeDirection.BACK)
