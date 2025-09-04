@@ -43,7 +43,7 @@ public final class GTMTRecipe {
                 .save();
 
         ASSEMBLER_RECIPES.recipeBuilder("virtual_item_provider")
-                .inputItems(GTItems.PROGRAMMED_CIRCUIT.asItem())
+                .inputItems(CustomTags.LV_CIRCUITS)
                 .inputItems(new ItemStack(AEBlocks.QUARTZ_VIBRANT_GLASS.block().asItem()))
                 .inputItems(TagPrefix.foil, GTMaterials.PolyvinylChloride, 8)
                 .outputItems(CustomItems.VIRTUAL_ITEM_PROVIDER.asItem())
