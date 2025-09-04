@@ -24,6 +24,7 @@ import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.machine.multiblock.CleanroomType;
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidContainerIngredient;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
+import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMaterialItems;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
@@ -129,26 +130,60 @@ public final class MiscRecipe {
                 .addData("tier", 3)
                 .save();
 
-        WOOD_DISTILLATION_RECIPES.recipeBuilder("wood_distillation_recipes")
+        WOOD_DISTILLATION_RECIPES.builder("muhuayihaodianlu")
                 .inputItems(ItemTags.LOGS, 16)
-                .inputFluids(Nitrogen.getFluid(1000))
-                .outputItems(dust, DarkAsh, 8)
-                .outputFluids(Water.getFluid(800))
-                .outputFluids(Methanol.getFluid(480))
-                .outputFluids(Benzene.getFluid(350))
-                .outputFluids(CarbonMonoxide.getFluid(340))
-                .outputFluids(Creosote.getFluid(300))
-                .outputFluids(Dimethylbenzene.getFluid(240))
-                .outputFluids(AceticAcid.getFluid(160))
-                .outputFluids(Methane.getFluid(130))
-                .outputFluids(Acetone.getFluid(80))
-                .outputFluids(Phenol.getFluid(75))
-                .outputFluids(Toluene.getFluid(75))
-                .outputFluids(Ethylene.getFluid(20))
-                .outputFluids(Hydrogen.getFluid(20))
-                .outputFluids(MethylAcetate.getFluid(16))
-                .outputFluids(Ethanol.getFluid(16))
-                .duration(200).EUt(VA[MV])
+                .outputItems(TagPrefix.dust, GTMaterials.Ash, 2)
+                .inputFluids(GTMaterials.Nitrogen, 1000)
+                .outputFluids(GTMaterials.Benzene, 1050)
+                .outputFluids(GTMaterials.Dimethylbenzene, 1000)
+                .outputFluids(GTMaterials.Creosote, 900)
+                .outputFluids(GTMaterials.CarbonDioxide, 490)
+                .outputFluids(GTMaterials.Methanol, 480)
+                .outputFluids(GTMaterials.CarbonMonoxide, 340)
+                .outputFluids(GTMaterials.Phenol, 225)
+                .outputFluids(GTMaterials.Toluene, 225)
+                .outputFluids(GTMaterials.AceticAcid, 160)
+                .outputFluids(GTMaterials.Methane, 130)
+                .outputFluids(GTMaterials.Acetone, 80)
+                .outputFluids(GTMaterials.Ethylene, 20)
+                .outputFluids(GTMaterials.Hydrogen, 20)
+                .outputFluids(GTMaterials.MethylAcetate, 16)
+                .outputFluids(GTMaterials.Ethanol, 16)
+                .circuitMeta(1)
+                .EUt(120)
+                .duration(300)
+                .save();
+
+        WOOD_DISTILLATION_RECIPES.builder("muhuaerhaodianlu")
+                .inputItems(ItemTags.LOGS, 16)
+                .outputItems(TagPrefix.dust, GTMaterials.Ash, 2)
+                .inputFluids(GTMaterials.Steam, 1000)
+                .outputFluids(GTMaterials.Ammonia, 600)
+                .outputFluids(GTMaterials.CarbonDioxide, 500)
+                .outputFluids(GTMaterials.Ethylbenzene, 500)
+                .outputFluids(GTMaterials.Naphthalene, 410)
+                .outputFluids(GTMaterials.HydrogenSulfide, 307)
+                .outputFluids(GTMaterials.Creosote, 205)
+                .outputFluids(GTMaterials.Phenol, 102)
+                .circuitMeta(2)
+                .EUt(120)
+                .duration(300)
+                .save();
+
+        WOOD_DISTILLATION_RECIPES.builder("muhuasanhaodianlu")
+                .inputItems(ItemTags.LOGS, 16)
+                .outputItems(GTItems.FERTILIZER.asStack(6))
+                .inputFluids(GTMaterials.Water, 6000)
+                .outputFluids(GTMaterials.Methane, 3300)
+                .outputFluids(GTMaterials.CarbonDioxide, 2200)
+                .outputFluids(GTMaterials.Methanol, 825)
+                .outputFluids(GTMaterials.Ethanol, 825)
+                .outputFluids(GTMaterials.Creosote, 560)
+                .outputFluids(GTMaterials.Ammonia, 550)
+                .outputFluids(GTMaterials.AceticAcid, 137)
+                .circuitMeta(3)
+                .EUt(120)
+                .duration(300)
                 .save();
 
         AUTOCLAVE_RECIPES.recipeBuilder("water_agar_mix").EUt(VA[HV]).duration(600)

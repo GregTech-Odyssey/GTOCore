@@ -48,6 +48,7 @@ import com.lowdragmc.lowdraglib.utils.LocalizationUtils;
 import com.tterrag.registrate.util.entry.ItemEntry;
 import com.tterrag.registrate.util.nullness.NonNullBiConsumer;
 import earth.terrarium.adastra.common.registry.ModFluids;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -1005,11 +1006,6 @@ public final class GTOItems {
     public static final ItemEntry<Item> DISPOSABLE_SAW_MOLD = register("disposable_saw_mold", "一次性锯模具");
     public static final ItemEntry<ComponentItem> GRASS_HARVESTER = item("grass_harvester", "割草镰刀", ComponentItem::create).properties(p -> p.stacksTo(1).durability(128).setNoRepair()).onRegister(attach(GrassHarvesterBehaviour.INSTANCE)).register();
 
-    // public static ItemEntry<SteamProspectorBehavior.ProspectorItem> PROSPECTOR_STEAM = item("prospector.steam",
-    // "原始人探矿仪", SteamProspectorBehavior.ProspectorItem::new)
-    // .properties(p -> p.stacksTo(1))
-    // .onRegister(attach(new SteamProspectorBehavior()))
-    // .register();
     public static ItemEntry<ComponentItem> PROSPECTOR_MANA_ULV = item("prospector.mana_ulv", "魔力钢探矿仪", ComponentItem::create)
             .properties(p -> p.stacksTo(1))
             .onRegister(attach(ManaProspectorBehavior.create(ManaProspectorBehavior.ULV)))
@@ -1026,5 +1022,27 @@ public final class GTOItems {
     public static final ItemEntry<ComponentItem> COORDINATE_CARD = item("coordinate_card", "坐标信息卡", ComponentItem::create)
             .properties(p -> p.stacksTo(1))
             .onRegister(attach(new CoordinateCardBehavior()))
+            .register();
+
+    @SuppressWarnings("unchecked")
+    public static final ItemEntry<Item> AFFIX_CANVAS = (ItemEntry<Item>) (ItemEntry<? extends Item>) item("affix_canvas", "铭刻之布", p -> new Item(p) {
+
+        @Override
+        public boolean isFoil(@NotNull ItemStack stack) {
+            return true;
+        }
+    })
+            .properties(p -> p.stacksTo(1).rarity(Rarity.UNCOMMON))
+            .register();
+
+    public static final ItemEntry<ApothItem> ENCHANTMENT_ESSENCE = item("enchantment_essence", "附魔精粹", ApothItem::create)
+            .properties(p -> p.stacksTo(16).rarity(Rarity.UNCOMMON))
+            .color(() -> ApothItem::color)
+            .model(NonNullBiConsumer.noop())
+            .register();
+    public static final ItemEntry<ApothItem> AFFIX_ESSENCE = item("affix_essence", "刻印精粹", ApothItem::create)
+            .properties(p -> p.stacksTo(16).rarity(Rarity.UNCOMMON))
+            .color(() -> ApothItem::color)
+            .model(NonNullBiConsumer.noop())
             .register();
 }

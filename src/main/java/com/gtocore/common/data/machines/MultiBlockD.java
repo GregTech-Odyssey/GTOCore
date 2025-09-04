@@ -20,7 +20,10 @@ import com.gtocore.common.machine.multiblock.electric.space.SpaceElevatorMachine
 import com.gtocore.common.machine.multiblock.electric.space.SpaceElevatorModuleMachine;
 import com.gtocore.common.machine.multiblock.electric.space.SpaceProbeSurfaceReceptionMachine;
 import com.gtocore.common.machine.multiblock.electric.voidseries.INFFluidDrillMachine;
-import com.gtocore.common.machine.multiblock.noenergy.*;
+import com.gtocore.common.machine.multiblock.noenergy.GodForgeMachine;
+import com.gtocore.common.machine.multiblock.noenergy.HarmonyMachine;
+import com.gtocore.common.machine.multiblock.noenergy.HeatExchangerMachine;
+import com.gtocore.common.machine.multiblock.noenergy.NeutronActivatorMachine;
 
 import com.gtolib.GTOCore;
 import com.gtolib.api.annotation.NewDataAttributes;
@@ -28,7 +31,8 @@ import com.gtolib.api.annotation.component_builder.ComponentBuilder;
 import com.gtolib.api.annotation.component_builder.StyleBuilder;
 import com.gtolib.api.lang.CNEN;
 import com.gtolib.api.machine.MultiblockDefinition;
-import com.gtolib.api.machine.multiblock.*;
+import com.gtolib.api.machine.multiblock.CoilCrossRecipeMultiblockMachine;
+import com.gtolib.api.machine.multiblock.ElectricMultiblockMachine;
 import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
 import com.gtolib.utils.*;
 
@@ -682,21 +686,7 @@ public final class MultiBlockD {
     public static final MultiblockMachineDefinition NYARLATHOTEPS_TENTACLE = multiblock("nyarlathoteps_tentacle", "奈亚拉托提普之触", CoilCrossRecipeMultiblockMachine::createCoilParallel)
             .allRotation()
             .recipeTypes(GTORecipeTypes.SUPRACHRONAL_ASSEMBLY_LINE)
-            .tooltips(ComponentBuilder.create().addStoryLine(
-                    """
-                            GTO寰宇格雷科技有限公司的顶级工程师们耗时十年，终于完成了
-                            这台跨越维度的奈亚拉托提普之触。当董事长第一次见到它时，惊
-                            叹于其庞大的结构和复杂的分子级线圈。这台机器能够同时操作多
-                            个平行空间，将不同维度的材料精确组装。自此，公司的生产力
-                            突破了物理法则的限制，员工们见证了工业史上最伟大的奇迹。
-                            """,
-                    """
-                            GTO Universal GregTech's top engineers spent ten years to finally
-                            complete this nyarlathotep's tentacle. When the CEO
-                            first saw it, he marveled at its massive structure and complex
-                            molecular coils. This machine can operate multiple parallel spaces
-                            simultaneously, assembling materials from different dimensions precisely.
-                            """).build())
+            .tooltips(GTOMachineTranslation.INSTANCE.getNyarlathotepsTentacleTooltips().getSupplier())
             .combinedRecipeTooltips()
             .coilParallelTooltips()
             .laserTooltips()

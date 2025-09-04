@@ -1,0 +1,7 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "gtocore:item/apoth/orb0",
+    "layer1": "gtocore:item/apoth/orb1"
+  }
+}

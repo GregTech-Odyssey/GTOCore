@@ -9,6 +9,9 @@ import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+
 import static com.gtocore.common.data.GTORecipeTypes.NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES;
 
 final class NanitesIntegratedProcessingCenter {
@@ -528,6 +531,42 @@ final class NanitesIntegratedProcessingCenter {
                 .duration(2400)
                 .blastFurnaceTemp(6000)
                 .addData("module", 3)
+                .save();
+
+        NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES.builder("contaminable_uruium_nanites_2")  // 乌鲁纳米蜂群
+                .inputItems(GTOTagPrefix.NANITES, GTOMaterials.Uruium)
+                .inputItems(new ItemStack(Items.KELP.asItem(), 64))
+                .inputItems(TagPrefix.dust, GTMaterials.Salt, 100)
+                .inputItems(TagPrefix.dust, GTMaterials.Meat, 100)
+                .inputItems(TagPrefix.dust, GTMaterials.Agar, 100)
+                .inputItems(TagPrefix.dust, GTOMaterials.AlienAlgae, 32)
+                .inputItems(TagPrefix.dust, GTOMaterials.AlgaeExtract, 16)
+                .inputItems(GTItems.ENERGIUM_DUST.asStack(8))
+                .inputItems(TagPrefix.dust, GTOMaterials.Mithril)
+                .outputItems(GTOTagPrefix.CONTAMINABLE_NANITES, GTOMaterials.Uruium)
+                .outputItems(GTOItems.TCETIESEAWEEDEXTRACT.asStack(50))
+                .inputFluids(GTMaterials.Methane, 50000)
+                .inputFluids(GTOMaterials.UnknowWater, 25000)
+                .inputFluids(GTMaterials.PhthalicAcid, 25000)
+                .EUt(7864320)
+                .blastFurnaceTemp(16200)
+                .duration(5000)
+                .save();
+
+        NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES.builder("contaminable_iridium_nanites_3")  // 铱纳米蜂群
+                .inputItems(GTOTagPrefix.NANITES, GTMaterials.Iridium)
+                .inputItems(TagPrefix.dust, GTMaterials.Meat, 96)
+                .inputItems(TagPrefix.rod, GTMaterials.Bone, 48)
+                .inputItems(GTOItems.RED_ALGAE.asStack(17))
+                .outputItems(GTOTagPrefix.CONTAMINABLE_NANITES, GTMaterials.Iridium)
+                .outputItems(TagPrefix.dust, GTMaterials.Agar, 64)
+                .inputFluids(GTMaterials.DistilledWater, 144000)
+                .inputFluids(GTMaterials.Oxygen, 40000)
+                .inputFluids(GTMaterials.SulfuricAcid, 16000)
+                .inputFluids(GTMaterials.PhosphoricAcid, 8000)
+                .EUt(1966080)
+                .blastFurnaceTemp(12600)
+                .duration(2500)
                 .save();
     }
 }
