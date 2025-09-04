@@ -922,13 +922,13 @@ public final class MultiBlockD {
                     v -> v.addLines("模块运行优化系统", "Module Operation Optimization System"),
                     p -> p.addCommentLines(
                             """
-                                    提升电压等级可减少模块的运行时间
-                                    额外提升为模块提供的并行数
+                                    可安装最多12个拓展模块
+                                    提升电压等级可为模块提供耗时减免
                                     运行前需提供128*(机器等级-7)的算力""",
                             """
-                                    Increasing voltage tier can reduce the duration for modules
-                                    Additional increase in the parallelism provided by the module
-                                    Requires 128*(Machine Tier - 7) of computing power before operation""")
+                                    Can install up to 12 expansion modules
+                                    Increasing voltage tier can provide Duration reductions for modules
+                                    Before starting, it is necessary to provide 128 * (tier - 7) computation power.""")
             ))
             .fromSourceTooltips("GTNH")
             .block(GTOBlocks.SPACE_ELEVATOR_MECHANICAL_CASING)
