@@ -8,13 +8,15 @@ import com.gtocore.common.data.GTOBlocks;
 import com.gtocore.common.data.GTOMachines;
 import com.gtocore.common.data.GTOMaterials;
 import com.gtocore.common.data.GTORecipeTypes;
-import com.gtocore.common.data.translation.GTOMachineTooltips;
+import com.gtocore.common.data.translation.GTOMachineTranslation;
+import com.gtocore.common.machine.multiblock.electric.nano.NanoPhagocytosisPlantMachine;
 import com.gtocore.common.machine.multiblock.electric.space.SuperSpaceElevatorMachine;
 import com.gtocore.common.machine.multiblock.water.*;
 import com.gtocore.config.GTOConfig;
 
 import com.gtolib.GTOCore;
 import com.gtolib.api.annotation.NewDataAttributes;
+import com.gtolib.api.annotation.component_builder.ComponentBuilder;
 import com.gtolib.api.annotation.component_builder.StyleBuilder;
 import com.gtolib.api.machine.multiblock.*;
 import com.gtolib.utils.MachineUtils;
@@ -113,7 +115,7 @@ public final class MultiBlockB {
     public static final MultiblockMachineDefinition WOOD_DISTILLATION = multiblock("wood_distillation", "木化工厂", CoilCrossRecipeMultiblockMachine::createCoilParallel)
             .nonYAxisRotation()
             .recipeTypes(GTORecipeTypes.WOOD_DISTILLATION_RECIPES)
-            .tooltips(GTOMachineTooltips.INSTANCE.getWoodDistillationTooltips().getSupplier())
+            .tooltips(GTOMachineTranslation.INSTANCE.getWoodDistillationTooltips().getSupplier())
             .laserTooltips()
             .coilParallelTooltips()
             .parallelizableOverclock()
@@ -273,7 +275,7 @@ public final class MultiBlockB {
 
     public static final MultiblockMachineDefinition MEGA_BREWER = multiblock("mega_brewer", "巨型酿造厂", CoilCrossRecipeMultiblockMachine::createCoilParallel)
             .nonYAxisRotation()
-            .tooltips(GTOMachineTooltips.INSTANCE.getMegaBrewerTooltips().getSupplier())
+            .tooltips(GTOMachineTranslation.INSTANCE.getMegaBrewerTooltips().getSupplier())
             .coilParallelTooltips()
             .laserTooltips()
             .multipleRecipesTooltips()
@@ -351,7 +353,7 @@ public final class MultiBlockB {
     public static final MultiblockMachineDefinition MICROORGANISM_MASTER = multiblock("microorganism_master", "微生物之主", CrossRecipeMultiblockMachine::createHatchParallel)
             .nonYAxisRotation()
             .recipeTypes(GTORecipeTypes.INCUBATOR_RECIPES)
-            .tooltips(GTOMachineTooltips.INSTANCE.getMicroorganismMasterTooltips().getSupplier())
+            .tooltips(GTOMachineTranslation.INSTANCE.getMicroorganismMasterTooltips().getSupplier())
             .tooltipsText("无视辐射与洁净要求", "Ignores radiation and cleanliness requirements")
             .parallelizableTooltips()
             .laserTooltips()
@@ -389,7 +391,7 @@ public final class MultiBlockB {
             .nonYAxisRotation()
             .recipeTypes(GTORecipeTypes.ARC_GENERATOR_RECIPES)
             .specialParallelizableTooltips()
-            .tooltips(GTOMachineTooltips.INSTANCE.getLightningRodTooltips().getSupplier())
+            .tooltips(GTOMachineTranslation.INSTANCE.getLightningRodTooltips().getSupplier())
             .tooltips(NewDataAttributes.ALLOW_PARALLEL_NUMBER.create(
                     h -> h.addLines("由玻璃等级决定", "Determined by glass tier"),
                     c -> c.addCommentLines("公式 : 4^玻璃等级", "Formula: 4^(Glass Tier)")))
@@ -435,7 +437,7 @@ public final class MultiBlockB {
 
     public static final MultiblockMachineDefinition MAGNETIC_ENERGY_REACTION_FURNACE = multiblock("magnetic_energy_reaction_furnace", "磁能反应炉", CoilCrossRecipeMultiblockMachine::createCoilParallel)
             .nonYAxisRotation()
-            .tooltips(GTOMachineTooltips.INSTANCE.getMagneticEnergyReactionFurnaceTooltips().getSupplier())
+            .tooltips(GTOMachineTranslation.INSTANCE.getMagneticEnergyReactionFurnaceTooltips().getSupplier())
             .recipeTypes(GTRecipeTypes.ARC_FURNACE_RECIPES)
             .coilParallelTooltips()
             .laserTooltips()
@@ -469,7 +471,7 @@ public final class MultiBlockB {
     public static final MultiblockMachineDefinition HIGH_ENERGY_LASER_LATHE = multiblock("high_energy_laser_lathe", "高能激光车床", CrossRecipeMultiblockMachine::createHatchParallel)
             .nonYAxisRotation()
             .recipeTypes(GTRecipeTypes.LATHE_RECIPES)
-            .tooltips(GTOMachineTooltips.INSTANCE.getHighEnergyLaserLatheTooltips().getSupplier())
+            .tooltips(GTOMachineTranslation.INSTANCE.getHighEnergyLaserLatheTooltips().getSupplier())
             .parallelizableTooltips()
             .laserTooltips()
             .multipleRecipesTooltips()
@@ -503,7 +505,7 @@ public final class MultiBlockB {
     public static final MultiblockMachineDefinition NEUTRONIUM_WIRE_CUTTING = multiblock("neutronium_wire_cutting", "中子丝线切割", CrossRecipeMultiblockMachine::createHatchParallel)
             .nonYAxisRotation()
             .recipeTypes(GTRecipeTypes.CUTTER_RECIPES)
-            .tooltips(GTOMachineTooltips.INSTANCE.getNeutroniumWireCuttingTooltips().getSupplier())
+            .tooltips(GTOMachineTranslation.INSTANCE.getNeutroniumWireCuttingTooltips().getSupplier())
             .parallelizableTooltips()
             .laserTooltips()
             .multipleRecipesTooltips()
@@ -537,10 +539,11 @@ public final class MultiBlockB {
             .workableCasingRenderer(GTCEu.id("block/casings/hpca/high_power_casing"), GTCEu.id("block/multiblock/gcym/large_cutter"))
             .register();
 
-    public static final MultiblockMachineDefinition NANO_PHAGOCYTOSIS_PLANT = multiblock("nano_phagocytosis_plant", "纳米吞噬厂", CrossRecipeMultiblockMachine::createHatchParallel)
+    public static final MultiblockMachineDefinition NANO_PHAGOCYTOSIS_PLANT = multiblock("nano_phagocytosis_plant", "纳米吞噬厂", NanoPhagocytosisPlantMachine::new)
             .nonYAxisRotation()
-            .tooltips(GTOMachineTooltips.INSTANCE.getNanoPhagocytosisPlantTooltips().getSupplier())
-            .recipeTypes(GTRecipeTypes.MACERATOR_RECIPES)
+            .tooltips(GTOMachineTranslation.INSTANCE.getNanoPhagocytosisPlantTooltips().getSupplier())
+            .recipeTypes(GTORecipeTypes.MACERATOR_RECIPES)
+            .recipeTypes(GTORecipeTypes.ISA_MILL_RECIPES)
             .parallelizableTooltips()
             .laserTooltips()
             .multipleRecipesTooltips()
@@ -578,6 +581,69 @@ public final class MultiBlockB {
                             .or(abilities(MAINTENANCE).setExactLimit(1)))
                     .where(' ', any())
                     .build())
+            .addSubPattern(definition -> FactoryBlockPattern.start(definition)
+                    .aisle("BBBBBBBBBBBBBBB BBBBBBBBBBBBBBB", "B      B      B B      B      B", "BG GG GBG GG GB BG GG GBG GG GB", "BG GG GBG GG GB BG GG GBG GG GB", "B      B      B B      B      B", "BBBBBBBBBBBBBBB BBBBBBBBBBBBBBB", "B      B      B B      B      B", "BG GG GBG GG GB BG GG GBG GG GB", "BG GG GBG GG GB BG GG GBG GG GB", "B      B      B B      B      B", "BBBBBBBBBBBBBBB BBBBBBBBBBBBBBB")
+                    .aisle("BBBBBBBBBBBBBBB BBBBBBBBBBBBBBB", " G GG G G GG G   G GG G G GG G ", "EEEEEEEEEEEEEEE EEEEEEEEEEEEEEE", "EEEEEEEEEEEEEEE EEEEEEEEEEEEEEE", " G GG G G GG G   G GG G G GG G ", "BHHHHHHHHHHHHHB BHHHHHHHHHHHHHB", " G GG G G GG G   G GG G G GG G ", "EEEEEEEEEEEEEEE EEEEEEEEEEEEEEE", "EEEEEEEEEEEEEEE EEEEEEEEEEEEEEE", " G GG G G GG G   G GG G G GG G ", "B      B      B B      B      B")
+                    .aisle("BBBBBBBBBBBBBBB BBBBBBBBBBBBBBB", " G GG G G GG G   G GG G G GG G ", "EEEEEEEEEEEEEEE EEEEEEEEEEEEEEE", "EEEEEEEEEEEEEEE EEEEEEEEEEEEEEE", " G GG G G GG G   G GG G G GG G ", "B             B B             B", " G GG G G GG G   G GG G G GG G ", "EEEEEEEEEEEEEEE EEEEEEEEEEEEEEE", "EEEEEEEEEEEEEEE EEEEEEEEEEEEEEE", " G GG G G GG G   G GG G G GG G ", "B      B      B B      B      B")
+                    .aisle("BBBBBBBBBBBBBBB BBBBBBBBBBBBBBB", " G GG G G GG G   G GG G G GG G ", "EEEEEEEEEEEEEEE EEEEEEEEEEEEEEE", "EEEEEEEEEEEEEEE EEEEEEEEEEEEEEE", " G GG G G GG G   G GG G G GG G ", "B             B B             B", " G GG G G GG G   G GG G G GG G ", "EEEEEEEEEEEEEEE EEEEEEEEEEEEEEE", "EEEEEEEEEEEEEEE EEEEEEEEEEEEEEE", " G GG G G GG G   G GG G G GG G ", "B      B      B B      B      B")
+                    .aisle("BBBBBBBBBBBBBBB BBBBBBBBBBBBBBB", " G GG G G GG G   G GG G G GG G ", "EEEEEEEEEEEEEEE EEEEEEEEEEEEEEE", "EEEEEEEEEEEEEEE EEEEEEEEEEEEEEE", " G GG G G GG G   G GG G G GG G ", "BHHHHHHHHHHHHHB BHHHHHHHHHHHHHB", " G GG G G GG G   G GG G G GG G ", "EEEEEEEEEEEEEEE EEEEEEEEEEEEEEE", "EEEEEEEEEEEEEEE EEEEEEEEEEEEEEE", " G GG G G GG G   G GG G G GG G ", "B      B      B B      B      B")
+                    .aisle("BBBBBBBBBBBBBBB BBBBBBBBBBBBBBB", "B      B      B B      B      B", "BGIGG GBG GG GB BG GG GBG GGIGB", "BG GG GBG GG GB BG GG GBG GG GB", "B      B      B B      B      B", "BBBBBBBBBBBBBBB BBBBBBBBBBBBBBB", "B      B      B B      B      B", "BG GG GBG GG GB BG GG GBG GG GB", "BG GG GBG GG GB BG GG GBG GG GB", "B      B      B B      B      B", "BBBBBBBBBBBBBBB BBBBBBBBBBBBBBB")
+                    .aisle("                               ", "                               ", "  I                         I  ", "                               ", "                               ", "                               ", "                               ", "                               ", "                               ", "                               ", "                               ")
+                    .aisle("                               ", "                               ", "  I                         I  ", "                               ", "                               ", "                               ", "                               ", "                               ", "                               ", "                               ", "                               ")
+                    .aisle("BBIBB                     BBIBB", "  I                         I  ", "  I                         I  ", "                               ", "                               ", "                               ", "                               ", "                               ", "                               ", "                               ", "                               ")
+                    .aisle("BBIBB                     BBIBB", " BBB                       BBB ", "  B                         B  ", "  B                         B  ", "  B                         B  ", "  B                         B  ", "  B                         B  ", "  B                         B  ", "  B                         B  ", "  B                         B  ", "                               ")
+                    .aisle("BBBBB                     BBBBB", "BDDDB                     BDDDB", " DDD                       DDD ", " DDD                       DDD ", " DDD                       DDD ", " DDD                       DDD ", " DDD                       DDD ", " DDD                       DDD ", " DDD                       DDD ", " BBB                       BBB ", "                               ")
+                    .aisle("BBBBB                     BBBBB", "DDDDD                     DDDDD", "D   D                     D   D", "D   D                     D   D", "D   D                     D   D", "D   D                     D   D", "D   D                     D   D", "D   D                     D   D", "DD DD                     DD DD", "BDDDB                     BDDDB", "  B                         B  ")
+                    .aisle("BBBBB                     BBBBB", "DDDDD                     DDDDD", "D L D                     D L D", "D L D                     D L D", "D L D                     D L D", "D L D                     D L D", "D L D                     D L D", "D L D                     D L D", "D L D                     D L D", "BDDDB                     BDDDB", " BBB                       BBB ")
+                    .aisle("BBBBB                     BBBBB", "DDDDD                     DDDDD", "D   D                     D   D", "D   D                     D   D", "D   MM                   MM   D", "D   D                     D   D", "D   D                     D   D", "D   D                     D   D", "DD DD                     DD DD", "BDDDB                     BDDDB", "  B                         B  ")
+                    .aisle("BBBBB                     BBBBB", "BDDD                       DDDB", " DDD                       DDD ", " DDD                       DDD ", " DDD                       DDD ", " DDD                       DDD ", " DDD                       DDD ", " DDD                       DDD ", " DDD                       DDD ", "B B B                     B B B", "                               ")
+                    .aisle("BBBBB                     BBBBB", "BBB B                       BB ", "B B B                       B  ", "B B B                       B  ", "B B B                       B  ", "B B B                       B  ", "B B B                       B  ", "B B B                       B  ", "B B B                       B  ", "B B B                     B B B", "                               ")
+                    .aisle("BBBBB                     BBBBB", "BDDD                       DDDB", " DDD                       DDD ", " DDD                       DDD ", " DDD                       DDD ", " DDD                       DDD ", " DDD                       DDD ", " DDD                       DDD ", " DDD                       DDD ", "B B B                     B B B", "                               ")
+                    .aisle("BBBBB                     BBBBB", "DDDDD                     DDDDD", "D   D                     D   D", "D   D                     D   D", "D   MM                   MM   D", "D   D                     D   D", "D   D                     D   D", "D   D                     D   D", "DD DD                     DD DD", "BDDDB                     BDDDB", "  B                         B  ")
+                    .aisle("BBBBB                     BBBBB", "DDDDD                     DDDDD", "D L D                     D L D", "D L D                     D L D", "D L D                     D L D", "D L D                     D L D", "D L D                     D L D", "D L D                     D L D", "D L D                     D L D", "BDDDB                     BDDDB", " BBB                       BBB ")
+                    .aisle("BBBBB                     BBBBB", "DDDDD                     DDDDD", "D   D                     D   D", "D   D                     D   D", "D   D                     D   D", "D   D                     D   D", "D   D                     D   D", "D   D                     D   D", "DD DD                     DD DD", "BDDDB                     BDDDB", "  B                         B  ")
+                    .aisle("BBBBB                     BBBBB", "BDDDB                     BDDDB", " DDD                       DDD ", " DDD                       DDD ", " DDD                       DDD ", " DDD                       DDD ", " DDD                       DDD ", " DDD                       DDD ", " DDD                       DDD ", " BBB                       BBB ", "                               ")
+                    .aisle("BBIBB                     BBIBB", " BBB                       BBB ", "  B                         B  ", "  B                         B  ", "  B                         B  ", "  B                         B  ", "  B                         B  ", "  B                         B  ", "  B                         B  ", "  B                         B  ", "                               ")
+                    .aisle("BBIBB                     BBIBB", "  I                         I  ", "  I                         I  ", "                               ", "                               ", "                               ", "                               ", "                               ", "                               ", "                               ", "                               ")
+                    .aisle("                               ", "                               ", "  I                         I  ", "                               ", "                               ", "                               ", "                               ", "                               ", "                               ", "                               ", "                               ")
+                    .aisle("                               ", "                               ", "  I                         I  ", "                               ", "                               ", "                               ", "                               ", "                               ", "                               ", "                               ", "                               ")
+                    .aisle("                               ", "                               ", "  I                         I  ", "                               ", "                               ", "                               ", "                               ", "                               ", "                               ", "                               ", "                               ")
+                    .aisle("AAAAAAAA               AAAAAAAA", "A   A                     A   A", "A I A                     A I A", "A   A                     A   A", "A   A                     A   A", "AAAAA                     AAAAA", "                               ", "                               ", "                               ", "                               ", "                               ")
+                    .aisle("AAAAA                     AAAAA", " EEE                       EEE ", " EIE                       EIE ", " EEE                       EEE ", " EEE                       EEE ", "A   A                     A   A", "                               ", "                               ", "                               ", "                               ", "                               ")
+                    .aisle("AAAAA                     AAAAA", " EEE                       EEE ", " EJE                       EJE ", " EJE                       EJE ", " EEE                       EEE ", "A   A                     A   A", "                               ", "                               ", "                               ", "                               ", "                               ")
+                    .aisle("AAAAA                     AAAAA", " EEE                       EEE ", " EJE                       EJE ", " EJE                       EJE ", " EEE                       EEE ", "A   A                     A   A", "                               ", "                               ", "                               ", "                               ", "                               ")
+                    .aisle("AAAAA                     AAAAA", "CEEEC                     CEEEC", "CEJEC                     CEJEC", "CEJEC                     CEJEC", "CEEEC                     CEEEC", "ACCCA                     ACCCA", "                               ", "                               ", "                               ", "                               ", "                               ")
+                    .aisle("AAAAA                     AAAAA", "CEEEC                     CEEEC", "CEJEC                     CEJEC", "CEJEC                     CEJEC", "CEEEC                     CEEEC", "ACCCA                     ACCCA", "                               ", "                               ", "                               ", "                               ", "                               ")
+                    .aisle("AAAAA                     AAAAA", "CEEEC                     CEEEC", "CEJEC                     CEJEC", "CEJEC                     CEJEC", "CEEEC                     CEEEC", "ACCCA                     ACCCA", "                               ", "                               ", "                               ", "                               ", "                               ")
+                    .aisle("AAAAA                     AAAAA", " EEE                       EEE ", " EJE                       EJE ", " EJE                       EJE ", " EEE                       EEE ", "A   A                     A   A", "                               ", "                               ", "                               ", "                               ", "                               ")
+                    .aisle("AAAAA                     AAAAA", " EEE                       EEE ", " EJE                       EJE ", " EJE                       EJE ", " EEE                       EEE ", "A   A                     A   A", "                               ", "                               ", "                               ", "                               ", "                               ")
+                    .aisle("AAAAA                     AAAAA", " EEE                       EEE ", " EKKKK                   KKKKE ", " EJE                       EJE ", " EEE                       EEE ", "A   A                     A   A", "                               ", "                               ", "                               ", "                               ", "                               ")
+                    .aisle("AAAAA                     AAAAA", "CEEEC                     CEEEC", "CEJEC                     CEJEC", "CEJEC                     CEJEC", "CEEEC                     CEEEC", "ACCCA                     ACCCA", "                               ", "                               ", "                               ", "                               ", "                               ")
+                    .aisle("AAAAA                     AAAAA", "CEEEC                     CEEEC", "CEJEC                     CEJEC", "CEJEC                     CEJEC", "CEEEC                     CEEEC", "ACCCA                     ACCCA", "                               ", "                               ", "                               ", "                               ", "                               ")
+                    .aisle("AAAAA                     AAAAA", "CEEEC                     CEEEC", "CEJEC                     CEJEC", "CEJEC                     CEJEC", "CEEEC                     CEEEC", "ACCCA                     ACCCA", "                               ", "                               ", "                               ", "                               ", "                               ")
+                    .aisle("AAAAA                     AAAAA", " EEE                       EEE ", " EJE                       EJE ", " EJE                       EJE ", " EEE                       EEE ", "A   A                     A   A", "                               ", "                               ", "                               ", "                               ", "                               ")
+                    .aisle("AAAAA                     AAAAA", " EEE                       EEE ", " EJE                       EJE ", " EJE                       EJE ", " EEE                       EEE ", "A   A                     A   A", "                               ", "                               ", "                               ", "                               ", "                               ")
+                    .aisle("AAAAA                     AAAAA", " EEE                       EEE ", " EEE                       EEE ", " EEE                       EEE ", " EEE                       EEE ", "A   A                     A   A", "                               ", "                               ", "                               ", "                               ", "                               ")
+                    .aisle("AAAAAAA                 AAAAAAA", "AFFFA                     AFFFA", "AFFFA                     AFFFA", "AFFFA                     AFFFA", "AFFFA                     AFFFA", "AAAAA                     AAAAA", "                               ", "                               ", "                               ", "                               ", "                               ")
+                    .aisle("                               ", "                               ", "                               ", "                               ", "                               ", "                               ", "                               ", "                               ", "                               ", "                               ", "                               ")
+                    .aisle("                               ", "               N               ", "                               ", "                               ", "                               ", "                               ", "                               ", "                               ", "                               ", "                               ", "                               ")
+                    .where('A', blocks(GCYMBlocks.CASING_NONCONDUCTING.get()))
+                    .where('B', blocks(GTOBlocks.HYPER_MECHANICAL_CASING.get()))
+                    .where('C', blocks(GCYMBlocks.CASING_VIBRATION_SAFE.get()))
+                    .where('D', blocks(GTOBlocks.PRESSURE_CONTAINMENT_CASING.get()))
+                    .where('E', blocks(GTOBlocks.INCONEL_625_CASING.get()))
+                    .where('F', blocks(GTOBlocks.NAQUADAH_REINFORCED_PLANT_CASING.get())
+                            .or(GTOPredicates.autoIOAbilities(definition.getRecipeTypes())))
+                    .where('G', blocks(GTOBlocks.ECHO_CASING.get()))
+                    .where('H', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.Ultimet)))
+                    .where('I', blocks(GTOBlocks.HIGH_PRESSURE_PIPE_CASING.get()))
+                    .where('J', blocks(GTOBlocks.INCONEL_625_GEARBOX.get()))
+                    .where('K', blocks(GTOBlocks.IRIDIUM_PIPE_CASING.get()))
+                    .where('L', blocks(GTOBlocks.AMPROSIUM_ACTIVE_CASING.get()))
+                    .where('M', blocks(GTOBlocks.CHEMICAL_CORROSION_RESISTANT_PIPE_CASING.get()))
+                    .where('N', controller(blocks(definition.get())))
+                    .where(' ', any())
+                    .build())
             .workableCasingRenderer(GTOCore.id("block/casings/naquadah_reinforced_plant_casing"), GTCEu.id("block/multiblock/fusion_reactor"))
             .register();
 
@@ -585,7 +651,25 @@ public final class MultiBlockB {
             .nonYAxisRotation()
             .recipeTypes(GTRecipeTypes.DUMMY_RECIPES)
             .tooltips(NewDataAttributes.CAPACITY.create(c -> c.addLines("64个模块", "64 modules")))
-            .tooltips(GTOMachineTooltips.INSTANCE.getRoadOfHeavenTooltips().getSupplier())
+            .tooltips(ComponentBuilder.create().addStoryLine(
+                    """
+                            GTO寰宇格雷科技有限公司历经数代人的努力，终于建成了超级太空电梯。
+                            这座庞然大物不仅是工程奇迹，更是人类征服宇宙的终极象征。
+                            董事长站在控制室内，凝视着这个能同时运行64个模块的超级结构。
+                            "今天，我们不再仅仅是地球的居民，"他激动地对员工们说道。
+                            超级太空电梯的运转声如同宇宙的心跳，承载着公司最伟大的愿景。
+                            它几乎戳破了现实与理想的边界，让星辰大海不再是遥不可及的梦。
+                            从此，格雷科技的名字将与人类的星际征程永远联系在一起。
+                            """,
+                    """
+                            GTO Corporation, after generations of effort, finally completed the Super Space Elevator.
+                            This colossal structure is not just an engineering marvel, but humanity's ultimate symbol of cosmic conquest.
+                            The CEO stood in the control room, gazing at this super structure capable of running 64 modules simultaneously.
+                            "Today, we are no longer merely inhabitants of Earth," he excitedly told his employees.
+                            The hum of the Super Space Elevator resonated like the heartbeat of the universe, carrying the company's greatest vision.
+                            It almost pierced the boundary between reality and ideals, making the sea of stars no longer an unreachable dream.
+                            Henceforth, GregTech's name would be forever linked with humanity's interstellar journey.
+                            """).build())
             .tooltips(NewDataAttributes.MAIN_FUNCTION.create(
                     v -> v.addLines("模块运行优化系统", "Module Operation Optimization System"),
                     p -> p.addCommentLines(
@@ -665,7 +749,7 @@ public final class MultiBlockB {
             .nonYAxisRotation()
             .recipeTypes(GTRecipeTypes.CHEMICAL_BATH_RECIPES)
             .recipeTypes(GTRecipeTypes.ORE_WASHER_RECIPES)
-            .tooltips(GTOMachineTooltips.INSTANCE.getMegaBathTankTooltips().getSupplier())
+            .tooltips(GTOMachineTranslation.INSTANCE.getMegaBathTankTooltips().getSupplier())
             .parallelizableTooltips()
             .laserTooltips()
             .multipleRecipesTooltips()
@@ -696,7 +780,7 @@ public final class MultiBlockB {
     public static final MultiblockMachineDefinition MEGA_VACUUM_DRYING_FURNACE = multiblock("mega_vacuum_drying_furnace", "巨型真空干燥炉", CoilCrossRecipeMultiblockMachine::createCoilParallel)
             .nonYAxisRotation()
             .recipeTypes(GTORecipeTypes.VACUUM_DRYING_RECIPES)
-            .tooltips(GTOMachineTooltips.INSTANCE.getMegaVacuumDryingFurnaceTooltips().getSupplier())
+            .tooltips(GTOMachineTranslation.INSTANCE.getMegaVacuumDryingFurnaceTooltips().getSupplier())
             .parallelizableTooltips()
             .laserTooltips()
             .multipleRecipesTooltips()
@@ -730,7 +814,7 @@ public final class MultiBlockB {
 
     public static final MultiblockMachineDefinition MOLECULAR_OSCILLATION_DEHYDRATOR = multiblock("molecular_oscillation_dehydrator", "分子震荡脱水装置", CoilCrossRecipeMultiblockMachine::createCoilParallel)
             .nonYAxisRotation()
-            .tooltips(GTOMachineTooltips.INSTANCE.getMolecularOscillationDehydratorTooltips().getSupplier())
+            .tooltips(GTOMachineTranslation.INSTANCE.getMolecularOscillationDehydratorTooltips().getSupplier())
             .recipeTypes(GTORecipeTypes.DEHYDRATOR_RECIPES)
             .coilParallelTooltips()
             .laserTooltips()
@@ -760,7 +844,7 @@ public final class MultiBlockB {
     public static final MultiblockMachineDefinition HORIZONTAL_COMPRESSOR = multiblock("extreme_compressor", "极限压缩装置", CrossRecipeMultiblockMachine::createHatchParallel)
             .nonYAxisRotation()
             .recipeTypes(GTORecipeTypes.EXTREME_COMPRESSOR)
-            .tooltips(GTOMachineTooltips.INSTANCE.getHorizontalCompressorTooltips().getSupplier())
+            .tooltips(GTOMachineTranslation.INSTANCE.getHorizontalCompressorTooltips().getSupplier())
             .parallelizableTooltips()
             .laserTooltips()
             .multipleRecipesTooltips()
