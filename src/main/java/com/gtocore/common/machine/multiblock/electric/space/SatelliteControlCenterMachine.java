@@ -19,17 +19,9 @@ import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
-import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.fluids.FluidStack;
 
 import com.lowdragmc.lowdraglib.gui.util.ClickData;
@@ -96,14 +88,6 @@ public final class SatelliteControlCenterMachine extends ElectricMultiblockMachi
         } else if (!isActive()) {
             index = Mth.clamp(index + (componentData.equals("add") ? 1 : -1), 0, Wrapper.LIST.length - 1);
         }
-    }
-
-    @Override
-    public InteractionResult onUse(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
-        if (player instanceof ServerPlayer serverPlayer) {
-            setOwnerUUID(serverPlayer.getUUID());
-        }
-        return super.onUse(state, level, pos, player, hand, hit);
     }
 
     @Nullable

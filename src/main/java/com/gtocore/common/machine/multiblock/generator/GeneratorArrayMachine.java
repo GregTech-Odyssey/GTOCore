@@ -31,11 +31,8 @@ import com.gregtechceu.gtceu.utils.GTUtil;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.phys.BlockHitResult;
 
 import com.hepdd.gtmthings.api.misc.WirelessEnergyContainer;
 import com.lowdragmc.lowdraglib.gui.util.ClickData;
@@ -144,14 +141,6 @@ public final class GeneratorArrayMachine extends StorageMultiblockMachine implem
             return definitionTier;
         }
         return Math.min(definitionTier, tier);
-    }
-
-    @Override
-    public boolean shouldOpenUI(Player player, InteractionHand hand, BlockHitResult hit) {
-        if (getUUID() == null) {
-            setOwnerUUID(player.getUUID());
-        }
-        return true;
     }
 
     @Override

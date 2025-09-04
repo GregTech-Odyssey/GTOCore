@@ -9,6 +9,7 @@ import com.gtolib.api.recipe.RecipeBuilder;
 import com.gtolib.api.recipe.RecipeRunner;
 import com.gtolib.api.recipe.modifier.ParallelLogic;
 import com.gtolib.utils.MachineUtils;
+import com.gtolib.utils.holder.IntHolder;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
@@ -60,9 +61,16 @@ public class FishingGroundMachine extends ElectricMultiblockMachine {
                 ItemStackSet itemStacks = new ItemStackSet();
                 recipe = ParallelLogic.accurateParallel(this, builder.copy(GTOCore.id("test")).outputItems(Items.STICK).buildRawRecipe(), MachineUtils.getHatchParallel(this));
                 if (recipe == null) return null;
+                IntHolder nbt = new IntHolder(0);
                 builder.EUt(recipe.getInputEUt());
                 for (int i = 0; i < recipe.parallels; i++) {
-                    itemStacks.addAll(lootTable.getRandomItems(lootContext));
+                    lootTable.getRandomItems(lootContext).forEach(itemStack -> {
+                        if (itemStack.hasTag()) {
+                            if (nbt.value > 100) return;
+                            nbt.value++;
+                        }
+                        itemStacks.add(itemStack);
+                    });
                 }
                 itemStacks.forEach(builder::outputItems);
                 recipe = builder.buildRawRecipe();

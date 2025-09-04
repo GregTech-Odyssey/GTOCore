@@ -6,6 +6,7 @@ import com.gtolib.api.machine.multiblock.DroneControlCenterMachine;
 import com.gtolib.api.machine.trait.IEnhancedRecipeLogic;
 import com.gtolib.api.misc.Drone;
 import com.gtolib.api.recipe.IdleReason;
+import com.gtolib.utils.MathUtil;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
@@ -32,6 +33,9 @@ public abstract class MaintenanceHatchPartMachineMixin extends TieredPartMachine
     @Shadow(remap = false)
     public abstract void fixAllMaintenanceProblems();
 
+    @Shadow(remap = false)
+    protected int timeActive;
+
     @Unique
     private DroneControlCenterMachine gtolib$cache;
 
@@ -54,7 +58,10 @@ public abstract class MaintenanceHatchPartMachineMixin extends TieredPartMachine
         for (var c : getControllers()) {
             pa += c.getParts().size();
         }
-        if (calculateTime((int) (duration * maintenanceMachine.getTimeMultiplier() * pa))) {
+        timeActive = MathUtil.saturatedCast((long) (timeActive + (duration * getDurationMultiplier() * pa * pa)));
+        var value = timeActive - MINIMUM_MAINTENANCE_TIME;
+        if (value > 0) {
+            timeActive = value;
             if (GTValues.RNG.nextBoolean()) {
                 causeRandomMaintenanceProblems();
                 maintenanceMachine.setTaped(false);

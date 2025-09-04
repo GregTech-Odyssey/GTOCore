@@ -5,6 +5,7 @@ import com.gtolib.api.ae2.AEKeyTypeMap;
 import appeng.api.stacks.AEKeyType;
 import appeng.api.storage.MEStorage;
 import appeng.me.storage.CompositeStorage;
+import it.unimi.dsi.fastutil.objects.Reference2ReferenceArrayMap;
 import it.unimi.dsi.fastutil.objects.Reference2ReferenceMaps;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
@@ -46,7 +47,7 @@ public class CompositeStorageMixin {
             }
         }
         if (this.storages == null) {
-            this.storages = storages;
+            this.storages = new Reference2ReferenceArrayMap<>(storages);
         }
     }
 }
