@@ -588,10 +588,6 @@ object GTOMachineTooltips : AutoInitialize<GTOMachineTooltips>() {
         add("董事长在落成典礼上激动得声音发抖：今天我们彻底摆脱了重力束缚" translatedTo "The chairman's voice trembled at the inauguration: Today we break free from gravity's shackles") { gray() }
         add("现在采矿无人机沿着电梯直上云霄，把宇宙深处的矿产源源不断运回" translatedTo "Now mining drones ascend along the elevator bringing back minerals from the depths of space") { gray() }
         add("人类终于踏出了征服星辰的第一步，而GTO就是这历史时刻的见证者" translatedTo "Humankind finally takes the first step to conquer the stars with GTO witnessing this historic moment") { gray() }
-
-        add("可安装最多12个拓展模块" translatedTo "Can install up to 12 expansion modules") { aqua() }
-        add("提升电压等级可为模块提供耗时减免" translatedTo "Increasing voltage tier can provide Duration reductions for modules") { aqua() }
-        add("运行前需提供128*(机器等级-7)的算力" translatedTo "Before starting, it is necessary to provide 128 * (tier - 7) computation power.") { aqua() }
     }
 
     /*************************************************
@@ -1206,6 +1202,8 @@ object GTOMachineTooltips : AutoInitialize<GTOMachineTooltips>() {
         add("纳米级环境控制让最脆弱的生物样本也能安全培育" translatedTo "Nanoscale environmental control enables safe cultivation of even the most fragile biological samples") { yellow() }
         add("警告：辐射期间请勿直视内部！" translatedTo "Warning: Avoid looking inside during radiation!") { red() }
         add(Star(1) + ("生物技术的巅峰之作" translatedTo "Pinnacle of biotechnology")) { gold() }
+
+        add("无视辐射与洁净要求" translatedTo "Ignores radiation and cleanliness requirements") { aqua() }
     }
 
     // 生命熔炉

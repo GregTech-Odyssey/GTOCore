@@ -918,6 +918,17 @@ public final class MultiBlockD {
             .nonYAxisRotation()
             .recipeTypes(GTRecipeTypes.DUMMY_RECIPES)
             .tooltips(GTOMachineTooltips.INSTANCE.getSpaceElevatorTooltips().getSupplier())
+            .tooltips(NewDataAttributes.MAIN_FUNCTION.create(
+                    p -> p.addCommentLines(
+                            """
+                                    提升电压等级可大幅减少模块的运行时间
+                                    额外提升为模块提供的并行数
+                                    运行前需提供128*(机器等级-7)的算力""",
+                            """
+                                    Increasing voltage tier can greatly reduce the duration for modules
+                                    Additional increase in the parallelism provided by the module
+                                    Requires 128*(Machine Tier - 7) of computing power before operation""")
+            ))
             .fromSourceTooltips("GTNH")
             .block(GTOBlocks.SPACE_ELEVATOR_MECHANICAL_CASING)
             .pattern(definition -> MultiBlockFileReader.start(definition, RelativeDirection.RIGHT, RelativeDirection.UP, RelativeDirection.BACK)
