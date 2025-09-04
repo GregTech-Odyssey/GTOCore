@@ -1,8 +1,8 @@
 package com.gtocore.common.item;
 
-import com.google.common.math.BigIntegerMath;
 import com.gtocore.common.entity.TaskEntity;
 
+import com.gtolib.GTOCore;
 import com.gtolib.api.wireless.ExtendWirelessEnergyContainer;
 
 import com.gregtechceu.gtceu.api.block.MetaMachineBlock;
@@ -14,8 +14,6 @@ import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 
-import com.gtolib.GTOCore;
-import com.gtolib.api.wireless.ExtendWirelessEnergyContainer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
@@ -45,12 +43,12 @@ public final class TimeTwisterBehavior implements IInteractionItem {
         if (player == null) return InteractionResult.PASS;
         ExtendWirelessEnergyContainer container = (ExtendWirelessEnergyContainer) WirelessEnergyContainer.getOrCreateContainer(context.getPlayer().getUUID());
         if (player.isShiftKeyDown() && container.removeEnergy(819200, null) == 819200) {
-                if (isBlockEntity(context)) {
-                    context.getLevel().addFreshEntity(new TaskEntity(context.getLevel(), context.getClickedPos(), e -> tick(container, e, context, false)));
-                } else {
-                    context.getLevel().addFreshEntity(new TaskEntity(context.getLevel(), context.getClickedPos(), e -> tick(container, e, context, true)));
-                }
-        } else if(container.removeEnergy(8192, null) == 8192){
+            if (isBlockEntity(context)) {
+                context.getLevel().addFreshEntity(new TaskEntity(context.getLevel(), context.getClickedPos(), e -> tick(container, e, context, false)));
+            } else {
+                context.getLevel().addFreshEntity(new TaskEntity(context.getLevel(), context.getClickedPos(), e -> tick(container, e, context, true)));
+            }
+        } else if (container.removeEnergy(8192, null) == 8192) {
             if (isBlockEntity(context)) {
                 tickBlock(context.getLevel(), context.getClickedPos(), 0);
                 player.displayClientMessage(Component.literal("消耗了 8192 EU，使方块实体额外执行了 200 Tick"), true);
@@ -73,14 +71,17 @@ public final class TimeTwisterBehavior implements IInteractionItem {
                     return false;
                 }
 
-                int maxReducedDuration = Math.max((int) ((recipeLogic.getDuration() - recipeLogic.getProgress()) * 0.5),10);
-                int tickEUMultiplier= 2<<GTOCore.difficulty;
+                int maxReducedDuration = Math.max((int) ((recipeLogic.getDuration() - recipeLogic.getProgress()) * 0.5), 10);
+                int tickEUMultiplier = 2 << GTOCore.difficulty;
                 BigInteger eu = BigInteger.valueOf(overclockMachine.getOverclockVoltage()).multiply(BigInteger.valueOf(tickEUMultiplier));
-                BigInteger canUsedEU= BigInteger.valueOf(container.getRate()).min( container.getStorage()).min(eu.multiply(BigInteger.valueOf(maxReducedDuration)));
-                if (eu.compareTo(BigInteger.ZERO)>0 && canUsedEU.compareTo(eu) > 0) {
-                    recipeLogic.setProgress( recipeLogic.getProgress() +canUsedEU.divide(eu).intValue());
+                BigInteger canUsedEU = BigInteger.valueOf(container.getRate()).min(container.getStorage()).min(eu.multiply(BigInteger.valueOf(maxReducedDuration)));
+                if (eu.compareTo(BigInteger.ZERO) > 0 && canUsedEU.compareTo(eu) > 0) {
+                    var tick = canUsedEU.divide(eu).intValue();
+                    var usedEU = eu.multiply(BigInteger.valueOf(tick));
+                    container.setStorage(container.getStorage().subtract(usedEU));
+                    recipeLogic.setProgress(recipeLogic.getProgress() + tick);
                     if (context.getPlayer() == null) return false;
-                    context.getPlayer().displayClientMessage(Component.literal("消耗了 " + FormattingUtil.formatNumbers(eu) + " EU，使机器运行时间减少了 " + canUsedEU/eu + " tick"), true);
+                    context.getPlayer().displayClientMessage(Component.literal("消耗了 " + FormattingUtil.formatNumbers(usedEU) + " EU，使机器运行时间减少了 " + tick + " tick"), true);
                     return true;
                 }
             }

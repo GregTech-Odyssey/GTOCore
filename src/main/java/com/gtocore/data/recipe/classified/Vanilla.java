@@ -858,11 +858,27 @@ final class Vanilla {
                 "CDC",
                 "ABA",
                 'A', new MaterialEntry(GTOTagPrefix.CURVED_PLATE, GTMaterials.StainlessSteel), 'B', new MaterialEntry(TagPrefix.rodLong, GTMaterials.StainlessSteel), 'C', new MaterialEntry(TagPrefix.pipeNormalFluid, GTMaterials.Aluminium), 'D', GTMachines.FERMENTER[GTValues.HV].asStack());
-        VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("time_twister"), GTOItems.TIME_TWISTER.asStack(),
-                "ABA",
-                "BCB",
-                "ABA",
-                'A', new MaterialEntry(TagPrefix.plateDouble, GTOMaterials.Gaia), 'B', RegistriesUtils.getItemStack("enderio:redstone_timer_filter"), 'C', RegistriesUtils.getItemStack("gtmthings:mv_4a_wireless_energy_receive_cover"));
+        if (GTOCore.isExpert()) {
+            VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("time_twister"), GTOItems.TIME_TWISTER.asStack(),
+                    "ABA",
+                    "CDC",
+                    "ABA",
+                    'A', new MaterialEntry(TagPrefix.plateDouble, GTOMaterials.Gaia), 'B', RegistriesUtils.getItemStack("gtmthings:ev_4a_wireless_energy_receive_cover"), 'C', RegistriesUtils.getItemStack("ars_nouveau:manipulation_essence"), 'D', GTItems.FIELD_GENERATOR_EV.asStack());
+        } else if (GTOCore.isNormal()) {
+            VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("time_twister"), GTOItems.TIME_TWISTER.asStack(),
+                    "ABA",
+                    "CDC",
+                    "ABA",
+                    'A', new MaterialEntry(TagPrefix.plateDouble, GTOMaterials.Gaiasteel), 'B', RegistriesUtils.getItemStack("gtmthings:hv_4a_wireless_energy_receive_cover"), 'C', RegistriesUtils.getItemStack("ars_nouveau:manipulation_essence"), 'D', GTItems.FIELD_GENERATOR_HV.asStack());
+
+        } else {
+            VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("time_twister"), GTOItems.TIME_TWISTER.asStack(),
+                    "ABA",
+                    "CDC",
+                    "ABA",
+                    'A', new MaterialEntry(TagPrefix.plateDouble, GTOMaterials.Terrasteel), 'B', RegistriesUtils.getItemStack("gtmthings:mv_4a_wireless_energy_receive_cover"), 'C', RegistriesUtils.getItemStack("ars_nouveau:manipulation_essence"), 'D', GTItems.FIELD_GENERATOR_MV.asStack());
+
+        }
         VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("large_coke_oven"), MultiBlockG.LARGE_COKE_OVEN.asStack(),
                 "AhA",
                 "BCB",

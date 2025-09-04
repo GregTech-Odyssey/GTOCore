@@ -321,7 +321,7 @@ public final class GTOItems {
 
     public static final ItemEntry<ComponentItem> WIRELESS_ENERGY_RECEIVE_COVER_MAX_4A = registerTieredCover(4);
 
-public static final ItemEntry<ComponentItem> TIME_TWISTER = item("time_twister", "时间扭曲者", ComponentItem::create)
+    public static final ItemEntry<ComponentItem> TIME_TWISTER = item("time_twister", "时间扭曲者", ComponentItem::create)
             .toolTips(ComponentBuilder.create()
                     .addLines(NewDataAttributes.MIRACULOUS_TOOLS.create(CNEN.create("时间扭曲者", "Time Twister")), a -> a)
                     .addLines(NewDataAttributes.EMPTY_WITH_BAR.create(CNEN.create("启动加速：", "Acceleration for normal block entities:")), StyleBuilder::setGold)
