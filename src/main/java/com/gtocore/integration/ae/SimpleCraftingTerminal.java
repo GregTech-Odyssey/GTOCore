@@ -62,11 +62,10 @@ public class SimpleCraftingTerminal extends AbstractTerminalPart
 
     private final AppEngInternalInventory craftingGrid = new AppEngInternalInventory(this, 9);
 
-    private final StorageBusInventory handler = new StorageBusInventory(NullInventory.of());
+    private MEStorage handler = NullInventory.of();
     private BlockCapabilityCache<MEStorage> adjacentStorageAccessor;
     @Nullable
     private Map<AEKeyType, ExternalStorageStrategy> externalStorageStrategies;
-    private int tick;
 
     public SimpleCraftingTerminal(IPartItem<?> partItem) {
         super(partItem);
@@ -128,15 +127,7 @@ public class SimpleCraftingTerminal extends AbstractTerminalPart
 
     @Override
     public MEStorage getInventory() {
-        if (!isClientSide()) {
-            if (this.tick % 10 == 0) {
-                if (this.handler.getDelegate() instanceof CompositeStorage compositeStorage) {
-                    compositeStorage.onTick();
-                }
-            }
-            this.tick++;
-        }
-        return this.handler.getDelegate();
+        return this.handler;
     }
 
     /* StorageProvider */
@@ -176,27 +167,19 @@ public class SimpleCraftingTerminal extends AbstractTerminalPart
         foundMonitor = adjacentStorageAccessor.find(getHost().getBlockEntity().getBlockPos().relative(side), side, side.getOpposite());
 
         if (foundMonitor == null) {
-
             foundExternalApi = new IdentityHashMap<>(2);
             findExternalStorages(foundExternalApi);
         }
 
-        if (this.handler.getDescription() instanceof CompositeStorage compositeStorage && !foundExternalApi.isEmpty()) {
-            compositeStorage.setStorages(foundExternalApi);
-            return;
-        }
-
         // Update inventory
-        MEStorage newInventory;
         if (foundMonitor != null) {
-            newInventory = foundMonitor;
+            handler = foundMonitor;
             this.checkStorageBusOnInterface();
         } else if (!foundExternalApi.isEmpty()) {
-            newInventory = new CompositeStorage(foundExternalApi);
+            handler = new CompositeStorage(foundExternalApi);
         } else {
-            newInventory = NullInventory.of();
+            handler = NullInventory.of();
         }
-        this.handler.setDelegate(newInventory);
     }
 
     private Map<AEKeyType, ExternalStorageStrategy> getExternalStorageStrategies() {

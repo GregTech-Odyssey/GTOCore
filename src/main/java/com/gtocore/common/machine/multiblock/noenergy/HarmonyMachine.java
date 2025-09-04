@@ -13,10 +13,7 @@ import com.gregtechceu.gtceu.utils.FormattingUtil;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.material.Fluid;
-import net.minecraft.world.phys.BlockHitResult;
 
 import com.hepdd.gtmthings.api.misc.WirelessEnergyContainer;
 import com.hepdd.gtmthings.utils.TeamUtil;
@@ -121,14 +118,6 @@ public final class HarmonyMachine extends NoEnergyMultiblockMachine implements I
             setIdleReason(IdleReason.NO_EU);
         }
         return null;
-    }
-
-    @Override
-    public boolean shouldOpenUI(Player player, InteractionHand hand, BlockHitResult hit) {
-        if (getUUID() == null) {
-            setOwnerUUID(player.getUUID());
-        }
-        return true;
     }
 
     @Override

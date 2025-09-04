@@ -5,6 +5,11 @@ import com.gtolib.api.ae2.IPatternAccessTermMenu;
 import com.gtolib.api.ae2.ShowMolecularAssembler;
 import com.gtolib.api.ae2.me2in1.Me2in1Menu;
 
+import com.gregtechceu.gtceu.utils.ItemStackHashStrategy;
+
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.StringTag;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -20,10 +25,7 @@ import appeng.menu.implementations.PatternAccessTermMenu;
 import com.glodblock.github.extendedae.common.EPPItemAndBlock;
 import org.jetbrains.annotations.NotNull;
 import org.objectweb.asm.Opcodes;
-import org.spongepowered.asm.mixin.Final;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.Unique;
+import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
@@ -138,5 +140,30 @@ public abstract class PatternAccessTermMenuMixin implements IPatternAccessTermMe
             }
         }
         return playerInv.add(stack);
+    }
+
+    @Mixin(targets = "appeng.menu.implementations.PatternAccessTermMenu$ContainerTracker")
+    public static class ContainerTrackerMixin {
+
+        /**
+         * @author
+         * @reason
+         */
+        @Overwrite(remap = false)
+        private static boolean isDifferent(ItemStack a, ItemStack b) {
+            if (ItemStackHashStrategy.ITEM.equals(a, b)) {
+                var at = a.getTag();
+                var bt = b.getTag();
+                if (at == null && bt == null) return false;
+                if (at == null || bt == null) return true;
+                var oa = at.tags.get("out");
+                var ob = bt.tags.get("out");
+                if (oa instanceof ListTag la && la.get(0) instanceof CompoundTag ca && ca.tags.get("id") instanceof StringTag sa && ob instanceof ListTag lb && lb.get(0) instanceof CompoundTag cb && cb.tags.get("id") instanceof StringTag sb) {
+                    return !sa.equals(sb);
+                }
+                return false;
+            }
+            return true;
+        }
     }
 }
