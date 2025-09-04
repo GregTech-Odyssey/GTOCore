@@ -9,7 +9,7 @@ import com.gtocore.client.renderer.machine.ArrayMachineRenderer;
 import com.gtocore.common.data.*;
 import com.gtocore.common.data.machines.structure.AnnihilateGeneratorA;
 import com.gtocore.common.data.machines.structure.AnnihilateGeneratorB;
-import com.gtocore.common.data.translation.GTOMachineTranslation;
+import com.gtocore.common.data.translation.GTOMachineTooltips;
 import com.gtocore.common.machine.multiblock.electric.space.DysonSphereLaunchSiloMachine;
 import com.gtocore.common.machine.multiblock.electric.space.DysonSphereReceivingStationMcahine;
 import com.gtocore.common.machine.multiblock.generator.*;
@@ -61,10 +61,10 @@ public final class GeneratorMultiblock {
 
     private static MultiblockMachineDefinition registerPhotovoltaicPowerStation(String name, String cn, int basicRate, Supplier<? extends Block> casing, BlockEntry<?> photovoltaicBlock, ResourceLocation texture) {
         ComponentListSupplier tooltips;
-        if (basicRate == 1) tooltips = GTOMachineTranslation.INSTANCE.getPhotovoltaicPlant11Tooltips();
-        else if (basicRate == 4) tooltips = GTOMachineTranslation.INSTANCE.getPhotovoltaicPlant12Tooltips();
-        else if (basicRate == 16) tooltips = GTOMachineTranslation.INSTANCE.getPhotovoltaicPlant13Tooltips();
-        else tooltips = GTOMachineTranslation.INSTANCE.getPhotovoltaicPlant11Tooltips();
+        if (basicRate == 1) tooltips = GTOMachineTooltips.INSTANCE.getPhotovoltaicPlant11Tooltips();
+        else if (basicRate == 4) tooltips = GTOMachineTooltips.INSTANCE.getPhotovoltaicPlant12Tooltips();
+        else if (basicRate == 16) tooltips = GTOMachineTooltips.INSTANCE.getPhotovoltaicPlant13Tooltips();
+        else tooltips = GTOMachineTooltips.INSTANCE.getPhotovoltaicPlant11Tooltips();
 
         return multiblock(name + "_photovoltaic_power_station", cn + "光伏电站", holder -> new PhotovoltaicPowerStationMachine(holder, basicRate))
                 .nonYAxisRotation()

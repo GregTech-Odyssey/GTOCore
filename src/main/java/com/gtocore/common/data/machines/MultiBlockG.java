@@ -5,7 +5,7 @@ import com.gtocore.api.pattern.GTOPredicates;
 import com.gtocore.client.renderer.machine.ArrayMachineRenderer;
 import com.gtocore.client.renderer.machine.CustomPartRenderer;
 import com.gtocore.common.data.*;
-import com.gtocore.common.data.translation.GTOMachineTranslation;
+import com.gtocore.common.data.translation.GTOMachineTooltips;
 import com.gtocore.common.machine.multiblock.electric.*;
 import com.gtocore.common.machine.multiblock.electric.adventure.BossSummonerMachine;
 import com.gtocore.common.machine.multiblock.electric.processing.ProcessingArrayMachine;
@@ -624,7 +624,7 @@ public final class MultiBlockG {
 
     public static final MultiblockMachineDefinition SINTERING_FURNACE = multiblock("sintering_furnace", "烧结炉", CoilMultiblockMachine.createCoilMachine(false, true))
             .nonYAxisRotation()
-            .tooltips(GTOMachineTranslation.INSTANCE.getSinteringFurnaceTooltips().getSupplier())
+            .tooltips(GTOMachineTooltips.INSTANCE.getSinteringFurnaceTooltips().getSupplier())
             .parallelizableTooltips()
             .recipeTypes(GTORecipeTypes.SINTERING_FURNACE_RECIPES)
             .parallelizableOverclock()
@@ -655,7 +655,7 @@ public final class MultiBlockG {
 
     public static final MultiblockMachineDefinition ISOSTATIC_PRESS = multiblock("isostatic_press", "等静压成型", ElectricMultiblockMachine::new)
             .nonYAxisRotation()
-            .tooltips(GTOMachineTranslation.INSTANCE.getIsostaticPressMachineTooltips().getSupplier())
+            .tooltips(GTOMachineTooltips.INSTANCE.getIsostaticPressMachineTooltips().getSupplier())
             .parallelizableTooltips()
             .recipeTypes(GTORecipeTypes.ISOSTATIC_PRESSING_RECIPES)
             .parallelizableOverclock()
@@ -908,7 +908,7 @@ public final class MultiBlockG {
 
     public static final MultiblockMachineDefinition INTEGRATED_VAPOR_DEPOSITION_SYSTEM = multiblock("integrated_vapor_deposition_system", "综合气相沉积系统", TierCasingCrossRecipeMultiblockMachine.createParallel(m -> 1L << (m.getCasingTier(GTOValues.GLASS_TIER) << 1), GTOValues.GLASS_TIER))
             .nonYAxisRotation()
-            .tooltips(GTOMachineTranslation.INSTANCE.getIntegratedVaporDepositionSystemTooltips().getSupplier())
+            .tooltips(GTOMachineTooltips.INSTANCE.getIntegratedVaporDepositionSystemTooltips().getSupplier())
             .specialParallelizableTooltips()
             .tooltips(NewDataAttributes.ALLOW_PARALLEL_NUMBER.create(h -> h.addLines("4^玻璃等级", "4^(Glass Tier)")))
             .laserTooltips()
@@ -955,7 +955,7 @@ public final class MultiBlockG {
             .allRotation()
             .recipeTypes(GTORecipeTypes.DUMMY_RECIPES)
             .block(GTBlocks.STEEL_HULL)
-            .tooltips(GTOMachineTranslation.INSTANCE.getMultiblockCrateMachineTooltips().getSupplier())
+            .tooltips(GTOMachineTooltips.INSTANCE.getMultiblockCrateMachineTooltips().getSupplier())
             .pattern(definition -> FactoryBlockPattern.start(definition)
                     .aisle("aaa", "aaa", "aaa")
                     .aisle("aaa", "aca", "aaa")
