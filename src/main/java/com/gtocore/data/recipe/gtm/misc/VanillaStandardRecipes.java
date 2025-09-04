@@ -13,15 +13,12 @@ import com.gregtechceu.gtceu.config.ConfigHolder;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
 import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
 
-import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.common.Tags;
-
-import java.util.function.Consumer;
 
 import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
@@ -31,16 +28,16 @@ import static com.gtocore.common.data.GTORecipeTypes.*;
 
 public final class VanillaStandardRecipes {
 
-    public static void init(Consumer<FinishedRecipe> provider) {
+    public static void init() {
         compressingRecipes();
-        glassRecipes(provider);
-        smashingRecipes(provider);
-        woodRecipes(provider);
+        glassRecipes();
+        smashingRecipes();
+        woodRecipes();
         cuttingRecipes();
         dyingCleaningRecipes();
         redstoneRecipes();
-        metalRecipes(provider);
-        miscRecipes(provider);
+        metalRecipes();
+        miscRecipes();
         mixingRecipes();
         dyeRecipes();
     }
@@ -155,11 +152,11 @@ public final class VanillaStandardRecipes {
      * + Adds steam age manual glass recipes
      * - Removes some glass related recipes based on configs
      */
-    private static void glassRecipes(Consumer<FinishedRecipe> provider) {
-        VanillaRecipeHelper.addShapedRecipe(provider, "glass_dust_hammer", ChemicalHelper.get(dust, Glass), "hG", 'G',
+    private static void glassRecipes() {
+        VanillaRecipeHelper.addShapedRecipe("glass_dust_hammer", ChemicalHelper.get(dust, Glass), "hG", 'G',
                 new ItemStack(Blocks.GLASS));
 
-        VanillaRecipeHelper.addShapedRecipe(provider, "quartz_sand", ChemicalHelper.get(dust, QuartzSand), "S", "m",
+        VanillaRecipeHelper.addShapedRecipe("quartz_sand", ChemicalHelper.get(dust, QuartzSand), "S", "m",
                 'S', new ItemStack(Blocks.SAND));
 
         MACERATOR_RECIPES.recipeBuilder("quartz_sand_from_sand")
@@ -167,11 +164,11 @@ public final class VanillaStandardRecipes {
                 .outputItems(dust, QuartzSand)
                 .duration(30).EUt(2).save();
 
-        VanillaRecipeHelper.addShapelessRecipe(provider, "glass_dust_flint", ChemicalHelper.get(dust, Glass),
+        VanillaRecipeHelper.addShapelessRecipe("glass_dust_flint", ChemicalHelper.get(dust, Glass),
                 new MaterialEntry(dust, QuartzSand),
                 new MaterialEntry(dustTiny, Flint));
 
-        VanillaRecipeHelper.addShapelessRecipe(provider, "glass_full_dust_flint", ChemicalHelper.get(dust, Glass, 8),
+        VanillaRecipeHelper.addShapelessRecipe("glass_full_dust_flint", ChemicalHelper.get(dust, Glass, 8),
                 new MaterialEntry(dust, QuartzSand),
                 new MaterialEntry(dust, QuartzSand),
                 new MaterialEntry(dust, QuartzSand),
@@ -247,7 +244,7 @@ public final class VanillaStandardRecipes {
     /**
      * Adds smashing related recipes for vanilla blocks and items
      */
-    private static void smashingRecipes(Consumer<FinishedRecipe> provider) {
+    private static void smashingRecipes() {
         FORGE_HAMMER_RECIPES.recipeBuilder("cobblestone_to_gravel")
                 .inputItems(ItemTags.STONE_CRAFTING_MATERIALS)
                 .outputItems(new ItemStack(Blocks.GRAVEL))
@@ -298,21 +295,21 @@ public final class VanillaStandardRecipes {
                 .outputItems(new ItemStack(Blocks.RED_SAND))
                 .EUt(2).duration(400).save();
 
-        VanillaRecipeHelper.addShapelessRecipe(provider, "clay_block_to_dust", ChemicalHelper.get(dust, Clay), 'm',
+        VanillaRecipeHelper.addShapelessRecipe("clay_block_to_dust", ChemicalHelper.get(dust, Clay), 'm',
                 Blocks.CLAY);
-        VanillaRecipeHelper.addShapelessRecipe(provider, "clay_ball_to_dust", ChemicalHelper.get(dustSmall, Clay), 'm',
+        VanillaRecipeHelper.addShapelessRecipe("clay_ball_to_dust", ChemicalHelper.get(dustSmall, Clay), 'm',
                 Items.CLAY_BALL);
-        VanillaRecipeHelper.addShapelessRecipe(provider, "brick_block_to_dust", ChemicalHelper.get(dust, Brick), 'm',
+        VanillaRecipeHelper.addShapelessRecipe("brick_block_to_dust", ChemicalHelper.get(dust, Brick), 'm',
                 Blocks.BRICKS);
-        VanillaRecipeHelper.addShapelessRecipe(provider, "brick_to_dust", ChemicalHelper.get(dustSmall, Brick), 'm',
+        VanillaRecipeHelper.addShapelessRecipe("brick_to_dust", ChemicalHelper.get(dustSmall, Brick), 'm',
                 Items.BRICK);
-        VanillaRecipeHelper.addShapelessRecipe(provider, "wheat_to_dust", ChemicalHelper.get(dust, Wheat), 'm',
+        VanillaRecipeHelper.addShapelessRecipe("wheat_to_dust", ChemicalHelper.get(dust, Wheat), 'm',
                 Items.WHEAT);
-        VanillaRecipeHelper.addShapelessRecipe(provider, "gravel_to_flint", new ItemStack(Items.FLINT), 'm',
+        VanillaRecipeHelper.addShapelessRecipe("gravel_to_flint", new ItemStack(Items.FLINT), 'm',
                 Blocks.GRAVEL);
-        VanillaRecipeHelper.addShapelessRecipe(provider, "bone_to_bone_meal", new ItemStack(Items.BONE_MEAL, 4), 'm',
+        VanillaRecipeHelper.addShapelessRecipe("bone_to_bone_meal", new ItemStack(Items.BONE_MEAL, 4), 'm',
                 Items.BONE);
-        VanillaRecipeHelper.addShapelessRecipe(provider, "blaze_rod_to_powder", new ItemStack(Items.BLAZE_POWDER, 3),
+        VanillaRecipeHelper.addShapelessRecipe("blaze_rod_to_powder", new ItemStack(Items.BLAZE_POWDER, 3),
                 'm', Items.BLAZE_ROD);
 
         MACERATOR_RECIPES.recipeBuilder("macerate_cocoa")
@@ -359,7 +356,7 @@ public final class VanillaStandardRecipes {
     /**
      * + Adds new recipes for wood related items and blocks
      */
-    private static void woodRecipes(Consumer<FinishedRecipe> provider) {
+    private static void woodRecipes() {
         MACERATOR_RECIPES.recipeBuilder("macerate_logs")
                 .inputItems(ItemTags.LOGS)
                 .outputItems(dust, Wood, 6)
@@ -439,27 +436,27 @@ public final class VanillaStandardRecipes {
                 .outputItems(new ItemStack(Blocks.SOUL_LANTERN))
                 .duration(100).EUt(1).save();
 
-        VanillaRecipeHelper.addShapedRecipe(provider, "sticky_resin_torch", new ItemStack(Blocks.TORCH, 3), "X", "Y",
+        VanillaRecipeHelper.addShapedRecipe("sticky_resin_torch", new ItemStack(Blocks.TORCH, 3), "X", "Y",
                 'X', STICKY_RESIN, 'Y', new ItemStack(Items.STICK));
-        VanillaRecipeHelper.addShapedRecipe(provider, "torch_sulfur", new ItemStack(Blocks.TORCH, 2), "C", "S", 'C',
+        VanillaRecipeHelper.addShapedRecipe("torch_sulfur", new ItemStack(Blocks.TORCH, 2), "C", "S", 'C',
                 new MaterialEntry(dust, Sulfur), 'S', new ItemStack(Items.STICK));
-        VanillaRecipeHelper.addShapedRecipe(provider, "torch_phosphorus", new ItemStack(Blocks.TORCH, 6), "C", "S", 'C',
+        VanillaRecipeHelper.addShapedRecipe("torch_phosphorus", new ItemStack(Blocks.TORCH, 6), "C", "S", 'C',
                 new MaterialEntry(dust, Phosphorus), 'S', new ItemStack(Items.STICK));
-        VanillaRecipeHelper.addShapedRecipe(provider, "torch_coal_dust", new ItemStack(Blocks.TORCH, 4), "C", "S", 'C',
+        VanillaRecipeHelper.addShapedRecipe("torch_coal_dust", new ItemStack(Blocks.TORCH, 4), "C", "S", 'C',
                 new MaterialEntry(dust, Coal), 'S', new ItemStack(Items.STICK));
-        VanillaRecipeHelper.addShapedRecipe(provider, "torch_charcoal_dust", new ItemStack(Blocks.TORCH, 4), "C", "S",
+        VanillaRecipeHelper.addShapedRecipe("torch_charcoal_dust", new ItemStack(Blocks.TORCH, 4), "C", "S",
                 'C', new MaterialEntry(dust, Charcoal), 'S', new ItemStack(Items.STICK));
-        VanillaRecipeHelper.addShapedRecipe(provider, "torch_coke", new ItemStack(Blocks.TORCH, 8), "C", "S", 'C',
+        VanillaRecipeHelper.addShapedRecipe("torch_coke", new ItemStack(Blocks.TORCH, 8), "C", "S", 'C',
                 new MaterialEntry(gem, Coke), 'S', new ItemStack(Items.STICK));
-        VanillaRecipeHelper.addShapedRecipe(provider, "torch_coke_dust", new ItemStack(Blocks.TORCH, 8), "C", "S", 'C',
+        VanillaRecipeHelper.addShapedRecipe("torch_coke_dust", new ItemStack(Blocks.TORCH, 8), "C", "S", 'C',
                 new MaterialEntry(dust, Coke), 'S', new ItemStack(Items.STICK));
-        VanillaRecipeHelper.addShapedRecipe(provider, "torch_creosote", new ItemStack(Blocks.TORCH, 16), "WB", "S ",
+        VanillaRecipeHelper.addShapedRecipe("torch_creosote", new ItemStack(Blocks.TORCH, 16), "WB", "S ",
                 'W', ItemTags.WOOL, 'S', new ItemStack(Items.STICK), 'B',
                 new FluidContainerIngredient(Creosote.getFluid(1000)));
-        VanillaRecipeHelper.addShapedRecipe(provider, "soul_torch", new ItemStack(Blocks.SOUL_TORCH, 1), "WB",
+        VanillaRecipeHelper.addShapedRecipe("soul_torch", new ItemStack(Blocks.SOUL_TORCH, 1), "WB",
                 'W', ItemTags.SOUL_FIRE_BASE_BLOCKS, 'B', new ItemStack(Blocks.TORCH));
         if (!ConfigHolder.INSTANCE.recipes.hardMiscRecipes) {
-            VanillaRecipeHelper.addShapedRecipe(provider, "soul_lantern_from_lantern",
+            VanillaRecipeHelper.addShapedRecipe("soul_lantern_from_lantern",
                     new ItemStack(Blocks.SOUL_LANTERN, 1), "WB",
                     'W', ItemTags.SOUL_FIRE_BASE_BLOCKS, 'B', new ItemStack(Blocks.LANTERN));
         }
@@ -741,8 +738,8 @@ public final class VanillaStandardRecipes {
      * + Adds metal related recipes
      * + Adds horse armor and chainmail recipes
      */
-    private static void metalRecipes(Consumer<FinishedRecipe> provider) {
-        VanillaRecipeHelper.addShapedRecipe(provider, "leather_horse_armor", new ItemStack(Items.LEATHER_HORSE_ARMOR),
+    private static void metalRecipes() {
+        VanillaRecipeHelper.addShapedRecipe("leather_horse_armor", new ItemStack(Items.LEATHER_HORSE_ARMOR),
                 "hdH",
                 "PCP", "LSL",
                 'H', new ItemStack(Items.LEATHER_HELMET),
@@ -751,7 +748,7 @@ public final class VanillaStandardRecipes {
                 'L', new ItemStack(Items.LEATHER_LEGGINGS),
                 'S', new MaterialEntry(screw, Iron));
 
-        VanillaRecipeHelper.addShapedRecipe(provider, true, "iron_horse_armor", new ItemStack(Items.IRON_HORSE_ARMOR),
+        VanillaRecipeHelper.addShapedRecipe(true, "iron_horse_armor", new ItemStack(Items.IRON_HORSE_ARMOR),
                 "hdH",
                 "PCP", "LSL",
                 'H', new ItemStack(Items.IRON_HELMET),
@@ -760,7 +757,7 @@ public final class VanillaStandardRecipes {
                 'L', new ItemStack(Items.IRON_LEGGINGS),
                 'S', new MaterialEntry(screw, Iron));
 
-        VanillaRecipeHelper.addShapedRecipe(provider, true, "golden_horse_armor",
+        VanillaRecipeHelper.addShapedRecipe(true, "golden_horse_armor",
                 new ItemStack(Items.GOLDEN_HORSE_ARMOR),
                 "hdH", "PCP", "LSL",
                 'H', new ItemStack(Items.GOLDEN_HELMET),
@@ -769,7 +766,7 @@ public final class VanillaStandardRecipes {
                 'L', new ItemStack(Items.GOLDEN_LEGGINGS),
                 'S', new MaterialEntry(screw, Gold));
 
-        VanillaRecipeHelper.addShapedRecipe(provider, true, "diamond_horse_armor",
+        VanillaRecipeHelper.addShapedRecipe(true, "diamond_horse_armor",
                 new ItemStack(Items.DIAMOND_HORSE_ARMOR),
                 "hdH", "PCP", "LSL",
                 'H', new ItemStack(Items.DIAMOND_HELMET),
@@ -778,22 +775,22 @@ public final class VanillaStandardRecipes {
                 'L', new ItemStack(Items.DIAMOND_LEGGINGS),
                 'S', new MaterialEntry(bolt, Diamond));
 
-        VanillaRecipeHelper.addShapedRecipe(provider, true, "chainmail_helmet", new ItemStack(Items.CHAINMAIL_HELMET),
+        VanillaRecipeHelper.addShapedRecipe(true, "chainmail_helmet", new ItemStack(Items.CHAINMAIL_HELMET),
                 "PPP",
                 "PhP",
                 'P', Items.CHAIN);
 
-        VanillaRecipeHelper.addShapedRecipe(provider, true, "chainmail_chestplate",
+        VanillaRecipeHelper.addShapedRecipe(true, "chainmail_chestplate",
                 new ItemStack(Items.CHAINMAIL_CHESTPLATE),
                 "PhP", "PPP", "PPP",
                 'P', Items.CHAIN);
 
-        VanillaRecipeHelper.addShapedRecipe(provider, true, "chainmail_leggings",
+        VanillaRecipeHelper.addShapedRecipe(true, "chainmail_leggings",
                 new ItemStack(Items.CHAINMAIL_LEGGINGS),
                 "PPP", "PhP", "P P",
                 'P', Items.CHAIN);
 
-        VanillaRecipeHelper.addShapedRecipe(provider, true, "chainmail_boots", new ItemStack(Items.CHAINMAIL_BOOTS),
+        VanillaRecipeHelper.addShapedRecipe(true, "chainmail_boots", new ItemStack(Items.CHAINMAIL_BOOTS),
                 "P P",
                 "PhP",
                 'P', Items.CHAIN);
@@ -837,7 +834,7 @@ public final class VanillaStandardRecipes {
      * Adds alternative gunpowder recipes
      * Adds polished stone variant autoclave recipes
      */
-    private static void miscRecipes(Consumer<FinishedRecipe> provider) {
+    private static void miscRecipes() {
         if (ConfigHolder.INSTANCE.recipes.hardToolArmorRecipes) {
             ASSEMBLER_RECIPES.recipeBuilder("fishing_rod")
                     .inputItems(new ItemStack(Items.STRING))
@@ -934,7 +931,7 @@ public final class VanillaStandardRecipes {
         ALLOY_SMELTER_RECIPES.recipeBuilder("anvil").inputItems(ingot, Iron, 31).notConsumable(SHAPE_MOLD_ANVIL)
                 .outputItems(new ItemStack(Blocks.ANVIL)).duration(1680).EUt(16).save();
 
-        VanillaRecipeHelper.addSmeltingRecipe(provider, "sticky_resin_from_slime", new ItemStack(Items.SLIME_BALL),
+        VanillaRecipeHelper.addSmeltingRecipe("sticky_resin_from_slime", new ItemStack(Items.SLIME_BALL),
                 STICKY_RESIN.asStack(), 0.3f);
 
         MIXER_RECIPES.recipeBuilder("mossy_cobblestone_from_vine")
@@ -1038,7 +1035,7 @@ public final class VanillaStandardRecipes {
                 .outputItems(new ItemStack(Blocks.ACTIVATOR_RAIL, 12))
                 .duration(100).EUt(VA[LV]).save();
 
-        VanillaRecipeHelper.addShapedRecipe(provider, "saddle", new ItemStack(Items.SADDLE), "LLL", "LCL", "RSR",
+        VanillaRecipeHelper.addShapedRecipe("saddle", new ItemStack(Items.SADDLE), "LLL", "LCL", "RSR",
                 'L', new ItemStack(Items.LEATHER),
                 'C', ItemTags.WOOL_CARPETS,
                 'R', new MaterialEntry(ring, Iron),
@@ -1144,7 +1141,7 @@ public final class VanillaStandardRecipes {
                 .inputItems(new ItemStack(Items.MINECART)).inputItems(new ItemStack(Blocks.HOPPER))
                 .outputItems(new ItemStack(Items.HOPPER_MINECART)).save();
 
-        VanillaRecipeHelper.addShapelessRecipe(provider, "hay_block_to_hay", new ItemStack(Items.WHEAT, 9),
+        VanillaRecipeHelper.addShapelessRecipe("hay_block_to_hay", new ItemStack(Items.WHEAT, 9),
                 Items.HAY_BLOCK, 'k');
 
         ASSEMBLER_RECIPES.recipeBuilder("conduit")

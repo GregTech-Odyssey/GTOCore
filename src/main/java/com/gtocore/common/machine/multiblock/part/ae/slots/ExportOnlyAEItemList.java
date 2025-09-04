@@ -28,7 +28,7 @@ public class ExportOnlyAEItemList extends NotifiableItemStackHandler implements 
     private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(ExportOnlyAEItemList.class, NotifiableItemStackHandler.MANAGED_FIELD_HOLDER);
 
     @Persisted
-    private final ExportOnlyAEItemSlot[] inventory;
+    protected final ExportOnlyAEItemSlot[] inventory;
 
     public ExportOnlyAEItemList(MetaMachine holder, int slots) {
         this(holder, slots, ExportOnlyAEItemSlot::new);
@@ -142,6 +142,7 @@ public class ExportOnlyAEItemList extends NotifiableItemStackHandler implements 
             changed = false;
             itemMap.clear();
             for (var i : inventory) {
+                if (i.config == null) continue;
                 var stock = i.stock;
                 if (stock == null || stock.amount() == 0) continue;
                 var stack = i.getStack();

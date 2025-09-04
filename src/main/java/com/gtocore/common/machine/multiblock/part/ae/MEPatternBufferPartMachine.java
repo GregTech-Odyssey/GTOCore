@@ -4,6 +4,7 @@ import com.gtocore.common.data.machines.GTAEMachines;
 import com.gtocore.common.machine.multiblock.part.ae.slots.MECircuitHandler;
 import com.gtocore.common.machine.trait.InternalSlotRecipeHandler;
 
+import com.gtolib.api.ae2.MyPatternDetailsHelper;
 import com.gtolib.api.annotation.Scanned;
 import com.gtolib.api.annotation.language.RegisterLanguage;
 import com.gtolib.api.capability.ISync;
@@ -31,6 +32,7 @@ import com.gregtechceu.gtceu.api.machine.feature.IDataStickInteractable;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList;
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
+import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.item.IntCircuitBehaviour;
 import com.gregtechceu.gtceu.utils.ItemStackHashStrategy;
 
@@ -47,15 +49,17 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraftforge.fluids.FluidStack;
 
+import appeng.api.config.Actionable;
 import appeng.api.crafting.IPatternDetails;
+import appeng.api.crafting.PatternDetailsHelper;
 import appeng.api.implementations.blockentities.PatternContainerGroup;
-import appeng.api.stacks.AEFluidKey;
-import appeng.api.stacks.AEItemKey;
-import appeng.api.stacks.AEKey;
-import appeng.api.stacks.KeyCounter;
+import appeng.api.stacks.*;
 import appeng.api.storage.MEStorage;
 import appeng.api.storage.StorageHelper;
+import appeng.crafting.pattern.AEProcessingPattern;
 import appeng.crafting.pattern.ProcessingPatternItem;
+import com.hepdd.gtmthings.common.item.VirtualItemProviderBehavior;
+import com.hepdd.gtmthings.data.CustomItems;
 import com.lowdragmc.lowdraglib.gui.texture.GuiTextureGroup;
 import com.lowdragmc.lowdraglib.gui.util.ClickData;
 import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
@@ -83,7 +87,7 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
 
     protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
             MEPatternBufferPartMachine.class, MEPatternPartMachineKt.Companion.getMANAGED_FIELD_HOLDER());
-    public static final SyncManagedFieldHolder SYNC_MANAGED_FIELD_HOLDER = new SyncManagedFieldHolder(MEPatternBufferPartMachine.class,
+    private static final SyncManagedFieldHolder SYNC_MANAGED_FIELD_HOLDER = new SyncManagedFieldHolder(MEPatternBufferPartMachine.class,
             MEPatternPartMachineKt.getSYNC_MANAGED_FIELD_HOLDER());
     @RegisterLanguage(cn = "配方已缓存", en = "Recipe cached")
     private static final String CACHE = "gtocore.pattern_buffer.cache";
@@ -109,11 +113,10 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
     protected IntSyncedField configuratorField = ISync.createIntField(this)
             .set(-1)
             .setSenderListener((side, o, n) -> {
-                System.out.println("configuratorField changed: " + o + " -> " + n + " on side: " + side);
-                if (side.isServer()) Objects.requireNonNull(Objects.requireNonNull(getLevel()).getServer()).tell(new TickTask(10, () -> { freshWidgetGroup.fresh(); }));
+                if (side.isServer()) Objects.requireNonNull(Objects.requireNonNull(getLevel()).getServer()).tell(new TickTask(10, () -> freshWidgetGroup.fresh()));
                 freshWidgetGroup.fresh();
             }).setReceiverListener((side, o, n) -> {
-                if (side.isServer()) Objects.requireNonNull(Objects.requireNonNull(getLevel()).getServer()).tell(new TickTask(10, () -> { freshWidgetGroup.fresh(); }));
+                if (side.isServer()) Objects.requireNonNull(Objects.requireNonNull(getLevel()).getServer()).tell(new TickTask(10, () -> freshWidgetGroup.fresh()));
                 freshWidgetGroup.fresh();
             });
 
@@ -167,12 +170,12 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
         return internalRecipeHandler.getSlotHandlers();
     }
 
-    public void addProxy(MEPatternBufferProxyPartMachine proxy) {
+    void addProxy(MEPatternBufferProxyPartMachine proxy) {
         proxies.add(proxy.getPos());
         proxyMachines.add(proxy);
     }
 
-    public void removeProxy(MEPatternBufferProxyPartMachine proxy) {
+    void removeProxy(MEPatternBufferProxyPartMachine proxy) {
         proxies.remove(proxy.getPos());
         proxyMachines.remove(proxy);
     }
@@ -196,6 +199,45 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
                 internalSlot.refund();
             }
         }
+    }
+
+    @Override
+    public IPatternDetails convertPattern(IPatternDetails pattern, int index) {
+        if (pattern instanceof AEProcessingPattern processingPattern) {
+            var sparseInput = processingPattern.getSparseInputs();
+            var input = new ObjectArrayList<GenericStack>(sparseInput.length);
+            for (var stack : sparseInput) {
+                if (stack != null && stack.what() instanceof AEItemKey what) {
+                    if (what.getItem() == CustomItems.VIRTUAL_ITEM_PROVIDER.get()) {
+                        ItemStack virtualItem = VirtualItemProviderBehavior.getVirtualItem(what.getReadOnlyStack());
+                        if (virtualItem.isEmpty()) continue;
+                        if (GTItems.PROGRAMMED_CIRCUIT.isIn(virtualItem)) {
+                            getInternalInventory()[index].circuitInventory.storage.setStackInSlot(0, virtualItem);
+                            continue;
+                        } else {
+                            var grid = getGrid();
+                            if (grid != null) {
+                                if (grid.getStorageService().getInventory().extract(AEItemKey.of(virtualItem), 1, Actionable.MODULATE, getActionSource()) == 1) {
+                                    var storage = getInternalInventory()[index].shareInventory.storage;
+                                    var slot = storage.getStackInSlot(0);
+                                    if (!slot.isEmpty()) grid.getStorageService().getInventory().insert(AEItemKey.of(slot), slot.getCount(), Actionable.MODULATE, getActionSource());
+                                    getInternalInventory()[index].shareInventory.storage.setStackInSlot(0, virtualItem);
+                                    continue;
+                                }
+                            }
+                        }
+                    }
+                }
+                input.add(stack);
+            }
+            if (input.size() < sparseInput.length) {
+                AEItemKey key = AEItemKey.of(PatternDetailsHelper.encodeProcessingPattern(input.toArray(new GenericStack[0]), processingPattern.getSparseOutputs()));
+                synchronized (MyPatternDetailsHelper.CACHE) {
+                    return MyPatternDetailsHelper.CACHE.computeIfAbsent(key, k -> new AEProcessingPattern(key));
+                }
+            }
+        }
+        return pattern;
     }
 
     @Override
@@ -309,8 +351,8 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
         private Runnable onContentsChanged = () -> {};
         public final Object2LongOpenCustomHashMap<ItemStack> itemInventory = new Object2LongOpenCustomHashMap<>(ItemStackHashStrategy.ITEM);
         public final Object2LongOpenHashMap<FluidStack> fluidInventory = new Object2LongOpenHashMap<>();
-        private List<ItemStack> itemStacks = null;
-        private List<FluidStack> fluidStacks = null;
+        private Object[] itemStacks = null;
+        private Object[] fluidStacks = null;
 
         public final NotifiableNotConsumableItemHandler shareInventory;
         public final NotifiableNotConsumableFluidHandler shareTank;
@@ -340,32 +382,26 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
             onContentsChanged.run();
         }
 
-        public List<ItemStack> getItems() {
+        public Object[] getItems() {
             if (itemStacks == null) {
                 List<ItemStack> stacks = new ObjectArrayList<>(itemInventory.size());
-                for (ObjectIterator<Object2LongMap.Entry<ItemStack>> it = itemInventory.object2LongEntrySet().fastIterator(); it.hasNext();) {
-                    Object2LongMap.Entry<ItemStack> e = it.next();
-                    long count = e.getLongValue();
-                    if (count < 1) it.remove();
-                    e.getKey().setCount(MathUtil.saturatedCast(count));
+                itemInventory.object2LongEntrySet().fastForEach(e -> {
+                    e.getKey().setCount(MathUtil.saturatedCast(e.getLongValue()));
                     stacks.add(e.getKey());
-                }
-                itemStacks = stacks;
+                });
+                itemStacks = stacks.toArray();
             }
             return itemStacks;
         }
 
-        public List<FluidStack> getFluids() {
+        public Object[] getFluids() {
             if (fluidStacks == null) {
                 List<FluidStack> stacks = new ObjectArrayList<>(fluidInventory.size());
-                for (ObjectIterator<Object2LongMap.Entry<FluidStack>> it = fluidInventory.object2LongEntrySet().fastIterator(); it.hasNext();) {
-                    Object2LongMap.Entry<FluidStack> e = it.next();
-                    long count = e.getLongValue();
-                    if (count < 1) it.remove();
-                    e.getKey().setAmount(MathUtil.saturatedCast(count));
+                fluidInventory.object2LongEntrySet().fastForEach(e -> {
+                    e.getKey().setAmount(MathUtil.saturatedCast(e.getLongValue()));
                     stacks.add(e.getKey());
-                }
-                fluidStacks = stacks;
+                });
+                fluidStacks = stacks.toArray();
             }
             return fluidStacks;
         }
@@ -455,18 +491,13 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
                 else amount = 1;
                 for (var it2 = itemInventory.object2LongEntrySet().fastIterator(); it2.hasNext();) {
                     var entry = it2.next();
-                    var stack = entry.getKey();
+                    if (!ingredient.test(entry.getKey())) continue;
                     var count = entry.getLongValue();
-                    if (stack.isEmpty() || count == 0) {
-                        it2.remove();
-                        continue;
-                    }
-                    if (!ingredient.test(stack)) continue;
                     long extracted = Math.min(count, amount);
                     if (!simulate && extracted > 0) {
                         changed = true;
                         count -= extracted;
-                        if (count == 0) it2.remove();
+                        if (count < 1) it2.remove();
                         else entry.setValue(count);
                     }
                     amount -= extracted;
@@ -495,18 +526,13 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
                 long amount = FastFluidIngredient.getAmount(ingredient);
                 for (var it2 = fluidInventory.object2LongEntrySet().fastIterator(); it2.hasNext();) {
                     var entry = it2.next();
-                    var stack = entry.getKey();
+                    if (!ingredient.test(entry.getKey())) continue;
                     var count = entry.getLongValue();
-                    if (stack.isEmpty() || count == 0) {
-                        it2.remove();
-                        continue;
-                    }
-                    if (!ingredient.test(stack)) continue;
                     long extracted = Math.min(count, amount);
                     if (!simulate && extracted > 0) {
                         changed = true;
                         count -= extracted;
-                        if (count == 0) it2.remove();
+                        if (count < 1) it2.remove();
                         else entry.setValue(count);
                     }
                     amount -= extracted;

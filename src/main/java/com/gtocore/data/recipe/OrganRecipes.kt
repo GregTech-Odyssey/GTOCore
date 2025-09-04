@@ -7,7 +7,6 @@ import com.gtocore.common.data.GTOOrganItems
 import com.gtocore.common.data.GTORecipeTypes
 import com.gtocore.common.item.misc.OrganType
 
-import net.minecraft.data.recipes.FinishedRecipe
 import net.minecraft.tags.TagKey
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.Items
@@ -22,16 +21,14 @@ import com.gregtechceu.gtceu.data.recipe.GTCraftingComponents
 import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper
 import com.gtolib.GTOCore
 
-import java.util.function.Consumer
 import java.util.function.IntConsumer
 import java.util.function.IntUnaryOperator
 import java.util.stream.IntStream
 
 object OrganRecipes {
-    fun init(provider: Consumer<FinishedRecipe?>?) {
+    fun init() {
         // 内脏编辑器
         VanillaRecipeHelper.addShapedRecipe(
-            provider,
             GTOCore.id("organ_modifier"),
             GTOOrganItems.ORGAN_MODIFIER.asStack(),
             " B ",
@@ -44,7 +41,6 @@ object OrganRecipes {
             'F', CustomTags.MV_CIRCUITS,
         )
         VanillaRecipeHelper.addShapedRecipe(
-            provider,
             GTOCore.id("mana_steel_wing"),
             GTOOrganItems.MANA_STEEL_WING.asStack(),
             "ABA",
@@ -56,7 +52,6 @@ object OrganRecipes {
             'D', GTOItems.COLORFUL_MYSTICAL_FLOWER.asItem(),
         )
         VanillaRecipeHelper.addShapedRecipe(
-            provider,
             GTOCore.id("fairy_wing"),
             GTOOrganItems.FAIRY_WING.asStack(),
             "ABA",
@@ -68,7 +63,6 @@ object OrganRecipes {
             'D', GTOItems.COLORFUL_MYSTICAL_FLOWER.asItem(),
         )
         VanillaRecipeHelper.addShapedRecipe(
-            provider,
             GTOCore.id("mechanical_wing"),
             GTOOrganItems.MECHANICAL_WING.asStack(),
             "ABA",

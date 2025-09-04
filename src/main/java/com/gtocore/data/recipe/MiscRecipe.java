@@ -24,12 +24,12 @@ import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.machine.multiblock.CleanroomType;
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidContainerIngredient;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
+import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMaterialItems;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
 import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
 
-import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.ItemStack;
@@ -43,7 +43,6 @@ import net.minecraftforge.fluids.FluidStack;
 import com.enderio.base.common.init.EIOFluids;
 
 import java.util.Arrays;
-import java.util.function.Consumer;
 
 import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
@@ -53,7 +52,7 @@ import static com.gtocore.common.data.GTORecipeTypes.*;
 
 public final class MiscRecipe {
 
-    public static void init(Consumer<FinishedRecipe> provider) {
+    public static void init() {
         int i = 0;
         for (ResourceLocation layer : Arrays.stream(Dimension.values()).filter(Dimension::canGenerate).map(Dimension::getLocation).toList()) {
             i++;
@@ -76,29 +75,29 @@ public final class MiscRecipe {
                 .duration(20)
                 .save());
 
-        VanillaRecipeHelper.addShapedRecipe(provider, GTOCore.id("iron_bucket"), new ItemStack(Items.BUCKET), "ChC", " X ", 'X',
+        VanillaRecipeHelper.addShapedRecipe(GTOCore.id("iron_bucket"), new ItemStack(Items.BUCKET), "ChC", " X ", 'X',
                 new MaterialEntry(plate, Iron), 'C', new MaterialEntry(GTOTagPrefix.CURVED_PLATE, Iron));
 
-        VanillaRecipeHelper.addBlastingRecipe(provider, GTOCore.id("hot_iron_ingot"), ChemicalHelper.getTag(ingot, Iron), MultiStepItemHelper.toMultiStepItem(GTOItems.HOT_IRON_INGOT.asStack(), 1, 2), 0);
+        VanillaRecipeHelper.addBlastingRecipe(GTOCore.id("hot_iron_ingot"), ChemicalHelper.getTag(ingot, Iron), MultiStepItemHelper.toMultiStepItem(GTOItems.HOT_IRON_INGOT.asStack(), 1, 2), 0);
 
-        VanillaRecipeHelper.addShapedRecipe(provider, GTOCore.id("hot_iron_ingot"), MultiStepItemHelper.toMultiStepItem(GTOItems.HOT_IRON_INGOT.asStack(), 2, 2), "h", "H", 'H', MultiStepItemHelper.toMultiStepItem(GTOItems.HOT_IRON_INGOT.asStack(), 1, 2));
-        VanillaRecipeHelper.addShapedRecipe(provider, GTOCore.id("wrought_iron_ingot"), ChemicalHelper.get(ingot, WroughtIron), "h", "H", 'H', MultiStepItemHelper.toMultiStepItem(GTOItems.HOT_IRON_INGOT.asStack(), 2, 2));
+        VanillaRecipeHelper.addShapedRecipe(GTOCore.id("hot_iron_ingot"), MultiStepItemHelper.toMultiStepItem(GTOItems.HOT_IRON_INGOT.asStack(), 2, 2), "h", "H", 'H', MultiStepItemHelper.toMultiStepItem(GTOItems.HOT_IRON_INGOT.asStack(), 1, 2));
+        VanillaRecipeHelper.addShapedRecipe(GTOCore.id("wrought_iron_ingot"), ChemicalHelper.get(ingot, WroughtIron), "h", "H", 'H', MultiStepItemHelper.toMultiStepItem(GTOItems.HOT_IRON_INGOT.asStack(), 2, 2));
 
-        VanillaRecipeHelper.addShapedRecipe(provider, GTOCore.id("raw_vacuum_tube"), GTOItems.RAW_VACUUM_TUBE.asStack(),
+        VanillaRecipeHelper.addShapedRecipe(GTOCore.id("raw_vacuum_tube"), GTOItems.RAW_VACUUM_TUBE.asStack(),
                 "PTP", "WWW",
                 'P', new MaterialEntry(bolt, Steel),
                 'T', GLASS_TUBE.asStack(),
                 'W', new MaterialEntry(wireGtSingle, Copper));
 
-        VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("air_vent"), GTOItems.AIR_VENT.asStack(),
+        VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("air_vent"), GTOItems.AIR_VENT.asStack(),
                 "RRR", "ROR", "RRR",
                 'R', new MaterialEntry(rod, Steel),
                 'O', new MaterialEntry(rotor, Iron));
 
-        VanillaRecipeHelper.addShapedEnergyTransferRecipe(provider, true, true, true, GTOCore.id("hv_vajra"), Ingredient.of(POWER_UNIT_HV.asItem()), GTMaterialItems.TOOL_ITEMS.get(GTOMaterials.DarkSteel, GTOToolType.VAJRA_HV).get().get(0, GTCapabilityHelper.getElectricItem(POWER_UNIT_HV.asStack()).getMaxCharge()), "PEP", "CFC", "RUR", 'E', EMITTER_HV.asStack(), 'F', FIELD_GENERATOR_HV.asStack(), 'P', new MaterialEntry(plateDouble, GTOMaterials.DarkSteel), 'R', new MaterialEntry(plateDense, Steel), 'C', CARBON_FIBER_PLATE.asStack(), 'U', POWER_UNIT_HV.asItem());
-        VanillaRecipeHelper.addShapedEnergyTransferRecipe(provider, true, true, true, GTOCore.id("ev_vajra"), Ingredient.of(POWER_UNIT_EV.asItem()), GTMaterialItems.TOOL_ITEMS.get(GTOMaterials.Ostrum, GTOToolType.VAJRA_EV).get().get(0, GTCapabilityHelper.getElectricItem(POWER_UNIT_EV.asStack()).getMaxCharge()), "PEP", "CFC", "RUR", 'E', EMITTER_HV.asStack(), 'F', FIELD_GENERATOR_EV.asStack(), 'P', new MaterialEntry(plateDouble, GTOMaterials.Ostrum), 'R', new MaterialEntry(plateDense, TungstenSteel), 'C', CARBON_FIBER_PLATE.asStack(), 'U', POWER_UNIT_EV.asItem());
-        VanillaRecipeHelper.addShapedEnergyTransferRecipe(provider, true, true, true, GTOCore.id("iv_vajra"), Ingredient.of(POWER_UNIT_IV.asItem()), GTMaterialItems.TOOL_ITEMS.get(GTOMaterials.Enderium, GTOToolType.VAJRA_IV).get().get(0, GTCapabilityHelper.getElectricItem(POWER_UNIT_IV.asStack()).getMaxCharge()), "PEP", "CFC", "RUR", 'E', EMITTER_HV.asStack(), 'F', FIELD_GENERATOR_IV.asStack(), 'P', new MaterialEntry(plateDouble, GTOMaterials.Enderium), 'R', new MaterialEntry(plateDense, NaquadahAlloy), 'C', CARBON_FIBER_PLATE.asStack(), 'U', POWER_UNIT_IV.asItem());
-        VanillaRecipeHelper.addShapedFluidContainerRecipe(provider, "bucket_of_concrete", new ItemStack(Concrete.getBucket()),
+        VanillaRecipeHelper.addShapedEnergyTransferRecipe(true, true, true, GTOCore.id("hv_vajra"), Ingredient.of(POWER_UNIT_HV.asItem()), GTMaterialItems.TOOL_ITEMS.get(GTOMaterials.DarkSteel, GTOToolType.VAJRA_HV).get().get(0, GTCapabilityHelper.getElectricItem(POWER_UNIT_HV.asStack()).getMaxCharge()), "PEP", "CFC", "RUR", 'E', EMITTER_HV.asStack(), 'F', FIELD_GENERATOR_HV.asStack(), 'P', new MaterialEntry(plateDouble, GTOMaterials.DarkSteel), 'R', new MaterialEntry(plateDense, Steel), 'C', CARBON_FIBER_PLATE.asStack(), 'U', POWER_UNIT_HV.asItem());
+        VanillaRecipeHelper.addShapedEnergyTransferRecipe(true, true, true, GTOCore.id("ev_vajra"), Ingredient.of(POWER_UNIT_EV.asItem()), GTMaterialItems.TOOL_ITEMS.get(GTOMaterials.Ostrum, GTOToolType.VAJRA_EV).get().get(0, GTCapabilityHelper.getElectricItem(POWER_UNIT_EV.asStack()).getMaxCharge()), "PEP", "CFC", "RUR", 'E', EMITTER_HV.asStack(), 'F', FIELD_GENERATOR_EV.asStack(), 'P', new MaterialEntry(plateDouble, GTOMaterials.Ostrum), 'R', new MaterialEntry(plateDense, TungstenSteel), 'C', CARBON_FIBER_PLATE.asStack(), 'U', POWER_UNIT_EV.asItem());
+        VanillaRecipeHelper.addShapedEnergyTransferRecipe(true, true, true, GTOCore.id("iv_vajra"), Ingredient.of(POWER_UNIT_IV.asItem()), GTMaterialItems.TOOL_ITEMS.get(GTOMaterials.Enderium, GTOToolType.VAJRA_IV).get().get(0, GTCapabilityHelper.getElectricItem(POWER_UNIT_IV.asStack()).getMaxCharge()), "PEP", "CFC", "RUR", 'E', EMITTER_HV.asStack(), 'F', FIELD_GENERATOR_IV.asStack(), 'P', new MaterialEntry(plateDouble, GTOMaterials.Enderium), 'R', new MaterialEntry(plateDense, NaquadahAlloy), 'C', CARBON_FIBER_PLATE.asStack(), 'U', POWER_UNIT_IV.asItem());
+        VanillaRecipeHelper.addShapedFluidContainerRecipe("bucket_of_concrete", new ItemStack(Concrete.getBucket()),
                 "CBS", "CWQ", " L ",
                 'C', new MaterialEntry(dust, Calcite),
                 'S', new MaterialEntry(dust, Stone),
@@ -131,26 +130,60 @@ public final class MiscRecipe {
                 .addData("tier", 3)
                 .save();
 
-        WOOD_DISTILLATION_RECIPES.recipeBuilder("wood_distillation_recipes")
+        WOOD_DISTILLATION_RECIPES.builder("muhuayihaodianlu")
                 .inputItems(ItemTags.LOGS, 16)
-                .inputFluids(Nitrogen.getFluid(1000))
-                .outputItems(dust, DarkAsh, 8)
-                .outputFluids(Water.getFluid(800))
-                .outputFluids(Methanol.getFluid(480))
-                .outputFluids(Benzene.getFluid(350))
-                .outputFluids(CarbonMonoxide.getFluid(340))
-                .outputFluids(Creosote.getFluid(300))
-                .outputFluids(Dimethylbenzene.getFluid(240))
-                .outputFluids(AceticAcid.getFluid(160))
-                .outputFluids(Methane.getFluid(130))
-                .outputFluids(Acetone.getFluid(80))
-                .outputFluids(Phenol.getFluid(75))
-                .outputFluids(Toluene.getFluid(75))
-                .outputFluids(Ethylene.getFluid(20))
-                .outputFluids(Hydrogen.getFluid(20))
-                .outputFluids(MethylAcetate.getFluid(16))
-                .outputFluids(Ethanol.getFluid(16))
-                .duration(200).EUt(VA[MV])
+                .outputItems(TagPrefix.dust, GTMaterials.Ash, 2)
+                .inputFluids(GTMaterials.Nitrogen, 1000)
+                .outputFluids(GTMaterials.Benzene, 1050)
+                .outputFluids(GTMaterials.Dimethylbenzene, 1000)
+                .outputFluids(GTMaterials.Creosote, 900)
+                .outputFluids(GTMaterials.CarbonDioxide, 490)
+                .outputFluids(GTMaterials.Methanol, 480)
+                .outputFluids(GTMaterials.CarbonMonoxide, 340)
+                .outputFluids(GTMaterials.Phenol, 225)
+                .outputFluids(GTMaterials.Toluene, 225)
+                .outputFluids(GTMaterials.AceticAcid, 160)
+                .outputFluids(GTMaterials.Methane, 130)
+                .outputFluids(GTMaterials.Acetone, 80)
+                .outputFluids(GTMaterials.Ethylene, 20)
+                .outputFluids(GTMaterials.Hydrogen, 20)
+                .outputFluids(GTMaterials.MethylAcetate, 16)
+                .outputFluids(GTMaterials.Ethanol, 16)
+                .circuitMeta(1)
+                .EUt(120)
+                .duration(300)
+                .save();
+
+        WOOD_DISTILLATION_RECIPES.builder("muhuaerhaodianlu")
+                .inputItems(ItemTags.LOGS, 16)
+                .outputItems(TagPrefix.dust, GTMaterials.Ash, 2)
+                .inputFluids(GTMaterials.Steam, 1000)
+                .outputFluids(GTMaterials.Ammonia, 600)
+                .outputFluids(GTMaterials.CarbonDioxide, 500)
+                .outputFluids(GTMaterials.Ethylbenzene, 500)
+                .outputFluids(GTMaterials.Naphthalene, 410)
+                .outputFluids(GTMaterials.HydrogenSulfide, 307)
+                .outputFluids(GTMaterials.Creosote, 205)
+                .outputFluids(GTMaterials.Phenol, 102)
+                .circuitMeta(2)
+                .EUt(120)
+                .duration(300)
+                .save();
+
+        WOOD_DISTILLATION_RECIPES.builder("muhuasanhaodianlu")
+                .inputItems(ItemTags.LOGS, 16)
+                .outputItems(GTItems.FERTILIZER.asStack(6))
+                .inputFluids(GTMaterials.Water, 6000)
+                .outputFluids(GTMaterials.Methane, 3300)
+                .outputFluids(GTMaterials.CarbonDioxide, 2200)
+                .outputFluids(GTMaterials.Methanol, 825)
+                .outputFluids(GTMaterials.Ethanol, 825)
+                .outputFluids(GTMaterials.Creosote, 560)
+                .outputFluids(GTMaterials.Ammonia, 550)
+                .outputFluids(GTMaterials.AceticAcid, 137)
+                .circuitMeta(3)
+                .EUt(120)
+                .duration(300)
                 .save();
 
         AUTOCLAVE_RECIPES.recipeBuilder("water_agar_mix").EUt(VA[HV]).duration(600)
@@ -217,7 +250,7 @@ public final class MiscRecipe {
                 .duration(200)
                 .EUt(VHA[LV])
                 .dimension(GTODimensions.OVERWORLD)
-                .save(provider);
+                .save();
 
         AIR_SCRUBBER_RECIPES.recipeBuilder("void_scrubber")
                 .circuitMeta(11)
@@ -225,7 +258,7 @@ public final class MiscRecipe {
                 .duration(200)
                 .EUt(VHA[LV])
                 .dimension(GTODimensions.VOID)
-                .save(provider);
+                .save();
 
         AIR_SCRUBBER_RECIPES.recipeBuilder("flat_scrubber")
                 .circuitMeta(12)
@@ -233,7 +266,7 @@ public final class MiscRecipe {
                 .duration(200)
                 .EUt(VHA[LV])
                 .dimension(GTODimensions.FLAT)
-                .save(provider);
+                .save();
 
         AIR_SCRUBBER_RECIPES.recipeBuilder("end_scrubber")
                 .circuitMeta(3)
@@ -242,7 +275,7 @@ public final class MiscRecipe {
                 .duration(200)
                 .EUt(VHA[HV])
                 .dimension(GTODimensions.THE_END)
-                .save(provider);
+                .save();
 
         AIR_SCRUBBER_RECIPES.recipeBuilder("nether_scrubber")
                 .circuitMeta(2)
@@ -251,7 +284,7 @@ public final class MiscRecipe {
                 .duration(200)
                 .EUt(VHA[MV])
                 .dimension(GTODimensions.THE_NETHER)
-                .save(provider);
+                .save();
 
         AIR_SCRUBBER_RECIPES.recipeBuilder("otherside_scrubber")
                 .circuitMeta(4)
@@ -260,7 +293,7 @@ public final class MiscRecipe {
                 .duration(200)
                 .EUt(VHA[EV])
                 .dimension(GTODimensions.OTHERSIDE)
-                .save(provider);
+                .save();
 
         ASSEMBLER_RECIPES.recipeBuilder("hopper_iron").EUt(2).inputItems(Tags.Items.CHESTS_WOODEN)
                 .inputItems(plate, Iron, 5).circuitMeta(4).outputItems(new ItemStack(Blocks.HOPPER)).duration(800)
@@ -301,13 +334,13 @@ public final class MiscRecipe {
                 .inputItems(pipeNormalItem, Brass)
                 .inputItems(Items.ENDER_PEARL)
                 .outputItems(COVER_ITEM_VOIDING)
-                .duration(100).EUt(VA[LV]).save(provider);
+                .duration(100).EUt(VA[LV]).save();
 
         ASSEMBLER_RECIPES.recipeBuilder("cover_item_voiding_advanced")
                 .inputItems(COVER_ITEM_VOIDING)
                 .inputItems(CustomTags.MV_CIRCUITS, 1)
                 .outputItems(COVER_ITEM_VOIDING_ADVANCED)
-                .duration(100).EUt(VA[LV]).save(provider);
+                .duration(100).EUt(VA[LV]).save();
 
         ASSEMBLER_RECIPES.recipeBuilder("cover_fluid_voiding")
                 .inputItems(screw, Steel, 2)
@@ -315,13 +348,13 @@ public final class MiscRecipe {
                 .inputItems(pipeNormalFluid, Bronze)
                 .inputItems(Items.ENDER_PEARL)
                 .outputItems(COVER_FLUID_VOIDING)
-                .duration(100).EUt(VA[LV]).save(provider);
+                .duration(100).EUt(VA[LV]).save();
 
         ASSEMBLER_RECIPES.recipeBuilder("cover_fluid_voiding_advanced")
                 .inputItems(COVER_FLUID_VOIDING)
                 .inputItems(CustomTags.MV_CIRCUITS, 1)
                 .outputItems(COVER_FLUID_VOIDING_ADVANCED)
-                .duration(100).EUt(VA[LV]).save(provider);
+                .duration(100).EUt(VA[LV]).save();
 
         CHEMICAL_RECIPES.builder("plastic_circuit_board_persulfate").duration(600).EUt(VA[LV])
                 .inputItems(PLASTIC_BOARD)

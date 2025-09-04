@@ -10,7 +10,7 @@ import com.gtocore.common.item.armor.SpaceArmorComponentItem;
 import com.gtocore.common.item.misc.GrassHarvesterBehaviour;
 
 import com.gtolib.GTOCore;
-import com.gtolib.ae2.me2in1.Wireless;
+import com.gtolib.api.ae2.me2in1.Wireless;
 import com.gtolib.api.annotation.NewDataAttributes;
 import com.gtolib.api.annotation.component_builder.ComponentBuilder;
 import com.gtolib.api.annotation.component_builder.ComponentSupplier;
@@ -48,6 +48,7 @@ import com.lowdragmc.lowdraglib.utils.LocalizationUtils;
 import com.tterrag.registrate.util.entry.ItemEntry;
 import com.tterrag.registrate.util.nullness.NonNullBiConsumer;
 import earth.terrarium.adastra.common.registry.ModFluids;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -203,6 +204,14 @@ public final class GTOItems {
     public static final ItemEntry<Item> MAX_EMITTER = registerLang("max_emitter", "MAX Emitte", "§4§lMAX§r发射器");
     public static final ItemEntry<Item> MAX_SENSOR = registerLang("max_sensor", "MAX Sensor", "§4§lMAX§r传感器");
 
+    public static final ItemEntry<Item> INTEGRATED_CONTROL_CORE_UV = registerLang("uv_integrated_control_core", "§3UV§r Integrated Control Core", "§3UV§r集控核心");
+    public static final ItemEntry<Item> INTEGRATED_CONTROL_CORE_UHV = registerLang("uhv_integrated_control_core", "§4UHV§r Integrated Control Core", "§4UHV§r集控核心");
+    public static final ItemEntry<Item> INTEGRATED_CONTROL_CORE_UEV = registerLang("uev_integrated_control_core", "§aUEV§r Integrated Control Core", "§aUEV§r集控核心");
+    public static final ItemEntry<Item> INTEGRATED_CONTROL_CORE_UIV = registerLang("uiv_integrated_control_core", "§2UIV§r Integrated Control Core", "§2UIV§r集控核心");
+    public static final ItemEntry<Item> INTEGRATED_CONTROL_CORE_UXV = registerLang("uxv_integrated_control_core", "§eUXV§r Integrated Control Core", "§eUXV§r集控核心");
+    public static final ItemEntry<Item> INTEGRATED_CONTROL_CORE_OpV = registerLang("opv_integrated_control_core", "§9§lOpV§r Integrated Control Core", "§9§lOpV§r集控核心");
+    public static final ItemEntry<Item> INTEGRATED_CONTROL_CORE_MAX = registerLang("max_integrated_control_core", "§4§lMAX§r Integrated Control Core", "§4§lMAX§r集控核心");
+
     public static final ItemEntry<ComponentItem> ULV_ELECTRIC_PUMP = item("ulv_electric_pump", "ULV电动泵", ComponentItem::create)
             .lang("ULV Electric Pump")
             .onRegister(attach(new CoverPlaceBehavior(GTOCovers.ELECTRIC_PUMP_ULV)))
@@ -316,15 +325,15 @@ public final class GTOItems {
     public static final ItemEntry<ComponentItem> TIME_TWISTER = item("time_twister", "时间扭曲者", ComponentItem::create)
             .toolTips(ComponentBuilder.create()
                     .addLines(NewDataAttributes.MIRACULOUS_TOOLS.create(CNEN.create("时间扭曲者", "Time Twister")), a -> a)
-                    .addLines(NewDataAttributes.EMPTY_WITH_BAR.create(CNEN.create("对普通方块实体的加速：", "Acceleration for normal block entities")), StyleBuilder::setGold)
-                    .addLines(NewDataAttributes.EMPTY_WITH_TAB.create(CNEN.create("普通点击：消耗8192 EU能量，使方块实体额外执行200个游戏刻(tick)", "Consume 8192 EU energy, make the block entity execute 200 ticks extra")), StyleBuilder::setAqua)
-                    .addLines(NewDataAttributes.EMPTY_WITH_TAB.create(CNEN.create("Shift点击：消耗819200 EU能量，持续100刻内加速目标方块", "Consume 819200 EU energy, accelerate the target block for 100 ticks")), StyleBuilder::setAqua)
-                    .addLines(NewDataAttributes.EMPTY_WITH_BAR.create(CNEN.create("对GT机器的加速：", "Acceleration for GT machines")), StyleBuilder::setGold)
-                    .addLines(NewDataAttributes.EMPTY_WITH_TAB.create(CNEN.create("普通点击：消耗相应EU能量，使当前正在工作的机器进度立即增加50%", "Consume corresponding EU energy, make the current working machine progress increase by 50% immediately")), StyleBuilder::setAqua)
-                    .addLines(NewDataAttributes.EMPTY_WITH_TAB.create(CNEN.create("Shift点击：消耗819200 EU能量，持续100刻内加速GT机器", "Consume 819200 EU energy, accelerate GT machines for 100 ticks")), StyleBuilder::setAqua)
-                    .addLines(NewDataAttributes.EMPTY_WITH_BAR.create(CNEN.create("能量消耗：", "Energy consumption")), StyleBuilder::setGold)
+                    .addLines(NewDataAttributes.EMPTY_WITH_BAR.create(CNEN.create("启动加速：", "Acceleration for normal block entities:")), StyleBuilder::setGold)
+                    .addLines(NewDataAttributes.EMPTY_WITH_TAB.create(CNEN.create("普通点击：消耗8192 EU能量，加速一次", "Normal click: Consume 8192 EU energy, accelerate once (200 extra ticks)")), StyleBuilder::setAqua)
+                    .addLines(NewDataAttributes.EMPTY_WITH_TAB.create(CNEN.create("Shift点击：消耗819200 EU能量，持续100刻内加速目标方块，每tick一次", "Shift click: Consume 819200 EU energy, accelerate the target block once per tick for 100 ticks")), StyleBuilder::setAqua)
+                    .addLines(NewDataAttributes.EMPTY_WITH_BAR.create(CNEN.create("加速方式：", "Acceleration methods:")), StyleBuilder::setGold)
+                    .addLines(NewDataAttributes.EMPTY_WITH_TAB.create(CNEN.create("普通机器：不额外消耗EU能量，每次200tick", "For normal machines: No extra EU consumption, 200 ticks per acceleration")), StyleBuilder::setAqua)
+                    .addLines(NewDataAttributes.EMPTY_WITH_TAB.create(CNEN.create("GT机器：根据模式消耗相应倍数EU能量，每次使当前正在工作的机器进度立即增加最多50%", "For GT machines: Consume EU energy corresponding to the mode, immediately increase current progress by up to 50% per use")), StyleBuilder::setAqua)
+                    .addLines(NewDataAttributes.EMPTY_WITH_BAR.create(CNEN.create("能量消耗：", "Energy consumption:")), StyleBuilder::setGold)
                     .addLines(NewDataAttributes.EMPTY_WITH_TAB.create(CNEN.create("使用无线能量系统作为能量来源", "Use wireless energy system as energy source")), StyleBuilder::setAqua)
-                    .addLines(NewDataAttributes.EMPTY_WITH_TAB.create(CNEN.create("不同操作消耗不同数量的EU", "Different operations consume different numbers of EU")), StyleBuilder::setAqua)
+                    .addLines(NewDataAttributes.EMPTY_WITH_TAB.create(CNEN.create("不同操作消耗不同数量的EU", "Different operations consume different amounts of EU")), StyleBuilder::setAqua)
                     .build().getArray())
             .properties(p -> p.stacksTo(1))
             .onRegister(attach(TimeTwisterBehavior.INSTANCE))
@@ -898,6 +907,7 @@ public final class GTOItems {
     public static final ItemEntry<Item> GAIA_CORE = register("gaia_core", "§e盖亚之核");
     public static final ItemEntry<Item> UNSTABLE_GAIA_SOUL = register("unstable_gaia_soul", "§e不稳定的盖亚之魂");
     public static final ItemEntry<Item> WILDEN_SLATE = register("wilden_slate", "§d荒野石板");
+    public static final ItemEntry<Item> PHILOSOPHERS_STONE = register("philosophers_stone", "贤者之石");
 
     public static final ItemEntry<Item> RO_MEMBRANE = register("ro_membrane", "ro膜");
     public static final ItemEntry<Item> NON_WOVEN_FABRIC = register("non_woven_fabric", "无纺布");
@@ -907,7 +917,7 @@ public final class GTOItems {
 
     public static final ItemEntry<SpaceArmorComponentItem> SPACE_NANOMUSCLE_CHESTPLATE = item("space_nanomuscle_chestplate", "纳米肌体™套装太空胸甲",
             (p) -> new SpaceArmorComponentItem(GTArmorMaterials.ARMOR,
-                    ArmorItem.Type.CHESTPLATE, 5000, p)
+                    ArmorItem.Type.CHESTPLATE, 8000, p)
                     .setArmorLogic(new NanoMuscleSuite(
                             ArmorItem.Type.CHESTPLATE,
                             512,
@@ -923,7 +933,7 @@ public final class GTOItems {
     public static final ItemEntry<SpaceArmorComponentItem> SPACE_ADVANCED_NANOMUSCLE_CHESTPLATE = item("space_advanced_nanomuscle_chestplate", "纳米肌体™进阶套装太空胸甲",
             (p) -> new SpaceArmorComponentItem(
                     GTArmorMaterials.ARMOR,
-                    ArmorItem.Type.CHESTPLATE, 10000, p)
+                    ArmorItem.Type.CHESTPLATE, 16000, p)
                     .setArmorLogic(new AdvancedNanoMuscleSuite(
                             512,
                             12_800_000L * (long) Math.max(1, Math.pow(4, ConfigHolder.INSTANCE.tools.voltageTierAdvNanoSuit - 3)),
@@ -938,7 +948,7 @@ public final class GTOItems {
     public static final ItemEntry<SpaceArmorComponentItem> SPACE_QUARKTECH_CHESTPLATE = item("space_quarktech_chestplate", "夸克高科™套装太空胸甲",
             (p) -> new SpaceArmorComponentItem(
                     GTArmorMaterials.ARMOR,
-                    ArmorItem.Type.CHESTPLATE, 20000, p)
+                    ArmorItem.Type.CHESTPLATE, 32000, p)
                     .setArmorLogic(new QuarkTechSuite(
                             ArmorItem.Type.CHESTPLATE,
                             8192,
@@ -953,7 +963,7 @@ public final class GTOItems {
 
     public static final ItemEntry<SpaceArmorComponentItem> SPACE_ADVANCED_QUARKTECH_CHESTPLATE = item("space_advanced_quarktech_chestplate", "夸克高科™进阶套装太空胸甲",
             (p) -> new SpaceArmorComponentItem(GTArmorMaterials.ARMOR,
-                    ArmorItem.Type.CHESTPLATE, 50000, p)
+                    ArmorItem.Type.CHESTPLATE, 128000, p)
                     .setArmorLogic(new AdvancedQuarkTechSuite(
                             8192,
                             1_000_000_000L * (long) Math.max(1, Math.pow(4, ConfigHolder.INSTANCE.tools.voltageTierAdvQuarkTech - 6)),
@@ -1002,11 +1012,6 @@ public final class GTOItems {
     public static final ItemEntry<Item> DISPOSABLE_SAW_MOLD = register("disposable_saw_mold", "一次性锯模具");
     public static final ItemEntry<ComponentItem> GRASS_HARVESTER = item("grass_harvester", "割草镰刀", ComponentItem::create).properties(p -> p.stacksTo(1).durability(128).setNoRepair()).onRegister(attach(GrassHarvesterBehaviour.INSTANCE)).register();
 
-    // public static ItemEntry<SteamProspectorBehavior.ProspectorItem> PROSPECTOR_STEAM = item("prospector.steam",
-    // "原始人探矿仪", SteamProspectorBehavior.ProspectorItem::new)
-    // .properties(p -> p.stacksTo(1))
-    // .onRegister(attach(new SteamProspectorBehavior()))
-    // .register();
     public static ItemEntry<ComponentItem> PROSPECTOR_MANA_ULV = item("prospector.mana_ulv", "魔力钢探矿仪", ComponentItem::create)
             .properties(p -> p.stacksTo(1))
             .onRegister(attach(ManaProspectorBehavior.create(ManaProspectorBehavior.ULV)))
@@ -1023,5 +1028,27 @@ public final class GTOItems {
     public static final ItemEntry<ComponentItem> COORDINATE_CARD = item("coordinate_card", "坐标信息卡", ComponentItem::create)
             .properties(p -> p.stacksTo(1))
             .onRegister(attach(new CoordinateCardBehavior()))
+            .register();
+
+    @SuppressWarnings("unchecked")
+    public static final ItemEntry<Item> AFFIX_CANVAS = (ItemEntry<Item>) (ItemEntry<? extends Item>) item("affix_canvas", "铭刻之布", p -> new Item(p) {
+
+        @Override
+        public boolean isFoil(@NotNull ItemStack stack) {
+            return true;
+        }
+    })
+            .properties(p -> p.stacksTo(1).rarity(Rarity.UNCOMMON))
+            .register();
+
+    public static final ItemEntry<ApothItem> ENCHANTMENT_ESSENCE = item("enchantment_essence", "附魔精粹", ApothItem::create)
+            .properties(p -> p.stacksTo(16).rarity(Rarity.UNCOMMON))
+            .color(() -> ApothItem::color)
+            .model(NonNullBiConsumer.noop())
+            .register();
+    public static final ItemEntry<ApothItem> AFFIX_ESSENCE = item("affix_essence", "刻印精粹", ApothItem::create)
+            .properties(p -> p.stacksTo(16).rarity(Rarity.UNCOMMON))
+            .color(() -> ApothItem::color)
+            .model(NonNullBiConsumer.noop())
             .register();
 }

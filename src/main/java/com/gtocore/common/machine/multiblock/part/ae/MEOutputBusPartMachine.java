@@ -4,13 +4,14 @@ import com.gtolib.api.machine.trait.InaccessibleInfiniteHandler;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
-import com.gregtechceu.gtceu.api.machine.feature.IInteractedMachine;
+import com.gregtechceu.gtceu.api.gui.fancy.ConfiguratorPanel;
 import com.gregtechceu.gtceu.integration.ae2.gui.widget.list.AEListGridWidget;
 import com.gregtechceu.gtceu.integration.ae2.utils.KeyStorage;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 
 import appeng.api.config.Actionable;
+import appeng.api.networking.IGridNodeListener;
 import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
@@ -21,18 +22,31 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
-public final class MEOutputBusPartMachine extends MEPartMachine implements IInteractedMachine {
+public final class MEOutputBusPartMachine extends MEPartMachine {
 
     private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
             MEOutputBusPartMachine.class, MEPartMachine.Companion.getMANAGED_FIELD_HOLDER());
 
     @Persisted
     private final KeyStorage internalBuffer;
+    private final InaccessibleInfiniteHandler handler;
 
     public MEOutputBusPartMachine(MetaMachineBlockEntity holder) {
         super(holder, IO.OUT);
         internalBuffer = new KeyStorage();
-        new InaccessibleInfiniteHandler(this, internalBuffer);
+        handler = new InaccessibleInfiniteHandler(this, internalBuffer);
+    }
+
+    @Override
+    public void setWorkingEnabled(boolean workingEnabled) {
+        super.setWorkingEnabled(workingEnabled);
+        handler.updateAutoOutputSubscription();
+    }
+
+    @Override
+    public void onMainNodeStateChanged(IGridNodeListener.State reason) {
+        super.onMainNodeStateChanged(reason);
+        handler.updateAutoOutputSubscription();
     }
 
     @Override
@@ -48,6 +62,11 @@ public final class MEOutputBusPartMachine extends MEPartMachine implements IInte
     @Override
     public ManagedFieldHolder getFieldHolder() {
         return MANAGED_FIELD_HOLDER;
+    }
+
+    @Override
+    public void attachConfigurators(ConfiguratorPanel configuratorPanel) {
+        super.superAttachConfigurators(configuratorPanel);
     }
 
     @Override

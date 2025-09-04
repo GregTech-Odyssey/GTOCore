@@ -4,6 +4,7 @@ import com.gtocore.client.Tooltips;
 import com.gtocore.common.data.GTOBedrockFluids;
 import com.gtocore.data.recipe.research.AnalyzeData;
 
+import com.gtolib.GTOCore;
 import com.gtolib.api.annotation.component_builder.TranslationKeyProvider;
 import com.gtolib.api.annotation.dynamic.DynamicInitialData;
 import com.gtolib.api.data.Dimension;
@@ -164,6 +165,7 @@ public final class LangHandler {
         addCNEN("config.jade.plugin_gtocore.upgrade_module_provider", "[GTOCore] 升级模块信息", "[GTOCore] Upgrade Module Info");
         addCNEN("config.jade.plugin_gtocore.destroy_time_provider", "[GTOCore] 硬度信息", "[GTOCore] Destroy Time Info");
         addCNEN("config.jade.plugin_gtocore.computation_container_provider", "[GTOCore] 算力容器信息", "[GTOCore] Computation Container Info");
+        addCNEN("config.jade.plugin_gtocore.wireless_grid_provider", "[GTOCore] 无线AE网络信息", "[GTOCore] Wireless AE Network Info");
 
         addCNEN("fluid.gtocore.gelid_cryotheum", "极寒之凛冰", "Gelid Cryotheum");
 
@@ -194,7 +196,6 @@ public final class LangHandler {
         addCNEN("planet.gtocore.titan_orbit", "土卫六轨道", "Titan Orbit");
         addCNEN("gui.ad_astra.text.barnarda", "巴纳德", "Barnarda");
 
-        addCNEN("emi.error.not_creative", "需要处于创造模式的管理员才可使用EMI作弊", "EMI cheats can only be used by administrators in creative mode");
         addCNEN("key.ae2.me2in1_wireless_locating_service", "打开ME2合1无线终端", "Open ME2in1 Wireless Terminal");
 
         addCNEN("gtocore.player_exp_status.mysterious_boost_potion.success", "你似乎被赋予了某种神秘能力...", "You seem to be granted with some mysterious ability ......");
@@ -290,6 +291,8 @@ public final class LangHandler {
         addCNEN(MultiblockState.UNINIT_ERROR.translateKey, "机器未初始化", "Machine not initialized");
         addCNEN(MultiblockState.SHARE_ERROR.translateKey, "该方块不能共享", "This block cannot be shared");
         addCNEN(MultiblockState.BANNED_ERROR.translateKey, "该方块被禁止", "This block is banned");
+
+        addCNEN("gtocore.multiblock.invalid.message", "多方块%s位于(%s)未成型！运行 /" + GTOCore.MOD_ID + "c multiblock on 查看详情。", "Multiblock %s at (%s) is not formed! Run /" + GTOCore.MOD_ID + "c multiblock on for details.");
     }
 
     public static void enInitialize(LanguageProvider provider) {

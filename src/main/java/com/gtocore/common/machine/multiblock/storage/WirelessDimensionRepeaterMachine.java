@@ -7,10 +7,7 @@ import com.gtolib.api.machine.multiblock.NoRecipeLogicMultiblockMachine;
 import com.gtolib.api.machine.trait.TierCasingTrait;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
-import com.gregtechceu.gtceu.api.machine.feature.IMachineLife;
 
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
 import com.hepdd.gtmthings.api.misc.WirelessEnergyContainer;
@@ -19,7 +16,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.UUID;
 
-public final class WirelessDimensionRepeaterMachine extends NoRecipeLogicMultiblockMachine implements IMachineLife, IExtendWirelessEnergyContainerHolder, ITierCasingMachine {
+public final class WirelessDimensionRepeaterMachine extends NoRecipeLogicMultiblockMachine implements IExtendWirelessEnergyContainerHolder, ITierCasingMachine {
 
     private WirelessEnergyContainer WirelessEnergyContainerCache;
     private final TierCasingTrait tierCasingTrait;
@@ -74,13 +71,6 @@ public final class WirelessDimensionRepeaterMachine extends NoRecipeLogicMultibl
     public void onUnload() {
         unloadContainer();
         super.onUnload();
-    }
-
-    @Override
-    public void onMachinePlaced(@Nullable LivingEntity player, ItemStack stack) {
-        if (player != null) {
-            setOwnerUUID(player.getUUID());
-        }
     }
 
     @Override

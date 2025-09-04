@@ -16,7 +16,7 @@ import com.gregtechceu.gtceu.api.gui.fancy.TooltipsPanel;
 import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.machine.TieredEnergyMachine;
 import com.gregtechceu.gtceu.api.machine.feature.IFancyUIMachine;
-import com.gregtechceu.gtceu.api.machine.feature.IMachineModifyDrops;
+import com.gregtechceu.gtceu.api.machine.feature.IMachineLife;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableEnergyContainer;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
@@ -52,7 +52,7 @@ import static com.gtolib.api.annotation.dynamic.DynamicInitialValueTypes.KEY_AMP
 @Scanned
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public final class WindMillTurbineMachine extends TieredEnergyMachine implements IMachineModifyDrops, IFancyUIMachine {
+public final class WindMillTurbineMachine extends TieredEnergyMachine implements IMachineLife, IFancyUIMachine {
 
     private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(WindMillTurbineMachine.class, TieredEnergyMachine.MANAGED_FIELD_HOLDER);
     @Persisted
@@ -201,7 +201,7 @@ public final class WindMillTurbineMachine extends TieredEnergyMachine implements
     }
 
     @Override
-    public void onDrops(List<ItemStack> list) {
+    public void onMachineRemoved() {
         clearInventory(inventory.storage);
     }
 

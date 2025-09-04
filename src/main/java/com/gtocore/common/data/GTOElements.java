@@ -58,7 +58,7 @@ public final class GTOElements {
     public static final Element CELESTIALTUNGSTEN = new Element(10000, 10000, -1, null, "celestial_tungsten", "✦◆✦", false);
     public static final Element QUANTANIUM = new Element(800, 800, -1, null, "quantanium", "Qt", false);
     public static final Element HEXAPHASECOPPER = new Element(1536, 5246, -1, null, "hexaphasecopper", "✢", false);
-    public static final Element DESH = new Element(200, 300, -1, null, "desh", "Ds", false);
+    public static final Element DESH = new Element(200, 300, -1, null, "desh", "De", false);
     public static final Element OSTRUM = new Element(300, 300, -1, null, "ostrum", "Ot", false);
     public static final Element CALORITE = new Element(300, 400, -1, null, "calorite", "Ci", false);
     public static final Element CHROMATICGLASS = new Element(300, 400, -1, null, "chromatic_glass", "⌘☯☯⌘", false);

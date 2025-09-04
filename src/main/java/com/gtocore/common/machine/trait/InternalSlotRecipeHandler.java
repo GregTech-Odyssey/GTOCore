@@ -164,6 +164,11 @@ public final class InternalSlotRecipeHandler {
         }
 
         @Override
+        public Object[] getContents() {
+            return slot.getItems();
+        }
+
+        @Override
         public Object2LongOpenCustomHashMap<ItemStack> getItemMap() {
             return slot.itemInventory.isEmpty() ? null : slot.itemInventory;
         }
@@ -227,6 +232,11 @@ public final class InternalSlotRecipeHandler {
         @Override
         public IO getHandlerIO() {
             return IO.IN;
+        }
+
+        @Override
+        public Object[] getContents() {
+            return slot.getFluids();
         }
 
         @Override

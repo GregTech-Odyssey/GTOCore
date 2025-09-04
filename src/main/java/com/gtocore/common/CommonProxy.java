@@ -3,6 +3,7 @@ package com.gtocore.common;
 import com.gtocore.api.machine.part.GTOPartAbility;
 import com.gtocore.common.block.BlockMap;
 import com.gtocore.common.data.*;
+import com.gtocore.common.forge.AnimalsRevengeEvent;
 import com.gtocore.common.forge.ForgeCommonEvent;
 import com.gtocore.config.GTOConfig;
 import com.gtocore.config.SparkRange;
@@ -10,11 +11,10 @@ import com.gtocore.data.Data;
 import com.gtocore.data.Datagen;
 import com.gtocore.integration.ftbquests.EMIRecipeModHelper;
 import com.gtocore.integration.ftbu.AreaShape;
-import com.gtocore.integration.gtmt.AdvancedTerminalBehavior;
 
 import com.gtolib.GTOCore;
-import com.gtolib.ae2.me2in1.Me2in1Menu;
-import com.gtolib.ae2.me2in1.Wireless;
+import com.gtolib.api.ae2.me2in1.Me2in1Menu;
+import com.gtolib.api.ae2.me2in1.Wireless;
 import com.gtolib.api.data.Dimension;
 import com.gtolib.api.player.IEnhancedPlayer;
 import com.gtolib.api.registries.ScanningClass;
@@ -40,6 +40,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLConstructModEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.RegisterEvent;
 
@@ -48,7 +49,6 @@ import appeng.api.networking.pathing.ChannelMode;
 import appeng.core.AEConfig;
 import appeng.hotkeys.HotkeyActions;
 import appeng.items.tools.powered.WirelessTerminalItem;
-import com.hepdd.gtmthings.data.CustomItems;
 import de.mari_023.ae2wtlib.AE2wtlib;
 import de.mari_023.ae2wtlib.TextConstants;
 import de.mari_023.ae2wtlib.hotkeys.Ae2WTLibLocatingService;
@@ -80,10 +80,11 @@ public class CommonProxy {
         eventBus.addListener(CommonProxy::registerMaterialRegistry);
         eventBus.addListener(CommonProxy::initMenu);
         eventBus.addListener(Datagen::onGatherData);
+        eventBus.addListener(CommonProxy::modConstruct);
         eventBus.addGenericListener(DimensionMarker.class, CommonProxy::registerDimensionMarkers);
         eventBus.addGenericListener(GTRecipeCategory.class, CommonProxy::registerRecipeCategory);
-        HotkeyActions.register(new Ae2WTLibLocatingService(Wireless.ID), Wireless.ID + "_locating_service");
         MinecraftForge.EVENT_BUS.register(ForgeCommonEvent.class);
+        MinecraftForge.EVENT_BUS.register(AnimalsRevengeEvent.class);
     }
 
     private static void init() {
@@ -94,13 +95,14 @@ public class CommonProxy {
         GTONet.init();
     }
 
+    private static void modConstruct(FMLConstructModEvent event) {
+        event.enqueueWork(() -> HotkeyActions.register(new Ae2WTLibLocatingService(Wireless.ID), Wireless.ID + "_locating_service"));
+    }
+
     private static void commonSetup(FMLCommonSetupEvent event) {
         BlockMap.build();
         GTOPartAbility.init();
         if (GTOCore.isExpert()) AEConfig.instance().setChannelModel(ChannelMode.DEFAULT);
-
-        CustomItems.ADVANCED_TERMINAL.get().getComponents().clear();
-        CustomItems.ADVANCED_TERMINAL.get().getComponents().add(new AdvancedTerminalBehavior());
 
         FusionReactorMachine.registerFusionTier(GTValues.UHV, " (MKIV)");
         FusionReactorMachine.registerFusionTier(GTValues.UEV, " (MKV)");

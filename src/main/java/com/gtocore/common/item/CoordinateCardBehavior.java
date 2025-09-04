@@ -67,4 +67,12 @@ public class CoordinateCardBehavior implements IInteractionItem, IAddInformation
             list.add(Component.translatable("gtocore.tooltip.item.machine_coordinate_card.tooltip.2", Component.translatable("config.jade.plugin_jade.coordinates"), "§5" + tag.getInt("x"), "§d" + tag.getInt("y"), "§e" + tag.getInt("z")));
         }
     }
+
+    @Nullable
+    public static BlockPos getStoredCoordinates(ItemStack itemStack) {
+        CompoundTag tag = itemStack.getTag();
+        if (tag != null && tag.contains("x") && tag.contains("y") && tag.contains("z"))
+            return new BlockPos(tag.getInt("x"), tag.getInt("y"), tag.getInt("z"));
+        return null;
+    }
 }

@@ -7,14 +7,21 @@ import com.gtocore.common.machine.multiblock.part.ae.widget.slot.AEPatternViewSl
 import com.gtocore.integration.ae.WirelessMachine
 
 import net.minecraft.MethodsReturnNonnullByDefault
+import net.minecraft.core.BlockPos
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.nbt.ListTag
 import net.minecraft.nbt.Tag
 import net.minecraft.network.chat.Component
 import net.minecraft.server.TickTask
 import net.minecraft.server.level.ServerLevel
+import net.minecraft.world.InteractionHand
+import net.minecraft.world.InteractionResult
 import net.minecraft.world.entity.LivingEntity
+import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
+import net.minecraft.world.level.Level
+import net.minecraft.world.level.block.state.BlockState
+import net.minecraft.world.phys.BlockHitResult
 
 import appeng.api.crafting.IPatternDetails
 import appeng.api.implementations.blockentities.PatternContainerGroup
@@ -35,10 +42,11 @@ import com.gregtechceu.gtceu.api.gui.fancy.ConfiguratorPanel
 import com.gregtechceu.gtceu.api.gui.fancy.FancyMachineUIWidget
 import com.gregtechceu.gtceu.api.machine.TickableSubscription
 import com.gregtechceu.gtceu.api.machine.feature.IDropSaveMachine
+import com.gregtechceu.gtceu.api.machine.feature.IInteractedMachine
 import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler
-import com.gtolib.ae2.MyPatternDetailsHelper
-import com.gtolib.ae2.pattern.IParallelPatternDetails
+import com.gtolib.api.ae2.MyPatternDetailsHelper
+import com.gtolib.api.ae2.pattern.IParallelPatternDetails
 import com.gtolib.api.annotation.Scanned
 import com.gtolib.api.annotation.language.RegisterLanguage
 import com.gtolib.api.capability.ISync
@@ -62,9 +70,16 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
     MEPartMachine(holder, IO.IN),
     ICraftingProvider,
     WirelessMachine,
+    IInteractedMachine,
     ISync,
     PatternContainer,
     IDropSaveMachine {
+    override fun onUse(state: BlockState?, world: Level?, pos: BlockPos?, player: Player?, hand: InteractionHand?, hit: BlockHitResult?): InteractionResult? {
+        if (!isRemote) {
+            newPageField.setAndSyncToClient(newPageField.get())
+        }
+        return super.onUse(state, world, pos, player, hand, hit)
+    }
 
     // ==================== 常量和静态成员 ====================
     @Scanned
@@ -139,7 +154,7 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
 
         val internalInv = getInternalInventory()[index]
         val newPattern = patternInventory.getStackInSlot(index)
-        val newPatternDetails = decodePattern(newPattern)
+        val newPatternDetails = decodePattern(newPattern, index)
         val oldPatternDetails = detailsSlotMap.inverse()[internalInv]
 
         detailsSlotMap.forcePut(newPatternDetails, internalInv)
@@ -170,7 +185,7 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
                     TickTask(1) {
                         (0 until patternInventory.slots).forEach { i ->
                             val pattern = patternInventory.getStackInSlot(i)
-                            decodePattern(pattern)?.let { patternDetails ->
+                            decodePattern(pattern, i)?.let { patternDetails ->
                                 detailsSlotMap[patternDetails] = getInternalInventory()[i]
                             }
                         }
@@ -215,7 +230,7 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
 
     override fun getTerminalGroup(): PatternContainerGroup {
         val (itemKey, description) = when {
-            isFormed() -> {
+            isFormed -> {
                 val controller = getControllers().first()
                 val controllerDefinition = controller.self().definition
                 AEItemKey.of(controllerDefinition.asStack()) to
@@ -332,11 +347,13 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
         needPatternSync = true
     }
 
-    private fun decodePattern(stack: ItemStack): IPatternDetails? = IParallelPatternDetails.of(
-        MyPatternDetailsHelper.decodePattern(stack, holder.self, getGrid()),
-        getLevel(),
-        1,
-    )
+    open fun convertPattern(pattern: IPatternDetails, index: Int): IPatternDetails = pattern
+
+    private fun decodePattern(stack: ItemStack, index: Int): IPatternDetails? {
+        val pattern = MyPatternDetailsHelper.decodePattern(stack, holder.self, getGrid())
+        if (pattern == null) return null
+        return IParallelPatternDetails.of(convertPattern(pattern, index), level, 1)
+    }
 
     private fun updateSubscription() {
         when {

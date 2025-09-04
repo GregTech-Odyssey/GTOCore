@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "gtocore:item/circuit/bioware_computer",
+    "layer1": "gtocore:item/circuit/bioware_computer_uhv"
+  }
+}

@@ -431,7 +431,7 @@ public final class RecipeEditorBehavior implements IItemUIFactory, IFancyUIProvi
             } else {
                 String id = machine.id;
                 if (id.isEmpty()) id = ItemUtils.getIdLocation(machine.exportItems.getStackInSlot(0).getItem()).getPath();
-                stringBuilder.append("\nVanillaRecipeHelper.addShapedRecipe(provider, ");
+                stringBuilder.append("\nVanillaRecipeHelper.addShapedRecipe( ");
                 stringBuilder.append("GTOCore.id(\"").append(id).append("\"), ");
                 stringBuilder.append(StringConverter.fromItem(Ingredient.of(machine.exportItems.getStackInSlot(0)), 0)).append(",\n\"");
                 char c = 'A';

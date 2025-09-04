@@ -122,11 +122,6 @@ public abstract class ExportOnlyAESlot implements IConfigurableSlot, ITagSeriali
     }
 
     @Override
-    public void setStock(@Nullable final GenericStack stock) {
-        this.stock = stock;
-    }
-
-    @Override
     public void setOnContentsChanged(final Runnable onContentsChanged) {
         this.onContentsChanged = onContentsChanged;
     }

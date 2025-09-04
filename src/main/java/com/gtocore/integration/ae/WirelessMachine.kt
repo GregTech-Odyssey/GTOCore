@@ -20,7 +20,7 @@ import com.gtocore.utils.toTicks
 import net.minecraft.client.Minecraft
 import net.minecraft.nbt.CompoundTag
 import net.minecraft.network.chat.Component
-import net.minecraft.server.TickTask
+import net.minecraft.server.level.ServerLevel
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
@@ -29,8 +29,11 @@ import net.minecraftforge.fml.LogicalSide
 import appeng.core.definitions.AEItems
 import com.gregtechceu.gtceu.api.gui.fancy.FancyMachineUIWidget
 import com.gregtechceu.gtceu.api.gui.fancy.IFancyUIProvider
+import com.gregtechceu.gtceu.api.machine.TickableSubscription
 import com.gregtechceu.gtceu.integration.ae2.machine.feature.IGridConnectedMachine
-import com.gtolib.api.annotation.Scanned
+import com.gregtechceu.gtceu.utils.GTUtil
+import com.gregtechceu.gtceu.utils.TaskHandler
+import com.gtolib.api.annotation.DataGeneratorScanned
 import com.gtolib.api.annotation.language.RegisterLanguage
 import com.gtolib.api.capability.ISync
 import com.gtolib.api.capability.ISync.createEnumField
@@ -61,28 +64,34 @@ class WirelessMachineRunTime(var machine: WirelessMachine) {
     var gridConnected: WirelessGrid? = null // ONLY SERVER
     var connectPageFreshRun: Runnable = Runnable {}
     var detailsPageFreshRun: Runnable = Runnable {}
-    var isInitialized = false
-    var shouldAutoConnect = true
+    var initTickableSubscription: TickableSubscription? = null
+    var shouldAutoConnect = false
     var gridCache = createWirelessSyncedField(machine).set(mutableListOf())
+    var gridAccessibleCache = createWirelessSyncedField(machine).set(mutableListOf())
+
+    // 新增：编辑网络昵称的输入缓存
+    var gridNicknameEdit: String = ""
+
+    // 防止 UI 侧刷新循环：仅在客户端接收端刷新 UI，服务端不触发 fresh()
     var FilterInMachineTypeSyncField: ISync.EnumSyncedField<FilterInMachineType> = createEnumField(machine)
     init {
-        fun <T> refreshFunction(): (LogicalSide, T, T) -> Unit = { f, old, new ->
-            if (f.isServer) {
-                machine.self().level?.server?.tell(
-                    TickTask(10) {
-                        connectPageFreshRun.run()
-                        detailsPageFreshRun.run()
-                    },
-                )
-            } else {
+        // 客户端接收端刷新函数
+        fun <T> clientRefresh(): (LogicalSide, T, T) -> Unit = { f, _, _ ->
+            if (!f.isServer) {
                 connectPageFreshRun.run()
                 detailsPageFreshRun.run()
             }
         }
-        gridCache.setReceiverListener(refreshFunction())
-        gridCache.setSenderListener(refreshFunction())
-        FilterInMachineTypeSyncField.setSenderListener(refreshFunction())
-        FilterInMachineTypeSyncField.setReceiverListener(refreshFunction())
+
+        // 服务端发送端不刷新，避免服务端 fresh 再次触发业务逻辑造成循环
+        fun <T> serverNoop(): (LogicalSide, T, T) -> Unit = { _, _, _ -> }
+
+        gridCache.setReceiverListener(clientRefresh())
+        gridCache.setSenderListener(serverNoop())
+        gridAccessibleCache.setReceiverListener(clientRefresh())
+        gridAccessibleCache.setSenderListener(serverNoop())
+        FilterInMachineTypeSyncField.setReceiverListener(clientRefresh())
+        FilterInMachineTypeSyncField.setSenderListener(serverNoop())
         FilterInMachineTypeSyncField.set(FilterInMachineType.BOTH)
     }
 }
@@ -125,12 +134,15 @@ class WirelessMachinePersisted(var machine: WirelessMachine) :
     override fun getOnContentsChanged(): Runnable? = onContentChanged
 }
 
-@Scanned
+@DataGeneratorScanned
 interface WirelessMachine :
     IGridConnectedMachine,
     ISync,
     IBindable {
-    @Scanned
+    val requesterUUID: UUID
+        get() = self().ownerUUID ?: uuid
+
+    @DataGeneratorScanned
     companion object {
         @RegisterLanguage(cn = "网络节点选择", en = "Grid Node Selector")
         const val gridNodeSelector = "gtocore.integration.ae.WirelessMachine.gridNodeSelector"
@@ -141,7 +153,7 @@ interface WirelessMachine :
         @RegisterLanguage(cn = "绑定到玩家 : %s", en = "Bind to player: %s")
         const val player = "gtocore.integration.ae.WirelessMachine.player"
 
-        @RegisterLanguage(cn = "当前连接到 %s", en = "Currently connected to %s")
+        @RegisterLanguage(cn = "当前连接到 : %s", en = "Currently connected: %s")
         const val currentlyConnectedTo = "gtocore.integration.ae.WirelessMachine.currentlyConnectedTo"
 
         @RegisterLanguage(cn = "创建网络", en = "Create Grid")
@@ -164,6 +176,9 @@ interface WirelessMachine :
 
         @RegisterLanguage(cn = "断开无线网络", en = "Leave Wireless Grid")
         const val leave = "gtocore.integration.ae.WirelessMachine.leave"
+
+        @RegisterLanguage(cn = "修改网络昵称", en = "Rename Grid")
+        const val renameGrid = "gtocore.integration.ae.WirelessMachine.renameGrid"
     }
 
     // ////////////////////////////////
@@ -186,27 +201,28 @@ interface WirelessMachine :
     // //////////////////////////////
     fun onWirelessMachineLoad() {
         if (self().isRemote) return
-        val nowTick = self().offsetTimer
-        self().subscribeServerTick {
-            if (self().offsetTimer > nowTick + 40 && self().offsetTimer % 40 == 0L && mainNode.node != null) {
-                if (!wirelessMachineRunTime.isInitialized) {
-                    if (!wirelessMachinePersisted.beSet && wirelessMachineRunTime.shouldAutoConnect) {
-                        WirelessSavedData.INSTANCE.gridPool.firstOrNull { WirelessSavedData.checkPermission(it.owner, uuid) && it.isDefault }?.let {
-                            joinGrid(it.name)
-                        }
-                        wirelessMachinePersisted.beSet = true
-                    } else {
-                        if (wirelessMachinePersisted.gridConnectedName.isNotEmpty()) {
-                            linkGrid(wirelessMachinePersisted.gridConnectedName)
-                        }
+        wirelessMachineRunTime.initTickableSubscription = TaskHandler.enqueueServerTick(level as ServerLevel, {
+            if (mainNode.node != null && self().offsetTimer % 20 == 0L) {
+                if (!wirelessMachinePersisted.beSet && wirelessMachineRunTime.shouldAutoConnect) {
+                    // 使用按请求者计算的可访问列表，寻找“当前玩家”的默认网格
+                    WirelessSavedData.accessibleGridsFor(self().ownerUUID ?: uuid)
+                        .firstOrNull { it.isDefault }
+                        ?.let { joinGrid(it.name) }
+                    wirelessMachinePersisted.beSet = true
+                } else {
+                    if (wirelessMachinePersisted.gridConnectedName.isNotEmpty()) {
+                        linkGrid(wirelessMachinePersisted.gridConnectedName)
                     }
-                    wirelessMachineRunTime.isInitialized = true
                 }
+                // 机器加载完成后进行一次数据同步，避免 UI 打开时需要主动拉取
+                syncDataToClientInServer()
+                wirelessMachineRunTime.initTickableSubscription?.unsubscribe()
             }
-        }
+        }, GTUtil.NOOP, 40)
     }
     fun onWirelessMachineUnLoad() {
         if (self().isRemote) return
+        wirelessMachineRunTime.initTickableSubscription?.unsubscribe()
         unLinkGrid()
     }
     fun onWirelessMachineClientTick() {
@@ -215,7 +231,7 @@ interface WirelessMachine :
         player?.let {
             self().ownerUUID = it.uuid
             if (player is Player) {
-                if (IEnhancedPlayer.of(player).playerData.shiftState) wirelessMachineRunTime.shouldAutoConnect = false
+                if (IEnhancedPlayer.of(player).playerData.shiftState) wirelessMachineRunTime.shouldAutoConnect = true
             }
         }
         self().requestSync()
@@ -226,25 +242,29 @@ interface WirelessMachine :
     // ////////////////////////////////
     // ****** 工具集 ******//
     // //////////////////////////////
-    // 同步网络数据到客户端
-    fun syncDataToClientInServer() {
-        if (!this.self().isRemote) {
-            if (GTOConfig.INSTANCE.aeLog)println("isRemote :${self().isRemote} Syncing network data for ${self().pos}, will send size : ${WirelessSavedData.INSTANCE.gridPool.size}")
-            wirelessMachineRunTime.gridCache.setAndSyncToClient(WirelessSavedData.INSTANCE.gridPool)
-        }
+    // 同步网络数据到客户端（包含全量网格与当前请求者可访问网格）
+    fun refreshCachesOnServer() {
+        if (self().isRemote) return
+        // 全量
+        wirelessMachineRunTime.gridCache.setAndSyncToClient(WirelessSavedData.INSTANCE.gridPool)
+        // 可访问（服务端统一裁剪）
+        wirelessMachineRunTime.gridAccessibleCache.setAndSyncToClient(
+            WirelessSavedData.accessibleGridsFor(requesterUUID),
+        )
     }
+
+    // 兼容旧命名
+    fun syncDataToClientInServer() = refreshCachesOnServer()
+
     fun createWirelessMachineRunTime() = WirelessMachineRunTime(this)
     fun createWirelessMachinePersisted() = WirelessMachinePersisted(this)
+
     fun linkGrid(gridName: String) { // 连接网格，例如机器加载
         if (!allowThisMachineConnectToWirelessGrid()) return
         if (self().isRemote) return
-        val status = WirelessSavedData.joinToGrid(gridName, this, uuid)
-        when (status) {
-            STATUS.SUCCESS -> {
-                wirelessMachineRunTime.gridConnected = WirelessSavedData.INSTANCE.gridPool.first { it.name == gridName }
-            }
-            STATUS.ALREADY_JOINT -> {
-                wirelessMachineRunTime.gridConnected = WirelessSavedData.INSTANCE.gridPool.first { it.name == gridName }
+        when (WirelessSavedData.joinToGrid(gridName, this, requesterUUID)) {
+            STATUS.SUCCESS, STATUS.ALREADY_JOINT -> {
+                wirelessMachineRunTime.gridConnected = WirelessSavedData.findGridByName(gridName)
             }
             STATUS.NOT_FOUND_GRID -> {
                 wirelessMachineRunTime.gridConnected = null
@@ -255,21 +275,29 @@ interface WirelessMachine :
             }
         }
     }
+
     fun joinGrid(gridName: String) {
         if (!allowThisMachineConnectToWirelessGrid()) return
         if (self().isRemote) return
         wirelessMachinePersisted.gridConnectedName = gridName
         linkGrid(gridName)
+        // 连接后立刻同步到客户端
+        refreshCachesOnServer()
     }
+
     fun unLinkGrid() { // 机器下线但不退出
         if (self().isRemote) return
         WirelessSavedData.leaveGrid(this)
     }
+
     fun leaveGrid() { // 退出网格
         if (self().isRemote) return
         unLinkGrid()
         wirelessMachinePersisted.gridConnectedName = ""
+        // 退出后立刻同步
+        refreshCachesOnServer()
     }
+
     fun getSetupFancyUIProvider(): IFancyUIProvider = object : IFancyUIProvider {
         override fun getTabIcon(): IGuiTexture? = ItemStackTexture(AEItems.WIRELESS_RECEIVER.stack())
 
@@ -277,6 +305,7 @@ interface WirelessMachine :
 
         override fun createMainPage(p0: FancyMachineUIWidget?) = rootFresh(176, 166) {
             if (GTOConfig.INSTANCE.aeLog) println(1)
+            // 移除页面打开即同步，避免触发刷新循环；改为由机器加载与按钮操作驱动同步
             hBox(height = availableHeight, { spacing = 4 }) {
                 blank()
                 vBox(width = this@rootFresh.availableWidth - 4, style = { spacing = 4 }) {
@@ -294,8 +323,13 @@ interface WirelessMachine :
                     )
                     textBlock(
                         maxWidth = availableWidth - 4,
-                        textSupplier = { Component.translatable(currentlyConnectedTo, wirelessMachinePersisted.gridConnectedName.ifEmpty { "无" }) },
+                        textSupplier = {
+                            val id = wirelessMachinePersisted.gridConnectedName
+                            val nick = wirelessMachineRunTime.gridCache.get().firstOrNull { it.name == id }?.nickname
+                            Component.translatable(currentlyConnectedTo, (nick ?: id).ifEmpty { "无" })
+                        },
                     )
+                    // 重新加入“创建网络”输入与按钮
                     hBox(height = 16, { spacing = 4 }) {
                         field(
                             width = 60,
@@ -303,23 +337,27 @@ interface WirelessMachine :
                             setter = { wirelessMachineRunTime.gridWillAdded = it },
                         )
                         button(transKet = createGrid, width = this@vBox.availableWidth - 60 - 8) { ck ->
-                            if (!ck.isRemote &&
-                                wirelessMachineRunTime.gridWillAdded.isNotEmpty() &&
-                                wirelessMachineRunTime.gridCache.get().none { it.name == wirelessMachineRunTime.gridWillAdded }
-                            ) {
-                                WirelessSavedData.createNewGrid(
-                                    wirelessMachineRunTime.gridWillAdded,
-                                    uuid,
-                                )
+                            if (!ck.isRemote) {
+                                val input = wirelessMachineRunTime.gridWillAdded.trim()
+                                if (input.isNotEmpty() &&
+                                    wirelessMachineRunTime.gridCache.get().none { it.nickname == input }
+                                ) {
+                                    WirelessSavedData.createNewGrid(
+                                        input,
+                                        requesterUUID,
+                                    )
+                                    wirelessMachineRunTime.gridWillAdded = ""
+                                    refreshCachesOnServer()
+                                }
                             }
-                            if (GTOConfig.INSTANCE.aeLog) println("isRemote :${ck.isRemote} Ask for sync in 2")
-                            syncDataToClientInServer()
-                            if (GTOConfig.INSTANCE.aeLog) println("isRemote :${ck.isRemote} Create Grid: ${wirelessMachineRunTime.gridWillAdded}")
-                            if (GTOConfig.INSTANCE.aeLog)println("isRemote :${ck.isRemote} GridCacheValue: ${wirelessMachineRunTime.gridCache.get()}")
-                            if (GTOConfig.INSTANCE.aeLog)println("isRemote :${ck.isRemote} GridSavedValue: ${WirelessSavedData.INSTANCE.gridPool}")
                         }
                     }
-                    if (wirelessMachinePersisted.gridConnectedName.isNotEmpty()) {
+                    // 基于服务端同步下来的 gridCache 推断连接状态，避免等待 Persisted 同步导致按钮延迟显示
+                    val isConnectedClient = wirelessMachinePersisted.gridConnectedName.isNotEmpty() ||
+                        wirelessMachineRunTime.gridCache.get().any { grid ->
+                            grid.connectionPoolTable.any { it.pos == self().pos && it.level == self().holder.level().dimension() }
+                        }
+                    if (isConnectedClient) {
                         button(width = availableWidth - 4, transKet = leave) { ck ->
                             if (!ck.isRemote) {
                                 leaveGrid()
@@ -329,7 +367,11 @@ interface WirelessMachine :
                     textBlock(
                         maxWidth = availableWidth - 4,
                         textSupplier = {
-                            Component.translatable(globalWirelessGrid, wirelessMachineRunTime.gridCache.get().count { WirelessSavedData.checkPermission(it.owner, uuid) }, wirelessMachineRunTime.gridCache.get().count())
+                            Component.translatable(
+                                globalWirelessGrid,
+                                wirelessMachineRunTime.gridAccessibleCache.get().count(),
+                                wirelessMachineRunTime.gridCache.get().count(),
+                            )
                         },
                     )
                     textBlock(
@@ -337,12 +379,12 @@ interface WirelessMachine :
                         textSupplier = { Component.translatable(yourWirelessGrid) },
                     )
                     vScroll(width = availableWidth, height = 176 - 4 - 20 - 36 - 16, { spacing = 2 }) a@{
-                        wirelessMachineRunTime.gridCache.get().filter { WirelessSavedData.checkPermission(it.owner, uuid) }
+                        wirelessMachineRunTime.gridAccessibleCache.get()
                             .forEach { grid ->
                                 hBox(height = 14, { spacing = 4 }) {
                                     button(
                                         height = 14,
-                                        text = { "${if (grid.isDefault) "⭐" else ""}${grid.name}" },
+                                        text = { "${if (grid.isDefault) "⭐" else ""}${grid.nickname}" },
                                         width = this@a.availableWidth - 48 - 8 + 12 - 4 - 18,
                                         onClick = {
                                             if (!it.isRemote) {
@@ -354,26 +396,26 @@ interface WirelessMachine :
                                     if (!grid.isDefault) {
                                         button(height = 14, text = { "⭐" }, width = 18, onClick = {
                                             if (!it.isRemote) {
-                                                WirelessSavedData.setAsDefault(grid.name, uuid)
+                                                WirelessSavedData.setAsDefault(grid.name, requesterUUID)
+                                                refreshCachesOnServer()
                                             }
-                                            syncDataToClientInServer()
                                         })
                                     } else {
                                         button(height = 14, text = { "⚝" }, width = 18, onClick = {
                                             if (!it.isRemote) {
                                                 WirelessSavedData.cancelAsDefault(
                                                     grid.name,
-                                                    uuid,
+                                                    requesterUUID,
                                                 )
+                                                refreshCachesOnServer()
                                             }
-                                            syncDataToClientInServer()
                                         })
                                     }
                                     button(height = 14, transKet = removeGrid, width = 36, onClick = {
                                         if (!it.isRemote) {
-                                            WirelessSavedData.removeGrid(grid.name, uuid)
+                                            WirelessSavedData.removeGrid(grid.name, requesterUUID)
+                                            refreshCachesOnServer()
                                         }
-                                        syncDataToClientInServer()
                                     })
                                 }
                             }
@@ -389,6 +431,7 @@ interface WirelessMachine :
 
         override fun createMainPage(p0: FancyMachineUIWidget?): Widget? = rootFresh(256, 166) {
             if (GTOConfig.INSTANCE.aeLog) println(2)
+            // 移除页面打开即同步，避免触发刷新循环；改为由机器加载与按钮操作驱动同步
 
             hBox(height = availableHeight, { spacing = 4 }) {
                 blank()
@@ -403,8 +446,38 @@ interface WirelessMachine :
                     }
                     textBlock(
                         maxWidth = availableWidth - 4,
-                        textSupplier = { Component.translatable(currentlyConnectedTo, wirelessMachinePersisted.gridConnectedName.ifEmpty { "无" }) },
+                        textSupplier = {
+                            val id = wirelessMachinePersisted.gridConnectedName
+                            val nick = wirelessMachineRunTime.gridCache.get().firstOrNull { it.name == id }?.nickname
+                            Component.translatable(currentlyConnectedTo, (nick ?: id).ifEmpty { "无" })
+                        },
                     )
+                    // 重命名区域（仅在已连接时显示）
+                    if (wirelessMachinePersisted.gridConnectedName.isNotEmpty()) {
+                        hBox(height = 16, { spacing = 4 }) {
+                            field(
+                                width = 120,
+                                getter = {
+                                    val id = wirelessMachinePersisted.gridConnectedName
+                                    if (wirelessMachineRunTime.gridNicknameEdit.isEmpty()) {
+                                        wirelessMachineRunTime.gridNicknameEdit = wirelessMachineRunTime.gridCache.get().firstOrNull { it.name == id }?.nickname ?: id
+                                    }
+                                    wirelessMachineRunTime.gridNicknameEdit
+                                },
+                                setter = { wirelessMachineRunTime.gridNicknameEdit = it },
+                            )
+                            button(transKet = renameGrid, width = 80) { ck ->
+                                if (!ck.isRemote) {
+                                    WirelessSavedData.setGridNickname(
+                                        wirelessMachinePersisted.gridConnectedName,
+                                        requesterUUID,
+                                        wirelessMachineRunTime.gridNicknameEdit,
+                                    )
+                                    refreshCachesOnServer()
+                                }
+                            }
+                        }
+                    }
                     // filter 选择器
                     hScroll(width = availableWidth - 4, height = 20, style = { spacing = 4 }) {
                         val syncField = wirelessMachineRunTime.FilterInMachineTypeSyncField

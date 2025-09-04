@@ -28,8 +28,12 @@ public final class NanitesModuleMachine extends ElectricMultiblockMachine {
     @Override
     protected Recipe fullModifyRecipe(@NotNull Recipe recipe) {
         if (nanitesIntegratedMachine == null) return null;
-        NanitesIntegratedMachine.trimRecipe(recipe, nanitesIntegratedMachine.chance);
-        return super.fullModifyRecipe(recipe);
+        recipe = super.fullModifyRecipe(recipe);
+        if (recipe != null) {
+            NanitesIntegratedMachine.trimRecipe(recipe, nanitesIntegratedMachine.chance);
+            return recipe;
+        }
+        return null;
     }
 
     @Override

@@ -16,11 +16,11 @@ import com.gregtechceu.gtceu.api.recipe.ToolHeadReplaceRecipe;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.item.ItemMagnetBehavior;
+import com.gregtechceu.gtceu.data.pack.GTDynamicDataPack;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
 import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
 import com.gregtechceu.gtceu.utils.ToolItemHelper;
 
-import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.data.recipes.SpecialRecipeBuilder;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Item;
@@ -32,10 +32,8 @@ import net.minecraft.world.level.block.Blocks;
 import com.tterrag.registrate.util.entry.ItemEntry;
 import it.unimi.dsi.fastutil.ints.Int2ReferenceArrayMap;
 import it.unimi.dsi.fastutil.ints.Int2ReferenceMap;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
-import java.util.function.Consumer;
 
 import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
@@ -49,10 +47,10 @@ public final class CustomToolRecipes {
 
     private CustomToolRecipes() {}
 
-    public static void init(@NotNull Consumer<FinishedRecipe> provider) {
+    public static void init() {
         initializeGTItems();
-        registerPowerUnitRecipes(provider);
-        registerCustomToolRecipes(provider);
+        registerPowerUnitRecipes();
+        registerCustomToolRecipes();
     }
 
     private static void initializeGTItems() {
@@ -98,7 +96,7 @@ public final class CustomToolRecipes {
         ToolHeadReplaceRecipe.setToolHeadForTool(toolHeadWireCutter, GTToolType.WIRE_CUTTER_IV);
     }
 
-    private static void registerPowerUnitRecipes(@NotNull Consumer<FinishedRecipe> provider) {
+    private static void registerPowerUnitRecipes() {
         for (int tier : powerUnitItems.keySet()) {
             List<ItemEntry<? extends Item>> tieredBatteryItems = batteryItems.get(tier);
             for (ItemEntry<? extends Item> batteryItem : tieredBatteryItems) {
@@ -111,7 +109,7 @@ public final class CustomToolRecipes {
                             ItemUtils.getIdLocation(powerUnitItems.get(tier).get()).getPath(),
                             ItemUtils.getIdLocation(batteryItem.get()).getPath());
 
-                    VanillaRecipeHelper.addShapedEnergyTransferRecipe(provider, true, false, true, recipeName,
+                    VanillaRecipeHelper.addShapedEnergyTransferRecipe(true, false, true, recipeName,
                             Ingredient.of(batteryStack), powerUnitStack,
                             "S d", "GMG", "PBP",
                             'M', motorItems.get(tier).asStack(),
@@ -124,62 +122,62 @@ public final class CustomToolRecipes {
         }
     }
 
-    private static void registerCustomToolRecipes(@NotNull Consumer<FinishedRecipe> provider) {
-        registerFlintToolRecipes(provider);
-        registerMortarRecipes(provider);
-        registerSoftToolRecipes(provider);
-        registerElectricRecipes(provider);
+    private static void registerCustomToolRecipes() {
+        registerFlintToolRecipes();
+        registerMortarRecipes();
+        registerSoftToolRecipes();
+        registerElectricRecipes();
 
-        SpecialRecipeBuilder.special(ToolHeadReplaceRecipe.SERIALIZER).save(provider,
+        SpecialRecipeBuilder.special(ToolHeadReplaceRecipe.SERIALIZER).save(GTDynamicDataPack.CONSUMER,
                 "gtceu:crafting/replace_tool_head");
     }
 
-    private static void registerFlintToolRecipes(@NotNull Consumer<FinishedRecipe> provider) {
+    private static void registerFlintToolRecipes() {
         final MaterialEntry flint = new MaterialEntry(TagPrefix.gem, GTMaterials.Flint);
         final ItemStack stick = new ItemStack(Items.STICK);
 
-        addToolRecipe(provider, GTMaterials.Flint, GTToolType.MORTAR, false,
+        addToolRecipe(GTMaterials.Flint, GTToolType.MORTAR, false,
                 " I ", "SIS", "SSS",
                 'I', flint,
                 'S', new ItemStack(Blocks.STONE));
 
-        addToolRecipe(provider, GTMaterials.Flint, GTToolType.SWORD, false,
+        addToolRecipe(GTMaterials.Flint, GTToolType.SWORD, false,
                 "I", "I", "S",
                 'I', flint,
                 'S', stick);
 
-        addToolRecipe(provider, GTMaterials.Flint, GTToolType.PICKAXE, false,
+        addToolRecipe(GTMaterials.Flint, GTToolType.PICKAXE, false,
                 "III", " S ", " S ",
                 'I', flint,
                 'S', stick);
 
-        addToolRecipe(provider, GTMaterials.Flint, GTToolType.SHOVEL, false,
+        addToolRecipe(GTMaterials.Flint, GTToolType.SHOVEL, false,
                 "I", "S", "S",
                 'I', flint,
                 'S', stick);
 
-        addToolRecipe(provider, GTMaterials.Flint, GTToolType.AXE, true,
+        addToolRecipe(GTMaterials.Flint, GTToolType.AXE, true,
                 "II", "IS", " S",
                 'I', flint,
                 'S', stick);
 
-        addToolRecipe(provider, GTMaterials.Flint, GTToolType.HOE, true,
+        addToolRecipe(GTMaterials.Flint, GTToolType.HOE, true,
                 "II", " S", " S",
                 'I', flint,
                 'S', stick);
 
-        addToolRecipe(provider, GTMaterials.Flint, GTToolType.KNIFE, false,
+        addToolRecipe(GTMaterials.Flint, GTToolType.KNIFE, false,
                 "I", "S",
                 'I', flint,
                 'S', stick);
     }
 
-    private static void registerMortarRecipes(@NotNull Consumer<FinishedRecipe> provider) {
+    private static void registerMortarRecipes() {
         for (Material material : new Material[] {
                 GTMaterials.Bronze, GTMaterials.Iron, GTMaterials.Invar, GTMaterials.Steel,
                 GTMaterials.DamascusSteel, GTMaterials.CobaltBrass, GTMaterials.WroughtIron }) {
 
-            addToolRecipe(provider, material, GTToolType.MORTAR, false,
+            addToolRecipe(material, GTToolType.MORTAR, false,
                     " I ", "SIS", "SSS",
                     'I',
                     new MaterialEntry(material.hasProperty(PropertyKey.GEM) ? TagPrefix.gem : TagPrefix.ingot,
@@ -188,7 +186,7 @@ public final class CustomToolRecipes {
         }
     }
 
-    private static void registerSoftToolRecipes(@NotNull Consumer<FinishedRecipe> provider) {
+    private static void registerSoftToolRecipes() {
         final ItemStack stick = new ItemStack(Items.STICK);
 
         for (int i = 0; i < softMaterials.length; i++) {
@@ -196,19 +194,19 @@ public final class CustomToolRecipes {
 
             if (material.hasProperty(PropertyKey.WOOD)) {
                 // todo allow these 3 to be mirrored
-                VanillaRecipeHelper.addShapedRecipe(provider, String.format("soft_mallet_%s", material.getName()),
+                VanillaRecipeHelper.addShapedRecipe(String.format("soft_mallet_%s", material.getName()),
                         ToolHelper.get(GTToolType.SOFT_MALLET, material),
                         "II ", "IIS", "II ",
                         'I', ItemTags.PLANKS,
                         'S', stick);
             } else {
-                VanillaRecipeHelper.addShapedRecipe(provider, String.format("soft_mallet_%s", material.getName()),
+                VanillaRecipeHelper.addShapedRecipe(String.format("soft_mallet_%s", material.getName()),
                         ToolHelper.get(GTToolType.SOFT_MALLET, material),
                         "II ", "IIS", "II ",
                         'I', new MaterialEntry(TagPrefix.ingot, material),
                         'S', stick);
 
-                VanillaRecipeHelper.addShapedRecipe(provider, String.format("plunger_%s", material.getName()),
+                VanillaRecipeHelper.addShapedRecipe(String.format("plunger_%s", material.getName()),
                         ToolHelper.getAndSetToolData(GTToolType.PLUNGER, material, 128 * (i << 1), 1, 4F, 0F),
                         "xPP", " SP", "S f",
                         'P', new MaterialEntry(TagPrefix.plate, material),
@@ -217,9 +215,9 @@ public final class CustomToolRecipes {
         }
     }
 
-    private static void registerElectricRecipes(@NotNull Consumer<FinishedRecipe> provider) {
+    private static void registerElectricRecipes() {
         for (ItemEntry<? extends Item> batteryItem : batteryItems.get(LV)) {
-            VanillaRecipeHelper.addShapedEnergyTransferRecipe(provider, true, false, true,
+            VanillaRecipeHelper.addShapedEnergyTransferRecipe(true, false, true,
                     "prospector_lv_" + batteryItem.getId().getPath(),
                     Ingredient.of(batteryItem), GTItems.PROSPECTOR_LV.asStack(),
                     "EPS", "CDC", "PBP",
@@ -237,7 +235,7 @@ public final class CustomToolRecipes {
                         .loadFilter(ItemMagnetBehavior.Filter.SIMPLE.getFilter(magnetStack));
                 filter.setBlackList(true);
                 tag.put(ItemMagnetBehavior.FILTER_TAG, filter.saveFilter());
-                VanillaRecipeHelper.addShapedEnergyTransferRecipe(provider, true, false, true,
+                VanillaRecipeHelper.addShapedEnergyTransferRecipe(true, false, true,
                         "lv_magnet_" + batteryItem.getId().getPath(),
                         Ingredient.of(batteryItem), magnetStack,
                         "MwM", "MBM", "CPC",
@@ -249,7 +247,7 @@ public final class CustomToolRecipes {
         }
 
         for (ItemEntry<? extends Item> batteryItem : batteryItems.get(MV)) {
-            VanillaRecipeHelper.addShapedEnergyTransferRecipe(provider, true, false, true,
+            VanillaRecipeHelper.addShapedEnergyTransferRecipe(true, false, true,
                     "portable_scanner_" + batteryItem.getId().getPath(),
                     Ingredient.of(batteryItem), GTItems.PORTABLE_SCANNER.asStack(),
                     "EPS", "CDC", "PBP",
@@ -262,7 +260,7 @@ public final class CustomToolRecipes {
         }
 
         for (ItemEntry<? extends Item> batteryItem : batteryItems.get(HV)) {
-            VanillaRecipeHelper.addShapedEnergyTransferRecipe(provider, true, false, true,
+            VanillaRecipeHelper.addShapedEnergyTransferRecipe(true, false, true,
                     "prospector_hv_" + batteryItem.getId().getPath(),
                     Ingredient.of(batteryItem), GTItems.PROSPECTOR_HV.asStack(),
                     "EPS", "CDC", "PBP",
@@ -280,7 +278,7 @@ public final class CustomToolRecipes {
                         .loadFilter(ItemMagnetBehavior.Filter.SIMPLE.getFilter(magnetStack));
                 filter.setBlackList(true);
                 tag.put(ItemMagnetBehavior.FILTER_TAG, filter.saveFilter());
-                VanillaRecipeHelper.addShapedEnergyTransferRecipe(provider, true, false, true,
+                VanillaRecipeHelper.addShapedEnergyTransferRecipe(true, false, true,
                         "hv_magnet_" + batteryItem.getId().getPath(),
                         Ingredient.of(batteryItem), magnetStack,
                         "MwM", "MBM", "CPC",
@@ -292,7 +290,7 @@ public final class CustomToolRecipes {
         }
 
         for (ItemEntry<? extends Item> batteryItem : batteryItems.get(LuV)) {
-            VanillaRecipeHelper.addShapedEnergyTransferRecipe(provider, true, false, true,
+            VanillaRecipeHelper.addShapedEnergyTransferRecipe(true, false, true,
                     "prospector_luv_" + batteryItem.getId().getPath(),
                     Ingredient.of(batteryItem), GTItems.PROSPECTOR_LuV.asStack(),
                     "EPS", "CDC", "PBP",

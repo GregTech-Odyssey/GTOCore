@@ -17,7 +17,6 @@ import com.gregtechceu.gtceu.data.recipe.CustomTags;
 import com.gregtechceu.gtceu.data.recipe.GTCraftingComponents;
 
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.fluids.FluidStack;
 
@@ -32,6 +31,7 @@ import static com.gtocore.common.data.GTORecipeTypes.ASSEMBLY_LINE_RECIPES;
 final class AssemblyLine {
 
     public static void init() {
+        AssemblyLineA.init();
         ASSEMBLY_LINE_RECIPES.builder("integrated_vapor_deposition_system")
                 .inputItems(MultiBlockC.CHEMICAL_VAPOR_DEPOSITION.asStack(16))
                 .inputItems(MultiBlockC.PHYSICAL_VAPOR_DEPOSITION.asStack(16))
@@ -62,7 +62,7 @@ final class AssemblyLine {
                 .inputItems(TagPrefix.rodLong, GTMaterials.Osmium, 32)
                 .inputItems(TagPrefix.rodLong, GTMaterials.Europium, 32)
                 .inputItems(GTOTagPrefix.CURVED_PLATE, GTOMaterials.Quantanium, 32)
-                .outputItems(MultiBlockC.MEGA_MIXER.asStack())
+                .outputItems(MultiBlockH.KERR_NEWMAN_HOMOGENIZER.asStack())
                 .inputFluids(GTOMaterials.MutatedLivingSolder, 1000)
                 .inputFluids(GTOMaterials.HighDurabilityCompoundSteel, 1000)
                 .inputFluids(GTOMaterials.Orichalcum, 1000)
@@ -155,7 +155,7 @@ final class AssemblyLine {
                         .CWUt(256))
                 .save();
 
-        ASSEMBLY_LINE_RECIPES.builder("horizontal_compressor")
+        ASSEMBLY_LINE_RECIPES.builder("extreme_compressor")
                 .inputItems(GTMachines.COMPRESSOR[GTValues.UHV].asStack(16))
                 .inputItems(MultiBlockG.GAS_COMPRESSOR.asStack(8))
                 .inputItems(GTItems.ELECTRIC_PUMP_UEV.asStack(8))
@@ -255,25 +255,6 @@ final class AssemblyLine {
                 .duration(800)
                 .researchStation(b -> b
                         .researchStack(GCYMMachines.LARGE_CHEMICAL_BATH.asStack())
-                        .CWUt(256))
-                .save();
-
-        ASSEMBLY_LINE_RECIPES.builder("field_forge_press")
-                .inputItems(GTMachines.FORGE_HAMMER[GTValues.UHV].asStack(16))
-                .inputItems(GTItems.ELECTRIC_PISTON_UEV.asStack(16))
-                .inputItems(TagPrefix.block, GTOMaterials.HighDurabilityCompoundSteel, 16)
-                .inputItems(GTItems.FIELD_GENERATOR_UHV.asStack(16))
-                .inputItems(GTItems.CONVEYOR_MODULE_UEV.asStack(8))
-                .inputItems(TagPrefix.screw, GTOMaterials.DuraniumAlloy, 32)
-                .inputItems(CustomTags.UIV_CIRCUITS, 16)
-                .inputItems(TagPrefix.plateDouble, GTOMaterials.TitanSteel, 32)
-                .outputItems(MultiBlockA.FIELD_FORGE_PRESS.asStack())
-                .inputFluids(GTOMaterials.HighDurabilityCompoundSteel, 5760)
-                .inputFluids(GTOMaterials.MutatedLivingSolder, 2304)
-                .EUt(2097152)
-                .duration(800)
-                .researchStation(b -> b
-                        .researchStack(new ItemStack(Items.SMITHING_TABLE.asItem()))
                         .CWUt(256))
                 .save();
 
@@ -982,7 +963,7 @@ final class AssemblyLine {
                 .outputItems(MultiBlockA.MAGNETIC_CONFINEMENT_DIMENSIONALITY_SHOCK_DEVICE.asStack())
                 .EUt(31457280)
                 .duration(2000)
-                .researchStation(b -> b.researchStack(MultiBlockC.MEGA_MIXER.asStack())
+                .researchStation(b -> b.researchStack(MultiBlockH.KERR_NEWMAN_HOMOGENIZER.asStack())
                         .CWUt(512)
                         .EUt(31457280))
                 .save();
@@ -3749,26 +3730,6 @@ final class AssemblyLine {
                         .EUt(31457280))
                 .save();
 
-        ASSEMBLY_LINE_RECIPES.recipeBuilder("molten_core")
-                .inputItems(GTMachines.FLUID_HEATER[GTValues.UEV].asStack(16))
-                .inputItems(GTMachines.FLUID_HEATER[GTValues.UIV].asStack(16))
-                .inputItems(CustomTags.UXV_CIRCUITS, 32)
-                .inputItems(GTItems.FLUID_REGULATOR_UIV.asStack(16))
-                .inputItems(TagPrefix.wireGtHex, GTOMaterials.TitanSteel, 16)
-                .inputItems(TagPrefix.plateDouble, GTOMaterials.Mithril, 16)
-                .inputItems(TagPrefix.plateDouble, GTOMaterials.QuantumMetal, 16)
-                .inputFluids(GTOMaterials.Taranium.getFluid(2304))
-                .inputFluids(GTOMaterials.Vibranium.getFluid(2304))
-                .inputFluids(GTOMaterials.AstralTitanium.getFluid(FluidStorageKeys.PLASMA, 4608))
-                .inputFluids(GTOMaterials.DegenerateRhenium.getFluid(FluidStorageKeys.PLASMA, 4608))
-                .outputItems(MultiBlockA.MOLTEN_CORE.asStack())
-                .EUt(31457280)
-                .duration(1600)
-                .researchStation(b -> b.researchStack(GTMachines.FLUID_HEATER[GTValues.UIV].asStack())
-                        .CWUt(512)
-                        .EUt(31457280))
-                .save();
-
         ASSEMBLY_LINE_RECIPES.recipeBuilder("extremely_max_battery")
                 .inputItems(TagPrefix.plateDouble, GTOMaterials.Adamantium, 16)
                 .inputItems(CustomTags.UXV_CIRCUITS, 16)
@@ -4327,7 +4288,7 @@ final class AssemblyLine {
                 .inputFluids(GTOMaterials.Kevlar, 1152)
                 .EUt(125829120)
                 .duration(400)
-                .duration(400).researchStation(b -> b.researchStack(ChemicalHelper.get(GTOTagPrefix.SUPERCONDUCTOR_BASE, GTOMaterials.Legendarium))
+                .researchStation(b -> b.researchStack(ChemicalHelper.get(GTOTagPrefix.SUPERCONDUCTOR_BASE, GTOMaterials.Legendarium))
                         .CWUt(256)
                         .EUt(31457280))
                 .save();
@@ -4343,7 +4304,7 @@ final class AssemblyLine {
                 .inputFluids(GTOMaterials.Kevlar, 1152)
                 .EUt(503316480)
                 .duration(400)
-                .duration(400).researchStation(b -> b.researchStack(ChemicalHelper.get(GTOTagPrefix.SUPERCONDUCTOR_BASE, GTOMaterials.AwakenedDraconium))
+                .researchStation(b -> b.researchStack(ChemicalHelper.get(GTOTagPrefix.SUPERCONDUCTOR_BASE, GTOMaterials.AwakenedDraconium))
                         .CWUt(512)
                         .EUt(125829120))
                 .save();

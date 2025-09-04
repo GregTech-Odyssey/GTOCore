@@ -77,28 +77,6 @@ final class SeparationRecipes {
                 .outputItems(Items.SLIME_BALL)
                 .save();
 
-        // TODO Food -> methane stuff
-        /*
-         * for (Item item : ForgeRegistries.ITEMS.getValuesCollection()) {
-         * if (item instanceof ItemFood) {
-         * ItemFood itemFood = (ItemFood) item;
-         * Collection<ItemStack> subItems = GTUtility.getAllSubItems(new ItemStack(item, 1, GTValues.W));
-         * for (ItemStack itemStack : subItems) {
-         * int healAmount = itemFood.getHealAmount(itemStack);
-         * float saturationModifier = itemFood.getSaturationModifier(itemStack);
-         * if (healAmount > 0) {
-         * FluidStack outputStack = Methane.getFluid(Math.round(9 * healAmount * (1.0f + saturationModifier)));
-         * 
-         * CENTRIFUGE_RECIPES.recipeBuilder().duration(144).EUt(5)
-         * .inputItems(itemStack)
-         * .outputFluids(outputStack)
-         * .save(provider;
-         * }
-         * }
-         * }
-         * }
-         */
-
         CENTRIFUGE_RECIPES.recipeBuilder("sticky_resin_separation").duration(400).EUt(5)
                 .inputItems(STICKY_RESIN)
                 .outputItems(dust, RawRubber, 3)
@@ -160,9 +138,9 @@ final class SeparationRecipes {
                 .outputItems(dust, Gold)
                 .save();
 
-        CENTRIFUGE_RECIPES.recipeBuilder("coal_separation").duration(36).EUt(VA[LV])
+        CENTRIFUGE_RECIPES.recipeBuilder("coal_separation").duration(72).EUt(VA[ULV])
                 .inputItems(dust, Coal)
-                .outputItems(dust, Carbon, 2)
+                .outputItems(dust, Carbon)
                 .save();
 
         CENTRIFUGE_RECIPES.recipeBuilder("uranium_238_separation").duration(800).EUt(320)

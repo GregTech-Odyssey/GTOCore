@@ -2,6 +2,7 @@ package com.gtocore.common.machine.multiblock.noenergy;
 
 import com.gtolib.api.capability.IExtendWirelessEnergyContainerHolder;
 import com.gtolib.api.machine.multiblock.NoEnergyMultiblockMachine;
+import com.gtolib.api.recipe.IdleReason;
 import com.gtolib.api.recipe.Recipe;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
@@ -12,10 +13,7 @@ import com.gregtechceu.gtceu.utils.FormattingUtil;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.material.Fluid;
-import net.minecraft.world.phys.BlockHitResult;
 
 import com.hepdd.gtmthings.api.misc.WirelessEnergyContainer;
 import com.hepdd.gtmthings.utils.TeamUtil;
@@ -23,6 +21,7 @@ import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import org.jetbrains.annotations.Nullable;
 
+import java.math.BigInteger;
 import java.util.List;
 import java.util.UUID;
 
@@ -31,6 +30,8 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public final class HarmonyMachine extends NoEnergyMultiblockMachine implements IExtendWirelessEnergyContainerHolder {
+
+    private static final BigInteger BASE = BigInteger.valueOf(5277655810867200L);
 
     private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(HarmonyMachine.class, WorkableMultiblockMachine.MANAGED_FIELD_HOLDER);
     private static final Fluid HYDROGEN = GTMaterials.Hydrogen.getFluid();
@@ -81,8 +82,9 @@ public final class HarmonyMachine extends NoEnergyMultiblockMachine implements I
         }
     }
 
-    private long getStartupEnergy() {
-        return oc == 0 ? 0 : (5277655810867200L * (1L << (4 * oc - 1)));
+    private BigInteger getStartupEnergy() {
+        if (oc == 0) return BigInteger.ZERO;
+        return BASE.multiply(BigInteger.ONE.shiftLeft(3 * oc - 1));
     }
 
     @Override
@@ -98,8 +100,11 @@ public final class HarmonyMachine extends NoEnergyMultiblockMachine implements I
             hydrogen -= 1024000000;
             helium -= 1024000000;
             var container = getWirelessEnergyContainer();
-            long energy = getStartupEnergy() * Math.max(1, (recipe.data.getInt("tier") - 1) << 2);
-            if (container != null && container.unrestrictedRemoveEnergy(energy) == energy) {
+            if (container == null) return null;
+            BigInteger storage = container.getStorage();
+            BigInteger energy = getStartupEnergy().multiply(BigInteger.valueOf(Math.max(1, (recipe.data.getInt("tier") - 1) << 2)));
+            if (storage.compareTo(energy) > 0) {
+                container.setStorage(storage.subtract(energy));
                 if (tier == recipe.data.getInt("tier")) {
                     count++;
                     if (count > 16 + (tier << 2)) {
@@ -107,19 +112,12 @@ public final class HarmonyMachine extends NoEnergyMultiblockMachine implements I
                         tier++;
                     }
                 }
-                recipe.duration = (recipe.duration << 2) / (1 << (oc));
+                recipe.duration = recipe.duration >> (oc - 1);
                 return recipe;
             }
+            setIdleReason(IdleReason.NO_EU);
         }
         return null;
-    }
-
-    @Override
-    public boolean shouldOpenUI(Player player, InteractionHand hand, BlockHitResult hit) {
-        if (getUUID() == null) {
-            setOwnerUUID(player.getUUID());
-        }
-        return true;
     }
 
     @Override

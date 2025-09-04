@@ -47,8 +47,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
 import static com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys.GAS;
 import static com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys.LIQUID;
-import static com.gregtechceu.gtceu.common.data.GTMaterials.Helium;
-import static com.gregtechceu.gtceu.common.data.GTMaterials.Ice;
+import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
 import static com.gtocore.common.data.GTOMaterials.*;
 
 @ParametersAreNonnullByDefault
@@ -162,7 +161,12 @@ public final class SupercomputingCenterMachine extends StorageMultiblockMachine 
                 }
             }
         }
-        if (maxEUt > 0) runRecipe = RecipeBuilder.ofRaw().inputFluids(Helium.getFluid(LIQUID, coolingAmount)).outputFluids(Helium.getFluid(GAS, coolingAmount)).EUt(maxEUt).duration(20).buildRawRecipe();
+        if (maxEUt > 0) {
+            if (machineTier == 1)
+                runRecipe = RecipeBuilder.ofRaw().inputFluids(PCBCoolant.getFluid(LIQUID, coolingAmount)).EUt(maxEUt / 4).duration(20).buildRawRecipe();
+            else
+                runRecipe = RecipeBuilder.ofRaw().inputFluids(Helium.getFluid(LIQUID, coolingAmount)).outputFluids(Helium.getFluid(GAS, coolingAmount)).EUt(maxEUt).duration(20).buildRawRecipe();
+        }
         maxCWUtModificationSubs.initialize(getLevel());
     }
 

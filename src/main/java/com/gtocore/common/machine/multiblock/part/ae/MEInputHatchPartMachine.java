@@ -67,6 +67,12 @@ public class MEInputHatchPartMachine extends MEPartMachine implements IDataStick
         flushInventory();
     }
 
+    @Override
+    public void setWorkingEnabled(boolean workingEnabled) {
+        super.setWorkingEnabled(workingEnabled);
+        updateTankSubscription();
+    }
+
     ExportOnlyAEFluidList createTank() {
         return new ExportOnlyAEFluidList(this, CONFIG_SIZE);
     }
@@ -87,7 +93,6 @@ public class MEInputHatchPartMachine extends MEPartMachine implements IDataStick
     /////////////////////////////////
 
     private void autoIO() {
-        if (!this.isWorkingEnabled()) return;
         if (!this.shouldSyncME()) return;
 
         if (this.updateMEStatus()) {
