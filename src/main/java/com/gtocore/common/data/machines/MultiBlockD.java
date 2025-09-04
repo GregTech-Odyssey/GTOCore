@@ -919,13 +919,14 @@ public final class MultiBlockD {
             .recipeTypes(GTRecipeTypes.DUMMY_RECIPES)
             .tooltips(GTOMachineTooltips.INSTANCE.getSpaceElevatorTooltips().getSupplier())
             .tooltips(NewDataAttributes.MAIN_FUNCTION.create(
+                    v -> v.addLines("模块运行优化系统", "Module Operation Optimization System"),
                     p -> p.addCommentLines(
                             """
-                                    提升电压等级可大幅减少模块的运行时间
+                                    提升电压等级可减少模块的运行时间
                                     额外提升为模块提供的并行数
                                     运行前需提供128*(机器等级-7)的算力""",
                             """
-                                    Increasing voltage tier can greatly reduce the duration for modules
+                                    Increasing voltage tier can reduce the duration for modules
                                     Additional increase in the parallelism provided by the module
                                     Requires 128*(Machine Tier - 7) of computing power before operation""")
             ))
