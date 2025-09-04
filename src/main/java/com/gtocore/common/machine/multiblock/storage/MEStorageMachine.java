@@ -14,15 +14,12 @@ import com.gtolib.utils.StringUtils;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.IDropSaveMachine;
-import com.gregtechceu.gtceu.api.machine.feature.IMachineLife;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
 import com.hepdd.gtmthings.api.capability.IBindable;
@@ -39,7 +36,7 @@ import java.util.List;
 import java.util.UUID;
 
 @DataGeneratorScanned
-public final class MEStorageMachine extends NoRecipeLogicMultiblockMachine implements IMachineLife, IBindable, IDropSaveMachine, IStorageMultiblock {
+public final class MEStorageMachine extends NoRecipeLogicMultiblockMachine implements IBindable, IDropSaveMachine, IStorageMultiblock {
 
     private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(MEStorageMachine.class, NoRecipeLogicMultiblockMachine.MANAGED_FIELD_HOLDER);
     public static final long infinite = 1000000000000L; // 1T
@@ -157,13 +154,6 @@ public final class MEStorageMachine extends NoRecipeLogicMultiblockMachine imple
                 player = !player;
                 onMachineChanged();
             }
-        }
-    }
-
-    @Override
-    public void onMachinePlaced(@Nullable LivingEntity player, ItemStack stack) {
-        if (player != null) {
-            setOwnerUUID(player.getUUID());
         }
     }
 

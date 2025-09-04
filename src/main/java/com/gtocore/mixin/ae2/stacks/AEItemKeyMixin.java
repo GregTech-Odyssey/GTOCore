@@ -1,11 +1,12 @@
 package com.gtocore.mixin.ae2.stacks;
 
+import com.gtocore.api.ae2.stacks.AEItemKeyCache;
+
 import com.gtolib.IItem;
 import com.gtolib.api.ae2.IAEItemKey;
 import com.gtolib.utils.RLUtils;
 
-import com.gregtechceu.gtceu.utils.ItemStackHashStrategy;
-
+import net.minecraft.core.DefaultedRegistry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
@@ -17,38 +18,13 @@ import net.minecraft.world.level.ItemLike;
 
 import appeng.api.stacks.AEItemKey;
 import appeng.core.AELog;
-import it.unimi.dsi.fastutil.objects.Object2ObjectOpenCustomHashMap;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.Redirect;
 
 @Mixin(AEItemKey.class)
 public abstract class AEItemKeyMixin implements IAEItemKey {
-
-    @Unique
-    private static final Object2ObjectOpenCustomHashMap<ItemStack, AEItemKey> gtolib$CACHE = new Object2ObjectOpenCustomHashMap<>(ItemStackHashStrategy.ITEM_AND_TAG);
-
-    @Unique
-    private int gtolib$fuzzySearchMaxValue;
-
-    @Inject(method = "<init>", at = @At("TAIL"), remap = false)
-    private void gtolib$init(CallbackInfo ci) {
-        gtolib$fuzzySearchMaxValue = -1;
-    }
-
-    @Shadow(remap = false)
-    private static AEItemKey of(ItemLike item, @Nullable CompoundTag tag, @Nullable CompoundTag caps) {
-        return null;
-    }
-
-    @Shadow(remap = false)
-    @Nullable
-    private static CompoundTag serializeStackCaps(ItemStack stack) {
-        return null;
-    }
 
     @Shadow(remap = false)
     private int maxStackSize;
@@ -63,15 +39,8 @@ public abstract class AEItemKeyMixin implements IAEItemKey {
     @Shadow(remap = false)
     public abstract @Nullable CompoundTag getTag();
 
-    /**
-     * @author .
-     * @reason .
-     */
-    @Overwrite(remap = false)
-    public int getFuzzySearchMaxValue() {
-        if (gtolib$fuzzySearchMaxValue < 0) gtolib$fuzzySearchMaxValue = getReadOnlyStack().getItem().getMaxDamage();
-        return gtolib$fuzzySearchMaxValue;
-    }
+    @Shadow(remap = false)
+    private @Nullable ItemStack readOnlyStack;
 
     /**
      * @author .
@@ -94,25 +63,7 @@ public abstract class AEItemKeyMixin implements IAEItemKey {
         if (tag == null || tag.isEmpty()) {
             return ((IItem) item.asItem()).gtolib$getAEKey();
         } else {
-            synchronized (gtolib$CACHE) {
-                return gtolib$CACHE.computeIfAbsent(stack, k -> {
-                    var key = of(item, stack.getTag(), serializeStackCaps(stack));
-                    ((IAEItemKey) (Object) key).gtolib$setMaxStackSize(item.getMaxStackSize());
-                    return key;
-                });
-            }
-        }
-    }
-
-    @Unique
-    private static @NotNull AEItemKey gtolib$ofNbt(ItemStack stack) {
-        var item = stack.getItem();
-        synchronized (gtolib$CACHE) {
-            return gtolib$CACHE.computeIfAbsent(stack, k -> {
-                var key = of(item, stack.getTag(), serializeStackCaps(stack));
-                ((IAEItemKey) (Object) key).gtolib$setMaxStackSize(item.getMaxStackSize());
-                return key;
-            });
+            return AEItemKeyCache.INSTANCE.get(stack);
         }
     }
 
@@ -131,10 +82,11 @@ public abstract class AEItemKeyMixin implements IAEItemKey {
      */
     @Overwrite(remap = false)
     public static AEItemKey of(ItemLike item, @Nullable CompoundTag tag) {
-        if (tag == null || tag.isEmpty()) return ((IItem) item.asItem()).gtolib$getAEKey();
-        var stack = new ItemStack(item, 1);
+        var i = item.asItem();
+        if (tag == null || tag.isEmpty()) return ((IItem) i).gtolib$getAEKey();
+        var stack = new ItemStack(i, 1);
         stack.setTag(tag);
-        return gtolib$ofNbt(stack);
+        return AEItemKeyCache.INSTANCE.get(stack);
     }
 
     /**
@@ -152,7 +104,7 @@ public abstract class AEItemKeyMixin implements IAEItemKey {
             }
             var stack = new ItemStack(item, 1, extraCaps);
             if (extraTag != null) stack.setTag(extraTag);
-            return gtolib$ofNbt(stack);
+            return AEItemKeyCache.INSTANCE.get(stack);
         } catch (Exception e) {
             AELog.debug("Tried to load an invalid item key from NBT: %s", tag, e);
             return null;
@@ -187,7 +139,12 @@ public abstract class AEItemKeyMixin implements IAEItemKey {
         }
         var stack = new ItemStack(item);
         stack.readShareTag(shareTag);
-        return gtolib$ofNbt(stack);
+        return AEItemKeyCache.INSTANCE.get(stack);
+    }
+
+    @Redirect(method = "toTag", at = @At(value = "INVOKE", target = "Lnet/minecraft/core/DefaultedRegistry;getKey(Ljava/lang/Object;)Lnet/minecraft/resources/ResourceLocation;", remap = true), remap = false)
+    private <T> ResourceLocation gtolib$getKey(DefaultedRegistry instance, T t) {
+        return ((IItem) t).gtolib$getIdLocation();
     }
 
     /**
@@ -203,5 +160,10 @@ public abstract class AEItemKeyMixin implements IAEItemKey {
     @Override
     public void gtolib$setMaxStackSize(int max) {
         maxStackSize = max;
+    }
+
+    @Override
+    public void gtolib$setReadOnlyStack(ItemStack stack) {
+        readOnlyStack = stack;
     }
 }

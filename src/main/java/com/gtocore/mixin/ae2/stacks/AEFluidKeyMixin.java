@@ -66,6 +66,20 @@ public class AEFluidKeyMixin {
      * @reason .
      */
     @Overwrite(remap = false)
+    public CompoundTag toTag() {
+        CompoundTag result = new CompoundTag();
+        result.putString("id", ((IFluid) fluid).gtolib$getIdString());
+        if (tag != null) {
+            result.put("tag", tag.copy());
+        }
+        return result;
+    }
+
+    /**
+     * @author .
+     * @reason .
+     */
+    @Overwrite(remap = false)
     public String toString() {
         String idString = ((IFluid) fluid).gtolib$getIdString();
         return tag == null ? idString : idString + " (+tag)";

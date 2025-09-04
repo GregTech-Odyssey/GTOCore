@@ -17,6 +17,7 @@ import com.gregtechceu.gtceu.api.machine.ConditionalSubscriptionHandler;
 import com.gregtechceu.gtceu.api.machine.feature.IExplosionMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableMultiblockMachine;
+import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
@@ -128,9 +129,9 @@ public final class FissionReactorMachine extends ElectricMultiblockMachine imple
                     long[] a = getFluidAmount(DistilledWater, SodiumPotassium);
                     int capacity = (int) Math.min(Math.max(a[0] / 800, a[1] / 20), (cooler - (coolerAdjacent / 3L)) << 3);
                     if (capacity - required >= 0) {
-                        if (inputFluid(DistilledWater, capacity)) {
+                        if (inputFluid(DistilledWater, capacity * 800L)) {
                             isCooler = outputFluid(Steam, (int) (capacity * 800 * (heat > 373 ? 160 : 160 / Math.pow(1.4, 373 - heat))));
-                        } else if (inputFluid(SodiumPotassium, capacity)) {
+                        } else if (inputFluid(SodiumPotassium, capacity * 20L)) {
                             if (heat > 825) {
                                 isCooler = outputFluid(SupercriticalSodiumPotassium, capacity * 20L);
                             } else isCooler = outputFluid(HotSodiumPotassium, capacity * 20L);
@@ -169,8 +170,13 @@ public final class FissionReactorMachine extends ElectricMultiblockMachine imple
 
     @Override
     protected @Nullable Recipe getRealRecipe(Recipe recipe) {
-        recipe = ParallelLogic.accurateParallel(this, recipe, fuel);
-        if (recipe == null) return null;
+        if (fuel > 1) {
+            long maxContentParallel = ParallelLogic.getMaxContentParallel(this, recipe);
+            if (maxContentParallel == 0) return null;
+            if (maxContentParallel > 1) {
+                recipe.modifier(ContentModifier.multiplier(Math.min(fuel, maxContentParallel)), false);
+            }
+        }
         parallel = MathUtil.saturatedCast(recipe.parallels);
         recipeHeat = recipe.data.getInt("FRheat");
         return recipe;

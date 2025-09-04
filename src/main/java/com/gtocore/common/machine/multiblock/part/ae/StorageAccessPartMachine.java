@@ -208,7 +208,7 @@ public abstract class StorageAccessPartMachine extends AmountConfigurationHatchP
                 if (counter > 600) {
                     counter = 0;
                     capacity = 0;
-                    setOwnerUUID(null);
+                    setUUID(null);
                     isInfinite = false;
                 }
             }
@@ -400,7 +400,7 @@ public abstract class StorageAccessPartMachine extends AmountConfigurationHatchP
                 if (counter > 600) {
                     counter = 0;
                     capacity = 0;
-                    setOwnerUUID(null);
+                    setUUID(null);
                     isInfinite = false;
                 }
             }
