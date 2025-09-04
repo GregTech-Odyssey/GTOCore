@@ -3,12 +3,9 @@ package com.gtocore.data.recipe.gtm.misc;
 import com.gregtechceu.gtceu.common.data.GTRecipeCategories;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 
-import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
-
-import java.util.function.Consumer;
 
 import static com.gregtechceu.gtceu.api.GTValues.L;
 import static com.gregtechceu.gtceu.api.GTValues.ULV;
@@ -24,10 +21,10 @@ public final class DecorationRecipes {
 
     private DecorationRecipes() {}
 
-    public static void init(Consumer<FinishedRecipe> provider) {
+    public static void init() {
         assemblerRecipes();
         dyeRecipes();
-        copperOxidationRecipes(provider);
+        copperOxidationRecipes();
     }
 
     private static void assemblerRecipes() {
@@ -86,14 +83,14 @@ public final class DecorationRecipes {
         }
     }
 
-    private static void copperOxidationRecipes(Consumer<FinishedRecipe> provider) {
-        registerOxidationChain(provider, "copper_block", Items.COPPER_BLOCK, Items.EXPOSED_COPPER,
+    private static void copperOxidationRecipes() {
+        registerOxidationChain("copper_block", Items.COPPER_BLOCK, Items.EXPOSED_COPPER,
                 Items.WEATHERED_COPPER, Items.OXIDIZED_COPPER);
-        registerOxidationChain(provider, "cut_copper", Items.CUT_COPPER, Items.EXPOSED_CUT_COPPER,
+        registerOxidationChain("cut_copper", Items.CUT_COPPER, Items.EXPOSED_CUT_COPPER,
                 Items.WEATHERED_CUT_COPPER, Items.OXIDIZED_CUT_COPPER);
-        registerOxidationChain(provider, "cut_copper_stairs", Items.CUT_COPPER_STAIRS, Items.EXPOSED_CUT_COPPER_STAIRS,
+        registerOxidationChain("cut_copper_stairs", Items.CUT_COPPER_STAIRS, Items.EXPOSED_CUT_COPPER_STAIRS,
                 Items.WEATHERED_CUT_COPPER_STAIRS, Items.OXIDIZED_CUT_COPPER_STAIRS);
-        registerOxidationChain(provider, "cut_copper_slab", Items.CUT_COPPER_SLAB, Items.EXPOSED_CUT_COPPER_SLAB,
+        registerOxidationChain("cut_copper_slab", Items.CUT_COPPER_SLAB, Items.EXPOSED_CUT_COPPER_SLAB,
                 Items.WEATHERED_CUT_COPPER_SLAB, Items.OXIDIZED_CUT_COPPER_SLAB);
 
         // Waxing recipes
@@ -102,102 +99,102 @@ public final class DecorationRecipes {
                 .inputFluids(Wax, L / 2)
                 .outputItems(Items.WAXED_COPPER_BLOCK)
                 .EUt(VA[ULV]).duration(10)
-                .save(provider);
+                .save();
         GTRecipeTypes.CHEMICAL_BATH_RECIPES.recipeBuilder("waxing_exposed_copper")
                 .inputItems(Items.EXPOSED_COPPER)
                 .inputFluids(Wax, L / 2)
                 .outputItems(Items.WAXED_EXPOSED_COPPER)
                 .EUt(VA[ULV]).duration(10)
-                .save(provider);
+                .save();
         GTRecipeTypes.CHEMICAL_BATH_RECIPES.recipeBuilder("waxing_weathered_copper")
                 .inputItems(Items.WEATHERED_COPPER)
                 .inputFluids(Wax, L / 2)
                 .outputItems(Items.WAXED_WEATHERED_COPPER)
                 .EUt(VA[ULV]).duration(10)
-                .save(provider);
+                .save();
         GTRecipeTypes.CHEMICAL_BATH_RECIPES.recipeBuilder("waxing_oxidized_copper")
                 .inputItems(Items.OXIDIZED_COPPER)
                 .inputFluids(Wax, L / 2)
                 .outputItems(Items.WAXED_OXIDIZED_COPPER)
                 .EUt(VA[ULV]).duration(10)
-                .save(provider);
+                .save();
         GTRecipeTypes.CHEMICAL_BATH_RECIPES.recipeBuilder("waxing_cut_copper")
                 .inputItems(Items.CUT_COPPER)
                 .inputFluids(Wax, L / 2)
                 .outputItems(Items.WAXED_CUT_COPPER)
                 .EUt(VA[ULV]).duration(10)
-                .save(provider);
+                .save();
         GTRecipeTypes.CHEMICAL_BATH_RECIPES.recipeBuilder("waxing_exposed_cut_copper")
                 .inputItems(Items.EXPOSED_CUT_COPPER)
                 .inputFluids(Wax, L / 2)
                 .outputItems(Items.WAXED_EXPOSED_CUT_COPPER)
                 .EUt(VA[ULV]).duration(10)
-                .save(provider);
+                .save();
         GTRecipeTypes.CHEMICAL_BATH_RECIPES.recipeBuilder("waxing_weathered_cut_copper")
                 .inputItems(Items.WEATHERED_CUT_COPPER)
                 .inputFluids(Wax, L / 2)
                 .outputItems(Items.WAXED_WEATHERED_CUT_COPPER)
                 .EUt(VA[ULV]).duration(10)
-                .save(provider);
+                .save();
         GTRecipeTypes.CHEMICAL_BATH_RECIPES.recipeBuilder("waxing_oxidized_cut_copper")
                 .inputItems(Items.OXIDIZED_CUT_COPPER)
                 .inputFluids(Wax, L / 2)
                 .outputItems(Items.WAXED_OXIDIZED_CUT_COPPER)
                 .EUt(VA[ULV]).duration(10)
-                .save(provider);
+                .save();
         GTRecipeTypes.CHEMICAL_BATH_RECIPES.recipeBuilder("waxing_cut_copper_stairs")
                 .inputItems(Items.CUT_COPPER_STAIRS)
                 .inputFluids(Wax, L / 2)
                 .outputItems(Items.WAXED_CUT_COPPER_STAIRS)
                 .EUt(VA[ULV]).duration(10)
-                .save(provider);
+                .save();
         GTRecipeTypes.CHEMICAL_BATH_RECIPES.recipeBuilder("waxing_exposed_cut_copper_stairs")
                 .inputItems(Items.EXPOSED_CUT_COPPER_STAIRS)
                 .inputFluids(Wax, L / 2)
                 .outputItems(Items.WAXED_EXPOSED_CUT_COPPER_STAIRS)
                 .EUt(VA[ULV]).duration(10)
-                .save(provider);
+                .save();
         GTRecipeTypes.CHEMICAL_BATH_RECIPES.recipeBuilder("waxing_weathered_cut_copper_stairs")
                 .inputItems(Items.WEATHERED_CUT_COPPER_STAIRS)
                 .inputFluids(Wax, L / 2)
                 .outputItems(Items.WAXED_WEATHERED_CUT_COPPER_STAIRS)
                 .EUt(VA[ULV]).duration(10)
-                .save(provider);
+                .save();
         GTRecipeTypes.CHEMICAL_BATH_RECIPES.recipeBuilder("waxing_oxidized_cut_copper_stairs")
                 .inputItems(Items.OXIDIZED_CUT_COPPER_STAIRS)
                 .inputFluids(Wax, L / 2)
                 .outputItems(Items.WAXED_OXIDIZED_CUT_COPPER_STAIRS)
                 .EUt(VA[ULV]).duration(10)
-                .save(provider);
+                .save();
         GTRecipeTypes.CHEMICAL_BATH_RECIPES.recipeBuilder("waxing_cut_copper_slab")
                 .inputItems(Items.CUT_COPPER_SLAB)
                 .inputFluids(Wax, L / 2)
                 .outputItems(Items.WAXED_CUT_COPPER_SLAB)
                 .EUt(VA[ULV]).duration(10)
-                .save(provider);
+                .save();
         GTRecipeTypes.CHEMICAL_BATH_RECIPES.recipeBuilder("waxing_exposed_cut_copper_slab")
                 .inputItems(Items.EXPOSED_CUT_COPPER_SLAB)
                 .inputFluids(Wax, L / 2)
                 .outputItems(Items.WAXED_EXPOSED_CUT_COPPER_SLAB)
                 .EUt(VA[ULV]).duration(10)
-                .save(provider);
+                .save();
         GTRecipeTypes.CHEMICAL_BATH_RECIPES.recipeBuilder("waxing_weathered_cut_copper_slab")
                 .inputItems(Items.WEATHERED_CUT_COPPER_SLAB)
                 .inputFluids(Wax, L / 2)
                 .outputItems(Items.WAXED_WEATHERED_CUT_COPPER_SLAB)
                 .EUt(VA[ULV]).duration(10)
-                .save(provider);
+                .save();
         GTRecipeTypes.CHEMICAL_BATH_RECIPES.recipeBuilder("waxing_oxidized_cut_copper_slab")
                 .inputItems(Items.OXIDIZED_CUT_COPPER_SLAB)
                 .inputFluids(Wax, L / 2)
                 .outputItems(Items.WAXED_OXIDIZED_CUT_COPPER_SLAB)
                 .EUt(VA[ULV]).duration(10)
-                .save(provider);
+                .save();
     }
 
     private static final String[] OXIDATION_STAGES = { "raw", "exposed", "weathered", "oxidized" };
 
-    private static void registerOxidationChain(Consumer<FinishedRecipe> provider, String name, Item... items) {
+    private static void registerOxidationChain(String name, Item... items) {
         for (int i = 0; i < items.length - 1; i++) {
             GTRecipeTypes.CHEMICAL_BATH_RECIPES
                     .recipeBuilder(
@@ -206,7 +203,7 @@ public final class DecorationRecipes {
                     .inputFluids(Oxygen, 100)
                     .outputItems(items[i + 1])
                     .EUt(VA[ULV]).duration(10)
-                    .save(provider);
+                    .save();
         }
     }
 }

@@ -1,7 +1,7 @@
 package com.gtocore.common.saved
 
-import com.gtocore.api.misc.codec.CodecAbleCompanion
 import com.gtocore.api.misc.codec.CodecAbleTyped
+import com.gtocore.api.misc.codec.CodecAbleTypedCompanion
 import com.gtocore.common.network.WirelessNetworkTopologyManager
 import com.gtocore.config.GTOConfig
 import com.gtocore.integration.ae.WirelessMachine
@@ -47,11 +47,37 @@ class WirelessSavedData : SavedData() {
         // ****** SERVER API ******//
         // //////////////////////////////
 
+        // 校验昵称是否全局占用（精确匹配，已 trim）。excludeGridId 用于重命名时忽略自身
+        private fun isNicknameTaken(nickname: String, excludeGridId: String? = null): Boolean = INSTANCE.gridPool.any { it.nickname == nickname && (excludeGridId == null || it.name != excludeGridId) }
+
+        // 统一对外能力：权限判断与可访问列表（按请求者动态标记默认网格与昵称）
+        fun accessibleGridsFor(requester: UUID): MutableList<WirelessGrid> = INSTANCE.gridPool
+            .filter { checkPermission(it.owner, requester) }
+            .map { grid ->
+                val isDef = INSTANCE.defaultMap[requester] == grid.name
+                // 返回只用于同步到客户端的“视图副本”，避免污染服务端运行时状态
+                WirelessGrid(
+                    grid.name,
+                    grid.owner,
+                    isDef,
+                    grid.connectionPoolTable.toMutableList(),
+                    grid.nickname,
+                )
+            }
+            .toMutableList()
+
+        fun findGridOf(machine: com.gtocore.integration.ae.WirelessMachine): WirelessGrid? = INSTANCE.gridPool.firstOrNull { grid -> grid.connectionPool.any { it == machine } }
+
+        fun findGridByName(name: String): WirelessGrid? = INSTANCE.gridPool.firstOrNull { it.name == name }
+
         fun joinToGrid(gridName: String, machine: WirelessMachine, requester: UUID): STATUS {
-            leaveGrid(machine)
+            // 先验证目标网格与权限，避免失败时把原网断开
             val grid = INSTANCE.gridPool.firstOrNull { it.name == gridName } ?: return STATUS.NOT_FOUND_GRID
             if (!checkPermission(grid.owner, requester)) return STATUS.NOT_PERMISSION
             if (grid.connectionPool.any { it == machine }) return STATUS.ALREADY_JOINT
+
+            // 验证通过后再从原网络退出
+            leaveGrid(machine)
 
             grid.connectionPoolTable.add(
                 WirelessGrid.MachineInfo().apply {
@@ -72,13 +98,20 @@ class WirelessSavedData : SavedData() {
             INSTANCE.gridPool.find { it -> it.connectionPool.any { it == machine } }
                 ?.let { grid ->
                     machine.removedFromGrid(grid.name)
-                    grid.connectionPoolTable.removeAll { it.pos == machine.self().pos }
+                    val levelKey = machine.self().level?.dimension() ?: UNKNOWN
+                    grid.connectionPoolTable.removeAll { it.pos == machine.self().pos && it.level == levelKey }
                     grid.removeNodeFromNetwork(machine)
                 }
         }
         fun createNewGrid(gridName: String, requester: UUID): WirelessGrid? {
-            INSTANCE.gridPool.find { grid -> grid.name == gridName }?.let { return null }
-            val newGrid = WirelessGrid(gridName, requester)
+            // gridName 作为昵称，唯一ID使用随机生成；昵称全局唯一（精确匹配），空白不允许
+            val nick = gridName.trim()
+            if (nick.isBlank()) return null
+            if (isNicknameTaken(nick)) return null
+            val id = UUID.randomUUID().toString()
+            if (INSTANCE.gridPool.any { it.name == id }) return null
+            val newGrid = WirelessGrid(id, requester)
+            newGrid.nickname = nick
             INSTANCE.gridPool.add(newGrid)
             INSTANCE.setDirty()
             return newGrid
@@ -89,6 +122,8 @@ class WirelessSavedData : SavedData() {
                 removed.connectionPool.forEach { it.removedFromGrid(removed.name) }
                 removed.connectionPool.clear()
                 removed.refreshConnectionPool()
+                // 清理默认映射中的无效引用
+                INSTANCE.defaultMap.entries.removeIf { it.value == removed.name }
                 INSTANCE.gridPool.remove(removed)
                 INSTANCE.setDirty()
                 return STATUS.SUCCESS
@@ -97,15 +132,26 @@ class WirelessSavedData : SavedData() {
             return STATUS.NOT_FOUND_GRID
         }
         fun setAsDefault(gridName: String, requester: UUID) {
+            // 仅更新映射，实际 isDefault 在下发给客户端时按请求者动态设置
             INSTANCE.defaultMap[requester] = gridName
-            INSTANCE.gridPool.find { it.name == gridName && checkPermission(it.owner, requester) }?.let { it.isDefault = true }
-            INSTANCE.gridPool.filter { it.name != gridName && checkPermission(it.owner, requester) }.forEach { it.isDefault = false }
             INSTANCE.setDirty()
         }
         fun cancelAsDefault(gridName: String, requester: UUID) {
+            // 仅更新映射
             INSTANCE.defaultMap.remove(requester)
-            INSTANCE.gridPool.find { it.name == gridName && checkPermission(it.owner, requester) }?.let { it.isDefault = false }
             INSTANCE.setDirty()
+        }
+        fun setGridNickname(gridId: String, requester: UUID, nickname: String): STATUS {
+            val grid = INSTANCE.gridPool.firstOrNull { it.name == gridId } ?: return STATUS.NOT_FOUND_GRID
+            if (!checkPermission(grid.owner, requester)) return STATUS.NOT_PERMISSION
+            val nick = nickname.trim()
+            // 空白：回退为唯一ID，但若被其他网格使用为昵称则视为无变更
+            val target = nick.ifBlank { grid.name }
+            if (target == grid.nickname) return STATUS.SUCCESS
+            if (isNicknameTaken(target, excludeGridId = gridId)) return STATUS.SUCCESS
+            grid.nickname = target
+            INSTANCE.setDirty()
+            return STATUS.SUCCESS
         }
     }
 
@@ -148,7 +194,7 @@ class WirelessSavedData : SavedData() {
         val res = mutableListOf<WirelessGrid>()
         val list = p0.getList("WirelessSavedData", 10)
         for (tag in list) {
-            res.add(WirelessGrid.decodeFromNbt(tag as CompoundTag).takeIf { n -> gridPool.none { it.name == n.name } } ?: continue)
+            res.add(WirelessGrid.decodeFromNbt(tag as CompoundTag).takeIf { n -> res.none { it.name == n.name } } ?: continue)
         }
         if (GTOConfig.INSTANCE.aeLog) println("${GTCEu.isClientSide()} Loading WirelessSavedData with ${res.size} grids")
         gridPool.addAll(res)
@@ -157,8 +203,8 @@ class WirelessSavedData : SavedData() {
             val nbt = tag as CompoundTag
             defaultMap[nbt.getUUID("key")] = nbt.getString("value")
         }
+        // 不在此处修改 grid.isDefault，由 accessibleGridsFor 按请求者动态标记
         gridPool.forEach { grid ->
-            defaultMap.forEach { if (checkPermission(grid.owner, it.key) && grid.name == it.value) grid.isDefault = true }
             grid.connectionPoolTable.clear()
         }
         return this
@@ -170,7 +216,13 @@ enum class STATUS {
     NOT_FOUND_GRID,
     NOT_PERMISSION,
 }
-class WirelessGrid(val name: String, val owner: UUID, var isDefault: Boolean = false, var connectionPoolTable: MutableList<MachineInfo> = mutableListOf()) : CodecAbleTyped<WirelessGrid, WirelessGrid.Companion> {
+class WirelessGrid(
+    val name: String, // 唯一ID
+    val owner: UUID,
+    var isDefault: Boolean = false,
+    var connectionPoolTable: MutableList<MachineInfo> = mutableListOf(),
+    var nickname: String = name, // 新增：显示昵称
+) : CodecAbleTyped<WirelessGrid, WirelessGrid.Companion> {
 
     // ///////////////////////////////
     // ****** RUN TIME ******//
@@ -180,15 +232,16 @@ class WirelessGrid(val name: String, val owner: UUID, var isDefault: Boolean = f
 
     private val topologyManager = WirelessNetworkTopologyManager()
 
-    companion object : CodecAbleCompanion<WirelessGrid> {
+    companion object : CodecAbleTypedCompanion<WirelessGrid> {
         override fun getCodec(): Codec<WirelessGrid> = RecordCodecBuilder.create { b ->
             b.group(
                 Codec.STRING.fieldOf("name").forGetter { it.name },
                 UUIDUtil.CODEC.fieldOf("owner").forGetter { it.owner },
                 Codec.BOOL.fieldOf("isDefault").forGetter { it.isDefault },
                 MachineInfo.getCodec().listOf().fieldOf("connectionPoolTable").forGetter { it.connectionPoolTable.toList() },
-            ).apply(b) { name, owner, isDefault, connectionPoolTable ->
-                WirelessGrid(name, owner, isDefault, connectionPoolTable.toMutableList())
+                Codec.STRING.optionalFieldOf("nickname").forGetter { java.util.Optional.ofNullable(it.nickname) },
+            ).apply(b) { name, owner, isDefault, connectionPoolTable, nicknameOpt ->
+                WirelessGrid(name, owner, isDefault, connectionPoolTable.toMutableList(), nicknameOpt.orElse(name))
             }
         }
     }
@@ -197,7 +250,7 @@ class WirelessGrid(val name: String, val owner: UUID, var isDefault: Boolean = f
     // ****** RUN TIME ******//
     // //////////////////////////////
     class MachineInfo(var pos: BlockPos = BlockPos.ZERO, var owner: String = "", var descriptionId: String = "", var level: ResourceKey<Level> = WirelessSavedData.UNKNOWN) : CodecAbleTyped<MachineInfo, MachineInfo.Companion> {
-        companion object : CodecAbleCompanion<MachineInfo> {
+        companion object : CodecAbleTypedCompanion<MachineInfo> {
             override fun getCodec(): Codec<MachineInfo> = RecordCodecBuilder.create { b ->
                 b.group(
                     BlockPos.CODEC.optionalFieldOf("pos", BlockPos.ZERO).forGetter { it.pos },

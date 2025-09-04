@@ -9,7 +9,6 @@ import com.gtolib.api.machine.mana.trait.NotifiableManaContainer;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 
-import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import it.unimi.dsi.fastutil.ints.Int2IntFunction;
@@ -26,7 +25,6 @@ abstract class SimpleManaMachine extends SimpleNoEnergyMachine implements IManaM
     }
 
     @Persisted
-    @DescSynced
     private final NotifiableManaContainer manaContainer;
     private final int tierMana;
 

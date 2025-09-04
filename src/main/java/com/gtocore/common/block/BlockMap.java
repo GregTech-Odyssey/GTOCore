@@ -2,7 +2,7 @@ package com.gtocore.common.block;
 
 import com.gtocore.common.data.GTOBlocks;
 
-import com.gtolib.api.annotation.Scanned;
+import com.gtolib.api.annotation.DataGeneratorScanned;
 import com.gtolib.api.annotation.language.RegisterLanguage;
 
 import com.gregtechceu.gtceu.api.GTCEuAPI;
@@ -20,7 +20,7 @@ import java.util.Comparator;
 import java.util.Map;
 import java.util.function.Supplier;
 
-@Scanned
+@DataGeneratorScanned
 public final class BlockMap {
 
     public static Block[] ABS_CASING;

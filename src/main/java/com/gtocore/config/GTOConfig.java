@@ -5,6 +5,7 @@ import com.gtolib.api.annotation.DataGeneratorScanned;
 import com.gtolib.api.annotation.language.RegisterLanguage;
 
 import com.gregtechceu.gtceu.GTCEu;
+import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockControllerMachine;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.config.ConfigHolder;
 
@@ -138,6 +139,8 @@ public final class GTOConfig {
                 ConfigHolder.INSTANCE.gameplay.hazardsEnabled = false;
             }
             ConfigHolder.INSTANCE.dev.debug = GTCEu.isDev();
+
+            MultiblockControllerMachine.sendMessage = GTOConfig.INSTANCE.sendMultiblockErrorMessages;
         }
     }
 
@@ -153,6 +156,11 @@ public final class GTOConfig {
     public boolean selfRestraint = false;
 
     @Configurable
+    @RegisterLanguage(namePrefix = "config.gtocore.option", en = "disable Muffler Part", cn = "禁用消声仓")
+    @Configurable.Comment("禁用后失去掏灰玩法")
+    public boolean disableMufflerPart = false;
+
+    @Configurable
     @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Default Value for Rename Pattern", cn = "重命名样板的默认值")
     @Configurable.Comment("在装配线模式编码带有重命名物品的样板时使用的默认名字")
     public String renamePatternDefaultString = "";
@@ -162,6 +170,11 @@ public final class GTOConfig {
     @Configurable.Comment("快速加载多方块结构页面，减少不必要的加载时间")
     @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Fast Multiblock Page Loading", cn = "快速多方块页面加载")
     public boolean fastMultiBlockPage = true;
+
+    @Configurable
+    @Configurable.Comment("使用更快的并行算法")
+    @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Fast Parallel Calculate", cn = "快速并行计算")
+    public boolean fastParallelcalculate = true;
 
     @Configurable
     @Configurable.Comment("机器查找配方最大间隔（tick）")
@@ -214,6 +227,29 @@ public final class GTOConfig {
     @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Lightning Rod Effect", cn = "引雷针特效")
     public boolean lightningRodEffect = true;
 
+    // 新增：食肉惩罚设置
+    @Configurable
+    @Configurable.Comment("当玩家在某动物附近食用其来源食物时，影响的半径（格）")
+    @Configurable.Range(min = 1, max = 64)
+    @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Carnivory Punish Radius", cn = "食肉惩罚半径")
+    public int cannibalismRadius = 32;
+
+    @Configurable
+    @Configurable.Comment("当玩家在某动物附近食用其来源食物时，对该动物造成的伤害值（半颗心=1.0）")
+    @Configurable.Range(min = 0, max = 100)
+    @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Carnivory Punish Damage", cn = "食肉惩罚伤害")
+    public float cannibalismDamage = 1.0F;
+
+    @Configurable
+    @Configurable.Comment("关闭后将渲染视角外，且渲染器被标记为Global的方块实体，对于具有高级特效机器来说可能有帮助")
+    @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Embeddium Global BE Culling", cn = "Embbedium Global方块实体剔除")
+    public boolean EmbeddiumBECulling = true;
+
+    @Configurable
+    @Configurable.Comment("启用后，进入游戏时，若多方块结构未能成型，则将错误信息将发送给机器的所有者")
+    @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Send Multiblock Error Messages", cn = "发送多方块错误信息")
+    public boolean sendMultiblockErrorMessages = true;
+
     // 开发和调试设置
     @Configurable
     @Configurable.Comment("开启开发者模式")
@@ -234,6 +270,11 @@ public final class GTOConfig {
     @Configurable.Comment("启用 AE2 无线网络调试日志")
     @RegisterLanguage(namePrefix = "config.gtocore.option", en = "[Debug] AE2 & Sync Logging", cn = "[调试] AE2 无线网络调试日志")
     public boolean aeWirelessLog = false;
+
+    @Configurable
+    @Configurable.Comment("AE2 网格存储键")
+    @RegisterLanguage(namePrefix = "config.gtocore.option", cn = "更改此键会使所有网络失效", en = "Changing this key will invalidate all networks")
+    public String aeGridKey = "four";
 
     @Configurable
     @Configurable.Comment("Spark 性能分析器的启动阶段")

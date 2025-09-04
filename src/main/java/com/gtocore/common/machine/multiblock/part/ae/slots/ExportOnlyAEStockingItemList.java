@@ -4,29 +4,80 @@ import com.gtocore.common.machine.multiblock.part.ae.MEStockingBusPartMachine;
 
 import com.gtolib.utils.MathUtil;
 
+import com.gregtechceu.gtceu.api.capability.recipe.IO;
+import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.utils.ItemStackHashStrategy;
+
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
 
 import appeng.api.config.Actionable;
 import appeng.api.stacks.AEItemKey;
 import appeng.api.stacks.GenericStack;
-import appeng.api.storage.MEStorage;
+import appeng.api.stacks.KeyCounter;
+import it.unimi.dsi.fastutil.objects.Object2LongOpenCustomHashMap;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.List;
+
 public class ExportOnlyAEStockingItemList extends ExportOnlyAEItemList {
+
+    private final MEStockingBusPartMachine machine;
 
     public ExportOnlyAEStockingItemList(MEStockingBusPartMachine holder, int slots) {
         super(holder, slots, () -> new ExportOnlyAEStockingItemSlot(holder));
+        this.machine = holder;
     }
 
     @Override
-    public MEStockingBusPartMachine getMachine() {
-        return (MEStockingBusPartMachine) machine;
+    public Object2LongOpenCustomHashMap<ItemStack> getItemMap() {
+        if (!machine.isWorkingEnabled() || !machine.isOnline()) return null;
+        if (itemMap == null) {
+            itemMap = new Object2LongOpenCustomHashMap<>(ItemStackHashStrategy.ITEM);
+        }
+        if (changed) {
+            changed = false;
+            itemMap.clear();
+            var grid = machine.getMainNode().getGrid();
+            if (grid == null) return null;
+            KeyCounter counter = grid.getStorageService().getCachedInventory();
+            for (var i : inventory) {
+                if (i.config == null) continue;
+                var stock = i.stock;
+                if (stock == null) continue;
+                var amount = counter.get(stock.what());
+                if (amount < 1) {
+                    i.stock = null;
+                    continue;
+                } else {
+                    i.stock = ExportOnlyAESlot.copy(stock, amount);
+                }
+                var stack = i.getStack();
+                if (stack.isEmpty()) continue;
+                itemMap.addTo(stack, amount);
+            }
+            isEmpty = itemMap.isEmpty();
+        }
+        return isEmpty ? null : itemMap;
+    }
+
+    @Override
+    @NotNull
+    public Object[] getContents() {
+        if (machine.isWorkingEnabled()) return super.getContents();
+        return new Object[0];
+    }
+
+    @Override
+    public List<Ingredient> handleRecipeInner(IO io, GTRecipe recipe, List<Ingredient> left, boolean simulate) {
+        if (machine.isWorkingEnabled()) return super.handleRecipeInner(io, recipe, left, simulate);
+        return left;
     }
 
     @Override
     public boolean isAutoPull() {
-        return getMachine().isAutoPull();
+        return machine.isAutoPull();
     }
 
     @Override
@@ -39,7 +90,7 @@ public class ExportOnlyAEStockingItemList extends ExportOnlyAEItemList {
         boolean inThisBus = super.hasStackInConfig(stack, false);
         if (inThisBus) return true;
         if (checkExternal) {
-            return getMachine().testConfiguredInOtherPart(stack);
+            return machine.testConfiguredInOtherPart(stack);
         }
         return false;
     }
@@ -62,7 +113,9 @@ public class ExportOnlyAEStockingItemList extends ExportOnlyAEItemList {
         public long extractItem(long amount, boolean simulate, boolean notify) {
             if (this.stock != null && this.config != null) {
                 if (!machine.isOnline()) return 0;
-                long extracted = simulate ? stock.amount() : machine.getMainNode().getGrid().getStorageService().getInventory().extract(config.what(), amount, Actionable.MODULATE, machine.getActionSource());
+                var grid = machine.getMainNode().getGrid();
+                if (grid == null) return 0;
+                long extracted = simulate ? Math.min(amount, grid.getStorageService().getCachedInventory().get(stock.what())) : grid.getStorageService().getInventory().extract(stock.what(), amount, Actionable.MODULATE, machine.getActionSource());
                 if (extracted > 0) {
                     if (!simulate) {
                         this.stock = ExportOnlyAESlot.copy(stock, stock.amount() - extracted);
@@ -82,12 +135,10 @@ public class ExportOnlyAEStockingItemList extends ExportOnlyAEItemList {
         public @NotNull ItemStack extractItem(int slot, int amount, boolean simulate) {
             if (slot == 0 && this.stock != null && this.config != null) {
                 if (!machine.isOnline()) return ItemStack.EMPTY;
-                MEStorage aeNetwork = machine.getMainNode().getGrid().getStorageService().getInventory();
-
-                Actionable action = simulate ? Actionable.SIMULATE : Actionable.MODULATE;
+                var grid = machine.getMainNode().getGrid();
+                if (grid == null) return ItemStack.EMPTY;
                 var key = config.what();
-                long extracted = aeNetwork.extract(key, amount, action, machine.getActionSource());
-
+                long extracted = simulate ? Math.min(amount, grid.getStorageService().getCachedInventory().get(key)) : grid.getStorageService().getInventory().extract(key, amount, Actionable.MODULATE, machine.getActionSource());
                 if (extracted > 0) {
                     ItemStack resultStack = key instanceof AEItemKey itemKey ? itemKey.toStack((int) extracted) : ItemStack.EMPTY;
                     if (!simulate) {

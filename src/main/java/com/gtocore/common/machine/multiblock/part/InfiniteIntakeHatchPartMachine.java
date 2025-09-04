@@ -13,7 +13,6 @@ import com.gregtechceu.gtceu.data.recipe.builder.GTRecipeBuilder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.TickTask;
 import net.minecraft.server.level.ServerLevel;
@@ -38,7 +37,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Map;
-import java.util.function.Consumer;
 
 public final class InfiniteIntakeHatchPartMachine extends TieredIOPartMachine {
 
@@ -62,7 +60,7 @@ public final class InfiniteIntakeHatchPartMachine extends TieredIOPartMachine {
         tank.addChangedListener(this::updateTankSubscription);
     }
 
-    public static void init(GTRecipeBuilder recipeBuilder, Consumer<FinishedRecipe> consumer) {
+    public static void init(GTRecipeBuilder recipeBuilder) {
         for (var condition : recipeBuilder.conditions) {
             if (condition instanceof DimensionCondition dimensionCondition) {
                 var dim = dimensionCondition.getDimension();

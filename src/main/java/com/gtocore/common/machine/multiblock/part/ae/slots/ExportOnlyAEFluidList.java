@@ -129,6 +129,7 @@ public class ExportOnlyAEFluidList extends NotifiableFluidTank implements IConfi
             changed = false;
             fluidMap.clear();
             for (var i : inventory) {
+                if (i.config == null) continue;
                 var stock = i.stock;
                 if (stock == null || stock.amount() == 0) continue;
                 var stack = i.getFluid();

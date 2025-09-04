@@ -3,6 +3,8 @@ package com.gtocore.data.recipe.builder.ars;
 import com.gtolib.GTOCore;
 import com.gtolib.utils.ItemUtils;
 
+import com.gregtechceu.gtceu.data.pack.GTDynamicDataPack;
+
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
@@ -19,7 +21,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Consumer;
 
 import javax.annotation.Nullable;
 
@@ -91,7 +92,7 @@ public final class EnchantingApparatusRecipeBuilder {
         return this;
     }
 
-    public void save(Consumer<FinishedRecipe> consumer) {
+    public void save() {
         if (reagent == null) {
             throw new IllegalStateException("No input specified for enchanting apparatus recipe");
         }
@@ -102,7 +103,7 @@ public final class EnchantingApparatusRecipeBuilder {
             throw new IllegalStateException("No pedestal items added to enchanting apparatus recipe");
         }
 
-        consumer.accept(new FinishedRecipe() {
+        GTDynamicDataPack.addRecipe(new FinishedRecipe() {
 
             @Override
             public void serializeRecipeData(@NotNull JsonObject json) {

@@ -12,7 +12,6 @@ import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
 import com.gregtechceu.gtceu.api.machine.multiblock.CleanroomType;
 import com.gregtechceu.gtceu.common.data.*;
 import com.gregtechceu.gtceu.common.data.machines.GTMultiMachines;
-import com.gregtechceu.gtceu.common.data.machines.GTResearchMachines;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
 
 import net.minecraft.world.item.ItemStack;
@@ -21,10 +20,8 @@ import net.minecraft.world.level.block.Blocks;
 
 import appeng.core.definitions.AEBlocks;
 import appeng.core.definitions.AEItems;
-import com.hepdd.gtmthings.data.WirelessMachines;
 import com.kyanite.deeperdarker.content.DDItems;
 import earth.terrarium.adastra.common.registry.ModItems;
-import vazkii.botania.common.item.BotaniaItems;
 
 import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
@@ -34,6 +31,7 @@ import static com.gtocore.common.data.GTORecipeTypes.ASSEMBLER_RECIPES;
 final class Assembler {
 
     public static void init() {
+        AssemblerA.init();
         ASSEMBLER_RECIPES.builder("coil_cupronickel").EUt(VA[LV]).inputItems(wireGtDouble, Cupronickel, 8)
                 .inputItems(GTOItems.MICA_INSULATOR_FOIL, 8)
                 .inputItems(foil, Bronze, 8).inputFluids(TinAlloy, GTValues.L)
@@ -2230,6 +2228,16 @@ final class Assembler {
                 .duration(50)
                 .save();
 
+        ASSEMBLER_RECIPES.recipeBuilder("iridium_gearbox")
+                .inputItems(TagPrefix.plate, Iridium, 4)
+                .inputItems(TagPrefix.gear, Iridium, 2)
+                .inputItems(TagPrefix.frameGt, Iridium)
+                .circuitMeta(4)
+                .outputItems(GTOBlocks.IRIDIUM_GEARBOX.asStack())
+                .EUt(16)
+                .duration(50)
+                .save();
+
         ASSEMBLER_RECIPES.recipeBuilder("petrochemical_plant")
                 .inputItems(TagPrefix.frameGt, GTMaterials.WatertightSteel, 16)
                 .inputItems(GCYMMachines.LARGE_DISTILLERY.asStack(8))
@@ -2835,15 +2843,18 @@ final class Assembler {
                 .save();
 
         ASSEMBLER_RECIPES.recipeBuilder("graviton_field_constraint_casing")
-                .inputItems(TagPrefix.frameGt, GTOMaterials.Draconium)
-                .inputItems(GTOItems.ANNIHILATION_CONSTRAINER.asStack())
-                .inputItems(GTOTagPrefix.NANITES, GTMaterials.Neutronium)
-                .inputItems(TagPrefix.gear, GTOMaterials.CelestialTungsten)
-                .inputItems(TagPrefix.plateDouble, GTOMaterials.Adamantium, 4)
-                .inputFluids(GTMaterials.Neutronium.getFluid(288))
-                .outputItems(GTOBlocks.GRAVITON_FIELD_CONSTRAINT_CASING.asStack())
+                .inputItems(GTOBlocks.INTEGRAL_FRAMEWORK_UIV.asStack(2))
+                .inputItems(TagPrefix.frameGt, GTOMaterials.Draconium, 2)
+                .inputItems(TagPrefix.gear, GTOMaterials.CelestialTungsten, 2)
+                .inputItems(TagPrefix.plateDouble, GTOMaterials.Adamantium, 2)
+                .inputItems(GTOItems.ANNIHILATION_CONSTRAINER.asItem())
+                .inputItems(GTOTagPrefix.NANITES, Neutronium)
+                .inputItems(GTOTagPrefix.NANITES, Osmium)
+                .inputItems(GTItems.FIELD_GENERATOR_UIV.asStack(2))
+                .outputItems(GTOBlocks.GRAVITON_FIELD_CONSTRAINT_CASING.asStack(2))
+                .inputFluids(GTMaterials.Neutronium.getFluid(576))
                 .EUt(31457280)
-                .duration(100)
+                .duration(200)
                 .save();
 
         ASSEMBLER_RECIPES.recipeBuilder("space_elevator_support")
@@ -3603,6 +3614,18 @@ final class Assembler {
                 .duration(400)
                 .save();
 
+        ASSEMBLER_RECIPES.builder("integral_framework_ulv")
+                .inputItems(GTMachines.HULL[GTValues.ULV].asStack())
+                .inputItems(TagPrefix.gear, Invar, 4)
+                .inputItems(TagPrefix.plate, Invar, 4)
+                .inputItems(TagPrefix.cableGtOctal, RedAlloy)
+                .inputItems(CustomTags.ULV_CIRCUITS, 2)
+                .outputItems(GTOBlocks.INTEGRAL_FRAMEWORK_ULV.asStack())
+                .inputFluids(Polyethylene, 288)
+                .duration(100)
+                .EUt(7)
+                .save();
+
         ASSEMBLER_RECIPES.builder("integral_framework_lv")
                 .inputItems(GTMachines.HULL[GTValues.LV].asStack())
                 .inputItems(TagPrefix.gear, GTMaterials.RoseGold, 4)
@@ -3714,7 +3737,9 @@ final class Assembler {
         ASSEMBLER_RECIPES.builder("space_nanomuscle_chestplate")
                 .inputItems(GTItems.NANO_CHESTPLATE.asStack())
                 .inputItems("ad_astra:oxygen_gear")
-                .inputItems("ad_astra:large_gas_tank", 4)
+                .inputItems("ad_astra:large_gas_tank", 2)
+                .inputItems(GTItems.FLUID_CELL_LARGE_ALUMINIUM.asStack())
+                .inputItems(GTItems.ELECTRIC_PUMP_HV.asStack(), 2)
                 .inputItems(GTItems.SENSOR_HV.asStack())
                 .inputItems(TagPrefix.plate, GTMaterials.SterlingSilver, 4)
                 .outputItems(GTOItems.SPACE_NANOMUSCLE_CHESTPLATE.asItem())
@@ -3726,7 +3751,9 @@ final class Assembler {
         ASSEMBLER_RECIPES.builder("space_advanced_nanomuscle_chestplate")
                 .inputItems(GTItems.NANO_CHESTPLATE_ADVANCED.asStack())
                 .inputItems("ad_astra:oxygen_distributor")
-                .inputItems("ad_astra:large_gas_tank", 8)
+                .inputItems("ad_astra:large_gas_tank", 2)
+                .inputItems(GTItems.FLUID_CELL_LARGE_STAINLESS_STEEL.asStack())
+                .inputItems(GTItems.ELECTRIC_PUMP_EV.asStack(), 2)
                 .inputItems(GTItems.SENSOR_EV.asStack())
                 .inputItems(TagPrefix.plate, GTMaterials.Chromium, 4)
                 .outputItems(GTOItems.SPACE_ADVANCED_NANOMUSCLE_CHESTPLATE.asItem())
@@ -3738,7 +3765,9 @@ final class Assembler {
         ASSEMBLER_RECIPES.builder("space_quarktech_chestplate")
                 .inputItems(GTItems.QUANTUM_CHESTPLATE.asStack())
                 .inputItems("ad_astra:oxygen_distributor", 2)
-                .inputItems("ad_astra:large_gas_tank", 16)
+                .inputItems("ad_astra:large_gas_tank", 2)
+                .inputItems(GTItems.FLUID_CELL_LARGE_TITANIUM.asStack())
+                .inputItems(GTItems.ELECTRIC_PUMP_IV.asStack(), 2)
                 .inputItems(GTItems.SENSOR_IV.asStack(2))
                 .inputItems(GTItems.FIELD_GENERATOR_IV.asStack())
                 .inputItems(TagPrefix.plate, GTMaterials.Ruthenium, 4)
@@ -3751,7 +3780,9 @@ final class Assembler {
         ASSEMBLER_RECIPES.builder("space_advanced_quarktech_chestplate")
                 .inputItems(GTItems.QUANTUM_CHESTPLATE_ADVANCED.asStack())
                 .inputItems("ad_astra:oxygen_distributor", 4)
-                .inputItems("ad_astra:large_gas_tank", 32)
+                .inputItems("ad_astra:large_gas_tank", 2)
+                .inputItems(GTItems.FLUID_CELL_LARGE_TUNGSTEN_STEEL.asStack())
+                .inputItems(GTItems.ELECTRIC_PUMP_LuV.asStack(), 2)
                 .inputItems(GTItems.SENSOR_LuV.asStack(4))
                 .inputItems(GTItems.FIELD_GENERATOR_ZPM.asStack())
                 .inputItems(TagPrefix.plate, GTMaterials.Trinium, 4)
@@ -3956,256 +3987,6 @@ final class Assembler {
                 .inputFluids(GTMaterials.Trinium, 1000)
                 .EUt(524288)
                 .duration(400)
-                .save();
-
-        ASSEMBLER_RECIPES.builder("wireless_charger_cover")
-                .inputItems("gtmthings:mv_wireless_energy_receive_cover")
-                .inputItems(GTMachines.CHARGER_4[GTValues.MV].asStack())
-                .inputItems(GTItems.EMITTER_MV.asStack())
-                .inputItems(CustomTags.MV_CIRCUITS, 2)
-                .outputItems(GTOItems.WIRELESS_CHARGER_COVER.asItem())
-                .inputFluids(GTMaterials.SolderingAlloy, 288)
-                .EUt(120)
-                .duration(200)
-                .save();
-
-        ASSEMBLER_RECIPES.builder("thermal_conductor_hatch")
-                .inputItems(GTMachines.HULL[GTValues.LuV].asStack())
-                .inputItems(TagPrefix.ingot, GTOMaterials.BasicMFPC, 16)
-                .inputItems(TagPrefix.pipeHugeRestrictive, GTMaterials.SterlingSilver, 8)
-                .inputItems(GTItems.ROBOT_ARM_LuV.asStack(8))
-                .outputItems(GTOMachines.THERMAL_CONDUCTOR_HATCH.asStack())
-                .inputFluids(GTMaterials.SodiumPotassium, 2880)
-                .EUt(VA[LuV])
-                .duration(200)
-                .save();
-
-        ASSEMBLER_RECIPES.builder("basic_monitor")
-                .inputItems(GTBlocks.CASING_STEEL_SOLID)
-                .inputItems(GTItems.COVER_SCREEN)
-                .inputItems(GTItems.SENSOR_LV.asStack(2))
-                .outputItems(GTOMachines.BASIC_MONITOR)
-                .EUt(15)
-                .duration(100)
-                .save();
-
-        ASSEMBLER_RECIPES.builder("monitor_elec")
-                .inputItems(GTOMachines.BASIC_MONITOR)
-                .inputItems(WirelessMachines.WIRELESS_ENERGY_MONITOR)
-                .outputItems(GTOMachines.MONITOR_MACHINE_ELECTRICITY)
-                .EUt(15)
-                .duration(100)
-                .save();
-
-        ASSEMBLER_RECIPES.builder("monitor_mana")
-                .inputItems(GTOMachines.BASIC_MONITOR)
-                .inputItems(BotaniaItems.manaMirror)
-                .outputItems(GTOMachines.MONITOR_MACHINE_MANA)
-                .EUt(15)
-                .duration(100)
-                .save();
-
-        ASSEMBLER_RECIPES.builder("monitor_cwu")
-                .inputItems(GTOMachines.BASIC_MONITOR)
-                .inputItems(GTResearchMachines.HPCA_BRIDGE_COMPONENT)
-                .outputItems(GTOMachines.MONITOR_MACHINE_CWU)
-                .EUt(15)
-                .duration(100)
-                .save();
-
-        ASSEMBLER_RECIPES.builder("monitor_custom")
-                .inputItems(GTOMachines.BASIC_MONITOR)
-                .inputItems(Items.NAME_TAG)
-                .outputItems(GTOMachines.MONITOR_MACHINE_CUSTOM)
-                .EUt(15)
-                .duration(100)
-                .save();
-
-        ASSEMBLER_RECIPES.builder("monitor_ae_throughput")
-                .inputItems(GTOMachines.BASIC_MONITOR)
-                .inputItems(GTOAEParts.INSTANCE.getEXCHANGE_STORAGE_MONITOR().get().asItem())
-                .outputItems(GTOMachines.MONITOR_AE_THROUGHPUT)
-                .EUt(15)
-                .duration(100)
-                .save();
-        ASSEMBLER_RECIPES.builder("monitor_ae_cpu")
-                .inputItems(GTOMachines.BASIC_MONITOR)
-                .inputItems(AEBlocks.CRAFTING_MONITOR.asItem())
-                .outputItems(GTOMachines.MONITOR_AE_CPU)
-                .EUt(15)
-                .duration(100)
-                .save();
-
-        ASSEMBLER_RECIPES.builder("monitor_machine")
-                .inputItems(GTOMachines.BASIC_MONITOR)
-                .inputItems(GTItems.PORTABLE_SCANNER)
-                .outputItems(GTOMachines.MONITOR_MACHINE)
-                .EUt(15)
-                .duration(100)
-                .save();
-
-        ASSEMBLER_RECIPES.builder("wood_frame_fix")
-                .inputItems(Items.STICK, 4)
-                .circuitMeta(8)
-                .outputItems(frameGt, Wood, 1)
-                .EUt(7)
-                .duration(64)
-                .save();
-
-        ASSEMBLER_RECIPES.builder("advanced_tesseract_generator")
-                .inputItems(GTOMachines.TESSERACT_GENERATOR.asStack(4))
-                .inputItems(GTItems.FIELD_GENERATOR_HV.asStack(2))
-                .inputItems(GTItems.QUANTUM_STAR.asStack(1))
-                .outputItems(GTOMachines.ADVANCED_TESSERACT_GENERATOR.asStack())
-                .EUt(1920)
-                .duration(200)
-                .save();
-
-        ASSEMBLER_RECIPES.builder("me_big_storage_access_hatch")
-                .inputItems(GTAEMachines.ME_STORAGE_ACCESS_HATCH.asStack())
-                .inputItems("expatternprovider:oversize_interface", 16)
-                .inputItems(new ItemStack(AEItems.CAPACITY_CARD.asItem(), 32))
-                .inputItems(new ItemStack(AEItems.SPEED_CARD.asItem(), 32))
-                .inputItems(GTItems.FIELD_GENERATOR_IV.asStack())
-                .outputItems(GTAEMachines.ME_BIG_STORAGE_ACCESS_HATCH.asStack())
-                .EUt(7680)
-                .duration(400)
-                .save();
-
-        ASSEMBLER_RECIPES.builder("crafting_cpu_interface")
-                .inputItems(GTMachines.HULL[GTValues.HV].asStack())
-                .inputItems("expatternprovider:oversize_interface")
-                .inputItems("ae2:storage_bus", 4)
-                .inputItems(GTItems.SENSOR_HV.asStack(4))
-                .outputItems(GTAEMachines.CRAFTING_CPU_INTERFACE.asStack())
-                .EUt(480)
-                .duration(400)
-                .save();
-
-        ASSEMBLER_RECIPES.builder("me_cpu")
-                .inputItems(new ItemStack(AEBlocks.CRAFTING_MONITOR.block().asItem()))
-                .inputItems(GTItems.QUBIT_CENTRAL_PROCESSING_UNIT.asStack(32))
-                .inputItems(GTItems.TOOL_DATA_STICK.asStack(16))
-                .inputItems(GTItems.EMITTER_EV.asStack(8))
-                .inputItems(GTItems.SENSOR_EV.asStack(8))
-                .inputItems(CustomTags.IV_CIRCUITS, 16)
-                .inputItems(TagPrefix.plateDouble, GTMaterials.Titanium, 32)
-                .outputItems(MultiBlockG.ME_CPU.asStack())
-                .EUt(1920)
-                .duration(800)
-                .save();
-
-        ASSEMBLER_RECIPES.builder("t1_crafting_storage_core")
-                .inputItems(new ItemStack(AEBlocks.CRAFTING_UNIT.block().asItem()))
-                .inputItems(GTOBlocks.T1_ME_STORAGE_CORE.asStack())
-                .inputItems(new ItemStack(AEBlocks.CRAFTING_ACCELERATOR.block().asItem()))
-                .inputItems(new ItemStack(AEItems.ADVANCED_CARD.asItem(), 4))
-                .outputItems(GTOBlocks.T1_CRAFTING_STORAGE_CORE.asStack())
-                .EUt(1920)
-                .duration(200)
-                .save();
-
-        ASSEMBLER_RECIPES.builder("t2_crafting_storage_core")
-                .inputItems(new ItemStack(AEBlocks.CRAFTING_UNIT.block().asItem()))
-                .inputItems(GTOBlocks.T2_ME_STORAGE_CORE.asStack())
-                .inputItems(new ItemStack(AEBlocks.CRAFTING_ACCELERATOR.block().asItem()))
-                .inputItems(new ItemStack(AEItems.ADVANCED_CARD.asItem(), 4))
-                .outputItems(GTOBlocks.T2_CRAFTING_STORAGE_CORE.asStack())
-                .EUt(7680)
-                .duration(200)
-                .save();
-
-        ASSEMBLER_RECIPES.builder("t3_crafting_storage_core")
-                .inputItems(new ItemStack(AEBlocks.CRAFTING_UNIT.block().asItem()))
-                .inputItems(GTOBlocks.T3_ME_STORAGE_CORE.asStack())
-                .inputItems(new ItemStack(AEBlocks.CRAFTING_ACCELERATOR.block().asItem()))
-                .inputItems(new ItemStack(AEItems.ADVANCED_CARD.asItem(), 4))
-                .outputItems(GTOBlocks.T3_CRAFTING_STORAGE_CORE.asStack())
-                .EUt(30720)
-                .duration(200)
-                .save();
-
-        ASSEMBLER_RECIPES.builder("t4_crafting_storage_core")
-                .inputItems(new ItemStack(AEBlocks.CRAFTING_UNIT.block().asItem()))
-                .inputItems(GTOBlocks.T4_ME_STORAGE_CORE.asStack())
-                .inputItems(new ItemStack(AEBlocks.CRAFTING_ACCELERATOR.block().asItem()))
-                .inputItems(new ItemStack(AEItems.ADVANCED_CARD.asItem(), 4))
-                .outputItems(GTOBlocks.T4_CRAFTING_STORAGE_CORE.asStack())
-                .EUt(122880)
-                .duration(200)
-                .save();
-
-        ASSEMBLER_RECIPES.builder("t5_crafting_storage_core")
-                .inputItems(new ItemStack(AEBlocks.CRAFTING_UNIT.block().asItem()))
-                .inputItems(GTOBlocks.T5_ME_STORAGE_CORE.asStack())
-                .inputItems(new ItemStack(AEBlocks.CRAFTING_ACCELERATOR.block().asItem()))
-                .inputItems(new ItemStack(AEItems.ADVANCED_CARD.asItem(), 4))
-                .outputItems(GTOBlocks.T5_CRAFTING_STORAGE_CORE.asStack())
-                .EUt(491520)
-                .duration(200)
-                .save();
-
-        ASSEMBLER_RECIPES.builder("high_pressure_pipe_casing")
-                .inputItems(frameGt, Titanium)
-                .inputItems(TagPrefix.pipeNormalFluid, Titanium, 4)
-                .inputItems(TagPrefix.plate, TungstenSteel, 4)
-                .outputItems(GTOBlocks.HIGH_PRESSURE_PIPE_CASING.asStack())
-                .inputFluids(GTOMaterials.HighPressureNitrogen, 576)
-                .EUt(480)
-                .duration(200)
-                .save();
-
-        ASSEMBLER_RECIPES.builder("chemical_corrosion_resistant_pipe_casing")
-                .inputItems(TagPrefix.frameGt, StainlessSteel)
-                .inputItems(TagPrefix.pipeNormalFluid, StainlessSteel, 4)
-                .inputItems(TagPrefix.plate, Polytetrafluoroethylene, 4)
-                .inputItems(TagPrefix.plate, StainlessSteel, 4)
-                .outputItems(GTOBlocks.CHEMICAL_CORROSION_RESISTANT_PIPE_CASING.asStack())
-                .inputFluids(Polytetrafluoroethylene, 576)
-                .EUt(480)
-                .duration(200)
-                .save();
-
-        ASSEMBLER_RECIPES.builder("oil_gas_transportation_pipe_casing")
-                .inputItems(TagPrefix.frameGt, HSSG)
-                .inputItems(TagPrefix.pipeNormalFluid, NiobiumTitanium, 4)
-                .inputItems(TagPrefix.plate, RhodiumPlatedPalladium, 4)
-                .inputItems(TagPrefix.plate, GTOMaterials.HastelloyN75, 4)
-                .outputItems(GTOBlocks.OIL_GAS_TRANSPORTATION_PIPE_CASING.asStack())
-                .inputFluids(GTOMaterials.MarM200Steel, 576)
-                .EUt(480)
-                .duration(200)
-                .save();
-
-        ASSEMBLER_RECIPES.builder("high_strength_support_mechanical_casing")
-                .inputItems(TagPrefix.frameGt, BlackSteel)
-                .inputItems(plateDouble, HastelloyX, 8)
-                .inputItems(TagPrefix.plate, RhodiumPlatedPalladium, 8)
-                .inputItems(rod, GTOMaterials.Inconel625, 8)
-                .outputItems(GTOBlocks.HIGH_STRENGTH_SUPPORT_MECHANICAL_CASING.asStack())
-                .inputFluids(Polybenzimidazole, 576)
-                .EUt(480)
-                .duration(200)
-                .save();
-
-        ASSEMBLER_RECIPES.builder("high_strength_support_spindle")
-                .inputItems(TagPrefix.frameGt, BlackSteel)
-                .inputItems(plateDouble, RhodiumPlatedPalladium, 8)
-                .inputItems(rodLong, Naquadah, 8)
-                .outputItems(GTOBlocks.HIGH_STRENGTH_SUPPORT_SPINDLE.asStack())
-                .inputFluids(Concrete, 576 * 4)
-                .EUt(480)
-                .duration(200)
-                .save();
-
-        ASSEMBLER_RECIPES.builder("high_strength_space_elevator_cable")
-                .inputItems(wireGtQuadruple, BlackSteel, 4)
-                .inputItems(wireGtQuadruple, GTOMaterials.Amprosium, 4)
-                .inputItems(foil, NaquadahAlloy, 8)
-                .outputItems(GTOBlocks.HIGH_STRENGTH_SPACE_ELEVATOR_CABLE.asStack())
-                .inputFluids(GTOMaterials.Kevlar, 288)
-                .EUt(480)
-                .duration(200)
                 .save();
     }
 }

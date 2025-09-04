@@ -25,7 +25,6 @@ import com.gregtechceu.gtceu.common.data.machines.GTMultiMachines;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
 import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
 
-import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
@@ -33,7 +32,6 @@ import com.hepdd.gtmthings.data.CustomItems;
 import com.tterrag.registrate.util.entry.ItemEntry;
 
 import java.util.List;
-import java.util.function.Consumer;
 
 import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.lens;
@@ -47,42 +45,42 @@ import static com.gtocore.common.data.GTORecipeTypes.LASER_WELDER_RECIPES;
 
 final class HatchRecipe {
 
-    public static void init(Consumer<FinishedRecipe> provider) {
+    public static void init() {
         MaterialEntry lensDiamond = new MaterialEntry(lens, Diamond);
         ItemStack activeTransformer = GTMultiMachines.ACTIVE_TRANSFORMER.asStack();
         ItemStack coverEnergyDetector = GTItems.COVER_ENERGY_DETECTOR_ADVANCED.asStack();
 
-        VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("rotor_holder_uhv"), GTMachines.ROTOR_HOLDER[UHV].asStack(),
+        VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("rotor_holder_uhv"), GTMachines.ROTOR_HOLDER[UHV].asStack(),
                 "SGS", "GHG", "SGS", 'H', GTMachines.HULL[UHV].asStack(), 'G',
                 new MaterialEntry(TagPrefix.gear, GTOMaterials.Orichalcum), 'S',
                 new MaterialEntry(TagPrefix.gearSmall, GTMaterials.Neutronium));
-        VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("rotor_holder_uev"), GTMachines.ROTOR_HOLDER[UEV].asStack(),
+        VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("rotor_holder_uev"), GTMachines.ROTOR_HOLDER[UEV].asStack(),
                 "SGS", "GHG", "SGS", 'H', GTMachines.HULL[UEV].asStack(), 'G',
                 new MaterialEntry(TagPrefix.gear, GTOMaterials.AstralTitanium), 'S',
                 new MaterialEntry(TagPrefix.gearSmall, GTOMaterials.Quantanium));
-        VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("rotor_holder_uiv"), GTMachines.ROTOR_HOLDER[UIV].asStack(),
+        VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("rotor_holder_uiv"), GTMachines.ROTOR_HOLDER[UIV].asStack(),
                 "SGS", "GHG", "SGS", 'H', GTMachines.HULL[UIV].asStack(), 'G',
                 new MaterialEntry(TagPrefix.gear, GTOMaterials.CelestialTungsten), 'S',
                 new MaterialEntry(TagPrefix.gearSmall, GTOMaterials.Infuscolium));
-        VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("rotor_holder_uxv"), GTMachines.ROTOR_HOLDER[UXV].asStack(),
+        VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("rotor_holder_uxv"), GTMachines.ROTOR_HOLDER[UXV].asStack(),
                 "SGS", "GHG", "SGS", 'H', GTMachines.HULL[UXV].asStack(), 'G',
                 new MaterialEntry(TagPrefix.gear, GTOMaterials.Vibramantium), 'S',
                 new MaterialEntry(TagPrefix.gearSmall, GTOMaterials.HastelloyK243));
-        VanillaRecipeHelper.addShapedRecipe(provider, true, GTOCore.id("rotor_holder_opv"), GTMachines.ROTOR_HOLDER[OpV].asStack(),
+        VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("rotor_holder_opv"), GTMachines.ROTOR_HOLDER[OpV].asStack(),
                 "SGS", "GHG", "SGS", 'H', GTMachines.HULL[OpV].asStack(), 'G',
                 new MaterialEntry(TagPrefix.gear, GTOMaterials.HexaphaseCopper), 'S',
                 new MaterialEntry(TagPrefix.gearSmall, GTOMaterials.TranscendentMetal));
-        VanillaRecipeHelper.addShapedRecipe(provider, GTOCore.id("primitive_blast_furnace_hatch"), GTOMachines.PRIMITIVE_BLAST_FURNACE_HATCH.asStack(),
+        VanillaRecipeHelper.addShapedRecipe(GTOCore.id("primitive_blast_furnace_hatch"), GTOMachines.PRIMITIVE_BLAST_FURNACE_HATCH.asStack(),
                 "ABA",
                 'B', GTBlocks.CASING_PRIMITIVE_BRICKS.asStack(), 'A', TagUtils.createTag(RLUtils.forge("chests")));
 
-        VanillaRecipeHelper.addShapedRecipe(provider, GTOCore.id("steam_fluid_input_hatch"), GTOMachines.STEAM_FLUID_INPUT_HATCH.asStack(),
+        VanillaRecipeHelper.addShapedRecipe(GTOCore.id("steam_fluid_input_hatch"), GTOMachines.STEAM_FLUID_INPUT_HATCH.asStack(),
                 " A ",
                 " B ",
                 "   ",
                 'A', RegistriesUtils.getItemStack("gtceu:wood_drum"), 'B', GTBlocks.BRONZE_HULL.asStack());
 
-        VanillaRecipeHelper.addShapedRecipe(provider, GTOCore.id("steam_fluid_output_hatch"), GTOMachines.STEAM_FLUID_OUTPUT_HATCH.asStack(),
+        VanillaRecipeHelper.addShapedRecipe(GTOCore.id("steam_fluid_output_hatch"), GTOMachines.STEAM_FLUID_OUTPUT_HATCH.asStack(),
                 "   ",
                 " A ",
                 " B ",
@@ -135,23 +133,19 @@ final class HatchRecipe {
             var importHatch9x = GTMachines.FLUID_IMPORT_HATCH_9X[tier];
             var exportHatch9x = GTMachines.FLUID_EXPORT_HATCH_9X[tier];
 
-            VanillaRecipeHelper.addShapedRecipe(
-                    provider, true, GTOCore.id("fluid_import_hatch_4x_" + tierName),
+            VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("fluid_import_hatch_4x_" + tierName),
                     importHatch4x.asStack(), "P", "M",
                     'M', importHatch.asStack(),
                     'P', new MaterialEntry(TagPrefix.pipeQuadrupleFluid, material));
-            VanillaRecipeHelper.addShapedRecipe(
-                    provider, true, GTOCore.id("fluid_export_hatch_4x_" + tierName),
+            VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("fluid_export_hatch_4x_" + tierName),
                     exportHatch4x.asStack(), "M", "P",
                     'M', exportHatch.asStack(),
                     'P', new MaterialEntry(TagPrefix.pipeQuadrupleFluid, material));
-            VanillaRecipeHelper.addShapedRecipe(
-                    provider, true, GTOCore.id("fluid_import_hatch_9x_" + tierName),
+            VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("fluid_import_hatch_9x_" + tierName),
                     importHatch9x.asStack(), "P", "M",
                     'M', importHatch.asStack(),
                     'P', new MaterialEntry(TagPrefix.pipeNonupleFluid, material));
-            VanillaRecipeHelper.addShapedRecipe(
-                    provider, true, GTOCore.id("fluid_export_hatch_9x_" + tierName),
+            VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("fluid_export_hatch_9x_" + tierName),
                     exportHatch9x.asStack(), "M", "P",
                     'M', exportHatch.asStack(),
                     'P', new MaterialEntry(TagPrefix.pipeNonupleFluid, material));

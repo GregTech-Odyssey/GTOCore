@@ -347,7 +347,7 @@ final class NanitesIntegratedProcessingCenter {
 
         NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES.recipeBuilder("acidic_naquadria_solution")
                 .inputItems(GTOTagPrefix.NANITES, GTMaterials.Carbon)
-                .inputItems(TagPrefix.dust, GTMaterials.NaquadahEnriched)
+                .inputItems(TagPrefix.dust, GTMaterials.Naquadria)
                 .inputFluids(GTMaterials.SulfuricAcid.getFluid(2000))
                 .outputItems(GTOTagPrefix.CONTAMINABLE_NANITES, GTMaterials.Carbon)
                 .outputFluids(GTMaterials.AcidicNaquadriaSolution.getFluid(3000))
@@ -484,7 +484,7 @@ final class NanitesIntegratedProcessingCenter {
 
         NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES.recipeBuilder("acidic_enriched_naquadah_solution")
                 .inputItems(GTOTagPrefix.NANITES, GTMaterials.Carbon)
-                .inputItems(TagPrefix.dust, GTMaterials.Naquadria)
+                .inputItems(TagPrefix.dust, GTMaterials.NaquadahEnriched)
                 .inputFluids(GTMaterials.SulfuricAcid.getFluid(2000))
                 .outputItems(GTOTagPrefix.CONTAMINABLE_NANITES, GTMaterials.Carbon)
                 .outputFluids(GTMaterials.AcidicEnrichedNaquadahSolution.getFluid(3000))

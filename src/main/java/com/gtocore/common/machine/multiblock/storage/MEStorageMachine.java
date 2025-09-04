@@ -1,11 +1,10 @@
 package com.gtocore.common.machine.multiblock.storage;
 
 import com.gtocore.common.data.GTOItems;
-import com.gtocore.common.machine.multiblock.part.ae.IStorageAccess;
-import com.gtocore.common.machine.multiblock.part.ae.MEBigStorageAccessPartMachine;
+import com.gtocore.common.machine.multiblock.part.ae.StorageAccessPartMachine;
 
-import com.gtolib.ae2.storage.BigCellDataStorage;
-import com.gtolib.api.annotation.Scanned;
+import com.gtolib.api.ae2.storage.BigCellDataStorage;
+import com.gtolib.api.annotation.DataGeneratorScanned;
 import com.gtolib.api.annotation.language.RegisterLanguage;
 import com.gtolib.api.machine.feature.multiblock.IStorageMultiblock;
 import com.gtolib.api.machine.multiblock.NoRecipeLogicMultiblockMachine;
@@ -26,7 +25,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
-import appeng.api.stacks.AEKey;
 import com.hepdd.gtmthings.api.capability.IBindable;
 import com.hepdd.gtmthings.utils.BigIntegerUtils;
 import com.lowdragmc.lowdraglib.gui.util.ClickData;
@@ -34,16 +32,13 @@ import com.lowdragmc.lowdraglib.gui.widget.ComponentPanelWidget;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
-import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
-import it.unimi.dsi.fastutil.objects.ObjectIterator;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.math.BigInteger;
 import java.util.List;
 import java.util.UUID;
 
-@Scanned
+@DataGeneratorScanned
 public final class MEStorageMachine extends NoRecipeLogicMultiblockMachine implements IMachineLife, IBindable, IDropSaveMachine, IStorageMultiblock {
 
     private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(MEStorageMachine.class, NoRecipeLogicMultiblockMachine.MANAGED_FIELD_HOLDER);
@@ -56,7 +51,7 @@ public final class MEStorageMachine extends NoRecipeLogicMultiblockMachine imple
     private UUID uuid;
     @Persisted
     private boolean player = true;
-    private IStorageAccess accessPartMachine;
+    private StorageAccessPartMachine accessPartMachine;
 
     public MEStorageMachine(MetaMachineBlockEntity holder) {
         super(holder);
@@ -74,7 +69,7 @@ public final class MEStorageMachine extends NoRecipeLogicMultiblockMachine imple
         Level level = getLevel();
         if (level == null) return;
         for (IMultiPart part : getParts()) {
-            if (part instanceof IStorageAccess storageAccessPartMachine) {
+            if (part instanceof StorageAccessPartMachine storageAccessPartMachine) {
                 accessPartMachine = storageAccessPartMachine;
                 break;
             }
@@ -140,18 +135,17 @@ public final class MEStorageMachine extends NoRecipeLogicMultiblockMachine imple
             if (getOffsetTimer() % 10 == 0) accessPartMachine.setObserve(true);
             textList.add(Component.translatable("gui.ae2.BytesUsed", NumberUtils.numberText(accessPartMachine.getBytes()).append(" / ").append(accessPartMachine.isInfinite() ? StringUtils.full_color("infinity") : NumberUtils.formatDouble(accessPartMachine.getCapacity())).withStyle(ChatFormatting.GREEN)).withStyle(ChatFormatting.GRAY));
             textList.add(Component.literal(String.valueOf(accessPartMachine.getTypes())).withStyle(ChatFormatting.AQUA).append(Component.literal(" ").append(Component.translatable("gui.ae2.Types").withStyle(ChatFormatting.GRAY))));
-            if (accessPartMachine instanceof MEBigStorageAccessPartMachine machine) {
+            if (accessPartMachine instanceof StorageAccessPartMachine.Big machine) {
                 var data = machine.getCellStorage();
                 if (data == BigCellDataStorage.EMPTY) return;
                 var map = data.getStoredMap();
                 if (map == null) return;
-                for (ObjectIterator<Object2ObjectMap.Entry<AEKey, BigInteger>> it = map.object2ObjectEntrySet().fastIterator(); it.hasNext();) {
-                    Object2ObjectMap.Entry<AEKey, BigInteger> entry = it.next();
+                map.object2ObjectEntrySet().fastForEach(entry -> {
                     var currentAmount = entry.getValue();
                     if (currentAmount.compareTo(BigIntegerUtils.BIG_INTEGER_MAX_LONG) > 0) {
                         textList.add(entry.getKey().getDisplayName().copy().append(": ").append(NumberUtils.numberText(currentAmount.doubleValue())).withStyle(ChatFormatting.GRAY));
                     }
-                }
+                });
             }
         }
     }

@@ -3,6 +3,8 @@ dependencies {
 
     implementation("curse.maven:kotlin-for-forge-351264:5402061")
 
+    jarJar("dev:terrific_trash_cans:1.0.0")
+
     modImplementation(jarJar("dev:gtolib:1.0"))
     modImplementation(jarJar("com.hepdd:ae2emicraftingforge:1.0.0"))
 
@@ -53,6 +55,8 @@ dependencies {
 
     modImplementation("curse.maven:glodium-957920:5006780")
     modImplementation("curse.maven:ex-pattern-provider-892005:6870350")
+
+    modImplementation("curse.maven:merequester-688367:5689932")
 
     modImplementation("curse.maven:functional-storage-556861:5650296")
     modImplementation("curse.maven:titanium-287342:5468426")

@@ -419,7 +419,7 @@ final class ReactorRecipes {
                 .circuitMeta(2)
                 .inputFluids(NitrogenDioxide.getFluid(2000))
                 .outputFluids(DinitrogenTetroxide.getFluid(1000))
-                .duration(640).EUt(VA[LV]).save();
+                .duration(1280).EUt(VA[LV]).save();
 
         CHEMICAL_RECIPES.recipeBuilder("sodium_bisulfate_from_hydroxide")
                 .inputItems(dust, SodiumHydroxide, 3)

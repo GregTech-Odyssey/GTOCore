@@ -16,7 +16,6 @@ import com.gregtechceu.gtceu.common.data.machines.GTResearchMachines;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
 import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
 
-import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraftforge.common.Tags;
@@ -27,14 +26,12 @@ import com.hepdd.gtmthings.data.CustomItems;
 import com.hepdd.gtmthings.data.CustomMachines;
 import com.hepdd.gtmthings.data.WirelessMachines;
 
-import java.util.function.Consumer;
-
 import static com.gtocore.common.data.GTORecipeTypes.ASSEMBLER_RECIPES;
 import static com.gtocore.common.data.GTORecipeTypes.SCANNER_RECIPES;
 
 public final class GTMTRecipe {
 
-    public static void init(Consumer<FinishedRecipe> provider) {
+    public static void init() {
         ASSEMBLER_RECIPES.recipeBuilder("programmable_cover")
                 .inputItems(GTItems.ROBOT_ARM_MV.asStack(2))
                 .inputItems(CustomItems.VIRTUAL_ITEM_PROVIDER.asStack())
@@ -653,7 +650,7 @@ public final class GTMTRecipe {
                 .EUt(GTValues.VA[GTValues.LV])
                 .save();
 
-        VanillaRecipeHelper.addShapedRecipe(provider, true, "advanced_terminal", CustomItems.ADVANCED_TERMINAL.asStack(),
+        VanillaRecipeHelper.addShapedRecipe(true, "advanced_terminal", CustomItems.ADVANCED_TERMINAL.asStack(),
                 "SGS", "PBP", "PWP",
                 'S', new MaterialEntry(TagPrefix.screw, GTMaterials.Steel),
                 'G', Tags.Items.GLASS_PANES,
@@ -661,7 +658,7 @@ public final class GTMTRecipe {
                 'P', new MaterialEntry(TagPrefix.plate, GTMaterials.Steel),
                 'W', GTItems.TERMINAL);
 
-        VanillaRecipeHelper.addShapedRecipe(provider, "wireless_energy_terminal", CustomItems.WIRELESS_ENERGY_TERMINAL.asStack(),
+        VanillaRecipeHelper.addShapedRecipe("wireless_energy_terminal", CustomItems.WIRELESS_ENERGY_TERMINAL.asStack(),
                 "ABA",
                 "CDC",
                 "ACA",

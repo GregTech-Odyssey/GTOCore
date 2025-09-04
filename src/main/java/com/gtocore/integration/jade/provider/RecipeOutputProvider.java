@@ -1,6 +1,5 @@
 package com.gtocore.integration.jade.provider;
 
-import com.gtocore.common.ServerCache;
 import com.gtocore.common.data.GTORecipeTypes;
 
 import com.gtolib.api.recipe.ContentBuilder;
@@ -59,7 +58,6 @@ public final class RecipeOutputProvider extends CapabilityBlockProvider<RecipeLo
 
     @Override
     protected void write(CompoundTag data, RecipeLogic recipeLogic) {
-        ServerCache.observe = true;
         if (recipeLogic.isWorking()) {
             data.putBoolean("Working", recipeLogic.isWorking());
             if (recipeLogic.machine.getRecipeType() == GTORecipeTypes.RANDOM_ORE_RECIPES) return;

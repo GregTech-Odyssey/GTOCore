@@ -10,13 +10,11 @@ import com.gregtechceu.gtceu.api.machine.feature.multiblock.IWorkableMultiContro
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
 
 import com.google.common.collect.ImmutableMap;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 
-import java.util.List;
 import java.util.Map;
 
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -65,9 +63,9 @@ public final class SpoolHatchPartMachine extends ItemHatchPartMachine implements
     }
 
     @Override
-    public void onDrops(List<ItemStack> list) {
-        if (isWorking) {
-            super.onDrops(list);
+    public void onMachineRemoved() {
+        if (!isWorking) {
+            super.onMachineRemoved();
         }
     }
 }

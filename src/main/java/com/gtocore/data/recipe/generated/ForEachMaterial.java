@@ -8,29 +8,25 @@ import com.gregtechceu.gtceu.data.recipe.generated.DecompositionRecipeHandler;
 import com.gregtechceu.gtceu.data.recipe.generated.PolarizingRecipeHandler;
 import com.gregtechceu.gtceu.data.recipe.generated.ToolRecipeHandler;
 
-import net.minecraft.data.recipes.FinishedRecipe;
-
-import java.util.function.Consumer;
-
 public final class ForEachMaterial {
 
-    public static void init(Consumer<FinishedRecipe> consumer) {
+    public static void init() {
         for (Material material : GTCEuAPI.materialManager.getRegisteredMaterials()) {
             if (material.hasFlag(MaterialFlags.NO_UNIFICATION)) {
                 continue;
             }
 
-            DecompositionRecipeHandler.run(consumer, material);
+            DecompositionRecipeHandler.run(material);
             if (!material.hasProperty(PropertyKey.DUST)) continue;
-            ToolRecipeHandler.run(consumer, material);
-            PolarizingRecipeHandler.run(consumer, material);
-            GTOMaterialRecipeHandler.run(consumer, material);
-            GTOOreRecipeHandler.run(consumer, material);
-            GTOPartsRecipeHandler.run(consumer, material);
-            GTOPipeRecipeHandler.run(consumer, material);
-            GTORecyclingRecipeHandler.run(consumer, material);
+            ToolRecipeHandler.run(material);
+            PolarizingRecipeHandler.run(material);
+            GTOMaterialRecipeHandler.run(material);
+            GTOOreRecipeHandler.run(material);
+            GTOPartsRecipeHandler.run(material);
+            GTOPipeRecipeHandler.run(material);
+            GTORecyclingRecipeHandler.run(material);
             GTOWireCombiningHandler.run(material);
-            GTOWireRecipeHandler.run(consumer, material);
+            GTOWireRecipeHandler.run(material);
             GTODisposableToolHandler.run(material);
         }
     }

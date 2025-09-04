@@ -7,10 +7,6 @@ import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
 import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
 
-import net.minecraft.data.recipes.FinishedRecipe;
-
-import java.util.function.Consumer;
-
 import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
 import static com.gregtechceu.gtceu.common.data.GTItems.*;
@@ -19,13 +15,13 @@ import static com.gtocore.common.data.GTORecipeTypes.*;
 
 public final class BatteryRecipes {
 
-    public static void init(Consumer<FinishedRecipe> provider) {
-        standardBatteries(provider);
+    public static void init() {
+        standardBatteries();
         gemBatteries();
         batteryBlocks();
     }
 
-    private static void standardBatteries(Consumer<FinishedRecipe> provider) {
+    private static void standardBatteries() {
         // Tantalum Battery (since it doesn't fit elsewhere)
         ASSEMBLER_RECIPES.recipeBuilder("tantalum_capacitor")
                 .inputItems(dust, Tantalum)
@@ -35,7 +31,7 @@ public final class BatteryRecipes {
                 .duration(30).EUt(4).save();
 
         // :trol:
-        VanillaRecipeHelper.addShapedRecipe(provider, "tantalum_capacitor", BATTERY_ULV_TANTALUM.asStack(2),
+        VanillaRecipeHelper.addShapedRecipe("tantalum_capacitor", BATTERY_ULV_TANTALUM.asStack(2),
                 " F ", "FDF", "B B",
                 'F', new MaterialEntry(foil, Manganese),
                 'D', new MaterialEntry(dust, Tantalum),
@@ -44,7 +40,7 @@ public final class BatteryRecipes {
         // Battery Hull Recipes
 
         // LV
-        VanillaRecipeHelper.addShapedRecipe(provider, "battery_hull_lv", BATTERY_HULL_LV.asStack(),
+        VanillaRecipeHelper.addShapedRecipe("battery_hull_lv", BATTERY_HULL_LV.asStack(),
                 "C", "P", "P",
                 'C', new MaterialEntry(cableGtSingle, Tin),
                 'P', new MaterialEntry(plate, BatteryAlloy));
@@ -57,7 +53,7 @@ public final class BatteryRecipes {
                 .duration(400).EUt(1).save();
 
         // MV
-        VanillaRecipeHelper.addShapedRecipe(provider, "battery_hull_mv", BATTERY_HULL_MV.asStack(),
+        VanillaRecipeHelper.addShapedRecipe("battery_hull_mv", BATTERY_HULL_MV.asStack(),
                 "C C", "PPP", "PPP",
                 'C', new MaterialEntry(cableGtSingle, Copper),
                 'P', new MaterialEntry(plate, BatteryAlloy));

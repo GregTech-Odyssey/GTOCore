@@ -6,12 +6,21 @@ import com.gtocore.common.data.GTOMaterials;
 import com.gregtechceu.gtceu.api.data.chemical.material.MarkerMaterials;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.common.data.GTItems;
+import com.gregtechceu.gtceu.common.data.GTMaterials;
 
 import static com.gtocore.common.data.GTORecipeTypes.DIMENSIONAL_FOCUS_ENGRAVING_ARRAY_RECIPES;
 
 final class DimensionalFocusEngravingArray {
 
     public static void init() {
+        DIMENSIONAL_FOCUS_ENGRAVING_ARRAY_RECIPES.recipeBuilder("fullerene_dust")
+                .inputItems(TagPrefix.dust, GTOMaterials.UnfoldedFullerene)
+                .notConsumable(TagPrefix.lens, GTMaterials.Ruby)
+                .outputItems(TagPrefix.dust, GTOMaterials.Fullerene)
+                .EUt(8000000)
+                .duration(100)
+                .save();
+
         DIMENSIONAL_FOCUS_ENGRAVING_ARRAY_RECIPES.recipeBuilder("pm_wafer")
                 .inputItems(GTOItems.TARANIUM_WAFER.asItem())
                 .notConsumable(TagPrefix.lens, MarkerMaterials.Color.Magenta)

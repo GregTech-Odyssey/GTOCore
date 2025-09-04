@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "gtocore:item/circuit/optical_mainframe",
+    "layer1": "gtocore:item/circuit/optical_mainframe_uiv"
+  }
+}

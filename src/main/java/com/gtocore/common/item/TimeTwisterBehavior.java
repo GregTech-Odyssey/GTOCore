@@ -1,6 +1,9 @@
 package com.gtocore.common.item;
 
+import com.google.common.math.BigIntegerMath;
 import com.gtocore.common.entity.TaskEntity;
+
+import com.gtolib.api.wireless.ExtendWirelessEnergyContainer;
 
 import com.gregtechceu.gtceu.api.block.MetaMachineBlock;
 import com.gregtechceu.gtceu.api.capability.GTCapabilityHelper;
@@ -12,6 +15,7 @@ import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 
 import com.gtolib.GTOCore;
+import com.gtolib.api.wireless.ExtendWirelessEnergyContainer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
@@ -28,6 +32,8 @@ import net.minecraft.world.level.block.state.BlockState;
 
 import com.hepdd.gtmthings.api.misc.WirelessEnergyContainer;
 
+import java.math.BigInteger;
+
 public final class TimeTwisterBehavior implements IInteractionItem {
 
     public static final TimeTwisterBehavior INSTANCE = new TimeTwisterBehavior();
@@ -37,7 +43,7 @@ public final class TimeTwisterBehavior implements IInteractionItem {
         if (context.getLevel().isClientSide()) return InteractionResult.PASS;
         Player player = context.getPlayer();
         if (player == null) return InteractionResult.PASS;
-        WirelessEnergyContainer container = WirelessEnergyContainer.getOrCreateContainer(context.getPlayer().getUUID());
+        ExtendWirelessEnergyContainer container = (ExtendWirelessEnergyContainer) WirelessEnergyContainer.getOrCreateContainer(context.getPlayer().getUUID());
         if (player.isShiftKeyDown() && container.removeEnergy(819200, null) == 819200) {
                 if (isBlockEntity(context)) {
                     context.getLevel().addFreshEntity(new TaskEntity(context.getLevel(), context.getClickedPos(), e -> tick(container, e, context, false)));
@@ -56,24 +62,23 @@ public final class TimeTwisterBehavior implements IInteractionItem {
         return InteractionResult.PASS;
     }
 
-    private static boolean tickGT(WirelessEnergyContainer container, UseOnContext context) {
+    private static boolean tickGT(ExtendWirelessEnergyContainer container, UseOnContext context) {
         RecipeLogic recipeLogic = GTCapabilityHelper.getRecipeLogic(context.getLevel().getBlockEntity(context.getClickedPos()));
         if (recipeLogic != null && recipeLogic.isWorking()) {
             MetaMachine machine = recipeLogic.getMachine();
             if (machine instanceof IOverclockMachine overclockMachine) {
 
-                GTRecipe recipe = recipeLogic.getLastOriginRecipe();
+                GTRecipe recipe = recipeLogic.getLastRecipe();
                 if (recipe == null || recipe.getOutputEUt() > 0) {
                     return false;
                 }
 
                 int maxReducedDuration = Math.max((int) ((recipeLogic.getDuration() - recipeLogic.getProgress()) * 0.5),10);
-
                 int tickEUMultiplier= 2<<GTOCore.difficulty;
-                long eu = tickEUMultiplier * overclockMachine.getOverclockVoltage();
-                long canUsedEU=container.removeEnergy(eu*maxReducedDuration, null);
-                if (eu>0 && canUsedEU/eu>0) {
-                    recipeLogic.setProgress( recipeLogic.getProgress() +(int)( canUsedEU/eu));
+                BigInteger eu = BigInteger.valueOf(overclockMachine.getOverclockVoltage()).multiply(BigInteger.valueOf(tickEUMultiplier));
+                BigInteger canUsedEU= BigInteger.valueOf(container.getRate()).min( container.getStorage()).min(eu.multiply(BigInteger.valueOf(maxReducedDuration)));
+                if (eu.compareTo(BigInteger.ZERO)>0 && canUsedEU.compareTo(eu) > 0) {
+                    recipeLogic.setProgress( recipeLogic.getProgress() +canUsedEU.divide(eu).intValue());
                     if (context.getPlayer() == null) return false;
                     context.getPlayer().displayClientMessage(Component.literal("消耗了 " + FormattingUtil.formatNumbers(eu) + " EU，使机器运行时间减少了 " + canUsedEU/eu + " tick"), true);
                     return true;
@@ -92,7 +97,7 @@ public final class TimeTwisterBehavior implements IInteractionItem {
         return block instanceof EntityBlock && level.getBlockEntity(pos) != null;
     }
 
-    private static void tick(WirelessEnergyContainer container, TaskEntity entity, UseOnContext context, boolean gt) {
+    private static void tick(ExtendWirelessEnergyContainer container, TaskEntity entity, UseOnContext context, boolean gt) {
         if (entity.tickCount > 100) {
             entity.discard();
             if (!gt) {

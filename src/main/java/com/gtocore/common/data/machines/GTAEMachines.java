@@ -3,7 +3,7 @@ package com.gtocore.common.data.machines;
 import com.gtocore.common.data.translation.GTOMachineTranslation;
 import com.gtocore.common.machine.multiblock.part.ae.*;
 
-import com.gtolib.ae2.machine.MECPUMachine;
+import com.gtolib.api.ae2.machine.MECPUMachine;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
@@ -28,7 +28,7 @@ public final class GTAEMachines {
             .renderer(() -> new OverlayTieredMachineRenderer(HV, GTCEu.id("block/machine/part/me_pattern_buffer")))
             .register();
 
-    public static final MachineDefinition ME_BIG_STORAGE_ACCESS_HATCH = machine("me_big_storage_access_hatch", "ME大存储访问仓", MEBigStorageAccessPartMachine::new)
+    public static final MachineDefinition ME_BIG_STORAGE_ACCESS_HATCH = machine("me_big_storage_access_hatch", "ME大存储访问仓", StorageAccessPartMachine::createBig)
             .langValue("ME Big Storage Access Hatch")
             .tier(IV)
             .allRotation()
@@ -37,7 +37,7 @@ public final class GTAEMachines {
             .renderer(() -> new OverlayTieredMachineRenderer(IV, GTCEu.id("block/machine/part/me_pattern_buffer")))
             .register();
 
-    public static final MachineDefinition ME_STORAGE_ACCESS_HATCH = machine("me_storage_access_hatch", "ME存储访问仓", MEStorageAccessPartMachine::new)
+    public static final MachineDefinition ME_STORAGE_ACCESS_HATCH = machine("me_storage_access_hatch", "ME存储访问仓", StorageAccessPartMachine::create)
             .langValue("ME Storage Access Hatch")
             .tooltips(GTOMachineTranslation.INSTANCE.getMEStorageAccessHatchTooltips().getSupplier())
             .tier(EV)

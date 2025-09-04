@@ -4,8 +4,6 @@ import com.gtocore.common.machine.multiblock.part.ae.slots.ExportOnlyAEFluidList
 import com.gtocore.common.machine.multiblock.part.ae.slots.ExportOnlyAEFluidSlot;
 import com.gtocore.common.machine.multiblock.part.ae.slots.ExportOnlyAEStockingFluidList;
 
-import com.gtolib.ae2.stacks.IKeyCounter;
-
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.gui.fancy.ConfiguratorPanel;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
@@ -159,9 +157,9 @@ public class MEStockingHatchPartMachine extends MEInputHatchPartMachine implemen
             aeFluidHandler.clearInventory(0);
             return;
         }
+        var counter = grid.getStorageService().getCachedInventory();
+        if (counter.isEmpty()) return;
         MEStorage networkStorage = grid.getStorageService().getInventory();
-        var counter = IKeyCounter.of(networkStorage.getAvailableStacks()).gtolib$getVariantCounter();
-        if (counter == null) return;
 
         var queue = new PriorityQueue<>(CONFIG_SIZE, Comparator.comparingLong(GenericStack::amount));
 

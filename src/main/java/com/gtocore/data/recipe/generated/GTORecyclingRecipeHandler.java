@@ -12,14 +12,12 @@ import com.gregtechceu.gtceu.api.data.chemical.material.stack.MaterialStack;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.data.recipe.misc.RecyclingRecipes;
 
-import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.world.item.ItemStack;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Set;
-import java.util.function.Consumer;
 
 import static com.gregtechceu.gtceu.api.GTValues.L;
 import static com.gregtechceu.gtceu.api.GTValues.M;
@@ -29,15 +27,15 @@ final class GTORecyclingRecipeHandler {
 
     private static final Set<TagPrefix> IGNORE_ARC_SMELTING = Set.of(ingot, gem, nugget);
 
-    public static void run(@NotNull Consumer<FinishedRecipe> provider, @NotNull Material material) {
+    static void run(@NotNull Material material) {
         for (TagPrefix prefix : TagPrefix.values()) {
             if (prefix.generateRecycling()) {
-                processCrushing(provider, prefix, material);
+                processCrushing(prefix, material);
             }
         }
     }
 
-    private static void processCrushing(@NotNull Consumer<FinishedRecipe> provider, @NotNull TagPrefix prefix, @NotNull Material material) {
+    private static void processCrushing(@NotNull TagPrefix prefix, @NotNull Material material) {
         ItemStack stack = ChemicalHelper.get(prefix, material);
         if (stack.isEmpty()) return;
         ArrayList<MaterialStack> materialStacks = new ArrayList<>();
@@ -49,7 +47,7 @@ final class GTORecyclingRecipeHandler {
         boolean ignoreArcSmelting = IGNORE_ARC_SMELTING.contains(prefix) &&
                 !(material.hasProperty(PropertyKey.INGOT) &&
                         material.getProperty(PropertyKey.INGOT).getArcSmeltingInto() != material);
-        RecyclingRecipes.registerRecyclingRecipes(provider, stack, materialStacks,
+        RecyclingRecipes.registerRecyclingRecipes(stack, materialStacks,
                 ignoreArcSmelting, prefix);
 
         if (!material.hasProperty(PropertyKey.FLUID) || material.getFluid() == null || (prefix == TagPrefix.dust && material.hasProperty(PropertyKey.BLAST))) return;

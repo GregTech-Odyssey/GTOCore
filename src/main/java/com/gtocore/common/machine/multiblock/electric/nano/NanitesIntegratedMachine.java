@@ -58,7 +58,15 @@ public final class NanitesIntegratedMachine extends CoilCrossRecipeMultiblockMac
         MODULE_MAP.put(3, MultiBlockC.POLYMER_TWISTING_MODULE);
     }
 
-    private static final Map<Material, Float> MATERIAL_MAP = Map.of(GTMaterials.Iron, 1.0F, GTMaterials.Iridium, 1.1F, GTOMaterials.Orichalcum, 1.2F, GTOMaterials.Infuscolium, 1.3F, GTOMaterials.Draconium, 1.4F, GTOMaterials.CosmicNeutronium, 1.5F, GTOMaterials.Eternity, 1.6F);
+    public static final Map<Material, Float> MATERIAL_MAP = Map.of(
+            GTMaterials.Iron, 1.0F,
+            GTMaterials.Iridium, 1.1F,
+            GTOMaterials.Orichalcum, 1.2F,
+            GTOMaterials.Infuscolium, 1.3F,
+            GTOMaterials.Draconium, 1.4F,
+            GTOMaterials.CosmicNeutronium, 1.5F,
+            GTOMaterials.Eternity, 1.6F);
+
     int chance;
     @DescSynced
     private final List<BlockPos> poss = new ArrayList<>(2);
@@ -131,7 +139,7 @@ public final class NanitesIntegratedMachine extends CoilCrossRecipeMultiblockMac
     private void link(Level level, boolean immediately) {
         if (immediately || getOffsetTimer() % 20 == 0 && level != null) poss.forEach(p -> {
             MetaMachine machine = getMachine(level, p);
-            if (machine instanceof NanitesModuleMachine moduleMachine) {
+            if (machine instanceof NanitesModuleMachine moduleMachine && moduleMachine.isFormed()) {
                 module.add(moduleMachine.type);
                 moduleMachine.nanitesIntegratedMachine = this;
             }
@@ -148,7 +156,7 @@ public final class NanitesIntegratedMachine extends CoilCrossRecipeMultiblockMac
     public void customText(@NotNull List<Component> textList) {
         super.customText(textList);
         link(getLevel(), false);
-        textList.add(Component.translatable("tooltip.emi.chance.consume", 100 - chance));
+        textList.add(Component.translatable("tooltip.emi.chance.consume", Math.max(100 - chance, 0)));
         textList.add(Component.translatable("gui.ae2.AttachedTo", ""));
         module.forEach(i -> textList.add(Component.translatable(MODULE_MAP.get(i).getDescriptionId())));
     }

@@ -10,7 +10,7 @@ import com.gtocore.common.item.armor.SpaceArmorComponentItem;
 import com.gtocore.common.item.misc.GrassHarvesterBehaviour;
 
 import com.gtolib.GTOCore;
-import com.gtolib.ae2.me2in1.Wireless;
+import com.gtolib.api.ae2.me2in1.Wireless;
 import com.gtolib.api.annotation.NewDataAttributes;
 import com.gtolib.api.annotation.component_builder.ComponentBuilder;
 import com.gtolib.api.annotation.component_builder.ComponentSupplier;
@@ -202,6 +202,14 @@ public final class GTOItems {
     public static final ItemEntry<Item> MAX_FIELD_GENERATOR = registerLang("max_field_generator", "MAX Field Generator", "§4§lMAX§r力场发生器");
     public static final ItemEntry<Item> MAX_EMITTER = registerLang("max_emitter", "MAX Emitte", "§4§lMAX§r发射器");
     public static final ItemEntry<Item> MAX_SENSOR = registerLang("max_sensor", "MAX Sensor", "§4§lMAX§r传感器");
+
+    public static final ItemEntry<Item> INTEGRATED_CONTROL_CORE_UV = registerLang("uv_integrated_control_core", "§3UV§r Integrated Control Core", "§3UV§r集控核心");
+    public static final ItemEntry<Item> INTEGRATED_CONTROL_CORE_UHV = registerLang("uhv_integrated_control_core", "§4UHV§r Integrated Control Core", "§4UHV§r集控核心");
+    public static final ItemEntry<Item> INTEGRATED_CONTROL_CORE_UEV = registerLang("uev_integrated_control_core", "§aUEV§r Integrated Control Core", "§aUEV§r集控核心");
+    public static final ItemEntry<Item> INTEGRATED_CONTROL_CORE_UIV = registerLang("uiv_integrated_control_core", "§2UIV§r Integrated Control Core", "§2UIV§r集控核心");
+    public static final ItemEntry<Item> INTEGRATED_CONTROL_CORE_UXV = registerLang("uxv_integrated_control_core", "§eUXV§r Integrated Control Core", "§eUXV§r集控核心");
+    public static final ItemEntry<Item> INTEGRATED_CONTROL_CORE_OpV = registerLang("opv_integrated_control_core", "§9§lOpV§r Integrated Control Core", "§9§lOpV§r集控核心");
+    public static final ItemEntry<Item> INTEGRATED_CONTROL_CORE_MAX = registerLang("max_integrated_control_core", "§4§lMAX§r Integrated Control Core", "§4§lMAX§r集控核心");
 
     public static final ItemEntry<ComponentItem> ULV_ELECTRIC_PUMP = item("ulv_electric_pump", "ULV电动泵", ComponentItem::create)
             .lang("ULV Electric Pump")
@@ -898,10 +906,11 @@ public static final ItemEntry<ComponentItem> TIME_TWISTER = item("time_twister",
     public static final ItemEntry<Item> GAIA_CORE = register("gaia_core", "§e盖亚之核");
     public static final ItemEntry<Item> UNSTABLE_GAIA_SOUL = register("unstable_gaia_soul", "§e不稳定的盖亚之魂");
     public static final ItemEntry<Item> WILDEN_SLATE = register("wilden_slate", "§d荒野石板");
+    public static final ItemEntry<Item> PHILOSOPHERS_STONE = register("philosophers_stone", "贤者之石");
 
     public static final ItemEntry<SpaceArmorComponentItem> SPACE_NANOMUSCLE_CHESTPLATE = item("space_nanomuscle_chestplate", "纳米肌体™套装太空胸甲",
             (p) -> new SpaceArmorComponentItem(GTArmorMaterials.ARMOR,
-                    ArmorItem.Type.CHESTPLATE, 5000, p)
+                    ArmorItem.Type.CHESTPLATE, 8000, p)
                     .setArmorLogic(new NanoMuscleSuite(
                             ArmorItem.Type.CHESTPLATE,
                             512,
@@ -917,7 +926,7 @@ public static final ItemEntry<ComponentItem> TIME_TWISTER = item("time_twister",
     public static final ItemEntry<SpaceArmorComponentItem> SPACE_ADVANCED_NANOMUSCLE_CHESTPLATE = item("space_advanced_nanomuscle_chestplate", "纳米肌体™进阶套装太空胸甲",
             (p) -> new SpaceArmorComponentItem(
                     GTArmorMaterials.ARMOR,
-                    ArmorItem.Type.CHESTPLATE, 10000, p)
+                    ArmorItem.Type.CHESTPLATE, 16000, p)
                     .setArmorLogic(new AdvancedNanoMuscleSuite(
                             512,
                             12_800_000L * (long) Math.max(1, Math.pow(4, ConfigHolder.INSTANCE.tools.voltageTierAdvNanoSuit - 3)),
@@ -932,7 +941,7 @@ public static final ItemEntry<ComponentItem> TIME_TWISTER = item("time_twister",
     public static final ItemEntry<SpaceArmorComponentItem> SPACE_QUARKTECH_CHESTPLATE = item("space_quarktech_chestplate", "夸克高科™套装太空胸甲",
             (p) -> new SpaceArmorComponentItem(
                     GTArmorMaterials.ARMOR,
-                    ArmorItem.Type.CHESTPLATE, 20000, p)
+                    ArmorItem.Type.CHESTPLATE, 32000, p)
                     .setArmorLogic(new QuarkTechSuite(
                             ArmorItem.Type.CHESTPLATE,
                             8192,
@@ -947,7 +956,7 @@ public static final ItemEntry<ComponentItem> TIME_TWISTER = item("time_twister",
 
     public static final ItemEntry<SpaceArmorComponentItem> SPACE_ADVANCED_QUARKTECH_CHESTPLATE = item("space_advanced_quarktech_chestplate", "夸克高科™进阶套装太空胸甲",
             (p) -> new SpaceArmorComponentItem(GTArmorMaterials.ARMOR,
-                    ArmorItem.Type.CHESTPLATE, 50000, p)
+                    ArmorItem.Type.CHESTPLATE, 128000, p)
                     .setArmorLogic(new AdvancedQuarkTechSuite(
                             8192,
                             1_000_000_000L * (long) Math.max(1, Math.pow(4, ConfigHolder.INSTANCE.tools.voltageTierAdvQuarkTech - 6)),

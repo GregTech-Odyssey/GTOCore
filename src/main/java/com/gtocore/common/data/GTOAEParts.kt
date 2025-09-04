@@ -13,7 +13,7 @@ import appeng.core.definitions.ItemDefinition
 import appeng.items.parts.PartItem
 import appeng.items.parts.PartModelsHelper
 import com.gtolib.GTOCore
-import com.gtolib.ae2.me2in1.Me2in1TerminalPart
+import com.gtolib.api.ae2.me2in1.Me2in1TerminalPart
 import com.gtolib.api.annotation.component_builder.ComponentBuilder
 import com.gtolib.utils.register.ItemRegisterUtils.*
 import com.tterrag.registrate.util.entry.ItemEntry

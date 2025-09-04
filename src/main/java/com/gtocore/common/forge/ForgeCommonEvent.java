@@ -1,6 +1,5 @@
 package com.gtocore.common.forge;
 
-import com.gtocore.common.ServerCache;
 import com.gtocore.common.data.GTOBlocks;
 import com.gtocore.common.data.GTOCommands;
 import com.gtocore.common.data.GTOEffects;
@@ -20,7 +19,7 @@ import com.gtolib.api.machine.feature.IVacuumMachine;
 import com.gtolib.api.player.IEnhancedPlayer;
 import com.gtolib.utils.RLUtils;
 import com.gtolib.utils.ServerUtils;
-import com.gtolib.utils.SphereExplosion;
+import com.gtolib.utils.explosion.SphereExplosion;
 import com.gtolib.utils.register.BlockRegisterUtils;
 
 import com.gregtechceu.gtceu.GTCEu;
@@ -62,7 +61,6 @@ import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.level.BlockEvent;
 import net.minecraftforge.event.level.LevelEvent;
-import net.minecraftforge.event.server.ServerStoppingEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
@@ -119,12 +117,11 @@ public final class ForgeCommonEvent {
                             effect.duration -= progress - currentProgress;
                             recipeLogic.setProgress(progress);
                             serverLevel.sendParticles(ParticleTypes.FIREWORK, machine.getPos().getX(), machine.getPos().getY() + 6, machine.getPos().getZ(),
-                                    3,  // 粒子数量
-                                    0.3, // X方向扩散
-                                    0.2, // Y方向扩散
-                                    0.3, // Z方向扩散
-                                    0.02 // 粒子速度
-                            );
+                                    3,
+                                    0.3,
+                                    0.2,
+                                    0.3,
+                                    0.02);
                         }
                     });
                 }
@@ -260,6 +257,7 @@ public final class ForgeCommonEvent {
                 level.addFreshEntity(new ItemEntity(level, player.getX(), player.getY(), player.getZ(), ItemMap.getScrapItem()));
                 player.setItemInHand(event.getHand(), itemStack.copyWithCount(count - 1));
             }
+            return;
         }
     }
 
@@ -288,13 +286,8 @@ public final class ForgeCommonEvent {
             if (serverLevel == null) return;
             DysonSphereSavaedData.INSTANCE = serverLevel.getDataStorage().computeIfAbsent(DysonSphereSavaedData::new, DysonSphereSavaedData::new, "dyson_sphere_data");
             RecipeRunLimitSavaedData.INSTANCE = serverLevel.getDataStorage().computeIfAbsent(RecipeRunLimitSavaedData::new, RecipeRunLimitSavaedData::new, "recipe_run_limit_data");
-            WirelessSavedData.Companion.setINSTANCE(serverLevel.getDataStorage().computeIfAbsent(WirelessSavedData::initialize, WirelessSavedData::new, "wireless_saved_data_three"));
+            WirelessSavedData.Companion.setINSTANCE(serverLevel.getDataStorage().computeIfAbsent(WirelessSavedData::initialize, WirelessSavedData::new, "wireless_saved_data_" + GTOConfig.INSTANCE.aeGridKey));
         }
-    }
-
-    @SubscribeEvent
-    public static void onServerStoppingEvent(ServerStoppingEvent event) {
-        ServerCache.observe = false;
     }
 
     @RegisterLanguage(valuePrefix = "gtocore.lang", en = "Channel mode command banned in expert", cn = "在专家模式下，频道模式命令被禁止")

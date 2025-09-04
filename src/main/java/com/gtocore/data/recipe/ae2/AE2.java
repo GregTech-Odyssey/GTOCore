@@ -19,7 +19,6 @@ import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
 import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
 
-import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -30,19 +29,18 @@ import appeng.core.definitions.AEItems;
 import com.glodblock.github.extendedae.ExtendedAE;
 
 import java.util.Set;
-import java.util.function.Consumer;
 
 import static com.gtocore.common.data.GTORecipeTypes.ASSEMBLER_RECIPES;
 
 public final class AE2 {
 
-    public static void init(Consumer<FinishedRecipe> provider) {
-        Ae2wtlibRecipes.init(provider);
+    public static void init() {
+        Ae2wtlibRecipes.init();
         if (GTOCore.isSimple()) return;
-        VanillaRecipeHelper.addShapedRecipe(provider, GTOCore.id("import_bus"), RegistriesUtils.getItemStack("ae2:import_bus"),
+        VanillaRecipeHelper.addShapedRecipe(GTOCore.id("import_bus"), RegistriesUtils.getItemStack("ae2:import_bus"),
                 "ABC",
                 'A', new ItemStack(AEItems.ANNIHILATION_CORE.asItem()), 'B', GTItems.ROBOT_ARM_LV.asStack(), 'C', RegistriesUtils.getItemStack("ae2:fluix_glass_cable"));
-        VanillaRecipeHelper.addShapedRecipe(provider, GTOCore.id("export_bus"), RegistriesUtils.getItemStack("ae2:export_bus"),
+        VanillaRecipeHelper.addShapedRecipe(GTOCore.id("export_bus"), RegistriesUtils.getItemStack("ae2:export_bus"),
                 "ABC",
                 'A', new ItemStack(AEItems.FORMATION_CORE.asItem()), 'B', GTItems.ROBOT_ARM_LV.asStack(), 'C', RegistriesUtils.getItemStack("ae2:fluix_glass_cable"));
 
@@ -291,20 +289,20 @@ public final class AE2 {
                 .duration(300)
                 .save();
 
-        VanillaRecipeHelper.addShapedRecipe(provider, GTOCore.id("water_infinity_cell"), RegistriesUtils.getItemStack("expatternprovider:infinity_cell"),
+        VanillaRecipeHelper.addShapedRecipe(GTOCore.id("water_infinity_cell"), RegistriesUtils.getItemStack("expatternprovider:infinity_cell"),
                 "ABA",
                 "BCB",
                 "ABA",
                 'A', RegistriesUtils.getItemStack("botania:rune_water"), 'B', GTItems.COVER_INFINITE_WATER.asStack(), 'C', new ItemStack(AEItems.FLUID_CELL_256K.asItem()));
 
-        VanillaRecipeHelper.addShapedRecipe(provider, GTOCore.id("me_packing_tape"), RegistriesUtils.getItemStack("expatternprovider:me_packing_tape"),
+        VanillaRecipeHelper.addShapedRecipe(GTOCore.id("me_packing_tape"), RegistriesUtils.getItemStack("expatternprovider:me_packing_tape"),
                 "ABC",
                 "BDB",
                 "CBA",
                 'A', new MaterialEntry(TagPrefix.dust, GTOMaterials.Fluix), 'B', GTItems.DUCT_TAPE.asStack(), 'C', new ItemStack(Items.SLIME_BALL.asItem()), 'D', new MaterialEntry(TagPrefix.dust, GTMaterials.EnderPearl));
 
         var cell = RegistriesUtils.getItemStack("expatternprovider:infinity_cell", 1, "{record:{\"#c\":\"ae2:i\",id:\"minecraft:cobblestone\"}}");
-        VanillaRecipeHelper.addShapedRecipe(provider, GTOCore.id("infinity_cell"), cell,
+        VanillaRecipeHelper.addShapedRecipe(GTOCore.id("infinity_cell"), cell,
                 "ABA",
                 "CDE",
                 "ABA",
@@ -315,7 +313,7 @@ public final class AE2 {
                 'E', new ItemStack(Items.LAVA_BUCKET.asItem()));
 
         if (GTOCore.isExpert()) {
-            VanillaRecipeHelper.addShapedRecipe(provider, GTOCore.id("ex_pattern_provider"), RegistriesUtils.getItemStack("expatternprovider:ex_pattern_provider"),
+            VanillaRecipeHelper.addShapedRecipe(GTOCore.id("ex_pattern_provider"), RegistriesUtils.getItemStack("expatternprovider:ex_pattern_provider"),
                     "ABA",
                     "CDC",
                     "ABA",
@@ -409,7 +407,7 @@ public final class AE2 {
                     .save();
 
         } else {
-            VanillaRecipeHelper.addShapedRecipe(provider, GTOCore.id("ex_pattern_provider"), RegistriesUtils.getItemStack("expatternprovider:ex_pattern_provider"),
+            VanillaRecipeHelper.addShapedRecipe(GTOCore.id("ex_pattern_provider"), RegistriesUtils.getItemStack("expatternprovider:ex_pattern_provider"),
                     "ABA",
                     "CDC",
                     "ABA",

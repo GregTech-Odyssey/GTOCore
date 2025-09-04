@@ -189,8 +189,6 @@ public final class SlaughterhouseMachine extends StorageMultiblockMachine {
                 } else if (entity instanceof ExperienceOrb experienceOrb) {
                     xp += experienceOrb.value;
                     experienceOrb.discard();
-                } else {
-                    entity.discard();
                 }
             }
 

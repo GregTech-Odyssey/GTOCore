@@ -9,7 +9,7 @@ import com.gtocore.common.CommonProxy;
 import com.gtocore.common.data.GTOFluids;
 import com.gtocore.common.machine.monitor.MonitorBlockItem;
 
-import com.gtolib.ae2.me2in1.*;
+import com.gtolib.api.ae2.me2in1.*;
 
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;

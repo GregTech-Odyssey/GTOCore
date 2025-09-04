@@ -14,8 +14,10 @@ import com.gregtechceu.gtceu.data.recipe.configurable.RecipeRemoval;
 import net.minecraft.resources.ResourceLocation;
 
 import com.kyanite.deeperdarker.DeeperDarker;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 
+import java.util.List;
 import java.util.Set;
 import java.util.function.Predicate;
 
@@ -23,11 +25,10 @@ import static com.gtocore.common.data.GTORecipeTypes.*;
 
 public final class RecipeFilter {
 
+    public static Predicate<ResourceLocation> JsonFilter;
+
     public static Predicate<ResourceLocation> getFilter() {
-        ObjectOpenHashSet<ResourceLocation> set = new ObjectOpenHashSet<>(2048);
-        initJsonFilter(set);
-        RecipeRemoval.init(set::add);
-        return set::contains;
+        return JsonFilter;
     }
 
     public static void init() {
@@ -41,9 +42,31 @@ public final class RecipeFilter {
         CUTTER_RECIPES.addFilter("cut_glass_block_to_plate");
         ARC_FURNACE_RECIPES.addFilter("arc_carbon_dust");
         ASSEMBLER_RECIPES.addFilter("assemble_wood_frame"); // 与告示牌重复
+
+        List<Predicate<ResourceLocation>> filters = new ObjectArrayList<>();
+        addFilter(filters);
+        Predicate<ResourceLocation> filter = filters.get(0);
+        for (int i = 1; i < filters.size(); i++) {
+            filter = filter.or(filters.get(i));
+        }
+        JsonFilter = filter;
     }
 
-    private static void initJsonFilter(Set<ResourceLocation> filters) {
+    private static void addFilter(List<Predicate<ResourceLocation>> filters) {
+        ObjectOpenHashSet<ResourceLocation> ids = new ObjectOpenHashSet<>(2048);
+        initIdFilter(ids);
+        RecipeRemoval.init(ids::add);
+        filters.add(ids::contains);
+        ObjectOpenHashSet<String> mods = new ObjectOpenHashSet<>();
+        initModFilter(mods);
+        filters.add(rl -> mods.contains(rl.getNamespace()));
+    }
+
+    private static void initModFilter(Set<String> filters) {
+        filters.add("itemfilters");
+    }
+
+    private static void initIdFilter(Set<ResourceLocation> filters) {
         ImmersiveAircraft.initJsonFilter(filters);
         FunctionalStorage.initJsonFilter(filters);
         AE2.initJsonFilter(filters);
