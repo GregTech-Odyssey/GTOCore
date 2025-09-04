@@ -11,6 +11,7 @@ import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 
+import com.gtolib.GTOCore;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
@@ -37,16 +38,14 @@ public final class TimeTwisterBehavior implements IInteractionItem {
         Player player = context.getPlayer();
         if (player == null) return InteractionResult.PASS;
         WirelessEnergyContainer container = WirelessEnergyContainer.getOrCreateContainer(context.getPlayer().getUUID());
-        if (player.isShiftKeyDown()) {
-            if (container.removeEnergy(819200, null) == 819200) {
+        if (player.isShiftKeyDown() && container.removeEnergy(819200, null) == 819200) {
                 if (isBlockEntity(context)) {
                     context.getLevel().addFreshEntity(new TaskEntity(context.getLevel(), context.getClickedPos(), e -> tick(container, e, context, false)));
                 } else {
                     context.getLevel().addFreshEntity(new TaskEntity(context.getLevel(), context.getClickedPos(), e -> tick(container, e, context, true)));
                 }
-            }
-        } else {
-            if (isBlockEntity(context) && container.removeEnergy(8192, null) == 8192) {
+        } else if(container.removeEnergy(8192, null) == 8192){
+            if (isBlockEntity(context)) {
                 tickBlock(context.getLevel(), context.getClickedPos(), 0);
                 player.displayClientMessage(Component.literal("消耗了 8192 EU，使方块实体额外执行了 200 Tick"), true);
                 return InteractionResult.CONSUME;
@@ -68,12 +67,15 @@ public final class TimeTwisterBehavior implements IInteractionItem {
                     return false;
                 }
 
-                int reducedDuration = (int) ((recipeLogic.getDuration() - recipeLogic.getProgress()) * 0.5);
-                long eu = 8 * reducedDuration * overclockMachine.getOverclockVoltage();
-                if (eu > 0 && container.removeEnergy(eu, null) == eu) {
-                    recipeLogic.setProgress(recipeLogic.getProgress() + reducedDuration);
+                int maxReducedDuration = Math.max((int) ((recipeLogic.getDuration() - recipeLogic.getProgress()) * 0.5),10);
+
+                int tickEUMultiplier= 2<<GTOCore.difficulty;
+                long eu = tickEUMultiplier * overclockMachine.getOverclockVoltage();
+                long canUsedEU=container.removeEnergy(eu*maxReducedDuration, null);
+                if (eu>0 && canUsedEU/eu>0) {
+                    recipeLogic.setProgress( recipeLogic.getProgress() +(int)( canUsedEU/eu));
                     if (context.getPlayer() == null) return false;
-                    context.getPlayer().displayClientMessage(Component.literal("消耗了 " + FormattingUtil.formatNumbers(eu) + " EU，使机器运行时间减少了 " + reducedDuration + " tick"), true);
+                    context.getPlayer().displayClientMessage(Component.literal("消耗了 " + FormattingUtil.formatNumbers(eu) + " EU，使机器运行时间减少了 " + canUsedEU/eu + " tick"), true);
                     return true;
                 }
             }
