@@ -1,7 +1,7 @@
 package com.gtocore.api.gui.helper
 
-import com.gtocore.api.misc.codec.CodecAbleCompanion
 import com.gtocore.api.misc.codec.CodecAbleTyped
+import com.gtocore.api.misc.codec.CodecAbleTypedCompanion
 
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiGraphics
@@ -141,7 +141,7 @@ object ProgressBarHelper {
  * 进度条颜色样式
  */
 sealed class ProgressBarColorStyle : CodecAbleTyped<ProgressBarColorStyle, ProgressBarColorStyle.Companion> {
-    companion object : CodecAbleCompanion<ProgressBarColorStyle> {
+    companion object : CodecAbleTypedCompanion<ProgressBarColorStyle> {
         override fun getCodec(): Codec<ProgressBarColorStyle> = throw NotImplementedError("请在对应子类实现")
         val HEALTH_GRADIENT = MultiGradient(
             listOf(
@@ -172,12 +172,12 @@ sealed class ProgressBarColorStyle : CodecAbleTyped<ProgressBarColorStyle, Progr
         )
     }
     data class Solid(val color: Int) : ProgressBarColorStyle() {
-        companion object : CodecAbleCompanion<Solid> {
+        companion object : CodecAbleTypedCompanion<Solid> {
             override fun getCodec(): Codec<Solid> = Codec.INT.xmap(::Solid, Solid::color)
         }
     }
     data class Segmented(val segments: List<Pair<Float, Int>>) : ProgressBarColorStyle() {
-        companion object : CodecAbleCompanion<Segmented> {
+        companion object : CodecAbleTypedCompanion<Segmented> {
             override fun getCodec(): Codec<Segmented> = RecordCodecBuilder.create { instance ->
                 instance.group(
                     Codec.list(
@@ -198,7 +198,7 @@ sealed class ProgressBarColorStyle : CodecAbleTyped<ProgressBarColorStyle, Progr
         }
     }
     data class Gradient(val startColor: Int, val endColor: Int) : ProgressBarColorStyle() {
-        companion object : CodecAbleCompanion<Gradient> {
+        companion object : CodecAbleTypedCompanion<Gradient> {
             override fun getCodec(): Codec<Gradient> = RecordCodecBuilder.create { instance ->
                 instance.group(
                     Codec.INT.fieldOf("startColor").forGetter(Gradient::startColor),
@@ -208,7 +208,7 @@ sealed class ProgressBarColorStyle : CodecAbleTyped<ProgressBarColorStyle, Progr
         }
     }
     data class MultiGradient(val colors: List<Pair<Float, Int>>) : ProgressBarColorStyle() {
-        companion object : CodecAbleCompanion<MultiGradient> {
+        companion object : CodecAbleTypedCompanion<MultiGradient> {
             override fun getCodec(): Codec<MultiGradient> = RecordCodecBuilder.create { instance ->
                 instance.group(
                     Codec.list(

@@ -11,6 +11,7 @@ import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
 
+import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
 import static com.gtocore.common.data.GTORecipeTypes.SUPRACHRONAL_ASSEMBLY_LINE_RECIPES;
 
 final class SuprachronalAssemblyLine {
@@ -478,6 +479,30 @@ final class SuprachronalAssemblyLine {
                 .EUt(2013265920)
                 .duration(1200)
                 .researchStation(b -> b.researchStack(GTItems.SENSOR_OpV.asStack())
+                        .dataStack(GTOItems.CLOSED_TIMELIKE_CURVE_GUIDANCE_UNIT.asStack())
+                        .CWUt(6114)
+                        .EUt(2013265920))
+                .save();
+
+        SUPRACHRONAL_ASSEMBLY_LINE_RECIPES.recipeBuilder("max_integrated_control_core")
+                .inputItems(GTOItems.CLOSED_TIMELIKE_CURVE_GUIDANCE_UNIT.asStack())
+                .inputItems(TagPrefix.foil, GTOMaterials.Shirabon, 64)
+                .inputItems(GTOItems.OBSIDIAN_MATRIX.asStack(2))
+                .inputItems(TagPrefix.plateDouble, GTOMaterials.ChaosInfinityAlloy, 6)
+                .inputItems(CustomTags.MAX_CIRCUITS, 2)
+                .inputItems(GTOItems.MAX_EMITTER.asStack(2))
+                .inputItems(GTOItems.NUCLEAR_STAR.asStack(3))
+                .inputItems(TagPrefix.frameGt, GTOMaterials.Infinity, 1)
+                .inputItems(TagPrefix.wireFine, GTOMaterials.Cosmic, 3072 / 48)
+                .inputItems(TagPrefix.cableGtHex, GTOMaterials.CosmicNeutronium, 2)
+                .inputFluids(GTOMaterials.SuperMutatedLivingSolder.getFluid(36864))
+                .inputFluids(GTOMaterials.SpacetimeContinuum.getFluid(73728))
+                .inputFluids(GTOMaterials.Shirabon, 110592 / 48)
+                .inputFluids(GTOMaterials.Infinity, 576)
+                .outputItems(GTOItems.INTEGRATED_CONTROL_CORE_MAX.asStack())
+                .EUt(2013265920)
+                .duration(1200)
+                .researchStation(b -> b.researchStack(GTOItems.INTEGRATED_CONTROL_CORE_OpV.asStack())
                         .dataStack(GTOItems.CLOSED_TIMELIKE_CURVE_GUIDANCE_UNIT.asStack())
                         .CWUt(6114)
                         .EUt(2013265920))

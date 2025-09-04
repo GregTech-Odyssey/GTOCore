@@ -10,10 +10,6 @@ import com.gregtechceu.gtceu.config.ConfigHolder;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
 import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
 
-import net.minecraft.data.recipes.FinishedRecipe;
-
-import java.util.function.Consumer;
-
 import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
 import static com.gregtechceu.gtceu.common.data.GTItems.*;
@@ -22,11 +18,11 @@ import static com.gtocore.common.data.GTORecipeTypes.*;
 
 public final class CircuitRecipes {
 
-    public static void init(Consumer<FinishedRecipe> provider) {
+    public static void init() {
         waferRecipes();
         componentRecipes();
         boardRecipes();
-        circuitRecipes(provider);
+        circuitRecipes();
     }
 
     private static void waferRecipes() {
@@ -642,14 +638,14 @@ public final class CircuitRecipes {
                 .save();
     }
 
-    private static void circuitRecipes(Consumer<FinishedRecipe> provider) {
+    private static void circuitRecipes() {
         int outputAmount = ConfigHolder.INSTANCE.recipes.harderCircuitRecipes ? 1 : 2;
         int amount = GTOCore.isExpert() ? 4 : 3;
 
         // T1: Electronic ==============================================================================================
 
         // LV
-        VanillaRecipeHelper.addShapedRecipe(provider, "electronic_circuit_lv", ELECTRONIC_CIRCUIT_LV.asStack(),
+        VanillaRecipeHelper.addShapedRecipe("electronic_circuit_lv", ELECTRONIC_CIRCUIT_LV.asStack(),
                 "RPR", "VBV", "CCC",
                 'R', RESISTOR.asStack(),
                 'P', new MaterialEntry(plate, Steel),
@@ -658,7 +654,7 @@ public final class CircuitRecipes {
                 'C', new MaterialEntry(cableGtSingle, RedAlloy));
 
         // MV
-        VanillaRecipeHelper.addShapedRecipe(provider, "electronic_circuit_mv", ELECTRONIC_CIRCUIT_MV.asStack(),
+        VanillaRecipeHelper.addShapedRecipe("electronic_circuit_mv", ELECTRONIC_CIRCUIT_MV.asStack(),
                 "DPD", "CBC", "WCW",
                 'W', new MaterialEntry(wireGtSingle, Copper),
                 'P', new MaterialEntry(plate, Steel),

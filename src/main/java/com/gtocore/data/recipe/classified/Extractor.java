@@ -21,6 +21,7 @@ import net.minecraftforge.fluids.FluidStack;
 import com.enderio.base.common.init.EIOFluids;
 import dev.shadowsoffire.apotheosis.ench.Ench;
 
+import static com.gtocore.common.data.GTOMaterials.TheWaterFromTheWellOfWisdom;
 import static com.gtocore.common.data.GTORecipeTypes.EXTRACTOR_RECIPES;
 
 final class Extractor {
@@ -37,6 +38,13 @@ final class Extractor {
                 .inputItems(TagPrefix.block, GTMaterials.Sculk)
                 .outputFluids(new FluidStack(EIOFluids.XP_JUICE.get().getSource(), 100))
                 .EUt(120)
+                .duration(20)
+                .save();
+
+        EXTRACTOR_RECIPES.recipeBuilder("life_essence")
+                .inputItems(Items.EXPERIENCE_BOTTLE)
+                .outputFluids(new FluidStack(EIOFluids.XP_JUICE.get().getSource(), 250))
+                .EUt(8)
                 .duration(20)
                 .save();
 
@@ -115,6 +123,14 @@ final class Extractor {
                 .outputItems(Items.GLASS_BOTTLE)
                 .outputFluids(GTOMaterials.Honey.getFluid(250))
                 .EUt(30)
+                .duration(20)
+                .save();
+
+        EXTRACTOR_RECIPES.recipeBuilder("the_water_from_the_well_of_wisdom")
+                .inputItems("mythicbotany:gjallar_horn_full")
+                .outputItems("mythicbotany:gjallar_horn_empty")
+                .outputFluids(TheWaterFromTheWellOfWisdom.getFluid(250))
+                .EUt(8)
                 .duration(20)
                 .save();
     }

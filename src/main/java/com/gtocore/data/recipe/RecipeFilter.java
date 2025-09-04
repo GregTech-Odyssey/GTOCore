@@ -1,5 +1,6 @@
 package com.gtocore.data.recipe;
 
+import com.gtocore.data.recipe.ae2.AE2;
 import com.gtocore.data.recipe.generated.DyeRecipes;
 import com.gtocore.data.recipe.mod.FunctionalStorage;
 import com.gtocore.data.recipe.mod.ImmersiveAircraft;
@@ -12,11 +13,11 @@ import com.gregtechceu.gtceu.data.recipe.configurable.RecipeRemoval;
 
 import net.minecraft.resources.ResourceLocation;
 
-import appeng.core.AppEng;
-import com.glodblock.github.extendedae.ExtendedAE;
 import com.kyanite.deeperdarker.DeeperDarker;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 
+import java.util.List;
 import java.util.Set;
 import java.util.function.Predicate;
 
@@ -24,11 +25,10 @@ import static com.gtocore.common.data.GTORecipeTypes.*;
 
 public final class RecipeFilter {
 
+    public static Predicate<ResourceLocation> JsonFilter;
+
     public static Predicate<ResourceLocation> getFilter() {
-        ObjectOpenHashSet<ResourceLocation> set = new ObjectOpenHashSet<>(2048);
-        initJsonFilter(set);
-        RecipeRemoval.init(set::add);
-        return set::contains;
+        return JsonFilter;
     }
 
     public static void init() {
@@ -42,11 +42,34 @@ public final class RecipeFilter {
         CUTTER_RECIPES.addFilter("cut_glass_block_to_plate");
         ARC_FURNACE_RECIPES.addFilter("arc_carbon_dust");
         ASSEMBLER_RECIPES.addFilter("assemble_wood_frame"); // 与告示牌重复
+
+        List<Predicate<ResourceLocation>> filters = new ObjectArrayList<>();
+        addFilter(filters);
+        Predicate<ResourceLocation> filter = filters.get(0);
+        for (int i = 1; i < filters.size(); i++) {
+            filter = filter.or(filters.get(i));
+        }
+        JsonFilter = filter;
     }
 
-    private static void initJsonFilter(Set<ResourceLocation> filters) {
+    private static void addFilter(List<Predicate<ResourceLocation>> filters) {
+        ObjectOpenHashSet<ResourceLocation> ids = new ObjectOpenHashSet<>(2048);
+        initIdFilter(ids);
+        RecipeRemoval.init(ids::add);
+        filters.add(ids::contains);
+        ObjectOpenHashSet<String> mods = new ObjectOpenHashSet<>();
+        initModFilter(mods);
+        filters.add(rl -> mods.contains(rl.getNamespace()));
+    }
+
+    private static void initModFilter(Set<String> filters) {
+        filters.add("itemfilters");
+    }
+
+    private static void initIdFilter(Set<ResourceLocation> filters) {
         ImmersiveAircraft.initJsonFilter(filters);
         FunctionalStorage.initJsonFilter(filters);
+        AE2.initJsonFilter(filters);
 
         String[] ore1 = new String[] { "coal", "redstone", "emerald", "diamond" };
         String[] ore2 = new String[] { "iron", "copper", "gold" };
@@ -487,48 +510,6 @@ public final class RecipeFilter {
             filters.add(RLUtils.sp("stack_upgrade_tier_3"));
             filters.add(RLUtils.sp("stack_upgrade_tier_4"));
             filters.add(RLUtils.sp("stack_upgrade_omega_tier"));
-
-            filters.add(AppEng.makeId("network/cells/item_storage_components_cell_1k_part"));
-            filters.add(AppEng.makeId("network/cells/item_storage_components_cell_4k_part"));
-            filters.add(AppEng.makeId("network/cells/item_storage_components_cell_16k_part"));
-            filters.add(AppEng.makeId("network/cells/item_storage_components_cell_64k_part"));
-            filters.add(AppEng.makeId("network/cells/item_storage_components_cell_256k_part"));
-            filters.add(AppEng.makeId("decorative/quartz_block"));
-            filters.add(AppEng.makeId("decorative/fluix_block"));
-            filters.add(AppEng.makeId("misc/deconstruction_certus_quartz_block"));
-            filters.add(AppEng.makeId("misc/deconstruction_fluix_block"));
-            filters.add(AppEng.makeId("misc/fluixpearl"));
-            filters.add(AppEng.makeId("network/cables/glass_fluix"));
-            filters.add(AppEng.makeId("network/crafting/patterns_blank"));
-            filters.add(AppEng.makeId("network/parts/export_bus"));
-            filters.add(AppEng.makeId("network/parts/import_bus"));
-            filters.add(AppEng.makeId("network/wireless_part"));
-            filters.add(AppEng.makeId("network/crafting/cpu_crafting_unit"));
-            filters.add(AppEng.makeId("materials/annihilationcore"));
-            filters.add(AppEng.makeId("materials/formationcore"));
-            filters.add(AppEng.makeId("materials/advancedcard"));
-            filters.add(AppEng.makeId("materials/basiccard"));
-            filters.add(AppEng.makeId("network/cables/dense_covered_fluix"));
-            filters.add(AppEng.makeId("network/cables/dense_smart_from_smart"));
-            filters.add(AppEng.makeId("network/cables/dense_smart_fluix"));
-            filters.add(AppEng.makeId("network/blocks/controller"));
-            filters.add(AppEng.makeId("network/blocks/storage_drive"));
-            filters.add(AppEng.makeId("network/crafting/molecular_assembler"));
-            filters.add(AppEng.makeId("network/blocks/energy_energy_acceptor"));
-            filters.add(AppEng.makeId("network/blocks/interfaces_interface"));
-            filters.add(AppEng.makeId("network/blocks/pattern_providers_interface"));
-
-            filters.add(RLUtils.fromNamespaceAndPath("merequester", "requester"));
-
-            filters.add(ExtendedAE.id("cobblestone_cell"));
-            filters.add(ExtendedAE.id("water_cell"));
-            filters.add(ExtendedAE.id("tape"));
-            filters.add(ExtendedAE.id("assembler_matrix_wall"));
-            filters.add(ExtendedAE.id("assembler_matrix_frame"));
-            filters.add(ExtendedAE.id("assembler_matrix_crafter"));
-            filters.add(ExtendedAE.id("assembler_matrix_pattern"));
-            filters.add(ExtendedAE.id("assembler_matrix_speed"));
-
         }
 
         filters.add(RLUtils.fd("wheat_dough_from_water"));

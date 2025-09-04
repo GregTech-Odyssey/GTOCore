@@ -226,7 +226,7 @@ public final class ProcessingPlantMachine extends StorageMultiblockMachine imple
 
     @Override
     public int getTier() {
-        if (isEmpty() || mismatched) return tier;
+        if (!isFormed) return 0;
         return Math.min(getCasingTier(GTOValues.INTEGRAL_FRAMEWORK_TIER), tier);
     }
 

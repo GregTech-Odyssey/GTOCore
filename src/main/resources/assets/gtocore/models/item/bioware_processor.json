@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "gtocore:item/circuit/bioware_processor",
+    "layer1": "gtocore:item/circuit/bioware_processor_zpm"
+  }
+}

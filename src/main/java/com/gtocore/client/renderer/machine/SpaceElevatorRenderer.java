@@ -46,10 +46,10 @@ public final class SpaceElevatorRenderer extends WorkableCasingMachineRenderer {
                 double x = 0.5, y = 1, z = 0.5;
                 if (Super) {
                     switch (machine.getFrontFacing()) {
-                        case NORTH -> z = 4.5;
-                        case SOUTH -> z = -3.5;
-                        case WEST -> x = 4.5;
-                        case EAST -> x = -3.5;
+                        case NORTH -> z = 120.5;
+                        case SOUTH -> z = -119.5;
+                        case WEST -> x = 120.5;
+                        case EAST -> x = -119.5;
                     }
                 } else {
                     switch (machine.getFrontFacing()) {
@@ -60,9 +60,9 @@ public final class SpaceElevatorRenderer extends WorkableCasingMachineRenderer {
                     }
                 }
                 poseStack.pushPose();
-                RenderBufferHelper.renderCylinder(poseStack, buffer.getBuffer(GTORenderTypes.LIGHT_CYLINDER), (float) x, (float) (y - 2), (float) z, Super ? 0.5F : 0.3F, 360, 10, 0, 0, 0, 255);
+                RenderBufferHelper.renderCylinder(poseStack, buffer.getBuffer(GTORenderTypes.LIGHT_CYLINDER), (float) x, (float) (y - 2), (float) z, Super ? 0.6F : 0.3F, Super ? 600 : 360F, 10, 0, 0, 0, 255);
                 poseStack.translate(x, y + machine.getHigh(), z);
-                RendererModel(poseStack, buffer, Super ? 8 : 4, CLIMBER_MODEL);
+                RendererModel(poseStack, buffer, Super ? 20 : 4, CLIMBER_MODEL);
                 poseStack.popPose();
             }
         }

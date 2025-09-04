@@ -65,6 +65,12 @@ public class MEInputBusPartMachine extends MEPartMachine implements IDataStickIn
         flushInventory();
     }
 
+    @Override
+    public void setWorkingEnabled(boolean workingEnabled) {
+        super.setWorkingEnabled(workingEnabled);
+        updateInventorySubscription();
+    }
+
     ExportOnlyAEItemList createInventory() {
         return new ExportOnlyAEItemList(this, CONFIG_SIZE);
     }
@@ -85,7 +91,6 @@ public class MEInputBusPartMachine extends MEPartMachine implements IDataStickIn
     /////////////////////////////////
 
     private void autoIO() {
-        if (!this.isWorkingEnabled()) return;
         if (!this.shouldSyncME()) return;
 
         if (this.updateMEStatus()) {

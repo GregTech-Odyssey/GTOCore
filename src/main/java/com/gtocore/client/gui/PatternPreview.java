@@ -3,6 +3,7 @@ package com.gtocore.client.gui;
 import com.gtocore.integration.emi.multipage.MultiblockInfoEmiRecipe;
 
 import com.gtolib.api.gui.PatternSlotWidget;
+import com.gtolib.api.gui.SelectedSlotWidget;
 import com.gtolib.api.item.ItemHandlerModifiable;
 import com.gtolib.api.machine.MultiblockDefinition;
 import com.gtolib.api.machine.feature.multiblock.IMultiStructureMachine;
@@ -215,7 +216,7 @@ public final class PatternPreview extends WidgetGroup {
             int maxCol = (132 - (((slotWidgets.length - 1) / 9 + 1) * 18) - 35) % 18;
             for (int i = 0; i < candidateStacks.size(); i++) {
                 int finalI = i;
-                candidates[i] = new PatternSlotWidget(itemHandler, i, 3 + (i / maxCol) * 18, 3 + (i % maxCol) * 18).setBackgroundTexture(new ColorRectTexture(1342177279)).setOnAddedTooltips((slot, list) -> list.addAll(predicateTips.get(finalI)));
+                candidates[i] = new SelectedSlotWidget(candidateStacks.get(i), itemHandler, i, 3 + (i / maxCol) * 18, 3 + (i % maxCol) * 18).setBackgroundTexture(new ColorRectTexture(1342177279)).setOnAddedTooltips((slot, list) -> list.addAll(predicateTips.get(finalI)));
                 addWidget(candidates[i]);
             }
         }

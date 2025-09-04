@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "gtocore:item/circuit/cosmic_computer",
+    "layer1": "gtocore:item/circuit/cosmic_computer_uxv"
+  }
+}

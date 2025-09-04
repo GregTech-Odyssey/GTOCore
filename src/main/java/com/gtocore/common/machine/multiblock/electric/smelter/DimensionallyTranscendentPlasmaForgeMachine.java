@@ -26,10 +26,11 @@ public final class DimensionallyTranscendentPlasmaForgeMachine extends CoilMulti
     @Override
     protected boolean beforeWorking(@Nullable Recipe recipe) {
         if (recipe == null) return false;
-        if (getCoilType() == CoilType.URUIUM) {
-            if (getRecipeType() != GTORecipeTypes.STELLAR_FORGE_RECIPES) {
+        if (getRecipeType() == GTORecipeTypes.STELLAR_FORGE_RECIPES) {
+            if (getCoilType() != CoilType.URUIUM) {
                 return false;
-            } else if (recipe.data.getInt("ebf_temp") > 32000) {
+            }
+            if (recipe.data.getInt("ebf_temp") > 32000) {
                 return false;
             }
         } else if (recipe.data.getInt("ebf_temp") > getTemperature()) {

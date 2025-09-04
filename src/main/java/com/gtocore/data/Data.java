@@ -5,6 +5,7 @@ import com.gtocore.common.data.GTOLoots;
 import com.gtocore.common.data.GTOOres;
 import com.gtocore.common.data.GTORecipeTypes;
 import com.gtocore.data.recipe.*;
+import com.gtocore.data.recipe.ae2.AE2;
 import com.gtocore.data.recipe.classified.$ClassifiedRecipe;
 import com.gtocore.data.recipe.generated.*;
 import com.gtocore.data.recipe.gtm.chemistry.ChemistryRecipes;
@@ -37,7 +38,6 @@ import com.gregtechceu.gtceu.api.registry.GTRegistries;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.core.MixinHelpers;
-import com.gregtechceu.gtceu.data.pack.GTDynamicDataPack;
 import com.gregtechceu.gtceu.data.recipe.GTCraftingComponents;
 import com.gregtechceu.gtceu.data.recipe.MaterialInfoLoader;
 import com.gregtechceu.gtceu.data.recipe.misc.RecyclingRecipes;
@@ -45,7 +45,6 @@ import com.gregtechceu.gtceu.data.recipe.misc.StoneMachineRecipes;
 import com.gregtechceu.gtceu.data.recipe.misc.WoodMachineRecipes;
 import com.gregtechceu.gtceu.integration.emi.recipe.GTRecipeEMICategory;
 
-import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.world.level.block.Block;
 
 import com.google.common.collect.ImmutableSet;
@@ -58,7 +57,6 @@ import dev.shadowsoffire.placebo.loot.LootSystem;
 import it.unimi.dsi.fastutil.objects.Reference2ReferenceOpenHashMap;
 
 import java.util.Collections;
-import java.util.function.Consumer;
 
 import static com.gtocore.common.data.GTORecipes.EMI_RECIPES;
 import static com.gtocore.common.data.GTORecipes.EMI_RECIPE_WIDGETS;
@@ -76,7 +74,6 @@ public final class Data {
         MaterialInfo.init();
         RecipeBuilder.initialization();
         RecipeFilter.init();
-        Consumer<FinishedRecipe> consumer = GTDynamicDataPack::addRecipe;
 
         BlastProperty.GasTier.LOW.setFluid(() -> FastFluidIngredient.of(GTMaterials.Nitrogen.getFluid(1000)));
         BlastProperty.GasTier.MID.setFluid(() -> FastFluidIngredient.of(GTMaterials.Helium.getFluid(100)));
@@ -84,40 +81,41 @@ public final class Data {
         BlastProperty.GasTier.HIGHER.setFluid(() -> FastFluidIngredient.of(GTMaterials.Neon.getFluid(100)));
         BlastProperty.GasTier.HIGHEST.setFluid(() -> FastFluidIngredient.of(GTMaterials.Krypton.getFluid(100)));
 
-        ComponentRecipes.init(consumer);
+        ComponentRecipes.init();
 
-        WoodMachineRecipes.init(consumer);
-        StoneMachineRecipes.init(consumer);
+        WoodMachineRecipes.init();
+        StoneMachineRecipes.init();
 
-        CustomToolRecipes.init(consumer);
-        ChemistryRecipes.init(consumer);
-        MetaTileEntityMachineRecipeLoader.init(consumer);
-        MiscRecipeLoader.init(consumer);
-        VanillaStandardRecipes.init(consumer);
-        CraftingRecipeLoader.init(consumer);
+        CustomToolRecipes.init();
+        ChemistryRecipes.init();
+        MetaTileEntityMachineRecipeLoader.init();
+        MiscRecipeLoader.init();
+        VanillaStandardRecipes.init();
+        CraftingRecipeLoader.init();
         FusionLoader.init();
-        MachineRecipeLoader.init(consumer);
+        MachineRecipeLoader.init();
         AssemblerRecipeLoader.init();
-        BatteryRecipes.init(consumer);
-        DecorationRecipes.init(consumer);
+        BatteryRecipes.init();
+        DecorationRecipes.init();
 
-        CircuitRecipes.init(consumer);
-        MetaTileEntityLoader.init(consumer);
+        CircuitRecipes.init();
+        MetaTileEntityLoader.init();
 
-        GCYMRecipes.init(consumer);
-        RecipeAddition.init(consumer);
+        GCYMRecipes.init();
+        RecipeAddition.init();
 
-        ForEachMaterial.init(consumer);
+        ForEachMaterial.init();
 
         // GTO
-        GTMTRecipe.init(consumer);
-        GCYRecipes.init(consumer);
-        MachineRecipe.init(consumer);
-        MiscRecipe.init(consumer);
-        OrganRecipes.INSTANCE.init(consumer);
-        BotaniaRecipes.init(consumer);
-        ArsNouveauRecipes.init(consumer);
-        ManaRecipes.init(consumer);
+        GTMTRecipe.init();
+        GCYRecipes.init();
+        MachineRecipe.init();
+        MiscRecipe.init();
+        OrganRecipes.INSTANCE.init();
+        BotaniaRecipes.init();
+        ArsNouveauRecipes.init();
+        MagicRecipesA.init();
+        MagicRecipesB.init();
         FuelRecipe.init();
         BrineRecipes.init();
         NaquadahProcess.init();
@@ -131,9 +129,11 @@ public final class Data {
         GlassRecipe.init();
         DyeRecipes.init();
         WoodRecipes.init();
-        ImmersiveAircraft.init(consumer);
-        FunctionalStorage.init(consumer);
-        $ClassifiedRecipe.init(consumer);
+        AE2.init();
+        Ae2wtlibRecipes.init();
+        ImmersiveAircraft.init();
+        FunctionalStorage.init();
+        $ClassifiedRecipe.init();
         Temporary.init();
         if (GTCEu.isDev()) {
             ScanningRecipes.init();
@@ -147,7 +147,7 @@ public final class Data {
 
         GenerateDisassembly.DISASSEMBLY_RECORD.clear();
         GenerateDisassembly.DISASSEMBLY_BLACKLIST.clear();
-        RecyclingRecipes.init(consumer);
+        RecyclingRecipes.init();
         ItemMaterialData.ITEM_MATERIAL_INFO.clear();
         RecipeBuilder.clean();
         LootSystem.defaultBlockTable(RegistriesUtils.getBlock("farmersrespite:kettle"));

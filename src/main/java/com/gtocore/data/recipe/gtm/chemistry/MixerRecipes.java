@@ -4,10 +4,6 @@ import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.chemical.material.stack.MaterialEntry;
 import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
 
-import net.minecraft.data.recipes.FinishedRecipe;
-
-import java.util.function.Consumer;
-
 import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.dust;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
@@ -15,7 +11,7 @@ import static com.gtocore.common.data.GTORecipeTypes.MIXER_RECIPES;
 
 final class MixerRecipes {
 
-    public static void init(Consumer<FinishedRecipe> provider) {
+    public static void init() {
         MIXER_RECIPES.recipeBuilder("nitration_mixture")
                 .inputFluids(NitricAcid.getFluid(1000))
                 .inputFluids(SulfuricAcid.getFluid(1000))
@@ -108,13 +104,13 @@ final class MixerRecipes {
                 .duration(48).EUt(16).save();
 
         // Alloys
-        VanillaRecipeHelper.addShapelessRecipe(provider, "dust_brass", ChemicalHelper.get(dust, Brass, 3),
+        VanillaRecipeHelper.addShapelessRecipe("dust_brass", ChemicalHelper.get(dust, Brass, 3),
                 new MaterialEntry(dust, Copper),
                 new MaterialEntry(dust, Copper),
                 new MaterialEntry(dust, Copper),
                 new MaterialEntry(dust, Zinc));
 
-        VanillaRecipeHelper.addShapelessRecipe(provider, "dust_bronze", ChemicalHelper.get(dust, Bronze, 3),
+        VanillaRecipeHelper.addShapelessRecipe("dust_bronze", ChemicalHelper.get(dust, Bronze, 3),
                 new MaterialEntry(dust, Copper),
                 new MaterialEntry(dust, Copper),
                 new MaterialEntry(dust, Copper),

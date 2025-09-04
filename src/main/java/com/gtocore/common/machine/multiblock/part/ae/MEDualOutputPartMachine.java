@@ -5,12 +5,14 @@ import com.gtolib.api.machine.trait.InaccessibleInfiniteTank;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
+import com.gregtechceu.gtceu.api.gui.fancy.ConfiguratorPanel;
 import com.gregtechceu.gtceu.integration.ae2.gui.widget.list.AEListGridWidget;
 import com.gregtechceu.gtceu.integration.ae2.utils.KeyStorage;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 
 import appeng.api.config.Actionable;
+import appeng.api.networking.IGridNodeListener;
 import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
@@ -36,13 +38,29 @@ public class MEDualOutputPartMachine extends MEPartMachine {
     private final KeyStorage internalBuffer;
     @Persisted
     private final KeyStorage internalTankBuffer;
+    private final InaccessibleInfiniteHandler handler;
+    private final InaccessibleInfiniteTank tank;
 
     public MEDualOutputPartMachine(MetaMachineBlockEntity holder) {
         super(holder, IO.OUT);
         internalBuffer = new KeyStorage();
-        new InaccessibleInfiniteHandler(this, internalBuffer);
+        handler = new InaccessibleInfiniteHandler(this, internalBuffer);
         internalTankBuffer = new KeyStorage();
-        new InaccessibleInfiniteTank(this, internalTankBuffer);
+        tank = new InaccessibleInfiniteTank(this, internalTankBuffer);
+    }
+
+    @Override
+    public void setWorkingEnabled(boolean workingEnabled) {
+        super.setWorkingEnabled(workingEnabled);
+        handler.updateAutoOutputSubscription();
+        tank.updateAutoOutputSubscription();
+    }
+
+    @Override
+    public void onMainNodeStateChanged(IGridNodeListener.State reason) {
+        super.onMainNodeStateChanged(reason);
+        handler.updateAutoOutputSubscription();
+        tank.updateAutoOutputSubscription();
     }
 
     @Override
@@ -62,6 +80,11 @@ public class MEDualOutputPartMachine extends MEPartMachine {
                 }
             }
         }
+    }
+
+    @Override
+    public void attachConfigurators(ConfiguratorPanel configuratorPanel) {
+        super.superAttachConfigurators(configuratorPanel);
     }
 
     @Override

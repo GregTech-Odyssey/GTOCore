@@ -36,7 +36,7 @@ public class LargeMacerationTowerMachine extends GCYMMultiblockMachine {
                     handlers.add(ih);
                 }
             }
-            hurtSub = subscribeServerTick(this::spinWheels);
+            hurtSub = subscribeServerTick(hurtSub, this::spinWheels);
         }
     }
 

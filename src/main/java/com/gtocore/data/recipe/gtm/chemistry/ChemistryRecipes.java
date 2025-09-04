@@ -4,10 +4,7 @@ import com.gtolib.utils.RLUtils;
 
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
 
-import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.world.item.Items;
-
-import java.util.function.Consumer;
 
 import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.dust;
@@ -17,7 +14,7 @@ import static com.gtocore.common.data.GTORecipeTypes.*;
 
 public final class ChemistryRecipes {
 
-    public static void init(Consumer<FinishedRecipe> provider) {
+    public static void init() {
         AcidRecipes.init();
         BrewingRecipes.init();
         ChemicalBathRecipes.init();
@@ -26,7 +23,7 @@ public final class ChemistryRecipes {
         GemSlurryRecipes.init();
         GrowthMediumRecipes.init();
         LCRCombined.init();
-        MixerRecipes.init(provider);
+        MixerRecipes.init();
         NuclearRecipes.init();
         PetrochemRecipes.init();
         PolymerRecipes.init();

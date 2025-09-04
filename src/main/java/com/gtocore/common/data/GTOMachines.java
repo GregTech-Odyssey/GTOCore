@@ -252,6 +252,17 @@ public final class GTOMachines {
                     .langValue(VNF[tier] + " Overclock Hatch")
                     .allRotation()
                     .abilities(GTOPartAbility.OVERCLOCK_HATCH)
+                    .tooltips(NewDataAttributes.MAIN_FUNCTION.create(
+                            v -> v.addLines("让机器超频", "accelerate machine"),
+                            p -> p.addCommentLines(
+                                    """
+                                            同样的超频级别，此数值越高，超频因子越大
+                                            更大的超频因子代表更激进的超频策略
+                                            耗能更高，速度更快！""",
+                                    """
+                                            For the same overclocking level, the higher this value, the greater the overclocking factor
+                                            A larger overclocking factor represents a more aggressive overclocking strategy
+                                            Higher energy consumption, faster speed!""")))
                     .workableTieredHullRenderer(GTOCore.id("block/machines/overclock_hatch/overclock_hatch_mk" + (tier - 7)))
                     .notAllowSharedTooltips()
                     .register(),
@@ -290,6 +301,7 @@ public final class GTOMachines {
                             Component.translatable("gtceu.universal.tooltip.item_storage_capacity", tier * tier),
                             Component.translatable("gtceu.universal.tooltip.fluid_storage_capacity_mult", tier, DualHatchPartMachine.getTankCapacity(DualHatchPartMachine.INITIAL_TANK_CAPACITY, tier)),
                             Component.translatable("gtceu.part_sharing.enabled"))
+                    .allowCoverOnFront(true)
                     .register(),
             tiersBetween(LV, MAX));
 
@@ -344,6 +356,7 @@ public final class GTOMachines {
                     .abilities(GTOPartAbility.DRONE_HATCH)
                     .notAllowSharedTooltips()
                     .renderer(() -> new OverlayTieredMachineRenderer(tier, GTCEu.id("block/machine/part/item_bus.import")))
+                    .allowCoverOnFront(true)
                     .register(),
             HV, EV, IV);
 
@@ -477,6 +490,7 @@ public final class GTOMachines {
             .renderer(() -> new OverlaySteamMachineRenderer(GTCEu.id("block/machine/part/" + "steam_hatch")))
             .tooltips(Component.translatable("gtceu.universal.tooltip.fluid_storage_capacity", 4096000),
                     Component.translatable("gtceu.machine.steam.steam_hatch.tooltip"))
+            .allowCoverOnFront(true)
             .register();
 
     public static final MachineDefinition STERILE_CLEANING_MAINTENANCE_HATCH = machine("sterile_cleaning_maintenance_hatch", "无菌维护仓", holder -> new CMHatchPartMachine(holder, CMHatchPartMachine.STERILE_DUMMY_CLEANROOM))
@@ -515,6 +529,26 @@ public final class GTOMachines {
             .addTooltipsFromClass(ACMHatchPartMachine.class)
             .notAllowSharedTooltips()
             .renderer(() -> new MaintenanceHatchPartRenderer(5, GTCEu.id("block/machine/part/maintenance.full_auto")))
+            .register();
+
+    public static final MachineDefinition MODULAR_CONFIGURATION_MAINTENANCE_HATCH = machine("modular_configuration_maintenance_hatch", "模块化可配置维护仓", ModularHatchPartMachine::new)
+            .allRotation()
+            .abilities(PartAbility.MAINTENANCE)
+            .addTooltipsFromClass(ACMHatchPartMachine.class)
+            .tooltipsText("Insert different auto-maintenance hatches to enable different functions.",
+                    "插入不同的自动维护仓以启用不同的功能。")
+            .notAllowSharedTooltips()
+            .renderer(() -> new MaintenanceHatchPartRenderer(6, GTCEu.id("block/machine/part/maintenance.full_auto")))
+            .register();
+
+    public static final MachineDefinition TEMP_VACUUM_INTERFACE = machine("temp_vacuum_interface", "温度/真空接口", TempVacuumInterfacePartMachine::new)
+            .allRotation()
+            .abilities(PartAbility.IMPORT_ITEMS, PartAbility.IMPORT_FLUIDS)
+            .notAllowSharedTooltips()
+            .tooltipsText("Conduct heat and provide vacuum for multiblock machines through connections with this part.",
+                    "通过与此部件的连接，可以为多方块机器传导热量并提供真空。")
+            .tier(1)
+            .overlayTieredHullRenderer("neutron_sensor")
             .register();
 
     public static final MachineDefinition CLEANING_CONFIGURATION_MAINTENANCE_HATCH = machine("cleaning_configuration_maintenance_hatch", "超净可配置维护仓", holder -> new CCMHatchPartMachine(holder, CMHatchPartMachine.DUMMY_CLEANROOM))
@@ -636,6 +670,7 @@ public final class GTOMachines {
             .allRotation()
             .notAllowSharedTooltips()
             .renderer(BallHatchRenderer::new)
+            .allowCoverOnFront(true)
             .register();
 
     public static final MachineDefinition RADIATION_HATCH = machine("radiation_hatch", "放射仓", RadiationHatchPartMachine::new)
@@ -647,6 +682,7 @@ public final class GTOMachines {
             .tooltipsText("Initial radiation = (Recipe radiation - inhibition) * (1 + count of radiation materials / 64)", "初始辐射=(配方辐射-抑制量)x(1+放射材料数量/64)")
             .tooltipsText("When there are no radiation materials in the barn, the radioactivity gradually decreases over time", "当仓中没有放射性材料时辐射随时间逐渐衰减")
             .overlayTieredHullRenderer("radiation_hatch")
+            .allowCoverOnFront(true)
             .register();
 
     public static final MachineDefinition SPOOL_HATCH = machine("spool_hatch", "线轴仓", SpoolHatchPartMachine::new)
@@ -654,19 +690,23 @@ public final class GTOMachines {
             .allRotation()
             .notAllowSharedTooltips()
             .overlayTieredHullRenderer("radiation_hatch")
+            .allowCoverOnFront(true)
             .register();
 
     public static final MachineDefinition ROTOR_HATCH = machine("rotor_hatch", "转子仓", h -> new ItemHatchPartMachine(h, 1, i -> TurbineRotorBehaviour.getBehaviour(i) != null))
+            .tooltips(GTOMachineTranslation.INSTANCE.getRotorHatchTooltips().getSupplier())
             .tier(EV)
             .allRotation()
             .notAllowSharedTooltips()
             .overlayTieredHullRenderer("rotor_hatch")
+            .allowCoverOnFront(true)
             .register();
 
     public static final MachineDefinition PRIMITIVE_BLAST_FURNACE_HATCH = machine("primitive_blast_furnace_hatch", "土高炉仓", PrimitiveBlastFurnaceHatch::new)
             .allRotation()
             .notAllowSharedTooltips()
             .modelRenderer(() -> GTCEu.id("block/machine/part/primitive_blast_furnace_hatch"))
+            .allowCoverOnFront(true)
             .register();
 
     public static final MachineDefinition BLOCK_BUS = machine("block_bus", "方块总线", BlockBusPartMachine::new)
@@ -674,6 +714,7 @@ public final class GTOMachines {
             .allRotation()
             .notAllowSharedTooltips()
             .renderer(() -> new OverlayTieredMachineRenderer(LuV, GTCEu.id("block/machine/part/item_bus.import")))
+            .allowCoverOnFront(true)
             .register();
 
     public static final MachineDefinition LENS_HOUSING = machine("lens_housing", "透镜仓", h -> new ItemHatchPartMachine(h, 1, i -> ChemicalHelper.getPrefix(i.getItem()) == TagPrefix.lens))
@@ -681,6 +722,7 @@ public final class GTOMachines {
             .allRotation()
             .notAllowSharedTooltips()
             .renderer(() -> new OverlayTieredMachineRenderer(EV, GTCEu.id("block/machine/part/item_bus.import")))
+            .allowCoverOnFront(true)
             .register();
 
     public static final MachineDefinition LENS_INDICATOR_HATCH = machine("lens_indicator_hatch", "透镜指示仓", IndicatorHatchPartMachine::new)
@@ -705,6 +747,7 @@ public final class GTOMachines {
             .notAllowSharedTooltips()
             .overlayTieredHullRenderer("catalyst_hatch")
             .abilities(GTOPartAbility.CATALYST_HATCH)
+            .allowCoverOnFront(true)
             .register();
 
     public static final MachineDefinition ADVANCED_CATALYST_HATCH = machine("advanced_catalyst_hatch", "进阶催化剂仓", h -> new CatalystHatchPartMachine(h, 7))
@@ -714,6 +757,7 @@ public final class GTOMachines {
             .notAllowSharedTooltips()
             .overlayTieredHullRenderer("catalyst_hatch")
             .abilities(GTOPartAbility.CATALYST_HATCH)
+            .allowCoverOnFront(true)
             .register();
 
     public static final MachineDefinition MACHINE_ACCESS_INTERFACE = machine("machine_access_interface", "机器访问接口", MachineAccessInterfacePartMachine::new)
@@ -735,6 +779,7 @@ public final class GTOMachines {
             .allRotation()
             .notAllowSharedTooltips()
             .overlayTieredHullRenderer("neutron_sensor")
+            .allowCoverOnFront(true)
             .register();
 
     public static final MachineDefinition INFINITE_PARALLEL_HATCH = machine("infinite_parallel_hatch", "无限并行仓", h -> new ParallelHatchPartMachine(h, -1))
@@ -773,11 +818,12 @@ public final class GTOMachines {
 
     public static final MachineDefinition STEAM_FLUID_INPUT_HATCH = machine("steam_fluid_input_hatch", "蒸汽流体输入仓", holder -> new SteamFluidHatchPartMachine(holder, IO.IN))
             .langValue("Fluid Input Hatch (Steam)")
-            .abilities()
+            .allRotation()
             .abilities(GTOPartAbility.STEAM_IMPORT_FLUIDS)
             .tooltips(Component.translatable("gtceu.machine.fluid_hatch.import.tooltip"))
             .tooltips(Component.translatable("gtceu.universal.tooltip.fluid_storage_capacity", FormattingUtil.formatNumbers(16000)))
             .renderer(() -> new OverlaySteamMachineRenderer(GTCEu.id("block/machine/part/fluid_hatch.import")))
+            .allowCoverOnFront(true)
             .register();
 
     public static final MachineDefinition STEAM_FLUID_OUTPUT_HATCH = machine("steam_fluid_output_hatch", "蒸汽流体输出仓", holder -> new SteamFluidHatchPartMachine(holder, IO.OUT))
@@ -787,6 +833,7 @@ public final class GTOMachines {
             .tooltips(Component.translatable("gtceu.machine.fluid_hatch.export.tooltip"))
             .tooltips(Component.translatable("gtceu.universal.tooltip.fluid_storage_capacity", FormattingUtil.formatNumbers(16000)))
             .renderer(() -> new OverlaySteamMachineRenderer(GTCEu.id("block/machine/part/fluid_hatch.export")))
+            .allowCoverOnFront(true)
             .register();
 
     public static final MachineDefinition STEAM_VENT_HATCH = machine("steam_vent_hatch", "蒸汽排气仓", SteamVentHatchMachine::new)

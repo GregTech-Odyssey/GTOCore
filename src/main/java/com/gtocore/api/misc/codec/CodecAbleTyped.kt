@@ -12,7 +12,7 @@ import kotlin.reflect.full.companionObjectInstance
 import kotlin.reflect.full.memberProperties
 import kotlin.reflect.jvm.isAccessible
 
-interface CodecAbleTyped<SELF : CodecAbleTyped<SELF, COMPANION>, COMPANION : CodecAbleCompanion<SELF>> : INBTSerializable<CompoundTag> {
+interface CodecAbleTyped<SELF : CodecAbleTyped<SELF, COMPANION>, COMPANION : CodecAbleTypedCompanion<SELF>> : INBTSerializable<CompoundTag> {
     companion object {
         private val interfacePropertyNames: Set<String> by lazy {
             CodecAbleTyped::class.memberProperties.mapTo(mutableSetOf()) { it.name }

@@ -1,5 +1,6 @@
 package com.gtocore.data.recipe.classified;
 
+import com.gtocore.api.data.tag.GTOTagPrefix;
 import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.data.GTOMaterials;
 
@@ -1096,6 +1097,25 @@ final class CircuitAssemblyLine {
                 .outputItems(GTOItems.BIOWARE_MAINFRAME.asItem())
                 .EUt(7864320)
                 .duration(50)
+                .save();
+
+        CIRCUIT_ASSEMBLY_LINE_RECIPES.builder("atomic_archives")
+                .notConsumable(GTOItems.PRECISION_CIRCUIT_ASSEMBLY_ROBOT_MK2.asItem())
+                .inputItems(GTOItems.OPTICAL_PRINTED_CIRCUIT_BOARD.asStack(4))
+                .inputItems(GTOItems.OPTICAL_PROCESSING_CORE.asStack(32))
+                .inputItems(GTOTagPrefix.NANITES, GTMaterials.Carbon, 4)
+                .inputItems(GTOTagPrefix.NANITES, GTMaterials.Iridium, 4)
+                .inputItems(GTOTagPrefix.NANITES, GTMaterials.Neutronium, 4)
+                .inputItems(GTItems.HIGHLY_ADVANCED_SOC.asStack(64))
+                .inputItems(GTOItems.OPTICAL_RAM_CHIP.asStack(64))
+                .inputItems(GTOItems.OPTICAL_RAM_CHIP.asStack(64))
+                .inputItems(GTOItems.ENTANGLED_SINGULARITY.asStack(3))
+                .outputItems(GTOItems.ATOMIC_ARCHIVES.asItem())
+                .inputFluids(GTMaterials.Naquadria, 1152)
+                .inputFluids(GTOMaterials.Gaia, 1152)
+                .inputFluids(GTOMaterials.MutatedLivingSolder, 1152)
+                .EUt(7864320)
+                .duration(800)
                 .save();
     }
 }

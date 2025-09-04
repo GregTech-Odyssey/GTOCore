@@ -5,6 +5,7 @@ import com.gtocore.api.gui.ktflexible.progressBar
 import com.gtocore.api.gui.ktflexible.textBlock
 import com.gtocore.common.machine.multiblock.part.ae.MEPatternContentSortMachine.MODE.FLUID
 import com.gtocore.common.machine.multiblock.part.ae.MEPatternContentSortMachine.MODE.ITEM
+import com.gtocore.mixin.ae2.GridAccessor
 
 import net.minecraft.network.chat.Component
 import net.minecraft.server.TickTask
@@ -22,6 +23,7 @@ import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity
 import com.gregtechceu.gtceu.api.gui.fancy.FancyMachineUIWidget
 import com.gregtechceu.gtceu.api.gui.fancy.IFancyUIProvider
 import com.gregtechceu.gtceu.api.machine.MetaMachine
+import com.gregtechceu.gtceu.api.machine.TickableSubscription
 import com.gregtechceu.gtceu.api.machine.feature.IFancyUIMachine
 import com.gregtechceu.gtceu.integration.ae2.machine.feature.IGridConnectedMachine
 import com.gregtechceu.gtceu.integration.ae2.machine.trait.GridNodeHolder
@@ -29,7 +31,6 @@ import com.gtolib.api.annotation.Scanned
 import com.gtolib.api.annotation.language.RegisterLanguage
 import com.gtolib.api.gui.ktflexible.button
 import com.gtolib.api.gui.ktflexible.rootFresh
-import com.gtolib.mixin.ae2.GridAccessor
 import com.lowdragmc.lowdraglib.gui.modular.ModularUI
 import com.lowdragmc.lowdraglib.gui.widget.PhantomSlotWidget
 import com.lowdragmc.lowdraglib.gui.widget.Widget
@@ -76,6 +77,8 @@ class MEPatternContentSortMachine(holder: MetaMachineBlockEntity) :
 
     @DescSynced
     var isGridOnline: Boolean = false
+
+    private var tickableSubscription: TickableSubscription? = null
 
     @Persisted
     var gridNodeHolder = GridNodeHolder(this)
@@ -241,7 +244,7 @@ class MEPatternContentSortMachine(holder: MetaMachineBlockEntity) :
 
     override fun onLoad() {
         super.onLoad()
-        subscribeServerTick {
+        tickableSubscription = subscribeServerTick(tickableSubscription, {
             if (!isRemote && !isInitialize && offsetTimer % 20 == 0L && gridNodeHolder.mainNode.isActive) {
                 level?.server?.tell(
                     TickTask(40) {
@@ -251,12 +254,16 @@ class MEPatternContentSortMachine(holder: MetaMachineBlockEntity) :
                 )
                 isInitialize = true
             }
-        }
+        })
     }
 
     override fun onUnload() {
         super.onUnload()
         internalLogic.uniqueScope?.cancel()
+        if (tickableSubscription != null) {
+            tickableSubscription?.unsubscribe()
+            tickableSubscription = null
+        }
     }
 
     // //////////////////////////////

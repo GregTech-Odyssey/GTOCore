@@ -4,6 +4,7 @@ import com.gtocore.api.pattern.GTOPredicates;
 import com.gtocore.client.renderer.machine.DimensionalFocusEngravingArrayRenderer;
 import com.gtocore.common.data.GTOBlocks;
 import com.gtocore.common.data.GTORecipeTypes;
+import com.gtocore.common.data.translation.GTOMachineTranslation;
 
 import com.gtolib.GTOCore;
 import com.gtolib.api.machine.multiblock.CoilCrossRecipeMultiblockMachine;
@@ -26,6 +27,7 @@ public final class MultiBlockE {
     public static final MultiblockMachineDefinition DIMENSIONAL_FOCUS_ENGRAVING_ARRAY = multiblock("dimensional_focus_engraving_array", "维度聚焦激光蚀刻阵列", CoilCrossRecipeMultiblockMachine::createCoilParallel)
             .nonYAxisRotation()
             .recipeTypes(GTORecipeTypes.DIMENSIONAL_FOCUS_ENGRAVING_ARRAY_RECIPES)
+            .tooltips(GTOMachineTranslation.INSTANCE.getDimensionalFocusEngravingArrayTooltips().getSupplier())
             .coilParallelTooltips()
             .laserTooltips()
             .multipleRecipesTooltips()
@@ -54,6 +56,7 @@ public final class MultiBlockE {
     public static final MultiblockMachineDefinition STAR_ULTIMATE_MATERIAL_FORGE_FACTORY = multiblock("star_ultimate_material_forge_factory", "恒星终极物质锻造工厂", CoilCrossRecipeMultiblockMachine.createParallel(false, false, m -> Integer.MAX_VALUE))
             .allRotation()
             .recipeTypes(GTORecipeTypes.ULTIMATE_MATERIAL_FORGE_RECIPES)
+            .tooltips(GTOMachineTranslation.INSTANCE.getStarUltimateMaterialForgeFactoryTooltips().getSupplier())
             .laserTooltips()
             .multipleRecipesTooltips()
             .block(GTOBlocks.MOLECULAR_CASING)

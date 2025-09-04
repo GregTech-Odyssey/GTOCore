@@ -2,12 +2,13 @@ package com.gtocore.common.machine.multiblock.electric;
 
 import com.gtocore.common.data.GTOBlocks;
 
-import com.gtolib.api.annotation.Scanned;
+import com.gtolib.GTOCore;
+import com.gtolib.api.annotation.DataGeneratorScanned;
 import com.gtolib.api.annotation.language.RegisterLanguage;
 import com.gtolib.api.machine.multiblock.TierCasingMultiblockMachine;
 import com.gtolib.api.recipe.Recipe;
 import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
-import com.gtolib.utils.SphereExplosion;
+import com.gtolib.utils.explosion.SphereExplosion;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
@@ -26,7 +27,7 @@ import java.util.Map;
 
 import static com.gtolib.api.GTOValues.STELLAR_CONTAINMENT_TIER;
 
-@Scanned
+@DataGeneratorScanned
 public final class StellarForgeMachine extends TierCasingMultiblockMachine implements IExplosionMachine {
 
     private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
@@ -73,7 +74,7 @@ public final class StellarForgeMachine extends TierCasingMultiblockMachine imple
     @Override
     public void regressRecipe(RecipeLogic recipeLogic) {
         recipeLogic.interruptRecipe();
-        doExplosion(1);
+        if (GTOCore.isExpert()) doExplosion(1);
     }
 
     @Override

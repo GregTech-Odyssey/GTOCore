@@ -1,16 +1,9 @@
 package com.gtocore.data.recipe.classified;
 
-import com.gtocore.data.recipe.misc.Ae2wtlibRecipes;
-
-import net.minecraft.data.recipes.FinishedRecipe;
-
-import java.util.function.Consumer;
-
 public final class $ClassifiedRecipe {
 
-    public static void init(Consumer<FinishedRecipe> provider) {
-        Vanilla.init(provider);
-        Ae2wtlibRecipes.init(provider);
+    public static void init() {
+        Vanilla.init();
         MolecularTransformer.init();
         ReactionFurnace.init();
         LiquefactionFurnace.init();

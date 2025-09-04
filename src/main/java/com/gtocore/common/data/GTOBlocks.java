@@ -196,6 +196,7 @@ public final class GTOBlocks {
     public static final BlockEntry<Block> COMPONENT_ASSEMBLY_LINE_CASING_OPV = createTierCasings("component_assembly_line_casing_opv", "部件装配线外壳(OPV)", GTOCore.id("block/casings/component_assembly_line/component_assembly_line_casing_opv"), CALMAP, 13);
     public static final BlockEntry<Block> COMPONENT_ASSEMBLY_LINE_CASING_MAX = createTierCasings("component_assembly_line_casing_max", "部件装配线外壳(MAX)", GTOCore.id("block/casings/component_assembly_line/component_assembly_line_casing_max"), CALMAP, 14);
 
+    public static final BlockEntry<Block> INTEGRAL_FRAMEWORK_ULV = createTierCasings("integral_framework_ulv", "整体框架(ULV)", GTOCore.id("block/casings/integral_framework/ulv"), INTEGRALFRAMEWORKMAP, 0);
     public static final BlockEntry<Block> INTEGRAL_FRAMEWORK_LV = createTierCasings("integral_framework_lv", "整体框架(LV)", GTOCore.id("block/casings/integral_framework/lv"), INTEGRALFRAMEWORKMAP, 1);
     public static final BlockEntry<Block> INTEGRAL_FRAMEWORK_MV = createTierCasings("integral_framework_mv", "整体框架(MV)", GTOCore.id("block/casings/integral_framework/mv"), INTEGRALFRAMEWORKMAP, 2);
     public static final BlockEntry<Block> INTEGRAL_FRAMEWORK_HV = createTierCasings("integral_framework_hv", "整体框架(HV)", GTOCore.id("block/casings/integral_framework/hv"), INTEGRALFRAMEWORKMAP, 3);
@@ -253,12 +254,15 @@ public final class GTOBlocks {
     public static final BlockEntry<Block> QUANTUM_CHROMODYNAMIC_CHARGE = createCasingBlock("quantum_chromodynamic_charge", "量子色动力学爆弹", GTOCore.id("block/quantum_chromodynamic_charge"));
     public static final BlockEntry<Block> ANNIHILATE_CORE = createCasingBlock("annihilate_core", "湮灭核心", GTOCore.id("block/annihilate_core"));
     public static final BlockEntry<Block> AMPROSIUM_PIPE_CASING = createCasingBlock("amprosium_pipe_casing", "安普洛管道方块", GTOCore.id("block/neutronium_pipe_casing"));
+    public static final BlockEntry<Block> IRIDIUM_PIPE_CASING = createCasingBlock("iridium_pipe_casing", "铱管道方块", GTOCore.id("block/machine_casing_pipe_iridium"));
     public static final BlockEntry<Block> INCONEL_625_PIPE = createCasingBlock("inconel_625_pipe", "镍铬基合金-625温和分散管道", GTOCore.id("block/inconel_625_pipe"));
     public static final BlockEntry<Block> HASTELLOY_N_75_PIPE = createCasingBlock("hastelloy_n_75_pipe", "哈斯特洛依合金-N75油膜管道", GTOCore.id("block/hastelloy_n_75_pipe"));
     public static final BlockEntry<Block> AMPROSIUM_GEARBOX = createCasingBlock("amprosium_gearbox", "安普洛齿轮箱机械方块", GTOCore.id("block/neutronium_gearbox"));
+    public static final BlockEntry<Block> IRIDIUM_GEARBOX = createCasingBlock("iridium_gearbox", "铱齿轮箱机械方块", GTOCore.id("block/machine_casing_gearbox_iridium"));
     public static final BlockEntry<Block> INCONEL_625_GEARBOX = createCasingBlock("inconel_625_gearbox", "镍铬基合金-625球磨齿轮箱", GTOCore.id("block/inconel_625_gearbox"));
     public static final BlockEntry<Block> HASTELLOY_N_75_GEARBOX = createCasingBlock("hastelloy_n_75_gearbox", "哈斯特洛依合金-N75齿轮箱", GTOCore.id("block/hastelloy_n_75_gearbox"));
     public static final BlockEntry<Block> LASER_COOLING_CASING = createCasingBlock("laser_cooling_casing", "激光冷却方块", GTOCore.id("block/laser_cooling_casing"));
+    public static final BlockEntry<Block> HIGH_ENERGY_LASER_EMITTER = createCasingBlock("high_energy_laser_emitter", "高能激光发射器", GTOCore.id("block/high_energy_laser_emitter"));
     public static final BlockEntry<Block> SPACETIME_COMPRESSION_FIELD_GENERATOR = createCasingBlock("spacetime_compression_field_generator", "压缩时空力场发生器", GTOCore.id("block/spacetime_compression_field_generator"));
     public static final BlockEntry<Block> DIMENSIONAL_BRIDGE_CASING = createCasingBlock("dimensional_bridge_casing", "维度桥接方块", GTOCore.id("block/dimensional_bridge_casing"));
     public static final BlockEntry<Block> DIMENSIONAL_STABILITY_CASING = createCasingBlock("dimensional_stability_casing", "维度稳定方块", GTOCore.id("block/dimensional_stability_casing"));
@@ -391,6 +395,7 @@ public final class GTOBlocks {
 
     public static final BlockEntry<Block> TRANSMUTATION_CATALYST = createCasingBlock("transmutation_catalyst", "嬗变催化器", GTOCore.id("block/casings/transmutation_catalyst"));
     public static final BlockEntry<Block> INFUSED_GOLD_REINFORCED_WOODEN_CASING = createCasingBlock("infused_gold_reinforced_wooden_casing", "注魔金加固木制机械方块", GTOCore.id("block/casings/infused_gold_reinforced_wooden_casing"));
+    public static final BlockEntry<Block> INFUSED_GOLD_CASING = createCasingBlock("infused_gold_casing", "注魔金外壳", GTOCore.id("block/casings/infused_gold_casing"));
     public static final BlockEntry<Block> SOURCE_STONE_CASING = createCasingBlock("source_stone_casing", "魔源机械方块", GTOCore.id("block/casings/source_stone_casing"));
     public static final BlockEntry<Block> SOURCE_FIBER_MECHANICAL_CASING = createCasingBlock("source_fiber_mechanical_casing", "魔源纤维机械方块", GTOCore.id("block/casings/source_fiber_mechanical_casing"));
     public static final BlockEntry<Block> SPELL_PRISM_CASING = createCasingBlock("spell_prism_casing", "法术机械方块", GTOCore.id("block/casings/spell_prism_casing"));
@@ -398,7 +403,9 @@ public final class GTOBlocks {
     public static final BlockEntry<Block> MANASTEEL_CASING = createCasingBlock("manasteel_casing", "魔力钢外壳", GTOCore.id("block/casings/manasteel_casing"));
     public static final BlockEntry<Block> TERRASTEEL_CASING = createCasingBlock("terrasteel_casing", "泰拉钢外壳", GTOCore.id("block/casings/terrasteel_casing"));
     public static final BlockEntry<Block> ELEMENTIUM_CASING = createCasingBlock("elementium_casing", "源质钢外壳", GTOCore.id("block/casings/elementium_casing"));
+    public static final BlockEntry<Block> ALFSTEEL_CASING = createCasingBlock("alfsteel_casing", "精灵钢外壳", GTOCore.id("block/casings/alfsteel_casing"));
     public static final BlockEntry<Block> GAIASTEEL_CASING = createCasingBlock("gaiasteel_casing", "盖亚钢外壳", GTOCore.id("block/casings/gaiasteel_casing"));
+    public static final BlockEntry<Block> ORICHALCOS_CASING = createCasingBlock("orichalcos_casing", "奥利哈钢外壳", GTOCore.id("block/casings/orichalcos_casing"));
     public static final BlockEntry<Block> HERETICAL_MECHANICAL_CASING = createCasingBlock("heretical_mechanical_casing", "邪术机械方块", GTOCore.id("block/casings/heretical_mechanical_casing"));
 
     public static final BlockEntry<Block> ACCELERATOR_PARTICLE_CONSTRAINED_CASING = createCasingBlock("accelerator_particle_constrained_casing", "加速器粒子约束机械方块", GTOCore.id("block/casings/accelerator/accelerator_particle_constrained_casing"));
@@ -425,6 +432,7 @@ public final class GTOBlocks {
     public static final BlockEntry<Block> OIL_GAS_TRANSPORTATION_PIPE_CASING = createCasingBlock("oil_gas_transportation_pipe_casing", "油气输送密封管道机械方块", GTOCore.id("block/casings/oil_gas_transportation_pipe_casing"));
     // 生物活性机械方块
     public static final BlockEntry<Block> BIOACTIVE_MECHANICAL_CASING = createCasingBlock("bioactive_mechanical_casing", "生物活性机械方块", GTOCore.id("block/casings/bioactive_mechanical_casing"));
+    public static final BlockEntry<Block> BIOLOGICAL_MECHANICAL_CASING = createCasingBlock("biological_mechanical_casing", "生物机械方块", GTOCore.id("block/casings/biological_mechanical_casing"));
     // 工业无框玻璃
     public static final BlockEntry<Block> INDUSTRIAL_FRAMELESS_GLASS = createGlassCasingBlock("industrial_frameless_glass", "工业无框玻璃", GTOCore.id("block/industrial_frameless_glass"));
     // 工程机械方块
@@ -453,5 +461,6 @@ public final class GTOBlocks {
     public static final BlockEntry<Block> SCINTILLATION_COUNTER_DETECTOR_BLOCK = createCasingBlock("scintillation_counter_detector_block", "闪烁计数器探测器方块", GTOCore.id("block/casings/vacuum_chamber/scintillation_counter_detector_block"));
     // 多丝正比室探测器方块
     public static final BlockEntry<Block> MULTI_WIRE_PROPORTIONAL_CHAMBER_DETECTOR_BLOCK = createCasingBlock("multi_wire_proportional_chamber_detector_block", "多丝正比室探测器方块", GTOCore.id("block/casings/vacuum_chamber/multi_wire_proportional_chamber_detector_block"));
-    // 真空
+    // 太阳能集热管道机械方块
+    public static final BlockEntry<Block> SOLAR_HEAT_COLLECTOR_PIPE_CASING = createCasingBlock("solar_heat_collector_pipe_casing", "太阳能集热管道机械方块", GTOCore.id("block/casings/solar_heat_collector_pipe_casing"));
 }

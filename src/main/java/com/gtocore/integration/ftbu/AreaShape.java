@@ -9,7 +9,7 @@ import dev.ftb.mods.ftbultimine.shape.BlockMatcher;
 import dev.ftb.mods.ftbultimine.shape.Shape;
 import dev.ftb.mods.ftbultimine.shape.ShapeContext;
 import dev.ftb.mods.ftbultimine.shape.ShapeRegistry;
-import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
+import it.unimi.dsi.fastutil.longs.LongOpenHashSet;
 import org.antlr.v4.runtime.misc.OrderedHashSet;
 
 import java.util.ArrayDeque;
@@ -77,10 +77,10 @@ public class AreaShape implements Shape {
     }
 
     private static void walk(ShapeContext context, Set<BlockPos> known) {
-        Set<BlockPos> traversed = new ObjectOpenHashSet<>();
+        LongOpenHashSet traversed = new LongOpenHashSet();
         Deque<BlockPos> openSet = new ArrayDeque<>();
         openSet.add(context.pos());
-        traversed.add(context.pos());
+        traversed.add(context.pos().asLong());
 
         while (!openSet.isEmpty()) {
             BlockPos ptr = openSet.pop();
@@ -93,7 +93,7 @@ public class AreaShape implements Shape {
                 for (BlockPos side : NEIGHBOR_POSITIONS.neighbors) {
                     BlockPos offset = ptr.offset(side);
 
-                    if (traversed.add(offset)) {
+                    if (traversed.add(offset.asLong())) {
                         openSet.add(offset);
                     }
                 }

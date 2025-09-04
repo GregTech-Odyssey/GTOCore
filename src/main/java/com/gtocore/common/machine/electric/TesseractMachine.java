@@ -6,7 +6,7 @@ import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.feature.IFancyUIMachine;
-import com.gregtechceu.gtceu.api.machine.feature.IMachineModifyDrops;
+import com.gregtechceu.gtceu.api.machine.feature.IMachineLife;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 
 import net.minecraft.core.BlockPos;
@@ -25,10 +25,9 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.lang.ref.WeakReference;
-import java.util.List;
 import java.util.Set;
 
-public class TesseractMachine extends MetaMachine implements IFancyUIMachine, IMachineModifyDrops {
+public class TesseractMachine extends MetaMachine implements IFancyUIMachine, IMachineLife {
 
     private static final Set<Capability<?>> CAPABILITIES = Set.of(ForgeCapabilities.ITEM_HANDLER, ForgeCapabilities.FLUID_HANDLER);
 
@@ -36,7 +35,7 @@ public class TesseractMachine extends MetaMachine implements IFancyUIMachine, IM
             TesseractMachine.class, MetaMachine.MANAGED_FIELD_HOLDER);
 
     @Override
-    public void onDrops(List<ItemStack> list) {
+    public void onMachineRemoved() {
         clearInventory(inventory.storage);
     }
 

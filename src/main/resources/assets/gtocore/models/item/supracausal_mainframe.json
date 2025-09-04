@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "gtocore:item/circuit/supracausal_mainframe",
+    "layer1": "gtocore:item/circuit/supracausal_mainframe_max"
+  }
+}

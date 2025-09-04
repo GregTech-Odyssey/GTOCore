@@ -4,8 +4,10 @@ import com.gtocore.api.machine.part.GTOPartAbility;
 import com.gtocore.client.renderer.machine.ManaHeaterRenderer;
 import com.gtocore.client.renderer.machine.OverlayManaTieredMachineRenderer;
 import com.gtocore.common.data.GTORecipeTypes;
+import com.gtocore.common.data.translation.GTOMachineTranslation;
 import com.gtocore.common.machine.generator.MagicEnergyMachine;
 import com.gtocore.common.machine.mana.AlchemyCauldron;
+import com.gtocore.common.machine.mana.AreaDestructionToolsMachine;
 import com.gtocore.common.machine.mana.ManaHeaterMachine;
 import com.gtocore.common.machine.mana.part.ManaAmplifierPartMachine;
 import com.gtocore.common.machine.mana.part.ManaExtractHatchPartMachine;
@@ -131,7 +133,7 @@ public final class ManaMachine {
             .allRotation()
             .tooltipsText("If mana equivalent to the machine's maximum power is input prior to operation, the current recipe will switch to perfect overclocking.", "如果运行前输入了等同机器最大功率的魔力，则将本次配方改为无损超频")
             .tooltipsText("Otherwise, the machine will not execute the recipe.", "否则，机器不执行配方")
-            .workableManaTieredHullRenderer(2, GTOCore.id("block/multiblock/mana"))
+            .workableManaTieredHullRenderer(6, GTOCore.id("block/multiblock/mana"))
             .register();
 
     public static final MachineDefinition ALCHEMY_CAULDRON = manaMachine("alchemy_cauldron", "炼金锅", AlchemyCauldron::new)
@@ -158,5 +160,12 @@ public final class ManaMachine {
             .tooltipsText("Input mana to heat, if fire element is input, the heating speed will be 5 times faster.", "输入魔力加热，如果输入火元素，则加热速度翻5倍")
             .tooltipsKey("gtceu.fluid_pipe.max_temperature", 2400)
             .renderer(() -> new ManaHeaterRenderer(MV))
+            .register();
+
+    public static final MachineDefinition AREA_DESTRUCTION_TOOLS = manaMachine("area_destruction_tools", "区域破坏器", AreaDestructionToolsMachine::new)
+            .tier(LuV)
+            .tooltips(GTOMachineTranslation.INSTANCE.getAreaDestructionToolsTooltips().getSupplier())
+            .nonYAxisRotation()
+            .workableManaTieredHullRenderer(6, GTOCore.id("block/multiblock/area_destruction_tools"))
             .register();
 }
