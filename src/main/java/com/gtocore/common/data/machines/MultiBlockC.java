@@ -60,9 +60,9 @@ import java.util.List;
 import static com.gregtechceu.gtceu.api.machine.multiblock.PartAbility.*;
 import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
 import static com.gtocore.common.block.BlockMap.CALMAP;
+import static com.gtocore.utils.register.MachineRegisterUtils.multiblock;
 import static com.gtolib.api.GTOValues.COMPONENT_ASSEMBLY_CASING_TIER;
 import static com.gtolib.api.GTOValues.GLASS_TIER;
-import static com.gtocore.utils.register.MachineRegisterUtils.multiblock;
 
 public final class MultiBlockC {
 

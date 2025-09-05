@@ -41,8 +41,8 @@ import java.util.List;
 
 import static com.gregtechceu.gtceu.api.machine.multiblock.PartAbility.*;
 import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
-import static com.gtolib.api.GTOValues.GLASS_TIER;
 import static com.gtocore.utils.register.MachineRegisterUtils.multiblock;
+import static com.gtolib.api.GTOValues.GLASS_TIER;
 import static com.hepdd.gtmthings.data.GTMTRecipeTypes.DIGITAL_MINER_RECIPE;
 
 public final class MultiBlockH {

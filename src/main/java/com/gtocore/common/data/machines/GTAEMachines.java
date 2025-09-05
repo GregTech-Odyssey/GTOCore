@@ -13,8 +13,8 @@ import com.gregtechceu.gtceu.client.renderer.machine.OverlayTieredMachineRendere
 import net.minecraft.network.chat.Component;
 
 import static com.gregtechceu.gtceu.api.GTValues.*;
-import static com.gtolib.api.registries.GTORegistration.GTM;
 import static com.gtocore.utils.register.MachineRegisterUtils.machine;
+import static com.gtolib.api.registries.GTORegistration.GTM;
 
 public final class GTAEMachines {
 

@@ -58,10 +58,10 @@ import static com.gregtechceu.gtceu.common.data.GTBlocks.COMPUTER_CASING;
 import static com.gregtechceu.gtceu.common.data.GTBlocks.COMPUTER_HEAT_VENT;
 import static com.gregtechceu.gtceu.common.data.machines.GTResearchMachines.OVERHEAT_TOOLTIPS;
 import static com.gtocore.common.data.GTORecipeTypes.*;
-import static com.gtolib.api.registries.GTORegistration.GTO;
-import static com.gtolib.utils.register.BlockRegisterUtils.addLang;
 import static com.gtocore.utils.register.MachineRegisterUtils.machine;
 import static com.gtocore.utils.register.MachineRegisterUtils.multiblock;
+import static com.gtolib.api.registries.GTORegistration.GTO;
+import static com.gtolib.utils.register.BlockRegisterUtils.addLang;
 
 public final class ExResearchMachines {
 

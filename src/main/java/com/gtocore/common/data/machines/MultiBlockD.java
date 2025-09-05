@@ -72,9 +72,9 @@ import java.util.Objects;
 import static com.gregtechceu.gtceu.api.machine.multiblock.PartAbility.*;
 import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
 import static com.gtocore.common.block.BlockMap.SEPMMAP;
-import static com.gtolib.api.GTOValues.POWER_MODULE_TIER;
 import static com.gtocore.utils.register.MachineRegisterUtils.multiblock;
 import static com.gtocore.utils.register.MachineRegisterUtils.registerTieredMultis;
+import static com.gtolib.api.GTOValues.POWER_MODULE_TIER;
 
 public final class MultiBlockD {
 

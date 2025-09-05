@@ -42,9 +42,9 @@ import committee.nova.mods.avaritia.init.registry.ModBlocks;
 import static com.gregtechceu.gtceu.api.machine.multiblock.PartAbility.*;
 import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
 import static com.gtocore.common.block.BlockMap.SEPMMAP;
+import static com.gtocore.utils.register.MachineRegisterUtils.multiblock;
 import static com.gtolib.api.GTOValues.GLASS_TIER;
 import static com.gtolib.api.GTOValues.POWER_MODULE_TIER;
-import static com.gtocore.utils.register.MachineRegisterUtils.multiblock;
 
 public final class MultiBlockB {
 

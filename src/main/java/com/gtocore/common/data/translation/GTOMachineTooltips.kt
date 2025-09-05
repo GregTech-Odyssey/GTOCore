@@ -1,71 +1,58 @@
 package com.gtocore.common.data.translation
 
-import com.gregtechceu.gtceu.api.GTValues
 import com.gtocore.common.machine.electric.ElectricHeaterMachine
 import com.gtocore.common.machine.noenergy.BoilWaterMachine
 import com.gtocore.common.machine.noenergy.HeaterMachine
+
+import net.minecraft.network.chat.Component
+
+import com.gregtechceu.gtceu.api.GTValues
 import com.gtolib.api.annotation.NewDataAttributes
 import com.gtolib.api.annotation.component_builder.ComponentBuilder
 import com.gtolib.api.annotation.component_builder.ComponentTemplate
 import com.gtolib.api.annotation.component_builder.StyleBuilder
 import com.gtolib.api.lang.CNEN
 import com.lowdragmc.lowdraglib.side.fluid.FluidHelper
-import net.minecraft.network.chat.Component
+
 import java.util.function.Supplier
 
 object GTOMachineTooltips {
 
-    class TitleContentTooltipBuilder(
-        val title: CNEN,
-        val titleAttr: ComponentTemplate = NewDataAttributes.EMPTY_WITH_BAR,
-        val titleStyle: StyleBuilder.() -> StyleBuilder = StyleBuilder::setGold
-    ) {
+    class TitleContentTooltipBuilder(val title: CNEN, val titleAttr: ComponentTemplate = NewDataAttributes.EMPTY_WITH_BAR, val titleStyle: StyleBuilder.() -> StyleBuilder = StyleBuilder::setGold) {
         private val contents: MutableList<ComponentBuilder> = mutableListOf()
 
-        fun content(
-            content: CNEN,
-            attr: ComponentTemplate = NewDataAttributes.EMPTY_WITH_POINT,
-            style: StyleBuilder.() -> StyleBuilder = StyleBuilder::setWhite,
-            leadingStyle: StyleBuilder.() -> StyleBuilder = StyleBuilder::setOneTab
-        ): TitleContentTooltipBuilder {
+        fun content(content: CNEN, attr: ComponentTemplate = NewDataAttributes.EMPTY_WITH_POINT, style: StyleBuilder.() -> StyleBuilder = StyleBuilder::setWhite, leadingStyle: StyleBuilder.() -> StyleBuilder = StyleBuilder::setOneTab): TitleContentTooltipBuilder {
             val line = attr.createBuilder(
                 { it.addLines(content.cn(), content.en(), style) },
                 { it },
-                leadingStyle
+                leadingStyle,
             )
             contents.add(line)
             return this
         }
 
-        fun getSupplier(): Supplier<List<Component>> {
-            return titleAttr.create(
-                { it.addLines(title.cn(), title.en(), titleStyle) },
-                { it.addLines(*contents.toTypedArray()) },
-            )
-        }
+        fun getSupplier(): Supplier<List<Component>> = titleAttr.create(
+            { it.addLines(title.cn(), title.en(), titleStyle) },
+            { it.addLines(*contents.toTypedArray()) },
+        )
     }
 
-    infix fun String.cnen(en: String): CNEN {
-        return CNEN(this, en)
-    }
+    infix fun String.cnen(en: String): CNEN = CNEN(this, en)
 
-    fun CNEN.andThen(other: Any): CNEN {
-        return CNEN(this.cn() + other, this.en() + other)
-    }
+    fun CNEN.andThen(other: Any): CNEN = CNEN(this.cn() + other, this.en() + other)
 
-    fun CNEN.andThen(other: CNEN): CNEN {
-        return CNEN(this.cn() + other.cn(), this.en() + other.en())
-    }
+    fun CNEN.andThen(other: CNEN): CNEN = CNEN(this.cn() + other.cn(), this.en() + other.en())
 
     object Keywords {
         val Explosion = CNEN("§4§l爆炸", "§4§lexplode")
         val TemperatureMax = { temp: Int -> CNEN("最高温度: $temp", "Max Temperature: $temp") }
-        val BaseProductionEut = { eut: Long -> CNEN("基础产能功率: §e${eut} EU/t", "Base Production EUt: §e$eut EU/t") }
+        val BaseProductionEut = { eut: Long -> CNEN("基础产能功率: §e$eut EU/t", "Base Production EUt: §e$eut EU/t") }
         val RotorEfficiency = { tier: Int ->
-            var name = GTValues.VNF[tier] + "§r"; CNEN(
-            "转子支架每超过${name}一级，每级增加10%效率，并翻倍输出功率",
-            "Each Rotor Holder above $name adds 10% efficiency and multiplies EU/t by 2"
-        )
+            var name = GTValues.VNF[tier] + "§r"
+            CNEN(
+                "转子支架每超过${name}一级，每级增加10%效率，并翻倍输出功率",
+                "Each Rotor Holder above $name adds 10% efficiency and multiplies EU/t by 2",
+            )
         }
         val UsePerHourLubricant = { cnt: Long -> CNEN("每小时消耗${cnt}mB润滑油", "Use ${cnt}mB Lubricant Per Hour") }
     }
@@ -76,13 +63,13 @@ object GTOMachineTooltips {
             .content(("当蒸汽溢出后继续工作会" cnen "When steam overflows, continuing to work will ").andThen(Keywords.Explosion))
             .content(
                 ("可能发生爆炸的临界温度为§6" cnen "The critical temperature for explosion is §6").andThen(
-                    BoilWaterMachine.DrawWaterExplosionLine
-                )
+                    BoilWaterMachine.DrawWaterExplosionLine,
+                ),
             )
 
     val BeAwareOfBurnTooltips = TitleContentTooltipBuilder(
         "§4§l小 心 烫 伤 ！" cnen "§4§lBE AWARE OF BURNS!",
-        NewDataAttributes.EMPTY_WITH_NON
+        NewDataAttributes.EMPTY_WITH_NON,
     )
 
     // 加热器
@@ -92,7 +79,6 @@ object GTOMachineTooltips {
             .content("根据温度发出红石信号" cnen "Emits redstone signal according to the temperature.")
             .content(Keywords.TemperatureMax(HeaterMachine.MaxTemperature))
             .content(("机器过热会" cnen "When machine is too hot, it will ").andThen(Keywords.Explosion))
-
 
     // 电力加热器
     val ElectricHeaterMachineTooltips =
@@ -149,8 +135,9 @@ object GTOMachineTooltips {
             style = StyleBuilder::setGray,
         )
         .content(
-            ("超过温度上限机器开始损坏，完全损坏时" cnen "Exceeding temperature limit damages machine, when fully damaged "
-                    ).andThen(Keywords.Explosion)
+            (
+                "超过温度上限机器开始损坏，完全损坏时" cnen "Exceeding temperature limit damages machine, when fully damaged "
+                ).andThen(Keywords.Explosion),
         )
 
     // 冷却系统
@@ -213,7 +200,7 @@ object GTOMachineTooltips {
     // 主信息：超级计算中心介绍
     val SupercomputingMainTooltips = TitleContentTooltipBuilder(
         title = "计算机超级计算中心" cnen "Computer Supercomputing Center",
-        titleStyle = StyleBuilder::setRainbow
+        titleStyle = StyleBuilder::setRainbow,
     )
         .content(
             "将多台计算机集成在一起，提供大规模并行计算能力" cnen "Integrates multiple computers together to provide massive parallel computing power",
@@ -230,7 +217,7 @@ object GTOMachineTooltips {
         )
         .content(
             "结构方块等级必须与机器等级匹配" cnen "Structure block tiers must match machine tier",
-            style = StyleBuilder::setBlinkingRed
+            style = StyleBuilder::setBlinkingRed,
         )
 
     // 算力计算系统
@@ -238,7 +225,7 @@ object GTOMachineTooltips {
         title = "算力计算系统" cnen "Computing Power Calculation System",
     )
         .content(
-            "最大输出算力 = 计算组件算力和 × 算力修正系数" cnen "Max output = sum of component power × correction factor"
+            "最大输出算力 = 计算组件算力和 × 算力修正系数" cnen "Max output = sum of component power × correction factor",
         )
         .content(
             "等级2/3时修正系数会随时间衰减" cnen "At levels 2/3, correction factor decays over time",
@@ -266,21 +253,21 @@ object GTOMachineTooltips {
         )
         .content(
             "MFPC效率: 块(0.18) 条(0.02) 粒(0.0022)" cnen "MFPC efficiency: Block(0.18) Ingot(0.02) Nugget(0.0022)",
-            style = StyleBuilder::setGray
+            style = StyleBuilder::setGray,
         )
         .content(
             "Cascade-MFPC效率: 块(0.54) 条(0.06) 粒(0.0066)" cnen "Cascade-MFPC efficiency: Block(0.54) Ingot(0.06) Nugget(0.0066)",
-            style = StyleBuilder::setGray
+            style = StyleBuilder::setGray,
         )
         .content(
             "寒冰碎片: 0.0001 (极低效率)" cnen "Ice Shards: 0.0001 (extremely low efficiency)",
-            style = StyleBuilder::setGray
+            style = StyleBuilder::setGray,
         )
 
     // Tier 1 组件支持
     val SupercomputingTier1Tooltips = TitleContentTooltipBuilder(
         title = "Tier 1 : 支持HPCA系列组件" cnen "Tier 1 : Supports HPCA Series Components",
-        titleStyle = StyleBuilder::setBlue
+        titleStyle = StyleBuilder::setBlue,
     )
         .content(
             "槽位需求: 无" cnen "Slot requirement: None",
@@ -292,7 +279,7 @@ object GTOMachineTooltips {
     // Tier 2 组件支持
     val SupercomputingTier2Tooltips = TitleContentTooltipBuilder(
         title = "Tier 2 : 支持NICH系列组件" cnen "Tier 2 : Supports NICH Series Components",
-        titleStyle = StyleBuilder::setBlue
+        titleStyle = StyleBuilder::setBlue,
     )
         .content(
             "槽位需求: 放入§a生物主机" cnen "Slot requirement: Place §abiological host",
@@ -304,7 +291,7 @@ object GTOMachineTooltips {
     // Tier 3 组件支持
     val SupercomputingTier3Tooltips = TitleContentTooltipBuilder(
         title = "Tier 3 : 支持GWCA系列组件" cnen "Tier 3 : Supports GWCA Series Components",
-        titleStyle = StyleBuilder::setBlue
+        titleStyle = StyleBuilder::setBlue,
     )
         .content(
             "槽位需求: 放入§5超因果主机" cnen "Slot requirement: Place §5Hyper-Causal Host",
@@ -314,23 +301,23 @@ object GTOMachineTooltips {
         )
         .content(
             "自带跨维度桥接功能" cnen "Built-in cross-dimensional bridging capability",
-            style = StyleBuilder::setOrange
+            style = StyleBuilder::setOrange,
         )
 
     // 数字矿机
     val DigitalMinerTooltips = TitleContentTooltipBuilder(
-        "让机器替代你挖矿" cnen "Mine for You"
+        "让机器替代你挖矿" cnen "Mine for You",
     )
         .content(
             "固定每两秒采掘一次" cnen "Mines once every two seconds",
-            style = StyleBuilder::setGreen
+            style = StyleBuilder::setGreen,
         )
         .content(
             "可通过GUI设置采掘范围和目标方块" cnen "Mining range and target blocks can be set via GUI",
         )
         .content(
             "机器电压等级每高出一级：" cnen "For each increase in machine voltage level:",
-            style = StyleBuilder::setAqua
+            style = StyleBuilder::setAqua,
         )
         .content(
             "可采掘最大范围翻倍（最高256）" cnen "Maximum mining range is doubled (up to 256)",
@@ -346,7 +333,7 @@ object GTOMachineTooltips {
         )
         .content(
             "通入红石信号以重新计算采掘区域并执行" cnen "Input a redstone signal to recalculate the mining area and execute mining",
-            style = StyleBuilder::setGreen
+            style = StyleBuilder::setGreen,
         )
 
     // 大型内燃机
@@ -357,11 +344,11 @@ object GTOMachineTooltips {
                 .content(Keywords.BaseProductionEut(baseEUt))
                 .content(Keywords.UsePerHourLubricant(FluidHelper.getBucket()))
                 .content(
-                    "提供20mB/s的§a氧气§r，并消耗§4双倍§r燃料以产生§e${oxygenBoost} EU/t§r的功率" cnen "Provide 20mB/s of §eOxygen§r, consuming §adouble§r fuel to produce up to §e$oxygenBoost §rEU/t",
+                    "提供20mB/s的§a氧气§r，并消耗§4双倍§r燃料以产生§e$oxygenBoost EU/t§r的功率" cnen "Provide 20mB/s of §eOxygen§r, consuming §adouble§r fuel to produce up to §e$oxygenBoost §rEU/t",
                 )
             if (canExtremeBoost) {
                 builder.content(
-                    "提供80mB/s的§a液态氧§r，并消耗§4双倍§r燃料以产生§e${liquidOxygenBoost} EU/t§r的功率" cnen "Provide 80mB/s of §eLiquid Oxygen§r, consuming §adouble§r fuel to produce up to §e$oxygenBoost §rEU/t",
+                    "提供80mB/s的§a液态氧§r，并消耗§4双倍§r燃料以产生§e$liquidOxygenBoost EU/t§r的功率" cnen "Provide 80mB/s of §eLiquid Oxygen§r, consuming §adouble§r fuel to produce up to §e$oxygenBoost §rEU/t",
                 )
             }
             builder
@@ -399,7 +386,7 @@ object GTOMachineTooltips {
             .content(Keywords.RotorEfficiency(rotorTier))
             .content(
                 "运行效率相当于16台同类大型涡轮" cnen "Operating efficiency is equivalent to 16 large turbines of the same type",
-                style = StyleBuilder::setGreen
+                style = StyleBuilder::setGreen,
             )
             .content("可使用更多动力仓" cnen "Can use more power hatch")
             .content("可安装转子仓，从中自动取出转子安装到空转子支架" cnen "Rotors can be installed in the rotor chamber, automatically extracting rotor for installation onto empty rotor brackets")

@@ -32,9 +32,9 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 
 import static com.gregtechceu.gtceu.api.GTValues.*;
+import static com.gtocore.utils.register.MachineRegisterUtils.*;
 import static com.gtolib.api.GTOValues.MANACN;
 import static com.gtolib.api.GTOValues.MANAN;
-import static com.gtocore.utils.register.MachineRegisterUtils.*;
 
 public final class ManaMachine {
 

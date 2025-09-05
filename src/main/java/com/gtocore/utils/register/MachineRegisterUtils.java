@@ -1,5 +1,26 @@
 package com.gtocore.utils.register;
 
+import com.gtocore.api.pattern.GTOPredicates;
+import com.gtocore.common.data.GTOBlocks;
+import com.gtocore.common.data.GTOMachines;
+import com.gtocore.common.data.GTORecipeTypes;
+import com.gtocore.common.data.machines.MultiBlockA;
+import com.gtocore.common.data.translation.GTOMachineTooltips;
+import com.gtocore.common.machine.mana.SimpleWorkManaMachine;
+import com.gtocore.common.machine.multiblock.generator.CombustionEngineMachine;
+import com.gtocore.common.machine.multiblock.generator.TurbineMachine;
+import com.gtocore.common.machine.multiblock.part.WirelessEnergyHatchPartMachine;
+
+import com.gtolib.GTOCore;
+import com.gtolib.api.GTOValues;
+import com.gtolib.api.blockentity.ManaMachineBlockEntity;
+import com.gtolib.api.machine.SimpleNoEnergyMachine;
+import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
+import com.gtolib.api.registries.GTOMachineBuilder;
+import com.gtolib.api.registries.GTORegistration;
+import com.gtolib.api.registries.MultiblockBuilder;
+import com.gtolib.utils.GTOUtils;
+
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
@@ -26,31 +47,7 @@ import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.data.machines.GTMachineUtils;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.LaserHatchPartMachine;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
-import com.gtocore.api.pattern.GTOPredicates;
-import com.gtocore.common.data.GTOBlocks;
-import com.gtocore.common.data.GTOMachines;
-import com.gtocore.common.data.GTORecipeTypes;
-import com.gtocore.common.data.machines.MultiBlockA;
-import com.gtocore.common.data.translation.GTOMachineTooltips;
-import com.gtocore.common.machine.mana.SimpleWorkManaMachine;
-import com.gtocore.common.machine.multiblock.generator.CombustionEngineMachine;
-import com.gtocore.common.machine.multiblock.generator.TurbineMachine;
-import com.gtocore.common.machine.multiblock.part.WirelessEnergyHatchPartMachine;
-import com.gtolib.GTOCore;
-import com.gtolib.api.GTOValues;
-import com.gtolib.api.annotation.NewDataAttributes;
-import com.gtolib.api.blockentity.ManaMachineBlockEntity;
-import com.gtolib.api.machine.SimpleNoEnergyMachine;
-import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
-import com.gtolib.api.registries.GTOMachineBuilder;
-import com.gtolib.api.registries.GTORegistration;
-import com.gtolib.api.registries.MultiblockBuilder;
-import com.gtolib.utils.GTOUtils;
-import com.hepdd.gtmthings.GTMThings;
-import com.lowdragmc.lowdraglib.side.fluid.FluidHelper;
-import it.unimi.dsi.fastutil.Pair;
-import it.unimi.dsi.fastutil.ints.Int2IntFunction;
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -58,6 +55,11 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+
+import com.hepdd.gtmthings.GTMThings;
+import it.unimi.dsi.fastutil.Pair;
+import it.unimi.dsi.fastutil.ints.Int2IntFunction;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import org.apache.commons.lang3.function.TriFunction;
 
 import java.util.List;
@@ -80,8 +82,7 @@ import static com.gtolib.utils.register.BlockRegisterUtils.addLang;
 
 public final class MachineRegisterUtils {
 
-    private MachineRegisterUtils() {
-    }
+    private MachineRegisterUtils() {}
 
     public static final int[] MANA_TIERS = GTValues.tiersBetween(LV, ZPM);
 
@@ -281,9 +282,8 @@ public final class MachineRegisterUtils {
                 .nonYAxisRotation()
                 .recipeTypes(recipeType)
                 .tooltips(GTOMachineTooltips.INSTANCE.getLargeCombustionGenerateTooltipsProvider()
-                        .invoke(V[tier] << 1,  V[tier] * 6, tier > EV , V[tier] << 3)
-                        .getSupplier()
-                )
+                        .invoke(V[tier] << 1, V[tier] * 6, tier > EV, V[tier] << 3)
+                        .getSupplier())
                 .tooltips(GTOMachineTooltips.INSTANCE.getLargeCombustionModuleTooltips().getSupplier())
                 .moduleTooltips()
                 .generator()
@@ -556,19 +556,19 @@ public final class MachineRegisterUtils {
 
     public static MachineDefinition[] registerSimpleManaMachines(String name, String cn, GTRecipeType recipeType, Int2IntFunction tankScalingFunction, ResourceLocation workableModel, int... tiers) {
         return registerTieredManaMachines(name, tier -> "%s%s".formatted(MANACN[tier], cn), (holder, tier) -> new SimpleWorkManaMachine(holder, tier, tankScalingFunction), (tier, builder) -> {
-                    builder.noRecipeModifier();
-                    return builder
-                            .langValue("%s %s".formatted(MANAN[tier], FormattingUtil.toEnglishName(name)))
-                            .editableUI(SimpleNoEnergyMachine.EDITABLE_UI_CREATOR.apply(GTCEu.id(name), recipeType))
-                            .nonYAxisRotation()
-                            .recipeType(recipeType)
-                            .tooltips(Component.translatable("gtocore.machine.mana_eu").withStyle(ChatFormatting.GREEN))
-                            .tooltips(Component.translatable("gtceu.machine.perfect_oc").withStyle(ChatFormatting.YELLOW))
-                            .tooltips(Component.translatable("gtocore.machine.mana_input", Component.literal(GTOValues.MANA[tier] + " /t").withStyle(ChatFormatting.WHITE)).withStyle(ChatFormatting.AQUA))
-                            .workableManaTieredHullRenderer(tier, workableModel)
-                            .tooltips(workableNoEnergy(recipeType, tankScalingFunction.apply(tier)))
-                            .register();
-                },
+            builder.noRecipeModifier();
+            return builder
+                    .langValue("%s %s".formatted(MANAN[tier], FormattingUtil.toEnglishName(name)))
+                    .editableUI(SimpleNoEnergyMachine.EDITABLE_UI_CREATOR.apply(GTCEu.id(name), recipeType))
+                    .nonYAxisRotation()
+                    .recipeType(recipeType)
+                    .tooltips(Component.translatable("gtocore.machine.mana_eu").withStyle(ChatFormatting.GREEN))
+                    .tooltips(Component.translatable("gtceu.machine.perfect_oc").withStyle(ChatFormatting.YELLOW))
+                    .tooltips(Component.translatable("gtocore.machine.mana_input", Component.literal(GTOValues.MANA[tier] + " /t").withStyle(ChatFormatting.WHITE)).withStyle(ChatFormatting.AQUA))
+                    .workableManaTieredHullRenderer(tier, workableModel)
+                    .tooltips(workableNoEnergy(recipeType, tankScalingFunction.apply(tier)))
+                    .register();
+        },
                 tiers);
     }
 
@@ -585,7 +585,7 @@ public final class MachineRegisterUtils {
         MachineDefinition[] definitions = new MachineDefinition[GTValues.TIER_COUNT];
         for (int tier : tiers) {
             var register = GTM.machine(GTValues.VN[tier].toLowerCase(Locale.ROOT) + "_" + name,
-                            holder -> factory.apply(holder, tier))
+                    holder -> factory.apply(holder, tier))
                     .tier(tier);
             definitions[tier] = builder.apply(tier, register);
         }

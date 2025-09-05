@@ -7,10 +7,7 @@ import com.gtocore.common.data.translation.ComponentSlang.OutTopic
 import com.gtocore.common.data.translation.ComponentSlang.Star
 import com.gtocore.common.data.translation.ComponentSlang.Tab
 import com.gtocore.common.data.translation.ComponentSlang.Warning
-import com.gtocore.common.machine.electric.ElectricHeaterMachine
 import com.gtocore.common.machine.multiblock.storage.MultiblockCrateMachine
-import com.gtocore.common.machine.noenergy.BoilWaterMachine
-import com.gtocore.common.machine.noenergy.HeaterMachine
 
 import net.minecraft.network.chat.Component
 
