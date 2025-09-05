@@ -533,7 +533,7 @@ final class NanitesIntegratedProcessingCenter {
                 .addData("module", 3)
                 .save();
 
-        NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES.builder("contaminable_uruium_nanites_2")  // 乌鲁纳米蜂群
+        NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES.builder("tcetieseaweedextract")
                 .inputItems(GTOTagPrefix.NANITES, GTOMaterials.Uruium)
                 .inputItems(new ItemStack(Items.KELP.asItem(), 64))
                 .inputItems(TagPrefix.dust, GTMaterials.Salt, 100)
@@ -551,9 +551,10 @@ final class NanitesIntegratedProcessingCenter {
                 .EUt(7864320)
                 .blastFurnaceTemp(16200)
                 .duration(5000)
+                .addData("module", 2)
                 .save();
 
-        NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES.builder("contaminable_iridium_nanites_3")  // 铱纳米蜂群
+        NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES.builder("agar")
                 .inputItems(GTOTagPrefix.NANITES, GTMaterials.Iridium)
                 .inputItems(TagPrefix.dust, GTMaterials.Meat, 96)
                 .inputItems(TagPrefix.rod, GTMaterials.Bone, 48)
@@ -567,6 +568,30 @@ final class NanitesIntegratedProcessingCenter {
                 .EUt(1966080)
                 .blastFurnaceTemp(12600)
                 .duration(2500)
+                .addData("module", 2)
+                .save();
+
+        NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES.builder("pedot")
+                .inputItems(GTOTagPrefix.NANITES, GTOMaterials.Orichalcum)
+                .inputItems(TagPrefix.dust, GTOMaterials.SuccinicAcid, 448)
+                .inputItems(TagPrefix.dust, GTOMaterials.SodiumEthylate, 576)
+                .outputItems(TagPrefix.dust, GTOMaterials.Pedot, 32)
+                .outputItems(TagPrefix.dust, GTOMaterials.SodiumBromide, 256)
+                .inputFluids(GTMaterials.Bromine, 32000)
+                .inputFluids(GTMaterials.HydrogenSulfide, 32000)
+                .inputFluids(GTMaterials.Styrene, 32000)
+                .inputFluids(GTMaterials.AceticAcid, 32000)
+                .inputFluids(GTMaterials.Water, 64000)
+                .inputFluids(GTMaterials.Oxygen, 32000)
+                .inputFluids(GTMaterials.Ethylene, 32000)
+                .outputFluids(GTMaterials.SulfuricAcid, 21000)
+                .outputFluids(GTOMaterials.HydrobromicAcid, 64000)
+                .outputFluids(GTMaterials.CarbonDioxide, 32000)
+                .outputFluids(GTMaterials.Water, 140000)
+                .EUt(1966080)
+                .blastFurnaceTemp(14400)
+                .duration(3000)
+                .addData("module", 3)
                 .save();
     }
 }

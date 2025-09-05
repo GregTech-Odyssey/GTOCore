@@ -1,5 +1,6 @@
 package com.gtocore.common.forge;
 
+import com.gtocore.api.ae2.stacks.AEItemKeyCache;
 import com.gtocore.common.data.GTOBlocks;
 import com.gtocore.common.data.GTOCommands;
 import com.gtocore.common.data.GTOEffects;
@@ -51,8 +52,10 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.CommandEvent;
 import net.minecraftforge.event.RegisterCommandsEvent;
+import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.EntityTravelToDimensionEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
@@ -72,6 +75,18 @@ import java.util.Optional;
 
 @DataGeneratorScanned
 public final class ForgeCommonEvent {
+
+    public static void init() {
+        MinecraftForge.EVENT_BUS.register(ForgeCommonEvent.class);
+        MinecraftForge.EVENT_BUS.register(AnimalsRevengeEvent.class);
+        MinecraftForge.EVENT_BUS.addListener(ForgeCommonEvent::onTickEvent);
+    }
+
+    private static void onTickEvent(TickEvent.ServerTickEvent event) {
+        if (event.phase == TickEvent.Phase.END && event.getServer().getTickCount() % 400 == 0) {
+            AEItemKeyCache.INSTANCE.cleanInvalid();
+        }
+    }
 
     @SubscribeEvent
     public static void onDropsEvent(LivingDropsEvent e) {

@@ -3,7 +3,6 @@ package com.gtocore.common;
 import com.gtocore.api.machine.part.GTOPartAbility;
 import com.gtocore.common.block.BlockMap;
 import com.gtocore.common.data.*;
-import com.gtocore.common.forge.AnimalsRevengeEvent;
 import com.gtocore.common.forge.ForgeCommonEvent;
 import com.gtocore.config.GTOConfig;
 import com.gtocore.config.SparkRange;
@@ -36,7 +35,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -83,8 +81,7 @@ public class CommonProxy {
         eventBus.addListener(CommonProxy::modConstruct);
         eventBus.addGenericListener(DimensionMarker.class, CommonProxy::registerDimensionMarkers);
         eventBus.addGenericListener(GTRecipeCategory.class, CommonProxy::registerRecipeCategory);
-        MinecraftForge.EVENT_BUS.register(ForgeCommonEvent.class);
-        MinecraftForge.EVENT_BUS.register(AnimalsRevengeEvent.class);
+        ForgeCommonEvent.init();
     }
 
     private static void init() {

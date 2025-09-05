@@ -1106,18 +1106,6 @@ public final class MetaTileEntityLoader {
                 "MCM", 'F', GTItems.ITEM_FILTER.asStack(), 'R',
                 new MaterialEntry(TagPrefix.rotor, GTMaterials.StainlessSteel), 'H', HULL.get(HV), 'M',
                 GTItems.ELECTRIC_MOTOR_HV.asStack(), 'C', CustomTags.HV_CIRCUITS);
-
-        if (ConfigHolder.INSTANCE.compat.energy.enableFEConverters) {
-            registerMachineRecipe(true, GTMachines.ENERGY_CONVERTER_1A, " WW", "RMC", " WW", 'C', CIRCUIT,
-                    'M', HULL, 'W', CABLE, 'R', new MaterialEntry(TagPrefix.cableGtSingle, GTMaterials.RedAlloy));
-            registerMachineRecipe(true, GTMachines.ENERGY_CONVERTER_4A, " WW", "RMC", " WW", 'C', CIRCUIT,
-                    'M', HULL, 'W', CABLE_QUAD, 'R',
-                    new MaterialEntry(TagPrefix.cableGtQuadruple, GTMaterials.RedAlloy));
-            registerMachineRecipe(true, GTMachines.ENERGY_CONVERTER_8A, " WW", "RMC", " WW", 'C', CIRCUIT,
-                    'M', HULL, 'W', CABLE_OCT, 'R', new MaterialEntry(TagPrefix.cableGtOctal, GTMaterials.RedAlloy));
-            registerMachineRecipe(true, GTMachines.ENERGY_CONVERTER_16A, " WW", "RMC", " WW", 'C', CIRCUIT,
-                    'M', HULL, 'W', CABLE_HEX, 'R', new MaterialEntry(TagPrefix.cableGtHex, GTMaterials.RedAlloy));
-        }
     }
 
     // Can only accept a subset of "Item" types:

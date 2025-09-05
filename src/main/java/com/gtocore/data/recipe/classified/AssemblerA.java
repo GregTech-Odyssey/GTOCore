@@ -16,6 +16,7 @@ import net.minecraft.world.item.Items;
 
 import appeng.core.definitions.AEBlocks;
 import appeng.core.definitions.AEItems;
+import com.glodblock.github.extendedae.common.EPPItemAndBlock;
 import com.hepdd.gtmthings.data.WirelessMachines;
 import vazkii.botania.common.item.BotaniaItems;
 
@@ -153,6 +154,17 @@ final class AssemblerA {
                 .inputItems(GTItems.FIELD_GENERATOR_IV.asStack())
                 .outputItems(GTAEMachines.ME_BIG_STORAGE_ACCESS_HATCH.asStack())
                 .EUt(7680)
+                .duration(400)
+                .save();
+
+        ASSEMBLER_RECIPES.builder("me_io_storage_access_hatch")
+                .inputItems(GTAEMachines.ME_STORAGE_ACCESS_HATCH.asStack())
+                .inputItems(EPPItemAndBlock.EX_IO_PORT, 32)
+                .inputItems(new ItemStack(AEItems.SPEED_CARD.asItem(), 64))
+                .inputItems(GTItems.FIELD_GENERATOR_IV.asStack(4))
+                .inputItems(GTItems.FIELD_GENERATOR_LuV.asStack(4))
+                .outputItems(GTAEMachines.ME_IO_STORAGE_ACCESS_HATCH.asStack())
+                .EUt(VA[LuV])
                 .duration(400)
                 .save();
 

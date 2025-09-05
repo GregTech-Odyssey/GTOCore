@@ -63,7 +63,7 @@ public final class GTOConfig {
             ConfigHolder.INSTANCE.recipes.hardMultiRecipes = difficulty == 3;
             ConfigHolder.INSTANCE.recipes.enchantedTools = difficulty == 1;
             ConfigHolder.INSTANCE.compat.energy.nativeEUToFE = true;
-            ConfigHolder.INSTANCE.compat.energy.enableFEConverters = true;
+            ConfigHolder.INSTANCE.compat.energy.enableFEConverters = false;
             ConfigHolder.INSTANCE.compat.energy.feToEuRatio = 20;
             ConfigHolder.INSTANCE.compat.energy.euToFeRatio = 16;
             ConfigHolder.INSTANCE.compat.ae2.meHatchEnergyUsage = 32 * difficulty;

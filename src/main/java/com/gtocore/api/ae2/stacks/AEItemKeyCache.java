@@ -12,6 +12,8 @@ import appeng.api.stacks.AEItemKey;
 import it.unimi.dsi.fastutil.Hash;
 import it.unimi.dsi.fastutil.HashCommon;
 
+import java.lang.ref.WeakReference;
+
 import static it.unimi.dsi.fastutil.HashCommon.arraySize;
 
 public class AEItemKeyCache {
@@ -49,17 +51,24 @@ public class AEItemKeyCache {
                     if (hash == curr.hash && ItemStackHashStrategy.ITEM_AND_TAG.equals(stack, curr.stack)) break;
                 }
             }
-            if (pos >= 0) return node[pos].key;
-            final var copy = stack.copyWithCount(1);
-            final var newValue = AEItemKeyInvoker.of(copy.getItem(), copy.getTag(), AEItemKeyInvoker.serializeStackCaps(copy));
-            final var itemKey = ((IAEItemKey) (Object) newValue);
-            itemKey.gtolib$setMaxStackSize(stack.getMaxStackSize());
-            itemKey.gtolib$setReadOnlyStack(copy);
-            pos = -pos - 1;
-            node[pos] = new Node(copy, newValue, hash);
-            if (this.size++ >= this.maxFill) rehash(HashCommon.arraySize(this.size + 1, Hash.DEFAULT_LOAD_FACTOR));
-            return newValue;
+            if (pos >= 0) {
+                var v = node[pos].key.get();
+                if (v != null) return v;
+                return insert(pos, hash, stack);
+            }
+            return insert(-pos - 1, hash, stack);
         }
+    }
+
+    private AEItemKey insert(final int pos, final int hash, final ItemStack stack) {
+        final var copy = stack.copyWithCount(1);
+        final var newValue = AEItemKeyInvoker.of(copy.getItem(), copy.getTag(), AEItemKeyInvoker.serializeStackCaps(copy));
+        final var itemKey = ((IAEItemKey) (Object) newValue);
+        itemKey.gtolib$setMaxStackSize(stack.getMaxStackSize());
+        itemKey.gtolib$setReadOnlyStack(copy);
+        node[pos] = new Node(copy, new WeakReference<>(newValue), hash);
+        if (size++ >= maxFill) rehash(arraySize(size + 1, Hash.DEFAULT_LOAD_FACTOR));
+        return newValue;
     }
 
     private void rehash(final int newN) {
@@ -78,5 +87,21 @@ public class AEItemKeyCache {
         this.node = newNode;
     }
 
-    private record Node(ItemStack stack, AEItemKey key, int hash) {}
+    public void cleanInvalid() {
+        synchronized (this) {
+            for (int i = 0, len = this.node.length; i < len; i++) {
+                Node node = this.node[i];
+                if (node != null && node.key.get() == null) {
+                    this.node[i] = null;
+                    this.size--;
+                }
+            }
+            if (this.size < 0) this.size = 0;
+            if (this.size < this.maxFill / 2) {
+                rehash(HashCommon.arraySize(this.size + 1, Hash.DEFAULT_LOAD_FACTOR));
+            }
+        }
+    }
+
+    private record Node(ItemStack stack, WeakReference<AEItemKey> key, int hash) {}
 }

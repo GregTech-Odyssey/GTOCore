@@ -693,7 +693,7 @@ public final class GTORecipeTypes {
 
     public static final RecipeType WOOD_DISTILLATION_RECIPES = register("wood_distillation", "集成木质生物质热解", MULTIBLOCK)
             .setEUIO(IO.IN)
-            .setMaxIOSize(1, 1, 1, 15)
+            .setMaxIOSize(2, 1, 1, 15)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.BATH);
 

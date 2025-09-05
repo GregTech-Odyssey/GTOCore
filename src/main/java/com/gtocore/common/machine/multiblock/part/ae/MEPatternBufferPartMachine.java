@@ -233,7 +233,7 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
             if (input.size() < sparseInput.length) {
                 AEItemKey key = AEItemKey.of(PatternDetailsHelper.encodeProcessingPattern(input.toArray(new GenericStack[0]), processingPattern.getSparseOutputs()));
                 synchronized (MyPatternDetailsHelper.CACHE) {
-                    return MyPatternDetailsHelper.CACHE.computeIfAbsent(key, k -> new AEProcessingPattern(key));
+                    return MyPatternDetailsHelper.CACHE.computeIfAbsent(key, AEProcessingPattern::new);
                 }
             }
         }

@@ -1,5 +1,6 @@
 package com.gtocore.mixin.ae2.stacks;
 
+import com.gtolib.IUnique;
 import com.gtolib.api.ae2.IKeyCounter;
 import com.gtolib.utils.ExpandedO2LMap;
 
@@ -7,10 +8,8 @@ import appeng.api.config.FuzzyMode;
 import appeng.api.stacks.AEKey;
 import appeng.api.stacks.KeyCounter;
 import com.hepdd.gtmthings.utils.BigIntegerUtils;
-import it.unimi.dsi.fastutil.objects.Object2LongMap;
-import it.unimi.dsi.fastutil.objects.Object2LongOpenHashMap;
-import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
-import it.unimi.dsi.fastutil.objects.Reference2ObjectMap;
+import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
+import it.unimi.dsi.fastutil.objects.*;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
@@ -39,6 +38,12 @@ public class KeyCounterMixin implements IKeyCounter {
     @Unique
     private ExpandedO2LMap<AEKey> gtolib$map;
 
+    @Unique
+    private Int2ObjectOpenHashMap<ExpandedO2LMap<AEKey>> gtolib$fuzzyMap;
+
+    @Unique
+    private boolean gtolib$fuzzyUpdate;
+
     /**
      * @author .
      * @reason .
@@ -46,6 +51,24 @@ public class KeyCounterMixin implements IKeyCounter {
     @Overwrite(remap = false)
     public Collection<Object2LongMap.Entry<AEKey>> findFuzzy(AEKey key, FuzzyMode fuzzy) {
         if (gtolib$map == null) return Collections.emptyList();
+        if (key.getPrimaryKey() instanceof IUnique unique) {
+            if (gtolib$fuzzyUpdate || gtolib$fuzzyMap == null) {
+                gtolib$fuzzyUpdate = false;
+                if (gtolib$fuzzyMap == null) {
+                    gtolib$fuzzyMap = new Int2ObjectOpenHashMap<>();
+                } else {
+                    gtolib$fuzzyMap.values().forEach(Object2LongOpenHashMap::clear);
+                }
+                gtolib$map.object2LongEntrySet().fastForEach(e -> {
+                    var k = e.getKey();
+                    if (k.getPrimaryKey() instanceof IUnique u) {
+                        gtolib$fuzzyMap.computeIfAbsent(u.getUid(), _k -> new ExpandedO2LMap<>()).addTo(k, e.getLongValue());
+                    }
+                });
+            }
+            var map = gtolib$fuzzyMap.get(unique.getUid());
+            if (map != null) return map.object2LongEntrySet();
+        }
         long value = gtolib$map.getOrDefault(key, Long.MIN_VALUE);
         if (value > Long.MIN_VALUE) return Collections.singleton(new Entry(value, key));
         return Collections.emptyList();
@@ -62,6 +85,7 @@ public class KeyCounterMixin implements IKeyCounter {
         while (it.hasNext()) {
             if (it.next().getLongValue() == 0) it.remove();
         }
+        gtolib$fuzzyUpdate = true;
     }
 
     /**
@@ -87,6 +111,7 @@ public class KeyCounterMixin implements IKeyCounter {
             gtolib$map.ensureCapacity(size);
             l.object2LongEntrySet().fastForEach(entry -> gtolib$map.addTo(entry.getKey(), entry.getLongValue()));
         }
+        gtolib$fuzzyUpdate = true;
     }
 
     /**
@@ -105,6 +130,7 @@ public class KeyCounterMixin implements IKeyCounter {
             gtolib$map.ensureCapacity(size);
         }
         l.object2LongEntrySet().fastForEach(entry -> gtolib$map.addTo(entry.getKey(), -entry.getLongValue()));
+        gtolib$fuzzyUpdate = true;
     }
 
     /**
@@ -115,6 +141,7 @@ public class KeyCounterMixin implements IKeyCounter {
     public void add(AEKey key, long amount) {
         if (gtolib$map == null) gtolib$map = new ExpandedO2LMap<>();
         gtolib$map.addTo(key, amount);
+        gtolib$fuzzyUpdate = true;
     }
 
     /**
@@ -125,6 +152,7 @@ public class KeyCounterMixin implements IKeyCounter {
     public void remove(AEKey key, long amount) {
         if (gtolib$map == null) gtolib$map = new ExpandedO2LMap<>();
         gtolib$map.addTo(key, -amount);
+        gtolib$fuzzyUpdate = true;
     }
 
     /**
@@ -134,6 +162,7 @@ public class KeyCounterMixin implements IKeyCounter {
     @Overwrite(remap = false)
     public long remove(AEKey key) {
         if (gtolib$map == null) return 0;
+        gtolib$fuzzyUpdate = true;
         return gtolib$map.removeLong(key);
     }
 
@@ -145,6 +174,7 @@ public class KeyCounterMixin implements IKeyCounter {
     public void set(AEKey key, long amount) {
         if (gtolib$map == null) gtolib$map = new ExpandedO2LMap<>();
         gtolib$map.put(key, amount);
+        gtolib$fuzzyUpdate = true;
     }
 
     /**
@@ -165,6 +195,7 @@ public class KeyCounterMixin implements IKeyCounter {
     public void reset() {
         if (gtolib$map == null) return;
         gtolib$map.reset();
+        gtolib$fuzzyUpdate = true;
     }
 
     /**
@@ -175,6 +206,7 @@ public class KeyCounterMixin implements IKeyCounter {
     public void clear() {
         if (gtolib$map == null) return;
         gtolib$map.clear();
+        gtolib$fuzzyUpdate = true;
     }
 
     /**
@@ -295,6 +327,7 @@ public class KeyCounterMixin implements IKeyCounter {
             gtolib$map.ensureCapacity(size);
             map.object2LongEntrySet().fastForEach(entry -> this.gtolib$map.addTo(entry.getKey(), entry.getLongValue()));
         }
+        gtolib$fuzzyUpdate = true;
     }
 
     @Override
@@ -306,5 +339,6 @@ public class KeyCounterMixin implements IKeyCounter {
         }
         gtolib$map.ensureCapacity(size);
         map.object2ObjectEntrySet().fastForEach(entry -> this.gtolib$map.addTo(entry.getKey(), BigIntegerUtils.getLongValue(entry.getValue())));
+        gtolib$fuzzyUpdate = true;
     }
 }

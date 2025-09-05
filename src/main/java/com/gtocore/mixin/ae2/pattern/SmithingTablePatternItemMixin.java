@@ -5,16 +5,17 @@ import net.minecraft.world.level.Level;
 import appeng.api.stacks.AEItemKey;
 import appeng.crafting.pattern.AESmithingTablePattern;
 import appeng.crafting.pattern.SmithingTablePatternItem;
-import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Unique;
+
+import java.util.WeakHashMap;
 
 @Mixin(SmithingTablePatternItem.class)
 public class SmithingTablePatternItemMixin {
 
     @Unique
-    private static final Object2ObjectOpenHashMap<AEItemKey, AESmithingTablePattern> gtolib$CACHE = new Object2ObjectOpenHashMap<>();
+    private static final WeakHashMap<AEItemKey, AESmithingTablePattern> gtolib$CACHE = new WeakHashMap<>();
 
     /**
      * @author .

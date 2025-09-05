@@ -25,7 +25,7 @@ public class ProcessingPatternItemMixin {
 
         try {
             synchronized (MyPatternDetailsHelper.CACHE) {
-                return MyPatternDetailsHelper.CACHE.computeIfAbsent(what, k -> new AEProcessingPattern(what));
+                return MyPatternDetailsHelper.CACHE.computeIfAbsent(what, AEProcessingPattern::new);
             }
         } catch (Exception e) {
             return null;

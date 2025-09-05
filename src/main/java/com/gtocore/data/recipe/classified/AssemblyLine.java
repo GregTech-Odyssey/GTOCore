@@ -615,26 +615,6 @@ final class AssemblyLine {
                 .duration(600).EUt(VA[ZPM])
                 .save();
 
-        ASSEMBLY_LINE_RECIPES.builder("me_programmable_pattern_buffer")
-                .inputItems(GTOMachines.PROGRAMMABLEC_HATCH[ZPM], 1)
-                .inputItems(GTItems.EMITTER_ZPM, 2)
-                .inputItems(CustomTags.ZPM_CIRCUITS, 4)
-                .inputItems(GTOItems.CELL_COMPONENT_4M.asItem())
-                .inputItems("expatternprovider:ex_pattern_provider", 3)
-                .inputItems("expatternprovider:ex_interface", 3)
-                .inputItems(AEItems.SPEED_CARD.asItem(), 4)
-                .inputItems(AEItems.CAPACITY_CARD.asItem(), 2)
-                .inputItems(TagPrefix.wireFine, GTMaterials.Europium, 64)
-                .inputItems(TagPrefix.wireFine, GTMaterials.Europium, 64)
-                .inputFluids(GTMaterials.SolderingAlloy, L << 2)
-                .inputFluids(GTMaterials.Lubricant, 500)
-                .outputItems(GTAEMachines.ME_PROGRAMMABLE_PATTERN_BUFFER)
-                .scanner(b -> b.researchStack(GTOMachines.PROGRAMMABLEC_HATCH[ZPM].asStack())
-                        .duration(1200)
-                        .EUt(VA[ZPM]))
-                .duration(600).EUt(VA[ZPM])
-                .save();
-
         ASSEMBLY_LINE_RECIPES.builder("me_catalyst_pattern_buffer")
                 .inputItems(GTMachines.DUAL_IMPORT_HATCH[UV], 1)
                 .inputItems(GTOMachines.CATALYST_HATCH, 1)
