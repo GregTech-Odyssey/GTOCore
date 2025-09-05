@@ -24,20 +24,14 @@ object ComponentSlang : AutoInitialize<ComponentSlang>() {
     val LegendSignalWrapper = { other: ComponentSupplier -> "111".toLiteralSupplier().obfuscated().scrollFullColor().underline() + " ".toLiteralSupplier() + other + " ".toLiteralSupplier() + "111".toLiteralSupplier().obfuscated().scrollFullColor().underline() }
 
     // ****** 单位 ****** //
-    val TemperatureMax = { temp: Int -> (("最高温度: " translatedTo "Max Temperature: ") + (temp.toLiteralSupplier().red().bold())).gold() }.initialize()
-    val TemperatureMin = { temp: Int -> ("最低温度: " translatedTo "Min Temperature: ") + (temp.toLiteralSupplier()).blue().bold() }.initialize()
     val Temperature = { temp: Int -> ("温度: " translatedTo "Temperature: ") + (temp.toLiteralSupplier()).gold().bold() }.initialize()
     val Capacity = { capacity: String -> ("容量: " translatedTo "Capacity: ") + (capacity.toLiteralSupplier()).white().bold() }.initialize()
-
-    // ****** 特别动词 ****** //
-    val Explosion = ("爆炸" translatedTo "Explosion").red().bold().initialize()
 
     // ****** 常用话术 ****** //
     val RecommendedToUse = { other: ComponentSupplier -> (("推荐使用" translatedTo "Recommended to use ") + other.gold()).aqua() }.initialize()
     val RecommendedUseAs = { other: ComponentSupplier -> (("推荐用于" translatedTo "Recommended use it to ") + other.gold()).aqua() }.initialize()
 
     // ****** 常用，带一级缩进，应放最底下 ****** //
-    val BewareOfBurns = Star(1) + ("小心烫伤" translatedTo "Beware of burns").red().bold().initialize()
     val CoilEfficiencyBonus = { other: ComponentSupplier -> Star(1) + ("线圈效率加成: " translatedTo "Coil Efficiency Bonus: ").green().initialize() + other.gold() }.initialize()
 
     // ****** 其他 ****** //

@@ -5,6 +5,7 @@ import com.gtocore.api.pattern.GTOPredicates;
 import com.gtocore.client.renderer.machine.*;
 import com.gtocore.common.block.FusionCasings;
 import com.gtocore.common.data.*;
+import com.gtocore.common.data.translation.GTOMachineStories;
 import com.gtocore.common.data.translation.GTOMachineTooltips;
 import com.gtocore.common.machine.multiblock.electric.*;
 import com.gtocore.common.machine.multiblock.electric.adventure.SlaughterhouseMachine;
@@ -72,8 +73,8 @@ import static com.gregtechceu.gtceu.api.machine.multiblock.PartAbility.*;
 import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
 import static com.gtocore.common.block.BlockMap.SEPMMAP;
 import static com.gtolib.api.GTOValues.POWER_MODULE_TIER;
-import static com.gtolib.utils.register.MachineRegisterUtils.multiblock;
-import static com.gtolib.utils.register.MachineRegisterUtils.registerTieredMultis;
+import static com.gtocore.utils.register.MachineRegisterUtils.multiblock;
+import static com.gtocore.utils.register.MachineRegisterUtils.registerTieredMultis;
 
 public final class MultiBlockD {
 
@@ -231,7 +232,7 @@ public final class MultiBlockD {
     public static final MultiblockMachineDefinition CIRCUIT_ASSEMBLY_LINE = multiblock("circuit_assembly_line", "电路装配线", CircuitAssemblyLineMachine::new)
             .allRotation()
             .recipeTypes(GTORecipeTypes.CIRCUIT_ASSEMBLY_LINE_RECIPES)
-            .tooltips(GTOMachineTooltips.INSTANCE.getCircuitAssemblyLineTooltips().getSupplier())
+            .tooltips(GTOMachineStories.INSTANCE.getCircuitAssemblyLineTooltips().getSupplier())
             .specialParallelizableTooltips()
             .tooltips(NewDataAttributes.ALLOW_PARALLEL_NUMBER.create(h -> h.addLines("同配方机器人数量x2的并行", "Parallelism of x2 for the same recipe robots")))
             .block(GTOBlocks.PIKYONIUM_MACHINE_CASING)
@@ -324,7 +325,7 @@ public final class MultiBlockD {
     public static final MultiblockMachineDefinition LARGE_BLOCK_CONVERSION_ROOM = multiblock("large_block_conversion_room", "大型方块转换室", holder -> new BlockConversionRoomMachine(holder, true))
             .noneRotation()
             .recipeTypes(GTORecipeTypes.BLOCK_CONVERSIONRECIPES)
-            .tooltips(GTOMachineTooltips.INSTANCE.getLargeBlockConversionRoomTooltips().getSupplier())
+            .tooltips(GTOMachineStories.INSTANCE.getLargeBlockConversionRoomTooltips().getSupplier())
             .tooltips(NewDataAttributes.MAIN_FUNCTION.create(v -> v.addLines("每秒随机转化机器内部一个方块", "Randomly converts blocks inside the machine every second")))
             .tooltips(NewDataAttributes.EMPTY_WITH_BAR.create(
                     h -> h.addLines("电压等级加成", "Voltage Tier Bonus", StyleBuilder::setGold),
@@ -360,7 +361,7 @@ public final class MultiBlockD {
             .nonYAxisRotation()
             .recipeTypes(GTORecipeTypes.PCB_FACTORY_RECIPES)
             .parallelizableTooltips()
-            .tooltips(GTOMachineTooltips.INSTANCE.getPCBFactoryTooltips().getSupplier())
+            .tooltips(GTOMachineStories.INSTANCE.getPCBFactoryTooltips().getSupplier())
             .tooltipsText("使用纳米蜂群引导结构等级，金：1，山铜：2，末影素：3", "Use the nanites guidance structure level, gold: 1, orichalcum: 2, enderium: 3")
             .laserTooltips()
             .block(GTOBlocks.IRIDIUM_CASING)
@@ -379,7 +380,7 @@ public final class MultiBlockD {
             .allRotation()
             .recipeTypes(GTRecipeTypes.BLAST_RECIPES)
             .durationMultiplierTooltips(0.5)
-            .tooltips(GTOMachineTooltips.INSTANCE.getBlazeBlastFurnaceTooltips().getSupplier())
+            .tooltips(GTOMachineStories.INSTANCE.getBlazeBlastFurnaceTooltips().getSupplier())
             .tooltipsText("需每秒提供§b10x配方等级^2§r的§e液态烈焰§r", "Requires to provide %b10x(Recipe tier)²%r of %eLiquid Blaze%r per second")
             .tooltipsKey("gtceu.machine.electric_blast_furnace.tooltip.2")
             .specialParallelizableTooltips()
@@ -413,7 +414,7 @@ public final class MultiBlockD {
             .allRotation()
             .recipeTypes(GTRecipeTypes.VACUUM_RECIPES)
             .durationMultiplierTooltips(0.5)
-            .tooltips(GTOMachineTooltips.INSTANCE.getColdIceFreezerTooltips().getSupplier())
+            .tooltips(GTOMachineStories.INSTANCE.getColdIceFreezerTooltips().getSupplier())
             .tooltipsText("需每秒提供§b10x配方等级^2§r的§b液态冰§r", "Requires to provide %b10x(Recipe tier)²%r of %bLiquid Ice%r per second")
             .specialParallelizableTooltips()
             .tooltips(NewDataAttributes.ALLOW_PARALLEL_NUMBER.create(64))
@@ -447,7 +448,7 @@ public final class MultiBlockD {
     public static final MultiblockMachineDefinition DOOR_OF_CREATE = multiblock("door_of_create", "创造之门", ElectricMultiblockMachine::new)
             .noneRotation()
             .recipeTypes(GTORecipeTypes.DOOR_OF_CREATE_RECIPES)
-            .tooltips(GTOMachineTooltips.INSTANCE.getDoorOfCreateTooltips().getSupplier())
+            .tooltips(GTOMachineStories.INSTANCE.getDoorOfCreateTooltips().getSupplier())
             .tooltips(NewDataAttributes.EMPTY_WITH_BAR.create(
                     h -> h.addLines("启动条件", "Startup Conditions", StyleBuilder::setGold),
                     c -> c.addLines(
@@ -507,7 +508,7 @@ public final class MultiBlockD {
     public static final MultiblockMachineDefinition BEDROCK_DRILLING_RIG = multiblock("bedrock_drilling_rig", "基岩钻机", BedrockDrillingRigMachine::new)
             .noneRotation()
             .recipeTypes(GTORecipeTypes.BEDROCK_DRILLING_RIG_RECIPES)
-            .tooltips(GTOMachineTooltips.INSTANCE.getBedrockDrillingRigTooltips().getSupplier())
+            .tooltips(GTOMachineStories.INSTANCE.getBedrockDrillingRigTooltips().getSupplier())
             .tooltips(NewDataAttributes.EMPTY_WITH_BAR.create(
                     h -> h.addLines("运行条件", "Operating Conditions", StyleBuilder::setGold),
                     c -> c.addLines(
@@ -547,7 +548,7 @@ public final class MultiBlockD {
     public static final MultiblockMachineDefinition CREATE_AGGREGATION = multiblock("create_aggregation", "创造聚合仪", ElectricMultiblockMachine::new)
             .noneRotation()
             .recipeTypes(GTORecipeTypes.CREATE_AGGREGATION_RECIPES)
-            .tooltips(GTOMachineTooltips.INSTANCE.getCreateAggregationTooltips().getSupplier())
+            .tooltips(GTOMachineStories.INSTANCE.getCreateAggregationTooltips().getSupplier())
             .tooltips(NewDataAttributes.EMPTY_WITH_BAR.create(
                     h -> h.addLines("启动条件", "Startup Conditions", StyleBuilder::setGold),
                     c -> c.addLines(
@@ -591,7 +592,7 @@ public final class MultiBlockD {
     public static final MultiblockMachineDefinition NYARLATHOTEPS_TENTACLE = multiblock("nyarlathoteps_tentacle", "奈亚拉托提普之触", CoilCrossRecipeMultiblockMachine::createCoilParallel)
             .allRotation()
             .recipeTypes(GTORecipeTypes.SUPRACHRONAL_ASSEMBLY_LINE)
-            .tooltips(GTOMachineTooltips.INSTANCE.getNyarlathotepsTentacleTooltips().getSupplier())
+            .tooltips(GTOMachineStories.INSTANCE.getNyarlathotepsTentacleTooltips().getSupplier())
             .combinedRecipeTooltips()
             .coilParallelTooltips()
             .laserTooltips()
@@ -643,7 +644,7 @@ public final class MultiBlockD {
             .recipeTypes(GTRecipeTypes.DUMMY_RECIPES)
             .eutMultiplierTooltips(0.9)
             .durationMultiplierTooltips(0.8)
-            .tooltips(GTOMachineTooltips.INSTANCE.getProcessingPlantTooltips().getSupplier())
+            .tooltips(GTOMachineStories.INSTANCE.getProcessingPlantTooltips().getSupplier())
             .tooltips(NewDataAttributes.EMPTY_WITH_BAR.create(
                     h -> h.addLines("运行要求", "Operating Requirements", StyleBuilder::setGold),
                     c -> c.addLines(
@@ -724,7 +725,7 @@ public final class MultiBlockD {
     public static final MultiblockMachineDefinition ISA_MILL = multiblock("isa_mill", "艾萨研磨机", IsaMillMachine::new)
             .allRotation()
             .recipeTypes(GTORecipeTypes.ISA_MILL_RECIPES)
-            .tooltips(GTOMachineTooltips.INSTANCE.getIsaMillTooltips().getSupplier())
+            .tooltips(GTOMachineStories.INSTANCE.getIsaMillTooltips().getSupplier())
             .perfectOCTooltips()
             .perfectOverclock()
             .fromSourceTooltips("GTNH")
@@ -754,7 +755,7 @@ public final class MultiBlockD {
 
     public static final MultiblockMachineDefinition NEUTRON_ACTIVATOR = multiblock("neutron_activator", "中子活化器", NeutronActivatorMachine::new)
             .nonYAxisRotation()
-            .tooltips(GTOMachineTooltips.INSTANCE.getNeutronActivatorTooltips().getSupplier())
+            .tooltips(GTOMachineStories.INSTANCE.getNeutronActivatorTooltips().getSupplier())
             .tooltips(NewDataAttributes.EMPTY_WITH_BAR.create(
                     h -> h.addLines("§7超光速运动!", "§7Superluminal Movement!", StyleBuilder::setGold),
                     c -> c.addLines(
@@ -797,7 +798,7 @@ public final class MultiBlockD {
 
     public static final MultiblockMachineDefinition HEAT_EXCHANGER = multiblock("heat_exchanger", "热交换机", HeatExchangerMachine::new)
             .allRotation()
-            .tooltips(GTOMachineTooltips.INSTANCE.getHeatExchangerTooltips().getSupplier())
+            .tooltips(GTOMachineStories.INSTANCE.getHeatExchangerTooltips().getSupplier())
             .tooltipsText("每次处理全部输入的热流体", "Processes all input hot fluids every time")
             .tooltipsText("需要保证输入的冷却液能将流体全部冷却", "Must ensure the cooling liquid input can cool all fluids")
             .tooltipsText("连续运行4次后将输出高级蒸汽", "it will output high level steam after running continuously 4 times")
@@ -830,7 +831,7 @@ public final class MultiBlockD {
     public static final MultiblockMachineDefinition INFINITY_FLUID_DRILLING_RIG = multiblock("infinity_fluid_drilling_rig", "无尽流体钻机", holder -> new INFFluidDrillMachine(holder, GTValues.ZPM, 256))
             .allRotation()
             .recipeTypes(GTRecipeTypes.DUMMY_RECIPES)
-            .tooltips(GTOMachineTooltips.INSTANCE.getInfinityFluidDrillingRigTooltips().getSupplier())
+            .tooltips(GTOMachineStories.INSTANCE.getInfinityFluidDrillingRigTooltips().getSupplier())
             .tooltipsKey("gtceu.machine.fluid_drilling_rig.description")
             .tooltips(NewDataAttributes.EMPTY_WITH_BAR.create(c -> c.addLines("损耗率 : 0", "Deplition Rate : 0", s -> s.setColor(0xEED8AE))))
             .tooltips(NewDataAttributes.VOLTAGE.create(c -> c.addLines(GTValues.VNF[GTValues.ZPM] + " -> " + GTValues.VNF[GTValues.UV])))
@@ -854,7 +855,7 @@ public final class MultiBlockD {
     public static final MultiblockMachineDefinition ADVANCED_ASSEMBLY_LINE = multiblock("advanced_assembly_line", "进阶装配线", AdvancedAssemblyLineMachine::new)
             .allRotation()
             .recipeTypes(GTRecipeTypes.ASSEMBLY_LINE_RECIPES)
-            .tooltips(GTOMachineTooltips.INSTANCE.getAdvancedAssemblyLineTooltips().getSupplier())
+            .tooltips(GTOMachineStories.INSTANCE.getAdvancedAssemblyLineTooltips().getSupplier())
             .parallelizableTooltips()
             .laserTooltips()
             .block(GTBlocks.CASING_STEEL_SOLID)
@@ -885,7 +886,12 @@ public final class MultiBlockD {
     public static final MultiblockMachineDefinition FISSION_REACTOR = multiblock("fission_reactor", "裂变反应堆", FissionReactorMachine::new)
             .nonYAxisRotation()
             .recipeTypes(GTORecipeTypes.FISSION_REACTOR_RECIPES)
-            .tooltips(GTOMachineTooltips.INSTANCE.getFissionReactorTooltips().getSupplier())
+            .tooltips(GTOMachineTooltips.INSTANCE.getFissionReactorStructureTooltips().getSupplier())
+            .tooltips(GTOMachineTooltips.INSTANCE.getFissionReactorTemperatureTooltips().getSupplier())
+            .tooltips(GTOMachineTooltips.INSTANCE.getFissionReactorCoolingTooltips().getSupplier())
+            .tooltips(GTOMachineTooltips.INSTANCE.getFissionReactorOverclockingTooltips().getSupplier())
+            .tooltips(GTOMachineTooltips.INSTANCE.getFissionReactorCoolingLiquidsTooltips().getSupplier())
+            .tooltips(GTOMachineTooltips.INSTANCE.getBeAwareOfBurnTooltips().getSupplier())
             .specialParallelizableTooltips()
             .tooltips(NewDataAttributes.ALLOW_PARALLEL_NUMBER.create(CNEN.create("等于燃料组件数量", "Number of Fuel Components")).get().toArray(new Component[0]))
             .block(GTOBlocks.FISSION_REACTOR_CASING)
@@ -917,7 +923,7 @@ public final class MultiBlockD {
     public static final MultiblockMachineDefinition SPACE_ELEVATOR = multiblock("space_elevator", "太空电梯", SpaceElevatorMachine::new)
             .nonYAxisRotation()
             .recipeTypes(GTRecipeTypes.DUMMY_RECIPES)
-            .tooltips(GTOMachineTooltips.INSTANCE.getSpaceElevatorTooltips().getSupplier())
+            .tooltips(GTOMachineStories.INSTANCE.getSpaceElevatorTooltips().getSupplier())
             .tooltips(NewDataAttributes.MAIN_FUNCTION.create(
                     v -> v.addLines("模块运行优化系统", "Module Operation Optimization System"),
                     p -> p.addCommentLines(
@@ -1160,7 +1166,7 @@ public final class MultiBlockD {
             .tooltips(NewDataAttributes.RUNTIME_REQUIREMENT.create(
                     c -> c.addLines("玻璃等级决定配方等级上限",
                             "The glass casing tier determines the upper limit of recipe tier")))
-            .tooltips(GTOMachineTooltips.INSTANCE.getCulturingTankTooltips().getSupplier())
+            .tooltips(GTOMachineStories.INSTANCE.getCulturingTankTooltips().getSupplier())
             .recipeTypes(GTORecipeTypes.INCUBATOR_RECIPES)
             .overclock()
             .block(GTBlocks.PLASTCRETE)
@@ -1188,7 +1194,7 @@ public final class MultiBlockD {
             .tooltips(NewDataAttributes.RUNTIME_REQUIREMENT.create(
                     c -> c.addLines("玻璃等级决定配方等级上限",
                             "The glass casing tier determines the upper limit of recipe tier")))
-            .tooltips(GTOMachineTooltips.INSTANCE.getLargeCulturingTankTooltips().getSupplier())
+            .tooltips(GTOMachineStories.INSTANCE.getLargeCulturingTankTooltips().getSupplier())
             .recipeTypes(GTORecipeTypes.INCUBATOR_RECIPES)
             .parallelizableTooltips()
             .parallelizableOverclock()

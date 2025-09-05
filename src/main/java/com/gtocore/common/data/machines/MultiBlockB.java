@@ -8,7 +8,7 @@ import com.gtocore.common.data.GTOBlocks;
 import com.gtocore.common.data.GTOMachines;
 import com.gtocore.common.data.GTOMaterials;
 import com.gtocore.common.data.GTORecipeTypes;
-import com.gtocore.common.data.translation.GTOMachineTooltips;
+import com.gtocore.common.data.translation.GTOMachineStories;
 import com.gtocore.common.machine.multiblock.electric.nano.NanoPhagocytosisPlantMachine;
 import com.gtocore.common.machine.multiblock.electric.space.SuperSpaceElevatorMachine;
 import com.gtocore.common.machine.multiblock.water.*;
@@ -44,7 +44,7 @@ import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
 import static com.gtocore.common.block.BlockMap.SEPMMAP;
 import static com.gtolib.api.GTOValues.GLASS_TIER;
 import static com.gtolib.api.GTOValues.POWER_MODULE_TIER;
-import static com.gtolib.utils.register.MachineRegisterUtils.multiblock;
+import static com.gtocore.utils.register.MachineRegisterUtils.multiblock;
 
 public final class MultiBlockB {
 
@@ -114,7 +114,7 @@ public final class MultiBlockB {
     public static final MultiblockMachineDefinition WOOD_DISTILLATION = multiblock("wood_distillation", "木化工厂", CoilCrossRecipeMultiblockMachine::createCoilParallel)
             .nonYAxisRotation()
             .recipeTypes(GTORecipeTypes.WOOD_DISTILLATION_RECIPES)
-            .tooltips(GTOMachineTooltips.INSTANCE.getWoodDistillationTooltips().getSupplier())
+            .tooltips(GTOMachineStories.INSTANCE.getWoodDistillationTooltips().getSupplier())
             .laserTooltips()
             .coilParallelTooltips()
             .parallelizableOverclock()
@@ -274,7 +274,7 @@ public final class MultiBlockB {
 
     public static final MultiblockMachineDefinition MEGA_BREWER = multiblock("mega_brewer", "巨型酿造厂", CoilCrossRecipeMultiblockMachine::createCoilParallel)
             .nonYAxisRotation()
-            .tooltips(GTOMachineTooltips.INSTANCE.getMegaBrewerTooltips().getSupplier())
+            .tooltips(GTOMachineStories.INSTANCE.getMegaBrewerTooltips().getSupplier())
             .coilParallelTooltips()
             .laserTooltips()
             .multipleRecipesTooltips()
@@ -352,7 +352,7 @@ public final class MultiBlockB {
     public static final MultiblockMachineDefinition MICROORGANISM_MASTER = multiblock("microorganism_master", "微生物之主", CrossRecipeMultiblockMachine::createHatchParallel)
             .nonYAxisRotation()
             .recipeTypes(GTORecipeTypes.INCUBATOR_RECIPES)
-            .tooltips(GTOMachineTooltips.INSTANCE.getMicroorganismMasterTooltips().getSupplier())
+            .tooltips(GTOMachineStories.INSTANCE.getMicroorganismMasterTooltips().getSupplier())
             .parallelizableTooltips()
             .laserTooltips()
             .multipleRecipesTooltips()
@@ -389,7 +389,7 @@ public final class MultiBlockB {
             .nonYAxisRotation()
             .recipeTypes(GTORecipeTypes.ARC_GENERATOR_RECIPES)
             .specialParallelizableTooltips()
-            .tooltips(GTOMachineTooltips.INSTANCE.getLightningRodTooltips().getSupplier())
+            .tooltips(GTOMachineStories.INSTANCE.getLightningRodTooltips().getSupplier())
             .tooltips(NewDataAttributes.ALLOW_PARALLEL_NUMBER.create(
                     h -> h.addLines("由玻璃等级决定", "Determined by glass tier"),
                     c -> c.addCommentLines("公式 : 4^玻璃等级", "Formula: 4^(Glass Tier)")))
@@ -435,7 +435,7 @@ public final class MultiBlockB {
 
     public static final MultiblockMachineDefinition MAGNETIC_ENERGY_REACTION_FURNACE = multiblock("magnetic_energy_reaction_furnace", "磁能反应炉", CoilCrossRecipeMultiblockMachine::createCoilParallel)
             .nonYAxisRotation()
-            .tooltips(GTOMachineTooltips.INSTANCE.getMagneticEnergyReactionFurnaceTooltips().getSupplier())
+            .tooltips(GTOMachineStories.INSTANCE.getMagneticEnergyReactionFurnaceTooltips().getSupplier())
             .recipeTypes(GTRecipeTypes.ARC_FURNACE_RECIPES)
             .coilParallelTooltips()
             .laserTooltips()
@@ -469,7 +469,7 @@ public final class MultiBlockB {
     public static final MultiblockMachineDefinition HIGH_ENERGY_LASER_LATHE = multiblock("high_energy_laser_lathe", "高能激光车床", CrossRecipeMultiblockMachine::createHatchParallel)
             .nonYAxisRotation()
             .recipeTypes(GTRecipeTypes.LATHE_RECIPES)
-            .tooltips(GTOMachineTooltips.INSTANCE.getHighEnergyLaserLatheTooltips().getSupplier())
+            .tooltips(GTOMachineStories.INSTANCE.getHighEnergyLaserLatheTooltips().getSupplier())
             .parallelizableTooltips()
             .laserTooltips()
             .multipleRecipesTooltips()
@@ -503,7 +503,7 @@ public final class MultiBlockB {
     public static final MultiblockMachineDefinition NEUTRONIUM_WIRE_CUTTING = multiblock("neutronium_wire_cutting", "中子丝线切割", CrossRecipeMultiblockMachine::createHatchParallel)
             .nonYAxisRotation()
             .recipeTypes(GTRecipeTypes.CUTTER_RECIPES)
-            .tooltips(GTOMachineTooltips.INSTANCE.getNeutroniumWireCuttingTooltips().getSupplier())
+            .tooltips(GTOMachineStories.INSTANCE.getNeutroniumWireCuttingTooltips().getSupplier())
             .parallelizableTooltips()
             .laserTooltips()
             .multipleRecipesTooltips()
@@ -539,7 +539,7 @@ public final class MultiBlockB {
 
     public static final MultiblockMachineDefinition NANO_PHAGOCYTOSIS_PLANT = multiblock("nano_phagocytosis_plant", "纳米吞噬厂", NanoPhagocytosisPlantMachine::new)
             .nonYAxisRotation()
-            .tooltips(GTOMachineTooltips.INSTANCE.getNanoPhagocytosisPlantTooltips().getSupplier())
+            .tooltips(GTOMachineStories.INSTANCE.getNanoPhagocytosisPlantTooltips().getSupplier())
             .recipeTypes(GTORecipeTypes.MACERATOR_RECIPES)
             .recipeTypes(GTORecipeTypes.ISA_MILL_RECIPES)
             .parallelizableTooltips()
@@ -648,7 +648,7 @@ public final class MultiBlockB {
     public static final MultiblockMachineDefinition ROAD_OF_HEAVEN = multiblock("road_of_heaven", "通天之路", SuperSpaceElevatorMachine::new)
             .nonYAxisRotation()
             .recipeTypes(GTRecipeTypes.DUMMY_RECIPES)
-            .tooltips(GTOMachineTooltips.INSTANCE.getRoadOfHeavenTooltips().getSupplier())
+            .tooltips(GTOMachineStories.INSTANCE.getRoadOfHeavenTooltips().getSupplier())
             .tooltips(NewDataAttributes.CAPACITY.create(c -> c.addLines("64个模块", "64 modules")))
             .tooltips(NewDataAttributes.MAIN_FUNCTION.create(
                     v -> v.addLines("模块运行优化系统", "Module Operation Optimization System"),
@@ -729,7 +729,7 @@ public final class MultiBlockB {
             .nonYAxisRotation()
             .recipeTypes(GTRecipeTypes.CHEMICAL_BATH_RECIPES)
             .recipeTypes(GTRecipeTypes.ORE_WASHER_RECIPES)
-            .tooltips(GTOMachineTooltips.INSTANCE.getMegaBathTankTooltips().getSupplier())
+            .tooltips(GTOMachineStories.INSTANCE.getMegaBathTankTooltips().getSupplier())
             .parallelizableTooltips()
             .laserTooltips()
             .multipleRecipesTooltips()
@@ -760,7 +760,7 @@ public final class MultiBlockB {
     public static final MultiblockMachineDefinition MEGA_VACUUM_DRYING_FURNACE = multiblock("mega_vacuum_drying_furnace", "巨型真空干燥炉", CoilCrossRecipeMultiblockMachine::createCoilParallel)
             .nonYAxisRotation()
             .recipeTypes(GTORecipeTypes.VACUUM_DRYING_RECIPES)
-            .tooltips(GTOMachineTooltips.INSTANCE.getMegaVacuumDryingFurnaceTooltips().getSupplier())
+            .tooltips(GTOMachineStories.INSTANCE.getMegaVacuumDryingFurnaceTooltips().getSupplier())
             .parallelizableTooltips()
             .laserTooltips()
             .multipleRecipesTooltips()
@@ -794,7 +794,7 @@ public final class MultiBlockB {
 
     public static final MultiblockMachineDefinition MOLECULAR_OSCILLATION_DEHYDRATOR = multiblock("molecular_oscillation_dehydrator", "分子震荡脱水装置", CoilCrossRecipeMultiblockMachine::createCoilParallel)
             .nonYAxisRotation()
-            .tooltips(GTOMachineTooltips.INSTANCE.getMolecularOscillationDehydratorTooltips().getSupplier())
+            .tooltips(GTOMachineStories.INSTANCE.getMolecularOscillationDehydratorTooltips().getSupplier())
             .recipeTypes(GTORecipeTypes.DEHYDRATOR_RECIPES)
             .coilParallelTooltips()
             .laserTooltips()
@@ -824,7 +824,7 @@ public final class MultiBlockB {
     public static final MultiblockMachineDefinition HORIZONTAL_COMPRESSOR = multiblock("extreme_compressor", "极限压缩装置", CrossRecipeMultiblockMachine::createHatchParallel)
             .nonYAxisRotation()
             .recipeTypes(GTORecipeTypes.EXTREME_COMPRESSOR)
-            .tooltips(GTOMachineTooltips.INSTANCE.getHorizontalCompressorTooltips().getSupplier())
+            .tooltips(GTOMachineStories.INSTANCE.getHorizontalCompressorTooltips().getSupplier())
             .parallelizableTooltips()
             .laserTooltips()
             .multipleRecipesTooltips()

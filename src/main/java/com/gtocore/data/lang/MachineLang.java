@@ -135,9 +135,6 @@ final class MachineLang {
         addCNEN("gtocore.machine.me_dual_hatch_stock.tooltip.0", "可标记64种流体或物品", "Keeps 64 fluid or item types in stock");
         addCNEN("gtocore.machine.me_dual_hatch_stock.tooltip.1", "直接从ME网络抽取流体或物品", "Retrieves fluids or item directly from the ME network");
         addCNEN("gtocore.machine.me_dual_hatch_stock.data_stick.name", "§oME Stock Input Dual Hatch Config Data", "§oME库存输入总成配置数据");
-        addCNEN("gtocore.machine.mega_steam_turbine.tooltip.0", "运行效率相当于16台同类大型涡轮，可使用更多动力仓", "Operating efficiency is equivalent to 16 large turbines of the same type, can use more power hatch");
-        addCNEN("gtocore.machine.mega_steam_turbine.tooltip.1", "可安装转子仓，从中自动取出转子安装到空转子支架", "Rotors can be installed in the rotor chamber, automatically extracting rotor for installation onto empty rotor brackets");
-        addCNEN("gtocore.machine.mega_steam_turbine.tooltip.2", "可启用高速模式，进一步提升运行速度，高速模式下，运行速度提升为3倍，代价是维护问题出现几率与涡轮耐久损耗均变为12倍", "High speed mode can be enabled to further increase operating speed; in high speed mode, operating speed x3, at the cost of increasing maintenance issue probability and turbine durability loss being 12 times");
         addCNEN("gtocore.machine.scanning", "扫描中...", "Scanning...");
         addCNEN("gtocore.machine.analysis", "分析中...", "Analysing...");
         addCNEN("gtocore.machine.assembling", "装配中...", "Assembling...");

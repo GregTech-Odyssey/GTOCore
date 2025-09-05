@@ -7,7 +7,7 @@ import com.gtocore.common.data.GTOBlocks;
 import com.gtocore.common.data.GTOMachines;
 import com.gtocore.common.data.GTOMaterials;
 import com.gtocore.common.data.GTORecipeTypes;
-import com.gtocore.common.data.translation.GTOMachineTooltips;
+import com.gtocore.common.data.translation.GTOMachineStories;
 import com.gtocore.common.machine.multiblock.electric.EnergyInjectorMachine;
 import com.gtocore.common.machine.multiblock.electric.assembly.ComponentAssemblerMachine;
 import com.gtocore.common.machine.multiblock.electric.bioengineering.BiochemicalReactionRoomMachine;
@@ -62,7 +62,7 @@ import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
 import static com.gtocore.common.block.BlockMap.CALMAP;
 import static com.gtolib.api.GTOValues.COMPONENT_ASSEMBLY_CASING_TIER;
 import static com.gtolib.api.GTOValues.GLASS_TIER;
-import static com.gtolib.utils.register.MachineRegisterUtils.multiblock;
+import static com.gtocore.utils.register.MachineRegisterUtils.multiblock;
 
 public final class MultiBlockC {
 
@@ -224,7 +224,7 @@ public final class MultiBlockC {
             .nonYAxisRotation()
             .recipeTypes(GTRecipeTypes.ALLOY_SMELTER_RECIPES)
             .recipeTypes(GTRecipeTypes.FURNACE_RECIPES)
-            .tooltips(GTOMachineTooltips.INSTANCE.getExtremeElectricFurnaceTooltips().getSupplier())
+            .tooltips(GTOMachineStories.INSTANCE.getExtremeElectricFurnaceTooltips().getSupplier())
             .coilParallelTooltips()
             .laserTooltips()
             .multipleRecipesTooltips()
@@ -262,7 +262,7 @@ public final class MultiBlockC {
             .nonYAxisRotation()
             .recipeTypes(GTORecipeTypes.LIQUEFACTION_FURNACE_RECIPES)
             .recipeTypes(GTORecipeTypes.REACTION_FURNACE_RECIPES)
-            .tooltips(GTOMachineTooltips.INSTANCE.getHighTemperatureReactionHubTooltips().getSupplier())
+            .tooltips(GTOMachineStories.INSTANCE.getHighTemperatureReactionHubTooltips().getSupplier())
             .parallelizableTooltips()
             .laserTooltips()
             .multipleRecipesTooltips()
@@ -300,7 +300,7 @@ public final class MultiBlockC {
 
     public static final MultiblockMachineDefinition COMPONENT_ASSEMBLER = multiblock("component_assembler", "部件组装机", ComponentAssemblerMachine::new)
             .allRotation()
-            .tooltips(GTOMachineTooltips.INSTANCE.getComponentAssemblerTooltips().getSupplier())
+            .tooltips(GTOMachineStories.INSTANCE.getComponentAssemblerTooltips().getSupplier())
             .moduleTooltips()
             .recipeTypes(GTORecipeTypes.COMPONENT_ASSEMBLY_RECIPES)
             .overclock()
@@ -396,7 +396,7 @@ public final class MultiBlockC {
 
     public static final MultiblockMachineDefinition GRAVITY_BENDING_DEVICE = multiblock("gravity_bending_device", "引力弯折装置", CrossRecipeMultiblockMachine::createHatchParallel)
             .nonYAxisRotation()
-            .tooltips(GTOMachineTooltips.INSTANCE.getGravityBendingDeviceTooltips().getSupplier())
+            .tooltips(GTOMachineStories.INSTANCE.getGravityBendingDeviceTooltips().getSupplier())
             .parallelizableTooltips()
             .laserTooltips()
             .multipleRecipesTooltips()
@@ -438,7 +438,7 @@ public final class MultiBlockC {
 
     public static final MultiblockMachineDefinition HAND_OF_ARACHNE = multiblock("hand_of_arachne", "阿拉克涅之手", CrossRecipeMultiblockMachine::createHatchParallel)
             .nonYAxisRotation()
-            .tooltips(GTOMachineTooltips.INSTANCE.getHandOfArachneTooltips().getSupplier())
+            .tooltips(GTOMachineStories.INSTANCE.getHandOfArachneTooltips().getSupplier())
             .recipeTypes(GTORecipeTypes.LOOM_RECIPES)
             .parallelizableTooltips()
             .laserTooltips()
@@ -477,7 +477,7 @@ public final class MultiBlockC {
             .nonYAxisRotation()
             .recipeTypes(GTRecipeTypes.CRACKING_RECIPES)
             .recipeTypes(GTRecipeTypes.PYROLYSE_RECIPES)
-            .tooltips(GTOMachineTooltips.INSTANCE.getCrackerHubTooltips().getSupplier())
+            .tooltips(GTOMachineStories.INSTANCE.getCrackerHubTooltips().getSupplier())
             .coilParallelTooltips()
             .laserTooltips()
             .multipleRecipesTooltips()
@@ -707,8 +707,8 @@ public final class MultiBlockC {
 
     public static final MultiblockMachineDefinition NANITES_INTEGRATED_PROCESSING_CENTER = multiblock("nanites_integrated_processing_center", "纳米集成加工中心", NanitesIntegratedMachine::new)
             .nonYAxisRotation()
-            .tooltips(GTOMachineTooltips.INSTANCE.getNanitesIntegratedProcessingCenterTooltips().getSupplier())
-            .tooltips(GTOMachineTooltips.INSTANCE.getNanoswarmDataSheetTooltips().getSupplier())
+            .tooltips(GTOMachineStories.INSTANCE.getNanitesIntegratedProcessingCenterTooltips().getSupplier())
+            .tooltips(GTOMachineStories.INSTANCE.getNanoswarmDataSheetTooltips().getSupplier())
             .recipeTypes(GTORecipeTypes.NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES)
             .laserTooltips()
             .multipleRecipesTooltips()
@@ -745,7 +745,7 @@ public final class MultiBlockC {
             .nonYAxisRotation()
             .recipeTypes(GTORecipeTypes.NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES)
             .parallelizableTooltips()
-            .tooltips(GTOMachineTooltips.INSTANCE.getOreExtractionModuleTooltips().getSupplier())
+            .tooltips(GTOMachineStories.INSTANCE.getOreExtractionModuleTooltips().getSupplier())
             .laserTooltips()
             .block(GTBlocks.CASING_HSSE_STURDY)
             .pattern(definition -> MultiBlockFileReader.start(definition, RelativeDirection.RIGHT, RelativeDirection.UP, RelativeDirection.BACK)
@@ -775,7 +775,7 @@ public final class MultiBlockC {
             .nonYAxisRotation()
             .recipeTypes(GTORecipeTypes.NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES)
             .parallelizableTooltips()
-            .tooltips(GTOMachineTooltips.INSTANCE.getPolymerTwistingModuleTooltips().getSupplier())
+            .tooltips(GTOMachineStories.INSTANCE.getPolymerTwistingModuleTooltips().getSupplier())
             .laserTooltips()
             .block(GTBlocks.CASING_PTFE_INERT)
             .pattern(definition -> MultiBlockFileReader.start(definition, RelativeDirection.RIGHT, RelativeDirection.UP, RelativeDirection.BACK)
@@ -801,7 +801,7 @@ public final class MultiBlockC {
             .nonYAxisRotation()
             .recipeTypes(GTORecipeTypes.NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES)
             .parallelizableTooltips()
-            .tooltips(GTOMachineTooltips.INSTANCE.getBioengineeringModuleTooltips().getSupplier())
+            .tooltips(GTOMachineStories.INSTANCE.getBioengineeringModuleTooltips().getSupplier())
             .laserTooltips()
             .block(GTOBlocks.IRIDIUM_CASING)
             .pattern(definition -> MultiBlockFileReader.start(definition, RelativeDirection.RIGHT, RelativeDirection.UP, RelativeDirection.BACK)
@@ -828,7 +828,7 @@ public final class MultiBlockC {
 
     public static final MultiblockMachineDefinition PLANET_CORE_DRILLING = multiblock("planet_core_drilling", "星核钻机", PlanetCoreDrillingMachine::new)
             .nonYAxisRotation()
-            .tooltips(GTOMachineTooltips.INSTANCE.getPlanetCoreDrillingTooltips().getSupplier())
+            .tooltips(GTOMachineStories.INSTANCE.getPlanetCoreDrillingTooltips().getSupplier())
             .tooltipsText("每秒产出当前世界的全部矿石65536份", "Produces a total of 1024 ores from the current world per second.")
             .recipeTypes(GTRecipeTypes.DUMMY_RECIPES)
             .laserTooltips()
@@ -906,7 +906,7 @@ public final class MultiBlockC {
 
     public static final MultiblockMachineDefinition ENERGY_INJECTOR = multiblock("energy_injector", "能量注入仪", EnergyInjectorMachine::new)
             .nonYAxisRotation()
-            .tooltips(GTOMachineTooltips.INSTANCE.getEnergyInjectorTooltips().getSupplier())
+            .tooltips(GTOMachineStories.INSTANCE.getEnergyInjectorTooltips().getSupplier())
             .recipeTypes(GTRecipeTypes.DUMMY_RECIPES)
             .laserTooltips()
             .block(GCYMBlocks.CASING_NONCONDUCTING)
@@ -936,7 +936,7 @@ public final class MultiBlockC {
 
     public static final MultiblockMachineDefinition NEUTRON_VORTEX = multiblock("neutron_vortex", "中子旋涡", NeutronVortexMachine::new)
             .nonYAxisRotation()
-            .tooltips(GTOMachineTooltips.INSTANCE.getNeutronVortexTooltips().getSupplier())
+            .tooltips(GTOMachineStories.INSTANCE.getNeutronVortexTooltips().getSupplier())
             .recipeTypes(GTORecipeTypes.NEUTRON_ACTIVATOR_RECIPES)
             .block(GTOBlocks.NAQUADAH_REINFORCED_PLANT_CASING)
             .pattern(definition -> NeutronVortexMachine.getBlockPattern(0, definition))
@@ -987,7 +987,7 @@ public final class MultiBlockC {
 
     public static final MultiblockMachineDefinition NANITES_CIRCUIT_ASSEMBLY_FACTORY = multiblock("nanites_circuit_assembly_factory", "纳米蜂群电路组装厂", CrossRecipeMultiblockMachine::createHatchParallel)
             .nonYAxisRotation()
-            .tooltips(GTOMachineTooltips.INSTANCE.getNanoswarmCircuitAssemblyFactoryTooltips().getSupplier())
+            .tooltips(GTOMachineStories.INSTANCE.getNanoswarmCircuitAssemblyFactoryTooltips().getSupplier())
             .parallelizableTooltips()
             .laserTooltips()
             .multipleRecipesTooltips()
@@ -1045,7 +1045,7 @@ public final class MultiBlockC {
 
     public static final MultiblockMachineDefinition PRECISION_ASSEMBLY_CENTER = multiblock("precision_assembly_center", "精密组装中心", CrossRecipeMultiblockMachine::createHatchParallel)
             .nonYAxisRotation()
-            .tooltips(GTOMachineTooltips.INSTANCE.getPrecisionAssemblyCenterTooltips().getSupplier())
+            .tooltips(GTOMachineStories.INSTANCE.getPrecisionAssemblyCenterTooltips().getSupplier())
             .parallelizableTooltips()
             .laserTooltips()
             .multipleRecipesTooltips()

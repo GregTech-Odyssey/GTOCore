@@ -1,39 +1,5 @@
 package com.gtocore.common.data;
 
-import com.gtocore.api.machine.part.GTOPartAbility;
-import com.gtocore.client.renderer.machine.*;
-import com.gtocore.common.blockentity.TesseractBlockEntity;
-import com.gtocore.common.data.machines.*;
-import com.gtocore.common.data.translation.GTOMachineTooltips;
-import com.gtocore.common.machine.electric.AdvancedTesseractMachine;
-import com.gtocore.common.machine.electric.ElectricHeaterMachine;
-import com.gtocore.common.machine.electric.TesseractMachine;
-import com.gtocore.common.machine.electric.VacuumPumpMachine;
-import com.gtocore.common.machine.generator.LightningRodMachine;
-import com.gtocore.common.machine.generator.WindMillTurbineMachine;
-import com.gtocore.common.machine.monitor.*;
-import com.gtocore.common.machine.multiblock.part.*;
-import com.gtocore.common.machine.multiblock.part.ae.MEPatternContentSortMachine;
-import com.gtocore.common.machine.multiblock.part.maintenance.*;
-import com.gtocore.common.machine.noenergy.BoilWaterMachine;
-import com.gtocore.common.machine.noenergy.HeaterMachine;
-import com.gtocore.common.machine.noenergy.PerformanceMonitorMachine;
-import com.gtocore.common.machine.steam.SteamVacuumPumpMachine;
-import com.gtocore.integration.ae.MeWirelessConnectMachine;
-import com.gtocore.integration.ae.SyncTesterMachine;
-
-import com.gtolib.GTOCore;
-import com.gtolib.api.GTOValues;
-import com.gtolib.api.annotation.NewDataAttributes;
-import com.gtolib.api.lang.CNEN;
-import com.gtolib.api.machine.SimpleNoEnergyMachine;
-import com.gtolib.api.machine.feature.multiblock.IParallelMachine;
-import com.gtolib.api.machine.part.DroneHatchPartMachine;
-import com.gtolib.api.machine.part.ItemHatchPartMachine;
-import com.gtolib.api.registries.GTOMachineBuilder;
-import com.gtolib.api.registries.GTORegistration;
-import com.gtolib.utils.register.BlockRegisterUtils;
-
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
@@ -53,18 +19,49 @@ import com.gregtechceu.gtceu.common.item.TurbineRotorBehaviour;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.DualHatchPartMachine;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.EnergyHatchPartMachine;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
-
-import net.minecraft.ChatFormatting;
-import net.minecraft.network.chat.Component;
-
+import com.gtocore.api.machine.part.GTOPartAbility;
+import com.gtocore.client.renderer.machine.*;
+import com.gtocore.common.blockentity.TesseractBlockEntity;
+import com.gtocore.common.data.machines.*;
+import com.gtocore.common.data.translation.GTOMachineStories;
+import com.gtocore.common.data.translation.GTOMachineTooltips;
+import com.gtocore.common.machine.electric.AdvancedTesseractMachine;
+import com.gtocore.common.machine.electric.ElectricHeaterMachine;
+import com.gtocore.common.machine.electric.TesseractMachine;
+import com.gtocore.common.machine.electric.VacuumPumpMachine;
+import com.gtocore.common.machine.generator.LightningRodMachine;
+import com.gtocore.common.machine.generator.WindMillTurbineMachine;
+import com.gtocore.common.machine.monitor.*;
+import com.gtocore.common.machine.multiblock.part.*;
+import com.gtocore.common.machine.multiblock.part.ae.MEPatternContentSortMachine;
+import com.gtocore.common.machine.multiblock.part.maintenance.*;
+import com.gtocore.common.machine.noenergy.BoilWaterMachine;
+import com.gtocore.common.machine.noenergy.HeaterMachine;
+import com.gtocore.common.machine.noenergy.PerformanceMonitorMachine;
+import com.gtocore.common.machine.steam.SteamVacuumPumpMachine;
+import com.gtocore.integration.ae.MeWirelessConnectMachine;
+import com.gtocore.integration.ae.SyncTesterMachine;
+import com.gtolib.GTOCore;
+import com.gtolib.api.GTOValues;
+import com.gtolib.api.annotation.NewDataAttributes;
+import com.gtolib.api.lang.CNEN;
+import com.gtolib.api.machine.SimpleNoEnergyMachine;
+import com.gtolib.api.machine.feature.multiblock.IParallelMachine;
+import com.gtolib.api.machine.part.DroneHatchPartMachine;
+import com.gtolib.api.machine.part.ItemHatchPartMachine;
+import com.gtolib.api.registries.GTOMachineBuilder;
+import com.gtolib.api.registries.GTORegistration;
+import com.gtolib.utils.register.BlockRegisterUtils;
 import com.hepdd.gtmthings.GTMThings;
 import it.unimi.dsi.fastutil.Function;
 import it.unimi.dsi.fastutil.Pair;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
 
 import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.api.capability.recipe.IO.IN;
 import static com.gregtechceu.gtceu.api.machine.multiblock.PartAbility.PARALLEL_HATCH;
-import static com.gtolib.utils.register.MachineRegisterUtils.*;
+import static com.gtocore.utils.register.MachineRegisterUtils.*;
 
 public final class GTOMachines {
 
@@ -94,7 +91,7 @@ public final class GTOMachines {
 
     //////////////////////////////////////
     // *** Simple Machine ***//
-    //////////////////////////////////////
+    /// ///////////////////////////////////
     public static final Pair<MachineDefinition, MachineDefinition> STEAM_VACUUM_PUMP = registerSteamMachines("steam_vacuum_pump", "真空泵", SteamVacuumPumpMachine::new, (pressure, builder) -> builder
             .allRotation()
             .recipeType(GTORecipeTypes.VACUUM_PUMP_RECIPES)
@@ -201,6 +198,7 @@ public final class GTOMachines {
             .noRecipeModifier()
             .nonYAxisRotation()
             .tooltips(GTOMachineTooltips.INSTANCE.getHeaterMachineTooltips().getSupplier())
+            .tooltips(GTOMachineTooltips.INSTANCE.getBeAwareOfBurnTooltips().getSupplier())
             .renderer(() -> new HeaterRenderer(ULV))
             .register();
 
@@ -219,7 +217,7 @@ public final class GTOMachines {
 
     public static final MachineDefinition PERFORMANCE_MONITOR = machine("performance_monitor", "性能监控器", PerformanceMonitorMachine::new)
             .nonYAxisRotation()
-            .tooltips(GTOMachineTooltips.INSTANCE.getPerformanceMonitorMachineTooltips().getSupplier())
+            .tooltips(GTOMachineStories.INSTANCE.getPerformanceMonitorMachineTooltips().getSupplier())
             .workableTieredHullRenderer(GTMThings.id("block/machines/wireless_energy_monitor"))
             .tier(LV)
             .register();
@@ -231,12 +229,13 @@ public final class GTOMachines {
             .noRecipeModifier()
             .nonYAxisRotation()
             .tooltips(GTOMachineTooltips.INSTANCE.getElectricHeaterMachineTooltips().getSupplier())
+            .tooltips(GTOMachineTooltips.INSTANCE.getBeAwareOfBurnTooltips().getSupplier())
             .renderer(() -> new HeaterRenderer(LV))
             .register();
 
     //////////////////////////////////////
     // ********** Part **********//
-    //////////////////////////////////////
+    /// ///////////////////////////////////
     public static final MachineDefinition[] THREAD_HATCH = registerTieredMachines("thread_hatch", tier -> GTOValues.VNFR[tier] + "线程仓",
             ThreadHatchPartMachine::new, (tier, builder) -> builder
                     .langValue(VNF[tier] + " Thread Hatch")
@@ -456,7 +455,7 @@ public final class GTOMachines {
 
     public static final MachineDefinition ME_WIRELESS_CONNECTION_MACHINE = machine("me_wireless_connection_machine", "ME无线连接机", MeWirelessConnectMachine::new)
             .renderer(MeWirelessConnectMachineRenderer::new)
-            .tooltips(GTOMachineTooltips.INSTANCE.getAutoConnectMETooltips().getSupplier())
+            .tooltips(GTOMachineStories.INSTANCE.getAutoConnectMETooltips().getSupplier())
             .tooltips(NewDataAttributes.MIRACULOUS_TOOLS.create(new CNEN("ME无线连接机", "ME Wireless Connection Machine"), p -> p.addCommentLines(
                     """
                             多对多的ME无线网络节点
@@ -694,7 +693,7 @@ public final class GTOMachines {
             .register();
 
     public static final MachineDefinition ROTOR_HATCH = machine("rotor_hatch", "转子仓", h -> new ItemHatchPartMachine(h, 1, i -> TurbineRotorBehaviour.getBehaviour(i) != null))
-            .tooltips(GTOMachineTooltips.INSTANCE.getRotorHatchTooltips().getSupplier())
+            .tooltips(GTOMachineStories.INSTANCE.getRotorHatchTooltips().getSupplier())
             .tier(EV)
             .allRotation()
             .notAllowSharedTooltips()
@@ -741,7 +740,7 @@ public final class GTOMachines {
 
     public static final MachineDefinition CATALYST_HATCH = machine("catalyst_hatch", "催化剂仓", h -> new CatalystHatchPartMachine(h, 2))
             .tier(MV)
-            .tooltips(GTOMachineTooltips.INSTANCE.getCatalystHatchTooltips().getSupplier())
+            .tooltips(GTOMachineStories.INSTANCE.getCatalystHatchTooltips().getSupplier())
             .allRotation()
             .tooltips()
             .notAllowSharedTooltips()
@@ -752,7 +751,7 @@ public final class GTOMachines {
 
     public static final MachineDefinition ADVANCED_CATALYST_HATCH = machine("advanced_catalyst_hatch", "进阶催化剂仓", h -> new CatalystHatchPartMachine(h, 7))
             .tier(IV)
-            .tooltips(GTOMachineTooltips.INSTANCE.getCatalystHatchTooltips().getSupplier())
+            .tooltips(GTOMachineStories.INSTANCE.getCatalystHatchTooltips().getSupplier())
             .allRotation()
             .notAllowSharedTooltips()
             .overlayTieredHullRenderer("catalyst_hatch")
@@ -883,41 +882,41 @@ public final class GTOMachines {
 
     public static final MachineDefinition TESSERACT_GENERATOR = blockEntityMachine("tesseract_generator", "超立方体发生器", TesseractMachine::new, TesseractBlockEntity::new)
             .allRotation()
-            .tooltips(GTOMachineTooltips.INSTANCE.getHyperCubeMachineTooltips().getSupplier())
+            .tooltips(GTOMachineStories.INSTANCE.getHyperCubeMachineTooltips().getSupplier())
             .modelRenderer(() -> GTOCore.id("block/machine/tesseract_generator"))
             .tier(HV)
             .register();
 
     public static final MachineDefinition ADVANCED_TESSERACT_GENERATOR = blockEntityMachine("advanced_tesseract_generator", "进阶超立方体发生器", AdvancedTesseractMachine::new, TesseractBlockEntity::new)
             .allRotation()
-            .tooltips(GTOMachineTooltips.INSTANCE.getAdvancedHyperCubeMachineTooltips().getSupplier())
+            .tooltips(GTOMachineStories.INSTANCE.getAdvancedHyperCubeMachineTooltips().getSupplier())
             .modelRenderer(() -> GTOCore.id("block/machine/tesseract_generator"))
             .tier(IV)
             .register();
 
     public static final MachineDefinition BASIC_MONITOR = registerMonitor("basic_monitor", "基础监控器", BasicMonitor::new)
-            .tooltips(GTOMachineTooltips.INSTANCE.getBasicMonitorTooltips().getSupplier())
+            .tooltips(GTOMachineStories.INSTANCE.getBasicMonitorTooltips().getSupplier())
             .register();
     public static final MachineDefinition MONITOR_MACHINE_ELECTRICITY = registerMonitor("monitor_electricity", "监控器电网组件", MonitorEU::new)
-            .tooltips(GTOMachineTooltips.INSTANCE.getMonitorPowerComponentTooltips().getSupplier())
+            .tooltips(GTOMachineStories.INSTANCE.getMonitorPowerComponentTooltips().getSupplier())
             .register();
     public static final MachineDefinition MONITOR_MACHINE_MANA = registerMonitor("monitor_mana", "监控器魔力网络组件", MonitorMana::new)
-            .tooltips(GTOMachineTooltips.INSTANCE.getMonitorManaComponentTooltips().getSupplier())
+            .tooltips(GTOMachineStories.INSTANCE.getMonitorManaComponentTooltips().getSupplier())
             .register();
     public static final MachineDefinition MONITOR_MACHINE_CWU = registerMonitor("monitor_cwu", "监控器算力网络组件", MonitorCWU::new)
-            .tooltips(GTOMachineTooltips.INSTANCE.getMonitorComputingComponentTooltips().getSupplier())
+            .tooltips(GTOMachineStories.INSTANCE.getMonitorComputingComponentTooltips().getSupplier())
             .register();
     public static final MachineDefinition MONITOR_MACHINE_CUSTOM = registerMonitor("monitor_custom", "监控器自定义文本组件", MonitorCustomInfo::new)
-            .tooltips(GTOMachineTooltips.INSTANCE.getMonitorCustomTextComponentTooltips().getSupplier())
+            .tooltips(GTOMachineStories.INSTANCE.getMonitorCustomTextComponentTooltips().getSupplier())
             .register();
     public static final MachineDefinition MONITOR_AE_THROUGHPUT = registerMonitor("monitor_ae_throughput", "监控器ME网络吞吐量组件", MonitorAEThroughput::new)
-            .tooltips(GTOMachineTooltips.INSTANCE.getMonitorMEThroughputComponentTooltips().getSupplier())
+            .tooltips(GTOMachineStories.INSTANCE.getMonitorMEThroughputComponentTooltips().getSupplier())
             .register();
     public static final MachineDefinition MONITOR_AE_CPU = registerMonitor("monitor_ae_cpu", "监控器ME合成处理单元组件", MonitorAECPU::new)
-            .tooltips(GTOMachineTooltips.INSTANCE.getMonitorCraftingComponentTooltips().getSupplier())
+            .tooltips(GTOMachineStories.INSTANCE.getMonitorCraftingComponentTooltips().getSupplier())
             .register();
     public static final MachineDefinition MONITOR_MACHINE = registerMonitor("monitor_machine", "监控器通用机器组件", MonitorMachine::new)
-            .tooltips(GTOMachineTooltips.INSTANCE.getMonitorMachineComponentTooltips().getSupplier())
+            .tooltips(GTOMachineStories.INSTANCE.getMonitorMachineComponentTooltips().getSupplier())
             .register();
 
     private static GTOMachineBuilder registerMonitor(String id, String cn, Function<MetaMachineBlockEntity, MetaMachine> monitorConstructor) {

@@ -40,7 +40,7 @@ import static com.gregtechceu.gtceu.api.machine.multiblock.PartAbility.*;
 import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
 import static com.gtocore.api.machine.part.GTOPartAbility.OUTPUT_MANA;
 import static com.gtocore.common.data.GTOMaterials.Runerock;
-import static com.gtolib.utils.register.MachineRegisterUtils.multiblock;
+import static com.gtocore.utils.register.MachineRegisterUtils.multiblock;
 
 public final class ManaMultiBlock {
 

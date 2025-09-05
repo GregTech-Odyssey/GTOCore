@@ -10,7 +10,7 @@ import com.gtocore.common.machine.multiblock.part.ParallelHatchPartMachine;
 import com.gtolib.api.annotation.NewDataAttributes;
 import com.gtolib.api.machine.multiblock.CoilCustomParallelMultiblockMachine;
 import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
-import com.gtolib.utils.register.MachineRegisterUtils;
+import com.gtocore.utils.register.MachineRegisterUtils;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTValues;
@@ -45,7 +45,7 @@ import static com.gregtechceu.gtceu.common.data.GTMachines.*;
 import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.*;
 import static com.gtocore.common.data.GTOBlocks.INTEGRAL_FRAMEWORK_MV;
 import static com.gtolib.api.registries.GTORegistration.GTM;
-import static com.gtolib.utils.register.MachineRegisterUtils.multiblock;
+import static com.gtocore.utils.register.MachineRegisterUtils.multiblock;
 
 public final class GCYMMachines {
 
