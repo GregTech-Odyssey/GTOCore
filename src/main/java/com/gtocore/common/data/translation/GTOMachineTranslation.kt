@@ -82,7 +82,6 @@ object GTOMachineTranslation : AutoInitialize<GTOMachineTranslation>() {
     // 转子仓
     val RotorHatchTooltips = ComponentListSupplier {
         setTranslationPrefix("rotor_hatch")
-        add(Warning(1) + ("转子所在平面3x3内只能存在一个转子仓" translatedTo "There can only be one rotor hatch in the 3x3 plane where the rotor is located").InfoWarning())
         add(Star(1) + ("不同类型的转子的效率，耐久不同" translatedTo "Different types of rotors have different efficiency and durability").InfoFunction())
     }
 
@@ -363,9 +362,8 @@ object GTOMachineTranslation : AutoInitialize<GTOMachineTranslation>() {
     // 化工厂
     val ChemicalFactoryTooltips = ComponentListSupplier {
         setTranslationPrefix("chemical_factory")
-        add("§d在化学的世界里" translatedTo "§dIn the world of chemistry§r") { lightPurple() }
-        add("§4每一个分子都在诉说着自己的故事" translatedTo "§4Every molecule tells its own story§r") { aqua() }
-        add(ComponentSlang.CoilEfficiencyBonus("§6§线圈等级每高出白铜一级能耗与时间减少5%§r" translatedTo "§6Each coil tier above Cupronickel, Reduces energy consumption and duration by 5%§r"))
+        add("§4每一个分子都在诉说着自己的故事" translatedTo "§4Every molecule holds a secret story§r") { aqua() }
+        add(ComponentSlang.CoilEfficiencyBonus("§6线圈等级每高出白铜一级，能耗与配方用时减少5%§r" translatedTo "§6Each coil tier above Cupronickel reduces energy consumption and duration by 5%§r"))
     }
 
     // 衰变加速器
