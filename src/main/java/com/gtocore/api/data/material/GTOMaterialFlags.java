@@ -5,23 +5,22 @@ import com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlags;
 
 public final class GTOMaterialFlags {
 
-    public static final MaterialFlag GENERATE_SMALL_DUST = new MaterialFlag.Builder("generate_small_dust")
-            .build();
+    // 工厂方法
+    private static MaterialFlag createFlag(String name) {
+        return new MaterialFlag.Builder(name).build();
+    }
 
-    public static final MaterialFlag GENERATE_TINY_DUST = new MaterialFlag.Builder("generate_tiny_dust")
-            .build();
+    public static final MaterialFlag GENERATE_SMALL_DUST = createFlag("generate_small_dust");
 
-    public static final MaterialFlag GENERATE_CATALYST = new MaterialFlag.Builder("generate_catalyst")
-            .build();
+    public static final MaterialFlag GENERATE_TINY_DUST = createFlag("generate_tiny_dust");
 
-    public static final MaterialFlag GENERATE_NANITES = new MaterialFlag.Builder("generate_nanites")
-            .build();
+    public static final MaterialFlag GENERATE_CATALYST = createFlag("generate_catalyst");
 
-    public static final MaterialFlag GENERATE_MILLED = new MaterialFlag.Builder("generate_milled")
-            .build();
+    public static final MaterialFlag GENERATE_NANITES = createFlag("generate_nanites");
 
-    public static final MaterialFlag GENERATE_CURVED_PLATE = new MaterialFlag.Builder("generate_curved_plate")
-            .build();
+    public static final MaterialFlag GENERATE_MILLED = createFlag("generate_milled");
+
+    public static final MaterialFlag GENERATE_CURVED_PLATE = createFlag("generate_curved_plate");
 
     public static final MaterialFlag GENERATE_COMPONENT = new MaterialFlag.Builder("generate_component")
             .requireFlags(GENERATE_CURVED_PLATE, MaterialFlags.GENERATE_RING, MaterialFlags.GENERATE_ROUND)
@@ -31,31 +30,23 @@ public final class GTOMaterialFlags {
             .requireFlags(MaterialFlags.FORCE_GENERATE_BLOCK)
             .build();
 
-    public static final MaterialFlag GENERATE_CRYSTAL_SEED = new MaterialFlag.Builder("generate_crystal_seed")
-            .build();
+    public static final MaterialFlag GENERATE_CRYSTAL_SEED = createFlag("generate_crystal_seed");
 
     public static final MaterialFlag GENERATE_ARTIFICIAL_GEM = new MaterialFlag.Builder("generate_artificial_gem")
             .requireFlags(GENERATE_CRYSTAL_SEED)
             .build();
 
-    public static final MaterialFlag GENERATE_COIN = new MaterialFlag.Builder("generate_coin")
-            .build();
+    public static final MaterialFlag GENERATE_COIN = createFlag("generate_coin");
 
-    public static final MaterialFlag GENERATE_PARTICLE_SOURCE = new MaterialFlag.Builder("generate_particle_source")
-            .build();
+    public static final MaterialFlag GENERATE_PARTICLE_SOURCE = createFlag("generate_particle_source");
 
-    public static final MaterialFlag GENERATE_TARGET_BASE = new MaterialFlag.Builder("generate_target_base")
-            .build();
+    public static final MaterialFlag GENERATE_TARGET_BASE = createFlag("generate_target_base");
 
-    public static final MaterialFlag GENERATE_BERYLLIUM_TARGET = new MaterialFlag.Builder("generate_beryllium_target")
-            .build();
+    public static final MaterialFlag GENERATE_BERYLLIUM_TARGET = createFlag("generate_beryllium_target");
 
-    public static final MaterialFlag GENERATE_STAINLESS_STEEL_TARGET = new MaterialFlag.Builder("generate_stainless_steel_target")
-            .build();
+    public static final MaterialFlag GENERATE_STAINLESS_STEEL_TARGET = createFlag("generate_stainless_steel_target");
 
-    public static final MaterialFlag GENERATE_ZIRCONIUM_CARBIDE_TARGET = new MaterialFlag.Builder("generate_zirconium_carbide_target")
-            .build();
+    public static final MaterialFlag GENERATE_ZIRCONIUM_CARBIDE_TARGET = createFlag("generate_zirconium_carbide_target");
 
-    public static final MaterialFlag GENERATE_BREEDER_ROD = new MaterialFlag.Builder("generate_breeder_rod")
-            .build();
+    public static final MaterialFlag GENERATE_BREEDER_ROD = createFlag("generate_breeder_rod");
 }
