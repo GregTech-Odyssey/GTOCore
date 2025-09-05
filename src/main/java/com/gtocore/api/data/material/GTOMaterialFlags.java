@@ -31,20 +31,17 @@ public final class GTOMaterialFlags {
             "generate_component",
             GENERATE_CURVED_PLATE,
             MaterialFlags.GENERATE_RING,
-            MaterialFlags.GENERATE_ROUND
-    );
+            MaterialFlags.GENERATE_ROUND);
 
     public static final MaterialFlag GENERATE_CERAMIC = createFlagWithDependencies(
             "generate_ceramic",
-            MaterialFlags.FORCE_GENERATE_BLOCK
-    );
+            MaterialFlags.FORCE_GENERATE_BLOCK);
 
     public static final MaterialFlag GENERATE_CRYSTAL_SEED = createFlag("generate_crystal_seed");
 
     public static final MaterialFlag GENERATE_ARTIFICIAL_GEM = createFlagWithDependencies(
             "generate_artificial_gem",
-            GENERATE_CRYSTAL_SEED
-    );
+            GENERATE_CRYSTAL_SEED);
 
     public static final MaterialFlag GENERATE_COIN = createFlag("generate_coin");
 
