@@ -12,13 +12,23 @@ import appeng.api.stacks.AEItemKey;
 import it.unimi.dsi.fastutil.Hash;
 import it.unimi.dsi.fastutil.HashCommon;
 
-import java.lang.ref.WeakReference;
+import java.lang.ref.ReferenceQueue;
+import java.lang.ref.SoftReference;
 
 import static it.unimi.dsi.fastutil.HashCommon.arraySize;
 
 public class AEItemKeyCache {
 
+    private static final ReferenceQueue<AEItemKey> QUEUE = new ReferenceQueue<>();
+    private static final Thread DISCARD_THREAD = new Thread(AEItemKeyCache::clearReferences, "AEItemKey reference clearing thread");
+
     public static final AEItemKeyCache INSTANCE = new AEItemKeyCache();
+
+    static {
+        DISCARD_THREAD.setPriority(7);
+        DISCARD_THREAD.setDaemon(true);
+        DISCARD_THREAD.start();
+    }
 
     private Node[] node;
     private int mask;
@@ -51,23 +61,25 @@ public class AEItemKeyCache {
                     if (hash == curr.hash && ItemStackHashStrategy.ITEM_AND_TAG.equals(stack, curr.stack)) break;
                 }
             }
+            AEItemKey v;
             if (pos >= 0) {
-                var v = node[pos].key.get();
+                Node no = node[pos];
+                v = no.reference.get();
                 if (v != null) return v;
-                return insert(pos, hash, stack);
+                return insert(pos, hash, no.stack);
             }
-            return insert(-pos - 1, hash, stack);
+            v = insert(-pos - 1, hash, stack.copyWithCount(1));
+            if (size++ >= maxFill) rehash(arraySize(size + 1, Hash.DEFAULT_LOAD_FACTOR));
+            return v;
         }
     }
 
     private AEItemKey insert(final int pos, final int hash, final ItemStack stack) {
-        final var copy = stack.copyWithCount(1);
-        final var newValue = AEItemKeyInvoker.of(copy.getItem(), copy.getTag(), AEItemKeyInvoker.serializeStackCaps(copy));
+        final var newValue = AEItemKeyInvoker.of(stack.getItem(), stack.getTag(), AEItemKeyInvoker.serializeStackCaps(stack));
         final var itemKey = ((IAEItemKey) (Object) newValue);
         itemKey.gtolib$setMaxStackSize(stack.getMaxStackSize());
-        itemKey.gtolib$setReadOnlyStack(copy);
-        node[pos] = new Node(copy, new WeakReference<>(newValue), hash);
-        if (size++ >= maxFill) rehash(arraySize(size + 1, Hash.DEFAULT_LOAD_FACTOR));
+        itemKey.gtolib$setReadOnlyStack(stack);
+        node[pos] = new Node(stack, new SoftReference<>(newValue, QUEUE), hash);
         return newValue;
     }
 
@@ -87,11 +99,11 @@ public class AEItemKeyCache {
         this.node = newNode;
     }
 
-    public void cleanInvalid() {
+    private void cleanInvalid() {
         synchronized (this) {
             for (int i = 0, len = this.node.length; i < len; i++) {
                 Node node = this.node[i];
-                if (node != null && node.key.get() == null) {
+                if (node != null && node.reference.get() == null) {
                     this.node[i] = null;
                     this.size--;
                 }
@@ -103,5 +115,17 @@ public class AEItemKeyCache {
         }
     }
 
-    private record Node(ItemStack stack, WeakReference<AEItemKey> key, int hash) {}
+    private static void clearReferences() {
+        while (true) {
+            try {
+                QUEUE.remove();
+            } catch (InterruptedException var4) {
+                Thread.currentThread().interrupt();
+                return;
+            }
+            INSTANCE.cleanInvalid();
+        }
+    }
+
+    private record Node(ItemStack stack, SoftReference<AEItemKey> reference, int hash) {}
 }

@@ -531,7 +531,7 @@ public final class MultiBlockC {
                     .where('D', blocks(GTBlocks.FILTER_CASING.get()))
                     .where('E', blocks(GTBlocks.CASING_PTFE_INERT.get()))
                     .where('F', blocks(GTBlocks.CASING_POLYTETRAFLUOROETHYLENE_PIPE.get()))
-                    .where('G', blocks(GTBlocks.CASING_TEMPERED_GLASS.get()))
+                    .where('G', GTOPredicates.glass())
                     .where('H', controller(blocks(definition.get())))
                     .where(' ', any())
                     .build())

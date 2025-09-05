@@ -25,9 +25,9 @@ import static com.gregtechceu.gtceu.common.data.GTRecipeCapabilities.ITEM;
 
 public class SatelliteEmiCategory extends EmiRecipeCategory {
 
-    public static final EmiRecipeCategory CATEGORY = new SatelliteEmiCategory();
+    static final EmiRecipeCategory CATEGORY = new SatelliteEmiCategory();
 
-    public SatelliteEmiCategory() {
+    private SatelliteEmiCategory() {
         super(GTOCore.id("satellite"), EmiStack.of(GTOItems.PLANET_DATA_CHIP));
     }
 
