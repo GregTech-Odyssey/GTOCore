@@ -5,9 +5,14 @@ import com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlags;
 
 public final class GTOMaterialFlags {
 
-    // 工厂方法
+    // 基础工厂方法
     private static MaterialFlag createFlag(String name) {
         return new MaterialFlag.Builder(name).build();
+    }
+
+    // 需要依赖其他flags的工厂方法
+    private static MaterialFlag createFlagWithDependencies(String name, MaterialFlag... requiredFlags) {
+        return new MaterialFlag.Builder(name).requireFlags(requiredFlags).build();
     }
 
     public static final MaterialFlag GENERATE_SMALL_DUST = createFlag("generate_small_dust");
@@ -22,19 +27,24 @@ public final class GTOMaterialFlags {
 
     public static final MaterialFlag GENERATE_CURVED_PLATE = createFlag("generate_curved_plate");
 
-    public static final MaterialFlag GENERATE_COMPONENT = new MaterialFlag.Builder("generate_component")
-            .requireFlags(GENERATE_CURVED_PLATE, MaterialFlags.GENERATE_RING, MaterialFlags.GENERATE_ROUND)
-            .build();
+    public static final MaterialFlag GENERATE_COMPONENT = createFlagWithDependencies(
+            "generate_component",
+            GENERATE_CURVED_PLATE,
+            MaterialFlags.GENERATE_RING,
+            MaterialFlags.GENERATE_ROUND
+    );
 
-    public static final MaterialFlag GENERATE_CERAMIC = new MaterialFlag.Builder("generate_ceramic")
-            .requireFlags(MaterialFlags.FORCE_GENERATE_BLOCK)
-            .build();
+    public static final MaterialFlag GENERATE_CERAMIC = createFlagWithDependencies(
+            "generate_ceramic",
+            MaterialFlags.FORCE_GENERATE_BLOCK
+    );
 
     public static final MaterialFlag GENERATE_CRYSTAL_SEED = createFlag("generate_crystal_seed");
 
-    public static final MaterialFlag GENERATE_ARTIFICIAL_GEM = new MaterialFlag.Builder("generate_artificial_gem")
-            .requireFlags(GENERATE_CRYSTAL_SEED)
-            .build();
+    public static final MaterialFlag GENERATE_ARTIFICIAL_GEM = createFlagWithDependencies(
+            "generate_artificial_gem",
+            GENERATE_CRYSTAL_SEED
+    );
 
     public static final MaterialFlag GENERATE_COIN = createFlag("generate_coin");
 
