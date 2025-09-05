@@ -202,7 +202,6 @@ public final class GTOMachines {
             .noRecipeModifier()
             .nonYAxisRotation()
             .tooltips(GTOMachineTooltips.INSTANCE.getHeaterMachineTooltips().getSupplier())
-            .tooltips(GTOMachineTooltips.INSTANCE.getBeAwareOfBurnTooltips().getSupplier())
             .renderer(() -> new HeaterRenderer(ULV))
             .register();
 
@@ -233,7 +232,6 @@ public final class GTOMachines {
             .noRecipeModifier()
             .nonYAxisRotation()
             .tooltips(GTOMachineTooltips.INSTANCE.getElectricHeaterMachineTooltips().getSupplier())
-            .tooltips(GTOMachineTooltips.INSTANCE.getBeAwareOfBurnTooltips().getSupplier())
             .renderer(() -> new HeaterRenderer(LV))
             .register();
 

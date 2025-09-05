@@ -7,6 +7,7 @@ import com.gtocore.common.data.GTOMachines;
 import com.gtocore.common.data.GTOMaterials;
 import com.gtocore.common.data.GTORecipeTypes;
 import com.gtocore.common.data.translation.GTOMachineStories;
+import com.gtocore.common.data.translation.GTOMachineTooltips;
 import com.gtocore.common.machine.multiblock.electric.FishingGroundMachine;
 import com.gtocore.common.machine.multiblock.electric.StellarForgeMachine;
 import com.gtocore.common.machine.multiblock.electric.assembly.PrecisionAssemblerMachine;
@@ -431,6 +432,7 @@ public final class MultiBlockA {
             .allRotation()
             .recipeTypes(GTORecipeTypes.CHEMICAL)
             .tooltips(GTOMachineStories.INSTANCE.getChemicalFactoryTooltips().getSupplier())
+            .tooltips(GTOMachineTooltips.INSTANCE.getChemicalFactoryTooltips().getSupplier())
             .combinedRecipeTooltips()
             .parallelizableTooltips()
             .perfectOCTooltips()

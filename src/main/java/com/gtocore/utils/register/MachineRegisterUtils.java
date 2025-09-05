@@ -42,7 +42,6 @@ import com.gregtechceu.gtceu.client.renderer.machine.OverlayTieredMachineRendere
 import com.gregtechceu.gtceu.client.renderer.machine.SimpleGeneratorMachineRenderer;
 import com.gregtechceu.gtceu.common.data.GCYMBlocks;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
-import com.gregtechceu.gtceu.common.data.GTMachines;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.data.machines.GTMachineUtils;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.LaserHatchPartMachine;
@@ -281,10 +280,9 @@ public final class MachineRegisterUtils {
         MultiblockMachineBuilder builder = registrate.multiblock(name, holder -> new CombustionEngineMachine(holder, tier))
                 .nonYAxisRotation()
                 .recipeTypes(recipeType)
-                .tooltips(GTOMachineTooltips.INSTANCE.getLargeCombustionGenerateTooltipsProvider()
+                .tooltips(GTOMachineTooltips.INSTANCE.getLargeCombustionTooltipsProvider()
                         .invoke(V[tier] << 1, V[tier] * 6, tier > EV, V[tier] << 3)
                         .getSupplier())
-                .tooltips(GTOMachineTooltips.INSTANCE.getLargeCombustionModuleTooltips().getSupplier())
                 .moduleTooltips()
                 .generator()
                 .block(casing)
@@ -316,7 +314,7 @@ public final class MachineRegisterUtils {
                         .where('B', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.StainlessSteel)))
                         .where('C', blocks(GTBlocks.CASING_TITANIUM_STABLE.get()))
                         .where('D', blocks(GTBlocks.FIREBOX_TITANIUM.get()))
-                        .where('E', blocks(GTMachines.MUFFLER_HATCH[GTValues.LV].get()))
+                        .where('E', abilities(MUFFLER))
                         .where('F', blocks(GTBlocks.CASING_TITANIUM_STABLE.get())
                                 .or(abilities(PartAbility.OUTPUT_ENERGY).setMaxGlobalLimited(3)))
                         .where('G', blocks(GTBlocks.CASING_ENGINE_INTAKE.get()))
@@ -337,7 +335,7 @@ public final class MachineRegisterUtils {
                         .where('B', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.BlueSteel)))
                         .where('C', blocks(GTBlocks.CASING_TITANIUM_STABLE.get()))
                         .where('D', blocks(GTBlocks.FIREBOX_TITANIUM.get()))
-                        .where('E', blocks(GTMachines.MUFFLER_HATCH[GTValues.LV].get()))
+                        .where('E', abilities(MUFFLER))
                         .where('F', blocks(GTBlocks.CASING_TITANIUM_STABLE.get())
                                 .or(abilities(PartAbility.OUTPUT_ENERGY).setMaxGlobalLimited(3)))
                         .where('G', blocks(GTBlocks.CASING_ENGINE_INTAKE.get()))
@@ -359,7 +357,7 @@ public final class MachineRegisterUtils {
                     .where('B', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.BlackSteel)))
                     .where('C', blocks(GTBlocks.CASING_TUNGSTENSTEEL_ROBUST.get()))
                     .where('D', blocks(GTBlocks.FIREBOX_TUNGSTENSTEEL.get()))
-                    .where('E', blocks(GTMachines.MUFFLER_HATCH[GTValues.LV].get()))
+                    .where('E', abilities(MUFFLER))
                     .where('F', blocks(GTBlocks.CASING_TUNGSTENSTEEL_ROBUST.get())
                             .or(abilities(PartAbility.OUTPUT_ENERGY).setMaxGlobalLimited(3)))
                     .where('G', blocks(GTBlocks.CASING_EXTREME_ENGINE_INTAKE.get()))
@@ -378,8 +376,7 @@ public final class MachineRegisterUtils {
         if (!isGTM) addLang(name, cn);
         MultiblockMachineBuilder builder = registrate.multiblock(name, holder -> new TurbineMachine(holder, tier, special, false))
                 .addTooltipsFromClass(TurbineMachine.class)
-                .tooltips(GTOMachineTooltips.INSTANCE.getLargeTurbineGenerateTooltipsProvider().invoke((long) (V[tier] * (special ? 2.5 : 2)), tier).getSupplier())
-                .tooltips(GTOMachineTooltips.INSTANCE.getLargeTurbineModuleTooltips().getSupplier())
+                .tooltips(GTOMachineTooltips.INSTANCE.getLargeTurbineTooltipsProvider().invoke((long) (V[tier] * (special ? 2.5 : 2)), tier).getSupplier())
                 .tooltips(GTOMachineTooltips.INSTANCE.getTurbineHighSpeedTooltips().getSupplier())
                 .moduleTooltips()
                 .nonYAxisRotation()
@@ -475,7 +472,6 @@ public final class MachineRegisterUtils {
                 .generator()
                 .tooltips(GTOMachineTooltips.INSTANCE.getMegaTurbineGenerateTooltipsProvider()
                         .invoke(V[tier] * (special ? 12 : 8), tier).getSupplier())
-                .tooltips(GTOMachineTooltips.INSTANCE.getMegaTurbineModuleTooltips().getSupplier())
                 .tooltips(GTOMachineTooltips.INSTANCE.getTurbineHighSpeedTooltips().getSupplier())
                 .moduleTooltips()
                 .addTooltipsFromClass(TurbineMachine.class)

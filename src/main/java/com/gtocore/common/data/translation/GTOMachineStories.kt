@@ -333,7 +333,6 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
         setTranslationPrefix("chemical_factory")
         add("在化学的世界里" translatedTo "§dIn the world of chemistry") { gray() }
         add("每一个分子都在诉说着自己的故事" translatedTo "§4Every molecule tells its own story") { gray() }
-        add(ComponentSlang.CoilEfficiencyBonus("线圈等级每高出白铜一级能耗与时间减少5%" translatedTo "Each coil tier above Cupronickel, Reduces energy consumption and duration by 5%")) { gold() }
     }
 
     // 衰变加速器

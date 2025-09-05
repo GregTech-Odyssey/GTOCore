@@ -72,13 +72,7 @@ public final class ExResearchMachines {
     /////////////////////////////////////
 
     public static final MultiblockMachineDefinition SUPERCOMPUTING_CENTER = multiblock("supercomputing_center", "运算中心", SupercomputingCenterMachine::new)
-            .tooltips(GTOMachineTooltips.INSTANCE.getSupercomputingMainTooltips().getSupplier())
-            .tooltips(GTOMachineTooltips.INSTANCE.getSupercomputingLevelTooltips().getSupplier())
-            .tooltips(GTOMachineTooltips.INSTANCE.getSupercomputingPowerTooltips().getSupplier())
-            .tooltips(GTOMachineTooltips.INSTANCE.getSupercomputingThermalConductivityTooltips().getSupplier())
-            .tooltips(GTOMachineTooltips.INSTANCE.getSupercomputingTier1Tooltips().getSupplier())
-            .tooltips(GTOMachineTooltips.INSTANCE.getSupercomputingTier2Tooltips().getSupplier())
-            .tooltips(GTOMachineTooltips.INSTANCE.getSupercomputingTier3Tooltips().getSupplier())
+            .tooltips(GTOMachineTooltips.INSTANCE.getSupercomputingTooltips().getSupplier())
             .nonYAxisRotation()
             .recipeTypes(GTRecipeTypes.DUMMY_RECIPES)
             .block(GTOBlocks.OXIDATION_RESISTANT_HASTELLOY_N_MECHANICAL_CASING)
