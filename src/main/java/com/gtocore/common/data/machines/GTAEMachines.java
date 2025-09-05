@@ -12,8 +12,6 @@ import com.gregtechceu.gtceu.client.renderer.machine.OverlayTieredMachineRendere
 
 import net.minecraft.network.chat.Component;
 
-import java.text.NumberFormat;
-
 import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gtolib.api.registries.GTORegistration.GTM;
 import static com.gtolib.utils.register.MachineRegisterUtils.machine;

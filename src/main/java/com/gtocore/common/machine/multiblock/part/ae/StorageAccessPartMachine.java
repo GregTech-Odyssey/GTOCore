@@ -1,13 +1,5 @@
 package com.gtocore.common.machine.multiblock.part.ae;
 
-import appeng.api.networking.IGrid;
-import appeng.api.storage.*;
-import appeng.api.storage.cells.StorageCell;
-import com.gregtechceu.gtceu.api.capability.IControllable;
-import com.gregtechceu.gtceu.api.gui.GuiTextures;
-import com.gregtechceu.gtceu.api.gui.fancy.ConfiguratorPanel;
-import com.gregtechceu.gtceu.api.gui.fancy.IFancyConfiguratorButton;
-import com.gregtechceu.gtceu.api.gui.widget.LongInputWidget;
 import com.gtolib.api.ae2.IKeyCounter;
 import com.gtolib.api.ae2.storage.BigCellDataStorage;
 import com.gtolib.api.ae2.storage.CellDataStorage;
@@ -17,22 +9,29 @@ import com.gtolib.api.machine.part.AmountConfigurationHatchPartMachine;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
+import com.gregtechceu.gtceu.api.capability.IControllable;
+import com.gregtechceu.gtceu.api.gui.GuiTextures;
+import com.gregtechceu.gtceu.api.gui.fancy.ConfiguratorPanel;
+import com.gregtechceu.gtceu.api.gui.fancy.IFancyConfiguratorButton;
+import com.gregtechceu.gtceu.api.gui.widget.LongInputWidget;
 import com.gregtechceu.gtceu.api.machine.ConditionalSubscriptionHandler;
 import com.gregtechceu.gtceu.api.machine.feature.IMachineLife;
 import com.gregtechceu.gtceu.integration.ae2.machine.feature.IGridConnectedMachine;
 import com.gregtechceu.gtceu.integration.ae2.machine.trait.GridNodeHolder;
 
-import com.lowdragmc.lowdraglib.gui.texture.GuiTextureGroup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.network.chat.Component;
 
 import appeng.api.config.Actionable;
+import appeng.api.networking.IGrid;
 import appeng.api.networking.IManagedGridNode;
 import appeng.api.networking.security.IActionSource;
 import appeng.api.stacks.AEKey;
 import appeng.api.stacks.KeyCounter;
+import appeng.api.storage.*;
+import com.lowdragmc.lowdraglib.gui.texture.GuiTextureGroup;
 import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
 import com.lowdragmc.lowdraglib.gui.widget.Widget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
@@ -378,6 +377,7 @@ public abstract class StorageAccessPartMachine extends AmountConfigurationHatchP
     }
 
     private static class IO extends LONG implements IControllable {
+
         @Persisted
         private boolean isWorkingEnabled;
         @Persisted
@@ -419,7 +419,7 @@ public abstract class StorageAccessPartMachine extends AmountConfigurationHatchP
                     (cd, b) -> export = b
 
             ));
-            if (isRemote()){
+            if (isRemote()) {
                 toggle.setTooltipsSupplier((export) -> Collections.singletonList(export ?
                         Component.translatable(LANG_EXPORT) :
                         Component.translatable(LANG_IMPORT)));
@@ -441,6 +441,7 @@ public abstract class StorageAccessPartMachine extends AmountConfigurationHatchP
         public long insert(AEKey what, long amount, Actionable mode, IActionSource source) {
             return (export && isWorkingEnabled()) ? 0 : super.insert(what, amount, mode, source);
         }
+
         /// do not allow extraction when importing and working enabled
         @Override
         public long extract(AEKey what, long amount, Actionable mode, IActionSource source) {
@@ -472,7 +473,6 @@ public abstract class StorageAccessPartMachine extends AmountConfigurationHatchP
 
         /// logic from {@link appeng.blockentity.storage.IOPortBlockEntity#transferContents(IGrid, StorageCell, long)}
         private void transferContents(IGrid grid) {
-
             var networkInv = grid.getStorageService().getInventory();
             long itemsToMove = rate;
 

@@ -1,7 +1,5 @@
 package com.gtocore.data.recipe.classified;
 
-import com.glodblock.github.extendedae.common.EPPItemAndBlock;
-import com.glodblock.github.extendedae.common.blocks.BlockExIOPort;
 import com.gtocore.api.data.tag.GTOTagPrefix;
 import com.gtocore.common.data.*;
 import com.gtocore.common.data.machines.GTAEMachines;
@@ -18,6 +16,7 @@ import net.minecraft.world.item.Items;
 
 import appeng.core.definitions.AEBlocks;
 import appeng.core.definitions.AEItems;
+import com.glodblock.github.extendedae.common.EPPItemAndBlock;
 import com.hepdd.gtmthings.data.WirelessMachines;
 import vazkii.botania.common.item.BotaniaItems;
 
