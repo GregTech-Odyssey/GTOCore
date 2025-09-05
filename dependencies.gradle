@@ -11,6 +11,9 @@ dependencies {
     api(annotationProcessor("io.github.llamalad7:mixinextras-common:$project.mixinextras_version"))
     annotationProcessor 'org.spongepowered:mixin:0.8.7:processor'
 
+    compileOnly(annotationProcessor("com.github.bawnorton.mixinsquared:mixinsquared-common:0.3.2-beta.4"))
+    implementation("com.github.bawnorton.mixinsquared:mixinsquared-neoforge:0.3.2-beta.4")
+
     modImplementation("curse.maven:ldlib-626676:6899193")
 
     modImplementation("com.tterrag.registrate:Registrate:$project.registrate_version")
@@ -67,7 +70,7 @@ dependencies {
 
     modImplementation("curse.maven:modernfix-790626:6719008")
 
-    modImplementation("curse.maven:re-avaritia-623969:6418092")
+    modImplementation("curse.maven:re-avaritia-623969:6958116")
 
     modImplementation("curse.maven:EnderIO-64578:5780352")
 

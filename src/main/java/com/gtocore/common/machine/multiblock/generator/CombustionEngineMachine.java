@@ -75,7 +75,7 @@ public final class CombustionEngineMachine extends ElectricMultiblockMachine {
                 tankSubs.unsubscribe();
                 return;
             }
-            tank.fillInternal(new FluidStack(fluid, 8000), IFluidHandler.FluidAction.EXECUTE);
+            tank.fillInternal(new FluidStack(fluid, (formedCount * 8000) + 8000), IFluidHandler.FluidAction.EXECUTE);
             tankSubs.updateSubscription();
         }
     }
@@ -123,8 +123,8 @@ public final class CombustionEngineMachine extends ElectricMultiblockMachine {
     //////////////////////////////////////
     @Override
     public long getOverclockVoltage() {
-        if (isOxygenBoosted) return GTValues.V[tier] << 2;
-        else return GTValues.V[tier] << 1;
+        if (isOxygenBoosted) return GTValues.V[tier] << (2 + formedCount);
+        else return GTValues.V[tier] << (1 + formedCount);
     }
 
     @Nullable

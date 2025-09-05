@@ -81,6 +81,10 @@ public final class TurbineMachine extends ElectricMultiblockMachine {
     private ItemHatchPartMachine rotorHatchPartMachine;
     private final ConditionalSubscriptionHandler rotorSubs;
 
+    private double extraOutput = 1;
+    private double extraDamage = 1;
+    private double extraEfficiency = 1;
+
     public TurbineMachine(MetaMachineBlockEntity holder, int tier, boolean special, boolean mega) {
         super(holder);
         this.mega = mega;
@@ -133,6 +137,17 @@ public final class TurbineMachine extends ElectricMultiblockMachine {
         rotorHolderMachines.clear();
         super.onStructureFormed();
         if (mega) rotorSubs.initialize(getLevel());
+        if (formedCount > 0) {
+            if (mega) {
+                extraOutput = 3;
+                extraDamage = 3;
+                extraEfficiency = 1.3;
+            } else {
+                extraOutput = 2;
+                extraDamage = 2;
+                extraEfficiency = 1.2;
+            }
+        }
     }
 
     @Override
@@ -140,6 +155,9 @@ public final class TurbineMachine extends ElectricMultiblockMachine {
         super.onStructureInvalid();
         rotorHolderMachines.clear();
         rotorHatchPartMachine = null;
+        extraOutput = 1;
+        extraDamage = 1;
+        extraEfficiency = 1;
     }
 
     @Override
@@ -155,9 +173,10 @@ public final class TurbineMachine extends ElectricMultiblockMachine {
     @Override
     public void afterWorking() {
         energyPerTick = 0;
+        var recipe = getRecipeLogic().getLastRecipe();
         for (IMultiPart part : getParts()) {
-            if (highSpeedMode && part instanceof IMaintenanceMachine maintenanceMachine) {
-                maintenanceMachine.calculateMaintenance(maintenanceMachine, (int) (highSpeedModeMachineFault * getRecipeLogic().getProgress()));
+            if (highSpeedMode && recipe != null && part instanceof IMaintenanceMachine maintenanceMachine) {
+                maintenanceMachine.calculateMaintenance(maintenanceMachine, (int) (highSpeedModeMachineFault * recipe.duration * extraDamage));
                 continue;
             }
             part.afterWorking(this);
@@ -212,12 +231,12 @@ public final class TurbineMachine extends ElectricMultiblockMachine {
         int rotorSpeed = getRotorSpeed();
         if (rotorSpeed < 0) return null;
         int maxSpeed = rotorHolder.getMaxRotorHolderSpeed();
-        long turbineMaxVoltage = (long) (getVoltage() * Math.pow((double) Math.min(maxSpeed, rotorSpeed) / maxSpeed, 2));
+        long turbineMaxVoltage = (long) (getVoltage() * Math.pow((double) Math.min(maxSpeed, rotorSpeed) / maxSpeed, 2) * extraOutput);
         recipe = ParallelLogic.accurateParallel(this, recipe, (int) (turbineMaxVoltage / EUt));
         if (recipe == null) return null;
         long eut = Math.min(turbineMaxVoltage, recipe.parallels * EUt);
         energyPerTick = eut;
-        recipe.duration = recipe.duration * rotorHolder.getTotalEfficiency() / 100;
+        recipe.duration = (int) (recipe.duration * rotorHolder.getTotalEfficiency() * extraEfficiency / 100);
         recipe.setOutputEUt(eut);
         return recipe;
     }
@@ -246,8 +265,8 @@ public final class TurbineMachine extends ElectricMultiblockMachine {
         super.customText(textList);
         var rotorHolder = getRotorHolder();
         if (rotorHolder != null && rotorHolder.getRotorEfficiency() > 0) {
-            textList.add(Component.translatable("gtceu.multiblock.turbine.rotor_speed", FormattingUtil.formatNumbers(getRotorSpeed() * (highSpeedMode ? highSpeedModeOutputMultiplier : 1)), FormattingUtil.formatNumbers(rotorHolder.getMaxRotorHolderSpeed() * (highSpeedMode ? highSpeedModeOutputMultiplier : 1))));
-            textList.add(Component.translatable("gtceu.multiblock.turbine.efficiency", rotorHolder.getTotalEfficiency()));
+            textList.add(Component.translatable("gtceu.multiblock.turbine.rotor_speed", FormattingUtil.formatNumbers(getRotorSpeed() * (highSpeedMode ? highSpeedModeOutputMultiplier : 1) * extraOutput), FormattingUtil.formatNumbers(rotorHolder.getMaxRotorHolderSpeed() * (highSpeedMode ? highSpeedModeOutputMultiplier : 1) * extraOutput)));
+            textList.add(Component.translatable("gtceu.multiblock.turbine.efficiency", rotorHolder.getTotalEfficiency() * extraEfficiency));
             if (isActive()) {
                 String voltageName = GTValues.VNF[GTUtil.getTierByVoltage(energyPerTick)];
                 textList.add(3, Component.translatable("gtceu.multiblock.turbine.energy_per_tick", FormattingUtil.formatNumbers(energyPerTick), voltageName));
