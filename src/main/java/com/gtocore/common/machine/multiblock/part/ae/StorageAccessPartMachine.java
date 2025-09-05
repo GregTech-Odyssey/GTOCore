@@ -1,5 +1,6 @@
 package com.gtocore.common.machine.multiblock.part.ae;
 
+import appeng.api.storage.cells.StorageCell;
 import com.gtolib.api.ae2.IKeyCounter;
 import com.gtolib.api.ae2.storage.BigCellDataStorage;
 import com.gtolib.api.ae2.storage.CellDataStorage;

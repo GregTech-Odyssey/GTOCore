@@ -158,7 +158,7 @@ final class AssemblerA {
                 .save();
 
         ASSEMBLER_RECIPES.builder("me_io_storage_access_hatch")
-                .inputItems(GTAEMachines.ME_IO_STORAGE_ACCESS_HATCH.asStack())
+                .inputItems(GTAEMachines.ME_STORAGE_ACCESS_HATCH.asStack())
                 .inputItems(EPPItemAndBlock.EX_IO_PORT, 32)
                 .inputItems(new ItemStack(AEItems.SPEED_CARD.asItem(), 64))
                 .inputItems(GTItems.FIELD_GENERATOR_IV.asStack(4))
