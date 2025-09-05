@@ -64,6 +64,12 @@ public class ApotheosisAffix {
         return record != null ? record.serialNumber() : null;
     }
 
+    // 根据serialNumber获取apotheosisAffixId
+    public String getApotheosisAffixIdBySerialNumber(int serialNumber) {
+        ApotheosisAffixRecord record = findBySerialNumber(serialNumber);
+        return record != null ? record.affixId() : null;
+    }
+
     public static List<ApotheosisAffixRecord> initializeApotheosisAffixRecords() {
         List<ApotheosisAffixRecord> records = new ArrayList<>();
 

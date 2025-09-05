@@ -507,11 +507,22 @@ object GTOMachineTranslation : AutoInitialize<GTOMachineTranslation>() {
         add("通过电路选择工作模式" translatedTo "Select the operating mode through the circuit") { gold() }
         add(Star(1) + ("分解模式" translatedTo "Decomposition mode")) { green().bold() }
         add(Tab(2) + ("电路 1：神话装备分解" translatedTo "Circuit 1: Apotheosis Equipments Decomposition")) { aqua() }
+        add(Tab(3) + ("需要输入 书 铭刻之布 摘抄符石" translatedTo "Requires input Book  Affix Canvas  Sigil of Withdrawal")) { gray().italic() }
         add(Tab(2) + ("电路 2：神话装备 + 附魔 分解" translatedTo "Circuit 2: Apotheosis Equipments + Enchantments Decomposition")) { aqua() }
+        add(Tab(3) + ("需要输入 铭刻之布 摘抄符石" translatedTo "Requires input Affix Canvas  Sigil of Withdrawal")) { gray().italic() }
         add(Tab(2) + ("电路 3：神话装备 + 刻印 分解" translatedTo "Circuit 3: Apotheosis Equipments + Affixes Decomposition")) { aqua() }
+        add(Tab(3) + ("需要输入 书 摘抄符石" translatedTo "Requires input Book  Sigil of Withdrawal")) { gray().italic() }
         add(Tab(2) + ("电路 4：神话装备 + 附魔 + 刻印 分解" translatedTo "Circuit 4: Apotheosis Equipments + Enchantments + Affixes Decomposition")) { aqua() }
+        add(Tab(3) + ("需要输入 摘抄符石" translatedTo "Requires input Sigil of Withdrawal")) { gray().italic() }
         add(Star(1) + ("合成模式" translatedTo "Synthesis Mode")) { green().bold() }
-        add(Tab(2) + ("电路 5：精粹合成附魔书" translatedTo "Circuit 5: Essence synthesis Enchanted Book")) { aqua() }
+        add(Tab(2) + ("电路 5：附魔精粹合成附魔书" translatedTo "Circuit 5: Essence synthesis Enchanted Book")) { aqua() }
+        add(Tab(3) + ("需要输入一本书，消耗一定量附魔精粹和魔力合成" translatedTo "Need to input a book, consume a certain amount of enchantment essence and magic synthesis")) { gray().italic() }
+        add(Tab(2) + ("电路 6：附魔书合并" translatedTo "Circuit 6: Enchantment Enchanted Book Merge")) { aqua() }
+        add(Tab(3) + ("消耗一定量魔力合成，会输出额外的书" translatedTo "Consume a certain amount of magic power to synthesize, and output additional books")) { gray().italic() }
+        add(Tab(2) + ("电路 7：刻印精粹合成铭刻之布" translatedTo "Circuit 7: Affix Enchanted Book Merge")) { aqua() }
+        add(Tab(3) + ("消耗一定量魔力合成，需要一个铭刻之布" translatedTo "Consumes a certain amount of magic power to synthesize, and requires an Affix Canvas")) { gray().italic() }
+        add(Tab(2) + ("电路 8：强行附魔" translatedTo "Circuit 8: Forced enchantment")) { aqua() }
+        add(Tab(3) + ("强行将附魔书上的附魔添加到物品上" translatedTo "Forcibly adds the enchantment from the enchanted book to the item")) { gray().italic() }
     }
 
     /*************************************************
