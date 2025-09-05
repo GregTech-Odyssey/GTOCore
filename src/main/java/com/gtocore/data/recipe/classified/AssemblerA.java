@@ -1,5 +1,7 @@
 package com.gtocore.data.recipe.classified;
 
+import com.glodblock.github.extendedae.common.EPPItemAndBlock;
+import com.glodblock.github.extendedae.common.blocks.BlockExIOPort;
 import com.gtocore.api.data.tag.GTOTagPrefix;
 import com.gtocore.common.data.*;
 import com.gtocore.common.data.machines.GTAEMachines;
@@ -153,6 +155,17 @@ final class AssemblerA {
                 .inputItems(GTItems.FIELD_GENERATOR_IV.asStack())
                 .outputItems(GTAEMachines.ME_BIG_STORAGE_ACCESS_HATCH.asStack())
                 .EUt(7680)
+                .duration(400)
+                .save();
+
+        ASSEMBLER_RECIPES.builder("me_io_storage_access_hatch")
+                .inputItems(GTAEMachines.ME_IO_STORAGE_ACCESS_HATCH.asStack())
+                .inputItems(EPPItemAndBlock.EX_IO_PORT, 32)
+                .inputItems(new ItemStack(AEItems.SPEED_CARD.asItem(), 64))
+                .inputItems(GTItems.FIELD_GENERATOR_IV.asStack(4))
+                .inputItems(GTItems.FIELD_GENERATOR_LuV.asStack(4))
+                .outputItems(GTAEMachines.ME_IO_STORAGE_ACCESS_HATCH.asStack())
+                .EUt(VA[LuV])
                 .duration(400)
                 .save();
 

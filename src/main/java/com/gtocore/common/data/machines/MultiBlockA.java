@@ -1995,7 +1995,7 @@ public final class MultiBlockA {
 
     public static final MultiblockMachineDefinition MOLTEN_CORE = multiblock("molten_core", "熔火之心", CoilCrossRecipeMultiblockMachine::createCoilParallel)
             .nonYAxisRotation()
-            .recipeTypes(GTRecipeTypes.FLUID_HEATER_RECIPES)
+            .recipeTypes(GTRecipeTypes.FLUID_HEATER_RECIPES, GTRecipeTypes.DISTILLERY_RECIPES)
             .tooltips(GTOMachineTranslation.INSTANCE.getMoltenCoreTooltips().getSupplier())
             .coilParallelTooltips()
             .laserTooltips()

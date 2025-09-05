@@ -326,6 +326,11 @@ object GTOMachineTranslation : AutoInitialize<GTOMachineTranslation>() {
         add("强大的§e智能养殖系统带来强大产能" translatedTo "Powerful §eintelligent breeding system§r brings powerful productivity") { aqua() }
         add("能够满足整个分公司员工的水产食用需求" translatedTo "Can meet the entire branch office employees' §aaquatic food consumption needs") { gray() }
         add(Star(1) + ("§6水产品和工业原料的双重来源" translatedTo "Dual source of aquatic products and industrial materials")) { aqua() }
+        add(Circle(1) + ("设置电路以启用" translatedTo "Set the circuit to enable").gold() + ("自动钓鱼" translatedTo "automatic fishing").scrollWhiteBlue())
+        add(Tab(1) + Circle(1) + ("1号电路：" translatedTo "Circuit 1:").gold() + ("随机垂钓" translatedTo "random fishing").aqua())
+        add(Tab(1) + Circle(1) + ("2号电路：" translatedTo "Circuit 2:").gold() + ("捕捉鱼类" translatedTo "catch fish").aqua())
+        add(Tab(1) + Circle(1) + ("3号电路：" translatedTo "Circuit 3:").gold() + ("捕捉垃圾" translatedTo "catch junk").aqua())
+        add(Tab(1) + Circle(1) + ("4号电路：" translatedTo "Circuit 4:").gold() + ("捕捉宝藏" translatedTo "catch treasure").aqua())
     }
 
     // 培养缸

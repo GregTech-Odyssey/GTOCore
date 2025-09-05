@@ -68,7 +68,7 @@ public final class Ae2wtlibRecipes {
 
             private final Combine recipe = new Combine(
                     Ingredient.of(GTOItems.WIRELESS_ME2IN1), Ingredient.of(terminalItem),
-                    Wireless.ID, "pattern_encoding", wtId.withSuffix("_combined_with_" + terminalName));
+                    Wireless.ID, terminalName, wtId.withSuffix("_combined_with_" + terminalName));
 
             @Override
             public void serializeRecipeData(JsonObject jsonObject) {
