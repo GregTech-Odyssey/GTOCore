@@ -1905,7 +1905,7 @@ public final class MultiBlockA {
                     .where('M', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTOMaterials.Amprosium)))
                     .where('N', blocks(GTOBlocks.AMPROSIUM_PIPE_CASING.get()))
                     .where('O', blocks(GTOBlocks.RESTRAINT_DEVICE.get()))
-                    .where('P', blocks(GTBlocks.COIL_CUPRONICKEL.get()))
+                    .where('P', heatingCoils())
                     .where('Q', controller(blocks(definition.get())))
                     .where(' ', any())
                     .build())
