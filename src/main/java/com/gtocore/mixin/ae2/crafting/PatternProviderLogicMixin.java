@@ -46,6 +46,10 @@ import java.util.function.IntSupplier;
 @Mixin(value = PatternProviderLogic.class, remap = false)
 public abstract class PatternProviderLogicMixin implements IPatternProviderLogic {
 
+    @Unique
+    private final Long2ObjectOpenHashMap<IPatternDetails> gtolib$cachePatternPos = new Long2ObjectOpenHashMap<>();
+    @Unique
+    private final Int2ObjectOpenHashMap<IPatternDetails> gtolib$cachePatternDir = new Int2ObjectOpenHashMap<>();
     @Final
     @Shadow
     private PatternProviderLogicHost host;
@@ -64,14 +68,21 @@ public abstract class PatternProviderLogicMixin implements IPatternProviderLogic
     @Final
     @Shadow
     private Set<AEKey> patternInputs;
-
     @Shadow
     @Final
     private AppEngInternalInventory patternInventory;
-
     @Shadow
     @Final
     private List<GenericStack> sendList;
+    private int pushedCount = 1024;
+    @Shadow
+    private Direction sendDirection;
+    @Unique
+    private PatternProviderTargetCache[] gtolib$targetCaches;
+    @Unique
+    private IPatternDetails gtolib$currentPattern;
+    @Unique
+    private GlobalPos gto$pos;
 
     @Shadow
     public abstract LockCraftingMode getCraftingLockedReason();
@@ -90,20 +101,6 @@ public abstract class PatternProviderLogicMixin implements IPatternProviderLogic
 
     @Shadow
     protected abstract void addToSendList(AEKey what, long amount);
-
-    @Shadow
-    private Direction sendDirection;
-
-    @Unique
-    private PatternProviderTargetCache[] gtolib$targetCaches;
-
-    @Unique
-    private IPatternDetails gtolib$currentPattern;
-
-    @Unique
-    private final Long2ObjectOpenHashMap<IPatternDetails> gtolib$cachePatternPos = new Long2ObjectOpenHashMap<>();
-    @Unique
-    private final Int2ObjectOpenHashMap<IPatternDetails> gtolib$cachePatternDir = new Int2ObjectOpenHashMap<>();
 
     @Inject(method = "<init>(Lappeng/api/networking/IManagedGridNode;Lappeng/helpers/patternprovider/PatternProviderLogicHost;I)V", at = @At("TAIL"), remap = false)
     private void init(IManagedGridNode mainNode, PatternProviderLogicHost host, int patternInventorySize, CallbackInfo ci) {
@@ -127,7 +124,12 @@ public abstract class PatternProviderLogicMixin implements IPatternProviderLogic
         var be = host.getBlockEntity();
         var cache = IDirectionCacheBlockEntity.getBlockEntityDirectionCache(be);
         if (cache == null) return -2;
-
+        var setting = configManager.getSetting(GTOSettings.BLOCKING_TYPE);
+        if (setting == BlockingType.ALL || setting == BlockingType.CONTAIN) {
+            pushedCount = 1;
+        } else {
+            pushedCount = 1024;
+        }
         BooleanSupplier canPush = () -> getCraftingLockedReason() == LockCraftingMode.NONE && sendList.isEmpty();
         if (!canPush.getAsBoolean()) return -2;
 
@@ -210,7 +212,7 @@ public abstract class PatternProviderLogicMixin implements IPatternProviderLogic
 
     @Unique
     private int gtolib$pushTarget(IPatternDetails patternDetails, ObjectHolder<KeyCounter[]> inputHolder, IntSupplier pushPatternSuccess, BooleanSupplier canPush, Direction direction, PatternProviderTarget adapter, boolean continuous) {
-        int count = 1000;
+        int count = this.pushedCount;
         while (count > 0) {
             count--;
             if (inputHolder.value != null && this.adapterAcceptsAll(adapter, inputHolder.value)) {
@@ -294,9 +296,6 @@ public abstract class PatternProviderLogicMixin implements IPatternProviderLogic
 
         ICraftingProvider.requestUpdate(mainNode);
     }
-
-    @Unique
-    private GlobalPos gto$pos;
 
     @Override
     public GlobalPos gto$getPos() {
