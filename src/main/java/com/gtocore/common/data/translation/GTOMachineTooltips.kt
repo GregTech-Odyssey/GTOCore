@@ -200,7 +200,7 @@ object GTOMachineTooltips {
 
                 section(ComponentSlang.AfterModuleInstallation)
                 increase("获得2倍速度" translatedTo "Gains 2x speed")
-                increase("获得额外110%涡轮效率" translatedTo "Gains additional 110% turbine efficiency")
+                increase("获得额外120%涡轮效率" translatedTo "Gains additional 120% turbine efficiency")
                 decrease("转子损耗速度变为2倍" translatedTo "Rotor wear rate becomes 2x")
             }
         }
