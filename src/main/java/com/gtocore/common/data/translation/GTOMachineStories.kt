@@ -13,6 +13,11 @@ import net.minecraft.network.chat.Component
 
 import com.google.common.collect.ImmutableMap
 
+/**
+ * 用于收纳机器小作文
+ *
+ * 相关用法请参看 [GTOMachineTooltips]
+*/
 object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
 
     val pattern = ("样板" translatedTo "Patterns").initialize()
@@ -21,7 +26,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
      *           机器功能仓                          *
      **************************************************/
 
-    // TODO: 全部迁移到 GTOMachineTooltips 内
+    // TODO: 这部分全部迁移到 GTOMachineTooltips 内
 
     // 区域破坏器
     val AreaDestructionToolsTooltips = ComponentListSupplier {
@@ -209,7 +214,16 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
         setTranslationPrefix("large_steam_solar_boiler")
         add("靠天吃饭一直是公司老祖宗的传统" translatedTo "Relying on nature has always been the company's ancestral tradition") { gray() }
         add("然而古法工艺显然不能制作高精尖的太阳能板，也只能平摊着应付一下" translatedTo "But ancient methods can't make high-tech solar panels so we just lay them out flat to get by") { gray() }
-        add("不过反正不要钱，没有人会嫌弃它的" translatedTo "Anyway it's free so no one complains about it") { gray() }
+        add("反正不要钱，没有人会嫌弃它的" translatedTo "Anyway it's free so no one complains about it") { gray() }
+    }
+
+    // 珍宝锻炉
+    val RarityForgeTooltips = ComponentListSupplier {
+        setTranslationPrefix("rarity_forge")
+        add("GTO集团与神化集团就商业合作问题最近开展了重要谈话" translatedTo "GTO Group and Apotheosis Group recently held important business cooperation talks") { gray() }
+        add("双方充分交换了意见，达成了高度共识" translatedTo "Both sides fully exchanged views and reached high-level consensus") { gray() }
+        add("会议明确：神化集团有从GTO获取工业品的权利，但也要为GTO提供工具支持" translatedTo "The meeting clarified: Apotheosis has rights to obtain industrial products from GTO but must provide tool support in return") { gray() }
+        add("这个锻炉，正是双方合作成功后的第一个交易平台" translatedTo "This forge is the first trading platform resulting from their successful collaboration") { gray() }
     }
 
     // 多方块板条箱
@@ -239,6 +253,15 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
         add("格雷科技设计人员为这台烧结炉奋战了无数日夜" translatedTo "GregTech designers fought countless days and nights for this sintering furnace") { gray() }
         add(("型号HCS-41烧结炉有着完美的成品率" translatedTo "Model HCS-41 sintering furnace has perfect finished product rate")) { gray() }
         add("生产出的优质陶瓷将成为工业帝国的坚固基石" translatedTo "The high-quality ceramics produced will become the solid foundation of industrial empire") { gray() }
+    }
+
+    // 藻类农场
+    val AlgaeFarmTooltips = ComponentListSupplier {
+        setTranslationPrefix("algae_farm")
+        add("作为植物进化最原始的种类之一，藻类通常不为人注意" translatedTo "As one of the most primitive plant species algae often goes unnoticed") { gray() }
+        add("然而正是这种原始特性，给予了人们从其内部提取高泛化性物质的机会" translatedTo "Yet this very primitiveness offers opportunities to extract highly versatile substances") { gray() }
+        add("GTO集团曾尝试电击疗法，可惜不能如愿" translatedTo "GTO Group tried electroshock therapy but unfortunately it didn't work as hoped") { gray() }
+        add("如今还只能用古法方案静待生长，不过基于已有的藻类去增殖似乎容易很多" translatedTo "Now we still rely on traditional methods patiently waiting for growth though propagating from existing algae seems much easier") { gray() }
     }
 
     // 光伏电站 (PG-11)
@@ -308,7 +331,6 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
         add("AFFL-200智能大型渔场是舌尖上的格雷系列常客" translatedTo "AFFL-200 intelligent large fishing farm§r is a regular on GregTech cuisine series") { gray() }
         add("强大的§e智能养殖系统§t带来强大产能" translatedTo "Powerful §eintelligent breeding system§r brings powerful productivity") { gray() }
         add("能够满足整个分公司员工的水产食用需求" translatedTo "Can meet the entire branch office employees' §aaquatic food consumption needs") { gray() }
-        add(Star(1) + ("水产品和工业原料的双重来源" translatedTo "Dual source of aquatic products and industrial materials")) { gold() }
     }
 
     // 培养缸
@@ -318,10 +340,6 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
         add("AFMS-05培养缸为培养生物细胞材料量身打造" translatedTo "AFMS-05 culturing tank§r is tailor-made for cultivating biological cell materials") { gray() }
         add("过滤器等级决定配方等级" translatedTo "Filter tier§r determines recipe tier") { aqua() }
         add("玻璃等级决定可用电压上限" translatedTo "Glass tier§r determines upper limit of voltage usable") { aqua() }
-        add(
-            Star(1) + ("生物材料培养的基础设施" translatedTo "Basic infrastructure for biological material cultivation").gold()
-                .bold().italic(),
-        ) { aqua() }
     }
 
     // 大型培养缸
@@ -333,14 +351,13 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
         add("在体积没有显著提升的情况下极大提高生产效率§r" translatedTo "Without significant volume increase, greatly improves production efficiency") { green() }
         add("§e过滤器等级§r决定配方等级" translatedTo "§eFilter tier§r determines recipe tier") { aqua() }
         add("§e玻璃等级§r决定可用电压上限" translatedTo "§eGlass tier§r determines maximum usable voltage") { aqua() }
-        add(Star(1) + ("§6大规模生物材料生产设施§r" translatedTo "§6Large-scale biological material production facility§r")) { aqua() }
     }
 
     // 化工厂
     val ChemicalFactoryTooltips = ComponentListSupplier {
         setTranslationPrefix("chemical_factory")
-        add("在化学的世界里" translatedTo "§dIn the world of chemistry") { gray() }
-        add("每一个分子都在诉说着自己的故事" translatedTo "§4Every molecule tells its own story") { gray() }
+        add("在化学的世界里" translatedTo "In the world of chemistry") { gray() }
+        add("每一个分子都在诉说着自己的故事" translatedTo "Every molecule tells its own story") { gray() }
     }
 
     // 衰变加速器
@@ -493,6 +510,21 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
         add("公司为表彰，给A317送来了全套专辑，但这救不了孩子被毒打的命运" translatedTo "The company gifted full album sets to commend this but couldn't save the child from a spanking") { gray() }
     }
 
+    // 数字型采矿机
+    val DigitalMinerTooltips = ComponentListSupplier {
+        setTranslationPrefix("digital_miner")
+        add("懒才是科技发展的动力" translatedTo "Laziness is the true driver of technological progress") { gray() }
+        add("DD-1672号采矿机，能耗低，效率稳定，无需维护" translatedTo "DD-1672 miner: low energy consumption, stable efficiency, maintenance-free") { gray() }
+        add("你的不二之选！" translatedTo "Your ultimate choice!") { gray() }
+    }
+
+    // 拆解机
+    val DisassemblyTooltips = ComponentListSupplier {
+        setTranslationPrefix("disassembly")
+        add("还在为退休的部件装配线外壳而惋惜吗？GTO集团早已解锁了逆熵技术！" translatedTo "Still regretting retired component assembly line casings? GTO Group has unlocked reverse entropy technology!") { gray() }
+        add("如假包换退全款，不收一分手续费！" translatedTo "Full refund guaranteed if fake, no service fees charged!") { gray().italic() }
+    }
+
     // 艾萨研磨机
     val IsaMillTooltips = ComponentListSupplier {
         setTranslationPrefix("isa_mill")
@@ -508,6 +540,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
         add("作为一般提纯工艺，这台艾萨U-276选矿机已经发展相当成熟" translatedTo "As a general purification process this Isa U-276 ore separator has become quite mature") { gray() }
         add("由于采用松油浮选，车间里总是弥漫着一股风油精的味道" translatedTo "Using pine oil flotation the workshop always smells like essential balm") { gray() }
         add("别的不论，在这里工作确实很少会被蚊子叮咬" translatedTo "Regardless working here does mean fewer mosquito bites") { gray() }
+        add("注：安全生产，警钟长鸣！" translatedTo "Tips: Safe production, alarm ringing!") { red().italic() }
     }
 
     // 中子活化器
@@ -822,7 +855,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     // 元素复制机
     val ElementCopyingTooltips = ComponentListSupplier {
         setTranslationPrefix("element_copying")
-        add("基于UU物质的量子级元素复制，从虚无中创造物质" translatedTo "Quantum-level element replication using UU matter, creating substance from void") { gray() }
+        add("量子级元素复制，从虚无中创造物质" translatedTo "Quantum-level element replication, creating substance from void") { gray() }
         add("插入预设光盘，选择元素，剩下的交给时空打印机" translatedTo "Insert preset discs, select elements, leave the rest to the spacetime printer") { yellow() }
         add("GTO寰宇集团物质重构技术突破，打破元素守恒定律" translatedTo "GTO Cosmic Group's matter reconstruction breakthrough, defying elemental conservation laws") { blue() }
         add("从氢到锎，元素周期表就是你的购物清单" translatedTo "From hydrogen to californium, the periodic table is your shopping list") { aqua() }

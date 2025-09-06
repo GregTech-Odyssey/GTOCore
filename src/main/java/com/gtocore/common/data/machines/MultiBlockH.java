@@ -471,6 +471,7 @@ public final class MultiBlockH {
 
     public static final MultiblockMachineDefinition DIGITAL_MINER = multiblock("digital_miner", "数字型采矿机", DigitalMiner::new)
             .nonYAxisRotation()
+            .tooltips(GTOMachineStories.INSTANCE.getDigitalMinerTooltips().getSupplier())
             .tooltips(GTOMachineTooltips.INSTANCE.getDigitalMinerTooltips().getSupplier())
             .block(GTBlocks.CASING_STEEL_SOLID)
             .recipeTypes(DIGITAL_MINER_RECIPE)
@@ -551,6 +552,7 @@ public final class MultiBlockH {
             .nonYAxisRotation()
             .addTooltipsFromClass(LargeSteamSolarBoilerMachine.class)
             .tooltips(GTOMachineStories.INSTANCE.getLargeSteamSolarBoilerTooltips().getSupplier())
+            .tooltips(GTOMachineTooltips.INSTANCE.getLargeSteamSolarBoilerTooltips().getSupplier())
             .recipeTypes(GTRecipeTypes.DUMMY_RECIPES)
             .block(GTBlocks.STEEL_HULL)
             .pattern((definition) -> FactoryBlockPattern.start(definition)

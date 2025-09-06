@@ -176,6 +176,7 @@ public final class MultiBlockG {
 
     public static final MultiblockMachineDefinition ALGAE_FARM = multiblock("algae_farm", "藻类农场", AlgaeFarmMachine::new)
             .nonYAxisRotation()
+            .tooltips(GTOMachineStories.INSTANCE.getAlgaeFarmTooltips().getSupplier())
             .tooltips(GTOMachineTooltips.INSTANCE.getAlgaeFarmTooltips().getSupplier())
             .recipeTypes(GTORecipeTypes.DUMMY_RECIPES)
             .block(GTBlocks.PLASTCRETE)
@@ -764,6 +765,7 @@ public final class MultiBlockG {
     public static final MultiblockMachineDefinition SUPER_MOLECULAR_ASSEMBLER = multiblock("super_molecular_assembler", "超级分子装配室", SuperMolecularAssemblerMachine::new)
             .nonYAxisRotation()
             .recipeTypes(GTORecipeTypes.DUMMY_RECIPES)
+            .tooltips(GTOMachineTooltips.INSTANCE.getSuperMolecularAssemblerTooltips().getSupplier())
             .block(GTOBlocks.OXIDATION_RESISTANT_HASTELLOY_N_MECHANICAL_CASING)
             .pattern(definition -> FactoryBlockPattern.start(definition, RelativeDirection.RIGHT, RelativeDirection.UP, RelativeDirection.BACK)
                     .aisle("         ", "    A    ", "    A    ", "    A    ", "    B    ", "  BBLBB  ", "    B    ", "    A    ", "    A    ", "    A    ", "         ")
@@ -797,6 +799,7 @@ public final class MultiBlockG {
 
     public static final MultiblockMachineDefinition RARITY_FORGE = multiblock("rarity_forge", "珍宝锻炉", ElectricMultiblockMachine::new)
             .allRotation()
+            .tooltips(GTOMachineStories.INSTANCE.getRarityForgeTooltips().getSupplier())
             .recipeTypes(GTORecipeTypes.RARITY_FORGE_RECIPES)
             .block(GTBlocks.MACHINE_CASING_ULV)
             .pattern(definition -> FactoryBlockPattern.start(definition)
@@ -921,6 +924,7 @@ public final class MultiBlockG {
             .langValue("ME Super Computer Core")
             .allRotation()
             .recipeTypes(GTORecipeTypes.DUMMY_RECIPES)
+            .tooltips(GTOMachineTooltips.INSTANCE.getMECPUTooltips().getSupplier())
             .block(GCYMBlocks.CASING_NONCONDUCTING)
             .pattern(definition -> FactoryBlockPattern.start(definition)
                     .aisle("  AABBCCCBBAA  ", "   AAB   BAA   ", "               ", "               ", "               ", "               ", "               ", "               ", "               ", "               ", "               ", "               ", "               ", "               ", "               ", "               ", "               ", "               ", "               ")

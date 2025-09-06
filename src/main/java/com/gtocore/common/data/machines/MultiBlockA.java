@@ -1725,6 +1725,7 @@ public final class MultiBlockA {
     public static final MultiblockMachineDefinition DISASSEMBLY = multiblock("disassembly", "拆解机", ElectricMultiblockMachine::new)
             .allRotation()
             .recipeTypes(GTORecipeTypes.DISASSEMBLY_RECIPES)
+            .tooltips(GTOMachineStories.INSTANCE.getDisassemblyTooltips().getSupplier())
             .tooltips(GTOMachineTooltips.INSTANCE.getDisassemblyTooltips().getSupplier())
             .overclock()
             .block(GTOBlocks.PROCESS_MACHINE_CASING)

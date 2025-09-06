@@ -15,57 +15,61 @@ import com.gregtechceu.gtceu.api.GTValues
 import com.gtolib.utils.NumberUtils
 import com.lowdragmc.lowdraglib.side.fluid.FluidHelper
 
+fun ComponentListSupplier.section(title: ComponentSupplier, style: ComponentSupplier.() -> ComponentSupplier = { gold() }, prefix: ComponentSupplier = ComponentSlang.Bar(1)) {
+    add(prefix + title, style)
+}
+
+fun ComponentListSupplier.content(content: ComponentSupplier, style: ComponentSupplier.() -> ComponentSupplier = { white() }, prefix: ComponentSupplier = ComponentSlang.Circle(2)) {
+    add(prefix + content, style)
+}
+
+// default stylesheets
+fun ComponentListSupplier.main(info: ComponentSupplier, style: ComponentSupplier.() -> ComponentSupplier = { lightPurple() }) {
+    section(info, style, ComponentSlang.Tab(0))
+}
+
+fun ComponentListSupplier.info(info: ComponentSupplier) {
+    content(info, { gray() }, ComponentSlang.OutTopic(2))
+}
+
+fun ComponentListSupplier.ok(info: ComponentSupplier) {
+    content(info, { green() }, ComponentSlang.Right(2))
+}
+
+fun ComponentListSupplier.error(info: ComponentSupplier) {
+    content(info, { red() }, ComponentSlang.Wrong(2))
+}
+
+fun ComponentListSupplier.command(info: ComponentSupplier) {
+    content(info, { yellow() })
+}
+
+fun ComponentListSupplier.important(info: ComponentSupplier) {
+    content(info, { red() })
+}
+
+fun ComponentListSupplier.function(info: ComponentSupplier) {
+    content(info, { aqua() })
+}
+
+fun ComponentListSupplier.increase(info: ComponentSupplier) {
+    content(info, { green() }, ComponentSlang.Plus(2))
+}
+
+fun ComponentListSupplier.decrease(info: ComponentSupplier) {
+    content(info, { red() }, ComponentSlang.Bar(2))
+}
+
+fun ComponentListSupplier.danger(info: ComponentSupplier) {
+    content(info, { red() }, ComponentSlang.Warning(1))
+}
+
+/**
+ * 用于收纳机器相关用法
+ *
+ * 小作文请参看 [GTOMachineStories]
+ */
 object GTOMachineTooltips {
-
-    fun ComponentListSupplier.section(title: ComponentSupplier, style: ComponentSupplier.() -> ComponentSupplier = { gold() }, prefix: ComponentSupplier = ComponentSlang.Bar(1)) {
-        add(prefix + title, style)
-    }
-
-    // FIXME: 引导圆圈不变黄色
-    fun ComponentListSupplier.content(content: ComponentSupplier, style: ComponentSupplier.() -> ComponentSupplier = { white() }, prefix: ComponentSupplier = ComponentSlang.Circle(2)) {
-        add(prefix + content, style)
-    }
-
-    // default stylesheets
-    fun ComponentListSupplier.main(info: ComponentSupplier, style: ComponentSupplier.() -> ComponentSupplier = { lightPurple() }) {
-        section(info, style, ComponentSlang.Tab(0))
-    }
-
-    fun ComponentListSupplier.info(info: ComponentSupplier) {
-        content(info, { gray() }, ComponentSlang.OutTopic(2))
-    }
-
-    fun ComponentListSupplier.ok(info: ComponentSupplier) {
-        content(info, { green() }, ComponentSlang.Right(2))
-    }
-
-    fun ComponentListSupplier.error(info: ComponentSupplier) {
-        content(info, { red() }, ComponentSlang.Wrong(2))
-    }
-
-    fun ComponentListSupplier.command(info: ComponentSupplier) {
-        content(info, { yellow() })
-    }
-
-    fun ComponentListSupplier.important(info: ComponentSupplier) {
-        content(info, { red() })
-    }
-
-    fun ComponentListSupplier.function(info: ComponentSupplier) {
-        content(info, { aqua() })
-    }
-
-    fun ComponentListSupplier.increase(info: ComponentSupplier) {
-        content(info, { green() }, ComponentSlang.Plus(2))
-    }
-
-    fun ComponentListSupplier.decrease(info: ComponentSupplier) {
-        content(info, { red() }, ComponentSlang.Bar(2))
-    }
-
-    fun ComponentListSupplier.danger(info: ComponentSupplier) {
-        content(info, { red() }, ComponentSlang.Warning(1))
-    }
 
     // 外置热源锅炉
     val BoilWaterMachineTooltips = ComponentListSupplier {
@@ -198,6 +202,27 @@ object GTOMachineTooltips {
         increase("每次采掘的方块数量翻倍（最高4096）" translatedTo "The number of blocks mined each time is doubled (up to 4096)")
         decrease("耗电量翻4倍" translatedTo "Power consumption is quadrupled")
         function("通入红石信号以重新计算采掘区域并执行" translatedTo "Input a redstone signal to recalculate the mining area and execute mining")
+    }
+
+    // 超级分子装配室
+    val SuperMolecularAssemblerTooltips = ComponentListSupplier {
+        setTranslationPrefix("super_molecular_assembler")
+
+        main("分子装配室 Pro Max 版！" translatedTo "Molecular assembler Pro Max Edition!") { rainbow() }
+    }
+
+    // ME 超算核心
+    val MECPUTooltips = ComponentListSupplier {
+        main("ME 网络超级 CPU" translatedTo "Super CPU in ME Network") { rainbow() }
+
+        section("CPU 性能" translatedTo "CPU Performance")
+        function("容量：决定CPU可以处理的总任务大小" translatedTo "Capacity: Determines the total task size the CPU can handle")
+        content("填满481个T5元件解锁无限存储" translatedTo "Fill 481 T5 storage units to unlock infinity storage", { rainbowSlow() })
+        info("公式：Σ合成单元存储量" translatedTo "Formula: ΣCrafting unit storage")
+        function("并行数：决定CPU一次可发配的样板数量" translatedTo "Parallel: Determines the number of patterns the CPU can dispatch at once")
+        info("公式：合成单元个数 x 并行仓并行数" translatedTo "Formula: Number of crafting units x parallel number of parallel hatch")
+        function("线程数：决定CPU能同时进行的任务数量" translatedTo "Threads: Determines the number of tasks the CPU can perform simultaneously")
+        info("公式：2^玻璃等级" translatedTo "Formula: 2^Glass Tier")
     }
 
     // 大型内燃机
@@ -602,7 +627,7 @@ object GTOMachineTooltips {
         ok("与电流大小无关" translatedTo "Not related to current size")
         content(
             "没有电流上限简直是原始人的超级科技" translatedTo "No current limit is a super technology of the primitive",
-            { rainbow().italic() },
+            { rainbowSlow().italic() },
         )
     }
 
@@ -629,7 +654,7 @@ object GTOMachineTooltips {
 
         section(
             "无限容量模式：满足下列条件时自动启用" translatedTo "Infinite Capacity Mode: Automatically enable when the following conditions are met",
-            { rainbow() },
+            { rainbowSlow() },
         )
         content("至少安装有 $bytes Bytes 容量" translatedTo "At least $bytes Bytes capacity installed")
         content("至少安装有 64 个无限存储组件" translatedTo "At least 64 Infinite Storage Components installed")
@@ -791,7 +816,7 @@ object GTOMachineTooltips {
     val LargeSteamCircuitAssemblerTooltips = ComponentListSupplier {
         setTranslationPrefix("large_steam_circuit_assembler")
 
-        section("基础配方等级" translatedTo "Base Recipe Tier")
+        section("配方等级" translatedTo "Recipe Tier")
         important(ComponentSlang.RecipeLevelBelow(GTValues.MV))
         val name = GTValues.VNF[GTValues.HV] + "§r"
         increase("可安装大型蒸汽输入仓提升至${name}等级" translatedTo "Install Large Steam Input Hatch to upgrade to $name recipe tier")
@@ -800,6 +825,18 @@ object GTOMachineTooltips {
         section("电路倍产" translatedTo "Circuit Multiplication")
         increase("允许通过铭刻电路倍增电路产物" translatedTo "Allows circuit products to be multiplied through engraved circuits")
         important("铭刻后此机器只能加工此种电路" translatedTo "After engraving, this machine can only process this type of circuit")
+    }
+
+    var LargeSteamSolarBoilerTooltips = ComponentListSupplier {
+        setTranslationPrefix("large_steam_circuit_assembler")
+
+        section("蒸汽产出" translatedTo "Steam Production")
+        content("根据集热管数量决定蒸汽产量" translatedTo "Steam production determined by number of collector tubes")
+        important("只能在太阳下工作" translatedTo "Can only operate under the sun")
+
+        section("可用大小" translatedTo "Usable Size")
+        command("最小：3x3" translatedTo "Minimum: 3x3")
+        command("最大：13x13" translatedTo "Maximum: 13x13")
     }
 
     // 部件组装机

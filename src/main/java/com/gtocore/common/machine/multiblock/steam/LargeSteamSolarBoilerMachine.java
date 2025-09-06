@@ -59,11 +59,7 @@ public class LargeSteamSolarBoilerMachine extends WorkableMultiblockMachine impl
         }
     };
 
-    @DynamicInitialValue(key = "gtocore.machine.large_steam_solar_boiler", typeKey = DynamicInitialValueTypes.KEY_MULTIPLY, simpleValue = "30", normalValue = "18", expertValue = "10", cn = "基础蒸汽产率 : %s / t", cnComment = """
-             根据集热管数量决定蒸汽产量，只有在阳光下才会运行。
-            大小 ：3×3 到 13×13.""", en = "Basic steam production : %s / t", enComment = """
-            The steam production is determined by the number of heat collector tubes and it only operates when there is sunlight.
-            Size: 3×3 to 13×13.""")
+    @DynamicInitialValue(key = "gtocore.machine.large_steam_solar_boiler", typeKey = DynamicInitialValueTypes.KEY_MULTIPLY, simpleValue = "30", normalValue = "18", expertValue = "10", cn = "基础蒸汽产率 : %s / t", en = "Basic steam production : %s / t")
     private static int basicSteamProduction = 10;
 
     private static final int MAX_LR_DIST = 5, MAX_B_DIST = 11;
