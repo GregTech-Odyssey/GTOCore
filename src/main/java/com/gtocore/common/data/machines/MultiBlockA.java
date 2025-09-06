@@ -22,7 +22,6 @@ import com.gtocore.common.machine.multiblock.steam.SteamMultiblockMachine;
 
 import com.gtolib.GTOCore;
 import com.gtolib.api.annotation.NewDataAttributes;
-import com.gtolib.api.annotation.component_builder.StyleBuilder;
 import com.gtolib.api.machine.multiblock.*;
 import com.gtolib.api.recipe.modifier.ParallelLogic;
 import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
@@ -111,6 +110,7 @@ public final class MultiBlockA {
     public static final MultiblockMachineDefinition PLASMA_CONDENSER = multiblock("plasma_condenser", "等离子冷凝器", ElectricMultiblockMachine::new)
             .allRotation()
             .recipeTypes(GTORecipeTypes.PLASMA_CONDENSER_RECIPES)
+            .tooltips(GTOMachineStories.INSTANCE.getPlasmaCondenserTooltips().getSupplier())
             .perfectOCTooltips()
             .perfectOverclock()
             .block(GTOBlocks.ANTIFREEZE_HEATPROOF_MACHINE_CASING)
@@ -279,6 +279,7 @@ public final class MultiBlockA {
     public static final MultiblockMachineDefinition MATTER_FABRICATOR = multiblock("matter_fabricator", "物质生成机", ElectricMultiblockMachine::new)
             .allRotation()
             .recipeTypes(GTORecipeTypes.MATTER_FABRICATOR_RECIPES)
+            .tooltips(GTOMachineStories.INSTANCE.getMatterFabricatorTooltips().getSupplier())
             .parallelizableTooltips()
             .laserTooltips()
             .parallelizableOverclock()
@@ -371,6 +372,7 @@ public final class MultiBlockA {
             .nonYAxisRotation()
             .recipeTypes(GTORecipeTypes.LARGE_VOID_MINER_RECIPES)
             .recipeTypes(GTORecipeTypes.RANDOM_ORE_RECIPES)
+            .tooltips(GTOMachineStories.INSTANCE.getLargeVoidMinerTooltips().getSupplier())
             .tooltips(GTOMachineTooltips.INSTANCE.getLargeVoidMinerTooltips().getSupplier())
             .recipeModifier((machine, recipe) -> {
                 if (((ElectricMultiblockMachine) machine).getRecipeType() == GTORecipeTypes.RANDOM_ORE_RECIPES) {
@@ -1837,6 +1839,7 @@ public final class MultiBlockA {
     public static final MultiblockMachineDefinition INDUSTRIAL_FLOTATION_CELL = multiblock("industrial_flotation_cell", "工业浮选机", ElectricMultiblockMachine::new)
             .nonYAxisRotation()
             .recipeTypes(GTORecipeTypes.FLOTATING_BENEFICIATION_RECIPES)
+            .tooltips(GTOMachineStories.INSTANCE.getIndustrialFlotationCellTooltips().getSupplier())
             .tooltips(GTOMachineTooltips.INSTANCE.getIndustrialFlotationCellTooltips().getSupplier())
             .parallelizableTooltips()
             .perfectOCTooltips()

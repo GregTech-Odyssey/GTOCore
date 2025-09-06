@@ -12,9 +12,6 @@ import com.gtocore.common.machine.multiblock.storage.MultiblockCrateMachine
 import net.minecraft.network.chat.Component
 
 import com.google.common.collect.ImmutableMap
-import com.gtocore.common.data.translation.GTOMachineTooltips.content
-import com.gtocore.common.data.translation.GTOMachineTooltips.info
-import com.gtocore.common.data.translation.GTOMachineTooltips.section
 
 object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
 
@@ -207,6 +204,14 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
         add("或许是魔法？总之没有别的合理解释了" translatedTo "Perhaps magic? There's no other reasonable explanation") { gray() }
     }
 
+    // 大型蒸汽太阳能锅炉
+    val LargeSteamSolarBoilerTooltips = ComponentListSupplier {
+        setTranslationPrefix("large_steam_solar_boiler")
+        add("靠天吃饭一直是公司老祖宗的传统" translatedTo "Relying on nature has always been the company's ancestral tradition") { gray() }
+        add("然而古法工艺显然不能制作高精尖的太阳能板，也只能平摊着应付一下" translatedTo "But ancient methods can't make high-tech solar panels so we just lay them out flat to get by") { gray() }
+        add("不过反正不要钱，没有人会嫌弃它的" translatedTo "Anyway it's free so no one complains about it") { gray() }
+    }
+
     // 多方块板条箱
     val MultiblockCrateMachineTooltips = ComponentListSupplier {
         setTranslationPrefix("multiblock_crate_machine")
@@ -301,7 +306,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
         setTranslationPrefix("fishing_farm")
         add("喜欢吃鱼？" translatedTo "Like eating fish?") { gray() }
         add("AFFL-200智能大型渔场是舌尖上的格雷系列常客" translatedTo "AFFL-200 intelligent large fishing farm§r is a regular on GregTech cuisine series") { gray() }
-        add("强大的§e智能养殖系统带来强大产能" translatedTo "Powerful §eintelligent breeding system§r brings powerful productivity") { gray() }
+        add("强大的§e智能养殖系统§t带来强大产能" translatedTo "Powerful §eintelligent breeding system§r brings powerful productivity") { gray() }
         add("能够满足整个分公司员工的水产食用需求" translatedTo "Can meet the entire branch office employees' §aaquatic food consumption needs") { gray() }
         add(Star(1) + ("水产品和工业原料的双重来源" translatedTo "Dual source of aquatic products and industrial materials")) { gold() }
     }
@@ -341,37 +346,45 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     // 衰变加速器
     val DecayAcceleratorTooltips = ComponentListSupplier {
         setTranslationPrefix("decay_accelerator")
-        add("让放射性物质稍微加快一点退休速度" translatedTo "Gently encouraging radioactive materials to retire faster§r") { gray() }
-        add("效果有限，但总比干等着强" translatedTo "Modest effect, but better than just waiting§r") { gray() }
+        add("某些像铀-238的元素半衰期整整达到45亿年，显然实验室的科学家没有那么多时间" translatedTo "Some elements like Uranium-238 have half-lives of up to 4.5 billion years, clearly lab scientists don't have that much time") { gray() }
+        add("这台衰变加速器，利用超导线圈环绕，企图利用电力加速自然演化" translatedTo "This decay accelerator uses superconducting coils in an attempt to accelerate natural evolution with electricity") { gray() }
+        add("实验表明，这确实让放射性物质稍微加快了一点退休速度" translatedTo "Experiments show this does gently encourage radioactive materials to retire faster") { gray() }
+        add("不过效果有限，但总比干等着强" translatedTo "The effect is modest, but still better than just waiting") { gray() }
     }
 
     // 回收机
     val RecyclingMachineTooltips = ComponentListSupplier {
         setTranslationPrefix("recycling_machine")
-        add("工业界的凤凰，让废弃物重获新生" translatedTo "Industrial phoenix, giving waste new life") { gray() }
-        add("环保主义者的梦想机器，资本家的利润源泉" translatedTo "Environmentalist's dream, capitalist's profit source") { gray() }
-        add("连最顽固的废料都会在这里找到第二春" translatedTo "Even the most stubborn waste finds a second chance here") { gray() }
+        add("看起来这只是一个很简单的钢制机器，连刚入职的新员工都能轻松搭建" translatedTo "It looks like just a simple steel machine that even newly hired employees can easily build") { gray() }
+        add("其实这台机器是GTO集团环保部门的杀手锏" translatedTo "Actually, this machine is the trump card of GTO Group's environmental department") { gray() }
+        add("即使是最顽固的废料，经过彻底的涅槃，都会在这里找到第二春" translatedTo "Even the most stubborn waste, after thorough nirvana, will find a second life here") { gray() }
+        add("然而，环保部门对它动了多少手脚就不得而知了" translatedTo "However, how much the environmental department has tampered with it remains unknown") { gray() }
     }
 
     // 质量发生器
     val MassGeneratorTooltips = ComponentListSupplier {
         setTranslationPrefix("mass_generator")
-        add("质能转换的入门级实践" translatedTo "Beginner's practice in mass-energy conversion§r") { gray() }
-        add("耗电量＞产出量，但科学价值无可替代" translatedTo "Power consumption > output, but scientifically priceless§r") { gray() }
+        add("GTO寰宇部门最近盛行物理学教育，很多员工把爱因斯坦作为自己的偶像" translatedTo "Physics education is trending in GTO Universe Department many employees idolize Einstein") { gray() }
+        add("这台机器作为课程的优秀作业，恰好代表了质能转换的入门级实践" translatedTo "This machine as an excellent course assignment represents beginner's practice in mass-energy conversion") { gray() }
+        add("尽管耗电量＞产出量，但科学价值无可替代" translatedTo "Although power consumption > output its scientific value is irreplaceable") { gray() }
+        add("不过教授还不至于要借助这个作业来发顶会论文" translatedTo "But the professor wouldn't go so far as to use this assignment for top conference papers") { gray() }
     }
 
     // 超临界合成机
     val SpsCraftingTooltips = ComponentListSupplier {
         setTranslationPrefix("sps_crafting")
-        add("在临界点上跳舞，让物质处于既存在又不存在的量子态" translatedTo "Dancing on critical points, maintaining matter in quantum states of existence and non-existence") { gray() }
-        add("微妙平衡的艺术，温度和压力精确到普朗克尺度" translatedTo "Art of delicate balance, temperature and pressure precise to Planck scale") { gray() }
+        add("GTO寰宇集团从事量子力学的部门只有寥寥数人，却贡献了非常重要的科学成果" translatedTo "GTO Universe's quantum mechanics department has only a few members yet contributes crucial scientific achievements") { gray() }
+        add("这次的G3.1-15试验品只是一个火柴盒机器，甚至被建筑部门作为笑话" translatedTo "The G3.1-15 prototype is just a matchbox-sized machine even ridiculed by the construction department") { gray() }
+        add("然而外人不明白的是，这里微妙平衡的艺术已经精确到了普朗克尺度" translatedTo "But outsiders don't understand the delicate balance here is precise to Planck scale") { gray() }
+        add("透过玻璃，机器内有些许闪烁，似乎看到了来自薛定谔的猫的目光" translatedTo "Through the glass faint flickers inside seem to reveal the gaze of Schrödinger's cat") { gray() }
     }
 
     // 精密组装机
     val PrecisionAssemblerTooltips = ComponentListSupplier {
         setTranslationPrefix("precision_assembler")
-        add("DSW-17型精密组装机的运作原理是什么？" translatedTo "What is the operating principle of the §9DSW-17 Precision Assembler§r?") { gray() }
-        add("源代码存储于隔离仓，只有持有§d工程师徽章§r的人员可访问" translatedTo "Source code is stored in isolation vaults, accessible only to those with a §dengineer badge§r") { gray() }
+        add("DSW-17型精密组装机的运作原理是什么？" translatedTo "What is the operating principle of the DSW-17 Precision Assembler?") { gray() }
+        add("尽管设计程序代码已经开源到GitHub，但似乎并没有什么人可以复现" translatedTo "Although the design code has been open-sourced on GitHub, few seem able to replicate it") { gray() }
+        add("实际上真正的核心代码存储于隔离仓，只有持有工程师徽章的人员可访问" translatedTo "The actual core code is stored in isolation vaults, accessible only to those with an engineer badge") { gray() }
     }
 
     // 熔岩炉
@@ -387,6 +400,14 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
         add("虽然效率有限，但为稀土工业奠定了重要基础" translatedTo "Though efficiency is limited, it lays important foundation for rare earth industry") { gray() }
     }
 
+    // 溶解罐
+    val DissolvingTankTooltips = ComponentListSupplier {
+        setTranslationPrefix("dissolving_tank")
+        add("GTO从来就不是粗放式发展的公司，也需要很多高精技术人才" translatedTo "GTO has never been an extensive development company it requires many high-precision technical talents") { gray() }
+        add("对于药剂师来说，普通的搅拌会破坏药品性质，只有精确配比的溶解操作才能保证稳定" translatedTo "For pharmacists ordinary stirring damages drug properties only precisely proportioned dissolution ensures stability") { gray() }
+        add("当然，这些药剂师们并不喜欢滴定！毕竟谁愿意整天数着滴管度日呢" translatedTo "Of course these pharmacists dislike titration! Who wants to count droppers all day anyway") { gray() }
+    }
+
     // 部件组装机
     val ComponentAssemblerTooltips = ComponentListSupplier {
         setTranslationPrefix("component_assembler")
@@ -395,12 +416,38 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
         add("董事长温馨提示：好好对待它，毕竟你的第一份工资可能还没它一个零件贵" translatedTo "Friendly reminder from the chairman: Treat it well, your first salary might not even cover one of its parts") { gray() }
     }
 
+    // 等离子冷凝器
+    val PlasmaCondenserTooltips = ComponentListSupplier {
+        setTranslationPrefix("plasma_condenser")
+        add("GTO工程师在等离子体控制方面取得重大突破，解决了长期存在的稳定性难题" translatedTo "GTO engineers made a major breakthrough in plasma control solving long-standing stability issues") { gray() }
+        add("通过生成极端低温场，成功将高温等离子体冷凝为可操控液态" translatedTo "Generating extreme cryogenic fields successfully condensing high-temperature plasma into manageable liquid") { gray() }
+        add("这项技术不仅确保了操作安全，还实现了等离子体的高效回收利用" translatedTo "This technology not only ensures operational safety but also enables efficient recovery of plasma") { gray() }
+    }
+
     // 电路装配线
     val CircuitAssemblyLineTooltips = ComponentListSupplier {
         setTranslationPrefix("circuit_assembly_line")
         add("GTO寰宇格雷科技顶级工程师设计的精密电路制造系统" translatedTo "Precision circuit manufacturing system designed by GTO Universe GregTech's top engineers") { gray() }
-        add("透明的夹层玻璃展示内部机器人有条不紊的精密装配过程" translatedTo "Transparent laminated glass reveals orderly precision assembly by internal robots") { gray() }
-        add("相同配方机器人协作时效率翻倍，成为公司电子工业核心支柱" translatedTo "Efficiency doubles when same-recipe robots collaborate, forming the core of company's electronics industry") { gray() }
+        add("透明的夹层玻璃展示内部机器人有条不紊的精密装配过程，多人协作时效率还能翻倍" translatedTo "Transparent laminated glass reveals orderly precision assembly by internal robots, efficiency doubles with multi-robot collaboration") { gray() }
+        add("显然并没有人关心细节是怎么样的，但能确定的是它确实能造出一些过往传统方法弄不出的小玩意" translatedTo "Apparently no one cares about the details, but it certainly produces some gadgets that traditional methods couldn't make") { gray() }
+    }
+
+    // 裂变反应堆
+    val FissionReactorTooltips = ComponentListSupplier {
+        setTranslationPrefix("fission_reactor")
+        add("刚来的员工是从通用机械集团转来的，带来了这么个家伙" translatedTo "A new employee transferred from Mekanism brought this thing along") { gray() }
+        add("虽然不知道是否构成了知识产权侵权，但总之用着确实效果不错" translatedTo "Not sure if it's intellectual property infringement, but after all it works well") { gray() }
+        add("据他所说，GT这边先进的化工技术可以产出钠钾冷却液，能更充分发挥这台机器的性能" translatedTo "He claims GT's advanced chemical tech can produce NaK coolant to fully unleash this machine's potential") { gray() }
+        add("没有人知道真假，毕竟从一个跳槽的人嘴里又能得到多少实话呢" translatedTo "No one knows the truth, after all how much honesty can you expect from a job-hopper") { gray() }
+    }
+
+    // 工业屠宰场
+    val SlaughterhouseTooltips = ComponentListSupplier {
+        setTranslationPrefix("slaughterhouse")
+        add("作为自动化行业的顶尖集团，GTO的企业宗旨之一就是能自动绝不手动" translatedTo "As a top automation corporation, GTO's motto is automate everything possible") { gray() }
+        add("可惜Mojang的代码并不允许这么做，厂内时常陷入凋灵骷髅头急缺" translatedTo "Unfortunately Mojang's code doesn't allow this, often causing Wither Skeleton skull shortages") { gray() }
+        add("更严重的是，直到去年还有员工因凋零笼故障而导致厂房被凋零大规模破坏" translatedTo "Worse, last year a faulty Wither cage caused massive facility damage from escaped Withers") { gray() }
+        add("为此，这款自动屠宰场作为黑客出现，它成功绕过了游戏的玩家检查" translatedTo "Thus this automated slaughterhouse emerged as a hack successfully bypassing game player checks") { gray() }
     }
 
     // 大型方块转换室
@@ -414,19 +461,19 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     // 烈焰高炉
     val BlazeBlastFurnaceTooltips = ComponentListSupplier {
         setTranslationPrefix("blaze_blast_furnace")
-        add("偶然有GTO员工发现，将液态烈焰注入钨钢管道可以实现超高温冶炼" translatedTo "GTO staffs find occasionally injecting liquid blaze into tungsten steel pipes for ultra-high temperature smelting") { gray() }
-        add("烈焰能量使冶炼时间减半，64并行处理让产能呈几何级增长" translatedTo "Blaze energy halves smelting time, 64 parallel processing multiply production capacity exponentially") { gray() }
-        add("董事长亲自验收时惊叹其效率，彻底解决了公司的材料短缺困境" translatedTo "The chairman marveled at its efficiency during acceptance, completely solving material shortage issues") { gray() }
-        add("正是寒冷冬日里的实验引领了冶金革命" translatedTo "It is winter experiment that leads metallurgical revolution") { gray() }
+        add("从匠魂集团新转来的员工似乎特别喜欢烈焰人，在公司的电力高炉阵列里豢养了一个烈焰人刷怪笼" translatedTo "A new employee transferred from Tinker's Construct seems particularly fond of blazes, keeping a blaze spawner in the company's electric furnace array") { gray() }
+        add("过了一天后，所有的高炉外表沾染了大量的滚烫烈焰，奇怪的是所有机器的速度突然之间翻了一倍" translatedTo "After a day, all furnaces were coated with scalding blaze residue, and strangely all machines suddenly doubled their speed") { gray() }
+        add("这些沾染烈焰的高炉还获得了64物品批量加工的能力，效率呈几何级增长" translatedTo "These blaze-coated furnaces also gained 64-item batch processing capability, with efficiency growing exponentially") { gray() }
+        add("后来刷怪笼被勒令拆除，但这项烈焰加速技术却在公司广泛推广使用" translatedTo "The spawner was later ordered removed, but this blaze acceleration technology was widely adopted across the company") { gray() }
     }
 
     // 寒冰冷冻机
     val ColdIceFreezerTooltips = ComponentListSupplier {
         setTranslationPrefix("cold_ice_freezer")
         add("一次液态冰泄漏事故意外催生了这台极低温设备的诞生" translatedTo "A liquid ice leak accident unexpectedly led to the birth of this cryogenic device") { gray() }
-        add("铝合金框架与液态冰产生奇特反应，形成稳定的超导冷却效应" translatedTo "Aluminum alloy frame reacts uniquely with liquid ice, creating stable superconducting cooling") { gray() }
-        add("钨钢管道内液态冰以涡流方式循环，实现样本的瞬间深度冻结" translatedTo "Liquid ice circulates in vortex patterns within tungsten pipes, achieving instant deep freezing") { gray() }
-        add("64并行处理让冷冻效率倍增，成为材料低温处理的首选方案" translatedTo "64 parallel processing multiply freezing efficiency, making it the preferred solution for cryogenic processing") { gray() }
+        add("液态冰似乎和低温控制室的铝制框架产生了奇特的反应，经研究这里似乎形成了稳定的超导环境" translatedTo "Liquid ice seems to have reacted strangely with the aluminum frame of the cryo control room, apparently creating a stable superconducting environment") { gray() }
+        add("钨钢管道的强导热性质以涡流方式循环，旋转一轮能一次性冷冻64个样品" translatedTo "Tungsten steel pipes' high thermal conductivity creates vortex circulation, freezing 64 samples in one rotation cycle") { gray() }
+        add("造成这次事故的员工下落不明，不过这台机器却被董事长视为珍宝" translatedTo "The employee responsible for the accident has disappeared, but the chairman treasures this machine like a precious jewel") { gray() }
     }
 
     // 通用工厂
@@ -437,12 +484,30 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
         add("无需手动切换即可完成多种加工，生产效率提升了数倍" translatedTo "Completes multiple processes without manual switching multiplying production efficiency") { gray() }
     }
 
+    // 3D打印机
+    val ThreeDimensionalPrinterTooltips = ComponentListSupplier {
+        setTranslationPrefix("three_dimensional_printer")
+        add("员工A317收藏了一份泰勒光盘，却被孩子拿刀刻成马达模样扔进了打印机里" translatedTo "Employee A317 collected a Taylor Swift disc but his child carved it into a motor shape and threw it into the printer") { gray() }
+        add("意外的是竟然真的打印出成品，这孩子或许真是个天才" translatedTo "Surprisingly it actually printed a finished product perhaps this child is truly gifted") { gray() }
+        add("现在这台打印机正批量生产着那个意外发现的高效马达设计" translatedTo "Now this printer mass produces that accidentally discovered efficient motor design") { gray() }
+        add("公司为表彰，给A317送来了全套专辑，但这救不了孩子被毒打的命运" translatedTo "The company gifted full album sets to commend this but couldn't save the child from a spanking") { gray() }
+    }
+
     // 艾萨研磨机
     val IsaMillTooltips = ComponentListSupplier {
         setTranslationPrefix("isa_mill")
-        add("实验室里的偶然发现：科学家观察到研磨球在特定湿度下效率激增" translatedTo "Accidental lab discovery: scientist observed grinding balls' efficiency surge at specific humidity") { gray() }
-        add("通过精密控制研磨介质湿度，可以使矿石在湿法环境中更易破碎分离" translatedTo "Precise humidity control makes ore easier to crush and separate in wet environment") { gray() }
-        add("高速旋转的研磨球形成的涡流，将矿石高效转化为均匀的碾磨矿石簇" translatedTo "High-speed grinding balls create vortex efficiently transforming ore into uniform crushed clusters") { gray() }
+        add("这款艾萨1672N号研磨机，虽然有着绿皮外表，但其实完全不环保" translatedTo "This Isa 1672N grinder, despite its green appearance, is actually not eco-friendly at all") { gray() }
+        add("排风扇总有一些奇怪的气味，也没有几个员工想要触碰那乱成一团的产物" translatedTo "The exhaust fan always emits strange odors, and few employees want to touch the messy output") { gray() }
+        add("通过滚珠暴力湿法碾碎一切矿石，但不得不承认它效率高的出奇" translatedTo "It violently crushes all ores through wet ball milling, but its efficiency is surprisingly high") { gray() }
+        add("实验室的科学家们只能捏着鼻子承认：有时候暴力确实能解决问题" translatedTo "Lab scientists have to admit while holding their noses: sometimes brute force does solve problems") { gray() }
+    }
+
+    // 工业浮选机
+    val IndustrialFlotationCellTooltips = ComponentListSupplier {
+        setTranslationPrefix("industrial_flotation_cell")
+        add("作为一般提纯工艺，这台艾萨U-276选矿机已经发展相当成熟" translatedTo "As a general purification process this Isa U-276 ore separator has become quite mature") { gray() }
+        add("由于采用松油浮选，车间里总是弥漫着一股风油精的味道" translatedTo "Using pine oil flotation the workshop always smells like essential balm") { gray() }
+        add("别的不论，在这里工作确实很少会被蚊子叮咬" translatedTo "Regardless working here does mean fewer mosquito bites") { gray() }
     }
 
     // 中子活化器
@@ -451,7 +516,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
         add("有员工观察到特定动能的中子能可以激活原子核" translatedTo "Employee observed neutrons at specific kinetic energy can activate atomic nuclei") { gray() }
         add("通过精密控制中子流速度，可以使普通材料产生罕见的核反应转化" translatedTo "Precise neutron velocity control enables rare nuclear reactions in common materials") { gray() }
         add("董事长听说后，亲自批准研发" translatedTo "Chairman personally approved after hearing") { gray() }
-        add("如今能以接近光速处理核配方，成为材料活化领域的关键技术" translatedTo "Now processes nuclear recipes at near-light speed becoming key technology in material activation") { gray() }
+        add("如今它已经能以接近光速处理核配方，成为材料活化领域的关键技术" translatedTo "Now processes nuclear recipes at near-light speed becoming key technology in material activation") { gray() }
     }
 
     // 热交换机
@@ -463,25 +528,32 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
         add("现在热能再也不浪费了，既解决了老问题又带来了新收获" translatedTo "Now heat never goes to waste solving an old problem while bringing new gains") { gray() }
     }
 
+    // 大型虚空采矿厂
+    val LargeVoidMinerTooltips = ComponentListSupplier {
+        setTranslationPrefix("large_void_miner")
+        add("看着仓库中的矿物逐渐捉襟见肘，董事长显得有些担忧" translatedTo "Watching the minerals in the warehouse gradually running short, the chairman looked somewhat worried") { gray() }
+        add("但不用担心，新晋的资源部门员工B2312用晶体电路组建了新的矿物采集厂" translatedTo "But don't worry, new resource department employee B2312 built a new mineral collection plant with crystal circuits") { gray() }
+        add("和以往不同，这台机器可以在一无所有的虚空中采集矿物" translatedTo "Unlike before, this machine can collect minerals from the void where there is nothing") { gray() }
+        add("谁也不知道这样的虚拟矿脉是如何产生的——除了B2312自己" translatedTo "No one knows how such virtual ore veins are generated—except B2312 himself") { gray() }
+        add("唯一明显的变化是，B2312员工的工牌上多了一颗金色的星星" translatedTo "The only obvious change is that employee B2312's badge now has an extra golden star") { gray() }
+    }
+
     // 无尽流体钻机
     val InfinityFluidDrillingRigTooltips = ComponentListSupplier {
         setTranslationPrefix("infinity_fluid_drilling_rig")
-        add("勘探队在深地层发现了神奇现象——流体矿脉居然能自我再生" translatedTo "The survey team found a marvel in deep strata: fluid veins that actually regenerate themselves") { gray() }
+        add("号外号外！勘探队在深地层发现了神奇现象：流体矿脉居然能自我再生！" translatedTo "Extra! Extra! Survey team discovers marvel in deep strata: fluid veins that actually regenerate themselves!") { gray() }
         add("工程师们连夜设计出这套钻机系统，能像吸管一样持续抽取流体" translatedTo "Engineers designed this drilling system overnight that siphons fluids like a never-ending straw") { gray() }
-        add("董事长看到第一份报告就跳了起来：这下咱们再也不缺流体材料了！" translatedTo "The chairman jumped up reading the first report: We'll never run out of fluid materials again!") { gray() }
-        add("现在整个公司的流体管道都哗哗流淌，这可是名副其实的无尽供应" translatedTo "Now the company's fluid pipelines flow endlessly living up to the name infinite supply") { gray() }
+        add("董事长一听报告差点没跳起来，谁能想到无限能源其实就在自己家楼底下呢" translatedTo "The chairman almost jumped hearing the report: who knew infinite energy was right under our feet!") { gray() }
+        add("这下好了，从这天开始公司水管的声音就没断过——这可比Minecraft的无限水强多了" translatedTo "Now the company's pipes have been flowing non-stop—way better than Minecraft's infinite water!") { gray() }
     }
 
     // 进阶装配线
     val AdvancedAssemblyLineTooltips = ComponentListSupplier {
         setTranslationPrefix("advanced_assembly_line")
+        add("员工已经厌倦了又慢又麻烦的装配线，发起了改良产能的提案" translatedTo "Employees tired of the slow and troublesome assembly line proposed production capacity improvements") { gray() }
         add("整个GTO公司都动起来了，各路专家齐聚一堂" translatedTo "The whole GTO company mobilized experts all gathered together") { gray() }
-        add("机械组搭框架，电子组布线路，物流组搞配送，各显神通" translatedTo "Mechanical team built frame electronic team laid circuits logistics team optimized delivery each showing their skills") { gray() }
-        add("结果造出了这条能同时处理多个配方的高速并行装配线" translatedTo "The result is this high-speed parallel assembly line that handles multiple recipes at once") { gray() }
-        add("现在高端产品生产效率翻了好几倍，大家都说这波协作太值了" translatedTo "Now high-end product efficiency multiplied everyone says this collaboration was totally worth it") { gray() }
-
-        add("可以使用更大的输入总线" translatedTo "Can use larger input buses") { aqua() }
-        add("需要保证每片的物品与配方对应，只能使用数据靶仓" translatedTo "Must ensure each item corresponds to the recipe, only data target chambers can be used") { aqua() }
+        add("机械组搭框架，电子组布线路，物流组搞配送，各显神通" translatedTo "Mechanical team built frame, electronic team laid circuits, logistics team optimized delivery each showing their skills") { gray() }
+        add("功夫不负有心人，虽然还有很多局限性，新品相较于过往效率也提高了数倍" translatedTo "Efforts paid off. Despite limitations, the new model's efficiency increased several times over previous versions") { gray() }
     }
 
     // 太空电梯
@@ -489,11 +561,10 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
         setTranslationPrefix("space_elevator")
         add("GTO的工程师们仰望星空几十年，终于把通往宇宙的天梯变成了现实" translatedTo "GTO engineers looked at the stars for decades finally turning the celestial ladder into reality") { gray() }
         add("这座巨塔刺破云层，用碳纳米管缆绳把地球和太空紧紧连在一起" translatedTo "This giant tower pierces the clouds connecting Earth and space with carbon nanotube cables") { gray() }
-        add("董事长在落成典礼上激动得声音发抖：今天我们彻底摆脱了重力束缚" translatedTo "The chairman's voice trembled at the inauguration: Today we break free from gravity's shackles") { gray() }
-        add("现在采矿无人机沿着电梯直上云霄，把宇宙深处的矿产源源不断运回" translatedTo "Now mining drones ascend along the elevator bringing back minerals from the depths of space") { gray() }
+        add("董事长在落成典礼上激动地宣布道：从今天开始，我们彻底摆脱了重力束缚" translatedTo "The chairman's voice trembled at the inauguration: Today we break free from gravity's shackles") { gray() }
+        add("现在采矿无人机可以沿着电梯直上云霄，源源不断地运回宇宙深处的矿产了" translatedTo "Now mining drones ascend along the elevator bringing back minerals from the depths of space") { gray() }
         add("人类终于踏出了征服星辰的第一步，而GTO就是这历史时刻的见证者" translatedTo "Humankind finally takes the first step to conquer the stars with GTO witnessing this historic moment") { gray() }
     }
-
 
     // 净化处理厂
     val WaterPurificationPlantTooltips = ComponentListSupplier {
@@ -562,7 +633,6 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
         add("根据脱气器检测到的水中物质，它会请求各种材料以完成上述过程" translatedTo "based on the materials detected in the water by the degasser, it will request various materials to complete the above processes.") { gray() }
     }
 
-
     // 绝对重子完美净化装置
     val AbsoluteBaryonicPerfectionPurificationUnitTooltips = ComponentListSupplier {
         setTranslationPrefix("absolute_baryonic_perfection_purification_unit")
@@ -590,13 +660,13 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
         setTranslationPrefix("atmosphere_collector_room")
         add(("大气层的美味榨汁机，专门收集行星的呼吸" translatedTo "The atmosphere juicer, specializes in collecting planetary breath")) { aqua() }
         add(("从稀薄的高空到浓郁的对流层，没有它抽不动的气" translatedTo "From thin upper layers to dense troposphere, no gas is too tough to extract")) { gray() }
-        add(Star(1) + ("超大容量设计，一瓶更比六瓶强" translatedTo "Extra-large capacity design, one bottle equals six regular collectors").italic()) { gray() }
+        add(("超大容量设计，一瓶更比六瓶强" translatedTo "Extra-large capacity design, one bottle equals six regular collectors").italic()) { gray() }
     }
 
     // 激光蚀刻工厂
     val EngravingLaserPlantTooltips = ComponentListSupplier {
         setTranslationPrefix("laser_etching_factory")
-        add(("光子雕刻圣殿，用光之刃重塑物质的结构" translatedTo "Photon engraving sanctuary, reshaping matter with blades of light")) { gold() }
+        add(("这台光子雕刻圣殿，可以用光之刃重塑物质的结构" translatedTo "Photon engraving sanctuary, reshaping matter with blades of light")) { gold() }
         add(("当万亿瓦特的激光聚焦于微米之间，连时空都会为之弯曲" translatedTo "When terawatt lasers focus at micron scale, even spacetime bends")) { gray() }
         add(("精密到可以给病毒刻二维码，虽然没人知道为什么需要这么做" translatedTo "Precise enough to engrave QR codes on viruses, though no one knows why")) { green() }
     }
@@ -611,7 +681,17 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
         add("从螺丝到芯片，所有基础部件都能在这里高效产出" translatedTo "From screws to chips, all basic components can be efficiently produced here") { green() }
         add("董事长曾说：这是凡间最接近神之造物的工业奇迹" translatedTo "The chairman once said: This is industry's closest approximation to divine creation") { gold() }
         add("维护成本同样高昂，但为了未来必须承受的重量" translatedTo "Maintenance costs are equally high, but a necessary burden for the future") { red() }
-        add(Star(1) + ("重新定义量产效率，让基础部件制造进入全新时代" translatedTo "Redefining mass production efficiency, ushering in a new era of basic component manufacturing")) { gold() }
+        add(Star(1) + ("让基础部件制造进入全新时代" translatedTo "Ushering in a new era of basic component manufacturing")) { gold() }
+    }
+
+    // 分子重组仪
+    val MolecularTransformerTooltips = ComponentListSupplier {
+        setTranslationPrefix("molecular_transformer")
+        add("量子级分子操纵器，能在原子层面重新排列物质的基本结构" translatedTo "Quantum-level molecular manipulator capable of rearranging matter at atomic scale") { aqua() }
+        add("通过调控化学键的断裂与形成，实现物质性质的彻底转变" translatedTo "By controlling chemical bond breaking and formation achieves complete transformation of material properties") { blue() }
+        add("幽蓝的切伦科夫辐射，标志着分子层面的剧烈变化" translatedTo "Emits faint blue Cherenkov radiation indicating intense molecular-level changes") { yellow() }
+        add("重组过程不可逆，请确认输入输出物质以避免珍贵材料损失" translatedTo "Transformation process is irreversible confirm input/output materials to avoid losing precious resources") { red() }
+        add(Star(1) + ("物质炼金术的巅峰之作重新定义材料科学的边界" translatedTo "Pinnacle of material alchemy redefining the boundaries of materials science")) { gold() }
     }
 
     // 星核钻机
@@ -716,7 +796,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
         add("GTO集团纳米技术的巅峰之作，复杂聚合物一步加工解决方案" translatedTo "GTO Group's pinnacle of nanotechnology, one-step processing solution for complex polymers") { gray() }
         add("纳米蜂群精准重排分子链结构，创造出前所未有的新型材料" translatedTo "Nano-swarms precisely rearrange molecular chains to create unprecedented new materials") { gray() }
         add("首次实现在分子层面上自由编辑物质的梦想" translatedTo "Materials scientists praise: First realization of the dream to freely edit matter at molecular level") { gray() }
-        add("标志着材料工程进入全新时代，开启无限可能的应用前景" translatedTo "Marks a new era in materials engineering, opening unlimited application possibilities") { gray() }
+        add("标志着材料工程进入全新时代，开启了无限可能的应用前景" translatedTo "Marks a new era in materials engineering, opening unlimited application possibilities") { gray() }
     }
 
     // 生物工程模块
@@ -1221,6 +1301,17 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
         add(Star(1) + ("农业科技的绿洲" translatedTo "Oasis of agricultural technology")) { gold() }
     }
 
+    // 狂飙巨型聚变反应堆控制电脑
+    val KuangbiaoGiantNuclearFusionReactorTooltips = ComponentListSupplier {
+        setTranslationPrefix("kuangbiao_giant_nuclear_fusion_reactor")
+        add("它所模拟的，是亘古不变的光芒" translatedTo "It simulates the eternal light") { aqua() }
+        add("磁场约束下的等离子体以光速旋转，重现宇宙创世时的能量密度" translatedTo "Plasma spins at light speed within magnetic constraints recreating cosmic creation energy density") { blue() }
+        add("氘氚聚变产生的能量足以点亮整座城市，却安静得如同沉睡的婴儿" translatedTo "Deuterium-tritium fusion generates enough energy to power entire cities yet remains silent as a sleeping infant") { lightPurple() }
+        add("反应堆核心的温度超过一亿摄氏度，是人类制造的最接近太阳的造物" translatedTo "Reactor core exceeds 100 million degrees Celsius humanity's closest creation to a star") { green() }
+        add("每秒钟数百万次聚变反应，都在向宇宙证明文明的科技巅峰" translatedTo "Millions of fusion reactions per second prove civilization's technological pinnacle to the cosmos") { yellow() }
+        add(Star(1) + ("将恒星之力囚禁于钢铁之中" translatedTo "Imprisoning stellar power within steel civilization")) { gold() }
+    }
+
     // 中子旋涡
     val NeutronVortexTooltips = ComponentListSupplier {
         setTranslationPrefix("neutron_vortex")
@@ -1267,6 +1358,16 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
         add(Star(1) + ("纳米技术的核心引擎" translatedTo "Core engine of nanotechnology")) { gold() }
     }
 
+    // 物质生成机
+    val MatterFabricatorTooltips = ComponentListSupplier {
+        setTranslationPrefix("matter_fabricator")
+        add("GTO研发部门的革命性突破，将废弃材料转化为万能的UU物质" translatedTo "GTO R&D's revolutionary breakthrough converting waste materials into universal UU matter") { aqua() }
+        add("量子级分子重构系统能分解任何废料，重组成基础物质单元" translatedTo "Quantum-level molecular restructuring system decomposes any waste into basic matter units") { blue() }
+        add("从此小到花草，大到宇宙，万物具有了无限可能性" translatedTo "From now on, from flowers to the cosmos, everything has infinite possibilities") { lightPurple() }
+        add("能量消耗极大，但相比传统制造方式仍具有显著效率优势" translatedTo "Although energy-intensive it offers significant efficiency advantages over traditional manufacturing") { green() }
+        add(Star(1) + ("变废为宝和物质循环的可能性" translatedTo "The possibility of waste-to-resource and material recycling")) { gold() }
+    }
+
     // 磁约束维度震荡装置
     val MagneticConfinementDimensionalityShockDeviceTooltips = ComponentListSupplier {
         setTranslationPrefix("magnetic_confinement_dimensionality_shock_device")
@@ -1295,7 +1396,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
         add("纯白超临界外壳下的超维度合成奇迹" translatedTo "Transdimensional synthesis miracle within pure white sps casing") { white() }
         add("同时维持多个超临界相，在多重现实中并行合成" translatedTo "Maintaining multiple supercritical phases simultaneously, parallel synthesis across multiverse") { gray() }
         add("量子纠缠协调系统，确保每个临界点完美同步" translatedTo "Quantum entanglement coordination system ensures perfect synchronization of every critical point") { aqua() }
-        add("运行时外壳会呈现珍珠般的光泽流动，美得令人窒息" translatedTo "Casing displays pearl-like luminous flows during operation, breathtakingly beautiful") { yellow() }
+        add("外壳呈现珍珠般的光泽流动，美得令人窒息" translatedTo "Casing displays pearl-like luminous flows, breathtakingly beautiful") { yellow() }
         add("突破单一时空限制，现在可以在不同维度同时进行合成" translatedTo "Breaking single spacetime limits, now capable of simultaneous synthesis across dimensions") { gold() }
         add(Star(1) + ("让物质创造突破维度限制" translatedTo "Ultimate form of supercritical synthesis, breaking dimensional limits in material creation")) { white() }
     }

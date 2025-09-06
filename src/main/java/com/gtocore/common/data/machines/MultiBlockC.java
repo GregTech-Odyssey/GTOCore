@@ -182,6 +182,7 @@ public final class MultiBlockC {
 
     public static final MultiblockMachineDefinition MOLECULAR_TRANSFORMER = multiblock("molecular_transformer", "分子重组仪", ElectricMultiblockMachine::new)
             .allRotation()
+            .tooltips(GTOMachineStories.INSTANCE.getMolecularTransformerTooltips().getSupplier())
             .parallelizableTooltips()
             .laserTooltips()
             .recipeTypes(GTORecipeTypes.MOLECULAR_TRANSFORMER_RECIPES)
@@ -360,6 +361,7 @@ public final class MultiBlockC {
 
     public static final MultiblockMachineDefinition THREE_DIMENSIONAL_PRINTER = multiblock("three_dimensional_printer", "3D打印机", ElectricMultiblockMachine::new)
             .nonYAxisRotation()
+            .tooltips(GTOMachineStories.INSTANCE.getThreeDimensionalPrinterTooltips().getSupplier())
             .parallelizableTooltips()
             .recipeTypes(GTORecipeTypes.THREE_DIMENSIONAL_PRINTER_RECIPES)
             .parallelizableOverclock()

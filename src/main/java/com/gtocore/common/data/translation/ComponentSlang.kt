@@ -1,11 +1,12 @@
 package com.gtocore.common.data.translation
 
-import com.gregtechceu.gtceu.api.GTValues
 import com.gtocore.api.lang.ComponentSupplier
 import com.gtocore.api.lang.initialize
 import com.gtocore.api.lang.toLiteralSupplier
 import com.gtocore.api.lang.translatedTo
 import com.gtocore.api.misc.AutoInitialize
+
+import com.gregtechceu.gtceu.api.GTValues
 
 object ComponentSlang : AutoInitialize<ComponentSlang>() {
     // ****** 量词 ****** //
@@ -60,11 +61,11 @@ object ComponentSlang : AutoInitialize<ComponentSlang>() {
     val RotorEfficiency = { tier: Int ->
         var name = GTValues.VNF[tier] + "§r"
         "转子支架每超过${name}一级，每级增加10%效率，并翻倍输出功率" translatedTo
-                "Each Rotor Holder above $name adds 10% efficiency and multiplies EU/t by 2"
+            "Each Rotor Holder above $name adds 10% efficiency and multiplies EU/t by 2"
     }.initialize()
     val RecipeLevelBelow = { tier: Int ->
         var name = GTValues.VNF[tier] + "§r"
-        "只能运行${name}级及以下配方" translatedTo "Can only run ${name}-tier and below recipes"
+        "只能运行${name}级及以下配方" translatedTo "Can only run $name-tier and below recipes"
     }.initialize()
     val UsePerHourLubricant =
         { cnt: Long -> "每小时消耗${cnt}mB润滑油" translatedTo "Use ${cnt}mB Lubricant Per Hour" }.initialize()

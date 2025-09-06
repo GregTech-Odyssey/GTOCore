@@ -1,6 +1,5 @@
 package com.gtocore.common.data.translation
 
-import com.gregtechceu.gtceu.api.GTValues
 import com.gtocore.api.lang.ComponentListSupplier
 import com.gtocore.api.lang.ComponentSupplier
 import com.gtocore.api.lang.toComponentSupplier
@@ -9,34 +8,26 @@ import com.gtocore.common.machine.electric.ElectricHeaterMachine
 import com.gtocore.common.machine.multiblock.storage.MEStorageMachine
 import com.gtocore.common.machine.noenergy.BoilWaterMachine
 import com.gtocore.common.machine.noenergy.HeaterMachine
+
+import net.minecraft.network.chat.Component
+
+import com.gregtechceu.gtceu.api.GTValues
 import com.gtolib.utils.NumberUtils
 import com.lowdragmc.lowdraglib.side.fluid.FluidHelper
-import net.minecraft.network.chat.Component
 
 object GTOMachineTooltips {
 
-    fun ComponentListSupplier.section(
-        title: ComponentSupplier,
-        style: ComponentSupplier.() -> ComponentSupplier = { gold() },
-        prefix: ComponentSupplier = ComponentSlang.Bar(1)
-    ) {
+    fun ComponentListSupplier.section(title: ComponentSupplier, style: ComponentSupplier.() -> ComponentSupplier = { gold() }, prefix: ComponentSupplier = ComponentSlang.Bar(1)) {
         add(prefix + title, style)
     }
 
     // FIXME: 引导圆圈不变黄色
-    fun ComponentListSupplier.content(
-        content: ComponentSupplier,
-        style: ComponentSupplier.() -> ComponentSupplier = { white() },
-        prefix: ComponentSupplier = ComponentSlang.Circle(2)
-    ) {
+    fun ComponentListSupplier.content(content: ComponentSupplier, style: ComponentSupplier.() -> ComponentSupplier = { white() }, prefix: ComponentSupplier = ComponentSlang.Circle(2)) {
         add(prefix + content, style)
     }
 
     // default stylesheets
-    fun ComponentListSupplier.main(
-        info: ComponentSupplier,
-        style: ComponentSupplier.() -> ComponentSupplier = { lightPurple() }
-    ) {
+    fun ComponentListSupplier.main(info: ComponentSupplier, style: ComponentSupplier.() -> ComponentSupplier = { lightPurple() }) {
         section(info, style, ComponentSlang.Tab(0))
     }
 
@@ -83,7 +74,7 @@ object GTOMachineTooltips {
         error(("当蒸汽溢出后继续工作会" translatedTo "When steam overflows, continuing to work will ") + ComponentSlang.Explosion)
         content(
             ("可能发生爆炸的临界温度为" translatedTo "The critical temperature for explosion is ") +
-                    BoilWaterMachine.DrawWaterExplosionLine.toLiteralSupplier().red(),
+                BoilWaterMachine.DrawWaterExplosionLine.toLiteralSupplier().red(),
         )
     }
 
@@ -283,13 +274,13 @@ object GTOMachineTooltips {
             command(ComponentSlang.UsePerHourLubricant(10 * FluidHelper.getBucket()))
             increase(
                 ("提供320mB/s的§a液态氧§r，并消耗§4双倍§r燃料以产生" translatedTo "Provide 80mB/s of §eLiquid Oxygen§r, consuming §adouble§r fuel to produce up to ") +
-                        (GTValues.V[GTValues.UV]).toLiteralSupplier().yellow() +
-                        (" EU/t的功率" translatedTo " EU/t"),
+                    (GTValues.V[GTValues.UV]).toLiteralSupplier().yellow() +
+                    (" EU/t的功率" translatedTo " EU/t"),
             )
             increase(
                 ("再提供480mB/s的§a四氧化二氮§r，并消耗§4四倍§r燃料以产生" translatedTo "Provide extra 480mB/s of §eNitrous Oxide§r, consuming §afour times§r fuel to produce up to ") +
-                        (GTValues.V[GTValues.UHV]).toLiteralSupplier().yellow() +
-                        (" EU/t的功率" translatedTo " EU/t"),
+                    (GTValues.V[GTValues.UHV]).toLiteralSupplier().yellow() +
+                    (" EU/t的功率" translatedTo " EU/t"),
             )
         }
 
@@ -431,6 +422,15 @@ object GTOMachineTooltips {
         section(ComponentSlang.RunningRequirements)
         command("使用纳米蜂群引导结构等级" translatedTo "Use nanites to guide structure level")
         info("金：1，山铜：2，末影素：3" translatedTo "Gold: 1, Orichalcum: 2, Enderium: 3")
+    }
+
+    // 进阶装配线
+    val AdvancedAssemblyLineTooltips = ComponentListSupplier {
+        setTranslationPrefix("advanced_assembly_line")
+
+        ok("可以使用更大的输入总线" translatedTo "Can use larger input buses")
+        command("需要保证每片的物品与配方对应" translatedTo "Must ensure each item corresponds to the recipe")
+        command("只能使用数据靶仓" translatedTo "Only data target chambers can be used")
     }
 
     // 方块转换室
@@ -602,7 +602,8 @@ object GTOMachineTooltips {
         ok("与电流大小无关" translatedTo "Not related to current size")
         content(
             "没有电流上限简直是原始人的超级科技" translatedTo "No current limit is a super technology of the primitive",
-            { rainbow().italic() })
+            { rainbow().italic() },
+        )
     }
 
     // 拉丝塔
@@ -628,7 +629,8 @@ object GTOMachineTooltips {
 
         section(
             "无限容量模式：满足下列条件时自动启用" translatedTo "Infinite Capacity Mode: Automatically enable when the following conditions are met",
-            { rainbow() })
+            { rainbow() },
+        )
         content("至少安装有 $bytes Bytes 容量" translatedTo "At least $bytes Bytes capacity installed")
         content("至少安装有 64 个无限存储组件" translatedTo "At least 64 Infinite Storage Components installed")
     }
@@ -806,8 +808,10 @@ object GTOMachineTooltips {
 
         section(ComponentSlang.RunningRequirements)
         important(ComponentSlang.RecipeLevelBelow(GTValues.IV))
-        increase(("升级结构后支持到" translatedTo "After upgrading the structure, it supports tier ") +
-                GTValues.VNF[GTValues.UV].toLiteralSupplier())
+        increase(
+            ("升级结构后支持到" translatedTo "After upgrading the structure, it supports tier ") +
+                GTValues.VNF[GTValues.UV].toLiteralSupplier(),
+        )
     }
 
     // 蒸汽搅拌机
@@ -837,18 +841,18 @@ object GTOMachineTooltips {
         section("回收机器" translatedTo "Disassemble Machines")
         val comma = ", ".toLiteralSupplier()
         function(
-            ("可拆解: " translatedTo "Can disassemble: ")
-                    + Component.translatable("gtceu.assembler").toComponentSupplier()
-                    + comma
-                    + Component.translatable("gtceu.precision_assembler").toComponentSupplier()
-                    + comma
-                    + Component.translatable("gtceu.assembler_module").toComponentSupplier()
-                    + comma
-                    + Component.translatable("gtceu.assembly_line").toComponentSupplier()
-                    + comma
-                    + Component.translatable("gtceu.circuit_assembly_line").toComponentSupplier()
-                    + comma
-                    + Component.translatable("gtceu.suprachronal_assembly_line").toComponentSupplier()
+            ("可拆解: " translatedTo "Can disassemble: ") +
+                Component.translatable("gtceu.assembler").toComponentSupplier() +
+                comma +
+                Component.translatable("gtceu.precision_assembler").toComponentSupplier() +
+                comma +
+                Component.translatable("gtceu.assembler_module").toComponentSupplier() +
+                comma +
+                Component.translatable("gtceu.assembly_line").toComponentSupplier() +
+                comma +
+                Component.translatable("gtceu.circuit_assembly_line").toComponentSupplier() +
+                comma +
+                Component.translatable("gtceu.suprachronal_assembly_line").toComponentSupplier(),
         )
 
         command("同对应配方时间与耗能" translatedTo "Same duration and energy consumption as original recipe")
