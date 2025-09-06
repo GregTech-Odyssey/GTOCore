@@ -550,6 +550,7 @@ public final class MultiBlockH {
     public static final MultiblockMachineDefinition LARGE_STEAM_SOLAR_BOILER = multiblock("large_steam_solar_boiler", "大型蒸汽太阳能锅炉", LargeSteamSolarBoilerMachine::new)
             .nonYAxisRotation()
             .addTooltipsFromClass(LargeSteamSolarBoilerMachine.class)
+            .tooltips(GTOMachineStories.INSTANCE.getLargeSteamSolarBoilerTooltips().getSupplier())
             .recipeTypes(GTRecipeTypes.DUMMY_RECIPES)
             .block(GTBlocks.STEEL_HULL)
             .pattern((definition) -> FactoryBlockPattern.start(definition)

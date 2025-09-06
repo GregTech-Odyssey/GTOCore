@@ -83,11 +83,7 @@ public final class MultiBlockD {
     public static final MultiblockMachineDefinition GREENHOUSE = multiblock("greenhouse", "温室", GreenhouseMachine::new)
             .nonYAxisRotation()
             .recipeTypes(GTORecipeTypes.GREENHOUSE_RECIPES)
-            .tooltips(NewDataAttributes.EMPTY_WITH_BAR.create(
-                    h -> h.addLines("运行条件", "Operating Conditions", StyleBuilder::setGold),
-                    c -> c.addLines(
-                            NewDataAttributes.EMPTY_WITH_POINT.createBuilder(x -> x.addLines("需要阳光才能运行", "Requires sunlight to operate", StyleBuilder::setWhite), p -> p, StyleBuilder::setOneTab),
-                            NewDataAttributes.EMPTY_WITH_POINT.createBuilder(x -> x.addLines("太阳光照不足时速度减缓", "Speed slows down when sunlight is insufficient", StyleBuilder::setRed), p -> p, StyleBuilder::setOneTab))))
+            .tooltips(GTOMachineTooltips.INSTANCE.getGreenhouseTooltips().getSupplier())
             .overclock()
             .block(GTBlocks.MACHINE_CASING_ULV)
             .pattern(definition -> FactoryBlockPattern.start(definition)
@@ -112,27 +108,7 @@ public final class MultiBlockD {
     public static final MultiblockMachineDefinition EYE_OF_HARMONY = multiblock("eye_of_harmony", "鸿蒙之眼", HarmonyMachine::new)
             .nonYAxisRotation()
             .recipeTypes(GTORecipeTypes.COSMOS_SIMULATION_RECIPES)
-            .tooltips(NewDataAttributes.MAIN_FUNCTION.create(v -> v.addLines("创造微缩宇宙并获取资源", "Creates a mini-universe and gathers resources inside")))
-            .tooltips(NewDataAttributes.EMPTY_WITH_BAR.create(
-                    h -> h.addLines("供电系统", "Power System", StyleBuilder::setGold),
-                    c -> c.addLines(
-                            NewDataAttributes.EMPTY_WITH_POINT.createBuilder(x -> x.addLines("需要太多EU，无法用常规手段供能", "Requires too much EU, unable to power with conventional means", StyleBuilder::setRed), p -> p, StyleBuilder::setOneTab),
-                            NewDataAttributes.EMPTY_WITH_POINT.createBuilder(x -> x.addLines("由无线EU网络直接供给", "Directly supplied by wireless EU network", StyleBuilder::setWhite), p -> p, StyleBuilder::setOneTab),
-                            NewDataAttributes.EMPTY_WITH_POINT.createBuilder(x -> x.addLines("具体数值可在GUI内查看", "Specific values can be viewed in the GUI", StyleBuilder::setGray), p -> p, StyleBuilder::setOneTab))))
-            .tooltips(NewDataAttributes.EMPTY_WITH_BAR.create(
-                    h -> h.addLines("特殊超频", "Special Overclocking", StyleBuilder::setGold),
-                    c -> c.addLines(
-                            NewDataAttributes.EMPTY_WITH_POINT.createBuilder(x -> x.addLines("每提升16倍功率提升2倍速度", "Increasing speed by 2x for every 16x power increase", StyleBuilder::setWhite), p -> p, StyleBuilder::setOneTab),
-                            NewDataAttributes.EMPTY_WITH_POINT.createBuilder(x -> x.addLines("超频由编程电路调节", "Overclocking is adjusted by programmed circuits", StyleBuilder::setWhite), p -> p, StyleBuilder::setOneTab),
-                            NewDataAttributes.EMPTY_WITH_POINT.createBuilder(x -> x.addLines("电路1: 不执行超频", "Circuit 1: No overclocking", StyleBuilder::setGray), p -> p, StyleBuilder::setOneTab),
-                            NewDataAttributes.EMPTY_WITH_POINT.createBuilder(x -> x.addLines("电路2-4: 分别执行1-3次超频", "Circuits 2-4: Execute 1-3 times overclocking", StyleBuilder::setGray), p -> p, StyleBuilder::setOneTab))))
-            .tooltips(NewDataAttributes.EMPTY_WITH_BAR.create(
-                    h -> h.addLines("启动需求", "Startup Requirements", StyleBuilder::setGold),
-                    c -> c.addLines(
-                            NewDataAttributes.EMPTY_WITH_POINT.createBuilder(x -> x.addLines("1024B宇宙素", "1024B Cosmic Element", StyleBuilder::setWhite), p -> p, StyleBuilder::setOneTab),
-                            NewDataAttributes.EMPTY_WITH_POINT.createBuilder(x -> x.addLines("1024KB氢", "1024KB Hydrogen", StyleBuilder::setWhite), p -> p, StyleBuilder::setOneTab),
-                            NewDataAttributes.EMPTY_WITH_POINT.createBuilder(x -> x.addLines("1024KB氦", "1024KB Helium", StyleBuilder::setWhite), p -> p, StyleBuilder::setOneTab),
-                            NewDataAttributes.EMPTY_WITH_POINT.createBuilder(x -> x.addLines("氢氦存储在机器内部并持续消耗", "Hydrogen and helium stored inside and continuously consumed", StyleBuilder::setRed), p -> p, StyleBuilder::setOneTab))))
+            .tooltips(GTOMachineTooltips.INSTANCE.getEyeOfHarmonyTooltips().getSupplier())
             .fromSourceTooltips("GTNH")
             .block(GTBlocks.HIGH_POWER_CASING)
             .pattern(definition -> MultiBlockFileReader.start(definition)
@@ -156,16 +132,7 @@ public final class MultiBlockD {
     public static final MultiblockMachineDefinition SPACE_PROBE_SURFACE_RECEPTION = multiblock("space_probe_surface_reception", "宇宙探测器地面接收单元", SpaceProbeSurfaceReceptionMachine::new)
             .nonYAxisRotation()
             .recipeTypes(GTORecipeTypes.SPACE_PROBE_SURFACE_RECEPTION_RECIPES)
-            .tooltips(NewDataAttributes.EMPTY_WITH_BAR.create(
-                    h -> h.addLines("运行限制", "Operating Restrictions", StyleBuilder::setGold),
-                    c -> c.addLines(
-                            NewDataAttributes.EMPTY_WITH_POINT.createBuilder(x -> x.addLines("只能运行在空间站", "Can only operate on space station", StyleBuilder::setRed), p -> p, StyleBuilder::setOneTab))))
-            .tooltips(NewDataAttributes.EMPTY_WITH_BAR.create(
-                    h -> h.addLines("戴森球连接", "Dyson Sphere Connection", StyleBuilder::setGold),
-                    c -> c.addLines(
-                            NewDataAttributes.EMPTY_WITH_POINT.createBuilder(x -> x.addLines("自动连接星系内未使用的戴森球", "Automatically connects to unused Dyson spheres in the galaxy", StyleBuilder::setWhite), p -> p, StyleBuilder::setOneTab),
-                            NewDataAttributes.EMPTY_WITH_POINT.createBuilder(x -> x.addLines("根据戴森球模块数量提升产出", "Increases production based on Dyson sphere module count", StyleBuilder::setGreen), p -> p, StyleBuilder::setOneTab),
-                            NewDataAttributes.EMPTY_WITH_POINT.createBuilder(x -> x.addLines("该操作不会损坏戴森球", "This operation will not damage the Dyson sphere", StyleBuilder::setGray), p -> p, StyleBuilder::setOneTab))))
+            .tooltips(GTOMachineTooltips.INSTANCE.getSpaceProbeSurfaceReceptionTooltips().getSupplier())
             .perfectOCTooltips()
             .block(GCYMBlocks.CASING_ATOMIC)
             .pattern(definition -> MultiBlockFileReader.start(definition)
@@ -295,12 +262,7 @@ public final class MultiBlockD {
     public static final MultiblockMachineDefinition BLOCK_CONVERSION_ROOM = multiblock("block_conversion_room", "方块转换室", holder -> new BlockConversionRoomMachine(holder, false))
             .noneRotation()
             .recipeTypes(GTORecipeTypes.BLOCK_CONVERSIONRECIPES)
-            .tooltips(NewDataAttributes.MAIN_FUNCTION.create(v -> v.addLines("每秒随机转化机器内部方块", "Randomly converts blocks inside the machine every second")))
-            .tooltips(NewDataAttributes.EMPTY_WITH_BAR.create(
-                    h -> h.addLines("电压等级加成", "Voltage Tier Bonus", StyleBuilder::setGold),
-                    c -> c.addLines(
-                            NewDataAttributes.EMPTY_WITH_POINT.createBuilder(x -> x.addLines("每高出MV1级，转换方块数量+4", "For each tier above MV1, block conversion +4", StyleBuilder::setWhite), p -> p, StyleBuilder::setOneTab),
-                            NewDataAttributes.EMPTY_WITH_POINT.createBuilder(x -> x.addLines("不会重复转换同一方块", "Will not repeatedly convert the same block", StyleBuilder::setGray), p -> p, StyleBuilder::setOneTab))))
+            .tooltips(GTOMachineTooltips.INSTANCE.getBlockConversionRoomTooltips().getSupplier())
             .block(GTOBlocks.ALUMINIUM_BRONZE_CASING)
             .pattern(definition -> FactoryBlockPattern.start(definition)
                     .aisle("bbbbbbb", "bbbbbbb", "bdddddb", "bdddddb", "bdddddb", "bdddddb", "bdddddb", "bbbbbbb")
@@ -326,12 +288,7 @@ public final class MultiBlockD {
             .noneRotation()
             .recipeTypes(GTORecipeTypes.BLOCK_CONVERSIONRECIPES)
             .tooltips(GTOMachineStories.INSTANCE.getLargeBlockConversionRoomTooltips().getSupplier())
-            .tooltips(NewDataAttributes.MAIN_FUNCTION.create(v -> v.addLines("每秒随机转化机器内部一个方块", "Randomly converts blocks inside the machine every second")))
-            .tooltips(NewDataAttributes.EMPTY_WITH_BAR.create(
-                    h -> h.addLines("电压等级加成", "Voltage Tier Bonus", StyleBuilder::setGold),
-                    c -> c.addLines(
-                            NewDataAttributes.EMPTY_WITH_POINT.createBuilder(x -> x.addLines("每高出MV1级，转换方块数量+64", "For each tier above MV1, block conversion +64", StyleBuilder::setWhite), p -> p, StyleBuilder::setOneTab),
-                            NewDataAttributes.EMPTY_WITH_POINT.createBuilder(x -> x.addLines("不会重复转换同一方块", "Will not repeatedly convert the same block", StyleBuilder::setGray), p -> p, StyleBuilder::setOneTab))))
+            .tooltips(GTOMachineTooltips.INSTANCE.getLargeBlockConversionRoomTooltips().getSupplier())
             .block(GTOBlocks.ALUMINIUM_BRONZE_CASING)
             .pattern(definition -> FactoryBlockPattern.start(definition)
                     .aisle("bbbbbbbbbbb", "bbbbbbbbbbb", "bdddddddddb", "bdddddddddb", "bdddddddddb", "bdddddddddb", "bdddddddddb", "bdddddddddb", "bdddddddddb", "bbbbbbbbbbb")
@@ -362,7 +319,7 @@ public final class MultiBlockD {
             .recipeTypes(GTORecipeTypes.PCB_FACTORY_RECIPES)
             .parallelizableTooltips()
             .tooltips(GTOMachineStories.INSTANCE.getPCBFactoryTooltips().getSupplier())
-            .tooltipsText("使用纳米蜂群引导结构等级，金：1，山铜：2，末影素：3", "Use the nanites guidance structure level, gold: 1, orichalcum: 2, enderium: 3")
+            .tooltips(GTOMachineTooltips.INSTANCE.getPCBFactoryTooltips().getSupplier())
             .laserTooltips()
             .block(GTOBlocks.IRIDIUM_CASING)
             .pattern(definition -> PCBFactoryMachine.getBlockPattern(1, definition))
@@ -381,8 +338,7 @@ public final class MultiBlockD {
             .recipeTypes(GTRecipeTypes.BLAST_RECIPES)
             .durationMultiplierTooltips(0.5)
             .tooltips(GTOMachineStories.INSTANCE.getBlazeBlastFurnaceTooltips().getSupplier())
-            .tooltipsText("需每秒提供§b10x配方等级^2§r的§e液态烈焰§r", "Requires to provide %b10x(Recipe tier)²%r of %eLiquid Blaze%r per second")
-            .tooltipsKey("gtceu.machine.electric_blast_furnace.tooltip.2")
+            .tooltips(GTOMachineTooltips.INSTANCE.getBlazeBlastFurnaceTooltips().getSupplier())
             .specialParallelizableTooltips()
             .tooltips(NewDataAttributes.ALLOW_PARALLEL_NUMBER.create(64))
             .recipeModifier(RecipeModifierFunction.overclocking(0.5, 1, 0.5))
@@ -415,8 +371,7 @@ public final class MultiBlockD {
             .recipeTypes(GTRecipeTypes.VACUUM_RECIPES)
             .durationMultiplierTooltips(0.5)
             .tooltips(GTOMachineStories.INSTANCE.getColdIceFreezerTooltips().getSupplier())
-            .tooltipsText("需每秒提供§b10x配方等级^2§r的§b液态冰§r", "Requires to provide %b10x(Recipe tier)²%r of %bLiquid Ice%r per second")
-            .specialParallelizableTooltips()
+            .tooltips(GTOMachineTooltips.INSTANCE.getColdIceFreezerTooltips().getSupplier())
             .tooltips(NewDataAttributes.ALLOW_PARALLEL_NUMBER.create(64))
             .recipeModifiers(RecipeModifierFunction.overclocking(0.5, 1, 0.5))
             .block(GTOBlocks.COLD_ICE_CASING)
@@ -449,11 +404,7 @@ public final class MultiBlockD {
             .noneRotation()
             .recipeTypes(GTORecipeTypes.DOOR_OF_CREATE_RECIPES)
             .tooltips(GTOMachineStories.INSTANCE.getDoorOfCreateTooltips().getSupplier())
-            .tooltips(NewDataAttributes.EMPTY_WITH_BAR.create(
-                    h -> h.addLines("启动条件", "Startup Conditions", StyleBuilder::setGold),
-                    c -> c.addLines(
-                            NewDataAttributes.EMPTY_WITH_POINT.createBuilder(x -> x.addLines("在主世界提供MAX级电压", "Provides MAX tier voltage in the main world", StyleBuilder::setWhite), p -> p, StyleBuilder::setOneTab),
-                            NewDataAttributes.EMPTY_WITH_POINT.createBuilder(x -> x.addLines("设置电路为1开始运行", "Set circuit to 1 to start running", StyleBuilder::setWhite), p -> p, StyleBuilder::setOneTab))))
+            .tooltips(GTOMachineTooltips.INSTANCE.getDoorOfCreateTooltips().getSupplier())
             .noRecipeModifier()
             .block(GTOBlocks.DIMENSION_CONNECTION_CASING)
             .pattern(definition -> MultiBlockFileReader.start(definition)
@@ -509,11 +460,7 @@ public final class MultiBlockD {
             .noneRotation()
             .recipeTypes(GTORecipeTypes.BEDROCK_DRILLING_RIG_RECIPES)
             .tooltips(GTOMachineStories.INSTANCE.getBedrockDrillingRigTooltips().getSupplier())
-            .tooltips(NewDataAttributes.EMPTY_WITH_BAR.create(
-                    h -> h.addLines("运行条件", "Operating Conditions", StyleBuilder::setGold),
-                    c -> c.addLines(
-                            NewDataAttributes.EMPTY_WITH_POINT.createBuilder(x -> x.addLines("需要基岩在钻头下方", "Requires bedrock below the drill head", StyleBuilder::setWhite), p -> p, StyleBuilder::setOneTab),
-                            NewDataAttributes.EMPTY_WITH_POINT.createBuilder(x -> x.addLines("每次运行有10%概率破坏基岩", "Each run has 10% chance to destroy bedrock", StyleBuilder::setRed), p -> p, StyleBuilder::setOneTab))))
+            .tooltips(GTOMachineTooltips.INSTANCE.getBedrockDrillingRigTooltips().getSupplier())
             .overclock()
             .block(GTOBlocks.ECHO_CASING)
             .pattern(definition -> FactoryBlockPattern.start(definition)
@@ -645,16 +592,7 @@ public final class MultiBlockD {
             .eutMultiplierTooltips(0.9)
             .durationMultiplierTooltips(0.8)
             .tooltips(GTOMachineStories.INSTANCE.getProcessingPlantTooltips().getSupplier())
-            .tooltips(NewDataAttributes.EMPTY_WITH_BAR.create(
-                    h -> h.addLines("运行要求", "Operating Requirements", StyleBuilder::setGold),
-                    c -> c.addLines(
-                            NewDataAttributes.EMPTY_WITH_POINT.createBuilder(x -> x.addLines("需要放入对应配方等级的小机器", "Requires corresponding tier small machine", StyleBuilder::setWhite), p -> p, StyleBuilder::setOneTab),
-                            NewDataAttributes.EMPTY_WITH_POINT.createBuilder(x -> x.addLines("无法通过超净维护仓获得洁净环境", "Cannot obtain clean environment through clean maintenance", StyleBuilder::setRed), p -> p, StyleBuilder::setOneTab))))
-            .tooltips(NewDataAttributes.EMPTY_WITH_BAR.create(
-                    h -> h.addLines("并行加成", "Parallelism Bonus", StyleBuilder::setGold),
-                    c -> c.addLines(
-                            NewDataAttributes.EMPTY_WITH_POINT.createBuilder(x -> x.addLines("配方等级每高出ULV一级，并行数+2，安装附属模块后+4", "For each tier above ULV, parallelism +2, After installing the auxiliary module +4", StyleBuilder::setWhite), p -> p, StyleBuilder::setOneTab),
-                            NewDataAttributes.EMPTY_WITH_POINT.createBuilder(x -> x.addLines("最终配方等级受限于整体框架等级", "Final recipe tier is constrained by framework tier", StyleBuilder::setRed), p -> p, StyleBuilder::setOneTab))))
+            .tooltips(GTOMachineTooltips.INSTANCE.getProcessingPlantTooltips().getSupplier())
             .specialParallelizableTooltips()
             .tooltips(NewDataAttributes.ALLOW_PARALLEL_NUMBER.create(
                     h -> h.addLines("自ULV起，电压每高出1级，获得的并行数+2", "From ULV, each voltage tier increases the obtained parallelism by 2"),
@@ -700,11 +638,7 @@ public final class MultiBlockD {
     public static final MultiblockMachineDefinition NANO_FORGE = multiblock("nano_forge", "纳米锻炉", NanoForgeMachine::new)
             .nonYAxisRotation()
             .recipeTypes(GTORecipeTypes.NANO_FORGE_RECIPES)
-            .tooltips(NewDataAttributes.EMPTY_WITH_BAR.create(
-                    h -> h.addLines("运行条件", "Operating Conditions", StyleBuilder::setGold),
-                    c -> c.addLines(
-                            NewDataAttributes.EMPTY_WITH_POINT.createBuilder(x -> x.addLines("需要放入对应的纳米蜂群", "Requires corresponding nano swarm", StyleBuilder::setWhite), p -> p, StyleBuilder::setOneTab),
-                            NewDataAttributes.EMPTY_WITH_POINT.createBuilder(x -> x.addLines("三种等级: 碳, 安普洛, 龙", "Three tiers: Carbon, Amprosium, Draconium", StyleBuilder::setGray), p -> p, StyleBuilder::setOneTab))))
+            .tooltips(GTOMachineTooltips.INSTANCE.getNanoForgeTooltips().getSupplier())
             .specialParallelizableTooltips()
             .tooltips(NewDataAttributes.ALLOW_PARALLEL_NUMBER.create(
                     h -> h.addLines("对应配方纳米蜂群的数量", "Number of corresponding recipe nano swarms")))
@@ -756,17 +690,7 @@ public final class MultiBlockD {
     public static final MultiblockMachineDefinition NEUTRON_ACTIVATOR = multiblock("neutron_activator", "中子活化器", NeutronActivatorMachine::new)
             .nonYAxisRotation()
             .tooltips(GTOMachineStories.INSTANCE.getNeutronActivatorTooltips().getSupplier())
-            .tooltips(NewDataAttributes.EMPTY_WITH_BAR.create(
-                    h -> h.addLines("§7超光速运动!", "§7Superluminal Movement!", StyleBuilder::setGold),
-                    c -> c.addLines(
-                            NewDataAttributes.EMPTY_WITH_POINT.createBuilder(x -> x.addLines("额外高速管道方块提供时间减免", "Additional high-speed pipeline blocks provide time reduction", StyleBuilder::setWhite), p -> p, StyleBuilder::setOneTab),
-                            NewDataAttributes.EMPTY_WITH_POINT.createBuilder(x -> x.addLines("同时降低中子加速器效率", "While lowering neutron accelerator efficiency", StyleBuilder::setRed), p -> p, StyleBuilder::setOneTab),
-                            NewDataAttributes.EMPTY_WITH_POINT.createBuilder(x -> x.addLines("效率公式: 0.95^额外方块数量", "Efficiency formula: 0.95^Number of Additional Blocks", StyleBuilder::setGray), p -> p, StyleBuilder::setOneTab))))
-            .tooltips(NewDataAttributes.EMPTY_WITH_BAR.create(
-                    h -> h.addLines("中子动能系统", "Neutron Kinetic Energy System", StyleBuilder::setGold),
-                    c -> c.addLines(
-                            NewDataAttributes.EMPTY_WITH_POINT.createBuilder(x -> x.addLines("无中子加速器运行时每秒降低§e72KeV§r", "When no neutron accelerator is running, decreases per second", StyleBuilder::setWhite), p -> p, StyleBuilder::setOneTab),
-                            NewDataAttributes.EMPTY_WITH_POINT.createBuilder(x -> x.addLines("输入石墨/铍粉可立即吸收§e10MeV§r", "Input graphite/beryllium powder can immediately absorb", StyleBuilder::setWhite), p -> p, StyleBuilder::setOneTab))))
+            .tooltips(GTOMachineTooltips.INSTANCE.getNeutronActivatorTooltips().getSupplier())
             .parallelizableTooltips()
             .fromSourceTooltips("GTNH")
             .recipeTypes(GTORecipeTypes.NEUTRON_ACTIVATOR_RECIPES)
@@ -799,9 +723,7 @@ public final class MultiBlockD {
     public static final MultiblockMachineDefinition HEAT_EXCHANGER = multiblock("heat_exchanger", "热交换机", HeatExchangerMachine::new)
             .allRotation()
             .tooltips(GTOMachineStories.INSTANCE.getHeatExchangerTooltips().getSupplier())
-            .tooltipsText("每次处理全部输入的热流体", "Processes all input hot fluids every time")
-            .tooltipsText("需要保证输入的冷却液能将流体全部冷却", "Must ensure the cooling liquid input can cool all fluids")
-            .tooltipsText("连续运行4次后将输出高级蒸汽", "it will output high level steam after running continuously 4 times")
+            .tooltips(GTOMachineTooltips.INSTANCE.getHeatExchangerTooltips().getSupplier())
             .recipeTypes(GTORecipeTypes.HEAT_EXCHANGER_RECIPES)
             .block(GTBlocks.CASING_TUNGSTENSTEEL_ROBUST)
             .pattern(definition -> FactoryBlockPattern.start(definition)
@@ -856,6 +778,7 @@ public final class MultiBlockD {
             .allRotation()
             .recipeTypes(GTRecipeTypes.ASSEMBLY_LINE_RECIPES)
             .tooltips(GTOMachineStories.INSTANCE.getAdvancedAssemblyLineTooltips().getSupplier())
+            .tooltips(GTOMachineTooltips.INSTANCE.getAdvancedAssemblyLineTooltips().getSupplier())
             .parallelizableTooltips()
             .laserTooltips()
             .block(GTBlocks.CASING_STEEL_SOLID)
@@ -886,6 +809,7 @@ public final class MultiBlockD {
     public static final MultiblockMachineDefinition FISSION_REACTOR = multiblock("fission_reactor", "裂变反应堆", FissionReactorMachine::new)
             .nonYAxisRotation()
             .recipeTypes(GTORecipeTypes.FISSION_REACTOR_RECIPES)
+            .tooltips(GTOMachineStories.INSTANCE.getFissionReactorTooltips().getSupplier())
             .tooltips(GTOMachineTooltips.INSTANCE.getFissionReactorTooltips().getSupplier())
             .specialParallelizableTooltips()
             .tooltips(NewDataAttributes.ALLOW_PARALLEL_NUMBER.create(CNEN.create("等于燃料组件数量", "Number of Fuel Components")).get().toArray(new Component[0]))
@@ -919,17 +843,7 @@ public final class MultiBlockD {
             .nonYAxisRotation()
             .recipeTypes(GTRecipeTypes.DUMMY_RECIPES)
             .tooltips(GTOMachineStories.INSTANCE.getSpaceElevatorTooltips().getSupplier())
-            .tooltips(NewDataAttributes.MAIN_FUNCTION.create(
-                    v -> v.addLines("模块运行优化系统", "Module Operation Optimization System"),
-                    p -> p.addCommentLines(
-                            """
-                                    可安装最多12个拓展模块
-                                    提升电压等级可为模块提供耗时减免
-                                    运行前需提供128*(机器等级-7)的算力""",
-                            """
-                                    Can install up to 12 expansion modules
-                                    Increasing voltage tier can provide Duration reductions for modules
-                                    Before starting, it is necessary to provide 128 * (tier - 7) computation power.""")))
+            .tooltips(GTOMachineTooltips.INSTANCE.getSpaceElevatorTooltips().getSupplier())
             .fromSourceTooltips("GTNH")
             .block(GTOBlocks.SPACE_ELEVATOR_MECHANICAL_CASING)
             .pattern(definition -> MultiBlockFileReader.start(definition, RelativeDirection.RIGHT, RelativeDirection.UP, RelativeDirection.BACK)
@@ -956,12 +870,8 @@ public final class MultiBlockD {
 
     public static final MultiblockMachineDefinition SLAUGHTERHOUSE = multiblock("slaughterhouse", "工业屠宰场", SlaughterhouseMachine::new)
             .nonYAxisRotation()
-            .tooltipsText("电动刷怪塔，自动杀怪", "Electric Spawner, automatically kills mobs")
-            .tooltipsText("电压等级每高出MV1级，每次处理次数+8", "Voltage tier above MV1 increases the number of processes by 8 each time")
-            .tooltipsText("运行前需设置电路，1号电路为非敌对生物，2号为敌对生物", "Circuit must be set up before running; Circuit 1 is for non-hostile mobs, 2 is for hostile mobs")
-            .tooltipsText("如果在机器GUI内放置了电动刷怪笼则只会刷出刷怪笼里的内容", "If an electric spawner is placed in the machine GUI, only the contents of the spawner will spawn")
-            .tooltipsText("实体生成模式为玩家击杀的实际掉落，性能较差，可获取经验", "Entity generation mode is based on actual drops from player kills, performance is lower, can gain experience")
-            .tooltipsText("非实体生成模式为虚拟掉落，如果存在刷怪笼则使用并行处理", "Non-entity generation mode is virtual drops; if a spawner exists, it uses parallel processing")
+            .tooltips(GTOMachineStories.INSTANCE.getSlaughterhouseTooltips().getSupplier())
+            .tooltips(GTOMachineTooltips.INSTANCE.getSlaughterhouseTooltips().getSupplier())
             .recipeTypes(GTRecipeTypes.DUMMY_RECIPES)
             .block(GTBlocks.CASING_STEEL_SOLID)
             .pattern(definition -> FactoryBlockPattern.start(definition)
@@ -1080,7 +990,7 @@ public final class MultiBlockD {
                     .nonYAxisRotation()
                     .langValue("Advanced Fusion Reactor MK %s".formatted(FormattingUtil.toRomanNumeral(tier - 5)))
                     .recipeTypes(GTRecipeTypes.FUSION_RECIPES)
-                    .tooltipsKey("gtocore.machine.kuangbiao_one_giant_nuclear_fusion_reactor.tooltip.0")
+                    .tooltips(GTOMachineStories.INSTANCE.getKuangbiaoGiantNuclearFusionReactorTooltips().getSupplier())
                     .tooltipsKey("gtceu.machine.fusion_reactor.capacity", FusionReactorMachine.calculateEnergyStorageFactor(tier, 16) / 1000000L)
                     .tooltipsKey("gtceu.machine.fusion_reactor.overclocking")
                     .parallelizableTooltips()
@@ -1227,7 +1137,8 @@ public final class MultiBlockD {
 
     public static final MultiblockMachineDefinition DISSOLVING_TANK = multiblock("dissolving_tank", "溶解罐", DissolvingTankMachine::new)
             .nonYAxisRotation()
-            .tooltipsText("必须保证输入的流体与配方流体比例相同，否则无产物输出", "Must ensure the ratio of input fluid to recipe fluid is the same, otherwise no product output")
+            .tooltips(GTOMachineStories.INSTANCE.getDissolvingTankTooltips().getSupplier())
+            .tooltips(GTOMachineTooltips.INSTANCE.getDissolvingTankTooltips().getSupplier())
             .parallelizableTooltips()
             .recipeTypes(GTORecipeTypes.DISSOLUTION_TREATMENT_RECIPES)
             .block(GTBlocks.CASING_STAINLESS_CLEAN)

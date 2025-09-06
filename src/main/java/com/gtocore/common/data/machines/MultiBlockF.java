@@ -5,6 +5,7 @@ import com.gtocore.common.data.GTOBlocks;
 import com.gtocore.common.data.GTOMaterials;
 import com.gtocore.common.data.GTORecipeTypes;
 import com.gtocore.common.data.translation.GTOMachineStories;
+import com.gtocore.common.data.translation.GTOMachineTooltips;
 import com.gtocore.common.machine.multiblock.electric.processing.CompoundExtremeCoolingMachine;
 
 import com.gtolib.GTOCore;
@@ -279,8 +280,7 @@ public final class MultiBlockF {
     public static final MultiblockMachineDefinition SWARM_CORE = multiblock("swarm_core", "蜂群之心", CustomParallelMultiblockMachine.createParallel(m -> 8192, true))
             .nonYAxisRotation()
             .tooltips(GTOMachineStories.INSTANCE.getSwarmCoreTooltips().getSupplier())
-            .tooltipsText("能够运行任意等级的纳米锻炉配方", "Can run any tier of nano forge recipes")
-            .tooltipsText("处理速度固定为20倍", "Processing speed is fixed at 20 times")
+            .tooltips(GTOMachineTooltips.INSTANCE.getSwarmCoreTooltips().getSupplier())
             .perfectOCTooltips()
             .laserTooltips()
             .recipeTypes(GTORecipeTypes.NANO_FORGE_RECIPES)
