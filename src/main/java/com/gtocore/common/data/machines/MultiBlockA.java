@@ -108,8 +108,7 @@ public final class MultiBlockA {
             .workableCasingRenderer(GTOCore.id("block/casings/stainless_evaporation_casing"), GTCEu.id("block/multiblock/evaporation_plant"))
             .register();
 
-    public static final MultiblockMachineDefinition PLASMA_CONDENSER = multiblock("plasma_condenser", "等离子冷凝器",
-            (h) -> new ElectricMultiblockMachine(h))
+    public static final MultiblockMachineDefinition PLASMA_CONDENSER = multiblock("plasma_condenser", "等离子冷凝器", ElectricMultiblockMachine::new)
             .allRotation()
             .recipeTypes(GTORecipeTypes.PLASMA_CONDENSER_RECIPES)
             .perfectOCTooltips()
@@ -311,8 +310,8 @@ public final class MultiBlockA {
 
     public static final MultiblockMachineDefinition VOID_FLUID_DRILLING_RIG = multiblock("void_fluid_drilling_rig", "虚空流体钻机", VoidFluidDrillingRigMachine::new)
             .nonYAxisRotation()
-            .tooltipsText("需要最低30720EU/t的功率", "Requires a minimum power of 30,720EU/t")
             .tooltips(GTOMachineStories.INSTANCE.getVoidFluidDrillTooltips().getSupplier())
+            .tooltips(GTOMachineTooltips.INSTANCE.getVoidFluidDrillTooltips().getSupplier())
             .recipeTypes(GTORecipeTypes.DUMMY_RECIPES)
             .block(GTBlocks.CASING_HSSE_STURDY)
             .pattern(definition -> FactoryBlockPattern.start(definition, BACK, UP, LEFT)
@@ -341,8 +340,7 @@ public final class MultiBlockA {
 
     public static final MultiblockMachineDefinition VOID_MINER = multiblock("void_miner", "虚空采矿机", VoidMinerMachine::new)
             .nonYAxisRotation()
-            .tooltipsText("需要输入1B钻井液和最低1920EU/t的功率", "Requires 1B drilling fluid and a minimum power of 1920EU/t")
-            .tooltipsText("按维度随机选取4分矿石输出，电压等级决定最大输出数量，电流决定并行数", "Randomly selects 4 types of ores output based on the dimension, with the voltage level determining the maximum output quantity and the current determining the parallels")
+            .tooltips(GTOMachineTooltips.INSTANCE.getVoidMinerTooltips().getSupplier())
             .recipeTypes(GTORecipeTypes.DUMMY_RECIPES)
             .block(GTBlocks.CASING_TUNGSTENSTEEL_ROBUST)
             .pattern(definition -> FactoryBlockPattern.start(definition, FRONT, UP, RIGHT)
@@ -373,33 +371,7 @@ public final class MultiBlockA {
             .nonYAxisRotation()
             .recipeTypes(GTORecipeTypes.LARGE_VOID_MINER_RECIPES)
             .recipeTypes(GTORecipeTypes.RANDOM_ORE_RECIPES)
-            .tooltips(NewDataAttributes.EMPTY_WITH_BAR.create(
-                    h -> h.addLines("工作模式", "Operating Modes", StyleBuilder::setGold),
-                    c -> c.addLines(
-                            NewDataAttributes.EMPTY_WITH_POINT.createBuilder(
-                                    x -> x.addLines("精准模式:", "Precision Mode:", StyleBuilder::setBold),
-                                    p -> p,
-                                    StyleBuilder::setOneTab),
-                            NewDataAttributes.EMPTY_WITH_POINT.createBuilder(
-                                    x -> x.addLines("消耗精华采集指定矿脉", "Consumes resources to collect specified veins", StyleBuilder::setAqua),
-                                    p -> p,
-                                    StyleBuilder::setTwoTabs),
-                            NewDataAttributes.EMPTY_WITH_POINT.createBuilder(
-                                    x -> x.addLines("随机模式:", "Random Mode:", StyleBuilder::setBold),
-                                    p -> p,
-                                    StyleBuilder::setOneTab),
-                            NewDataAttributes.EMPTY_WITH_POINT.createBuilder(
-                                    x -> x.addLines("消耗10KB的钻井液", "Consumes 10KB of drilling fluid", StyleBuilder::setAqua),
-                                    p -> p,
-                                    StyleBuilder::setTwoTabs),
-                            NewDataAttributes.EMPTY_WITH_POINT.createBuilder(
-                                    x -> x.addLines("耗时更长随机采集所有矿石", "Longer duration to randomly collect all ores", StyleBuilder::setAqua),
-                                    p -> p,
-                                    StyleBuilder::setTwoTabs),
-                            NewDataAttributes.EMPTY_WITH_POINT.createBuilder(
-                                    x -> x.addLines("注意: 确保输出空间足够", "Note: Ensure enough output space", StyleBuilder::setRed),
-                                    p -> p,
-                                    StyleBuilder::setTwoTabs))))
+            .tooltips(GTOMachineTooltips.INSTANCE.getLargeVoidMinerTooltips().getSupplier())
             .recipeModifier((machine, recipe) -> {
                 if (((ElectricMultiblockMachine) machine).getRecipeType() == GTORecipeTypes.RANDOM_ORE_RECIPES) {
                     return RecipeModifierFunction.overclocking(machine, ParallelLogic.accurateParallel(machine, recipe, 1 << ((((ElectricMultiblockMachine) machine).getTier() - GTValues.ZPM) << 1)));
@@ -602,9 +574,7 @@ public final class MultiBlockA {
             .recipeTypes(GTORecipeTypes.PRECISION_ASSEMBLER_RECIPES)
             .recipeTypes(GTRecipeTypes.ASSEMBLER_RECIPES)
             .tooltips(GTOMachineStories.INSTANCE.getPrecisionAssemblerTooltips().getSupplier())
-            .tooltips(NewDataAttributes.RUNTIME_REQUIREMENT.create(
-                    c -> c.addLines("外壳等级决定配方等级上限",
-                            "The machine casing tier determines the upper limit of recipe tier")))
+            .tooltips(GTOMachineTooltips.INSTANCE.getPrecisionAssemblerTooltips().getSupplier())
             .tooltips(NewDataAttributes.ALLOW_PARALLEL_NUMBER.create(
                     h -> h.addLines("由玻璃等级决定", "Determined by glass tier"),
                     c -> c.addCommentLines(
@@ -672,6 +642,7 @@ public final class MultiBlockA {
             .allRotation()
             .recipeTypes(GTORecipeTypes.LAVA_FURNACE_RECIPES)
             .tooltips(GTOMachineStories.INSTANCE.getLavaFurnaceTooltips().getSupplier())
+            .tooltips(GTOMachineTooltips.INSTANCE.getLavaFurnaceTooltips().getSupplier())
             .overclock()
             .block(GTBlocks.CASING_BRONZE_BRICKS)
             .pattern(definition -> FactoryBlockPattern.start(definition)
@@ -714,13 +685,12 @@ public final class MultiBlockA {
 
     public static final MultiblockMachineDefinition ENGRAVING_LASER_PLANT = multiblock("engraving_laser_plant", "激光蚀刻工厂", ElectricMultiblockMachine::new)
             .nonYAxisRotation()
-            .tooltips(GTOMachineStories.INSTANCE.getLaserEtchingFactoryTooltips().getSupplier())
+            .tooltips(GTOMachineStories.INSTANCE.getEngravingLaserPlantTooltips().getSupplier())
+            .tooltips(GTOMachineTooltips.INSTANCE.getEngravingLaserPlantTooltips().getSupplier())
             .recipeTypes(GTORecipeTypes.PRECISION_LASER_ENGRAVER_RECIPES)
             .recipeTypes(GTRecipeTypes.LASER_ENGRAVER_RECIPES)
             .recipeTypes(GTORecipeTypes.LASER_WELDER_RECIPES)
-            .tooltipsText("运行激光焊接配方时速度x5", "Running the Laser Welder formula at speed x5.")
             .specialParallelizableTooltips()
-            .tooltips(NewDataAttributes.ALLOW_PARALLEL_NUMBER.create(h -> h.addLines("仅精密激光模式不支持", "Only the precision laser mode does not support")))
             .perfectOCTooltips()
             .recipeModifiers((machine, recipe) -> {
                 if (machine instanceof ElectricMultiblockMachine workableElectricMultiblockMachine) {
@@ -880,41 +850,7 @@ public final class MultiBlockA {
     public static final MultiblockMachineDefinition INTEGRATED_ORE_PROCESSOR = multiblock("integrated_ore_processor", "集成矿石处理厂", IntegratedOreProcessor::new)
             .nonYAxisRotation()
             .recipeTypes(GTORecipeTypes.INTEGRATED_ORE_PROCESSOR)
-            .tooltips(NewDataAttributes.MAIN_FUNCTION.create(
-                    v -> v.addLines("一步完成矿石处理", "Completes ore processing in one step")))
-
-            .tooltips(NewDataAttributes.EMPTY_WITH_BAR.create(
-                    h -> h.addLines("电路配置", "Circuit Configuration", StyleBuilder::setGold),
-                    c -> c.addLines(
-                            NewDataAttributes.EMPTY_WITH_POINT.createBuilder(
-                                    x -> x.addLines("1号电路:", "Circuit 1:", StyleBuilder::setWhite)
-                                            .addLines(" 破碎-研磨-离心", " Crusher-Macerator-Centrifuging", StyleBuilder::setGray),
-                                    p -> p, StyleBuilder::setOneTab),
-                            NewDataAttributes.EMPTY_WITH_POINT.createBuilder(
-                                    x -> x.addLines("2号电路:", "Circuit 2:", StyleBuilder::setWhite)
-                                            .addLines(" 破碎-洗矿-热离-研磨", " Crusher-Ore Washer-Thermal Separation-Macerator", StyleBuilder::setGray),
-                                    p -> p, StyleBuilder::setOneTab),
-                            NewDataAttributes.EMPTY_WITH_POINT.createBuilder(
-                                    x -> x.addLines("3号电路:", "Circuit 3:", StyleBuilder::setWhite)
-                                            .addLines(" 破碎-洗矿-研磨-离心", " Crusher-Ore Washer-Macerator-Centrifuging", StyleBuilder::setGray),
-                                    p -> p, StyleBuilder::setOneTab),
-                            NewDataAttributes.EMPTY_WITH_POINT.createBuilder(
-                                    x -> x.addLines("4号电路:", "Circuit 4:", StyleBuilder::setWhite)
-                                            .addLines(" 破碎-洗矿-筛选-离心", " Crusher-Ore Washer-Sifter-Centrifuging", StyleBuilder::setGray),
-                                    p -> p, StyleBuilder::setOneTab),
-                            NewDataAttributes.EMPTY_WITH_POINT.createBuilder(
-                                    x -> x.addLines("5号电路:", "Circuit 5:", StyleBuilder::setWhite)
-                                            .addLines(" 破碎-浸洗-热离-研磨", " Crusher-Chemical Bath-Thermal Centrifuging-Macerator", StyleBuilder::setGray),
-                                    p -> p, StyleBuilder::setOneTab),
-                            NewDataAttributes.EMPTY_WITH_POINT.createBuilder(
-                                    x -> x.addLines("6号电路:", "Circuit 6:", StyleBuilder::setWhite)
-                                            .addLines(" 破碎-浸洗-研磨-离心", " Crusher-Chemical Bath-Macerator-Centrifuging", StyleBuilder::setGray),
-                                    p -> p, StyleBuilder::setOneTab),
-                            NewDataAttributes.EMPTY_WITH_POINT.createBuilder(
-                                    x -> x.addLines("7号电路:", "Circuit 7:", StyleBuilder::setWhite)
-                                            .addLines(" 破碎-浸洗-筛选-离心", " Crusher-Chemical Bath-Sifter-Centrifuging", StyleBuilder::setGray),
-                                    p -> p, StyleBuilder::setOneTab))))
-            .tooltipsText("安装模块后解锁8线程处理", "Unlock 8 threads of processing after installing the module")
+            .tooltips(GTOMachineTooltips.INSTANCE.getIntegratedOreProcessorTooltips().getSupplier())
             .parallelizableTooltips()
             .moduleTooltips()
             .parallelizableOverclock()
@@ -1155,11 +1091,8 @@ public final class MultiBlockA {
     public static final MultiblockMachineDefinition LARGE_STEAM_CIRCUIT_ASSEMBLER = multiblock("large_steam_circuit_assembler", "大型蒸汽电路组装机", LargeSteamCircuitAssemblerMachine::new)
             .allRotation()
             .addTooltipsFromClass(LargeSteamCircuitAssemblerMachine.class)
-            .tooltips(NewDataAttributes.RECIPE_LEVEL.create(c -> c.addLines("MV及以下", "MV and below")))
-            .tooltips(NewDataAttributes.EMPTY_WITH_BAR.create(
-                    v -> v.addLines("可安装大型蒸汽输入仓提升到HV等级", "Can install large steam input to upgrade to HV-recipe-Tier", StyleBuilder::setGold),
-                    p -> p.addCommentLines("解锁超频功能", "Unlocking overclocking function")))
             .tooltips(GTOMachineStories.INSTANCE.getLargeSteamCircuitAssemblerTooltips().getSupplier())
+            .tooltips(GTOMachineTooltips.INSTANCE.getLargeSteamCircuitAssemblerTooltips().getSupplier())
             .recipeTypes(GTRecipeTypes.CIRCUIT_ASSEMBLER_RECIPES)
             .block(GTBlocks.CASING_BRONZE_BRICKS)
             .pattern(definition -> FactoryBlockPattern.start(definition)
@@ -1229,7 +1162,7 @@ public final class MultiBlockA {
             .nonYAxisRotation()
             .addTooltipsFromClass(SteamMultiblockMachine.class)
             .recipeTypes(GTRecipeTypes.MIXER_RECIPES)
-            .tooltipsText("无法处理流体", "Cannot process fluids")
+            .tooltips(GTOMachineTooltips.INSTANCE.getSteamMixerTooltips().getSupplier())
             .steamOverclock()
             .block(GTBlocks.CASING_BRONZE_BRICKS)
             .pattern(definition -> FactoryBlockPattern.start(definition)
@@ -1517,10 +1450,7 @@ public final class MultiBlockA {
 
     public static final MultiblockMachineDefinition LEAP_FORWARD_ONE_BLAST_FURNACE = multiblock("leap_forward_one_blast_furnace", "跃进一号高炉", AdvancedPrimitiveBlastFurnaceMachine::new)
             .nonYAxisRotation()
-            .tooltipsText("我们走在大路上！", "We're on the road!")
-            .tooltipsText("按温度，下次配方获得400/温度的时间减免", "According to the temperature, the next recipe obtains a duration reduction of 400 / temperature.")
-            .specialParallelizableTooltips()
-            .tooltips(NewDataAttributes.ALLOW_PARALLEL_NUMBER.create(h -> h.addLines("层数 x 炉温 x 2 / 500", "Layers x Furnace Temperature x 2 / 500")))
+            .tooltips(GTOMachineTooltips.INSTANCE.getLeapForwardOneBlastFurnaceTooltips().getSupplier())
             .recipeTypes(GTRecipeTypes.PRIMITIVE_BLAST_FURNACE_RECIPES)
             .block(GTBlocks.CASING_PRIMITIVE_BRICKS)
             .pattern(definition -> FactoryBlockPattern.start(definition, BACK, RIGHT, UP)
@@ -1793,8 +1723,7 @@ public final class MultiBlockA {
     public static final MultiblockMachineDefinition DISASSEMBLY = multiblock("disassembly", "拆解机", ElectricMultiblockMachine::new)
             .allRotation()
             .recipeTypes(GTORecipeTypes.DISASSEMBLY_RECIPES)
-            .tooltipsText("可拆解: %s, %s, %s, %s, %s, %s", "Disassembleable: %s, %s, %s, %s, %s, %s", Component.translatable("gtceu.assembler"), Component.translatable("gtceu.precision_assembler"), Component.translatable("gtceu.assembler_module"), Component.translatable("gtceu.assembly_line"), Component.translatable("gtceu.circuit_assembly_line"), Component.translatable("gtceu.suprachronal_assembly_line"))
-            .tooltipsText("同对应配方时间与耗能，可由多个配方获取的物品无法拆解", "Corresponding to the recipe time and energy consumption, items obtained from multiple recipes cannot be disassembled")
+            .tooltips(GTOMachineTooltips.INSTANCE.getDisassemblyTooltips().getSupplier())
             .overclock()
             .block(GTOBlocks.PROCESS_MACHINE_CASING)
             .pattern(definition -> FactoryBlockPattern.start(definition, BACK, UP, LEFT)
@@ -1908,7 +1837,7 @@ public final class MultiBlockA {
     public static final MultiblockMachineDefinition INDUSTRIAL_FLOTATION_CELL = multiblock("industrial_flotation_cell", "工业浮选机", ElectricMultiblockMachine::new)
             .nonYAxisRotation()
             .recipeTypes(GTORecipeTypes.FLOTATING_BENEFICIATION_RECIPES)
-            .tooltipsText("工业级浮游选矿池", "Industrial Flotation Mining Pool")
+            .tooltips(GTOMachineTooltips.INSTANCE.getIndustrialFlotationCellTooltips().getSupplier())
             .parallelizableTooltips()
             .perfectOCTooltips()
             .fromSourceTooltips("GTNH")
@@ -2096,15 +2025,7 @@ public final class MultiBlockA {
     public static final MultiblockMachineDefinition STELLAR_FORGE = multiblock("stellar_forge", "恒星炎炀锻炉", StellarForgeMachine::new)
             .allRotation()
             .recipeTypes(GTORecipeTypes.STELLAR_FORGE_RECIPES)
-            .tooltips(NewDataAttributes.MAIN_FUNCTION.create(
-                    v -> v.addLines("配方等级不受能源仓限制，连续运行优化", "The recipe tier is not limited by the energy hatch, Continuous Operation Optimization"),
-                    p -> p.addCommentLines(
-                            """
-                                    在第一次运行后继续运行配方，后续配方时间将减少50%
-                                    如果在配方运行时供电不足，将产生巨大爆炸""",
-                            """
-                                    Continue running the recipe after the first run, and the subsequent recipe duration will be reduced by 50%
-                                    If there is a power shortage during the operation of the recipe, a huge explosion will occur""")))
+            .tooltips(GTOMachineTooltips.INSTANCE.getStellarForgeTooltips().getSupplier())
             .laserTooltips()
             .block(GCYMBlocks.CASING_ATOMIC)
             .pattern(definition -> MultiBlockFileReader.start(definition)

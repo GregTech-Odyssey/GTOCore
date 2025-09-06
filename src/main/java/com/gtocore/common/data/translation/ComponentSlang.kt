@@ -1,12 +1,11 @@
 package com.gtocore.common.data.translation
 
+import com.gregtechceu.gtceu.api.GTValues
 import com.gtocore.api.lang.ComponentSupplier
 import com.gtocore.api.lang.initialize
 import com.gtocore.api.lang.toLiteralSupplier
 import com.gtocore.api.lang.translatedTo
 import com.gtocore.api.misc.AutoInitialize
-
-import com.gregtechceu.gtceu.api.GTValues
 
 object ComponentSlang : AutoInitialize<ComponentSlang>() {
     // ****** 量词 ****** //
@@ -26,6 +25,8 @@ object ComponentSlang : AutoInitialize<ComponentSlang>() {
         { tab: Int -> "${"  ".repeat((tab - 1).coerceAtLeast(0))}⚠ ".toLiteralSupplier().red().bold() }.initialize()
     val OutTopic =
         { tab: Int -> "${"  ".repeat((tab - 1).coerceAtLeast(0))}# ".toLiteralSupplier().gray() }.initialize()
+    val Right = { tab: Int -> "${"  ".repeat((tab - 1).coerceAtLeast(0))}✔ ".toLiteralSupplier().gold() }.initialize()
+    val Wrong = { tab: Int -> "${"  ".repeat((tab - 1).coerceAtLeast(0))}✘ ".toLiteralSupplier().red() }.initialize()
     val LegendSignalWrapper = { other: ComponentSupplier ->
         "111".toLiteralSupplier().obfuscated().scrollFullColor()
             .underline() + " ".toLiteralSupplier() + other + " ".toLiteralSupplier() + "111".toLiteralSupplier()
@@ -50,6 +51,8 @@ object ComponentSlang : AutoInitialize<ComponentSlang>() {
     val TemperatureMax = { temp: Int ->
         ("最高温度: " translatedTo "Max Temperature: ") + (temp.toLiteralSupplier()).gold()
     }.initialize()
+    val RunningRequirements = ("运行要求" translatedTo "Running Requirements").initialize()
+    val EfficiencyBonus = ("效率加成" translatedTo "Efficiency Bonus").initialize()
     val PowerGenerationEfficiency = ("发电效率" translatedTo "Power Generation Efficiency").initialize()
     val AfterModuleInstallation = ("安装模块后" translatedTo "After Module Installation").initialize()
     val BaseProductionEut =
@@ -57,12 +60,20 @@ object ComponentSlang : AutoInitialize<ComponentSlang>() {
     val RotorEfficiency = { tier: Int ->
         var name = GTValues.VNF[tier] + "§r"
         "转子支架每超过${name}一级，每级增加10%效率，并翻倍输出功率" translatedTo
-            "Each Rotor Holder above $name adds 10% efficiency and multiplies EU/t by 2"
+                "Each Rotor Holder above $name adds 10% efficiency and multiplies EU/t by 2"
+    }.initialize()
+    val RecipeLevelBelow = { tier: Int ->
+        var name = GTValues.VNF[tier] + "§r"
+        "只能运行${name}级及以下配方" translatedTo "Can only run ${name}-tier and below recipes"
     }.initialize()
     val UsePerHourLubricant =
         { cnt: Long -> "每小时消耗${cnt}mB润滑油" translatedTo "Use ${cnt}mB Lubricant Per Hour" }.initialize()
     val CoilEfficiencyBonus = ("线圈效率加成" translatedTo "Coil Efficiency Bonus").initialize()
     val BeAwareOfBurn = ("小心烫伤！" translatedTo "BE AWARE OF BURNS!").red().bold().initialize()
+    val PurifyLevel = { tier: Int ->
+        ("净化等级：" translatedTo "Purify Level: ") + tier.toLiteralSupplier().gold().bold()
+    }.initialize()
+    val OutputProbability = ("产出概率" translatedTo "Output Probability").initialize()
 
     // ****** 其他 ****** //
     val GTOSignal_LOGO_GTOCoreNormal = ("GTOCore" translatedTo "GTOCore").gold().initialize()

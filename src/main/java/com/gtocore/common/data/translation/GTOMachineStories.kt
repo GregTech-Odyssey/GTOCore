@@ -12,6 +12,9 @@ import com.gtocore.common.machine.multiblock.storage.MultiblockCrateMachine
 import net.minecraft.network.chat.Component
 
 import com.google.common.collect.ImmutableMap
+import com.gtocore.common.data.translation.GTOMachineTooltips.content
+import com.gtocore.common.data.translation.GTOMachineTooltips.info
+import com.gtocore.common.data.translation.GTOMachineTooltips.section
 
 object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
 
@@ -375,7 +378,6 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     val LavaFurnaceTooltips = ComponentListSupplier {
         setTranslationPrefix("lava_furnace")
         add("石头进去，岩浆出来，简单粗暴的地热转换艺术" translatedTo "Rocks in, lava out - the brutally simple art of geothermal conversion") { gray() }
-        add("每提供一个任意类型的圆石或石头可输出§c1B§7熔岩" translatedTo "Each cobblestone or stone provided outputs §c1B§7 lava") { gray() }
     }
 
     // 稀土离心机
@@ -391,9 +393,6 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
         add("GTO集团送给菜鸟员工的贴心礼物，让组装变得像搭积木一样简单" translatedTo "GTO Group's thoughtful gift for rookie employees, making assembly as easy as building blocks") { gray() }
         add("支持IV及以下等级配方处理，有效降低初期部件加工成本" translatedTo "Supports up to IV tier recipes, effectively reducing early-stage component processing costs") { gray() }
         add("董事长温馨提示：好好对待它，毕竟你的第一份工资可能还没它一个零件贵" translatedTo "Friendly reminder from the chairman: Treat it well, your first salary might not even cover one of its parts") { gray() }
-
-        add("只能运行§9IV§r及以下配方" translatedTo "Can only run recipes up to §9IV§r tier") { aqua() }
-        add("升级结构后支持到§6UV§r" translatedTo "After upgrading the structure, it supports §6UV§r tier") { aqua() }
     }
 
     // 电路装配线
@@ -495,6 +494,84 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
         add("人类终于踏出了征服星辰的第一步，而GTO就是这历史时刻的见证者" translatedTo "Humankind finally takes the first step to conquer the stars with GTO witnessing this historic moment") { gray() }
     }
 
+
+    // 净化处理厂
+    val WaterPurificationPlantTooltips = ComponentListSupplier {
+        setTranslationPrefix("water_purification_plant")
+
+        add("水中的污染物和离子颗粒会在硅片和芯片切割和雕刻的精密过程中造成显著的缺陷" translatedTo "Pollutants and ionic particles in water can cause significant defects during the precise processes of wafer and chip cutting and engraving") { gray() }
+        add("通过一系列越来越精确和复杂的净化过程系统地净化水是至关重要的，而这个多方块结构是操作的核心" translatedTo "It is crucial to systematically purify the water through a series of increasingly precise and complex processes, and this multi-block structure is the core of the operation") { gray() }
+    }
+
+    // 澄清器净化装置
+    val ClarifierPurificationUnitTooltips = ComponentListSupplier {
+        setTranslationPrefix("clarifier_purification_unit")
+
+        add("获得净化水的第一步是通过使用大型物理过滤器过滤掉宏观污染物" translatedTo "The first step to obtaining purified water is to filter out macro contaminants using large physical filters.") { gray() }
+        add("通过快速沙滤进行初级水处理，移除水中85%的细菌与几乎所有浊度（泥土、粉砂、微细有机物、无机物、浮游生物等悬浮物和胶体物）" translatedTo "As through rapid sand filtration for primary water treatment, 85% of bacteria and almost all turbidity (including silt, fine sand, micro-organic matter, inorganic matter, and floating organisms etc. suspended particles and colloids) are removed.") { gray() }
+    }
+
+    // 臭氧净化装置
+    val OzonationPurificationUnitTooltips = ComponentListSupplier {
+        setTranslationPrefix("ozonation_purification_unit")
+
+        add("净化水的第二步是偶氮化，这涉及到注入大量的小分子" translatedTo "The second step of water purification is azonation, which involves injecting a large amount of small molecules") { gray() }
+        add("高反应性臭氧气体的气泡进入水中。这可以去除微量元素污染物，如" translatedTo "The bubbles of highly reactive ozone gas enter the water. This can remove trace element contaminants such as") { gray() }
+        add("硫、铁和锰，产生不溶的氧化物化合物，然后被过滤掉" translatedTo "Sulfur, Iron, and Manganese, producing insoluble oxidized compounds, which are then filtered out.") { gray() }
+    }
+
+    // 絮凝净化装置
+    val FlocculationPurificationUnitTooltips = ComponentListSupplier {
+        setTranslationPrefix("flocculation_purification_unit")
+
+        add("净化水的第三步是使用澄清剂（在本例中为聚合氯化铝）去除微观污染物，" translatedTo "The third step of water purification uses a flocculent (in this case, Polymeric Aluminum Chloride) to remove microscopic contaminants,") { gray() }
+        add("如灰尘、微塑料和其他污染物，通过絮凝使溶液中的分散悬浮颗粒聚集成更大的团块，以便进一步过滤" translatedTo "such as dust, microplastics, and other pollutants, through flocculation that causes solution dispersed suspended particles to conglomerate into larger clumps for further filtering.") { gray() }
+    }
+
+    // pH中和净化装置
+    val PHNeutralizationPurificationUnitTooltips = ComponentListSupplier {
+        setTranslationPrefix("ph_neutralization_purification_unit")
+
+        add("水净化的第四步是中和溶液并将其pH值精确调节到7，使溶液呈惰性，无水以外的氢离子活动" translatedTo "The fourth step of water purification is to neutralize the solution and adjust its pH value precisely to 7, making the solution inert with no hydrogen ion activity other than that of water.") { gray() }
+        add("土壤和地质中的酸和碱会导致水的天然碱度变化，可能会与敏感材料发生腐蚀反应" translatedTo "Acids and bases in soil and geology can cause natural alkalinity variations in water, possibly leading to corrosion reactions with sensitive materials.") { gray() }
+        add("因此，需要使用相应的中和剂来平衡水的pH值" translatedTo "Thus, appropriate neutralizers need to be used to balance the pH value of the water.") { gray() }
+    }
+
+    // 极端温度波动净化装置
+    val ExtremeTemperatureFluctuationPurificationUnitTooltips = ComponentListSupplier {
+        setTranslationPrefix("extreme_temperature_fluctuation_purification_unit")
+
+        add("水净化的第五步是蒸发复杂有机聚合物和可能对简单酸、澄清剂和过滤器有抵抗力的极端微生物" translatedTo "The fifth step of water purification evaporates complex organic polymers and extreme microorganisms that may resist simple acids, clarifiers, and filters.") { gray() }
+        add("使用超高压腔室结合极端温度波动，可以使水保持超临界状态，同时蒸发任何残留的污染物，准备进行过滤" translatedTo "Using ultra-high pressure chambers combined with extreme temperature fluctuations allows the water to remain in a supercritical state while evaporating any remaining contaminants in preparation for filtering.") { gray() }
+    }
+
+    // 高能激光净化装置
+    val HighEnergyLaserPurificationUnitTooltips = ComponentListSupplier {
+        setTranslationPrefix("high_energy_laser_purification_unit")
+
+        add("水净化的第六步是识别水中任何残留的负离子，这些离子可能会在未来的晶圆制造中引起电气故障" translatedTo "The sixth step of water purification is identifying any residual anions in the water, which may cause electrical failures in future wafer manufacturing.") { gray() }
+        add("用不同波长的光子束轰击水，将能量传递给外层电子，使它们从原子中脱离并通过水箱壁，确保水完全电极化" translatedTo "Bombarding the water with photons of different wavelengths transfers energy to the outer-layer electrons, causing them to detach from the atoms and through the water tank walls, ensuring the water is fully polarized.") { gray() }
+    }
+
+    // 残余污染物脱气净化装置
+    val ResidualDecontaminantDegasserPurificationUnitTooltips = ComponentListSupplier {
+        setTranslationPrefix("residual_decontaminant_degasser_purification_unit")
+
+        add("水净化的倒数第二步，第七步，是一系列不规则的复杂过程，" translatedTo "The penultimate step of water purification, step seven, consists of a series of irregular complex processes,") { gray() }
+        add("旨在去除前几个步骤的除污剂可能残留的任何残留物，" translatedTo "aimed at removing any residues of decontaminants that may linger from the previous steps,") { gray() }
+        add("根据脱气器检测到的水中物质，它会请求各种材料以完成上述过程" translatedTo "based on the materials detected in the water by the degasser, it will request various materials to complete the above processes.") { gray() }
+    }
+
+
+    // 绝对重子完美净化装置
+    val AbsoluteBaryonicPerfectionPurificationUnitTooltips = ComponentListSupplier {
+        setTranslationPrefix("absolute_baryonic_perfection_purification_unit")
+
+        add("净化水的最后阶段超越了亚原子粒子，识别出重子内最小的可能缺陷" translatedTo "The final stage of purification transcends subatomic particles, identifying the smallest possible defects within baryons.") { gray() }
+        add("通过正确识别需要的夸克释放催化剂，装置将激活催化剂，稳定偏离的粒子" translatedTo "By correctly identifying the required Quark Releasing Catalysts, the device will activate the catalysts and stabilize off-kilter particles.") { gray() }
+        add("这最终不仅会创造出稳定的重子物质，而且最重要的是，创造出绝对完美净化的水" translatedTo "This ultimately creates not just stable baryonic matter, but most importantly, absolutely purified water.") { gray() }
+    }
+
     /*************************************************
      *              巨构(通常跨并/激光)                *
      **************************************************/
@@ -517,13 +594,11 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     }
 
     // 激光蚀刻工厂
-    val LaserEtchingFactoryTooltips = ComponentListSupplier {
+    val EngravingLaserPlantTooltips = ComponentListSupplier {
         setTranslationPrefix("laser_etching_factory")
         add(("光子雕刻圣殿，用光之刃重塑物质的结构" translatedTo "Photon engraving sanctuary, reshaping matter with blades of light")) { gold() }
         add(("当万亿瓦特的激光聚焦于微米之间，连时空都会为之弯曲" translatedTo "When terawatt lasers focus at micron scale, even spacetime bends")) { gray() }
         add(("精密到可以给病毒刻二维码，虽然没人知道为什么需要这么做" translatedTo "Precise enough to engrave QR codes on viruses, though no one knows why")) { green() }
-        add(Star(1) + ("运行激光焊接配方时速度x5" translatedTo "Running laser welding recipes speeds up x5").italic()) { gold() }
-        add(Warning(1) + ("精密激光模式不支持并行处理" translatedTo "Precise laser mode does not support parallel processing").italic()) { yellow() }
     }
 
     // 部件装配线
@@ -558,7 +633,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
         add("就像拥有无限双手的炼金术士，同时进行所有工序" translatedTo "Like an alchemist with infinite hands, performing all processes at once") { yellow() }
         add("破碎、洗矿、离心、研磨——一步到位的神奇体验" translatedTo "Crushing, washing, centrifuging, maceration - all in one magical experience") { aqua() }
         add("可能会让传统的多机器产线感到失业焦虑" translatedTo "May cause unemployment anxiety in traditional multi-machine production lines") { gold() }
-        add(Star(1) + ("重新定义矿石处理效率，让传统产线成为历史" translatedTo "Redefining ore processing efficiency, making traditional production lines history")) { gold() }
+        add(Star(1) + ("重新定义矿石处理" translatedTo "Redefining ore processing")) { gold() }
     }
 
     // 稀土处理综合设施
