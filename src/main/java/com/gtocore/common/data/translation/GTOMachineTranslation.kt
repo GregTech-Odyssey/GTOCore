@@ -516,13 +516,23 @@ object GTOMachineTranslation : AutoInitialize<GTOMachineTranslation>() {
         add(Tab(3) + ("需要输入 摘抄符石" translatedTo "Requires input Sigil of Withdrawal")) { gray().italic() }
         add(Star(1) + ("合成模式" translatedTo "Synthesis Mode")) { green().bold() }
         add(Tab(2) + ("电路 5：附魔精粹合成附魔书" translatedTo "Circuit 5: Essence synthesis Enchanted Book")) { aqua() }
-        add(Tab(3) + ("需要输入一本书，消耗一定量附魔精粹和魔力合成" translatedTo "Need to input a book, consume a certain amount of enchantment essence and magic synthesis")) { gray().italic() }
+        add(Tab(3) + ("需要输入一本书，消耗附魔精粹和魔力合成" translatedTo "Need to input a book, consume enchantment essence and magic synthesis")) { gray().italic() }
         add(Tab(2) + ("电路 6：附魔书合并" translatedTo "Circuit 6: Enchantment Enchanted Book Merge")) { aqua() }
-        add(Tab(3) + ("消耗一定量魔力合成，会输出额外的书" translatedTo "Consume a certain amount of magic power to synthesize, and output additional books")) { gray().italic() }
+        add(Tab(3) + ("消耗魔力合成，会输出额外的书" translatedTo "Consume magic power to synthesize, and output additional books")) { gray().italic() }
         add(Tab(2) + ("电路 7：刻印精粹合成铭刻之布" translatedTo "Circuit 7: Affix Enchanted Book Merge")) { aqua() }
-        add(Tab(3) + ("消耗一定量魔力合成，需要一个铭刻之布" translatedTo "Consumes a certain amount of magic power to synthesize, and requires an Affix Canvas")) { gray().italic() }
-        add(Tab(2) + ("电路 8：强行附魔" translatedTo "Circuit 8: Forced enchantment")) { aqua() }
-        add(Tab(3) + ("强行将附魔书上的附魔添加到物品上" translatedTo "Forcibly adds the enchantment from the enchanted book to the item")) { gray().italic() }
+        add(Tab(3) + ("消耗魔力合成，需要一个铭刻之布" translatedTo "Consume magic power to synthesize, and requires an Affix Canvas")) { gray().italic() }
+        add(Tab(2) + ("电路 8：宝石合并" translatedTo "Circuit 8: Gem Merge")) { aqua() }
+        add(Tab(3) + ("使用同级的珍宝材料和宝石粉合并宝石" translatedTo "Use the same level of rarity materials and gem dust to merge gems")) { gray().italic() }
+        add(Tab(2) + ("电路 9：强行附魔" translatedTo "Circuit 9: Forced enchantment")) { aqua() }
+        add(Tab(3) + ("消耗魔力强行将附魔书上的附魔添加到物品上" translatedTo "Consume magic power to forcibly adds the enchantment from the enchanted book to the item")) { gray().italic() }
+        add(Tab(2) + ("电路 10：强行刻印" translatedTo "Circuit 10: Forced add affixes")) { aqua() }
+        add(Tab(3) + ("消耗魔力强行将铭刻之布上的刻印添加到物品上" translatedTo "Consume magic power to forcibly adds the affixes from the affix canvas to the item")) { gray().italic() }
+        add(Tab(2) + ("电路 11：强行修改物品稀有度" translatedTo "Circuit 11: Forcefully modify item rarity")) { aqua() }
+        add(Tab(3) + ("消耗魔力，珍宝材料和新生符文强行改变稀有度" translatedTo "Consume magic power and enter rarity material and sigil of rebirth to forcibly change the rarity")) { gray().italic() }
+        add(Tab(2) + ("电路 12：强行添加镶孔" translatedTo "Circuit 12: Forced addition of sockets")) { aqua() }
+        add(Tab(3) + ("消耗魔力，镶孔符文强行添加镶孔" translatedTo "Consume magic power and enter sigil of socketing to forcibly addition of sockets")) { gray().italic() }
+        add(Tab(2) + ("电路 13：强行镶嵌宝石" translatedTo "Circuit 13: Forced gem inlay")) { aqua() }
+        add(Tab(3) + ("消耗魔力，强行将宝石镶嵌到物品上" translatedTo "Consume magic power to forcibly inserting gems into items")) { gray().italic() }
     }
 
     /*************************************************
