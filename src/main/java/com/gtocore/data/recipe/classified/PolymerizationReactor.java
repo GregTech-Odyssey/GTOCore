@@ -1,5 +1,6 @@
 package com.gtocore.data.recipe.classified;
 
+import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.data.GTOMaterials;
 
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
@@ -204,6 +205,62 @@ final class PolymerizationReactor {
                 .outputFluids(GTOMaterials.Abs, 4000)
                 .EUt(480)
                 .duration(420)
+                .save();
+
+        POLYMERIZATION_REACTOR_RECIPES.recipeBuilder("polypropylene_from_oxygen")
+                .circuitMeta(1)
+                .inputFluids(Oxygen.getFluid(1000))
+                .inputFluids(Propene.getFluid(L))
+                .outputFluids(Polypropylene.getFluid(216))
+                .duration(160).EUt(VA[LV]).save();
+
+        POLYMERIZATION_REACTOR_RECIPES.builder("ro_membrane")
+                .inputItems(GTOItems.NON_WOVEN_FABRIC.asItem())
+                .inputItems(TagPrefix.foil, GTOMaterials.Polyamide)
+                .outputItems(GTOItems.RO_MEMBRANE.asItem())
+                .EUt(400)
+                .duration(100)
+                .save();
+
+        POLYMERIZATION_REACTOR_RECIPES.builder("polymer_backbone")
+                .inputFluids(GTMaterials.Styrene, 1000)
+                .inputFluids(GTOMaterials.DiethylbenzeneFraction, 1000)
+                .outputFluids(GTOMaterials.PolymerBackbone, 2000)
+                .EUt(400)
+                .duration(100)
+                .save();
+
+        POLYMERIZATION_REACTOR_RECIPES.builder("cathode_resin")
+                .inputFluids(GTOMaterials.PolymerBackbone, 1000)
+                .inputFluids(GTOMaterials.TrimethyLamine, 1000)
+                .outputFluids(GTOMaterials.CathodeResin, 2000)
+                .EUt(400)
+                .duration(100)
+                .save();
+
+        POLYMERIZATION_REACTOR_RECIPES.builder("anode_resin")
+                .inputFluids(GTOMaterials.PolymerBackbone, 1000)
+                .inputFluids(GTOMaterials.SodiumPolystyreneSulfonate, 1000)
+                .outputFluids(GTOMaterials.AnodeResin, 2000)
+                .EUt(400)
+                .duration(100)
+                .save();
+
+        POLYMERIZATION_REACTOR_RECIPES.builder("ion_exchange_membrane")
+                .inputItems(GTOItems.HOMOGENEOUS_MEMBRANE.asItem())
+                .outputItems(GTOItems.ION_EXCHANGE_MEMBRANE.asItem())
+                .inputFluids(GTOMaterials.CathodeResin, 500)
+                .inputFluids(GTOMaterials.AnodeResin, 500)
+                .EUt(400)
+                .duration(100)
+                .save();
+
+        POLYMERIZATION_REACTOR_RECIPES.builder("homogeneous_membrane")
+                .outputItems(GTOItems.HOMOGENEOUS_MEMBRANE.asItem())
+                .inputFluids(GTMaterials.Polytetrafluoroethylene, 500)
+                .inputFluids(GTMaterials.Styrene, 500)
+                .EUt(400)
+                .duration(100)
                 .save();
     }
 }

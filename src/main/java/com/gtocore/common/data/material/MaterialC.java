@@ -565,5 +565,70 @@ public final class MaterialC {
                 .flags(GTOMaterialFlags.GENERATE_PARTICLE_SOURCE)
                 .color(0xA85A12).iconSet(RADIOACTIVE).radioactiveHazard(75)
                 .buildAndRegister().setFormula("Cf²⁵²", false);
+
+        Polyamide = material("polyamide", "聚酰胺")
+                .fluid()
+                .polymer()
+                .components(Carbon, 22, Hydrogen, 12, Nitrogen, 2, Oxygen, 6)
+                .flags(DISABLE_DECOMPOSITION, GENERATE_FOIL)
+                .color(0xff6730)
+                .iconSet(DULL)
+                .buildAndRegister();
+
+        Polypropylene = material("polypropylene", "聚丙烯")
+                .fluid()
+                .polymer()
+                .components(Carbon, 22, Hydrogen, 12, Nitrogen, 2, Oxygen, 6)
+                .flags(DISABLE_DECOMPOSITION, GENERATE_FOIL)
+                .color(0x9f9f5f)
+                .iconSet(DULL)
+                .buildAndRegister();
+
+        Divinylbenzene = material("divinylbenzene", "二乙烯基苯")
+                .fluid()
+                .components(Carbon, 22, Hydrogen, 12, Nitrogen, 2, Oxygen, 6)
+                .color(0xff6730)
+                .iconSet(DULL)
+                .buildAndRegister();
+
+        DiethylbenzeneFraction = material("diethylbenzene_fraction", "富二乙烯苯馏分")
+                .fluid()
+                .components(Carbon, 22, Hydrogen, 12, Nitrogen, 2, Oxygen, 6)
+                .color(0xff6730)
+                .iconSet(DULL)
+                .buildAndRegister();
+
+        SodiumPolystyreneSulfonate = material("Sodium_polystyrene_sulfonate", "聚苯乙烯磺酸钠")
+                .fluid()
+                .components(Carbon, 22, Hydrogen, 12, Nitrogen, 2, Oxygen, 6)
+                .iconSet(DULL)
+                .color(0XF59E0B)
+                .buildAndRegister();
+
+        TrimethyLamine = material("trimethy_lamine", "三甲基铵")
+                .fluid()
+                .components(Carbon, 22, Hydrogen, 12, Nitrogen, 2, Oxygen, 6)
+                .iconSet(DULL)
+                .color(0x3BB2F6)
+                .buildAndRegister();
+
+        CathodeResin = material("cathode_resin", "阴极功能树脂")
+                .fluid()
+                .iconSet(DULL)
+                .color(0x3BB2F6)
+                .buildAndRegister();
+
+        AnodeResin = material("anode_resin", "阳极功能树脂")
+                .fluid()
+                .iconSet(DULL)
+                .color(0XF59E0B)
+                .buildAndRegister();
+
+        PolymerBackbone = material("polymer_backbone", "高分子骨架")
+                .fluid()
+                .components(Carbon, 22, Hydrogen, 12, Nitrogen, 2, Oxygen, 6)
+                .iconSet(DULL)
+                .color(0X808080)
+                .buildAndRegister();
     }
 }

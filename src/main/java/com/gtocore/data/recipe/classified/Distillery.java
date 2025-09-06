@@ -66,5 +66,13 @@ final class Distillery {
                 .EUt(120)
                 .duration(400)
                 .save();
+
+        DISTILLERY_RECIPES.builder("diethylbenzene_fraction")
+                .inputFluids(GTOMaterials.Divinylbenzene, 1000)
+                .outputFluids(GTOMaterials.DiethylbenzeneFraction, 800)
+                .EUt(400)
+                .duration(100)
+                .save();
+
     }
 }
