@@ -63,20 +63,31 @@ class ExecutingCraftingJob {
             waitingFor.insert(entry.getKey(), entry.getLongValue(), Actionable.MODULATE);
             tt.gtolib$addMaxItems(entry.getLongValue(), entry.getKey().getType());
         }
+        var allPatterns = new Object2LongOpenHashMap<IPatternDetails>();
         for (var it = ((Object2LongOpenHashMap<IPatternDetails>) plan.patternTimes()).object2LongEntrySet().fastIterator(); it.hasNext();) {
             var entry = it.next();
             var key = entry.getKey();
             long value = entry.getLongValue();
             if (value > 1 && key instanceof IParallelPatternDetails parallelPatternDetails) {
-                key = parallelPatternDetails.parallel(value, cpu.cluster.getLevel());
-                value = 1;
+                long pc = Math.max(1, value / 16);
+                key = parallelPatternDetails.parallel(pc, cpu.cluster.getLevel());
+                long last = value % pc;
+                value = value / pc;
+                if (last != 0) allPatterns.put(parallelPatternDetails.parallel(last, cpu.cluster.getLevel()), 1);
             }
+            allPatterns.put(key, value);
+        }
+        for (var it = allPatterns.object2LongEntrySet().fastIterator(); it.hasNext();) {
+            var entry = it.next();
+            var key = entry.getKey();
+            long value = entry.getLongValue();
             tasks.computeIfAbsent(key, p -> new LongHolder(0)).value += value;
             for (var output : key.getOutputs()) {
                 var amount = output.amount() * value * output.what().getAmountPerUnit();
                 tt.gtolib$addMaxItems(amount, output.what().getType());
             }
         }
+
         this.link = link;
         this.playerId = playerId;
     }
