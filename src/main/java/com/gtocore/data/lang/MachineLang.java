@@ -200,10 +200,10 @@ final class MachineLang {
         addCNEN("gtocore.machine.large_steam_solar_boiler.steam_production", "蒸汽产量：%s / s", "Steam production: %s / s");
         addCNEN("gtocore.machine.model", "模式：%s", "Model: %s");
         addCNEN("gtocore.machine.the_primordial_reconstructor.mode.0", "工作模式：未设定", "Working Mode: Not set");
-        addCNEN("gtocore.machine.the_primordial_reconstructor.mode.1", "工作模式：神话装备分解", "Working Mode: Apotheosis Equipments Decomposition");
-        addCNEN("gtocore.machine.the_primordial_reconstructor.mode.2", "工作模式：神话装备 + 附魔 分解", "Working Mode: Apotheosis Equipments + Enchantments Decomposition");
-        addCNEN("gtocore.machine.the_primordial_reconstructor.mode.3", "工作模式：神话装备 + 刻印 分解", "Working Mode: Apotheosis Equipments + Affixes Decomposition");
-        addCNEN("gtocore.machine.the_primordial_reconstructor.mode.4", "工作模式：神话装备 + 附魔 + 刻印 分解", "Working Mode: Apotheosis Equipments + Enchantments + Affixes Decomposition");
+        addCNEN("gtocore.machine.the_primordial_reconstructor.mode.1", "工作模式：物品解构", "Working Mode: Item Deconstruction");
+        addCNEN("gtocore.machine.the_primordial_reconstructor.mode.2", "工作模式：物品 + 附魔 解构", "Working Mode: Item + Enchantments Deconstruction");
+        addCNEN("gtocore.machine.the_primordial_reconstructor.mode.3", "工作模式：物品 + 刻印 解构", "Working Mode: Item + Affixes Deconstruction");
+        addCNEN("gtocore.machine.the_primordial_reconstructor.mode.4", "工作模式：物品 + 附魔 + 刻印 解构", "Working Mode: Item + Enchantments + Affixes Deconstruction");
         addCNEN("gtocore.machine.the_primordial_reconstructor.mode.5", "工作模式：附魔精粹合成附魔书", "Working Mode: Essence synthesis Enchanted Book");
         addCNEN("gtocore.machine.the_primordial_reconstructor.mode.6", "工作模式：附魔书合并", "Working Mode: Enchantment Enchanted Book Merge");
         addCNEN("gtocore.machine.the_primordial_reconstructor.mode.7", "工作模式：刻印精粹合成铭刻之布", "Working Mode: Affix Enchanted Book Merge");

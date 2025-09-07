@@ -260,13 +260,13 @@ object GTOMachineTooltips {
     val ThePrimordialReconstructorTooltips = ComponentListSupplier {
         setTranslationPrefix("the_primordial_reconstructor")
         add("通过电路选择工作模式" translatedTo "Select the operating mode through the circuit") { gold() }
-        add(Tab(1) + ("电路 1：神话装备分解" translatedTo "Circuit 1: Apotheosis Equipments Decomposition")) { aqua() }
+        add(Tab(1) + ("电路 1：物品解构" translatedTo "Circuit 1: Item Deconstruction")) { aqua() }
         add(Tab(2) + ("需要输入 书 铭刻之布 摘抄符石" translatedTo "Requires input Book  Affix Canvas  Sigil of Withdrawal")) { gray().italic() }
-        add(Tab(1) + ("电路 2：神话装备 + 附魔 分解" translatedTo "Circuit 2: Apotheosis Equipments + Enchantments Decomposition")) { aqua() }
+        add(Tab(1) + ("电路 2：物品 + 附魔 解构" translatedTo "Circuit 2: Item + Enchantments Deconstruction")) { aqua() }
         add(Tab(2) + ("需要输入 铭刻之布 摘抄符石" translatedTo "Requires input Affix Canvas  Sigil of Withdrawal")) { gray().italic() }
-        add(Tab(1) + ("电路 3：神话装备 + 刻印 分解" translatedTo "Circuit 3: Apotheosis Equipments + Affixes Decomposition")) { aqua() }
+        add(Tab(1) + ("电路 3：物品 + 刻印 解构" translatedTo "Circuit 3: Item + Affixes Deconstruction")) { aqua() }
         add(Tab(2) + ("需要输入 书 摘抄符石" translatedTo "Requires input Book  Sigil of Withdrawal")) { gray().italic() }
-        add(Tab(1) + ("电路 4：神话装备 + 附魔 + 刻印 分解" translatedTo "Circuit 4: Apotheosis Equipments + Enchantments + Affixes Decomposition")) { aqua() }
+        add(Tab(1) + ("电路 4：物品 + 附魔 + 刻印 解构" translatedTo "Circuit 4: Item + Enchantments + Affixes Deconstruction")) { aqua() }
         add(Tab(2) + ("需要输入 摘抄符石" translatedTo "Requires input Sigil of Withdrawal")) { gray().italic() }
         add(Tab(1) + ("电路 5：附魔精粹合成附魔书" translatedTo "Circuit 5: Essence synthesis Enchanted Book")) { aqua() }
         add(Tab(2) + ("需要输入一本书，消耗附魔精粹和魔力合成" translatedTo "Need to input a book, consume enchantment essence and magic synthesis")) { gray().italic() }
