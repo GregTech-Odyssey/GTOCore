@@ -924,6 +924,7 @@ object GTOMachineTooltips {
         increase("提升电压等级可为模块提供大幅耗时减免" translatedTo "Increasing voltage tier can provide large Duration reductions for modules")
         increase("额外提升为模块提供的并行数" translatedTo " Additional increase in the parallelism provided by the module")
         command("运行前需提供128*(机器等级-7)的算力" translatedTo "Before starting, it is necessary to provide 128 * (tier - 7) computation power")
+        increase("通天之路额外加成：连接的模块将获得0.707倍耗时的工作速度加成" translatedTo "Road of Heaven Extra Bonus: Connected modules will receive a 0.707x Duration speed bonus")
     }
 
     // 净化处理厂

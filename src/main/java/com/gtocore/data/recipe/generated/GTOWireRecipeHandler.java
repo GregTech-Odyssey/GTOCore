@@ -115,7 +115,7 @@ final class GTOWireRecipeHandler {
 
             builder.inputItems(foil, PolyvinylChloride, insulationAmount);
 
-            builder.inputFluids(SiliconeRubber.getFluid(L * insulationAmount))
+            builder.inputFluids(SiliconeRubber.getFluid(L * insulationAmount / (voltageTier >= LuV ? 1 : 2)))
                     .save();
         }
         RecipeBuilder builder = LAMINATOR_RECIPES
@@ -130,7 +130,7 @@ final class GTOWireRecipeHandler {
 
         builder.inputItems(foil, PolyphenyleneSulfide, insulationAmount);
 
-        builder.inputFluids(StyreneButadieneRubber.getFluid(L * insulationAmount))
+        builder.inputFluids(StyreneButadieneRubber.getFluid(L * insulationAmount / (voltageTier > UEV ? 1 : (voltageTier >= LuV ? 2 : 4))))
                 .save();
     }
 
