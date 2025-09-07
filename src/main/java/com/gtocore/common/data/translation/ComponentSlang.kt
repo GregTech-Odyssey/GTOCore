@@ -54,6 +54,7 @@ object ComponentSlang : AutoInitialize<ComponentSlang>() {
     }.initialize()
     val RunningRequirements = ("运行要求" translatedTo "Running Requirements").initialize()
     val EfficiencyBonus = ("效率加成" translatedTo "Efficiency Bonus").initialize()
+    val ParallelBonus = ("并行加成" translatedTo "Parallel Bonus").initialize()
     val PowerGenerationEfficiency = ("发电效率" translatedTo "Power Generation Efficiency").initialize()
     val AfterModuleInstallation = ("安装模块后" translatedTo "After Module Installation").initialize()
     val BaseProductionEut =

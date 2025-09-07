@@ -72,6 +72,7 @@ fun ComponentListSupplier.danger(info: ComponentSupplier) {
  */
 object GTOMachineTooltips {
 
+
     // 外置热源锅炉
     val BoilWaterMachineTooltips = ComponentListSupplier {
         setTranslationPrefix("boil_water_machine")
@@ -686,6 +687,9 @@ object GTOMachineTooltips {
         section(ComponentSlang.EfficiencyBonus)
         content("线圈温度越高，运行速度越快" translatedTo "Higher coil temperature → faster operation")
         info("速度倍率: log(900) / log(温度)" translatedTo "Speed Multiplier: log(900) / log(Temperature)")
+        section(ComponentSlang.ParallelBonus)
+        content("由电压等级决定" translatedTo "Determined by Voltage Tier")
+        info("公式 : 4^(电压等级 - 1)" translatedTo "Formula: 4^(Voltage Tier - 1)")
     }
 
     // 物理气相沉积系统
@@ -695,6 +699,25 @@ object GTOMachineTooltips {
         section(ComponentSlang.EfficiencyBonus)
         content("玻璃等级越高，运行速度越快" translatedTo "Higher glass tier → faster operation")
         info("速度倍率: √(1 / 玻璃等级)" translatedTo "Speed Multiplier: √(1 / Glass Tier)")
+        section(ComponentSlang.ParallelBonus)
+        content("由电压等级决定" translatedTo "Determined by Voltage Tier")
+        info("公式 : 4^(电压等级 - 1)" translatedTo "Formula: 4^(Voltage Tier - 1)")
+    }
+
+    // 集成气相沉积系统
+    val integratedVaporDepositionSystemTooltips: ComponentListSupplier = ComponentListSupplier {
+        setTranslationPrefix("integrated_vapor_deposition_system")
+        section(ComponentSlang.ParallelBonus)
+        content("由电压等级决定" translatedTo "Determined by Voltage Tier")
+        info("公式 : 4^(电压等级 - 1)" translatedTo "Formula: 4^(Voltage Tier - 1)")
+    }
+
+    // 等离子冷凝器
+    val plasmaCondenserTooltips: ComponentListSupplier = ComponentListSupplier {
+        setTranslationPrefix("plasma_condenser")
+        section(ComponentSlang.EfficiencyBonus)
+        content("玻璃等级越高，运行速度越快" translatedTo "Higher glass tier → faster operation")
+        info("耗时减免公式 : 1/1.1^玻璃等级" translatedTo "Duration reduction formula : 1/1.1^Glass Tier")
     }
 
     // 生物提取机
@@ -924,7 +947,7 @@ object GTOMachineTooltips {
         increase("提升电压等级可为模块提供大幅耗时减免" translatedTo "Increasing voltage tier can provide large Duration reductions for modules")
         increase("额外提升为模块提供的并行数" translatedTo " Additional increase in the parallelism provided by the module")
         command("运行前需提供128*(机器等级-7)的算力" translatedTo "Before starting, it is necessary to provide 128 * (tier - 7) computation power")
-        increase("通天之路额外加成：连接的模块将获得0.707倍耗时的工作速度加成" translatedTo "Road of Heaven Extra Bonus: Connected modules will receive a 0.707x Duration speed bonus")
+        increase(("通天之路额外加成" translatedTo "Road of Heaven Extra Bonus").rainbow() + ("：连接的模块将获得0.707倍耗时的工作速度加成" translatedTo ": Connected modules will receive a 0.707x Duration speed bonus"))
     }
 
     // 净化处理厂
