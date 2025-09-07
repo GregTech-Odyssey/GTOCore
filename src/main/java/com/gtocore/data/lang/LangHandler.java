@@ -166,6 +166,7 @@ public final class LangHandler {
         addCNEN("config.jade.plugin_gtocore.destroy_time_provider", "[GTOCore] 硬度信息", "[GTOCore] Destroy Time Info");
         addCNEN("config.jade.plugin_gtocore.computation_container_provider", "[GTOCore] 算力容器信息", "[GTOCore] Computation Container Info");
         addCNEN("config.jade.plugin_gtocore.wireless_grid_provider", "[GTOCore] 无线AE网络信息", "[GTOCore] Wireless AE Network Info");
+        addCNEN("config.jade.plugin_gtocore.maintenance_hatch_provider", "[GTOCore] 维护仓信息", "[GTOCore] Maintenance Hatch Info");
 
         addCNEN("fluid.gtocore.gelid_cryotheum", "极寒之凛冰", "Gelid Cryotheum");
 

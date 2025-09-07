@@ -1480,6 +1480,7 @@
   "config.jade.plugin_gtocore.accelerate_provider": "[GTOCore] Accelerated Bar",
   "config.jade.plugin_gtocore.computation_container_provider": "[GTOCore] Computation Container Info",
   "config.jade.plugin_gtocore.destroy_time_provider": "[GTOCore] Destroy Time Info",
+  "config.jade.plugin_gtocore.maintenance_hatch_provider": "[GTOCore] Maintenance Hatch Info",
   "config.jade.plugin_gtocore.mana_container_provider": "[GTOCore] Mana Container",
   "config.jade.plugin_gtocore.temperature_provider": "[GTOCore] Machine Temperature",
   "config.jade.plugin_gtocore.tick_time_provider": "[GTOCore] Tick Time",
@@ -5596,5 +5597,6 @@
   "tagprefix.venus_stone": "Venus %s Ore",
   "tagprefix.zirconium_carbide_target": "%s Zirconium Carbide Target",
   "tooltip.ad_astra.unknown_ingredient": "§cUnknown item§r",
-  "tooltip.ad_astra.unknown_tag": "§cUnknown tag§r: %s"
+  "tooltip.ad_astra.unknown_tag": "§cUnknown tag§r: %s",
+  "tooltip.jade.current_gravity": "Current Gravity: %s"
 }

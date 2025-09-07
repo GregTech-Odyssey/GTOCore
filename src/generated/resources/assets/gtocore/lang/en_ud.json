@@ -1480,6 +1480,7 @@
   "config.jade.plugin_gtocore.accelerate_provider": "ɹɐᗺ pǝʇɐɹǝןǝɔɔⱯ ]ǝɹoƆO⟘⅁[",
   "config.jade.plugin_gtocore.computation_container_provider": "oɟuI ɹǝuıɐʇuoƆ uoıʇɐʇndɯoƆ ]ǝɹoƆO⟘⅁[",
   "config.jade.plugin_gtocore.destroy_time_provider": "oɟuI ǝɯı⟘ ʎoɹʇsǝᗡ ]ǝɹoƆO⟘⅁[",
+  "config.jade.plugin_gtocore.maintenance_hatch_provider": "oɟuI ɥɔʇɐH ǝɔuɐuǝʇuıɐW ]ǝɹoƆO⟘⅁[",
   "config.jade.plugin_gtocore.mana_container_provider": "ɹǝuıɐʇuoƆ ɐuɐW ]ǝɹoƆO⟘⅁[",
   "config.jade.plugin_gtocore.temperature_provider": "ǝɹnʇɐɹǝdɯǝ⟘ ǝuıɥɔɐW ]ǝɹoƆO⟘⅁[",
   "config.jade.plugin_gtocore.tick_time_provider": "ǝɯı⟘ ʞɔı⟘ ]ǝɹoƆO⟘⅁[",
@@ -5596,5 +5597,6 @@
   "tagprefix.venus_stone": "ǝɹO %s snuǝΛ",
   "tagprefix.zirconium_carbide_target": "ʇǝbɹɐ⟘ ǝpıqɹɐƆ ɯnıuoɔɹıZ %s",
   "tooltip.ad_astra.unknown_ingredient": "ɹ§ɯǝʇı uʍouʞu∩ɔ§",
-  "tooltip.ad_astra.unknown_tag": "%s :ɹ§bɐʇ uʍouʞu∩ɔ§"
+  "tooltip.ad_astra.unknown_tag": "%s :ɹ§bɐʇ uʍouʞu∩ɔ§",
+  "tooltip.jade.current_gravity": "%s :ʎʇıʌɐɹ⅁ ʇuǝɹɹnƆ"
 }
