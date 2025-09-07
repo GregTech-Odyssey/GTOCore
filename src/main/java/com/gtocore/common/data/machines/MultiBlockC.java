@@ -504,7 +504,8 @@ public final class MultiBlockC {
             .workableCasingRenderer(GTOCore.id("block/casings/hyper_mechanical_casing"), GTCEu.id("block/multiblock/cracking_unit"))
             .register();
 
-    public static final MultiblockMachineDefinition CHEMICAL_VAPOR_DEPOSITION = multiblock("chemical_vapor_deposition", "化学气相沉积系统", TierCasingParallelMultiblockMachine.createParallel(m -> 1 << (2 * (m.getTier() - 1)), true, GLASS_TIER))
+    public static final MultiblockMachineDefinition CHEMICAL_VAPOR_DEPOSITION = multiblock("chemical_vapor_deposition", "化学气相沉积系统",
+            CoilTieredCasingMultiblockMachine.createEBFParallel(m -> 1L << (2 * (m.getTier() - 1)), true, GLASS_TIER))
             .nonYAxisRotation()
             .tooltips(GTOMachineTooltips.INSTANCE.getChemicalVaporDepositionTooltips().getSupplier())
             .tooltips(NewDataAttributes.ALLOW_PARALLEL_NUMBER.create(
