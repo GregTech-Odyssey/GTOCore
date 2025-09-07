@@ -504,15 +504,10 @@ public final class MultiBlockC {
             .workableCasingRenderer(GTOCore.id("block/casings/hyper_mechanical_casing"), GTCEu.id("block/multiblock/cracking_unit"))
             .register();
 
-    public static final MultiblockMachineDefinition CHEMICAL_VAPOR_DEPOSITION = multiblock("chemical_vapor_deposition", "化学气相沉积系统", TierCasingParallelMultiblockMachine.createParallel(m -> 1 << (2 * (m.getTier() - 1)), true, GLASS_TIER))
+    public static final MultiblockMachineDefinition CHEMICAL_VAPOR_DEPOSITION = multiblock("chemical_vapor_deposition", "化学气相沉积系统",
+            CoilCustomParallelMultiblockMachine.createParallelCoil(m -> 1L << (2 * (m.getTier() - 1)), true, false, false))
             .nonYAxisRotation()
             .tooltips(GTOMachineTooltips.INSTANCE.getChemicalVaporDepositionTooltips().getSupplier())
-            .tooltips(NewDataAttributes.ALLOW_PARALLEL_NUMBER.create(
-                    h -> h.addLines("由玻璃等级决定", "Determined by glass tier"),
-                    c -> c.addCommentLines("公式 : 4^玻璃等级", "Formula: 4^(Glass Tier)")))
-            .tooltips(NewDataAttributes.TIME_COST_MULTIPLY.create(
-                    h -> h.addLines("由线圈温度决定", "Determined by coil temperature"),
-                    c -> c.addCommentLines("公式 : log(900) / log(线圈温度)", "Formula: log(900) / log(coil temperature)")))
             .recipeTypes(GTORecipeTypes.CHEMICAL_VAPOR_DEPOSITION_RECIPES)
             .recipeModifiers((machine, recipe) -> RecipeModifierFunction.recipeReduction(recipe, 1, Math.log(900) / Math.log(((ICoilMachine) machine).getTemperature())), RecipeModifierFunction.OVERCLOCKING)
             .block(GTBlocks.CASING_PTFE_INERT)
@@ -538,15 +533,10 @@ public final class MultiBlockC {
             .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_inert_ptfe"), GTCEu.id("block/multiblock/gcym/large_chemical_bath"))
             .register();
 
-    public static final MultiblockMachineDefinition PHYSICAL_VAPOR_DEPOSITION = multiblock("physical_vapor_deposition", "物理气相沉积系统", TierCasingParallelMultiblockMachine.createParallel(m -> 1 << (2 * (m.getTier() - 1)), true, GLASS_TIER))
+    public static final MultiblockMachineDefinition PHYSICAL_VAPOR_DEPOSITION = multiblock("physical_vapor_deposition", "物理气相沉积系统",
+            TierCasingParallelMultiblockMachine.createParallel(m -> 1 << (2 * (m.getTier() - 1)), true, GLASS_TIER))
             .nonYAxisRotation()
             .tooltips(GTOMachineTooltips.INSTANCE.getPhysicalVaporDepositionTooltips().getSupplier())
-            .tooltips(NewDataAttributes.ALLOW_PARALLEL_NUMBER.create(
-                    h -> h.addLines("由玻璃等级决定", "Determined by glass tier"),
-                    c -> c.addCommentLines("公式 : 4^玻璃等级", "Formula: 4^(Glass Tier)")))
-            .tooltips(NewDataAttributes.TIME_COST_MULTIPLY.create(
-                    h -> h.addLines("由玻璃等级决定", "Determined by glass tier"),
-                    c -> c.addCommentLines("公式 : √(1 / 玻璃等级)", "Formula: √(1 / Glass Tier)")))
             .recipeTypes(GTORecipeTypes.PHYSICAL_VAPOR_DEPOSITION_RECIPES)
             .recipeModifiers((machine, recipe) -> RecipeModifierFunction.recipeReduction(recipe, 1, Math.sqrt(1.0D / ((ITierCasingMachine) machine).getCasingTier(GLASS_TIER))), RecipeModifierFunction.OVERCLOCKING)
             .block(GTBlocks.PLASTCRETE)

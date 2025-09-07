@@ -110,13 +110,11 @@ public final class MultiBlockA {
 
     public static final MultiblockMachineDefinition PLASMA_CONDENSER = multiblock("plasma_condenser", "等离子冷凝器",
             TierCasingMultiblockMachine.createMachine(GLASS_TIER))
-            .tooltips(NewDataAttributes.TIME_COST_MULTIPLY.create(
-                    h -> h.addLines("由玻璃等级决定", "Determined by glass tier"),
-                    c -> c.addCommentLines("公式 : 1/1.1^玻璃等级", "Formula : 1/1.1^Glass Tier")))
             .recipeModifiers((machine, recipe) -> RecipeModifierFunction.recipeReduction(recipe, 1, Math.pow(1 / 1.1d, ((ITierCasingMachine) machine).getCasingTier(GLASS_TIER))), RecipeModifierFunction.OVERCLOCKING)
             .allRotation()
             .recipeTypes(GTORecipeTypes.PLASMA_CONDENSER_RECIPES)
             .tooltips(GTOMachineStories.INSTANCE.getPlasmaCondenserTooltips().getSupplier())
+            .tooltips(GTOMachineTooltips.INSTANCE.getPlasmaCondenserTooltips().getSupplier())
             .perfectOCTooltips()
             .perfectOverclock()
             .block(GTOBlocks.ANTIFREEZE_HEATPROOF_MACHINE_CASING)
