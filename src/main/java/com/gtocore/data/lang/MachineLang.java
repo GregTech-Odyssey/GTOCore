@@ -49,6 +49,8 @@ final class MachineLang {
         addCNEN("gtocore.machine.lightning_rod.tooltip.2", "如果存储能量已满，机器将会爆炸", "If the stored energy is full, the machine will explode");
         addCNEN("gtocore.machine.mega_turbine.high_speed_mode", "高速模式:", "High Speed Mode:");
         addCNEN("gtocore.machine.module", "已安装的模块数量: %s", "Number of Installed Modules: %s");
+        addCNEN("gtocore.machine.module.base", "基础模块数量: %s", "Number of Base Modules: %s");
+        addCNEN("gtocore.machine.module.mega", "大型模块数量: %s", "Number of Mega Modules: %s");
         addCNEN("gtocore.machine.module.am", "已安装的模块数: %s", "Number of Installed Modules: %s");
         addCNEN("gtocore.machine.module.have", "该模块已成功安装", "This module has been successfully installed");
         addCNEN("gtocore.machine.module.null", "该模块未成功安装", "This module has not been successfully installed");

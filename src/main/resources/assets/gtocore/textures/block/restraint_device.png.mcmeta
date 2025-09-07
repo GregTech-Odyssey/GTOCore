@@ -1,0 +1,9 @@
+{
+  "animation": {
+    "frametime": 8,
+    "interpolate": true
+  },
+    "ldlib": {
+        "connection": "gtocore:block/restraint_device_ctm"
+    }
+}

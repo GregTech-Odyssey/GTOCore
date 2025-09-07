@@ -3,6 +3,7 @@ package com.gtocore.common.data.translation
 import com.gtocore.api.lang.ComponentListSupplier
 import com.gtocore.api.lang.ComponentSupplier
 import com.gtocore.api.lang.toLiteralSupplier
+import com.gtocore.common.data.translation.ComponentSlang.Circle
 import com.gtocore.common.machine.electric.ElectricHeaterMachine
 import com.gtocore.common.machine.noenergy.BoilWaterMachine
 import com.gtocore.common.machine.noenergy.HeaterMachine

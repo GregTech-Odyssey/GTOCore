@@ -1274,4 +1274,21 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
         add("现实结构在仪器周围扭曲变形，物理常数开始出现可观测波动" translatedTo "Reality structure distorts around the device physical constants begin observable fluctuations") { lightPurple() }
         add(Star(1) + ("对宇宙本质的最终探索" translatedTo "Ultimate exploration of cosmic essence")) { gold() }
     }
+
+    // 地幔粉碎者
+    val MantleCrusherTooltips = ComponentListSupplier {
+        setTranslationPrefix("mantle_crusher")
+        add("§6地球之心的工业化身，驾驭地幔力量粉碎一切" translatedTo "§6Industrial incarnation of Earth's core, harnessing mantle power to crush all") { gold() }
+        add("§7只管把岩石丢进去，剩下的交给地震级别的机器力量" translatedTo "§7Just throw the rocks in, and leave the rest to the mantle-level crushing power") { gray() }
+        add("§e从矿石到废料，任何物质在这里都能被粉碎成最细微的颗粒" translatedTo "§eFrom ores to waste, any material can be crushed into the finest particles here") { yellow() }
+        add(Circle(1) + ("碎岩机模式：需要在输入仓中放入对应流体" translatedTo "Rock crusher mode: requires corresponding fluid in input tank")) { aqua() }
+    }
+
+    // 巨型烧结炉
+    val GiantSinteringArrayTooltips = ComponentListSupplier {
+        setTranslationPrefix("giant_sintering_furnace")
+        add("§6相传技艺来自景德镇，烧结一切材料于炉中" translatedTo "§6Legendary techniques from Jingdezhen, sintering all materials in the furnace") { gold() }
+        add("§7用高温与压力将粉末烧结成坚固的块体" translatedTo "§7Using high temperature and pressure to sinter powders into solid blocks") { gray() }
+        add(Star(1) + ("§e非遗技艺的工业化传承" translatedTo "§eIndustrial inheritance of intangible cultural heritage")) { yellow() }
+    }
 }

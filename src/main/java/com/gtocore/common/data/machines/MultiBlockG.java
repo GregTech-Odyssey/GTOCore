@@ -57,6 +57,7 @@ import static com.gregtechceu.gtceu.common.data.GTMachines.COKE_OVEN_HATCH;
 import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.DUMMY_RECIPES;
 import static com.gtocore.utils.register.MachineRegisterUtils.multiblock;
 import static com.gtocore.utils.register.MachineRegisterUtils.registerTieredMultis;
+import static com.gtolib.api.GTOValues.GLASS_TIER;
 
 public final class MultiBlockG {
 
@@ -906,7 +907,7 @@ public final class MultiBlockG {
             .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_solid_steel"), GTCEu.id("block/multiblock/fusion_reactor"))
             .register();
 
-    public static final MultiblockMachineDefinition INTEGRATED_VAPOR_DEPOSITION_SYSTEM = multiblock("integrated_vapor_deposition_system", "综合气相沉积系统", TierCasingCrossRecipeMultiblockMachine.createParallel(m -> 1L << (m.getCasingTier(GTOValues.GLASS_TIER) << 1), GTOValues.GLASS_TIER))
+    public static final MultiblockMachineDefinition INTEGRATED_VAPOR_DEPOSITION_SYSTEM = multiblock("integrated_vapor_deposition_system", "综合气相沉积系统", TierCasingParallelMultiblockMachine.createParallel(m -> 1 << (2 * (m.getTier() - 1)), true, GLASS_TIER))
             .nonYAxisRotation()
             .tooltips(GTOMachineStories.INSTANCE.getIntegratedVaporDepositionSystemTooltips().getSupplier())
             .specialParallelizableTooltips()
