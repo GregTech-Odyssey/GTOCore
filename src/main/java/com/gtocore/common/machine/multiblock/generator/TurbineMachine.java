@@ -47,23 +47,11 @@ import javax.annotation.ParametersAreNonnullByDefault;
 public final class TurbineMachine extends ElectricMultiblockMachine {
 
     private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(TurbineMachine.class, ElectricMultiblockMachine.MANAGED_FIELD_HOLDER);
-    @DynamicInitialValue(key = "gtocore.machine.mega_turbine.high_speed_mode_output_multiplier", typeKey = DynamicInitialValueTypes.KEY_MULTIPLY, simpleValue = "4.0F", normalValue = "3.0F", expertValue = "2.5F", cn = "高速模式输出倍率 : %s 倍", cnComment = """
-            高速模式下，涡轮机的运行速度倍率，发电量也会随之提升
-            或许你有时候会需要更高的发电量，亦可能你有无限的资源来维持涡轮机的高速运转？""", en = "High Speed Mode Output Multiplier : %s Multiplier", enComment = """
-            In high speed mode, the turbine's running speed multiplier increases, and the power generation will also increase.
-            Perhaps you sometimes need higher power generation, or you have unlimited resources to maintain the turbine's high-speed operation?""")
+    @DynamicInitialValue(key = "gtocore.machine.mega_turbine.high_speed_mode_output_multiplier", typeKey = DynamicInitialValueTypes.KEY_MULTIPLY, simpleValue = "4.0F", normalValue = "3.0F", expertValue = "2.5F", cn = "高速模式输出倍率 : %s 倍", en = "High Speed Mode Output Multiplier : %s Multiplier")
     private static float highSpeedModeOutputMultiplier = 3.0F;
-    @DynamicInitialValue(key = "gtocore.machine.mega_turbine.high_speed_mode_rotor_damage_multiplier", typeKey = DynamicInitialValueTypes.KEY_MULTIPLY, simpleValue = "4", normalValue = "10", expertValue = "12", cn = "高速模式转子损坏倍率 : %s 倍", cnComment = """
-            高速模式下，涡轮机转子损坏倍率提升
-            这意味着在高速模式下，转子会更快地损坏，你需要更频繁地维护它们。""", en = "High Speed Mode Rotor Damage Multiplier : %s Multiplier", enComment = """
-            In high speed mode, the turbine rotor damage multiplier increases.
-            This means that in high speed mode, the rotor will be damaged faster, and you need to maintain them more frequently.""")
+    @DynamicInitialValue(key = "gtocore.machine.mega_turbine.high_speed_mode_rotor_damage_multiplier", typeKey = DynamicInitialValueTypes.KEY_MULTIPLY, simpleValue = "4", normalValue = "10", expertValue = "12", cn = "高速模式转子损坏倍率 : %s 倍", en = "High Speed Mode Rotor Damage Multiplier : %s Multiplier")
     private static int highSpeedModeRotorDamageMultiplier = 10;
-    @DynamicInitialValue(key = "gtocore.machine.mega_turbine.high_speed_mode_machine_fault", typeKey = DynamicInitialValueTypes.KEY_MULTIPLY, simpleValue = "4F", normalValue = "8F", expertValue = "10F", cn = "高速模式机器故障倍率 : %s 倍", cnComment = """
-            高速模式下，涡轮机机器故障倍率提升
-            这意味着在高速模式下，机器更容易发生故障，你需要更频繁地检查它们。""", en = "High Speed Mode Machine Fault Multiplier : %s Multiplier", enComment = """
-            In high speed mode, the turbine machine fault multiplier increases.
-            This means that in high speed mode, the machine is more likely to malfunction, and you need to check them more frequently.""")
+    @DynamicInitialValue(key = "gtocore.machine.mega_turbine.high_speed_mode_machine_fault", typeKey = DynamicInitialValueTypes.KEY_MULTIPLY, simpleValue = "4F", normalValue = "8F", expertValue = "10F", cn = "高速模式机器故障倍率 : %s 倍", en = "High Speed Mode Machine Fault Multiplier : %s Multiplier")
     private static float highSpeedModeMachineFault = 8.0F;
 
     @Override

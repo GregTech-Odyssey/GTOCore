@@ -4,7 +4,7 @@ import com.gtocore.api.machine.part.GTOPartAbility;
 import com.gtocore.client.renderer.machine.ManaHeaterRenderer;
 import com.gtocore.client.renderer.machine.OverlayManaTieredMachineRenderer;
 import com.gtocore.common.data.GTORecipeTypes;
-import com.gtocore.common.data.translation.GTOMachineTranslation;
+import com.gtocore.common.data.translation.GTOMachineStories;
 import com.gtocore.common.machine.generator.MagicEnergyMachine;
 import com.gtocore.common.machine.mana.AlchemyCauldron;
 import com.gtocore.common.machine.mana.AreaDestructionToolsMachine;
@@ -32,9 +32,9 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 
 import static com.gregtechceu.gtceu.api.GTValues.*;
+import static com.gtocore.utils.register.MachineRegisterUtils.*;
 import static com.gtolib.api.GTOValues.MANACN;
 import static com.gtolib.api.GTOValues.MANAN;
-import static com.gtolib.utils.register.MachineRegisterUtils.*;
 
 public final class ManaMachine {
 
@@ -164,7 +164,7 @@ public final class ManaMachine {
 
     public static final MachineDefinition AREA_DESTRUCTION_TOOLS = manaMachine("area_destruction_tools", "区域破坏器", AreaDestructionToolsMachine::new)
             .tier(LuV)
-            .tooltips(GTOMachineTranslation.INSTANCE.getAreaDestructionToolsTooltips().getSupplier())
+            .tooltips(GTOMachineStories.INSTANCE.getAreaDestructionToolsTooltips().getSupplier())
             .nonYAxisRotation()
             .workableManaTieredHullRenderer(6, GTOCore.id("block/multiblock/area_destruction_tools"))
             .register();

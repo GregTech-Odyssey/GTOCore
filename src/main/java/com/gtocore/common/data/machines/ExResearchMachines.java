@@ -7,7 +7,7 @@ import com.gtocore.common.block.BlockMap;
 import com.gtocore.common.data.GTOBlocks;
 import com.gtocore.common.data.GTOMachines;
 import com.gtocore.common.data.GTOMaterials;
-import com.gtocore.common.data.translation.GTOMachineTranslation;
+import com.gtocore.common.data.translation.GTOMachineTooltips;
 import com.gtocore.common.machine.multiblock.electric.AnalysisAndResearchCenterMachine;
 import com.gtocore.common.machine.multiblock.electric.ScanningStationMachine;
 import com.gtocore.common.machine.multiblock.electric.SupercomputingCenterMachine;
@@ -58,10 +58,10 @@ import static com.gregtechceu.gtceu.common.data.GTBlocks.COMPUTER_CASING;
 import static com.gregtechceu.gtceu.common.data.GTBlocks.COMPUTER_HEAT_VENT;
 import static com.gregtechceu.gtceu.common.data.machines.GTResearchMachines.OVERHEAT_TOOLTIPS;
 import static com.gtocore.common.data.GTORecipeTypes.*;
+import static com.gtocore.utils.register.MachineRegisterUtils.machine;
+import static com.gtocore.utils.register.MachineRegisterUtils.multiblock;
 import static com.gtolib.api.registries.GTORegistration.GTO;
 import static com.gtolib.utils.register.BlockRegisterUtils.addLang;
-import static com.gtolib.utils.register.MachineRegisterUtils.machine;
-import static com.gtolib.utils.register.MachineRegisterUtils.multiblock;
 
 public final class ExResearchMachines {
 
@@ -72,8 +72,7 @@ public final class ExResearchMachines {
     /////////////////////////////////////
 
     public static final MultiblockMachineDefinition SUPERCOMPUTING_CENTER = multiblock("supercomputing_center", "运算中心", SupercomputingCenterMachine::new)
-            // 基本功能描述 - 使用更保守的样式
-            .tooltips(GTOMachineTranslation.INSTANCE.getComputerSupercomputingCenterTooltips().getSupplier())
+            .tooltips(GTOMachineTooltips.INSTANCE.getSupercomputingTooltips().getSupplier())
             .nonYAxisRotation()
             .recipeTypes(GTRecipeTypes.DUMMY_RECIPES)
             .block(GTOBlocks.OXIDATION_RESISTANT_HASTELLOY_N_MECHANICAL_CASING)

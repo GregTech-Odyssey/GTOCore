@@ -554,7 +554,7 @@ final class NanitesIntegratedProcessingCenter {
                 .addData("module", 2)
                 .save();
 
-        NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES.builder("agar")
+        NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES.builder("agar_dust")
                 .inputItems(GTOTagPrefix.NANITES, GTMaterials.Iridium)
                 .inputItems(TagPrefix.dust, GTMaterials.Meat, 96)
                 .inputItems(TagPrefix.rod, GTMaterials.Bone, 48)
@@ -571,10 +571,11 @@ final class NanitesIntegratedProcessingCenter {
                 .addData("module", 2)
                 .save();
 
-        NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES.builder("pedot")
+        NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES.builder("pedot_dust")
                 .inputItems(GTOTagPrefix.NANITES, GTOMaterials.Orichalcum)
                 .inputItems(TagPrefix.dust, GTOMaterials.SuccinicAcid, 448)
                 .inputItems(TagPrefix.dust, GTOMaterials.SodiumEthylate, 576)
+                .outputItems(GTOTagPrefix.CONTAMINABLE_NANITES, GTOMaterials.Orichalcum)
                 .outputItems(TagPrefix.dust, GTOMaterials.Pedot, 32)
                 .outputItems(TagPrefix.dust, GTOMaterials.SodiumBromide, 256)
                 .inputFluids(GTMaterials.Bromine, 32000)

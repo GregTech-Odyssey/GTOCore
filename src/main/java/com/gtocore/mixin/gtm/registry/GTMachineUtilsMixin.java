@@ -1,9 +1,10 @@
 package com.gtocore.mixin.gtm.registry;
 
+import com.gtocore.utils.register.MachineRegisterUtils;
+
 import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
 import com.gtolib.api.registries.GTOMachineBuilder;
 import com.gtolib.utils.GTOUtils;
-import com.gtolib.utils.register.MachineRegisterUtils;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTValues;

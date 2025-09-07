@@ -109,8 +109,8 @@ internal abstract class MEPartMachine(holder: MetaMachineBlockEntity, io: IO) :
         }
         if (isRemote) return
         onWirelessMachineLoad()
-        handlerList.isDistinct = distinctField
-        handlerList.setColor(paintingColor)
+        getHandlerList().isDistinct = distinctField
+        getHandlerList().setColor(paintingColor)
     }
 
     override fun getMainNode(): IManagedGridNode = nodeHolder.getMainNode()
@@ -129,7 +129,7 @@ internal abstract class MEPartMachine(holder: MetaMachineBlockEntity, io: IO) :
 
     override fun setDistinct(isDistinct: Boolean) {
         this.distinctField = isDistinct
-        handlerList.isDistinct = isDistinct
+        getHandlerList().isDistinct = isDistinct
         for (controller in getControllers()) {
             if (controller is IExtendedRecipeCapabilityHolder) {
                 controller.arrangeDistinct()

@@ -8,7 +8,7 @@ import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
 import com.gregtechceu.gtceu.client.renderer.machine.OverlayTieredMachineRenderer;
 
 import static com.gregtechceu.gtceu.api.GTValues.MV;
-import static com.gtolib.utils.register.MachineRegisterUtils.machine;
+import static com.gtocore.utils.register.MachineRegisterUtils.machine;
 
 public final class SimpleModeMachine {
 

@@ -5,7 +5,8 @@ import com.gtocore.api.pattern.GTOPredicates;
 import com.gtocore.client.renderer.machine.*;
 import com.gtocore.common.block.FusionCasings;
 import com.gtocore.common.data.*;
-import com.gtocore.common.data.translation.GTOMachineTranslation;
+import com.gtocore.common.data.translation.GTOMachineStories;
+import com.gtocore.common.data.translation.GTOMachineTooltips;
 import com.gtocore.common.machine.multiblock.electric.*;
 import com.gtocore.common.machine.multiblock.electric.adventure.SlaughterhouseMachine;
 import com.gtocore.common.machine.multiblock.electric.assembly.AdvancedAssemblyLineMachine;
@@ -27,7 +28,6 @@ import com.gtocore.common.machine.multiblock.noenergy.NeutronActivatorMachine;
 
 import com.gtolib.GTOCore;
 import com.gtolib.api.annotation.NewDataAttributes;
-import com.gtolib.api.annotation.component_builder.ComponentBuilder;
 import com.gtolib.api.annotation.component_builder.StyleBuilder;
 import com.gtolib.api.lang.CNEN;
 import com.gtolib.api.machine.MultiblockDefinition;
@@ -72,9 +72,9 @@ import java.util.Objects;
 import static com.gregtechceu.gtceu.api.machine.multiblock.PartAbility.*;
 import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
 import static com.gtocore.common.block.BlockMap.SEPMMAP;
+import static com.gtocore.utils.register.MachineRegisterUtils.multiblock;
+import static com.gtocore.utils.register.MachineRegisterUtils.registerTieredMultis;
 import static com.gtolib.api.GTOValues.POWER_MODULE_TIER;
-import static com.gtolib.utils.register.MachineRegisterUtils.multiblock;
-import static com.gtolib.utils.register.MachineRegisterUtils.registerTieredMultis;
 
 public final class MultiBlockD {
 
@@ -232,20 +232,7 @@ public final class MultiBlockD {
     public static final MultiblockMachineDefinition CIRCUIT_ASSEMBLY_LINE = multiblock("circuit_assembly_line", "电路装配线", CircuitAssemblyLineMachine::new)
             .allRotation()
             .recipeTypes(GTORecipeTypes.CIRCUIT_ASSEMBLY_LINE_RECIPES)
-            .tooltips(ComponentBuilder.create().addStoryLine("""
-                    GTO寰宇格雷科技有限公司的顶级工程师们设计了这条电路装配线。
-                    董事长视察时赞叹道："这是我们最优雅的基础设施之一。"
-                    透明的层压玻璃展示着内部精密的装配过程，机器人们有条不紊
-                    地制造着各种复杂电路。当相同配方的机器人协作时，效率翻倍，
-                    这条生产线成为了公司电子工业的核心支柱。
-                    """,
-                    """
-                            Top engineers of GTO designed this elegant circuit assembly line.
-                            The CEO praised it as "one of our most graceful infrastructures."
-                            Through laminated glass, precise assembly processes are displayed,
-                            with robots methodically crafting complex circuits in perfect harmony.
-                            This production line became the cornerstone of our electronics industry.
-                            """).build())
+            .tooltips(GTOMachineStories.INSTANCE.getCircuitAssemblyLineTooltips().getSupplier())
             .specialParallelizableTooltips()
             .tooltips(NewDataAttributes.ALLOW_PARALLEL_NUMBER.create(h -> h.addLines("同配方机器人数量x2的并行", "Parallelism of x2 for the same recipe robots")))
             .block(GTOBlocks.PIKYONIUM_MACHINE_CASING)
@@ -338,23 +325,7 @@ public final class MultiBlockD {
     public static final MultiblockMachineDefinition LARGE_BLOCK_CONVERSION_ROOM = multiblock("large_block_conversion_room", "大型方块转换室", holder -> new BlockConversionRoomMachine(holder, true))
             .noneRotation()
             .recipeTypes(GTORecipeTypes.BLOCK_CONVERSIONRECIPES)
-            .tooltips(ComponentBuilder.create().addStoryLine(
-                    """
-                            一名格雷科技有限公司员工在实验室里焦急地踱步，大型方块转换室是他的最新发明。
-                            这台庞然大物由铝青铜外壳构成，能够每秒随机转换内部的一个方块。
-                            他记得董事长曾说过，提高电压等级可以增加转换效率，每高出MV1级，转换数量增加64个。
-                            第一次测试时，他紧张地启动了机器，看着内部的石头逐渐变成了各种稀有材料。
-                            值得注意的是，机器似乎有自己的"记忆"，从不会重复转换同一个方块。
-                            GTO寰宇格雷科技有限公司的同事们都惊叹于这项发明，它将彻底改变资源获取的方式。
-                            """,
-                    """
-                            A GregTech Ltd. employee paced anxiously in the laboratory, the Large Block Conversion Room was his latest invention.
-                            This behemoth, encased in aluminium bronze, could randomly convert one block inside it every second.
-                            He remembered the CEO saying that increasing voltage tiers would improve efficiency, each tier above MV1 adds 64 to conversion count.
-                            During the first test, he nervously activated the machine, watching as stones inside gradually transformed into various rare materials.
-                            Notably, the machine seemed to have its own "memory," never converting the same block twice.
-                            Colleagues at GTO Universal GregTech Company marveled at this invention that would revolutionize resource acquisition.
-                            """).build())
+            .tooltips(GTOMachineStories.INSTANCE.getLargeBlockConversionRoomTooltips().getSupplier())
             .tooltips(NewDataAttributes.MAIN_FUNCTION.create(v -> v.addLines("每秒随机转化机器内部一个方块", "Randomly converts blocks inside the machine every second")))
             .tooltips(NewDataAttributes.EMPTY_WITH_BAR.create(
                     h -> h.addLines("电压等级加成", "Voltage Tier Bonus", StyleBuilder::setGold),
@@ -390,18 +361,7 @@ public final class MultiBlockD {
             .nonYAxisRotation()
             .recipeTypes(GTORecipeTypes.PCB_FACTORY_RECIPES)
             .parallelizableTooltips()
-            .tooltips(ComponentBuilder.create().addStoryLine("""
-                    GTO寰宇格雷科技有限公司的研发部门取得了伟大的突破。
-                    他们利用纳米蜂群技术，建造了革命性的PCB工厂。
-                    这座工厂能够精确制造各种电路板，标志着公司进入了
-                    纳米制造的新时代，为未来的科技发展铺平了道路。
-                    """,
-                    """
-                            GTO's R&D department achieved a great breakthrough.
-                            They built a revolutionary PCB Factory using nanite swarm technology.
-                            This facility can precisely manufacture various circuit boards, marking
-                            the company's entry into the nanomanufacturing era.
-                            """).build())
+            .tooltips(GTOMachineStories.INSTANCE.getPCBFactoryTooltips().getSupplier())
             .tooltipsText("使用纳米蜂群引导结构等级，金：1，山铜：2，末影素：3", "Use the nanites guidance structure level, gold: 1, orichalcum: 2, enderium: 3")
             .laserTooltips()
             .block(GTOBlocks.IRIDIUM_CASING)
@@ -420,19 +380,7 @@ public final class MultiBlockD {
             .allRotation()
             .recipeTypes(GTRecipeTypes.BLAST_RECIPES)
             .durationMultiplierTooltips(0.5)
-            .tooltips(ComponentBuilder.create().addStoryLine(
-                    """
-                            格雷科技有限公司的工程师们发现了利用烈焰的力量的新方法。
-                            在一个寒冷的冬日，他们建造了第一座烈焰高炉，将液态烈焰
-                            注入特制的钨钢管道中。董事长亲自验收时，惊叹于其效率，
-                            它能以普通高炉一半的时间冶炼金属，甚至可同时处理64个配方。
-                            自此，公司的冶金产能翻了数倍，员工们不再担心材料短缺。""",
-                    """
-                            GregTech engineers discovered a new way to harness blaze power.
-                            On a cold winter day, they built the first Blaze Blast Furnace,
-                            injecting liquid blaze into specially designed tungstensteel pipes.
-                            The CEO was amazed by its efficiency, smelting metals in half the time
-                            and processing up to 64 recipes simultaneously, solving material shortages.""").build())
+            .tooltips(GTOMachineStories.INSTANCE.getBlazeBlastFurnaceTooltips().getSupplier())
             .tooltipsText("需每秒提供§b10x配方等级^2§r的§e液态烈焰§r", "Requires to provide %b10x(Recipe tier)²%r of %eLiquid Blaze%r per second")
             .tooltipsKey("gtceu.machine.electric_blast_furnace.tooltip.2")
             .specialParallelizableTooltips()
@@ -466,20 +414,7 @@ public final class MultiBlockD {
             .allRotation()
             .recipeTypes(GTRecipeTypes.VACUUM_RECIPES)
             .durationMultiplierTooltips(0.5)
-            .tooltips(ComponentBuilder.create().addStoryLine("""
-                    寒冰冷冻机的诞生源于一次偶然的实验事故。GTO寰宇格雷科技的研究员
-                    在测试极低温材料时，意外发现液态冰与铝合金框架的奇妙组合效果。
-                    经过数月改进，这台庞然大物终于在公司总部亮相，其内部的钨钢管道
-                    和强化玻璃窗让参观者叹为观止。董事长亲自按下启动按钮，机器瞬间
-                    将实验样本冻结，速度是普通真空冷冻机的两倍，且能同时处理64份材料。
-                    """,
-                    """
-                            The Cold Ice Freezer was born from an accidental lab mishap. GTO Universal
-                            GregTech researchers discovered a remarkable combination of liquid ice and
-                            aluminum frames while testing cryogenic materials. After months of refinement,
-                            the massive machine debuted at headquarters, its tungstensteel pipes and
-                            tempered glass windows amazing visitors as it froze samples twice as fast.
-                            """).build())
+            .tooltips(GTOMachineStories.INSTANCE.getColdIceFreezerTooltips().getSupplier())
             .tooltipsText("需每秒提供§b10x配方等级^2§r的§b液态冰§r", "Requires to provide %b10x(Recipe tier)²%r of %bLiquid Ice%r per second")
             .specialParallelizableTooltips()
             .tooltips(NewDataAttributes.ALLOW_PARALLEL_NUMBER.create(64))
@@ -513,20 +448,7 @@ public final class MultiBlockD {
     public static final MultiblockMachineDefinition DOOR_OF_CREATE = multiblock("door_of_create", "创造之门", ElectricMultiblockMachine::new)
             .noneRotation()
             .recipeTypes(GTORecipeTypes.DOOR_OF_CREATE_RECIPES)
-            .tooltips(ComponentBuilder.create().addStoryLine("""
-                    格雷科技寰宇公司的秘密实验室深处，矗立着一座巨大的环形结构。
-                    "创造之门"是公司最高机密项目，董事长亲自监督其建造过程。
-                    传说只有身着星物质装甲的员工才能通过这扇门，抵达创造维度。
-                    每当MAX级电压注入，环形门户便开始旋转，龙息粒子在空间中舞动，
-                    连接着两个世界。有幸穿越的员工回来后，都对所见三缄其口。
-                    """,
-                    """
-                            Deep in GTO's secret lab stands a massive ring-like structure.
-                            The "Door of Create" is the company's highest classified project.
-                            Only employees wearing star matter armor can pass through to the Creation Dimension.
-                            When MAX voltage is applied, the ring spins as dragon breath particles dance,
-                            connecting two worlds. Those who return never speak of what they've seen.
-                            """).build())
+            .tooltips(GTOMachineStories.INSTANCE.getDoorOfCreateTooltips().getSupplier())
             .tooltips(NewDataAttributes.EMPTY_WITH_BAR.create(
                     h -> h.addLines("启动条件", "Startup Conditions", StyleBuilder::setGold),
                     c -> c.addLines(
@@ -586,16 +508,7 @@ public final class MultiBlockD {
     public static final MultiblockMachineDefinition BEDROCK_DRILLING_RIG = multiblock("bedrock_drilling_rig", "基岩钻机", BedrockDrillingRigMachine::new)
             .noneRotation()
             .recipeTypes(GTORecipeTypes.BEDROCK_DRILLING_RIG_RECIPES)
-            .tooltips(ComponentBuilder.create().addStoryLine("""
-                    GTO寰宇格雷科技有限公司的员工们建造了史上最强大的钻机。
-                    它能穿透坚不可摧的基岩，获取珍贵的深层资源。
-                    但董事长警告：每次使用都有风险，基岩可能永远消失。
-                    """,
-                    """
-                            GTO Universal GregTech employees built the most powerful drilling rig ever.
-                            It can penetrate indestructible bedrock to obtain precious deep resources.
-                            But the CEO warned: each use carries risk, bedrock might vanish forever.
-                            """).build())
+            .tooltips(GTOMachineStories.INSTANCE.getBedrockDrillingRigTooltips().getSupplier())
             .tooltips(NewDataAttributes.EMPTY_WITH_BAR.create(
                     h -> h.addLines("运行条件", "Operating Conditions", StyleBuilder::setGold),
                     c -> c.addLines(
@@ -635,14 +548,7 @@ public final class MultiBlockD {
     public static final MultiblockMachineDefinition CREATE_AGGREGATION = multiblock("create_aggregation", "创造聚合仪", ElectricMultiblockMachine::new)
             .noneRotation()
             .recipeTypes(GTORecipeTypes.CREATE_AGGREGATION_RECIPES)
-            .tooltips(ComponentBuilder.create().addStoryLine("""
-                    GTO寰宇格雷科技有限公司的终极项目，创造聚合仪在创造维度启动。
-                    董事长凝视着这台跨越维度的机器，它将重塑现实本身的规则。
-                    """,
-                    """
-                            The ultimate project of GTO Universal GregTech Corporation, Create Aggregation activated in creation dimension.
-                            The CEO gazed at this trans-dimensional machine that would reshape the very rules of reality itself.
-                            """).build())
+            .tooltips(GTOMachineStories.INSTANCE.getCreateAggregationTooltips().getSupplier())
             .tooltips(NewDataAttributes.EMPTY_WITH_BAR.create(
                     h -> h.addLines("启动条件", "Startup Conditions", StyleBuilder::setGold),
                     c -> c.addLines(
@@ -686,7 +592,7 @@ public final class MultiBlockD {
     public static final MultiblockMachineDefinition NYARLATHOTEPS_TENTACLE = multiblock("nyarlathoteps_tentacle", "奈亚拉托提普之触", CoilCrossRecipeMultiblockMachine::createCoilParallel)
             .allRotation()
             .recipeTypes(GTORecipeTypes.SUPRACHRONAL_ASSEMBLY_LINE)
-            .tooltips(GTOMachineTranslation.INSTANCE.getNyarlathotepsTentacleTooltips().getSupplier())
+            .tooltips(GTOMachineStories.INSTANCE.getNyarlathotepsTentacleTooltips().getSupplier())
             .combinedRecipeTooltips()
             .coilParallelTooltips()
             .laserTooltips()
@@ -738,16 +644,7 @@ public final class MultiBlockD {
             .recipeTypes(GTRecipeTypes.DUMMY_RECIPES)
             .eutMultiplierTooltips(0.9)
             .durationMultiplierTooltips(0.8)
-            .tooltips(ComponentBuilder.create().addStoryLine("""
-                    格雷科技董事长视察工厂时，偶然发现员工们在手动切换机器。
-                    他灵机一动，下令建造通用工厂，将所有小机器集成在一起。
-                    从此，一座工厂就能完成三十多种加工，效率提升了数倍。
-                    """,
-                    """
-                            The GregTech CEO discovered workers manually switching machines during inspection.
-                            He had a brilliant idea to build a processing plant integrating all machines.
-                            Since then, one factory could handle over thirty processes with tripled efficiency.
-                            """).build())
+            .tooltips(GTOMachineStories.INSTANCE.getProcessingPlantTooltips().getSupplier())
             .tooltips(NewDataAttributes.EMPTY_WITH_BAR.create(
                     h -> h.addLines("运行要求", "Operating Requirements", StyleBuilder::setGold),
                     c -> c.addLines(
@@ -828,17 +725,7 @@ public final class MultiBlockD {
     public static final MultiblockMachineDefinition ISA_MILL = multiblock("isa_mill", "艾萨研磨机", IsaMillMachine::new)
             .allRotation()
             .recipeTypes(GTORecipeTypes.ISA_MILL_RECIPES)
-            .tooltips(ComponentBuilder.create().addStoryLine(
-                    """
-                            在格雷科技的实验室里，一位科学家偶然发现了湿法研磨的奥秘。
-                            他在实验室里观察着高速旋转的研磨球，突然意识到
-                            通过精确控制研磨介质的湿度，可以大幅提升研磨效率。""",
-                    """
-                            In the lab of GTO, a scientist accidentally discovered the secret of wet maceration.
-                            He observed the rapid rotation of the mill balls in the lab, and he realized
-                            that by controlling the humidity of the mill medium, it can significantly increase the efficiency of the mill.
-                            """).build())
-            .tooltipsText("工业级湿法碾磨", "Industrial Wet macerator")
+            .tooltips(GTOMachineStories.INSTANCE.getIsaMillTooltips().getSupplier())
             .perfectOCTooltips()
             .perfectOverclock()
             .fromSourceTooltips("GTNH")
@@ -868,20 +755,7 @@ public final class MultiBlockD {
 
     public static final MultiblockMachineDefinition NEUTRON_ACTIVATOR = multiblock("neutron_activator", "中子活化器", NeutronActivatorMachine::new)
             .nonYAxisRotation()
-            .tooltips(ComponentBuilder.create().addStoryLine("""
-                    一位格雷科技员工偶然发现了中子的奥秘。
-                    他在实验室里观察着高速管道中飞驰的中子流，突然意识到
-                    通过精确控制中子动能，可以激活普通材料的原子核。
-                    董事长听闻后立即批准了中子活化器项目的研发。
-                    如今这台设备能以超光速处理各种核反应配方。
-                    """,
-                    """
-                            A GregTech employee accidentally discovered neutron secrets.
-                            Watching neutron streams racing through high-speed pipes in the lab,
-                            he realized atomic nuclei could be activated by controlling neutron kinetics.
-                            The CEO immediately approved the Neutron Activator project upon hearing this.
-                            Now this device processes nuclear reactions at superluminal speeds.
-                            """).build())
+            .tooltips(GTOMachineStories.INSTANCE.getNeutronActivatorTooltips().getSupplier())
             .tooltips(NewDataAttributes.EMPTY_WITH_BAR.create(
                     h -> h.addLines("§7超光速运动!", "§7Superluminal Movement!", StyleBuilder::setGold),
                     c -> c.addLines(
@@ -924,20 +798,7 @@ public final class MultiBlockD {
 
     public static final MultiblockMachineDefinition HEAT_EXCHANGER = multiblock("heat_exchanger", "热交换机", HeatExchangerMachine::new)
             .allRotation()
-            .tooltips(ComponentBuilder.create().addStoryLine("""
-                    寰宇格雷科技的工程师们面临着热能浪费的难题。
-                    一位资深员工提出了热交换的概念，通过钨钢管道
-                    让热流体与冷却液充分接触，实现完美的热量传递。
-                    经过无数次试验，他们终于造出了这台神奇的机器。
-                    连续运行后还能产出珍贵的高级蒸汽，一举两得。
-                    """,
-                    """
-                            GTO engineers faced the problem of thermal energy waste.
-                            A senior employee proposed heat exchange through tungstensteel pipes,
-                            allowing hot fluids and coolants to contact for perfect heat transfer.
-                            After countless experiments, they finally built this amazing machine.
-                            Continuous operation even produces precious high-level steam.
-                            """).build())
+            .tooltips(GTOMachineStories.INSTANCE.getHeatExchangerTooltips().getSupplier())
             .tooltipsText("每次处理全部输入的热流体", "Processes all input hot fluids every time")
             .tooltipsText("需要保证输入的冷却液能将流体全部冷却", "Must ensure the cooling liquid input can cool all fluids")
             .tooltipsText("连续运行4次后将输出高级蒸汽", "it will output high level steam after running continuously 4 times")
@@ -970,20 +831,7 @@ public final class MultiBlockD {
     public static final MultiblockMachineDefinition INFINITY_FLUID_DRILLING_RIG = multiblock("infinity_fluid_drilling_rig", "无尽流体钻机", holder -> new INFFluidDrillMachine(holder, GTValues.ZPM, 256))
             .allRotation()
             .recipeTypes(GTRecipeTypes.DUMMY_RECIPES)
-            .tooltips(ComponentBuilder.create().addStoryLine("""
-                    GTO寰宇格雷科技有限公司的探索部门又有新发现了！
-                    员工们在深层地底发现了永不枯竭的流体矿脉，
-                    于是工程师们设计了这台无尽流体钻机。
-                    董事长激动地说："这下再也不用担心资源短缺了！
-                    从此，公司的流体供应变得源源不断。
-                    """,
-                    """
-                            GTO Universal GregTech's exploration department made a new discovery!
-                            Employees found inexhaustible fluid veins deep underground,
-                            so engineers designed this Infinity Fluid Drilling Rig.
-                            The CEO excitedly said: "No more worrying about resource shortages!
-                            Since then, the company's fluid supply became endless.
-                            """).build())
+            .tooltips(GTOMachineStories.INSTANCE.getInfinityFluidDrillingRigTooltips().getSupplier())
             .tooltipsKey("gtceu.machine.fluid_drilling_rig.description")
             .tooltips(NewDataAttributes.EMPTY_WITH_BAR.create(c -> c.addLines("损耗率 : 0", "Deplition Rate : 0", s -> s.setColor(0xEED8AE))))
             .tooltips(NewDataAttributes.VOLTAGE.create(c -> c.addLines(GTValues.VNF[GTValues.ZPM] + " -> " + GTValues.VNF[GTValues.UV])))
@@ -1007,23 +855,7 @@ public final class MultiBlockD {
     public static final MultiblockMachineDefinition ADVANCED_ASSEMBLY_LINE = multiblock("advanced_assembly_line", "进阶装配线", AdvancedAssemblyLineMachine::new)
             .allRotation()
             .recipeTypes(GTRecipeTypes.ASSEMBLY_LINE_RECIPES)
-            .tooltips(ComponentBuilder.create().addStoryLine("""
-                    格雷科技有限公司的全体员工都参与了进阶装配线的设计。
-                    机械工程师负责结构，电子工程师处理数据传输，
-                    物流专家优化了输入总线的配置。
-                    这台机器能够并行处理多个复杂配方，
-                    大大提升了公司高端产品的生产效率。
-                    """,
-                    """
-                            All employees of GregTech participated in the Advanced Assembly Line design.
-                            Mechanical engineers handled structure, electronic engineers managed data transfer,
-                            logistics experts optimized input bus configurations.
-                            This machine can process multiple complex recipes in parallel,
-                            greatly improving the company's high-end product efficiency.
-                            """).build())
-
-            .tooltipsText("可以使用更大的输入总线", "Can use larger input buses")
-            .tooltipsText("需要保证每片的物品与配方对应，只能使用数据靶仓", "Must ensure each item corresponds to the recipe, only data target chambers can be used")
+            .tooltips(GTOMachineStories.INSTANCE.getAdvancedAssemblyLineTooltips().getSupplier())
             .parallelizableTooltips()
             .laserTooltips()
             .block(GTBlocks.CASING_STEEL_SOLID)
@@ -1054,7 +886,7 @@ public final class MultiBlockD {
     public static final MultiblockMachineDefinition FISSION_REACTOR = multiblock("fission_reactor", "裂变反应堆", FissionReactorMachine::new)
             .nonYAxisRotation()
             .recipeTypes(GTORecipeTypes.FISSION_REACTOR_RECIPES)
-            .tooltips(GTOMachineTranslation.INSTANCE.getFissionReactorTooltips().getSupplier())
+            .tooltips(GTOMachineTooltips.INSTANCE.getFissionReactorTooltips().getSupplier())
             .specialParallelizableTooltips()
             .tooltips(NewDataAttributes.ALLOW_PARALLEL_NUMBER.create(CNEN.create("等于燃料组件数量", "Number of Fuel Components")).get().toArray(new Component[0]))
             .block(GTOBlocks.FISSION_REACTOR_CASING)
@@ -1086,25 +918,18 @@ public final class MultiBlockD {
     public static final MultiblockMachineDefinition SPACE_ELEVATOR = multiblock("space_elevator", "太空电梯", SpaceElevatorMachine::new)
             .nonYAxisRotation()
             .recipeTypes(GTRecipeTypes.DUMMY_RECIPES)
-            .tooltips(ComponentBuilder.create().addStoryLine("""
-                    GTO寰宇格雷科技有限公司的工程师们仰望星空，梦想着触及宇宙的边界。
-                    经过数十年的研发，他们终于建成了人类历史上第一座太空电梯。
-                    这座高耸入云的巨塔承载着无数人的梦想，连接着地球与深空。
-                    董事长在落成典礼上激动地说道："今天，我们不再被重力束缚。
-                    从此，员工们可以轻松地将物资运送到太空站，开启了星际时代。
-                    人类终于迈出了征服宇宙的第一步，未来的无限可能在此展开。
-                    """,
-                    """
-                            GTO engineers gazed at the stars, dreaming of touching the universe's edge.
-                            After decades of development, they built humanity's first space elevator.
-                            This towering structure carries countless dreams, connecting Earth to deep space.
-                            The CEO excitedly declared at the ceremony: "Today, we're no longer bound by gravity.
-                            Employees can now easily transport materials to space stations, beginning the stellar age.
-                            Humanity finally took its first step toward conquering the universe, opening infinite possibilities.
-                            """).build())
-            .tooltipsText("可安装最多12个拓展模块", "Can install up to 12 expansion modules")
-            .tooltipsText("提升电压等级可为模块提供耗时减免", "Increasing voltage tier can provide Duration reductions for modules")
-            .tooltipsText("运行前需提供128*(机器等级-7)的算力", "Before starting, it is necessary to provide 128 * (tier - 7) computation power.")
+            .tooltips(GTOMachineStories.INSTANCE.getSpaceElevatorTooltips().getSupplier())
+            .tooltips(NewDataAttributes.MAIN_FUNCTION.create(
+                    v -> v.addLines("模块运行优化系统", "Module Operation Optimization System"),
+                    p -> p.addCommentLines(
+                            """
+                                    可安装最多12个拓展模块
+                                    提升电压等级可为模块提供耗时减免
+                                    运行前需提供128*(机器等级-7)的算力""",
+                            """
+                                    Can install up to 12 expansion modules
+                                    Increasing voltage tier can provide Duration reductions for modules
+                                    Before starting, it is necessary to provide 128 * (tier - 7) computation power.""")))
             .fromSourceTooltips("GTNH")
             .block(GTOBlocks.SPACE_ELEVATOR_MECHANICAL_CASING)
             .pattern(definition -> MultiBlockFileReader.start(definition, RelativeDirection.RIGHT, RelativeDirection.UP, RelativeDirection.BACK)
@@ -1336,7 +1161,7 @@ public final class MultiBlockD {
             .tooltips(NewDataAttributes.RUNTIME_REQUIREMENT.create(
                     c -> c.addLines("玻璃等级决定配方等级上限",
                             "The glass casing tier determines the upper limit of recipe tier")))
-            .tooltips(GTOMachineTranslation.INSTANCE.getCulturingTankTooltips().getSupplier())
+            .tooltips(GTOMachineStories.INSTANCE.getCulturingTankTooltips().getSupplier())
             .recipeTypes(GTORecipeTypes.INCUBATOR_RECIPES)
             .overclock()
             .block(GTBlocks.PLASTCRETE)
@@ -1364,7 +1189,7 @@ public final class MultiBlockD {
             .tooltips(NewDataAttributes.RUNTIME_REQUIREMENT.create(
                     c -> c.addLines("玻璃等级决定配方等级上限",
                             "The glass casing tier determines the upper limit of recipe tier")))
-            .tooltips(GTOMachineTranslation.INSTANCE.getLargeCulturingTankTooltips().getSupplier())
+            .tooltips(GTOMachineStories.INSTANCE.getLargeCulturingTankTooltips().getSupplier())
             .recipeTypes(GTORecipeTypes.INCUBATOR_RECIPES)
             .parallelizableTooltips()
             .parallelizableOverclock()
