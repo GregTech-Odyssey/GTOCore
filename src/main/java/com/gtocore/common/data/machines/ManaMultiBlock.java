@@ -5,7 +5,7 @@ import com.gtocore.api.pattern.GTOPredicates;
 import com.gtocore.common.data.GTOBlocks;
 import com.gtocore.common.data.GTOMaterials;
 import com.gtocore.common.data.GTORecipeTypes;
-import com.gtocore.common.data.translation.GTOMachineTranslation;
+import com.gtocore.common.data.translation.GTOMachineTooltips;
 import com.gtocore.common.machine.mana.multiblock.*;
 
 import com.gtolib.GTOCore;
@@ -498,7 +498,7 @@ public final class ManaMultiBlock {
 
     public static final MultiblockMachineDefinition THE_PRIMORDIAL_RECONSTRUCTOR = multiblock("the_primordial_reconstructor", "源初重构仪", ThePrimordialReconstructor::new)
             .nonYAxisRotation()
-            .tooltips(GTOMachineTranslation.INSTANCE.getThePrimordialReconstructorTooltips().getSupplier())
+            .tooltips(GTOMachineTooltips.INSTANCE.getThePrimordialReconstructorTooltips().getSupplier())
             .recipeTypes(GTRecipeTypes.DUMMY_RECIPES)
             .block(GTOBlocks.HERETICAL_MECHANICAL_CASING)
             .pattern(definition -> FactoryBlockPattern.start(definition)
