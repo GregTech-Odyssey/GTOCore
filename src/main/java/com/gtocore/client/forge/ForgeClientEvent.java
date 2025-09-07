@@ -2,6 +2,7 @@ package com.gtocore.client.forge;
 
 import com.gtocore.client.ClientCache;
 import com.gtocore.client.Tooltips;
+import com.gtocore.client.renderer.RenderHelper;
 import com.gtocore.common.data.GTOCommands;
 import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.item.StructureDetectBehavior;
@@ -22,7 +23,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -30,7 +30,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RegisterClientCommandsEvent;
@@ -41,9 +40,6 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 import com.hepdd.gtmthings.common.block.machine.electric.WirelessEnergyMonitor;
 import com.hepdd.gtmthings.data.CustomItems;
-import com.lowdragmc.lowdraglib.client.utils.RenderBufferUtils;
-import com.mojang.blaze3d.platform.GlStateManager;
-import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 
 import java.util.Set;
@@ -128,7 +124,7 @@ public final class ForgeClientEvent {
             Camera camera = event.getCamera();
             BlockPos[] poses;
             if (highlightingTime > 0) {
-                highlightSphere(camera, poseStack, highlightingPos, highlightingRadius);
+                RenderHelper.highlightSphere(camera, poseStack, highlightingPos, highlightingRadius);
             }
             if (WirelessEnergyMonitor.p > 0) {
                 if (GTValues.CLIENT_TIME % 20L == 0L) {
@@ -138,7 +134,7 @@ public final class ForgeClientEvent {
                 if (pose == null) {
                     return;
                 }
-                highlightBlock(camera, poseStack, 0, 0, 1, pose, pose);
+                RenderHelper.highlightBlock(camera, poseStack, 0, 0, 1, pose, pose);
             }
             ItemStack itemStack = player.getMainHandItem();
             Item item = itemStack.getItem();
@@ -146,26 +142,26 @@ public final class ForgeClientEvent {
                 if (GTCEu.isDev() && StructureWriteBehavior.isItem(itemStack)) {
                     poses = StructureWriteBehavior.getPos(itemStack);
                     if (poses != null) {
-                        highlightBlock(camera, poseStack, 0, 0, 1, poses);
+                        RenderHelper.highlightBlock(camera, poseStack, 0, 0, 1, poses);
                     }
                 } else if (StructureDetectBehavior.isItem(itemStack)) {
                     poses = StructureDetectBehavior.getPos(itemStack);
                     if (poses != null && poses.length >= 1) {
                         if (poses[0] != null) {
-                            highlightBlock(camera, poseStack, 0, 0, 1, poses[0], poses[0]);
+                            RenderHelper.highlightBlock(camera, poseStack, 0, 0, 1, poses[0], poses[0]);
                         }
                         if (poses.length == 2 && poses[1] != null) {
-                            highlightBlock(camera, poseStack, 0, 0, 1, poses[1], poses[1]);
+                            RenderHelper.highlightBlock(camera, poseStack, 0, 0, 1, poses[1], poses[1]);
                         }
                     }
                 } else if (Highlighting.HIGHLIGHTING_ITEM.contains(item)) {
                     var tag = itemStack.getTag();
                     BlockPos blockPos = new BlockPos(tag.getInt("x"), tag.getInt("y"), tag.getInt("z"));
-                    highlightBlock(camera, poseStack, 0, 0, 1, blockPos, blockPos);
+                    RenderHelper.highlightBlock(camera, poseStack, 0, 0, 1, blockPos, blockPos);
                 }
             }
             if (ClientCache.machineNotFormedHighlight) {
-                MultiblockControllerMachine.HIGHLIGHT_CACHE.forEach((pos) -> highlightBlock(camera, poseStack, 1, 0.1f, 0.1f, pos, pos));
+                MultiblockControllerMachine.HIGHLIGHT_CACHE.forEach((pos) -> RenderHelper.highlightBlock(camera, poseStack, 1, 0.1f, 0.1f, pos, pos));
             }
         }
     }
@@ -173,54 +169,6 @@ public final class ForgeClientEvent {
     @SubscribeEvent
     public static void registerCommands(RegisterClientCommandsEvent evt) {
         GTOCommands.initClient(evt.getDispatcher());
-    }
-
-    private static void highlightBlock(Camera camera, PoseStack poseStack, float r, float g, float b, BlockPos... poses) {
-        Vec3 pos = camera.getPosition();
-        float lightR = (1.0f + r * 4f) / 5.0f;
-        float lightG = (1.0f + g * 4f) / 5.0f;
-        float lightB = (1.0f + b * 4f) / 5.0f;
-        poseStack.pushPose();
-        poseStack.translate(-pos.x, -pos.y, -pos.z);
-        RenderSystem.disableDepthTest();
-        RenderSystem.enableBlend();
-        RenderSystem.disableCull();
-        RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
-        Tesselator tesselator = Tesselator.getInstance();
-        BufferBuilder buffer = tesselator.getBuilder();
-        buffer.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
-        RenderSystem.setShader(GameRenderer::getPositionColorShader);
-        RenderBufferUtils.renderCubeFace(poseStack, buffer, poses[0].getX(), poses[0].getY(), poses[0].getZ(), poses[1].getX() + 1, poses[1].getY() + 1, poses[1].getZ() + 1, lightR, lightG, lightB, 0.25f, true);
-        tesselator.end();
-        buffer.begin(VertexFormat.Mode.LINES, DefaultVertexFormat.POSITION_COLOR_NORMAL);
-        RenderSystem.setShader(GameRenderer::getRendertypeLinesShader);
-        RenderSystem.lineWidth(3);
-        RenderBufferUtils.drawCubeFrame(poseStack, buffer, poses[0].getX(), poses[0].getY(), poses[0].getZ(), poses[1].getX() + 1, poses[1].getY() + 1, poses[1].getZ() + 1, r, g, b, 0.5f);
-        tesselator.end();
-        RenderSystem.enableCull();
-        RenderSystem.disableBlend();
-        RenderSystem.enableDepthTest();
-        poseStack.popPose();
-    }
-
-    private static void highlightSphere(Camera camera, PoseStack poseStack, BlockPos blockPos, float radius) {
-        Vec3 pos = camera.getPosition();
-        poseStack.pushPose();
-        poseStack.translate(-pos.x, -pos.y, -pos.z);
-        RenderSystem.disableDepthTest();
-        RenderSystem.enableBlend();
-        RenderSystem.disableCull();
-        RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
-        Tesselator tesselator = Tesselator.getInstance();
-        BufferBuilder buffer = tesselator.getBuilder();
-        buffer.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
-        RenderSystem.setShader(GameRenderer::getPositionColorShader);
-        RenderBufferUtils.shapeSphere(poseStack, buffer, blockPos.getX(), blockPos.getY(), blockPos.getZ(), radius, 40, 50, 0.2f, 0.2f, 1.0f, 0.25f);
-        tesselator.end();
-        RenderSystem.enableCull();
-        RenderSystem.disableBlend();
-        RenderSystem.enableDepthTest();
-        poseStack.popPose();
     }
 
     private static class Highlighting {

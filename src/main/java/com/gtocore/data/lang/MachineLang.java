@@ -49,6 +49,8 @@ final class MachineLang {
         addCNEN("gtocore.machine.lightning_rod.tooltip.2", "如果存储能量已满，机器将会爆炸", "If the stored energy is full, the machine will explode");
         addCNEN("gtocore.machine.mega_turbine.high_speed_mode", "高速模式:", "High Speed Mode:");
         addCNEN("gtocore.machine.module", "已安装的模块数量: %s", "Number of Installed Modules: %s");
+        addCNEN("gtocore.machine.module.base", "基础模块数量: %s", "Number of Base Modules: %s");
+        addCNEN("gtocore.machine.module.mega", "大型模块数量: %s", "Number of Mega Modules: %s");
         addCNEN("gtocore.machine.module.am", "已安装的模块数: %s", "Number of Installed Modules: %s");
         addCNEN("gtocore.machine.module.have", "该模块已成功安装", "This module has been successfully installed");
         addCNEN("gtocore.machine.module.null", "该模块未成功安装", "This module has not been successfully installed");
@@ -106,7 +108,6 @@ final class MachineLang {
         addCNEN("gtocore.machine.advanced_infinite_driller.heat", "最大温度: %sK / 工作温度: %sK", "Max Temperature: %sK / Operating Temperature: %sK");
         addCNEN("gtocore.machine.current_temperature", "当前温度: %sK", "Current Temperature: %sK");
         addCNEN("gtocore.machine.advanced_infinite_driller.drilled_fluid", "流体: %s 产量: %s", "Fluid: %s Output: %s");
-        addCNEN("gtocore.machine.kuangbiao_one_giant_nuclear_fusion_reactor.tooltip.0", "它所模拟的，是亘古不变的光芒", "What it simulates is an eternal light");
         addCNEN("gtocore.machine.steam.tooltip.1", "默认支持%s等级及以下的配方处理", "default can process &s-Tier recipes and below, processing time is 1.5 times");
         addCNEN("gtocore.machine.steam.tooltip.2", "安装大型蒸汽输入仓后提升一个配方等级，并解锁超频功能", "After installing a large steam input hatch, upgrade one recipe tier and unlock the overclocking function");
         addCNEN("gtocore.machine.mana_stored", "魔力总量：%s", "Total Mana: %s");

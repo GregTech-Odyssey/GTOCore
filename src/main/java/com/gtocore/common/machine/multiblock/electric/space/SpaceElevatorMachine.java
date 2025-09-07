@@ -44,7 +44,7 @@ import static com.gtolib.api.GTOValues.POWER_MODULE_TIER;
 
 public class SpaceElevatorMachine extends TierCasingMultiblockMachine implements IHighlightMachine {
 
-    private static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(SpaceElevatorMachine.class, TierCasingMultiblockMachine.MANAGED_FIELD_HOLDER);
+    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(SpaceElevatorMachine.class, TierCasingMultiblockMachine.MANAGED_FIELD_HOLDER);
 
     public SpaceElevatorMachine(MetaMachineBlockEntity holder) {
         super(holder, POWER_MODULE_TIER);
@@ -74,16 +74,16 @@ public class SpaceElevatorMachine extends TierCasingMultiblockMachine implements
     }
 
     @DescSynced
-    private double high;
+    protected double high;
     @Persisted
     @DescSynced
-    private int spoolCount;
-    private int moduleCount;
+    protected int spoolCount;
+    protected int moduleCount;
     @DescSynced
     final List<BlockPos> poss = new ArrayList<>();
     private ServerPlayer player;
 
-    private void update(boolean promptly) {
+    protected void update(boolean promptly) {
         if (promptly || getOffsetTimer() % 40 == 0) {
             moduleCount = 0;
             if (spoolCount < getMaxSpoolCount()) {

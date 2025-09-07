@@ -1,0 +1,9 @@
+{
+   "animation":{
+    "interpolate": true,
+      "frametime":8
+   },
+    "ldlib": {
+        "connection": "gtocore:block/hollow_casing_ctm"
+    }
+}

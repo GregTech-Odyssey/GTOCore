@@ -12,7 +12,6 @@ import com.gregtechceu.gtceu.utils.FormattingUtil;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.network.chat.Component;
 
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -23,15 +22,15 @@ import static com.gtolib.api.GTOValues.POWER_MODULE_TIER;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public final class SpaceElevatorModuleMachine extends CustomParallelMultiblockMachine {
+public class SpaceElevatorModuleMachine extends CustomParallelMultiblockMachine {
 
     SpaceElevatorMachine spaceElevatorMachine;
 
-    private final boolean power_module_tier;
+    private final boolean powerModuleTier;
 
-    public SpaceElevatorModuleMachine(MetaMachineBlockEntity holder, boolean power_module_tier) {
+    public SpaceElevatorModuleMachine(MetaMachineBlockEntity holder, boolean powerModuleTier) {
         super(holder, false, m -> ((SpaceElevatorModuleMachine) m).getSpaceElevatorTier() > 7 ? (int) Math.pow(((SpaceElevatorModuleMachine) m).isSuper() ? 8 : 4, ((SpaceElevatorModuleMachine) m).spaceElevatorMachine.getCasingTier(POWER_MODULE_TIER) - 1) : 0);
-        this.power_module_tier = power_module_tier;
+        this.powerModuleTier = powerModuleTier;
     }
 
     private int getSpaceElevatorTier() {
@@ -47,11 +46,11 @@ public final class SpaceElevatorModuleMachine extends CustomParallelMultiblockMa
 
     @Nullable
     @Override
-    protected Recipe getRealRecipe(@NotNull Recipe recipe) {
+    protected Recipe getRealRecipe(Recipe recipe) {
         if (getSpaceElevatorTier() < 8) {
             return null;
         }
-        if (power_module_tier && recipe.data.getInt(POWER_MODULE_TIER) > spaceElevatorMachine.getCasingTier(POWER_MODULE_TIER)) {
+        if (powerModuleTier && recipe.data.getInt(POWER_MODULE_TIER) > spaceElevatorMachine.getCasingTier(POWER_MODULE_TIER)) {
             return null;
         }
         return RecipeModifierFunction.overclocking(this, ParallelLogic.accurateParallel(this, recipe, getParallel()), false, 1, getDurationMultiplier(), 0.5);

@@ -51,6 +51,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.CommandEvent;
 import net.minecraftforge.event.RegisterCommandsEvent;
@@ -62,8 +63,10 @@ import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.level.BlockEvent;
 import net.minecraftforge.event.level.LevelEvent;
+import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.DistExecutor;
 
 import earth.terrarium.adastra.common.entities.mob.GlacianRam;
 import org.apache.logging.log4j.core.config.Configurator;
@@ -323,5 +326,13 @@ public final class ForgeCommonEvent {
     public static void onGTToolRightClickBlock(PlayerInteractEvent.RightClickBlock event) {
         var item = event.getEntity().getMainHandItem().getItem();
         if (item instanceof GTToolItem) event.setUseBlock(Event.Result.ALLOW);
+    }
+
+    @SubscribeEvent
+    public static void serverStarting(ServerStartingEvent event) {
+        DistExecutor.unsafeRunWhenOn(Dist.DEDICATED_SERVER, () -> () -> {
+            if (Objects.equals(GTOConfig.INSTANCE.serverLanguage, "en_us")) return;
+            ServerLangHook.gto$loadLanguage(GTOConfig.INSTANCE.serverLanguage, event.getServer());
+        });
     }
 }

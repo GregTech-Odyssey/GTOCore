@@ -146,145 +146,153 @@ public final class GTOConfig {
 
     // 游戏核心设置
     @Configurable
-    @Configurable.Comment("游戏难度等级：简单、普通、专家")
+    @Configurable.Comment({ "游戏难度等级：简单、普通、专家", "Game difficulty level: Simple, Normal, Expert" })
     @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Game Difficulty", cn = "游戏难度")
     public Difficulty gameDifficulty = Difficulty.Normal;
 
     @Configurable
-    @Configurable.Comment("启用自我约束模式以限制任何形式的作弊指令使用（警告：一旦开启，游玩的存档将永久锁定自我约束模式！）")
+    @Configurable.Comment({ "启用自我约束模式以限制任何形式的作弊指令使用（警告：一旦开启，游玩的存档将永久锁定自我约束模式！）", "Enable Self Restraint Mode to restrict the use of any form of cheat commands (Warning: Once enabled, the played save will be permanently locked in Self Restraint Mode!)" })
     @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Self Restraint Mode", cn = "自我约束模式")
     public boolean selfRestraint = false;
 
     @Configurable
     @RegisterLanguage(namePrefix = "config.gtocore.option", en = "disable Muffler Part", cn = "禁用消声仓")
-    @Configurable.Comment("禁用后失去掏灰玩法")
+    @Configurable.Comment({ "禁用后失去掏灰玩法", "After disabling, you will lose the ash digging gameplay" })
     public boolean disableMufflerPart = false;
 
     @Configurable
     @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Default Value for Rename Pattern", cn = "重命名样板的默认值")
-    @Configurable.Comment("在装配线模式编码带有重命名物品的样板时使用的默认名字")
+    @Configurable.Comment({ "在装配线模式编码带有重命名物品的样板时使用的默认名字", "The default name used when encoding patterns with renamed items in assembly line mode" })
     public String renamePatternDefaultString = "";
+
+    @Configurable
+    @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Language on Server", cn = "服务器语言")
+    @Configurable.Comment({ "游玩服务器时发送到客户端的部分文本的语言，若解析失败则使用en_us",
+            "仅在专用服务器环境下生效！",
+            "The language for some texts sent to the client when playing on a server, if parsing fails, en_us will be used",
+            "Only effective in dedicated server environments!" })
+    public String serverLanguage = "en_us";
 
     // 性能优化设置
     @Configurable
-    @Configurable.Comment("快速加载多方块结构页面，减少不必要的加载时间")
+    @Configurable.Comment({ "快速加载多方块结构页面，减少不必要的加载时间", "Fast loading of multiblock structure pages to reduce unnecessary loading time" })
     @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Fast Multiblock Page Loading", cn = "快速多方块页面加载")
     public boolean fastMultiBlockPage = true;
 
     @Configurable
-    @Configurable.Comment("使用更快的并行算法")
+    @Configurable.Comment({ "使用更快的并行算法", "Use a faster parallel algorithm" })
     @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Fast Parallel Calculate", cn = "快速并行计算")
     public boolean fastParallelcalculate = true;
 
     @Configurable
-    @Configurable.Comment("机器查找配方最大间隔（tick）")
+    @Configurable.Comment({ "机器查找配方最大间隔（tick）", "Maximum interval for machines to search for recipes (ticks)" })
     @Configurable.Range(min = 5, max = 200)
     @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Recipe Search Max Interval", cn = "配方搜索最大间隔")
     public int recipeSearchMaxInterval = 20;
 
     @Configurable
-    @Configurable.Comment("批处理模式的最大持续时间（tick）")
+    @Configurable.Comment({ "批处理模式的最大持续时间（tick）", "Maximum duration of batch processing mode (ticks)" })
     @Configurable.Range(min = 600, max = 144000)
     @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Batch Processing Max Duration", cn = "批处理模式最大持续时间")
     public int batchProcessingMaxDuration = 72000;
 
     // 挖掘系统设置
     @Configurable
-    @Configurable.Comment("连锁挖掘时检查相邻方块的范围")
+    @Configurable.Comment({ "连锁挖掘（不连续模式）时，检查相邻方块的范围", "The range to check adjacent blocks during chain mining (non-continuous mode)" })
     @Configurable.Range(min = 1, max = 20)
     @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Chain Mining Range", cn = "连锁挖掘检查范围")
     public int ftbUltimineRange = 3;
 
     @Configurable
-    @Configurable.Comment("连锁挖掘功能的方块黑名单")
+    @Configurable.Comment({ "连锁挖掘功能的方块黑名单", "Block blacklist for chain mining feature" })
     @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Chain Mining Blacklist", cn = "连锁挖掘黑名单")
     public String[] breakBlocksBlackList = { "ae2:cable_bus" };
 
     // 界面和显示设置
     @Configurable
-    @Configurable.Comment("禁用后，不同存档的 EMI 收藏夹将相互独立")
+    @Configurable.Comment({ "禁用后，不同存档的 EMI 收藏夹将相互独立", "After disabling, EMI favorites from different saves will be independent of each other" })
     @RegisterLanguage(namePrefix = "config.gtocore.option", en = "EMI Global Favorites", cn = "EMI 全局收藏夹")
     public boolean emiGlobalFavorites = true;
 
     @Configurable
-    @Configurable.Comment("禁用爆弹物品的使用")
+    @Configurable.Comment({ "禁用爆弹物品的使用", "Disable the use of Charge Bomb items" })
     @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Disable Charge Bomb", cn = "禁用爆弹")
     public boolean disableChargeBomb = true;
 
     @Configurable
-    @Configurable.Comment("在物品下方显示英文名称")
+    @Configurable.Comment({ "在物品下方显示英文名称", "Show the English name below the item" })
     @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Show Item English Name", cn = "显示物品英文名称")
     public boolean showEnglishName = false;
 
     @Configurable
-    @Configurable.Comment("调整监控器的最大成型尺寸")
+    @Configurable.Comment({ "调整监控器的最大成型尺寸", "Adjust the maximum formed size of the monitor" })
     @Configurable.Range(min = 4, max = 64)
     @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Maximum Monitor Size", cn = "监控器最大尺寸")
     public int maxMonitorSize = 16;
 
     @Configurable
-    @Configurable.Comment("引雷针在工作时是否生成闪电特效")
+    @Configurable.Comment({ "引雷针在工作时是否生成闪电特效", "Whether the lightning rod generates lightning effects when working" })
     @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Lightning Rod Effect", cn = "引雷针特效")
     public boolean lightningRodEffect = true;
 
     // 新增：食肉惩罚设置
     @Configurable
-    @Configurable.Comment("当玩家在某动物附近食用其来源食物时，影响的半径（格）")
+    @Configurable.Comment({ "当玩家在某动物附近食用其来源食物时，影响的半径（格）", "The radius (blocks) affected when a player consumes food derived from an animal near that animal" })
     @Configurable.Range(min = 1, max = 64)
     @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Carnivory Punish Radius", cn = "食肉惩罚半径")
     public int cannibalismRadius = 32;
 
     @Configurable
-    @Configurable.Comment("当玩家在某动物附近食用其来源食物时，对该动物造成的伤害值（半颗心=1.0）")
+    @Configurable.Comment({ "当玩家在某动物附近食用其来源食物时，对该动物造成的伤害值（半颗心=1.0）", "The amount of damage dealt to the animal when a player consumes food derived from that animal nearby (Half Heart = 1.0)" })
     @Configurable.Range(min = 0, max = 100)
     @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Carnivory Punish Damage", cn = "食肉惩罚伤害")
     public float cannibalismDamage = 1.0F;
 
     @Configurable
-    @Configurable.Comment("关闭后将渲染视角外，且渲染器被标记为Global的方块实体，对于具有高级特效机器来说可能有帮助")
+    @Configurable.Comment({ "关闭后将渲染视角外，且渲染器被标记为Global的机器，一些高级特效机器需要关闭此选项才能正常渲染", "When turned off, machines that are outside the field of view and whose renderer is marked as Global will be rendered. Some advanced effect machines need to turn off this option to render properly" })
     @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Embeddium Global BE Culling", cn = "Embbedium Global方块实体剔除")
     public boolean EmbeddiumBECulling = true;
 
     @Configurable
-    @Configurable.Comment("启用后，进入游戏时，若多方块结构未能成型，则将错误信息将发送给机器的所有者")
+    @Configurable.Comment({ "启用后，进入游戏时，若多方块结构未能成型，则将错误信息将发送给机器的所有者", "When enabled, if the multiblock structure fails to form when entering the game, the error message will be sent to the owner of the machine" })
     @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Send Multiblock Error Messages", cn = "发送多方块错误信息")
     public boolean sendMultiblockErrorMessages = true;
 
     // 开发和调试设置
     @Configurable
-    @Configurable.Comment("开启开发者模式")
+    @Configurable.Comment({ "开启开发者模式", "Enable Developer Mode" })
     @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Developer Mode", cn = "开发者模式")
     public boolean dev = false;
 
     @Configurable
-    @Configurable.Comment("检查配方之间的冲突问题")
+    @Configurable.Comment({ "检查配方之间的冲突问题", "Check for conflicts between recipes" })
     @RegisterLanguage(namePrefix = "config.gtocore.option", en = "[Debug] Recipe Conflict Check", cn = "[调试] 配方冲突检查")
     public boolean recipeCheck = false;
 
     @Configurable
-    @Configurable.Comment("启用 AE2 和同步组件的详细日志")
+    @Configurable.Comment({ "启用 AE2 和同步组件的详细日志", "Enable detailed logging for AE2 and sync components" })
     @RegisterLanguage(namePrefix = "config.gtocore.option", en = "[Debug] AE2 & Sync Logging", cn = "[调试] AE2 和同步日志")
     public boolean aeLog = false;
 
     @Configurable
-    @Configurable.Comment("启用 AE2 无线网络调试日志")
+    @Configurable.Comment({ "启用 AE2 无线网络调试日志", "Enable AE2 wireless network debug logging" })
     @RegisterLanguage(namePrefix = "config.gtocore.option", en = "[Debug] AE2 & Sync Logging", cn = "[调试] AE2 无线网络调试日志")
     public boolean aeWirelessLog = false;
 
     @Configurable
-    @Configurable.Comment("AE2 网格存储键")
-    @RegisterLanguage(namePrefix = "config.gtocore.option", cn = "更改此键会使所有网络失效", en = "Changing this key will invalidate all networks")
+    @Configurable.Comment({ "AE2 无线网络使用的存储键，切换后将使用新的存储键重新生成网络（警告：切换后所有AE无线设备的设置将重置！）", "The storage key used by the AE2 wireless network. After switching, a new storage key will be used to regenerate the network (Warning: After switching, all AE wireless device settings will be reset!)" })
+    @RegisterLanguage(namePrefix = "config.gtocore.option", cn = "AE2 网格存储键", en = "AE2 Grid Storage Key")
     public String aeGridKey = "four";
 
     @Configurable
-    @Configurable.Comment("Spark 性能分析器的启动阶段")
+    @Configurable.Comment({ "Spark 性能分析器的启动阶段", "The startup phase of the Spark profiler" })
     @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Spark Profiler Start Phase", cn = "Spark 分析器启动阶段")
     public SparkRange startSpark = SparkRange.NONE;
 
     @Configurable
     @Configurable.Range(min = 36, max = 144000)
-    @Configurable.Comment("扩展样板供应器容量(用于暴力性能测试，仅开发模式下生效)")
-    @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Extended Pattern Provider Size (Currently used for performance test, only effective in dev mode)", cn = "扩展样板供应器容量（目前用于性能测试，仅在开发模式下生效）")
+    @Configurable.Comment({ "扩展样板供应器容量(用于暴力性能测试，仅开发模式下生效)", "Extended Pattern Provider Size (Currently used for performance test, only effective in dev mode)" })
+    @RegisterLanguage(namePrefix = "config.gtocore.option", en = "[Debug] Extended Pattern Provider Size", cn = "[调试] 扩展样板供应器容量")
     public int exPatternSize = 36;
 
     public enum Difficulty {

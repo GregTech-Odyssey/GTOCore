@@ -24,9 +24,7 @@ public final class SteamMultiblockMachine extends BaseSteamMultiblockMachine {
                          key = "gtocore.machine.multiblock.steam.max_parallels",
                          typeKey = DynamicInitialValueTypes.KEY_MAX_PARALLEL,
                          en = "Max Parallels",
-                         enComment = "The maximum number of parallel machines that can be used in this multiblock",
                          cn = "最大并行数",
-                         cnComment = "此多方块机器可以使用的最大并行数",
                          simpleValue = "16",
                          normalValue = "8",
                          expertValue = "8")

@@ -1,5 +1,7 @@
 {
    "animation":{
-      "frametime":1
-   }
+    "interpolate": true,"frametime":1},
+    "ldlib": {
+        "connection": "gtocore:block/spacetime_compression_field_generator_ctm"
+    }
 }

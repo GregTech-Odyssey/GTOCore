@@ -1,6 +1,7 @@
 package com.gtocore.common.machine.multiblock.electric.voidseries;
 
 import com.gtocore.common.data.GTOOres;
+import com.gtocore.data.IdleReason;
 
 import com.gtolib.api.machine.multiblock.ElectricMultiblockMachine;
 import com.gtolib.api.machine.trait.CustomRecipeLogic;
@@ -34,13 +35,21 @@ public final class PlanetCoreDrillingMachine extends ElectricMultiblockMachine {
         for (Material material : getMaterials()) {
             builder.outputItems(TagPrefix.ore, material, 65536);
         }
+        if (builder.output.isEmpty()) {
+            setIdleReason(IdleReason.NO_ORES);
+            return null;
+        }
         Recipe recipe = builder.buildRawRecipe();
         if (RecipeRunner.matchTickRecipe(this, recipe) && RecipeRunner.matchRecipeOutput(this, recipe)) return recipe;
         return null;
     }
 
     private Set<Material> getMaterials() {
-        if (materials == null) materials = GTOOres.ALL_ORES.get(Objects.requireNonNull(getLevel()).dimension().location()).keySet();
+        if (materials == null) {
+            var ores = GTOOres.ALL_ORES.get(Objects.requireNonNull(getLevel()).dimension().location());
+            if (ores == null || ores.isEmpty()) return Set.of();
+            materials = ores.keySet();
+        }
         return materials;
     }
 

@@ -1,6 +1,6 @@
 package com.gtocore.client.renderer.machine;
 
-import com.gtocore.client.renderer.RenderBufferHelper;
+import com.gtocore.client.renderer.RenderHelper;
 
 import com.gtolib.api.machine.multiblock.CoilCrossRecipeMultiblockMachine;
 
@@ -62,18 +62,18 @@ public final class DimensionalFocusEngravingArrayRenderer extends WorkableCasing
         stack.mulPose(Axis.XN.rotationDegrees(90));
         a(stack, buffer, a, r, g, b);
         stack.mulPose(Axis.ZN.rotationDegrees(90));
-        RenderBufferHelper.renderCylinder(stack, buffer.getBuffer(GTRenderTypes.getLightRing()),
+        RenderHelper.renderCylinder(stack, buffer.getBuffer(GTRenderTypes.getLightRing()),
                 0, 0, 0, 0.5F, 8, 10, r, g, b, a);
         stack.mulPose(Axis.ZN.rotationDegrees(180));
-        RenderBufferHelper.renderCylinder(stack, buffer.getBuffer(GTRenderTypes.getLightRing()),
+        RenderHelper.renderCylinder(stack, buffer.getBuffer(GTRenderTypes.getLightRing()),
                 0, 0, 0, 0.5F, 8, 10, r, g, b, a);
     }
 
     @OnlyIn(Dist.CLIENT)
     private static void a(PoseStack stack, MultiBufferSource buffer, float a, float r, float g, float b) {
-        RenderBufferHelper.renderCylinder(stack, buffer.getBuffer(GTRenderTypes.getLightRing()), 0, 0, 0, 0.5F, 8, 10, r, g, b, a);
+        RenderHelper.renderCylinder(stack, buffer.getBuffer(GTRenderTypes.getLightRing()), 0, 0, 0, 0.5F, 8, 10, r, g, b, a);
         stack.mulPose(Axis.XN.rotationDegrees(90));
-        RenderBufferHelper.renderCylinder(stack, buffer.getBuffer(GTRenderTypes.getLightRing()), 0, 0, 0, 0.5F, 8, 10, r, g, b, a);
+        RenderHelper.renderCylinder(stack, buffer.getBuffer(GTRenderTypes.getLightRing()), 0, 0, 0, 0.5F, 8, 10, r, g, b, a);
     }
 
     @Override
