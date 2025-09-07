@@ -241,7 +241,7 @@ object GTOMachineTooltips {
                 }
 
                 section(ComponentSlang.AfterModuleInstallation)
-                increase("无需再通入空气助燃" translatedTo "No need to supply air for combustion")
+                increase("空气进气速度加倍" translatedTo "Air intake speed is doubled")
                 increase("获得2倍速度" translatedTo "Gains 2x speed")
                 decrease("燃料消耗速度变为2倍" translatedTo "Fuel consumption rate becomes 2x")
             }
