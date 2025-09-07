@@ -837,7 +837,7 @@ object GTOMachineTooltips {
         important("只能在太阳下工作" translatedTo "Can only operate under the sun")
 
         section("可用大小" translatedTo "Usable Size")
-        command("最小：5x5" translatedTo "Minimum: 3x3")
+        command("最小：5x5" translatedTo "Minimum: 5x5")
         command("最大：13x13" translatedTo "Maximum: 13x13")
     }
 
