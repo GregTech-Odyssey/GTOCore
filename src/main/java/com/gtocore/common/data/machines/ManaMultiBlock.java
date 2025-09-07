@@ -505,7 +505,7 @@ public final class ManaMultiBlock {
                     .aisle("AAA", "AAA", "AAA")
                     .aisle("AAA", "AAA", "AAA")
                     .aisle("AAA", "A~A", "AAA")
-                    .where('A', blocks(GTOBlocks.HERETICAL_MECHANICAL_CASING.get())
+                    .where('A', blocks(GTOBlocks.HERETICAL_MECHANICAL_CASING.get()).setMinGlobalLimited(16)
                             .or(abilities(INPUT_ENERGY))
                             .or(abilities(GTOPartAbility.INPUT_MANA))
                             .or(abilities(IMPORT_FLUIDS).setMaxGlobalLimited(1))

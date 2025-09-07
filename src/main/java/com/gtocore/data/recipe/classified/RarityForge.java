@@ -70,6 +70,15 @@ final class RarityForge {
                 .duration(200)
                 .save();
 
+        RARITY_FORGE_RECIPES.builder("ancient_material")
+                .inputItems("apotheosis:mythic_material", 4)
+                .inputItems("deeperdarker:heart_of_the_deep")
+                .inputItems("apotheosis:gem_dust")
+                .outputItems("apotheosis:ancient_material")
+                .EUt(8192)
+                .duration(20)
+                .save();
+
         RARITY_FORGE_RECIPES.builder("speed_upgrade_module")
                 .inputItems(GTOItems.LV_POWER_AMPLIFIERS.asItem())
                 .inputItems(TagPrefix.gem, GTOMaterials.Fluix)
