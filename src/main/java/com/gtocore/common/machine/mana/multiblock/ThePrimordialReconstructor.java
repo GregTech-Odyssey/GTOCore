@@ -87,7 +87,7 @@ public class ThePrimordialReconstructor extends ManaMultiblockMachine {
             case 11 -> recipe = getForcedRarityUpRecipe();
             case 12 -> recipe = getForcedAddSocketRecipe();
             case 13 -> recipe = getForcedMosaicGemRecipe();
-        };
+        }
         if (recipe != null) if (RecipeRunner.matchRecipe(this, recipe)) return recipe;
         return null;
     }
@@ -500,7 +500,7 @@ public class ThePrimordialReconstructor extends ManaMultiblockMachine {
             ItemStack outputBook = new ItemStack(Items.ENCHANTED_BOOK);
             CompoundTag bookTag = outputBook.getOrCreateTag();
             ListTag storedEnchantments = new ListTag();
-            Set<String> addedEnchantments = new HashSet<>();
+            Set<String> addedEnchantments = new ObjectOpenHashSet<>();
             // 遍历剩余附魔，添加到当前书中
             Iterator<Object2IntMap.Entry<String>> iterator = remainingEnchantments.iterator();
             while (iterator.hasNext()) {
@@ -1011,7 +1011,7 @@ public class ThePrimordialReconstructor extends ManaMultiblockMachine {
     /**
      * 获取宝石的稀有度（从NBT中读取）
      */
-    private String getGemRarity(ItemStack gemStack) {
+    private static String getGemRarity(ItemStack gemStack) {
         if (gemStack.hasTag()) {
             CompoundTag tag = gemStack.getTag();
             if (tag != null && tag.contains("affix_data")) {

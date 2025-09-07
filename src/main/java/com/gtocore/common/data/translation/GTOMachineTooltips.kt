@@ -72,7 +72,6 @@ fun ComponentListSupplier.danger(info: ComponentSupplier) {
  */
 object GTOMachineTooltips {
 
-
     // 外置热源锅炉
     val BoilWaterMachineTooltips = ComponentListSupplier {
         setTranslationPrefix("boil_water_machine")
