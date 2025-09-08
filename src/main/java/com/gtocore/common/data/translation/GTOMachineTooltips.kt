@@ -51,7 +51,6 @@ object GTOMachineTooltips {
         setTranslationPrefix("rotor_hatch")
 
         section(ComponentSlang.RunningRequirements)
-        important("转子所在平面3x3内只能存在一个转子仓" translatedTo "There can only be one rotor hatch in the 3x3 plane where the rotor is located")
         info("不同类型的转子的效率，耐久不同" translatedTo "Different types of rotors have different efficiency and durability")
     }
 
