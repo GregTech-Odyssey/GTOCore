@@ -19,6 +19,7 @@ object ComponentSlang : AutoInitialize<ComponentSlang>() {
     // ****** 格式 ****** //
     val Bar = { tab: Int -> "${"  ".repeat((tab - 1).coerceAtLeast(0))}- ".toLiteralSupplier().gold() }.initialize()
     val Plus = { tab: Int -> "${"  ".repeat((tab - 1).coerceAtLeast(0))}+ ".toLiteralSupplier().gold() }.initialize()
+    val Asterisk = { tab: Int -> "${"  ".repeat((tab - 1).coerceAtLeast(0))}* ".toLiteralSupplier().gold() }.initialize()
     val Tab = { tab: Int -> "  ".repeat(tab).toLiteralSupplier() }.initialize()
     val Star = { tab: Int -> "${"  ".repeat((tab - 1).coerceAtLeast(0))}⭐ ".toLiteralSupplier().gold() }.initialize()
     val Circle = { tab: Int -> "${"  ".repeat((tab - 1).coerceAtLeast(0))}○ ".toLiteralSupplier().gold() }.initialize()
@@ -53,6 +54,7 @@ object ComponentSlang : AutoInitialize<ComponentSlang>() {
         ("最高温度: " translatedTo "Max Temperature: ") + (temp.toLiteralSupplier()).gold()
     }.initialize()
     val RunningRequirements = ("运行要求" translatedTo "Running Requirements").initialize()
+    val MainFunction = ("主要功能" translatedTo "Main Function").initialize()
     val EfficiencyBonus = ("效率加成" translatedTo "Efficiency Bonus").initialize()
     val ParallelBonus = ("并行加成" translatedTo "Parallel Bonus").initialize()
     val PowerGenerationEfficiency = ("发电效率" translatedTo "Power Generation Efficiency").initialize()
@@ -73,7 +75,7 @@ object ComponentSlang : AutoInitialize<ComponentSlang>() {
     val CoilEfficiencyBonus = ("线圈效率加成" translatedTo "Coil Efficiency Bonus").initialize()
     val BeAwareOfBurn = ("小心烫伤！" translatedTo "BE AWARE OF BURNS!").red().bold().initialize()
     val PurifyLevel = { tier: Int ->
-        ("净化等级：" translatedTo "Purify Level: ") + tier.toLiteralSupplier().gold().bold()
+        ("净化等级：" translatedTo "Purify Level: ") + tier.toLiteralSupplier().green().bold()
     }.initialize()
     val OutputProbability = ("产出概率" translatedTo "Output Probability").initialize()
 

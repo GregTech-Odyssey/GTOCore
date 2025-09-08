@@ -1072,6 +1072,7 @@ public final class MultiBlockD {
                     c -> c.addLines("玻璃等级决定配方等级上限",
                             "The glass casing tier determines the upper limit of recipe tier")))
             .tooltips(GTOMachineStories.INSTANCE.getCulturingTankTooltips().getSupplier())
+            .tooltips(GTOMachineTooltips.INSTANCE.getCulturingTankTooltips().getSupplier())
             .recipeTypes(GTORecipeTypes.INCUBATOR_RECIPES)
             .overclock()
             .block(GTBlocks.PLASTCRETE)
@@ -1099,6 +1100,7 @@ public final class MultiBlockD {
             .tooltips(NewDataAttributes.RUNTIME_REQUIREMENT.create(
                     c -> c.addLines("玻璃等级决定配方等级上限",
                             "The glass casing tier determines the upper limit of recipe tier")))
+            .tooltips(GTOMachineTooltips.INSTANCE.getLargeCulturingTankTooltips().getSupplier())
             .tooltips(GTOMachineStories.INSTANCE.getLargeCulturingTankTooltips().getSupplier())
             .recipeTypes(GTORecipeTypes.INCUBATOR_RECIPES)
             .parallelizableTooltips()

@@ -84,6 +84,7 @@ public final class MultiBlockB {
 
     public static final MultiblockMachineDefinition DIGESTION_TANK = multiblock("digestion_tank", "煮解池", CoilMultiblockMachine.createCoilMachine(false, true))
             .nonYAxisRotation()
+            .tooltips(GTOMachineStories.INSTANCE.getDigestionTankTooltips().getSupplier())
             .parallelizableTooltips()
             .recipeTypes(GTORecipeTypes.DIGESTION_TREATMENT_RECIPES)
             .parallelizableOverclock()
@@ -353,6 +354,7 @@ public final class MultiBlockB {
             .nonYAxisRotation()
             .recipeTypes(GTORecipeTypes.INCUBATOR_RECIPES)
             .tooltips(GTOMachineStories.INSTANCE.getMicroorganismMasterTooltips().getSupplier())
+            .tooltips(GTOMachineTooltips.INSTANCE.getMicroorganismMasterTooltips().getSupplier())
             .parallelizableTooltips()
             .laserTooltips()
             .multipleRecipesTooltips()

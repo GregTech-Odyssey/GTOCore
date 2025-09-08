@@ -1,69 +1,20 @@
 package com.gtocore.common.data.translation
 
 import com.gtocore.api.lang.ComponentListSupplier
-import com.gtocore.api.lang.ComponentSupplier
 import com.gtocore.api.lang.toComponentSupplier
 import com.gtocore.api.lang.toLiteralSupplier
-import com.gtocore.common.data.translation.ComponentSlang.Tab
 import com.gtocore.common.machine.electric.ElectricHeaterMachine
 import com.gtocore.common.machine.multiblock.storage.MEStorageMachine
+import com.gtocore.common.machine.multiblock.storage.MultiblockCrateMachine
 import com.gtocore.common.machine.noenergy.BoilWaterMachine
 import com.gtocore.common.machine.noenergy.HeaterMachine
 
 import net.minecraft.network.chat.Component
 
+import com.google.common.collect.ImmutableMap
 import com.gregtechceu.gtceu.api.GTValues
 import com.gtolib.utils.NumberUtils
 import com.lowdragmc.lowdraglib.side.fluid.FluidHelper
-
-fun ComponentListSupplier.section(title: ComponentSupplier, style: ComponentSupplier.() -> ComponentSupplier = { gold() }, prefix: ComponentSupplier = ComponentSlang.Bar(1)) {
-    add(prefix + title, style)
-}
-
-fun ComponentListSupplier.content(content: ComponentSupplier, style: ComponentSupplier.() -> ComponentSupplier = { white() }, prefix: ComponentSupplier = ComponentSlang.Circle(2)) {
-    add(prefix + content, style)
-}
-
-// default stylesheets
-fun ComponentListSupplier.main(info: ComponentSupplier, style: ComponentSupplier.() -> ComponentSupplier = { lightPurple() }) {
-    section(info, style, ComponentSlang.Tab(0))
-}
-
-fun ComponentListSupplier.info(info: ComponentSupplier) {
-    content(info, { gray() }, ComponentSlang.OutTopic(2))
-}
-
-fun ComponentListSupplier.ok(info: ComponentSupplier) {
-    content(info, { green() }, ComponentSlang.Right(2))
-}
-
-fun ComponentListSupplier.error(info: ComponentSupplier) {
-    content(info, { red() }, ComponentSlang.Wrong(2))
-}
-
-fun ComponentListSupplier.command(info: ComponentSupplier) {
-    content(info, { yellow() })
-}
-
-fun ComponentListSupplier.important(info: ComponentSupplier) {
-    content(info, { red() })
-}
-
-fun ComponentListSupplier.function(info: ComponentSupplier) {
-    content(info, { aqua() })
-}
-
-fun ComponentListSupplier.increase(info: ComponentSupplier) {
-    content(info, { green() }, ComponentSlang.Plus(2))
-}
-
-fun ComponentListSupplier.decrease(info: ComponentSupplier) {
-    content(info, { red() }, ComponentSlang.Bar(2))
-}
-
-fun ComponentListSupplier.danger(info: ComponentSupplier) {
-    content(info, { red() }, ComponentSlang.Warning(1))
-}
 
 /**
  * 用于收纳机器相关用法
@@ -71,6 +22,164 @@ fun ComponentListSupplier.danger(info: ComponentSupplier) {
  * 小作文请参看 [GTOMachineStories]
  */
 object GTOMachineTooltips {
+
+    // 区域破坏器
+    val AreaDestructionToolsTooltips = ComponentListSupplier {
+        setTranslationPrefix("area_destruction_tools")
+
+        highlight("专业的世界摧毁者" translatedTo "Professional world destroyer") { rainbowSlow() }
+        danger("一键清空方块！！！" translatedTo "One click to clear the blocks!!!")
+        danger("无视一切条件！！！" translatedTo "Ignore all conditions!!!")
+        danger("注意爆破安全！！！" translatedTo "Pay attention to blasting safety!!!")
+
+        section("可用模式" translatedTo "Available Modes")
+        function("向库存放入物品以切换模式" translatedTo "Add items to inventory to switch modes")
+        command("放入§b模具(球)§r为§6球模式§r" translatedTo "Put §bCasting Mold (Ball)§r for §6Ball mode§r")
+        command("放入§b模具(圆柱)§r为§6圆柱模式§r" translatedTo "Put §bCasting Mold (Cylinder)§r for §6Casting mode§r")
+        command("放入§b模具(块)§r为§6区块模式§r" translatedTo "Put §bCasting Mold (Block)§r for §6Chunk mode§r")
+        command("放入§b奇点§r为§6指定区域模式§r" translatedTo "Put §bSingularity§r for §6Designated Area mode§r")
+        info("此时用两个§9坐标信息卡§r来确定区域" translatedTo "Now use two §9Coordinate Cards§r to determine the area")
+        important("爆破时请保持机器加载" translatedTo "Keep the machine loaded while blasting")
+
+        section("爆炸当量" translatedTo "Explosive Yield")
+        increase("向库存添加以下物品以提高爆炸当量：" translatedTo "Add the following items to inventory to increase explosive yield:")
+        info("§c工业TNT§r/§c核弹§r/§c超能硅岩爆弹§r/§c轻子爆弹§r/§c量子色动力学爆弹§r" translatedTo "§cIndustrial TNT§r/§cNuke Bomb§r/§cNaquadria Charge§r/§cLeptonic Charge§r/§cQuantum Chromodynamic Charge§r")
+    }
+
+    // 转子仓
+    val RotorHatchTooltips = ComponentListSupplier {
+        setTranslationPrefix("rotor_hatch")
+
+        section(ComponentSlang.RunningRequirements)
+        important("转子所在平面3x3内只能存在一个转子仓" translatedTo "There can only be one rotor hatch in the 3x3 plane where the rotor is located")
+        info("不同类型的转子的效率，耐久不同" translatedTo "Different types of rotors have different efficiency and durability")
+    }
+
+    // 放射仓
+    val RadiationHatchTooltips = ComponentListSupplier {
+        setTranslationPrefix("radiation_hatch")
+
+        section(ComponentSlang.RunningRequirements)
+        content("仓中的辐射遵循以下规则：" translatedTo "The radiation in the hatch follows the following rules:")
+        info("初始辐射=(配方辐射-抑制量)x(1+放射材料数量/64)" translatedTo "Initial radiation = (Recipe radiation - inhibition) * (1 + count of radiation materials / 64)")
+        decrease("当仓中没有放射性材料时辐射随时间逐渐衰减" translatedTo "When there are no radiation materials in the barn, the radioactivity gradually decreases over time")
+    }
+
+    // 模块化可配置维护仓
+    val ModularConfigurationMaintenanceHatchTooltips = ComponentListSupplier {
+        setTranslationPrefix("modular_configuration_maintenance_hatch")
+
+        section(ComponentSlang.MainFunction)
+        function("插入不同的自动维护仓以启用不同的功能" translatedTo "Insert different auto-maintenance hatches to enable different functions.")
+    }
+
+    // 温度/真空接口
+    val TempVacuumInterfaceTooltips = ComponentListSupplier {
+        setTranslationPrefix("temp_vacuum_interface")
+
+        section(ComponentSlang.MainFunction)
+        content("与此部件连接可以为多方块机器传导热量并提供真空" translatedTo "Conduct heat and provide vacuum for multiblock machines through connections with this part")
+    }
+
+    // 中子加速器
+    val NeutronAcceleratorTooltips = { voltage: Long, voltageName: String, euConsume: Long, euCapacity: Long ->
+        ComponentListSupplier {
+            setTranslationPrefix("neutron_accelerator")
+
+            section(ComponentSlang.RunningRequirements)
+            command("最大输入电压：$voltage ($voltageName§r)" translatedTo "Max Voltage Input: $voltage ($voltageName§r)")
+            command("最大EU消耗: $euConsume" translatedTo "Max EU Consumption: $euConsume")
+            function("每点EU都会转化为§e10~20-eV§b中子动能" translatedTo "Each point of EU converts to §e10~20-eV§b neutron kinetic energy")
+            content(ComponentSlang.Capacity(euCapacity.toString()))
+        }
+    }
+
+    // 传感器
+    val SensorTooltips = ComponentListSupplier {
+        setTranslationPrefix("sensor")
+
+        section("红石信号" translatedTo "Redstone Signal")
+        content("未反转时，数值低于最低值或高于最高值时输出0，介于两者之间时输出递增的1-15的红石信号" translatedTo "When not inverted, outputs 0 when the value is below the minimum or above the maximum, or an increasing redstone signal between 1-14 when in between")
+        content("反转时，数值低于最低值或高于最高值时输出15，介于两者之间时输出递减的1-15的红石信号" translatedTo "When inverted, outputs 15 when the value is above the maximum or below the minimum, or a decreasing redstone signal between 1-14 when in between")
+    }
+
+    // 催化剂仓
+    val CatalystHatchTooltips = ComponentListSupplier {
+        setTranslationPrefix("catalyst_hatch")
+
+        section(ComponentSlang.MainFunction)
+        function("使用催化剂仓输入催化剂" translatedTo "Use catalyst hatch to input catalysts")
+        ok("每次运行只消耗一点催化剂耐久，可以让催化剂重复使用" translatedTo "Only consumes ONE catalyst durability each time, allowing the catalyst to be reused")
+    }
+
+    // ME存储访问仓
+    val MEStorageAccessHatchTooltips = ComponentListSupplier {
+        setTranslationPrefix("me_storage_access_hatch")
+
+        section(ComponentSlang.MainFunction)
+        function("访问ME存储器内的存储" translatedTo "Access storage in ME storage")
+        content("直接让ME线缆连上就好，不推荐无线连接" translatedTo "Directly let ME cable connect, not recommended to use wireless connection")
+    }
+
+    // 合成样板仓
+    val MeCraftPatternHatchTooltips = ComponentListSupplier {
+        setTranslationPrefix("me_craft_pattern_part_machine")
+
+        section(ComponentSlang.MainFunction)
+        function("合成样板仓用于存储合成样板" translatedTo "Craft Pattern Hatch is used to store synthesis templates")
+        function("配合超级分子装配室使用" translatedTo "Use it with Super Molecular Assembler")
+        info(ComponentSlang.Capacity(72.toString()))
+    }
+
+    // ME可编程样板总成
+    val MeProgrammablePatternBufferTooltips = ComponentListSupplier {
+        setTranslationPrefix("me_programmable_pattern_buffer")
+
+        section(ComponentSlang.MainFunction)
+        function("可以使用虚拟物品提供器进行编程" translatedTo "Can be programmed using virtual item provider")
+        content("一台机器，一个总成搞定所有样板" translatedTo "One machine, one pattern hatch ,finished.")
+    }
+
+    // ME样板总成
+    val MePatternHatchTooltips = { capacity: Int ->
+        ComponentListSupplier {
+            setTranslationPrefix("me_pattern_hatch")
+
+            section("提供样板" translatedTo "Provides Patterns")
+            function("可以放入样板，并进行一键发配" translatedTo "Can put patterns and distribute them one click")
+            function("样板间分别隔离，互不干扰" translatedTo "Patterns are isolated from each other, do not interfere with each other")
+            important("对着样板按鼠标中键可单独设置电路或者提供特别输入" translatedTo "Press the middle mouse button on the pattern to set the circuit or provide special input")
+            info(ComponentSlang.Capacity(capacity.toString()))
+        }
+    }
+
+    // ME催化剂样板总成
+    val MeCatalystPatternBufferTooltips = ComponentListSupplier {
+        setTranslationPrefix("me_catalyst_pattern_buffer")
+
+        section(ComponentSlang.MainFunction)
+        function("使用催化剂仓输入催化剂" translatedTo "Use catalyst hatch to input catalysts")
+        ok("不消耗催化剂耐久，可以让催化剂重复使用" translatedTo "Not consume catalyst durability each time, allowing the catalyst to be reused")
+    }
+
+    // ME自动连接
+    val AutoConnectMETooltips = ComponentListSupplier {
+        setTranslationPrefix("auto_connect_me")
+
+        section("允许自动连接ME无线网络" translatedTo "Allow automatically connecting to the ME Wireless network")
+        guide("按下Shift放置以自动连接收藏的网络" translatedTo "Press Shift to place to automatically connect to the collected network")
+        danger("小心塞爆矿处！" translatedTo "Be careful to explode the ae storage! ")
+    }
+
+    // 多方块板条箱
+    val MultiblockCrateMachineTooltips = ComponentListSupplier {
+        setTranslationPrefix("multiblock_crate_machine")
+
+        section(ComponentSlang.MainFunction)
+        function("可以存储大量物品" translatedTo "Can store many many items")
+        guide("右键点击以打开界面" translatedTo "Right click to open the interface")
+        info(ComponentSlang.Capacity(MultiblockCrateMachine.Capacity.toString()))
+    }
 
     // 外置热源锅炉
     val BoilWaterMachineTooltips = ComponentListSupplier {
@@ -83,9 +192,117 @@ object GTOMachineTooltips {
         )
     }
 
+    // 性能监控器
+    val PerformanceMonitorMachineTooltips = ComponentListSupplier {
+        setTranslationPrefix("performance_monitor_machine")
+
+        section(ComponentSlang.MainFunction)
+        function("能监测全部机器2秒内的平均延迟" translatedTo "Can monitor all machines' average delay within 2 seconds and support highlighting")
+        guide("右键点击机器以打开性能监测界面" translatedTo "Right click on the machine to open performance monitoring interface")
+    }
+
+    // 监控器系列
+    val monitor = { tooltip: ComponentListSupplier.() -> Unit ->
+        ComponentListSupplier {
+            setTranslationPrefix("monitor")
+            highlight("监控器系列" translatedTo "Monitor series") { rainbowSlow() }
+            tooltip()
+        }
+    }
+
+    // 基础监控器
+    val BasicMonitorTooltips = monitor {
+        section(ComponentSlang.MainFunction)
+        function("是监控器的基础组成部分" translatedTo "Is the basic component of the monitor")
+        function("可以与其他§6多个监控器§r系列相连" translatedTo "Can be connected to other §6multiple monitors§r series")
+        function("多个监控器可以组成一个大屏" translatedTo "Multiple monitors can form a large screen")
+        function("可以使用§d喷漆§r对监控器分组" translatedTo "Can use§d paint spray§r to group monitors")
+        function("与§6监控器组件§r相连来显示不同信息" translatedTo "Use §6monitor components§r to display different information")
+    }
+
+    // 监控器电网组件
+    val MonitorPowerComponentTooltips = monitor {
+        section(ComponentSlang.MainFunction)
+        function("显示§6无线电网§r的数据" translatedTo "Display§6 wireless energy grid§r data")
+    }
+
+    // 监控器魔力组件
+    val MonitorManaComponentTooltips = monitor {
+        section(ComponentSlang.MainFunction)
+        function("显示§6无线魔力网§r的数据" translatedTo "Display§6 wireless mana grid§r data")
+    }
+
+    // 监控器算力组件
+    val MonitorComputingComponentTooltips = monitor {
+        section(ComponentSlang.MainFunction)
+        function("显示§6无线算力网§r的数据" translatedTo "Display§6 wireless computing grid§r data")
+    }
+
+    // 监控器ME吞吐量监控组件
+    val MonitorMEThroughputComponentTooltips = monitor {
+        section(ComponentSlang.MainFunction)
+        function("显示ME中§6指定物品§r的吞吐量数据" translatedTo "Display the throughput data of §6specified items §rin ME")
+    }
+
+    // 监控器机器通用组件
+    val MonitorMachineComponentTooltips = monitor {
+        section(ComponentSlang.MainFunction)
+        function("显示§6机器§r的通用数据" translatedTo "Display the general data of §6machines§r")
+        function("例如耗电，产电，输入，输出等" translatedTo "For example, power consumption, power production, input, output, etc.")
+        command("需要放入坐标信息卡" translatedTo "Need to put coordinate card")
+    }
+
+    // 监控器合成处理单元组件
+    val MonitorCraftingComponentTooltips = monitor {
+        section(ComponentSlang.MainFunction)
+        function("显示§6ME合成处理单元§r的合成数据" translatedTo "Display the synthesis data of §6crafting unit§r")
+    }
+
+    // 监控器自定义文本组件
+    val MonitorCustomTextComponentTooltips = monitor {
+        section(ComponentSlang.MainFunction)
+        function("用于显示§6自定义文本§r在监控器上" translatedTo "Display§6 custom text§r")
+        function("同一块监控器大屏的多个文本组件将被顺序显示" translatedTo "Multiple text components of the same block monitor screen will be displayed in sequence")
+    }
+
+    // 超立方体
+    val HyperCubeMachineTooltips = ComponentListSupplier {
+        setTranslationPrefix("hyper_cube_machine")
+        highlight("可以代理一个流体或物品存储器" translatedTo "Can proxy a fluid or item or both storage")
+
+        section(ComponentSlang.MainFunction)
+        function("绑定某方块后，对此机器进行物品或流体操作视同对被绑定的方块操作" translatedTo "Bind a storage to this machine to operate it as if it were the bound storage")
+        guide("右键点击以打开界面" translatedTo "Right click to open the interface")
+        increase("此方块有升级版本" translatedTo "Has upgrade version")
+    }
+
+    // 进阶超立方体
+    val AdvancedHyperCubeMachineTooltips = ComponentListSupplier {
+        setTranslationPrefix("advanced_hyper_cube_machine")
+        highlight("可以代理多个流体或物品存储器" translatedTo "Can proxy (a or multi) (fluid or item or both)storage")
+
+        function("绑定某方块后，对此机器进行物品或流体操作视同对被绑定的方块操作" translatedTo "Bind a storage to this machine to operate it as if it were the bound storage")
+        function("若绑定多个方块，则依序对他们操作" translatedTo "Operate them in order if bind multiple storages")
+        guide("右键点击以打开界面" translatedTo "Right click to open the interface")
+        guide("对装配线自动化很好用" translatedTo "Good for assembly line automation")
+    }
+
+    // 光伏电站
+    val PhotovoltaicPlantTooltips = ComponentListSupplier {
+        setTranslationPrefix("photovoltaic_plant")
+
+        section(ComponentSlang.RunningRequirements)
+        function("根据维度和天气输出EU或魔力" translatedTo "Output EU or Mana based on dimensions and weather")
+        command("在空间站运行时可保持最大功率，但需提供每秒功率/4mB的蒸馏水保持运行" translatedTo "The space station can maintain full power operation, requires a distilled water supply of Power/4 mB per second")
+
+        section(ComponentSlang.RecommendedUseAs("生产魔力" translatedTo "mana production"))
+        function("在机器内放置64朵太阳花以使机器不再发电，转而采集魔力" translatedTo "Place 64 dayblooms in the machine to stop power generation and start collecting mana")
+    }
+
     // 加热器
     val HeaterMachineTooltips = ComponentListSupplier {
         setTranslationPrefix("heater_machine")
+
         section("通过燃烧对四周机器进行加热" translatedTo "Burning to heat up around machines")
         content("前方被阻挡后停止加热" translatedTo "Stop heating after front side is blocked.")
         content("根据温度发出红石信号" translatedTo "Emits redstone signal according to the temperature.")
@@ -97,6 +314,7 @@ object GTOMachineTooltips {
     // 电力加热器
     val ElectricHeaterMachineTooltips = ComponentListSupplier {
         setTranslationPrefix("electric_heater_machine")
+
         section("使用电力对四周机器进行加热" translatedTo "Use electricity to heat up around machines")
         content(ComponentSlang.TemperatureMax(ElectricHeaterMachine.MaxTemperature))
         ok("此机器不会爆炸" translatedTo "This machine will not explode")
@@ -146,7 +364,7 @@ object GTOMachineTooltips {
     val SupercomputingTooltips = ComponentListSupplier {
         setTranslationPrefix("supercomputing")
 
-        main("计算机超级计算中心" translatedTo "Computer Supercomputing Center") { rainbow() }
+        highlight("计算机超级计算中心" translatedTo "Computer Supercomputing Center") { rainbow() }
         content(
             "将多台计算机集成在一起，提供大规模并行计算能力" translatedTo "Integrates multiple computers together to provide massive parallel computing power",
             { lightPurple() },
@@ -209,16 +427,23 @@ object GTOMachineTooltips {
     val SuperMolecularAssemblerTooltips = ComponentListSupplier {
         setTranslationPrefix("super_molecular_assembler")
 
-        main("分子装配室 Pro Max 版！" translatedTo "Molecular assembler Pro Max Edition!") { rainbow() }
+        highlight("分子装配室 Pro Max 版！" translatedTo "Molecular assembler Pro Max Edition!") { rainbowSlow() }
+
+        section(ComponentSlang.RunningRequirements)
+        command("通过合成样板仓放入合成样板" translatedTo "Insert crafting patterns via craft pattern hatches")
+        info("每个物品合成消耗1EU" translatedTo "Each item crafted consumes 1 EU")
     }
 
     // ME 超算核心
     val MECPUTooltips = ComponentListSupplier {
-        main("ME 网络超级 CPU" translatedTo "Super CPU in ME Network") { rainbow() }
+        highlight("ME 网络超级 CPU" translatedTo "Super CPU in ME Network") { rainbowSlow() }
 
         section("CPU 性能" translatedTo "CPU Performance")
         function("容量：决定CPU可以处理的总任务大小" translatedTo "Capacity: Determines the total task size the CPU can handle")
-        content("填满481个T5元件解锁无限存储" translatedTo "Fill 481 T5 storage units to unlock infinity storage", { rainbowSlow() })
+        content(
+            "填满481个T5元件解锁无限存储" translatedTo "Fill 481 T5 storage units to unlock infinity storage",
+            { rainbowSlow() },
+        )
         info("公式：Σ合成单元存储量" translatedTo "Formula: ΣCrafting unit storage")
         function("并行数：决定CPU一次可发配的样板数量" translatedTo "Parallel: Determines the number of patterns the CPU can dispatch at once")
         info("公式：合成单元个数 x 并行仓并行数" translatedTo "Formula: Number of crafting units x parallel number of parallel hatch")
@@ -227,8 +452,8 @@ object GTOMachineTooltips {
     }
 
     // 大型内燃机
-    val LargeCombustionTooltipsProvider: (Long, Long, Boolean, Long) -> ComponentListSupplier =
-        { baseEUt, oxygenBoost, canExtremeBoost, liquidOxygenBoost ->
+    val LargeCombustionTooltips =
+        { baseEUt: Long, oxygenBoost: Long, canExtremeBoost: Boolean, liquidOxygenBoost: Long ->
             ComponentListSupplier {
                 setTranslationPrefix("large_combustion")
 
@@ -256,24 +481,23 @@ object GTOMachineTooltips {
     }
 
     // 大型涡轮
-    val LargeTurbineTooltipsProvider: (Long, Int) -> ComponentListSupplier =
-        { baseEUt, rotorTier ->
-            ComponentListSupplier {
-                setTranslationPrefix("large_turbine")
+    val LargeTurbineTooltips = { baseEUt: Long, rotorTier: Int ->
+        ComponentListSupplier {
+            setTranslationPrefix("large_turbine")
 
-                section(ComponentSlang.PowerGenerationEfficiency)
-                function(ComponentSlang.BaseProductionEut(baseEUt))
-                increase(ComponentSlang.RotorEfficiency(rotorTier))
+            section(ComponentSlang.PowerGenerationEfficiency)
+            function(ComponentSlang.BaseProductionEut(baseEUt))
+            increase(ComponentSlang.RotorEfficiency(rotorTier))
 
-                section(ComponentSlang.AfterModuleInstallation)
-                increase("获得2倍速度" translatedTo "Gains 2x speed")
-                increase("获得额外120%涡轮效率" translatedTo "Gains additional 120% turbine efficiency")
-                decrease("转子损耗速度变为2倍" translatedTo "Rotor wear rate becomes 2x")
-            }
+            section(ComponentSlang.AfterModuleInstallation)
+            increase("获得2倍速度" translatedTo "Gains 2x speed")
+            increase("获得额外120%涡轮效率" translatedTo "Gains additional 120% turbine efficiency")
+            decrease("转子损耗速度变为2倍" translatedTo "Rotor wear rate becomes 2x")
         }
+    }
 
     // 特大涡轮
-    val MegaTurbineGenerateTooltipsProvider: (Long, Int) -> ComponentListSupplier = { baseEUt, rotorTier ->
+    val MegaTurbineGenerateTooltips = { baseEUt: Long, rotorTier: Int ->
         ComponentListSupplier {
             setTranslationPrefix("mega_turbine")
 
@@ -292,24 +516,23 @@ object GTOMachineTooltips {
     }
 
     // 化学能吞噬者
-    var ChemicalEnergyDevourerGenerateTooltips =
-        ComponentListSupplier {
-            setTranslationPrefix("chemical_energy_devourer")
+    val ChemicalEnergyDevourerGenerateTooltips = ComponentListSupplier {
+        setTranslationPrefix("chemical_energy_devourer")
 
-            section(ComponentSlang.PowerGenerationEfficiency)
-            function(ComponentSlang.BaseProductionEut(GTValues.V[GTValues.ZPM]))
-            command(ComponentSlang.UsePerHourLubricant(10 * FluidHelper.getBucket()))
-            increase(
-                ("提供320mB/s的§a液态氧§r，并消耗§4双倍§r燃料以产生" translatedTo "Provide 80mB/s of §eLiquid Oxygen§r, consuming §adouble§r fuel to produce up to ") +
-                    (GTValues.V[GTValues.UV]).toLiteralSupplier().yellow() +
-                    (" EU/t的功率" translatedTo " EU/t"),
-            )
-            increase(
-                ("再提供480mB/s的§a四氧化二氮§r，并消耗§4四倍§r燃料以产生" translatedTo "Provide extra 480mB/s of §eNitrous Oxide§r, consuming §afour times§r fuel to produce up to ") +
-                    (GTValues.V[GTValues.UHV]).toLiteralSupplier().yellow() +
-                    (" EU/t的功率" translatedTo " EU/t"),
-            )
-        }
+        section(ComponentSlang.PowerGenerationEfficiency)
+        function(ComponentSlang.BaseProductionEut(GTValues.V[GTValues.ZPM]))
+        command(ComponentSlang.UsePerHourLubricant(10 * FluidHelper.getBucket()))
+        increase(
+            ("提供320mB/s的§a液态氧§r，并消耗§4双倍§r燃料以产生" translatedTo "Provide 80mB/s of §eLiquid Oxygen§r, consuming §adouble§r fuel to produce up to ") +
+                (GTValues.V[GTValues.UV]).toLiteralSupplier().yellow() +
+                (" EU/t的功率" translatedTo " EU/t"),
+        )
+        increase(
+            ("再提供480mB/s的§a四氧化二氮§r，并消耗§4四倍§r燃料以产生" translatedTo "Provide extra 480mB/s of §eNitrous Oxide§r, consuming §afour times§r fuel to produce up to ") +
+                (GTValues.V[GTValues.UHV]).toLiteralSupplier().yellow() +
+                (" EU/t的功率" translatedTo " EU/t"),
+        )
+    }
 
     // 化工厂
     val ChemicalFactoryTooltips = ComponentListSupplier {
@@ -345,6 +568,24 @@ object GTOMachineTooltips {
         command("最终配方等级受限于整体框架等级" translatedTo "Final recipe tier is constrained by framework tier")
     }
 
+    // 培养缸
+    val CulturingTankTooltips = ComponentListSupplier {
+        setTranslationPrefix("culturing_tank")
+
+        section(ComponentSlang.RunningRequirements)
+        command("过滤器等级决定配方等级" translatedTo "Filter tier§r determines recipe tier")
+        command("玻璃等级决定可用电压上限" translatedTo "Glass tier§r determines upper limit of voltage usable")
+    }
+
+    // 大型培养缸
+    val LargeCulturingTankTooltips = ComponentListSupplier {
+        setTranslationPrefix("large_culturing_tank")
+
+        section(ComponentSlang.RunningRequirements)
+        command("过滤器等级决定配方等级" translatedTo "Filter tier§r determines recipe tier")
+        command("玻璃等级决定可用电压上限" translatedTo "Glass tier§r determines upper limit of voltage usable")
+    }
+
     // 纳米锻炉
     val NanoForgeTooltips = ComponentListSupplier {
         setTranslationPrefix("nano_forge")
@@ -355,7 +596,7 @@ object GTOMachineTooltips {
     }
 
     // 中子活化器
-    var NeutronActivatorTooltips = ComponentListSupplier {
+    val NeutronActivatorTooltips = ComponentListSupplier {
         setTranslationPrefix("neutron_activator")
 
         section("超光速运动！" translatedTo "Superluminal Movement!")
@@ -372,7 +613,7 @@ object GTOMachineTooltips {
     val HeatExchangerTooltips = ComponentListSupplier {
         setTranslationPrefix("heat_exchanger")
 
-        section("加热蒸汽" translatedTo "Heats Steam")
+        section(ComponentSlang.MainFunction)
         content("每次处理全部输入的热流体" translatedTo "Processes all input hot fluids every time")
         content("需要保证输入的冷却液能将流体全部冷却" translatedTo "Must ensure the cooling liquid input can cool all fluids")
         increase("连续运行4次后将输出高级蒸汽" translatedTo "Outputs high-level steam after running continuously 4 times")
@@ -455,6 +696,7 @@ object GTOMachineTooltips {
     val AdvancedAssemblyLineTooltips = ComponentListSupplier {
         setTranslationPrefix("advanced_assembly_line")
 
+        section(ComponentSlang.RunningRequirements)
         ok("可以使用更大的输入总线" translatedTo "Can use larger input buses")
         command("需要保证每片的物品与配方对应" translatedTo "Must ensure each item corresponds to the recipe")
         command("只能使用数据靶仓" translatedTo "Only data target chambers can be used")
@@ -464,7 +706,7 @@ object GTOMachineTooltips {
     val BlockConversionRoomTooltips = ComponentListSupplier {
         setTranslationPrefix("block_conversion_room")
 
-        main("每秒随机转化机器内部方块" translatedTo "Randomly converts blocks inside the machine every second")
+        highlight("每秒随机转化机器内部方块" translatedTo "Randomly converts blocks inside the machine every second")
 
         section("电压等级加成" translatedTo "Voltage Tier Bonus")
         increase("每高出MV1级，转换方块数量+4" translatedTo "For each tier above MV1, block conversion +4")
@@ -475,7 +717,7 @@ object GTOMachineTooltips {
     val LargeBlockConversionRoomTooltips = ComponentListSupplier {
         setTranslationPrefix("large_block_conversion_room")
 
-        main("每秒随机转化机器内部一个方块" translatedTo "Randomly converts one block inside the machine every second")
+        highlight("每秒随机转化机器内部一个方块" translatedTo "Randomly converts one block inside the machine every second")
 
         section("电压等级加成" translatedTo "Voltage Tier Bonus")
         increase("每高出MV1级，转换方块数量+64" translatedTo "For each tier above MV1, block conversion +64")
@@ -499,7 +741,7 @@ object GTOMachineTooltips {
     val EyeOfHarmonyTooltips = ComponentListSupplier {
         setTranslationPrefix("eye_of_harmony")
 
-        main("创造微缩宇宙并获取资源" translatedTo "Creates a mini-universe and gathers resources inside") { rainbow() }
+        highlight("创造微缩宇宙并获取资源" translatedTo "Creates a mini-universe and gathers resources inside") { rainbowSlow() }
 
         section("供电系统" translatedTo "Power System")
         important("需要太多EU，无法用常规手段供能" translatedTo "Requires too much EU — cannot be powered by conventional means")
@@ -532,7 +774,7 @@ object GTOMachineTooltips {
     val SwarmCoreTooltips = ComponentListSupplier {
         setTranslationPrefix("swarm_core")
 
-        section("蜂群之主" translatedTo "Lord of the Swarm")
+        section(ComponentSlang.MainFunction)
         important("能够运行任意等级的纳米锻炉配方" translatedTo "Can run nano forge recipes of any tier")
         increase("处理速度固定为20倍" translatedTo "Processing speed fixed at 20x")
     }
@@ -561,7 +803,7 @@ object GTOMachineTooltips {
     val SatelliteControlCenterTooltips = ComponentListSupplier {
         setTranslationPrefix("satellite_control_center")
 
-        main("发射卫星，带回星球数据" translatedTo "Launch a satellite and bring back planet data")
+        highlight("发射卫星，带回星球数据" translatedTo "Launch a satellite and bring back planet data")
     }
 
     // 原木拟生场
@@ -595,7 +837,7 @@ object GTOMachineTooltips {
     val BossSummonerTooltips = ComponentListSupplier {
         setTranslationPrefix("boss_summoner")
 
-        main("电力与反应核的作用" translatedTo "Electricity and Reactor Core Function")
+        highlight("电力与反应核的作用" translatedTo "Electricity and Reactor Core Function")
     }
 
     // 钻井控制中枢
@@ -610,7 +852,7 @@ object GTOMachineTooltips {
     val WirelessEnergySubstationTooltips = ComponentListSupplier {
         setTranslationPrefix("wireless_energy_substation")
 
-        main("为无线电网提供容量支持" translatedTo "Provides capacity support to the wireless grid")
+        highlight("为无线电网提供容量支持" translatedTo "Provides capacity support to the wireless grid")
 
         section("电网容量" translatedTo "Electricity Capacity")
         content("可在内部安装任意无线能量单元来提高容量上限" translatedTo "Install wireless energy units inside to increase capacity limit")
@@ -738,15 +980,14 @@ object GTOMachineTooltips {
     val PlanetCoreDrillingTooltips = ComponentListSupplier {
         setTranslationPrefix("planet_core_drilling")
 
-        main("每秒产出当前世界的全部矿石65536份" translatedTo "Produces a total of 65536 ores from the current world per second")
+        highlight("每秒产出当前世界的全部矿石65536份" translatedTo "Produces a total of 65536 ores from the current world per second")
     }
 
     // 进阶无尽钻机
     val AdvancedInfiniteDrillerTooltips = ComponentListSupplier {
         setTranslationPrefix("advanced_infinite_driller")
 
-        main("利用维度技术和坚不可摧的钻头无情的抽取星球的每一分血液" translatedTo "Using dimensional technology and indestructible drills, they relentlessly extract every drop of blood from the planet.")
-        main("更加高级的无尽流体钻井" translatedTo "More advanced infinite fluid drilling")
+        highlight("利用维度技术和坚不可摧的钻头无情的抽取星球的每一分血液" translatedTo "Using dimensional technology and indestructible drills, they relentlessly extract every drop of blood from the planet.")
 
         section("启动与温控" translatedTo "Startup & Thermal Control")
         command("需要升温启动，可通入液态烈焰" translatedTo "Requires heating to start, input Liquid Blaze to warm up")
@@ -777,6 +1018,31 @@ object GTOMachineTooltips {
 
         section(ComponentSlang.RunningRequirements)
         command("需要最低30720EU/t的功率" translatedTo "Requires minimum 30720 EU/t")
+    }
+
+    // 纳米集成加工中心
+    val MATERIAL_MAP: ImmutableMap<String?, Float?> = ImmutableMap.of<String?, Float?>(
+        "gtceu.iron", 1.0f,
+        "gtceu.iridium", 1.1f,
+        "gtocore.orichalcum", 1.2f,
+        "gtocore.infuscolium", 1.3f,
+        "gtocore.draconium", 1.4f,
+        "gtocore.cosmic_neutronium", 1.5f,
+        "gtocore.eternity", 1.6f,
+    )
+    val NanitesIntegratedProcessingCenterTooltips = ComponentListSupplier {
+        setTranslationPrefix("nanites_integrated_processing_center")
+
+        section(ComponentSlang.RunningRequirements)
+        command("安装对应模块解锁对应配方" translatedTo "Install the corresponding module to unlock the corresponding recipe")
+        increase("主机中放入纳米蜂群可减少污染概率" translatedTo "Placing nanites in the host can reduce pollution probability")
+        content("每放入一个纳米蜂群，污染概率减少数如下所示" translatedTo "Each nanite placed reduces pollution probability as follows")
+        MATERIAL_MAP.forEach { (material: String?, reduction: Float?) ->
+            info(
+                Component.translatable("material.$material").toComponentSupplier() +
+                    (": -$reduction%").toLiteralSupplier(),
+            )
+        }
     }
 
     // 虚空采矿机
@@ -821,7 +1087,7 @@ object GTOMachineTooltips {
     val IntegratedOreProcessorTooltips = ComponentListSupplier {
         setTranslationPrefix("integrated_ore_processor")
 
-        main("一步完成矿石处理" translatedTo "Completes ore processing in one step")
+        highlight("一步完成矿石处理" translatedTo "Completes ore processing in one step")
 
         section("电路配置" translatedTo "Circuit Configuration")
         function("1号电路: 破碎-研磨-离心" translatedTo "Circuit 1: Crusher → Macerator → Centrifuging")
@@ -851,7 +1117,7 @@ object GTOMachineTooltips {
         important("铭刻后此机器只能加工此种电路" translatedTo "After engraving, this machine can only process this type of circuit")
     }
 
-    var LargeSteamSolarBoilerTooltips = ComponentListSupplier {
+    val LargeSteamSolarBoilerTooltips = ComponentListSupplier {
         setTranslationPrefix("large_steam_circuit_assembler")
 
         section("蒸汽产出" translatedTo "Steam Production")
@@ -887,12 +1153,29 @@ object GTOMachineTooltips {
     val LeapForwardOneBlastFurnaceTooltips = ComponentListSupplier {
         setTranslationPrefix("leap_forward_one_blast_furnace")
 
-        main("我们走在大路上！" translatedTo "We're on the road!")
+        highlight("我们走在大路上！" translatedTo "We're on the road!")
 
         section(ComponentSlang.EfficiencyBonus)
         content("随着配方运行，温度升高" translatedTo "As the recipe operating, the temperature increases")
         increase("下次配方获得 400 / 温度 的时间减免" translatedTo "Next recipe gains duration reduction of 400 / temperature")
         danger(ComponentSlang.BeAwareOfBurn)
+    }
+
+    // 中子旋涡
+    val NeutronVortexTooltips = ComponentListSupplier {
+        setTranslationPrefix("neutron_vortex")
+
+        section(ComponentSlang.RunningRequirements)
+        ok("运行时不消耗中子动能" translatedTo "Does not consume neutron kinetic energy while running.")
+        increase("安装附属结构后可开启能源转换模式，消耗电力自动适应配方的中子动能" translatedTo "After installing auxiliary structures, you can enable energy conversion mode, which automatically adapts the neutron kinetic energy consumption based on the recipe.")
+    }
+
+    // 微生物之主
+    val MicroorganismMasterTooltips = ComponentListSupplier {
+        setTranslationPrefix("microorganism_master")
+
+        section(ComponentSlang.RunningRequirements)
+        ok("无视辐射与洁净要求" translatedTo "Ignores radiation and cleanliness requirements")
     }
 
     // 拆解机
@@ -924,7 +1207,7 @@ object GTOMachineTooltips {
     val IndustrialFlotationCellTooltips = ComponentListSupplier {
         setTranslationPrefix("industrial_flotation_cell")
 
-        main("工业级浮游选矿池" translatedTo "Industrial Flotation Mining Pool")
+        highlight("工业级浮游选矿池" translatedTo "Industrial Flotation Mining Pool")
     }
 
     // 恒星炎炀锻炉
@@ -946,7 +1229,7 @@ object GTOMachineTooltips {
         increase("提升电压等级可为模块提供大幅耗时减免" translatedTo "Increasing voltage tier can provide large Duration reductions for modules")
         increase("额外提升为模块提供的并行数" translatedTo " Additional increase in the parallelism provided by the module")
         command("运行前需提供128*(机器等级-7)的算力" translatedTo "Before starting, it is necessary to provide 128 * (tier - 7) computation power")
-        increase(("通天之路额外加成" translatedTo "Road of Heaven Extra Bonus").rainbow() + ("：连接的模块将获得0.707倍耗时的工作速度加成" translatedTo ": Connected modules will receive a 0.707x Duration speed bonus"))
+        increase("连接的模块将获得0.707倍耗时的速度加成" translatedTo "Connected modules will receive a 0.707x Duration speed bonus")
     }
 
     // 净化处理厂
@@ -967,7 +1250,7 @@ object GTOMachineTooltips {
     val ClarifierPurificationUnitTooltips = ComponentListSupplier {
         setTranslationPrefix("clarifier_purification_unit")
 
-        main(ComponentSlang.PurifyLevel(1))
+        highlight(ComponentSlang.PurifyLevel(1))
 
         section(ComponentSlang.RunningRequirements)
         content("处理一定水量后过滤器堵塞" translatedTo "Filter blocks clog after processing certain water volume")
@@ -984,7 +1267,7 @@ object GTOMachineTooltips {
     val OzonationPurificationUnitTooltips = ComponentListSupplier {
         setTranslationPrefix("ozonation_purification_unit")
 
-        main(ComponentSlang.PurifyLevel(2))
+        highlight(ComponentSlang.PurifyLevel(2))
 
         section(ComponentSlang.RunningRequirements)
         content("臭氧消耗量=输入水量/10000mB" translatedTo "Ozone consumption = input water amount / 10000mB")
@@ -1000,7 +1283,7 @@ object GTOMachineTooltips {
     val FlocculationPurificationUnitTooltips = ComponentListSupplier {
         setTranslationPrefix("flocculation_purification_unit")
 
-        main(ComponentSlang.PurifyLevel(3))
+        highlight(ComponentSlang.PurifyLevel(3))
 
         section(ComponentSlang.RunningRequirements)
         command("提供聚合氯化铝以进行操作" translatedTo "Provide Polymeric Aluminum Chloride for operation.")
@@ -1017,7 +1300,7 @@ object GTOMachineTooltips {
     val PHNeutralizationPurificationUnitTooltips = ComponentListSupplier {
         setTranslationPrefix("ph_neutralization_purification_unit")
 
-        main(ComponentSlang.PurifyLevel(4))
+        highlight(ComponentSlang.PurifyLevel(4))
 
         section(ComponentSlang.RunningRequirements)
         content("每个周期的初始pH值在4.5至9.5之间变化" translatedTo "The initial pH value of each cycle varies between 4.5 to 9.5.")
@@ -1037,7 +1320,7 @@ object GTOMachineTooltips {
     val ExtremeTemperatureFluctuationPurificationUnitTooltips = ComponentListSupplier {
         setTranslationPrefix("extreme_temperature_fluctuation_purification_unit")
 
-        main(ComponentSlang.PurifyLevel(5))
+        highlight(ComponentSlang.PurifyLevel(5))
 
         section(ComponentSlang.RunningRequirements)
         command("完成加热周期：先加热水至10000K以上，再冷却至10K以下" translatedTo "Complete heating cycle: first heat Water above 10000K, then cool below 10K.")
@@ -1057,14 +1340,14 @@ object GTOMachineTooltips {
     val HighEnergyLaserPurificationUnitTooltips = ComponentListSupplier {
         setTranslationPrefix("high_energy_laser_purification_unit")
 
-        main(ComponentSlang.PurifyLevel(6))
+        highlight(ComponentSlang.PurifyLevel(6))
 
         section(ComponentSlang.RunningRequirements)
         command("在操作过程中，需要更换透镜仓内的透镜" translatedTo "During operation, you need replace the Lens in the lens chamber.")
         content("当当前透镜需要更换时，多方块结构将通过透镜指示仓输出信号" translatedTo "When the current Lens needs to be replaced, the multi-block structure will output a signal through the Lens indicator chamber.")
         content("透镜更换请求将在6到12秒的随机间隔内出现" translatedTo "Lens replacement requests will occur at random intervals between 6 and 12 seconds.")
         content("需要在信号输出后的4秒内更换透镜" translatedTo "The lens must be replaced within 4 seconds of the signal output.")
-        content("透镜顺序依次为红色、橙色、棕色、黄色、绿色、青色、蓝色、紫色、品红色、粉色" translatedTo "The lens order is Red, Orange, Brown, Yellow, Green, Cyan, Blue, Purple, Magenta, Pink.")
+        content("透镜顺序依次为红/橙/棕/黄/绿/青/蓝/紫/品红/粉" translatedTo "The lens order is Red/Orange/Brown/Yellow/Green/Cyan/Blue/Purple/Magenta/Pink.")
         content("透镜需求可在GUI内查看" translatedTo "The requirements for Lens can be viewed in the GUI.")
 
         section(ComponentSlang.OutputProbability)
@@ -1075,7 +1358,7 @@ object GTOMachineTooltips {
     val ResidualDecontaminantDegasserPurificationUnitTooltips = ComponentListSupplier {
         setTranslationPrefix("residual_decontaminant_degasser_purification_unit")
 
-        main(ComponentSlang.PurifyLevel(7))
+        highlight(ComponentSlang.PurifyLevel(7))
 
         section(ComponentSlang.RunningRequirements)
         content("要成功完成配方，需要根据要求输入材料" translatedTo "To successfully complete the recipe, materials must be inputted as required.")
@@ -1101,7 +1384,7 @@ object GTOMachineTooltips {
     val AbsoluteBaryonicPerfectionPurificationUnitTooltips = ComponentListSupplier {
         setTranslationPrefix("absolute_baryonic_perfection_purification_unit")
 
-        main(ComponentSlang.PurifyLevel(8))
+        highlight(ComponentSlang.PurifyLevel(8))
 
         section(ComponentSlang.RunningRequirements)
         command("将§b夸克释放催化剂§r放入输入总线中运行" translatedTo "Put §bQuark Releasing Catalyst§r into the input bus to operate.")
@@ -1117,32 +1400,33 @@ object GTOMachineTooltips {
     // 源初重构仪
     val ThePrimordialReconstructorTooltips = ComponentListSupplier {
         setTranslationPrefix("the_primordial_reconstructor")
-        add("通过电路选择工作模式" translatedTo "Select the operating mode through the circuit") { gold() }
-        add(Tab(1) + ("电路 1：物品解构" translatedTo "Circuit 1: Item Deconstruction")) { aqua() }
-        add(Tab(2) + ("需要输入 书 铭刻之布 摘抄符石" translatedTo "Requires input Book  Affix Canvas  Sigil of Withdrawal")) { gray().italic() }
-        add(Tab(1) + ("电路 2：物品 + 附魔 解构" translatedTo "Circuit 2: Item + Enchantments Deconstruction")) { aqua() }
-        add(Tab(2) + ("需要输入 铭刻之布 摘抄符石" translatedTo "Requires input Affix Canvas  Sigil of Withdrawal")) { gray().italic() }
-        add(Tab(1) + ("电路 3：物品 + 刻印 解构" translatedTo "Circuit 3: Item + Affixes Deconstruction")) { aqua() }
-        add(Tab(2) + ("需要输入 书 摘抄符石" translatedTo "Requires input Book  Sigil of Withdrawal")) { gray().italic() }
-        add(Tab(1) + ("电路 4：物品 + 附魔 + 刻印 解构" translatedTo "Circuit 4: Item + Enchantments + Affixes Deconstruction")) { aqua() }
-        add(Tab(2) + ("需要输入 摘抄符石" translatedTo "Requires input Sigil of Withdrawal")) { gray().italic() }
-        add(Tab(1) + ("电路 5：附魔精粹合成附魔书" translatedTo "Circuit 5: Essence synthesis Enchanted Book")) { aqua() }
-        add(Tab(2) + ("需要输入一本书，消耗附魔精粹和魔力合成" translatedTo "Need to input a book, consume enchantment essence and magic synthesis")) { gray().italic() }
-        add(Tab(1) + ("电路 6：附魔书合并" translatedTo "Circuit 6: Enchantment Enchanted Book Merge")) { aqua() }
-        add(Tab(2) + ("消耗魔力合成，会输出额外的书" translatedTo "Consume magic power to synthesize, and output additional books")) { gray().italic() }
-        add(Tab(1) + ("电路 7：刻印精粹合成铭刻之布" translatedTo "Circuit 7: Affix Enchanted Book Merge")) { aqua() }
-        add(Tab(2) + ("消耗魔力合成，需要一个铭刻之布" translatedTo "Consume magic power to synthesize, and requires an Affix Canvas")) { gray().italic() }
-        add(Tab(1) + ("电路 8：宝石合并" translatedTo "Circuit 8: Gem Merge")) { aqua() }
-        add(Tab(2) + ("使用同级的珍宝材料和宝石粉合并宝石" translatedTo "Use the same level of rarity materials and gem dust to merge gems")) { gray().italic() }
-        add(Tab(1) + ("电路 9：强行附魔" translatedTo "Circuit 9: Forced enchantment")) { aqua() }
-        add(Tab(2) + ("消耗魔力强行将附魔书上的附魔添加到物品上" translatedTo "Consume magic power to forcibly adds the enchantment from the enchanted book to the item")) { gray().italic() }
-        add(Tab(1) + ("电路 10：强行刻印" translatedTo "Circuit 10: Forced add affixes")) { aqua() }
-        add(Tab(2) + ("消耗魔力强行将铭刻之布上的刻印添加到物品上" translatedTo "Consume magic power to forcibly adds the affixes from the affix canvas to the item")) { gray().italic() }
-        add(Tab(1) + ("电路 11：强行修改物品稀有度" translatedTo "Circuit 11: Forcefully modify item rarity")) { aqua() }
-        add(Tab(2) + ("消耗魔力，珍宝材料和新生符文强行改变稀有度" translatedTo "Consume magic power and enter rarity material and sigil of rebirth to forcibly change the rarity")) { gray().italic() }
-        add(Tab(1) + ("电路 12：强行添加镶孔" translatedTo "Circuit 12: Forced addition of sockets")) { aqua() }
-        add(Tab(2) + ("消耗魔力，镶孔符文强行添加镶孔" translatedTo "Consume magic power and enter sigil of socketing to forcibly addition of sockets")) { gray().italic() }
-        add(Tab(1) + ("电路 13：强行镶嵌宝石" translatedTo "Circuit 13: Forced gem inlay")) { aqua() }
-        add(Tab(2) + ("消耗魔力，强行将宝石镶嵌到物品上" translatedTo "Consume magic power to forcibly inserting gems into items")) { gray().italic() }
+
+        section("通过电路选择工作模式" translatedTo "Select the operating mode through the circuit")
+        command("电路 1：物品解构" translatedTo "Circuit 1: Item Deconstruction")
+        info("需要输入 书 铭刻之布 摘抄符石" translatedTo "Requires input Book  Affix Canvas  Sigil of Withdrawal")
+        command("电路 2：物品 + 附魔 解构" translatedTo "Circuit 2: Item + Enchantments Deconstruction")
+        info("需要输入 铭刻之布 摘抄符石" translatedTo "Requires input Affix Canvas  Sigil of Withdrawal")
+        command("电路 3：物品 + 刻印 解构" translatedTo "Circuit 3: Item + Affixes Deconstruction")
+        info("需要输入 书 摘抄符石" translatedTo "Requires input Book  Sigil of Withdrawal")
+        command("电路 4：物品 + 附魔 + 刻印 解构" translatedTo "Circuit 4: Item + Enchantments + Affixes Deconstruction")
+        info("需要输入 摘抄符石" translatedTo "Requires input Sigil of Withdrawal")
+        command("电路 5：附魔精粹合成附魔书" translatedTo "Circuit 5: Essence synthesis Enchanted Book")
+        info("需要输入一本书，消耗附魔精粹和魔力合成" translatedTo "Need to input a book, consume enchantment essence and magic synthesis")
+        command("电路 6：附魔书合并" translatedTo "Circuit 6: Enchantment Enchanted Book Merge")
+        info("消耗魔力合成，会输出额外的书" translatedTo "Consume magic power to synthesize, and output additional books")
+        command("电路 7：刻印精粹合成铭刻之布" translatedTo "Circuit 7: Affix Enchanted Book Merge")
+        info("消耗魔力合成，需要一个铭刻之布" translatedTo "Consume magic power to synthesize, and requires an Affix Canvas")
+        command("电路 8：宝石合并" translatedTo "Circuit 8: Gem Merge")
+        info("使用同级的珍宝材料和宝石粉合并宝石" translatedTo "Use the same level of rarity materials and gem dust to merge gems")
+        command("电路 9：强行附魔" translatedTo "Circuit 9: Forced enchantment")
+        info("消耗魔力强行将附魔书上的附魔添加到物品上" translatedTo "Consume magic power to forcibly adds the enchantment from the enchanted book to the item")
+        command("电路 10：强行刻印" translatedTo "Circuit 10: Forced add affixes")
+        info("消耗魔力强行将铭刻之布上的刻印添加到物品上" translatedTo "Consume magic power to forcibly adds the affixes from the affix canvas to the item")
+        command("电路 11：强行修改物品稀有度" translatedTo "Circuit 11: Forcefully modify item rarity")
+        info("消耗魔力，珍宝材料和新生符文强行改变稀有度" translatedTo "Consume magic power and enter rarity material and sigil of rebirth to forcibly change the rarity")
+        command("电路 12：强行添加镶孔" translatedTo "Circuit 12: Forced addition of sockets")
+        info("消耗魔力，镶孔符文强行添加镶孔" translatedTo "Consume magic power and enter sigil of socketing to forcibly addition of sockets")
+        command("电路 13：强行镶嵌宝石" translatedTo "Circuit 13: Forced gem inlay")
+        info("消耗魔力，强行将宝石镶嵌到物品上" translatedTo "Consume magic power to forcibly inserting gems into items")
     }
 }

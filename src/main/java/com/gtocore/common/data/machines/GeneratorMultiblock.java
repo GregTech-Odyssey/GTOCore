@@ -1,6 +1,5 @@
 package com.gtocore.common.data.machines;
 
-import com.gtocore.api.lang.ComponentListSupplier;
 import com.gtocore.api.machine.part.GTOPartAbility;
 import com.gtocore.api.pattern.GTOPredicates;
 import com.gtocore.client.renderer.machine.AdvancedHyperRenderer;
@@ -15,7 +14,10 @@ import com.gtocore.common.data.translation.GTOMachineStories;
 import com.gtocore.common.data.translation.GTOMachineTooltips;
 import com.gtocore.common.machine.multiblock.electric.space.DysonSphereLaunchSiloMachine;
 import com.gtocore.common.machine.multiblock.electric.space.DysonSphereReceivingStationMcahine;
-import com.gtocore.common.machine.multiblock.generator.*;
+import com.gtocore.common.machine.multiblock.generator.ChemicalEnergyDevourerMachine;
+import com.gtocore.common.machine.multiblock.generator.GeneratorArrayMachine;
+import com.gtocore.common.machine.multiblock.generator.MagneticFluidGeneratorMachine;
+import com.gtocore.common.machine.multiblock.generator.PhotovoltaicPowerStationMachine;
 
 import com.gtolib.GTOCore;
 import com.gtolib.api.annotation.NewDataAttributes;
@@ -63,19 +65,18 @@ public final class GeneratorMultiblock {
     public static final MultiblockMachineDefinition PHOTOVOLTAIC_POWER_STATION_VIBRANT = registerPhotovoltaicPowerStation("vibrant", "振动", 16, GTBlocks.CASING_TUNGSTENSTEEL_ROBUST, GTOBlocks.VIBRANT_PHOTOVOLTAIC_BLOCK, GTCEu.id("block/casings/solid/machine_casing_robust_tungstensteel"));
 
     private static MultiblockMachineDefinition registerPhotovoltaicPowerStation(String name, String cn, int basicRate, Supplier<? extends Block> casing, BlockEntry<?> photovoltaicBlock, ResourceLocation texture) {
-        ComponentListSupplier tooltips;
-        if (basicRate == 1) tooltips = GTOMachineStories.INSTANCE.getPhotovoltaicPlant11Tooltips();
-        else if (basicRate == 4) tooltips = GTOMachineStories.INSTANCE.getPhotovoltaicPlant12Tooltips();
-        else if (basicRate == 16) tooltips = GTOMachineStories.INSTANCE.getPhotovoltaicPlant13Tooltips();
-        else tooltips = GTOMachineStories.INSTANCE.getPhotovoltaicPlant11Tooltips();
+        String model;
+        if (basicRate == 1) model = "PG-11";
+        else if (basicRate == 4) model = "PG-12";
+        else if (basicRate == 16) model = "PG-13";
+        else model = "PG-11";
 
         return multiblock(name + "_photovoltaic_power_station", cn + "光伏电站", holder -> new PhotovoltaicPowerStationMachine(holder, basicRate))
                 .nonYAxisRotation()
-                .tooltips(tooltips.getSupplier())
+                .tooltips(GTOMachineStories.INSTANCE.getPhotovoltaicPlantTooltips().invoke(model).getSupplier())
+                .tooltips(GTOMachineTooltips.INSTANCE.getPhotovoltaicPlantTooltips().getSupplier())
                 .recipeTypes(GTRecipeTypes.DUMMY_RECIPES)
                 .generator()
-                .tooltipsText("根据维度和天气输出EU或魔力", "Output EU or Mana based on dimensions and weather")
-                .tooltipsText("在空间站运行时可保持最大功率，但需提供每秒功率/4mB的蒸馏水保持运行", "The space station can maintain full power operation, requires a distilled water supply of Power/4 mB per second")
                 .block(casing)
                 .pattern(definition -> FactoryBlockPattern.start(definition, RelativeDirection.BACK, RelativeDirection.UP, RelativeDirection.LEFT)
                         .aisle("       ", "       ", "       ", "       ", "AAAAAAA")
