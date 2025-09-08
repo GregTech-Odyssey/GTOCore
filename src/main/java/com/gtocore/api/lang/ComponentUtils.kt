@@ -173,16 +173,6 @@ class ComponentSupplier(var component: Component, private val delayed: MutableLi
         withStyle { it.withColor(TooltipHelper.RAINBOW_SLOW.current) }
     }
 
-    // 功能类 - 青色系
-    fun InfoFunction() = transformComponent { text: ComponentSupplier -> text.aqua() }
-    fun InfoFunctionPrimary() = transformComponent { text: ComponentSupplier -> text.aqua().bold() }
-
-    // 交互类 - 白色系
-    fun InfoOperationKey() = transformComponent { text: ComponentSupplier -> text.white().bold() }
-
-    // 辅助类 - 灰色系
-    fun InfoSupport() = transformComponent { text: ComponentSupplier -> text.gray() }
-
     // ////////////////////////////////
     // ****** 滚动 ******//
     // //////////////////////////////
