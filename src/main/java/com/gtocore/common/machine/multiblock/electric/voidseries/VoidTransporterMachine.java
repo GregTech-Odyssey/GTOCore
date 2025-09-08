@@ -81,6 +81,7 @@ public final class VoidTransporterMachine extends ElectricMultiblockMachine {
         this.eu = eu;
         this.consumer = consumer;
         this.energyContainer = createEnergyContainer();
+        toldNotFormed = true;
     }
 
     private EnergyContainerTrait createEnergyContainer() {

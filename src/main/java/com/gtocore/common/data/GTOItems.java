@@ -8,6 +8,8 @@ import com.gtocore.common.data.translation.GTOItemTooltips;
 import com.gtocore.common.item.*;
 import com.gtocore.common.item.armor.SpaceArmorComponentItem;
 import com.gtocore.common.item.misc.GrassHarvesterBehaviour;
+import com.gtocore.data.record.ApotheosisAffix;
+import com.gtocore.data.record.Enchantment;
 
 import com.gtolib.GTOCore;
 import com.gtolib.api.ae2.me2in1.Wireless;
@@ -48,12 +50,13 @@ import com.lowdragmc.lowdraglib.utils.LocalizationUtils;
 import com.tterrag.registrate.util.entry.ItemEntry;
 import com.tterrag.registrate.util.nullness.NonNullBiConsumer;
 import earth.terrarium.adastra.common.registry.ModFluids;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
 import static com.gregtechceu.gtceu.common.data.GTItems.*;
 import static com.gregtechceu.gtceu.common.data.GTItems.attach;
+import static com.gtocore.data.record.ApotheosisAffix.initializeApotheosisAffixRecords;
+import static com.gtocore.data.record.Enchantment.initializeEnchantmentRecords;
 import static com.gtolib.api.registries.GTORegistration.GTM;
 import static com.gtolib.utils.register.ItemRegisterUtils.*;
 
@@ -903,11 +906,12 @@ public final class GTOItems {
     public static final ItemEntry<Item> SPOOLS_JUMBO = register("spools_jumbo", "巨型线轴");
 
     public static final ItemEntry<Item> COLORFUL_MYSTICAL_FLOWER = register("colorful_mystical_flower", "多彩神秘花瓣");
-    public static final ItemEntry<Wireless.Item> WIRELESS_ME2IN1 = item("wireless_me2in1_terminal", "无线ME2合1终端", Wireless.Item::new).register();
     public static final ItemEntry<Item> GAIA_CORE = register("gaia_core", "§e盖亚之核");
     public static final ItemEntry<Item> UNSTABLE_GAIA_SOUL = register("unstable_gaia_soul", "§e不稳定的盖亚之魂");
     public static final ItemEntry<Item> WILDEN_SLATE = register("wilden_slate", "§d荒野石板");
     public static final ItemEntry<Item> PHILOSOPHERS_STONE = register("philosophers_stone", "贤者之石");
+
+    public static final ItemEntry<Wireless.Item> WIRELESS_ME2IN1 = item("wireless_me2in1_terminal", "无线ME2合1终端", Wireless.Item::new).register();
 
     public static final ItemEntry<SpaceArmorComponentItem> SPACE_NANOMUSCLE_CHESTPLATE = item("space_nanomuscle_chestplate", "纳米肌体™套装太空胸甲",
             (p) -> new SpaceArmorComponentItem(GTArmorMaterials.ARMOR,
@@ -1024,25 +1028,46 @@ public final class GTOItems {
             .onRegister(attach(new CoordinateCardBehavior()))
             .register();
 
-    @SuppressWarnings("unchecked")
-    public static final ItemEntry<Item> AFFIX_CANVAS = (ItemEntry<Item>) (ItemEntry<? extends Item>) item("affix_canvas", "铭刻之布", p -> new Item(p) {
+    public static final ItemEntry<AffixCanvas> AFFIX_CANVAS = item("affix_canvas", "铭刻之布", AffixCanvas::new)
+            .properties(p -> p.rarity(Rarity.UNCOMMON))
+            .register();
 
-        @Override
-        public boolean isFoil(@NotNull ItemStack stack) {
-            return true;
+    public static final ItemEntry<ApothItem>[] ENCHANTMENT_ESSENCE = registerEnchantmentEssence();
+    public static final ItemEntry<ApothItem>[] AFFIX_ESSENCE = registerAffixEssence();
+
+    public static ItemEntry<ApothItem>[] registerEnchantmentEssence() {
+        List<Enchantment.EnchantmentRecord> records = initializeEnchantmentRecords();
+        ItemEntry<ApothItem>[] entries = new ItemEntry[records.size()];
+        for (Enchantment.EnchantmentRecord record : records) {
+            String id = record.enchantmentId().substring(record.enchantmentId().indexOf(':') + 1);
+            String cn = "附魔精粹 " + "(" + record.simplifiedId() + ")";
+            String en = "Enchantment Essence " + "(" + FormattingUtil.toEnglishName(id) + ")";
+            entries[record.serialNumber()] = item("enchantment_essence_" + record.serialNumber(), cn,
+                    p -> ApothItem.create(p, record.color()))
+                    .model((ctx, prov) -> prov.withExistingParent(ctx.getName(), GTOCore.id("item/enchantment_essence")))
+                    .lang(en)
+                    .properties(p -> p.stacksTo(16).rarity(Rarity.UNCOMMON))
+                    .color(() -> ApothItem::color)
+                    .register();
         }
-    })
-            .properties(p -> p.stacksTo(1).rarity(Rarity.UNCOMMON))
-            .register();
+        return entries;
+    }
 
-    public static final ItemEntry<ApothItem> ENCHANTMENT_ESSENCE = item("enchantment_essence", "附魔精粹", ApothItem::create)
-            .properties(p -> p.stacksTo(16).rarity(Rarity.UNCOMMON))
-            .color(() -> ApothItem::color)
-            .model(NonNullBiConsumer.noop())
-            .register();
-    public static final ItemEntry<ApothItem> AFFIX_ESSENCE = item("affix_essence", "刻印精粹", ApothItem::create)
-            .properties(p -> p.stacksTo(16).rarity(Rarity.UNCOMMON))
-            .color(() -> ApothItem::color)
-            .model(NonNullBiConsumer.noop())
-            .register();
+    public static ItemEntry<ApothItem>[] registerAffixEssence() {
+        List<ApotheosisAffix.ApotheosisAffixRecord> records = initializeApotheosisAffixRecords();
+        ItemEntry<ApothItem>[] entries = new ItemEntry[records.size()];
+        for (ApotheosisAffix.ApotheosisAffixRecord record : records) {
+            String id = record.affixId().substring(record.affixId().indexOf(':') + 1).replace("/", "_");
+            String cn = "刻印精粹 " + "(" + record.cnId() + ")";
+            String en = "Affix Essence " + "(" + record.enId() + ")";
+            entries[record.serialNumber()] = item("affix_essence_" + record.serialNumber(), cn,
+                    p -> ApothItem.create(p, record.color()))
+                    .model((ctx, prov) -> prov.withExistingParent(ctx.getName(), GTOCore.id("item/affix_essence")))
+                    .lang(en)
+                    .properties(p -> p.stacksTo(16).rarity(Rarity.UNCOMMON))
+                    .color(() -> ApothItem::color)
+                    .register();
+        }
+        return entries;
+    }
 }

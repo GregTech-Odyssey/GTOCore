@@ -5,6 +5,7 @@ import com.gtocore.api.pattern.GTOPredicates;
 import com.gtocore.common.data.GTOBlocks;
 import com.gtocore.common.data.GTOMaterials;
 import com.gtocore.common.data.GTORecipeTypes;
+import com.gtocore.common.data.translation.GTOMachineTooltips;
 import com.gtocore.common.machine.mana.multiblock.*;
 
 import com.gtolib.GTOCore;
@@ -40,7 +41,7 @@ import static com.gregtechceu.gtceu.api.machine.multiblock.PartAbility.*;
 import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
 import static com.gtocore.api.machine.part.GTOPartAbility.OUTPUT_MANA;
 import static com.gtocore.common.data.GTOMaterials.Runerock;
-import static com.gtolib.utils.register.MachineRegisterUtils.multiblock;
+import static com.gtocore.utils.register.MachineRegisterUtils.multiblock;
 
 public final class ManaMultiBlock {
 
@@ -495,19 +496,20 @@ public final class ManaMultiBlock {
             .workableCasingRenderer(GTOCore.id("block/casings/source_fiber_mechanical_casing"), GTCEu.id("block/multiblock/gcym/large_centrifuge"))
             .register();
 
-    public static final MultiblockMachineDefinition GEAR_DECONSTRUCTION_CENTER = multiblock("gear_deconstruction_center", "装备解构中心", GearDeconstructionCenter::new)
+    public static final MultiblockMachineDefinition THE_PRIMORDIAL_RECONSTRUCTOR = multiblock("the_primordial_reconstructor", "源初重构仪", ThePrimordialReconstructor::new)
             .nonYAxisRotation()
+            .tooltips(GTOMachineTooltips.INSTANCE.getThePrimordialReconstructorTooltips().getSupplier())
             .recipeTypes(GTRecipeTypes.DUMMY_RECIPES)
             .block(GTOBlocks.HERETICAL_MECHANICAL_CASING)
             .pattern(definition -> FactoryBlockPattern.start(definition)
                     .aisle("AAA", "AAA", "AAA")
                     .aisle("AAA", "AAA", "AAA")
                     .aisle("AAA", "A~A", "AAA")
-                    .where('A', blocks(GTOBlocks.HERETICAL_MECHANICAL_CASING.get())
+                    .where('A', blocks(GTOBlocks.HERETICAL_MECHANICAL_CASING.get()).setMinGlobalLimited(16)
                             .or(abilities(INPUT_ENERGY))
                             .or(abilities(GTOPartAbility.INPUT_MANA))
-                            .or(abilities(IMPORT_FLUIDS))
-                            .or(abilities(IMPORT_ITEMS))
+                            .or(abilities(IMPORT_FLUIDS).setMaxGlobalLimited(1))
+                            .or(abilities(IMPORT_ITEMS).setMaxGlobalLimited(1))
                             .or(abilities(EXPORT_FLUIDS))
                             .or(abilities(EXPORT_ITEMS)))
                     .where('~', controller(blocks(definition.get())))

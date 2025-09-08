@@ -174,7 +174,9 @@
     "gtm.registry.GTRegistrationMixin",
     "gtm.registry.GTRegistryStringMixin",
     "gtm.registry.MachineBuilderMixin",
+    "jade.CommonProxyMixin",
     "mc.BlockBehaviourMixin",
+    "mc.LanguageMixin",
     "mc.SharedConstantsMixin",
     "mc.mob.AbstractSkeletonMixin",
     "mc.mob.MobMixin"

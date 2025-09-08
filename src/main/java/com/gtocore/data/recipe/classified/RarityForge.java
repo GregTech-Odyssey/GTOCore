@@ -35,7 +35,7 @@ final class RarityForge {
                 .save();
 
         RARITY_FORGE_RECIPES.builder("uncommon_material")
-                .inputItems("apotheosis:common_material", 8)
+                .inputItems("apotheosis:common_material", 4)
                 .inputItems(Items.LEATHER.asItem())
                 .inputItems("apotheosis:gem_dust")
                 .outputItems("apotheosis:uncommon_material")
@@ -44,7 +44,7 @@ final class RarityForge {
                 .save();
 
         RARITY_FORGE_RECIPES.builder("rare_material")
-                .inputItems("apotheosis:uncommon_material", 8)
+                .inputItems("apotheosis:uncommon_material", 4)
                 .inputItems(TagPrefix.gem, GTMaterials.Amethyst)
                 .inputItems("apotheosis:gem_dust")
                 .outputItems("apotheosis:rare_material")
@@ -53,7 +53,7 @@ final class RarityForge {
                 .save();
 
         RARITY_FORGE_RECIPES.builder("epic_material")
-                .inputItems("apotheosis:rare_material", 8)
+                .inputItems("apotheosis:rare_material", 4)
                 .inputItems(Items.PRISMARINE_CRYSTALS.asItem())
                 .inputItems("apotheosis:gem_dust")
                 .outputItems("apotheosis:epic_material")
@@ -62,12 +62,21 @@ final class RarityForge {
                 .save();
 
         RARITY_FORGE_RECIPES.builder("mythic_material")
-                .inputItems("apotheosis:epic_material", 8)
+                .inputItems("apotheosis:epic_material", 4)
                 .inputItems(AEItems.FLUIX_PEARL.asItem())
                 .inputItems("apotheosis:gem_dust")
                 .outputItems("apotheosis:mythic_material")
                 .EUt(2048)
                 .duration(200)
+                .save();
+
+        RARITY_FORGE_RECIPES.builder("ancient_material")
+                .inputItems("apotheosis:mythic_material", 4)
+                .inputItems("deeperdarker:heart_of_the_deep")
+                .inputItems("apotheosis:gem_dust")
+                .outputItems("apotheosis:ancient_material")
+                .EUt(8192)
+                .duration(20)
                 .save();
 
         RARITY_FORGE_RECIPES.builder("speed_upgrade_module")

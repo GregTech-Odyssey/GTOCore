@@ -1,4 +1,4 @@
-package com.gtocore.data.recipe.misc;
+package com.gtocore.data.recipe.magic;
 
 import com.gtocore.api.data.tag.GTOTagPrefix;
 import com.gtocore.common.data.GTOBlocks;
@@ -503,8 +503,8 @@ public final class BotaniaRecipes {
         // 工业祭坛 - 符文祭坛
         {
             IndustrialAltarRecipe1(1, "water_rune", 5200, BotaniaBlocks.livingrock.asItem(), new ItemStack(BotaniaItems.runeWater, 2), new Item[] { BotaniaItems.manaPowder, BotaniaItems.manaSteel, Items.BONE_MEAL, Items.SUGAR_CANE, Items.FISHING_ROD });
-            IndustrialAltarRecipe1(1, "fire_rune", 5200, BotaniaBlocks.livingrock.asItem(), new ItemStack(BotaniaItems.runeFire, 2), new Item[] { BotaniaItems.manaPowder, BotaniaItems.manaSteel, Items.STONE, Items.COAL_BLOCK, Items.NETHER_WART });
-            IndustrialAltarRecipe1(1, "earth_rune", 5200, BotaniaBlocks.livingrock.asItem(), new ItemStack(BotaniaItems.runeEarth, 2), new Item[] { BotaniaItems.manaPowder, BotaniaItems.manaSteel, Items.BONE_MEAL, Items.SUGAR_CANE, Items.RED_MUSHROOM });
+            IndustrialAltarRecipe1(1, "fire_rune", 5200, BotaniaBlocks.livingrock.asItem(), new ItemStack(BotaniaItems.runeFire, 2), new Item[] { BotaniaItems.manaPowder, BotaniaItems.manaSteel, Items.GUNPOWDER, Items.NETHER_BRICK, Items.NETHER_WART });
+            IndustrialAltarRecipe1(1, "earth_rune", 5200, BotaniaBlocks.livingrock.asItem(), new ItemStack(BotaniaItems.runeEarth, 2), new Item[] { BotaniaItems.manaPowder, BotaniaItems.manaSteel, Items.COAL_BLOCK, Items.STONE, Items.RED_MUSHROOM });
             IndustrialAltarRecipe1(1, "air_rune", 5200, BotaniaBlocks.livingrock.asItem(), new ItemStack(BotaniaItems.runeAir, 2), new Item[] { BotaniaItems.manaPowder, BotaniaItems.manaSteel, Items.WHITE_CARPET, Items.FEATHER, Items.STRING });
 
             IndustrialAltarRecipe1(1, "spring_rune", 8000, BotaniaBlocks.livingrock.asItem(), new ItemStack(BotaniaItems.runeSpring), new Item[] { BotaniaItems.runeWater, BotaniaItems.runeFire, Items.OAK_SAPLING, Items.OAK_SAPLING, Items.OAK_SAPLING, Items.WHEAT });

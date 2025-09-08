@@ -7,7 +7,8 @@ import com.gtocore.common.data.GTOBlocks;
 import com.gtocore.common.data.GTOMachines;
 import com.gtocore.common.data.GTOMaterials;
 import com.gtocore.common.data.GTORecipeTypes;
-import com.gtocore.common.data.translation.GTOMachineTranslation;
+import com.gtocore.common.data.translation.GTOMachineStories;
+import com.gtocore.common.data.translation.GTOMachineTooltips;
 import com.gtocore.common.machine.multiblock.electric.EnergyInjectorMachine;
 import com.gtocore.common.machine.multiblock.electric.assembly.ComponentAssemblerMachine;
 import com.gtocore.common.machine.multiblock.electric.bioengineering.BiochemicalReactionRoomMachine;
@@ -25,9 +26,6 @@ import com.gtocore.common.machine.multiblock.steam.LargeSteamMultiblockMachine;
 import com.gtocore.common.machine.multiblock.steam.SteamMultiblockMachine;
 
 import com.gtolib.GTOCore;
-import com.gtolib.api.annotation.NewDataAttributes;
-import com.gtolib.api.annotation.component_builder.ComponentBuilder;
-import com.gtolib.api.lang.CNEN;
 import com.gtolib.api.machine.MultiblockDefinition;
 import com.gtolib.api.machine.feature.multiblock.ITierCasingMachine;
 import com.gtolib.api.machine.multiblock.*;
@@ -61,9 +59,9 @@ import java.util.List;
 import static com.gregtechceu.gtceu.api.machine.multiblock.PartAbility.*;
 import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
 import static com.gtocore.common.block.BlockMap.CALMAP;
+import static com.gtocore.utils.register.MachineRegisterUtils.multiblock;
 import static com.gtolib.api.GTOValues.COMPONENT_ASSEMBLY_CASING_TIER;
 import static com.gtolib.api.GTOValues.GLASS_TIER;
-import static com.gtolib.utils.register.MachineRegisterUtils.multiblock;
 
 public final class MultiBlockC {
 
@@ -71,14 +69,7 @@ public final class MultiBlockC {
 
     public static final MultiblockMachineDefinition PRIMITIVE_DISTILLATION_TOWER = multiblock("primitive_distillation_tower", "原始蒸馏塔", PrimitiveDistillationTowerMachine::new)
             .nonYAxisRotation()
-            .tooltipsText("每20单位时间，若热量 >373，消耗最多9000水调节热量", "Every 20 time units, if heat exceeds 373, it consumes up to 9000 water to regulate heat; more water cools faster, otherwise it heats up.")
-            .tooltipsText("机器在温度400以上工作。工作时，热量会轻微降低。", "When the machine is operating, heat slightly decreases.")
-            .tooltipsText("每20tick消耗一次水，水量大于100时减少热度，小于等于100时增加热度并减少时间。", "When fuel is depleted, the machine awaits fuel input.")
-            .tooltipsText("添加煤块增加21600时间单位，煤增加1200，煤粉增加500。", "Adding coal blocks adds 21,600 time units, coal adds 1,200, and coal dust adds 500 while raising heat.")
-            .tooltipsText("热量超过850会爆炸，传感器定期会更新热量状态。", "Heat exceeding 850 will cause an explosion; sensors periodically update heat status.")
-            .tooltipsText("只能运行MV级及以下配方", "Can only operate MV-Tier recipes and below.")
-            .tooltips(NewDataAttributes.RUNTIME_REQUIREMENT.create(CNEN.create("配方中每种产物都需要一层蒸馏塔节",
-                    "Each product in the recipe requires a layer of distillation tower.")))
+            .tooltips(GTOMachineTooltips.INSTANCE.getPrimitiveDistillationTowerTooltips().getSupplier())
             .recipeTypes(GTRecipeTypes.DISTILLATION_RECIPES)
             .block(GTBlocks.STEEL_HULL)
             .pattern(definition -> FactoryBlockPattern.start(definition, RelativeDirection.RIGHT, RelativeDirection.BACK, RelativeDirection.UP)
@@ -190,6 +181,7 @@ public final class MultiBlockC {
 
     public static final MultiblockMachineDefinition MOLECULAR_TRANSFORMER = multiblock("molecular_transformer", "分子重组仪", ElectricMultiblockMachine::new)
             .allRotation()
+            .tooltips(GTOMachineStories.INSTANCE.getMolecularTransformerTooltips().getSupplier())
             .parallelizableTooltips()
             .laserTooltips()
             .recipeTypes(GTORecipeTypes.MOLECULAR_TRANSFORMER_RECIPES)
@@ -225,7 +217,7 @@ public final class MultiBlockC {
             .nonYAxisRotation()
             .recipeTypes(GTRecipeTypes.ALLOY_SMELTER_RECIPES)
             .recipeTypes(GTRecipeTypes.FURNACE_RECIPES)
-            .tooltips(GTOMachineTranslation.INSTANCE.getExtremeElectricFurnaceTooltips().getSupplier())
+            .tooltips(GTOMachineStories.INSTANCE.getExtremeElectricFurnaceTooltips().getSupplier())
             .coilParallelTooltips()
             .laserTooltips()
             .multipleRecipesTooltips()
@@ -263,7 +255,7 @@ public final class MultiBlockC {
             .nonYAxisRotation()
             .recipeTypes(GTORecipeTypes.LIQUEFACTION_FURNACE_RECIPES)
             .recipeTypes(GTORecipeTypes.REACTION_FURNACE_RECIPES)
-            .tooltips(GTOMachineTranslation.INSTANCE.getHighTemperatureReactionHubTooltips().getSupplier())
+            .tooltips(GTOMachineStories.INSTANCE.getHighTemperatureReactionHubTooltips().getSupplier())
             .parallelizableTooltips()
             .laserTooltips()
             .multipleRecipesTooltips()
@@ -301,22 +293,8 @@ public final class MultiBlockC {
 
     public static final MultiblockMachineDefinition COMPONENT_ASSEMBLER = multiblock("component_assembler", "部件组装机", ComponentAssemblerMachine::new)
             .allRotation()
-            .tooltips(ComponentBuilder.create().addStoryLine("""
-                    格雷科技有限公司为了照顾新入职的员工，特别设计了这台
-                    小型部件组装机。虽然只能处理IV及以下等级的配方，再高
-                    就会出现未知错误，但对于刚刚起步的小菜鸡员工来说已经
-                    足够使用。董事长表示，即使是入门级设备，造价仍然不菲，
-                    希望员工们能够珍惜这份来之不易的工作机会。
-                    """,
-                    """
-                            GregTech Limited specially designed this compact Component Assembler
-                            for newly hired employees. Though it can only handle recipes up to IV
-                            tier and shows unknown errors beyond that, it's sufficient for rookie
-                            employees just starting out. The CEO noted that even entry-level
-                            equipment costs a fortune, hoping employees cherish this opportunity.
-                            """).build())
-            .tooltipsText("只能运行IV及以下配方", "Can only run recipes up to IV tier")
-            .tooltipsText("升级结构后支持到UV", "After upgrading the structure, it supports UV tier")
+            .tooltips(GTOMachineStories.INSTANCE.getComponentAssemblerTooltips().getSupplier())
+            .tooltips(GTOMachineTooltips.INSTANCE.getComponentAssemblerTooltips().getSupplier())
             .moduleTooltips()
             .recipeTypes(GTORecipeTypes.COMPONENT_ASSEMBLY_RECIPES)
             .overclock()
@@ -382,6 +360,7 @@ public final class MultiBlockC {
 
     public static final MultiblockMachineDefinition THREE_DIMENSIONAL_PRINTER = multiblock("three_dimensional_printer", "3D打印机", ElectricMultiblockMachine::new)
             .nonYAxisRotation()
+            .tooltips(GTOMachineStories.INSTANCE.getThreeDimensionalPrinterTooltips().getSupplier())
             .parallelizableTooltips()
             .recipeTypes(GTORecipeTypes.THREE_DIMENSIONAL_PRINTER_RECIPES)
             .parallelizableOverclock()
@@ -412,7 +391,7 @@ public final class MultiBlockC {
 
     public static final MultiblockMachineDefinition GRAVITY_BENDING_DEVICE = multiblock("gravity_bending_device", "引力弯折装置", CrossRecipeMultiblockMachine::createHatchParallel)
             .nonYAxisRotation()
-            .tooltips(GTOMachineTranslation.INSTANCE.getGravityBendingDeviceTooltips().getSupplier())
+            .tooltips(GTOMachineStories.INSTANCE.getGravityBendingDeviceTooltips().getSupplier())
             .parallelizableTooltips()
             .laserTooltips()
             .multipleRecipesTooltips()
@@ -454,7 +433,7 @@ public final class MultiBlockC {
 
     public static final MultiblockMachineDefinition HAND_OF_ARACHNE = multiblock("hand_of_arachne", "阿拉克涅之手", CrossRecipeMultiblockMachine::createHatchParallel)
             .nonYAxisRotation()
-            .tooltips(GTOMachineTranslation.INSTANCE.getHandOfArachneTooltips().getSupplier())
+            .tooltips(GTOMachineStories.INSTANCE.getHandOfArachneTooltips().getSupplier())
             .recipeTypes(GTORecipeTypes.LOOM_RECIPES)
             .parallelizableTooltips()
             .laserTooltips()
@@ -493,7 +472,7 @@ public final class MultiBlockC {
             .nonYAxisRotation()
             .recipeTypes(GTRecipeTypes.CRACKING_RECIPES)
             .recipeTypes(GTRecipeTypes.PYROLYSE_RECIPES)
-            .tooltips(GTOMachineTranslation.INSTANCE.getCrackerHubTooltips().getSupplier())
+            .tooltips(GTOMachineStories.INSTANCE.getCrackerHubTooltips().getSupplier())
             .coilParallelTooltips()
             .laserTooltips()
             .multipleRecipesTooltips()
@@ -524,12 +503,10 @@ public final class MultiBlockC {
             .workableCasingRenderer(GTOCore.id("block/casings/hyper_mechanical_casing"), GTCEu.id("block/multiblock/cracking_unit"))
             .register();
 
-    public static final MultiblockMachineDefinition CHEMICAL_VAPOR_DEPOSITION = multiblock("chemical_vapor_deposition", "化学气相沉积系统", CoilCustomParallelMultiblockMachine.createParallelCoil(m -> 1L << (2 * (m.getTier() - 1)), true, false, false))
+    public static final MultiblockMachineDefinition CHEMICAL_VAPOR_DEPOSITION = multiblock("chemical_vapor_deposition", "化学气相沉积系统",
+            CoilCustomParallelMultiblockMachine.createParallelCoil(m -> 1L << (2 * (m.getTier() - 1)), true, false, false))
             .nonYAxisRotation()
-            .tooltips(NewDataAttributes.ALLOW_PARALLEL_NUMBER.create(
-                    h -> h.addLines("由玻璃等级决定", "Determined by glass tier"),
-                    c -> c.addCommentLines("公式 : 4^玻璃等级", "Formula: 4^(Glass Tier)")))
-            .tooltipsText("线圈温度越高，运行速度越快", "The higher the coil temperature, the faster the operation speed")
+            .tooltips(GTOMachineTooltips.INSTANCE.getChemicalVaporDepositionTooltips().getSupplier())
             .recipeTypes(GTORecipeTypes.CHEMICAL_VAPOR_DEPOSITION_RECIPES)
             .recipeModifiers((machine, recipe) -> RecipeModifierFunction.recipeReduction(recipe, 1, Math.log(900) / Math.log(((ICoilMachine) machine).getTemperature())), RecipeModifierFunction.OVERCLOCKING)
             .block(GTBlocks.CASING_PTFE_INERT)
@@ -555,12 +532,10 @@ public final class MultiBlockC {
             .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_inert_ptfe"), GTCEu.id("block/multiblock/gcym/large_chemical_bath"))
             .register();
 
-    public static final MultiblockMachineDefinition PHYSICAL_VAPOR_DEPOSITION = multiblock("physical_vapor_deposition", "物理气相沉积系统", TierCasingParallelMultiblockMachine.createParallel(m -> 1 << (2 * (m.getTier() - 1)), true, GLASS_TIER))
+    public static final MultiblockMachineDefinition PHYSICAL_VAPOR_DEPOSITION = multiblock("physical_vapor_deposition", "物理气相沉积系统",
+            TierCasingParallelMultiblockMachine.createParallel(m -> 1 << (2 * (m.getTier() - 1)), true, GLASS_TIER))
             .nonYAxisRotation()
-            .tooltips(NewDataAttributes.ALLOW_PARALLEL_NUMBER.create(
-                    h -> h.addLines("由玻璃等级决定", "Determined by glass tier"),
-                    c -> c.addCommentLines("公式 : 4^玻璃等级", "Formula: 4^(Glass Tier)")))
-            .tooltipsText("玻璃等级越高，运行速度越快", "The higher the glass tier, the faster the operation speed")
+            .tooltips(GTOMachineTooltips.INSTANCE.getPhysicalVaporDepositionTooltips().getSupplier())
             .recipeTypes(GTORecipeTypes.PHYSICAL_VAPOR_DEPOSITION_RECIPES)
             .recipeModifiers((machine, recipe) -> RecipeModifierFunction.recipeReduction(recipe, 1, Math.sqrt(1.0D / ((ITierCasingMachine) machine).getCasingTier(GLASS_TIER))), RecipeModifierFunction.OVERCLOCKING)
             .block(GTBlocks.PLASTCRETE)
@@ -677,13 +652,7 @@ public final class MultiBlockC {
 
     public static final MultiblockMachineDefinition BIOCHEMICAL_EXTRACTION = multiblock("biochemical_extraction", "生物提取机", BiologicalExtractionMachine::new)
             .nonYAxisRotation()
-            .tooltipsText("机器运行时需要输入特定流体，否则中断配方", "The machine requires specific fluids as input during operation; otherwise, the recipe is interrupted")
-            .tooltipsText("每秒需要输入1B营养精华一次，成功后发出一次红石信号", "It needs to input 1B nutrient distillation once per second, and upon success, emits a redstone signal once")
-            .tooltipsText("连续运行5秒后需要输入1B浓缩云之精华一次", "After continuous operation for 5 seconds, it needs to input 1B cloud seed concentrated once")
-            .tooltipsText("连续运行15秒后需要输入1B火焰水一次", "After continuous operation for 15 seconds, it needs to input 1B fire water once")
-            .tooltipsText("连续运行20秒后需要输入1B轻盈之气一次", "After continuous operation for 20 seconds, it needs to input 1B vapor of levity once")
-            .tooltipsText("如果连续运行要求输入的流体不符合要求，则中断配方，营养精华可与其他流体同时输入", "If the required fluids for continuous operation do not meet the requirements, the recipe is interrupted; nutrient distillation can be input simultaneously with other fluids")
-            .tooltipsText("20秒后只需完成每秒的营养精华输入要求，配方开始输出", "After 20 seconds, only the requirement for inputting nutrient distillation once per second needs to be completed, recipe output begins")
+            .tooltips(GTOMachineTooltips.INSTANCE.getBiochemicalExtractionTooltips().getSupplier())
             .recipeTypes(GTORecipeTypes.BIOCHEMICAL_EXTRACTION_RECIPES)
             .parallelizableTooltips()
             .multipleRecipesTooltips()
@@ -723,8 +692,8 @@ public final class MultiBlockC {
 
     public static final MultiblockMachineDefinition NANITES_INTEGRATED_PROCESSING_CENTER = multiblock("nanites_integrated_processing_center", "纳米集成加工中心", NanitesIntegratedMachine::new)
             .nonYAxisRotation()
-            .tooltips(GTOMachineTranslation.INSTANCE.getNanitesIntegratedProcessingCenterTooltips().getSupplier())
-            .tooltips(GTOMachineTranslation.INSTANCE.getNanoswarmDataSheetTooltips().getSupplier())
+            .tooltips(GTOMachineStories.INSTANCE.getNanitesIntegratedProcessingCenterTooltips().getSupplier())
+            .tooltips(GTOMachineTooltips.INSTANCE.getNanitesIntegratedProcessingCenterTooltips().getSupplier())
             .recipeTypes(GTORecipeTypes.NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES)
             .laserTooltips()
             .multipleRecipesTooltips()
@@ -761,20 +730,7 @@ public final class MultiBlockC {
             .nonYAxisRotation()
             .recipeTypes(GTORecipeTypes.NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES)
             .parallelizableTooltips()
-            .tooltips(ComponentBuilder.create().addStoryLine("""
-                    当第一台矿石萃取模块在GTO工厂内启动时，工程师们
-                    惊讶地发现纳米蜂群能够精确分离出矿石中的每一种元素。
-                    董事长视察时说："这就像有无数个微型矿工在工作。"
-                    从此，传统的粗暴破碎工艺被彻底淘汰，取而代之的是
-                    这种优雅而高效的分子级别萃取技术。
-                    """,
-                    """
-                            When the first Ore Extraction Module started up in the GTO factory,
-                            engineers were amazed to see nanites precisely separating every element
-                            from raw ores. The CEO remarked: "It's like having countless tiny miners."
-                            Traditional crude crushing processes were completely eliminated,
-                            replaced by this elegant and efficient molecular-level extraction technology.
-                            """).build())
+            .tooltips(GTOMachineStories.INSTANCE.getOreExtractionModuleTooltips().getSupplier())
             .laserTooltips()
             .block(GTBlocks.CASING_HSSE_STURDY)
             .pattern(definition -> MultiBlockFileReader.start(definition, RelativeDirection.RIGHT, RelativeDirection.UP, RelativeDirection.BACK)
@@ -804,21 +760,7 @@ public final class MultiBlockC {
             .nonYAxisRotation()
             .recipeTypes(GTORecipeTypes.NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES)
             .parallelizableTooltips()
-            .tooltips(ComponentBuilder.create().addStoryLine("""
-                    聚合物扭曲模块的复杂结构让所有参观者都叹为观止。
-                    纳米蜂群在其中按照预设程序重新排列分子链，创造出
-                    前所未见的新型材料。格雷科技的材料科学家们兴奋地说：
-                    "我们终于能在分子层面上自由编辑物质了！"
-                    这标志着材料工程进入了一个全新的时代。
-                    """,
-                    """
-                            The complex structure of the Polymer Twisting Module amazed all visitors.
-                            Nanites rearrange molecular chains according to preset programs,
-                            creating unprecedented new materials. GregTech material scientists
-                            exclaimed excitedly: "We can finally edit matter at the molecular level!"
-                            This marked the dawn of a new era in materials engineering.
-                            """).build())
-
+            .tooltips(GTOMachineStories.INSTANCE.getPolymerTwistingModuleTooltips().getSupplier())
             .laserTooltips()
             .block(GTBlocks.CASING_PTFE_INERT)
             .pattern(definition -> MultiBlockFileReader.start(definition, RelativeDirection.RIGHT, RelativeDirection.UP, RelativeDirection.BACK)
@@ -844,21 +786,7 @@ public final class MultiBlockC {
             .nonYAxisRotation()
             .recipeTypes(GTORecipeTypes.NANITES_INTEGRATED_PROCESSING_CENTER_RECIPES)
             .parallelizableTooltips()
-            .tooltips(ComponentBuilder.create().addStoryLine("""
-                    生物工程模块是三个模块中最神秘的一个，其内部的
-                    无菌环境和精密控制系统让生物学家们赞叹不已。
-                    纳米蜂群能够操控生物分子，合成复杂的有机化合物。
-                    公司的首席生物工程师激动地宣布："生命的奥秘
-                    正在我们的掌控之中被一一解开。"
-                    """,
-                    """
-                            The Bioengineering Module was the most mysterious of the three,
-                            with its sterile environment and precision control systems
-                            amazing biologists. Nanites manipulate biomolecules to synthesize
-                            complex organic compounds. The chief bioengineering officer
-                            excitedly announced: "Life's mysteries are being unlocked under our control."
-                            """).build())
-
+            .tooltips(GTOMachineStories.INSTANCE.getBioengineeringModuleTooltips().getSupplier())
             .laserTooltips()
             .block(GTOBlocks.IRIDIUM_CASING)
             .pattern(definition -> MultiBlockFileReader.start(definition, RelativeDirection.RIGHT, RelativeDirection.UP, RelativeDirection.BACK)
@@ -885,8 +813,8 @@ public final class MultiBlockC {
 
     public static final MultiblockMachineDefinition PLANET_CORE_DRILLING = multiblock("planet_core_drilling", "星核钻机", PlanetCoreDrillingMachine::new)
             .nonYAxisRotation()
-            .tooltipsText("一把能够撼动星核的重锤", "A hammer capable of shaking the core of a planet")
-            .tooltipsText("每秒产出当前世界的全部矿石65536份", "Produces a total of 1024 ores from the current world per second.")
+            .tooltips(GTOMachineStories.INSTANCE.getPlanetCoreDrillingTooltips().getSupplier())
+            .tooltips(GTOMachineTooltips.INSTANCE.getPlanetCoreDrillingTooltips().getSupplier())
             .recipeTypes(GTRecipeTypes.DUMMY_RECIPES)
             .laserTooltips()
             .block(GTOBlocks.MOLECULAR_CASING)
@@ -923,17 +851,7 @@ public final class MultiBlockC {
     public static final MultiblockMachineDefinition ADVANCED_INFINITE_DRILLER = multiblock("advanced_infinite_driller", "进阶无尽钻机", AdvancedInfiniteDrillMachine::new)
             .nonYAxisRotation()
             .recipeTypes(GTRecipeTypes.DUMMY_RECIPES)
-            .tooltipsText("利用维度技术和坚不可摧的钻头无情的抽取星球的每一分血液", "Using dimensional technology and indestructible drills, they relentlessly extract every drop of blood from the planet.")
-            .tooltipsText("更加高级的无尽流体钻井", "More advanced infinite fluid drilling")
-            .tooltipsText("可以更加高效的抽取流体, 与此同时钻机需要一定温度来启动,可以通入液态烈焰来升温", "Can extract fluids more efficiently, while the drill requires a certain temperature to start, can use liquid flames to heat up")
-            .tooltipsText("仅可放入中子素钻头(更多钻头待定)", "Only neutron-element drill heads can be placed (more drill heads to be determined)")
-            .tooltipsText("钻机在不同的工作温度下会产生热量,产热公式为(温度/2000)", "The drill generates heat at different operating temperatures, the heat generation formula is (temperature/2000)")
-            .tooltipsText("随着温度提升,效率也会提升.当温度超过临界值,钻头将会融毁", "As the temperature increases, efficiency will also increase. When the temperature exceeds the critical value, the drill head will melt")
-            .tooltipsText("可以通入不同的流体来降温, 可用冷却液如下.冷却固定消耗为200B/5t", "Different fluids can be introduced for cooling, cooling liquid consumption is as follows. The fixed consumption for cooling is 200B/5t")
-            .tooltipsText("蒸馏水 1K/mB", "Distilled Water 1K/mB")
-            .tooltipsText("液态氧 2K/mB", "Liquid Oxygen 2K/mB")
-            .tooltipsText("液态氦 4K/mB", "Liquid Helium 4K/mB")
-            .tooltipsText("液态烈焰消耗公式为(当前温度^1.3)", "Liquid Flame consumption formula is (current temperature^1.3)")
+            .tooltips(GTOMachineTooltips.INSTANCE.getAdvancedInfiniteDrillerTooltips().getSupplier())
             .laserTooltips()
             .block(GTOBlocks.HYPER_MECHANICAL_CASING)
             .pattern(definition -> MultiBlockFileReader.start(definition)
@@ -963,7 +881,7 @@ public final class MultiBlockC {
 
     public static final MultiblockMachineDefinition ENERGY_INJECTOR = multiblock("energy_injector", "能量注入仪", EnergyInjectorMachine::new)
             .nonYAxisRotation()
-            .tooltips(GTOMachineTranslation.INSTANCE.getEnergyInjectorTooltips().getSupplier())
+            .tooltips(GTOMachineStories.INSTANCE.getEnergyInjectorTooltips().getSupplier())
             .recipeTypes(GTRecipeTypes.DUMMY_RECIPES)
             .laserTooltips()
             .block(GCYMBlocks.CASING_NONCONDUCTING)
@@ -993,8 +911,10 @@ public final class MultiBlockC {
 
     public static final MultiblockMachineDefinition NEUTRON_VORTEX = multiblock("neutron_vortex", "中子旋涡", NeutronVortexMachine::new)
             .nonYAxisRotation()
-            .tooltipsText("运行时不消耗中子动能", "Does not consume neutron kinetic energy while running.")
-            .tooltipsText("安装附属结构后可开启能源转换模式，消耗电力自动适应配方的中子动能", "After installing auxiliary structures, you can enable energy conversion mode, which automatically adapts the neutron kinetic energy consumption based on the recipe.")
+            .tooltips(GTOMachineStories.INSTANCE.getNeutronVortexTooltips().getSupplier())
+            .tooltips(GTOMachineTooltips.INSTANCE.getNeutronVortexTooltips().getSupplier())
+            .parallelizableTooltips()
+            .moduleTooltips()
             .recipeTypes(GTORecipeTypes.NEUTRON_ACTIVATOR_RECIPES)
             .block(GTOBlocks.NAQUADAH_REINFORCED_PLANT_CASING)
             .pattern(definition -> NeutronVortexMachine.getBlockPattern(0, definition))
@@ -1045,7 +965,7 @@ public final class MultiBlockC {
 
     public static final MultiblockMachineDefinition NANITES_CIRCUIT_ASSEMBLY_FACTORY = multiblock("nanites_circuit_assembly_factory", "纳米蜂群电路组装厂", CrossRecipeMultiblockMachine::createHatchParallel)
             .nonYAxisRotation()
-            .tooltips(GTOMachineTranslation.INSTANCE.getNanoswarmCircuitAssemblyFactoryTooltips().getSupplier())
+            .tooltips(GTOMachineStories.INSTANCE.getNanoswarmCircuitAssemblyFactoryTooltips().getSupplier())
             .parallelizableTooltips()
             .laserTooltips()
             .multipleRecipesTooltips()
@@ -1103,7 +1023,7 @@ public final class MultiBlockC {
 
     public static final MultiblockMachineDefinition PRECISION_ASSEMBLY_CENTER = multiblock("precision_assembly_center", "精密组装中心", CrossRecipeMultiblockMachine::createHatchParallel)
             .nonYAxisRotation()
-            .tooltips(GTOMachineTranslation.INSTANCE.getPrecisionAssemblerTooltips().getSupplier())
+            .tooltips(GTOMachineStories.INSTANCE.getPrecisionAssemblyCenterTooltips().getSupplier())
             .parallelizableTooltips()
             .laserTooltips()
             .multipleRecipesTooltips()
@@ -1141,8 +1061,7 @@ public final class MultiBlockC {
 
     public static final MultiblockMachineDefinition THERMAL_POWER_PUMP = multiblock("thermal_power_pump", "热力泵", ThermalPowerPumpMachine::new)
             .nonYAxisRotation()
-            .tooltipsText("高效供水", "Efficient Water Supply")
-            .tooltipsText("输入蒸汽，产生同等数量的水", "Input steam, generate an equal amount of water")
+            .tooltips(GTOMachineTooltips.INSTANCE.getThermalPowerPumpTooltips().getSupplier())
             .recipeTypes(GTRecipeTypes.DUMMY_RECIPES)
             .block(GTOBlocks.BRASS_REINFORCED_WOODEN_CASING)
             .pattern(definition -> FactoryBlockPattern.start(definition)

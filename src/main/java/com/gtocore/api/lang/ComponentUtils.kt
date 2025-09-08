@@ -160,6 +160,7 @@ class ComponentSupplier(var component: Component, private val delayed: MutableLi
     fun blue(): ComponentSupplier = operatorComponent {
         withStyle { it.withColor(ChatFormatting.BLUE) }
     }
+
     fun rainbow(): ComponentSupplier = operatorComponent {
         withStyle { it.withColor(TooltipHelper.RAINBOW.current) }
     }
@@ -171,34 +172,6 @@ class ComponentSupplier(var component: Component, private val delayed: MutableLi
     fun rainbowSlow(): ComponentSupplier = operatorComponent {
         withStyle { it.withColor(TooltipHelper.RAINBOW_SLOW.current) }
     }
-
-    // 数据类 - 统一金色系
-    fun InfoData() = transformComponent { text: ComponentSupplier -> text.gold() }
-    fun InfoDataImportant() = transformComponent { text: ComponentSupplier -> text.gold().bold() }
-
-    // 功能类 - 青色系
-    fun InfoFunction() = transformComponent { text: ComponentSupplier -> text.aqua() }
-    fun InfoFunctionPrimary() = transformComponent { text: ComponentSupplier -> text.aqua().bold() }
-
-    // 安全类 - 绿色系
-    fun InfoSafe() = transformComponent { text: ComponentSupplier -> text.green() }
-    fun InfoRecommend() = transformComponent { text: ComponentSupplier -> text.green().bold() }
-
-    // 警告类 - 黄色系
-    fun InfoWarning() = transformComponent { text: ComponentSupplier -> text.yellow() }
-    fun InfoCaution() = transformComponent { text: ComponentSupplier -> text.yellow().bold() }
-
-    // 危险类 - 红色系
-    fun InfoDanger() = transformComponent { text: ComponentSupplier -> text.red() }
-    fun InfoCritical() = transformComponent { text: ComponentSupplier -> text.red().bold() }
-
-    // 交互类 - 白色系
-    fun InfoOperation() = transformComponent { text: ComponentSupplier -> text.white() }
-    fun InfoOperationKey() = transformComponent { text: ComponentSupplier -> text.white().bold() }
-
-    // 辅助类 - 灰色系
-    fun InfoSupport() = transformComponent { text: ComponentSupplier -> text.gray() }
-    fun InfoBrand() = transformComponent { text: ComponentSupplier -> text.gray().italic() }
 
     // ////////////////////////////////
     // ****** 滚动 ******//

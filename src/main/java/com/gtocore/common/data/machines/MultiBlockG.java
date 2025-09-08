@@ -5,7 +5,8 @@ import com.gtocore.api.pattern.GTOPredicates;
 import com.gtocore.client.renderer.machine.ArrayMachineRenderer;
 import com.gtocore.client.renderer.machine.CustomPartRenderer;
 import com.gtocore.common.data.*;
-import com.gtocore.common.data.translation.GTOMachineTranslation;
+import com.gtocore.common.data.translation.GTOMachineStories;
+import com.gtocore.common.data.translation.GTOMachineTooltips;
 import com.gtocore.common.machine.multiblock.electric.*;
 import com.gtocore.common.machine.multiblock.electric.adventure.BossSummonerMachine;
 import com.gtocore.common.machine.multiblock.electric.processing.ProcessingArrayMachine;
@@ -22,14 +23,11 @@ import com.gtolib.GTOCore;
 import com.gtolib.api.GTOValues;
 import com.gtolib.api.ae2.machine.MECPUMachine;
 import com.gtolib.api.annotation.NewDataAttributes;
-import com.gtolib.api.annotation.component_builder.ComponentBuilder;
-import com.gtolib.api.annotation.component_builder.StyleBuilder;
 import com.gtolib.api.data.GTODimensions;
 import com.gtolib.api.lang.CNEN;
 import com.gtolib.api.machine.multiblock.*;
 import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
 import com.gtolib.utils.MultiBlockFileReader;
-import com.gtolib.utils.NumberUtils;
 import com.gtolib.utils.RegistriesUtils;
 
 import com.gregtechceu.gtceu.GTCEu;
@@ -55,8 +53,9 @@ import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
 import static com.gregtechceu.gtceu.common.data.GTBlocks.CASING_COKE_BRICKS;
 import static com.gregtechceu.gtceu.common.data.GTMachines.COKE_OVEN_HATCH;
 import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.DUMMY_RECIPES;
-import static com.gtolib.utils.register.MachineRegisterUtils.multiblock;
-import static com.gtolib.utils.register.MachineRegisterUtils.registerTieredMultis;
+import static com.gtocore.utils.register.MachineRegisterUtils.multiblock;
+import static com.gtocore.utils.register.MachineRegisterUtils.registerTieredMultis;
+import static com.gtolib.api.GTOValues.GLASS_TIER;
 
 public final class MultiBlockG {
 
@@ -85,6 +84,7 @@ public final class MultiBlockG {
 
     public static final MultiblockMachineDefinition CRYSTALLIZATION_CHAMBER = multiblock("crystallization_chamber", "结晶器", CoilMultiblockMachine.createCoilMachine(false, true))
             .nonYAxisRotation()
+            .tooltips(GTOMachineStories.INSTANCE.getCrystallizationChamberTooltips().getSupplier())
             .recipeTypes(GTORecipeTypes.CRYSTALLIZATION_RECIPES)
             .overclock()
             .moduleTooltips()
@@ -178,9 +178,8 @@ public final class MultiBlockG {
 
     public static final MultiblockMachineDefinition ALGAE_FARM = multiblock("algae_farm", "藻类农场", AlgaeFarmMachine::new)
             .nonYAxisRotation()
-            .tooltipsText("每10秒随机消耗5-10B水，随机输出1-10个藻类", "Every 10 seconds, randomly consume 5-10B water, and randomly output 1-10 algae")
-            .tooltipsText("如果输入10B发酵生物质，则输出量提升10倍", "If 10B fermentation biomass is placed on the input bus, then increase the output amount by 10 times")
-            .tooltipsText("如果在输入总线放入n个特定藻类，则指定输出内容，且输出量提升n/4倍", "If n algae are in the input bus, specify the output content, and increase the output amount by n/4 times")
+            .tooltips(GTOMachineStories.INSTANCE.getAlgaeFarmTooltips().getSupplier())
+            .tooltips(GTOMachineTooltips.INSTANCE.getAlgaeFarmTooltips().getSupplier())
             .recipeTypes(GTORecipeTypes.DUMMY_RECIPES)
             .block(GTBlocks.PLASTCRETE)
             .pattern(definition -> FactoryBlockPattern.start(definition)
@@ -214,17 +213,8 @@ public final class MultiBlockG {
             .nonYAxisRotation()
             .recipeTypes(GTORecipeTypes.POLYMERIZATION_REACTOR_RECIPES)
             .recipeModifier(RecipeModifierFunction.coilReductionOverclock(0.5))
-            .tooltips(NewDataAttributes.EMPTY_WITH_BAR.create(
-                    h -> h.addLines("线圈效率加成", "Coil Efficiency Bonus", StyleBuilder::setGold),
-                    c -> c.addLines(
-                            NewDataAttributes.EMPTY_WITH_POINT.createBuilder(
-                                    x -> x.addLines("线圈等级每高出白铜一级", "Each coil tier above Cupronickel", StyleBuilder::setWhite),
-                                    p -> p,
-                                    StyleBuilder::setOneTab),
-                            NewDataAttributes.EMPTY_WITH_POINT.createBuilder(
-                                    x -> x.addLines("能耗与时间减少5%", "Reduces energy consumption and duration by 5%", StyleBuilder::setGreen),
-                                    p -> p,
-                                    StyleBuilder::setOneTab))))
+            .tooltips(GTOMachineStories.INSTANCE.getPolymerizationReactorTooltips().getSupplier())
+            .tooltips(GTOMachineTooltips.INSTANCE.getPolymerizationReactorTooltips().getSupplier())
             .parallelizableTooltips()
             .block(GTBlocks.CASING_STAINLESS_CLEAN)
             .pattern(definition -> FactoryBlockPattern.start(definition)
@@ -249,7 +239,7 @@ public final class MultiBlockG {
 
     public static final MultiblockMachineDefinition SATELLITE_CONTROL_CENTER = multiblock("satellite_control_center", "卫星控制中心", SatelliteControlCenterMachine::new)
             .nonYAxisRotation()
-            .tooltipsText("发射卫星，带回星球数据", "Launch a satellite and bring back planet data")
+            .tooltips(GTOMachineTooltips.INSTANCE.getSatelliteControlCenterTooltips().getSupplier())
             .recipeTypes(DUMMY_RECIPES)
             .block(GTBlocks.CASING_STAINLESS_CLEAN)
             .pattern(definition -> FactoryBlockPattern.start(definition, RelativeDirection.BACK, RelativeDirection.UP, RelativeDirection.LEFT)
@@ -313,8 +303,7 @@ public final class MultiBlockG {
 
     public static final MultiblockMachineDefinition TREE_GROWTH_SIMULATOR = multiblock("tree_growth_simulator", "原木拟生场", TreeGrowthSimulator::new)
             .allRotation()
-            .tooltipsText("需要安装伐木工具，仅支持GT工具", "Requires a tree cutting tools")
-            .tooltipsText("根据工具类型和品质决定产出和效率", "Output and efficiency determined by tool type and quality")
+            .tooltips(GTOMachineTooltips.INSTANCE.getTreeGrowthSimulatorTooltips().getSupplier())
             .recipeTypes(GTORecipeTypes.TREE_GROWTH_SIMULATOR_RECIPES)
             .block(GTOBlocks.BRASS_REINFORCED_WOODEN_CASING)
             .pattern(definition -> FactoryBlockPattern.start(definition)
@@ -337,7 +326,7 @@ public final class MultiBlockG {
             .nonYAxisRotation()
             .recipeTypes(GTORecipeTypes.GREENHOUSE_RECIPES)
             .recipeTypes(GTORecipeTypes.TREE_GROWTH_SIMULATOR_RECIPES)
-            .tooltipsText("无需要阳光就能运行", "Can operate without sunlight")
+            .tooltips(GTOMachineTooltips.INSTANCE.getLargeGreenhouseTooltips().getSupplier())
             .parallelizableTooltips()
             .parallelizableOverclock()
             .block(GTBlocks.CASING_STAINLESS_CLEAN)
@@ -369,8 +358,7 @@ public final class MultiBlockG {
 
     public static final MultiblockMachineDefinition CARVING_CENTER = multiblock("carving_center", "雕刻中心", ChiselMachine::new)
             .allRotation()
-            .tooltipsText("根据全部电路之和决定输出", "Determine the output based on the sum of all circuits")
-            .tooltipsText("电压等级每高出LV等级1级，最大并行数x4", "For each increase of 1 tier in the voltage grade above LV, the maximum number of parallel is multiplied by 4.")
+            .tooltips(GTOMachineTooltips.INSTANCE.getCarvingCenterTooltips().getSupplier())
             .recipeTypes(DUMMY_RECIPES)
             .block(GTBlocks.CASING_STEEL_SOLID)
             .pattern(definition -> FactoryBlockPattern.start(definition)
@@ -452,7 +440,7 @@ public final class MultiBlockG {
 
     public static final MultiblockMachineDefinition BOSS_SUMMONER = multiblock("boss_summoner", "BOSS召唤器", BossSummonerMachine::new)
             .nonYAxisRotation()
-            .tooltipsText("电力与反应核的作用", "Electricity and Reactor Core Function")
+            .tooltips(GTOMachineTooltips.INSTANCE.getBossSummonerTooltips().getSupplier())
             .recipeTypes(DUMMY_RECIPES)
             .block(GTBlocks.MACHINE_CASING_ULV)
             .pattern(definition -> FactoryBlockPattern.start(definition)
@@ -473,7 +461,7 @@ public final class MultiBlockG {
 
     public static final MultiblockMachineDefinition DRILLING_CONTROL_CENTER = multiblock("drilling_control_center", "钻井控制中枢", DrillingControlCenterMachine::new)
             .nonYAxisRotation()
-            .tooltipsText("电压等级每高出IV一级，可使16M范围内的流体钻机产量x1.5", "Voltage tier is increased by one level above IV, it can increase the fluid drill's output within a 16 M range by x1.5")
+            .tooltips(GTOMachineTooltips.INSTANCE.getDrillingControlCenterTooltips().getSupplier())
             .recipeTypes(DUMMY_RECIPES)
             .block(GTBlocks.CASING_STEEL_SOLID)
             .pattern(definition -> FactoryBlockPattern.start(definition, RelativeDirection.RIGHT, RelativeDirection.UP, RelativeDirection.BACK)
@@ -523,10 +511,7 @@ public final class MultiBlockG {
     public static final MultiblockMachineDefinition WIRELESS_ENERGY_SUBSTATION = multiblock("wireless_energy_substation", "无线能源塔", WirelessEnergySubstationMachine::new)
             .nonYAxisRotation()
             .recipeTypes(DUMMY_RECIPES)
-            .tooltipsText("为无线电网提供容量支持", "Provides capacity support to the wireless grid")
-            .tooltipsText("可在内部安装任意无线能量单元来提高容量上限", "You can install any wireless energy unit inside to increase the capacity limit")
-            .tooltipsText("实际起作用的单元受玻璃等级限制", "The actual working units are limited by the glass tier")
-            .tooltipsText("总容量为单元容量之和x单元数的一半，总损耗为单元损耗平均值", "Total capacity is the sum of unit capacities x number of units / 2, total loss is the average loss of units")
+            .tooltips(GTOMachineTooltips.INSTANCE.getWirelessEnergySubstationTooltips().getSupplier())
             .block(GTBlocks.CASING_STEEL_SOLID)
             .pattern(definition -> FactoryBlockPattern.start(definition, RelativeDirection.RIGHT, RelativeDirection.FRONT, RelativeDirection.UP)
                     .aisle("AAAAAAA", "AAAAAAA", "AAAAAAA", "AAAAAAA", "AAAAAAA", "AAAAAAA", "AAABAAA")
@@ -545,18 +530,7 @@ public final class MultiBlockG {
             .nonYAxisRotation()
             .recipeTypes(DUMMY_RECIPES)
             .block(GTBlocks.CASING_PALLADIUM_SUBSTATION)
-            .tooltips(NewDataAttributes.EMPTY_WITH_BAR.create(
-                    v -> v.addLines("中继无线能源网络能量", "Repeats the wireless energy network energy", StyleBuilder::setAqua),
-                    c -> c.addCommentLines(
-                            """
-                                    在不同维度间中继能量
-                                    能量最大电压取决于使用的外壳等级
-                                    与电流大小无关""",
-                            """
-                                    Energy is repeated between different dimensions.
-                                    The maximum voltage of energy depends on the shell tier.
-                                    It is not related to the current size.""")))
-            .tooltips(ComponentBuilder.create("没有电流上限简直是原始人的超级科技", "No current limit is a super technology of the primitive", s -> s.setGray().setItalic()).buildSingle())
+            .tooltips(GTOMachineTooltips.INSTANCE.getWirelessDimensionRepeaterTooltips().getSupplier())
             .pattern(definition -> FactoryBlockPattern.start(definition, RelativeDirection.BACK, RelativeDirection.UP, RelativeDirection.LEFT)
                     .aisle("               ", "               ", "               ", "               ", "               ", "               ", "      AAA      ", "     BBBB      ", "      AAA      ", "               ", "               ", "               ", "               ", "               ", "               ")
                     .aisle("               ", "               ", "               ", "               ", "               ", "               ", "       C AA    ", "      DCDBB    ", "       C AA    ", "               ", "               ", "               ", "               ", "               ", "               ")
@@ -624,7 +598,7 @@ public final class MultiBlockG {
 
     public static final MultiblockMachineDefinition SINTERING_FURNACE = multiblock("sintering_furnace", "烧结炉", CoilMultiblockMachine.createCoilMachine(false, true))
             .nonYAxisRotation()
-            .tooltips(GTOMachineTranslation.INSTANCE.getSinteringFurnaceTooltips().getSupplier())
+            .tooltips(GTOMachineStories.INSTANCE.getSinteringFurnaceTooltips().getSupplier())
             .parallelizableTooltips()
             .recipeTypes(GTORecipeTypes.SINTERING_FURNACE_RECIPES)
             .parallelizableOverclock()
@@ -655,7 +629,7 @@ public final class MultiBlockG {
 
     public static final MultiblockMachineDefinition ISOSTATIC_PRESS = multiblock("isostatic_press", "等静压成型", ElectricMultiblockMachine::new)
             .nonYAxisRotation()
-            .tooltips(GTOMachineTranslation.INSTANCE.getIsostaticPressMachineTooltips().getSupplier())
+            .tooltips(GTOMachineStories.INSTANCE.getIsostaticPressMachineTooltips().getSupplier())
             .parallelizableTooltips()
             .recipeTypes(GTORecipeTypes.ISOSTATIC_PRESSING_RECIPES)
             .parallelizableOverclock()
@@ -682,8 +656,8 @@ public final class MultiBlockG {
 
     public static final MultiblockMachineDefinition DRAWING_TOWER = multiblock("drawing_tower", "拉丝塔", DrawingTowerMachine::new)
             .nonYAxisRotation()
-            .tooltipsText("时间倍率 : 2 / 1.2^[(高度/8)×(温度-5000)/900] 不小于 0.00001", "Time Cost Multiply : 1.2^[(height/8)×(temperature-5000)/900] not less than 0.00001")
-            .tooltipsText("并行数 : (log₁.₀₈(温度-9600) - 84) 不小于 1", "Parallel number : (log₁.₀₈(temperature-9600) - 84) not less than 1")
+            .tooltips(GTOMachineStories.INSTANCE.getDrawingTowerTooltips().getSupplier())
+            .tooltips(GTOMachineTooltips.INSTANCE.getDrawingTowerTooltips().getSupplier())
             .recipeTypes(GTORecipeTypes.DRAWING_RECIPES)
             .block(GTBlocks.CASING_TUNGSTENSTEEL_ROBUST)
             .pattern(definition -> FactoryBlockPattern.start(definition, RelativeDirection.BACK, RelativeDirection.RIGHT, RelativeDirection.UP)
@@ -795,6 +769,9 @@ public final class MultiBlockG {
     public static final MultiblockMachineDefinition SUPER_MOLECULAR_ASSEMBLER = multiblock("super_molecular_assembler", "超级分子装配室", SuperMolecularAssemblerMachine::new)
             .nonYAxisRotation()
             .recipeTypes(GTORecipeTypes.DUMMY_RECIPES)
+            .tooltips(GTOMachineTooltips.INSTANCE.getSuperMolecularAssemblerTooltips().getSupplier())
+            .tooltips(NewDataAttributes.ALLOW_PARALLEL_NUMBER.create(h -> h.addLines("合成物品的数量")))
+            .multipleRecipesTooltips()
             .block(GTOBlocks.OXIDATION_RESISTANT_HASTELLOY_N_MECHANICAL_CASING)
             .pattern(definition -> FactoryBlockPattern.start(definition, RelativeDirection.RIGHT, RelativeDirection.UP, RelativeDirection.BACK)
                     .aisle("         ", "    A    ", "    A    ", "    A    ", "    B    ", "  BBLBB  ", "    B    ", "    A    ", "    A    ", "    A    ", "         ")
@@ -828,6 +805,7 @@ public final class MultiBlockG {
 
     public static final MultiblockMachineDefinition RARITY_FORGE = multiblock("rarity_forge", "珍宝锻炉", ElectricMultiblockMachine::new)
             .allRotation()
+            .tooltips(GTOMachineStories.INSTANCE.getRarityForgeTooltips().getSupplier())
             .recipeTypes(GTORecipeTypes.RARITY_FORGE_RECIPES)
             .block(GTBlocks.MACHINE_CASING_ULV)
             .pattern(definition -> FactoryBlockPattern.start(definition)
@@ -847,26 +825,7 @@ public final class MultiBlockG {
     public static final MultiblockMachineDefinition ME_STORAGE = multiblock("me_storage", "ME存储器", MEStorageMachine::new)
             .langValue("ME Storage")
             .allRotation()
-            .tooltips(NewDataAttributes.EMPTY_WITH_BAR.create(
-                    v -> v.addLines("不受存储类型限制", "Without storage type restrictions", StyleBuilder::setAqua),
-                    c -> c.addCommentLines(
-                            """
-                                    你需要在结构中安装_存储核心_来提升容量。
-                                    结构可以延长,在EMI看看能有多长吧
-                                    使用ME数据访问仓连接ME线缆来访问储存器。""",
-                            """
-                                    You need to install storage cores in the structure to increase capacity.
-                                    The structure can be extended, see how long it can be in EMI.
-                                    Use ME Data Access Hatch to connect ME cables to access the storage.""")))
-            .tooltips(NewDataAttributes.EMPTY_WITH_BAR.create(
-                    v -> v.addLines("无限容量模式 : 满足下列条件时自动启用", "Infinite Capacity Mode : Automatically enable when the following conditions are met", StyleBuilder::setRainbow),
-                    c -> c.addCommentLines(
-                            """
-                                    至少安装有 %s Bytes 容量
-                                    至少安装有 64 个无限存储组件""".formatted(NumberUtils.formatLongToKorM(MEStorageMachine.infinite)),
-                            """
-                                    At least %s Bytes capacity installed
-                                    At least 64 Infinite Storage Components installed""".formatted(NumberUtils.formatLongToKorM(MEStorageMachine.infinite)))))
+            .tooltips(GTOMachineTooltips.INSTANCE.getMEStorageTooltips().getSupplier())
             .tooltips(NewDataAttributes.CAPACITY.create(CNEN.create("768 个ME存储核心", "768 ME Storage Cores")))
             .recipeTypes(DUMMY_RECIPES)
             .block(GTBlocks.COMPUTER_CASING)
@@ -906,11 +865,12 @@ public final class MultiBlockG {
             .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_solid_steel"), GTCEu.id("block/multiblock/fusion_reactor"))
             .register();
 
-    public static final MultiblockMachineDefinition INTEGRATED_VAPOR_DEPOSITION_SYSTEM = multiblock("integrated_vapor_deposition_system", "综合气相沉积系统", TierCasingCrossRecipeMultiblockMachine.createParallel(m -> 1L << (m.getCasingTier(GTOValues.GLASS_TIER) << 1), GTOValues.GLASS_TIER))
+    public static final MultiblockMachineDefinition INTEGRATED_VAPOR_DEPOSITION_SYSTEM = multiblock("integrated_vapor_deposition_system", "综合气相沉积系统",
+            TierCasingParallelMultiblockMachine.createParallel(m -> 1 << (2 * (m.getTier() - 1)), true, GLASS_TIER))
             .nonYAxisRotation()
-            .tooltips(GTOMachineTranslation.INSTANCE.getIntegratedVaporDepositionSystemTooltips().getSupplier())
+            .tooltips(GTOMachineStories.INSTANCE.getIntegratedVaporDepositionSystemTooltips().getSupplier())
+            .tooltips(GTOMachineTooltips.INSTANCE.getIntegratedVaporDepositionSystemTooltips().getSupplier())
             .specialParallelizableTooltips()
-            .tooltips(NewDataAttributes.ALLOW_PARALLEL_NUMBER.create(h -> h.addLines("4^玻璃等级", "4^(Glass Tier)")))
             .laserTooltips()
             .multipleRecipesTooltips()
             .combinedRecipeTooltips()
@@ -955,7 +915,7 @@ public final class MultiBlockG {
             .allRotation()
             .recipeTypes(GTORecipeTypes.DUMMY_RECIPES)
             .block(GTBlocks.STEEL_HULL)
-            .tooltips(GTOMachineTranslation.INSTANCE.getMultiblockCrateMachineTooltips().getSupplier())
+            .tooltips(GTOMachineTooltips.INSTANCE.getMultiblockCrateMachineTooltips().getSupplier())
             .pattern(definition -> FactoryBlockPattern.start(definition)
                     .aisle("aaa", "aaa", "aaa")
                     .aisle("aaa", "aca", "aaa")
@@ -971,6 +931,7 @@ public final class MultiBlockG {
             .langValue("ME Super Computer Core")
             .allRotation()
             .recipeTypes(GTORecipeTypes.DUMMY_RECIPES)
+            .tooltips(GTOMachineTooltips.INSTANCE.getMECPUTooltips().getSupplier())
             .block(GCYMBlocks.CASING_NONCONDUCTING)
             .pattern(definition -> FactoryBlockPattern.start(definition)
                     .aisle("  AABBCCCBBAA  ", "   AAB   BAA   ", "               ", "               ", "               ", "               ", "               ", "               ", "               ", "               ", "               ", "               ", "               ", "               ", "               ", "               ", "               ", "               ", "               ")

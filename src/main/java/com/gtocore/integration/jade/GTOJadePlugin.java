@@ -69,9 +69,11 @@ public final class GTOJadePlugin implements IWailaPlugin {
         registration.registerBlockDataProvider(new TemperatureProvider(), MetaMachineBlockEntity.class);
         registration.registerBlockDataProvider(new VacuumTierProvider(), MetaMachineBlockEntity.class);
         registration.registerBlockDataProvider(new ManaContainerBlockProvider(), ManaMachineBlockEntity.class);
-        registration.registerBlockDataProvider(new TickTimeProvider(), MetaMachineBlockEntity.class);
         registration.registerBlockDataProvider(new AccelerateBlockProvider(), BlockEntity.class);
         registration.registerBlockDataProvider(new WirelessGridProvider(), MetaMachineBlockEntity.class);
+        registration.registerBlockDataProvider(new MaintenanceHatchProvider(), MetaMachineBlockEntity.class);
+
+        registration.registerBlockDataProvider(new TickTimeProvider(), MetaMachineBlockEntity.class);
     }
 
     @Override
@@ -109,9 +111,11 @@ public final class GTOJadePlugin implements IWailaPlugin {
         registration.registerBlockComponent(new TemperatureProvider(), MetaMachineBlock.class);
         registration.registerBlockComponent(new VacuumTierProvider(), MetaMachineBlock.class);
         registration.registerBlockComponent(new ManaContainerBlockProvider(), MetaMachineBlock.class);
-        registration.registerBlockComponent(new TickTimeProvider(), MetaMachineBlock.class);
         registration.registerBlockComponent(new AccelerateBlockProvider(), Block.class);
         registration.registerBlockComponent(new WirelessGridProvider(), MetaMachineBlock.class);
+        registration.registerBlockComponent(new MaintenanceHatchProvider(), MetaMachineBlock.class);
+
+        registration.registerBlockComponent(new TickTimeProvider(), MetaMachineBlock.class);
     }
 
     static {

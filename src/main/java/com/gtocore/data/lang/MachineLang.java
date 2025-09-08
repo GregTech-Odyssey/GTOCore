@@ -49,24 +49,21 @@ final class MachineLang {
         addCNEN("gtocore.machine.lightning_rod.tooltip.2", "如果存储能量已满，机器将会爆炸", "If the stored energy is full, the machine will explode");
         addCNEN("gtocore.machine.mega_turbine.high_speed_mode", "高速模式:", "High Speed Mode:");
         addCNEN("gtocore.machine.module", "已安装的模块数量: %s", "Number of Installed Modules: %s");
+        addCNEN("gtocore.machine.module.base", "基础模块数量: %s", "Number of Base Modules: %s");
+        addCNEN("gtocore.machine.module.mega", "大型模块数量: %s", "Number of Mega Modules: %s");
         addCNEN("gtocore.machine.module.am", "已安装的模块数: %s", "Number of Installed Modules: %s");
         addCNEN("gtocore.machine.module.have", "该模块已成功安装", "This module has been successfully installed");
         addCNEN("gtocore.machine.module.null", "该模块未成功安装", "This module has not been successfully installed");
         addCNEN("gtocore.machine.multiple_recipes.tooltip", "支持跨配方并行", "Supports cross recipe parallel processing");
-        addCNEN("gtocore.machine.neutron_accelerator.tooltip.0", "§6最大EU消耗: §r%s", "§6Max EU Consumption: §r%s");
-        addCNEN("gtocore.machine.neutron_accelerator.tooltip.1", "§b每点EU都会转化为§e10~20-eV§b中子动能", "§bEach point of EU converts to §e10~20-eV§b neutron kinetic energy");
         addCNEN("gtocore.machine.neutron_activator.efficiency", "动能消耗倍速: %s", "Kinetic Energy Consumption Multiplier: %s");
         addCNEN("gtocore.machine.neutron_activator.ev", "当前中子动能: %seV", "Current Neutron Kinetic Energy: %seV");
         addCNEN("gtocore.machine.height", "高度: %s", "Height: %s");
-        addCNEN("gtocore.machine.sensor.tooltip", "未反转时，数值低于最低值或高于最高值时输出0，介于两者之间时输出递增的1-15的红石信号", "When not inverted, outputs 0 when the value is below the minimum or above the maximum, or an increasing redstone signal between 1-14 when in between.");
-        addCNEN("gtocore.machine.sensor.tooltip.0", "反转时，数值低于最低值或高于最高值时输出15，介于两者之间时输出递减的1-15的红石信号", "When inverted, outputs 15 when the value is above the maximum or below the minimum, or a decreasing redstone signal between 1-14 when in between.");
         addCNEN("gtocore.machine.sensor.invert.disabled.0", "红石输出: 普通", "Redstone Output: Normal");
         addCNEN("gtocore.machine.sensor.invert.disabled.1", "点击为以反转红石逻辑", "Click to toggle inverted redstone logic");
         addCNEN("gtocore.machine.sensor.invert.disabled.2", "介于所设定的最小值和最大值之间时传感器将发出红石信号", "When neutron kinetic energy is between the set minimum and maximum values, the sensor will emit a redstone signal");
         addCNEN("gtocore.machine.sensor.invert.enabled.0", "红石输出: 反转", "Redstone Output: Inverted");
         addCNEN("gtocore.machine.sensor.invert.enabled.1", "点击切换为普通红石逻辑", "Click to switch to normal redstone logic");
         addCNEN("gtocore.machine.sensor.invert.enabled.2", "介于所设定的最小值和最大值之外时传感器将发出红石信号", "When neutron kinetic energy is outside the set minimum and maximum values, the sensor will emit a redstone signal");
-        addCNEN("gtocore.machine.neutron_sensor.tooltip.0", "基于§6中子动能§7输出红石信号，右键以打开GUI进行设置", "Outputs redstone signals based on §6Neutron Kinetic Energy§7, right-click to open GUI for settings");
         addCNEN("gtocore.machine.oc_amount", "超频次数: %s", "Overclocking Times: %s");
         addCNEN("gtocore.machine.off", "关闭", "Off");
         addCNEN("gtocore.machine.on", "打开", "On");
@@ -106,7 +103,6 @@ final class MachineLang {
         addCNEN("gtocore.machine.advanced_infinite_driller.heat", "最大温度: %sK / 工作温度: %sK", "Max Temperature: %sK / Operating Temperature: %sK");
         addCNEN("gtocore.machine.current_temperature", "当前温度: %sK", "Current Temperature: %sK");
         addCNEN("gtocore.machine.advanced_infinite_driller.drilled_fluid", "流体: %s 产量: %s", "Fluid: %s Output: %s");
-        addCNEN("gtocore.machine.kuangbiao_one_giant_nuclear_fusion_reactor.tooltip.0", "它所模拟的，是亘古不变的光芒", "What it simulates is an eternal light");
         addCNEN("gtocore.machine.steam.tooltip.1", "默认支持%s等级及以下的配方处理", "default can process &s-Tier recipes and below, processing time is 1.5 times");
         addCNEN("gtocore.machine.steam.tooltip.2", "安装大型蒸汽输入仓后提升一个配方等级，并解锁超频功能", "After installing a large steam input hatch, upgrade one recipe tier and unlock the overclocking function");
         addCNEN("gtocore.machine.mana_stored", "魔力总量：%s", "Total Mana: %s");
@@ -135,9 +131,6 @@ final class MachineLang {
         addCNEN("gtocore.machine.me_dual_hatch_stock.tooltip.0", "可标记64种流体或物品", "Keeps 64 fluid or item types in stock");
         addCNEN("gtocore.machine.me_dual_hatch_stock.tooltip.1", "直接从ME网络抽取流体或物品", "Retrieves fluids or item directly from the ME network");
         addCNEN("gtocore.machine.me_dual_hatch_stock.data_stick.name", "§oME Stock Input Dual Hatch Config Data", "§oME库存输入总成配置数据");
-        addCNEN("gtocore.machine.mega_steam_turbine.tooltip.0", "运行效率相当于16台同类大型涡轮，可使用更多动力仓", "Operating efficiency is equivalent to 16 large turbines of the same type, can use more power hatch");
-        addCNEN("gtocore.machine.mega_steam_turbine.tooltip.1", "可安装转子仓，从中自动取出转子安装到空转子支架", "Rotors can be installed in the rotor chamber, automatically extracting rotor for installation onto empty rotor brackets");
-        addCNEN("gtocore.machine.mega_steam_turbine.tooltip.2", "可启用高速模式，进一步提升运行速度，高速模式下，运行速度提升为3倍，代价是维护问题出现几率与涡轮耐久损耗均变为12倍", "High speed mode can be enabled to further increase operating speed; in high speed mode, operating speed x3, at the cost of increasing maintenance issue probability and turbine durability loss being 12 times");
         addCNEN("gtocore.machine.scanning", "扫描中...", "Scanning...");
         addCNEN("gtocore.machine.analysis", "分析中...", "Analysing...");
         addCNEN("gtocore.machine.assembling", "装配中...", "Assembling...");
@@ -201,6 +194,21 @@ final class MachineLang {
         addCNEN("gtocore.machine.large_steam_solar_boiler.size", "尺寸：%s × %s", "Size: %s × %s");
         addCNEN("gtocore.machine.large_steam_solar_boiler.heat_collector_pipe", "有效集热管数量：%s", "Number of effective Heat collector pipe: %s");
         addCNEN("gtocore.machine.large_steam_solar_boiler.steam_production", "蒸汽产量：%s / s", "Steam production: %s / s");
+        addCNEN("gtocore.machine.model", "模式：%s", "Model: %s");
+        addCNEN("gtocore.machine.the_primordial_reconstructor.mode.0", "工作模式：未设定", "Working Mode: Not set");
+        addCNEN("gtocore.machine.the_primordial_reconstructor.mode.1", "工作模式：物品解构", "Working Mode: Item Deconstruction");
+        addCNEN("gtocore.machine.the_primordial_reconstructor.mode.2", "工作模式：物品 + 附魔 解构", "Working Mode: Item + Enchantments Deconstruction");
+        addCNEN("gtocore.machine.the_primordial_reconstructor.mode.3", "工作模式：物品 + 刻印 解构", "Working Mode: Item + Affixes Deconstruction");
+        addCNEN("gtocore.machine.the_primordial_reconstructor.mode.4", "工作模式：物品 + 附魔 + 刻印 解构", "Working Mode: Item + Enchantments + Affixes Deconstruction");
+        addCNEN("gtocore.machine.the_primordial_reconstructor.mode.5", "工作模式：附魔精粹合成附魔书", "Working Mode: Essence synthesis Enchanted Book");
+        addCNEN("gtocore.machine.the_primordial_reconstructor.mode.6", "工作模式：附魔书合并", "Working Mode: Enchantment Enchanted Book Merge");
+        addCNEN("gtocore.machine.the_primordial_reconstructor.mode.7", "工作模式：刻印精粹合成铭刻之布", "Working Mode: Affix Enchanted Book Merge");
+        addCNEN("gtocore.machine.the_primordial_reconstructor.mode.8", "工作模式：宝石合并", "Working Mode: Gem Merge");
+        addCNEN("gtocore.machine.the_primordial_reconstructor.mode.9", "工作模式：强行附魔", "Working Mode: Forced enchantment");
+        addCNEN("gtocore.machine.the_primordial_reconstructor.mode.10", "工作模式：强行刻印", "Working Mode: Forced add affixes");
+        addCNEN("gtocore.machine.the_primordial_reconstructor.mode.11", "工作模式：强行修改物品稀有度", "Working Mode: Forcefully modify item rarity");
+        addCNEN("gtocore.machine.the_primordial_reconstructor.mode.12", "工作模式：强行添加镶孔", "Working Mode: Forced addition of sockets");
+        addCNEN("gtocore.machine.the_primordial_reconstructor.mode.13", "工作模式：强行镶嵌宝石", "Working Mode: Forced gem inlay");
 
         addSingleMachineTooltips();
 

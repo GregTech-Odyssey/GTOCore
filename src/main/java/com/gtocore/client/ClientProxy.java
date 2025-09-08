@@ -7,7 +7,6 @@ import com.gtocore.client.forge.GTORender;
 import com.gtocore.client.renderer.item.MonitorItemDecorations;
 import com.gtocore.common.CommonProxy;
 import com.gtocore.common.data.GTOFluids;
-import com.gtocore.common.item.ApothItem;
 import com.gtocore.common.machine.monitor.MonitorBlockItem;
 
 import com.gtolib.api.ae2.me2in1.*;
@@ -25,7 +24,6 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
 import appeng.api.parts.PartModels;
 import appeng.init.client.InitScreens;
-import dev.shadowsoffire.apotheosis.Apoth;
 
 @OnlyIn(Dist.CLIENT)
 public final class ClientProxy extends CommonProxy {
@@ -42,7 +40,6 @@ public final class ClientProxy extends CommonProxy {
         MinecraftForge.EVENT_BUS.register(GTOComponentHandler.class);
         MinecraftForge.EVENT_BUS.register(GTORender.class);
         registerAEModels();
-        eventBus.addListener(ClientProxy::registerApothItemColor);
     }
 
     private static void init() {
@@ -78,16 +75,5 @@ public final class ClientProxy extends CommonProxy {
 
     private static void registerAEModels() {
         PartModels.registerModels(Me2in1TerminalPart.MODELS);
-    }
-
-    private static void registerApothItemColor(FMLClientSetupEvent event) {
-        event.enqueueWork(() -> {
-            ApothItem.registerAffixColor(Apoth.Affixes.MAGICAL, 0xFF20B2AA);
-            ApothItem.registerAffixColor(Apoth.Affixes.FESTIVE, 0xFFFF4500);
-            ApothItem.registerAffixColor(Apoth.Affixes.DURABLE, 0xFF8B4513);
-            ApothItem.registerAffixColor(Apoth.Affixes.OMNETIC, 0xFF4B0082);
-            ApothItem.registerAffixColor(Apoth.Affixes.RADIAL, 0xFF32CD32);
-            ApothItem.registerAffixColor(Apoth.Affixes.TELEPATHIC, 0xFF1E90FF);
-        });
     }
 }

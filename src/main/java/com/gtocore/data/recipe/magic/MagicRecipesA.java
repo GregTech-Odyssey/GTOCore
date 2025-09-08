@@ -1,4 +1,4 @@
-package com.gtocore.data.recipe.misc;
+package com.gtocore.data.recipe.magic;
 
 import com.gtocore.common.data.GTOBlocks;
 import com.gtocore.common.data.GTOItems;
@@ -7,6 +7,7 @@ import com.gtocore.common.data.GTOMaterials;
 import com.gtocore.common.data.machines.GCYMMachines;
 import com.gtocore.common.data.machines.ManaMachine;
 import com.gtocore.common.data.machines.ManaMultiBlock;
+import com.gtocore.data.record.Enchantment;
 
 import com.gtolib.GTOCore;
 import com.gtolib.api.GTOValues;
@@ -426,6 +427,22 @@ public final class MagicRecipesA {
                     .MANAt(128)
                     .save();
 
+            ASSEMBLER_RECIPES.builder("heretical_mechanical_casing")
+                    .inputItems(Enchantment.getEnchantedBookBySerialNumber(2, 1))
+                    .inputItems(Enchantment.getEnchantedBookBySerialNumber(9, 1))
+                    .inputItems(Enchantment.getEnchantedBookBySerialNumber(14, 1))
+                    .inputItems(Enchantment.getEnchantedBookBySerialNumber(34, 1))
+                    .inputItems(GTOBlocks.ORIGINAL_BRONZE_CASING, 4)
+                    .inputItems(Enchantment.getEnchantedBookBySerialNumber(35, 1))
+                    .inputItems(Enchantment.getEnchantedBookBySerialNumber(37, 1))
+                    .inputItems(Enchantment.getEnchantedBookBySerialNumber(40, 1))
+                    .inputItems(Enchantment.getEnchantedBookBySerialNumber(76, 1))
+                    .outputItems(GTOBlocks.HERETICAL_MECHANICAL_CASING, 4)
+                    .inputFluids(Aether.getFluid(GAS, 1000))
+                    .circuitMeta(6)
+                    .duration(200)
+                    .MANAt(32)
+                    .save();
         }
 
         // 结构主方块
@@ -591,6 +608,22 @@ public final class MagicRecipesA {
                     .outputItems(ManaMultiBlock.ADVANCED_MANA_DISTRIBUTOR.asStack())
                     .duration(800)
                     .MANAt(128)
+                    .save();
+
+            ASSEMBLER_RECIPES.builder("the_primordial_reconstructor")
+                    .inputItems(new ItemStack(Items.GRINDSTONE.asItem(), 16))
+                    .inputItems("apotheosis:gem_cutting_table", 16)
+                    .inputItems(new ItemStack(Items.ANVIL.asItem(), 16))
+                    .inputItems("apotheosis:reforging_table", 16)
+                    .inputItems(GTOBlocks.HERETICAL_MECHANICAL_CASING.asStack(16))
+                    .inputItems("apotheosis:augmenting_table", 16)
+                    .inputItems("apotheosis:salvaging_table", 16)
+                    .inputItems("apotheosis:ender_library", 16)
+                    .inputItems(new ItemStack(Items.SMITHING_TABLE.asItem(), 16))
+                    .outputItems(ManaMultiBlock.THE_PRIMORDIAL_RECONSTRUCTOR.asStack())
+                    .inputFluids(GTOMaterials.TheWaterFromTheWellOfWisdom, 8000)
+                    .duration(200)
+                    .MANAt(1024)
                     .save();
         }
 

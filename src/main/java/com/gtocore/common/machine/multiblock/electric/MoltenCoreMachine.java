@@ -18,12 +18,11 @@ public final class MoltenCoreMachine extends CoilCrossRecipeMultiblockMachine {
 
     @Override
     public GTRecipeType @NotNull [] getRecipeTypes() {
-        return formedCount > 0 ? super.getRecipeTypes() : new RecipeType[] { GTORecipeTypes.FLUID_HEATER_RECIPES, GTORecipeTypes.DISTILLERY_RECIPES };
+        return formedCount > 0 ? super.getRecipeTypes() : new RecipeType[] { GTORecipeTypes.FLUID_HEATER_RECIPES };
     }
 
     @NotNull
     public RecipeType getRecipeType() {
-        var types = getRecipeTypes();
-        return (RecipeType) types[Math.min(types.length - 1, getActiveRecipeType())];
+        return formedCount > 0 ? super.getRecipeType() : GTORecipeTypes.FLUID_HEATER_RECIPES;
     }
 }
