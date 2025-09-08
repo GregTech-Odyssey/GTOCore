@@ -102,8 +102,7 @@ public final class TimeTwisterBehavior implements IInteractionItem {
             context.getPlayer().displayClientMessage(Component.translatable(CONSUMED_EU, FormattingUtil.formatNumbers(usedEU), tick), true);
             return true;
         } else if (machine instanceof IManaContainerMachine) {
-            if (!(recipe instanceof Recipe manaRecipe)) return false;
-            var manat = BigInteger.valueOf(manaRecipe.getInputMANAt());
+            var manat = BigInteger.valueOf(Recipe.of(recipe).getInputMANAt());
             if (manat.compareTo(BigInteger.ZERO) <= 0) return false;
             manat = manat.multiply(BigInteger.valueOf(energyMultiplier));
 
