@@ -67,10 +67,10 @@ class ExecutingCraftingJob {
             var entry = it.next();
             var key = entry.getKey();
             long value = entry.getLongValue();
-            if (value > 1 && key instanceof IParallelPatternDetails parallelPatternDetails) {
-                key = parallelPatternDetails.parallel(value, cpu.cluster.getLevel());
-                value = 1;
-            }
+//            if (value > 1 && key instanceof IParallelPatternDetails parallelPatternDetails) {
+//                key = parallelPatternDetails.parallel(value, cpu.cluster.getLevel());
+//                value = 1;
+//            }
             tasks.computeIfAbsent(key, p -> new LongHolder(0)).value += value;
             for (var output : key.getOutputs()) {
                 var amount = output.amount() * value * output.what().getAmountPerUnit();
@@ -188,6 +188,49 @@ class ExecutingCraftingJob {
 
         for (var output : details.getOutputs()) {
             expectedOutputs.add(output.what(), output.amount());
+        }
+
+        return inputHolder;
+    }
+    static KeyCounter[] extractPatternInputsByAmount(IPatternDetails details, ListCraftingInventory sourceInv, Level level, KeyCounter expectedOutputs, KeyCounter expectedContainerItems,int craftAmount) {
+        var inputs = details.getInputs();
+        KeyCounter[] inputHolder = getInputHolder((IDetails) details);
+        boolean found = true;
+
+        var counter = IKeyCounter.of(sourceInv.list);
+        for (int x = 0; x < inputs.length; x++) {
+            var list = inputHolder[x];
+            var input = inputs[x];
+            long remainingMultiplier = input.getMultiplier()*craftAmount;
+            var possibleInputs = input.getPossibleInputs();
+            for (var stack : possibleInputs) {
+                var amount = stack.amount();
+                var fuzz = stack.what();
+                if (counter.gtolib$contains(fuzz) && input.isValid(fuzz, level)) {
+                    long extracted = extractTemplates(sourceInv, fuzz, amount, remainingMultiplier);
+                    list.add(fuzz, extracted * amount);
+                    var containerItem = input.getRemainingKey(fuzz);
+                    if (containerItem != null) {
+                        expectedContainerItems.add(containerItem, extracted);
+                    }
+                    remainingMultiplier -= extracted;
+                    if (remainingMultiplier == 0) break;
+                }
+            }
+
+            if (remainingMultiplier > 0) {
+                found = false;
+                break;
+            }
+        }
+
+        if (!found) {
+            CraftingCpuHelper.reinjectPatternInputs(sourceInv, inputHolder);
+            return null;
+        }
+
+        for (var output : details.getOutputs()) {
+            expectedOutputs.add(output.what(), output.amount()*craftAmount);
         }
 
         return inputHolder;

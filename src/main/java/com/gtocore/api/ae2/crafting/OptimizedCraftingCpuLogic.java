@@ -4,6 +4,7 @@ import com.gtocore.common.data.GTOItems;
 
 import com.gtolib.GTOCore;
 import com.gtolib.api.ae2.IPatternProviderLogic;
+import com.gtolib.api.ae2.pattern.IParallelPatternDetails;
 import com.gtolib.utils.holder.IntHolder;
 import com.gtolib.utils.holder.LongHolder;
 import com.gtolib.utils.holder.ObjectHolder;
@@ -170,16 +171,34 @@ public class OptimizedCraftingCpuLogic extends CraftingCpuLogic {
                 continue;
             }
 
-            var details = task.getKey();
+            var tmp_details = task.getKey();
 
             expectedOutputs.clear();
             expectedContainerItems.clear();
-            ObjectHolder<KeyCounter[]> craftingContainer = new ObjectHolder<>(ExecutingCraftingJob.extractPatternInputs(details, inventory, level, expectedOutputs, expectedContainerItems));
+            ObjectHolder<KeyCounter[]> craftingContainer=new ObjectHolder<>(null);
+            int parallelValue=1;
+            if(tmp_details instanceof IParallelPatternDetails parallelPatternDetails){
+                int num= (int) Math.pow(2,(int)(Math.log(progress.value) / Math.log(2)));
+                for(int i=0;i<4&&num>0;i++){
+                    craftingContainer.value=(ExecutingCraftingJob.extractPatternInputs(parallelPatternDetails.parallel(num,level), inventory, level, expectedOutputs, expectedContainerItems));
+                    if(craftingContainer.value!=null){
+                        parallelValue=num;
+                        tmp_details=parallelPatternDetails.parallel(num,level);
+                        break;
+                    }
+                    num>>=1;
+                }
+            }
+            else {
+                craftingContainer.value=(ExecutingCraftingJob.extractPatternInputs(tmp_details, inventory, level, expectedOutputs, expectedContainerItems));
+            }
+            var details=tmp_details;
             if (craftingContainer.value == null) continue;
             var providerIterable = craftingService.getProviders(details).iterator();
+            int finalParallelValue = parallelValue;
             IntSupplier pushPatternSuccess = () -> {
-                energyService.extractAEPower(CraftingCpuHelper.calculatePatternPower(craftingContainer.value), Actionable.MODULATE, PowerMultiplier.CONFIG);
-                pushedPatterns.value++;
+                energyService.extractAEPower(CraftingCpuHelper.calculatePatternPower(craftingContainer.value)*finalParallelValue, Actionable.MODULATE, PowerMultiplier.CONFIG);
+                pushedPatterns.value+= finalParallelValue;
 
                 for (var expectedOutput : expectedOutputs) {
                     job.waitingFor.insert(expectedOutput.getKey(), expectedOutput.getLongValue(), Actionable.MODULATE);
@@ -189,9 +208,13 @@ public class OptimizedCraftingCpuLogic extends CraftingCpuLogic {
                     job.tt.gtolib$addMaxItems(expectedContainerItem.getLongValue(), expectedContainerItem.getKey().getType());
                 }
 
-                progress.value--;
+                progress.value-= finalParallelValue;
                 if (progress.value <= 0) {
                     it.remove();
+                    return BREAK;
+                }
+
+                if(details instanceof IParallelPatternDetails){
                     return BREAK;
                 }
 
