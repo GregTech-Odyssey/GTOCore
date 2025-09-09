@@ -176,9 +176,9 @@ public class OptimizedCraftingCpuLogic extends CraftingCpuLogic {
             expectedOutputs.clear();
             expectedContainerItems.clear();
             ObjectHolder<KeyCounter[]> craftingContainer=new ObjectHolder<>(null);
-            int parallelValue=1;
+            long parallelValue=1;
             if(tmp_details instanceof IParallelPatternDetails parallelPatternDetails){
-                int num= (int) Math.pow(2,(int)(Math.log(progress.value) / Math.log(2)));
+                long num= (long) Math.pow(2,(int)(Math.log(progress.value) / Math.log(2)));
                 for(int i=0;i<4&&num>0;i++){
                     craftingContainer.value=(ExecutingCraftingJob.extractPatternInputs(parallelPatternDetails.parallel(num,level), inventory, level, expectedOutputs, expectedContainerItems));
                     if(craftingContainer.value!=null){
@@ -195,10 +195,10 @@ public class OptimizedCraftingCpuLogic extends CraftingCpuLogic {
             var details=tmp_details;
             if (craftingContainer.value == null) continue;
             var providerIterable = craftingService.getProviders(details).iterator();
-            int finalParallelValue = parallelValue;
+            long finalParallelValue = parallelValue;
             IntSupplier pushPatternSuccess = () -> {
                 energyService.extractAEPower(CraftingCpuHelper.calculatePatternPower(craftingContainer.value)*finalParallelValue, Actionable.MODULATE, PowerMultiplier.CONFIG);
-                pushedPatterns.value+= finalParallelValue;
+                pushedPatterns.value++;
 
                 for (var expectedOutput : expectedOutputs) {
                     job.waitingFor.insert(expectedOutput.getKey(), expectedOutput.getLongValue(), Actionable.MODULATE);
