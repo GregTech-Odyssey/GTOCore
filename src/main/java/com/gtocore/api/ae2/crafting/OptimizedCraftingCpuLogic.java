@@ -177,13 +177,15 @@ public class OptimizedCraftingCpuLogic extends CraftingCpuLogic {
             expectedContainerItems.clear();
             ObjectHolder<KeyCounter[]> craftingContainer=new ObjectHolder<>(null);
             long parallelValue=1;
-            if(tmp_details instanceof IParallelPatternDetails parallelPatternDetails){
+            if(tmp_details instanceof IParallelPatternDetails pd){
+                var parallelPatternDetails=pd.getCopy();
                 long num= (long) Math.pow(4,(int)(Math.log(progress.value) / Math.log(4)));
                 for(int i=0;i<4&&num>0;i++){
-                    craftingContainer.value=(ExecutingCraftingJob.extractPatternInputs(parallelPatternDetails.parallel(num,level), inventory, level, expectedOutputs, expectedContainerItems));
+                    parallelPatternDetails.parallel(num,i);
+                    craftingContainer.value=(ExecutingCraftingJob.extractPatternInputs(parallelPatternDetails, inventory, level, expectedOutputs, expectedContainerItems));
                     if(craftingContainer.value!=null){
                         parallelValue=num;
-                        tmp_details=parallelPatternDetails.parallel(num,level);
+                        tmp_details=parallelPatternDetails;
                         break;
                     }
                     num>>=2;
