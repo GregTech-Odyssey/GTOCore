@@ -186,7 +186,7 @@ public class OptimizedCraftingCpuLogic extends CraftingCpuLogic {
                         tmp_details=parallelPatternDetails.parallel(num,level);
                         break;
                     }
-                    num>>=1;
+                    num>>=2;
                 }
             }
             else {
