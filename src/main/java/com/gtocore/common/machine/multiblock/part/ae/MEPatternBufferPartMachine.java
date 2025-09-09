@@ -70,7 +70,6 @@ import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import it.unimi.dsi.fastutil.objects.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.jetbrains.annotations.UnmodifiableView;
 
 import java.util.Collections;
 import java.util.List;
@@ -180,17 +179,16 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
         proxyMachines.remove(proxy);
     }
 
-    @UnmodifiableView
     public Set<MEPatternBufferProxyPartMachine> getProxies() {
         if (proxyMachines.size() != proxies.size() && getLevel() != null) {
             proxyMachines.clear();
             for (var pos : proxies) {
                 if (MetaMachine.getMachine(getLevel(), pos) instanceof MEPatternBufferProxyPartMachine proxy) {
-                    proxyMachines.add(proxy);
+                    proxy.setBuffer(getPos());
                 }
             }
         }
-        return Collections.unmodifiableSet(proxyMachines);
+        return proxyMachines;
     }
 
     private void refundAll(ClickData clickData) {

@@ -67,10 +67,6 @@ class ExecutingCraftingJob {
             var entry = it.next();
             var key = entry.getKey();
             long value = entry.getLongValue();
-//            if (value > 1 && key instanceof IParallelPatternDetails parallelPatternDetails) {
-//                key = parallelPatternDetails.parallel(value, cpu.cluster.getLevel());
-//                value = 1;
-//            }
             tasks.computeIfAbsent(key, p -> new LongHolder(0)).value += value;
             for (var output : key.getOutputs()) {
                 var amount = output.amount() * value * output.what().getAmountPerUnit();

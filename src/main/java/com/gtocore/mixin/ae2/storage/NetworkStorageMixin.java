@@ -31,22 +31,13 @@ public abstract class NetworkStorageMixin {
     private NavigableMap<Integer, List<MEStorage>> priorityInventory;
 
     @Shadow(remap = false)
-    protected abstract boolean diveList(Actionable type);
-
-    @Shadow(remap = false)
     private boolean mountsInUse;
-
-    @Shadow(remap = false)
-    protected abstract void surface(Actionable type);
 
     @Shadow(remap = false)
     protected abstract boolean isQueuedForRemoval(MEStorage inv);
 
     @Shadow(remap = false)
     protected abstract void flushQueuedOperations();
-
-    @Shadow(remap = false)
-    protected abstract boolean diveIteration(Actionable type);
 
     @Inject(method = "<init>", at = @At("TAIL"), remap = false)
     private void gtolib$init(CallbackInfo ci) {
@@ -84,7 +75,7 @@ public abstract class NetworkStorageMixin {
      */
     @Overwrite(remap = false)
     public long insert(AEKey what, long amount, Actionable type, IActionSource src) {
-        if (this.diveList(type)) return 0;
+        if (mountsInUse) return 0;
         var remaining = amount;
         this.mountsInUse = true;
         try {
@@ -97,7 +88,6 @@ public abstract class NetworkStorageMixin {
         } finally {
             this.mountsInUse = false;
         }
-        this.surface(type);
         flushQueuedOperations();
         return amount - remaining;
     }
@@ -108,7 +98,7 @@ public abstract class NetworkStorageMixin {
      */
     @Overwrite(remap = false)
     public long extract(AEKey what, long amount, Actionable mode, IActionSource source) {
-        if (this.diveList(mode)) return 0;
+        if (mountsInUse) return 0;
         var extracted = 0L;
         this.mountsInUse = true;
         try {
@@ -122,7 +112,6 @@ public abstract class NetworkStorageMixin {
         } finally {
             this.mountsInUse = false;
         }
-        this.surface(mode);
         flushQueuedOperations();
         return extracted;
     }
@@ -133,8 +122,12 @@ public abstract class NetworkStorageMixin {
      */
     @Overwrite(remap = false)
     public void getAvailableStacks(KeyCounter out) {
-        if (diveIteration(Actionable.SIMULATE)) return;
-        gtolib$inventory.forEach(entry -> entry.obj.getAvailableStacks(out));
-        this.surface(Actionable.SIMULATE);
+        if (mountsInUse) return;
+        this.mountsInUse = true;
+        try {
+            gtolib$inventory.forEach(entry -> entry.obj.getAvailableStacks(out));
+        } finally {
+            this.mountsInUse = false;
+        }
     }
 }

@@ -59,11 +59,22 @@ public final class MEPatternBufferProxyPartMachine extends TieredIOPartMachine i
     }
 
     @Override
+    public void onUnload() {
+        super.onUnload();
+        var buf = getBuffer();
+        if (buf != null) {
+            buf.removeProxy(this);
+            proxySlotRecipeHandler = ProxySlotRecipeHandler.DEFAULT;
+            bufferResolved = false;
+        }
+    }
+
+    @Override
     public List<RecipeHandlerList> getRecipeHandlers() {
         return proxySlotRecipeHandler.getProxySlotHandlers();
     }
 
-    private void setBuffer(@Nullable BlockPos pos) {
+    public void setBuffer(@Nullable BlockPos pos) {
         bufferResolved = true;
         var level = getLevel();
         if (level == null || pos == null) {
@@ -111,7 +122,7 @@ public final class MEPatternBufferProxyPartMachine extends TieredIOPartMachine i
         var buf = getBuffer();
         if (buf != null) {
             buf.removeProxy(this);
-            proxySlotRecipeHandler.clearProxy();
+            proxySlotRecipeHandler = ProxySlotRecipeHandler.DEFAULT;
         }
     }
 
@@ -129,12 +140,7 @@ public final class MEPatternBufferProxyPartMachine extends TieredIOPartMachine i
         return InteractionResult.PASS;
     }
 
-    @Nullable
-    public BlockPos getBufferPos() {
-        return this.bufferPos;
-    }
-
-    public ProxySlotRecipeHandler getProxySlotRecipeHandler() {
+    ProxySlotRecipeHandler getProxySlotRecipeHandler() {
         return this.proxySlotRecipeHandler;
     }
 }

@@ -161,7 +161,10 @@ public final class ForgeClientEvent {
                 }
             }
             if (ClientCache.machineNotFormedHighlight) {
-                MultiblockControllerMachine.HIGHLIGHT_CACHE.forEach((pos) -> RenderHelper.highlightBlock(camera, poseStack, 1, 0.1f, 0.1f, pos, pos));
+                MultiblockControllerMachine.HIGHLIGHT_CACHE.forEach(p -> {
+                    var pos = BlockPos.of(p);
+                    RenderHelper.highlightBlock(camera, poseStack, 1, 0.1f, 0.1f, pos, pos);
+                });
             }
         }
     }

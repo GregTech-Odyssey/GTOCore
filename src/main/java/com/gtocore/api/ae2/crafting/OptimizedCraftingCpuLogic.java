@@ -214,10 +214,6 @@ public class OptimizedCraftingCpuLogic extends CraftingCpuLogic {
                     return BREAK;
                 }
 
-                if(details instanceof IParallelPatternDetails){
-                    return BREAK;
-                }
-
                 if (pushedPatterns.value > maxPatterns) {
                     return BREAK_TASK_LOOP;
                 }

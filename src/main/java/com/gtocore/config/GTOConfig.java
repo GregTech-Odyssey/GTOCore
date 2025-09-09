@@ -194,7 +194,7 @@ public final class GTOConfig {
     @Configurable.Comment({ "批处理模式的最大持续时间（tick）", "Maximum duration of batch processing mode (ticks)" })
     @Configurable.Range(min = 600, max = 144000)
     @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Batch Processing Max Duration", cn = "批处理模式最大持续时间")
-    public int batchProcessingMaxDuration = 72000;
+    public int batchProcessingMaxDuration = 1200;
 
     // 挖掘系统设置
     @Configurable

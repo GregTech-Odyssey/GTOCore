@@ -201,7 +201,7 @@ final class AssemblyLineA {
                 .outputItems(MultiBlockH.TRANSLIMINAL_OASIS.asStack())
                 .inputFluids(GTOMaterials.MutatedLivingSolder, 10000)
                 .inputFluids(GTMaterials.Naquadria, 11000)
-                .inputFluids(new FluidStack(EIOFluids.LIQUID_SUNSHINE.get(), 20000))
+                .inputFluids(new FluidStack(EIOFluids.LIQUID_SUNSHINE.getSource(), 20000))
                 .EUt(16777215)
                 .duration(720)
                 .researchStation(b -> b.researchStack(MultiBlockG.LARGE_GREENHOUSE.asStack())
