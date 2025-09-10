@@ -24,6 +24,11 @@ public final class DimensionallyTranscendentPlasmaForgeMachine extends CoilMulti
     }
 
     @Override
+    public int getTemperature() {
+        return getCoilType() == CoilType.URUIUM ? 32000 : super.getTemperature();
+    }
+
+    @Override
     protected boolean beforeWorking(@Nullable Recipe recipe) {
         if (recipe == null) return false;
         if (getRecipeType() == GTORecipeTypes.STELLAR_FORGE_RECIPES) {
@@ -41,8 +46,8 @@ public final class DimensionallyTranscendentPlasmaForgeMachine extends CoilMulti
 
     @Override
     public void customText(@NotNull List<Component> textList) {
-        textList.add(Component.translatable("gtceu.multiblock.blast_furnace.max_temperature", Component.literal(FormattingUtil.formatNumbers((getTemperature() == 273 ? 32000 : getTemperature())) + "K").withStyle(ChatFormatting.BLUE)));
-        if (getRecipeType() == GTORecipeTypes.STELLAR_FORGE_RECIPES && getTemperature() != 273) {
+        textList.add(Component.translatable("gtceu.multiblock.blast_furnace.max_temperature", Component.literal(FormattingUtil.formatNumbers(getTemperature()) + "K").withStyle(ChatFormatting.BLUE)));
+        if (getRecipeType() == GTORecipeTypes.STELLAR_FORGE_RECIPES && getCoilType() != CoilType.URUIUM) {
             textList.add(Component.translatable("gtocore.machine.dimensionally_transcendent_plasma_forge.coil").withStyle(ChatFormatting.RED));
         }
     }
