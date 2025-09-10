@@ -1,7 +1,7 @@
 package com.gtocore.api.ae2.stacks;
 
 import com.gtolib.IUnique;
-import com.gtolib.api.ae2.IKeyCounter;
+import com.gtolib.api.ae2.stacks.IKeyCounter;
 
 import appeng.api.config.FuzzyMode;
 import appeng.api.stacks.AEKey;

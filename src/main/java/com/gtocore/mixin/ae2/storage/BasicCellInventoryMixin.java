@@ -1,6 +1,6 @@
 package com.gtocore.mixin.ae2.storage;
 
-import com.gtolib.api.ae2.IKeyCounter;
+import com.gtolib.api.ae2.stacks.IKeyCounter;
 import com.gtolib.api.ae2.storage.CellDataStorage;
 
 import com.gregtechceu.gtceu.GTCEu;

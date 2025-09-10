@@ -80,6 +80,7 @@
     "ae2.stacks.AEFluidKeyMixin",
     "ae2.stacks.AEItemKeyInvoker",
     "ae2.stacks.AEItemKeyMixin",
+    "ae2.stacks.GenericStackMixin",
     "ae2.stacks.KeyCounterMixin",
     "ae2.stacks.StackWorldBehaviorsMixin",
     "ae2.storage.BasicCellHandlerMixin",

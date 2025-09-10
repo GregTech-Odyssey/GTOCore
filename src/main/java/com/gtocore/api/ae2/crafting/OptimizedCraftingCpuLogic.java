@@ -177,15 +177,14 @@ public class OptimizedCraftingCpuLogic extends CraftingCpuLogic {
             ObjectHolder<KeyCounter[]> craftingContainer = new ObjectHolder<>(null);
             long parallelValue = 1;
             if (progress.value > 1 && tmp_details instanceof IParallelPatternDetails pd) {
-                var parallelPatternDetails=pd.getCopy();
-                long num = (long) Math.pow(4, (int) (Math.log(progress.value) / Math.log(4)));
-
+                var parallelPatternDetails = pd.getCopy();
+                long num = 1L << (Long.numberOfLeadingZeros(1) - Long.numberOfLeadingZeros(progress.value) & ~1);
                 for (int i = 0; i < 4 && num > 0; i++) {
-                    parallelPatternDetails.parallel(num, i);
+                    parallelPatternDetails.parallel(num);
                     craftingContainer.value = ExecutingCraftingJob.extractPatternInputs(parallelPatternDetails, inventory, level, expectedOutputs, expectedContainerItems);
                     if (craftingContainer.value != null) {
                         parallelValue = num;
-                        tmp_details=parallelPatternDetails;
+                        tmp_details = parallelPatternDetails;
                         break;
                     }
                     num >>= 1;
@@ -193,7 +192,7 @@ public class OptimizedCraftingCpuLogic extends CraftingCpuLogic {
             } else {
                 craftingContainer.value = ExecutingCraftingJob.extractPatternInputs(tmp_details, inventory, level, expectedOutputs, expectedContainerItems);
             }
-            var details=tmp_details;
+            var details = tmp_details;
             var providerIterable = craftingService.getProviders(details).iterator();
             long finalParallelValue = parallelValue;
             IntSupplier pushPatternSuccess = () -> {

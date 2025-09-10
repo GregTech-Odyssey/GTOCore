@@ -1,8 +1,8 @@
 package com.gtocore.api.ae2.crafting;
 
-import com.gtolib.api.ae2.IKeyCounter;
 import com.gtolib.api.ae2.pattern.IDetails;
 import com.gtolib.api.ae2.pattern.IParallelPatternDetails;
+import com.gtolib.api.ae2.stacks.IKeyCounter;
 import com.gtolib.utils.holder.LongHolder;
 
 import net.minecraft.nbt.CompoundTag;

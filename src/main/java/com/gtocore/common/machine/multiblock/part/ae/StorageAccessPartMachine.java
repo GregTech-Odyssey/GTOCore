@@ -1,6 +1,6 @@
 package com.gtocore.common.machine.multiblock.part.ae;
 
-import com.gtolib.api.ae2.IKeyCounter;
+import com.gtolib.api.ae2.stacks.IKeyCounter;
 import com.gtolib.api.ae2.storage.BigCellDataStorage;
 import com.gtolib.api.ae2.storage.CellDataStorage;
 import com.gtolib.api.annotation.DataGeneratorScanned;

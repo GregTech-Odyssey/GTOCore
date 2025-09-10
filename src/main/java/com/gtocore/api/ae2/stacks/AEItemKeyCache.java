@@ -2,7 +2,7 @@ package com.gtocore.api.ae2.stacks;
 
 import com.gtocore.mixin.ae2.stacks.AEItemKeyInvoker;
 
-import com.gtolib.api.ae2.IAEItemKey;
+import com.gtolib.api.ae2.stacks.IAEItemKey;
 
 import com.gregtechceu.gtceu.utils.ItemStackHashStrategy;
 

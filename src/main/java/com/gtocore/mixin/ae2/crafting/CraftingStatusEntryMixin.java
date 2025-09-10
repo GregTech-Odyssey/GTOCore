@@ -25,7 +25,7 @@ public class CraftingStatusEntryMixin {
     @Overwrite(remap = false)
     public AEKey getWhat() {
         if (what == null) {
-            return AEItemKey.of(Items.AIR);
+            return AEItemKey.of(Items.BARRIER);
         }
         return what;
     }

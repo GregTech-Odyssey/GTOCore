@@ -14,7 +14,7 @@ dependencies {
     compileOnly(annotationProcessor("com.github.bawnorton.mixinsquared:mixinsquared-common:0.3.2-beta.4"))
     implementation("com.github.bawnorton.mixinsquared:mixinsquared-neoforge:0.3.2-beta.4")
 
-    modImplementation("curse.maven:ldlib-626676:6899193")
+    modImplementation("curse.maven:ldlib-626676:6979445")
 
     modImplementation("com.tterrag.registrate:Registrate:$project.registrate_version")
 
@@ -57,7 +57,7 @@ dependencies {
     modImplementation("curse.maven:ars-meteorites-1278083:6714970")
 
     modImplementation("curse.maven:glodium-957920:5006780")
-    modImplementation("curse.maven:ex-pattern-provider-892005:6870350")
+    modImplementation("curse.maven:ex-pattern-provider-892005:6975234")
 
     modImplementation("curse.maven:merequester-688367:5689932")
 

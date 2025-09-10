@@ -3,7 +3,7 @@ package com.gtocore.mixin.ae2.stacks;
 import com.gtocore.api.ae2.stacks.AEItemKeyCache;
 
 import com.gtolib.IItem;
-import com.gtolib.api.ae2.IAEItemKey;
+import com.gtolib.api.ae2.stacks.IAEItemKey;
 import com.gtolib.utils.RLUtils;
 
 import net.minecraft.core.DefaultedRegistry;
