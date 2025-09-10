@@ -40,6 +40,7 @@
     "ae2.blockentity.ExportBusPartMixin",
     "ae2.blockentity.PartExPatternAccessTerminalMixin",
     "ae2.blockentity.PatternAccessTerminalPartMixin",
+    "ae2.blockentity.StorageBusPartMixin",
     "ae2.crafting.CPUSelectionListMixin",
     "ae2.crafting.CraftingCPUClusterMixin",
     "ae2.crafting.CraftingCpuLogicMixin",

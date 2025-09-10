@@ -1,6 +1,7 @@
 package com.gtocore.mixin.ae2.blockentity;
 
 import com.gtolib.api.ae2.IExpandedStorageService;
+import com.gtolib.api.ae2.StorageExportCacheStrategy;
 
 import appeng.api.behaviors.StackExportStrategy;
 import appeng.api.behaviors.StackTransferContext;
@@ -23,6 +24,10 @@ import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(ExportBusPart.class)
 public abstract class ExportBusPartMixin extends IOBusPart implements ICraftingRequester {
@@ -40,10 +45,34 @@ public abstract class ExportBusPartMixin extends IOBusPart implements ICraftingR
     protected abstract void updateSchedulingMode(SchedulingMode schedulingMode, int x);
 
     @Shadow(remap = false)
-    protected abstract StackExportStrategy getExportStrategy();
+    private @Nullable StackExportStrategy exportStrategy;
 
     protected ExportBusPartMixin(TickRates tickRates, @Nullable AEKeyFilter filter, IPartItem<?> partItem) {
         super(tickRates, filter, partItem);
+    }
+
+    @Unique
+    private int gtolib$delay = 0;
+
+    @Inject(method = "attemptCrafting", at = @At("HEAD"), remap = false, cancellable = true)
+    private void attemptCrafting(StackTransferContext context, ICraftingService cg, int slotToExport, AEKey what, CallbackInfo ci) {
+        if (gtolib$delay == 0) {
+            gtolib$delay = 20;
+            ci.cancel();
+        } else gtolib$delay--;
+    }
+
+    /**
+     * @author .
+     * @reason .
+     */
+    @Overwrite(remap = false)
+    protected final StackExportStrategy getExportStrategy() {
+        if (exportStrategy == null) {
+            var self = this.getHost().getBlockEntity();
+            exportStrategy = StorageExportCacheStrategy.createExportFacade(self, self.getBlockPos().relative(getSide()), getSide(), getSide().getOpposite());
+        }
+        return exportStrategy;
     }
 
     /**

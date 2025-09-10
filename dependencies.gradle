@@ -20,8 +20,6 @@ dependencies {
 
     modImplementation("appeng:appliedenergistics2-forge:${project.ae2_version}") { transitive false }
     modImplementation("org.appliedenergistics:guideme:20.1.7")
-    modImplementation("curse.maven:applied-botanics-610632:4904185")
-    modImplementation("curse.maven:ars-energistique-905641:5504444")
 
     modImplementation("dev.architectury:architectury-forge:${project.architectury_version}")
 
