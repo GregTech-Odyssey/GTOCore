@@ -31,6 +31,8 @@ public abstract class ProcessingEncodingPanelMixin extends EncodingModePanel {
     private ModifyIconButton gtolib$dividingThree;
     @Unique
     private ModifyIconButton gtolib$dividingFive;
+    @Unique
+    private ModifyIconButton gtolib$clearSecOutput;
 
     protected ProcessingEncodingPanelMixin(PatternEncodingTermScreen<?> screen, WidgetContainer widgets) {
         super(screen, widgets);
@@ -62,12 +64,18 @@ public abstract class ProcessingEncodingPanelMixin extends EncodingModePanel {
                 Component.translatable("gtocore.pattern.divide", 5),
                 Component.translatable("gtocore.pattern.tooltip.divide", 5));
 
+        gtolib$clearSecOutput = new ModifyIconButton( b -> ((IPatterEncodingTermMenu) menu).gtolib$clearSecOutput(),ModifyIcon.TOOLBAR_BUTTON_BACKGROUND,
+                Component.translatable("gtocore.pattern.clearSecOutput"),
+                Component.translatable("gtocore.pattern.tooltip.clearSecOutput"));
+
+
         widgets.add("modify1", gtolib$multipleTow);
         widgets.add("modify2", gtolib$multipleThree);
         widgets.add("modify3", gtolib$multipleFive);
         widgets.add("modify4", gtolib$dividingTow);
         widgets.add("modify5", gtolib$dividingThree);
         widgets.add("modify6", gtolib$dividingFive);
+        widgets.add("clearSecOutput", gtolib$clearSecOutput);
     }
 
     @Inject(method = "setVisible", at = @At("TAIL"), remap = false)
@@ -78,5 +86,6 @@ public abstract class ProcessingEncodingPanelMixin extends EncodingModePanel {
         gtolib$dividingTow.setVisibility(visible);
         gtolib$dividingThree.setVisibility(visible);
         gtolib$dividingFive.setVisibility(visible);
+        gtolib$clearSecOutput.setVisibility(visible);
     }
 }

@@ -87,6 +87,7 @@
     "ae2.storage.BasicCellHandlerMixin",
     "ae2.storage.BasicCellInventoryMixin",
     "ae2.storage.CompositeStorageMixin",
+    "ae2.storage.CreativeCellInventoryMixin",
     "ae2.storage.NetworkStorageMixin",
     "ae2.storage.StorageServiceMixin",
     "botania.ContributorListMixin",

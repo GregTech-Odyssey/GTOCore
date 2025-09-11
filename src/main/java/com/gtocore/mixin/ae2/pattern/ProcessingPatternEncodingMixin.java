@@ -6,8 +6,6 @@ import appeng.api.stacks.GenericStack;
 import com.google.common.base.Preconditions;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Redirect;
 
 @Mixin(targets = "appeng.crafting.pattern.ProcessingPatternEncoding")
 public class ProcessingPatternEncodingMixin {
@@ -27,10 +25,5 @@ public class ProcessingPatternEncodingMixin {
         }
         Preconditions.checkArgument(foundStack, "List passed to pattern must contain at least one stack.");
         return tag;
-    }
-
-    @Redirect(method = "encodeProcessingPattern", at = @At(value = "INVOKE", target = "Lappeng/crafting/pattern/ProcessingPatternEncoding;encodeStackList([Lappeng/api/stacks/GenericStack;)Lnet/minecraft/nbt/ListTag;", ordinal = 1), remap = false)
-    private static ListTag encodeStackListRedirect(GenericStack[] stacks) {
-        return encodeStackList(new GenericStack[] { stacks[0] });
     }
 }

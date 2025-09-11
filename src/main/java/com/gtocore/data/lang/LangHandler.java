@@ -96,10 +96,13 @@ public final class LangHandler {
 
         addCNEN("gtocore.pattern.blocking_mode", "容器有任何内容时阻止插入", "Block insertion when the container has any content");
         addCNEN("gtocore.pattern.blocking_reverse", "非同一样板时阻止插入", "Prevent insertion when not using the same pattern");
+        addCNEN("gtocore.pattern.blocking_parallel", "并行发配后容器内存在合成材料时暂停发送", "Prevent insertion after parallel allocation if container has synthetic materials");
         addCNEN("gtocore.pattern.multiply", "样板配方 x %s", "Pattern Recipe x %s");
         addCNEN("gtocore.pattern.tooltip.multiply", "将样板材料数量 x %s", "Multiply Pattern materials amount by %s");
         addCNEN("gtocore.pattern.divide", "样板配方 ÷ %s", "Pattern Recipe ÷ %s");
         addCNEN("gtocore.pattern.tooltip.divide", "将样板材料数量 ÷ %s", "Divide Pattern materials amount by %s");
+        addCNEN("gtocore.pattern.clearSecOutput", "清除样板副产物", "Clear pattern byproducts");
+        addCNEN("gtocore.pattern.tooltip.clearSecOutput", "清除样板副产物", "Clear pattern byproducts");
 
         addCNEN("gtocore.gtm", "整合包使用的GregTech-Modern模组为非官方版本，如果您遇到任何问题或有任何建议，请前往%s提供反馈，而不是模组官方渠道", "The GregTech-Modern mod used in the modpack is an unofficial version. If you encounter any issues or have any suggestions, please go to %s to provide feedback instead of the official mod channel.");
         addCNEN("gtocore.dev", "当前版本是开发测试版本，不能保证内容的稳定性和完整性。如果您遇到任何问题或有任何建议，请前往%s提供反馈。", "The current version is a development test version and cannot guarantee the stability and completeness of the content. If you encounter any issues or have any suggestions, please go to %s to provide feedback.");

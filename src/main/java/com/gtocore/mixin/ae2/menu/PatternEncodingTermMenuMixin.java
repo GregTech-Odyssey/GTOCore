@@ -51,6 +51,7 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu impleme
     private void initHooks(MenuType<?> menuType, int id, Inventory ip, IPatternTerminalMenuHost host, boolean bindInventory, CallbackInfo ci) {
         registerClientAction("modifyPatter", Integer.class,
                 this::gtolib$modifyPatter);
+        registerClientAction("clearSecOutput", this::gtolib$clearSecOutput);
         blankPatternSlot.setStackLimit(1);
         // blankPatternSlot.setSlotEnabled(false);
     }
@@ -62,6 +63,17 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu impleme
         } else {
             // modify
             PatternUtils.mulPatternEncodingArea(encodedInputsInv, encodedOutputsInv, data);
+        }
+    }
+
+    @Unique
+    public void gtolib$clearSecOutput() {
+        if (isClientSide()) {
+            sendClientAction("clearSecOutput");
+        } else {
+            for (int i = 1; i <= 8; i++) {
+                encodedOutputsInv.setStack(i,null);
+            }
         }
     }
 

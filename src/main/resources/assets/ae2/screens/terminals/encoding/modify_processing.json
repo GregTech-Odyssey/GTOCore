@@ -28,6 +28,10 @@
     "modify6": {
       "left": 100,
       "bottom": 130
+    },
+    "clearSecOutput": {
+      "left": 127,
+      "bottom": 119
     }
   }
 }
