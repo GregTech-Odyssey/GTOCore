@@ -1,17 +1,18 @@
 package com.gtocore.common.machine.multiblock.electric.space;
 
-import com.gtolib.utils.MachineUtils;
 import com.gtolib.utils.MathUtil;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.Level;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
+import com.lowdragmc.lowdraglib.utils.DummyWorld;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -40,8 +41,8 @@ public final class SuperSpaceElevatorMachine extends SpaceElevatorMachine {
     void initialize() {
         poss.clear();
         megaPoss.clear();
-        BlockPos blockPos = MachineUtils.getOffsetPos(3, -2, getFrontFacing(), getPos()).offset(0, 2, -3);
-        BlockPos center = blockPos.offset(0, 2, 120);
+        BlockPos blockPos = getPos();
+        BlockPos center = blockPos.above(2).relative(getFrontFacing(), -120);
         this.center = center;
         List<BlockPos> posA = getPossCornerA(blockPos);
         List<BlockPos> posB = new ArrayList<>(16); // x轴镜像
@@ -60,10 +61,11 @@ public final class SuperSpaceElevatorMachine extends SpaceElevatorMachine {
         List<BlockPos> megaPosB = new ArrayList<>(16); // x轴镜像
         List<BlockPos> megaPosC = new ArrayList<>(16); // z轴镜像
         List<BlockPos> megaPosD = new ArrayList<>(16); // 中心对称
+        var centerBelow = center.below(2);
         for (BlockPos p : megaPosA) {
-            megaPosB.add(mirrorX(p, center));
-            megaPosC.add(mirrorZ(p, center));
-            megaPosD.add(centerSymmetry(p, center));
+            megaPosB.add(mirrorX(p, centerBelow));
+            megaPosC.add(mirrorZ(p, centerBelow));
+            megaPosD.add(centerSymmetry(p, centerBelow));
         }
         megaPoss.addAll(megaPosA);
         megaPoss.addAll(megaPosB);
@@ -98,45 +100,50 @@ public final class SuperSpaceElevatorMachine extends SpaceElevatorMachine {
         textList.add(Component.translatable("gtocore.machine.module.mega", megaModuleCount));
     }
 
-    private static @NotNull List<BlockPos> getMegaPossCornerA(BlockPos blockPos) {
+    private @NotNull List<BlockPos> getMegaPossCornerA(BlockPos blockPos) {
         List<BlockPos> posA = new ArrayList<>(16);
-        posA.add(blockPos.offset(-17, 2, 28));
-        posA.add(blockPos.offset(-25, 2, 28));
-        posA.add(blockPos.offset(-33, 2, 28));
-        posA.add(blockPos.offset(-41, 2, 28));
-        posA.add(blockPos.offset(-49, 2, 45));
-        posA.add(blockPos.offset(-57, 2, 45));
-        posA.add(blockPos.offset(-75, 2, 63));
-        posA.add(blockPos.offset(-75, 2, 71));
-        posA.add(blockPos.offset(-92, 2, 79));
-        posA.add(blockPos.offset(-92, 2, 87));
-        posA.add(blockPos.offset(-92, 2, 95));
-        posA.add(blockPos.offset(-92, 2, 103));
-        posA.add(blockPos.offset(-19, 2, 54));
-        posA.add(blockPos.offset(-29, 2, 58));
-        posA.add(blockPos.offset(-62, 2, 91));
-        posA.add(blockPos.offset(-66, 2, 101));
+        Direction back = getFrontFacing().getOpposite();
+        Direction right = getFrontFacing().getClockWise();
+        posA.add(blockPos.relative(back, 28).relative(right, 17));
+        posA.add(blockPos.relative(back, 28).relative(right, 25));
+        posA.add(blockPos.relative(back, 28).relative(right, 33));
+        posA.add(blockPos.relative(back, 28).relative(right, 41));
+        posA.add(blockPos.relative(back, 45).relative(right, 49));
+        posA.add(blockPos.relative(back, 45).relative(right, 57));
+        posA.add(blockPos.relative(back, 63).relative(right, 75));
+        posA.add(blockPos.relative(back, 71).relative(right, 75));
+        posA.add(blockPos.relative(back, 79).relative(right, 92));
+        posA.add(blockPos.relative(back, 87).relative(right, 92));
+        posA.add(blockPos.relative(back, 95).relative(right, 92));
+        posA.add(blockPos.relative(back, 103).relative(right, 92));
+        posA.add(blockPos.relative(back, 54).relative(right, 19));
+        posA.add(blockPos.relative(back, 58).relative(right, 29));
+        posA.add(blockPos.relative(back, 91).relative(right, 62));
+        posA.add(blockPos.relative(back, 101).relative(right, 66));
         return posA;
     }
 
-    private static @NotNull List<BlockPos> getPossCornerA(BlockPos blockPos) {
+    private @NotNull List<BlockPos> getPossCornerA(BlockPos blockPos0) {
         List<BlockPos> posA = new ArrayList<>(16);
-        posA.add(blockPos.offset(-42, 2, 72));
-        posA.add(blockPos.offset(-42, 2, 65));
-        posA.add(blockPos.offset(-40, 2, 72));
-        posA.add(blockPos.offset(-40, 2, 65));
-        posA.add(blockPos.offset(-38, 2, 72));
-        posA.add(blockPos.offset(-38, 2, 65));
-        posA.add(blockPos.offset(-36, 2, 72));
-        posA.add(blockPos.offset(-36, 2, 65));
-        posA.add(blockPos.offset(-48, 2, 78));
-        posA.add(blockPos.offset(-55, 2, 78));
-        posA.add(blockPos.offset(-55, 2, 80));
-        posA.add(blockPos.offset(-55, 2, 84));
-        posA.add(blockPos.offset(-48, 2, 80));
-        posA.add(blockPos.offset(-48, 2, 82));
-        posA.add(blockPos.offset(-55, 2, 82));
-        posA.add(blockPos.offset(-48, 2, 84));
+        Direction back = getFrontFacing().getOpposite();
+        Direction right = getFrontFacing().getClockWise();
+        BlockPos blockPos = blockPos0.above(1);
+        posA.add(blockPos.relative(back, 72).relative(right, 42));
+        posA.add(blockPos.relative(back, 65).relative(right, 42));
+        posA.add(blockPos.relative(back, 72).relative(right, 40));
+        posA.add(blockPos.relative(back, 65).relative(right, 40));
+        posA.add(blockPos.relative(back, 72).relative(right, 38));
+        posA.add(blockPos.relative(back, 65).relative(right, 38));
+        posA.add(blockPos.relative(back, 72).relative(right, 36));
+        posA.add(blockPos.relative(back, 65).relative(right, 36));
+        posA.add(blockPos.relative(back, 78).relative(right, 48));
+        posA.add(blockPos.relative(back, 78).relative(right, 55));
+        posA.add(blockPos.relative(back, 80).relative(right, 55));
+        posA.add(blockPos.relative(back, 84).relative(right, 55));
+        posA.add(blockPos.relative(back, 80).relative(right, 48));
+        posA.add(blockPos.relative(back, 82).relative(right, 48));
+        posA.add(blockPos.relative(back, 82).relative(right, 55));
+        posA.add(blockPos.relative(back, 84).relative(right, 48));
         return posA;
     }
 
@@ -176,6 +183,24 @@ public final class SuperSpaceElevatorMachine extends SpaceElevatorMachine {
         return new BlockPos(sx, sy, sz);
     }
 
+    /**
+     * 按center点逆时针旋转90度
+     */
+    private BlockPos rotate90(BlockPos pos, BlockPos center) {
+        int dx = pos.getX() - center.getX();
+        int dz = pos.getZ() - center.getZ();
+        return new BlockPos(center.getX() - dz, pos.getY(), center.getZ() + dx);
+    }
+
+    /**
+     * 按center点顺时针旋转90度
+     */
+    private BlockPos rotate270(BlockPos pos, BlockPos center) {
+        int dx = pos.getX() - center.getX();
+        int dz = pos.getZ() - center.getZ();
+        return new BlockPos(center.getX() + dz, pos.getY(), center.getZ() - dx);
+    }
+
     @Override
     public int getHighlightMilliseconds() {
         return 1000 * 45;
@@ -188,7 +213,7 @@ public final class SuperSpaceElevatorMachine extends SpaceElevatorMachine {
 
     @Override
     int getBaseHigh() {
-        return 80;
+        return getLevel() instanceof DummyWorld ? 300 : 80;
     }
 
     @Override

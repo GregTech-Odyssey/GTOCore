@@ -9,6 +9,8 @@ import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.common.data.GCYMBlocks;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
+import java.util.Locale;
+
 import static com.gregtechceu.gtceu.api.GTValues.MV;
 import static com.gregtechceu.gtceu.api.GTValues.VA;
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
@@ -704,6 +706,17 @@ final class ReactionFurnace {
                 .EUt(480)
                 .duration(360)
                 .blastFurnaceTemp(2145)
+                .save();
+
+        REACTION_FURNACE_RECIPES.builder("Chromic_Acid_from_Potassium_Dichromate".toLowerCase(Locale.ROOT))
+                .inputItems(dust, PotassiumDichromate, 22)
+                .inputItems(dust, ChromiumTrioxide, 8)
+                .outputItems(dust, PotassiumSulfate, 28)
+                .inputFluids(SulfuricAcid, 22000)
+                .outputFluids(GTOMaterials.ChromicAcid, 3000)
+                .EUt(480)
+                .blastFurnaceTemp(800)
+                .duration(120)
                 .save();
     }
 }

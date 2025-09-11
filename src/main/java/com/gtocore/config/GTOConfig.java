@@ -17,7 +17,7 @@ import org.apache.logging.log4j.core.config.Configurator;
 import org.embeddedt.modernfix.spark.SparkLaunchProfiler;
 
 @DataGeneratorScanned
-@Config(id = GTOCore.MOD_ID)
+@Config(id = GTOCore.MOD_ID, group = GTOCore.MOD_ID)
 public final class GTOConfig {
 
     @RegisterLanguage(en = "GTO Core Config", cn = "GTO Core 配置")
@@ -36,9 +36,9 @@ public final class GTOConfig {
                 if (INSTANCE.startSpark == SparkRange.ALL || INSTANCE.startSpark == SparkRange.MAIN_MENU) {
                     SparkLaunchProfiler.start("all");
                 }
-                int difficulty = INSTANCE.gameDifficulty.ordinal() + 1;
-                GTOCore.difficulty = difficulty;
-                RecipeLogic.SEARCH_MAX_INTERVAL = INSTANCE.recipeSearchMaxInterval;
+                int difficulty = GTOStartupConfig.difficulty.ordinal() + 1;
+                // GTOCore.difficulty = difficulty;
+                RecipeLogic.SEARCH_MAX_INTERVAL = GTOConfig.INSTANCE.recipeSearchMaxInterval;
                 if (INSTANCE.dev) Configurator.setRootLevel(Level.INFO);
                 ConfigHolder.INSTANCE.recipes.generateLowQualityGems = false;
                 ConfigHolder.INSTANCE.recipes.disableManualCompression = difficulty > 1;
@@ -147,7 +147,11 @@ public final class GTOConfig {
 
     // 游戏核心设置
     @Configurable
-    @Configurable.Comment({ "游戏难度等级：简单、普通、专家", "Game difficulty level: Simple, Normal, Expert" })
+    @Configurable.Comment({ "游戏难度等级：简单、普通、专家",
+            "注意：游戏难度设置即将被迁移到config/gtocore/gtocore_startup.cfg中，此配置项在未来版本中将被移除！",
+            "Game difficulty level: Simple, Normal, Expert",
+            "Note: The game difficulty setting is about to be moved to config/gtocore/gtocore_startup.cfg, this configuration item will be removed in future versions!"
+    })
     @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Game Difficulty", cn = "游戏难度")
     public Difficulty gameDifficulty = Difficulty.Normal;
 
@@ -301,5 +305,13 @@ public final class GTOConfig {
         Simple,
         Normal,
         Expert
+    }
+
+    public static Difficulty difficultyNameOf(String name) {
+        try {
+            return Difficulty.valueOf(name);
+        } catch (Exception e) {
+            return Difficulty.Normal;
+        }
     }
 }

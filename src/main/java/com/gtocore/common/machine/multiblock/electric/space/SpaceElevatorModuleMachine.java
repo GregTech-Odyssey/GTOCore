@@ -15,6 +15,7 @@ import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.function.ToLongFunction;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -24,16 +25,24 @@ import static com.gtolib.api.GTOValues.POWER_MODULE_TIER;
 @MethodsReturnNonnullByDefault
 public class SpaceElevatorModuleMachine extends CustomParallelMultiblockMachine {
 
+    public SpaceElevatorMachine getSpaceElevatorMachine() {
+        return spaceElevatorMachine;
+    }
+
     SpaceElevatorMachine spaceElevatorMachine;
 
     private final boolean powerModuleTier;
 
     public SpaceElevatorModuleMachine(MetaMachineBlockEntity holder, boolean powerModuleTier) {
-        super(holder, false, m -> ((SpaceElevatorModuleMachine) m).getSpaceElevatorTier() > 7 ? (int) Math.pow(((SpaceElevatorModuleMachine) m).isSuper() ? 8 : 4, ((SpaceElevatorModuleMachine) m).spaceElevatorMachine.getCasingTier(POWER_MODULE_TIER) - 1) : 0);
+        this(holder, powerModuleTier, m -> ((SpaceElevatorModuleMachine) m).getSpaceElevatorTier() > 7 ? (int) Math.pow(((SpaceElevatorModuleMachine) m).isSuper() ? 8 : 4, ((SpaceElevatorModuleMachine) m).spaceElevatorMachine.getCasingTier(POWER_MODULE_TIER) - 1) : 0);
+    }
+
+    public SpaceElevatorModuleMachine(MetaMachineBlockEntity holder, boolean powerModuleTier, ToLongFunction<CustomParallelMultiblockMachine> getParallel) {
+        super(holder, false, getParallel);
         this.powerModuleTier = powerModuleTier;
     }
 
-    private int getSpaceElevatorTier() {
+    public int getSpaceElevatorTier() {
         if (spaceElevatorMachine != null && spaceElevatorMachine.getRecipeLogic().isWorking()) {
             return spaceElevatorMachine.getTier();
         }

@@ -9,6 +9,7 @@ import com.gtolib.api.data.chemical.material.GTOMaterialBuilder;
 import com.gtolib.api.recipe.RecipeBuilder;
 import com.gtolib.utils.GTOUtils;
 
+import com.gregtechceu.gtceu.api.GTCEuAPI;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
@@ -19,7 +20,7 @@ import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.machine.multiblock.CleanroomType;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
-import com.gregtechceu.gtceu.common.item.TurbineRotorBehaviour;
+import com.gregtechceu.gtceu.common.item.tool.CoatedTurbineRotorBehaviour;
 import com.gregtechceu.gtceu.config.ConfigHolder;
 import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
 
@@ -28,6 +29,8 @@ import net.minecraftforge.fluids.FluidStack;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
+
 import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlags.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.DistilledWater;
@@ -35,6 +38,8 @@ import static com.gtocore.api.data.tag.GTOTagPrefix.*;
 import static com.gtocore.common.data.GTORecipeTypes.*;
 
 final class GTOPartsRecipeHandler {
+
+    static List<Material> rotors = null;
 
     static void run(@NotNull Material material) {
         if (GTOUtils.isGeneration(rod, material)) {
@@ -49,9 +54,14 @@ final class GTOPartsRecipeHandler {
             processPlateDense(material);
         }
 
+        if (rotors == null) {
+            rotors = GTCEuAPI.materialManager.getRegisteredMaterials().stream()
+                    .filter(m -> GTOUtils.isGeneration(turbineRotor, m)).toList();
+        }
         if (GTOUtils.isGeneration(turbineBlade, material)) {
             processTurbine(material);
         }
+
         if (GTOUtils.isGeneration(rotor, material)) {
             processRotor(material);
         }
@@ -580,15 +590,13 @@ final class GTOPartsRecipeHandler {
     private static void processTurbine(Material material) {
         ItemStack stack = ChemicalHelper.get(turbineBlade, material);
         if (stack.isEmpty()) return;
-        ItemStack rotorStack = GTItems.TURBINE_ROTOR.asStack();
         int mass = (int) material.getMass();
         // noinspection ConstantConditions
-        TurbineRotorBehaviour.getBehaviour(rotorStack).setPartMaterial(rotorStack, material);
 
         ASSEMBLER_RECIPES.recipeBuilder("assemble_" + material.getName() + "_turbine_blade")
                 .inputItems(stack.copyWithCount(8))
                 .inputItems(rodLong, GTMaterials.Magnalium)
-                .outputItems(rotorStack)
+                .outputItems(turbineRotor, material)
                 .duration(200)
                 .EUt(400)
                 .save();
@@ -600,6 +608,23 @@ final class GTOPartsRecipeHandler {
                 .duration(mass << 4)
                 .EUt((long) GTOUtils.getVoltageMultiplier(material) << 2)
                 .save();
+
+        rotors.forEach(plating -> {
+            if (plating == material) return;
+            ItemStack rotorStack = ChemicalHelper.get(TagPrefix.turbineRotorCoated, material);
+            CoatedTurbineRotorBehaviour.setCoatMaterial(rotorStack, plating);
+            ELECTROPLATING_RECIPES.recipeBuilder("electroplate_%s_%s_turbine_rotor".formatted(material.getName(), plating.getName()))
+                    .inputItems(turbineRotor, material)
+                    .inputItems(plateDouble, plating, 5)
+                    .inputFluids(DistilledWater.getFluid(1000))
+                    .inputFluids(GTOMaterials.ChromicAcid.getFluid(250))
+                    .outputItems(rotorStack)
+                    .outputFluids(GTOMaterials.ChromicAcidWaste.getFluid(1000))
+                    .duration((int) plating.getMass() << 4)
+                    .EUt(480)
+                    .cleanroom(CleanroomType.CLEANROOM)
+                    .save();
+        });
     }
 
     private static void processRound(Material material) {

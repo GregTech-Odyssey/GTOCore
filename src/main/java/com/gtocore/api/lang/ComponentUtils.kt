@@ -176,11 +176,23 @@ class ComponentSupplier(var component: Component, private val delayed: MutableLi
     // ////////////////////////////////
     // ****** 滚动 ******//
     // //////////////////////////////
-    fun scrollWhiteBlue(): ComponentSupplier = transformComponent { supplier ->
+    fun scrollSuprachronal(): ComponentSupplier = transformComponent { supplier ->
         StringUtils.white_blue(supplier.component.string).toLiteralSupplier()
     }
     fun scrollFullColor(): ComponentSupplier = transformComponent { supplier ->
         StringUtils.full_color(supplier.component.string).toLiteralSupplier()
+    }
+    fun scrollBioware(): ComponentSupplier = transformComponent { supplier ->
+        StringUtils.dark_green(supplier.component.string).toLiteralSupplier()
+    }
+    fun scrollOptical(): ComponentSupplier = transformComponent { supplier ->
+        StringUtils.golden(supplier.component.string).toLiteralSupplier()
+    }
+    fun scrollExotic(): ComponentSupplier = transformComponent { supplier ->
+        StringUtils.purplish_red(supplier.component.string).toLiteralSupplier()
+    }
+    fun scrollCosmic(): ComponentSupplier = transformComponent { supplier ->
+        StringUtils.dark_purplish_red(supplier.component.string).toLiteralSupplier()
     }
 
     // ////////////////////////////////

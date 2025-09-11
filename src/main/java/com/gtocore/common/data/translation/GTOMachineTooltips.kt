@@ -180,6 +180,16 @@ object GTOMachineTooltips {
         info(ComponentSlang.Capacity(MultiblockCrateMachine.Capacity.toString()))
     }
 
+    val fishingFarmTooltips: ComponentListSupplier = ComponentListSupplier {
+        setTranslationPrefix("fishing_farm")
+
+        section(("设置电路以启用" translatedTo "Set the circuit to enable").gold() + ("自动钓鱼" translatedTo "automatic fishing").scrollOptical())
+        content(("1号电路：" translatedTo "Circuit 1:").gold() + ("随机垂钓" translatedTo "random fishing").aqua())
+        content(("2号电路：" translatedTo "Circuit 2:").gold() + ("捕捉鱼类" translatedTo "catch fish").aqua())
+        content(("3号电路：" translatedTo "Circuit 3:").gold() + ("捕捉垃圾" translatedTo "catch junk").aqua())
+        content(("4号电路：" translatedTo "Circuit 4:").gold() + ("捕捉宝藏" translatedTo "catch treasure").aqua())
+    }
+
     // 外置热源锅炉
     val BoilWaterMachineTooltips = ComponentListSupplier {
         setTranslationPrefix("boil_water_machine")
@@ -511,6 +521,9 @@ object GTOMachineTooltips {
             increase("获得3倍速度" translatedTo "Gains 3x speed")
             increase("获得额外130%涡轮效率" translatedTo "Gains additional 130% turbine efficiency")
             decrease("转子损耗速度变为3倍" translatedTo "Rotor wear rate becomes 3x")
+
+            section(ComponentSlang.CoilEfficiencyBonus)
+            increase("线圈等级每高出白铜一级，转子启动速度增加20%" translatedTo "Each coil tier above Cupronickel increases rotor startup speed by 20%")
         }
     }
 
@@ -1427,5 +1440,21 @@ object GTOMachineTooltips {
         info("消耗魔力，镶孔符文强行添加镶孔" translatedTo "Consume magic power and enter sigil of socketing to forcibly addition of sockets")
         command("电路 13：强行镶嵌宝石" translatedTo "Circuit 13: Forced gem inlay")
         info("消耗魔力，强行将宝石镶嵌到物品上" translatedTo "Consume magic power to forcibly inserting gems into items")
+    }
+
+    // 炼金装置
+    val AlchemicalDeviceTooltips = ComponentListSupplier {
+        setTranslationPrefix("alchemical_device")
+        add("炼金是一个神秘的过程" translatedTo "Alchemy is a mysterious process") { gold() }
+        add("物质在连续不断的转换中获得升华" translatedTo "Matter attains sublimation through continuous transformation") { gold() }
+        add("部分配方产出概率随运行次数增长" translatedTo "§7The probability of partial recipe output increases with the number of runs") { gray().italic() }
+    }
+
+    // 大型炼金装置补充
+    val LargeAlchemicalDeviceTooltips = ComponentListSupplier {
+        setTranslationPrefix("large_alchemical_device")
+        section("结构中的密封机械方块可以被嬗变催化剂替代" translatedTo "The sealed mechanical blocks in the structure can be replaced by transmutation catalysts")
+        content("当安装7个嬗变催化剂时，机器将激活完美嬗变模式" translatedTo "When 7 transmutation catalysts are installed, the machine will activate perfect transmutation mode")
+        command(("当安装" translatedTo "When installed").gold() + ("生物活性主机" translatedTo "Bioware Processor Mainframe").scrollBioware() + ("时，机器将获得0.01x耗时减免" translatedTo " the machine will gain 0.01x Duration reduction").gold())
     }
 }

@@ -1,7 +1,7 @@
 package com.gtocore.mixin.mc;
 
 import com.gtocore.common.forge.ServerLangHook;
-import com.gtocore.config.GTOConfig;
+import com.gtocore.config.GTOStartupConfig;
 
 import net.minecraft.client.resources.language.FormattedBidiReorder;
 import net.minecraft.locale.Language;
@@ -17,8 +17,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import java.util.*;
-
 import static com.gtocore.common.forge.ServerLangHook.langs;
 
 @Mixin(Language.class)
@@ -33,7 +31,7 @@ public class LanguageMixin {
 
     @Inject(method = "getInstance", at = @At("HEAD"), cancellable = true)
     private static void getInstance(CallbackInfoReturnable<Language> cir) {
-        if (!gto$isDedicatedServer || GTOConfig.INSTANCE.serverLanguage.equals("en_us")) return;
+        if (!gto$isDedicatedServer || GTOStartupConfig.serverLang.equals("en_us")) return;
         if (gto$serverLanguage != null) {
             cir.setReturnValue(gto$serverLanguage);
             return;

@@ -7,8 +7,12 @@ import com.gtocore.integration.emi.satellite.SatelliteEmiCategory;
 import com.gtolib.api.ae2.me2in1.Me2in1Menu;
 import com.gtolib.api.ae2.me2in1.UtilsMiscs;
 import com.gtolib.api.ae2.me2in1.Wireless;
+import com.gtolib.utils.GTOUtils;
 
 import com.gregtechceu.gtceu.GTCEu;
+import com.gregtechceu.gtceu.api.GTCEuAPI;
+import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
+import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.recipe.category.GTRecipeCategory;
 import com.gregtechceu.gtceu.api.registry.GTRegistries;
 import com.gregtechceu.gtceu.common.data.GTFluids;
@@ -46,6 +50,7 @@ import dev.emi.emi.api.EmiRegistry;
 import dev.emi.emi.api.stack.*;
 import dev.emi.emi.jemi.JemiPlugin;
 import dev.emi.emi.registry.EmiPluginContainer;
+import dev.shadowsoffire.apotheosis.adventure.compat.AdventureJEIPlugin;
 import dev.shadowsoffire.apotheosis.ench.compat.EnchJEIPlugin;
 import dev.shadowsoffire.apotheosis.potion.compat.PotionJEIPlugin;
 import dev.shadowsoffire.apotheosis.village.compat.VillageJEIPlugin;
@@ -71,6 +76,7 @@ public final class GTEMIPlugin implements EmiPlugin {
         list.add(new MachinesJEI());
         list.add(new JemiPlugin());
         list.add(new EnchJEIPlugin());
+        list.add(new AdventureJEIPlugin());
         list.add(new PotionJEIPlugin());
         list.add(new VillageJEIPlugin());
         list.add(new JEIConfig());
@@ -135,5 +141,8 @@ public final class GTEMIPlugin implements EmiPlugin {
         PotionFluid potionFluid = GTFluids.POTION.get();
         registry.setDefaultComparison(potionFluid.getSource(), potionComparison);
         registry.setDefaultComparison(potionFluid.getFlowing(), potionComparison);
+
+        GTCEuAPI.materialManager.getRegisteredMaterials().stream().filter(m -> GTOUtils.isGeneration(TagPrefix.turbineBlade, m)).forEach(
+                m -> registry.setDefaultComparison(ChemicalHelper.get(TagPrefix.turbineRotorCoated, m), Comparison.compareNbt()));
     }
 }

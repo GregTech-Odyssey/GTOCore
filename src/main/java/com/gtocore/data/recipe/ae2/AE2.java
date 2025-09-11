@@ -27,6 +27,7 @@ import appeng.core.AppEng;
 import appeng.core.definitions.AEBlocks;
 import appeng.core.definitions.AEItems;
 import com.glodblock.github.extendedae.ExtendedAE;
+import com.glodblock.github.extendedae.common.EPPItemAndBlock;
 
 import java.util.Set;
 
@@ -109,7 +110,7 @@ public final class AE2 {
 
         ASSEMBLER_RECIPES.builder("energy_acceptor")
                 .inputItems(GTMachines.DIODE[GTValues.LV].asStack())
-                .inputItems(GTMachines.ENERGY_CONVERTER_16A[GTValues.LV].asStack())
+                .inputItems(GTItems.BATTERY_HULL_LV)
                 .inputItems(AEBlocks.QUARTZ_GLASS.block().asItem(), 4)
                 .inputItems(CustomTags.LV_CIRCUITS, 4)
                 .inputItems(TagPrefix.cableGtQuadruple, GTMaterials.Nickel, 4)
@@ -322,6 +323,12 @@ public final class AE2 {
                     'C', new ItemStack(AEItems.CAPACITY_CARD.asItem()),
                     'D', CustomTags.EV_CIRCUITS);
 
+            VanillaRecipeHelper.addShapelessRecipe(GTOCore.id("ex_pattern_provider1"), EPPItemAndBlock.PATTERN_PROVIDER_UPGRADE.getDefaultInstance(),
+                    new ItemStack(AEBlocks.PATTERN_PROVIDER.block().asItem(), 3),
+                    new ItemStack(AEItems.ENGINEERING_PROCESSOR.asItem(), 2),
+                    new ItemStack(AEItems.CAPACITY_CARD.asItem(), 2),
+                    CustomTags.EV_CIRCUITS);
+
             ASSEMBLER_RECIPES.builder("assembler_matrix_speed")
                     .inputItems("expatternprovider:assembler_matrix_wall")
                     .inputItems(AEItems.SPEED_CARD.asItem(), 2)
@@ -415,6 +422,12 @@ public final class AE2 {
                     'B', new ItemStack(AEItems.ENGINEERING_PROCESSOR.asItem()),
                     'C', new ItemStack(AEItems.CAPACITY_CARD.asItem()),
                     'D', CustomTags.HV_CIRCUITS);
+
+            VanillaRecipeHelper.addShapelessRecipe(GTOCore.id("ex_pattern_provider1"), EPPItemAndBlock.PATTERN_PROVIDER_UPGRADE.getDefaultInstance(),
+                    new ItemStack(AEBlocks.PATTERN_PROVIDER.block().asItem(), 3),
+                    new ItemStack(AEItems.ENGINEERING_PROCESSOR.asItem(), 2),
+                    new ItemStack(AEItems.CAPACITY_CARD.asItem(), 2),
+                    CustomTags.HV_CIRCUITS);
 
             ASSEMBLER_RECIPES.builder("assembler_matrix_speed")
                     .inputItems("expatternprovider:assembler_matrix_wall")
@@ -544,5 +557,13 @@ public final class AE2 {
         filters.add(ExtendedAE.id("assembler_matrix_crafter"));
         filters.add(ExtendedAE.id("assembler_matrix_pattern"));
         filters.add(ExtendedAE.id("assembler_matrix_speed"));
+        // EPP Upgrades
+        // filters.add(ExtendedAE.id("ei_upgrade"));
+        filters.add(ExtendedAE.id("epp_upgrade"));
+        // filters.add(ExtendedAE.id("ebus_upgrade"));
+        // filters.add(ExtendedAE.id("epa_upgrade"));
+        // filters.add(ExtendedAE.id("ex_drive_upgrade"));
+        filters.add(ExtendedAE.id("ex_emc_import_bus_upgrade"));
+        filters.add(ExtendedAE.id("ex_emc_interface_upgrade"));
     }
 }

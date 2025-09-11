@@ -720,6 +720,14 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
         highlight("让任何流体都达到理论温度极限" translatedTo "Push any fluid to theoretical temperature limits")
     }
 
+    val smartSifteringHubTooltips = ComponentListSupplier {
+        setTranslationPrefix("smart_siftering_hub")
+
+        add("智能筛分中心，矿物处理的未来" translatedTo "Smart Sifting Hub, the future of mineral processing") { gold() }
+        add("集成多种筛分技术，实现高效精准的矿物分离" translatedTo "Integrates multiple sifting technologies for efficient and precise mineral separation") { gray() }
+        highlight(("物质筛分的智能革命" translatedTo "Intelligent revolution in material sifting")) { gold() }
+    }
+
     // 复合式蒸馏分馏塔
     val CompoundDistillationTowerTooltips = ComponentListSupplier {
         setTranslationPrefix("compound_distillation_tower")

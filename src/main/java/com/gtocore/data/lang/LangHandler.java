@@ -91,6 +91,19 @@ public final class LangHandler {
         addCNEN("key.gtocore.debug_inspect", "调试检查GUI槽位", "Debug Inspect GUI Slot");
         addCNEN("key.keybinding.gtocore", "GTO按键绑定", "GTO Key Bindings");
 
+        addCNEN("selectWorld.self_restraint_mode.enabled", "自我约束模式开！", "Self-restraint mode enabled!");
+        addCNEN("selectWorld.gto_difficulty", "GTO难度：%s", "GTO Difficulty: %s");
+        addCNEN("selectWorld.gto_difficulty.no_suffix", "GTO难度", "GTO Difficulty");
+        addCNEN("selectWorld.dev_mode", "开发者模式已启用", "Developer Mode Enabled");
+        addCNEN("selectWorld.gto_difficulty.current", "与当前游戏难度匹配", "Matches current game difficulty");
+        addCNEN("selectWorld.gto_difficulty.not_current", "与当前游戏难度不匹配", "Does not match current game difficulty");
+        addCNEN("message.gtocore.difficulty_mismatch", "服务器难度与当前客户端不符，无法加入游戏！（当前：%s，服务器：%s）", "The server difficulty does not match the current client and cannot join the game! (Current: %s, Server: %s)");
+
+        addCNEN("selectWorld.gto_difficulty.tooltip.simple", "简单模式：游戏流程的各环节（资源获取，制作，自动化等）均有大量简化，游戏难度低。", "Simple Mode: All aspects of the game process (resource acquisition, crafting, automation, etc.) are greatly simplified, making the game easier. ");
+        addCNEN("selectWorld.gto_difficulty.tooltip.normal", "普通模式：标准的GTO体验，机制玩法均为默认设定。", "Normal Mode: Standard GTO experience, with all mechanics and gameplay set to default. ");
+        addCNEN("selectWorld.gto_difficulty.tooltip.expert", "专家模式：具有更难的游戏机制和更复杂的配方，适合寻求挑战的玩家。", "Expert Mode: Features more difficult game mechanics and complex recipes, suitable for players seeking a challenge. ");
+        addCNEN("selectWorld.gto_difficulty.tooltip.generic", "具体机制可在config/gtocore/gtocore_startup.cfg中查看。", "Specific mechanics can be found in config/gtocore/gtocore_startup.cfg. ");
+
         addCNEN("structure_writer.export_order", "导出顺序： C:%s  S:%s  A:%s", "Export Order: C:%s  S:%s  A:%s");
         addCNEN("structure_writer.structural_scale", "结构规模： X:%s  Y:%s  Z:%s", "Structural Scale: X:%s  Y:%s  Z:%s");
 

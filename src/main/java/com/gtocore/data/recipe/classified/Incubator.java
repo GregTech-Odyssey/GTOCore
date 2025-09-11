@@ -21,6 +21,8 @@ import appeng.core.definitions.AEItems;
 import com.enderio.base.common.init.EIOFluids;
 import earth.terrarium.adastra.common.registry.ModFluids;
 
+import static com.gregtechceu.gtceu.api.GTValues.UEV;
+import static com.gregtechceu.gtceu.api.GTValues.VA;
 import static com.gtocore.common.data.GTORecipeTypes.INCUBATOR_RECIPES;
 
 final class Incubator {
@@ -86,6 +88,20 @@ final class Incubator {
                 .duration(2400)
                 .addData("filter_casing", 3)
                 .addData("radioactivity", 440)
+                .save();
+
+        INCUBATOR_RECIPES.builder("barnarda_c_log_from_echo")
+                .inputItems("deeperdarker:echo_sapling", 4)
+                .inputItems("deeperdarker:echo_log", 32)
+                .inputItems(GTOBlocks.BARNARDA_C_LOG.asStack(32))
+                .inputItems(TagPrefix.dust, GTOMaterials.StreptococcusPyogenes, 16)
+                .inputItems(TagPrefix.dust, GTOMaterials.Shewanella, 16)
+                .outputItems(GTOBlocks.BARNARDA_C_LOG.asStack(64))
+                .inputFluids(GTOMaterials.BarnardaAir, 10000)
+                .EUt(VA[UEV])
+                .addData("filter_casing", 3)
+                .addData("radioactivity", 440)
+                .duration(1200)
                 .save();
 
         INCUBATOR_RECIPES.recipeBuilder("lubricant_vein_essence")

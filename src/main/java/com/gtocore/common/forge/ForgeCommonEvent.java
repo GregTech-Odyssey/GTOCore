@@ -9,6 +9,7 @@ import com.gtocore.common.machine.multiblock.electric.voidseries.VoidTransporter
 import com.gtocore.common.network.ServerMessage;
 import com.gtocore.common.saved.*;
 import com.gtocore.config.GTOConfig;
+import com.gtocore.config.GTOStartupConfig;
 import com.gtocore.utils.OrganUtilsKt;
 
 import com.gtolib.GTOCore;
@@ -331,8 +332,8 @@ public final class ForgeCommonEvent {
     @SubscribeEvent
     public static void serverStarting(ServerStartingEvent event) {
         DistExecutor.unsafeRunWhenOn(Dist.DEDICATED_SERVER, () -> () -> {
-            if (Objects.equals(GTOConfig.INSTANCE.serverLanguage, "en_us")) return;
-            ServerLangHook.gto$loadLanguage(GTOConfig.INSTANCE.serverLanguage, event.getServer());
+            if (Objects.equals(GTOStartupConfig.serverLang, "en_us")) return;
+            ServerLangHook.gto$loadLanguage(GTOStartupConfig.serverLang, event.getServer());
         });
     }
 }

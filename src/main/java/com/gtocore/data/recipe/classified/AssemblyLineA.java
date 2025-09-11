@@ -505,5 +505,32 @@ final class AssemblyLineA {
                         .EUt(GTValues.VA[GTValues.ZPM])
                         .CWUt(512))
                 .save();
+
+        ASSEMBLY_LINE_RECIPES.recipeBuilder("smart_siftering_hub")
+                .inputItems(GTMachines.SIFTER[GTValues.UHV].asStack(16))
+                .inputItems(CustomTags.UEV_CIRCUITS, 16)
+                .inputItems(GTItems.ITEM_FILTER.asStack(64))
+                .inputItems(GTItems.TAG_FILTER.asStack(64))
+                .inputItems(GTItems.SMART_ITEM_FILTER.asStack(64))
+                .inputItems(GTItems.FLUID_FILTER.asStack(64))
+                .inputItems(GTItems.TAG_FLUID_FILTER.asStack(64))
+                .inputItems(GTItems.MASK_FILTER.asStack(64))
+                .inputItems(GTItems.FIELD_GENERATOR_UHV.asStack(16))
+                .inputItems(TagPrefix.bolt, GTMaterials.Bronze, 16)
+                .inputItems(TagPrefix.bolt, GTMaterials.BlueSteel, 16)
+                .inputItems(TagPrefix.bolt, GTOMaterials.Inconel625, 16)
+                .inputItems(TagPrefix.bolt, GTOMaterials.Adamantium, 16)
+                .outputItems(MultiBlockH.SMART_FILTERING_HUB.asStack())
+                .inputFluids(GTOMaterials.MutatedLivingSolder, 6000)
+                .inputFluids(GTMaterials.Hassium, 1000)
+                .inputFluids(GTMaterials.AnnealedCopper, 3440)
+                .inputFluids(GTOMaterials.LiquidCrystalKevlar, 3304)
+                .EUt(GTValues.VA[GTValues.UHV])
+                .duration(800)
+                .researchStation(b -> b.researchStack(GCYMMachines.LARGE_SIFTING_FUNNEL.asStack())
+                        .duration(1200)
+                        .EUt(GTValues.VA[GTValues.ZPM])
+                        .CWUt(512))
+                .save();
     }
 }

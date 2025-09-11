@@ -408,12 +408,12 @@ final class MixerRecipes {
                 .outputItems(dust, Osmiridium, 4)
                 .save();
 
-        MIXER_RECIPES.recipeBuilder("rhodium_plated_palladium").duration(400).EUt(VA[IV])
-                .inputItems(dust, Palladium, 3)
-                .inputItems(dust, Rhodium)
-                .circuitMeta(1)
-                .outputItems(dust, RhodiumPlatedPalladium, 4)
-                .save();
+        // MIXER_RECIPES.recipeBuilder("rhodium_plated_palladium").duration(400).EUt(VA[IV])
+        // .inputItems(dust, Palladium, 3)
+        // .inputItems(dust, Rhodium)
+        // .circuitMeta(1)
+        // .outputItems(dust, RhodiumPlatedPalladium, 4)
+        // .save();
 
         MIXER_RECIPES.recipeBuilder("magnalium").duration(100).EUt(VA[ULV])
                 .inputItems(dust, Aluminium, 2)

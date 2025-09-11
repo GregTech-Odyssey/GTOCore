@@ -37,6 +37,16 @@ public final class GCYMRecipes {
                 .duration((int) Graphene.getMass())
                 .EUt(24)
                 .save();
+
+        ELECTROPLATING_RECIPES.recipeBuilder("palladium_plating")
+                .inputItems(plate, Palladium, 6)
+                .inputItems(plateDouble, Rhodium, 1)
+                .inputItems(dust, AmmoniumChloride, 2)
+                .inputFluids(NitricAcid, 1000)
+                .outputItems(ingot, RhodiumPlatedPalladium, 8)
+                .outputFluids(DilutedHydrochloricAcid, 1000)
+                .duration(2400).EUt(VA[IV])
+                .save();
     }
 
     private static void registerMachineRecipes() {

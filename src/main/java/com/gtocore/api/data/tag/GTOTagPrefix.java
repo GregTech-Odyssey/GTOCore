@@ -35,8 +35,6 @@ import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.Conditions.hasOreProp
 @SuppressWarnings("unused")
 public final class GTOTagPrefix extends TagPrefix {
 
-    private int maxDamage;
-
     private ICustomRenderer customRenderer;
 
     private GTOTagPrefix(String name) {
@@ -77,7 +75,7 @@ public final class GTOTagPrefix extends TagPrefix {
     public static final TagPrefix GLOOMSLATE = ore("gloomslate").registerOre(() -> DDBlocks.GLOOMSLATE.get().defaultBlockState(), null, BlockBehaviour.Properties.of().mapColor(MapColor.TERRACOTTA_BROWN).requiresCorrectToolForDrops().strength(4.0F, 5.0F), DeeperDarker.rl("block/gloomslate"));
     public static final TagPrefix LIVING_STONE = ore("living_rock").registerOre(() -> BotaniaBlocks.livingrock.defaultBlockState(), null, BlockBehaviour.Properties.of().mapColor(MapColor.STONE).requiresCorrectToolForDrops().strength(3.0F, 3.0F), RLUtils.bot("block/livingrock"));
     private static final MaterialIconType NANITES_ICON = new MaterialIconType("nanites");
-    public static final TagPrefix CATALYST = new GTOTagPrefix("catalyst").maxDamage(10000).idPattern("%s_catalyst").defaultTagPath("catalyst/%s").unformattedTagPath("catalyst").materialAmount(GTValues.M).materialIconType(new MaterialIconType("catalyst")).unificationEnabled(true).generateItem(true).generationCondition(mat -> mat.hasFlag(GTOMaterialFlags.GENERATE_CATALYST));
+    public static final TagPrefix CATALYST = new GTOTagPrefix("catalyst").idPattern("%s_catalyst").defaultTagPath("catalyst/%s").unformattedTagPath("catalyst").materialAmount(GTValues.M).materialIconType(new MaterialIconType("catalyst")).unificationEnabled(true).generateItem(true).maxDamage(m -> 10000).generationCondition(mat -> mat.hasFlag(GTOMaterialFlags.GENERATE_CATALYST));
     public static final TagPrefix NANITES = new GTOTagPrefix("nanites").idPattern("%s_nanites").defaultTagPath("nanites/%s").unformattedTagPath("nanites").materialAmount(GTValues.M).materialIconType(NANITES_ICON).unificationEnabled(true).generateItem(true).generationCondition(mat -> mat.hasFlag(GTOMaterialFlags.GENERATE_NANITES));
     public static final TagPrefix CONTAMINABLE_NANITES = new GTOTagPrefix("contaminable_nanites").idPattern("contaminable_%s_nanites").defaultTagPath("contaminable_nanites/%s").unformattedTagPath("contaminable_nanites").materialAmount(GTValues.M).materialIconType(NANITES_ICON).unificationEnabled(true).generateItem(true).generationCondition(mat -> mat.hasFlag(GTOMaterialFlags.GENERATE_NANITES));
     public static final TagPrefix MILLED = new GTOTagPrefix("milled").idPattern("milled_%s").defaultTagPath("milleds/%s").unformattedTagPath("milleds").materialAmount(GTValues.M).materialIconType(new MaterialIconType("milled")).unificationEnabled(true).generateItem(true).generationCondition(mat -> mat.hasFlag(GTOMaterialFlags.GENERATE_MILLED));
@@ -115,18 +113,6 @@ public final class GTOTagPrefix extends TagPrefix {
     public static final TagPrefix EXCITED_ZIRCONIUM_CARBIDE_TARGET = new GTOTagPrefix("excited_zirconium_carbide_target").useRenderer(() -> HaloItemRenderer.RADIOACTIVE).idPattern("%s_excited_zirconium_carbide_target").defaultTagPath("excited_zirconium_carbide_target/%s").unformattedTagPath("excited_zirconium_carbide_target").materialAmount(GTValues.M * 2).materialIconType(ZirconiumCarbideIcon).unificationEnabled(true).generateItem(true).generationCondition(mat -> mat.hasFlag(GTOMaterialFlags.GENERATE_ZIRCONIUM_CARBIDE_TARGET));
     public static final TagPrefix BREEDER_ROD = new GTOTagPrefix("breeder_rod").useRenderer(() -> HaloItemRenderer.RADIOACTIVE).idPattern("%s_breeder_rod").defaultTagPath("breeder_rod/%s").unformattedTagPath("breeder_rod").materialAmount(GTValues.M * 2).materialIconType(BreederRodIcon).unificationEnabled(true).generateItem(true).generationCondition(mat -> mat.hasFlag(GTOMaterialFlags.GENERATE_BREEDER_ROD));
     public static final TagPrefix DEPLETED_BREEDER_ROD = new GTOTagPrefix("depleted_breeder_rod").idPattern("%s_depleted_breeder_rod").defaultTagPath("depleted_breeder_rod/%s").unformattedTagPath("depleted_breeder_rod").materialAmount(GTValues.M * 2).materialIconType(BreederRodIcon).unificationEnabled(true).generateItem(true).generationCondition(mat -> mat.hasFlag(GTOMaterialFlags.GENERATE_BREEDER_ROD));
-
-    public int maxDamage() {
-        return this.maxDamage;
-    }
-
-    /**
-     * @return {@code this}.
-     */
-    private GTOTagPrefix maxDamage(final int maxDamage) {
-        this.maxDamage = maxDamage;
-        return this;
-    }
 
     private GTOTagPrefix useRenderer(final ICustomRenderer renderer) {
         this.customRenderer = renderer;

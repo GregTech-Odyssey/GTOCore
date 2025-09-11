@@ -183,6 +183,8 @@ public final class GTOMaterials {
     public static Material DustyLiquidHeliumIII;
     public static Material Ozone;
     public static Material RareEarthChlorides;
+    public static Material ChromicAcid;
+    public static Material ChromicAcidWaste;
 
     public static Material PentlanditeFront;
     public static Material EnrichedNaquadahFront;
@@ -419,6 +421,8 @@ public final class GTOMaterials {
     public static Material Cyclooctadiene;
     public static Material SeaborgiumDopedNanotubes;
     public static Material Ethylenediamine;
+    public static Material Triphenylphosphine;
+    public static Material RhodiumTriphenylphosphineChloride;
     public static Material Ethanolamine;
     public static Material EthyleneOxide;
     public static Material Benzaldehyde;

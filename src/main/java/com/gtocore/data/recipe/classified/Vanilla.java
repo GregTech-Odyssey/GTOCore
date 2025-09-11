@@ -14,10 +14,7 @@ import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.chemical.material.stack.MaterialEntry;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
-import com.gregtechceu.gtceu.common.data.GTBlocks;
-import com.gregtechceu.gtceu.common.data.GTItems;
-import com.gregtechceu.gtceu.common.data.GTMachines;
-import com.gregtechceu.gtceu.common.data.GTMaterials;
+import com.gregtechceu.gtceu.common.data.*;
 import com.gregtechceu.gtceu.common.data.machines.GTMultiMachines;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
 import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
@@ -956,5 +953,11 @@ final class Vanilla {
                 'A', GTOItems.ULV_ROBOT_ARM.asStack(), 'C', CustomTags.LV_CIRCUITS,
                 'B', new MaterialEntry(TagPrefix.wireFine, GTMaterials.Zinc), 'D', GTBlocks.CASING_STEEL_SOLID.asStack(),
                 'E', new MaterialEntry(TagPrefix.pipeHugeRestrictive, GTMaterials.CobaltBrass), 'F', new MaterialEntry(TagPrefix.toolHeadDrill, GTMaterials.Steel));
+
+        VanillaRecipeHelper.addShapedRecipe(GTOCore.id("electroplating_bath"), MultiBlockH.ELECTROPLATING_BATH.asStack(),
+                "ABA",
+                "CDC",
+                "EFE",
+                'A', GCYMBlocks.ELECTROLYTIC_CELL.asStack(), 'B', CustomTags.IV_CIRCUITS, 'C', GTOBlocks.CHEMICAL_GRADE_GLASS.asStack(), 'D', GTBlocks.HERMETIC_CASING_IV.asStack(), 'E', GTItems.ELECTRIC_PUMP_IV.asStack(), 'F', GTItems.ELECTRIC_MOTOR_IV.asStack());
     }
 }

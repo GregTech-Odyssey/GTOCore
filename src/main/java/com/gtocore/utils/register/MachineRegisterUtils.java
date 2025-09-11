@@ -466,7 +466,7 @@ public final class MachineRegisterUtils {
     public static MultiblockMachineDefinition registerMegaTurbine(String name, String cn, int tier, boolean special, GTRecipeType recipeType,
                                                                   Supplier<Block> casing, Supplier<Block> gear, ResourceLocation baseCasing,
                                                                   ResourceLocation overlayModel, Function<MultiblockMachineDefinition, BlockPattern> subPattern) {
-        return multiblock(name, cn, holder -> new TurbineMachine(holder, tier, special, true))
+        return multiblock(name, cn, holder -> new TurbineMachine.MegaTurbine(holder, tier, special))
                 .nonYAxisRotation()
                 .recipeTypes(recipeType)
                 .generator()

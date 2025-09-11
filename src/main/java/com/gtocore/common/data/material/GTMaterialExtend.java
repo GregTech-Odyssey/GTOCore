@@ -31,6 +31,10 @@ public final class GTMaterialExtend {
         Neutron.setMaterialARGB(0x10102);
         Electrum.setProperty(BLAST, new BlastProperty(740));
         Neutron.setProperty(BLAST, new BlastProperty(17690));
+        Neutron.getProperties().removeProperty(TOOL);
+        Neutron.getProperties().removeProperty(ROTOR);
+        Neutron.setProperty(TOOL, ToolProperty.Builder.of(800.0F, 800.0F, 6553500, 6).attackSpeed(10F).enchantability(180).unbreakable().magnetic().build());
+        Neutron.setProperty(ROTOR, new RotorProperty(2000, 1500, 24.0F, 10485760));
         Neutron.getMaterialInfo().setIconSet(GTOMaterialIconSet.NEUTRONIUM);
         Neutronium = material("amprosium", "安普洛")
                 .ingot(6)
@@ -70,7 +74,7 @@ public final class GTMaterialExtend {
                 .buildAndRegister();
 
         Cooperite.setComponents(new MaterialStack(PlatinumMetal, 3), new MaterialStack(Nickel, 1), new MaterialStack(Sulfur, 1), new MaterialStack(PalladiumMetal, 1));
-        RutheniumTriniumAmericiumNeutronate.setComponents(new MaterialStack(Ruthenium, 1), new MaterialStack(Trinium, 2), new MaterialStack(Americium, 1), new MaterialStack(Neutronium, 2), new MaterialStack(Oxygen, 8));
+        RutheniumTriniumAmericiumNeutronate.setComponents(new MaterialStack(Ruthenium, 1), new MaterialStack(Trinium, 2), new MaterialStack(Americium, 1), new MaterialStack(Amprosium, 2), new MaterialStack(Oxygen, 8));
         Clay.addFlags(GTOMaterialFlags.GENERATE_SMALL_DUST);
         Brick.addFlags(GTOMaterialFlags.GENERATE_SMALL_DUST);
         SodiumHydroxide.addFlags(GTOMaterialFlags.GENERATE_TINY_DUST);
@@ -133,6 +137,7 @@ public final class GTMaterialExtend {
         Platinum.addFlags(GTOMaterialFlags.GENERATE_CATALYST);
         Palladium.addFlags(GTOMaterialFlags.GENERATE_CATALYST);
         RhodiumPlatedPalladium.addFlags(GTOMaterialFlags.GENERATE_CATALYST);
+        RhodiumPlatedPalladium.getProperties().removeProperty(PropertyKey.BLAST);
         Brass.addFlags(GTOMaterialFlags.GENERATE_CATALYST);
         HastelloyC276.addFlags(GENERATE_ROTOR);
         Steel.addFlags(GTOMaterialFlags.GENERATE_COMPONENT);

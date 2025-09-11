@@ -711,6 +711,22 @@ public final class MaterialB {
                 .iconSet(DULL)
                 .buildAndRegister();
 
+        Triphenylphosphine = material("triphenylphosphine", "三苯基膦")
+                .fluid()
+                .color(0xe7d510)
+                .components(Carbon, 18, Hydrogen, 15, Phosphorus, 1)
+                .flags(DISABLE_DECOMPOSITION)
+                .iconSet(DULL)
+                .buildAndRegister();
+
+        RhodiumTriphenylphosphineChloride = material("rhodium_triphenylphosphine_chloride", "三（三苯基膦）铑(I)氯化物")
+                .dust()
+                .color(0x776715)
+                .components(Rhodium, 1, Chlorine, 1, Carbon, 18, Hydrogen, 15, Phosphorus, 1)
+                .flags(DISABLE_DECOMPOSITION, GTOMaterialFlags.GENERATE_CATALYST)
+                .iconSet(DULL)
+                .buildAndRegister();
+
         Ethanolamine = material("ethanolamine", "乙醇胺")
                 .fluid()
                 .color(0x1b5d74)
@@ -3903,6 +3919,20 @@ public final class MaterialB {
                 .fluid()
                 .components(Concrete, 1, Chlorine, 1)
                 .color(0xbdb76b).iconSet(LIMPID)
+                .flags(DISABLE_DECOMPOSITION)
+                .buildAndRegister();
+
+        ChromicAcid = material("chromic_acid", "铬酸")
+                .fluid()
+                .components(Chromium, 2, Hydrogen, 2, Oxygen, 7)
+                .color(0x9a0b0b).iconSet(LIMPID)
+                .flags(DISABLE_DECOMPOSITION)
+                .buildAndRegister();
+
+        ChromicAcidWaste = material("chromic_acid_waste", "铬酸废液")
+                .fluid()
+                .components(Chromium, 2, Hydrogen, 2, Oxygen, 7)
+                .color(0xca4b4b).iconSet(LIMPID)
                 .flags(DISABLE_DECOMPOSITION)
                 .buildAndRegister();
 

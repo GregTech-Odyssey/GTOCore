@@ -13,6 +13,7 @@ import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
 import static com.gregtechceu.gtceu.api.GTValues.*;
+import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.dust;
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.foil;
 import static com.gregtechceu.gtceu.common.data.GTItems.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
@@ -1122,13 +1123,24 @@ final class ChemicaRreactor {
                 .save();
 
         CHEMICAL_RECIPES.recipeBuilder("succinic_acid_dust")
-                .inputItems(GTOTagPrefix.CATALYST, GTMaterials.RhodiumPlatedPalladium)
+                .inputItems(GTOTagPrefix.CATALYST, GTOMaterials.RhodiumTriphenylphosphineChloride)
                 .inputFluids(GTMaterials.Water.getFluid(1000))
                 .inputFluids(GTMaterials.Hydrogen.getFluid(1000))
                 .inputFluids(GTOMaterials.MaleicAnhydride.getFluid(2000))
                 .outputItems(TagPrefix.dust, GTOMaterials.SuccinicAcid, 14)
                 .EUt(1920)
                 .duration(200)
+                .save();
+
+        CHEMICAL_RECIPES.recipeBuilder("rhodium_triphenylphosphine_chloride")
+                .inputItems(TagPrefix.dust, GTMaterials.Rhodium, 1)
+                .inputFluids(GTOMaterials.Triphenylphosphine.getFluid(3000))
+                .inputFluids(GTMaterials.HydrochloricAcid.getFluid(1000))
+                .outputItems(TagPrefix.dust, GTOMaterials.RhodiumTriphenylphosphineChloride, 1)
+                .outputFluids(GTMaterials.Hydrogen.getFluid(1000))
+                .EUt(1920)
+                .duration(300)
+                .cleanroom(CleanroomType.CLEANROOM)
                 .save();
 
         CHEMICAL_RECIPES.recipeBuilder("lithium_chloride_dust")
@@ -2887,5 +2899,22 @@ final class ChemicaRreactor {
                 .outputFluids(HydrogenSulfide.getFluid(480))
                 .outputFluids(RefineryGas.getFluid(8000))
                 .duration(400).EUt(VA[ULV]).save();
+
+        CHEMICAL_RECIPES.builder("chromic_acid_waste_recycle")
+                .inputFluids(GTOMaterials.ChromicAcidWaste.getFluid(2500))
+                .inputItems(dust, Zinc, 4)
+                .inputItems(dust, Iron, 4)
+                .outputFluids(Iron3Chloride.getFluid(3000))
+                .outputItems(dust, GTOMaterials.ZincSulfate, 3)
+                .outputItems(dust, Chromium, 1)
+                .duration(400).EUt(VA[HV]).save();
+
+        CHEMICAL_RECIPES.builder("triphenylphosphine")
+                .inputFluids(Benzene.getFluid(3000))
+                .inputFluids(GTOMaterials.PhosphorusTrichloride.getFluid(1000))
+                .inputItems(dust, Zinc, 4)
+                .outputFluids(GTOMaterials.Triphenylphosphine.getFluid(1000))
+                .outputItems(dust, GTOMaterials.ZincChloride, 3)
+                .duration(400).EUt(VA[HV]).save();
     }
 }

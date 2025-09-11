@@ -612,6 +612,7 @@ public final class MultiBlockA {
     public static final MultiblockMachineDefinition FISHING_GROUND = multiblock("fishing_ground", "渔场", FishingGroundMachine::new)
             .nonYAxisRotation()
             .tooltips(GTOMachineStories.INSTANCE.getFishingFarmTooltips().getSupplier())
+            .tooltips(GTOMachineTooltips.INSTANCE.getFishingFarmTooltips().getSupplier())
             .recipeTypes(GTORecipeTypes.FISHING_GROUND_RECIPES)
             .parallelizableTooltips()
             .parallelizableOverclock()

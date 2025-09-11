@@ -223,6 +223,7 @@ public final class ExResearchMachines {
             .abilities(DATA_ACCESS)
             .tooltips(Component.translatable("gtceu.machine.data_access_hatch.tooltip.0"),
                     Component.translatable("gtceu.machine.data_access_hatch.tooltip.1", 25))
+            .tooltipsText("可以放入§2神经矩阵§r及以下等级的数据存储介质。", "Can hold §2Neural Matrix§r and lower tier data storage media.")
             .notAllowSharedTooltips()
 
             .renderer(() -> new OverlayTieredMachineRenderer(UHV, GTCEu.id("block/machine/part/data_access_hatch")))
@@ -234,6 +235,7 @@ public final class ExResearchMachines {
             .abilities(DATA_ACCESS)
             .tooltips(Component.translatable("gtceu.machine.data_access_hatch.tooltip.0"),
                     Component.translatable("gtceu.machine.data_access_hatch.tooltip.1", 36))
+            .tooltipsText("可以放入§6原子档案§r及以下等级的数据存储介质。", "Can hold §6Atomic Archive§r and lower tier data storage media.")
             .notAllowSharedTooltips()
 
             .renderer(() -> new OverlayTieredMachineRenderer(UIV, GTCEu.id("block/machine/part/data_access_hatch")))
@@ -245,6 +247,7 @@ public final class ExResearchMachines {
             .abilities(DATA_ACCESS)
             .tooltips(Component.translatable("gtceu.machine.data_access_hatch.tooltip.0"),
                     Component.translatable("gtceu.machine.data_access_hatch.tooltip.1", 49))
+            .tooltipsText("可以放入§d微缩宇宙§r及以下等级的数据存储介质。", "Can hold §dMiniature Universe§r and lower tier data storage media.")
             .notAllowSharedTooltips()
 
             .renderer(() -> new OverlayTieredMachineRenderer(OpV, GTCEu.id("block/machine/part/data_access_hatch")))
