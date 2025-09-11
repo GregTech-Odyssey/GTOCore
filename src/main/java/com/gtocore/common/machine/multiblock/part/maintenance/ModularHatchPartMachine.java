@@ -1,5 +1,6 @@
 package com.gtocore.common.machine.multiblock.part.maintenance;
 
+import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
 import com.gtocore.common.data.GTOMachines;
 
 import com.gtolib.api.annotation.DataGeneratorScanned;
@@ -49,7 +50,13 @@ public class ModularHatchPartMachine extends ACMHatchPartMachine implements IMod
     private TickableSubscription tickSubs;
 
     @Persisted
-    private final NotifiableItemStackHandler inventory;
+    private final NotifiableItemStackHandler temperatureModuleInv;
+    @Persisted
+    private final NotifiableItemStackHandler gravityModuleInv;
+    @Persisted
+    private final NotifiableItemStackHandler vacuumModuleInv;
+    @Persisted
+    private final NotifiableItemStackHandler cleanroomModuleInv;
     @Persisted
     private int temperature = 298;
     @Persisted
@@ -79,9 +86,23 @@ public class ModularHatchPartMachine extends ACMHatchPartMachine implements IMod
 
     public ModularHatchPartMachine(MetaMachineBlockEntity metaTileEntityId) {
         super(metaTileEntityId);
-        inventory = new NotifiableItemStackHandler(this, 4, IO.IN, IO.BOTH); // 3 for CLEAN, 2 for VACUUM, 1 for
-                                                                             // GRAVITY, 0 for TEMPERATURE
-        inventory.addChangedListener(this::onConditionChange);
+
+        temperatureModuleInv = new NotifiableItemStackHandler(this, 1, IO.IN, IO.BOTH, SingleItemStackHandler::new);
+        temperatureModuleInv.setFilter(stack -> stack.getItem() == Wrapper.TEMPERATURE_CHECK);
+        temperatureModuleInv.addChangedListener(this::onConditionChange);
+
+        gravityModuleInv = new NotifiableItemStackHandler(this, 1, IO.IN, IO.BOTH, SingleItemStackHandler::new);
+        gravityModuleInv.setFilter(stack -> stack.getItem() == Wrapper.GRAVITY_CHECK);
+        gravityModuleInv.addChangedListener(this::onConditionChange);
+
+        vacuumModuleInv = new NotifiableItemStackHandler(this, 1, IO.IN, IO.BOTH, SingleItemStackHandler::new);
+        vacuumModuleInv.setFilter(stack -> stack.getItem() == Wrapper.VACUUM_CHECK);
+        vacuumModuleInv.addChangedListener(this::onConditionChange);
+
+        cleanroomModuleInv = new NotifiableItemStackHandler(this, 1, IO.IN, IO.BOTH, SingleItemStackHandler::new);
+        cleanroomModuleInv.setFilter(stack -> Wrapper.CLEAN_CHECK.containsKey(stack.getItem()));
+        cleanroomModuleInv.addChangedListener(this::onConditionChange);
+
     }
 
     @Override
@@ -165,7 +186,7 @@ public class ModularHatchPartMachine extends ACMHatchPartMachine implements IMod
                         () -> Component.translatable("gtceu.maintenance.configurable_duration.modify"),
                         this::incInternalMultiplier, this::decInternalMultiplier, () -> true, getMIN_DURATION_MULTIPLIER(), getMAX_DURATION_MULTIPLIER()))
                 // Temperature
-                .addWidget(new SlotWidget(inventory.storage, 0, xslot, ylabel + y * 22, true, true)
+                .addWidget(new SlotWidget(temperatureModuleInv.storage, 0, xslot, ylabel + y * 22, true, true)
                         .setBackground(GuiTextures.SLOT)
                         .setHoverTooltips(Component.translatable(TOOLTIP_KEY, Wrapper.TEMPERATURE_CHECK.getDefaultInstance().getDisplayName(), Component.translatable(TEMPERATURE_FUNC).getString())))
                 .addWidget(getConfigPanel(xlabel, ylabel + y++ * 22,
@@ -177,7 +198,7 @@ public class ModularHatchPartMachine extends ACMHatchPartMachine implements IMod
                         v -> setActiveTemperature(getActiveTemperature() - v),
                         () -> temperatureMode, MIN_TEMPERATURE, MAX_TEMPERATURE))
                 // Gravity
-                .addWidget(new SlotWidget(inventory.storage, 1, xslot, ylabel + y * 22, true, true)
+                .addWidget(new SlotWidget(gravityModuleInv.storage, 0, xslot, ylabel + y * 22, true, true)
                         .setBackground(GuiTextures.SLOT)
                         .setHoverTooltips(Component.translatable(TOOLTIP_KEY, Wrapper.GRAVITY_CHECK.getDefaultInstance().getDisplayName(), Component.translatable(GRAVITY_FUNC).getString())))
                 .addWidget(getConfigPanel(xlabel, ylabel + y++ * 22,
@@ -189,12 +210,12 @@ public class ModularHatchPartMachine extends ACMHatchPartMachine implements IMod
                         v -> setCurrentGravity(getCurrentGravity() - v),
                         () -> gravityMode, MIN_GRAVITY, MAX_GRAVITY))
                 // Vacuum
-                .addWidget(new SlotWidget(inventory.storage, 2, xslot, ylabel + y * 22, true, true)
+                .addWidget(new SlotWidget(vacuumModuleInv.storage, 0, xslot, ylabel + y * 22, true, true)
                         .setBackground(GuiTextures.SLOT)
                         .setHoverTooltips(Component.translatable(TOOLTIP_KEY, Wrapper.VACUUM_CHECK.getDefaultInstance().getDisplayName(), Component.translatable(VACUUM_TIER_4).getString())))
                 .addWidget(new LabelWidget(xlabel, ylabel + y++ * 22 + 11, () -> Component.translatable("gtocore.recipe.vacuum.tier", getVacuumTier()).getString()))
                 // Cleanroom
-                .addWidget(new SlotWidget(inventory.storage, 3, xslot, ylabel + y * 22, true, true)
+                .addWidget(new SlotWidget(cleanroomModuleInv.storage, 0, xslot, ylabel + y * 22, true, true)
                         .setBackground(GuiTextures.SLOT)
                         .setHoverTooltips(Component.translatable(TOOLTIP_KEY_CLEANROOM)))
                 .addWidget(new ComponentPanelWidget(xlabel, ylabel + y++ * 22, (list) -> {
@@ -256,7 +277,10 @@ public class ModularHatchPartMachine extends ACMHatchPartMachine implements IMod
 
     @Override
     public void onDrops(List<ItemStack> drops) {
-        clearInventory(inventory);
+        clearInventory(temperatureModuleInv);
+        clearInventory(gravityModuleInv);
+        clearInventory(vacuumModuleInv);
+        clearInventory(cleanroomModuleInv);
     }
 
     @Override
@@ -274,10 +298,10 @@ public class ModularHatchPartMachine extends ACMHatchPartMachine implements IMod
     }
 
     private void onConditionChange() {
-        temperatureMode = inventory.getStackInSlot(0).getItem() == Wrapper.TEMPERATURE_CHECK;
-        gravityMode = inventory.getStackInSlot(1).getItem() == Wrapper.GRAVITY_CHECK;
-        vacuumMode = inventory.getStackInSlot(2).getItem() == Wrapper.VACUUM_CHECK;
-        var cleanroom = Wrapper.CLEAN_CHECK.get(inventory.getStackInSlot(3).getItem());
+        temperatureMode = !temperatureModuleInv.getStackInSlot(0).isEmpty();
+        gravityMode = !gravityModuleInv.getStackInSlot(0).isEmpty();
+        vacuumMode = !vacuumModuleInv.getStackInSlot(0).isEmpty();
+        var cleanroom = Wrapper.CLEAN_CHECK.get(cleanroomModuleInv.getStackInSlot(0).getItem());
         if (!getControllers().isEmpty() &&
                 getControllers().first() instanceof ICleanroomReceiver receiver && receiver.getCleanroom() != cleanroom) {
             receiver.setCleanroom(cleanroom);
@@ -299,9 +323,25 @@ public class ModularHatchPartMachine extends ACMHatchPartMachine implements IMod
         return super.showFancyTooltip();
     }
 
+    @Override
+    public int getMaxTemperature() {
+        return MAX_TEMPERATURE;
+    }
+
+    private static class SingleItemStackHandler extends CustomItemStackHandler {
+        public SingleItemStackHandler(int size) {
+            super(size);
+        }
+
+        @Override
+        public int getSlotLimit(int slot) {
+            return 1;
+        }
+    }
+
     private static class Wrapper {
 
-        private static final Item VACUUM_CHECK = GTOMachines.VACUUM_HATCH.getItem();
+        private static final Item VACUUM_CHECK = GTOMachines.VACUUM_CONFIGURATION_HATCH.getItem();
         private static final Item GRAVITY_CHECK = GTOMachines.GRAVITY_CONFIGURATION_HATCH.getItem();
         private static final Item TEMPERATURE_CHECK = GTOMachines.ELECTRIC_HEATER.getItem();
         private static final Map<Item, ICleanroomProvider> CLEAN_CHECK = Map.of(
