@@ -428,9 +428,13 @@ public final class AE2 {
                     'D', CustomTags.HV_CIRCUITS);
 
             VanillaRecipeHelper.addShapelessRecipe(GTOCore.id("ex_pattern_provider1"), EPPItemAndBlock.PATTERN_PROVIDER_UPGRADE.getDefaultInstance(),
-                    new ItemStack(AEBlocks.PATTERN_PROVIDER.block().asItem(), 3),
-                    new ItemStack(AEItems.ENGINEERING_PROCESSOR.asItem(), 2),
-                    new ItemStack(AEItems.CAPACITY_CARD.asItem(), 2),
+                    new ItemStack(AEBlocks.PATTERN_PROVIDER.block().asItem()),
+                    new ItemStack(AEBlocks.PATTERN_PROVIDER.block().asItem()),
+                    new ItemStack(AEBlocks.PATTERN_PROVIDER.block().asItem()),
+                    new ItemStack(AEItems.ENGINEERING_PROCESSOR.asItem()),
+                    new ItemStack(AEItems.ENGINEERING_PROCESSOR.asItem()),
+                    new ItemStack(AEItems.CAPACITY_CARD.asItem()),
+                    new ItemStack(AEItems.CAPACITY_CARD.asItem()),
                     CustomTags.HV_CIRCUITS);
 
             ASSEMBLER_RECIPES.builder("assembler_matrix_speed")
