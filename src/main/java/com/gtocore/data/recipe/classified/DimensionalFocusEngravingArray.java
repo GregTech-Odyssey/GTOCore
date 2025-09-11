@@ -19,6 +19,7 @@ final class DimensionalFocusEngravingArray {
                 .inputItems(TagPrefix.dust, GTOMaterials.UnfoldedFullerene)
                 .notConsumable(TagPrefix.lens, GTMaterials.Ruby)
                 .outputItems(TagPrefix.dust, GTOMaterials.Fullerene)
+                .outputFluids(GTMaterials.Ammonia.getFluid(10000))
                 .EUt(8000000)
                 .duration(100)
                 .save();
