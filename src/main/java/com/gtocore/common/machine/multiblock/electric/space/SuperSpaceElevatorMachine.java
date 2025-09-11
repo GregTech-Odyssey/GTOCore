@@ -127,7 +127,7 @@ public final class SuperSpaceElevatorMachine extends SpaceElevatorMachine {
         List<BlockPos> posA = new ArrayList<>(16);
         Direction back = getFrontFacing().getOpposite();
         Direction right = getFrontFacing().getClockWise();
-        BlockPos blockPos = blockPos0.above(1);
+        BlockPos blockPos = blockPos0.above(2);
         posA.add(blockPos.relative(back, 72).relative(right, 42));
         posA.add(blockPos.relative(back, 65).relative(right, 42));
         posA.add(blockPos.relative(back, 72).relative(right, 40));
