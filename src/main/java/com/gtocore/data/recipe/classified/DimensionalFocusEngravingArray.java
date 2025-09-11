@@ -1,5 +1,6 @@
 package com.gtocore.data.recipe.classified;
 
+import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.data.GTOMaterials;
 
@@ -8,6 +9,7 @@ import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
+import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.dust;
 import static com.gtocore.common.data.GTORecipeTypes.DIMENSIONAL_FOCUS_ENGRAVING_ARRAY_RECIPES;
 
 final class DimensionalFocusEngravingArray {
@@ -91,6 +93,17 @@ final class DimensionalFocusEngravingArray {
                 .scanner(b -> b.researchStack(GTOItems.FM_WAFER.asStack())
                         .dataStack(GTOItems.OPTICAL_DATA_STICK.asStack())
                         .EUt(7864320).duration(2400))
+                .save();
+
+
+        DIMENSIONAL_FOCUS_ENGRAVING_ARRAY_RECIPES.builder("lanthanum_embedded_fullerene_dust")
+                .notConsumable(TagPrefix.lens, GTMaterials.Sapphire)
+                .inputItems(TagPrefix.dust, GTOMaterials.LanthanumFullereneMix, 2)
+                .outputItems(TagPrefix.dust, GTOMaterials.LanthanumEmbeddedFullerene, 2)
+                .inputFluids(GTMaterials.Nitrogen, 10000)
+                .outputFluids(GTMaterials.Ammonia, 10000)
+                .EUt(1966080)
+                .duration(320)
                 .save();
     }
 }

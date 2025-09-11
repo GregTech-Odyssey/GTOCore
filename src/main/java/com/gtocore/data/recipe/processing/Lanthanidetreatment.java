@@ -1,6 +1,8 @@
 package com.gtocore.data.recipe.processing;
 
+import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gtocore.api.data.tag.GTOTagPrefix;
+import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.data.GTOMaterials;
 
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
@@ -628,6 +630,16 @@ public final class Lanthanidetreatment {
                     .duration(1200)
                     .EUt(491520)
                     .addData("special", true)
+                    .save();
+
+            DIMENSIONAL_FOCUS_ENGRAVING_ARRAY_RECIPES.recipeBuilder("make_extraction_nano_resin_" + i)
+                    .inputItems(NANITES, Carbon, 1)
+                    .notConsumable(lens, NetherStar, 1)
+                    .inputFluids(rareEarthElement.getFluid(4000))
+                    .inputFluids(P507.getFluid(4000))
+                    .outputFluids(nanoResin.getFluid(1000))
+                    .duration(1200)
+                    .EUt(491520)
                     .save();
 
             LARGE_CHEMICAL_RECIPES.recipeBuilder("extraction_nano_resin_a_" + i)

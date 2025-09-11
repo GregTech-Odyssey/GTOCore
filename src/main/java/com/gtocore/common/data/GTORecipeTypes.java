@@ -532,7 +532,7 @@ public final class GTORecipeTypes {
     public static final RecipeType DIMENSIONAL_FOCUS_ENGRAVING_ARRAY_RECIPES = register("dimensional_focus_engraving_array", "维度聚焦激光蚀刻阵列", MULTIBLOCK)
             .setEUIO(IO.IN)
             .setMaxTooltips(4)
-            .setMaxIOSize(2, 1, 2, 0)
+            .setMaxIOSize(2, 1, 2, 1)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.ARC)
             .setHasResearchSlot(true);
