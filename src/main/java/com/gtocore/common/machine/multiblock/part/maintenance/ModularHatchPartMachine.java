@@ -1,6 +1,7 @@
 package com.gtocore.common.machine.multiblock.part.maintenance;
 
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
+import com.gregtechceu.gtceu.api.transfer.item.SingleCustomItemStackHandler;
 import com.gtocore.common.data.GTOMachines;
 
 import com.gtolib.api.annotation.DataGeneratorScanned;
@@ -87,19 +88,19 @@ public class ModularHatchPartMachine extends ACMHatchPartMachine implements IMod
     public ModularHatchPartMachine(MetaMachineBlockEntity metaTileEntityId) {
         super(metaTileEntityId);
 
-        temperatureModuleInv = new NotifiableItemStackHandler(this, 1, IO.IN, IO.BOTH, SingleItemStackHandler::new);
+        temperatureModuleInv = new NotifiableItemStackHandler(this, 1, IO.IN, IO.BOTH, SingleCustomItemStackHandler::new);
         temperatureModuleInv.setFilter(stack -> stack.getItem() == Wrapper.TEMPERATURE_CHECK);
         temperatureModuleInv.addChangedListener(this::onConditionChange);
 
-        gravityModuleInv = new NotifiableItemStackHandler(this, 1, IO.IN, IO.BOTH, SingleItemStackHandler::new);
+        gravityModuleInv = new NotifiableItemStackHandler(this, 1, IO.IN, IO.BOTH, SingleCustomItemStackHandler::new);
         gravityModuleInv.setFilter(stack -> stack.getItem() == Wrapper.GRAVITY_CHECK);
         gravityModuleInv.addChangedListener(this::onConditionChange);
 
-        vacuumModuleInv = new NotifiableItemStackHandler(this, 1, IO.IN, IO.BOTH, SingleItemStackHandler::new);
+        vacuumModuleInv = new NotifiableItemStackHandler(this, 1, IO.IN, IO.BOTH, SingleCustomItemStackHandler::new);
         vacuumModuleInv.setFilter(stack -> stack.getItem() == Wrapper.VACUUM_CHECK);
         vacuumModuleInv.addChangedListener(this::onConditionChange);
 
-        cleanroomModuleInv = new NotifiableItemStackHandler(this, 1, IO.IN, IO.BOTH, SingleItemStackHandler::new);
+        cleanroomModuleInv = new NotifiableItemStackHandler(this, 1, IO.IN, IO.BOTH, SingleCustomItemStackHandler::new);
         cleanroomModuleInv.setFilter(stack -> Wrapper.CLEAN_CHECK.containsKey(stack.getItem()));
         cleanroomModuleInv.addChangedListener(this::onConditionChange);
 
@@ -326,17 +327,6 @@ public class ModularHatchPartMachine extends ACMHatchPartMachine implements IMod
     @Override
     public int getMaxTemperature() {
         return MAX_TEMPERATURE;
-    }
-
-    private static class SingleItemStackHandler extends CustomItemStackHandler {
-        public SingleItemStackHandler(int size) {
-            super(size);
-        }
-
-        @Override
-        public int getSlotLimit(int slot) {
-            return 1;
-        }
     }
 
     private static class Wrapper {
