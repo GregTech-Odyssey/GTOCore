@@ -66,6 +66,8 @@ public final class AdvancedInfiniteDrillLogic extends RecipeLogic implements IEn
         if (!veinFluids.isEmpty()) {
             var recipe = gtolib$getRecipeBuilder().duration(MAX_PROGRESS).EUt(20000).outputFluids(veinFluids.object2IntEntrySet().stream().map(entry -> new FluidStack(entry.getKey(), entry.getIntValue())).toArray(FluidStack[]::new)).buildRawRecipe();
             recipe.modifier(new ContentModifier(getParallel(), efficiency(getMachine().getRate() * 500)), true);
+            recipe.manat = 0L;
+            recipe.cwut = 0L;
             if (RecipeRunner.matchRecipe(machine, recipe) && RecipeRunner.matchTickRecipe(machine, recipe)) {
                 return recipe;
             }
