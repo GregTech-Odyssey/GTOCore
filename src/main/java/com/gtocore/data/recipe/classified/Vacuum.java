@@ -23,10 +23,9 @@ final class Vacuum {
     public static void init() {
         VACUUM_RECIPES.recipeBuilder("frozen_pearl")
                 .inputItems(TagPrefix.gem, GTMaterials.EnderPearl)
-                .inputFluids(GTMaterials.Ice.getFluid(576))
                 .outputItems("torchmaster:frozen_pearl")
                 .EUt(120)
-                .duration(120)
+                .duration(600)
                 .save();
 
         VACUUM_RECIPES.recipeBuilder("metastable_oganesson")

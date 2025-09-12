@@ -8,6 +8,7 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 
@@ -48,6 +49,11 @@ public class AffixCanvas extends ComponentItem {
     public boolean isFoil(@NotNull ItemStack stack) {
         CompoundTag tag = stack.getTag();
         return tag != null && tag.contains("affix_list", Tag.TAG_LIST);
+    }
+
+    @Override
+    public @NotNull Rarity getRarity(@NotNull ItemStack stack) {
+        return Rarity.UNCOMMON;
     }
 
     @Override

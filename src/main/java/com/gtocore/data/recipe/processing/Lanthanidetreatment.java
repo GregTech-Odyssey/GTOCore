@@ -1,8 +1,6 @@
 package com.gtocore.data.recipe.processing;
 
-import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gtocore.api.data.tag.GTOTagPrefix;
-import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.data.GTOMaterials;
 
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
