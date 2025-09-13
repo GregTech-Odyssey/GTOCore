@@ -1,5 +1,6 @@
 package com.gtocore.common.machine.multiblock.electric.adventure;
 
+import com.enderio.base.common.util.ExperienceUtil;
 import com.gtocore.data.IdleReason;
 
 import com.gtolib.api.item.ItemStackSet;
@@ -192,7 +193,7 @@ public final class SlaughterhouseMachine extends StorageMultiblockMachine {
                 }
             }
 
-            if (xp > 0) outputFluid(EIOFluids.XP_JUICE.getSource(), xp);
+            if (xp > 0) outputFluid(EIOFluids.XP_JUICE.getSource(), xp* ExperienceUtil.EXP_TO_FLUID);
 
             for (int i = 0; i <= tierMultiplier; i++) {
                 String mob = isFixed ? itemStack.getOrCreateTag().getCompound("BlockEntityTag")
