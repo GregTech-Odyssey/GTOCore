@@ -192,7 +192,7 @@ public final class SlaughterhouseMachine extends StorageMultiblockMachine {
                 }
             }
 
-            if (xp > 0) outputFluid(EIOFluids.XP_JUICE.getSource(), xp);
+            if (xp > 0) outputFluid(EIOFluids.XP_JUICE.getSource(), xp*20);
 
             for (int i = 0; i <= tierMultiplier; i++) {
                 String mob = isFixed ? itemStack.getOrCreateTag().getCompound("BlockEntityTag")
