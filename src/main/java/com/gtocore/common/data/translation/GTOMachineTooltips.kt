@@ -424,16 +424,19 @@ object GTOMachineTooltips {
         section("Tier 1 : 支持HPCA系列组件" translatedTo "Tier 1 : Supports HPCA Series Components", { blue() })
         content("槽位需求: 无" translatedTo "Slot requirement: None")
         content("结构材料需求: 钨强化硼玻璃 + 计算机外壳 + 计算机散热口" translatedTo "Structure material requirements: Tungsten Borosilicate Glass + Computer Casing + Computer Heat Vent")
+        content("使用冷却剂: 多氯联苯冷却剂" translatedTo "Coolant used: PCB coolant")
 
         // Tier 2 组件支持
         section("Tier 2 : 支持NICH系列组件" translatedTo "Tier 2 : Supports NICH Series Components", { blue() })
         content("槽位需求: 放入§a生物主机" translatedTo "Slot requirement: Place §abiological host")
         content("结构材料需求: 安普洛强化硼玻璃 + 生物计算机外壳 + 相变计算机散热口" translatedTo "Structure material requirements: Neutronium Borosilicate Glass + Biocomputer Casing + Phase Change Biocomputer Cooling Vents")
+        content("使用冷却剂: 液态氦(会输出气态氦)" translatedTo "Coolant: Liquid helium (will output gaseous helium)")
 
         // Tier 3 组件支持
         section("Tier 3 : 支持GWCA系列组件" translatedTo "Tier 3 : Supports GWCA Series Components", { blue() })
         content("槽位需求: 放入§5超因果主机" translatedTo "Slot requirement: Place §5Hyper-Causal Host")
         content("结构材料需求: 塔兰强化硼玻璃 + 引力子计算机外壳 + 逆熵计算机冷凝矩阵" translatedTo "Structure material requirements: Taranium Borosilicate Glass + Graviton Computer Casing + Anti Entropy Computer Condensation Matrix")
+        content("使用冷却剂: 液态氦(会输出气态氦)" translatedTo "Coolant: Liquid helium (will output gaseous helium)")
         ok("自带跨维度桥接功能" translatedTo "Built-in cross-dimensional bridging capability")
     }
 

@@ -5,7 +5,6 @@ import com.gtocore.common.data.GTOMaterials;
 import com.gtolib.GTOCore;
 import com.gtolib.api.data.Dimension;
 
-import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.data.worldgen.GTOreDefinition;
 import com.gregtechceu.gtceu.api.data.worldgen.bedrockore.BedrockOreDefinition;
@@ -20,7 +19,6 @@ import net.minecraft.world.level.Level;
 
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
-import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 
 import java.io.BufferedWriter;
 import java.nio.charset.StandardCharsets;
@@ -33,13 +31,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 public class OreReport {
-
-    // 静态映射，用于存储矿石数据
-    public static final Map<ResourceLocation, Object2IntOpenHashMap<Material>> ALL_ORES = new Object2ObjectOpenHashMap<>();
-    public static final Map<ResourceLocation, BedrockOre> BEDROCK_ORES = new Object2ObjectOpenHashMap<>();
-
-    // 矿石数据记录
-    public record BedrockOre(Set<ResourceKey<Level>> dimensions, int weight, List<WeightedMaterial> materials) {}
 
     // 矿石数据内部类
     private static class OreData {
@@ -189,32 +180,37 @@ public class OreReport {
             StringBuilder report_meteorite_recipea = new StringBuilder("\n\n//Material组").append("\nMaterial[][] materials = new Material[][] {");
             StringBuilder report_meteorite_recipeb = new StringBuilder("\n\n//int组").append("\nint[][] material_weights = new int[][] {");
 
-            for (Map.Entry<ResourceLocation, DimensionOreInfo> entry : dimensionOreInfoMap.entrySet()) {
-                ResourceLocation dimId = entry.getKey();
-                DimensionOreInfo info = entry.getValue();
-                Dimension dim = info.dimension;
+            Dimension[] ALL_DIM = { Dimension.OVERWORLD, Dimension.ANCIENT_WORLD,
+                    Dimension.THE_NETHER, Dimension.MOON, Dimension.MARS, Dimension.VENUS,
+                    Dimension.MERCURY, Dimension.CERES, Dimension.IO, Dimension.GANYMEDE,
+                    Dimension.ENCELADUS, Dimension.TITAN, Dimension.PLUTO, Dimension.GLACIO,
+                    Dimension.BARNARDA_C, Dimension.OTHERSIDE };
 
-                String dimName = dim != null ? String.format("%s (%s)", dim.getEn(), dim.getCn()) : dimId.toString();
+            // 遍历ALL_DIM数组，按其定义的顺序处理每个维度
+            for (Dimension dim : ALL_DIM) {
+                ResourceLocation dimId = dim.getLocation();
+                DimensionOreInfo info = dimensionOreInfoMap.get(dimId);
+                if (info == null) {
+                    report.append("\n\n## **维度**: ").append(dim.getEn()).append(" (无矿石数据)");
+                    continue;
+                }
 
+                // 以下逻辑与原代码一致，使用当前维度的数据生成报告
+                String dimName = String.format("%s (%s)", dim.getEn(), dim.getCn());
                 // 生成Markdown报告
                 generateMarkdownReport(report, dimId, info, dim, dimName, materialFieldMap);
-
                 // 生成数组形式报告
                 generateArrayReport(report_arrays, dimId, info, dimName, materialFieldMap);
-
                 // 生成表格形式报告
                 generateTableReport(report_table, dimId, info, dimName, materialFieldMap);
-
                 // 生成陨星配方
                 generateMeteoriteRecipe(report_meteorite_recipea, report_meteorite_recipeb, dimId, info, dimName, materialFieldMap);
             }
 
             report.append("\n\n****报告结束****");
+            report_meteorite_recipe.append(report_meteorite_recipea).append("\n};\n\n");
+            report_meteorite_recipe.append(report_meteorite_recipeb).append("\n};\n\n");
 
-            report_meteorite_recipe.append(report_meteorite_recipea).append("\n}\n\n");
-            report_meteorite_recipe.append(report_meteorite_recipeb).append("\n}\n\n");
-
-            // 写入文件
             writeReportsToFiles(report, report_arrays, report_table, report_meteorite_recipe);
 
         } catch (Exception e) {
@@ -442,45 +438,4 @@ public class OreReport {
         }
         return materialFieldMap;
     }
-
-    // 材料选择器（从参考代码中提取）
-    private static final class MaterialSelector {
-
-        private final List<Material> materialList;
-        private final List<Integer> cumulativeWeights;
-        private int totalWeight;
-
-        private MaterialSelector(Object2IntOpenHashMap<Material> materials) {
-            this.materialList = new ArrayList<>(materials.keySet());
-            this.cumulativeWeights = new ArrayList<>();
-            this.totalWeight = 0;
-            for (Integer weight : materials.values()) {
-                this.totalWeight += weight;
-                this.cumulativeWeights.add(this.totalWeight);
-            }
-        }
-
-        private Material selectMaterial() {
-            int randomValue = GTValues.RNG.nextInt(this.totalWeight);
-            int index = Collections.binarySearch(this.cumulativeWeights, randomValue);
-            if (index < 0) {
-                index = -index - 1;
-            }
-            return materialList.get(index);
-        }
-    }
-
-    // 材料选择方法（从参考代码中提取）
-    public static Material selectMaterial(ResourceLocation dimension) {
-        MaterialSelector selector = RANDOM_ORES.computeIfAbsent(dimension, k -> {
-            Object2IntOpenHashMap<Material> ores = ALL_ORES.get(k);
-            if (ores == null) return null;
-            return new MaterialSelector(ores);
-        });
-        if (selector == null) return GTMaterials.NULL;
-        return selector.selectMaterial();
-    }
-
-    // 随机矿石映射（从参考代码中提取）
-    private static final Map<ResourceLocation, MaterialSelector> RANDOM_ORES = new Object2ObjectOpenHashMap<>();
 }
