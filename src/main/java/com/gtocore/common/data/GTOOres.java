@@ -17,9 +17,6 @@ import com.gregtechceu.gtceu.api.data.worldgen.generator.veins.VeinedVeinGenerat
 import com.gregtechceu.gtceu.common.data.GTBedrockFluids;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.data.GTOres;
-import com.gregtechceu.gtceu.utils.collection.O2IOpenCacheHashMap;
-import com.gregtechceu.gtceu.utils.collection.O2OOpenCacheHashMap;
-import com.gregtechceu.gtceu.utils.collection.OpenCacheHashSet;
 
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -27,6 +24,8 @@ import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.level.Level;
 
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import it.unimi.dsi.fastutil.objects.Reference2ObjectOpenHashMap;
 
 import java.util.*;
@@ -40,13 +39,13 @@ import static com.gtolib.api.data.GTOWorldGenLayers.ALL_LAYER;
 @SuppressWarnings("unused")
 public final class GTOOres {
 
-    private static final Map<ResourceLocation, MaterialSelector> RANDOM_ORES = new O2OOpenCacheHashMap<>();
-    public static final Map<ResourceLocation, Object2IntOpenHashMap<Material>> ALL_ORES = new O2OOpenCacheHashMap<>();
+    private static final Map<ResourceLocation, MaterialSelector> RANDOM_ORES = new Object2ObjectOpenHashMap<>();
+    public static final Map<ResourceLocation, Object2IntOpenHashMap<Material>> ALL_ORES = new Object2ObjectOpenHashMap<>();
 
     public static void init() {
         GTBedrockFluids.init();
         if (false) {
-            Map<ResourceLocation, Set<String>> ORE_MAP = new O2OOpenCacheHashMap<>();
+            Map<ResourceLocation, Set<String>> ORE_MAP = new Object2ObjectOpenHashMap<>();
             ORE_MAP.put(THE_NETHER, Set.of("TagPrefix.oreNetherrack"));
             ORE_MAP.put(THE_END, Set.of("TagPrefix.oreEndstone"));
             ORE_MAP.put(MOON, Set.of("GTOTagPrefix.MOON_STONE"));
@@ -61,9 +60,9 @@ public final class GTOOres {
             ORE_MAP.put(ENCELADUS, Set.of("GTOTagPrefix.ENCELADUS_STONE"));
             ORE_MAP.put(CERES, Set.of("GTOTagPrefix.CERES_STONE"));
             StringBuilder stringBuilder = new StringBuilder();
-            Map<String, Set<String>> a = new O2OOpenCacheHashMap<>();
+            Map<String, Set<String>> a = new Object2ObjectOpenHashMap<>();
             GTOOres.ALL_ORES.forEach((k, v) -> v.keySet().forEach(m -> {
-                Set<String> b = a.computeIfAbsent(StringIndex.MATERIAL_MAP.get(m), m1 -> new OpenCacheHashSet<>());
+                Set<String> b = a.computeIfAbsent(StringIndex.MATERIAL_MAP.get(m), m1 -> new ObjectOpenHashSet<>());
                 if (ORE_MAP.containsKey(k)) b.addAll(ORE_MAP.get(k));
                 a.put(StringIndex.MATERIAL_MAP.get(m), b);
             }));
@@ -801,7 +800,7 @@ public final class GTOOres {
         ResourceLocation id = GTCEu.id(name);
         GTOreDefinition definition = GTOres.create(id, config);
         List<VeinGenerator.VeinEntry> entries = definition.veinGenerator().getAllEntries();
-        Object2IntOpenHashMap<Material> materialMap = new O2IOpenCacheHashMap<>();
+        Object2IntOpenHashMap<Material> materialMap = new Object2IntOpenHashMap<>();
         List<WeightedMaterial> materials = new ArrayList<>(entries.size());
         for (VeinGenerator.VeinEntry entry : entries) {
             Material material = entry.vein().right().orElse(null);
@@ -812,7 +811,7 @@ public final class GTOOres {
             }
         }
         for (ResourceKey<Level> dimension : definition.dimensionFilter()) {
-            Object2IntOpenHashMap<Material> materialIntegerMap = ALL_ORES.computeIfAbsent(dimension.location(), k -> new O2IOpenCacheHashMap<>());
+            Object2IntOpenHashMap<Material> materialIntegerMap = ALL_ORES.computeIfAbsent(dimension.location(), k -> new Object2IntOpenHashMap<>());
             materialMap.forEach((material, amount) -> materialIntegerMap.mergeInt(material, amount, Math::max));
             ALL_ORES.put(dimension.location(), materialIntegerMap);
         }

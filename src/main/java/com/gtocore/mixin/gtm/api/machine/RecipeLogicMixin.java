@@ -1,6 +1,5 @@
 package com.gtocore.mixin.gtm.api.machine;
 
-import com.gtolib.GTOCore;
 import com.gtolib.api.machine.feature.multiblock.IExtendedRecipeCapabilityHolder;
 import com.gtolib.api.machine.trait.IEnhancedRecipeLogic;
 import com.gtolib.api.recipe.*;
@@ -14,14 +13,12 @@ import com.gregtechceu.gtceu.api.machine.trait.MachineTrait;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
-import com.gregtechceu.gtceu.utils.collection.O2OOpenCacheHashMap;
 
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.IntTag;
 import net.minecraft.network.chat.Component;
 
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.*;
@@ -108,7 +105,7 @@ public abstract class RecipeLogicMixin extends MachineTrait implements IEnhanced
 
     @Inject(method = "<init>", at = @At("TAIL"), remap = false)
     private void init(IRecipeLogicMachine machine, CallbackInfo ci) {
-        gtolib$recipeCache = new O2OOpenCacheHashMap<>();
+        gtolib$recipeCache = new Object2ObjectOpenHashMap<>();
         gtolib$parallelCache = new ParallelCache();
     }
 
@@ -210,18 +207,5 @@ public abstract class RecipeLogicMixin extends MachineTrait implements IEnhanced
             gtolib$recipeBuilder.reset();
         }
         return gtolib$recipeBuilder;
-    }
-
-    @Override
-    public void saveCustomPersistedData(@NotNull CompoundTag tag, boolean forDrop) {
-        if (forDrop) return;
-        tag.putInt("difficulty", GTOCore.difficulty);
-    }
-
-    @Override
-    public void loadCustomPersistedData(@NotNull CompoundTag tag) {
-        if (tag.tags.get("difficulty") instanceof IntTag intTag && intTag.getAsInt() != GTOCore.difficulty) {
-            throw new IllegalStateException("Difficulty mismatch");
-        }
     }
 }

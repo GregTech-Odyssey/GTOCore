@@ -2,9 +2,9 @@ package com.gtocore.client;
 
 import com.gtocore.config.GTOConfig;
 
-import com.gregtechceu.gtceu.utils.collection.OpenCacheHashSet;
-
 import net.minecraft.resources.ResourceLocation;
+
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 
 import java.util.Set;
 import java.util.UUID;
@@ -15,7 +15,7 @@ public final class ClientCache {
 
     public static boolean disableDrift;
 
-    public static final Set<ResourceLocation> UNLOCKED_PLANET = new OpenCacheHashSet<>();
+    public static final Set<ResourceLocation> UNLOCKED_PLANET = new ObjectOpenHashSet<>();
 
     public static boolean initializedBook;
 

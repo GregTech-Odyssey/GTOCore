@@ -18,8 +18,6 @@ import com.gregtechceu.gtceu.api.machine.ConditionalSubscriptionHandler;
 import com.gregtechceu.gtceu.api.machine.feature.IMachineLife;
 import com.gregtechceu.gtceu.integration.ae2.machine.feature.IGridConnectedMachine;
 import com.gregtechceu.gtceu.integration.ae2.machine.trait.GridNodeHolder;
-import com.gregtechceu.gtceu.utils.collection.O2LOpenCacheHashMap;
-import com.gregtechceu.gtceu.utils.collection.O2OOpenCacheHashMap;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -254,7 +252,7 @@ public abstract class StorageAccessPartMachine extends AmountConfigurationHatchP
             var data = getCellStorage();
             var map = data.getStoredMap();
             if (map == null) {
-                map = new O2LOpenCacheHashMap<>();
+                map = new Object2LongOpenHashMap<>();
                 data.setStoredMap(map);
             }
             return map;
@@ -599,7 +597,7 @@ public abstract class StorageAccessPartMachine extends AmountConfigurationHatchP
             var data = getCellStorage();
             var map = data.getStoredMap();
             if (map == null) {
-                map = new O2OOpenCacheHashMap<>();
+                map = new Object2ObjectOpenHashMap<>();
                 data.setStoredMap(map);
             }
             return map;
