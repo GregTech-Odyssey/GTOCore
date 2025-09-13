@@ -1,12 +1,21 @@
 package com.gtocore.data.record;
 
+import com.gtocore.common.item.ApothItem;
+
+import com.gtolib.GTOCore;
+
+import com.gregtechceu.gtceu.utils.FormattingUtil;
+
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 
+import com.tterrag.registrate.util.entry.ItemEntry;
+
 import java.util.*;
 
+import static com.gtolib.utils.register.ItemRegisterUtils.item;
 import static net.minecraft.nbt.Tag.TAG_COMPOUND;
 
 public class Enchantment {
@@ -172,5 +181,21 @@ public class Enchantment {
         records.add(EnchantmentRecord.create(76, "minecraft:vanishing_curse", 1, "消失诅咒", "enchantment.minecraft.vanishing_curse"));
         records.add(EnchantmentRecord.create(77, "mythicbotany:hammer_mobility", 5, "迅锤", "enchantment.mythicbotany.hammer_mobility"));
         return records;
+    }
+
+    public static ItemEntry<ApothItem>[] registerEnchantmentEssence() {
+        List<EnchantmentRecord> records = initializeEnchantmentRecords();
+        ItemEntry<ApothItem>[] entries = new ItemEntry[records.size()];
+        for (EnchantmentRecord record : records) {
+            String id = record.enchantmentId().substring(record.enchantmentId().indexOf(':') + 1);
+            String cn = "附魔精粹 " + "(" + record.simplifiedId() + ")";
+            String en = "Enchantment Essence " + "(" + FormattingUtil.toEnglishName(id) + ")";
+            entries[record.serialNumber()] = item("enchantment_essence_" + record.serialNumber(), cn, p -> ApothItem.create(p, record.color()))
+                    .model((ctx, prov) -> prov.generated(ctx, GTOCore.id("item/apoth/orb0"), GTOCore.id("item/apoth/orb1")))
+                    .lang(en)
+                    .color(() -> ApothItem::color)
+                    .register();
+        }
+        return entries;
     }
 }

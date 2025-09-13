@@ -15,12 +15,11 @@ import com.gregtechceu.gtceu.api.recipe.chance.logic.ChanceLogic;
 import com.gregtechceu.gtceu.api.recipe.content.Content;
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
 import com.gregtechceu.gtceu.data.recipe.builder.GTRecipeBuilder;
+import com.gregtechceu.gtceu.utils.collection.OpenCacheHashSet;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
-
-import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 
 import java.util.Collection;
 import java.util.List;
@@ -30,9 +29,9 @@ import static com.gtocore.common.data.GTORecipeTypes.*;
 
 public final class GenerateDisassembly {
 
-    public static final Set<ResourceLocation> DISASSEMBLY_RECORD = new ObjectOpenHashSet<>();
+    public static final Set<ResourceLocation> DISASSEMBLY_RECORD = new OpenCacheHashSet<>();
 
-    public static final Set<ResourceLocation> DISASSEMBLY_BLACKLIST = new ObjectOpenHashSet<>();
+    public static final Set<ResourceLocation> DISASSEMBLY_BLACKLIST = new OpenCacheHashSet<>();
 
     private static final String[] outputItem = { "_frame", "_fence", "_electric_motor",
             "_electric_pump", "_conveyor_module", "_electric_piston", "_robot_arm", "_field_generator",

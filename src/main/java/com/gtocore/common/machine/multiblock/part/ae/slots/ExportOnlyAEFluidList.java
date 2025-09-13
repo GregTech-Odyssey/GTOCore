@@ -10,6 +10,7 @@ import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
 import com.gregtechceu.gtceu.api.transfer.fluid.CustomFluidTank;
 import com.gregtechceu.gtceu.integration.ae2.slot.IConfigurableSlot;
 import com.gregtechceu.gtceu.integration.ae2.slot.IConfigurableSlotList;
+import com.gregtechceu.gtceu.utils.collection.O2LOpenCacheHashMap;
 
 import net.minecraftforge.fluids.FluidStack;
 
@@ -123,7 +124,7 @@ public class ExportOnlyAEFluidList extends NotifiableFluidTank implements IConfi
     @Override
     public Object2LongOpenHashMap<FluidStack> getFluidMap() {
         if (fluidMap == null) {
-            fluidMap = new Object2LongOpenHashMap<>();
+            fluidMap = new O2LOpenCacheHashMap<>();
         }
         if (changed) {
             changed = false;

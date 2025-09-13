@@ -7,6 +7,7 @@ import com.gtolib.utils.MathUtil;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.utils.ItemStackHashStrategy;
+import com.gregtechceu.gtceu.utils.collection.O2LOpenCustomCacheHashMap;
 
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -34,7 +35,7 @@ public class ExportOnlyAEStockingItemList extends ExportOnlyAEItemList {
     public Object2LongOpenCustomHashMap<ItemStack> getItemMap() {
         if (!machine.isWorkingEnabled() || !machine.isOnline()) return null;
         if (itemMap == null) {
-            itemMap = new Object2LongOpenCustomHashMap<>(ItemStackHashStrategy.ITEM);
+            itemMap = new O2LOpenCustomCacheHashMap<>(ItemStackHashStrategy.ITEM);
         }
         if (changed) {
             changed = false;

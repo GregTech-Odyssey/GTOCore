@@ -19,6 +19,7 @@ import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
+import com.gregtechceu.gtceu.utils.collection.O2IOpenCacheHashMap;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
@@ -46,7 +47,7 @@ public final class ProcessingEncapsulatorMachine extends TierCasingMultiblockMac
     private int moduleCount;
     int processingAmount;
     private final List<MachineAccessTerminalPartMachine> terminalPartMachine = new ArrayList<>(4);
-    final Object2IntOpenHashMap<GTRecipeType> typeMap = new Object2IntOpenHashMap<>();
+    final Object2IntOpenHashMap<GTRecipeType> typeMap = new O2IOpenCacheHashMap<>();
 
     public ProcessingEncapsulatorMachine(MetaMachineBlockEntity holder) {
         super(holder, GTOValues.INTEGRAL_FRAMEWORK_TIER, GTOValues.GLASS_TIER);

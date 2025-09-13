@@ -10,6 +10,7 @@ import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
 import com.gregtechceu.gtceu.integration.ae2.slot.IConfigurableSlot;
 import com.gregtechceu.gtceu.integration.ae2.slot.IConfigurableSlotList;
 import com.gregtechceu.gtceu.utils.ItemStackHashStrategy;
+import com.gregtechceu.gtceu.utils.collection.O2LOpenCustomCacheHashMap;
 
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -136,7 +137,7 @@ public class ExportOnlyAEItemList extends NotifiableItemStackHandler implements 
     @Override
     public Object2LongOpenCustomHashMap<ItemStack> getItemMap() {
         if (itemMap == null) {
-            itemMap = new Object2LongOpenCustomHashMap<>(ItemStackHashStrategy.ITEM);
+            itemMap = new O2LOpenCustomCacheHashMap<>(ItemStackHashStrategy.ITEM);
         }
         if (changed) {
             changed = false;

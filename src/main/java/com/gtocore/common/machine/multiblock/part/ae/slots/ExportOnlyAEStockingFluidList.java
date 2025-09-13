@@ -8,6 +8,7 @@ import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
 import com.gregtechceu.gtceu.integration.ae2.utils.AEUtil;
+import com.gregtechceu.gtceu.utils.collection.O2LOpenCacheHashMap;
 
 import net.minecraftforge.fluids.FluidStack;
 
@@ -34,7 +35,7 @@ public class ExportOnlyAEStockingFluidList extends ExportOnlyAEFluidList {
     public Object2LongOpenHashMap<FluidStack> getFluidMap() {
         if (!machine.isWorkingEnabled() || !machine.isOnline()) return null;
         if (fluidMap == null) {
-            fluidMap = new Object2LongOpenHashMap<>();
+            fluidMap = new O2LOpenCacheHashMap<>();
         }
         if (changed) {
             changed = false;

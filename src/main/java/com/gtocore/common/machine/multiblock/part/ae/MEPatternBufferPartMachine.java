@@ -35,6 +35,9 @@ import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.item.IntCircuitBehaviour;
 import com.gregtechceu.gtceu.utils.ItemStackHashStrategy;
+import com.gregtechceu.gtceu.utils.collection.O2LOpenCacheHashMap;
+import com.gregtechceu.gtceu.utils.collection.O2LOpenCustomCacheHashMap;
+import com.gregtechceu.gtceu.utils.collection.OpenCacheHashSet;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
@@ -105,7 +108,7 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
     public final MECircuitHandler circuitInventorySimulated;
 
     @Persisted
-    private final Set<BlockPos> proxies = new ObjectOpenHashSet<>();
+    private final Set<BlockPos> proxies = new OpenCacheHashSet<>();
     private final Set<MEPatternBufferProxyPartMachine> proxyMachines = new ReferenceOpenHashSet<>();
     public final InternalSlotRecipeHandler internalRecipeHandler;
 
@@ -330,8 +333,8 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
     public record BufferData(Object2LongMap<ItemStack> items, Object2LongMap<FluidStack> fluids) {}
 
     public BufferData mergeInternalSlots() {
-        var items = new Object2LongOpenCustomHashMap<>(ItemStackHashStrategy.ITEM_AND_TAG);
-        var fluids = new Object2LongOpenHashMap<FluidStack>();
+        var items = new O2LOpenCustomCacheHashMap<>(ItemStackHashStrategy.ITEM_AND_TAG);
+        var fluids = new O2LOpenCacheHashMap<FluidStack>();
         for (InternalSlot slot : getInternalInventory()) {
             slot.itemInventory.object2LongEntrySet().fastForEach(e -> items.addTo(e.getKey(), e.getLongValue()));
             slot.fluidInventory.object2LongEntrySet().fastForEach(e -> fluids.addTo(e.getKey(), e.getLongValue()));
@@ -347,8 +350,8 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
         public final int index;
         final InputSink inputSink;
         private Runnable onContentsChanged = () -> {};
-        public final Object2LongOpenCustomHashMap<ItemStack> itemInventory = new Object2LongOpenCustomHashMap<>(ItemStackHashStrategy.ITEM);
-        public final Object2LongOpenHashMap<FluidStack> fluidInventory = new Object2LongOpenHashMap<>();
+        public final Object2LongOpenCustomHashMap<ItemStack> itemInventory = new O2LOpenCustomCacheHashMap<>(ItemStackHashStrategy.ITEM);
+        public final Object2LongOpenHashMap<FluidStack> fluidInventory = new O2LOpenCacheHashMap<>();
         private Object[] itemStacks = null;
         private Object[] fluidStacks = null;
 

@@ -14,6 +14,7 @@ import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiPart;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.utils.ItemStackHashStrategy;
+import com.gregtechceu.gtceu.utils.collection.O2LOpenCustomCacheHashMap;
 
 import net.minecraft.world.item.ItemStack;
 
@@ -55,7 +56,7 @@ public class SuperMolecularAssemblerMachine extends ElectricMultiblockMachine {
     private Recipe getRecipe() {
         long maxEUt = getOverclockVoltage();
         if (maxEUt == 0) return null;
-        Object2LongOpenCustomHashMap<ItemStack> map = new Object2LongOpenCustomHashMap<>(ItemStackHashStrategy.ITEM_AND_TAG);
+        Object2LongOpenCustomHashMap<ItemStack> map = new O2LOpenCustomCacheHashMap<>(ItemStackHashStrategy.ITEM_AND_TAG);
         for (var machine : partMachines) {
             for (var inventory : machine.getInternalInventory()) {
                 if (inventory.getAmount() > 0) {

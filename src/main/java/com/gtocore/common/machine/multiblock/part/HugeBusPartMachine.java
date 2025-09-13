@@ -17,6 +17,7 @@ import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
 import com.gregtechceu.gtceu.utils.ItemStackHashStrategy;
+import com.gregtechceu.gtceu.utils.collection.O2LOpenCustomCacheHashMap;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.MethodsReturnNonnullByDefault;
@@ -203,7 +204,7 @@ public final class HugeBusPartMachine extends TieredIOPartMachine implements IMa
             long c = getCount();
             if (c < 1) return null;
             if (itemMap == null) {
-                itemMap = new Object2LongOpenCustomHashMap<>(ItemStackHashStrategy.ITEM);
+                itemMap = new O2LOpenCustomCacheHashMap<>(ItemStackHashStrategy.ITEM);
             }
             if (changed) {
                 changed = false;

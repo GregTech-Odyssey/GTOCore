@@ -2,6 +2,8 @@ package com.gtocore.common.saved;
 
 import com.gtolib.api.data.GTODimensions;
 
+import com.gregtechceu.gtceu.utils.collection.O2IOpenCacheHashMap;
+
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
@@ -58,8 +60,8 @@ public final class DysonSphereSavaedData extends SavedData {
     public static DysonSphereSavaedData INSTANCE = new DysonSphereSavaedData();
 
     public DysonSphereSavaedData() {
-        DysonDamageData = new Object2IntOpenHashMap<>();
-        DysonLaunchData = new Object2IntOpenHashMap<>();
+        DysonDamageData = new O2IOpenCacheHashMap<>();
+        DysonLaunchData = new O2IOpenCacheHashMap<>();
         DysonUse = new Object2BooleanOpenHashMap<>();
     }
 

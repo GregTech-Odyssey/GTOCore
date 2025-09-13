@@ -26,6 +26,7 @@ import com.gregtechceu.gtceu.common.item.TurbineRotorBehaviour;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.RotorHolderPartMachine;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.gregtechceu.gtceu.utils.GTUtil;
+import com.gregtechceu.gtceu.utils.collection.OpenCacheHashSet;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.MethodsReturnNonnullByDefault;
@@ -36,7 +37,6 @@ import net.minecraft.world.item.ItemStack;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
-import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -184,7 +184,7 @@ public class TurbineMachine extends ElectricMultiblockMachine {
 
     private int getRotorSpeed() {
         if (mega) {
-            Set<Material> material = new ObjectOpenHashSet<>(2, 0.9F);
+            Set<Material> material = new OpenCacheHashSet<>(2);
             int speed = 0;
             for (RotorHolderPartMachine part : rotorHolderMachines) {
                 ItemStack stack = part.getRotorStack();

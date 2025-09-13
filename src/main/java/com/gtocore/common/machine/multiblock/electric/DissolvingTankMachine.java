@@ -9,6 +9,7 @@ import com.gtolib.utils.MachineUtils;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
 import com.gregtechceu.gtceu.api.recipe.content.Content;
+import com.gregtechceu.gtceu.utils.collection.OpenCacheHashSet;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.material.Fluid;
@@ -17,7 +18,6 @@ import net.minecraftforge.fluids.FluidStack;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.RequireRerender;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
-import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -36,7 +36,7 @@ public final class DissolvingTankMachine extends ElectricMultiblockMachine imple
 
     @DescSynced
     @RequireRerender
-    private final Set<BlockPos> fluidBlockOffsets = new ObjectOpenHashSet<>();
+    private final Set<BlockPos> fluidBlockOffsets = new OpenCacheHashSet<>();
     @DescSynced
     private Fluid cachedFluid;
 

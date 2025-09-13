@@ -7,6 +7,7 @@ import com.gtolib.api.annotation.language.RegisterLanguage;
 
 import com.gregtechceu.gtceu.api.GTCEuAPI;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
+import com.gregtechceu.gtceu.utils.collection.O2OOpenCacheHashMap;
 
 import net.minecraft.world.level.block.Block;
 
@@ -29,7 +30,7 @@ public final class BlockMap {
     public static Block[] ME_STORAGE_CORE;
     public static Block[] CRAFTING_STORAGE_CORE;
 
-    public static final Object2ObjectOpenHashMap<String, Block[]> MAP = new Object2ObjectOpenHashMap<>();
+    public static final Object2ObjectOpenHashMap<String, Block[]> MAP = new O2OOpenCacheHashMap<>();
 
     public static final Int2ObjectMap<Supplier<?>> SCMAP = new Int2ObjectOpenHashMap<>();
 

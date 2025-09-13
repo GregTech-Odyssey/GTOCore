@@ -3,6 +3,8 @@ package com.gtocore.api.ae2.crafting;
 import com.gtolib.api.ae2.pattern.IParallelPatternDetails;
 import com.gtolib.utils.holder.LongHolder;
 
+import com.gregtechceu.gtceu.utils.collection.O2OOpenCacheHashMap;
+
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
@@ -37,7 +39,7 @@ class ExecutingCraftingJob {
 
     final CraftingLink link;
     final ListCraftingInventory waitingFor;
-    final Object2ObjectOpenHashMap<IPatternDetails, LongHolder> tasks = new Object2ObjectOpenHashMap<>();
+    final Object2ObjectOpenHashMap<IPatternDetails, LongHolder> tasks = new O2OOpenCacheHashMap<>();
     final ElapsedTimeTracker timeTracker;
     final IElapsedTimeTracker tt;
     GenericStack finalOutput;

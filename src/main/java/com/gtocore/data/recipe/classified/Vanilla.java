@@ -640,12 +640,12 @@ final class Vanilla {
                 "CDC",
                 "EBE",
                 'A', new MaterialEntry(TagPrefix.rod, GTMaterials.NaquadahEnriched), 'B', CustomTags.LuV_CIRCUITS, 'C', GTItems.FIELD_GENERATOR_LuV.asStack(), 'D', GTMachines.HULL[GTValues.LuV].asStack(), 'E', new MaterialEntry(TagPrefix.cableGtQuadruple, GTMaterials.NiobiumNitride));
-        VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("neutronium_gearbox"), GTOBlocks.AMPROSIUM_GEARBOX.asStack(2),
+        VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("neutronium_gearbox"), GTOBlocks.AMPROSIUM_GEARBOX.asStack(),
                 "ABA",
                 "CDC",
                 "AEA",
                 'A', new MaterialEntry(TagPrefix.plate, GTMaterials.Neutronium), 'B', TagUtils.createTag(RLUtils.forge("tools/hammers")), 'C', new MaterialEntry(TagPrefix.gear, GTMaterials.Neutronium), 'D', new MaterialEntry(TagPrefix.frameGt, GTMaterials.Neutronium), 'E', TagUtils.createTag(RLUtils.forge("tools/wrench")));
-        VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("iridium_gearbox"), GTOBlocks.IRIDIUM_GEARBOX.asStack(2),
+        VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("iridium_gearbox"), GTOBlocks.IRIDIUM_GEARBOX.asStack(),
                 "ABA",
                 "CDC",
                 "AEA",

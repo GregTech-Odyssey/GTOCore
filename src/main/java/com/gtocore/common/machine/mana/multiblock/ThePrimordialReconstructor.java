@@ -15,6 +15,9 @@ import com.gtolib.utils.holder.ObjectHolder;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.common.data.GTItems;
+import com.gregtechceu.gtceu.utils.collection.O2IOpenCacheHashMap;
+import com.gregtechceu.gtceu.utils.collection.O2OOpenCacheHashMap;
+import com.gregtechceu.gtceu.utils.collection.OpenCacheHashSet;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -452,7 +455,7 @@ public class ThePrimordialReconstructor extends ManaMultiblockMachine {
         boolean changed;
         do {
             changed = false;
-            Object2ObjectOpenHashMap<String, Int2IntMap> enchantmentLevelCounts = new Object2ObjectOpenHashMap<>();
+            Object2ObjectOpenHashMap<String, Int2IntMap> enchantmentLevelCounts = new O2OOpenCacheHashMap<>();
             // 统计每种附魔每个等级的数量
             for (Object2IntMap.Entry<String> entry : allEnchantments) {
                 String enchantId = entry.getKey();
@@ -500,7 +503,7 @@ public class ThePrimordialReconstructor extends ManaMultiblockMachine {
             ItemStack outputBook = new ItemStack(Items.ENCHANTED_BOOK);
             CompoundTag bookTag = outputBook.getOrCreateTag();
             ListTag storedEnchantments = new ListTag();
-            Set<String> addedEnchantments = new ObjectOpenHashSet<>();
+            Set<String> addedEnchantments = new OpenCacheHashSet<>();
             // 遍历剩余附魔，添加到当前书中
             Iterator<Object2IntMap.Entry<String>> iterator = remainingEnchantments.iterator();
             while (iterator.hasNext()) {
@@ -587,7 +590,7 @@ public class ThePrimordialReconstructor extends ManaMultiblockMachine {
         });
         if (inputsGems.isEmpty()) return null;
 
-        Object2IntOpenHashMap<CompoundTag> nbtCountMap = new Object2IntOpenHashMap<>();
+        Object2IntOpenHashMap<CompoundTag> nbtCountMap = new O2IOpenCacheHashMap<>();
         // 计算每个唯一NBT的总数量
         for (ItemStack stack : inputsGems) {
             CompoundTag nbt = stack.getTag() != null ? stack.getTag() : new CompoundTag();

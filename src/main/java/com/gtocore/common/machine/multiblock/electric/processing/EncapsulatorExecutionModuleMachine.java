@@ -27,6 +27,7 @@ import com.gregtechceu.gtceu.api.recipe.chance.logic.ChanceLogic;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.gregtechceu.gtceu.utils.GTUtil;
+import com.gregtechceu.gtceu.utils.collection.O2IOpenCacheHashMap;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.nbt.CompoundTag;
@@ -67,10 +68,10 @@ public final class EncapsulatorExecutionModuleMachine extends StorageMultiblockM
     private Recipe finalRecipe;
     private final List<PackageRecipe> packageRecipe = new ArrayList<>();
     private final List<Recipe> invalidRecipe = new ArrayList<>();
-    private final Object2IntOpenHashMap<NBTItem> inputItemStackMap = new Object2IntOpenHashMap<>();
-    private final Object2IntOpenHashMap<FluidStack> inputFluidStackMap = new Object2IntOpenHashMap<>();
-    private final Object2IntOpenHashMap<NBTItem> outputItemStackMap = new Object2IntOpenHashMap<>();
-    private final Object2IntOpenHashMap<FluidStack> outputFluidStackMap = new Object2IntOpenHashMap<>();
+    private final Object2IntOpenHashMap<NBTItem> inputItemStackMap = new O2IOpenCacheHashMap<>();
+    private final Object2IntOpenHashMap<FluidStack> inputFluidStackMap = new O2IOpenCacheHashMap<>();
+    private final Object2IntOpenHashMap<NBTItem> outputItemStackMap = new O2IOpenCacheHashMap<>();
+    private final Object2IntOpenHashMap<FluidStack> outputFluidStackMap = new O2IOpenCacheHashMap<>();
     @Persisted
     private final CustomParallelTrait customParallelTrait;
 

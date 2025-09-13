@@ -11,6 +11,8 @@ import com.gregtechceu.gtceu.api.registry.GTRegistries;
 import com.gregtechceu.gtceu.common.data.GTMaterialBlocks;
 import com.gregtechceu.gtceu.config.ConfigHolder;
 import com.gregtechceu.gtceu.core.mixins.BlockBehaviourAccessor;
+import com.gregtechceu.gtceu.utils.collection.O2OOpenCacheHashMap;
+import com.gregtechceu.gtceu.utils.collection.OpenCacheHashSet;
 
 import net.minecraft.data.loot.BlockLootSubProvider;
 import net.minecraft.data.loot.packs.VanillaBlockLoot;
@@ -33,7 +35,6 @@ import com.google.common.collect.ImmutableMultimap;
 import com.mojang.datafixers.util.Pair;
 import com.tterrag.registrate.util.entry.BlockEntry;
 import dev.shadowsoffire.placebo.loot.LootSystem;
-import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 
 import java.util.Map;
@@ -44,7 +45,7 @@ public final class GTOLoots {
 
     private GTOLoots() {}
 
-    public static Set<Object> BLOCKS = new ObjectOpenHashSet<>();
+    public static Set<Object> BLOCKS = new OpenCacheHashSet<>();
 
     public static boolean cache;
 
@@ -53,7 +54,7 @@ public final class GTOLoots {
     public static ImmutableMultimap<LootDataType<?>, ResourceLocation> TYPEKEYS_CACHE;
 
     public static Predicate<ResourceLocation> getFilter() {
-        ObjectOpenHashSet<ResourceLocation> set = new ObjectOpenHashSet<>();
+        ObjectOpenHashSet<ResourceLocation> set = new OpenCacheHashSet<>();
         removal(set);
         return set::contains;
     }
@@ -84,7 +85,7 @@ public final class GTOLoots {
 
     private static VanillaBlockLoot BLOCK_LOOT = new VanillaBlockLoot();
 
-    private static Map<ResourceLocation, LootTable> DYNAMIC_LOOT = new Object2ObjectOpenHashMap<>();
+    private static Map<ResourceLocation, LootTable> DYNAMIC_LOOT = new O2OOpenCacheHashMap<>();
 
     public static void generateGTDynamicLoot() {
         GTMaterialBlocks.MATERIAL_BLOCKS.rowMap().forEach((prefix, map) -> {

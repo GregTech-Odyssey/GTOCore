@@ -6,6 +6,7 @@ import com.gtocore.config.GTOConfig;
 import com.gregtechceu.gtceu.api.block.MetaMachineBlock;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
+import com.gregtechceu.gtceu.utils.collection.OpenCacheHashSet;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -28,7 +29,6 @@ import net.minecraftforge.event.server.ServerStoppedEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
-import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -272,7 +272,7 @@ public final class Manager {
         }
 
         Set<GridFacedPoint> points() {
-            Set<GridFacedPoint> points = new ObjectOpenHashSet<>();
+            Set<GridFacedPoint> points = new OpenCacheHashSet<>();
             for (int i = fromX; i <= toX; i++) {
                 for (int j = fromY; j <= toY; j++) {
                     points.add(new GridFacedPoint(facing, i, j));

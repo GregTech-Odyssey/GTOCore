@@ -9,19 +9,19 @@ import com.gtolib.api.lang.CNENS;
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTItems;
+import com.gregtechceu.gtceu.utils.collection.O2OOpenCacheHashMap;
 
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.ItemLike;
 
 import com.google.common.collect.ImmutableMap;
 import committee.nova.mods.avaritia.init.registry.ModItems;
-import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 
 import java.util.Map;
 
 public final class Tooltips {
 
-    public static final Map<String, CNEN> LANG = GTCEu.isDataGen() ? new Object2ObjectOpenHashMap<>() : null;
+    public static final Map<String, CNEN> LANG = GTCEu.isDataGen() ? new O2OOpenCacheHashMap<>() : null;
 
     public static final ImmutableMap<Item, String[]> TOOL_TIPS_KEY_MAP;
     public static final ImmutableMap<Item, CNENS> TOOL_TIPS_MAP;

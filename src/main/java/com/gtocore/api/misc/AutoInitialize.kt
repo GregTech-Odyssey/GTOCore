@@ -4,6 +4,7 @@ import com.gtocore.common.data.translation.ComponentSlang
 import com.gtocore.common.data.translation.EnumTranslation
 import com.gtocore.common.data.translation.GTOItemTooltips
 import com.gtocore.common.data.translation.GTOMachineStories
+import com.gtocore.common.data.translation.GTOTarotArcanumTooltips
 import com.gtocore.common.data.translation.MachineSlang
 import com.gtocore.common.data.translation.MultiblockSlang
 import com.gtocore.common.data.translation.OrganTranslation
@@ -19,6 +20,7 @@ open class AutoInitialize<T> {
         EnumTranslation.init()
         MachineSlang.init()
         MultiblockSlang.init()
+        GTOTarotArcanumTooltips.init()
     }
     open fun init() {}
     init {

@@ -4,6 +4,7 @@ import com.gregtechceu.gtceu.api.item.ComponentItem;
 
 import net.minecraft.client.color.item.ItemColor;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Rarity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -30,6 +31,16 @@ public class ApothItem extends ComponentItem {
             }
             return apoth.itemColor;
         };
+    }
+
+    @Override
+    public @NotNull Rarity getRarity(@NotNull ItemStack stack) {
+        return Rarity.UNCOMMON;
+    }
+
+    @Override
+    public int getMaxStackSize(ItemStack stack) {
+        return 16;
     }
 
     @Override

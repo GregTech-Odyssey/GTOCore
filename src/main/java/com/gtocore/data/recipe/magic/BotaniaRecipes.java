@@ -17,6 +17,7 @@ import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
+import com.gregtechceu.gtceu.utils.collection.O2IOpenCacheHashMap;
 
 import net.minecraft.tags.BiomeTags;
 import net.minecraft.tags.BlockTags;
@@ -37,7 +38,6 @@ import io.github.lounode.extrabotany.common.block.flower.ExtrabotanyFlowerBlocks
 import io.github.lounode.extrabotany.common.item.ExtraBotanyItems;
 import io.github.lounode.extrabotany.common.lib.ExtraBotanyTags;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
-import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import vazkii.botania.api.recipe.StateIngredient;
 import vazkii.botania.common.block.BotaniaBlocks;
 import vazkii.botania.common.block.BotaniaFlowerBlocks;
@@ -973,7 +973,7 @@ public final class BotaniaRecipes {
                                                Item input,
                                                ItemStack output,
                                                Item[] inputs) {
-        Object2IntMap<Item> CountMap = new Object2IntOpenHashMap<>();
+        Object2IntMap<Item> CountMap = new O2IOpenCacheHashMap<>();
         for (Item item : inputs) CountMap.mergeInt(item, 1, Integer::sum);
 
         var build = INDUSTRIAL_ALTAR_RECIPES.builder(id);
@@ -994,7 +994,7 @@ public final class BotaniaRecipes {
                                                Item input,
                                                ItemStack output,
                                                Item[] inputs) {
-        Object2IntMap<Item> CountMap = new Object2IntOpenHashMap<>();
+        Object2IntMap<Item> CountMap = new O2IOpenCacheHashMap<>();
         for (Item item : inputs) CountMap.mergeInt(item, 1, Integer::sum);
 
         var build = INDUSTRIAL_ALTAR_RECIPES.builder(id);
@@ -1015,7 +1015,7 @@ public final class BotaniaRecipes {
                                                Item input,
                                                ItemStack output,
                                                Item[] inputs) {
-        Object2IntMap<Item> CountMap = new Object2IntOpenHashMap<>();
+        Object2IntMap<Item> CountMap = new O2IOpenCacheHashMap<>();
         for (Item item : inputs) CountMap.mergeInt(item, 1, Integer::sum);
 
         var build = INDUSTRIAL_ALTAR_RECIPES.builder(id);

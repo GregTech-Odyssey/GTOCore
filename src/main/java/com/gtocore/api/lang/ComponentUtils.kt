@@ -11,6 +11,8 @@ import com.gregtechceu.gtceu.client.util.TooltipHelper
 import com.gtolib.api.annotation.NewDataAttributes
 import com.gtolib.api.annotation.component_builder.TranslationKeyProvider
 import com.gtolib.utils.StringUtils
+import dev.shadowsoffire.placebo.color.GradientColor
+
 class ComponentListSupplier(var list: MutableList<ComponentSupplier> = mutableListOf()) : Supplier<List<Component>> {
     var translationPrefix: String = ""
         private set
@@ -171,6 +173,18 @@ class ComponentSupplier(var component: Component, private val delayed: MutableLi
 
     fun rainbowSlow(): ComponentSupplier = operatorComponent {
         withStyle { it.withColor(TooltipHelper.RAINBOW_SLOW.current) }
+    }
+
+    fun rainbowGradient(): ComponentSupplier = operatorComponent {
+        withStyle { it.withColor(GradientColor(GradientColor.RAINBOW_GRADIENT, "rainbow")) }
+    }
+
+    fun rainbowGradient(float: Float, int: Int, boolean: Boolean): ComponentSupplier = operatorComponent {
+        withStyle { it.withColor(OffsetGradientColor(OffsetGradientColor.RAINBOW_GRADIENT, "rainbow", float, int, boolean)) }
+    }
+
+    fun rainbowGradient(int: Int): ComponentSupplier = operatorComponent {
+        withStyle { it.withColor(OffsetGradientColor(OffsetGradientColor.RAINBOW_GRADIENT, "rainbow", int)) }
     }
 
     // ////////////////////////////////

@@ -1,7 +1,0 @@
-{
-  "parent": "item/generated",
-  "textures": {
-    "layer0": "gtocore:item/apoth/fabric0",
-    "layer1": "gtocore:item/apoth/fabric1"
-  }
-}

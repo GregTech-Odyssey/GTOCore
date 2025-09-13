@@ -8,6 +8,7 @@ import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
+import com.gregtechceu.gtceu.utils.collection.O2IOpenCacheHashMap;
 
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -17,7 +18,6 @@ import appeng.core.definitions.AEItems;
 import com.google.common.collect.ImmutableSet;
 import com.tterrag.registrate.util.entry.RegistryEntry;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
-import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 
 import java.util.Arrays;
 import java.util.Objects;
@@ -26,7 +26,7 @@ public final class ItemMap {
 
     public static final ImmutableSet<Item> UNIVERSAL_CIRCUITS = ImmutableSet.copyOf(Arrays.stream(GTOItems.UNIVERSAL_CIRCUIT).filter(Objects::nonNull).map(RegistryEntry::get).toList());
 
-    private static final Object2IntMap<Item> SCRAP_MAP = new Object2IntOpenHashMap<>();
+    private static final Object2IntMap<Item> SCRAP_MAP = new O2IOpenCacheHashMap<>();
     private static final int TOTAL_PROBABILITY;
 
     static {

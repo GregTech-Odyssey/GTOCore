@@ -13,13 +13,13 @@ import com.gtolib.utils.MathUtil;
 import com.gregtechceu.gtceu.api.capability.recipe.IRecipeCapabilityHolder;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
+import com.gregtechceu.gtceu.utils.collection.O2IOpenCacheHashMap;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
-import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import org.jetbrains.annotations.Nullable;
 
 public final class RecyclerLogic implements GTRecipeType.ICustomRecipeLogic {
@@ -30,7 +30,7 @@ public final class RecyclerLogic implements GTRecipeType.ICustomRecipeLogic {
             RecipeBuilder builder = parallelMultiblockMachine.getRecipeBuilder().EUt(480);
             int parallel = MathUtil.saturatedCast(MachineUtils.getItemAmount(parallelMultiblockMachine, GTOItems.SCRAP_BOX.get())[0]);
             builder.duration(20 * parallel).inputItems(GTOItems.SCRAP_BOX.asStack(parallel));
-            Object2IntMap<Item> map = new Object2IntOpenHashMap<>();
+            Object2IntMap<Item> map = new O2IOpenCacheHashMap<>();
             for (int i = 0; i < parallel; i++) {
                 ItemStack stack = ItemMap.getScrapItem();
                 if (map.containsKey(stack.getItem())) {

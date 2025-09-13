@@ -1,8 +1,9 @@
 package com.gtocore.mixin.ae2;
 
+import com.gregtechceu.gtceu.utils.collection.OpenCacheHashSet;
+
 import appeng.api.stacks.AEKey;
 import appeng.menu.me.common.IncrementalUpdateHelper;
-import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -20,7 +21,7 @@ public class IncrementalUpdateHelperMixin {
 
     @Inject(method = "<init>", at = @At("TAIL"), remap = false)
     private void gtolib$init(CallbackInfo ci) {
-        changes = new ObjectOpenHashSet<>();
+        changes = new OpenCacheHashSet<>();
     }
 
     /**

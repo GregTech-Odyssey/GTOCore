@@ -11,11 +11,11 @@ import com.gregtechceu.gtceu.api.machine.multiblock.CleanroomType;
 import com.gregtechceu.gtceu.api.machine.multiblock.DummyCleanroom;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.AutoMaintenanceHatchPartMachine;
+import com.gregtechceu.gtceu.utils.collection.OpenCacheHashSet;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 
 import com.google.common.collect.ImmutableSet;
-import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 
 import java.util.Set;
 
@@ -25,9 +25,9 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @MethodsReturnNonnullByDefault
 public final class CMHatchPartMachine extends AutoMaintenanceHatchPartMachine {
 
-    private static final Set<CleanroomType> CLEANROOM = new ObjectOpenHashSet<>(2, 0.9F);
-    private static final Set<CleanroomType> STERILE_CLEANROOM = new ObjectOpenHashSet<>(3, 0.9F);
-    private static final Set<CleanroomType> LAW_CLEANROOM = new ObjectOpenHashSet<>(4, 0.9F);
+    private static final Set<CleanroomType> CLEANROOM = new OpenCacheHashSet<>(2, 0.9F);
+    private static final Set<CleanroomType> STERILE_CLEANROOM = new OpenCacheHashSet<>(3, 0.9F);
+    private static final Set<CleanroomType> LAW_CLEANROOM = new OpenCacheHashSet<>(4, 0.9F);
 
     static {
         CLEANROOM.add(CleanroomType.CLEANROOM);

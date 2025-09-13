@@ -2,6 +2,8 @@ package com.gtocore.common.forge;
 
 import com.gtolib.GTOCore;
 
+import com.gregtechceu.gtceu.utils.collection.O2OOpenCacheHashMap;
+
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.packs.resources.Resource;
@@ -11,7 +13,6 @@ import net.minecraft.util.GsonHelper;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import org.apache.commons.io.IOUtils;
 
 import java.io.IOException;
@@ -29,7 +30,7 @@ public class ServerLangHook {
     public static final Gson gto$GSON = new Gson();
     public static final Pattern gto$PATTERN = Pattern.compile("%(\\d+\\$)?[\\d.]*[df]");
     public static boolean defaultRightToLeft = false;
-    public static Map<String, String> langs = new Object2ObjectOpenHashMap<>(5000);
+    public static Map<String, String> langs = new O2OOpenCacheHashMap<>(5000);
 
     public static void gto$loadLanguage(String langName, MinecraftServer server) {
         GTOCore.LOGGER.info("Loading language: {}", langName);

@@ -1,7 +1,15 @@
 package com.gtocore.data.record;
 
+import com.gtocore.common.item.ApothItem;
+
+import com.gtolib.GTOCore;
+
+import com.tterrag.registrate.util.entry.ItemEntry;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.gtolib.utils.register.ItemRegisterUtils.item;
 
 public class ApotheosisAffix {
 
@@ -148,5 +156,21 @@ public class ApotheosisAffix {
         records.add(ApotheosisAffixRecord.create(80, "apotheosis:sword/attribute/spellbreaking", "Spellbreaking · of the Petricite Golem", "破法 · 岩石傀儡"));
         records.add(ApotheosisAffixRecord.create(81, "apotheosis:shield/mob_effect/devilish", "Devilish · of the Veteran", "残忍 · 老兵"));
         return records;
+    }
+
+    public static ItemEntry<ApothItem>[] registerAffixEssence() {
+        List<ApotheosisAffixRecord> records = initializeApotheosisAffixRecords();
+        ItemEntry<ApothItem>[] entries = new ItemEntry[records.size()];
+        for (ApotheosisAffixRecord record : records) {
+            String id = record.affixId().substring(record.affixId().indexOf(':') + 1).replace("/", "_");
+            String cn = "刻印精粹 " + "(" + record.cnId() + ")";
+            String en = "Affix Essence " + "(" + record.enId() + ")";
+            entries[record.serialNumber()] = item("affix_essence_" + record.serialNumber(), cn, p -> ApothItem.create(p, record.color()))
+                    .model((ctx, prov) -> prov.generated(ctx, GTOCore.id("item/apoth/fabric0"), GTOCore.id("item/apoth/fabric1")))
+                    .lang(en)
+                    .color(() -> ApothItem::color)
+                    .register();
+        }
+        return entries;
     }
 }

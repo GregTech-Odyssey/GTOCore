@@ -11,6 +11,7 @@ import com.gregtechceu.gtceu.api.data.worldgen.bedrockfluid.FluidVeinWorldEntry;
 import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.recipe.content.ContentModifier;
+import com.gregtechceu.gtceu.utils.collection.O2IOpenCacheHashMap;
 
 import net.minecraft.core.SectionPos;
 import net.minecraft.server.level.ServerLevel;
@@ -24,7 +25,7 @@ import org.jetbrains.annotations.Nullable;
 public final class AdvancedInfiniteDrillLogic extends RecipeLogic implements IEnhancedRecipeLogic {
 
     private static final int MAX_PROGRESS = 20;
-    private final Object2IntOpenHashMap<Fluid> veinFluids = new Object2IntOpenHashMap<>();
+    private final Object2IntOpenHashMap<Fluid> veinFluids = new O2IOpenCacheHashMap<>();
     private int range;
 
     public AdvancedInfiniteDrillLogic(IRecipeLogicMachine machine, int range) {

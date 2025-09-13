@@ -10,6 +10,7 @@ import com.gtolib.GTOCore;
 import com.gtolib.utils.RLUtils;
 
 import com.gregtechceu.gtceu.data.recipe.configurable.RecipeRemoval;
+import com.gregtechceu.gtceu.utils.collection.OpenCacheHashSet;
 
 import net.minecraft.resources.ResourceLocation;
 
@@ -53,11 +54,11 @@ public final class RecipeFilter {
     }
 
     private static void addFilter(List<Predicate<ResourceLocation>> filters) {
-        ObjectOpenHashSet<ResourceLocation> ids = new ObjectOpenHashSet<>(2048);
+        ObjectOpenHashSet<ResourceLocation> ids = new OpenCacheHashSet<>(2048);
         initIdFilter(ids);
         RecipeRemoval.init(ids::add);
         filters.add(ids::contains);
-        ObjectOpenHashSet<String> mods = new ObjectOpenHashSet<>();
+        ObjectOpenHashSet<String> mods = new OpenCacheHashSet<>();
         initModFilter(mods);
         filters.add(rl -> mods.contains(rl.getNamespace()));
     }

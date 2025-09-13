@@ -21,11 +21,11 @@ import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
 import com.gregtechceu.gtceu.common.machine.multiblock.part.ItemBusPartMachine;
+import com.gregtechceu.gtceu.utils.collection.OpenCacheHashSet;
 
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 
-import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -80,7 +80,7 @@ public final class AdvancedAssemblyLineMachine extends ElectricMultiblockMachine
      * @return 如果所有配料堆栈匹配则返回true，否则返回false
      */
     private static boolean validateIngredientStacks(AdvancedAssemblyLineMachine lineMachine, int size, FastSizedIngredient[] recipeIngredients) {
-        Set<Item> itemSet = new ObjectOpenHashSet<>();
+        Set<Item> itemSet = new OpenCacheHashSet<>();
         for (int i = 0; i < size; i++) {
             FastSizedIngredient currentIngredient = recipeIngredients[i];
             if (currentIngredient == null) continue;

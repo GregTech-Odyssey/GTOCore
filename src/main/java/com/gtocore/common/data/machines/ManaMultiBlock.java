@@ -416,6 +416,8 @@ public final class ManaMultiBlock {
                     .where('B', blocks(GTOBlocks.SPELL_PRISM_CASING.get()))
                     .where('C', blocks(GTOBlocks.SPELL_PRISM_CASING.get())
                             .or(autoAbilities(definition.getRecipeTypes()))
+                            .or(abilities(GTOPartAbility.INPUT_MANA).setMaxGlobalLimited(16, 1))
+                            .or(abilities(PARALLEL_HATCH).setMaxGlobalLimited(1))
                             .or(abilities(MAINTENANCE).setExactLimit(1)))
                     .where('D', blocks(GTOBlocks.ORIGINAL_BRONZE_CASING.get()))
                     .where('E', blocks(RegistriesUtils.getBlock("botania:corporea_block")))

@@ -12,6 +12,7 @@ import com.gtolib.utils.NumberUtils;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
+import com.gregtechceu.gtceu.utils.collection.OpenCacheHashSet;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.MethodsReturnNonnullByDefault;
@@ -25,7 +26,6 @@ import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.annotation.RequireRerender;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
-import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -50,7 +50,7 @@ public final class ClarifierPurificationUnitMachine extends WaterPurificationUni
     private int count;
     @DescSynced
     @RequireRerender
-    private final Set<BlockPos> fluidBlockOffsets = new ObjectOpenHashSet<>();
+    private final Set<BlockPos> fluidBlockOffsets = new OpenCacheHashSet<>();
     @DescSynced
     private Fluid cachedFluid;
 

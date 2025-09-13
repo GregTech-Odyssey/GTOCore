@@ -12,6 +12,7 @@ import com.gregtechceu.gtceu.api.machine.multiblock.part.TieredIOPartMachine;
 import com.gregtechceu.gtceu.api.machine.trait.NotifiableRecipeHandlerTrait;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
+import com.gregtechceu.gtceu.utils.collection.O2LOpenCacheHashMap;
 
 import net.minecraft.core.Direction;
 import net.minecraft.world.InteractionHand;
@@ -101,7 +102,7 @@ public final class InfiniteWaterHatchPartMachine extends TieredIOPartMachine {
             return IO.IN;
         }
 
-        private static final Object2LongOpenHashMap<FluidStack> MAP = new Object2LongOpenHashMap<>(2, 0.99F);
+        private static final Object2LongOpenHashMap<FluidStack> MAP = new O2LOpenCacheHashMap<>(2, 0.99F);
 
         static {
             MAP.put(WATER, Long.MAX_VALUE);

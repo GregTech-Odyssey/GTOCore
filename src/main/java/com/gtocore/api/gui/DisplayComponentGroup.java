@@ -3,6 +3,7 @@ package com.gtocore.api.gui;
 import com.gtocore.common.machine.monitor.DisplayRegistry;
 
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
+import com.gregtechceu.gtceu.utils.collection.O2OOpenCacheHashMap;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.FriendlyByteBuf;
@@ -12,7 +13,6 @@ import net.minecraft.resources.ResourceLocation;
 import com.lowdragmc.lowdraglib.gui.widget.*;
 import com.lowdragmc.lowdraglib.utils.Position;
 import com.lowdragmc.lowdraglib.utils.Size;
-import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.ObjectBooleanPair;
 import org.jetbrains.annotations.NotNull;
@@ -30,7 +30,7 @@ public class DisplayComponentGroup extends WidgetGroup {
     private final List<ResourceLocation> originList;
     /// Uses both sides
     private final List<ObjectBooleanPair<ResourceLocation>> current = new ObjectArrayList<>();
-    private final Map<ResourceLocation, DisplayComponentWidget> displayWidgets = new Object2ObjectOpenHashMap<>();
+    private final Map<ResourceLocation, DisplayComponentWidget> displayWidgets = new O2OOpenCacheHashMap<>();
     private DraggableScrollableWidgetGroup scrollArea;
 
     public DisplayComponentGroup(@NotNull List<ResourceLocation> originList,
