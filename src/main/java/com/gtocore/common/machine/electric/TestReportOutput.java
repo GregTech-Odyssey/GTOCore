@@ -3,6 +3,7 @@ package com.gtocore.common.machine.electric;
 import com.gtocore.api.report.AffixReporter;
 import com.gtocore.api.report.DataCrystalReport;
 import com.gtocore.api.report.EnchantmentStorage;
+import com.gtocore.api.report.OreReport;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
@@ -38,6 +39,7 @@ public class TestReportOutput extends MetaMachine implements IFancyUIMachine {
         textList.add(ComponentPanelWidget.withButton(Component.literal(" [data_crystal]"), "data_crystal"));
         textList.add(ComponentPanelWidget.withButton(Component.literal(" [enchantment]"), "enchantment"));
         textList.add(ComponentPanelWidget.withButton(Component.literal(" [affix_reporter]"), "affix_reporter"));
+        textList.add(ComponentPanelWidget.withButton(Component.literal(" [ore_reporter]"), "ore_reporter"));
     }
 
     private void handleDisplayClick(String componentData, ClickData clickData) {
@@ -48,6 +50,8 @@ public class TestReportOutput extends MetaMachine implements IFancyUIMachine {
                 EnchantmentStorage.getEnchantmentsReport();
             } else if ("affix_reporter".equals(componentData)) {
                 AffixReporter.getAffixReporter();
+            } else if ("ore_reporter".equals(componentData)) {
+                OreReport.generateOreReport();
             }
         }
     }
