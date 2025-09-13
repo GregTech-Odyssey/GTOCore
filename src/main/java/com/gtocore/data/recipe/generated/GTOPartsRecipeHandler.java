@@ -4,6 +4,7 @@ import com.gtocore.api.data.material.GTOMaterialFlags;
 import com.gtocore.api.data.tag.GTOTagPrefix;
 import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.data.GTOMaterials;
+import com.gtocore.common.data.GTORecipeCategories;
 
 import com.gtolib.api.data.chemical.material.GTOMaterialBuilder;
 import com.gtolib.api.recipe.RecipeBuilder;
@@ -623,6 +624,7 @@ final class GTOPartsRecipeHandler {
                     .duration((int) plating.getMass() << 4)
                     .EUt(480)
                     .cleanroom(CleanroomType.CLEANROOM)
+                    .category(GTORecipeCategories.ROTOR_PLATING)
                     .save();
         });
     }

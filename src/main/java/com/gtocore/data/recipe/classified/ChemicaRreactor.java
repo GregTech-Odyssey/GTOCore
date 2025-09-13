@@ -13,8 +13,7 @@ import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
 import static com.gregtechceu.gtceu.api.GTValues.*;
-import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.dust;
-import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.foil;
+import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
 import static com.gregtechceu.gtceu.common.data.GTItems.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
 import static com.gtocore.common.data.GTORecipeTypes.CHEMICAL_RECIPES;
@@ -2906,7 +2905,7 @@ final class ChemicaRreactor {
                 .inputItems(dust, Iron, 4)
                 .outputFluids(Iron3Chloride.getFluid(3000))
                 .outputItems(dust, GTOMaterials.ZincSulfate, 3)
-                .outputItems(dust, Chromium, 1)
+                .outputItems(dustSmall, Chromium, 2)
                 .duration(400).EUt(VA[HV]).save();
 
         CHEMICAL_RECIPES.builder("triphenylphosphine")

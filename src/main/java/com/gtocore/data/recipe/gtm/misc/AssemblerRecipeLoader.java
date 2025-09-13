@@ -10,6 +10,7 @@ import static com.gregtechceu.gtceu.common.data.GTBlocks.*;
 import static com.gregtechceu.gtceu.common.data.GTItems.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
 import static com.gtocore.common.data.GTORecipeTypes.ASSEMBLER_RECIPES;
+import static com.gtocore.common.data.GTORecipeTypes.ELECTROPLATING_RECIPES;
 
 public final class AssemblerRecipeLoader {
 
@@ -218,7 +219,7 @@ public final class AssemblerRecipeLoader {
                 .save();
 
         // Neutron Reflector
-        ASSEMBLER_RECIPES.recipeBuilder("neutron_reflector").duration(4000).EUt(VA[MV])
+        ELECTROPLATING_RECIPES.recipeBuilder("neutron_reflector").duration(4000).EUt(VA[MV])
                 .inputItems(plate, Ruridit)
                 .inputItems(plateDouble, Beryllium, 4)
                 .inputItems(plateDouble, TungstenCarbide, 2)

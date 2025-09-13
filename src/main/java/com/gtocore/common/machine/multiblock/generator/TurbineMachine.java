@@ -290,11 +290,13 @@ public class TurbineMachine extends ElectricMultiblockMachine {
 
         @Override
         public boolean onWorking() {
-            this.workAccumulation += getCoilTier() / 5.0f;
-            int addition = (int) Math.floor(this.workAccumulation);
-            this.workAccumulation -= addition;
-            for (var part : this.rotorHolderMachines) {
-                part.setRotorSpeed(Math.min(part.getRotorSpeed() + addition, part.getMaxRotorHolderSpeed()));
+            if (getCoilTier() > 0) {
+                this.workAccumulation += getCoilTier() / 5.0f;
+                int addition = (int) Math.floor(this.workAccumulation);
+                this.workAccumulation -= addition;
+                for (var part : this.rotorHolderMachines) {
+                    part.setRotorSpeed(Math.min(part.getRotorSpeed() + addition, part.getMaxRotorHolderSpeed()));
+                }
             }
             return super.onWorking();
         }

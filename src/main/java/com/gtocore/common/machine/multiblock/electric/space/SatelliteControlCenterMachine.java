@@ -96,7 +96,16 @@ public final class SatelliteControlCenterMachine extends ElectricMultiblockMachi
             launch = false;
             Item item = getRocket(Wrapper.LIST[index].getTier());
             if (item == null) return null;
-            Recipe recipe = getRecipeBuilder().duration(6000).inputItems(GTOItems.PLANET_SCAN_SATELLITE.asStack()).outputItems(item).inputFluids(getFuel(Wrapper.LIST[index].getTier())).inputItems(item).inputItems(GTOItems.PLANET_DATA_CHIP.asStack()).outputItems(GTOItems.PLANET_DATA_CHIP.get().getPlanetDataChip(getOwnerUUID(), Wrapper.LIST[index].getLocation())).EUt(getOverclockVoltage()).buildRawRecipe();
+            Recipe recipe = getRecipeBuilder()
+                    .inputItems(GTOItems.PLANET_SCAN_SATELLITE.asStack())
+                    .inputFluids(getFuel(Wrapper.LIST[index].getTier()))
+                    .inputItems(item)
+                    .inputItems(GTOItems.PLANET_DATA_CHIP.asStack())
+                    .outputItems(item)
+                    .outputItems(GTOItems.PLANET_DATA_CHIP.get().getPlanetDataChip(getOwnerUUID(), Wrapper.LIST[index].getLocation()))
+                    .EUt(getOverclockVoltage())
+                    .duration(6000)
+                    .buildRawRecipe();
             if (RecipeRunner.matchRecipe(this, recipe) && RecipeRunner.matchTickRecipe(this, recipe)) return recipe;
         }
         return null;

@@ -6,6 +6,7 @@ import com.gtocore.client.renderer.machine.DigitalMinerRenderer;
 import com.gtocore.common.data.*;
 import com.gtocore.common.data.translation.GTOMachineStories;
 import com.gtocore.common.data.translation.GTOMachineTooltips;
+import com.gtocore.common.machine.multiblock.electric.FastNeutronBreederReactor;
 import com.gtocore.common.machine.multiblock.electric.miner.DigitalMiner;
 import com.gtocore.common.machine.multiblock.electric.processing.EncapsulatorExecutionModuleMachine;
 import com.gtocore.common.machine.multiblock.electric.processing.ProcessingEncapsulatorMachine;
@@ -29,6 +30,7 @@ import com.gregtechceu.gtceu.api.machine.feature.multiblock.ICoilMachine;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.MultiblockShapeInfo;
 import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
+import com.gregtechceu.gtceu.api.recipe.modifier.RecipeModifier;
 import com.gregtechceu.gtceu.common.data.*;
 
 import net.minecraft.core.Direction;
@@ -331,11 +333,13 @@ public final class MultiBlockH {
             .register();
 
     // 快中子增殖堆
-    public static final MultiblockMachineDefinition FAST_NEUTRON_BREEDER_REACTOR = multiblock("fast_neutron_breeder_reactor", "快中子增殖堆", NoRecipeLogicMultiblockMachine::new)
+    public static final MultiblockMachineDefinition FAST_NEUTRON_BREEDER_REACTOR = multiblock("fast_neutron_breeder_reactor", "快中子增殖堆", FastNeutronBreederReactor::new)
             .nonYAxisRotation()
             .parallelizableTooltips()
-            .recipeTypes(GTORecipeTypes.DUMMY_RECIPES)
+            .tooltipsSupplier(GTOMachineTooltips.INSTANCE.getFastNeutronBreederTooltips().getSupplier())
+            .recipeTypes(GTORecipeTypes.FAST_NEUTRON_BREEDER_REACTOR_RECIPES)
             .block(GTOBlocks.BORON_CARBIDE_CERAMIC_RADIATION_RESISTANT_MECHANICAL_CUBE)
+            .recipeModifiers(RecipeModifier.NO_MODIFIER)
             .pattern(definition -> MultiBlockFileReader.start(definition, RelativeDirection.FRONT, RelativeDirection.UP, RelativeDirection.LEFT)
                     .where('A', blocks(GTOBlocks.ABS_GREY_CASING.get()))
                     .where('B', blocks(GTOBlocks.HIGH_STRENGTH_SUPPORT_SPINDLE.get()))
@@ -349,7 +353,8 @@ public final class MultiBlockH {
                     .where('J', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTOMaterials.BabbittAlloy)))
                     .where('K', blocks(GTOBlocks.BORON_CARBIDE_CERAMIC_RADIATION_RESISTANT_MECHANICAL_CUBE.get())
                             .or(autoAbilities(definition.getRecipeTypes()))
-                            .or(abilities(PARALLEL_HATCH).setMaxGlobalLimited(1))
+                            .or(blocks(GTOMachines.HEAT_SENSOR.get()).setMaxGlobalLimited(1).setMinGlobalLimited(0))
+                            .or(blocks(GTOMachines.NEUTRON_SENSOR.get()).setMaxGlobalLimited(1).setMinGlobalLimited(0))
                             .or(abilities(MAINTENANCE).setExactLimit(1)))
                     .where('L', blocks(GTOBlocks.RADIATION_ABSORBENT_CASING.get()))
                     .where('M', blocks(GTOBlocks.PBI_RADIATION_RESISTANT_MECHANICAL_ENCLOSURE.get()))
@@ -783,9 +788,15 @@ public final class MultiBlockH {
             .register();
 
     // 智能筛选中枢
-    public static final MultiblockMachineDefinition SMART_FILTERING_HUB = multiblock("smart_siftering_hub", "智能筛选中枢", CrossRecipeMultiblockMachine::createHatchParallel)
+    public static final MultiblockMachineDefinition SMART_FILTERING_HUB = multiblock("smart_siftering_hub", "智能筛选中枢",
+            TierCasingCrossRecipeMultiblockMachine.createParallel(m -> 1L << (2 * m.getCasingTier(GLASS_TIER)), GLASS_TIER))
             .nonYAxisRotation()
             .tooltips(GTOMachineStories.INSTANCE.getSmartSifteringHubTooltips().getSupplier())
+            .multipleRecipesTooltips()
+            .laserTooltips()
+            .tooltips(NewDataAttributes.ALLOW_PARALLEL_NUMBER.create(
+                    h -> h.addLines("由玻璃等级决定", "Determined by glass tier"),
+                    c -> c.addCommentLines("公式 : 4^玻璃等级", "Formula: 4^(Glass Tier)")))
             .recipeTypes(GTORecipeTypes.SIFTER_RECIPES)
             .block(GTOBlocks.NAQUADAH_ALLOY_CASING)
             .pattern(definition -> FactoryBlockPattern.start(definition)
@@ -815,7 +826,7 @@ public final class MultiBlockH {
                     .where('I', blocks(GTOBlocks.MOLECULAR_CASING.get()))
                     .where('J', blocks(GCYMBlocks.ELECTROLYTIC_CELL.get()))
                     .where('K', blocks(GTOBlocks.NAQUADAH_ALLOY_CASING.get())
-                            .or(GTOPredicates.autoLaserAbilities(definition.getRecipeTypes()))
+                            .or(GTOPredicates.autoThreadLaserAbilities(definition.getRecipeTypes()))
                             .or(abilities(MAINTENANCE).setExactLimit(1)))
                     .where('L', blocks(GTOBlocks.CONTAINMENT_FIELD_GENERATOR.get()))
                     .where('M', blocks(GTOBlocks.AMPROSIUM_GEARBOX.get()))
@@ -833,6 +844,7 @@ public final class MultiBlockH {
             .parallelizableTooltips()
             .recipeTypes(GTORecipeTypes.ELECTROPLATING_RECIPES)
             .block(GTBlocks.CASING_PTFE_INERT)
+            .recipeModifier(RecipeModifierFunction.GCYM_OVERCLOCKING)
             .pattern(definition -> FactoryBlockPattern.start(definition)
                     .aisle("AAAAAAA", "AAAAAAA", "BBBBBBB", "B     B", "BBBBBBB")
                     .aisle("ADDDDDA", "A     A", "BEEEEEB", "C     C", "BFFFFFB")
@@ -840,8 +852,9 @@ public final class MultiBlockH {
                     .aisle("ADDDDDA", "A     A", "BEEEEEB", "C     C", "BFFFFFB")
                     .aisle("AAAHAAA", "AAAAAAA", "BBBBBBB", "B     B", "BBBBBBB")
                     .where('A', blocks(GTBlocks.CASING_PTFE_INERT.get())
-                            .or(autoAbilities(definition.getRecipeTypes()))
-                            .or(abilities(MAINTENANCE).setExactLimit(1)))
+                            .or(GTOPredicates.autoGCYMAbilities(definition.getRecipeTypes()))
+                            .or(abilities(PARALLEL_HATCH))
+                            .or(autoAbilities(true, false, true)))
                     .where('B', blocks(GCYMBlocks.CASING_NONCONDUCTING.get()))
                     .where('C', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.Polytetrafluoroethylene)))
                     .where('D', blocks(GTBlocks.CASING_PTFE_INERT.get()))

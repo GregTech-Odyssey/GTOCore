@@ -24,6 +24,7 @@
     "sodium.SodiumWorldRendererMixin"
   ],
   "mixins": [
+    "OpenContainerAccessor",
     "ae2.AEConfigMixin",
     "ae2.EnergyServiceMixin",
     "ae2.FacadeCreativeTabMixin",

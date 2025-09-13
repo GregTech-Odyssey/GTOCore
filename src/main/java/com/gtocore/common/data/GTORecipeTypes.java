@@ -839,6 +839,18 @@ public final class GTORecipeTypes {
             .addDataInfo(COIL)
             .setUiBuilder(COIL_UI);
 
+    public static final RecipeType FAST_NEUTRON_BREEDER_REACTOR_RECIPES = register("fast_neutron_breeder_reactor", "快中子增殖反应堆", MULTIBLOCK)
+            .setEUIO(IO.IN)
+            .setMaxIOSize(2, 2, 1, 1)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
+            .setSound(GTSoundEntries.TURBINE)
+            .addDataInfo(data -> {
+                var nFlux = data.getInt("neutron_flux");
+                return LocalizationUtils.format(nFlux > 1000 ? "gtocore.recipe.neutron_flux.m" : "gtocore.recipe.neutron_flux.k", FormattingUtil.formatNumbers(nFlux > 1000 ? nFlux / 1_000f : nFlux));
+            })
+            .addDataInfo(data -> LocalizationUtils.format("gtocore.recipe.neutron_flux.change", FormattingUtil.formatNumbers(data.getInt("neutron_flux_change"))))
+            .addDataInfo(data -> LocalizationUtils.format("gtocore.recipe.heat.change", FormattingUtil.formatNumbers(data.getInt("heat"))));
+
     public static final RecipeType BIOCHEMICAL_REACTION_RECIPES = register("biochemical_reaction", "生化反应", MULTIBLOCK)
             .setEUIO(IO.IN)
             .setMaxIOSize(3, 2, 5, 1)

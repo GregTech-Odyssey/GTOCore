@@ -98,6 +98,12 @@ final class MachineLang {
         addCNEN("gtocore.machine.advanced_infinite_driller.not_fluid_head", "无钻头", "No drill head");
         addCNEN("gtocore.machine.advanced_infinite_driller.heat", "最大温度: %sK / 工作温度: %sK", "Max Temperature: %sK / Operating Temperature: %sK");
         addCNEN("gtocore.machine.current_temperature", "当前温度: %sK", "Current Temperature: %sK");
+        addCNEN("gtocore.machine.neutron_flux", "当前中子通量： %s keV", "Current Neutron Flux: %s keV");
+        addCNEN("gtocore.machine.temp.per_second", "配方每秒升温: %sK", "Recipe Temperature Increase Per Second: %sK");
+        addCNEN("gtocore.recipe.neutron_flux.k", "最小中子通量: %s keV", "Minimum Neutron Flux: %s keV");
+        addCNEN("gtocore.recipe.neutron_flux.m", "最小中子通量: %s MeV", "Minimum Neutron Flux: %s MeV");
+        addCNEN("gtocore.recipe.neutron_flux.change", "每秒中子通量变化: %s keV", "Neutron Flux Change Per Second: %s keV");
+        addCNEN("gtocore.recipe.heat.change", "配方基础产热: %sK/s", "Recipe Base Heat Production: %sK/s");
         addCNEN("gtocore.machine.advanced_infinite_driller.drilled_fluid", "流体: %s 产量: %s", "Fluid: %s Output: %s");
         addCNEN("gtocore.machine.steam.tooltip.1", "默认支持%s等级及以下的配方处理", "default can process &s-Tier recipes and below, processing time is 1.5 times");
         addCNEN("gtocore.machine.steam.tooltip.2", "安装大型蒸汽输入仓后提升一个配方等级，并解锁超频功能", "After installing a large steam input hatch, upgrade one recipe tier and unlock the overclocking function");

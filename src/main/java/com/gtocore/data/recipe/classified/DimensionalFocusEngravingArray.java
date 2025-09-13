@@ -1,6 +1,5 @@
 package com.gtocore.data.recipe.classified;
 
-import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.data.GTOMaterials;
 
@@ -95,7 +94,6 @@ final class DimensionalFocusEngravingArray {
                         .dataStack(GTOItems.OPTICAL_DATA_STICK.asStack())
                         .EUt(7864320).duration(2400))
                 .save();
-
 
         DIMENSIONAL_FOCUS_ENGRAVING_ARRAY_RECIPES.builder("lanthanum_embedded_fullerene_dust")
                 .notConsumable(TagPrefix.lens, GTMaterials.Sapphire)

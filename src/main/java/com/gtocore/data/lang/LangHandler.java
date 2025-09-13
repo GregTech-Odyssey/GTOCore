@@ -255,6 +255,7 @@ public final class LangHandler {
         addCNEN("gtocore.not_safe", "现在不安全", "It's not safe now");
 
         addCNEN("gtceu.recipe.category.mana_assembler", "魔力组装", "Mana Assembler");
+        addCNEN("gtceu.recipe.category.rotor_plating", "转子镀膜", "Rotor Plating");
         addCNEN("gtocore.ae.appeng.crafting.cycle_error.main", "检测到循环依赖，自动合成无法进行", "Cyclic dependency detected, automatic crafting cannot proceed");
         addCNEN("gtocore.ae.appeng.crafting.cycle_error.count", "\n发现 %s 个环:", "\nFound %s cycles:");
         addCNEN("gtocore.ae.appeng.crafting.cycle_error.more_cycles", "\n    ... 还有 %s 个环未显示", "\n    ... and %s more cycles not shown");

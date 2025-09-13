@@ -1457,4 +1457,36 @@ object GTOMachineTooltips {
         content("当安装7个嬗变催化剂时，机器将激活完美嬗变模式" translatedTo "When 7 transmutation catalysts are installed, the machine will activate perfect transmutation mode")
         command(("当安装" translatedTo "When installed").gold() + ("生物活性主机" translatedTo "Bioware Processor Mainframe").scrollBioware() + ("时，机器将获得0.01x耗时减免" translatedTo " the machine will gain 0.01x Duration reduction").gold())
     }
+
+    // 快中子增殖堆
+    val FastNeutronBreederTooltips = ComponentListSupplier {
+        setTranslationPrefix("fast_neutron_breeder")
+
+        section("运行机制" translatedTo "Operating Mechanism")
+        command("最高支持2048并行，无法通过其他方式加速" translatedTo "Supports up to 2048 parallel, cannot be accelerated by other means")
+        command("配方需满足最低中子通量" translatedTo "Recipe requires minimum neutron flux")
+        content("中子通量可通过输入中子源或配方运行时增加" translatedTo "Neutron flux can be increased by inputting neutron sources or during recipe operation")
+        command("中子通量越高，堆升温速率越大" translatedTo "The higher the neutron flux, the faster the pile heats up")
+        info("输入石墨粉可吸收中子通量" translatedTo "Inputting Graphite Dust can absorb neutron flux")
+        info("输入冷却剂可降低温度" translatedTo "Inputting coolant can lower the temperature")
+        error("温度超过1800K时配方失败，输出(一点可怜的)核废料，燃料组件方块全部融毁" translatedTo "If the temperature exceeds 1800K, the recipe fails, outputs waste, and all fuel component blocks melt.")
+
+        section("配方相关" translatedTo "Recipe Related")
+        command("输入：增殖棒与对应元素粉，不同配方需不同中子通量" translatedTo "Input: Breeding Rods and corresponding Element Dust, different recipes require different neutron flux")
+        content("输出：枯竭增殖棒" translatedTo "Output: Depleted Breeding Rods")
+        info("实际并行越大，运行时间越短，公式：T = t * (0.9)^0.5" translatedTo "The larger the actual parallelism, the shorter the running time, formula: T = t * (0.9)^0.5")
+
+        section("数值机制" translatedTo "Numerical Mechanism")
+        function("消耗中子源提供初始通量：锑-铍10keV，钚-铍100keV，锎-252 1MeV" translatedTo "Consume neutron sources to provide initial flux: Sb-Be 10keV, Pu-Be 100keV, Cf-252 1MeV")
+        function("中子通量每秒减少10keV" translatedTo "Neutron flux decreases by 10keV per second")
+        function("小撮/小堆/石墨粉分别降低0.1/0.25/1MeV" translatedTo "Small Pile/Big Pile/Graphite Dust reduce by 0.1/0.25/1MeV respectively")
+        function("中子通量为E（keV）时，在主机内放入N个铱中子反射板后，中子通量每秒增加 (EN)^0.5 keV" translatedTo "When neutron flux is E (keV), after placing N Iridium Neutron Reflectors in the mainframe, neutron flux increases by (EN)^0.5 keV per second")
+        info("初始温度298K，临界点2098K" translatedTo "Initial temperature 298K, critical point 2098K")
+        error("经过计算，当中子动能在4.5MeV以上时，堆温每秒将上升超过1800K，足以在一秒内达到临界点" translatedTo "According to calculations, when neutron kinetic energy is above 4.5keV, the pile temperature will rise by 1800K per second, enough to reach the critical point in one second")
+        function("每秒产热公式：H=K×0.127×(E×10)^1.88，结果向上取整" translatedTo "Heat generation formula per second: H=K×0.127×(E×10)^1.88, result rounded up")
+        function("冷却液系数(K/mB/s)：蒸馏水1，液氮4，液氦80" translatedTo "Coolant coefficients(K/mB/s): Distilled Water 1, Liquid Nitrogen 4, Liquid Helium 80")
+        content("冷却后分别输出蒸汽、气态氮、气态氦" translatedTo "Outputs Steam, Gaseous Nitrogen, Gaseous Helium respectively after cooling")
+        command("每秒将消耗全部输入的中子调节剂/冷却剂" translatedTo "Will consume all neutron moderators/coolants input per second")
+        function("每秒温度变化：ΔT=H-C×M，结果向下取整" translatedTo "Temperature change per second: ΔT=H-C×M, result rounded down")
+    }
 }

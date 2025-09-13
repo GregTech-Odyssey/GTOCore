@@ -76,24 +76,29 @@ final class KeyMessage {
     private static void upgradeToolSpeed(Player player) {
         ItemStack itemStack = player.getItemInHand(InteractionHand.MAIN_HAND);
         if (itemStack.getItem() instanceof IGTTool gtTool && gtTool.getToolType().name.contains("_vajra")) {
-            int value = player.isShiftKeyDown() ? 10 : 1;
-            float speed = itemStack.getOrCreateTag().getCompound("GT.Tool").getFloat("ToolSpeed");
-            float newSpeed = adjustToolSpeed(speed, value, (int) gtTool.getMaterialToolSpeed(itemStack));
-            itemStack.getOrCreateTag().getCompound("GT.Tool").putFloat("ToolSpeed", newSpeed);
+            if (player.isShiftKeyDown()) {
+                itemStack.getOrCreateTag().putBoolean("MinersFervor", !itemStack.getOrCreateTag().getBoolean("MinersFervor"));
+                player.displayClientMessage(Component.translatable(itemStack.getOrCreateTag().getBoolean("MinersFervor") ?
+                        "tooltip.avaritia.active" : "tooltip.avaritia.inactive",
+                        Component.translatable("enchantment.apotheosis.miners_fervor")), true);
+                return;
+            }
+            float speed = itemStack.getOrCreateTag().getFloat("ToolSpeed");
+            float newSpeed = adjustToolSpeed(speed, 4, (int) gtTool.getMaterialToolSpeed(itemStack));
+            itemStack.getOrCreateTag().putFloat("ToolSpeed", newSpeed);
             player.displayClientMessage(Component.translatable("jade.horseStat.speed", newSpeed), true);
         }
     }
 
-    private static float adjustToolSpeed(float speed, int value, int max) {
-        if (speed < max) {
-            if (speed < 100) {
-                return speed + value;
-            } else {
-                return speed + value * 10;
+    private static float adjustToolSpeed(float speed, int fallback, int max) {
+        if (speed > 0.0F) {
+            if (speed * 2 < max) {
+                return speed * 2;
+            } else if (speed < max) {
+                return max;
             }
-        } else {
-            return 10;
         }
+        return fallback;
     }
 
     private static void drift(ServerPlayer player) {

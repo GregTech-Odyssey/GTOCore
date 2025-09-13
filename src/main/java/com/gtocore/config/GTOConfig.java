@@ -9,6 +9,7 @@ import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.config.ConfigHolder;
 
 import dev.toma.configuration.Configuration;
+import dev.toma.configuration.client.IValidationHandler;
 import dev.toma.configuration.config.Config;
 import dev.toma.configuration.config.Configurable;
 import dev.toma.configuration.config.format.ConfigFormats;
@@ -148,11 +149,14 @@ public final class GTOConfig {
     // 游戏核心设置
     @Configurable
     @Configurable.Comment({ "游戏难度等级：简单、普通、专家",
-            "注意：游戏难度设置即将被迁移到config/gtocore/gtocore_startup.cfg中，此配置项在未来版本中将被移除！",
+            "该配置项即将被弃用，请改用 config/gtocore/gtocore_startup.cfg 中的 Difficulty 选项",
+            "此处的更改将会同步到 config/gtocore/gtocore_startup.cfg 中的 Difficulty 选项",
             "Game difficulty level: Simple, Normal, Expert",
-            "Note: The game difficulty setting is about to be moved to config/gtocore/gtocore_startup.cfg, this configuration item will be removed in future versions!"
+            "This configuration option is about to be deprecated, please use the Difficulty option in config/gtocore/gtocore_startup.cfg",
+            "Changes here will be synchronized to the Difficulty option in config/gtocore/gtocore_startup.cfg"
     })
     @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Game Difficulty", cn = "游戏难度")
+    @Configurable.ValueUpdateCallback(method = "onUpdate")
     public Difficulty gameDifficulty = Difficulty.Normal;
 
     @Configurable
@@ -313,5 +317,13 @@ public final class GTOConfig {
         } catch (Exception e) {
             return Difficulty.Normal;
         }
+    }
+
+    // redirect changes to startup config
+    public void onUpdate(Difficulty value, IValidationHandler handler) {
+        var oldCfg = GTOStartupConfig.config.get("general", "Difficulty", 2);
+        oldCfg.set(value.name());
+        oldCfg.setComment(GTOStartupConfig.difficultyIntroduction);
+        GTOStartupConfig.config.save();
     }
 }
