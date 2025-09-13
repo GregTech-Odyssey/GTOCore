@@ -4,7 +4,6 @@ import com.gtolib.api.ae2.stacks.IKeyCounter;
 import com.gtolib.api.ae2.storage.CellDataStorage;
 
 import com.gregtechceu.gtceu.GTCEu;
-import com.gregtechceu.gtceu.utils.collection.O2LOpenCacheHashMap;
 
 import net.minecraft.nbt.IntArrayTag;
 import net.minecraft.nbt.ListTag;
@@ -99,7 +98,7 @@ public abstract class BasicCellInventoryMixin implements StorageCell {
         CellDataStorage storage = gtolib$getCellStorage();
         var map = storage.getStoredMap();
         if (map == null) {
-            map = new O2LOpenCacheHashMap<>();
+            map = new Object2LongOpenHashMap<>();
             storage.setStoredMap(map);
             long[] amounts = storage.getAmounts();
             double totalAmount = 0;

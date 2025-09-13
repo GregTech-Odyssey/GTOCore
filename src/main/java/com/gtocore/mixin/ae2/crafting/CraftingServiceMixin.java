@@ -3,8 +3,6 @@ package com.gtocore.mixin.ae2.crafting;
 import com.gtolib.api.ae2.crafting.OptimizedCalculation;
 import com.gtolib.api.ae2.machine.CraftingInterfacePartMachine;
 
-import com.gregtechceu.gtceu.utils.collection.O2OOpenCacheHashMap;
-
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.Level;
 
@@ -21,6 +19,7 @@ import appeng.hooks.ticking.TickHandler;
 import appeng.me.cluster.implementations.CraftingCPUCluster;
 import appeng.me.helpers.StackWatcher;
 import appeng.me.service.CraftingService;
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.Reference2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet;
 import org.spongepowered.asm.mixin.*;
@@ -67,7 +66,7 @@ public abstract class CraftingServiceMixin {
     private void init(IGrid grid, IStorageService storageGrid, IEnergyService energyGrid, CallbackInfo ci) {
         craftingCPUClusters = new ReferenceOpenHashSet<>();
         craftingWatchers = new Reference2ObjectOpenHashMap<>();
-        craftingLinks = new O2OOpenCacheHashMap<>();
+        craftingLinks = new Object2ObjectOpenHashMap<>();
     }
 
     @Inject(method = "onServerEndTick", at = @At(value = "INVOKE", target = "Ljava/util/Map;values()Ljava/util/Collection;"), remap = false, cancellable = true)

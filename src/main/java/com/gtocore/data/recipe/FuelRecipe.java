@@ -7,7 +7,6 @@ import com.gtolib.utils.ItemUtils;
 
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
 import com.gregtechceu.gtceu.utils.GTUtil;
-import com.gregtechceu.gtceu.utils.collection.OpenCacheHashSet;
 
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.item.BucketItem;
@@ -17,6 +16,7 @@ import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.fluids.FluidStack;
 
 import earth.terrarium.adastra.common.registry.ModFluids;
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 
 import java.util.Set;
 
@@ -27,7 +27,7 @@ import static com.gtocore.common.data.GTORecipeTypes.*;
 public final class FuelRecipe {
 
     public static void init() {
-        Set<Item> addedItems = new OpenCacheHashSet<>();
+        Set<Item> addedItems = new ObjectOpenHashSet<>();
         for (var fuelEntry : FurnaceBlockEntity.getFuel().entrySet()) {
             if (fuelEntry.getKey() instanceof BucketItem) continue;
             addedItems.add(fuelEntry.getKey());

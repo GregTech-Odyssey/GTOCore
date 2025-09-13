@@ -2,9 +2,6 @@ package com.gtocore.common.saved;
 
 import com.gtolib.utils.RLUtils;
 
-import com.gregtechceu.gtceu.utils.collection.O2IOpenCacheHashMap;
-import com.gregtechceu.gtceu.utils.collection.O2OOpenCacheHashMap;
-
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.resources.ResourceLocation;
@@ -12,6 +9,7 @@ import net.minecraft.world.level.saveddata.SavedData;
 
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
@@ -20,10 +18,10 @@ import java.util.UUID;
 public class RecipeRunLimitSavaedData extends SavedData {
 
     public static RecipeRunLimitSavaedData INSTANCE = new RecipeRunLimitSavaedData();
-    private final Map<UUID, Object2IntOpenHashMap<ResourceLocation>> recipeRunLimit = new O2OOpenCacheHashMap<>();
+    private final Map<UUID, Object2IntOpenHashMap<ResourceLocation>> recipeRunLimit = new Object2ObjectOpenHashMap<>();
 
     public static void set(UUID uuid, ResourceLocation recipe, int count) {
-        INSTANCE.recipeRunLimit.computeIfAbsent(uuid, k -> new O2IOpenCacheHashMap<>()).put(recipe, count);
+        INSTANCE.recipeRunLimit.computeIfAbsent(uuid, k -> new Object2IntOpenHashMap<>()).put(recipe, count);
         INSTANCE.setDirty();
     }
 
@@ -39,7 +37,7 @@ public class RecipeRunLimitSavaedData extends SavedData {
             CompoundTag uuidTag = uuid.getCompound(i);
             UUID uuid1 = uuidTag.getUUID("u");
             ListTag list = uuidTag.getList("r", 10);
-            Object2IntOpenHashMap<ResourceLocation> map = new O2IOpenCacheHashMap<>();
+            Object2IntOpenHashMap<ResourceLocation> map = new Object2IntOpenHashMap<>();
             for (int j = 0; j < list.size(); j++) {
                 CompoundTag id = list.getCompound(j);
                 map.put(RLUtils.parse(id.getString("i")), id.getInt("c"));
