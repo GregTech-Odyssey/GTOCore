@@ -2666,7 +2666,7 @@
   "item.gtceu.tool.hv_vajra": "%s 基礎金剛杵",
   "item.gtceu.tool.iv_vajra": "%s 終極金剛杵",
   "item.gtceu.tool.vajra.tooltip": "手持工具時按[%s]調整挖掘速度",
-  "item.gtceu.tool.vajra.tooltip.max_speed": "當前挖掘速度: §a%s%%§r (最大§a%s%%§r)",
+  "item.gtceu.tool.vajra.tooltip.max_speed": "當前挖掘速度: §a%s§r (最大§a%s%%§r)",
   "item.gtceu.tool.vajra.tooltip.shift": "手持工具時按[Shift + %s]啟用/禁用礦工熱忱",
   "item.gtocore.bioware_assembly.tooltip": "§7似乎能聽到竊竊私語",
   "item.gtocore.bioware_computer.tooltip": "§7金屬之間布滿瞭黏菌",

@@ -4079,7 +4079,7 @@
   "item.gtceu.tool.hv_vajra": "%s Basic Vajra",
   "item.gtceu.tool.iv_vajra": "%s Ultimate Vajra",
   "item.gtceu.tool.vajra.tooltip": "Hold [%s] to adjust mining speed when holding the tool",
-  "item.gtceu.tool.vajra.tooltip.max_speed": "Current mining speed: §a%s%%§r (Max §a%s%%§r)",
+  "item.gtceu.tool.vajra.tooltip.max_speed": "Current mining speed: §a%s§r (Max §a%s%%§r)",
   "item.gtceu.tool.vajra.tooltip.shift": "Hold [Shift + %s] to enable/disable Miner Fervor when holding the tool",
   "item.gtocore.actinium_superhydride_plasma_containment_cell": "Actinium Superhydride Plasma Containment Cell",
   "item.gtocore.activated_carbon_filter_mesh": "Activated Carbon Filter Mesh",

@@ -4079,7 +4079,7 @@
   "item.gtceu.tool.hv_vajra": "%s 基础金刚杵",
   "item.gtceu.tool.iv_vajra": "%s 终极金刚杵",
   "item.gtceu.tool.vajra.tooltip": "手持工具时按[%s]调整挖掘速度",
-  "item.gtceu.tool.vajra.tooltip.max_speed": "当前挖掘速度: §a%s%%§r (最大§a%s%%§r)",
+  "item.gtceu.tool.vajra.tooltip.max_speed": "当前挖掘速度: §a%s§r (最大§a%s%%§r)",
   "item.gtceu.tool.vajra.tooltip.shift": "手持工具时按[Shift + %s]启用/禁用矿工热忱",
   "item.gtocore.actinium_superhydride_plasma_containment_cell": "超氢化锕等离子体密闭容器",
   "item.gtocore.activated_carbon_filter_mesh": "活性炭过滤网",
