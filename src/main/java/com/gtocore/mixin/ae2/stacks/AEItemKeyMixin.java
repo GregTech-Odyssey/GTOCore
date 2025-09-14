@@ -1,9 +1,8 @@
 package com.gtocore.mixin.ae2.stacks;
 
-import com.gtocore.api.ae2.stacks.AEItemKeyCache;
-
 import com.gtolib.IItem;
 import com.gtolib.api.ae2.stacks.IAEItemKey;
+import com.gtolib.api.misc.IMapValueCache;
 import com.gtolib.utils.RLUtils;
 
 import net.minecraft.core.DefaultedRegistry;
@@ -63,7 +62,7 @@ public abstract class AEItemKeyMixin implements IAEItemKey {
         if (tag == null || tag.isEmpty()) {
             return ((IItem) item.asItem()).gtolib$getAEKey();
         } else {
-            return AEItemKeyCache.INSTANCE.get(stack);
+            return IMapValueCache.ITEM_KEY_CACHE.get(stack);
         }
     }
 
@@ -86,7 +85,7 @@ public abstract class AEItemKeyMixin implements IAEItemKey {
         if (tag == null || tag.isEmpty()) return ((IItem) i).gtolib$getAEKey();
         var stack = new ItemStack(i, 1);
         stack.setTag(tag);
-        return AEItemKeyCache.INSTANCE.get(stack);
+        return IMapValueCache.ITEM_KEY_CACHE.get(stack);
     }
 
     /**
@@ -104,7 +103,7 @@ public abstract class AEItemKeyMixin implements IAEItemKey {
             }
             var stack = new ItemStack(item, 1, extraCaps);
             if (extraTag != null) stack.setTag(extraTag);
-            return AEItemKeyCache.INSTANCE.get(stack);
+            return IMapValueCache.ITEM_KEY_CACHE.get(stack);
         } catch (Exception e) {
             AELog.debug("Tried to load an invalid item key from NBT: %s", tag, e);
             return null;
@@ -139,7 +138,7 @@ public abstract class AEItemKeyMixin implements IAEItemKey {
         }
         var stack = new ItemStack(item);
         stack.readShareTag(shareTag);
-        return AEItemKeyCache.INSTANCE.get(stack);
+        return IMapValueCache.ITEM_KEY_CACHE.get(stack);
     }
 
     @Redirect(method = "toTag", at = @At(value = "INVOKE", target = "Lnet/minecraft/core/DefaultedRegistry;getKey(Ljava/lang/Object;)Lnet/minecraft/resources/ResourceLocation;", remap = true), remap = false)

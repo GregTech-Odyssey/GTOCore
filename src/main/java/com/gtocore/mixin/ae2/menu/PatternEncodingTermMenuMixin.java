@@ -29,6 +29,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(PatternEncodingTermMenu.class)
 public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu implements IMenuCraftingPacket, IPatterEncodingTermMenu {
@@ -45,6 +46,23 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu impleme
         super(menuType, id, ip, host);
     }
 
+    @Unique
+    private String gtocore$recipe;
+
+    @Override
+    public void gtolib$addRecipe(String id) {
+        if (isClientSide()) {
+            sendClientAction("addRecipe", id);
+        } else gtocore$recipe = id;
+    }
+
+    @Inject(method = "encodeProcessingPattern", at = @At("RETURN"), remap = false)
+    private void encodeProcessingPatternHook(CallbackInfoReturnable<ItemStack> cir) {
+        if (gtocore$recipe != null && !gtocore$recipe.isEmpty()) {
+            cir.getReturnValue().getOrCreateTag().putString("recipe", gtocore$recipe);
+        }
+    }
+
     @Inject(method = "<init>(Lnet/minecraft/world/inventory/MenuType;ILnet/minecraft/world/entity/player/Inventory;Lappeng/helpers/IPatternTerminalMenuHost;Z)V",
             at = @At("TAIL"),
             remap = false)
@@ -53,7 +71,8 @@ public abstract class PatternEncodingTermMenuMixin extends MEStorageMenu impleme
                 this::gtolib$modifyPatter);
         registerClientAction("clearSecOutput", this::gtolib$clearSecOutput);
         blankPatternSlot.setStackLimit(1);
-        // blankPatternSlot.setSlotEnabled(false);
+        registerClientAction("addRecipe", String.class,
+                this::gtolib$addRecipe);
     }
 
     @Override

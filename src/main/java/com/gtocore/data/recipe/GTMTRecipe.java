@@ -1,6 +1,7 @@
 package com.gtocore.data.recipe;
 
 import com.gtocore.common.data.GTOItems;
+import com.gtocore.common.data.GTOMachines;
 import com.gtocore.common.data.GTOMaterials;
 import com.gtocore.common.data.machines.GTAEMachines;
 
@@ -21,7 +22,6 @@ import net.minecraft.world.item.Items;
 import net.minecraftforge.common.Tags;
 
 import appeng.core.definitions.AEBlocks;
-import appeng.core.definitions.AEItems;
 import com.hepdd.gtmthings.data.CustomItems;
 import com.hepdd.gtmthings.data.CustomMachines;
 import com.hepdd.gtmthings.data.WirelessMachines;
@@ -32,6 +32,16 @@ import static com.gtocore.common.data.GTORecipeTypes.SCANNER_RECIPES;
 public final class GTMTRecipe {
 
     public static void init() {
+        ASSEMBLER_RECIPES.builder("virtual_item_supply_machine")
+                .inputItems(GTOMachines.PROGRAMMABLEC_HATCH[2].asStack())
+                .inputItems(CustomItems.PROGRAMMABLE_COVER.get(), 16)
+                .inputItems("expatternprovider:caner", 4)
+                .inputItems(GTItems.ROBOT_ARM_MV.asStack(16))
+                .outputItems(GTAEMachines.VIRTUAL_ITEM_SUPPLY_MACHINE.asStack())
+                .EUt(120)
+                .duration(400)
+                .save();
+
         ASSEMBLER_RECIPES.recipeBuilder("programmable_cover")
                 .inputItems(GTItems.ROBOT_ARM_MV.asStack(2))
                 .inputItems(CustomItems.VIRTUAL_ITEM_PROVIDER.asStack())
@@ -49,16 +59,6 @@ public final class GTMTRecipe {
                 .outputItems(CustomItems.VIRTUAL_ITEM_PROVIDER.asItem())
                 .EUt(480)
                 .duration(200)
-                .save();
-
-        ASSEMBLER_RECIPES.recipeBuilder("virtual_item_provider_cell")
-                .inputItems(new ItemStack(AEItems.ITEM_CELL_256K.asItem()))
-                .inputItems(CustomItems.VIRTUAL_ITEM_PROVIDER.asItem())
-                .inputItems(GTItems.CONVEYOR_MODULE_HV.asStack(2))
-                .inputFluids(GTMaterials.Polyethylene.getFluid(288))
-                .outputItems(CustomItems.VIRTUAL_ITEM_PROVIDER_CELL.asItem())
-                .EUt(480)
-                .duration(800)
                 .save();
 
         SCANNER_RECIPES.recipeBuilder("wireless_energy_binding_tool")

@@ -1,5 +1,7 @@
 package com.gtocore.mixin.ae2.pattern;
 
+import com.gregtechceu.gtceu.utils.collection.O2OOpenCacheHashMap;
+
 import net.minecraft.world.level.Level;
 
 import appeng.api.stacks.AEItemKey;
@@ -9,13 +11,11 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Unique;
 
-import java.util.WeakHashMap;
-
 @Mixin(StonecuttingPatternItem.class)
 public class StonecuttingPatternItemMixin {
 
     @Unique
-    private static final WeakHashMap<AEItemKey, AEStonecuttingPattern> gtolib$CACHE = new WeakHashMap<>();
+    private static final O2OOpenCacheHashMap<AEItemKey, AEStonecuttingPattern> gtolib$CACHE = new O2OOpenCacheHashMap<>();
 
     /**
      * @author .

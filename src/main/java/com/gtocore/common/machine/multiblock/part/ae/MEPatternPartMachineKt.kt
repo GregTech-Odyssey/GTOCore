@@ -349,7 +349,7 @@ internal abstract class MEPatternPartMachineKt<T : MEPatternPartMachineKt.Abstra
 
     open fun convertPattern(pattern: IPatternDetails, index: Int): IPatternDetails = pattern
 
-    private fun decodePattern(stack: ItemStack, index: Int): IPatternDetails? {
+    open fun decodePattern(stack: ItemStack, index: Int): IPatternDetails? {
         val pattern = MyPatternDetailsHelper.decodePattern(stack, holder.self, getGrid())
         if (pattern == null) return null
         return IParallelPatternDetails.of(convertPattern(pattern, index), level, 1)

@@ -37,6 +37,7 @@ import net.minecraft.world.phys.AABB;
 
 import appeng.util.Platform;
 import com.enderio.base.common.init.EIOFluids;
+import com.enderio.base.common.util.ExperienceUtil;
 import com.enderio.machines.common.init.MachineBlocks;
 import com.lowdragmc.lowdraglib.gui.util.ClickData;
 import com.lowdragmc.lowdraglib.gui.widget.ComponentPanelWidget;
@@ -168,7 +169,9 @@ public final class SlaughterhouseMachine extends StorageMultiblockMachine {
             ItemStack itemStack = getStorageStack();
             boolean isFixed = !itemStack.isEmpty();
             String[] mobList = isFixed ? null : c == 1 ? mobList1 : mobList2;
-            int tierMultiplier = Math.min(16, (getTier() - 2) << 3);
+            int parallel = (getTier() - 2) << 3;
+            int tierMultiplier = Math.min(16, parallel);
+            int multiplier = parallel / tierMultiplier;
 
             List<Entity> entities = serverLevel.getEntitiesOfClass(Entity.class, new AABB(
                     blockPos.getX() - 3,
@@ -192,7 +195,7 @@ public final class SlaughterhouseMachine extends StorageMultiblockMachine {
                 }
             }
 
-            if (xp > 0) outputFluid(EIOFluids.XP_JUICE.getSource(), xp);
+            if (xp > 0) outputFluid(EIOFluids.XP_JUICE.getSource(), xp * ExperienceUtil.EXP_TO_FLUID);
 
             for (int i = 0; i <= tierMultiplier; i++) {
                 String mob = isFixed ? itemStack.getOrCreateTag().getCompound("BlockEntityTag")
@@ -218,11 +221,14 @@ public final class SlaughterhouseMachine extends StorageMultiblockMachine {
                             .withParameter(LootContextParams.ORIGIN, blockPos.getCenter())
                             .create(lootTable.getParamSet());
 
-                    lootTable.getRandomItems(lootParams).forEach(stack -> itemStacks.add(isFixed ? stack.copyWithCount(tierMultiplier) : stack));
+                    lootTable.getRandomItems(lootParams).forEach(stack -> {
+                        int count = stack.getCount();
+                        itemStacks.add(isFixed ? stack.copyWithCount(parallel * count) : multiplier > 1 ? stack.copyWithCount(multiplier * count) : stack);
+                    });
                     if (isFixed) break;
                 }
             }
-            RecipeBuilder builder = getRecipeBuilder().duration(isSpawn ? 20 : Math.max(20, 20 * (1 << getTier()) - attackDamage)).EUt(getOverclockVoltage());
+            RecipeBuilder builder = getRecipeBuilder().duration(isSpawn ? 20 : Math.max(20, 200 - attackDamage)).EUt(getOverclockVoltage());
             itemStacks.forEach(builder::outputItems);
             Recipe recipe = builder.buildRawRecipe();
             if (RecipeRunner.matchTickRecipe(this, recipe)) return recipe;

@@ -13,10 +13,12 @@ import com.gtolib.api.machine.trait.IEnhancedRecipeLogic;
 import com.gtolib.api.machine.trait.NotifiableNotConsumableFluidHandler;
 import com.gtolib.api.machine.trait.NotifiableNotConsumableItemHandler;
 import com.gtolib.api.recipe.Recipe;
+import com.gtolib.api.recipe.RecipeBuilder;
 import com.gtolib.api.recipe.ingredient.FastFluidIngredient;
 import com.gtolib.api.recipe.ingredient.FastSizedIngredient;
 import com.gtolib.syncdata.SyncManagedFieldHolder;
 import com.gtolib.utils.MathUtil;
+import com.gtolib.utils.RLUtils;
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
@@ -203,6 +205,17 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
     }
 
     @Override
+    public @Nullable IPatternDetails decodePattern(ItemStack stack, int index) {
+        var pattern = super.decodePattern(stack, index);
+        if (pattern == null) return null;
+        var id = stack.getOrCreateTag().getString("recipe");
+        if (!id.isEmpty() && !caches[index]) {
+            getInternalInventory()[index].setRecipe(RecipeBuilder.RECIPE_MAP.get(RLUtils.parse(id)));
+        }
+        return super.decodePattern(stack, index);
+    }
+
+    @Override
     public IPatternDetails convertPattern(IPatternDetails pattern, int index) {
         if (pattern instanceof AEProcessingPattern processingPattern) {
             var sparseInput = processingPattern.getSparseInputs();
@@ -233,9 +246,7 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
             }
             if (input.size() < sparseInput.length) {
                 AEItemKey key = AEItemKey.of(PatternDetailsHelper.encodeProcessingPattern(input.toArray(new GenericStack[0]), processingPattern.getSparseOutputs()));
-                synchronized (MyPatternDetailsHelper.CACHE) {
-                    return MyPatternDetailsHelper.CACHE.computeIfAbsent(key, AEProcessingPattern::new);
-                }
+                return MyPatternDetailsHelper.CACHE.get(key);
             }
         }
         return pattern;

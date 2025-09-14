@@ -2,6 +2,9 @@ package com.gtocore.integration.emi;
 
 import com.gtocore.integration.emi.multipage.MultiblockInfoEmiRecipe;
 
+import com.gtolib.api.ae2.IPatterEncodingTermMenu;
+import com.gtolib.api.recipe.RecipeBuilder;
+
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -124,6 +127,9 @@ final class GTAe2PatternTerminalHandler<T extends PatternEncodingTermMenu> imple
         if (isCrafting(recipe)) {
             EncodingHelper.encodeCraftingRecipe(menu, recipe.getBackingRecipe(), GTEmiEncodingHelper.ofInputs(recipe), i -> true);
         } else {
+            if (recipe instanceof GTEMIRecipe gtemiRecipe && RecipeBuilder.RECIPE_MAP.containsKey(gtemiRecipe.getId())) {
+                ((IPatterEncodingTermMenu) menu).gtolib$addRecipe(gtemiRecipe.getId().toString());
+            } else((IPatterEncodingTermMenu) menu).gtolib$addRecipe("");
             EncodingHelper.encodeProcessingRecipe(menu,
                     GTEmiEncodingHelper.ofInputs(recipe),
                     ofOutputs(recipe));

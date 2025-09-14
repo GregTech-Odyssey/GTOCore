@@ -27,11 +27,11 @@ import java.util.List;
 public class GTEmiEncodingHelper { // also accessed by gtolib
 
     @Nullable
-    private static GenericStack ofVirtual(EmiStack stack, long amount) {
+    private static GenericStack ofVirtual(EmiStack stack) {
         if (stack.getKey() instanceof Item) {
-            var itemKey = AEItemKey.of(VirtualItemProviderBehavior.setVirtualItem(CustomItems.VIRTUAL_ITEM_PROVIDER.asStack(), stack.getItemStack()));
-            itemKey.getTag().putBoolean("marked", true);
-            return new GenericStack(itemKey, amount);
+            var item = CustomItems.VIRTUAL_ITEM_PROVIDER.asStack();
+            item.getOrCreateTag().putBoolean("marked", true);
+            return new GenericStack(AEItemKey.of(VirtualItemProviderBehavior.setVirtualItem(item, stack.getItemStack())), 1);
         }
         return null;
     }
@@ -46,7 +46,7 @@ public class GTEmiEncodingHelper { // also accessed by gtolib
     private static GenericStack fromEmiStackVirtualConvertible(EmiStack stack, long amount, boolean virtual) {
         if (stack.getKey() instanceof Item) {
             if (virtual) {
-                return ofVirtual(stack, amount);
+                return ofVirtual(stack);
             }
             return new GenericStack(AEItemKey.of(stack.getItemStack()), amount);
         } else if (stack.getKey() instanceof Fluid fluid) {

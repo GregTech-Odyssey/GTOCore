@@ -135,42 +135,35 @@ public final class GCYRecipes {
                 new MaterialEntry(plate, TantalumCarbide), 'D',
                 ChemicalHelper.get(plateDouble, MolybdenumDisilicide), 'R', ChemicalHelper.get(rotor, Titanium), 'L',
                 ChemicalHelper.get(rodLong, MolybdenumDisilicide));
-        VanillaRecipeHelper.addShapedRecipe("parallel_hatch_mk1", PARALLEL[IV].asStack(), "SZE", "ZHZ",
+        VanillaRecipeHelper.addShapedRecipe(true, "parallel_hatch_mk1", PARALLEL[IV].asStack(), "SZE", "ZHZ",
                 "CZC", 'S', SENSOR_IV.asStack(), 'E', EMITTER_IV.asStack(), 'Z', LuV_CIRCUITS, 'H', HULL[IV].asStack(),
                 'C', new MaterialEntry(cableGtDouble, Platinum));
-        VanillaRecipeHelper.addShapedRecipe("parallel_hatch_mk2", PARALLEL[LuV].asStack(), "SZE",
+        VanillaRecipeHelper.addShapedRecipe(true, "parallel_hatch_mk2", PARALLEL[LuV].asStack(), "SZE",
                 "ZHZ", "CZC", 'S', SENSOR_LuV.asStack(), 'E', EMITTER_LuV.asStack(), 'Z', ZPM_CIRCUITS, 'H',
                 HULL[LuV].asStack(), 'C', new MaterialEntry(cableGtDouble, NiobiumTitanium));
-        VanillaRecipeHelper.addShapedRecipe("parallel_hatch_mk3", PARALLEL[ZPM].asStack(), "SZE",
+        VanillaRecipeHelper.addShapedRecipe(true, "parallel_hatch_mk3", PARALLEL[ZPM].asStack(), "SZE",
                 "ZHZ", "CZC", 'S', SENSOR_ZPM.asStack(), 'E', EMITTER_ZPM.asStack(), 'Z', UV_CIRCUITS, 'H',
                 HULL[ZPM].asStack(), 'C', new MaterialEntry(cableGtDouble, VanadiumGallium));
-        VanillaRecipeHelper.addShapedRecipe("parallel_hatch_mk4", PARALLEL[UV].asStack(), "SZE", "ZHZ",
+        VanillaRecipeHelper.addShapedRecipe(true, "parallel_hatch_mk4", PARALLEL[UV].asStack(), "SZE", "ZHZ",
                 "CZC", 'S', SENSOR_UV.asStack(), 'E', EMITTER_UV.asStack(), 'Z', UHV_CIRCUITS, 'H', HULL[UV].asStack(),
                 'C', new MaterialEntry(cableGtDouble, YttriumBariumCuprate));
-        VanillaRecipeHelper.addShapedRecipe("parallel_hatch_mk5", PARALLEL[UHV].asStack(), "SZE", "ZHZ",
+        VanillaRecipeHelper.addShapedRecipe(true, "parallel_hatch_mk5", PARALLEL[UHV].asStack(), "SZE", "ZHZ",
                 "CZC", 'S', SENSOR_UHV.asStack(), 'E', EMITTER_UHV.asStack(), 'Z', UEV_CIRCUITS, 'H', HULL[UHV].asStack(),
                 'C', new MaterialEntry(cableGtDouble, Europium));
-        VanillaRecipeHelper.addShapedRecipe("parallel_hatch_mk6", PARALLEL[UEV].asStack(), "SZE", "ZHZ",
+        VanillaRecipeHelper.addShapedRecipe(true, "parallel_hatch_mk6", PARALLEL[UEV].asStack(), "SZE", "ZHZ",
                 "CZC", 'S', SENSOR_UEV.asStack(), 'E', EMITTER_UEV.asStack(), 'Z', UIV_CIRCUITS, 'H', HULL[UEV].asStack(),
                 'C', new MaterialEntry(cableGtDouble, GTOMaterials.Mithril));
-        VanillaRecipeHelper.addShapedRecipe("parallel_hatch_mk7", PARALLEL[UIV].asStack(), "SZE", "ZHZ",
+        VanillaRecipeHelper.addShapedRecipe(true, "parallel_hatch_mk7", PARALLEL[UIV].asStack(), "SZE", "ZHZ",
                 "CZC", 'S', SENSOR_UIV.asStack(), 'E', EMITTER_UIV.asStack(), 'Z', UXV_CIRCUITS, 'H', HULL[UIV].asStack(),
                 'C', new MaterialEntry(cableGtDouble, Neutronium));
-        VanillaRecipeHelper.addShapedRecipe("parallel_hatch_mk8", PARALLEL[UXV].asStack(), "SZE", "ZHZ",
+        VanillaRecipeHelper.addShapedRecipe(true, "parallel_hatch_mk8", PARALLEL[UXV].asStack(), "SZE", "ZHZ",
                 "CZC", 'S', SENSOR_UXV.asStack(), 'E', EMITTER_UXV.asStack(), 'Z', OpV_CIRCUITS, 'H', HULL[UXV].asStack(),
                 'C', new MaterialEntry(cableGtDouble, GTOMaterials.Taranium));
-        VanillaRecipeHelper.addShapedRecipe("parallel_hatch_mk9", PARALLEL[OpV].asStack(), "SZE", "ZHZ",
+        VanillaRecipeHelper.addShapedRecipe(true, "parallel_hatch_mk9", PARALLEL[OpV].asStack(), "SZE", "ZHZ",
                 "CZC", 'S', SENSOR_OpV.asStack(), 'E', EMITTER_OpV.asStack(), 'Z', MAX_CIRCUITS, 'H', HULL[OpV].asStack(),
                 'C', new MaterialEntry(cableGtDouble, GTOMaterials.CrystalMatrix));
-        VanillaRecipeHelper.addShapedRecipe("parallel_hatch_mk10", PARALLEL[MAX].asStack(), "SZE", "ZHZ",
+        VanillaRecipeHelper.addShapedRecipe(true, "parallel_hatch_mk10", PARALLEL[MAX].asStack(), "SZE", "ZHZ",
                 "CZC", 'S', GTOItems.MAX_SENSOR.asStack(), 'E', GTOItems.MAX_EMITTER.asStack(), 'Z', GTOItems.SUPRACHRONAL_CIRCUIT[MAX].asStack(), 'H', HULL[MAX].asStack(),
                 'C', new MaterialEntry(cableGtDouble, GTOMaterials.CosmicNeutronium));
-
-        // if (GTOCore.isSimple()) {
-        // VanillaRecipeHelper.addShapedRecipe( "parallel_hatch_mk0", PARALLEL[EV].asStack(), "SZE", "ZHZ",
-        // "CZC", 'S', SENSOR_EV.asStack(), 'E', EMITTER_EV.asStack(), 'Z', IV_CIRCUITS, 'H', HULL[EV].asStack(),
-        // 'C', new MaterialEntry(cableGtDouble, Platinum));
-        //
-        // }
     }
 }

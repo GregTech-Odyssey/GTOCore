@@ -616,7 +616,7 @@ final class AssemblyLine {
                 .save();
 
         ASSEMBLY_LINE_RECIPES.builder("me_catalyst_pattern_buffer")
-                .inputItems(GTMachines.DUAL_IMPORT_HATCH[UV], 1)
+                .inputItems(GTMachines.DUAL_IMPORT_HATCH[ZPM], 1)
                 .inputItems(GTOMachines.CATALYST_HATCH, 1)
                 .inputItems(GTItems.EMITTER_UV, 2)
                 .inputItems(CustomTags.UV_CIRCUITS, 4)

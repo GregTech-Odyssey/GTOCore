@@ -2,6 +2,7 @@ package com.gtocore.common.data.machines;
 
 import com.gtocore.common.data.translation.GTOMachineTooltips;
 import com.gtocore.common.machine.multiblock.part.ae.*;
+import com.gtocore.common.machine.noenergy.VirtualItemProviderMachine;
 
 import com.gtolib.api.ae2.machine.MECPUMachine;
 
@@ -19,6 +20,13 @@ import static com.gtolib.api.registries.GTORegistration.GTM;
 public final class GTAEMachines {
 
     public static void init() {}
+
+    public static final MachineDefinition VIRTUAL_ITEM_SUPPLY_MACHINE = machine("virtual_item_supply_machine", "虚拟物品供应机", VirtualItemProviderMachine::new)
+            .tier(MV)
+            .allRotation()
+            .notAllowSharedTooltips()
+            .renderer(() -> new OverlayTieredMachineRenderer(MV, GTCEu.id("block/machine/part/me_pattern_buffer_proxy")))
+            .register();
 
     public static final MachineDefinition CRAFTING_CPU_INTERFACE = machine("crafting_cpu_interface", "合成CPU接口", MECPUMachine::createPart)
             .langValue("Crafting CPU Interface")
@@ -39,13 +47,13 @@ public final class GTAEMachines {
 
     public static final MachineDefinition ME_IO_STORAGE_ACCESS_HATCH = machine("me_io_storage_access_hatch", "ME IO端口仓", StorageAccessPartMachine::createIO)
             .langValue("ME IO Port Hatch")
-            .tier(LuV)
+            .tier(EV)
             .allRotation()
             .tooltipsText("Integrated with IO Port", "集成IO端口")
             .tooltipsText("Rate Limit: configurable, default 33,554,432 Items per Tick", "速率限制: 可配置, 默认每Tick 33,554,432 物品")
             .tooltipsText("Beware of power surge!", "小心跳电!")
             .notAllowSharedTooltips()
-            .renderer(() -> new OverlayTieredMachineRenderer(LuV, GTCEu.id("block/machine/part/me_pattern_buffer")))
+            .renderer(() -> new OverlayTieredMachineRenderer(EV, GTCEu.id("block/machine/part/me_pattern_buffer_proxy")))
             .register();
 
     public static final MachineDefinition ME_STORAGE_ACCESS_HATCH = machine("me_storage_access_hatch", "ME存储访问仓", StorageAccessPartMachine::create)
@@ -93,22 +101,11 @@ public final class GTAEMachines {
             .langValue("ME Catalyst Pattern Buffer")
             .tooltips(GTOMachineTooltips.INSTANCE.getMeCatalystPatternBufferTooltips().getSupplier())
             .tooltips(GTOMachineTooltips.INSTANCE.getMePatternHatchTooltips().invoke(27).getSupplier())
-            .tier(UV)
-            .allRotation()
-            .abilities(PartAbility.IMPORT_ITEMS, PartAbility.IMPORT_FLUIDS)
-            .tooltipsKey("gtceu.part_sharing.enabled")
-            .renderer(() -> new OverlayTieredMachineRenderer(UV, GTCEu.id("block/machine/part/me_pattern_buffer")))
-            .register();
-
-    public static final MachineDefinition ME_PROGRAMMABLE_PATTERN_BUFFER = machine("me_programmable_pattern_buffer", "ME可编程样板总成", MEProgrammablePatternBufferPartMachine::new)
-            .langValue("ME Programmable Pattern Buffer")
             .tier(ZPM)
-            .tooltips(GTOMachineTooltips.INSTANCE.getMeProgrammablePatternBufferTooltips().getSupplier())
-            .tooltips(GTOMachineTooltips.INSTANCE.getMePatternHatchTooltips().invoke(27).getSupplier())
             .allRotation()
             .abilities(PartAbility.IMPORT_ITEMS, PartAbility.IMPORT_FLUIDS)
             .tooltipsKey("gtceu.part_sharing.enabled")
-            .renderer(() -> new OverlayTieredMachineRenderer(ZPM, GTCEu.id("block/machine/part/me_pattern_buffer")))
+            .renderer(() -> new OverlayTieredMachineRenderer(EV, GTCEu.id("block/machine/part/me_pattern_buffer")))
             .register();
 
     public static final MachineDefinition ME_EXTEND_PATTERN_BUFFER = machine("me_extend_pattern_buffer", "ME扩展样板总成", h -> new MEPatternBufferPartMachineKt(h, 81))
