@@ -77,7 +77,9 @@ public class AdvancedTesseractMachine extends MetaMachine implements IFancyUIMac
                 if (posTags == null || !posTags.contains("x") || !posTags.contains("y") || !posTags.contains("z")) continue;
                 var pos = new BlockPos(posTags.getInt("x"), posTags.getInt("y"), posTags.getInt("z"));
                 if (pos.equals(getPos())) continue;
-                poss.add(pos);
+                if (!poss.contains(pos)) {
+                    poss.add(pos);
+                }
             }
         });
     }
