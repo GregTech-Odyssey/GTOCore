@@ -8,6 +8,7 @@ import com.gtocore.data.CraftingComponents;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
+import com.gregtechceu.gtceu.common.data.GCYMBlocks;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMachines;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
@@ -528,6 +529,34 @@ final class AssemblyLineA {
                 .EUt(GTValues.VA[GTValues.UHV])
                 .duration(800)
                 .researchStation(b -> b.researchStack(GCYMMachines.LARGE_SIFTING_FUNNEL.asStack())
+                        .duration(1200)
+                        .EUt(GTValues.VA[GTValues.ZPM])
+                        .CWUt(512))
+                .save();
+
+        ASSEMBLY_LINE_RECIPES.builder("giant_electrochemical_workstation")
+                .inputItems(CustomTags.UEV_CIRCUITS, 64)
+                .inputItems(GTItems.EMITTER_UHV.asStack(16))
+                .inputItems(GTOItems.UHV_VOLTAGE_COIL.asStack(16))
+                .inputItems(TagPrefix.wireFine, GTOMaterials.CarbonNanotubes, 64)
+                .inputItems(TagPrefix.wireFine, GTOMaterials.TitaniumDioxideNanotubes, 64)
+                .inputItems(GTOItems.UEV_VOLTAGE_COIL.asStack(16))
+                .inputItems(TagPrefix.plateDouble, GTMaterials.RhodiumPlatedPalladium, 64)
+                .inputItems(TagPrefix.plateDouble, GTMaterials.HSSS, 64)
+                .inputItems(TagPrefix.plateDouble, GTMaterials.CobaltBrass, 64)
+                .inputItems(TagPrefix.plateDouble, GTMaterials.Platinum, 64)
+                .inputItems(TagPrefix.wireGtDouble, GTOMaterials.Enderite, 64)
+                .inputItems(TagPrefix.wireGtDouble, GTOMaterials.Enderite, 64)
+                .inputItems(TagPrefix.wireGtDouble, GTOMaterials.Enderite, 64)
+                .inputItems(TagPrefix.wireGtDouble, GTOMaterials.Enderite, 64)
+                .outputItems(MultiBlockH.GIANT_ELECTROCHEMICAL_WORKSTATION.asStack())
+                .inputFluids(GTOMaterials.DepletedUraniumAlloy, 5576)
+                .inputFluids(GTOMaterials.Tanmolyium, 4000)
+                .inputFluids(GTOMaterials.Tantalloy61, 5000)
+                .inputFluids(GTOMaterials.TitaniumDioxideNanotubes, 5000)
+                .EUt(GTValues.VA[GTValues.UHV])
+                .duration(800)
+                .researchStation(b -> b.researchStack(GCYMBlocks.ELECTROLYTIC_CELL.asStack())
                         .duration(1200)
                         .EUt(GTValues.VA[GTValues.ZPM])
                         .CWUt(512))

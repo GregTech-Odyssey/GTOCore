@@ -159,7 +159,6 @@ public final class MultiBlockF {
             .multipleRecipesTooltips()
             .recipeTypes(GTRecipeTypes.POLARIZER_RECIPES)
             .recipeTypes(GTRecipeTypes.ELECTROMAGNETIC_SEPARATOR_RECIPES)
-            .recipeTypes(GTRecipeTypes.ELECTROLYZER_RECIPES, GTORecipeTypes.ELECTROPLATING_RECIPES)
             .block(GTOBlocks.LAFIUM_MECHANICAL_CASING)
             .pattern(definition -> MultiBlockFileReader.start(definition)
                     .where('A', blocks(GTOBlocks.LAFIUM_MECHANICAL_CASING.get()))

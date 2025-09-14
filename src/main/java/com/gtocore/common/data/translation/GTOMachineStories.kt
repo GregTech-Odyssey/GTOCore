@@ -1291,4 +1291,13 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
         add("用高温与压力将粉末烧结成坚固的块体" translatedTo "Using high temperature and pressure to sinter powders into solid blocks") { gray() }
         highlight("非遗技艺的工业化传承" translatedTo "Industrial inheritance of intangible cultural heritage")
     }
+
+    val giantElectrochemicalWorkstationTooltips = ComponentListSupplier {
+        setTranslationPrefix("giant_electrochemical_workstation")
+        story("GTO集团的化工技术一直走在世界前列" translatedTo "GTO Group's chemical technology has always been at the forefront of the world")
+        story("这台巨型电化学工作站是公司最新的研发成果" translatedTo "This giant electrochemical workstation is the company's latest research and development achievement")
+        story("它集成了多种先进的化学处理技术" translatedTo "It integrates multiple advanced chemical processing technologies")
+        story("能够高效地进行复杂的化学反应和物质分离" translatedTo "Capable of efficiently performing complex chemical reactions and material separations")
+        highlight("工业化学的未来已然到来" translatedTo "The future of industrial chemistry is here")
+    }
 }
