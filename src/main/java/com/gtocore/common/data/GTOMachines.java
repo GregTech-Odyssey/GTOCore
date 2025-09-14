@@ -877,6 +877,7 @@ public final class GTOMachines {
             .tooltips(GTOMachineTooltips.INSTANCE.getHyperCubeMachineTooltips().getSupplier())
             .modelRenderer(() -> GTOCore.id("block/machine/tesseract_generator"))
             .tier(HV)
+            .allowCoverOnFront(true)
             .register();
 
     public static final MachineDefinition ADVANCED_TESSERACT_GENERATOR = blockEntityMachine("advanced_tesseract_generator", "进阶超立方体发生器", AdvancedTesseractMachine::new, TesseractBlockEntity::new)
@@ -884,6 +885,7 @@ public final class GTOMachines {
             .tooltips(GTOMachineTooltips.INSTANCE.getAdvancedHyperCubeMachineTooltips().getSupplier())
             .modelRenderer(() -> GTOCore.id("block/machine/tesseract_generator"))
             .tier(IV)
+            .allowCoverOnFront(true)
             .register();
 
     public static final MachineDefinition BASIC_MONITOR = registerMonitor("basic_monitor", "基础监控器", BasicMonitor::new)

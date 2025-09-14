@@ -87,7 +87,7 @@ public class TesseractMachine extends MetaMachine implements IFancyUIMachine, IM
 
     @Override
     public @Nullable IFluidHandlerModifiable getFluidHandlerCap(@Nullable Direction side, boolean useCoverCapability) {
-        var cap = getCapability(ForgeCapabilities.ITEM_HANDLER, side);
+        var cap = getCapability(ForgeCapabilities.FLUID_HANDLER, side);
         return cap != null ? getCapability(ForgeCapabilities.FLUID_HANDLER, side).orElse(null) instanceof IFluidHandlerModifiable m ? m : null : null;
     }
 
