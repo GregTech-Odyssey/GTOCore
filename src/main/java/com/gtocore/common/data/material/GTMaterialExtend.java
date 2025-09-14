@@ -136,7 +136,6 @@ public final class GTMaterialExtend {
         Silver.addFlags(GTOMaterialFlags.GENERATE_CATALYST);
         Platinum.addFlags(GTOMaterialFlags.GENERATE_CATALYST);
         Palladium.addFlags(GTOMaterialFlags.GENERATE_CATALYST);
-        RhodiumPlatedPalladium.addFlags(GTOMaterialFlags.GENERATE_CATALYST);
         RhodiumPlatedPalladium.getProperties().removeProperty(PropertyKey.BLAST);
         Brass.addFlags(GTOMaterialFlags.GENERATE_CATALYST);
         HastelloyC276.addFlags(GENERATE_ROTOR);

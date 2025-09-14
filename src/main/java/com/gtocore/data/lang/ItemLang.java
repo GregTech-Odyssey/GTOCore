@@ -72,10 +72,21 @@ final class ItemLang {
         addCNEN("tagprefix.turbine_rotor_coated", "%s涡轮转子", "%s Turbine Rotor");
 
         addCNEN("metaitem.tool.tooltip.rotor.coating_durability", "镀层耐久：%s / %s", "Coating Durability: %s / %s");
-        addCNEN("metaitem.tool.tooltip.rotor.coating", "镀层材料：%s", "Coating Material: %s");;
+        addCNEN("metaitem.tool.tooltip.rotor.coating_efficiency", "镀层效率：%s%%", "Coating Efficiency: %s%%");
+        addCNEN("metaitem.tool.tooltip.rotor.coating_power", "镀层产能：%s%%", "Coating Power: %s%%");
+        addCNEN("metaitem.tool.tooltip.rotor.coating", "镀层材料：%s", "Coating Material: %s");
         addCNEN("metaitem.tool.tooltip.rotor.coating.tooltip.0", "§6镀层机制：", "§6Coating Mechanism:");
-        addCNEN("metaitem.tool.tooltip.rotor.coating.tooltip.1", "§b镀层会提供一道吸收转子损耗的屏障，当转子A有镀层B，镀层B的耐久为§dmax(B/10, min(B-A, B/2))", "§bThe coating provides a barrier that absorbs rotor wear. When rotor A has coating B, the durability of coating B is §dmax(B/10, min(B-A, B/2))");
-        addCNEN("metaitem.tool.tooltip.rotor.coating.tooltip.2", "§b每次转子损坏时95%概率优先消耗镀层耐久，镀层耐久耗尽后再消耗本体耐久", "§bThere is a 95% chance of consuming the coating durability first when the rotor is damaged. After the coating durability is exhausted, the body durability is consumed");
+        addCNEN("metaitem.tool.tooltip.rotor.coating.tooltip.1", "§b镀层会提供一道吸收转子损耗的屏障，当转子A有镀层B，镀层B的耐久为§dmax(B/10, min(B-A, B/2))",
+                "§bThe coating provides a barrier that absorbs rotor wear. When rotor A has coating B, the durability of coating B is §dmax(B/10, min(B-A, B/2))");
+        addCNEN("metaitem.tool.tooltip.rotor.coating.tooltip.2", "§b每次转子损坏时95%概率优先消耗镀层耐久，镀层耐久耗尽后再消耗本体耐久",
+                "§bThere is a 95% chance of consuming the coating durability first when the rotor is damaged. After the coating durability is exhausted, the body durability is consumed");
+        addCNEN("metaitem.tool.tooltip.rotor.coating.tooltip.0.magic", "§d魔法§6镀层机制：", "§dMagical§6 Coating Mechanism:");
+        addCNEN("metaitem.tool.tooltip.rotor.coating.tooltip.1.magic", "§d魔法§b镀层将不再提供耐久度屏障，而是会提供魔法材料属性×30%的转子效率与涡轮产能",
+                "§dMagical§b Coating will no longer provide a durability barrier, but will provide rotor efficiency and turbine power generation of magical material properties ×30%");
+        addCNEN("metaitem.tool.tooltip.rotor.coating.tooltip.2.magic", "§b本体消耗耐久时，§d魔法§b镀层将同时损耗耐久，镀层耐久耗尽后转子效率与涡轮产能将回落至原始值。",
+                "When the body consumes durability, the §dmagical§b coating will also consume durability. After the coating durability is exhausted, the rotor efficiency and turbine power generation will fall back to the original value. ");
+        addCNEN("metaitem.tool.tooltip.rotor.coating.tooltip.3.magic", "当转子A有镀层B，镀层B的耐久为§dmax(B/10, min(B-A, B/2))",
+                "When rotor A has coating B, the durability of coating B is §dmax(B/10, min(B-A, B/2))");
         addCNEN("gtocore.turbine_rotor.coated", "%s镀层", "%s Coated");
         addCNEN("gtocore.tooltip.artificial_gem", "比自然的更好", "Better than nature");
         addCNEN("gtocore.tooltip.unknown", "未知", "Unknown");

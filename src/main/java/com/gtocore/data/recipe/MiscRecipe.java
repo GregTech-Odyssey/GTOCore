@@ -16,6 +16,7 @@ import com.gtolib.api.data.GTODimensions;
 import com.gtolib.api.item.MultiStepItemHelper;
 import com.gtolib.api.item.tool.GTOToolType;
 import com.gtolib.utils.ItemUtils;
+import com.gtolib.utils.RegistriesUtils;
 
 import com.gregtechceu.gtceu.api.capability.GTCapabilityHelper;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
@@ -32,6 +33,7 @@ import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -41,6 +43,7 @@ import net.minecraftforge.common.Tags;
 import net.minecraftforge.fluids.FluidStack;
 
 import com.enderio.base.common.init.EIOFluids;
+import earth.terrarium.adastra.common.registry.ModItems;
 
 import java.util.Arrays;
 
@@ -48,6 +51,7 @@ import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
 import static com.gregtechceu.gtceu.common.data.GTItems.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
+import static com.gtocore.common.data.GTOItems.PLANET_DATA_CHIP;
 import static com.gtocore.common.data.GTORecipeTypes.*;
 
 public final class MiscRecipe {
@@ -67,6 +71,22 @@ public final class MiscRecipe {
                     .EUt(VA[tier])
                     .duration(2400)
                     .save();
+
+            Item globe = layer.getPath().equals("overworld") ? ModItems.EARTH_GLOBE.get() :
+                    RegistriesUtils.getItem("ad_astra:" + layer.getPath() + "_globe");
+            if (globe != Items.BARRIER) {
+
+                WORLD_DATA_SCANNER_RECIPES.recipeBuilder(layer.withSuffix("_globe").getPath())
+                        .inputItems(PLANET_DATA_CHIP.asItem())
+                        .inputItems(frameGt, Steel)
+                        .inputFluids(PolyvinylButyral.getFluid(576))
+                        .inputFluids(CHEMICAL_DYES[i - 1].getFluid(72))
+                        .outputItems(globe)
+                        .dimension(layer)
+                        .EUt(VA[tier])
+                        .duration(2400)
+                        .save();
+            }
         }
 
         BlockConversionRoomMachine.COV_RECIPE.forEach((a, b) -> BLOCK_CONVERSIONRECIPES.recipeBuilder(ItemUtils.getIdLocation(a).getPath())

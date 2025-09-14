@@ -1310,6 +1310,16 @@ public final class MaterialA {
                 .flags(GENERATE_FOIL, GENERATE_FINE_WIRE)
                 .buildAndRegister();
 
+        TitaniumDioxideNanotubes = material("titanium_dioxide_nanotubes", "二氧化钛纳米管")
+                .polymer()
+                .fluid()
+                .color(0x491506)
+                .secondaryColor(0x130101)
+                .components(Titanium, 1, Oxygen, 2)
+                .iconSet(DULL)
+                .flags(GENERATE_FOIL, GENERATE_FINE_WIRE, GTOMaterialFlags.GENERATE_CATALYST)
+                .buildAndRegister();
+
         FullerenePolymerMatrixPulp = material("fullerene_polymer_matrix_pulp", "富勒烯聚合物基体")
                 .polymer()
                 .fluid()

@@ -218,6 +218,18 @@ public final class MagicRecipesA {
                     .MANAt(8)
                     .save();
 
+            ALCHEMY_CAULDRON_RECIPES.recipeBuilder("phantomic_electrolyte_buffer")
+                    .inputItems(dust, EDTA)
+                    .inputItems(Items.PHANTOM_MEMBRANE, 4)
+                    .chancedInput(Animium.getFluid(1000), 500, 0)
+                    .inputFluids(CycleofBlossomsSolvent.getFluid(500))
+                    .chancedOutput(PhantomicElectrolyteBuffer.getFluid(300), 5000, 0)
+                    .chancedOutput(Ethylenediamine.getFluid(50), 500, 0)
+                    .duration(600)
+                    .temperature(1200)
+                    .MANAt(32)
+                    .save();
+
             ALCHEMY_CAULDRON_RECIPES.recipeBuilder("alchemy_unstable_gaia_soul")
                     .chancedInput(new ItemStack(BotaniaBlocks.gaiaPylon.asItem()), 500, 0)
                     .inputItems(GAIA_CORE)

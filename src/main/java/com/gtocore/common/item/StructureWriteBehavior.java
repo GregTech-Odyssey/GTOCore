@@ -29,7 +29,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableMap;
@@ -93,13 +92,13 @@ public final class StructureWriteBehavior implements IItemUIFactory {
         if (getPos(playerInventoryHolder.getHeld()) != null && playerInventoryHolder.getPlayer() instanceof ServerPlayer player) {
             if (BLOCK_MAP == null) {
                 BLOCK_MAP = ImmutableMap.<Block, BiConsumer<StringBuilder, Character>>builder()
-                        .put(Blocks.OAK_LOG, (b, c) -> b.append("controller(blocks(definition.get())))"))
-                        .put(Blocks.DIRT, (b, c) -> b.append("heatingCoils())"))
-                        .put(Blocks.WHITE_WOOL, (b, c) -> b.append("air())"))
-                        .put(Blocks.GLASS, (b, c) -> b.append("GTOPredicates.glass())"))
-                        .put(Blocks.GLOWSTONE, (b, c) -> b.append("GTOPredicates.light())"))
+                        .put(net.minecraft.world.level.block.Blocks.OAK_LOG, (b, c) -> b.append("controller(blocks(definition.get())))"))
+                        .put(net.minecraft.world.level.block.Blocks.DIRT, (b, c) -> b.append("heatingCoils())"))
+                        .put(net.minecraft.world.level.block.Blocks.WHITE_WOOL, (b, c) -> b.append("air())"))
+                        .put(net.minecraft.world.level.block.Blocks.GLASS, (b, c) -> b.append("GTOPredicates.glass())"))
+                        .put(net.minecraft.world.level.block.Blocks.GLOWSTONE, (b, c) -> b.append("GTOPredicates.light())"))
                         .put(GTOBlocks.ABS_WHITE_CASING.get(), (b, c) -> b.append("GTOPredicates.absBlocks())"))
-                        .put(Blocks.FURNACE, (b, c) -> b.append("abilities(MUFFLER))"))
+                        .put(net.minecraft.world.level.block.Blocks.FURNACE, (b, c) -> b.append("abilities(MUFFLER))"))
                         .build();
             }
             ItemStack itemStack = playerInventoryHolder.getHeld();
@@ -135,7 +134,7 @@ public final class StructureWriteBehavior implements IItemUIFactory {
                     builder.append("\n");
                     return;
                 }
-                if (b == Blocks.COBBLESTONE) {
+                if (b == net.minecraft.world.level.block.Blocks.COBBLESTONE) {
                     builder.append(".where('").append(c).append("', blocks(").append(convertBlockToString(RegistriesUtils.getBlock(part), part, StringUtils.decompose(part), false))
                             .append(")\n").append(itemStack.getOrCreateTag().getBoolean("laser") ? ".or(GTOPredicates.autoLaserAbilities(definition.getRecipeTypes()))\n.or(abilities(MAINTENANCE).setExactLimit(1)))\n" : ".or(autoAbilities(definition.getRecipeTypes()))\n.or(abilities(MAINTENANCE).setExactLimit(1)))\n");
                     return;
@@ -163,7 +162,7 @@ public final class StructureWriteBehavior implements IItemUIFactory {
             return StringIndex.BLOCK_LINK_MAP.get(b) + (supplier ? "" : ".get()");
         }
         if (Objects.equals(parts[0], GTOCore.MOD_ID)) {
-            return "GTOBlocks." + parts[1].toUpperCase() + (supplier ? "" : ".get()");
+            return "Blocks." + parts[1].toUpperCase() + (supplier ? "" : ".get()");
         }
         if (Objects.equals(parts[0], "minecraft")) {
             return (supplier ? "() -> " : "") + "Blocks." + parts[1].toUpperCase();

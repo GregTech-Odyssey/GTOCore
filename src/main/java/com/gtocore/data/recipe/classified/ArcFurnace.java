@@ -18,6 +18,7 @@ import net.minecraftforge.fluids.FluidStack;
 
 import committee.nova.mods.avaritia.init.registry.ModItems;
 
+import static com.gregtechceu.gtceu.common.data.GTMaterials.Oxygen;
 import static com.gtocore.common.data.GTORecipeTypes.ARC_FURNACE_RECIPES;
 
 final class ArcFurnace {
@@ -34,7 +35,7 @@ final class ArcFurnace {
 
         ARC_FURNACE_RECIPES.recipeBuilder("anthracene")
                 .inputItems(TagPrefix.gem, GTMaterials.Coke)
-                .inputFluids(GTMaterials.Oxygen.getFluid(400))
+                .inputFluids(Oxygen.getFluid(400))
                 .outputFluids(GTOMaterials.Anthracene.getFluid(100))
                 .EUt(120)
                 .duration(400)
@@ -42,7 +43,7 @@ final class ArcFurnace {
 
         ARC_FURNACE_RECIPES.recipeBuilder("germanium_ash_dust")
                 .inputItems(TagPrefix.dust, GTOMaterials.GermaniumContainingPrecipitate, 2)
-                .inputFluids(GTMaterials.Oxygen.getFluid(120))
+                .inputFluids(Oxygen.getFluid(120))
                 .outputItems(TagPrefix.dust, GTOMaterials.GermaniumAsh)
                 .EUt(30)
                 .duration(120)
@@ -62,7 +63,7 @@ final class ArcFurnace {
         ARC_FURNACE_RECIPES.recipeBuilder("yttrium_barium_cuprate")
                 .inputItems(TagPrefix.dust, GTOMaterials.WellMixedYbcOxides, 12)
                 .outputItems(TagPrefix.ingotHot, GTMaterials.YttriumBariumCuprate, 13)
-                .inputFluids(GTMaterials.Oxygen.getFluid(1000))
+                .inputFluids(Oxygen.getFluid(1000))
                 .EUt(1920)
                 .duration(2580)
                 .save();
@@ -73,6 +74,13 @@ final class ArcFurnace {
                 .inputFluids(GTMaterials.Silicon.getFluid(144))
                 .EUt(GTValues.VA[GTValues.MV])
                 .duration(200)
+                .save();
+        ARC_FURNACE_RECIPES.recipeBuilder("titaniumdioxide_nanotube")
+                .inputItems(TagPrefix.dust, GTOMaterials.TitaniumNanotubePrecursor)
+                .inputFluids(Oxygen.getFluid(576))
+                .outputItems(TagPrefix.dust, GTOMaterials.TitaniumDioxideNanotubes)
+                .EUt(GTValues.VA[GTValues.IV])
+                .duration(14400)
                 .save();
     }
 }

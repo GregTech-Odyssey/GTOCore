@@ -14,6 +14,7 @@ import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
 import static com.gregtechceu.gtceu.common.data.GTItems.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
+import static com.gtocore.common.data.GTOMaterials.TitaniumDioxideNanotubes;
 import static com.gtocore.common.data.GTORecipeTypes.*;
 
 public final class CircuitRecipes {
@@ -449,7 +450,7 @@ public final class CircuitRecipes {
         // Advanced SMD Capacitor
         ASSEMBLER_RECIPES.recipeBuilder("asmd_capacitor")
                 .inputItems(foil, Polybenzimidazole, 2)
-                .inputItems(foil, HSSS)
+                .inputItems(foil, TitaniumDioxideNanotubes)
                 .inputFluids(Polybenzimidazole.getFluid(L / 4))
                 .outputItems(ADVANCED_SMD_CAPACITOR, 16)
                 .EUt(3840).duration(80).save();

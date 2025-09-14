@@ -10,7 +10,6 @@ import static com.gregtechceu.gtceu.common.data.GTBlocks.*;
 import static com.gregtechceu.gtceu.common.data.GTItems.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
 import static com.gtocore.common.data.GTORecipeTypes.ASSEMBLER_RECIPES;
-import static com.gtocore.common.data.GTORecipeTypes.ELECTROPLATING_RECIPES;
 
 public final class AssemblerRecipeLoader {
 
@@ -217,14 +216,6 @@ public final class AssemblerRecipeLoader {
                 .circuitMeta(1)
                 .outputItems(VOLTAGE_COIL_UV)
                 .save();
-
-        // Neutron Reflector
-        ELECTROPLATING_RECIPES.recipeBuilder("neutron_reflector").duration(4000).EUt(VA[MV])
-                .inputItems(plate, Ruridit)
-                .inputItems(plateDouble, Beryllium, 4)
-                .inputItems(plateDouble, TungstenCarbide, 2)
-                .inputFluids(TinAlloy.getFluid(L << 5))
-                .outputItems(NEUTRON_REFLECTOR).save();
 
         // hazmat pieces
         ASSEMBLER_RECIPES.recipeBuilder("hazmat_boots").duration(200).EUt(VA[LV])

@@ -1,6 +1,7 @@
 package com.gtocore.data.lang;
 
 import com.gtolib.api.GTOValues;
+import com.gtolib.api.data.Dimension;
 
 import com.gregtechceu.gtceu.api.GTValues;
 
@@ -30,5 +31,13 @@ final class BlockLang {
         addCNEN("block.gtceu.max_1024a_laser_target_hatch", "1024§e安§r§c§lMAX§r激光靶仓", "1024A §c§lMAX§r Laser Target Hatch");
         addCNEN("block.gtceu.max_4096a_laser_source_hatch", "4096§e安§r§c§lMAX§r激光源仓", "4096A §c§lMAX§r Laser Source Hatch");
         addCNEN("block.gtceu.max_4096a_laser_target_hatch", "4096§e安§r§c§lMAX§r激光靶仓", "4096A §c§lMAX§r Laser Target Hatch");
+
+        for (Dimension dim : new Dimension[] {
+                Dimension.CERES, Dimension.IO, Dimension.GANYMEDE, Dimension.BARNARDA_C, Dimension.ENCELADUS, Dimension.TITAN, Dimension.PLUTO
+        }) {
+            var cnName = dim.getCn();
+            var cnSuffix = cnName.endsWith("星") ? "仪" : "星球仪";
+            addCNEN("block.ad_astra." + dim.name().toLowerCase() + "_globe", dim.getCn() + cnSuffix, dim.getEn() + " Globe");
+        }
     }
 }

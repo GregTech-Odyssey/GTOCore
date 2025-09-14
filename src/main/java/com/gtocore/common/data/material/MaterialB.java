@@ -790,6 +790,78 @@ public final class MaterialB {
                 .iconSet(DULL)
                 .buildAndRegister();
 
+        Tris = material("tris", "三羟甲基氨基甲烷")
+                .fluid()
+                .color(0x239791)
+                .components(Carbon, 4, Hydrogen, 11, Nitrogen, 1, Oxygen, 3)
+                .flags(DISABLE_DECOMPOSITION)
+                .iconSet(DULL)
+                .buildAndRegister();
+
+        TrisHydrochlorideSolution = material("tris_hydrochloride_solution", "Tris-盐酸")
+                .fluid()
+                .color(0x239791)
+                .components(Tris, 1, HydrochloricAcid, 1)
+                .flags(DISABLE_DECOMPOSITION)
+                .iconSet(DULL)
+                .buildAndRegister();
+
+        EDTA = material("edta", "乙二胺四乙酸")
+                .dust()
+                .color(0x239791)
+                .components(Carbon, 10, Hydrogen, 16, Nitrogen, 2, Oxygen, 8)
+                .flags(DISABLE_DECOMPOSITION)
+                .iconSet(DULL)
+                .buildAndRegister();
+
+        CTAB = material("ctab", "十六烷基三甲基溴化铵")
+                .dust()
+                .color(0x239791)
+                .components(Carbon, 19, Hydrogen, 42, Nitrogen, 1, Bromine, 1)
+                .flags(DISABLE_DECOMPOSITION)
+                .iconSet(DULL)
+                .buildAndRegister();
+
+        TitaniumNanotubePrecursor = material("titanium_nanotube_precursor", "钛纳米管前驱体")
+                .dust()
+                .color(0x808080)
+                .components(Titanium, 1, Hydrogen, 4, Oxygen, 4)
+                .flags(DISABLE_DECOMPOSITION)
+                .iconSet(DULL)
+                .buildAndRegister();
+
+        Cetane = material("cetane", "十六烷")
+                .polymer()
+                .fluid()
+                .color(0xfff68f)
+                .components(Carbon, 16, Hydrogen, 34)
+                .iconSet(DULL)
+                .buildAndRegister();
+
+        HexadecylBromide = material("hexadecyl_bromide", "1-溴代十六烷")
+                .dust()
+                .color(0xfff68f)
+                .components(Carbon, 16, Hydrogen, 33, Bromine, 1)
+                .flags(DISABLE_DECOMPOSITION)
+                .iconSet(DULL)
+                .buildAndRegister();
+
+        DNAExtractionBuffer = material("dna_extraction_buffer", "DNA提取缓冲液")
+                .fluid()
+                .color(0x808000)
+                .components(Salt, 4, Tris, 4, EDTA, 1, CTAB, 1, Water, 12)
+                .flags(DISABLE_DECOMPOSITION)
+                .iconSet(DULL)
+                .buildAndRegister();
+
+        ChloroaceticAcid = material("chloroacetic_acid", "氯乙酸")
+                .liquid()
+                .color(0x239791)
+                .components(Carbon, 2, Hydrogen, 3, Chlorine, 1, Oxygen, 2)
+                .flags(DISABLE_DECOMPOSITION)
+                .iconSet(DULL)
+                .buildAndRegister();
+
         RareEarthHydroxides = material("rare_earth_hydroxides", "稀土氢氧化物")
                 .fluid()
                 .color(0x808000)
@@ -1391,6 +1463,14 @@ public final class MaterialB {
                 .fluid()
                 .color(0xadadad)
                 .components(Carbon, 2, Hydrogen, 6, Oxygen, 2)
+                .flags(DISABLE_DECOMPOSITION)
+                .iconSet(DULL)
+                .buildAndRegister();
+
+        DiethyleneGlycol = material("diethyleneglycol", "二乙二醇")
+                .fluid()
+                .color(0xadadad)
+                .components(Carbon, 4, Hydrogen, 10, Oxygen, 3)
                 .flags(DISABLE_DECOMPOSITION)
                 .iconSet(DULL)
                 .buildAndRegister();

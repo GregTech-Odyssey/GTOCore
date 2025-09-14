@@ -126,6 +126,8 @@ public final class GTOMaterials {
     public static Material PotassiumFluoride;
     public static Material SodiumHydride;
     public static Material Trimethylamine;
+    public static Material HexadecylBromide;
+    public static Material Cetane;
     public static Material BoraneDimethylSulfide;
     public static Material Tetrahydrofuran;
     public static Material CesiumCarboranePrecursor;
@@ -144,6 +146,14 @@ public final class GTOMaterials {
     public static Material BoronTrifluorideAcetate;
     public static Material SodiumHexafluoroaluminate;
     public static Material PhosphorusPentasulfide;
+
+    public static Material TrisHydrochlorideSolution;
+    public static Material Tris;
+    public static Material EDTA;
+    public static Material ChloroaceticAcid;
+    public static Material CTAB;
+    public static Material DNAExtractionBuffer;
+    public static Material DiethyleneGlycol;
 
     public static Material DirtyHexafluorosilicicAcid;
     public static Material DiluteHexafluorosilicicAcid;
@@ -317,6 +327,8 @@ public final class GTOMaterials {
     public static Material WoodsGlass;
     public static Material Polyetheretherketone;
     public static Material CarbonNanotubes;
+    public static Material TitaniumDioxideNanotubes;
+    public static Material TitaniumNanotubePrecursor;
     public static Material FullerenePolymerMatrixPulp;
     public static Material Zylon;
     public static Material Kevlar;
@@ -1011,6 +1023,7 @@ public final class GTOMaterials {
     public static Material Orichalcos;
     public static Material Shadowium;
     public static Material Aerialite;
+    public static Material PhantomicElectrolyteBuffer;
 
     public static void init() {
         GTMaterialExtend.init();

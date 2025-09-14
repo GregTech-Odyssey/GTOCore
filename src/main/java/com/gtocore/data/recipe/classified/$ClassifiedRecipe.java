@@ -121,5 +121,6 @@ public final class $ClassifiedRecipe {
         RarityForge.init();
         LaserWelder.init();
         FastNeutronBreeder.init();
+        ElectroPlating.init();
     }
 }

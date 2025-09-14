@@ -614,17 +614,19 @@ final class GTOPartsRecipeHandler {
             if (plating == material) return;
             ItemStack rotorStack = ChemicalHelper.get(TagPrefix.turbineRotorCoated, material);
             CoatedTurbineRotorBehaviour.setCoatMaterial(rotorStack, plating);
+            boolean isMagic = plating.hasFlag(MAGICAL);
+            Material electrolyteMaterial = isMagic ? GTOMaterials.PhantomicElectrolyteBuffer : GTOMaterials.ChromicAcid;
+            Material wasteMaterial = isMagic ? GTOMaterials.Aether : GTOMaterials.ChromicAcidWaste;
             ELECTROPLATING_RECIPES.recipeBuilder("electroplate_%s_%s_turbine_rotor".formatted(material.getName(), plating.getName()))
                     .inputItems(turbineRotor, material)
                     .inputItems(plateDouble, plating, 5)
                     .inputFluids(DistilledWater.getFluid(1000))
-                    .inputFluids(GTOMaterials.ChromicAcid.getFluid(250))
+                    .inputFluids(electrolyteMaterial.getFluid(250))
                     .outputItems(rotorStack)
-                    .outputFluids(GTOMaterials.ChromicAcidWaste.getFluid(1000))
-                    .duration((int) plating.getMass() << 4)
-                    .EUt(480)
-                    .cleanroom(CleanroomType.CLEANROOM)
+                    .outputFluids(wasteMaterial.getFluid(1000))
                     .category(GTORecipeCategories.ROTOR_PLATING)
+                    .duration((int) plating.getMass() << 4 + material.getMass() << 4 / 2)
+                    .EUt(480)
                     .save();
         });
     }

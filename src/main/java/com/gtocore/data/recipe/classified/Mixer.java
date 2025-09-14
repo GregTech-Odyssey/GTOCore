@@ -754,5 +754,17 @@ final class Mixer {
                 .EUt(1920)
                 .duration(800)
                 .save();
+
+        MIXER_RECIPES.builder("dna_extraction_solution")
+                .inputItems(TagPrefix.dust, CTAB)
+                .inputItems(TagPrefix.dust, EDTA)
+                .inputFluids(DistilledWater.getFluid(12000))
+                .inputItems(TagPrefix.dust, GTMaterials.SodiumHydroxide, 4)
+                .inputFluids(TrisHydrochlorideSolution.getFluid(4000))
+                .outputFluids(DNAExtractionBuffer.getFluid(16000))
+                .EUt(7680)
+                .duration(200)
+                .cleanroom(CleanroomType.STERILE_CLEANROOM)
+                .save();
     }
 }

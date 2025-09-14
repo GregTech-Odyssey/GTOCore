@@ -5,6 +5,7 @@ import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.dust;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
+import static com.gtocore.common.data.GTOMaterials.Cetane;
 import static com.gtocore.common.data.GTORecipeTypes.*;
 
 final class PetrochemRecipes {
@@ -185,6 +186,7 @@ final class PetrochemRecipes {
                 .inputFluids(LightlyHydroCrackedHeavyFuel.getFluid(1000))
                 .outputFluids(LightFuel.getFluid(600))
                 .outputFluids(Naphtha.getFluid(100))
+                .outputFluids(Cetane.getFluid(50))
                 .outputFluids(Butane.getFluid(100))
                 .outputFluids(Propane.getFluid(100))
                 .outputFluids(Ethane.getFluid(75))
@@ -193,6 +195,7 @@ final class PetrochemRecipes {
 
         DISTILLATION_RECIPES.recipeBuilder("distill_severely_hydro_cracked_heavy_fuel")
                 .inputFluids(SeverelyHydroCrackedHeavyFuel.getFluid(1000))
+                .outputFluids(Cetane.getFluid(50))
                 .outputFluids(LightFuel.getFluid(200))
                 .outputFluids(Naphtha.getFluid(250))
                 .outputFluids(Butane.getFluid(300))
@@ -236,6 +239,7 @@ final class PetrochemRecipes {
         DISTILLATION_RECIPES.recipeBuilder("distill_lightly_hydro_cracked_light_fuel")
                 .inputFluids(LightlyHydroCrackedLightFuel.getFluid(1000))
                 .outputFluids(Naphtha.getFluid(800))
+                .outputFluids(Cetane.getFluid(50))
                 .outputFluids(Octane.getFluid(100))
                 .outputFluids(Butane.getFluid(150))
                 .outputFluids(Propane.getFluid(200))
@@ -246,6 +250,7 @@ final class PetrochemRecipes {
         DISTILLATION_RECIPES.recipeBuilder("distill_severely_hydro_cracked_light_fuel")
                 .inputFluids(SeverelyHydroCrackedLightFuel.getFluid(1000))
                 .outputFluids(Naphtha.getFluid(200))
+                .outputFluids(Cetane.getFluid(10))
                 .outputFluids(Octane.getFluid(20))
                 .outputFluids(Butane.getFluid(125))
                 .outputFluids(Propane.getFluid(125))

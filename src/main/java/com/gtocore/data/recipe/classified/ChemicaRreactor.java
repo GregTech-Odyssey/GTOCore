@@ -16,6 +16,8 @@ import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
 import static com.gregtechceu.gtceu.common.data.GTItems.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
+import static com.gtocore.common.data.GTOMaterials.ChloroaceticAcid;
+import static com.gtocore.common.data.GTOMaterials.Ethylenediamine;
 import static com.gtocore.common.data.GTORecipeTypes.CHEMICAL_RECIPES;
 import static com.gtocore.common.data.GTORecipeTypes.LARGE_CHEMICAL_RECIPES;
 
@@ -361,7 +363,7 @@ final class ChemicaRreactor {
         CHEMICAL_RECIPES.recipeBuilder("hexanitrohexaaxaisowurtzitane_dust")
                 .inputItems(TagPrefix.dust, GTOMaterials.CrudeHexanitrohexaaxaisowurtzitane, 36)
                 .inputItems(TagPrefix.dust, GTOMaterials.SilicaGel, 3)
-                .inputFluids(GTOMaterials.Ethylenediamine.getFluid(1000))
+                .inputFluids(Ethylenediamine.getFluid(1000))
                 .outputItems(TagPrefix.dust, GTOMaterials.Hexanitrohexaaxaisowurtzitane, 36)
                 .EUt(1920)
                 .duration(100)
@@ -753,6 +755,63 @@ final class ChemicaRreactor {
                 .outputFluids(GTOMaterials.EthyleneGlycol.getFluid(1000))
                 .EUt(480)
                 .duration(300)
+                .save();
+        CHEMICAL_RECIPES.recipeBuilder("diethyleneglycol")
+                .circuitMeta(2)
+                .inputFluids(GTOMaterials.EthyleneGlycol.getFluid(1000))
+                .inputFluids(GTMaterials.Water.getFluid(1000))
+                .outputFluids(GTOMaterials.DiethyleneGlycol.getFluid(1000))
+                .EUt(480)
+                .duration(300)
+                .save();
+
+        CHEMICAL_RECIPES.recipeBuilder("edta_dust")
+                .inputFluids(Ethylenediamine.getFluid(1000))
+                .inputFluids(ChloroaceticAcid.getFluid(4000))
+                .inputFluids(Water.getFluid(2000))
+                .outputItems(TagPrefix.dust, GTOMaterials.EDTA, 5)
+                .outputFluids(GTMaterials.DilutedHydrochloricAcid.getFluid(6000))
+                .EUt(480)
+                .duration(400)
+                .save();
+
+        CHEMICAL_RECIPES.recipeBuilder("chloroaceticacid")
+                .inputFluids(AceticAcid.getFluid(1000))
+                .inputFluids(Chlorine.getFluid(1000))
+                .circuitMeta(6)
+                .outputFluids(ChloroaceticAcid.getFluid(1000))
+                .outputFluids(HydrochloricAcid.getFluid(1000))
+                .EUt(480)
+                .duration(200)
+                .save();
+
+        CHEMICAL_RECIPES.recipeBuilder("ctab_dust")
+                .inputItems(TagPrefix.dust, GTOMaterials.HexadecylBromide, 1)
+                .inputFluids(GTOMaterials.Trimethylamine.getFluid(1000))
+                .outputItems(TagPrefix.dust, GTOMaterials.CTAB, 1)
+                .outputFluids(GTOMaterials.HydrobromicAcid.getFluid(1000))
+                .EUt(480)
+                .duration(200)
+                .save();
+
+        CHEMICAL_RECIPES.recipeBuilder("trimethylamine")
+                .inputItems(TagPrefix.dust, GTMaterials.SodaAsh, 3)
+                .outputItems(TagPrefix.dust, GTMaterials.Salt, 3)
+                .outputItems(TagPrefix.dust, GTMaterials.SodiumBicarbonate, 3)
+                .inputFluids(GTMaterials.Ammonia, 1000)
+                .inputFluids(GTMaterials.Chloromethane, 3000)
+                .outputFluids(GTOMaterials.Trimethylamine, 4000)
+                .EUt(30)
+                .duration(111)
+                .save();
+
+        CHEMICAL_RECIPES.recipeBuilder("hexadecyl_bromide")
+                .inputItems(TagPrefix.dust, GTOMaterials.Cetane, 1)
+                .inputFluids(GTMaterials.Bromine.getFluid(1000))
+                .outputItems(TagPrefix.dust, GTOMaterials.HexadecylBromide, 1)
+                .outputFluids(GTOMaterials.HydrobromicAcid.getFluid(1000))
+                .EUt(480)
+                .duration(200)
                 .save();
 
         CHEMICAL_RECIPES.recipeBuilder("butane_1_4_diol")
@@ -1243,6 +1302,7 @@ final class ChemicaRreactor {
                 .save();
 
         CHEMICAL_RECIPES.recipeBuilder("ethanolamine")
+                .circuitMeta(2)
                 .inputFluids(GTMaterials.Ammonia.getFluid(1000))
                 .inputFluids(GTOMaterials.EthyleneOxide.getFluid(1000))
                 .outputFluids(GTOMaterials.Ethanolamine.getFluid(1000))
@@ -1327,7 +1387,7 @@ final class ChemicaRreactor {
                 .inputItems(GTOTagPrefix.CATALYST, GTMaterials.Palladium)
                 .inputFluids(GTMaterials.Ammonia.getFluid(1000))
                 .inputFluids(GTOMaterials.Ethanolamine.getFluid(1000))
-                .outputFluids(GTOMaterials.Ethylenediamine.getFluid(1000))
+                .outputFluids(Ethylenediamine.getFluid(1000))
                 .outputFluids(GTMaterials.Water.getFluid(1000))
                 .EUt(120)
                 .duration(180)
@@ -2915,5 +2975,24 @@ final class ChemicaRreactor {
                 .outputFluids(GTOMaterials.Triphenylphosphine.getFluid(1000))
                 .outputItems(dust, GTOMaterials.ZincChloride, 3)
                 .duration(400).EUt(VA[HV]).save();
+
+        CHEMICAL_RECIPES.builder("tris_hydrochloride")
+                .inputFluids(GTOMaterials.Tris.getFluid(5000))
+                .inputFluids(GTMaterials.HydrochloricAcid.getFluid(500))
+                .outputFluids(GTOMaterials.TrisHydrochlorideSolution.getFluid(5000))
+                .outputFluids(GTMaterials.Water.getFluid(500))
+                .EUt(120)
+                .duration(60)
+                .save();
+
+        CHEMICAL_RECIPES.builder("tris")
+                .inputFluids(GTMaterials.Ammonia.getFluid(1000))
+                .inputFluids(GTOMaterials.EthyleneOxide.getFluid(3000))
+                .circuitMeta(3)
+                .outputFluids(GTOMaterials.Tris.getFluid(1000))
+                .outputFluids(GTMaterials.Water.getFluid(1000))
+                .EUt(480)
+                .duration(200)
+                .save();
     }
 }

@@ -24,7 +24,8 @@
     "sodium.SodiumWorldRendererMixin"
   ],
   "mixins": [
-    "OpenContainerAccessor",
+    "adastra.ModBlocksMixin",
+    "adastra.ModItemsMixin",
     "ae2.AEConfigMixin",
     "ae2.EnergyServiceMixin",
     "ae2.FacadeCreativeTabMixin",

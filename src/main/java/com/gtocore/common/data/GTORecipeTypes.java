@@ -783,7 +783,7 @@ public final class GTORecipeTypes {
 
     public static final RecipeType ELECTROPLATING_RECIPES = register("electrochemical_deposition", "电化学电镀", MULTIBLOCK)
             .setEUIO(IO.IN)
-            .setMaxIOSize(4, 2, 3, 1)
+            .setMaxIOSize(4, 2, 3, 2)
             .setProgressBar(GuiTextures.PROGRESS_BAR_BATH, LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.CHEMICAL);
 
@@ -860,7 +860,7 @@ public final class GTORecipeTypes {
 
     public static final RecipeType BIOCHEMICAL_EXTRACTION_RECIPES = register("biochemical_extraction", "生物提取", MULTIBLOCK)
             .setEUIO(IO.IN)
-            .setMaxIOSize(1, 6, 1, 1)
+            .setMaxIOSize(1, 6, 2, 1)
             .setProgressBar(GuiTextures.PROGRESS_BAR_EXTRACT, LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.ARC);
 
