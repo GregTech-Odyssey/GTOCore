@@ -840,7 +840,7 @@ public final class MultiBlockH {
             .workableCasingRenderer(GTOCore.id("block/casings/hyper_mechanical_casing"), GTCEu.id("block/multiblock/cleanroom"))
             .register();
 
-    public static final MultiblockMachineDefinition ELECTROPLATING_BATH = multiblock("electroplating_bath", "电镀池", CrossRecipeMultiblockMachine::createHatchParallel)
+    public static final MultiblockMachineDefinition ELECTROPLATING_BATH = multiblock("electroplating_bath", "电镀池", ElectricMultiblockMachine::new)
             .nonYAxisRotation()
             .parallelizableTooltips()
             .recipeTypes(GTORecipeTypes.ELECTROPLATING_RECIPES)
