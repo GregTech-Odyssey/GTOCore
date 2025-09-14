@@ -791,7 +791,7 @@ public final class MultiBlockH {
     // 智能筛选中枢
     public static final MultiblockMachineDefinition SMART_FILTERING_HUB = multiblock("smart_siftering_hub", "智能筛选中枢",
             TierCasingCrossRecipeMultiblockMachine.createParallel(m -> 1L << (2 * m.getCasingTier(GLASS_TIER)), GLASS_TIER))
-            .allRotation()
+            .nonYAxisRotation()
             .tooltips(GTOMachineStories.INSTANCE.getSmartSifteringHubTooltips().getSupplier())
             .multipleRecipesTooltips()
             .laserTooltips()
@@ -869,7 +869,7 @@ public final class MultiBlockH {
             .register();
 
     public static final MultiblockMachineDefinition GIANT_ELECTROCHEMICAL_WORKSTATION = multiblock("giant_electrochemical_workstation", "巨型电化学工作站", CoilCrossRecipeMultiblockMachine::createCoilParallel)
-            .nonYAxisRotation()
+            .allRotation()
             .tooltips(GTOMachineStories.INSTANCE.getGiantElectrochemicalWorkstationTooltips().getSupplier())
             .coilParallelTooltips()
             .laserTooltips()
