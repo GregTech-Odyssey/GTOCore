@@ -17,10 +17,13 @@ import net.minecraft.world.level.ItemLike;
 
 import appeng.api.stacks.AEItemKey;
 import appeng.core.AELog;
+import dev.shadowsoffire.fastsuite.ILockableItemStack;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(AEItemKey.class)
 public abstract class AEItemKeyMixin implements IAEItemKey {
@@ -40,6 +43,11 @@ public abstract class AEItemKeyMixin implements IAEItemKey {
 
     @Shadow(remap = false)
     private @Nullable ItemStack readOnlyStack;
+
+    @Inject(method = "getReadOnlyStack", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;setTag(Lnet/minecraft/nbt/CompoundTag;)V", remap = true), remap = false)
+    private void setLocked(CallbackInfoReturnable<ItemStack> cir) {
+        ((ILockableItemStack) (Object) readOnlyStack).setLocked(true);
+    }
 
     /**
      * @author .
@@ -71,8 +79,9 @@ public abstract class AEItemKeyMixin implements IAEItemKey {
      * @reason .
      */
     @Overwrite(remap = false)
-    public static AEItemKey of(ItemLike item) {
-        return ((IItem) item.asItem()).gtolib$getAEKey();
+    public static AEItemKey of(ItemLike itemLike) {
+        var item = itemLike.asItem();
+        return ((IItem) item).gtolib$getAEKey();
     }
 
     /**
@@ -80,10 +89,10 @@ public abstract class AEItemKeyMixin implements IAEItemKey {
      * @reason .
      */
     @Overwrite(remap = false)
-    public static AEItemKey of(ItemLike item, @Nullable CompoundTag tag) {
-        var i = item.asItem();
-        if (tag == null || tag.isEmpty()) return ((IItem) i).gtolib$getAEKey();
-        var stack = new ItemStack(i, 1);
+    public static AEItemKey of(ItemLike itemLike, @Nullable CompoundTag tag) {
+        var item = itemLike.asItem();
+        if (tag == null || tag.isEmpty()) return ((IItem) item).gtolib$getAEKey();
+        var stack = new ItemStack(item, 1);
         stack.setTag(tag);
         return IMapValueCache.ITEM_KEY_CACHE.get(stack);
     }
@@ -96,10 +105,11 @@ public abstract class AEItemKeyMixin implements IAEItemKey {
     public static @Nullable AEItemKey fromTag(CompoundTag tag) {
         try {
             var item = BuiltInRegistries.ITEM.getOptional(RLUtils.parse(tag.getString("id"))).orElseThrow(() -> new IllegalArgumentException("Unknown item id."));
+            if (item == Items.AIR) return null;
             var extraTag = tag.contains("tag") ? tag.getCompound("tag") : null;
             var extraCaps = tag.contains("caps") ? tag.getCompound("caps") : null;
             if ((extraTag == null || extraTag.isEmpty()) && (extraCaps == null || extraCaps.isEmpty())) {
-                return ((IItem) item.asItem()).gtolib$getAEKey();
+                return ((IItem) item).gtolib$getAEKey();
             }
             var stack = new ItemStack(item, 1, extraCaps);
             if (extraTag != null) stack.setTag(extraTag);
@@ -130,11 +140,10 @@ public abstract class AEItemKeyMixin implements IAEItemKey {
      */
     @Overwrite(remap = false)
     public static AEItemKey fromPacket(FriendlyByteBuf data) {
-        int i = data.readVarInt();
-        var item = Item.byId(i);
+        var item = Item.byId(data.readVarInt());
         var shareTag = data.readNbt();
         if (shareTag == null || shareTag.isEmpty()) {
-            return ((IItem) item.asItem()).gtolib$getAEKey();
+            return ((IItem) item).gtolib$getAEKey();
         }
         var stack = new ItemStack(item);
         stack.readShareTag(shareTag);
@@ -164,5 +173,6 @@ public abstract class AEItemKeyMixin implements IAEItemKey {
     @Override
     public void gtolib$setReadOnlyStack(ItemStack stack) {
         readOnlyStack = stack;
+        ((ILockableItemStack) (Object) readOnlyStack).setLocked(true);
     }
 }

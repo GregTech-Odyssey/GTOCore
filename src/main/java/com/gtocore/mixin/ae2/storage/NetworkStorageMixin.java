@@ -47,9 +47,9 @@ public abstract class NetworkStorageMixin {
 
     @Inject(method = "mount", at = @At(value = "INVOKE", target = "Ljava/util/NavigableMap;computeIfAbsent(Ljava/lang/Object;Ljava/util/function/Function;)Ljava/lang/Object;"), remap = false, cancellable = true)
     private void gtolib$mount(int priority, MEStorage inventory, CallbackInfo ci) {
-        if (inventory instanceof StorageAccessPartMachine) {
+        if (inventory instanceof StorageAccessPartMachine m1) {
             for (var inv : gtolib$inventory) {
-                if (inv.obj instanceof StorageAccessPartMachine) {
+                if (inv.obj instanceof StorageAccessPartMachine m2 && m1.getClass() == m2.getClass() && m1.uuid.equals(m2.uuid)) {
                     ci.cancel();
                     return;
                 }

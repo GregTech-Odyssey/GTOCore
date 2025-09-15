@@ -28,9 +28,7 @@ public final class GTOPartAbility {
     public static void init() {
         PartAbility.STEAM_IMPORT_ITEMS.register(2, GTMachines.ITEM_IMPORT_BUS[0].getBlock());
         PartAbility.STEAM_EXPORT_ITEMS.register(2, GTMachines.ITEM_EXPORT_BUS[0].getBlock());
-        STEAM_IMPORT_FLUIDS.register(2, GTMachines.FLUID_IMPORT_HATCH[0].getBlock());
-        STEAM_IMPORT_FLUIDS.register(3, GTOMachines.INFINITE_INTAKE_HATCH.getBlock());
-        STEAM_EXPORT_FLUIDS.register(2, GTMachines.FLUID_EXPORT_HATCH[0].getBlock());
+        STEAM_IMPORT_FLUIDS.register(2, GTOMachines.INFINITE_INTAKE_HATCH.getBlock());
         for (var machine : GTMachines.ITEM_IMPORT_BUS) {
             if (machine != null) ITEMS_INPUT.register(machine.getTier(), machine.getBlock());
         }
