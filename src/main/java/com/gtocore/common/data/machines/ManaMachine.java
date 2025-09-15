@@ -131,8 +131,7 @@ public final class ManaMachine {
     public static final MachineDefinition MANA_AMPLIFIER_HATCH = manaMachine("mana_amplifier_hatch", "魔力增幅仓", ManaAmplifierPartMachine::new)
             .tier(MV)
             .allRotation()
-            .tooltipsText("If mana equivalent to the machine's maximum power is input prior to operation, the current recipe will switch to perfect overclocking.", "如果运行前输入了等同机器最大功率的魔力，则将本次配方改为无损超频")
-            .tooltipsText("Otherwise, the machine will not execute the recipe.", "否则，机器不执行配方")
+            .tooltips(GTOMachineTooltips.INSTANCE.getManaAmplifierHatchTooltips().getSupplier())
             .workableManaTieredHullRenderer(6, GTOCore.id("block/multiblock/mana"))
             .register();
 
@@ -140,10 +139,8 @@ public final class ManaMachine {
             .tier(LV)
             .editableUI(SimpleNoEnergyMachine.EDITABLE_UI_CREATOR.apply(GTCEu.id("alchemy_cauldron"), GTORecipeTypes.ALCHEMY_CAULDRON_RECIPES))
             .recipeType(GTORecipeTypes.ALCHEMY_CAULDRON_RECIPES)
-            .tooltipsText("§7Do not use it for cooking food", "§7不要用它来做饭")
             .tooltips(GTOMachineTooltips.INSTANCE.getAlchemicalDeviceTooltips().getSupplier())
-            .tooltipsText("§7All recipes require heating", "§7所有配方都需要加热")
-            .tooltipsKey("gtceu.fluid_pipe.max_temperature", 1600)
+            .tooltips(GTOMachineTooltips.INSTANCE.getAlchemyCauldronTooltips().getSupplier())
             .nonYAxisRotation()
             .modelRenderer(() -> GTOCore.id("block/machine/alchemy_cauldron"))
             .blockProp(p -> p.noOcclusion().isViewBlocking((state, level, pos) -> false))
@@ -156,8 +153,7 @@ public final class ManaMachine {
             .recipeType(GTORecipeTypes.MANA_HEATER_RECIPES)
             .noRecipeModifier()
             .nonYAxisRotation()
-            .tooltipsText("Input mana to heat, if fire element is input, the heating speed will be 5 times faster.", "输入魔力加热，如果输入火元素，则加热速度翻5倍")
-            .tooltipsKey("gtceu.fluid_pipe.max_temperature", 2400)
+            .tooltips(GTOMachineTooltips.INSTANCE.getManaHeaterTooltips().getSupplier())
             .renderer(() -> new ManaHeaterRenderer(MV))
             .register();
 

@@ -58,3 +58,8 @@ fun ComponentListSupplier.decrease(info: ComponentSupplier) {
 fun ComponentListSupplier.danger(info: ComponentSupplier) {
     content(info, { red() }, ComponentSlang.Warning(1))
 }
+
+// 固定搭配
+fun ComponentListSupplier.miraculousTools(name: ComponentSupplier) {
+    highlight(("妙妙工具: " translatedTo "Miraculous Tools: ") + name) { rainbow() }
+}

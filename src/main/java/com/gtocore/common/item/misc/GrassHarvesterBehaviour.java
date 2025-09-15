@@ -1,15 +1,12 @@
 package com.gtocore.common.item.misc;
 
-import com.gtolib.api.annotation.NewDataAttributes;
-import com.gtolib.api.annotation.component_builder.ComponentSupplier;
-import com.gtolib.api.lang.CNEN;
+import com.gtocore.common.data.translation.GTOItemTooltips;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.item.component.IInteractionItem;
 import com.gregtechceu.gtceu.common.item.TooltipBehavior;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -29,15 +26,6 @@ import java.util.Map;
 
 public final class GrassHarvesterBehaviour extends TooltipBehavior implements IInteractionItem {
 
-    private static final ComponentSupplier TOOLTIPS = NewDataAttributes.MIRACULOUS_TOOLS.create(CNEN.create("割草镰刀", "Grass Harvester"), b -> b.addCommentLines("""
-            §6极大§r地提升小麦种子掉落概率
-            右键草以收割小麦种子和稀有作物
-            前期大量获取种子去种地的好帮手""",
-            """
-                    §6Greatly§r increases the drop rate of wheat seeds
-                    Right-click grass to harvest wheat seeds and rare crops
-                    A good helper for obtaining seeds in large quantities in the early game"""));
-    private static final List<Component> TOOLTIPS_DATA_GEN_INITIALIZATION = TOOLTIPS.get();
     public static final GrassHarvesterBehaviour INSTANCE = new GrassHarvesterBehaviour();
     public static final Map<Item, Float> WHEAT_SEEDS = Map.of(
             Items.WHEAT_SEEDS, 0.9F,
@@ -55,7 +43,7 @@ public final class GrassHarvesterBehaviour extends TooltipBehavior implements II
             Blocks.LARGE_FERN, WHEAT_SEEDS);
 
     private GrassHarvesterBehaviour() {
-        super(lines -> lines.addAll(TOOLTIPS.get()));
+        super(lines -> lines.addAll(GTOItemTooltips.INSTANCE.getGrassHarvesterTooltips().get()));
     }
 
     @Override

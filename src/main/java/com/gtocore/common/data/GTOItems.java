@@ -11,11 +11,7 @@ import com.gtocore.common.item.misc.GrassHarvesterBehaviour;
 
 import com.gtolib.GTOCore;
 import com.gtolib.api.ae2.me2in1.Wireless;
-import com.gtolib.api.annotation.NewDataAttributes;
 import com.gtolib.api.annotation.component_builder.ComponentBuilder;
-import com.gtolib.api.annotation.component_builder.ComponentSupplier;
-import com.gtolib.api.annotation.component_builder.StyleBuilder;
-import com.gtolib.api.lang.CNEN;
 import com.gtolib.utils.StringUtils;
 
 import com.gregtechceu.gtceu.GTCEu;
@@ -48,8 +44,6 @@ import com.lowdragmc.lowdraglib.utils.LocalizationUtils;
 import com.tterrag.registrate.util.entry.ItemEntry;
 import com.tterrag.registrate.util.nullness.NonNullBiConsumer;
 import earth.terrarium.adastra.common.registry.ModFluids;
-
-import java.util.List;
 
 import static com.gregtechceu.gtceu.common.data.GTItems.*;
 import static com.gregtechceu.gtceu.common.data.GTItems.attach;
@@ -98,21 +92,10 @@ public final class GTOItems {
     public static final ItemEntry<StorageComponentItem> CELL_COMPONENT_64M = registerStorageComponentItem(64);
     public static final ItemEntry<StorageComponentItem> CELL_COMPONENT_256M = registerStorageComponentItem(256);
 
-    private static final ComponentSupplier ORDER_TOOLTIPS = NewDataAttributes.MIRACULOUS_TOOLS.create(CNEN.create("AE2 Order", "AE2 订单"), b -> b.addCommentLines("""
-            右键可以放入一个虚拟物品，例如多方块主机
-            不需要再在铁砧使用告示牌命名
-            可以作为AE自动合成的大型机器产物
-            当此合成完成时，会自动取消，无需手动取消""",
-            """
-                    Right click to put a virtual item, such as a multi-block machine
-                    No longer need to use a sign to name it in anvil
-                    Can be used as a large machine product for AE2 automatic synthesis
-                    When the synthesis is completed, it will automatically cancel, no need to cancel manually"""));
-    private static final List<Component> ORDER_TOOLTIPS_DATA_GEN_INITIALIZATION = ORDER_TOOLTIPS.get();
     public static final ItemEntry<ComponentItem> ORDER = item("order", "%s 订单", ComponentItem::create)
+            .toolTips(GTOItemTooltips.INSTANCE.getOrderTooltips().getArray())
             .properties(p -> p.stacksTo(1))
             .onRegister(attach(OrderItem.INSTANCE))
-            .onRegister(attach(new TooltipBehavior(a -> a.addAll(ORDER_TOOLTIPS.get()))))
             .onRegister(attachRenderer(() -> OrderItemProviderRenderer.INSTANCE))
             .register();
     public static final ItemEntry<ComponentItem> REALLY_MAX_BATTERY = item("really_max_battery", "真·终极电池", ComponentItem::create)
@@ -324,18 +307,7 @@ public final class GTOItems {
     public static final ItemEntry<ComponentItem> WIRELESS_ENERGY_RECEIVE_COVER_MAX_4A = registerTieredCover(4);
 
     public static final ItemEntry<ComponentItem> TIME_TWISTER = item("time_twister", "时间扭曲者", ComponentItem::create)
-            .toolTips(ComponentBuilder.create()
-                    .addLines(NewDataAttributes.MIRACULOUS_TOOLS.create(CNEN.create("时间扭曲者", "Time Twister")), a -> a)
-                    .addLines(NewDataAttributes.EMPTY_WITH_BAR.create(CNEN.create("启动加速：", "Acceleration for normal block entities:")), StyleBuilder::setGold)
-                    .addLines(NewDataAttributes.EMPTY_WITH_TAB.create(CNEN.create("普通点击：消耗8192 EU能量，加速一次", "Normal click: Consume 8192 EU energy, accelerate once (200 extra ticks)")), StyleBuilder::setAqua)
-                    .addLines(NewDataAttributes.EMPTY_WITH_TAB.create(CNEN.create("Shift点击：消耗819200 EU能量，持续100刻内加速目标方块，每tick一次", "Shift click: Consume 819200 EU energy, accelerate the target block once per tick for 100 ticks")), StyleBuilder::setAqua)
-                    .addLines(NewDataAttributes.EMPTY_WITH_BAR.create(CNEN.create("加速方式：", "Acceleration methods:")), StyleBuilder::setGold)
-                    .addLines(NewDataAttributes.EMPTY_WITH_TAB.create(CNEN.create("普通机器：不额外消耗EU能量，每次200tick", "For normal machines: No extra EU consumption, 200 ticks per acceleration")), StyleBuilder::setAqua)
-                    .addLines(NewDataAttributes.EMPTY_WITH_TAB.create(CNEN.create("GT机器：根据模式消耗相应倍数EU能量，每次使当前正在工作的机器进度立即增加最多50%", "For GT machines: Consume EU energy corresponding to the mode, immediately increase current progress by up to 50% per use")), StyleBuilder::setAqua)
-                    .addLines(NewDataAttributes.EMPTY_WITH_BAR.create(CNEN.create("能量消耗：", "Energy consumption:")), StyleBuilder::setGold)
-                    .addLines(NewDataAttributes.EMPTY_WITH_TAB.create(CNEN.create("使用无线能量系统作为能量来源", "Use wireless energy system as energy source")), StyleBuilder::setAqua)
-                    .addLines(NewDataAttributes.EMPTY_WITH_TAB.create(CNEN.create("不同操作消耗不同数量的EU", "Different operations consume different amounts of EU")), StyleBuilder::setAqua)
-                    .build().getArray())
+            .toolTips(GTOItemTooltips.INSTANCE.getTimeTwisterTooltips().getArray())
             .properties(p -> p.stacksTo(1))
             .onRegister(attach(TimeTwisterBehavior.INSTANCE))
             .register();
