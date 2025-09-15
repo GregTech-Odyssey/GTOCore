@@ -1,5 +1,6 @@
 package com.gtocore.data.recipe.gtm.misc;
 
+import com.gtocore.common.data.GTOItems;
 import com.gtocore.common.data.machines.GTAEMachines;
 
 import com.gtolib.utils.ItemUtils;
@@ -1162,6 +1163,16 @@ public final class MachineRecipeLoader {
                 TOOL_DATA_ORB.asStack());
         VanillaRecipeHelper.addShapelessNBTClearingRecipe("data_module_nbt", TOOL_DATA_MODULE.asStack(),
                 TOOL_DATA_MODULE.asStack());
+        VanillaRecipeHelper.addShapelessNBTClearingRecipe("data_neural_matrix",  GTOItems.NEURAL_MATRIX.asStack(),
+                GTOItems.NEURAL_MATRIX.asStack());
+        VanillaRecipeHelper.addShapelessNBTClearingRecipe("data_atomic_archives",  GTOItems.ATOMIC_ARCHIVES.asStack(),
+                GTOItems.ATOMIC_ARCHIVES.asStack());
+        VanillaRecipeHelper.addShapelessNBTClearingRecipe("data_obsidian_matrix",  GTOItems.OBSIDIAN_MATRIX.asStack(),
+                GTOItems.OBSIDIAN_MATRIX.asStack());
+        VanillaRecipeHelper.addShapelessNBTClearingRecipe("data_microcosm",  GTOItems.MICROCOSM.asStack(),
+                GTOItems.MICROCOSM.asStack());
+        VanillaRecipeHelper.addShapelessNBTClearingRecipe("data_closed_timelike_curve_guidance_unit",  GTOItems.CLOSED_TIMELIKE_CURVE_GUIDANCE_UNIT.asStack(),
+                GTOItems.CLOSED_TIMELIKE_CURVE_GUIDANCE_UNIT.asStack());
 
         // Jetpacks
         VanillaRecipeHelper.addShapelessRecipe("fluid_jetpack_clear", LIQUID_FUEL_JETPACK.asStack(),
