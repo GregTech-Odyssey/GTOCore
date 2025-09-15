@@ -3866,6 +3866,7 @@
   "gtocore.machine.advanced_infinite_driller.drilled_fluid": "Fluid: %s Output: %s",
   "gtocore.machine.advanced_infinite_driller.heat": "Max Temperature: %sK / Operating Temperature: %sK",
   "gtocore.machine.advanced_infinite_driller.not_fluid_head": "No drill head",
+  "gtocore.machine.alchemical.chance_can_be_boosted": "The probability of this recipe can be boosted",
   "gtocore.machine.alchemical_device.1": "Transmutation",
   "gtocore.machine.alchemical_device.2": "Perfect Transmutation",
   "gtocore.machine.alchemy_cauldron.tooltip.0": "§7Do not use it for cooking food",

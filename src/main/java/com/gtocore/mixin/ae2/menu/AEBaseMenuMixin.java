@@ -21,7 +21,6 @@ import java.util.function.Consumer;
 @Mixin(AEBaseMenu.class)
 public abstract class AEBaseMenuMixin {
 
-
     @Shadow(remap = false)
     protected abstract IActionHost getActionHost();
 
