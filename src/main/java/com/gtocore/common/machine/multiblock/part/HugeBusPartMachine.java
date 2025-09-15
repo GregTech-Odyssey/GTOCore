@@ -95,10 +95,9 @@ public final class HugeBusPartMachine extends TieredIOPartMachine implements IMa
     }
 
     private void refundAll(ClickData clickData) {
-        if (ItemTransferHelper.getItemTransfer(getLevel(), getPos().relative(getFrontFacing()), getFrontFacing().getOpposite()) != null) {
-            setWorkingEnabled(false);
-            exportToNearby(inventory, getFrontFacing());
-        }
+        if (clickData.isRemote) return;
+        setWorkingEnabled(false);
+        exportToNearby(inventory, getFrontFacing());
     }
 
     @Override
@@ -120,7 +119,7 @@ public final class HugeBusPartMachine extends TieredIOPartMachine implements IMa
 
     @Override
     public void onMachineRemoved() {
-        clearInventory(inventory);
+        clearInventory(inventory.storage);
     }
 
     private void updateInventorySubscription() {
@@ -141,13 +140,11 @@ public final class HugeBusPartMachine extends TieredIOPartMachine implements IMa
         }
     }
 
-    private void exportToNearby(NotifiableItemStackHandler handler, @NotNull Direction... facings) {
-        if (handler.isEmpty()) return;
+    private void exportToNearby(HugeNotifiableItemStackHandler handler, @NotNull Direction facing) {
+        if (handler.getCount() < 1) return;
         var level = getLevel();
         var pos = getPos();
-        for (Direction facing : facings) {
-            UnlimitItemTransferHelper.exportToTarget(handler, Integer.MAX_VALUE, f -> true, level, pos.relative(facing), facing.getOpposite());
-        }
+        UnlimitItemTransferHelper.exportToTarget(handler.storage, Integer.MAX_VALUE, f -> true, level, pos.relative(facing), facing.getOpposite());
     }
 
     @Override
@@ -275,7 +272,7 @@ public final class HugeBusPartMachine extends TieredIOPartMachine implements IMa
 
         @Override
         public void setStackInSlot(int index, @NotNull ItemStack stack) {
-            this.stack = stack.copy();
+            this.stack = stack;
             count = stack.getCount();
             onContentsChanged(index);
         }

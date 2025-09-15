@@ -24,7 +24,7 @@ public abstract class AEBaseMenuMixin {
     @Shadow(remap = false)
     protected abstract IActionHost getActionHost();
 
-    @Inject(method = "stillValid", at = @At("RETURN"), remap = false, cancellable = true)
+    @Inject(method = "stillValid", at = @At("RETURN"), cancellable = true)
     private void gtolib$stillValid(Player PlayerEntity, CallbackInfoReturnable<Boolean> cir) {
         if (cir.getReturnValue()) return;
         if (getActionHost() instanceof WTMenuHost) {
