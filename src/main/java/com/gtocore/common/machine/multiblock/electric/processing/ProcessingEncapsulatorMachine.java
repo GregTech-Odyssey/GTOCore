@@ -147,6 +147,7 @@ public final class ProcessingEncapsulatorMachine extends TierCasingMultiblockMac
             for (BlockPos blockPoss : highlightPos) {
                 if (getMachine(level, blockPoss) instanceof EncapsulatorExecutionModuleMachine executionModuleMachine && executionModuleMachine.isFormed()) {
                     executionModuleMachine.encapsulatorMachine = this;
+                    if (promptly) executionModuleMachine.getRecipeLogic().updateTickSubscription();
                     moduleCount++;
                 }
             }

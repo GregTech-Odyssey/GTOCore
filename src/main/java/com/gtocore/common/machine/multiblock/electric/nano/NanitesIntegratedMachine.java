@@ -152,6 +152,7 @@ public final class NanitesIntegratedMachine extends CoilCrossRecipeMultiblockMac
             if (machine instanceof NanitesModuleMachine moduleMachine && moduleMachine.isFormed()) {
                 module.add(moduleMachine.type);
                 moduleMachine.nanitesIntegratedMachine = this;
+                if (immediately) moduleMachine.getRecipeLogic().updateTickSubscription();
             }
         });
     }
