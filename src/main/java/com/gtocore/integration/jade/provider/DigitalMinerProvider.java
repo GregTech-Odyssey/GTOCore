@@ -35,7 +35,7 @@ public class DigitalMinerProvider implements IBlockComponentProvider, IServerDat
             wrapped.put("null", progressNbt);
             compoundTag.put(GTCEu.id("workable_provider").toString(), wrapped);
 
-            compoundTag.putInt("parallel", miner.getParallelMining());
+            compoundTag.putLong("parallel", miner.getParallelMining());
         }
     }
 
