@@ -236,8 +236,8 @@ public final class CraftingRecipeLoader {
                 "   ", " h ", 'S', SHAPE_EMPTY.asStack());
         VanillaRecipeHelper.addStrictShapedRecipe("shape_mold_cylinder", SHAPE_MOLD_CYLINDER.asStack(), "  S",
                 "   ", "  h", 'S', SHAPE_EMPTY.asStack());
-        VanillaRecipeHelper.addStrictShapedRecipe("shape_mold_nugget", SHAPE_MOLD_NUGGET.asStack(), "S h",
-                "   ", "   ", 'S', SHAPE_EMPTY.asStack());
+        VanillaRecipeHelper.addStrictShapedRecipe("shape_mold_nugget", SHAPE_MOLD_NUGGET.asStack(), "   ",
+                "S h", "   ", 'S', SHAPE_EMPTY.asStack());
         VanillaRecipeHelper.addStrictShapedRecipe("shape_mold_block", SHAPE_MOLD_BLOCK.asStack(), "   ",
                 "hS ", "   ", 'S', SHAPE_EMPTY.asStack());
         VanillaRecipeHelper.addStrictShapedRecipe("shape_mold_ball", SHAPE_MOLD_BALL.asStack(), "   ", " S ",
