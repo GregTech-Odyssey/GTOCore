@@ -50,6 +50,7 @@ dependencies {
     modRuntimeOnly("dev.shadowsoffire:ApothicAttributes:${project.minecraft_version}-1.3.7")
     modImplementation("dev.shadowsoffire:Placebo:${project.minecraft_version}-8.6.2")
     modImplementation("dev.shadowsoffire:Apotheosis:${project.minecraft_version}-7.4.7")
+    modImplementation("dev.shadowsoffire:FastSuite:${project.minecraft_version}-5.1.0")
 
     modCompileOnly("com.hollingsworth.ars_nouveau:ars_nouveau-${project.minecraft_version}:4.12.6.256")
     modRuntimeOnly("curse.maven:ars-nouveau-401955:5894609")

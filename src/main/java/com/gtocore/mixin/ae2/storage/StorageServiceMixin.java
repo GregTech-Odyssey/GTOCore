@@ -50,11 +50,14 @@ public abstract class StorageServiceMixin implements IExpandedStorageService {
     private Object gtolib$Lock;
     @Unique
     private boolean gtolib$fuzzyStacksNeedUpdate;
+    @Unique
+    private boolean gtolib$lazyStacksNeedUpdate;
 
     @Inject(method = "<init>", at = @At("TAIL"), remap = false)
     private void init(CallbackInfo ci) {
         gtolib$Lock = new Object();
         gtolib$fuzzyStacksNeedUpdate = true;
+        gtolib$lazyStacksNeedUpdate = true;
     }
 
     /**
@@ -64,9 +67,9 @@ public abstract class StorageServiceMixin implements IExpandedStorageService {
     @Overwrite(remap = false)
     public void onServerEndTick() {
         gtolib$fuzzyStacksNeedUpdate = true;
-        if (interestManager.isEmpty() || TickHandler.instance().getCurrentTick() % 10 != 0) {
-            cachedStacksNeedUpdate = true;
-        } else {
+        var secondCycle = TickHandler.instance().getCurrentTick() % 20 == 0;
+        if (secondCycle) gtolib$lazyStacksNeedUpdate = true;
+        if (secondCycle && !interestManager.isEmpty()) {
             synchronized (gtolib$Lock) {
                 cachedStacksNeedUpdate = false;
 
@@ -97,6 +100,8 @@ public abstract class StorageServiceMixin implements IExpandedStorageService {
                     }
                 }
             }
+        } else {
+            cachedStacksNeedUpdate = true;
         }
     }
 
@@ -136,6 +141,15 @@ public abstract class StorageServiceMixin implements IExpandedStorageService {
             }
         }
         return gtolib$fuzzyKeyCounter;
+    }
+
+    @Override
+    public KeyCounter getLazyKeyCounter() {
+        if (gtolib$lazyStacksNeedUpdate) {
+            gtolib$lazyStacksNeedUpdate = false;
+            return getCachedInventory();
+        }
+        return cachedAvailableStacks;
     }
 
     @Override

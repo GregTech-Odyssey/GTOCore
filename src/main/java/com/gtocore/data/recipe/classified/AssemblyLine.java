@@ -2347,7 +2347,7 @@ final class AssemblyLine {
                 .outputItems(MultiBlockF.HOLY_SEPARATOR.asStack())
                 .EUt(7864320)
                 .duration(1000)
-                .researchStation(b -> b.researchStack(GCYMMachines.LARGE_CUTTER.asStack())
+                .researchStation(b -> b.researchStack(GCYMMachines.LARGE_CENTRIFUGE.asStack())
                         .CWUt(256)
                         .EUt(7864320))
                 .save();

@@ -2,6 +2,7 @@ package com.gtocore.common.machine.multiblock.part.ae.slots;
 
 import com.gtocore.common.machine.multiblock.part.ae.MEStockingHatchPartMachine;
 
+import com.gtolib.api.ae2.IExpandedStorageService;
 import com.gtolib.utils.MathUtil;
 
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
@@ -42,7 +43,7 @@ public class ExportOnlyAEStockingFluidList extends ExportOnlyAEFluidList {
             fluidMap.clear();
             var grid = machine.getMainNode().getGrid();
             if (grid == null) return null;
-            KeyCounter counter = grid.getStorageService().getCachedInventory();
+            KeyCounter counter = IExpandedStorageService.of(grid.getStorageService()).getLazyKeyCounter();
             for (var i : inventory) {
                 if (i.config == null) continue;
                 var stock = i.stock;
@@ -121,7 +122,7 @@ public class ExportOnlyAEStockingFluidList extends ExportOnlyAEFluidList {
                 if (!machine.isOnline()) return 0;
                 var grid = machine.getMainNode().getGrid();
                 if (grid == null) return 0;
-                long extracted = simulate ? Math.min(amount, grid.getStorageService().getCachedInventory().get(stock.what())) : grid.getStorageService().getInventory().extract(stock.what(), amount, Actionable.MODULATE, machine.getActionSource());
+                long extracted = simulate ? Math.min(amount, IExpandedStorageService.of(grid.getStorageService()).getLazyKeyCounter().get(stock.what())) : grid.getStorageService().getInventory().extract(stock.what(), amount, Actionable.MODULATE, machine.getActionSource());
                 if (extracted > 0) {
                     if (!simulate) {
                         this.stock = ExportOnlyAESlot.copy(stock, stock.amount() - extracted);
@@ -144,7 +145,7 @@ public class ExportOnlyAEStockingFluidList extends ExportOnlyAEFluidList {
                 var grid = machine.getMainNode().getGrid();
                 if (grid == null) return FluidStack.EMPTY;
                 var key = stock.what();
-                long extracted = action.simulate() ? Math.min(maxDrain, grid.getStorageService().getCachedInventory().get(key)) : grid.getStorageService().getInventory().extract(key, maxDrain, Actionable.MODULATE, machine.getActionSource());
+                long extracted = action.simulate() ? Math.min(maxDrain, IExpandedStorageService.of(grid.getStorageService()).getLazyKeyCounter().get(key)) : grid.getStorageService().getInventory().extract(key, maxDrain, Actionable.MODULATE, machine.getActionSource());
                 if (extracted > 0) {
                     FluidStack resultStack = key instanceof AEFluidKey fluidKey ? AEUtil.toFluidStack(fluidKey, extracted) : FluidStack.EMPTY;
                     if (action.execute()) {

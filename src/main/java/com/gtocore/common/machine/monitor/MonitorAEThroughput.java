@@ -5,6 +5,8 @@ import com.gtocore.common.machine.multiblock.part.ae.slots.ExportOnlyAEItemList;
 import com.gtocore.common.machine.multiblock.part.ae.widget.AEFluidConfigWidget;
 import com.gtocore.common.machine.multiblock.part.ae.widget.AEItemConfigWidget;
 
+import com.gtolib.api.ae2.IExpandedStorageService;
+
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.common.machine.multiblock.electric.PowerSubstationMachine;
 
@@ -82,7 +84,7 @@ public class MonitorAEThroughput extends AbstractAEInfoMonitor {
                 continue;
             }
             hasConfig = true;
-            long amount = grid.getStorageService().getCachedInventory().get(current);
+            long amount = IExpandedStorageService.of(grid.getStorageService()).getLazyKeyCounter().get(current);
             var change = amount - lastAmount[i];
             if (stats[i] == null) {
                 stats[i] = new EnergyStat(lastUpdateTime);

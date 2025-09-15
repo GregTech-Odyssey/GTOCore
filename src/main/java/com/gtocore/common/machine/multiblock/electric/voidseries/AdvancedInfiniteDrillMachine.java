@@ -1,5 +1,6 @@
 package com.gtocore.common.machine.multiblock.electric.voidseries;
 
+import com.gtocore.common.data.GTOMaterials;
 import com.gtocore.common.machine.trait.AdvancedInfiniteDrillLogic;
 
 import com.gtolib.api.machine.multiblock.StorageMultiblockMachine;
@@ -38,7 +39,7 @@ public final class AdvancedInfiniteDrillMachine extends StorageMultiblockMachine
     private static final FluidStack DISTILLED_WATER = GTMaterials.DistilledWater.getFluid(20000);
     private static final FluidStack OXYGEN = GTMaterials.Oxygen.getFluid(FluidStorageKeys.LIQUID, 20000);
     private static final FluidStack HELIUM = GTMaterials.Helium.getFluid(FluidStorageKeys.LIQUID, 20000);
-    private static final Map<Material, Integer> HEAT_MAP = Map.of(GTMaterials.Neutronium, 1);
+    private static final Map<Material, Integer> HEAT_MAP = Map.of(GTOMaterials.Neutron, 1);
 
     @Override
     @NotNull

@@ -8,7 +8,6 @@ import com.gtolib.api.misc.Drone;
 import com.gtolib.api.recipe.IdleReason;
 import com.gtolib.utils.MathUtil;
 
-import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMaintenanceMachine;
@@ -62,10 +61,8 @@ public abstract class MaintenanceHatchPartMachineMixin extends TieredPartMachine
         var value = timeActive - MINIMUM_MAINTENANCE_TIME;
         if (value > 0) {
             timeActive = value;
-            if (GTValues.RNG.nextBoolean()) {
-                causeRandomMaintenanceProblems();
-                maintenanceMachine.setTaped(false);
-            }
+            causeRandomMaintenanceProblems();
+            maintenanceMachine.setTaped(false);
         }
     }
 

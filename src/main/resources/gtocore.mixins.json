@@ -26,7 +26,6 @@
   "mixins": [
     "adastra.ModBlocksMixin",
     "adastra.ModItemsMixin",
-    "ae2.AEConfigMixin",
     "ae2.EnergyServiceMixin",
     "ae2.FacadeCreativeTabMixin",
     "ae2.FuzzyPriorityListMixin",
@@ -42,6 +41,7 @@
     "ae2.blockentity.CableBusBlockMixin",
     "ae2.blockentity.ChestBlockEntityMixin",
     "ae2.blockentity.CondenserBlockEntityMixin",
+    "ae2.blockentity.CraftingBlockEntityMixin",
     "ae2.blockentity.ExportBusPartMixin",
     "ae2.blockentity.PartExPatternAccessTerminalMixin",
     "ae2.blockentity.PatternAccessTerminalPartMixin",
@@ -102,6 +102,7 @@
     "botania.OrechidBlockEntityMixin",
     "botania.OrechidIgnemBlockEntityMixin",
     "botania.RunicAltarBlockEntityMixin",
+    "eae.TileAssemblerMatrixBaseMixin",
     "ftbq.FTBQuestsCommandsMixin",
     "ftbq.ToggleEditingModeMessageMixin",
     "ftbu.FTBUltimineMixin",

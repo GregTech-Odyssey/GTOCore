@@ -30,6 +30,7 @@ import static com.gregtechceu.gtceu.data.recipe.GTCraftingComponents.*;
 import static com.gregtechceu.gtceu.data.recipe.misc.MetaTileEntityLoader.registerMachineRecipe;
 import static com.gtocore.common.data.GTORecipeTypes.ASSEMBLER_RECIPES;
 import static com.gtocore.common.data.GTORecipeTypes.LASER_WELDER_RECIPES;
+import static com.gtocore.data.CraftingComponents.INTEGRATED_CONTROL_CORE;
 
 public final class MachineRecipe {
 
@@ -175,7 +176,7 @@ public final class MachineRecipe {
         registerMachineRecipe(GTOMachines.LASER_WELDER, "WEW", "CMC", "PPP", 'M', HULL, 'P', PLATE, 'C', CIRCUIT, 'E', EMITTER, 'W', CABLE);
         registerMachineRecipe(GTOMachines.WORLD_DATA_SCANNER, "CDC", "BAB", "CDC", 'A', HULL, 'B', CABLE, 'C', SENSOR, 'D', CIRCUIT);
         registerMachineRecipe(GTOMachines.ACCELERATE_HATCH, "CFC", "FAF", "CFC", 'A', HULL, 'F', FIELD_GENERATOR, 'C', SENSOR);
-        registerMachineRecipe(GTOMachines.OVERCLOCK_HATCH, "CFC", "FAF", "CFC", 'A', HULL, 'C', EMITTER, 'F', VOLTAGE_COIL);
+        registerMachineRecipe(GTOMachines.OVERCLOCK_HATCH, "CFC", "FAF", "CFC", 'A', HULL, 'C', INTEGRATED_CONTROL_CORE, 'F', VOLTAGE_COIL);
 
         VanillaRecipeHelper.addShapedRecipe(GTOCore.id("lv_thermal_generator"), GTOMachines.THERMAL_GENERATOR[LV].asStack(), "ABA", "CDC", "EFE", 'B', GTItems.ELECTRIC_MOTOR_LV.asStack(), 'F', GTBlocks.FIREBOX_BRONZE.asStack(), 'D', GTMachines.HULL[LV].asStack(), 'C', CustomTags.LV_CIRCUITS, 'E', new MaterialEntry(TagPrefix.cableGtSingle, GTMaterials.Cobalt), 'A', new MaterialEntry(TagPrefix.plate, GTMaterials.Invar));
         VanillaRecipeHelper.addShapedRecipe(GTOCore.id("mv_thermal_generator"), GTOMachines.THERMAL_GENERATOR[MV].asStack(), "ABA", "CDC", "EFE", 'B', GTItems.ELECTRIC_MOTOR_MV.asStack(), 'F', GTBlocks.FIREBOX_STEEL.asStack(), 'D', GTMachines.HULL[MV].asStack(), 'C', CustomTags.MV_CIRCUITS, 'E', new MaterialEntry(TagPrefix.cableGtSingle, GTMaterials.AnnealedCopper), 'A', new MaterialEntry(TagPrefix.plate, GTOMaterials.DarkSteel));

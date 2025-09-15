@@ -58,7 +58,7 @@ public final class NanitesIntegratedMachine extends CoilCrossRecipeMultiblockMac
         MODULE_MAP.put(3, MultiBlockC.POLYMER_TWISTING_MODULE);
     }
 
-    public static final Map<Material, Float> MATERIAL_MAP = Map.of(
+    private static final Map<Material, Float> MATERIAL_MAP = Map.of(
             GTMaterials.Iron, 1.0F,
             GTMaterials.Iridium, 1.1F,
             GTOMaterials.Orichalcum, 1.2F,
@@ -66,6 +66,15 @@ public final class NanitesIntegratedMachine extends CoilCrossRecipeMultiblockMac
             GTOMaterials.Draconium, 1.4F,
             GTOMaterials.CosmicNeutronium, 1.5F,
             GTOMaterials.Eternity, 1.6F);
+
+    private static final Map<Material, Integer> MATERIAL_TIER_MAP = Map.of(
+            GTMaterials.Iron, GTValues.ZPM,
+            GTMaterials.Iridium, GTValues.UV,
+            GTOMaterials.Orichalcum, GTValues.UHV,
+            GTOMaterials.Infuscolium, GTValues.UEV,
+            GTOMaterials.Draconium, GTValues.UIV,
+            GTOMaterials.CosmicNeutronium, GTValues.UXV,
+            GTOMaterials.Eternity, GTValues.OpV);
 
     int chance;
     @DescSynced
@@ -90,6 +99,7 @@ public final class NanitesIntegratedMachine extends CoilCrossRecipeMultiblockMac
             return;
         }
         Material material = ChemicalHelper.getMaterialEntry(getStorageStack().getItem()).material();
+        if (MATERIAL_TIER_MAP.get(material) > getTier()) return;
         chance = (int) (getStorageStack().getCount() * MATERIAL_MAP.get(material));
     }
 

@@ -395,7 +395,7 @@ public final class MetaTileEntityLoader {
                 CIRCUIT.get(HV), 'M', GTMachines.MAINTENANCE_HATCH.asStack(), 'V', CONVEYOR.get(HV),
                 'H', GTMachines.HULL[HV].asStack());
         VanillaRecipeHelper.addShapedRecipe(true, "maintenance_hatch_automatic",
-                GTMachines.AUTO_MAINTENANCE_HATCH.asStack(), "CMC", "RHR", "CMC", 'C', CIRCUIT.get(HV), 'M',
+                GTMachines.AUTO_MAINTENANCE_HATCH.asStack(), "CMC", "RHR", "CMC", 'C', CIRCUIT.get(IV), 'M',
                 GTMachines.MAINTENANCE_HATCH.asStack(), 'R', ROBOT_ARM.get(HV), 'H',
                 GTMachines.HULL[HV].asStack());
 

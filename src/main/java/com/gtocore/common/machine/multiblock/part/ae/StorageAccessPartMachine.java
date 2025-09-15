@@ -81,7 +81,7 @@ public abstract class StorageAccessPartMachine extends AmountConfigurationHatchP
     @DescSynced
     boolean isOnline;
     @Persisted
-    UUID uuid;
+    public UUID uuid;
 
     @Persisted
     private final GridNodeHolder nodeHolder;

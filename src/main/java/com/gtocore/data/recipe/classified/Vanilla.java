@@ -191,12 +191,12 @@ final class Vanilla {
                 "ABA",
                 "CDC",
                 "EFE",
-                'A', CustomTags.MAX_CIRCUITS, 'B', GTItems.ROBOT_ARM_OpV.asStack(), 'C', GTItems.CONVEYOR_MODULE_OpV.asStack(), 'D', RegistriesUtils.getItemStack("gtceu:opv_parallel_hatch"), 'E', new MaterialEntry(TagPrefix.wireGtHex, GTOMaterials.AwakenedDraconium), 'F', GTItems.FIELD_GENERATOR_OpV.asItem());
+                'A', CustomTags.MAX_CIRCUITS, 'B', GTItems.ROBOT_ARM_OpV.asStack(), 'C', GTItems.CONVEYOR_MODULE_OpV.asStack(), 'D', RegistriesUtils.getItemStack("gtceu:opv_parallel_hatch"), 'E', new MaterialEntry(TagPrefix.wireGtHex, GTOMaterials.AwakenedDraconium), 'F', GTOItems.INTEGRATED_CONTROL_CORE_OpV.asStack());
         VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("uv_thread_hatch"), GTOMachines.THREAD_HATCH[GTValues.UV].asStack(),
                 "ABA",
                 "CDC",
                 "EFE",
-                'A', CustomTags.UHV_CIRCUITS, 'B', GTItems.ROBOT_ARM_UV.asStack(), 'C', GTItems.CONVEYOR_MODULE_UV.asStack(), 'D', RegistriesUtils.getItemStack("gtceu:uv_parallel_hatch"), 'E', new MaterialEntry(TagPrefix.wireGtHex, GTMaterials.EnrichedNaquadahTriniumEuropiumDuranide), 'F', GTItems.FIELD_GENERATOR_UV.asItem());
+                'A', CustomTags.UHV_CIRCUITS, 'B', GTItems.ROBOT_ARM_UV.asStack(), 'C', GTItems.CONVEYOR_MODULE_UV.asStack(), 'D', RegistriesUtils.getItemStack("gtceu:uv_parallel_hatch"), 'E', new MaterialEntry(TagPrefix.wireGtHex, GTMaterials.EnrichedNaquadahTriniumEuropiumDuranide), 'F', GTOItems.INTEGRATED_CONTROL_CORE_UV.asStack());
         VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("ancient_reactor_core"), MultiBlockG.ANCIENT_REACTOR_CORE.asStack(),
                 "ABA",
                 "BCB",
@@ -226,12 +226,12 @@ final class Vanilla {
                 "ABA",
                 "CDC",
                 "EFE",
-                'A', GTOItems.SUPRACHRONAL_CIRCUIT[GTValues.MAX].asStack(), 'B', GTOItems.MAX_ROBOT_ARM.asStack(), 'C', GTOItems.MAX_CONVEYOR_MODULE.asStack(), 'D', RegistriesUtils.getItemStack("gtceu:max_parallel_hatch"), 'E', new MaterialEntry(TagPrefix.wireGtHex, GTOMaterials.Hypogen), 'F', GTOItems.MAX_FIELD_GENERATOR.asItem());
+                'A', GTOItems.SUPRACHRONAL_CIRCUIT[GTValues.MAX].asStack(), 'B', GTOItems.MAX_ROBOT_ARM.asStack(), 'C', GTOItems.MAX_CONVEYOR_MODULE.asStack(), 'D', RegistriesUtils.getItemStack("gtceu:max_parallel_hatch"), 'E', new MaterialEntry(TagPrefix.wireGtHex, GTOMaterials.Hypogen), 'F', GTOItems.INTEGRATED_CONTROL_CORE_MAX.asStack());
         VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("uev_thread_hatch"), GTOMachines.THREAD_HATCH[GTValues.UEV].asStack(),
                 "ABA",
                 "CDC",
                 "EFE",
-                'A', CustomTags.UIV_CIRCUITS, 'B', GTItems.ROBOT_ARM_UEV.asStack(), 'C', GTItems.CONVEYOR_MODULE_UEV.asStack(), 'D', RegistriesUtils.getItemStack("gtceu:uev_parallel_hatch"), 'E', new MaterialEntry(TagPrefix.wireGtHex, GTOMaterials.Enderite), 'F', GTItems.FIELD_GENERATOR_UEV.asItem());
+                'A', CustomTags.UIV_CIRCUITS, 'B', GTItems.ROBOT_ARM_UEV.asStack(), 'C', GTItems.CONVEYOR_MODULE_UEV.asStack(), 'D', RegistriesUtils.getItemStack("gtceu:uev_parallel_hatch"), 'E', new MaterialEntry(TagPrefix.wireGtHex, GTOMaterials.Enderite), 'F', GTOItems.INTEGRATED_CONTROL_CORE_UEV.asStack());
         VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("lv_semi_fluid"), GTOMachines.SEMI_FLUID_GENERATOR[GTValues.LV].asStack(),
                 "ABA",
                 "CDC",
@@ -336,7 +336,7 @@ final class Vanilla {
                 "ABA",
                 "CDC",
                 "EFE",
-                'A', CustomTags.OpV_CIRCUITS, 'B', GTItems.ROBOT_ARM_UXV.asStack(), 'C', GTItems.CONVEYOR_MODULE_UXV.asStack(), 'D', RegistriesUtils.getItemStack("gtceu:uxv_parallel_hatch"), 'E', new MaterialEntry(TagPrefix.wireGtHex, GTOMaterials.Legendarium), 'F', GTItems.FIELD_GENERATOR_UXV.asItem());
+                'A', CustomTags.OpV_CIRCUITS, 'B', GTItems.ROBOT_ARM_UXV.asStack(), 'C', GTItems.CONVEYOR_MODULE_UXV.asStack(), 'D', RegistriesUtils.getItemStack("gtceu:uxv_parallel_hatch"), 'E', new MaterialEntry(TagPrefix.wireGtHex, GTOMaterials.Legendarium), 'F', GTOItems.INTEGRATED_CONTROL_CORE_UXV.asStack());
         VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("gravity_configuration_hatch"), GTOMachines.GRAVITY_CONFIGURATION_HATCH.asStack(),
                 "ABA",
                 "CDC",
@@ -460,7 +460,7 @@ final class Vanilla {
                 "ABA",
                 "CDC",
                 "EFE",
-                'A', CustomTags.UEV_CIRCUITS, 'B', GTItems.ROBOT_ARM_UHV.asStack(), 'C', GTItems.CONVEYOR_MODULE_UHV.asStack(), 'D', RegistriesUtils.getItemStack("gtceu:uhv_parallel_hatch"), 'E', new MaterialEntry(TagPrefix.wireGtHex, GTMaterials.RutheniumTriniumAmericiumNeutronate), 'F', GTItems.FIELD_GENERATOR_UHV.asItem());
+                'A', CustomTags.UEV_CIRCUITS, 'B', GTItems.ROBOT_ARM_UHV.asStack(), 'C', GTItems.CONVEYOR_MODULE_UHV.asStack(), 'D', RegistriesUtils.getItemStack("gtceu:uhv_parallel_hatch"), 'E', new MaterialEntry(TagPrefix.wireGtHex, GTMaterials.RutheniumTriniumAmericiumNeutronate), 'F', GTOItems.INTEGRATED_CONTROL_CORE_UHV.asStack());
         VanillaRecipeHelper.addShapedRecipe(true, GTOCore.id("large_steam_furnace"), MultiBlockA.LARGE_STEAM_FURNACE.asStack(),
                 "ABA",
                 "CDC",
@@ -584,7 +584,7 @@ final class Vanilla {
                 "ABA",
                 "CDC",
                 "EFE",
-                'A', CustomTags.UXV_CIRCUITS, 'B', GTItems.ROBOT_ARM_UIV.asStack(), 'C', GTItems.CONVEYOR_MODULE_UIV.asStack(), 'D', RegistriesUtils.getItemStack("gtceu:uiv_parallel_hatch"), 'E', new MaterialEntry(TagPrefix.wireGtHex, GTOMaterials.Echoite), 'F', GTItems.FIELD_GENERATOR_UIV.asItem());
+                'A', CustomTags.UXV_CIRCUITS, 'B', GTItems.ROBOT_ARM_UIV.asStack(), 'C', GTItems.CONVEYOR_MODULE_UIV.asStack(), 'D', RegistriesUtils.getItemStack("gtceu:uiv_parallel_hatch"), 'E', new MaterialEntry(TagPrefix.wireGtHex, GTOMaterials.Echoite), 'F', GTOItems.INTEGRATED_CONTROL_CORE_UIV.asStack());
         VanillaRecipeHelper.addShapedRecipe(GTOCore.id("creative_laser_hatch"), RegistriesUtils.getItemStack("gtmthings:creative_laser_hatch"),
                 "ABA",
                 "B B",
