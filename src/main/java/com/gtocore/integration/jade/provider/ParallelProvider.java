@@ -41,7 +41,7 @@ public final class ParallelProvider implements IBlockComponentProvider, IServerD
             if (blockAccessor.getServerData().getBoolean("exact")) key += ".exact";
             iTooltip.add(Component.translatable(key, parallels)
                     .append(batchParallel > 1 ?
-                            Component.translatable("gtceu.multiblock.batch_parallel_multiplier", Component.literal("×%s".formatted(batchParallel)).withStyle(ChatFormatting.DARK_BLUE)):
+                            Component.translatable("gtceu.multiblock.batch_parallel_multiplier", Component.literal("×%s".formatted(batchParallel)).withStyle(ChatFormatting.DARK_BLUE)) :
                             Component.empty()));
         }
     }
@@ -73,13 +73,15 @@ public final class ParallelProvider implements IBlockComponentProvider, IServerD
                     }
                 }
             }
-            if (parallel > 1) compoundTag.putLong("parallel", parallel); else if (originParallel > 1) compoundTag.putLong("parallel", originParallel);
-            if (batchParallel > 1) compoundTag.putLong("batch_parallel", batchParallel); else if (parallel / originParallel > 1) compoundTag.putLong("batch_parallel", parallel / originParallel);
+            if (parallel > 1) compoundTag.putLong("parallel", parallel);
+            else if (originParallel > 1) compoundTag.putLong("parallel", originParallel);
+            if (batchParallel > 1) compoundTag.putLong("batch_parallel", batchParallel);
+            else if (parallel / originParallel > 1) compoundTag.putLong("batch_parallel", parallel / originParallel);
         }
     }
 
     private static long[] getRecipeParallel(MetaMachine machine) {
-        long[] parallel = new long[]{0L, 0L};
+        long[] parallel = new long[] { 0L, 0L };
         if (machine instanceof IRecipeLogicMachine rlm && rlm.getRecipeLogic().isActive() && rlm.getRecipeLogic().getLastRecipe() instanceof Recipe recipe) {
             parallel[0] = RecipeHelper.getParallel(recipe);
             parallel[1] = recipe.batchParallels;

@@ -125,23 +125,21 @@ public final class RecipeLogicProvider implements IBlockComponentProvider, IServ
                             var originManat = origin.getLong("Manat");
                             double energyEfficiency = 0;
                             if (originEUt != 0 && EUt != 0) {
-                                energyEfficiency =(double)  EUt * batchParallel /(parallel * originEUt) * 100;
+                                energyEfficiency = (double) EUt * batchParallel / (parallel * originEUt) * 100;
                             }
                             double manaEfficiency = 0;
                             if (originManat != 0 && Manat != 0) {
-                                manaEfficiency = (double) Manat  * batchParallel / (parallel * originManat)* 100;
+                                manaEfficiency = (double) Manat * batchParallel / (parallel * originManat) * 100;
                             }
                             if (energyEfficiency != 0) {
                                 String key = EUt > 0 ? "gtocore.recipe.efficiency" : "gtocore.recipe.efficiency.o";
                                 tooltip.add(Component.translatable(key, Component.literal(
-                                                String.format("%s%%", FormattingUtil.formatNumber2Places(Math.abs(energyEfficiency)))
-                                ).withStyle(ChatFormatting.GOLD)));
+                                        String.format("%s%%", FormattingUtil.formatNumber2Places(Math.abs(energyEfficiency)))).withStyle(ChatFormatting.GOLD)));
                             }
                             if (manaEfficiency != 0) {
                                 String key = Manat > 0 ? "gtocore.recipe.mana_efficiency" : "gtocore.recipe.mana_efficiency.o";
                                 tooltip.add(Component.translatable(key, Component.literal(
-                                        String.format("%s%%", FormattingUtil.formatNumber2Places(Math.abs(manaEfficiency)))
-                                        ).withStyle(ChatFormatting.GOLD)));
+                                        String.format("%s%%", FormattingUtil.formatNumber2Places(Math.abs(manaEfficiency)))).withStyle(ChatFormatting.GOLD)));
                             }
                             if (origin.contains("MaxProgress")) {
                                 var originMaxProgress = origin.getInt("MaxProgress");
@@ -149,8 +147,7 @@ public final class RecipeLogicProvider implements IBlockComponentProvider, IServ
                                 if (originMaxProgress > 0 && currentProgress > 0) {
                                     double timeCost = currentProgress / (double) batchParallel / (double) originMaxProgress * 100;
                                     tooltip.add(Component.translatable("gtocore.recipe.time_cost_multiplier", Component.literal(
-                                            String.format("%s%%", FormattingUtil.formatNumber2Places(timeCost))
-                                    ).withStyle(ChatFormatting.GOLD)));
+                                            String.format("%s%%", FormattingUtil.formatNumber2Places(timeCost))).withStyle(ChatFormatting.GOLD)));
                                 }
                             }
                         }
@@ -166,8 +163,9 @@ public final class RecipeLogicProvider implements IBlockComponentProvider, IServ
             tooltip.add(c.withStyle(ChatFormatting.GRAY));
         }
     }
+
     private static int getCurrentMaxProgress(CompoundTag capData) {
-        if(capData.contains(GTCEu.id("workable_provider").toString())) {
+        if (capData.contains(GTCEu.id("workable_provider").toString())) {
             var workable = capData.getCompound(GTCEu.id("workable_provider").toString());
             if (workable.contains("null")) {
                 var progress = workable.getCompound("null");
@@ -220,7 +218,7 @@ public final class RecipeLogicProvider implements IBlockComponentProvider, IServ
                 recipeInfo.putDouble("totalEu", machine.getTotalEu());
             }
             var originRecipe = capability.getLastOriginRecipe();
-            if (originRecipe == null && capability.machine instanceof CrossRecipeMultiblockMachine c){
+            if (originRecipe == null && capability.machine instanceof CrossRecipeMultiblockMachine c) {
                 originRecipe = c.getLastRecipes().stream().findFirst().orElse(null);
             }
             if (originRecipe != null) {
