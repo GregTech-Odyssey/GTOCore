@@ -75,6 +75,12 @@ public final class ProcessingEncapsulatorMachine extends TierCasingMultiblockMac
     }
 
     @Override
+    protected void onStructureFormedAfter() {
+        super.onStructureFormedAfter();
+        update(true);
+    }
+
+    @Override
     public void onStructureFormed() {
         terminalPartMachine.clear();
         super.onStructureFormed();
@@ -96,7 +102,6 @@ public final class ProcessingEncapsulatorMachine extends TierCasingMultiblockMac
             highlightPos.add(centerPosition.offset(-34, y, 5));
             highlightPos.add(centerPosition.offset(-34, y, -5));
         }
-        update(true);
         int glassTier = getCasingTier(GTOValues.GLASS_TIER);
         if (glassTier < GTValues.UIV) {
             processingAmount = 0;

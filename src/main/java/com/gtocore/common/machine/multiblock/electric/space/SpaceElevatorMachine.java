@@ -120,11 +120,16 @@ public class SpaceElevatorMachine extends TierCasingMultiblockMachine implements
     }
 
     @Override
+    protected void onStructureFormedAfter() {
+        super.onStructureFormedAfter();
+        update(true);
+    }
+
+    @Override
     public void onStructureFormed() {
         super.onStructureFormed();
         initialize();
         high = getBaseHigh();
-        update(true);
     }
 
     @Override
