@@ -1922,6 +1922,8 @@
   "gtocore.ae.appeng.me2in1.material_slot": "Material Slot",
   "gtocore.ae.appeng.me2in1.material_slot.1": "Place items with materials (such as xx plate, xx rod, etc.) in this slot",
   "gtocore.ae.appeng.me2in1.material_slot.2": "The material type will be automatically applied to replaceable items when encoding",
+  "gtocore.ae.appeng.me2in1.quantum_bridge": "Install Quantum Entangled Singularity",
+  "gtocore.ae.appeng.me2in1.quantum_bridge.info": "Quantum ring is built-in",
   "gtocore.ae.appeng.me2in1.quick_remove_pattern": "Click to remove patterns with this main product to the buffer slot",
   "gtocore.ae.appeng.me2in1.quick_remove_pattern.1": "Shift + Click to additionally remove patterns in its synthesis tree that are not involved in other patterns",
   "gtocore.ae.appeng.me2in1.reset_panel_position": "Reset Panel Position",

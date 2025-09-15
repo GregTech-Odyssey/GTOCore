@@ -1922,6 +1922,8 @@
   "gtocore.ae.appeng.me2in1.material_slot": "材料槽",
   "gtocore.ae.appeng.me2in1.material_slot.1": "将带有材料类型的物品（如xx板，xx杆等）放入此槽位",
   "gtocore.ae.appeng.me2in1.material_slot.2": "编码时将自动应用材料类型到可替换的物品上",
+  "gtocore.ae.appeng.me2in1.quantum_bridge": "安装纠缠奇点",
+  "gtocore.ae.appeng.me2in1.quantum_bridge.info": "量子环已内置",
   "gtocore.ae.appeng.me2in1.quick_remove_pattern": "点击移除以此为主产物的处理样板至缓冲槽",
   "gtocore.ae.appeng.me2in1.quick_remove_pattern.1": "shift + 点击以额外移除其合成树中不参与其他样板的处理样板",
   "gtocore.ae.appeng.me2in1.reset_panel_position": "重置面板位置",
