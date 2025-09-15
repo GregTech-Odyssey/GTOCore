@@ -298,7 +298,7 @@ public final class MultiBlockH {
     public static final MultiblockMachineDefinition DISSOLUTION_CORE = multiblock("dissolution_core", "溶解核心", CoilCrossRecipeMultiblockMachine.createCoilParallelEBF())
             .nonYAxisRotation()
             .tooltips(GTOMachineStories.INSTANCE.getDissolutionCoreTooltips().getSupplier())
-            .parallelizableTooltips()
+            .coilParallelTooltips()
             .laserTooltips()
             .multipleRecipesTooltips()
             .recipeTypes(GTORecipeTypes.DISSOLUTION_TREATMENT_RECIPES, GTORecipeTypes.DIGESTION_TREATMENT_RECIPES)
