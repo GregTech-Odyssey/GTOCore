@@ -179,7 +179,7 @@ public final class VirtualItemProviderMachine extends MetaMachine implements IUI
         if (amount > 0 && what instanceof AEItemKey itemKey && itemKey.getItem() == VIRTUAL_ITEM_PROVIDER) {
             var stack = itemKey.getReadOnlyStack();
             var tag = stack.getTag();
-            if (tag != null && tag.tags.containsKey("m")) {
+            if (tag != null && tag.tags.containsKey("n")) {
                 if (tag.getBoolean("marked")) return amount;
                 if (ItemHandlerHelper.insertItem(inventory.storage, stack, mode.isSimulate()).getCount() < amount) {
                     return amount;

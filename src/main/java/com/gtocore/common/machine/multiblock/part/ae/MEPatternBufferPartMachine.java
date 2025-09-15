@@ -221,7 +221,7 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
             var sparseInput = processingPattern.getSparseInputs();
             var input = new ObjectArrayList<GenericStack>(sparseInput.length);
             for (var stack : sparseInput) {
-                if (stack != null && stack.what() instanceof AEItemKey what && what.getItem() == CustomItems.VIRTUAL_ITEM_PROVIDER.get()) {
+                if (stack != null && stack.what() instanceof AEItemKey what && what.getItem() == CustomItems.VIRTUAL_ITEM_PROVIDER.get() && what.getTag() != null && what.getTag().tags.containsKey("n")) {
                     ItemStack virtualItem = VirtualItemProviderBehavior.getVirtualItem(what.getReadOnlyStack());
                     if (virtualItem.isEmpty()) continue;
                     if (GTItems.PROGRAMMED_CIRCUIT.isIn(virtualItem)) {
