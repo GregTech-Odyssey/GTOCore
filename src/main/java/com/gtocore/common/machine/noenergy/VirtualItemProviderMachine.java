@@ -21,6 +21,7 @@ import com.gregtechceu.gtceu.integration.ae2.machine.feature.IGridConnectedMachi
 import com.gregtechceu.gtceu.integration.ae2.machine.trait.GridNodeHolder;
 import com.gregtechceu.gtceu.utils.collection.O2LOpenCacheHashMap;
 
+import com.hepdd.gtmthings.common.item.VirtualItemProviderBehavior;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
@@ -74,15 +75,27 @@ public final class VirtualItemProviderMachine extends MetaMachine implements IUI
         this.nodeHolder = new GridNodeHolder(this);
         getMainNode().addService(IStorageProvider.class, this);
         storage.setStoredMap(new O2LOpenCacheHashMap<>());
-        inventory.setFilter(stack -> stack.getItem() == VIRTUAL_ITEM_PROVIDER && stack.hasTag());
         inventory.addChangedListener(() -> {
             storage.getStoredMap().clear();
+            var es=VirtualItemProviderBehavior.setVirtualItem(new ItemStack(VIRTUAL_ITEM_PROVIDER.asItem()),ItemStack.EMPTY);
+            es = es.copyWithCount(1);
+            es.getOrCreateTag().putBoolean("marked", true);
+            storage.getStoredMap().addTo(AEItemKey.of(es), IParallelMachine.MAX_PARALLEL*64);
             for (var i = 0; i < inventory.storage.size; i++) {
                 var stack = inventory.storage.stacks[i];
                 if (stack.isEmpty()) continue;
-                stack = stack.copyWithCount(1);
-                stack.getOrCreateTag().putBoolean("marked", true);
-                storage.getStoredMap().addTo(AEItemKey.of(stack), IParallelMachine.MAX_PARALLEL);
+                if(stack.getItem()== VIRTUAL_ITEM_PROVIDER.asItem() && stack.hasTag()){
+                    stack = stack.copyWithCount(1);
+                    stack.getOrCreateTag().putBoolean("marked", true);
+                    storage.getStoredMap().addTo(AEItemKey.of(stack), IParallelMachine.MAX_PARALLEL);
+                }else{
+                    int count=stack.getCount();
+                    stack=VirtualItemProviderBehavior.setVirtualItem(new ItemStack(VIRTUAL_ITEM_PROVIDER.asItem()),stack);
+                    stack = stack.copyWithCount(1);
+                    stack.getOrCreateTag().putBoolean("marked", true);
+                    storage.getStoredMap().addTo(AEItemKey.of(stack), IParallelMachine.MAX_PARALLEL*count);
+                }
+
             }
         });
     }

@@ -35,7 +35,7 @@ public final class GTMTRecipe {
         ASSEMBLER_RECIPES.builder("virtual_item_supply_machine")
                 .inputItems(GTOMachines.PROGRAMMABLEC_HATCH[2].asStack())
                 .inputItems(CustomItems.PROGRAMMABLE_COVER.get(), 16)
-                .inputItems("expatternprovider:caner", 4)
+                .inputItems("gtmthings:virtual_item_provider", 4)
                 .inputItems(GTItems.ROBOT_ARM_MV.asStack(16))
                 .outputItems(GTAEMachines.VIRTUAL_ITEM_SUPPLY_MACHINE.asStack())
                 .EUt(120)
