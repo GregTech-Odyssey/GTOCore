@@ -221,26 +221,25 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
             var sparseInput = processingPattern.getSparseInputs();
             var input = new ObjectArrayList<GenericStack>(sparseInput.length);
             for (var stack : sparseInput) {
-                if (stack != null && stack.what() instanceof AEItemKey what) {
-                    if (what.getItem() == CustomItems.VIRTUAL_ITEM_PROVIDER.get()) {
-                        ItemStack virtualItem = VirtualItemProviderBehavior.getVirtualItem(what.getReadOnlyStack());
-                        if (virtualItem.isEmpty()) continue;
-                        if (GTItems.PROGRAMMED_CIRCUIT.isIn(virtualItem)) {
-                            getInternalInventory()[index].circuitInventory.storage.setStackInSlot(0, virtualItem);
-                            continue;
-                        } else {
-                            var grid = getGrid();
-                            if (grid != null) {
-                                if (grid.getStorageService().getInventory().extract(AEItemKey.of(virtualItem), 1, Actionable.MODULATE, getActionSource()) == 1) {
-                                    var storage = getInternalInventory()[index].shareInventory.storage;
-                                    var slot = storage.getStackInSlot(0);
-                                    if (!slot.isEmpty()) grid.getStorageService().getInventory().insert(AEItemKey.of(slot), slot.getCount(), Actionable.MODULATE, getActionSource());
-                                    getInternalInventory()[index].shareInventory.storage.setStackInSlot(0, virtualItem);
-                                    continue;
-                                }
+                if (stack != null && stack.what() instanceof AEItemKey what && what.getItem() == CustomItems.VIRTUAL_ITEM_PROVIDER.get() && what.getTag() != null && what.getTag().tags.containsKey("n")) {
+                    ItemStack virtualItem = VirtualItemProviderBehavior.getVirtualItem(what.getReadOnlyStack());
+                    if (virtualItem.isEmpty()) continue;
+                    if (GTItems.PROGRAMMED_CIRCUIT.isIn(virtualItem)) {
+                        getInternalInventory()[index].circuitInventory.storage.setStackInSlot(0, virtualItem);
+                        continue;
+                    } else {
+                        var grid = getGrid();
+                        if (grid != null) {
+                            if (grid.getStorageService().getInventory().extract(AEItemKey.of(virtualItem), 1, Actionable.MODULATE, getActionSource()) == 1) {
+                                var storage = getInternalInventory()[index].shareInventory.storage;
+                                var slot = storage.getStackInSlot(0);
+                                if (!slot.isEmpty()) grid.getStorageService().getInventory().insert(AEItemKey.of(slot), slot.getCount(), Actionable.MODULATE, getActionSource());
+                                getInternalInventory()[index].shareInventory.storage.setStackInSlot(0, virtualItem);
+                                continue;
                             }
                         }
                     }
+                    continue;
                 }
                 input.add(stack);
             }

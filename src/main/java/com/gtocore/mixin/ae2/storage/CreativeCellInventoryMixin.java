@@ -28,7 +28,7 @@ public abstract class CreativeCellInventoryMixin {
 
     @Inject(method = "<init>", at = @At("TAIL"), remap = false)
     private void init(ItemStack o, CallbackInfo ci) {
-        configured = new OpenCacheHashSet<>();
+        configured = new OpenCacheHashSet<>(configured);
     }
 
     @Inject(at = @At("HEAD"), method = "getAvailableStacks", remap = false, cancellable = true)

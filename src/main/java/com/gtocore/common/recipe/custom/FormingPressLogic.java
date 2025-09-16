@@ -67,13 +67,13 @@ public final class FormingPressLogic implements GTRecipeType.ICustomRecipeLogic 
             if (h instanceof IExtendedRecipeCapabilityHolder holder) {
                 return collect(data, holder.gtolib$getInput(), holder);
             } else {
-                return collect(data, recipeLogicMachine.getCapabilitiesForIO(IO.IN), null);
+                return collect(data, recipeLogicMachine.getCapabilitiesForIO(IO.IN), h);
             }
         }
         return null;
     }
 
-    private static Recipe collect(RecipeData data, List<RecipeHandlerList> rhls, IExtendedRecipeCapabilityHolder h) {
+    private static Recipe collect(RecipeData data, List<RecipeHandlerList> rhls, IRecipeCapabilityHolder h) {
         for (var rhl : rhls) {
             data.mold = ItemStack.EMPTY;
             data.item = ItemStack.EMPTY;
@@ -93,7 +93,7 @@ public final class FormingPressLogic implements GTRecipeType.ICustomRecipeLogic 
                         if (data.found()) {
                             var recipe = data.buildRecipe();
                             if (recipe != null) {
-                                if (h != null) h.setCurrentHandlerList(rhl, recipe);
+                                h.setCurrentHandlerList(rhl, null);
                                 return recipe;
                             }
                         }

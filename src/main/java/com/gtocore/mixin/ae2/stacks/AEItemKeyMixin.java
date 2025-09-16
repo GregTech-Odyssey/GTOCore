@@ -17,13 +17,10 @@ import net.minecraft.world.level.ItemLike;
 
 import appeng.api.stacks.AEItemKey;
 import appeng.core.AELog;
-import dev.shadowsoffire.fastsuite.ILockableItemStack;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(AEItemKey.class)
 public abstract class AEItemKeyMixin implements IAEItemKey {
@@ -43,11 +40,6 @@ public abstract class AEItemKeyMixin implements IAEItemKey {
 
     @Shadow(remap = false)
     private @Nullable ItemStack readOnlyStack;
-
-    @Inject(method = "getReadOnlyStack", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;setTag(Lnet/minecraft/nbt/CompoundTag;)V", remap = true), remap = false)
-    private void setLocked(CallbackInfoReturnable<ItemStack> cir) {
-        ((ILockableItemStack) (Object) readOnlyStack).setLocked(true);
-    }
 
     /**
      * @author .
@@ -173,6 +165,5 @@ public abstract class AEItemKeyMixin implements IAEItemKey {
     @Override
     public void gtolib$setReadOnlyStack(ItemStack stack) {
         readOnlyStack = stack;
-        ((ILockableItemStack) (Object) readOnlyStack).setLocked(true);
     }
 }

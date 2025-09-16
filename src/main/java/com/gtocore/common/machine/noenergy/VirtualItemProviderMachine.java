@@ -1,13 +1,14 @@
 package com.gtocore.common.machine.noenergy;
 
-import com.gtocore.common.network.ClientMessage;
-
-import com.gtolib.GTOCore;
-import com.gtolib.api.ae2.stacks.IKeyCounter;
-import com.gtolib.api.ae2.storage.CellDataStorage;
-import com.gtolib.api.machine.feature.multiblock.IParallelMachine;
-import com.gtolib.utils.GTOUtils;
-
+import appeng.api.config.Actionable;
+import appeng.api.networking.IManagedGridNode;
+import appeng.api.networking.security.IActionSource;
+import appeng.api.stacks.AEItemKey;
+import appeng.api.stacks.AEKey;
+import appeng.api.stacks.KeyCounter;
+import appeng.api.storage.IStorageMounts;
+import appeng.api.storage.IStorageProvider;
+import appeng.api.storage.MEStorage;
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
@@ -20,23 +21,13 @@ import com.gregtechceu.gtceu.api.machine.trait.NotifiableItemStackHandler;
 import com.gregtechceu.gtceu.integration.ae2.machine.feature.IGridConnectedMachine;
 import com.gregtechceu.gtceu.integration.ae2.machine.trait.GridNodeHolder;
 import com.gregtechceu.gtceu.utils.collection.O2LOpenCacheHashMap;
-
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.Component;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.items.ItemHandlerHelper;
-
-import appeng.api.config.Actionable;
-import appeng.api.networking.IManagedGridNode;
-import appeng.api.networking.security.IActionSource;
-import appeng.api.stacks.AEItemKey;
-import appeng.api.stacks.AEKey;
-import appeng.api.stacks.KeyCounter;
-import appeng.api.storage.IStorageMounts;
-import appeng.api.storage.IStorageProvider;
-import appeng.api.storage.MEStorage;
+import com.gtocore.common.network.ClientMessage;
+import com.gtolib.GTOCore;
+import com.gtolib.api.ae2.stacks.IKeyCounter;
+import com.gtolib.api.ae2.storage.CellDataStorage;
+import com.gtolib.api.machine.feature.multiblock.IParallelMachine;
+import com.gtolib.utils.GTOUtils;
+import com.hepdd.gtmthings.common.item.VirtualItemProviderBehavior;
 import com.hepdd.gtmthings.data.CustomItems;
 import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
 import com.lowdragmc.lowdraglib.gui.texture.ResourceTexture;
@@ -47,6 +38,12 @@ import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.items.ItemHandlerHelper;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.stream.Stream;
@@ -57,16 +54,22 @@ public final class VirtualItemProviderMachine extends MetaMachine implements IUI
             VirtualItemProviderMachine.class, MetaMachine.MANAGED_FIELD_HOLDER);
 
     private static final Item VIRTUAL_ITEM_PROVIDER = CustomItems.VIRTUAL_ITEM_PROVIDER.asItem();
+    static private final AEKey empty_stack;
+
+    static {
+        var es = VirtualItemProviderBehavior.setVirtualItem(new ItemStack(VIRTUAL_ITEM_PROVIDER.asItem()), ItemStack.EMPTY);
+        es = es.copyWithCount(1);
+        es.getOrCreateTag().putBoolean("marked", true);
+        empty_stack=AEItemKey.of(es);
+    }
 
     private final CellDataStorage storage = new CellDataStorage();
-
-    @DescSynced
-    private boolean isOnline;
-
     @Persisted
     private final NotifiableItemStackHandler inventory;
     @Persisted
     private final GridNodeHolder nodeHolder;
+    @DescSynced
+    private boolean isOnline;
 
     public VirtualItemProviderMachine(MetaMachineBlockEntity holder) {
         super(holder);
@@ -74,15 +77,24 @@ public final class VirtualItemProviderMachine extends MetaMachine implements IUI
         this.nodeHolder = new GridNodeHolder(this);
         getMainNode().addService(IStorageProvider.class, this);
         storage.setStoredMap(new O2LOpenCacheHashMap<>());
-        inventory.setFilter(stack -> stack.getItem() == VIRTUAL_ITEM_PROVIDER && stack.hasTag());
         inventory.addChangedListener(() -> {
             storage.getStoredMap().clear();
+            storage.getStoredMap().addTo(empty_stack, IParallelMachine.MAX_PARALLEL * 64);
             for (var i = 0; i < inventory.storage.size; i++) {
                 var stack = inventory.storage.stacks[i];
                 if (stack.isEmpty()) continue;
-                stack = stack.copyWithCount(1);
-                stack.getOrCreateTag().putBoolean("marked", true);
-                storage.getStoredMap().addTo(AEItemKey.of(stack), IParallelMachine.MAX_PARALLEL);
+                if (stack.getItem() == VIRTUAL_ITEM_PROVIDER.asItem() && stack.hasTag()) {
+                    stack = stack.copyWithCount(1);
+                    stack.getOrCreateTag().putBoolean("marked", true);
+                    storage.getStoredMap().addTo(AEItemKey.of(stack), IParallelMachine.MAX_PARALLEL);
+                } else {
+                    int count = stack.getCount();
+                    stack = VirtualItemProviderBehavior.setVirtualItem(new ItemStack(VIRTUAL_ITEM_PROVIDER.asItem()), stack);
+                    stack = stack.copyWithCount(1);
+                    stack.getOrCreateTag().putBoolean("marked", true);
+                    storage.getStoredMap().addTo(AEItemKey.of(stack), IParallelMachine.MAX_PARALLEL * count);
+                }
+
             }
         });
     }
@@ -179,7 +191,7 @@ public final class VirtualItemProviderMachine extends MetaMachine implements IUI
         if (amount > 0 && what instanceof AEItemKey itemKey && itemKey.getItem() == VIRTUAL_ITEM_PROVIDER) {
             var stack = itemKey.getReadOnlyStack();
             var tag = stack.getTag();
-            if (tag != null && tag.tags.containsKey("m")) {
+            if (tag != null && tag.tags.containsKey("n")) {
                 if (tag.getBoolean("marked")) return amount;
                 if (ItemHandlerHelper.insertItem(inventory.storage, stack, mode.isSimulate()).getCount() < amount) {
                     return amount;
