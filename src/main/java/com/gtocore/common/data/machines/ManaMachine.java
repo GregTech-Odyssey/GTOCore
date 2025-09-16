@@ -153,7 +153,7 @@ public final class ManaMachine {
             .editableUI(SimpleNoEnergyMachine.EDITABLE_UI_CREATOR.apply(GTCEu.id("celestial_condenser"), GTORecipeTypes.CELESTIAL_CONDENSER_RECIPES))
             .recipeType(GTORecipeTypes.CELESTIAL_CONDENSER_RECIPES)
             .nonYAxisRotation()
-            .modelRenderer(() -> GTOCore.id("block/machine/alchemy_cauldron"))
+            .modelRenderer(() -> GTOCore.id("block/machine/celestial_condenser"))
             .hasTESR(true)
             .blockProp(p -> p.noOcclusion().isViewBlocking((state, level, pos) -> false))
             .register();

@@ -7,6 +7,7 @@ import com.gregtechceu.gtceu.api.machine.TickableSubscription;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.tags.BiomeTags;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
@@ -14,6 +15,7 @@ import net.minecraft.world.level.biome.Biome;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class CelestialCondenser extends SimpleNoEnergyMachine {
 
@@ -31,6 +33,8 @@ public class CelestialCondenser extends SimpleNoEnergyMachine {
 
     public CelestialCondenser(MetaMachineBlockEntity holder) {
         super(holder, 1, t -> 16000);
+        setOutputFacingItems(Direction.DOWN);
+        setOutputFacingFluids(Direction.DOWN);
     }
 
     @Override
@@ -56,6 +60,8 @@ public class CelestialCondenser extends SimpleNoEnergyMachine {
     @Override
     public void onLoad() {
         super.onLoad();
+        setOutputFacingItems(Direction.DOWN);
+        setOutputFacingFluids(Direction.DOWN);
         if (!isRemote()) {
             tickSubs = subscribeServerTick(tickSubs, this::tickUpdate);
         }
@@ -123,5 +129,15 @@ public class CelestialCondenser extends SimpleNoEnergyMachine {
 
     public int getMaxMapacity() {
         return max_capacity;
+    }
+
+    @Override
+    public void setOutputFacingItems(@Nullable Direction outputFacing) {
+        super.setOutputFacingItems(Direction.DOWN);
+    }
+
+    @Override
+    public void setOutputFacingFluids(@Nullable Direction outputFacing) {
+        super.setOutputFacingFluids(Direction.DOWN);
     }
 }
