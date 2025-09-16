@@ -363,5 +363,16 @@ final class AssemblerA {
                 .EUt(480)
                 .duration(200)
                 .save();
+
+        ASSEMBLER_RECIPES.builder("transcendentally_amplified_magnetic_confinement_casing")
+                .inputItems(TagPrefix.frameGt, GTOMaterials.Laurenium)
+                .inputItems(GTOBlocks.ACCELERATOR_MAGNETIC_CONSTRAINED_RAIL_CASING.asStack(4))
+                .inputItems(TagPrefix.plateDouble, GTOMaterials.Ostrum, 8)
+                .inputItems(TagPrefix.plateDouble, GTOMaterials.Vibranium, 8)
+                .outputItems(GTOBlocks.TRANSCENDENTALLY_AMPLIFIED_MAGNETIC_CONFINEMENT_CASING.asStack())
+                .circuitMeta(6)
+                .EUt(122800)
+                .duration(200)
+                .save();
     }
 }

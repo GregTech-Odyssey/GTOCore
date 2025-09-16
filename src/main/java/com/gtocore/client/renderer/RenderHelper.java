@@ -136,6 +136,7 @@ public final class RenderHelper {
         RenderSystem.enableDepthTest();
         poseStack.popPose();
     }
+
     public static BufferBuilder openGUIBuffer() {
         RenderSystem.disableDepthTest();
         RenderSystem.enableBlend();
@@ -145,6 +146,7 @@ public final class RenderHelper {
         buffer.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX_COLOR);
         return buffer;
     }
+
     public static void closeAndDrawGUIBuffer(@NotNull BufferBuilder buffer) {
         BufferUploader.drawWithShader(buffer.end());
         RenderSystem.disableBlend();
@@ -152,15 +154,14 @@ public final class RenderHelper {
     }
 
     public static void drawInGUI(
-            GuiGraphics gui,
-            BufferBuilder buffer,
-            TextureAtlasSprite sprite,
-            int x,
-            int y,
-            float width,
-            float height,
-            int color) {
-
+                                 GuiGraphics gui,
+                                 BufferBuilder buffer,
+                                 TextureAtlasSprite sprite,
+                                 int x,
+                                 int y,
+                                 float width,
+                                 float height,
+                                 int color) {
         float x2 = x + width;
         float y2 = y + height;
         float z = 0F;
@@ -187,5 +188,4 @@ public final class RenderHelper {
                 .color(color)
                 .endVertex();
     }
-
 }

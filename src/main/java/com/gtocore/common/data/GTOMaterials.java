@@ -373,6 +373,9 @@ public final class GTOMaterials {
     public static Material SuccinamidylAcetate;
     public static Material Hexabenzylhexaazaisowurtzitane;
     public static Material NHydroxysuccinimide;
+    public static Material NHydroxysuccinimideLipoicEster;
+    public static Material LipoicAcid;
+    public static Material ChloroauricAcid;
     public static Material SuccinicAnhydride;
     public static Material SuccinicAcid;
     public static Material Acetonitrile;
@@ -951,6 +954,14 @@ public final class GTOMaterials {
     public static Material InvalidationBasicMFPC;
     public static Material InvalidationCascadeMFPC;
     public static Material RecycleBasicMFPC;
+    public static Material ImpregnatedAlkaneFilledMFPC;
+    public static Material HighPressureStaticAdsorptionMFPC;
+    public static Material SolGelQDInterfaceModifiedMFPC;
+    public static Material InterfaceSupramolecularSelfAssemblyMFPC;
+    public static Material ExtremeTemperatureInterfaceStabilizedMFPC;
+    public static Material EtchedCarbonNanotube;
+    public static Material NanoGoldDepositedCarbonNanotube;
+    public static Material NanoGoldDepositedCarbonNanotubeModifiedNHSLipoicEsterQDot;
     public static Material HollowCeramicMicrosphereRoughEmbryo;
     public static Material HollowCeramicMicrospheres;
     public static Material SilverCoatedHollowCeramicMicrospheres;
@@ -967,6 +978,8 @@ public final class GTOMaterials {
     public static Material Polystyrene;
     public static Material Trimethylsilanol;
     public static Material Hexamethyldisiloxane;
+    public static Material Hexamethyldisilazane;
+    public static Material LiquidAmmonia;
     public static Material Triethoxysilane;
     public static Material Chloropropyltriethoxysilane;
     public static Material KH550SilaneCouplingAgent;

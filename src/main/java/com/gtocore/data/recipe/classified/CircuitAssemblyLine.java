@@ -12,6 +12,7 @@ import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
+import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gtocore.common.data.GTORecipeTypes.CIRCUIT_ASSEMBLY_LINE_RECIPES;
 
 @Scanned
@@ -993,6 +994,7 @@ final class CircuitAssemblyLine {
                 .inputItems(TagPrefix.wireGtDouble, GTMaterials.RutheniumTriniumAmericiumNeutronate, 16)
                 .inputItems(TagPrefix.foil, GTMaterials.Polybenzimidazole, 64)
                 .inputItems(GTItems.GRAVI_STAR.asItem())
+                .inputItems("enderio:z_logic_controller", 2)
                 .inputItems(TagPrefix.plate, GTOMaterials.Mithril, 2)
                 .inputFluids(GTOMaterials.BiohmediumSterilized.getFluid(1000))
                 .inputFluids(GTMaterials.Darmstadtium.getFluid(1296))
@@ -1017,6 +1019,7 @@ final class CircuitAssemblyLine {
                 .inputItems(TagPrefix.wireGtDouble, GTMaterials.RutheniumTriniumAmericiumNeutronate, 16)
                 .inputItems(TagPrefix.foil, GTMaterials.Polybenzimidazole, 64)
                 .inputItems(GTItems.GRAVI_STAR.asItem())
+                .inputItems("enderio:z_logic_controller", 2)
                 .inputItems(TagPrefix.plate, GTOMaterials.Mithril, 2)
                 .inputFluids(GTOMaterials.BiohmediumSterilized.getFluid(1000))
                 .inputFluids(GTMaterials.Darmstadtium.getFluid(1296))
@@ -1041,6 +1044,7 @@ final class CircuitAssemblyLine {
                 .inputItems(TagPrefix.wireGtDouble, GTMaterials.RutheniumTriniumAmericiumNeutronate, 16)
                 .inputItems(TagPrefix.foil, GTMaterials.Polybenzimidazole, 64)
                 .inputItems(GTItems.GRAVI_STAR.asItem())
+                .inputItems("enderio:z_logic_controller", 2)
                 .inputItems(TagPrefix.plate, GTOMaterials.Mithril, 2)
                 .inputFluids(GTOMaterials.BiohmediumSterilized.getFluid(1000))
                 .inputFluids(GTMaterials.Darmstadtium.getFluid(1296))
@@ -1065,6 +1069,7 @@ final class CircuitAssemblyLine {
                 .inputItems(TagPrefix.wireGtDouble, GTMaterials.RutheniumTriniumAmericiumNeutronate, 16)
                 .inputItems(TagPrefix.foil, GTMaterials.Polybenzimidazole, 64)
                 .inputItems(GTItems.GRAVI_STAR.asItem())
+                .inputItems("enderio:z_logic_controller", 2)
                 .inputItems(TagPrefix.plate, GTOMaterials.Mithril, 2)
                 .inputFluids(GTOMaterials.BiohmediumSterilized.getFluid(1000))
                 .inputFluids(GTMaterials.Darmstadtium.getFluid(1296))
@@ -1089,6 +1094,7 @@ final class CircuitAssemblyLine {
                 .inputItems(TagPrefix.wireGtDouble, GTMaterials.RutheniumTriniumAmericiumNeutronate, 16)
                 .inputItems(TagPrefix.foil, GTMaterials.Polybenzimidazole, 64)
                 .inputItems(GTItems.GRAVI_STAR.asItem())
+                .inputItems("enderio:z_logic_controller", 2)
                 .inputItems(TagPrefix.plate, GTOMaterials.Mithril, 2)
                 .inputFluids(GTOMaterials.BiohmediumSterilized.getFluid(1000))
                 .inputFluids(GTMaterials.Darmstadtium.getFluid(1296))
@@ -1116,6 +1122,63 @@ final class CircuitAssemblyLine {
                 .inputFluids(GTOMaterials.MutatedLivingSolder, 1152)
                 .EUt(7864320)
                 .duration(800)
+                .save();
+
+        CIRCUIT_ASSEMBLY_LINE_RECIPES.builder("atomic_archives3")
+                .notConsumable(GTOItems.PRECISION_CIRCUIT_ASSEMBLY_ROBOT_MK3.asItem())
+                .inputItems(GTOItems.OPTICAL_PRINTED_CIRCUIT_BOARD.asStack(4))
+                .inputItems(GTOItems.OPTICAL_PROCESSING_CORE.asStack(32))
+                .inputItems(GTOTagPrefix.NANITES, GTMaterials.Carbon, 4)
+                .inputItems(GTOTagPrefix.NANITES, GTMaterials.Iridium, 4)
+                .inputItems(GTOTagPrefix.NANITES, GTMaterials.Neutronium, 4)
+                .inputItems(GTItems.HIGHLY_ADVANCED_SOC.asStack(64))
+                .inputItems(GTOItems.OPTICAL_RAM_CHIP.asStack(64))
+                .inputItems(GTOItems.OPTICAL_RAM_CHIP.asStack(64))
+                .inputItems(GTOItems.ENTANGLED_SINGULARITY.asStack(3))
+                .outputItems(GTOItems.ATOMIC_ARCHIVES.asItem())
+                .inputFluids(GTMaterials.Naquadria, 1152)
+                .inputFluids(GTOMaterials.Gaia, 1152)
+                .inputFluids(GTOMaterials.MutatedLivingSolder, 1152)
+                .EUt(VA[UIV])
+                .duration(150)
+                .save();
+
+        CIRCUIT_ASSEMBLY_LINE_RECIPES.builder("atomic_archives4")
+                .notConsumable(GTOItems.PRECISION_CIRCUIT_ASSEMBLY_ROBOT_MK4.asItem())
+                .inputItems(GTOItems.OPTICAL_PRINTED_CIRCUIT_BOARD.asStack(4))
+                .inputItems(GTOItems.OPTICAL_PROCESSING_CORE.asStack(32))
+                .inputItems(GTOTagPrefix.NANITES, GTMaterials.Carbon, 4)
+                .inputItems(GTOTagPrefix.NANITES, GTMaterials.Iridium, 4)
+                .inputItems(GTOTagPrefix.NANITES, GTMaterials.Neutronium, 4)
+                .inputItems(GTItems.HIGHLY_ADVANCED_SOC.asStack(64))
+                .inputItems(GTOItems.OPTICAL_RAM_CHIP.asStack(64))
+                .inputItems(GTOItems.OPTICAL_RAM_CHIP.asStack(64))
+                .inputItems(GTOItems.ENTANGLED_SINGULARITY.asStack(3))
+                .outputItems(GTOItems.ATOMIC_ARCHIVES.asItem())
+                .inputFluids(GTMaterials.Naquadria, 1152)
+                .inputFluids(GTOMaterials.Gaia, 1152)
+                .inputFluids(GTOMaterials.MutatedLivingSolder, 1152)
+                .EUt(VA[UXV])
+                .duration(30)
+                .save();
+
+        CIRCUIT_ASSEMBLY_LINE_RECIPES.builder("atomic_archives5")
+                .notConsumable(GTOItems.PRECISION_CIRCUIT_ASSEMBLY_ROBOT_MK5.asItem())
+                .inputItems(GTOItems.OPTICAL_PRINTED_CIRCUIT_BOARD.asStack(4))
+                .inputItems(GTOItems.OPTICAL_PROCESSING_CORE.asStack(32))
+                .inputItems(GTOTagPrefix.NANITES, GTMaterials.Carbon, 4)
+                .inputItems(GTOTagPrefix.NANITES, GTMaterials.Iridium, 4)
+                .inputItems(GTOTagPrefix.NANITES, GTMaterials.Neutronium, 4)
+                .inputItems(GTItems.HIGHLY_ADVANCED_SOC.asStack(64))
+                .inputItems(GTOItems.OPTICAL_RAM_CHIP.asStack(64))
+                .inputItems(GTOItems.OPTICAL_RAM_CHIP.asStack(64))
+                .inputItems(GTOItems.ENTANGLED_SINGULARITY.asStack(3))
+                .outputItems(GTOItems.ATOMIC_ARCHIVES.asItem())
+                .inputFluids(GTMaterials.Naquadria, 1152)
+                .inputFluids(GTOMaterials.Gaia, 1152)
+                .inputFluids(GTOMaterials.MutatedLivingSolder, 1152)
+                .EUt(VA[OpV])
+                .duration(7)
                 .save();
     }
 }

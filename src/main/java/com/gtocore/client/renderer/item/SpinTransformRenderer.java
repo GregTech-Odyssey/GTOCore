@@ -1,10 +1,9 @@
 package com.gtocore.client.renderer.item;
 
 import com.gtocore.client.renderer.PosestackHelper;
-import com.gtocore.client.renderer.RenderHelper;
+
 import com.gtolib.utils.ClientUtil;
-import com.lowdragmc.lowdraglib.client.renderer.IRenderer;
-import com.mojang.blaze3d.vertex.PoseStack;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.resources.model.BakedModel;
@@ -12,9 +11,13 @@ import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+
+import com.lowdragmc.lowdraglib.client.renderer.IRenderer;
+import com.mojang.blaze3d.vertex.PoseStack;
 import org.embeddedt.modernfix.render.RenderState;
 
 public enum SpinTransformRenderer implements IRenderer {
+
     INSTANCE;
 
     @Override

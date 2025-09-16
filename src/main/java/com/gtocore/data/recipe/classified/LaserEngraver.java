@@ -210,5 +210,13 @@ final class LaserEngraver {
                 .EUt(1920)
                 .duration(800)
                 .save();
+        LASER_ENGRAVER_RECIPES.builder("cascade_mfpc_dustp")
+                .inputItems(TagPrefix.dust, GTOMaterials.ExtremeTemperatureInterfaceStabilizedMFPC)
+                .notConsumable(GTOItems.ULTRASHORT_PULSE_LASER.asItem())
+                .outputItems(TagPrefix.dust, GTOMaterials.CascadeMFPC)
+                .cleanroom(CleanroomType.CLEANROOM)
+                .EUt(129600)
+                .duration(20)
+                .save();
     }
 }

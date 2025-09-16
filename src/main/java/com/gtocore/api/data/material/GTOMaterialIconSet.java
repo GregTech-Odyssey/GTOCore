@@ -1,12 +1,12 @@
 package com.gtocore.api.data.material;
 
 import com.gtocore.client.renderer.item.HaloItemRenderer;
+import com.gtocore.client.renderer.item.SpinTransformRenderer;
 import com.gtocore.client.renderer.item.StereoscopicItemRenderer;
 
 import com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialIconSet;
 import com.gregtechceu.gtceu.api.item.component.ICustomRenderer;
 
-import com.gtocore.client.renderer.item.SpinTransformRenderer;
 import com.lowdragmc.lowdraglib.client.renderer.IRenderer;
 
 public final class GTOMaterialIconSet extends MaterialIconSet {

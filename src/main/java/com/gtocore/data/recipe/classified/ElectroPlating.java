@@ -2,6 +2,7 @@ package com.gtocore.data.recipe.classified;
 
 import com.gtocore.common.data.GTOMaterials;
 
+import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 
 import static com.gregtechceu.gtceu.api.GTValues.*;
@@ -35,6 +36,15 @@ public class ElectroPlating {
                 .inputFluids(TinAlloy.getFluid(2 * L << 5))
                 .outputItems(NEUTRON_REFLECTOR)
                 .outputFluids(TinAlloy.getFluid(L << 5))
+                .save();
+        ELECTROPLATING_RECIPES.builder("nano_gold_deposited_carbon_nanotube_dust")
+                .inputItems(TagPrefix.dust, GTOMaterials.EtchedCarbonNanotube)
+                .outputItems(TagPrefix.dust, GTOMaterials.NanoGoldDepositedCarbonNanotube)
+                .inputFluids(GTOMaterials.ChloroauricAcid, 1000)
+                .inputFluids(GTMaterials.HydrochloricAcid, 1000)
+                .outputFluids(GTMaterials.DilutedHydrochloricAcid, 2000)
+                .EUt(12960)
+                .duration(1296)
                 .save();
     }
 }
