@@ -22,7 +22,7 @@ object ComponentSlang : AutoInitialize<ComponentSlang>() {
     val Asterisk = { tab: Int -> "${"  ".repeat((tab - 1).coerceAtLeast(0))}* ".toLiteralSupplier().gold() }.initialize()
     val Tab = { tab: Int -> "  ".repeat(tab).toLiteralSupplier() }.initialize()
     val Star = { tab: Int -> "${"  ".repeat((tab - 1).coerceAtLeast(0))}⭐ ".toLiteralSupplier().gold() }.initialize()
-    val Circle = { tab: Int -> "${"  ".repeat((tab - 1).coerceAtLeast(0))}○ ".toLiteralSupplier().gold() }.initialize()
+    val Circle = { tab: Int -> "${"  ".repeat((tab - 1).coerceAtLeast(0))}৹ ".toLiteralSupplier().gold() }.initialize()
     val Warning =
         { tab: Int -> "${"  ".repeat((tab - 1).coerceAtLeast(0))}⚠ ".toLiteralSupplier().red().bold() }.initialize()
     val OutTopic =

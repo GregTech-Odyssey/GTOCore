@@ -5,7 +5,7 @@ import com.gtocore.common.machine.multiblock.part.ae.slots.MECircuitHandler;
 import com.gtocore.common.machine.trait.InternalSlotRecipeHandler;
 
 import com.gtolib.api.ae2.MyPatternDetailsHelper;
-import com.gtolib.api.annotation.Scanned;
+import com.gtolib.api.annotation.DataGeneratorScanned;
 import com.gtolib.api.annotation.language.RegisterLanguage;
 import com.gtolib.api.capability.ISync;
 import com.gtolib.api.machine.feature.multiblock.IExtendedRecipeCapabilityHolder;
@@ -34,6 +34,7 @@ import com.gregtechceu.gtceu.api.machine.feature.IDataStickInteractable;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeHandlerList;
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
+import com.gregtechceu.gtceu.api.transfer.item.LockableItemStackHandler;
 import com.gregtechceu.gtceu.common.data.GTItems;
 import com.gregtechceu.gtceu.common.item.IntCircuitBehaviour;
 import com.gregtechceu.gtceu.utils.ItemStackHashStrategy;
@@ -84,7 +85,7 @@ import java.util.function.Predicate;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
-@Scanned
+@DataGeneratorScanned
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPatternBufferPartMachine.InternalSlot> implements IDataStickInteractable {
@@ -205,6 +206,12 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
     }
 
     @Override
+    public void onPatternChange(int index) {
+        getInternalInventory()[index].setLock(false);
+        super.onPatternChange(index);
+    }
+
+    @Override
     public @Nullable IPatternDetails decodePattern(ItemStack stack, int index) {
         var pattern = super.decodePattern(stack, index);
         if (pattern == null) return null;
@@ -212,12 +219,13 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
         if (!id.isEmpty() && !caches[index]) {
             getInternalInventory()[index].setRecipe(RecipeBuilder.RECIPE_MAP.get(RLUtils.parse(id)));
         }
-        return super.decodePattern(stack, index);
+        return pattern;
     }
 
     @Override
     public IPatternDetails convertPattern(IPatternDetails pattern, int index) {
         if (pattern instanceof AEProcessingPattern processingPattern) {
+            getInternalInventory()[index].circuitInventory.storage.setStackInSlot(0, ItemStack.EMPTY);
             var sparseInput = processingPattern.getSparseInputs();
             var input = new ObjectArrayList<GenericStack>(sparseInput.length);
             for (var stack : sparseInput) {
@@ -226,17 +234,16 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
                     if (virtualItem.isEmpty()) continue;
                     if (GTItems.PROGRAMMED_CIRCUIT.isIn(virtualItem)) {
                         getInternalInventory()[index].circuitInventory.storage.setStackInSlot(0, virtualItem);
-                        continue;
                     } else {
                         var grid = getGrid();
-                        if (grid != null) {
-                            if (grid.getStorageService().getInventory().extract(AEItemKey.of(virtualItem), 1, Actionable.MODULATE, getActionSource()) == 1) {
-                                var storage = getInternalInventory()[index].shareInventory.storage;
-                                var slot = storage.getStackInSlot(0);
-                                if (!slot.isEmpty()) grid.getStorageService().getInventory().insert(AEItemKey.of(slot), slot.getCount(), Actionable.MODULATE, getActionSource());
-                                getInternalInventory()[index].shareInventory.storage.setStackInSlot(0, virtualItem);
-                                continue;
+                        if (grid != null && grid.getStorageService().getInventory().extract(what, 1, Actionable.SIMULATE, getActionSource()) == 1) {
+                            getInternalInventory()[index].setLock(true);
+                            var storage = getInternalInventory()[index].shareInventory.storage;
+                            var slot = storage.getStackInSlot(0);
+                            if (!slot.isEmpty()) {
+                                grid.getStorageService().getInventory().insert(AEItemKey.of(slot), slot.getCount(), Actionable.MODULATE, getActionSource());
                             }
+                            storage.setStackInSlot(0, virtualItem);
                         }
                     }
                     continue;
@@ -368,6 +375,8 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
         public final NotifiableNotConsumableItemHandler shareInventory;
         public final NotifiableNotConsumableFluidHandler shareTank;
         public final MECircuitHandler circuitInventory;
+        final LockableItemStackHandler lockableInventory;
+        private boolean lock;
 
         private InternalSlot(MEPatternBufferPartMachine machine, int index) {
             this.machine = machine;
@@ -376,6 +385,15 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
             this.shareTank = new NotifiableNotConsumableFluidHandler(machine, 9, 64000);
             this.circuitInventory = new MECircuitHandler(machine);
             this.inputSink = new InputSink(this);
+            this.lockableInventory = new LockableItemStackHandler(shareInventory.storage);
+        }
+
+        public void setLock(boolean lock) {
+            if (this.lock) {
+                shareInventory.storage.setStackInSlot(0, ItemStack.EMPTY);
+            }
+            this.lock = lock;
+            lockableInventory.setLock(lock);
         }
 
         public void setRecipe(@Nullable Recipe recipe) {
@@ -582,13 +600,18 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
                 fluidsTag.add(ct);
             }
             if (!fluidsTag.isEmpty()) tag.put("fluidInventory", fluidsTag);
-            tag.put("inv", shareInventory.storage.serializeNBT());
-            ListTag tanks = new ListTag();
-            for (var tank : shareTank.getStorages()) {
-                tanks.add(tank.serializeNBT());
+            if (!lock && !shareInventory.isEmpty()) tag.put("inv", shareInventory.storage.serializeNBT());
+            if (!shareTank.isEmpty()) {
+                ListTag tanks = new ListTag();
+                for (var tank : shareTank.getStorages()) {
+                    if (tank.isEmpty()) {
+                        tanks.add(new CompoundTag());
+                    } else tanks.add(tank.serializeNBT());
+                }
+                tag.put("tank", tanks);
             }
-            tag.put("tank", tanks);
-            tag.putInt("c", IntCircuitBehaviour.getCircuitConfiguration(circuitInventory.storage.getStackInSlot(0)));
+            var c = IntCircuitBehaviour.getCircuitConfiguration(circuitInventory.storage.getStackInSlot(0));
+            if (c > 0) tag.putInt("c", c);
             return tag;
         }
 
@@ -613,13 +636,19 @@ public class MEPatternBufferPartMachine extends MEPatternPartMachineKt<MEPattern
                     fluidInventory.put(stack, amount);
                 }
             }
-            shareInventory.storage.deserializeNBT(tag.getCompound("inv"));
-            ListTag tanks = tag.getList("tank", Tag.TAG_COMPOUND);
-            for (int i = 0; i < tanks.size(); i++) {
-                var tank = shareTank.getStorages()[i];
-                tank.deserializeNBT(tanks.getCompound(i));
+            if (tag.tags.get("inv") instanceof CompoundTag inv) {
+                shareInventory.storage.deserializeNBT(inv);
             }
-            circuitInventory.storage.setStackInSlot(0, IntCircuitBehaviour.stack(tag.getInt("c")));
+            if (tag.tags.get("tank") instanceof ListTag tanks) {
+                for (int i = 0; i < tanks.size(); i++) {
+                    var t = tanks.getCompound(i);
+                    if (t.isEmpty()) continue;
+                    var tank = shareTank.getStorages()[i];
+                    tank.deserializeNBT(t);
+                }
+            }
+            var c = tag.getInt("c");
+            if (c > 0) circuitInventory.storage.setStackInSlot(0, IntCircuitBehaviour.stack(c));
         }
 
         @Override

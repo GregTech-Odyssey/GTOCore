@@ -12,7 +12,6 @@ import com.gtolib.api.machine.feature.IUpgradeMachine;
 
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
-import com.gregtechceu.gtceu.utils.FormattingUtil;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
@@ -110,17 +109,17 @@ public final class UpgradeModuleItem extends Item implements GTOTooltipComponent
         var tag = itemStack.getTag();
         if (tag != null) {
             if (tag.contains("speed")) {
-                for (Component component : GTOItemTooltips.INSTANCE.getSpeed_upgrade_module().invoke(FormattingUtil.formatNumbers(Math.max(0.5, tag.getDouble("speed"))), FormattingUtil.formatNumbers(tag.getDouble("speed"))).getArray()) {
+                for (Component component : GTOItemTooltips.INSTANCE.getSpeedUpgradeModuleTooltips().invoke(Math.max(0.5, tag.getDouble("speed")), tag.getDouble("speed")).getArray()) {
                     tooltips.add(new GTOComponentTooltipComponent(component));
                 }
             }
             if (tag.contains("energy")) {
-                for (Component component : GTOItemTooltips.INSTANCE.getEnergy_upgrade_module().invoke(FormattingUtil.formatNumbers(Math.max(0.5, tag.getDouble("energy"))), FormattingUtil.formatNumbers(tag.getDouble("energy"))).getArray()) {
+                for (Component component : GTOItemTooltips.INSTANCE.getEnergyUpgradeModuleTooltips().invoke(Math.max(0.5, tag.getDouble("energy")), tag.getDouble("energy")).getArray()) {
                     tooltips.add(new GTOComponentTooltipComponent(component));
                 }
             }
         } else {
-            for (Component component : GTOItemTooltips.INSTANCE.getEnergy_upgrade_module().invoke("-", "-").getArray()) {
+            for (Component component : GTOItemTooltips.INSTANCE.getEnergyUpgradeModuleTooltips().invoke(0d, 0d).getArray()) {
                 tooltips.add(new GTOComponentTooltipComponent(component));
             }
         }

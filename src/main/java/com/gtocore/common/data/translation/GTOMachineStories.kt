@@ -1218,7 +1218,7 @@ object GTOMachineStories : AutoInitialize<GTOMachineStories>() {
     val AdvancedSpsCraftingTooltips = ComponentListSupplier {
         setTranslationPrefix("advanced_sps_crafting")
         add("纯白超临界外壳下的超维度合成奇迹" translatedTo "Transdimensional synthesis miracle within pure white sps casing") { white() }
-        add("同时维持多个超临界相，在多重现实中并行合成" translatedTo "Maintaining multiple supercritical phases simultaneously, parallel synthesis across multiverse") { gray() }
+        add("同时维持多个超临界相，在多重现实中并行合成" translatedTo "Maintaining multiple supercritical phases simultaneously, parallel crafting across multiverse") { gray() }
         add("量子纠缠协调系统，确保每个临界点完美同步" translatedTo "Quantum entanglement coordination system ensures perfect synchronization of every critical point") { aqua() }
         add("外壳呈现珍珠般的光泽流动，美得令人窒息" translatedTo "Casing displays pearl-like luminous flows, breathtakingly beautiful") { yellow() }
         add("突破单一时空限制，现在可以在不同维度同时进行合成" translatedTo "Breaking single spacetime limits, now capable of simultaneous synthesis across dimensions") { aqua() }

@@ -37,6 +37,7 @@ import appeng.api.stacks.KeyCounter;
 import appeng.api.storage.IStorageMounts;
 import appeng.api.storage.IStorageProvider;
 import appeng.api.storage.MEStorage;
+import com.hepdd.gtmthings.common.item.VirtualItemProviderBehavior;
 import com.hepdd.gtmthings.data.CustomItems;
 import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
 import com.lowdragmc.lowdraglib.gui.texture.ResourceTexture;
@@ -57,16 +58,22 @@ public final class VirtualItemProviderMachine extends MetaMachine implements IUI
             VirtualItemProviderMachine.class, MetaMachine.MANAGED_FIELD_HOLDER);
 
     private static final Item VIRTUAL_ITEM_PROVIDER = CustomItems.VIRTUAL_ITEM_PROVIDER.asItem();
+    static private final AEKey EMPTY_STACK;
+
+    static {
+        var es = VirtualItemProviderBehavior.setVirtualItem(new ItemStack(VIRTUAL_ITEM_PROVIDER.asItem()), ItemStack.EMPTY);
+        es = es.copyWithCount(1);
+        es.getOrCreateTag().putBoolean("marked", true);
+        EMPTY_STACK = AEItemKey.of(es);
+    }
 
     private final CellDataStorage storage = new CellDataStorage();
-
-    @DescSynced
-    private boolean isOnline;
-
     @Persisted
     private final NotifiableItemStackHandler inventory;
     @Persisted
     private final GridNodeHolder nodeHolder;
+    @DescSynced
+    private boolean isOnline;
 
     public VirtualItemProviderMachine(MetaMachineBlockEntity holder) {
         super(holder);
@@ -74,15 +81,24 @@ public final class VirtualItemProviderMachine extends MetaMachine implements IUI
         this.nodeHolder = new GridNodeHolder(this);
         getMainNode().addService(IStorageProvider.class, this);
         storage.setStoredMap(new O2LOpenCacheHashMap<>());
-        inventory.setFilter(stack -> stack.getItem() == VIRTUAL_ITEM_PROVIDER && stack.hasTag());
         inventory.addChangedListener(() -> {
             storage.getStoredMap().clear();
+            storage.getStoredMap().addTo(EMPTY_STACK, IParallelMachine.MAX_PARALLEL << 6);
             for (var i = 0; i < inventory.storage.size; i++) {
                 var stack = inventory.storage.stacks[i];
                 if (stack.isEmpty()) continue;
-                stack = stack.copyWithCount(1);
-                stack.getOrCreateTag().putBoolean("marked", true);
-                storage.getStoredMap().addTo(AEItemKey.of(stack), IParallelMachine.MAX_PARALLEL);
+                if (stack.getItem() == VIRTUAL_ITEM_PROVIDER.asItem() && stack.hasTag()) {
+                    stack = stack.copyWithCount(1);
+                    stack.getOrCreateTag().putBoolean("marked", true);
+                    storage.getStoredMap().addTo(AEItemKey.of(stack), IParallelMachine.MAX_PARALLEL);
+                } else {
+                    int count = stack.getCount();
+                    stack = VirtualItemProviderBehavior.setVirtualItem(new ItemStack(VIRTUAL_ITEM_PROVIDER.asItem()), stack);
+                    stack = stack.copyWithCount(1);
+                    stack.getOrCreateTag().putBoolean("marked", true);
+                    storage.getStoredMap().addTo(AEItemKey.of(stack), IParallelMachine.MAX_PARALLEL * count);
+                }
+
             }
         });
     }

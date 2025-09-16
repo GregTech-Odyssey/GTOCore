@@ -27,7 +27,7 @@ import com.gregtechceu.gtceu.api.machine.TickableSubscription
 import com.gregtechceu.gtceu.api.machine.feature.IFancyUIMachine
 import com.gregtechceu.gtceu.integration.ae2.machine.feature.IGridConnectedMachine
 import com.gregtechceu.gtceu.integration.ae2.machine.trait.GridNodeHolder
-import com.gtolib.api.annotation.Scanned
+import com.gtolib.api.annotation.DataGeneratorScanned
 import com.gtolib.api.annotation.language.RegisterLanguage
 import com.gtolib.api.gui.ktflexible.button
 import com.gtolib.api.gui.ktflexible.rootFresh
@@ -49,12 +49,12 @@ import kotlinx.coroutines.flow.*
 
 import java.util.concurrent.ConcurrentHashMap
 
-@Scanned
+@DataGeneratorScanned
 class MEPatternContentSortMachine(holder: MetaMachineBlockEntity) :
     MetaMachine(holder),
     IFancyUIMachine,
     IGridConnectedMachine {
-    @Scanned
+    @DataGeneratorScanned
     companion object {
         val manager = ManagedFieldHolder(MEPatternContentSortMachine::class.java, MANAGED_FIELD_HOLDER)
         const val PAGE_WIDTH = 276

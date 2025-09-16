@@ -46,6 +46,26 @@ object GTOMachineTooltips {
         info("§c工业TNT§r/§c核弹§r/§c超能硅岩爆弹§r/§c轻子爆弹§r/§c量子色动力学爆弹§r" translatedTo "§cIndustrial TNT§r/§cNuke Bomb§r/§cNaquadria Charge§r/§cLeptonic Charge§r/§cQuantum Chromodynamic Charge§r")
     }
 
+    // 魔力增幅仓
+    val ManaAmplifierHatchTooltips = ComponentListSupplier {
+        setTranslationPrefix("mana_amplifier_hatch")
+
+        section(ComponentSlang.MainFunction)
+        content("如果运行前输入了等同机器最大功率的魔力" translatedTo "If mana equivalent to the machine's maximum power is input prior to operation")
+        increase("则将本次配方改为无损超频" translatedTo "The current recipe will switch to perfect overclocking.")
+        decrease("否则，机器不执行配方" translatedTo "Otherwise, the machine will not execute the recipe.")
+    }
+
+    // 魔力加热器
+    val ManaHeaterTooltips = ComponentListSupplier {
+        setTranslationPrefix("mana_heater")
+
+        section(ComponentSlang.RunningRequirements)
+        command("输入魔力加热" translatedTo "Input mana to heat")
+        increase("如果输入§c火元素§r，则加热速度翻5倍" translatedTo "If §cfire element§r is input, the heating speed will be 5 times faster")
+        command(ComponentSlang.TemperatureMax(2400))
+    }
+
     // 转子仓
     val RotorHatchTooltips = ComponentListSupplier {
         setTranslationPrefix("rotor_hatch")
@@ -125,7 +145,7 @@ object GTOMachineTooltips {
         setTranslationPrefix("me_craft_pattern_part_machine")
 
         section(ComponentSlang.MainFunction)
-        function("合成样板仓用于存储合成样板" translatedTo "Craft Pattern Hatch is used to store synthesis templates")
+        function("合成样板仓用于存储合成样板" translatedTo "Craft Pattern Hatch is used to store crafting patterns")
         function("配合超级分子装配室使用" translatedTo "Use it with Super Molecular Assembler")
         info(ComponentSlang.Capacity(72.toString()))
     }
@@ -264,7 +284,7 @@ object GTOMachineTooltips {
     // 监控器合成处理单元组件
     val MonitorCraftingComponentTooltips = monitor {
         section(ComponentSlang.MainFunction)
-        function("显示§6ME合成处理单元§r的合成数据" translatedTo "Display the synthesis data of §6crafting unit§r")
+        function("显示§6ME合成处理单元§r的合成数据" translatedTo "Display the crafting data of §6crafting unit§r")
     }
 
     // 监控器自定义文本组件
@@ -277,9 +297,9 @@ object GTOMachineTooltips {
     // 超立方体
     val HyperCubeMachineTooltips = ComponentListSupplier {
         setTranslationPrefix("hyper_cube_machine")
-        highlight("可以代理一个流体或物品存储器" translatedTo "Can proxy a fluid or item or both storage")
 
-        section(ComponentSlang.MainFunction)
+        highlight("代理一个流体或物品存储器" translatedTo "Proxy a fluid or item or both storage")
+        command("使用§b坐标信息卡§r绑定方块" translatedTo "Use the §bCordinate Card§r to bind a storage block")
         function("绑定某方块后，对此机器进行物品或流体操作视同对被绑定的方块操作" translatedTo "Bind a storage to this machine to operate it as if it were the bound storage")
         guide("右键点击以打开界面" translatedTo "Right click to open the interface")
         increase("此方块有升级版本" translatedTo "Has upgrade version")
@@ -288,8 +308,9 @@ object GTOMachineTooltips {
     // 进阶超立方体
     val AdvancedHyperCubeMachineTooltips = ComponentListSupplier {
         setTranslationPrefix("advanced_hyper_cube_machine")
-        highlight("可以代理多个流体或物品存储器" translatedTo "Can proxy (a or multi) (fluid or item or both)storage")
 
+        highlight("代理多个流体或物品存储器" translatedTo "Proxy (a or multi) (fluid or item or both)storage")
+        command("使用§b坐标信息卡§r绑定方块" translatedTo "Use the §bCordinate Card§r to bind a storage block")
         function("绑定某方块后，对此机器进行物品或流体操作视同对被绑定的方块操作" translatedTo "Bind a storage to this machine to operate it as if it were the bound storage")
         function("若绑定多个方块，则依序对他们操作" translatedTo "Operate them in order if bind multiple storages")
         guide("右键点击以打开界面" translatedTo "Right click to open the interface")
@@ -315,7 +336,7 @@ object GTOMachineTooltips {
         section("通过燃烧对四周机器进行加热" translatedTo "Burning to heat up around machines")
         content("前方被阻挡后停止加热" translatedTo "Stop heating after front side is blocked.")
         content("根据温度发出红石信号" translatedTo "Emits redstone signal according to the temperature.")
-        content(ComponentSlang.TemperatureMax(HeaterMachine.MaxTemperature))
+        command(ComponentSlang.TemperatureMax(HeaterMachine.MaxTemperature))
         error(("机器过热会" translatedTo "When machine is too hot, it will ") + ComponentSlang.Explosion)
         danger(ComponentSlang.BeAwareOfBurn)
     }
@@ -325,7 +346,7 @@ object GTOMachineTooltips {
         setTranslationPrefix("electric_heater_machine")
 
         section("使用电力对四周机器进行加热" translatedTo "Use electricity to heat up around machines")
-        content(ComponentSlang.TemperatureMax(ElectricHeaterMachine.MaxTemperature))
+        command(ComponentSlang.TemperatureMax(ElectricHeaterMachine.MaxTemperature))
         ok("此机器不会爆炸" translatedTo "This machine will not explode")
         danger(ComponentSlang.BeAwareOfBurn)
     }
@@ -377,7 +398,6 @@ object GTOMachineTooltips {
         content(
             "将多台计算机集成在一起，提供大规模并行计算能力" translatedTo "Integrates multiple computers together to provide massive parallel computing power",
             { lightPurple() },
-            ComponentSlang.Bar(1),
         )
 
         section("等级系统" translatedTo "Level System")
@@ -1422,8 +1442,8 @@ object GTOMachineTooltips {
         info("需要输入 书 摘抄符石" translatedTo "Requires input Book  Sigil of Withdrawal")
         command("电路 4：物品 + 附魔 + 刻印 解构" translatedTo "Circuit 4: Item + Enchantments + Affixes Deconstruction")
         info("需要输入 摘抄符石" translatedTo "Requires input Sigil of Withdrawal")
-        command("电路 5：附魔精粹合成附魔书" translatedTo "Circuit 5: Essence synthesis Enchanted Book")
-        info("需要输入一本书，消耗附魔精粹和魔力合成" translatedTo "Need to input a book, consume enchantment essence and magic synthesis")
+        command("电路 5：附魔精粹合成附魔书" translatedTo "Circuit 5: Essence crafting Enchanted Book")
+        info("需要输入一本书，消耗附魔精粹和魔力合成" translatedTo "Need to input a book, consume enchantment essence and magic to craft")
         command("电路 6：附魔书合并" translatedTo "Circuit 6: Enchantment Enchanted Book Merge")
         info("消耗魔力合成，会输出额外的书" translatedTo "Consume magic power to synthesize, and output additional books")
         command("电路 7：刻印精粹合成铭刻之布" translatedTo "Circuit 7: Affix Enchanted Book Merge")
@@ -1450,9 +1470,18 @@ object GTOMachineTooltips {
         add("部分配方产出概率随运行次数增长" translatedTo "§7The probability of partial recipe output increases with the number of runs") { gray().italic() }
     }
 
+    // 炼金锅
+    val AlchemyCauldronTooltips = ComponentListSupplier {
+        setTranslationPrefix("alchemy_cauldron")
+
+        command(ComponentSlang.TemperatureMax(1600))
+        important("不要用它来做饭" translatedTo "Do not use it for cooking food")
+    }
+
     // 大型炼金装置补充
     val LargeAlchemicalDeviceTooltips = ComponentListSupplier {
         setTranslationPrefix("large_alchemical_device")
+
         section("结构中的密封机械方块可以被嬗变催化剂替代" translatedTo "The sealed mechanical blocks in the structure can be replaced by transmutation catalysts")
         content("当安装7个嬗变催化剂时，机器将激活完美嬗变模式" translatedTo "When 7 transmutation catalysts are installed, the machine will activate perfect transmutation mode")
         command(("当安装" translatedTo "When installed").gold() + ("生物活性主机" translatedTo "Bioware Processor Mainframe").scrollBioware() + ("时，机器将获得0.01x耗时减免" translatedTo " the machine will gain 0.01x Duration reduction").gold())

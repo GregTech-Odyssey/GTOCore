@@ -300,7 +300,7 @@ public final class LangHandler {
         addCNEN("gtocore.ae.appeng.me2in1.reset_panel_position", "重置面板位置", "Reset Panel Position");
         addCNEN("gtocore.ae.appeng.me2in1.reset_panel_position.1", "重置所有面板位置到默认位置", "Reset all panel positions to default");
         addCNEN("gtocore.ae.appeng.me2in1.quick_remove_pattern", "点击移除以此为主产物的处理样板至缓冲槽", "Click to remove patterns with this main product to the buffer slot");
-        addCNEN("gtocore.ae.appeng.me2in1.quick_remove_pattern.1", "shift + 点击以额外移除其合成树中不参与其他样板的处理样板", "Shift + Click to additionally remove patterns in its synthesis tree that are not involved in other patterns");
+        addCNEN("gtocore.ae.appeng.me2in1.quick_remove_pattern.1", "shift + 点击以额外移除其合成树中不参与其他样板的处理样板", "Shift + Click to additionally remove patterns in its crafting tree that are not involved in other patterns");
         addCNEN("gtocore.ae.appeng.me2in1.quantum_bridge", "安装纠缠奇点", "Install Quantum Entangled Singularity");
         addCNEN("gtocore.ae.appeng.me2in1.quantum_bridge.info", "量子环已内置", "Quantum ring is built-in");
 

@@ -203,9 +203,9 @@ final class MachineLang {
         addCNEN("gtocore.machine.the_primordial_reconstructor.mode.2", "工作模式：物品 + 附魔 解构", "Working Mode: Item + Enchantments Deconstruction");
         addCNEN("gtocore.machine.the_primordial_reconstructor.mode.3", "工作模式：物品 + 刻印 解构", "Working Mode: Item + Affixes Deconstruction");
         addCNEN("gtocore.machine.the_primordial_reconstructor.mode.4", "工作模式：物品 + 附魔 + 刻印 解构", "Working Mode: Item + Enchantments + Affixes Deconstruction");
-        addCNEN("gtocore.machine.the_primordial_reconstructor.mode.5", "工作模式：附魔精粹合成附魔书", "Working Mode: Essence synthesis Enchanted Book");
+        addCNEN("gtocore.machine.the_primordial_reconstructor.mode.5", "工作模式：附魔精粹合成附魔书", "Working Mode: Essence to craft Enchanted Book");
         addCNEN("gtocore.machine.the_primordial_reconstructor.mode.6", "工作模式：附魔书合并", "Working Mode: Enchantment Enchanted Book Merge");
-        addCNEN("gtocore.machine.the_primordial_reconstructor.mode.7", "工作模式：刻印精粹合成铭刻之布", "Working Mode: Affix Enchanted Book Merge");
+        addCNEN("gtocore.machine.the_primordial_reconstructor.mode.7", "工作模式：刻印精粹合成铭刻之布", "Working Mode: Affix to craft Enchanted Book");
         addCNEN("gtocore.machine.the_primordial_reconstructor.mode.8", "工作模式：宝石合并", "Working Mode: Gem Merge");
         addCNEN("gtocore.machine.the_primordial_reconstructor.mode.9", "工作模式：强行附魔", "Working Mode: Forced enchantment");
         addCNEN("gtocore.machine.the_primordial_reconstructor.mode.10", "工作模式：强行刻印", "Working Mode: Forced add affixes");

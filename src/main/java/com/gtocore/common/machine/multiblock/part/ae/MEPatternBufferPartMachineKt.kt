@@ -4,6 +4,7 @@ import com.gtocore.api.gui.ktflexible.textBlock
 
 import net.minecraft.client.gui.GuiGraphics
 import net.minecraft.network.chat.Component
+import net.minecraft.world.item.ItemStack
 
 import com.gregtechceu.gtceu.api.blockentity.MetaMachineBlockEntity
 import com.gregtechceu.gtceu.api.gui.GuiTextures
@@ -11,7 +12,7 @@ import com.gregtechceu.gtceu.api.gui.widget.SlotWidget
 import com.gregtechceu.gtceu.api.gui.widget.TankWidget
 import com.gregtechceu.gtceu.api.transfer.fluid.CustomFluidTank
 import com.gregtechceu.gtceu.common.item.IntCircuitBehaviour
-import com.gtolib.api.annotation.Scanned
+import com.gtolib.api.annotation.DataGeneratorScanned
 import com.gtolib.api.annotation.language.RegisterLanguage
 import com.gtolib.api.gui.ktflexible.VBoxBuilder
 import com.gtolib.api.gui.ktflexible.blank
@@ -23,9 +24,9 @@ import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder
 
 import java.util.function.IntSupplier
 
-@Scanned
+@DataGeneratorScanned
 open class MEPatternBufferPartMachineKt(holder: MetaMachineBlockEntity, maxPatternCount: Int) : MEPatternBufferPartMachine(holder, maxPatternCount) {
-    @Scanned
+    @DataGeneratorScanned
     companion object {
         @JvmStatic
         val MANAGED_FIELD_HOLDER = ManagedFieldHolder(MEPatternBufferPartMachineKt::class.java, MEPatternBufferPartMachine.MANAGED_FIELD_HOLDER)
@@ -52,7 +53,7 @@ open class MEPatternBufferPartMachineKt(holder: MetaMachineBlockEntity, maxPatte
             configuratorField.get() >= 0 && configuratorField.get() < maxPatternCount -> {
                 vBox(width = availableWidth, alwaysHorizonCenter = true, style = { spacing = 2 }) {
                     val width = this@vBox.availableWidth
-                    val itemHandler = getInternalInventory()[configuratorField.get()].shareInventory.storage
+                    val itemHandler = getInternalInventory()[configuratorField.get()].lockableInventory
                     textBlock(maxWidth = width, textSupplier = { Component.translatable(item_special) })
                     (0 until itemHandler.slots).chunked(9).forEach { indices ->
                         hBox(height = 18) {
@@ -87,7 +88,6 @@ open class MEPatternBufferPartMachineKt(holder: MetaMachineBlockEntity, maxPatte
                     val circuitHandler = getInternalInventory()[configuratorField.get()].circuitInventory.storage
                     textBlock(maxWidth = width, textSupplier = { Component.translatable(circuit_special) })
                     hBox(height = 18, style = { spacing = 4 }) {
-                        run { if (getInternalInventory()[configuratorField.get()].circuitInventory.storage.getStackInSlot(0).isEmpty) getInternalInventory()[configuratorField.get()].circuitInventory.storage.setStackInSlot(0, IntCircuitBehaviour.stack(0)) }
                         widget(
                             SlotWidget(circuitHandler, 0, 0, 0, false, false).apply {
                                 setBackgroundTexture(GuiTextures.SLOT)
@@ -102,7 +102,7 @@ open class MEPatternBufferPartMachineKt(holder: MetaMachineBlockEntity, maxPatte
                                     it.toIntOrNull() == null -> 0
                                     else -> it.toInt().coerceAtMost(32).coerceAtLeast(0)
                                 }
-                                getInternalInventory()[configuratorField.get()].circuitInventory.storage.setStackInSlot(0, IntCircuitBehaviour.stack(circuit))
+                                getInternalInventory()[configuratorField.get()].circuitInventory.storage.setStackInSlot(0, if (circuit == 0) ItemStack.EMPTY else IntCircuitBehaviour.stack(circuit))
                             },
                         )
                     }
