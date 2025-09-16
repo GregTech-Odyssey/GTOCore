@@ -104,6 +104,7 @@ public class SpaceElevatorMachine extends TierCasingMultiblockMachine implements
                 MetaMachine metaMachine = getMachine(level, blockPoss);
                 if (metaMachine instanceof SpaceElevatorModuleMachine moduleMachine && moduleMachine.isFormed()) {
                     moduleMachine.spaceElevatorMachine = this;
+                    if (promptly) moduleMachine.getRecipeLogic().updateTickSubscription();
                     moduleCount++;
                 }
             }
@@ -119,11 +120,16 @@ public class SpaceElevatorMachine extends TierCasingMultiblockMachine implements
     }
 
     @Override
+    protected void onStructureFormedAfter() {
+        super.onStructureFormedAfter();
+        update(true);
+    }
+
+    @Override
     public void onStructureFormed() {
         super.onStructureFormed();
         initialize();
         high = getBaseHigh();
-        update(true);
     }
 
     @Override

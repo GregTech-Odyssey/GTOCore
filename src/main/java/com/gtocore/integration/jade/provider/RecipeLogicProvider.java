@@ -105,14 +105,51 @@ public final class RecipeLogicProvider implements IBlockComponentProvider, IServ
 
                     if (Manat != 0) {
                         boolean isInput = Manat > 0;
-                        Manat = Math.abs(Manat);
-                        MutableComponent text = Component.literal(FormattingUtil.formatNumbers(Manat)).withStyle(ChatFormatting.AQUA)
+                        MutableComponent text = Component.literal(FormattingUtil.formatNumbers(Math.abs(Manat))).withStyle(ChatFormatting.AQUA)
                                 .append(Component.literal(" Mana/t").withStyle(ChatFormatting.RESET));
 
                         if (isInput) {
                             tooltip.add(Component.translatable("gtocore.recipe.mana_consumption").append(" ").append(text));
                         } else {
                             tooltip.add(Component.translatable("gtocore.recipe.mana_production").append(" ").append(text));
+                        }
+                    }
+                    if (recipeInfo.contains("Origin")) {
+                        long parallel = capData.getLong("parallel");
+                        parallel = Math.max(1, parallel);
+                        long batchParallel = capData.getLong("batch_parallel");
+                        batchParallel = Math.max(1, batchParallel);
+                        var origin = recipeInfo.getCompound("Origin");
+                        if (!origin.isEmpty()) {
+                            var originEUt = origin.getLong("EUt");
+                            var originManat = origin.getLong("Manat");
+                            double energyEfficiency = 0;
+                            if (originEUt != 0 && EUt != 0) {
+                                energyEfficiency = (double) EUt * batchParallel / (parallel * originEUt) * 100;
+                            }
+                            double manaEfficiency = 0;
+                            if (originManat != 0 && Manat != 0) {
+                                manaEfficiency = (double) Manat * batchParallel / (parallel * originManat) * 100;
+                            }
+                            if (energyEfficiency != 0) {
+                                String key = EUt > 0 ? "gtocore.recipe.efficiency" : "gtocore.recipe.efficiency.o";
+                                tooltip.add(Component.translatable(key, Component.literal(
+                                        String.format("%s%%", FormattingUtil.formatNumber2Places(Math.abs(energyEfficiency)))).withStyle(ChatFormatting.GOLD)));
+                            }
+                            if (manaEfficiency != 0) {
+                                String key = Manat > 0 ? "gtocore.recipe.mana_efficiency" : "gtocore.recipe.mana_efficiency.o";
+                                tooltip.add(Component.translatable(key, Component.literal(
+                                        String.format("%s%%", FormattingUtil.formatNumber2Places(Math.abs(manaEfficiency)))).withStyle(ChatFormatting.GOLD)));
+                            }
+                            if (origin.contains("MaxProgress")) {
+                                var originMaxProgress = origin.getInt("MaxProgress");
+                                var currentProgress = getCurrentMaxProgress(capData);
+                                if (originMaxProgress > 0 && currentProgress > 0) {
+                                    double timeCost = currentProgress / (double) batchParallel / (double) originMaxProgress * 100;
+                                    tooltip.add(Component.translatable("gtocore.recipe.time_cost_multiplier", Component.literal(
+                                            String.format("%s%%", FormattingUtil.formatNumber2Places(timeCost))).withStyle(ChatFormatting.GOLD)));
+                                }
+                            }
                         }
                     }
                 }
@@ -125,6 +162,17 @@ public final class RecipeLogicProvider implements IBlockComponentProvider, IServ
             if (c == null) return;
             tooltip.add(c.withStyle(ChatFormatting.GRAY));
         }
+    }
+
+    private static int getCurrentMaxProgress(CompoundTag capData) {
+        if (capData.contains(GTCEu.id("workable_provider").toString())) {
+            var workable = capData.getCompound(GTCEu.id("workable_provider").toString());
+            if (workable.contains("null")) {
+                var progress = workable.getCompound("null");
+                return progress.getInt("MaxProgress");
+            }
+        }
+        return 0;
     }
 
     @Override
@@ -168,6 +216,26 @@ public final class RecipeLogicProvider implements IBlockComponentProvider, IServ
 
             if (capability.machine instanceof CrossRecipeMultiblockMachine machine && machine.getEnergyInterfacePartMachine() != null) {
                 recipeInfo.putDouble("totalEu", machine.getTotalEu());
+            }
+            var originRecipe = capability.getLastOriginRecipe();
+            if (originRecipe == null && capability.machine instanceof CrossRecipeMultiblockMachine c) {
+                originRecipe = c.getLastRecipes().stream().findFirst().orElse(null);
+            }
+            if (originRecipe != null) {
+                var originInputEUt = originRecipe.getInputEUt();
+                var originOutputEUt = originRecipe.getOutputEUt();
+                var originInputManat = RecipeHelper.getInputMANAt(originRecipe);
+                var originOutputManat = RecipeHelper.getOutputMANAt(originRecipe);
+                var origin = new CompoundTag();
+                if (originInputEUt != inputEUt || originOutputEUt != outputEUt || originInputManat != inputManat || originOutputManat != outputManat) {
+                    origin.putLong("EUt", originInputEUt - originOutputEUt);
+                    origin.putLong("Manat", originInputManat - originOutputManat);
+                }
+                var maxProgress = originRecipe.duration;
+                if (maxProgress > 0) {
+                    origin.putInt("MaxProgress", maxProgress);
+                }
+                recipeInfo.put("Origin", origin);
             }
 
         }

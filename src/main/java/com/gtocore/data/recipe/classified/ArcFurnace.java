@@ -80,7 +80,7 @@ final class ArcFurnace {
                 .inputFluids(Oxygen.getFluid(576))
                 .outputItems(TagPrefix.dust, GTOMaterials.TitaniumDioxideNanotubes)
                 .EUt(GTValues.VA[GTValues.IV])
-                .duration(14400)
+                .duration(1440)
                 .save();
     }
 }

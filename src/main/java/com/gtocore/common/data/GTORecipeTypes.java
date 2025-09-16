@@ -927,6 +927,13 @@ public final class GTORecipeTypes {
                     return I18n.get("gtceu.multiblock.hpca.temperature", temperature);
                 }
                 return "";
+            })
+            .addDataInfo(data -> {
+                boolean flag = data.contains("param0") || data.contains("param1") || data.contains("param2");
+                if (flag) {
+                    return I18n.get("gtocore.machine.alchemical.chance_can_be_boosted");
+                }
+                return "";
             });
 
     public static final RecipeType MANA_HEATER_RECIPES = register("mana_heater", "魔力加热器", MAGIC)

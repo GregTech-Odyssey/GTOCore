@@ -142,30 +142,36 @@ public final class NanitesIntegratedMachine extends CoilCrossRecipeMultiblockMac
             poss.add(MachineUtils.getOffsetPos(8, Direction.NORTH, blockPos));
             poss.add(MachineUtils.getOffsetPos(8, Direction.SOUTH, blockPos));
         }
-        link(level, true);
         onMachineChanged();
     }
 
-    private void link(Level level, boolean immediately) {
+    @Override
+    protected void onStructureFormedAfter() {
+        super.onStructureFormedAfter();
+        update(getLevel(), true);
+    }
+
+    private void update(Level level, boolean immediately) {
         if (immediately || getOffsetTimer() % 20 == 0 && level != null) poss.forEach(p -> {
             MetaMachine machine = getMachine(level, p);
             if (machine instanceof NanitesModuleMachine moduleMachine && moduleMachine.isFormed()) {
                 module.add(moduleMachine.type);
                 moduleMachine.nanitesIntegratedMachine = this;
+                if (immediately) moduleMachine.getRecipeLogic().updateTickSubscription();
             }
         });
     }
 
     @Override
     public boolean onWorking() {
-        link(getLevel(), false);
+        update(getLevel(), false);
         return super.onWorking();
     }
 
     @Override
     public void customText(@NotNull List<Component> textList) {
         super.customText(textList);
-        link(getLevel(), false);
+        update(getLevel(), false);
         textList.add(Component.translatable("tooltip.emi.chance.consume", Math.max(100 - chance, 0)));
         textList.add(Component.translatable("gui.ae2.AttachedTo", ""));
         module.forEach(i -> textList.add(Component.translatable(MODULE_MAP.get(i).getDescriptionId())));
