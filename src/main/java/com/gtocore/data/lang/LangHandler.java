@@ -188,6 +188,7 @@ public final class LangHandler {
         addCNEN("config.jade.plugin_gtocore.computation_container_provider", "[GTOCore] 算力容器信息", "[GTOCore] Computation Container Info");
         addCNEN("config.jade.plugin_gtocore.wireless_grid_provider", "[GTOCore] 无线AE网络信息", "[GTOCore] Wireless AE Network Info");
         addCNEN("config.jade.plugin_gtocore.maintenance_hatch_provider", "[GTOCore] 维护仓信息", "[GTOCore] Maintenance Hatch Info");
+        addCNEN("config.jade.plugin_gtocore.celestial_energy_provider", "[GTOCore] 天体能量", "[GTOCore] Celestial Energy");
 
         addCNEN("fluid.gtocore.gelid_cryotheum", "极寒之凛冰", "Gelid Cryotheum");
 
@@ -318,6 +319,10 @@ public final class LangHandler {
         addCNEN(MultiblockState.BANNED_ERROR.translateKey, "该方块被禁止", "This block is banned");
 
         addCNEN("gtocore.multiblock.invalid.message", "多方块%s位于(%s)未成型！运行 /" + GTOCore.MOD_ID + "c multiblock on 查看详情。", "Multiblock %s at (%s) is not formed! Run /" + GTOCore.MOD_ID + "c multiblock on for details.");
+
+        addCNEN("gtocore.celestial_condenser.solaris", "曦煌：%s", "Solaris: %s");
+        addCNEN("gtocore.celestial_condenser.lunara", "胧华：%s", "Lunara: %s");
+        addCNEN("gtocore.celestial_condenser.voidflux", "虚湮：%s", "Voidflux: %s");
     }
 
     public static void enInitialize(LanguageProvider provider) {

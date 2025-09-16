@@ -8,6 +8,7 @@ import com.gtocore.common.data.translation.GTOMachineTooltips;
 import com.gtocore.common.machine.generator.MagicEnergyMachine;
 import com.gtocore.common.machine.mana.AlchemyCauldron;
 import com.gtocore.common.machine.mana.AreaDestructionToolsMachine;
+import com.gtocore.common.machine.mana.CelestialCondenser;
 import com.gtocore.common.machine.mana.ManaHeaterMachine;
 import com.gtocore.common.machine.mana.part.ManaAmplifierPartMachine;
 import com.gtocore.common.machine.mana.part.ManaExtractHatchPartMachine;
@@ -145,6 +146,16 @@ public final class ManaMachine {
             .modelRenderer(() -> GTOCore.id("block/machine/alchemy_cauldron"))
             .blockProp(p -> p.noOcclusion().isViewBlocking((state, level, pos) -> false))
             .tooltips(workableNoEnergy(GTORecipeTypes.ALCHEMY_CAULDRON_RECIPES, 1600))
+            .register();
+
+    public static final MachineDefinition CELESTIAL_CONDENSER = manaMachine("celestial_condenser", "苍穹凝聚器", CelestialCondenser::new)
+            .tier(HV)
+            .editableUI(SimpleNoEnergyMachine.EDITABLE_UI_CREATOR.apply(GTCEu.id("celestial_condenser"), GTORecipeTypes.CELESTIAL_CONDENSER_RECIPES))
+            .recipeType(GTORecipeTypes.CELESTIAL_CONDENSER_RECIPES)
+            .nonYAxisRotation()
+            .modelRenderer(() -> GTOCore.id("block/machine/alchemy_cauldron"))
+            .hasTESR(true)
+            .blockProp(p -> p.noOcclusion().isViewBlocking((state, level, pos) -> false))
             .register();
 
     public static final MachineDefinition MANA_HEATER = manaMachine("mana_heater", "魔力加热器", ManaHeaterMachine::new)

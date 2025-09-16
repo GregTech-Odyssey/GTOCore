@@ -1024,4 +1024,19 @@ public class ThePrimordialReconstructor extends ManaMultiblockMachine {
         }
         return "apotheosis:common";
     }
+
+    /**
+     * 通过字符串获取宝石
+     */
+    public static ItemStack getGem(int rarity, String gem) {
+        if (rarity > 5) rarity = 0;
+        ItemStack gemStack = new ItemStack(Adventure.Items.GEM.get());
+        CompoundTag rootTag = new CompoundTag();
+        CompoundTag affixData = new CompoundTag();
+        affixData.putString("rarity", RARITIES[rarity]);
+        rootTag.put("affix_data", affixData);
+        rootTag.putString("gem", gem);
+        gemStack.setTag(rootTag);
+        return gemStack;
+    }
 }

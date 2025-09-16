@@ -1,0 +1,9 @@
+{
+	"animation": {
+		"frametime": 5,
+		"interpolate": true
+	},
+	"shimmer": {
+		"bloom": true
+	}
+}

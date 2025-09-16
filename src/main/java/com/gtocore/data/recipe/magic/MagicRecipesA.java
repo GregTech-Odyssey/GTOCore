@@ -8,6 +8,7 @@ import com.gtocore.common.data.machines.GCYMMachines;
 import com.gtocore.common.data.machines.ManaMachine;
 import com.gtocore.common.data.machines.ManaMultiBlock;
 import com.gtocore.data.record.Enchantment;
+import com.gtocore.data.tag.Tags;
 
 import com.gtolib.GTOCore;
 import com.gtolib.api.GTOValues;
@@ -38,10 +39,12 @@ import vazkii.botania.common.item.BotaniaItems;
 import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
 import static com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys.GAS;
+import static com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys.LIQUID;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
 import static com.gtocore.common.data.GTOItems.*;
 import static com.gtocore.common.data.GTOMaterials.*;
 import static com.gtocore.common.data.GTORecipeTypes.*;
+import static com.gtocore.common.machine.mana.multiblock.ThePrimordialReconstructor.getGem;
 import static com.gtolib.GTOCore.id;
 
 public final class MagicRecipesA {
@@ -193,6 +196,73 @@ public final class MagicRecipesA {
                     .addData("param3", 140)
                     .save();
 
+            ALCHEMY_CAULDRON_RECIPES.recipeBuilder("heros_brawlers")
+                    .chancedInput(getGem(5, "apotheosis:core/brawlers"), 5, 0)
+                    .inputItems(Tags.ENCHANTMENT_ESSENCE)
+                    .inputItems(GTOItems.HEROS_SOUL)
+                    .inputItems(ItemsRegistry.EARTH_ESSENCE)
+                    .inputItems(ItemsRegistry.AIR_ESSENCE)
+                    .inputFluids(TheWaterFromTheWellOfWisdom.getFluid(2000))
+                    .inputFluids(Gnome.getFluid(LIQUID, 100))
+                    .inputFluids(Sylph.getFluid(LIQUID, 100))
+                    .chancedOutput(HerosBrawlers.getFluid(2000), 10, 0)
+                    .addData("param1", 40)
+                    .addData("param2", 40)
+                    .addData("param3", 160)
+                    .duration(200)
+                    .MANAt(32)
+                    .temperature(1600)
+                    .save();
+
+            ALCHEMY_CAULDRON_RECIPES.recipeBuilder("heros_breach")
+                    .chancedInput(getGem(5, "apotheosis:core/breach"), 5, 0)
+                    .inputItems(Tags.AFFIX_ESSENCE)
+                    .inputItems(GTOItems.HEROS_SOUL)
+                    .inputItems(ItemsRegistry.WATER_ESSENCE)
+                    .inputItems(ItemsRegistry.FIRE_ESSENCE)
+                    .inputFluids(TheWaterFromTheWellOfWisdom.getFluid(2000))
+                    .inputFluids(Undine.getFluid(LIQUID, 100))
+                    .inputFluids(Salamander.getFluid(LIQUID, 100))
+                    .chancedOutput(HerosBreach.getFluid(2000), 10, 0)
+                    .addData("param1", 40)
+                    .addData("param2", 60)
+                    .addData("param3", 140)
+                    .duration(200)
+                    .MANAt(32)
+                    .temperature(1600)
+                    .save();
+
+            ALCHEMY_CAULDRON_RECIPES.recipeBuilder("heros_splendor")
+                    .chancedInput(getGem(5, "apotheosis:core/splendor"), 5, 0)
+                    .inputItems(ItemsRegistry.MANIPULATION_ESSENCE)
+                    .inputItems(ItemsRegistry.ABJURATION_ESSENCE)
+                    .inputItems(ItemsRegistry.CONJURATION_ESSENCE)
+                    .inputItems(GTOItems.HEROS_SOUL)
+                    .inputFluids(TheWaterFromTheWellOfWisdom.getFluid(2000))
+                    .inputFluids(Aether.getFluid(LIQUID, 100))
+                    .chancedOutput(HerosSplendor.getFluid(2000), 10, 0)
+                    .addData("param1", 60)
+                    .addData("param2", 40)
+                    .addData("param3", 140)
+                    .duration(200)
+                    .MANAt(32)
+                    .temperature(1600)
+                    .save();
+
+            ALCHEMY_CAULDRON_RECIPES.recipeBuilder("hero_medal")
+                    .notConsumable(BotaniaItems.flugelEye)
+                    .inputItems(GTOItems.GOLD_MEDAL)
+                    .inputItems(GTOItems.HEROS_SOUL, 4)
+
+                    .inputFluids(HerosBrawlers.getFluid(1000))
+                    .inputFluids(HerosBreach.getFluid(1000))
+                    .inputFluids(HerosSplendor.getFluid(1000))
+                    .outputItems(ExtraBotanyItems.heroMedal)
+                    .duration(200)
+                    .MANAt(32)
+                    .temperature(1600)
+                    .save();
+
             ALCHEMY_CAULDRON_RECIPES.recipeBuilder("alchemy_ender_eye")
                     .inputItems(RegistriesUtils.getItem("torchmaster:frozen_pearl"))
                     .chancedInput(new ItemStack(RegistriesUtils.getItem("mythicbotany:muspelheim_rune")), 2000, 0)
@@ -316,6 +386,35 @@ public final class MagicRecipesA {
                     .duration(40)
                     .MANAt(16)
                     .temperature(1600)
+                    .save();
+        }
+
+        // 苍穹凝聚器
+        {
+            CELESTIAL_CONDENSER_RECIPES.recipeBuilder("astral_silver")
+                    .inputItems(ingot, Silver)
+                    .outputItems(ingot, AstralSilver)
+                    .addData("lunara", 1000)
+                    .duration(10)
+                    .save();
+        }
+
+        // 产线的各种配方
+        {
+
+            VanillaRecipeHelper.addShapedRecipe(GTOCore.id("ribbon"), RIBBON.asStack(),
+                    "ABA", "BAB", "ABA",
+                    'A', new ItemStack(BotaniaItems.manaString), 'B', new ItemStack(BotaniaItems.spellCloth));
+
+            FORMING_PRESS_RECIPES.builder("gold_medal")
+                    .notConsumable(GTItems.SHAPE_MOLD_BALL.asStack())
+                    .inputItems(GTOItems.RIBBON.asItem())
+                    .inputItems("extrabotany:das_rheingold", 4)
+                    .inputItems(ingot, Laureril, 2)
+                    .inputItems(ingot, AstralSilver, 2)
+                    .outputItems(GTOItems.GOLD_MEDAL.asItem())
+                    .EUt(VA[LV])
+                    .duration(20)
                     .save();
         }
 

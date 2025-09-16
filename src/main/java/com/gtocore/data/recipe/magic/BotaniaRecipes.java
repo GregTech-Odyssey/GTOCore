@@ -221,6 +221,17 @@ public final class BotaniaRecipes {
 
         }
 
+        // 祭坛锻造
+        {
+            PedestalRecipeBuilder.builder("heros_soul")
+                    .input(ExtraBotanyItems.heroMedal)
+                    .output(GTOItems.HEROS_SOUL.asStack(4))
+                    .smashTools(ExtraBotanyTags.Items.HAMMERS)
+                    .strike(20)
+                    .exp(10)
+                    .save();
+        }
+
         // 精灵交易
         {
             ElfExchangeRecipe("elf_quartz", new ItemStack(Items.QUARTZ, 4), new ItemStack(BotaniaItems.elfQuartz, 4));
@@ -688,7 +699,7 @@ public final class BotaniaRecipes {
         {
             PedestalSmashRecipe(5, "gilded_potato_mashed", 180, Ingredient.of(ExtraBotanyTags.Items.HAMMERS), new ItemStack(ExtraBotanyItems.gildedPotato, 16), new ItemStack(ExtraBotanyItems.gildedPotatoMashed, 16));
             PedestalSmashRecipe(5, "spirit_fragment", 180, Ingredient.of(ExtraBotanyTags.Items.HAMMERS), new ItemStack(ExtraBotanyItems.spiritFuel, 16), new ItemStack(ExtraBotanyItems.spiritFragment, 16));
-
+            PedestalSmashRecipe(5, "heros_soul", 360, Ingredient.of(ExtraBotanyTags.Items.HAMMERS), new ItemStack(ExtraBotanyItems.heroMedal, 16), new ItemStack(GTOItems.HEROS_SOUL, 64));
         }
 
         // 魔力凝聚

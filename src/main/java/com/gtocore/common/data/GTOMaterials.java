@@ -1016,6 +1016,9 @@ public final class GTOMaterials {
     public static Material OmniFloraElixir;
     public static Material GaiaSolvent;
     public static Material WildenEssence;
+    public static Material HerosBrawlers;
+    public static Material HerosBreach;
+    public static Material HerosSplendor;
     public static Material Animium;
     public static Material TheWaterFromTheWellOfWisdom;
     public static Material FlowingCiphers;

@@ -57,7 +57,7 @@ public final class ArsNouveauRecipes {
             ImbuementRecipe("bifrost_perm", Ingredient.of(BotaniaBlocks.elfGlass), new ItemStack(BotaniaBlocks.bifrostPerm), 1000,
                     new Ingredient[] { Ingredient.of(RegistriesUtils.getItem("botania:rainbow_rod")) });
 
-            ImbuementRecipe("spirit_fuel", Ingredient.of(ExtraBotanyItems.nightmareFuel), new ItemStack(ExtraBotanyItems.spiritFuel), 5000,
+            ImbuementRecipe("spirit_fuel", Ingredient.of(ExtraBotanyItems.nightmareFuel), new ItemStack(ExtraBotanyItems.spiritFuel), 2000,
                     new Ingredient[] { Ingredient.of(Blocks.PLAYER_HEAD) });
         }
 
@@ -95,6 +95,8 @@ public final class ArsNouveauRecipes {
 
             EnchantingApparatusRecipe("enchanting_laureril_ingot", Ingredient.of(GTOChemicalHelper.getItem(plate, Runerock)), new ItemStack(GTOChemicalHelper.getItem(ingot, Laureril)), 10000, false,
                     new Ingredient[] { Ingredient.of(GTOChemicalHelper.getItem(ingot, Thaumium)), Ingredient.of(GTOChemicalHelper.getItem(ingot, WhiteWax)), Ingredient.of(GTOChemicalHelper.getItem(ingot, InfusedGold)), Ingredient.of(GTOChemicalHelper.getItem(ingot, Herbs)) });
+            EnchantingApparatusRecipe("enchanting_quicksilver_ingot", Ingredient.of(GTOChemicalHelper.getItem(plate, Runerock)), new ItemStack(GTOChemicalHelper.getItem(ingot, Quicksilver)), 10000, false,
+                    new Ingredient[] { Ingredient.of(GTOChemicalHelper.getItem(ingot, Thaumium)), Ingredient.of(GTOChemicalHelper.getItem(ingot, WhiteWax)), Ingredient.of(GTOChemicalHelper.getItem(ingot, AstralSilver)), Ingredient.of(GTOChemicalHelper.getItem(ingot, Gaiasteel)) });
 
             EnchantingApparatusRecipe("enchanting_starbuncle_shards", Ingredient.of(ItemsRegistry.STARBUNCLE_SHARD), new ItemStack(ItemsRegistry.STARBUNCLE_SHARD, 4), 10000, false,
                     new Ingredient[] { Ingredient.of(ItemsRegistry.CONJURATION_ESSENCE), Ingredient.of(ItemsRegistry.EARTH_ESSENCE), Ingredient.of(ItemsRegistry.FIRE_ESSENCE) });
@@ -154,7 +156,7 @@ public final class ArsNouveauRecipes {
                     new Ingredient[] { Ingredient.of(BotaniaItems.lifeEssence), Ingredient.of(BotaniaItems.lifeEssence), Ingredient.of(BotaniaItems.lifeEssence), Ingredient.of(BotaniaItems.lifeEssence) }, new FluidStack[0]);
             MultiblockImbuementRecipe(1, false, "bifrost_perm", Ingredient.of(BotaniaBlocks.elfGlass), new ItemStack(BotaniaBlocks.bifrostPerm), 1000,
                     new Ingredient[] { Ingredient.of(RegistriesUtils.getItem("botania:rainbow_rod")) }, new FluidStack[0]);
-            MultiblockImbuementRecipe(1, false, "spirit_fuel", Ingredient.of(ExtraBotanyItems.nightmareFuel), new ItemStack(ExtraBotanyItems.spiritFuel), 5000,
+            MultiblockImbuementRecipe(1, false, "spirit_fuel", Ingredient.of(ExtraBotanyItems.nightmareFuel), new ItemStack(ExtraBotanyItems.spiritFuel), 2000,
                     new Ingredient[] { Ingredient.of(Blocks.PLAYER_HEAD) }, new FluidStack[0]);
 
             // 附魔核心
@@ -320,6 +322,8 @@ public final class ArsNouveauRecipes {
 
             MultiblockImbuementRecipe(5, true, "enchanting_laureril_ingot", Ingredient.of(GTOChemicalHelper.getItem(plate, Runerock)), new ItemStack(GTOChemicalHelper.getItem(ingot, Laureril)), 10000,
                     new Ingredient[] { Ingredient.of(GTOChemicalHelper.getItem(ingot, Thaumium)), Ingredient.of(GTOChemicalHelper.getItem(ingot, WhiteWax)), Ingredient.of(GTOChemicalHelper.getItem(ingot, InfusedGold)), Ingredient.of(GTOChemicalHelper.getItem(ingot, Herbs)) }, new FluidStack[0]);
+            MultiblockImbuementRecipe(5, true, "enchanting_quicksilver_ingot", Ingredient.of(GTOChemicalHelper.getItem(plate, Runerock)), new ItemStack(GTOChemicalHelper.getItem(ingot, Quicksilver)), 10000,
+                    new Ingredient[] { Ingredient.of(GTOChemicalHelper.getItem(ingot, Thaumium)), Ingredient.of(GTOChemicalHelper.getItem(ingot, WhiteWax)), Ingredient.of(GTOChemicalHelper.getItem(ingot, AstralSilver)), Ingredient.of(GTOChemicalHelper.getItem(ingot, Gaiasteel)) }, new FluidStack[0]);
 
             MultiblockImbuementRecipe(5, true, "enchanting_starbuncle_shards", Ingredient.of(ItemsRegistry.STARBUNCLE_SHARD), new ItemStack(ItemsRegistry.STARBUNCLE_SHARD, 4), 10000,
                     new Ingredient[] { Ingredient.of(ItemsRegistry.CONJURATION_ESSENCE), Ingredient.of(ItemsRegistry.EARTH_ESSENCE), Ingredient.of(ItemsRegistry.FIRE_ESSENCE) }, new FluidStack[0]);

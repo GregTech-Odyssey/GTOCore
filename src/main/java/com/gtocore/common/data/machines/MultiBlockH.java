@@ -578,7 +578,7 @@ public final class MultiBlockH {
                 shapeInfos.add(builder.build());
                 return shapeInfos;
             })
-            .workableCasingRenderer(GTCEu.id("block/casings/steam/steel/side"), GTCEu.id("block/multiblock/fusion_reactor"))
+            .workableCasingRenderer(GTCEu.id("block/casings/steam/steel/side"), GTCEu.id("block/multiblock/multiblock_tank"))
             .register();
 
     // 地幔粉碎者
