@@ -54,12 +54,13 @@ public final class VirtualItemProviderMachine extends MetaMachine implements IUI
             VirtualItemProviderMachine.class, MetaMachine.MANAGED_FIELD_HOLDER);
 
     private static final Item VIRTUAL_ITEM_PROVIDER = CustomItems.VIRTUAL_ITEM_PROVIDER.asItem();
-    static private ItemStack es;
+    static private final AEKey empty_stack;
 
     static {
-        es = VirtualItemProviderBehavior.setVirtualItem(new ItemStack(VIRTUAL_ITEM_PROVIDER.asItem()), ItemStack.EMPTY);
+        var es = VirtualItemProviderBehavior.setVirtualItem(new ItemStack(VIRTUAL_ITEM_PROVIDER.asItem()), ItemStack.EMPTY);
         es = es.copyWithCount(1);
         es.getOrCreateTag().putBoolean("marked", true);
+        empty_stack=AEItemKey.of(es);
     }
 
     private final CellDataStorage storage = new CellDataStorage();
@@ -78,7 +79,7 @@ public final class VirtualItemProviderMachine extends MetaMachine implements IUI
         storage.setStoredMap(new O2LOpenCacheHashMap<>());
         inventory.addChangedListener(() -> {
             storage.getStoredMap().clear();
-            storage.getStoredMap().addTo(AEItemKey.of(es), IParallelMachine.MAX_PARALLEL * 64);
+            storage.getStoredMap().addTo(empty_stack, IParallelMachine.MAX_PARALLEL * 64);
             for (var i = 0; i < inventory.storage.size; i++) {
                 var stack = inventory.storage.stacks[i];
                 if (stack.isEmpty()) continue;
