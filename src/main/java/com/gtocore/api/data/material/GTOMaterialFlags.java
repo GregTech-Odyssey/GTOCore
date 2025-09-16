@@ -58,4 +58,10 @@ public final class GTOMaterialFlags {
 
     public static final MaterialFlag GENERATE_BREEDER_ROD = new MaterialFlag.Builder("generate_breeder_rod")
             .build();
+
+    public static final MaterialFlag GENERATE_ELECTRODE = new MaterialFlag.Builder("generate_electrode")
+            .build();
+
+    public static final MaterialFlag GENERATE_MEMBRANE_ELECTRODE = new MaterialFlag.Builder("generate_membrane_electrode")
+            .build();
 }

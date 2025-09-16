@@ -145,6 +145,7 @@ public final class MaterialIgnored {
         TagPrefix.dust.setIgnored(Cobalt, () -> EIOItems.POWDERED_COBALT);
         TagPrefix.dust.setIgnored(Lapis, () -> EIOItems.POWDERED_LAPIS_LAZULI);
         TagPrefix.dust.setIgnored(Soularium, () -> EIOItems.SOUL_POWDER);
+        TagPrefix.dust.setIgnored(NetherQuartz, () -> EIOItems.POWDERED_QUARTZ);
 
         TagPrefix.ingot.setIgnored(CopperAlloy, () -> EIOItems.COPPER_ALLOY_INGOT);
         TagPrefix.nugget.setIgnored(CopperAlloy, () -> EIOItems.COPPER_ALLOY_NUGGET);

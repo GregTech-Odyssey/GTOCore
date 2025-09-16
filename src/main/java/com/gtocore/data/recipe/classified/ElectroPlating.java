@@ -25,7 +25,7 @@ public class ElectroPlating {
                 .outputFluids(GTOMaterials.DiethyleneGlycol.getFluid(72 * 16))
                 .outputFluids(GTMaterials.HydrofluoricAcid.getFluid(72 * 16))
                 .EUt(60)
-                .duration(20 * 1800)
+                .duration(5400)
                 .save();
 
         ELECTROPLATING_RECIPES.recipeBuilder("neutron_reflector").duration(4000).EUt(VA[MV])

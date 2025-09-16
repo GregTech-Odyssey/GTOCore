@@ -114,6 +114,9 @@ public final class GTOTagPrefix extends TagPrefix {
     public static final TagPrefix BREEDER_ROD = new GTOTagPrefix("breeder_rod").useRenderer(() -> HaloItemRenderer.RADIOACTIVE).idPattern("%s_breeder_rod").defaultTagPath("breeder_rod/%s").unformattedTagPath("breeder_rod").materialAmount(GTValues.M * 2).materialIconType(BreederRodIcon).unificationEnabled(true).generateItem(true).generationCondition(mat -> mat.hasFlag(GTOMaterialFlags.GENERATE_BREEDER_ROD));
     public static final TagPrefix DEPLETED_BREEDER_ROD = new GTOTagPrefix("depleted_breeder_rod").idPattern("%s_depleted_breeder_rod").defaultTagPath("depleted_breeder_rod/%s").unformattedTagPath("depleted_breeder_rod").materialAmount(GTValues.M * 2).materialIconType(BreederRodIcon).unificationEnabled(true).generateItem(true).generationCondition(mat -> mat.hasFlag(GTOMaterialFlags.GENERATE_BREEDER_ROD));
 
+    public static final TagPrefix ELECTRODE = new GTOTagPrefix("electrode").idPattern("%s_electrode").defaultTagPath("electrodes/%s").unformattedTagPath("electrodes").materialAmount(GTValues.M).materialIconType(new MaterialIconType("electrode")).unificationEnabled(true).generateItem(true).generationCondition(mat -> mat.hasFlag(GTOMaterialFlags.GENERATE_ELECTRODE));
+    public static final TagPrefix MEMBRANE_ELECTRODE = new GTOTagPrefix("membrane_electrode").idPattern("%s_membrane_electrode").defaultTagPath("membrane_electrodes/%s").unformattedTagPath("membrane_electrodes").materialAmount(GTValues.M).materialIconType(new MaterialIconType("membrane_electrode")).unificationEnabled(true).generateItem(true).generationCondition(mat -> mat.hasFlag(GTOMaterialFlags.GENERATE_MEMBRANE_ELECTRODE));
+
     private GTOTagPrefix useRenderer(final ICustomRenderer renderer) {
         this.customRenderer = renderer;
         return this;

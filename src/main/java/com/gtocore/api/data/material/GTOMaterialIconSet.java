@@ -6,6 +6,7 @@ import com.gtocore.client.renderer.item.StereoscopicItemRenderer;
 import com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialIconSet;
 import com.gregtechceu.gtceu.api.item.component.ICustomRenderer;
 
+import com.gtocore.client.renderer.item.SpinTransformRenderer;
 import com.lowdragmc.lowdraglib.client.renderer.IRenderer;
 
 public final class GTOMaterialIconSet extends MaterialIconSet {
@@ -35,6 +36,7 @@ public final class GTOMaterialIconSet extends MaterialIconSet {
     public static final GTOMaterialIconSet MAGMATTER = new GTOMaterialIconSet("magmatter", null, true, HaloItemRenderer.MAGMATTER_HALO);
     public static final GTOMaterialIconSet PARTICLE_EMITTER = new GTOMaterialIconSet("particle_emitter", null, true, HaloItemRenderer.RADIOACTIVE);
     public static final MaterialIconSet LIMPID = new MaterialIconSet("limpid", DULL);
+    public static final GTOMaterialIconSet SUPRACAUSAL = new GTOMaterialIconSet("supracausal", METALLIC, false, SpinTransformRenderer.INSTANCE);
 
     public ICustomRenderer getCustomRenderer() {
         return this.customRenderer;

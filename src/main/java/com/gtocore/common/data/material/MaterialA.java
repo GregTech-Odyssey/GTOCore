@@ -784,7 +784,7 @@ public final class MaterialA {
                 .color(0x000000)
                 .blastTemp(32000, HIGHEST)
                 .element(GTOElements.INFINITY)
-                .iconSet(CHAOS_INFINITY)
+                .iconSet(SUPRACAUSAL)
                 .flags(GENERATE_FRAME, GENERATE_GEAR, GENERATE_BOLT_SCREW)
                 .buildAndRegister()
                 .setFormula("§8§kc§r§8∞§r§8§kc", false);
