@@ -58,6 +58,7 @@ public final class FuzzyKeyCounter {
     }
 
     public void clear() {
+        if (lists == null) return;
         lists.values().forEach(VariantCounter::clear);
     }
 }

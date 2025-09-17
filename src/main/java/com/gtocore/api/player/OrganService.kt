@@ -4,6 +4,7 @@ import com.gtocore.common.data.GTODamageTypes
 import com.gtocore.common.data.GTOOrganItems.FAIRY_WING
 import com.gtocore.common.data.GTOOrganItems.MANA_STEEL_WING
 import com.gtocore.common.data.GTOOrganItems.MECHANICAL_WING
+import com.gtocore.common.item.misc.OrganType
 import com.gtocore.common.item.misc.TierData.Companion.BlockReachFunction
 import com.gtocore.common.item.misc.TierData.Companion.MovementSpeedFunction
 import com.gtocore.utils.ktGetOrganStack
@@ -40,7 +41,7 @@ class OrganService : IOrganService {
         val playerData = IEnhancedPlayer.of(player).playerData
         playerData.wingState = false
         // Night Vision
-        when (playerData.organTierCache.contains(1)) {
+        when (playerData.organTierCache.getInt(OrganType.Eye) > 0) {
             true -> run {
                 val shouldAdd = player.getEffect(MobEffects.NIGHT_VISION)?.let { it.duration < 20 * 45 - 20 * 15 } ?: true
                 if (!shouldAdd)return@run
@@ -52,13 +53,13 @@ class OrganService : IOrganService {
         (0..4).forEach { tier ->
             val modifierNAME = "gtocore:organ_speed_tier_$tier"
             val modifierUUID = UUID.nameUUIDFromBytes(modifierNAME.toByteArray())
-            when (playerData.organTierCache.contains(tier)) {
+            when (playerData.organTierCache.getInt(OrganType.LeftLeg) > tier && playerData.organTierCache.getInt(OrganType.RightLeg) > tier) {
                 true -> run {
                     val modifierAmplify = MovementSpeedFunction(tier)
                     val shouldAdd = player.getAttribute(Attributes.MOVEMENT_SPEED)?.modifiers?.all { it.name != modifierNAME } ?: true
                     if (!shouldAdd)return@run
                     player.getAttribute(Attributes.MOVEMENT_SPEED)?.addPermanentModifier(
-                        AttributeModifier(modifierUUID, modifierNAME, modifierAmplify.toDouble(), AttributeModifier.Operation.ADDITION),
+                        AttributeModifier(modifierUUID, modifierNAME, modifierAmplify, AttributeModifier.Operation.ADDITION),
                     )
                 }
                 false -> run {
@@ -70,7 +71,7 @@ class OrganService : IOrganService {
         run {
             val modifierNAME = "gtocore:organ_reach"
             val modifierUUID = UUID.nameUUIDFromBytes(modifierNAME.toByteArray())
-            when (playerData.organTierCache.contains(2)) {
+            when (playerData.organTierCache.getInt(OrganType.RightArm) > 1) {
                 true -> run {
                     val modifierAmplify = BlockReachFunction
                     val shouldAdd = player.getAttribute(BLOCK_REACH.get())?.modifiers?.all { it.name != modifierNAME } ?: true
@@ -85,7 +86,7 @@ class OrganService : IOrganService {
             }
         }
         // Fly
-        when (playerData.organTierCache.contains(4)) { // 四级器官创造飞
+        when (playerData.organTierCache.values.contains(4)) { // 四级器官创造飞
             true -> run {
                 playerData.wingState = true
             }
@@ -118,7 +119,7 @@ class OrganService : IOrganService {
             val lowerTierTag = ((tier - 1) / 2) + 1
             val cache = playerData
 
-            if (!playerData.organTierCache.contains(lowerTierTag)) {
+            if (!playerData.organTierCache.values.contains(lowerTierTag)) {
                 val customComponent: Component = Component.translatable(
                     "gtocore.death.attack.turbulence_of_another_star",
                     player.name,

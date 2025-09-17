@@ -539,6 +539,9 @@ public final class RecipeFilter {
         filters.add(RLUtils.fd("paper_from_tree_bark"));
         filters.add(RLUtils.fd("cooking_pot"));
         filters.add(RLUtils.mc("red_dye"));
+        filters.add(RLUtils.mc("book_from_canvas"));
+        filters.add(RLUtils.mc("painting_from_canvas"));
+        filters.add(RLUtils.mc("scaffolding_from_canvas"));
 
         filters.add(RLUtils.fromNamespaceAndPath("farmersrespite", "green_tea_leaves_sack"));
         filters.add(RLUtils.fromNamespaceAndPath("farmersrespite", "yellow_tea_leaves_sack"));

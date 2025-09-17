@@ -33,6 +33,7 @@ import com.gtolib.api.recipe.modifier.RecipeModifierFunction;
 import com.gtolib.utils.MultiBlockFileReader;
 
 import com.gregtechceu.gtceu.GTCEu;
+import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
@@ -41,10 +42,7 @@ import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.MultiblockShapeInfo;
 import com.gregtechceu.gtceu.api.pattern.util.RelativeDirection;
-import com.gregtechceu.gtceu.common.data.GCYMBlocks;
-import com.gregtechceu.gtceu.common.data.GTBlocks;
-import com.gregtechceu.gtceu.common.data.GTMaterials;
-import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
+import com.gregtechceu.gtceu.common.data.*;
 import com.gregtechceu.gtceu.common.data.machines.GTMultiMachines;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 
@@ -102,6 +100,7 @@ public final class MultiBlockC {
                     .where('~', controller(blocks(definition.get())))
                     .where('A', blocks(GTBlocks.CASING_BRONZE_BRICKS.get())
                             .or(abilities(STEAM).setExactLimit(1))
+                            .or(blocks(GTMachines.ITEM_IMPORT_BUS[GTValues.ULV].get()).setMaxGlobalLimited(1).setPreviewCount(1))
                             .or(abilities(GTOPartAbility.STEAM_IMPORT_FLUIDS).setMaxGlobalLimited(2).setPreviewCount(1))
                             .or(abilities(GTOPartAbility.STEAM_EXPORT_FLUIDS).setMaxGlobalLimited(2).setPreviewCount(1)))
                     .where('B', blocks(GTBlocks.BRONZE_HULL.get()))
