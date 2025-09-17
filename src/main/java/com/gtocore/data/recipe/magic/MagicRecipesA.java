@@ -103,6 +103,7 @@ public final class MagicRecipesA {
                     .chancedOutput(GaiaSolvent.getFluid(1000), 10, 0)
                     .duration(600)
                     .MANAt(8)
+                    .temperature(800)
                     .addData("param1", 140)
                     .addData("param2", 60)
                     .addData("param3", 60)
@@ -164,6 +165,7 @@ public final class MagicRecipesA {
                         .chancedOutput(CycleofBlossomsSolvent.getFluid(900), 9500, 0)
                         .duration(650)
                         .MANAt(2)
+                        .temperature(800)
                         .addData("param1", param[i][0] + 20)
                         .addData("param2", param[i][1] + 20)
                         .addData("param3", param[i][2] + 20)
@@ -191,6 +193,7 @@ public final class MagicRecipesA {
                     .chancedOutput(CycleofBlossomsSolvent.getFluid(800), 8000, 0)
                     .duration(650)
                     .MANAt(2)
+                    .temperature(800)
                     .addData("param1", 140)
                     .addData("param2", 140)
                     .addData("param3", 140)
@@ -270,6 +273,7 @@ public final class MagicRecipesA {
                     .chancedOutput(new ItemStack(Items.ENDER_EYE), 3000, 0)
                     .duration(650)
                     .MANAt(1)
+                    .temperature(800)
                     .save();
 
             ALCHEMY_CAULDRON_RECIPES.recipeBuilder("alchemy_herbs_ingot")
@@ -320,6 +324,7 @@ public final class MagicRecipesA {
                     .outputItems(ItemsRegistry.WILDEN_HORN, 16)
                     .MANAt(4)
                     .duration(650)
+                    .temperature(1400)
                     .save();
 
             ALCHEMY_CAULDRON_RECIPES.builder("wilden_spike")
@@ -331,6 +336,7 @@ public final class MagicRecipesA {
                     .outputItems(ItemsRegistry.WILDEN_SPIKE, 16)
                     .MANAt(4)
                     .duration(600)
+                    .temperature(1400)
                     .save();
 
             ALCHEMY_CAULDRON_RECIPES.builder("wilden_wing")
@@ -342,6 +348,7 @@ public final class MagicRecipesA {
                     .outputItems(ItemsRegistry.WILDEN_WING, 16)
                     .MANAt(4)
                     .duration(600)
+                    .temperature(1400)
                     .save();
 
             ALCHEMY_CAULDRON_RECIPES.recipeBuilder("wilden_tribute")
@@ -395,6 +402,20 @@ public final class MagicRecipesA {
                     .inputItems(ingot, Silver)
                     .outputItems(ingot, AstralSilver)
                     .addData("lunara", 1000)
+                    .duration(10)
+                    .save();
+
+            CELESTIAL_CONDENSER_RECIPES.recipeBuilder("helio_coal")
+                    .inputItems(Items.COAL)
+                    .outputItems(HELIO_COAL)
+                    .addData("solaris", 1000)
+                    .duration(10)
+                    .save();
+
+            CELESTIAL_CONDENSER_RECIPES.recipeBuilder("ender_diamond")
+                    .inputItems(Items.DIAMOND)
+                    .outputItems(ENDER_DIAMOND)
+                    .addData("voidflux", 1000)
                     .duration(10)
                     .save();
         }
@@ -1173,6 +1194,12 @@ public final class MagicRecipesA {
             VanillaRecipeHelper.addShapedRecipe(GTOCore.id("area_destruction_tools"), ManaMachine.AREA_DESTRUCTION_TOOLS.asStack(),
                     "ABA", "CDC", "ABA",
                     'A', new ItemStack(Items.REPEATER.asItem()), 'B', GTBlocks.INDUSTRIAL_TNT.asStack(), 'C', GTOBlocks.NUKE_BOMB.asStack(), 'D', ManaMachine.MANA_HULL[GTValues.LuV].asStack());
+
+            VanillaRecipeHelper.addShapedRecipe( GTOCore.id("celestial_condenser"), ManaMachine.CELESTIAL_CONDENSER.asStack(),
+                    "ABC", "DEF", "GHI",
+                    'A', new ItemStack(Items.YELLOW_STAINED_GLASS_PANE.asItem()),'B', new ItemStack(Items.WHITE_STAINED_GLASS_PANE.asItem()),'C', new ItemStack(Items.PINK_STAINED_GLASS_PANE.asItem()),
+                    'D', new ItemStack(Items.RED_STAINED_GLASS_PANE.asItem()),'E', new MaterialEntry(TagPrefix.frameGt, GTOMaterials.Aerialite),'F', new ItemStack(Items.MAGENTA_STAINED_GLASS_PANE.asItem()),
+                    'G', RegistriesUtils.getItemStack("botania:tornado_rod"),'H', new ItemStack(Items.CHISELED_DEEPSLATE.asItem()),'I', RegistriesUtils.getItemStack("ars_nouveau:dominion_wand"));
         }
 
         // 工具配方

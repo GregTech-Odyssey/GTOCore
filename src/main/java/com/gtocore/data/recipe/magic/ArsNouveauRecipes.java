@@ -31,6 +31,7 @@ import vazkii.botania.common.item.BotaniaItems;
 import vectorwing.farmersdelight.common.tag.ForgeTags;
 
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
+import static com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys.GAS;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
 import static com.gtocore.common.data.GTOMaterials.*;
 import static com.gtocore.common.data.GTORecipeTypes.INFUSER_CORE_RECIPES;
@@ -96,7 +97,8 @@ public final class ArsNouveauRecipes {
             EnchantingApparatusRecipe("enchanting_laureril_ingot", Ingredient.of(GTOChemicalHelper.getItem(plate, Runerock)), new ItemStack(GTOChemicalHelper.getItem(ingot, Laureril)), 10000, false,
                     new Ingredient[] { Ingredient.of(GTOChemicalHelper.getItem(ingot, Thaumium)), Ingredient.of(GTOChemicalHelper.getItem(ingot, WhiteWax)), Ingredient.of(GTOChemicalHelper.getItem(ingot, InfusedGold)), Ingredient.of(GTOChemicalHelper.getItem(ingot, Herbs)) });
             EnchantingApparatusRecipe("enchanting_quicksilver_ingot", Ingredient.of(GTOChemicalHelper.getItem(plate, Runerock)), new ItemStack(GTOChemicalHelper.getItem(ingot, Quicksilver)), 10000, false,
-                    new Ingredient[] { Ingredient.of(GTOChemicalHelper.getItem(ingot, Thaumium)), Ingredient.of(GTOChemicalHelper.getItem(ingot, WhiteWax)), Ingredient.of(GTOChemicalHelper.getItem(ingot, AstralSilver)), Ingredient.of(GTOChemicalHelper.getItem(ingot, Gaiasteel)) });
+                    new Ingredient[] { Ingredient.of(ExtraBotanyItems.spiritFuel), Ingredient.of(ItemsRegistry.EARTH_ESSENCE),Ingredient.of(GTOChemicalHelper.getItem(ingot, Thaumium)), Ingredient.of(ExtraBotanyItems.theChaos),Ingredient.of(ItemsRegistry.AIR_ESSENCE),Ingredient.of(GTOChemicalHelper.getItem(ingot, WhiteWax)),
+                            Ingredient.of(ExtraBotanyItems.nightmareFuel), Ingredient.of(ItemsRegistry.WATER_ESSENCE),Ingredient.of(GTOChemicalHelper.getItem(ingot, AstralSilver)), Ingredient.of(ExtraBotanyItems.theOrigin),Ingredient.of(ItemsRegistry.FIRE_ESSENCE), Ingredient.of(GTOChemicalHelper.getItem(ingot, Gaia)) });
 
             EnchantingApparatusRecipe("enchanting_starbuncle_shards", Ingredient.of(ItemsRegistry.STARBUNCLE_SHARD), new ItemStack(ItemsRegistry.STARBUNCLE_SHARD, 4), 10000, false,
                     new Ingredient[] { Ingredient.of(ItemsRegistry.CONJURATION_ESSENCE), Ingredient.of(ItemsRegistry.EARTH_ESSENCE), Ingredient.of(ItemsRegistry.FIRE_ESSENCE) });
@@ -323,7 +325,8 @@ public final class ArsNouveauRecipes {
             MultiblockImbuementRecipe(5, true, "enchanting_laureril_ingot", Ingredient.of(GTOChemicalHelper.getItem(plate, Runerock)), new ItemStack(GTOChemicalHelper.getItem(ingot, Laureril)), 10000,
                     new Ingredient[] { Ingredient.of(GTOChemicalHelper.getItem(ingot, Thaumium)), Ingredient.of(GTOChemicalHelper.getItem(ingot, WhiteWax)), Ingredient.of(GTOChemicalHelper.getItem(ingot, InfusedGold)), Ingredient.of(GTOChemicalHelper.getItem(ingot, Herbs)) }, new FluidStack[0]);
             MultiblockImbuementRecipe(5, true, "enchanting_quicksilver_ingot", Ingredient.of(GTOChemicalHelper.getItem(plate, Runerock)), new ItemStack(GTOChemicalHelper.getItem(ingot, Quicksilver)), 10000,
-                    new Ingredient[] { Ingredient.of(GTOChemicalHelper.getItem(ingot, Thaumium)), Ingredient.of(GTOChemicalHelper.getItem(ingot, WhiteWax)), Ingredient.of(GTOChemicalHelper.getItem(ingot, AstralSilver)), Ingredient.of(GTOChemicalHelper.getItem(ingot, Gaiasteel)) }, new FluidStack[0]);
+                    new Ingredient[] {Ingredient.of(ExtraBotanyItems.spiritFuel), Ingredient.of(ItemsRegistry.EARTH_ESSENCE),Ingredient.of(GTOChemicalHelper.getItem(ingot, Thaumium)), Ingredient.of(ExtraBotanyItems.theChaos),Ingredient.of(ItemsRegistry.AIR_ESSENCE),Ingredient.of(GTOChemicalHelper.getItem(ingot, WhiteWax)),
+                            Ingredient.of(ExtraBotanyItems.nightmareFuel), Ingredient.of(ItemsRegistry.WATER_ESSENCE),Ingredient.of(GTOChemicalHelper.getItem(ingot, AstralSilver)), Ingredient.of(ExtraBotanyItems.theOrigin),Ingredient.of(ItemsRegistry.FIRE_ESSENCE), Ingredient.of(GTOChemicalHelper.getItem(ingot, Gaia)) }, new FluidStack[0]);
 
             MultiblockImbuementRecipe(5, true, "enchanting_starbuncle_shards", Ingredient.of(ItemsRegistry.STARBUNCLE_SHARD), new ItemStack(ItemsRegistry.STARBUNCLE_SHARD, 4), 10000,
                     new Ingredient[] { Ingredient.of(ItemsRegistry.CONJURATION_ESSENCE), Ingredient.of(ItemsRegistry.EARTH_ESSENCE), Ingredient.of(ItemsRegistry.FIRE_ESSENCE) }, new FluidStack[0]);
@@ -335,13 +338,13 @@ public final class ArsNouveauRecipes {
                     new Ingredient[] { Ingredient.of(ItemsRegistry.CONJURATION_ESSENCE), Ingredient.of(ItemsRegistry.AIR_ESSENCE), Ingredient.of(ItemsRegistry.MANIPULATION_ESSENCE) }, new FluidStack[0]);
 
             MultiblockImbuementRecipe(5, true, "enchanting_earth_essence", Ingredient.of(ItemsRegistry.SOURCE_GEM), new ItemStack(ItemsRegistry.EARTH_ESSENCE), 5000,
-                    new Ingredient[] { Ingredient.of(Items.IRON_INGOT), Ingredient.of(ItemTags.DIRT), Ingredient.of(ForgeTags.SEEDS) }, new FluidStack[] { Gnome.getFluid(1000) });
+                    new Ingredient[] { Ingredient.of(Items.IRON_INGOT), Ingredient.of(ItemTags.DIRT), Ingredient.of(ForgeTags.SEEDS) }, new FluidStack[] { Gnome.getFluid(GAS,1000) });
             MultiblockImbuementRecipe(5, true, "enchanting_air_essence", Ingredient.of(ItemsRegistry.SOURCE_GEM), new ItemStack(ItemsRegistry.AIR_ESSENCE), 5000,
-                    new Ingredient[] { Ingredient.of(Items.FEATHER), Ingredient.of(ItemTags.ARROWS), Ingredient.of(ItemsRegistry.WILDEN_WING) }, new FluidStack[] { Sylph.getFluid(1000) });
+                    new Ingredient[] { Ingredient.of(Items.FEATHER), Ingredient.of(ItemTags.ARROWS), Ingredient.of(ItemsRegistry.WILDEN_WING) }, new FluidStack[] { Sylph.getFluid(GAS,1000) });
             MultiblockImbuementRecipe(5, true, "enchanting_water_essence", Ingredient.of(ItemsRegistry.SOURCE_GEM), new ItemStack(ItemsRegistry.WATER_ESSENCE), 5000,
-                    new Ingredient[] { Ingredient.of(Items.KELP), Ingredient.of(Items.SNOW_BLOCK) }, new FluidStack[] { Undine.getFluid(1000), Water.getFluid(1000) });
+                    new Ingredient[] { Ingredient.of(Items.KELP), Ingredient.of(Items.SNOW_BLOCK) }, new FluidStack[] { Undine.getFluid(GAS,1000), Water.getFluid(1000) });
             MultiblockImbuementRecipe(5, true, "enchanting_fire_essence", Ingredient.of(ItemsRegistry.SOURCE_GEM), new ItemStack(ItemsRegistry.FIRE_ESSENCE), 5000,
-                    new Ingredient[] { Ingredient.of(Items.FLINT_AND_STEEL), Ingredient.of(Items.GUNPOWDER), Ingredient.of(Items.TORCH) }, new FluidStack[] { Salamander.getFluid(1000) });
+                    new Ingredient[] { Ingredient.of(Items.FLINT_AND_STEEL), Ingredient.of(Items.GUNPOWDER), Ingredient.of(Items.TORCH) }, new FluidStack[] { Salamander.getFluid(GAS,1000) });
             MultiblockImbuementRecipe(5, true, "enchanting_manipulation_essence", Ingredient.of(ItemsRegistry.SOURCE_GEM), new ItemStack(ItemsRegistry.MANIPULATION_ESSENCE), 5000,
                     new Ingredient[] { Ingredient.of(Items.STONE_BUTTON), Ingredient.of(Items.REDSTONE), Ingredient.of(Items.CLOCK) }, new FluidStack[] { Aether.getFluid(1000) });
             MultiblockImbuementRecipe(5, true, "enchanting_abjuration_essence", Ingredient.of(ItemsRegistry.SOURCE_GEM), new ItemStack(ItemsRegistry.ABJURATION_ESSENCE), 5000,

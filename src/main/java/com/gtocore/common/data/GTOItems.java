@@ -882,6 +882,8 @@ public final class GTOItems {
     public static final ItemEntry<Item> GAIA_CORE = register("gaia_core", "§e盖亚之核");
     public static final ItemEntry<Item> UNSTABLE_GAIA_SOUL = item("unstable_gaia_soul", "不稳定的盖亚之魂", Item::new).properties(p -> p.rarity(Rarity.UNCOMMON)).register();
     public static final ItemEntry<Item> WILDEN_SLATE = item("wilden_slate", "荒野石板", Item::new).properties(p -> p.rarity(Rarity.EPIC)).register();
+    public static final ItemEntry<Item> HELIO_COAL = register("helio_coal", "日耀煤");
+    public static final ItemEntry<Item> ENDER_DIAMOND = register("ender_diamond", "末影钻石");
     public static final ItemEntry<Item> RIBBON = register("ribbon", "绶带");
     public static final ItemEntry<Item> GOLD_MEDAL = item("gold_medal", "金制勋章", Item::new).properties(p -> p.rarity(Rarity.UNCOMMON)).register();
     public static final ItemEntry<Item> HEROS_SOUL = item("heros_soul", "英雄之魂", Item::new).properties(p -> p.rarity(Rarity.UNCOMMON)).register();

@@ -22,8 +22,7 @@ public final class CelestialCondenserRenderer extends WorkableCasingMachineRende
     private static final ResourceLocation MODEL_LOCATION = GTOCore.id("block/machine/celestial_condenser");
 
     public CelestialCondenserRenderer() {
-        // 使用适当的纹理路径，这里假设使用默认的工作机器外观
-        super(GTOCore.id("block/casings/solid_machine_casing"), GTOCore.id("block/machine/celestial_condenser_overlay"));
+        super(GTOCore.id("block/machines/celestial_condenser/side"), GTOCore.id("block/machines/celestial_condenser/face"));
     }
 
     @Override
@@ -31,19 +30,15 @@ public final class CelestialCondenserRenderer extends WorkableCasingMachineRende
     public void render(BlockEntity blockEntity, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int combinedLight, int combinedOverlay) {
         if (blockEntity instanceof MetaMachineBlockEntity) {
 
-            // 渲染Celestial Condenser特殊模型（透明部分）
             poseStack.pushPose();
-            // 调整模型位置和缩放
-            poseStack.translate(0.5, 0.5, 0.5);
+            poseStack.translate(0, 1, 0);
             poseStack.scale(1.0f, 1.0f, 1.0f);
-
-            // 使用透明渲染类型渲染模型
             ClientUtil.modelRenderer().renderModel(
                     poseStack.last(),
-                    buffer.getBuffer(RenderType.translucent()), // 使用透明渲染类型
+                    buffer.getBuffer(RenderType.translucent()),
                     null,
                     ClientUtil.getBakedModel(MODEL_LOCATION),
-                    1.0f, 1.0f, 1.0f, // RGB颜色
+                    1.0f, 1.0f, 1.0f,
                     combinedLight,
                     combinedOverlay);
 
@@ -67,6 +62,6 @@ public final class CelestialCondenserRenderer extends WorkableCasingMachineRende
     @Override
     @OnlyIn(Dist.CLIENT)
     public boolean isGlobalRenderer(BlockEntity blockEntity) {
-        return false; // 根据需求调整，如果不是大型结构，通常设为false
+        return false;
     }
 }
