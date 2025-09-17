@@ -625,7 +625,7 @@ final class GTOPartsRecipeHandler {
                     .outputItems(rotorStack)
                     .outputFluids(wasteMaterial.getFluid(1000))
                     .category(GTORecipeCategories.ROTOR_PLATING)
-                    .duration((int) plating.getMass() << 4 + material.getMass() << 4 / 2)
+                    .duration((int) ((plating.getMass() << 4) + (material.getMass() << 4) / 2))
                     .EUt(480)
                     .save();
         });
