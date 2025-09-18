@@ -258,9 +258,9 @@ public final class GTOConfig {
     public float cannibalismDamage = 1.0F;
 
     @Configurable
-    @Configurable.Comment({ "关闭后将渲染视角外，且渲染器被标记为Global的机器，一些高级特效机器需要关闭此选项才能正常渲染", "When turned off, machines that are outside the field of view and whose renderer is marked as Global will be rendered. Some advanced effect machines need to turn off this option to render properly" })
-    @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Embeddium Global BE Culling", cn = "Embbedium Global方块实体剔除")
-    public boolean EmbeddiumBECulling = true;
+    @Configurable.Comment({ "禁用后将渲染视角外，且渲染器被标记为Global的机器，一些高级特效机器需要开启此选项才能正常渲染", "When turned disable, machines that are outside the field of view and whose renderer is marked as Global will be rendered. Some advanced effect machines need to turn on this option to render properly" })
+    @RegisterLanguage(namePrefix = "config.gtocore.option", en = "Disable Embeddium Global BE Culling", cn = "禁用Embbedium Global方块实体剔除")
+    public boolean disableEmbeddiumBECulling = true;
 
     @Configurable
     @Configurable.Comment({ "启用后，进入游戏时，若多方块结构未能成型，则将错误信息将发送给机器的所有者", "When enabled, if the multiblock structure fails to form when entering the game, the error message will be sent to the owner of the machine" })

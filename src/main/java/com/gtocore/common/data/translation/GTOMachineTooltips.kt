@@ -227,6 +227,7 @@ object GTOMachineTooltips {
 
         section(ComponentSlang.MainFunction)
         function("能监测全部机器2秒内的平均延迟" translatedTo "Can monitor all machines' average delay within 2 seconds and support highlighting")
+        function("能监测全部AE网络6.4秒内的平均延迟" translatedTo "Can monitor all AE grids' average delay within 6.4 seconds and support highlighting")
         guide("右键点击机器以打开性能监测界面" translatedTo "Right click on the machine to open performance monitoring interface")
     }
 

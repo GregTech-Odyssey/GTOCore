@@ -140,7 +140,7 @@ dependencies {
 
     jarJar(modImplementation("dev:gtceu-$project.minecraft_version:$project.gtceu_version"))
 
-    jarJar(modImplementation("dev:gtmthings:1.5.4-GTO-Port"))
+    jarJar(modImplementation("dev:gtmthings:1.5.5-GTO-Port"))
 
     modImplementation("dev:Jade-1.20.1-Forge-11.13.1")
 

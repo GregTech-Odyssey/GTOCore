@@ -31,7 +31,7 @@
     "ae2.EnergyServiceMixin",
     "ae2.FacadeCreativeTabMixin",
     "ae2.FuzzyPriorityListMixin",
-    "ae2.GridAccessor",
+    "ae2.GridMixin",
     "ae2.GuiDataSyncPacketMixin",
     "ae2.IncrementalUpdateHelperMixin",
     "ae2.InterfaceLogicMixin",
