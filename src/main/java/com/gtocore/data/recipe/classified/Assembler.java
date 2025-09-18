@@ -3810,7 +3810,7 @@ final class Assembler {
         ASSEMBLER_RECIPES.builder("wireless_dimension_repeater")
                 .inputItems(MultiBlockG.WIRELESS_ENERGY_SUBSTATION.asStack())
                 .inputItems(GTItems.QUANTUM_STAR.asStack(4))
-                .inputItems(AEItems.QUANTUM_ENTANGLED_SINGULARITY.asItem(), 2)
+                .inputItems(GTOItems.ENTANGLED_SINGULARITY.asItem(), 2)
                 .inputItems(TagPrefix.plateDouble, GTOMaterials.NitinolA, 16)
                 .inputItems(TagPrefix.plateDouble, GTMaterials.Ruthenium, 8)
                 .outputItems(MultiBlockG.WIRELESS_DIMENSION_REPEATER.asStack())
