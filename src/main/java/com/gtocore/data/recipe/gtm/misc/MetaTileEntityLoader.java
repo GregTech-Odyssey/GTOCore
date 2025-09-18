@@ -394,23 +394,22 @@ public final class MetaTileEntityLoader {
                 GTMachines.CONFIGURABLE_MAINTENANCE_HATCH.asStack(), "   ", "CMC", "VHV", 'C',
                 CIRCUIT.get(HV), 'M', GTMachines.MAINTENANCE_HATCH.asStack(), 'V', CONVEYOR.get(HV),
                 'H', GTMachines.HULL[HV].asStack());
-        if(GTOCore.isExpert()){
+        if (GTOCore.isExpert()) {
             VanillaRecipeHelper.addShapedRecipe(true, "maintenance_hatch_automatic",
-                GTMachines.AUTO_MAINTENANCE_HATCH.asStack(), "CMC", "RHR", "CMC", 'C', CIRCUIT.get(IV), 'M',
-                GTMachines.MAINTENANCE_HATCH.asStack(), 'R', ROBOT_ARM.get(EV), 'H',
-                GTMachines.HULL[HV].asStack());
-        }else if(GTOCore.isNormal()){
+                    GTMachines.AUTO_MAINTENANCE_HATCH.asStack(), "CMC", "RHR", "CMC", 'C', CIRCUIT.get(IV), 'M',
+                    GTMachines.MAINTENANCE_HATCH.asStack(), 'R', ROBOT_ARM.get(EV), 'H',
+                    GTMachines.HULL[HV].asStack());
+        } else if (GTOCore.isNormal()) {
             VanillaRecipeHelper.addShapedRecipe(true, "maintenance_hatch_automatic",
-                GTMachines.AUTO_MAINTENANCE_HATCH.asStack(), "CMC", "RHR", "CMC", 'C', CIRCUIT.get(EV), 'M',
-                GTMachines.MAINTENANCE_HATCH.asStack(), 'R', ROBOT_ARM.get(HV), 'H',
-                GTMachines.HULL[HV].asStack());
-        }else{
+                    GTMachines.AUTO_MAINTENANCE_HATCH.asStack(), "CMC", "RHR", "CMC", 'C', CIRCUIT.get(EV), 'M',
+                    GTMachines.MAINTENANCE_HATCH.asStack(), 'R', ROBOT_ARM.get(HV), 'H',
+                    GTMachines.HULL[HV].asStack());
+        } else {
             VanillaRecipeHelper.addShapedRecipe(true, "maintenance_hatch_automatic",
-                GTMachines.AUTO_MAINTENANCE_HATCH.asStack(), "CMC", "RHR", "CMC", 'C', CIRCUIT.get(HV), 'M',
-                GTMachines.MAINTENANCE_HATCH.asStack(), 'R', ROBOT_ARM.get(HV), 'H',
-                GTMachines.HULL[HV].asStack());
+                    GTMachines.AUTO_MAINTENANCE_HATCH.asStack(), "CMC", "RHR", "CMC", 'C', CIRCUIT.get(HV), 'M',
+                    GTMachines.MAINTENANCE_HATCH.asStack(), 'R', ROBOT_ARM.get(HV), 'H',
+                    GTMachines.HULL[HV].asStack());
         }
-
 
         // STEAM MACHINES
         VanillaRecipeHelper.addShapedRecipe(true, "bronze_hull", GTBlocks.BRONZE_HULL.asStack(), "PPP", "PhP",

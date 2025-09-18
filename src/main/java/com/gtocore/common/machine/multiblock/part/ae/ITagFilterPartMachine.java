@@ -5,17 +5,16 @@ import com.gregtechceu.gtceu.api.cover.filter.TagFluidFilter;
 import com.gregtechceu.gtceu.api.cover.filter.TagItemFilter;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.fancy.IFancyConfigurator;
-
 import com.gregtechceu.gtceu.api.machine.feature.IDropSaveMachine;
-import com.gregtechceu.gtceu.api.machine.feature.IMachineModifyDrops;
 import com.gregtechceu.gtceu.api.transfer.fluid.CustomFluidTank;
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
-import com.lowdragmc.lowdraglib.gui.widget.*;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 
 import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture;
+import com.lowdragmc.lowdraglib.gui.widget.*;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -32,6 +31,7 @@ interface ITagFilterPartMachine extends IDropSaveMachine {
     void setTagWhite(String tagWhite);
 
     void setTagBlack(String tagBlack);
+
     @Override
     default void saveToItem(CompoundTag tag) {
         IDropSaveMachine.super.saveToItem(tag);
@@ -49,6 +49,7 @@ interface ITagFilterPartMachine extends IDropSaveMachine {
             setTagBlack(tag.getString("TagBlack"));
         }
     }
+
     class FilterIFancyConfigurator implements IFancyConfigurator {
 
         private final ITagFilterPartMachine machine;
@@ -56,7 +57,6 @@ interface ITagFilterPartMachine extends IDropSaveMachine {
 
         FilterIFancyConfigurator(ITagFilterPartMachine machine) {
             this.machine = machine;
-
         }
 
         @Override
@@ -81,8 +81,8 @@ interface ITagFilterPartMachine extends IDropSaveMachine {
                             machine::getTagWhite,
                             machine::setTagWhite))
                     .addWidget(((Widget) (h1 = isItem ?
-                                                new TagItemFilter.PhantomSlot(new CustomItemStackHandler(1)) :
-                                                new TagFluidFilter.TankSlot(new CustomFluidTank(1)))))
+                            new TagItemFilter.PhantomSlot(new CustomItemStackHandler(1)) :
+                            new TagFluidFilter.TankSlot(new CustomFluidTank(1)))))
                     .addWidget(new LabelWidget(9, 36,
                             () -> "gui.enderio.filter.blacklist"))
                     .addWidget(t2 = new TextField(9, 48, 114, 16,
@@ -111,11 +111,12 @@ interface ITagFilterPartMachine extends IDropSaveMachine {
                 }
             };
             h1.setOnContentsChanged(callbackFactory.apply(h1, t1));
-            ((Widget)h1).setSelfPosition(t1.getSelfPositionX() + t1.getSizeWidth() + 4, t1.getSelfPositionY());
+            ((Widget) h1).setSelfPosition(t1.getSelfPositionX() + t1.getSizeWidth() + 4, t1.getSelfPositionY());
             h2.setOnContentsChanged(callbackFactory.apply(h2, t2));
-            ((Widget)h2).setSelfPosition(t2.getSelfPositionX() + t2.getSizeWidth() + 4, t2.getSelfPositionY());
+            ((Widget) h2).setSelfPosition(t2.getSelfPositionX() + t2.getSizeWidth() + 4, t2.getSelfPositionY());
             return wc.addWidget(container);
         }
+
         /**
          * 创建标签展示和交互容器，供子类 openConfigurator 使用。
          */
@@ -143,6 +144,7 @@ interface ITagFilterPartMachine extends IDropSaveMachine {
             return container;
         }
     }
+
     class TextField extends TextFieldWidget {
 
         public TextField(int x, int y, int width, int height, Supplier<String> textSupplier, Consumer<String> textConsumer) {
