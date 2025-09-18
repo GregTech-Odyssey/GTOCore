@@ -27,6 +27,7 @@ import earth.terrarium.adastra.common.registry.ModItems;
 import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
+import static com.gregtechceu.gtceu.data.recipe.GTCraftingComponents.CIRCUIT;
 import static com.gtocore.common.data.GTORecipeTypes.ASSEMBLER_RECIPES;
 
 final class Assembler {
@@ -89,7 +90,8 @@ final class Assembler {
                 .inputItems(GTMachines.HULL[GTValues.ZPM].asStack())
                 .inputItems("gtceu:cleaning_maintenance_hatch",4)
                 .inputItems(GTBlocks.FILTER_CASING_STERILE.asStack(64))
-                .inputItems(GTItems.FIELD_GENERATOR_UV.asStack(8))
+                .inputItems(GTItems.FIELD_GENERATOR_ZPM.asStack(8))
+                .inputItems(CIRCUIT.get(UHV),8)
                 .outputItems(GTOMachines.STERILE_CLEANING_MAINTENANCE_HATCH.asStack())
                 .inputFluids(GTMaterials.Polybenzimidazole, 1152)
                 .EUt(GTValues.VA[GTValues.UV])
@@ -102,6 +104,7 @@ final class Assembler {
                 .inputItems("gtceu:cleaning_maintenance_hatch")
                 .inputItems(GTBlocks.FILTER_CASING_STERILE.asStack(16))
                 .inputItems(GTItems.FIELD_GENERATOR_ZPM.asStack(8))
+                .inputItems(CIRCUIT.get(UV),8)
                 .outputItems(GTOMachines.STERILE_CLEANING_MAINTENANCE_HATCH.asStack())
                 .inputFluids(GTMaterials.Polybenzimidazole, 1152)
                 .EUt(GTValues.VA[GTValues.ZPM])
