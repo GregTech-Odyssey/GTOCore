@@ -98,6 +98,18 @@ final class Assembler {
                 .duration(400)
                 .cleanroom(CleanroomType.STERILE_CLEANROOM)
                 .save();
+            ASSEMBLER_RECIPES.builder("law_cleaning_maintenance_hatch")
+                .inputItems(GTMachines.HULL[GTValues.UEV].asStack())
+                .inputItems(GTOMachines.STERILE_CLEANING_MAINTENANCE_HATCH.asStack())
+                .inputItems(GTOBlocks.LAW_FILTER_CASING.asStack(16))
+                .inputItems(GTItems.FIELD_GENERATOR_UEV.asStack(8))
+                .inputItems(CIRCUIT.get(OpV),8)
+                .outputItems(GTOMachines.LAW_CLEANING_MAINTENANCE_HATCH.asStack())
+                .inputFluids(GTOMaterials.Polyimide, 1152)
+                .EUt(GTValues.VA[GTValues.UIV])
+                .duration(400)
+                .cleanroom(GTOCleanroomType.LAW_CLEANROOM)
+                .save();
         }else{
             ASSEMBLER_RECIPES.builder("sterile_cleaning_maintenance_hatch")
                 .inputItems(GTMachines.HULL[GTValues.ZPM].asStack())
@@ -111,20 +123,19 @@ final class Assembler {
                 .duration(400)
                 .cleanroom(CleanroomType.STERILE_CLEANROOM)
                 .save();
-        }
-
-
-        ASSEMBLER_RECIPES.builder("law_cleaning_maintenance_hatch")
+            ASSEMBLER_RECIPES.builder("law_cleaning_maintenance_hatch")
                 .inputItems(GTMachines.HULL[GTValues.UEV].asStack())
                 .inputItems(GTOMachines.STERILE_CLEANING_MAINTENANCE_HATCH.asStack())
                 .inputItems(GTOBlocks.LAW_FILTER_CASING.asStack(16))
                 .inputItems(GTItems.FIELD_GENERATOR_UEV.asStack(8))
+                .inputItems(CIRCUIT.get(UEV),8)
                 .outputItems(GTOMachines.LAW_CLEANING_MAINTENANCE_HATCH.asStack())
                 .inputFluids(GTOMaterials.Polyimide, 1152)
-                .EUt(7864320)
+                .EUt(GTValues.VA[GTValues.UEV])
                 .duration(400)
                 .cleanroom(GTOCleanroomType.LAW_CLEANROOM)
                 .save();
+        }
 
         ASSEMBLER_RECIPES.builder("lv_power_amplifiers")
                 .inputItems(TagPrefix.plate, GTMaterials.Iron, 8)
