@@ -4,6 +4,7 @@ import com.gtocore.api.data.tag.GTOTagPrefix;
 import com.gtocore.common.data.*;
 import com.gtocore.common.data.machines.*;
 
+import com.gtolib.GTOCore;
 import com.gtolib.api.machine.GTOCleanroomType;
 
 import com.gregtechceu.gtceu.api.GTValues;
@@ -83,18 +84,32 @@ final class Assembler {
                 .EUt(30)
                 .duration(400)
                 .save();
-
-        ASSEMBLER_RECIPES.builder("sterile_cleaning_maintenance_hatch")
+        if(GTOCore.isExpert()){
+            ASSEMBLER_RECIPES.builder("sterile_cleaning_maintenance_hatch")
+                .inputItems(GTMachines.HULL[GTValues.ZPM].asStack())
+                .inputItems("gtceu:cleaning_maintenance_hatch",4)
+                .inputItems(GTBlocks.FILTER_CASING_STERILE.asStack(64))
+                .inputItems(GTItems.FIELD_GENERATOR_UV.asStack(8))
+                .outputItems(GTOMachines.STERILE_CLEANING_MAINTENANCE_HATCH.asStack())
+                .inputFluids(GTMaterials.Polybenzimidazole, 1152)
+                .EUt(GTValues.VA[GTValues.UV])
+                .duration(400)
+                .cleanroom(CleanroomType.STERILE_CLEANROOM)
+                .save();
+        }else{
+            ASSEMBLER_RECIPES.builder("sterile_cleaning_maintenance_hatch")
                 .inputItems(GTMachines.HULL[GTValues.ZPM].asStack())
                 .inputItems("gtceu:cleaning_maintenance_hatch")
                 .inputItems(GTBlocks.FILTER_CASING_STERILE.asStack(16))
                 .inputItems(GTItems.FIELD_GENERATOR_ZPM.asStack(8))
                 .outputItems(GTOMachines.STERILE_CLEANING_MAINTENANCE_HATCH.asStack())
                 .inputFluids(GTMaterials.Polybenzimidazole, 1152)
-                .EUt(122880)
+                .EUt(GTValues.VA[GTValues.ZPM])
                 .duration(400)
                 .cleanroom(CleanroomType.STERILE_CLEANROOM)
                 .save();
+        }
+
 
         ASSEMBLER_RECIPES.builder("law_cleaning_maintenance_hatch")
                 .inputItems(GTMachines.HULL[GTValues.UEV].asStack())
