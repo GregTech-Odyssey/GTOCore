@@ -506,9 +506,9 @@ public class DigitalMiner extends TierCasingMultiblockMachine {
 
     public AABB getMinerArea() {
         BlockPos pos = getPos();
-        BlockPos pos1 = pos.offset(getXOffset(), 0, getZOffset());
-        BlockPos pos2 = pos1.offset((xRadialLength), 0, (zRadialLength));
-        return new AABB(pos1, pos2).setMinY(minHeight).setMaxY(maxHeight);
+        BlockPos pos1 = pos.offset(getXOffset(), 0, getZOffset()).atY(minHeight);
+        BlockPos pos2 = pos1.offset((xRadialLength), 0, (zRadialLength)).atY(maxHeight);
+        return new AABB(pos1, pos2);
     }
 
     private class ProspectorMap extends ProspectingMapWidget {

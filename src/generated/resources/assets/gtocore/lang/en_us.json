@@ -4330,6 +4330,8 @@
   "gtocore.miner.parallel": "Mining §d%s§r blocks simultaneously",
   "gtocore.multiblock.invalid.message": "Multiblock %s at (%s) is not formed! Run /gtocorec multiblock on for details.",
   "gtocore.not_safe": "It's not safe now",
+  "gtocore.organ.infinity": "Your body can't bear this armor",
+  "gtocore.organ.weight": "Too much weight, need 4th spinal cord",
   "gtocore.part.extendae.tag_filter.blacklist.tooltip": "Can place target, select blacklist tag filter",
   "gtocore.part.extendae.tag_filter.tooltip": "Left-click to add tags to the filter, right-click to copy tags to the clipboard",
   "gtocore.part.extendae.tag_filter.whitelist.tooltip": "Can place target, select whitelist tag filter",

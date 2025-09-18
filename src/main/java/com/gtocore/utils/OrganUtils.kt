@@ -8,6 +8,7 @@ import net.minecraft.world.item.ItemStack
 import com.gtolib.api.player.PlayerData
 
 import kotlin.collections.filter
+import kotlin.math.min
 
 fun PlayerData.ktGetOrganStack(): Map<OrganType, List<ItemStack>> = this.organItemStacks
     .filter { it.item is OrganItemBase }
@@ -29,4 +30,14 @@ fun PlayerData.ktFreshOrganState() {
             }
         }
     }
+}
+
+fun PlayerData.getSetOrganTier(): Int {
+    var tier = Int.MAX_VALUE
+    for (type in OrganType.entries) {
+        if (type.ordinal == 0) continue
+        tier = min(tier, this.organTierCache.getInt(type))
+        if (tier < 1) break
+    }
+    return tier
 }

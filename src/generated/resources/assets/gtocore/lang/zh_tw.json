@@ -2916,6 +2916,8 @@
   "gtocore.miner.parallel": "同時採集§d%s§r個方塊",
   "gtocore.multiblock.invalid.message": "多方塊%s位於(%s)未成型！運行 /gtocorec multiblock on 查看詳情。",
   "gtocore.not_safe": "現在不安全",
+  "gtocore.organ.infinity": "你的身體無法承受該裝備",
+  "gtocore.organ.weight": "負重過大，需要4級脊椎",
   "gtocore.part.extendae.tag_filter.blacklist.tooltip": "可放入目標，選擇黑名單的標簽過濾器",
   "gtocore.part.extendae.tag_filter.tooltip": "左鍵將標簽添加到過濾器中，右鍵複製標簽到剪貼板",
   "gtocore.part.extendae.tag_filter.whitelist.tooltip": "可放入目標，選擇白名單的標簽過濾器",

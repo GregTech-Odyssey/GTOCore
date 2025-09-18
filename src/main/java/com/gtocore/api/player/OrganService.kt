@@ -7,6 +7,7 @@ import com.gtocore.common.data.GTOOrganItems.MECHANICAL_WING
 import com.gtocore.common.item.misc.OrganType
 import com.gtocore.common.item.misc.TierData.Companion.BlockReachFunction
 import com.gtocore.common.item.misc.TierData.Companion.MovementSpeedFunction
+import com.gtocore.utils.getSetOrganTier
 import com.gtocore.utils.ktGetOrganStack
 
 import net.minecraft.network.chat.Component
@@ -86,7 +87,7 @@ class OrganService : IOrganService {
             }
         }
         // Fly
-        when (playerData.organTierCache.values.contains(4)) { // 四级器官创造飞
+        when (playerData.getSetOrganTier() > 3) { // 四级器官创造飞
             true -> run {
                 playerData.wingState = true
             }
@@ -119,7 +120,7 @@ class OrganService : IOrganService {
             val lowerTierTag = ((tier - 1) / 2) + 1
             val cache = playerData
 
-            if (!playerData.organTierCache.values.contains(lowerTierTag)) {
+            if (playerData.getSetOrganTier() < lowerTierTag) {
                 val customComponent: Component = Component.translatable(
                     "gtocore.death.attack.turbulence_of_another_star",
                     player.name,

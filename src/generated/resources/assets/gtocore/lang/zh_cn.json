@@ -4330,6 +4330,8 @@
   "gtocore.miner.parallel": "同时采集§d%s§r个方块",
   "gtocore.multiblock.invalid.message": "多方块%s位于(%s)未成型！运行 /gtocorec multiblock on 查看详情。",
   "gtocore.not_safe": "现在不安全",
+  "gtocore.organ.infinity": "你的身体无法承受该装备",
+  "gtocore.organ.weight": "负重过大，需要4级脊椎",
   "gtocore.part.extendae.tag_filter.blacklist.tooltip": "可放入目标，选择黑名单的标签过滤器",
   "gtocore.part.extendae.tag_filter.tooltip": "左键将标签添加到过滤器中，右键复制标签到剪贴板",
   "gtocore.part.extendae.tag_filter.whitelist.tooltip": "可放入目标，选择白名单的标签过滤器",
