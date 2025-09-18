@@ -671,7 +671,7 @@ public final class MultiBlockH {
             .laserTooltips()
             .specialParallelizableTooltips()
             .tooltips(NewDataAttributes.ALLOW_PARALLEL_NUMBER.create(h -> h.addLines("8^(动力模块等级-1)", "8^(Power Module tier - 1)")))
-            .recipeTypes(GTORecipeTypes.MINER_MODULE_RECIPES)
+            .recipeTypes(GTORecipeTypes.MINER_MODULE_RECIPES, GTORecipeTypes.DRILLING_MODULE_RECIPES)
             .block(GTOBlocks.SPACE_ELEVATOR_MECHANICAL_CASING)
             .pattern(definition -> FactoryBlockPattern.start(definition)
                     .aisle("ABBBA", "CCCCC", "CFFFC", "CFJFC", "CFFFC", "CCCCC")
