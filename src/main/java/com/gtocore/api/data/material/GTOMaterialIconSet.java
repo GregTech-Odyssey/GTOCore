@@ -36,7 +36,10 @@ public final class GTOMaterialIconSet extends MaterialIconSet {
     public static final GTOMaterialIconSet MAGMATTER = new GTOMaterialIconSet("magmatter", null, true, HaloItemRenderer.MAGMATTER_HALO);
     public static final GTOMaterialIconSet PARTICLE_EMITTER = new GTOMaterialIconSet("particle_emitter", null, true, HaloItemRenderer.RADIOACTIVE);
     public static final MaterialIconSet LIMPID = new MaterialIconSet("limpid", DULL);
-    public static final GTOMaterialIconSet SUPRACAUSAL = new GTOMaterialIconSet("supracausal", METALLIC, false, SpinTransformRenderer.INSTANCE);
+    public static final GTOMaterialIconSet INFINITY_CHAOS = new GTOMaterialIconSet("supracausal", METALLIC, false, SpinTransformRenderer.INSTANCE);
+
+    // public static final GTOMaterialIconSet TEST_RENDERER = new GTOMaterialIconSet("test_renderer", METALLIC, false,
+    // VibrationItemRenderer.INSTANCE);
 
     public ICustomRenderer getCustomRenderer() {
         return this.customRenderer;

@@ -91,6 +91,7 @@ public final class GTOMaterials {
     public static Material TungstenTrioxide;
     public static Material SpaceTime;
     public static Material Infinity;
+    public static Material BlazeCube;
 
     public static Material TriniumCompound;
     public static Material FumingNitricAcid;

@@ -168,7 +168,7 @@ public final class LangHandler {
         addCNEN("gtocore.recipe.mana_efficiency", "总耗魔倍率：%s", "Total Mana Cost Multiplier: %s");
         addCNEN("gtocore.recipe.mana_efficiency.o", "总产魔倍率：%s", "Total Mana Cost Multiplier: %s");
         addCNEN("gtocore.recipe.time_cost_multiplier", "总耗时倍率：%s", "Total Time Cost Multiplier: %s");
-        addCNEN("gtceu.multiblock.batch_parallel_multiplier", "(批处理 %s)", "(Batch Processing %s)");
+        addCNEN("gtceu.multiblock.batch_parallel_multiplier", "(批处理/超频补偿 %s)", "(Batch/OC Compensation %s)");
         addCNEN("gtocore.condition.gravity", "需要强重力环境", "Requires Strong Gravity Environment");
         addCNEN("gtocore.condition.zero_gravity", "需要无重力环境", "Requires Zero Gravity Environment");
 

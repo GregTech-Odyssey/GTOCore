@@ -3031,5 +3031,14 @@ final class ChemicaRreactor {
                 .EUt(1200)
                 .duration(1200)
                 .save();
+
+        CHEMICAL_RECIPES.builder("chloroauric_acid")
+                .inputItems(TagPrefix.ingot, GTMaterials.Gold)
+                .inputFluids(GTMaterials.AquaRegia, 4000)
+                .outputFluids(GTOMaterials.ChloroauricAcid, 4000)
+                .outputFluids(GTMaterials.NitrogenDioxide, 1000)
+                .EUt(120)
+                .duration(200)
+                .save();
     }
 }

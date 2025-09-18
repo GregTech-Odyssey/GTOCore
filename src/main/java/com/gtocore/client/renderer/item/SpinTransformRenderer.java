@@ -14,7 +14,6 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 import com.lowdragmc.lowdraglib.client.renderer.IRenderer;
 import com.mojang.blaze3d.vertex.PoseStack;
-import org.embeddedt.modernfix.render.RenderState;
 
 public enum SpinTransformRenderer implements IRenderer {
 
@@ -33,9 +32,9 @@ public enum SpinTransformRenderer implements IRenderer {
                     Minecraft.getInstance().level.getGameTime(),
                     Minecraft.getInstance().getPartialTick());
         }
-        RenderState.IS_RENDERING_LEVEL = true;
+        // RenderState.IS_RENDERING_LEVEL = true;
         ClientUtil.vanillaRender(stack, transformType, leftHand, poseStack, buffer, combinedLight, combinedOverlay, ClientUtil.getVanillaModel(stack, null, null));
-        RenderState.IS_RENDERING_LEVEL = false;
+        // RenderState.IS_RENDERING_LEVEL = false;
         poseStack.popPose();
     }
 }

@@ -845,11 +845,11 @@ public final class GTORecipeTypes {
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW, LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.TURBINE)
             .addDataInfo(data -> {
-                var nFlux = data.getInt("neutron_flux");
-                return LocalizationUtils.format(nFlux > 1000 ? "gtocore.recipe.neutron_flux.m" : "gtocore.recipe.neutron_flux.k", FormattingUtil.formatNumbers(nFlux > 1000 ? nFlux / 1_000f : nFlux));
+                var nFlux = data.getFloat("neutron_flux");
+                return LocalizationUtils.format(nFlux > 1000 ? "gtocore.recipe.neutron_flux.m" : "gtocore.recipe.neutron_flux.k", FormattingUtil.formatNumber2Places(nFlux > 1000 ? nFlux / 1_000f : nFlux));
             })
-            .addDataInfo(data -> LocalizationUtils.format("gtocore.recipe.neutron_flux.change", FormattingUtil.formatNumbers(data.getInt("neutron_flux_change"))))
-            .addDataInfo(data -> LocalizationUtils.format("gtocore.recipe.heat.change", FormattingUtil.formatNumbers(data.getInt("heat"))));
+            .addDataInfo(data -> LocalizationUtils.format("gtocore.recipe.neutron_flux.change", FormattingUtil.formatNumber2Places(data.getFloat("neutron_flux_change"))))
+            .addDataInfo(data -> LocalizationUtils.format("gtocore.recipe.heat.change", FormattingUtil.formatNumber2Places(data.getFloat("heat"))));
 
     public static final RecipeType BIOCHEMICAL_REACTION_RECIPES = register("biochemical_reaction", "生化反应", MULTIBLOCK)
             .setEUIO(IO.IN)

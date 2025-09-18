@@ -548,6 +548,7 @@ public final class RecipeFilter {
         filters.add(RLUtils.fromNamespaceAndPath("farmersrespite", "black_tea_leaves_sack"));
         filters.add(RLUtils.fromNamespaceAndPath("farmersrespite", "coffee_beans_sack"));
 
+        filters.add(RLUtils.fromNamespaceAndPath("avaritia", "neutron_gear"));
         if (Mods.biomeswevegone()) {
             DyeRecipes.BWG.forEach((k, v) -> {
                 filters.add(RLUtils.fromNamespaceAndPath("minecraft", k + "_dye_from_bwg_dye_tag"));

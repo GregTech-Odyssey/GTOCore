@@ -38,7 +38,7 @@ public final class GTOConfig {
                     SparkLaunchProfiler.start("all");
                 }
                 int difficulty = GTOStartupConfig.difficulty.ordinal() + 1;
-                // GTOCore.difficulty = difficulty;
+                GTOConfig.INSTANCE.gameDifficulty = GTOStartupConfig.difficulty;
                 RecipeLogic.SEARCH_MAX_INTERVAL = GTOConfig.INSTANCE.recipeSearchMaxInterval;
                 if (INSTANCE.dev) Configurator.setRootLevel(Level.INFO);
                 ConfigHolder.INSTANCE.recipes.generateLowQualityGems = false;

@@ -7,6 +7,7 @@ dependencies {
 
     modImplementation(jarJar("dev:gtolib:1.0"))
     modImplementation(jarJar("com.hepdd:ae2emicraftingforge:1.0.0"))
+//    modImplementation(jarJar("dev.mineland:item-interactions-mod-forge+1.20.1:2.1.4"))
 
     api(annotationProcessor("io.github.llamalad7:mixinextras-common:$project.mixinextras_version"))
     annotationProcessor 'org.spongepowered:mixin:0.8.7:processor'
@@ -72,6 +73,8 @@ dependencies {
     modImplementation("curse.maven:modernfix-790626:6719008")
 
     modImplementation("curse.maven:re-avaritia-623969:6958116")
+//    modImplementation("curse.maven:render-blender-1346485:6993848")
+//    modImplementation("curse.maven:avaritia-integration-1347675:7001596")
 
     modImplementation("curse.maven:EnderIO-64578:5780352")
 
@@ -122,6 +125,14 @@ dependencies {
     modCompileOnly("curse.maven:athena-841890:5176879")
 
     modRuntimeOnly("curse.maven:cloth-config-348521:5729105")
+
+    modRuntimeOnly("curse.maven:redstone-pen-461710:5242883")
+    modRuntimeOnly("curse.maven:more-red-387638:4691333")
+
+//    modRuntimeOnly("curse.maven:worldedit-225608:4586218")
+    modRuntimeOnly("curse.maven:applied-botanics-addon-610632:4904185")
+
+    modImplementation("curse.maven:ars-energistique-905641:5504444")
 
     modImplementation("curse.maven:embeddium-908741:5681725")
 
