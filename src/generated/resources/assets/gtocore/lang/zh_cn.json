@@ -1893,6 +1893,8 @@
   "gtocore.adv_terminal.block_map.stellar_containment_casing": "恒星热力容器",
   "gtocore.adv_terminal.block_map.wireless_energy_unit": "无线能量单元",
   "gtocore.adv_terminal.category.select": "选择类别",
+  "gtocore.ae.appeng.craft.add_missing_to_emi": "收藏缺失",
+  "gtocore.ae.appeng.craft.add_missing_to_emi.desc": "将缺失的物品添加到EMI书签页",
   "gtocore.ae.appeng.crafting.cycle_error.bracket_close": ")",
   "gtocore.ae.appeng.crafting.cycle_error.bracket_open": " (",
   "gtocore.ae.appeng.crafting.cycle_error.click_instruction": "\n点击物品ID可复制到剪贴板",

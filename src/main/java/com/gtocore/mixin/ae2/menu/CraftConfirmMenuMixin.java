@@ -82,4 +82,8 @@ public abstract class CraftConfirmMenuMixin extends AEBaseMenu implements IConfi
     private void redirectOpenCraftAmountMenuAE2(ServerPlayer player, MenuLocator locator, AEKey whatToCraft, int ignored) {
         IConfirmLongMenu.open(player, locator, whatToCraft, gto$amount);
     }
+    @Redirect(method = "replan", at = @At(value = "INVOKE", target = "Lappeng/menu/me/crafting/CraftConfirmMenu;planJob(Lappeng/api/stacks/AEKey;ILappeng/api/networking/crafting/CalculationStrategy;)Z"), remap = false)
+    private boolean redirectPlanJobAE2(CraftConfirmMenu instance, AEKey whatToCraft, int ignored, CalculationStrategy strategy) {
+        return gtocore$planLongJob(whatToCraft, gto$amount, strategy);
+    }
 }

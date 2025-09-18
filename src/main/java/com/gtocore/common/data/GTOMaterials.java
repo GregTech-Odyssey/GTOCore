@@ -156,6 +156,8 @@ public final class GTOMaterials {
     public static Material DNAExtractionBuffer;
     public static Material DiethyleneGlycol;
 
+    public static Material MetallicHydrogen;
+
     public static Material DirtyHexafluorosilicicAcid;
     public static Material DiluteHexafluorosilicicAcid;
     public static Material StoneDustResidue;

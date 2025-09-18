@@ -15,6 +15,7 @@
     "ae2.gui.WidgetContainerMixin",
     "ae2.screen.AEBaseScreenAccessor",
     "ae2.screen.AEBaseScreenMixin",
+    "ae2.screen.CraftConfirmScreenMixin",
     "ae2.screen.CraftingCPUScreenMixin",
     "ae2.screen.GuiTagExportBusMixin",
     "ae2.screen.GuiTagStorageBusMixin",
