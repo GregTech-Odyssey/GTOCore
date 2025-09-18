@@ -103,7 +103,7 @@ final class Assembler {
                 .inputItems(GTOMachines.STERILE_CLEANING_MAINTENANCE_HATCH.asStack())
                 .inputItems(GTOBlocks.LAW_FILTER_CASING.asStack(16))
                 .inputItems(GTItems.FIELD_GENERATOR_UEV.asStack(8))
-                .inputItems(CIRCUIT.get(OpV),8)
+                .inputItems(CIRCUIT.get(UIV),8)
                 .outputItems(GTOMachines.LAW_CLEANING_MAINTENANCE_HATCH.asStack())
                 .inputFluids(GTOMaterials.Polyimide, 1152)
                 .EUt(GTValues.VA[GTValues.UIV])
