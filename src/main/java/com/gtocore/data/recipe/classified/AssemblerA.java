@@ -32,6 +32,16 @@ import static com.gtocore.common.data.GTORecipeTypes.ASSEMBLER_RECIPES;
 final class AssemblerA {
 
     public static void init() {
+        ASSEMBLER_RECIPES.builder("control_hatch")
+                .inputItems(GTMachines.HULL[GTValues.MV].asStack())
+                .inputItems(GTItems.COVER_MACHINE_CONTROLLER.asStack())
+                .inputItems("enderio:redstone_sensor_filter")
+                .inputFluids(GTMaterials.RedAlloy, 288)
+                .outputItems(GTMachines.CONTROL_HATCH.getItem())
+                .EUt(30)
+                .duration(200)
+                .save();
+
         ASSEMBLER_RECIPES.builder("heat_vacuum_interface")
                 .inputItems(GTMachines.HULL[GTValues.LV].asStack())
                 .inputItems(GTOItems.AIR_VENT)

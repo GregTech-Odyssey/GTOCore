@@ -150,15 +150,6 @@ object GTOMachineTooltips {
         info(ComponentSlang.Capacity(72.toString()))
     }
 
-    // ME可编程样板总成
-    val MeProgrammablePatternBufferTooltips = ComponentListSupplier {
-        setTranslationPrefix("me_programmable_pattern_buffer")
-
-        section(ComponentSlang.MainFunction)
-        function("可以使用虚拟物品提供器进行编程" translatedTo "Can be programmed using virtual item provider")
-        content("一台机器，一个总成搞定所有样板" translatedTo "One machine, one pattern hatch ,finished.")
-    }
-
     // ME样板总成
     val MePatternHatchTooltips = { capacity: Int ->
         ComponentListSupplier {
@@ -226,8 +217,7 @@ object GTOMachineTooltips {
         setTranslationPrefix("performance_monitor_machine")
 
         section(ComponentSlang.MainFunction)
-        function("能监测全部机器2秒内的平均延迟" translatedTo "Can monitor all machines' average delay within 2 seconds and support highlighting")
-        function("能监测全部AE网络6.4秒内的平均延迟" translatedTo "Can monitor all AE grids' average delay within 6.4 seconds and support highlighting")
+        function("能监测全部机器或AE网络3.2秒内的平均延迟" translatedTo "Can monitor all machines or AE grids' average delay within 3.2 seconds and support highlighting")
         guide("右键点击机器以打开性能监测界面" translatedTo "Right click on the machine to open performance monitoring interface")
     }
 

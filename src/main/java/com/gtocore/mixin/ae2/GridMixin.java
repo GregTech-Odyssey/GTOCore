@@ -73,7 +73,7 @@ public abstract class GridMixin implements IExpandedGrid {
     private void onServerEndTick2(CallbackInfo ci) {
         if (gtocore$observe || AEGridProvider.OBSERVE) {
             gtocore$totaTickCount += System.nanoTime() - gtocore$startTime;
-            if ((TickHandler.instance().getCurrentTick() & 127) == 0) {
+            if ((TickHandler.instance().getCurrentTick() & 63) == 0) {
                 this.gtocore$observe = false;
                 gtocore$averageTickTime = gtocore$totaTickCount / 128000;
                 gtocore$totaTickCount = 0;

@@ -5,7 +5,6 @@ import com.gtolib.api.ae2.IExpandedGrid;
 import com.gtolib.api.annotation.DataGeneratorScanned;
 import com.gtolib.api.annotation.language.RegisterLanguage;
 
-import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.integration.jade.provider.CapabilityBlockProvider;
 
 import net.minecraft.core.BlockPos;
@@ -65,14 +64,6 @@ public final class AEGridProvider extends CapabilityBlockProvider<IExpandedGrid>
             data.putString("name", capability.toString());
             data.putInt("size", capability.size());
             data.putLong("latency", capability.getLatency());
-            Object o;
-            if (capability.getPivot() != null && (o = capability.getPivot().getOwner()) != null) {
-                if (o instanceof BlockEntity be) {
-                    data.putLong("pos", be.getBlockPos().asLong());
-                } else if (o instanceof MetaMachine machine) {
-                    data.putLong("pos", machine.getPos().asLong());
-                }
-            }
         }
     }
 
@@ -81,10 +72,6 @@ public final class AEGridProvider extends CapabilityBlockProvider<IExpandedGrid>
         String name = capData.getString("name");
         if (name.isEmpty()) return;
         tooltip.add(Component.translatable(name));
-        long pos = capData.getLong("pos");
-        if (pos != 0) {
-            tooltip.add(Component.translatable("config.jade.plugin_jade.coordinates").append(Component.literal(BlockPos.of(pos).toShortString())));
-        }
         tooltip.add(Component.translatable(NODE_AMOUNT, capData.getInt("size")));
         long latency = capData.getInt("latency");
         if (latency == 0) return;

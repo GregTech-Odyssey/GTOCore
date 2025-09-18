@@ -21,6 +21,7 @@ import net.minecraft.network.chat.Style;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
+import appeng.parts.AEBasePart;
 import com.glodblock.github.extendedae.client.render.EAEHighlightHandler;
 import com.lowdragmc.lowdraglib.gui.util.ClickData;
 import com.lowdragmc.lowdraglib.gui.widget.*;
@@ -86,7 +87,12 @@ public final class PerformanceMonitorMachine extends MetaMachine implements IFan
                     if (key.getPivot() != null) {
                         level = key.getPivot().getLevel();
                         if ((o = key.getPivot().getOwner()) != null) {
-                            if (o instanceof BlockEntity be) {
+                            if (o instanceof AEBasePart part) {
+                                var host = part.getHost();
+                                if (host != null) {
+                                    pos = host.getBlockEntity().getBlockPos().toShortString();
+                                }
+                            } else if (o instanceof BlockEntity be) {
                                 pos = be.getBlockPos().toShortString();
                             } else if (o instanceof MetaMachine machine) {
                                 pos = machine.getPos().toShortString();
@@ -102,7 +108,7 @@ public final class PerformanceMonitorMachine extends MetaMachine implements IFan
             textList.addAll(textListCache);
         } else {
             OBSERVE = true;
-            if (textListCache == null || getOffsetTimer() % 80 == 0) {
+            if (textListCache == null || getOffsetTimer() % 160 == 0) {
                 textListCache = new ArrayList<>();
                 Map<MetaMachine, Integer> sortedMap = new TreeMap<>(Comparator.comparing(MetaMachine::getTickTime).reversed());
                 sortedMap.putAll(PERFORMANCE_MAP);
