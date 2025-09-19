@@ -11,6 +11,7 @@ import com.gregtechceu.gtceu.api.cover.filter.FluidFilter;
 import com.gregtechceu.gtceu.api.cover.filter.ItemFilter;
 import com.gregtechceu.gtceu.api.machine.feature.IRecipeLogicMachine;
 
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
@@ -28,6 +29,7 @@ import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import it.unimi.dsi.fastutil.objects.Reference2ReferenceOpenHashMap;
 import org.jetbrains.annotations.NotNull;
+import vazkii.botania.common.block.BotaniaBlock;
 
 import java.util.*;
 
@@ -68,7 +70,6 @@ public class DigitalMinerLogic extends CustomRecipeLogic {
     private Filter<?, ?> filter;
     private DigitalMiner.FluidMode fluidMode;
     private final Map<BlockState, List<ItemStack>> lootCache = new Reference2ReferenceOpenHashMap<>();
-
     // ===================== 矿块搜索线程相关 =====================
     private Thread minerSearchThread;
     private volatile boolean isSearchingBlocks = false;
@@ -335,7 +336,7 @@ public class DigitalMinerLogic extends CustomRecipeLogic {
                             BlockState state = chunkCache.getBlockState(blockPos);
                             if (!isInMultiblock(blockPos) &&
                                     state.getBlock() != Blocks.AIR &&
-                                    chunkCache.getBlockEntity(blockPos) == null &&
+                                    (chunkCache.getBlockEntity(blockPos) == null || (itemFilter!=null && itemFilter.test(state.getBlock().asItem().getDefaultInstance())) ) &&
                                     state.getBlock().defaultDestroyTime() >= 0) {
                                 if (state.getBlock() instanceof LiquidBlock liq && fluidMode != DigitalMiner.FluidMode.Ignore && itemFilter == null) {
                                     if (fluidFilter == null || fluidFilter.test(new FluidStack(liq.getFluidState(state).getType(), 1))) {
